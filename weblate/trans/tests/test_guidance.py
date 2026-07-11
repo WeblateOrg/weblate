@@ -13,6 +13,7 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
 
 from weblate.addons.gettext import XgettextAddon
@@ -222,8 +223,8 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         alert_name = UnusedScreenshot.__name__
         self.component.add_alert(alert_name)
         alert = self.component.alert_set.get(name=alert_name)
-        alert.dismissed = True
-        alert.save(update_fields=["dismissed"])
+        alert.dismissed_at = timezone.now()
+        alert.save(update_fields=["dismissed_at"])
         self.component.__dict__.pop("all_active_alerts", None)
 
         self.assertNotIn(
@@ -239,8 +240,8 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         self.component.add_alert(MissingScreenshots.__name__)
 
         alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
-        alert.dismissed = True
-        alert.save(update_fields=["dismissed"])
+        alert.dismissed_at = timezone.now()
+        alert.save(update_fields=["dismissed_at"])
 
         response = self.client.get(self.component.get_absolute_url())
         alert_names = [alert.name for alert in response.context["alerts"]]
@@ -268,7 +269,7 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         self.assertContains(
             response, "Add screenshots to show where strings are being used."
         )
-        self.assertNotContains(response, "Unused screenshot")
+        self.assertNotIn(UnusedScreenshot.__name__, alert_names)
         self.assertContains(
             response,
             '<span class="badge text-bg-danger">2'

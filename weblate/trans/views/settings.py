@@ -227,20 +227,18 @@ def change_component(request: AuthenticatedHttpRequest, obj):
 @never_cache
 @login_required
 @require_POST
+@transaction.atomic
 def dismiss_alert(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component,))
 
-    if not request.user.has_perm("component.edit", obj):
-        raise Http404
-
     try:
-        alert = obj.alert_set.get(name=request.POST["dismiss"])
+        alert = obj.alert_set.select_for_update().get(name=request.POST["dismiss"])
     except ObjectDoesNotExist:
         pass
     else:
-        if alert.obj.dismissible:
-            alert.dismissed = True
-            alert.save(update_fields=["dismissed"])
+        if not alert.can_user_dismiss(request.user):
+            raise Http404
+        alert.dismiss(request.user, request.POST.get("reason", ""))
 
     return redirect_param(obj, "#alerts")
 

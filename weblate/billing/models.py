@@ -833,7 +833,7 @@ class Billing(models.Model):
         return (
             Alert.objects.filter(
                 component__project_id__in=project_ids,
-                dismissed=False,
+                dismissed_at__isnull=True,
                 name=name,
                 severity__gte=AlertSeverity.ERROR,
             )

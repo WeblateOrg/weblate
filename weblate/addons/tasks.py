@@ -79,7 +79,14 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
             else:
                 content = read_component_file(component, filename)
         except (OSError, ValidationError, ValueError) as error:
-            errors.append({"filename": filename, "error": str(error)})
+            errors.append(
+                {
+                    "addon": addon.name,
+                    "addon_id": str(addon.pk),
+                    "filename": filename,
+                    "error": str(error),
+                }
+            )
             continue
 
         document = html.fromstring(content)

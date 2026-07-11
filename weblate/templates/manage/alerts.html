@@ -24,7 +24,7 @@
             <a href="{{ alert.component.get_absolute_url }}?alerts=1#alerts"
                class="btn btn-link">
               {{ alert.component }}
-              {% if alert.dismissed %}
+              {% if alert.is_dismissed %}
                 <span class="badge  text-bg-secondary">{% translate "dismissed" %}</span>
               {% endif %}
             </a>

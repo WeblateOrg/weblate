@@ -711,6 +711,9 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
     def trigger_alerts(self, component: Component) -> None:
         if self.alerts:
+            for alert in self.alerts:
+                alert.setdefault("addon", self.name)
+                alert.setdefault("addon_id", str(self.instance.pk))
             component.add_alert(self.alert, occurrences=self.alerts)
             self.alerts = []
         else:

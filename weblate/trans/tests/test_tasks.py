@@ -23,6 +23,7 @@ from weblate.trans.tasks import (
     cleanup_stale_repos,
     cleanup_suggestions,
     commit_pending,
+    component_alerts,
     daily_update_checks,
     perform_commit,
     update_checks,
@@ -85,6 +86,20 @@ class CleanupTest(ComponentTestCase):
 
 
 class TasksTest(ComponentTestCase):
+    def test_component_alerts_processes_canonical_component_first(self) -> None:
+        second = self.create_po(project=self.project, name="Second")
+        processed: list[int] = []
+
+        with patch.object(
+            Component,
+            "update_alerts",
+            autospec=True,
+            side_effect=lambda component: processed.append(component.pk),
+        ):
+            component_alerts([second.pk, self.component.pk])
+
+        self.assertEqual(processed, [self.component.pk, second.pk])
+
     def test_daily_update_checks(self) -> None:
         daily_update_checks()
 

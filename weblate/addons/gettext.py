@@ -731,6 +731,9 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     def trigger_alerts(self, component: Component) -> None:
         occurrences = [*self.alerts, *self.warnings]
         if occurrences:
+            for occurrence in occurrences:
+                occurrence.setdefault("addon", self.name)
+                occurrence.setdefault("addon_id", str(self.instance.pk))
             component.add_alert(self.alert, occurrences=occurrences)
             self.alerts = []
             self.warnings = []

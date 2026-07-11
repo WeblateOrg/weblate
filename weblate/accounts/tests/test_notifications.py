@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from datetime import timedelta
 from types import SimpleNamespace
 from typing import Protocol, TypeVar
 
@@ -14,6 +15,7 @@ from django.conf import settings
 from django.core import mail
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
+from django.utils import timezone
 
 from weblate.accounts.data import DEFAULT_NOTIFICATIONS
 from weblate.accounts.models import AuditLog, Profile, Subscription
@@ -34,8 +36,9 @@ from weblate.accounts.tasks import (
     notify_weekly,
     send_mails,
 )
+from weblate.addons.models import Addon
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Group, Role, User
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Announcement, Change, Comment, Suggestion
@@ -44,6 +47,7 @@ from weblate.trans.tests.test_views import (
     RegistrationTestMixin,
     ViewTestCase,
 )
+from weblate.trans.tests.utils import create_test_billing
 from weblate.utils.version import USER_AGENT
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 
@@ -799,6 +803,449 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.component.project.remove_user(self.user)
         trigger_alert(0)
 
+    def test_notify_actionable_alerts_only(self) -> None:
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("UnusedScreenshot")
+        self.validate_notifications(0)
+        self.component.delete_alert("UnusedScreenshot")
+
+        self.component.project.add_user(self.user, "Administration")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("UnusedScreenshot")
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+        mail.outbox.clear()
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("MissingScreenshots")
+        self.validate_notifications(0)
+
+    def test_notify_reopened_alert(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("InexactHookMatch", repo_url="first")
+        mail.outbox.clear()
+        alert = self.component.alert_set.get(name="InexactHookMatch")
+        alert.dismiss(self.user, "Known issue")
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("InexactHookMatch", repo_url="different")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+        self.assertIn("Reopened alert", mail.outbox[0].body)
+
+    def test_notify_project_wide_alert(self) -> None:
+        role = Role.objects.create(name="Project settings maintainer")
+        role.permissions.add(Permission.objects.get(codename="project.edit"))
+        group = Group.objects.create(name="Project settings maintainers")
+        group.roles.add(role)
+        group.projects.add(self.component.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("project.edit", self.component.project))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("BrokenProjectURL", error="failure")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_deduplicate_project_wide_warning(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        second_component = self.create_link_existing()
+        mail.outbox.clear()
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("MissingTranslationInstructions")
+            second_component.add_alert("MissingTranslationInstructions")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_standalone_project_wide_new_alert(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("MissingTranslationInstructions")
+        self.component.change_set.filter(
+            action=ActionEvents.ALERT,
+            alert__name="MissingTranslationInstructions",
+        ).update(timestamp=timezone.now() - timedelta(minutes=10))
+        second_component = self.create_link_existing()
+        mail.outbox.clear()
+
+        with self.captureOnCommitCallbacks(execute=True):
+            second_component.add_alert("MissingTranslationInstructions")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test2")
+
+    def test_notify_standalone_project_wide_reopen(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        second_component = self.create_link_existing()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("BrokenProjectURL", error="failure")
+            second_component.add_alert("BrokenProjectURL", error="failure")
+        mail.outbox.clear()
+        alert = second_component.alert_set.get(name="BrokenProjectURL")
+        alert.dismiss(self.user, "Known issue")
+
+        with self.captureOnCommitCallbacks(execute=True):
+            second_component.add_alert("BrokenProjectURL", error="different failure")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test2")
+        self.assertIn("Reopened alert", mail.outbox[0].body)
+
+    def test_deduplicate_project_wide_reopens(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        second_component = self.create_link_existing()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("BrokenProjectURL", error="failure")
+            second_component.add_alert("BrokenProjectURL", error="failure")
+        mail.outbox.clear()
+        self.component.alert_set.get(name="BrokenProjectURL").dismiss(
+            self.user, "Known issue"
+        )
+        second_component.alert_set.get(name="BrokenProjectURL").dismiss(
+            self.user, "Known issue"
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("BrokenProjectURL", error="different failure")
+            second_component.add_alert("BrokenProjectURL", error="different failure")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_component_scoped_maintainer(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Component settings maintainer")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Component settings maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("project.edit", self.component.project))
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("InexactHookMatch", repo_url="different")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_repository_maintainer(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Repository maintainer")
+        role.permissions.add(Permission.objects.get(codename="vcs.update"))
+        group = Group.objects.create(name="Repository maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("RepositoryOutdated")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_screenshot_maintainer(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Screenshot maintainer")
+        role.permissions.add(Permission.objects.get(codename="screenshot.delete"))
+        group = Group.objects.create(name="Screenshot maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("screenshot.delete", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("UnusedScreenshot")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_project_addon_maintainer(self) -> None:
+        role = Role.objects.create(name="Project add-on maintainer")
+        role.permissions.add(Permission.objects.get(codename="project.edit"))
+        group = Group.objects.create(name="Project add-on maintainers")
+        group.roles.add(role)
+        group.projects.add(self.component.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("project.edit", self.component.project))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        addon = Addon.objects.create(
+            project=self.component.project,
+            name="weblate.gettext.msgmerge",
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert(
+                "MsgmergeAddonError",
+                occurrences=[
+                    {
+                        "addon": "weblate.gettext.msgmerge",
+                        "addon_id": str(addon.pk),
+                        "command": "msgmerge",
+                        "error": "failure",
+                    }
+                ],
+            )
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_site_addon_manager(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Site add-on manager")
+        role.permissions.add(Permission.objects.get(codename="management.addons"))
+        group = Group.objects.create(name="Site add-on managers")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("management.addons"))
+        self.assertFalse(self.user.has_perm("management.use"))
+        msgmerge = Addon.objects.create(name="weblate.gettext.msgmerge")
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert(
+                "MsgmergeAddonError",
+                occurrences=[
+                    {
+                        "addon": msgmerge.name,
+                        "addon_id": str(msgmerge.pk),
+                        "command": "msgmerge",
+                        "error": "failure",
+                    }
+                ],
+            )
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+        mail.outbox.clear()
+        Addon.objects.create(name="weblate.gettext.xgettext")
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("ExtractPotMissingMsgmerge")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_component_maintainer_does_not_own_project_addon_alert(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Component-only add-on maintainer")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Component-only add-on maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("component.edit", self.component))
+        self.assertFalse(self.user.has_perm("project.edit", self.component.project))
+        project_addon = Addon.objects.create(
+            project=self.component.project,
+            name="weblate.gettext.msgmerge",
+        )
+        Addon.objects.create(
+            component=self.component,
+            name="weblate.gettext.msgmerge",
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert(
+                "MsgmergeAddonError",
+                occurrences=[
+                    {
+                        "addon": "weblate.gettext.msgmerge",
+                        "addon_id": str(project_addon.pk),
+                        "command": "msgmerge",
+                        "error": "failure",
+                    }
+                ],
+            )
+
+        self.validate_notifications(0)
+
+    def test_notify_billing_owner(self) -> None:
+        billing = create_test_billing(self.user)
+        billing.add_project(self.component.project)
+        workspace = billing.workspace
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_PROJECT,
+            project=self.component.project,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("workspace.edit", workspace))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("BillingLimit")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_duplicate_string_cleanup_maintainer(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Duplicate string cleanup maintainer")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(name="Duplicate string cleanup maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("vcs.reset", self.component))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("DuplicateString", occurrences=[])
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_glossary_language_manager(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Glossary language manager")
+        role.permissions.add(Permission.objects.get(codename="translation.delete"))
+        group = Group.objects.create(name="Glossary language managers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("translation.delete", self.component))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("UnusedGlossaryLanguage", occurrences=[])
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_source_editor_about_unused_enforced_check(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Enforced check source editor")
+        role.permissions.add(Permission.objects.get(codename="source.edit"))
+        group = Group.objects.create(name="Enforced check source editors")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("source.edit", self.component))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("UnusedEnforcedCheck")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_project_addon_owner_for_component_extractor(self) -> None:
+        role = Role.objects.create(name="Project extractor add-on owner")
+        role.permissions.add(Permission.objects.get(codename="project.edit"))
+        group = Group.objects.create(name="Project extractor add-on owners")
+        group.roles.add(role)
+        group.projects.add(self.component.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("project.edit", self.component.project))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        Addon.objects.create(
+            component=self.component,
+            name="weblate.gettext.xgettext",
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("ExtractPotMissingMsgmerge")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_language_manager_about_ambiguous_language(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Language definition maintainer")
+        role.permissions.add(Permission.objects.get(codename="language.edit"))
+        group = Group.objects.create(name="Language definition maintainers")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("language.edit"))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("AmbiguousLanguage")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
+    def test_notify_source_editor_about_safe_html(self) -> None:
+        self.user.subscription_set.filter(notification="NewAlertNotificaton").delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_COMPONENT,
+            component=self.component,
+            notification="NewAlertNotificaton",
+            frequency=NotificationFrequency.FREQ_INSTANT,
+        )
+        role = Role.objects.create(name="Source editor")
+        role.permissions.add(Permission.objects.get(codename="source.edit"))
+        group = Group.objects.create(name="Source editors")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("source.edit", self.component))
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert("MissingSafeHTMLFlag")
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+
     def test_notify_alert_ignore(self) -> None:
         self.component.project.add_user(self.user, "Administration")
         # Create linked component, this triggers missing license alert
@@ -1006,9 +1453,13 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 class SubscriptionTest(FixtureComponentTestCase):
     notification = MergeFailureNotification
 
-    def get_users(self, frequency):
+    def get_users(
+        self,
+        frequency,
+        action: ActionEvents = ActionEvents.FAILED_MERGE,
+    ):
         change = self.component.change_set.create(
-            action=ActionEvents.FAILED_MERGE,
+            action=action,
             details={"error": "error", "status": "status"},
         )
         notification = self.notification([])
@@ -1078,6 +1529,33 @@ class SubscriptionTest(FixtureComponentTestCase):
         self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_WEEKLY)), 0)
         self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_MONTHLY)), 0)
 
+    def test_skip_failed_push_for_push_maintainer(self) -> None:
+        self.user.profile.watched.add(self.project)
+        self.user.subscription_set.all().delete()
+        for notification in (self.notification.get_name(), "NewAlertNotificaton"):
+            self.user.subscription_set.create(
+                scope=NotificationScope.SCOPE_WATCHED,
+                notification=notification,
+                frequency=NotificationFrequency.FREQ_INSTANT,
+            )
+        role = Role.objects.create(name="Push maintainer")
+        role.permissions.add(Permission.objects.get(codename="vcs.push"))
+        group = Group.objects.create(name="Push maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.assertEqual(
+            len(
+                self.get_users(
+                    NotificationFrequency.FREQ_INSTANT,
+                    ActionEvents.FAILED_PUSH,
+                )
+            ),
+            0,
+        )
+
     def test_all_scope(self) -> None:
         self.user.subscription_set.all().delete()
         self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
@@ -1112,6 +1590,13 @@ class SubscriptionTest(FixtureComponentTestCase):
             notification="NewAlertNotificaton",
             frequency=NotificationFrequency.FREQ_INSTANT,
         )
+        # Non-maintainers do not receive generic alert notifications, so that
+        # subscription must not suppress the specific merge-failure notification.
+        self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 1)
+
+        # Maintainers receive the generic alert notification, which supersedes
+        # the specific merge-failure notification.
+        self.component.project.add_user(self.user, "Administration")
         self.assertEqual(len(self.get_users(NotificationFrequency.FREQ_INSTANT)), 0)
 
 

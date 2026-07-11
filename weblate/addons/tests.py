@@ -962,6 +962,27 @@ class GettextAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_po_new_base(new_lang="add")
 
+    def test_alerts_include_addon_id(self) -> None:
+        addon = MsgmergeAddon.create(
+            project=self.component.project,
+            run=False,
+        )
+        addon.alerts.append(
+            {
+                "command": "msgmerge",
+                "output": "output",
+                "error": "failure",
+            }
+        )
+
+        addon.trigger_alerts(self.component)
+
+        occurrence = self.component.alert_set.get(name="MsgmergeAddonError").details[
+            "occurrences"
+        ][0]
+        self.assertEqual(occurrence["addon"], addon.name)
+        self.assertEqual(occurrence["addon_id"], str(addon.instance.pk))
+
     def test_gettext_mo(self) -> None:
         translation = self.get_translation()
         self.assertTrue(GenerateMoAddon.can_install(component=translation.component))

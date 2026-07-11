@@ -664,7 +664,7 @@ def component_alerts(component_ids=None) -> None:
         components = Component.objects.annotate(hourmod=F("id") % 24).filter(
             hourmod=now.hour
         )
-    for component in components.prefetch().iterator(chunk_size=100):
+    for component in components.order_by("id").prefetch().iterator(chunk_size=100):
         with transaction.atomic():
             component.update_alerts()
 

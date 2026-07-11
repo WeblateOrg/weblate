@@ -39,6 +39,7 @@ from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural, validate_language_code
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
 from weblate.trans.component_copy import (
     get_inherited_component_fields,
     should_copy_component_field,
@@ -49,6 +50,7 @@ from weblate.trans.inherited_settings import (
     apply_create_inheritance_defaults,
 )
 from weblate.trans.models import (
+    Alert,
     Announcement,
     AutoComponentList,
     Category,
@@ -2882,6 +2884,36 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
         }
 
 
+class AlertSerializer(serializers.ModelSerializer[Alert]):
+    category = serializers.ChoiceField(
+        choices=("addons", "community", "configuration", "files", "vcs"),
+        read_only=True,
+    )
+    dismissed_by: serializers.HyperlinkedRelatedField = (
+        serializers.HyperlinkedRelatedField(
+            read_only=True,
+            allow_null=True,
+            view_name="api:user-detail",
+            lookup_field="username",
+        )
+    )
+
+    class Meta:
+        model = Alert
+        fields = (
+            "name",
+            "timestamp",
+            "updated",
+            "severity",
+            "details",
+            "category",
+            "dismissed_at",
+            "dismissed_by",
+            "dismissal_reason",
+        )
+        read_only_fields = fields
+
+
 class ChangeSerializer(RemovableSerializer[Change]):
     action_name = serializers.CharField(source="get_action_display", read_only=True)
     component = MultiFieldHyperlinkedIdentityField(
@@ -2907,6 +2939,64 @@ class ChangeSerializer(RemovableSerializer[Change]):
     author = serializers.HyperlinkedRelatedField(
         read_only=True, view_name="api:user-detail", lookup_field="username"
     )
+    alert = serializers.SerializerMethodField()
+
+    def can_view_alert_details(self) -> bool:
+        request = self.context.get("request")
+        return request is not None and bool(request.user.is_authenticated)
+
+    @extend_schema_field(AlertSerializer(allow_null=True))
+    def get_alert(self, change: Change) -> dict[str, Any] | None:
+        serializer = AlertSerializer(context=self.context)
+        if change.alert_id is not None:
+            data = dict(AlertSerializer(change.alert, context=self.context).data)
+        elif change.action == ActionEvents.ALERT_DISMISSED and isinstance(
+            change.details.get("alert_snapshot"), dict
+        ):
+            data = {"name": change.details.get("alert", "")}
+        else:
+            return None
+
+        if change.action == ActionEvents.ALERT_DISMISSED:
+            snapshot = change.details.get("alert_snapshot")
+            if isinstance(snapshot, dict):
+                for field in (
+                    "timestamp",
+                    "updated",
+                    "severity",
+                    "details",
+                    "category",
+                ):
+                    if field in snapshot:
+                        data[field] = snapshot[field]
+            data["dismissed_at"] = serializer.fields["dismissed_at"].to_representation(
+                change.timestamp
+            )
+            data["dismissed_by"] = (
+                serializer.fields["dismissed_by"].to_representation(change.user)
+                if change.user is not None
+                else None
+            )
+            data["dismissal_reason"] = change.details.get("reason", "")
+        if not self.can_view_alert_details():
+            data["details"] = {}
+            data["dismissal_reason"] = ""
+        return data
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if self.can_view_alert_details():
+            return data
+        details = data.get("details")
+        if isinstance(details, dict):
+            details = deepcopy(details)
+            data["details"] = details
+            if instance.action == ActionEvents.ALERT_DISMISSED:
+                details.pop("reason", None)
+            snapshot = details.get("alert_snapshot")
+            if isinstance(snapshot, dict):
+                snapshot["details"] = {}
+        return data
 
     class Meta:
         model = Change
@@ -2916,6 +3006,7 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "translation",
             "user",
             "author",
+            "alert",
             "timestamp",
             "action",
             "target",
