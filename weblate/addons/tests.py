@@ -12,7 +12,7 @@ import math
 import os
 import re
 import shutil
-import subprocess  # noqa: S404
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
 from copy import deepcopy
