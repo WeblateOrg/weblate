@@ -21808,7 +21808,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
-          description: ''
+          description: The request was invalid or could not be parsed.
         '401':
           content:
             application/json:
@@ -21829,7 +21829,7 @@ paths:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
                       attr: null
-          description: ''
+          description: Authentication credentials were missing or invalid.
         '403':
           content:
             application/json:
@@ -21843,7 +21843,7 @@ paths:
                     - code: permission_denied
                       detail: You do not have permission to perform this action.
                       attr: null
-          description: ''
+          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -21857,7 +21857,7 @@ paths:
                     - code: not_found
                       detail: Not found.
                       attr: null
-          description: ''
+          description: The requested resource was not found or is not accessible.
         '405':
           content:
             application/json:
@@ -21871,7 +21871,7 @@ paths:
                     - code: method_not_allowed
                       detail: Method "get" not allowed.
                       attr: null
-          description: ''
+          description: The HTTP method is not allowed for this resource.
         '406':
           content:
             application/json:
@@ -21885,13 +21885,13 @@ paths:
                     - code: not_acceptable
                       detail: Could not satisfy the request Accept header.
                       attr: null
-          description: ''
+          description: The requested response media type is not available.
         '423':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse423'
-          description: ''
+          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -21905,7 +21905,7 @@ paths:
                     - code: throttled
                       detail: Request was throttled.
                       attr: null
-          description: ''
+          description: The API request rate limit was exceeded.
         '500':
           content:
             application/json:
@@ -21919,13 +21919,13 @@ paths:
                     - code: error
                       detail: A server error occurred.
                       attr: null
-          description: ''
+          description: An unexpected server error occurred.
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedSuggestionList'
-          description: ''
+          description: Successful response.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -21941,8 +21941,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
-          pattern: ^[^/]+$
+          type: integer
+        description: A unique integer value identifying this string suggestion.
         required: true
       tags:
       - suggestions
@@ -21957,7 +21957,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
-          description: ''
+          description: The request was invalid or could not be parsed.
         '401':
           content:
             application/json:
@@ -21978,7 +21978,7 @@ paths:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
                       attr: null
-          description: ''
+          description: Authentication credentials were missing or invalid.
         '403':
           content:
             application/json:
@@ -21992,7 +21992,7 @@ paths:
                     - code: permission_denied
                       detail: You do not have permission to perform this action.
                       attr: null
-          description: ''
+          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -22006,7 +22006,7 @@ paths:
                     - code: not_found
                       detail: Not found.
                       attr: null
-          description: ''
+          description: The requested resource was not found or is not accessible.
         '405':
           content:
             application/json:
@@ -22020,7 +22020,7 @@ paths:
                     - code: method_not_allowed
                       detail: Method "get" not allowed.
                       attr: null
-          description: ''
+          description: The HTTP method is not allowed for this resource.
         '406':
           content:
             application/json:
@@ -22034,13 +22034,13 @@ paths:
                     - code: not_acceptable
                       detail: Could not satisfy the request Accept header.
                       attr: null
-          description: ''
+          description: The requested response media type is not available.
         '423':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse423'
-          description: ''
+          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -22054,7 +22054,7 @@ paths:
                     - code: throttled
                       detail: Request was throttled.
                       attr: null
-          description: ''
+          description: The API request rate limit was exceeded.
         '500':
           content:
             application/json:
@@ -22068,13 +22068,13 @@ paths:
                     - code: error
                       detail: A server error occurred.
                       attr: null
-          description: ''
+          description: An unexpected server error occurred.
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Suggestion'
-          description: ''
+          description: Successful response.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -22089,8 +22089,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
-          pattern: ^[^/]+$
+          type: integer
+        description: A unique integer value identifying this string suggestion.
         required: true
       tags:
       - suggestions
@@ -22104,7 +22104,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
-          description: ''
+          description: The request was invalid or could not be parsed.
         '401':
           content:
             application/json:
@@ -22125,7 +22125,7 @@ paths:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
                       attr: null
-          description: ''
+          description: Authentication credentials were missing or invalid.
         '403':
           content:
             application/json:
@@ -22139,7 +22139,7 @@ paths:
                     - code: permission_denied
                       detail: You do not have permission to perform this action.
                       attr: null
-          description: ''
+          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -22153,7 +22153,7 @@ paths:
                     - code: not_found
                       detail: Not found.
                       attr: null
-          description: ''
+          description: The requested resource was not found or is not accessible.
         '405':
           content:
             application/json:
@@ -22167,7 +22167,7 @@ paths:
                     - code: method_not_allowed
                       detail: Method "get" not allowed.
                       attr: null
-          description: ''
+          description: The HTTP method is not allowed for this resource.
         '406':
           content:
             application/json:
@@ -22181,13 +22181,13 @@ paths:
                     - code: not_acceptable
                       detail: Could not satisfy the request Accept header.
                       attr: null
-          description: ''
+          description: The requested response media type is not available.
         '423':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse423'
-          description: ''
+          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -22201,7 +22201,7 @@ paths:
                     - code: throttled
                       detail: Request was throttled.
                       attr: null
-          description: ''
+          description: The API request rate limit was exceeded.
         '500':
           content:
             application/json:
@@ -22215,7 +22215,7 @@ paths:
                     - code: error
                       detail: A server error occurred.
                       attr: null
-          description: ''
+          description: An unexpected server error occurred.
         '204':
           description: No response body
   /api/suggestions/{id}/accept/:
@@ -22226,8 +22226,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
-          pattern: ^[^/]+$
+          type: integer
+        description: A unique integer value identifying this string suggestion.
         required: true
       tags:
       - suggestions
@@ -22246,7 +22246,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
-          description: ''
+          description: The request was invalid or could not be parsed.
         '401':
           content:
             application/json:
@@ -22267,7 +22267,7 @@ paths:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
                       attr: null
-          description: ''
+          description: Authentication credentials were missing or invalid.
         '403':
           content:
             application/json:
@@ -22281,7 +22281,7 @@ paths:
                     - code: permission_denied
                       detail: You do not have permission to perform this action.
                       attr: null
-          description: ''
+          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -22295,7 +22295,7 @@ paths:
                     - code: not_found
                       detail: Not found.
                       attr: null
-          description: ''
+          description: The requested resource was not found or is not accessible.
         '405':
           content:
             application/json:
@@ -22309,7 +22309,7 @@ paths:
                     - code: method_not_allowed
                       detail: Method "get" not allowed.
                       attr: null
-          description: ''
+          description: The HTTP method is not allowed for this resource.
         '406':
           content:
             application/json:
@@ -22323,7 +22323,7 @@ paths:
                     - code: not_acceptable
                       detail: Could not satisfy the request Accept header.
                       attr: null
-          description: ''
+          description: The requested response media type is not available.
         '415':
           content:
             application/json:
@@ -22337,13 +22337,13 @@ paths:
                     - code: unsupported_media_type
                       detail: Unsupported media type "application/json" in request.
                       attr: null
-          description: ''
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse423'
-          description: ''
+          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -22357,7 +22357,7 @@ paths:
                     - code: throttled
                       detail: Request was throttled.
                       attr: null
-          description: ''
+          description: The API request rate limit was exceeded.
         '500':
           content:
             application/json:
@@ -22371,13 +22371,13 @@ paths:
                     - code: error
                       detail: A server error occurred.
                       attr: null
-          description: ''
+          description: An unexpected server error occurred.
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuggestionActionResult'
-          description: ''
+          description: Successful response.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -22393,8 +22393,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
-          pattern: ^[^/]+$
+          type: integer
+        description: A unique integer value identifying this string suggestion.
         required: true
       tags:
       - suggestions
@@ -22414,7 +22414,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
-          description: ''
+          description: The request was invalid or could not be parsed.
         '401':
           content:
             application/json:
@@ -22435,7 +22435,7 @@ paths:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
                       attr: null
-          description: ''
+          description: Authentication credentials were missing or invalid.
         '403':
           content:
             application/json:
@@ -22449,7 +22449,7 @@ paths:
                     - code: permission_denied
                       detail: You do not have permission to perform this action.
                       attr: null
-          description: ''
+          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -22463,7 +22463,7 @@ paths:
                     - code: not_found
                       detail: Not found.
                       attr: null
-          description: ''
+          description: The requested resource was not found or is not accessible.
         '405':
           content:
             application/json:
@@ -22477,7 +22477,7 @@ paths:
                     - code: method_not_allowed
                       detail: Method "get" not allowed.
                       attr: null
-          description: ''
+          description: The HTTP method is not allowed for this resource.
         '406':
           content:
             application/json:
@@ -22491,7 +22491,7 @@ paths:
                     - code: not_acceptable
                       detail: Could not satisfy the request Accept header.
                       attr: null
-          description: ''
+          description: The requested response media type is not available.
         '415':
           content:
             application/json:
@@ -22505,13 +22505,13 @@ paths:
                     - code: unsupported_media_type
                       detail: Unsupported media type "application/json" in request.
                       attr: null
-          description: ''
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse423'
-          description: ''
+          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -22525,7 +22525,7 @@ paths:
                     - code: throttled
                       detail: Request was throttled.
                       attr: null
-          description: ''
+          description: The API request rate limit was exceeded.
         '500':
           content:
             application/json:
@@ -22539,13 +22539,13 @@ paths:
                     - code: error
                       detail: A server error occurred.
                       attr: null
-          description: ''
+          description: An unexpected server error occurred.
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuggestionVoteResult'
-          description: ''
+          description: Successful response.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -26638,8 +26638,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
-          pattern: ^[^/]+$
+          type: integer
+        description: A unique integer value identifying this string.
         required: true
       - name: page
         required: false
@@ -26666,7 +26666,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
-          description: ''
+          description: The request was invalid or could not be parsed.
         '401':
           content:
             application/json:
@@ -26687,7 +26687,7 @@ paths:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
                       attr: null
-          description: ''
+          description: Authentication credentials were missing or invalid.
         '403':
           content:
             application/json:
@@ -26701,7 +26701,7 @@ paths:
                     - code: permission_denied
                       detail: You do not have permission to perform this action.
                       attr: null
-          description: ''
+          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -26715,7 +26715,7 @@ paths:
                     - code: not_found
                       detail: Not found.
                       attr: null
-          description: ''
+          description: The requested resource was not found or is not accessible.
         '405':
           content:
             application/json:
@@ -26729,7 +26729,7 @@ paths:
                     - code: method_not_allowed
                       detail: Method "get" not allowed.
                       attr: null
-          description: ''
+          description: The HTTP method is not allowed for this resource.
         '406':
           content:
             application/json:
@@ -26743,13 +26743,13 @@ paths:
                     - code: not_acceptable
                       detail: Could not satisfy the request Accept header.
                       attr: null
-          description: ''
+          description: The requested response media type is not available.
         '423':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse423'
-          description: ''
+          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -26763,7 +26763,7 @@ paths:
                     - code: throttled
                       detail: Request was throttled.
                       attr: null
-          description: ''
+          description: The API request rate limit was exceeded.
         '500':
           content:
             application/json:
@@ -26777,13 +26777,13 @@ paths:
                     - code: error
                       detail: A server error occurred.
                       attr: null
-          description: ''
+          description: An unexpected server error occurred.
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaginatedSuggestionList'
-          description: ''
+          description: Successful response.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -26798,8 +26798,8 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
-          pattern: ^[^/]+$
+          type: integer
+        description: A unique integer value identifying this string.
         required: true
       tags:
       - units
@@ -26819,7 +26819,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
-          description: ''
+          description: The request was invalid or could not be parsed.
         '401':
           content:
             application/json:
@@ -26840,7 +26840,7 @@ paths:
                     - code: not_authenticated
                       detail: Authentication credentials were not provided.
                       attr: null
-          description: ''
+          description: Authentication credentials were missing or invalid.
         '403':
           content:
             application/json:
@@ -26854,7 +26854,7 @@ paths:
                     - code: permission_denied
                       detail: You do not have permission to perform this action.
                       attr: null
-          description: ''
+          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -26868,7 +26868,7 @@ paths:
                     - code: not_found
                       detail: Not found.
                       attr: null
-          description: ''
+          description: The requested resource was not found or is not accessible.
         '405':
           content:
             application/json:
@@ -26882,7 +26882,7 @@ paths:
                     - code: method_not_allowed
                       detail: Method "get" not allowed.
                       attr: null
-          description: ''
+          description: The HTTP method is not allowed for this resource.
         '406':
           content:
             application/json:
@@ -26896,7 +26896,7 @@ paths:
                     - code: not_acceptable
                       detail: Could not satisfy the request Accept header.
                       attr: null
-          description: ''
+          description: The requested response media type is not available.
         '415':
           content:
             application/json:
@@ -26910,13 +26910,13 @@ paths:
                     - code: unsupported_media_type
                       detail: Unsupported media type "application/json" in request.
                       attr: null
-          description: ''
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse423'
-          description: ''
+          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -26930,7 +26930,7 @@ paths:
                     - code: throttled
                       detail: Request was throttled.
                       attr: null
-          description: ''
+          description: The API request rate limit was exceeded.
         '500':
           content:
             application/json:
@@ -26944,19 +26944,19 @@ paths:
                     - code: error
                       detail: A server error occurred.
                       attr: null
-          description: ''
+          description: An unexpected server error occurred.
         '201':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Suggestion'
-          description: ''
+          description: The resource was created.
         '200':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuggestionVoteResult'
-          description: ''
+          description: Successful response.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
