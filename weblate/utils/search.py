@@ -723,6 +723,14 @@ class UnitTermExpr(BaseTermExpr):
             return self.as_parsed_query(context).materialize()
         return super().as_query(context)
 
+    def reviewed_by_field(self, match: str, context: dict) -> Q:
+        if match == "me":
+            request = context.get("request")
+            if request and request.user.is_authenticated:
+                return Q(reviews__user=request.user)
+            return Q(pk__isnull=True)
+        return Q(reviews__user__username__icontains=match)
+
     def is_field(self, text: str, context: dict) -> Q:
         if text in {"read-only", "readonly"}:
             return Q(state=STATE_READONLY)

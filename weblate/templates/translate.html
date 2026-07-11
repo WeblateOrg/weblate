@@ -101,6 +101,14 @@
                   {% endif %}
                 {% endif %}
                 {% include "snippets/unit-readonly-badge.html" %}
+                {% if unit.get_reviews %}
+                  <div class="review-status mt-2 fs-6 fw-normal text-muted">
+                    {% translate "Reviewed by:" %}
+                    {% for review in unit.get_reviews %}
+                      <span class="badge bg-secondary">{{ review.user.username }}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
               </h4>
             </div>
             <div class="card-body">
