@@ -2368,7 +2368,7 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
 
     def validate_target(self, value: list[str]) -> list[str]:
         unit = self.context.get("unit")
-        if unit is None:
+        if unit is None or unit.translation.component.is_multivalue:
             return value
         target_copy = value.copy()
         if target_copy != unit.adjust_plurals(value.copy()):

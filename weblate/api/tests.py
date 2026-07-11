@@ -86,6 +86,7 @@ from weblate.trans.tests.utils import (
     fixup_languages_seq,
     get_test_file,
 )
+from weblate.trans.util import join_plural
 from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -11772,6 +11773,56 @@ class SuggestionAPITest(APIBaseTest):
         ]
         response = self._add_suggestion(unit, target)
         self.assertEqual(response.data["target"], target)
+
+    def test_add_suggestion_multivalue_alternatives(self) -> None:
+        """Multivalue units should accept alternative translation suggestions."""
+        with self.captureOnCommitCallbacks(execute=True):
+            component = self._create_component(
+                "csv-multi",
+                "multivalue/*.csv",
+                name="Multivalue",
+                project=self.project,
+                new_lang="add",
+                manage_units=True,
+            )
+        self.assertTrue(component.is_multivalue)
+
+        target_language = Language.objects.get(code="cs")
+        translation = Translation.objects.create(
+            component=component,
+            language=target_language,
+            language_code=target_language.code,
+            plural=target_language.plural,
+            filename="multivalue/cs.csv",
+        )
+
+        alternatives = ["Ahoj A\n", "Ahoj B\n"]
+
+        source_unit = Unit(
+            translation=component.source_translation,
+            id_hash=1,
+            source="Hello\n",
+            target="Hello\n",
+            state=STATE_TRANSLATED,
+            position=1,
+        )
+        source_unit.save(run_checks=False)
+
+        unit = Unit(
+            translation=translation,
+            id_hash=1,
+            source="Hello\n",
+            target=join_plural(alternatives),
+            state=STATE_EMPTY,
+            position=1,
+            source_unit=source_unit,
+        )
+        unit.save(run_checks=False)
+
+        self.assertEqual(unit.get_target_plurals(), alternatives)
+
+        response = self._add_suggestion(unit, alternatives)
+        self.assertEqual(response.data["target"], alternatives)
 
     def test_add_suggestion_empty(self) -> None:
         unit = self._get_unit()

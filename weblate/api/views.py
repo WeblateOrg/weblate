@@ -3623,7 +3623,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 return suggestion_vote_response(request, suggestion.pk)
             return Response(serializer.data, status=HTTP_201_CREATED)
 
-        qs = unit.suggestion_set.load_votes().order()
+        qs = unit.suggestion_set.load_votes().select_related("user").order()
         page = self.paginate_queryset(qs)
         serializer = SuggestionSerializer(page, context={"request": request}, many=True)
         return self.get_paginated_response(serializer.data)
