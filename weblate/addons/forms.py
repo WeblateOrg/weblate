@@ -279,6 +279,15 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             "Optional extra keyword passed to xgettext using --keyword."
         ),
     )
+    keyword_exclusive = forms.BooleanField(
+        label=gettext_lazy("Use keywords exclusively"),
+        required=False,
+        help_text=gettext_lazy(
+            "When enabled, passes --keyword without a value to xgettext before "
+            "the additional keyword, disabling all default keywords so that only "
+            "the keyword specified above is recognized."
+        ),
+    )
 
     def __init__(self, *args, **kwargs) -> None:
         data = self.ensure_default_bound_value(
@@ -298,6 +307,15 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             comment_tag = ""
         cleaned_data["comment_tag"] = comment_tag
         cleaned_data["keyword"] = cleaned_data.get("keyword", "").strip()
+        keyword_exclusive = bool(cleaned_data.get("keyword_exclusive"))
+        if keyword_exclusive and not cleaned_data["keyword"]:
+            self.add_error(
+                "keyword_exclusive",
+                gettext(
+                    "An additional keyword is required when using keywords exclusively."
+                ),
+            )
+        cleaned_data["keyword_exclusive"] = keyword_exclusive
         cleaned_data["location_mode"] = cleaned_data.get("location_mode", "file")
         return cleaned_data
 
@@ -372,6 +390,7 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
             Field("comment_tag"),
             Field("checks"),
             Field("keyword"),
+            Field("keyword_exclusive"),
             Field("location_mode"),
         ]
 
@@ -446,6 +465,7 @@ class MesonExtractPotForm(BaseXgettextExtractPotForm):
             Field("comment_tag"),
             Field("checks"),
             Field("keyword"),
+            Field("keyword_exclusive"),
             Field("location_mode"),
         )
 
