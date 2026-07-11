@@ -7,6 +7,8 @@
 import sys
 from io import StringIO
 from typing import cast
+from unittest import SkipTest
+from unittest.mock import Mock, patch
 
 import requests
 from django.core.management import call_command
@@ -33,6 +35,7 @@ from weblate.trans.tests.utils import (
     create_another_user,
     create_test_user,
     get_test_file,
+    require_github,
 )
 from weblate.vcs.mercurial import HgRepository
 
@@ -495,14 +498,43 @@ class UnLockTranslationTest(WeblateComponentCommandTestCase):
 
 class ImportDemoTestCase(TestCase):
     def test_import(self) -> None:
-        try:
-            requests.get("https://github.com/", timeout=1)
-        except requests.exceptions.ConnectionError as error:
-            self.skipTest(f"GitHub not reachable: {error}")
+        require_github("https://github.com/WeblateOrg/demo.git")
         output = StringIO()
         call_command("import_demo", stdout=output)
         self.assertEqual(output.getvalue(), "")
         self.assertEqual(Component.objects.count(), 5)
+
+
+class RequireGitHubTest(SimpleTestCase):
+    repository = "https://github.com/WeblateOrg/demo.git"
+
+    @patch("weblate.trans.tests.utils.requests.get")
+    def test_success(self, get: Mock) -> None:
+        require_github(self.repository)
+
+        get.assert_called_once_with(self.repository, timeout=1)
+        get.return_value.raise_for_status.assert_called_once_with()
+
+    @patch("weblate.trans.tests.utils.requests.get")
+    def test_request_errors(self, get: Mock) -> None:
+        for exception in (
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout,
+            requests.exceptions.RequestException,
+        ):
+            with self.subTest(exception=exception):
+                get.side_effect = exception("unavailable")
+                with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):
+                    require_github(self.repository)
+
+    @patch("weblate.trans.tests.utils.requests.get")
+    def test_http_error(self, get: Mock) -> None:
+        get.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError(
+            "unavailable"
+        )
+
+        with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):
+            require_github(self.repository)
 
 
 class CleanupTestCase(TestCase):
