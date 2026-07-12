@@ -233,19 +233,19 @@ class MemoryView(TemplateView):
         file_scope = MemoryScope.objects.using(self.entries.db).filter(
             memory_id=OuterRef("pk"), scope__in=file_scopes
         )
-        entries = self.entries.alias(has_file_scope=Exists(file_scope))
-        from_file = list(
-            entries.filter(has_file_scope=True)
-            .values("origin")
+        entries = (
+            self.entries.annotate(has_file_scope=Exists(file_scope))
+            .values("origin", "has_file_scope")
             .order_by("origin")
             .annotate(Count("id"))
         )
-        result = list(
-            entries.filter(has_file_scope=False)
-            .values("origin")
-            .order_by("origin")
-            .annotate(Count("id"))
-        )
+        from_file = []
+        result = []
+        for entry in entries:
+            if entry.pop("has_file_scope"):
+                from_file.append(entry)
+            else:
+                result.append(entry)
         for entry in result:
             entry["url"] = get_url(entry["origin"])
         if "project" in self.objects:
