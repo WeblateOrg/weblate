@@ -37,7 +37,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-09 03:19+0000\n"
-"PO-Revision-Date: 2026-07-06 18:20+0000\n"
+"PO-Revision-Date: 2026-07-12 13:47+0000\n"
 "Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
@@ -3752,7 +3752,7 @@ msgstr ""
 
 #: admin/checks.rst:104
 msgid "Enforcing checks"
-msgstr "強制檢查"
+msgstr "強制執行檢查"
 
 #: admin/checks.rst:106
 msgid ""
@@ -3792,6 +3792,7 @@ msgid "Managing fonts"
 msgstr "管理字型"
 
 #: admin/checks.rst:139
+#, fuzzy
 msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
@@ -3850,7 +3851,7 @@ msgstr "字型族和樣式在上傳後自動識別："
 
 #: admin/checks.rst:166
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr "可以將幾種字型載入到 Weblate 中："
+msgstr "您可以將幾種字型載入到 Weblate 中："
 
 #: admin/checks.rst:170
 msgid ""
@@ -3871,12 +3872,13 @@ msgid ""
 msgstr ""
 
 #: admin/checks.rst:176
+#, fuzzy
 msgid "Defines font group to use by specifying its identifier."
 msgstr "確定字型群組，透過指定其識別文字來使用。"
 
 #: admin/checks.rst:178
 msgid "Defines font size in pixels."
-msgstr "定義字型大小（pixels）。"
+msgstr "以像素為單位定義字型大小。"
 
 #: admin/checks.rst:184
 msgid "Writing own checks"
@@ -3899,7 +3901,7 @@ msgstr "`weblate.checks.Check` 子類別"
 
 #: admin/checks.rst:191
 msgid "Set a few attributes."
-msgstr "設定一些特性。"
+msgstr ""
 
 #: admin/checks.rst:192
 msgid ""
@@ -3926,6 +3928,7 @@ msgid "Checking translation text does not contain \"foo\""
 msgstr "檢查翻譯文字不含有 “ foo ”"
 
 #: admin/checks.rst:203
+#, fuzzy
 msgid ""
 "This is a pretty simple check which just checks whether the translation is "
 "missing the string \"foo\"."
@@ -3965,10 +3968,8 @@ msgid "Setup overview"
 msgstr "設定概覽"
 
 #: admin/code-hosting.rst:17
-#, fuzzy
-#| msgid "Rebase Weblate changes onto the remote repository"
 msgid "Grant Weblate access to the repository."
-msgstr "將 Weblate 變更衍合至遠端儲存庫"
+msgstr "授予儲存庫權限給 Weblate。"
 
 #: admin/code-hosting.rst:19
 msgid ""
@@ -21478,6 +21479,9 @@ msgid ""
 "user has sufficient privileges. Installations using a non-superuser database "
 "user should pre-create it before upgrading; see :ref:`dbsetup-postgres`."
 msgstr ""
+"Weblate 現在需要 PostgreSQL ``btree_gist`` 擴充功能用於翻譯記憶查詢。當資料庫"
+"使用者具有足夠權限時，遷移過程將會自動安裝它。使用非特權資料庫使用者的安裝應"
+"該在升級前建立它；請參閱 :ref:`dbsetup-postgres`。"
 
 #: changes.rst:50 changes.rst:144 changes.rst:163 changes.rst:217
 #: changes.rst:288 changes/v5.rst:77 changes/v5.rst:193 changes/v5.rst:227
@@ -21496,26 +21500,20 @@ msgid "Contributors"
 msgstr "貢獻者"
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "70?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/170?"
 "closed=1>`__."
 msgstr ""
-"`所有變化詳情 <https://github.com/WeblateOrg/weblate/milestone/70?"
-"closed=1>`__."
+"`所有變化詳情 <https://github.com/WeblateOrg/weblate/milestone/170?closed=1>"
+"`__."
 
 #: changes.rst:56
 msgid "Weblate 2026.7"
 msgstr "Weblate 2026.7"
 
 #: changes.rst:58
-#, fuzzy
-#| msgid "*Released on July 1st 2022.*"
 msgid "*Released on July 1st 2026.*"
-msgstr "*發佈於 2022 年 7 月 1 日。*"
+msgstr "*發佈於 2026 年 7 月 1 日。*"
 
 #: changes.rst:62
 msgid ""
@@ -21523,6 +21521,9 @@ msgid ""
 "accelerator` quality checks for :ref:`mdx` JSX expressions, source length "
 "limits, and accelerator key consistency."
 msgstr ""
+"新增了 :ref:`check-safe-mdx` 、 :ref:`check-source-max-length` 與 "
+":ref:`check-accelerator` 品質檢查用於 :ref:`mdx` JSX 表達式 、 來源長度限制與"
+"加速器金鑰一致性。"
 
 #: changes.rst:63
 #, fuzzy
@@ -21537,14 +21538,14 @@ msgid ""
 "Added :ref:`code-hosting-github-app-register` for connecting GitHub "
 "repositories through a Weblate GitHub App."
 msgstr ""
+"新增了 :ref:`code-hosting-github-app-register` 用於透過 Weblate GitHub App 連"
+"線 GitHub 儲存庫。"
 
 #: changes.rst:65
-#, fuzzy
-#| msgid "Make the commit_pending age configurable per component."
 msgid ""
 ":ref:`projectbackup` backups can now be created and downloaded via "
 "the :ref:`api`."
-msgstr "每個組件進行 commit_pending 時間配置。"
+msgstr ":ref:`projectbackup` 現在可以透過 :ref:`api` 建立或下載。"
 
 #: changes.rst:66
 msgid ""
@@ -21568,12 +21569,16 @@ msgid ""
 "Added :wladmin:`analyze_translator_work` to estimate realistic daily "
 "translator throughput from change history."
 msgstr ""
+"新增了 :wladmin:`analyze_translator_work` 以透過變更歷史紀錄估算每天翻譯者的"
+"實際工作量。"
 
 #: changes.rst:73
 msgid ""
 "RTL editing and translation display now handle bidirectional text better, "
 "including Unicode isolate controls in the :ref:`visual-keyboard`."
 msgstr ""
+"RTL 編輯與翻譯顯示功能現在能更好地處理雙向文字，包含 :ref:`visual-keyboard` "
+"中的萬國碼分離控制。"
 
 #: changes.rst:74
 msgid ""
@@ -21592,7 +21597,7 @@ msgstr ""
 msgid ""
 "Documented :ref:`legal` customizations and added options to hide legal pages "
 "or disable document numbering."
-msgstr ""
+msgstr "記錄了 :ref:`legal` 自訂並新增了用於隱藏法律頁面或停用文件編號的選項。"
 
 #: changes.rst:77
 msgid ""
@@ -21614,6 +21619,8 @@ msgid ""
 ":ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language "
 "blank to let xgettext guess it from source file extensions."
 msgstr ""
+":ref:`addon-weblate.gettext.xgettext` 現在可以將 xgettext 語言欄位留空，讓 "
+"xgettext 從來源檔案副檔名自行猜測。"
 
 #: changes.rst:80
 #, fuzzy
@@ -21635,13 +21642,9 @@ msgid ""
 msgstr ""
 
 #: changes.rst:82
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker "
-#| "container."
 msgid ""
 ":envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container."
-msgstr ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` 現在於 Docker 容器中可用。"
+msgstr ":envvar:`WEBLATE_ALLOWED_ASSET_SIZE` 現在於 Docker 容器中可用。"
 
 #: changes.rst:83
 msgid ""
