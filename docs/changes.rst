@@ -10,6 +10,7 @@ Weblate 2026.8
 .. rubric:: Improvements
 
 * Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
+* Improved matrix view loading performance when displaying multiple languages.
 * Translation memory management pages now load origin summaries with a single database aggregation.
 * Dashboard component list tabs now load without processing unrelated component lists.
 

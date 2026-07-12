@@ -122,36 +122,45 @@ def matrix_load(request: AuthenticatedHttpRequest, path):
         return HttpResponseServerError("Missing lang")
     language_codes = form.cleaned_data["lang"]
 
-    # Can not use filter to keep ordering
-    translations = [
-        get_object_or_404(obj.translation_set, language__code=lang)
-        for lang in language_codes
-    ]
+    translations_by_code = {
+        translation.language.code: translation
+        for translation in obj.translation_set.filter(
+            language__code__in=language_codes
+        ).select_related("language", "plural")
+    }
+    try:
+        # The selected language order defines the matrix column order.
+        translations = [translations_by_code[code] for code in language_codes]
+    except KeyError as error:
+        raise Http404 from error
 
-    data = []
-
-    source_units = obj.source_translation.unit_set.order()[offset : offset + 20]
+    source_translation = obj.source_translation
+    source_units = list(source_translation.unit_set.order()[offset : offset + 21])
+    last = len(source_units) <= 20
+    source_units = source_units[:20]
     source_ids = [unit.pk for unit in source_units]
 
-    translated_units = [
-        {
-            unit.source_unit_id: unit
-            for unit in translation.unit_set.order().filter(source_unit__in=source_ids)
-        }
-        for translation in translations
-    ]
+    translations_by_id = {translation.pk: translation for translation in translations}
+    translated_units = {translation.pk: {} for translation in translations}
+    for unit in Unit.objects.filter(
+        translation_id__in=translations_by_id,
+        source_unit_id__in=source_ids,
+    ).order():
+        # Reuse the translations fetched above, including their related objects.
+        unit.translation = translations_by_id[unit.translation_id]
+        translated_units[unit.translation_id][unit.source_unit_id] = unit
 
+    data = []
     for unit in source_units:
-        units = []
         # Avoid need to fetch source unit again
         unit.source_unit = unit
-        for translation in translated_units:
-            if unit.pk in translation:
+        units = []
+        for translation in translations:
+            translated_unit = translated_units[translation.pk].get(unit.pk)
+            if translated_unit is not None:
                 # Avoid need to fetch source unit again
-                translation[unit.pk].source_unit = unit
-                units.append(translation[unit.pk])
-            else:
-                units.append(None)
+                translated_unit.source_unit = unit
+            units.append(translated_unit)
 
         data.append((unit, units))
 
@@ -161,6 +170,6 @@ def matrix_load(request: AuthenticatedHttpRequest, path):
         {
             "object": obj,
             "data": data,
-            "last": translations[0].unit_set.count() <= offset + 20,
+            "last": last,
         },
     )
