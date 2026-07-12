@@ -216,16 +216,18 @@ def home(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 
 def fetch_componentlists(
-    user: User, user_translations: TranslationQuerySet
+    user: User,
+    user_translations: TranslationQuerySet,
+    *,
+    slug: str | None = None,
 ) -> list[ComponentList]:
-    componentlists = list(
-        ComponentList.objects.filter(
-            show_dashboard=True,
-            components__project__in=user.allowed_projects,
-        )
-        .distinct()
-        .order()
+    componentlists = ComponentList.objects.filter(
+        show_dashboard=True,
+        components__project__in=user.allowed_projects,
     )
+    if slug is not None:
+        componentlists = componentlists.filter(slug=slug)
+    componentlists = list(componentlists.distinct().order())
     for componentlist in componentlists:
         components = componentlist.components.filter_access(user)
         # Force fetching the query now
@@ -265,13 +267,11 @@ def component_list_user(request: AuthenticatedHttpRequest, name: str) -> HttpRes
 
     user_translations = get_user_translations(request, user, user_has_languages)
 
-    componentlist = None
-    for current in fetch_componentlists(request.user, user_translations):
-        if current.slug == name:
-            componentlist = current
+    componentlists = fetch_componentlists(request.user, user_translations, slug=name)
 
-    if componentlist is None:
+    if not componentlists:
         raise Http404
+    componentlist = componentlists[0]
 
     if user.is_authenticated and user.profile.hide_completed:
         componentlist.translations = get_untranslated(
