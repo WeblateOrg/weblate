@@ -267,7 +267,7 @@ class BillingTest(BaseTestCase):
 
         self.assertContains(response, admin_url)
         self.assertContains(response, "Open in Django admin")
-        self.assertContains(response, "btn btn-secondary")
+        self.assertContains(response, "btn btn-info")
         self.assertNotContains(response, 'title="Django admin"', status_code=200)
         self.assertNotContains(response, "cog.svg", status_code=200)
 
