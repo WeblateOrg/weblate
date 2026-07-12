@@ -100,6 +100,12 @@ repos:
     files: ^weblate/.*templates/.*\.html$
     entry: (?i)(^|\s)on(?!ly\s*=)[a-z]+\s*=
     language: pygrep
+  - id: html-btn-secondary
+    name: unstyled secondary button in template
+    description: Prevent using the Bootstrap secondary button without Weblate styling
+    files: ^weblate/.*templates/.*\.html$
+    entry: \bbtn-secondary\b
+    language: pygrep
   - id: rst-double-space
     name: rst text with double space
     description: Detect mistake of rst containing double space

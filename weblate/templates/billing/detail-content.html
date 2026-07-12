@@ -40,8 +40,7 @@
               </button>
             {% endif %}
             {% if user.is_superuser %}
-              <a href="{% url "admin:billing_billing_change" billing.pk %}"
-                 class="btn btn-secondary">{% translate "Open in Django admin" %}</a>
+              <a href="{% url "admin:billing_billing_change" billing.pk %}" class="btn btn-info">{% translate "Open in Django admin" %}</a>
             {% endif %}
             <button type="submit"
                     name="terminate"
