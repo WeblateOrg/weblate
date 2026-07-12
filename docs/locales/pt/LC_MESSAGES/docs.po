@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-09 03:19+0000\n"
-"PO-Revision-Date: 2026-07-11 15:41+0000\n"
+"PO-Revision-Date: 2026-07-12 18:38+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -18140,6 +18140,9 @@ msgid ""
 "and ``privacy_url`` variables for linking to the terms of service and "
 "privacy policy documents."
 msgstr ""
+"Páginas legais e a sinopse de início de sessão e registo fornecem as "
+"variáveis ``terms_url`` e ``privacy_url`` para dar link aos documentos dos "
+"termos de serviço e política de privacidade."
 
 #: admin/optionals.rst:222
 msgid ""
@@ -18150,6 +18153,12 @@ msgid ""
 "set :setting:`LEGAL_DOCUMENT_CSS_CLASS` to an empty string to disable this "
 "styling."
 msgstr ""
+"Por predefinição, invólucros de documentos legais usam a classe CSS ``tos``. "
+"Esta classe numera automaticamente cabeçalhos ``h2``, parágrafos com classes "
+"``item``, ``subitem``, ou ``subsubitem``, e items de lista do nível de topo "
+"organizadas. Se o seu texto legal já contém numeração, defina "
+":setting:`LEGAL_DOCUMENT_CSS_CLASS` para uma cadeia de carateres vazia para "
+"desativar esta estilização."
 
 #: admin/optionals.rst:228
 msgid ""
@@ -18175,6 +18184,11 @@ msgid ""
 "confirmation page then links to those external documents without requiring "
 "a :file:`legal/documents/tos.html` template override."
 msgstr ""
+"Para usar documentos legais externamente alojados com confirmação de termos, "
+"configure :setting:`LEGAL_HIDDEN_DOCUMENTS` para esconder ``terms`` e "
+"``privacy`` e definir :setting:`LEGAL_URL` e :setting:`PRIVACY_URL`. A "
+"página de confirmação depois dá link para esses documentos externos sem "
+"necessitar de uma substituição do modelo :file:`legal/documents/tos.html`."
 
 #: admin/optionals.rst:243
 msgid "Avatars"
@@ -18211,6 +18225,11 @@ msgid ""
 "them. Configure the web server or CDN serving :setting:`LOCALIZE_CDN_URL` as "
 "a public, read-only static file host."
 msgstr ""
+"Os extras :ref:`addon-weblate.cdn.cdnjs` e :ref:`addon-weblate.cdn.files` "
+"escrevem ficheiros para :setting:`LOCALIZE_CDN_PATH`; o Weblate não os "
+"disponibiliza. Configure o servidor web ou CDN servindo "
+":setting:`LOCALIZE_CDN_URL` como um servidor de ficheiros estáticos, público "
+"e apenas de leitura."
 
 #: admin/optionals.rst:270
 msgid ""
@@ -18244,10 +18263,8 @@ msgstr ""
 "partilhe cookies de autenticação com o domínio CDN."
 
 #: admin/optionals.rst:283
-#, fuzzy
-#| msgid "The recommended Weblate configuration verifies:"
 msgid "Recommended server configuration:"
-msgstr "A configuração recomendada do Weblate verifica:"
+msgstr "A configuração de servidor recomendada:"
 
 #: admin/optionals.rst:285
 msgid ""
@@ -18255,20 +18272,23 @@ msgid ""
 "expose Weblate repositories, backups, media, configuration, or the whole "
 "data directory."
 msgstr ""
+"Serve apenas o diretório configurado por :setting:`LOCALIZE_CDN_PATH`; não "
+"disponibilize repositórios Weblate, cópias de segurança, média, "
+"configuração, ou o diretório de dados inteiro."
 
 #: admin/optionals.rst:288
-#, fuzzy
-#| msgid "Disable discovery"
 msgid "Disable directory listing."
-msgstr "Desativar descoberta"
+msgstr "Desativar listagem de diretório."
 
 #: admin/optionals.rst:289
 msgid "Use HTTPS and make the CDN host read-only from the web server."
 msgstr ""
+"Utiliza HTTPS e torna o anfitrião CDN apenas para leitura a partir do "
+"servidor web."
 
 #: admin/optionals.rst:290
 msgid "Send :http:header:`X-Content-Type-Options` with ``nosniff``."
-msgstr ""
+msgstr "Envia :http:header:`X-Content-Type-Options` com ``nosniff``."
 
 #: admin/optionals.rst:291
 msgid ""
@@ -18276,6 +18296,9 @@ msgid ""
 "as :mimetype:`text/plain` or :mimetype:`application/octet-stream`; only "
 "serve :file:`weblate.js` as JavaScript."
 msgstr ""
+"Configura tipos MIME conservadores. Fornece formatos de tradução "
+"desconhecidos na forma de :mimetype:`text/plain` ou :mimetype:`application/"
+"octet-stream`; apenas disponibiliza :file:`weblate.js` enquanto JavaScript."
 
 #: admin/optionals.rst:294
 msgid ""
@@ -18283,12 +18306,17 @@ msgid ""
 "browser, consider adding :http:header:`Content-Disposition` with "
 "``attachment``."
 msgstr ""
+"Para formatos de tradução em bruto que não se destinam a ser renderizados em "
+"um navegador, considere adicionar :http:header:`Content-Disposition` com "
+"``attachment``."
 
 #: admin/optionals.rst:297
 msgid ""
 "Configure ``Access-Control-Allow-Origin`` only for sites that need browser "
 "access to the files."
 msgstr ""
+"Configure ``Access-Control-Allow-Origin`` apenas para sites que precisam de "
+"acesso de navegador aos ficheiros."
 
 #: admin/optionals.rst:299
 msgid ""
