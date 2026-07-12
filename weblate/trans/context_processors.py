@@ -153,9 +153,6 @@ def weblate_context(request: AuthenticatedHttpRequest):
 
     context = {
         "support_status": support_status,
-        "cache_param": f"?v={weblate.utils.version.GIT_VERSION}"
-        if not settings.COMPRESS_ENABLED
-        else "",
         "version": weblate.utils.version.VERSION,
         "bread_image": get_bread_image(request.path),
         "description": description,

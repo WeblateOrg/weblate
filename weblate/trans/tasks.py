@@ -16,7 +16,6 @@ from typing import TYPE_CHECKING, Any, Literal
 from celery import current_task
 from celery.schedules import crontab
 from django.conf import settings
-from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
@@ -1285,22 +1284,30 @@ def import_project_backup(
 
 @app.task(trail=False)
 def remove_project_backup_download(name: str) -> None:
-    if staticfiles_storage.exists(name):
-        staticfiles_storage.delete(name)
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.backups import get_project_backup_download_storage
+
+    storage = get_project_backup_download_storage()
+    if storage.exists(name):
+        storage.delete(name)
 
 
 @app.task(trail=False)
 def cleanup_project_backup_download() -> None:
     # ruff: ignore[import-outside-top-level]
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+    from weblate.trans.backups import (
+        PROJECTBACKUP_PREFIX,
+        get_project_backup_download_storage,
+    )
 
-    if not staticfiles_storage.exists(PROJECTBACKUP_PREFIX):
+    storage = get_project_backup_download_storage()
+    if not storage.exists(PROJECTBACKUP_PREFIX):
         return
     cutoff = timezone.now() - timedelta(hours=2)
-    for name in staticfiles_storage.listdir(PROJECTBACKUP_PREFIX)[1]:
+    for name in storage.listdir(PROJECTBACKUP_PREFIX)[1]:
         full_name = os.path.join(PROJECTBACKUP_PREFIX, name)
-        if staticfiles_storage.get_created_time(full_name) < cutoff:
-            staticfiles_storage.delete(full_name)
+        if storage.get_created_time(full_name) < cutoff:
+            storage.delete(full_name)
 
 
 @app.on_after_finalize.connect

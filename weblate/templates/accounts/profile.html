@@ -1,13 +1,9 @@
 {% extends "base.html" %}
 
-{% load authnames compress crispy_forms_tags i18n icons otp_webauthn static translations %}
+{% load authnames crispy_forms_tags i18n icons otp_webauthn static translations %}
 
 {% block extra_script %}
-  {% compress js %}
-    <script defer
-            data-cfasync="false"
-            src="{% static 'js/accounts/profile/index.js' %}{{ cache_param }}"></script>
-  {% endcompress %}
+  <script defer src="{% static 'js/accounts/profile/index.js' %}"></script>
 {% endblock extra_script %}
 
 {% block nav_pills %}

@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import hashlib
-import os.path
 from pathlib import Path
 from ssl import CertificateError
 from typing import TYPE_CHECKING, Literal, cast
@@ -37,9 +36,11 @@ def avatar_for_email(email: str, size: int = 80) -> str:
     return f"{settings.AVATAR_URL_PREFIX}avatar/{mail_hash}?{querystring}"
 
 
-def get_fallback_avatar_url(size: int, name: Literal["weblate", "api"] = "weblate"):
+def get_fallback_avatar_url(
+    size: int, name: Literal["weblate", "api"] = "weblate"
+) -> str:
     """Return URL of fallback avatar."""
-    return os.path.join(settings.STATIC_URL, f"{name}-{size}.png")
+    return f"{settings.STATIC_URL.rstrip('/')}/{name}-{size}.png"
 
 
 def get_fallback_avatar(size: int) -> bytes:

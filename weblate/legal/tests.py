@@ -128,6 +128,17 @@ class LegalTest(TestCase, RegistrationTestMixin):
         )
         self.assertNotIn("TOS", settings)
 
+    def test_spectacular_logo_uses_stable_url(self) -> None:
+        spectacular_settings = get_spectacular_settings(
+            [],
+            "https://example.com",
+            "Weblate",
+            static_url="https://cdn.example.com/static/",
+        )
+        logo_url = spectacular_settings["EXTENSIONS_INFO"]["x-logo"]["url"]
+        self.assertIs(type(logo_url), str)
+        self.assertEqual(logo_url, "https://cdn.example.com/static/weblate.svg")
+
     @modify_settings(
         SOCIAL_AUTH_PIPELINE={"append": "weblate.legal.pipeline.tos_confirm"}
     )

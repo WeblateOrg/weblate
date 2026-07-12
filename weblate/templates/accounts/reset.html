@@ -2,6 +2,8 @@
 
 {% load crispy_forms_tags i18n translations %}
 
+{% block extra_script %}{{ form.media }}{% endblock %}
+
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
     <a href="{% url 'password_reset' %}">{% translate "Password reset" %}</a>

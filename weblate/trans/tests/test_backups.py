@@ -14,7 +14,6 @@ from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from django.conf import settings
-from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -31,7 +30,12 @@ from weblate.memory.models import Memory, MemoryScope
 from weblate.memory.utils import CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.backups import ProjectBackup, list_backups
+from weblate.trans.backups import (
+    ProjectBackup,
+    get_project_backup_download_storage,
+    get_project_backup_download_url,
+    list_backups,
+)
 from weblate.trans.change_display import get_change_history_context
 from weblate.trans.models import (
     Category,
@@ -70,6 +74,18 @@ def remove_file_after(filename: str):
 
 class BackupsTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
+
+    def test_download_uses_configured_static_storage(self) -> None:
+        storage = MagicMock()
+        storage.url.return_value = (
+            "https://cdn.example.com/backups/test.zip?signature=x"
+        )
+        with patch("weblate.trans.backups.staticfiles_storage", storage):
+            self.assertIs(get_project_backup_download_storage(), storage)
+            self.assertEqual(
+                get_project_backup_download_url("backups/test.zip"),
+                "https://cdn.example.com/backups/test.zip?signature=x",
+            )
 
     def write_tampered_component_backup(
         self, *, repo: str | None = None, push: str | None = None
@@ -1314,7 +1330,7 @@ class BackupsTest(ViewTestCase):
         url = response.url
         self.assertTrue(url.startswith(settings.STATIC_URL))
         filename = url[len(settings.STATIC_URL) :]
-        with staticfiles_storage.open(filename, "rb") as handle:
+        with get_project_backup_download_storage().open(filename, "rb") as handle:
             self.assertEqual(handle.read(2), b"PK")
 
     def test_view_restore(self) -> None:

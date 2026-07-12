@@ -1,18 +1,13 @@
 {% extends "base.html" %}
 
-{% load compress crispy_forms_tags i18n icons permissions static translations %}
+{% load crispy_forms_tags i18n icons permissions static translations %}
 
 {% block extra_script %}
-  {% compress js %}
-    <script defer
-            data-cfasync="false"
-            src="{% static 'js/screenshots/clipboard-paste.js' %}{{ cache_param }}"></script>
-  {% endcompress %}
+  <script defer src="{% static 'js/screenshots/clipboard-paste.js' %}"></script>
 {% endblock extra_script %}
 
 {% block extra_styles %}
-  <link rel="stylesheet"
-        href="{% static 'styles/screenshots/screenshot_detail.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" href="{% static 'styles/screenshots/screenshot_detail.css' %}" />
 {% endblock extra_styles %}
 
 {% block breadcrumbs %}

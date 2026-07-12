@@ -46,6 +46,7 @@ def get_spectacular_settings(
     site_url: str,
     site_title: str,
     *,
+    static_url: str = "/static/",
     legal_hidden_documents: Sequence[str] | str = (),
     legal_url: str | None = None,
 ) -> dict[str, Any]:
@@ -97,7 +98,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
     """,
         "EXTENSIONS_INFO": {
             "x-logo": {
-                "url": "/static/weblate.svg",
+                "url": f"{static_url.rstrip('/')}/weblate.svg",
             }
         },
         # Do not use API versioning

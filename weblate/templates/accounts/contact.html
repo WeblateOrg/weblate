@@ -2,6 +2,10 @@
 
 {% load crispy_forms_tags i18n translations %}
 
+{% block extra_script %}
+  {% if show_form %}{{ form.media }}{% endif %}
+{% endblock extra_script %}
+
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
     <a href="{% url 'contact' %}">{% translate "Contact" %}</a>

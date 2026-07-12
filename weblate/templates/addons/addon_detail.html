@@ -81,13 +81,9 @@
 {% block extra_script %}
   {{ block.super }}
   {% if form.fields.event_filter %}
-    <script defer
-            data-cfasync="false"
-            src="{% static 'js/addon-events.js' %}{{ cache_param }}"></script>
+    <script defer src="{% static 'js/addon-events.js' %}"></script>
   {% endif %}
   {% if form.guided_presets %}
-    <script defer
-            data-cfasync="false"
-            src="{% static 'js/addon-discovery.js' %}{{ cache_param }}"></script>
+    <script defer src="{% static 'js/addon-discovery.js' %}"></script>
   {% endif %}
 {% endblock extra_script %}

@@ -7,6 +7,7 @@
 from io import BytesIO
 
 import responses
+from django.test import override_settings
 from django.urls import reverse
 from PIL import Image
 
@@ -28,6 +29,17 @@ class AvatarTest(FixtureTestCase):
     def test_avatar_for_email(self) -> None:
         url = avatar.avatar_for_email(self.user.email, size=32)
         self.assertEqual(TEST_URL, url)
+
+    @override_settings(STATIC_URL="https://cdn.example.com/static/")
+    def test_fallback_avatar_uses_stable_url(self) -> None:
+        self.assertEqual(
+            avatar.get_fallback_avatar_url(32),
+            "https://cdn.example.com/static/weblate-32.png",
+        )
+        self.assertEqual(
+            avatar.get_fallback_avatar_url(32, "api"),
+            "https://cdn.example.com/static/api-32.png",
+        )
 
     @responses.activate
     def test_avatar(self) -> None:

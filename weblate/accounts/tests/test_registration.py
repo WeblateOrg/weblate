@@ -282,6 +282,24 @@ class RegistrationTest(BaseRegistrationTest):
         ALTCHA_MEMORY_COST=8,
         ALTCHA_PARALLELISM=1,
     )
+    def test_register_loads_altcha_script(self) -> None:
+        response = self.client.get(reverse("register"))
+
+        self.assertContains(response, "js/vendor/altcha.js")
+
+    @override_settings(REGISTRATION_CAPTCHA=False, ENABLE_HTTPS=True)
+    def test_register_without_captcha_skips_altcha_script(self) -> None:
+        response = self.client.get(reverse("register"))
+
+        self.assertNotContains(response, "js/vendor/altcha.js")
+
+    @override_settings(
+        REGISTRATION_CAPTCHA=True,
+        ENABLE_HTTPS=True,
+        ALTCHA_COST=1,
+        ALTCHA_MEMORY_COST=8,
+        ALTCHA_PARALLELISM=1,
+    )
     def test_register_captcha_fail(self) -> None:
         response = self.do_register()
         self.assertContains(response, "That was not correct, please try again.")

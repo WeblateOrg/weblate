@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-import os
 import re
 import time
 from base64 import b32encode
@@ -1068,7 +1067,7 @@ def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int | str):
     # Deleted users
     if email == f"noreply+{avatar_user.pk}@weblate.org":
         return redirect(
-            os.path.join(settings.STATIC_URL, "state/ghost.svg"), permanent=True
+            f"{settings.STATIC_URL.rstrip('/')}/state/ghost.svg", permanent=True
         )
     # Bot and anonymous accounts
     if not email or (email.startswith("noreply") and email.endswith("@weblate.org")):

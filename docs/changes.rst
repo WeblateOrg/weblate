@@ -13,6 +13,7 @@ Weblate 2026.8
 * Improved matrix view loading performance when displaying multiple languages.
 * Translation memory management pages now load origin summaries with a single database aggregation.
 * Dashboard component list tabs now load without processing unrelated component lists.
+* Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed.
 
 .. rubric:: Bug fixes
 
@@ -21,9 +22,14 @@ Weblate 2026.8
 
 .. rubric:: Compatibility
 
+* django-compressor is no longer used, and the ``COMPRESS_*`` settings have been removed.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are changes in :file:`settings_example.py`, most notably the new ``STORAGES`` configuration and removal of the ``COMPRESS_*`` settings; please adjust your settings accordingly.
+* Running :program:`weblate compress` is no longer necessary; :program:`weblate collectstatic --noinput` now prepares versioned static assets without clearing the static storage.
 
 .. rubric:: Contributors
 

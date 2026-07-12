@@ -51,6 +51,20 @@ class CaptchaTest(TestCase):
         self.assertIn("<altcha-widget ", rendered)
         self.assertIn("challenge=", rendered)
         self.assertNotIn("challengejson=", rendered)
+        media = str(form.media)
+        self.assertIn('src="/static/js/vendor/altcha.js"', media)
+        self.assertNotIn("data-cfasync", media)
+        self.assertIn(" defer", media)
+
+    @override_settings(REGISTRATION_CAPTCHA=False, ENABLE_HTTPS=True)
+    def test_hidden_widget_has_no_media(self) -> None:
+        request = HttpRequest()
+        request.method = "GET"
+        request.session = {}
+
+        form = CaptchaForm(request=request)
+
+        self.assertNotIn("altcha.js", str(form.media))
 
     @override_settings(
         REGISTRATION_CAPTCHA=True,
