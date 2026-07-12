@@ -64,6 +64,7 @@ from weblate.memory.utils import (
     CATEGORY_PRIVATE_OFFSET,
     CATEGORY_SHARED,
 )
+from weblate.memory.views import MemoryView
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -2884,6 +2885,55 @@ msgstr "Nazdar svete!\n"
 
 
 class MemoryViewTest(FixtureTestCase):
+    def test_origin_counts_use_single_query(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        entries = [
+            Memory.objects.create(
+                source_language=source_language,
+                target_language=target_language,
+                source=f"Origin query source {scope}",
+                target=f"Origin query target {scope}",
+                origin="mixed-origin",
+                status=Memory.STATUS_ACTIVE,
+            )
+            for scope in (
+                MemoryScope.SCOPE_USER,
+                MemoryScope.SCOPE_USER_FILE,
+            )
+        ]
+        for entry, scope in zip(
+            entries,
+            (MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE),
+            strict=True,
+        ):
+            MemoryScope.objects.create(
+                memory=entry,
+                scope=scope,
+                user=self.user,
+            )
+
+        view = MemoryView()
+        view.objects = {"user": self.user}
+        with CaptureQueriesContext(connection) as queries:
+            origins = view.get_origins()
+
+        # ruff: ignore[private-member-access]
+        memory_table = Memory._meta.db_table
+        origin_queries = [
+            query["sql"]
+            for query in queries
+            if (f'FROM "{memory_table}"' in query["sql"] and "GROUP BY" in query["sql"])
+        ]
+        self.assertEqual(len(origin_queries), 1, "\n".join(origin_queries))
+        mixed_origins = [
+            origin for origin in origins if origin["origin"] == "mixed-origin"
+        ]
+        self.assertEqual(
+            [origin["id__count"] for origin in mixed_origins],
+            [1, 1],
+        )
+
     def upload_file(
         self,
         name,
