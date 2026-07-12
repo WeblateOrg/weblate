@@ -2,12 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from unittest.mock import patch
+
 from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.models import Announcement, ComponentList, Project
+from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.state import STATE_APPROVED
 
@@ -119,6 +122,25 @@ class DashboardTest(FixtureTestCase):
         # is always present in the languages drop down in the top bar and hence, it would
         # pass the test even if the ghost translation was not added.
         self.assertContains(response, f"{new_component} — Spanish")
+
+    @patch(
+        "weblate.trans.views.dashboard.translation_prefetch_tasks",
+        wraps=translation_prefetch_tasks,
+    )
+    def test_component_list_dashboard_fetches_only_requested_list(
+        self, prefetch_tasks
+    ) -> None:
+        requested = ComponentList.objects.create(name="Requested", slug="requested")
+        requested.components.add(self.component)
+        unrelated = ComponentList.objects.create(name="Unrelated", slug="unrelated")
+        unrelated.components.add(self.component)
+
+        response = self.client.get(
+            reverse("component-list-dashboard", kwargs={"name": requested.slug})
+        )
+
+        self.assertContains(response, "test/test")
+        prefetch_tasks.assert_called_once()
 
     def test_user_component_list(self) -> None:
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")

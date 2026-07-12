@@ -11,6 +11,7 @@ Weblate 2026.8
 
 * Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
 * Translation memory management pages now load origin summaries with a single database aggregation.
+* Dashboard component list tabs now load without processing unrelated component lists.
 
 .. rubric:: Bug fixes
 
