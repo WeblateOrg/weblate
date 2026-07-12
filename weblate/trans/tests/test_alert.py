@@ -953,6 +953,17 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_repository_guidance_uses_header_documentation_link(self) -> None:
+        for template_name in (
+            "trans/alert/repositoryoutdated.html",
+            "trans/alert/repositorychanges.html",
+        ):
+            with self.subTest(template_name=template_name):
+                rendered = render_to_string(template_name)
+
+                self.assertNotIn("Documentation", rendered)
+                self.assertNotIn("btn btn-primary", rendered)
+
     def test_bilingual_po_configured_as_monolingual_guidance(self) -> None:
         rendered = render_to_string(
             "trans/alert/bilingualpoconfiguredasmonolingual.html",

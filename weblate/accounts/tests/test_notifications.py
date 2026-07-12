@@ -240,9 +240,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         with self.captureOnCommitCallbacks(execute=True):
             return Announcement.objects.create(**kwargs)
 
-    def add_component_alert(self) -> None:
+    def add_component_alert(self, name: str = "PushFailure") -> None:
         with self.captureOnCommitCallbacks(execute=True):
-            self.component.add_alert("PushFailure", error="Some error")
+            self.component.add_alert(name, error="Some error")
 
     def test_notify_lock(self) -> None:
         self.create_with_callbacks(
@@ -756,6 +756,20 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
                 "[Weblate] New alert on Test/Test",
                 "[Weblate] Component Test/Test was locked",
             ],
+        )
+
+    def test_notify_alert_includes_documentation(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        self.add_component_alert("UpdateFailure")
+        alert = self.component.alert_set.get(name="UpdateFailure")
+        alert_message = next(
+            message
+            for message in mail.outbox
+            if message.subject == "[Weblate] New alert on Test/Test"
+        )
+
+        self.assertIn(
+            alert.get_documentation_url(self.user), alert_message.alternatives[0][0]
         )
 
     def test_notify_admin(self) -> None:

@@ -93,6 +93,9 @@ class Alert(models.Model):
     def render(self, user: User) -> str:
         return self.obj.render(user)
 
+    def get_documentation_url(self, user: User | None = None) -> str:
+        return self.obj.get_documentation_url(self.component, user)
+
     @property
     def is_problem(self) -> bool:
         return self.severity >= AlertSeverity.ERROR

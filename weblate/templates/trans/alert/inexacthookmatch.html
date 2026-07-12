@@ -1,4 +1,4 @@
-{% load i18n permissions translations %}
+{% load i18n permissions %}
 
 <p>
   {% translate "The last webhook update for this component used fallback repository matching instead of an exact repository URL match." %}
@@ -50,10 +50,6 @@
 <p>
   {% if user_can_edit_component %}
     <a class="btn btn-primary" href="{% url 'settings' path=component.get_url_path %}">{% translate "Configure component" %}</a>
-    <a class="btn btn-link" href="{% documentation 'admin/continuous' 'update-vcs' %}">{% translate "Documentation" %}</a>
-  {% else %}
-    <a class="btn btn-primary"
-       href="{% documentation 'admin/continuous' 'update-vcs' %}">{% translate "Documentation" %}</a>
   {% endif %}
   <a class="btn btn-link" href="https://github.com/WeblateOrg/weblate/issues">{% translate "Report issue" %}</a>
 </p>
