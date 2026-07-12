@@ -226,9 +226,7 @@
         {% for alert in alerts %}
           <div class="card">
             <div class="card-header">
-              {% if alert.obj.doc_page %}
-                {% documentation_icon alert.obj.doc_page alert.obj.doc_anchor right=True %}
-              {% endif %}
+              {% documentation_icon alert right=True %}
               {{ alert }}
               <span class="badge {{ alert.severity_class }}">{{ alert.get_severity_display }}</span>
               {% if alert.dismissed %}

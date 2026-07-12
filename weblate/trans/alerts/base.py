@@ -11,6 +11,8 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy
 
+from weblate.utils.docs import get_doc_url
+
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
@@ -58,6 +60,12 @@ class BaseAlert:
     @classmethod
     def get_doc_url(cls, component, user: User | None = None) -> str:  # ruff: ignore[unused-class-method-argument]
         return ""
+
+    @classmethod
+    def get_documentation_url(cls, component, user: User | None = None) -> str:
+        if not cls.doc_page:
+            return cls.get_doc_url(component, user)
+        return get_doc_url(cls.doc_page, cls.doc_anchor, user=user)
 
     @classmethod
     def is_relevant(cls, component) -> bool:  # ruff: ignore[unused-class-method-argument]

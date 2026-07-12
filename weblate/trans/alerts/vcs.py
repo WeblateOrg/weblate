@@ -255,6 +255,8 @@ class RepositoryOutdated(BaseAlert):
     verbose = gettext_lazy("Repository outdated.")
     category = AlertCategory.VCS
     link_wide = True
+    doc_page = "admin/continuous"
+    doc_anchor = "update-vcs"
 
 
 @register
@@ -264,3 +266,5 @@ class RepositoryChanges(BaseAlert):
     category = AlertCategory.VCS
     link_wide = True
     dismissible = True
+    doc_page = "admin/continuous"
+    doc_anchor = "push-changes"

@@ -8,6 +8,12 @@
 
   {% with user=subscription_user %}
     {% render_alert alert %}
+    {% documentation alert as documentation_url %}
+    {% if documentation_url %}
+      <p>
+        <a href="{{ documentation_url }}">{% translate "Documentation" %}</a>
+      </p>
+    {% endif %}
   {% endwith %}
 
   <div class="line buttons">

@@ -134,7 +134,6 @@ class ChecklistAlert(BaseAlert):
         )
         result["description"] = alert_class.get_description(component)
         result["configure_url"] = configure_url if can_configure else ""
-        result["doc_url"] = doc_url
         result["can_configure"] = can_configure
         return result
 

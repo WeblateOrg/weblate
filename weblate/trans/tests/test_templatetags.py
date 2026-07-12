@@ -26,6 +26,7 @@ from weblate.trans.templatetags.translations import (
     get_location_links,
     indicate_alerts,
     naturaltime,
+    render_documentation_icon,
     same_naturaltime,
     translation_progress_render,
 )
@@ -75,6 +76,14 @@ class NaturalTimeTest(SimpleTestCase):
                     timestamp - timedelta(seconds=125),
                 )
             )
+
+
+class DocumentationIconTest(SimpleTestCase):
+    def test_link_is_keyboard_focusable(self) -> None:
+        rendered = render_documentation_icon("https://docs.example.com/")
+
+        self.assertIn('href="https://docs.example.com/"', rendered)
+        self.assertNotIn("tabindex", rendered)
 
 
 class IndicateAlertsPriorityTest(SimpleTestCase):
