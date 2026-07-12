@@ -52,7 +52,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-09 03:19+0000\n"
-"PO-Revision-Date: 2026-07-12 18:38+0000\n"
+"PO-Revision-Date: 2026-07-12 19:48+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -5535,7 +5535,6 @@ msgstr ""
 "представлен свой статус."
 
 #: admin/componentlists.rst:14
-#, fuzzy
 msgid ""
 "Each component list has a name displayed to the user and a slug used in the "
 "URL. Component lists can be managed using the :ref:`api`. Instance "
@@ -5589,11 +5588,6 @@ msgstr ""
 "Weblate."
 
 #: admin/componentlists.rst:38
-#, fuzzy
-#| msgid ""
-#| "1. Define :guilabel:`Automatic component list assignment` with ``^.*$`` "
-#| "as regular expression in both the project and the component fields, as "
-#| "shown on this image:"
 msgid ""
 "Define :guilabel:`Automatic component list assignment` with ``^.*$`` as "
 "regular expression in both the project and the component fields."
@@ -5759,9 +5753,6 @@ msgstr ""
 "проверки локального DNS или IP-адреса узла."
 
 #: admin/config.rst:117
-#, fuzzy
-#| msgid ""
-#| "Configures size limit for fetching assets in Weblate. Defaults to 10 MB."
 msgid ""
 "Configures size limit in bytes for fetching or uploading assets into "
 "Weblate. Defaults to 10 MB."
@@ -6894,19 +6885,14 @@ msgstr ""
 "\"hide\"``."
 
 #: admin/config.rst:1260
-#, fuzzy
 msgid ""
 "Template used to generate e-mail addresses for internal Weblate bot "
 "accounts. Defaults to ``\"noreply-{scope}-{name}@weblate.org\"``."
 msgstr ""
-"Шаблон для генерации адресов электронной почты для внутренних бот-учётных "
+"Шаблон для создания адресов электронной почты для внутренних бот-учётных "
 "записей Weblate. По умолчанию — ``\"noreply-{scope}-{name}@weblate.org\"``."
 
 #: admin/config.rst:1263
-#, fuzzy
-#| msgid ""
-#| "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
-#| "``{site_domain}``."
 msgid ""
 "It can contain ``{scope}``, ``{name}``, ``{username}``, ``{site_title}``, "
 "and ``{site_domain}``."
@@ -6915,7 +6901,6 @@ msgstr ""
 "``{site_domain}``."
 
 #: admin/config.rst:1266
-#, fuzzy
 msgid ""
 "Use ``{scope}`` and ``{name}`` when generating the e-mail local part. The "
 "``{username}`` value contains the internal ``scope:name`` username."
@@ -6925,7 +6910,6 @@ msgstr ""
 "пользователя ``scope:name``."
 
 #: admin/config.rst:1269
-#, fuzzy
 msgid ""
 "Existing internal bot accounts are updated when :wladmin:`migrate` is run. "
 "Project API token accounts are not affected."
@@ -8454,16 +8438,12 @@ msgstr ""
 "180 дней."
 
 #: admin/config.rst:2873
-#, fuzzy
-#| msgid ""
-#| "List of a available exporters offering downloading translations or "
-#| "glossaries in various file formats."
 msgid ""
 "List of available exporters offering translation downloads or glossaries in "
 "various file formats."
 msgstr ""
-"Список доступных экспортёров, предлагающих загрузку переводов или словарей в "
-"различных форматах файлов."
+"Список доступных экспортёров, предлагающих скачивание переводов или словарей "
+"в различных форматах файлов."
 
 #: admin/config.rst:2885
 msgid "List of file formats available for use."
@@ -8846,7 +8826,6 @@ msgstr ""
 "заблокирован."
 
 #: admin/continuous.rst:190
-#, fuzzy
 msgid ""
 "The :guilabel:`File management` actions are available only "
 "from :guilabel:`Repository maintenance` for an individual translation. These "
@@ -8859,7 +8838,6 @@ msgstr ""
 "общепроектными или общекомпонентными операциями."
 
 #: admin/continuous.rst:195
-#, fuzzy
 msgid ""
 "Operations that read repository content, such as updating, resetting, or "
 "rescanning, also reconcile translation files in Weblate. Added or removed "
@@ -8923,10 +8901,6 @@ msgid ":guilabel:`Update`"
 msgstr ":guilabel:`Обновить`"
 
 #: admin/continuous.rst:217
-#, fuzzy
-#| msgid ""
-#| "Fetches upstream changes and integrates them using the component's "
-#| "configured :ref:`component-merge_style`."
 msgid ""
 "Fetches upstream changes, integrates them using the component's "
 "configured :ref:`component-merge_style`, and reconciles translation files."
@@ -9010,10 +8984,6 @@ msgid ":guilabel:`Reset and discard`"
 msgstr ":guilabel:`Сбросить и отклонить`"
 
 #: admin/continuous.rst:237
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate's local repository to upstream and discards pending "
-#| "Weblate changes."
 msgid ""
 "Resets Weblate's local repository to upstream, discards pending Weblate "
 "changes, and reconciles translation files."
@@ -9033,10 +9003,6 @@ msgid ":guilabel:`Reset and reapply`"
 msgstr ":guilabel:`Сбросить и применить заново`"
 
 #: admin/continuous.rst:241
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate's local repository to upstream while preserving pending "
-#| "translations. See :ref:`manage-vcs-reset-reapply`."
 msgid ""
 "Resets Weblate's local repository to upstream, reconciles translation files, "
 "and reapplies pending translations. See :ref:`manage-vcs-reset-reapply`."
@@ -9095,8 +9061,6 @@ msgid ":guilabel:`Rescan`"
 msgstr ":guilabel:`Пересканировать`"
 
 #: admin/continuous.rst:253
-#, fuzzy
-#| msgid "Re-reads translation files from the local repository into Weblate."
 msgid ""
 "Re-reads translation files from the local repository into Weblate and "
 "removes translations whose files no longer match the component configuration."
@@ -9112,14 +9076,10 @@ msgstr ""
 "создания файлов."
 
 #: admin/continuous.rst:256
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Remove duplicates`"
 msgstr ":guilabel:`Удалить дубликаты`"
 
 #: admin/continuous.rst:257
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgid ""
 "Removes repeated strings with the same identifier from one translation file."
 msgstr ""
@@ -9127,7 +9087,6 @@ msgstr ""
 "перевода."
 
 #: admin/continuous.rst:258
-#, fuzzy
 msgid ""
 "Repair duplicate strings reported by Weblate when the file contains repeated "
 "units."
@@ -9136,13 +9095,10 @@ msgstr ""
 "содержит повторяющиеся единицы."
 
 #: admin/continuous.rst:260
-#, fuzzy
-#| msgid ":guilabel:`Cleanup`"
 msgid ":guilabel:`Cleanup unused`"
 msgstr ":guilabel:`Очистка неиспользуемых`"
 
 #: admin/continuous.rst:261
-#, fuzzy
 msgid ""
 "Removes strings no longer present in the base file from one translation "
 "file. The :ref:`addon-weblate.cleanup.generic` add-on can perform this "
@@ -9153,26 +9109,18 @@ msgstr ""
 "это автоматически."
 
 #: admin/continuous.rst:262
-#, fuzzy
 msgid "Run a one-time cleanup without installing the add-on."
 msgstr "Выполнить одноразовую очистку без установки надстройки."
 
 #: admin/continuous.rst:264
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid ":guilabel:`Remove obsolete`"
 msgstr ":guilabel:`Удалить устаревшие`"
 
 #: admin/continuous.rst:265
-#, fuzzy
-#| msgid ""
-#| "Removes all obsolete entries with pending status from the translation "
-#| "memory."
 msgid "Removes obsolete strings from one PO translation file."
 msgstr "Удаляет устаревшие строки из одного PO-файла перевода."
 
 #: admin/continuous.rst:266
-#, fuzzy
 msgid ""
 "Run a one-time PO cleanup without enabling automatic obsolete string removal."
 msgstr ""
@@ -10232,7 +10180,6 @@ msgid "Integrating SAML 2 IDP into Weblate"
 msgstr "Интеграция SAML 2 IDP в Weblate"
 
 #: admin/install.rst:0
-#, fuzzy
 msgid ":pypi:`Sphinx`"
 msgstr ":pypi:`Sphinx`"
 
@@ -10395,13 +10342,10 @@ msgstr ""
 "разработки и данными интроспекции GObject."
 
 #: admin/install.rst:369 security/release-artifacts.rst:121
-#, fuzzy
-#| msgid "Verifying release signatures"
 msgid "Verifying release artifacts"
 msgstr "Проверка артефактов выпуска"
 
 #: admin/install.rst:371
-#, fuzzy
 msgid ""
 "Release archives can be verified using the signatures, attestations, and "
 "SBOMs published with GitHub release assets. See :ref:`verify`."
@@ -10530,10 +10474,6 @@ msgstr ""
 "параллелизм Celery."
 
 #: admin/install.rst:440
-#, fuzzy
-#| msgid ""
-#| "The actual limit for the number of database connections needs to be "
-#| "higher to account following situations:"
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account for the following situations:"
@@ -10546,10 +10486,6 @@ msgid ":ref:`manage` need their connection as well."
 msgstr ":ref:`manage` также требуют своего соединения."
 
 #: admin/install.rst:444
-#, fuzzy
-#| msgid ""
-#| "If case process is killed (for example by OOM killer), it might block the "
-#| "existing connection until timeout."
 msgid ""
 "If a process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
@@ -11058,11 +10994,6 @@ msgid "Properly configure admins"
 msgstr "Правильная настройка администраторов"
 
 #: admin/install.rst:882
-#, fuzzy
-#| msgid ""
-#| "Set the correct admin addresses to the :setting:`ADMINS` setting to "
-#| "defining who will receive e-mails in case something goes wrong on the "
-#| "server, for example:"
 msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to define "
 "who will receive e-mails in case something goes wrong on the server, for "
@@ -11677,10 +11608,6 @@ msgstr ""
 "(определяется :setting:`django:STATIC_ROOT`)."
 
 #: admin/install.rst:1332
-#, fuzzy
-#| msgid ""
-#| "Should be rewritten to rewrite a rule to serve :file:`/static/"
-#| "favicon.ico`."
 msgid "Should be rewritten to serve :file:`/static/favicon.ico`."
 msgstr "Должен быть переписан для обслуживания :file:`/static/favicon.ico`."
 
@@ -11709,10 +11636,6 @@ msgid "Sample configuration for NGINX and Granian"
 msgstr "Пример конфигурации для NGINX и Granian"
 
 #: admin/install.rst:1369
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate using Granian the NGINX "
-#| "webserver:"
 msgid ""
 "The following configuration runs Weblate using Granian with the NGINX "
 "webserver:"
@@ -12421,7 +12344,6 @@ msgid "Clone the weblate-docker repo:"
 msgstr "Склонируйте репозиторий weblate-docker:"
 
 #: admin/install/docker.rst:35
-#, fuzzy
 msgid ""
 "The Docker Compose files are example deployment configurations. Operators "
 "typically customize them for their own deployment and maintain those local "
@@ -12768,11 +12690,6 @@ msgstr ""
 "в :ref:`version-specific-instructions`."
 
 #: admin/install/docker.rst:263
-#, fuzzy
-#| msgid ""
-#| "You might also want to update the ``docker-compose`` repository, though "
-#| "it's not needed in most case. See :ref:`docker-postgres-upgrade` for "
-#| "upgrading the PostgreSQL server."
 msgid ""
 "If you use the example Compose files without local changes, you can also "
 "review updates in the ``docker-compose`` repository, though this is not "
@@ -13258,8 +13175,6 @@ msgstr ""
 "Ожидает список доверенных имён хостов или доменов, разделённых запятыми."
 
 #: admin/install/docker.rst:753
-#, fuzzy
-#| msgid "Configures :setting:`VCS_ALLOW_HOSTS`."
 msgid "Configures :setting:`ALLOWED_ASSET_SIZE`."
 msgstr "Настраивает :setting:`ALLOWED_ASSET_SIZE`."
 
@@ -13701,8 +13616,6 @@ msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgstr "Настраивает :setting:`EXTRA_HTML_HEAD`."
 
 #: admin/install/docker.rst:1207
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid "Configures :setting:`INTERNAL_BOT_EMAIL_TEMPLATE`."
 msgstr "Настраивает :setting:`INTERNAL_BOT_EMAIL_TEMPLATE`."
 
@@ -13892,7 +13805,6 @@ msgstr ""
 ":ref:`Настройка учётных данных хостинга кода в Docker <docker-vcs-config>`"
 
 #: admin/install/docker.rst:1438
-#, fuzzy
 msgid ""
 "GitHub Apps are registered through the in-app manifest flow and stored in "
 "the database, so there are no GitHub App environment variables to configure. "
@@ -15740,12 +15652,10 @@ msgid "This step should be repeated whenever you update the repository."
 msgstr "Этот шаг следует повторять при обновлении репозитория."
 
 #: admin/install/source.rst:54
-#, fuzzy
 msgid "Packaging Weblate for distributions"
 msgstr "Упаковка Weblate для дистрибутивов"
 
 #: admin/install/source.rst:56
-#, fuzzy
 msgid ""
 "The dependency versions in :file:`pyproject.toml` describe the runtime "
 "environment tested by the Weblate project. They are intentionally strict for "
@@ -15760,7 +15670,6 @@ msgstr ""
 "диапазонами версий."
 
 #: admin/install/source.rst:61
-#, fuzzy
 msgid ""
 "Distribution packages can replace those Python packages with versions from "
 "the distribution package set. When doing so, run Weblate's test suite "
@@ -15773,7 +15682,6 @@ msgstr ""
 "сигналом совместимости для пакета дистрибутива."
 
 #: admin/install/source.rst:66
-#, fuzzy
 msgid ""
 "Keep Weblate's tightly coupled companion packages in sync with the Weblate "
 "release:"
@@ -15782,7 +15690,6 @@ msgstr ""
 "выпуском Weblate:"
 
 #: admin/install/source.rst:75
-#, fuzzy
 msgid ""
 "Mismatched versions of these packages are more likely to break at runtime or "
 "during tests than other Python dependency substitutions."
@@ -15791,7 +15698,6 @@ msgstr ""
 "время выполнения или при тестировании, чем другие замены зависимостей Python."
 
 #: admin/install/source.rst:80
-#, fuzzy
 msgid ""
 "See :ref:`local-tests` for test setup and :ref:`release-cycle` for Weblate's "
 "release cadence."
@@ -16476,12 +16382,6 @@ msgstr ""
 "соответствовать базовой реализации."
 
 #: admin/languages.rst:161
-#, fuzzy
-#| msgid ""
-#| "Changing plural number or formula will affect only displaying of the "
-#| "strings, but not parsing and storing strings to the files. Should you "
-#| "think Weblate behaves incorrectly, please file a issue in our issue "
-#| "tracker."
 msgid ""
 "Changing plural number or formula will affect only displaying of the "
 "strings, but not parsing and storing strings to the files. Should you think "
@@ -16941,7 +16841,6 @@ msgstr ""
 "отличающиеся."
 
 #: admin/management.rst:104
-#, fuzzy
 msgid ""
 "Analyzes change history to estimate realistic translator throughput per day. "
 "The command includes only active human users and unit-backed manual "
@@ -17348,8 +17247,6 @@ msgid "To install :ref:`addon-weblate.gettext.mo` for all components:"
 msgstr "Чтобы установить :ref:`addon-weblate.gettext.mo` для всех компонентов:"
 
 #: admin/management.rst:790
-#, fuzzy
-#| msgid "Installs an site-wide automatic suggestion service."
 msgid "Installs a site-wide automatic suggestion service."
 msgstr "Устанавливает общесайтовую службу автоматических предложений."
 
@@ -17682,7 +17579,6 @@ msgstr ""
 "проектов и пользователей. Также возможен обмен переводами."
 
 #: admin/memory.rst:33
-#, fuzzy
 msgid ""
 "When upgrading from older Weblate releases, existing translation-memory "
 "entries are converted to scopes by a periodic Celery background task. Until "
@@ -17751,13 +17647,10 @@ msgstr ""
 "проекта, доступной только для этого проекта."
 
 #: admin/memory.rst:63
-#, fuzzy
-#| msgid "Imported translation memory"
 msgid "Workspace translation memory"
 msgstr "Память переводов рабочего пространства"
 
 #: admin/memory.rst:65
-#, fuzzy
 msgid ""
 "Projects in the same workspace can share translation memory without enabling "
 "the global shared translation memory. Workspace translation memory has to be "
@@ -17774,10 +17667,6 @@ msgid "Shared translation memory"
 msgstr "Совместная память переводов"
 
 #: admin/memory.rst:82
-#, fuzzy
-#| msgid ""
-#| "All translations within projects with shared translation memory turned on "
-#| "are stored in a shared translation memory available to all projects."
 msgid ""
 "All translations within projects with shared translation memory turned on "
 "are stored in a shared translation memory available to all projects. Turning "
@@ -18112,10 +18001,6 @@ msgstr ""
 "после установки:"
 
 #: admin/optionals.rst:30
-#, fuzzy
-#| msgid ""
-#| "Git exporter is turned on in our official Docker image. To turn it of, "
-#| "use:"
 msgid ""
 "Git exporter is turned on in our official Docker image. To turn it off, use:"
 msgstr ""
@@ -18160,11 +18045,6 @@ msgstr ""
 "profile <user-profile>`:"
 
 #: admin/optionals.rst:63
-#, fuzzy
-#| msgid ""
-#| "By default members or :guilabel:`Users` group and anonymous user have "
-#| "access to the repositories for public projects via :guilabel:`Access "
-#| "repository` and :guilabel:`Power user` roles."
 msgid ""
 "By default members of :guilabel:`Users` group and anonymous user have access "
 "to the repositories for public projects via :guilabel:`Access repository` "
@@ -18711,15 +18591,6 @@ msgstr ""
 "суперпользователям."
 
 #: admin/optionals.rst:361
-#, fuzzy
-#| msgid ""
-#| "Several operations in Weblate are rate limited. At "
-#| "most :setting:`RATELIMIT_ATTEMPTS` attempts are allowed "
-#| "within :setting:`RATELIMIT_WINDOW` seconds. The user is then blocked "
-#| "for :setting:`RATELIMIT_LOCKOUT`. There are also settings specific to "
-#| "scopes, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or "
-#| "``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of "
-#| "available scopes."
 msgid ""
 "Several operations in Weblate are rate limited. Rate limits are evaluated "
 "independently for each scope. At most :setting:`RATELIMIT_ATTEMPTS` attempts "
@@ -18807,16 +18678,10 @@ msgid "Creating new project"
 msgstr "Создание нового проекта"
 
 #: admin/optionals.rst:395
-#, fuzzy
-#| msgid "`Creating a GitHub personal access token`_"
 msgid "Connecting a GitHub account"
 msgstr "Подключение учётной записи GitHub"
 
 #: admin/optionals.rst:398
-#, fuzzy
-#| msgid ""
-#| "The rate limiting is based on sessions when user is signed in and on IP "
-#| "address if not."
 msgid ""
 "Within each scope, the rate limiting is based on sessions when user is "
 "signed in and on IP address if not."
@@ -19223,13 +19088,10 @@ msgstr ""
 "с :ref:`project-use_shared_tm`."
 
 #: admin/projects.rst:221 admin/workspaces.rst:64
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Use workspace translation memory"
 msgstr "Использовать память переводов рабочего пространства"
 
 #: admin/projects.rst:223
-#, fuzzy
 msgid ""
 "Whether to use translation memory shared by projects in the same workspace, "
 "see :ref:`memory-scopes` for more details. The workspace has to allow "
@@ -19241,13 +19103,10 @@ msgstr ""
 "переводов рабочего пространства."
 
 #: admin/projects.rst:230 admin/workspaces.rst:72
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to workspace translation memory"
 msgstr "Участвовать в памяти переводов рабочего пространства"
 
 #: admin/projects.rst:232
-#, fuzzy
 msgid ""
 "Whether to contribute translations to the translation memory shared by "
 "projects in the same workspace. The workspace has to allow contribution as "
@@ -19257,15 +19116,11 @@ msgstr ""
 "рабочем пространстве. Рабочее пространство также должно разрешать участие."
 
 #: admin/projects.rst:238
-#, fuzzy
-#| msgid ""
-#| "This option is unavailable on Hosted Weblate, it is toggled together "
-#| "with :ref:`project-use_shared_tm`."
 msgid ""
 "This option is unavailable on Hosted Weblate, it is toggled together "
 "with :ref:`project-use-workspace-tm`."
 msgstr ""
-"Эта опция недоступна на Hosted Weblate, она включается вместе с "
+"Этот параметр недоступен на Хостинге Weblate, он включается вместе с "
 ":ref:`project-use-workspace-tm`."
 
 #: admin/projects.rst:247
@@ -19754,12 +19609,6 @@ msgid "This setting is ignored for Mercurial and Subversion."
 msgstr "Этот параметр игнорируется для Mercurial и Subversion."
 
 #: admin/projects.rst:602
-#, fuzzy
-#| msgid ""
-#| "For Gerrit, this selects the target branch for the review request. Leave "
-#| "it empty to review against :ref:`component-branch`. Use the short branch "
-#| "name, not ``refs/heads/<branch>``, ``refs/for/<branch>``, or Gerrit push "
-#| "options such as ``%submit``."
 msgid ""
 "For Gerrit, this selects the target branch for the review request. Leave it "
 "empty to review against :ref:`component-branch`. Use the short branch name, "
@@ -19963,7 +19812,6 @@ msgstr ""
 "обеспечивает :ref:`source-quality-gateway`."
 
 #: admin/projects.rst:713
-#, fuzzy
 msgid ""
 "The intermediate file can match an existing language file. While it is "
 "configured as intermediate, Weblate does not list it as a regular language "
@@ -19976,7 +19824,6 @@ msgstr ""
 "снова появится как обычный язык при следующем сканировании компонента."
 
 #: admin/projects.rst:718
-#, fuzzy
 msgid ""
 "Target strings can become read-only while the intermediate file is "
 "configured. This happens for strings where the matching source string in "
@@ -22092,7 +21939,6 @@ msgid "Restart the Celery worker (see :ref:`celery`)."
 msgstr "Перезапустите обработчик Celery (см. :ref:`celery`)."
 
 #: admin/upgrade.rst:117
-#, fuzzy
 msgid ""
 "Some upgrades run translation-memory scope backfill and consolidation in the "
 "background using periodic Celery tasks. Keep Celery running after the "
@@ -22386,7 +22232,6 @@ msgstr ""
 "пространств и организации проектов."
 
 #: admin/workspaces.rst:66
-#, fuzzy
 msgid ""
 "Whether projects in this workspace can use translation memory shared within "
 "the workspace. Individual projects also have to enable workspace translation "
@@ -22397,7 +22242,6 @@ msgstr ""
 "память переводов рабочего пространства."
 
 #: admin/workspaces.rst:74
-#, fuzzy
 msgid ""
 "Whether projects in this workspace can contribute translations to the "
 "workspace translation memory. Individual projects also have to enable "
@@ -23029,8 +22873,6 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.6.1"
 msgid "Weblate 2026.7.1"
 msgstr "Weblate 2026.7.1"
 
@@ -23051,7 +22893,6 @@ msgid "New features"
 msgstr "Новые функции"
 
 #: changes.rst:8
-#, fuzzy
 msgid ""
 "Added :setting:`INTERNAL_BOT_EMAIL_TEMPLATE` to customize internal bot e-"
 "mail addresses."
@@ -23078,15 +22919,12 @@ msgid "Improvements"
 msgstr "Улучшения"
 
 #: changes.rst:12
-#, fuzzy
-#| msgid "Associate component with a component list."
 msgid "Restricted components now show a status icon in component listings."
 msgstr ""
 "Ограниченные компоненты теперь отображают значок статуса в списках "
 "компонентов."
 
 #: changes.rst:13
-#, fuzzy
 msgid ""
 "Permission checks now reuse materialized team membership data from "
 "lightweight relation lookups."
@@ -23095,7 +22933,6 @@ msgstr ""
 "членстве в командах из быстрых запросов к связанным данным."
 
 #: changes.rst:14
-#, fuzzy
 msgid ""
 "Documented that intermediate language files are hidden from language "
 "listings and can make target strings read-only."
@@ -23104,7 +22941,6 @@ msgstr ""
 "могут делать целевые строки доступными только для чтения."
 
 #: changes.rst:15
-#, fuzzy
 msgid ""
 "Component diagnostics now warn when regular :ref:`gettext` PO files are "
 "configured as monolingual PO files."
@@ -23113,9 +22949,6 @@ msgstr ""
 ":ref:`gettext` настроены как одноязычные PO-файлы."
 
 #: changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "Delete translation memory [`Administration`, `Manage translation memory`]"
 msgid ""
 "Translation memory fuzzy lookups are now faster on large translation "
 "memories."
@@ -23123,7 +22956,6 @@ msgstr ""
 "Нечёткий поиск в памяти переводов теперь работает быстрее на больших объёмах."
 
 #: changes.rst:17
-#, fuzzy
 msgid ""
 "Permission denied messages when saving translations, editing glossaries, or "
 "voting on suggestions now show more specific reasons."
@@ -23133,7 +22965,6 @@ msgstr ""
 "причины."
 
 #: changes.rst:18
-#, fuzzy
 msgid ""
 "Comment notifications for strings you translated now also include strings "
 "you previously commented on or suggested translations for."
@@ -23143,10 +22974,6 @@ msgstr ""
 "переводы."
 
 #: changes.rst:19
-#, fuzzy
-#| msgid ""
-#| "Configures whether :guilabel:`Automatically watch projects on "
-#| "contribution` should be turned on for new users. Defaults to ``True``."
 msgid ""
 "Comments and suggestions now auto-watch the project "
 "when :guilabel:`Automatically watch projects on contribution` is enabled."
@@ -23156,7 +22983,6 @@ msgstr ""
 "проекты в отслеживаемые при участии`."
 
 #: changes.rst:20
-#, fuzzy
 msgid ""
 "Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-"
 "hosting`."
@@ -23165,7 +22991,6 @@ msgstr ""
 "admin/code-hosting`."
 
 #: changes.rst:21
-#, fuzzy
 msgid ""
 ":ref:`search-strings` now includes filters for comments by the current user "
 "and separate source string comment lookups."
@@ -23174,7 +22999,6 @@ msgstr ""
 "пользователя и отдельный поиск комментариев к исходным строкам."
 
 #: changes.rst:22
-#, fuzzy
 msgid ""
 "Updated the :ref:`mt-openai` model list for currently supported OpenAI "
 "models."
@@ -23206,25 +23030,21 @@ msgid "Bug fixes"
 msgstr "Исправления ошибок"
 
 #: changes.rst:26
-#, fuzzy
 msgid ""
 "Filtered translation and zen navigation now reuse a stable session result "
 "list, keeping positions and counts stable after translated strings leave the "
 "filter."
 msgstr ""
-"Фильтрованный перевод и навигация в дзен-режиме теперь используют стабильный "
-"список результатов сеанса, сохраняя позиции и количество строк после того, "
-"как переведённые строки покидают фильтр."
+"Фильтрованный перевод и навигация в режиме «Дзен» теперь используют "
+"стабильный список результатов сеанса, сохраняя позиции и количество строк "
+"после того, как переведённые строки покидают фильтр."
 
 #: changes.rst:27
-#, fuzzy
-#| msgid "Components with higher priority are offered first to translators."
 msgid "Component priority icons are no longer shown on translation listings."
 msgstr ""
 "Значки приоритета компонентов больше не отображаются в списках переводов."
 
 #: changes.rst:28
-#, fuzzy
 msgid ""
 ":ref:`check-punctuation-spacing` no longer flags Markdown image markers as "
 "French punctuation and now shows which punctuation marks triggered the check."
@@ -23234,21 +23054,16 @@ msgstr ""
 "препинания вызвали проверку."
 
 #: changes.rst:29
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.fedora_messaging.publish` integration is now "
-#| "available as add-on."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` broker TLS validation now "
 "matches the Fedora Messaging transport when accepting non-strict CA "
 "certificate chains."
 msgstr ""
-"Проверка TLS брокера :ref:`addon-weblate.fedora_messaging.publish` теперь "
+"Проверка брокера TLS :ref:`addon-weblate.fedora_messaging.publish` теперь "
 "соответствует транспорту Fedora Messaging при приёме нестрогих цепочек "
 "сертификатов CA."
 
 #: changes.rst:30
-#, fuzzy
 msgid ""
 "The :guilabel:`Things to check` panel no longer uses error highlighting for "
 "suggestions and other non-error translation states."
@@ -23257,7 +23072,6 @@ msgstr ""
 "предложений и других состояний перевода, не являющихся ошибками."
 
 #: changes.rst:31
-#, fuzzy
 msgid ""
 "Translation workflow customization now makes it clearer when per-language "
 "workflow settings are disabled until customization is enabled."
@@ -23267,13 +23081,11 @@ msgstr ""
 "настройки."
 
 #: changes.rst:32
-#, fuzzy
 msgid "Anonymous user permission caches are now isolated between requests."
 msgstr ""
 "Кэши разрешений анонимных пользователей теперь изолированы между запросами."
 
 #: changes.rst:33
-#, fuzzy
 msgid ""
 "GitHub App setup now explains that a workspace is required instead of "
 "showing a permission error when no workspace exists."
@@ -23283,7 +23095,6 @@ msgstr ""
 "отсутствует."
 
 #: changes.rst:34
-#, fuzzy
 msgid ""
 "LLM automatic suggestion settings no longer show ``null`` for empty language-"
 "specific instructions."
@@ -23292,7 +23103,6 @@ msgstr ""
 "пустых инструкций для конкретного языка."
 
 #: changes.rst:35
-#, fuzzy
 msgid ""
 "Accepting a project invitation now automatically adds the project to the "
 "user's watched projects."
@@ -23301,7 +23111,6 @@ msgstr ""
 "отслеживаемые проекты пользователя."
 
 #: changes.rst:36
-#, fuzzy
 msgid ""
 "Dismissing a failing check no longer shows a JSON parsing error in the "
 "translation editor."
@@ -23310,7 +23119,6 @@ msgstr ""
 "анализа JSON в редакторе перевода."
 
 #: changes.rst:37
-#, fuzzy
 msgid ""
 "Screenshot searches without an explicit field now match screenshot names "
 "only, and the search box links to the full screenshot search documentation."
@@ -23320,7 +23128,6 @@ msgstr ""
 "поиску снимков экрана."
 
 #: changes.rst:38
-#, fuzzy
 msgid ""
 "Anonymous and internal bot accounts can no longer be edited through generic "
 "user management."
@@ -23329,7 +23136,6 @@ msgstr ""
 "через общее управление пользователями."
 
 #: changes.rst:39
-#, fuzzy
 msgid ""
 "LLM machine translation suggestions now recover from more malformed "
 "structured JSON replies."
@@ -23408,7 +23214,6 @@ msgstr ""
 "обновления."
 
 #: changes.rst:47
-#, fuzzy
 msgid ""
 "Weblate now requires the PostgreSQL ``btree_gist`` extension for translation "
 "memory lookups. The migration installs it automatically when the database "
@@ -23438,10 +23243,6 @@ msgid "Contributors"
 msgstr "Участники"
 
 #: changes.rst:53
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "70?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/170?"
 "closed=1>`__."
@@ -23454,13 +23255,10 @@ msgid "Weblate 2026.7"
 msgstr "Weblate 2026.7"
 
 #: changes.rst:58
-#, fuzzy
-#| msgid "*Released on July 1st 2022.*"
 msgid "*Released on July 1st 2026.*"
 msgstr "*Выпущено 1 июля 2026 года.*"
 
 #: changes.rst:62
-#, fuzzy
 msgid ""
 "Added :ref:`check-safe-mdx`, :ref:`check-source-max-length`, and :ref:`check-"
 "accelerator` quality checks for :ref:`mdx` JSX expressions, source length "
@@ -23471,10 +23269,6 @@ msgstr ""
 "ограничений длины исходного текста и согласованности клавиш-акселераторов."
 
 #: changes.rst:63
-#, fuzzy
-#| msgid ""
-#| "Gracefully handle temporary machine translation errors in automatic "
-#| "suggestions."
 msgid ""
 "Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic "
 "suggestions."
@@ -23483,7 +23277,6 @@ msgstr ""
 "Mistral LLM."
 
 #: changes.rst:64
-#, fuzzy
 msgid ""
 "Added :ref:`code-hosting-github-app-register` for connecting GitHub "
 "repositories through a Weblate GitHub App."
@@ -23492,8 +23285,6 @@ msgstr ""
 "репозиториев GitHub через приложение Weblate GitHub."
 
 #: changes.rst:65
-#, fuzzy
-#| msgid ":ref:`file_format_params` can now be configured via the :ref:`api`."
 msgid ""
 ":ref:`projectbackup` backups can now be created and downloaded via "
 "the :ref:`api`."
@@ -23502,7 +23293,6 @@ msgstr ""
 "через :ref:`api`."
 
 #: changes.rst:66
-#, fuzzy
 msgid ""
 "Added file format parameters for translating individual YAML front matter "
 "values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like "
@@ -23513,14 +23303,12 @@ msgstr ""
 "значений, похожих на формулы, в файлах :ref:`csv`."
 
 #: changes.rst:67
-#, fuzzy
 msgid "Added an option to capitalize the text in status badge widgets."
 msgstr ""
 "Добавлена опция для отображения текста в виджетах статусных бейджей "
 "заглавными буквами."
 
 #: changes.rst:68
-#, fuzzy
 msgid ""
 "Added :ref:`workspace translation memory <memory-scopes>` with asynchronous "
 "scope backfill for existing translation memory entries."
@@ -23529,7 +23317,6 @@ msgstr ""
 "асинхронным заполнением областей для существующих записей памяти переводов."
 
 #: changes.rst:69
-#, fuzzy
 msgid ""
 "Added :wladmin:`analyze_translator_work` to estimate realistic daily "
 "translator throughput from change history."
@@ -23538,14 +23325,13 @@ msgstr ""
 "дневной производительности переводчика на основе истории изменений."
 
 #: changes.rst:73
-#, fuzzy
 msgid ""
 "RTL editing and translation display now handle bidirectional text better, "
 "including Unicode isolate controls in the :ref:`visual-keyboard`."
 msgstr ""
 "Редактирование и отображение переводов для языков с письмом справа налево "
 "теперь лучше обрабатывают двунаправленный текст, включая элементы управления "
-"изоляцией Unicode в :ref:`visual-keyboard`."
+"изоляцией Юникода в :ref:`visual-keyboard`."
 
 #: changes.rst:74
 msgid ""
@@ -23556,11 +23342,6 @@ msgstr ""
 "благодаря выделенным общесайтовым разрешениям."
 
 #: changes.rst:75
-#, fuzzy
-#| msgid ""
-#| "Default commit and merge request message templates now use Conventional "
-#| "Commits, and settings forms can restore installation defaults for "
-#| "individual message templates."
 msgid ""
 "Default commit and merge request message templates now use Conventional "
 "Commits, settings forms can restore installation defaults, and pull request "
@@ -23580,7 +23361,6 @@ msgstr ""
 "юридических страниц или отключения нумерации документов."
 
 #: changes.rst:77
-#, fuzzy
 msgid ""
 "Expanded :doc:`security documentation </security/index>` for data residency, "
 "EU cloud sovereignty, release artifacts, supported versions, release "
@@ -23602,7 +23382,6 @@ msgstr ""
 "``LINGUAS``."
 
 #: changes.rst:79
-#, fuzzy
 msgid ""
 ":ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language "
 "blank to let xgettext guess it from source file extensions."
@@ -23611,12 +23390,6 @@ msgstr ""
 "пустым, чтобы xgettext определял его по расширениям исходных файлов."
 
 #: changes.rst:80
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
-#| "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, "
-#| "and :ref:`addon-weblate.gettext.sphinx` to update POT files with "
-#| "configurable update cadence."
 msgid ""
 ":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
 "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-"
@@ -23629,7 +23402,6 @@ msgstr ""
 "даже если переведённые PO-файлы не содержат расположений."
 
 #: changes.rst:81
-#, fuzzy
 msgid ""
 "Add-ons installed at higher scopes are now shown on lower-scope add-on "
 "pages, and broad-scope add-ons can list affected components with "
@@ -23640,20 +23412,12 @@ msgstr ""
 "могут перечислять затронутые компоненты с подробностями совместимости."
 
 #: changes.rst:82
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker "
-#| "container."
 msgid ""
 ":envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container."
 msgstr ""
 ":envvar:`WEBLATE_ALLOWED_ASSET_SIZE` теперь доступен в контейнере Docker."
 
 #: changes.rst:83
-#, fuzzy
-#| msgid ""
-#| "LLM automatic suggestions now use translated examples, language-specific "
-#| "instructions, and richer glossary context for more reliable output."
 msgid ""
 "LLM automatic suggestions now use translated examples, language-specific "
 "instructions, richer glossary context, and structured placeholder context "
@@ -23664,8 +23428,6 @@ msgstr ""
 "структурированный контекст заполнителей для более надёжного результата."
 
 #: changes.rst:84
-#, fuzzy
-#| msgid "Added configuration to better fit single project installations."
 msgid ""
 "Meta descriptions now better match single-project and self-hosted "
 "installations."
@@ -23674,17 +23436,15 @@ msgstr ""
 "самостоятельного хостинга."
 
 #: changes.rst:85
-#, fuzzy
 msgid ""
 "Zen mode, filtered searches, nearby strings, translation form submissions, "
 "and add-on management pages now load more efficiently on large sites."
 msgstr ""
-"Дзен-режим, фильтрованный поиск, соседние строки, отправка форм перевода и "
+"Режим «Дзен», фильтрованный поиск, соседние строки, отправка форм перевода и "
 "страницы управления надстройками теперь загружаются более эффективно на "
 "крупных сайтах."
 
 #: changes.rst:86
-#, fuzzy
 msgid ""
 "Added :ref:`distribution-packaging` guidance for distribution maintainers."
 msgstr ""
@@ -23692,7 +23452,6 @@ msgstr ""
 "дистрибутивов."
 
 #: changes.rst:87
-#, fuzzy
 msgid ""
 "Large component imports now avoid duplicate translation-memory processing."
 msgstr ""
@@ -23700,9 +23459,6 @@ msgstr ""
 "переводов."
 
 #: changes.rst:88
-#, fuzzy
-#| msgid ""
-#| ":ref:`file_format_params` can now be configured at the component level."
 msgid ""
 ":ref:`gettext` files can now be configured to remove obsolete strings on "
 "save, including during repository maintenance."
@@ -23711,7 +23467,6 @@ msgstr ""
 "сохранении, в том числе во время обслуживания репозитория."
 
 #: changes.rst:89
-#, fuzzy
 msgid ""
 ":ref:`Bulk accepting suggestions <suggestions>` now confirms the number of "
 "affected suggestions, can approve them for reviewers, and processes the "
@@ -23722,7 +23477,6 @@ msgstr ""
 "обрабатывает принятие в фоновом режиме."
 
 #: changes.rst:90
-#, fuzzy
 msgid ""
 "Committing large numbers of pending translations now queues browser requests "
 "in the background and avoids duplicate repository commit tasks."
