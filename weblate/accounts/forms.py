@@ -19,6 +19,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db import transaction
+from django.forms import Script
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape, format_html
@@ -469,6 +470,14 @@ class UserForm(forms.ModelForm):
 
 class CaptchaWidget(forms.TextInput):
     challenge: Challenge | None = None
+
+    class Media:
+        js: ClassVar = [
+            Script(
+                "js/vendor/altcha.js",
+                defer=True,
+            )
+        ]
 
     @staticmethod
     def serialize_challenge(challenge: Challenge) -> str:

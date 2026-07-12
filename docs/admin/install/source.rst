@@ -42,7 +42,6 @@ Installing from sources
 
         weblate migrate
         weblate collectstatic
-        weblate compress
 
    .. note::
 

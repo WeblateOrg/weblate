@@ -31,7 +31,6 @@ REQUIRES = [
     "social-auth-app-django",
     "django-crispy-forms",
     "oauthlib",
-    "django-compressor",
     "djangorestframework",
     "django-filter",
     "django-appconf",

@@ -49,12 +49,6 @@ Configuring Weblate
 
         weblate collectstatic
 
-#. Compress the JavaScript and CSS files (optional, see :ref:`production-compress`):
-
-   .. code-block:: sh
-
-        weblate compress
-
 #. Start the Celery workers. This is not necessary for development purposes, but
    strongly recommended otherwise. :ref:`celery` has more info:
 

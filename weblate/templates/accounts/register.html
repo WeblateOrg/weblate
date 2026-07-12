@@ -2,6 +2,10 @@
 
 {% load authnames crispy_forms_tags i18n translations %}
 
+{% block extra_script %}
+  {% if registration_email %}{{ form.media }}{% endif %}
+{% endblock extra_script %}
+
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
     <a href="{% url 'register' %}">{% translate "Registration" %}</a>

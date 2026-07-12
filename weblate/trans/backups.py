@@ -29,6 +29,7 @@ from typing import (
 from zipfile import ZipFile
 
 from django.conf import settings
+from django.contrib.staticfiles.storage import HashedFilesMixin, staticfiles_storage
 from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.db import transaction
@@ -95,6 +96,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Mapping
     from zipfile import ZipInfo
 
+    from django.core.files.storage import Storage
     from django.db.models import Model
 
     from weblate.billing.models import Billing
@@ -119,6 +121,17 @@ CATEGORY_INHERITABLE_BACKUP_FIELDS = (
     *INHERITABLE_COMPONENT_SETTINGS,
     *INHERITABLE_COMPONENT_FLAGS,
 )
+
+
+def get_project_backup_download_storage() -> Storage:
+    return staticfiles_storage
+
+
+def get_project_backup_download_url(name: str) -> str:
+    storage = get_project_backup_download_storage()
+    if isinstance(storage, HashedFilesMixin):
+        return super(HashedFilesMixin, storage).url(name)
+    return storage.url(name)
 
 
 class BackupListDict(TypedDict):

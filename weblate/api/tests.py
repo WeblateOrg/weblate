@@ -14625,8 +14625,12 @@ class OpenAPITest(APIBaseTest):
         response = self.do_request(
             "api-schema",
         )
+        schema = yaml.safe_load(response.content)
         # Ensure schema includes the language-specific project download parameter
         self.assertIn("language_code", response.content.decode())
+        self.assertEqual(
+            schema["info"]["x-logo"]["url"], f"{settings.STATIC_URL}weblate.svg"
+        )
 
     def test_language_code_pattern(self) -> None:
         schema = self.get_schema()

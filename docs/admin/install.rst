@@ -1198,42 +1198,6 @@ snippet to :file:`settings.py` (the path is Debian specific):
     os.environ["REQUESTS_CA_BUNDLE"] = "/etc/ssl/certs/ca-certificates.crt"
 
 
-.. _production-compress:
-
-Compressing client assets
-+++++++++++++++++++++++++
-
-Weblate comes with a bunch of JavaScript and CSS files. For performance reasons
-it is good to compress them before sending to a client. In default
-configuration this is done on the fly at cost of little overhead. On big
-installations, it is recommended to enable offline compression mode. This needs
-to be done in the configuration and the compression has to be triggered on
-every Weblate upgrade.
-
-The configuration switch is simple by enabling
-:attr:`compressor:django.conf.settings.COMPRESS_OFFLINE` and configuring
-:attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` (the latter is
-already included in the example configuration):
-
-.. code-block:: python
-
-    COMPRESS_OFFLINE = True
-
-On each deploy you need to compress the files to match current version:
-
-.. code-block:: sh
-
-    weblate compress
-
-.. hint::
-
-   The official Docker image has this feature already enabled.
-
-.. seealso::
-
-   * :ref:`compressor:scenarios`
-   * :ref:`static-files`
-
 .. _server:
 
 Running server
@@ -1320,7 +1284,9 @@ Serving static files
 Django needs to collect its static files in a single directory. To do so,
 execute :samp:`weblate collectstatic --noinput`. This will copy the static
 files into a directory specified by the :setting:`django:STATIC_ROOT` setting (this defaults to
-a ``static`` directory inside :setting:`CACHE_DIR`).
+a ``static`` directory inside :setting:`CACHE_DIR`). Production installations
+use content hashes in collected filenames so that updated assets do not reuse
+stale browser or proxy caches.
 
 It is recommended to serve static files directly from your web server, you should
 use that for the following paths:
@@ -1338,7 +1304,6 @@ use that for the following paths:
    * :ref:`uwsgi`
    * :ref:`apache`
    * :ref:`apache-gunicorn`
-   * :ref:`production-compress`
    * :doc:`django:howto/deployment/index`
    * :doc:`django:howto/static-files/deployment`
 
