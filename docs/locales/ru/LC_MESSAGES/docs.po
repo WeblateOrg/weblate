@@ -52,7 +52,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-09 03:19+0000\n"
-"PO-Revision-Date: 2026-07-12 19:48+0000\n"
+"PO-Revision-Date: 2026-07-13 05:00+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -22961,7 +22961,7 @@ msgid ""
 "voting on suggestions now show more specific reasons."
 msgstr ""
 "Сообщения об отказе в доступе при сохранении переводов, редактировании "
-"глоссариев или голосовании за предложения теперь показывают более конкретные "
+"словарей или голосовании за предложения теперь показывают более конкретные "
 "причины."
 
 #: changes.rst:18
@@ -23424,7 +23424,7 @@ msgid ""
 "for more reliable output."
 msgstr ""
 "Автоматические предложения LLM теперь используют переведённые примеры, "
-"инструкции для конкретного языка, более богатый контекст глоссария и "
+"инструкции для конкретного языка, более богатый контекст словаря и "
 "структурированный контекст заполнителей для более надёжного результата."
 
 #: changes.rst:84
@@ -23490,30 +23490,36 @@ msgid ""
 "Change-event notification add-ons can now use presets for translation "
 "content events, all events, or selected individual events."
 msgstr ""
+"Надстройки уведомлений о событиях изменений теперь могут использовать "
+"предустановки для событий содержимого перевода, всех событий или отдельных "
+"выбранных событий."
 
 #: changes.rst:92
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.fedora_messaging.publish` integration is now "
-#| "available as add-on."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` now validates secure broker "
 "connections and exposes delivery timing and topic prefix settings."
 msgstr ""
-"Интеграция :ref:`addon-weblate.fedora_messaging.publish` теперь доступна как "
-"дополнение."
+":ref:`addon-weblate.fedora_messaging.publish` теперь проверяет безопасные "
+"подключения к брокеру и предоставляет настройки времени доставки и префикса "
+"тем."
 
 #: changes.rst:93
 msgid ""
 "Component diagnostics now sort entries by severity, color-code severity "
 "badges, and show the error count on the :guilabel:`Diagnostics` tab."
 msgstr ""
+"Диагностика компонентов теперь сортирует записи по степени серьёзности, "
+"использует цветовую кодировку для значков серьёзности и показывает "
+"количество ошибок на вкладке :guilabel:`Диагностика`."
 
 #: changes.rst:94
 msgid ""
 ":ref:`manage-performance` now shows PostgreSQL database disk usage next to "
 "server disk usage and warns when the database usage cannot be collected."
 msgstr ""
+":ref:`manage-performance` теперь показывает использование диска базой данных "
+"PostgreSQL рядом с использованием диска сервера и предупреждает, когда не "
+"удаётся собрать данные об использовании базы данных."
 
 #: changes.rst:95
 msgid ""
@@ -23522,12 +23528,20 @@ msgid ""
 "there is not enough free space in the backup destination to store a database "
 "dump."
 msgstr ""
+":ref:`manage-performance` теперь показывает использование диска базой данных "
+"PostgreSQL рядом с использованием диска сервера и предупреждает, когда не "
+"удаётся собрать данные об использовании базы данных или недостаточно "
+"свободного места в месте назначения резервного копирования для хранения "
+"дампа базы данных."
 
 #: changes.rst:96
 msgid ""
 "The :ref:`search-replace` preview now keeps the search parameters editable "
 "so the query can be refined before applying replacements."
 msgstr ""
+"Предварительный просмотр :ref:`search-replace` теперь оставляет параметры "
+"поиска редактируемыми, чтобы запрос можно было уточнить перед применением "
+"замен."
 
 #: changes.rst:100
 msgid ""
@@ -23535,12 +23549,18 @@ msgid ""
 "expression timeouts when evaluating source-string flags (:ghsa:`r52j-4vjp-"
 "q949`)."
 msgstr ""
+":ref:`check-regex` и :ref:`check-placeholders` теперь применяют тайм-ауты "
+"регулярных выражений при вычислении флагов исходных строк (:ghsa:`r52j-4vjp-"
+"q949`)."
 
 #: changes.rst:101
 msgid ""
 "Restricted component changes are no longer exposed through nested project, "
 "component, or translation API change endpoints (:ghsa:`92m8-wv36-prmx`)."
 msgstr ""
+"Изменения ограниченных компонентов больше не раскрываются через вложенные "
+"конечные точки изменений API проекта, компонента или перевода (:ghsa:`92m8-"
+"wv36-prmx`)."
 
 #: changes.rst:102
 msgid ""
@@ -23548,6 +23568,9 @@ msgid ""
 "follow child symbolic links outside the downloaded tree (:ghsa:`xwj4-fp82-"
 "r2rj`)."
 msgstr ""
+"ZIP-загрузки, включая пакеты переводов :ref:`appstore`, больше не следуют "
+"дочерним символическим ссылкам за пределы загруженного дерева (:ghsa:`xwj4-"
+"fp82-r2rj`)."
 
 #: changes.rst:103
 msgid ""
@@ -23555,18 +23578,18 @@ msgid ""
 "permissions from human members without 2FA configured (:ghsa:`x86c-ff69-"
 "cr2m`)."
 msgstr ""
+"Команды, требующие двухфакторную аутентификацию, теперь также не "
+"предоставляют общесайтовые разрешения членам-людям без настроенной 2FA "
+"(:ghsa:`x86c-ff69-cr2m`)."
 
 #: changes.rst:104
-#, fuzzy
-#| msgid ""
-#| "Hardened :http:post:`/api/screenshots/` access checks against private "
-#| "project enumeration."
 msgid ""
 "Globally scoped HTML and AJAX object lookups no longer disclose object "
 "existence in private projects (:cve:`2026-55227`, :ghsa:`2p9g-x3cv-5hh4`)."
 msgstr ""
-"Улучшены проверки доступа :http:post:`/api/screenshots/` против перебора "
-"приватных проектов."
+"Поиск объектов HTML и AJAX глобальной области больше не раскрывает "
+"существование объектов в приватных проектах (:cve:`2026-55227`, :ghsa:`2p9g-"
+"x3cv-5hh4`)."
 
 #: changes.rst:105
 msgid ""
@@ -23574,42 +23597,48 @@ msgid ""
 "project team data or expanding scoped team assignments outside their allowed "
 "projects (:cve:`2026-55228`, :ghsa:`2q2q-jr9g-v9rf`)."
 msgstr ""
+"Проверки доступа API команд теперь предотвращают чтение данных команд "
+"приватных проектов менеджерами проектов или расширение назначений команд с "
+"ограниченной областью за пределы разрешённых им проектов (:cve:`2026-55228`, "
+":ghsa:`2q2q-jr9g-v9rf`)."
 
 #: changes.rst:106
 msgid "Malformed ``replacements`` flags no longer abort source length checks."
 msgstr ""
+"Некорректные флаги ``replacements`` больше не прерывают проверки длины "
+"исходного текста."
 
 #: changes.rst:107
 msgid ""
 "Empty component lists are no longer exposed to users without component list "
 "management permission."
 msgstr ""
+"Пустые списки компонентов больше не раскрываются пользователям без "
+"разрешения на управление списками компонентов."
 
 #: changes.rst:108
 msgid ""
 "Glossary handling no longer duplicates TBX terms or shows source-language "
 "terms in both translation columns."
 msgstr ""
+"Обработка словаря больше не дублирует термины TBX и не показывает термины "
+"исходного языка в обоих столбцах перевода."
 
 #: changes.rst:109
-#, fuzzy
-#| msgid "Added add-on to remove blank strings from translation files."
 msgid ""
 "Duplicate string alerts now offer a cleanup action to remove repeated "
 "strings from translation files."
-msgstr "Добавлена надстройка для удаления пустых строк из файлов перевода."
+msgstr ""
+"Предупреждения о дублирующихся строках теперь предлагают действие очистки "
+"для удаления повторяющихся строк из файлов перевода."
 
 #: changes.rst:110
-#, fuzzy
-#| msgid ""
-#| ":ref:`code-hosting-gerrit` now uses :ref:`component-push_branch` as the "
-#| "target branch for review pushes."
 msgid ""
 ":ref:`code-hosting-gerrit` review pushes can again include Gerrit push "
 "options in the target branch."
 msgstr ""
-":ref:`code-hosting-gerrit` теперь использует :ref:`component-push_branch` в "
-"качестве целевой ветки для отправок на рецензирование."
+"Отправки на рецензирование :ref:`code-hosting-gerrit` теперь могут снова "
+"включать параметры отправки Gerrit в целевую ветку."
 
 #: changes.rst:111
 msgid ""
@@ -23632,12 +23661,16 @@ msgid ""
 "Project and workspace translation license defaults now follow component and "
 "project licenses more closely."
 msgstr ""
+"Значения по умолчанию лицензий перевода проектов и рабочих пространств "
+"теперь более точно следуют лицензиям компонентов и проектов."
 
 #: changes.rst:114
 msgid ""
 "Component and category API ``PATCH`` requests no longer remove the category "
 "when the field is omitted."
 msgstr ""
+"API-запросы ``PATCH`` компонентов и категорий больше не удаляют категорию, "
+"когда поле опущено."
 
 #: changes.rst:115
 msgid ""
@@ -23645,104 +23678,124 @@ msgid ""
 "enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads "
 "validate file extensions."
 msgstr ""
+"Загрузки документов и памяти переводов теперь применяют "
+":setting:`TRANSLATION_UPLOAD_MAX_SIZE`, а загрузки документов через API "
+"проверяют расширения файлов."
 
 #: changes.rst:116
-#, fuzzy
-#| msgid ":ref:`check-rst-syntax` now reports unintended list conversion."
 msgid ""
 ":ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks."
 msgstr ""
-":ref:`check-rst-syntax` теперь сообщает о непреднамеренном преобразовании "
-"списка."
+":ref:`check-rst-syntax` теперь обнаруживает встроенные роли, заключённые в "
+"случайные обратные кавычки."
 
 #: changes.rst:117
 msgid ""
 ":ref:`check-safe-html` now efficiently detects changed placeholder-only HTML "
 "attribute values in translations."
 msgstr ""
+":ref:`check-safe-html` теперь эффективно обнаруживает изменённые значения "
+"атрибутов HTML, состоящих только из заполнителей, в переводах."
 
 #: changes.rst:118
 msgid ""
 ":ref:`check-max-size` no longer wraps text configured to fit on one line, "
 "checks source strings, and refreshes rendered previews after source edits."
 msgstr ""
+":ref:`check-max-size` больше не переносит текст, настроенный для размещения "
+"на одной строке, проверяет исходные строки и обновляет отображаемые "
+"предварительные просмотры после правок исходного текста."
 
 #: changes.rst:119
 msgid ""
 "Repository reset and update history now keeps attribution, records remote "
 "update failures, and includes follow-up translation-file reconciliation."
 msgstr ""
+"История сброса и обновления репозитория теперь сохраняет атрибуцию, "
+"регистрирует сбои удалённых обновлений и включает последующее согласование "
+"файлов перевода."
 
 #: changes.rst:120
 msgid ""
 "Updating repository URLs now validates compatible Git history without "
 "requiring an immediate successful merge."
 msgstr ""
+"Обновление URL-адресов репозитория теперь проверяет совместимость истории "
+"Git без требования немедленного успешного слияния."
 
 #: changes.rst:121
-#, fuzzy
-#| msgid ""
-#| "Use machine translation instead of other components as machine "
-#| "translations."
 msgid ""
 ":ref:`auto-translation` no longer validates hidden component fields when "
 "using machine translation."
 msgstr ""
-"В качестве машинного перевода использовать машинный перевод, а не перевод из "
-"других компонентов."
+":ref:`auto-translation` больше не проверяет скрытые поля компонентов при "
+"использовании машинного перевода."
 
 #: changes.rst:122
 msgid ""
 ":guilabel:`Strings marked for edit` links now include all strings needing "
 "editing, checking, or rewriting."
 msgstr ""
+"Ссылки :guilabel:`Строки, отмеченные для правки` теперь включают все строки, "
+"требующие правки, проверки или переписывания."
 
 #: changes.rst:123
 msgid ""
 "Anonymous permission checks no longer fail when loading teams scoped to "
 "projects or workspaces."
 msgstr ""
+"Проверки разрешений анонимных пользователей больше не завершаются сбоем при "
+"загрузке команд, ограниченных проектами или рабочими пространствами."
 
 #: changes.rst:124
 msgid ""
 "API project creation can again use the user's only eligible workspace when "
 "no explicit workspace is supplied."
 msgstr ""
+"Создание проекта через API теперь снова может использовать единственное "
+"подходящее рабочее пространство пользователя, когда явное рабочее "
+"пространство не указано."
 
 #: changes.rst:125
 msgid ""
 "Git auto-maintenance is now disabled for Weblate-managed repositories to "
 "avoid concurrent detached maintenance jobs."
 msgstr ""
+"Автоматическое обслуживание Git теперь отключено для репозиториев, "
+"управляемых Weblate, чтобы избежать одновременных изолированных задач "
+"обслуживания."
 
 #: changes.rst:126
 msgid ""
 "Interrupted Git repository operations are now either recovered and recorded "
 "or surfaced as a repository alert."
 msgstr ""
+"Прерванные операции с репозиторием Git теперь либо восстанавливаются и "
+"регистрируются, либо отображаются как предупреждение репозитория."
 
 #: changes.rst:127
-#, fuzzy
-#| msgid ""
-#| "Watched translations on the dashboard now use a stable language-aware "
-#| "ordering."
 msgid ""
 "Watched translations on the dashboard now include category path segments."
 msgstr ""
-"Отслеживаемые переводы на панели управления теперь используют стабильный "
-"порядок с учётом языка."
+"Отслеживаемые переводы на панели управления теперь включают сегменты пути "
+"категории."
 
 #: changes.rst:128
 msgid ""
 "Unsupported upload levels now show an upload placeholder pointing to "
 "individual translations."
 msgstr ""
+"Неподдерживаемые уровни загрузки теперь показывают заполнитель загрузки, "
+"указывающий на отдельные переводы."
 
 #: changes.rst:129
 msgid ""
 "Component API responses no longer expose repository export, push branch, or "
 "repository browser links to users without repository access."
 msgstr ""
+"Ответы API компонентов больше не раскрывают ссылки на экспорт репозитория, "
+"ветку отправки или обозреватель репозитория пользователям без доступа к "
+"репозиторию."
 
 #: changes.rst:133
 msgid ""
@@ -23750,6 +23803,9 @@ msgid ""
 "glossary management and language discovery, and no longer supports DeepL API "
 "v1."
 msgstr ""
+":ref:`mt-deepl` теперь обрабатывает версии API DeepL внутренне, использует "
+"v3 для управления глоссарием и обнаружения языков и больше не поддерживает "
+"DeepL API v1."
 
 #: changes.rst:134
 msgid ""
@@ -23757,21 +23813,19 @@ msgid ""
 "path segments, and broker settings are stored as an AMQP URL with existing "
 "host and SSL settings migrated automatically."
 msgstr ""
+"Темы :ref:`addon-weblate.fedora_messaging.publish` теперь включают сегменты "
+"пути категории, а настройки брокера хранятся как AMQP-URL с автоматической "
+"миграцией существующих настроек хоста и SSL."
 
 #: changes.rst:140
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are changes in :file:`settings_example.py`, most notably in "
 "``SOCIAL_AUTH_PIPELINE`` and ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; please "
 "adjust your settings accordingly."
 msgstr ""
-"В файле :file:`settings_example.py` есть несколько изменений, наиболее "
-"заметными являются изменения в ``CACHES`` и ``SOCIAL_AUTH_PIPELINE``, "
-"пожалуйста, измените настройки соответствующим образом."
+"В :file:`settings_example.py` есть изменения, наиболее заметные в "
+"``SOCIAL_AUTH_PIPELINE`` и ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; пожалуйста, "
+"скорректируйте свои настройки соответственно."
 
 #: changes.rst:141
 msgid ""
@@ -23779,6 +23833,10 @@ msgid ""
 "periodic Celery background task. Keep Celery running after the upgrade; "
 "translation-memory suggestions can be incomplete until the backfill finishes."
 msgstr ""
+"Существующие записи памяти переводов перемещаются в хранилище с областями "
+"действия периодической фоновой задачей Celery. Держите Celery запущенным "
+"после обновления; предложения памяти переводов могут быть неполными до "
+"завершения заполнения."
 
 #: changes.rst:147
 msgid ""
@@ -23885,6 +23943,8 @@ msgid ""
 "Translation flag fields now use a tag-based editor with autocompletion and "
 "grouped suggestions for all known flags."
 msgstr ""
+"Поля флагов перевода теперь используют редактор на основе тегов с "
+"автозавершением и сгруппированными предложениями для всех известных флагов."
 
 #: changes.rst:186
 msgid ""
@@ -23936,16 +23996,12 @@ msgstr ""
 "CISA 2025."
 
 #: changes.rst:194
-#, fuzzy
-#| msgid ""
-#| "Outbound URL validation now rejects additional non-public targets "
-#| "(:ghsa:`vmfc-9982-2m45`)."
 msgid ""
 "Outbound URL validation now rejects additional non-public targets "
 "(:cve:`2026-50127`, :ghsa:`vmfc-9982-2m45`)."
 msgstr ""
 "Проверка исходящих URL-адресов теперь отклоняет дополнительные непубличные "
-"цели (:ghsa:`vmfc-9982-2m45`)."
+"цели (:cve:`2026-50127`, :ghsa:`vmfc-9982-2m45`)."
 
 #: changes.rst:195
 msgid ""
@@ -24621,6 +24677,8 @@ msgid ""
 "Michal Čihař, Karen Konou, Weblate CI, michael-smt, Samuel Gomes, Dinis "
 "Sales, Gersona, Harsha C, Kartik Ohri, Besnik Bleta, fahadhewad"
 msgstr ""
+"Михал Чигарж, Карен Кону, Weblate CI, michael-smt, Самуэль Гомеш, Динис "
+"Салеш, Gersona, Харша С, Картик Охри, Бесник Блета, fahadhewad"
 
 #: changes/contributors/2026.7.rst:10
 msgid ""
@@ -24641,14 +24699,30 @@ msgid ""
 "work, Kristoffer Grundström, ssantos, Andi Chandler, Ldm Public, Alc4Traz45, "
 "Szafranek13, hms5232, Victor K, 大学没毕业"
 msgstr ""
+"Дик Гроскамп, Михал Чигарж, 為什麼不加空格, VfBFan, Любомир Василев, 이정희, "
+"Айнтриу Мак Джиолла Эоин, Ярон Шахрабани, jiahaisheng, Horus68, Андрей "
+"Степанов, Мартин Среботняк, Петер Ванчо, Hotripak, 大王叫我来巡山, Мило "
+"Ивир, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Микаэль Бинос, Бесник Блета, Франк Пауль "
+"Зиле, Matthaiks, abd sak, Хосок Со, Фулуп Джейк, Гаэль ТИССЕРАН (Gtisseran), "
+"Азамат Айтуганов, Махира Хасанова, Пьерфранческо Пассерини, Libre, Мохамед "
+"Айман Фархи, Джулия Розель Сальданья, پرویز قادر, Джим Кэтс, Мигель А. "
+"Боусада, Мануэла Силва, reducedradius, Hanssium, Uh idk, Ариф Будиман, Фейке "
+"Дония, Захид Ризки Фахри, Эмин Туфан Четин, ojppe, தமிழ்நேரம், Антониу "
+"Оливейра, Rumuz AGO, justcontributor, Флинн, Штефан Захария, Нозому Мацуи, H-"
+"Media, Ecron, Weblate CI, Балаж Мешко, Fjuro, goeran, Адам Гавранек, Приит "
+"Йыэрюют, Астрид Хёйе Сильден, Алан С. Мухаммед (Алан Курдский), hoanghuy309, "
+"Ямин Сиахмаргуи, MeahNunh, Картик Охри, Валерия София Асаньеро, Туомас "
+"Хиетала, Рафаэль Фонтенель, Юрий Чорноиван, AWwue-work, Кристофер "
+"Грундстрём, ssantos, Анди Чандлер, Ldm Public, Alc4Traz45, Szafranek13, "
+"hms5232, Виктор К., 大学没毕业"
 
 #: changes/contributors/2026.7.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
 msgid ""
 "Michal Čihař, michael-smt, Karen Konou, Gersona, Weblate CI, Kartik Ohri, "
 "Besnik Bleta, fahadhewad, Harsha C"
-msgstr "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
+msgstr ""
+"Михал Чигарж, michael-smt, Карен Кону, Gersona, Weblate CI, Картик Охри, "
+"Бесник Блета, fahadhewad, Харша С"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -42399,16 +42473,6 @@ msgstr ""
 "неточные или сфабрикованные результаты."
 
 #: contributing/issues.rst:48
-#, fuzzy
-#| msgid ""
-#| "It is *rarely* a good idea to just copy and paste an AI-generated report "
-#| "to the project. Those generated reports typically are too wordy and "
-#| "rarely to the point (in addition to the common fabricated details). If "
-#| "you actually discover a issue with an AI and you have verified it "
-#| "yourself to be true, write the report yourself and explain the issue as "
-#| "you have learned it. This makes sure the AI-generated inaccuracies and "
-#| "invented issues are filtered out early before they waste more people's "
-#| "time."
 msgid ""
 "It is *rarely* a good idea to just copy and paste an AI-generated report to "
 "the project. Those generated reports typically are too wordy and rarely to "
@@ -42599,16 +42663,10 @@ msgid "Release cycle"
 msgstr "Цикл выпуска"
 
 #: contributing/release.rst:7
-#, fuzzy
-#| msgid ""
-#| "Weblate now uses calendar versioning for releases, see :ref:`release-"
-#| "cycle`."
 msgid ""
 "Weblate's release and support lifecycle is documented in :ref:`release-"
 "cycle`."
-msgstr ""
-"Weblate теперь использует календарное версионирование для выпусков, "
-"см. :ref:`release-cycle`."
+msgstr "Цикл выпуска и поддержки Weblate описан в :ref:`release-cycle`."
 
 #: contributing/release.rst:16
 msgid "Release planning"
@@ -42922,6 +42980,13 @@ msgid ""
 "scope, affect import sorting, or get between another tool's ``disable-next`` "
 "comment and the code it targets."
 msgstr ""
+"При подавлении диагностики :program:`ruff` предпочтительно использовать ``# "
+"ruff: ignore[rule-name]`` с человекочитаемым именем правила. Помещайте "
+"комментарий на строку выше логического оператора или блока, когда это не "
+"расширяет область подавления. Оставляйте комментарий в той же строке, когда "
+"его перемещение изменит область действия, повлияет на сортировку импортов "
+"или встанет между комментарием ``disable-next`` другого инструмента и кодом, "
+"на который он направлен."
 
 #: contributing/snippets/code-guide.rst:99
 msgid ""
@@ -43110,10 +43175,6 @@ msgstr ""
 "захотите продолжить с :ref:`adding-projects`."
 
 #: contributing/start.rst:77
-#, fuzzy
-#| msgid ""
-#| "Weblate is configured to use :program:`maildev` container as a e-mail "
-#| "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgid ""
 "Weblate is configured to use :program:`maildev` container as an e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
@@ -43425,18 +43486,12 @@ msgstr ""
 "ci.com>`_."
 
 #: contributing/tests.rst:27
-#, fuzzy
-#| msgid ""
-#| "Code formatting using `prek <https://pypi.org/project/prek/>`_, a faster "
-#| "third-party reimplementation of the `pre-commit <https://pre-commit.com/"
-#| ">`_ framework."
 msgid ""
 "Code formatting using :pypi:`prek`, a faster third-party reimplementation of "
 "the `pre-commit <https://pre-commit.com/>`_ framework."
 msgstr ""
-"Форматирование кода с использованием `prek <https://pypi.org/project/prek/"
-">`_, более быстрой сторонней реализации фреймворка `pre-commit <https://pre-"
-"commit.com/>`_."
+"Форматирование кода с использованием :pypi:`prek` — более быстрой сторонней "
+"реализации фреймворка `pre-commit <https://pre-commit.com/>`_."
 
 #: contributing/tests.rst:30
 msgid "Migration testing from all supported releases"
@@ -43475,6 +43530,14 @@ msgid ""
 "screenshot includes volatile runtime data, prefer deterministic server-side "
 "test inputs over post-render DOM changes."
 msgstr ""
+"Тесты скриншотов Selenium в :file:`weblate/trans/tests/test_selenium.py` "
+"служат двум целям. Они генерируют изображения для тестирования визуальных "
+"изменений в CI, и эти же изображения преобразуются в скриншоты для "
+"документации с помощью :command:`make -C docs update-screenshots`. Держите "
+"фикстуры скриншотов близкими к реальным отображаемым страницам, чтобы CI "
+"обнаруживал регрессии пользовательского интерфейса. Когда скриншот включает "
+"изменчивые данные времени выполнения, предпочитайте детерминированные "
+"серверные тестовые входные данные изменениям DOM после рендеринга."
 
 #: contributing/tests.rst:50
 msgid "The simple execution can look like:"
@@ -43809,14 +43872,6 @@ msgid "Social Media Guidelines"
 msgstr "Руководство по социальным сетям"
 
 #: contributing/trademark.rst:49
-#, fuzzy
-#| msgid ""
-#| "In addition to the General Guidelines above, the name and handle of your "
-#| "social media account and all pages cannot begin with an Weblate "
-#| "trademark. In addition, Weblate logos cannot be used in a way that might "
-#| "suggest affiliation with Weblate, including, but not limited to, the "
-#| "account, profile, or header images. The only exception to these "
-#| "requirements is if you've received prior permission from Weblate."
 msgid ""
 "In addition to the General Guidelines above, the name and handle of your "
 "social media account and all pages cannot begin with a Weblate trademark. In "
@@ -44037,10 +44092,8 @@ msgid "Errors when running add-on (see :doc:`/admin/addons`)"
 msgstr "Ошибки при запуске надстройки (смотреть :doc:`/admin/addons`)"
 
 #: devel/alerts.rst:19
-#, fuzzy
-#| msgid "Misconfigured monolingual translation."
 msgid "Misconfigured monolingual or bilingual translation."
-msgstr "Неправильно настроенный одноязычный перевод."
+msgstr "Неверно настроенный одноязычный или двуязычный перевод."
 
 #: devel/alerts.rst:20
 msgid "Broken :ref:`component`"
@@ -44077,10 +44130,8 @@ msgstr ""
 "помощью :setting:`UNUSED_ALERT_DAYS`)"
 
 #: devel/alerts.rst:28
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Unused glossary languages"
-msgstr "Вспомогательные языки"
+msgstr "Неиспользуемые языки словаря"
 
 #: devel/alerts.rst:30
 msgid ""
@@ -44180,14 +44231,6 @@ msgstr ""
 "#firefox_chrome>`_."
 
 #: devel/community.rst:6
-#, fuzzy
-#| msgid ""
-#| "Many times translators will find problems with the source strings. Make "
-#| "sure it is easy for them to report such problems. To gather this "
-#| "feedback, you can set up the :ref:`component-repoweb` field on your "
-#| "Weblate component, for translators to propose their changes to the "
-#| "upstream repository. You can also receive translator comments if you "
-#| "setup :ref:`component-report_source_bugs`."
 msgid ""
 "Many times translators will find problems with the source strings. Make sure "
 "it is easy for them to report such problems. To gather this feedback, you "
@@ -44199,9 +44242,9 @@ msgstr ""
 "Часто переводчики находят проблемы в исходных строках. Позаботьтесь о том, "
 "чтобы им было удобно сообщать о таких проблемах. Для сбора таких сообщений "
 "можно настроить в компоненте Weblate поле :ref:`component-repoweb`, чтобы "
-"переводчики могли предлагать свои изменения в вышестоящем репозиторий. Вы "
-"также можете получать комментарии переводчиков, если настроите "
-"поле :ref:`component-report_source_bugs`."
+"переводчики могли предлагать свои изменения в вышестоящем репозитории. Вы "
+"также можете получать комментарии переводчиков, если настроите поле "
+":ref:`component-report_source_bugs`."
 
 #: devel/community.rst:11
 msgid "Component diagnostics"
@@ -46422,10 +46465,6 @@ msgstr ""
 "компонентов или отдельных пользователей."
 
 #: devel/review.rst:13
-#, fuzzy
-#| msgid ""
-#| "The activity reports for a project or component is accessible from its "
-#| "dashboard, on the :guilabel:`Info` tab."
 msgid ""
 "The activity reports for a project or component are accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
@@ -46578,14 +46617,6 @@ msgstr ""
 "документацию."
 
 #: devel/sphinx.rst:10
-#, fuzzy
-#| msgid ""
-#| "I will not focus on writing documentation itself, if you need guidance "
-#| "with that, just follow instructions on the `Sphinx`_ website. Once you "
-#| "have documentation ready, translating it is quite easy as Sphinx comes "
-#| "with support for this and it is quite nicely covered in "
-#| "their :ref:`sphinx:intl`. It's matter of few configuration directives and "
-#| "invoking of the ``sphinx-intl`` tool."
 msgid ""
 "I will not focus on writing documentation itself, if you need guidance with "
 "that, just follow instructions on the `Sphinx`_ website. Once you have "
@@ -46597,38 +46628,23 @@ msgstr ""
 "Я не буду сосредотачиваться на написании самой документации; если вам нужны "
 "рекомендации по этому поводу, просто следуйте инструкциям на веб-сайте "
 "`Sphinx`_. Как только документация будет готова, перевести её довольно "
-"легко, так как Sphinx поддерживает это, и это довольно хорошо описано в "
-"их :ref:`sphinx:intl`. Это вопрос нескольких директив конфигурации и вызова "
+"легко, так как Sphinx поддерживает это, и это довольно хорошо описано в их "
+":ref:`sphinx:intl`. Это вопрос нескольких директив конфигурации и вызова "
 "инструмента ``sphinx-intl``."
 
 #: devel/sphinx.rst:17
-#, fuzzy
-#| msgid ""
-#| "If you are using Read the Docs service, you can start building translated "
-#| "documentation on the Read the Docs. Their :doc:`rtd:localization` covers "
-#| "pretty much everything you need - creating another project, set its "
-#| "language and link it from main project as a translation."
 msgid ""
 "If you are using Read the Docs service, you can start building translated "
 "documentation on Read the Docs. Their :doc:`rtd:localization` covers pretty "
 "much everything you need - creating another project, setting its language, "
 "and linking it from the main project as a translation."
 msgstr ""
-"Если вы используете службы «Read the Docs», вы можете начать сборку "
-"переведённой документации на «Read the Docs». Их :doc:`rtd:localization` "
+"Если вы используете службу Read the Docs, вы можете начать собирать "
+"переведённую документацию на Read the Docs. Их :doc:`rtd:localization` "
 "охватывает почти всё, что вам нужно: создание другого проекта, установка его "
 "языка и связывание его с основным проектом в качестве перевода."
 
 #: devel/sphinx.rst:22
-#, fuzzy
-#| msgid ""
-#| "Now all you need is translating the documentation content. Sphinx "
-#| "generates PO file for each directory or top level file, what can lead to "
-#| "quite a lot of files to translate (depending "
-#| "on :confval:`sphinx:gettext_compact` settings). You can import "
-#| "the :file:`index.po` into Weblate as an initial component and then "
-#| "configure :ref:`addon-weblate.discovery.discovery` add-on to "
-#| "automatically discover all others."
 msgid ""
 "Now all you need is translating the documentation content. Sphinx generates "
 "PO file for each directory or top-level file, which can lead to quite a lot "
@@ -46640,9 +46656,9 @@ msgstr ""
 "Теперь всё, что вам нужно, это перевести содержимое документации. Sphinx "
 "создаёт PO-файл для каждого каталога или файла верхнего уровня, что может "
 "привести к переводу довольно большого количества файлов (в зависимости от "
-"настроек :confval:`sphinx:gettext_compact`). Вы можете "
-"импортировать :file:`index.po` в Weblate в качестве исходного компонента, а "
-"затем настроить :ref:`addon-weblate.discovery.discovery` для автоматического "
+"настроек :confval:`sphinx:gettext_compact`). Вы можете импортировать "
+":file:`index.po` в Weblate в качестве начального компонента, а затем "
+"настроить :ref:`addon-weblate.discovery.discovery` для автоматического "
 "обнаружения всех остальных."
 
 #: devel/sphinx.rst:39
@@ -48416,12 +48432,6 @@ msgstr ""
 "отличается и предоставляет различный набор возможностей."
 
 #: formats.rst:11
-#, fuzzy
-#| msgid ""
-#| "When choosing a file format for your application, it's better to stick "
-#| "some well established format in the toolkit/platform you use. This way "
-#| "your translators can additionally use whatever tools they are used to, "
-#| "and will more likely contribute to your project."
 msgid ""
 "When choosing a file format for your application, it's better to stick to "
 "some well-established format in the toolkit/platform you use. This way your "
@@ -48686,12 +48696,6 @@ msgid "Supporting other formats"
 msgstr "Поддержка других форматов"
 
 #: formats.rst:168
-#, fuzzy
-#| msgid ""
-#| "Most formats supported by `translate-toolkit`_ which support serializing "
-#| "can be easily supported, but they did not (yet) received any testing. In "
-#| "most cases, an additional thin layer is needed in Weblate to hide "
-#| "differences in behavior of different storages."
 msgid ""
 "Most formats supported by `translate-toolkit`_ which support serializing can "
 "be easily supported, but they did not (yet) receive any testing. In most "
@@ -49392,12 +49396,12 @@ msgid ""
 "This is controlled by the ``po_keep_previous`` :ref:`file_format_params` "
 "parameter. It does not affect obsolete entries marked with ``#~``."
 msgstr ""
+"Это управляется параметром ``po_keep_previous`` :ref:`file_format_params`. "
+"Это не влияет на устаревшие записи, отмеченные ``#~``."
 
 #: formats/gettext.rst:47
-#, fuzzy
-#| msgid "source strings"
 msgid "Obsolete strings"
-msgstr "исходные строки"
+msgstr "Устаревшие строки"
 
 #: formats/gettext.rst:49
 msgid ""
@@ -49406,6 +49410,10 @@ msgid ""
 "``po_remove_obsolete`` :ref:`file_format_params` parameter to remove "
 "obsolete entries when Weblate saves PO files."
 msgstr ""
+":program:`msgmerge` по умолчанию сохраняет строки, удалённые из POT-файла, "
+"как устаревшие записи ``#~``. Включите параметр ``po_remove_obsolete`` "
+":ref:`file_format_params`, чтобы удалять устаревшие записи при сохранении PO-"
+"файлов Weblate."
 
 #: formats/gettext.rst:54
 msgid "PO file header"
@@ -50025,14 +50033,6 @@ msgstr ""
 "перевода. Для файлов Markdown с синтаксисом JSX используйте :ref:`mdx`."
 
 #: formats/markdown.rst:13
-#, fuzzy
-#| msgid ""
-#| "Markdown units automatically get the ``md-text`` and ``auto-safe-html`` "
-#| "flags. This keeps the unsafe HTML check active for plain text, standard "
-#| "HTML, and custom elements while avoiding HTML cleanup on non-HTML angle-"
-#| "bracket syntax such as MDX or JSX-like components. Use the explicit "
-#| "``safe-html`` flag for strings that are known to contain HTML and should "
-#| "always be sanitized, including SVG or MathML snippets."
 msgid ""
 "Markdown units automatically get the ``md-text``, ``auto-safe-html`` and "
 "``strict-same`` flags. This keeps the unsafe HTML check active for plain "
@@ -50041,13 +50041,13 @@ msgid ""
 "explicit ``safe-html`` flag for strings that are known to contain HTML and "
 "should always be sanitized, including SVG or MathML snippets."
 msgstr ""
-"Единицы Markdown автоматически получают флаги ``md-text`` и ``auto-safe-"
-"html``. Это сохраняет проверку небезопасного HTML активной для обычного "
-"текста, стандартного HTML и пользовательских элементов, избегая очистки HTML "
-"для синтаксиса с угловыми скобками, отличного от HTML, такого как MDX или "
-"компоненты, подобные JSX. Используйте явный флаг ``safe-html`` для строк, "
-"которые, как известно, содержат HTML и всегда должны быть очищены, включая "
-"фрагменты SVG или MathML."
+"Единицы Markdown автоматически получают флаги ``md-text``, ``auto-safe-"
+"html`` и ``strict-same``. Это сохраняет проверку небезопасного HTML активной "
+"для обычного текста, стандартного HTML и пользовательских элементов, избегая "
+"очистки HTML для синтаксиса с угловыми скобками, отличного от HTML, такого "
+"как MDX или компоненты, подобные JSX. Используйте явный флаг ``safe-html`` "
+"для строк, которые, как известно, содержат HTML и всегда должны быть "
+"очищены, включая фрагменты SVG или MathML."
 
 #: formats/markdown.rst:45
 msgid "`Markdown file`"
@@ -50066,10 +50066,8 @@ msgstr ""
 "контекст и может привести к потере перевода."
 
 #: formats/markdown.rst:72
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translating front matter values"
-msgstr "Статус памяти переводов"
+msgstr "Перевод значений front matter"
 
 #: formats/markdown.rst:74
 msgid ""
@@ -50079,6 +50077,12 @@ msgid ""
 "string values while preserving keys, structure, comments, and formatting "
 "when possible. The same setting is available for :ref:`mdx` files."
 msgstr ""
+"По умолчанию YAML front matter извлекается как единый переводимый блок. "
+"Включите :guilabel:`Переводить значения front matter` в :ref:`component-"
+"file_format_params`, чтобы анализировать YAML front matter и переводить "
+"только скалярные строковые значения, сохраняя ключи, структуру, комментарии "
+"и форматирование, когда это возможно. Та же настройка доступна для файлов "
+":ref:`mdx`."
 
 #: formats/mdx.rst:4
 msgid "MDX files"
@@ -50095,14 +50099,6 @@ msgstr ""
 "выражения."
 
 #: formats/mdx.rst:13
-#, fuzzy
-#| msgid ""
-#| "MDX units automatically get the ``md-text`` and ``auto-safe-html`` flags. "
-#| "This keeps the unsafe HTML check active for plain text, standard HTML, "
-#| "and custom elements while avoiding HTML cleanup on MDX and JSX-like "
-#| "syntax. Use the explicit ``safe-html`` flag for strings that are known to "
-#| "contain HTML and should always be sanitized, including SVG or MathML "
-#| "snippets."
 msgid ""
 "MDX units automatically get the ``md-text``, ``auto-safe-html``, ``strict-"
 "same`` and ``safe-mdx`` flags. This keeps the unsafe HTML check active for "
@@ -50111,12 +50107,12 @@ msgid ""
 "that are known to contain HTML and should always be sanitized, including SVG "
 "or MathML snippets."
 msgstr ""
-"Единицы MDX автоматически получают флаги ``md-text`` и ``auto-safe-html``. "
-"Это сохраняет проверку небезопасного HTML активной для обычного текста, "
-"стандартного HTML и пользовательских элементов, избегая очистки HTML для "
-"синтаксиса MDX и подобного JSX. Используйте явный флаг ``safe-html`` для "
-"строк, которые, как известно, содержат HTML и всегда должны быть очищены, "
-"включая фрагменты SVG или MathML."
+"Единицы MDX автоматически получают флаги ``md-text``, ``auto-safe-html``, "
+"``strict-same`` и ``safe-mdx``. Это сохраняет проверку небезопасного HTML "
+"активной для обычного текста, стандартного HTML и пользовательских "
+"элементов, избегая очистки HTML для синтаксиса MDX и подобного JSX. "
+"Используйте явный флаг ``safe-html`` для строк, которые, как известно, "
+"содержат HTML и всегда должны быть очищены, включая фрагменты SVG или MathML."
 
 #: formats/mdx.rst:44
 msgid "`MDX file`"
@@ -50441,50 +50437,39 @@ msgstr ""
 "Пояснение к исходной строке сохраняется как тег ``<descrip></descrip>``."
 
 #: formats/tbx.rst:27
-#, fuzzy
-#| msgid "Source string explanation is stored as ``<descrip></descrip>`` tag."
 msgid ""
 "Source string description is stored as ``<descrip type=\"Usage note\"></"
 "descrip>`` tag."
 msgstr ""
-"Пояснение к исходной строке сохраняется как тег ``<descrip></descrip>``."
+"Описание исходной строки сохраняется как тег ``<descrip type=\"Usage note\">"
+"</descrip>``."
 
 #: formats/tbx.rst:30
 msgid "Glossary flags and read-only metadata"
-msgstr ""
+msgstr "Флаги словаря и метаданные только для чтения"
 
 #: formats/tbx.rst:32
-#, fuzzy
-#| msgid ""
-#| "Terms with administrative status ``forbidden`` or ``obsolete`` in "
-#| "``<termNote type=\"administrativeStatus\">`` are marked with the "
-#| "``forbidden`` flag (:ref:`glossary-forbidden`).,"
 msgid ""
 "Weblate imports terms with ``forbidden`` or ``obsolete`` administrative "
 "status in ``<termNote type=\"administrativeStatus\">`` as :ref:`glossary-"
 "forbidden`."
 msgstr ""
-"Понятия с административным статусом ``forbidden`` или ``obsolete`` в "
-"``<termNote type=\"administrativeStatus\">`` помечаются флагом ``forbidden`` "
-"(:ref:`glossary-forbidden`).,"
+"Weblate импортирует термины с административным состоянием ``forbidden`` или "
+"``obsolete`` в ``<termNote type=\"administrativeStatus\">`` как "
+":ref:`glossary-forbidden`."
 
 #: formats/tbx.rst:36
-#, fuzzy
-#| msgid ""
-#| "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
-#| "marked as read-only (:ref:`glossary-untranslatable`).,"
 msgid ""
 "Terms with ``<descrip type=\"Translation needed\">No</descrip>`` are "
 "imported as read-only strings, see :ref:`glossary-untranslatable`."
 msgstr ""
-"Понятия с ``<termNote type=\"translationNote\">``, содержащим ``no``, "
-"помечаются как только для чтения (:ref:`glossary-untranslatable`).,"
+"Термины с ``<descrip type=\"Translation needed\">No</descrip>`` "
+"импортируются как строки только для чтения, см. :ref:`glossary-"
+"untranslatable`."
 
 #: formats/tbx.rst:40
-#, fuzzy
-#| msgid "Managing glossaries"
 msgid "Importing glossary files"
-msgstr "Управление словарями"
+msgstr "Импорт файлов словаря"
 
 #: formats/tbx.rst:42
 msgid ""
@@ -50494,6 +50479,11 @@ msgid ""
 "source terms and the language parsed from the file name is used as the "
 "target glossary language."
 msgstr ""
+"TBX может хранить несколько языков в одном XML-файле, но Weblate по-прежнему "
+"сопоставляет каждый файл компонента с языком перевода, используя маску файла "
+"компонента. Для компонента словаря TBX исходный язык компонента используется "
+"для исходных терминов, а язык, извлечённый из имени файла, используется как "
+"целевой язык словаря."
 
 #: formats/tbx.rst:48
 msgid ""
@@ -50501,6 +50491,9 @@ msgid ""
 "component source language, because the source language already exists in "
 "Weblate and the file can be detected as a duplicate language."
 msgstr ""
+"Избегайте именования файла перевода TBX с кодом языка, совпадающим с "
+"исходным языком компонента, поскольку исходный язык уже существует в "
+"Weblate, и файл может быть обнаружен как дублирующий язык."
 
 #: formats/tbx.rst:78
 msgid "`TermBase eXchange file`"
@@ -51157,22 +51150,19 @@ msgid "Weblate's Python API"
 msgstr "Python API Weblate"
 
 #: python.rst:13
-#, fuzzy
-#| msgid ""
-#| "The Python API is shipped separately, you need to install the :ref:`wlc` "
-#| "(wlc) to have it."
 msgid ""
 "The Python API is shipped separately as the :pypi:`Weblate Client <wlc>` "
 "package:"
 msgstr ""
-"Python API поставляется отдельно, чтобы он был у вас появился, вам нужно "
-"установить :ref:`wlc` (wlc)."
+"Python API поставляется отдельно как пакет :pypi:`Weblate Client <wlc>`:"
 
 #: python.rst:27
 msgid ""
 "The :mod:`wlc` module exposes the Weblate API client, API objects returned "
 "by the client, and exceptions raised for common API failures."
 msgstr ""
+"Модуль :mod:`wlc` предоставляет клиент API Weblate, объекты API, "
+"возвращаемые клиентом, и исключения, вызываемые при типичных сбоях API."
 
 #: python.rst:32
 msgid ":class:`Weblate`"
@@ -51180,29 +51170,27 @@ msgstr ":class:`Weblate`"
 
 #: python.rst:34
 msgid "The :class:`Weblate` class is the main API entry point."
-msgstr ""
+msgstr "Класс :class:`Weblate` является основной точкой входа в API."
 
 #: python.rst:41
-#, fuzzy
-#| msgid "Explanations"
 msgid "Exceptions"
-msgstr "Пояснения"
+msgstr "Исключения"
 
 #: python.rst:53
-#, fuzzy
-#| msgid "Projects"
 msgid "API objects"
-msgstr "Проекты"
+msgstr "Объекты API"
 
 #: python.rst:55
 msgid ""
 "API objects behave as mappings and support deferred loading. Attribute "
 "access loads missing data from the API when needed."
 msgstr ""
+"Объекты API ведут себя как отображения и поддерживают отложенную загрузку. "
+"Доступ к атрибутам загружает недостающие данные из API при необходимости."
 
 #: security/data-residency.rst:2
 msgid "Data residency and EU cloud sovereignty"
-msgstr ""
+msgstr "Размещение данных и облачный суверенитет ЕС"
 
 #: security/data-residency.rst:4
 msgid ""
@@ -51212,6 +51200,12 @@ msgid ""
 "deployments, where the deploying organization controls hosting, backups, "
 "integrations, legal basis, and retention."
 msgstr ""
+"На этой странице описаны свойства размещения данных и облачного суверенитета "
+"услуг Weblate, управляемых Weblate s.r.o., включая **Hosted Weblate** и "
+"**Weblate Cloud**. Она не описывает произвольные развёртывания Weblate на "
+"собственном хостинге, где организация, выполняющая развёртывание, управляет "
+"хостингом, резервным копированием, интеграциями, юридическими основами и "
+"сроками хранения."
 
 #: security/data-residency.rst:10
 msgid ""
@@ -51220,35 +51214,30 @@ msgid ""
 "established in the European Union, and the primary hosting infrastructure is "
 "provided by Hetzner Online GmbH and Hetzner Finland Oy."
 msgstr ""
+"Услуги, управляемые Weblate, предназначены для европейского размещения "
+"данных и контроля со стороны клиента. Оператором услуг является Weblate "
+"s.r.o., компания, зарегистрированная в Европейском Союзе, а основная "
+"инфраструктура хостинга предоставляется Hetzner Online GmbH и Hetzner "
+"Finland Oy."
 
 #: security/data-residency.rst:16
 msgid "Where data lives"
 msgstr "Где хранятся данные"
 
 #: security/data-residency.rst:18
-#, fuzzy
-#| msgid ""
-#| "All customer data, including translations, user information, and backups, "
-#| "is stored and processed within the EU."
 msgid ""
 "Customer data, including translations, user information, operational data, "
 "and backups, is stored and processed within the European Union."
 msgstr ""
-"Все данные клиентов, включая переводы, информацию о пользователях и "
-"резервные копии, хранятся и обрабатываются в пределах ЕС."
+"Данные клиентов, включая переводы, информацию о пользователях, операционные "
+"данные и резервные копии, хранятся и обрабатываются в пределах Европейского "
+"Союза."
 
 #: security/data-residency.rst:20
-#, fuzzy
-#| msgid "Primary data centers are located in **Germany**."
 msgid "Primary service locations are in Germany."
-msgstr "Основные центры обработки данных расположены в **Германии**."
+msgstr "Основные места расположения услуг находятся в Германии."
 
 #: security/data-residency.rst:21
-#, fuzzy
-#| msgid ""
-#| "No operational data leaves the EU unless explicitly requested by the "
-#| "customer (for example, for external backups or region-specific "
-#| "deployments)."
 msgid ""
 "No operational data leaves the EU unless explicitly requested or configured "
 "by the customer, for example by enabling external backups, repository "
@@ -51256,12 +51245,14 @@ msgid ""
 "translation integrations outside the EU."
 msgstr ""
 "Никакие операционные данные не покидают ЕС, если только это явно не "
-"запрошено клиентом (например, для внешних резервных копий или развёртываний "
-"в определённом регионе)."
+"запрошено или не настроено клиентом, например, при включении внешних "
+"резервных копий, хостинга репозиториев, аутентификации, электронной почты, "
+"аналитики, отчётности об ошибках или интеграций машинного перевода за "
+"пределами ЕС."
 
 #: security/data-residency.rst:27
 msgid "Infrastructure provider"
-msgstr ""
+msgstr "Поставщик инфраструктуры"
 
 #: security/data-residency.rst:29
 msgid ""
@@ -51271,6 +51262,11 @@ msgid ""
 "operation, and customer support for their data center parks in Nuremberg, "
 "Falkenstein, and Helsinki."
 msgstr ""
+"Услуги, управляемые Weblate, используют инфраструктуру Hetzner. Hetzner "
+"Online GmbH и Hetzner Finland Oy сертифицированы по стандарту DIN ISO/IEC "
+"27001:2022 на систему управления информационной безопасностью, охватывающую "
+"инфраструктуру, эксплуатацию и поддержку клиентов для их парков центров "
+"обработки данных в Нюрнберге, Фалькенштайне и Хельсинки."
 
 #: security/data-residency.rst:35
 msgid ""
@@ -51278,37 +51274,44 @@ msgid ""
 "Its German data centers use hydropower, and its Finnish data center park has "
 "used hydropower since opening."
 msgstr ""
+"Hetzner заявляет, что его центры обработки данных используют электроэнергию "
+"из возобновляемых источников. Его немецкие центры обработки данных "
+"используют гидроэнергию, а финский парк центров обработки данных использует "
+"гидроэнергию с момента открытия."
 
 #: security/data-residency.rst:41
 msgid "`Hetzner ISMS and data protection`_"
-msgstr ""
+msgstr "`СИБ и защита данных Hetzner`_"
 
 #: security/data-residency.rst:42
-#, fuzzy
-#| msgid "Sustainability"
 msgid "`Hetzner sustainability`_"
-msgstr "Устойчивость"
+msgstr "`Устойчивость Hetzner`_"
 
 #: security/data-residency.rst:45
 msgid "EU cloud sovereignty"
-msgstr ""
+msgstr "Облачный суверенитет ЕС"
 
 #: security/data-residency.rst:47
 msgid ""
 "Weblate-operated services are intended to support common European cloud "
 "sovereignty requirements:"
 msgstr ""
+"Услуги, управляемые Weblate, предназначены для поддержки общих европейских "
+"требований к облачному суверенитету:"
 
 #: security/data-residency.rst:50
 msgid ""
 "**Data sovereignty:** Weblate stores and processes customer data in the EU."
 msgstr ""
+"**Суверенитет данных:** Weblate хранит и обрабатывает данные клиентов в ЕС."
 
 #: security/data-residency.rst:51
 msgid ""
 "**Operational sovereignty:** Weblate s.r.o. operates the application service "
 "from within the EU using EU infrastructure providers."
 msgstr ""
+"**Операционный суверенитет:** Weblate s.r.o. управляет службой приложений из "
+"пределов ЕС, используя поставщиков инфраструктуры ЕС."
 
 #: security/data-residency.rst:53
 msgid ""
@@ -51316,6 +51319,10 @@ msgid ""
 "hosting infrastructure. This reduces exposure to non-EU cloud operators, but "
 "does not remove every possible cross-border legal or integration dependency."
 msgstr ""
+"**Юридический суверенитет:** Услуга предоставляется компанией из ЕС и "
+"использует хостинговую инфраструктуру ЕС. Это снижает зависимость от "
+"облачных операторов за пределами ЕС, но не устраняет все возможные "
+"трансграничные юридические или интеграционные зависимости."
 
 #: security/data-residency.rst:56
 msgid ""
@@ -51323,24 +51330,19 @@ msgid ""
 "migrated, or run as a dedicated deployment when an organization needs "
 "stronger isolation or deployment-specific controls."
 msgstr ""
+"**Технический суверенитет:** Weblate является свободным программным "
+"обеспечением и может быть развёрнут самостоятельно, перенесён или запущен в "
+"виде выделенного развёртывания, когда организации требуется более строгая "
+"изоляция или специфические для развёртывания средства контроля."
 
 #: security/data-residency.rst:59
-#, fuzzy
-#| msgid ""
-#| "Customers retain full control over their data: - Projects, translations, "
-#| "and user accounts can be exported or deleted at any time. - External "
-#| "integrations are optional and fully configurable. - Dedicated Weblate "
-#| "instances are available for organizations needing isolated or customized "
-#| "environments."
 msgid ""
 "**Customer control:** Projects, translations, and user data can be exported "
 "or deleted. External integrations are optional and configurable."
 msgstr ""
-"Клиенты сохраняют полный контроль над своими данными: - Проекты, переводы и "
-"учётные записи пользователей могут быть экспортированы или удалены в любое "
-"время. - Внешние интеграции являются необязательными и полностью "
-"настраиваемыми. - Для организаций, нуждающихся в изолированных или "
-"настроенных средах, доступны выделенные экземпляры Weblate."
+"**Контроль клиента:** Проекты, переводы и данные пользователей могут быть "
+"экспортированы или удалены. Внешние интеграции являются необязательными и "
+"настраиваемыми."
 
 #: security/data-residency.rst:62
 msgid ""
@@ -51348,10 +51350,13 @@ msgid ""
 "are documented in :doc:`incident-response-plan` and :doc:`disaster-recovery-"
 "plan`."
 msgstr ""
+"Операционные средства контроля в отношении инцидентов безопасности и "
+"непрерывности обслуживания описаны в :doc:`incident-response-plan` и "
+":doc:`disaster-recovery-plan`."
 
 #: security/data-residency.rst:67
 msgid "Cloud Sovereignty Framework"
-msgstr ""
+msgstr "Рамка облачного суверенитета"
 
 #: security/data-residency.rst:69
 msgid ""
@@ -51362,6 +51367,12 @@ msgid ""
 "locality, EU operation, data portability, open-source software, and customer "
 "control."
 msgstr ""
+"Рамка облачного суверенитета ЕС и аналогичные рамки для закупок часто "
+"описываются с использованием уровней гарантии эффективности суверенитета "
+"(SEAL). Целевое направление Weblate для управляемых услуг — соответствие "
+"ожиданиям **SEAL-4 / Полный цифровой суверенитет**, особенно в отношении "
+"локализации в ЕС, эксплуатации в ЕС, переносимости данных, использования "
+"свободного программного обеспечения и контроля клиента."
 
 #: security/data-residency.rst:75
 msgid ""
@@ -51370,52 +51381,52 @@ msgid ""
 "would depend on a formal assessment route and on provider-level evidence "
 "from subprocessors such as Hetzner."
 msgstr ""
+"В настоящее время Weblate не заявляет о формальной сертификации SEAL-4, "
+"подтверждении третьей стороной или эквивалентном одобрении государственных "
+"рамок. Такое заявление зависело бы от формального пути оценки и от "
+"подтверждений на уровне поставщика от субподрядчиков, таких как Hetzner."
 
 #: security/data-residency.rst:80
 msgid "For procurement reviews, the current evidence points are:"
-msgstr ""
+msgstr "Для проверок при закупках текущие фактические данные следующие:"
 
 #: security/data-residency.rst:82
 msgid "Weblate s.r.o. is the EU service operator."
-msgstr ""
+msgstr "Weblate s.r.o. является оператором услуг в ЕС."
 
 #: security/data-residency.rst:83
-#, fuzzy
-#| msgid ""
-#| "All customer data, including translations, user information, and backups, "
-#| "is stored and processed within the EU."
 msgid ""
 "Customer data for Weblate-operated services is hosted and processed in the "
 "EU."
 msgstr ""
-"Все данные клиентов, включая переводы, информацию о пользователях и "
-"резервные копии, хранятся и обрабатываются в пределах ЕС."
+"Данные клиентов для услуг, управляемых Weblate, размещаются и обрабатываются "
+"в ЕС."
 
 #: security/data-residency.rst:84
 msgid "The application is libre software and can be independently deployed."
 msgstr ""
+"Приложение является свободным программным обеспечением и может быть "
+"развёрнуто независимо."
 
 #: security/data-residency.rst:85
-#, fuzzy
-#| msgid "Translate the project and upload translations made offline."
 msgid "Customer projects and translations can be exported."
-msgstr "Переводить проект и загружать переводы, сделанные в автономном режиме."
+msgstr "Проекты и переводы клиентов могут быть экспортированы."
 
 #: security/data-residency.rst:86
-#, fuzzy
-#| msgid "Confirm all services are operational and accessible."
 msgid "External integrations are optional and configurable."
-msgstr "Подтвердите, что все службы работают и доступны."
+msgstr "Внешние интеграции являются необязательными и настраиваемыми."
 
 #: security/data-residency.rst:87
 msgid ""
 "Hetzner publishes ISO/IEC 27001:2022 certification for the relevant data "
 "center parks."
 msgstr ""
+"Hetzner публикует сертификат ISO/IEC 27001:2022 для соответствующих парков "
+"центров обработки данных."
 
 #: security/data-residency.rst:91
 msgid "Cloud and AI Development Act"
-msgstr ""
+msgstr "Закон о облачных вычислениях и развитии ИИ"
 
 #: security/data-residency.rst:93
 msgid ""
@@ -51425,36 +51436,53 @@ msgid ""
 "procurement and readiness questions rather than as a formal compliance "
 "certification."
 msgstr ""
+"Закон ЕС о облачных вычислениях и развитии ИИ всё ещё является формирующейся "
+"законодательной и политической инициативой. До тех пор, пока не будут "
+"доступны окончательный юридический текст и руководство по внедрению, Weblate "
+"рассматривает вопросы, связанные с Законом о облачных вычислениях и развитии "
+"ИИ, как вопросы закупок и готовности, а не как формальную сертификацию "
+"соответствия."
 
 #: security/data-residency.rst:98
 msgid ""
 "The current Weblate service design supports likely cloud and AI sovereignty "
 "questions in these areas:"
 msgstr ""
+"Текущая конструкция услуги Weblate поддерживает вероятные вопросы облачного "
+"суверенитета и суверенитета ИИ в следующих областях:"
 
 #: security/data-residency.rst:101
 msgid ""
 "**European cloud infrastructure:** Weblate-operated services use EU hosting "
 "for customer data and operational data."
 msgstr ""
+"**Европейская облачная инфраструктура:** Услуги, управляемые Weblate, "
+"используют хостинг в ЕС для данных клиентов и операционных данных."
 
 #: security/data-residency.rst:103
 msgid ""
 "**Open-source stack:** Weblate is libre software, reducing dependency on "
 "proprietary cloud application code."
 msgstr ""
+"**Стек с открытым исходным кодом:** Weblate является свободным программным "
+"обеспечением, что снижает зависимость от проприетарного кода облачных "
+"приложений."
 
 #: security/data-residency.rst:105
 msgid ""
 "**Portability:** Translation files, project data, and user data can be "
 "exported."
 msgstr ""
+"**Переносимость:** Файлы переводов, данные проектов и данные пользователей "
+"могут быть экспортированы."
 
 #: security/data-residency.rst:107
 msgid ""
 "**No mandatory external AI provider:** Core Weblate workflows do not require "
 "external AI or machine-translation services."
 msgstr ""
+"**Отсутствие обязательного внешнего поставщика ИИ:** Основные рабочие "
+"процессы Weblate не требуют внешних сервисов ИИ или машинного перевода."
 
 #: security/data-residency.rst:109
 msgid ""
@@ -51464,6 +51492,12 @@ msgid ""
 "translations, and related context, so their use should be reviewed against "
 "the customer's sovereignty and data-transfer requirements."
 msgstr ""
+"**Настраиваемый ИИ и машинный перевод:** Автоматические предложения могут "
+"использовать сторонние сервисы машинного перевода или LLM только при "
+"настройке администратором или владельцем проекта. Эти сервисы могут получать "
+"исходные строки, переводы и связанный контекст, поэтому их использование "
+"должно быть проверено на соответствие требованиям клиента к суверенитету и "
+"передаче данных."
 
 #: security/data-residency.rst:115
 msgid ""
@@ -51471,6 +51505,9 @@ msgid ""
 "jurisdiction can disable external machine-translation services or use a self-"
 "hosted provider such as LibreTranslate."
 msgstr ""
+"Организации, которые требуют, чтобы обработка ИИ оставалась в пределах "
+"выбранной юрисдикции, могут отключить внешние сервисы машинного перевода или "
+"использовать поставщика на собственном хостинге, такого как LibreTranslate."
 
 #: security/data-residency.rst:126
 msgid "Customer control"
@@ -51478,19 +51515,23 @@ msgstr "Контроль клиента"
 
 #: security/data-residency.rst:128
 msgid "Customers retain control over their Weblate data:"
-msgstr ""
+msgstr "Клиенты сохраняют контроль над своими данными в Weblate:"
 
 #: security/data-residency.rst:130
 msgid ""
 "Project translation files can be downloaded from Weblate or synchronized "
 "back to the customer's repository."
 msgstr ""
+"Файлы переводов проектов могут быть загружены из Weblate или "
+"синхронизированы обратно в репозиторий клиента."
 
 #: security/data-residency.rst:132
 msgid ""
 "User data can be exported and account removal can be requested as described "
 "in :doc:`privacy-compliance`."
 msgstr ""
+"Данные пользователей можно экспортировать, а удаление учётной записи можно "
+"запросить, как описано в :doc:`privacy-compliance`."
 
 #: security/data-residency.rst:134
 msgid ""
@@ -51499,18 +51540,22 @@ msgid ""
 "and should be configured according to the customer's transfer and processor "
 "requirements."
 msgstr ""
+"Внешние интеграции, включая хостинг кода, аутентификацию, электронную почту, "
+"резервное копирование, аналитику, отчётность об ошибках и машинный перевод, "
+"являются необязательными и должны настраиваться в соответствии с "
+"требованиями клиента к передаче и обработке данных."
 
 #: security/data-residency.rst:138
 msgid ""
 "Dedicated Weblate instances are available for organizations needing stronger "
 "isolation or customized operational controls."
 msgstr ""
+"Выделенные экземпляры Weblate доступны для организаций, которым требуется "
+"более строгая изоляция или настраиваемые операционные средства контроля."
 
 #: security/data-residency.rst:142
-#, fuzzy
-#| msgid "Legal documents"
 msgid "Service legal documents"
-msgstr "Правовые документы"
+msgstr "Юридические документы услуги"
 
 #: security/dependencies.rst:2
 msgid "Dependencies"
@@ -51523,46 +51568,60 @@ msgid ""
 "release artifacts, SBOMs, signatures, and provenance attestations, "
 "see :doc:`release-artifacts`."
 msgstr ""
+"На этой странице описаны учёт зависимостей, мониторинг уязвимостей, "
+"сортировка зависимостей и сканирование уязвимостей контейнеров. Для "
+"опубликованных артефактов выпуска, SBOM, подписей и аттестаций происхождения "
+"см. :doc:`release-artifacts`."
 
 #: security/dependencies.rst:10
-#, fuzzy
-#| msgid "Dependency management"
 msgid "Dependency inventory"
-msgstr "Управление зависимостями"
+msgstr "Учёт зависимостей"
 
 #: security/dependencies.rst:12
 msgid ""
 "Weblate dependency information is maintained in several repository files:"
 msgstr ""
+"Информация о зависимостях Weblate поддерживается в нескольких файлах "
+"репозитория:"
 
 #: security/dependencies.rst:14
 msgid ""
 "Python dependencies are declared in :file:`pyproject.toml` and resolved "
 "in :file:`uv.lock`."
 msgstr ""
+"Зависимости Python объявлены в :file:`pyproject.toml` и зафиксированы в "
+":file:`uv.lock`."
 
 #: security/dependencies.rst:16
 msgid ""
 "Frontend dependencies are declared in :file:`client/package.json` and "
 "resolved in :file:`client/yarn.lock`."
 msgstr ""
+"Зависимости фронтэнда объявлены в :file:`client/package.json` и "
+"зафиксированы в :file:`client/yarn.lock`."
 
 #: security/dependencies.rst:18
 msgid ""
 "Vendored frontend libraries and generated license data are documented "
 "in :doc:`/contributing/submodules`."
 msgstr ""
+"Вендорные библиотеки фронтэнда и сгенерированные данные лицензий описаны в "
+":doc:`/contributing/submodules`."
 
 #: security/dependencies.rst:20
 msgid ""
 "Release SBOMs are published for Weblate releases as described in :ref:`sbom`."
 msgstr ""
+"SBOM выпусков публикуются для выпусков Weblate, как описано в :ref:`sbom`."
 
 #: security/dependencies.rst:22
 msgid ""
 "Docker image and Helm chart dependencies are maintained in the Weblate-owned "
 "Docker and Helm repositories listed in :ref:`release-artifact-inventory`."
 msgstr ""
+"Зависимости образов Docker и Helm-чартов поддерживаются в принадлежащих "
+"Weblate репозиториях Docker и Helm, перечисленных в :ref:`release-artifact-"
+"inventory`."
 
 #: security/dependencies.rst:26
 msgid ""
@@ -51570,25 +51629,23 @@ msgid ""
 "runtime requirements. The lock files describe the tested dependency set used "
 "by CI and release automation."
 msgstr ""
+"Диапазоны зависимостей в :file:`pyproject.toml` описывают поддерживаемые "
+"требования времени выполнения. Файлы блокировок описывают проверенный набор "
+"зависимостей, используемый CI и автоматизацией выпусков."
 
 #: security/dependencies.rst:31
 msgid "Tracking dependencies for vulnerabilities"
 msgstr "Отслеживание зависимостей для реагирования на уязвимости"
 
 #: security/dependencies.rst:33
-#, fuzzy
-#| msgid ""
-#| "Security issues in our dependencies are monitored using `Renovate`_. This "
-#| "covers the Python and JavaScript libraries, and the latest stable release "
-#| "has its dependencies updated to avoid vulnerabilities."
 msgid ""
 "Security issues in Weblate dependencies are monitored using `Renovate`_, "
 "GitHub dependency review, FOSSA_, release SBOMs, and container vulnerability "
 "scans."
 msgstr ""
-"Проблемы безопасности в наших зависимостях отслеживаются с помощью "
-"`Renovate`_. Это охватывает библиотеки Python и JavaScript, и в последнем "
-"стабильном выпуске его зависимости обновлены, чтобы избежать уязвимостей."
+"Проблемы безопасности в зависимостях Weblate отслеживаются с помощью "
+"`Renovate`_, проверки зависимостей GitHub, FOSSA_, SBOM выпусков и "
+"сканирования уязвимостей контейнеров."
 
 #: security/dependencies.rst:37
 msgid ""
@@ -51599,6 +51656,13 @@ msgid ""
 "application versions, and other pinned tool versions. It also configures "
 "selected package grouping, schedules, and automerge behavior."
 msgstr ""
+"Репозитории Weblate расширяют общую предустановку Renovate из `WeblateOrg/"
+"meta`_. Эта предустановка включает панель управления зависимостями, "
+"предупреждения об уязвимостях OSV, предупреждения об уязвимостях платформы, "
+"семантические коммиты зависимостей и пользовательские менеджеры Renovate для "
+"GitHub Actions, Dockerfiles, версий приложений Helm-чартов и других "
+"закреплённых версий инструментов. Она также настраивает группировку "
+"выбранных пакетов, расписания и поведение автоматического слияния."
 
 #: security/dependencies.rst:44
 msgid ""
@@ -51607,6 +51671,10 @@ msgid ""
 "``stable``; security update coverage for Weblate releases is described "
 "in :ref:`security-updates`."
 msgstr ""
+"Этот репозиторий добавляет ``main`` и ``stable`` как базовые ветки Renovate. "
+"Общие обновления зависимостей и обслуживание файлов блокировок отключены на "
+"``stable``; охват обновлений безопасности для выпусков Weblate описан в "
+":ref:`security-updates`."
 
 #: security/dependencies.rst:49
 msgid ""
@@ -51614,12 +51682,14 @@ msgid ""
 "before they are merged. FOSSA runs on pushes to ``main`` and records scan "
 "and policy-test results in the FOSSA service."
 msgstr ""
+"Проверка зависимостей GitHub выполняется на запросах на извлечение, чтобы "
+"показывать изменения зависимостей перед их слиянием. FOSSA выполняется при "
+"отправках в ``main`` и записывает результаты сканирования и проверки политик "
+"в сервисе FOSSA."
 
 #: security/dependencies.rst:54
-#, fuzzy
-#| msgid "Tracking dependencies for vulnerabilities"
 msgid "Dependency vulnerability triage"
-msgstr "Отслеживание зависимостей для реагирования на уязвимости"
+msgstr "Сортировка уязвимостей зависимостей"
 
 #: security/dependencies.rst:56
 msgid ""
@@ -51628,30 +51698,42 @@ msgid ""
 "report, maintainers evaluate whether it affects Weblate. The triage checks "
 "include:"
 msgstr ""
+"Когда об уязвимости зависимости сообщается через Renovate, проверку "
+"зависимостей GitHub, FOSSA, анализ SBOM выпуска, сканирование контейнера или "
+"отчёт об уязвимости, сопровождающие оценивают, влияет ли она на Weblate. "
+"Проверки при сортировке включают:"
 
 #: security/dependencies.rst:61
 msgid ""
 "whether the affected dependency and version are used by Weblate, a published "
 "release artifact, or a maintained deployment artifact;"
 msgstr ""
+"используются ли затронутая зависимость и версия в Weblate, опубликованном "
+"артефакте выпуска или поддерживаемом артефакте развёртывания;"
 
 #: security/dependencies.rst:63
 msgid ""
 "whether the vulnerable code path is reachable through supported Weblate "
 "functionality or supported deployment modes;"
 msgstr ""
+"доступен ли уязвимый путь кода через поддерживаемую функциональность Weblate "
+"или поддерживаемые режимы развёртывания;"
 
 #: security/dependencies.rst:65
 msgid ""
 "whether the issue is in Weblate's use of the dependency or should be "
 "reported to the upstream project;"
 msgstr ""
+"находится ли проблема в использовании зависимости Weblate или должна быть "
+"сообщена вышестоящему проекту;"
 
 #: security/dependencies.rst:67
 msgid ""
 "whether a dependency update, configuration change, mitigation, advisory, or "
 "Weblate security update is needed."
 msgstr ""
+"требуется ли обновление зависимости, изменение конфигурации, смягчение, "
+"уведомление или обновление безопасности Weblate."
 
 #: security/dependencies.rst:72
 msgid ""
@@ -51663,10 +51745,8 @@ msgstr ""
 "версий Weblate."
 
 #: security/dependencies.rst:76
-#, fuzzy
-#| msgid "Dependency management"
 msgid "Dependency and lockfile maintenance"
-msgstr "Управление зависимостями"
+msgstr "Обслуживание зависимостей и файлов блокировок"
 
 #: security/dependencies.rst:78
 msgid ""
@@ -51674,6 +51754,9 @@ msgid ""
 "frontend dependency lock file and vendored frontend files are maintained by "
 "the ``yarn update`` workflow."
 msgstr ""
+"Файл блокировки Python поддерживается рабочим процессом ``uv lock update``. "
+"Файл блокировки зависимостей фронтэнда и вендорные файлы фронтэнда "
+"поддерживаются рабочим процессом ``yarn update``."
 
 #: security/dependencies.rst:82
 msgid ""
@@ -51681,25 +51764,24 @@ msgid ""
 "patch`` workflow. That workflow applies only validated patch artifacts and "
 "limits the paths that each maintenance workflow is allowed to update."
 msgstr ""
+"Созданные изменения обслуживания проходят через рабочий процесс ``Apply "
+"maintenance patch``. Этот рабочий процесс применяет только проверенные "
+"артефакты патчей и ограничивает пути, которые каждый рабочий процесс "
+"обслуживания может обновлять."
 
 #: security/dependencies.rst:87
 msgid "Docker container security"
 msgstr "Безопасность Docker-контейнера"
 
 #: security/dependencies.rst:89
-#, fuzzy
-#| msgid ""
-#| "The Docker containers are scanned for security vulnerabilities in our CI. "
-#| "This allows us to detect vulnerabilities early and release improvements "
-#| "quickly."
 msgid ""
 "The Weblate and Weblate Client Docker containers are scanned for security "
 "vulnerabilities in CI. This allows us to detect vulnerabilities early and "
 "release improvements quickly."
 msgstr ""
-"Контейнеры Docker сканируются на предмет уязвимостей безопасности в нашем "
-"CI. Это позволяет нам обнаруживать уязвимости на раннем этапе и быстро "
-"выпускать улучшения."
+"Контейнеры Docker Weblate и Weblate Client сканируются на предмет "
+"уязвимостей безопасности в CI. Это позволяет нам обнаруживать уязвимости на "
+"раннем этапе и быстро выпускать улучшения."
 
 #: security/dependencies.rst:93
 msgid ""
@@ -51709,53 +51791,67 @@ msgid ""
 "data. The inspected workflows also store Trivy SARIF artifacts, and the "
 "Weblate Client workflow stores Anchore SARIF artifacts."
 msgstr ""
+"Проверяемые рабочие процессы Weblate Docker и Weblate Client сканируют "
+"собранные образы контейнеров с помощью Anchore_ и Trivy_. Результаты "
+"загружаются в GitHub code scanning как данные :abbr:`SARIF (Static Analysis "
+"Results Interchange Format)`. Проверяемые рабочие процессы также сохраняют "
+"артефакты SARIF Trivy, а рабочий процесс Weblate Client сохраняет артефакты "
+"SARIF Anchore."
 
 #: security/dependencies.rst:100
 msgid "Known external policy details"
-msgstr ""
+msgstr "Известные подробности внешней политики"
 
 #: security/dependencies.rst:102
 msgid ""
 "Some dependency and vulnerability-management details are maintained outside "
 "this documentation:"
 msgstr ""
+"Некоторые детали управления зависимостями и уязвимостями поддерживаются за "
+"пределами этой документации:"
 
 #: security/dependencies.rst:105
 msgid ""
 "complete Renovate behavior is defined in the shared `WeblateOrg/meta`_ "
 "preset and repository platform settings;"
 msgstr ""
+"полное поведение Renovate определяется в общей предустановке `WeblateOrg/"
+"meta`_ и настройках платформы репозитория;"
 
 #: security/dependencies.rst:107
 msgid ""
 "GitHub dependency graph, Dependabot alert, and branch-protection state are "
 "GitHub platform configuration;"
 msgstr ""
+"граф зависимостей GitHub, предупреждения Dependabot и состояние защиты веток "
+"являются конфигурацией платформы GitHub;"
 
 #: security/dependencies.rst:109
 msgid "FOSSA result history and policy thresholds are stored in FOSSA;"
-msgstr ""
+msgstr "история результатов FOSSA и пороги политик хранятся в FOSSA;"
 
 #: security/dependencies.rst:110
 msgid ""
 "scanner output is stored in GitHub code scanning and workflow artifacts."
 msgstr ""
+"вывод сканера сохраняется в GitHub code scanning и артефактах рабочих "
+"процессов."
 
 #: security/dependencies.rst:115
 msgid "Renovate_"
-msgstr ""
+msgstr "Renovate_"
 
 #: security/dependencies.rst:116
 msgid "`GitHub dependency review`_"
-msgstr ""
+msgstr "`Проверка зависимостей GitHub`_"
 
 #: security/dependencies.rst:118
 msgid "Anchore_"
-msgstr ""
+msgstr "Anchore_"
 
 #: security/dependencies.rst:119
 msgid "Trivy_"
-msgstr ""
+msgstr "Trivy_"
 
 #: security/disaster-recovery-plan.rst:2
 msgid "Disaster recovery plan"
@@ -51984,7 +52080,7 @@ msgstr ""
 
 #: security/governance.rst:2
 msgid "Security governance and assessment status"
-msgstr ""
+msgstr "Управление безопасностью и статус оценки"
 
 #: security/governance.rst:4
 msgid ""
@@ -51993,24 +52089,30 @@ msgid ""
 "documentation index and does not claim certification, audit completion, or "
 "regulatory compliance."
 msgstr ""
+"На этой странице обобщена информация о том, где Weblate публикует информацию "
+"об управлении безопасностью, и зафиксирован текущий статус формальной "
+"оценки. Это фактический индекс документации и не является заявлением о "
+"сертификации, завершении аудита или соответствии нормативным требованиям."
 
 #: security/governance.rst:9
 msgid ""
 "For product identity, contact, support, release, and SBOM identity, "
 "see :doc:`product-information`."
 msgstr ""
+"Информацию об идентификации продукта, контактах, поддержке, выпусках и "
+"идентификации SBOM см. в :doc:`product-information`."
 
 #: security/governance.rst:13
-#, fuzzy
-#| msgid "Weblate documentation"
 msgid "Governance documentation"
-msgstr "Документация Weblate"
+msgstr "Документация по управлению"
 
 #: security/governance.rst:15
 msgid ""
 "Weblate publishes security governance information in these documentation "
 "areas:"
 msgstr ""
+"Weblate публикует информацию об управлении безопасностью в следующих "
+"областях документации:"
 
 #: security/governance.rst:18
 msgid ""
@@ -52018,39 +52120,50 @@ msgid ""
 "documented in :doc:`/contributing/index`, :doc:`/contributing/code`, "
 "and :doc:`/contributing/code_of_conduct`."
 msgstr ""
+"Правила участия, ожидания при проверке кода и участие в проекте описаны в "
+":doc:`/contributing/index`, :doc:`/contributing/code` и :doc:`/contributing/"
+"code_of_conduct`."
 
 #: security/governance.rst:21
 msgid ""
 "Release lifecycle, security update coverage, and upgrade support are "
 "documented in :doc:`releases`."
 msgstr ""
+"Жизненный цикл выпусков, охват обновлений безопасности и поддержка "
+"обновлений описаны в :doc:`releases`."
 
 #: security/governance.rst:23
 msgid ""
 "Vulnerability reporting, disclosure handling, and service incident reporting "
 "are documented in :doc:`issues`."
 msgstr ""
+"Сообщение об уязвимостях, обработка раскрытия информации и сообщение об "
+"инцидентах услуг описаны в :doc:`issues`."
 
 #: security/governance.rst:25
 msgid ""
 "Dependency inventory, vulnerability triage, update automation, and container "
 "scanning are documented in :doc:`dependencies`."
 msgstr ""
+"Учёт зависимостей, сортировка уязвимостей, автоматизация обновлений и "
+"сканирование контейнеров описаны в :doc:`dependencies`."
 
 #: security/governance.rst:27
 msgid ""
 "Security assumptions and boundaries are documented in :doc:`threat-model`."
-msgstr ""
+msgstr "Предположения и границы безопасности описаны в :doc:`threat-model`."
 
 #: security/governance.rst:28
 msgid ""
 "Release artifact inventory, SBOMs, signatures, attestations, and "
 "verification are documented in :doc:`release-artifacts`."
 msgstr ""
+"Учёт артефактов выпуска, SBOM, подписи, аттестации и проверка описаны в "
+":doc:`release-artifacts`."
 
 #: security/governance.rst:32
 msgid "Formal assessment status"
-msgstr ""
+msgstr "Состояние формальной оценки"
 
 #: security/governance.rst:34
 msgid ""
@@ -52058,6 +52171,9 @@ msgid ""
 "assessment, certification, audit report, penetration-test report, or formal "
 "self-assessment for Weblate."
 msgstr ""
+"В настоящее время в этом репозитории не зафиксирована формальная оценка "
+"безопасности третьей стороной, сертификация, отчёт об аудите, отчёт о "
+"тестировании на проникновение или формальная самооценка для Weblate."
 
 #: security/governance.rst:38
 msgid ""
@@ -52066,6 +52182,11 @@ msgid ""
 "scans are security evidence and automation signals. They are not formal "
 "assessments, certifications, or audit reports."
 msgstr ""
+"Автоматические проверки безопасности и инструменты соответствия, такие как "
+"CodeQL, проверка зависимостей GitHub, FOSSA, OpenSSF Scorecard и "
+"сканирование уязвимостей контейнеров, являются свидетельствами безопасности "
+"и сигналами автоматизации. Они не являются формальными оценками, "
+"сертификатами или отчётами об аудите."
 
 #: security/governance.rst:43
 msgid ""
@@ -52073,6 +52194,9 @@ msgid ""
 "the repository security metadata should be updated with the assessment "
 "reference and date."
 msgstr ""
+"Если Weblate опубликует формальные свидетельства оценки в будущем, эта "
+"страница и метаданные безопасности репозитория должны быть обновлены с "
+"указанием ссылки на оценку и даты."
 
 #: security/incident-response-plan.rst:2
 msgid "Incident response plan for Weblate"
@@ -52179,6 +52303,9 @@ msgid ""
 "vulnerability reporting process and :ref:`vulnerability-disclosure-policy` "
 "in :doc:`/security/issues`."
 msgstr ""
+"Если инцидент включает уязвимость продукта Weblate, следуйте процессу "
+"сообщения об уязвимостях продукта и :ref:`vulnerability-disclosure-policy` в "
+":doc:`/security/issues`."
 
 #: security/incident-response-plan.rst:40
 msgid "Incident categories and severity"
@@ -52623,25 +52750,25 @@ msgstr ""
 "прочитайте :ref:`security`."
 
 #: security/index.rst:15
-#, fuzzy
-#| msgid "Security updates"
 msgid "Security updates and releases"
-msgstr "Обновления безопасности"
+msgstr "Обновления и выпуски безопасности"
 
 #: security/index.rst:17
-#, fuzzy
-#| msgid "Only the latest release is guaranteed to receive security updates."
 msgid ""
 "Only the latest Weblate release is guaranteed to receive security updates. "
 "Learn more about :doc:`Weblate releases and supported versions <releases>`."
 msgstr ""
-"Только последняя версия гарантированно получит обновления безопасности."
+"Только последняя версия Weblate гарантированно получает обновления "
+"безопасности. Узнайте больше о :doc:`выпусках Weblate и поддерживаемых "
+"версиях <releases>`."
 
 #: security/index.rst:20
 msgid ""
 "Release artifacts can be checked using published signatures, attestations, "
 "and SBOMs. See :doc:`release-artifacts`."
 msgstr ""
+"Артефакты выпуска можно проверить с помощью опубликованных подписей, "
+"аттестаций и SBOM. См. :doc:`release-artifacts`."
 
 #: security/index.rst:24
 msgid "Security policies"
@@ -52652,33 +52779,42 @@ msgid ""
 ":doc:`product-information` - product identity, contact, support, release, "
 "and SBOM metadata."
 msgstr ""
+":doc:`product-information` — идентификация продукта, контакты, поддержка, "
+"выпуски и метаданные SBOM."
 
 #: security/index.rst:28
 msgid ""
 ":doc:`governance` - security governance documentation and assessment status."
 msgstr ""
+":doc:`governance` — документация по управлению безопасностью и статус оценки."
 
 #: security/index.rst:29
 msgid ""
 ":doc:`releases` - release cycle, security update coverage, and upgrade "
 "support."
 msgstr ""
+":doc:`releases` — жизненный цикл выпусков, охват обновлений безопасности и "
+"поддержка обновлений."
 
 #: security/index.rst:31
 msgid ""
 ":doc:`release-artifacts` - release artifact inventory, SBOMs, signatures, "
 "attestations, and verification."
 msgstr ""
+":doc:`release-artifacts` — учёт артефактов выпуска, SBOM, подписи, "
+"аттестации и проверка."
 
 #: security/index.rst:33
 msgid ""
 ":doc:`dependencies` - dependency inventory, vulnerability triage, update "
 "automation, and container scanning."
 msgstr ""
+":doc:`dependencies` — учёт зависимостей, сортировка уязвимостей, "
+"автоматизация обновлений и сканирование контейнеров."
 
 #: security/index.rst:35
 msgid ":doc:`issues` - vulnerability reporting and disclosure."
-msgstr ""
+msgstr ":doc:`issues` — сообщение и раскрытие информации об уязвимостях."
 
 #: security/index.rst:42
 msgid "Compliance"
@@ -52697,10 +52833,8 @@ msgid "Vulnerability and incident handling"
 msgstr "Обработка уязвимостей и инцидентов"
 
 #: security/issues.rst:7
-#, fuzzy
-#| msgid "Activity reports"
 msgid "Product vulnerability reports"
-msgstr "Отчёты о деятельности"
+msgstr "Отчёты об уязвимостях продукта"
 
 #: security/issues.rst:11
 msgid ""
@@ -52728,6 +52862,10 @@ msgid ""
 "release artifacts, and documented Weblate security properties. They do not "
 "replace operational incident response for a particular deployment."
 msgstr ""
+"Отчёты об уязвимостях продукта охватывают проблемы безопасности в исходном "
+"коде Weblate, артефактах выпуска и документированных свойствах безопасности "
+"Weblate. Они не заменяют реагирование на операционные инциденты для "
+"конкретного развёртывания."
 
 #: security/issues.rst:21
 msgid ""
@@ -52762,6 +52900,11 @@ msgid ""
 "containment, recovery, customer notification, provider escalation, and other "
 "deployment-specific incident response remain the operator's responsibility."
 msgstr ""
+"Операторы самостоятельного хостинга должны использовать этот процесс, когда "
+"они полагают, что инцидент в их собственном развёртывании вызван уязвимостью "
+"продукта Weblate. Локальное сдерживание, восстановление, уведомление "
+"клиентов, эскалация поставщику и другие специфические для развёртывания "
+"действия по реагированию на инциденты остаются ответственностью оператора."
 
 #: security/issues.rst:36
 msgid ""
@@ -52823,10 +52966,8 @@ msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
 msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
 #: security/issues.rst:67
-#, fuzzy
-#| msgid "Weblate to external services"
 msgid "Weblate-operated service incidents"
-msgstr "Weblate к внешним службам"
+msgstr "Инциденты услуг, управляемых Weblate"
 
 #: security/issues.rst:69
 msgid ""
@@ -52834,6 +52975,9 @@ msgid ""
 "deployments operated by Weblate s.r.o. are handled using :doc:`/security/"
 "incident-response-plan`."
 msgstr ""
+"Операционные инциденты, затрагивающие Hosted Weblate, Dedicated Weblate или "
+"другие развёртывания, управляемые Weblate s.r.o., обрабатываются с "
+"использованием :doc:`/security/incident-response-plan`."
 
 #: security/issues.rst:73
 msgid ""
@@ -52841,12 +52985,13 @@ msgid ""
 "vulnerability report and public advisory follow the product vulnerability "
 "reporting process and :ref:`vulnerability-disclosure-policy` on this page."
 msgstr ""
+"Когда такой инцидент также включает уязвимость продукта Weblate, отчёт об "
+"уязвимости и публичное уведомление следуют процессу сообщения об уязвимостях "
+"продукта и :ref:`vulnerability-disclosure-policy` на этой странице."
 
 #: security/issues.rst:78
-#, fuzzy
-#| msgid "Weblate deployments"
 msgid "Self-hosted deployment incidents"
-msgstr "Развёртывание Weblate"
+msgstr "Инциденты развёртывания на собственном хостинге"
 
 #: security/issues.rst:80
 msgid ""
@@ -52856,6 +53001,12 @@ msgid ""
 "incident-response-plan` can be used as a reference, but it is not a "
 "maintained incident response plan for third-party deployments."
 msgstr ""
+"Операторы развёртываний Weblate на собственном хостинге несут "
+"ответственность за свой локальный процесс реагирования на инциденты, включая "
+"сдерживание, восстановление, уведомление и эскалацию, специфичную для "
+"поставщика. Управляемый Weblate :doc:`/security/incident-response-plan` "
+"может использоваться как справочный материал, но не является поддерживаемым "
+"планом реагирования на инциденты для сторонних развёртываний."
 
 #: security/issues.rst:86
 msgid ""
@@ -52863,44 +53014,37 @@ msgid ""
 "vulnerability, report it using the product vulnerability reporting process "
 "above."
 msgstr ""
+"Если инцидент на собственном хостинге, по-видимому, вызван уязвимостью "
+"продукта Weblate, сообщите о нём, используя описанный выше процесс сообщения "
+"об уязвимостях продукта."
 
 #: security/issues.rst:93
 msgid "Vulnerability disclosure policy"
 msgstr "Политика раскрытия уязвимостей"
 
 #: security/issues.rst:95
-#, fuzzy
-#| msgid ""
-#| "Within 30 days following a release containing a vulnerability fix, a "
-#| "security advisory is published at https://github.com/WeblateOrg/weblate/"
-#| "security/advisories. The advisory is available immediately with a release "
-#| "when possible."
 msgid ""
 "For Weblate product vulnerabilities, within 30 days following a release "
 "containing a vulnerability fix, a security advisory is published at https://"
 "github.com/WeblateOrg/weblate/security/advisories. The advisory is available "
 "immediately with a release when possible."
 msgstr ""
-"В течение 30 дней после выпуска, содержащего исправление уязвимости, "
-"уведомление о безопасности публикуется по адресу https://github.com/"
-"WeblateOrg/weblate/security/advisories. Уведомление доступно немедленно с "
-"выпуском, когда это возможно."
+"Для уязвимостей продукта Weblate в течение 30 дней после выпуска, "
+"содержащего исправление уязвимости, публикуется уведомление о безопасности "
+"по адресу https://github.com/WeblateOrg/weblate/security/advisories. "
+"Уведомление доступно немедленно с выпуском, когда это возможно."
 
 #: security/issues.rst:100
-#, fuzzy
-#| msgid ""
-#| "Any actively exploited vulnerability or severe incidents are notified to "
-#| "CSIRT within 24 hours, general info is provided to CSIRT within 72 hours, "
-#| "and a full report is provided within 14 days."
 msgid ""
 "Any actively exploited Weblate vulnerability, or any severe incident "
 "affecting Weblate-operated services, is notified to CSIRT within 24 hours, "
 "general info is provided to CSIRT within 72 hours, and a full report is "
 "provided within 14 days."
 msgstr ""
-"О любой активно используемой уязвимости или серьёзном инциденте уведомляется "
-"CSIRT в течение 24 часов, общая информация предоставляется в CSIRT в течение "
-"72 часов, а полный отчёт предоставляется в течение 14 дней."
+"Любая активно используемая уязвимость Weblate или любой серьёзный инцидент, "
+"затрагивающий услуги, управляемые Weblate, уведомляется в CSIRT в течение 24 "
+"часов, общая информация предоставляется в CSIRT в течение 72 часов, а полный "
+"отчёт предоставляется в течение 14 дней."
 
 #: security/issues.rst:105
 msgid ""
@@ -53912,10 +54056,8 @@ msgstr ""
 "юрисдикциях."
 
 #: security/product-information.rst:2
-#, fuzzy
-#| msgid "Subcontractor information"
 msgid "Product and contact information"
-msgstr "Информация о субподрядчиках"
+msgstr "Информация о продукте и контактах"
 
 #: security/product-information.rst:4
 msgid ""
@@ -53923,46 +54065,37 @@ msgid ""
 "and release information. It is informational and is not a regulatory "
 "declaration."
 msgstr ""
+"На этой странице указан Weblate и основные места для получения информации о "
+"поддержке, безопасности и выпусках. Она носит информационный характер и не "
+"является нормативным заявлением."
 
 #: security/product-information.rst:9
 msgid "Product"
 msgstr "Продукт"
 
 #: security/product-information.rst:11
-#, fuzzy
-#| msgid ""
-#| "**Weblate is libre software web-based continuous localization system, "
-#| "used by over 2500 libre projects and companies in more than 165 "
-#| "countries.**"
 msgid ""
 "Weblate is a web-based continuous localization system with tight version "
 "control integration."
 msgstr ""
-"**Weblate — это веб-система непрерывной локализации свободного программного "
-"обеспечения, используемая более чем 2500 свободными проектами и компаниями в "
-"более чем 165 странах.**"
+"Weblate — это веб-система непрерывной локализации с тесной интеграцией с "
+"системами контроля версий."
 
 #: security/product-information.rst:14
-#, fuzzy
-#| msgid "Register yourself at https://weblate.org/user/"
 msgid "Website: https://weblate.org/"
-msgstr "Зарегистрируйтесь на https://weblate.org/user/"
+msgstr "Веб-сайт: https://weblate.org/"
 
 #: security/product-information.rst:15
-#, fuzzy
-#| msgid "`Gallette documentation <https://doc.galette.eu/>`_"
 msgid "Documentation: https://docs.weblate.org/"
-msgstr "`Документация Gallette <https://doc.galette.eu/>`_"
+msgstr "Документация: https://docs.weblate.org/"
 
 #: security/product-information.rst:16
-#, fuzzy
-#| msgid "https://github.com/WeblateOrg/weblate/issues"
 msgid "Source code: https://github.com/WeblateOrg/weblate"
-msgstr "https://github.com/WeblateOrg/weblate/issues"
+msgstr "Исходный код: https://github.com/WeblateOrg/weblate"
 
 #: security/product-information.rst:17
 msgid "License: GPL-3.0-or-later"
-msgstr ""
+msgstr "Лицензия: GPL-3.0 или новее"
 
 #: security/product-information.rst:20
 msgid "Support"
@@ -53973,6 +54106,8 @@ msgid ""
 "Weblate s.r.o. provides professional support for Weblate. For support "
 "options, see :doc:`/admin/support`."
 msgstr ""
+"Weblate s.r.o. предоставляет профессиональную поддержку для Weblate. "
+"Информацию о вариантах поддержки см. в :doc:`/admin/support`."
 
 #: security/product-information.rst:25
 msgid ""
@@ -53980,18 +54115,22 @@ msgid ""
 "in :ref:`support-contact`. Community issue reporting is described in :doc:`/"
 "contributing/issues`."
 msgstr ""
+"Подписчики могут связаться с Weblate Care по адресу care@weblate.org, как "
+"описано в :ref:`support-contact`. Сообщение о проблемах сообществом описано "
+"в :doc:`/contributing/issues`."
 
 #: security/product-information.rst:32
 msgid ""
 "Report security issues using private channels documented in :doc:`/security/"
 "issues`. The primary security contact is security@weblate.org."
 msgstr ""
+"Сообщайте о проблемах безопасности, используя приватные каналы, описанные в "
+":doc:`/security/issues`. Основной контакт для вопросов безопасности — "
+"security@weblate.org."
 
 #: security/product-information.rst:36
-#, fuzzy
-#| msgid "User attribution"
 msgid "Releases and distribution"
-msgstr "Атрибуция пользователя"
+msgstr "Выпуски и распространение"
 
 #: security/product-information.rst:38
 msgid ""
@@ -54001,18 +54140,22 @@ msgid ""
 "publication, Weblate Client package releases, and Weblate Client Docker "
 "images."
 msgstr ""
+"Поддерживаемые каналы выпуска и распространения перечислены в :ref:`release-"
+"artifact-inventory`. Этот учёт охватывает исходные выпуски, активы выпусков "
+"GitHub, пакет Python, образы Docker, Helm-чарт, публикацию документации, "
+"выпуски пакета Weblate Client и образы Docker Weblate Client."
 
 #: security/product-information.rst:44
 msgid ""
 "Release SBOMs identify Weblate s.r.o. as the SBOM author, manufacturer, and "
 "supplier for released Weblate components. See :ref:`sbom`."
 msgstr ""
+"SBOM выпусков идентифицируют Weblate s.r.o. как автора SBOM, производителя и "
+"поставщика выпущенных компонентов Weblate. См. :ref:`sbom`."
 
 #: security/product-information.rst:48
-#, fuzzy
-#| msgid "Regulatory mapping"
 msgid "Regulatory declarations"
-msgstr "Нормативное отображение"
+msgstr "Нормативные заявления"
 
 #: security/product-information.rst:50
 msgid ""
@@ -54020,20 +54163,30 @@ msgid ""
 "marking statement, or Cyber Resilience Act applicability decision for "
 "Weblate."
 msgstr ""
+"В этой документации не зафиксированы действующая декларация соответствия ЕС, "
+"заявление о маркировке CE или решение о применимости Закона о "
+"киберустойчивости для Weblate."
 
 #: security/product-information.rst:53
+#, fuzzy
 msgid ""
 "This status note is only a documentation record. It does not create, "
 "replace, or imply an EU declaration of conformity, CE marking statement, "
 "Cyber Resilience Act applicability decision, or any other regulatory "
 "conclusion."
 msgstr ""
+"Эта заметка о статусе является только записью в документации. Она не "
+"создаёт, не заменяет и не подразумевает декларацию соответствия ЕС, "
+"заявление о маркировке CE, решение о применимости Закона о киберустойчивости "
+"или любой другой нормативный вывод."
 
 #: security/release-artifacts.rst:2
+#, fuzzy
 msgid "Release artifacts and verification"
-msgstr ""
+msgstr "Артефакты выпуска и проверка"
 
 #: security/release-artifacts.rst:4
+#, fuzzy
 msgid ""
 "This page lists Weblate release artifacts and maintained distribution "
 "channels and explains how to verify the artifacts that include published "
@@ -54041,12 +54194,20 @@ msgid ""
 "update coverage, see :doc:`releases`. For dependency monitoring and "
 "container vulnerability scanning, see :doc:`dependencies`."
 msgstr ""
+"На этой странице перечислены артефакты выпусков Weblate и поддерживаемые "
+"каналы распространения, а также объясняется, как проверять артефакты, "
+"включающие опубликованные подписи, аттестации и SBOM. Информацию о "
+"поддерживаемых версиях и охвате обновлений безопасности см. в "
+":doc:`releases`. Информацию о мониторинге зависимостей и сканировании "
+"уязвимостей контейнеров см. в :doc:`dependencies`."
 
 #: security/release-artifacts.rst:13
+#, fuzzy
 msgid "Release artifact inventory"
-msgstr ""
+msgstr "Учёт артефактов выпуска"
 
 #: security/release-artifacts.rst:15
+#, fuzzy
 msgid ""
 "Weblate releases and maintained distribution channels are published through "
 "several channels. This inventory lists the artifacts described by this "
@@ -54054,214 +54215,267 @@ msgid ""
 "maintained in Weblate-owned sibling repositories, the table cites the "
 "repository where the build and release automation lives."
 msgstr ""
+"Выпуски Weblate и поддерживаемые каналы распространения публикуются через "
+"несколько каналов. В этом учёте перечислены артефакты, описанные в этом "
+"репозитории, и указано, где хранятся свидетельства их публикации. Для "
+"артефактов, поддерживаемых в родственных репозиториях Weblate, в таблице "
+"указан репозиторий, где находится автоматизация сборки и выпуска."
 
 #: security/release-artifacts.rst:24
+#, fuzzy
 msgid "Artifact or channel"
-msgstr ""
+msgstr "Артефакт или канал"
 
 #: security/release-artifacts.rst:25
 #, fuzzy
 #| msgid "View upstream repository location"
 msgid "Owning repository or location"
-msgstr "Просмотр расположения вышестоящего репозитория"
+msgstr "Владеющий репозиторий или расположение"
 
 #: security/release-artifacts.rst:26
 #, fuzzy
 #| msgid "Publishing translation files"
 msgid "Publishing target"
-msgstr "Публикация файлов переводов"
+msgstr "Целевая публикация"
 
 #: security/release-artifacts.rst:27
 #, fuzzy
 #| msgid "Repository maintenance"
 msgid "Repository evidence"
-msgstr "Обслуживание репозитория"
+msgstr "Свидетельства в репозитории"
 
 #: security/release-artifacts.rst:28
 #, fuzzy
 #| msgid "Note"
 msgid "Notes"
-msgstr "Примечание"
+msgstr "Примечания"
 
 #: security/release-artifacts.rst:29
+#, fuzzy
 msgid "Source releases and GitHub release assets"
-msgstr ""
+msgstr "Исходные выпуски и активы выпусков GitHub"
 
 #: security/release-artifacts.rst:30
 #, fuzzy
 #| msgid ":file:`~/.config/weblate`"
 msgid ":file:`WeblateOrg/weblate`"
-msgstr ":file:`~/.config/weblate`"
+msgstr ":file:`WeblateOrg/weblate`"
 
 #: security/release-artifacts.rst:31
 #, fuzzy
 #| msgid "GitHub repositories"
 msgid "`GitHub releases`_"
-msgstr "Репозитории GitHub"
+msgstr "`Выпуски GitHub`_"
 
 #: security/release-artifacts.rst:32
+#, fuzzy
 msgid ""
 ":file:`.github/workflows/setup.yml`, :file:`scripts/create-"
 "release`, :file:`scripts/prepare-release`, and :doc:`/contributing/release`"
 msgstr ""
+":file:`.github/workflows/setup.yml`, :file:`scripts/create-release`, "
+":file:`scripts/prepare-release` и :doc:`/contributing/release`"
 
 #: security/release-artifacts.rst:34
+#, fuzzy
 msgid ""
 "Release assets include Python distribution archives, release notes, and the "
 "release SBOM."
 msgstr ""
+"Активы выпуска включают архивы дистрибутивов Python, примечания к выпуску и "
+"SBOM выпуска."
 
 #: security/release-artifacts.rst:36
 #, fuzzy
 #| msgid "Python packages"
 msgid "Python package"
-msgstr "Пакеты Python"
+msgstr "Пакет Python"
 
 #: security/release-artifacts.rst:37
+#, fuzzy
 msgid ":file:`pyproject.toml`, :file:`setup.py`, and :file:`MANIFEST.in`"
-msgstr ""
+msgstr ":file:`pyproject.toml`, :file:`setup.py` и :file:`MANIFEST.in`"
 
 #: security/release-artifacts.rst:39
+#, fuzzy
 msgid ""
 "The distribution workflow builds, validates, signs, and publishes the "
 "package using PyPI trusted publishing."
 msgstr ""
+"Рабочий процесс распространения собирает, проверяет, подписывает и публикует "
+"пакет, используя доверенную публикацию PyPI."
 
 #: security/release-artifacts.rst:41
+#, fuzzy
 msgid ""
 "The package metadata and dependencies are maintained in this repository."
-msgstr ""
+msgstr "Метаданные пакета и зависимости поддерживаются в этом репозитории."
 
 #: security/release-artifacts.rst:42
 #, fuzzy
 #| msgid "Docker usage"
 msgid "Docker images"
-msgstr "Использование Docker"
+msgstr "Образы Docker"
 
 #: security/release-artifacts.rst:43
 #, fuzzy
 #| msgid "Weblate to local VCS repositories"
 msgid "`Weblate Docker repository`_"
-msgstr "Weblate к локальным репозиториям СКВ"
+msgstr "`Репозиторий Docker Weblate`_"
 
 #: security/release-artifacts.rst:44
+#, fuzzy
 msgid "`Docker Hub`_ and `GitHub Packages Docker registry`_"
-msgstr ""
+msgstr "`Docker Hub`_ и `реестр Docker GitHub Packages`_"
 
 #: security/release-artifacts.rst:45
+#, fuzzy
 msgid ""
 "`Weblate Dockerfile`_, `Weblate Docker image workflow`_, `Weblate Docker "
 "container CI workflow`_, :doc:`/admin/install/docker`, :doc:`/contributing/"
 "release`, and :file:`security.yaml`"
 msgstr ""
+"`Dockerfile Weblate`_, `рабочий процесс образа Docker Weblate`_, `рабочий "
+"процесс CI контейнера Docker Weblate`_, :doc:`/admin/install/docker`, :doc:`/"
+"contributing/release` и :file:`security.yaml`"
 
 #: security/release-artifacts.rst:48
+#, fuzzy
 msgid ""
 "The workflow builds multi-architecture images, runs container tests, scans "
 "with Anchore and Trivy, and publishes to Docker Hub and GitHub Packages. "
 "Published image digests are signed with Cosign, and the build publishes "
 "BuildKit SBOM and provenance attestations."
 msgstr ""
+"Рабочий процесс собирает образы для нескольких архитектур, запускает тесты "
+"контейнеров, сканирует с помощью Anchore и Trivy и публикует в Docker Hub и "
+"GitHub Packages. Опубликованные дайджесты образов подписываются с помощью "
+"Cosign, а сборка публикует SBOM BuildKit и аттестации происхождения."
 
 #: security/release-artifacts.rst:52
+#, fuzzy
 msgid "Kubernetes Helm chart"
-msgstr ""
+msgstr "Helm-чарт Kubernetes"
 
 #: security/release-artifacts.rst:53
 #, fuzzy
 #| msgid "`Manage repository`"
 msgid "`Weblate Helm repository`_"
-msgstr "`Управление репозиторием`"
+msgstr "`Репозиторий Helm Weblate`_"
 
 #: security/release-artifacts.rst:54
+#, fuzzy
 msgid "`Weblate Helm repository endpoint`_ and `Artifact Hub`_"
-msgstr ""
+msgstr "`Конечная точка репозитория Helm Weblate`_ и `Artifact Hub`_"
 
 #: security/release-artifacts.rst:55
+#, fuzzy
 msgid ""
 "`Weblate Helm chart`_, `Weblate Helm release workflow`_, `Weblate Helm test "
 "workflow`_, `Weblate Helm dependency review workflow`_, and :doc:`/admin/"
 "install/kubernetes`"
 msgstr ""
+"`Helm-чарт Weblate`_, `рабочий процесс выпуска Helm Weblate`_, `рабочий "
+"процесс тестирования Helm Weblate`_, `рабочий процесс проверки зависимостей "
+"Helm Weblate`_ и :doc:`/admin/install/kubernetes`"
 
 #: security/release-artifacts.rst:59
+#, fuzzy
 msgid ""
 "The chart release workflow uses Helm chart-releaser on changes "
 "under :file:`charts/**`. Chart testing lints and installs the chart. Chart "
 "signing, chart provenance, and chart SBOM evidence were not found in the "
 "inspected Helm workflows."
 msgstr ""
+"Рабочий процесс выпуска чартов использует Helm chart-releaser для изменений "
+"в :file:`charts/**`. Тестирование чартов выполняет линтинг и установку "
+"чарта. Подпись чартов, происхождение чартов и свидетельства SBOM чартов не "
+"были найдены в проверенных рабочих процессах Helm."
 
 #: security/release-artifacts.rst:64
+#, fuzzy
 msgid ":file:`docs/`, :file:`docs/conf.py`, and :file:`.readthedocs.yml`"
-msgstr ""
+msgstr ":file:`docs/`, :file:`docs/conf.py` и :file:`.readthedocs.yml`"
 
 #: security/release-artifacts.rst:65
 #, fuzzy
 #| msgid "Weblate documentation"
 msgid "`Weblate documentation`_"
-msgstr "Документация Weblate"
+msgstr "`Документация Weblate`_"
 
 #: security/release-artifacts.rst:66
+#, fuzzy
 msgid ":file:`.github/workflows/docs.yml` and :file:`.readthedocs.yml`"
-msgstr ""
+msgstr ":file:`.github/workflows/docs.yml` и :file:`.readthedocs.yml`"
 
 #: security/release-artifacts.rst:67
 #, fuzzy
 #| msgid ""
 #| "Audited project and component setting changes are now recorded in history."
 msgid "Read the Docs project settings are not stored in this repository."
-msgstr ""
-"Аудированные изменения настроек проекта и компонента теперь записываются в "
-"историю."
+msgstr "Настройки проекта Read the Docs не хранятся в этом репозитории."
 
 #: security/release-artifacts.rst:68
 #, fuzzy
 #| msgid "Weblate stable release"
 msgid "Weblate Client package and releases"
-msgstr "Стабильный выпуск Weblate"
+msgstr "Пакет Weblate Client и выпуски"
 
 #: security/release-artifacts.rst:69 security/release-artifacts.rst:78
 #, fuzzy
 #| msgid "Weblate Client"
 msgid "`Weblate Client repository`_"
-msgstr "Клиент Weblate"
+msgstr "`Репозиторий Weblate Client`_"
 
 #: security/release-artifacts.rst:70
+#, fuzzy
 msgid ":pypi:`wlc` and `Weblate Client GitHub releases`_"
-msgstr ""
+msgstr ":pypi:`wlc` и `выпуски Weblate Client на GitHub`_"
 
 #: security/release-artifacts.rst:71
+#, fuzzy
 msgid ""
 "`Weblate Client distribution workflow`_, `Weblate Client metadata`_, "
 "and :doc:`/wlc`"
 msgstr ""
+"`рабочий процесс распространения Weblate Client`_, `метаданные Weblate "
+"Client`_ и :doc:`/wlc`"
 
 #: security/release-artifacts.rst:73
+#, fuzzy
 msgid ""
 "The workflow builds and validates source and wheel artifacts, publishes to "
 "PyPI using trusted publishing, creates GitHub releases for tags, attaches "
 "package SBOM files to GitHub releases, and creates package provenance and "
 "SBOM attestations."
 msgstr ""
+"Рабочий процесс собирает и проверяет исходные артефакты и колеса, публикует "
+"в PyPI, используя доверенную публикацию, создаёт выпуски GitHub для тегов, "
+"прикрепляет файлы SBOM пакетов к выпускам GitHub и создаёт аттестации "
+"происхождения пакетов и SBOM."
 
 #: security/release-artifacts.rst:77
 #, fuzzy
 #| msgid "Weblate Client"
 msgid "Weblate Client Docker image"
-msgstr "Клиент Weblate"
+msgstr "Образ Docker Weblate Client"
 
 #: security/release-artifacts.rst:79
+#, fuzzy
 msgid "`Weblate Client Docker image`_ and `Weblate Client GHCR registry`_"
-msgstr ""
+msgstr "`Образ Docker Weblate Client`_ и `реестр GHCR Weblate Client`_"
 
 #: security/release-artifacts.rst:80
+#, fuzzy
 msgid ""
 "`Weblate Client Dockerfile`_, `Weblate Client Docker workflow`_, and :doc:`/"
 "wlc`"
 msgstr ""
+"`Dockerfile Weblate Client`_, `рабочий процесс Docker Weblate Client`_ и "
+":doc:`/wlc`"
 
 #: security/release-artifacts.rst:82
+#, fuzzy
 msgid ""
 "The workflow builds multi-architecture images, tests the command-line client "
 "image, scans with Anchore and Trivy, and publishes to Docker Hub and GitHub "
@@ -54269,15 +54483,25 @@ msgid ""
 "SBOMs are generated with Syft, and image provenance and SBOM attestations "
 "are pushed to the registries."
 msgstr ""
+"Рабочий процесс собирает образы для нескольких архитектур, тестирует образ "
+"клиента командной строки, сканирует с помощью Anchore и Trivy и публикует в "
+"Docker Hub и GitHub Packages. Опубликованные дайджесты образов подписываются "
+"с помощью Cosign, SBOM образов CycloneDX генерируются с помощью Syft, а "
+"аттестации происхождения образов и SBOM отправляются в реестры."
 
 #: security/release-artifacts.rst:88
+#, fuzzy
 msgid ""
 "The development Docker files in :file:`dev-docker/` and the fuzzing "
 "container definitions in :file:`.clusterfuzzlite/` are development and "
 "testing infrastructure, not production release artifacts."
 msgstr ""
+"Файлы Docker для разработки в :file:`dev-docker/` и определения контейнеров "
+"для фаззинга в :file:`.clusterfuzzlite/` являются инфраструктурой разработки "
+"и тестирования, а не производственными артефактами выпуска."
 
 #: security/release-artifacts.rst:92
+#, fuzzy
 msgid ""
 "Docker Compose files, including the `Weblate Docker Compose repository`_ and "
 "local override examples, are example deployment configurations rather than "
@@ -54286,6 +54510,12 @@ msgid ""
 "are not covered by the release signatures, SBOMs, or provenance statements "
 "on this page."
 msgstr ""
+"Файлы Docker Compose, включая `репозиторий Docker Compose Weblate`_ и "
+"примеры локальных переопределений, являются примерами конфигураций "
+"развёртывания, а не артефактами выпуска. Операторы обычно адаптируют их для "
+"своих развёртываний и обновляют Weblate в основном, выбирая или извлекая "
+"теги образов Docker. Они не охватываются подписями выпуска, SBOM или "
+"заявлениями о происхождении на этой странице."
 
 #: security/release-artifacts.rst:102
 msgid "Software Bill of Material"
@@ -54325,6 +54555,7 @@ msgstr ""
 "поддержки экспорта CycloneDX в :program:`uv`."
 
 #: security/release-artifacts.rst:123
+#, fuzzy
 msgid ""
 "The Weblate release workflow publishes verification material for the Weblate "
 "Python source distribution and wheel in `GitHub release assets`_. Release "
@@ -54334,19 +54565,30 @@ msgid ""
 "PyPI because the release workflow removes files not accepted by PyPI before "
 "publishing."
 msgstr ""
+"Рабочий процесс выпуска Weblate публикует материалы для проверки исходного "
+"дистрибутива Weblate Python и колеса в `активах выпусков GitHub`_. Активы "
+"выпуска включают архивы пакетов, пакеты подписей Sigstore, примечания к "
+"выпуску и SBOM выпуска. Те же архивы пакетов загружаются в PyPI с "
+"использованием доверенной публикации, но файлы пакетов Sigstore не "
+"загружаются в PyPI, потому что рабочий процесс выпуска удаляет файлы, не "
+"принимаемые PyPI, перед публикацией."
 
 #: security/release-artifacts.rst:131
+#, fuzzy
 msgid ""
 "Verify the files downloaded from GitHub release assets when you need the "
 "published signatures, attestations, and SBOM. PyPI package files can be "
 "compared to the matching GitHub release assets by filename and digest."
 msgstr ""
+"Проверяйте файлы, загруженные из активов выпусков GitHub, если вам нужны "
+"опубликованные подписи, аттестации и SBOM. Файлы пакетов PyPI можно сравнить "
+"с соответствующими активами выпусков GitHub по имени файла и дайджесту."
 
 #: security/release-artifacts.rst:136
 #, fuzzy
 #| msgid "Verifying release signatures"
 msgid "Release signatures"
-msgstr "Проверка подписей выпусков"
+msgstr "Подписи выпусков"
 
 #: security/release-artifacts.rst:138
 #, fuzzy
@@ -54359,8 +54601,9 @@ msgid ""
 "signatures. The signature bundles are attached to the GitHub release next to "
 "the signed :file:`.tar.gz` and :file:`.whl` files."
 msgstr ""
-"Выпуски Weblate криптографически подписываются с помощью `подписей Sigstore "
-"<https://www.sigstore.dev/>`_. Подписи прикреплены к выпуску на GitHub."
+"Архивы пакетов Weblate криптографически подписываются с помощью подписей "
+"Sigstore. Пакеты подписей прикреплены к выпуску GitHub рядом с подписанными "
+"файлами :file:`.tar.gz` и :file:`.whl`."
 
 #: security/release-artifacts.rst:142
 #, fuzzy
@@ -54373,70 +54616,96 @@ msgid ""
 "<sigstore>`. The following example verifies the wheel from the 5.4 release; "
 "adjust the version and filenames for the release you are checking:"
 msgstr ""
-"Проверку можно выполнить с помощью `пакета sigstore <https://pypi.org/"
-"project/sigstore/>`_. Следующий пример проверяет подпись выпуска 5.4:"
+"Проверку можно выполнить с помощью :pypi:`пакета sigstore <sigstore>`. "
+"Следующий пример проверяет колесо из выпуска 5.4; скорректируйте версию и "
+"имена файлов для проверяемого выпуска:"
 
 #: security/release-artifacts.rst:154
 #, fuzzy
 #| msgid "Reused translation"
 msgid "Release attestations"
-msgstr "Повторно используемый перевод"
+msgstr "Аттестации выпусков"
 
 #: security/release-artifacts.rst:156
+#, fuzzy
 msgid ""
 "The release workflow creates two kinds of `GitHub artifact attestations`_ "
 "for the package archives:"
 msgstr ""
+"Рабочий процесс выпуска создаёт два типа `аттестаций артефактов GitHub`_ для "
+"архивов пакетов:"
 
 #: security/release-artifacts.rst:159
+#, fuzzy
 msgid ""
 "Build provenance attestations generated by :file:`.github/workflows/"
 "setup.yml` using :program:`actions/attest-build-provenance`."
 msgstr ""
+"Аттестации происхождения сборки, генерируемые :file:`.github/workflows/"
+"setup.yml` с использованием :program:`actions/attest-build-provenance`."
 
 #: security/release-artifacts.rst:162
+#, fuzzy
 msgid ""
 "SBOM attestations generated by :file:`.github/workflows/setup.yml` "
 "using :program:`actions/attest` with the CycloneDX release SBOM."
 msgstr ""
+"Аттестации SBOM, генерируемые :file:`.github/workflows/setup.yml` с "
+"использованием :program:`actions/attest` с SBOM выпуска CycloneDX."
 
 #: security/release-artifacts.rst:165
+#, fuzzy
 msgid ""
 "The attestations can be verified using :program:`gh`. The following example "
 "checks the build provenance attestation for the 5.4 wheel:"
 msgstr ""
+"Аттестации можно проверить с помощью :program:`gh`. Следующий пример "
+"проверяет аттестацию происхождения сборки для колеса 5.4:"
 
 #: security/release-artifacts.rst:175
+#, fuzzy
 msgid ""
 "Use the CycloneDX predicate type to verify the SBOM attestation attached to "
 "the same package artifact:"
 msgstr ""
+"Используйте тип предиката CycloneDX для проверки аттестации SBOM, "
+"прикреплённой к тому же артефакту пакета:"
 
 #: security/release-artifacts.rst:187
+#, fuzzy
 msgid "SBOM and checksums"
-msgstr ""
+msgstr "SBOM и контрольные суммы"
 
 #: security/release-artifacts.rst:189
+#, fuzzy
 msgid ""
 "The release SBOM is a CycloneDX JSON file named ``weblate-<version>-"
 "sbom.cdx.json`` and is attached to GitHub release assets. The SBOM "
 "attestation is attached to the package archives, not to the SBOM file as a "
 "separate release artifact."
 msgstr ""
+"SBOM выпуска — это JSON-файл CycloneDX с именем ``weblate-<version>-"
+"sbom.cdx.json``, который прикреплён к активам выпусков GitHub. Аттестация "
+"SBOM прикреплена к архивам пакетов, а не к файлу SBOM как отдельный артефакт "
+"выпуска."
 
 #: security/release-artifacts.rst:194
+#, fuzzy
 msgid ""
 "Weblate does not currently publish a separate checksum manifest such "
 "as :file:`SHA256SUMS` for release artifacts."
 msgstr ""
+"В настоящее время Weblate не публикует отдельный манифест контрольных сумм, "
+"такой как :file:`SHA256SUMS`, для артефактов выпуска."
 
 #: security/release-artifacts.rst:198
 #, fuzzy
 #| msgid "Other services"
 msgid "Other release channels"
-msgstr "Другие сервисы"
+msgstr "Другие каналы выпуска"
 
 #: security/release-artifacts.rst:200
+#, fuzzy
 msgid ""
 "The release artifact inventory does not currently identify signatures, "
 "SBOMs, or provenance attestations for Helm charts. The verification "
@@ -54444,12 +54713,19 @@ msgid ""
 "published by this repository. Docker image and Weblate Client supply-chain "
 "metadata is published by their owning repositories."
 msgstr ""
+"В учёте артефактов выпуска в настоящее время не идентифицированы подписи, "
+"SBOM или аттестации происхождения для Helm-чартов. Инструкции по проверке в "
+"этом разделе применяются к артефактам выпуска Python Weblate, публикуемым "
+"этим репозиторием. Метаданные цепочки поставок образов Docker и Weblate "
+"Client публикуются их владельцами репозиториев."
 
 #: security/releases.rst:2
+#, fuzzy
 msgid "Releases and supported versions"
-msgstr ""
+msgstr "Выпуски и поддерживаемые версии"
 
 #: security/releases.rst:4
+#, fuzzy
 msgid ""
 "This page summarizes the public release, security-update, and upgrade "
 "support policies for Weblate. For maintainer release steps, see :doc:`/"
@@ -54457,6 +54733,12 @@ msgid ""
 "published release artifacts, SBOMs, signatures, and provenance attestations, "
 "see :doc:`release-artifacts`."
 msgstr ""
+"На этой странице обобщены политики публичных выпусков, обновлений "
+"безопасности и поддержки обновлений для Weblate. Информацию о шагах выпуска "
+"для сопровождающих см. в :doc:`/contributing/release`. Информацию о командах "
+"обновления см. в :doc:`/admin/upgrade`. Информацию об опубликованных "
+"артефактах выпуска, SBOM, подписях и аттестациях происхождения см. в "
+":doc:`release-artifacts`."
 
 #: security/releases.rst:15
 msgid ""
@@ -54518,13 +54800,15 @@ msgstr ""
 "повышения уровня безопасности приложения. Только последний выпуск "
 "гарантированно получает обновления безопасности. Пользователям рекомендуется "
 "поддерживать Weblate в актуальном состоянии, чтобы пользоваться последними "
-"улучшениями безопасности. Узнайте больше о :ref:`выпусках Weblate и "
-"жизненном цикле выпусков <release-cycle>`."
+"улучшениями безопасности."
 
 #: security/releases.rst:41
+#, fuzzy
 msgid ""
 "Security update coverage and direct upgrade support are separate policies."
 msgstr ""
+"Охват обновлений безопасности и поддержка прямых обновлений являются "
+"отдельными политиками."
 
 #: security/releases.rst:46
 msgid "Version"
@@ -54534,39 +54818,41 @@ msgstr "Версия"
 #, fuzzy
 #| msgid "Security updates"
 msgid "Security update coverage"
-msgstr "Обновления безопасности"
+msgstr "Охват обновлений безопасности"
 
 #: security/releases.rst:48
 #, fuzzy
 #| msgid "Only the latest release is guaranteed to receive security updates."
 msgid "End of guaranteed security updates"
-msgstr ""
-"Только последняя версия гарантированно получит обновления безопасности."
+msgstr "Окончание гарантированных обновлений безопасности"
 
 #: security/releases.rst:49
+#, fuzzy
 msgid "Direct upgrade support"
-msgstr ""
+msgstr "Поддержка прямых обновлений"
 
 #: security/releases.rst:50
 #, fuzzy
 #| msgid "Weblate stable release"
 msgid "Latest Weblate release"
-msgstr "Стабильный выпуск Weblate"
+msgstr "Последний выпуск Weblate"
 
 #: security/releases.rst:51
+#, fuzzy
 msgid "Guaranteed."
-msgstr ""
+msgstr "Гарантируется."
 
 #: security/releases.rst:52
+#, fuzzy
 msgid ""
 "When the next Weblate release is published, normally the following month."
-msgstr ""
+msgstr "Когда публикуется следующий выпуск Weblate, обычно в следующем месяце."
 
 #: security/releases.rst:54
 #, fuzzy
 #| msgid "Support"
 msgid "Supported."
-msgstr "Поддержать"
+msgstr "Поддерживается."
 
 #: security/releases.rst:55
 #, fuzzy
@@ -54574,9 +54860,7 @@ msgstr "Поддержать"
 #| "The upgrading policy was changed, and upgrades are only supported from "
 #| "the current or previous calendar year."
 msgid "Older releases from the current or previous calendar year"
-msgstr ""
-"Политика обновления была изменена, и обновления поддерживаются только с "
-"текущего или предыдущего календарного года."
+msgstr "Старые выпуски из текущего или предыдущего календарного года"
 
 #: security/releases.rst:56
 #, fuzzy
@@ -54585,27 +54869,30 @@ msgid ""
 "Not guaranteed. Upgrade to the latest release to receive guaranteed security "
 "updates."
 msgstr ""
-"Только последняя версия гарантированно получит обновления безопасности."
+"Не гарантируется. Обновитесь до последнего выпуска, чтобы получать "
+"гарантированные обновления безопасности."
 
 #: security/releases.rst:58 security/releases.rst:62
+#, fuzzy
 msgid "Ended when a newer Weblate release was published."
-msgstr ""
+msgstr "Завершена, когда был опубликован более новый выпуск Weblate."
 
 #: security/releases.rst:59
+#, fuzzy
 msgid "Direct upgrades are supported."
-msgstr ""
+msgstr "Прямые обновления поддерживаются."
 
 #: security/releases.rst:60
 #, fuzzy
 #| msgid "Initial release."
 msgid "Older releases"
-msgstr "Первый выпуск."
+msgstr "Старые выпуски"
 
 #: security/releases.rst:61
 #, fuzzy
 #| msgid "Not used."
 msgid "Not guaranteed."
-msgstr "Не используется."
+msgstr "Не гарантируется."
 
 #: security/releases.rst:63
 #, fuzzy
@@ -54617,8 +54904,8 @@ msgid ""
 "Upgrade through the intermediate versions listed in :ref:`version-specific-"
 "instructions`."
 msgstr ""
-"Обновите файл конфигурации, следуя :file:`settings_example.py` "
-"или :ref:`version-specific-instructions`."
+"Обновляйтесь через промежуточные версии, перечисленные в :ref:`version-"
+"specific-instructions`."
 
 #: security/releases.rst:66
 msgid ""
@@ -54697,7 +54984,7 @@ msgstr ""
 #| "Provenance summary: 97 documented / 65 maintainer / 0 inferred claims."
 msgid "Provenance summary: 103 documented / 64 maintainer / 0 inferred claims."
 msgstr ""
-"Сводка происхождения: 97 документированных / 65 от сопровождающего / 0 "
+"Сводка происхождения: 103 документированных / 64 от сопровождающего / 0 "
 "выведенных утверждений."
 
 #: security/threat-model.rst:30
@@ -54808,7 +55095,9 @@ msgstr "Веб-обработчики"
 msgid ""
 ":ref:`hooks`, project :ref:`project-enable_hooks`, :ref:`code-hosting-github-"
 "app-webhook`"
-msgstr ":ref:`hooks`, проект :ref:`project-enable_hooks`"
+msgstr ""
+":ref:`hooks`, проект :ref:`project-enable_hooks`, :ref:`code-hosting-github-"
+"app-webhook`"
 
 #: security/threat-model.rst:63
 msgid "Background task scheduling and VCS repository updates"
@@ -54825,8 +55114,8 @@ msgid ""
 "github-app-webhook`)"
 msgstr ""
 "Входит в область действия как общедоступный, укреплённый на уровне "
-"развёртывания интерфейс. *(документировано)* "
-"(источник: :ref:`hooks`, :ref:`project-enable_hooks`)"
+"развёртывания интерфейс. *(документировано)* (источник: :ref:`hooks`, "
+":ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)"
 
 #: security/threat-model.rst:65
 msgid "VCS integration"
@@ -54885,7 +55174,9 @@ msgstr "Импорт/экспорт резервных копий проекто
 msgid ""
 ":ref:`projectbackup`, :doc:`/api` project backup "
 "endpoints, :wladmin:`import_projectbackup`"
-msgstr ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
+msgstr ""
+":ref:`projectbackup`, :doc:`/api` конечные точки резервного копирования "
+"проектов, :wladmin:`import_projectbackup`"
 
 #: security/threat-model.rst:80
 #, fuzzy
@@ -54894,8 +55185,8 @@ msgid ""
 "Uploaded ZIP archives, generated backup archives, filesystem restore, "
 "repository state"
 msgstr ""
-"Загруженные ZIP-архивы, восстановление файловой системы, состояние "
-"репозитория"
+"Загруженные ZIP-архивы, сгенерированные архивы резервных копий, "
+"восстановление файловой системы, состояние репозитория"
 
 #: security/threat-model.rst:82
 #, fuzzy
@@ -54906,8 +55197,8 @@ msgid ""
 "In scope. *(documented)* (source: :doc:`/admin/backup`, :doc:`/api`, :doc:`/"
 "admin/management`)"
 msgstr ""
-"В области действия. *(документировано)* (источник: :doc:`/admin/"
-"backup`, :doc:`/admin/management`)"
+"В области действия. *(документировано)* (источник: :doc:`/admin/backup`, "
+":doc:`/api`, :doc:`/admin/management`)"
 
 #: security/threat-model.rst:84
 msgid "Service backup"
@@ -54947,13 +55238,14 @@ msgid ""
 "VCS hosts, GitHub App connections, CDN add-on, Fedora Messaging add-on"
 msgstr ""
 "Машинный перевод, аватары, отчёты о состоянии, телеметрия, сообщение об "
-"ошибках, хосты СКВ, дополнение CDN"
+"ошибках, хосты СКВ, подключения приложений GitHub, надстройка CDN, "
+"надстройка Fedora Messaging"
 
 #: security/threat-model.rst:94
 #, fuzzy
 #| msgid "Outbound HTTP(S), provider APIs, logs"
 msgid "Outbound HTTP(S), AMQP(S), provider APIs, logs"
-msgstr "Исходящий HTTP(S), API поставщиков, журналы"
+msgstr "Исходящий HTTP(S), AMQP(S), API поставщиков, журналы"
 
 #: security/threat-model.rst:95
 #, fuzzy
@@ -54968,8 +55260,9 @@ msgid ""
 "addons`)"
 msgstr ""
 "В области действия для обеспечения Weblate настроенных ограничений доступа и "
-"сети. Поведение поставщика находится вне области действия. "
-"*(документировано)* (источник: :doc:`/admin/config`, :doc:`/admin/addons`)"
+"сети. Поведение поставщика находится вне области действия. *(документировано)"
+"* (источник: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/"
+"addons`)"
 
 #: security/threat-model.rst:98
 msgid "Built-in add-ons and administrator-configured add-on execution"
@@ -55215,8 +55508,11 @@ msgid ""
 "enable_hooks`, :ref:`code-hosting-github-app-webhook`)"
 msgstr ""
 "Публичные уведомления фабрики могут планировать синхронизацию репозитория, "
-"где включены обработчики. *(документировано)* "
-"(источник: :ref:`hooks`, :ref:`project-enable_hooks`)"
+"где включены обработчики. Веб-обработчики интеграции приложений GitHub "
+"дополнительно аутентифицируются с помощью токена URL-адреса для каждой "
+"интеграции и проверки подписи GitHub перед обработкой. *(документировано)* "
+"(источник: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-"
+"github-app-webhook`)"
 
 #: security/threat-model.rst:182
 msgid "Weblate to database/datastore"
@@ -55261,7 +55557,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Backup archive to Weblate filesystem"
 msgid "Project backup archives and Weblate filesystem"
-msgstr "Архив резервной копии в файловую систему Weblate"
+msgstr "Архивы резервных копий проектов и файловая система Weblate"
 
 #: security/threat-model.rst:193
 #, fuzzy
@@ -55275,7 +55571,9 @@ msgid ""
 "api`, :ref:`projectbackup`)"
 msgstr ""
 "Загруженные ZIP-элементы и метаданные становятся восстановленным состоянием "
-"проекта. *(документировано)* (источник: :doc:`/admin/backup`)"
+"проекта; сгенерированные резервные копии проектов записываются и читаются из "
+"локального хранилища резервных копий. *(документировано)* (источник: :doc:`/"
+"admin/backup`, :doc:`/api`, :ref:`projectbackup`)"
 
 #: security/threat-model.rst:198
 msgid "Reachability preconditions:"
@@ -55352,10 +55650,12 @@ msgid ""
 "or project-scoped tokens with project edit permission. *(documented)* "
 "(source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/access`)"
 msgstr ""
-"Находка, связанная с импортом резервной копии, попадает в модель, только "
-"если она достижима из резервной копии проекта, загруженной через Weblate или "
-"предоставленной в :wladmin:`import_projectbackup`. *(документировано)* "
-"(источник: :ref:`projectbackup`, :wladmin:`import_projectbackup`)"
+"Находка, связанная с экспортом резервной копии, попадает в модель, только "
+"если она достижима из документированных маршрутов создания или загрузки "
+"резервных копий проектов, включая REST API для пользователей или токенов с "
+"областью действия проекта, имеющих разрешение на редактирование проекта. *"
+"(документировано)* (источник: :doc:`/api`, :ref:`projectbackup`, :doc:`/"
+"admin/access`)"
 
 #: security/threat-model.rst:220
 msgid ""
@@ -55454,10 +55754,12 @@ msgid ""
 "*(documented)* (source: :doc:`/admin/code-"
 "hosting`, :setting:`SSH_EXTRA_ARGS`)"
 msgstr ""
-"Предполагается, что выполнение команд VCS, SSH и HTTPS-клиенты выполняются "
+"Предполагается, что выполнение команд СКВ, SSH и HTTPS-клиенты выполняются "
 "от имени пользователя службы Weblate с учётными данными, настроенными для "
-"соответствующего проекта или интеграции. *(документировано)* "
-"(источник: :doc:`/admin/code-hosting`, :setting:`SSH_EXTRA_ARGS`)"
+"соответствующего проекта или интеграции, включая учётные данные приложений "
+"GitHub, хранящиеся в базе данных и используемые для токенов установки и "
+"проверки подписи веб-обработчиков. *(документировано)* (источник: :doc:`/"
+"admin/code-hosting`, :setting:`SSH_EXTRA_ARGS`)"
 
 #: security/threat-model.rst:257
 msgid "What Weblate does to its host:"
@@ -55481,7 +55783,8 @@ msgstr ""
 "Он открывает исходящие сетевые соединения для настроенных функций СКВ, "
 "поставщика удостоверений, аватаров, машинного перевода, резервного "
 "копирования, отчётности о состоянии, телеметрии, сообщения об ошибках и "
-"дополнений. *(документировано)* (источник: :doc:`/admin/config`, :doc:`/"
+"надстроек, таких как исходящие веб-обработчики и доставка Fedora Messaging "
+"через AMQP. *(документировано)* (источник: :doc:`/admin/config`, :doc:`/"
 "admin/code-hosting`, :doc:`/admin/backup`)"
 
 #: security/threat-model.rst:265
@@ -55637,8 +55940,8 @@ msgid ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`, "
 "and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 msgstr ""
-":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER` "
-"и :setting:`RATELIMIT_ATTEMPTS`"
+":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
+":setting:`RATELIMIT_ATTEMPTS` и ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 
 #: security/threat-model.rst:307
 msgid ""
@@ -55741,9 +56044,11 @@ msgid ""
 "(source: :setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 msgstr ""
 "Настраиваемые пользователем поверхности исходящих URL-адресов, "
-"задокументированные с параметрами ограничения частных целей, по умолчанию "
-"отклоняют внутренние или непубличные цели. *(документировано)* "
-"(источник: :setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
+"задокументированные с параметрами ограничения частных целей, включая URL-"
+"адреса брокера AMQP Fedora Messaging, по умолчанию отклоняют внутренние или "
+"непубличные цели. *(документировано)* (источник: "
+":setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, "
+":setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 
 #: security/threat-model.rst:341
 msgid ""
@@ -55943,27 +56248,40 @@ msgstr ""
 "и мониторинг. *(сопровождающий)*"
 
 #: security/threat-model.rst:394
+#, fuzzy
 msgid "GitHub App connection callbacks"
-msgstr ""
+msgstr "Обратные вызовы подключения приложения GitHub"
 
 #: security/threat-model.rst:395
+#, fuzzy
 msgid ""
 "GitHub OAuth code, signed Weblate state, installation ID, account metadata"
 msgstr ""
+"Код OAuth GitHub, подписанное состояние Weblate, идентификатор установки, "
+"метаданные учётной записи"
 
 #: security/threat-model.rst:396
+#, fuzzy
 msgid ""
 "Yes, from authenticated Weblate users and GitHub redirect query strings. "
 "*(documented)* (source: :ref:`code-hosting-github-app-register`)"
 msgstr ""
+"Да, от аутентифицированных пользователей Weblate и строк запроса "
+"перенаправления GitHub. *(документировано)* (источник: :ref:`code-hosting-"
+"github-app-register`)"
 
 #: security/threat-model.rst:398
+#, fuzzy
 msgid ""
 "Weblate requires workspace management rights and verifies that the GitHub "
 "user owns the personal installation or can administer the organization "
 "installation before saving it. *(documented)* (source: :ref:`code-hosting-"
 "github-app-register`)"
 msgstr ""
+"Weblate требует прав управления рабочим пространством и проверяет, что "
+"пользователь GitHub владеет личной установкой или может управлять установкой "
+"организации, перед сохранением. *(документировано)* (источник: :ref:`code-"
+"hosting-github-app-register`)"
 
 #: security/threat-model.rst:402
 msgid "Repository configuration"
@@ -55977,7 +56295,7 @@ msgid ""
 "options, add-on settings"
 msgstr ""
 "URL-адреса репозиториев, ветки, URL-адреса отправки, учётные данные, "
-"настройки надстроек"
+"параметры отправки на рецензирование Gerrit, настройки надстроек"
 
 #: security/threat-model.rst:405
 msgid ""
@@ -56049,11 +56367,14 @@ msgstr ""
 #, fuzzy
 #| msgid "Project backup import"
 msgid "Project backup export"
-msgstr "Импорт резервной копии проекта"
+msgstr "Экспорт резервной копии проекта"
 
 #: security/threat-model.rst:420
+#, fuzzy
 msgid "Backup creation requests and requested backup file names"
 msgstr ""
+"Запросы на создание резервных копий и запрошенные имена файлов резервных "
+"копий"
 
 #: security/threat-model.rst:421
 #, fuzzy
@@ -56065,9 +56386,9 @@ msgid ""
 "*(documented)* (source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/"
 "access`)"
 msgstr ""
-"Токены API с областью действия проекта ограничены назначенными разрешениями "
-"проекта/команды. *(документировано)* (источник: :doc:`/api`, :doc:`/admin/"
-"access`)"
+"Да, для пользователей или токенов с областью действия проекта, имеющих "
+"разрешение на редактирование проекта. *(документировано)* (источник: :doc:`/"
+"api`, :ref:`projectbackup`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:423
 #, fuzzy
@@ -56078,8 +56399,9 @@ msgid ""
 "Grant project edit permission only to trusted project administrators. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"Назначайте разрешения СКВ и управления проектом только доверенным "
-"пользователям. *(документировано)* (источник: :doc:`/admin/access`)"
+"Предоставляйте разрешение на редактирование проекта только доверенным "
+"администраторам проектов. *(документировано)* (источник: :doc:`/admin/"
+"access`)"
 
 #: security/threat-model.rst:425
 msgid "Machine translation and external service configuration"
@@ -56263,8 +56585,10 @@ msgid ""
 "granted. *(documented)* (source: :doc:`/api`, :doc:`/admin/"
 "access`, :ref:`projectbackup`)"
 msgstr ""
-"Использовать разрешения API, назначенные членству токена в командах. "
-"*(документировано)* (источник: :doc:`/api`, :doc:`/admin/access`)"
+"Использовать разрешения API, назначенные членству токена в командах, включая "
+"создание и загрузку резервных копий проектов, где предоставлено разрешение "
+"на редактирование проекта. *(документировано)* (источник: :doc:`/api`, "
+":doc:`/admin/access`, :ref:`projectbackup`)"
 
 #: security/threat-model.rst:480
 msgid ""
@@ -56406,16 +56730,20 @@ msgid ""
 "auth`)"
 msgstr ""
 "Веб-авторизация разделяет разрешения на сайт, проект, компонент, язык, "
-"словарь, систему контроля версий, память переводов, снимки экрана, "
+"глоссарий, систему контроля версий, память переводов, снимки экрана, "
 "рецензирование и управление доступом. *(документировано)* (источник: :doc:`/"
-"admin/access`)"
+"admin/access`, :doc:`/admin/auth`)"
 
 #: security/threat-model.rst:522
+#, fuzzy
 msgid ""
 "Permission assignments match the intended trust relationship. Team-level "
 "enforced 2FA is satisfied by human users before team-derived permissions "
 "apply."
 msgstr ""
+"Назначения разрешений соответствуют предполагаемым доверительным отношениям. "
+"Принудительная 2FA на уровне команды должна быть выполнена пользователями-"
+"людьми перед применением разрешений, полученных от команды."
 
 #: security/threat-model.rst:525
 msgid "User or token can read or mutate data outside assigned scope."
@@ -56596,9 +56924,10 @@ msgid ""
 "controls."
 msgstr ""
 "Настраиваемый пользователем URL-адрес снимка экрана, URL-адрес удалённого "
-"HTML, URL-адрес веб-сайта проекта или обозревателя репозиториев, исходящий "
-"URL-адрес веб-обработчика или URL-адрес VCS достигает внутренней или "
-"непубличной цели, несмотря на средства контроля по умолчанию."
+"HTML, URL-адрес веб-сайта проекта или обозревателя репозиториев, URL-адрес "
+"исходящего веб-обработчика, URL-адрес брокера AMQP Fedora Messaging или URL-"
+"адрес СКВ достигает внутренней или непубличной цели, несмотря на средства "
+"контроля по умолчанию."
 
 #: security/threat-model.rst:571
 msgid "Security-critical when it exposes internal services or metadata."
@@ -56677,9 +57006,12 @@ msgid ""
 msgstr ""
 "Weblate намеренно не раскрывает базу данных, хранилище данных, хранилище "
 "резервных копий или необработанное внутреннее хранилище напрямую через "
-"публичный веб-интерфейс; экспортированные репозитории системы контроля "
-"версий намеренно раскрываются :ref:`git-exporter`, когда этот опциональный "
-"модуль включён. *(сопровождающий)*"
+"публичный веб-интерфейс; экспортированные репозитории СКВ намеренно "
+"раскрываются :ref:`git-exporter`, когда этот опциональный модуль включён; "
+"авторизованные загрузки резервных копий проектов намеренно раскрываются "
+"через документированные маршруты резервного копирования проектов. *"
+"(документировано)* (источник: :doc:`/api`, :ref:`projectbackup`) *"
+"(сопровождающий)*"
 
 #: security/threat-model.rst:591
 msgid ""
@@ -57084,10 +57416,11 @@ msgid ""
 "configured Weblate Gerrit account and enforces Gerrit-side permissions. "
 "*(documented)* (source: :ref:`component-push_branch`)"
 msgstr ""
-"Отчёт о том, что управляющий проектом может изменить настройки репозитория, "
-"учётные данные системы контроля версий или конфигурацию проекта, не является "
-"уязвимостью, когда действующее лицо имеет задокументированное разрешение на "
-"это действие. *(документировано)* (источник: :doc:`/admin/access`)"
+"Отчёт о том, что управляющий проектом может настраивать параметры отправки "
+"на рецензирование Gerrit, сам по себе не является уязвимостью. Gerrit "
+"интерпретирует эти параметры как настроенную учётную запись Weblate Gerrit и "
+"применяет разрешения на стороне Gerrit. *(документировано)* (источник: "
+":ref:`component-push_branch`)"
 
 #: security/threat-model.rst:731
 msgid ""
@@ -57783,8 +58116,9 @@ msgstr "LTEngine"
 
 #: snippets/addon-parameters-autogenerated.rst:45
 #: snippets/machines-autogenerated.rst:692
+#, fuzzy
 msgid "Mistral"
-msgstr ""
+msgstr "Mistral"
 
 #: snippets/addon-parameters-autogenerated.rst:47
 #: snippets/machines-autogenerated.rst:742
@@ -58093,21 +58427,27 @@ msgid "Selected change events"
 msgstr "Выбранные события изменений"
 
 #: snippets/addon-parameters-autogenerated.rst:239
+#, fuzzy
 msgid ""
 "The following change actions can appear in notification payloads. Fedora "
 "Messaging uses the identifier column in message topics, while webhook "
 "payloads use the name column in the ``action`` field."
 msgstr ""
+"Следующие действия изменений могут появляться в полезных нагрузках "
+"уведомлений. Fedora Messaging использует столбец идентификатора в темах "
+"сообщений, в то время как полезные нагрузки веб-обработчиков используют "
+"столбец имени в поле ``action``."
 
 #: snippets/addon-parameters-autogenerated.rst:245
+#, fuzzy
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: snippets/addon-parameters-autogenerated.rst:246
 #, fuzzy
 #| msgid "API identifier"
 msgid "Identifier"
-msgstr "Идентификатор API"
+msgstr "Идентификатор"
 
 #: snippets/addon-parameters-autogenerated.rst:250
 msgid "Resource updated"
@@ -58493,13 +58833,13 @@ msgstr "Проект перемещён"
 #, fuzzy
 #| msgid "Repository pre-update"
 msgid "Remote repository updated"
-msgstr "Репозиторий перед обновлением"
+msgstr "Удалённый репозиторий обновлён"
 
 #: snippets/addon-parameters-autogenerated.rst:538
 #, fuzzy
 #| msgid "Repository rebase failed"
 msgid "Remote repository update failed"
-msgstr "Не удалось выполнить операцию смены базы репозитория"
+msgstr "Обновление удалённого репозитория не удалось"
 
 #: snippets/addons-autogenerated.rst:6
 msgid "Built-in add-ons"
@@ -58775,11 +59115,15 @@ msgstr ""
 "перевода с базовым файлом."
 
 #: snippets/addons-autogenerated.rst:189
+#, fuzzy
 msgid ""
 "For a one-time cleanup of a single translation file, use :guilabel:`Cleanup "
 "unused` in :ref:`repository-maintenance` on that translation instead of "
 "installing the add-on."
 msgstr ""
+"Для одноразовой очистки одного файла перевода используйте :guilabel:`Очистка "
+"неиспользуемых` в :ref:`repository-maintenance` для этого перевода вместо "
+"установки надстройки."
 
 #: snippets/addons-autogenerated.rst:203
 msgid "Add missing languages"
@@ -59177,92 +59521,110 @@ msgstr "Обмен сообщениями в Fedora"
 #, fuzzy
 #| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Хост брокера AMQP"
+msgstr "URL-адрес брокера AMQP"
 
 #: snippets/addons-autogenerated.rst:441
 #, fuzzy
 #| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "Брокер AMQP для подключения."
+msgstr "URL-адрес брокера AMQP для подключения."
 
 #: snippets/addons-autogenerated.rst:443
 #, fuzzy
 #| msgid "String prefix"
 msgid "Topic prefix"
-msgstr "Префикс строки"
+msgstr "Префикс темы"
 
 #: snippets/addons-autogenerated.rst:443
+#, fuzzy
 msgid "Optional prefix to prepend to generated message topics."
-msgstr ""
+msgstr "Необязательный префикс для добавления к генерируемым темам сообщений."
 
 #: snippets/addons-autogenerated.rst:445
 #, fuzzy
 #| msgid "Publishing translation files"
 msgid "Publish timeout"
-msgstr "Публикация файлов переводов"
+msgstr "Тайм-аут публикации"
 
 #: snippets/addons-autogenerated.rst:445
+#, fuzzy
 msgid "How many seconds to wait for the broker delivery acknowledgement."
-msgstr ""
+msgstr "Сколько секунд ожидать подтверждения доставки от брокера."
 
 #: snippets/addons-autogenerated.rst:447
 #, fuzzy
 #| msgid "Allowed attempts"
 msgid "Connection attempts"
-msgstr "Допустимо попыток"
+msgstr "Попытки подключения"
 
 #: snippets/addons-autogenerated.rst:447
+#, fuzzy
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Сколько раз пытаться подключиться к брокеру."
 
 #: snippets/addons-autogenerated.rst:449
+#, fuzzy
 msgid "Retry delay"
-msgstr ""
+msgstr "Задержка повторной попытки"
 
 #: snippets/addons-autogenerated.rst:449
+#, fuzzy
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Сколько секунд ждать между попытками подключения."
 
 #: snippets/addons-autogenerated.rst:451
 #, fuzzy
 #| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "Сертификаты ЦС"
+msgstr "Набор сертификатов ЦС (PEM)"
 
 #: snippets/addons-autogenerated.rst:451
+#, fuzzy
 msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Вставляйте только блоки сертификатов PEM, каждый начинающийся с \"-----BEGIN "
+"CERTIFICATE-----\" и заканчивающийся на \"-----END CERTIFICATE-----\"."
 
 #: snippets/addons-autogenerated.rst:453
+#, fuzzy
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Закрытый ключ клиента (PEM)"
 
 #: snippets/addons-autogenerated.rst:453
+#, fuzzy
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Вставьте один незашифрованный блок закрытого ключа PEM. Зашифрованные "
+"закрытые ключи не поддерживаются."
 
 #: snippets/addons-autogenerated.rst:455
 #, fuzzy
 #| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "Клиентские SSL-сертификаты"
+msgstr "Сертификат клиента (PEM)"
 
 #: snippets/addons-autogenerated.rst:455
+#, fuzzy
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Вставляйте только блок сертификата PEM, начинающийся с \"-----BEGIN "
+"CERTIFICATE-----\"; не вставляйте вывод команды \"openssl x509 -text\"."
 
 #: snippets/addons-autogenerated.rst:457 snippets/addons-autogenerated.rst:1683
 #: snippets/addons-autogenerated.rst:1723
+#, fuzzy
 msgid ""
 "Choose which change events should trigger this add-on. :ref:`addon-choice-"
 "event_filter`"
 msgstr ""
+"Выберите, какие события изменений должны вызывать эту надстройку. "
+":ref:`addon-choice-event_filter`"
 
 #: snippets/addons-autogenerated.rst:465
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
@@ -59301,13 +59663,17 @@ msgid ""
 "space, for example ``resource_updated``; see :ref:`change-actions` for all "
 "action identifiers. The remaining parts match Weblate object path segments."
 msgstr ""
-"Все сообщения имеют тему ``weblate.<action>.<project>.<component>."
-"<translation>``. Действие — это текстовое представление действия в нижнем "
-"регистре с подчёркиваниями вместо пробелов, например ``resource_update``, "
-"все остальные части являются необязательными и представляют собой плашку "
-"объекта или код языка."
+"Все сообщения имеют тему ``weblate.<action>.<project>.<category...>"
+".<component>.<translation>``. При настройке ``topic_prefix`` добавляется "
+"перед этой темой через точку, например "
+"``org.fedoraproject.weblate.project_backed_up.website``. Действие — это "
+"текстовое представление действия в нижнем регистре с подчёркиваниями вместо "
+"пробелов, например ``resource_updated``; все идентификаторы действий см. в "
+":ref:`change-actions`. Остальные части соответствуют сегментам пути объектов "
+"Weblate."
 
 #: snippets/addons-autogenerated.rst:484
+#, fuzzy
 msgid ""
 "For example, a project backup event for the ``website`` project uses "
 "``weblate.project_backed_up.website``. A translation change in the "
@@ -59316,6 +59682,12 @@ msgid ""
 "``frontend`` component inside the ``parent`` and ``child`` categories uses "
 "``weblate.translation_changed.website.parent.child.frontend.cs``."
 msgstr ""
+"Например, событие резервного копирования проекта для проекта ``website`` "
+"использует ``weblate.project_backed_up.website``. Изменение перевода в "
+"проекте ``website``, компоненте ``frontend`` и чешском переводе использует "
+"``weblate.translation_changed.website.frontend.cs``. То же изменение в "
+"компоненте ``frontend`` внутри категорий ``parent`` и ``child`` использует "
+"``weblate.translation_changed.website.parent.child.frontend.cs``."
 
 #: snippets/addons-autogenerated.rst:492
 msgid "Message body"
@@ -59898,16 +60270,20 @@ msgstr ""
 #, fuzzy
 #| msgid "Source string location"
 msgid "Source locations"
-msgstr "Расположение исходной строки"
+msgstr "Расположения исходного кода"
 
 #: snippets/addons-autogenerated.rst:1055
 #: snippets/addons-autogenerated.rst:1130
 #: snippets/addons-autogenerated.rst:1314
 #: snippets/addons-autogenerated.rst:1385
+#, fuzzy
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Выберите, как извлечение записывает расположения исходного кода в POT-файл. "
+"Используйте это, чтобы сохранять расположения в шаблоне, опуская их в "
+"переведённых PO-файлах."
 
 #: snippets/addons-autogenerated.rst:1061
 #: snippets/addons-autogenerated.rst:1136
@@ -59916,7 +60292,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Simple format string"
 msgid "Use file format settings"
-msgstr "Простая строка формата"
+msgstr "Использовать настройки формата файлов"
 
 #: snippets/addons-autogenerated.rst:1063
 #: snippets/addons-autogenerated.rst:1138
@@ -59925,7 +60301,7 @@ msgstr "Простая строка формата"
 #, fuzzy
 #| msgid "Extract strings from HTML files"
 msgid "Extract locations to the POT file"
-msgstr "Извлечение строк из HTML-файлов"
+msgstr "Извлекать расположения в POT-файл"
 
 #: snippets/addons-autogenerated.rst:1065
 #: snippets/addons-autogenerated.rst:1140
@@ -59934,7 +60310,7 @@ msgstr "Извлечение строк из HTML-файлов"
 #, fuzzy
 #| msgid "Do not extract comments"
 msgid "Do not extract locations"
-msgstr "Не извлекать комментарии"
+msgstr "Не извлекать расположения"
 
 #: snippets/addons-autogenerated.rst:1068
 #: snippets/addons-autogenerated.rst:1181
@@ -59957,17 +60333,23 @@ msgstr ""
 #, fuzzy
 #| msgid "Discovery requirements"
 msgid "Django requirements"
-msgstr "Требования к обнаружению"
+msgstr "Требования Django"
 
 #: snippets/addons-autogenerated.rst:1079
+#, fuzzy
 msgid ""
 "This add-on requires :program:`xgettext` and :program:`msguniq`. It runs "
 "Weblate's internal extraction wrapper for Django messages instead of "
 "invoking a project's :program:`manage.py makemessages`, so it does not load "
 "project Django settings or applications."
 msgstr ""
+"Эта надстройка требует :program:`xgettext` и :program:`msguniq`. Она "
+"запускает внутреннюю обёртку извлечения Weblate для сообщений Django вместо "
+"вызова :program:`manage.py makemessages` проекта, поэтому она не загружает "
+"настройки или приложения Django проекта."
 
 #: snippets/addons-autogenerated.rst:1084
+#, fuzzy
 msgid ""
 "The template for new translations must use the ``django`` or ``djangojs`` "
 "domain. Supported template names "
@@ -59975,6 +60357,11 @@ msgid ""
 "and :file:`djangojs.po`. Weblate infers the source directory from the "
 "template path and skips repository locale directories while extracting."
 msgstr ""
+"Шаблон для новых переводов должен использовать домен ``django`` или "
+"``djangojs``. Поддерживаемые имена шаблонов: :file:`django.pot`, "
+":file:`djangojs.pot`, :file:`django.po` и :file:`djangojs.po`. Weblate "
+"определяет исходный каталог по пути шаблона и пропускает каталоги локалей "
+"репозитория при извлечении."
 
 #: snippets/addons-autogenerated.rst:1095
 msgid "Update LINGUAS file"
@@ -60100,15 +60487,20 @@ msgstr "Обновляет шаблон gettext, используя соглаш
 #, fuzzy
 #| msgid "System requirements"
 msgid "Meson requirements"
-msgstr "Системные требования"
+msgstr "Требования Meson"
 
 #: snippets/addons-autogenerated.rst:1192
+#, fuzzy
 msgid ""
 "This add-on requires :program:`xgettext`; it does not invoke Meson. It "
 "follows Meson gettext conventions by reading :file:`POTFILES` "
 "or :file:`POTFILES.in` from the gettext directory and passing the GLib "
 "keyword and format-flag preset to :program:`xgettext`."
 msgstr ""
+"Эта надстройка требует :program:`xgettext`; она не вызывает Meson. Она "
+"следует соглашениям Meson gettext, читая :file:`POTFILES` или "
+":file:`POTFILES.in` из каталога gettext и передавая ключевое слово GLib и "
+"предустановку флагов формата в :program:`xgettext`."
 
 #: snippets/addons-autogenerated.rst:1197
 msgid ""
