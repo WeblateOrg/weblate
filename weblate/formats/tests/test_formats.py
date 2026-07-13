@@ -3235,8 +3235,10 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
             "<!--\n * See the NOTICE file distributed with this work for additional",
             newdata,
         )
-        self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n-->", newdata
+        # TODO: Require HTTPS once translate-toolkit 3.19.15 is released.
+        self.assertRegex(
+            newdata,
+            r"\* 02110-1301 USA, or see the FSF site: https?://www\.fsf\.org\.\n-->",
         )
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
@@ -3360,9 +3362,10 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
             "<!--\n * See the NOTICE file distributed with this work for additional",
             newdata,
         )
-        self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n-->",
+        # TODO: Require HTTPS once translate-toolkit 3.19.15 is released.
+        self.assertRegex(
             newdata,
+            r"\* 02110-1301 USA, or see the FSF site: https?://www\.fsf\.org\.\n-->",
         )
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
