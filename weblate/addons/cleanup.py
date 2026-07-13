@@ -9,7 +9,11 @@ from typing import TYPE_CHECKING, ClassVar
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonEvent,
+    AddonEventOutcome,
+)
 from weblate.formats.base import TranslationFormat
 from weblate.trans.exceptions import FileParseError
 
@@ -77,17 +81,18 @@ class CleanupAddon(BaseCleanupAddon):
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         if translation.is_source and not translation.component.intermediate:
-            return
+            return AddonEventOutcome.skipped(AddonActivityLogReason.NOT_APPLICABLE)
         try:
             filenames = translation.store.cleanup_unused()
         except FileParseError:
-            return
+            return AddonEventOutcome.error()
         if filenames is not None:
             self.extra_files.extend(filenames)
             if store_hash:
                 translation.store_hash()
+        return None
 
 
 class RemoveBlankAddon(BaseCleanupAddon):
@@ -117,12 +122,13 @@ class RemoveBlankAddon(BaseCleanupAddon):
 
     def post_commit(
         self, component: Component, store_hash: bool, activity_log_id: int | None = None
-    ) -> None:
-        self.post_update(
+    ) -> AddonEventOutcome | None:
+        return self.post_update(
             component,
             "weblate:post-commit" if store_hash else "weblate:post-commit-no-store",
             skip_push=True,
             changed_files=[],
+            activity_log_id=activity_log_id,
         )
 
 

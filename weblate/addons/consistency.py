@@ -12,7 +12,11 @@ from django.db.models import Count, Q
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonEvent,
+    AddonEventOutcome,
+)
 from weblate.addons.forms import LanguageConsistencyPreviewForm
 from weblate.addons.tasks import language_consistency
 from weblate.lang.models import Language
@@ -349,7 +353,7 @@ class LanguageConsistencyAddon(BaseAddon):
         category: Category | None = None,
         project: Project | None = None,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventOutcome | None:
         kwargs: dict[str, Any] = {
             "addon_id": self.instance.id,
             "activity_log_id": activity_log_id,
@@ -371,20 +375,23 @@ class LanguageConsistencyAddon(BaseAddon):
         )
 
         language_consistency.delay_on_commit(**kwargs)
-        return None
+        return AddonEventOutcome.pending()
 
     def post_add(
         self, translation: Translation, activity_log_id: int | None = None, **kwargs
-    ) -> None:
+    ) -> AddonEventOutcome:
         category = self.instance.category
         if category is not None:
-            if translation.component_id in category.all_component_ids:
-                language_consistency.delay_on_commit(
-                    self.instance.id,
-                    [translation.language_id],
-                    category_id=self.instance.category_id,
-                    activity_log_id=activity_log_id,
+            if translation.component_id not in category.all_component_ids:
+                return AddonEventOutcome.skipped(
+                    AddonActivityLogReason.INCOMPATIBLE_COMPONENT
                 )
+            language_consistency.delay_on_commit(
+                self.instance.id,
+                [translation.language_id],
+                category_id=self.instance.category_id,
+                activity_log_id=activity_log_id,
+            )
         else:
             language_consistency.delay_on_commit(
                 self.instance.id,
@@ -392,3 +399,4 @@ class LanguageConsistencyAddon(BaseAddon):
                 project_id=translation.component.project_id,
                 activity_log_id=activity_log_id,
             )
+        return AddonEventOutcome.pending()

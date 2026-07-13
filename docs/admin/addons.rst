@@ -180,10 +180,21 @@ to the repository.
 It is passed as a single parameter consisting of the filename of a current translation.
 
 
+.. _addon-activity-logging:
+
 Add-on activity logging
 -----------------------
 
 Add-on activity log keeps track of the add-on execution and can be used to
 keep track of add-on activity.
+
+Each entry records whether processing is pending, successful, failed, or
+skipped. Skipped entries include the reason the add-on did not run, such as an
+incompatible component, no relevant changes, or a configured schedule that is
+not due yet. A successful entry can still mean that the add-on checked its
+inputs but found nothing to change.
+
+For scope-wide add-ons that process components independently, the activity log
+contains a separate entry for each component.
 
 The logs can be pruned after a certain time interval by configuring the :setting:`ADDON_ACTIVITY_LOG_EXPIRY`.

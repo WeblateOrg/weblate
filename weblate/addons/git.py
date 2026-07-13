@@ -10,7 +10,11 @@ from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonEvent,
+    AddonEventOutcome,
+)
 from weblate.addons.forms import GitSquashForm
 from weblate.utils.errors import report_error
 from weblate.vcs.base import RepositoryError
@@ -311,7 +315,7 @@ class GitSquashAddon(
 
     def post_commit(
         self, component: Component, store_hash: bool, activity_log_id: int | None = None
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         # Operate on parent
         if component.linked_component:
             component = component.linked_component
@@ -330,9 +334,11 @@ class GitSquashAddon(
                         parse_after_update=True,
                     )
                 except RepositoryError:
-                    return
+                    return AddonEventOutcome.error()
             if not repository.needs_push():
-                return
+                return AddonEventOutcome.skipped(
+                    AddonActivityLogReason.NO_OUTGOING_COMMITS
+                )
             squash = self.configuration["squash"]
             match squash:
                 case "all":
@@ -357,6 +363,7 @@ class GitSquashAddon(
             # Parse translation files to process any updates fetched by update_branch
             if branch_updated:
                 component.create_translations()
+        return None
 
     def normalize_configuration(
         self, configuration: GitSquashAddonStoredConfiguration

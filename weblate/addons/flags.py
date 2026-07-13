@@ -9,7 +9,11 @@ from typing import TYPE_CHECKING, ClassVar
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonEvent,
+    AddonEventOutcome,
+)
 from weblate.addons.forms import BulkEditAddonForm
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
@@ -150,6 +154,10 @@ class TargetRepoUpdateAddon(BaseAddon):
         "translation files are often updated manually or by an external service."
     )
 
-    def unit_post_sync(self, unit: Unit, changed_attr: str, **kwargs) -> None:
+    def unit_post_sync(
+        self, unit: Unit, changed_attr: str, **kwargs
+    ) -> AddonEventOutcome | None:
         if changed_attr == "target":
             unit.state = STATE_NEEDS_REWRITING
+            return None
+        return AddonEventOutcome.skipped(AddonActivityLogReason.NOT_APPLICABLE)

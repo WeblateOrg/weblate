@@ -10,6 +10,7 @@ import re
 PROBLEMATIC_AUTODOC_TYPES = {
     "Addon",
     "AddonActivityLog",
+    "AddonEventResult",
     "BaseAddonForm",
     "AddonT",
     "AuthenticatedHttpRequest",

@@ -18,7 +18,11 @@ from typing import TYPE_CHECKING, ClassVar, TypedDict
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonEvent,
+    AddonEventOutcome,
+)
 from weblate.addons.forms import PropertiesSortAddonForm
 
 if TYPE_CHECKING:
@@ -171,14 +175,15 @@ class PropertiesSortAddon(
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         case_sensitive = self.configuration["case_sensitive"]
         filename = translation.get_filename()
         if filename is None:
-            return
+            return AddonEventOutcome.skipped(AddonActivityLogReason.NOT_APPLICABLE)
         changed = format_file(filename, case_sensitive)
         if changed and store_hash:
             translation.store_hash()
+        return None
 
     def normalize_configuration(
         self, configuration: PropertiesSortAddonStoredConfiguration
