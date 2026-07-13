@@ -416,6 +416,7 @@ linkcheck_ignore = [
     "https://www.bis.gov/",
     "https://www.libravatar.org/",
     "https://glosbe.com/",
+    "https://www.gwtproject.org/",
     # These seems to block bots/GitHub
     "https://docs.github.com/",
     "https://translate.yandex.com/",
