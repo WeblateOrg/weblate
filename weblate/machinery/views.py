@@ -473,14 +473,14 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
 @require_POST
 def translate(request: AuthenticatedHttpRequest, unit_id: int, service: str):
     """AJAX handler for translating."""
-    unit = get_object_or_404(Unit, pk=unit_id)
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=unit_id)
     return handle_machinery(request, service, unit)
 
 
 @require_POST
 def memory(request: AuthenticatedHttpRequest, unit_id: int):
     """AJAX handler for translation memory."""
-    unit = get_object_or_404(Unit, pk=unit_id)
+    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=unit_id)
     query = request.POST.get("q")
     if not query:
         return HttpResponseBadRequest("Missing search string")
