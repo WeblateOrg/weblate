@@ -1746,7 +1746,9 @@ onReady(() => {
       form?.querySelectorAll("input[name=offset]").forEach((input) => {
         input.disabled = false;
       });
-      positionInputEditables.forEach(show);
+      positionInputEditables.forEach((element) => {
+        element.style.display = "inline-block";
+      });
       positionInputEditableInput?.setAttribute("type", "number");
       if (positionInputs.length > 1) {
         const input = event.target.parentElement?.querySelector(
