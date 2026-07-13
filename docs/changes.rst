@@ -18,6 +18,7 @@ Weblate 2026.8
 
 .. rubric:: Bug fixes
 
+* Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
 

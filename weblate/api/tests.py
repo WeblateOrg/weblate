@@ -29,7 +29,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
-from weblate.accounts.models import Subscription
+from weblate.accounts.models import Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
@@ -48,8 +48,10 @@ from weblate.api.serializers import (
 )
 from weblate.api.views import MemoryFilter, MemoryViewSet
 from weblate.auth.data import ROLES, SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.forms import create_invitation
 from weblate.auth.models import (
     Group,
+    Invitation,
     Permission,
     Role,
     TeamMembership,
@@ -1051,6 +1053,71 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(self.user.full_name, "Renamed")
         self.assertEqual(self.user.email, "apitest@example.org")
 
+    def test_put_self_preserves_null_email(self) -> None:
+        self.user.email = None
+        self.user.save(update_fields=["email"])
+
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="put",
+            code=200,
+            format="json",
+            request={
+                "email": None,
+                "full_name": "No e-mail",
+                "username": self.user.username,
+            },
+        )
+
+        self.user.refresh_from_db()
+        self.assertIsNone(response.data["email"])
+        self.assertIsNone(self.user.email)
+        self.assertEqual(self.user.full_name, "No e-mail")
+
+    def test_patch_self_email_does_not_capture_invitation(self) -> None:
+        claimed_email = "future-member@example.test"
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            request={"email": claimed_email},
+        )
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, "apitest@example.org")
+
+        author = User.objects.create_user("inviter", "inviter@example.org", "x")
+        with patch.object(Invitation, "send_email"):
+            invitation = create_invitation(
+                SimpleNamespace(user=author),
+                group=Group.objects.create(name="Invited through e-mail"),
+                email=claimed_email,
+                success_message=False,
+            )
+
+        self.assertIsNone(invitation.user)
+        self.assertEqual(invitation.email, claimed_email)
+
+    def test_patch_self_email_accepts_verified_email(self) -> None:
+        verified_email = "Verified@Example.ORG"
+        social = self.user.social_auth.create(provider="email", uid=verified_email)
+        VerifiedEmail.objects.create(social=social, email=verified_email)
+
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            request={"email": verified_email.lower()},
+        )
+
+        self.user.refresh_from_db()
+        self.assertEqual(response.data["email"], verified_email.lower())
+        self.assertEqual(self.user.email, verified_email.lower())
+
     def test_patch(self) -> None:
         self.do_request(
             "api:user-detail",
@@ -1229,11 +1296,11 @@ class UserAPITest(APIBaseTest):
             kwargs={"username": self.user.username},
             method="patch",
             code=200,
-            request={"full_name": "Viewed User", "email": "viewed@example.org"},
+            request={"full_name": "Viewed User"},
         )
         self.user.refresh_from_db()
         self.assertEqual(self.user.full_name, "Viewed User")
-        self.assertEqual(self.user.email, "viewed@example.org")
+        self.assertEqual(self.user.email, "apitest@example.org")
 
         self.do_request(
             "api:user-detail",
