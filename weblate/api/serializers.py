@@ -31,6 +31,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 
 from weblate.accounts.models import Subscription
+from weblate.accounts.utils import get_all_user_mails
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
@@ -407,6 +408,19 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
 
 
 class SelfUserSerializer(serializers.ModelSerializer[User]):
+    def validate_email(self, value: str | None) -> str | None:
+        if self.instance is not None:
+            if value is None and self.instance.email is None:
+                return value
+            if value is not None and any(
+                value.casefold() == email.casefold()
+                for email in get_all_user_mails(self.instance)
+            ):
+                return value
+        raise serializers.ValidationError(
+            gettext_lazy("This e-mail address has not been verified.")
+        )
+
     class Meta:
         model = User
         fields = (
