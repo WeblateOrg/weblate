@@ -7984,6 +7984,33 @@ class ViewsTest(FixtureTestCase):
         data = response.json()
         self.assertEqual(data["service"], "Weblate Translation Memory")
 
+    def test_machinery_hides_private_unit_from_anonymous_user(self) -> None:
+        unit = self.get_unit()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.client.logout()
+
+        missing_unit_id = Unit.objects.latest("pk").pk + 1
+        for unit_id in (unit.pk, missing_unit_id):
+            with self.subTest(view="translate", unit_id=unit_id):
+                response = self.client.post(
+                    reverse(
+                        "js-translate",
+                        kwargs={
+                            "unit_id": unit_id,
+                            "service": "weblate-translation-memory",
+                        },
+                    )
+                )
+                self.assertEqual(response.status_code, 404)
+
+            for data in ({}, {"q": "probe"}):
+                with self.subTest(view="memory", unit_id=unit_id, data=data):
+                    response = self.client.post(
+                        reverse("js-memory", kwargs={"unit_id": unit_id}), data
+                    )
+                    self.assertEqual(response.status_code, 404)
+
     def test_configure_global(self) -> None:
         service = self.ensure_dummy_mt()
         list_url = reverse("manage-machinery")
