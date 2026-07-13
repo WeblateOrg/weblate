@@ -5,7 +5,6 @@
 {% block nav_pills %}
   {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
   {% perm 'project.permissions' object as user_can_manage_acl %}
-  {% perm 'reports.view' object as user_can_view_reports %}
   {% perm 'translation.add' object as user_can_add_translation %}
   {% perm 'component.edit' object as user_can_edit_component %}
   {% perm 'upload.perform' object as user_can_upload_translation %}
@@ -209,7 +208,6 @@
 
   {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
   {% perm 'project.permissions' object as user_can_manage_acl %}
-  {% perm 'reports.view' object as user_can_view_reports %}
   {% perm 'translation.add' object as user_can_add_translation %}
   {% perm 'component.edit' object as user_can_edit_component %}
   {% perm 'upload.perform' object as user_can_upload_translation %}
@@ -489,81 +487,7 @@
     {% endif %}
 
     {% if user.is_authenticated %}
-      <div class="tab-pane" id="reports">
-        {% if not user_can_view_reports %}
-          {% translate "You don't have permission to view reports for all users; contributor reports will list only your contributions." as msg %}
-          {% show_message "warning" msg %}
-        {% endif %}
-        <div class="row">
-          <div class="col-lg-6">
-            <form action="{% url 'credits' path=object.get_url_path %}"
-                  method="post"
-                  enctype="multipart/form-data">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">
-                    {% documentation_icon 'devel/reporting' 'credits' right=True %}
-                    {% translate "Credits" %}
-                  </h4>
-                </div>
-                <div class="card-body">
-                  <p>
-                    {% translate "Lists all translators contributing to this component in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}
-                  </p>
-                  {% crispy reports_form %}
-                </div>
-                <div class="card-footer">
-                  <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="col-lg-6">
-            <form action="{% url 'counts' path=object.get_url_path %}"
-                  method="post"
-                  enctype="multipart/form-data">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">
-                    {% documentation_icon 'devel/reporting' 'stats' right=True %}
-                    {% translate "Contributor stats" %}
-                  </h4>
-                </div>
-                <div class="card-body">
-                  <p>{% translate "Reports the number of strings and words translated by each translator." %}</p>
-                  {% crispy reports_count_form %}
-                </div>
-                <div class="card-footer">
-                  <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="col-lg-6">
-            <form action="{% url 'costs' path=object.get_url_path %}"
-                  method="post"
-                  enctype="multipart/form-data">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">
-                    {% documentation_icon 'devel/reporting' 'cost-estimate' right=True %}
-                    {% translate "Cost estimate" %}
-                  </h4>
-                </div>
-                <div class="card-body">
-                  <p>
-                    {% translate "Estimates translation costs based on source words, repetitions, needs-editing strings, and translation memory matches." %}
-                  </p>
-                  {% crispy reports_cost_form %}
-                </div>
-                <div class="card-footer">
-                  <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      <div class="tab-pane" id="reports">{% include "snippets/reports.html" %}</div>
     {% endif %}
 
   </div>

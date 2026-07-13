@@ -63,6 +63,7 @@ from weblate.trans.models import (
     ComponentList,
     ContributorAgreement,
     Project,
+    Report,
     Translation,
     Unit,
 )
@@ -1788,7 +1789,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         project = self.create_component()
         component = Component.objects.get(project=project, slug="language-names")
         self.use_screenshot_site_domain_for_git_export(component)
-        self.do_login(superuser=True)
+        user = self.do_login(superuser=True)
         self.open_component(component, project)
 
         # Repository
@@ -1838,6 +1839,54 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Translation reports")
         self.click("Insights")
         self.screenshot("reporting.png")
+
+        translation = component.translation_set.get(language__code="cs")
+        Change.objects.create(
+            action=ActionEvents.CHANGE,
+            user=user,
+            author=user,
+            project=project,
+            component=component,
+            translation=translation,
+            language=translation.language,
+        )
+        credits_form = self.driver.find_element(
+            By.XPATH,
+            '//h4[contains(@class, "card-title") and '
+            'contains(normalize-space(), "Credits")]/ancestor::form',
+        )
+        period = credits_form.find_element(By.NAME, "period")
+        self.click(period)
+        self.click(credits_form.find_elements(By.CSS_SELECTOR, ".datepicker-preset")[2])
+        with (
+            patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE),
+            self.wait_for_page_load(),
+        ):
+            credits_form.submit()
+        self.assertEqual(
+            Report.objects.get(creator=user, component=component).created,
+            SCREENSHOT_DATE,
+        )
+        self.assertEqual(
+            [
+                item.text
+                for item in self.driver.find_elements(
+                    By.CSS_SELECTOR, ".breadcrumb-item"
+                )
+            ],
+            ["WeblateOrg", "Language names", "Translation reports", "Credits"],
+        )
+        self.assert_text_contains(".card-title", "Credits")
+        self.assert_text_contains("#report-metadata", "testuser")
+        self.assert_text_contains("#report-metadata", "2026")
+        self.assert_text_contains("#report-content", "Weblate Test")
+        for download_format in ("JSON", "HTML", "reStructuredText"):
+            self.driver.find_element(By.LINK_TEXT, f"Download {download_format}")
+        self.assertLess(
+            self.driver.find_element(By.ID, "report-downloads").rect["y"],
+            self.driver.find_element(By.ID, "report-content").rect["y"],
+        )
+        self.screenshot("report-view.png")
 
         # Component tools
         self.open_component(component, project)

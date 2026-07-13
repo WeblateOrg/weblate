@@ -4,9 +4,15 @@ Translation progress reporting
 Reporting features give insight into translation progress over a given period.
 A summary of contributions to any given component over time is provided.
 The reporting tool is found in the :guilabel:`Insights` menu of the dashboard,
-any translation component, or project:
+workspace, project, category, or translation component:
 
 .. image:: /screenshots/reporting.webp
+
+Reports are generated in the background. Weblate shows the generation progress
+and opens the stored report when it is ready. Previously generated reports remain
+available on the same page according to :setting:`REPORT_EXPIRY`.
+
+.. image:: /screenshots/report-view.webp
 
 Several reporting tools are available on this page, all of which can produce output
 in HTML, reStructuredText or JSON. The first two formats are suitable for
@@ -131,3 +137,11 @@ The estimate uses Weblate translation memory matches and does not contact
 external machine translation services. The base rate is the price per source
 word. Category rates are percentages of that base rate; for example, ``50``
 charges half of the base rate and ``0`` excludes that category from the total.
+
+Translator work analysis
+------------------------
+
+Estimates realistic daily translator throughput from change history. It reports
+the median, average, 75th percentile, and 90th percentile for translated strings
+and source words. Minimum and maximum daily changes and maximum source words can
+be used to exclude incomplete work days, automated changes, and obvious outliers.

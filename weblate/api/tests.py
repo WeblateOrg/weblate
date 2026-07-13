@@ -5182,40 +5182,44 @@ class ProjectAPITest(APIBaseTest):
         filter_instance.is_valid.assert_called_once()
         self.assertEqual(response.status_code, 400)
 
-    def test_credits(self) -> None:
+    def test_reports(self) -> None:
         self.do_request(
-            "api:component-credits",
+            "api:component-reports",
             self.component_kwargs,
             method="get",
             code=401,
             authenticated=False,
         )
 
-        # mandatory date parameters
         self.do_request(
-            "api:component-credits", self.component_kwargs, method="get", code=400
+            "api:component-reports",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            request={"kind": "credits"},
         )
 
         start = datetime.now(tz=UTC) - timedelta(days=1)
         end = datetime.now(tz=UTC) + timedelta(days=1)
+        self.do_request(
+            "api:component-reports",
+            self.component_kwargs,
+            method="post",
+            code=202,
+            request={
+                "kind": "credits",
+                "start": start.isoformat(),
+                "end": end.isoformat(),
+            },
+        )
 
         response = self.do_request(
-            "api:component-credits",
+            "api:component-reports",
             self.component_kwargs,
             method="get",
             code=200,
-            request={"start": start.isoformat(), "end": end.isoformat()},
         )
-        self.assertEqual(response.data, [])
-
-        response = self.do_request(
-            "api:component-credits",
-            self.component_kwargs,
-            method="get",
-            code=200,
-            request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
-        )
-        self.assertEqual(response.data, [])
+        self.assertEqual(len(response.data["results"]), 1)
 
     @responses.activate
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
@@ -8123,51 +8127,44 @@ class ComponentAPITest(APIBaseTest):
             request={"project_slug": "acl"},
         )
 
-    def test_credits(self) -> None:
+    def test_reports(self) -> None:
         self.do_request(
-            "api:component-credits",
+            "api:component-reports",
             self.component_kwargs,
             method="get",
             code=401,
             authenticated=False,
         )
 
-        # mandatory date parameters
         self.do_request(
-            "api:component-credits", self.component_kwargs, method="get", code=400
+            "api:component-reports",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            request={"kind": "credits"},
         )
 
         start = datetime.now(tz=UTC) - timedelta(days=1)
         end = datetime.now(tz=UTC) + timedelta(days=1)
+        self.do_request(
+            "api:component-reports",
+            self.component_kwargs,
+            method="post",
+            code=202,
+            request={
+                "kind": "credits",
+                "start": start.isoformat(),
+                "end": end.isoformat(),
+            },
+        )
 
         response = self.do_request(
-            "api:component-credits",
+            "api:component-reports",
             self.component_kwargs,
             method="get",
             code=200,
-            request={
-                "start": start.isoformat(),
-                "end": end.isoformat(),
-                "sort_by": "count",
-                "sort_order": "ascending",
-            },
         )
-        self.assertEqual(response.data, [])
-
-        response = self.do_request(
-            "api:component-credits",
-            self.component_kwargs,
-            method="get",
-            code=200,
-            request={
-                "start": start.isoformat(),
-                "end": end.isoformat(),
-                "lang": "fr",
-                "sort_by": "count",
-                "sort_order": "ascending",
-            },
-        )
-        self.assertEqual(response.data, [])
+        self.assertEqual(len(response.data["results"]), 1)
 
 
 class LanguageAPITest(APIBaseTest):

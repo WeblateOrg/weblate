@@ -8,7 +8,6 @@ from __future__ import annotations
 import os.path
 from collections.abc import Mapping
 from contextlib import suppress
-from datetime import datetime
 from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import unquote
 
@@ -25,7 +24,6 @@ from django.core.exceptions import (
 )
 from django.db import DatabaseError, IntegrityError, transaction
 from django.db.models import Exists, OuterRef, Prefetch, Q
-from django.forms.utils import from_current_timezone
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
@@ -100,9 +98,14 @@ from weblate.api.serializers import (
     ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
+    ReportCreateSerializer,
+    ReportListQuerySerializer,
+    ReportListSerializer,
+    ReportSerializer,
     RepositoryOperationSerializer,
     RepositorySerializer,
     RoleSerializer,
+    ScopedReportCreateSerializer,
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
@@ -150,6 +153,7 @@ from weblate.trans.models import (
     Label,
     PendingUnitChange,
     Project,
+    Report,
     Unit,
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
@@ -158,11 +162,12 @@ from weblate.trans.tasks import (
     category_removal,
     component_removal,
     create_project_backup,
+    generate_report,
     project_removal,
 )
 from weblate.trans.util import get_upload_error_message
 from weblate.trans.views.files import download_multi
-from weblate.trans.views.reports import generate_credits
+from weblate.trans.views.reports import get_report_scope_values, render_report_data
 from weblate.utils.celery import (
     get_task_metadata,
     get_task_progress,
@@ -200,6 +205,66 @@ if TYPE_CHECKING:
 COMPONENT_LINK_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentLinkResponseSerializer",
     fields={"data": ComponentSerializer()},
+)
+
+REPORT_TASK_RESPONSE_SERIALIZER = inline_serializer(
+    "ReportTaskResponseSerializer",
+    fields={
+        "detail": serializers.CharField(),
+        "task_url": serializers.URLField(),
+    },
+)
+
+REPORT_LIST_FILTER_PARAMETERS = [
+    OpenApiParameter(
+        "kind",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        enum=Report.Kind.values,
+        description="Limit results to one report kind.",
+    ),
+    OpenApiParameter(
+        "workspace",
+        OpenApiTypes.UUID,
+        OpenApiParameter.QUERY,
+        description="Limit results to a workspace ID.",
+    ),
+    OpenApiParameter(
+        "project",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        description="Limit results to a project slug.",
+    ),
+    OpenApiParameter(
+        "category",
+        OpenApiTypes.INT,
+        OpenApiParameter.QUERY,
+        description="Limit results to a category ID.",
+    ),
+    OpenApiParameter(
+        "component",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        description="Limit results to a project/component path.",
+    ),
+]
+
+REPORT_JSON_RESPONSE = OpenApiResponse(
+    response={
+        "oneOf": [
+            {"type": "object", "additionalProperties": True},
+            {"type": "array", "items": {}},
+        ]
+    },
+    description="Stored report data without report metadata.",
+)
+REPORT_HTML_RESPONSE = OpenApiResponse(
+    response=OpenApiTypes.STR,
+    description="Rendered HTML report.",
+)
+REPORT_RST_RESPONSE = OpenApiResponse(
+    response=OpenApiTypes.STR,
+    description="Rendered reStructuredText report.",
 )
 
 USER_GROUP_REQUEST_SERIALIZER = inline_serializer(
@@ -1432,45 +1497,97 @@ class RoleViewSet(viewsets.ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
-class CreditsMixin:
-    @action(detail=True, methods=["get"])
-    def credits(self, request, **kwargs):
+def validate_report_scope_access(user, scope) -> None:
+    if scope is None:
+        return
+    if isinstance(scope, Workspace):
+        allowed = scope.can_view(user)
+    elif isinstance(scope, Project):
+        allowed = user.allowed_projects.filter(pk=scope.pk).exists()
+    elif isinstance(scope, Category):
+        allowed = user.allowed_projects.filter(pk=scope.project_id).exists()
+    else:
+        allowed = user.can_access_component(scope)
+    if not allowed:
+        raise Http404
+
+
+def enqueue_report(request: Request, serializer: ReportCreateSerializer) -> Response:
+    serializer.is_valid(raise_exception=True)
+    scope = serializer.validated_data["scope"]
+    validate_report_scope_access(request.user, scope)
+    kind = serializer.validated_data["kind"]
+    can_view = request.user.has_perm("reports.view", scope)
+    if (
+        kind in {Report.Kind.COST_ESTIMATE, Report.Kind.TRANSLATOR_WORK}
+        and not can_view
+    ):
+        raise PermissionDenied
+    scope_type, scope_id = get_report_scope_values(scope)
+    task = generate_report.delay(
+        kind=kind,
+        parameters=serializer.get_parameters(own_data=not can_view),
+        user_id=request.user.pk,
+        scope_type=scope_type,
+        scope_id=scope_id,
+        target="api",
+    )
+    store_task_metadata(task.id, user_id=request.user.id)
+    return Response(
+        {
+            "detail": gettext("Report generation scheduled."),
+            "task_url": reverse("api:task-detail", kwargs={"pk": task.id}),
+        },
+        status=HTTP_202_ACCEPTED,
+    )
+
+
+class ReportsMixin:
+    @extend_schema(
+        methods=["get"],
+        description="List accessible reports generated directly for this scope.",
+        responses=ReportListSerializer(many=True),
+    )
+    @extend_schema(
+        methods=["post"],
+        description="Schedule report generation using the endpoint object as scope.",
+        request=ScopedReportCreateSerializer,
+        responses={HTTP_202_ACCEPTED: REPORT_TASK_RESPONSE_SERIALIZER},
+    )
+    @action(
+        detail=True,
+        methods=["get", "post"],
+        permission_classes=(IsAuthenticated,),
+    )
+    def reports(self, request, **kwargs):
         if request.user.is_anonymous:
-            self.permission_denied(request, "Must be authenticated to get credits")
-
-        obj = self.get_object()
-
-        try:
-            start_date = from_current_timezone(
-                datetime.fromisoformat(request.query_params["start"])
+            self.permission_denied(request, "Must be authenticated to access reports")
+        scope = self.get_object()
+        if request.method == "POST":
+            serializer = ScopedReportCreateSerializer(
+                data=request.data,
+                context={"request": request, "scope": scope},
             )
-        except (ValueError, MultiValueDictKeyError) as err:
-            msg = "Invalid format for `start`"
-            raise ValidationError({"start": msg}) from err
+            return enqueue_report(request, serializer)
 
-        try:
-            end_date = from_current_timezone(
-                datetime.fromisoformat(request.query_params["end"])
+        scope_type, _scope_id = get_report_scope_values(scope)
+        reports = (
+            Report.objects.select_related(
+                "creator", "workspace", "project", "category", "component"
             )
-        except (ValueError, MultiValueDictKeyError) as err:
-            msg = "Invalid format for `end`"
-            raise ValidationError({"end": msg}) from err
-
-        language = None
-
-        if "lang" in request.query_params:
-            language = request.query_params["lang"]
-
-        data = generate_credits(
-            None if request.user.has_perm("reports.view", obj) else request.user,
-            start_date,
-            end_date,
-            language,
-            obj,
-            "count",
-            "descending",
+            .metadata()
+            .filter(**{scope_type: scope})
+            .filter_access(request.user)
         )
-        return Response(data=data)
+        page = self.paginate_queryset(reports)
+        serializer = ReportListSerializer(
+            page if page is not None else reports,
+            many=True,
+            context={"request": request},
+        )
+        if page is not None:
+            return self.get_paginated_response(serializer.data)
+        return Response(serializer.data)
 
 
 class AnnouncementsMixin:
@@ -1598,14 +1715,14 @@ class AnnouncementsMixin:
     list=extend_schema(description="Return a list of all projects."),
     retrieve=extend_schema(description="Return information about a project."),
     partial_update=extend_schema(description="Edit a project by a PATCH request."),
-    credits=extend_schema(description="Return contributor credits for a project."),
+    reports=extend_schema(description="List or create reports scoped to a project."),
 )
 class ProjectViewSet(
     WeblateViewSet,
     UpdateModelMixin,
     CreateModelMixin,
     DestroyModelMixin,
-    CreditsMixin,
+    ReportsMixin,
     AnnouncementsMixin,
 ):
     """Translation projects API."""
@@ -2295,7 +2412,7 @@ class ComponentViewSet(
     MultipleFieldViewSet,
     UpdateModelMixin,
     DestroyModelMixin,
-    CreditsMixin,
+    ReportsMixin,
     AnnouncementsMixin,
 ):
     """Translation components API."""
@@ -3864,7 +3981,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema_view(list=extend_schema(description="List available categories."))
-class CategoryViewSet(viewsets.ModelViewSet, AnnouncementsMixin):
+class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
     """Category API."""
 
     queryset = Category.objects.none()
@@ -4030,6 +4147,100 @@ class Search(APIView):
 
         serializer = self.serializer_class(results, many=True)
         return Response(serializer.data)
+
+
+@extend_schema_view(
+    list=extend_schema(
+        description="List stored reports accessible to the authenticated user.",
+        parameters=REPORT_LIST_FILTER_PARAMETERS,
+    ),
+    create=extend_schema(
+        description="Schedule generation of a stored report.",
+        request=ReportCreateSerializer,
+        responses={HTTP_202_ACCEPTED: REPORT_TASK_RESPONSE_SERIALIZER},
+    ),
+    retrieve=extend_schema(
+        description="Return report metadata, stored data, and rendered format links."
+    ),
+)
+class ReportViewSet(viewsets.ModelViewSet):
+    queryset = Report.objects.none()
+    serializer_class = ReportSerializer
+    http_method_names = ("get", "post", "head", "options")
+    permission_classes = (IsAuthenticated,)
+    request: AuthenticatedHttpRequest  # type: ignore[assignment]
+
+    def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return Report.objects.none()
+        queryset = Report.objects.select_related(
+            "creator", "workspace", "project", "category", "component"
+        ).filter_access(self.request.user)
+        if self.action == "list":
+            queryset = queryset.metadata()
+            query_serializer = ReportListQuerySerializer(
+                data=cast("Request", self.request).query_params,
+                context={"request": self.request},
+            )
+            query_serializer.is_valid(raise_exception=True)
+            query_filters = query_serializer.validated_data
+            if kind := query_filters.get("kind"):
+                queryset = queryset.filter(kind=kind)
+            if workspace := query_filters.get("workspace"):
+                queryset = queryset.filter(workspace_id=workspace)
+            if project := query_filters.get("project"):
+                queryset = queryset.filter(project__slug=project)
+            if category := query_filters.get("category"):
+                queryset = queryset.filter(category_id=category)
+            if component := query_filters.get("component"):
+                queryset = queryset.filter(component=component)
+        return queryset
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return ReportCreateSerializer
+        if self.action == "list":
+            return ReportListSerializer
+        return ReportSerializer
+
+    def create(self, request: Request, *args, **kwargs):
+        serializer = ReportCreateSerializer(
+            data=request.data, context={"request": request}
+        )
+        return enqueue_report(request, serializer)
+
+    def get_rendered_report(self, style: str):
+        report = self.get_object()
+        response = render_report_data(report, style)
+        extension = "json" if style == "json" else style
+        response["Content-Disposition"] = (
+            f'attachment; filename="report-{report.pk}.{extension}"'
+        )
+        return response
+
+    @extend_schema(
+        description="Download stored report data without report metadata.",
+        responses={(HTTP_200_OK, "application/json"): REPORT_JSON_RESPONSE},
+    )
+    @action(detail=True, methods=["get"])
+    def json(self, request: Request, **kwargs):
+        return self.get_rendered_report("json")
+
+    @extend_schema(
+        description="Download the report rendered as HTML.",
+        responses={(HTTP_200_OK, "text/html"): REPORT_HTML_RESPONSE},
+    )
+    @action(detail=True, methods=["get"])
+    def html(self, request: Request, **kwargs):
+        return self.get_rendered_report("html")
+
+    @extend_schema(
+        description="Download the report rendered as reStructuredText.",
+        responses={(HTTP_200_OK, "text/plain"): REPORT_RST_RESPONSE},
+    )
+    @action(detail=True, methods=["get"])
+    def rst(self, request: Request, **kwargs):
+        return self.get_rendered_report("rst")
 
 
 class TasksViewSet(ViewSet):

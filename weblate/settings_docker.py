@@ -1549,6 +1549,10 @@ UNUSED_ALERT_DAYS = get_env_int(
     "WEBLATE_UNUSED_ALERT_DAYS", trans_defaults.DEFAULT_UNUSED_ALERT_DAYS
 )
 
+REPORT_EXPIRY = get_env_int(
+    "WEBLATE_REPORT_EXPIRY", trans_defaults.DEFAULT_REPORT_EXPIRY
+)
+
 USE_X_FORWARDED_HOST = get_env_bool("WEBLATE_USE_X_FORWARDED_HOST", False)
 
 # Wildcard loading

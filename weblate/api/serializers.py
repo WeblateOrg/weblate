@@ -29,6 +29,7 @@ from drf_standardized_errors.openapi_serializers import (
 )
 from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.reverse import reverse
 
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
@@ -44,7 +45,12 @@ from weblate.trans.component_copy import (
     get_inherited_component_fields,
     should_copy_component_field,
 )
-from weblate.trans.defines import BRANCH_LENGTH, LANGUAGE_NAME_LENGTH, REPO_LENGTH
+from weblate.trans.defines import (
+    BRANCH_LENGTH,
+    LANGUAGE_NAME_LENGTH,
+    PROJECT_NAME_LENGTH,
+    REPO_LENGTH,
+)
 from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     apply_create_inheritance_defaults,
@@ -60,6 +66,7 @@ from weblate.trans.models import (
     ComponentList,
     Label,
     Project,
+    Report,
     Translation,
     Unit,
 )
@@ -69,6 +76,7 @@ from weblate.trans.workspace_move import (
     get_project_move_billing_error,
     get_project_workspace_move_permission_error,
 )
+from weblate.utils.forms import QueryField
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
@@ -89,9 +97,354 @@ from weblate.utils.views import (
 from weblate.vcs.base import RepositoryError
 from weblate.workspaces.models import Workspace
 
+if TYPE_CHECKING:
+    from uuid import UUID
+
 NEW_UNIT_STATE_CHOICES = tuple(
     choice for choice in StringState.choices if choice[0] != STATE_READONLY
 )
+
+
+def validate_report_component(value: str, user: User | None = None) -> Component:
+    components = Component.objects.all()
+    if user is not None:
+        components = components.filter_access(user)
+    try:
+        return components.get_by_path(value)
+    except (Component.DoesNotExist, Component.MultipleObjectsReturned) as error:
+        raise serializers.ValidationError(
+            gettext_lazy("Invalid component path.")
+        ) from error
+
+
+class ReportListQuerySerializer(serializers.Serializer):
+    kind = serializers.ChoiceField(choices=Report.Kind.choices, required=False)
+    workspace = serializers.UUIDField(required=False)
+    project = serializers.CharField(required=False)
+    category = serializers.IntegerField(required=False, min_value=1)
+    component = serializers.CharField(required=False)
+
+    def validate_component(self, value: str) -> Component:
+        request = self.context.get("request")
+        return validate_report_component(
+            value, cast("User | None", getattr(request, "user", None))
+        )
+
+
+class ReportCreateSerializer(serializers.Serializer):
+    """
+    Parameters for generating a report, with at most one optional scope.
+
+    Start and end are required for credits, contributor stats, and translator work.
+    Kind-specific optional fields are ignored by other report kinds.
+    """
+
+    kind = serializers.ChoiceField(choices=Report.Kind.choices)
+    workspace = serializers.UUIDField(required=False)
+    project = serializers.SlugField(
+        required=False,
+        max_length=PROJECT_NAME_LENGTH,
+        label=gettext_lazy("URL slug"),
+        help_text=gettext_lazy("Name used in URLs and filenames."),
+    )
+    category = serializers.IntegerField(required=False, min_value=1)
+    component = serializers.CharField(required=False)
+    start = serializers.DateTimeField(
+        required=False,
+        help_text=gettext_lazy(
+            "Required for credits, contributor stats, and translator work reports."
+        ),
+    )
+    end = serializers.DateTimeField(
+        required=False,
+        help_text=gettext_lazy(
+            "Required for credits, contributor stats, and translator work reports."
+        ),
+    )
+    language = serializers.CharField(required=False, allow_blank=True, default="")
+    sort_by = serializers.ChoiceField(
+        choices=("count", "date_joined"), required=False, default="count"
+    )
+    sort_order = serializers.ChoiceField(
+        choices=("descending", "ascending"), required=False, default="descending"
+    )
+    counting_mode = serializers.ChoiceField(
+        choices=("unique", "all"), required=False, default="unique"
+    )
+    q = serializers.CharField(required=False, default="state:<translated")
+    base_rate = serializers.DecimalField(
+        required=False, default=1, min_value=0, max_digits=12, decimal_places=4
+    )
+    tm_threshold = serializers.IntegerField(
+        required=False, default=80, min_value=75, max_value=100
+    )
+    rate_new = serializers.DecimalField(
+        required=False, default=100, min_value=0, max_digits=6, decimal_places=2
+    )
+    rate_needs_editing = serializers.DecimalField(
+        required=False, default=50, min_value=0, max_digits=6, decimal_places=2
+    )
+    rate_tm_100 = serializers.DecimalField(
+        required=False, default=0, min_value=0, max_digits=6, decimal_places=2
+    )
+    rate_tm_fuzzy = serializers.DecimalField(
+        required=False, default=50, min_value=0, max_digits=6, decimal_places=2
+    )
+    rate_repetition = serializers.DecimalField(
+        required=False, default=0, min_value=0, max_digits=6, decimal_places=2
+    )
+    min_changes = serializers.IntegerField(required=False, default=5, min_value=0)
+    max_changes = serializers.IntegerField(required=False, default=1000, min_value=1)
+    max_words = serializers.IntegerField(required=False, default=10000, min_value=1)
+
+    @property
+    def request_user(self) -> User | None:
+        request = self.context.get("request")
+        return cast("User | None", getattr(request, "user", None))
+
+    def validate_workspace(self, value: UUID) -> Workspace:
+        try:
+            workspace = Workspace.objects.get(pk=value)
+        except Workspace.DoesNotExist as error:
+            raise serializers.ValidationError(
+                gettext_lazy("Invalid workspace.")
+            ) from error
+        if self.request_user is not None and not workspace.can_view(self.request_user):
+            raise serializers.ValidationError(gettext_lazy("Invalid workspace."))
+        return workspace
+
+    def validate_project(self, value: str) -> Project:
+        projects = (
+            self.request_user.allowed_projects
+            if self.request_user is not None
+            else Project.objects.all()
+        )
+        try:
+            return projects.get(slug=value)
+        except Project.DoesNotExist as error:
+            raise serializers.ValidationError(
+                gettext_lazy("Invalid project.")
+            ) from error
+
+    def validate_category(self, value: int) -> Category:
+        categories = Category.objects.all()
+        if self.request_user is not None:
+            categories = categories.filter(
+                project__in=self.request_user.allowed_projects
+            )
+        try:
+            return categories.get(pk=value)
+        except Category.DoesNotExist as error:
+            raise serializers.ValidationError(
+                gettext_lazy("Invalid category.")
+            ) from error
+
+    def validate_component(self, value: str) -> Component:
+        return validate_report_component(value, self.request_user)
+
+    def validate(self, attrs):
+        forced_scope = self.context.get("scope")
+        supplied_scopes = [
+            name
+            for name in ("workspace", "project", "category", "component")
+            if name in attrs
+        ]
+        if forced_scope is not None and supplied_scopes:
+            raise serializers.ValidationError(
+                gettext_lazy("Do not specify a scope on a scoped reports endpoint.")
+            )
+        if len(supplied_scopes) > 1:
+            raise serializers.ValidationError(
+                gettext_lazy("Choose at most one report scope.")
+            )
+        scope = forced_scope or (attrs[supplied_scopes[0]] if supplied_scopes else None)
+        attrs["scope"] = scope
+        kind = attrs["kind"]
+        if kind in {
+            Report.Kind.CREDITS,
+            Report.Kind.CONTRIBUTOR_STATS,
+            Report.Kind.TRANSLATOR_WORK,
+        }:
+            if "start" not in attrs or "end" not in attrs:
+                raise serializers.ValidationError(
+                    gettext_lazy("Start and end timestamps are required.")
+                )
+            if attrs["start"] >= attrs["end"]:
+                raise serializers.ValidationError(
+                    gettext_lazy("The report start must be before its end.")
+                )
+        if kind == Report.Kind.COST_ESTIMATE:
+            try:
+                QueryField().clean(attrs["q"])
+            except DjangoValidationError as error:
+                raise serializers.ValidationError({"q": error.messages}) from error
+        if (
+            kind == Report.Kind.TRANSLATOR_WORK
+            and attrs["min_changes"] > attrs["max_changes"]
+        ):
+            raise serializers.ValidationError(
+                gettext_lazy("Minimum changes can not exceed maximum changes.")
+            )
+        return attrs
+
+    def get_parameters(self, *, own_data: bool) -> dict[str, Any]:
+        data = self.validated_data
+        kind = data["kind"]
+        common = {"language": data["language"], "own_data": own_data}
+        if kind in {Report.Kind.CREDITS, Report.Kind.CONTRIBUTOR_STATS}:
+            common.update(
+                {
+                    "start": data["start"].isoformat(),
+                    "end": data["end"].isoformat(),
+                    "sort_by": data["sort_by"],
+                    "sort_order": data["sort_order"],
+                }
+            )
+            if kind == Report.Kind.CONTRIBUTOR_STATS:
+                common["counting_mode"] = data["counting_mode"]
+            return common
+        if kind == Report.Kind.COST_ESTIMATE:
+            common.update(
+                {
+                    "q": data["q"],
+                    "base_rate": str(data["base_rate"]),
+                    "tm_threshold": data["tm_threshold"],
+                    **{
+                        field: str(data[field])
+                        for field in (
+                            "rate_new",
+                            "rate_needs_editing",
+                            "rate_tm_100",
+                            "rate_tm_fuzzy",
+                            "rate_repetition",
+                        )
+                    },
+                }
+            )
+            return common
+        common.update(
+            {
+                "start": data["start"].isoformat(),
+                "end": data["end"].isoformat(),
+                "min_changes": data["min_changes"],
+                "max_changes": data["max_changes"],
+                "max_words": data["max_words"],
+            }
+        )
+        return common
+
+
+class ScopedReportCreateSerializer(ReportCreateSerializer):
+    """
+    Parameters for generating a report scoped by the endpoint URL.
+
+    Start and end are required for credits, contributor stats, and translator work.
+    Kind-specific optional fields are ignored by other report kinds.
+    """
+
+    def get_fields(self):
+        fields = super().get_fields()
+        for field in ("workspace", "project", "category", "component"):
+            fields.pop(field)
+        return fields
+
+    def validate(self, attrs):
+        if any(
+            field in self.initial_data
+            for field in ("workspace", "project", "category", "component")
+        ):
+            raise serializers.ValidationError(
+                gettext_lazy("Do not specify a scope on a scoped reports endpoint.")
+            )
+        return super().validate(attrs)
+
+
+@extend_schema_field(
+    {
+        "oneOf": [
+            {"type": "object", "additionalProperties": True},
+            {"type": "array", "items": {}},
+        ]
+    }
+)
+class ReportDataField(serializers.JSONField):
+    pass
+
+
+class ReportListSerializer(serializers.ModelSerializer[Report]):
+    kind = serializers.ChoiceField(choices=Report.Kind.choices, read_only=True)
+    version = serializers.IntegerField(read_only=True)
+    creator = serializers.CharField(source="creator.username", read_only=True)
+    scope = serializers.SerializerMethodField()
+    url = serializers.SerializerMethodField()
+    json_url = serializers.SerializerMethodField()
+    html_url = serializers.SerializerMethodField()
+    rst_url = serializers.SerializerMethodField()
+
+    def get_scope(self, obj: Report) -> dict[str, str] | None:
+        scope = obj.scope
+        if scope is None:
+            return None
+        if isinstance(scope, Workspace):
+            scope_type = "workspace"
+        elif isinstance(scope, Project):
+            scope_type = "project"
+        elif isinstance(scope, Category):
+            scope_type = "category"
+        else:
+            scope_type = "component"
+        return {scope_type: str(scope.pk), "name": str(scope)}
+
+    @extend_schema_field(serializers.URLField())
+    def get_url(self, obj: Report) -> str:
+        return reverse(
+            "api:report-detail",
+            kwargs={"pk": obj.pk},
+            request=self.context.get("request"),
+        )
+
+    def _format_url(self, obj: Report, style: str) -> str:
+        return reverse(
+            f"api:report-{style}",
+            kwargs={"pk": obj.pk},
+            request=self.context.get("request"),
+        )
+
+    @extend_schema_field(serializers.URLField())
+    def get_json_url(self, obj: Report) -> str:
+        return self._format_url(obj, "json")
+
+    @extend_schema_field(serializers.URLField())
+    def get_html_url(self, obj: Report) -> str:
+        return self._format_url(obj, "html")
+
+    @extend_schema_field(serializers.URLField())
+    def get_rst_url(self, obj: Report) -> str:
+        return self._format_url(obj, "rst")
+
+    class Meta:
+        model = Report
+        fields = (
+            "id",
+            "kind",
+            "version",
+            "creator",
+            "created",
+            "scope",
+            "url",
+            "json_url",
+            "html_url",
+            "rst_url",
+        )
+
+
+class ReportSerializer(ReportListSerializer):
+    parameters = serializers.DictField(read_only=True)
+    data = ReportDataField(read_only=True)
+
+    class Meta(ReportListSerializer.Meta):
+        fields = (*ReportListSerializer.Meta.fields, "parameters", "data")
+
 
 if TYPE_CHECKING:
     from drf_spectacular.openapi import AutoSchema
@@ -850,8 +1203,8 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     labels_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-labels", lookup_field="slug"
     )
-    credits_url = serializers.HyperlinkedIdentityField(
-        view_name="api:project-credits", lookup_field="slug"
+    reports_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-reports", lookup_field="slug"
     )
     lock_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-lock", lookup_field="slug"
@@ -882,7 +1235,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "changes_list_url",
             "languages_url",
             "labels_url",
-            "credits_url",
+            "reports_url",
             "lock_url",
             "translation_review",
             "source_review",
@@ -1100,8 +1453,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
     changes_list_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-changes", lookup_field=("project__slug", "slug")
     )
-    credits_url = MultiFieldHyperlinkedIdentityField(
-        view_name="api:component-credits", lookup_field=("project__slug", "slug")
+    reports_url = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-reports", lookup_field=("project__slug", "slug")
     )
     license_url = serializers.CharField(read_only=True)
     effective_license = serializers.SerializerMethodField()
@@ -1241,7 +1594,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "links_url",
             "changes_list_url",
             "task_url",
-            "credits_url",
+            "reports_url",
             "new_lang",
             "inherit_new_lang",
             "effective_new_lang",
@@ -2674,6 +3027,9 @@ class CategorySerializer(RemovableSerializer[Category]):
         view_name="api:category-announcements",
         lookup_field="pk",
     )
+    reports_url = serializers.HyperlinkedIdentityField(
+        view_name="api:category-reports", lookup_field="pk"
+    )
     effective_license = serializers.SerializerMethodField()
     effective_agreement = serializers.SerializerMethodField()
     effective_new_lang = serializers.SerializerMethodField()
@@ -2698,6 +3054,7 @@ class CategorySerializer(RemovableSerializer[Category]):
             "url",
             "statistics_url",
             "announcements_url",
+            "reports_url",
             "check_flags",
             "effective_check_flags",
             "license",

@@ -981,7 +981,9 @@ def check_translation_delete(
 
 @register_perm("reports.view", "change.download")
 def check_possibly_global(
-    user: User, permission: str, obj: Language | Translation | Component | Project
+    user: User,
+    permission: str,
+    obj: Language | Translation | Component | Project | Category | Workspace,
 ) -> bool | PermissionResult:
     if obj is None or isinstance(obj, Language):
         return user.is_superuser

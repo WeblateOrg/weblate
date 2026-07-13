@@ -41,6 +41,7 @@ from weblate.auth.data import (
     SELECTION_ALL_PUBLIC,
     SELECTION_COMPONENT_LIST,
     SELECTION_MANUAL,
+    WORKSPACE_SCOPED_PERM_NAMES,
 )
 from weblate.auth.permissions import (
     SPECIALS,
@@ -152,9 +153,16 @@ class RoleQuerySet(models.QuerySet["Role", "Role"]):
         )
 
     def assignable_to_workspace_team(self) -> Self:
+        disallowed_permissions = (
+            PERMISSION_NAMES | GLOBAL_PERM_NAMES
+        ) - WORKSPACE_SCOPED_PERM_NAMES
         return (
-            self.filter(permissions__codename__startswith="workspace.")
-            .without_global_permissions()
+            self.filter(permissions__codename__in=WORKSPACE_SCOPED_PERM_NAMES)
+            .exclude(
+                pk__in=self.model.objects.filter(
+                    permissions__codename__in=disallowed_permissions
+                ).values("pk")
+            )
             .distinct()
         )
 
@@ -1343,7 +1351,7 @@ class User(AbstractBaseUser):
                         workspaces[membership.defining_workspace_id].update(
                             permission
                             for permission in permissions
-                            if permission.startswith("workspace.")
+                            if permission in WORKSPACE_SCOPED_PERM_NAMES
                         )
                     continue
 
