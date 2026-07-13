@@ -41,6 +41,7 @@ from weblate.trans.models import (
     ComponentList,
     PendingUnitChange,
     Project,
+    Report,
     Suggestion,
     Translation,
     Unit,
@@ -1208,6 +1209,51 @@ def report_task_progress(progress: int) -> None:
         current_task.update_state(state="PROGRESS", meta={"progress": progress})
 
 
+@app.task(trail=False)
+def generate_report(
+    *,
+    kind: str,
+    parameters: dict[str, Any],
+    user_id: int,
+    scope_type: str = "",
+    scope_id: str = "",
+    target: str = "api",
+) -> dict[str, str]:
+    # Importing here avoids loading report views in every Celery process at startup.
+    # ruff: ignore[import-outside-top-level]
+    from django.urls import reverse
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.views.reports import collect_report_data, load_report_scope
+
+    user = User.objects.get(pk=user_id)
+    scope = load_report_scope(scope_type, scope_id)
+    report_task_progress(10)
+    with override(user.profile.language or "en"):
+        data = collect_report_data(kind, parameters, user, scope)
+        message = gettext("Report generated.")
+    report_task_progress(90)
+    scope_values = {scope_type: scope} if scope_type else {}
+    report = Report.objects.create(
+        creator=user,
+        kind=kind,
+        parameters=parameters,
+        data=data,
+        **scope_values,
+    )
+    if target == "web":
+        url = reverse("report", kwargs={"pk": report.pk})
+    else:
+        url = reverse("api:report-detail", kwargs={"pk": report.pk})
+    return {"message": message, "url": url}
+
+
+@app.task(trail=False)
+def cleanup_reports() -> None:
+    cutoff = timezone.now() - timedelta(days=settings.REPORT_EXPIRY)
+    Report.objects.filter(created__lt=cutoff).delete()
+
+
 def report_restore_component_progress(completed: int, total: int) -> None:
     if total:
         report_task_progress(30 + (60 * completed // total))
@@ -1337,4 +1383,7 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
         3600,
         cleanup_project_backup_download.s(),
         name="cleanup-project-backup-download",
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=50), cleanup_reports.s(), name="reports-cleanup"
     )

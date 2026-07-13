@@ -934,7 +934,7 @@ Projects
     :>json string components_list_url: URL to components list; see :http:get:`/api/projects/(string:project)/components/`
     :>json string repository_url: URL to repository status; see :http:get:`/api/projects/(string:project)/repository/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`
-    :>json string credits_url: URL to list contributor credits; see :http:get:`/api/projects/(string:project)/credits/`
+    :>json string reports_url: URL to list or generate scoped reports; see :http:get:`/api/projects/(string:project)/reports/`
     :>json boolean translation_review: :ref:`project-translation_review`
     :>json boolean source_review: :ref:`project-source_review`
     :>json boolean enable_hooks: :ref:`project-enable_hooks`
@@ -1354,23 +1354,14 @@ Projects
     :param label_id: ID of the label to delete
     :type label_id: integer
 
-.. http:get:: /api/projects/(string:project)/credits/
+.. http:get:: /api/projects/(string:project)/reports/
 
-    Returns contributor credits for a project.
+    Lists accessible reports generated directly for a project.
 
-    .. versionadded:: 5.7
+.. http:post:: /api/projects/(string:project)/reports/
 
-    :param project: Project URL slug
-    :type project: string
-    :param start: Lower-bound ISO 8601 timestamp (mandatory)
-    :type start: date
-    :param end: Upper-bound ISO 8601 timestamp (mandatory)
-    :type end: date
-    :param lang: Language code to search for
-    :type lang: source_language
-    :>json string email: Email of the contributor
-    :>json string full_name: Full name of the contributor
-    :>json string change_count: Number of changes done in the time range
+    Schedules a report using the project as its scope. The request and response
+    match :http:post:`/api/reports/`; scope fields must be omitted.
 
 
 .. http:get:: /api/projects/(string:project)/machinery_settings/
@@ -1610,7 +1601,7 @@ Components
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
     :>json string task_url: URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`
-    :>json string credits_url: URL to list contributor credits; see :http:get:`/api/components/(string:project)/(string:component)/credits/`
+    :>json string reports_url: URL to list or generate scoped reports; see :http:get:`/api/components/(string:project)/(string:component)/reports/`
     :>json string announcements_url: URL to announcements; see :http:get:`/api/components/(string:project)/(string:component)/announcements/`
 
     Repository fields, including ``linked_component``, are returned only with
@@ -2133,23 +2124,14 @@ Components
     :param project_slug: Slug of the project to remove
     :type project_slug: string
 
-.. http:get:: /api/components/(string:project)/(string:component)/credits/
+.. http:get:: /api/components/(string:project)/(string:component)/reports/
 
-    Returns contributor credits for a project.
+    Lists accessible reports generated directly for a component.
 
-    .. versionadded:: 5.7
+.. http:post:: /api/components/(string:project)/(string:component)/reports/
 
-    :param project: Project URL slug
-    :type project: string
-    :param start: Lower-bound ISO 8601 timestamp (mandatory)
-    :type start: date
-    :param end: Upper-bound ISO 8601 timestamp (mandatory)
-    :type end: date
-    :param lang: Language code to search for
-    :type lang: source_language
-    :>json string email: Email of the contributor
-    :>json string full_name: Full name of the contributor
-    :>json string change_count: Number of changes done in the time range
+    Schedules a report using the component as its scope. The request and response
+    match :http:post:`/api/reports/`; scope fields must be omitted.
 
 .. http:get:: /api/components/(string:project)/(string:component)/announcements/
 
@@ -3055,6 +3037,41 @@ Glossary
    Glossaries are now stored as regular components, translations and strings,
    please use respective API instead.
 
+Reports
++++++++
+
+.. http:get:: /api/reports/
+
+    Lists stored reports accessible to the authenticated user. The optional
+    ``kind``, ``workspace``, ``project``, ``category``, and ``component`` query
+    parameters filter the result.
+
+.. http:post:: /api/reports/
+
+    Schedules report generation and returns ``202 Accepted`` with a ``task_url``.
+    The task result links to the created report. The ``kind`` is one of
+    ``credits``, ``contributor_stats``, ``cost_estimate``, or ``translator_work``.
+    Specify at most one of ``workspace``, ``project``, ``category``, or
+    ``component``; omitting all of them creates a global report. Contribution
+    reports require ``start`` and ``end`` ISO 8601 timestamps.
+
+.. http:get:: /api/reports/(int:id)/
+
+    Returns report metadata, generation parameters, stored JSON ``data``, and
+    links to the JSON, HTML, and reStructuredText renderings.
+
+.. http:get:: /api/reports/(int:id)/json/
+
+    Downloads only the stored report data without metadata.
+
+.. http:get:: /api/reports/(int:id)/html/
+
+    Downloads an HTML rendering of the stored report.
+
+.. http:get:: /api/reports/(int:id)/rst/
+
+    Downloads a reStructuredText rendering of the stored report.
+
 Tasks
 +++++
 
@@ -3210,6 +3227,7 @@ Categories
    :>json str project: Link to a project.
    :>json str category: Link to a parent category.
    :>json string announcements_url: URL to announcements; see :http:get:`/api/categories/(int:id)/announcements/`
+   :>json string reports_url: URL to list or generate scoped reports; see :http:get:`/api/categories/(int:id)/reports/`
 
 .. http:patch:: /api/categories/(int:id)/
 
@@ -3252,6 +3270,15 @@ Categories
     .. seealso::
 
        Returned attributes are described in :ref:`api-statistics`.
+
+.. http:get:: /api/categories/(int:id)/reports/
+
+    Lists accessible reports generated directly for a category.
+
+.. http:post:: /api/categories/(int:id)/reports/
+
+    Schedules a report using the category as its scope. The request and response
+    match :http:post:`/api/reports/`; scope fields must be omitted.
 
 .. http:get:: /api/categories/(int:id)/announcements/
 

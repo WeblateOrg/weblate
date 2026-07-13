@@ -4,31 +4,25 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
-from statistics import mean, median
 from typing import TYPE_CHECKING, cast
 
 from django.core.management.base import CommandError
-from django.db.models import Count, Sum
-from django.db.models.functions import TruncDate
 from django.utils import timezone
 from django.utils.dateparse import parse_date
 
-from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component
+from weblate.trans.models import Component
+from weblate.trans.translator_analysis import (
+    TRANSLATOR_ACTIONS,
+    analyze_translator_work,
+    get_translator_work_queryset,
+)
 from weblate.utils.management.base import BaseCommand
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
-
     from django.core.management.base import CommandParser
     from django.db.models import QuerySet
 
-
-TRANSLATOR_ACTIONS = (
-    ActionEvents.CHANGE,
-    ActionEvents.NEW,
-    ActionEvents.ACCEPT,
-)
+    from weblate.trans.models import Change
 
 
 class Command(BaseCommand):
@@ -87,59 +81,46 @@ class Command(BaseCommand):
             msg = "The analysis start date must be before the end date."
             raise CommandError(msg)
 
-        base = self.get_queryset(options).filter(
-            timestamp__gte=since, timestamp__lt=until
-        )
-        rows = list(
-            base.annotate(day=TruncDate("timestamp"))
-            .values("day", "author_id", "author__username")
-            .annotate(strings=Count("id"), words=Sum("unit__num_words"))
-            .order_by("day", "author__username")
-        )
-
         min_changes = cast("int", options["min_changes"])
         max_changes = cast("int", options["max_changes"])
         max_words = cast("int", options["max_words"])
-        included = [
-            row
-            for row in rows
-            if min_changes <= row["strings"] <= max_changes
-            and (row["words"] or 0) <= max_words
-        ]
-        excluded = len(rows) - len(included)
+        data = analyze_translator_work(
+            since=since,
+            until=until,
+            language=cast("str", options["language"] or ""),
+            min_changes=min_changes,
+            max_changes=max_changes,
+            max_words=max_words,
+            queryset=self.get_queryset(options),
+        )
 
         self.stdout.write("Translator work analysis")
         self.stdout.write(f"Period: {since:%Y-%m-%d} to {until:%Y-%m-%d}")
         self.stdout.write(
             "Included actions: "
-            + ", ".join(
-                ActionEvents(action).name.lower() for action in TRANSLATOR_ACTIONS
-            )
+            + ", ".join(action.name.lower() for action in TRANSLATOR_ACTIONS)
         )
         self.stdout.write(
             "Filtering: active human users, unit-backed changes, "
             f"{min_changes}..{max_changes} strings/day, "
             f"up to {max_words} words/day"
         )
-        self.stdout.write(f"User days: {len(included)} included, {excluded} excluded")
+        self.stdout.write(
+            f"User days: {data['user_days']['included']} included, "
+            f"{data['user_days']['excluded']} excluded"
+        )
 
-        if not included:
+        if not data["metrics"]:
             self.stdout.write("No matching translator activity found.")
             return
 
-        strings = [row["strings"] for row in included]
-        words = [row["words"] or 0 for row in included]
         self.stdout.write("")
-        self.write_metric("Translated strings per day", strings)
-        self.write_metric("Source words per day", words)
+        self.write_metric("Translated strings per day", data["metrics"]["strings"])
+        self.write_metric("Source words per day", data["metrics"]["words"])
 
     def get_queryset(self, options: dict[str, object]) -> QuerySet[Change]:
-        queryset = Change.objects.filter(
-            action__in=TRANSLATOR_ACTIONS,
-            unit__isnull=False,
-            author__isnull=False,
-            author__is_active=True,
-            author__is_bot=False,
+        queryset = get_translator_work_queryset(
+            language=cast("str", options["language"] or "")
         )
         if options["project"]:
             queryset = queryset.filter(project__slug=options["project"])
@@ -151,8 +132,6 @@ class Command(BaseCommand):
                 msg = "No matching component found."
                 raise CommandError(msg)
             queryset = queryset.filter(component__in=components)
-        if options["language"]:
-            queryset = queryset.filter(language__code=options["language"])
         return queryset
 
     def get_since(self, options: dict[str, object]) -> datetime:
@@ -173,19 +152,9 @@ class Command(BaseCommand):
             return timezone.make_aware(datetime.combine(parsed, datetime.max.time()))
         return timezone.now()
 
-    def write_metric(self, label: str, values: Iterable[int]) -> None:
-        ordered = sorted(values)
+    def write_metric(self, label: str, values: dict[str, float]) -> None:
         self.stdout.write(f"{label}:")
-        self.stdout.write(f"  median: {median(ordered):.0f}")
-        self.stdout.write(f"  average: {mean(ordered):.0f}")
-        self.stdout.write(f"  p75: {self.percentile(ordered, 75):.0f}")
-        self.stdout.write(f"  p90: {self.percentile(ordered, 90):.0f}")
-
-    def percentile(self, values: list[int], percent: int) -> float:
-        if len(values) == 1:
-            return values[0]
-        position = (len(values) - 1) * percent / 100
-        lower = int(position)
-        upper = min(lower + 1, len(values) - 1)
-        weight = position - lower
-        return values[lower] * (1 - weight) + values[upper] * weight
+        self.stdout.write(f"  median: {values['median']:.0f}")
+        self.stdout.write(f"  average: {values['average']:.0f}")
+        self.stdout.write(f"  p75: {values['p75']:.0f}")
+        self.stdout.write(f"  p90: {values['p90']:.0f}")

@@ -1236,6 +1236,12 @@ Generic settings
 
    Configures :setting:`UNUSED_ALERT_DAYS`.
 
+.. envvar:: WEBLATE_REPORT_EXPIRY
+
+   .. versionadded:: 2026.8
+
+   Configures :setting:`REPORT_EXPIRY`.
+
 .. envvar:: WEBLATE_UPDATE_LANGUAGES
 
    .. versionadded:: 4.3.2

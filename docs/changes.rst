@@ -5,6 +5,7 @@ Weblate 2026.8
 
 .. rubric:: New features
 
+* :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
 
 .. rubric:: Improvements
@@ -25,6 +26,7 @@ Weblate 2026.8
 .. rubric:: Compatibility
 
 * django-compressor is no longer used, and the ``COMPRESS_*`` settings have been removed.
+* The project and component ``credits`` REST API endpoints and their ``credits_url`` response fields have been replaced by scoped ``reports`` endpoints and ``reports_url``. Credits report generation is now asynchronous; clients need to submit a ``credits`` report, follow the returned task URL, and fetch the completed report. See :http:post:`/api/reports/`.
 
 .. rubric:: Upgrading
 

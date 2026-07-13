@@ -1,0 +1,173 @@
+{% load crispy_forms_tags i18n permissions translations %}
+
+{% perm 'reports.view' object as user_can_view_reports %}
+{% if not user_can_view_reports %}
+  {% translate "You don't have permission to view reports for all users; contributor reports will list only your contributions." as msg %}
+  {% show_message "warning" msg %}
+{% endif %}
+
+<div class="row">
+  <div class="col-lg-6">
+    {% if object %}
+      {% url 'credits' path=object.get_url_path as report_action %}
+    {% else %}
+      {% url 'credits' as report_action %}
+    {% endif %}
+    <form action="{{ report_action }}" method="post">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'devel/reporting' 'credits' right=True %}
+            {% translate "Credits" %}
+          </h4>
+        </div>
+        <div class="card-body">
+          <p>{% translate "Lists translators contributing in the selected period." %}</p>
+          {% crispy reports_form %}
+        </div>
+        <div class="card-footer">
+          <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-lg-6">
+    {% if object %}
+      {% url 'counts' path=object.get_url_path as report_action %}
+    {% else %}
+      {% url 'counts' as report_action %}
+    {% endif %}
+    <form action="{{ report_action }}" method="post">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'devel/reporting' 'stats' right=True %}
+            {% translate "Contributor stats" %}
+          </h4>
+        </div>
+        <div class="card-body">
+          <p>{% translate "Reports the number of strings and words translated by each translator." %}</p>
+          {% crispy reports_count_form %}
+        </div>
+        <div class="card-footer">
+          <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  {% if user_can_view_reports %}
+    <div class="col-lg-6">
+      {% if object %}
+        {% url 'costs' path=object.get_url_path as report_action %}
+      {% else %}
+        {% url 'costs' as report_action %}
+      {% endif %}
+      <form action="{{ report_action }}" method="post">
+        {% csrf_token %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'devel/reporting' 'cost-estimate' right=True %}
+              {% translate "Cost estimate" %}
+            </h4>
+          </div>
+          <div class="card-body">
+            <p>{% translate "Estimates translation costs from source words and translation memory matches." %}</p>
+            {% crispy reports_cost_form %}
+          </div>
+          <div class="card-footer">
+            <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-lg-6">
+      {% if object %}
+        {% url 'translator-work' path=object.get_url_path as report_action %}
+      {% else %}
+        {% url 'translator-work' as report_action %}
+      {% endif %}
+      <form action="{{ report_action }}" method="post">
+        {% csrf_token %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'devel/reporting' 'translator-work-analysis' right=True %}
+              {% translate "Translator work analysis" %}
+            </h4>
+          </div>
+          <div class="card-body">
+            <p>{% translate "Analyzes realistic daily translator throughput while filtering obvious outliers." %}</p>
+            {% crispy reports_translator_work_form %}
+          </div>
+          <div class="card-footer">
+            <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary">
+          </div>
+        </div>
+      </form>
+    </div>
+  {% endif %}
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">{% translate "Past reports" %}</h4>
+  </div>
+  <table class="table">
+    <caption class="visually-hidden">{% translate "Previously generated reports" %}</caption>
+    <thead>
+      <tr>
+        <th>{% translate "Report" %}</th>
+        <th>{% translate "Creator" %}</th>
+        <th>{% translate "Created" %}</th>
+        <th>{% translate "Downloads" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for generated_report in generated_reports %}
+        <tr>
+          <td><a href="{% url 'report' pk=generated_report.pk %}">{{ generated_report.get_kind_display }}</a></td>
+          <td>{{ generated_report.creator }}</td>
+          <td>{{ generated_report.created }}</td>
+          <td>
+            <a href="{% url 'api:report-json' pk=generated_report.pk %}">{% translate "JSON" %}</a>
+            <a href="{% url 'api:report-html' pk=generated_report.pk %}">{% translate "HTML" %}</a>
+            <a href="{% url 'api:report-rst' pk=generated_report.pk %}">{% translate "reStructuredText" %}</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">{% translate "No reports have been generated yet." %}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if generated_reports.has_other_pages %}
+    <div class="card-footer">
+      <nav aria-label="{% translate 'Report history pagination' %}">
+        <ul class="pagination">
+          {% if generated_reports.has_previous %}
+            <li class="page-item">
+              <a class="page-link"
+                 href="?reports_page={{ generated_reports.previous_page_number }}#reports">{% translate "Previous" %}</a>
+            </li>
+          {% endif %}
+          <li class="page-item disabled">
+            <span class="page-link">{{ generated_reports.number }} / {{ generated_reports.paginator.num_pages }}</span>
+          </li>
+          {% if generated_reports.has_next %}
+            <li class="page-item">
+              <a class="page-link"
+                 href="?reports_page={{ generated_reports.next_page_number }}#reports">{% translate "Next" %}</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  {% endif %}
+</div>

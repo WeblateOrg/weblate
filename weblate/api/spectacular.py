@@ -110,6 +110,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
             "SeverityEnum": "weblate.trans.models.announcement.ANNOUNCEMENT_SEVERITY_CHOICES",
             "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
             "StringStateEnum": "weblate.utils.state.StringState.choices",
+            "ReportKindEnum": "weblate.trans.models.report.REPORT_KIND_CHOICES",
             "NewUnitStateEnum": "weblate.api.serializers.NEW_UNIT_STATE_CHOICES",
             "ErrorResponse400TypeEnum": "weblate.api.serializers.ErrorResponse400TypeEnum.choices",
             "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",

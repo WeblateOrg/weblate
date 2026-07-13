@@ -1654,22 +1654,12 @@ class UserBlockForm(UserContributionCleanupForm):
 
 class ReportsForm(forms.Form):
     layout_fields: ClassVar[tuple[str, ...]] = (
-        "style",
         "period",
         "language",
         "sort_by",
         "sort_order",
     )
 
-    style = forms.ChoiceField(
-        label=gettext_lazy("Report format"),
-        help_text=gettext_lazy("Choose a file format for the report"),
-        choices=(
-            ("rst", gettext_lazy("reStructuredText")),
-            ("json", gettext_lazy("JSON")),
-            ("html", gettext_lazy("HTML")),
-        ),
-    )
     period = DateRangeField(
         label=gettext_lazy("Report period"),
         required=True,
@@ -1706,6 +1696,10 @@ class ReportsForm(forms.Form):
 def get_report_language_choices(scope: dict[str, Model]):
     if not scope:
         languages = Language.objects.have_translation()
+    elif "workspace" in scope:
+        languages = Language.objects.filter(
+            translation__component__project__workspace=scope["workspace"]
+        ).distinct()
     elif "project" in scope:
         languages = Language.objects.filter(
             translation__component__project=scope["project"]
@@ -1752,7 +1746,6 @@ class CountsReportsForm(ReportsForm):
 
 class CostEstimateReportsForm(forms.Form):
     layout_fields: ClassVar[tuple[str, ...]] = (
-        "style",
         "language",
         "q",
         "base_rate",
@@ -1764,15 +1757,6 @@ class CostEstimateReportsForm(forms.Form):
         "rate_repetition",
     )
 
-    style = forms.ChoiceField(
-        label=gettext_lazy("Report format"),
-        help_text=gettext_lazy("Choose a file format for the report"),
-        choices=(
-            ("rst", gettext_lazy("reStructuredText")),
-            ("json", gettext_lazy("JSON")),
-            ("html", gettext_lazy("HTML")),
-        ),
-    )
     language = forms.ChoiceField(
         label=gettext_lazy("Language"),
         choices=[("", gettext_lazy("All languages"))],
@@ -1839,6 +1823,40 @@ class CostEstimateReportsForm(forms.Form):
         self.helper.form_tag = False
         self.helper.layout = Layout(*(Field(field) for field in self.layout_fields))
         self.fields["language"].choices = get_report_language_choices(scope)
+
+
+class TranslatorWorkReportsForm(forms.Form):
+    period = DateRangeField(label=gettext_lazy("Report period"), required=True)
+    language = forms.ChoiceField(
+        label=gettext_lazy("Language"),
+        choices=[("", gettext_lazy("All languages"))],
+        required=False,
+    )
+    min_changes = forms.IntegerField(
+        label=gettext_lazy("Minimum changes per day"), initial=5, min_value=0
+    )
+    max_changes = forms.IntegerField(
+        label=gettext_lazy("Maximum changes per day"), initial=1000, min_value=1
+    )
+    max_words = forms.IntegerField(
+        label=gettext_lazy("Maximum source words per day"), initial=10000, min_value=1
+    )
+
+    def __init__(self, scope: dict[str, Model], *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.fields["language"].choices = get_report_language_choices(scope)
+
+    def clean(self):
+        cleaned = super().clean()
+        minimum = cleaned.get("min_changes")
+        maximum = cleaned.get("max_changes")
+        if minimum is not None and maximum is not None and minimum > maximum:
+            raise ValidationError(
+                gettext("Minimum changes can not exceed maximum changes.")
+            )
+        return cleaned
 
 
 class CleanRepoMixin:

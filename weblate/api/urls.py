@@ -16,6 +16,7 @@ from weblate.api.views import (
     MemoryViewSet,
     Metrics,
     ProjectViewSet,
+    ReportViewSet,
     RoleViewSet,
     ScreenshotViewSet,
     Search,
@@ -42,6 +43,7 @@ router.register("screenshots", ScreenshotViewSet)
 router.register("tasks", TasksViewSet, "task")
 router.register("addons", AddonViewSet)
 router.register("categories", CategoryViewSet)
+router.register("reports", ReportViewSet, "report")
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

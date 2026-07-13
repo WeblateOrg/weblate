@@ -22,6 +22,11 @@
         <li>
           <a class="dropdown-item" href="{% url 'checks' path=workspace.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
+        {% if user.is_authenticated %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#reports" data-bs-toggle="tab" href="#">{% translate "Translation reports" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
     {% if bulk_state_form or autoform or billing or can_edit_workspace or can_manage_access %}
@@ -103,6 +108,10 @@
         {% include "snippets/search-form.html" %}
       </form>
     </div>
+
+    {% if user.is_authenticated %}
+      <div class="tab-pane" id="reports">{% include "snippets/reports.html" %}</div>
+    {% endif %}
 
     {% if autoform %}
       <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=workspace autoform=autoform %}</div>
