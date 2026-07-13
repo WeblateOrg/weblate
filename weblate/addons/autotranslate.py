@@ -13,7 +13,11 @@ from django.utils.html import format_html_join
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonEvent,
+    AddonEventOutcome,
+)
 from weblate.addons.forms import AutoAddonForm
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.filter import FILTERS
@@ -80,8 +84,10 @@ class AutoTranslateAddon(
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
-    ) -> None:
-        self.trigger_autotranslate(component=component, activity_log_id=activity_log_id)
+    ) -> AddonEventOutcome:
+        return self.trigger_autotranslate(
+            component=component, activity_log_id=activity_log_id
+        )
 
     def get_settings_form_data(
         self,
@@ -131,7 +137,8 @@ class AutoTranslateAddon(
         translation_id: int | None = None,
         unit_ids: list[int] | None = None,
         activity_log_id: int | None = None,
-    ) -> None:
+        activity_log_task_count: int | None = None,
+    ) -> AddonEventOutcome:
         conf = self.get_configuration()
         source_component_id = conf["component"]
         task_user_id = self.get_task_user_id(conf["auto_source"], user_id)
@@ -147,6 +154,7 @@ class AutoTranslateAddon(
                 unit_ids=unit_ids,
                 translation_id=translation_id,
                 activity_log_id=activity_log_id,
+                activity_log_task_count=activity_log_task_count,
             )
         else:
             auto_translate_component.delay_on_commit(
@@ -160,6 +168,7 @@ class AutoTranslateAddon(
                 user_id=task_user_id,
                 activity_log_id=activity_log_id,
             )
+        return AddonEventOutcome.pending()
 
     def get_task_user_id(
         self, auto_source: Literal["mt", "others"], user_id: int | None
@@ -172,22 +181,26 @@ class AutoTranslateAddon(
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome:
         # Translate every component less frequently to reduce load.
         # The translation is anyway triggered on update, so it should
         # not matter that much that we run this less often.
         if settings.BACKGROUND_TASKS == "never":
-            return
+            return AddonEventOutcome.skipped(
+                AddonActivityLogReason.BACKGROUND_TASKS_DISABLED
+            )
         today = timezone.now()
         if settings.BACKGROUND_TASKS == "monthly" and component.id % 30 != today.day:
-            return
+            return AddonEventOutcome.skipped(AddonActivityLogReason.BACKGROUND_CADENCE)
         if (
             settings.BACKGROUND_TASKS == "weekly"
             and component.id % 7 != today.weekday()
         ):
-            return
+            return AddonEventOutcome.skipped(AddonActivityLogReason.BACKGROUND_CADENCE)
 
-        self.trigger_autotranslate(component=component, activity_log_id=activity_log_id)
+        return self.trigger_autotranslate(
+            component=component, activity_log_id=activity_log_id
+        )
 
     def check_change_action(self, change: Change) -> bool:
         return (
@@ -197,7 +210,9 @@ class AutoTranslateAddon(
             or change.comment is not None
         )
 
-    def change_event(self, change: Change, activity_log_id: int | None = None) -> None:
+    def change_event(
+        self, change: Change, activity_log_id: int | None = None
+    ) -> AddonEventOutcome:
         units = []
         if change.action in ACTIONS_CONTENT and change.action not in SKIP_ACTIONS:
             if change.unit is not None:
@@ -242,13 +257,18 @@ class AutoTranslateAddon(
                 continue
             translation_with_unit_ids[unit.translation.id].append(unit.pk)
 
+        task_count = len(translation_with_unit_ids)
         for translation_id, unit_ids in translation_with_unit_ids.items():
             self.trigger_autotranslate(
                 user_id=change.user_id,
                 translation_id=translation_id,
                 unit_ids=unit_ids,
                 activity_log_id=activity_log_id,
+                activity_log_task_count=task_count,
             )
+        if not translation_with_unit_ids:
+            return AddonEventOutcome.skipped(AddonActivityLogReason.NO_ELIGIBLE_UNITS)
+        return AddonEventOutcome.pending()
 
     def render_activity_log(self, activity: AddonActivityLog) -> str:
         result = activity.details.get("result")
@@ -256,13 +276,13 @@ class AutoTranslateAddon(
             return super().render_activity_log(activity)
 
         raw_results = result.get("results")
-        if isinstance(raw_results, list):
-            results = [item for item in raw_results if isinstance(item, dict)]
-        else:
-            results = [result]
+        results = raw_results if isinstance(raw_results, list) else [result]
 
         messages = []
         for item in results:
+            if not isinstance(item, dict):
+                messages.append((str(item), ""))
+                continue
             message = item.get("message")
             warnings = item.get("warnings")
             if not isinstance(message, str):

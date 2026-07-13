@@ -25,6 +25,7 @@ from django.utils.timezone import make_aware
 from django.utils.translation import gettext, ngettext, override
 
 from weblate.accounts.utils import remove_user
+from weblate.addons.events import AddonActivityLogReason, AddonActivityLogStatus
 from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -889,7 +890,12 @@ def project_removal(pk: int, uid: int | None) -> None:
 
 
 def store_auto_translate_activity_log(
-    activity_log_id: int | None, result: dict[str, Any]
+    activity_log_id: int | None,
+    result: dict[str, Any],
+    *,
+    status: AddonActivityLogStatus | None = None,
+    reason: AddonActivityLogReason | None = None,
+    task_count: int | None = None,
 ) -> dict[str, Any]:
     if activity_log_id is None:
         return result
@@ -897,7 +903,13 @@ def store_auto_translate_activity_log(
     # ruff: ignore[import-outside-top-level]
     from weblate.addons.tasks import update_addon_activity_log
 
-    update_addon_activity_log(activity_log_id, result, pending=False)
+    update_addon_activity_log(
+        activity_log_id,
+        result,
+        status=(status if status is not None else AddonActivityLogStatus.SUCCESS),
+        reason=reason,
+        task_count=task_count,
+    )
     return result
 
 
@@ -972,6 +984,7 @@ def auto_translate(
     language_id: int | None = None,
     workspace_id: str | None = None,
     activity_log_id: int | None = None,
+    activity_log_task_count: int | None = None,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"warnings": []}
     user = User.objects.get(pk=user_id) if user_id else None
@@ -989,7 +1002,13 @@ def auto_translate(
             result["message"] = gettext(
                 "Automatic translation skipped because the target no longer exists."
             )
-            return store_auto_translate_activity_log(activity_log_id, result)
+            return store_auto_translate_activity_log(
+                activity_log_id,
+                result,
+                status=AddonActivityLogStatus.SKIPPED,
+                reason=AddonActivityLogReason.TARGET_MISSING,
+                task_count=activity_log_task_count,
+            )
         result.update(target_result)
         auto = BatchAutoTranslate(
             obj,
@@ -1010,9 +1029,18 @@ def auto_translate(
             )
         except PermissionDenied as error:
             result.update({"message": str(error), "warnings": auto.get_warnings()})
-        else:
-            result.update({"message": message, "warnings": auto.get_warnings()})
-        return store_auto_translate_activity_log(activity_log_id, result)
+            return store_auto_translate_activity_log(
+                activity_log_id,
+                result,
+                status=AddonActivityLogStatus.ERROR,
+                task_count=activity_log_task_count,
+            )
+        result.update({"message": message, "warnings": auto.get_warnings()})
+        return store_auto_translate_activity_log(
+            activity_log_id,
+            result,
+            task_count=activity_log_task_count,
+        )
 
 
 @app.task(

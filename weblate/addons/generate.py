@@ -10,7 +10,11 @@ from django.db.models import F, Prefetch, Q
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonEvent,
+    AddonEventOutcome,
+)
 from weblate.addons.forms import GenerateForm, PseudolocaleAddonForm
 from weblate.checks.flags import Flags
 from weblate.trans.actions import ActionEvents
@@ -72,31 +76,34 @@ class GenerateFileAddon(
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         configuration = self.configuration
         filename = self.render_repo_filename(configuration["filename"], translation)
         if not filename:
-            return
+            return AddonEventOutcome.error(AddonActivityLogReason.INVALID_OUTPUT)
         content = render_template(configuration["template"], translation=translation)
         self.write_repo_file(filename, content)
         # For pre_commit hook
         translation.addon_commit_files.append(filename)
         # For post_install hook
         self.extra_files.append(filename)
+        return None
 
-    # pylint: disable-next=useless-return
     def post_install(
         self,
         component: Component,
         store_hash: bool,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventOutcome | None:
+        result = None
         for translation in component.translation_set.exclude(
             language_id=cast("int", component.source_language_id)
         ).iterator():
-            self.pre_commit(translation, "", store_hash, activity_log_id)
+            outcome = self.pre_commit(translation, "", store_hash, activity_log_id)
+            if result is None and outcome is not None:
+                result = outcome
         self.commit_and_push(component)
-        return None
+        return result
 
 
 class LocaleGenerateAddonBase(BaseAddon):

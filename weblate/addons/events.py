@@ -3,7 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from django.db.models import IntegerChoices
+from dataclasses import dataclass
+
+from django.db.models import IntegerChoices, TextChoices
+from django.utils.translation import gettext_lazy
 
 
 class AddonEvent(IntegerChoices):
@@ -49,6 +52,92 @@ class AddonEvent(IntegerChoices):
             cls.EVENT_POST_REMOVE: "Triggered just after a translation is removed.",
             cls.EVENT_MANUAL: "Triggered when an add-on is run manually from add-on management or the API.",
         }
+
+
+class AddonActivityLogStatus(IntegerChoices):
+    PENDING = 0, gettext_lazy("Pending")
+    SUCCESS = 1, gettext_lazy("Success")
+    ERROR = 2, gettext_lazy("Error")
+    SKIPPED = 3, gettext_lazy("Skipped")
+
+
+class AddonActivityLogReason(TextChoices):
+    INCOMPATIBLE_COMPONENT = (
+        "incompatible-component",
+        gettext_lazy("The add-on is not compatible with this component."),
+    )
+    NO_COMPATIBLE_COMPONENTS = (
+        "no-compatible-components",
+        gettext_lazy("There are no compatible components to process."),
+    )
+    NOT_SCHEDULED = (
+        "not-scheduled",
+        gettext_lazy("The add-on is not scheduled to run yet."),
+    )
+    NO_RELEVANT_CHANGES = (
+        "no-relevant-changes",
+        gettext_lazy("There are no relevant changes to process."),
+    )
+    BACKGROUND_TASKS_DISABLED = (
+        "background-tasks-disabled",
+        gettext_lazy("Background processing is disabled."),
+    )
+    BACKGROUND_CADENCE = (
+        "background-cadence",
+        gettext_lazy("The component is not scheduled for background processing today."),
+    )
+    NO_ELIGIBLE_UNITS = (
+        "no-eligible-units",
+        gettext_lazy("There are no eligible strings to process."),
+    )
+    TARGET_MISSING = (
+        "target-missing",
+        gettext_lazy("The target no longer exists."),
+    )
+    REQUIRED_FILE_MISSING = (
+        "required-file-missing",
+        gettext_lazy("A required file is not available."),
+    )
+    NO_OUTGOING_COMMITS = (
+        "no-outgoing-commits",
+        gettext_lazy("There are no outgoing commits to process."),
+    )
+    NOT_APPLICABLE = (
+        "not-applicable",
+        gettext_lazy("The add-on does not apply to this event."),
+    )
+    NO_SOURCE_FILES = "no-source-files", gettext_lazy("No source files are configured.")
+    INVALID_OUTPUT = (
+        "invalid-output",
+        gettext_lazy("The configured output path is invalid."),
+    )
+    EXECUTION_FAILED = "execution-failed", gettext_lazy("The add-on execution failed.")
+
+
+@dataclass(frozen=True)
+class AddonEventOutcome:
+    status: AddonActivityLogStatus
+    reason: AddonActivityLogReason | None = None
+    result: object | None = None
+
+    @classmethod
+    def pending(cls) -> AddonEventOutcome:
+        return cls(AddonActivityLogStatus.PENDING)
+
+    @classmethod
+    def skipped(cls, reason: AddonActivityLogReason) -> AddonEventOutcome:
+        return cls(AddonActivityLogStatus.SKIPPED, reason=reason)
+
+    @classmethod
+    def error(
+        cls,
+        reason: AddonActivityLogReason = AddonActivityLogReason.EXECUTION_FAILED,
+        result: object | None = None,
+    ) -> AddonEventOutcome:
+        return cls(AddonActivityLogStatus.ERROR, reason=reason, result=result)
+
+
+type AddonEventResult = dict | AddonEventOutcome | None
 
 
 POST_CONFIGURE_EVENTS = {

@@ -51,13 +51,16 @@
         {% for log in addon_activity_log %}
           <tr>
             <td>
-              {% if log.details.error %}
-                <!-- This is a warning sign -->
-                <span class="text-danger">⚠</span>
+              {% if log.status == log.Status.ERROR %}
+                <span class="text-danger" aria-hidden="true">⚠</span>
+              {% elif log.status == log.Status.SUCCESS %}
+                <span class="text-success" aria-hidden="true">✔</span>
+              {% elif log.status == log.Status.SKIPPED %}
+                <span aria-hidden="true">⊘</span>
               {% else %}
-                <!-- This is a green tick -->
-                <span class="text-success">✔</span>
+                <span aria-hidden="true">…</span>
               {% endif %}
+              {{ log.get_status_display }}
             </td>
             <td>{{ log.get_event_display }}</td>
             <td>{{ log.get_details_display }}</td>

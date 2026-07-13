@@ -106,6 +106,21 @@ def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
 
 @task_failure.connect
 def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
+    task_kwargs = kwargs.get("kwargs")
+    if isinstance(task_kwargs, dict) and task_kwargs.get("activity_log_id") is not None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.addons.events import AddonActivityLogStatus
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.addons.tasks import update_addon_activity_log
+
+        update_addon_activity_log(
+            task_kwargs["activity_log_id"],
+            str(exception),
+            status=AddonActivityLogStatus.ERROR,
+            task_count=task_kwargs.get("activity_log_task_count"),
+        )
+
     # ruff: ignore[import-outside-top-level]
     from weblate.utils.errors import report_error
 

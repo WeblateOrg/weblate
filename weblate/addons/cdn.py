@@ -19,7 +19,11 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonEvent,
+    AddonEventOutcome,
+)
 from weblate.addons.forms import CDNFilesForm, CDNJSForm
 from weblate.addons.tasks import cdn_parse_html
 from weblate.utils.state import STATE_TRANSLATED
@@ -235,11 +239,16 @@ class CDNJSAddon(CDNBaseAddon):
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome:
         if not self.instance.configuration["files"].strip():
-            return
+            return AddonEventOutcome.skipped(AddonActivityLogReason.NO_SOURCE_FILES)
         # Trigger parsing files
-        cdn_parse_html.delay(self.instance.id, component.id)
+        cdn_parse_html.delay_on_commit(
+            self.instance.id,
+            component.id,
+            activity_log_id=activity_log_id,
+        )
+        return AddonEventOutcome.pending()
 
     def post_update(
         self,
@@ -249,8 +258,8 @@ class CDNJSAddon(CDNBaseAddon):
         changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
-    ) -> None:
-        self.daily_component(component)
+    ) -> AddonEventOutcome:
+        return self.daily_component(component, activity_log_id=activity_log_id)
 
     def post_remove(
         self, translation: Translation, activity_log_id: int | None = None
