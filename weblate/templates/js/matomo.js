@@ -1,5 +1,5 @@
 // biome-ignore lint/suspicious/noAssignInExpressions: keep upstream compatibility
-var _paq = (window._paq = window._paq || []);
+const _paq = (window._paq = window._paq || []);
 let _trackId = 1;
 const _trackParams = JSON.parse(
   document.getElementById("matomo-tracker").dataset.params,
