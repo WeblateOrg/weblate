@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: Shared Weblate namespace.
-var WLT = WLT || {};
+window.WLT = window.WLT || {};
 
 WLT.URLs = (() => {
   function parse(url, base) {

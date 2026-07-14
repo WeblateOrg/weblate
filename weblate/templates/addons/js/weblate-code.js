@@ -29,8 +29,7 @@ ready(() => {
   languages = languages.concat(navigator.userLanguage);
 
   let language;
-  for (const i in languages) {
-    const code = languages[i];
+  for (const code of languages) {
     if (code && weblate_supported.includes(code)) {
       language = code;
       break;
