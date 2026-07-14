@@ -12,7 +12,7 @@ from django.utils import timezone
 from django.utils.http import urlencode
 
 from weblate.trans.actions import ActionEvents
-from weblate.trans.feeds import TranslationChangesFeed
+from weblate.trans.feeds import ChangeFeedScope, TranslationChangesFeed
 from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.utils.xml import parse_xml
@@ -27,6 +27,9 @@ class FeedQueriesTest(FixtureTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        # Permission filtering has a fixed, request-scoped query cost. This test
+        # focuses on queries needed to render each feed item.
+        self.user.is_superuser = True
         Change.objects.all().delete()
 
     def add_feed_changes(self, count: int) -> None:
@@ -39,7 +42,7 @@ class FeedQueriesTest(FixtureTestCase):
     def assert_feed_queries(self, obj, expected_queries: int) -> None:
         feed = TranslationChangesFeed()
         with self.assertNumQueries(expected_queries):
-            items = list(feed.items(obj))
+            items = list(feed.items(ChangeFeedScope(self.user, obj)))
             for item in items:
                 str(item)
 
@@ -111,6 +114,77 @@ class ChangesTest(ViewTestCase):
 
     def test_export_rss_guids_identify_changes(self) -> None:
         self.assert_per_change_rss_guids(reverse("rss"))
+
+    def test_language_rss_hides_private_project_changes(self) -> None:
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        Change.objects.all().delete()
+        hidden_change = Change.objects.create(
+            action=ActionEvents.LOCK,
+            project=self.project,
+            component=self.component,
+            translation=self.translation,
+            language=self.translation.language,
+            user=self.anotheruser,
+        )
+        self.client.logout()
+
+        response = self.client.get(
+            reverse("rss-language", kwargs={"lang": self.translation.language.code})
+        )
+
+        self.assert_rss_response(response)
+        self.assertNotContains(response, f"/changes/render/{hidden_change.pk}/")
+
+    def test_language_rss_hides_restricted_component_changes(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        Change.objects.all().delete()
+        hidden_change = Change.objects.create(
+            action=ActionEvents.LOCK,
+            project=self.project,
+            component=self.component,
+            translation=self.translation,
+            language=self.translation.language,
+            user=self.anotheruser,
+        )
+        self.client.logout()
+
+        response = self.client.get(
+            reverse("rss-language", kwargs={"lang": self.translation.language.code})
+        )
+
+        self.assert_rss_response(response)
+        self.assertNotContains(response, f"/changes/render/{hidden_change.pk}/")
+
+    def test_project_rss_hides_restricted_component_changes(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_project(self.project))
+        self.assertFalse(self.user.can_access_component(self.component))
+        Change.objects.all().delete()
+        visible_change = Change.objects.create(
+            action=ActionEvents.CREATE_PROJECT,
+            project=self.project,
+            user=self.user,
+        )
+        hidden_change = Change.objects.create(
+            action=ActionEvents.LOCK,
+            project=self.project,
+            component=self.component,
+            translation=self.translation,
+            language=self.translation.language,
+            user=self.anotheruser,
+        )
+
+        response = self.client.get(
+            reverse("rss", kwargs={"path": self.project.get_url_path()})
+        )
+
+        self.assert_rss_response(response)
+        self.assertContains(response, f"/changes/render/{visible_change.pk}/")
+        self.assertNotContains(response, f"/changes/render/{hidden_change.pk}/")
 
     def test_basic_csv_denied(self) -> None:
         response = self.client.get(reverse("changes-csv"))
@@ -310,13 +384,14 @@ class ChangesTest(ViewTestCase):
             [self.project.slug, "-", self.translation.language.code],
             unit.get_url_path(),
         )
-        for path in paths:
-            with self.subTest(path=path):
-                response = self.client.get(
-                    reverse("changes-rss", kwargs={"path": path})
-                )
-                self.assert_rss_response(response)
-                self.assertContains(response, "Translation changed")
+        for feed_name in ("changes-rss", "rss"):
+            for path in paths:
+                with self.subTest(feed_name=feed_name, path=path):
+                    response = self.client.get(
+                        reverse(feed_name, kwargs={"path": path})
+                    )
+                    self.assert_rss_response(response)
+                    self.assertContains(response, "Translation changed")
 
     def test_pagination(self) -> None:
         self.component.change_set.create(action=ActionEvents.NEW_UNIT_UPLOAD)
