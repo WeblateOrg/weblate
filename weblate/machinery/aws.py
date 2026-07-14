@@ -86,6 +86,17 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
         if glossary_name:
             params["TerminologyNames"] = [glossary_name]
 
+        settings = {}
+        for option, aws_key in (
+                ("formality", "Formality"),
+                ("brevity", "Brevity"),
+                ("profanity", "Profanity"),
+        ):
+            if value := self.settings.get(option):
+                settings[aws_key] = value
+        if settings:
+            params["Settings"] = settings
+
         response = self.client.translate_text(**params)
         yield {
             "text": response["TranslatedText"],
