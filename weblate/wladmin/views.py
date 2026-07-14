@@ -768,6 +768,7 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
                 form.cleaned_data["host"],
                 form.cleaned_data["port"],
                 accept_fingerprint=form.cleaned_data["fingerprint"],
+                restrict_private=True,
             )
     elif action == "remove-host":
         remove_host_key(request, request.POST.get("host_key", ""))

@@ -32,7 +32,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 from packaging.version import Version
 
 from weblate.trans.util import path_separator
@@ -50,12 +50,13 @@ from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterator
+    from collections.abc import Callable, Generator, Iterator
 
     import requests
     from django_stubs_ext import StrOrPromise
 
     from weblate.trans.models import Component
+    from weblate.utils.validators import ResolvedRepositoryURL
 
 LOGGER = logging.getLogger("weblate.vcs")
 
@@ -327,6 +328,7 @@ class Repository:
     ref_from_remote: ClassVar[str]
     metadata_dir_name: ClassVar[str | None] = None
     supports_remote_compatibility_validation: ClassVar[bool] = False
+    pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
     _version: ClassVar[str | None] = None
     _version_error: ClassVar[Exception | None] = None
 
@@ -624,6 +626,7 @@ class Repository:
         merge_err: bool = True,
         stdin: str | None = None,
         environment: dict[str, str] | None = None,
+        remote_url: str | None = None,
     ):
         """Execute command and caches its output."""
         self.ensure_lock_session_recovered()
@@ -633,10 +636,16 @@ class Repository:
                 raise RuntimeError(msg)
             if self.component:
                 self.ensure_config_updated()
-        if remote_op == "pull":
-            self.validate_pull_url()
+        remote_target = None
+        if remote_url:
+            remote_target = self.validate_remote_url(remote_url)
+        elif remote_op == "pull":
+            remote_target = self.validate_pull_url()
         elif remote_op == "push":
-            self.validate_push_url()
+            remote_target = self.validate_push_url()
+        args, environment = self.prepare_remote_command(
+            args, environment, remote_target
+        )
         is_status = args[0] == self._cmd_status[0]
         try:
             self.last_output = self._popen(
@@ -692,31 +701,76 @@ class Repository:
         """Clone repository."""
         raise NotImplementedError
 
-    @staticmethod
-    def validate_remote_url(url: str) -> None:
+    def _clone_resolved(
+        self,
+        source: str,
+        target: str,
+        branch: str,
+        remote_target: ResolvedRepositoryURL | None,
+    ) -> None:
+        """Clone with the resolved target available to capable backends."""
+        self._clone(source, target, branch)
+
+    @classmethod
+    def validate_remote_url(cls, url: str) -> ResolvedRepositoryURL | None:
         """Revalidate a remote URL before using it."""
         from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
-        from weblate.utils.validators import validate_repo_url  # ruff: ignore[import-outside-top-level]
+        from weblate.utils.validators import resolve_repo_url  # ruff: ignore[import-outside-top-level]
 
         try:
-            validate_repo_url(url)
+            target = resolve_repo_url(
+                url,
+                ssh_destination_resolver=cls.get_ssh_destination_resolver(),
+            )
         except ValidationError as error:
             raise RepositoryValidationError(0, "; ".join(error.messages)) from error
+        if (
+            target is not None
+            and target.requires_pinning
+            and target.scheme not in cls.pinned_remote_schemes
+        ):
+            raise RepositoryValidationError(
+                0,
+                gettext(
+                    "This VCS backend cannot safely connect to this URL while private address restrictions are enabled."
+                ),
+            )
+        return target
 
-    def validate_pull_url(self, url: str | None = None) -> None:
+    @classmethod
+    def get_ssh_destination_resolver(
+        cls,
+    ) -> Callable[[str, str | None, int | None], tuple[str, int]] | None:
+        """Return an effective SSH destination resolver when supported."""
+        return None
+
+    def validate_pull_url(self, url: str | None = None) -> ResolvedRepositoryURL | None:
         """Validate the pull URL in the current runtime context."""
         if url is None and self.component is not None:
             url = self.component.repo
         if url:
-            self.validate_remote_url(url)
+            return self.validate_remote_url(url)
+        return None
 
-    def validate_push_url(self, url: str | None = None) -> None:
+    def validate_push_url(self, url: str | None = None) -> ResolvedRepositoryURL | None:
         """Validate the push URL in the current runtime context."""
         if url is None and self.component is not None:
             url = self.component.push or self.component.repo
         if url:
-            self.validate_remote_url(url)
+            return self.validate_remote_url(url)
+        return None
+
+    @classmethod
+    # ruff: ignore[unused-class-method-argument]
+    def prepare_remote_command(
+        cls,
+        args: list[str],
+        environment: dict[str, str] | None,
+        target: ResolvedRepositoryURL | None,
+    ) -> tuple[list[str], dict[str, str] | None]:
+        """Bind a remote command to the addresses approved during validation."""
+        return args, environment
 
     def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
         """Validate that a remote branch is compatible with this checkout."""
@@ -724,8 +778,8 @@ class Repository:
 
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""
-        self.validate_pull_url(source)
-        self._clone(source, self.path, self.branch)
+        target = self.validate_pull_url(source)
+        self._clone_resolved(source, self.path, self.branch, target)
 
     @classmethod
     def clone(
