@@ -78,6 +78,7 @@ from weblate.trans.tests.utils import (
     require_github,
     social_core_override_settings,
 )
+from weblate.trans.widgets import WIDGETS
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 from weblate.utils.stats import GlobalStats, ProjectLanguage
@@ -679,6 +680,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 return image === null || (image.complete && image.naturalWidth > 0);
                 """
             )
+        )
+
+    def screenshot_widget(self, name: str) -> None:
+        """Capture a widget preview for visual comparison in Argos CI."""
+        self.use_live_server_widget_preview()
+        self.wait_for_screenshot_ready()
+        widget = self.driver.find_element(By.ID, "widget-image")
+        Path(os.path.join(self.image_path, f"widget-{name}.png")).write_bytes(
+            widget.screenshot_as_png
         )
 
     @contextmanager
@@ -1774,6 +1784,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 self.click("Status widgets")
             self.use_live_server_widget_preview()
             self.screenshot("promote.png")
+            widget_select = Select(self.driver.find_element(By.ID, "widget-type"))
+            for widget_name in WIDGETS:
+                widget_select.select_by_value(widget_name)
+                self.screenshot_widget(widget_name)
         with self.wait_for_page_load():
             self.driver.get(
                 f"{self.live_server_url}"
