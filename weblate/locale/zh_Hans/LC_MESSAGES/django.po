@@ -32,9 +32,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-11 01:35+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-14 10:16+0000\n"
+"Last-Translator: reducedradius "
+"<137701630+flytothehighest@users.noreply.github.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -42,7 +42,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -854,7 +854,7 @@ msgstr "自动关注作出贡献的项目"
 #: weblate/accounts/models.py:841
 msgid ""
 "Projects are added to your watched projects when you contribute to them."
-msgstr ""
+msgstr "当您贡献这些项目时，这些项目便加入至您关注的项目。"
 
 #: weblate/accounts/models.py:845
 msgid "Contribute to personal translation memory"
@@ -1134,12 +1134,9 @@ msgid "You were mentioned in some comments"
 msgstr "一些评论提到了你"
 
 #: weblate/accounts/notifications.py:1032
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Your translation received a comment"
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
-msgstr "你的译文收到了评论"
+msgstr "你贡献的译文收到了评论"
 
 #: weblate/accounts/notifications.py:1036
 #, fuzzy
@@ -1423,10 +1420,8 @@ msgid "Gratis trial"
 msgstr "免费试用"
 
 #: weblate/accounts/views.py:791 weblate/api/views.py:764
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "This user can not be edited."
-msgstr "源字符串无法被编辑。"
+msgstr "该用户无法被编辑。"
 
 #: weblate/accounts/views.py:819
 #, python-format
@@ -2655,7 +2650,7 @@ msgstr "字符串包含控制字符：%s"
 #: weblate/addons/forms.py:1760
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "主题前缀字数须不超过%(limit)d个。"
 
 #: weblate/addons/forms.py:1794
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -2943,7 +2938,7 @@ msgstr ""
 
 #: weblate/api/docs.py:55
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "该响应成功，且无响应体。"
 
 #: weblate/api/docs.py:56
 #, fuzzy
@@ -2953,7 +2948,7 @@ msgstr "无法访问身份验证提供者。"
 
 #: weblate/api/docs.py:57
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "认证凭据缺失或无效。"
 
 #: weblate/api/docs.py:59
 #, fuzzy
@@ -2963,7 +2958,7 @@ msgstr "你没有权限访问这个部件。"
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
-msgstr ""
+msgstr "所请求的资源未找到或不可访问。"
 
 #: weblate/api/docs.py:62
 msgid "The HTTP method is not allowed for this resource."
@@ -2976,27 +2971,20 @@ msgid "The requested response media type is not available."
 msgstr "输入的令牌无效。"
 
 #: weblate/api/docs.py:64
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The request media type is not supported."
-msgstr "检测到的文件格式不支持。"
+msgstr "所请求的媒体格式不支持。"
 
 #: weblate/api/docs.py:65
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "The resource is locked."
-msgstr ".NET 资源文件"
+msgstr "该资源已锁定。"
 
 #: weblate/api/docs.py:66
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "已超过了此API请求的速率限制。"
 
 #: weblate/api/docs.py:67
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "发生解析错误"
+msgstr "发生了未知的服务器错误。"
 
 #: weblate/api/docs.py:238
 msgid ""
@@ -3079,10 +3067,8 @@ msgid "You do not have permission to access this component."
 msgstr "你没有权限访问这个部件。"
 
 #: weblate/api/serializers.py:1597 weblate/trans/forms.py:2259
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr "您没有更改项目访问控制的权限。"
+msgstr "您没有更改访问控制的权限。"
 
 #: weblate/api/serializers.py:2025 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -4204,17 +4190,13 @@ msgid ""
 msgstr "你没有权限访问这个部件。"
 
 #: weblate/auth/permissions.py:424
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to save translations in this restricted component."
-msgstr "你没有权限访问这个部件。"
+msgstr "你没有权限在该受限的部件中保存译文。"
 
 #: weblate/auth/permissions.py:429
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to approve translations."
-msgstr "没有批准字符串的权限。"
+msgstr "没有批准译文的权限。"
 
 #: weblate/auth/permissions.py:434
 #, fuzzy
@@ -4236,7 +4218,7 @@ msgstr "建议投票被禁用。"
 msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
-msgstr ""
+msgstr "此翻译配置为建议投票。请添加建议，而不是直接保存翻译的内容。"
 
 #: weblate/auth/permissions.py:463
 #: weblate/templates/snippets/project/state.html:4
@@ -4310,10 +4292,8 @@ msgid ""
 msgstr ""
 
 #: weblate/auth/permissions.py:1106
-#, fuzzy
-#| msgid "This billing plan covers the following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "本付费套餐包括以下项目:"
+msgstr "本付费套餐不允许私人访问控制。"
 
 #: weblate/auth/permissions.py:1114
 msgid ""
@@ -4361,10 +4341,8 @@ msgid "Billing plan"
 msgstr "付费套餐"
 
 #: weblate/billing/forms.py:50
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "试用期开始了。"
+msgstr "重置试用期"
 
 #: weblate/billing/forms.py:53
 msgid ""
@@ -4542,10 +4520,8 @@ msgid "Billing event"
 msgstr "计费事件"
 
 #: weblate/billing/models.py:1236
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
-msgstr "电子邮件地址已从 {old} 更改为 {new}。"
+msgstr "电子邮件地址已从 “{}” 更改为 “{}”。"
 
 #: weblate/billing/tasks.py:97
 msgid ""
@@ -7482,12 +7458,9 @@ msgstr "分享"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1252
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "个人：{}"
+msgstr "个人"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1253
@@ -8359,11 +8332,10 @@ msgid "Your trial"
 msgstr "您的试用"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "你将有 14 天的时间来建立你的项目。"
+msgstr[0] "你将有 %(days)s 天的时间来建立你的项目。"
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -8568,10 +8540,8 @@ msgstr "添加新的用户身份"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/templates/workspace.html:58 weblate/wladmin/views.py:128
-#, fuzzy
-#| msgid "code-hosting installations"
 msgid "Code-hosting connections"
-msgstr "代码托管安装"
+msgstr "代码托管连接"
 
 #: weblate/templates/accounts/profile.html:264
 #, fuzzy
@@ -9075,11 +9045,10 @@ msgid "Your trial offer"
 msgstr "您的试用优惠"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "您的试用期为 14 天。"
+msgstr[0] "您的试用期将持续 %(days)s 天。"
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -10246,10 +10215,8 @@ msgid "Terminate billing plan"
 msgstr "终止付费套餐"
 
 #: weblate/templates/billing/detail-content.html:62
-#, fuzzy
-#| msgid "Manage billing"
 msgid "Merge billing"
-msgstr "管理账单"
+msgstr "合并账单"
 
 #: weblate/templates/billing/detail-content.html:66
 msgid "Review merge"
@@ -11539,16 +11506,12 @@ msgid "Remove obsolete"
 msgstr "移除陈旧字符串"
 
 #: weblate/templates/js/git-status.html:262
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Remove obsolete strings from the translation file"
-msgstr "从翻译文件删除未写入的文件"
+msgstr "从翻译文件删除过时的文件"
 
 #: weblate/templates/js/git-status.html:264
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Removes obsolete strings from PO files."
-msgstr "移除陈旧字符串"
+msgstr "从PO类型的文件移除陈旧字符串。"
 
 #: weblate/templates/js/git-status.html:265
 msgid ""
@@ -17551,10 +17514,8 @@ msgid "Font uploaded"
 msgstr "字体已上传"
 
 #: weblate/trans/actions.py:506
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "An uploaded font was changed."
-msgstr "上传的图片无效。"
+msgstr "上传的字体发生改变。"
 
 #: weblate/trans/actions.py:507
 msgid "Font changed"
@@ -17713,8 +17674,6 @@ msgid "User access changed"
 msgstr "更改了用户权限"
 
 #: weblate/trans/actions.py:612
-#, fuzzy
-#| msgid "Workspace created."
 msgid "A workspace was created."
 msgstr "创建了工作空间。"
 
@@ -17859,10 +17818,8 @@ msgstr "配置错误的单语翻译。"
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:158
-#, fuzzy
-#| msgid "gettext PO file (monolingual)"
 msgid "Bilingual gettext PO file configured as monolingual."
-msgstr "gettext PO 文件（单语种）"
+msgstr "双语言的gettext PO文件配置为单语言。"
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:199
@@ -17955,10 +17912,8 @@ msgstr "无法合并仓库。"
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:143
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not recover the repository."
-msgstr "无法合并仓库。"
+msgstr "无法恢复仓库。"
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:234
@@ -20594,10 +20549,8 @@ msgid "Use workspace translation memory"
 msgstr "使用工作空间的翻译记忆库"
 
 #: weblate/trans/models/project.py:290
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid "Uses the pool of shared translations between projects in the workspace."
-msgstr "使用翻译池以在不同项目之间共享翻译。"
+msgstr "使用翻译池以在工作区内不同项目之间共享翻译。"
 
 #: weblate/trans/models/project.py:294 weblate/workspaces/models.py:100
 msgid "Contribute to workspace translation memory"
@@ -21475,10 +21428,8 @@ msgid_plural "The following fix-ups were applied to the translation:"
 msgstr[0] "以下的修订已应用到译文："
 
 #: weblate/trans/views/edit.py:163
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations."
-msgstr "你没有添加新翻译文件的权限。"
+msgstr "你没有保存新翻译文件的权限。"
 
 #: weblate/trans/views/edit.py:170
 #, python-brace-format
@@ -21530,10 +21481,8 @@ msgid "You do not have privilege to delete suggestions!"
 msgstr "您没有删除建议的权限！"
 
 #: weblate/trans/views/edit.py:1021
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to vote for suggestions."
-msgstr "没有接受建议的权限。"
+msgstr "没有给建议投票的权限。"
 
 #: weblate/trans/views/edit.py:1055
 msgid "Invalid suggestion!"
