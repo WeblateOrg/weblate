@@ -49,7 +49,7 @@ class SkipHtmlSpan(span_token.HtmlSpan):
 
 class PlainAutoLink(span_token.AutoLink):
     pattern = re.compile(
-        rf"\b(https?://(?:[{PLAIN_AUTOLINK_CHAR}]|{PLAIN_AUTOLINK_PAREN})*"
+        rf"\b((https?)://(?:[{PLAIN_AUTOLINK_CHAR}]|{PLAIN_AUTOLINK_PAREN})*"
         rf"(?:[{PLAIN_AUTOLINK_END}]|{PLAIN_AUTOLINK_PAREN}))(?=\W|$)"
     )
 
