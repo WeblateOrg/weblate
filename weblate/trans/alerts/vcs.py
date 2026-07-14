@@ -35,10 +35,13 @@ class RepositoryAlert(BaseAlert):
     category = AlertCategory.VCS
     repository_permissions: tuple[str, ...] = ()
 
-    def can_user_act(self, user: User, component: Component) -> bool:
-        return super().can_user_act(user, component) or any(
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or any(
             user.has_perm(permission, component)
-            for permission in self.repository_permissions
+            for permission in cls.repository_permissions
         )
 
 
@@ -46,10 +49,13 @@ class RepositoryErrorAlert(ErrorAlert):
     category = AlertCategory.VCS
     repository_permissions: tuple[str, ...] = ()
 
-    def can_user_act(self, user: User, component: Component) -> bool:
-        return super().can_user_act(user, component) or any(
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or any(
             user.has_perm(permission, component)
-            for permission in self.repository_permissions
+            for permission in cls.repository_permissions
         )
 
 

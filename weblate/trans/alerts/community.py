@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.core.cache import cache
@@ -118,11 +118,14 @@ class ChecklistAlert(BaseAlert):
     def get_configure_permission_object(cls, component: Component):
         return component
 
-    def can_user_act(self, user: User, component: Component) -> bool:
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, _details: dict[str, Any]
+    ) -> bool:
         return bool(
             user.has_perm(
-                self.configure_permission,
-                self.get_configure_permission_object(component),
+                cls.configure_permission,
+                cls.get_configure_permission_object(component),
             )
         )
 
@@ -304,8 +307,11 @@ class MissingSafeHTMLFlag(ChecklistAlert):
     url = "settings"
     anchor = "show"
 
-    def can_user_act(self, user: User, component: Component) -> bool:
-        return super().can_user_act(user, component) or bool(
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
             user.has_perm("source.edit", component)
         )
 
