@@ -9,6 +9,7 @@ import binascii
 import os
 import re
 import sys
+from dataclasses import dataclass
 from email.errors import HeaderDefect
 from email.headerregistry import Address
 from gettext import c2py  # type: ignore[attr-defined]
@@ -42,6 +43,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.files import is_unsafe_path, is_vcs_metadata_path, read_file_bytes
 from weblate.utils.outbound import (
     is_allowlisted_hostname,
+    resolve_runtime_hostname,
     validate_outbound_hostname,
     validate_outbound_url,
     validate_runtime_url,
@@ -897,16 +899,59 @@ def validate_fedora_messaging_url(value: str) -> None:
     )
 
 
-def validate_repo_url(url: str) -> None:
+@dataclass(frozen=True, slots=True)
+class ResolvedRepositoryURL:
+    """Validated repository URL and addresses approved for connecting."""
+
+    url: str
+    normalized_url: str
+    scheme: str
+    hostname: str
+    connection_hostname: str
+    port: int | None
+    addresses: tuple[str, ...]
+    requires_pinning: bool
+
+
+def resolve_repo_hostname(
+    hostname: str, *, policy_hostname: str | None = None
+) -> tuple[str, ...]:
+    """Resolve a VCS hostname to addresses approved by the VCS policy."""
+    policy_hostname = policy_hostname or hostname
+    if settings.VCS_ALLOW_HOSTS and policy_hostname not in settings.VCS_ALLOW_HOSTS:
+        raise ValidationError(
+            gettext("Fetching VCS repository from %s is not allowed.") % policy_hostname
+        )
+    allow_private_targets = (
+        policy_hostname in settings.VCS_ALLOW_HOSTS or not settings.VCS_RESTRICT_PRIVATE
+    )
+    validate_outbound_hostname(
+        hostname,
+        allow_private_targets=allow_private_targets,
+    )
+    return resolve_runtime_hostname(
+        hostname,
+        allow_private_targets=allow_private_targets,
+    )
+
+
+def resolve_repo_url(
+    url: str,
+    *,
+    ssh_destination_resolver: Callable[[str, str | None, int | None], tuple[str, int]]
+    | None = None,
+) -> ResolvedRepositoryURL | None:
+    """Validate a repository URL and retain its approved DNS resolution."""
     normalized_url = url
     parsed = urlparse(normalized_url)
+    implicit_ssh = not parsed.scheme
     if not parsed.scheme:
         if os.path.isabs(url) or url.startswith(("./", "../")):
             if "file" not in settings.VCS_ALLOW_SCHEMES:
                 raise ValidationError(
                     gettext("Fetching VCS repository using %s is not allowed.") % "file"
                 )
-            return
+            return None
         # assume all links without schema are ssh links
         normalized_url = f"ssh://{url}"
         try:
@@ -918,7 +963,7 @@ def validate_repo_url(url: str) -> None:
 
     # Allow Weblate internal URLs
     if parsed.scheme in {"weblate", "local"}:
-        return
+        return None
 
     # Filter out schemes early
     if parsed.scheme not in settings.VCS_ALLOW_SCHEMES:
@@ -935,30 +980,65 @@ def validate_repo_url(url: str) -> None:
 
     if parsed.scheme == "file":
         if hostname is None:
-            return
+            return None
         raise ValidationError(gettext("Could not parse URL."))
 
     if hostname is None:
         raise ValidationError(gettext("Could not parse URL."))
 
-    # Filter hosts if configured
     if settings.VCS_ALLOW_HOSTS and hostname not in settings.VCS_ALLOW_HOSTS:
         raise ValidationError(
             gettext("Fetching VCS repository from %s is not allowed.") % hostname
         )
 
-    allowlisted = hostname in settings.VCS_ALLOW_HOSTS
-    allow_private_targets = allowlisted or not settings.VCS_RESTRICT_PRIVATE
+    allow_private_targets = (
+        hostname in settings.VCS_ALLOW_HOSTS or not settings.VCS_RESTRICT_PRIVATE
+    )
 
-    validate_outbound_url(
-        normalized_url,
-        allow_private_targets=allow_private_targets,
+    try:
+        explicit_port = None if implicit_ssh else parsed.port
+    except ValueError as error:
+        raise ValidationError(
+            gettext("Could not parse URL: {}").format(error)
+        ) from error
+    port = explicit_port
+    if port is None:
+        port = {"http": 80, "https": 443, "ssh": 22}.get(parsed.scheme)
+
+    connection_hostname = hostname
+    if (
+        parsed.scheme == "ssh"
+        and not allow_private_targets
+        and ssh_destination_resolver is not None
+    ):
+        connection_hostname, port = ssh_destination_resolver(
+            hostname, parsed.username, explicit_port
+        )
+
+    addresses = resolve_repo_hostname(
+        connection_hostname,
+        policy_hostname=hostname,
     )
-    _validate_runtime_public_url(
-        normalized_url,
-        allow_private_targets=allow_private_targets,
-        allow_unresolved_hostname=False,
+
+    return ResolvedRepositoryURL(
+        url=url,
+        normalized_url=normalized_url,
+        scheme=parsed.scheme,
+        hostname=hostname,
+        connection_hostname=connection_hostname,
+        port=port,
+        addresses=addresses,
+        requires_pinning=not allow_private_targets,
     )
+
+
+def validate_repo_url(url: str) -> None:
+    # ruff: ignore[import-outside-top-level]
+    from weblate.vcs.ssh import (
+        resolve_ssh_destination,
+    )
+
+    resolve_repo_url(url, ssh_destination_resolver=resolve_ssh_destination)
 
 
 @deconstructible

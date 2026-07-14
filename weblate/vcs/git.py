@@ -11,9 +11,12 @@ import os
 import os.path
 import random
 import re
+import shlex
+import sys
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from contextlib import contextmanager, suppress
+from ipaddress import ip_address
 from json import JSONDecodeError, dumps
 from pathlib import Path
 from time import sleep, time
@@ -37,6 +40,7 @@ from django.core.cache import cache
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
+from idna import encode as idna_encode
 from requests.exceptions import HTTPError
 
 from weblate.utils.data import data_dir, data_path
@@ -63,9 +67,10 @@ from weblate.vcs.base import (
     RepositoryRecoveryEvent,
 )
 from weblate.vcs.gpg import get_gpg_sign_key
+from weblate.vcs.ssh import SSH_WRAPPER, resolve_ssh_destination
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Callable, Iterator
     from datetime import datetime
     from zipfile import ZipInfo
 
@@ -73,6 +78,7 @@ if TYPE_CHECKING:
     from requests.auth import AuthBase
 
     from weblate.trans.models import Component
+    from weblate.utils.validators import ResolvedRepositoryURL
     from weblate.vcs.base import (
         RawCommitInfo,
     )
@@ -81,6 +87,7 @@ LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exis
 # Assume lock is stale after one hour
 LOCK_STALE_SECONDS = 3600
 TEMPORARY_BRANCHES = frozenset({"weblate-merge-tmp", "weblate-squash-tmp"})
+SSH_PROXY_PATH = Path(__file__).with_name("ssh_proxy.py").resolve()
 RECOVERABLE_ABORT_LOCKS = frozenset(
     {
         "AUTO_MERGE.lock",
@@ -133,6 +140,7 @@ class GitRepository(Repository):
     metadata_dir_name: ClassVar[str] = ".git"
     supports_remote_compatibility_validation: ClassVar[bool] = True
     remote_compatibility_deepen: ClassVar[int] = 50
+    pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset({"https", "ssh"})
 
     RESERVED_BRANCH_NAMES: ClassVar[frozenset[str]] = frozenset(
         {
@@ -192,6 +200,100 @@ class GitRepository(Repository):
             ["init", "--template=", "--initial-branch", cls.default_branch, path]
         )
 
+    @classmethod
+    def _getenv(
+        cls,
+        environment: dict[str, str] | None = None,
+        *,
+        cwd: str | None = None,
+    ) -> dict[str, str]:
+        """Generate a Git environment without unsupported LFS transfers."""
+        git_environment = dict(environment or {})
+        git_environment.update(
+            {
+                "GIT_LFS_SKIP_PUSH": "1",
+                "GIT_LFS_SKIP_SMUDGE": "1",
+            }
+        )
+        return super()._getenv(git_environment, cwd=cwd)
+
+    @classmethod
+    def get_ssh_destination_resolver(
+        cls,
+    ) -> Callable[[str, str | None, int | None], tuple[str, int]]:
+        """Resolve effective OpenSSH host and port before pinning."""
+        return resolve_ssh_destination
+
+    @classmethod
+    def prepare_remote_command(
+        cls,
+        args: list[str],
+        environment: dict[str, str] | None,
+        target: ResolvedRepositoryURL | None,
+    ) -> tuple[list[str], dict[str, str] | None]:
+        """Pin Git's connection to addresses approved during validation."""
+        if target is None or not target.requires_pinning:
+            return args, environment
+
+        if target.scheme == "https":
+            resolve_options: list[str] = []
+            try:
+                ip_address(target.hostname)
+            except ValueError:
+                resolve_hostname = idna_encode(target.hostname, uts46=True).decode(
+                    "ascii"
+                )
+                addresses = ",".join(
+                    f"[{address}]" if ":" in address else address
+                    for address in target.addresses
+                )
+                resolve_options = [
+                    "-c",
+                    f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
+                ]
+            # Numeric URL hosts cannot be rebound and older libcurl releases do
+            # not accept an IPv6 literal in CURLOPT_RESOLVE's host field.
+            return (
+                [
+                    *resolve_options,
+                    "-c",
+                    "http.followRedirects=false",
+                    "-c",
+                    "http.proxy=",
+                    *args,
+                ],
+                environment,
+            )
+
+        if target.scheme == "ssh":
+            pinned_environment = dict(environment or {})
+            host_key_alias = (
+                f"[{target.hostname}]:{target.port}"
+                if target.port != 22
+                else target.hostname
+            )
+            proxy_command = shlex.join(
+                [
+                    sys.executable,
+                    "-I",
+                    SSH_PROXY_PATH.as_posix(),
+                    str(target.port),
+                    *target.addresses,
+                ]
+            )
+            pinned_environment["GIT_SSH_COMMAND"] = shlex.join(
+                [
+                    SSH_WRAPPER.filename.as_posix(),
+                    "-o",
+                    f"ProxyCommand={proxy_command}",
+                    "-o",
+                    f"HostKeyAlias={host_key_alias}",
+                ]
+            )
+            return args, pinned_environment
+
+        return super().prepare_remote_command(args, environment, target)
+
     @staticmethod
     def cleanup_stale_lock(lock: Path) -> bool:
         try:
@@ -238,9 +340,12 @@ class GitRepository(Repository):
     def get_remote_branch(cls, repo: str):
         if not repo:
             return super().get_remote_branch(repo)
-        cls.validate_remote_url(repo)
+        target = cls.validate_remote_url(repo)
+        args, environment = cls.prepare_remote_command(
+            ["ls-remote", "--symref", "--", repo, "HEAD"], None, target
+        )
         try:
-            result = cls._popen(["ls-remote", "--symref", "--", repo, "HEAD"])
+            result = cls._popen(args, environment=environment)
         except RepositoryError:
             report_error("Listing remote branch")
             return super().get_remote_branch(repo)
@@ -457,7 +562,6 @@ class GitRepository(Repository):
     def deepen_remote_compatibility_history(self, branch: str) -> None:
         """Fetch bounded history for the currently configured remote branch."""
         remote_url = self.get_config("remote.origin.url")
-        self.validate_pull_url(remote_url)
         refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
         self.execute(
             [
@@ -472,6 +576,7 @@ class GitRepository(Repository):
             remote_op="none",
             environment=self._get_auth_environment(remote_url),
             merge_err=False,
+            remote_url=remote_url,
         )
         self.clean_revision_cache()
 
@@ -486,7 +591,6 @@ class GitRepository(Repository):
 
     def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
         """Validate that a remote branch shares history with this checkout."""
-        self.validate_pull_url(pull_url)
         branch = self.validate_branch_name(branch)
         validation_ref = f"refs/weblate/validation/{branch}"
         refspec = f"+refs/heads/{branch}:{validation_ref}"
@@ -505,6 +609,7 @@ class GitRepository(Repository):
                     remote_op="none",
                     environment=self._get_auth_environment(pull_url),
                     merge_err=False,
+                    remote_url=pull_url,
                 )
                 if any(
                     self.has_common_history(validation_ref, revision)
@@ -543,9 +648,19 @@ class GitRepository(Repository):
         )
 
     def _clone(self, source: str, target: str, branch: str) -> None:
+        """Clone repository without a protected target binding."""
+        self._clone_resolved(source, target, branch, None)
+
+    def _clone_resolved(
+        self,
+        source: str,
+        target: str,
+        branch: str,
+        remote_target: ResolvedRepositoryURL | None,
+    ) -> None:
         """Clone repository."""
         branch = self.validate_branch_name(branch)
-        self._popen(
+        args, environment = self.prepare_remote_command(
             [
                 *self._get_auth_args(source),
                 "clone",
@@ -556,8 +671,10 @@ class GitRepository(Repository):
                 source,
                 target,
             ],
-            environment=self._get_auth_environment(source),
+            self._get_auth_environment(source),
+            remote_target,
         )
+        self._popen(args, environment=environment)
 
     def get_config(self, path):
         """Read entry from configuration."""
@@ -1156,6 +1273,11 @@ class GitWithGerritRepository(GitRepository):
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
 
     @classmethod
+    def is_supported(cls) -> bool:
+        """Check both Git and git-review versions."""
+        return GitRepository.is_supported() and super().is_supported()
+
+    @classmethod
     def validate_review_target(cls, branch: str) -> str:
         """Validate Gerrit review target, including optional push options."""
         review_target = super().validate_branch_name(branch)
@@ -1248,6 +1370,7 @@ class SubversionRepository(GitRepository):
     name: ClassVar[StrOrPromise] = "Subversion"
     default_branch: ClassVar[str] = "master"
     supports_remote_compatibility_validation: ClassVar[bool] = False
+    pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will commit changes to the Subversion repository."
     )
@@ -1335,6 +1458,7 @@ class SubversionRepository(GitRepository):
 
         The git svn init errors in case the URL is not matching.
         """
+        self.validate_remote_url(pull_url)
         try:
             existing = self.get_config("svn-remote.svn.url")
         except RepositoryError:
@@ -1367,6 +1491,15 @@ class SubversionRepository(GitRepository):
         if revision:
             args.insert(0, revision)
         self._popen(["svn", "clone", *args])
+
+    def _clone_resolved(
+        self,
+        source: str,
+        target: str,
+        branch: str,
+        remote_target: ResolvedRepositoryURL | None,
+    ) -> None:
+        self._clone(source, target, branch)
 
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
@@ -1664,6 +1797,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         self, credentials: GitCredentials, local_branch: str, fork_branch: str
     ) -> None:
         """Push given local branch to branch in forked repository."""
+        remote_url = self.get_fork_push_url(credentials)
         self.execute(
             [
                 "push",
@@ -1672,7 +1806,14 @@ class GitMergeRequestBase(GitForcePushRepository):
                 f"{local_branch}:{fork_branch}",
             ],
             remote_op="push",
+            remote_url=remote_url,
         )
+
+    def get_fork_push_url(self, credentials: GitCredentials | None = None) -> str:
+        """Return the configured push URL for the Weblate-managed fork."""
+        if credentials is None:
+            credentials = self.get_credentials()
+        return self.get_config(f"remote.{credentials['username']}.pushurl")
 
     def configure_fork_remote(
         self, ssh_url: str, http_url: str, credentials: GitCredentials
@@ -2731,12 +2872,7 @@ class LocalRepository(GitRepository):
         cls._popen(["add", "README.md"], cwd=path)
         cls._popen(["commit", "--message", "Repository created by Weblate"], cwd=path)
 
-    def _clone(
-        self,
-        source: str,
-        target: str,
-        branch: str,
-    ) -> None:
+    def _clone(self, source: str, target: str, branch: str) -> None:
         if not os.path.exists(target):
             os.makedirs(target)
         self.create_blank_repository(target)

@@ -188,7 +188,7 @@ from weblate.vcs.git import (
     LocalRepository,
 )
 from weblate.vcs.models import VCS_REGISTRY
-from weblate.vcs.ssh import add_host_key, extract_url_host_port
+from weblate.vcs.ssh import add_host_key
 
 if TYPE_CHECKING:
     from collections.abc import Collection, Generator, Iterable
@@ -2435,18 +2435,34 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         This is essentially a TOFU approach.
         """
+        repository = self.repository
 
-        def add(repo) -> None:
+        def add(repo: str) -> None:
             self.log_info("checking for key to add for %s", repo)
-            hostname, port = extract_url_host_port(repo)
-            if not hostname:
+            try:
+                target = repository.validate_remote_url(repo)
+            except RepositoryError as error:
+                self.log_info("skipping SSH key for invalid URL %s: %s", repo, error)
                 return
-            self.log_info("adding SSH key for %s:%s", hostname, port)
-            add_host_key(None, hostname, port)
+            if target is None or target.scheme != "ssh":
+                return
+            self.log_info("adding SSH key for %s:%s", target.hostname, target.port)
+            add_host_key(
+                None,
+                target.hostname,
+                target.port,
+                restrict_private=target.requires_pinning,
+                validated_addresses=(
+                    target.addresses if target.requires_pinning else None
+                ),
+            )
 
         add(self.repo)
         if self.push:
             add(self.push)
+        if isinstance(repository, GitMergeRequestBase):
+            with suppress(RepositoryError):
+                add(repository.get_fork_push_url())
 
     def handle_update_error(self, error_text: str, retry: bool) -> None:
         if is_ssh_host_key_mismatch_error(error_text):
