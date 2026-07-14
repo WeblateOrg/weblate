@@ -3146,16 +3146,14 @@ class AWSTranslationTest(BaseMachineTranslationTest):
             )
 
     def test_translate_with_settings(self) -> None:
-        configuration = self.get_configuration()
-        configuration.update(
+        machine = self.get_machine()
+        machine.settings.update(
             {
                 "formality": "FORMAL",
                 "brevity": "ON",
                 "profanity": "MASK",
             }
         )
-
-        machine = self.MACHINE_CLS(configuration)
 
         with Stubber(machine.client) as stubber:
             stubber.add_response(
