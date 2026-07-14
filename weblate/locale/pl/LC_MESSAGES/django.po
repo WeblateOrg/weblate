@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-14 09:18+0000\n"
+"PO-Revision-Date: 2026-07-14 10:16+0000\n"
 "Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -4490,18 +4490,20 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Utwórz komponent i przyznaj sobie jawny dostęp przed włączeniem "
+"ograniczonego dostępu."
 
 #: weblate/auth/permissions.py:1106
-#, fuzzy
-#| msgid "This billing plan covers the following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "Ten plan rozliczeniowy obejmuje następujące projekty:"
+msgstr "Plan rozliczeniowy nie umożliwia prywatnej kontroli dostępu."
 
 #: weblate/auth/permissions.py:1114
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"Musisz mieć jawny dostęp do tego komponentu, zanim włączysz ograniczony "
+"dostęp; w przeciwnym razie zablokujesz sobie dostęp."
 
 #: weblate/auth/utils.py:100
 msgid "The anonymous user can not be assigned to teams."
@@ -4543,15 +4545,15 @@ msgid "Billing plan"
 msgstr "Plan rozliczeniowy"
 
 #: weblate/billing/forms.py:50
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "Rozpoczęto okres próbny."
+msgstr "Zresetuj okres próbny"
 
 #: weblate/billing/forms.py:53
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"Ustaw tę formę rozliczeń na standardowy okres próbny i wyczyść zaplanowane "
+"usunięcie."
 
 #: weblate/billing/models.py:236 weblate/templates/billing/list.html:6
 #: weblate/templates/trans/component_create.html:203
@@ -4728,10 +4730,8 @@ msgid "Billing event"
 msgstr "Zdarzenie płatności"
 
 #: weblate/billing/models.py:1236
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
-msgstr "Adres e-mail został zmieniony z {old} na {new}."
+msgstr "Zmieniono z „{}” na „{}”."
 
 #: weblate/billing/tasks.py:97
 msgid ""
@@ -4942,13 +4942,11 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Brak niełamliwej spacji przed podwójnym znakiem interpunkcyjnym."
 
 #: weblate/checks/chars.py:680
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign."
 msgid "Missing non breakable space before punctuation mark {}."
 msgid_plural "Missing non breakable space before punctuation marks {}."
-msgstr[0] "Brak niełamliwej spacji przed podwójnym znakiem interpunkcyjnym."
-msgstr[1] "Brak niełamliwej spacji przed podwójnym znakiem interpunkcyjnym."
-msgstr[2] "Brak niełamliwej spacji przed podwójnym znakiem interpunkcyjnym."
+msgstr[0] "Brak niełamliwej spacji przed znakiem interpunkcyjnym {}."
+msgstr[1] "Brak niełamliwej spacji przed znakami interpunkcyjnymi {}."
+msgstr[2] "Brak niełamliwej spacji przed znakami interpunkcyjnymi {}."
 
 #: weblate/checks/chars.py:730
 msgid "Multiple capitals"
@@ -7293,10 +7291,8 @@ msgstr ""
 "ogólnego."
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "Wpisz prawidłowy kod języka."
+msgstr "Wpisz prawidłową nazwę regionu platformy Azure."
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7642,28 +7638,19 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:709
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (zalecany)"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:713
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:717
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:719
 msgctxt "Anthropic model selection"
@@ -7778,52 +7765,39 @@ msgstr "Projekt"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:123
 #: weblate/memory/models.py:1250
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory scope"
 msgid "Workspace"
 msgstr "Obszar roboczy"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:127
 #: weblate/memory/models.py:1251
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory scope"
 msgid "Shared"
-msgstr "Udostępnij"
+msgstr "Udostępniony"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1252
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "Osobiste: {}"
+msgstr "Osobisty"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1253
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Plik"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:140
 #: weblate/memory/models.py:1254
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "Nazwa projektu"
+msgstr "Plik projektu"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:146
 #: weblate/memory/models.py:1255
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "Informacje osobowe"
+msgstr "Plik osobisty"
 
 #: weblate/memory/models.py:539
 #, python-format
@@ -7895,17 +7869,13 @@ msgid "File: {}"
 msgstr "Plik: {}"
 
 #: weblate/memory/models.py:1033 weblate/memory/models.py:1061
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory category"
 msgid "Workspace: {}"
-msgstr "Obszar roboczy"
+msgstr "Obszar roboczy: {}"
 
 #: weblate/memory/views.py:88
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Wpisz prawidłowy kod języka."
+msgstr "Nieprawidłowy identyfikator języka."
 
 #: weblate/memory/views.py:126
 msgid "Entries were deleted."
@@ -8726,13 +8696,12 @@ msgid "Your trial"
 msgstr "Twoja próba"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "Będziesz miał 14 dni na przygotowanie swojego projektu."
-msgstr[1] "Będziesz miał 14 dni na przygotowanie swojego projektu."
-msgstr[2] "Będziesz miał 14 dni na przygotowanie swojego projektu."
+msgstr[0] "Będziesz mieć %(days)s dzień na skonfigurowanie swojego projektu."
+msgstr[1] "Będziesz mieć %(days)s dni na skonfigurowanie swojego projektu."
+msgstr[2] "Będziesz mieć %(days)s dni na skonfigurowanie swojego projektu."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -8949,24 +8918,18 @@ msgstr "Dodaj nową tożsamość użytkownika"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/templates/workspace.html:58 weblate/wladmin/views.py:128
-#, fuzzy
-#| msgid "code-hosting installations"
 msgid "Code-hosting connections"
-msgstr "instalacje hostingu kodu"
+msgstr "Połączenia z hostingiem kodu"
 
 #: weblate/templates/accounts/profile.html:264
-#, fuzzy
-#| msgid "Manage code hosting accounts connected to workspaces you administer."
 msgid "Manage code-hosting accounts connected to workspaces you administer."
 msgstr ""
 "Zarządzaj kontami hostingu kodu połączonymi z administrowanymi przez Ciebie "
 "obszarami roboczymi."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "pending code-hosting installations"
 msgid "Manage code-hosting connections"
-msgstr "oczekujące instalacje hostingu kodu"
+msgstr "Zarządzaj połączeniami z hostingiem kodu"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:425
@@ -9499,13 +9462,12 @@ msgid "Your trial offer"
 msgstr "Twoja oferta próbna"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "Okres próbny potrwa 14 dni."
-msgstr[1] "Okres próbny potrwa 14 dni."
-msgstr[2] "Okres próbny potrwa 14 dni."
+msgstr[0] "Twój okres próbny potrwa %(days)s dzień."
+msgstr[1] "Twój okres próbny potrwa %(days)s dni."
+msgstr[2] "Twój okres próbny potrwa %(days)s dni."
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -10746,30 +10708,24 @@ msgid "Terminate recurring payment"
 msgstr "Zakończ płatność cykliczną"
 
 #: weblate/templates/billing/detail-content.html:44
-#, fuzzy
-#| msgid "Open in Zen mode"
 msgid "Open in Django admin"
-msgstr "Otwórz w trybie Zen"
+msgstr "Otwórz w panelu administracyjnym Django"
 
 #: weblate/templates/billing/detail-content.html:51
 msgid "Terminate billing plan"
 msgstr "Przerwij abonament"
 
 #: weblate/templates/billing/detail-content.html:62
-#, fuzzy
-#| msgid "Manage billing"
 msgid "Merge billing"
-msgstr "Zarządzaj rozliczeniami"
+msgstr "Scal rozliczenia"
 
 #: weblate/templates/billing/detail-content.html:66
 msgid "Review merge"
 msgstr "Przejrzyj scalenie"
 
 #: weblate/templates/billing/detail-content.html:74
-#, fuzzy
-#| msgid "Change plan"
 msgid "Change billing plan"
-msgstr "Zmień plan"
+msgstr "Zmień plan rozliczeniowy"
 
 #: weblate/templates/billing/detail-content.html:81
 #: weblate/templates/billing/status.html:13
@@ -11595,10 +11551,6 @@ msgstr ""
 "Pobierasz zmiany ze zdalnego repozytorium do Weblate w następujący sposób:"
 
 #: weblate/templates/data.html:148
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid ""
 "Weblate also supports direct notifications from several code-hosting sites:"
 msgstr ""
@@ -12150,28 +12102,24 @@ msgstr ""
 "automatycznie."
 
 #: weblate/templates/js/git-status.html:261
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Remove obsolete"
-msgstr "Usuń przestarzałe ciągi"
+msgstr "Usuń przestarzałe"
 
 #: weblate/templates/js/git-status.html:262
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Remove obsolete strings from the translation file"
-msgstr "Usuń nieużywane ciągi z pliku tłumaczenia"
+msgstr "Usuń przestarzałe ciągi z pliku tłumaczenia"
 
 #: weblate/templates/js/git-status.html:264
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Removes obsolete strings from PO files."
-msgstr "Usuń przestarzałe ciągi"
+msgstr "Usuwa przestarzałe ciągi z plików PO."
 
 #: weblate/templates/js/git-status.html:265
 msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"Użyj tej opcji, gdy przestarzałe wpisy mają zostać usunięte bez włączania "
+"automatycznego usuwania przy zapisywaniu."
 
 #: weblate/templates/js/git-status.html:271
 msgid "Use these operations with caution, they rewrite the translation file."
@@ -13312,10 +13260,8 @@ msgid "Manage support package"
 msgstr "Zarządzaj pakietem wsparcia"
 
 #: weblate/templates/manage/index.html:78
-#, fuzzy
-#| msgid "Unlink support package"
 msgid "Unlink support package and disable Discover Weblate"
-msgstr "Odłącz pakiet wsparcia"
+msgstr "Odłącz pakiet wsparcia i wyłącz Odkryj Weblate"
 
 #: weblate/templates/manage/index.html:80
 msgid "Unlink support package"
@@ -13343,12 +13289,16 @@ msgid ""
 "Discover Weblate helps translators find Weblate sites and projects to "
 "contribute to."
 msgstr ""
+"Odkryj Weblate pomaga tłumaczom znaleźć strony i projekty Weblate, do "
+"których mogą się przyczynić."
 
 #: weblate/templates/manage/index.html:119
 msgid ""
 "When enabled, weblate.org lists your site details and public or protected "
 "projects."
 msgstr ""
+"Po włączeniu weblate.org wyświetla szczegóły Twojej witryny oraz projekty "
+"publiczne lub chronione."
 
 #: weblate/templates/manage/index.html:123
 msgid "Your Weblate is listed on weblate.org"
