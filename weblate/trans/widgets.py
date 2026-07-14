@@ -5,18 +5,16 @@
 from __future__ import annotations
 
 import os.path
-from io import StringIO
+from math import ceil
 from typing import TYPE_CHECKING, ClassVar, Literal, NotRequired, TypedDict
 
-import cairo
-import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.html import format_html
 from django.utils.text import capfirst
 from django.utils.translation import (
     get_language,
+    get_language_bidi,
     gettext,
     gettext_lazy,
     ngettext,
@@ -25,7 +23,19 @@ from django.utils.translation import (
     pgettext_lazy,
 )
 
-from weblate.fonts.utils import configure_fontconfig, render_size
+from weblate.fonts.render import (
+    FONT_SCALE,
+    create_figure,
+    create_image_figure,
+    draw_line,
+    draw_rectangle,
+    draw_text,
+    figure_to_png,
+    get_font_properties,
+    measure_line,
+    rendering_lock,
+)
+from weblate.fonts.utils import render_size
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project
 from weblate.trans.templatetags.translations import number_format
@@ -45,17 +55,11 @@ from weblate.utils.views import get_percent_color
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
     from django_stubs_ext import StrOrPromise
+    from matplotlib.font_manager import FontProperties
 
     from weblate.utils.stats import (
         BaseStats,
     )
-
-gi.require_version("PangoCairo", "1.0")
-gi.require_version("Pango", "1.0")
-gi.require_version("Rsvg", "2.0")
-
-# pylint: disable-next=wrong-import-position,wrong-import-order
-from gi.repository import Pango, PangoCairo, Rsvg  # ruff: ignore[module-import-not-at-top-of-file, unsorted-imports]
 
 COLOR_DATA = {
     "grey": (0, 0, 0),
@@ -66,6 +70,20 @@ COLOR_DATA = {
 
 WIDGETS: dict[str, type[Widget]] = {}
 WIDGET_FONT = "Source Sans 3"
+# Pango rounded the Source Sans ascent and descent independently. Preserve
+# those logical line metrics because the bitmap backgrounds were designed for
+# their resulting baselines.
+WIDGET_FONT_ASCENT = 1.02
+WIDGET_FONT_DESCENT = 0.4
+PNG_BADGE_FONT_SIZE = 11
+PNG_BADGE_BASELINE = 14
+
+
+def get_widget_text_metrics(font_properties: FontProperties) -> tuple[int, int]:
+    """Return baseline and line height matching the former Pango layout."""
+    size = font_properties.get_size_in_points()
+    baseline = ceil(size * WIDGET_FONT_ASCENT)
+    return baseline, baseline + ceil(size * WIDGET_FONT_DESCENT)
 
 
 def register_widget(widget):
@@ -150,10 +168,10 @@ class BitmapWidget(Widget):
     extension = "png"
     content_type = "image/png"
     order = 100
-    head_template = '<span letter_spacing="-500"><b>{}</b></span>'
-    foot_template = '<span letter_spacing="1000">{}</span>'
     font_size = 10
     line_spacing = 1.0
+    head_spacing = -0.5
+    foot_spacing = 1
     offset = 0
     column_offset = 0
     lines = True
@@ -194,62 +212,63 @@ class BitmapWidget(Widget):
     def get_columns(self) -> list[list[str]]:
         raise NotImplementedError
 
-    def get_column_width(self, surface, columns):
-        return surface.get_width() // len(columns)
+    def get_column_width(self, width, columns):
+        return width // len(columns)
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription(f"{WIDGET_FONT} {self.font_size * 1.5}"),
-            Pango.FontDescription(f"{WIDGET_FONT} {self.font_size}"),
+            get_font_properties(
+                WIDGET_FONT, size=self.font_size * 1.5 * FONT_SCALE, weight=700
+            ),
+            get_font_properties(
+                WIDGET_FONT, size=self.font_size * FONT_SCALE, weight=400
+            ),
         ]
 
-    def render_additional(self, ctx) -> None:
+    def render_additional(self, figure) -> None:
         return
 
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
         """Render widget."""
-        configure_fontconfig()
-        surface = cairo.ImageSurface.create_from_png(self.get_filename())
-        height = surface.get_height()
-        ctx = cairo.Context(surface)
+        with rendering_lock():
+            figure = create_image_figure(self.get_filename())
+            width, height = figure.canvas.get_width_height()
+            columns = self.get_columns()
+            column_width = self.get_column_width(width, columns)
+            fonts = self.get_column_fonts()
 
-        columns = self.get_columns()
-        column_width = self.get_column_width(surface, columns)
+            for column_number, column in enumerate(columns):
+                offset = float(self.offset)
+                center = (
+                    self.column_offset + column_width * column_number + column_width / 2
+                )
+                for row, text in enumerate(column):
+                    font_properties = fonts[row]
+                    baseline, line_height = get_widget_text_metrics(font_properties)
+                    draw_text(
+                        figure,
+                        center,
+                        offset + baseline,
+                        str(text),
+                        font_properties=font_properties,
+                        color=tuple(value / 255 for value in COLOR_DATA[self.color]),
+                        horizontalalignment="center",
+                        verticalalignment="baseline",
+                        spacing=self.head_spacing if row == 0 else self.foot_spacing,
+                    )
+                    offset += line_height * self.line_spacing
 
-        fonts = self.get_column_fonts()
+                if self.lines and column_number > 0:
+                    draw_line(
+                        figure,
+                        (column_width * column_number, self.offset),
+                        (column_width * column_number, height - self.offset),
+                        color=tuple(value / 255 for value in COLOR_DATA[self.color]),
+                        linewidth=0.5,
+                    )
 
-        for i, column in enumerate(columns):
-            offset = self.offset
-            for row, text in enumerate(column):
-                layout = PangoCairo.create_layout(ctx)
-                layout.set_font_description(fonts[row])
-
-                # Set color and position
-                ctx.move_to(self.column_offset + column_width * i, offset)
-                ctx.set_source_rgb(*COLOR_DATA[self.color])
-
-                # Add text
-                layout.set_markup(text)
-                layout.set_alignment(Pango.Alignment.CENTER)
-                layout.set_width(column_width * Pango.SCALE)
-
-                offset += layout.get_pixel_size().height * self.line_spacing
-
-                # Render to cairo context
-                PangoCairo.show_layout(ctx, layout)
-
-            # Render column separators
-            if self.lines and i > 0:
-                ctx.new_path()
-                ctx.set_source_rgb(*COLOR_DATA[self.color])
-                ctx.set_line_width(0.5)
-                ctx.move_to(column_width * i, self.offset)
-                ctx.line_to(column_width * i, height - self.offset)
-                ctx.stroke()
-
-        self.render_additional(ctx)
-
-        surface.write_to_png(response)
+            self.render_additional(figure)
+            figure_to_png(figure, response)
 
 
 class SVGWidget(Widget):
@@ -263,41 +282,6 @@ class SVGWidget(Widget):
         raise NotImplementedError
 
 
-class PNGWidget(SVGWidget):
-    extension = "png"
-    content_type = "image/png"
-
-    def render(self, request: HttpRequest, response: HttpResponse) -> None:
-        with StringIO() as output:
-            super().render(request, output)
-            svgdata = output.getvalue()
-
-        handle = Rsvg.Handle.new_from_data(svgdata.encode())
-        if hasattr(handle, "get_intrinsic_size_in_pixels"):
-            # librsvg 2.52 and newer
-            out_dimensions = handle.get_intrinsic_size_in_pixels()
-            width = int(out_dimensions.out_width)
-            height = int(out_dimensions.out_height)
-        else:
-            dimensions = handle.get_dimensions()
-            width = int(dimensions.width)
-            height = int(dimensions.height)
-        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
-        context = cairo.Context(surface)
-        if hasattr(Rsvg, "Rectangle"):
-            # librsvg 2.46 and newer
-            viewport = Rsvg.Rectangle()
-            viewport.x = 0
-            viewport.y = 0
-            viewport.width = width
-            viewport.height = height
-            handle.render_document(context, viewport)
-        else:
-            # librsvg before 2.46, this method is now deprecated
-            handle.render_cairo(context)
-        surface.write_to_png(response)
-
-
 @register_widget
 class NormalWidget(BitmapWidget):
     name = "287x66"
@@ -309,26 +293,20 @@ class NormalWidget(BitmapWidget):
     def get_columns(self):
         return [
             [
-                format_html(self.head_template, number_format(self.total)),
-                format_html(
-                    self.foot_template,
-                    npgettext(
-                        "Label on engage page", "String", "Strings", self.total
-                    ).upper(),
-                ),
+                number_format(self.total),
+                npgettext(
+                    "Label on engage page", "String", "Strings", self.total
+                ).upper(),
             ],
             [
-                format_html(self.head_template, number_format(self.languages)),
-                format_html(
-                    self.foot_template,
-                    npgettext(
-                        "Label on engage page", "Language", "Languages", self.languages
-                    ).upper(),
-                ),
+                number_format(self.languages),
+                npgettext(
+                    "Label on engage page", "Language", "Languages", self.languages
+                ).upper(),
             ],
             [
-                format_html(self.head_template, self.get_percent_text()),
-                format_html(self.foot_template, gettext("Translated").upper()),
+                self.get_percent_text(),
+                gettext("Translated").upper(),
             ],
         ]
 
@@ -346,8 +324,8 @@ class SmallWidget(BitmapWidget):
     def get_columns(self):
         return [
             [
-                format_html(self.head_template, self.get_percent_text()),
-                format_html(self.foot_template, gettext("Translated").upper()),
+                self.get_percent_text(),
+                gettext("Translated").upper(),
             ]
         ]
 
@@ -361,17 +339,17 @@ class OpenGraphWidget(NormalWidget):
     offset = 300
     font_size = 20
     column_offset = 265
-    head_template = '<span letter_spacing="-1000">{}</span>'
-    foot_template = '<span letter_spacing="2000">{}</span>'
+    head_spacing = -1
+    foot_spacing = 2
     verbose = pgettext_lazy("Status widget name", "Panel")
 
-    def get_column_width(self, surface, columns) -> int:
+    def get_column_width(self, width, columns) -> int:
         return 230
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription(f"{WIDGET_FONT} {42}"),
-            Pango.FontDescription(f"{WIDGET_FONT} {18}"),
+            get_font_properties(WIDGET_FONT, size=42 * FONT_SCALE, weight=400),
+            get_font_properties(WIDGET_FONT, size=18 * FONT_SCALE, weight=400),
         ]
 
     def get_name(self) -> str:
@@ -379,7 +357,7 @@ class OpenGraphWidget(NormalWidget):
             return settings.SITE_TITLE
         return str(self.obj)
 
-    def get_title(self, name: str, suffix: str = "") -> str:
+    def get_title_parts(self, name: str, suffix: str = "") -> tuple[str, str, str]:
         if self.obj is None:
             template = "{}"
         elif isinstance(self.obj, Project):
@@ -389,17 +367,48 @@ class OpenGraphWidget(NormalWidget):
             # Translators: Text on OpenGraph image
             template = gettext("Component {}")
 
-        return format_html(template, format_html("<b>{}</b>{}", name, suffix))
+        prefix, placeholder, postfix = template.partition("{}")
+        if not placeholder:
+            return template, "", ""
+        return prefix, name, f"{suffix}{postfix}"
 
-    def render_additional(self, ctx) -> None:
-        ctx.move_to(280, 170)
-        layout = PangoCairo.create_layout(ctx)
-        layout.set_font_description(Pango.FontDescription(f"{WIDGET_FONT} {52}"))
+    @staticmethod
+    def get_title_runs(
+        title_parts: tuple[str, str, str],
+        regular_font: FontProperties,
+        bold_font: FontProperties,
+    ) -> list[tuple[str, FontProperties]]:
+        """Return styled title runs in visual locale order."""
+        runs = list(
+            zip(
+                title_parts,
+                (regular_font, bold_font, regular_font),
+                strict=True,
+            )
+        )
+        if get_language_bidi():
+            runs.reverse()
+        return runs
+
+    def render_additional(self, figure) -> None:
+        font_size = 52 * FONT_SCALE
+        regular_font = get_font_properties(WIDGET_FONT, size=font_size, weight=400)
+        bold_font = get_font_properties(WIDGET_FONT, size=font_size, weight=700)
         name = self.get_name()
-        layout.set_markup(self.get_title(name))
+        title_parts = self.get_title_parts(name)
 
         max_width = 1200 - 280
-        while layout.get_size().width / Pango.SCALE > max_width:
+        while (
+            sum(
+                measure_line(text, font_properties)[0]
+                for text, font_properties in self.get_title_runs(
+                    title_parts,
+                    regular_font,
+                    bold_font,
+                )
+            )
+            > max_width
+        ):
             if " " in name:
                 name = name.rsplit(" ", 1)[0]
             elif "-" in name:
@@ -408,11 +417,29 @@ class OpenGraphWidget(NormalWidget):
                 name = name.rsplit("_", 1)[0]
             else:
                 name = name[:-1]
-            layout.set_markup(self.get_title(f"{name}", "…"))
+            title_parts = self.get_title_parts(name, "…")
             if not name:
                 break
 
-        PangoCairo.show_layout(ctx, layout)
+        x = 280.0
+        baseline = 170 + get_widget_text_metrics(bold_font)[0]
+        for text, font_properties in self.get_title_runs(
+            title_parts,
+            regular_font,
+            bold_font,
+        ):
+            if not text:
+                continue
+            draw_text(
+                figure,
+                x,
+                baseline,
+                text,
+                font_properties=font_properties,
+                color=(1, 1, 1),
+                verticalalignment="baseline",
+            )
+            x += measure_line(text, font_properties)[0]
 
 
 class BaseSVGBadgeWidget(SVGWidget):
@@ -459,7 +486,7 @@ class SVGBadgeWidget(BaseSVGBadgeWidget):
         }
     ]
 
-    def render(self, request: HttpRequest, response: HttpResponse) -> None:
+    def get_badge_data(self, request: HttpRequest) -> tuple[str, str, str]:
         translated_text = str(gettext("translated"))
         if request.GET.get("capitalize") == "1":
             translated_text = str(capfirst(translated_text))
@@ -470,14 +497,67 @@ class SVGBadgeWidget(BaseSVGBadgeWidget):
             color = "#dfb317"
         else:
             color = "#e05d44"
-        self.render_badge(response, translated_text, percent_text, color)
+        return translated_text, percent_text, color
+
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
+        self.render_badge(response, *self.get_badge_data(request))
 
 
 @register_widget
-class PNGBadgeWidget(PNGWidget, SVGBadgeWidget):
+class PNGBadgeWidget(SVGBadgeWidget):
     name = "status"
+    extension = "png"
+    content_type = "image/png"
     # Translators: status widget name
     verbose = gettext_lazy("PNG status badge")
+
+    def render(self, request: HttpRequest, response: HttpResponse) -> None:
+        label, value, color = self.get_badge_data(request)
+        with rendering_lock():
+            font_properties = get_font_properties(
+                WIDGET_FONT, size=PNG_BADGE_FONT_SIZE, weight=400
+            )
+            label_width = ceil(measure_line(f"   {label}   ", font_properties)[0])
+            value_width = ceil(measure_line(f"  {value}  ", font_properties)[0])
+            width = label_width + value_width
+            figure = create_figure(width, 20)
+            draw_rectangle(figure, 0, 0, width, 20, color="#555", radius=3)
+            draw_rectangle(
+                figure,
+                label_width,
+                0,
+                value_width,
+                20,
+                color=color,
+                radius=3,
+            )
+            # Cover the rounded inner edge so only the outer corners are rounded.
+            draw_rectangle(figure, label_width, 0, 4, 20, color=color)
+            for text, center in (
+                (label, label_width / 2),
+                (value, label_width + value_width / 2),
+            ):
+                draw_text(
+                    figure,
+                    center,
+                    PNG_BADGE_BASELINE + 1,
+                    text,
+                    font_properties=font_properties,
+                    color=(0.01, 0.01, 0.01, 0.3),
+                    horizontalalignment="center",
+                    verticalalignment="baseline",
+                )
+                draw_text(
+                    figure,
+                    center,
+                    PNG_BADGE_BASELINE,
+                    text,
+                    font_properties=font_properties,
+                    color=(1, 1, 1),
+                    horizontalalignment="center",
+                    verticalalignment="baseline",
+                )
+            figure_to_png(figure, response)
 
 
 @register_widget
@@ -638,7 +718,7 @@ class MatrixMultiLanguageWidget(MultiLanguageWidget):
                 render_size(
                     language_name,
                     font=WIDGET_FONT,
-                    weight=Pango.Weight.BOLD,
+                    weight=700,
                     size=self.text_size,
                 )[0].width
                 for language_name in language_names
@@ -658,9 +738,9 @@ class MatrixMultiLanguageWidget(MultiLanguageWidget):
 
     def fit_text(self, text: str, max_width: int) -> str:
         if (
-            render_size(
-                text, font=WIDGET_FONT, weight=Pango.Weight.BOLD, size=self.text_size
-            )[0].width
+            render_size(text, font=WIDGET_FONT, weight=700, size=self.text_size)[
+                0
+            ].width
             <= max_width
         ):
             return text
@@ -675,7 +755,7 @@ class MatrixMultiLanguageWidget(MultiLanguageWidget):
                 render_size(
                     candidate,
                     font=WIDGET_FONT,
-                    weight=Pango.Weight.BOLD,
+                    weight=700,
                     size=self.text_size,
                 )[0].width
                 <= max_width

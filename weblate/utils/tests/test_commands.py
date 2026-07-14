@@ -195,6 +195,12 @@ class DBCommandTests(TestCase):
 
 
 class RuntimeCommandTests(SimpleTestCase):
+    def test_get_clean_env_does_not_include_fontconfig(self) -> None:
+        with patch.dict(os.environ, {"FONTCONFIG_FILE": "legacy-fonts.conf"}):
+            env = get_clean_env()
+
+        self.assertNotIn("FONTCONFIG_FILE", env)
+
     def test_get_clean_env_includes_runtime_and_venv_paths(self) -> None:
         with (
             patch("weblate.utils.commands.sys.executable", "/runtime/bin/python"),

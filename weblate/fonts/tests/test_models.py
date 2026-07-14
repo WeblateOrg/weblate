@@ -5,7 +5,6 @@
 from weblate.fonts.models import FONT_STORAGE
 from weblate.fonts.tasks import cleanup_font_files
 from weblate.fonts.tests.utils import FontComponentTestCase
-from weblate.fonts.utils import configure_fontconfig
 
 
 class FontModelTest(FontComponentTestCase):
@@ -16,14 +15,13 @@ class FontModelTest(FontComponentTestCase):
 
     def assert_font_files(self, expected: int) -> None:
         result = 0
-        excluded = {"fonts.conf", ".uuid"}
+        excluded = {".uuid"}
         for name in FONT_STORAGE.listdir(".")[1]:
             if name not in excluded:
                 result += 1
         self.assertEqual(result, expected)
 
     def test_cleanup(self) -> None:
-        configure_fontconfig()
         cleanup_font_files()
         self.assert_font_files(0)
         font = self.add_font()

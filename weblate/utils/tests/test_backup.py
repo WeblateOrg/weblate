@@ -77,6 +77,16 @@ class BackupTest(TransactionTestCase):
 
         self.assertTrue((ssh_cache_dir / "CACHEDIR.TAG").exists())
 
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_tag_cache_dirs_marks_matplotlib_cache(self) -> None:
+        matplotlib_cache_dir = data_path("cache") / "matplotlib"
+        matplotlib_cache_dir.mkdir(parents=True)
+
+        tag_cache_dirs()
+
+        self.assertTrue((matplotlib_cache_dir / "CACHEDIR.TAG").exists())
+
 
 class RunBorgTest(SimpleTestCase):
     def test_run_borg_returns_warning_result(self) -> None:

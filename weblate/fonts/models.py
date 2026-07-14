@@ -64,11 +64,6 @@ class Font(models.Model, UserDisplayMixin):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ) -> None:
-        # ruff: ignore[import-outside-top-level]
-        from weblate.fonts.tasks import (
-            update_fonts_cache,
-        )
-
         self.clean()
         super().save(
             force_insert=force_insert,
@@ -76,7 +71,6 @@ class Font(models.Model, UserDisplayMixin):
             using=using,
             update_fields=update_fields,
         )
-        update_fonts_cache.delay()
 
     def get_absolute_url(self) -> str:
         return reverse("font", kwargs={"pk": self.pk, "project": self.project.slug})

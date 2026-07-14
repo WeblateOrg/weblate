@@ -30,7 +30,7 @@ def check_fonts(
     try:
         render_size(text="test", use_cache=False)
     except Exception as error:
-        return [weblate_check("weblate.C024", f"Could not use Pango: {error}")]
+        return [weblate_check("weblate.C024", f"Could not use Matplotlib: {error}")]
     return []
 
 

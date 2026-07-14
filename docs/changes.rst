@@ -172,6 +172,7 @@ Weblate 2026.7
 * :ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks.
 * :ref:`check-safe-html` now efficiently detects changed placeholder-only HTML attribute values in translations.
 * :ref:`check-max-size` no longer wraps text configured to fit on one line, checks source strings, and refreshes rendered previews after source edits.
+* Bitmap widgets and :ref:`check-max-size` previews now use Matplotlib and no longer require Pango, Cairo, librsvg, or GObject Introspection.
 * Repository reset and update history now keeps attribution, records remote update failures, and includes follow-up translation-file reconciliation.
 * Updating repository URLs now validates compatible Git history without requiring an immediate successful merge.
 * :ref:`auto-translation` no longer validates hidden component fields when using machine translation.
