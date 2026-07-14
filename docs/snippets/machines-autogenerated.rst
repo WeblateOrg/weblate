@@ -654,7 +654,7 @@ Azure AI Translator
 ..
   # spellchecker:on
 
-Machine translation service provided by Microsoft in Azure portal as a one of
+Machine translation service provided by Microsoft in Azure portal as one of
 Cognitive Services.
 
 Weblate implements Translator API V3.
