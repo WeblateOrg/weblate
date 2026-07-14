@@ -3170,7 +3170,9 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                     "TargetLanguageCode": "de",
                 },
                 {
-                    "SourceLanguageCode": ANY, "TargetLanguageCode": ANY, "Text": ANY,
+                    "SourceLanguageCode": ANY,
+                    "TargetLanguageCode": ANY,
+                    "Text": ANY,
                     "Settings": {
                         "Formality": "FORMAL",
                         "Brevity": "ON",

@@ -88,9 +88,9 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
 
         settings = {}
         for option, aws_key in (
-                ("formality", "Formality"),
-                ("brevity", "Brevity"),
-                ("profanity", "Profanity"),
+            ("formality", "Formality"),
+            ("brevity", "Brevity"),
+            ("profanity", "Profanity"),
         ):
             if value := self.settings.get(option):
                 settings[aws_key] = value
