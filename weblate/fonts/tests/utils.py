@@ -23,14 +23,10 @@ FONT_NAME = "KurintoSans-Rg.ttf"
 FONT = FONT_DIR / FONT_NAME
 FONT_BOLD = FONT_DIR / "KurintoSans-Bd.ttf"
 
-FONT_SOURCE = (
-    PACKAGE_PATH
-    / "static"
-    / "weblate_fonts"
-    / "source-sans"
-    / "ttf"
-    / "SourceSans3-Bold.ttf"
-)
+FONT_SOURCE_DIR = PACKAGE_PATH / "static" / "weblate_fonts" / "source-sans" / "ttf"
+FONT_SOURCE = FONT_SOURCE_DIR / "SourceSans3-Bold.ttf"
+FONT_SOURCE_ITALIC = FONT_SOURCE_DIR / "SourceSans3-It.ttf"
+FONT_SOURCE_REGULAR = FONT_SOURCE_DIR / "SourceSans3-Regular.ttf"
 
 
 class FontTestMixin:

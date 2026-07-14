@@ -410,12 +410,16 @@ def check_data_writable(
         data_path("backups"),
         data_path("fonts"),
         data_path("cache") / "ssh",
-        data_path("cache") / "fonts",
+        data_path("cache") / "matplotlib",
     ]
     message = "Path {} is not writable, check your DATA_DIR and CACHE_DIR settings."
     cache_path = data_path("cache") / "ssh"
     for path in dirs:
-        path.mkdir(parents=True, exist_ok=True)
+        try:
+            path.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            errors.append(weblate_check("weblate.E002", message.format(path), Error))
+            continue
         if not os.access(path, os.W_OK):
             errors.append(weblate_check("weblate.E002", message.format(path), Error))
 

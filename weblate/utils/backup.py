@@ -82,8 +82,8 @@ def tag_cache_dirs() -> None:
     dirs = [
         # SSH wrapper cache
         data_dir("cache", "ssh"),
-        # Fontconfig cache
-        data_dir("cache", "fonts"),
+        # Matplotlib cache
+        data_dir("cache", "matplotlib"),
         # Static files (default is inside data)
         settings.STATIC_ROOT,
         # Project backups

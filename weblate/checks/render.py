@@ -51,16 +51,24 @@ class MaxSizeCheck(TargetCheckParametrized):
             all_flags.get_value_fallback("font-spacing", 0),
         )
 
-    def load_font(self, project, language, name: str) -> str:
+    def load_font(self, project, language, name: str) -> tuple[str, tuple[str, ...]]:
         try:
             group = project.fontgroup_set.get(name=name)
         except ObjectDoesNotExist:
-            return "sans"
+            return "sans", ()
         try:
             override = group.fontoverride_set.get(language=language)
         except ObjectDoesNotExist:
-            return f"{group.font.family} {group.font.style}"
-        return f"{override.font.family} {override.font.style}"
+            selected_font = group.font
+        else:
+            selected_font = override.font
+        sibling_paths = tuple(
+            font.font.path
+            for font in project.font_set.filter(family=selected_font.family).exclude(
+                pk=selected_font.pk
+            )
+        )
+        return selected_font.font.path, sibling_paths
 
     def get_render_cache_key(self, unit: Unit, pos: int, text: str) -> str:
         return f"{self.get_cache_key(unit, pos)}:{calculate_hash(text)}"
@@ -72,9 +80,10 @@ class MaxSizeCheck(TargetCheckParametrized):
             width = value[0]
             lines = 1
         font_group, weight, size, spacing = self.get_params(unit)
-        font = self.last_font = self.load_font(
+        font, font_siblings = self.load_font(
             unit.translation.component.project, unit.translation.language, font_group
         )
+        self.last_font = font
         replace = self.get_replacement_function(unit)
         failed = False
         for i, text in enumerate(texts):
@@ -82,6 +91,7 @@ class MaxSizeCheck(TargetCheckParametrized):
             if not check_render_size(
                 text=rendered_text,
                 font=font,
+                font_siblings=font_siblings,
                 weight=weight,
                 size=size,
                 spacing=spacing,

@@ -9,8 +9,7 @@ Installing on SUSE and openSUSE
 
    zypper install \
       libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel \
-      libyaml-devel libffi-devel cairo-devel pango-devel librsvg-devel \
-      gobject-introspection-devel libacl-devel liblz4-devel libzstd-devel libxxhash-devel \
+      libyaml-devel libffi-devel libacl-devel liblz4-devel libzstd-devel libxxhash-devel \
       python3-devel git
 
 .. include:: steps/install-system-optional.rst

@@ -6,18 +6,36 @@
 
 from __future__ import annotations
 
+from io import BytesIO
+from math import ceil
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Any, cast
+from unittest.mock import patch
 
-from django.test import SimpleTestCase
+from django.http import HttpResponse
+from django.test import RequestFactory, SimpleTestCase
 from django.urls import reverse
+from PIL import Image
 
+from weblate.fonts.render import (
+    get_font_properties,
+    measure_line,
+    rendering_lock,
+)
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.filter import FILTERS
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
-from weblate.trans.widgets import MatrixMultiLanguageWidget
+from weblate.trans.widgets import (
+    PNG_BADGE_BASELINE,
+    PNG_BADGE_FONT_SIZE,
+    WIDGET_FONT,
+    MatrixMultiLanguageWidget,
+    NormalWidget,
+    OpenGraphWidget,
+    PNGBadgeWidget,
+)
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.xml import parse_xml
 
@@ -205,6 +223,128 @@ class WidgetsTest(FixtureTestCase):
     def test_site_og(self) -> None:
         response = self.client.get(reverse("og-image"))
         self.assert_png(response)
+        self.assertEqual(Image.open(BytesIO(response.content)).size, (1200, 630))
+
+    def test_open_graph_emphasizes_only_project_name(self) -> None:
+        widget = OpenGraphWidget(self.project, "graph")
+
+        with (
+            patch("weblate.trans.widgets.gettext", return_value="Project {}"),
+            patch("weblate.trans.widgets.draw_text") as mocked_draw_text,
+            rendering_lock(),
+        ):
+            widget.render_additional(object())
+
+        self.assertEqual(
+            [call.args[3] for call in mocked_draw_text.call_args_list],
+            ["Project ", str(self.project)],
+        )
+        self.assertEqual(
+            [
+                call.kwargs["font_properties"].get_weight()
+                for call in mocked_draw_text.call_args_list
+            ],
+            [400, 700],
+        )
+
+    def test_open_graph_rtl_uses_visual_run_order(self) -> None:
+        widget = OpenGraphWidget(self.project, "graph")
+
+        with (
+            patch("weblate.trans.widgets.get_language_bidi", return_value=True),
+            patch("weblate.trans.widgets.gettext", return_value="מיזם {}"),
+            patch("weblate.trans.widgets.draw_text") as mocked_draw_text,
+            rendering_lock(),
+        ):
+            widget.render_additional(object())
+
+        self.assertEqual(
+            [call.args[3] for call in mocked_draw_text.call_args_list],
+            [str(self.project), "מיזם "],
+        )
+        self.assertEqual(
+            [
+                call.kwargs["font_properties"].get_weight()
+                for call in mocked_draw_text.call_args_list
+            ],
+            [700, 400],
+        )
+        self.assertGreater(
+            mocked_draw_text.call_args_list[1].args[1],
+            mocked_draw_text.call_args_list[0].args[1],
+        )
+
+    def test_png_badge_dimensions(self) -> None:
+        response = self.client.get(
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.project.get_url_path(),
+                    "widget": "status",
+                    "color": "badge",
+                    "extension": "png",
+                },
+            )
+        )
+
+        self.assert_png(response)
+        width, height = Image.open(BytesIO(response.content)).size
+        self.assertGreater(width, 20)
+        self.assertEqual(height, 20)
+
+    def test_png_badge_measures_localized_label_with_rendered_font(self) -> None:
+        request = RequestFactory().get("/")
+        response = HttpResponse()
+        widget = PNGBadgeWidget(self.project, "badge")
+        translated_label = "மொழிபெயர்க்கப்பட்டது"
+
+        with patch("weblate.trans.widgets.gettext", return_value=translated_label):
+            label, value, _color = widget.get_badge_data(request)
+            with rendering_lock():
+                font_properties = get_font_properties(
+                    WIDGET_FONT, size=PNG_BADGE_FONT_SIZE, weight=400
+                )
+                expected_width = ceil(
+                    measure_line(f"   {label}   ", font_properties)[0]
+                ) + ceil(measure_line(f"  {value}  ", font_properties)[0])
+            widget.render(request, response)
+
+        image = Image.open(BytesIO(response.content))
+
+        self.assertEqual(image.width, expected_width)
+        self.assertEqual(image.height, 20)
+
+    def test_png_badge_preserves_pango_text_baseline(self) -> None:
+        request = RequestFactory().get("/")
+        response = HttpResponse()
+        widget = PNGBadgeWidget(self.project, "badge")
+
+        with patch("weblate.trans.widgets.draw_text") as mocked_draw_text:
+            widget.render(request, response)
+
+        self.assertEqual(
+            [call.args[2] for call in mocked_draw_text.call_args_list],
+            [PNG_BADGE_BASELINE + 1, PNG_BADGE_BASELINE] * 2,
+        )
+
+    def test_bitmap_widget_preserves_pango_text_baselines(self) -> None:
+        request = RequestFactory().get("/")
+        response = HttpResponse()
+        widget = NormalWidget(self.project, "grey")
+
+        with patch("weblate.trans.widgets.draw_text") as mocked_draw_text:
+            widget.render(request, response)
+
+        self.assertEqual(
+            [call.args[2] for call in mocked_draw_text.call_args_list],
+            [31, 53, 31, 53, 31, 53],
+        )
+        self.assertTrue(
+            all(
+                call.kwargs["verticalalignment"] == "baseline"
+                for call in mocked_draw_text.call_args_list
+            )
+        )
 
 
 class WidgetsMeta(type):

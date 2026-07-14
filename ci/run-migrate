@@ -43,7 +43,7 @@ check
 # shellcheck source=/dev/null
 . ".venv-$TAG/bin/activate"
 # Install matching Weblate package
-# - Force PyGobject 3.52 to be compatible with girepository-2.0
+# - Force PyGobject 3.52 to be compatible with girepository-2.0 in old releases
 uv pip install --override "$MIGRATE_DIR/migrate-override.txt" -e ".[all]"
 check
 if [ -n "$CI_DB_HOST" ]; then
