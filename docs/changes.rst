@@ -23,6 +23,7 @@ Weblate 2026.8
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
 * Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.
+* :ref:`RSS feeds <rss>` no longer disclose change history from inaccessible projects or restricted components.
 
 .. rubric:: Compatibility
 

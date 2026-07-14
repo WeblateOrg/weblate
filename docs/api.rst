@@ -3478,6 +3478,9 @@ RSS feeds
 
 Changes in translations are exported in RSS feeds.
 
+The feeds contain only changes in projects and components the requesting user
+can access.
+
 Filtered RSS feeds are available from the changes browser. These accept the same
 filters as the changes page, for example ``action``, ``user``, ``exclude_user``,
 and ``period``.
