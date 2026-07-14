@@ -2596,6 +2596,13 @@ Their offer: diffie-hellman-group1-sha1`, you can turn that on using:
    The string is evaluated by the shell, so ensure any whitespace and
    special characters is quoted.
 
+.. warning::
+
+   This is trusted administrator-controlled configuration. Arbitrary SSH
+   options can alter connection routing and override the address pinning
+   provided by :setting:`VCS_RESTRICT_PRIVATE`. Administrators are responsible
+   for the security and compatibility impact of all configured arguments.
+
 .. seealso::
 
    `OpenSSH Legacy Options <https://www.openssh.org/legacy.html>`_
@@ -2705,7 +2712,9 @@ A set of hosts to allow when configuring VCS URL. Defaults to an empty set,
 which does no filtering at all.
 
 When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also exempt
-from the private-target restriction.
+from the private-target restriction. This exemption is also needed for VCS
+backends which cannot bind the client connection to the address validated by
+Weblate, such as Mercurial and Subversion.
 
 .. setting:: VCS_ALLOW_SCHEMES
 
@@ -2729,6 +2738,17 @@ the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
 
 When enabled, hostnames that cannot be resolved during validation are rejected
 unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`.
+
+For Git repositories accessed over HTTPS or SSH, Weblate binds each VCS command
+to the addresses approved during runtime validation. HTTPS redirects and proxy
+use are disabled for these protected commands because either could delegate
+hostname resolution to an unvalidated connection path. Mercurial, Subversion,
+custom VCS backends, and additional URL schemes are rejected unless the target
+host is explicitly included in :setting:`VCS_ALLOW_HOSTS`.
+
+Network-level egress filtering which blocks internal, loopback, link-local,
+reserved, and cloud metadata address ranges is recommended as defense in depth,
+especially for custom integrations and administrator-installed extensions.
 
 .. setting:: VCS_API_DELAY
 

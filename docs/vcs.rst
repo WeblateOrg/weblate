@@ -143,6 +143,18 @@ Verifying SSH host keys
 Weblate automatically stores the SSH host keys on first access and remembers
 them for further use.
 
+When :setting:`VCS_RESTRICT_PRIVATE` is enabled, Weblate resolves and validates
+the repository host before scanning its key and connects ``ssh-keyscan`` only
+to the approved addresses. The stored key remains associated with the original
+hostname.
+
+For Git connections, Weblate also applies ``HostName`` and ``Port`` from
+:file:`DATA_DIR/ssh/config` before validating and pinning the effective
+destination. SSH configuration and :setting:`SSH_EXTRA_ARGS` are trusted
+administrator-controlled inputs. They can alter connection routing, and
+:setting:`SSH_EXTRA_ARGS` can override Weblate's address pinning;
+administrators are responsible for their effects.
+
 In case you want to verify the key fingerprint before connecting to the
 repository, add the SSH host keys of the servers you are going to access in
 :guilabel:`Add host key`, from the same section of the admin interface. Enter
@@ -300,7 +312,13 @@ Git
 
 .. hint::
 
-   Weblate needs Git 2.28 or newer.
+   Weblate needs Git 2.46 or newer.
+
+.. note::
+
+   Weblate does not configure or transfer Git LFS objects. Git LFS smudging
+   and pre-push uploads are disabled for Weblate-managed repositories, so LFS
+   tracked files remain pointer files and cannot be used as translation files.
 
 .. seealso::
 

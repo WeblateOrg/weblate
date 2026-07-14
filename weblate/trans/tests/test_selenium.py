@@ -1304,7 +1304,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.get(f"{self.live_server_url}{reverse('manage-ssh')}")
 
         # Add SSH host key
-        self.driver.find_element(By.ID, "id_host").send_keys("example.com")
+        self.driver.find_element(By.ID, "id_host").send_keys("github.com")
         with (
             patch.dict(
                 os.environ,

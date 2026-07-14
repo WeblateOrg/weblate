@@ -50,6 +50,7 @@ from weblate.vcs.base import (
     should_auto_add_ssh_host_key,
 )
 from weblate.vcs.git import (
+    SSH_PROXY_PATH,
     AzureDevOpsRepository,
     BitbucketCloudRepository,
     BitbucketServerRepository,
@@ -65,7 +66,7 @@ from weblate.vcs.git import (
     SubversionRepository,
 )
 from weblate.vcs.mercurial import HgRepository
-from weblate.vcs.ssh import SSH_WRAPPER
+from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 if TYPE_CHECKING:
     from contextlib import AbstractContextManager
@@ -235,6 +236,10 @@ class RepositoryTest(SimpleTestCase):
 
     def test_is_supported_no_version(self) -> None:
         self.assertTrue(GitNoVersionRepository.is_supported())
+
+    def test_gerrit_requires_supported_git(self) -> None:
+        with patch.object(GitRepository, "is_supported", return_value=False):
+            self.assertFalse(GitWithGerritRepository.is_supported())
 
     def test_parse_commit_date_normalizes_naive_datetime(self) -> None:
         # ruff: ignore[call-datetime-without-tzinfo]
@@ -1175,6 +1180,379 @@ class RepositoryHostKeyErrorTest(SimpleTestCase):
         self.assertFalse(is_ssh_host_key_mismatch_error(errormessage))
         self.assertTrue(should_auto_add_ssh_host_key(errormessage))
 
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_host_key_scan_uses_validated_address(self) -> None:
+        result = subprocess.CompletedProcess(
+            [], 0, stdout="93.184.216.34 ssh-ed25519 AAAATEST\n", stderr=""
+        )
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 22))],
+            ),
+            patch("weblate.vcs.ssh.subprocess.run", return_value=result) as run,
+            patch("weblate.vcs.ssh.store_host_key_scan_result") as store,
+        ):
+            add_host_key(None, "git.example", 22, restrict_private=True)
+
+        self.assertEqual(
+            run.call_args.args[0], ["ssh-keyscan", "-p", "22", "93.184.216.34"]
+        )
+        scanned_result = store.call_args.args[1]
+        self.assertEqual(scanned_result.stdout, "git.example ssh-ed25519 AAAATEST")
+
+    def test_host_key_storage_error_is_reported(self) -> None:
+        result = subprocess.CompletedProcess(
+            [], 0, stdout="git.example ssh-ed25519 AAAATEST\n", stderr=""
+        )
+        with (
+            patch("weblate.vcs.ssh.subprocess.run", return_value=result),
+            patch(
+                "weblate.vcs.ssh.store_host_key_scan_result",
+                side_effect=OSError("read-only filesystem"),
+            ),
+            patch("weblate.vcs.ssh.messages.error") as error,
+        ):
+            add_host_key(None, "git.example")
+
+        self.assertIn("read-only filesystem", str(error.call_args.args[1]))
+
+    def test_host_key_scan_uses_effective_addresses_and_alias(self) -> None:
+        result = subprocess.CompletedProcess(
+            [],
+            0,
+            stdout="93.184.216.34 ssh-ed25519 AAAATEST\n",
+            stderr="",
+        )
+        with (
+            patch("weblate.vcs.ssh.subprocess.run", return_value=result) as run,
+            patch("weblate.vcs.ssh.store_host_key_scan_result") as store,
+            patch("weblate.vcs.ssh.resolve_repo_hostname") as resolve_hostname,
+        ):
+            add_host_key(
+                None,
+                "alias.example",
+                2222,
+                restrict_private=True,
+                validated_addresses=(
+                    "93.184.216.34",
+                    "2001:4860:4860::8888",
+                ),
+            )
+
+        resolve_hostname.assert_not_called()
+        self.assertEqual(
+            run.call_args.args[0],
+            [
+                "ssh-keyscan",
+                "-p",
+                "2222",
+                "--",
+                "93.184.216.34",
+                "2001:4860:4860::8888",
+            ],
+        )
+        scanned_result = store.call_args.args[1]
+        self.assertEqual(
+            scanned_result.stdout,
+            "[alias.example]:2222 ssh-ed25519 AAAATEST",
+        )
+
+
+class RepositoryRemotePinningTest(SimpleTestCase):
+    def test_git_lfs_transfers_are_disabled(self) -> None:
+        # ruff: ignore[private-member-access]
+        environment = GitRepository._getenv(
+            {
+                "GIT_LFS_SKIP_PUSH": "0",
+                "GIT_LFS_SKIP_SMUDGE": "0",
+            }
+        )
+
+        self.assertEqual(environment["GIT_LFS_SKIP_PUSH"], "1")
+        self.assertEqual(environment["GIT_LFS_SKIP_SMUDGE"], "1")
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_https_remote_is_pinned(self) -> None:
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[
+                    (0, 0, 0, "", ("93.184.216.34", 443)),
+                    (0, 0, 0, "", ("2001:4860:4860::8888", 443, 0, 0)),
+                ],
+            ),
+            patch.object(
+                GitRepository,
+                "_popen",
+                return_value="ref: refs/heads/main\tHEAD\n",
+            ) as popen,
+        ):
+            branch = GitRepository.get_remote_branch("https://git.example/repo.git")
+
+        self.assertEqual(branch, "main")
+        args = popen.call_args.args[0]
+        self.assertEqual(
+            args[:6],
+            [
+                "-c",
+                "http.curloptResolve=git.example:443:93.184.216.34,[2001:4860:4860::8888]",
+                "-c",
+                "http.followRedirects=false",
+                "-c",
+                "http.proxy=",
+            ],
+        )
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_https_idn_remote_uses_ascii_resolve_hostname(self) -> None:
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+            ) as getaddrinfo,
+            patch.object(
+                GitRepository,
+                "_popen",
+                return_value="ref: refs/heads/main\tHEAD\n",
+            ) as popen,
+        ):
+            GitRepository.get_remote_branch("https://faß.example/repo.git")
+
+        self.assertIn(
+            "http.curloptResolve=xn--fa-hia.example:443:93.184.216.34",
+            popen.call_args.args[0],
+        )
+        self.assertEqual(getaddrinfo.call_args.args[0], "xn--fa-hia.example")
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_https_address_literal_does_not_need_resolve_override(self) -> None:
+        for url in (
+            "https://93.184.216.34/repo.git",
+            "https://[2606:4700:4700::1111]/repo.git",
+        ):
+            with (
+                self.subTest(url=url),
+                patch.object(
+                    GitRepository,
+                    "_popen",
+                    return_value="ref: refs/heads/main\tHEAD\n",
+                ) as popen,
+            ):
+                GitRepository.get_remote_branch(url)
+
+            args = popen.call_args.args[0]
+            self.assertFalse(
+                any(arg.startswith("http.curloptResolve=") for arg in args)
+            )
+            self.assertIn("http.followRedirects=false", args)
+            self.assertIn("http.proxy=", args)
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_clone_carries_validated_address_to_subprocess(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+            ) as getaddrinfo,
+            patch.object(GitRepository, "validate_branch_name", return_value="main"),
+            patch.object(GitRepository, "_popen", return_value="") as popen,
+        ):
+            repository = GitRepository(tempdir, branch="main", local=True)
+            repository.clone_from("https://git.example/repo.git")
+
+        args = popen.call_args.args[0]
+        getaddrinfo.assert_called_once()
+        self.assertIn(
+            "http.curloptResolve=git.example:443:93.184.216.34",
+            args,
+        )
+        self.assertIn("https://git.example/repo.git", args)
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_ssh_remote_is_pinned_with_original_host_key_alias(self) -> None:
+        with (
+            patch(
+                "weblate.vcs.git.resolve_ssh_destination",
+                return_value=("git.example", 22),
+            ) as resolve_destination,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[
+                    (0, 0, 0, "", ("93.184.216.34", 22)),
+                    (0, 0, 0, "", ("2001:4860:4860::8888", 22, 0, 0)),
+                ],
+            ),
+            patch.object(
+                GitRepository,
+                "_popen",
+                return_value="ref: refs/heads/main\tHEAD\n",
+            ) as popen,
+        ):
+            branch = GitRepository.get_remote_branch("git@git.example:repo.git")
+
+        self.assertEqual(branch, "main")
+        resolve_destination.assert_called_once_with("git.example", "git", None)
+        environment = popen.call_args.kwargs["environment"]
+        command = environment["GIT_SSH_COMMAND"]
+        self.assertIn("ProxyCommand=", command)
+        self.assertIn(" -I ", command)
+        self.assertIn(SSH_PROXY_PATH.as_posix(), command)
+        self.assertNotIn(" -m ", command)
+        self.assertIn("93.184.216.34", command)
+        self.assertIn("2001:4860:4860::8888", command)
+        self.assertNotIn("Hostname=", command)
+        self.assertIn("HostKeyAlias=git.example", command)
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_ssh_custom_port_uses_matching_host_key_alias(self) -> None:
+        with (
+            patch(
+                "weblate.vcs.git.resolve_ssh_destination",
+                return_value=("git.example", 2222),
+            ) as resolve_destination,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 2222))],
+            ),
+            patch.object(
+                GitRepository,
+                "_popen",
+                return_value="ref: refs/heads/main\tHEAD\n",
+            ) as popen,
+        ):
+            GitRepository.get_remote_branch("ssh://git@git.example:2222/repo.git")
+
+        resolve_destination.assert_called_once_with("git.example", "git", 2222)
+        environment = popen.call_args.kwargs["environment"]
+        self.assertIn(
+            "'HostKeyAlias=[git.example]:2222'",
+            environment["GIT_SSH_COMMAND"],
+        )
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_ssh_remote_pins_effective_config_destination(self) -> None:
+        with (
+            patch(
+                "weblate.vcs.git.resolve_ssh_destination",
+                return_value=("effective.example", 2222),
+            ) as resolve_destination,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 2222))],
+            ) as getaddrinfo,
+            patch.object(
+                GitRepository,
+                "_popen",
+                return_value="ref: refs/heads/main\tHEAD\n",
+            ) as popen,
+        ):
+            GitRepository.get_remote_branch("git@alias.example:repo.git")
+
+        resolve_destination.assert_called_once_with("alias.example", "git", None)
+        self.assertEqual(getaddrinfo.call_args.args[0], "effective.example")
+        command = popen.call_args.kwargs["environment"]["GIT_SSH_COMMAND"]
+        self.assertIn("2222 93.184.216.34", command)
+        self.assertIn("'HostKeyAlias=[alias.example]:2222'", command)
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_unpinned_backend_fails_closed(self) -> None:
+        for repository_class in (HgRepository, SubversionRepository):
+            with (
+                self.subTest(repository_class=repository_class),
+                patch(
+                    "weblate.utils.outbound.socket.getaddrinfo",
+                    return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+                ),
+                self.assertRaisesMessage(
+                    RepositoryValidationError, "cannot safely connect"
+                ),
+            ):
+                repository_class.validate_remote_url("https://vcs.example/repo")
+
+    @override_settings(
+        VCS_ALLOW_HOSTS={"hg.example"},
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_allowlisted_backend_remains_available(self) -> None:
+        target = HgRepository.validate_remote_url("https://hg.example/repo")
+
+        self.assertIsNotNone(target)
+        assert target is not None
+        self.assertFalse(target.requires_pinning)
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch.object(HgRepository, "_clone") as clone,
+        ):
+            repository = HgRepository(tempdir, branch="default", local=True)
+            repository.clone_from("https://hg.example/repo")
+
+        clone.assert_called_once_with("https://hg.example/repo", tempdir, "default")
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_subversion_configure_remote_validates_before_probe(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as tempdir,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+            ),
+            patch.object(SubversionRepository, "get_remote_args") as get_remote_args,
+            self.assertRaisesMessage(
+                RepositoryValidationError, "cannot safely connect"
+            ),
+        ):
+            repository = SubversionRepository(tempdir, branch="main", local=True)
+            repository.configure_remote(
+                "https://svn.example/repository",
+                "",
+                "main",
+            )
+
+        get_remote_args.assert_not_called()
+
 
 class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     _class: type[Repository] = GitRepository
@@ -2022,6 +2400,19 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         request = json.loads(pr_calls[0].request.body or "{}")
         self.assertEqual(request["head"], head)
         self.assertEqual(request["base"], self._remote_branch)
+
+    def test_get_fork_push_url(self) -> None:
+        credentials = self.repo.get_credentials()
+        self.repo.configure_fork_remote(
+            "git@gitea.io:test/test.git",
+            "https://gitea.io/test/test.git",
+            credentials,
+        )
+
+        self.assertEqual(
+            self.repo.get_fork_push_url(credentials),
+            "git@gitea.io:test/test.git",
+        )
 
     def test_api_url_try_gitea(self) -> None:
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
