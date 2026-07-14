@@ -2242,6 +2242,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             file_format="po",
         )
         guidance.add_alert("MissingTranslationInstructions")
+        alert_timestamp = self.get_stable_naturaltime_timestamp()
+        guidance.alert_set.update(timestamp=alert_timestamp, updated=alert_timestamp)
         self.driver.get(f"{self.live_server_url}{guidance.get_absolute_url()}")
         self.click(
             self.driver.find_element(By.CSS_SELECTOR, 'a[data-bs-target="#alerts"]')
