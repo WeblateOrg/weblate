@@ -290,7 +290,7 @@ class EditMachineryView(FormView):
             raise Http404(msg)
 
         if "enable" in request.POST:
-            self.delete_service()
+            self.enable_service()
             return HttpResponseRedirect(self.get_success_url())
 
         if "install" in request.POST:
@@ -350,7 +350,7 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
             self.save_settings(None)
 
     def enable_service(self) -> None:
-        del self.project.machinery_settings[self.machinery_id]
+        self.project.machinery_settings.pop(self.machinery_id, None)
         self.project.save(update_fields=["machinery_settings"])
 
     def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]

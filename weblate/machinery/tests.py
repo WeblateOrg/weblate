@@ -8110,7 +8110,13 @@ class ViewsTest(FixtureTestCase):
         )
         project = Project.objects.get(pk=self.project.id)
         self.assertEqual(project.machinery_settings["dummy"], None)
-        self.client.post(edit_url, {"enable": "1"})
+        with patch(
+            "weblate.machinery.views.EditMachineryProjectView.delete_service"
+        ) as delete_service:
+            self.client.post(edit_url, {"enable": "1"})
+            response = self.client.post(edit_url, {"enable": "1"})
+        delete_service.assert_not_called()
+        self.assertRedirects(response, list_url)
         self.assertTrue(
             Setting.objects.filter(
                 category=SettingCategory.MT, name=service.get_identifier()
