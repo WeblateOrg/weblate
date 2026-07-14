@@ -777,7 +777,18 @@ function initHighlight(root) {
       languageMode = extension;
     }
     const syncContent = () => {
-      highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
+      /*
+       * Prism turns non-breaking spaces into regular spaces when generating
+       * markup. Restore them.
+       */
+      highlight.innerHTML = Prism.highlight(
+        editor.value,
+        languageMode,
+        mode,
+      ).replaceAll(
+        '<span class="token nbsp"> </span>',
+        '<span class="token nbsp">\u00A0</span>',
+      );
     };
     syncContent();
     editor.addEventListener("input", syncContent);
