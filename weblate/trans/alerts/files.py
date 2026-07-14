@@ -30,8 +30,11 @@ class DuplicateString(MultiAlert):
 
     # Note: The removal of this alert can be also done in Translation.delete_unit
 
-    def can_user_act(self, user: User, component: Component) -> bool:
-        return super().can_user_act(user, component) or bool(
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
             user.has_perm("vcs.reset", component)
         )
 

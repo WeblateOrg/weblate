@@ -828,7 +828,10 @@ class MemoryManager(models.Manager["Memory"]):
             "origin": origin,
             "context": context,
         }
-        existing = self.get_queryset().filter(**lookup)
+        write_queryset = self.get_queryset().using_write_db()
+        existing = write_queryset.filter(**lookup)
+        write_db = write_queryset.db
+        scope_manager = MemoryScope.objects.db_manager(write_db)
         scope = MemoryScope.objects.get_for_update_entry(
             user=user,
             project=project,
@@ -844,11 +847,11 @@ class MemoryManager(models.Manager["Memory"]):
             if memory is not None:
                 memory.normalize_legacy_owner()
                 scope.memory = memory
-                MemoryScope.objects.bulk_create([scope], ignore_conflicts=True)
+                scope_manager.bulk_create([scope], ignore_conflicts=True)
                 return
 
-        with transaction.atomic(using=self.db):
-            memory = self.create(
+        with transaction.atomic(using=write_db):
+            memory = write_queryset.create(
                 source=source,
                 target=target,
                 status=status,
@@ -859,7 +862,7 @@ class MemoryManager(models.Manager["Memory"]):
             )
             if scope is not None:
                 scope.memory = memory
-                MemoryScope.objects.bulk_create([scope], ignore_conflicts=True)
+                scope_manager.bulk_create([scope], ignore_conflicts=True)
 
 
 class Memory(models.Model):
@@ -970,11 +973,16 @@ class Memory(models.Model):
             MemoryScope.objects.create_for_memory(self)
 
     def normalize_legacy_owner(self) -> None:
-        Memory.objects.using(self._state.db or "default").filter(pk=self.pk).update(
-            legacy_project=None,
-            legacy_user=None,
-            legacy_shared=False,
-            legacy_from_file=False,
+        (
+            Memory.objects.using(self._state.db or "default")
+            .using_write_db()
+            .filter(pk=self.pk)
+            .update(
+                legacy_project=None,
+                legacy_user=None,
+                legacy_shared=False,
+                legacy_from_file=False,
+            )
         )
         self.legacy_project_id = None
         self.legacy_user_id = None

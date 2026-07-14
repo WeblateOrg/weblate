@@ -14,11 +14,12 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import translation
 from django.utils.http import urlencode
-from django.views.decorators.cache import cache_control
-from django.views.decorators.http import require_POST
+from django.views.decorators.cache import cache_control, never_cache
+from django.views.decorators.http import require_GET, require_POST
 
 from weblate.checks.flags import Flags, get_flag_choices
 from weblate.checks.models import Check
+from weblate.trans.diagnostics import get_diagnostics_context
 from weblate.trans.models import (
     Change,
     Component,
@@ -29,9 +30,36 @@ from weblate.trans.models import (
 )
 from weblate.trans.util import sort_unicode
 from weblate.utils.views import parse_path
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
+
+
+@never_cache
+@require_GET
+@login_required
+def diagnostics(request: AuthenticatedHttpRequest, path):
+    obj = parse_path(request, path, (Project, Workspace))
+    if isinstance(obj, Project):
+        components = obj.component_set.filter_access(request.user)
+        show_projects = False
+    else:
+        projects = request.user.allowed_projects.filter(workspace=obj)
+        components = Component.objects.filter(project__in=projects).filter_access(
+            request.user
+        )
+        show_projects = True
+
+    return render(
+        request,
+        "snippets/diagnostics.html",
+        {
+            "object": obj,
+            "show_projects": show_projects,
+            **get_diagnostics_context(request.GET, request.user, components),
+        },
+    )
 
 
 def get_unit_translations(request: AuthenticatedHttpRequest, unit_id):

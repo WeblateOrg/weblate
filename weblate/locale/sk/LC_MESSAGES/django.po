@@ -14,9 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-04 02:46+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-14 10:16+0000\n"
+"Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
 "Language: sk\n"
@@ -24,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -878,6 +877,7 @@ msgstr "Automaticky sledovať projekty pri príspevku"
 msgid ""
 "Projects are added to your watched projects when you contribute to them."
 msgstr ""
+"Projekty sa pridajú medzi vaše sledované projekty, keď do nich prispejete."
 
 #: weblate/accounts/models.py:845
 msgid "Contribute to personal translation memory"
@@ -1168,19 +1168,14 @@ msgid "You were mentioned in some comments"
 msgstr "Boli ste spomenutí v niektorých komentároch"
 
 #: weblate/accounts/notifications.py:1032
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Your translation received a comment"
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
-msgstr "Váš preklad dostal komentár"
+msgstr "Reťazec, ku ktorému ste prispeli, dostal komentár"
 
 #: weblate/accounts/notifications.py:1036
-#, fuzzy
-#| msgid "Strings with comments"
 msgctxt "Notification name"
 msgid "Strings you contributed to received comments"
-msgstr "Reťazce s komentármi"
+msgstr "Reťazce, ku ktorým ste prispeli, dostali komentáre"
 
 #: weblate/accounts/notifications.py:1118
 msgctxt "Notification name"
@@ -1468,10 +1463,8 @@ msgid "Gratis trial"
 msgstr "Bezplatná skúška"
 
 #: weblate/accounts/views.py:791 weblate/api/views.py:764
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "This user can not be edited."
-msgstr "Zdrojový reťazec sa nedá upravovať."
+msgstr "Tohto používateľa nie je možné upraviť."
 
 #: weblate/accounts/views.py:819
 #, python-format
@@ -1850,19 +1843,16 @@ msgstr ""
 #: weblate/addons/fedora_messaging.py:204
 #, python-format
 msgid "Message ID: %(message_id)s"
-msgstr ""
+msgstr "ID správy: %(message_id)s"
 
 #: weblate/addons/fedora_messaging.py:456
-#, fuzzy, python-format
-#| msgid ""
-#| "Fedora Messaging publish timed out; the broker did not confirm delivery: "
-#| "%(error)s"
+#, python-format
 msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
 msgstr ""
-"Časový limit publikovania Fedora Messaging vypršal; broker nepotvrdil "
-"doručenie: %(error)s"
+"Publikovanie správy cez Fedora Messaging vypršalo. Spojenie s brokerom alebo "
+"potvrdenie doručenia nebolo dokončené: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:460
 #, python-format
@@ -1893,10 +1883,8 @@ msgid "configured"
 msgstr "konfigurované"
 
 #: weblate/addons/fedora_messaging.py:611
-#, fuzzy
-#| msgid "Fedora Messaging publish failed: %(error)s"
 msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Publikovanie Fedora Messaging zlyhalo: %(error)s"
+msgstr "Nepodarilo sa resetovať službu publikovania Fedora Messaging."
 
 #: weblate/addons/fedora_messaging.py:701
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2064,34 +2052,29 @@ msgstr ""
 "POT súboru."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Umiestnenie zdrojového reťazca"
+msgstr "Umiestnenia zdroja"
 
 #: weblate/addons/forms.py:186
-#, fuzzy
-#| msgid "Use default setting"
 msgid "Use file format settings"
-msgstr "Použiť predvolené nastavenie"
+msgstr "Použiť nastavenia formátu súboru"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid "Extract strings from HTML files"
 msgid "Extract locations to the POT file"
-msgstr "Extrahovať reťazce z HTML súborov"
+msgstr "Extrahovať umiestnenia do súboru POT"
 
 #: weblate/addons/forms.py:188
-#, fuzzy
-#| msgid "Do not extract comments"
 msgid "Do not extract locations"
-msgstr "Neextrahovať komentáre"
+msgstr "Neextrahovať umiestnenia"
 
 #: weblate/addons/forms.py:193
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Vyberte, ako extrakcia zapisuje umiestnenia zdroja do súboru POT. Použite "
+"toto na zachovanie umiestnení v šablóne pri ich vynechaní z preložených "
+"súborov PO."
 
 #: weblate/addons/forms.py:238
 msgid "Do not extract comments"
@@ -2718,11 +2701,11 @@ msgstr "URL AMQP brokera, ku ktorému sa má systém pripojiť."
 
 #: weblate/addons/forms.py:1655
 msgid "Topic prefix"
-msgstr ""
+msgstr "Prefix témy"
 
 #: weblate/addons/forms.py:1657
 msgid "Optional prefix to prepend to generated message topics."
-msgstr ""
+msgstr "Voliteľný prefix, ktorý sa pridá na začiatok generovaných tém správ."
 
 #: weblate/addons/forms.py:1663
 msgid "CA certificate bundle (PEM)"
@@ -2785,15 +2768,13 @@ msgid "How many seconds to wait between connection attempts."
 msgstr "Koľko sekúnd čakať medzi pokusmi o pripojenie."
 
 #: weblate/addons/forms.py:1755
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "Reťazec obsahuje ovládací znak: %s"
+msgstr "Prefix témy môže obsahovať iba znaky ASCII."
 
 #: weblate/addons/forms.py:1760
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "Prefix témy nesmie presiahnuť %(limit)d znakov."
 
 #: weblate/addons/forms.py:1794
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3079,82 +3060,67 @@ msgstr ""
 "operácie s ich pridruženým projektom. Tieto tokeny majú prefix `wlp_`."
 
 #: weblate/api/docs.py:52
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "Úspech (zelená)"
+msgstr "Úspešná odpoveď."
 
 #: weblate/api/docs.py:53
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "Bezpečnostný kľúč bol odstránený."
+msgstr "Zdroj bol vytvorený."
 
 #: weblate/api/docs.py:54
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "Požiadavka bola prijatá na asynchrónne spracovanie."
 
 #: weblate/api/docs.py:55
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "Úspešná odpoveď bez tela odpovede."
 
 #: weblate/api/docs.py:56
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "Poskytovateľ overenia sa nedal dosiahnuť."
+msgstr "Požiadavka bola neplatná alebo sa nedala spracovať."
 
 #: weblate/api/docs.py:57
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "Chýbali poverenia na overenie alebo boli neplatné."
 
 #: weblate/api/docs.py:59
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "Nemáte oprávnenie na prístup k tomuto komponentu."
+msgstr "Overený používateľ nemá oprávnenie na túto operáciu."
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
-msgstr ""
+msgstr "Požadovaný zdroj sa nenašiel alebo nie je dostupný."
 
 #: weblate/api/docs.py:62
 msgid "The HTTP method is not allowed for this resource."
-msgstr ""
+msgstr "Metóda HTTP nie je pre tento zdroj povolená."
 
 #: weblate/api/docs.py:63
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "Zadaný token nie je platný."
+msgstr "Požadovaný typ média odpovede nie je dostupný."
 
 #: weblate/api/docs.py:64
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The request media type is not supported."
-msgstr "Zistený formát súboru nie je podporovaný."
+msgstr "Typ média požiadavky nie je podporovaný."
 
 #: weblate/api/docs.py:65
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "The resource is locked."
-msgstr ".NET resource súbor"
+msgstr "Zdroj je uzamknutý."
 
 #: weblate/api/docs.py:66
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "Bol prekročený limit rýchlosti požiadaviek API."
 
 #: weblate/api/docs.py:67
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "Vyskytla sa chyba spracovania"
+msgstr "Vyskytla sa neočakávaná chyba servera."
 
 #: weblate/api/docs.py:238
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
+"Filtrovať podľa akcie zmeny. Tento parameter opakujte na filtrovanie podľa "
+"viacerých akcií."
 
 #: weblate/api/docs.py:423
 msgid "Allowed number of requests to perform"
@@ -3238,10 +3204,8 @@ msgid "You do not have permission to access this component."
 msgstr "Nemáte oprávnenie na prístup k tomuto komponentu."
 
 #: weblate/api/serializers.py:1597 weblate/trans/forms.py:2259
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr "Nemáte oprávnenie meniť ovládanie prístupu k projektu."
+msgstr "Nemáte oprávnenie na zmenu obmedzeného prístupu."
 
 #: weblate/api/serializers.py:2025 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -4217,10 +4181,9 @@ msgstr ""
 "limit. Prázdny výber použije jazykový výber tímu bez ďalšieho obmedzenia."
 
 #: weblate/auth/models.py:530
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "Neplatná e-mailová adresa: {}"
+msgstr "Interná e-mailová adresa bota je príliš dlhá: %s"
 
 #: weblate/auth/models.py:796 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:269
@@ -4326,28 +4289,20 @@ msgid "Suggest full name for the user. It can be changed later."
 msgstr "Navrhnúť celé meno pre používateľa. Môže byť neskôr zmenené."
 
 #: weblate/auth/permissions.py:206
-#, fuzzy
-#| msgid "You do not have permission to edit the target workspace."
 msgid "You do not have permission to edit glossary entries."
-msgstr "Nemáte oprávnenie na úpravu cieľového pracovného priestoru."
+msgstr "Nemáte oprávnenie na úpravu položiek slovníka."
 
 #: weblate/auth/permissions.py:208
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to add glossary entries."
-msgstr "Nemáte oprávnenie na schvaľovanie reťazcov."
+msgstr "Nemáte oprávnenie na pridávanie položiek slovníka."
 
 #: weblate/auth/permissions.py:210
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to delete glossary entries."
-msgstr "Nemáte oprávnenie na schvaľovanie reťazcov."
+msgstr "Nemáte oprávnenie na odstraňovanie položiek slovníka."
 
 #: weblate/auth/permissions.py:212
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to upload glossary entries."
-msgstr "Nemáte oprávnenie na schvaľovanie reťazcov."
+msgstr "Nemáte oprávnenie na nahrávanie položiek slovníka."
 
 #: weblate/auth/permissions.py:372
 msgid "Can not perform this operation without an e-mail address."
@@ -4381,37 +4336,28 @@ msgid "Sign in to save translations."
 msgstr "Prihláste sa na uloženie prekladov."
 
 #: weblate/auth/permissions.py:419
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to approve translations in this restricted "
 "component."
-msgstr "Nemáte oprávnenie na prístup k tomuto komponentu."
+msgstr ""
+"Nemáte oprávnenie na schvaľovanie prekladov v tomto obmedzenom komponente."
 
 #: weblate/auth/permissions.py:424
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to save translations in this restricted component."
-msgstr "Nemáte oprávnenie na prístup k tomuto komponentu."
+msgstr "Nemáte oprávnenie na ukladanie prekladov v tomto obmedzenom komponente."
 
 #: weblate/auth/permissions.py:429
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to approve translations."
-msgstr "Nemáte oprávnenie na schvaľovanie reťazcov."
+msgstr "Nemáte oprávnenie na schvaľovanie prekladov."
 
 #: weblate/auth/permissions.py:434
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations in this project."
-msgstr "Nemáte oprávnenia na pridanie nového prekladového súboru."
+msgstr "Nemáte oprávnenie na ukladanie prekladov v tomto projekte."
 
 #: weblate/auth/permissions.py:443 weblate/auth/permissions.py:922
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to edit source strings."
-msgstr "Nemáte oprávnenie na schvaľovanie reťazcov."
+msgstr "Nemáte oprávnenie na úpravu zdrojových reťazcov."
 
 #: weblate/auth/permissions.py:447
 msgid "Suggestion voting is disabled."
@@ -4422,6 +4368,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"Pre tento preklad je povolené hlasovanie o návrhoch. Namiesto priameho "
+"uloženia prekladu pridajte návrh."
 
 #: weblate/auth/permissions.py:463
 #: weblate/templates/snippets/project/state.html:4
@@ -4496,18 +4444,20 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Vytvorte komponent a udeľte si explicitný prístup pred povolením obmedzeného "
+"prístupu."
 
 #: weblate/auth/permissions.py:1106
-#, fuzzy
-#| msgid "This billing plan covers the following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "Tento fakturačný plán pokrýva nasledujúce projekty:"
+msgstr "Fakturačný plán nepovoľuje súkromné riadenie prístupu."
 
 #: weblate/auth/permissions.py:1114
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"Potrebujete explicitný prístup k tomuto komponentu pred povolením "
+"obmedzeného prístupu; inak by ste sa sami zablokovali."
 
 #: weblate/auth/utils.py:100
 msgid "The anonymous user can not be assigned to teams."
@@ -4549,15 +4499,15 @@ msgid "Billing plan"
 msgstr "Fakturačný plán"
 
 #: weblate/billing/forms.py:50
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "Začiatok skúšobnej lehoty."
+msgstr "Obnoviť skúšobnú lehotu"
 
 #: weblate/billing/forms.py:53
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"Nastaviť túto fakturáciu na bežnú skúšobnú lehotu a vymazať naplánované "
+"odstránenie."
 
 #: weblate/billing/models.py:236 weblate/templates/billing/list.html:6
 #: weblate/templates/trans/component_create.html:203
@@ -4734,10 +4684,8 @@ msgid "Billing event"
 msgstr "Fakturačná udalosť"
 
 #: weblate/billing/models.py:1236
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
-msgstr "E-mail zmenený z {old} na {new}."
+msgstr "Zmenené z „{}“ na „{}“."
 
 #: weblate/billing/tasks.py:97
 msgid ""
@@ -4948,13 +4896,11 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Chýba nerozbitná medzera pred dvojitým interpunkčným znakom."
 
 #: weblate/checks/chars.py:680
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign."
 msgid "Missing non breakable space before punctuation mark {}."
 msgid_plural "Missing non breakable space before punctuation marks {}."
-msgstr[0] "Chýba nerozbitná medzera pred dvojitým interpunkčným znakom."
-msgstr[1] "Chýba nerozbitná medzera pred dvojitým interpunkčným znakom."
-msgstr[2] "Chýba nerozbitná medzera pred dvojitým interpunkčným znakom."
+msgstr[0] "Chýba nerozbitná medzera pred interpunkčným znakom {}."
+msgstr[1] "Chýba nerozbitná medzera pred interpunkčnými znakmi {}."
+msgstr[2] "Chýba nerozbitná medzera pred interpunkčnými znakmi {}."
 
 #: weblate/checks/chars.py:730
 msgid "Multiple capitals"
@@ -6759,7 +6705,7 @@ msgstr "Tri"
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
 msgstr ""
-"Nechajte prázdne, aby sa použil jazykový výber tímu bez ďalšieho obmedzenia."
+"Nechajte prázdne na použitie jazykového výberu tímu bez ďalšieho obmedzenia."
 
 #: weblate/lang/forms.py:87 weblate/templates/auth/team.html:127
 #: weblate/templates/trans/project-access-team-form.html:14
@@ -7288,10 +7234,8 @@ msgstr ""
 "všeobecného."
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "Zadajte platný jazykový kód."
+msgstr "Zadajte platný názov regiónu Azure."
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7623,28 +7567,19 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:709
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (Odporúčané)"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:713
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:717
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:719
 msgctxt "Anthropic model selection"
@@ -7759,52 +7694,39 @@ msgstr "Projekt"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:123
 #: weblate/memory/models.py:1250
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory scope"
 msgid "Workspace"
 msgstr "Pracovný priestor"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:127
 #: weblate/memory/models.py:1251
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory scope"
 msgid "Shared"
-msgstr "Zdieľajte"
+msgstr "Zdieľané"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1252
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "Osobné: {}"
+msgstr "Osobné"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1253
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Súbor"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:140
 #: weblate/memory/models.py:1254
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "Názov projektu"
+msgstr "Súbor projektu"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:146
 #: weblate/memory/models.py:1255
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "Osobné informácie"
+msgstr "Osobný súbor"
 
 #: weblate/memory/models.py:539
 #, python-format
@@ -7876,17 +7798,13 @@ msgid "File: {}"
 msgstr "Súbor: {}"
 
 #: weblate/memory/models.py:1033 weblate/memory/models.py:1061
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory category"
 msgid "Workspace: {}"
-msgstr "Pracovný priestor"
+msgstr "Pracovný priestor: {}"
 
 #: weblate/memory/views.py:88
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Zadajte platný jazykový kód."
+msgstr "Neplatný identifikátor jazyka."
 
 #: weblate/memory/views.py:126
 msgid "Entries were deleted."
@@ -8700,13 +8618,12 @@ msgid "Your trial"
 msgstr "Vaša skúška"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "Budete mať 14 dní na nastavenie vášho projektu."
-msgstr[1] "Budete mať 14 dní na nastavenie vášho projektu."
-msgstr[2] "Budete mať 14 dní na nastavenie vášho projektu."
+msgstr[0] "Budete mať %(days)s deň na nastavenie vášho projektu."
+msgstr[1] "Budete mať %(days)s dni na nastavenie vášho projektu."
+msgstr[2] "Budete mať %(days)s dní na nastavenie vášho projektu."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -8921,24 +8838,18 @@ msgstr "Pridať novú identitu používateľa"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/templates/workspace.html:58 weblate/wladmin/views.py:128
-#, fuzzy
-#| msgid "code-hosting installations"
 msgid "Code-hosting connections"
-msgstr "inštalácie hosťovania kódu"
+msgstr "Pripojenia hosťovania kódu"
 
 #: weblate/templates/accounts/profile.html:264
-#, fuzzy
-#| msgid "Manage code hosting accounts connected to workspaces you administer."
 msgid "Manage code-hosting accounts connected to workspaces you administer."
 msgstr ""
-"Spravujte účty hosťovania kódu pripojené k pracovným priestorom, ktoré "
+"Spravovať účty hosťovania kódu pripojené k pracovným priestorom, ktoré "
 "spravujete."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "pending code-hosting installations"
 msgid "Manage code-hosting connections"
-msgstr "čakajúce inštalácie hosťovania kódu"
+msgstr "Spravovať pripojenia hosťovania kódu"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:425
@@ -9464,13 +9375,12 @@ msgid "Your trial offer"
 msgstr "Vaša skúšobná ponuka"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "Vaša skúška bude trvať 14 dní."
-msgstr[1] "Vaša skúška bude trvať 14 dní."
-msgstr[2] "Vaša skúška bude trvať 14 dní."
+msgstr[0] "Vaša skúška bude trvať %(days)s deň."
+msgstr[1] "Vaša skúška bude trvať %(days)s dni."
+msgstr[2] "Vaša skúška bude trvať %(days)s dní."
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -10706,30 +10616,24 @@ msgid "Terminate recurring payment"
 msgstr "Zastaviť opakujúcu sa platbu"
 
 #: weblate/templates/billing/detail-content.html:44
-#, fuzzy
-#| msgid "Open in Zen mode"
 msgid "Open in Django admin"
-msgstr "Otvoriť v režime Zen"
+msgstr "Otvoriť v administrácii Django"
 
 #: weblate/templates/billing/detail-content.html:51
 msgid "Terminate billing plan"
 msgstr "Zastaviť fakturačný plán"
 
 #: weblate/templates/billing/detail-content.html:62
-#, fuzzy
-#| msgid "Manage billing"
 msgid "Merge billing"
-msgstr "Spravovať fakturáciu"
+msgstr "Zlúčiť fakturáciu"
 
 #: weblate/templates/billing/detail-content.html:66
 msgid "Review merge"
 msgstr "Skontrolovať zlúčenie"
 
 #: weblate/templates/billing/detail-content.html:74
-#, fuzzy
-#| msgid "Change plan"
 msgid "Change billing plan"
-msgstr "Zmeniť plán"
+msgstr "Zmeniť fakturačný plán"
 
 #: weblate/templates/billing/detail-content.html:81
 #: weblate/templates/billing/status.html:13
@@ -11549,14 +11453,11 @@ msgid "You pull changes from a remote repository to Weblate like this:"
 msgstr "Zmeny z vzdialeného repozitára do Weblate sťahujete takto:"
 
 #: weblate/templates/data.html:148
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid ""
 "Weblate also supports direct notifications from several code-hosting sites:"
 msgstr ""
-"Weblate tiež podporuje priame notifikácie z niekoľkých hostingových miest:"
+"Weblate podporuje aj priame oznámenia z viacerých služieb na hosťovanie "
+"zdrojového kódu:"
 
 #: weblate/templates/data.html:154
 msgid "Hosting site"
@@ -12098,28 +11999,24 @@ msgid "The cleanup translation files add-on can perform this automatically."
 msgstr "Doplnok na čistenie prekladových súborov to môže vykonať automaticky."
 
 #: weblate/templates/js/git-status.html:261
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Remove obsolete"
-msgstr "Odstrániť zastarané reťazce"
+msgstr "Odstrániť zastarané"
 
 #: weblate/templates/js/git-status.html:262
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Remove obsolete strings from the translation file"
-msgstr "Odstrániť nepoužité reťazce z prekladového súboru"
+msgstr "Odstrániť zastarané reťazce zo súboru s prekladom"
 
 #: weblate/templates/js/git-status.html:264
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Removes obsolete strings from PO files."
-msgstr "Odstrániť zastarané reťazce"
+msgstr "Odstraňuje zastarané reťazce zo súborov PO."
 
 #: weblate/templates/js/git-status.html:265
 msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"Použite, ak chcete odstrániť zastarané položky bez zapnutia ich "
+"automatického odstraňovania pri ukladaní."
 
 #: weblate/templates/js/git-status.html:271
 msgid "Use these operations with caution, they rewrite the translation file."
@@ -13247,10 +13144,8 @@ msgid "Manage support package"
 msgstr "Spravovať balík podpory"
 
 #: weblate/templates/manage/index.html:78
-#, fuzzy
-#| msgid "Unlink support package"
 msgid "Unlink support package and disable Discover Weblate"
-msgstr "Odpojiť balík podpory"
+msgstr "Odpojiť balík podpory a vypnúť Objavte Weblate"
 
 #: weblate/templates/manage/index.html:80
 msgid "Unlink support package"
@@ -13278,12 +13173,16 @@ msgid ""
 "Discover Weblate helps translators find Weblate sites and projects to "
 "contribute to."
 msgstr ""
+"Objavte Weblate pomáha prekladateľom nájsť stránky a projekty Weblate, ku "
+"ktorým môžu prispieť."
 
 #: weblate/templates/manage/index.html:119
 msgid ""
 "When enabled, weblate.org lists your site details and public or protected "
 "projects."
 msgstr ""
+"Keď je zapnuté, weblate.org uvádza podrobnosti o vašej stránke a verejné "
+"alebo chránené projekty."
 
 #: weblate/templates/manage/index.html:123
 msgid "Your Weblate is listed on weblate.org"
@@ -13306,10 +13205,8 @@ msgid "Manage your listing"
 msgstr "Spravovať váš zoznam"
 
 #: weblate/templates/manage/index.html:150
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Enable Discover Weblate"
-msgstr "Objavte Weblate"
+msgstr "Zapnúť Objavte Weblate"
 
 #: weblate/templates/manage/index.html:153
 msgid "Browse discovery"
@@ -13346,76 +13243,56 @@ msgid "Celery queues"
 msgstr "Fronty Celery"
 
 #: weblate/templates/manage/performance.html:131
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory migration"
-msgstr "Stav prekladovej pamäte"
+msgstr "Migrácia prekladovej pamäte"
 
 #: weblate/templates/manage/performance.html:137
 msgid "Scope backfill"
-msgstr ""
+msgstr "Doplnenie rozsahu"
 
 #: weblate/templates/manage/performance.html:145
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory scope backfill"
-msgstr "Stav prekladovej pamäte"
+msgstr "Doplnenie rozsahu prekladovej pamäte"
 
 #: weblate/templates/manage/performance.html:153
-#, fuzzy
-#| msgid "Entries were deleted."
 msgid "Entries processed"
-msgstr "Položky boli odstránené."
+msgstr "Položky spracované"
 
 #: weblate/templates/manage/performance.html:157
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate candidate scan"
-msgstr "Duplikovaný preklad."
+msgstr "Skenovanie duplicitných kandidátov"
 
 #: weblate/templates/manage/performance.html:165
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory duplicate candidate scan"
-msgstr "Stav prekladovej pamäte"
+msgstr "Skenovanie duplicitných kandidátov prekladovej pamäte"
 
 #: weblate/templates/manage/performance.html:173
 msgid "Candidate scan cursor"
-msgstr ""
+msgstr "Kurzor skenovania kandidátov"
 
 #: weblate/templates/manage/performance.html:177
-#, fuzzy
-#| msgid "Last updated"
 msgid "Last update"
-msgstr "Naposledy aktualizované"
+msgstr "Posledná aktualizácia"
 
 #: weblate/templates/manage/performance.html:182
-#, fuzzy
-#| msgid "Not registered"
 msgid "Not needed"
-msgstr "Neregistrované"
+msgstr "Nie je potrebné"
 
 #: weblate/templates/manage/performance.html:184
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not yet started"
-msgstr "Zatiaľ nemerané"
+msgstr "Zatiaľ nezačaté"
 
 #: weblate/templates/manage/performance.html:192
-#, fuzzy
-#| msgid "Component"
 msgid "Completed"
-msgstr "Komponent"
+msgstr "Dokončené"
 
 #: weblate/templates/manage/performance.html:194
 msgid "Scanning duplicate candidates"
-msgstr ""
+msgstr "Skenovanie duplicitných kandidátov"
 
 #: weblate/templates/manage/performance.html:196
-#, fuzzy
-#| msgid "Billing owners"
 msgid "Backfilling scopes"
-msgstr "Vlastníci fakturácie"
+msgstr "Dopĺňanie rozsahov"
 
 #: weblate/templates/manage/performance.html:209
 #: weblate/templates/manage/performance.html:224
@@ -13424,7 +13301,7 @@ msgstr "Využitie disku"
 
 #: weblate/templates/manage/performance.html:230
 msgid "Storage"
-msgstr ""
+msgstr "Úložisko"
 
 #: weblate/templates/manage/performance.html:231
 msgid "Disk size"
@@ -13439,14 +13316,12 @@ msgid "Disk free"
 msgstr "Voľné miesto na disku"
 
 #: weblate/templates/manage/performance.html:236
-#, fuzzy
-#| msgid "Service"
 msgid "Server"
-msgstr "Služba"
+msgstr "Server"
 
 #: weblate/templates/manage/performance.html:243
 msgid "PostgreSQL database"
-msgstr ""
+msgstr "Databáza PostgreSQL"
 
 #: weblate/templates/manage/performance.html:266
 msgid "System encoding"
@@ -14075,10 +13950,8 @@ msgstr ""
 "nahradilo viac."
 
 #: weblate/templates/replace.html:23
-#, fuzzy
-#| msgid "Start review"
 msgid "Update preview"
-msgstr "Spustiť kontrolu"
+msgstr "Aktualizovať ukážku"
 
 #: weblate/templates/screenshots/screenshot_detail.html:40
 msgid "Assigned source strings"
@@ -14104,12 +13977,12 @@ msgid ""
 "Use query syntax; boolean operators like <code>AND</code>, <code>OR</code>, "
 "and <code>NOT</code> are case-insensitive."
 msgstr ""
+"Použite syntax dotazu; booleovské operátory ako <code>AND</code>, <code>OR</"
+"code> a <code>NOT</code> nerozlišujú veľkosť písmen."
 
 #: weblate/templates/screenshots/screenshot_detail.html:88
-#, fuzzy
-#| msgid "View check documentation"
 msgid "Search query syntax documentation"
-msgstr "Zobraziť dokumentáciu kontrol"
+msgstr "Dokumentácia syntaxe vyhľadávacieho dotazu"
 
 #: weblate/templates/screenshots/screenshot_detail.html:96
 msgid "Suggests source strings by recognizing text in this screenshot."
@@ -14143,12 +14016,12 @@ msgid ""
 "Search screenshot names. Use field-specific queries for repository paths, "
 "languages, and assigned strings."
 msgstr ""
+"Hľadať názvy snímok obrazovky. Použite dotazy špecifické pre polia pre cesty "
+"repozitára, jazyky a priradené reťazce."
 
 #: weblate/templates/screenshots/screenshot_list.html:125
-#, fuzzy
-#| msgid "Import speed documentation"
 msgid "Screenshot search documentation"
-msgstr "Dokumentácia rýchlosti importu"
+msgstr "Dokumentácia vyhľadávania snímok obrazovky"
 
 #: weblate/templates/screenshots/screenshot_list.html:143
 #: weblate/templates/snippets/sort-field.html:14
@@ -15541,12 +15414,16 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+"Komponent vyzerá, že obsahuje bežné súbory PO gettextu, ale je "
+"nakonfigurovaný ako jednojazyčný PO gettextu."
 
 #: weblate/templates/trans/alert/bilingualpoconfiguredasmonolingual.html:4
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
 "clear the monolingual base language file, and update the component."
 msgstr ""
+"Ak sú to dvojjazyčné súbory PO, zmeňte formát súboru na súbor PO gettextu, "
+"vymažte jednojazyčný základný jazykový súbor a aktualizujte komponent."
 
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid ""
@@ -15996,16 +15873,12 @@ msgstr ""
 "manuálne alebo nastavte odoslanie na automatizáciu tohto."
 
 #: weblate/templates/trans/alert/repositoryoperationfailure.html:3
-#, fuzzy
-#| msgid "Weblate could not validate the repository browser URL:"
 msgid "Weblate could not recover an interrupted repository operation."
-msgstr "Weblate nemohol overiť URL prehliadača repozitára:"
+msgstr "Weblate nemohol obnoviť prerušenú operáciu repozitára."
 
 #: weblate/templates/trans/alert/repositoryoperationfailure.html:14
-#, fuzzy
-#| msgid "Push the repository"
 msgid "Reset the repository"
-msgstr "Odoslať repozitár"
+msgstr "Resetovať repozitár"
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
@@ -16248,18 +16121,12 @@ msgstr ""
 "máte, a %(link_start)snahrajte ho%(link_end)s."
 
 #: weblate/templates/trans/component_create.html:189
-#, fuzzy
-#| msgid ""
-#| "Pick a repository from a connected GitHub account. The component creation "
-#| "form will be pre-filled with the clone URL, default branch, and GitHub "
-#| "VCS driver."
 msgid ""
 "Pick a repository from a connected account. The component creation form will "
 "be pre-filled with the clone URL, default branch, and matching VCS driver."
 msgstr ""
-"Vyberte repozitár z pripojeného účtu GitHub. Formulár na vytvorenie "
-"komponentu bude predvyplnený URL klonu, predvolenou vetvou a ovládačom VCS "
-"GitHub."
+"Vyberte repozitár z pripojeného účtu. Formulár na vytvorenie komponentu bude "
+"predvyplnený URL klonu, predvolenou vetvou a zodpovedajúcim ovládačom VCS."
 
 #: weblate/templates/trans/component_create.html:192
 #: weblate/templates/vcs/github_installation_detail.html:23
@@ -16279,41 +16146,28 @@ msgid "Import"
 msgstr "Nahrať"
 
 #: weblate/templates/trans/component_create.html:240
-#, fuzzy
-#| msgid ""
-#| "No repositories available yet. Install the Weblate GitHub app on a GitHub "
-#| "organization or user account to make repositories available here."
 msgid ""
 "No repositories available yet. Connect a code-hosting account to make "
 "repositories available here."
 msgstr ""
-"Zatiaľ nie sú dostupné žiadne repozitáre. Nainštalujte aplikáciu Weblate "
-"GitHub na organizáciu GitHub alebo používateľský účet, aby boli repozitáre "
-"tu dostupné."
+"Zatiaľ nie sú dostupné žiadne repozitáre. Pripojte účet hosťovania kódu, aby "
+"boli repozitáre tu dostupné."
 
 #: weblate/templates/trans/component_create.html:242
-#, fuzzy
-#| msgid ""
-#| "No repositories are available from connected GitHub accounts for this "
-#| "project workspace."
 msgid ""
 "No repositories are available from connected accounts for this project "
 "workspace."
 msgstr ""
-"Z pripojených účtov GitHub nie sú pre tento pracovný priestor projektu "
-"dostupné žiadne repozitáre."
+"Z pripojených účtov nie sú pre tento pracovný priestor projektu dostupné "
+"žiadne repozitáre."
 
 #: weblate/templates/trans/component_create.html:244
-#, fuzzy
-#| msgid ""
-#| "Select a project with a workspace to connect a GitHub account or import "
-#| "repositories from an existing connection."
 msgid ""
 "Select a project with a workspace to connect an account or import "
 "repositories from an existing connection."
 msgstr ""
-"Vyberte projekt s pracovným priestorom na pripojenie účtu GitHub alebo "
-"import repozitárov z existujúceho pripojenia."
+"Vyberte projekt s pracovným priestorom na pripojenie účtu alebo import "
+"repozitárov z existujúceho pripojenia."
 
 #: weblate/templates/trans/component_form.html:40
 msgid ""
@@ -17160,64 +17014,48 @@ msgstr ""
 "pracovným priestorom, ktoré spravujete."
 
 #: weblate/templates/vcs/account_integrations.html:30
-#, fuzzy
-#| msgid ""
-#| "No VCS integrations are available. A site administrator needs to register "
-#| "a Weblate GitHub App first."
 msgid ""
 "No code-hosting connections are available. A site administrator needs to "
 "register a code-hosting app first."
 msgstr ""
-"Nie sú dostupné žiadne integrácie VCS. Správca stránky musí najprv "
-"zaregistrovať aplikáciu Weblate GitHub."
+"Nie sú dostupné žiadne pripojenia hosťovania kódu. Správca stránky musí "
+"najprv zaregistrovať aplikáciu hosťovania kódu."
 
 #: weblate/templates/vcs/account_integrations.html:35
-#, fuzzy, python-format
-#| msgid ""
-#| "Connect code hosting accounts to %(workspace)s. These accounts can then "
-#| "be used when creating components from version control."
+#, python-format
 msgid ""
 "Connect code-hosting accounts to %(workspace)s. These accounts can then be "
 "used when creating components from version control."
 msgstr ""
 "Pripojte účty hosťovania kódu k %(workspace)s. Tieto účty sa potom môžu "
-"použiť pri vytváraní komponentov z riadenia verzií."
+"použiť pri vytváraní komponentov zo systému riadenia verzií."
 
 #: weblate/templates/vcs/account_integrations.html:40
-#, fuzzy
-#| msgid ""
-#| "Connect code hosting accounts to workspaces you manage. These accounts "
-#| "can then be used when creating components from version control."
 msgid ""
 "Connect code-hosting accounts to workspaces you manage. These accounts can "
 "then be used when creating components from version control."
 msgstr ""
 "Pripojte účty hosťovania kódu k pracovným priestorom, ktoré spravujete. "
-"Tieto účty sa potom môžu použiť pri vytváraní komponentov z riadenia verzií."
+"Tieto účty sa potom môžu použiť pri vytváraní komponentov zo systému "
+"riadenia verzií."
 
 #: weblate/templates/vcs/account_integrations.html:56
-#, fuzzy
-#| msgid "code-hosting installation"
 msgid "Code-hosting app"
-msgstr "inštalácia hosťovania kódu"
+msgstr "Aplikácia hosťovania kódu"
 
 #: weblate/templates/vcs/account_integrations.html:60
 msgid "Not registered"
 msgstr "Neregistrované"
 
 #: weblate/templates/vcs/account_integrations.html:67
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate GitHub App credentials are not registered for %(hostname)s. "
-#| "Existing connected accounts can be removed, but new accounts cannot be "
-#| "connected until a site administrator registers the App again."
+#, python-format
 msgid ""
 "Code-hosting app credentials are not registered for %(hostname)s. Existing "
 "connected accounts can be removed, but new accounts cannot be connected "
 "until a site administrator registers the app again."
 msgstr ""
-"Poverenia aplikácie Weblate GitHub nie sú zaregistrované pre %(hostname)s. "
-"Existujúce pripojené účty je možné odstrániť, ale nové účty nemožno "
+"Poverenia aplikácie hosťovania kódu nie sú zaregistrované pre %(hostname)s. "
+"Existujúce pripojené účty je možné odstrániť, ale nové účty nie je možné "
 "pripojiť, kým správca stránky aplikáciu znova nezaregistruje."
 
 #: weblate/templates/vcs/account_integrations.html:76
@@ -17239,10 +17077,8 @@ msgstr "Pripojené účty"
 
 #: weblate/templates/vcs/account_integrations.html:104
 #: weblate/templates/vcs/github_installation_list.html:142
-#, fuzzy
-#| msgid "Provider"
 msgid "Provider ID"
-msgstr "Poskytovateľ"
+msgstr "ID poskytovateľa"
 
 #: weblate/templates/vcs/account_integrations.html:105
 #: weblate/templates/vcs/account_integrations.html:129
@@ -17264,10 +17100,8 @@ msgid "Refresh"
 msgstr "Obnoviť"
 
 #: weblate/templates/vcs/account_integrations.html:150
-#, fuzzy
-#| msgid "No connected GitHub accounts yet."
 msgid "No connected accounts yet."
-msgstr "Zatiaľ nie sú pripojené žiadne účty GitHub."
+msgstr "Zatiaľ žiadne pripojené účty."
 
 #: weblate/templates/vcs/github_app_register.html:18
 #: weblate/templates/vcs/github_app_register.html:25
@@ -17294,6 +17128,9 @@ msgid ""
 "The <code>%(host)s</code> host already has stored GitHub App credentials. "
 "You can edit the form, but submitting this host again will be rejected."
 msgstr ""
+"Hostiteľ <code>%(host)s</code> už má uložené poverenia aplikácie GitHub. "
+"Môžete upraviť formulár, ale opätovné odoslanie tohto hostiteľa bude "
+"zamietnuté."
 
 #: weblate/templates/vcs/github_app_register.html:46
 msgid "GitHub hosts that already have a Weblate GitHub App registered:"
@@ -17376,15 +17213,11 @@ msgid "Choose GitHub host"
 msgstr "Vybrať hostiteľa GitHub"
 
 #: weblate/templates/vcs/github_install_select.html:17
-#, fuzzy
-#| msgid ""
-#| "Select the GitHub or GitHub Enterprise instance where you want to install "
-#| "the Weblate GitHub app."
 msgid ""
 "Select the GitHub or GitHub Enterprise instance where you want to connect "
 "the Weblate GitHub App."
 msgstr ""
-"Vyberte inštanciu GitHub alebo GitHub Enterprise, kde chcete nainštalovať "
+"Vyberte inštanciu GitHub alebo GitHub Enterprise, kde chcete pripojiť "
 "aplikáciu Weblate GitHub."
 
 #: weblate/templates/vcs/github_install_select.html:22
@@ -17441,35 +17274,24 @@ msgid "Weblate GitHub Apps"
 msgstr "Aplikácie Weblate GitHub"
 
 #: weblate/templates/vcs/github_installation_list.html:28
-#, fuzzy
-#| msgid ""
-#| "No Weblate GitHub App is registered yet. Use the button above to create "
-#| "one with the right permissions and webhook URL already filled in — "
-#| "Weblate will store the credentials automatically once GitHub redirects "
-#| "back."
 msgid ""
 "No code-hosting app is registered yet. Use the button above to create one "
 "with the right permissions and webhook URL already filled in — Weblate will "
 "store the credentials automatically once GitHub redirects back."
 msgstr ""
-"Zatiaľ nie je zaregistrovaná žiadna aplikácia Weblate GitHub. Použite "
-"tlačidlo vyššie na vytvorenie aplikácie so správnymi oprávneniami a už "
-"vyplnenou URL webhooku – Weblate uloží poverenia automaticky, keď vás GitHub "
+"Zatiaľ nie je zaregistrovaná žiadna aplikácia hosťovania kódu. Použite "
+"tlačidlo vyššie na vytvorenie jednej so správnymi oprávneniami a už "
+"vyplnenou URL webhooku — Weblate uloží poverenia automaticky, keď vás GitHub "
 "presmeruje späť."
 
 #: weblate/templates/vcs/github_installation_list.html:37
-#, fuzzy
-#| msgid ""
-#| "The GitHub Apps below provide credentials Weblate uses to talk to GitHub. "
-#| "Connect a GitHub account to each App to import repositories from that "
-#| "account."
 msgid ""
 "The apps below provide credentials Weblate uses to talk to code hosting "
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
-"Aplikácie GitHub nižšie poskytujú poverenia, ktoré Weblate používa na "
-"komunikáciu s GitHubom. Pripojte účet GitHub ku každej aplikácii na import "
+"Aplikácie nižšie poskytujú poverenia, ktoré Weblate používa na komunikáciu s "
+"poskytovateľmi hosťovania kódu. Pripojte účet ku každej aplikácii na import "
 "repozitárov z tohto účtu."
 
 #: weblate/templates/vcs/github_installation_list.html:64
@@ -17479,10 +17301,8 @@ msgid "Remove app"
 msgstr "Odstrániť aplikáciu"
 
 #: weblate/templates/vcs/github_installation_list.html:69
-#, fuzzy
-#| msgid "Remove connected GitHub accounts first."
 msgid "Remove connected accounts first."
-msgstr "Najprv odstráňte pripojené účty GitHub."
+msgstr "Najprv odstráňte pripojené účty."
 
 #: weblate/templates/vcs/github_installation_list.html:75
 #: weblate/vcs/github.py:445
@@ -17515,28 +17335,20 @@ msgstr ""
 "samostatne, ak ju už nepotrebujete."
 
 #: weblate/templates/vcs/github_installation_list.html:175
-#, fuzzy
-#| msgid ""
-#| "No connected GitHub accounts yet. Use the button above to connect a "
-#| "GitHub organization or user account."
 msgid ""
 "No connected accounts yet. Use the button above to connect an organization "
 "or user account."
 msgstr ""
-"Zatiaľ nie sú pripojené žiadne účty GitHub. Použite tlačidlo vyššie na "
-"pripojenie organizácie GitHub alebo používateľského účtu."
+"Zatiaľ žiadne pripojené účty. Použite tlačidlo vyššie na pripojenie "
+"organizácie alebo používateľského účtu."
 
 #: weblate/templates/vcs/github_repository_list.html:9
-#, fuzzy
-#| msgid "From connected GitHub account"
 msgid "From connected account"
-msgstr "Z pripojeného účtu GitHub"
+msgstr "Z pripojeného účtu"
 
 #: weblate/templates/vcs/github_repository_list.html:17
-#, fuzzy
-#| msgid "Import from connected GitHub account"
 msgid "Import from connected account"
-msgstr "Import z pripojeného účtu GitHub"
+msgstr "Importovať z pripojeného účtu"
 
 #: weblate/templates/vcs/github_repository_list.html:70
 msgid ""
@@ -17547,33 +17359,23 @@ msgstr ""
 "komponentu URL repozitára a vetvou."
 
 #: weblate/templates/vcs/github_repository_list.html:112
-#, fuzzy
-#| msgid "No repositories available from connected GitHub accounts."
 msgid "No repositories available from connected accounts."
-msgstr "Z pripojených účtov GitHub nie sú dostupné žiadne repozitáre."
+msgstr "Z pripojených účtov nie sú dostupné žiadne repozitáre."
 
 #: weblate/templates/vcs/github_repository_list.html:115
-#, fuzzy
-#| msgid ""
-#| "Install the Weblate GitHub app to connect a GitHub organization or user "
-#| "account."
 msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
-"Nainštalujte aplikáciu Weblate GitHub na pripojenie organizácie GitHub alebo "
+"Nainštalujte aplikáciu Weblate GitHub na pripojenie organizácie alebo "
 "používateľského účtu."
 
 #: weblate/templates/vcs/github_repository_list.html:117
-#, fuzzy
-#| msgid ""
-#| "Select a project with a workspace before connecting a GitHub account. "
-#| "GitHub accounts are connected to workspaces."
 msgid ""
 "Select a project with a workspace before connecting an account. Code-hosting "
 "accounts are connected to workspaces."
 msgstr ""
-"Pred pripojením účtu GitHub vyberte projekt s pracovným priestorom. Účty "
-"GitHub sú pripojené k pracovným priestorom."
+"Vyberte projekt s pracovným priestorom pred pripojením účtu. Účty hosťovania "
+"kódu sú pripojené k pracovným priestorom."
 
 #: weblate/templates/vcs/github_repository_list.html:119
 msgid "Weblate GitHub app is not registered on this Weblate instance."
@@ -17585,19 +17387,13 @@ msgid "Try refreshing the repository list."
 msgstr "Skúste obnoviť zoznam repozitárov."
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:15
-#, fuzzy
-#| msgid "Remove connected GitHub account?"
 msgid "Remove connected account?"
-msgstr "Odstrániť pripojený účet GitHub?"
+msgstr "Odstrániť pripojený účet?"
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:25
-#, fuzzy, python-format
-#| msgid ""
-#| "This removes the connected GitHub account <code>%(login)s</code> from "
-#| "Weblate."
+#, python-format
 msgid "This removes the connected account <code>%(login)s</code> from Weblate."
-msgstr ""
-"Tým sa odstráni pripojený účet GitHub <code>%(login)s</code> z Weblate."
+msgstr "Tým sa odstráni pripojený účet <code>%(login)s</code> z Weblate."
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:31
 msgid ""
@@ -17738,10 +17534,8 @@ msgid "Exit Zen"
 msgstr "Ukončiť Zen"
 
 #: weblate/trans/actions.py:33
-#, fuzzy
-#| msgid "Rescan all translation files in the Weblate repository"
 msgid "A translation file was synchronized with its repository."
-msgstr "Znovu skenovať všetky súbory prekladov v repozitári Weblate"
+msgstr "Prekladový súbor bol synchronizovaný so svojím repozitárom."
 
 #: weblate/trans/actions.py:34
 msgid "Resource updated"
@@ -17752,44 +17546,36 @@ msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
 msgstr ""
+"Jazykový preklad sa stal úplne preloženým po individuálnej úprave. "
+"Automatický preklad, nahrávania a hromadné úpravy túto udalosť nevysielajú."
 
 #: weblate/trans/actions.py:43
 msgid "Translation completed"
 msgstr "Preklad dokončený"
 
 #: weblate/trans/actions.py:48
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String was edited by user"
 msgid "An existing translation was edited by a user."
-msgstr "Reťazec bol upravený používateľom"
+msgstr "Existujúci preklad bol upravený používateľom."
 
 #: weblate/trans/actions.py:49
 msgid "Translation changed"
 msgstr "Preklad zmenený"
 
 #: weblate/trans/actions.py:54
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Comment was added"
 msgid "A comment was added to a string."
-msgstr "Komentár bol pridaný"
+msgstr "Ku reťazcu bol pridaný komentár."
 
 #: weblate/trans/actions.py:55
 msgid "Comment added"
 msgstr "Komentár pridaný"
 
 #: weblate/trans/actions.py:60
-#, fuzzy
-#| msgid "Translation suggestions can be made."
 msgid "A translation suggestion was added."
-msgstr "Dajú sa vytvoriť návrhy prekladu."
+msgstr "Bol pridaný návrh prekladu."
 
 #: weblate/trans/actions.py:66
-#, fuzzy
-#| msgid "All untranslated strings added the past month"
 msgid "A previously untranslated string was translated by a user."
-msgstr "Všetky nepreložené reťazce pridané za posledný mesiac"
+msgstr "Predtým nepreložený reťazec bol preložený používateľom."
 
 #: weblate/trans/actions.py:67
 msgid "Translation added"
@@ -17800,22 +17586,20 @@ msgid ""
 "A translation was added or changed by automatic translation. This is emitted "
 "instead of Translation added or Translation changed."
 msgstr ""
+"Preklad bol pridaný alebo zmenený automatickým prekladom. Toto sa vysiela "
+"namiesto Pridaný preklad alebo Zmenený preklad."
 
 #: weblate/trans/actions.py:81
-#, fuzzy
-#| msgid "Define translation instructions to help translators."
 msgid "A translation suggestion was accepted as the translation."
-msgstr "Definovať pokyny pre prekladateľov."
+msgstr "Návrh prekladu bol prijatý ako preklad."
 
 #: weblate/trans/actions.py:82
 msgid "Suggestion accepted"
 msgstr "Návrh prijatý"
 
 #: weblate/trans/actions.py:87
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "A translation was restored to an earlier value."
-msgstr "Preklad sa skončil."
+msgstr "Preklad bol obnovený na skoršiu hodnotu."
 
 #: weblate/trans/actions.py:88
 msgid "Translation reverted"
@@ -17826,136 +17610,113 @@ msgid ""
 "A translation was added or changed by a translation file upload. This is "
 "emitted instead of Translation added or Translation changed."
 msgstr ""
+"Preklad bol pridaný alebo zmenený nahratím prekladového súboru. Toto sa "
+"vysiela namiesto Pridaný preklad alebo Zmenený preklad."
 
 #: weblate/trans/actions.py:97
 msgid "Translation uploaded"
 msgstr "Preklad nahraný"
 
 #: weblate/trans/actions.py:102
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added outside repository or upload updates."
-msgstr "Zdrojový reťazec pridaný v repozitári"
+msgstr ""
+"Zdrojový reťazec bol pridaný mimo aktualizácií repozitára alebo nahrávania."
 
 #: weblate/trans/actions.py:103
 msgid "Source string added"
 msgstr "Zdrojový reťazec pridaný"
 
 #: weblate/trans/actions.py:108
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "A component was locked for translation."
-msgstr "Všetky komponenty sú teraz zamknuté pre aktualizácie prekladu!"
+msgstr "Komponent bol uzamknutý pre preklad."
 
 #: weblate/trans/actions.py:109
 msgid "Component locked"
 msgstr "Komponent zamknutý"
 
 #: weblate/trans/actions.py:114
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "A component was unlocked for translation."
-msgstr "Všetky komponenty sú teraz zamknuté pre aktualizácie prekladu!"
+msgstr "Komponent bol odomknutý pre preklad."
 
 #: weblate/trans/actions.py:115
 msgid "Component unlocked"
 msgstr "Komponent odomknutý"
 
 #: weblate/trans/actions.py:121
-#, fuzzy
-#| msgid "All pending translations were committed."
 msgid "Pending component changes were committed."
-msgstr "Všetky čakajúce preklady boli zapísané."
+msgstr "Čakajúce zmeny komponentu boli zapísané."
 
 #: weblate/trans/actions.py:122
 msgid "Changes committed"
 msgstr "Zmeny zapísané"
 
 #: weblate/trans/actions.py:127
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes were pushed upstream."
-msgstr "Upozornenie na zmeny v repozitári"
+msgstr "Zmeny repozitára boli odoslané do hlavného repozitára."
 
 #: weblate/trans/actions.py:128
 msgid "Changes pushed"
 msgstr "Zmeny odoslané"
 
 #: weblate/trans/actions.py:133
-#, fuzzy
-#| msgid "Reset repository to upstream"
 msgid "A repository was reset to its upstream state."
-msgstr "Obnoviť na hlavný repozitár"
+msgstr "Repozitár bol resetovaný do svojho stavu v hlavnom repozitári."
 
 #: weblate/trans/actions.py:134
 msgid "Repository reset"
 msgstr "Repozitár resetovaný"
 
 #: weblate/trans/actions.py:139
-#, fuzzy
-#| msgid "The remote repository needs to be merged!"
 msgid "Upstream repository changes were merged."
-msgstr "Vzdialený repozitár potrebuje zlúčiť zmeny!"
+msgstr "Zmeny v hlavnom repozitári boli zlúčené."
 
 #: weblate/trans/actions.py:140
 msgid "Repository merged"
 msgstr "Repozitár zlúčený"
 
 #: weblate/trans/actions.py:145
-#, fuzzy
-#| msgid "Repository changes are being processed…"
 msgid "Repository changes were rebased on upstream."
-msgstr "Zmeny v repozitári sa spracúvajú…"
+msgstr "Zmeny repozitára boli prepísané na hlavný repozitár."
 
 #: weblate/trans/actions.py:146
 msgid "Repository rebased"
 msgstr "Repozitár prepísaný"
 
 #: weblate/trans/actions.py:151
-#, fuzzy
-#| msgid "View upstream repository location"
 msgid "Merging upstream repository changes failed."
-msgstr "Zobraziť umiestnenie hlavného repozitára"
+msgstr "Zlúčenie zmien z hlavného repozitára zlyhalo."
 
 #: weblate/trans/actions.py:152
 msgid "Repository merge failed"
 msgstr "Zlúčenie repozitára zlyhalo"
 
 #: weblate/trans/actions.py:157
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Rebasing repository changes failed."
-msgstr "Upozornenie na zmeny v repozitári"
+msgstr "Prepisovanie zmien repozitára zlyhalo."
 
 #: weblate/trans/actions.py:158
 msgid "Repository rebase failed"
 msgstr "Prepis repozitára zlyhal"
 
 #: weblate/trans/actions.py:163
-#, fuzzy
-#| msgid "Could not parse translation files."
 msgid "Weblate could not parse a translation file."
-msgstr "Nepodarilo sa spracovať prekladové súbory."
+msgstr "Weblate nemohol spracovať prekladový súbor."
 
 #: weblate/trans/actions.py:164
 msgid "Parsing failed"
 msgstr "Spracovanie zlyhalo"
 
 #: weblate/trans/actions.py:169
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A language translation was removed."
-msgstr "Jazyk v kategórii bol odstránený."
+msgstr "Jazykový preklad bol odstránený."
 
 #: weblate/trans/actions.py:170
 msgid "Translation removed"
 msgstr "Preklad odstránený"
 
 #: weblate/trans/actions.py:175
-#, fuzzy
-#| msgid "Translation suggestions can be made."
 msgid "A translation suggestion was removed."
-msgstr "Dajú sa vytvoriť návrhy prekladu."
+msgstr "Návrh prekladu bol odstránený."
 
 #: weblate/trans/actions.py:176
 msgid "Suggestion removed"
@@ -17966,69 +17727,56 @@ msgid ""
 "A translation was changed by a search-and-replace operation. This is emitted "
 "instead of Translation changed."
 msgstr ""
+"Preklad bol zmenený operáciou vyhľadania a nahradenia. Toto sa vysiela "
+"namiesto Zmenený preklad."
 
 #: weblate/trans/actions.py:185
 msgid "Translation replaced"
 msgstr "Preklad nahradený"
 
 #: weblate/trans/actions.py:190
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Pushing repository changes upstream failed."
-msgstr "Upozornenie na zmeny v repozitári"
+msgstr "Odosielanie zmien repozitára do hlavného repozitára zlyhalo."
 
 #: weblate/trans/actions.py:191
 msgid "Repository push failed"
 msgstr "Odoslanie repozitára zlyhalo"
 
 #: weblate/trans/actions.py:196
-#, fuzzy
-#| msgid "Suggestion removed during cleanup"
 msgid "An obsolete translation suggestion was removed during cleanup."
-msgstr "Návrh odstránený počas čistenia"
+msgstr "Zastaraný návrh prekladu bol odstránený počas čistenia."
 
 #: weblate/trans/actions.py:197
 msgid "Suggestion removed during cleanup"
 msgstr "Návrh odstránený počas čistenia"
 
 #: weblate/trans/actions.py:202
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was edited in Weblate."
-msgstr "Zdrojový reťazec pridaný v nahratí"
+msgstr "Zdrojový reťazec bol upravený vo Weblate."
 
 #: weblate/trans/actions.py:203
 msgid "Source string changed"
 msgstr "Zdrojový reťazec zmenený"
 
 #: weblate/trans/actions.py:208
-#, fuzzy
-#| msgid "New string has been added."
 msgid "A new string was added in Weblate."
-msgstr "Nový reťazec bol pridaný."
+msgstr "Nový reťazec bol pridaný vo Weblate."
 
 #: weblate/trans/actions.py:209
 msgid "String added"
 msgstr "Reťazec pridaný"
 
 #: weblate/trans/actions.py:215
-#, fuzzy
-#| msgid ""
-#| "The translation of the string has changed meanwhile. Please check your "
-#| "changes."
 msgid "The translation state of one or more strings was changed in bulk."
-msgstr ""
-"Preklad reťazca sa medzičasom zmenil. Prosím, skontrolujte svoje zmeny."
+msgstr "Stav prekladu jedného alebo viacerých reťazcov bol hromadne zmenený."
 
 #: weblate/trans/actions.py:217
 msgid "Bulk status changed"
 msgstr "Hromadný stav zmenený"
 
 #: weblate/trans/actions.py:222
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Project or component visibility was changed."
-msgstr "Vaše heslo bolo zmenené."
+msgstr "Viditeľnosť projektu alebo komponentu bola zmenená."
 
 #: weblate/trans/actions.py:223
 msgid "Visibility changed"
@@ -18036,194 +17784,151 @@ msgstr "Viditeľnosť zmenená"
 
 #: weblate/trans/actions.py:228
 msgid "A user was granted access."
-msgstr ""
+msgstr "Používateľovi bol udelený prístup."
 
 #: weblate/trans/actions.py:229
 msgid "User added"
 msgstr "Používateľ pridaný"
 
 #: weblate/trans/actions.py:234
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "A user's access was removed."
-msgstr "Bezpečnostný kľúč bol odstránený."
+msgstr "Prístup používateľa bol odstránený."
 
 #: weblate/trans/actions.py:235
 msgid "User removed"
 msgstr "Používateľ odstránený"
 
 #: weblate/trans/actions.py:240
-#, fuzzy
-#| msgid "Add as translation needing review"
 msgid "A translation was approved during review."
-msgstr "Pridať ako preklad vyžadujúci kontrolu"
+msgstr "Preklad bol schválený počas kontroly."
 
 #: weblate/trans/actions.py:241
 msgid "Translation approved"
 msgstr "Preklad schválený"
 
 #: weblate/trans/actions.py:246
-#, fuzzy
-#| msgid "Skip translations marked as needing editing"
 msgid "A translation was marked as needing editing."
-msgstr "Preskočiť preklady označené ako vyžadujúce úpravu"
+msgstr "Preklad bol označený ako vyžadujúci úpravu."
 
 #: weblate/trans/actions.py:247
 msgid "Marked for edit"
 msgstr "Označené na úpravu"
 
 #: weblate/trans/actions.py:252
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was removed."
-msgstr "Nový prekladový komponent bol vytvorený"
+msgstr "Prekladový komponent bol odstránený."
 
 #: weblate/trans/actions.py:253
 msgid "Component removed"
 msgstr "Komponent odstránený"
 
 #: weblate/trans/actions.py:258
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was removed."
-msgstr "Váš prekladový projekt bol odstránený"
+msgstr "Prekladový projekt bol odstránený."
 
 #: weblate/trans/actions.py:259
 msgid "Project removed"
 msgstr "Projekt odstránený"
 
 #: weblate/trans/actions.py:265
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was renamed."
-msgstr "Váš prekladový projekt bol odstránený"
+msgstr "Prekladový projekt bol premenovaný."
 
 #: weblate/trans/actions.py:266
 msgid "Project renamed"
 msgstr "Projekt premenovaný"
 
 #: weblate/trans/actions.py:271
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was renamed."
-msgstr "Nový prekladový komponent bol vytvorený"
+msgstr "Prekladový komponent bol premenovaný."
 
 #: weblate/trans/actions.py:272
 msgid "Component renamed"
 msgstr "Komponent premenovaný"
 
 #: weblate/trans/actions.py:277
-#, fuzzy
-#| msgid "All components in current project"
 msgid "A component was moved within a project."
-msgstr "Všetky komponenty v aktuálnom projekte"
+msgstr "Komponent bol presunutý v rámci projektu."
 
 #: weblate/trans/actions.py:278
 msgid "Moved component"
 msgstr "Presunutý komponent"
 
 #: weblate/trans/actions.py:284
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Contributor made their first translation"
 msgid "A user made their first contribution to a translation."
-msgstr "Prispievateľ vykonal svoj prvý preklad"
+msgstr "Používateľ vykonal svoj prvý príspevok k prekladu."
 
 #: weblate/trans/actions.py:285
 msgid "Contributor joined"
 msgstr "Prispievateľ sa pripojil"
 
 #: weblate/trans/actions.py:290
-#, fuzzy
-#| msgid "Announcement posted"
 msgid "An announcement was posted."
-msgstr "Oznámenie zverejnené"
+msgstr "Oznámenie bolo zverejnené."
 
 #: weblate/trans/actions.py:291
 msgid "Announcement posted"
 msgstr "Oznámenie zverejnené"
 
 #: weblate/trans/actions.py:296
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "A component alert was triggered."
-msgstr "Upozornenie spustené"
+msgstr "Upozornenie komponentu bolo spustené."
 
 #: weblate/trans/actions.py:297
 msgid "Alert triggered"
 msgstr "Upozornenie spustené"
 
 #: weblate/trans/actions.py:302
-#, fuzzy
-#| msgid "Add language for translation"
 msgid "A language translation was added."
-msgstr "Pridať jazyk na preklad"
+msgstr "Jazykový preklad bol pridaný."
 
 #: weblate/trans/actions.py:303
 msgid "Language added"
 msgstr "Jazyk pridaný"
 
 #: weblate/trans/actions.py:308
-#, fuzzy
-#| msgid "Requested new language"
 msgid "A user requested a new language."
-msgstr "Požadovaný nový jazyk"
+msgstr "Používateľ požiadal o nový jazyk."
 
 #: weblate/trans/actions.py:309
 msgid "Language requested"
 msgstr "Jazyk požadovaný"
 
 #: weblate/trans/actions.py:314
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was created."
-msgstr "Váš prekladový projekt bol odstránený"
+msgstr "Prekladový projekt bol vytvorený."
 
 #: weblate/trans/actions.py:315
 msgid "Project created"
 msgstr "Projekt vytvorený"
 
 #: weblate/trans/actions.py:320
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was created."
-msgstr "Nový prekladový komponent bol vytvorený"
+msgstr "Prekladový komponent bol vytvorený."
 
 #: weblate/trans/actions.py:321
 msgid "Component created"
 msgstr "Komponent vytvorený"
 
 #: weblate/trans/actions.py:326
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "A user was invited to a project."
-msgstr "Užívateľ bol pridaný do tohto projektu."
+msgstr "Používateľ bol pozvaný do projektu."
 
 #: weblate/trans/actions.py:327
 msgid "User invited"
 msgstr "Používateľ pozvaný"
 
 #: weblate/trans/actions.py:332
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid "Weblate received a repository notification from a code host."
-msgstr ""
-"Weblate tiež podporuje priame notifikácie z niekoľkých hostingových miest:"
+msgstr "Weblate dostal notifikáciu repozitára od hostiteľa kódu."
 
 #: weblate/trans/actions.py:333
 msgid "Repository notification received"
 msgstr "Notifikácia repozitára prijatá"
 
 #: weblate/trans/actions.py:338
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "A translation file was replaced by an uploaded file."
-msgstr "Preklad nahradený nahratým súborom"
+msgstr "Prekladový súbor bol nahradený nahraným súborom."
 
 #: weblate/trans/actions.py:339
 msgid "Translation replaced file by upload"
@@ -18231,37 +17936,31 @@ msgstr "Preklad nahradený nahratým súborom"
 
 #: weblate/trans/actions.py:344
 msgid "Project or component license information changed."
-msgstr ""
+msgstr "Informácie o licencii projektu alebo komponentu sa zmenili."
 
 #: weblate/trans/actions.py:345
 msgid "License changed"
 msgstr "Licencia zmenená"
 
 #: weblate/trans/actions.py:350
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "The contributor license agreement was changed."
-msgstr "Licenčná zmluva prispievateľa zmenená"
+msgstr "Licenčná zmluva prispievateľa bola zmenená."
 
 #: weblate/trans/actions.py:351
 msgid "Contributor license agreement changed"
 msgstr "Licenčná zmluva prispievateľa zmenená"
 
 #: weblate/trans/actions.py:356
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "A screenshot was associated with a string."
-msgstr "Vyhnite sa rokom, ktoré sú s vami spojené."
+msgstr "Snímka obrazovky bola priradená k reťazcu."
 
 #: weblate/trans/actions.py:357
 msgid "Screenshot added"
 msgstr "Snímka obrazovky pridaná"
 
 #: weblate/trans/actions.py:362
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "A screenshot image was uploaded."
-msgstr "Nahrané snímky obrazovky"
+msgstr "Obrázok snímky obrazovky bol nahraný."
 
 #: weblate/trans/actions.py:363
 msgid "Screenshot uploaded"
@@ -18269,67 +17968,55 @@ msgstr "Snímka obrazovky nahraná"
 
 #: weblate/trans/actions.py:368
 msgid "A string was changed while synchronizing from the repository."
-msgstr ""
+msgstr "Reťazec bol zmenený počas synchronizácie z repozitára."
 
 #: weblate/trans/actions.py:369
 msgid "String updated in the repository"
 msgstr "Reťazec aktualizovaný v repozitári"
 
 #: weblate/trans/actions.py:374
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "An add-on was installed."
-msgstr "Doplnok nainštalovaný"
+msgstr "Doplnok bol nainštalovaný."
 
 #: weblate/trans/actions.py:375
 msgid "Add-on installed"
 msgstr "Doplnok nainštalovaný"
 
 #: weblate/trans/actions.py:380
-#, fuzzy
-#| msgid "Add-on configuration changed"
 msgid "An add-on's configuration was changed."
-msgstr "Konfigurácia doplnku zmenená"
+msgstr "Konfigurácia doplnku bola zmenená."
 
 #: weblate/trans/actions.py:381
 msgid "Add-on configuration changed"
 msgstr "Konfigurácia doplnku zmenená"
 
 #: weblate/trans/actions.py:386
-#, fuzzy
-#| msgid "Add-on uninstalled"
 msgid "An add-on was uninstalled."
-msgstr "Doplnok odinštalovaný"
+msgstr "Doplnok bol odinštalovaný."
 
 #: weblate/trans/actions.py:387
 msgid "Add-on uninstalled"
 msgstr "Doplnok odinštalovaný"
 
 #: weblate/trans/actions.py:392
-#, fuzzy
-#| msgid "Unused strings have been removed from the translation file."
 msgid "A string was removed from a translation."
-msgstr "Nepoužité reťazce boli odstránené z prekladového súboru."
+msgstr "Reťazec bol odstránený z prekladu."
 
 #: weblate/trans/actions.py:393
 msgid "String removed"
 msgstr "Reťazec odstránený"
 
 #: weblate/trans/actions.py:398
-#, fuzzy
-#| msgid "String was removed."
 msgid "A string comment was removed."
-msgstr "Reťazec bol odstránený."
+msgstr "Komentár k reťazcu bol odstránený."
 
 #: weblate/trans/actions.py:399
 msgid "Comment removed"
 msgstr "Komentár odstránený"
 
 #: weblate/trans/actions.py:404
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgid "A string comment was marked as resolved."
-msgstr "Komentár bol vyriešený."
+msgstr "Komentár k reťazcu bol označený ako vyriešený."
 
 #: weblate/trans/actions.py:405
 msgctxt "Name of event in the history"
@@ -18337,80 +18024,64 @@ msgid "Comment resolved"
 msgstr "Komentár vyriešený"
 
 #: weblate/trans/actions.py:410
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "The explanation for a source string was updated."
-msgstr "Tento jazyk sa používa pre zdrojové reťazce."
+msgstr "Vysvetlenie pre zdrojový reťazec bolo aktualizované."
 
 #: weblate/trans/actions.py:411
 msgid "Explanation updated"
 msgstr "Vysvetlenie aktualizované"
 
 #: weblate/trans/actions.py:416
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A component category was removed."
-msgstr "Jazyk v kategórii bol odstránený."
+msgstr "Kategória komponentu bola odstránená."
 
 #: weblate/trans/actions.py:417
 msgid "Category removed"
 msgstr "Kategória odstránená"
 
 #: weblate/trans/actions.py:422
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A component category was renamed."
-msgstr "Jazyk v kategórii bol odstránený."
+msgstr "Kategória komponentu bola premenovaná."
 
 #: weblate/trans/actions.py:423
 msgid "Category renamed"
 msgstr "Kategória premenovaná"
 
 #: weblate/trans/actions.py:428
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A component category was moved."
-msgstr "Jazyk v kategórii bol odstránený."
+msgstr "Kategória komponentu bola presunutá."
 
 #: weblate/trans/actions.py:429
 msgid "Category moved"
 msgstr "Kategória presunutá"
 
 #: weblate/trans/actions.py:434
-#, fuzzy
-#| msgid "Weblate could not execute script add-on."
 msgid "Weblate could not save a changed string."
-msgstr "Weblate nemohol vykonať skriptový doplnok."
+msgstr "Weblate nemohol uložiť zmenený reťazec."
 
 #: weblate/trans/actions.py:435
 msgid "Saving string failed"
 msgstr "Ukladanie reťazca zlyhalo"
 
 #: weblate/trans/actions.py:440
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A new string was found while synchronizing from the repository."
-msgstr "Zdrojový reťazec pridaný v repozitári"
+msgstr "Nový reťazec bol nájdený počas synchronizácie z repozitára."
 
 #: weblate/trans/actions.py:441
 msgid "String added in the repository"
 msgstr "Reťazec pridaný v repozitári"
 
 #: weblate/trans/actions.py:446
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "A string was changed while processing an uploaded file."
-msgstr "Žiadne reťazce neboli importované z nahraného súboru."
+msgstr "Reťazec bol zmenený počas spracovania nahraného súboru."
 
 #: weblate/trans/actions.py:447
 msgid "String updated in the upload"
 msgstr "Reťazec aktualizovaný v nahratí"
 
 #: weblate/trans/actions.py:452
-#, fuzzy
-#| msgid "No unused strings were found in the translation file."
 msgid "A new string was found while processing an uploaded file."
-msgstr "V prekladovom súbore sa nenašli žiadne nepoužité reťazce."
+msgstr "Nový reťazec bol nájdený počas spracovania nahraného súboru."
 
 #: weblate/trans/actions.py:453
 msgid "String added in the upload"
@@ -18418,7 +18089,7 @@ msgstr "Reťazec pridaný v nahratí"
 
 #: weblate/trans/actions.py:458
 msgid "A translation was synchronized after uploading a source file."
-msgstr ""
+msgstr "Preklad bol synchronizovaný po nahraní zdrojového súboru."
 
 #: weblate/trans/actions.py:459
 msgid "Translation updated by source upload"
@@ -18430,106 +18101,89 @@ msgid ""
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
+"Všetky jazykové preklady v komponente sa stali úplne preloženými po "
+"individuálnej úprave. Automatický preklad, nahrávania a hromadné úpravy túto "
+"udalosť nevysielajú."
 
 #: weblate/trans/actions.py:469
 msgid "Component translation completed"
 msgstr "Preklad komponentu dokončený"
 
 #: weblate/trans/actions.py:475
-#, fuzzy
-#| msgid "Skip translations marked as needing editing"
 msgid "A translation was marked as needing editing by an enforced check."
-msgstr "Preskočiť preklady označené ako vyžadujúce úpravu"
+msgstr "Preklad bol označený ako vyžadujúci úpravu vynútenou kontrolou."
 
 #: weblate/trans/actions.py:477
 msgid "Applied enforced check"
 msgstr "Aplikovaná vynútená kontrola"
 
 #: weblate/trans/actions.py:482
-#, fuzzy
-#| msgid "Apply selected translation to all propagated strings"
 msgid "A translation edit was propagated to another matching string."
-msgstr "Aplikovať vybraný preklad na všetky šírené reťazce"
+msgstr "Úprava prekladu bola šírená na iný zodpovedajúci reťazec."
 
 #: weblate/trans/actions.py:483
 msgid "Propagated change"
 msgstr "Šírená zmena"
 
 #: weblate/trans/actions.py:488
-#, fuzzy
-#| msgid "Define author of uploaded translation"
 msgid "A file was uploaded to a translation."
-msgstr "Definovať autora nahraného prekladu"
+msgstr "Súbor bol nahraný k prekladu."
 
 #: weblate/trans/actions.py:489
 msgid "File uploaded"
 msgstr "Súbor nahraný"
 
 #: weblate/trans/actions.py:494
-#, fuzzy
-#| msgid "All repositories were updated."
 msgid "Additional source-string flags were updated."
-msgstr "Všetky repozitáre boli aktualizované."
+msgstr "Dodatočné príznaky zdrojového reťazca boli aktualizované."
 
 #: weblate/trans/actions.py:495
 msgid "Extra flags updated"
 msgstr "Dodatočné príznaky aktualizované"
 
 #: weblate/trans/actions.py:500
-#, fuzzy
-#| msgid "Font uploaded"
 msgid "A font was uploaded."
-msgstr "Písmo nahrané"
+msgstr "Písmo bolo nahrané."
 
 #: weblate/trans/actions.py:501
 msgid "Font uploaded"
 msgstr "Písmo nahrané"
 
 #: weblate/trans/actions.py:506
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "An uploaded font was changed."
-msgstr "Nahraný obrázok bol neplatný."
+msgstr "Nahrané písmo bolo zmenené."
 
 #: weblate/trans/actions.py:507
 msgid "Font changed"
 msgstr "Písmo zmenené"
 
 #: weblate/trans/actions.py:512
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "An uploaded font was removed."
-msgstr "Jazyk v projekte bol odstránený."
+msgstr "Nahrané písmo bolo odstránené."
 
 #: weblate/trans/actions.py:513
 msgid "Font removed"
 msgstr "Písmo odstránené"
 
 #: weblate/trans/actions.py:519
-#, fuzzy
-#| msgid "Translation files have been synchronized."
 msgid "Translation files were forcibly synchronized with the repository."
-msgstr "Prekladové súbory boli synchronizované."
+msgstr "Prekladové súbory boli nútené synchronizované s repozitárom."
 
 #: weblate/trans/actions.py:521
 msgid "Forced synchronization of translations"
 msgstr "Vynútená synchronizácia prekladov"
 
 #: weblate/trans/actions.py:526
-#, fuzzy
-#| msgid "Translation is now locked for you."
 msgid "Translation files were forcibly rescanned for changes."
-msgstr "Tento preklad bol pre Vás uzamknutý."
+msgstr "Prekladové súbory boli nútené znovuskenuované na zmeny."
 
 #: weblate/trans/actions.py:527
 msgid "Forced rescan of translations"
 msgstr "Vynútené znovuskenovanie prekladov"
 
 #: weblate/trans/actions.py:532
-#, fuzzy
-#| msgid "Screenshot removed"
 msgid "A screenshot was removed."
-msgstr "Snímka obrazovky odstránená"
+msgstr "Snímka obrazovky bola odstránená."
 
 #: weblate/trans/actions.py:533
 msgid "Screenshot removed"
@@ -18537,7 +18191,7 @@ msgstr "Snímka obrazovky odstránená"
 
 #: weblate/trans/actions.py:538
 msgid "A label was added to a string."
-msgstr ""
+msgstr "Štítok bol pridaný k reťazcu."
 
 #: weblate/trans/actions.py:539
 msgid "Label added"
@@ -18545,47 +18199,39 @@ msgstr "Štítok pridaný"
 
 #: weblate/trans/actions.py:544
 msgid "A label was removed from a string."
-msgstr ""
+msgstr "Štítok bol odstránený z reťazca."
 
 #: weblate/trans/actions.py:545
 msgid "Label removed"
 msgstr "Štítok odstránený"
 
 #: weblate/trans/actions.py:550
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
 msgid "The repository working tree was cleaned up."
-msgstr "Všetky repozitáre boli vyčistené."
+msgstr "Pracovný strom repozitára bol vyčistený."
 
 #: weblate/trans/actions.py:551
 msgid "Repository cleanup"
 msgstr "Čistenie repozitára"
 
 #: weblate/trans/actions.py:556
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was added while processing an uploaded file."
-msgstr "Zdrojový reťazec pridaný v nahratí"
+msgstr "Zdrojový reťazec bol pridaný počas spracovania nahraného súboru."
 
 #: weblate/trans/actions.py:557
 msgid "Source string added in the upload"
 msgstr "Zdrojový reťazec pridaný v nahratí"
 
 #: weblate/trans/actions.py:563
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added while synchronizing from the repository."
-msgstr "Zdrojový reťazec pridaný v repozitári"
+msgstr "Zdrojový reťazec bol pridaný počas synchronizácie z repozitára."
 
 #: weblate/trans/actions.py:565
 msgid "Source string added in the repository"
 msgstr "Zdrojový reťazec pridaný v repozitári"
 
 #: weblate/trans/actions.py:570
-#, fuzzy
-#| msgid "Project backup import completed."
 msgid "A project backup was created."
-msgstr "Import zálohy projektu bol dokončený."
+msgstr "Záloha projektu bola vytvorená."
 
 #: weblate/trans/actions.py:571
 msgid "Project backed up"
@@ -18593,17 +18239,15 @@ msgstr "Projekt zálohovaný"
 
 #: weblate/trans/actions.py:576
 msgid "A project was restored from a backup."
-msgstr ""
+msgstr "Projekt bol obnovený zo zálohy."
 
 #: weblate/trans/actions.py:577
 msgid "Project restored"
 msgstr "Projekt obnovený"
 
 #: weblate/trans/actions.py:582
-#, fuzzy
-#| msgid "Component created from scratch"
 msgid "A component was restored from a backup."
-msgstr "Komponent vytvorený od začiatku"
+msgstr "Komponent bol obnovený zo zálohy."
 
 #: weblate/trans/actions.py:583
 msgid "Component restored"
@@ -18611,87 +18255,71 @@ msgstr "Komponent obnovený"
 
 #: weblate/trans/actions.py:588
 msgid "All selected edits by a user were reverted."
-msgstr ""
+msgstr "Všetky vybrané úpravy používateľa boli vrátené späť."
 
 #: weblate/trans/actions.py:589
 msgid "User edit reverted"
 msgstr "Úprava používateľa vrátená späť"
 
 #: weblate/trans/actions.py:594
-#, fuzzy
-#| msgid "Project setting changed"
 msgid "A project setting was changed."
-msgstr "Nastavenie projektu zmenené"
+msgstr "Nastavenie projektu bolo zmenené."
 
 #: weblate/trans/actions.py:595
 msgid "Project setting changed"
 msgstr "Nastavenie projektu zmenené"
 
 #: weblate/trans/actions.py:600
-#, fuzzy
-#| msgid "Component setting changed"
 msgid "A component setting was changed."
-msgstr "Nastavenie komponentu zmenené"
+msgstr "Nastavenie komponentu bolo zmenené."
 
 #: weblate/trans/actions.py:601
 msgid "Component setting changed"
 msgstr "Nastavenie komponentu zmenené"
 
 #: weblate/trans/actions.py:606
-#, fuzzy
-#| msgid "User access changed"
 msgid "A user's access permissions were changed."
-msgstr "Prístup používateľa zmenený"
+msgstr "Oprávnenia prístupu používateľa boli zmenené."
 
 #: weblate/trans/actions.py:607
 msgid "User access changed"
 msgstr "Prístup používateľa zmenený"
 
 #: weblate/trans/actions.py:612
-#, fuzzy
-#| msgid "Workspace created."
 msgid "A workspace was created."
-msgstr "Pracovný priestor bol vytvorený."
+msgstr "Bol vytvorený pracovný priestor."
 
 #: weblate/trans/actions.py:613
 msgid "Workspace created"
 msgstr "Pracovný priestor vytvorený"
 
 #: weblate/trans/actions.py:618
-#, fuzzy
-#| msgid "Workspace setting changed"
 msgid "A workspace setting was changed."
-msgstr "Nastavenie pracovného priestoru zmenené"
+msgstr "Nastavenie pracovného priestoru bolo zmenené."
 
 #: weblate/trans/actions.py:619
 msgid "Workspace setting changed"
 msgstr "Nastavenie pracovného priestoru zmenené"
 
 #: weblate/trans/actions.py:624
-#, fuzzy
-#| msgid "The project is already assigned to this workspace."
 msgid "A project was moved into or out of a workspace."
-msgstr "Projekt je už priradený k tomuto pracovnému priestoru."
+msgstr "Projekt bol presunutý do alebo z pracovného priestoru."
 
 #: weblate/trans/actions.py:625
 msgid "Project moved"
 msgstr "Projekt presunutý"
 
 #: weblate/trans/actions.py:630
-#, fuzzy
-#| msgid "Remote repository update failed"
 msgid "A remote repository update was completed."
-msgstr "Aktualizácia vzdialeného repozitára zlyhala"
+msgstr "Aktualizácia vzdialeného repozitára bola dokončená."
 
 #: weblate/trans/actions.py:631
 msgid "Remote repository updated"
 msgstr "Vzdialený repozitár aktualizovaný"
 
 #: weblate/trans/actions.py:636
-#, fuzzy
-#| msgid "Remote repository update failed"
 msgid "Updating a remote repository failed."
-msgstr "Aktualizácia vzdialeného repozitára zlyhala"
+msgstr "Aktualizácia vzdialeného repozitára zlyhala."
 
 #: weblate/trans/actions.py:637
 msgid "Remote repository update failed"
@@ -18797,10 +18425,8 @@ msgstr "Nesprávne nakonfigurovaný jednojazyčný preklad."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:158
-#, fuzzy
-#| msgid "gettext PO file (monolingual)"
 msgid "Bilingual gettext PO file configured as monolingual."
-msgstr "gettext PO súbor (jednojazyčný)"
+msgstr "Dvojjazyčný súbor PO gettextu nakonfigurovaný ako jednojazyčný."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:199
@@ -18893,10 +18519,8 @@ msgstr "Nepodarilo sa zlúčiť repozitár."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:143
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not recover the repository."
-msgstr "Nepodarilo sa zlúčiť repozitár."
+msgstr "Nepodarilo sa obnoviť repozitár."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/vcs.py:234
@@ -19532,10 +19156,8 @@ msgid "Unfinished strings without suggestions"
 msgstr "Nedokončené reťazce bez návrhov"
 
 #: weblate/trans/filter.py:42 weblate/trans/filter.py:134
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with source comments"
-msgstr "Reťazce s komentármi"
+msgstr "Reťazce s komentármi zdroja"
 
 #: weblate/trans/filter.py:48
 msgid "Translated strings with any failing checks"
@@ -19930,22 +19552,16 @@ msgid "Repetition rate"
 msgstr "Sadzba za opakovanie"
 
 #: weblate/trans/forms.py:1880
-#, fuzzy
-#| msgid "Inherit from %(scope)s"
 msgid "Inherit from workspace"
-msgstr "Zdediť z %(scope)s"
+msgstr "Zdediť z pracovného priestoru"
 
 #: weblate/trans/forms.py:1882
-#, fuzzy
-#| msgid "Inherit from %(scope)s"
 msgid "Inherit from project"
-msgstr "Zdediť z %(scope)s"
+msgstr "Zdediť z projektu"
 
 #: weblate/trans/forms.py:1883
-#, fuzzy
-#| msgid "Inherit from %(scope)s"
 msgid "Inherit from category"
-msgstr "Zdediť z %(scope)s"
+msgstr "Zdediť z kategórie"
 
 #: weblate/trans/forms.py:1952
 msgid ""
@@ -20064,13 +19680,12 @@ msgid ""
 msgstr "Používa a prispieva do poolu zdieľaných prekladov medzi projektmi."
 
 #: weblate/trans/forms.py:3576
-#, fuzzy
-#| msgid ""
-#| "Uses and contributes to the pool of shared translations between projects."
 msgid ""
 "Uses and contributes to the pool of shared translations between projects in "
 "the workspace."
-msgstr "Používa a prispieva do poolu zdieľaných prekladov medzi projektmi."
+msgstr ""
+"Používa a prispieva do poolu zdieľaných prekladov medzi projektmi v "
+"pracovnom priestore."
 
 #: weblate/trans/forms.py:3620
 msgid ""
@@ -20302,6 +19917,7 @@ msgstr ""
 #: weblate/trans/forms.py:4558
 msgid "Turn on customization above to change these settings."
 msgstr ""
+"Zapnite vyššie uvedené prispôsobenie, aby ste mohli zmeniť tieto nastavenia."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/inherited_settings.py:17
@@ -20792,7 +20408,7 @@ msgstr ""
 #: weblate/trans/models/component.py:550
 msgid ""
 "This field is managed by the repository integration and can not be changed."
-msgstr ""
+msgstr "Toto pole je spravované integráciou repozitára a nedá sa zmeniť."
 
 #: weblate/trans/models/component.py:581
 msgid ""
@@ -21659,10 +21275,8 @@ msgid "Could not get repository status!"
 msgstr "Nepodarilo sa získať stav repozitára!"
 
 #: weblate/trans/models/component.py:6392
-#, fuzzy
-#| msgid "File in original format as translated in the repository"
 msgid "File path is in a restricted location in the repository."
-msgstr "Súbor v originálnom formáte ako preložený v repozitári"
+msgstr "Cesta k súboru je v obmedzenom umiestnení v repozitári."
 
 #: weblate/trans/models/componentlist.py:48
 msgid "Component list name"
@@ -21753,30 +21367,25 @@ msgid "Contributes to the pool of shared translations between projects."
 msgstr "Prispieva do poolu zdieľaných prekladov medzi projektmi."
 
 #: weblate/trans/models/project.py:287 weblate/workspaces/models.py:93
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Use workspace translation memory"
-msgstr "Použiť zdieľanú prekladovú pamäť"
+msgstr "Použiť prekladovú pamäť pracovného priestoru"
 
 #: weblate/trans/models/project.py:290
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid "Uses the pool of shared translations between projects in the workspace."
-msgstr "Používa pool zdieľaných prekladov medzi projektmi."
+msgstr ""
+"Používa pool zdieľaných prekladov medzi projektmi v pracovnom priestore."
 
 #: weblate/trans/models/project.py:294 weblate/workspaces/models.py:100
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to workspace translation memory"
-msgstr "Prispievať do zdieľanej prekladovej pamäte"
+msgstr "Prispievať do prekladovej pamäte pracovného priestoru"
 
 #: weblate/trans/models/project.py:297
-#, fuzzy
-#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
 "Contributes translations to the pool shared between projects in the "
 "workspace."
-msgstr "Prispieva do poolu zdieľaných prekladov medzi projektmi."
+msgstr ""
+"Prispieva prekladmi do poolu zdieľaného medzi projektmi v pracovnom "
+"priestore."
 
 #: weblate/trans/models/project.py:304
 msgid ""
@@ -21966,18 +21575,14 @@ msgid "No unused strings were found in the translation file."
 msgstr "V prekladovom súbore sa nenašli žiadne nepoužité reťazce."
 
 #: weblate/trans/models/translation.py:996
-#, fuzzy
-#| msgid "Removing duplicate strings is not supported for this file format."
 msgid "Removing obsolete strings is not supported for this file format."
 msgstr ""
-"Odstraňovanie duplicitných reťazcov nie je podporované pre tento formát "
+"Odstraňovanie zastaraných reťazcov nie je podporované pre tento formát "
 "súboru."
 
 #: weblate/trans/models/translation.py:1003
-#, fuzzy
-#| msgid "No unused strings were found in the translation file."
 msgid "No obsolete strings were found in the translation file."
-msgstr "V prekladovom súbore sa nenašli žiadne nepoužité reťazce."
+msgstr "V prekladovom súbore sa nenašli žiadne zastarané reťazce."
 
 #: weblate/trans/models/translation.py:1627
 msgid "“{}”"
@@ -22733,10 +22338,8 @@ msgstr[1] "Nasledujúce opravy boli aplikované na preklad:"
 msgstr[2] "Nasledujúce opravy boli aplikované na preklad:"
 
 #: weblate/trans/views/edit.py:163
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations."
-msgstr "Nemáte oprávnenia na pridanie nového prekladového súboru."
+msgstr "Nemáte oprávnenie na ukladanie prekladov."
 
 #: weblate/trans/views/edit.py:170
 #, python-brace-format
@@ -22797,10 +22400,8 @@ msgid "You do not have privilege to delete suggestions!"
 msgstr "Nemáte oprávnenie na vymazanie návrhov!"
 
 #: weblate/trans/views/edit.py:1021
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to vote for suggestions."
-msgstr "Nemáte oprávnenie na prijatie návrhov."
+msgstr "Nemáte oprávnenie na hlasovanie o návrhoch."
 
 #: weblate/trans/views/edit.py:1055
 msgid "Invalid suggestion!"
@@ -22921,10 +22522,8 @@ msgid "Unused strings have been removed from the translation file."
 msgstr "Nepoužité reťazce boli odstránené z prekladového súboru."
 
 #: weblate/trans/views/git.py:256
-#, fuzzy
-#| msgid "Unused strings have been removed from the translation file."
 msgid "Obsolete strings have been removed from the translation file."
-msgstr "Nepoužité reťazce boli odstránené z prekladového súboru."
+msgstr "Zastarané reťazce boli odstránené z prekladového súboru."
 
 #: weblate/trans/views/git.py:273
 msgid "Pending translations are being committed."
@@ -23143,11 +22742,9 @@ msgid "Horizontal language bar chart"
 msgstr "Horizontálny stĺpcový graf jazykov"
 
 #: weblate/trans/widgets.py:593
-#, fuzzy
-#| msgid "Languages processing"
 msgctxt "Status widget name"
 msgid "Language progress matrix"
-msgstr "Spracovanie jazykov"
+msgstr "Matica pokroku jazykov"
 
 #. Translators: status widget name
 #: weblate/trans/widgets.py:764
@@ -23343,16 +22940,12 @@ msgid "More possible users were found."
 msgstr "Bolo nájdených viac možných používateľov."
 
 #: weblate/utils/forms.py:314
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with comments by me"
-msgstr "Reťazce s komentármi"
+msgstr "Reťazce s komentármi odo mňa"
 
 #: weblate/utils/forms.py:319
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with source comments by me"
-msgstr "Reťazce s komentármi"
+msgstr "Reťazce s komentármi zdroja odo mňa"
 
 #: weblate/utils/outbound.py:148 weblate/utils/outbound.py:197
 #: weblate/utils/outbound.py:209 weblate/utils/outbound.py:219
@@ -23673,16 +23266,12 @@ msgstr ""
 "súboru."
 
 #: weblate/utils/validators.py:711
-#, fuzzy
-#| msgid ""
-#| "Code site URL should link to a user profile or repository page on a code "
-#| "hosting site."
 msgid ""
 "Code site URL should link to a user profile or repository page on a code-"
 "hosting site."
 msgstr ""
-"URL stránky kódu by mala odkazovať na profil používateľa alebo stránku "
-"repozitára na hostingovej stránke kódu."
+"URL stránky s kódom by mala odkazovať na profil používateľa alebo stránku "
+"repozitára na stránke hosťovania kódu."
 
 #: weblate/utils/validators.py:722
 msgid "Contact URL cannot include username or password credentials."
@@ -23793,10 +23382,8 @@ msgid "This will push changes to the upstream repository."
 msgstr "Tým sa odošlú zmeny do hlavného repozitára."
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1103
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid GitHub host."
-msgstr "Zadajte platný jazykový kód."
+msgstr "Zadajte platného hostiteľa GitHub."
 
 #: weblate/vcs/forms.py:63
 msgid ""
@@ -23855,21 +23442,19 @@ msgid "This will push changes to the upstream Git repository."
 msgstr "Tým sa odošlú zmeny do hlavného Git repozitára."
 
 #: weblate/vcs/git.py:323
-#, fuzzy, python-format
-#| msgid "Repository branch is required for this integration."
+#, python-format
 msgid "Repository has an interrupted Git %(operation)s operation."
-msgstr "Vetva repozitára je pre túto integráciu povinná."
+msgstr "Repozitár má prerušenú operáciu Git %(operation)s."
 
 #: weblate/vcs/git.py:343
 #, python-format
 msgid "Unsupported interrupted Git operation: %(operation)s"
-msgstr ""
+msgstr "Nepodporovaná prerušená operácia Git: %(operation)s"
 
 #: weblate/vcs/git.py:357
-#, fuzzy, python-format
-#| msgid "Could not obtain the lock to perform the operation."
+#, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
-msgstr "Nepodarilo sa získať zámok na vykonanie operácie."
+msgstr "Nepodarilo sa obnoviť prerušenú operáciu Git %(operation)s."
 
 #: weblate/vcs/git.py:526
 msgid ""
@@ -24056,10 +23641,8 @@ msgstr ""
 "priestor."
 
 #: weblate/vcs/github.py:993
-#, fuzzy
-#| msgid "GitHub installation ID"
 msgid "Invalid GitHub App installation ID."
-msgstr "ID inštalácie GitHub"
+msgstr "Neplatné ID inštalácie aplikácie GitHub."
 
 #: weblate/vcs/github.py:996
 #, python-format
@@ -24213,16 +23796,12 @@ msgstr ""
 "(%(keytype)s)."
 
 #: weblate/vcs/views.py:103
-#, fuzzy
-#| msgid ""
-#| "Select a project with a workspace before connecting a GitHub account. "
-#| "GitHub accounts are connected to workspaces."
 msgid ""
 "Create a workspace before connecting a GitHub account. GitHub App "
 "connections are linked to workspaces."
 msgstr ""
-"Pred pripojením účtu GitHub vyberte projekt s pracovným priestorom. Účty "
-"GitHub sú pripojené k pracovným priestorom."
+"Vytvorte pracovný priestor pred pripojením účtu GitHub. Pripojenia aplikácie "
+"GitHub sú prepojené s pracovnými priestormi."
 
 #: weblate/vcs/views.py:489
 #, python-format
@@ -24283,16 +23862,16 @@ msgid "You do not have permission to connect GitHub to this workspace."
 msgstr "Nemáte oprávnenie pripojiť GitHub k tomuto pracovnému priestoru."
 
 #: weblate/vcs/views.py:730
-#, fuzzy
-#| msgid "GitHub did not return an installation ID."
 msgid "GitHub did not return a valid installation ID."
-msgstr "GitHub nevrátil ID inštalácie."
+msgstr "GitHub nevrátil platné ID inštalácie."
 
 #: weblate/vcs/views.py:754
 msgid ""
 "Too many GitHub account connection attempts. The GitHub installation was not "
 "connected and might still be pending. Try connecting the account again later."
 msgstr ""
+"Príliš veľa pokusov o pripojenie účtu GitHub. Inštalácia GitHub nebola "
+"pripojená a môže byť stále čakajúca. Skúste pripojiť účet znova neskôr."
 
 #: weblate/vcs/views.py:769
 msgid ""
@@ -24305,17 +23884,14 @@ msgstr ""
 "môže spravovať organizáciu."
 
 #: weblate/vcs/views.py:795
-#, fuzzy
-#| msgid ""
-#| "GitHub is still syncing the connected account. The repositories will "
-#| "appear here once the webhook is processed."
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
 "pending and repositories might not appear yet. Try connecting the account "
 "again later if they do not show up."
 msgstr ""
-"GitHub stále synchronizuje pripojený účet. Repozitáre sa tu objavia, keď "
-"bude spracovaný webhook."
+"GitHub stále synchronizuje pripojený účet GitHub. Pripojenie je čakajúce a "
+"repozitáre sa ešte nemusia objaviť. Skúste pripojiť účet znova neskôr, ak sa "
+"nezobrazia."
 
 #: weblate/vcs/views.py:809
 msgid ""
@@ -24330,10 +23906,8 @@ msgid "Connected GitHub account added."
 msgstr "Pripojený účet GitHub bol pridaný."
 
 #: weblate/vcs/views.py:1134
-#, fuzzy
-#| msgid "Enter a valid domain name or IP address."
 msgid "Enter a valid GitHub App name and host."
-msgstr "Zadajte platný názov domény alebo IP adresu."
+msgstr "Zadajte platný názov aplikácie GitHub a hostiteľa."
 
 #: weblate/vcs/views.py:1145
 #, python-format
@@ -24345,10 +23919,8 @@ msgstr ""
 "pred registráciou inej."
 
 #: weblate/vcs/views.py:1195
-#, fuzzy
-#| msgid "GitHub did not return a registration code."
 msgid "GitHub did not return a valid registration code."
-msgstr "GitHub nevrátil registračný kód."
+msgstr "GitHub nevrátil platný registračný kód."
 
 #: weblate/vcs/views.py:1208
 msgid ""
@@ -24548,16 +24120,12 @@ msgid "Weblate status"
 msgstr "Stav Weblate"
 
 #: weblate/wladmin/views.py:178
-#, fuzzy
-#| msgid ""
-#| "Please change SITE_TITLE in settings to make your Weblate easy to "
-#| "recognize in discover."
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in Discover Weblate."
 msgstr ""
 "Prosím, zmeňte SITE_TITLE v nastaveniach, aby bolo vaše Weblate ľahko "
-"rozpoznateľné v discover."
+"rozpoznateľné v Objavte Weblate."
 
 #: weblate/wladmin/views.py:248
 msgid "Customer care ticket created:"
@@ -24577,27 +24145,20 @@ msgid ""
 "This installation is already linked to weblate.org. Use discovery settings "
 "to manage its listing."
 msgstr ""
+"Táto inštalácia je už prepojená s weblate.org. Použite nastavenia "
+"objavovania na správu jej zoznamu."
 
 #: weblate/wladmin/views.py:375
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate your installation. Invalid activation state."
-msgstr ""
-"Nepodarilo sa aktivovať vašu inštaláciu. Prosím, skúste to znova neskôr."
+msgstr "Nepodarilo sa aktivovať vašu inštaláciu. Neplatný stav aktivácie."
 
 #: weblate/wladmin/views.py:381
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate your installation. Missing activation code."
-msgstr ""
-"Nepodarilo sa aktivovať vašu inštaláciu. Prosím, skúste to znova neskôr."
+msgstr "Nepodarilo sa aktivovať vašu inštaláciu. Chýbajúci aktivačný kód."
 
 #: weblate/wladmin/views.py:387
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate your installation. Invalid activation code."
-msgstr ""
-"Nepodarilo sa aktivovať vašu inštaláciu. Prosím, skúste to znova neskôr."
+msgstr "Nepodarilo sa aktivovať vašu inštaláciu. Neplatný aktivačný kód."
 
 #: weblate/wladmin/views.py:407 weblate/wladmin/views.py:413
 #: weblate/wladmin/views.py:471 weblate/wladmin/views.py:482
@@ -24609,6 +24170,7 @@ msgstr ""
 msgid ""
 "Could not activate discovery because a support package is already linked."
 msgstr ""
+"Nepodarilo sa aktivovať objavovanie, pretože balík podpory je už prepojený."
 
 #: weblate/wladmin/views.py:437 weblate/wladmin/views.py:511
 msgid "Activation completed."
@@ -24632,6 +24194,8 @@ msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
 "disabled on weblate.org. The site may remain listed."
 msgstr ""
+"Balík podpory bol lokálne odpojený, ale Objavte Weblate sa nedalo vypnúť na "
+"weblate.org. Stránka môže zostať uvedená v zozname."
 
 #: weblate/wladmin/views.py:553
 msgid "Backup process triggered"
@@ -24666,19 +24230,19 @@ msgid "Whether Weblate can update the name automatically."
 msgstr "Či môže Weblate automaticky aktualizovať názov."
 
 #: weblate/workspaces/models.py:96
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid ""
 "Uses the pool of shared translations between projects in this workspace."
-msgstr "Používa pool zdieľaných prekladov medzi projektmi."
+msgstr ""
+"Používa pool zdieľaných prekladov medzi projektmi v tomto pracovnom "
+"priestore."
 
 #: weblate/workspaces/models.py:103
-#, fuzzy
-#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
 "Contributes translations to the pool shared between projects in this "
 "workspace."
-msgstr "Prispieva do poolu zdieľaných prekladov medzi projektmi."
+msgstr ""
+"Prispieva prekladmi do poolu zdieľaného medzi projektmi v tomto pracovnom "
+"priestore."
 
 #: weblate/workspaces/models.py:118
 msgid ""

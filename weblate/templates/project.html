@@ -18,6 +18,15 @@
     <li class="nav-item">
       <a class="nav-link" data-bs-target="#components" data-bs-toggle="tab" href="#">{% translate "Components" %}</a>
     </li>
+    {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link"
+           data-bs-target="#diagnostics"
+           data-bs-toggle="tab"
+           data-href="{% url 'js-diagnostics' path=object.get_url_path %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}"
+           href="#">{% translate "Diagnostics" %}</a>
+      </li>
+    {% endif %}
     <li class="nav-item">
       <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
     </li>
@@ -253,6 +262,12 @@
     <div class="tab-pane" id="information">
       {% show_info project=object stats=object.stats metrics=object|metrics show_source=True %}
     </div>
+
+    {% if user.is_authenticated %}
+      <div class="tab-pane" id="diagnostics">
+        <p>{% translate "Loading…" %}</p>
+      </div>
+    {% endif %}
 
     <div class="tab-pane active" id="languages">
 

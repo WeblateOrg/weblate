@@ -22,9 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-04 02:46+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-14 10:16+0000\n"
+"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -33,7 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -895,7 +894,7 @@ msgstr "Automatycznie obserwuj projekty z własnym wkładem"
 #: weblate/accounts/models.py:841
 msgid ""
 "Projects are added to your watched projects when you contribute to them."
-msgstr ""
+msgstr "Projekty są dodawane do obserwowanych, gdy bierzesz w nich udział."
 
 #: weblate/accounts/models.py:845
 msgid "Contribute to personal translation memory"
@@ -1189,19 +1188,14 @@ msgid "You were mentioned in some comments"
 msgstr "Zostałeś wspomniany w niektórych komentarzach"
 
 #: weblate/accounts/notifications.py:1032
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Your translation received a comment"
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
-msgstr "Twoje tłumaczenie otrzymało komentarz"
+msgstr "Ciąg, do którego się przyczyniłeś, otrzymał komentarz"
 
 #: weblate/accounts/notifications.py:1036
-#, fuzzy
-#| msgid "Strings with source comments"
 msgctxt "Notification name"
 msgid "Strings you contributed to received comments"
-msgstr "Teksty z komentarzami źródłowymi"
+msgstr "Ciągi, do których się przyczyniłeś, otrzymały komentarze"
 
 #: weblate/accounts/notifications.py:1118
 msgctxt "Notification name"
@@ -1493,10 +1487,8 @@ msgid "Gratis trial"
 msgstr "Bezpłatna wersja próbna"
 
 #: weblate/accounts/views.py:791 weblate/api/views.py:764
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "This user can not be edited."
-msgstr "Ciąg źródłowy nie może być edytowany."
+msgstr "Tego użytkownika nie można edytować."
 
 #: weblate/accounts/views.py:819
 #, python-format
@@ -1882,19 +1874,16 @@ msgstr ""
 #: weblate/addons/fedora_messaging.py:204
 #, python-format
 msgid "Message ID: %(message_id)s"
-msgstr ""
+msgstr "Identyfikator wiadomości: %(message_id)s"
 
 #: weblate/addons/fedora_messaging.py:456
-#, fuzzy, python-format
-#| msgid ""
-#| "Fedora Messaging publish timed out; the broker did not confirm delivery: "
-#| "%(error)s"
+#, python-format
 msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
 msgstr ""
-"Przekroczono limit czasu publikacji Fedora Messaging; broker nie potwierdził "
-"dostarczenia: %(error)s"
+"Przekroczono limit czasu publikacji Fedora Messaging; połączenie z brokerem "
+"lub potwierdzenie dostawy nie zostało ukończone: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:460
 #, python-format
@@ -1925,10 +1914,8 @@ msgid "configured"
 msgstr "skonfigurowano"
 
 #: weblate/addons/fedora_messaging.py:611
-#, fuzzy
-#| msgid "Fedora Messaging publish failed: %(error)s"
 msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Publikacja Fedora Messaging nie powiodła się: %(error)s"
+msgstr "Nie udało się zresetować usługi publikacji Fedora Messaging."
 
 #: weblate/addons/fedora_messaging.py:701
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2100,34 +2087,29 @@ msgstr ""
 "zaktualizowaniu pliku POT."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Położenie ciągu źródłowego"
+msgstr "Lokalizacje źródeł"
 
 #: weblate/addons/forms.py:186
-#, fuzzy
-#| msgid "Use default setting"
 msgid "Use file format settings"
-msgstr "Użyj ustawienia domyślnego"
+msgstr "Użyj ustawień formatu pliku"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid "Extract strings from HTML files"
 msgid "Extract locations to the POT file"
-msgstr "Wyodrębnianie ciągów z plików HTML"
+msgstr "Wyodrębnij lokalizacje do pliku POT"
 
 #: weblate/addons/forms.py:188
-#, fuzzy
-#| msgid "Do not extract comments"
 msgid "Do not extract locations"
-msgstr "Nie wyodrębniaj komentarzy"
+msgstr "Nie wyodrębniaj lokalizacji"
 
 #: weblate/addons/forms.py:193
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Wybierz sposób, w jaki wyodrębnienie zapisuje lokalizacje źródłowe do pliku "
+"POT. Użyj tej opcji, aby zachować lokalizacje w szablonie, pomijając je w "
+"przetłumaczonych plikach PO."
 
 #: weblate/addons/forms.py:238
 msgid "Do not extract comments"
@@ -2759,11 +2741,12 @@ msgstr "Adres URL brokera AMQP, z którym chcesz się połączyć."
 
 #: weblate/addons/forms.py:1655
 msgid "Topic prefix"
-msgstr ""
+msgstr "Prefiks tematu"
 
 #: weblate/addons/forms.py:1657
 msgid "Optional prefix to prepend to generated message topics."
 msgstr ""
+"Opcjonalny prefiks dodawany na początku generowanych tematów wiadomości."
 
 #: weblate/addons/forms.py:1663
 msgid "CA certificate bundle (PEM)"
@@ -2828,15 +2811,13 @@ msgstr ""
 "Ile sekund należy odczekać między kolejnymi próbami nawiązania połączenia."
 
 #: weblate/addons/forms.py:1755
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "Ciąg zawiera znak kontrolny: %s"
+msgstr "Prefiks tematu może zawierać tylko znaki ASCII."
 
 #: weblate/addons/forms.py:1760
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "Prefiks tematu nie może przekraczać %(limit)d znaków."
 
 #: weblate/addons/forms.py:1794
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3124,82 +3105,67 @@ msgstr ""
 "prefiks `wlp_`."
 
 #: weblate/api/docs.py:52
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "Sukces (zielony)"
+msgstr "Odpowiedź pomyślna."
 
 #: weblate/api/docs.py:53
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "Klucz zabezpieczający został usunięty."
+msgstr "Zasób został utworzony."
 
 #: weblate/api/docs.py:54
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "Żądanie zostało zaakceptowane do przetwarzania asynchronicznego."
 
 #: weblate/api/docs.py:55
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "Odpowiedź udana bez treści odpowiedzi."
 
 #: weblate/api/docs.py:56
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "Nie udało się nawiązać kontaktu z dostawcą uwierzytelniania."
+msgstr "Żądanie jest nieprawidłowe lub nie można go przeanalizować."
 
 #: weblate/api/docs.py:57
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "Brak danych uwierzytelniających lub są one nieprawidłowe."
 
 #: weblate/api/docs.py:59
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "Nie masz uprawnień dostępu do tego komponentu."
+msgstr "Uwierzytelniony użytkownik nie ma uprawnień do wykonania tej operacji."
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
-msgstr ""
+msgstr "Żądany zasób nie został znaleziony lub jest niedostępny."
 
 #: weblate/api/docs.py:62
 msgid "The HTTP method is not allowed for this resource."
-msgstr ""
+msgstr "Metoda HTTP nie jest dozwolona dla tego zasobu."
 
 #: weblate/api/docs.py:63
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "Wprowadzony token jest nieprawidłowy."
+msgstr "Żądany typ nośnika odpowiedzi jest niedostępny."
 
 #: weblate/api/docs.py:64
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The request media type is not supported."
-msgstr "Wykryty format pliku nie jest obsługiwany."
+msgstr "Żądany typ nośnika nie jest obsługiwany."
 
 #: weblate/api/docs.py:65
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "The resource is locked."
-msgstr "Plik zasobów .Net"
+msgstr "Zasób jest zablokowany."
 
 #: weblate/api/docs.py:66
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "Przekroczono limit liczby żądań API."
 
 #: weblate/api/docs.py:67
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "Wystąpił błąd przetwarzania"
+msgstr "Wystąpił nieoczekiwany błąd serwera."
 
 #: weblate/api/docs.py:238
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
+"Filtruj według działania zmiany. Powtórz ten parametr, aby filtrować według "
+"wielu działań."
 
 #: weblate/api/docs.py:423
 msgid "Allowed number of requests to perform"
@@ -3283,10 +3249,8 @@ msgid "You do not have permission to access this component."
 msgstr "Nie masz uprawnień dostępu do tego komponentu."
 
 #: weblate/api/serializers.py:1597 weblate/trans/forms.py:2259
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr "Nie masz uprawnień do zmiany ustawień kontroli dostępu do projektu."
+msgstr "Nie masz uprawnień do zmiany ograniczonego dostępu."
 
 #: weblate/api/serializers.py:2025 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -4265,10 +4229,9 @@ msgstr ""
 "dodatkowego limitu."
 
 #: weblate/auth/models.py:530
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "Nieprawidłowy adres e-mail: {}"
+msgstr "Wewnętrzny adres e-mail bota jest za długi: %s"
 
 #: weblate/auth/models.py:796 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:269
@@ -4372,28 +4335,20 @@ msgid "Suggest full name for the user. It can be changed later."
 msgstr "Zaproponuj pełną nazwę użytkownika. Można ją później zmienić."
 
 #: weblate/auth/permissions.py:206
-#, fuzzy
-#| msgid "You do not have permission to edit the target workspace."
 msgid "You do not have permission to edit glossary entries."
-msgstr "Nie masz uprawnień do edycji docelowego obszaru roboczego."
+msgstr "Nie masz uprawnień do edycji wpisów w słowniku."
 
 #: weblate/auth/permissions.py:208
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to add glossary entries."
-msgstr "Nie masz uprawnień do zatwierdzania ciągów."
+msgstr "Nie masz uprawnień do dodawania wpisów do słownika."
 
 #: weblate/auth/permissions.py:210
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to delete glossary entries."
-msgstr "Nie masz uprawnień do zatwierdzania ciągów."
+msgstr "Nie masz uprawnień do usuwania wpisów w słowniku."
 
 #: weblate/auth/permissions.py:212
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to upload glossary entries."
-msgstr "Nie masz uprawnień do zatwierdzania ciągów."
+msgstr "Nie masz uprawnień do przesyłania wpisów do słownika."
 
 #: weblate/auth/permissions.py:372
 msgid "Can not perform this operation without an e-mail address."
@@ -4427,37 +4382,29 @@ msgid "Sign in to save translations."
 msgstr "Zaloguj się, aby zapisać tłumaczenia."
 
 #: weblate/auth/permissions.py:419
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to approve translations in this restricted "
 "component."
-msgstr "Nie masz uprawnień dostępu do tego komponentu."
+msgstr ""
+"Nie masz uprawnień do zatwierdzania tłumaczeń w tym ograniczonym komponencie."
 
 #: weblate/auth/permissions.py:424
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to save translations in this restricted component."
-msgstr "Nie masz uprawnień dostępu do tego komponentu."
+msgstr ""
+"Nie masz uprawnień do zapisywania tłumaczeń w tym ograniczonym komponencie."
 
 #: weblate/auth/permissions.py:429
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to approve translations."
-msgstr "Nie masz uprawnień do zatwierdzania ciągów."
+msgstr "Nie masz uprawnień do zatwierdzania tłumaczeń."
 
 #: weblate/auth/permissions.py:434
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations in this project."
-msgstr "Nie masz uprawnień do dodawania nowego pliku tłumaczenia."
+msgstr "Nie masz uprawnień do zapisywania tłumaczeń w tym projekcie."
 
 #: weblate/auth/permissions.py:443 weblate/auth/permissions.py:922
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to edit source strings."
-msgstr "Nie masz uprawnień do zatwierdzania ciągów."
+msgstr "Nie masz uprawnień do edycji ciągów źródłowych."
 
 #: weblate/auth/permissions.py:447
 msgid "Suggestion voting is disabled."
@@ -4468,6 +4415,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"To tłumaczenie jest skonfigurowane do głosowania na sugestie. Dodaj sugestię "
+"zamiast zapisywać bezpośrednie tłumaczenie."
 
 #: weblate/auth/permissions.py:463
 #: weblate/templates/snippets/project/state.html:4
@@ -4541,18 +4490,20 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Utwórz komponent i przyznaj sobie jawny dostęp przed włączeniem "
+"ograniczonego dostępu."
 
 #: weblate/auth/permissions.py:1106
-#, fuzzy
-#| msgid "This billing plan covers the following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "Ten plan rozliczeniowy obejmuje następujące projekty:"
+msgstr "Plan rozliczeniowy nie umożliwia prywatnej kontroli dostępu."
 
 #: weblate/auth/permissions.py:1114
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"Musisz mieć jawny dostęp do tego komponentu, zanim włączysz ograniczony "
+"dostęp; w przeciwnym razie zablokujesz sobie dostęp."
 
 #: weblate/auth/utils.py:100
 msgid "The anonymous user can not be assigned to teams."
@@ -4594,15 +4545,15 @@ msgid "Billing plan"
 msgstr "Plan rozliczeniowy"
 
 #: weblate/billing/forms.py:50
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "Rozpoczęto okres próbny."
+msgstr "Zresetuj okres próbny"
 
 #: weblate/billing/forms.py:53
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"Ustaw tę formę rozliczeń na standardowy okres próbny i wyczyść zaplanowane "
+"usunięcie."
 
 #: weblate/billing/models.py:236 weblate/templates/billing/list.html:6
 #: weblate/templates/trans/component_create.html:203
@@ -4779,10 +4730,8 @@ msgid "Billing event"
 msgstr "Zdarzenie płatności"
 
 #: weblate/billing/models.py:1236
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
-msgstr "Adres e-mail został zmieniony z {old} na {new}."
+msgstr "Zmieniono z „{}” na „{}”."
 
 #: weblate/billing/tasks.py:97
 msgid ""
@@ -4993,13 +4942,11 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Brak niełamliwej spacji przed podwójnym znakiem interpunkcyjnym."
 
 #: weblate/checks/chars.py:680
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign."
 msgid "Missing non breakable space before punctuation mark {}."
 msgid_plural "Missing non breakable space before punctuation marks {}."
-msgstr[0] "Brak niełamliwej spacji przed podwójnym znakiem interpunkcyjnym."
-msgstr[1] "Brak niełamliwej spacji przed podwójnym znakiem interpunkcyjnym."
-msgstr[2] "Brak niełamliwej spacji przed podwójnym znakiem interpunkcyjnym."
+msgstr[0] "Brak niełamliwej spacji przed znakiem interpunkcyjnym {}."
+msgstr[1] "Brak niełamliwej spacji przed znakami interpunkcyjnymi {}."
+msgstr[2] "Brak niełamliwej spacji przed znakami interpunkcyjnymi {}."
 
 #: weblate/checks/chars.py:730
 msgid "Multiple capitals"
@@ -7344,10 +7291,8 @@ msgstr ""
 "ogólnego."
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "Wpisz prawidłowy kod języka."
+msgstr "Wpisz prawidłową nazwę regionu platformy Azure."
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7693,28 +7638,19 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:709
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (zalecany)"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:713
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:717
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:719
 msgctxt "Anthropic model selection"
@@ -7829,52 +7765,39 @@ msgstr "Projekt"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:123
 #: weblate/memory/models.py:1250
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory scope"
 msgid "Workspace"
 msgstr "Obszar roboczy"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:127
 #: weblate/memory/models.py:1251
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory scope"
 msgid "Shared"
-msgstr "Udostępnij"
+msgstr "Udostępniony"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1252
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "Osobiste: {}"
+msgstr "Osobisty"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1253
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Plik"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:140
 #: weblate/memory/models.py:1254
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "Nazwa projektu"
+msgstr "Plik projektu"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:146
 #: weblate/memory/models.py:1255
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "Informacje osobowe"
+msgstr "Plik osobisty"
 
 #: weblate/memory/models.py:539
 #, python-format
@@ -7946,17 +7869,13 @@ msgid "File: {}"
 msgstr "Plik: {}"
 
 #: weblate/memory/models.py:1033 weblate/memory/models.py:1061
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory category"
 msgid "Workspace: {}"
-msgstr "Obszar roboczy"
+msgstr "Obszar roboczy: {}"
 
 #: weblate/memory/views.py:88
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Wpisz prawidłowy kod języka."
+msgstr "Nieprawidłowy identyfikator języka."
 
 #: weblate/memory/views.py:126
 msgid "Entries were deleted."
@@ -8777,13 +8696,12 @@ msgid "Your trial"
 msgstr "Twoja próba"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "Będziesz miał 14 dni na przygotowanie swojego projektu."
-msgstr[1] "Będziesz miał 14 dni na przygotowanie swojego projektu."
-msgstr[2] "Będziesz miał 14 dni na przygotowanie swojego projektu."
+msgstr[0] "Będziesz mieć %(days)s dzień na skonfigurowanie swojego projektu."
+msgstr[1] "Będziesz mieć %(days)s dni na skonfigurowanie swojego projektu."
+msgstr[2] "Będziesz mieć %(days)s dni na skonfigurowanie swojego projektu."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -9000,24 +8918,18 @@ msgstr "Dodaj nową tożsamość użytkownika"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/templates/workspace.html:58 weblate/wladmin/views.py:128
-#, fuzzy
-#| msgid "code-hosting installations"
 msgid "Code-hosting connections"
-msgstr "instalacje hostingu kodu"
+msgstr "Połączenia z hostingiem kodu"
 
 #: weblate/templates/accounts/profile.html:264
-#, fuzzy
-#| msgid "Manage code hosting accounts connected to workspaces you administer."
 msgid "Manage code-hosting accounts connected to workspaces you administer."
 msgstr ""
 "Zarządzaj kontami hostingu kodu połączonymi z administrowanymi przez Ciebie "
 "obszarami roboczymi."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "pending code-hosting installations"
 msgid "Manage code-hosting connections"
-msgstr "oczekujące instalacje hostingu kodu"
+msgstr "Zarządzaj połączeniami z hostingiem kodu"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:425
@@ -9550,13 +9462,12 @@ msgid "Your trial offer"
 msgstr "Twoja oferta próbna"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "Okres próbny potrwa 14 dni."
-msgstr[1] "Okres próbny potrwa 14 dni."
-msgstr[2] "Okres próbny potrwa 14 dni."
+msgstr[0] "Twój okres próbny potrwa %(days)s dzień."
+msgstr[1] "Twój okres próbny potrwa %(days)s dni."
+msgstr[2] "Twój okres próbny potrwa %(days)s dni."
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -10797,30 +10708,24 @@ msgid "Terminate recurring payment"
 msgstr "Zakończ płatność cykliczną"
 
 #: weblate/templates/billing/detail-content.html:44
-#, fuzzy
-#| msgid "Open in Zen mode"
 msgid "Open in Django admin"
-msgstr "Otwórz w trybie Zen"
+msgstr "Otwórz w panelu administracyjnym Django"
 
 #: weblate/templates/billing/detail-content.html:51
 msgid "Terminate billing plan"
 msgstr "Przerwij abonament"
 
 #: weblate/templates/billing/detail-content.html:62
-#, fuzzy
-#| msgid "Manage billing"
 msgid "Merge billing"
-msgstr "Zarządzaj rozliczeniami"
+msgstr "Scal rozliczenia"
 
 #: weblate/templates/billing/detail-content.html:66
 msgid "Review merge"
 msgstr "Przejrzyj scalenie"
 
 #: weblate/templates/billing/detail-content.html:74
-#, fuzzy
-#| msgid "Change plan"
 msgid "Change billing plan"
-msgstr "Zmień plan"
+msgstr "Zmień plan rozliczeniowy"
 
 #: weblate/templates/billing/detail-content.html:81
 #: weblate/templates/billing/status.html:13
@@ -11646,10 +11551,6 @@ msgstr ""
 "Pobierasz zmiany ze zdalnego repozytorium do Weblate w następujący sposób:"
 
 #: weblate/templates/data.html:148
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid ""
 "Weblate also supports direct notifications from several code-hosting sites:"
 msgstr ""
@@ -12201,28 +12102,24 @@ msgstr ""
 "automatycznie."
 
 #: weblate/templates/js/git-status.html:261
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Remove obsolete"
-msgstr "Usuń przestarzałe ciągi"
+msgstr "Usuń przestarzałe"
 
 #: weblate/templates/js/git-status.html:262
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Remove obsolete strings from the translation file"
-msgstr "Usuń nieużywane ciągi z pliku tłumaczenia"
+msgstr "Usuń przestarzałe ciągi z pliku tłumaczenia"
 
 #: weblate/templates/js/git-status.html:264
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Removes obsolete strings from PO files."
-msgstr "Usuń przestarzałe ciągi"
+msgstr "Usuwa przestarzałe ciągi z plików PO."
 
 #: weblate/templates/js/git-status.html:265
 msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"Użyj tej opcji, gdy przestarzałe wpisy mają zostać usunięte bez włączania "
+"automatycznego usuwania przy zapisywaniu."
 
 #: weblate/templates/js/git-status.html:271
 msgid "Use these operations with caution, they rewrite the translation file."
@@ -13363,10 +13260,8 @@ msgid "Manage support package"
 msgstr "Zarządzaj pakietem wsparcia"
 
 #: weblate/templates/manage/index.html:78
-#, fuzzy
-#| msgid "Unlink support package"
 msgid "Unlink support package and disable Discover Weblate"
-msgstr "Odłącz pakiet wsparcia"
+msgstr "Odłącz pakiet wsparcia i wyłącz Odkryj Weblate"
 
 #: weblate/templates/manage/index.html:80
 msgid "Unlink support package"
@@ -13394,12 +13289,16 @@ msgid ""
 "Discover Weblate helps translators find Weblate sites and projects to "
 "contribute to."
 msgstr ""
+"Odkryj Weblate pomaga tłumaczom znaleźć strony i projekty Weblate, do "
+"których mogą się przyczynić."
 
 #: weblate/templates/manage/index.html:119
 msgid ""
 "When enabled, weblate.org lists your site details and public or protected "
 "projects."
 msgstr ""
+"Po włączeniu weblate.org wyświetla szczegóły Twojej witryny oraz projekty "
+"publiczne lub chronione."
 
 #: weblate/templates/manage/index.html:123
 msgid "Your Weblate is listed on weblate.org"

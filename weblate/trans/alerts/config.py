@@ -81,7 +81,10 @@ class BillingLimit(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Your billing plan has exceeded its limits.")
 
-    def can_user_act(self, user: User, component: Component) -> bool:
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, _details: dict[str, Any]
+    ) -> bool:
         workspace = component.project.workspace
         return workspace is not None and bool(
             user.has_perm("workspace.edit", workspace)
@@ -317,9 +320,12 @@ class UnusedScreenshot(BaseAlert):
     doc_page = "admin/translating"
     doc_anchor = "screenshots"
 
-    def can_user_act(self, user: User, component: Component) -> bool:
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
         return (
-            super().can_user_act(user, component)
+            super().can_user_act_for(user, component, details)
             or bool(user.has_perm("screenshot.edit", component))
             or bool(user.has_perm("screenshot.delete", component))
         )
@@ -358,8 +364,11 @@ class AmbiguousLanguage(BaseAlert):
     doc_page = "admin/languages"
     doc_anchor = "ambiguous-languages"
 
-    def can_user_act(self, user: User, component: Component) -> bool:
-        return super().can_user_act(user, component) or bool(
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
             user.has_perm("language.edit")
         )
 
@@ -406,8 +415,11 @@ class UnusedEnforcedCheck(BaseAlert):
     doc_page = "admin/checks"
     doc_anchor = "enforcing-checks"
 
-    def can_user_act(self, user: User, component: Component) -> bool:
-        return super().can_user_act(user, component) or bool(
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
             user.has_perm("source.edit", component)
         )
 
@@ -460,8 +472,11 @@ class UnusedGlossaryLanguage(MultiAlert):
     verbose = gettext_lazy("Unused glossary language.")
     doc_page = "user/glossary"
 
-    def can_user_act(self, user: User, component: Component) -> bool:
-        return super().can_user_act(user, component) or bool(
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
             user.has_perm("translation.delete", component)
         )
 

@@ -10,12 +10,15 @@ import tempfile
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, cast
+from typing import cast
 from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
+from django.db import connection
+from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.test import SimpleTestCase, override_settings
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
 
@@ -24,15 +27,21 @@ from weblate.addons.models import Addon
 from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.alerts.base import AlertSeverity
+from weblate.trans.alerts.base import AlertSeverity, MultiAlert
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.alerts.vcs import UpdateFailure
-from weblate.trans.models import Component, Project, Unit
+from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
+from weblate.trans.models import (
+    Category,
+    Component,
+    ComponentLink,
+    Project,
+    Unit,
+)
+from weblate.trans.models.alert import Alert
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.vcs.models import VCS_REGISTRY
-
-if TYPE_CHECKING:
-    from weblate.trans.models.alert import Alert
+from weblate.workspaces.models import Workspace
 
 
 class WebsiteAlertSettingTest(ViewTestCase):
@@ -148,6 +157,376 @@ class AlertTest(ViewTestCase):
             self.component.alert_set.filter(
                 severity__gte=AlertSeverity.ERROR
             ).values_list("name", flat=True)
+        )
+
+    @staticmethod
+    def get_diagnostics_group(response, name: str):
+        return next(
+            group for group in response.context["diagnostics"] if group.name == name
+        )
+
+    def get_diagnostics_response(self, obj=None, data=None):
+        obj = obj or self.project
+        return self.client.get(
+            reverse("js-diagnostics", kwargs={"path": obj.get_url_path()}), data
+        )
+
+    def test_project_diagnostics_loads_lazily_for_authenticated_users(self) -> None:
+        with patch("weblate.trans.views.js.get_diagnostics_context") as get_diagnostics:
+            response = self.client.get(
+                self.project.get_absolute_url(),
+                {"diagnostic_state": "dismissed"},
+            )
+
+        self.assertContains(response, 'data-bs-target="#diagnostics"')
+        self.assertContains(
+            response,
+            f"{reverse('js-diagnostics', kwargs={'path': self.project.get_url_path()})}?diagnostic_state=dismissed",
+        )
+        get_diagnostics.assert_not_called()
+
+    def test_project_diagnostics_requires_authentication(self) -> None:
+        url = reverse("js-diagnostics", kwargs={"path": self.project.get_url_path()})
+        self.client.logout()
+
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertNotContains(response, 'data-bs-target="#diagnostics"')
+        response = self.client.get(url)
+        self.assertRedirects(response, f"{reverse('login')}?next={url}")
+
+    def test_project_diagnostics_group_by_type(self) -> None:
+        other = self._create_component(
+            "po", "other/*.po", project=self.project, name="Other"
+        )
+        self.component.add_alert(
+            "ParseError", occurrences=[{"filename": "first.po", "error": "first"}]
+        )
+        other.add_alert(
+            "ParseError", occurrences=[{"filename": "second.po", "error": "second"}]
+        )
+        self.component.add_alert("MissingTranslationInstructions")
+        other.add_alert("MissingTranslationInstructions")
+
+        response = self.get_diagnostics_response()
+
+        parse_group = self.get_diagnostics_group(response, "ParseError")
+        self.assertEqual(parse_group.components, [other, self.component])
+        instructions_group = self.get_diagnostics_group(
+            response, "MissingTranslationInstructions"
+        )
+        self.assertEqual(instructions_group.projects, [self.project])
+        self.assertEqual(instructions_group.active_count, 2)
+        self.assertEqual(instructions_group.project_components, [(self.project, other)])
+        self.assertContains(
+            response,
+            f"{other.get_absolute_url()}?alerts=1#alerts",
+        )
+
+    def test_project_diagnostics_caps_component_links(self) -> None:
+        components = Component.objects.bulk_create(
+            [
+                Component(
+                    name=f"Component {index:02}",
+                    slug=f"component-{index:02}",
+                    project=self.project,
+                    repo="local:",
+                    filemask=f"component-{index:02}/*.po",
+                    file_format="po",
+                )
+                for index in range(DIAGNOSTICS_LINK_LIMIT + 2)
+            ]
+        )
+        Alert.objects.bulk_create(
+            [
+                Alert(
+                    component=component,
+                    name="ParseError",
+                    severity=AlertSeverity.ERROR,
+                    details={"occurrences": []},
+                )
+                for component in components
+            ]
+        )
+
+        response = self.get_diagnostics_response()
+        group = self.get_diagnostics_group(response, "ParseError")
+
+        self.assertEqual(len(group.components), DIAGNOSTICS_LINK_LIMIT)
+        self.assertEqual(group.affected_count, DIAGNOSTICS_LINK_LIMIT + 2)
+        self.assertEqual(group.hidden_count, 2)
+        self.assertContains(response, "2 more affected components.")
+
+    def test_workspace_diagnostics_caps_project_links(self) -> None:
+        workspace = Workspace.objects.create(name="Large diagnostics workspace")
+        projects = Project.objects.bulk_create(
+            [
+                Project(
+                    name=f"Project {index:02}",
+                    slug=f"project-{index:02}",
+                    web="https://example.com/",
+                    workspace=workspace,
+                )
+                for index in range(DIAGNOSTICS_LINK_LIMIT + 2)
+            ]
+        )
+        components = Component.objects.bulk_create(
+            [
+                Component(
+                    name="Component",
+                    slug="component",
+                    project=project,
+                    repo="local:",
+                    filemask="*.po",
+                    file_format="po",
+                )
+                for project in projects
+            ]
+        )
+        Alert.objects.bulk_create(
+            [
+                Alert(
+                    component=component,
+                    name="MissingTranslationInstructions",
+                    severity=AlertSeverity.INFO,
+                )
+                for component in components
+            ]
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            context = get_diagnostics_context(
+                QueryDict(),
+                self.user,
+                Component.objects.filter(project__in=projects),
+            )
+        group = next(
+            item
+            for item in context["diagnostics"]
+            if item.name == "MissingTranslationInstructions"
+        )
+
+        self.assertEqual(len(group.projects), DIAGNOSTICS_LINK_LIMIT)
+        self.assertEqual(group.affected_count, DIAGNOSTICS_LINK_LIMIT + 2)
+        self.assertEqual(group.hidden_count, 2)
+        self.assertTrue(
+            any(
+                "ROW_NUMBER()" in query["sql"] and "<= 20" in query["sql"]
+                for query in queries
+            )
+        )
+
+    def test_project_diagnostics_prefetch_category_ancestors(self) -> None:
+        root = Category.objects.create(name="Root", slug="root", project=self.project)
+        parent = Category.objects.create(
+            name="Parent", slug="parent", project=self.project, category=root
+        )
+        category = Category.objects.create(
+            name="Category", slug="category", project=self.project, category=parent
+        )
+        component = self._create_component(
+            "po",
+            "categorized/*.po",
+            project=self.project,
+            category=category,
+            name="Categorized",
+        )
+        component.add_alert("ParseError", occurrences=[])
+
+        response = self.get_diagnostics_response()
+        group = self.get_diagnostics_group(response, "ParseError")
+        categorized = next(
+            current for current in group.components if current.pk == component.pk
+        )
+
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                categorized.get_absolute_url(),
+                "/projects/test/root/parent/category/categorized/",
+            )
+        self.assertIn("commit_message", categorized.get_deferred_fields())
+        self.assertIn("instructions", categorized.project.get_deferred_fields())
+
+    def test_project_diagnostics_actionable_does_not_construct_multi_alert(
+        self,
+    ) -> None:
+        self.component.add_alert("DuplicateString", occurrences=[])
+        self.make_manager()
+        self.user.clear_permissions_cache()
+
+        with patch.object(
+            MultiAlert,
+            "process_occurrences",
+            side_effect=AssertionError("MultiAlert was constructed"),
+        ):
+            context = get_diagnostics_context(
+                QueryDict("diagnostic_actionable=on"),
+                self.user,
+                Component.objects.filter(pk=self.component.pk),
+            )
+
+        self.assertIn(
+            "DuplicateString", {group.name for group in context["diagnostics"]}
+        )
+
+    def test_project_diagnostics_bulk_loads_actionable_addons(self) -> None:
+        other = self._create_component(
+            "po", "other/*.po", project=self.project, name="Other"
+        )
+        role = Role.objects.create(name="Diagnostics add-on manager")
+        role.permissions.add(Permission.objects.get(codename="management.addons"))
+        group = Group.objects.create(name="Diagnostics add-on managers")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("management.addons"))
+        addon = Addon.objects.create(name="weblate.gettext.msgmerge")
+        details = {
+            "occurrences": [
+                {
+                    "addon": addon.name,
+                    "addon_id": str(addon.pk),
+                    "command": "msgmerge",
+                    "error": "failure",
+                }
+            ]
+        }
+        self.component.add_alert("MsgmergeAddonError", **details)
+        other.add_alert("MsgmergeAddonError", **details)
+
+        with (
+            patch.object(
+                MultiAlert,
+                "process_occurrences",
+                side_effect=AssertionError("MultiAlert was constructed"),
+            ),
+            self.assertNumQueries(11),
+        ):
+            context = get_diagnostics_context(
+                QueryDict("diagnostic_actionable=on"),
+                self.user,
+                Component.objects.filter(project=self.project),
+            )
+
+        group = next(
+            item for item in context["diagnostics"] if item.name == "MsgmergeAddonError"
+        )
+        self.assertEqual(group.components, [other, self.component])
+
+    def test_project_diagnostics_filters(self) -> None:
+        self.component.add_alert("ParseError", occurrences=[])
+        self.component.add_alert("UnusedScreenshot")
+        dismissed = self.component.alert_set.get(name="UnusedScreenshot")
+        dismissed.dismiss(self.user)
+
+        response = self.get_diagnostics_response()
+        names = {group.name for group in response.context["diagnostics"]}
+        self.assertIn("ParseError", names)
+        self.assertNotIn("UnusedScreenshot", names)
+
+        response = self.get_diagnostics_response(
+            data={
+                "diagnostic_state": "dismissed",
+                "diagnostic_severity": AlertSeverity.WARNING,
+                "diagnostic_category": "configuration",
+            },
+        )
+        self.assertEqual(
+            {group.name for group in response.context["diagnostics"]},
+            {"UnusedScreenshot"},
+        )
+
+        other = self._create_component(
+            "po", "other/*.po", project=self.project, name="Other"
+        )
+        other.add_alert("UnusedScreenshot")
+        response = self.get_diagnostics_response(
+            data={
+                "diagnostic_state": "all",
+                "diagnostic_severity": AlertSeverity.WARNING,
+                "diagnostic_category": "configuration",
+            },
+        )
+        group = self.get_diagnostics_group(response, "UnusedScreenshot")
+        self.assertEqual(group.active_count, 1)
+        self.assertEqual(group.dismissed_count, 1)
+
+    def test_project_diagnostics_actionable_filter(self) -> None:
+        self.component.add_alert("MissingTranslationInstructions")
+        self.component.add_alert("MissingScreenshots")
+        query = {"diagnostic_actionable": "on"}
+
+        response = self.get_diagnostics_response(data=query)
+        self.assertEqual(response.context["diagnostics"], [])
+
+        self.make_manager()
+        self.client.login(username="testuser", password="testpassword")
+        response = self.get_diagnostics_response(data=query)
+        self.assertIn(
+            "MissingTranslationInstructions",
+            {group.name for group in response.context["diagnostics"]},
+        )
+        response = self.get_diagnostics_response(
+            data={
+                **query,
+                "diagnostic_severity": AlertSeverity.INFO,
+            }
+        )
+        self.assertEqual(
+            {group.name for group in response.context["diagnostics"]},
+            {"MissingScreenshots"},
+        )
+
+    def test_project_diagnostics_excludes_shared_and_restricted_components(
+        self,
+    ) -> None:
+        target = Project.objects.create(
+            name="Shared target", slug="shared-target", web="https://example.com/"
+        )
+        ComponentLink.objects.create(component=self.component, project=target)
+        self.component.add_alert("ParseError", occurrences=[])
+
+        response = self.get_diagnostics_response(target)
+        self.assertEqual(response.context["diagnostics"], [])
+
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        response = self.get_diagnostics_response()
+        self.assertEqual(response.context["diagnostics"], [])
+
+    def test_workspace_diagnostics_group_across_projects(self) -> None:
+        workspace = Workspace.objects.create(name="Diagnostics workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        other_project = self.create_project(
+            name="Other project", slug="other-project", workspace=workspace
+        )
+        other = self._create_component(
+            "po", "other/*.po", project=other_project, name="Other"
+        )
+        self.component.add_alert("ParseError", occurrences=[])
+        other.add_alert("ParseError", occurrences=[])
+        self.component.add_alert("MissingTranslationInstructions")
+        other.add_alert("MissingTranslationInstructions")
+
+        with patch("weblate.trans.views.js.get_diagnostics_context") as get_diagnostics:
+            page_response = self.client.get(workspace.get_absolute_url())
+        self.assertContains(page_response, 'data-bs-target="#diagnostics"')
+        self.assertContains(
+            page_response,
+            reverse("js-diagnostics", kwargs={"path": workspace.get_url_path()}),
+        )
+        get_diagnostics.assert_not_called()
+
+        response = self.get_diagnostics_response(workspace)
+
+        parse_group = self.get_diagnostics_group(response, "ParseError")
+        self.assertEqual(parse_group.components, [other, self.component])
+        instructions_group = self.get_diagnostics_group(
+            response, "MissingTranslationInstructions"
+        )
+        self.assertEqual(
+            instructions_group.projects,
+            [other_project, self.project],
         )
 
     def test_duplicates(self) -> None:

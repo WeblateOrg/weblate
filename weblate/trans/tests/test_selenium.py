@@ -2251,6 +2251,148 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("component-diagnostics.png")
         self.assert_text_contains("#alerts", "Define translation instructions")
 
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_diagnostics_overviews(self) -> None:
+        """Test project and workspace diagnostics overviews."""
+        workspace = Workspace.objects.create(name="Product localization")
+        website = Project.objects.create(
+            name="Website translations",
+            slug="website-translations",
+            web="https://example.com/website/",
+            workspace=workspace,
+        )
+        mobile = Project.objects.create(
+            name="Mobile applications",
+            slug="mobile-applications",
+            web="https://example.com/mobile/",
+            workspace=workspace,
+        )
+        checkout, account, android, ios = Component.objects.bulk_create(
+            [
+                Component(
+                    name="Checkout interface",
+                    slug="checkout-interface",
+                    project=website,
+                    repo="local:",
+                    filemask="checkout/*.po",
+                    file_format="po",
+                ),
+                Component(
+                    name="Account emails",
+                    slug="account-emails",
+                    project=website,
+                    repo="local:",
+                    filemask="account/*.po",
+                    file_format="po",
+                ),
+                Component(
+                    name="Android application",
+                    slug="android-application",
+                    project=mobile,
+                    repo="local:",
+                    filemask="android/*.po",
+                    file_format="po",
+                ),
+                Component(
+                    name="iOS application",
+                    slug="ios-application",
+                    project=mobile,
+                    repo="local:",
+                    filemask="ios/*.po",
+                    file_format="po",
+                ),
+            ]
+        )
+        self.clear_project_stats_cache(website)
+        self.clear_project_stats_cache(mobile)
+
+        user = self.do_login(superuser=True)
+        workspace.add_owner(user)
+        checkout.add_alert(
+            "ParseError",
+            occurrences=[{"filename": "checkout/cs.po", "error": "Invalid PO"}],
+        )
+        account.add_alert(
+            "ParseError",
+            occurrences=[{"filename": "account/cs.po", "error": "Invalid PO"}],
+        )
+        android.add_alert(
+            "ParseError",
+            occurrences=[{"filename": "android/cs.po", "error": "Invalid PO"}],
+        )
+        for component in (checkout, account, android):
+            component.add_alert("MissingTranslationInstructions")
+        ios.add_alert("UnusedScreenshot")
+        with patch("django.utils.timezone.now", return_value=SCREENSHOT_DATE):
+            ios.alert_set.get(name="UnusedScreenshot").dismiss(
+                user, "Reviewed for documentation"
+            )
+        for component in (checkout, account, android, ios):
+            component.alert_set.update(
+                timestamp=SCREENSHOT_DATE, updated=SCREENSHOT_DATE
+            )
+
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{website.get_absolute_url()}#diagnostics"
+            )
+        self.wait_for_ajax_tab("#diagnostics", "Could not parse translation files.")
+        project_diagnostics = self.driver.find_element(By.ID, "diagnostics").text
+        self.assertEqual(
+            project_diagnostics.count(
+                "Define translation instructions to help translators."
+            ),
+            1,
+        )
+        self.assertIn("Active: 2", project_diagnostics)
+        self.assertIn("Account emails", project_diagnostics)
+        self.assertIn("Checkout interface", project_diagnostics)
+        self.assertTrue(
+            any(
+                badge.text == "Active: 2"
+                for badge in self.driver.find_elements(
+                    By.CSS_SELECTOR, "#diagnostics .card-header .badge"
+                )
+            )
+        )
+        self.assertFalse(
+            any(
+                badge.text.startswith(("Active:", "Dismissed:"))
+                for badge in self.driver.find_elements(
+                    By.CSS_SELECTOR, "#diagnostics .card-body .badge"
+                )
+            )
+        )
+        self.screenshot("project-diagnostics.png")
+
+        with self.wait_for_page_load():
+            self.driver.get(
+                f"{self.live_server_url}{workspace.get_absolute_url()}"
+                "?diagnostic_state=all#diagnostics"
+            )
+        self.wait_for_ajax_tab("#diagnostics", "Unused screenshot")
+        workspace_diagnostics = self.driver.find_element(By.ID, "diagnostics").text
+        self.assertEqual(
+            workspace_diagnostics.count(
+                "Define translation instructions to help translators."
+            ),
+            1,
+        )
+        self.assertIn(
+            "Website translations / Checkout interface", workspace_diagnostics
+        )
+        self.assertIn(
+            "Mobile applications / Android application", workspace_diagnostics
+        )
+        self.assertIn("Dismissed: 1", workspace_diagnostics)
+        self.assertEqual(
+            Select(
+                self.driver.find_element(By.ID, "id_diagnostic_state")
+            ).first_selected_option.text,
+            "All",
+        )
+        self.screenshot("workspace-diagnostics.png")
+
     def test_fonts(self) -> None:
         self.create_component()
         self.do_login(superuser=True)

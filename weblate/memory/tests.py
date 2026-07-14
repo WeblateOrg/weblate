@@ -1677,6 +1677,72 @@ msgstr "Nazdar svete!\n"
             ).exists()
         )
 
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReadReplicaRouter"]
+    )
+    def test_update_entry_uses_write_database_alias(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        target_project = Project.objects.create(
+            name="Memory import target", slug="memory-import-target"
+        )
+        source = "Routed reused memory source"
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": source,
+            "target": "Smerovany znovu pouzity cil",
+            "origin": "routed-reused-memory.tmx",
+            "context": "",
+            "status": Memory.STATUS_ACTIVE,
+        }
+        memory = Memory.objects.create(legacy_project=self.project, **values)
+
+        Memory.objects.update_entry(
+            user=None,
+            project=target_project,
+            from_file=True,
+            shared=False,
+            **values,
+        )
+
+        memory.refresh_from_db(using="default")
+        self.assertEqual(
+            Memory.objects.using("default").filter(source=source).count(), 1
+        )
+        self.assertIsNone(memory.legacy_project_id)
+        self.assertTrue(
+            MemoryScope.objects.using("default")
+            .filter(
+                memory=memory,
+                scope=MemoryScope.SCOPE_PROJECT_FILE,
+                project=target_project,
+            )
+            .exists()
+        )
+
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReadReplicaRouter"]
+    )
+    def test_normalize_legacy_owner_uses_write_database_alias(self) -> None:
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Routed legacy memory source",
+            target="Smerovany stary cil",
+            origin="routed-legacy-memory.tmx",
+            legacy_project=self.project,
+            legacy_from_file=True,
+            status=Memory.STATUS_ACTIVE,
+        )
+        memory._state.db = "memory_db"  # ruff: ignore[private-member-access]
+
+        memory.normalize_legacy_owner()
+
+        memory.refresh_from_db(using="default")
+        self.assertIsNone(memory.legacy_project_id)
+        self.assertFalse(memory.legacy_from_file)
+
     def test_autoclean_preserves_imported_scope_on_compacted_memory(self) -> None:
         source_language = Language.objects.get(code="en")
         target_language = Language.objects.get(code="cs")
