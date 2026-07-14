@@ -15,6 +15,9 @@ The workspace page lists projects in that workspace that you can access.
 
 .. image:: /screenshots/workspace-projects.webp
 
+Signed-in users can also review grouped project and component findings on the
+workspace :guilabel:`Diagnostics` tab. See :ref:`diagnostics-overviews`.
+
 You can list all workspaces in the management interface at
 :guilabel:`Manage` ↓ :guilabel:`Workspaces`.
 

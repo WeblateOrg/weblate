@@ -10,6 +10,15 @@
          data-bs-toggle="tab"
          href="#">{% translate "Projects" %}</a>
     </li>
+    {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link"
+           data-bs-target="#diagnostics"
+           data-bs-toggle="tab"
+           data-href="{% url 'js-diagnostics' path=workspace.get_url_path %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}"
+           href="#">{% translate "Diagnostics" %}</a>
+      </li>
+    {% endif %}
     <li class="nav-item">
       <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
@@ -95,6 +104,12 @@
 
       {% include "paginator.html" with page_obj=projects anchor="projects" %}
     </div>
+
+    {% if user.is_authenticated %}
+      <div class="tab-pane" id="diagnostics">
+        <p>{% translate "Loading…" %}</p>
+      </div>
+    {% endif %}
 
     <div class="tab-pane" id="history">
       {% format_last_changes_content last_changes=last_changes user=user %}

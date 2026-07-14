@@ -47,6 +47,7 @@ class BaseAlert:
     doc_page = ""
     doc_anchor = ""
     template_name = ""
+    actionability_uses_addons = False
 
     def __init__(self, instance: Alert) -> None:
         self.instance = instance
@@ -116,10 +117,14 @@ class BaseAlert:
         )
         return sha256(serialized.encode()).hexdigest()
 
-    def can_user_act(self, user: User, component) -> bool:
-        if self.project_wide:
+    @classmethod
+    def can_user_act_for(cls, user: User, component, _details: dict[str, Any]) -> bool:
+        if cls.project_wide:
             return bool(user.has_perm("project.edit", component.project))
         return bool(user.has_perm("component.edit", component))
+
+    def can_user_act(self, user: User, component) -> bool:
+        return self.can_user_act_for(user, component, self.instance.details)
 
     @staticmethod
     def check_component(component) -> bool | dict | None:  # ruff: ignore[unused-static-method-argument]

@@ -36,6 +36,36 @@ generate alerts for unreachable project websites.
 
 Alerts are listed on each respective component page as
 :guilabel:`Diagnostics`.
+
+.. _diagnostics-overviews:
+
+Project and workspace diagnostics overviews
+-------------------------------------------
+
+Signed-in users can open the :guilabel:`Diagnostics` tab on project and
+workspace pages. The overview is loaded when opened and groups alerts of the
+same type instead of repeating them for every component.
+
+The project overview shows project-wide findings once and lists the components
+affected by component-specific findings:
+
+.. image:: /screenshots/project-diagnostics.webp
+   :alt: Project diagnostics overview with grouped findings and filters
+
+The workspace overview groups project-wide findings by project and identifies
+components using both the project and component name:
+
+.. image:: /screenshots/workspace-diagnostics.webp
+   :alt: Workspace diagnostics overview with grouped findings and filters
+
+Each finding lists up to 20 affected projects or components. Additional
+affected objects are shown as a count. Follow a component link to see the
+complete diagnostic details or dismiss a diagnostic on the component page.
+
+The summary can be filtered by active or dismissed state, severity, category,
+or whether the signed-in user can act on the diagnostic. Components shared into
+a project are listed only in the diagnostics of their owning project.
+
 If it is missing, the component clears all current checks. Problem alerts cannot
 be ignored, but will disappear once the underlying problem has been fixed.
 

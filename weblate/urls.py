@@ -880,6 +880,11 @@ real_patterns = [
         name="git_status",
     ),
     path(
+        "js/diagnostics/<object_path:path>/",
+        weblate.trans.views.js.diagnostics,
+        name="js-diagnostics",
+    ),
+    path(
         "js/zen/<object_path:path>/",
         weblate.trans.views.edit.load_zen,
         name="load_zen",

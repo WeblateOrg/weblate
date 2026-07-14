@@ -1,0 +1,78 @@
+{% load crispy_forms_tags i18n %}
+
+<form method="get" action="#diagnostics" class="row align-items-end g-2 mb-4">
+  <div class="col-sm-6 col-xl-2">{{ diagnostics_filter.diagnostic_state|as_crispy_field }}</div>
+  <div class="col-sm-6 col-xl-2">{{ diagnostics_filter.diagnostic_severity|as_crispy_field }}</div>
+  <div class="col-sm-6 col-xl-2">{{ diagnostics_filter.diagnostic_category|as_crispy_field }}</div>
+  <div class="col-sm-6 col-xl-2">{{ diagnostics_filter.diagnostic_actionable|as_crispy_field }}</div>
+  <div class="col-auto mb-3">
+    <button type="submit" class="btn btn-primary">{% translate "Filter" %}</button>
+  </div>
+  <div class="col-auto mb-3">
+    <a class="btn btn-link" href="{{ object.get_absolute_url }}#diagnostics">{% translate "Clear filters" %}</a>
+  </div>
+</form>
+
+{% for group in diagnostics %}
+  <div class="card">
+    <div class="card-header">
+      {{ group.title }}
+      <span class="badge {{ group.severity_class }}">{{ group.severity_label }}</span>
+      <span class="badge text-bg-secondary">{{ group.category_label }}</span>
+      {% if group.active_count %}
+        <span class="badge text-bg-primary">
+          {% blocktranslate with count=group.active_count %}Active: {{ count }}{% endblocktranslate %}
+        </span>
+      {% endif %}
+      {% if group.dismissed_count %}
+        <span class="badge text-bg-secondary">
+          {% blocktranslate with count=group.dismissed_count %}Dismissed: {{ count }}{% endblocktranslate %}
+        </span>
+      {% endif %}
+    </div>
+    <div class="card-body">
+      {% if group.project_wide %}
+        <h3 class="h5">{% translate "Affected projects" %}</h3>
+        <ul>
+          {% for project, component in group.project_components %}
+            <li>
+              {% if show_projects %}
+                <a href="{{ project.get_absolute_url }}#diagnostics">{{ project }}</a>
+              {% else %}
+                {{ project }}
+              {% endif %}
+              — <a href="{{ component.get_absolute_url }}?alerts=1#alerts">{% translate "View details" %}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% if group.hidden_count %}
+          <p>
+            {% blocktranslate count count=group.hidden_count %}{{ count }} more affected project.{% plural %}{{ count }} more affected projects.{% endblocktranslate %}
+          </p>
+        {% endif %}
+      {% else %}
+        <h3 class="h5">{% translate "Affected components" %}</h3>
+        <ul>
+          {% for component in group.components %}
+            <li>
+              <a href="{{ component.get_absolute_url }}?alerts=1#alerts">
+                {% if show_projects %}
+                  {{ component.project }} / {{ component.name }}
+                {% else %}
+                  {{ component.name }}
+                {% endif %}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% if group.hidden_count %}
+          <p>
+            {% blocktranslate count count=group.hidden_count %}{{ count }} more affected component.{% plural %}{{ count }} more affected components.{% endblocktranslate %}
+          </p>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+{% empty %}
+  <p>{% translate "No diagnostics match the selected filters." %}</p>
+{% endfor %}

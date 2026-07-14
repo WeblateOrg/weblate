@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar
 
 from django.utils.translation import gettext_lazy
 
@@ -19,6 +19,7 @@ if TYPE_CHECKING:
 
 class AddonErrorAlert(MultiAlert):
     addon_names: tuple[str, ...] = ()
+    actionability_uses_addons = True
 
     @classmethod
     def get_dismissal_context(cls, component: Component, details: dict) -> dict:
@@ -46,32 +47,43 @@ class AddonErrorAlert(MultiAlert):
             addon.is_valid and addon.addon.alert == cls.__name__
         )
 
-    def can_user_act(self, user: User, component: Component) -> bool:
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        occurrences = details.get("occurrences", [])
         addon_ids = {
             str(occurrence["addon_id"])
-            for occurrence in self.occurrences
-            if occurrence.get("addon_id") is not None
+            for occurrence in occurrences
+            if isinstance(occurrence, dict) and occurrence.get("addon_id") is not None
         }
         addon_names = {
             str(occurrence["addon"])
-            for occurrence in self.occurrences
-            if occurrence.get("addon") is not None
+            for occurrence in occurrences
+            if isinstance(occurrence, dict) and occurrence.get("addon") is not None
         }
-        addon_names.update(self.addon_names)
+        addon_names.update(cls.addon_names)
         relevant_addons = [
             addon
             for addon in component.addons_cache.addons
-            if self.is_relevant_addon(addon)
+            if cls.is_relevant_addon(addon)
             and (not addon_ids or str(addon.pk) in addon_ids)
             and (not addon_names or addon.name in addon_names)
         ]
 
         for addon in relevant_addons:
-            if addon.component and user.has_perm("component.edit", addon.component):
-                continue
-            if addon.category and user.has_perm("project.edit", addon.category.project):
-                continue
-            if addon.project and user.has_perm("project.edit", addon.project):
+            if addon.component_id is not None:
+                target = (
+                    component
+                    if addon.component_id == component.pk
+                    else component.linked_component
+                )
+                if target is not None and user.has_perm("component.edit", target):
+                    continue
+                return False
+            if (
+                addon.category_id is not None or addon.project_id is not None
+            ) and user.has_perm("project.edit", component.project):
                 continue
             if (
                 addon.component_id is None
@@ -138,14 +150,18 @@ class ExtractPotMissingMsgmerge(BaseAlert):
     relevant_addon_names: ClassVar[frozenset[str]] = extractor_addon_names | {
         "weblate.gettext.msgmerge"
     }
+    actionability_uses_addons = True
 
-    def can_user_act(self, user: User, component: Component) -> bool:
-        if super().can_user_act(user, component) or user.has_perm(
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        if super().can_user_act_for(user, component, details) or user.has_perm(
             "project.edit", component.project
         ):
             return True
         for addon in component.addons_cache.addons:
-            if addon.name not in self.extractor_addon_names:
+            if addon.name not in cls.extractor_addon_names:
                 continue
             if (
                 addon.component_id is None
