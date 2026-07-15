@@ -1283,13 +1283,18 @@ class AdminTest(ViewTestCase):
                 Critical(msg="Error", id="weblate.E001"),
                 Critical(msg="Test Error", id="weblate.E002"),
                 Critical(msg="Cache Error", id="weblate.C044"),
+                Critical(msg="Database statistics error", id="weblate.C047"),
             ]
         )
         all_errors = ConfigurationError.objects.all()
-        self.assertEqual(len(all_errors), 2)
+        self.assertEqual(len(all_errors), 3)
         self.assertEqual(
             {error.name: error.message for error in all_errors},
-            {"weblate.E002": "Test Error", "weblate.C044": "Cache Error"},
+            {
+                "weblate.E002": "Test Error",
+                "weblate.C044": "Cache Error",
+                "weblate.C047": "Database statistics error",
+            },
         )
         # No triggered checks
         ConfigurationError.objects.create(name="weblate.C046", message="Retired check")
