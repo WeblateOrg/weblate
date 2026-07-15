@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-09 03:19+0000\n"
-"PO-Revision-Date: 2026-07-14 17:44+0000\n"
+"PO-Revision-Date: 2026-07-15 18:19+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -23627,78 +23627,68 @@ msgid ""
 "periodic Celery background task. Keep Celery running after the upgrade; "
 "translation-memory suggestions can be incomplete until the backfill finishes."
 msgstr ""
+"Entradas de memória de tradução existentes são movidas para armazenamento "
+"com escopo por uma tarefa de plano de fundo Celery periódica. Mantém o "
+"Celery em execução após a atualização; sugestões de memória de tradução "
+"podem estar incompletas até que o preenchimento esteja concluído."
 
 #: changes.rst:147
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "66?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/166?"
 "closed=1>`__."
 msgstr ""
-"`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/66?closed=1>`__."
+"`Todas as alterações em detalhe <https://github.com/WeblateOrg/weblate/"
+"milestone/166?closed=1>`__."
 
 #: changes.rst:150
-#, fuzzy
-#| msgid "Weblate 2.5"
 msgid "Weblate 2026.6.1"
-msgstr "Weblate 2.5"
+msgstr "Weblate 2026.6.1"
 
 #: changes.rst:152 changes.rst:171
-#, fuzzy
-#| msgid "*Released on June 1st 2018.*"
 msgid "*Released on June 1st 2026.*"
-msgstr "*Atualizado em 1º de junho de 2018.*"
+msgstr "*Atualizado em 1 de junho de 2026.*"
 
 #: changes.rst:156
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Language-wide :doc:`/admin/announcements` no longer break language overview "
 "pages."
 msgstr ""
-":doc:`/admin/announcements` pode ser postado no escopo do projeto/idioma."
+":doc:`/admin/announcements` do idioma inteiro já não quebram páginas de "
+"sinopse de idioma."
 
 #: changes.rst:166
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "69?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/169?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/69?closed=1>`__."
+"milestone/169?closed=1>`__."
 
 #: changes.rst:169
 msgid "Weblate 2026.6"
 msgstr "Weblate 2026.6"
 
 #: changes.rst:175
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 ":doc:`/admin/announcements` can now also be managed via the :ref:`api` for "
 "specific project languages."
 msgstr ""
-":doc:`/admin/announcements` pode ser postado no escopo do projeto/idioma."
+":doc:`/admin/announcements` agora também podem ser geridas através da "
+":ref:`api` para projetos de idiomas específicos."
 
 #: changes.rst:176
-#, fuzzy
-#| msgid "Group ACLs can now be limited to certain permissions."
 msgid ""
 "Team memberships can now be limited to selected languages for per-user "
 "translation permissions."
-msgstr "ACLs de grupo agora podem ser limitados a certas permissões."
+msgstr ""
+"Pertenças à equipa agora podem ser limitadas a idiomas selecionadas para "
+"permissões de tradução para utilizadores individuais."
 
 #: changes.rst:177
-#, fuzzy
-#| msgid "Added :ref:`mt-systran` automatic translation support."
 msgid "Added :ref:`cost estimates <cost-estimate>` to translation reports."
-msgstr "Adicionado suporte à tradução automática :ref:`mt-systran`."
+msgstr ""
+":ref:`Estimativa de custo <cost-estimate>` adicionada para relatórios de "
+"tradução."
 
 #: changes.rst:178
 msgid ""
@@ -23706,6 +23696,9 @@ msgid ""
 "requests and tasks, and :ref:`Google Cloud Error Reporting <collecting-"
 "errors>` for handled server errors."
 msgstr ""
+":ref:`Rastreio OpenTelemetry <collecting-errors>` opcional adicionado para "
+"pedidos de backend e tarefas, e :ref:`Google Cloud Error Reporting "
+"<collecting-errors>` para erros de servidor tratados."
 
 #: changes.rst:179
 msgid ""
@@ -23714,41 +23707,47 @@ msgid ""
 "inherited workspace, project, and category defaults for selected component "
 "settings, and billing details when available."
 msgstr ""
+":doc:`/admin/workspaces` adicionado a projetos de grupo relacionados, com "
+"listagem de projetos do espaço de trabalho, equipas no âmbito do espaço de "
+"trabalho e permissões de criação de projeto, espaço de trabalho herdado, "
+"projeto, e predefinições de categoria para definições de componente "
+"selecionados, e detalhes de faturação sempre que disponíveis."
 
 #: changes.rst:183
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured "
-#| "using :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-#| "and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 "Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` "
 "to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` "
 "using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"No contentor do Docker, isso pode ser configurado "
-"usando :envvar:`WEBLATE_API_RATELIMIT_ANON` "
-"e :envvar:`WEBLATE_API_RATELIMIT_USER`."
+"Os contentores do Docker agora podem configurar "
+":envvar:`WEBLATE_SAML_SECURITY_CONFIG` para personalizar definições de "
+"segurança SAML, e ajustar :setting:`WEBLATE_FORMATS` usando "
+":envvar:`WEBLATE_ADD_FORMATS` e :envvar:`WEBLATE_REMOVE_FORMATS`."
 
 #: changes.rst:184
-#, fuzzy
-#| msgid "Improved performance of consistency checks."
 msgid ""
 "Improved performance of the :ref:`check-inconsistent` check on large "
 "projects."
-msgstr "Aprimorado o desempenho de verificações de consistência."
+msgstr ""
+"Desempenho melhorado da verificação de :ref:`check-inconsistent` em grandes "
+"projetos."
 
 #: changes.rst:185
 msgid ""
 "Translation flag fields now use a tag-based editor with autocompletion and "
 "grouped suggestions for all known flags."
 msgstr ""
+"Os campos de marcador de tradução agora usam um editor baseado em etiquetas "
+"com auto completar e sugestões agrupadas para todos os marcadores conhecidos."
 
 #: changes.rst:186
 msgid ""
 ":ref:`Contributor stats <stats>` now de-duplicate repeated work on the same "
 "string by default, with an option to count all changes."
 msgstr ""
+":ref:`Estatísticas de colaborador <stats>` agora eliminam trabalho repetido "
+"na mesma cadeia de carateres por predefinição, com uma opção para contar "
+"todas as mudanças."
 
 #: changes.rst:187
 msgid ""
@@ -23757,12 +23756,19 @@ msgid ""
 "continuous` now explains why squash merging Weblate conflict-resolution pull "
 "requests can require a repository reset."
 msgstr ""
+":doc:`/admin/code-hosting` agora documenta URLs de token de acesso HTTPS e "
+"URLs SSH dedicados ao utilizador para acesso de repositórios, e :doc:`/admin/"
+"continuous` agora explica o porquê os pull requests de resolução de conflito "
+"através de squash merge do Weblate podem necessitar de um reiniciar de "
+"repositório."
 
 #: changes.rst:188
 msgid ""
 ":ref:`alerts` now include dismissible component diagnostics for community "
 "localization."
 msgstr ""
+":ref:`alerts` agora incluem diagnósticos de componente ignoráveis para "
+"tradução de comunidade."
 
 #: changes.rst:189
 msgid ""
@@ -23771,44 +23777,59 @@ msgid ""
 "discover, show source string coverage counts, and include advanced listing "
 "search."
 msgstr ""
+":ref:`screenshots` agora suportam atribuição em massa para resultados de "
+"reconhecimento de texto em imagem, tornando a procura de cadeias de "
+"carateres em imagens enviadas mais fáceis de descobrir, mostrar contagem de "
+"cobertura de cadeias de carateres fonte, e incluir pesquisa de listagem "
+"avançada."
 
 #: changes.rst:190
 msgid ""
 ":ref:`sbom` release artifacts now include CISA 2025 document-level metadata."
 msgstr ""
+"Artefactos de lançamento :ref:`sbom` agora incluem metadados CISA 2025 ao "
+"nível do documento."
 
 #: changes.rst:194
 msgid ""
 "Outbound URL validation now rejects additional non-public targets "
 "(:cve:`2026-50127`, :ghsa:`vmfc-9982-2m45`)."
 msgstr ""
+"Validação de saída de URL agora rejeita alvos adicionais não públicos "
+"(:cve:`2026-50127`, :ghsa:`vmfc-9982-2m45`)."
 
 #: changes.rst:195
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Project-language :doc:`/admin/announcements` no longer appear across the "
 "whole project."
 msgstr ""
-":doc:`/admin/announcements` pode ser postado no escopo do projeto/idioma."
+":doc:`/admin/announcements` do idioma do projeto já não aparecem no projeto "
+"inteiro."
 
 #: changes.rst:196
 msgid ""
 "Hardened :http:post:`/api/screenshots/` access checks against private "
 "project enumeration."
 msgstr ""
+"Controlos de acesso :http:post:`/api/screenshots/` reforçados contra a "
+"enumeração de projeto privado."
 
 #: changes.rst:197
 msgid ""
 "Registration-attempt account activity e-mails now link to password reset to "
 "help users finish account setup."
 msgstr ""
+"Emails de atividade de tentativa de registo de conta agora dão link para o "
+"reiniciar da palavra passe para ajudar utilizadores a finalizar a "
+"configuração de conta."
 
 #: changes.rst:198
 msgid ""
 ":ref:`invite-user` links now work for signed-in users whose account owns the "
 "invited e-mail address."
 msgstr ""
+"Links de :ref:`invite-user` agora funcionam para utilizadores com sessão "
+"iniciada cuja conta possui o endereço de email convidado."
 
 #: changes.rst:199
 msgid ""
@@ -23816,100 +23837,101 @@ msgid ""
 "supports ``changed_by:\"\"``, and combined change filters now apply to the "
 "same change event."
 msgstr ""
+"Procurar por cadeias de carateres com mudanças de conteúdo com uma mensagem "
+"de autor gravada agora suporta ``chaged_by:\"\"``, e filtros de mudança "
+"combinados agora aplicam o mesmo evento de mudança."
 
 #: changes.rst:200
 msgid ""
 "Gitea and Forgejo pull requests no longer reconfigure existing fork remotes "
 "to point to the source repository."
 msgstr ""
+"Pull requests de Gitea e Forgejo já não reconfiguram bifurcações remotas "
+"existentes para apontarem para o repositório fonte."
 
 #: changes.rst:201
 msgid ""
 "Project and category language translation sessions now keep strings grouped "
 "by component priority and show component switch warnings reliably."
 msgstr ""
+"Sessões de tradução de idioma de projeto e categoria agora mantêm cadeias de "
+"carateres agrupadas por prioridade de componente e mostram a avisos de "
+"mudança de componente de forma fiável."
 
 #: changes.rst:202
 msgid ""
 "Engage page task links now stay centered and show the target translation "
 "language."
 msgstr ""
+"Os links das tarefas da página de interação permanecem agora centrados e "
+"mostram o idioma de tradução de destino."
 
 #: changes.rst:203
 msgid ""
 "Gettext POT update add-ons now rescan translations after committing updated "
 "POT and PO files."
 msgstr ""
+"Extras de atualização de gettext POT agora reanalisam traduções após "
+"submeter ficheiros POT e PO atualizados."
 
 #: changes.rst:204
 msgid ""
 "Git repositories now update branches correctly when the remote also has a "
 "tag with the same name."
 msgstr ""
+"Repositórios Git agora atualizam ramos corretamente quando o remoto também "
+"tem uma etiquetam com o mesmo nome."
 
 #: changes.rst:205
-#, fuzzy
-#| msgid "Added component alert for broken repository browser URLs."
 msgid ""
 "Conflicting repository setup alerts now allow same-branch direct pushes."
 msgstr ""
-"Adicionado alerta de componente para URLs quebradas do navegador do "
-"repositório."
+"Alertas de configuração de conflitos de repositório agora permitem pushes "
+"diretos para o mesmo ramo."
 
 #: changes.rst:206
 msgid ""
 "Obsolete cleanup schedules are now removed from Celery beat during upgrade."
 msgstr ""
+"Agendamentos de limpeza de obsoletos agora são removidos do Celery beat "
+"durante a atualização."
 
 #: changes.rst:207
 msgid ""
 "Translation pages for workspace projects no longer crash when workspace "
 "fields are deferred."
 msgstr ""
+"Páginas de tradução para projetos do espaço de trabalho já não quebram "
+"quando os campos do espaço de trabalho são deferidos."
 
 #: changes.rst:213
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS`; "
-#| "``weblate.metrics`` should be added."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`; "
 "``weblate.workspaces`` should be added."
 msgstr ""
-"Há uma alteração em :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
-"deverá ser adicionado."
+"Há uma alteração em :setting:`django:INSTALLED_APPS` - "
+"``weblate.workspaces`` deverá ser adicionado."
 
 #: changes.rst:214
-#, fuzzy
-#| msgid ""
-#| "The database migration make take hours on larger instances due to "
-#| "recreating some of the indexes."
 msgid "The database migrations might take longer on larger instances."
 msgstr ""
-"A migração da base de dados pode levar horas em instâncias maiores devido à "
-"recriação de alguns dos índices."
+"As migrações da base de dados podem demorar mais tempo em instâncias maiores."
 
 #: changes.rst:220
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "65?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/165?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/65?closed=1>`__."
+"milestone/165?closed=1>`__."
 
 #: changes.rst:223
 msgid "Weblate 2026.5"
 msgstr "Weblate 2026.5"
 
 #: changes.rst:225
-#, fuzzy
-#| msgid "*Released on May 13th 2024.*"
 msgid "*Released on May 15th 2026.*"
-msgstr "*Lançado em 13 de maio de 2024*"
+msgstr "*Lançado em 15 de maio de 2026.*"
 
 #: changes.rst:229
 msgid ""
