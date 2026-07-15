@@ -2056,7 +2056,7 @@ class Translation(
         self,
         request: AuthenticatedHttpRequest,
         fileobj: BinaryIO,
-        method: Literal["fuzzy", "approve", "translate"],
+        method: Literal["fuzzy", "approve", "translate", "suggest", "add"],
     ) -> TranslationFormat:
         component = self.component
 
@@ -2149,7 +2149,9 @@ class Translation(
         conflicts: Literal["", "replace-approved", "replace-translated"],
         author_name: str | None = None,
         author_email: str | None = None,
-        method: Literal["fuzzy", "approve", "translate", "suggest"] = "translate",
+        method: Literal[
+            "fuzzy", "approve", "translate", "suggest", "add", "replace", "source"
+        ] = "translate",
         fuzzy: Literal["", "process", "approve"] = "",
     ) -> UploadResult:
         """Top level handler for file uploads."""

@@ -495,11 +495,11 @@ class MultiLanguageWidget(SVGWidget):
         "auto": None,
     }
 
-    def get_language_stats(self) -> list[BaseStats | ProjectLanguage]:
+    def get_language_stats(self) -> list[BaseStats]:
         if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
             return [self.stats]
         if isinstance(self.obj, ProjectLanguage):
-            return [self.obj]
+            return [self.obj.stats]
         if isinstance(self.obj, Language):
             return [self.obj.stats]
         return self.stats.get_language_stats()
@@ -513,9 +513,8 @@ class MultiLanguageWidget(SVGWidget):
                 )
             )
         if self.obj is None:
-            project_language = language
-        else:
-            project_language = ProjectLanguage(self.obj, language)
+            return get_site_url(language.get_absolute_url())
+        project_language = ProjectLanguage(self.obj, language)
         return get_site_url(project_language.get_absolute_url())
 
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
@@ -788,12 +787,10 @@ class LanguageBadgeWidget(BaseSVGBadgeWidget):
             )
             threshold = 0
 
-        languages: list[BaseStats | ProjectLanguage]
+        languages: list[BaseStats]
         if isinstance(self.stats, (ProjectLanguageStats, TranslationStats)):
             languages = [self.stats]
-        elif isinstance(self.obj, ProjectLanguage):
-            languages = [self.obj]
-        elif isinstance(self.obj, Language):
+        elif isinstance(self.obj, (ProjectLanguage, Language)):
             languages = [self.obj.stats]
         else:
             languages = self.stats.get_language_stats()

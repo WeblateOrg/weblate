@@ -12,7 +12,7 @@ from contextlib import contextmanager, nullcontext, suppress
 from dataclasses import dataclass
 from glob import glob
 from itertools import chain
-from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, TypeVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, TypeVar, cast, overload
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
@@ -80,6 +80,8 @@ from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
+    InheritableLanguageSetting,
+    InheritableStringSetting,
     apply_create_inheritance_defaults,
     get_inherit_field_name,
     get_inheritable_setting_value,
@@ -199,7 +201,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
     from weblate.formats.base import TranslationFormat
-    from weblate.lang.models import Plural
+    from weblate.lang.models import LanguageQuerySet, Plural
     from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
     from weblate.trans.removal import RemovalBatch
@@ -5770,6 +5772,17 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self, get_inherit_field_name(field), False
         )
 
+    @overload
+    def get_effective_setting(self, field: InheritableStringSetting) -> str: ...
+
+    @overload
+    def get_effective_setting(
+        self, field: InheritableLanguageSetting
+    ) -> Language | None: ...
+
+    @overload
+    def get_effective_setting(self, field: str) -> str | Language | None: ...
+
     def get_effective_setting(self, field: str) -> str | Language | None:
         """Return setting value after applying parent inheritance."""
         if self.uses_project_setting(field):
@@ -5790,47 +5803,47 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @property
     def effective_license(self) -> str:
-        return cast("str", self.get_effective_setting("license"))
+        return self.get_effective_setting("license")
 
     @property
     def effective_agreement(self) -> str:
-        return cast("str", self.get_effective_setting("agreement"))
+        return self.get_effective_setting("agreement")
 
     @property
     def effective_new_lang(self) -> str:
-        return cast("str", self.get_effective_setting("new_lang"))
+        return self.get_effective_setting("new_lang")
 
     @property
     def effective_language_code_style(self) -> str:
-        return cast("str", self.get_effective_setting("language_code_style"))
+        return self.get_effective_setting("language_code_style")
 
     @property
     def effective_secondary_language(self) -> Language | None:
-        return cast("Language | None", self.get_effective_setting("secondary_language"))
+        return self.get_effective_setting("secondary_language")
 
     @property
     def effective_commit_message(self) -> str:
-        return cast("str", self.get_effective_setting("commit_message"))
+        return self.get_effective_setting("commit_message")
 
     @property
     def effective_add_message(self) -> str:
-        return cast("str", self.get_effective_setting("add_message"))
+        return self.get_effective_setting("add_message")
 
     @property
     def effective_delete_message(self) -> str:
-        return cast("str", self.get_effective_setting("delete_message"))
+        return self.get_effective_setting("delete_message")
 
     @property
     def effective_merge_message(self) -> str:
-        return cast("str", self.get_effective_setting("merge_message"))
+        return self.get_effective_setting("merge_message")
 
     @property
     def effective_addon_message(self) -> str:
-        return cast("str", self.get_effective_setting("addon_message"))
+        return self.get_effective_setting("addon_message")
 
     @property
     def effective_pull_message(self) -> str:
-        return cast("str", self.get_effective_setting("pull_message"))
+        return self.get_effective_setting("pull_message")
 
     @cached_property
     def all_flags(self):
@@ -6417,7 +6430,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def api_slug(self):
         return "%252F".join(self.get_url_path()[1:])
 
-    def get_all_available_languages(self) -> models.QuerySet[Language]:
+    def get_all_available_languages(self) -> LanguageQuerySet:
         return Language.objects.exclude(
             Q(translation__component=self) | Q(component=self)
         )

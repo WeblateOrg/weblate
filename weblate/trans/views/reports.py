@@ -29,6 +29,7 @@ from weblate.trans.autotranslate import fetch_machinery_matches
 from weblate.trans.forms import (
     CostEstimateReportsForm,
     CountsReportsForm,
+    ReportScope,
     ReportsForm,
     TranslatorWorkReportsForm,
 )
@@ -49,7 +50,6 @@ from weblate.utils.views import parse_path, show_form_errors
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from django.db.models import Model
     from django.utils.safestring import SafeString
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -68,7 +68,7 @@ COST_BUCKETS = (
 )
 COST_ESTIMATE_MATCH_BATCH_SIZE = 200
 
-REPORT_SCOPE_MODELS = {
+REPORT_SCOPE_MODELS: dict[str, type[Workspace | Project | Category | Component]] = {
     "workspace": Workspace,
     "project": Project,
     "category": Category,
@@ -90,9 +90,16 @@ def get_report_scope_values(scope) -> tuple[str, str]:
     raise TypeError(msg)
 
 
-def get_report_form_scope(scope) -> dict[str, Model]:
-    scope_type, _scope_id = get_report_scope_values(scope)
-    return {scope_type: scope} if scope_type else {}
+def get_report_form_scope(scope) -> ReportScope:
+    if isinstance(scope, Workspace):
+        return {"workspace": scope}
+    if isinstance(scope, Project):
+        return {"project": scope}
+    if isinstance(scope, Category):
+        return {"category": scope}
+    if isinstance(scope, Component):
+        return {"component": scope}
+    return {}
 
 
 def get_reports_context(request: AuthenticatedHttpRequest, scope) -> dict[str, Any]:
@@ -354,7 +361,11 @@ def finalize_cost_estimate(data: dict[str, Any], base_rate: Decimal) -> dict[str
         bucket["rate"] = format_decimal(bucket["rate"], 2)
         bucket["cost"] = format_decimal(bucket["cost"])
 
-    total["cost"] = format_decimal(total["cost"])
+    total_cost = total["cost"]
+    if not isinstance(total_cost, Decimal):
+        msg = "Cost report total must be a decimal"
+        raise TypeError(msg)
+    total["cost"] = format_decimal(total_cost)
     data["total"] = total
     data["base_rate"] = format_decimal(base_rate)
     return data
@@ -445,6 +456,7 @@ def render_cost_estimate(data: dict[str, Any], style: str) -> HttpResponse:
         gettext("Cost"),
     )
 
+    start: str | SafeString
     if style == "html":
         start = format_html(
             HTML_HEADING,
@@ -472,7 +484,7 @@ def render_cost_estimate(data: dict[str, Any], style: str) -> HttpResponse:
         format_html_or_plain = format_plaintext
         format_html_or_plain_join = format_plaintext_join
 
-    result = [start]
+    result: list[str | SafeString] = [start]
 
     for item in data["buckets"]:
         if row_start:
@@ -669,6 +681,14 @@ COUNT_DEFAULTS = dict.fromkeys(
 )
 
 
+def increment_count(result: dict[str, str | int], key: str, increment: int) -> None:
+    value = result[key]
+    if not isinstance(value, int):
+        msg = f"Count field {key!r} contains {value!r}"
+        raise TypeError(msg)
+    result[key] = value + increment
+
+
 def generate_counts(
     user: User | None,
     start_date,
@@ -680,8 +700,8 @@ def generate_counts(
     **kwargs,
 ):
     """Generate credits data for given component."""
-    result = {}
-    action_map = {
+    result: dict[str, dict[str, str | int]] = {}
+    action_map: dict[int, str] = {
         ActionEvents.NEW: "new",
         ActionEvents.APPROVE: "approve",
     }
@@ -703,15 +723,21 @@ def generate_counts(
     changes = changes.prefetch_related("author", "language", "unit")
     seen_changes = set()
     for change in changes:
-        email = change.author.email
+        author = change.author
+        unit = change.unit
+        if author is None or unit is None:
+            msg = "Content changes require both an author and a unit"
+            raise RuntimeError(msg)
+        email = author.email or ""
 
         if email not in result:
-            result[email] = current = {
-                "name": change.author.full_name,
+            current: dict[str, str | int] = {
+                "name": author.full_name,
                 "email": email,
-                "date_joined": change.author.date_joined.isoformat(),
+                "date_joined": author.date_joined.isoformat(),
+                **COUNT_DEFAULTS,
             }
-            current.update(COUNT_DEFAULTS)
+            result[email] = current
         else:
             current = result[email]
 
@@ -722,25 +748,25 @@ def generate_counts(
                 continue
             seen_changes.add(deduplicated_key)
 
-        src_chars = len(change.unit.source)
-        src_words = change.unit.num_words
+        src_chars = len(unit.source)
+        src_words = unit.num_words
         tgt_chars = len(change.target)
         tgt_words = count_words(change.target, change.language)
         edits = change.get_distance()
 
-        current["chars"] += src_chars
-        current["words"] += src_words
-        current["t_chars"] += tgt_chars
-        current["t_words"] += tgt_words
-        current["edits"] += edits
-        current["count"] += 1
+        increment_count(current, "chars", src_chars)
+        increment_count(current, "words", src_words)
+        increment_count(current, "t_chars", tgt_chars)
+        increment_count(current, "t_words", tgt_words)
+        increment_count(current, "edits", edits)
+        increment_count(current, "count", 1)
 
-        current[f"t_chars_{suffix}"] += tgt_chars
-        current[f"t_words_{suffix}"] += tgt_words
-        current[f"chars_{suffix}"] += src_chars
-        current[f"words_{suffix}"] += src_words
-        current[f"edits_{suffix}"] += edits
-        current[f"count_{suffix}"] += 1
+        increment_count(current, f"t_chars_{suffix}", tgt_chars)
+        increment_count(current, f"t_words_{suffix}", tgt_words)
+        increment_count(current, f"chars_{suffix}", src_chars)
+        increment_count(current, f"words_{suffix}", src_words)
+        increment_count(current, f"edits_{suffix}", edits)
+        increment_count(current, f"count_{suffix}", 1)
 
     result_list = list(result.values())
     sort_by_key = "count" if sort_by == "count" else "date_joined"
@@ -888,7 +914,7 @@ def render_counts(data: list[dict[str, Any]], style: str) -> HttpResponse:
 
 def render_credits(data: list[dict[str, Any]], style: str) -> HttpResponse:
     if style == "html":
-        rows = []
+        rows: list[SafeString] = []
         for language in data:
             name, translators = next(iter(language.items()))
             rows.append(
@@ -939,7 +965,7 @@ def render_translator_work(data: dict[str, Any], style: str) -> HttpResponse:
         "p90": gettext("90th percentile"),
     }
     if style == "html":
-        rows = []
+        rows: list[SafeString] = []
         for metric, values in data["metrics"].items():
             rows.extend(
                 format_html(

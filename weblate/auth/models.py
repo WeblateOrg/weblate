@@ -82,6 +82,7 @@ if TYPE_CHECKING:
     from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.results import PermissionResult
     from weblate.lang.models import Language
+    from weblate.utils.stats import CategoryLanguage, ProjectLanguage
     from weblate.wladmin.models import SupportStatusDict
 
     SimplePermissionList = list[tuple[set[str], PermissionLanguageScope | None]]
@@ -1004,11 +1005,17 @@ class User(AbstractBaseUser):
         """Compatibility API for third-party modules."""
         return self.full_name
 
-    def has_perms(self, perm_list: list[str], obj: models.Model | None = None) -> bool:
+    def has_perms(
+        self,
+        perm_list: list[str],
+        obj: models.Model | ProjectLanguage | CategoryLanguage | None = None,
+    ) -> bool:
         return all(self.has_perm(perm, obj) for perm in perm_list)
 
     def has_perm(
-        self, perm: str, obj: models.Model | None = None
+        self,
+        perm: str,
+        obj: models.Model | ProjectLanguage | CategoryLanguage | None = None,
     ) -> PermissionResult | bool:
         """Permission check."""
         # Weblate global scope permissions

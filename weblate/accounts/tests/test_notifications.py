@@ -9,10 +9,12 @@ from __future__ import annotations
 from copy import deepcopy
 from datetime import timedelta
 from types import SimpleNamespace
-from typing import Protocol, TypeVar
+from typing import Protocol
 
 from django.conf import settings
 from django.core import mail
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.db.models import Manager, Model
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -54,15 +56,16 @@ from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
 TEMPLATES_RAISE[0]["OPTIONS"]["string_if_invalid"] = "TEMPLATE_BUG[%s]"
 
-_T = TypeVar("_T")
-
-
-class _CreateManager(Protocol[_T]):
-    def create(self, **kwargs: object) -> _T: ...
-
 
 class _Saveable(Protocol):
     def save(self, **kwargs: object) -> None: ...
+
+
+def get_html_content(message: EmailMessage) -> str:
+    assert isinstance(message, EmailMultiAlternatives)
+    content = message.alternatives[0][0]
+    assert isinstance(content, str)
+    return content
 
 
 class LazyTranslation:
@@ -223,16 +226,16 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         for i, message in enumerate(mail.outbox):
             self.assertNotIn("TEMPLATE_BUG", message.subject)
             self.assertNotIn("TEMPLATE_BUG", message.body)
-            self.assertNotIn("TEMPLATE_BUG", message.alternatives[0][0])
+            self.assertNotIn("TEMPLATE_BUG", get_html_content(message))
             if subject:
                 self.assertEqual(message.subject, subject)
             if subjects:
                 self.assertEqual(message.subject, subjects[i])
         self.assertEqual(len(mail.outbox), count)
 
-    def create_with_callbacks(
-        self, manager: _CreateManager[_T], **kwargs: object
-    ) -> _T:
+    def create_with_callbacks[ModelT: Model](
+        self, manager: Manager[ModelT], **kwargs: object
+    ) -> ModelT:
         with self.captureOnCommitCallbacks(execute=True):
             return manager.create(**kwargs)
 
@@ -773,7 +776,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
         self.assertIn(
-            alert.get_documentation_url(self.user), alert_message.alternatives[0][0]
+            alert.get_documentation_url(self.user), get_html_content(alert_message)
         )
 
     def test_notify_admin(self) -> None:
@@ -1272,7 +1275,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             self.user.username,
         )
         # Verify site root expansion in email
-        content = mail.outbox[0].alternatives[0][0]
+        content = get_html_content(mail.outbox[0])
         self.assertNotIn('href="/', content)
         # Shortened address is used
         self.assertIn("<td>127.0.0.0</td>", content)
@@ -1285,7 +1288,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             AuditLog.objects.create(request.user, request, "password")
         self.assertEqual(len(mail.outbox), 1)
         # There is just one (html) alternative
-        content = mail.outbox[0].alternatives[0][0]
+        content = get_html_content(mail.outbox[0])
         self.assertIn('lang="cs"', content)
         self.assertIn("změněno", content)
 
@@ -1315,7 +1318,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Trigger notification
         notify()
         self.validate_notifications(1, f"[Weblate] Digest: {subj}")
-        content = mail.outbox[0].alternatives[0][0]
+        content = get_html_content(mail.outbox[0])
         self.assertNotIn('img src="/', content)
 
     def test_digest_weekly(self) -> None:
@@ -1356,7 +1359,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         notify_weekly()
 
         self.validate_notifications(1, "[Weblate] Translation activity summary")
-        content = mail.outbox[0].alternatives[0][0]
+        content = get_html_content(mail.outbox[0])
         self.assertIn("Translation activity in this period", content)
         self.assertIn("Test/Test — Czech", content)
         self.assertIn("change_action%3Astring-added", content)
@@ -1411,7 +1414,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         notify_weekly()
 
         self.validate_notifications(1, "[Weblate] Translation activity summary")
-        content = mail.outbox[0].alternatives[0][0]
+        content = get_html_content(mail.outbox[0])
         self.assertIn("Test/Test — Czech", content)
         self.assertIn("change_action%3Astring-added", content)
 

@@ -36,7 +36,7 @@ from weblate.trans.signals import (
     vcs_pre_push,
     vcs_pre_update,
 )
-from weblate.utils.classloader import ClassLoader
+from weblate.utils.classloader import ClassRegistry
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.tracing import start_span
@@ -65,7 +65,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Translation
 
 # Initialize addons registry
-ADDONS = ClassLoader("WEBLATE_ADDONS", construct=False, base_class=BaseAddon)
+ADDONS = ClassRegistry("WEBLATE_ADDONS", base_class=BaseAddon)
 POT_MSGMERGE_ADDON = "weblate.gettext.msgmerge"
 
 

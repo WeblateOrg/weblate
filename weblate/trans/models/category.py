@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, overload
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -24,6 +24,8 @@ from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
+    InheritableLanguageSetting,
+    InheritableStringSetting,
     get_disabled_component_new_language_filter,
     get_inherit_field_name,
     get_inheritable_setting_value,
@@ -473,6 +475,17 @@ class Category(
     def settings_parent(self):
         return self.category or self.project
 
+    @overload
+    def get_effective_setting(self, field: InheritableStringSetting) -> str: ...
+
+    @overload
+    def get_effective_setting(
+        self, field: InheritableLanguageSetting
+    ) -> Language | None: ...
+
+    @overload
+    def get_effective_setting(self, field: str) -> str | Language | None: ...
+
     def get_effective_setting(self, field: str) -> str | Language | None:
         """Return setting value after applying parent inheritance."""
         if self.uses_parent_setting(field):
@@ -492,47 +505,47 @@ class Category(
 
     @property
     def effective_license(self) -> str:
-        return cast("str", self.get_effective_setting("license"))
+        return self.get_effective_setting("license")
 
     @property
     def effective_agreement(self) -> str:
-        return cast("str", self.get_effective_setting("agreement"))
+        return self.get_effective_setting("agreement")
 
     @property
     def effective_new_lang(self) -> str:
-        return cast("str", self.get_effective_setting("new_lang"))
+        return self.get_effective_setting("new_lang")
 
     @property
     def effective_language_code_style(self) -> str:
-        return cast("str", self.get_effective_setting("language_code_style"))
+        return self.get_effective_setting("language_code_style")
 
     @property
     def effective_secondary_language(self) -> Language | None:
-        return cast("Language | None", self.get_effective_setting("secondary_language"))
+        return self.get_effective_setting("secondary_language")
 
     @property
     def effective_commit_message(self) -> str:
-        return cast("str", self.get_effective_setting("commit_message"))
+        return self.get_effective_setting("commit_message")
 
     @property
     def effective_add_message(self) -> str:
-        return cast("str", self.get_effective_setting("add_message"))
+        return self.get_effective_setting("add_message")
 
     @property
     def effective_delete_message(self) -> str:
-        return cast("str", self.get_effective_setting("delete_message"))
+        return self.get_effective_setting("delete_message")
 
     @property
     def effective_merge_message(self) -> str:
-        return cast("str", self.get_effective_setting("merge_message"))
+        return self.get_effective_setting("merge_message")
 
     @property
     def effective_addon_message(self) -> str:
-        return cast("str", self.get_effective_setting("addon_message"))
+        return self.get_effective_setting("addon_message")
 
     @property
     def effective_pull_message(self) -> str:
-        return cast("str", self.get_effective_setting("pull_message"))
+        return self.get_effective_setting("pull_message")
 
     def schedule_component_check_updates(self, *, update_state: bool = False) -> None:
         for component in self.all_components.iterator():

@@ -13,7 +13,7 @@ from .base import (
     MachineryRateLimitError,
     MachineTranslationError,
 )
-from .forms import AzureOpenAIMachineryForm, OpenAIMachineryForm
+from .forms import AzureOpenAIMachineryForm, MistralMachineryForm, OpenAIMachineryForm
 from .llm import BaseLLMTranslation
 
 
@@ -70,7 +70,9 @@ class OpenAITranslation(BaseOpenAITranslation):
 
     version_added = "5.3"
 
-    settings_form = OpenAIMachineryForm
+    settings_form: type[OpenAIMachineryForm | MistralMachineryForm] = (
+        OpenAIMachineryForm
+    )
 
     def __init__(self, settings=None) -> None:
         super().__init__(settings)

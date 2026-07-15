@@ -17,11 +17,12 @@ from weblate.trans.filter import FILTERS
 from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
+from weblate.trans.widgets import MatrixMultiLanguageWidget
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
-    from django.http import HttpResponse
+    from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
 
 
 class EngageTaskObject(TranslationChecklistMixin):
@@ -79,14 +80,16 @@ class WidgetsTest(FixtureTestCase):
         )
 
     def assert_engage_task_urls(
-        self, response: HttpResponse, expected_urls: list[str]
+        self, response: ClientResponse, expected_urls: list[str]
     ) -> None:
         task_urls = [
             task.url for task in response.context["translate_object"].list_engage_tasks
         ]
         self.assertEqual(task_urls, expected_urls)
 
-    def assert_engage_task_url(self, response: HttpResponse, expected_url: str) -> None:
+    def assert_engage_task_url(
+        self, response: ClientResponse, expected_url: str
+    ) -> None:
         task_urls = [
             task.url for task in response.context["translate_object"].list_engage_tasks
         ]
@@ -220,7 +223,7 @@ class WidgetsMeta(type):
 
 
 class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
-    def assert_widget(self, widget: str, response: HttpResponse) -> None:
+    def assert_widget(self, widget: str, response: ClientResponse) -> None:
         if "svg" in WIDGETS[widget].content_type:
             self.assert_svg(response)
         else:
@@ -245,6 +248,7 @@ class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
 class MatrixWidgetTest(FixtureTestCase):
     def test_matrix_columns_avoid_dangling_rows(self) -> None:
         widget = WIDGETS["matrix"](self.project, "auto")
+        assert isinstance(widget, MatrixMultiLanguageWidget)
 
         self.assertEqual(widget.get_column_count(5, 100), 5)
         self.assertEqual(widget.get_column_count(5, 180), 3)

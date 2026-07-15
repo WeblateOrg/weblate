@@ -8,11 +8,27 @@ import base64
 import json
 from unittest import TestCase
 
-from django.http import HttpRequest
+from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.test.utils import override_settings
 
 from weblate.accounts.captcha import MathCaptcha, solve_altcha
 from weblate.accounts.forms import CaptchaForm, CaptchaWidget
+from weblate.auth.models import AuthenticatedHttpRequest
+
+
+def create_request(
+    session: SessionStore, method: str = "POST"
+) -> AuthenticatedHttpRequest:
+    request = AuthenticatedHttpRequest()
+    request.method = method
+    request.session = session
+    return request
+
+
+def solve_form_challenge(form: CaptchaForm, *, invalid: bool = False) -> str:
+    challenge = form.challenge
+    assert challenge is not None
+    return solve_altcha(challenge, invalid=invalid)
 
 
 class CaptchaTest(TestCase):
@@ -39,11 +55,11 @@ class CaptchaTest(TestCase):
         ALTCHA_PARALLELISM=1,
     )
     def test_widget_challenge_serialization(self) -> None:
-        request = HttpRequest()
-        request.method = "GET"
-        request.session = {}
+        request = create_request(SessionStore(), method="GET")
         form = CaptchaForm(request=request)
-        serialized = json.loads(CaptchaWidget.serialize_challenge(form.challenge))
+        challenge = form.challenge
+        assert challenge is not None
+        serialized = json.loads(CaptchaWidget.serialize_challenge(challenge))
         self.assertEqual(serialized["parameters"]["algorithm"], "ARGON2ID")
         self.assertEqual(serialized["parameters"]["cost"], 1)
         self.assertIn("signature", serialized)
@@ -58,9 +74,7 @@ class CaptchaTest(TestCase):
 
     @override_settings(REGISTRATION_CAPTCHA=False, ENABLE_HTTPS=True)
     def test_hidden_widget_has_no_media(self) -> None:
-        request = HttpRequest()
-        request.method = "GET"
-        request.session = {}
+        request = create_request(SessionStore(), method="GET")
 
         form = CaptchaForm(request=request)
 
@@ -74,13 +88,7 @@ class CaptchaTest(TestCase):
         ALTCHA_PARALLELISM=1,
     )
     def test_form(self) -> None:
-        def create_request(session):
-            request = HttpRequest()
-            request.method = "POST"
-            request.session = session
-            return request
-
-        session_store = {}
+        session_store = SessionStore()
 
         # Successful submission
         form = CaptchaForm(request=create_request(session_store))
@@ -89,10 +97,10 @@ class CaptchaTest(TestCase):
         math = MathCaptcha.unserialize(session_store["captcha"])
         form = CaptchaForm(
             request=create_request(session_store),
-            data={"captcha": math.result, "altcha": solve_altcha(form.challenge)},
+            data={"captcha": math.result, "altcha": solve_form_challenge(form)},
         )
         self.assertTrue(form.is_valid())
-        self.assertEqual(session_store, {})
+        self.assertEqual(dict(session_store.items()), {})
 
         # Wrong captcha
         form = CaptchaForm(request=create_request(session_store))
@@ -100,7 +108,7 @@ class CaptchaTest(TestCase):
         self.assertIn("captcha", session_store)
         form = CaptchaForm(
             request=create_request(session_store),
-            data={"captcha": -1, "altcha": solve_altcha(form.challenge)},
+            data={"captcha": -1, "altcha": solve_form_challenge(form)},
         )
         self.assertFalse(form.is_valid())
         self.assertIn("captcha_challenge", session_store)
@@ -108,10 +116,10 @@ class CaptchaTest(TestCase):
         math = MathCaptcha.unserialize(session_store["captcha"])
         form = CaptchaForm(
             request=create_request(session_store),
-            data={"captcha": math.result, "altcha": solve_altcha(form.challenge)},
+            data={"captcha": math.result, "altcha": solve_form_challenge(form)},
         )
         self.assertTrue(form.is_valid())
-        self.assertEqual(session_store, {})
+        self.assertEqual(dict(session_store.items()), {})
 
         # Wrong altcha
         form = CaptchaForm(request=create_request(session_store))
@@ -122,7 +130,7 @@ class CaptchaTest(TestCase):
             request=create_request(session_store),
             data={
                 "captcha": math.result,
-                "altcha": solve_altcha(form.challenge, invalid=True),
+                "altcha": solve_form_challenge(form, invalid=True),
             },
         )
         self.assertFalse(form.is_valid())
@@ -131,10 +139,10 @@ class CaptchaTest(TestCase):
         math = MathCaptcha.unserialize(session_store["captcha"])
         form = CaptchaForm(
             request=create_request(session_store),
-            data={"captcha": math.result, "altcha": solve_altcha(form.challenge)},
+            data={"captcha": math.result, "altcha": solve_form_challenge(form)},
         )
         self.assertTrue(form.is_valid())
-        self.assertEqual(session_store, {})
+        self.assertEqual(dict(session_store.items()), {})
 
         # Wrong both
         form = CaptchaForm(request=create_request(session_store))
@@ -142,7 +150,7 @@ class CaptchaTest(TestCase):
         self.assertIn("captcha", session_store)
         form = CaptchaForm(
             request=create_request(session_store),
-            data={"captcha": -1, "altcha": solve_altcha(form.challenge, invalid=True)},
+            data={"captcha": -1, "altcha": solve_form_challenge(form, invalid=True)},
         )
         self.assertFalse(form.is_valid())
         self.assertIn("captcha_challenge", session_store)
@@ -150,10 +158,10 @@ class CaptchaTest(TestCase):
         math = MathCaptcha.unserialize(session_store["captcha"])
         form = CaptchaForm(
             request=create_request(session_store),
-            data={"captcha": math.result, "altcha": solve_altcha(form.challenge)},
+            data={"captcha": math.result, "altcha": solve_form_challenge(form)},
         )
         self.assertTrue(form.is_valid())
-        self.assertEqual(session_store, {})
+        self.assertEqual(dict(session_store.items()), {})
 
     @override_settings(
         REGISTRATION_CAPTCHA=True,
@@ -163,16 +171,10 @@ class CaptchaTest(TestCase):
         ALTCHA_PARALLELISM=1,
     )
     def test_malformed_altcha_solution(self) -> None:
-        def create_request(session):
-            request = HttpRequest()
-            request.method = "POST"
-            request.session = session
-            return request
-
-        session_store = {}
+        session_store = SessionStore()
         form = CaptchaForm(request=create_request(session_store))
         math = MathCaptcha.unserialize(session_store["captcha"])
-        payload = json.loads(base64.b64decode(solve_altcha(form.challenge)).decode())
+        payload = json.loads(base64.b64decode(solve_form_challenge(form)).decode())
         payload["solution"]["counter"] = -1
         malformed_payload = base64.b64encode(json.dumps(payload).encode()).decode()
 

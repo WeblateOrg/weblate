@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 from copy import copy, deepcopy
 from dataclasses import dataclass
+from decimal import Decimal
 from typing import TYPE_CHECKING, Any, ClassVar, TypeVar, cast
 from zipfile import BadZipfile
 
@@ -174,25 +175,49 @@ class ReportCreateSerializer(serializers.Serializer):
     )
     q = serializers.CharField(required=False, default="state:<translated")
     base_rate = serializers.DecimalField(
-        required=False, default=1, min_value=0, max_digits=12, decimal_places=4
+        required=False,
+        default=Decimal(1),
+        min_value=0,
+        max_digits=12,
+        decimal_places=4,
     )
     tm_threshold = serializers.IntegerField(
         required=False, default=80, min_value=75, max_value=100
     )
     rate_new = serializers.DecimalField(
-        required=False, default=100, min_value=0, max_digits=6, decimal_places=2
+        required=False,
+        default=Decimal(100),
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
     )
     rate_needs_editing = serializers.DecimalField(
-        required=False, default=50, min_value=0, max_digits=6, decimal_places=2
+        required=False,
+        default=Decimal(50),
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
     )
     rate_tm_100 = serializers.DecimalField(
-        required=False, default=0, min_value=0, max_digits=6, decimal_places=2
+        required=False,
+        default=Decimal(0),
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
     )
     rate_tm_fuzzy = serializers.DecimalField(
-        required=False, default=50, min_value=0, max_digits=6, decimal_places=2
+        required=False,
+        default=Decimal(50),
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
     )
     rate_repetition = serializers.DecimalField(
-        required=False, default=0, min_value=0, max_digits=6, decimal_places=2
+        required=False,
+        default=Decimal(0),
+        min_value=0,
+        max_digits=6,
+        decimal_places=2,
     )
     min_changes = serializers.IntegerField(required=False, default=5, min_value=0)
     max_changes = serializers.IntegerField(required=False, default=1000, min_value=1)
@@ -425,7 +450,7 @@ class ReportListSerializer(serializers.ModelSerializer[Report]):
 
     class Meta:
         model = Report
-        fields = (
+        fields: tuple[str, ...] = (
             "id",
             "kind",
             "version",
@@ -450,8 +475,6 @@ class ReportSerializer(ReportListSerializer):
 if TYPE_CHECKING:
     from drf_spectacular.openapi import AutoSchema
     from rest_framework.request import Request
-
-    from weblate.auth.models import AuthenticatedHttpRequest
 
 _MT = TypeVar("_MT", bound=Model)  # Model Type
 
@@ -548,7 +571,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         self.lookup_field = lookup_field
 
     # pylint: disable-next=redefined-builtin
-    def get_url(self, obj, view_name, request: AuthenticatedHttpRequest, format):  # ruff: ignore[builtin-argument-shadowing]
+    def get_url(self, obj, view_name, request: Request, format):  # ruff: ignore[builtin-argument-shadowing]
         """
         Given an object, return the URL that hyperlinks to the object.
 
@@ -931,8 +954,10 @@ class CommentSerializer(serializers.Serializer[Comment]):
     )
 
     id = serializers.IntegerField(read_only=True)
-    user = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name="api:user-detail", lookup_field="username"
+    user: serializers.HyperlinkedRelatedField[User] = (
+        serializers.HyperlinkedRelatedField(
+            read_only=True, view_name="api:user-detail", lookup_field="username"
+        )
     )
 
     class Meta:
@@ -1023,11 +1048,13 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         many=True,
         read_only=True,
     )
-    componentlists = serializers.HyperlinkedRelatedField(
-        view_name="api:componentlist-detail",
-        lookup_field="slug",
-        many=True,
-        read_only=True,
+    componentlists: serializers.HyperlinkedRelatedField[ComponentList] = (
+        serializers.HyperlinkedRelatedField(
+            view_name="api:componentlist-detail",
+            lookup_field="slug",
+            many=True,
+            read_only=True,
+        )
     )
     components = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-detail",
@@ -1041,11 +1068,13 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         required=False,
     )
     defining_workspace = DefiningWorkspaceField(required=False, allow_null=True)
-    admins = serializers.HyperlinkedRelatedField(
-        view_name="api:user-detail",
-        lookup_field="username",
-        many=True,
-        read_only=True,
+    admins: serializers.HyperlinkedRelatedField[User] = (
+        serializers.HyperlinkedRelatedField(
+            view_name="api:user-detail",
+            lookup_field="username",
+            many=True,
+            read_only=True,
+        )
     )
 
     class Meta:
@@ -1572,7 +1601,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
 
     class Meta:
         model = Component
-        fields = (
+        fields: tuple[str, ...] = (
             "name",
             "slug",
             "id",
@@ -2169,7 +2198,7 @@ class TranslationSerializer(RemovableSerializer[Translation]):
 
     class Meta:
         model = Translation
-        fields = (
+        fields: tuple[str, ...] = (
             "language",
             "component",
             "language_code",
@@ -2892,8 +2921,8 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
     language_code = serializers.CharField(
         source="translation.language.code", read_only=True
     )
-    source_unit = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name="api:unit-detail"
+    source_unit: serializers.HyperlinkedRelatedField[Unit] = (
+        serializers.HyperlinkedRelatedField(read_only=True, view_name="api:unit-detail")
     )
     source = PluralField()
     target = PluralField()
@@ -3204,11 +3233,15 @@ class ScreenshotSerializer(RemovableSerializer[Screenshot]):
         ),
         strip_parts=1,
     )
-    file_url = serializers.HyperlinkedRelatedField(
-        read_only=True, source="pk", view_name="api:screenshot-file"
+    file_url: serializers.HyperlinkedRelatedField[Screenshot] = (
+        serializers.HyperlinkedRelatedField(
+            read_only=True, source="pk", view_name="api:screenshot-file"
+        )
     )
-    units = serializers.HyperlinkedRelatedField(
-        many=True, read_only=True, view_name="api:unit-detail"
+    units: serializers.HyperlinkedRelatedField[Unit] = (
+        serializers.HyperlinkedRelatedField(
+            many=True, read_only=True, view_name="api:unit-detail"
+        )
     )
 
     class Meta:
@@ -3301,14 +3334,18 @@ class ChangeSerializer(RemovableSerializer[Change]):
         ),
         strip_parts=1,
     )
-    unit = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name="api:unit-detail"
+    unit: serializers.HyperlinkedRelatedField[Unit] = (
+        serializers.HyperlinkedRelatedField(read_only=True, view_name="api:unit-detail")
     )
-    user = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name="api:user-detail", lookup_field="username"
+    user: serializers.HyperlinkedRelatedField[User] = (
+        serializers.HyperlinkedRelatedField(
+            read_only=True, view_name="api:user-detail", lookup_field="username"
+        )
     )
-    author = serializers.HyperlinkedRelatedField(
-        read_only=True, view_name="api:user-detail", lookup_field="username"
+    author: serializers.HyperlinkedRelatedField[User] = (
+        serializers.HyperlinkedRelatedField(
+            read_only=True, view_name="api:user-detail", lookup_field="username"
+        )
     )
     alert = serializers.SerializerMethodField()
 
@@ -3442,10 +3479,12 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         read_only=True,
         strip_parts=1,
     )
-    project = serializers.HyperlinkedRelatedField(
-        view_name="api:project-detail",
-        lookup_field="slug",
-        read_only=True,
+    project: serializers.HyperlinkedRelatedField[Project] = (
+        serializers.HyperlinkedRelatedField(
+            view_name="api:project-detail",
+            lookup_field="slug",
+            read_only=True,
+        )
     )
     configuration = serializers.JSONField(required=False)
 
@@ -3556,7 +3595,11 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
 
     def save(self, **kwargs):
         result = super().save(**kwargs)
-        self.instance.addon.post_configure()
+        instance = self.instance
+        if instance is None:
+            msg = "Add-on serializer did not produce an instance"
+            raise RuntimeError(msg)
+        instance.addon.post_configure()
         return result
 
 

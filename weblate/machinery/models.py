@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, cast
 
 from appconf import AppConf
 
-from weblate.utils.classloader import ClassLoader
+from weblate.utils.classloader import ClassRegistry
 
 from .base import BatchMachineTranslation
 from .defaults import DEFAULT_WEBLATE_MACHINERY
@@ -17,9 +17,8 @@ from .defaults import DEFAULT_WEBLATE_MACHINERY
 if TYPE_CHECKING:
     from .types import SettingsDict
 
-MACHINERY = ClassLoader(
+MACHINERY = ClassRegistry(
     "WEBLATE_MACHINERY",
-    construct=False,
     collect_errors=True,
     base_class=BatchMachineTranslation,
 )
@@ -40,7 +39,7 @@ def validate_service_configuration(
     configuration: str | SettingsDict,
     *,
     allow_private_targets: bool = True,
-) -> tuple[BatchMachineTranslation | None, SettingsDict, list[str]]:
+) -> tuple[type[BatchMachineTranslation] | None, SettingsDict, list[str]]:
     """
     Validate given service configuration.
 

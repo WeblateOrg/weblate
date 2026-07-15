@@ -81,11 +81,23 @@ jobs:
     - name: Enforced mypy
       # TODO: Enforce mypy to pass on certain modules, this should eventually grow to complete codebase
       env:
-        EXCLUDED_MODULES: accounts/|addons/(base|models|resx|views|gettext|tests)|api/|auth/|billing/|fonts/|checks/|lang/|machinery/|metrics/|trans/(admin|autofixes|autotranslate|context_processors|debug|feeds|forms|guide|management|mixins|models/(agreement|pending|suggestion|comment|announcement|category|unit|translation|component)|tests|views|widgets)|vcs/(gpg|base|git|tests/test_vcs)
+        EXCLUDED_MODULES: |
+          accounts/(admin|auth|avatar|forms|middleware|models|notifications|pipeline|strategy|utils|views|tests/(test_avatars|test_notifications|test_registration|test_twofactor|test_views))
+          addons/(base|gettext|resx|tests|views)
+          api/(docs|serializers|tests|views)
+          auth/(forms|models|permissions|views|management/commands/list_permissions|tests/test_models)
+          billing/(admin|models|tests|views|migrations/0007_migrate_owners)
+          checks/(chars|consistency|format|glossary|markup|placeholders|render|source|utils|views|management/commands/list_same_checks|tests/(test_glossary_checks|test_mdx|test_models))
+          fonts/(utils|views|tests/test_utils)
+          lang/(admin|models|tests|views)
+          machinery/(deepl|forms|llm|microsoft|modernmt|tests|tmserver|yandex|yandexv2|management/commands/list_machinery)
+          trans/(admin|autofixes/__init__|debug|feeds|management/commands/(add_suggestions|import_project|list_file_format_params|list_versions)|models/(agreement|comment|component|pending|translation|unit)|tests|views|widgets)
+          vcs/(git|github|gpg|tests/test_vcs)
       run: |
         echo "::add-matcher::.github/matchers/mypy.json"
-        if grep --silent --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log ; then
-          grep --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log
+        excluded_modules="$(printf '%s' "$EXCLUDED_MODULES" | paste -sd '|' -)"
+        if grep --silent --invert-match --extended-regexp "^weblate/($excluded_modules)" mypy.log ; then
+          grep --invert-match --extended-regexp "^weblate/($excluded_modules)" mypy.log
           exit 1
         fi
         echo "::remove-matcher owner=mypy::"
