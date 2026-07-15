@@ -42,6 +42,8 @@ else:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DATA_DIR = os.path.join(BASE_DIR, "data-test")
+# Share cached external assets between xdist workers and CI runs.
+CACHE_DIR = os.path.join(DATA_DIR, "cache")
 
 # Use random data directory when running in parallel
 if "PYTEST_XDIST_TESTRUNUID" in os.environ:
@@ -50,7 +52,6 @@ if "PYTEST_XDIST_TESTRUNUID" in os.environ:
     DATA_DIR_TMP = TemporaryDirectory(dir=DATA_DIR, prefix="xdist-")
     DATA_DIR = DATA_DIR_TMP.name
 
-CACHE_DIR = os.path.join(DATA_DIR, "cache")
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
 CELERY_TASK_ALWAYS_EAGER = True
