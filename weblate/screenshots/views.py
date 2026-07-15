@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import difflib
 import os
-from contextlib import contextmanager
+import tempfile
+import time
+from contextlib import contextmanager, suppress
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.contrib.auth.decorators import login_required
@@ -20,6 +22,8 @@ from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
+from requests import ConnectionError as RequestsConnectionError
+from requests import HTTPError, RequestException, Timeout
 from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
 from weblate.logger import LOGGER
@@ -157,6 +161,59 @@ TESSERACT_LANGUAGES = {
 }
 
 TESSERACT_URL = "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/{}"
+TESSERACT_DOWNLOAD_ATTEMPTS = 3
+TESSERACT_DOWNLOAD_TIMEOUT = 30
+
+
+def is_retryable_tesseract_download_error(error: RequestException) -> bool:
+    if isinstance(error, (RequestsConnectionError, Timeout)):
+        return True
+    if not isinstance(error, HTTPError) or error.response is None:
+        return False
+    return error.response.status_code == 429 or error.response.status_code >= 500
+
+
+def download_tesseract_data(url: str, full_name: str) -> None:
+    temporary_name: str | None = None
+    try:
+        for attempt in range(1, TESSERACT_DOWNLOAD_ATTEMPTS + 1):
+            try:
+                with start_span(op="ocr.download", name=url):
+                    response = fetch_url(
+                        "GET",
+                        url,
+                        allow_redirects=True,
+                        timeout=TESSERACT_DOWNLOAD_TIMEOUT,
+                    )
+            except RequestException as error:
+                if (
+                    attempt == TESSERACT_DOWNLOAD_ATTEMPTS
+                    or not is_retryable_tesseract_download_error(error)
+                ):
+                    raise
+                LOGGER.warning(
+                    "Tesseract data download failed, retrying (%d/%d): %s",
+                    attempt,
+                    TESSERACT_DOWNLOAD_ATTEMPTS,
+                    error,
+                )
+                time.sleep(2 ** (attempt - 1))
+                continue
+
+            with tempfile.NamedTemporaryFile(
+                dir=os.path.dirname(full_name),
+                prefix=f".{os.path.basename(full_name)}.",
+                delete=False,
+            ) as handle:
+                temporary_name = handle.name
+                handle.write(response.content)
+            os.replace(temporary_name, full_name)
+            temporary_name = None
+            return
+    finally:
+        if temporary_name is not None:
+            with suppress(FileNotFoundError):
+                os.unlink(temporary_name)
 
 
 def ensure_tesseract_language(lang: str) -> None:
@@ -177,8 +234,7 @@ def ensure_tesseract_language(lang: str) -> None:
         ),
         start_span(op="ocr.models"),
     ):
-        if not os.path.isdir(tessdata):
-            os.makedirs(tessdata)
+        os.makedirs(tessdata, exist_ok=True)
 
         for code in (lang, "eng", "osd"):
             filename = f"{code}.traineddata"
@@ -190,11 +246,7 @@ def ensure_tesseract_language(lang: str) -> None:
 
             LOGGER.debug("downloading tesseract data %s", url)
 
-            with start_span(op="ocr.download", name=url):
-                response = fetch_url("GET", url, allow_redirects=True)
-
-            with open(full_name, "xb") as handle:
-                handle.write(response.content)
+            download_tesseract_data(url, full_name)
 
 
 def add_sources(request: AuthenticatedHttpRequest, obj) -> dict[str, int | bool]:
@@ -520,7 +572,14 @@ def remove_source(request: AuthenticatedHttpRequest, pk):
     return redirect(obj)
 
 
-def search_results(request: AuthenticatedHttpRequest, code, obj, units=None):
+def search_results(
+    request: AuthenticatedHttpRequest,
+    code,
+    obj,
+    units=None,
+    *,
+    error: str | None = None,
+):
     if units is None:
         units = []
         count = 0
@@ -532,28 +591,29 @@ def search_results(request: AuthenticatedHttpRequest, code, obj, units=None):
         )
         count = len(units)
 
-    return JsonResponse(
-        data={
-            "responseCode": code,
-            "count": count,
-            "summary": ngettext(
-                "%(count)s matching source string found.",
-                "%(count)s matching source strings found.",
-                count,
-            )
-            % {"count": count},
-            "empty": gettext("No new matching source strings found."),
-            "results": render_to_string(
-                "screenshots/screenshot_sources_search.html",
-                {
-                    "object": obj,
-                    "units": units,
-                    "user": request.user,
-                    "search_query": "",
-                },
-            ),
-        }
-    )
+    data = {
+        "responseCode": code,
+        "count": count,
+        "summary": ngettext(
+            "%(count)s matching source string found.",
+            "%(count)s matching source strings found.",
+            count,
+        )
+        % {"count": count},
+        "empty": gettext("No new matching source strings found."),
+        "results": render_to_string(
+            "screenshots/screenshot_sources_search.html",
+            {
+                "object": obj,
+                "units": units,
+                "user": request.user,
+                "search_query": "",
+            },
+        ),
+    }
+    if error is not None:
+        data["error"] = error
+    return JsonResponse(data=data)
 
 
 @login_required
@@ -677,6 +737,14 @@ def ocr_search(request: AuthenticatedHttpRequest, pk):
                     resolution=resolution,
                 )
             }
+    except RequestException as error:
+        LOGGER.warning("Could not download Tesseract data: %s", error)
+        return search_results(
+            request,
+            503,
+            obj,
+            error=gettext("OCR data could not be downloaded. Please try again later."),
+        )
     finally:
         ocr_image.close()
 
