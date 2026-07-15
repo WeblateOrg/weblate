@@ -399,6 +399,7 @@ You can also fine-tune individual worker categories:
 
     environment:
       WEB_WORKERS: 4
+      WEB_BLOCKING_THREADS: 4
       CELERY_MAIN_OPTIONS: --concurrency 2 --prefetch-multiplier 1
       CELERY_NOTIFY_OPTIONS: --concurrency 1 --prefetch-multiplier 4
       CELERY_MEMORY_OPTIONS: --concurrency 1 --prefetch-multiplier 1
@@ -429,6 +430,7 @@ Memory usage can be further reduced by running only a single Celery process:
    * :envvar:`CELERY_BEAT_OPTIONS`
    * :envvar:`CELERY_SINGLE_PROCESS`
    * :envvar:`WEB_WORKERS`
+   * :envvar:`WEB_BLOCKING_THREADS`
 
 .. _docker-scaling:
 
@@ -2355,8 +2357,8 @@ Container settings
    It is used to determine :envvar:`CELERY_MAIN_OPTIONS`,
    :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`,
    :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`,
-   :envvar:`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use
-   these settings to fine-tune.
+   :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, and
+   :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune.
 
 .. envvar:: CELERY_MAIN_OPTIONS
 .. envvar:: CELERY_NOTIFY_OPTIONS
@@ -2416,7 +2418,25 @@ Container settings
 
    .. versionchanged:: 5.13
 
-      :envvar:`WEB_WORKERS` configures how many worker processes will used by :program:`granian`.
+      :envvar:`WEB_WORKERS` configures how many worker processes will be used by :program:`granian`.
+
+.. envvar:: WEB_BLOCKING_THREADS
+
+   Configure how many blocking WSGI threads each :program:`granian` worker can
+   use. It defaults to twice :envvar:`WEBLATE_WORKERS`.
+
+   The maximum number of simultaneous WSGI requests is approximately
+   :envvar:`WEB_WORKERS` multiplied by :envvar:`WEB_BLOCKING_THREADS`. Each
+   thread can hold its own database connection, so keep the resulting total
+   within the database connection limit.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         WEB_WORKERS: 2
+         WEB_BLOCKING_THREADS: 8
 
 .. envvar:: WEBLATE_SERVICE
 
