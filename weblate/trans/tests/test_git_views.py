@@ -10,7 +10,7 @@ from django.contrib.messages import get_messages
 from django.test.utils import override_settings
 from django.urls import reverse
 
-from weblate.trans.models import Component, PendingUnitChange
+from weblate.trans.models import Component, PendingUnitChange, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path
 
@@ -145,8 +145,13 @@ class GitNoChangeProjectTest(ViewTestCase):
             fetch_redirect_response=False,
         )
 
-    def test_status(self) -> None:
-        response = self.client.get(self.get_test_url("git_status"))
+    def test_status_does_not_check_project_needs_commit(self) -> None:
+        with patch.object(
+            Project,
+            "needs_commit",
+            side_effect=AssertionError("Project.needs_commit should not be evaluated"),
+        ):
+            response = self.client.get(self.get_test_url("git_status"))
         self.assertContains(response, "Repository status")
 
 

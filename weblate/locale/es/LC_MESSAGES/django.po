@@ -37,9 +37,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-04 02:46+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-14 19:12+0000\n"
+"Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -47,7 +46,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -914,6 +913,8 @@ msgstr "Monitorizar proyectos automáticamente al contribuir"
 msgid ""
 "Projects are added to your watched projects when you contribute to them."
 msgstr ""
+"Los proyectos son agregados a su proyecto vigilado cuando contribuya con "
+"ellos."
 
 #: weblate/accounts/models.py:845
 msgid "Contribute to personal translation memory"
@@ -1209,19 +1210,14 @@ msgid "You were mentioned in some comments"
 msgstr "Fuiste mencionado en algunos comentarios"
 
 #: weblate/accounts/notifications.py:1032
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Your translation received a comment"
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
-msgstr "Tu traducción ha recibido un comentario"
+msgstr "Cadena distribuida por ti ha recibido un comentario"
 
 #: weblate/accounts/notifications.py:1036
-#, fuzzy
-#| msgid "Strings with source comments"
 msgctxt "Notification name"
 msgid "Strings you contributed to received comments"
-msgstr "Cadenas con comentarios de origen"
+msgstr "Cadenas contribuidas para comentarios recibidos"
 
 #: weblate/accounts/notifications.py:1118
 msgctxt "Notification name"
@@ -1515,10 +1511,8 @@ msgid "Gratis trial"
 msgstr "Prueba gratuita"
 
 #: weblate/accounts/views.py:791 weblate/api/views.py:764
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "This user can not be edited."
-msgstr "No se puede editar la cadena de origen."
+msgstr "Este usuario no puede ser editado."
 
 #: weblate/accounts/views.py:819
 #, python-format
@@ -1910,19 +1904,16 @@ msgstr ""
 #: weblate/addons/fedora_messaging.py:204
 #, python-format
 msgid "Message ID: %(message_id)s"
-msgstr ""
+msgstr "ID Mensaje: %(message_id)s"
 
 #: weblate/addons/fedora_messaging.py:456
-#, fuzzy, python-format
-#| msgid ""
-#| "Fedora Messaging publish timed out; the broker did not confirm delivery: "
-#| "%(error)s"
+#, python-format
 msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
 msgstr ""
-"Ha caducado la publicación de mensajes de Fedora; el corredor no confirmó la "
-"entrega: %(error)s"
+"Ha caducado la publicación de mensajes de Fedora; la conexión o confirmación "
+"de entrega del corredor no es completa: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:460
 #, python-format
@@ -1953,10 +1944,8 @@ msgid "configured"
 msgstr "configurado"
 
 #: weblate/addons/fedora_messaging.py:611
-#, fuzzy
-#| msgid "Fedora Messaging publish failed: %(error)s"
 msgid "Could not reset Fedora Messaging publisher service."
-msgstr "La publicación de mensajes de Fedora fallaba: %(error)s"
+msgstr "No pudo restablecer el servicio de Mensajería de Fedora del publicista."
 
 #: weblate/addons/fedora_messaging.py:701
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2089,7 +2078,7 @@ msgstr "Actualizar frecuencia"
 
 #: weblate/addons/forms.py:156
 msgid "Daily"
-msgstr "Diario"
+msgstr "Diariamente"
 
 #: weblate/addons/forms.py:157
 msgid "Weekly"
@@ -2130,34 +2119,29 @@ msgstr ""
 "actualizado el archivo POT."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Lugar de cadena origen"
+msgstr "Lugares de origen"
 
 #: weblate/addons/forms.py:186
-#, fuzzy
-#| msgid "Use default setting"
 msgid "Use file format settings"
-msgstr "Utilizar configuración predeterminada"
+msgstr "Utilizar ajustes del formato de archivo"
 
 #: weblate/addons/forms.py:187
-#, fuzzy
-#| msgid "Extract strings from HTML files"
 msgid "Extract locations to the POT file"
-msgstr "Extraer cadenas desde archivos HTML"
+msgstr "Extraer localizaciones para el archivo POT"
 
 #: weblate/addons/forms.py:188
-#, fuzzy
-#| msgid "Do not extract comments"
 msgid "Do not extract locations"
-msgstr "No extrae comentarios"
+msgstr "No extraer localizaciones"
 
 #: weblate/addons/forms.py:193
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Elija como extraer lugares de origen escritos al archivo POR. Utilice esto "
+"para conservar localizaciones en la plantilla mientras las omitan desde los "
+"archivos PO traducidos."
 
 #: weblate/addons/forms.py:238
 msgid "Do not extract comments"
@@ -2797,11 +2781,11 @@ msgstr "La URL broker AMQP a la que conectar."
 
 #: weblate/addons/forms.py:1655
 msgid "Topic prefix"
-msgstr ""
+msgstr "Prefijo de tema"
 
 #: weblate/addons/forms.py:1657
 msgid "Optional prefix to prepend to generated message topics."
-msgstr ""
+msgstr "Prefijo opcional para anteponer temas de mensaje generados."
 
 #: weblate/addons/forms.py:1663
 msgid "CA certificate bundle (PEM)"
@@ -2844,10 +2828,9 @@ msgid "Publish timeout"
 msgstr "Vencimiento de publicación"
 
 #: weblate/addons/forms.py:1689
-#, fuzzy
 msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgstr ""
-"Cuantos segundos de espera para el reconocimiento de entrega del corredor."
+"Cuantos segundos de espera para el acuse de recibo de entrega del agente."
 
 #: weblate/addons/forms.py:1697
 msgid "Connection attempts"
@@ -2866,15 +2849,13 @@ msgid "How many seconds to wait between connection attempts."
 msgstr "Cuantos segundos de espera entre intentos de conexión."
 
 #: weblate/addons/forms.py:1755
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "La cadena contiene un carácter de control: %s"
+msgstr "El prefijo del tema solo puede contener caracteres ASCII."
 
 #: weblate/addons/forms.py:1760
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "Prefijo de tema no debe superar %(limit)d caracteres."
 
 #: weblate/addons/forms.py:1794
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -2915,7 +2896,7 @@ msgstr "Completa las cadenas de traducción con las de origen."
 
 #: weblate/addons/generate.py:313
 msgid "Fill read-only strings with source"
-msgstr "Completar las líneas de solo lectura con el origen"
+msgstr "Completa las líneas de solo lectura con el origen"
 
 #: weblate/addons/generate.py:315
 msgid "Fills in translation of read-only strings with source string."
@@ -3168,82 +3149,67 @@ msgstr ""
 "`wlp_`."
 
 #: weblate/api/docs.py:52
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "Éxito (verde)"
+msgstr "Respuesta lograda."
 
 #: weblate/api/docs.py:53
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "Se ha retirado la clave de seguridad."
+msgstr "El recurso fue creado."
 
 #: weblate/api/docs.py:54
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "La solicitud fue aceptada para procesamiento asíncrono."
 
 #: weblate/api/docs.py:55
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "Respuesta lograda sin un cuerpo de respuesta."
 
 #: weblate/api/docs.py:56
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "Se ha eliminado la aplicación de autenticación."
+msgstr "La solicitud fue invalidada o no pudo ser interpretada."
 
 #: weblate/api/docs.py:57
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "Las credenciales de autenticación eran ausentes o no válidas."
 
 #: weblate/api/docs.py:59
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "No tiene autorización para acceder a este componente."
+msgstr "el usuario autenticado no tiene permiso para esta operación."
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
-msgstr ""
+msgstr "Los recursos solicitados no fueron encontrados o no es accesible."
 
 #: weblate/api/docs.py:62
 msgid "The HTTP method is not allowed for this resource."
-msgstr ""
+msgstr "El método HTTP no está concedido para este recurso."
 
 #: weblate/api/docs.py:63
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "El vale introducido no es válido."
+msgstr "La respuesta solicitada del tipo de medio no está disponible."
 
 #: weblate/api/docs.py:64
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The request media type is not supported."
-msgstr "No se admite el formato de archivo detectado."
+msgstr "No se proporciona el tipo del medio solicitado."
 
 #: weblate/api/docs.py:65
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "The resource is locked."
-msgstr "Archivo de recursos de .NET"
+msgstr "El recurso está bloqueado."
 
 #: weblate/api/docs.py:66
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "El límite de proporción solicitada de API ha sido superada."
 
 #: weblate/api/docs.py:67
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "Se ha producido un error de análisis"
+msgstr "Ha sucedido un error de servidor inesperado."
 
 #: weblate/api/docs.py:238
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
+"Filtro por cambio de acción. Repita este parámetro para filtrar por "
+"múltiples acciones."
 
 #: weblate/api/docs.py:423
 msgid "Allowed number of requests to perform"
@@ -3301,8 +3267,8 @@ msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
 msgstr ""
-"Si sos administrador, podes atribuir este comentario a otro usuario a través "
-"de su mail."
+"Si eres administrador, puedes atribuir este comentario a otro usuario a "
+"través de su correo-e."
 
 #: weblate/api/serializers.py:726 weblate/auth/forms.py:509
 msgid "Cannot change this on a built-in team."
@@ -3329,10 +3295,8 @@ msgid "You do not have permission to access this component."
 msgstr "No tiene autorización para acceder a este componente."
 
 #: weblate/api/serializers.py:1597 weblate/trans/forms.py:2259
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr "No tiene permiso para cambiar el control de acceso al proyecto."
+msgstr "No tiene permiso para cambiar acceso restringido."
 
 #: weblate/api/serializers.py:2025 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3440,10 +3404,8 @@ msgid "This role cannot be assigned to this team."
 msgstr "Este rol no puede ser asignado a este equipo."
 
 #: weblate/api/views.py:1136 weblate/api/views.py:1173
-#, fuzzy
-#| msgid "Cannot change components on a workspace team."
 msgid "Cannot change languages on a workspace team."
-msgstr "No se pueden cambiar componentes en un equipo de espacio de trabajo."
+msgstr "No se pueden cambiar los idiomas en un equipo de espacio de trabajo."
 
 #: weblate/api/views.py:1193 weblate/api/views.py:1221
 msgid "Cannot change projects on a scoped team."
@@ -4322,10 +4284,9 @@ msgstr ""
 "adicional."
 
 #: weblate/auth/models.py:530
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "Dirección de correo electrónico no válida: {}"
+msgstr "Bot de dirección de correo-e interno es demasiado largo: %s"
 
 #: weblate/auth/models.py:796 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:269
@@ -4432,10 +4393,8 @@ msgid "Suggest full name for the user. It can be changed later."
 msgstr "Sugerir nombre completo para el usuario. Se puede cambiar más tarde."
 
 #: weblate/auth/permissions.py:206
-#, fuzzy
-#| msgid "You do not have permission to edit the target workspace."
 msgid "You do not have permission to edit glossary entries."
-msgstr "No tienes permiso para editar el destino del espacio de trabajo."
+msgstr "No tienes permiso para editar apuntes de glosario."
 
 #: weblate/auth/permissions.py:208
 #, fuzzy

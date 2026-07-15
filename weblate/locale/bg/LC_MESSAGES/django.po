@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-14 10:16+0000\n"
+"PO-Revision-Date: 2026-07-14 15:13+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1911,7 +1911,7 @@ msgstr "настроено"
 #: weblate/addons/fedora_messaging.py:611
 msgid "Could not reset Fedora Messaging publisher service."
 msgstr ""
-"Рестартирането на услугата за съобщения на Fedora беше неуспешно: %(error)s"
+"Рестартирането на услугата за съобщения на Fedora беше неуспешно."
 
 #: weblate/addons/fedora_messaging.py:701
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2747,11 +2747,13 @@ msgstr "Адресът на брокера на AMPQ, с който да се н
 
 #: weblate/addons/forms.py:1655
 msgid "Topic prefix"
-msgstr ""
+msgstr "Представка на темата"
 
 #: weblate/addons/forms.py:1657
 msgid "Optional prefix to prepend to generated message topics."
 msgstr ""
+"Незадължителна представка, която да се добавя към темите за генерираните "
+"съобщения."
 
 #: weblate/addons/forms.py:1663
 msgid "CA certificate bundle (PEM)"
@@ -2814,15 +2816,13 @@ msgid "How many seconds to wait between connection attempts."
 msgstr "Колко секунди да се изчаква преди всеки нов опит за свързване."
 
 #: weblate/addons/forms.py:1755
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "Низът съдържа контролен знак: %s"
+msgstr "Представката за темата може да съдържа само знаци от ASCII."
 
 #: weblate/addons/forms.py:1760
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "Представката на темата може да бъде не по-дълга от %(limit)d знака."
 
 #: weblate/addons/forms.py:1794
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3113,44 +3113,36 @@ msgstr ""
 "представка `wlp_`."
 
 #: weblate/api/docs.py:52
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "Успех (зелено)"
+msgstr "Успешен отговор."
 
 #: weblate/api/docs.py:53
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "Секретният ключ е премахнат."
+msgstr "Ресурсът беше създаден."
 
 #: weblate/api/docs.py:54
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "Заявката беше приета за асинхронна обработка."
 
 #: weblate/api/docs.py:55
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "Успешен отговор без тяло на отговора."
 
 #: weblate/api/docs.py:56
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "Доставчикът за удостоверяване не е достъпен."
+msgstr "Заявката беше грешна или не може да бъде синтактически анализирана."
 
 #: weblate/api/docs.py:57
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "Данните за удостоверяване липсваха или бяха грешни."
 
 #: weblate/api/docs.py:59
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "Нямате право на достъп до този компонент."
+msgstr "Удостовереният потребител няма право да извършва тази операция."
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
-msgstr ""
+msgstr "Заявеният ресурс не беше намерен или не е достъпен."
 
 #: weblate/api/docs.py:62
 msgid "The HTTP method is not allowed for this resource."
@@ -4248,10 +4240,9 @@ msgstr ""
 "използват избраните езици за екипа, без допълнителни ограничения."
 
 #: weblate/auth/models.py:530
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "Неправилен адрес на е-поща: {}"
+msgstr "Адресът на е-пощата на вътрешния бот е твърде дълъг: %s"
 
 #: weblate/auth/models.py:796 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:269
@@ -4358,28 +4349,20 @@ msgstr ""
 "Предложете пълното име на потребителя. То може да бъде променено по-късно."
 
 #: weblate/auth/permissions.py:206
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit glossary entries."
-msgstr "Нямате разрешение да приемате предложения."
+msgstr "Нямате право да редактирате записи в речника."
 
 #: weblate/auth/permissions.py:208
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to add glossary entries."
-msgstr "Нямате разрешение да приемате предложения."
+msgstr "Нямате право да добавяте записи в речника."
 
 #: weblate/auth/permissions.py:210
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to delete glossary entries."
-msgstr "Нямате разрешение да приемате предложения."
+msgstr "Нямате право да изтривате записи от речника."
 
 #: weblate/auth/permissions.py:212
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to upload glossary entries."
-msgstr "Нямате разрешение да приемате предложения."
+msgstr "Нямате право да качвате записи в речника."
 
 #: weblate/auth/permissions.py:372
 msgid "Can not perform this operation without an e-mail address."
@@ -4412,37 +4395,27 @@ msgid "Sign in to save translations."
 msgstr "Впишете се, за да можете да запазвате преводите си."
 
 #: weblate/auth/permissions.py:419
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to approve translations in this restricted "
 "component."
-msgstr "Нямате право на достъп до този компонент."
+msgstr "Нямате право да одобрявате преводи в този компонент с ограничен достъп."
 
 #: weblate/auth/permissions.py:424
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to save translations in this restricted component."
-msgstr "Нямате право на достъп до този компонент."
+msgstr "Нямате право да запазвате преводи в този компонент с ограничен достъп."
 
 #: weblate/auth/permissions.py:429
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to approve translations."
-msgstr "Нямате разрешение да приемате предложения."
+msgstr "Нямате право да одобрявате преводи."
 
 #: weblate/auth/permissions.py:434
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations in this project."
-msgstr "Нямате права за добавяне на нов файл за превод."
+msgstr "Нямате право да запазвате преводи в този проект."
 
 #: weblate/auth/permissions.py:443 weblate/auth/permissions.py:922
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit source strings."
-msgstr "Нямате разрешение да приемате предложения."
+msgstr "Нямате право да редактирате изходни низове."
 
 #: weblate/auth/permissions.py:447
 msgid "Suggestion voting is disabled."
@@ -4453,6 +4426,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"Този превод е настроен за гласуване за предложения. Добавете предложение, "
+"вместо да запазвате директен превод."
 
 #: weblate/auth/permissions.py:463
 #: weblate/templates/snippets/project/state.html:4
@@ -4527,18 +4502,20 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Създайте компонент и дайте на себе си изричен достъп, преди да включите "
+"ограничения достъп."
 
 #: weblate/auth/permissions.py:1106
-#, fuzzy
-#| msgid "This billing plan covers the following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "Този платежен план покрива следните проекти:"
+msgstr "Платежният план не позволява управление на частен достъп."
 
 #: weblate/auth/permissions.py:1114
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"Трябва да имате изричен достъп до този компонент, преди да включите "
+"ограничения достъп. Иначе ще се блокирате."
 
 #: weblate/auth/utils.py:100
 msgid "The anonymous user can not be assigned to teams."

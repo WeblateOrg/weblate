@@ -78,6 +78,9 @@ from weblate.machinery.llm import (
     LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES,
     PROMPT,
 )
+from weblate.machinery.management.commands.list_machinery import (
+    Command as ListMachineryCommand,
+)
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.mistral import MistralTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
@@ -8151,7 +8154,13 @@ class ViewsTest(FixtureTestCase):
         )
         project = Project.objects.get(pk=self.project.id)
         self.assertEqual(project.machinery_settings["dummy"], None)
-        self.client.post(edit_url, {"enable": "1"})
+        with patch(
+            "weblate.machinery.views.EditMachineryProjectView.delete_service"
+        ) as delete_service:
+            self.client.post(edit_url, {"enable": "1"})
+            response = self.client.post(edit_url, {"enable": "1"})
+        delete_service.assert_not_called()
+        self.assertRedirects(response, list_url)
         self.assertTrue(
             Setting.objects.filter(
                 category=SettingCategory.MT, name=service.get_identifier()
@@ -8718,6 +8727,22 @@ class MachineryValidationTest(TestCase):
             machine.check_failure(response)
 
         self.assertIn("Allowlisted provider error.", str(raised.exception))
+
+
+class ListMachineryCommandTest(SimpleTestCase):
+    def test_list_machinery_empty_choice(self) -> None:
+        field = Mock(
+            help_text="",
+            choices=(("", "Default"), ("FORMAL", "Formal")),
+        )
+
+        result = ListMachineryCommand.get_help_text(field)
+
+        self.assertEqual(
+            result,
+            "Available choices:\n\n*empty value* -- Default\n\n``FORMAL`` -- Formal",
+        )
+        self.assertNotIn("````", result)
 
 
 class CommandTest(FixtureComponentTestCase):
