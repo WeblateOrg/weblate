@@ -3621,7 +3621,14 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             suggestion = serializer.save()
             if serializer.add_result == SuggestionAddResult.VOTED:
                 return suggestion_vote_response(request, suggestion.pk)
-            return Response(serializer.data, status=HTTP_201_CREATED)
+
+            if Suggestion.objects.filter(pk=suggestion.pk).exists():
+                return Response(serializer.data, status=HTTP_201_CREATED)
+            # The suggestion was removed after autoaccept
+            return Response(
+                {"result": "accepted", "suggestion": None},
+                status=HTTP_200_OK,
+            )
 
         qs = unit.suggestion_set.load_votes().select_related("user").order()
         page = self.paginate_queryset(qs)

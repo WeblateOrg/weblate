@@ -12163,6 +12163,23 @@ class SuggestionAPITest(APIBaseTest):
         unit.refresh_from_db()
         self.assertEqual(unit.target, "Navrh\n")
 
+    def test_add_suggestion_autoaccept(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 1
+        self.component.save(
+            update_fields=["suggestion_voting", "suggestion_autoaccept"]
+        )
+
+        unit = self._get_unit()
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self._add_suggestion(unit, "Navrh", code=200)
+
+        self.assertEqual(response.data["result"], "accepted")
+        self.assertIsNone(response.data["suggestion"])
+        self.assertFalse(unit.suggestion_set.exists())
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Navrh\n")
+
 
 class ScreenshotAPITest(APIBaseTest):
     def setUp(self) -> None:
