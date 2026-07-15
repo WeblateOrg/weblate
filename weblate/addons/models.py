@@ -370,7 +370,7 @@ class Addon(models.Model):
             self.component.drop_addons_cache()
 
     def affected_components(self):
-        if self.component:
+        if self.component_id:
             if self.repo_scope:
                 return Component.objects.filter(
                     Q(pk=self.component_id) | Q(linked_component=self.component_id)
