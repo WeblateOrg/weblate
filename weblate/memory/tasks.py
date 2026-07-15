@@ -84,6 +84,7 @@ def import_memory(project_id: int, component_id: int | None = None) -> None:
     for component in components:
         component.log_info("updating translation memory")
         with transaction.atomic():
+            payloads = []
             units = Unit.objects.filter(
                 translation__component=component,
                 state__gte=STATE_TRANSLATED,
@@ -94,7 +95,10 @@ def import_memory(project_id: int, component_id: int | None = None) -> None:
                     translation__language_id=component.source_language_id
                 )
             for unit in units.prefetch_related("translation", "translation__language"):
-                handle_unit_translation_change(unit, None, component, project)
+                payload = get_unit_memory_update(unit, None, component, project)
+                if payload is not None:
+                    payloads.append(payload)
+            schedule_memory_updates(payloads)
 
 
 def handle_unit_translation_change(
@@ -973,9 +977,11 @@ def create_memory_entry(
 def create_missing_memory_entries(
     group_entries: list[MemoryGroupEntry],
     existing: dict[MemoryKey, set[MemoryCategory]],
+    statuses: dict[MemoryKey, int],
 ) -> list[Memory]:
     result = []
-    for _, key, entry, status in sorted(group_entries):
+    for _, key, entry, _status in sorted(group_entries):
+        status = statuses[key]
         categories = existing[key]
         if entry["add_project"] and ("project", entry["project_id"]) not in categories:
             result.append(create_memory_entry(entry, status=status, category="project"))
@@ -1039,7 +1045,9 @@ def update_memory_bulk(entries: list[MemoryUpdatePayload]) -> None:
             group_key, group_entries, statuses
         )
         to_update.extend(group_updates)
-        to_create.extend(create_missing_memory_entries(group_entries, existing))
+        to_create.extend(
+            create_missing_memory_entries(group_entries, existing, statuses)
+        )
 
     if to_create:
         with transaction.atomic(using="default"):
