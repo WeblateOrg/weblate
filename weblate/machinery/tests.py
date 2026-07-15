@@ -77,6 +77,7 @@ from weblate.machinery.llm import (
     LLM_CURATED_PREVIOUS_EXAMPLE_SOURCES,
     LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES,
     PROMPT,
+    BaseLLMTranslation,
 )
 from weblate.machinery.management.commands.list_machinery import (
     Command as ListMachineryCommand,
@@ -332,9 +333,35 @@ LIBRETRANSLATE_LANG_RESPONSE = [
 ]
 
 
+def load_request_json(request: PreparedRequest) -> dict[str, object]:
+    body = request.body or "{}"
+    if not isinstance(body, (str, bytes, bytearray)):
+        msg = f"Unexpected request body: {body!r}"
+        raise TypeError(msg)
+    payload = json.loads(body)
+    if not isinstance(payload, dict):
+        msg = f"Expected a JSON object, got: {payload!r}"
+        raise TypeError(msg)
+    return payload
+
+
+def get_request_url(request: PreparedRequest) -> str:
+    if request.url is None:
+        msg = "Prepared request has no URL"
+        raise ValueError(msg)
+    return request.url
+
+
+def get_request_params(request: PreparedRequest) -> dict[str, str]:
+    return {
+        key: values[-1]
+        for key, values in parse_qs(urlparse(get_request_url(request)).query).items()
+    }
+
+
 def get_translate_payloads(url: str) -> list[dict[str, object]]:
     return [
-        json.loads(call.request.body or "{}")
+        load_request_json(call.request)
         for call in responses.calls
         if call.request.url == url
     ]
@@ -1102,8 +1129,9 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         machine.validate_settings()
         self.assertEqual(len(responses.calls), 2)
         call_2 = responses.calls[1]
-        self.assertIn("langpair", call_2.request.params)
-        self.assertEqual("eng|spa", call_2.request.params["langpair"])
+        params = get_request_params(call_2.request)
+        self.assertIn("langpair", params)
+        self.assertEqual("eng|spa", params["langpair"])
 
     @responses.activate
     def test_translations_cache(self) -> None:
@@ -1333,7 +1361,7 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
         def translate_callback(request: PreparedRequest):
             self.assertEqual(urlparse(request.url).query, "")
             self.assertEqual(request.headers["X-Goog-Api-Key"], "KEY")
-            payload = json.loads(request.body or "{}")
+            payload = load_request_json(request)
             self.assertEqual(payload["source"], "en")
             self.assertIn(payload["target"], {"cs", "de"})
             self.assertIn(payload["q"], {self.SOURCE_TRANSLATED, "test"})
@@ -1767,11 +1795,13 @@ class YandexV2TranslationTest(BaseMachineTranslationTest):
         def translate_callback(request: PreparedRequest):
             self.assertEqual(urlparse(request.url).query, "")
             self.assertEqual(request.headers["Authorization"], "Api-Key KEY")
-            payload = json.loads(request.body or "{}")
+            payload = load_request_json(request)
             self.assertEqual(payload["sourceLanguageCode"], "en")
             self.assertIn(payload["targetLanguageCode"], {"cs", "de"})
-            self.assertEqual(len(payload["texts"]), 1)
-            self.assertIn(payload["texts"][0], {self.SOURCE_TRANSLATED, "test"})
+            texts = payload["texts"]
+            assert isinstance(texts, list)
+            self.assertEqual(len(texts), 1)
+            self.assertIn(texts[0], {self.SOURCE_TRANSLATED, "test"})
             return (
                 200,
                 {},
@@ -1967,7 +1997,7 @@ class SystranTranslationTest(BaseMachineTranslationTest):
             return 200, {}, json.dumps(SYSTRAN_LANGUAGE_JSON)
 
         def translate_callback(request: PreparedRequest):
-            query = parse_qs(urlparse(request.url).query)
+            query = parse_qs(urlparse(get_request_url(request)).query)
             self.assertEqual(request.headers["Authorization"], "Key key")
             self.assertNotIn("key", query)
             self.assertEqual(query["source"], ["en"])
@@ -2159,7 +2189,7 @@ class ModernMTTest(BaseMachineTranslationTest):
 
         def translate_request_callback(request: PreparedRequest):
             """Check 'glossaries' included in request params."""
-            self.assertIn("glossaries", request.params)
+            self.assertIn("glossaries", get_request_params(request))
             return (200, {}, json.dumps(MODERNMT_RESPONSE))
 
         machine = self.MACHINE_CLS(self.get_configuration())
@@ -2189,7 +2219,9 @@ class ModernMTTest(BaseMachineTranslationTest):
 
         def delete_glossary_callback(request: PreparedRequest, expected_id: int):
             """Check that the stale glossary is being deleted."""
-            self.assertTrue(request.url.endswith(f"memories/{expected_id}"))
+            self.assertTrue(
+                get_request_url(request).endswith(f"memories/{expected_id}")
+            )
             return (200, {}, "{}")
 
         responses.add_callback(
@@ -2299,7 +2331,7 @@ class ModernMTTest(BaseMachineTranslationTest):
 
         def request_callback(request: PreparedRequest):
             """Check 'context_vector' included in request body."""
-            self.assertIn("context_vector", request.params)
+            self.assertIn("context_vector", get_request_params(request))
             return (200, {}, json.dumps(MODERNMT_RESPONSE))
 
         responses.add_callback(
@@ -2402,7 +2434,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         expected_formality = "more"
 
         def request_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
+            payload = load_request_json(request)
             self.assertEqual(payload["formality"], expected_formality)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
 
@@ -2431,7 +2463,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_escaping(self) -> None:
         def request_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
+            payload = load_request_json(request)
             self.assertIn("formality", payload)
             response = DEEPL_RESPONSE.copy()
             response["translations"][0]["text"] = "Hallo&amp;welt"
@@ -2456,12 +2488,12 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     def test_glossary(self) -> None:
         def request_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
+            payload = load_request_json(request)
             self.assertIn("glossary_id", payload)
             return (200, {}, json.dumps(DEEPL_RESPONSE))
 
         def glossary_create_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
+            payload = load_request_json(request)
             self.assertEqual(
                 payload,
                 {
@@ -2546,7 +2578,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
     def test_glossary_with_regional_target(self) -> None:
         def request_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
+            payload = load_request_json(request)
             self.assertEqual(payload["target_lang"], "PT-BR")
             self.assertEqual(
                 payload["glossary_id"], "def3a26b-3e84-45b3-84ae-0c0aaf3525f7"
@@ -2554,7 +2586,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             return (200, {}, json.dumps(DEEPL_RESPONSE))
 
         def glossary_create_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
+            payload = load_request_json(request)
             self.assertEqual(
                 payload,
                 {
@@ -2614,7 +2646,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         """Test handling of glossary update scenario."""
 
         def glossary_replace_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
+            payload = load_request_json(request)
             self.assertEqual(
                 payload,
                 {
@@ -2627,7 +2659,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             return (200, {}, "{}")
 
         def glossary_rename_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
+            payload = load_request_json(request)
             self.assertEqual(
                 payload,
                 {
@@ -2711,7 +2743,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_replacements(self) -> None:
         def request_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
+            payload = load_request_json(request)
             self.assertEqual(
                 payload["text"], ['Hello, <x id="7"></x>! &lt;&lt;foo&gt;&gt;']
             )
@@ -3434,7 +3466,7 @@ class AlibabaTranslationTest(BaseMachineTranslationTest):
     @responses.activate
     def test_signed_request(self) -> None:
         def request_callback(request: PreparedRequest):
-            url = urlparse(request.url)
+            url = urlparse(get_request_url(request))
             query = parse_qs(url.query, keep_blank_values=True)
             body_content = (
                 request.body.decode()
@@ -3685,7 +3717,7 @@ class ProviderModelChoicesTest(SimpleTestCase):
 
 
 class OpenAITranslationTest(BaseMachineTranslationTest):
-    MACHINE_CLS: type[BatchMachineTranslation] = OpenAITranslation
+    MACHINE_CLS: type[BaseLLMTranslation] = OpenAITranslation
     EXPECTED_LEN = 1
     ENGLISH = "en"
     SUPPORTED = "zh-TW"
@@ -7194,7 +7226,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
 
 
 class MistralTranslationTest(OpenAITranslationTest):
-    MACHINE_CLS: type[BatchMachineTranslation] = MistralTranslation
+    MACHINE_CLS: type[BaseLLMTranslation] = MistralTranslation
     CONFIGURATION: ClassVar[SettingsDict] = {
         "key": "x",
         "model": "auto",
@@ -7251,7 +7283,7 @@ class MistralTranslationTest(OpenAITranslationTest):
 
 
 class MistralCustomTranslationTest(OpenAICustomTranslationTest):
-    MACHINE_CLS: type[BatchMachineTranslation] = MistralTranslation
+    MACHINE_CLS: type[BaseLLMTranslation] = MistralTranslation
     CONFIGURATION: ClassVar[SettingsDict] = {
         "key": "x",
         "model": "auto",
@@ -7305,7 +7337,7 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
 
 
 class AzureOpenAITranslationTest(OpenAITranslationTest):
-    MACHINE_CLS: type[BatchMachineTranslation] = AzureOpenAITranslation
+    MACHINE_CLS: type[BaseLLMTranslation] = AzureOpenAITranslation
     CONFIGURATION: ClassVar[SettingsDict] = {
         "key": "x",
         "deployment": "my-deployment",
@@ -7376,7 +7408,7 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
 
 
 class OllamaTranslationTest(BaseMachineTranslationTest):
-    MACHINE_CLS: type[BatchMachineTranslation] = OllamaTranslation
+    MACHINE_CLS: type[BaseLLMTranslation] = OllamaTranslation
     EXPECTED_LEN = 1
     ENGLISH = "en"
     SUPPORTED = "eu"
@@ -7455,7 +7487,7 @@ class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
 
 
 class AnthropicTranslationTest(BaseMachineTranslationTest):
-    MACHINE_CLS: type[BatchMachineTranslation] = AnthropicTranslation
+    MACHINE_CLS: type[BaseLLMTranslation] = AnthropicTranslation
     EXPECTED_LEN = 1
     ENGLISH = "en"
     SUPPORTED = "de"

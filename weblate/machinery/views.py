@@ -214,7 +214,7 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
 class EditMachineryView(FormView):
     template_name = "machinery/edit.html"
 
-    machinery: DeprecatedMachinery | BatchMachineTranslation
+    machinery: DeprecatedMachinery | type[BatchMachineTranslation]
 
     def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)

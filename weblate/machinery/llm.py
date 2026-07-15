@@ -46,6 +46,7 @@ if TYPE_CHECKING:
         SettingsDict,
         TranslationResultDict,
     )
+    from .forms import LLMBasicMachineryForm
 
 type JSONValue = (
     bool | int | float | str | list[JSONValue] | dict[str, JSONValue] | None
@@ -257,6 +258,7 @@ class LLMStringPayload(LLMStringContext):
 
 
 class BaseLLMTranslation(BatchMachineTranslation):
+    settings_form: type[LLMBasicMachineryForm]
     max_score = 90
     request_timeout = 120
     glossary_support = True

@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, TypeGuard, cast
 
 from django import forms
 from django.contrib import admin
@@ -20,9 +20,17 @@ from weblate.auth.models import AutoGroup, Group, Role, TeamMembership, User
 from weblate.wladmin.models import WeblateModelAdmin
 
 if TYPE_CHECKING:
+    from django.http import HttpRequest
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 BUILT_IN_ROLES = {role[0] for role in ROLES}
+
+
+def is_authenticated_request(
+    request: HttpRequest,
+) -> TypeGuard[AuthenticatedHttpRequest]:
+    return isinstance(request.user, User)
 
 
 def block_group_edit(obj: Group):
@@ -54,17 +62,17 @@ class InlineAutoGroupAdmin(admin.TabularInline):
     form = AutoGroupChangeForm
     extra = 0
 
-    def has_add_permission(self, request: AuthenticatedHttpRequest, obj=None):
+    def has_add_permission(self, request: HttpRequest, obj=None):
         if block_group_edit(obj):
             return False
         return super().has_add_permission(request, obj)
 
-    def has_change_permission(self, request: AuthenticatedHttpRequest, obj=None):
+    def has_change_permission(self, request: HttpRequest, obj=None):
         if block_group_edit(obj):
             return False
         return super().has_change_permission(request, obj)
 
-    def has_delete_permission(self, request: AuthenticatedHttpRequest, obj=None):
+    def has_delete_permission(self, request: HttpRequest, obj=None):
         if block_group_edit(obj):
             return False
         return super().has_delete_permission(request, obj)
@@ -83,12 +91,12 @@ class RoleAdmin(WeblateModelAdmin):
     list_display = ("name",)
     filter_horizontal = ("permissions",)
 
-    def has_change_permission(self, request: AuthenticatedHttpRequest, obj=None):
+    def has_change_permission(self, request: HttpRequest, obj=None):
         if block_role_edit(obj):
             return False
         return super().has_change_permission(request, obj)
 
-    def has_delete_permission(self, request: AuthenticatedHttpRequest, obj=None):
+    def has_delete_permission(self, request: HttpRequest, obj=None):
         if block_role_edit(obj):
             return False
         return super().has_delete_permission(request, obj)
@@ -130,7 +138,7 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
 
 
 class WeblateAuthAdmin(WeblateModelAdmin):
-    def get_deleted_objects(self, objs, request: AuthenticatedHttpRequest):
+    def get_deleted_objects(self, objs, request: HttpRequest):
         (
             deleted_objects,
             model_count,
@@ -202,28 +210,30 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             return ""
         return super().action_checkbox(obj)
 
-    def has_change_permission(self, request: AuthenticatedHttpRequest, obj=None):
+    def has_change_permission(self, request: HttpRequest, obj=None):
         if obj and obj.is_internal:
             return False
         return super().has_change_permission(request, obj)
 
-    def has_delete_permission(self, request: AuthenticatedHttpRequest, obj=None):
+    def has_delete_permission(self, request: HttpRequest, obj=None):
         if obj and obj.is_internal:
             return False
         return super().has_delete_permission(request, obj)
 
-    def delete_model(self, request: AuthenticatedHttpRequest, obj) -> None:
+    def delete_model(self, request: HttpRequest, obj) -> None:
         """Given a model instance delete it from the database."""
         if obj.is_internal:
             raise PermissionDenied
+        if not is_authenticated_request(request):
+            raise PermissionDenied
         remove_user(obj, request)
 
-    def delete_queryset(self, request: AuthenticatedHttpRequest, queryset) -> None:
+    def delete_queryset(self, request: HttpRequest, queryset) -> None:
         """Given a queryset, delete it from the database."""
         for obj in queryset.iterator():
             self.delete_model(request, obj)
 
-    def save_model(self, request: AuthenticatedHttpRequest, obj, form, change) -> None:
+    def save_model(self, request: HttpRequest, obj, form, change) -> None:
         if change and obj.is_internal:
             raise PermissionDenied
         if change:
@@ -235,10 +245,10 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
 
         super().save_model(request, obj, form, change)
 
-    def save_related(
-        self, request: AuthenticatedHttpRequest, form, formsets, change
-    ) -> None:
+    def save_related(self, request: HttpRequest, form, formsets, change) -> None:
         super().save_related(request, form, formsets, change)
+        if not is_authenticated_request(request):
+            raise PermissionDenied
         form.instance.log_audit_state(request)
 
 
@@ -305,17 +315,17 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
             return ""
         return super().action_checkbox(obj)
 
-    def has_delete_permission(self, request: AuthenticatedHttpRequest, obj=None):
+    def has_delete_permission(self, request: HttpRequest, obj=None):
         if obj and obj.internal:
             return False
         return super().has_delete_permission(request, obj)
 
-    def has_change_permission(self, request: AuthenticatedHttpRequest, obj=None):
+    def has_change_permission(self, request: HttpRequest, obj=None):
         if block_group_edit(obj):
             return False
         return super().has_change_permission(request, obj)
 
-    def save_model(self, request: AuthenticatedHttpRequest, obj, form, change) -> None:
+    def save_model(self, request: HttpRequest, obj, form, change) -> None:
         """
         Fix saving of automatic language/project selection, part 1.
 
@@ -324,9 +334,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
         super().save_model(request, obj, form, change)
         self.new_obj = obj
 
-    def save_related(
-        self, request: AuthenticatedHttpRequest, form, formsets, change
-    ) -> None:
+    def save_related(self, request: HttpRequest, form, formsets, change) -> None:
         """
         Fix saving of automatic language/project selection, part 2.
 

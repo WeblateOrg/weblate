@@ -227,7 +227,7 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         date_range: tuple[datetime, datetime] | None = None,
         *,
         values_list: tuple[str, ...] = (),
-    ) -> Iterable[tuple]:
+    ) -> models.QuerySet[Change, tuple[Any, ...]]:
         """Return list of authors."""
         authors = self.content()
         if date_range is not None:

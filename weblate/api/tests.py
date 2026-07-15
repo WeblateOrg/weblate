@@ -4778,6 +4778,8 @@ class ProjectAPITest(APIBaseTest):
     def test_create_component_overwrite(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
         trasnslation_filename = translation.get_filename()
+        assert trasnslation_filename is not None
+        assert self.component.full_path is not None
         self.assertTrue(os.path.exists(trasnslation_filename))
         with open(TEST_PO, "rb") as handle:
             self.do_request(
@@ -4908,7 +4910,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(component.enforced_checks, ["same"])
 
     def test_create_component_with_file_format_params(self) -> None:
-        payload = {
+        payload: dict[str, object] = {
             "name": "API project",
             "slug": "api-project",
             "repo": self.format_local_path(self.git_repo_path),
@@ -5147,7 +5149,7 @@ class ProjectAPITest(APIBaseTest):
 
         # Assert a few key entries
         translation_filename = translation.get_filename()
-        self.assertIsNotNone(translation_filename)
+        assert translation_filename is not None
         translation_rel = os.path.relpath(translation_filename, root)
         template_rel = os.path.relpath(
             os.path.join(self.component.full_path, self.component.template),
@@ -5189,7 +5191,7 @@ class ProjectAPITest(APIBaseTest):
         translation_filename = self.component.translation_set.get(
             language__code="cs"
         ).get_filename()
-        self.assertIsNotNone(translation_filename)
+        assert translation_filename is not None
         translation_rel = os.path.relpath(translation_filename, root)
         template_rel = os.path.relpath(template_path, root)
 
@@ -5216,14 +5218,14 @@ class ProjectAPITest(APIBaseTest):
         root = data_dir("vcs")
 
         included_translation_filename = included_translation.get_filename()
-        self.assertIsNotNone(included_translation_filename)
+        assert included_translation_filename is not None
         included_translation_rel = os.path.relpath(included_translation_filename, root)
         included_template_rel = os.path.relpath(
             os.path.join(self.component.full_path, self.component.template),
             root,
         )
         excluded_translation_filename = excluded_translation.get_filename()
-        self.assertIsNotNone(excluded_translation_filename)
+        assert excluded_translation_filename is not None
         excluded_translation_rel = os.path.relpath(excluded_translation_filename, root)
 
         self.assertIn(included_translation_rel, zip_names)
@@ -5993,6 +5995,7 @@ class ComponentAPITest(APIBaseTest):
         """Test repository status with pending changes and detailed breakdown."""
         component = Component.objects.get(**self.component_kwargs)
         translation = component.translation_set.first()
+        assert translation is not None
         unit, unit2 = translation.unit_set.all()[:2]
 
         unit.translate(self.user, "First change", STATE_TRANSLATED)
@@ -7608,7 +7611,7 @@ class ComponentAPITest(APIBaseTest):
             (source_two, "Second source translation!\n"),
         ):
             translation = component.add_new_language(language, None)
-            self.assertIsNotNone(translation)
+            assert translation is not None
             if component == source_one:
                 unit = translation.unit_set.get(source="Hello, world!\n")
             else:
@@ -7649,7 +7652,7 @@ class ComponentAPITest(APIBaseTest):
         language = Language.objects.get(code="fa")
 
         translation = source.add_new_language(language, None)
-        self.assertIsNotNone(translation)
+        assert translation is not None
         unit = translation.unit_set.get(source="Hello, world!\n")
         unit.translate(self.user, "Duplicated source translation!\n", STATE_TRANSLATED)
 
@@ -7680,7 +7683,7 @@ class ComponentAPITest(APIBaseTest):
         language = Language.objects.get(code="pt_BR")
 
         translation = source.add_new_language(language, None)
-        self.assertIsNotNone(translation)
+        assert translation is not None
         self.assertEqual(translation.language.code, "pt_BR")
         self.assertEqual(translation.language_code, "pt-BR")
         unit = translation.unit_set.get(source="Hello, world!\n")
@@ -7708,7 +7711,7 @@ class ComponentAPITest(APIBaseTest):
         source = self.create_po_new_base(name="source", project=self.component.project)
         language = Language.objects.get(code="fa")
         source_translation = source.add_new_language(language, None)
-        self.assertIsNotNone(source_translation)
+        assert source_translation is not None
 
         self.do_request(
             "api:component-translations",
@@ -7733,7 +7736,7 @@ class ComponentAPITest(APIBaseTest):
         source = self.create_po_new_base(name="source", project=source_project)
         language = Language.objects.get(code="fa")
         source_translation = source.add_new_language(language, None)
-        self.assertIsNotNone(source_translation)
+        assert source_translation is not None
         unit = source_translation.unit_set.get(source="Hello, world!\n")
         unit.translate(self.user, "Shared TM source translation!\n", STATE_TRANSLATED)
 
@@ -8634,7 +8637,7 @@ class TasksAPITest(APIBaseTest):
                 code=403,
             )
 
-        self.assertIsNotNone(DummyAsyncResult.latest)
+        assert DummyAsyncResult.latest is not None
         self.assertFalse(DummyAsyncResult.latest.revoked)
 
     def test_retrieve_hides_inaccessible_cached_component(self) -> None:
@@ -10882,6 +10885,7 @@ class TranslationAPITest(APIBaseTest):
         """Test repository status with actual pending changes."""
         translation = Translation.objects.get(**self.translation_kwargs)
         unit = translation.unit_set.first()
+        assert unit is not None
         unit.translate(self.user, "Modified translation", STATE_TRANSLATED)
 
         response = self.do_request(
@@ -11282,6 +11286,7 @@ class UnitAPITest(APIBaseTest):
         changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_ADD)
         self.assertEqual(changes.count(), 1)
         change = changes.first()
+        assert change is not None
         self.assertEqual(change.target, "Added label test")
         self.assertEqual(change.user, self.user)
 
@@ -11335,7 +11340,9 @@ class UnitAPITest(APIBaseTest):
 
         changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_REMOVE)
         self.assertEqual(changes.count(), 1)
-        self.assertEqual(changes.first().target, f"Removed label {label2.name}")
+        change = changes.first()
+        assert change is not None
+        self.assertEqual(change.target, f"Removed label {label2.name}")
 
         label1.delete()
         label2.delete()
@@ -12599,7 +12606,9 @@ class ChangeAPITest(APIBaseTest):
 
     def test_filter_changes_after(self) -> None:
         """Filter changes since timestamp."""
-        start = Change.objects.order().last().timestamp
+        latest_change = Change.objects.order().last()
+        assert latest_change is not None
+        start = latest_change.timestamp
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
@@ -14270,6 +14279,7 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertIsNotNone(announcement)
         self.assertEqual(announcement.project, project)
         self.assertIsNone(announcement.component)
+        assert announcement.language is not None
         self.assertEqual(
             announcement.language.code, self.project_language_kwargs["language_code"]
         )
@@ -14968,6 +14978,7 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertIsNotNone(announcement)
         self.assertEqual(announcement.project, component.project)
         self.assertEqual(announcement.component, component)
+        assert announcement.language is not None
         self.assertEqual(
             announcement.language.code, self.translation_kwargs["language__code"]
         )

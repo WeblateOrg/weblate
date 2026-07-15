@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import time
 from collections import UserDict
-from typing import TYPE_CHECKING, ClassVar, Self, cast
+from typing import TYPE_CHECKING, ClassVar, Self, cast, overload
 
 from django.conf import settings
 from django.core.cache import cache
@@ -32,6 +32,8 @@ from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
+    InheritableLanguageSetting,
+    InheritableStringSetting,
     get_disabled_component_new_language_filter,
     get_inherit_field_name,
     get_inheritable_setting_value,
@@ -772,6 +774,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             and self.workspace_id is not None
             and getattr(self, get_inherit_field_name(field), False)
         )
+
+    @overload
+    def get_effective_setting(self, field: InheritableStringSetting) -> str: ...
+
+    @overload
+    def get_effective_setting(
+        self, field: InheritableLanguageSetting
+    ) -> Language | None: ...
+
+    @overload
+    def get_effective_setting(self, field: str) -> str | Language | None: ...
 
     def get_effective_setting(self, field: str) -> str | Language | None:
         """Return setting value after applying workspace inheritance."""

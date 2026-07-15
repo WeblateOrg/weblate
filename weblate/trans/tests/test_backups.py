@@ -55,6 +55,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.vcs.git import GitRepository
 from weblate.workspaces.models import Workspace
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
@@ -503,13 +504,14 @@ class BackupsTest(ViewTestCase):
         restored_screenshot = Screenshot.objects.get(
             translation__component__project=restored
         )
+        assert restored_screenshot.image.name is not None
         self.assertTrue(
             restored_screenshot.image.storage.exists(restored_screenshot.image.name)
         )
         self.assertGreater(restored_screenshot.image.size, 0)
 
         restored_team = restored.defined_groups.filter(name=team.name).first()
-        self.assertIsNotNone(restored_team)
+        assert restored_team is not None
         self.assertEqual(team.language_selection, restored_team.language_selection)
         self.assertEqual(
             set(team.roles.values_list("name", flat=True)),
@@ -632,6 +634,7 @@ class BackupsTest(ViewTestCase):
         self.assertIsNone(restored.workspace)
         self.assertEqual(restored.license, "MIT")
         self.assertEqual(restored.commit_message, "Workspace commit")
+        assert restored.secondary_language is not None
         self.assertEqual(restored.secondary_language.code, "de")
         self.assertEqual(
             restored.effective_check_flags.format(), "safe-html, strict-same"
@@ -646,7 +649,9 @@ class BackupsTest(ViewTestCase):
         self.assertTrue(restored_component.inherit_commit_message)
         self.assertTrue(restored_component.inherit_secondary_language)
         self.assertEqual(restored_component.effective_commit_message, "Category commit")
-        self.assertEqual(restored_component.effective_secondary_language.code, "de")
+        component_secondary_language = restored_component.effective_secondary_language
+        assert component_secondary_language is not None
+        self.assertEqual(component_secondary_language.code, "de")
         self.assertEqual(
             set(restored_component.all_flags),
             {"safe-html", "strict-same", "xml-text", "ignore-same"},
@@ -681,7 +686,7 @@ class BackupsTest(ViewTestCase):
         secondary_language = restored_workspace_project.get_effective_setting(
             "secondary_language"
         )
-        self.assertIsInstance(secondary_language, Language)
+        assert isinstance(secondary_language, Language)
         self.assertEqual(secondary_language.code, "de")
 
     def test_backup_team_members_prefetches_limit_languages(self) -> None:
@@ -1234,20 +1239,20 @@ class BackupsTest(ViewTestCase):
                 project_name="Restored", project_slug="restored", user=self.user
             )
             component = restored.component_set.get(slug="test")
+            repository = component.repository
+            assert isinstance(repository, GitRepository)
             self.assertFalse(
                 os.path.exists(
                     os.path.join(component.full_path, ".git", "hooks", "post-checkout")
                 )
             )
+            self.assertEqual(repository.get_config("remote.origin.url"), component.repo)
             self.assertEqual(
-                component.repository.get_config("remote.origin.url"), component.repo
-            )
-            self.assertEqual(
-                component.repository.get_config(f"branch.{component.branch}.remote"),
+                repository.get_config(f"branch.{component.branch}.remote"),
                 "origin",
             )
             self.assertEqual(
-                component.repository.get_config(f"branch.{component.branch}.merge"),
+                repository.get_config(f"branch.{component.branch}.merge"),
                 f"refs/heads/{component.branch}",
             )
             restored.do_reset()
@@ -1327,7 +1332,7 @@ class BackupsTest(ViewTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         # Testing staticfiles doesn't work, so we emulate this manually
-        url = response.url
+        url = response["Location"]
         self.assertTrue(url.startswith(settings.STATIC_URL))
         filename = url[len(settings.STATIC_URL) :]
         with get_project_backup_download_storage().open(filename, "rb") as handle:

@@ -30,6 +30,7 @@ def get_doc_url_wrapper(page: str, anchor: str = "") -> str:
 def get_legal_terms_url(
     legal_hidden_documents: Sequence[str] | str = (), legal_url: str | None = None
 ) -> str | None:
+    hidden_documents: Sequence[str]
     if isinstance(legal_hidden_documents, str):
         hidden_documents = legal_hidden_documents.split(",")
     else:

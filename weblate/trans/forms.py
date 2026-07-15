@@ -8,10 +8,11 @@ import copy
 import json
 import re
 from collections import defaultdict
+from collections.abc import Mapping, MutableMapping
 from datetime import datetime
 from itertools import chain
 from secrets import token_hex
-from typing import TYPE_CHECKING, Any, ClassVar, Literal, Protocol, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, Protocol, TypedDict, cast
 
 import jsonschema
 from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
@@ -139,12 +140,13 @@ from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from django.db.models import Model, QuerySet
+    from django.db.models import QuerySet
     from django.http import QueryDict
 
     from weblate.accounts.models import Profile
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.auth.results import PermissionResult
+    from weblate.lang.models import LanguageQuerySet
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.mixins import URLMixin
     from weblate.trans.models import (
@@ -152,6 +154,16 @@ if TYPE_CHECKING:
     )
     from weblate.trans.models.translation import NewUnitParams
     from weblate.utils.stats import CategoryLanguage, ProjectLanguage
+
+
+def copy_form_data(
+    data: Mapping[str, object],
+) -> MutableMapping[str, object]:
+    """Copy bound form data while retaining mutable multivalue mappings."""
+    result = copy.copy(data)
+    if isinstance(result, MutableMapping):
+        return result
+    return dict(result)
 
 
 def clean_integration_component_data(
@@ -1039,7 +1051,7 @@ class SearchForm(forms.Form):
         This is needed to avoid issues when using the form as the default for
         any new search.
         """
-        data = copy.copy(self.data)  # pylint: disable=access-member-before-definition
+        data = copy_form_data(self.data)  # pylint: disable=access-member-before-definition
         data["offset"] = "1"
         data["checksum"] = ""
         self.data = data
@@ -1159,14 +1171,14 @@ class AutoForm(forms.Form):
         self, obj: Component | Project | Workspace | None, user=None, *args, **kwargs
     ) -> None:
         """Generate choices for other components in the same project."""
-        auto_id = kwargs.pop("auto_id", "id_auto_%s")
-        super().__init__(*args, auto_id=auto_id, **kwargs)
+        kwargs.setdefault("auto_id", "id_auto_%s")
+        super().__init__(*args, **kwargs)
         if (
             self.is_bound
             and self.data.get("auto_source") == "mt"
             and self.data.get("component")
         ):
-            self.data = self.data.copy()
+            self.data = copy_form_data(self.data)
             self.data["component"] = ""
         self.obj = obj
         self.project: Project | None = None
@@ -1377,7 +1389,7 @@ class EngageForm(forms.Form):
 class FullLanguageForm(forms.Form):
     """Form for requesting a new language."""
 
-    lang = forms.MultipleChoiceField(
+    lang: forms.Field = forms.MultipleChoiceField(
         label=gettext_lazy("Languages"), choices=[], widget=forms.SelectMultiple
     )
     obj: Category | Project
@@ -1388,12 +1400,12 @@ class FullLanguageForm(forms.Form):
         languages = self.get_lang_objects()
         self.fields["lang"].choices = languages.as_choices(user=user)
 
-    def get_lang_objects(self) -> QuerySet[Language]:
+    def get_lang_objects(self) -> LanguageQuerySet:
         raise NotImplementedError
 
 
-class RestrictedLanguageForm(forms.Form):
-    lang = forms.ChoiceField(
+class RestrictedLanguageForm(FullLanguageForm):
+    lang: forms.Field = forms.ChoiceField(
         label=gettext_lazy("Language"), choices=[], widget=forms.Select
     )
     obj: Category | Project
@@ -1405,7 +1417,7 @@ class RestrictedLanguageForm(forms.Form):
             *self.fields["lang"].choices,
         ]
 
-    def get_lang_objects(self) -> QuerySet[Language]:
+    def get_lang_objects(self) -> LanguageQuerySet:
         project = self.obj.project if isinstance(self.obj, Category) else self.obj
         return super().get_lang_objects().filter_for_add(project)
 
@@ -1415,7 +1427,7 @@ class RestrictedLanguageForm(forms.Form):
 
 
 class NewComponentLanguageOwnerForm(FullLanguageForm):
-    def get_lang_objects(self) -> QuerySet[Language]:
+    def get_lang_objects(self) -> LanguageQuerySet:
         return self.component.get_all_available_languages()
 
     def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
@@ -1431,7 +1443,7 @@ class NewComponentLanguageForm(RestrictedLanguageForm, NewComponentLanguageOwner
 class NewProjectOrCategoryLanguageOwnerForm(FullLanguageForm):
     """Form for adding a new language to all components in a project or a category."""
 
-    def get_lang_objects(self) -> QuerySet[Language]:
+    def get_lang_objects(self) -> LanguageQuerySet:
         # Get all child components
         components = self.obj.components_user_can_add_new_language(self.user)
         components_count = components.count()
@@ -1558,6 +1570,7 @@ class UserManageForm(forms.Form):
 
 class TeamAssignableUserMixin:
     allow_bot_user = False
+    cleaned_data: dict[str, Any]
 
     def clean_user(self) -> User | None:
         user = self.cleaned_data["user"]
@@ -1603,7 +1616,11 @@ class UserAddTeamForm(TeamAssignableUserMixin, UserManageForm):
         super().__init__(*args, **kwargs)
         limit_field = self.fields["limit_languages"]
         if team and team.defining_project_id:
-            languages = team.defining_project.languages
+            project = team.defining_project
+            if project is None:
+                msg = "Defining project ID exists without a project"
+                raise RuntimeError(msg)
+            languages = project.languages
         else:
             languages = Language.objects.order()
         limit_field.queryset = languages
@@ -1652,6 +1669,13 @@ class UserBlockForm(UserContributionCleanupForm):
         )
 
 
+class ReportScope(TypedDict, total=False):
+    workspace: Workspace
+    project: Project
+    category: Category
+    component: Component
+
+
 class ReportsForm(forms.Form):
     layout_fields: ClassVar[tuple[str, ...]] = (
         "period",
@@ -1685,7 +1709,7 @@ class ReportsForm(forms.Form):
         ],
     )
 
-    def __init__(self, scope: dict[str, Model], *args, **kwargs) -> None:
+    def __init__(self, scope: ReportScope, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
@@ -1693,7 +1717,7 @@ class ReportsForm(forms.Form):
         self.fields["language"].choices = get_report_language_choices(scope)
 
 
-def get_report_language_choices(scope: dict[str, Model]):
+def get_report_language_choices(scope: ReportScope):
     if not scope:
         languages = Language.objects.have_translation()
     elif "workspace" in scope:
@@ -1817,7 +1841,7 @@ class CostEstimateReportsForm(forms.Form):
         decimal_places=2,
     )
 
-    def __init__(self, scope: dict[str, Model], *args, **kwargs) -> None:
+    def __init__(self, scope: ReportScope, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
@@ -1842,14 +1866,14 @@ class TranslatorWorkReportsForm(forms.Form):
         label=gettext_lazy("Maximum source words per day"), initial=10000, min_value=1
     )
 
-    def __init__(self, scope: dict[str, Model], *args, **kwargs) -> None:
+    def __init__(self, scope: ReportScope, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.fields["language"].choices = get_report_language_choices(scope)
 
     def clean(self):
-        cleaned = super().clean()
+        cleaned = super().clean() or {}
         minimum = cleaned.get("min_changes")
         maximum = cleaned.get("max_changes")
         if minimum is not None and maximum is not None and minimum > maximum:
@@ -1860,6 +1884,9 @@ class TranslatorWorkReportsForm(forms.Form):
 
 
 class CleanRepoMixin:
+    cleaned_data: dict[str, Any]
+    request: AuthenticatedHttpRequest
+
     def clean_repo(self):
         repo = self.cleaned_data.get("repo")
         if not repo or not is_repo_link(repo) or "/" not in repo[10:]:
@@ -1881,7 +1908,7 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
     class Meta:
         model = Component
         # ruff: ignore[mutable-class-default]
-        fields = []
+        fields: list[str] = []
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -1922,7 +1949,11 @@ class InheritedSettingsFormMixin(forms.ModelForm):
             return instance.settings_parent.get_effective_setting(field_name)
         if isinstance(instance, Component):
             if instance.category_id is not None:
-                return instance.category.get_effective_setting(field_name)
+                category = instance.category
+                if category is None:
+                    msg = "Category ID exists without a category"
+                    raise RuntimeError(msg)
+                return category.get_effective_setting(field_name)
             return instance.project.get_effective_setting(field_name)
         return instance.get_effective_setting(field_name)
 
@@ -2001,7 +2032,7 @@ class InheritedSettingsFormMixin(forms.ModelForm):
 
     def _post_clean(self) -> None:
         try:
-            super()._post_clean()
+            super()._post_clean()  # type: ignore[misc]
         finally:
             self.restore_inherited_values()
 
@@ -2054,8 +2085,8 @@ class FormParamsWidget(forms.MultiWidget):
 
     def __init__(
         self,
-        widgets: dict[str, forms.Widget],
-        fields_order: list[tuple[str, str]],
+        widgets: dict[str, forms.Widget | type[forms.Widget]],
+        fields_order: list[str],
         attrs=None,
     ) -> None:
         self.fields_order = fields_order
@@ -2089,10 +2120,10 @@ class FormParamsWidget(forms.MultiWidget):
 
 class FormParamsField(forms.MultiValueField):
     def __init__(self, encoder=None, decoder=None, **kwargs) -> None:
-        fields = []
-        subwidgets = {}
+        fields: list[forms.Field] = []
+        subwidgets: dict[str, forms.Widget | type[forms.Widget]] = {}
 
-        self.fields_order: list[tuple] = []
+        self.fields_order: list[str] = []
         for file_param in FILE_FORMATS_PARAMS:
             field = file_param().get_field()
             fields.append(field)
@@ -2137,6 +2168,7 @@ class ProjectDocsMixin(FieldDocsMixin):
 
 class SpamCheckMixin(forms.Form):
     spam_fields: ClassVar[tuple[str, ...]]
+    request: AuthenticatedHttpRequest
 
     def clean(self) -> None:
         data = self.cleaned_data
@@ -2443,7 +2475,7 @@ class ComponentSettingsForm(
         if is_repo_link(repo):
             return
 
-        data = copy.copy(self.data)
+        data = copy_form_data(self.data)
         for field_name in Component.LINKED_REPOSITORY_SETTINGS:
             if field_name not in data:
                 data[field_name] = self.fields[field_name].prepare_value(
@@ -2635,7 +2667,7 @@ class ComponentCreateForm(
             value = self.initial.get(field_name)
         if isinstance(value, model):
             return value
-        if value in {None, ""}:
+        if not value:
             return None
         try:
             return model.objects.get(pk=value)
@@ -3001,7 +3033,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
     )
 
     def render_choice(self, value: DiscoveryResult) -> str:
-        context = cast("dict[str, str]", value.data.copy())
+        context: dict[str, object] = dict(value.data)
         try:
             format_cls = FILE_FORMATS[value["file_format"]]
             context["file_format_name"] = format_cls.name
@@ -3135,7 +3167,7 @@ class ComponentLinkAddForm(forms.Form):
             )
 
     def clean(self):
-        cleaned_data = super().clean()
+        cleaned_data = super().clean() or {}
         project = cleaned_data.get("project")
         category = cleaned_data.get("category")
         if project and category and category.project != project:
@@ -3982,7 +4014,7 @@ class GlossaryAddMixin(NewUnitBaseForm):
     )
 
     def can_edit_terminology(self) -> bool:
-        return (
+        return bool(
             self.user.has_perm("glossary.terminology", self.translation)
             or self.translation.is_source
         )
@@ -4487,7 +4519,7 @@ class ProjectUserGroupForm(UserManageForm):
         return self.cleaned_data[self.get_limit_languages_field(group)]
 
     def clean(self) -> dict[str, Any]:
-        cleaned_data = super().clean()
+        cleaned_data = super().clean() or {}
         user = cleaned_data.get("user")
         groups = cleaned_data.get("groups")
         if user and groups:
