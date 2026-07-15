@@ -3357,12 +3357,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             msg = f"Could not parse query string: {error}"
             raise ValidationError({"q": msg}) from error
 
-        queryset = (
-            obj.unit_set.search(query_string)
-            .order_by("id")
-            .prefetch_full()
-            .prefetch_related("pending_changes")
-        )
+        queryset = obj.unit_set.search(query_string).order_by("id").prefetch_api()
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})
@@ -3503,8 +3498,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return (
             Unit.objects.filter_access(self.request.user)
             .prefetch()
-            .prefetch_full()
-            .prefetch_related("pending_changes")
+            .prefetch_api()
             .order_by("id")
         )
 

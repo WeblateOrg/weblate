@@ -258,6 +258,32 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             )
         )
 
+    def prefetch_api(self):
+        """Prefetch relations used by the unit API serializer."""
+        return self.prefetch_related(
+            "labels",
+            models.Prefetch(
+                "check_set",
+                queryset=Check.objects.filter(dismissed=False).only("unit_id"),
+                to_attr="api_failing_checks",
+            ),
+            models.Prefetch(
+                "suggestion_set",
+                queryset=Suggestion.objects.only("unit_id"),
+                to_attr="api_suggestions",
+            ),
+            models.Prefetch(
+                "comment_set",
+                queryset=Comment.objects.filter(resolved=False).only("unit_id"),
+                to_attr="api_comments",
+            ),
+            models.Prefetch(
+                "pending_changes",
+                queryset=PendingUnitChange.objects.only("unit_id"),
+                to_attr="api_pending_changes",
+            ),
+        )
+
     def prefetch_embed(self):
         """Prefetch relations needed by snippets/embed-units.html."""
         return (
@@ -923,16 +949,22 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def has_failing_check(self) -> bool:
+        if "api_failing_checks" in self.__dict__:
+            return bool(self.__dict__["api_failing_checks"])
         return bool(self.active_checks)
 
     @property
     def has_comment(self) -> bool:
+        if "api_comments" in self.__dict__:
+            return bool(self.__dict__["api_comments"])
         # Use bool here as unresolved_comments might be list
         # or a queryset (from prefetch)
         return bool(self.unresolved_comments)
 
     @property
     def has_suggestion(self) -> bool:
+        if "api_suggestions" in self.__dict__:
+            return bool(self.__dict__["api_suggestions"])
         return bool(self.suggestions)
 
     def source_unit_save(self) -> None:
@@ -2720,6 +2752,8 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def has_pending_changes(self) -> bool:
+        if "api_pending_changes" in self.__dict__:
+            return bool(self.__dict__["api_pending_changes"])
         return self.pending_changes.exists()
 
     @property
