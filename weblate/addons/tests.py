@@ -154,7 +154,7 @@ from .models import (
     handle_addon_event,
     handle_daily_addon_event,
 )
-from .properties import PropertiesSortAddon
+from .properties import PropertiesSortAddon, format_unicode
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
 from .tasks import (
@@ -183,6 +183,18 @@ class GettextUtilityTest(SimpleTestCase):
         self.assertFalse(
             is_xgettext_placeholder_comment("# Copyright (C) 2026 Example Corp.\n")
         )
+
+
+class PropertiesUtilityTest(SimpleTestCase):
+    def test_format_unicode_only_rewrites_matching_lines(self) -> None:
+        lines = MagicMock(spec=list)
+        lines.__iter__.return_value = iter(
+            ["plain=value\n", "escaped=\\U00e1 and \\u00f3\n"]
+        )
+
+        format_unicode(lines)
+
+        lines.__setitem__.assert_called_once_with(1, "escaped=\\u00E1 and \\u00F3\n")
 
 
 class NoOpAddon(BaseAddon):
