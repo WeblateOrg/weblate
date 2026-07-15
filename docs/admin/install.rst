@@ -1450,6 +1450,14 @@ system level. The following examples show starting via systemd:
    :caption: /etc/systemd/system/granian.service
    :language: ini
 
+Granian uses worker processes for parallel Python execution, blocking threads
+for concurrent WSGI requests, and runtime threads for network I/O. The sample
+uses two workers with eight blocking threads each, limits each worker to 16
+concurrent connections, and leaves the runtime threads at Granian's default.
+Adjust the workers and blocking threads to the available memory, CPU cores, and
+database connection limit. Keep the backpressure equal to or higher than the
+number of blocking threads.
+
 .. seealso::
 
    * https://github.com/emmett-framework/granian
