@@ -18,6 +18,7 @@ Weblate 2026.8
 * Translation memory management pages now load origin summaries with a single database aggregation.
 * Dashboard component list tabs now load without processing unrelated component lists.
 * Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed.
+* :ref:`mt-aws` machine translation now supports configuring formality, brevity, and profanity masking.
 * Improved :ref:`screenshots` OCR reliability and error reporting when downloading recognition data.
 * Celery workers now prefetch fewer tasks by default to reduce memory usage and improve task distribution.
 * Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload.

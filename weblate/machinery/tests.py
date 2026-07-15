@@ -3148,6 +3148,47 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                 machine=machine,
             )
 
+    def test_translate_with_settings(self) -> None:
+        machine = self.get_machine()
+        machine.settings.update(
+            {
+                "formality": "FORMAL",
+                "brevity": "ON",
+                "profanity": "MASK",
+            }
+        )
+
+        with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "list_languages",
+                AWS_LANGUAGES_RESPONSE,
+            )
+            stubber.add_response(
+                "translate_text",
+                {
+                    "TranslatedText": "Hallo",
+                    "SourceLanguageCode": "en",
+                    "TargetLanguageCode": "de",
+                },
+                {
+                    "SourceLanguageCode": ANY,
+                    "TargetLanguageCode": ANY,
+                    "Text": ANY,
+                    "Settings": {
+                        "Formality": "FORMAL",
+                        "Brevity": "ON",
+                        "Profanity": "MASK",
+                    },
+                },
+            )
+
+            self.assert_translate(
+                self.SUPPORTED,
+                self.SOURCE_TRANSLATED,
+                self.EXPECTED_LEN,
+                machine=machine,
+            )
+
     def test_translate_language_map(self, **kwargs) -> None:
         machine = self.get_machine()
         with Stubber(machine.client) as stubber:
