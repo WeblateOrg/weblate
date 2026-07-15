@@ -32,9 +32,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-14 15:13+0000\n"
-"Last-Translator: reducedradius "
-"<137701630+flytothehighest@users.noreply.github.com>\n"
+"PO-Revision-Date: 2026-07-15 18:19+0000\n"
+"Last-Translator: Hosted Weblate user 54392 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1139,11 +1139,9 @@ msgid "String you contributed to received a comment"
 msgstr "你贡献的译文收到了评论"
 
 #: weblate/accounts/notifications.py:1036
-#, fuzzy
-#| msgid "Strings with source comments"
 msgctxt "Notification name"
 msgid "Strings you contributed to received comments"
-msgstr "带有源文件注释的字符串"
+msgstr "你贡献的字符串收到了评论"
 
 #: weblate/accounts/notifications.py:1118
 msgctxt "Notification name"
@@ -1773,14 +1771,11 @@ msgid "Message ID: %(message_id)s"
 msgstr ""
 
 #: weblate/addons/fedora_messaging.py:456
-#, fuzzy, python-format
-#| msgid ""
-#| "Fedora Messaging publish timed out; the broker did not confirm delivery: "
-#| "%(error)s"
+#, python-format
 msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
-msgstr "Fedora Messaging 发布超时；代理未确认送达：%(error)s"
+msgstr "Fedora Messaging 发布超时；代理连接或传送确认未完成：%(error)s"
 
 #: weblate/addons/fedora_messaging.py:460
 #, python-format
@@ -1809,10 +1804,8 @@ msgid "configured"
 msgstr "已配置"
 
 #: weblate/addons/fedora_messaging.py:611
-#, fuzzy
-#| msgid "Fedora Messaging publish failed: %(error)s"
 msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Fedora Messaging 发布失败了：%(error)s"
+msgstr "无法重置 Fedora Messaging 发布者服务。"
 
 #: weblate/addons/fedora_messaging.py:701
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2642,10 +2635,8 @@ msgid "How many seconds to wait between connection attempts."
 msgstr "两次连接尝试间相隔的秒数。"
 
 #: weblate/addons/forms.py:1755
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "字符串包含控制字符：%s"
+msgstr "主题前缀只能包含 ASCII 字符。"
 
 #: weblate/addons/forms.py:1760
 #, python-format
@@ -2921,16 +2912,12 @@ msgstr ""
 "上。这些令牌有 `wlp_` 前缀。"
 
 #: weblate/api/docs.py:52
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "成功（绿色）"
+msgstr "成功响应。"
 
 #: weblate/api/docs.py:53
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "安全密钥已移除。"
+msgstr "创建了资源。"
 
 #: weblate/api/docs.py:54
 msgid "The request was accepted for asynchronous processing."
@@ -2941,20 +2928,16 @@ msgid "Successful response without a response body."
 msgstr "该响应成功，且无响应体。"
 
 #: weblate/api/docs.py:56
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "无法访问身份验证提供者。"
+msgstr "请求无效或无法被解析。"
 
 #: weblate/api/docs.py:57
 msgid "Authentication credentials were missing or invalid."
 msgstr "认证凭据缺失或无效。"
 
 #: weblate/api/docs.py:59
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "你没有权限访问这个部件。"
+msgstr "已认证用户没有这个操作的权限。"
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
@@ -2965,10 +2948,8 @@ msgid "The HTTP method is not allowed for this resource."
 msgstr ""
 
 #: weblate/api/docs.py:63
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "输入的令牌无效。"
+msgstr "请求的响应媒体类型不可用。"
 
 #: weblate/api/docs.py:64
 msgid "The request media type is not supported."
@@ -4030,10 +4011,9 @@ msgstr ""
 "级、部件级和全局权限。空选择没有额外限制地团队语言选择。"
 
 #: weblate/auth/models.py:530
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "无效的电子邮件地址：{}"
+msgstr "内部 bot 电子邮件地址过长：%s"
 
 #: weblate/auth/models.py:796 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:269
@@ -4131,28 +4111,20 @@ msgid "Suggest full name for the user. It can be changed later."
 msgstr "向用户提供全名建议。全名之后可以更改。"
 
 #: weblate/auth/permissions.py:206
-#, fuzzy
-#| msgid "You do not have permission to edit the target workspace."
 msgid "You do not have permission to edit glossary entries."
-msgstr "你无权编辑目标工作空间。"
+msgstr "你无权编辑术语表条目。"
 
 #: weblate/auth/permissions.py:208
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to add glossary entries."
-msgstr "没有批准字符串的权限。"
+msgstr "你无权添加术语表条目。"
 
 #: weblate/auth/permissions.py:210
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to delete glossary entries."
-msgstr "没有批准字符串的权限。"
+msgstr "你无权删除术语表条目。"
 
 #: weblate/auth/permissions.py:212
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to upload glossary entries."
-msgstr "没有批准字符串的权限。"
+msgstr "你无权上传术语表条目。"
 
 #: weblate/auth/permissions.py:372
 msgid "Can not perform this operation without an e-mail address."
@@ -4182,12 +4154,10 @@ msgid "Sign in to save translations."
 msgstr "请登录以保存译文。"
 
 #: weblate/auth/permissions.py:419
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to approve translations in this restricted "
 "component."
-msgstr "你没有权限访问这个部件。"
+msgstr "你无权批准此受限部件中的翻译。"
 
 #: weblate/auth/permissions.py:424
 msgid ""
@@ -4199,16 +4169,12 @@ msgid "You do not have permission to approve translations."
 msgstr "没有批准译文的权限。"
 
 #: weblate/auth/permissions.py:434
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations in this project."
-msgstr "你没有添加新翻译文件的权限。"
+msgstr "你无权在这个项目中保存译文。"
 
 #: weblate/auth/permissions.py:443 weblate/auth/permissions.py:922
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to edit source strings."
-msgstr "没有批准字符串的权限。"
+msgstr "你没有编辑源字符串的权限。"
 
 #: weblate/auth/permissions.py:447
 msgid "Suggestion voting is disabled."
@@ -4726,11 +4692,9 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "双标点符号前缺少不可换行的空格。"
 
 #: weblate/checks/chars.py:680
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign."
 msgid "Missing non breakable space before punctuation mark {}."
 msgid_plural "Missing non breakable space before punctuation marks {}."
-msgstr[0] "双标点符号前缺少不可换行的空格。"
+msgstr[0] "标点符号 {} 前缺少不可换行空格。"
 
 #: weblate/checks/chars.py:730
 msgid "Multiple capitals"
@@ -6985,10 +6949,8 @@ msgid ""
 msgstr "指定一个自定义的系统类别 ID 进行使用，而不是使用通用的。"
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "输入有效的语言代码。"
+msgstr "输入有效的 Azure 区域名。"
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7309,20 +7271,14 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:709
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5（推荐）"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:713
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:717
 #, fuzzy
@@ -12701,16 +12657,12 @@ msgid "Translation memory scope backfill"
 msgstr "翻译记忆库状态"
 
 #: weblate/templates/manage/performance.html:153
-#, fuzzy
-#| msgid "Entries were deleted."
 msgid "Entries processed"
-msgstr "条目已删除。"
+msgstr "已处理条目"
 
 #: weblate/templates/manage/performance.html:157
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate candidate scan"
-msgstr "重复译文。"
+msgstr "重复候选人扫描"
 
 #: weblate/templates/manage/performance.html:165
 #, fuzzy
@@ -15168,10 +15120,8 @@ msgstr ""
 "化操作。"
 
 #: weblate/templates/trans/alert/repositoryoperationfailure.html:3
-#, fuzzy
-#| msgid "Weblate could not validate the repository browser URL:"
 msgid "Weblate could not recover an interrupted repository operation."
-msgstr "Weblate 无法验证仓库浏览器 URL:"
+msgstr "Weblate 无法恢复中断的仓库操作。"
 
 #: weblate/templates/trans/alert/repositoryoperationfailure.html:14
 #, fuzzy
@@ -16225,14 +16175,10 @@ msgid ""
 msgstr "你不管理任何工作空间。VCS 账户只能连接到你管理的工作空间。"
 
 #: weblate/templates/vcs/account_integrations.html:30
-#, fuzzy
-#| msgid ""
-#| "No VCS integrations are available. A site administrator needs to register "
-#| "a Weblate GitHub App first."
 msgid ""
 "No code-hosting connections are available. A site administrator needs to "
 "register a code-hosting app first."
-msgstr "无 VCS 集成可用。站点管理员需要先注册 Weblate GitHub 应用。"
+msgstr "无代码托管连接可用。站点管理员需先注册代码托管应用。"
 
 #: weblate/templates/vcs/account_integrations.html:35
 #, fuzzy, python-format
@@ -16768,10 +16714,8 @@ msgid "Exit Zen"
 msgstr "退出极简模式"
 
 #: weblate/trans/actions.py:33
-#, fuzzy
-#| msgid "Rescan all translation files in the Weblate repository"
 msgid "A translation file was synchronized with its repository."
-msgstr "重新扫描 Weblate 仓库中的所有翻译文件"
+msgstr "已将翻译文件和其仓库进行同步。"
 
 #: weblate/trans/actions.py:34
 msgid "Resource updated"
@@ -16788,22 +16732,16 @@ msgid "Translation completed"
 msgstr "完成了翻译"
 
 #: weblate/trans/actions.py:48
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String was edited by user"
 msgid "An existing translation was edited by a user."
-msgstr "字符串被用户编辑"
+msgstr "用户编辑了现有译文。"
 
 #: weblate/trans/actions.py:49
 msgid "Translation changed"
 msgstr "修改了译文"
 
 #: weblate/trans/actions.py:54
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Comment was added"
 msgid "A comment was added to a string."
-msgstr "添加了评论"
+msgstr "添加了一则评论到一条字符串。"
 
 #: weblate/trans/actions.py:55
 msgid "Comment added"
@@ -16816,10 +16754,8 @@ msgid "A translation suggestion was added."
 msgstr "可以提出翻译建议。"
 
 #: weblate/trans/actions.py:66
-#, fuzzy
-#| msgid "All untranslated strings added the past month"
 msgid "A previously untranslated string was translated by a user."
-msgstr "过去一个月添加的所有未翻译字符串"
+msgstr "一名用户翻译了一条之前未翻译的字符串。"
 
 #: weblate/trans/actions.py:67
 msgid "Translation added"
@@ -17082,103 +17018,80 @@ msgid "User removed"
 msgstr "删除了用户"
 
 #: weblate/trans/actions.py:240
-#, fuzzy
-#| msgid "Add as translation needing review"
 msgid "A translation was approved during review."
-msgstr "添加为需要复查的翻译"
+msgstr "审核期间批准了一条字符串。"
 
 #: weblate/trans/actions.py:241
 msgid "Translation approved"
 msgstr "核准了译文"
 
 #: weblate/trans/actions.py:246
-#, fuzzy
-#| msgid "Skip translations marked as needing editing"
 msgid "A translation was marked as needing editing."
-msgstr "跳过标记为需要编辑的译文"
+msgstr "一则翻译被标记为需要编辑。"
 
 #: weblate/trans/actions.py:247
 msgid "Marked for edit"
 msgstr "标记为需要编辑"
 
 #: weblate/trans/actions.py:252
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was removed."
-msgstr "创建了新的翻译部件"
+msgstr "删除了一个翻译部件。"
 
 #: weblate/trans/actions.py:253
 msgid "Component removed"
 msgstr "删除了部件"
 
 #: weblate/trans/actions.py:258
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was removed."
-msgstr "您的翻译项目已被删除"
+msgstr "删除了一个翻译项目。"
 
 #: weblate/trans/actions.py:259
 msgid "Project removed"
 msgstr "删除了项目"
 
 #: weblate/trans/actions.py:265
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was renamed."
-msgstr "您的翻译项目已被删除"
+msgstr "重命名了一个翻译项目。"
 
 #: weblate/trans/actions.py:266
 msgid "Project renamed"
 msgstr "重命名了项目"
 
 #: weblate/trans/actions.py:271
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was renamed."
-msgstr "创建了新的翻译部件"
+msgstr "重命名了一个翻译部件。"
 
 #: weblate/trans/actions.py:272
 msgid "Component renamed"
 msgstr "重命名了部件"
 
 #: weblate/trans/actions.py:277
-#, fuzzy
-#| msgid "All components in current project"
 msgid "A component was moved within a project."
-msgstr "当前项目的所有部件"
+msgstr "在项目内移动了一个部件。"
 
 #: weblate/trans/actions.py:278
 msgid "Moved component"
 msgstr "移动了部件"
 
 #: weblate/trans/actions.py:284
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Contributor made their first translation"
 msgid "A user made their first contribution to a translation."
-msgstr "贡献者进行了首次翻译"
+msgstr "用户向翻译作了第一个贡献。"
 
 #: weblate/trans/actions.py:285
 msgid "Contributor joined"
 msgstr "有新贡献者加入"
 
 #: weblate/trans/actions.py:290
-#, fuzzy
-#| msgid "Announcement posted"
 msgid "An announcement was posted."
-msgstr "发布了公告"
+msgstr "发布了一则公告"
 
 #: weblate/trans/actions.py:291
 msgid "Announcement posted"
 msgstr "发布了公告"
 
 #: weblate/trans/actions.py:296
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "A component alert was triggered."
-msgstr "触发了警报"
+msgstr "触发了一则部件警报。"
 
 #: weblate/trans/actions.py:297
 msgid "Alert triggered"
