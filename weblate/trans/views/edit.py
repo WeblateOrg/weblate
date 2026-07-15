@@ -52,6 +52,7 @@ from weblate.trans.models import (
     Comment,
     Component,
     Suggestion,
+    SuggestionAddResult,
     Translation,
     Unit,
     Vote,
@@ -814,7 +815,7 @@ def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
 
     # Create the suggestion
     try:
-        result = Suggestion.objects.add(
+        suggestion, result = Suggestion.objects.add(
             unit,
             form.cleaned_data["target"],
             request,
@@ -825,13 +826,12 @@ def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
         messages.error(
             request, gettext("Your suggestion is similar to the current translation!")
         )
-        result = False
-    else:
-        if not result:
-            messages.error(request, gettext("Your suggestion already exists!"))
-        elif result.fixups:
-            display_fixups(request, result.fixups)
-    return result
+        return False
+    if result == SuggestionAddResult.DUPLICATE:
+        messages.error(request, gettext("Your suggestion already exists!"))
+    elif result == SuggestionAddResult.CREATED and suggestion and suggestion.fixups:
+        display_fixups(request, suggestion.fixups)
+    return result == SuggestionAddResult.CREATED
 
 
 def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:

@@ -17,6 +17,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.test import TestCase
+from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.utils import timezone
 from django.utils.translation import activate
@@ -43,6 +44,7 @@ from weblate.trans.models import (
     PendingUnitChange,
     Project,
     Suggestion,
+    SuggestionAddResult,
     Translation,
     Unit,
     Vote,
@@ -333,14 +335,15 @@ class ProjectTest(RepoTestCase):
             user = create_test_user()
             translation = component.translation_set.get(language_code="cs")
             unit = translation.unit_set.get(source="Hello, world!\n")
-            suggestion = Suggestion.objects.add(unit, ["Test"], None)
+            suggestion, _ = Suggestion.objects.add(unit, ["Test"], None)
             Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
         component.project.delete()
 
     def test_add_suggestion_validation(self) -> None:
         with transaction.atomic():
             component = self.create_po(
-                suggestion_voting=True, suggestion_autoaccept=True
+                suggestion_voting=True,
+                suggestion_autoaccept=2,
             )
             user = create_test_user()
             another_user = create_another_user()
@@ -359,28 +362,45 @@ class ProjectTest(RepoTestCase):
                     raise_exception=True,
                 )
 
-            # check that same operation doesn't raise an error if raise_exception=False but returns false
-            self.assertFalse(
-                Suggestion.objects.add(
-                    unit,
-                    ["Translation of unit"],
-                    None,
-                    user=another_user,
-                    raise_exception=False,
-                )
+            # check that same operation doesn't raise an error if raise_exception=Fal   se
+            _, result = Suggestion.objects.add(
+                unit,
+                ["Translation of unit"],
+                None,
+                user=another_user,
+                raise_exception=False,
             )
+            self.assertEqual(result, SuggestionAddResult.SIMILAR)
 
             # check that user submitting suggestion twice doesn't create duplicated suggestions
-            suggestion = Suggestion.objects.add(
+            suggestion, result = Suggestion.objects.add(
                 unit, ["New suggestion"], None, user=another_user, raise_exception=True
             )
             suggestion_count = Suggestion.objects.count()
-            self.assertTrue(bool(suggestion))
-            suggestion = Suggestion.objects.add(
+            self.assertIsNotNone(suggestion)
+            self.assertEqual(result, SuggestionAddResult.CREATED)
+            _, result = Suggestion.objects.add(
                 unit, ["New suggestion"], None, user=another_user, raise_exception=True
             )
-            self.assertFalse(suggestion)
+            self.assertEqual(result, SuggestionAddResult.DUPLICATE)
+            self.assertIsNotNone(suggestion)
             self.assertEqual(suggestion_count, Suggestion.objects.count())
+
+            # check that another user creating similar suggestion upvotes existing
+            factory = RequestFactory()
+            request = factory.get("/")
+            request.user = user
+            request.session = {}
+            suggestion, result = Suggestion.objects.add(
+                unit,
+                ["New suggestion"],
+                request,
+                vote=True,
+                user=user,
+                raise_exception=True,
+            )
+            self.assertEqual(result, SuggestionAddResult.VOTED)
+            self.assertEqual(suggestion.get_num_votes(), 1)
 
     def test_delete_all(self) -> None:
         project = self.create_project()

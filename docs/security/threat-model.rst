@@ -392,10 +392,15 @@ Input assumptions
      - Token storage, rotation, and least-privilege team membership.
        *(maintainer)*
    * - Translation content
-     - Source strings, translations, comments, suggestions, glossary entries
+     - Source strings, translations, comments, suggestions, glossary entries;
+       suggestion API requests including ``rejection_reason`` text, ``is_spam``
+       flag, and ``approve`` flag
      - Yes, from users with relevant permissions or imported repositories.
        *(documented)* (source: :doc:`/user/translating`, :doc:`/admin/access`)
-     - Review workflows for project-specific content integrity. *(documented)* (source: :doc:`/workflows`)
+     - Review workflows for project-specific content integrity; approving a
+       suggestion via the API additionally requires the ``unit.review``
+       permission check to be satisfied.
+       *(documented)* (source: :doc:`/workflows`, :doc:`/api`)
    * - Webhook endpoints
      - Headers, event type, body, repository and branch metadata
      - Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)

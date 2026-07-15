@@ -113,6 +113,11 @@ from weblate.api.serializers import (
     SelfUserSerializer,
     SingleServiceConfigSerializer,
     StatisticsSerializer,
+    SuggestionAcceptRequestSerializer,
+    SuggestionDeleteRequestSerializer,
+    SuggestionSerializer,
+    SuggestionVoteRequestSerializer,
+    SuggestionVoteResultSerializer,
     TaskSerializer,
     TranslationCreateSerializer,
     TranslationSerializer,
@@ -154,6 +159,8 @@ from weblate.trans.models import (
     PendingUnitChange,
     Project,
     Report,
+    Suggestion,
+    SuggestionAddResult,
     Unit,
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
@@ -3473,6 +3480,25 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+def suggestion_vote_response(request: Request, suggestion_pk: int) -> Response:
+    suggestion = Suggestion.objects.filter(pk=suggestion_pk).load_votes().first()
+    if suggestion is None:
+        return Response(
+            {"result": "accepted", "suggestion": None},
+            status=HTTP_200_OK,
+        )
+
+    return Response(
+        {
+            "result": "voted",
+            "suggestion": SuggestionSerializer(
+                suggestion, context={"request": request}
+            ).data,
+        },
+        status=HTTP_200_OK,
+    )
+
+
 @extend_schema_view(
     list=extend_schema(description="Return a list of translation units."),
     retrieve=extend_schema(description="Return information about translation unit."),
@@ -3670,6 +3696,156 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         page = self.paginate_queryset(qs)
         serializer = CommentSerializer(page, context={"request": request}, many=True)
         return self.get_paginated_response(serializer.data)
+
+    @extend_schema(
+        description="Add a suggestion to the unit.",
+        methods=["post"],
+        request=SuggestionSerializer,
+        responses={
+            201: SuggestionSerializer,
+            200: SuggestionVoteResultSerializer,
+        },
+    )
+    @extend_schema(
+        description="Return a list of suggestions on the unit.",
+        methods=["get"],
+        responses={200: SuggestionSerializer(many=True)},
+    )
+    @action(detail=True, methods=["get", "post"], serializer_class=SuggestionSerializer)
+    def suggestions(self, request, *args, **kwargs):
+        """List suggestions on a unit or add a new suggestion to a unit."""
+        unit = self.get_object()
+        user = request.user
+
+        if request.method == "POST":
+            if not user.has_perm("suggestion.add", unit):
+                self.permission_denied(request)
+
+            serializer = SuggestionSerializer(
+                data=request.data,
+                context={
+                    "unit": unit,
+                    "request": request,
+                },
+            )
+            serializer.is_valid(raise_exception=True)
+            suggestion = serializer.save()
+            if serializer.add_result == SuggestionAddResult.VOTED:
+                return suggestion_vote_response(request, suggestion.pk)
+
+            if Suggestion.objects.filter(pk=suggestion.pk).exists():
+                return Response(serializer.data, status=HTTP_201_CREATED)
+            # The suggestion was removed after autoaccept
+            return Response(
+                {"result": "accepted", "suggestion": None},
+                status=HTTP_200_OK,
+            )
+
+        qs = unit.suggestion_set.load_votes().select_related("user").order()
+        page = self.paginate_queryset(qs)
+        serializer = SuggestionSerializer(page, context={"request": request}, many=True)
+        return self.get_paginated_response(serializer.data)
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of suggestions."),
+    retrieve=extend_schema(description="Return information about a suggestion."),
+)
+class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
+    """Suggestions API."""
+
+    queryset = Suggestion.objects.none()
+    serializer_class = SuggestionSerializer
+    pagination_class = LargePagination
+
+    def get_queryset(self):
+        return (
+            Suggestion.objects.filter_access(self.request.user)
+            .select_related("unit", "user", "unit__translation__component__project")
+            .order_by("-timestamp")
+            .load_votes()
+        )
+
+    @extend_schema(
+        description="Delete a suggestion.",
+        methods=["delete"],
+        request=SuggestionDeleteRequestSerializer,
+        responses={204: None},
+    )
+    def destroy(self, request: Request, *args, **kwargs):
+        """Remove a suggestion."""
+        suggestion = self.get_object()
+        user = request.user
+        if not user.has_perm("suggestion.delete", suggestion):
+            self.permission_denied(request)
+
+        serializer = SuggestionDeleteRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        suggestion.delete_log(
+            user,
+            is_spam=data.get("is_spam", False),
+            rejection_reason=data.get("rejection_reason", ""),
+            old=suggestion.unit.target,
+        )
+        return Response(status=HTTP_204_NO_CONTENT)
+
+    @extend_schema(
+        description="Accept a suggestion.",
+        methods=["post"],
+        request=SuggestionAcceptRequestSerializer,
+        responses={
+            200: inline_serializer(
+                "SuggestionActionResultSerializer", {"result": serializers.CharField()}
+            )
+        },
+    )
+    @action(detail=True, methods=["post"])
+    def accept(self, request: Request, **kwargs):
+        suggestion = self.get_object()
+        unit = suggestion.unit
+        user = request.user
+
+        serializer = SuggestionAcceptRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        approve = serializer.validated_data["approve"]
+
+        if not user.has_perm("suggestion.accept", unit):
+            self.permission_denied(request)
+
+        if approve and not user.has_perm("unit.review", unit):
+            self.permission_denied(request)
+
+        suggestion.accept(
+            request,
+            state=STATE_APPROVED if approve else STATE_TRANSLATED,
+        )
+        return Response(data={"result": "accepted"}, status=HTTP_200_OK)
+
+    @extend_schema(
+        description="Vote on a suggestion.",
+        methods=["post"],
+        request=SuggestionVoteRequestSerializer,
+        responses={200: SuggestionVoteResultSerializer},
+    )
+    @action(detail=True, methods=["post"])
+    def vote(self, request: Request, **kwargs):
+        suggestion = self.get_object()
+        unit = suggestion.unit
+        user = request.user
+
+        if not user.has_perm("suggestion.vote", unit):
+            self.permission_denied(request)
+
+        serializer = SuggestionVoteRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        value = serializer.validated_data["value"]
+
+        suggestion_pk = suggestion.pk
+        suggestion.add_vote(request, value)
+
+        return suggestion_vote_response(request, suggestion_pk)
 
 
 @extend_schema_view(

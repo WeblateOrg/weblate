@@ -5,12 +5,14 @@
 from __future__ import annotations
 
 from copy import copy
+from enum import StrEnum
 from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.postgres import indexes as postgres_indexes
 from django.db import models, transaction
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Value
+from django.db.models.functions import Coalesce
 from django.utils.translation import gettext
 
 from weblate.checks.models import CHECKS, Check
@@ -29,6 +31,13 @@ if TYPE_CHECKING:
     from weblate.trans.models.unit import Unit
 
 
+class SuggestionAddResult(StrEnum):
+    CREATED = "created"
+    DUPLICATE = "duplicate"
+    VOTED = "voted"
+    SIMILAR = "similar"
+
+
 class SuggestionManager(models.Manager["Suggestion"]):
     def add(
         self,
@@ -38,7 +47,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
         vote: bool = False,
         user: User | None = None,
         raise_exception: bool = True,
-    ):
+    ) -> tuple[Suggestion | None, SuggestionAddResult]:
         """Create new suggestion for this unit."""
         # ruff: ignore[import-outside-top-level]
         from weblate.auth.models import get_anonymous
@@ -56,14 +65,14 @@ class SuggestionManager(models.Manager["Suggestion"]):
         if unit.translated and unit.target == target_merged:
             if raise_exception:
                 raise SuggestionSimilarToTranslationError
-            return False
+            return None, SuggestionAddResult.SIMILAR
 
         same_suggestion = self.filter(target=target_merged, unit=unit).first()
         if same_suggestion is not None:
             if same_suggestion.user == user or not vote:
-                return False
+                return same_suggestion, SuggestionAddResult.DUPLICATE
             same_suggestion.add_vote(request, Vote.POSITIVE)
-            return False
+            return same_suggestion, SuggestionAddResult.VOTED
 
         # Create the suggestion
         suggestion = self.create(
@@ -95,7 +104,7 @@ class SuggestionManager(models.Manager["Suggestion"]):
 
         unit.invalidate_related_cache()
 
-        return suggestion
+        return suggestion, SuggestionAddResult.CREATED
 
 
 class SuggestionQuerySet(models.QuerySet["Suggestion", "Suggestion"]):
@@ -114,6 +123,13 @@ class SuggestionQuerySet(models.QuerySet["Suggestion", "Suggestion"]):
                 | Q(unit__translation__component_id__in=user.component_permissions)
             )
         return result
+
+    def load_votes(self):
+        return self.annotate(
+            num_votes=Coalesce(
+                Sum("vote__value"), Value(0), output_field=models.IntegerField()
+            )
+        )
 
 
 class Suggestion(models.Model, UserDisplayMixin):
@@ -210,8 +226,12 @@ class Suggestion(models.Model, UserDisplayMixin):
         self.unit.invalidate_related_cache()
         return result
 
-    def get_num_votes(self):
+    def get_num_votes(self, *, override: bool = False):
         """Return number of votes."""
+        if not override and hasattr(
+            self, "num_votes"
+        ):  # annotation added via `load_votes``
+            return self.num_votes
         return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
 
     def add_vote(self, request: AuthenticatedHttpRequest | None, value: int) -> None:
@@ -228,7 +248,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
         # Automatic accepting
         required_votes = self.unit.translation.suggestion_autoaccept
-        if required_votes and self.get_num_votes() >= required_votes:
+        if required_votes and self.get_num_votes(override=True) >= required_votes:
             self.accept(request, "suggestion.vote")
 
     def get_checks(self):
@@ -256,6 +276,9 @@ class Suggestion(models.Model, UserDisplayMixin):
         Used for populating the translation widgets in the frontend.
         """
         return split_plural(self.target)
+
+    def get_target_plurals(self) -> list[str]:
+        return self.target_list
 
 
 class Vote(models.Model):
