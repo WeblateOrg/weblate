@@ -399,9 +399,17 @@ You can also fine-tune individual worker categories:
 
     environment:
       WEB_WORKERS: 4
-      CELERY_MAIN_OPTIONS: --concurrency 2
-      CELERY_NOTIFY_OPTIONS: --concurrency 1
-      CELERY_TRANSLATE_OPTIONS: --concurrency 1
+      CELERY_MAIN_OPTIONS: --concurrency 2 --prefetch-multiplier 1
+      CELERY_NOTIFY_OPTIONS: --concurrency 1 --prefetch-multiplier 4
+      CELERY_MEMORY_OPTIONS: --concurrency 1 --prefetch-multiplier 1
+      CELERY_TRANSLATE_OPTIONS: --concurrency 1 --prefetch-multiplier 1
+      CELERY_BACKUP_OPTIONS: --concurrency 1 --prefetch-multiplier 1
+
+The prefetch multiplier controls how many tasks each worker execution slot can
+reserve. The default of one avoids reserving additional long-running or
+payload-heavy tasks. The notification worker uses four in this example because
+its short tasks can benefit from buffering. Increase the value only after
+measuring queue latency and worker memory usage.
 
 Memory usage can be further reduced by running only a single Celery process:
 
@@ -2358,8 +2366,11 @@ Container settings
 .. envvar:: CELERY_BEAT_OPTIONS
 
     These variables allow you to adjust Celery worker options. It can be useful
-    to adjust concurrency (``--concurrency 16``) or use different pool
-    implementation (``--pool=gevent``).
+    to adjust concurrency (``--concurrency 16``), prefetching
+    (``--prefetch-multiplier 4``), or use different pool implementation
+    (``--pool=gevent``). Command-line options take precedence over corresponding
+    Celery settings, allowing each worker category to use a different prefetch
+    multiplier.
 
     By default, the number of concurrent workers is based on :envvar:`WEBLATE_WORKERS`.
 
@@ -2368,7 +2379,7 @@ Container settings
     .. code-block:: yaml
 
         environment:
-          CELERY_MAIN_OPTIONS: --concurrency 16
+          CELERY_MAIN_OPTIONS: --concurrency 16 --prefetch-multiplier 1
 
     .. seealso::
 
