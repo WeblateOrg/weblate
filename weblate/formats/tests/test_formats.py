@@ -2277,6 +2277,11 @@ class AppleXliffFormatTest(XliffFormatTest):
     EXT = "xliff"
     FILE = TEST_XLIFF_APPLE
     BASE = TEST_XLIFF_APPLE
+    # TODO: Require target state once translate-toolkit 3.19.15 is released.
+    NEW_UNIT_MATCH = (
+        b'<trans-unit xml:space="preserve" id="key"',
+        b"<source>Source string</source>",
+    )
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     FIND_CONTEXT = "Localizable.strings///hello"
     MATCH = 'target-language="cs"'
