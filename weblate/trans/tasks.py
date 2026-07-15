@@ -16,7 +16,6 @@ from typing import TYPE_CHECKING, Any, Literal
 from celery import current_task
 from celery.schedules import crontab
 from django.conf import settings
-from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
@@ -26,6 +25,7 @@ from django.utils.timezone import make_aware
 from django.utils.translation import gettext, ngettext, override
 
 from weblate.accounts.utils import remove_user
+from weblate.addons.events import AddonActivityLogReason, AddonActivityLogStatus
 from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -42,6 +42,7 @@ from weblate.trans.models import (
     ComponentList,
     PendingUnitChange,
     Project,
+    Report,
     Suggestion,
     Translation,
     Unit,
@@ -665,7 +666,7 @@ def component_alerts(component_ids=None) -> None:
         components = Component.objects.annotate(hourmod=F("id") % 24).filter(
             hourmod=now.hour
         )
-    for component in components.prefetch().iterator(chunk_size=100):
+    for component in components.order_by("id").prefetch().iterator(chunk_size=100):
         with transaction.atomic():
             component.update_alerts()
 
@@ -889,7 +890,12 @@ def project_removal(pk: int, uid: int | None) -> None:
 
 
 def store_auto_translate_activity_log(
-    activity_log_id: int | None, result: dict[str, Any]
+    activity_log_id: int | None,
+    result: dict[str, Any],
+    *,
+    status: AddonActivityLogStatus | None = None,
+    reason: AddonActivityLogReason | None = None,
+    task_count: int | None = None,
 ) -> dict[str, Any]:
     if activity_log_id is None:
         return result
@@ -897,7 +903,13 @@ def store_auto_translate_activity_log(
     # ruff: ignore[import-outside-top-level]
     from weblate.addons.tasks import update_addon_activity_log
 
-    update_addon_activity_log(activity_log_id, result, pending=False)
+    update_addon_activity_log(
+        activity_log_id,
+        result,
+        status=(status if status is not None else AddonActivityLogStatus.SUCCESS),
+        reason=reason,
+        task_count=task_count,
+    )
     return result
 
 
@@ -972,6 +984,7 @@ def auto_translate(
     language_id: int | None = None,
     workspace_id: str | None = None,
     activity_log_id: int | None = None,
+    activity_log_task_count: int | None = None,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"warnings": []}
     user = User.objects.get(pk=user_id) if user_id else None
@@ -989,7 +1002,13 @@ def auto_translate(
             result["message"] = gettext(
                 "Automatic translation skipped because the target no longer exists."
             )
-            return store_auto_translate_activity_log(activity_log_id, result)
+            return store_auto_translate_activity_log(
+                activity_log_id,
+                result,
+                status=AddonActivityLogStatus.SKIPPED,
+                reason=AddonActivityLogReason.TARGET_MISSING,
+                task_count=activity_log_task_count,
+            )
         result.update(target_result)
         auto = BatchAutoTranslate(
             obj,
@@ -1010,9 +1029,18 @@ def auto_translate(
             )
         except PermissionDenied as error:
             result.update({"message": str(error), "warnings": auto.get_warnings()})
-        else:
-            result.update({"message": message, "warnings": auto.get_warnings()})
-        return store_auto_translate_activity_log(activity_log_id, result)
+            return store_auto_translate_activity_log(
+                activity_log_id,
+                result,
+                status=AddonActivityLogStatus.ERROR,
+                task_count=activity_log_task_count,
+            )
+        result.update({"message": message, "warnings": auto.get_warnings()})
+        return store_auto_translate_activity_log(
+            activity_log_id,
+            result,
+            task_count=activity_log_task_count,
+        )
 
 
 @app.task(
@@ -1209,6 +1237,51 @@ def report_task_progress(progress: int) -> None:
         current_task.update_state(state="PROGRESS", meta={"progress": progress})
 
 
+@app.task(trail=False)
+def generate_report(
+    *,
+    kind: str,
+    parameters: dict[str, Any],
+    user_id: int,
+    scope_type: str = "",
+    scope_id: str = "",
+    target: str = "api",
+) -> dict[str, str]:
+    # Importing here avoids loading report views in every Celery process at startup.
+    # ruff: ignore[import-outside-top-level]
+    from django.urls import reverse
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.views.reports import collect_report_data, load_report_scope
+
+    user = User.objects.get(pk=user_id)
+    scope = load_report_scope(scope_type, scope_id)
+    report_task_progress(10)
+    with override(user.profile.language or "en"):
+        data = collect_report_data(kind, parameters, user, scope)
+        message = gettext("Report generated.")
+    report_task_progress(90)
+    scope_values = {scope_type: scope} if scope_type else {}
+    report = Report.objects.create(
+        creator=user,
+        kind=kind,
+        parameters=parameters,
+        data=data,
+        **scope_values,
+    )
+    if target == "web":
+        url = reverse("report", kwargs={"pk": report.pk})
+    else:
+        url = reverse("api:report-detail", kwargs={"pk": report.pk})
+    return {"message": message, "url": url}
+
+
+@app.task(trail=False)
+def cleanup_reports() -> None:
+    cutoff = timezone.now() - timedelta(days=settings.REPORT_EXPIRY)
+    Report.objects.filter(created__lt=cutoff).delete()
+
+
 def report_restore_component_progress(completed: int, total: int) -> None:
     if total:
         report_task_progress(30 + (60 * completed // total))
@@ -1285,22 +1358,30 @@ def import_project_backup(
 
 @app.task(trail=False)
 def remove_project_backup_download(name: str) -> None:
-    if staticfiles_storage.exists(name):
-        staticfiles_storage.delete(name)
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.backups import get_project_backup_download_storage
+
+    storage = get_project_backup_download_storage()
+    if storage.exists(name):
+        storage.delete(name)
 
 
 @app.task(trail=False)
 def cleanup_project_backup_download() -> None:
     # ruff: ignore[import-outside-top-level]
-    from weblate.trans.backups import PROJECTBACKUP_PREFIX
+    from weblate.trans.backups import (
+        PROJECTBACKUP_PREFIX,
+        get_project_backup_download_storage,
+    )
 
-    if not staticfiles_storage.exists(PROJECTBACKUP_PREFIX):
+    storage = get_project_backup_download_storage()
+    if not storage.exists(PROJECTBACKUP_PREFIX):
         return
     cutoff = timezone.now() - timedelta(hours=2)
-    for name in staticfiles_storage.listdir(PROJECTBACKUP_PREFIX)[1]:
+    for name in storage.listdir(PROJECTBACKUP_PREFIX)[1]:
         full_name = os.path.join(PROJECTBACKUP_PREFIX, name)
-        if staticfiles_storage.get_created_time(full_name) < cutoff:
-            staticfiles_storage.delete(full_name)
+        if storage.get_created_time(full_name) < cutoff:
+            storage.delete(full_name)
 
 
 @app.on_after_finalize.connect
@@ -1330,4 +1411,7 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
         3600,
         cleanup_project_backup_download.s(),
         name="cleanup-project-backup-download",
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=50), cleanup_reports.s(), name="reports-cleanup"
     )

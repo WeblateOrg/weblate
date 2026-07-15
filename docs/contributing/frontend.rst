@@ -37,6 +37,20 @@ When changing the frontend:
 - Test changed workflows with keyboard-only navigation and, when practical, a
   screen reader spot check.
 
+User interface conventions
+--------------------------
+
+Documentation links
++++++++++++++++++++
+
+Use the information icon for contextual links to the Weblate documentation
+instead of a textual :guilabel:`Documentation` button. In Django templates,
+use the ``documentation_icon`` template tag so that the link has consistent
+styling, labeling, and external-link behavior. Documentation icons are
+interactive links and have to remain keyboard-focusable. Keep textual
+documentation links when they are part of explanatory prose rather than a
+contextual action.
+
 Dependency management
 ---------------------
 

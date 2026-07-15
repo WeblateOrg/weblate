@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
-{% load compress crispy_forms_tags i18n icons static translations %}
+{% load crispy_forms_tags i18n icons static translations %}
 
 {% block extra_script %}
-  {% compress js %}
-    <script defer data-cfasync="false" src="{% static 'editor/base.js' %}{{ cache_param }}"></script>
-    <script defer data-cfasync="false" src="{% static 'editor/zen.js' %}{{ cache_param }}"></script>
-  {% endcompress %}
+  <script defer src="{% static 'editor/base.js' %}"></script>
+  <script defer src="{% static 'editor/zen.js' %}"></script>
 {% endblock extra_script %}
 
 {% block breadcrumbs %}

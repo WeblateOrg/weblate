@@ -61,7 +61,7 @@
                         <li>
                           {{ item.message }}
                           <span class="badge {{ item.alert.severity_class }}">{{ item.alert.get_severity_display }}</span>
-                          {% if item.alert.dismissed %}
+                          {% if item.alert.is_dismissed %}
                             <span class="badge text-bg-secondary">{% translate "dismissed" %}</span>
                           {% endif %}
                         </li>

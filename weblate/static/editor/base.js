@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-// biome-ignore lint/correctness/noInvalidUseBeforeDeclaration: TODO: doesn't work without that
-var WLT = WLT || {};
+window.WLT = window.WLT || {};
 
 function delegate(roots, eventName, selector, handler, options) {
   const list =

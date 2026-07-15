@@ -48,6 +48,12 @@ Scope and intended use
      - Browser views, forms, session endpoints, :doc:`/api`
      - Database, datastore, e-mail, logs, uploaded files
      - In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)
+   * - Stored translation reports
+     - Report forms and :http:get:`/api/reports/` endpoints
+     - Database snapshots and background tasks
+     - In scope as authenticated, permission-checked contributor data with
+       operator-configured retention. *(documented)* (source:
+       :doc:`/devel/reporting`, :doc:`/api`)
    * - Authentication, sessions, and authorization
      - Login, 2FA, SSO, teams, permissions, project access, API tokens
      - Database, identity providers, browser cookies
@@ -220,6 +226,10 @@ Reachability preconditions:
 * A background-task finding is in model only when the task can be queued from
   an in-scope Weblate surface or scheduled Weblate maintenance path.
   *(documented)* (source: :doc:`/admin/install`)
+* A stored-report finding is in model when an authenticated user can generate,
+  list, or render contributor data outside the creator or current
+  ``reports.view`` scope. *(documented)* (source: :doc:`/devel/reporting`,
+  :doc:`/api`)
 * A management-command finding is in model only when untrusted Weblate data is
   processed by the command; arbitrary local shell access is not an attacker
   capability. *(maintainer)*

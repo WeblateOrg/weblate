@@ -147,6 +147,17 @@ class PermissionsTest(FixtureComponentTestCase):
         workspace.add_owner(self.user)
 
         self.assertTrue(self.user.has_perm("workspace.edit", workspace))
+        self.assertTrue(self.user.has_perm("reports.view", workspace))
+
+    def test_reports_role_is_assignable_to_workspace_team(self) -> None:
+        role = Role.objects.create(name="Workspace report viewer")
+        role.permissions.add(Permission.objects.get(codename="reports.view"))
+
+        self.assertIn(role, Role.objects.assignable_to_workspace_team())
+        self.assertNotIn(
+            Role.objects.get(name="Administration"),
+            Role.objects.assignable_to_workspace_team(),
+        )
 
     def test_administration_role_is_project_scoped(self) -> None:
         self.assertFalse(

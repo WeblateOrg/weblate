@@ -46,6 +46,7 @@ def get_spectacular_settings(
     site_url: str,
     site_title: str,
     *,
+    static_url: str = "/static/",
     legal_hidden_documents: Sequence[str] | str = (),
     legal_url: str | None = None,
 ) -> dict[str, Any]:
@@ -97,7 +98,7 @@ The OpenAPI specification is available as feature preview, feedback welcome!
     """,
         "EXTENSIONS_INFO": {
             "x-logo": {
-                "url": "/static/weblate.svg",
+                "url": f"{static_url.rstrip('/')}/weblate.svg",
             }
         },
         # Do not use API versioning
@@ -105,8 +106,11 @@ The OpenAPI specification is available as feature preview, feedback welcome!
         # Flatten enum definitions
         "ENUM_NAME_OVERRIDES": {
             "ActionEnum": "weblate.trans.actions.ActionEvents.choices",
+            "AlertSeverityEnum": "weblate.trans.alerts.base.AlertSeverity.choices",
+            "SeverityEnum": "weblate.trans.models.announcement.ANNOUNCEMENT_SEVERITY_CHOICES",
             "ColorEnum": "weblate.utils.colors.ColorChoices.choices",
             "StringStateEnum": "weblate.utils.state.StringState.choices",
+            "ReportKindEnum": "weblate.trans.models.report.REPORT_KIND_CHOICES",
             "NewUnitStateEnum": "weblate.api.serializers.NEW_UNIT_STATE_CHOICES",
             "ErrorResponse400TypeEnum": "weblate.api.serializers.ErrorResponse400TypeEnum.choices",
             "ValidationErrorEnum": "drf_standardized_errors.openapi_serializers.ValidationErrorEnum.choices",

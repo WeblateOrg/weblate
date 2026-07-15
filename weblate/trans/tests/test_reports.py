@@ -12,7 +12,14 @@ from django.utils import timezone
 from weblate.auth.models import User
 from weblate.memory.models import Memory
 from weblate.trans.forms import MIN_COST_ESTIMATE_TM_THRESHOLD, CountsReportsForm
-from weblate.trans.models import Category, Change, PendingUnitChange, Suggestion, Unit
+from weblate.trans.models import (
+    Category,
+    Change,
+    PendingUnitChange,
+    Report,
+    Suggestion,
+    Unit,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import TESTPASSWORD
 from weblate.trans.views.reports import (
@@ -436,6 +443,14 @@ class ReportsComponentTest(BaseReportsTest):
     def get_kwargs(self):
         return {"path": self.component.get_url_path()}
 
+    def post_report(self, url, params, style="json", follow=False):
+        existing = set(Report.objects.values_list("pk", flat=True))
+        response = self.client.post(url, params, follow=follow)
+        report = Report.objects.exclude(pk__in=existing).first()
+        if report is None:
+            return response
+        return self.client.get(reverse(f"api:report-{style}", args=[report.pk]))
+
     def get_credits(self, style, follow=False, **kwargs):
         self.add_change()
         params = {
@@ -445,8 +460,8 @@ class ReportsComponentTest(BaseReportsTest):
             "sort_order": "descending",
         }
         params.update(kwargs)
-        return self.client.post(
-            reverse("credits", kwargs=self.get_kwargs()), params, follow=follow
+        return self.post_report(
+            reverse("credits", kwargs=self.get_kwargs()), params, style, follow
         )
 
     def test_credits_view_json(self) -> None:
@@ -534,8 +549,8 @@ class ReportsComponentTest(BaseReportsTest):
             "sort_order": "descending",
         }
         params.update(kwargs)
-        return self.client.post(
-            reverse("counts", kwargs=self.get_kwargs()), params, follow=follow
+        return self.post_report(
+            reverse("counts", kwargs=self.get_kwargs()), params, style, follow
         )
 
     def get_costs(self, style, follow=False, **kwargs):
@@ -551,8 +566,8 @@ class ReportsComponentTest(BaseReportsTest):
             "rate_repetition": "0",
         }
         params.update(kwargs)
-        return self.client.post(
-            reverse("costs", kwargs=self.get_kwargs()), params, follow=follow
+        return self.post_report(
+            reverse("costs", kwargs=self.get_kwargs()), params, style, follow
         )
 
     def test_counts_view_json(self) -> None:
@@ -904,7 +919,7 @@ class ReportsComponentTest(BaseReportsTest):
             "counting_mode": CountsReportsForm.COUNTING_MODE_ALL,
         }
 
-        response = self.client.post(
+        response = self.post_report(
             url, {**params, "sort_by": "count", "sort_order": "descending"}
         )
         self.assertEqual(response.status_code, 200)
@@ -913,7 +928,7 @@ class ReportsComponentTest(BaseReportsTest):
             [expected_count2, expected_count1, expected_count3],
         )
 
-        response = self.client.post(
+        response = self.post_report(
             url, {**params, "sort_by": "count", "sort_order": "ascending"}
         )
         self.assertEqual(response.status_code, 200)
@@ -922,7 +937,7 @@ class ReportsComponentTest(BaseReportsTest):
             [expected_count3, expected_count1, expected_count2],
         )
 
-        response = self.client.post(
+        response = self.post_report(
             url, {**params, "sort_by": "date_joined", "sort_order": "ascending"}
         )
         self.assertEqual(response.status_code, 200)
@@ -931,7 +946,7 @@ class ReportsComponentTest(BaseReportsTest):
             [expected_count1, expected_count2, expected_count3],
         )
 
-        response = self.client.post(
+        response = self.post_report(
             url, {**params, "sort_by": "date_joined", "sort_order": "descending"}
         )
         self.assertEqual(response.status_code, 200)
@@ -957,7 +972,7 @@ class ReportsComponentTest(BaseReportsTest):
         self.change_unit("Nazdar svete 2!\n", user=user1)
         self.change_unit("Nazdar svete 3!\n", user=user2)
 
-        response = self.client.post(
+        response = self.post_report(
             reverse("counts", kwargs=self.get_kwargs()),
             {
                 "style": "json",
@@ -999,7 +1014,7 @@ class ReportsComponentTest(BaseReportsTest):
         url = reverse("credits", kwargs=self.get_kwargs())
         params = {"style": "json", "period": "01/01/2000 - 01/01/2100"}
 
-        response = self.client.post(
+        response = self.post_report(
             url, {**params, "sort_by": "count", "sort_order": "descending"}
         )
         self.assertEqual(response.status_code, 200)
@@ -1008,7 +1023,7 @@ class ReportsComponentTest(BaseReportsTest):
             [{"Czech": [expected_credit2, expected_credit1, expected_credit3]}],
         )
 
-        response = self.client.post(
+        response = self.post_report(
             url, {**params, "sort_by": "count", "sort_order": "ascending"}
         )
         self.assertEqual(response.status_code, 200)
@@ -1017,7 +1032,7 @@ class ReportsComponentTest(BaseReportsTest):
             [{"Czech": [expected_credit3, expected_credit1, expected_credit2]}],
         )
 
-        response = self.client.post(
+        response = self.post_report(
             url, {**params, "sort_by": "date_joined", "sort_order": "ascending"}
         )
         self.assertEqual(response.status_code, 200)
@@ -1026,7 +1041,7 @@ class ReportsComponentTest(BaseReportsTest):
             [{"Czech": [expected_credit1, expected_credit2, expected_credit3]}],
         )
 
-        response = self.client.post(
+        response = self.post_report(
             url, {**params, "sort_by": "date_joined", "sort_order": "descending"}
         )
         self.assertEqual(response.status_code, 200)

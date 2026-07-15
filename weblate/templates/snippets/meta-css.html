@@ -1,32 +1,24 @@
-{% load compress static %}
+{% load static %}
 
-{% compress css %}
-  {% if LANGUAGE_BIDI %}
-    <link rel="stylesheet"
-          href="{% static 'styles/vendor/bootstrap5_rtl.css' %}{{ cache_param }}" />
-  {% else %}
-    <link rel="stylesheet"
-          href="{% static 'styles/vendor/bootstrap5.css' %}{{ cache_param }}" />
-  {% endif %}
+{% if LANGUAGE_BIDI %}
+  <link rel="stylesheet" href="{% static 'styles/vendor/bootstrap5_rtl.css' %}" />
+{% else %}
+  <link rel="stylesheet" href="{% static 'styles/vendor/bootstrap5.css' %}" />
+{% endif %}
+<link rel="stylesheet" href="{% static 'weblate_fonts/source-code-pro.css' %}" />
+<link rel="stylesheet" href="{% static 'weblate_fonts/source-sans-3.css' %}" />
+<link rel="stylesheet" href="{% static 'styles/vendor/tom-select.css' %}" />
+<link rel="stylesheet" href="{% static 'styles/variables.css' %}" />
+<link rel="stylesheet" href="{% static 'styles/main.css' %}" />
+<link rel="stylesheet" href="{% static 'styles/date-range-picker.css' %}" />
+{% if theme == "dark" %}
+  <link rel="stylesheet" href="{% static 'style-dark.css' %}" />
+{% elif theme != "light" %}
+  {# auto, unset, or any other non-explicit value: gate on system preference #}
   <link rel="stylesheet"
-        href="{% static 'weblate_fonts/source-code-pro.css' %}{{ cache_param }}" />
-  <link rel="stylesheet"
-        href="{% static 'weblate_fonts/source-sans-3.css' %}{{ cache_param }}" />
-  <link rel="stylesheet"
-        href="{% static 'styles/vendor/tom-select.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" href="{% static 'styles/variables.css' %}{{ cache_param }}" />
-  <link rel="stylesheet" href="{% static 'styles/main.css' %}{{ cache_param }}" />
-  <link rel="stylesheet"
-        href="{% static 'styles/date-range-picker.css' %}{{ cache_param }}" />
-  {% if theme == "dark" %}
-    <link rel="stylesheet" href="{% static 'style-dark.css' %}{{ cache_param }}" />
-  {% elif theme != "light" %}
-    {# auto, unset, or any other non-explicit value: gate on system preference #}
-    <link rel="stylesheet"
-          href="{% static 'style-dark.css' %}{{ cache_param }}"
-          media="(prefers-color-scheme: dark)" />
-  {% endif %}
-{% endcompress %}
+        href="{% static 'style-dark.css' %}"
+        media="(prefers-color-scheme: dark)" />
+{% endif %}
 {% if custom_css_hash %}
   <link rel="stylesheet" href="{% url "css-custom" %}?{{ custom_css_hash }}" />
 {% endif %}

@@ -2219,7 +2219,7 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
     FIND_MATCH = ""
     MASK = "loc/*/default.xliff"
     EXPECTED_PATH = "loc/cs-CZ/default.xliff"
-    NEW_UNIT_MATCH = (
+    NEW_UNIT_MATCH: tuple[bytes, ...] = (
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
@@ -2277,6 +2277,11 @@ class AppleXliffFormatTest(XliffFormatTest):
     EXT = "xliff"
     FILE = TEST_XLIFF_APPLE
     BASE = TEST_XLIFF_APPLE
+    NEW_UNIT_MATCH = (
+        b'<trans-unit xml:space="preserve" id="key"',
+        b"<source>Source string</source>",
+        b'<target state="needs-review-translation"></target>',
+    )
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     FIND_CONTEXT = "Localizable.strings///hello"
     MATCH = 'target-language="cs"'
@@ -3236,7 +3241,8 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
             newdata,
         )
         self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n-->", newdata
+            "* 02110-1301 USA, or see the FSF site: https://www.fsf.org.\n-->",
+            newdata,
         )
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
@@ -3361,7 +3367,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
             newdata,
         )
         self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n-->",
+            "* 02110-1301 USA, or see the FSF site: https://www.fsf.org.\n-->",
             newdata,
         )
         # Remove XML declaration so that etree doesn't complain for parsing

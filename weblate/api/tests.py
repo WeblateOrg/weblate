@@ -29,7 +29,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
-from weblate.accounts.models import Subscription
+from weblate.accounts.models import Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
@@ -48,8 +48,10 @@ from weblate.api.serializers import (
 )
 from weblate.api.views import MemoryFilter, MemoryViewSet
 from weblate.auth.data import ROLES, SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.forms import create_invitation
 from weblate.auth.models import (
     Group,
+    Invitation,
     Permission,
     Role,
     TeamMembership,
@@ -1053,6 +1055,71 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(self.user.full_name, "Renamed")
         self.assertEqual(self.user.email, "apitest@example.org")
 
+    def test_put_self_preserves_null_email(self) -> None:
+        self.user.email = None
+        self.user.save(update_fields=["email"])
+
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="put",
+            code=200,
+            format="json",
+            request={
+                "email": None,
+                "full_name": "No e-mail",
+                "username": self.user.username,
+            },
+        )
+
+        self.user.refresh_from_db()
+        self.assertIsNone(response.data["email"])
+        self.assertIsNone(self.user.email)
+        self.assertEqual(self.user.full_name, "No e-mail")
+
+    def test_patch_self_email_does_not_capture_invitation(self) -> None:
+        claimed_email = "future-member@example.test"
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            request={"email": claimed_email},
+        )
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, "apitest@example.org")
+
+        author = User.objects.create_user("inviter", "inviter@example.org", "x")
+        with patch.object(Invitation, "send_email"):
+            invitation = create_invitation(
+                SimpleNamespace(user=author),
+                group=Group.objects.create(name="Invited through e-mail"),
+                email=claimed_email,
+                success_message=False,
+            )
+
+        self.assertIsNone(invitation.user)
+        self.assertEqual(invitation.email, claimed_email)
+
+    def test_patch_self_email_accepts_verified_email(self) -> None:
+        verified_email = "Verified@Example.ORG"
+        social = self.user.social_auth.create(provider="email", uid=verified_email)
+        VerifiedEmail.objects.create(social=social, email=verified_email)
+
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            request={"email": verified_email.lower()},
+        )
+
+        self.user.refresh_from_db()
+        self.assertEqual(response.data["email"], verified_email.lower())
+        self.assertEqual(self.user.email, verified_email.lower())
+
     def test_patch(self) -> None:
         self.do_request(
             "api:user-detail",
@@ -1231,11 +1298,11 @@ class UserAPITest(APIBaseTest):
             kwargs={"username": self.user.username},
             method="patch",
             code=200,
-            request={"full_name": "Viewed User", "email": "viewed@example.org"},
+            request={"full_name": "Viewed User"},
         )
         self.user.refresh_from_db()
         self.assertEqual(self.user.full_name, "Viewed User")
-        self.assertEqual(self.user.email, "viewed@example.org")
+        self.assertEqual(self.user.email, "apitest@example.org")
 
         self.do_request(
             "api:user-detail",
@@ -3109,7 +3176,7 @@ class ProjectAPITest(APIBaseTest):
 
     def test_changes(self) -> None:
         request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 30)
+        self.assertEqual(request.data["count"], 35)
 
     def test_changes_skip_restricted_component_changes(self) -> None:
         secret = "SECRET-RESTRICTED-STRING-XYZZY"
@@ -5184,40 +5251,44 @@ class ProjectAPITest(APIBaseTest):
         filter_instance.is_valid.assert_called_once()
         self.assertEqual(response.status_code, 400)
 
-    def test_credits(self) -> None:
+    def test_reports(self) -> None:
         self.do_request(
-            "api:component-credits",
+            "api:component-reports",
             self.component_kwargs,
             method="get",
             code=401,
             authenticated=False,
         )
 
-        # mandatory date parameters
         self.do_request(
-            "api:component-credits", self.component_kwargs, method="get", code=400
+            "api:component-reports",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            request={"kind": "credits"},
         )
 
         start = datetime.now(tz=UTC) - timedelta(days=1)
         end = datetime.now(tz=UTC) + timedelta(days=1)
+        self.do_request(
+            "api:component-reports",
+            self.component_kwargs,
+            method="post",
+            code=202,
+            request={
+                "kind": "credits",
+                "start": start.isoformat(),
+                "end": end.isoformat(),
+            },
+        )
 
         response = self.do_request(
-            "api:component-credits",
+            "api:component-reports",
             self.component_kwargs,
             method="get",
             code=200,
-            request={"start": start.isoformat(), "end": end.isoformat()},
         )
-        self.assertEqual(response.data, [])
-
-        response = self.do_request(
-            "api:component-credits",
-            self.component_kwargs,
-            method="get",
-            code=200,
-            request={"start": start.isoformat(), "end": end.isoformat(), "lang": "fr"},
-        )
-        self.assertEqual(response.data, [])
+        self.assertEqual(len(response.data["results"]), 1)
 
     @responses.activate
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
@@ -6082,7 +6153,7 @@ class ComponentAPITest(APIBaseTest):
 
     def test_changes(self) -> None:
         request = self.do_request("api:component-changes", self.component_kwargs)
-        self.assertEqual(request.data["count"], 22)
+        self.assertEqual(request.data["count"], 24)
 
     def test_screenshots(self) -> None:
         request = self.do_request("api:component-screenshots", self.component_kwargs)
@@ -8125,51 +8196,44 @@ class ComponentAPITest(APIBaseTest):
             request={"project_slug": "acl"},
         )
 
-    def test_credits(self) -> None:
+    def test_reports(self) -> None:
         self.do_request(
-            "api:component-credits",
+            "api:component-reports",
             self.component_kwargs,
             method="get",
             code=401,
             authenticated=False,
         )
 
-        # mandatory date parameters
         self.do_request(
-            "api:component-credits", self.component_kwargs, method="get", code=400
+            "api:component-reports",
+            self.component_kwargs,
+            method="post",
+            code=400,
+            request={"kind": "credits"},
         )
 
         start = datetime.now(tz=UTC) - timedelta(days=1)
         end = datetime.now(tz=UTC) + timedelta(days=1)
+        self.do_request(
+            "api:component-reports",
+            self.component_kwargs,
+            method="post",
+            code=202,
+            request={
+                "kind": "credits",
+                "start": start.isoformat(),
+                "end": end.isoformat(),
+            },
+        )
 
         response = self.do_request(
-            "api:component-credits",
+            "api:component-reports",
             self.component_kwargs,
             method="get",
             code=200,
-            request={
-                "start": start.isoformat(),
-                "end": end.isoformat(),
-                "sort_by": "count",
-                "sort_order": "ascending",
-            },
         )
-        self.assertEqual(response.data, [])
-
-        response = self.do_request(
-            "api:component-credits",
-            self.component_kwargs,
-            method="get",
-            code=200,
-            request={
-                "start": start.isoformat(),
-                "end": end.isoformat(),
-                "lang": "fr",
-                "sort_by": "count",
-                "sort_order": "ascending",
-            },
-        )
-        self.assertEqual(response.data, [])
+        self.assertEqual(len(response.data["results"]), 1)
 
 
 class LanguageAPITest(APIBaseTest):
@@ -12531,7 +12595,7 @@ class ScreenshotAPITest(APIBaseTest):
 class ChangeAPITest(APIBaseTest):
     def test_list_changes(self) -> None:
         response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 30)
+        self.assertEqual(response.data["count"], 35)
 
     def test_filter_changes_after(self) -> None:
         """Filter changes since timestamp."""
@@ -12539,7 +12603,7 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
-        self.assertEqual(response.data["count"], 30)
+        self.assertEqual(response.data["count"], 35)
 
     def test_filter_changes_before(self) -> None:
         """Filter changes prior to timestamp."""
@@ -12559,6 +12623,53 @@ class ChangeAPITest(APIBaseTest):
             reverse("api:change-detail", kwargs={"pk": Change.objects.all()[0].pk})
         )
         self.assertIn("translation", response.data)
+
+    def test_alert_metadata(self) -> None:
+        self.component.add_alert("InexactHookMatch", repo_url="first")
+        alert = self.component.alert_set.get(name="InexactHookMatch")
+        alert.dismiss(self.user, "Handled elsewhere")
+        change = self.component.change_set.get(
+            action=ActionEvents.ALERT_DISMISSED, alert=alert
+        )
+
+        other_user = User.objects.create_user("other_user", "other@example.com")
+        self.component.add_alert("InexactHookMatch", repo_url="second")
+        alert.refresh_from_db()
+        alert.dismiss(other_user, "New dismissal")
+        self.component.delete_alert("InexactHookMatch")
+
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+        self.assertEqual(response.data["alert"]["details"], {})
+        self.assertEqual(response.data["alert"]["dismissal_reason"], "")
+        self.assertNotIn("reason", response.data["details"])
+        self.assertEqual(
+            response.data["details"]["alert_snapshot"]["details"],
+            {},
+        )
+
+        self.authenticate()
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+
+        self.assertEqual(response.data["alert"]["category"], "vcs")
+        self.assertEqual(response.data["alert"]["severity"], 50)
+        self.assertEqual(response.data["alert"]["details"]["repo_url"], "first")
+        self.assertEqual(
+            response.data["details"]["alert_snapshot"]["details"]["repo_url"],
+            "first",
+        )
+        self.assertEqual(
+            datetime.fromisoformat(response.data["alert"]["dismissed_at"]),
+            change.timestamp,
+        )
+        self.assertIn(self.user.username, response.data["alert"]["dismissed_by"])
+        self.assertEqual(
+            response.data["alert"]["dismissal_reason"], "Handled elsewhere"
+        )
+        self.assertEqual(response.data["details"]["reason"], "Handled elsewhere")
 
 
 class MetricsAPITest(APIBaseTest):
@@ -15081,8 +15192,12 @@ class OpenAPITest(APIBaseTest):
         response = self.do_request(
             "api-schema",
         )
+        schema = yaml.safe_load(response.content)
         # Ensure schema includes the language-specific project download parameter
         self.assertIn("language_code", response.content.decode())
+        self.assertEqual(
+            schema["info"]["x-logo"]["url"], f"{settings.STATIC_URL}weblate.svg"
+        )
 
     def test_language_code_pattern(self) -> None:
         schema = self.get_schema()
@@ -15125,6 +15240,7 @@ class OpenAPITest(APIBaseTest):
             "Severity defines color used for the message.",
         )
         self.assertIn("* `info` - Info", schemas["SeverityEnum"]["description"])
+        self.assertEqual(schemas["AlertSeverityEnum"]["enum"], [10, 50, 100])
         self.assertNotIn("* `info`", severity_description)
 
     def test_change_action_schema_matches_runtime_choices(self) -> None:

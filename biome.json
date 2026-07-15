@@ -1,16 +1,22 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.3/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "files": {
     "includes": [
       "**",
+      "!**/*.svg",
+      "!**/*.html",
       "!weblate/trans/tests/data/**/*.ts",
       "!weblate/static/vendor",
       "!weblate/trans/tests/data/memory-broken.json",
       "!weblate/templates/site.webmanifest",
       "!weblate/templates/configuration/custom.css",
       "!weblate/static/js/vendor",
-      "!weblate/static/styles/vendor",
-      "!dev-docker/data"
+      "!weblate/static/styles/vendor"
     ]
   },
   "assist": {
@@ -30,8 +36,13 @@
         "useSelfClosingElements": "error",
         "useSingleVarDeclarator": "error",
         "useNumberNamespace": "error",
+        "useConsistentBuiltinInstantiation": "error",
         "noDescendingSpecificity": "off",
         "noUselessElse": "error"
+      },
+      "suspicious": {
+        "noVar": "error",
+        "useGuardForIn": "error"
       },
       "complexity": {
         "noImportantStyles": "off"

@@ -6,22 +6,42 @@ Weblate 2026.8
 .. rubric:: New features
 
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
+* :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
 
 .. rubric:: Improvements
 
+* Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters.
+* Component diagnostics now record dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors.
+* :ref:`Add-on activity logs <addon-activity-logging>` now distinguish pending, successful, failed, and skipped executions and explain why an add-on was skipped.
 * Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
+* Improved matrix view loading performance when displaying multiple languages.
+* Translation memory management pages now load origin summaries with a single database aggregation.
+* Dashboard component list tabs now load without processing unrelated component lists.
+* Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed.
+* Improved :ref:`screenshots` OCR reliability and error reporting when downloading recognition data.
+* Celery workers now prefetch fewer tasks by default to reduce memory usage and improve task distribution.
+* Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload.
 
 .. rubric:: Bug fixes
 
+* Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
+* Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.
+* :ref:`RSS feeds <rss>` no longer disclose change history from inaccessible projects or restricted components.
 
 .. rubric:: Compatibility
+
+* django-compressor is no longer used, and the ``COMPRESS_*`` settings have been removed.
+* The project and component ``credits`` REST API endpoints and their ``credits_url`` response fields have been replaced by scoped ``reports`` endpoints and ``reports_url``. Credits report generation is now asynchronous; clients need to submit a ``credits`` report, follow the returned task URL, and fetch the completed report. See :http:post:`/api/reports/`.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are changes in :file:`settings_example.py`, most notably the new ``STORAGES`` configuration and removal of the ``COMPRESS_*`` settings; please adjust your settings accordingly.
+* Running :program:`weblate compress` is no longer necessary; :program:`weblate collectstatic --noinput` now prepares versioned static assets without clearing the static storage.
 
 .. rubric:: Contributors
 
@@ -131,8 +151,8 @@ Weblate 2026.7
 
 .. rubric:: Bug fixes
 
-* :ref:`check-regex` and :ref:`check-placeholders` now enforce regular expression timeouts when evaluating source-string flags (:ghsa:`r52j-4vjp-q949`).
-* Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints (:ghsa:`92m8-wv36-prmx`).
+* :ref:`check-regex` and :ref:`check-placeholders` now enforce regular expression timeouts when evaluating source-string flags (:cve:`2026-62326`, :ghsa:`r52j-4vjp-q949`).
+* Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints (:cve:`2026-62249`, :ghsa:`92m8-wv36-prmx`).
 * ZIP downloads, including :ref:`appstore` translation bundles, no longer follow child symbolic links outside the downloaded tree (:cve:`2026-61792`, :ghsa:`xwj4-fp82-r2rj`).
 * Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured (:cve:`2026-61790`, :ghsa:`x86c-ff69-cr2m`).
 * Globally scoped HTML and AJAX object lookups no longer disclose object existence in private projects (:cve:`2026-55227`, :ghsa:`2p9g-x3cv-5hh4`).

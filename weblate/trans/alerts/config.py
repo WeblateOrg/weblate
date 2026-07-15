@@ -81,6 +81,15 @@ class BillingLimit(BaseAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Your billing plan has exceeded its limits.")
 
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, _details: dict[str, Any]
+    ) -> bool:
+        workspace = component.project.workspace
+        return workspace is not None and bool(
+            user.has_perm("workspace.edit", workspace)
+        )
+
 
 @register
 class MissingLicense(BaseAlert):
@@ -270,6 +279,10 @@ class BrokenProjectURL(BaseAlert):
     doc_anchor = "project-web"
     project_wide = True
 
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {"details": details, "web": component.project.web}
+
     def __init__(self, instance, error: str | None = None) -> None:
         super().__init__(instance)
         self.error = error
@@ -307,6 +320,30 @@ class UnusedScreenshot(BaseAlert):
     doc_page = "admin/translating"
     doc_anchor = "screenshots"
 
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return (
+            super().can_user_act_for(user, component, details)
+            or bool(user.has_perm("screenshot.edit", component))
+            or bool(user.has_perm("screenshot.delete", component))
+        )
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.screenshots.models import Screenshot
+
+        screenshots = list(
+            Screenshot.objects.filter(
+                translation__component=component, units__isnull=True
+            )
+            .order_by("pk")
+            .values_list("pk", flat=True)
+        )
+        return {"details": details, "screenshots": screenshots}
+
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
         # ruff: ignore[import-outside-top-level]
@@ -326,6 +363,23 @@ class AmbiguousLanguage(BaseAlert):
     dismissible = True
     doc_page = "admin/languages"
     doc_anchor = "ambiguous-languages"
+
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
+            user.has_perm("language.edit")
+        )
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        languages = list(
+            component.get_ambiguous_translations()
+            .order_by("language__code")
+            .values_list("language__code", flat=True)
+        )
+        return {"details": details, "languages": languages}
 
     def get_context(self, user: User) -> dict[str, Any]:
         result = super().get_context(user)
@@ -360,6 +414,14 @@ class UnusedEnforcedCheck(BaseAlert):
     verbose = gettext_lazy("Unused enforced checks.")
     doc_page = "admin/checks"
     doc_anchor = "enforcing-checks"
+
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
+            user.has_perm("source.edit", component)
+        )
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
@@ -396,6 +458,10 @@ class MonolingualGlossary(BaseAlert):
     doc_page = "user/glossary"
     dismissible = True
 
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {"details": details, "template": component.template}
+
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
         return component.is_glossary and bool(component.template)
@@ -405,6 +471,14 @@ class MonolingualGlossary(BaseAlert):
 class UnusedGlossaryLanguage(MultiAlert):
     verbose = gettext_lazy("Unused glossary language.")
     doc_page = "user/glossary"
+
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
+            user.has_perm("translation.delete", component)
+        )
 
     def process_occurrences(
         self, occurrences: list[dict[str, Any]]

@@ -2094,6 +2094,15 @@ Allows public engage page even with :setting:`REQUIRE_LOGIN`.
 
    * :ref:`promotion`
 
+.. setting:: REPORT_EXPIRY
+
+REPORT_EXPIRY
+-------------
+
+Defines how many days generated translation reports are retained. Defaults to
+90 days. Changing the value also changes when existing reports become eligible
+for removal by the daily cleanup task.
+
 .. setting:: RATELIMIT_NOTIFICATION_LIMITS
 
 RATELIMIT_NOTIFICATION_LIMITS

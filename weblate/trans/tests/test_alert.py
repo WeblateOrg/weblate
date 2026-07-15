@@ -4,33 +4,44 @@
 
 """Test for alerts."""
 
+import importlib
 import os
 import tempfile
 from datetime import timedelta
 from pathlib import Path
 from types import SimpleNamespace
-from typing import TYPE_CHECKING, cast
+from typing import cast
 from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
+from django.db import connection
+from django.http import QueryDict
 from django.template.loader import render_to_string
 from django.test import SimpleTestCase, override_settings
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
+from weblate.auth.models import Group, Permission, Role
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.alerts.base import AlertSeverity
+from weblate.trans.alerts.base import AlertSeverity, MultiAlert
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.alerts.vcs import UpdateFailure
-from weblate.trans.models import Component, Project, Unit
+from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
+from weblate.trans.models import (
+    Category,
+    Component,
+    ComponentLink,
+    Project,
+    Unit,
+)
+from weblate.trans.models.alert import Alert
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.vcs.models import VCS_REGISTRY
-
-if TYPE_CHECKING:
-    from weblate.trans.models.alert import Alert
+from weblate.workspaces.models import Workspace
 
 
 class WebsiteAlertSettingTest(ViewTestCase):
@@ -148,6 +159,376 @@ class AlertTest(ViewTestCase):
             ).values_list("name", flat=True)
         )
 
+    @staticmethod
+    def get_diagnostics_group(response, name: str):
+        return next(
+            group for group in response.context["diagnostics"] if group.name == name
+        )
+
+    def get_diagnostics_response(self, obj=None, data=None):
+        obj = obj or self.project
+        return self.client.get(
+            reverse("js-diagnostics", kwargs={"path": obj.get_url_path()}), data
+        )
+
+    def test_project_diagnostics_loads_lazily_for_authenticated_users(self) -> None:
+        with patch("weblate.trans.views.js.get_diagnostics_context") as get_diagnostics:
+            response = self.client.get(
+                self.project.get_absolute_url(),
+                {"diagnostic_state": "dismissed"},
+            )
+
+        self.assertContains(response, 'data-bs-target="#diagnostics"')
+        self.assertContains(
+            response,
+            f"{reverse('js-diagnostics', kwargs={'path': self.project.get_url_path()})}?diagnostic_state=dismissed",
+        )
+        get_diagnostics.assert_not_called()
+
+    def test_project_diagnostics_requires_authentication(self) -> None:
+        url = reverse("js-diagnostics", kwargs={"path": self.project.get_url_path()})
+        self.client.logout()
+
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertNotContains(response, 'data-bs-target="#diagnostics"')
+        response = self.client.get(url)
+        self.assertRedirects(response, f"{reverse('login')}?next={url}")
+
+    def test_project_diagnostics_group_by_type(self) -> None:
+        other = self._create_component(
+            "po", "other/*.po", project=self.project, name="Other"
+        )
+        self.component.add_alert(
+            "ParseError", occurrences=[{"filename": "first.po", "error": "first"}]
+        )
+        other.add_alert(
+            "ParseError", occurrences=[{"filename": "second.po", "error": "second"}]
+        )
+        self.component.add_alert("MissingTranslationInstructions")
+        other.add_alert("MissingTranslationInstructions")
+
+        response = self.get_diagnostics_response()
+
+        parse_group = self.get_diagnostics_group(response, "ParseError")
+        self.assertEqual(parse_group.components, [other, self.component])
+        instructions_group = self.get_diagnostics_group(
+            response, "MissingTranslationInstructions"
+        )
+        self.assertEqual(instructions_group.projects, [self.project])
+        self.assertEqual(instructions_group.active_count, 2)
+        self.assertEqual(instructions_group.project_components, [(self.project, other)])
+        self.assertContains(
+            response,
+            f"{other.get_absolute_url()}?alerts=1#alerts",
+        )
+
+    def test_project_diagnostics_caps_component_links(self) -> None:
+        components = Component.objects.bulk_create(
+            [
+                Component(
+                    name=f"Component {index:02}",
+                    slug=f"component-{index:02}",
+                    project=self.project,
+                    repo="local:",
+                    filemask=f"component-{index:02}/*.po",
+                    file_format="po",
+                )
+                for index in range(DIAGNOSTICS_LINK_LIMIT + 2)
+            ]
+        )
+        Alert.objects.bulk_create(
+            [
+                Alert(
+                    component=component,
+                    name="ParseError",
+                    severity=AlertSeverity.ERROR,
+                    details={"occurrences": []},
+                )
+                for component in components
+            ]
+        )
+
+        response = self.get_diagnostics_response()
+        group = self.get_diagnostics_group(response, "ParseError")
+
+        self.assertEqual(len(group.components), DIAGNOSTICS_LINK_LIMIT)
+        self.assertEqual(group.affected_count, DIAGNOSTICS_LINK_LIMIT + 2)
+        self.assertEqual(group.hidden_count, 2)
+        self.assertContains(response, "2 more affected components.")
+
+    def test_workspace_diagnostics_caps_project_links(self) -> None:
+        workspace = Workspace.objects.create(name="Large diagnostics workspace")
+        projects = Project.objects.bulk_create(
+            [
+                Project(
+                    name=f"Project {index:02}",
+                    slug=f"project-{index:02}",
+                    web="https://example.com/",
+                    workspace=workspace,
+                )
+                for index in range(DIAGNOSTICS_LINK_LIMIT + 2)
+            ]
+        )
+        components = Component.objects.bulk_create(
+            [
+                Component(
+                    name="Component",
+                    slug="component",
+                    project=project,
+                    repo="local:",
+                    filemask="*.po",
+                    file_format="po",
+                )
+                for project in projects
+            ]
+        )
+        Alert.objects.bulk_create(
+            [
+                Alert(
+                    component=component,
+                    name="MissingTranslationInstructions",
+                    severity=AlertSeverity.INFO,
+                )
+                for component in components
+            ]
+        )
+
+        with CaptureQueriesContext(connection) as queries:
+            context = get_diagnostics_context(
+                QueryDict(),
+                self.user,
+                Component.objects.filter(project__in=projects),
+            )
+        group = next(
+            item
+            for item in context["diagnostics"]
+            if item.name == "MissingTranslationInstructions"
+        )
+
+        self.assertEqual(len(group.projects), DIAGNOSTICS_LINK_LIMIT)
+        self.assertEqual(group.affected_count, DIAGNOSTICS_LINK_LIMIT + 2)
+        self.assertEqual(group.hidden_count, 2)
+        self.assertTrue(
+            any(
+                "ROW_NUMBER()" in query["sql"] and "<= 20" in query["sql"]
+                for query in queries
+            )
+        )
+
+    def test_project_diagnostics_prefetch_category_ancestors(self) -> None:
+        root = Category.objects.create(name="Root", slug="root", project=self.project)
+        parent = Category.objects.create(
+            name="Parent", slug="parent", project=self.project, category=root
+        )
+        category = Category.objects.create(
+            name="Category", slug="category", project=self.project, category=parent
+        )
+        component = self._create_component(
+            "po",
+            "categorized/*.po",
+            project=self.project,
+            category=category,
+            name="Categorized",
+        )
+        component.add_alert("ParseError", occurrences=[])
+
+        response = self.get_diagnostics_response()
+        group = self.get_diagnostics_group(response, "ParseError")
+        categorized = next(
+            current for current in group.components if current.pk == component.pk
+        )
+
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                categorized.get_absolute_url(),
+                "/projects/test/root/parent/category/categorized/",
+            )
+        self.assertIn("commit_message", categorized.get_deferred_fields())
+        self.assertIn("instructions", categorized.project.get_deferred_fields())
+
+    def test_project_diagnostics_actionable_does_not_construct_multi_alert(
+        self,
+    ) -> None:
+        self.component.add_alert("DuplicateString", occurrences=[])
+        self.make_manager()
+        self.user.clear_permissions_cache()
+
+        with patch.object(
+            MultiAlert,
+            "process_occurrences",
+            side_effect=AssertionError("MultiAlert was constructed"),
+        ):
+            context = get_diagnostics_context(
+                QueryDict("diagnostic_actionable=on"),
+                self.user,
+                Component.objects.filter(pk=self.component.pk),
+            )
+
+        self.assertIn(
+            "DuplicateString", {group.name for group in context["diagnostics"]}
+        )
+
+    def test_project_diagnostics_bulk_loads_actionable_addons(self) -> None:
+        other = self._create_component(
+            "po", "other/*.po", project=self.project, name="Other"
+        )
+        role = Role.objects.create(name="Diagnostics add-on manager")
+        role.permissions.add(Permission.objects.get(codename="management.addons"))
+        group = Group.objects.create(name="Diagnostics add-on managers")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("management.addons"))
+        addon = Addon.objects.create(name="weblate.gettext.msgmerge")
+        details = {
+            "occurrences": [
+                {
+                    "addon": addon.name,
+                    "addon_id": str(addon.pk),
+                    "command": "msgmerge",
+                    "error": "failure",
+                }
+            ]
+        }
+        self.component.add_alert("MsgmergeAddonError", **details)
+        other.add_alert("MsgmergeAddonError", **details)
+
+        with (
+            patch.object(
+                MultiAlert,
+                "process_occurrences",
+                side_effect=AssertionError("MultiAlert was constructed"),
+            ),
+            self.assertNumQueries(11),
+        ):
+            context = get_diagnostics_context(
+                QueryDict("diagnostic_actionable=on"),
+                self.user,
+                Component.objects.filter(project=self.project),
+            )
+
+        group = next(
+            item for item in context["diagnostics"] if item.name == "MsgmergeAddonError"
+        )
+        self.assertEqual(group.components, [other, self.component])
+
+    def test_project_diagnostics_filters(self) -> None:
+        self.component.add_alert("ParseError", occurrences=[])
+        self.component.add_alert("UnusedScreenshot")
+        dismissed = self.component.alert_set.get(name="UnusedScreenshot")
+        dismissed.dismiss(self.user)
+
+        response = self.get_diagnostics_response()
+        names = {group.name for group in response.context["diagnostics"]}
+        self.assertIn("ParseError", names)
+        self.assertNotIn("UnusedScreenshot", names)
+
+        response = self.get_diagnostics_response(
+            data={
+                "diagnostic_state": "dismissed",
+                "diagnostic_severity": AlertSeverity.WARNING,
+                "diagnostic_category": "configuration",
+            },
+        )
+        self.assertEqual(
+            {group.name for group in response.context["diagnostics"]},
+            {"UnusedScreenshot"},
+        )
+
+        other = self._create_component(
+            "po", "other/*.po", project=self.project, name="Other"
+        )
+        other.add_alert("UnusedScreenshot")
+        response = self.get_diagnostics_response(
+            data={
+                "diagnostic_state": "all",
+                "diagnostic_severity": AlertSeverity.WARNING,
+                "diagnostic_category": "configuration",
+            },
+        )
+        group = self.get_diagnostics_group(response, "UnusedScreenshot")
+        self.assertEqual(group.active_count, 1)
+        self.assertEqual(group.dismissed_count, 1)
+
+    def test_project_diagnostics_actionable_filter(self) -> None:
+        self.component.add_alert("MissingTranslationInstructions")
+        self.component.add_alert("MissingScreenshots")
+        query = {"diagnostic_actionable": "on"}
+
+        response = self.get_diagnostics_response(data=query)
+        self.assertEqual(response.context["diagnostics"], [])
+
+        self.make_manager()
+        self.client.login(username="testuser", password="testpassword")
+        response = self.get_diagnostics_response(data=query)
+        self.assertIn(
+            "MissingTranslationInstructions",
+            {group.name for group in response.context["diagnostics"]},
+        )
+        response = self.get_diagnostics_response(
+            data={
+                **query,
+                "diagnostic_severity": AlertSeverity.INFO,
+            }
+        )
+        self.assertEqual(
+            {group.name for group in response.context["diagnostics"]},
+            {"MissingScreenshots"},
+        )
+
+    def test_project_diagnostics_excludes_shared_and_restricted_components(
+        self,
+    ) -> None:
+        target = Project.objects.create(
+            name="Shared target", slug="shared-target", web="https://example.com/"
+        )
+        ComponentLink.objects.create(component=self.component, project=target)
+        self.component.add_alert("ParseError", occurrences=[])
+
+        response = self.get_diagnostics_response(target)
+        self.assertEqual(response.context["diagnostics"], [])
+
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        response = self.get_diagnostics_response()
+        self.assertEqual(response.context["diagnostics"], [])
+
+    def test_workspace_diagnostics_group_across_projects(self) -> None:
+        workspace = Workspace.objects.create(name="Diagnostics workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        other_project = self.create_project(
+            name="Other project", slug="other-project", workspace=workspace
+        )
+        other = self._create_component(
+            "po", "other/*.po", project=other_project, name="Other"
+        )
+        self.component.add_alert("ParseError", occurrences=[])
+        other.add_alert("ParseError", occurrences=[])
+        self.component.add_alert("MissingTranslationInstructions")
+        other.add_alert("MissingTranslationInstructions")
+
+        with patch("weblate.trans.views.js.get_diagnostics_context") as get_diagnostics:
+            page_response = self.client.get(workspace.get_absolute_url())
+        self.assertContains(page_response, 'data-bs-target="#diagnostics"')
+        self.assertContains(
+            page_response,
+            reverse("js-diagnostics", kwargs={"path": workspace.get_url_path()}),
+        )
+        get_diagnostics.assert_not_called()
+
+        response = self.get_diagnostics_response(workspace)
+
+        parse_group = self.get_diagnostics_group(response, "ParseError")
+        self.assertEqual(parse_group.components, [other, self.component])
+        instructions_group = self.get_diagnostics_group(
+            response, "MissingTranslationInstructions"
+        )
+        self.assertEqual(
+            instructions_group.projects,
+            [other_project, self.project],
+        )
+
     def test_duplicates(self) -> None:
         self.assertEqual(
             self.get_problem_alert_names(),
@@ -212,10 +593,330 @@ class AlertTest(ViewTestCase):
         self.user.save()
         response = self.client.post(
             reverse("dismiss-alert", kwargs=self.kw_component),
-            {"dismiss": "BrokenBrowserURL"},
+            {"dismiss": "BrokenBrowserURL", "reason": "Expected authentication"},
         )
         self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
-        self.assertTrue(self.component.alert_set.get(name="BrokenBrowserURL").dismissed)
+        alert = self.component.alert_set.get(name="BrokenBrowserURL")
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertEqual(alert.dismissed_by, self.user)
+        self.assertEqual(alert.dismissal_reason, "Expected authentication")
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_DISMISSED, alert=alert, user=self.user
+            ).exists()
+        )
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, "Expected authentication")
+
+        self.client.logout()
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertNotContains(response, "Expected authentication")
+
+    def test_project_maintainer_can_dismiss_project_wide_alert(self) -> None:
+        role = Role.objects.create(name="Project alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="project.edit"))
+        group = Group.objects.create(name="Project alert maintainers")
+        group.roles.add(role)
+        group.projects.add(self.component.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("project.edit", self.component.project))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.component.add_alert("BrokenProjectURL", error="failure")
+
+        response = self.client.get(f"{self.component.get_absolute_url()}?alerts=1")
+        self.assertContains(response, "Optional dismissal reason")
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "BrokenProjectURL", "reason": "Expected failure"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+        self.assertEqual(alert.dismissed_by, self.user)
+        self.assertEqual(alert.dismissal_reason, "Expected failure")
+
+    def test_user_without_action_permission_cannot_dismiss_alert(self) -> None:
+        self.component.add_alert(
+            "BrokenBrowserURL", link="https://example.com", error="failure"
+        )
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "BrokenBrowserURL"},
+        )
+
+        self.assertEqual(response.status_code, 404)
+        self.assertIsNone(
+            self.component.alert_set.get(name="BrokenBrowserURL").dismissed_at
+        )
+
+    def test_repository_maintainer_can_dismiss_repository_alert(self) -> None:
+        role = Role.objects.create(name="Repository alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="vcs.push"))
+        group = Group.objects.create(name="Repository alert maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.component))
+        self.component.add_alert("RepositoryChanges")
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "RepositoryChanges"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        self.assertEqual(
+            self.component.alert_set.get(name="RepositoryChanges").dismissed_by,
+            self.user,
+        )
+
+    def test_commit_permission_cannot_act_on_outdated_repository(self) -> None:
+        role = Role.objects.create(name="Repository commit maintainer")
+        role.permissions.add(Permission.objects.get(codename="vcs.commit"))
+        group = Group.objects.create(name="Repository commit maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.component.add_alert("RepositoryOutdated")
+
+        alert = self.component.alert_set.get(name="RepositoryOutdated")
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.component))
+        self.assertFalse(alert.obj.can_user_act(self.user, self.component))
+
+    def test_screenshot_maintainer_can_dismiss_unused_screenshot(self) -> None:
+        role = Role.objects.create(name="Unused screenshot alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="screenshot.delete"))
+        group = Group.objects.create(name="Unused screenshot alert maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("screenshot.delete", self.component))
+        self.component.add_alert("UnusedScreenshot")
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "UnusedScreenshot"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        self.assertEqual(
+            self.component.alert_set.get(name="UnusedScreenshot").dismissed_by,
+            self.user,
+        )
+
+    def test_language_manager_can_dismiss_ambiguous_language(self) -> None:
+        role = Role.objects.create(name="Ambiguous language alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="language.edit"))
+        group = Group.objects.create(name="Ambiguous language alert maintainers")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("language.edit"))
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.component.add_alert("AmbiguousLanguage")
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "AmbiguousLanguage"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        self.assertEqual(
+            self.component.alert_set.get(name="AmbiguousLanguage").dismissed_by,
+            self.user,
+        )
+
+    def test_source_editor_can_dismiss_safe_html_alert(self) -> None:
+        role = Role.objects.create(name="Safe HTML alert maintainer")
+        role.permissions.add(Permission.objects.get(codename="source.edit"))
+        group = Group.objects.create(name="Safe HTML alert maintainers")
+        group.roles.add(role)
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("component.edit", self.component))
+        self.assertTrue(self.user.has_perm("source.edit", self.component))
+        self.component.add_alert("MissingSafeHTMLFlag")
+
+        response = self.client.post(
+            reverse("dismiss-alert", kwargs=self.kw_component),
+            {"dismiss": "MissingSafeHTMLFlag"},
+        )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
+        self.assertEqual(
+            self.component.alert_set.get(name="MissingSafeHTMLFlag").dismissed_by,
+            self.user,
+        )
+
+    def test_reopen_dismissed_alert_on_details_change(self) -> None:
+        self.component.add_alert("BrokenProjectURL", error="first failure")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+        old_timestamp = timezone.now() - timedelta(days=30)
+        self.component.alert_set.filter(pk=alert.pk).update(timestamp=old_timestamp)
+        alert.refresh_from_db()
+        self.assertTrue(alert.dismiss(self.user, "Known issue"))
+
+        self.component.add_alert("BrokenProjectURL", error="different failure")
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertIsNone(alert.dismissed_by)
+        self.assertEqual(alert.dismissal_reason, "")
+        self.assertEqual(alert.dismissal_fingerprint, "")
+        self.assertGreater(alert.timestamp, old_timestamp)
+        self.assertEqual(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).count(),
+            1,
+        )
+
+        self.component.add_alert("BrokenProjectURL", error="different failure")
+        self.assertEqual(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).count(),
+            1,
+        )
+
+    def test_legacy_dismissal_reopens_on_first_refresh(self) -> None:
+        self.component.add_alert("BrokenProjectURL", error="failure")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+        alert.dismissed_at = timezone.now()
+        alert.save(update_fields=["dismissed_at"])
+
+        self.component.add_alert("BrokenProjectURL", error="failure")
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_migrated_dismissal_stays_dismissed_on_unchanged_refresh(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0094_alert_lifecycle"
+        )
+        self.component.project.web = "https://example.com/first"
+        self.component.project.save(update_fields=["web"])
+        self.component.add_alert("BrokenProjectURL", error="failure")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+
+        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        self.component.add_alert("BrokenProjectURL", error="failure")
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertNotEqual(alert.dismissal_fingerprint, "")
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+        self.component.project.web = "https://example.com/second"
+        self.component.project.save(update_fields=["web"])
+        self.component.add_alert("BrokenProjectURL", error="failure")
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_migrated_addon_dismissal_ignores_new_addon_id(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0094_alert_lifecycle"
+        )
+        occurrence = {
+            "addon": "weblate.gettext.msgmerge",
+            "error": "failure",
+        }
+        self.component.add_alert("MsgmergeAddonError", occurrences=[occurrence])
+        alert = self.component.alert_set.get(name="MsgmergeAddonError")
+
+        migration.backfill_dismissals(self.component.alert_set.filter(pk=alert.pk))
+        self.component.add_alert(
+            "MsgmergeAddonError",
+            occurrences=[{**occurrence, "addon_id": "123"}],
+        )
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertNotEqual(alert.dismissal_fingerprint, "")
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+        self.component.add_alert(
+            "MsgmergeAddonError",
+            occurrences=[
+                {**occurrence, "addon_id": "123", "error": "different failure"}
+            ],
+        )
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_legacy_dismissal_reopens_on_details_change(self) -> None:
+        self.component.add_alert("BrokenProjectURL", error="original failure")
+        alert = self.component.alert_set.get(name="BrokenProjectURL")
+        alert.dismissed_at = timezone.now()
+        alert.save(update_fields=["dismissed_at"])
+
+        self.component.add_alert("BrokenProjectURL", error="different failure")
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_inexact_hook_match_reopens_on_repository_change(self) -> None:
+        details = {
+            "service_long_name": "Gitea",
+            "repo_url": "https://example.com/owner/repo",
+            "branch": "main",
+            "full_name": "owner/repo",
+        }
+        self.component.repo = "https://example.com/first/repo.git"
+        self.component.save(update_fields=["repo"])
+        self.component.add_alert("InexactHookMatch", **details)
+        alert = self.component.alert_set.get(name="InexactHookMatch")
+        self.assertTrue(alert.dismiss(self.user))
+
+        self.component.repo = "https://example.com/different/repo.git"
+        self.component.save(update_fields=["repo"])
+        self.component.add_alert("InexactHookMatch", **details)
+
+        alert.refresh_from_db()
+        self.assertIsNone(alert.dismissed_at)
+        self.assertTrue(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
 
     def test_existing_alert_updates_last_seen(self) -> None:
         self.component.add_alert("MissingLicense")
@@ -888,6 +1589,36 @@ class ExtractPotAlertTest(ViewTestCase):
             self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
         )
 
+    def test_unrelated_addon_does_not_reopen_missing_msgmerge_alert(self) -> None:
+        XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        )
+        update_alerts(self.component, {"ExtractPotMissingMsgmerge"})
+        alert = self.component.alert_set.get(name="ExtractPotMissingMsgmerge")
+        self.assertTrue(alert.dismiss(self.user))
+
+        Addon.objects.create(
+            component=self.component,
+            name="weblate.cleanup.generic",
+        )
+        update_alerts(self.component, {"ExtractPotMissingMsgmerge"})
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED,
+                alert=alert,
+            ).exists()
+        )
+
 
 class MonolingualAlertTest(ViewTestCase):
     def create_component(self):
@@ -953,6 +1684,17 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    def test_repository_guidance_uses_header_documentation_link(self) -> None:
+        for template_name in (
+            "trans/alert/repositoryoutdated.html",
+            "trans/alert/repositorychanges.html",
+        ):
+            with self.subTest(template_name=template_name):
+                rendered = render_to_string(template_name)
+
+                self.assertNotIn("Documentation", rendered)
+                self.assertNotIn("btn btn-primary", rendered)
+
     def test_bilingual_po_configured_as_monolingual_guidance(self) -> None:
         rendered = render_to_string(
             "trans/alert/bilingualpoconfiguredasmonolingual.html",

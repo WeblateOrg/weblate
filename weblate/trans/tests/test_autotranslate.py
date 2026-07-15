@@ -4,6 +4,8 @@
 
 """Test for automatic translation."""
 
+from unittest.mock import patch
+
 from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -77,7 +79,7 @@ class AutoTranslationTest(ViewTestCase):
             addon=addon.instance,
             component=component,
             event=AddonEvent.EVENT_COMPONENT_UPDATE,
-            pending=True,
+            status=AddonActivityLog.Status.PENDING,
         )
 
     def test_none(self) -> None:
@@ -255,7 +257,7 @@ class AutoTranslationTest(ViewTestCase):
         self.assertEqual(len(result["warnings"]), 1)
         self.assertIn("do not match the target translation", result["warnings"][0])
         activity_log.refresh_from_db()
-        self.assertFalse(activity_log.pending)
+        self.assertEqual(activity_log.status, AddonActivityLog.Status.SUCCESS)
         self.assertEqual(
             activity_log.details["result"]["message"],
             "Automatic translation completed, 1 string was updated.",
@@ -267,6 +269,7 @@ class AutoTranslationTest(ViewTestCase):
         )
 
     def test_autotranslate_missing_target_returns_result_dict(self) -> None:
+        activity_log = self.create_autotranslate_activity_log()
         translation = self.component2.translation_set.get(language_code="cs")
         translation_id = translation.id
         translation.delete()
@@ -280,6 +283,7 @@ class AutoTranslationTest(ViewTestCase):
             source_component_id=self.component.id,
             engines=[],
             threshold=100,
+            activity_log_id=activity_log.id,
         )
 
         self.assertEqual(
@@ -289,6 +293,9 @@ class AutoTranslationTest(ViewTestCase):
                 "warnings": [],
             },
         )
+        activity_log.refresh_from_db()
+        self.assertEqual(activity_log.status, AddonActivityLog.Status.SKIPPED)
+        self.assertEqual(activity_log.details["reason"], "target-missing")
 
     def test_suggest(self) -> None:
         """Test for automatic suggestion."""
@@ -788,8 +795,35 @@ class AutoTranslationTest(ViewTestCase):
         )
         self.assertEqual(result["warnings"], [])
         activity_log.refresh_from_db()
-        self.assertFalse(activity_log.pending)
+        self.assertEqual(activity_log.status, AddonActivityLog.Status.SUCCESS)
         self.assertEqual(activity_log.details["result"], result)
+
+    def test_autotranslate_component_failure_updates_activity_log(self) -> None:
+        activity_log = self.create_autotranslate_activity_log()
+
+        with patch("weblate.utils.errors.report_error"):
+            task_result = auto_translate_component.apply(
+                kwargs={
+                    "component_id": 0,
+                    "mode": "translate",
+                    "q": "state:<translated",
+                    "auto_source": "others",
+                    "engines": [],
+                    "threshold": 100,
+                    "source_component_id": self.component.id,
+                    "user_id": self.user.id,
+                    "activity_log_id": activity_log.id,
+                },
+                throw=False,
+            )
+
+        self.assertTrue(task_result.failed())
+        self.assertIsInstance(task_result.result, Component.DoesNotExist)
+        activity_log.refresh_from_db()
+        self.assertEqual(activity_log.status, AddonActivityLog.Status.ERROR)
+        self.assertIn(
+            "Component matching query does not exist", activity_log.details["result"]
+        )
 
     def test_command(self) -> None:
         call_command("auto_translate", "test", "test", "cs")

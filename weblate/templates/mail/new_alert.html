@@ -4,10 +4,20 @@
 
 {% block content %}
 
-  <h2>{{ alert }}</h2>
+  {% if change.action == 104 %}
+    <h2>{% blocktranslate with alert=alert %}Reopened alert: {{ alert }}{% endblocktranslate %}</h2>
+  {% else %}
+    <h2>{{ alert }}</h2>
+  {% endif %}
 
   {% with user=subscription_user %}
     {% render_alert alert %}
+    {% documentation alert as documentation_url %}
+    {% if documentation_url %}
+      <p>
+        <a href="{{ documentation_url }}">{% translate "Documentation" %}</a>
+      </p>
+    {% endif %}
   {% endwith %}
 
   <div class="line buttons">

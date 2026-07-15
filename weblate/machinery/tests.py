@@ -78,6 +78,9 @@ from weblate.machinery.llm import (
     LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES,
     PROMPT,
 )
+from weblate.machinery.management.commands.list_machinery import (
+    Command as ListMachineryCommand,
+)
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.mistral import MistralTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
@@ -7984,6 +7987,33 @@ class ViewsTest(FixtureTestCase):
         data = response.json()
         self.assertEqual(data["service"], "Weblate Translation Memory")
 
+    def test_machinery_hides_private_unit_from_anonymous_user(self) -> None:
+        unit = self.get_unit()
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.client.logout()
+
+        missing_unit_id = Unit.objects.latest("pk").pk + 1
+        for unit_id in (unit.pk, missing_unit_id):
+            with self.subTest(view="translate", unit_id=unit_id):
+                response = self.client.post(
+                    reverse(
+                        "js-translate",
+                        kwargs={
+                            "unit_id": unit_id,
+                            "service": "weblate-translation-memory",
+                        },
+                    )
+                )
+                self.assertEqual(response.status_code, 404)
+
+            for data in ({}, {"q": "probe"}):
+                with self.subTest(view="memory", unit_id=unit_id, data=data):
+                    response = self.client.post(
+                        reverse("js-memory", kwargs={"unit_id": unit_id}), data
+                    )
+                    self.assertEqual(response.status_code, 404)
+
     def test_configure_global(self) -> None:
         service = self.ensure_dummy_mt()
         list_url = reverse("manage-machinery")
@@ -8083,7 +8113,13 @@ class ViewsTest(FixtureTestCase):
         )
         project = Project.objects.get(pk=self.project.id)
         self.assertEqual(project.machinery_settings["dummy"], None)
-        self.client.post(edit_url, {"enable": "1"})
+        with patch(
+            "weblate.machinery.views.EditMachineryProjectView.delete_service"
+        ) as delete_service:
+            self.client.post(edit_url, {"enable": "1"})
+            response = self.client.post(edit_url, {"enable": "1"})
+        delete_service.assert_not_called()
+        self.assertRedirects(response, list_url)
         self.assertTrue(
             Setting.objects.filter(
                 category=SettingCategory.MT, name=service.get_identifier()
@@ -8650,6 +8686,22 @@ class MachineryValidationTest(TestCase):
             machine.check_failure(response)
 
         self.assertIn("Allowlisted provider error.", str(raised.exception))
+
+
+class ListMachineryCommandTest(SimpleTestCase):
+    def test_list_machinery_empty_choice(self) -> None:
+        field = Mock(
+            help_text="",
+            choices=(("", "Default"), ("FORMAL", "Formal")),
+        )
+
+        result = ListMachineryCommand.get_help_text(field)
+
+        self.assertEqual(
+            result,
+            "Available choices:\n\n*empty value* -- Default\n\n``FORMAL`` -- Formal",
+        )
+        self.assertNotIn("````", result)
 
 
 class CommandTest(FixtureComponentTestCase):

@@ -10,15 +10,15 @@ Environment="DJANGO_SETTINGS_MODULE=weblate.settings"
 RuntimeDirectory=granian
 ExecStart=/home/weblate/weblate-env/bin/granian \
     --no-ws \
-    --workers-max-rss 350 \
+    --workers-max-rss 450 \
     --interface wsgi \
     --workers 2 \
+    --blocking-threads 8 \
+    --backlog 128 \
     --backpressure 16 \
-    --runtime-threads 8 \
     --runtime-mode mt \
     --port 8888 \
     weblate.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
-~

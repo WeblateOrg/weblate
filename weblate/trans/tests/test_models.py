@@ -1088,6 +1088,37 @@ class SourceUnitTest(ModelTestCase):
 
 
 class UnitTest(ModelTestCase):
+    def test_prefetch_api(self) -> None:
+        unit = Unit.objects.filter(translation__language_code="cs").first()
+        if unit is None:
+            self.fail("Expected a unit in test fixture.")
+
+        user = create_test_user()
+        Comment.objects.create(unit=unit, comment="Comment")
+        Suggestion.objects.create(unit=unit, target="Suggestion", user=user)
+        PendingUnitChange.objects.create(unit=unit, author=user)
+
+        expected = (
+            unit.check_set.filter(dismissed=False).exists(),
+            unit.comment_set.filter(resolved=False).exists(),
+            unit.suggestion_set.exists(),
+            unit.pending_changes.exists(),
+        )
+        with self.assertNumQueries(6):
+            unit = Unit.objects.filter(pk=unit.pk).prefetch_api().get()
+
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                (
+                    unit.has_failing_check,
+                    unit.has_comment,
+                    unit.has_suggestion,
+                    unit.has_pending_changes,
+                ),
+                expected,
+            )
+            list(unit.labels.all())
+
     def test_newlines(self) -> None:
         user = create_test_user()
         unit = Unit.objects.filter(

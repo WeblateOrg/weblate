@@ -16,6 +16,7 @@ from weblate.trans.alerts.base import AlertCategory, BaseAlert, MultiAlert
 from weblate.trans.alerts.registry import register
 
 if TYPE_CHECKING:
+    from weblate.auth.models import User
     from weblate.trans.models.component import Component
     from weblate.trans.models.translation import TranslationQuerySet
 
@@ -28,6 +29,14 @@ class DuplicateString(MultiAlert):
     on_import = True
 
     # Note: The removal of this alert can be also done in Translation.delete_unit
+
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
+            user.has_perm("vcs.reset", component)
+        )
 
     def get_analysis(self) -> dict[str, Any]:
         translations = []

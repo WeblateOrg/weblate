@@ -399,9 +399,18 @@ You can also fine-tune individual worker categories:
 
     environment:
       WEB_WORKERS: 4
-      CELERY_MAIN_OPTIONS: --concurrency 2
-      CELERY_NOTIFY_OPTIONS: --concurrency 1
-      CELERY_TRANSLATE_OPTIONS: --concurrency 1
+      WEB_BLOCKING_THREADS: 4
+      CELERY_MAIN_OPTIONS: --concurrency 2 --prefetch-multiplier 1
+      CELERY_NOTIFY_OPTIONS: --concurrency 1 --prefetch-multiplier 4
+      CELERY_MEMORY_OPTIONS: --concurrency 1 --prefetch-multiplier 1
+      CELERY_TRANSLATE_OPTIONS: --concurrency 1 --prefetch-multiplier 1
+      CELERY_BACKUP_OPTIONS: --concurrency 1 --prefetch-multiplier 1
+
+The prefetch multiplier controls how many tasks each worker execution slot can
+reserve. The default of one avoids reserving additional long-running or
+payload-heavy tasks. The notification worker uses four in this example because
+its short tasks can benefit from buffering. Increase the value only after
+measuring queue latency and worker memory usage.
 
 Memory usage can be further reduced by running only a single Celery process:
 
@@ -421,6 +430,7 @@ Memory usage can be further reduced by running only a single Celery process:
    * :envvar:`CELERY_BEAT_OPTIONS`
    * :envvar:`CELERY_SINGLE_PROCESS`
    * :envvar:`WEB_WORKERS`
+   * :envvar:`WEB_BLOCKING_THREADS`
 
 .. _docker-scaling:
 
@@ -1235,6 +1245,12 @@ Generic settings
    .. versionadded:: 4.17
 
    Configures :setting:`UNUSED_ALERT_DAYS`.
+
+.. envvar:: WEBLATE_REPORT_EXPIRY
+
+   .. versionadded:: 2026.8
+
+   Configures :setting:`REPORT_EXPIRY`.
 
 .. envvar:: WEBLATE_UPDATE_LANGUAGES
 
@@ -2341,8 +2357,8 @@ Container settings
    It is used to determine :envvar:`CELERY_MAIN_OPTIONS`,
    :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`,
    :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`,
-   :envvar:`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use
-   these settings to fine-tune.
+   :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, and
+   :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune.
 
 .. envvar:: CELERY_MAIN_OPTIONS
 .. envvar:: CELERY_NOTIFY_OPTIONS
@@ -2352,8 +2368,11 @@ Container settings
 .. envvar:: CELERY_BEAT_OPTIONS
 
     These variables allow you to adjust Celery worker options. It can be useful
-    to adjust concurrency (``--concurrency 16``) or use different pool
-    implementation (``--pool=gevent``).
+    to adjust concurrency (``--concurrency 16``), prefetching
+    (``--prefetch-multiplier 4``), or use different pool implementation
+    (``--pool=gevent``). Command-line options take precedence over corresponding
+    Celery settings, allowing each worker category to use a different prefetch
+    multiplier.
 
     By default, the number of concurrent workers is based on :envvar:`WEBLATE_WORKERS`.
 
@@ -2362,7 +2381,7 @@ Container settings
     .. code-block:: yaml
 
         environment:
-          CELERY_MAIN_OPTIONS: --concurrency 16
+          CELERY_MAIN_OPTIONS: --concurrency 16 --prefetch-multiplier 1
 
     .. seealso::
 
@@ -2399,7 +2418,25 @@ Container settings
 
    .. versionchanged:: 5.13
 
-      :envvar:`WEB_WORKERS` configures how many worker processes will used by :program:`granian`.
+      :envvar:`WEB_WORKERS` configures how many worker processes will be used by :program:`granian`.
+
+.. envvar:: WEB_BLOCKING_THREADS
+
+   Configure how many blocking WSGI threads each :program:`granian` worker can
+   use. It defaults to twice :envvar:`WEBLATE_WORKERS`.
+
+   The maximum number of simultaneous WSGI requests is approximately
+   :envvar:`WEB_WORKERS` multiplied by :envvar:`WEB_BLOCKING_THREADS`. Each
+   thread can hold its own database connection, so keep the resulting total
+   within the database connection limit.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         WEB_WORKERS: 2
+         WEB_BLOCKING_THREADS: 8
 
 .. envvar:: WEBLATE_SERVICE
 

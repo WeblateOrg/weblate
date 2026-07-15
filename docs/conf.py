@@ -348,7 +348,6 @@ intersphinx_mapping = {
     "sphinx": (sphinx_doc_url, None),
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
-    "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
     "drf-standardized-error": (
         "https://drf-standardized-errors.readthedocs.io/en/latest/",
         None,
@@ -416,6 +415,7 @@ linkcheck_ignore = [
     "https://www.bis.gov/",
     "https://www.libravatar.org/",
     "https://glosbe.com/",
+    "https://www.gwtproject.org/",
     # These seems to block bots/GitHub
     "https://docs.github.com/",
     "https://translate.yandex.com/",

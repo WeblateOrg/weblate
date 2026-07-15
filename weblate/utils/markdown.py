@@ -49,7 +49,7 @@ class SkipHtmlSpan(span_token.HtmlSpan):
 
 class PlainAutoLink(span_token.AutoLink):
     pattern = re.compile(
-        rf"\b(https?://(?:[{PLAIN_AUTOLINK_CHAR}]|{PLAIN_AUTOLINK_PAREN})*"
+        rf"\b((https?)://(?:[{PLAIN_AUTOLINK_CHAR}]|{PLAIN_AUTOLINK_PAREN})*"
         rf"(?:[{PLAIN_AUTOLINK_END}]|{PLAIN_AUTOLINK_PAREN}))(?=\W|$)"
     )
 
@@ -93,7 +93,12 @@ class SaferWeblateHtmlRenderer(mistletoe.HtmlRenderer):
         If the URL is valid, add the necessary attributes to make it open in a new tab.
         """
         if self.check_url(token.target):
-            return self.convert_link(super().render_link(token))
+            rendered = self.convert_link(super().render_link(token))
+            if token.target.startswith("/user/"):
+                # Bidi-isolate mentions so that the leading @ stays next to
+                # the username when surrounded by right-to-left text.
+                return f"<bdi>{rendered}</bdi>"
+            return rendered
         return self.escape_html_text(f"[{token.title}]({token.target})")
 
     def render_auto_link(self, token: span_token.AutoLink | PlainAutoLink) -> str:

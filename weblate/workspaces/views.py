@@ -20,6 +20,7 @@ from django.views.decorators.cache import never_cache
 from weblate.trans.forms import AutoForm, BulkEditForm, SearchForm
 from weblate.trans.models.change import Change
 from weblate.trans.models.project import prefetch_project_flags
+from weblate.trans.views.reports import get_reports_context
 from weblate.utils.views import get_paginator
 from weblate.workspaces.models import Workspace
 
@@ -140,6 +141,11 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             ).recent(),
             "can_edit_workspace": can_edit_workspace,
             "can_manage_access": can_manage_access,
+            **(
+                get_reports_context(request, workspace)
+                if request.user.is_authenticated
+                else {}
+            ),
             **get_billing_context(request, billing),
         },
     )

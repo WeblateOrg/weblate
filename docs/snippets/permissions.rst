@@ -99,6 +99,8 @@ List of privileges
 |                       | Manage project access                     | :guilabel:`Administration`            |
 +-----------------------+-------------------------------------------+---------------------------------------+
 | Reports               | Download reports                          | :guilabel:`Administration`            |
+|                       |                                           +---------------------------------------+
+|                       |                                           | :guilabel:`Workspace administration`  |
 +-----------------------+-------------------------------------------+---------------------------------------+
 | Screenshots           | Add screenshot                            | :guilabel:`Administration`            |
 |                       |                                           +---------------------------------------+

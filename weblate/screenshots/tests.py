@@ -15,6 +15,7 @@ import responses
 from django.conf import settings
 from django.core.files import File
 from django.db import connection
+from django.test import SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
@@ -24,7 +25,14 @@ from rest_framework.test import APITestCase
 from weblate.auth.models import Group
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
-from weblate.screenshots.views import get_tesseract, ocr_get_strings
+from weblate.screenshots.views import (
+    TESSERACT_DOWNLOAD_ATTEMPTS,
+    TESSERACT_DOWNLOAD_TIMEOUT,
+    download_tesseract_data,
+    ensure_tesseract_language,
+    get_tesseract,
+    ocr_get_strings,
+)
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project
 from weblate.trans.tests.test_models import RepoTestCase
@@ -37,6 +45,121 @@ PUBLIC_TEST_ADDRESS = "93.184.216.34"
 PRIVATE_TEST_ADDRESS = "127.0.0.1"
 PUBLIC_GETADDRINFO = [(0, 0, 0, "", (PUBLIC_TEST_ADDRESS, 443))]
 PRIVATE_GETADDRINFO = [(0, 0, 0, "", (PRIVATE_TEST_ADDRESS, 443))]
+
+
+class TesseractDataTest(SimpleTestCase):
+    @staticmethod
+    def get_http_error(status_code: int) -> requests.HTTPError:
+        response = requests.Response()
+        response.status_code = status_code
+        return requests.HTTPError(response=response)
+
+    def test_cached_data(self) -> None:
+        with tempfile.TemporaryDirectory() as cache_dir:
+            tessdata = Path(cache_dir) / "tesseract"
+            tessdata.mkdir()
+            (tessdata / "eng.traineddata").write_bytes(b"english")
+            (tessdata / "osd.traineddata").write_bytes(b"orientation")
+
+            with (
+                override_settings(CACHE_DIR=cache_dir),
+                patch("weblate.screenshots.views.WeblateLock"),
+                patch("weblate.screenshots.views.fetch_url") as fetch_url,
+            ):
+                ensure_tesseract_language("eng")
+
+        fetch_url.assert_not_called()
+
+    def test_cache_directory_creation_is_race_safe(self) -> None:
+        with tempfile.TemporaryDirectory() as cache_dir:
+            tessdata = Path(cache_dir) / "tesseract"
+            with (
+                override_settings(CACHE_DIR=cache_dir),
+                patch("weblate.screenshots.views.WeblateLock"),
+                patch("weblate.screenshots.views.os.makedirs") as makedirs,
+                patch("weblate.screenshots.views.download_tesseract_data"),
+            ):
+                ensure_tesseract_language("eng")
+
+        makedirs.assert_called_once_with(str(tessdata), exist_ok=True)
+
+    def test_transient_errors_are_retried(self) -> None:
+        response = MagicMock(content=b"trained data")
+        with tempfile.TemporaryDirectory() as cache_dir:
+            target = Path(cache_dir) / "eng.traineddata"
+            with (
+                patch(
+                    "weblate.screenshots.views.fetch_url",
+                    side_effect=[
+                        requests.Timeout("timed out"),
+                        self.get_http_error(503),
+                        response,
+                    ],
+                ) as fetch_url,
+                patch("weblate.screenshots.views.time.sleep") as sleep,
+            ):
+                download_tesseract_data("https://example.com/eng", str(target))
+
+            self.assertEqual(target.read_bytes(), b"trained data")
+            self.assertEqual(list(Path(cache_dir).iterdir()), [target])
+
+        self.assertEqual(fetch_url.call_count, TESSERACT_DOWNLOAD_ATTEMPTS)
+        fetch_url.assert_called_with(
+            "GET",
+            "https://example.com/eng",
+            allow_redirects=True,
+            timeout=TESSERACT_DOWNLOAD_TIMEOUT,
+        )
+        self.assertEqual([call.args for call in sleep.call_args_list], [(1,), (2,)])
+
+    def test_permanent_error_is_not_retried(self) -> None:
+        with tempfile.TemporaryDirectory() as cache_dir:
+            target = Path(cache_dir) / "eng.traineddata"
+            with (
+                patch(
+                    "weblate.screenshots.views.fetch_url",
+                    side_effect=self.get_http_error(404),
+                ) as fetch_url,
+                self.assertRaises(requests.HTTPError),
+            ):
+                download_tesseract_data("https://example.com/eng", str(target))
+
+            self.assertFalse(target.exists())
+
+        fetch_url.assert_called_once()
+
+    def test_exhausted_retries_leave_no_file(self) -> None:
+        with tempfile.TemporaryDirectory() as cache_dir:
+            target = Path(cache_dir) / "eng.traineddata"
+            with (
+                patch(
+                    "weblate.screenshots.views.fetch_url",
+                    side_effect=requests.Timeout("timed out"),
+                ) as fetch_url,
+                patch("weblate.screenshots.views.time.sleep"),
+                self.assertRaises(requests.Timeout),
+            ):
+                download_tesseract_data("https://example.com/eng", str(target))
+
+            self.assertEqual(list(Path(cache_dir).iterdir()), [])
+
+        self.assertEqual(fetch_url.call_count, TESSERACT_DOWNLOAD_ATTEMPTS)
+
+    def test_interrupted_install_removes_temporary_file(self) -> None:
+        response = MagicMock(content=b"trained data")
+        with tempfile.TemporaryDirectory() as cache_dir:
+            target = Path(cache_dir) / "eng.traineddata"
+            with (
+                patch("weblate.screenshots.views.fetch_url", return_value=response),
+                patch(
+                    "weblate.screenshots.views.os.replace",
+                    side_effect=OSError("No space left on device"),
+                ),
+                self.assertRaises(OSError),
+            ):
+                download_tesseract_data("https://example.com/eng", str(target))
+
+            self.assertEqual(list(Path(cache_dir).iterdir()), [])
 
 
 class ViewTest(FixtureTestCase):
@@ -763,6 +886,30 @@ class ViewTest(FixtureTestCase):
             self.client.post(reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk}))
 
         self.assertGreaterEqual(image.close.call_count, 1)
+
+    def test_ocr_tesseract_download_error(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+
+        with (
+            patch(
+                "weblate.screenshots.views.get_tesseract",
+                side_effect=requests.Timeout("timed out"),
+            ),
+            self.assertLogs("weblate", level="WARNING") as logs,
+        ):
+            response = self.client.post(
+                reverse("screenshot-js-ocr", kwargs={"pk": screenshot.pk})
+            )
+
+        data = response.json()
+        self.assertEqual(data["responseCode"], 503)
+        self.assertEqual(
+            data["error"],
+            "OCR data could not be downloaded. Please try again later.",
+        )
+        self.assertIn("Could not download Tesseract data", "\n".join(logs.output))
 
     def test_translation_manipulations(self) -> None:
         self.make_manager()

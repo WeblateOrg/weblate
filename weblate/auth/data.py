@@ -176,6 +176,9 @@ def filter_perms(prefix: str, exclude: set | None = None):
     return result
 
 
+WORKSPACE_SCOPED_PERM_NAMES = filter_perms("workspace.") | {"reports.view"}
+
+
 # Translator permissions
 TRANSLATE_PERMS = {
     "comment.add",
@@ -270,11 +273,7 @@ ROLES = (
     ),
     (
         pgettext_noop("Access-control role", "Workspace administration"),
-        {
-            "workspace.edit",
-            "workspace.add_project",
-            "workspace.edit_members",
-        },
+        WORKSPACE_SCOPED_PERM_NAMES,
     ),
     (
         pgettext_noop("Access-control role", "Add workspace projects"),

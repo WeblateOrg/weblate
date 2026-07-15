@@ -91,13 +91,7 @@ releases should work, but is not as well tested as single version upgrades!
 
    .. code-block:: sh
 
-        weblate collectstatic --noinput --clear
-
-#. Compress JavaScript and CSS files (optional, see :ref:`production-compress`):
-
-   .. code-block:: sh
-
-        weblate compress
+        weblate collectstatic --noinput
 
 #. If you are running an installation from Git, you should also regenerate locale
    files every time you upgrade. You can do this by invoking:

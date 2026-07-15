@@ -9,7 +9,6 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.db import transaction
 from django.http import Http404, JsonResponse
@@ -21,7 +20,12 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, View
 
-from weblate.trans.backups import PROJECTBACKUP_PREFIX, list_backups
+from weblate.trans.backups import (
+    PROJECTBACKUP_PREFIX,
+    get_project_backup_download_storage,
+    get_project_backup_download_url,
+    list_backups,
+)
 from weblate.trans.forms import (
     AddCategoryForm,
     AnnouncementForm,
@@ -223,20 +227,18 @@ def change_component(request: AuthenticatedHttpRequest, obj):
 @never_cache
 @login_required
 @require_POST
+@transaction.atomic
 def dismiss_alert(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component,))
 
-    if not request.user.has_perm("component.edit", obj):
-        raise Http404
-
     try:
-        alert = obj.alert_set.get(name=request.POST["dismiss"])
+        alert = obj.alert_set.select_for_update().get(name=request.POST["dismiss"])
     except ObjectDoesNotExist:
         pass
     else:
-        if alert.obj.dismissible:
-            alert.dismissed = True
-            alert.save(update_fields=["dismissed"])
+        if not alert.can_user_dismiss(request.user):
+            raise Http404
+        alert.dismiss(request.user, request.POST.get("reason", ""))
 
     return redirect_param(obj, "#alerts")
 
@@ -644,11 +646,12 @@ class BackupsDownloadView(BackupsMixin):
                 PROJECTBACKUP_PREFIX, f"{self.obj.slug}-{get_random_identifier(32)}.zip"
             )
             # Copy to static files
+            storage = get_project_backup_download_storage()
             with open(backup["path"], "rb") as handle:
-                name = staticfiles_storage.save(name, handle)
+                name = storage.save(name, handle)
             # Schedule removal
             if not settings.CELERY_TASK_ALWAYS_EAGER:
                 remove_project_backup_download.apply_async(args=(name,), countdown=3600)
             # Redirect to static
-            return redirect(staticfiles_storage.url(name))
+            return redirect(get_project_backup_download_url(name))
         raise Http404

@@ -1,26 +1,18 @@
 {% extends "base.html" %}
 
-{% load compress crispy_forms_tags i18n icons permissions static translations %}
+{% load crispy_forms_tags i18n icons permissions static translations %}
 
 {% block extra_script %}
-  {% compress js %}
-    <script defer data-cfasync="false" src="{% static 'editor/base.js' %}{{ cache_param }}"></script>
-    <script defer data-cfasync="false" src="{% static 'editor/full.js' %}{{ cache_param }}"></script>
-    <script defer
-            data-cfasync="false"
-            src="{% static 'js/screenshots/clipboard-paste.js' %}{{ cache_param }}"></script>
-    {# Bulk accept suggestions feature #}
-    <script defer
-            data-cfasync="false"
-            src="{% static 'js/bulk-accept-suggestions.js' %}{{ cache_param }}"></script>
-  {% endcompress %}
+  <script defer src="{% static 'editor/base.js' %}"></script>
+  <script defer src="{% static 'editor/full.js' %}"></script>
+  <script defer src="{% static 'js/screenshots/clipboard-paste.js' %}"></script>
+  {# Bulk accept suggestions feature #}
+  <script defer src="{% static 'js/bulk-accept-suggestions.js' %}"></script>
 {% endblock extra_script %}
 
 {% block extra_styles %}
-  {% compress css %}
-    {# Bulk accept suggestions feature #}
-    <link rel="stylesheet" href="{% static 'styles/bulk-accept.css' %}{{ cache_param }}" />
-  {% endcompress %}
+  {# Bulk accept suggestions feature #}
+  <link rel="stylesheet" href="{% static 'styles/bulk-accept.css' %}" />
 {% endblock extra_styles %}
 
 {% block extra_meta %}<link rel="canonical" href="{{ unit.get_absolute_url }}" />{% endblock %}

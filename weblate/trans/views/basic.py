@@ -36,8 +36,6 @@ from weblate.trans.forms import (
     ComponentLinkAddForm,
     ComponentLinkCategoryForm,
     ComponentRenameForm,
-    CostEstimateReportsForm,
-    CountsReportsForm,
     DownloadForm,
     ProjectDeleteForm,
     ProjectFilterForm,
@@ -45,7 +43,6 @@ from weblate.trans.forms import (
     ProjectMoveForm,
     ProjectRenameForm,
     ReplaceForm,
-    ReportsForm,
     SearchForm,
     TranslationDeleteForm,
     get_new_component_language_form,
@@ -69,6 +66,7 @@ from weblate.trans.models.component import (
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode, translation_percent
+from weblate.trans.views.reports import get_reports_context
 from weblate.trans.workspace_move import can_offer_project_move
 from weblate.utils import messages
 from weblate.utils.decorators import engage_login_not_required
@@ -521,9 +519,11 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
             "project": obj,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
-            "reports_form": ReportsForm({"project": obj}),
-            "reports_count_form": CountsReportsForm({"project": obj}),
-            "reports_cost_form": CostEstimateReportsForm({"project": obj}),
+            **(
+                get_reports_context(request, obj)
+                if request.user.is_authenticated
+                else {}
+            ),
             "language_stats": language_objects,
             "search_form": SearchForm(
                 request=request,
@@ -618,9 +618,11 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
             "add_form": AddCategoryForm(request, obj) if obj.can_add_category else None,
             "last_changes": last_changes,
             "last_announcements": last_announcements,
-            "reports_form": ReportsForm({"category": obj}),
-            "reports_count_form": CountsReportsForm({"category": obj}),
-            "reports_cost_form": CostEstimateReportsForm({"category": obj}),
+            **(
+                get_reports_context(request, obj)
+                if request.user.is_authenticated
+                else {}
+            ),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(
                 request=request,
@@ -707,9 +709,11 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpRes
             "project": obj.project,
             "component": obj,
             "translations": translations,
-            "reports_form": ReportsForm({"component": obj}),
-            "reports_count_form": CountsReportsForm({"component": obj}),
-            "reports_cost_form": CostEstimateReportsForm({"component": obj}),
+            **(
+                get_reports_context(request, obj)
+                if request.user.is_authenticated
+                else {}
+            ),
             "last_changes": last_changes,
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
             "bulk_state_form": optional_form(

@@ -36,7 +36,7 @@ from django.utils.functional import cached_property
 from django.utils.html import format_html, format_html_join
 from django.utils.safestring import mark_safe
 from django.utils.text import format_lazy
-from django.utils.timezone import localtime
+from django.utils.timezone import localtime, now
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
 
@@ -4008,7 +4008,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @cached_property
     def all_active_alerts(self) -> list[Alert]:
-        return [alert for alert in self._ordered_alerts() if not alert.dismissed]
+        return [alert for alert in self._ordered_alerts() if not alert.is_dismissed]
 
     @cached_property
     def all_problem_alerts(self) -> list[Alert]:
@@ -4025,7 +4025,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             }
         if "all_active_alerts" in self.__dict__:
             self.__dict__["all_active_alerts"] = [
-                item for item in self.all_alerts.values() if not item.dismissed
+                item for item in self.all_alerts.values() if not item.is_dismissed
             ]
         if "all_problem_alerts" in self.__dict__:
             self.__dict__["all_problem_alerts"] = [
@@ -4083,6 +4083,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
         severity = alert_class.severity
         if alert in self.all_alerts:
             obj = self.all_alerts[alert]
+            obj.refresh_from_db(
+                fields=(
+                    "details",
+                    "severity",
+                    "dismissed_at",
+                    "dismissed_by",
+                    "dismissal_reason",
+                    "dismissal_fingerprint",
+                )
+            )
             created = False
         else:
             obj, created = self.alert_set.get_or_create(
@@ -4097,14 +4107,43 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # Update details with exception of component removal
         if not created:
             update_fields = []
+            reopened = False
+            details_changed = not noupdate and obj.details != details
             if obj.severity != severity:
                 obj.severity = severity
                 update_fields.append("severity")
-            if not noupdate and obj.details != details:
+            if details_changed:
                 obj.details = details
                 update_fields.append("details")
+            if obj.is_dismissed and not noupdate:
+                fingerprint = alert_class.get_dismissal_fingerprint(self, details)
+                if obj.dismissal_fingerprint != fingerprint:
+                    obj.timestamp = now()
+                    obj.dismissed_at = None
+                    obj.dismissed_by = None
+                    obj.dismissal_reason = ""
+                    obj.dismissal_fingerprint = ""
+                    update_fields.extend(
+                        (
+                            "timestamp",
+                            "dismissed_at",
+                            "dismissed_by",
+                            "dismissal_reason",
+                            "dismissal_fingerprint",
+                        )
+                    )
+                    reopened = True
             if update_fields or not noupdate:
-                obj.save(update_fields=[*update_fields, "updated"])
+                if reopened:
+                    with transaction.atomic():
+                        obj.save(update_fields=[*update_fields, "updated"])
+                        self.change_set.create(
+                            action=ActionEvents.ALERT_REOPENED,
+                            alert=obj,
+                            details={"alert": alert, "fingerprint": fingerprint},
+                        )
+                else:
+                    obj.save(update_fields=[*update_fields, "updated"])
 
         self.update_alert_caches()
         self.clear_prefetched_alerts()

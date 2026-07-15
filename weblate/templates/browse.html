@@ -1,13 +1,9 @@
 {% extends "base.html" %}
 
-{% load compress crispy_forms_tags i18n icons permissions static translations %}
+{% load crispy_forms_tags i18n icons permissions static translations %}
 
 {% block extra_script %}
-  {% compress js %}
-    <script defer
-            data-cfasync="false"
-            src="{% static 'editor/browse.js' %}{{ cache_param }}"></script>
-  {% endcompress %}
+  <script defer src="{% static 'editor/browse.js' %}"></script>
 {% endblock extra_script %}
 
 {% block breadcrumbs %}

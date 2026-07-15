@@ -64,12 +64,13 @@ from weblate.memory.utils import (
     CATEGORY_PRIVATE_OFFSET,
     CATEGORY_SHARED,
 )
+from weblate.memory.views import MemoryView
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_another_user, get_test_file
 from weblate.utils.hash import hash_to_checksum
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
 
 
@@ -778,6 +779,17 @@ msgstr "Nazdar svete!\n"
         self.assertEqual(Memory.objects.count(), 4)
         self.import_memory_with_callbacks(self.project.id)
         self.assertEqual(Memory.objects.count(), 4)
+
+    def test_import_project_uses_bulk_updates(self) -> None:
+        with patch("weblate.memory.tasks.schedule_memory_updates") as mocked_schedule:
+            import_memory(self.project.id, self.component.id)
+
+        mocked_schedule.assert_called_once()
+        payloads = mocked_schedule.call_args.args[0]
+        self.assertTrue(payloads)
+        self.assertTrue(
+            all(payload["project_id"] == self.project.id for payload in payloads)
+        )
 
     def test_user_contribute_personal_tm(self) -> None:
         self.user.profile.contribute_personal_tm = False
@@ -1676,6 +1688,72 @@ msgstr "Nazdar svete!\n"
             ).exists()
         )
 
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReadReplicaRouter"]
+    )
+    def test_update_entry_uses_write_database_alias(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        target_project = Project.objects.create(
+            name="Memory import target", slug="memory-import-target"
+        )
+        source = "Routed reused memory source"
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "source": source,
+            "target": "Smerovany znovu pouzity cil",
+            "origin": "routed-reused-memory.tmx",
+            "context": "",
+            "status": Memory.STATUS_ACTIVE,
+        }
+        memory = Memory.objects.create(legacy_project=self.project, **values)
+
+        Memory.objects.update_entry(
+            user=None,
+            project=target_project,
+            from_file=True,
+            shared=False,
+            **values,
+        )
+
+        memory.refresh_from_db(using="default")
+        self.assertEqual(
+            Memory.objects.using("default").filter(source=source).count(), 1
+        )
+        self.assertIsNone(memory.legacy_project_id)
+        self.assertTrue(
+            MemoryScope.objects.using("default")
+            .filter(
+                memory=memory,
+                scope=MemoryScope.SCOPE_PROJECT_FILE,
+                project=target_project,
+            )
+            .exists()
+        )
+
+    @override_settings(
+        DATABASE_ROUTERS=["weblate.memory.tests.MemoryReadReplicaRouter"]
+    )
+    def test_normalize_legacy_owner_uses_write_database_alias(self) -> None:
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Routed legacy memory source",
+            target="Smerovany stary cil",
+            origin="routed-legacy-memory.tmx",
+            legacy_project=self.project,
+            legacy_from_file=True,
+            status=Memory.STATUS_ACTIVE,
+        )
+        memory._state.db = "memory_db"  # ruff: ignore[private-member-access]
+
+        memory.normalize_legacy_owner()
+
+        memory.refresh_from_db(using="default")
+        self.assertIsNone(memory.legacy_project_id)
+        self.assertFalse(memory.legacy_from_file)
+
     def test_autoclean_preserves_imported_scope_on_compacted_memory(self) -> None:
         source_language = Language.objects.get(code="en")
         target_language = Language.objects.get(code="cs")
@@ -1947,6 +2025,41 @@ msgstr "Nazdar svete!\n"
                 scope=MemoryScope.SCOPE_PROJECT,
                 project=self.project,
             ).exists()
+        )
+
+    def test_bulk_create_uses_last_duplicate_status(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        source = "Bulk duplicate status source"
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        payload = {
+            "source_language_id": source_language.id,
+            "target_language_id": target_language.id,
+            "source": source,
+            "context": "",
+            "target": "Davkovy duplicitni cil",
+            "origin": self.component.full_slug,
+            "add_shared": False,
+            "add_workspace": False,
+            "add_project": True,
+            "add_user": False,
+            "user_id": None,
+            "workspace_id": None,
+            "project_id": self.project.id,
+            "unit_state": STATE_TRANSLATED,
+        }
+
+        update_memory_bulk([payload, {**payload, "unit_state": STATE_APPROVED}])
+
+        memory = Memory.objects.get(source=source)
+        self.assertEqual(memory.status, Memory.STATUS_ACTIVE)
+        self.assertEqual(
+            memory.scopes.filter(
+                scope=MemoryScope.SCOPE_PROJECT,
+                project=self.project,
+            ).count(),
+            1,
         )
 
     def test_compact_backfills_scopes_before_merging_duplicates(self) -> None:
@@ -2884,6 +2997,55 @@ msgstr "Nazdar svete!\n"
 
 
 class MemoryViewTest(FixtureTestCase):
+    def test_origin_counts_use_single_query(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        entries = [
+            Memory.objects.create(
+                source_language=source_language,
+                target_language=target_language,
+                source=f"Origin query source {scope}",
+                target=f"Origin query target {scope}",
+                origin="mixed-origin",
+                status=Memory.STATUS_ACTIVE,
+            )
+            for scope in (
+                MemoryScope.SCOPE_USER,
+                MemoryScope.SCOPE_USER_FILE,
+            )
+        ]
+        for entry, scope in zip(
+            entries,
+            (MemoryScope.SCOPE_USER, MemoryScope.SCOPE_USER_FILE),
+            strict=True,
+        ):
+            MemoryScope.objects.create(
+                memory=entry,
+                scope=scope,
+                user=self.user,
+            )
+
+        view = MemoryView()
+        view.objects = {"user": self.user}
+        with CaptureQueriesContext(connection) as queries:
+            origins = view.get_origins()
+
+        # ruff: ignore[private-member-access]
+        memory_table = Memory._meta.db_table
+        origin_queries = [
+            query["sql"]
+            for query in queries
+            if (f'FROM "{memory_table}"' in query["sql"] and "GROUP BY" in query["sql"])
+        ]
+        self.assertEqual(len(origin_queries), 1, "\n".join(origin_queries))
+        mixed_origins = [
+            origin for origin in origins if origin["origin"] == "mixed-origin"
+        ]
+        self.assertEqual(
+            [origin["id__count"] for origin in mixed_origins],
+            [1, 1],
+        )
+
     def upload_file(
         self,
         name,

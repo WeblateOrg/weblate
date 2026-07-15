@@ -196,7 +196,8 @@ List of built-in roles
        * :guilabel:`View upstream repository location`
 
    * - `Workspace administration`
-     - * :guilabel:`Add projects to workspace`
+     - * :guilabel:`Download reports`
+       * :guilabel:`Add projects to workspace`
        * :guilabel:`Edit workspace settings`
        * :guilabel:`Manage workspace access`
 

@@ -1,4 +1,4 @@
-{% load compress i18n icons permissions static translations %}
+{% load i18n icons permissions static translations %}
 
 <!DOCTYPE html>
 
@@ -39,50 +39,20 @@
     {% include "snippets/meta-css.html" %}
 
     <script src="{% url 'js-catalog' %}" defer></script>
-    <meta name="argon2id-worker-url"
-          content="{% static 'js/vendor/argon2id.js' %}{{ cache_param }}" />
-    {% compress js %}
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/vendor/main.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/vendor/altcha.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/vendor/tom-select.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/vendor/hotkeys.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/vendor/bootstrap5.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/vendor/autoComplete.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/vendor/prismjs.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'prism-weblatesearch.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/date-range-picker.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/flag-editor.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'js/keyboard-shortcuts.js' %}{{ cache_param }}"></script>
-      <script defer data-cfasync="false" src="{% static 'js/urls.js' %}{{ cache_param }}"></script>
-      <script defer
-              data-cfasync="false"
-              src="{% static 'editor/tools/search.js' %}{{ cache_param }}"></script>
-    {% endcompress %}
+    <meta name="argon2id-worker-url" content="{% static 'js/vendor/argon2id.js' %}" />
+    <script defer src="{% static 'js/vendor/main.js' %}"></script>
+    <script defer src="{% static 'js/vendor/tom-select.js' %}"></script>
+    <script defer src="{% static 'js/vendor/hotkeys.js' %}"></script>
+    <script defer src="{% static 'js/vendor/bootstrap5.js' %}"></script>
+    <script defer src="{% static 'js/vendor/autoComplete.js' %}"></script>
+    <script defer src="{% static 'js/vendor/prismjs.js' %}"></script>
+    <script defer src="{% static 'prism-weblatesearch.js' %}"></script>
+    <script defer src="{% static 'js/date-range-picker.js' %}"></script>
+    <script defer src="{% static 'loader-bootstrap.js' %}"></script>
+    <script defer src="{% static 'js/flag-editor.js' %}"></script>
+    <script defer src="{% static 'js/keyboard-shortcuts.js' %}"></script>
+    <script defer src="{% static 'js/urls.js' %}"></script>
+    <script defer src="{% static 'editor/tools/search.js' %}"></script>
 
     {% block extra_script %}{% endblock %}
 

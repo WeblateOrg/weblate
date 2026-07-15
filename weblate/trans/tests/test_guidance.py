@@ -13,6 +13,7 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
 
 from weblate.addons.gettext import XgettextAddon
@@ -40,6 +41,7 @@ from weblate.trans.alerts.vcs import RepositoryOutdated
 from weblate.trans.models import Project
 from weblate.trans.templatetags.translations import component_alerts
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.docs import get_doc_url
 
 
 class RecommendedGenerateMoAddonTest(SimpleTestCase):
@@ -195,11 +197,14 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         self.make_manager()
 
         rendered = MissingRepositoryHook(alert).render(self.user)
+        doc_url = MissingRepositoryHook.get_doc_url(self.component, self.user)
 
         self.assertNotIn("btn btn-primary", rendered)
-        self.assertEqual(
-            rendered.count(MissingRepositoryHook.get_doc_url(self.component)), 1
-        )
+        self.assertNotIn(doc_url, rendered)
+        self.assertEqual(alert.get_documentation_url(self.user), doc_url)
+
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, doc_url, count=1)
 
     def test_unused_screenshot_does_not_make_component_problem(self) -> None:
         alert_name = UnusedScreenshot.__name__
@@ -218,8 +223,8 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         alert_name = UnusedScreenshot.__name__
         self.component.add_alert(alert_name)
         alert = self.component.alert_set.get(name=alert_name)
-        alert.dismissed = True
-        alert.save(update_fields=["dismissed"])
+        alert.dismissed_at = timezone.now()
+        alert.save(update_fields=["dismissed_at"])
         self.component.__dict__.pop("all_active_alerts", None)
 
         self.assertNotIn(
@@ -235,19 +240,36 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         self.component.add_alert(MissingScreenshots.__name__)
 
         alert = self.component.alert_set.get(name=UnusedScreenshot.__name__)
-        alert.dismissed = True
-        alert.save(update_fields=["dismissed"])
+        alert.dismissed_at = timezone.now()
+        alert.save(update_fields=["dismissed_at"])
 
         response = self.client.get(self.component.get_absolute_url())
         alert_names = [alert.name for alert in response.context["alerts"]]
         content = response.content.decode()
+        repository_alert = self.component.alert_set.get(
+            name=RepositoryOutdated.__name__
+        )
+        license_alert = self.component.alert_set.get(name=MissingLicense.__name__)
+        license_doc_url = get_doc_url(
+            "admin/projects", "component-license", user=self.user
+        )
 
         self.assertContains(response, "License info missing.")
         self.assertContains(response, "Repository outdated.")
         self.assertContains(
+            response, repository_alert.get_documentation_url(self.user), count=1
+        )
+        self.assertEqual(
+            license_alert.get_documentation_url(self.user), license_doc_url
+        )
+        self.assertEqual(
+            MissingLicense.get_doc_url(self.component), "https://choosealicense.com/"
+        )
+        self.assertContains(response, license_doc_url, count=1)
+        self.assertContains(
             response, "Add screenshots to show where strings are being used."
         )
-        self.assertNotContains(response, "Unused screenshot")
+        self.assertNotIn(UnusedScreenshot.__name__, alert_names)
         self.assertContains(
             response,
             '<span class="badge text-bg-danger">2'

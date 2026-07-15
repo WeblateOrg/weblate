@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.core.cache import cache
@@ -118,6 +118,17 @@ class ChecklistAlert(BaseAlert):
     def get_configure_permission_object(cls, component: Component):
         return component
 
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, _details: dict[str, Any]
+    ) -> bool:
+        return bool(
+            user.has_perm(
+                cls.configure_permission,
+                cls.get_configure_permission_object(component),
+            )
+        )
+
     def get_context(self, user: User):
         result = super().get_context(user)
         alert_class = self.__class__
@@ -134,7 +145,6 @@ class ChecklistAlert(BaseAlert):
         )
         result["description"] = alert_class.get_description(component)
         result["configure_url"] = configure_url if can_configure else ""
-        result["doc_url"] = doc_url
         result["can_configure"] = can_configure
         return result
 
@@ -146,6 +156,10 @@ class MissingRepositoryHook(ChecklistAlert):
     )
     url = "settings"
     anchor = "vcs"
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {"details": details, "repo": component.repo}
 
     @classmethod
     def is_passing(cls, component: Component) -> bool:
@@ -173,6 +187,10 @@ class MissingPushURL(ChecklistAlert):
     anchor = "vcs"
 
     @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {"details": details, "repo": component.repo, "push": component.push}
+
+    @classmethod
     def is_passing(cls, component: Component) -> bool:
         return component.can_push()
 
@@ -185,6 +203,16 @@ class MissingPushURL(ChecklistAlert):
 class MissingTranslationInstructions(ChecklistAlert):
     verbose = gettext_lazy("Define translation instructions to help translators.")
     configure_permission = "project.edit"
+    project_wide = True
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        project = component.project
+        return {
+            "details": details,
+            "access_control": project.access_control,
+            "instructions": project.instructions,
+        }
 
     @classmethod
     def is_relevant(cls, component: Component) -> bool:
@@ -215,6 +243,18 @@ class MissingScreenshots(ChecklistAlert):
     configure_permission = "screenshot.add"
 
     @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.screenshots.models import Screenshot
+
+        screenshots = list(
+            Screenshot.objects.filter(translation__component=component)
+            .order_by("pk")
+            .values_list("pk", flat=True)
+        )
+        return {"details": details, "screenshots": screenshots}
+
+    @classmethod
     def is_passing(cls, component: Component) -> bool:
         # ruff: ignore[import-outside-top-level]
         from weblate.screenshots.models import Screenshot
@@ -232,6 +272,19 @@ class MissingTranslationFlags(ChecklistAlert):
     severity = AlertSeverity.INFO
     url = "settings"
     anchor = "show"
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        flags = list(
+            component.source_translation.unit_set.exclude(extra_flags="")
+            .order_by("pk")
+            .values_list("pk", "extra_flags")
+        )
+        return {
+            "details": details,
+            "check_flags": component.check_flags,
+            "flags": flags,
+        }
 
     @classmethod
     def is_passing(cls, component: Component) -> bool:
@@ -253,6 +306,27 @@ class MissingSafeHTMLFlag(ChecklistAlert):
     severity = AlertSeverity.WARNING
     url = "settings"
     anchor = "show"
+
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or bool(
+            user.has_perm("source.edit", component)
+        )
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        units = list(
+            component.source_translation.unit_set.filter(source__contains="<a ")
+            .order_by("pk")
+            .values_list("pk", "extra_flags")
+        )
+        return {
+            "details": details,
+            "check_flags": component.check_flags,
+            "units": units,
+        }
 
     @classmethod
     def is_relevant(cls, component: Component) -> bool:
@@ -289,6 +363,15 @@ class AddonRecommendationAlert(ChecklistAlert):
     severity = AlertSeverity.INFO
     addon = ""
     url = "addons"
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {
+            "details": details,
+            "addons": sorted(component.addons_cache.names),
+            "file_format": component.file_format,
+            "new_base": component.new_base,
+        }
 
     @classmethod
     def is_passing(cls, component: Component) -> bool:

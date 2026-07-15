@@ -2315,6 +2315,298 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+  /api/categories/{id}/reports/:
+    get:
+      operationId: api_categories_reports_list
+      description: List accessible reports generated directly for this scope.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Category.
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - categories
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReportListList'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+    post:
+      operationId: api_categories_reports_create
+      description: Schedule report generation using the endpoint object as scope.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Category.
+        required: true
+      tags:
+      - categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScopedReportCreate'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportTaskResponse'
+          description: The request was accepted for asynchronous processing.
   /api/categories/{id}/statistics/:
     get:
       operationId: api_categories_statistics_retrieve
@@ -5821,163 +6113,6 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
-  /api/components/{project__slug}/{slug}/credits/:
-    get:
-      operationId: api_components_credits_retrieve
-      description: Translation components API.
-      parameters:
-      - in: path
-        name: project__slug
-        schema:
-          type: string
-          title: URL slug
-          description: Name used in URLs and filenames.
-        required: true
-      - in: path
-        name: slug
-        schema:
-          type: string
-          title: URL slug
-          description: Name used in URLs and filenames.
-        required: true
-      tags:
-      - components
-      security:
-      - tokenAuth: []
-      - bearerAuth: []
-      - cookieAuth: []
-      - {}
-      responses:
-        '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse400'
-          description: The request was invalid or could not be parsed.
-        '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse401'
-              examples:
-                AuthenticationFailed:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: authentication_failed
-                      detail: Incorrect authentication credentials.
-                      attr: null
-                NotAuthenticated:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: not_authenticated
-                      detail: Authentication credentials were not provided.
-                      attr: null
-          description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse404'
-              examples:
-                NotFound:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: not_found
-                      detail: Not found.
-                      attr: null
-          description: The requested resource was not found or is not accessible.
-        '405':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse405'
-              examples:
-                MethodNotAllowed:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: method_not_allowed
-                      detail: Method "get" not allowed.
-                      attr: null
-          description: The HTTP method is not allowed for this resource.
-        '406':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse406'
-              examples:
-                NotAcceptable:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: not_acceptable
-                      detail: Could not satisfy the request Accept header.
-                      attr: null
-          description: The requested response media type is not available.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
-        '429':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse429'
-              examples:
-                Throttled:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: throttled
-                      detail: Request was throttled.
-                      attr: null
-          description: The API request rate limit was exceeded.
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse500'
-              examples:
-                APIException:
-                  value:
-                    type: server_error
-                    errors:
-                    - code: error
-                      detail: A server error occurred.
-                      attr: null
-          description: An unexpected server error occurred.
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Component'
-          description: Successful response.
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/components/{project__slug}/{slug}/file/:
     get:
       operationId: api_components_file_retrieve
@@ -7271,6 +7406,314 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+  /api/components/{project__slug}/{slug}/reports/:
+    get:
+      operationId: api_components_reports_list
+      description: List accessible reports generated directly for this scope.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: path
+        name: project__slug
+        schema:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+        required: true
+      tags:
+      - components
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReportListList'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+    post:
+      operationId: api_components_reports_create
+      description: Schedule report generation using the endpoint object as scope.
+      parameters:
+      - in: path
+        name: project__slug
+        schema:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+        required: true
+      - in: path
+        name: slug
+        schema:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+        required: true
+      tags:
+      - components
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScopedReportCreate'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportTaskResponse'
+          description: The request was accepted for asynchronous processing.
   /api/components/{project__slug}/{slug}/repository/:
     get:
       operationId: api_components_repository_retrieve
@@ -15554,156 +15997,6 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
-  /api/projects/{slug}/credits/:
-    get:
-      operationId: api_projects_credits_retrieve
-      description: Return contributor credits for a project.
-      parameters:
-      - in: path
-        name: slug
-        schema:
-          type: string
-          title: URL slug
-          description: Name used in URLs and filenames.
-        required: true
-      tags:
-      - projects
-      security:
-      - tokenAuth: []
-      - bearerAuth: []
-      - cookieAuth: []
-      - {}
-      responses:
-        '400':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse400'
-          description: The request was invalid or could not be parsed.
-        '401':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse401'
-              examples:
-                AuthenticationFailed:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: authentication_failed
-                      detail: Incorrect authentication credentials.
-                      attr: null
-                NotAuthenticated:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: not_authenticated
-                      detail: Authentication credentials were not provided.
-                      attr: null
-          description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
-        '404':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse404'
-              examples:
-                NotFound:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: not_found
-                      detail: Not found.
-                      attr: null
-          description: The requested resource was not found or is not accessible.
-        '405':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse405'
-              examples:
-                MethodNotAllowed:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: method_not_allowed
-                      detail: Method "get" not allowed.
-                      attr: null
-          description: The HTTP method is not allowed for this resource.
-        '406':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse406'
-              examples:
-                NotAcceptable:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: not_acceptable
-                      detail: Could not satisfy the request Accept header.
-                      attr: null
-          description: The requested response media type is not available.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
-        '429':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse429'
-              examples:
-                Throttled:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: throttled
-                      detail: Request was throttled.
-                      attr: null
-          description: The API request rate limit was exceeded.
-        '500':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse500'
-              examples:
-                APIException:
-                  value:
-                    type: server_error
-                    errors:
-                    - code: error
-                      detail: A server error occurred.
-                      attr: null
-          description: An unexpected server error occurred.
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Project'
-          description: Successful response.
-          headers:
-            X-RateLimit-Limit:
-              $ref: '#/components/headers/X-RateLimit-Limit'
-            X-RateLimit-Remaining:
-              $ref: '#/components/headers/X-RateLimit-Remaining'
-            X-RateLimit-Reset:
-              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/file/:
     get:
       operationId: api_projects_file_retrieve
@@ -18103,6 +18396,300 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
           description: The request was invalid or could not be parsed.
+  /api/projects/{slug}/reports/:
+    get:
+      operationId: api_projects_reports_list
+      description: List or create reports scoped to a project.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: path
+        name: slug
+        schema:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+        required: true
+      tags:
+      - projects
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReportListList'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+    post:
+      operationId: api_projects_reports_create
+      description: List or create reports scoped to a project.
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+        required: true
+      tags:
+      - projects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScopedReportCreate'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportTaskResponse'
+          description: The request was accepted for asynchronous processing.
   /api/projects/{slug}/repository/:
     get:
       operationId: api_projects_repository_retrieve
@@ -18565,6 +19152,856 @@ paths:
               schema:
                 $ref: '#/components/schemas/Statistics'
           description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+  /api/reports/:
+    get:
+      operationId: api_reports_list
+      description: List stored reports accessible to the authenticated user.
+      parameters:
+      - in: query
+        name: category
+        schema:
+          type: integer
+        description: Limit results to a category ID.
+      - in: query
+        name: component
+        schema:
+          type: string
+        description: Limit results to a project/component path.
+      - in: query
+        name: kind
+        schema:
+          type: string
+          enum:
+          - contributor_stats
+          - cost_estimate
+          - credits
+          - translator_work
+        description: Limit results to one report kind.
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: project
+        schema:
+          type: string
+        description: Limit results to a project slug.
+      - in: query
+        name: workspace
+        schema:
+          type: string
+          format: uuid
+        description: Limit results to a workspace ID.
+      tags:
+      - reports
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReportListList'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+    post:
+      operationId: api_reports_create
+      description: Schedule generation of a stored report.
+      tags:
+      - reports
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportCreate'
+        required: true
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportTaskResponse'
+          description: The request was accepted for asynchronous processing.
+  /api/reports/{id}/:
+    get:
+      operationId: api_reports_retrieve
+      description: Return report metadata, stored data, and rendered format links.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this report.
+        required: true
+      tags:
+      - reports
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Report'
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+  /api/reports/{id}/html/:
+    get:
+      operationId: api_reports_html_retrieve
+      description: Download the report rendered as HTML.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this report.
+        required: true
+      tags:
+      - reports
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            text/html:
+              schema:
+                type: string
+          description: Rendered HTML report.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+  /api/reports/{id}/json/:
+    get:
+      operationId: api_reports_json_retrieve
+      description: Download stored report data without report metadata.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this report.
+        required: true
+      tags:
+      - reports
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: object
+                  additionalProperties: true
+                - type: array
+                  items: {}
+          description: Stored report data without report metadata.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+  /api/reports/{id}/rst/:
+    get:
+      operationId: api_reports_rst_retrieve
+      description: Download the report rendered as reStructuredText.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this report.
+        required: true
+      tags:
+      - reports
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Rendered reStructuredText report.
           headers:
             X-RateLimit-Limit:
               $ref: '#/components/headers/X-RateLimit-Limit'
@@ -29940,6 +31377,8 @@ components:
       - 100
       - 101
       - 102
+      - 103
+      - 104
       type: integer
       description: |-
         * `0` - **Resource updated:** A translation file was synchronized with its repository.
@@ -30039,6 +31478,8 @@ components:
         * `100` - **Project moved:** A project was moved into or out of a workspace.
         * `101` - **Remote repository updated:** A remote repository update was completed.
         * `102` - **Remote repository update failed:** Updating a remote repository failed.
+        * `103` - **Alert dismissed:** A component alert was dismissed.
+        * `104` - **Alert reopened:** A component alert was reopened after its context changed.
     Addon:
       type: object
       properties:
@@ -30082,6 +31523,65 @@ components:
       - detail
       - logs_url
       - url
+    Alert:
+      type: object
+      properties:
+        name:
+          type: string
+          readOnly: true
+        timestamp:
+          type: string
+          format: date-time
+          readOnly: true
+        updated:
+          type: string
+          format: date-time
+          readOnly: true
+        severity:
+          allOf:
+          - $ref: '#/components/schemas/AlertSeverityEnum'
+          readOnly: true
+        details:
+          readOnly: true
+        category:
+          allOf:
+          - $ref: '#/components/schemas/CategoryEnum'
+          readOnly: true
+        dismissed_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        dismissed_by:
+          type:
+          - string
+          - 'null'
+          format: uri
+          readOnly: true
+        dismissal_reason:
+          type: string
+          readOnly: true
+      required:
+      - category
+      - details
+      - dismissal_reason
+      - dismissed_at
+      - dismissed_by
+      - name
+      - severity
+      - timestamp
+      - updated
+    AlertSeverityEnum:
+      enum:
+      - 10
+      - 50
+      - 100
+      type: integer
+      description: |-
+        * `10` - Information
+        * `50` - Warning
+        * `100` - Error
     Announcement:
       type: object
       properties:
@@ -30216,6 +31716,10 @@ components:
           format: uri
           readOnly: true
         announcements_url:
+          type: string
+          format: uri
+          readOnly: true
+        reports_url:
           type: string
           format: uri
           readOnly: true
@@ -30393,9 +31897,24 @@ components:
       - id
       - name
       - project
+      - reports_url
       - slug
       - statistics_url
       - url
+    CategoryEnum:
+      enum:
+      - addons
+      - community
+      - configuration
+      - files
+      - vcs
+      type: string
+      description: |-
+        * `addons` - addons
+        * `community` - community
+        * `configuration` - configuration
+        * `files` - files
+        * `vcs` - vcs
     Change:
       type: object
       properties:
@@ -30418,6 +31937,11 @@ components:
         author:
           type: string
           format: uri
+          readOnly: true
+        alert:
+          oneOf:
+          - $ref: '#/components/schemas/Alert'
+          - type: 'null'
           readOnly: true
         timestamp:
           type: string
@@ -30445,6 +31969,7 @@ components:
           readOnly: true
       required:
       - action_name
+      - alert
       - author
       - component
       - id
@@ -30777,7 +32302,7 @@ components:
           - 'null'
           format: uri
           readOnly: true
-        credits_url:
+        reports_url:
           type: string
           format: uri
           readOnly: true
@@ -31043,7 +32568,6 @@ components:
       - addons
       - announcements_url
       - changes_list_url
-      - credits_url
       - effective_add_message
       - effective_addon_message
       - effective_agreement
@@ -31067,6 +32591,7 @@ components:
       - name
       - project
       - repo
+      - reports_url
       - repository_url
       - slug
       - statistics_url
@@ -31294,6 +32819,14 @@ components:
       type: string
       description: "* `` - \n* `ignore` - ignore\n* `replace-translated` - replace-translated\n*
         `replace-approved` - replace-approved"
+    CountingModeEnum:
+      enum:
+      - unique
+      - all
+      type: string
+      description: |-
+        * `unique` - unique
+        * `all` - all
     CreateBackupResponse:
       type: object
       properties:
@@ -32876,6 +34409,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Project'
+    PaginatedReportListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportList'
     PaginatedRoleList:
       type: object
       required:
@@ -33058,6 +34612,10 @@ components:
           format: uri
           readOnly: true
         announcements_url:
+          type: string
+          format: uri
+          readOnly: true
+        reports_url:
           type: string
           format: uri
           readOnly: true
@@ -33376,7 +34934,7 @@ components:
           - 'null'
           format: uri
           readOnly: true
-        credits_url:
+        reports_url:
           type: string
           format: uri
           readOnly: true
@@ -33957,7 +35515,7 @@ components:
           type: string
           format: uri
           readOnly: true
-        credits_url:
+        reports_url:
           type: string
           format: uri
           readOnly: true
@@ -34342,7 +35900,7 @@ components:
           type: string
           format: uri
           readOnly: true
-        credits_url:
+        reports_url:
           type: string
           format: uri
           readOnly: true
@@ -34547,7 +36105,6 @@ components:
       - categories_url
       - changes_list_url
       - components_list_url
-      - credits_url
       - effective_add_message
       - effective_addon_message
       - effective_agreement
@@ -34567,6 +36124,7 @@ components:
       - locked
       - machinery_settings
       - name
+      - reports_url
       - repository_url
       - slug
       - statistics_url
@@ -34727,7 +36285,7 @@ components:
           - 'null'
           format: uri
           readOnly: true
-        credits_url:
+        reports_url:
           type: string
           format: uri
           readOnly: true
@@ -34993,7 +36551,6 @@ components:
       - addons
       - announcements_url
       - changes_list_url
-      - credits_url
       - effective_add_message
       - effective_addon_message
       - effective_agreement
@@ -35016,6 +36573,7 @@ components:
       - locked
       - name
       - repo
+      - reports_url
       - repository_url
       - slug
       - statistics_url
@@ -35058,6 +36616,251 @@ components:
           $ref: '#/components/schemas/OperationEnum'
       required:
       - operation
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        kind:
+          allOf:
+          - $ref: '#/components/schemas/ReportKindEnum'
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        creator:
+          type: string
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        scope:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        json_url:
+          type: string
+          format: uri
+          readOnly: true
+        html_url:
+          type: string
+          format: uri
+          readOnly: true
+        rst_url:
+          type: string
+          format: uri
+          readOnly: true
+        parameters:
+          type: object
+          additionalProperties: {}
+          readOnly: true
+        data:
+          oneOf:
+          - type: object
+            additionalProperties: true
+          - type: array
+            items: {}
+          readOnly: true
+      required:
+      - created
+      - creator
+      - data
+      - html_url
+      - id
+      - json_url
+      - kind
+      - parameters
+      - rst_url
+      - scope
+      - url
+      - version
+    ReportCreate:
+      type: object
+      description: |-
+        Parameters for generating a report, with at most one optional scope.
+
+        Start and end are required for credits, contributor stats, and translator work.
+        Kind-specific optional fields are ignored by other report kinds.
+      properties:
+        kind:
+          $ref: '#/components/schemas/ReportKindEnum'
+        workspace:
+          type: string
+          format: uuid
+        project:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+          maxLength: 60
+          pattern: ^[-a-zA-Z0-9_]+$
+        category:
+          type: integer
+          minimum: 1
+        component:
+          type: string
+        start:
+          type: string
+          format: date-time
+          description: Required for credits, contributor stats, and translator work
+            reports.
+        end:
+          type: string
+          format: date-time
+          description: Required for credits, contributor stats, and translator work
+            reports.
+        language:
+          type: string
+          default: ''
+        sort_by:
+          allOf:
+          - $ref: '#/components/schemas/SortByEnum'
+          default: count
+        sort_order:
+          allOf:
+          - $ref: '#/components/schemas/SortOrderEnum'
+          default: descending
+        counting_mode:
+          allOf:
+          - $ref: '#/components/schemas/CountingModeEnum'
+          default: unique
+        q:
+          type: string
+          default: state:<translated
+        base_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,4})?$
+          default: '1.0000'
+        tm_threshold:
+          type: integer
+          maximum: 100
+          minimum: 75
+          default: 80
+        rate_new:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '100.00'
+        rate_needs_editing:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '50.00'
+        rate_tm_100:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '0.00'
+        rate_tm_fuzzy:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '50.00'
+        rate_repetition:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '0.00'
+        min_changes:
+          type: integer
+          minimum: 0
+          default: 5
+        max_changes:
+          type: integer
+          minimum: 1
+          default: 1000
+        max_words:
+          type: integer
+          minimum: 1
+          default: 10000
+      required:
+      - kind
+    ReportKindEnum:
+      enum:
+      - credits
+      - contributor_stats
+      - cost_estimate
+      - translator_work
+      type: string
+      description: |-
+        * `credits` - Credits
+        * `contributor_stats` - Contributor stats
+        * `cost_estimate` - Cost estimate
+        * `translator_work` - Translator work analysis
+    ReportList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        kind:
+          allOf:
+          - $ref: '#/components/schemas/ReportKindEnum'
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        creator:
+          type: string
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        scope:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        json_url:
+          type: string
+          format: uri
+          readOnly: true
+        html_url:
+          type: string
+          format: uri
+          readOnly: true
+        rst_url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - created
+      - creator
+      - html_url
+      - id
+      - json_url
+      - kind
+      - rst_url
+      - scope
+      - url
+      - version
+    ReportTaskResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     Repository:
       type: object
       description: Serializer for repository status information.
@@ -35158,6 +36961,93 @@ components:
       - name
       - permissions
       - url
+    ScopedReportCreate:
+      type: object
+      description: |-
+        Parameters for generating a report scoped by the endpoint URL.
+
+        Start and end are required for credits, contributor stats, and translator work.
+        Kind-specific optional fields are ignored by other report kinds.
+      properties:
+        kind:
+          $ref: '#/components/schemas/ReportKindEnum'
+        start:
+          type: string
+          format: date-time
+          description: Required for credits, contributor stats, and translator work
+            reports.
+        end:
+          type: string
+          format: date-time
+          description: Required for credits, contributor stats, and translator work
+            reports.
+        language:
+          type: string
+          default: ''
+        sort_by:
+          allOf:
+          - $ref: '#/components/schemas/SortByEnum'
+          default: count
+        sort_order:
+          allOf:
+          - $ref: '#/components/schemas/SortOrderEnum'
+          default: descending
+        counting_mode:
+          allOf:
+          - $ref: '#/components/schemas/CountingModeEnum'
+          default: unique
+        q:
+          type: string
+          default: state:<translated
+        base_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,4})?$
+          default: '1.0000'
+        tm_threshold:
+          type: integer
+          maximum: 100
+          minimum: 75
+          default: 80
+        rate_new:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '100.00'
+        rate_needs_editing:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '50.00'
+        rate_tm_100:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '0.00'
+        rate_tm_fuzzy:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '50.00'
+        rate_repetition:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          default: '0.00'
+        min_changes:
+          type: integer
+          minimum: 0
+          default: 5
+        max_changes:
+          type: integer
+          minimum: 1
+          default: 1000
+        max_words:
+          type: integer
+          minimum: 1
+          default: 10000
+      required:
+      - kind
     Screenshot:
       type: object
       properties:
@@ -35247,6 +37137,22 @@ components:
       required:
       - configuration
       - service
+    SortByEnum:
+      enum:
+      - count
+      - date_joined
+      type: string
+      description: |-
+        * `count` - count
+        * `date_joined` - date_joined
+    SortOrderEnum:
+      enum:
+      - descending
+      - ascending
+      type: string
+      description: |-
+        * `descending` - descending
+        * `ascending` - ascending
     SourceEnum:
       enum:
       - 0

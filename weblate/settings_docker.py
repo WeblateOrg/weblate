@@ -216,8 +216,18 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    "compressor.finders.CompressorFinder",
 )
+
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+            if DEBUG
+            else "weblate.utils.static.WeblateManifestStaticFilesStorage"
+        )
+    },
+}
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate-generate-secret-key
@@ -920,7 +930,6 @@ INSTALLED_APPS = [
     "social_django",
     "crispy_forms",
     "crispy_bootstrap5",
-    "compressor",
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
@@ -1354,17 +1363,13 @@ SPECTACULAR_SETTINGS = get_spectacular_settings(
     INSTALLED_APPS,
     SITE_URL,
     SITE_TITLE,
+    static_url=STATIC_URL,
     legal_hidden_documents=LEGAL_HIDDEN_DOCUMENTS if LEGAL_INTEGRATION else (),
     legal_url=get_env_str("WEBLATE_LEGAL_URL", trans_defaults.DEFAULT_LEGAL_URL),
 )
 
 # Fonts CDN URL
 FONTS_CDN_URL = trans_defaults.DEFAULT_FONTS_CDN_URL
-
-# Django compressor offline mode
-COMPRESS_OFFLINE = True
-COMPRESS_OFFLINE_CONTEXT = "weblate.utils.compress.offline_context"
-COMPRESS_CSS_HASHING_METHOD = "content"
 
 # Note: When REQUIRE_LOGIN is enabled, Django's LoginRequiredMiddleware is used.
 # Public views are marked with @login_not_required decorator in the code.
@@ -1421,6 +1426,7 @@ CELERY_BROKER_CONNECTION_RETRY = True
 
 # Celery settings, it is not recommended to change these
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 450000 if DEBUG else 250000
+CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_TASK_ROUTES = {
     "weblate.trans.tasks.auto_translate*": {"queue": "translate"},
@@ -1542,6 +1548,10 @@ EXTRA_HTML_HEAD = get_env_str(
 
 UNUSED_ALERT_DAYS = get_env_int(
     "WEBLATE_UNUSED_ALERT_DAYS", trans_defaults.DEFAULT_UNUSED_ALERT_DAYS
+)
+
+REPORT_EXPIRY = get_env_int(
+    "WEBLATE_REPORT_EXPIRY", trans_defaults.DEFAULT_REPORT_EXPIRY
 )
 
 USE_X_FORWARDED_HOST = get_env_bool("WEBLATE_USE_X_FORWARDED_HOST", False)

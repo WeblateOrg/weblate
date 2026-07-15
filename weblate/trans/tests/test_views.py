@@ -1559,10 +1559,22 @@ class SourceStringsTest(ViewTestCase):
         self.assertContains(response, "Czech")
 
     def test_matrix_load(self) -> None:
-        response = self.client.get(
-            f"{reverse('matrix-load', kwargs=self.kw_component)}?offset=0&lang=cs"
+        url = (
+            f"{reverse('matrix-load', kwargs=self.kw_component)}"
+            "?offset=0&lang=cs&lang=de"
         )
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(url)
         self.assertContains(response, 'lang="cs"')
+        self.assertContains(response, 'lang="de"')
+
+        unit_queries = [
+            query
+            for query in queries
+            if 'FROM "trans_unit"' in query["sql"]
+            and query["sql"].lstrip().upper().startswith("SELECT")
+        ]
+        self.assertEqual(len(unit_queries), 2)
 
     def test_toggle_flags(self) -> None:
         # Need extra power

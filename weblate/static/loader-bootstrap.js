@@ -364,7 +364,10 @@ function screenshotLoaded(data) {
     summary.textContent = data.summary || "";
   }
   if (data.responseCode !== 200) {
-    screenshotResultError("danger", gettext("Error loading search results!"));
+    screenshotResultError(
+      "danger",
+      data.error || gettext("Error loading search results!"),
+    );
   } else if (data.count === 0) {
     screenshotResultError(
       "warning",
@@ -777,7 +780,18 @@ function initHighlight(root) {
       languageMode = extension;
     }
     const syncContent = () => {
-      highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
+      /*
+       * Prism turns non-breaking spaces into regular spaces when generating
+       * markup. Restore them.
+       */
+      highlight.innerHTML = Prism.highlight(
+        editor.value,
+        languageMode,
+        mode,
+      ).replaceAll(
+        '<span class="token nbsp"> </span>',
+        '<span class="token nbsp">\u00A0</span>',
+      );
     };
     syncContent();
     editor.addEventListener("input", syncContent);
@@ -1780,7 +1794,9 @@ onReady(() => {
       form?.querySelectorAll("input[name=offset]").forEach((input) => {
         input.disabled = false;
       });
-      positionInputEditables.forEach(show);
+      positionInputEditables.forEach((element) => {
+        element.style.display = "inline-block";
+      });
       positionInputEditableInput?.setAttribute("type", "number");
       if (positionInputs.length > 1) {
         const input = event.target.parentElement?.querySelector(

@@ -184,7 +184,7 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
         # Indicate alerts
         for project_id in (
             queryset.filter(
-                component__alert__dismissed=False,
+                component__alert__dismissed_at__isnull=True,
                 component__alert__severity__gte=AlertSeverity.ERROR,
             )
             .values_list("id", flat=True)
@@ -1115,7 +1115,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Alert
 
-        result = Alert.objects.filter(component__project=self, dismissed=False).order()
+        result = Alert.objects.filter(
+            component__project=self, dismissed_at__isnull=True
+        ).order()
         list(result)
         return result
 

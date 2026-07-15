@@ -4,12 +4,16 @@
 
 from __future__ import annotations
 
+import json
 from collections import defaultdict
+from hashlib import sha256
 from typing import TYPE_CHECKING, Any
 
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy
+
+from weblate.utils.docs import get_doc_url
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
@@ -43,6 +47,7 @@ class BaseAlert:
     doc_page = ""
     doc_anchor = ""
     template_name = ""
+    actionability_uses_addons = False
 
     def __init__(self, instance: Alert) -> None:
         self.instance = instance
@@ -58,6 +63,12 @@ class BaseAlert:
     @classmethod
     def get_doc_url(cls, component, user: User | None = None) -> str:  # ruff: ignore[unused-class-method-argument]
         return ""
+
+    @classmethod
+    def get_documentation_url(cls, component, user: User | None = None) -> str:
+        if not cls.doc_page:
+            return cls.get_doc_url(component, user)
+        return get_doc_url(cls.doc_page, cls.doc_anchor, user=user)
 
     @classmethod
     def is_relevant(cls, component) -> bool:  # ruff: ignore[unused-class-method-argument]
@@ -88,6 +99,32 @@ class BaseAlert:
             self.template_name or f"trans/alert/{self.__class__.__name__.lower()}.html"
         )
         return render_to_string(template_name, self.get_context(user))
+
+    @classmethod
+    def get_dismissal_context(
+        cls,
+        _component,
+        details: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Return stable inputs which invalidate an alert dismissal when changed."""
+        return {"details": details}
+
+    @classmethod
+    def get_dismissal_fingerprint(cls, component, details: dict[str, Any]) -> str:
+        context = cls.get_dismissal_context(component, details)
+        serialized = json.dumps(
+            context, sort_keys=True, separators=(",", ":"), default=str
+        )
+        return sha256(serialized.encode()).hexdigest()
+
+    @classmethod
+    def can_user_act_for(cls, user: User, component, _details: dict[str, Any]) -> bool:
+        if cls.project_wide:
+            return bool(user.has_perm("project.edit", component.project))
+        return bool(user.has_perm("component.edit", component))
+
+    def can_user_act(self, user: User, component) -> bool:
+        return self.can_user_act_for(user, component, self.instance.details)
 
     @staticmethod
     def check_component(component) -> bool | dict | None:  # ruff: ignore[unused-static-method-argument]

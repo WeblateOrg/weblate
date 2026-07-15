@@ -21,17 +21,13 @@ from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.metrics.models import Metric
 from weblate.trans.alerts.base import AlertSeverity
-from weblate.trans.forms import (
-    CostEstimateReportsForm,
-    CountsReportsForm,
-    ReportsForm,
-    SearchForm,
-)
+from weblate.trans.forms import SearchForm
 from weblate.trans.models import Alert, Component, ComponentList, Project, Translation
 from weblate.trans.models.component import translation_prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
+from weblate.trans.views.reports import get_reports_context
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator
@@ -68,7 +64,7 @@ def get_suggestions(
     if not filtered:
         problem_alerts = Alert.objects.filter(
             component_id=OuterRef("component_id"),
-            dismissed=False,
+            dismissed_at__isnull=True,
             severity__gte=AlertSeverity.ERROR,
         )
         non_alerts = base.annotate(has_problem_alert=Exists(problem_alerts)).filter(
@@ -216,16 +212,18 @@ def home(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 
 def fetch_componentlists(
-    user: User, user_translations: TranslationQuerySet
+    user: User,
+    user_translations: TranslationQuerySet,
+    *,
+    slug: str | None = None,
 ) -> list[ComponentList]:
-    componentlists = list(
-        ComponentList.objects.filter(
-            show_dashboard=True,
-            components__project__in=user.allowed_projects,
-        )
-        .distinct()
-        .order()
+    componentlists = ComponentList.objects.filter(
+        show_dashboard=True,
+        components__project__in=user.allowed_projects,
     )
+    if slug is not None:
+        componentlists = componentlists.filter(slug=slug)
+    componentlists = list(componentlists.distinct().order())
     for componentlist in componentlists:
         components = componentlist.components.filter_access(user)
         # Force fetching the query now
@@ -265,13 +263,11 @@ def component_list_user(request: AuthenticatedHttpRequest, name: str) -> HttpRes
 
     user_translations = get_user_translations(request, user, user_has_languages)
 
-    componentlist = None
-    for current in fetch_componentlists(request.user, user_translations):
-        if current.slug == name:
-            componentlist = current
+    componentlists = fetch_componentlists(request.user, user_translations, slug=name)
 
-    if componentlist is None:
+    if not componentlists:
         raise Http404
+    componentlist = componentlists[0]
 
     if user.is_authenticated and user.profile.hide_completed:
         componentlist.translations = get_untranslated(
@@ -341,9 +337,7 @@ def dashboard_user(request: AuthenticatedHttpRequest) -> HttpResponse:
                 .order()
             ),
             "active_tab_slug": active_tab_slug,
-            "reports_form": ReportsForm({}),
-            "reports_count_form": CountsReportsForm({}),
-            "reports_cost_form": CostEstimateReportsForm({}),
+            **get_reports_context(request, None),
             "all_owned_projects": owned,
             "owned_projects": prefetch_project_flags(prefetch_stats(owned[:10])),
         },

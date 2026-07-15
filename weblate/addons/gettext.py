@@ -23,7 +23,12 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonEvent,
+    AddonEventOutcome,
+    AddonEventResult,
+)
 from weblate.addons.extractors.django.constants import DJANGO_IGNORE_PATTERNS
 from weblate.addons.forms import (
     DjangoExtractPotForm,
@@ -103,7 +108,7 @@ class GenerateMoAddon(GettextBaseAddon):
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         exporter = MoExporter(translation=translation)
 
         if self.instance.configuration.get("fuzzy"):
@@ -120,10 +125,11 @@ class GenerateMoAddon(GettextBaseAddon):
 
         output = self.render_repo_filename(template, translation)
         if not output:
-            return
+            return AddonEventOutcome.error(AddonActivityLogReason.INVALID_OUTPUT)
 
         self.write_repo_file(output, exporter.serialize())
         translation.addon_commit_files.append(output)
+        return None
 
 
 class UpdateLinguasAddon(GettextBaseAddon):
@@ -235,37 +241,45 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         return changed
 
-    def _sync_linguas_for_translation(self, translation: Translation) -> None:
+    def _sync_linguas_for_translation(
+        self, translation: Translation
+    ) -> AddonEventOutcome | None:
         with translation.component.repository.lock:
             path = self.get_validated_linguas_path(translation.component)
             if path is None:
-                return
+                return AddonEventOutcome.skipped(
+                    AddonActivityLogReason.REQUIRED_FILE_MISSING
+                )
             changed = self.sync_linguas(translation.component, path)
             if changed:
                 translation.addon_commit_files.append(path)
+        return None
 
     def post_add(
         self, translation: Translation, activity_log_id: int | None = None
-    ) -> None:
-        self._sync_linguas_for_translation(translation)
+    ) -> AddonEventOutcome | None:
+        return self._sync_linguas_for_translation(translation)
 
     def post_remove(
         self, translation: Translation, activity_log_id: int | None = None
-    ) -> None:
-        self._sync_linguas_for_translation(translation)
+    ) -> AddonEventOutcome | None:
+        return self._sync_linguas_for_translation(translation)
 
     def daily_component(
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         with component.repository.lock:
             path = self.get_validated_linguas_path(component)
             if path is None:
-                return
+                return AddonEventOutcome.skipped(
+                    AddonActivityLogReason.REQUIRED_FILE_MISSING
+                )
             changed = self.sync_linguas(component, path)
             if changed:
                 self.commit_and_push(component, [path])
+        return None
 
 
 class UpdateConfigureAddon(GettextBaseAddon):
@@ -342,31 +356,43 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
         return added
 
-    def _sync_linguas_for_translation(self, translation: Translation) -> None:
+    def _sync_linguas_for_translation(
+        self, translation: Translation
+    ) -> AddonEventOutcome | None:
         with translation.component.repository.lock:
             paths = list(self.get_configure_paths(translation.component))
+            if not paths:
+                return AddonEventOutcome.skipped(
+                    AddonActivityLogReason.REQUIRED_FILE_MISSING
+                )
             if self.sync_linguas(translation.component, paths):
                 translation.addon_commit_files.extend(paths)
+        return None
 
     def post_add(
         self, translation: Translation, activity_log_id: int | None = None
-    ) -> None:
-        self._sync_linguas_for_translation(translation)
+    ) -> AddonEventOutcome | None:
+        return self._sync_linguas_for_translation(translation)
 
     def post_remove(
         self, translation: Translation, activity_log_id: int | None = None
-    ) -> None:
-        self._sync_linguas_for_translation(translation)
+    ) -> AddonEventOutcome | None:
+        return self._sync_linguas_for_translation(translation)
 
     def daily_component(
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         with component.repository.lock:
             paths = list(self.get_configure_paths(component))
+            if not paths:
+                return AddonEventOutcome.skipped(
+                    AddonActivityLogReason.REQUIRED_FILE_MISSING
+                )
             if self.sync_linguas(component, paths):
                 self.commit_and_push(component, paths)
+        return None
 
 
 class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
@@ -401,7 +427,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
 
     def update_translations(
         self, component: Component, previous_head: str, changed_files: list[str]
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         # Run always when there is an alerts, there is a chance that
         # the update clears it.
         repository = component.repository
@@ -416,7 +442,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 previous_head,
                 repository.last_revision,
             )
-            return
+            return AddonEventOutcome.skipped(AddonActivityLogReason.NO_RELEVANT_CHANGES)
         template = component.get_new_base_filename()
         if not template or not os.path.exists(template):
             self.alerts.append(
@@ -429,7 +455,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             )
             self.trigger_alerts(component)
             component.log_info("%s addon skipped, new base was not found", self.name)
-            return
+            return AddonEventOutcome.error()
         file_format_cls = cast("PoFormat", component.file_format_cls)
         args = file_format_cls.get_msgmerge_args(component)
         repo_temp_dir = component.repository.get_repo_temp_dir()
@@ -459,7 +485,11 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                     }
                 )
                 component.log_info("%s addon failed: %s", self.name, error)
+        failed = bool(self.alerts)
         self.trigger_alerts(component)
+        if failed:
+            return AddonEventOutcome.error()
+        return None
 
     def commit_and_push(
         self,
@@ -480,7 +510,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         return False
 
 
-class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
+class ExtractPotBaseAddon(UpdateBaseAddon, GettextBaseAddon):
     alert = "ExtractPotAddonError"
     compat: ClassVar[CompatDict] = {"file_format": {"po"}}
     events: ClassVar[set[AddonEvent]] = UpdateBaseAddon.events | {
@@ -646,17 +676,14 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> dict | None:
-        result: dict | None = None
+    ) -> AddonEventResult:
+        result: AddonEventResult = None
 
         def trigger() -> None:
             nonlocal result
             component.commit_pending("add-on", None)
-            result = cast(
-                "dict | None",
-                self.post_update(
-                    component, "", False, [], activity_log_id=activity_log_id
-                ),
+            result = self.post_update(
+                component, "", False, [], activity_log_id=activity_log_id
             )
 
         self.run_forced_update(component, trigger)
@@ -731,6 +758,9 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     def trigger_alerts(self, component: Component) -> None:
         occurrences = [*self.alerts, *self.warnings]
         if occurrences:
+            for occurrence in occurrences:
+                occurrence.setdefault("addon", self.name)
+                occurrence.setdefault("addon_id", str(self.instance.pk))
             component.add_alert(self.alert, occurrences=occurrences)
             self.alerts = []
             self.warnings = []
@@ -944,6 +974,13 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
     ) -> bool:
         return self.is_schedule_due(component)
 
+    def get_update_skip_reason(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> AddonActivityLogReason | None:
+        if not self.is_schedule_due(component):
+            return AddonActivityLogReason.NOT_SCHEDULED
+        return None
+
     def execute_update(
         self, component: Component, previous_head: str, changed_files: list[str]
     ) -> bool:
@@ -951,13 +988,15 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
 
     def update_translations(
         self, component: Component, previous_head: str, changed_files: list[str]
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         self.extra_files = []
         self.successful_components.discard(component.pk)
         self.pending_successful_revisions.pop(component.pk, None)
         current_revision = component.repository.last_revision
-        if not self.should_run_update(component, previous_head, changed_files):
-            return
+        if reason := self.get_update_skip_reason(
+            component, previous_head, changed_files
+        ):
+            return AddonEventOutcome.skipped(reason)
         if (
             self.execute_update(component, previous_head, changed_files)
             and not self.alerts
@@ -966,7 +1005,11 @@ class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
                 msgmerge_addon.update_translations(component, "", [])
             self.pending_successful_revisions[component.pk] = current_revision
             self.successful_components.add(component.pk)
+        failed = bool(self.alerts)
         self.trigger_alerts(component)
+        if failed:
+            return AddonEventOutcome.error()
+        return None
 
     def commit_and_push(
         self,
@@ -1356,6 +1399,16 @@ class XgettextAddon(ExtractPotBaseAddon):
         return super().should_run_update(
             component, previous_head, changed_files
         ) and self.has_relevant_changes(component, previous_head, changed_files)
+
+    def get_update_skip_reason(
+        self, component: Component, previous_head: str, changed_files: list[str]
+    ) -> AddonActivityLogReason | None:
+        reason = super().get_update_skip_reason(component, previous_head, changed_files)
+        if reason is not None:
+            return reason
+        if not self.has_relevant_changes(component, previous_head, changed_files):
+            return AddonActivityLogReason.NO_RELEVANT_CHANGES
+        return None
 
     def execute_update(
         self, component: Component, previous_head: str, changed_files: list[str]
@@ -1927,7 +1980,7 @@ class SphinxAddon(ExtractPotBaseAddon):
     ) -> None:
         source_root = source_dir.resolve()
         build_root = build_dir.resolve()
-        file_format_cls = cast("PoFormat", component.file_format_cls)
+        file_format_cls = cast("type[PoFormat]", component.file_format_cls)
         file_format_params = dict(component.file_format_params)
         location_mode = self.get_location_mode()
         if location_mode == "keep":
@@ -2028,9 +2081,9 @@ class GettextAuthorComments(GettextBaseAddon):
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         if "noreply@weblate.org" in author:
-            return
+            return AddonEventOutcome.skipped(AddonActivityLogReason.NOT_APPLICABLE)
         if "<" in author:
             name, email = author.split("<")
             name = name.strip()
@@ -2043,3 +2096,4 @@ class GettextAuthorComments(GettextBaseAddon):
         translation.store.save()
         if store_hash:
             translation.store_hash()
+        return None

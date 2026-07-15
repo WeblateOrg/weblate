@@ -1,4 +1,4 @@
-{% load compress humanize i18n site_url static %}
+{% load humanize i18n site_url static %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}"
@@ -8,11 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ subject }}</title>
 
-    {% compress css inline %}
-      <style>{% include "mail/style.css" %}</style>
-      {% block extra_styles %}{% endblock %}
-
-    {% endcompress %}
+    <style>{% include "mail/style.css" %}</style>
+    {% block extra_styles %}{% endblock %}
 
 
   </head>

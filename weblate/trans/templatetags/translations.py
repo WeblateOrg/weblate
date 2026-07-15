@@ -703,6 +703,9 @@ def documentation(context: Context, page, anchor=""):
     """Return link to Weblate documentation."""
     # User might not be present on error pages
     user = context.get("user")
+    # Alert documentation can differ from other help resources
+    if hasattr(page, "get_documentation_url"):
+        return page.get_documentation_url(user=user)
     # Use object method get_doc_url if present
     if hasattr(page, "get_doc_url"):
         return page.get_doc_url(user=user)
@@ -713,7 +716,7 @@ def render_documentation_icon(doc_url: str, *, right: bool = False):
     if not doc_url:
         return ""
     return format_html(
-        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener" tabindex="-1">{}</a>""",
+        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener">{}</a>""",
         "float-end" if right else "",
         doc_url,
         gettext("Documentation"),
@@ -1362,6 +1365,11 @@ def markdown(text: str) -> str:
 
 
 @register.filter
+def can_dismiss_alert(alert: Alert, user: User) -> bool:
+    return alert.can_user_dismiss(user)
+
+
+@register.filter
 def format_commit_author(commit) -> str:
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
@@ -1785,7 +1793,9 @@ def format_last_changes_content(
                     "can_block_user": can_block_user,
                 },
                 "ip_address": change.get_ip_address() if user.is_superuser else None,
-                "history_data": get_change_history_context(change),
+                "history_data": get_change_history_context(
+                    change, include_private_details=bool(user.is_authenticated)
+                ),
             }
         )
     return {

@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import contextlib
 from datetime import timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING, cast
@@ -18,7 +19,11 @@ from django.utils import timezone
 from django.utils.timezone import now
 from lxml import html
 
-from weblate.addons.events import AddonEvent
+from weblate.addons.events import (
+    AddonActivityLogReason,
+    AddonActivityLogStatus,
+    AddonEvent,
+)
 from weblate.addons.models import (
     Addon,
     AddonActivityLog,
@@ -47,23 +52,11 @@ def read_component_file(component: Component, filename: str) -> str:
     return Path(component.full_path, resolved).read_text(encoding="utf-8")
 
 
-@app.task(
-    trail=False,
-    autoretry_for=(WeblateLockTimeoutError,),
-    retry_backoff=600,
-    retry_backoff_max=3600,
-)
-def cdn_parse_html(addon_id: int, component_id: int) -> None:
-    try:
-        addon = Addon.objects.get(pk=addon_id)
-    except Addon.DoesNotExist:
-        return
-
-    component = Component.objects.get(pk=component_id)
+def parse_cdn_html(addon: Addon, component: Component) -> list[dict[str, str]]:
     source_translation = component.source_translation
     source_units = set(source_translation.unit_set.values_list("source", flat=True))
     units = []
-    errors = []
+    errors: list[dict[str, str]] = []
 
     for filename in addon.configuration["files"].splitlines():
         filename = filename.strip()
@@ -79,7 +72,14 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
             else:
                 content = read_component_file(component, filename)
         except (OSError, ValidationError, ValueError) as error:
-            errors.append({"filename": filename, "error": str(error)})
+            errors.append(
+                {
+                    "addon": addon.name,
+                    "addon_id": str(addon.pk),
+                    "filename": filename,
+                    "error": str(error),
+                }
+            )
             continue
 
         document = html.fromstring(content)
@@ -111,6 +111,35 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         component.add_alert("CDNAddonError", occurrences=errors)
     else:
         component.delete_alert("CDNAddonError")
+    return errors
+
+
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeoutError,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
+def cdn_parse_html(
+    addon_id: int, component_id: int, activity_log_id: int | None = None
+) -> None:
+    try:
+        addon = Addon.objects.get(pk=addon_id)
+    except Addon.DoesNotExist:
+        return
+
+    component = Component.objects.get(pk=component_id)
+    errors = parse_cdn_html(addon, component)
+    if activity_log_id:
+        update_addon_activity_log(
+            activity_log_id,
+            errors or None,
+            status=(
+                AddonActivityLogStatus.ERROR
+                if errors
+                else AddonActivityLogStatus.SUCCESS
+            ),
+        )
 
 
 def enforce_language_consistency(
@@ -119,7 +148,8 @@ def enforce_language_consistency(
     fake_request: HttpRequest,
     components,
     log_result: list[str],
-) -> None:
+) -> bool:
+    has_errors = False
     for component in components.iterator():
         # Keep the standard lock ordering: repository first, then component.
         # This avoids inverting the order used by create_translations().
@@ -139,6 +169,7 @@ def enforce_language_consistency(
                     create_translations=False,
                 )
                 if new_lang is None:
+                    has_errors = True
                     log_result.append(
                         f"{component.full_slug}: {addon.addon.verbose}: Could not add {language}: {component.new_lang_error_message}"
                     )
@@ -149,9 +180,11 @@ def enforce_language_consistency(
             try:
                 component.create_translations_immediate()
             except FileParseError as error:
+                has_errors = True
                 log_result.append(
                     f"{component.full_slug}: {addon.addon.verbose}: Could not parse translation files: {error}"
                 )
+    return has_errors
 
 
 @app.task(
@@ -160,7 +193,6 @@ def enforce_language_consistency(
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-@transaction.atomic
 def language_consistency(
     addon_id: int,
     language_ids: list[int],
@@ -168,6 +200,31 @@ def language_consistency(
     category_id: int | None = None,
     activity_log_id: int | None = None,
 ) -> None:
+    log_result, has_errors = enforce_language_consistency_task(
+        addon_id,
+        language_ids,
+        project_id=project_id,
+        category_id=category_id,
+    )
+    if activity_log_id:
+        update_addon_activity_log(
+            activity_log_id,
+            "\n".join(log_result) if log_result else None,
+            status=(
+                AddonActivityLogStatus.ERROR
+                if has_errors
+                else AddonActivityLogStatus.SUCCESS
+            ),
+        )
+
+
+@transaction.atomic
+def enforce_language_consistency_task(
+    addon_id: int,
+    language_ids: list[int],
+    project_id: int | None = None,
+    category_id: int | None = None,
+) -> tuple[list[str], bool]:
     # ruff: ignore[import-outside-top-level]
     from weblate.trans.models import Category
 
@@ -178,7 +235,7 @@ def language_consistency(
     try:
         addon = Addon.objects.get(pk=addon_id)
     except Addon.DoesNotExist:
-        return
+        return [], False
     languages = Language.objects.filter(id__in=language_ids)
     fake_request = HttpRequest()
     fake_request.user = addon.addon.user
@@ -201,17 +258,10 @@ def language_consistency(
 
     log_result: list[str] = []
 
-    try:
-        enforce_language_consistency(
-            addon, languages, fake_request, components, log_result
-        )
-    except Exception as error:
-        log_result.append(f"{addon.addon.verbose}: failed: {error}")
-        raise
-
-    finally:
-        if activity_log_id and log_result:
-            update_addon_activity_log(activity_log_id, "\n".join(log_result))
+    has_errors = enforce_language_consistency(
+        addon, languages, fake_request, components, log_result
+    )
+    return log_result, has_errors
 
 
 @app.task(trail=False)
@@ -243,8 +293,9 @@ def run_addon_manually(addon_id: int) -> None:
 def update_addon_activity_log(
     pk: int,
     result: object | None = None,
-    error_occurred: bool = False,
-    pending: bool | None = None,
+    status: AddonActivityLogStatus | None = None,
+    reason: AddonActivityLogReason | None = None,
+    task_count: int | None = None,
 ) -> None:
     with transaction.atomic(savepoint=False):
         try:
@@ -254,10 +305,76 @@ def update_addon_activity_log(
             # retrying, for example when the triggering component or add-on is
             # deleted and cascades the activity row away.
             return
-        addon_activity_log.update_activity(
-            result, error_occurred=error_occurred, pending=pending
-        )
-        addon_activity_log.save(update_fields=["details", "pending"])
+        if task_count is None:
+            addon_activity_log.update_activity(result, status=status, reason=reason)
+        else:
+            update_fanout_activity_log(
+                addon_activity_log,
+                result,
+                status=(
+                    status if status is not None else AddonActivityLogStatus.SUCCESS
+                ),
+                reason=reason,
+                task_count=task_count,
+            )
+        addon_activity_log.save(update_fields=["details", "status"])
+
+
+def update_fanout_activity_log(
+    activity_log: AddonActivityLog,
+    result: object | None,
+    *,
+    status: AddonActivityLogStatus,
+    reason: AddonActivityLogReason | None,
+    task_count: int,
+) -> None:
+    """Record one task result and finalize after the entire fan-out completes."""
+    if task_count < 1:
+        msg = "task_count must be positive"
+        raise ValueError(msg)
+
+    details = activity_log.details or {}
+    progress = details.get("task_progress")
+    if not isinstance(progress, dict):
+        progress = {
+            "total": task_count,
+            "completed": 0,
+            "success": 0,
+            "error": 0,
+            "skipped": 0,
+        }
+        details["task_progress"] = progress
+    activity_log.details = details
+    activity_log.update_activity(result)
+
+    status = AddonActivityLogStatus(status)
+    status_key = status.name.lower()
+    progress["total"] = task_count
+    progress["completed"] = int(progress.get("completed", 0)) + 1
+    progress[status_key] = int(progress.get(status_key, 0)) + 1
+    if status == AddonActivityLogStatus.SKIPPED and reason is not None:
+        progress.setdefault("reason", reason.value)
+
+    if progress["completed"] < task_count:
+        activity_log.update_activity(status=AddonActivityLogStatus.PENDING)
+        return
+
+    if progress.get("error"):
+        final_status = AddonActivityLogStatus.ERROR
+    elif progress.get("success"):
+        final_status = AddonActivityLogStatus.SUCCESS
+    elif progress.get("skipped"):
+        final_status = AddonActivityLogStatus.SKIPPED
+    else:
+        final_status = AddonActivityLogStatus.PENDING
+
+    final_reason = None
+    if final_status == AddonActivityLogStatus.SKIPPED:
+        reason_value = progress.get("reason")
+        if isinstance(reason_value, str):
+            with contextlib.suppress(ValueError):
+                final_reason = AddonActivityLogReason(reason_value)
+    activity_log.update_activity(status=final_status, reason=final_reason)
 
 
 @app.task(trail=False)

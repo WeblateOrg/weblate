@@ -178,9 +178,17 @@ class MarkdownMentionTestCase(TestCase):
     def test_mention(self) -> None:
         User.objects.create(username="testuser", full_name="Full Name")
         self.assertEqual(
-            '<p><strong><a rel="ugc" target="_blank" href="/user/testuser/" '
-            'title="Full Name">@testuser</a></strong> really?</p>\n',
+            '<p><strong><bdi><a rel="ugc" target="_blank" href="/user/testuser/" '
+            'title="Full Name">@testuser</a></bdi></strong> really?</p>\n',
             render_markdown("@testuser really?"),
+        )
+
+    def test_mention_rtl(self) -> None:
+        User.objects.create(username="testuser", full_name="Full Name")
+        self.assertEqual(
+            '<p><strong><bdi><a rel="ugc" target="_blank" href="/user/testuser/" '
+            'title="Full Name">@testuser</a></bdi></strong> مرحبا</p>\n',
+            render_markdown("@testuser مرحبا"),
         )
 
     def test_get_mentions(self) -> None:

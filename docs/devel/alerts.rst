@@ -36,6 +36,36 @@ generate alerts for unreachable project websites.
 
 Alerts are listed on each respective component page as
 :guilabel:`Diagnostics`.
+
+.. _diagnostics-overviews:
+
+Project and workspace diagnostics overviews
+-------------------------------------------
+
+Signed-in users can open the :guilabel:`Diagnostics` tab on project and
+workspace pages. The overview is loaded when opened and groups alerts of the
+same type instead of repeating them for every component.
+
+The project overview shows project-wide findings once and lists the components
+affected by component-specific findings:
+
+.. image:: /screenshots/project-diagnostics.webp
+   :alt: Project diagnostics overview with grouped findings and filters
+
+The workspace overview groups project-wide findings by project and identifies
+components using both the project and component name:
+
+.. image:: /screenshots/workspace-diagnostics.webp
+   :alt: Workspace diagnostics overview with grouped findings and filters
+
+Each finding lists up to 20 affected projects or components. Additional
+affected objects are shown as a count. Follow a component link to see the
+complete diagnostic details or dismiss a diagnostic on the component page.
+
+The summary can be filtered by active or dismissed state, severity, category,
+or whether the signed-in user can act on the diagnostic. Components shared into
+a project are listed only in the diagnostics of their owning project.
+
 If it is missing, the component clears all current checks. Problem alerts cannot
 be ignored, but will disappear once the underlying problem has been fixed.
 
@@ -43,6 +73,21 @@ Information and warning alerts are used for guidance on improving community
 localization. These can be dismissed and make the
 :guilabel:`Diagnostics` tab visible, but they do not indicate a
 component problem in listings.
+
+Dismissed diagnostics record who dismissed them, when they were dismissed, and
+an optional reason. A dismissal is automatically reopened when the diagnostic
+details or the configuration relevant to that diagnostic changes. Dismissal
+and reopening are both recorded in the component change history.
+
+Warning and error notifications are sent only to subscribed project
+maintainers who have permission to act on the diagnostic. Informational
+recommendations do not send unsolicited notifications.
+
+Custom alerts can override
+``BaseAlert.get_dismissal_context(component, details)`` to include stable,
+JSON-serializable configuration or diagnostic inputs. Changing the returned
+context reopens a dismissed alert. Incidental values such as evaluation time
+should not be included.
 
 A component with both duplicated strings and languages looks like this:
 

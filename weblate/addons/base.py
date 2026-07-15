@@ -19,7 +19,14 @@ from django.template.defaultfilters import linebreaksbr
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
-from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
+from weblate.addons.events import (
+    POST_CONFIGURE_EVENTS,
+    AddonActivityLogReason,
+    AddonActivityLogStatus,
+    AddonEvent,
+    AddonEventOutcome,
+    AddonEventResult,
+)
 from weblate.trans.actions import ACTIONS_CONTENT
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
@@ -479,19 +486,19 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
     def pre_push(
         self, component: Component, activity_log_id: int | None = None
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler before repository is pushed upstream."""
         # To be implemented in a subclass
 
     def post_push(
         self, component: Component, activity_log_id: int | None = None
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler after repository is pushed upstream."""
         # To be implemented in a subclass
 
     def pre_update(
         self, component: Component, activity_log_id: int | None = None
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler before repository is updated from upstream."""
         # To be implemented in a subclass
 
@@ -503,7 +510,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """
         Event handler after repository is updated from upstream.
 
@@ -516,6 +523,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         :param list[str] changed_files: Files changed by the repository update.
         """
         # To be implemented in a subclass
+        return None
 
     def pre_commit(
         self,
@@ -523,7 +531,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
@@ -532,7 +540,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         component: Component,
         store_hash: bool,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler after add-on is installed."""
         # To be implemented in a subclass
 
@@ -541,25 +549,25 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         component: Component,
         store_hash: bool,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler after changes are committed to the repository."""
         # To be implemented in a subclass
 
     def post_add(
         self, translation: Translation, activity_log_id: int | None = None
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler after new translation is added."""
         # To be implemented in a subclass
 
     def post_remove(
         self, translation: Translation, activity_log_id: int | None = None
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler after a translation is removed."""
         # To be implemented in a subclass
 
     def unit_pre_create(
         self, unit: Unit, activity_log_id: int | None = None
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler before new unit is created."""
         # To be implemented in a subclass
 
@@ -585,7 +593,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         category: Category | None = None,
         project: Project | None = None,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """
         Scope-aware daily entry point.
 
@@ -604,7 +612,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Per-component daily processing. Override this for component-level logic."""
         return None
 
@@ -614,7 +622,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
         category: Category | None = None,
         project: Project | None = None,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """
         Scope-aware manual entry point.
 
@@ -631,41 +639,74 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
     def handle_scoped_component_event(
         self,
-        handler: Callable[[Component, int | None], dict | None],
+        handler: Callable[[Component, int | None], AddonEventResult],
         *,
         component: Component | None = None,
         category: Category | None = None,
         project: Project | None = None,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventResult:
         results: dict[str, dict] = {}
+        outcomes: list[AddonEventOutcome] = []
+        compatible = False
         for comp in self.resolve_components(
             component=component, category=category, project=project
         ):
             if self.can_process(component=comp):
-                result = cast(
-                    "dict | None",
-                    handler(comp, activity_log_id),
-                )
-                if result is not None:
-                    results[comp.full_slug] = result
-        if not results:
-            return None
+                compatible = True
+                result = handler(comp, activity_log_id)
+                if isinstance(result, AddonEventOutcome):
+                    outcomes.append(result)
+                else:
+                    outcomes.append(
+                        AddonEventOutcome(
+                            AddonActivityLogStatus.SUCCESS,
+                            result=result,
+                        )
+                    )
+                    if result is not None:
+                        results[comp.full_slug] = result
+        if not compatible:
+            return AddonEventOutcome.skipped(
+                AddonActivityLogReason.NO_COMPATIBLE_COMPONENTS
+            )
+        selected_outcome = next(
+            outcome
+            for status in (
+                AddonActivityLogStatus.ERROR,
+                AddonActivityLogStatus.PENDING,
+                AddonActivityLogStatus.SUCCESS,
+                AddonActivityLogStatus.SKIPPED,
+            )
+            for outcome in outcomes
+            if outcome.status == status
+        )
+        result: dict | None = None
         if component is not None and len(results) == 1:
-            return next(iter(results.values()))
-        return {"components": results}
+            result = next(iter(results.values()))
+        elif results:
+            result = {"components": results}
+        if selected_outcome.status == AddonActivityLogStatus.SUCCESS:
+            return result
+        if result is None:
+            return selected_outcome
+        return AddonEventOutcome(
+            selected_outcome.status,
+            reason=selected_outcome.reason,
+            result=result,
+        )
 
     def manual_component(
         self,
         component: Component,
         activity_log_id: int | None = None,
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Per-component manual processing."""
         return self.daily_component(component, activity_log_id=activity_log_id)
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler for component update."""
         # To be implemented in a subclass
         return None
@@ -676,7 +717,7 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
     def change_event(
         self, change: Change, activity_log_id: int | None = None
-    ) -> dict | None:
+    ) -> AddonEventResult:
         """Event handler for change event."""
         # To be implemented in a subclass
         return None
@@ -711,6 +752,9 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
 
     def trigger_alerts(self, component: Component) -> None:
         if self.alerts:
+            for alert in self.alerts:
+                alert.setdefault("addon", self.name)
+                alert.setdefault("addon_id", str(self.instance.pk))
             component.add_alert(self.alert, occurrences=self.alerts)
             self.alerts = []
         else:
@@ -912,7 +956,7 @@ class UpdateBaseAddon(BaseAddon):
 
     def update_translations(
         self, component: Component, previous_head: str, changed_files: list[str]
-    ) -> None:
+    ) -> AddonEventOutcome | None:
         raise NotImplementedError
 
     def post_update(
@@ -923,16 +967,22 @@ class UpdateBaseAddon(BaseAddon):
         changed_files: list[str],
         parse_after_update: bool = False,
         activity_log_id: int | None = None,
-    ) -> None:
-        # Ignore file parse error, it will be properly tracked as an alert
+    ) -> AddonEventOutcome | None:
+        # File parse errors are also tracked as component alerts.
+        result = None
         with component.repository.lock:
-            with suppress(FileParseError):
-                self.update_translations(component, previous_head, changed_files)
+            try:
+                result = self.update_translations(
+                    component, previous_head, changed_files
+                )
+            except FileParseError as error:
+                result = AddonEventOutcome.error(result=str(error))
             self.commit_and_push(
                 component,
                 skip_push=skip_push,
                 parse_after_update=parse_after_update,
             )
+        return result
 
 
 class ChangeBaseAddon(BaseAddon):

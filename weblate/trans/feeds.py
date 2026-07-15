@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -20,6 +21,15 @@ from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
+
+
+type FeedObject = Translation | Component | Project | Language | Unit | ProjectLanguage
+
+
+@dataclass(frozen=True)
+class ChangeFeedScope:
+    user: User
+    obj: FeedObject
 
 
 def get_change_feed_guid(change: Change) -> str:
@@ -70,35 +80,49 @@ class ChangesFeed(BaseFeed):
 
 
 class ObjectChangesFeed(BaseFeed):
-    def title(self, obj):
+    def title(self, scope: ChangeFeedScope):
         # Translators: %s is translation name
-        return gettext("Recent changes in %s") % obj
+        return gettext("Recent changes in %s") % scope.obj
 
-    def description(self, obj):
+    def description(self, scope: ChangeFeedScope):
         # Translators: %s is translation name
-        return gettext("All recent changes made using Weblate in %s.") % obj
+        return gettext("All recent changes made using Weblate in %s.") % scope.obj
 
-    def link(self, obj):
-        return obj.get_absolute_url()
+    def link(self, scope: ChangeFeedScope):
+        return scope.obj.get_absolute_url()
 
-    def items(self, obj):
-        return obj.change_set.prefetch().recent()
+    def items(self, scope: ChangeFeedScope):
+        obj = scope.obj
+        if isinstance(obj, Translation):
+            changes = Change.objects.last_changes(scope.user, translation=obj)
+            return changes.recent(skip_preload="translation")
+        if isinstance(obj, Component):
+            changes = Change.objects.last_changes(scope.user, component=obj)
+        elif isinstance(obj, Project):
+            changes = Change.objects.last_changes(scope.user, project=obj)
+        elif isinstance(obj, Language):
+            changes = Change.objects.last_changes(scope.user, language=obj)
+        elif isinstance(obj, Unit):
+            changes = Change.objects.last_changes(scope.user, unit=obj)
+        else:
+            changes = Change.objects.last_changes(
+                scope.user, project=obj.project, language=obj.language
+            )
+        return changes.recent()
 
 
 class TranslationChangesFeed(ObjectChangesFeed):
     """RSS feed for changes in translation."""
 
-    def items(self, obj):
-        if not isinstance(obj, Translation):
-            return super().items(obj)
-        return obj.change_set.prefetch().recent(skip_preload="translation")
-
     # pylint: disable-next=arguments-differ
     def get_object(self, request: AuthenticatedHttpRequest, path):
-        return parse_path(
-            request,
-            path,
-            (Translation, Component, Project, Language, Unit, ProjectLanguage),
+        return ChangeFeedScope(
+            request.user,
+            parse_path(
+                request,
+                path,
+                (Translation, Component, Project, Language, Unit, ProjectLanguage),
+            ),
         )
 
 
@@ -107,4 +131,4 @@ class LanguageChangesFeed(ObjectChangesFeed):
 
     # pylint: disable-next=arguments-differ
     def get_object(self, request: AuthenticatedHttpRequest, lang):
-        return get_object_or_404(Language, code=lang)
+        return ChangeFeedScope(request.user, get_object_or_404(Language, code=lang))

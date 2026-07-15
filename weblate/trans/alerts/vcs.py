@@ -31,6 +31,34 @@ if TYPE_CHECKING:
     from weblate.trans.models.component import Component
 
 
+class RepositoryAlert(BaseAlert):
+    category = AlertCategory.VCS
+    repository_permissions: tuple[str, ...] = ()
+
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or any(
+            user.has_perm(permission, component)
+            for permission in cls.repository_permissions
+        )
+
+
+class RepositoryErrorAlert(ErrorAlert):
+    category = AlertCategory.VCS
+    repository_permissions: tuple[str, ...] = ()
+
+    @classmethod
+    def can_user_act_for(
+        cls, user: User, component: Component, details: dict[str, Any]
+    ) -> bool:
+        return super().can_user_act_for(user, component, details) or any(
+            user.has_perm(permission, component)
+            for permission in cls.repository_permissions
+        )
+
+
 @register
 class InexactHookMatch(BaseAlert):
     # Translators: Name of an alert
@@ -40,6 +68,10 @@ class InexactHookMatch(BaseAlert):
     dismissible = True
     doc_page = "admin/continuous"
     doc_anchor = "update-vcs"
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {"details": details, "repo": component.repo}
 
     def __init__(
         self,
@@ -128,26 +160,28 @@ class ConflictingRepositorySetup(BaseAlert):
 
 
 @register
-class MergeFailure(ErrorAlert):
+class MergeFailure(RepositoryErrorAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not merge the repository.")
     category = AlertCategory.VCS
     link_wide = True
     doc_page = "faq"
     doc_anchor = "merge"
+    repository_permissions = ("vcs.update", "vcs.reset")
 
 
 @register
-class RepositoryOperationFailure(ErrorAlert):
+class RepositoryOperationFailure(RepositoryErrorAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not recover the repository.")
     category = AlertCategory.VCS
     link_wide = True
     doc_page = "admin/projects"
     doc_anchor = "component-repo"
+    repository_permissions = ("vcs.reset",)
 
 
-class BaseGitFailure(ErrorAlert):
+class BaseGitFailure(RepositoryErrorAlert):
     category = AlertCategory.VCS
     link_wide = True
     behind_messages = (
@@ -232,6 +266,7 @@ class BaseGitFailure(ErrorAlert):
 class PushFailure(BaseGitFailure):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not push the repository.")
+    repository_permissions = ("vcs.push", "vcs.reset")
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
@@ -247,20 +282,36 @@ class UpdateFailure(BaseGitFailure):
     link_wide = True
     doc_page = "admin/projects"
     doc_anchor = "component-repo"
+    repository_permissions = ("vcs.update", "vcs.reset")
 
 
 @register
-class RepositoryOutdated(BaseAlert):
+class RepositoryOutdated(RepositoryAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Repository outdated.")
     category = AlertCategory.VCS
     link_wide = True
+    doc_page = "admin/continuous"
+    doc_anchor = "update-vcs"
+    repository_permissions = ("vcs.update", "vcs.reset")
 
 
 @register
-class RepositoryChanges(BaseAlert):
+class RepositoryChanges(RepositoryAlert):
     # Translators: Name of an alert
     verbose = gettext_lazy("Repository has changes.")
     category = AlertCategory.VCS
     link_wide = True
     dismissible = True
+    doc_page = "admin/continuous"
+    doc_anchor = "push-changes"
+    repository_permissions = ("vcs.push", "vcs.reset")
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {
+            "details": details,
+            "branch": component.branch,
+            "local_revision": component.local_revision,
+            "repo": component.repo,
+        }

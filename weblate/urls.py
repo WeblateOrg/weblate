@@ -10,6 +10,7 @@ import django.views.static
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.decorators import login_not_required
+from django.shortcuts import redirect
 from django.urls import include, path, re_path
 from django.utils.module_loading import import_string
 from django.views.decorators.cache import cache_control, cache_page
@@ -71,6 +72,12 @@ handler400 = weblate.trans.views.error.bad_request
 handler403 = weblate.trans.views.error.denied
 handler404 = weblate.trans.views.error.not_found
 handler500 = weblate.trans.views.error.server_error
+
+
+def redirect_static(_request, filename: str, **kwargs):
+    stable_url = f"{settings.STATIC_URL.rstrip('/')}/{filename % kwargs}"
+    return redirect(stable_url, permanent=True)
+
 
 widget_pattern = "<word:widget>-<word:color>.<extension:extension>"
 
@@ -196,6 +203,16 @@ real_patterns = [
     path("counts/", weblate.trans.views.reports.get_counts, name="counts"),
     path("costs/", weblate.trans.views.reports.get_costs, name="costs"),
     path(
+        "translator-work/",
+        weblate.trans.views.reports.get_translator_work,
+        name="translator-work",
+    ),
+    path(
+        "reports/<int:pk>/",
+        weblate.trans.views.reports.report_detail,
+        name="report",
+    ),
+    path(
         "credits/<object_path:path>/",
         weblate.trans.views.reports.get_credits,
         name="credits",
@@ -209,6 +226,11 @@ real_patterns = [
         "costs/<object_path:path>/",
         weblate.trans.views.reports.get_costs,
         name="costs",
+    ),
+    path(
+        "translator-work/<object_path:path>/",
+        weblate.trans.views.reports.get_translator_work,
+        name="translator-work",
     ),
     path(
         "new-lang/<object_path:path>/",
@@ -858,6 +880,11 @@ real_patterns = [
         name="git_status",
     ),
     path(
+        "js/diagnostics/<object_path:path>/",
+        weblate.trans.views.js.diagnostics,
+        name="js-diagnostics",
+    ),
+    path(
         "js/zen/<object_path:path>/",
         weblate.trans.views.edit.load_zen,
         name="load_zen",
@@ -1020,24 +1047,18 @@ real_patterns = [
     # Aliases for static files
     re_path(
         r"^(android-chrome|favicon)-(?P<size>192|512)x(?P=size)\.png$",
-        RedirectView.as_view(
-            url=f"{settings.STATIC_URL}weblate-%(size)s.png",
-            permanent=True,
-        ),
+        redirect_static,
+        {"filename": "weblate-%(size)s.png"},
     ),
     path(
         "apple-touch-icon.png",
-        RedirectView.as_view(
-            url=f"{settings.STATIC_URL}weblate-180.png",
-            permanent=True,
-        ),
+        redirect_static,
+        {"filename": "weblate-180.png"},
     ),
     path(
         "favicon.ico",
-        RedirectView.as_view(
-            url=f"{settings.STATIC_URL}favicon.ico",
-            permanent=True,
-        ),
+        redirect_static,
+        {"filename": "favicon.ico"},
     ),
     path(
         "robots.txt",
