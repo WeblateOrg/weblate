@@ -78,6 +78,9 @@ from weblate.machinery.llm import (
     LLM_NEUTRAL_PREVIOUS_EXAMPLE_SOURCES,
     PROMPT,
 )
+from weblate.machinery.management.commands.list_machinery import (
+    Command as ListMachineryCommand,
+)
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.mistral import MistralTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
@@ -8683,6 +8686,22 @@ class MachineryValidationTest(TestCase):
             machine.check_failure(response)
 
         self.assertIn("Allowlisted provider error.", str(raised.exception))
+
+
+class ListMachineryCommandTest(SimpleTestCase):
+    def test_list_machinery_empty_choice(self) -> None:
+        field = Mock(
+            help_text="",
+            choices=(("", "Default"), ("FORMAL", "Formal")),
+        )
+
+        result = ListMachineryCommand.get_help_text(field)
+
+        self.assertEqual(
+            result,
+            "Available choices:\n\n*empty value* -- Default\n\n``FORMAL`` -- Formal",
+        )
+        self.assertNotIn("````", result)
 
 
 class CommandTest(FixtureComponentTestCase):

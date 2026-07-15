@@ -23,8 +23,10 @@ class Command(DocGeneratorCommand):
                 result.append("")
             result.append("Available choices:")
             for value, description in choices:
+                value_text = str(value)
+                formatted_value = f"``{value_text}``" if value_text else "*empty value*"
                 result.extend(
-                    ("", f"``{value}`` -- {description}".replace("\\", "\\\\"))
+                    ("", f"{formatted_value} -- {description}".replace("\\", "\\\\"))
                 )
         return "\n".join(result)
 
