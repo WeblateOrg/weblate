@@ -4,17 +4,13 @@
 
 from unittest import TestCase
 
-from django.http import HttpRequest
+from django.test import RequestFactory
 
 from weblate.utils.views import get_page_limit
 
 
 def fake_request(page, limit):
-    request = HttpRequest()
-    request.GET = request.GET.copy()
-    request.GET["page"] = page
-    request.GET["limit"] = limit
-    return request
+    return RequestFactory().get("/", {"page": page, "limit": limit})
 
 
 class PageLimitTest(TestCase):
