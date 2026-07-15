@@ -35,7 +35,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-09 03:19+0000\n"
-"PO-Revision-Date: 2026-07-14 19:13+0000\n"
+"PO-Revision-Date: 2026-07-15 18:19+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -4733,6 +4733,14 @@ msgid ""
 "App configuration is required. GitHub delivers the ``Installation`` and "
 "``Installation repositories`` events to all GitHub Apps by default."
 msgstr ""
+"El manifiesto solicita los permisos y las suscripciones a eventos que "
+"Weblate necesita (lectura/escritura en ``Contents`` y ``Pull requests``, "
+"solo lectura en ``Metadata``, ``Organization administration``, lectura/"
+"escritura en ``Workflows``, y los eventos ``Installation``, ``Meta`` y "
+"``Push``), y conjuntos de callback, configuración y ganchos web por "
+"integración de las URL automáticamente, tal que no es requerida ninguna "
+"configuración manual en GitHub App. GitHub entrega eventos ``Instalación`` y "
+"``Repositorios de instalación`` a todas las Apps de GitHub por defecto."
 
 #: admin/code-hosting.rst:308
 msgid ""
@@ -6904,6 +6912,9 @@ msgid ""
 "Template used to generate e-mail addresses for internal Weblate bot "
 "accounts. Defaults to ``\"noreply-{scope}-{name}@weblate.org\"``."
 msgstr ""
+"Plantilla utilizada para generar direcciones de correo-e para robot de "
+"cuentas Weblate internas. Por defecto a ``\"noreply-{scope-{name}"
+"@weblate.org\"``."
 
 #: admin/config.rst:1263
 #, fuzzy
@@ -6922,12 +6933,17 @@ msgid ""
 "Use ``{scope}`` and ``{name}`` when generating the e-mail local part. The "
 "``{username}`` value contains the internal ``scope:name`` username."
 msgstr ""
+"Emplee ``{scope}`` y ``{name}`` cuando genere la parte local de correo-e. El "
+"valor de usuario ``{username}`` contiene el nombre de usuario ``scope:name`` "
+"interno."
 
 #: admin/config.rst:1269
 msgid ""
 "Existing internal bot accounts are updated when :wladmin:`migrate` is run. "
 "Project API token accounts are not affected."
 msgstr ""
+"Las cuentas de robot internas existentes son actualizadas cuando sea "
+"ejecutado :wladmin:`migrate`. El vale del API del proyecto no es afectado."
 
 #: admin/config.rst:1277
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -16581,7 +16597,7 @@ msgstr ""
 #: admin/licensing.rst:20 admin/projects.rst:184 admin/projects.rst:888
 #: admin/workspaces.rst:92
 msgid "Contributor license agreement"
-msgstr "Acuerdo de licencia del contribuidor"
+msgstr "Acuerdo de licencia del colaborador"
 
 #: admin/licensing.rst:22
 msgid ""
@@ -19924,19 +19940,30 @@ msgstr ""
 "idiomas. Esto proporciona :ref:`source-quality-gateway`."
 
 #: admin/projects.rst:713
+#, fuzzy
 msgid ""
 "The intermediate file can match an existing language file. While it is "
 "configured as intermediate, Weblate does not list it as a regular language "
 "in the component language list. Clearing this setting makes the file appear "
 "as a regular language again on the next component scan."
 msgstr ""
+"El archivo intermedio puede coincidir con un archivo de idioma existente. "
+"Mientras esté configurado como intermedio, Weblate no lo mostrará como un "
+"idioma regular en la lista de idiomas del componente. Al borrar esta "
+"configuración, el archivo volverá a aparecer como un idioma regular en el "
+"siguiente análisis del componente."
 
 #: admin/projects.rst:718
+#, fuzzy
 msgid ""
 "Target strings can become read-only while the intermediate file is "
 "configured. This happens for strings where the matching source string in "
 "the :ref:`component-template` is not translated yet."
 msgstr ""
+"Las cadenas de destino pueden volverse de solo lectura mientras se configura "
+"el archivo intermedio. Esto sucede con las cadenas cuya cadena de origen "
+"correspondiente en la plantilla de componente (:ref:`component-template`) "
+"aún no se ha traducido."
 
 #: admin/projects.rst:731 devel/gettext.rst:235 formats/android.rst:82
 #: formats/apple.rst:36 formats/appstore.rst:35 formats/arb.rst:38
@@ -20181,8 +20208,8 @@ msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Acuerdo de licencia del usuario el cual necesita ser aprobado antes que un "
-"usuario pueda traducir este componente."
+"Acuerdo de licencia del colaborador el cual necesita ser aprobado antes que "
+"un usuario pueda traducir este componente."
 
 #: admin/projects.rst:893
 msgid "Markdown can be used for text formatting or inserting links."
@@ -23016,10 +23043,13 @@ msgid "New features"
 msgstr "Características nuevas"
 
 #: changes.rst:8
+#, fuzzy
 msgid ""
 "Added :setting:`INTERNAL_BOT_EMAIL_TEMPLATE` to customize internal bot e-"
 "mail addresses."
 msgstr ""
+"Se agregó :setting:`INTERNAL_BOT_EMAIL_TEMPLATE` para personalizar las "
+"direcciones de correo electrónico internas del bot."
 
 #: changes.rst:11 changes.rst:72 changes.rst:182 changes.rst:239
 #: changes/v5.rst:18 changes/v5.rst:104 changes/v5.rst:208 changes/v5.rst:243
@@ -23046,16 +23076,23 @@ msgid "Restricted components now show a status icon in component listings."
 msgstr "Asociar un componente con un listado del componente."
 
 #: changes.rst:13
+#, fuzzy
 msgid ""
 "Permission checks now reuse materialized team membership data from "
 "lightweight relation lookups."
 msgstr ""
+"Las comprobaciones de permisos ahora reutilizan los datos materializados de "
+"pertenencia a equipos procedentes de búsquedas de relaciones ligeras."
 
 #: changes.rst:14
+#, fuzzy
 msgid ""
 "Documented that intermediate language files are hidden from language "
 "listings and can make target strings read-only."
 msgstr ""
+"Se ha documentado que los archivos de idioma intermedios se ocultan de las "
+"listas de idiomas y pueden hacer que las cadenas de destino sean de solo "
+"lectura."
 
 #: changes.rst:15
 msgid ""
@@ -23104,12 +23141,16 @@ msgid ""
 "Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-"
 "hosting`."
 msgstr ""
+"Se ha aclarado la guía de acceso al repositorio Hosted Weblate en :doc:`/"
+"admin/code-hosting`."
 
 #: changes.rst:21
 msgid ""
 ":ref:`search-strings` now includes filters for comments by the current user "
 "and separate source string comment lookups."
 msgstr ""
+":ref:`search-strings` ahora incluye filtros para comentarios del usuario "
+"actual y búsquedas de comentarios de cadena de origen separadas."
 
 #: changes.rst:22
 msgid ""
@@ -59020,7 +59061,7 @@ msgstr "Fallo en la inserción del repositorio"
 
 #: snippets/addon-parameters-autogenerated.rst:325
 msgid "Suggestion removed during cleanup"
-msgstr "Sugerencia borrada durante la limpieza"
+msgstr "Sugerencia retirada durante el purgado"
 
 #: snippets/addon-parameters-autogenerated.rst:328
 msgid "Source string changed"
@@ -59092,7 +59133,7 @@ msgstr "Idioma agregado"
 
 #: snippets/addon-parameters-autogenerated.rst:379
 msgid "Language requested"
-msgstr "Idioma requerido"
+msgstr "Se ha solicitado idioma"
 
 #: snippets/addon-parameters-autogenerated.rst:382
 msgid "Project created"
@@ -59120,7 +59161,7 @@ msgstr "Licencia cambiada"
 
 #: snippets/addon-parameters-autogenerated.rst:400
 msgid "Contributor license agreement changed"
-msgstr "Ha cambiado el acuerdo de licencia del contribuidor"
+msgstr "Ha cambiado el acuerdo de licencia del colaborador"
 
 #: snippets/addon-parameters-autogenerated.rst:403
 msgid "Screenshot added"
@@ -59128,7 +59169,7 @@ msgstr "Captura agregada"
 
 #: snippets/addon-parameters-autogenerated.rst:406
 msgid "Screenshot uploaded"
-msgstr "Captura de pantalla cargada"
+msgstr "Captura de pantalla subida"
 
 #: snippets/addon-parameters-autogenerated.rst:409
 msgid "String updated in the repository"
@@ -60599,7 +60640,7 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:982
 msgid "Contributors in comment"
-msgstr "Colaboradores en comentarios"
+msgstr "Colaboradores en comentario"
 
 #: snippets/addons-autogenerated.rst:988
 msgid ""
@@ -62528,10 +62569,9 @@ msgid "Summary"
 msgstr "Resumen"
 
 #: snippets/checks-autogenerated.rst:17
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon."
 msgid "Source and translation contain inconsistent accelerator keys."
-msgstr "El original o la traducción no acaba con dos puntos."
+msgstr ""
+"El original y la traducción contienen teclas de aceleración inconsistentes."
 
 #: snippets/checks-autogenerated.rst:18 snippets/checks-autogenerated.rst:56
 #: snippets/checks-autogenerated.rst:84 snippets/checks-autogenerated.rst:111
