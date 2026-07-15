@@ -37,7 +37,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-14 19:12+0000\n"
+"PO-Revision-Date: 2026-07-15 18:21+0000\n"
 "Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -1152,12 +1152,12 @@ msgstr "Resumen de la actividad de la traducción"
 #: weblate/accounts/notifications.py:924
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "El contribuyente hizo su primera traducción"
+msgstr "El colaborador hizo su primera traducción"
 
 #: weblate/accounts/notifications.py:927
 msgctxt "Notification name"
 msgid "Contributors made their first translation"
-msgstr "Los contribuyentes han hecho su primera traducción"
+msgstr "Los colaboradores han hecho su primera traducción"
 
 #: weblate/accounts/notifications.py:936
 msgctxt "Notification name"
@@ -2989,7 +2989,7 @@ msgstr ""
 
 #: weblate/addons/gettext.py:2008
 msgid "Contributors in comment"
-msgstr "Colaboradores en comentarios"
+msgstr "Colaboradores en comentario"
 
 #: weblate/addons/gettext.py:2010
 msgid ""
@@ -4397,22 +4397,16 @@ msgid "You do not have permission to edit glossary entries."
 msgstr "No tienes permiso para editar apuntes de glosario."
 
 #: weblate/auth/permissions.py:208
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to add glossary entries."
-msgstr "No tienes permiso para aprobar cadenas."
+msgstr "No tienes permiso para añadir apuntes al glosario."
 
 #: weblate/auth/permissions.py:210
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to delete glossary entries."
-msgstr "No tienes permiso para aprobar cadenas."
+msgstr "No tienes permiso para borrar apuntes de glosario."
 
 #: weblate/auth/permissions.py:212
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to upload glossary entries."
-msgstr "No tienes permiso para aprobar cadenas."
+msgstr "No tienes permiso para subir apuntes del glosario."
 
 #: weblate/auth/permissions.py:372
 msgid "Can not perform this operation without an e-mail address."
@@ -4438,45 +4432,36 @@ msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "license agreement."
 msgstr ""
-"Para contribuir a esta traducción es necesario aceptar su acuerdo de "
-"licencia de contribuidor."
+"Para colaborar en esta traducción es necesario aceptar tu acuerdo de "
+"licencia del colaborador."
 
 #: weblate/auth/permissions.py:414
 msgid "Sign in to save translations."
 msgstr "Inicia sesión para guardar las traducciones."
 
 #: weblate/auth/permissions.py:419
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to approve translations in this restricted "
 "component."
-msgstr "No tiene autorización para acceder a este componente."
+msgstr "No tiene permiso para aprobar traslados en este componente restringido."
 
 #: weblate/auth/permissions.py:424
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to save translations in this restricted component."
-msgstr "No tiene autorización para acceder a este componente."
+msgstr ""
+"No tiene permiso para guardar traducciones en este componente restringido."
 
 #: weblate/auth/permissions.py:429
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to approve translations."
-msgstr "No tienes permiso para aprobar cadenas."
+msgstr "No tiene permiso para aprobar traducciones."
 
 #: weblate/auth/permissions.py:434
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations in this project."
-msgstr "No tiene permisos para añadir un nuevo archivo de traducción."
+msgstr "No tiene permiso para guardar traducciones en este proyecto."
 
 #: weblate/auth/permissions.py:443 weblate/auth/permissions.py:922
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to edit source strings."
-msgstr "No tienes permiso para aprobar cadenas."
+msgstr "No tienes permiso para editar cadenas origen."
 
 #: weblate/auth/permissions.py:447
 msgid "Suggestion voting is disabled."
@@ -4487,6 +4472,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"Esta traducción está configurada para sugerencias de voto. Añada una "
+"sugerencia en lugar de guardar una traducción directa."
 
 #: weblate/auth/permissions.py:463
 #: weblate/templates/snippets/project/state.html:4
@@ -4566,18 +4553,20 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Cree el componente y concédase acceso explícito antes de habilitar acceso "
+"restringido."
 
 #: weblate/auth/permissions.py:1106
-#, fuzzy
-#| msgid "This billing plan covers the following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "Este plan de facturación abarca los siguientes proyectos:"
+msgstr "Este plan de facturación no concede control de acceso privado."
 
 #: weblate/auth/permissions.py:1114
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"Necesita acceso explícito a este componente antes de habilitar acceso "
+"restringido; en otro caso, se bloquearía y expulsaría a sí mismo."
 
 #: weblate/auth/utils.py:100
 msgid "The anonymous user can not be assigned to teams."
@@ -4619,15 +4608,15 @@ msgid "Billing plan"
 msgstr "Plan de facturación"
 
 #: weblate/billing/forms.py:50
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "Comenzó el período de prueba."
+msgstr "Restablezca periodo de triaje"
 
 #: weblate/billing/forms.py:53
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"Establece este cargo al periodo de triaje regular y vacía retiradas "
+"planificadas."
 
 #: weblate/billing/models.py:236 weblate/templates/billing/list.html:6
 #: weblate/templates/trans/component_create.html:203
@@ -4804,10 +4793,8 @@ msgid "Billing event"
 msgstr "Suceso de facturación"
 
 #: weblate/billing/models.py:1236
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
-msgstr "El correo electrónico se cambió de {old} a {new}."
+msgstr "Modificado desde \"{}\" a \"{}\"."
 
 #: weblate/billing/tasks.py:97
 msgid ""
@@ -4858,10 +4845,9 @@ msgid "Accelerator key"
 msgstr "Tecla acelerador"
 
 #: weblate/checks/chars.py:79
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon."
 msgid "Source and translation contain inconsistent accelerator keys."
-msgstr "El original o la traducción no acaba con dos puntos."
+msgstr ""
+"El original y la traducción contienen teclas de aceleración inconsistentes."
 
 #: weblate/checks/chars.py:128
 msgid "Starting newline"
@@ -5023,12 +5009,10 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Falta un espacio indivisible antes del signo de puntuación doble."
 
 #: weblate/checks/chars.py:680
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign."
 msgid "Missing non breakable space before punctuation mark {}."
 msgid_plural "Missing non breakable space before punctuation marks {}."
-msgstr[0] "Falta un espacio indivisible antes del signo de puntuación doble."
-msgstr[1] "Falta un espacio indivisible antes del signo de puntuación doble."
+msgstr[0] "Falta un espacio indivisible antes del signo de puntuación {}."
+msgstr[1] "Falta un espacio indivisible antes de los signos de puntuación {}."
 
 #: weblate/checks/chars.py:730
 msgid "Multiple capitals"
@@ -7381,10 +7365,8 @@ msgstr ""
 "lugar del general."
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "Introduzca un código válido del idioma."
+msgstr "Introduzca un nombre de región de Azure válido."
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7729,28 +7711,19 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:709
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (Recomendado)"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:713
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:717
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:719
 msgctxt "Anthropic model selection"
@@ -7867,52 +7840,39 @@ msgstr "Proyecto"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:123
 #: weblate/memory/models.py:1250
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory scope"
 msgid "Workspace"
 msgstr "Espacio de trabajo"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:127
 #: weblate/memory/models.py:1251
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory scope"
 msgid "Shared"
-msgstr "Compartir"
+msgstr "Compartido"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1252
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "Personal: {}"
+msgstr "Personal"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1253
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Archivo"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:140
 #: weblate/memory/models.py:1254
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "Nombre del proyecto"
+msgstr "Archivo del proyecto"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:146
 #: weblate/memory/models.py:1255
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "Información personal"
+msgstr "Archivo personal"
 
 #: weblate/memory/models.py:539
 #, python-format
@@ -7984,17 +7944,13 @@ msgid "File: {}"
 msgstr "Archivo: {}"
 
 #: weblate/memory/models.py:1033 weblate/memory/models.py:1061
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory category"
 msgid "Workspace: {}"
-msgstr "Espacio de trabajo"
+msgstr "Espacio de trabajo: {}"
 
 #: weblate/memory/views.py:88
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Introduzca un código válido del idioma."
+msgstr "Identificador de idioma no válido."
 
 #: weblate/memory/views.py:126
 msgid "Entries were deleted."
@@ -8818,12 +8774,11 @@ msgid "Your trial"
 msgstr "Su prueba"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "Tendrá 14 días para configurar su proyecto."
-msgstr[1] "Tendrá 14 días para configurar su proyecto."
+msgstr[0] "Tendrá %(days)s día para configurar su proyecto."
+msgstr[1] "Tendrá %(days)s días para configurar su proyecto."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -9042,24 +8997,18 @@ msgstr "Añadir una nueva identidad al usuario"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/templates/workspace.html:58 weblate/wladmin/views.py:128
-#, fuzzy
-#| msgid "code-hosting installations"
 msgid "Code-hosting connections"
-msgstr "Instalaciones code-hosting"
+msgstr "Conexiones code-hosting"
 
 #: weblate/templates/accounts/profile.html:264
-#, fuzzy
-#| msgid "Manage code hosting accounts connected to workspaces you administer."
 msgid "Manage code-hosting accounts connected to workspaces you administer."
 msgstr ""
-"Gestiona código hospedando cuentas conectadas a espacios de trabajo que "
+"Gestiona cuentas de código hospedando conectadas a espacios de trabajo que "
 "administras."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "pending code-hosting installations"
 msgid "Manage code-hosting connections"
-msgstr "instalaciones de alojamiento de código pendientes"
+msgstr "Gestiona conexiones de alojamiento de código"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:425
@@ -9312,7 +9261,7 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:647
 msgid "You have agreed to the following as a contributor:"
-msgstr "Ha aceptado lo siguiente como contribuidor:"
+msgstr "Ha aceptado lo siguiente como colaborador:"
 
 #: weblate/templates/accounts/profile.html:673
 msgid "Licenses for individual translations"
@@ -9592,12 +9541,11 @@ msgid "Your trial offer"
 msgstr "Su oferta de prueba"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "El período de prueba dura 14 días."
-msgstr[1] "El período de prueba dura 14 días."
+msgstr[0] "El período de prueba dura %(days)s día."
+msgstr[1] "El período de prueba dura %(days)s días."
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -10822,30 +10770,24 @@ msgid "Terminate recurring payment"
 msgstr "Cancelar el pago periódico"
 
 #: weblate/templates/billing/detail-content.html:44
-#, fuzzy
-#| msgid "Open in Zen mode"
 msgid "Open in Django admin"
-msgstr "Abrir en modo Zen"
+msgstr "Abrir en admin de Django"
 
 #: weblate/templates/billing/detail-content.html:51
 msgid "Terminate billing plan"
 msgstr "Finalizar plan de pago"
 
 #: weblate/templates/billing/detail-content.html:62
-#, fuzzy
-#| msgid "Manage billing"
 msgid "Merge billing"
-msgstr "Gestionar facturación"
+msgstr "Unir facturación"
 
 #: weblate/templates/billing/detail-content.html:66
 msgid "Review merge"
 msgstr "Revisión de fusión"
 
 #: weblate/templates/billing/detail-content.html:74
-#, fuzzy
-#| msgid "Change plan"
 msgid "Change billing plan"
-msgstr "Cambiar de plan"
+msgstr "Cambiar plan de factura"
 
 #: weblate/templates/billing/detail-content.html:81
 #: weblate/templates/billing/status.html:13
@@ -11314,7 +11256,7 @@ msgid ""
 "will list only your contributions."
 msgstr ""
 "No tiene permitido ver los informes de todos los usuarios; informes de "
-"contribuidor enumerará solo sus contribuciones."
+"colaborador enumerará solo sus colaboraciones."
 
 #: weblate/templates/category.html:364 weblate/templates/component.html:491
 #: weblate/templates/dashboard/user.html:151 weblate/templates/project.html:456
@@ -11551,11 +11493,11 @@ msgstr ""
 #: weblate/trans/models/category.py:136 weblate/trans/models/component.py:818
 #: weblate/trans/models/project.py:399 weblate/workspaces/models.py:114
 msgid "Contributor license agreement"
-msgstr "Acuerdo de licencia del contribuidor"
+msgstr "Acuerdo de licencia del colaborador"
 
 #: weblate/templates/contributor-agreement.html:22
 msgid "Please read the following contributor license agreement:"
-msgstr "Rogamos que lea el siguiente acuerdo de licencia del contribuidor:"
+msgstr "Rogamos que lea el siguiente acuerdo de licencia del colaborador:"
 
 #: weblate/templates/contributor-agreement.html:31
 msgid "You have already agreed to this agreement."
@@ -11674,15 +11616,11 @@ msgid "You pull changes from a remote repository to Weblate like this:"
 msgstr "Incorpore cambios de un repositorio remoto a Weblate de esta manera:"
 
 #: weblate/templates/data.html:148
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid ""
 "Weblate also supports direct notifications from several code-hosting sites:"
 msgstr ""
-"Weblate también es compatible con notificaciones directas de varios sitios "
-"de almacenamiento de código:"
+"Weblate también admite notificaciones directas de varios sitios de hospedaje "
+"de código:"
 
 #: weblate/templates/data.html:154
 msgid "Hosting site"
@@ -12225,28 +12163,24 @@ msgstr ""
 "automáticamente."
 
 #: weblate/templates/js/git-status.html:261
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Remove obsolete"
-msgstr "Quitar cadenas obsoletas"
+msgstr "Quitar obsoletas"
 
 #: weblate/templates/js/git-status.html:262
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Remove obsolete strings from the translation file"
-msgstr "Retira cadenas no utilizadas desde el archivo de traducción"
+msgstr "Quita cadenas obsoletas desde el archivo de traducción"
 
 #: weblate/templates/js/git-status.html:264
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Removes obsolete strings from PO files."
-msgstr "Quitar cadenas obsoletas"
+msgstr "Quitar cadenas obsoletas desde los archivos PO."
 
 #: weblate/templates/js/git-status.html:265
 msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"Utilizar cuando los apuntes obsoletos serían purgados sin habilitar retirada "
+"automática al guardar."
 
 #: weblate/templates/js/git-status.html:271
 msgid "Use these operations with caution, they rewrite the translation file."
@@ -12804,7 +12738,7 @@ msgstr "Traducción nueva en %(translation)s"
 msgid "Contributor license agreement for component %(component)s was changed."
 msgstr ""
 "Se ha cambiado %(component)s componente del acuerdo de licencia para el "
-"contribuidor."
+"colaborador."
 
 #: weblate/templates/mail/component_license.html:13
 msgid "Old agreement:"
@@ -12812,7 +12746,7 @@ msgstr "Acuerdo anterior:"
 
 #: weblate/templates/mail/component_license.html:16
 msgid "There was no contributor license agreement before."
-msgstr "No hubo ningún acuerdo de licencia del contribuidor anterior."
+msgstr "No hubo ningún acuerdo de licencia del colaborador anterior."
 
 #: weblate/templates/mail/component_license.html:19
 msgid "New agreement:"
@@ -12820,7 +12754,7 @@ msgstr "Acuerdo nuevo:"
 
 #: weblate/templates/mail/component_license.html:22
 msgid "Contributor license agreement was removed."
-msgstr "El acuerdo de licencia de contribuidor ha sido retirado."
+msgstr "El acuerdo de licencia de colaborador ha sido retirado."
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/component_license_subject.txt:6
@@ -12832,7 +12766,7 @@ msgstr "La licencia de %(component)s cambió a la %(target)s"
 #: weblate/templates/mail/component_license_subject.txt:9
 #, python-format
 msgid "Contributor license agreement for %(component)s was changed"
-msgstr "Ha cambiado el acuerdo de licencia del contribuidor para %(component)s"
+msgstr "Ha cambiado el acuerdo de licencia del colaborador para %(component)s"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/component_lock_subject.txt:6
@@ -12938,7 +12872,7 @@ msgstr "%(username)s acaba de realizar su primera contribución."
 #: weblate/templates/mail/new_contributor_subject.txt:4
 #, python-format
 msgid "New contributor in %(translation)s"
-msgstr "Contribuidor nuevo en %(translation)s"
+msgstr "Colaborador nuevo en %(translation)s"
 
 #: weblate/templates/mail/new_language.html:8
 msgid "Added language"
@@ -13392,10 +13326,8 @@ msgid "Manage support package"
 msgstr "Gestionar paquete de asistencia"
 
 #: weblate/templates/manage/index.html:78
-#, fuzzy
-#| msgid "Unlink support package"
 msgid "Unlink support package and disable Discover Weblate"
-msgstr "Desenlaza paquete mantenido"
+msgstr "Desenlaza paquete mantenido y deshabilita Discover Weblate"
 
 #: weblate/templates/manage/index.html:80
 msgid "Unlink support package"
@@ -13423,12 +13355,16 @@ msgid ""
 "Discover Weblate helps translators find Weblate sites and projects to "
 "contribute to."
 msgstr ""
+"Descubre traducciones de ayudas de Weblate que se encuentren en sitios "
+"Weblate y proyectos para contribuir."
 
 #: weblate/templates/manage/index.html:119
 msgid ""
 "When enabled, weblate.org lists your site details and public or protected "
 "projects."
 msgstr ""
+"Cuando habilite, weblate.org enumera sus detalles del sitio y proyectos "
+"públicos o protegidos."
 
 #: weblate/templates/manage/index.html:123
 msgid "Your Weblate is listed on weblate.org"
@@ -13451,10 +13387,8 @@ msgid "Manage your listing"
 msgstr "Gestionar su mención"
 
 #: weblate/templates/manage/index.html:150
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Enable Discover Weblate"
-msgstr "Descubrir Weblate"
+msgstr "Habilita Discover Weblate"
 
 #: weblate/templates/manage/index.html:153
 msgid "Browse discovery"
@@ -13492,76 +13426,56 @@ msgid "Celery queues"
 msgstr "Colas de Celery"
 
 #: weblate/templates/manage/performance.html:131
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory migration"
-msgstr "Estado de la memoria de traducción"
+msgstr "Migración de memora de traducción"
 
 #: weblate/templates/manage/performance.html:137
 msgid "Scope backfill"
-msgstr ""
+msgstr "Relleno de alcance"
 
 #: weblate/templates/manage/performance.html:145
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory scope backfill"
-msgstr "Estado de la memoria de traducción"
+msgstr "Relleno de alcance de la memoria de traducción"
 
 #: weblate/templates/manage/performance.html:153
-#, fuzzy
-#| msgid "Entries were deleted."
 msgid "Entries processed"
-msgstr "Se han eliminado las entradas."
+msgstr "Apuntes procesados"
 
 #: weblate/templates/manage/performance.html:157
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate candidate scan"
-msgstr "Traducción duplicada."
+msgstr "Duplicar análisis de candidato"
 
 #: weblate/templates/manage/performance.html:165
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory duplicate candidate scan"
-msgstr "Estado de la memoria de traducción"
+msgstr "Análisis de candidatos duplicados de la memoria de traducción"
 
 #: weblate/templates/manage/performance.html:173
 msgid "Candidate scan cursor"
-msgstr ""
+msgstr "Cursor de análisis del candidato"
 
 #: weblate/templates/manage/performance.html:177
-#, fuzzy
-#| msgid "Last updated"
 msgid "Last update"
 msgstr "Última actualización"
 
 #: weblate/templates/manage/performance.html:182
-#, fuzzy
-#| msgid "Not registered"
 msgid "Not needed"
-msgstr "No registrado"
+msgstr "No necesario"
 
 #: weblate/templates/manage/performance.html:184
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not yet started"
-msgstr "Aún no medido"
+msgstr "Aún no iniciado"
 
 #: weblate/templates/manage/performance.html:192
-#, fuzzy
-#| msgid "Component"
 msgid "Completed"
-msgstr "Componente"
+msgstr "Completado"
 
 #: weblate/templates/manage/performance.html:194
 msgid "Scanning duplicate candidates"
-msgstr ""
+msgstr "Analizar candidatos duplicados"
 
 #: weblate/templates/manage/performance.html:196
-#, fuzzy
-#| msgid "Billing owners"
 msgid "Backfilling scopes"
-msgstr "Propietarios de facturación"
+msgstr "Rellenar alcances"
 
 #: weblate/templates/manage/performance.html:209
 #: weblate/templates/manage/performance.html:224
@@ -13570,7 +13484,7 @@ msgstr "Uso de disco"
 
 #: weblate/templates/manage/performance.html:230
 msgid "Storage"
-msgstr ""
+msgstr "Almacenaje"
 
 #: weblate/templates/manage/performance.html:231
 msgid "Disk size"
@@ -13585,14 +13499,12 @@ msgid "Disk free"
 msgstr "Disco libre"
 
 #: weblate/templates/manage/performance.html:236
-#, fuzzy
-#| msgid "Service"
 msgid "Server"
-msgstr "Servicio"
+msgstr "Servidor"
 
 #: weblate/templates/manage/performance.html:243
 msgid "PostgreSQL database"
-msgstr ""
+msgstr "Base de datos PostgreSQL"
 
 #: weblate/templates/manage/performance.html:266
 msgid "System encoding"
@@ -14227,10 +14139,8 @@ msgstr ""
 "operación de nuevo para reemplazar más."
 
 #: weblate/templates/replace.html:23
-#, fuzzy
-#| msgid "Start review"
 msgid "Update preview"
-msgstr "Iniciar revisión"
+msgstr "Actualizar previsión"
 
 #: weblate/templates/screenshots/screenshot_detail.html:40
 msgid "Assigned source strings"
@@ -14256,12 +14166,13 @@ msgid ""
 "Use query syntax; boolean operators like <code>AND</code>, <code>OR</code>, "
 "and <code>NOT</code> are case-insensitive."
 msgstr ""
+"Utilice la sintaxis de consulta; los operadores booleanos como <code>AND</"
+"code>, <code>OR</code> y <code>NOT</code> no distinguen entre mayúsculas y "
+"minúsculas."
 
 #: weblate/templates/screenshots/screenshot_detail.html:88
-#, fuzzy
-#| msgid "View check documentation"
 msgid "Search query syntax documentation"
-msgstr "Ver la documentación de checks"
+msgstr "Buscar consulta de documentación de sintaxis"
 
 #: weblate/templates/screenshots/screenshot_detail.html:96
 msgid "Suggests source strings by recognizing text in this screenshot."
@@ -14294,12 +14205,12 @@ msgid ""
 "Search screenshot names. Use field-specific queries for repository paths, "
 "languages, and assigned strings."
 msgstr ""
+"Buscar nombres de pantallazo. Utilice consultas específicas de campo para "
+"rutas de repositorio, idiomas, y cadenas asignadas."
 
 #: weblate/templates/screenshots/screenshot_list.html:125
-#, fuzzy
-#| msgid "Import speed documentation"
 msgid "Screenshot search documentation"
-msgstr "Documentación de la velocidad de importación"
+msgstr "Búsqueda de documentación en capturas de pantalla"
 
 #: weblate/templates/screenshots/screenshot_list.html:143
 #: weblate/templates/snippets/sort-field.html:14
@@ -14486,7 +14397,7 @@ msgstr "Ver detalles"
 
 #: weblate/templates/snippets/component/contributor-agreement.html:10
 msgid "View contributor license agreement"
-msgstr "Ver el acuerdo de licencia del contribuidor"
+msgstr "Ver el acuerdo de licencia del colaborador"
 
 #: weblate/templates/snippets/component/lock.html:25
 msgid "Get notified when this project is unlocked again"
@@ -15705,12 +15616,17 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+"El componente parecido contiene archivos PO gettext usuales, pero está "
+"configurado como PO gettext monolingüe."
 
 #: weblate/templates/trans/alert/bilingualpoconfiguredasmonolingual.html:4
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
 "clear the monolingual base language file, and update the component."
 msgstr ""
+"Si se trata de archivos PO bilingües, cambie el formato del archivo a "
+"archivo PO gettext, borre el archivo de idioma base monolingüe y actualice "
+"el componente."
 
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid ""
@@ -16168,16 +16084,12 @@ msgstr ""
 "Fusione los cambios manualmente o configure el envío para automatizarlos."
 
 #: weblate/templates/trans/alert/repositoryoperationfailure.html:3
-#, fuzzy
-#| msgid "Weblate could not validate the repository browser URL:"
 msgid "Weblate could not recover an interrupted repository operation."
-msgstr "Weblate no pudo validar el URL del explorador del repositorio:"
+msgstr "Weblate no pudo recuperar una operación de repositorio interrumpido."
 
 #: weblate/templates/trans/alert/repositoryoperationfailure.html:14
-#, fuzzy
-#| msgid "Push the repository"
 msgid "Reset the repository"
-msgstr "Empujar el repositorio"
+msgstr "Restablece el repositorio"
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
@@ -16425,18 +16337,13 @@ msgstr ""
 "%(link_start)scárguelo%(link_end)s."
 
 #: weblate/templates/trans/component_create.html:189
-#, fuzzy
-#| msgid ""
-#| "Pick a repository from a connected GitHub account. The component creation "
-#| "form will be pre-filled with the clone URL, default branch, and GitHub "
-#| "VCS driver."
 msgid ""
 "Pick a repository from a connected account. The component creation form will "
 "be pre-filled with the clone URL, default branch, and matching VCS driver."
 msgstr ""
-"Seleccione un repositorio de una cuenta de GitHub conectada. El formulario "
-"de creación de componentes se rellenará automáticamente con la URL de "
-"clonación, la rama predeterminada y el controlador VCS de GitHub."
+"Tome un repositorio de una cuenta de conectada. El formulario de creación "
+"del componente se pre‐rellenará con la URL de clonación, la rama "
+"predeterminada y la unidad VCS coincidente."
 
 #: weblate/templates/trans/component_create.html:192
 #: weblate/templates/vcs/github_installation_detail.html:23
@@ -16456,41 +16363,28 @@ msgid "Import"
 msgstr "Importar"
 
 #: weblate/templates/trans/component_create.html:240
-#, fuzzy
-#| msgid ""
-#| "No repositories available yet. Install the Weblate GitHub app on a GitHub "
-#| "organization or user account to make repositories available here."
 msgid ""
 "No repositories available yet. Connect a code-hosting account to make "
 "repositories available here."
 msgstr ""
-"Aún no hay repositorios disponibles. Instala la aplicación Weblate GitHub en "
-"una organización o cuenta de usuario de GitHub para que los repositorios "
-"estén disponibles aquí."
+"Aún no hay repositorios disponibles. Conecta a una cuenta de hospedaje del "
+"código para hacer disponibles los repositorios aquí."
 
 #: weblate/templates/trans/component_create.html:242
-#, fuzzy
-#| msgid ""
-#| "No repositories are available from connected GitHub accounts for this "
-#| "project workspace."
 msgid ""
 "No repositories are available from connected accounts for this project "
 "workspace."
 msgstr ""
-"No hay repositorios disponibles desde las cuentas de GitHub conectadas para "
-"este espacio de trabajo del proyecto."
+"No hay repositorios disponibles desde las cuentas conectadas para este "
+"espacio de trabajo del proyecto."
 
 #: weblate/templates/trans/component_create.html:244
-#, fuzzy
-#| msgid ""
-#| "Select a project with a workspace to connect a GitHub account or import "
-#| "repositories from an existing connection."
 msgid ""
 "Select a project with a workspace to connect an account or import "
 "repositories from an existing connection."
 msgstr ""
-"Seleccione un proyecto con un espacio de trabajo para conectar una cuenta de "
-"GitHub o importe repositorios desde una conexión existente."
+"Seleccione un proyecto con un espacio de trabajo para conectar una cuenta o "
+"importe repositorios desde una conexión existente."
 
 #: weblate/templates/trans/component_form.html:40
 msgid ""
@@ -17170,7 +17064,7 @@ msgstr "Antigüedad de cadena"
 #. Translators: Label for timestamp when the string was last updated in Weblate.
 #: weblate/templates/translate.html:978 weblate/utils/views.py:237
 msgid "Last updated"
-msgstr "Última actualización"
+msgstr "Última actualizada"
 
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
 #: weblate/templates/translate.html:983
@@ -17332,68 +17226,51 @@ msgstr ""
 "conectadas solo para espacios de trabajo que gestione."
 
 #: weblate/templates/vcs/account_integrations.html:30
-#, fuzzy
-#| msgid ""
-#| "No VCS integrations are available. A site administrator needs to register "
-#| "a Weblate GitHub App first."
 msgid ""
 "No code-hosting connections are available. A site administrator needs to "
 "register a code-hosting app first."
 msgstr ""
-"No hay integraciones con sistemas de control de versiones disponibles. El "
-"administrador del sitio debe registrar primero una aplicación Weblate para "
-"GitHub."
+"No hay conexiones del código hospedados que estén disponibles. Un "
+"administrador del sitio debe registrar primero una aplicación de hospedaje "
+"de código."
 
 #: weblate/templates/vcs/account_integrations.html:35
-#, fuzzy, python-format
-#| msgid ""
-#| "Connect code hosting accounts to %(workspace)s. These accounts can then "
-#| "be used when creating components from version control."
+#, python-format
 msgid ""
 "Connect code-hosting accounts to %(workspace)s. These accounts can then be "
 "used when creating components from version control."
 msgstr ""
-"Conecta código hospedando cuentas a %(workspace)s. Entonces estas cuentas "
+"Conecta cuentas de código‐hospedando a %(workspace)s. Entonces estas cuentas "
 "pueden ser utilizadas cuando creen componentes desde el control de versión."
 
 #: weblate/templates/vcs/account_integrations.html:40
-#, fuzzy
-#| msgid ""
-#| "Connect code hosting accounts to workspaces you manage. These accounts "
-#| "can then be used when creating components from version control."
 msgid ""
 "Connect code-hosting accounts to workspaces you manage. These accounts can "
 "then be used when creating components from version control."
 msgstr ""
-"Conecte las cuentas hospedadas del código en espacios de trabajo que "
+"Conecte las cuentas de hospedaje del código en espacios de trabajo que "
 "gestione. Estas cuentas entonces pueden ser utilizadas cunado creen "
 "componentes desde el control de versión."
 
 #: weblate/templates/vcs/account_integrations.html:56
-#, fuzzy
-#| msgid "code-hosting installation"
 msgid "Code-hosting app"
-msgstr "Instalación code-hosting"
+msgstr "App code-hosting"
 
 #: weblate/templates/vcs/account_integrations.html:60
 msgid "Not registered"
 msgstr "No registrado"
 
 #: weblate/templates/vcs/account_integrations.html:67
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate GitHub App credentials are not registered for %(hostname)s. "
-#| "Existing connected accounts can be removed, but new accounts cannot be "
-#| "connected until a site administrator registers the App again."
+#, python-format
 msgid ""
 "Code-hosting app credentials are not registered for %(hostname)s. Existing "
 "connected accounts can be removed, but new accounts cannot be connected "
 "until a site administrator registers the app again."
 msgstr ""
-"Las credenciales de Weblate GitHub App no están registradas en %(hostname)s. "
+"Las credenciales de Code-hosting app no están registradas en %(hostname)s. "
 "Las cuentas existentes conectadas pueden ser retiradas, pero las cuentas "
 "nuevas no pueden ser conectadas hasta que un administrados del sitio "
-"registre la Aplicación de nuevo."
+"registre la app de nuevo."
 
 #: weblate/templates/vcs/account_integrations.html:76
 msgid "Connect accounts"
@@ -17414,10 +17291,8 @@ msgstr "Cuentas conectadas"
 
 #: weblate/templates/vcs/account_integrations.html:104
 #: weblate/templates/vcs/github_installation_list.html:142
-#, fuzzy
-#| msgid "Provider"
 msgid "Provider ID"
-msgstr "Proveedor"
+msgstr "ID de proveedor"
 
 #: weblate/templates/vcs/account_integrations.html:105
 #: weblate/templates/vcs/account_integrations.html:129
@@ -17439,10 +17314,8 @@ msgid "Refresh"
 msgstr "Refrescar"
 
 #: weblate/templates/vcs/account_integrations.html:150
-#, fuzzy
-#| msgid "No connected GitHub accounts yet."
 msgid "No connected accounts yet."
-msgstr "Aún no conectado a cuentas GitHub."
+msgstr "Aún no conectado a cuentas."
 
 #: weblate/templates/vcs/github_app_register.html:18
 #: weblate/templates/vcs/github_app_register.html:25
@@ -17452,12 +17325,17 @@ msgid "Register Weblate GitHub App"
 msgstr "Registrarse App GitHub en Weblate"
 
 #: weblate/templates/vcs/github_app_register.html:29
+#, fuzzy
 msgid ""
 "Submit the form below to create a GitHub App with all the permissions and "
 "events Weblate needs already filled in. After you confirm the App's name on "
 "GitHub, you will be redirected back here and the credentials will be stored "
 "automatically."
 msgstr ""
+"Presentar el siguiente formulario para crear una aplicación GitHub con todos "
+"los permisos y eventos que Weblate necesita ya rellenado. Después de "
+"confirmar el nombre de la aplicación en GitHub, usted será redireccionado "
+"aquí y las credenciales se almacenarán automáticamente."
 
 #: weblate/templates/vcs/github_app_register.html:40
 #, python-format
@@ -17465,10 +17343,12 @@ msgid ""
 "The <code>%(host)s</code> host already has stored GitHub App credentials. "
 "You can edit the form, but submitting this host again will be rejected."
 msgstr ""
+"El host <code>%(host)s</code> ya ha almacenado credenciales de GitHub App. "
+"Puedes editar el formulario, pero enviando este host otra vez será rehusado."
 
 #: weblate/templates/vcs/github_app_register.html:46
 msgid "GitHub hosts that already have a Weblate GitHub App registered:"
-msgstr ""
+msgstr "Los host de GitHub que ya tienen un Weblate GitHub App registrado:"
 
 #: weblate/templates/vcs/github_app_register.html:77
 msgid "Subscribed events"
@@ -17508,6 +17388,8 @@ msgid ""
 "Click the button below to send the pre-filled GitHub App manifest to "
 "%(host)s. You will be redirected back here once GitHub confirms."
 msgstr ""
+"Pulse en el botón de abajo para enviar el manifiesto GitHub pre‐rellenado a %"
+"(host)s. Será redireccionado aquí una vez que GitHub confirme."
 
 #: weblate/templates/vcs/github_app_register_submit.html:34
 #: weblate/templates/vcs/github_installation_list.html:83
@@ -17535,22 +17417,22 @@ msgid ""
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+"GitHub sólo muestra cuentas donde su usuario GitHub puede instalar o "
+"solicitar esta aplicación. Si una organización está ausente, compruebe su "
+"papel de organización y las restricciones de instalación de GitHub App en "
+"GitHub."
 
 #: weblate/templates/vcs/github_install_select.html:13
 msgid "Choose GitHub host"
 msgstr "Elegir host de GitHub"
 
 #: weblate/templates/vcs/github_install_select.html:17
-#, fuzzy
-#| msgid ""
-#| "Select the GitHub or GitHub Enterprise instance where you want to install "
-#| "the Weblate GitHub app."
 msgid ""
 "Select the GitHub or GitHub Enterprise instance where you want to connect "
 "the Weblate GitHub App."
 msgstr ""
-"Seleccione la instancia de GitHub o GitHub Enterprise donde desea instalar "
-"la App Weblate GitHub."
+"Seleccione la instancia de GitHub o GitHub Enterprise donde desea conectar "
+"al App Weblate GitHub."
 
 #: weblate/templates/vcs/github_install_select.html:22
 #, python-format
@@ -17567,12 +17449,15 @@ msgid "Refresh repositories"
 msgstr "Refrescar repositorios"
 
 #: weblate/templates/vcs/github_installation_detail.html:44
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Weblate GitHub app credentials are not registered for %(hostname)s. Token "
 "refresh and webhook signature checks will not work until the App credentials "
 "are registered again."
 msgstr ""
+"Las credenciales de la aplicación Weblate GitHub no están registradas para %"
+"(hostname)s. Los cheques de actualización de Token y firma webhook no "
+"funcionarán hasta que las credenciales de App se registren de nuevo."
 
 #: weblate/templates/vcs/github_installation_detail.html:51
 msgid "GitHub installation ID"
@@ -17603,18 +17488,27 @@ msgid "Weblate GitHub Apps"
 msgstr "Weblate GitHub Apps"
 
 #: weblate/templates/vcs/github_installation_list.html:28
+#, fuzzy
 msgid ""
 "No code-hosting app is registered yet. Use the button above to create one "
 "with the right permissions and webhook URL already filled in — Weblate will "
 "store the credentials automatically once GitHub redirects back."
 msgstr ""
+"Ningún código-hosting la aplicación está registrada todavía. Uso el botón "
+"encima para crear uno con los permisos derechos y webhook URL ya llenados en "
+"— Weblate almacenará el credentials automáticamente una vez GitHub redirige "
+"atrás."
 
 #: weblate/templates/vcs/github_installation_list.html:37
+#, fuzzy
 msgid ""
 "The apps below provide credentials Weblate uses to talk to code hosting "
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+"Las aplicaciones a continuación proporcionan credenciales Weblate utiliza "
+"para hablar con proveedores de alojamiento de códigos. Conectar una cuenta a "
+"cada aplicación para importar repositorios de esa cuenta."
 
 #: weblate/templates/vcs/github_installation_list.html:64
 #: weblate/templates/vcs/github_installation_list.html:69
@@ -17623,10 +17517,8 @@ msgid "Remove app"
 msgstr "Quitar app"
 
 #: weblate/templates/vcs/github_installation_list.html:69
-#, fuzzy
-#| msgid "Remove connected GitHub accounts first."
 msgid "Remove connected accounts first."
-msgstr "Primero retire las cuentas de GitHub conectadas."
+msgstr "Primero retire las cuentas conectadas."
 
 #: weblate/templates/vcs/github_installation_list.html:75
 #: weblate/vcs/github.py:445
@@ -17659,28 +17551,20 @@ msgstr ""
 "elimínala de GitHub por separado."
 
 #: weblate/templates/vcs/github_installation_list.html:175
-#, fuzzy
-#| msgid ""
-#| "No connected GitHub accounts yet. Use the button above to connect a "
-#| "GitHub organization or user account."
 msgid ""
 "No connected accounts yet. Use the button above to connect an organization "
 "or user account."
 msgstr ""
-"Aún no hay cuentas de GitHub conectadas. Usa el botón de arriba para "
-"conectar una organización o cuenta de usuario de GitHub."
+"Aún no hay cuentas conectadas. Utilice el botón de arriba para conectar una "
+"organización o cuenta de usuario."
 
 #: weblate/templates/vcs/github_repository_list.html:9
-#, fuzzy
-#| msgid "From connected GitHub account"
 msgid "From connected account"
-msgstr "Desde la cuenta de GitHub conectada"
+msgstr "Desde la cuenta conectada"
 
 #: weblate/templates/vcs/github_repository_list.html:17
-#, fuzzy
-#| msgid "Import from connected GitHub account"
 msgid "Import from connected account"
-msgstr "Importar desde una cuenta de GitHub conectada"
+msgstr "Importar desde una cuenta conectada"
 
 #: weblate/templates/vcs/github_repository_list.html:70
 msgid ""
@@ -17691,34 +17575,24 @@ msgstr ""
 "de creación de componentes con la URL y la rama del repositorio."
 
 #: weblate/templates/vcs/github_repository_list.html:112
-#, fuzzy
-#| msgid "No repositories available from connected GitHub accounts."
 msgid "No repositories available from connected accounts."
-msgstr "No hay repositorios disponibles en las cuentas de GitHub conectadas."
+msgstr "No hay repositorios disponibles en las cuentas conectadas."
 
 #: weblate/templates/vcs/github_repository_list.html:115
-#, fuzzy
-#| msgid ""
-#| "Install the Weblate GitHub app to connect a GitHub organization or user "
-#| "account."
 msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
 "Instala la aplicación Weblate GitHub para conectar una organización o cuenta "
-"de usuario de GitHub."
+"de usuario."
 
 #: weblate/templates/vcs/github_repository_list.html:117
-#, fuzzy
-#| msgid ""
-#| "Select a project with a workspace before connecting a GitHub account. "
-#| "GitHub accounts are connected to workspaces."
 msgid ""
 "Select a project with a workspace before connecting an account. Code-hosting "
 "accounts are connected to workspaces."
 msgstr ""
 "Selecciona un proyecto con un espacio de trabajo antes de conectar una "
-"cuenta de GitHub. Las cuentas de GitHub están conectadas a los espacios de "
-"trabajo."
+"cuenta. Las cuentas de hospedaje del código están conectadas a los espacios "
+"de trabajo."
 
 #: weblate/templates/vcs/github_repository_list.html:119
 msgid "Weblate GitHub app is not registered on this Weblate instance."
@@ -17731,19 +17605,13 @@ msgid "Try refreshing the repository list."
 msgstr "Intente refrescar el listado del repositorio."
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:15
-#, fuzzy
-#| msgid "Remove connected GitHub account?"
 msgid "Remove connected account?"
-msgstr "¿Eliminar cuenta GitHub conectada?"
+msgstr "¿Eliminar cuenta conectada?"
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:25
-#, fuzzy, python-format
-#| msgid ""
-#| "This removes the connected GitHub account <code>%(login)s</code> from "
-#| "Weblate."
+#, python-format
 msgid "This removes the connected account <code>%(login)s</code> from Weblate."
-msgstr ""
-"Esto elimina la cuenta de GitHub conectada <code>%(login)s</code> de Weblate."
+msgstr "Esto elimina la cuenta conectada <code>%(login)s</code> desde Weblate."
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:31
 msgid ""
@@ -17886,60 +17754,50 @@ msgid "Exit Zen"
 msgstr "Salir de zen"
 
 #: weblate/trans/actions.py:33
-#, fuzzy
-#| msgid "Rescan all translation files in the Weblate repository"
 msgid "A translation file was synchronized with its repository."
-msgstr ""
-"Volver a escanear todos los archivos de la traducción del repositorio de "
-"Weblate"
+msgstr "Un archivo de traducción fue sincronizada con su repositorio."
 
 #: weblate/trans/actions.py:34
 msgid "Resource updated"
 msgstr "Recurso actualizado"
 
 #: weblate/trans/actions.py:40
+#, fuzzy
 msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
 msgstr ""
+"Una traducción de idioma se tradujo totalmente después de una edición "
+"individual. Traducción automática, subidas y ediciones a granel no emiten "
+"este evento."
 
 #: weblate/trans/actions.py:43
 msgid "Translation completed"
 msgstr "Traducción completada"
 
 #: weblate/trans/actions.py:48
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String was edited by user"
 msgid "An existing translation was edited by a user."
-msgstr "La cadena fue editada por el usuario"
+msgstr "Una traducción existente fue editada por un usuario."
 
 #: weblate/trans/actions.py:49
 msgid "Translation changed"
 msgstr "Traducción modificada"
 
 #: weblate/trans/actions.py:54
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Comment was added"
 msgid "A comment was added to a string."
-msgstr "Se ha añadido un comentario"
+msgstr "Se ha añadido un comentario a una cadena."
 
 #: weblate/trans/actions.py:55
 msgid "Comment added"
 msgstr "Comentario agregado"
 
 #: weblate/trans/actions.py:60
-#, fuzzy
-#| msgid "Translation suggestions can be made."
 msgid "A translation suggestion was added."
-msgstr "Es posible sugerir traducciones."
+msgstr "Se ha añadido una sugerencia de traducción."
 
 #: weblate/trans/actions.py:66
-#, fuzzy
-#| msgid "All untranslated strings added the past month"
 msgid "A previously untranslated string was translated by a user."
-msgstr "Todas las cadenas no traducidas añadidas el mes pasado"
+msgstr "Una cadena previamente no traducida fue traducida por un usuario."
 
 #: weblate/trans/actions.py:67
 msgid "Translation added"
@@ -17950,22 +17808,20 @@ msgid ""
 "A translation was added or changed by automatic translation. This is emitted "
 "instead of Translation added or Translation changed."
 msgstr ""
+"Una traducción fue agregada o cambiada por traducción automática. Esto se "
+"emite en lugar de Traducción agregada o Traducción cambiada."
 
 #: weblate/trans/actions.py:81
-#, fuzzy
-#| msgid "Define translation instructions to help translators."
 msgid "A translation suggestion was accepted as the translation."
-msgstr "Defina instrucciones de traducción para ayuda de traductores."
+msgstr "Una sugerencia de traducción fue aceptada como la traducción."
 
 #: weblate/trans/actions.py:82
 msgid "Suggestion accepted"
 msgstr "Sugerencia aceptada"
 
 #: weblate/trans/actions.py:87
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "A translation was restored to an earlier value."
-msgstr "La traducción ha finalizado."
+msgstr "Una traducción fue restaurada a un valor anterior."
 
 #: weblate/trans/actions.py:88
 msgid "Translation reverted"
@@ -17976,213 +17832,178 @@ msgid ""
 "A translation was added or changed by a translation file upload. This is "
 "emitted instead of Translation added or Translation changed."
 msgstr ""
+"Una traducción fue agregada o cambiada por un archivo de traducción subida. "
+"Esto se emite en lugar de Traducción agregada o Traducción cambiada."
 
 #: weblate/trans/actions.py:97
 msgid "Translation uploaded"
 msgstr "Traducción cargada"
 
 #: weblate/trans/actions.py:102
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added outside repository or upload updates."
-msgstr "Cadena origen agregada al repositorio"
+msgstr ""
+"Una cadena fuente fue añadida fuera del repositorio o actualizaciones de "
+"subida."
 
 #: weblate/trans/actions.py:103
 msgid "Source string added"
 msgstr "Cadena origen agregada"
 
 #: weblate/trans/actions.py:108
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "A component was locked for translation."
-msgstr ""
-"¡Todos los componentes ahora están bloqueados para las actualizaciones de la "
-"traducción!"
+msgstr "Un componente fue bloqueado para traducción."
 
 #: weblate/trans/actions.py:109
 msgid "Component locked"
 msgstr "Componente bloqueado"
 
 #: weblate/trans/actions.py:114
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "A component was unlocked for translation."
-msgstr ""
-"¡Todos los componentes ahora están bloqueados para las actualizaciones de la "
-"traducción!"
+msgstr "Un componente fue desbloqueado para traducción."
 
 #: weblate/trans/actions.py:115
 msgid "Component unlocked"
 msgstr "Componente desbloqueado"
 
 #: weblate/trans/actions.py:121
-#, fuzzy
-#| msgid "All pending translations were committed."
 msgid "Pending component changes were committed."
-msgstr "Se consignaron todas las traducciones pendientes."
+msgstr "Se consignaron los cambios del componente pendientes."
 
 #: weblate/trans/actions.py:122
 msgid "Changes committed"
 msgstr "Cambios consolidados"
 
 #: weblate/trans/actions.py:127
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes were pushed upstream."
-msgstr "Alerta de cambios del repositorio"
+msgstr "Los cambios del repositorio fueron enviados en desarrollo."
 
 #: weblate/trans/actions.py:128
 msgid "Changes pushed"
 msgstr "Cambios impulsados"
 
 #: weblate/trans/actions.py:133
-#, fuzzy
-#| msgid "Reset repository to upstream"
 msgid "A repository was reset to its upstream state."
-msgstr "Restablece repositorio al desarrollo"
+msgstr "Un repositorio fue restablecido a su estado en desarrollo."
 
 #: weblate/trans/actions.py:134
 msgid "Repository reset"
 msgstr "Repositorio restablecido"
 
 #: weblate/trans/actions.py:139
-#, fuzzy
-#| msgid "The remote repository needs to be merged!"
 msgid "Upstream repository changes were merged."
-msgstr "Es necesario fusionar el repositorio remoto."
+msgstr "Los cambios del repositorio en desarrollo fueron fusionados."
 
 #: weblate/trans/actions.py:140
 msgid "Repository merged"
 msgstr "Repositorio fusionado"
 
 #: weblate/trans/actions.py:145
-#, fuzzy
-#| msgid "Repository changes are being processed…"
 msgid "Repository changes were rebased on upstream."
-msgstr "Los cambios de repositorio están siendo procesados…"
+msgstr "Los cambios en el repositorio se rebasaron en desarrollo."
 
 #: weblate/trans/actions.py:146
 msgid "Repository rebased"
 msgstr "Repositorio reorganizado"
 
 #: weblate/trans/actions.py:151
-#, fuzzy
-#| msgid "View upstream repository location"
 msgid "Merging upstream repository changes failed."
-msgstr "Ver el lugar del repositorio origen"
+msgstr ""
+"No se han podido realizar las fusiones de los cambios del repositorio en "
+"desarrollo."
 
 #: weblate/trans/actions.py:152
 msgid "Repository merge failed"
 msgstr "Fallo en la fusión del repositorio"
 
 #: weblate/trans/actions.py:157
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Rebasing repository changes failed."
-msgstr "Alerta de cambios del repositorio"
+msgstr ""
+"No se ha podido cambiar la base del repositorio para incluir los cambios."
 
 #: weblate/trans/actions.py:158
 msgid "Repository rebase failed"
 msgstr "Fallo en la actualización del repositorio"
 
 #: weblate/trans/actions.py:163
-#, fuzzy
-#| msgid "Could not parse translation files."
 msgid "Weblate could not parse a translation file."
-msgstr "No se pudieron procesar los archivos de traducción."
+msgstr "Weblate no ha podido analizar un archivo de traducción."
 
 #: weblate/trans/actions.py:164
 msgid "Parsing failed"
 msgstr "Ha fallado el análisis"
 
 #: weblate/trans/actions.py:169
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A language translation was removed."
-msgstr "Se eliminó un idioma en la categoría."
+msgstr "Se eliminó una traducción de un idioma."
 
 #: weblate/trans/actions.py:170
 msgid "Translation removed"
 msgstr "Traducción eliminada"
 
 #: weblate/trans/actions.py:175
-#, fuzzy
-#| msgid "Translation suggestions can be made."
 msgid "A translation suggestion was removed."
-msgstr "Es posible sugerir traducciones."
+msgstr "Se ha eliminado una sugerencia de traducción."
 
 #: weblate/trans/actions.py:176
 msgid "Suggestion removed"
 msgstr "Sugerencia borrada"
 
 #: weblate/trans/actions.py:182
+#, fuzzy
 msgid ""
 "A translation was changed by a search-and-replace operation. This is emitted "
 "instead of Translation changed."
 msgstr ""
+"Una traducción se ha modificado mediante una operación de búsqueda y "
+"sustitución. Esto se muestra en lugar de «Traducción modificada»."
 
 #: weblate/trans/actions.py:185
 msgid "Translation replaced"
 msgstr "Traducción sustituida"
 
 #: weblate/trans/actions.py:190
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Pushing repository changes upstream failed."
-msgstr "Alerta de cambios del repositorio"
+msgstr "Los cambios de la subida del repositorio en desarrollo ha fallado."
 
 #: weblate/trans/actions.py:191
 msgid "Repository push failed"
 msgstr "Fallo en la inserción del repositorio"
 
 #: weblate/trans/actions.py:196
-#, fuzzy
-#| msgid "Suggestion removed during cleanup"
 msgid "An obsolete translation suggestion was removed during cleanup."
-msgstr "Sugerencia borrada durante la limpieza"
+msgstr "Una sugerencia de traducción obsoleta fue retirada durante el purgado."
 
 #: weblate/trans/actions.py:197
 msgid "Suggestion removed during cleanup"
-msgstr "Sugerencia borrada durante la limpieza"
+msgstr "Sugerencia retirada durante el purgado"
 
 #: weblate/trans/actions.py:202
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was edited in Weblate."
-msgstr "Cadena origen agregada a la subida"
+msgstr "Una cadena origen fue agregada en Weblate."
 
 #: weblate/trans/actions.py:203
 msgid "Source string changed"
 msgstr "Cadena de origen cambiada"
 
 #: weblate/trans/actions.py:208
-#, fuzzy
-#| msgid "New string has been added."
 msgid "A new string was added in Weblate."
-msgstr "Se añadió una cadena nueva."
+msgstr "Se ha añadido una cadena nueva en Weblate."
 
 #: weblate/trans/actions.py:209
 msgid "String added"
 msgstr "Cadena agregada"
 
 #: weblate/trans/actions.py:215
-#, fuzzy
-#| msgid ""
-#| "The translation of the string has changed meanwhile. Please check your "
-#| "changes."
 msgid "The translation state of one or more strings was changed in bulk."
-msgstr ""
-"Entretanto, la traducción de la cadena ha cambiado. Compruebe sus cambios."
+msgstr "El estado de la traducción de una o más cadenas ha cambiado en lotes."
 
 #: weblate/trans/actions.py:217
 msgid "Bulk status changed"
 msgstr "Estado cambiado en lotes"
 
 #: weblate/trans/actions.py:222
-#, fuzzy
-#| msgid "Project access control has been changed."
 msgid "Project or component visibility was changed."
-msgstr "El control de acceso al proyecto ha cambiado."
+msgstr "Ha sido cambiada la visibilidad del proyecto o componente."
 
 #: weblate/trans/actions.py:223
 msgid "Visibility changed"
@@ -18190,7 +18011,7 @@ msgstr "Cambios en la visualización"
 
 #: weblate/trans/actions.py:228
 msgid "A user was granted access."
-msgstr ""
+msgstr "Un usuario tenía concedido el acceso."
 
 #: weblate/trans/actions.py:229
 msgid "User added"
@@ -18207,178 +18028,137 @@ msgid "User removed"
 msgstr "Usuario eliminado"
 
 #: weblate/trans/actions.py:240
-#, fuzzy
-#| msgid "Add as translation needing review"
 msgid "A translation was approved during review."
-msgstr "Agregar como traducción que necesita revisión"
+msgstr "Se aprobó una traducción durante la revisión."
 
 #: weblate/trans/actions.py:241
 msgid "Translation approved"
 msgstr "Traducción aprobada"
 
 #: weblate/trans/actions.py:246
-#, fuzzy
-#| msgid "Skip translations marked as needing editing"
 msgid "A translation was marked as needing editing."
-msgstr "Omite traducciones marcadas como necesidad de edición"
+msgstr "Una traducción fue marcada como necesidad de edición."
 
 #: weblate/trans/actions.py:247
 msgid "Marked for edit"
 msgstr "Marcada para edición"
 
 #: weblate/trans/actions.py:252
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was removed."
-msgstr "Se ha creado un nuevo componente para traducir"
+msgstr "Un componente de traducción fue retirado."
 
 #: weblate/trans/actions.py:253
 msgid "Component removed"
 msgstr "Componente eliminado"
 
 #: weblate/trans/actions.py:258
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was removed."
-msgstr "Se eliminó su proyecto de traducción"
+msgstr "Se retiró un proyecto de traducción."
 
 #: weblate/trans/actions.py:259
 msgid "Project removed"
 msgstr "Proyecto suprimido"
 
 #: weblate/trans/actions.py:265
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was renamed."
-msgstr "Se eliminó su proyecto de traducción"
+msgstr "Se renombró un proyecto de traducción."
 
 #: weblate/trans/actions.py:266
 msgid "Project renamed"
 msgstr "Proyecto renombrado"
 
 #: weblate/trans/actions.py:271
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was renamed."
-msgstr "Se ha creado un nuevo componente para traducir"
+msgstr "Un componente de traducción fue renombrado."
 
 #: weblate/trans/actions.py:272
 msgid "Component renamed"
 msgstr "Componente renombrado"
 
 #: weblate/trans/actions.py:277
-#, fuzzy
-#| msgid "All components in current project"
 msgid "A component was moved within a project."
-msgstr "Todos los componentes en el proyecto actual"
+msgstr "Un componente fue trasladado dentro de un proyecto."
 
 #: weblate/trans/actions.py:278
 msgid "Moved component"
 msgstr "Componente trasladado"
 
 #: weblate/trans/actions.py:284
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Contributor made their first translation"
 msgid "A user made their first contribution to a translation."
-msgstr "El contribuyente hizo su primera traducción"
+msgstr "Un usuario realiza su primera contribución a una traducción."
 
 #: weblate/trans/actions.py:285
 msgid "Contributor joined"
 msgstr "Colaborador unido"
 
 #: weblate/trans/actions.py:290
-#, fuzzy
-#| msgid "Announcement posted"
 msgid "An announcement was posted."
-msgstr "Anuncio publicado"
+msgstr "Un anuncio fue publicado."
 
 #: weblate/trans/actions.py:291
 msgid "Announcement posted"
 msgstr "Anuncio publicado"
 
 #: weblate/trans/actions.py:296
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "A component alert was triggered."
-msgstr "Alerta activada"
+msgstr "Un componente de alerta ha sido disparado."
 
 #: weblate/trans/actions.py:297
 msgid "Alert triggered"
 msgstr "Alerta activada"
 
 #: weblate/trans/actions.py:302
-#, fuzzy
-#| msgid "Add language for translation"
 msgid "A language translation was added."
-msgstr "Añadir idioma para traducción"
+msgstr "Ha sido añadido un idioma de traducción."
 
 #: weblate/trans/actions.py:303
 msgid "Language added"
 msgstr "Idioma agregado"
 
 #: weblate/trans/actions.py:308
-#, fuzzy
-#| msgid "Requested new language"
 msgid "A user requested a new language."
-msgstr "Idioma nuevo solicitado"
+msgstr "Un usuario ha solicitado un idioma nuevo."
 
 #: weblate/trans/actions.py:309
 msgid "Language requested"
-msgstr "Idioma requerido"
+msgstr "Se ha solicitado idioma"
 
 #: weblate/trans/actions.py:314
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was created."
-msgstr "Se eliminó su proyecto de traducción"
+msgstr "Ha sido creado un proyecto de traducción."
 
 #: weblate/trans/actions.py:315
 msgid "Project created"
 msgstr "Proyecto creado"
 
 #: weblate/trans/actions.py:320
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was created."
-msgstr "Se ha creado un nuevo componente para traducir"
+msgstr "Se ha creado un componente de traducción."
 
 #: weblate/trans/actions.py:321
 msgid "Component created"
 msgstr "Componente creado"
 
 #: weblate/trans/actions.py:326
-#, fuzzy
-#| msgid "User has been invited to this project."
 msgid "A user was invited to a project."
-msgstr "Se ha invitado al usuario a este proyecto."
+msgstr "Un usuario ha sido invitado a un proyecto."
 
 #: weblate/trans/actions.py:327
 msgid "User invited"
 msgstr "Usuario invitado"
 
 #: weblate/trans/actions.py:332
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid "Weblate received a repository notification from a code host."
 msgstr ""
-"Weblate también es compatible con notificaciones directas de varios sitios "
-"de almacenamiento de código:"
+"Weblate recibía una notificación del repositorio desde un código de host."
 
 #: weblate/trans/actions.py:333
 msgid "Repository notification received"
 msgstr "Notificación del repositorio recibida"
 
 #: weblate/trans/actions.py:338
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "A translation file was replaced by an uploaded file."
-msgstr "Traducción reemplazada por la cargada"
+msgstr "Un archivo de traducción fue reemplazado por un archivo subido."
 
 #: weblate/trans/actions.py:339
 msgid "Translation replaced file by upload"
@@ -18393,14 +18173,12 @@ msgid "License changed"
 msgstr "Licencia cambiada"
 
 #: weblate/trans/actions.py:350
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "The contributor license agreement was changed."
-msgstr "Ha cambiado el acuerdo de licencia del contribuidor"
+msgstr "Ha sido cambiado el acuerdo de licencia del colaborador."
 
 #: weblate/trans/actions.py:351
 msgid "Contributor license agreement changed"
-msgstr "Ha cambiado el acuerdo de licencia del contribuidor"
+msgstr "Ha cambiado el acuerdo de licencia del colaborador"
 
 #: weblate/trans/actions.py:356
 #, fuzzy
@@ -18413,48 +18191,40 @@ msgid "Screenshot added"
 msgstr "Captura agregada"
 
 #: weblate/trans/actions.py:362
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "A screenshot image was uploaded."
-msgstr "Capturas de pantalla cargadas"
+msgstr "Una imagen de capturas de pantalla fue subida."
 
 #: weblate/trans/actions.py:363
 msgid "Screenshot uploaded"
-msgstr "Captura de pantalla cargada"
+msgstr "Captura de pantalla subida"
 
 #: weblate/trans/actions.py:368
 msgid "A string was changed while synchronizing from the repository."
-msgstr ""
+msgstr "Ha sido cambiada una cadena mientras sincronizaba desde el repositorio."
 
 #: weblate/trans/actions.py:369
 msgid "String updated in the repository"
 msgstr "Cadena actualizada en el repositorio"
 
 #: weblate/trans/actions.py:374
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "An add-on was installed."
-msgstr "Complemento instalado"
+msgstr "Fue instalado un complemento."
 
 #: weblate/trans/actions.py:375
 msgid "Add-on installed"
 msgstr "Complemento instalado"
 
 #: weblate/trans/actions.py:380
-#, fuzzy
-#| msgid "Add-on configuration changed"
 msgid "An add-on's configuration was changed."
-msgstr "Configuración de complemento cambiada"
+msgstr "Fue cambiada una configuración del complemento."
 
 #: weblate/trans/actions.py:381
 msgid "Add-on configuration changed"
 msgstr "Configuración de complemento cambiada"
 
 #: weblate/trans/actions.py:386
-#, fuzzy
-#| msgid "Add-on uninstalled"
 msgid "An add-on was uninstalled."
-msgstr "Complemento desinstalado"
+msgstr "Un complemento fue desinstalado."
 
 #: weblate/trans/actions.py:387
 msgid "Add-on uninstalled"
@@ -18542,10 +18312,9 @@ msgid "Saving string failed"
 msgstr "Error al guardar la cadena"
 
 #: weblate/trans/actions.py:440
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A new string was found while synchronizing from the repository."
-msgstr "Cadena origen agregada al repositorio"
+msgstr ""
+"Fue encontrada una cadena nueva mientras sincronizaba desde el repositorio."
 
 #: weblate/trans/actions.py:441
 msgid "String added in the repository"
@@ -18592,30 +18361,26 @@ msgid "Component translation completed"
 msgstr "Traducción de componentes finalizada"
 
 #: weblate/trans/actions.py:475
-#, fuzzy
-#| msgid "Skip translations marked as needing editing"
 msgid "A translation was marked as needing editing by an enforced check."
-msgstr "Omite traducciones marcadas como necesidad de edición"
+msgstr ""
+"Una traducción fue marcada como necesidad de edición por una comprobación "
+"reforzada."
 
 #: weblate/trans/actions.py:477
 msgid "Applied enforced check"
 msgstr "Comprobación forzada aplicada"
 
 #: weblate/trans/actions.py:482
-#, fuzzy
-#| msgid "Apply selected translation to all propagated strings"
 msgid "A translation edit was propagated to another matching string."
-msgstr "Aplicar traducción seleccionada en todas las cadenas propagadas"
+msgstr "Una edición de traducción fue propagada a otra cadena coincidente."
 
 #: weblate/trans/actions.py:483
 msgid "Propagated change"
 msgstr "Cambio propagado"
 
 #: weblate/trans/actions.py:488
-#, fuzzy
-#| msgid "Define author of uploaded translation"
 msgid "A file was uploaded to a translation."
-msgstr "Definir autor/a de la traducción cargada"
+msgstr "Un archivo ha sido subido a una traducción."
 
 #: weblate/trans/actions.py:489
 msgid "File uploaded"
@@ -18632,10 +18397,8 @@ msgid "Extra flags updated"
 msgstr "Indicadores adicionales actualizados"
 
 #: weblate/trans/actions.py:500
-#, fuzzy
-#| msgid "Font uploaded"
 msgid "A font was uploaded."
-msgstr "Tipografía subida"
+msgstr "Una tipografía fue subida."
 
 #: weblate/trans/actions.py:501
 msgid "Font uploaded"
@@ -18682,10 +18445,8 @@ msgid "Forced rescan of translations"
 msgstr "Re-analizado forzado de traducciones"
 
 #: weblate/trans/actions.py:532
-#, fuzzy
-#| msgid "Screenshot removed"
 msgid "A screenshot was removed."
-msgstr "Captura de pantalla eliminada"
+msgstr "Una captura de pantalla fue retirada."
 
 #: weblate/trans/actions.py:533
 msgid "Screenshot removed"
@@ -18718,20 +18479,16 @@ msgid "Repository cleanup"
 msgstr "Purga de repositorio"
 
 #: weblate/trans/actions.py:556
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was added while processing an uploaded file."
-msgstr "Cadena origen agregada a la subida"
+msgstr "Una cadena origen ha sido agregada al procesar una subida de archivo."
 
 #: weblate/trans/actions.py:557
 msgid "Source string added in the upload"
 msgstr "Cadena origen agregada a la subida"
 
 #: weblate/trans/actions.py:563
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added while synchronizing from the repository."
-msgstr "Cadena origen agregada al repositorio"
+msgstr "Una cadena origen fue añadida al sincronizar desde el repositorio."
 
 #: weblate/trans/actions.py:565
 msgid "Source string added in the repository"
@@ -18756,10 +18513,8 @@ msgid "Project restored"
 msgstr "Proyecto restaurado"
 
 #: weblate/trans/actions.py:582
-#, fuzzy
-#| msgid "Component created from scratch"
 msgid "A component was restored from a backup."
-msgstr "Componente creado desde cero"
+msgstr "Un componente ha sido restaurado desde un respaldo."
 
 #: weblate/trans/actions.py:583
 msgid "Component restored"
@@ -18774,30 +18529,24 @@ msgid "User edit reverted"
 msgstr "Edición de usuario revertida"
 
 #: weblate/trans/actions.py:594
-#, fuzzy
-#| msgid "Project setting changed"
 msgid "A project setting was changed."
-msgstr "Ajustes de proyectos cambiados"
+msgstr "Un ajuste de proyecto ha sido cambiado."
 
 #: weblate/trans/actions.py:595
 msgid "Project setting changed"
 msgstr "Ajustes de proyectos cambiados"
 
 #: weblate/trans/actions.py:600
-#, fuzzy
-#| msgid "Component setting changed"
 msgid "A component setting was changed."
-msgstr "Ajuste de componente cambiado"
+msgstr "Un ajuste de componente ha sido cambiado."
 
 #: weblate/trans/actions.py:601
 msgid "Component setting changed"
 msgstr "Ajuste de componente cambiado"
 
 #: weblate/trans/actions.py:606
-#, fuzzy
-#| msgid "User access changed"
 msgid "A user's access permissions were changed."
-msgstr "Acceso de usuario cambiado"
+msgstr "Unos permisos de acceso del usuario fueron cambiados."
 
 #: weblate/trans/actions.py:607
 msgid "User access changed"
@@ -18814,10 +18563,8 @@ msgid "Workspace created"
 msgstr "Espacio de trabajo creado"
 
 #: weblate/trans/actions.py:618
-#, fuzzy
-#| msgid "Workspace setting changed"
 msgid "A workspace setting was changed."
-msgstr "Ajustes del espacio de trabajo modificados"
+msgstr "Un ajuste del espacio de trabajo ha sido modificado."
 
 #: weblate/trans/actions.py:619
 msgid "Workspace setting changed"
@@ -18834,20 +18581,16 @@ msgid "Project moved"
 msgstr "Proyecto trasladado"
 
 #: weblate/trans/actions.py:630
-#, fuzzy
-#| msgid "Remote repository update failed"
 msgid "A remote repository update was completed."
-msgstr "Fallo en la actualización del repositorio remoto"
+msgstr "Una actualización de un repositorio remoto ha sido completada."
 
 #: weblate/trans/actions.py:631
 msgid "Remote repository updated"
 msgstr "Repositorio remoto actualizado"
 
 #: weblate/trans/actions.py:636
-#, fuzzy
-#| msgid "Remote repository update failed"
 msgid "Updating a remote repository failed."
-msgstr "Fallo en la actualización del repositorio remoto"
+msgstr "La actualización de un repositorio remoto ha fallado."
 
 #: weblate/trans/actions.py:637
 msgid "Remote repository update failed"
@@ -18954,10 +18697,8 @@ msgstr "Traducción monolingüe mal configurada."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:158
-#, fuzzy
-#| msgid "gettext PO file (monolingual)"
 msgid "Bilingual gettext PO file configured as monolingual."
-msgstr "Archivo PO de gettext (monolingüe)"
+msgstr "El archivo PO de gettext bilingüe ha sido configurado como monolingüe."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:199
@@ -20388,7 +20129,7 @@ msgstr "Etiquetas que quitar"
 
 #: weblate/trans/forms.py:4147
 msgid "I accept the contributor license agreement"
-msgstr "Acepto el acuerdo de licencia del contribuidor"
+msgstr "Acepto el acuerdo de licencia del colaborador"
 
 #: weblate/trans/forms.py:4176
 msgid "The slug does not match the one marked for deletion!"
@@ -20674,21 +20415,21 @@ msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this category."
 msgstr ""
-"Acuerdo de licencia del usuario el cual necesita ser aprobado antes que un "
-"usuario pueda traducir componentes en esta categoría."
+"Acuerdo de licencia del colaborador el cual necesita ser aprobado antes que "
+"un usuario pueda traducir componentes en esta categoría."
 
 #: weblate/trans/models/category.py:145 weblate/trans/models/component.py:827
 #: weblate/trans/models/project.py:408
 msgid "Inherit contributor license agreement"
-msgstr "Acuerdo de licencia de contribuidor heredado"
+msgstr "Acuerdo de licencia de colaborador heredado"
 
 #: weblate/trans/models/category.py:148
 msgid ""
 "Use the contributor license agreement configured in the parent category or "
 "project."
 msgstr ""
-"Utilice el acuerdo de licencia del contribuidor configurado en la categoría "
-"o proyecto antecesor."
+"Utilice el acuerdo de licencia del colaborador configurado en la categoría o "
+"proyecto antecesor."
 
 #: weblate/trans/models/category.py:152 weblate/trans/models/component.py:836
 #: weblate/trans/models/project.py:415 weblate/workspaces/models.py:123
@@ -21206,14 +20947,14 @@ msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Acuerdo de licencia del usuario el cual necesita ser aprobado antes que un "
-"usuario pueda traducir este componente."
+"Acuerdo de licencia del colaborador el cual necesita ser aprobado antes que "
+"un usuario pueda traducir este componente."
 
 #: weblate/trans/models/component.py:830
 msgid ""
 "Use the contributor license agreement configured in the category or project."
 msgstr ""
-"Utilice la licencia del acuerdo del contribuidor configurada en la categoría "
+"Utilice la licencia del acuerdo del colaborador configurada en la categoría "
 "o proyecto."
 
 #: weblate/trans/models/component.py:846
@@ -21848,10 +21589,9 @@ msgid "Could not get repository status!"
 msgstr "¡No se ha podido obtener el estado del repositorio!"
 
 #: weblate/trans/models/component.py:6392
-#, fuzzy
-#| msgid "File in original format as translated in the repository"
 msgid "File path is in a restricted location in the repository."
-msgstr "Archivo en su formato original, tal como existe en el repositorio"
+msgstr ""
+"La ruta del archivo está en un lugar restrictivo dentro del repositorio."
 
 #: weblate/trans/models/componentlist.py:48
 msgid "Component list name"
@@ -21985,8 +21725,8 @@ msgid ""
 "Requires contributors to have two-factor authentication configured before "
 "being able to contribute."
 msgstr ""
-"Requerir que los contribuyentes tengan configurada la autenticación en dos "
-"fases antes de poder contribuir."
+"Requerir que los colaboradores tengan configurada la autenticación en dos "
+"fases antes de poder colaborar."
 
 #: weblate/trans/models/project.py:326 weblate/trans/models/workflow.py:24
 msgid "Enable reviews"
@@ -22050,7 +21790,7 @@ msgstr ""
 #: weblate/trans/models/project.py:411
 msgid "Use the contributor license agreement configured in the workspace."
 msgstr ""
-"Utilice el acuerdo de licencia del contribuidor configurado en el espacio de "
+"Utilice el acuerdo de licencia del colaborador configurado en el espacio de "
 "trabajo."
 
 #: weblate/trans/models/project.py:425
@@ -24072,10 +23812,9 @@ msgid "This will push changes to the upstream Git repository."
 msgstr "Esto empujará los cambios al repositorio Git en desarrollo."
 
 #: weblate/vcs/git.py:323
-#, fuzzy, python-format
-#| msgid "Repository branch is required for this integration."
+#, python-format
 msgid "Repository has an interrupted Git %(operation)s operation."
-msgstr "Se requiere una rama del repositorio para esta integración."
+msgstr "El repositorio tiene una operación de Git %(operation)s interrumpida."
 
 #: weblate/vcs/git.py:343
 #, python-format
@@ -24083,10 +23822,10 @@ msgid "Unsupported interrupted Git operation: %(operation)s"
 msgstr ""
 
 #: weblate/vcs/git.py:357
-#, fuzzy, python-format
-#| msgid "Could not obtain the lock to perform the operation."
+#, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
-msgstr "No se ha podido obtener el bloqueo para realizar la operación."
+msgstr ""
+"No se ha podido recuperar la operación %(operation)s de Git interrumpida."
 
 #: weblate/vcs/git.py:526
 msgid ""
@@ -24293,10 +24032,8 @@ msgid ""
 msgstr ""
 
 #: weblate/vcs/github.py:993
-#, fuzzy
-#| msgid "GitHub installation ID"
 msgid "Invalid GitHub App installation ID."
-msgstr "ID de instalación de GitHub"
+msgstr "ID de instalación de GitHub App no válido."
 
 #: weblate/vcs/github.py:996
 #, python-format
@@ -24571,10 +24308,8 @@ msgid "Connected GitHub account added."
 msgstr "Se ha añadido la cuenta GitHub conectada."
 
 #: weblate/vcs/views.py:1134
-#, fuzzy
-#| msgid "Enter a valid domain name or IP address."
 msgid "Enter a valid GitHub App name and host."
-msgstr "Proporcione un nombre de dominio válido o dirección de IP."
+msgstr "Introduzca un nombre válido de GitHub App y el host."
 
 #: weblate/vcs/views.py:1145
 #, python-format
