@@ -2219,7 +2219,7 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
     FIND_MATCH = ""
     MASK = "loc/*/default.xliff"
     EXPECTED_PATH = "loc/cs-CZ/default.xliff"
-    NEW_UNIT_MATCH = (
+    NEW_UNIT_MATCH: tuple[bytes, ...] = (
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
@@ -2277,10 +2277,10 @@ class AppleXliffFormatTest(XliffFormatTest):
     EXT = "xliff"
     FILE = TEST_XLIFF_APPLE
     BASE = TEST_XLIFF_APPLE
-    # TODO: Require target state once translate-toolkit 3.19.15 is released.
     NEW_UNIT_MATCH = (
         b'<trans-unit xml:space="preserve" id="key"',
         b"<source>Source string</source>",
+        b'<target state="needs-review-translation"></target>',
     )
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     FIND_CONTEXT = "Localizable.strings///hello"
@@ -3240,10 +3240,9 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
             "<!--\n * See the NOTICE file distributed with this work for additional",
             newdata,
         )
-        # TODO: Require HTTPS once translate-toolkit 3.19.15 is released.
-        self.assertRegex(
+        self.assertIn(
+            "* 02110-1301 USA, or see the FSF site: https://www.fsf.org.\n-->",
             newdata,
-            r"\* 02110-1301 USA, or see the FSF site: https?://www\.fsf\.org\.\n-->",
         )
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
@@ -3367,10 +3366,9 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
             "<!--\n * See the NOTICE file distributed with this work for additional",
             newdata,
         )
-        # TODO: Require HTTPS once translate-toolkit 3.19.15 is released.
-        self.assertRegex(
+        self.assertIn(
+            "* 02110-1301 USA, or see the FSF site: https://www.fsf.org.\n-->",
             newdata,
-            r"\* 02110-1301 USA, or see the FSF site: https?://www\.fsf\.org\.\n-->",
         )
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
