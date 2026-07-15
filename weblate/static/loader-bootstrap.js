@@ -364,7 +364,10 @@ function screenshotLoaded(data) {
     summary.textContent = data.summary || "";
   }
   if (data.responseCode !== 200) {
-    screenshotResultError("danger", gettext("Error loading search results!"));
+    screenshotResultError(
+      "danger",
+      data.error || gettext("Error loading search results!"),
+    );
   } else if (data.count === 0) {
     screenshotResultError(
       "warning",
