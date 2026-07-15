@@ -11,6 +11,7 @@ from weakref import WeakSet
 
 from django.conf import settings
 from django.core.cache import cache
+from django.db import DatabaseError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
@@ -19,6 +20,7 @@ from weblate.utils.apps import (
     CACHE_EXEC_CHECK_PREFIX,
     check_class_loader,
     check_data_writable,
+    check_database,
     check_database_size,
     check_errors,
     check_settings,
@@ -189,6 +191,44 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
 
         self.assertFalse(any(error.id == "weblate.C045" for error in errors))
         database_size_mock.assert_not_called()
+
+
+class DatabaseStatisticsCheckTestCase(SimpleTestCase):
+    @patch("weblate.utils.apps.measure_database_latency", return_value=1)
+    @patch("weblate.utils.apps.get_invalid_database_statistics", return_value=[])
+    def test_valid_statistics(self, statistics_mock, latency_mock) -> None:
+        errors = list(check_database(app_configs=None, databases=None))
+
+        self.assertFalse(any(error.id == "weblate.C047" for error in errors))
+        statistics_mock.assert_called_once_with()
+        latency_mock.assert_called_once_with()
+
+    @patch("weblate.utils.apps.measure_database_latency", return_value=1)
+    @patch(
+        "weblate.utils.apps.get_invalid_database_statistics",
+        return_value=["public.trans_unit"],
+    )
+    def test_invalid_statistics(self, statistics_mock, latency_mock) -> None:
+        errors = list(check_database(app_configs=None, databases=None))
+
+        error = next(error for error in errors if error.id == "weblate.C047")
+        self.assertIn("public.trans_unit", error.msg)
+        self.assertIn("Run ANALYZE", error.msg)
+        statistics_mock.assert_called_once_with()
+        latency_mock.assert_called_once_with()
+
+    @patch("weblate.utils.apps.measure_database_latency", return_value=1)
+    @patch(
+        "weblate.utils.apps.get_invalid_database_statistics",
+        side_effect=DatabaseError("catalog query failed"),
+    )
+    def test_statistics_database_error(self, statistics_mock, latency_mock) -> None:
+        errors = list(check_database(app_configs=None, databases=None))
+
+        error = next(error for error in errors if error.id == "weblate.C037")
+        self.assertIn("catalog query failed", error.msg)
+        statistics_mock.assert_called_once_with()
+        latency_mock.assert_called_once_with()
 
 
 class SettingsCheckTestCase(SimpleTestCase):

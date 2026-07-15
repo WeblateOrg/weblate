@@ -967,6 +967,8 @@ Use a powerful database engine
   performance or reliability might ruin your Weblate experience.
 * Check the database server performance or tweak its configuration, for example
   using `PGTune <https://pgtune.leopard.in.ua/>`_.
+* Weblate deployment checks report non-finite PostgreSQL relation statistics.
+  Run ``ANALYZE`` on the reported relations to rebuild corrupted statistics.
 
 .. seealso::
 
