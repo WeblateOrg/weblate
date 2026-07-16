@@ -1,0 +1,31 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+from __future__ import annotations
+
+from datetime import timedelta
+
+from celery.schedules import crontab
+from django.utils import timezone
+
+from weblate.utils.celery import app
+
+
+@app.task(trail=False)
+def cleanup_machinery_errors() -> None:
+    """Cleanup old machinery errors."""
+    from weblate.machinery.models import MachineryError  # noqa: PLC0415
+
+    MachineryError.objects.filter(
+        timestamp__lt=timezone.now() - timedelta(days=30)
+    ).delete()
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs) -> None:
+    sender.add_periodic_task(
+        crontab(hour=1, minute=30),
+        cleanup_machinery_errors.s(),
+        name="cleanup-machinery-errors",
+    )

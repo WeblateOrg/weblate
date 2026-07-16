@@ -5,9 +5,12 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from appconf import AppConf
+from django.db import models
+from django.utils import timezone
+from django.utils.translation import gettext_lazy
 
 from weblate.utils.classloader import ClassRegistry
 
@@ -16,6 +19,29 @@ from .defaults import DEFAULT_WEBLATE_MACHINERY
 
 if TYPE_CHECKING:
     from .types import SettingsDict
+
+
+class MachineryError(models.Model):
+    """Stores errors from automatic suggestion backends for admin visibility."""
+
+    engine = models.CharField(max_length=100, db_index=True)
+    project = models.ForeignKey(
+        "trans.Project",
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
+    )
+    timestamp = models.DateTimeField(default=timezone.now, db_index=True)
+    error = models.TextField()
+
+    class Meta:
+        ordering: ClassVar = ["-timestamp"]
+        verbose_name = gettext_lazy("Machinery error")
+        verbose_name_plural = gettext_lazy("Machinery errors")
+
+    def __str__(self) -> str:
+        return f"{self.engine}:{self.timestamp}"
+
 
 MACHINERY = ClassRegistry(
     "WEBLATE_MACHINERY",
