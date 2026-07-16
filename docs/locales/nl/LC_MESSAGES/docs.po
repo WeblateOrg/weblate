@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-16 14:42+0000\n"
+"PO-Revision-Date: 2026-07-16 15:42+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -45096,17 +45096,20 @@ msgstr ""
 
 #: devel/alerts.rst:52
 msgid "Project diagnostics overview with grouped findings and filters"
-msgstr ""
+msgstr "Overzicht projectdiagnostiek met gegroepeerde bevindingen en filters"
 
 #: devel/alerts.rst:55
 msgid ""
 "The workspace overview groups project-wide findings by project and "
 "identifies components using both the project and component name:"
 msgstr ""
+"Het overzicht van de werkruimte groepeert projectbrede bevindingen per "
+"project en identificeert onderdelen met zowel de project- als de "
+"onderdeelnaam:"
 
 #: devel/alerts.rst:58
 msgid "Workspace diagnostics overview with grouped findings and filters"
-msgstr ""
+msgstr "Overzicht werkruimtediagnostiek met gegroepeerde bevindingen en filters"
 
 #: devel/alerts.rst:61
 msgid ""
@@ -45114,6 +45117,10 @@ msgid ""
 "affected objects are shown as a count. Follow a component link to see the "
 "complete diagnostic details or dismiss a diagnostic on the component page."
 msgstr ""
+"Elke bevinding vermeldt ten hoogste 20 beïnvloede projecten of onderdelen. "
+"Aanvullend beïnvloede objecten worden als een telling vermeld. Volg een link "
+"naar een onderdeel om de volledige diagnostische details te zien of wijs een "
+"diagnostiek af op de onderdeelspagina."
 
 #: devel/alerts.rst:65
 msgid ""
@@ -45122,6 +45129,10 @@ msgid ""
 "Components shared into a project are listed only in the diagnostics of their "
 "owning project."
 msgstr ""
+"De samenvatting kan worden gefilterd op actieve of afgewezen status, ernst, "
+"categorie en of de aangemelde gebruiker mag acteren op de diagnostiek. "
+"Onderdelen die worden gedeeld in een project worden slechts een keer vermeld "
+"in de diagnostiek van het project waartoe ze behoren."
 
 #: devel/alerts.rst:69
 msgid ""
@@ -45151,6 +45162,11 @@ msgid ""
 "diagnostic details or the configuration relevant to that diagnostic changes. "
 "Dismissal and reopening are both recorded in the component change history."
 msgstr ""
+"Afgewezen diagnostiek legt vast wie het afwijst, wanneer het werd afgewezen "
+"en een optionele reden. Een afwijzing wordt automatisch heropend als de "
+"diagnostische details of de configuratie die relevant is voor die "
+"diagnostiek wijzigt. Afwijzen en heropenen worden beide vastgelegd in de "
+"wijzigingsgeschiedenis van het onderdeel."
 
 #: devel/alerts.rst:82
 msgid ""
@@ -45158,6 +45174,9 @@ msgid ""
 "maintainers who have permission to act on the diagnostic. Informational "
 "recommendations do not send unsolicited notifications."
 msgstr ""
+"Waarschuwingen en foutnotificaties worden alleen verzonden aan geabonneerde "
+"projectbeheerders die het recht hebben om op de diagnostiek te acteren. "
+"Informationele aanbevelingen verzenden geen algemene notificaties."
 
 #: devel/alerts.rst:86
 msgid ""
@@ -45166,6 +45185,11 @@ msgid ""
 "inputs. Changing the returned context reopens a dismissed alert. Incidental "
 "values such as evaluation time should not be included."
 msgstr ""
+"Aangepaste meldingen kunnen ``BaseAlert.get_dismissal_context(component, "
+"details)`` overschrijven om stabiele, JSON-serialiseerbare configuratie of "
+"diagnostische invoer op te nemen. Wijzigen van de teruggegeven context "
+"heropent een afgewezen melding. Incidentele waarden, zoals evaluatietijd zou "
+"niet moeten worden opgenomen."
 
 #: devel/alerts.rst:92
 msgid "A component with both duplicated strings and languages looks like this:"
@@ -47105,6 +47129,10 @@ msgid ""
 "reports remain available on the same page according "
 "to :setting:`REPORT_EXPIRY`."
 msgstr ""
+"Rapporten worden op de achtergrond gemaakt. Weblate geeft de voortgang voor "
+"het maken weer en opent het opgeslagen rapport als dat klaar is. Eerder "
+"gemaakte rapporten blijven op dezelfde pagina beschikbaar overeenkomstig "
+":setting:`REPORT_EXPIRY`."
 
 #: devel/reporting.rst:17
 msgid ""
@@ -47380,6 +47408,12 @@ msgid ""
 "maximum source words can be used to exclude incomplete work days, automated "
 "changes, and obvious outliers."
 msgstr ""
+"Schat realistische dagelijkse verwerking door vertaler vanuit de "
+"wijzigingsgeschiedenis. Het rapporteert de mediaan, gemiddelde, het 75e "
+"percentiel en het 90e percentiel voor vertaalde tekenreeksen en bronwoorden. "
+"Minimale en maximale dagelijkse wijzigingen en maximum aantal bronwoorden "
+"kunnen worden gebruikt om onvolledige werkdagen uit te sluiten, "
+"geautomatiseerde wijzigingen en duidelijke uitschieters."
 
 #: devel/reporting-example.rst:2
 msgid "Email"
@@ -49779,6 +49813,11 @@ msgid ""
 "a specific variant, and cannot create new plural strings unless that is "
 "natively supported by the format."
 msgstr ""
+"Ondersteuning voor meervouden in de ondersteunde objecttabellen betekent dat "
+"Weblate meervoudstekenreeksen kan weergeven voor de indeling. Sommige "
+"indelingen hebben bestaande metadata voor meervouden nodig of een specifieke "
+"variant en kunnen geen nieuwe meervoudstekenreeksen maken, tenzij dat zelf "
+"wordt ondersteund door de indeling."
 
 #: formats.rst:155
 msgid ""
@@ -49819,6 +49858,9 @@ msgid ""
 "Some file formats can store obsolete strings. Weblate can remove these "
 "obsolete strings from formats that support this operation."
 msgstr ""
+"Sommige bestandsindelingen kunnen overbodige tekenreeksen opslaan. Weblate "
+"kan deze overbodige tekenreeksen verwijderen uit indelingen die deze "
+"bewerking ondersteunen."
 
 #: formats.rst:179
 msgid "Supporting other formats"
@@ -52349,6 +52391,9 @@ msgid ""
 "The :mod:`wlc` module exposes the Weblate API client, API objects returned "
 "by the client, and exceptions raised for common API failures."
 msgstr ""
+"De module :mod:`wlc` geeft de Weblate API-cliënt weer, API-objecten die "
+"worden teruggegeven door de cliënt en opgeworpen uitzonderingen voor "
+"veelvoorkomend falen voor de API."
 
 #: python.rst:32
 msgid ":class:`Weblate`"
@@ -52356,7 +52401,7 @@ msgstr ":class:`Weblate`"
 
 #: python.rst:34
 msgid "The :class:`Weblate` class is the main API entry point."
-msgstr ""
+msgstr "De klasse :class:`Weblate` is het hoofdtoegangspunt voor de API."
 
 #: python.rst:41
 #, fuzzy
@@ -52375,6 +52420,8 @@ msgid ""
 "API objects behave as mappings and support deferred loading. Attribute "
 "access loads missing data from the API when needed."
 msgstr ""
+"API-objecten gedragen zich als mappings en ondersteunen afgeleid laden. "
+"Toegang tot attributen laadt ontbrekende gegevens uit de API indien nodig."
 
 #: security/data-residency.rst:2
 msgid "Data residency and EU cloud sovereignty"
@@ -56154,7 +56201,7 @@ msgstr "Gedeeld vertaalgeheugen"
 
 #: security/threat-model.rst:52
 msgid "Report forms and :http:get:`/api/reports/` endpoints"
-msgstr ""
+msgstr "Rapportformulieren en :http:get:`/api/reports/` eindpunten"
 
 #: security/threat-model.rst:53
 #, fuzzy
@@ -56760,6 +56807,10 @@ msgid ""
 "``reports.view`` scope. *(documented)* (source: :doc:`/devel/"
 "reporting`, :doc:`/api`)"
 msgstr ""
+"Een bevinding in een opgeslagen rapport staat in een model dat een "
+"geauthenticeerde gebruiker kan maken, vermelden, of bijdragegegevens "
+"renderen buiten de maker om of het huidige bereik ``reports.view``. *"
+"(documented)* (source: :doc:`/devel/reporting`, :doc:`/api`)"
 
 #: security/threat-model.rst:233
 msgid ""
@@ -57284,6 +57335,9 @@ msgid ""
 "suggestion API requests including ``rejection_reason`` text, ``is_spam`` "
 "flag, and ``approve`` flag"
 msgstr ""
+"Brontekenreeksen, vertalingen, opmerkingen, suggesties, items voor "
+"woordenlijsten; verzoeken voor de suggestie-API bevatten tekst "
+"``rejection_reason``, vlag ``is_spam`` en vlag ``approve``"
 
 #: security/threat-model.rst:398
 msgid ""
@@ -57328,18 +57382,23 @@ msgstr ""
 
 #: security/threat-model.rst:409
 msgid "GitHub App connection callbacks"
-msgstr ""
+msgstr "GitHub-app-verbinding callbacks"
 
 #: security/threat-model.rst:410
 msgid ""
 "GitHub OAuth code, signed Weblate state, installation ID, account metadata"
 msgstr ""
+"GitHub OAuth-code, ondertekende status Weblate, installatie-ID, account "
+"metadata"
 
 #: security/threat-model.rst:411
 msgid ""
 "Yes, from authenticated Weblate users and GitHub redirect query strings. "
 "*(documented)* (source: :ref:`code-hosting-github-app-register`)"
 msgstr ""
+"Ja, van geauthenticeerde Weblate-gebruikers en door GitHub omgeleide "
+"querytekenreeksen. *(documented)* (source: :ref:`code-hosting-github-app-"
+"register`)"
 
 #: security/threat-model.rst:413
 msgid ""
@@ -57348,6 +57407,10 @@ msgid ""
 "installation before saving it. *(documented)* (source: :ref:`code-hosting-"
 "github-app-register`)"
 msgstr ""
+"Weblate vereist rechten voor werkruimtebeheer en verifieert dat de GitHub-"
+"gebruiker eigenaar is van de persoonlijke installatie of de installatie van "
+"de organisatie mag beheren voordat het wordt opgeslagen. *(documented)* "
+"(source: :ref:`code-hosting-github-app-register`)"
 
 #: security/threat-model.rst:417
 msgid "Repository configuration"
@@ -60287,6 +60350,8 @@ msgstr "Alarm geactiveerd"
 #: snippets/addon-parameters-autogenerated.rst:644
 msgid "A component alert was reopened after its context changed."
 msgstr ""
+"Een melding voor een onderdeel werd heropend nadat de context ervan is "
+"gewijzigd."
 
 #: snippets/addons-autogenerated.rst:6
 msgid "Built-in add-ons"
@@ -60569,6 +60634,9 @@ msgid ""
 "unused` in :ref:`repository-maintenance` on that translation instead of "
 "installing the add-on."
 msgstr ""
+"Voor het eenmalig opruimen van een enkel vertaalbestand, gebruik "
+":guilabel:`Niet-gebruikt opruimen` in :ref:`repository-maintenance` voor die "
+"vertaling in plaats van de add-on te installeren."
 
 #: snippets/addons-autogenerated.rst:203
 msgid "Add missing languages"
@@ -61887,7 +61955,7 @@ msgstr ""
 #: snippets/addons-autogenerated.rst:1172
 #: snippets/addons-autogenerated.rst:1429
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "Exclusieve sleutelwoorden gebruiken"
 
 #: snippets/addons-autogenerated.rst:1172
 #: snippets/addons-autogenerated.rst:1429
@@ -61896,6 +61964,9 @@ msgid ""
 "additional keyword, disabling all default keywords so that only the keyword "
 "specified above is recognized."
 msgstr ""
+"Indien ingeschakeld, geeft ``--keyword`` zonder een waarde door aan xgettext "
+"voor het aanvullende sleutelwoord, schakelt alle standaard sleutelwoorden "
+"uit, zodat alleen het hierboven gespecificeerde sleutelwoord wordt herkend."
 
 #: snippets/addons-autogenerated.rst:1174
 msgid "Meson preset"
@@ -67906,6 +67977,9 @@ msgid ""
 "``.odt``, ``.otc``, ``.otf``, ``.otg``, ``.oth``, ``.oti``, ``.otp``, "
 "``.ots``, ``.ott``, ``.sxw``"
 msgstr ""
+"``.odc``, ``.odf``, ``.odg``, ``.odi``, ``.odm``, ``.odp``, ``.ods``, "
+"``.odt``, ``.otc``, ``.otf``, ``.otg``, ``.oth``, ``.oti``, ``.otp``, "
+"``.ots``, ``.ott``, ``.sxw``"
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
@@ -67920,11 +67994,11 @@ msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
 
 #: snippets/format-features/srt-features.rst:8
 msgid "``.ass``, ``.srt``, ``.ssa``, ``.sub``"
-msgstr ""
+msgstr "``.ass``, ``.srt``, ``.ssa``, ``.sub``"
 
 #: snippets/format-features/srt-features.rst:24
 msgid "``ass``, ``srt``, ``ssa``, ``sub``"
-msgstr ""
+msgstr "``ass``, ``srt``, ``ssa``, ``sub``"
 
 #: snippets/format-features/txt-features.rst:8
 #, fuzzy
@@ -68392,19 +68466,19 @@ msgstr "Formaliteit"
 #: snippets/machines-autogenerated.rst:186
 #: snippets/machines-autogenerated.rst:194
 msgid "*empty value* -- Default"
-msgstr ""
+msgstr "*lege waarde* -- Standaard"
 
 #: snippets/machines-autogenerated.rst:178
 msgid "``FORMAL`` -- Formal"
-msgstr ""
+msgstr "``FORMAL`` -- Formeel"
 
 #: snippets/machines-autogenerated.rst:180
 msgid "``INFORMAL`` -- Informal"
-msgstr ""
+msgstr "``INFORMAL`` -- Informeel"
 
 #: snippets/machines-autogenerated.rst:182
 msgid "Brevity"
-msgstr ""
+msgstr "Beknoptheid"
 
 #: snippets/machines-autogenerated.rst:182
 msgid "Prefer shorter translations when supported."
@@ -68430,7 +68504,7 @@ msgstr "Aantal woorden in de vertaalde tekenreeks."
 
 #: snippets/machines-autogenerated.rst:196
 msgid "``MASK`` -- Mask profanity"
-msgstr ""
+msgstr "``MASK`` -- Masker vloeken"
 
 #: snippets/machines-autogenerated.rst:202
 msgid ""
@@ -71871,6 +71945,10 @@ msgid ""
 "lookup, field operators, exact match, date values, and regular expressions. "
 "The available fields depend on what kind of object is being searched."
 msgstr ""
+"Geavanceerde zoekacties ondersteunen booleaanse bewerkingen, haakjes, "
+"veldspecifiek opzoeken, veldoperatoren, exacte overeenkomsten, datumwaarden "
+"en reguliere expressies. De beschikbare velden zijn afhankelijk van naar "
+"welk soort object wordt gezocht."
 
 #: user/search.rst:14
 msgid "Boolean operators"
@@ -72069,6 +72147,8 @@ msgstr "Zoeken naar tekenreeksen"
 #: user/search.rst:112
 msgid "String search supports the shared query syntax above."
 msgstr ""
+"Zoeken naar tekenreeksen ondersteunt de syntaxis voor gedeelde query "
+"hierboven."
 
 #: user/search.rst:114
 msgid ""
@@ -72377,6 +72457,10 @@ msgid ""
 "When searching across languages, matching target strings sharing that source "
 "string can be included in the results."
 msgstr ""
+"Filters voor opmerkingen van brontekenreeksen komen overeen met opmerkingen "
+"die zijn verbonden met de brontekenreeks. Bij het zoeken in meerdere talen "
+"kunnen overeenkomende doeltekenreeksen die de brontekenreeks delen zijn "
+"opgenomen in de resultaten."
 
 #: user/search.rst:227
 msgid "Search in suggestions."
@@ -72833,6 +72917,11 @@ msgid ""
 "when you need them to see a follow-up question; they can reply in the "
 "same :guilabel:`Comments` tab."
 msgstr ""
+"Syntaxis van Markdown mag in alle opmerkingen worden gebruikt, alsook het "
+"vermelden van andere gebruikers door ``@username`` te gebruiken. Vermeld een "
+"beheerder of een andere vertaler als u wilt dat ze een vraag zien die moet "
+"worden opgevolgd; ze kunnen dan antwoorden op dezelfde tab "
+":guilabel:`Opmerkingen`."
 
 #: user/translating.rst:92
 msgid ""
@@ -72844,6 +72933,14 @@ msgid ""
 "by that user. When you are signed in, the search filter menu also includes "
 "shortcuts for comments by you and source comments by you."
 msgstr ""
+"Opnieuw opmerkingen zoeken, open uw :ref:`user-profile`; de telling voor de "
+"opmerkingen linkt naar uw activiteiten met opmerkingen. Tekenreeksen zoeken "
+"met opmerkingen door een specifieke gebruiker, gebruik :doc:`/user/search`. "
+"Bijvoorbeeld ``comment_author:USERNAME`` zoekt naar tekenreeksen met "
+"opmerkingen door die gebruiker, en ``source_comment_author:USERNAME`` zoekt "
+"naar tekenreeksen met opmerkingen voor brontekenreeksen van die gebruiker. "
+"Wanneer u bent aangemeld bevat het menu voor het zoekfilter ook sneltoetsen "
+"voor opmerkingen van u en opmerkingen voor brontekenreeksen van u."
 
 #: user/translating.rst:109
 msgid ""
@@ -73919,6 +74016,13 @@ msgid ""
 "pull requests without inviting the Hosted Weblate :guilabel:`weblate` user. "
 "See :ref:`code-hosting-github-repositories` for the full setup."
 msgstr ""
+"Voor opslagruimten van GitHub op Hosted Weblate, gebruik de `Hosted Weblate-"
+"app <https://github.com/apps/hosted-weblate>`_ uit de werkstroom van Weblate "
+":guilabel:`Verbinden met GitHub-account` wanneer dat mogelijk is. De app "
+"geeft toegang tot de opslagruimte, ontvangt inkomende notificaties, pusht "
+"vertaalbranches en maakt pull requests zonder de Hosted Weblate-gebruiker "
+":guilabel:`weblate` uit te nodigen. Bekijk :ref:`code-hosting-github-"
+"repositories` voor de volledige opstelling."
 
 #: vcs.rst:48
 #, fuzzy
@@ -74694,6 +74798,13 @@ msgid ""
 "by default; use HTTPS, loopback HTTP for local development, or explicitly "
 "opt in to insecure HTTP."
 msgstr ""
+"De Docker-container gebruikt de standaarden van Weblate Client en verbindt "
+"met de API die is uitgerold op localhost. Configureer de API-URL en API-"
+"sleutel met de normale argumenten voor :program:`wlc` of "
+"omgevingsvariabelen, bijvoorbeeld :option:`--url`, :option:`--key`, "
+":envvar:`WLC_URL`, en :envvar:`WLC_KEY`. API-sleutels worden standaard "
+"afgewezen over niet-lokale ``http://`` URL's; gebruik HTTPS, loopback HTTP "
+"voor lokale ontwikkeling of expliciet opt in voor onveilige HTTP."
 
 #: wlc.rst:55
 msgid "The command to launch the container uses the following syntax:"
@@ -74718,6 +74829,10 @@ msgid ""
 "explicitly: :envvar:`WLC_KEY` requires :envvar:`WLC_URL`, and :option:`--"
 "key` requires :option:`--url`."
 msgstr ""
+"Wanneer de gemounte opslagruimte de API-URL verschaft in projectconfiguratie "
+"en u geeft een API-sleutel zonder bereik door aan de container, pin dan de "
+"URL ook expliciet: :envvar:`WLC_KEY` vereist :envvar:`WLC_URL`, en "
+":option:`--key` vereist :option:`--url`."
 
 #: wlc.rst:81
 msgid ""
