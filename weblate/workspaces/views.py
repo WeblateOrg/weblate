@@ -9,19 +9,24 @@ from typing import TYPE_CHECKING
 from urllib.parse import urlencode
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Count, Q
+from django.db import transaction
+from django.db.models import Count, ProtectedError, Q
 from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
+from django.views.decorators.http import require_POST
 
 from weblate.trans.forms import AutoForm, BulkEditForm, SearchForm
 from weblate.trans.models.change import Change
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.views.reports import get_reports_context
-from weblate.utils.views import get_paginator
+from weblate.utils import messages
+from weblate.utils.views import get_paginator, show_form_errors
+from weblate.workspaces.forms import WorkspaceDeleteForm
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
@@ -76,6 +81,7 @@ def get_create_project_url(
 def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     workspace = get_object_or_404(Workspace, pk=pk)
     projects = request.user.allowed_projects.filter(workspace=workspace).order()
+    workspace_has_projects = workspace.projects.exists()
     billing = get_workspace_billing(workspace)
     user_can_view_billing = billing is not None and request.user.has_perm(
         "meta:billing.view", billing
@@ -136,11 +142,16 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             and request.user.has_perm("unit.edit", workspace)
             else None,
             "create_project_url": get_create_project_url(request, workspace, billing),
+            "delete_form": WorkspaceDeleteForm(workspace)
+            if can_edit_workspace and not workspace_has_projects and billing is None
+            else None,
             "last_changes": Change.objects.last_changes(
                 request.user, workspace=workspace
             ).recent(),
             "can_edit_workspace": can_edit_workspace,
             "can_manage_access": can_manage_access,
+            "workspace_has_billing": billing is not None,
+            "workspace_has_projects": workspace_has_projects,
             **(
                 get_reports_context(request, workspace)
                 if request.user.is_authenticated
@@ -149,6 +160,51 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             **get_billing_context(request, billing),
         },
     )
+
+
+@never_cache
+@login_required
+@require_POST
+@transaction.atomic
+def remove(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
+    workspace = get_object_or_404(Workspace.objects.select_for_update(), pk=pk)
+    if not request.user.has_perm("workspace.edit", workspace):
+        msg = "Access denied"
+        raise Http404(msg)
+
+    if workspace.projects.exists():
+        messages.error(
+            request,
+            gettext(
+                "The workspace cannot be removed while it contains projects. "
+                "Move or remove the projects first."
+            ),
+        )
+        return redirect(f"{workspace.get_absolute_url()}#organize")
+
+    if get_workspace_billing(workspace) is not None:
+        messages.error(
+            request,
+            gettext("A workspace associated with billing cannot be removed."),
+        )
+        return redirect(f"{workspace.get_absolute_url()}#organize")
+
+    form = WorkspaceDeleteForm(workspace, request.POST)
+    if not form.is_valid():
+        show_form_errors(request, form)
+        return redirect(f"{workspace.get_absolute_url()}#organize")
+
+    try:
+        workspace.delete()
+    except ProtectedError:
+        messages.error(
+            request,
+            gettext("The workspace cannot be removed because it is still being used."),
+        )
+        return redirect(f"{workspace.get_absolute_url()}#organize")
+
+    messages.success(request, gettext("The workspace has been removed."))
+    return redirect("home")
 
 
 @never_cache

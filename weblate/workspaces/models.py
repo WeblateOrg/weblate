@@ -11,6 +11,8 @@ from uuid import uuid4
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
@@ -401,3 +403,17 @@ class Workspace(models.Model):
             self.acting_user,
             update_fields,
         )
+
+
+@receiver(pre_delete, sender=Workspace)
+def workspace_pre_delete(sender, instance: Workspace, using: str, **kwargs) -> None:
+    # ruff: ignore[import-outside-top-level]
+    from weblate.trans.models import Change
+
+    # Changes for projects moved elsewhere retain their historical workspace.
+    # Detach these before the workspace cascade so the surviving project's
+    # history is preserved. Workspace-only history is still removed.
+    Change.objects.using(using).filter(
+        workspace=instance, project__isnull=False
+    ).update(workspace=None)
+    instance.delete_workspace_memory_scope()
