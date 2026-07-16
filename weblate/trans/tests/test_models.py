@@ -395,6 +395,17 @@ class ProjectTest(RepoTestCase):
             )
             self.assertEqual(result, SuggestionAddResult.TOO_LONG)
 
+            max_length = get_translation_text_max_length(unit)
+            long_segments = ["x" * (max_length // 2 + 1)] * 2
+            _, result = Suggestion.objects.add(
+                unit,
+                long_segments,
+                None,
+                user=another_user,
+                raise_exception=False,
+            )
+            self.assertEqual(result, SuggestionAddResult.TOO_LONG)
+
             # check that user submitting suggestion twice doesn't create duplicated suggestions
             suggestion, result = Suggestion.objects.add(
                 unit, ["New suggestion"], None, user=another_user, raise_exception=True
