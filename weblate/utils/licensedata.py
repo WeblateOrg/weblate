@@ -298,6 +298,12 @@ LICENSES = (
         False,
     ),
     (
+        "atc-game",
+        "atc Game License",
+        "https://spdx.org/licenses/atc-game.html",
+        False,
+    ),
+    (
         "AAL",
         "Attribution Assurance License",
         "https://spdx.org/licenses/AAL.html",
@@ -1033,6 +1039,12 @@ LICENSES = (
         "CC-BY-NC-3.0-DE",
         "Creative Commons Attribution Non Commercial 3.0 Germany",
         "https://spdx.org/licenses/CC-BY-NC-3.0-DE.html",
+        False,
+    ),
+    (
+        "CC-BY-NC-3.0-IGO",
+        "Creative Commons Attribution Non Commercial 3.0 IGO",
+        "https://spdx.org/licenses/CC-BY-NC-3.0-IGO.html",
         False,
     ),
     (
