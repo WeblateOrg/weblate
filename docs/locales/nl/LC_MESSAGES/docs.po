@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-16 10:07+0000\n"
+"PO-Revision-Date: 2026-07-16 12:05+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -1590,12 +1590,20 @@ msgid ""
 "that is not due yet. A successful entry can still mean that the add-on "
 "checked its inputs but found nothing to change."
 msgstr ""
+"Elk item legt vast of het verwerken in de wachtrij staat, met succes is "
+"uitgevoerd, is mislukt of is overgeslagen. Overgeslagen items bevatten de "
+"reden waarom de add-on niet werd uitgevoerd, zoals een incompatibel "
+"onderdeel, geen relevante wijzigingen of een geconfigureerd schema dat nog "
+"niet geldig is. Een succesvol item kan nog steeds betekenen dat de add-on de "
+"invoer controleerde, maar niets vond om te wijzigen."
 
 #: admin/addons.rst:197
 msgid ""
 "For scope-wide add-ons that process components independently, the activity "
 "log contains a separate entry for each component."
 msgstr ""
+"Voor bereikbrede add-ons die onafhankelijk onderdelen verwerken, bevat het "
+"activiteitenlog een afzonderlijk item voor elk onderdeel."
 
 #: admin/addons.rst:200
 msgid ""
@@ -4255,6 +4263,11 @@ msgid ""
 "GitHub account` flow. The App gives Hosted Weblate repository access without "
 "inviting the hosted :guilabel:`weblate` user."
 msgstr ""
+"Voor opslagruimten van GitHub op Hosted Weblate, gebruik de `Hosted Weblate-"
+"app <https://github.com/apps/hosted-weblate>`_ uit de werkstroom "
+":guilabel:`Verbinden met GitHub-account` van Weblate. De app geeft de "
+"opslagruimte van Hosted Weblate toegang zonder de gehoste gebruiker "
+":guilabel:`weblate` uit te nodigen."
 
 #: admin/code-hosting.rst:24
 #, fuzzy
@@ -4530,6 +4543,13 @@ msgid ""
 "repositories, grant it access to the repositories you want to translate, and "
 "import components from the connected GitHub account."
 msgstr ""
+"Op Hosted Weblate is de aanbevolen opstelling om te verbinden met de `Hosted "
+"Weblate-app <https://github.com/apps/hosted-weblate>`_ vanuit de werkruimte "
+"van Weblate waar uw project is opgeslagen. Gebruik de werkstroom "
+":guilabel:`Verbinden met GitHub-account`, installeer de app voor de GitHub-"
+"gebruiker of de organisatie die eigenaar is van uw opslagruimten, geef die "
+"toegang tot de opslagruimten die u wilt vertalen, en importeer onderdelen "
+"vanuit het verbonden GitHub-account."
 
 #: admin/code-hosting.rst:207
 msgid ""
@@ -4539,6 +4559,12 @@ msgid ""
 "Weblate :guilabel:`weblate` GitHub user or configure a separate repository "
 "webhook for components imported this way."
 msgstr ""
+"De door de app gestuurde werkstroom gebruikt toegangstokens voor de "
+"installatie van GitHub voor klonen, pushen van vertaalbranches, maken van "
+"pull requests en ontvangen van inkomende notificaties. U hoeft de GitHub-"
+"gebruiker :guilabel:`weblate` van Hosted Weblate niet uit te nodigen of een "
+"afzonderlijke webhaak voor de opslagruimte te maken voor onderdelen die op "
+"deze manier zijn geïmporteerd."
 
 #: admin/code-hosting.rst:213
 #, fuzzy
@@ -4608,6 +4634,9 @@ msgid ""
 "outside the recommended `Hosted Weblate app <https://github.com/apps/hosted-"
 "weblate>`_ workflow."
 msgstr ""
+"Op Hosted Weblate, gebruik deze werkstroom SSH-gebruiker alleen voor direct "
+"SSH pushen buiten de aanbevolen werkstroom `Hosted Weblate-app <https://"
+"github.com/apps/hosted-weblate>`_."
 
 #: admin/code-hosting.rst:247
 msgid ""
@@ -4655,6 +4684,9 @@ msgid ""
 "Use it only when you need the legacy app to deliver GitHub notifications to "
 "Hosted Weblate."
 msgstr ""
+"De `Hosted Weblate legacy-app`_ is behouden voor bestaande opstellingen van "
+"alleen webhaken. Gebruik het alleen als u de verouderde app nodig hebt om "
+"GitHub-notificaties af te leveren bij Hosted Weblate."
 
 #: admin/code-hosting.rst:273
 msgid ""
@@ -4663,6 +4695,10 @@ msgid ""
 "GitHub returns the credentials, and they are stored in the database - there "
 "is no settings-based configuration."
 msgstr ""
+"Voor zelfgehoste Weblate, registreer de GitHub-app met de in-app werkstroom "
+"voor registreren, hieronder beschreven. Weblate genereert het app-manifest, "
+"GitHub geeft de inloggegevens terug en ze worden opgeslagen in de database - "
+"er is geen op instellingen gebaseerde configuratie."
 
 #: admin/code-hosting.rst:281
 #, fuzzy
@@ -4676,16 +4712,21 @@ msgid ""
 "App manifest with the correct permissions, events, and webhook URL pre-"
 "filled:"
 msgstr ""
+"De snelste manier om de GitHub-app toe te voegen is door Weblate een "
+"manifest voor de GitHub-app te laten maken met de juiste rechten, "
+"gebeurtenissen en vooraf ingevulde URL voor de webhook:"
 
 #: admin/code-hosting.rst:286
 msgid "Sign in to Weblate with an account that has management access."
-msgstr ""
+msgstr "Meld u aan bij Weblate met een account dat beheerstoegang heeft."
 
 #: admin/code-hosting.rst:287
 msgid ""
 "Open :guilabel:`Manage → Code-hosting connections → Register Weblate GitHub "
 "App`."
 msgstr ""
+"Open :guilabel:`Beheren → Verbindingen codehosten → Weblate GitHub-app "
+"registreren`."
 
 #: admin/code-hosting.rst:289
 msgid ""
@@ -4694,6 +4735,11 @@ msgid ""
 "Leave :guilabel:`Organization` blank to register the App under your personal "
 "account, or enter an organization slug to register it under that org."
 msgstr ""
+"Vul het formulier in. De :guilabel:`GitHub host` is standaard "
+"``github.com``; wijzig die naar de naam van uw GitHub Enterprise hostname "
+"indien nodig. Laat :guilabel:`Organisatie` leeg om de app onder uw "
+"persoonlijke account te registreren, of voer een organisatie-slug in om hem "
+"onder die organisatie te registreren."
 
 #: admin/code-hosting.rst:293
 msgid ""
@@ -4701,6 +4747,8 @@ msgid ""
 "GitHub's :guilabel:`Create GitHub App` page (you can still rename the App "
 "there)."
 msgstr ""
+"Klik op :guilabel:`Doorgaan naar GitHub` en bevestig op de pagina van GitHub "
+":guilabel:`GitHub-app maken` (u kunt hier nog steeds de app hernoemen)."
 
 #: admin/code-hosting.rst:295
 msgid ""
@@ -4709,6 +4757,10 @@ msgid ""
 "database. The :guilabel:`Connect GitHub account` button is available "
 "immediately afterwards."
 msgstr ""
+"GitHub leidt u terug naar Weblate, dat de tijdelijke code voor de app-ID "
+"uitwisselt, private sleutel, webhaak geheim en slug en slaat die op in de "
+"database. De knop :guilabel:`Verbinden met GitHub-account` is daarna direct "
+"beschikbaar."
 
 #: admin/code-hosting.rst:300
 msgid ""
@@ -4720,6 +4772,14 @@ msgid ""
 "configuration is required. GitHub delivers the ``Installation`` and "
 "``Installation repositories`` events to all GitHub Apps by default."
 msgstr ""
+"Het manifest vraagt de abonnementen voor de rechten en gebeurtenissen op die "
+"Weblate nodig heeft (``Contents`` en ``Pull requests`` read/write, "
+"``Metadata`` read-only, ``Organization administration`` read-only, "
+"``Workflows`` read/write, en de gebeurtenissen ``Installation``, ``Meta`` en "
+"``Push``), en stelt de URL's voor terugkoppeling, opstelling en per-app "
+"webhaak automatisch in, er is dus geen handmatige configuratie voor de "
+"GitHub-app nodig. GitHub levert de gebeurtenissen ``Installation`` en "
+"``Installation repositories`` standaard aan alle GitHub-apps."
 
 #: admin/code-hosting.rst:308
 msgid ""
@@ -4730,6 +4790,13 @@ msgid ""
 "other accounts; private apps can only be installed on the account that owns "
 "the app."
 msgstr ""
+"GitHub biedt alleen accounts aan waar de aangemelde GitHub-gebruiker de app "
+"mag installeren of aanvragen. Als een organisatie niet wordt weergegeven "
+"gedurende de werkstroom voor de installatie, controleer dan de rol van de "
+"gebruiker in de organisatie en de beperkingen van de installatie van de "
+"GitHub-app voor de organisatie. Op GitHub.com mogen publieke apps worden "
+"geïnstalleerd onder andere accounts; private apps mogen alleen geïnstalleerd "
+"worden onder het account dat eigenaar is van de app."
 
 #: admin/code-hosting.rst:315
 #, fuzzy
@@ -4747,12 +4814,21 @@ msgid ""
 "accounts, Weblate verifies that the install-time GitHub user can administer "
 "the organization installation."
 msgstr ""
+"Verbonden GitHub-accounts zijn gebonden aan een :ref:`werkruimte <workspaces>"
+"` van Weblate. Een gebruiker met rechten voor projectbeheer voor elk project "
+"in een werkruimte mag een GitHub-account verbinden met die werkruimte. Na "
+"het verbinden kan elk project in de werkruimte onderdelen importeren vanuit "
+"opslagruimten waar de installatie van de GitHub-app toegang toe heeft. Voor "
+"accounts van organisaties verifieert Weblate dat de GitHub-gebruiker, ten "
+"tijde van het installeren, de installatie van de organisatie mag beheren."
 
 #: admin/code-hosting.rst:324
 msgid ""
 "Projects that are not in a workspace cannot connect a GitHub account through "
 "the GitHub App."
 msgstr ""
+"Projecten die niet in een werkruimte staan, kunnen niet met een GitHub-"
+"account verbinden via de GitHub-app."
 
 #: admin/code-hosting.rst:327
 msgid ""
@@ -4761,6 +4837,12 @@ msgid ""
 "component settings UI keeps the repository URL read-only to prevent the App-"
 "issued credentials from being redirected to an unrelated repository."
 msgstr ""
+"Onderdelen die zijn geïmporteerd via de werkstroom van de GitHub-app "
+"gebruiken de toegewezen VCS-backend :guilabel:`GitHub (via Weblate GitHub-"
+"app)`. De gebruikersinterface voor de instellingen van het onderdeel behoudt "
+"de URL voor de opslagruimte als alleen-lezen om te voorkomen dat de door de "
+"app uitgegeven inloggegevens worden omgeleid naar een niet gerelateerde "
+"opslagruimte."
 
 #: admin/code-hosting.rst:335
 #, fuzzy
@@ -4773,6 +4855,9 @@ msgid ""
 "Each registered Weblate GitHub App has its own webhook URL containing an "
 "opaque token that uniquely identifies a single registered App:"
 msgstr ""
+"Elke geregistreerde Weblate GitHub-app heeft zijn eigen URL voor een webhaak "
+"die een ondoorzichtig token bevat dat een enkele geregistreerde app uniek "
+"identificeert:"
 
 #: admin/code-hosting.rst:344
 #, fuzzy
@@ -6880,6 +6965,8 @@ msgid ""
 "Template used to generate e-mail addresses for internal Weblate bot "
 "accounts. Defaults to ``\"noreply-{scope}-{name}@weblate.org\"``."
 msgstr ""
+"Sjabloon dat wordt gebruikt om e-mailadressen te maken voor interne Weblate "
+"bot-accounts. Standaard is ``\"noreply-{scope}-{name}@weblate.org\"``."
 
 #: admin/config.rst:1263
 msgid ""
@@ -6894,12 +6981,17 @@ msgid ""
 "Use ``{scope}`` and ``{name}`` when generating the e-mail local part. The "
 "``{username}`` value contains the internal ``scope:name`` username."
 msgstr ""
+"Gebruik ``{scope}`` en ``{name}`` bij het maken van het lokale deel van de e-"
+"mail. De waarde ``{username}`` bevat de interne gebruikersnaam "
+"``scope:name``."
 
 #: admin/config.rst:1269
 msgid ""
 "Existing internal bot accounts are updated when :wladmin:`migrate` is run. "
 "Project API token accounts are not affected."
 msgstr ""
+"Bestaande interne bot-accounts worden bijgewerkt als :wladmin:`migrate` "
+"wordt uitgevoerd. Project API-token-accounts worden niet beïnvloed."
 
 #: admin/config.rst:1277
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -7640,6 +7732,10 @@ msgid ""
 "to 90 days. Changing the value also changes when existing reports become "
 "eligible for removal by the daily cleanup task."
 msgstr ""
+"Definieert voor hoeveel dagen de gemaakte vertaalrapporten worden bewaard. "
+"Standaard is 90 dagen. Wijzigen van de waarde wijzigt ook wanneer bestaande "
+"rapporten in aanmerking komen om te worden verwijderd door de dagelijkse "
+"taak voor opruimen."
 
 #: admin/config.rst:2113
 msgid "Limits how many notifications for a single user will be sent out."
@@ -8854,6 +8950,10 @@ msgid ""
 "actions rewrite that translation file and commit the result; they are not "
 "project-wide or component-wide operations."
 msgstr ""
+"De acties :guilabel:`Bestandsbeheer` zijn alleen beschikbaar vanuit "
+":guilabel:`Onderhoud opslagruimte` voor een individuele vertaling. Deze "
+"acties herschrijven dat vertaalbestand en dienen het resultaat in; het zijn "
+"geen projectbrede of onderdeelbrede bewerkingen."
 
 #: admin/continuous.rst:195
 msgid ""
@@ -9112,6 +9212,8 @@ msgid ""
 "Repair duplicate strings reported by Weblate when the file contains repeated "
 "units."
 msgstr ""
+"Repareer duplicate tekenreeksen die zijn gerapporteerd door Weblate als het "
+"bestand herhaalde eenheden bevat."
 
 #: admin/continuous.rst:260
 #, fuzzy
@@ -9125,10 +9227,13 @@ msgid ""
 "file. The :ref:`addon-weblate.cleanup.generic` add-on can perform this "
 "automatically."
 msgstr ""
+"Verwijdert tekenreeksen die niet langer aanwezig zijn in het basisbestand "
+"van een vertaalbestand. De add-on :ref:`addon-weblate.cleanup.generic` kan "
+"dit automatisch uitvoeren."
 
 #: admin/continuous.rst:262
 msgid "Run a one-time cleanup without installing the add-on."
-msgstr ""
+msgstr "Een eenmalige opruimactie uitvoeren zonder de add-on te installeren."
 
 #: admin/continuous.rst:264
 #, fuzzy
@@ -9149,6 +9254,8 @@ msgstr ""
 msgid ""
 "Run a one-time PO cleanup without enabling automatic obsolete string removal."
 msgstr ""
+"Een eenmalige opruimactie voor PO uitvoeren zonder het automatisch "
+"verwijderen van overbodige tekenreeksen in te schakelen."
 
 #: admin/continuous.rst:271
 msgid "Reset and reapply recovery behavior"
@@ -11164,6 +11271,9 @@ msgid ""
 "Weblate deployment checks report non-finite PostgreSQL relation statistics. "
 "Run ``ANALYZE`` on the reported relations to rebuild corrupted statistics."
 msgstr ""
+"Het uitrollen van Weblate controleert niet-beëindigde PostgreSQL "
+"relatiestatistieken. Voer ``ANALYZE`` uit op de gerapporteerde relaties om "
+"de gecorrumpeerde statistieken opnieuw op te bouwen."
 
 #: admin/install.rst:983
 msgid "Configure cache"
@@ -11810,6 +11920,14 @@ msgid ""
 "memory, CPU cores, and database connection limit. Keep the backpressure "
 "equal to or higher than the number of blocking threads."
 msgstr ""
+"Granian gebruikt processen voor werkers voor parallelle uitvoering van "
+"Python, blokkeren van threads voor opvolgende verzoeken WSGI en runtime "
+"threads voor netwerk I/O. Het voorbeeld gebruikt twee werkers met acht "
+"blokkeerthreads elk, wat elke werker beperkt tot 16 opeenvolgende "
+"verbindingen, en laat de runtimethreads op de standaard van Granian. Pas de "
+"werkers en de blokkerthreads aan het beschikbare geheugen, CPU-bronnen en "
+"limiet voor de databaseverbinding aan. Houd de tegendruk gelijk aan of hoger "
+"dan het aantal blokkeerthreads."
 
 #: admin/install.rst:1471
 msgid "Sample configuration to start Gunicorn"
@@ -12923,6 +13041,12 @@ msgid ""
 "because its short tasks can benefit from buffering. Increase the value only "
 "after measuring queue latency and worker memory usage."
 msgstr ""
+"De prefetch multiplier beheert hoeveel taken elk slot voor de uitvoering van "
+"een werker mag reserveren. De standaard een vermijdt het reserveren van "
+"aanvullen langdurige taken of die met een zware lading. De notificatiewerker "
+"gebruikt vier in dit voorbeeld, omdat zijn korte taken voordeel kunnen "
+"hebben van bufferen. Verhoog de waarde alleen na het meten van de latentie "
+"van de wachtrij en het geheugengebruik van de werker."
 
 #: admin/install/docker.rst:415
 msgid ""
@@ -13885,6 +14009,9 @@ msgid ""
 "the database, so there are no GitHub App environment variables to configure. "
 "See :ref:`code-hosting-github-notifications`."
 msgstr ""
+"GitHub-apps worden geregistreerd door een in-app manifestwerkstroom en "
+"opgeslagen in de database, er zijn dus geen omgevingsvariabelen voor GitHub-"
+"app te configureren. Bekijk :ref:`code-hosting-github-notifications`."
 
 #: admin/install/docker.rst:1463
 msgid ""
@@ -14712,6 +14839,9 @@ msgid ""
 "Configure how many blocking WSGI threads each :program:`granian` worker can "
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS`."
 msgstr ""
+"Configureer hoeveel blokkerende threads voor WSGI elke werker van "
+":program:`granian` mag gebruiken. De standaard is twee keer "
+":envvar:`WEBLATE_WORKERS`."
 
 #: admin/install/docker.rst:2428
 msgid ""
@@ -14720,6 +14850,10 @@ msgid ""
 "by :envvar:`WEB_BLOCKING_THREADS`. Each thread can hold its own database "
 "connection, so keep the resulting total within the database connection limit."
 msgstr ""
+"Het maximale aantal gelijktijdige WSGI-verzoeken is bij benadering "
+":envvar:`WEB_WORKERS` vermenigvuldigd met :envvar:`WEB_BLOCKING_THREADS`. "
+"Elke thread mag zijn eigen databaseverbinding hebben, houdt het resulterende "
+"totaal dus binnen de limiet voor de databaseverbinding."
 
 #: admin/install/docker.rst:2443
 msgid ""
@@ -17708,6 +17842,14 @@ msgid ""
 "administrators can monitor the backfill and duplicate-entry consolidation "
 "in :guilabel:`Administration` > :guilabel:`Performance report`."
 msgstr ""
+"Bij het upgraden van oudere uitgaven van Weblate worden bestaande items voor "
+"vertaalgeheugens geconverteerd naar bereiken door een periodieke Celery "
+"achtergrondtaak. Totdat deze opvulling is voltooid, kunnen bestaande items "
+"tijdelijk niet beschikbaar zijn in suggesties en weergave voor "
+"geheugenbeheer. Houd Celery draaiende na het upgraden, zodat de periodieke "
+"taak kan starten of de migratie kan hervatten. Sitebeheerders kunnen het "
+"opvullen en consolideren van duplicaatitems monitoren in "
+":guilabel:`Beheren` > :guilabel:`Rapport uitvoering`."
 
 #: admin/memory.rst:42
 msgid "Imported translation memory"
