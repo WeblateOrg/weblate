@@ -8959,7 +8959,7 @@ class MachineryErrorTest(TestCase):
             side_effect=Exception("DB failure"),
         ):
             # Must not raise
-            machine._save_machinery_error(ValueError("test"), "test cause")
+            machine.report_error("test cause", exc=ValueError("test"))
 
     def test_language_fetch_error_creates_db_record(self) -> None:
         """Errors in download_languages are persisted as MachineryError rows."""
@@ -9004,9 +9004,11 @@ class MachineryErrorTest(TestCase):
         mock_response.status_code = 429
         mock_response.url = "https://api.example.com/"
         exc = HTTPError(response=mock_response)
-        with patch.object(machine, "download_pending_translations", side_effect=exc):
-            with self.assertRaises(MachineTranslationError):
-                machine.translate(unit)
+        with (
+            patch.object(machine, "download_pending_translations", side_effect=exc),
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine.translate(unit)
         self.assertEqual(MachineryError.objects.count(), 1)
         self.assertTrue(machine.is_rate_limited())
 
