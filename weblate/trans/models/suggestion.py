@@ -18,9 +18,13 @@ from django.utils.translation import gettext
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autofixes import fix_target
-from weblate.trans.exceptions import SuggestionSimilarToTranslationError
+from weblate.trans.exceptions import (
+    SuggestionSimilarToTranslationError,
+    SuggestionTooLongError,
+)
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.util import join_plural, split_plural
+from weblate.trans.validators import get_translation_text_max_length
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
@@ -36,6 +40,7 @@ class SuggestionAddResult(StrEnum):
     DUPLICATE = "duplicate"
     VOTED = "voted"
     SIMILAR = "similar"
+    TOO_LONG = "too_long"
 
 
 class SuggestionManager(models.Manager["Suggestion"]):
@@ -51,6 +56,12 @@ class SuggestionManager(models.Manager["Suggestion"]):
         """Create new suggestion for this unit."""
         # ruff: ignore[import-outside-top-level]
         from weblate.auth.models import get_anonymous
+
+        max_length = get_translation_text_max_length(unit)
+        if any(len(text) > max_length for text in target):
+            if raise_exception:
+                raise SuggestionTooLongError
+            return None, SuggestionAddResult.TOO_LONG
 
         # Apply fixups
         fixups: list[str] = []

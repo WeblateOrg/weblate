@@ -34,7 +34,11 @@ from weblate.glossary.forms import TermForm
 from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.actions import ActionEvents
-from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
+from weblate.trans.exceptions import (
+    FileParseError,
+    SuggestionSimilarToTranslationError,
+    SuggestionTooLongError,
+)
 from weblate.trans.forms import (
     AutoForm,
     ChecksumForm,
@@ -827,6 +831,9 @@ def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
         messages.error(
             request, gettext("Your suggestion is similar to the current translation!")
         )
+        return False
+    except SuggestionTooLongError:
+        messages.error(request, gettext("Translation text too long!"))
         return False
     if result == SuggestionAddResult.DUPLICATE:
         messages.error(request, gettext("Your suggestion already exists!"))

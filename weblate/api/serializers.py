@@ -53,7 +53,10 @@ from weblate.trans.defines import (
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
 )
-from weblate.trans.exceptions import SuggestionSimilarToTranslationError
+from weblate.trans.exceptions import (
+    SuggestionSimilarToTranslationError,
+    SuggestionTooLongError,
+)
 from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     apply_create_inheritance_defaults,
@@ -2802,6 +2805,9 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
             )
         except SuggestionSimilarToTranslationError as error:
             msg = gettext_lazy("Your suggestion is similar to the current translation!")
+            raise serializers.ValidationError({"target": msg}) from error
+        except SuggestionTooLongError as error:
+            msg = gettext_lazy("Translation text too long!")
             raise serializers.ValidationError({"target": msg}) from error
         self.add_result = result
         if result == SuggestionAddResult.DUPLICATE:
