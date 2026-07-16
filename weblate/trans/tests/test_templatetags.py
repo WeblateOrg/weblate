@@ -277,6 +277,61 @@ class LocationLinksTest(TestCase):
             """,
         )
 
+    def test_default_github_repoweb(self) -> None:
+        component = self.unit.translation.component
+        component.vcs = "github-app"
+        component.repo = "https://github.com/example/project.git"
+        component.branch = "main"
+
+        with patch.object(self.user, "has_perm", return_value=True):
+            for filename, line in (("foo.bar", "123"), ("bar.foo", "321")):
+                with self.subTest(filename=filename):
+                    self.unit.location = f"{filename}:{line}"
+                    self.assertHTMLEqual(
+                        get_location_links(self.user, self.unit),
+                        f"""
+                        <a class="wrap-text"
+                            href="https://github.com/example/project/blob/main/{filename}#L{line}"
+                            tabindex="-1" target="_blank" dir="ltr"
+                            rel="noopener noreferrer">
+                        {filename}:{line}
+                        </a>
+                        """,
+                    )
+
+    def test_default_github_repoweb_requires_permission(self) -> None:
+        component = self.unit.translation.component
+        component.vcs = "github-app"
+        component.repo = "https://github.com/example/project.git"
+        component.branch = "main"
+        self.unit.location = "foo.bar:123"
+
+        with patch.object(self.user, "has_perm", return_value=False):
+            self.assertEqual(
+                get_location_links(self.user, self.unit),
+                "foo.bar:123",
+            )
+
+    def test_default_github_repoweb_linked_component(self) -> None:
+        component = self.unit.translation.component
+        component.repo = "weblate://p/source"
+        component.linked_component = Component(
+            project=component.project,
+            source_language=component.source_language,
+            slug="source",
+            name="Source",
+            vcs="github-app",
+            repo="https://github.com/example/project.git",
+            branch="main",
+        )
+        self.unit.location = "foo.bar:123"
+
+        with patch.object(self.user, "has_perm", return_value=True):
+            self.assertIn(
+                'href="https://github.com/example/project/blob/main/foo.bar#L123"',
+                get_location_links(self.user, self.unit),
+            )
+
     def test_user_url(self) -> None:
         self.unit.translation.component.repoweb = (
             "http://example.net/{{filename}}#L{{line}}"

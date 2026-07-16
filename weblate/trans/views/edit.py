@@ -1389,7 +1389,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
                 # '' or '0' on GitHub or GitLab, let's play it safe for now.
                 "1",
                 unit,
-                user.profile,
+                user,
             ),
         },
     )
