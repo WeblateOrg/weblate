@@ -63,6 +63,12 @@ class SuggestionManager(models.Manager["Suggestion"]):
                 raise SuggestionTooLongError
             return None, SuggestionAddResult.TOO_LONG
 
+        target_merged = join_plural(target)
+        if len(target_merged) > max_length:
+            if raise_exception:
+                raise SuggestionTooLongError
+            return None, SuggestionAddResult.TOO_LONG
+
         # Apply fixups
         fixups: list[str] = []
         if not unit.translation.is_template:
