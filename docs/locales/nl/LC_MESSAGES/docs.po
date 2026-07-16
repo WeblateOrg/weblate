@@ -22,9 +22,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-16 02:43+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-16 10:07+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -13696,10 +13695,8 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Configureert :setting:`UNUSED_ALERT_DAYS`."
 
 #: admin/install/docker.rst:1253
-#, fuzzy
-#| msgid "Configures :setting:`GET_HELP_URL`."
 msgid "Configures :setting:`REPORT_EXPIRY`."
-msgstr "Configureert :setting:`GET_HELP_URL`."
+msgstr "Configureert :setting:`REPORT_EXPIRY`."
 
 #: admin/install/docker.rst:1259
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
@@ -14639,26 +14636,18 @@ msgstr ""
 "opstarten van de container, gebaseerd op het aantal beschikbare CPU-bronnen."
 
 #: admin/install/docker.rst:2357
-#, fuzzy
-#| msgid ""
-#| "It is used to "
-#| "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
-#| "and :envvar:`WEB_WORKERS`. You can use these settings to fine-tune."
 msgid ""
 "It is used to "
 "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, "
 "and :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune."
 msgstr ""
-"Het wordt gebruikt om te "
-"bepalen :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS` "
-"en :envvar:`WEB_WORKERS`. U kunt deze instellingen fijn afstemmen."
+"Het wordt gebruikt om te bepalen :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS` en "
+":envvar:`WEB_BLOCKING_THREADS`. U kunt deze instellingen fijn afstemmen."
 
 #: admin/install/docker.rst:2370
-#, fuzzy
-#| msgid ""
-#| "These variables allow you to adjust Celery worker options. It can be "
-#| "useful to adjust concurrency (``--concurrency 16``) or use different pool "
-#| "implementation (``--pool=gevent``)."
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``), prefetching (``--prefetch-"
@@ -14668,8 +14657,11 @@ msgid ""
 msgstr ""
 "Deze variabelen stellen u in staat opties voor werkers van Celery aan te "
 "passen. Het kan nuttig zijn om de gelijktijdige aan te passen (``--"
-"concurrency 16``) of een andere implementatie van de pool te gebruiken (``--"
-"pool=gevent``)."
+"concurrency 16``), prefetching (``--prefetch-multiplier 4``), of een andere "
+"implementatie van de pool te gebruiken (``--pool=gevent``).Opties voor de "
+"opdrachteregel hebben voorrang boven corresponderende instellingen van "
+"Celery, wat het mogelijk maakt dat elke categorie van een werker een andere "
+"prefetch multiplier gebruikt."
 
 #: admin/install/docker.rst:2377
 msgid ""
@@ -21524,16 +21516,13 @@ msgid "Copy the activation token into your Weblate management interface."
 msgstr ""
 
 #: admin/support.rst:131
-#, fuzzy
-#| msgid ""
-#| "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
-#| "discovery` from its management page :"
 msgid ""
 "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
 "discovery` from the :guilabel:`Discover Weblate` panel:"
 msgstr ""
-"Bevestig dat u uw Weblate vermeld wilt hebben door te klikken "
-"op :guilabel:`Discovery inschakelen` vanuit de beheerpagina :"
+"Bevestig dat u uw Weblate vermeld wilt hebben door te klikken op "
+":guilabel:`Ontdekken inschakelen` vanuit het paneel :guilabel:`Ontdek "
+"Weblate`:"
 
 #: admin/support.rst:139
 msgid "Listing customization"
@@ -23335,19 +23324,14 @@ msgstr ""
 "Volg :ref:`generic-upgrade-instructions` om het bijwerken uit te voeren."
 
 #: changes.rst:45
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
-#| "accordingly."
 msgid ""
 "There are changes in :file:`settings_example.py`, most notably the new "
 "``STORAGES`` configuration and removal of the ``COMPRESS_*`` settings; "
 "please adjust your settings accordingly."
 msgstr ""
-"Er zijn verscheidene wijzigingen in :file:`settings_example.py`, de meest "
-"opvallende wijziging staat in ``COMPRESS_OFFLINE_CONTEXT``, pas uw "
-"instellingen overeenkomstig aan."
+"Er zijn wijzigingen in :file:`settings_example.py`, de meest opvallende "
+"wijzigingen zijn de nieuwe configuratie ``STORAGES`` en het verwijderen van "
+"de instellingen voor ``COMPRESS_*``; pas uw instellingen overeenkomstig aan."
 
 #: changes.rst:46
 msgid ""
@@ -23912,11 +23896,6 @@ msgid ""
 msgstr ""
 
 #: changes.rst:157
-#, fuzzy
-#| msgid ""
-#| "Restricted component changes are no longer exposed through nested "
-#| "project, component, or translation API change endpoints (:ghsa:`92m8-wv36-"
-#| "prmx`)."
 msgid ""
 "Restricted component changes are no longer exposed through nested project, "
 "component, or translation API change endpoints "
@@ -23924,36 +23903,27 @@ msgid ""
 msgstr ""
 "Beperkte wijzigingen in onderdelen worden niet langer weergegeven door het "
 "geneste project, onderdeel, of eindpunten van de wijzigingen voor de vertaal-"
-"API (:ghsa:`92m8-wv36-prmx`)."
+"API (:cve:`2026-62249`, :ghsa:`92m8-wv36-prmx`)."
 
 #: changes.rst:158
-#, fuzzy
-#| msgid ""
-#| "ZIP downloads, including :ref:`appstore` translation bundles, no longer "
-#| "follow child symbolic links outside the downloaded tree (:ghsa:`xwj4-fp82-"
-#| "r2rj`)."
 msgid ""
 "ZIP downloads, including :ref:`appstore` translation bundles, no longer "
 "follow child symbolic links outside the downloaded tree "
 "(:cve:`2026-61792`, :ghsa:`xwj4-fp82-r2rj`)."
 msgstr ""
 "ZIP-downloads, inclusief :ref:`appstore` vertaalbundels, volgen niet langer "
-"kind-symbolische links buiten de gedownloade boom (:ghsa:`xwj4-fp82-r2rj`)."
+"kind-symbolische links buiten de gedownloade boom (:cve:`2026-61792`, "
+":ghsa:`xwj4-fp82-r2rj`)."
 
 #: changes.rst:159
-#, fuzzy
-#| msgid ""
-#| "Teams enforcing two-factor authentication now also withhold site-wide "
-#| "permissions from human members without 2FA configured (:ghsa:`x86c-ff69-"
-#| "cr2m`)."
 msgid ""
 "Teams enforcing two-factor authentication now also withhold site-wide "
 "permissions from human members without 2FA configured "
 "(:cve:`2026-61790`, :ghsa:`x86c-ff69-cr2m`)."
 msgstr ""
 "Teams die twee-factorauthenticatie afdwingen, weigeren nu ook sitebrede "
-"rechten voor menselijke leden zonder geconfigureerde 2FA (:ghsa:`x86c-ff69-"
-"cr2m`)."
+"rechten voor menselijke leden zonder geconfigureerde 2FA (:cve:`2026-61790`, "
+":ghsa:`x86c-ff69-cr2m`)."
 
 #: changes.rst:160
 msgid ""
@@ -39361,18 +39331,13 @@ msgstr ""
 "bekijk :ref:`keyboard`."
 
 #: changes/v5.rst:1522
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
-#| "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
-#| "components and projects."
 msgid ""
 "``GET /api/components/(string:project)/(string:component)/credits/`` and "
 "``GET /api/projects/(string:project)/credits/`` API endpoints for components "
 "and projects."
 msgstr ""
-":http:get:`/api/components/(string:project)/(string:component)/credits/` "
-"en :http:get:`/api/projects/(string:project)/credits/` API-eindpunten voor "
+"``GET /api/components/(string:project)/(string:component)/credits/`` en "
+"``GET /api/projects/(string:project)/credits/`` API-eindpunten voor "
 "onderdelen en projecten."
 
 #: changes/v5.rst:1523
@@ -42334,10 +42299,8 @@ msgstr ""
 "praktisch, een controle voor plek van schermlezer."
 
 #: contributing/frontend.rst:41
-#, fuzzy
-#| msgid "User interface fixes."
 msgid "User interface conventions"
-msgstr "Reparaties in gebruikersinterface."
+msgstr "Conventies in gebruikersinterface"
 
 #: contributing/frontend.rst:44
 #, fuzzy
@@ -44764,21 +44727,14 @@ msgid ""
 msgstr ""
 
 #: devel/alerts.rst:69
-#, fuzzy
-#| msgid ""
-#| "Alerts are listed on each respective component page "
-#| "as :guilabel:`Diagnostics`. If it is missing, the component clears all "
-#| "current checks. Problem alerts cannot be ignored, but will disappear once "
-#| "the underlying problem has been fixed."
 msgid ""
 "If it is missing, the component clears all current checks. Problem alerts "
 "cannot be ignored, but will disappear once the underlying problem has been "
 "fixed."
 msgstr ""
-"Meldingen zijn op elke respectievelijke pagina van het onderdeel vermeld "
-"als :guilabel:`Diagnostiek`. Als het ontbreekt, schoont het onderdeel alle "
-"huidige controles op. Meldingen voor problemen kunnen niet worden genegeerd, "
-"maar zullen verdwijnen als het onderliggende probleem is opgelost."
+"Als het ontbreekt, schoont het onderdeel alle huidige controles op. "
+"Meldingen voor problemen kunnen niet worden genegeerd, maar zullen "
+"verdwijnen als het onderliggende probleem is opgelost."
 
 #: devel/alerts.rst:72
 msgid ""
@@ -55810,17 +55766,14 @@ msgid "Database snapshots and background tasks"
 msgstr "Niet verwerken van taken op de achtergrond"
 
 #: security/threat-model.rst:54
-#, fuzzy
-#| msgid ""
-#| "In scope as authenticated actors with delegated project scope. "
-#| "*(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgid ""
 "In scope as authenticated, permission-checked contributor data with operator-"
 "configured retention. *(documented)* (source: :doc:`/devel/"
 "reporting`, :doc:`/api`)"
 msgstr ""
-"In bereik als geauthenticeerde medewerkenden met gedelegeerd bereik project. "
-"*(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
+"In bereik als geauthenticeerde, rechten gecontroleerde gegevens van "
+"deelnemers met door operator geconfigureerde retentie. *(documented)* "
+"(source::doc:`/devel/reporting`, :doc:`/api`)"
 
 #: security/threat-model.rst:57
 msgid "Authentication, sessions, and authorization"
@@ -56944,18 +56897,16 @@ msgstr ""
 "*(documented)* (source: :doc:`/user/translating`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:400
-#, fuzzy
-#| msgid ""
-#| "Review workflows for project-specific content integrity. *(documented)* "
-#| "(source: :doc:`/workflows`)"
 msgid ""
 "Review workflows for project-specific content integrity; approving a "
 "suggestion via the API additionally requires the ``unit.review`` permission "
 "check to be satisfied. *(documented)* (source: :doc:`/workflows`, :doc:`/"
 "api`)"
 msgstr ""
-"Werkstromen beoordelen voor integriteit van project-specifieke inhoud. "
-"*(documented)* (source: :doc:`/workflows`)"
+"Werkstromen beoordelen voor integriteit van projectspecifieke inhoud; "
+"goedkeuren van een suggestie via de API vereist aanvullend dat aan het "
+"controleren van het recht ``unit.review`` wordt voldaan. *(documented)* "
+"(source: :doc:`/workflows`, :doc:`/api`)"
 
 #: security/threat-model.rst:404
 msgid "Webhook endpoints"
@@ -67413,10 +67364,10 @@ msgstr "Ondersteunt tekenreeksen alleen-lezen :ref:`ⓘ <read-only-strings>`"
 #: snippets/format-features/xwiki-java-properties-features.rst:27
 #: snippets/format-features/xwiki-page-properties-features.rst:27
 #: snippets/format-features/yaml-features.rst:27
-#, fuzzy
-#| msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
 msgid "Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`"
-msgstr "Ondersteunt tekenreeksen alleen-lezen :ref:`ⓘ <read-only-strings>`"
+msgstr ""
+"Ondersteunt verplaatsen van overbodige tekenreeksen :ref:`ⓘ <obsolete-"
+"strings>`"
 
 #: snippets/format-features/arb-features.rst:10
 #: snippets/format-features/csv-features.rst:10
@@ -67589,10 +67540,8 @@ msgid "``dokuwiki``, ``mediawiki``, ``txt``"
 msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
 
 #: snippets/format-features/xliff-features.rst:8
-#, fuzzy
-#| msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 msgid "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
-msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
+msgstr "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff-features.rst:24
 #: snippets/format-features/xliff2-features.rst:24
@@ -68061,10 +68010,8 @@ msgid "Brevity"
 msgstr ""
 
 #: snippets/machines-autogenerated.rst:182
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Prefer shorter translations when supported."
-msgstr "Vertaling vooraf invullen met brontekenreeks"
+msgstr "Voorkeur voor kortere vertalingen indien ondersteund."
 
 #: snippets/machines-autogenerated.rst:188
 #, fuzzy
