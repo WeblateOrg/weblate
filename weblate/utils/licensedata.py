@@ -2200,6 +2200,12 @@ LICENSES = (
         False,
     ),
     (
+        "Informatica",
+        "Informatica License",
+        "https://spdx.org/licenses/Informatica.html",
+        False,
+    ),
+    (
         "Inner-Net-2.0",
         "Inner Net License v2.0",
         "https://spdx.org/licenses/Inner-Net-2.0.html",
