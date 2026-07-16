@@ -1785,9 +1785,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.use_live_server_widget_preview()
             self.screenshot("promote.png")
             widget_select = Select(self.driver.find_element(By.ID, "widget-type"))
-            for widget_name in WIDGETS:
-                widget_select.select_by_value(widget_name)
-                self.screenshot_widget(widget_name)
+            language_select = Select(
+                self.driver.find_element(By.ID, "translation-language")
+            )
+            for language, suffix in (("", ""), ("he", "-rtl")):
+                language_select.select_by_value(language)
+                for widget_name in WIDGETS:
+                    widget_select.select_by_value(widget_name)
+                    self.screenshot_widget(f"{widget_name}{suffix}")
         with self.wait_for_page_load():
             self.driver.get(
                 f"{self.live_server_url}"
