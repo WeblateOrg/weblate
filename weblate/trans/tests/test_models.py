@@ -32,7 +32,11 @@ from weblate.glossary.models import (
 )
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
+from weblate.trans.exceptions import (
+    FileParseError,
+    SuggestionSimilarToTranslationError,
+    SuggestionTooLongError,
+)
 from weblate.trans.models import (
     Announcement,
     AutoComponentList,
@@ -59,6 +63,7 @@ from weblate.trans.tests.utils import (
     fixup_languages_seq,
     get_optional_path,
 )
+from weblate.trans.validators import get_translation_text_max_length
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -371,6 +376,48 @@ class ProjectTest(RepoTestCase):
                 raise_exception=False,
             )
             self.assertEqual(result, SuggestionAddResult.SIMILAR)
+
+            too_long_target = "x" * (get_translation_text_max_length(unit) + 1)
+            with self.assertRaises(SuggestionTooLongError):
+                Suggestion.objects.add(
+                    unit,
+                    [too_long_target],
+                    None,
+                    user=another_user,
+                    raise_exception=True,
+                )
+            _, result = Suggestion.objects.add(
+                unit,
+                [too_long_target],
+                None,
+                user=another_user,
+                raise_exception=False,
+            )
+            self.assertEqual(result, SuggestionAddResult.TOO_LONG)
+
+            max_length = get_translation_text_max_length(unit)
+            long_segments = ["x" * (max_length // 2 + 1)] * 2
+            _, result = Suggestion.objects.add(
+                unit,
+                long_segments,
+                None,
+                user=another_user,
+                raise_exception=False,
+            )
+            self.assertEqual(result, SuggestionAddResult.TOO_LONG)
+
+            unit.extra_flags = "max-length:*"
+            unit.save(update_fields=["extra_flags"])
+            unit = Unit.objects.get(pk=unit.pk)
+            suggestion, result = Suggestion.objects.add(
+                unit,
+                ["Invalid flag suggestion"],
+                None,
+                user=another_user,
+                raise_exception=True,
+            )
+            self.assertIsNotNone(suggestion)
+            self.assertEqual(result, SuggestionAddResult.CREATED)
 
             # check that user submitting suggestion twice doesn't create duplicated suggestions
             suggestion, result = Suggestion.objects.add(

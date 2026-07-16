@@ -14,6 +14,7 @@ from django.utils.translation import gettext
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
 from weblate.legal.utils import get_document_context
+from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.version_display import (
     hide_detailed_version,
@@ -171,6 +172,7 @@ def weblate_context(request: AuthenticatedHttpRequest):
         "login_redirect_url": login_redirect_url,
         "has_antispam": False,  # Akismet integration removed
         "has_sentry": bool(settings.SENTRY_DSN),
+        "suggestion_rejection_reason_length": SUGGESTION_REJECTION_REASON_LENGTH,
         "watched_projects": watched_projects,
         "allow_index": False,
         "configuration_errors": ConfigurationError.objects.filter(

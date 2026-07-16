@@ -132,6 +132,20 @@ def restore_backup(request: AuthenticatedHttpRequest) -> HttpResponse:
     )
 
 
+def handle_termination(request: AuthenticatedHttpRequest, billing: Billing) -> None:
+    if not billing.can_terminate:
+        messages.error(
+            request,
+            gettext("To terminate billing you have to remove all projects first."),
+        )
+        return
+    billing.state = Billing.STATE_TERMINATED
+    billing.expiry = None
+    billing.removal = None
+    billing.save()
+    billing.billinglog_set.create(event=BillingEvent.TERMINATED, user=request.user)
+
+
 def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
     if "extend" in request.POST and request.user.has_perm("billing.manage"):
         now = timezone.now()
@@ -189,11 +203,7 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
             event=BillingEvent.DISABLED_RECURRING, user=request.user
         )
     elif "terminate" in request.POST:
-        billing.state = Billing.STATE_TERMINATED
-        billing.expiry = None
-        billing.removal = None
-        billing.save()
-        billing.billinglog_set.create(event=BillingEvent.TERMINATED, user=request.user)
+        handle_termination(request, billing)
     elif billing.valid_libre:
         if "approve" in request.POST and request.user.has_perm("billing.manage"):
             billing.state = Billing.STATE_ACTIVE

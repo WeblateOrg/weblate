@@ -9,8 +9,7 @@ Installing on RedHat, Fedora and CentOS
 
    dnf install \
       libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel \
-      libyaml-devel libffi-devel cairo-devel cairo-gobject-devel pango-devel \
-      gobject-introspection-devel libacl-devel lz4-devel libzstd-devel xxhash-devel \
+      libyaml-devel libffi-devel libacl-devel lz4-devel libzstd-devel xxhash-devel \
       libtool-ltdl-devel python3-devel git
 
 .. include:: steps/install-system-optional.rst

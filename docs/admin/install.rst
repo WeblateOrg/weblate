@@ -293,12 +293,6 @@ Or you can install Weblate without any optional features:
 Troubleshooting pip install
 +++++++++++++++++++++++++++
 
-``ERROR: Dependency 'gobject-introspection-2.0' is required but not found.``
-   The installed ``PyGobject`` package cannot find a matching GObject
-   Introspection library - ``gobject-introspection-2.0``.
-
-   Older versions are no longer supported by Weblate.
-
 ``ffi_prep_closure(): bad user_data (it seems that the version of the libffi library seen at runtime is different from the 'ffi.h' file seen at compile-time)``
    This is caused by incompatibility of binary packages distributed via PyPI
    with the distribution. To address this, you need to rebuild the package
@@ -325,8 +319,6 @@ The following dependencies have to be installed on the system:
 
 ``Git``
     https://git-scm.com/
-Pango, Cairo and related header files and GObject introspection data
-    https://cairographics.org/, https://www.gtk.org/docs/architecture/pango, see :ref:`pangocairo`
 ``git-review`` (optional for Gerrit support)
     :pypi:`git-review`
 ``git-svn`` (optional for Subversion support)
@@ -341,25 +333,6 @@ To build some of the :ref:`python-deps` you might need to install their
 dependencies. This depends on how you install them, so please consult
 individual packages for documentation. You won't need those if using prebuilt
 ``Wheels`` while installing using ``pip`` or when you use distribution packages.
-
-.. _pangocairo:
-
-Pango and Cairo
-+++++++++++++++
-
-Weblate uses Pango and Cairo for rendering bitmap widgets (see
-:ref:`promotion`) and rendering checks (see :ref:`fonts`). To properly install
-Python bindings for those you need to install system libraries first - you need
-both Cairo and Pango, which in turn need GLib. All those should be installed
-with development files and GObject introspection data.
-
-.. seealso::
-
-   * :doc:`install/venv-debian`
-   * :doc:`install/venv-suse`
-   * :doc:`install/venv-redhat`
-   * :doc:`install/venv-macos`
-
 
 .. _hardware:
 

@@ -622,6 +622,12 @@ LICENSES = (
         False,
     ),
     (
+        "Bugroff",
+        "Bugroff License",
+        "https://spdx.org/licenses/Bugroff.html",
+        False,
+    ),
+    (
         "BUSL-1.1",
         "Business Source License 1.1",
         "https://spdx.org/licenses/BUSL-1.1.html",

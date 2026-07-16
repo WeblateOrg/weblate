@@ -127,6 +127,22 @@ class DataWritableCheckTestCase(SimpleTestCase):
 
         self.assertFalse(any(error.id == "weblate.C044" for error in errors))
         self.assertEqual(self.get_cache_probes(), [])
+        self.assertTrue((Path(settings.CACHE_DIR) / "matplotlib").is_dir())
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_matplotlib_cache_path_creation_error(self) -> None:
+        matplotlib_cache = Path(settings.CACHE_DIR) / "matplotlib"
+        matplotlib_cache.write_text("not a directory", encoding="utf-8")
+
+        errors = list(check_data_writable(app_configs=None, databases=None))
+
+        self.assertTrue(
+            any(
+                error.id == "weblate.E002" and str(matplotlib_cache) in error.msg
+                for error in errors
+            )
+        )
 
     @tempdir_setting("CACHE_DIR")
     @tempdir_setting("DATA_DIR")

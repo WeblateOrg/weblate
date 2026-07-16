@@ -53,7 +53,10 @@ from weblate.trans.defines import (
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
 )
-from weblate.trans.exceptions import SuggestionSimilarToTranslationError
+from weblate.trans.exceptions import (
+    SuggestionSimilarToTranslationError,
+    SuggestionTooLongError,
+)
 from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     apply_create_inheritance_defaults,
@@ -77,6 +80,10 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.translation import NewUnitParams
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
+from weblate.trans.validators import (
+    SUGGESTION_REJECTION_REASON_LENGTH,
+    get_translation_text_max_length,
+)
 from weblate.trans.workspace_move import (
     get_project_move_billing_error,
     get_project_workspace_move_permission_error,
@@ -2766,8 +2773,18 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
 
     def validate_target(self, value: list[str]) -> list[str]:
         unit = self.context.get("unit")
-        if unit is None or unit.translation.component.is_multivalue:
+        if unit is None:
             return value
+
+        max_length = get_translation_text_max_length(unit)
+        for text in value:
+            if len(text) > max_length:
+                msg = gettext_lazy("Translation text too long!")
+                raise serializers.ValidationError(msg)
+
+        if unit.translation.component.is_multivalue:
+            return value
+
         target_copy = value.copy()
         if target_copy != unit.adjust_plurals(value.copy()):
             msg = gettext_lazy("Number of plurals does not match")
@@ -2789,6 +2806,9 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
         except SuggestionSimilarToTranslationError as error:
             msg = gettext_lazy("Your suggestion is similar to the current translation!")
             raise serializers.ValidationError({"target": msg}) from error
+        except SuggestionTooLongError as error:
+            msg = gettext_lazy("Translation text too long!")
+            raise serializers.ValidationError({"target": msg}) from error
         self.add_result = result
         if result == SuggestionAddResult.DUPLICATE:
             msg = gettext_lazy("Your suggestion already exists!")
@@ -2797,7 +2817,9 @@ class SuggestionSerializer(serializers.Serializer[Suggestion]):
 
 
 class SuggestionDeleteRequestSerializer(ReadOnlySerializer):
-    rejection_reason = serializers.CharField(required=False, allow_blank=True)
+    rejection_reason = serializers.CharField(
+        required=False, allow_blank=True, max_length=SUGGESTION_REJECTION_REASON_LENGTH
+    )
     is_spam = serializers.BooleanField(required=False, default=False)
 
 

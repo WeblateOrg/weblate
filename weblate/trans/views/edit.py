@@ -34,7 +34,11 @@ from weblate.glossary.forms import TermForm
 from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.actions import ActionEvents
-from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
+from weblate.trans.exceptions import (
+    FileParseError,
+    SuggestionSimilarToTranslationError,
+    SuggestionTooLongError,
+)
 from weblate.trans.forms import (
     AutoForm,
     ChecksumForm,
@@ -65,6 +69,7 @@ from weblate.trans.templatetags.translations import (
     unit_state_title,
 )
 from weblate.trans.util import redirect_next, render
+from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
@@ -827,6 +832,9 @@ def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
             request, gettext("Your suggestion is similar to the current translation!")
         )
         return False
+    except SuggestionTooLongError:
+        messages.error(request, gettext("Translation text too long!"))
+        return False
     if result == SuggestionAddResult.DUPLICATE:
         messages.error(request, gettext("Your suggestion already exists!"))
     elif result == SuggestionAddResult.CREATED and suggestion and suggestion.fixups:
@@ -1074,12 +1082,16 @@ def handle_suggestions(
         if "accept_edit" not in request.POST:
             redirect_url = next_unit_url
     elif "delete" in request.POST or "spam" in request.POST:
-        suggestion.delete_log(
-            request.user,
-            is_spam="spam" in request.POST,
-            rejection_reason=request.POST.get("rejection", ""),
-            old=unit.target,
-        )
+        rejection_reason = request.POST.get("rejection", "")
+        if len(rejection_reason) > SUGGESTION_REJECTION_REASON_LENGTH:
+            messages.error(request, gettext("Rejection reason is too long!"))
+        else:
+            suggestion.delete_log(
+                request.user,
+                is_spam="spam" in request.POST,
+                rejection_reason=rejection_reason,
+                old=unit.target,
+            )
     elif "upvote" in request.POST:
         suggestion.add_vote(request, Vote.POSITIVE)
         redirect_url = next_unit_url
@@ -1389,7 +1401,7 @@ def translate(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
                 # '' or '0' on GitHub or GitLab, let's play it safe for now.
                 "1",
                 unit,
-                user.profile,
+                user,
             ),
         },
     )

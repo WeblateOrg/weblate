@@ -545,6 +545,10 @@ class Billing(models.Model):
     def is_libre_trial(self) -> bool:
         return self.is_trial and self.plan.price == 0
 
+    @property
+    def can_terminate(self) -> bool:
+        return self.is_active() and not self.get_projects_queryset().exists()
+
     @cached_property
     def can_be_paid(self) -> bool:
         if self.state in Billing.ACTIVE_STATES:

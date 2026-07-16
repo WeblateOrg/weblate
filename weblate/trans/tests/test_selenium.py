@@ -243,11 +243,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Accept English as primary language, this does not seem to work
         options.add_experimental_option("prefs", {"intl.accept_languages": "en,en_US"})
 
-        # Need to revert fontconfig custom config for starting chrome
-        backup_fc = os.environ.get("FONTCONFIG_FILE")
-        if backup_fc is not None:
-            del os.environ["FONTCONFIG_FILE"]
-
         # Force English locales, the --lang and accept_language settings does not
         # work in some cases
         backup_lang = os.environ.get("LANG")
@@ -290,9 +285,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 },
             )
 
-        # Restore custom fontconfig settings
-        if backup_fc is not None:
-            os.environ["FONTCONFIG_FILE"] = backup_fc
         # Restore locales
         if backup_lang is None:
             del os.environ["LANG"]

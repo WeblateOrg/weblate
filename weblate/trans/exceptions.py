@@ -36,6 +36,10 @@ class SuggestionSimilarToTranslationError(WeblateError):
     """Target of the Suggestion is similar to source."""
 
 
+class SuggestionTooLongError(WeblateError):
+    """Target of the Suggestion is too long."""
+
+
 EXPECTED_PARSE_ERRORS = (FileNotFoundError, TranslateParseError)
 
 

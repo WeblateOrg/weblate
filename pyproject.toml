@@ -85,15 +85,14 @@ types = [
   "django-stubs[compatible-mypy]==6.0.7",
   "djangorestframework-stubs==3.17.0",
   "mypy==2.1.0",
-  "PyGObject-stubs==2.17.0",
   "types-dateparser==1.4.1.20260617",
   "types-docutils==0.22.3.20260712",
   "types-jsonschema==4.26.0.20260518",
   "types-lxml==2026.2.16",
   "types-openpyxl==3.1.5.20260518",
-  "types-python-dateutil==2.9.0.20260518",
+  "types-python-dateutil==2.9.0.20260716",
   "types-regex==2026.7.10.20260711",
-  "types-setuptools==83.0.0.20260706"
+  "types-setuptools==83.0.0.20260716"
 ]
 
 [project]
@@ -165,6 +164,7 @@ dependencies = [
   "iniparse==0.5",
   "jsonschema==4.26.0",
   "lxml==6.1.1",
+  "matplotlib==3.11.0",
   "mistletoe==1.6.0",
   "nh3==0.3.6",
   "openpyxl==3.1.5",
@@ -181,9 +181,7 @@ dependencies = [
   "Pillow==12.3.0",
   "pyaskalono==0.2.0",
   "pyasn1==0.6.4",
-  "pycairo==1.29.0",
   "Pygments==2.20.0",
-  "PyGObject==3.56.3",
   "pyicumessageformat==1.0.0",
   "PyJWT==2.13.0",
   "pyOpenSSL==26.3.0",
@@ -205,7 +203,6 @@ dependencies = [
   "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.15",
   "translation-finder==3.2.1",
   "twisted==26.4.0",
-  # Pin for translate-toolkit extra
   "unicode-segmentation-rs==0.3.0",
   "unidecode==1.4.0",
   "urllib3[brotli,zstd]==2.7.0",
@@ -569,8 +566,6 @@ filterwarnings = [
   "error",
   # Warning in the third-party module (drf_spectacular)
   "ignore:'_UnionGenericAlias':DeprecationWarning:drf_spectacular.plumbing",
-  # Occasional gobject internal warnings
-  "ignore::gi.PyGIDeprecationWarning",
   # Warning in the third-party module (python3-saml)
   "ignore:datetime.datetime.utcnow:DeprecationWarning:onelogin.saml2.utils",
   # Warning in the third-party module (openid)

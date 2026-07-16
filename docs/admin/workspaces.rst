@@ -23,6 +23,17 @@ You can list all workspaces in the management interface at
 
 .. image:: /screenshots/workspaces.webp
 
+.. _workspace-removal:
+
+Workspace removal
+-----------------
+
+Users with the :guilabel:`Edit workspace settings` permission can remove a
+workspace from :guilabel:`Operations` ↓ :guilabel:`Organize or remove`.
+
+Only empty workspaces can be removed. Move or remove all projects in the
+workspace first. Workspaces associated with billing cannot be removed.
+
 .. _workspace-project-creation:
 
 Project creation and moves

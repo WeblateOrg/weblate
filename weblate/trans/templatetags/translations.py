@@ -966,7 +966,12 @@ def unit_state_title(unit) -> str:
 
 
 def try_linkify_filename(
-    text, filename: str, line: str, unit, profile, link_class: str = ""
+    text,
+    filename: str,
+    line: str,
+    unit: Unit,
+    user: User | None,
+    link_class: str = "",
 ):
     """
     Attempt to convert `text` to a repo link to `filename:line`.
@@ -977,9 +982,9 @@ def try_linkify_filename(
     link = None
     if re.search(r"^https?://", text):
         link = text
-    elif profile:
+    elif user:
         link = unit.translation.component.get_repoweb_link(
-            filename, line, profile.editor_link
+            filename, line, user.profile.editor_link, user=user
         )
     if link:
         return format_html(SOURCE_LINK, link, text, link_class)
@@ -1001,18 +1006,12 @@ def get_location_links(user: User | None, unit):
     if unit.location.isdigit():
         return gettext("string ID %s") % unit.location
 
-    profile = user.profile if user else None
-
     # Go through all locations separated by comma
     return format_html_join(
         mark_safe('\n<span class="divisor">•</span>\n'),
         "{}",
         (
-            (
-                try_linkify_filename(
-                    location, filename, line, unit, profile, "wrap-text"
-                ),
-            )
+            (try_linkify_filename(location, filename, line, unit, user, "wrap-text"),)
             for location, filename, line in unit.get_locations()
         ),
     )

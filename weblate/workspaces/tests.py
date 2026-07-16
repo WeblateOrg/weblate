@@ -6,16 +6,21 @@ from __future__ import annotations
 
 from unittest.mock import patch
 
+from django.contrib.admin.sites import AdminSite
 from django.core.exceptions import ValidationError
 from django.http import Http404
+from django.test import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.auth.admin import WeblateGroupAdmin
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
-from weblate.auth.models import Group
+from weblate.auth.models import Group, User
 from weblate.billing.models import Billing, BillingQuerySet
+from weblate.lang.models import Language
+from weblate.memory.models import Memory, MemoryScope
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Project
+from weblate.trans.models import Change, Project
 from weblate.trans.templatetags.translations import get_breadcrumbs
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.utils import (
@@ -24,6 +29,7 @@ from weblate.trans.tests.utils import (
     create_test_user,
 )
 from weblate.utils.views import UnsupportedPathObjectError, parse_path
+from weblate.workspaces.admin import WorkspaceAdmin
 from weblate.workspaces.models import WORKSPACE_PROJECT_CREATORS_GROUP, Workspace
 
 
@@ -210,6 +216,160 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, "Public project")
         self.assertNotContains(response, settings_url, status_code=200)
         self.assertNotContains(response, 'data-bs-target="#settings"', status_code=200)
+
+    def test_empty_workspace_can_be_removed_by_owner(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Removal workspace")
+        workspace.add_owner(user)
+        moved_project = self.create_project(
+            workspace,
+            name="Moved project",
+            slug="moved-before-workspace-removal",
+        )
+        moved_project_change = Change.objects.create(
+            project=moved_project,
+            action=ActionEvents.CREATE_PROJECT,
+        )
+        workspace_change = Change.objects.create(
+            workspace=workspace,
+            action=ActionEvents.WORKSPACE_SETTING_CHANGE,
+        )
+        moved_project.workspace = None
+        moved_project.save(update_fields=["workspace"])
+        moved_project_change.refresh_from_db()
+        self.assertEqual(moved_project_change.workspace_id, workspace.pk)
+
+        workspace_id = workspace.pk
+        workspace_group_ids = list(
+            workspace.defined_groups.values_list("pk", flat=True)
+        )
+        remove_url = reverse("workspace-remove", kwargs={"pk": workspace.pk})
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, 'data-bs-target="#organize"')
+        self.assertContains(response, remove_url)
+        self.assertContains(response, "Workspace to remove")
+
+        response = self.client.post(
+            remove_url,
+            {"confirm": workspace.name},
+        )
+
+        self.assertRedirects(response, reverse("home"), fetch_redirect_response=False)
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, "The workspace has been removed.")
+        self.assertFalse(Workspace.objects.filter(pk=workspace_id).exists())
+        self.assertFalse(Group.objects.filter(pk__in=workspace_group_ids).exists())
+        moved_project_change.refresh_from_db()
+        self.assertIsNone(moved_project_change.workspace_id)
+        self.assertEqual(moved_project_change.project_id, moved_project.pk)
+        self.assertFalse(Change.objects.filter(pk=workspace_change.pk).exists())
+
+    def test_workspace_removal_requires_matching_name(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Confirmation workspace")
+        workspace.add_owner(user)
+        remove_url = reverse("workspace-remove", kwargs={"pk": workspace.pk})
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.post(
+            remove_url,
+            {"confirm": "Wrong workspace"},
+            follow=True,
+        )
+
+        self.assertContains(
+            response,
+            "The workspace name does not match the one marked for removal!",
+        )
+        self.assertTrue(Workspace.objects.filter(pk=workspace.pk).exists())
+
+    def test_workspace_removal_is_hidden_without_workspace_edit(self) -> None:
+        workspace = Workspace.objects.create(name="Protected workspace")
+        project = self.create_project(
+            workspace,
+            name="Visible project",
+            slug="visible-removal-project",
+        )
+        user = create_another_user()
+        remove_url = reverse("workspace-remove", kwargs={"pk": workspace.pk})
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(project.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertNotContains(response, 'data-bs-target="#organize"', status_code=200)
+        self.assertNotContains(response, remove_url, status_code=200)
+
+        response = self.client.post(remove_url, {"confirm": workspace.name})
+
+        self.assertEqual(response.status_code, 404)
+        self.assertTrue(Workspace.objects.filter(pk=workspace.pk).exists())
+
+    def test_workspace_with_projects_can_not_be_removed(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Project workspace")
+        workspace.add_owner(user)
+        self.create_project(
+            workspace,
+            name="Remaining project",
+            slug="remaining-project",
+        )
+        remove_url = reverse("workspace-remove", kwargs={"pk": workspace.pk})
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, 'data-bs-target="#organize"')
+        self.assertContains(
+            response,
+            "The workspace cannot be removed while it contains projects.",
+        )
+        self.assertNotContains(response, remove_url, status_code=200)
+
+        response = self.client.post(
+            remove_url,
+            {"confirm": workspace.name},
+            follow=True,
+        )
+
+        self.assertContains(
+            response,
+            "The workspace cannot be removed while it contains projects.",
+        )
+        self.assertTrue(Workspace.objects.filter(pk=workspace.pk).exists())
+
+    def test_billing_workspace_can_not_be_removed(self) -> None:
+        user = create_test_user()
+        billing = create_test_billing(user, invoice=False)
+        workspace = billing.workspace
+        remove_url = reverse("workspace-remove", kwargs={"pk": workspace.pk})
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, 'data-bs-target="#organize"')
+        self.assertContains(
+            response,
+            "A workspace associated with billing cannot be removed.",
+        )
+        self.assertNotContains(response, remove_url, status_code=200)
+
+        response = self.client.post(
+            remove_url,
+            {"confirm": workspace.name},
+            follow=True,
+        )
+
+        self.assertContains(
+            response,
+            "A workspace associated with billing cannot be removed.",
+        )
+        self.assertTrue(Workspace.objects.filter(pk=workspace.pk).exists())
 
     def test_workspace_settings_update_name_as_workspace_owner(self) -> None:
         user = create_test_user()
@@ -585,3 +745,123 @@ class WorkspaceViewTest(BaseTestCase):
 
         group.refresh_from_db()
         self.assertEqual(group.language_selection, SELECTION_ALL)
+
+
+class WorkspaceAdminTest(BaseTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.factory = RequestFactory()
+        self.site = AdminSite()
+        self.site.register(Group, WeblateGroupAdmin)
+        self.workspace_admin = WorkspaceAdmin(Workspace, self.site)
+        self.actor = User.objects.create_user(
+            "workspace-admin", "workspace-admin@example.com", "testpassword"
+        )
+        self.actor.is_superuser = True
+        self.actor.save(update_fields=["is_superuser"])
+
+    def get_request(self):
+        request = self.factory.post("/")
+        request.user = self.actor
+        return request
+
+    def test_workspace_groups_do_not_block_admin_removal(self) -> None:
+        workspace = Workspace.objects.create(name="Admin removal workspace")
+        group_ids = list(workspace.defined_groups.values_list("pk", flat=True))
+
+        (
+            _deleted_objects,
+            _model_count,
+            perms_needed,
+            protected,
+        ) = self.workspace_admin.get_deleted_objects([workspace], self.get_request())
+
+        self.assertNotIn("Group", perms_needed)
+        self.assertEqual(protected, [])
+
+        workspace_id = workspace.pk
+        self.workspace_admin.delete_model(self.get_request(), workspace)
+
+        self.assertFalse(Workspace.objects.filter(pk=workspace_id).exists())
+        self.assertFalse(Group.objects.filter(pk__in=group_ids).exists())
+
+    def test_workspace_admin_removal_cleans_memory_scopes(self) -> None:
+        workspace = Workspace.objects.create(name="Admin memory removal workspace")
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        values = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "origin": "workspace-admin-removal",
+            "status": Memory.STATUS_ACTIVE,
+        }
+        workspace_memory = Memory.objects.create(
+            source="Workspace admin removal source",
+            target="Workspace admin removal target",
+            **values,
+        )
+        mixed_memory = Memory.objects.create(
+            source="Mixed workspace admin removal source",
+            target="Mixed workspace admin removal target",
+            **values,
+        )
+        MemoryScope.objects.create(
+            memory=workspace_memory,
+            scope=MemoryScope.SCOPE_WORKSPACE,
+            workspace=workspace,
+        )
+        MemoryScope.objects.create(
+            memory=mixed_memory,
+            scope=MemoryScope.SCOPE_WORKSPACE,
+            workspace=workspace,
+        )
+        MemoryScope.objects.create(
+            memory=mixed_memory,
+            scope=MemoryScope.SCOPE_USER,
+            user=self.actor,
+        )
+
+        self.workspace_admin.delete_model(self.get_request(), workspace)
+
+        self.assertFalse(Memory.objects.filter(pk=workspace_memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=mixed_memory.pk).exists())
+        self.assertFalse(
+            mixed_memory.scopes.filter(scope=MemoryScope.SCOPE_WORKSPACE).exists()
+        )
+        self.assertTrue(
+            mixed_memory.scopes.filter(scope=MemoryScope.SCOPE_USER).exists()
+        )
+
+    def test_workspace_project_remains_protected_in_admin(self) -> None:
+        workspace = Workspace.objects.create(name="Protected admin workspace")
+        Project.objects.create(
+            name="Protected project",
+            slug="protected-admin-project",
+            web="https://example.com/",
+            workspace=workspace,
+        )
+
+        (
+            _deleted_objects,
+            _model_count,
+            perms_needed,
+            protected,
+        ) = self.workspace_admin.get_deleted_objects([workspace], self.get_request())
+
+        self.assertNotIn("Group", perms_needed)
+        self.assertTrue(protected)
+
+    def test_workspace_billing_remains_protected_in_admin(self) -> None:
+        billing = create_test_billing(self.actor, invoice=False)
+
+        (
+            _deleted_objects,
+            _model_count,
+            perms_needed,
+            protected,
+        ) = self.workspace_admin.get_deleted_objects(
+            [billing.workspace], self.get_request()
+        )
+
+        self.assertNotIn("Group", perms_needed)
+        self.assertTrue(protected)
