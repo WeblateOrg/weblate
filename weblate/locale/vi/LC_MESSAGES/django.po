@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-16 15:42+0000\n"
+"PO-Revision-Date: 2026-07-17 08:38+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -2074,10 +2074,8 @@ msgstr ""
 "POT được cập nhật."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Vị trí chuỗi nguồn"
+msgstr "Vị trí nguồn"
 
 #: weblate/addons/forms.py:186
 #, fuzzy
@@ -4434,10 +4432,8 @@ msgid "You do not have permission to save translations in this project."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/auth/permissions.py:443 weblate/auth/permissions.py:922
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "You do not have permission to edit source strings."
-msgstr "Bạn không có quyền truy cập phần này."
+msgstr "Bạn không có quyền chỉnh sửa chuỗi nguồn."
 
 #: weblate/auth/permissions.py:447
 msgid "Suggestion voting is disabled."
@@ -5901,7 +5897,7 @@ msgstr "Đánh dấu BBCode"
 
 #: weblate/checks/markup.py:280
 msgid "BBCode in translation does not match source."
-msgstr "Bản dịch BBCode không khớp với nguồn."
+msgstr "BBCode trong bản dịch không khớp với nguồn."
 
 #: weblate/checks/markup.py:378
 msgid "XML syntax"
@@ -6436,10 +6432,8 @@ msgstr "XLIFF 1.2 với các tiện ích mở rộng gettext"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1920
-#, fuzzy
-#| msgid "XLIFF 1.2 with gettext extensions"
 msgid "XLIFF 1.2 with Apple extensions"
-msgstr "XLIFF 1.2 với các tiện ích mở rộng gettext"
+msgstr "XLIFF 1.2 với các tiện ích mở rộng của Apple"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1928
@@ -7792,25 +7786,19 @@ msgid "@@PH1@@ failed checks"
 msgstr "@@PH1@@ kiểm tra thất bại"
 
 #: weblate/machinery/types.py:20
-#, fuzzy
-#| msgid "Automatic detection"
 msgctxt "Source language selection"
 msgid "Automatic selection"
-msgstr "Tự động nhận diện"
+msgstr "Lựa chọn tự động"
 
 #: weblate/machinery/types.py:23
-#, fuzzy
-#| msgid "Component wide notifications"
 msgctxt "Source language selection"
 msgid "Component source language"
-msgstr "Các nội dung thông báo"
+msgstr "Ngôn ngữ nguồn của thành phần"
 
 #: weblate/machinery/types.py:29
-#, fuzzy
-#| msgid "Secondary languages"
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr "Ngôn ngữ thứ hai"
+msgstr "Ngôn ngữ thứ hai được định nghĩa trong dự án hoặc thành phần"
 
 #: weblate/machinery/views.py:445
 msgid "Service is currently not available."
@@ -7823,10 +7811,8 @@ msgid "File"
 msgstr "File"
 
 #: weblate/memory/forms.py:31 weblate/trans/models/component.py:1011
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Source language"
-msgstr "Ngôn ngữ thứ hai"
+msgstr "Ngôn ngữ nguồn"
 
 #: weblate/memory/forms.py:33
 msgid "Source language of the document when not specified in file"
@@ -7953,7 +7939,7 @@ msgstr ""
 
 #: weblate/memory/models.py:763
 msgid "Missing source or target language in file!"
-msgstr ""
+msgstr "Tệp bị thiếu ngôn ngữ nguồn hoặc ngôn ngữ đích!"
 
 #: weblate/memory/models.py:879
 #, fuzzy
@@ -9199,7 +9185,7 @@ msgstr "Ảnh đại diện của bạn"
 #: weblate/templates/accounts/profile.html:440
 #, python-format
 msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr ""
+msgstr "Hình đại diện được cung cấp thông qua %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:481
 #: weblate/templates/trans/project-access.html:162
@@ -10596,10 +10582,8 @@ msgid "Add"
 msgstr "Thêm"
 
 #: weblate/templates/auth/teams-components.html:6 weblate/trans/forms.py:1364
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "All components"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Tất cả các thành phần"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
@@ -11773,6 +11757,8 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
+"Dự án phiên dịch cho %(project)s hiện tại có <strong>%(count)s chuỗi</"
+"strong> cần phiên dịch và đã <strong>hoàn tất %(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:47
 #, python-format
@@ -11783,6 +11769,8 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "strings</strong> for translation."
 msgstr[0] ""
+"Dự án dịch thuật cho %(project)s hiện tại đang có <strong>%(count)s chuỗi "
+"văn bản</strong> cần dịch."
 
 #: weblate/templates/engage.html:49
 #, python-format
@@ -12044,11 +12032,10 @@ msgid "Lock"
 msgstr ""
 
 #: weblate/templates/js/git-status.html:130
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "%(count)s component is locked"
 msgid_plural "%(count)s components are locked"
-msgstr[0] "Ngôn ngữ thứ hai"
+msgstr[0] "%(count)s thành phần bị khóa"
 
 #: weblate/templates/js/git-status.html:134 weblate/utils/html.py:434
 msgctxt "Joins a list of values"
@@ -12304,14 +12291,12 @@ msgid "Open available keyboard shortcuts."
 msgstr "Mở các phím tắt có sẵn."
 
 #: weblate/templates/keyboard-shortcuts.html:37
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Navigate to the first translation in the current search."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Chuyển đến bản dịch đầu tiên trong kết quả tìm kiếm hiện tại."
 
 #: weblate/templates/keyboard-shortcuts.html:43
 msgid "Navigate to the last translation in the current search."
-msgstr "Điều hướng đến bản dịch cuối cùng trong kết quả tìm kiếm hiện tại."
+msgstr "Chuyển đến bản dịch cuối cùng trong kết quả tìm kiếm hiện tại."
 
 #: weblate/templates/keyboard-shortcuts.html:47
 #: weblate/templates/keyboard-shortcuts.html:49
@@ -12341,14 +12326,12 @@ msgid "or"
 msgstr "Cổng"
 
 #: weblate/templates/keyboard-shortcuts.html:56
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Navigate to the previous translation in the current search."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Chuyển đến bản dịch trước đó trong kết quả tìm kiếm hiện tại."
 
 #: weblate/templates/keyboard-shortcuts.html:69
 msgid "Navigate to the next translation in the current search."
-msgstr ""
+msgstr "Chuyển đến bản dịch tiếp theo trong kết quả tìm kiếm hiện tại."
 
 #: weblate/templates/keyboard-shortcuts.html:79
 msgid ""
@@ -12409,7 +12392,7 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:143
 msgid "Copy the machine translation of a given number to current translation."
-msgstr ""
+msgstr "Sao chép bản dịch máy của một số đã cho sang bản dịch hiện tại."
 
 #: weblate/templates/keyboard-shortcuts.html:155
 msgid "Ignore one item in the list of failing checks."
@@ -13200,10 +13183,8 @@ msgstr "Đăng ký người dùng"
 #: weblate/templates/snippets/query-builder.html:29
 #: weblate/templates/translate.html:158 weblate/templates/translate.html:897
 #: weblate/templates/zen-units.html:47
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "Vị trí xâu nguồn"
+msgstr "Mô tả chuỗi nguồn"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:4
 #: weblate/templates/translate.html:967
@@ -14080,15 +14061,13 @@ msgstr ""
 
 #: weblate/templates/memory/index.html:107
 #: weblate/templates/memory/index.html:197
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Memory will be then populated with the current translations."
-msgstr "PHP strings"
+msgstr "Sau đó, bộ nhớ sẽ được điền đầy các bản dịch hiện tại."
 
 #: weblate/templates/memory/index.html:216
 #, python-format
 msgid "Entries for %(source_language)s to %(target_language)s"
-msgstr ""
+msgstr "Các mục cho %(source_language)s đến %(target_language)s"
 
 #: weblate/templates/memory/index.html:231
 msgid "Shared translation memory"
@@ -14345,10 +14324,8 @@ msgid "Update preview"
 msgstr "Xem Trước Trực Tiếp"
 
 #: weblate/templates/screenshots/screenshot_detail.html:40
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Assigned source strings"
-msgstr "PHP strings"
+msgstr "Chuỗi nguồn được gán"
 
 #: weblate/templates/screenshots/screenshot_detail.html:45
 msgid ""
@@ -14356,16 +14333,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:56
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Assign source strings"
-msgstr "PHP strings"
+msgstr "Gán chuỗi nguồn"
 
 #: weblate/templates/screenshots/screenshot_detail.html:73
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Source string search"
-msgstr "PHP strings"
+msgstr "Tìm kiếm chuỗi nguồn"
 
 #: weblate/templates/screenshots/screenshot_detail.html:81
 msgid ""
@@ -14463,16 +14436,12 @@ msgid "Add to screenshot"
 msgstr "Thêm vào ảnh chụp màn hình"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection.html:7
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Select source string"
-msgstr "PHP strings"
+msgstr "Chọn chuỗi nguồn"
 
 #: weblate/templates/screenshots/screenshot_sources_search_selection_header.html:6
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Select all source strings"
-msgstr "PHP strings"
+msgstr "Chọn tất cả chuỗi nguồn"
 
 #: weblate/templates/screenshots/snippets/paste-button.html:4
 #, fuzzy
@@ -14722,7 +14691,7 @@ msgstr ""
 #: weblate/templates/snippets/git-info.html:7
 #: weblate/trans/models/component.py:590
 msgid "Source code repository"
-msgstr "Nơi chứa mã nguồn"
+msgstr "Kho lưu trữ mã nguồn"
 
 #: weblate/templates/snippets/git-info.html:17
 #: weblate/trans/templatetags/translations.py:1170
@@ -15274,10 +15243,9 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/plural.html:10
-#, fuzzy, python-format
-#| msgid "Description"
+#, python-format
 msgid "Plural: %(source_description)s"
-msgstr "Mô tả"
+msgstr "Số nhiều: %(source_description)s"
 
 #: weblate/templates/snippets/plural.html:24
 #, fuzzy
@@ -15667,20 +15635,16 @@ msgid "Source in review"
 msgstr "Nguồn trong bài đánh giá"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Source string editing is disabled."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Chỉnh sửa chuỗi nguồn bị vô hiệu hóa."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:11
 msgid "Source strings can’t be edited. You can delete them and add new ones."
 msgstr ""
 
 #: weblate/templates/snippets/unit-readonly-badge.html:14
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "The source string cannot be edited."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Chuỗi nguồn không thể chỉnh sửa."
 
 #: weblate/templates/snippets/upload-placeholder.html:12
 msgid ""
@@ -16096,7 +16060,7 @@ msgstr ""
 #: weblate/templates/trans/alert/duplicatestring.html:12
 #: weblate/templates/translate.html:420 weblate/templates/translate.html:523
 msgid "Source"
-msgstr ""
+msgstr "Nguồn"
 
 #: weblate/templates/trans/alert/duplicatestring.html:33
 msgid ""
@@ -16986,7 +16950,7 @@ msgstr "Thuật ngữ"
 
 #: weblate/templates/translate.html:121 weblate/templates/zen-units.html:75
 msgid "Source change"
-msgstr ""
+msgstr "Thay đổi nguồn"
 
 #: weblate/templates/translate.html:137
 msgid "Intermediate language"
@@ -17057,10 +17021,8 @@ msgid "Strings with similar keys"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/translate.html:305
-#, fuzzy
-#| msgid "Similarity"
 msgid "Similar keys"
-msgstr "Sự tương tự"
+msgstr "Các khóa tương tự"
 
 #: weblate/templates/translate.html:315
 #, fuzzy
@@ -17134,10 +17096,8 @@ msgid "Apply selected translation to all propagated strings"
 msgstr "PHP strings"
 
 #: weblate/templates/translate.html:488
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Apply selected translation to current string"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Áp dụng bản dịch đã chọn cho chuỗi hiện tại"
 
 #: weblate/templates/translate.html:503
 msgid "Browse all string changes"
@@ -17153,7 +17113,7 @@ msgstr "Nguồn gốc"
 
 #: weblate/templates/translate.html:525
 msgid "Similarity"
-msgstr "Sự tương tự"
+msgstr "Tương đồng"
 
 #: weblate/templates/translate.html:551
 #, fuzzy
@@ -17430,7 +17390,7 @@ msgstr ""
 
 #: weblate/templates/translation.html:383
 msgid "The uploaded file will be merged with the current translation."
-msgstr ""
+msgstr "Tệp được tải lên sẽ được hợp nhất với bản dịch hiện tại."
 
 #: weblate/templates/translation.html:385
 msgid ""
@@ -17991,10 +17951,8 @@ msgid "A translation file was synchronized with its repository."
 msgstr "Quét lại tất cả các tệp dịch trong kho lưu trữ Weblate"
 
 #: weblate/trans/actions.py:34
-#, fuzzy
-#| msgid "Last name"
 msgid "Resource updated"
-msgstr "Họ"
+msgstr "Tài nguyên đã được cập nhật"
 
 #: weblate/trans/actions.py:40
 msgid ""
@@ -18089,10 +18047,8 @@ msgid "A source string was added outside repository or upload updates."
 msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #: weblate/trans/actions.py:103
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Source string added"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Chuỗi nguồn đã được thêm"
 
 #: weblate/trans/actions.py:108
 #, fuzzy
@@ -18258,16 +18214,12 @@ msgid "Suggestion removed during cleanup"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/trans/actions.py:202
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "A source string was edited in Weblate."
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Một chuỗi nguồn đã được chỉnh sửa trong Weblate."
 
 #: weblate/trans/actions.py:203
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Source string changed"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Chuỗi nguồn đã thay đổi"
 
 #: weblate/trans/actions.py:208
 #, fuzzy
@@ -18731,10 +18683,8 @@ msgid "A translation was synchronized after uploading a source file."
 msgstr ""
 
 #: weblate/trans/actions.py:459
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Translation updated by source upload"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Bản dịch được cập nhật bởi nguồn tải lên"
 
 #: weblate/trans/actions.py:465
 msgid ""
@@ -18783,7 +18733,7 @@ msgstr "Tên"
 
 #: weblate/trans/actions.py:494
 msgid "Additional source-string flags were updated."
-msgstr ""
+msgstr "Các cờ chuỗi nguồn bổ sung đã được cập nhật."
 
 #: weblate/trans/actions.py:495
 msgid "Extra flags updated"
@@ -18890,10 +18840,8 @@ msgid "A source string was added while processing an uploaded file."
 msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #: weblate/trans/actions.py:557
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Source string added in the upload"
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Chuỗi nguồn được thêm vào trong quá trình tải lên"
 
 #: weblate/trans/actions.py:563
 #, fuzzy
@@ -18902,10 +18850,8 @@ msgid "A source string was added while synchronizing from the repository."
 msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #: weblate/trans/actions.py:565
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Source string added in the repository"
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Chuỗi nguồn đã được thêm vào kho lưu trữ"
 
 #: weblate/trans/actions.py:570
 #, fuzzy
@@ -19504,10 +19450,8 @@ msgid "Original component"
 msgstr "Đã tạo mới khóa SSH."
 
 #: weblate/trans/change_display.py:646
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Current translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bản dịch hiện tại"
 
 #: weblate/trans/change_display.py:648
 msgid "Previous translation"
@@ -20060,10 +20004,8 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Giải thích thêm để làm rõ ý nghĩa hoặc cách sử dụng của chuỗi ký tự."
 
 #: weblate/trans/forms.py:702
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string explanation"
-msgstr "Vị trí xâu nguồn"
+msgstr "Giải thích chuỗi nguồn"
 
 #: weblate/trans/forms.py:704
 #, fuzzy
@@ -20206,10 +20148,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/forms.py:1134
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Source of automated translations"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Nguồn của các bản dịch tự động"
 
 #: weblate/trans/forms.py:1136
 #, fuzzy
@@ -20232,14 +20172,12 @@ msgid "Score threshold"
 msgstr ""
 
 #: weblate/trans/forms.py:1227
-#, fuzzy
-#| msgid "This component is currently locked."
 msgid "All components in current workspace"
-msgstr "Tính năng thêm bản dịch mới bị tắt trong cấu hình thành phần."
+msgstr "Tất cả các thành phần trong không gian làm việc hiện tại"
 
 #: weblate/trans/forms.py:1229
 msgid "All components in current project"
-msgstr ""
+msgstr "Tất cả các thành phần trong dự án hiện tại"
 
 #: weblate/trans/forms.py:1252 weblate/utils/files.py:43
 msgid "Add as suggestion"
@@ -20289,11 +20227,11 @@ msgid "Please choose"
 msgstr ""
 
 #: weblate/trans/forms.py:1574
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid ""
 "Revert the latest translation edits from this user in the current project."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr ""
+"Hoàn tác các chỉnh sửa bản dịch mới nhất từ người dùng này trong dự án hiện "
+"tại."
 
 #: weblate/trans/forms.py:1581
 #, fuzzy
@@ -20651,10 +20589,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/forms.py:3887
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Source language text"
-msgstr "Ngôn ngữ thứ hai"
+msgstr "Văn bản ngôn ngữ nguồn"
 
 #: weblate/trans/forms.py:3889
 msgid ""
@@ -20663,7 +20599,7 @@ msgstr "Bạn có thể sửa cái này sau, như với mọi chuỗi trong ngô
 
 #: weblate/trans/forms.py:3904
 msgid "Optional context to clarify the source strings."
-msgstr ""
+msgstr "Ngữ cảnh tùy chọn để làm rõ các chuỗi nguồn."
 
 #: weblate/trans/forms.py:3911
 #, fuzzy
@@ -22761,7 +22697,7 @@ msgstr "Ưu tiên: Rất thấp"
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
-msgstr ""
+msgstr "{target} [{source}]"
 
 #: weblate/trans/templatetags/translations.py:331
 msgid "Forbidden translation:"
@@ -23421,10 +23357,9 @@ msgid "Access denied."
 msgstr ""
 
 #: weblate/trans/views/files.py:262
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "PHP strings"
+msgstr ""
+"Các dạng số nhiều trong tệp đã tải lên không khớp với bản dịch hiện tại."
 
 #: weblate/trans/views/git.py:46
 msgid "Use the button on the repository status page to run this action."
@@ -23539,11 +23474,8 @@ msgid "New strings"
 msgstr "Xâu mới"
 
 #: weblate/trans/views/reports.py:252
-#, fuzzy
-#| msgctxt "Number of hosted characters"
-#| msgid "Hosted characters"
 msgid "Source characters"
-msgstr "Các ký tự được lưu trữ"
+msgstr "Ký tự nguồn"
 
 #: weblate/trans/views/reports.py:253
 msgid "Rate"
@@ -23905,10 +23837,8 @@ msgid "Replace existing translation file"
 msgstr "Thay bản dịch đã có sẵn"
 
 #: weblate/utils/files.py:46
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Update source strings"
-msgstr "PHP strings"
+msgstr "Cập nhật chuỗi nguồn"
 
 #: weblate/utils/files.py:47
 #, fuzzy
@@ -25106,11 +25036,11 @@ msgstr ""
 
 #: weblate/wladmin/forms.py:138 weblate/wladmin/forms.py:145
 msgid "Navigation color (Light, Dark)"
-msgstr ""
+msgstr "Màu điều hướng (Sáng, Tối)"
 
 #: weblate/wladmin/forms.py:141
 msgid "Navigation text color (Light, Dark)"
-msgstr ""
+msgstr "Màu chữ điều hướng (Sáng, Tối)"
 
 #: weblate/wladmin/forms.py:148
 msgid "Focus color (Light, Dark)"
@@ -25133,6 +25063,8 @@ msgid ""
 "Persistent navigational drop-down menu in the top right corner, even if "
 "there is room for a full menu."
 msgstr ""
+"Menu thả xuống điều hướng luôn hiển thị ở góc trên bên phải, ngay cả khi đã "
+"có đủ không gian cho một menu đầy đủ."
 
 #. Translators: The Weblate server has no paid support by the Weblate team
 #: weblate/wladmin/models.py:145
