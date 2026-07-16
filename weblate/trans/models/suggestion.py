@@ -69,6 +69,10 @@ class SuggestionManager(models.Manager["Suggestion"]):
             target, fixups = fix_target(target, unit)
 
         target_merged = join_plural(target)
+        if len(target_merged) > max_length:
+            if raise_exception:
+                raise SuggestionTooLongError
+            return None, SuggestionAddResult.TOO_LONG
 
         if user is None:
             user = request.user if request else get_anonymous()
