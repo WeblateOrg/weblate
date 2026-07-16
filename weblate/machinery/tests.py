@@ -57,9 +57,6 @@ from weblate.machinery.base import (
     MachineTranslationError,
 )
 from weblate.machinery.cyrtranslit import CyrTranslitTranslation
-from weblate.machinery.models import MachineryError
-from weblate.machinery.tasks import cleanup_machinery_errors
-from weblate.machinery.views import ListMachineryView
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyGlossaryTranslation, DummyTranslation
 from weblate.machinery.forms import (
@@ -88,6 +85,7 @@ from weblate.machinery.management.commands.list_machinery import (
 )
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.mistral import MistralTranslation
+from weblate.machinery.models import MachineryError
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
@@ -95,7 +93,9 @@ from weblate.machinery.ollama import OllamaTranslation
 from weblate.machinery.openai import AzureOpenAITranslation, OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
+from weblate.machinery.tasks import cleanup_machinery_errors
 from weblate.machinery.tmserver import TMServerTranslation
+from weblate.machinery.views import ListMachineryView
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
@@ -8981,13 +8981,15 @@ class MachineryErrorTest(TestCase):
         """Errors in download_pending_translations are persisted as MachineryError rows."""
         machine = self.get_machine()
         unit = make_unit(code="cs", source="Hello, world!")
-        with patch.object(
-            machine,
-            "download_pending_translations",
-            side_effect=ValueError("API unavailable"),
+        with (
+            patch.object(
+                machine,
+                "download_pending_translations",
+                side_effect=ValueError("API unavailable"),
+            ),
+            self.assertRaises(MachineTranslationError),
         ):
-            with self.assertRaises(MachineTranslationError):
-                machine.translate(unit)
+            machine.translate(unit)
         self.assertEqual(MachineryError.objects.count(), 1)
         error = MachineryError.objects.get()
         self.assertEqual(error.engine, machine.name)
