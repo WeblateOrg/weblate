@@ -378,7 +378,8 @@ class BatchMachineTranslation(DocVersionsMixin):
             self._save_machinery_error(exc, cause)
 
     def _save_machinery_error(self, exc: Exception, cause: str) -> None:
-        from weblate.machinery.models import MachineryError  # noqa: PLC0415
+        # ruff: ignore[import-outside-top-level]
+        from weblate.machinery.models import MachineryError
 
         try:
             MachineryError.objects.create(

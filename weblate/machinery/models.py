@@ -35,7 +35,7 @@ class MachineryError(models.Model):
     error = models.TextField()
 
     class Meta:
-        ordering = ["-timestamp"]
+        ordering = ["-timestamp"]  # ruff: ignore[mutable-class-default]
         verbose_name = gettext_lazy("Machinery error")
         verbose_name_plural = gettext_lazy("Machinery errors")
 

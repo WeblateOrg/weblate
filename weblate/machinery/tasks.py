@@ -15,7 +15,8 @@ from weblate.utils.celery import app
 @app.task(trail=False)
 def cleanup_machinery_errors() -> None:
     """Cleanup old machinery errors."""
-    from weblate.machinery.models import MachineryError  # noqa: PLC0415
+    # ruff: ignore[import-outside-top-level]
+    from weblate.machinery.models import MachineryError
 
     MachineryError.objects.filter(
         timestamp__lt=timezone.now() - timedelta(days=30)
