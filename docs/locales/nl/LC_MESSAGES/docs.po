@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-16 14:20+0000\n"
+"PO-Revision-Date: 2026-07-16 14:42+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -24215,12 +24215,18 @@ msgid ""
 "there is not enough free space in the backup destination to store a database "
 "dump."
 msgstr ""
+":ref:`manage-performance` geeft nu het schijfverbruik van de PostgreSQL-"
+"database weer naast het serverschijfverbruik en waarschuwt als het "
+"databaseverbruik niet kan worden verzameld of als er niet voldoende vrije "
+"ruimte in het doel voor de back-up is om een databasedump op te slaan."
 
 #: changes.rst:152
 msgid ""
 "The :ref:`search-replace` preview now keeps the search parameters editable "
 "so the query can be refined before applying replacements."
 msgstr ""
+"Het voorbeeld :ref:`search-replace` laat nu de zoekparameters bewerkbaar, "
+"zodat de query kan worden verfijnd voordat vervangingen worden toegepast."
 
 #: changes.rst:156
 msgid ""
@@ -24228,6 +24234,9 @@ msgid ""
 "expression timeouts when evaluating source-string flags "
 "(:cve:`2026-62326`, :ghsa:`r52j-4vjp-q949`)."
 msgstr ""
+":ref:`check-regex` en :ref:`check-placeholders` dwingen nu time-outs voor "
+"reguliere expressies af bij het evalueren van vlaggen van de brontekenreeks "
+"(:cve:`2026-62326`, :ghsa:`r52j-4vjp-q949`)."
 
 #: changes.rst:157
 msgid ""
@@ -24274,6 +24283,9 @@ msgid ""
 "project team data or expanding scoped team assignments outside their allowed "
 "projects (:cve:`2026-55228`, :ghsa:`2q2q-jr9g-v9rf`)."
 msgstr ""
+"Controles van team API-toegang voorkomen nu dat projectbeheerders private-"
+"project teamgegevens lezen of het bereik voor teamtoewijzingen uitbreiden "
+"buiten hun toegestane projecten (:cve:`2026-55228`, :ghsa:`2q2q-jr9g-v9rf`)."
 
 #: changes.rst:162
 msgid "Malformed ``replacements`` flags no longer abort source length checks."
@@ -24294,6 +24306,8 @@ msgid ""
 "Glossary handling no longer duplicates TBX terms or shows source-language "
 "terms in both translation columns."
 msgstr ""
+"Afhandeling van woordenlijst dupliceert niet langer TBX-termen of geeft niet "
+"langer brontaaltermen weer in beide vertaalkolommen."
 
 #: changes.rst:165
 #, fuzzy
@@ -24450,6 +24464,8 @@ msgid ""
 "Interrupted Git repository operations are now either recovered and recorded "
 "or surfaced as a repository alert."
 msgstr ""
+"Onderbroken bewerkingen voor de opslagruimte van Git worden nu ofwel "
+"hersteld en vastgelegd of opgeworpen als een melding van de opslagruimte."
 
 #: changes.rst:183
 msgid ""
@@ -24463,12 +24479,17 @@ msgid ""
 "Unsupported upload levels now show an upload placeholder pointing to "
 "individual translations."
 msgstr ""
+"Niet-ondersteunde niveaus voor uploaden geven nu een uploadplaatsvervanger "
+"weer die verwijst naar individuele vertalingen."
 
 #: changes.rst:185
 msgid ""
 "Component API responses no longer expose repository export, push branch, or "
 "repository browser links to users without repository access."
 msgstr ""
+"Antwoorden voor onderdeel-API geven niet langer exporteren uit de "
+"opslagruimte, pushbranch of browserlinks naar de opslagruimte weer aan "
+"gebruikers zonder toegang tot de opslagruimte."
 
 #: changes.rst:189
 msgid ""
@@ -24507,6 +24528,10 @@ msgid ""
 "periodic Celery background task. Keep Celery running after the upgrade; "
 "translation-memory suggestions can be incomplete until the backfill finishes."
 msgstr ""
+"Bestaande items voor vertaalgeheugens worden verplaatst naar een opslag voor "
+"het bereik door een periodieke Celery achtergrondtaak. Houd Celery draaiende "
+"na de upgrade; suggesties voor het vertaalgeheugen kunnen onvolledig zijn "
+"totdat het opvullen is voltooid."
 
 #: changes.rst:203
 msgid ""
@@ -25352,6 +25377,8 @@ msgid ""
 "Michal Čihař, Karen Konou, Weblate CI, michael-smt, Samuel Gomes, Dinis "
 "Sales, Gersona, Harsha C, Kartik Ohri, Besnik Bleta, fahadhewad"
 msgstr ""
+"Michal Čihař, Karen Konou, Weblate CI, michael-smt, Samuel Gomes, Dinis "
+"Sales, Gersona, Harsha C, Kartik Ohri, Besnik Bleta, fahadhewad"
 
 #: changes/contributors/2026.7.rst:10
 msgid ""
@@ -25372,6 +25399,22 @@ msgid ""
 "work, Kristoffer Grundström, ssantos, Andi Chandler, Ldm Public, Alc4Traz45, "
 "Szafranek13, hms5232, Victor K, 大学没毕业"
 msgstr ""
+"Dick Groskamp, Michal Čihař, 為什麼不加空格, VfBFan, Любомир Василев, "
+"이정희, Aindriú Mac Giolla Eoin, Yaron Shahrabani, jiahaisheng, Horus68, "
+"Andrei Stepanov, Martin Srebotnjak, Peter Vančo, Hotripak, 大王叫我来巡山, "
+"Milo Ivir, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Mickaël Binos, Besnik Bleta, Frank Paul "
+"Silye, Matthaiks, abd sak, Hoseok Seo, Fulup Jakez, Gaël TISSERAND "
+"(Gtisseran), Azamat Аituganov, Mahirə Həsənova, Pierfrancesco Passerini, "
+"Libre, Mohamed Aymane Farhi, Júlia Rosell Saldaña, پرویز قادر, Jim Kats, "
+"Miguel A. Bouzada, Manuela Silva, reducedradius, Hanssium, Uh idk, Arif "
+"Budiman, Feike Donia, Zahid Rizky Fakhri, Emin Tufan Çetin, ojppe, தமிழ்நேரம், "
+"António Oliveira, Rumuz AGO, justcontributor, Flynn, Ștefan Zaharia, Nozomu "
+"Matsui, H-Media, Ecron, Weblate CI, Balázs Meskó, Fjuro, goeran, Adam "
+"Havránek, Priit Jõerüüt, Astrid Høie Silden, Alan S. Muhammed (Alan Kurdish)"
+", hoanghuy309, Yamin Siahmargooei, MeahNunh, Kartik Ohri, Valeria Sofia "
+"Azañero, Tuomas Hietala, Rafael Fontenelle, Yuri Chornoivan, AWwue-work, "
+"Kristoffer Grundström, ssantos, Andi Chandler, Ldm Public, Alc4Traz45, "
+"Szafranek13, hms5232, Victor K, 大学没毕业"
 
 #: changes/contributors/2026.7.rst:15
 #, fuzzy
@@ -25394,6 +25437,10 @@ msgid ""
 "ButterflyOfFire, Kiên Trần Trung, skittles poopy, Ulrik, Horus68, Mickaël "
 "Binos, Adam Havránek"
 msgstr ""
+"Michal Čihař, António Oliveira, 大学没毕业, 為什麼不加空格, ℂ𝕠𝕠𝕠𝕝 "
+"(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), hoanghuy309, Libre, VfBFan, Peter Vančo, Jim Kats, "
+"ButterflyOfFire, Kiên Trần Trung, skittles poopy, Ulrik, Horus68, Mickaël "
+"Binos, Adam Havránek"
 
 #: changes/contributors/2026.7.1.rst:15
 #, fuzzy
@@ -42652,6 +42699,13 @@ msgid ""
 "documentation links when they are part of explanatory prose rather than a "
 "contextual action."
 msgstr ""
+"Gebruik het pictogram Informatie voor contextuele links naar de documentatie "
+"van Weblate in plaats van een tekstuele knop :guilabel:`Documentatie`. In "
+"sjablonen van Django, gebruik de sjabloontag ``documentation_icon``, zodat "
+"de link een consistente stijl, label en gedrag voor externe link heeft. "
+"Pictogrammen Documentatie zijn interactieve links en moeten toetsenbord-"
+"focus kunnen krijgen. Behoud tekstuele documentatielinks als ze deel "
+"uitmaken van een gedeelte met uitleg in plaats van een contextuele actie."
 
 #: contributing/frontend.rst:55
 msgid "Dependency management"
@@ -45013,10 +45067,12 @@ msgid ""
 "Alerts are listed on each respective component page "
 "as :guilabel:`Diagnostics`."
 msgstr ""
+"Meldingen worden op elke respectievelijke onderdeelspagina vermeld als "
+":guilabel:`Diagnostiek`."
 
 #: devel/alerts.rst:43
 msgid "Project and workspace diagnostics overviews"
-msgstr ""
+msgstr "Overzichten van project- en werkruimtediagnostiek"
 
 #: devel/alerts.rst:45
 msgid ""
@@ -45024,12 +45080,19 @@ msgid ""
 "workspace pages. The overview is loaded when opened and groups alerts of the "
 "same type instead of repeating them for every component."
 msgstr ""
+"Aangemelde gebruikers kunnen de tab :guilabel:`Diagnostiek` openen op "
+"project- en werkruimtepagina's. Het overzicht wordt geladen indien geopend "
+"en groepeert meldingen van hetzelfde type in plaats van ze voor elk "
+"onderdeel te herhalen."
 
 #: devel/alerts.rst:49
 msgid ""
 "The project overview shows project-wide findings once and lists the "
 "components affected by component-specific findings:"
 msgstr ""
+"Het overzicht voor het project geeft eenmaal projectbrede bevindingen weer "
+"en vermeldt de onderdelen die worden beïnvloed door onderdeelsspecifieke "
+"bevindingen:"
 
 #: devel/alerts.rst:52
 msgid "Project diagnostics overview with grouped findings and filters"
