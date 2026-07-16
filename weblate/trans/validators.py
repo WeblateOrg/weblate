@@ -19,13 +19,18 @@ if TYPE_CHECKING:
     from weblate.trans.models.unit import Unit
 
 SUGGESTION_REJECTION_REASON_LENGTH = 200
+DEFAULT_TRANSLATION_MAX_LENGTH = 10000
 
 
 def get_translation_text_max_length(unit: Unit) -> int:
     """Return maximum accepted translation text length for a unit."""
     # Add extra margin to allow XML tags which might be ignored for length checks.
     # On the other side, do not process arbitrarily long strings here.
-    return 10 * (unit.get_max_length() + 100)
+    try:
+        max_length = unit.get_max_length()
+    except ValueError:
+        max_length = DEFAULT_TRANSLATION_MAX_LENGTH
+    return 10 * (max_length + 100)
 
 
 def validate_filemask(val) -> None:

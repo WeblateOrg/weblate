@@ -406,6 +406,19 @@ class ProjectTest(RepoTestCase):
             )
             self.assertEqual(result, SuggestionAddResult.TOO_LONG)
 
+            unit.extra_flags = "max-length:*"
+            unit.save(update_fields=["extra_flags"])
+            unit = Unit.objects.get(pk=unit.pk)
+            suggestion, result = Suggestion.objects.add(
+                unit,
+                ["Invalid flag suggestion"],
+                None,
+                user=another_user,
+                raise_exception=True,
+            )
+            self.assertIsNotNone(suggestion)
+            self.assertEqual(result, SuggestionAddResult.CREATED)
+
             # check that user submitting suggestion twice doesn't create duplicated suggestions
             suggestion, result = Suggestion.objects.add(
                 unit, ["New suggestion"], None, user=another_user, raise_exception=True
