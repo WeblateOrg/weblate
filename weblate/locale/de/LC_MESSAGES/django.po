@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-15 18:21+0000\n"
+"PO-Revision-Date: 2026-07-16 09:09+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -1515,10 +1515,8 @@ msgid "Gratis trial"
 msgstr "Kostenlos testen"
 
 #: weblate/accounts/views.py:791 weblate/api/views.py:764
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "This user can not be edited."
-msgstr "Die Ausgangszeichenkette kann nicht bearbeitet werden."
+msgstr "Dieser Benutzer kann nicht bearbeitet werden."
 
 #: weblate/accounts/views.py:819
 #, python-format
@@ -1916,7 +1914,7 @@ msgstr ""
 #: weblate/addons/fedora_messaging.py:204
 #, python-format
 msgid "Message ID: %(message_id)s"
-msgstr ""
+msgstr "Nachrichten-ID: %(message_id)s"
 
 #: weblate/addons/fedora_messaging.py:456
 #, fuzzy, python-format
@@ -4438,28 +4436,20 @@ msgstr ""
 "werden."
 
 #: weblate/auth/permissions.py:206
-#, fuzzy
-#| msgid "You do not have permission to edit the target workspace."
 msgid "You do not have permission to edit glossary entries."
-msgstr "Sie haben keine Berechtigung, den Ziel-Arbeitsbereich zu bearbeiten."
+msgstr "Sie haben keine Berechtigung, Glossareinträge zu bearbeiten."
 
 #: weblate/auth/permissions.py:208
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to add glossary entries."
-msgstr "Sie haben keine Berechtigung, Zeichenketten zu genehmigen."
+msgstr "Sie haben keine Berechtigung, Glossareinträge hinzuzufügen."
 
 #: weblate/auth/permissions.py:210
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to delete glossary entries."
-msgstr "Sie haben keine Berechtigung, Zeichenketten zu genehmigen."
+msgstr "Sie haben keine Berechtigung, Glossareinträge zu löschen."
 
 #: weblate/auth/permissions.py:212
-#, fuzzy
-#| msgid "You do not have permission to approve strings."
 msgid "You do not have permission to upload glossary entries."
-msgstr "Sie haben keine Berechtigung, Zeichenketten zu genehmigen."
+msgstr "Sie haben keine Berechtigung, Glossareinträge hochzuladen."
 
 #: weblate/auth/permissions.py:372
 msgid "Can not perform this operation without an e-mail address."
@@ -18039,10 +18029,8 @@ msgid "Exit Zen"
 msgstr "Zen beenden"
 
 #: weblate/trans/actions.py:33
-#, fuzzy
-#| msgid "Rescan all translation files in the Weblate repository"
 msgid "A translation file was synchronized with its repository."
-msgstr "Alle Übersetzungsdateien im Weblate-Repository erneut scannen"
+msgstr "Eine Übersetzungsdatei wurde mit ihrem Repository synchronisiert."
 
 #: weblate/trans/actions.py:34
 msgid "Resource updated"
@@ -18053,45 +18041,38 @@ msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
 msgstr ""
+"Eine Sprache zur Übersetzung wurde nach einer manuellen Bearbeitung "
+"vollständig übersetzt. Automatische Übersetzungen, Uploads und "
+"Massenbearbeitungen lösen dieses Ereignis nicht aus."
 
 #: weblate/trans/actions.py:43
 msgid "Translation completed"
 msgstr "Übersetzung vollständig"
 
 #: weblate/trans/actions.py:48
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String was edited by user"
 msgid "An existing translation was edited by a user."
-msgstr "Zeichenkette wurde vom Benutzer bearbeitet"
+msgstr "Eine vorhandene Übersetzung wurde von einem Benutzer bearbeitet."
 
 #: weblate/trans/actions.py:49
 msgid "Translation changed"
 msgstr "Übersetzung geändert"
 
 #: weblate/trans/actions.py:54
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Comment was added"
 msgid "A comment was added to a string."
-msgstr "Kommentar wurde hinzugefügt"
+msgstr "Ein Kommentar wurde zu einer Zeichenkette hinzugefügt."
 
 #: weblate/trans/actions.py:55
 msgid "Comment added"
 msgstr "Kommentar hinzugefügt"
 
 #: weblate/trans/actions.py:60
-#, fuzzy
-#| msgid "Translation suggestions can be made."
 msgid "A translation suggestion was added."
-msgstr "Übersetzungsvorschläge können gemacht werden."
+msgstr "Ein Übersetzungsvorschlag wurde hinzugefügt."
 
 #: weblate/trans/actions.py:66
-#, fuzzy
-#| msgid "All untranslated strings added the past month"
 msgid "A previously untranslated string was translated by a user."
 msgstr ""
-"Alle nicht übersetzten Zeichenketten, die letzten Monat hinzugefügt wurden"
+"Eine bisher nicht übersetzte Zeichenkette wurde von einem Benutzer übersetzt."
 
 #: weblate/trans/actions.py:67
 msgid "Translation added"
@@ -18102,22 +18083,21 @@ msgid ""
 "A translation was added or changed by automatic translation. This is emitted "
 "instead of Translation added or Translation changed."
 msgstr ""
+"Eine Übersetzung wurde durch eine automatische Übersetzung hinzugefügt oder "
+"geändert. Dies wird anstelle von „Übersetzung hinzugefügt“ oder „Übersetzung "
+"geändert“ ausgegeben."
 
 #: weblate/trans/actions.py:81
-#, fuzzy
-#| msgid "Define translation instructions to help translators."
 msgid "A translation suggestion was accepted as the translation."
-msgstr "Definieren Sie Übersetzungsanweisungen, um Übersetzern zu helfen."
+msgstr "Ein Übersetzungsvorschlag wurde als Übersetzung angenommen."
 
 #: weblate/trans/actions.py:82
 msgid "Suggestion accepted"
 msgstr "Vorschlag angenommen"
 
 #: weblate/trans/actions.py:87
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "A translation was restored to an earlier value."
-msgstr "Ende der Übersetzungseinheit erreicht."
+msgstr "Eine Übersetzung wurde auf einen früheren Wert zurückgesetzt."
 
 #: weblate/trans/actions.py:88
 msgid "Translation reverted"
@@ -18128,138 +18108,116 @@ msgid ""
 "A translation was added or changed by a translation file upload. This is "
 "emitted instead of Translation added or Translation changed."
 msgstr ""
+"Eine Übersetzung wurde durch das Hochladen einer Übersetzungsdatei "
+"hinzugefügt oder geändert. Dies wird anstelle von „Übersetzung hinzugefügt“ "
+"oder „Übersetzung geändert“ ausgegeben."
 
 #: weblate/trans/actions.py:97
 msgid "Translation uploaded"
 msgstr "Übersetzung hochgeladen"
 
 #: weblate/trans/actions.py:102
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added outside repository or upload updates."
-msgstr "Ausgangszeichenkette im Repository hinzugefügt"
+msgstr ""
+"Eine Ausgangszeichenkette wurde außerhalb von Repository-Aktualisierungen "
+"oder Uploads hinzugefügt."
 
 #: weblate/trans/actions.py:103
 msgid "Source string added"
 msgstr "Ausgangszeichenkette hinzugefügt"
 
 #: weblate/trans/actions.py:108
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "A component was locked for translation."
-msgstr ""
-"Alle Komponenten sind nun für Übersetzungen und deren Änderungen gesperrt!"
+msgstr "Eine Komponente wurde für die Übersetzung gesperrt."
 
 #: weblate/trans/actions.py:109
 msgid "Component locked"
 msgstr "Komponente gesperrt"
 
 #: weblate/trans/actions.py:114
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "A component was unlocked for translation."
-msgstr ""
-"Alle Komponenten sind nun für Übersetzungen und deren Änderungen gesperrt!"
+msgstr "Eine Komponente wurde für die Übersetzung entsperrt."
 
 #: weblate/trans/actions.py:115
 msgid "Component unlocked"
 msgstr "Komponente entsperrt"
 
 #: weblate/trans/actions.py:121
-#, fuzzy
-#| msgid "All pending translations were committed."
 msgid "Pending component changes were committed."
-msgstr "Alle ausstehenden Übersetzungen wurden committet."
+msgstr "Ausstehende Komponentenänderungen wurden committet."
 
 #: weblate/trans/actions.py:122
 msgid "Changes committed"
 msgstr "Änderungen committet"
 
 #: weblate/trans/actions.py:127
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes were pushed upstream."
-msgstr "Warnung bei Repository-Änderungen"
+msgstr "Repository-Änderungen wurden Upstream gepusht."
 
 #: weblate/trans/actions.py:128
 msgid "Changes pushed"
 msgstr "Änderungen gepusht"
 
 #: weblate/trans/actions.py:133
-#, fuzzy
-#| msgid "Reset repository to upstream"
 msgid "A repository was reset to its upstream state."
-msgstr "Repository auf Upstream zurücksetzen"
+msgstr "Ein Repository wurde auf den Upstream-Status zurückgesetzt."
 
 #: weblate/trans/actions.py:134
 msgid "Repository reset"
 msgstr "Repository zurückgesetzt"
 
 #: weblate/trans/actions.py:139
-#, fuzzy
-#| msgid "The remote repository needs to be merged!"
 msgid "Upstream repository changes were merged."
-msgstr "Das entfernte Repository muss zusammengeführt werden!"
+msgstr "Änderungen im Upstream-Repository wurden zusammengeführt."
 
 #: weblate/trans/actions.py:140
 msgid "Repository merged"
 msgstr "Repository zusammengeführt"
 
 #: weblate/trans/actions.py:145
-#, fuzzy
-#| msgid "Repository changes are being processed…"
 msgid "Repository changes were rebased on upstream."
-msgstr "Repository-Änderungen werden verarbeitet …"
+msgstr "Repository-Änderungen wurden auf Upstream umbasiert."
 
 #: weblate/trans/actions.py:146
 msgid "Repository rebased"
 msgstr "Repository umbasiert"
 
 #: weblate/trans/actions.py:151
-#, fuzzy
-#| msgid "View upstream repository location"
 msgid "Merging upstream repository changes failed."
-msgstr "Speicherort des Upstream-Repositorys anzeigen"
+msgstr ""
+"Zusammenführen der Änderungen im Upstream-Repository ist fehlgeschlagen."
 
 #: weblate/trans/actions.py:152
 msgid "Repository merge failed"
 msgstr "Repository-Merge fehlgeschlagen"
 
 #: weblate/trans/actions.py:157
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Rebasing repository changes failed."
-msgstr "Warnung bei Repository-Änderungen"
+msgstr "Umbasieren der Repository-Änderungen ist fehlgeschlagen."
 
 #: weblate/trans/actions.py:158
 msgid "Repository rebase failed"
 msgstr "Repository-Umbasierung fehlgeschlagen"
 
 #: weblate/trans/actions.py:163
-#, fuzzy
-#| msgid "Could not parse translation files."
 msgid "Weblate could not parse a translation file."
-msgstr "Die Übersetzungsdateien konnten nicht analysiert werden."
+msgstr "Weblate konnte eine Übersetzungsdatei nicht analysieren."
 
 #: weblate/trans/actions.py:164
 msgid "Parsing failed"
 msgstr "Analyse fehlgeschlagen"
 
 #: weblate/trans/actions.py:169
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A language translation was removed."
-msgstr "Eine Sprache in der Kategorie wurde entfernt."
+msgstr "Eine Sprache zur Übersetzung wurde entfernt."
 
 #: weblate/trans/actions.py:170
 msgid "Translation removed"
 msgstr "Übersetzung entfernt"
 
 #: weblate/trans/actions.py:175
-#, fuzzy
-#| msgid "Translation suggestions can be made."
 msgid "A translation suggestion was removed."
-msgstr "Übersetzungsvorschläge können gemacht werden."
+msgstr "Ein Übersetzungsvorschlag wurde entfernt."
 
 #: weblate/trans/actions.py:176
 msgid "Suggestion removed"
@@ -18270,70 +18228,60 @@ msgid ""
 "A translation was changed by a search-and-replace operation. This is emitted "
 "instead of Translation changed."
 msgstr ""
+"Eine Übersetzung wurde durch eine Suchen-und-Ersetzen-Aktion geändert. Dies "
+"wird anstelle von „Übersetzung geändert“ ausgegeben."
 
 #: weblate/trans/actions.py:185
 msgid "Translation replaced"
 msgstr "Übersetzung ersetzt"
 
 #: weblate/trans/actions.py:190
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Pushing repository changes upstream failed."
-msgstr "Warnung bei Repository-Änderungen"
+msgstr "Das Pushen der Repository-Änderungen an Upstream ist fehlgeschlagen."
 
 #: weblate/trans/actions.py:191
 msgid "Repository push failed"
 msgstr "Repository-Push fehlgeschlagen"
 
 #: weblate/trans/actions.py:196
-#, fuzzy
-#| msgid "Suggestion removed during cleanup"
 msgid "An obsolete translation suggestion was removed during cleanup."
-msgstr "Vorschlag wurde während des Bereinigungsvorgangs entfernt"
+msgstr ""
+"Ein veralteter Übersetzungsvorschlag wurde während des Bereinigungsvorgangs "
+"entfernt."
 
 #: weblate/trans/actions.py:197
 msgid "Suggestion removed during cleanup"
 msgstr "Vorschlag wurde während des Bereinigungsvorgangs entfernt"
 
 #: weblate/trans/actions.py:202
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was edited in Weblate."
-msgstr "Ausgangszeichenkette beim Hochladen hinzugefügt"
+msgstr "Eine Ausgangszeichenkette wurde in Weblate bearbeitet."
 
 #: weblate/trans/actions.py:203
 msgid "Source string changed"
 msgstr "Ausgangszeichenkette geändert"
 
 #: weblate/trans/actions.py:208
-#, fuzzy
-#| msgid "New string has been added."
 msgid "A new string was added in Weblate."
-msgstr "Neue Zeichenkette wurde hinzugefügt."
+msgstr "Eine neue Zeichenkette wurde in Weblate hinzugefügt."
 
 #: weblate/trans/actions.py:209
 msgid "String added"
 msgstr "Zeichenkette hinzugefügt"
 
 #: weblate/trans/actions.py:215
-#, fuzzy
-#| msgid ""
-#| "The translation of the string has changed meanwhile. Please check your "
-#| "changes."
 msgid "The translation state of one or more strings was changed in bulk."
 msgstr ""
-"Die Übersetzung der Zeichenkette wurde zwischenzeitlich geändert. Bitte "
-"überprüfen Sie Ihre Änderungen."
+"Der Übersetzungsstatus einer oder mehrerer Zeichenketten wurde per "
+"Massenbearbeitung geändert."
 
 #: weblate/trans/actions.py:217
 msgid "Bulk status changed"
 msgstr "Große Statusänderung"
 
 #: weblate/trans/actions.py:222
-#, fuzzy
-#| msgid "Project access control has been changed."
 msgid "Project or component visibility was changed."
-msgstr "Die Zugriffssteuerung für das Projekt wurde geändert."
+msgstr "Projekt- oder Komponentensichtbarkeit wurde geändert."
 
 #: weblate/trans/actions.py:223
 msgid "Visibility changed"
@@ -18341,195 +18289,152 @@ msgstr "Sichtbarkeit geändert"
 
 #: weblate/trans/actions.py:228
 msgid "A user was granted access."
-msgstr ""
+msgstr "Einem Benutzer wurde Zugriff gewährt."
 
 #: weblate/trans/actions.py:229
 msgid "User added"
 msgstr "Benutzer hinzugefügt"
 
 #: weblate/trans/actions.py:234
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "A user's access was removed."
-msgstr "Der Sicherheitsschlüssel wurde entfernt."
+msgstr "Einem Benutzer wurde der Zugriff entzogen."
 
 #: weblate/trans/actions.py:235
 msgid "User removed"
 msgstr "Benutzer entfernt"
 
 #: weblate/trans/actions.py:240
-#, fuzzy
-#| msgid "Add as translation needing review"
 msgid "A translation was approved during review."
-msgstr "Als zu überprüfende Übersetzung hinzufügen"
+msgstr "Eine Übersetzung wurde während der Überprüfung genehmigt."
 
 #: weblate/trans/actions.py:241
 msgid "Translation approved"
 msgstr "Übersetzung genehmigt"
 
 #: weblate/trans/actions.py:246
-#, fuzzy
-#| msgid "Skip translations marked as needing editing"
 msgid "A translation was marked as needing editing."
-msgstr "Als bearbeitungsbedürftig markierte Zeichenketten überspringen"
+msgstr "Eine Übersetzung wurde als bearbeitungsbedürftig markiert."
 
 #: weblate/trans/actions.py:247
 msgid "Marked for edit"
 msgstr "Zur Bearbeitung markiert"
 
 #: weblate/trans/actions.py:252
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was removed."
-msgstr "Neue Übersetzungskomponente wurde erstellt"
+msgstr "Eine Übersetzungskomponente wurde entfernt."
 
 #: weblate/trans/actions.py:253
 msgid "Component removed"
 msgstr "Komponente entfernt"
 
 #: weblate/trans/actions.py:258
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was removed."
-msgstr "Ihr Übersetzungsprojekt wurde entfernt"
+msgstr "Ein Übersetzungsprojekt wurde entfernt."
 
 #: weblate/trans/actions.py:259
 msgid "Project removed"
 msgstr "Projekt entfernt"
 
 #: weblate/trans/actions.py:265
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was renamed."
-msgstr "Ihr Übersetzungsprojekt wurde entfernt"
+msgstr "Ein Übersetzungsprojekt wurde umbenannt."
 
 #: weblate/trans/actions.py:266
 msgid "Project renamed"
 msgstr "Projekt umbenannt"
 
 #: weblate/trans/actions.py:271
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was renamed."
-msgstr "Neue Übersetzungskomponente wurde erstellt"
+msgstr "Eine Übersetzungskomponente wurde umbenannt."
 
 #: weblate/trans/actions.py:272
 msgid "Component renamed"
 msgstr "Komponente umbenannt"
 
 #: weblate/trans/actions.py:277
-#, fuzzy
-#| msgid "All components in current project"
 msgid "A component was moved within a project."
-msgstr "Alle Komponenten im aktuellen Projekt"
+msgstr "Eine Komponente wurde innerhalb eines Projekts verschoben."
 
 #: weblate/trans/actions.py:278
 msgid "Moved component"
 msgstr "Komponente verschoben"
 
 #: weblate/trans/actions.py:284
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Contributor made their first translation"
 msgid "A user made their first contribution to a translation."
-msgstr "Mitwirkender hat seine erste Übersetzung vorgenommen"
+msgstr "Ein Benutzer hat seinen ersten Beitrag zu einer Übersetzung geleistet."
 
 #: weblate/trans/actions.py:285
 msgid "Contributor joined"
 msgstr "Mitwirkender beigetreten"
 
 #: weblate/trans/actions.py:290
-#, fuzzy
-#| msgid "Announcement posted"
 msgid "An announcement was posted."
-msgstr "Mitteilung veröffentlicht"
+msgstr "Eine Mitteilung wurde veröffentlicht."
 
 #: weblate/trans/actions.py:291
 msgid "Announcement posted"
 msgstr "Mitteilung veröffentlicht"
 
 #: weblate/trans/actions.py:296
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "A component alert was triggered."
-msgstr "Warnung ausgelöst"
+msgstr "Eine Komponentenwarnung wurde ausgelöst."
 
 #: weblate/trans/actions.py:297
 msgid "Alert triggered"
 msgstr "Warnung ausgelöst"
 
 #: weblate/trans/actions.py:302
-#, fuzzy
-#| msgid "Add language for translation"
 msgid "A language translation was added."
-msgstr "Sprache zur Übersetzung hinzufügen"
+msgstr "Eine Sprache zur Übersetzung wurde hinzugefügt."
 
 #: weblate/trans/actions.py:303
 msgid "Language added"
 msgstr "Sprache hinzugefügt"
 
 #: weblate/trans/actions.py:308
-#, fuzzy
-#| msgid "Requested new language"
 msgid "A user requested a new language."
-msgstr "Neue gewünschte Sprache"
+msgstr "Ein Nutzer wünschte sich eine neue Sprache."
 
 #: weblate/trans/actions.py:309
 msgid "Language requested"
 msgstr "Sprache gewünscht"
 
 #: weblate/trans/actions.py:314
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was created."
-msgstr "Ihr Übersetzungsprojekt wurde entfernt"
+msgstr "Ein Übersetzungsprojekt wurde erstellt."
 
 #: weblate/trans/actions.py:315
 msgid "Project created"
 msgstr "Projekt erstellt"
 
 #: weblate/trans/actions.py:320
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was created."
-msgstr "Neue Übersetzungskomponente wurde erstellt"
+msgstr "Eine Übersetzungskomponente wurde erstellt."
 
 #: weblate/trans/actions.py:321
 msgid "Component created"
 msgstr "Komponente erstellt"
 
 #: weblate/trans/actions.py:326
-#, fuzzy
-#| msgid "User has been invited to this project."
 msgid "A user was invited to a project."
-msgstr "Nutzer wurde zu diesem Projekt eingeladen."
+msgstr "Ein Benutzer wurde zu einem Projekt eingeladen."
 
 #: weblate/trans/actions.py:327
 msgid "User invited"
 msgstr "Benutzer eingeladen"
 
 #: weblate/trans/actions.py:332
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid "Weblate received a repository notification from a code host."
 msgstr ""
-"Weblate unterstützt auch direkte Benachrichtigungen von mehreren Code-"
-"Hosting-Sites:"
+"Weblate hat eine Repository-Benachrichtigung von einem Code-Host erhalten."
 
 #: weblate/trans/actions.py:333
 msgid "Repository notification received"
 msgstr "Repository-Benachrichtigung erhalten"
 
 #: weblate/trans/actions.py:338
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "A translation file was replaced by an uploaded file."
-msgstr "Datei durch hochgeladene Übersetzung ersetzt"
+msgstr "Eine Übersetzungsdatei wurde durch eine hochgeladene Datei ersetzt."
 
 #: weblate/trans/actions.py:339
 msgid "Translation replaced file by upload"
@@ -18537,39 +18442,31 @@ msgstr "Datei durch hochgeladene Übersetzung ersetzt"
 
 #: weblate/trans/actions.py:344
 msgid "Project or component license information changed."
-msgstr ""
+msgstr "Projekt- oder Komponenten-Lizenzinformationen haben sich geändert."
 
 #: weblate/trans/actions.py:345
 msgid "License changed"
 msgstr "Lizenz geändert"
 
 #: weblate/trans/actions.py:350
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "The contributor license agreement was changed."
-msgstr "Mitwirkungsvereinbarung geändert"
+msgstr "Die Mitwirkungsvereinbarung wurde geändert."
 
 #: weblate/trans/actions.py:351
 msgid "Contributor license agreement changed"
 msgstr "Mitwirkungsvereinbarung geändert"
 
 #: weblate/trans/actions.py:356
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "A screenshot was associated with a string."
-msgstr ""
-"Vermeiden Sie Jahreszahlen, die direkt mit Ihrer Person in Verbindung "
-"gebracht werden können."
+msgstr "Ein Bildschirmfoto wurde einer Zeichenkette zugeordnet."
 
 #: weblate/trans/actions.py:357
 msgid "Screenshot added"
 msgstr "Bildschirmfoto hinzugefügt"
 
 #: weblate/trans/actions.py:362
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "A screenshot image was uploaded."
-msgstr "Bildschirmfotos hochgeladen"
+msgstr "Ein Bildschirmfoto wurde hochgeladen."
 
 #: weblate/trans/actions.py:363
 msgid "Screenshot uploaded"
@@ -18578,26 +18475,23 @@ msgstr "Bildschirmfoto hochgeladen"
 #: weblate/trans/actions.py:368
 msgid "A string was changed while synchronizing from the repository."
 msgstr ""
+"Beim Synchronisieren aus dem Repository wurde eine Zeichenkette geändert."
 
 #: weblate/trans/actions.py:369
 msgid "String updated in the repository"
 msgstr "Zeichenkette im Repository aktualisiert"
 
 #: weblate/trans/actions.py:374
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "An add-on was installed."
-msgstr "Erweiterung installiert"
+msgstr "Eine Erweiterung wurde installiert."
 
 #: weblate/trans/actions.py:375
 msgid "Add-on installed"
 msgstr "Erweiterung installiert"
 
 #: weblate/trans/actions.py:380
-#, fuzzy
-#| msgid "Add-on configuration changed"
 msgid "An add-on's configuration was changed."
-msgstr "Konfiguration der Erweiterung geändert"
+msgstr "Die Konfiguration einer Erweiterung wurde geändert."
 
 #: weblate/trans/actions.py:381
 msgid "Add-on configuration changed"
@@ -18612,11 +18506,8 @@ msgid "Add-on uninstalled"
 msgstr "Erweiterung deinstalliert"
 
 #: weblate/trans/actions.py:392
-#, fuzzy
-#| msgid "Please fix this by removing one of the translation files."
 msgid "A string was removed from a translation."
-msgstr ""
-"Bitte beheben Sie dies, indem Sie eine der Übersetzungsdateien entfernen."
+msgstr "Eine Zeichenkette wurde aus einer Übersetzung entfernt."
 
 #: weblate/trans/actions.py:393
 msgid "String removed"
@@ -18631,10 +18522,8 @@ msgid "Comment removed"
 msgstr "Kommentar entfernt"
 
 #: weblate/trans/actions.py:404
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgid "A string comment was marked as resolved."
-msgstr "Kommentar wurde geklärt."
+msgstr "Ein Zeichenkettenkommentar wurde als geklärt markiert."
 
 #: weblate/trans/actions.py:405
 msgctxt "Name of event in the history"
@@ -18642,10 +18531,8 @@ msgid "Comment resolved"
 msgstr "Kommentar geklärt"
 
 #: weblate/trans/actions.py:410
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "The explanation for a source string was updated."
-msgstr "Diese Sprache wird für Ausgangszeichenketten verwendet."
+msgstr "Die Erklärung zu einer Ausgangszeichenkette wurde aktualisiert."
 
 #: weblate/trans/actions.py:411
 msgid "Explanation updated"
@@ -18676,40 +18563,37 @@ msgid "Category moved"
 msgstr "Kategorie verschoben"
 
 #: weblate/trans/actions.py:434
-#, fuzzy
-#| msgid "Weblate could not execute script add-on."
 msgid "Weblate could not save a changed string."
-msgstr "Weblate konnte das Skript der Erweiterung nicht ausführen."
+msgstr "Weblate konnte eine geänderte Zeichenkette nicht speichern."
 
 #: weblate/trans/actions.py:435
 msgid "Saving string failed"
 msgstr "Speichern der Zeichenkette fehlgeschlagen"
 
 #: weblate/trans/actions.py:440
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A new string was found while synchronizing from the repository."
-msgstr "Ausgangszeichenkette im Repository hinzugefügt"
+msgstr ""
+"Beim Synchronisieren aus dem Repository wurde eine neue Zeichenkette "
+"gefunden."
 
 #: weblate/trans/actions.py:441
 msgid "String added in the repository"
 msgstr "Zeichenkette im Repository hinzugefügt"
 
 #: weblate/trans/actions.py:446
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "A string was changed while processing an uploaded file."
-msgstr "Aus der hochgeladenen Datei wurden keine Zeichenketten importiert."
+msgstr ""
+"Beim Verarbeiten einer hochgeladenen Datei wurde eine Zeichenkette geändert."
 
 #: weblate/trans/actions.py:447
 msgid "String updated in the upload"
 msgstr "Zeichenkette beim Hochladen aktualisiert"
 
 #: weblate/trans/actions.py:452
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "A new string was found while processing an uploaded file."
-msgstr "Erzwingt das Schreiben aller Zeichenketten in die Übersetzungsdateien."
+msgstr ""
+"Beim Verarbeiten einer hochgeladenen Datei wurde eine neue Zeichenkette "
+"gefunden."
 
 #: weblate/trans/actions.py:453
 msgid "String added in the upload"
@@ -18718,6 +18602,7 @@ msgstr "Zeichenkette beim Hochladen hinzugefügt"
 #: weblate/trans/actions.py:458
 msgid "A translation was synchronized after uploading a source file."
 msgstr ""
+"Nach dem Hochladen einer Quelldatei wurde eine Übersetzung synchronisiert."
 
 #: weblate/trans/actions.py:459
 msgid "Translation updated by source upload"
@@ -18729,31 +18614,33 @@ msgid ""
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
+"Alle Sprachen zur Übersetzung in einer Komponente wurden nach einer "
+"manuellen Bearbeitung vollständig übersetzt. Automatische Übersetzungen, "
+"Uploads und Massenbearbeitungen lösen dieses Ereignis nicht aus."
 
 #: weblate/trans/actions.py:469
 msgid "Component translation completed"
 msgstr "Komponentenübersetzung abgeschlossen"
 
 #: weblate/trans/actions.py:475
-#, fuzzy
-#| msgid "Skip translations marked as needing editing"
 msgid "A translation was marked as needing editing by an enforced check."
-msgstr "Als bearbeitungsbedürftig markierte Zeichenketten überspringen"
+msgstr ""
+"Eine Übersetzung wurde bei einer erzwungenen Qualitätsprüfung als "
+"bearbeitungsbedürftig markiert."
 
 #: weblate/trans/actions.py:477
 msgid "Applied enforced check"
 msgstr "Erzwungene Qualitätsprüfungen angewandt"
 
 #: weblate/trans/actions.py:482
-#, fuzzy
-#| msgid "Apply selected translation to all propagated strings"
 msgid "A translation edit was propagated to another matching string."
 msgstr ""
-"Ausgewählte Übersetzung auf alle weitergegebenen Zeichenketten anwenden"
+"Eine Übersetzungsänderung wurde auf eine andere passende Zeichenkette "
+"weitergegeben."
 
 #: weblate/trans/actions.py:483
 msgid "Propagated change"
-msgstr "Weitergegebene Änderung"
+msgstr "Änderung weitergegeben"
 
 #: weblate/trans/actions.py:488
 msgid "A file was uploaded to a translation."
@@ -18764,10 +18651,8 @@ msgid "File uploaded"
 msgstr "Datei hochgeladen"
 
 #: weblate/trans/actions.py:494
-#, fuzzy
-#| msgid "All repositories were updated."
 msgid "Additional source-string flags were updated."
-msgstr "Alle Repositorys wurden aktualisiert."
+msgstr "Zusätzliche Markierungen für Ausgangszeichenkette wurden aktualisiert."
 
 #: weblate/trans/actions.py:495
 msgid "Extra flags updated"
@@ -18782,40 +18667,33 @@ msgid "Font uploaded"
 msgstr "Schriftart hochgeladen"
 
 #: weblate/trans/actions.py:506
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "An uploaded font was changed."
-msgstr "Das hochgeladene Bild war ungültig."
+msgstr "Eine hochgeladene Schriftart wurde geändert."
 
 #: weblate/trans/actions.py:507
 msgid "Font changed"
 msgstr "Schriftart geändert"
 
 #: weblate/trans/actions.py:512
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "An uploaded font was removed."
-msgstr "Eine Sprache im Projekt wurde entfernt."
+msgstr "Eine hochgeladene Schriftart wurde entfernt."
 
 #: weblate/trans/actions.py:513
 msgid "Font removed"
 msgstr "Schriftart entfernt"
 
 #: weblate/trans/actions.py:519
-#, fuzzy
-#| msgid "Translation files have been synchronized."
 msgid "Translation files were forcibly synchronized with the repository."
-msgstr "Übersetzungsdateien wurden synchronisiert."
+msgstr ""
+"Übersetzungsdateien wurden zwangsweise mit dem Repository synchronisiert."
 
 #: weblate/trans/actions.py:521
 msgid "Forced synchronization of translations"
 msgstr "Erzwungene Synchronisierung von Übersetzungen"
 
 #: weblate/trans/actions.py:526
-#, fuzzy
-#| msgid "Translation is now locked for you."
 msgid "Translation files were forcibly rescanned for changes."
-msgstr "Das Übersetzen ist für Sie jetzt gesperrt."
+msgstr "Übersetzungsdateien wurden zwangsweise erneut auf Änderungen überprüft."
 
 #: weblate/trans/actions.py:527
 msgid "Forced rescan of translations"
@@ -18831,7 +18709,7 @@ msgstr "Bildschirmfoto entfernt"
 
 #: weblate/trans/actions.py:538
 msgid "A label was added to a string."
-msgstr ""
+msgstr "Ein Label wurde einer Zeichenkette hinzugefügt."
 
 #: weblate/trans/actions.py:539
 msgid "Label added"
@@ -18839,37 +18717,35 @@ msgstr "Label hinzugefügt"
 
 #: weblate/trans/actions.py:544
 msgid "A label was removed from a string."
-msgstr ""
+msgstr "Ein Label wurde von einer Zeichenkette entfernt."
 
 #: weblate/trans/actions.py:545
 msgid "Label removed"
 msgstr "Label entfernt"
 
 #: weblate/trans/actions.py:550
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
 msgid "The repository working tree was cleaned up."
-msgstr "Alle Repositorys wurden bereinigt."
+msgstr "Das Repository-Arbeitsverzeichnis wurde bereinigt."
 
 #: weblate/trans/actions.py:551
 msgid "Repository cleanup"
 msgstr "Repositorybereinigung"
 
 #: weblate/trans/actions.py:556
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was added while processing an uploaded file."
-msgstr "Ausgangszeichenkette beim Hochladen hinzugefügt"
+msgstr ""
+"Beim Verarbeiten einer hochgeladenen Datei wurde eine Ausgangszeichenkette "
+"hinzugefügt."
 
 #: weblate/trans/actions.py:557
 msgid "Source string added in the upload"
 msgstr "Ausgangszeichenkette beim Hochladen hinzugefügt"
 
 #: weblate/trans/actions.py:563
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added while synchronizing from the repository."
-msgstr "Ausgangszeichenkette im Repository hinzugefügt"
+msgstr ""
+"Beim Synchronisieren aus dem Repository wurde eine Ausgangszeichenkette "
+"hinzugefügt."
 
 #: weblate/trans/actions.py:565
 msgid "Source string added in the repository"
@@ -18885,17 +18761,15 @@ msgstr "Projekt gesichert"
 
 #: weblate/trans/actions.py:576
 msgid "A project was restored from a backup."
-msgstr ""
+msgstr "Ein Projekt wurde aus einer Sicherung wiederhergestellt."
 
 #: weblate/trans/actions.py:577
 msgid "Project restored"
 msgstr "Projekt wiederhergestellt"
 
 #: weblate/trans/actions.py:582
-#, fuzzy
-#| msgid "Component created from scratch"
 msgid "A component was restored from a backup."
-msgstr "Komponente vollständig neu erstellt"
+msgstr "Eine Komponente wurde aus einer Sicherung wiederhergestellt."
 
 #: weblate/trans/actions.py:583
 msgid "Component restored"
@@ -18904,6 +18778,8 @@ msgstr "Komponente wiederhergestellt"
 #: weblate/trans/actions.py:588
 msgid "All selected edits by a user were reverted."
 msgstr ""
+"Alle von einem Benutzer vorgenommenen Bearbeitungen wurden rückgängig "
+"gemacht."
 
 #: weblate/trans/actions.py:589
 msgid "User edit reverted"
@@ -18926,10 +18802,8 @@ msgid "Component setting changed"
 msgstr "Komponenteneinstellung geändert"
 
 #: weblate/trans/actions.py:606
-#, fuzzy
-#| msgid "User access changed"
 msgid "A user's access permissions were changed."
-msgstr "Benutzerzugriff geändert"
+msgstr "Die Zugriffsberechtigungen eines Benutzers wurden geändert."
 
 #: weblate/trans/actions.py:607
 msgid "User access changed"
@@ -19081,10 +18955,8 @@ msgstr "Falsch konfigurierte einsprachige Übersetzung."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:158
-#, fuzzy
-#| msgid "gettext PO file (monolingual)"
 msgid "Bilingual gettext PO file configured as monolingual."
-msgstr "gettext PO-Datei (einsprachig)"
+msgstr "Zweisprachige gettext-PO-Datei als einsprachig konfiguriert."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/config.py:199
