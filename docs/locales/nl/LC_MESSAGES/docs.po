@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-16 15:42+0000\n"
+"PO-Revision-Date: 2026-07-17 08:38+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -4213,19 +4213,10 @@ msgstr ""
 "meervouden in de Tsjechische taal niet hetzelfde zijn."
 
 #: admin/code-hosting.rst:4
-#, fuzzy
-#| msgid "Code hosting integrations"
 msgid "Code-hosting integrations"
-msgstr "Integraties hosten code"
+msgstr "Integraties codehosten"
 
 #: admin/code-hosting.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate integrates with code hosting sites in several separate places: "
-#| "repository access, incoming notifications, and pushing translations back. "
-#| "The exact setup depends on whether you use Hosted Weblate or run your own "
-#| "Weblate instance, and on whether Weblate should push directly or create "
-#| "pull requests."
 msgid ""
 "Weblate integrates with code-hosting sites in several separate places: "
 "repository access, incoming notifications, and pushing translations back. "
@@ -4237,7 +4228,7 @@ msgstr ""
 "code: toegang tot opslagruimten, inkomende notificaties en het terugplaatsen "
 "van vertalingen. De exacte opstelling is afhankelijk van het feit of u "
 "Hosted Weblate gebruikt of uw eigen instantie van Weblate uitvoert en of "
-"Weblate direct pull requests zou moeten pushen of maken."
+"Weblate direct pull of merge requests zou moeten pushen of maken."
 
 #: admin/code-hosting.rst:11
 msgid ""
@@ -4270,32 +4261,22 @@ msgstr ""
 ":guilabel:`weblate` uit te nodigen."
 
 #: admin/code-hosting.rst:24
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate repositories on Codeberg, add the "
-#| "hosted :guilabel:`weblate` user where write access is needed, "
-#| "see :ref:`hosted-push`."
 msgid ""
 "For other Hosted Weblate repositories, and for direct SSH pushes outside the "
 "GitHub App workflow, add the hosted :guilabel:`weblate` user where it is "
 "available, see :ref:`hosted-push`."
 msgstr ""
-"Voor opslagruimten van Hosted Weblate op Codeberg, voeg de gehoste gebruiker "
-"van :guilabel:`weblate` toe waar schrijftoegang nodig is, "
-"bekijk :ref:`hosted-push`."
+"Voor andere opslagruimten van Hosted Weblate, en voor directe SSH-pushes "
+"buiten de werkstroom van de GitHub-app, voeg de gehoste gebruiker van "
+":guilabel:`weblate` toe waar het beschikbaar is, bekijk :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:27
-#, fuzzy
-#| msgid ""
-#| "For self-hosted Weblate, create a dedicated code hosting user and grant "
-#| "access using Weblate's SSH key or an HTTPS token, see :ref:`vcs-repos-"
-#| "code-hosting`."
 msgid ""
 "For self-hosted Weblate, create a dedicated code-hosting user and grant "
 "access using Weblate's SSH key or an HTTPS token, see :ref:`vcs-repos-code-"
 "hosting`."
 msgstr ""
-"Voor zelf gehoste Weblate, maak een aangewezen gebruiker voor het hosten van "
+"Voor zelfgehoste Weblate, maak een aangewezen gebruiker voor het hosten van "
 "code en geef die toegang met Weblate's SSH-sleutel of een HTTPS-token, "
 "bekijk :ref:`vcs-repos-code-hosting`."
 
@@ -4529,10 +4510,8 @@ msgid "GitHub repository access"
 msgstr "Toegang tot opslagruimten van GitHub"
 
 #: admin/code-hosting.rst:198
-#, fuzzy
-#| msgid "Hosted Weblate integration"
 msgid "Hosted Weblate GitHub App"
-msgstr "Hosted Weblate integratie"
+msgstr "Hosted Weblate GitHub-app"
 
 #: admin/code-hosting.rst:200
 msgid ""
@@ -4567,17 +4546,14 @@ msgstr ""
 "deze manier zijn geïmporteerd."
 
 #: admin/code-hosting.rst:213
-#, fuzzy
-#| msgid ""
-#| "On Hosted Weblate, use the hosted :guilabel:`weblate` user on supported "
-#| "code hosting sites, see :ref:`hosted-push`."
 msgid ""
 "Use the Hosted Weblate :guilabel:`weblate` GitHub user only when you "
 "intentionally configure direct SSH pushes outside the GitHub App workflow, "
 "see :ref:`hosted-push`."
 msgstr ""
-"Op Hosted Weblate, gebruik de gehoste gebruiker :guilabel:`weblate` voor "
-"ondersteunde sites voor het hosten van code, bekijk :ref:`hosted-push`."
+"Gebruik de Hosted Weblate :guilabel:`weblate` GitHub-gebruiker alleen "
+"wanneer u opzettelijk directe SSH-pushes configureert buiten de werkstroom "
+"van de GitHub-app, bekijk :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:218
 msgid "HTTPS with personal access token"
@@ -4701,10 +4677,8 @@ msgstr ""
 "er is geen op instellingen gebaseerde configuratie."
 
 #: admin/code-hosting.rst:281
-#, fuzzy
-#| msgid "Getting support for Weblate"
 msgid "Registering the GitHub App from Weblate"
-msgstr "Ondersteuning krijgen voor Weblate"
+msgstr "Registreren van de GitHub-app vanuit Weblate"
 
 #: admin/code-hosting.rst:283
 msgid ""
@@ -74841,6 +74815,11 @@ msgid ""
 "explicitly enabled. Prefer HTTPS; for legacy deployments, pass :option:`--"
 "allow-insecure-http` or set :envvar:`WLC_ALLOW_INSECURE_HTTP`."
 msgstr ""
+"Als de geconfigureerde API-URL niet-lokale ``http://`` gebruikt en een API-"
+"sleutel wordt opgegeven, weigert de container de sleutel te verzenden, "
+"tenzij onveilige HTTP expliciet is ingeschakeld. Voorkeur voor HTTPS; voor "
+"verouderde uitrol, geef op :option:`--allow-insecure-http` of stel "
+":envvar:`WLC_ALLOW_INSECURE_HTTP` in."
 
 #: wlc.rst:88
 msgid "Getting started"
@@ -74948,6 +74927,11 @@ msgid ""
 "current run; omitting it does not disable ``allow_insecure_http`` from "
 "configuration."
 msgstr ""
+"Sta het verzenden van API-sleutels over niet-lokale URL's ``http://`` toe. "
+"Voorkeur voor HTTPS of in plaats daarvan loopback HTTP; deze optie is alleen "
+"bedoeld voor verouderde uitrollen waar HTTPS niet beschikbaar is. Deze optie "
+"schakelt onveilige HTTP alleen in voor de huidige uitvoering; weglaten ervan "
+"schakelt ``allow_insecure_http`` niet uit in de configuratie."
 
 #: wlc.rst:190
 msgid ""
@@ -75265,6 +75249,16 @@ msgid ""
 "insecure HTTP is enough, and false or unset values from command-line or "
 "environment sources do not disable it."
 msgstr ""
+"Sta het verzenden van API-sleutels over niet-lokale URL's ``http://`` toe is "
+"standaard ``false``. Loopback HTTP URL's, zoals ``http://127.0.0.1:8000/api/"
+"``, blijven toegestaan voor lokale ontwikkeling zonder deze optie. Voorkeur "
+"voor HTTPS in plaats van het inschakelen van deze instelling. Automatisch "
+"ontdekte bestanden voor projectconfiguratie kunnen deze optie niet "
+"inschakelen; stel het in een gebruikersconfiguratie in, een expliciet "
+"bestand :option:`--config`, :envvar:`WLC_ALLOW_INSECURE_HTTP`, of :option:`--"
+"allow-insecure-http`. De instelling is cumulatief: elke vertrouwde bron die "
+"onveilige HTTP inschakelt is voldoende, en waarden false of niet ingesteld "
+"vanaf de opdrachtregel of omgevingsbronnen schakelen het niet uit."
 
 #: wlc.rst:387
 msgid ""
@@ -75305,6 +75299,9 @@ msgid ""
 "both :envvar:`WLC_URL` and :envvar:`WLC_KEY`, or use :option:`--url` "
 "together with :option:`--key`."
 msgstr ""
+"In CI moeten sleutels zonder bereik de API-URL expliciet vermelden: stel "
+"zowel :envvar:`WLC_URL` als :envvar:`WLC_KEY` in, of gebruik :option:`--url` "
+"samen met :option:`--key`."
 
 #: wlc.rst:424
 msgid "Environment variables"
@@ -75316,6 +75313,10 @@ msgid ""
 "discovered automatically. API keys are rejected over non-local ``http://`` "
 "URLs unless insecure HTTP is explicitly enabled."
 msgstr ""
+"API-sleutels zonder bereik vereisen een expliciete API-URL als de "
+"projectconfiguratie automatisch wordt vastgesteld. API-sleutels worden "
+"afgewezen over niet-lokale URL's ``http://``, tenzij onveilige HTTP "
+"expliciet is ingeschakeld."
 
 #: wlc.rst:434
 msgid ""
@@ -75335,6 +75336,10 @@ msgid ""
 "with :envvar:`WLC_URL`. API keys are rejected over non-local ``http://`` "
 "URLs by default."
 msgstr ""
+"API-sleutel. Wanneer de API-URL anders zou komen uit een automatisch "
+"vastgestelde projectconfiguratie, wordt :envvar:`WLC_KEY` alleen "
+"geaccepteerd samen met :envvar:`WLC_URL`. API-sleutels worden standaard "
+"afgewezen over niet-lokale URL's ``http://``."
 
 #: wlc.rst:451
 msgid ""
@@ -75343,6 +75348,11 @@ msgid ""
 "as ``0`` or ``false``, are treated as unset and do not disable "
 "``allow_insecure_http`` from configuration."
 msgstr ""
+"Stel in op ``1``, ``true``, ``yes``, of ``on`` om API-sleutels over niet-"
+"lokale URL's ``http://`` toe te staan. Voorkeur voor HTTPS of in plaats "
+"daarvan loopback HTTP. Andere waarden, zoals ``0`` of ``false``, worden "
+"behandeld als niet ingesteld en schakelen ``allow_insecure_http`` niet uit "
+"in de configuratie."
 
 #: wlc.rst:456
 msgid ""
@@ -75350,6 +75360,9 @@ msgid ""
 "accepted with automatically discovered project configuration only "
 "when :option:`--url` is provided."
 msgstr ""
+"Dezelfde beveiliging is van toepassing voor argumenten voor de "
+"opdrachtregel: :option:`--key` wordt alleen geaccepteerd met automatisch "
+"vastgestelde projectconfiguratie als :option:`--url` wordt opgegeven."
 
 #: wlc.rst:460
 #, fuzzy
@@ -75384,6 +75397,14 @@ msgid ""
 "discovered project configuration cannot enable it; set it in user "
 "configuration or pass an explicit :option:`--config` file instead."
 msgstr ""
+"De opt-in voor onveilige HTTP is alleen-inschakelen, in plaats van een "
+"normale instelling voor voorkeuren. Het wordt ingeschakeld als :option:`--"
+"allow-insecure-http` wordt doorgegeven, wanneer "
+":envvar:`WLC_ALLOW_INSECURE_HTTP` een waarde true heeft, of wanneer "
+"``allow_insecure_http`` is ingeschakeld in een vertrouwde configuratie. "
+"Automatisch vastgestelde projectconfiguratie kan het niet inschakelen; stel "
+"het in een gebruikersconfiguratie in of geef in plaats daarvan een expliciet "
+"bestand :option:`--config` door."
 
 #: wlc.rst:476
 msgid "Examples"
