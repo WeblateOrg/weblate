@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-16 09:09+0000\n"
+"PO-Revision-Date: 2026-07-16 12:05+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -8943,18 +8943,14 @@ msgid "Code-hosting connections"
 msgstr "Връзки с хостинг на код"
 
 #: weblate/templates/accounts/profile.html:264
-#, fuzzy
-#| msgid "Manage code hosting accounts connected to workspaces you administer."
 msgid "Manage code-hosting accounts connected to workspaces you administer."
 msgstr ""
 "Управление на акаунтите за съхранение на код, които са свързани с "
 "администрираните от Вас работни пространства."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "Manage code-hosting connections"
-msgstr "Чакащи покани"
+msgstr "Управление на връзките с хостинг на код"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:425
@@ -9487,12 +9483,11 @@ msgid "Your trial offer"
 msgstr "Вашето предложение за пробен период"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "Пробният Ви период ще продължи 14 дни."
-msgstr[1] "Пробният Ви период ще продължи 14 дни."
+msgstr[0] "Вашият пробен период ще продължи %(days)s ден."
+msgstr[1] "Вашият пробен период ще продължи %(days)s дни."
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -10707,30 +10702,24 @@ msgid "Terminate recurring payment"
 msgstr "Прекратяване на регулярното плащане"
 
 #: weblate/templates/billing/detail-content.html:44
-#, fuzzy
-#| msgid "Open in Zen mode"
 msgid "Open in Django admin"
-msgstr "Отваряне в режим „дзен“"
+msgstr "Отваряне в администраторския панел на Django"
 
 #: weblate/templates/billing/detail-content.html:51
 msgid "Terminate billing plan"
 msgstr "Прекратяване на платежния план"
 
 #: weblate/templates/billing/detail-content.html:62
-#, fuzzy
-#| msgid "Manage billing"
 msgid "Merge billing"
-msgstr "Управление на плащанията"
+msgstr "Обединяване на плащанията"
 
 #: weblate/templates/billing/detail-content.html:66
 msgid "Review merge"
 msgstr "Преглед на сливането"
 
 #: weblate/templates/billing/detail-content.html:74
-#, fuzzy
-#| msgid "Change plan"
 msgid "Change billing plan"
-msgstr "Промяна на плана"
+msgstr "Промяна на платежния план"
 
 #: weblate/templates/billing/detail-content.html:81
 #: weblate/templates/billing/status.html:13
@@ -11552,14 +11541,10 @@ msgstr ""
 "Изтегляне на промените от отдалеченото хранилище към Weblate става така:"
 
 #: weblate/templates/data.html:148
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid ""
 "Weblate also supports direct notifications from several code-hosting sites:"
 msgstr ""
-"Weblate също така поддържа директни известия от няколко страници за "
+"Weblate също така поддържа директни известия от няколко системи за "
 "съхраняване на код:"
 
 #: weblate/templates/data.html:154
@@ -12103,28 +12088,24 @@ msgstr ""
 "автоматично."
 
 #: weblate/templates/js/git-status.html:261
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove obsolete"
-msgstr "Премахване на празни низове"
+msgstr "Премахване на старите низове"
 
 #: weblate/templates/js/git-status.html:262
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Remove obsolete strings from the translation file"
-msgstr "Премахване на неизползваните низове от файла за превод"
+msgstr "Премахване на излезлите от употреба низове от файла за превод"
 
 #: weblate/templates/js/git-status.html:264
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Removes obsolete strings from PO files."
-msgstr "Премахване на празни низове"
+msgstr "Премахва излезлите от употреба низове от файловете PO."
 
 #: weblate/templates/js/git-status.html:265
 msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"Използвайте това, когато искате да премахнете излезлите от употреба записи, "
+"но не искате да се включва автоматичното премахване при запазване."
 
 #: weblate/templates/js/git-status.html:271
 msgid "Use these operations with caution, they rewrite the translation file."
@@ -13256,10 +13237,10 @@ msgid "Manage support package"
 msgstr "Управление на пакета за поддръжка"
 
 #: weblate/templates/manage/index.html:78
-#, fuzzy
-#| msgid "Unlink support package"
 msgid "Unlink support package and disable Discover Weblate"
-msgstr "Премахване на връзката с пакета за поддръжка"
+msgstr ""
+"Премахване на връзката с пакета за поддръжка и изключване на "
+"функционалността за откриване на Weblate"
 
 #: weblate/templates/manage/index.html:80
 msgid "Unlink support package"
@@ -13280,19 +13261,23 @@ msgstr "Свържете се с нас по е-поща"
 
 #: weblate/templates/manage/index.html:114
 msgid "Discover Weblate"
-msgstr "Открийте Weblate"
+msgstr "Откриване на Weblate"
 
 #: weblate/templates/manage/index.html:118
 msgid ""
 "Discover Weblate helps translators find Weblate sites and projects to "
 "contribute to."
 msgstr ""
+"Откриването на Weblate помага на преводачите да намерят уеб сайтове ползващи "
+"Weblate и проекти, в които да се включат."
 
 #: weblate/templates/manage/index.html:119
 msgid ""
 "When enabled, weblate.org lists your site details and public or protected "
 "projects."
 msgstr ""
+"Когато е включено, weblate.org ще показва подробности за Вашия уеб сайт, "
+"както и публичните или защитените проекти."
 
 #: weblate/templates/manage/index.html:123
 msgid "Your Weblate is listed on weblate.org"
@@ -13315,10 +13300,8 @@ msgid "Manage your listing"
 msgstr "Управление на показването"
 
 #: weblate/templates/manage/index.html:150
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Enable Discover Weblate"
-msgstr "Открийте Weblate"
+msgstr "Включване на откриването на Weblate"
 
 #: weblate/templates/manage/index.html:153
 msgid "Browse discovery"
@@ -13356,10 +13339,8 @@ msgid "Celery queues"
 msgstr "Опашки на Celery"
 
 #: weblate/templates/manage/performance.html:131
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory migration"
-msgstr "Състояние на паметта за преводи"
+msgstr "Прехвърляне на паметта за преводи"
 
 #: weblate/templates/manage/performance.html:137
 msgid "Scope backfill"
