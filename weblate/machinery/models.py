@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, cast
 
 from appconf import AppConf
 from django.db import models
@@ -35,7 +35,7 @@ class MachineryError(models.Model):
     error = models.TextField()
 
     class Meta:
-        ordering: ClassVar = ["-timestamp"]
+        ordering = ["-timestamp"]
         verbose_name = gettext_lazy("Machinery error")
         verbose_name_plural = gettext_lazy("Machinery errors")
 
