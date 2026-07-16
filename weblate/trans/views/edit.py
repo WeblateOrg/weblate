@@ -65,6 +65,7 @@ from weblate.trans.templatetags.translations import (
     unit_state_title,
 )
 from weblate.trans.util import redirect_next, render
+from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
@@ -1074,12 +1075,16 @@ def handle_suggestions(
         if "accept_edit" not in request.POST:
             redirect_url = next_unit_url
     elif "delete" in request.POST or "spam" in request.POST:
-        suggestion.delete_log(
-            request.user,
-            is_spam="spam" in request.POST,
-            rejection_reason=request.POST.get("rejection", ""),
-            old=unit.target,
-        )
+        rejection_reason = request.POST.get("rejection", "")
+        if len(rejection_reason) > SUGGESTION_REJECTION_REASON_LENGTH:
+            messages.error(request, gettext("Rejection reason is too long!"))
+        else:
+            suggestion.delete_log(
+                request.user,
+                is_spam="spam" in request.POST,
+                rejection_reason=rejection_reason,
+                old=unit.target,
+            )
     elif "upvote" in request.POST:
         suggestion.add_vote(request, Vote.POSITIVE)
         redirect_url = next_unit_url

@@ -91,7 +91,10 @@ from weblate.trans.models import (
 )
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import (
+    get_translation_text_max_length,
+    validate_check_flags,
+)
 from weblate.trans.workspace_move import (
     PROJECT_MOVE_WORKSPACE_SELECT_LIMIT,
     get_project_move_target_workspaces,
@@ -753,10 +756,7 @@ class TranslationForm(UnitForm):
 
         fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
 
-        # Add extra margin to limit to allow XML tags which might
-        # be ignored for the length calculation. On the other side,
-        # we do not want to process arbitrarily long strings here.
-        max_length = 10 * (unit.get_max_length() + 100)
+        max_length = get_translation_text_max_length(unit)
         for text in self.cleaned_data["target"]:
             if len(text) > max_length:
                 raise ValidationError(gettext("Translation text too long!"))

@@ -89,6 +89,7 @@ from weblate.trans.tests.utils import (
     get_test_file,
 )
 from weblate.trans.util import join_plural
+from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
 from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -11902,6 +11903,14 @@ class SuggestionAPITest(APIBaseTest):
             response.data["errors"][0]["detail"], "Please provide a suggestion"
         )
 
+    def test_add_suggestion_too_long(self) -> None:
+        unit = self._get_unit()
+        max_length = 10 * (unit.get_max_length() + 100)
+        response = self._add_suggestion(unit, "x" * (max_length + 1), code=400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Translation text too long!"
+        )
+
     def test_add_suggestion_duplicate(self) -> None:
         unit = self._get_unit()
         self._add_suggestion(unit, "Navrh")
@@ -12019,6 +12028,22 @@ class SuggestionAPITest(APIBaseTest):
             self.client.credentials(
                 HTTP_AUTHORIZATION=f"Token {guest_user.auth_token.key}"
             )
+
+    def test_delete_suggestion_reason_too_long(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        self.do_request(
+            "api:suggestion-detail",
+            kwargs={"pk": suggestion_id},
+            method="delete",
+            request={
+                "rejection_reason": "x" * (SUGGESTION_REJECTION_REASON_LENGTH + 1)
+            },
+            format="json",
+            code=400,
+        )
+        self.assertTrue(Suggestion.objects.filter(pk=suggestion_id).exists())
 
     def test_delete_suggestion_denied(self) -> None:
         unit = self._get_unit()

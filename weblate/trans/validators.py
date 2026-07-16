@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
@@ -13,6 +14,18 @@ from pyparsing import ParseException
 from weblate.checks.flags import FlagsValidator
 from weblate.lang.models import Language
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH
+
+if TYPE_CHECKING:
+    from weblate.trans.models.unit import Unit
+
+SUGGESTION_REJECTION_REASON_LENGTH = 200
+
+
+def get_translation_text_max_length(unit: Unit) -> int:
+    """Return maximum accepted translation text length for a unit."""
+    # Add extra margin to allow XML tags which might be ignored for length checks.
+    # On the other side, do not process arbitrarily long strings here.
+    return 10 * (unit.get_max_length() + 100)
 
 
 def validate_filemask(val) -> None:
