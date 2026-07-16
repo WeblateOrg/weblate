@@ -94,6 +94,11 @@ real_patterns = [
         weblate.workspaces.views.access,
         name="workspace-access",
     ),
+    path(
+        "workspaces/<uuid:pk>/remove/",
+        weblate.workspaces.views.remove,
+        name="workspace-remove",
+    ),
     # Bulk accept all suggestions from a specific user
     path(
         "js/bulk-accept-suggestions/<object_path:path>/",

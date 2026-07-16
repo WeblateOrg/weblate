@@ -1,0 +1,22 @@
+{% load i18n icons %}
+
+<p>
+  {% blocktranslate %}This action cannot be undone. This will permanently delete the {{ object }} workspace and all related workspace data.{% endblocktranslate %}
+  {% translate "This includes workspace access-control teams, translation memory, and code-hosting connections." %}
+</p>
+
+<div class="form-group">
+  <label class="control-label">{% translate "Workspace to remove" %}</label>
+  <div class="list-group">
+    <div class="list-group-item">
+      <div class="list-group-item-text">
+        <button type="button"
+                class="btn btn-link btn-xs float-end"
+                data-clipboard-value="{{ object.name }}"
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+
+        {{ object.name }}
+      </div>
+    </div>
+  </div>
+</div>
