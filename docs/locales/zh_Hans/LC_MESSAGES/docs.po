@@ -39,7 +39,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-16 10:07+0000\n"
+"PO-Revision-Date: 2026-07-16 12:05+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -12066,19 +12066,10 @@ msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr "配置 :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`。"
 
 #: admin/install/docker.rst:1397
-#, fuzzy
-#| msgid "Code hosting sites credentials"
 msgid "Code-hosting sites credentials"
 msgstr "代码托管站点凭证"
 
 #: admin/install/docker.rst:1399
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the code hosting credentials can be configured "
-#| "either in separate variables or using a Python dictionary to set them at "
-#| "once. The following examples are for :ref:`code-hosting-github-pull-"
-#| "requests`, but apply to all :ref:`vcs` with appropriately changed "
-#| "variable names."
 msgid ""
 "In the Docker container, the code-hosting credentials can be configured "
 "either in separate variables or using a Python dictionary to set them at "
@@ -12128,9 +12119,6 @@ msgstr ""
 #: admin/install/docker.rst:1452 admin/install/docker.rst:1468
 #: admin/install/docker.rst:1480 admin/install/docker.rst:1492
 #: admin/install/docker.rst:1513 admin/install/docker.rst:1526
-#, fuzzy
-#| msgid ""
-#| ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgid ""
 ":ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`"
 msgstr ":ref:`在 Docker 中配置代码托管凭证 <docker-vcs-config>`"
@@ -12828,26 +12816,18 @@ msgstr ""
 "核数自动确定。"
 
 #: admin/install/docker.rst:2357
-#, fuzzy
-#| msgid ""
-#| "It is used to "
-#| "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
-#| "and :envvar:`WEB_WORKERS`. You can use these settings to fine-tune."
 msgid ""
 "It is used to "
 "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, "
 "and :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune."
 msgstr ""
-"它被用来确"
-"定 :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
-"和 :envvar:`WEB_WORKERS`。你可以使用这些设置来微调。"
+"它被用来确定 :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, "
+":envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, "
+":envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
+":envvar:`WEB_WORKERS` 和 :envvar:`WEB_BLOCKING_THREADS`。你可以使用这些设置来"
+"微调。"
 
 #: admin/install/docker.rst:2370
-#, fuzzy
-#| msgid ""
-#| "These variables allow you to adjust Celery worker options. It can be "
-#| "useful to adjust concurrency (``--concurrency 16``) or use different pool "
-#| "implementation (``--pool=gevent``)."
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``), prefetching (``--prefetch-"
@@ -12855,8 +12835,10 @@ msgid ""
 "Command-line options take precedence over corresponding Celery settings, "
 "allowing each worker category to use a different prefetch multiplier."
 msgstr ""
-"这些变量允许您调整 Celery 工作进程选项。它可以用于调整并发性（``--"
-"concurrency 16``），或使用不同的池实现（``--pool=gevent``）。"
+"这些变量允许您调整 Celery 工作进程选项。它可以用于调整并发性(``--concurrency "
+"16``)，预取 (``--prefetch-multiplier 4``), 或使用不同的池实现（``--"
+"pool=gevent``）。命令行优先级高于相应的 Celery 设置，允许每个 worker 类别使用"
+"不同的预取倍数。"
 
 #: admin/install/docker.rst:2377
 msgid ""
@@ -12886,10 +12868,6 @@ msgid ""
 msgstr "默认是 :envvar:`WEBLATE_WORKERS` 的一半，但始终至少是 2 个。"
 
 #: admin/install/docker.rst:2421
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEB_WORKERS` configures how many worker processes will used "
-#| "by :program:`granian`."
 msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will be used "
 "by :program:`granian`."
@@ -18199,10 +18177,6 @@ msgid ""
 msgstr "默认设置可在 :setting:`DEFAULT_RESTRICTED_COMPONENT` 中更改。"
 
 #: admin/projects.rst:1273
-#, fuzzy
-#| msgid ""
-#| "This applies to project admins as well — please ensure you will not loose "
-#| "access to the component after toggling the status."
 msgid ""
 "This applies to project admins as well — please ensure you will not lose "
 "access to the component after toggling the status."
@@ -18628,10 +18602,8 @@ msgid "Additionally, if you turn on :ref:`discover-weblate`:"
 msgstr "此外，当 :ref:`discover-weblate` 开启时："
 
 #: admin/support.rst:34
-#, fuzzy
-#| msgid "List of public projects (name, URL, and website)."
 msgid "List of public and protected projects (name, URL, and website)."
-msgstr "公共项目列表（名称、网址和网站）。"
+msgstr "公共和受保护项目列表（名称、网址和网站）。"
 
 #: admin/support.rst:37
 msgid ""
@@ -18740,18 +18712,13 @@ msgid ""
 msgstr ""
 
 #: admin/support.rst:105
-#, fuzzy
-#| msgid ""
-#| "Make sure you are OK with publishing your instance name, URL, tally of "
-#| "projects, components, and users, together with names of public projects "
-#| "and components for use on *Discover*."
 msgid ""
 "Make sure you are OK with publishing your instance name, URL, tally of "
 "projects, components, and users, together with names of public and protected "
 "projects for use on *Discover*."
 msgstr ""
 "使用 *Discover* 服务前，请确保你不反对公布实例的名称、URL、项目、部件和用户数"
-"目，以及公开项目和部件的名称。"
+"目，以及公开和受保护项目的名称。"
 
 #: admin/support.rst:109
 msgid ""
@@ -18773,12 +18740,10 @@ msgid ""
 msgstr ""
 
 #: admin/support.rst:125
-#, fuzzy
-#| msgid "All steps for listing a server without a support contract:"
 msgid ""
 "All steps for listing a server manually, for example from older Weblate "
 "versions:"
-msgstr "将没有支持合约的服务器列入 Discover 的所有步骤："
+msgstr "从较老的 Weblate 版本手动列出服务器的全部步骤："
 
 #: admin/support.rst:128
 msgid "Register yourself at https://weblate.org/user/"
@@ -18795,15 +18760,12 @@ msgid "Copy the activation token into your Weblate management interface."
 msgstr ""
 
 #: admin/support.rst:131
-#, fuzzy
-#| msgid ""
-#| "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
-#| "discovery` from its management page :"
 msgid ""
 "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
 "discovery` from the :guilabel:`Discover Weblate` panel:"
 msgstr ""
-"从管理页面单击 :guilabel:`Enable discovery` 确认你希望列入你的 Weblate 实例："
+"从 :guilabel:`发现 Weblate` 面板单击 :guilabel:`开启发现` 确认你希望列入你的 "
+"Weblate 实例："
 
 #: admin/support.rst:139
 msgid "Listing customization"
@@ -20087,10 +20049,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.7"
 msgid "Weblate 2026.8"
-msgstr "Weblate 2026.7"
+msgstr "Weblate 2026.8"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -20174,11 +20134,9 @@ msgid ""
 msgstr ""
 
 #: changes.rst:18
-#, fuzzy
-#| msgid "Improved performance when displaying ghost translations."
 msgid ""
 "Improved matrix view loading performance when displaying multiple languages."
-msgstr "改进了显示 ghost 翻译时的性能。"
+msgstr "改进了显示多种语言时矩阵视图的加载性能。"
 
 #: changes.rst:19
 msgid ""
@@ -20187,12 +20145,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:20
-#, fuzzy
-#| msgid "Restricted components now show a status icon in component listings."
 msgid ""
 "Dashboard component list tabs now load without processing unrelated "
 "component lists."
-msgstr "受限部件现在在部件列表中显示状态图标。"
+msgstr "操作面板部件列表选项卡现在不处理无关部件列表便加载。"
 
 #: changes.rst:21
 msgid ""
@@ -20368,18 +20324,13 @@ msgid ""
 msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 
 #: changes.rst:45
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
-#| "accordingly."
 msgid ""
 "There are changes in :file:`settings_example.py`, most notably the new "
 "``STORAGES`` configuration and removal of the ``COMPRESS_*`` settings; "
 "please adjust your settings accordingly."
 msgstr ""
-":file:`settings_example.py` 中有几项更改，最显著的是 "
-"``COMPRESS_OFFLINE_CONTEXT`` 的更改，请相应调整你的设置。"
+":file:`settings_example.py` 中有几项更改，最明显的是新的 ``STORAGES`` 配置和"
+"删除了 ``COMPRESS_*`` 设置，请相应调整你的设置。"
 
 #: changes.rst:46
 msgid ""
@@ -20405,26 +20356,20 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: changes.rst:52
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "67?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/167?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/67?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/167?closed=1>"
+"`__。"
 
 #: changes.rst:55
 msgid "Weblate 2026.7.1"
 msgstr "Weblate 2026.7.1"
 
 #: changes.rst:57
-#, fuzzy
-#| msgid "*Released on July 1st 2026.*"
 msgid "*Released on July 10th 2026.*"
-msgstr "*发布于 2026 年 7 月 1 日。*"
+msgstr "*发布于 2026 年 7 月 10 日。*"
 
 #: changes.rst:61
 msgid ""
@@ -20535,14 +20480,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:85
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.fedora_messaging.publish` integration is now "
-#| "available as add-on."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` received several reliability "
 "fixes."
-msgstr ":ref:`addon-weblate.fedora_messaging.publish` 现作为附加组件可用。"
+msgstr ":ref:`addon-weblate.fedora_messaging.publish` 收到了几个稳定性修复。"
 
 #: changes.rst:86
 msgid ""
@@ -21738,10 +21679,8 @@ msgstr ""
 "Besnik Bleta, fahadhewad, Harsha C"
 
 #: changes/contributors/2026.7.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri"
-msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
+msgstr "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri"
 
 #: changes/contributors/2026.7.1.rst:10
 msgid ""
@@ -21752,10 +21691,8 @@ msgid ""
 msgstr ""
 
 #: changes/contributors/2026.7.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 msgid "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
-msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
+msgstr "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -34740,18 +34677,13 @@ msgid "Browse mode can now be navigated using keyboard, see :ref:`keyboard`."
 msgstr "现在可使用键盘操控浏览模式，见 :ref:`keyboard`。"
 
 #: changes/v5.rst:1522
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
-#| "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
-#| "components and projects."
 msgid ""
 "``GET /api/components/(string:project)/(string:component)/credits/`` and "
 "``GET /api/projects/(string:project)/credits/`` API endpoints for components "
 "and projects."
 msgstr ""
-"部件和项目的 :http:get:`/api/components/(string:project)/(string:component)/"
-"credits/` 和 :http:get:`/api/projects/(string:project)/credits/` API 端点。"
+"``GET /api/components/(string:project)/(string:component)/credits/`` 和 "
+"``GET /api/projects/(string:project)/credits/`` 部件和项目的 API 端点。"
 
 #: changes/v5.rst:1523
 msgid ""
@@ -37371,16 +37303,12 @@ msgid ""
 msgstr ""
 
 #: contributing/frontend.rst:41
-#, fuzzy
-#| msgid "User interface fixes."
 msgid "User interface conventions"
-msgstr "用户界面修复。"
+msgstr "用户界面约定"
 
 #: contributing/frontend.rst:44
-#, fuzzy
-#| msgid "Documentation guidelines"
 msgid "Documentation links"
-msgstr "文档准则"
+msgstr "文档链接"
 
 #: contributing/frontend.rst:46
 msgid ""
@@ -39501,20 +39429,13 @@ msgid ""
 msgstr ""
 
 #: devel/alerts.rst:69
-#, fuzzy
-#| msgid ""
-#| "Alerts are listed on each respective component page "
-#| "as :guilabel:`Diagnostics`. If it is missing, the component clears all "
-#| "current checks. Problem alerts cannot be ignored, but will disappear once "
-#| "the underlying problem has been fixed."
 msgid ""
 "If it is missing, the component clears all current checks. Problem alerts "
 "cannot be ignored, but will disappear once the underlying problem has been "
 "fixed."
 msgstr ""
-"警报会在每个部件页面的 :guilabel:`诊断` 选项卡中列出。如果缺少该选项卡，部件"
-"会清除所有当前的检查。问题警报无法被忽略，但一旦根本的问题被修复，警报就会消"
-"失。"
+"如果没有该选项卡，部件会清除所有当前的检查。问题警报无法被忽略，但一旦根本的"
+"问题被修复，警报就会消失。"
 
 #: devel/alerts.rst:72
 msgid ""
@@ -41219,12 +41140,6 @@ msgid "Translation progress reporting"
 msgstr "翻译进度报告"
 
 #: devel/reporting.rst:4
-#, fuzzy
-#| msgid ""
-#| "Reporting features give insight into translation progress over a given "
-#| "period. A summary of contributions to any given component over time is "
-#| "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
-#| "the dashboard, any translation component, or project:"
 msgid ""
 "Reporting features give insight into translation progress over a given "
 "period. A summary of contributions to any given component over time is "
@@ -41232,8 +41147,8 @@ msgid ""
 "the dashboard, workspace, project, category, or translation component:"
 msgstr ""
 "报告功能可以让人深入了解给定时期内的翻译进展情况。它提供了任何给定部件在某段"
-"时间内的贡献总结。报告工具可以在任意翻译部件或项目的操作面板上的 :guilabel:`"
-"洞察` 菜单中找到："
+"时间内的贡献总结。报告工具可以在操作面板、工作区、项目、类别或翻译部件的 "
+":guilabel:`洞察` 菜单中找到："
 
 #: devel/reporting.rst:11
 msgid ""
@@ -41464,10 +41379,8 @@ msgid ""
 msgstr ""
 
 #: devel/reporting.rst:142
-#, fuzzy
-#| msgid "Translation workflows"
 msgid "Translator work analysis"
-msgstr "翻译工作流"
+msgstr "译者工作分析"
 
 #: devel/reporting.rst:144
 msgid ""
@@ -43496,13 +43409,6 @@ msgid "This feature is modelled on flags in :ref:`gettext`."
 msgstr "这个功能是以 :ref:`gettext` 中的标志为模型。"
 
 #: formats.rst:113
-#, fuzzy
-#| msgid ""
-#| "Additionally, for all XML based format, the flags are extracted from the "
-#| "non-standard attribute ``weblate-flags``. Additionally ``max-length:N`` "
-#| "is supported through the ``maxwidth`` `attribute <https://docs.oasis-"
-#| "open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the "
-#| "XLIFF standard, see :ref:`xliff-flags`."
 msgid ""
 "Additionally, XML-based formats that support flags extract them from the non-"
 "standard attribute ``weblate-flags``. The ``max-length:N`` flag is also "
@@ -43510,10 +43416,10 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
-"此外，对于所有基于 XML 的格式，标记是从非标准属性 ``weblate-flags`` 中提取"
-"的。而且还通过 XLIFF 标准中定义的 ``maxwidth`` `属性 <https://docs.oasis-"
-"open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ 支持了 ``max-length:N``，"
-"请参阅 :ref:`xliff-flags`。"
+"此外，支持标记的基于 XML 的格式从非标准的 ``weblate-flags`` 属性提取它们。通"
+"过 XLIFF 标准定义的 ``maxwidth`` `属性 <https://docs.oasis-open.org/xliff/"
+"v1.2/os/xliff-core.html#maxwidth>`_ 也支持 ``max-length:N`` 标记，见 "
+":ref:`xliff-flags`。"
 
 #: formats.rst:122
 msgid "`PO files documentation`_"
@@ -43586,8 +43492,6 @@ msgstr ""
 "过添加 ``read-only`` 标记在其他格式中进行模拟，请参阅 :ref:`custom-checks`。"
 
 #: formats.rst:172
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Removing obsolete strings"
 msgstr "移除陈旧字符串"
 
@@ -45682,32 +45586,22 @@ msgid "`XLIFF 2.0 Translation File`"
 msgstr "`XLIFF 2.0 翻译文件`"
 
 #: formats/xwiki.rst:4
-#, fuzzy
-#| msgid "File formats"
 msgid "XWiki formats"
-msgstr "文件格式"
+msgstr "XWiki 格式"
 
 #: formats/xwiki.rst:6
-#, fuzzy
-#| msgid "Added support for Joomla translation format."
 msgid "Weblate supports several translation formats used by XWiki."
-msgstr "为 Joomla 翻译格式添加了支持。"
+msgstr "Weblate 支持数种 XWiki 所用的翻译格式。"
 
 #: formats/xwiki.rst:11
-#, fuzzy
-#| msgid "XWiki Java Properties"
 msgid "XWiki Java properties"
 msgstr "XWiki Java 属性"
 
 #: formats/xwiki.rst:18
-#, fuzzy
-#| msgid "XWiki Page Properties"
 msgid "XWiki page properties"
 msgstr "XWiki 页面属性"
 
 #: formats/xwiki.rst:25
-#, fuzzy
-#| msgid "XWiki Full Page"
 msgid "XWiki full page"
 msgstr "XWiki 完整页面"
 
@@ -48927,20 +48821,16 @@ msgid "In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)"
 msgstr ""
 
 #: security/threat-model.rst:51
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid "Stored translation reports"
-msgstr "共享翻译记忆库"
+msgstr "存储的翻译报告"
 
 #: security/threat-model.rst:52
 msgid "Report forms and :http:get:`/api/reports/` endpoints"
 msgstr ""
 
 #: security/threat-model.rst:53
-#, fuzzy
-#| msgid "Not processing background tasks"
 msgid "Database snapshots and background tasks"
-msgstr "不处理后台任务"
+msgstr "数据库快照和后台任务"
 
 #: security/threat-model.rst:54
 msgid ""
@@ -49281,11 +49171,6 @@ msgid "Webhook sender to Weblate"
 msgstr "Webhook 发送方到 Weblate"
 
 #: security/threat-model.rst:183
-#, fuzzy
-#| msgid ""
-#| "In scope as a public, deployment-hardened interface. *(documented)* "
-#| "(source: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-"
-#| "github-app-webhook`)"
 msgid ""
 "Public forge notifications can schedule repository synchronization where "
 "hooks are enabled. GitHub App webhooks additionally authenticate with a per-"
@@ -49293,9 +49178,10 @@ msgid ""
 "*(documented)* (source: :ref:`hooks`, :ref:`project-"
 "enable_hooks`, :ref:`code-hosting-github-app-webhook`)"
 msgstr ""
-"在作用域中作为公共、为部署强化的接口。*(有文档信息)* (来"
-"源： :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-github-"
-"app-webhook`)"
+"公共 forge 通知可以安排启用了 hook 的仓库同步的时间。GitHub 应用 webhook 在处"
+"理前额外使用每个应用的 URL 令牌和 GitHub 签名验证进行身份认证。 *(有文档信息)"
+"* (来源： :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-"
+"github-app-webhook`)"
 
 #: security/threat-model.rst:188
 msgid "Weblate to database/datastore"
@@ -52007,10 +51893,8 @@ msgid "License changed"
 msgstr "更改了许可证"
 
 #: snippets/addon-parameters-autogenerated.rst:448
-#, fuzzy
-#| msgid "Project and component creation"
 msgid "Project or component license information changed."
-msgstr "项目和部件创建"
+msgstr "更改了项目或部件许可信息。"
 
 #: snippets/addon-parameters-autogenerated.rst:451
 msgid "Contributor license agreement changed"
@@ -52041,10 +51925,8 @@ msgid "String updated in the repository"
 msgstr "更新了仓库中的字符串"
 
 #: snippets/addon-parameters-autogenerated.rst:464
-#, fuzzy
-#| msgid "Track string changes from the repository."
 msgid "A string was changed while synchronizing from the repository."
-msgstr "跟踪来自仓库的字符串更改。"
+msgstr "从仓库同步时更改了一条字符串。"
 
 #: snippets/addon-parameters-autogenerated.rst:467
 msgid "Add-on installed"
@@ -52270,10 +52152,8 @@ msgid "Label removed"
 msgstr "删除了标签"
 
 #: snippets/addon-parameters-autogenerated.rst:576
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid "A label was removed from a string."
-msgstr ":guilabel:`移除字符串`"
+msgstr "从一条字符串中删除了一个标签。"
 
 #: snippets/addon-parameters-autogenerated.rst:579
 msgid "Repository cleanup"
@@ -52396,22 +52276,16 @@ msgid "Updating a remote repository failed."
 msgstr "更新一个远程仓库失败。"
 
 #: snippets/addon-parameters-autogenerated.rst:639
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Alert dismissed"
-msgstr "触发了警报"
+msgstr "忽略了警报"
 
 #: snippets/addon-parameters-autogenerated.rst:640
-#, fuzzy
-#| msgid "Updating component alerts (daily)."
 msgid "A component alert was dismissed."
-msgstr "更新部件警报（每天）。"
+msgstr "忽略了一则部件警报。"
 
 #: snippets/addon-parameters-autogenerated.rst:643
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Alert reopened"
-msgstr "触发了警报"
+msgstr "重新打开了警报"
 
 #: snippets/addon-parameters-autogenerated.rst:644
 msgid "A component alert was reopened after its context changed."
@@ -59170,10 +59044,8 @@ msgstr "支持只读字符串 :ref:`ⓘ <read-only-strings>`"
 #: snippets/format-features/xwiki-java-properties-features.rst:27
 #: snippets/format-features/xwiki-page-properties-features.rst:27
 #: snippets/format-features/yaml-features.rst:27
-#, fuzzy
-#| msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
 msgid "Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`"
-msgstr "支持只读字符串 :ref:`ⓘ <read-only-strings>`"
+msgstr "支持删除过时字符串 :ref:`ⓘ <obsolete-strings>`"
 
 #: snippets/format-features/arb-features.rst:10
 #: snippets/format-features/csv-features.rst:10
@@ -59221,10 +59093,8 @@ msgid "Check flags added by this format :ref:`ⓘ <custom-checks>`"
 msgstr "检查此格式添加的标记 :ref:`ⓘ <custom-checks>`"
 
 #: snippets/format-features/asciidoc-features.rst:8
-#, fuzzy
-#| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``.ad``, ``.adoc``, ``.asciidoc``"
-msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
+msgstr "``.ad``, ``.adoc``, ``.asciidoc``"
 
 #: snippets/format-features/asciidoc-features.rst:30
 #: snippets/format-features/html-features.rst:30
@@ -59241,10 +59111,8 @@ msgid "Bilingual"
 msgstr "双语"
 
 #: snippets/format-features/csv-features.rst:8
-#, fuzzy
-#| msgid "``.csv``, ``.xlsx``"
 msgid "``.csv``, ``.txt``"
-msgstr "``.csv``, ``.xlsx``"
+msgstr "``.csv``, ``.txt``"
 
 #: snippets/format-features/csv-features.rst:23
 #: snippets/format-features/po-features.rst:23
@@ -59273,26 +59141,20 @@ msgid "``go-i18n-json``, ``go-i18n-json-v2``"
 msgstr "``go-i18n-json``, ``go-i18n-json-v2``"
 
 #: snippets/format-features/html-features.rst:8
-#, fuzzy
-#| msgid "``.po``, ``.pot``"
 msgid "``.htm``, ``.html``"
-msgstr "``.po``, ``.pot``"
+msgstr "``.htm``, ``.html``"
 
 #: snippets/format-features/idml-features.rst:8
-#, fuzzy
-#| msgid "``.xlf``, ``.xliff``"
 msgid "``.idml``, ``.idms``"
-msgstr "``.xlf``, ``.xliff``"
+msgstr "``.idml``, ``.idms``"
 
 #: snippets/format-features/json-features.rst:24
 msgid "``json``, ``json-nested``"
 msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/markdown-features.rst:8
-#, fuzzy
-#| msgid "``.po``, ``.pot``"
 msgid "``.markdown``, ``.md``"
-msgstr "``.po``, ``.pot``"
+msgstr "``.markdown``, ``.md``"
 
 #: snippets/format-features/markdown-features.rst:30
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
@@ -59316,10 +59178,8 @@ msgid "``.po``, ``.pot``"
 msgstr "``.po``, ``.pot``"
 
 #: snippets/format-features/ruby-yaml-features.rst:8
-#, fuzzy
-#| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``.ryml``, ``.yaml``, ``.yml``"
-msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
+msgstr "``.ryml``, ``.yaml``, ``.yml``"
 
 #: snippets/format-features/srt-features.rst:8
 msgid "``.ass``, ``.srt``, ``.ssa``, ``.sub``"
@@ -59330,20 +59190,16 @@ msgid "``ass``, ``srt``, ``ssa``, ``sub``"
 msgstr ""
 
 #: snippets/format-features/txt-features.rst:8
-#, fuzzy
-#| msgid "``dokuwiki``, ``mediawiki``, ``txt``"
 msgid "``.dw``, ``.mw``, ``.txt``"
-msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
+msgstr "``.dw``, ``.mw``, ``.txt``"
 
 #: snippets/format-features/txt-features.rst:24
 msgid "``dokuwiki``, ``mediawiki``, ``txt``"
 msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
 
 #: snippets/format-features/xliff-features.rst:8
-#, fuzzy
-#| msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 msgid "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
-msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
+msgstr "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff-features.rst:24
 #: snippets/format-features/xliff2-features.rst:24
@@ -59363,10 +59219,8 @@ msgid "``xliff2``, ``xliff2-placeables``"
 msgstr "``xliff2``, ``xliff2-placeables``"
 
 #: snippets/format-features/yaml-features.rst:8
-#, fuzzy
-#| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``.pyml``, ``.yaml``, ``.yml``"
-msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
+msgstr "``.pyml``, ``.yaml``, ``.yml``"
 
 #: snippets/format-in-development.rst:3
 msgid ""
@@ -59594,22 +59448,16 @@ msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 
 #: snippets/machines-autogenerated.rst:68
-#, fuzzy
-#| msgid "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)"
 msgid "``claude-sonnet-5`` -- Claude Sonnet 5"
-msgstr "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 （推荐）"
+msgstr "``claude-sonnet-5`` -- Claude Sonnet 5"
 
 #: snippets/machines-autogenerated.rst:70
-#, fuzzy
-#| msgid "``claude-opus-4-5`` -- Claude Opus 4.5"
 msgid "``claude-opus-4-8`` -- Claude Opus 4.8"
-msgstr "``claude-opus-4-5`` -- Claude Opus 4.5"
+msgstr "``claude-opus-4-8`` -- Claude Opus 4.8"
 
 #: snippets/machines-autogenerated.rst:72
-#, fuzzy
-#| msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 msgid "``claude-fable-5`` -- Claude Fable 5"
-msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
+msgstr "``claude-fable-5`` -- Claude Fable 5"
 
 #: snippets/machines-autogenerated.rst:74
 #: snippets/machines-autogenerated.rst:753
@@ -59731,10 +59579,8 @@ msgstr ""
 "`Anthropic API 文档 <https://docs.anthropic.com/en/api/getting-started>`_"
 
 #: snippets/machines-autogenerated.rst:107
-#, fuzzy
-#| msgid "`Anthropic Console <https://console.anthropic.com/>`_"
 msgid "`Anthropic Console <https://platform.claude.com/>`_"
-msgstr "`Anthropic 控制台 <https://console.anthropic.com/>`_"
+msgstr "`Anthropic 控制台 <https://platform.claude.com/>`_"
 
 #: snippets/machines-autogenerated.rst:136
 msgid ""
@@ -59788,28 +59634,20 @@ msgid "Brevity"
 msgstr ""
 
 #: snippets/machines-autogenerated.rst:182
-#, fuzzy
-#| msgid "Several translation workflows are supported."
 msgid "Prefer shorter translations when supported."
-msgstr "支持多种翻译工作流。"
+msgstr "如果支持则首选较短的译文。"
 
 #: snippets/machines-autogenerated.rst:188
-#, fuzzy
-#| msgid "``20`` -- Translated"
 msgid "``ON`` -- Enabled"
-msgstr "``20`` -- 已翻译"
+msgstr "``ON`` -- 已开启"
 
 #: snippets/machines-autogenerated.rst:190
-#, fuzzy
-#| msgid "Profile"
 msgid "Profanity"
-msgstr "个人资料"
+msgstr "脏话"
 
 #: snippets/machines-autogenerated.rst:190
-#, fuzzy
-#| msgid "Amount of words in the translated string."
 msgid "Mask profane words in translated text."
-msgstr "已翻译字符串中的单词数量。"
+msgstr "在翻译文本中遮盖污言秽语。"
 
 #: snippets/machines-autogenerated.rst:196
 msgid "``MASK`` -- Mask profanity"
@@ -59929,10 +59767,6 @@ msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr "优先选择下一代 LLM 而非经典机器翻译模型。"
 
 #: snippets/machines-autogenerated.rst:368
-#, fuzzy
-#| msgid ""
-#| "DeepL is paid service providing good machine translation for a few "
-#| "languages. You need to purchase :guilabel:`DeepL API` subscription."
 msgid ""
 "DeepL is a paid service providing good machine translation for a few "
 "languages. You need to purchase :guilabel:`DeepL API` subscription."
@@ -60251,10 +60085,6 @@ msgid ""
 msgstr "指定一个自定义的系统类别 ID 进行使用，而不是使用通用的。"
 
 #: snippets/machines-autogenerated.rst:681
-#, fuzzy
-#| msgid ""
-#| "Machine translation service provided by Microsoft in Azure portal as a "
-#| "one of Cognitive Services."
 msgid ""
 "Machine translation service provided by Microsoft in Azure portal as one of "
 "Cognitive Services."
@@ -60498,10 +60328,8 @@ msgid "``gpt-5.4-mini`` -- GPT-5.4 mini"
 msgstr "``gpt-5.4-mini`` -- GPT-5.4 mini"
 
 #: snippets/machines-autogenerated.rst:979
-#, fuzzy
-#| msgid "``gpt-5.4-nano`` -- GPT-5.4 nano"
 msgid "``gpt-5.6-luna`` -- GPT-5.6 Luna"
-msgstr "``gpt-5.4-nano`` -- GPT-5.4 nano"
+msgstr "``gpt-5.6-luna`` -- GPT-5.6 Luna"
 
 #: snippets/machines-autogenerated.rst:981
 msgid "``gpt-5`` -- GPT-5"
@@ -60512,20 +60340,16 @@ msgid "``gpt-5.4`` -- GPT-5.4"
 msgstr "``gpt-5.4`` -- GPT-5.4"
 
 #: snippets/machines-autogenerated.rst:985
-#, fuzzy
-#| msgid "``gpt-5.4-nano`` -- GPT-5.4 nano"
 msgid "``gpt-5.6-terra`` -- GPT-5.6 Terra"
-msgstr "``gpt-5.4-nano`` -- GPT-5.4 nano"
+msgstr "``gpt-5.6-terra`` -- GPT-5.6 Terra"
 
 #: snippets/machines-autogenerated.rst:987
 msgid "``gpt-5.5`` -- GPT-5.5"
 msgstr "``gpt-5.5`` -- GPT-5.5"
 
 #: snippets/machines-autogenerated.rst:989
-#, fuzzy
-#| msgid "``gpt-5.4`` -- GPT-5.4"
 msgid "``gpt-5.6`` -- GPT-5.6 Sol"
-msgstr "``gpt-5.4`` -- GPT-5.4"
+msgstr "``gpt-5.6`` -- GPT-5.6 Sol"
 
 #: snippets/machines-autogenerated.rst:1007
 msgid "Performs translation using `OpenAI`_."
@@ -62810,15 +62634,6 @@ msgstr ""
 "访问公开资料页链接前会显示警告。"
 
 #: user/profile.rst:236
-#, fuzzy
-#| msgid ""
-#| "The :guilabel:`Code site URL` should use common code hosting profile "
-#| "paths, such as ``/username`` or ``/~username``; existing repository-style "
-#| "links such as ``/username/project`` or ``/group/subgroup/project`` are "
-#| "also accepted. The :guilabel:`Fediverse URL` should use common profile "
-#| "paths, such as ``/username``, ``/@username``, ``/web/@username``, ``/"
-#| "users/username``, ``/accounts/username``, ``/channel/username``, ``/"
-#| "profile/username``, ``/u/username``, or ``/people/identifier``."
 msgid ""
 "The :guilabel:`Code site URL` should use common code-hosting profile paths, "
 "such as ``/username`` or ``/~username``; existing repository-style links "
@@ -64719,15 +64534,10 @@ msgstr ""
 "置 :ref:`component-repo` 和 :ref:`component-push`。"
 
 #: vcs.rst:76
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
-#| "Azure DevOps, ...)"
 msgid ""
 "Accessing repositories on code-hosting sites (GitHub, GitLab, Bitbucket, "
 "Azure DevOps, ...)"
-msgstr ""
-"访问代码托管站点（GitHub, GitLab, Bitbucket, Azure DevOps, ...）上的仓库"
+msgstr "访问代码托管站点（GitHub, GitLab, Bitbucket, Azure DevOps, ...）上的仓库"
 
 #: vcs.rst:80
 msgid ""
@@ -64745,13 +64555,6 @@ msgid ""
 msgstr ""
 
 #: vcs.rst:87
-#, fuzzy
-#| msgid ""
-#| "For multiple repositories, create a dedicated code hosting user "
-#| "associated with a Weblate SSH key (see :ref:`weblate-ssh-key`). This way "
-#| "you associate Weblate SSH key with a single user, because platforms "
-#| "frequently enforce single use of an SSH key. Grant this user access to "
-#| "the repositories, and use SSH URLs to access them (see :ref:`ssh-repos`)."
 msgid ""
 "For multiple repositories, create a dedicated code-hosting user associated "
 "with a Weblate SSH key (see :ref:`weblate-ssh-key`). This way you associate "
