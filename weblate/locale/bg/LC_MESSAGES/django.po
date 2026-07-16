@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-14 15:13+0000\n"
+"PO-Revision-Date: 2026-07-16 09:09+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -4558,15 +4558,15 @@ msgid "Billing plan"
 msgstr "Платежен план"
 
 #: weblate/billing/forms.py:50
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "Пробният период е започнат."
+msgstr "Нулиране на пробния период"
 
 #: weblate/billing/forms.py:53
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"Задаване на този платежен план към обикновения пробен период и изчистване на "
+"насроченото премахване."
 
 #: weblate/billing/models.py:236 weblate/templates/billing/list.html:6
 #: weblate/templates/trans/component_create.html:203
@@ -4741,10 +4741,8 @@ msgid "Billing event"
 msgstr "Събитие свързано с таксуването"
 
 #: weblate/billing/models.py:1236
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
-msgstr "Е-пощата е променена от {old} на {new}."
+msgstr "Променена от {} на {}."
 
 #: weblate/billing/tasks.py:97
 msgid ""
@@ -4958,14 +4956,10 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Липсва знак за непрекъсваем интервал преди двоен пунктуационен знак."
 
 #: weblate/checks/chars.py:680
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign."
 msgid "Missing non breakable space before punctuation mark {}."
 msgid_plural "Missing non breakable space before punctuation marks {}."
-msgstr[0] ""
-"Липсва знак за непрекъсваем интервал преди двоен пунктуационен знак."
-msgstr[1] ""
-"Липсва знак за непрекъсваем интервал преди двоен пунктуационен знак."
+msgstr[0] "Липсва знак за непрекъсваем интервал преди пунктуационен знак {}."
+msgstr[1] "Липсва знак за непрекъсваем интервал преди пунктуационни знаци {}."
 
 #: weblate/checks/chars.py:730
 msgid "Multiple capitals"
@@ -7316,10 +7310,8 @@ msgstr ""
 "ползва вместо общата."
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "Въведете правилен код на език."
+msgstr "Въведете правилен регион на Azure."
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7663,28 +7655,19 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:709
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (препоръчително)"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:713
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:717
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:719
 msgctxt "Anthropic model selection"
@@ -7800,52 +7783,39 @@ msgstr "Проект"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:123
 #: weblate/memory/models.py:1250
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory scope"
 msgid "Workspace"
 msgstr "Работно пространство"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:127
 #: weblate/memory/models.py:1251
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory scope"
 msgid "Shared"
-msgstr "Споделяне"
+msgstr "Споделено"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1252
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "Лични: {}"
+msgstr "Лично"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1253
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Файл"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:140
 #: weblate/memory/models.py:1254
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "Име на проекта"
+msgstr "Файл на проекта"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:146
 #: weblate/memory/models.py:1255
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "Лична информация"
+msgstr "Личен файл"
 
 #: weblate/memory/models.py:539
 #, python-format
@@ -7917,17 +7887,13 @@ msgid "File: {}"
 msgstr "Файл: {}"
 
 #: weblate/memory/models.py:1033 weblate/memory/models.py:1061
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory category"
 msgid "Workspace: {}"
-msgstr "Работно пространство"
+msgstr "Работно пространство: {}"
 
 #: weblate/memory/views.py:88
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Въведете правилен код на език."
+msgstr "Грешен идентификатор на език."
 
 #: weblate/memory/views.py:126
 msgid "Entries were deleted."
@@ -8752,12 +8718,11 @@ msgid "Your trial"
 msgstr "Вашият пробен период"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "Ще имате 14 дни да настроите проекта си."
-msgstr[1] "Ще имате 14 дни да настроите проекта си."
+msgstr[0] "Ще имате %(days)s ден да настроите проекта си."
+msgstr[1] "Ще имате %(days)s дни да настроите проекта си."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -8974,10 +8939,8 @@ msgstr "Добавяне на нов потребител"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/templates/workspace.html:58 weblate/wladmin/views.py:128
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Code-hosting connections"
-msgstr "Хостинг на превода"
+msgstr "Връзки с хостинг на код"
 
 #: weblate/templates/accounts/profile.html:264
 #, fuzzy
