@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-16 12:39+0000\n"
+"PO-Revision-Date: 2026-07-16 14:20+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -22289,6 +22289,11 @@ msgid ""
 "upgrade and monitor progress in :guilabel:`Administration` "
 "> :guilabel:`Performance report`. See :ref:`memory-scopes` for details."
 msgstr ""
+"Sommige upgrades voeren opvullen voor het bereik van het vertaalgeheugen en "
+"consolideren uit op de achtergrond met periodieke taken van Celery. Houd "
+"Celery draaiende na de upgrade en monitor de voortgang in "
+":guilabel:`Beheren` > :guilabel:`Rapport uitvoering`. Bekijk :ref:`memory-"
+"scopes` voor details."
 
 #: admin/upgrade.rst:119
 msgid "Version-specific instructions"
@@ -22486,6 +22491,9 @@ msgid ""
 "Signed-in users can also review grouped project and component findings on "
 "the workspace :guilabel:`Diagnostics` tab. See :ref:`diagnostics-overviews`."
 msgstr ""
+"Aangemelde gebruikers kunnen ook gegroepeerde project- en "
+"onderdeelbevindingen voor de werkruimte bekijken op de tab "
+":guilabel:`Diagnostiek`. Bekijk :ref:`diagnostics-overviews`."
 
 #: admin/workspaces.rst:21
 msgid ""
@@ -22575,6 +22583,9 @@ msgid ""
 "the workspace. Individual projects also have to enable workspace translation "
 "memory."
 msgstr ""
+"Of projecten in deze werkruimte het vertaalgeheugen, dat in deze werkruimte "
+"wordt gedeeld, mogen gebruiken. Individuele projecten moeten ook het "
+"vertaalgeheugen voor de werkruimte inschakelen."
 
 #: admin/workspaces.rst:77
 msgid ""
@@ -22582,6 +22593,9 @@ msgid ""
 "workspace translation memory. Individual projects also have to enable "
 "contribution."
 msgstr ""
+"Of projecten in deze werkruimte vertalingen mogen bijdragen aan het "
+"vertaalgeheugen voor deze werkruimte. Individuele projecten moeten ook het "
+"bijdragen inschakelen."
 
 #: admin/workspaces.rst:85
 msgid ""
@@ -23204,6 +23218,8 @@ msgid ""
 "The feeds contain only changes in projects and components the requesting "
 "user can access."
 msgstr ""
+"De feeds bevatten alleen wijzigingen in projecten en onderdelen waar de "
+"vragende gebruiker toegang toe heeft."
 
 #: api.rst:3600
 msgid ""
@@ -23246,6 +23262,8 @@ msgid ""
 "Added API endpoints for listing, adding, accepting, rejecting, and voting on "
 "translation suggestions."
 msgstr ""
+"Toegevoegde API-eindpunten voor vermelden, toevoegen, accepteren, weigeren "
+"en stemmen over suggesties voor vertalingen."
 
 #: changes.rst:9
 msgid ""
@@ -23253,6 +23271,10 @@ msgid ""
 "background, stored for later download, available at workspace scope, and "
 "include translator work analysis."
 msgstr ""
+":doc:`Rappporten vertaling </devel/reporting>` worden nu gemaakt op de "
+"achtergrond, opgeslagen om later te downloaden, beschikbaar binnen het "
+"bereik van de werkruimte en bevatten een analyse van het werk van de "
+"vertaler."
 
 #: changes.rst:10
 msgid ""
@@ -23260,6 +23282,10 @@ msgid ""
 "weblate.gettext.xgettext`, allowing projects to disable xgettext default "
 "keywords and rely only on a custom keyword."
 msgstr ""
+"Toegevoegde optie :guilabel:`Exclusief sleutelwoorden gebruiken` voor "
+":ref:`addon-weblate.gettext.xgettext`, wat projecten in staat stelt de "
+"standaard sleutelwoorden van xgettext uit te schakelen en te vertrouwen op "
+"een aangepast sleutelwoord."
 
 #: changes.rst:13 changes.rst:64 changes.rst:128 changes.rst:238
 #: changes.rst:295 changes/v5.rst:18 changes/v5.rst:104 changes/v5.rst:208
@@ -23285,6 +23311,8 @@ msgid ""
 "Added grouped project and workspace :guilabel:`Diagnostics` views with "
 "state, severity, category, and actionable-by-user filters."
 msgstr ""
+"Gegroepeerde project- en werkruimteweergaven :guilabel:`Diagnostiek` "
+"toegevoegd met status, ernst, categorie en filters actie-door-gebruiker."
 
 #: changes.rst:15
 msgid ""
@@ -23292,6 +23320,9 @@ msgid ""
 "changes, and notify only project maintainers who can act on warnings and "
 "errors."
 msgstr ""
+"Diagnostiek van onderdelen legt nu het afzien van eigenaarschap vast, "
+"heropenen na relevante wijzigingen en alleen notificeren van "
+"projectbeheerders die kunnen acteren op waarschuwingen en fouten."
 
 #: changes.rst:16
 msgid ""
@@ -23299,12 +23330,17 @@ msgid ""
 "pending, successful, failed, and skipped executions and explain why an add-"
 "on was skipped."
 msgstr ""
+":ref:`Add-on activiteitenlogs <addon-activity-logging>` maken nu onderscheid "
+"tussen openstaande, succesvolle, mislukte en overgeslagen uitvoeringen en "
+"leggen uit waarom een add-on werd overgeslagen."
 
 #: changes.rst:17
 msgid ""
 "Expanded :ref:`change-actions` documentation with detailed event semantics "
 "and improved OpenAPI schema accuracy."
 msgstr ""
+"Documentatie :ref:`change-actions` uitgebreid met gedetailleerde semantiek "
+"voor gebeurtenissen en verbeterde nauwkeurigheid schema OpenAPI."
 
 #: changes.rst:18
 #, fuzzy
@@ -23318,6 +23354,8 @@ msgid ""
 "Translation memory management pages now load origin summaries with a single "
 "database aggregation."
 msgstr ""
+"Beheerpagina's voor vertaalgeheugen laden nu samenvattingen van de origine "
+"met een enkele databaseaggregatie."
 
 #: changes.rst:20
 #, fuzzy
@@ -23332,34 +23370,46 @@ msgid ""
 "Static assets now use content-hashed filenames, and CAPTCHA JavaScript is "
 "loaded only when needed."
 msgstr ""
+"Statische delen gebruiken nu inhoud-gehashte bestandsnamen en CAPTCHA "
+"JavaScript wordt alleen geladen als dat nodig is."
 
 #: changes.rst:22
 msgid ""
 ":ref:`mt-aws` machine translation now supports configuring formality, "
 "brevity, and profanity masking."
 msgstr ""
+":ref:`mt-aws` machinevertaling ondersteunt nu het configureren van maskers "
+"voor formaliteit, beknoptheid en vloeken."
 
 #: changes.rst:23
 msgid ""
 "Improved :ref:`screenshots` OCR reliability and error reporting when "
 "downloading recognition data."
 msgstr ""
+"Verbeterde :ref:`screenshots` OCR-betrouwbaarheid en foutenrapportage bij "
+"downloaden van herkende gegevens."
 
 #: changes.rst:24
 msgid ""
 "Celery workers now prefetch fewer tasks by default to reduce memory usage "
 "and improve task distribution."
 msgstr ""
+"Werkers van Celery halen nu standaard minder taken van tevoren op om "
+"geheugengebruik te verminderen en verdelen van taken te verbeteren."
 
 #: changes.rst:25
 msgid ""
 "Improved the recommended :ref:`running-granian` configuration and Docker "
 "container worker resilience for Weblate's WSGI workload."
 msgstr ""
+"Verbeterde aanbevolen configuratie :ref:`running-granian` en veerkracht "
+"Docker containerwerker voor Weblate's WSGI-werklading."
 
 #: changes.rst:26
 msgid "Deployment checks now detect corrupted PostgreSQL relation statistics."
 msgstr ""
+"Controles voor uitrollen detecteren nu gecorrumpeerde PostgreSQL "
+"relatiestatistieken."
 
 #: changes.rst:29 changes.rst:81 changes.rst:155 changes.rst:211
 #: changes.rst:249 changes.rst:312 changes/v5.rst:36 changes/v5.rst:144
@@ -23390,6 +23440,8 @@ msgid ""
 "Self-service REST API e-mail changes are now restricted to verified "
 "addresses."
 msgstr ""
+"Wijzigingen voor zelf-service REST API-e-mail zijn nu beperkt tot "
+"geverifieerde adressen."
 
 #: changes.rst:31
 msgid ""
@@ -23397,24 +23449,33 @@ msgid ""
 "restricted components, add-on configuration, component sharing, repository "
 "links, and review states."
 msgstr ""
+"Autorisatie voor REST API beschermt nu consistent interne accounts, beperkte "
+"onderdelen, configuratie van add-on, delen van onderdelen, links naar "
+"opslagruimten en statussen voor beoordelen."
 
 #: changes.rst:32
 msgid ""
 "Restricted components are now available on Hosted Weblate when the billing "
 "plan permits private projects."
 msgstr ""
+"Beperkte onderdelen zijn nu beschikbaar op Hosted Weblate als het "
+"facturatieplan private projecten toestaat."
 
 #: changes.rst:33
 msgid ""
 "Machine translation and translation memory AJAX lookups no longer disclose "
 "whether inaccessible unit IDs exist."
 msgstr ""
+"Zoekacties van AJAX voor machinevertaling en vertaalgeheugen onthullen niet "
+"langer of niet-toegankelijke eenheid-ID's bestaan."
 
 #: changes.rst:34
 msgid ""
 ":ref:`RSS feeds <rss>` no longer disclose change history from inaccessible "
 "projects or restricted components."
 msgstr ""
+":ref:`RSS-feeds <rss>` onthullen niet langer de wijzigingsgeschiedenis van "
+"niet-toegankelijke projecten of beperkte onderdelen."
 
 #: changes.rst:37 changes.rst:188 changes.rst:328 changes/v5.rst:66
 #: changes/v5.rst:176 changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451
@@ -23432,6 +23493,8 @@ msgid ""
 "django-compressor is no longer used, and the ``COMPRESS_*`` settings have "
 "been removed."
 msgstr ""
+"django-compressor wordt niet langer gebruikt en de instellingen voor "
+"``COMPRESS_*`` zijn verwijderd."
 
 #: changes.rst:39
 msgid ""
@@ -23442,6 +23505,12 @@ msgid ""
 "returned task URL, and fetch the completed report. See :http:post:`/api/"
 "reports/`."
 msgstr ""
+"De project- en onderdeels- ``credits`` REST API-eindpunten en hun "
+"``credits_url`` antwoordvelden zijn vervangen door eindpunten ``reports`` "
+"voor bereik en ``reports_url``. Het maken van rapporten voor credits is nu "
+"asynchroon; cliënten moeten een rapport ``credits`` indienen, de URL voor de "
+"teruggegeven taak volgen en het voltooide rapport ophalen. Bekijk "
+":http:post:`/api/reports/`."
 
 #: changes.rst:42 changes.rst:100 changes.rst:193 changes.rst:215
 #: changes.rst:266 changes.rst:336 changes/v4.rst:54 changes/v4.rst:86
@@ -23517,6 +23586,9 @@ msgid ""
 "necessary; :program:`weblate collectstatic --noinput` now prepares versioned "
 "static assets without clearing the static storage."
 msgstr ""
+"Uitvoeren van :program:`weblate compress` is niet langer nodig; "
+":program:`weblate collectstatic --noinput` bereidt nu geversioneerde "
+"statische delen voor zonder de statische opslag leeg te maken."
 
 #: changes.rst:49 changes.rst:106 changes.rst:200 changes.rst:219
 #: changes.rst:273 changes.rst:344 changes/v5.rst:77 changes/v5.rst:193
@@ -23547,10 +23619,8 @@ msgstr ""
 "67?closed=1>`__."
 
 #: changes.rst:55
-#, fuzzy
-#| msgid "Weblate 2026.6.1"
 msgid "Weblate 2026.7.1"
-msgstr "Weblate 2026.6.1"
+msgstr "Weblate 2026.7.1"
 
 #: changes.rst:57
 #, fuzzy
@@ -23563,6 +23633,8 @@ msgid ""
 "Added :setting:`INTERNAL_BOT_EMAIL_TEMPLATE` to customize internal bot e-"
 "mail addresses."
 msgstr ""
+"Toegevoegd :setting:`INTERNAL_BOT_EMAIL_TEMPLATE` om interne bot e-"
+"mailadressen aan te passen."
 
 #: changes.rst:65
 #, fuzzy
@@ -23575,36 +23647,50 @@ msgid ""
 "Permission checks now reuse materialized team membership data from "
 "lightweight relation lookups."
 msgstr ""
+"Controles voor rechten gebruiken nu gematerialiseerde gegevens over "
+"teamlidmaatschap uit lichtgewicht opzoekacties van relaties."
 
 #: changes.rst:67
 msgid ""
 "Documented that intermediate language files are hidden from language "
 "listings and can make target strings read-only."
 msgstr ""
+"Gedocumenteerd dat tussenliggende vertaalbestanden worden verborgen in "
+"taalvermeldingen en doeltekenreeksen alleen-lezen kunnen maken."
 
 #: changes.rst:68
 msgid ""
 "Component diagnostics now warn when regular :ref:`gettext` PO files are "
 "configured as monolingual PO files."
 msgstr ""
+"Diagnostiek voor onderdelen waarschuwt nu wanneer normale :ref:`gettext` PO-"
+"bestanden zijn geconfigureerd als eentalige PO-bestanden."
 
 #: changes.rst:69
 msgid ""
 "Translation memory fuzzy lookups are now faster on large translation "
 "memories."
 msgstr ""
+"Fuzzy-zoekacties in vertaalgeheugens zijn nu sneller in grote "
+"vertaalgeheugens."
 
 #: changes.rst:70
 msgid ""
 "Permission denied messages when saving translations, editing glossaries, or "
 "voting on suggestions now show more specific reasons."
 msgstr ""
+"Berichten Toestemming geweigerd bij het opslaan van vertalingen, bewerken "
+"van woordenlijsten of stemmen voor suggesties geven nu meer specifieke "
+"redenen weer."
 
 #: changes.rst:71
 msgid ""
 "Comment notifications for strings you translated now also include strings "
 "you previously commented on or suggested translations for."
 msgstr ""
+"Notificaties voor opmerkingen voor tekenreeksen die u hebt vertaald bevatten "
+"nu ook tekenreeksen waarbij u eerder een opmerking hebt geplaatst of waar u "
+"een vertaling voor hebt voorgesteld."
 
 #: changes.rst:72
 msgid ""
@@ -23619,24 +23705,32 @@ msgid ""
 "Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-"
 "hosting`."
 msgstr ""
+"Richtlijnen voor toegang tot opslagruimte van Hosted Weblate verduidelijkt "
+"in :doc:`/admin/code-hosting`."
 
 #: changes.rst:74
 msgid ""
 ":ref:`search-strings` now includes filters for comments by the current user "
 "and separate source string comment lookups."
 msgstr ""
+":ref:`search-strings` bevat nu filters voor opmerkingen door de huidige "
+"gebruiker en afzonderlijke zoekacties voor opmerkingen bij brontekenreeksen."
 
 #: changes.rst:75
 msgid ""
 "Code-hosting account pages now consistently use :guilabel:`Code-hosting "
 "connections` and provider-neutral connected account wording."
 msgstr ""
+"Codehosten accountpagina's gebruiken nu consistent :guilabel:`Codehosten "
+"verbindingen` en provider-neutrale bewoordingen voor verbonden accounts."
 
 #: changes.rst:76
 msgid ""
 ":ref:`discover-weblate` registration can now be started from the management "
 "interface without manually copying the activation token."
 msgstr ""
+"Registratie voor :ref:`discover-weblate` kan nu worden begonnen uit de "
+"beheersinterface zonder handmatig het activatietoken te kopiëren."
 
 #: changes.rst:77
 msgid ""
@@ -23644,12 +23738,17 @@ msgid ""
 "panel, registration starts with discovery enabled, and protected projects "
 "are included in the listing."
 msgstr ""
+":ref:`discover-weblate` kan nu worden beheerd uit een toegewezen "
+"beheerspaneel, registratie begint met Ontdekken ingeschakeld en beveiligde "
+"projecten zijn in de vermelding opgenomen."
 
 #: changes.rst:78
 msgid ""
 "Updated the :ref:`mt-openai`, :ref:`mt-mistral`, and :ref:`mt-anthropic` "
 "model lists for currently supported models."
 msgstr ""
+"De modellijsten voor :ref:`mt-openai`, :ref:`mt-mistral` en :ref:`mt-"
+"anthropic` bijgewerkt voor momenteel ondersteunde modellen."
 
 #: changes.rst:82
 msgid ""
@@ -23657,6 +23756,9 @@ msgid ""
 "list, keeping positions and counts stable after translated strings leave the "
 "filter."
 msgstr ""
+"Gefilterde vertaling en zen-navigatie hergebruiken nu een stabiele "
+"sessieresultatenlijst, wat posities en aantallen stabiel houdt nadat "
+"vertaalde tekenreeksen uit het filter zijn verdwenen."
 
 #: changes.rst:83
 #, fuzzy
@@ -23670,6 +23772,9 @@ msgid ""
 ":ref:`check-punctuation-spacing` no longer flags Markdown image markers as "
 "French punctuation and now shows which punctuation marks triggered the check."
 msgstr ""
+":ref:`check-punctuation-spacing` vlagt niet langer Markdown "
+"afbeeldingsmarkeringen als Franse punctuatie en geeft nu aan welke "
+"markeringen voor punctuatie de controle hebben geactiveerd."
 
 #: changes.rst:85
 #, fuzzy
@@ -23688,28 +23793,39 @@ msgid ""
 "The :guilabel:`Things to check` panel no longer uses error highlighting for "
 "suggestions and other non-error translation states."
 msgstr ""
+"Het paneel :guilabel:`Te controleren dingen` gebruikt niet langer het "
+"accentueren van fouten voor suggesties en andere niet-fout vertaalstatussen."
 
 #: changes.rst:87
 msgid ""
 "Translation workflow customization now makes it clearer when per-language "
 "workflow settings are disabled until customization is enabled."
 msgstr ""
+"Aanpassen van de werkstroom voor vertalen maakt nu duidelijker welke "
+"instellingen per-taal voor de werkstroom zijn uitgeschakeld totdat de "
+"aanpassingen zijn ingeschakeld."
 
 #: changes.rst:88
 msgid "Anonymous user permission caches are now isolated between requests."
 msgstr ""
+"Caches voor rechten van anonieme gebruikers zijn nu geïsoleerd tussne "
+"verzoeken."
 
 #: changes.rst:89
 msgid ""
 "GitHub App setup now explains that a workspace is required instead of "
 "showing a permission error when no workspace exists."
 msgstr ""
+"Instellen van GitHub-app legt nu uit dat een werkruimte is vereist in plaats "
+"van een fout voor rechten weer te geven als er geen werkruimte bestaat."
 
 #: changes.rst:90
 msgid ""
 "LLM automatic suggestion settings no longer show ``null`` for empty language-"
 "specific instructions."
 msgstr ""
+"Instellingen voor LLM automatische suggesties geven niet langer ``null`` "
+"weer voor lege taalspecifieke instructies."
 
 #: changes.rst:91
 msgid ""
@@ -23717,42 +23833,59 @@ msgid ""
 "descriptions, context, plural metadata, obsolete string removal, specialized "
 "file extensions, and merged variants."
 msgstr ""
+"Objecttabellen voor bestandsindelingen komen nu beter overeen met de "
+"feitelijke ondersteuning voor de indeling, inclusief beschrijvingen, "
+"context, metadata voor meervouden, verwijderen van overbodige tekenreeksen, "
+"gespecialiseerde bestandsextensies en samengevoegde varianten."
 
 #: changes.rst:92
 msgid ""
 "Accepting a project invitation now automatically adds the project to the "
 "user's watched projects."
 msgstr ""
+"Accepteren van een uitnodiging voor een project voegt nu automatisch het "
+"project toe aan de door de gebruiker gevolgde projecten."
 
 #: changes.rst:93
 msgid ""
 "Dismissing a failing check no longer shows a JSON parsing error in the "
 "translation editor."
 msgstr ""
+"Negeren van een falende controle geeft niet langer een JSON fout bij parsen "
+"in de vertaalbewerker weer."
 
 #: changes.rst:94
 msgid ""
 "Screenshot searches without an explicit field now match screenshot names "
 "only, and the search box links to the full screenshot search documentation."
 msgstr ""
+"Zoekacties naar schermafdrukken zonder een expliciet veld komen nu alleen "
+"overeen met namen van schermafdrukken en het zoekvak linkt naar de volledige "
+"documentatie voor het zoeken naar schermafdrukken."
 
 #: changes.rst:95
 msgid ""
 "Anonymous and internal bot accounts can no longer be edited through generic "
 "user management."
 msgstr ""
+"Anonieme en interne bot-accounts kunnen niet langer worden bewerkt via het "
+"algemene gebruikersbeheer."
 
 #: changes.rst:96
 msgid ""
 "LLM machine translation suggestions now recover from more malformed "
 "structured JSON replies."
 msgstr ""
+"Suggesties van LLM-machinevertaling herstellen nu uit meer misvormde "
+"gestructureerde antwoorden van JSON."
 
 #: changes.rst:97
 msgid ""
 "Azure AI Translator settings now reject malformed region names before "
 "validating service connectivity."
 msgstr ""
+"Instellingen van Azure AI Translator negeren nu misvormde regionamen voordat "
+"connectiviteit met de service wordt gevalideerd."
 
 #: changes.rst:103
 msgid ""
@@ -23761,6 +23894,11 @@ msgid ""
 "user has sufficient privileges. Installations using a non-superuser database "
 "user should pre-create it before upgrading; see :ref:`dbsetup-postgres`."
 msgstr ""
+"Weblate vereist nu de extensie van PostgreSQL ``btree_gist`` voor zoekacties "
+"in vertaalgeheugens. De migratie installeert die automatisch als de "
+"gebruiker van de database voldoende rechten heeft. Installaties die een niet-"
+"superuser-databasegebruiker gebruiken zouden die voor het upgraden moeten "
+"maken; bekijk :ref:`dbsetup-postgres`."
 
 #: changes.rst:109
 #, fuzzy
@@ -23790,6 +23928,9 @@ msgid ""
 "accelerator` quality checks for :ref:`mdx` JSX expressions, source length "
 "limits, and accelerator key consistency."
 msgstr ""
+"Toegevoegd :ref:`check-safe-mdx`, :ref:`check-source-max-length` en "
+":ref:`check-accelerator` kwaliteitscontroles voor :ref:`mdx` JSX-expressies, "
+"limieten voor lengte van bronnen en consistentie voor acceleratortoetsen."
 
 #: changes.rst:119
 msgid ""
@@ -23804,6 +23945,8 @@ msgid ""
 "Added :ref:`code-hosting-github-app-register` for connecting GitHub "
 "repositories through a Weblate GitHub App."
 msgstr ""
+"Toegevoegd :ref:`code-hosting-github-app-register` voor verbinden van GitHub-"
+"opslagruimten via een Weblate GitHub-app."
 
 #: changes.rst:121
 msgid ""
@@ -23826,12 +23969,16 @@ msgstr ""
 #: changes.rst:123
 msgid "Added an option to capitalize the text in status badge widgets."
 msgstr ""
+"Een optie toegevoegd om van de tekst van widgets voor statusbadge "
+"hoofdletters te maken."
 
 #: changes.rst:124
 msgid ""
 "Added :ref:`workspace translation memory <memory-scopes>` with asynchronous "
 "scope backfill for existing translation memory entries."
 msgstr ""
+"Toegevoegd :ref:`werkruimte vertaalgeheugen <memory-scopes>` met asynchroon "
+"bereik voor opvullen voor bestaande items van het vertaalgeheugen."
 
 #: changes.rst:125
 msgid ""
@@ -23847,6 +23994,9 @@ msgid ""
 "RTL editing and translation display now handle bidirectional text better, "
 "including Unicode isolate controls in the :ref:`visual-keyboard`."
 msgstr ""
+"Bewerken RTL en weergave vertaling handelen nu bidirectionele tekst beter "
+"af, inclusief Unicode isoleren van besturingselementen in het :ref:`visual-"
+"keyboard`."
 
 #: changes.rst:130
 msgid ""
@@ -23970,6 +24120,9 @@ msgid ""
 "Zen mode, filtered searches, nearby strings, translation form submissions, "
 "and add-on management pages now load more efficiently on large sites."
 msgstr ""
+"Zen-modus, gefilterde zoekacties, nabijgelegen tekenreeksen, indieningen van "
+"vertaalformulieren en beheerspagina's van add-ons laden nu efficiënter op "
+"grote sites."
 
 #: changes.rst:142
 msgid ""
@@ -24051,6 +24204,9 @@ msgid ""
 ":ref:`manage-performance` now shows PostgreSQL database disk usage next to "
 "server disk usage and warns when the database usage cannot be collected."
 msgstr ""
+":ref:`manage-performance` geeft nu het schijfverbruik van de PostgreSQL-"
+"database weer naast het serverschijfverbruik en waarschuwt als het "
+"databaseverbruik niet kan worden verzameld."
 
 #: changes.rst:151
 msgid ""
