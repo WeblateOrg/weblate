@@ -32,7 +32,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-16 09:09+0000\n"
+"PO-Revision-Date: 2026-07-16 10:07+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -16896,7 +16896,7 @@ msgstr "有新贡献者加入"
 
 #: weblate/trans/actions.py:290
 msgid "An announcement was posted."
-msgstr "发布了一则公告"
+msgstr "发布了一则公告。"
 
 #: weblate/trans/actions.py:291
 msgid "Announcement posted"
@@ -20176,12 +20176,10 @@ msgid "Contribute to workspace translation memory"
 msgstr "给工作区翻译记忆库作贡献"
 
 #: weblate/trans/models/project.py:297
-#, fuzzy
-#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
 "Contributes translations to the pool shared between projects in the "
 "workspace."
-msgstr "贡献到翻译池中以在不同项目之间共享翻译。"
+msgstr "向工作区内项目间共享的译文池贡献翻译。"
 
 #: weblate/trans/models/project.py:304
 msgid ""
@@ -20344,16 +20342,12 @@ msgid "No unused strings were found in the translation file."
 msgstr "翻译文件中没找到未使用的字符串。"
 
 #: weblate/trans/models/translation.py:996
-#, fuzzy
-#| msgid "Removing duplicate strings is not supported for this file format."
 msgid "Removing obsolete strings is not supported for this file format."
-msgstr "此文件格式不支持删除重复字符串。"
+msgstr "此文件格式不支持删除过时的字符串。"
 
 #: weblate/trans/models/translation.py:1003
-#, fuzzy
-#| msgid "No unused strings were found in the translation file."
 msgid "No obsolete strings were found in the translation file."
-msgstr "翻译文件中没找到未使用的字符串。"
+msgstr "在翻译文件中没找到过时的字符串。"
 
 #: weblate/trans/models/translation.py:1627
 msgid "“{}”"
@@ -21216,10 +21210,8 @@ msgid "Unused strings have been removed from the translation file."
 msgstr "已经从翻译文件删除了未使用的字符串。"
 
 #: weblate/trans/views/git.py:256
-#, fuzzy
-#| msgid "Unused strings have been removed from the translation file."
 msgid "Obsolete strings have been removed from the translation file."
-msgstr "已经从翻译文件删除了未使用的字符串。"
+msgstr "已经从翻译文件中删除了陈旧的字符串。"
 
 #: weblate/trans/views/git.py:273
 msgid "Pending translations are being committed."
@@ -21430,11 +21422,9 @@ msgid "Horizontal language bar chart"
 msgstr "水平语言条形图"
 
 #: weblate/trans/widgets.py:593
-#, fuzzy
-#| msgid "Languages processing"
 msgctxt "Status widget name"
 msgid "Language progress matrix"
-msgstr "语言处理"
+msgstr "语言进度矩阵"
 
 #. Translators: status widget name
 #: weblate/trans/widgets.py:764
@@ -21620,16 +21610,12 @@ msgid "More possible users were found."
 msgstr "发现了更多可能的用户。"
 
 #: weblate/utils/forms.py:314
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with comments by me"
-msgstr "带有评论的字符串"
+msgstr "带有我所写评论的字符串"
 
 #: weblate/utils/forms.py:319
-#, fuzzy
-#| msgid "Strings with source comments"
 msgid "Strings with source comments by me"
-msgstr "带有源文件注释的字符串"
+msgstr "带有我所写原文注释的字符串"
 
 #: weblate/utils/outbound.py:148 weblate/utils/outbound.py:197
 #: weblate/utils/outbound.py:209 weblate/utils/outbound.py:219
@@ -21935,10 +21921,6 @@ msgid ""
 msgstr "配置文件 URL 应链接到个人资料页面，而不是直接下载文件。"
 
 #: weblate/utils/validators.py:711
-#, fuzzy
-#| msgid ""
-#| "Code site URL should link to a user profile or repository page on a code "
-#| "hosting site."
 msgid ""
 "Code site URL should link to a user profile or repository page on a code-"
 "hosting site."
@@ -22049,10 +22031,8 @@ msgid "This will push changes to the upstream repository."
 msgstr "这会推送更改到上游仓库。"
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1103
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid GitHub host."
-msgstr "输入有效的语言代码。"
+msgstr "输入有效的 GitHub 主机。"
 
 #: weblate/vcs/forms.py:63
 msgid ""
@@ -22106,10 +22086,9 @@ msgid "This will push changes to the upstream Git repository."
 msgstr "这会推送更改到上游 Git 仓库。"
 
 #: weblate/vcs/git.py:323
-#, fuzzy, python-format
-#| msgid "Repository branch is required for this integration."
+#, python-format
 msgid "Repository has an interrupted Git %(operation)s operation."
-msgstr "此集成一定要有仓库分支。"
+msgstr "仓库有一个被中断的 Git %(operation)s 操作。"
 
 #: weblate/vcs/git.py:343
 #, python-format
@@ -22117,10 +22096,9 @@ msgid "Unsupported interrupted Git operation: %(operation)s"
 msgstr ""
 
 #: weblate/vcs/git.py:357
-#, fuzzy, python-format
-#| msgid "Could not obtain the lock to perform the operation."
+#, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
-msgstr "无法获取锁来执行此操作。"
+msgstr "无法恢复被中断的 Git %(operation)s 操作。"
 
 #: weblate/vcs/git.py:526
 msgid ""
@@ -22298,10 +22276,8 @@ msgid ""
 msgstr "无法从这个工作区的已连接 GitHub 账户获取仓库。"
 
 #: weblate/vcs/github.py:993
-#, fuzzy
-#| msgid "GitHub installation ID"
 msgid "Invalid GitHub App installation ID."
-msgstr "GitHub 安装 ID"
+msgstr "无效的 GitHub 应用安装 ID。"
 
 #: weblate/vcs/github.py:996
 #, python-format
@@ -22449,14 +22425,10 @@ msgid ""
 msgstr "删除了 %(host)s 指纹为 %(fingerprint)s 的主机密钥 (%(keytype)s)。"
 
 #: weblate/vcs/views.py:103
-#, fuzzy
-#| msgid ""
-#| "Select a project with a workspace before connecting a GitHub account. "
-#| "GitHub accounts are connected to workspaces."
 msgid ""
 "Create a workspace before connecting a GitHub account. GitHub App "
 "connections are linked to workspaces."
-msgstr "连接 GitHub 账户前选择有工作区的账户。GitHub 账户与工作区相连接。"
+msgstr "连接 GitHub 账户前创建一个工作区。GitHub 应用连接与工作区链接。"
 
 #: weblate/vcs/views.py:489
 #, python-format
@@ -22511,10 +22483,8 @@ msgid "You do not have permission to connect GitHub to this workspace."
 msgstr "你无权连接 GitHub 到此工作区。"
 
 #: weblate/vcs/views.py:730
-#, fuzzy
-#| msgid "GitHub did not return an installation ID."
 msgid "GitHub did not return a valid installation ID."
-msgstr "Github 未返回安装ID。"
+msgstr "Github 未返回有效的安装ID。"
 
 #: weblate/vcs/views.py:754
 msgid ""
@@ -22532,15 +22502,13 @@ msgstr ""
 "GitHub 用户再次启动安装。"
 
 #: weblate/vcs/views.py:795
-#, fuzzy
-#| msgid ""
-#| "GitHub is still syncing the connected account. The repositories will "
-#| "appear here once the webhook is processed."
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
 "pending and repositories might not appear yet. Try connecting the account "
 "again later if they do not show up."
-msgstr "GitHub 仍在同步已连接的账户。处理好 webhook 后仓库会出现在这里。"
+msgstr ""
+"GitHub 仍在同步已连接的 GitHub 账户。连接尚待处理且仓库可能还没出现。如果这些"
+"仓库没出现，请试着稍后再次连接该账户。"
 
 #: weblate/vcs/views.py:809
 msgid ""
@@ -22553,10 +22521,8 @@ msgid "Connected GitHub account added."
 msgstr "添加了连接的 GitHub 账户。"
 
 #: weblate/vcs/views.py:1134
-#, fuzzy
-#| msgid "Enter a valid domain name or IP address."
 msgid "Enter a valid GitHub App name and host."
-msgstr "输入有效域名或 IP 地址。"
+msgstr "输入有效的 GitHub 应用名和主机。"
 
 #: weblate/vcs/views.py:1145
 #, python-format
@@ -22568,10 +22534,8 @@ msgstr ""
 "删掉它。"
 
 #: weblate/vcs/views.py:1195
-#, fuzzy
-#| msgid "GitHub did not return a registration code."
 msgid "GitHub did not return a valid registration code."
-msgstr "GitHub 未返回注册码。"
+msgstr "GitHub 未返回有效的注册码。"
 
 #: weblate/vcs/views.py:1208
 msgid ""
@@ -22764,14 +22728,10 @@ msgid "Weblate status"
 msgstr "Weblate 状态"
 
 #: weblate/wladmin/views.py:178
-#, fuzzy
-#| msgid ""
-#| "Please change SITE_TITLE in settings to make your Weblate easy to "
-#| "recognize in discover."
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in Discover Weblate."
-msgstr "请在设置中更改 SITE_TITLE 让你的 Weblate 在”发现“中容易被识别。"
+msgstr "请在设置中更改 SITE_TITLE 让你的 Weblate 在”发现 Weblate“中容易被认出。"
 
 #: weblate/wladmin/views.py:248
 msgid "Customer care ticket created:"
@@ -22793,22 +22753,16 @@ msgid ""
 msgstr ""
 
 #: weblate/wladmin/views.py:375
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate your installation. Invalid activation state."
-msgstr "无法激活您的安装。请稍后重试。"
+msgstr "无法激活您的安装。激活状态无效。"
 
 #: weblate/wladmin/views.py:381
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate your installation. Missing activation code."
-msgstr "无法激活您的安装。请稍后重试。"
+msgstr "无法激活您的安装。没有激活码。"
 
 #: weblate/wladmin/views.py:387
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate your installation. Invalid activation code."
-msgstr "无法激活您的安装。请稍后重试。"
+msgstr "无法激活您的安装。激活码无效。"
 
 #: weblate/wladmin/views.py:407 weblate/wladmin/views.py:413
 #: weblate/wladmin/views.py:471 weblate/wladmin/views.py:482
@@ -22874,19 +22828,15 @@ msgid "Whether Weblate can update the name automatically."
 msgstr "Weblate 是否能自动更新名称。"
 
 #: weblate/workspaces/models.py:96
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid ""
 "Uses the pool of shared translations between projects in this workspace."
-msgstr "使用翻译池以在不同项目之间共享翻译。"
+msgstr "使用工作区内项目间共享译文池。"
 
 #: weblate/workspaces/models.py:103
-#, fuzzy
-#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
 "Contributes translations to the pool shared between projects in this "
 "workspace."
-msgstr "贡献到翻译池中以在不同项目之间共享翻译。"
+msgstr "向工作区内项目间共享的译文池贡献翻译。"
 
 #: weblate/workspaces/models.py:118
 msgid ""
