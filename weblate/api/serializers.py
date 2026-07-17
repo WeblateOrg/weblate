@@ -32,7 +32,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.reverse import reverse
 
-from weblate.accounts.models import Subscription
+from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.utils import get_all_user_mails
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
@@ -720,7 +720,222 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
         return super().get_value(dictionary)
 
 
-class FullUserSerializer(serializers.ModelSerializer[User]):
+PROFILE_READONLY_FIELDS = (
+    "suggested",
+    "translated",
+    "uploaded",
+    "commented",
+    "last_2fa",
+    # fields below can be edited via custom logic
+    "languages",
+    "secondary_languages",
+    "watched",
+    "dashboard_component_list",
+)
+
+PROFILE_M2M_FIELDS: ClassVar[dict[str, tuple[type[Model], str]]] = {
+    "languages": (Language, "code"),
+    "secondary_languages": (Language, "code"),
+    "watched": (Project, "slug"),
+}
+
+
+class ProfileSerializer(serializers.ModelSerializer[Profile]):
+    languages = serializers.HyperlinkedIdentityField(
+        view_name="api:language-detail",
+        lookup_field="code",
+        many=True,
+        read_only=True,
+    )
+    secondary_languages = serializers.HyperlinkedIdentityField(
+        view_name="api:language-detail",
+        lookup_field="code",
+        many=True,
+        read_only=True,
+    )
+    watched = serializers.HyperlinkedIdentityField(
+        view_name="api:project-detail",
+        lookup_field="slug",
+        many=True,
+        read_only=True,
+    )
+    dashboard_component_list = serializers.HyperlinkedRelatedField(
+        view_name="api:componentlist-detail",
+        lookup_field="slug",
+        read_only=True,
+        allow_null=True,
+    )
+
+    class Meta:
+        model = Profile
+        fields = (
+            "language",
+            "languages",
+            "secondary_languages",
+            "suggested",
+            "translated",
+            "uploaded",
+            "commented",
+            "theme",
+            "hide_completed",
+            "secondary_in_zen",
+            "hide_source_secondary",
+            "editor_link",
+            "translate_mode",
+            "zen_mode",
+            "special_chars",
+            "nearby_strings",
+            "auto_watch",
+            "contribute_personal_tm",
+            "dashboard_component_list",
+            "watched",
+            "website",
+            "contact",
+            "liberapay",
+            "fediverse",
+            "codesite",
+            "github",
+            "twitter",
+            "linkedin",
+            "location",
+            "company",
+            "public_email",
+            "commit_email",
+            "commit_name",
+            "last_2fa",
+        )
+        read_only_fields = PROFILE_READONLY_FIELDS
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        if isinstance(self.initial_data, dict):
+            self._validate_m2m_fields()
+            if "dashboard_component_list" in self.initial_data:
+                self._validate_dashboard_component_list(
+                    self.initial_data["dashboard_component_list"]
+                )
+        return attrs
+
+    def _validate_dashboard_component_list(self, value: str | None) -> None:
+        if value is None:
+            return
+        if not isinstance(value, str):
+            raise serializers.ValidationError(
+                gettext_lazy("Expected a string or null.")
+            )
+        try:
+            component_list = ComponentList.objects.get(slug=value)
+            if component_list not in self.instance.allowed_dashboard_component_lists:
+                raise serializers.ValidationError(
+                    gettext_lazy("Invalid value: %(value)s") % {"value": value}
+                )
+        except ComponentList.DoesNotExist as e:
+            raise serializers.ValidationError(
+                gettext_lazy("Invalid value: %(value)s") % {"value": value}
+            ) from e
+
+    def _validate_m2m_fields(self) -> None:
+        errors: dict[str, Any] = {}
+        for field, (model, lookup) in PROFILE_M2M_FIELDS.items():
+            if field not in self.initial_data:
+                continue
+            values = self.initial_data[field]
+            if values is None:
+                continue
+            if not isinstance(values, list) or not all(
+                isinstance(value, str) for value in values
+            ):
+                errors[field] = gettext_lazy("Expected a list of items.")
+                continue
+            found = set(
+                model.objects.filter(**{f"{lookup}__in": values}).values_list(
+                    lookup, flat=True
+                )
+            )
+            missing = sorted(set(values) - found)
+            if missing:
+                errors[field] = gettext_lazy("Invalid value: %(value)s") % {
+                    "value": ", ".join(missing)
+                }
+                continue
+
+            if field == "watched" and (request := self.context.get("request")):
+                allowed = set(
+                    request.user.allowed_projects.filter(slug__in=values).values_list(
+                        "slug", flat=True
+                    )
+                )
+                disallowed = sorted(set(values) - allowed)
+                if disallowed:
+                    errors[field] = gettext_lazy("Invalid value: %(value)s") % {
+                        "value": ", ".join(disallowed)
+                    }
+        if errors:
+            raise serializers.ValidationError(errors)
+
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+        if isinstance(self.initial_data, dict):
+            for field, (model, lookup) in PROFILE_M2M_FIELDS.items():
+                if field not in self.initial_data:
+                    continue
+                values = self.initial_data[field]
+                relation = getattr(instance, field)
+                if values is None:
+                    relation.clear()
+                else:
+                    relation.set(model.objects.filter(**{f"{lookup}__in": values}))
+            if "dashboard_component_list" in self.initial_data:
+                dashboard_cl = self.initial_data["dashboard_component_list"]
+                if dashboard_cl is None:
+                    instance.dashboard_component_list = None
+                else:
+                    instance.dashboard_component_list = ComponentList.objects.get(
+                        slug=dashboard_cl
+                    )
+                instance.save(update_fields=["dashboard_component_list"])
+        return instance
+
+
+def update_user_profile(
+    user: User,
+    profile_data: dict[str, Any],
+    context: dict[str, Any],
+) -> None:
+    profile_serializer = ProfileSerializer(
+        user.profile,
+        data=profile_data,
+        partial=True,
+        context=context,
+    )
+    profile_serializer.is_valid(raise_exception=True)
+    profile_serializer.save()
+
+
+class ProfileUpdateMixin:
+    profile_field = "profile"
+
+    def get_profile_update_data(self) -> dict[str, Any] | None:
+        initial_data = getattr(self, "initial_data", None)
+        if not isinstance(initial_data, dict):
+            return None
+        profile_data = initial_data.get(self.profile_field)
+        if profile_data is None:
+            return None
+        if not isinstance(profile_data, dict):
+            msg = "Expected an object."
+            raise serializers.ValidationError({self.profile_field: msg})
+        return profile_data
+
+    def update(self, instance, validated_data):
+        profile_data = self.get_profile_update_data()
+        instance = super().update(instance, validated_data)
+        if profile_data is not None:
+            update_user_profile(instance, profile_data, self.context)
+        return instance
+
+
+class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
     privileged_fields = (
         "groups",
         "is_superuser",
@@ -734,6 +949,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
         many=True,
         read_only=True,
     )
+    # Deprecated: use profile.languages. Kept for compatibility; remove in a future release.
     languages = serializers.HyperlinkedIdentityField(
         view_name="api:language-detail",
         lookup_field="code",
@@ -741,6 +957,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
         many=True,
         read_only=True,
     )
+    profile = ProfileSerializer(read_only=True)
     notifications = serializers.HyperlinkedIdentityField(
         view_name="api:user-notifications",
         lookup_field="username",
@@ -774,6 +991,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
             "username",
             "groups",
             "languages",
+            "profile",
             "notifications",
             "is_superuser",
             "is_active",
@@ -795,7 +1013,8 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
         }
 
 
-class SelfUserSerializer(serializers.ModelSerializer[User]):
+class SelfUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
+    profile = ProfileSerializer(read_only=True)
     def validate_email(self, value: str | None) -> str | None:
         if self.instance is not None:
             if value is None and self.instance.email is None:
@@ -816,6 +1035,7 @@ class SelfUserSerializer(serializers.ModelSerializer[User]):
             "email",
             "full_name",
             "username",
+            "profile",
         )
         read_only_fields = (
             "id",

@@ -29,7 +29,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
-from weblate.accounts.models import Subscription, VerifiedEmail
+from weblate.accounts.models import Profile, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
@@ -239,6 +239,13 @@ class UserAPITest(APIBaseTest):
 
     def test_get(self) -> None:
         language = Language.objects.get(code="cs")
+        profile = self.user.profile
+        profile.website = "https://example.com/"
+        profile.contact = "https://signal.me/#eu/example"
+        profile.commit_email = "commit@example.org"
+        profile.theme = "dark"
+        profile.save()
+        language_url = f"http://example.com/api/languages/{language.code}/"
         response = self.do_request(
             "api:user-detail",
             kwargs={"username": "apitest"},
@@ -247,10 +254,14 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
-        self.assertIn(
-            f"http://example.com/api/languages/{language.code}/",
-            response.data["languages"],
-        )
+        self.assertIn(language_url, response.data["languages"])
+        self.assertIn("profile", response.data)
+        self.assertEqual(response.data["profile"]["website"], profile.website)
+        self.assertEqual(response.data["profile"]["contact"], profile.contact)
+        self.assertEqual(response.data["profile"]["commit_email"], profile.commit_email)
+        self.assertEqual(response.data["profile"]["theme"], profile.theme)
+        self.assertIn(language_url, response.data["profile"]["languages"])
+        self.assertIn("last_2fa", response.data["profile"])
 
         # user without permission can only see basic information
         response = self.do_request(
@@ -261,6 +272,7 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertNotIn("languages", response.data)
+        self.assertNotIn("profile", response.data)
 
         # user with right permission can see detailed information
         self.grant_perm_to_user("user.view")
@@ -272,10 +284,10 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
-        self.assertIn(
-            f"http://example.com/api/languages/{language.code}/",
-            response.data["languages"],
-        )
+        self.assertIn(language_url, response.data["languages"])
+        self.assertIn("profile", response.data)
+        self.assertEqual(response.data["profile"]["website"], profile.website)
+        self.assertIn(language_url, response.data["profile"]["languages"])
 
     def test_get_anonymous(self) -> None:
         # User info not accessible without auth
@@ -316,6 +328,7 @@ class UserAPITest(APIBaseTest):
                 "id",
                 "groups",
                 "languages",
+                "profile",
                 "notifications",
                 "date_joined",
                 "url",
@@ -1041,6 +1054,39 @@ class UserAPITest(APIBaseTest):
         )
         self.assertFalse(User.objects.filter(username="apitest2").exists())
 
+        en_language = Language.objects.get(code="en")
+
+        # User can update own profile fields via PUT
+        self.assertFalse(self.user.profile.secondary_languages.exists())
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="put",
+            code=200,
+            format="json",
+            request={
+                "full_name": "Name",
+                "username": "apitest",
+                "email": "apitest@example.org",
+                "profile": {
+                    "language": "en",
+                    "secondary_languages": [en_language.code],
+                    "theme": "dark",
+                    "commit_name": Profile.CommitNameChoices.PUBLIC,
+                },
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.language, "en")
+        self.assertEqual(self.user.profile.theme, "dark")
+        self.assertEqual(
+            self.user.profile.commit_name, Profile.CommitNameChoices.PUBLIC
+        )
+        self.assertEqual(
+            list(self.user.profile.secondary_languages.values_list("code", flat=True)),
+            [en_language.code],
+        )
+
     def test_put_self_without_user_view_keeps_email(self) -> None:
         self.do_request(
             "api:user-detail",
@@ -1161,6 +1207,88 @@ class UserAPITest(APIBaseTest):
             User.objects.get(username=settings.ANONYMOUS_USER_NAME).full_name,
             "Anonymous",
         )
+
+        # User can update own profile fields via PATCH
+        en_language = Language.objects.get(code="en")
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "profile": {
+                    "theme": "light",
+                    "company": "Weblate",
+                    "secondary_languages": [en_language.code],
+                    "translate_mode": Profile.TRANSLATE_ZEN,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.theme, "light")
+        self.assertEqual(self.user.profile.company, "Weblate")
+        self.assertEqual(
+            list(self.user.profile.secondary_languages.values_list("code", flat=True)),
+            [en_language.code],
+        )
+        self.assertEqual(self.user.profile.translate_mode, Profile.TRANSLATE_ZEN)
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "profile": {
+                    "secondary_languages": None,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(
+            list(self.user.profile.secondary_languages.values_list("code", flat=True)),
+            [],
+        )
+
+        # invalid profile m2m fields update
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "profile": {
+                    "languages": ["unknown"],
+                },
+            },
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "profile": {
+                    "languages": "not-a-list",
+                }
+            },
+        )
+
+        # Read-only profile statistics are ignored on PATCH
+        original_translated = self.user.profile.translated
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={"profile": {"translated": 9999}},
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.translated, original_translated)
 
     def test_protected_bot_mutation(self) -> None:
         protected_bot = User.objects.create(
@@ -1326,6 +1454,140 @@ class UserAPITest(APIBaseTest):
         )
         self.user.refresh_from_db()
         self.assertIsNone(self.user.date_expires)
+
+    def test_patch_profile(self) -> None:
+        other_user = User.objects.create_user("other_profile", "other@example.org", "x")
+        original_translated = other_user.profile.translated
+        cs_language = Language.objects.get(code="cs")
+        en_language = Language.objects.get(code="en")
+
+        def user_details_kwargs(**kwargs):
+            return {
+                "name": "api:user-detail",
+                "kwargs": {"username": self.user.username},
+                "method": "patch",
+                "code": 200,
+                "format": "json",
+            } | kwargs
+
+        # User can update own profile fields via PATCH
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "theme": "dark",
+                    "location": "Prague",
+                    "languages": [cs_language.code],
+                    "secondary_languages": [en_language.code],
+                    "nearby_strings": 5,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.theme, "dark")
+        self.assertEqual(self.user.profile.location, "Prague")
+        self.assertEqual(self.user.profile.nearby_strings, 5)
+        self.assertEqual(
+            list(self.user.profile.languages.values_list("code", flat=True)),
+            [cs_language.code],
+        )
+        self.assertEqual(
+            list(self.user.profile.secondary_languages.values_list("code", flat=True)),
+            [en_language.code],
+        )
+
+        # invalid dashboard component list update
+        self.do_request(
+            **user_details_kwargs(code=400),
+            request={
+                "profile": {
+                    "dashboard_component_list": 1,
+                }
+            },
+        )
+        self.do_request(
+            **user_details_kwargs(code=400),
+            request={
+                "profile": {
+                    "dashboard_component_list": "not-existing-component-list",
+                }
+            },
+        )
+        self.do_request(
+            **user_details_kwargs(code=400),
+            request={
+                "profile": {
+                    "dashboard_component_list": ComponentList.objects.create(
+                        name="external", slug="external-cl"
+                    ).slug,
+                }
+            },
+        )
+
+        # valid dashboard component list update
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "dashboard_component_list": None,
+                }
+            },
+        )
+        self.assertIsNone(self.user.profile.dashboard_component_list)
+        clist = ComponentList.objects.create(name="Dashboard CL", slug="dashboard-cl")
+        clist.components.add(self.component)
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "dashboard_component_list": clist.slug,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.dashboard_component_list, clist)
+
+        # User cannot update read-only profile statistics
+        self.do_request(
+            **user_details_kwargs(),
+            request={"profile": {"translated": 9999}},
+        )
+        self.user.profile.refresh_from_db()
+        self.assertNotEqual(self.user.profile.translated, 9999)
+
+        # Superuser can update another user's profile
+        self.do_request(
+            **user_details_kwargs(kwargs={"username": other_user.username}),
+            superuser=True,
+            request={
+                "profile": {
+                    "theme": "dark",
+                    "location": "Berlin",
+                    "secondary_languages": [cs_language.code],
+                    "watched": [self.project.slug],
+                }
+            },
+        )
+        other_user.profile.refresh_from_db()
+        self.assertEqual(other_user.profile.theme, "dark")
+        self.assertEqual(other_user.profile.location, "Berlin")
+        self.assertEqual(
+            list(other_user.profile.secondary_languages.values_list("code", flat=True)),
+            [cs_language.code],
+        )
+        self.assertEqual(
+            list(other_user.profile.watched.values_list("slug", flat=True)),
+            [self.project.slug],
+        )
+        self.assertEqual(other_user.profile.translated, original_translated)
+
+        # Regular user cannot update another user's profile
+        self.do_request(
+            **user_details_kwargs(kwargs={"username": other_user.username}, code=403),
+            request={"profile": {"theme": "light"}},
+        )
+        other_user.profile.refresh_from_db()
+        self.assertEqual(other_user.profile.theme, "dark")
 
 
 class GroupAPITest(APIBaseTest):

@@ -816,7 +816,13 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = User.objects.order_by("id")
         if not user.has_perm("user.edit") and not user.has_perm("user.view"):
             return queryset
-        return queryset.prefetch_related("groups", "profile", "profile__languages")
+        return queryset.prefetch_related(
+            "groups",
+            "profile",
+            "profile__languages",
+            "profile__secondary_languages",
+            "profile__watched",
+        ).select_related("profile__dashboard_component_list")
 
     def list(self, request, *args, **kwargs):
         """
