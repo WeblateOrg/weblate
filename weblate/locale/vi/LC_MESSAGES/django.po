@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-17 08:38+0000\n"
+"PO-Revision-Date: 2026-07-17 16:52+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -1468,8 +1468,8 @@ msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
-"Khoảng thời gian thử nghiệm của bạn hiện đang hoạt động; tạo dự án dịch "
-"thuật của bạn và bắt đầu Weblate!"
+"Thời gian dùng thử của bạn hiện đã bắt đầu; tạo dự án dịch thuật của bạn và "
+"bắt đầu Weblate!"
 
 #: weblate/accounts/views.py:747 weblate/templates/accounts/hosting.html:62
 #: weblate/templates/accounts/trial.html:7
@@ -1477,10 +1477,8 @@ msgid "Gratis trial"
 msgstr "Dùng thử miễn phí"
 
 #: weblate/accounts/views.py:791 weblate/api/views.py:764
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "This user can not be edited."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Người dùng này không thể chỉnh sửa."
 
 #: weblate/accounts/views.py:819
 #, python-format
@@ -1905,10 +1903,8 @@ msgid "configured"
 msgstr "đã cấu hình"
 
 #: weblate/addons/fedora_messaging.py:611
-#, fuzzy
-#| msgid "Fedora Messaging publish failed: %(error)s"
 msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Quá trình xuất bản tin nhắn Fedora thất bại: %(error)s"
+msgstr "Không thể đặt lại dịch vụ xuất bản tin nhắn Fedora."
 
 #: weblate/addons/fedora_messaging.py:701
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2798,10 +2794,8 @@ msgid "How many seconds to wait between connection attempts."
 msgstr ""
 
 #: weblate/addons/forms.py:1755
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "Chuỗi chứa ký tự điều khiển: %s"
+msgstr "Tiền tố chủ đề chỉ có thể chứa các ký tự ASCII."
 
 #: weblate/addons/forms.py:1760
 #, python-format
@@ -3155,11 +3149,8 @@ msgid "The API request rate limit was exceeded."
 msgstr ""
 
 #: weblate/api/docs.py:67
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "Đã xảy ra lỗi phân tích cú pháp"
+msgstr "Đã xảy ra lỗi máy chủ không mong muốn."
 
 #: weblate/api/docs.py:238
 msgid ""
@@ -4426,10 +4417,8 @@ msgid "You do not have permission to approve translations."
 msgstr "Bạn không có quyền truy cập phần này."
 
 #: weblate/auth/permissions.py:434
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "You do not have permission to save translations in this project."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bạn không có quyền lưu bản dịch trong dự án này."
 
 #: weblate/auth/permissions.py:443 weblate/auth/permissions.py:922
 msgid "You do not have permission to edit source strings."
@@ -10746,10 +10735,8 @@ msgid "Keyboard shortcuts"
 msgstr "Phím tắt"
 
 #: weblate/templates/base.html:449
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Weblate project"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Dự án Weblate"
 
 #: weblate/templates/base.html:451
 msgid "Contribute"
@@ -15111,10 +15098,8 @@ msgid "Project approval"
 msgstr "Tiêu đề dự án"
 
 #: weblate/templates/snippets/libre-basic.html:23
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Việc sử dụng Weblate đã được dự án nguồn chấp thuận."
 
 #: weblate/templates/snippets/libre-basic.html:25
 msgid ""
@@ -16010,6 +15995,8 @@ msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
 msgstr ""
+"Nếu muốn dịch sang ngôn ngữ nguồn, vui lòng thay đổi ngôn ngữ nguồn trong "
+"cài đặt thành phần."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
@@ -20015,7 +20002,7 @@ msgstr "Thông báo bản dịch"
 
 #: weblate/trans/forms.py:726
 msgid "The source string has changed meanwhile. Please check your changes."
-msgstr ""
+msgstr "Chuỗi nguồn đã thay đổi. Vui lòng kiểm tra lại các thay đổi của bạn."
 
 #: weblate/trans/forms.py:737
 msgid ""
@@ -20637,6 +20624,8 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
+"Chọn tùy chọn này nếu câu văn nên giữ nguyên như trong ngôn ngữ gốc, không "
+"thay đổi."
 
 #: weblate/trans/forms.py:3990
 #, fuzzy
@@ -22032,7 +22021,7 @@ msgstr ""
 #: weblate/trans/models/component.py:5160
 msgid ""
 "Source language can not be changed, please recreate the component instead."
-msgstr ""
+msgstr "Ngôn ngữ nguồn không thể thay đổi, vui lòng tạo lại thành phần đó."
 
 #: weblate/trans/models/component.py:5175 weblate/trans/models/workflow.py:59
 msgid "Accepting suggestions automatically only works with voting turned on."
