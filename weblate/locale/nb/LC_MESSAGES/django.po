@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-16 12:05+0000\n"
+"PO-Revision-Date: 2026-07-17 08:38+0000\n"
 "Last-Translator: Frank Paul Silye <frankps@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -680,7 +680,7 @@ msgstr "Tofaktor-identitetsbekreftelse innlogging ved bruk av {device}"
 #: weblate/accounts/models.py:388
 #, fuzzy, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Tofaktor-identitetsbekreftelse innlogging ved bruk av {device}"
+msgstr "Tofaktorautentisering mislyktes med {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:404
@@ -774,10 +774,9 @@ msgid "Account activity"
 msgstr "Kontoaktivitet"
 
 #: weblate/accounts/models.py:631
-#, fuzzy, python-brace-format
-#| msgid "Invited to {project} by {username}."
+#, python-brace-format
 msgid "Triggered by {username}."
-msgstr "Invitert til {project} av {username}."
+msgstr "Utløst av {username}."
 
 #: weblate/accounts/models.py:740
 msgid "Interface Language"
@@ -1462,16 +1461,14 @@ msgid "Dark"
 msgstr "Mørk"
 
 #: weblate/accounts/utils.py:329
-#, fuzzy, python-format
-#| msgid "Security Policy"
+#, python-format
 msgid "Security key (%s)"
-msgstr "Sikkerhetspraksis"
+msgstr "Sikkerhetsnøkkel (%s)"
 
 #: weblate/accounts/utils.py:335
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication app (%s)"
-msgstr "Identitetsbekreftelse"
+msgstr "Autentiseringsapp (%s)"
 
 #: weblate/accounts/views.py:268 weblate/accounts/views.py:1404
 #: weblate/accounts/views.py:1496 weblate/templates/accounts/reset.html:7
@@ -1731,10 +1728,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "Det medfølgende brukernavnet er allerede i bruk på en annen konto."
 
 #: weblate/accounts/views.py:1933
-#, fuzzy, python-format
-#| msgid "Authentication"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Identitetsbekreftelse"
+msgstr "Autentisering feilet: %s"
 
 #: weblate/accounts/views.py:1943
 msgid "The supplied user identity is already in use for another account."
@@ -2223,10 +2219,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:238
-#, fuzzy
-#| msgid "Failed to add comment!"
 msgid "Do not extract comments"
-msgstr "Kunne ikke legge til kommentar!"
+msgstr "kke trekk ut kommentarer"
 
 #: weblate/addons/forms.py:239
 #, fuzzy
@@ -2284,10 +2278,8 @@ msgstr ""
 
 #: weblate/addons/forms.py:296 weblate/addons/forms.py:390
 #: weblate/addons/forms.py:397
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "This field is required."
-msgstr "Dette navnet er forbudt"
+msgstr "Dette feltet er obligatorisk."
 
 #: weblate/addons/forms.py:307
 #, fuzzy
@@ -2629,10 +2621,9 @@ msgid "format not preset"
 msgstr "Kodelagerleser"
 
 #: weblate/addons/forms.py:977
-#, fuzzy, python-format
-#| msgid "Monolingual base language file"
+#, python-format
 msgid "monolingual base: %(base)s"
-msgstr "Ettspråklig basis-språkfil"
+msgstr "monolingual base: %(base)s"
 
 #: weblate/addons/forms.py:980
 #, fuzzy
@@ -3228,9 +3219,8 @@ msgstr "for hele siden"
 #: weblate/addons/views.py:320 weblate/addons/views.py:323
 #: weblate/addons/views.py:453
 #, fuzzy, python-format
-#| msgid "Invalid add-on name specified!"
 msgid "Invalid add-on name: ”%s”"
-msgstr "Ugyldig tilleggsnavn angitt!"
+msgstr "Ugyldig utvidelsesnavn: \"%s\""
 
 #: weblate/addons/views.py:329
 #, fuzzy, python-format
@@ -3265,10 +3255,8 @@ msgid "Slack Webhooks"
 msgstr ""
 
 #: weblate/addons/webhooks.py:213
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Sends notification to a Slack channel based on selected events."
-msgstr "Send e-postinvitasjon til brukeren"
+msgstr "Sender varsler til en Slack-kanal basert på valgte hendelser."
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
@@ -3293,10 +3281,8 @@ msgid ""
 msgstr ""
 
 #: weblate/api/docs.py:52
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "Suksess (grønn)"
+msgstr "Vellykket respons."
 
 #: weblate/api/docs.py:53
 #, fuzzy
