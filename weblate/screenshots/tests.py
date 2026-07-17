@@ -629,6 +629,26 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(data["invalid"], 2)
         self.assertEqual(screenshot.units.count(), 0)
 
+    def test_source_bulk_updates_alerts_once(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        source_units = list(
+            self.component.source_translation.unit_set.order_by("pk")[:2]
+        )
+
+        with patch("weblate.screenshots.models.update_alerts") as update_alerts:
+            response = self.client.post(
+                reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
+                {"source": [unit.pk for unit in source_units]},
+            )
+
+        self.assertEqual(response.json()["added"], 2)
+        update_alerts.assert_called_once_with(
+            self.component,
+            alerts={"MissingScreenshots", "UnusedScreenshot"},
+        )
+
     def test_source_bulk_denied(self) -> None:
         self.make_manager()
         self.do_upload()
