@@ -1015,6 +1015,7 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
 
 class SelfUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
     profile = ProfileSerializer(read_only=True)
+
     def validate_email(self, value: str | None) -> str | None:
         if self.instance is not None:
             if value is None and self.instance.email is None:
