@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-16 10:07+0000\n"
+"PO-Revision-Date: 2026-07-17 08:38+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -1917,16 +1917,13 @@ msgid "Message ID: %(message_id)s"
 msgstr "Nachrichten-ID: %(message_id)s"
 
 #: weblate/addons/fedora_messaging.py:456
-#, fuzzy, python-format
-#| msgid ""
-#| "Fedora Messaging publish timed out; the broker did not confirm delivery: "
-#| "%(error)s"
+#, python-format
 msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
 msgstr ""
-"Zeitüberschreitung bei Fedora-Messaging-Veröffentlichung; der Broker hat die "
-"Zustellung nicht bestätigt: %(error)s"
+"Zeitüberschreitung bei Fedora-Messaging-Veröffentlichung; die Verbindung zum "
+"Broker oder die Zustellungsbestätigung wurde nicht abgeschlossen: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:460
 #, python-format
@@ -1957,10 +1954,8 @@ msgid "configured"
 msgstr "konfiguriert"
 
 #: weblate/addons/fedora_messaging.py:611
-#, fuzzy
-#| msgid "Fedora Messaging publish failed: %(error)s"
 msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Fedora-Messaging-Veröffentlichung fehlgeschlagen: %(error)s"
+msgstr "Fedora-Messaging-Publisher-Dienst konnte nicht zurückgesetzt werden."
 
 #: weblate/addons/fedora_messaging.py:701
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2134,10 +2129,8 @@ msgstr ""
 "aus, nachdem die POT-Datei aktualisiert wurde."
 
 #: weblate/addons/forms.py:184
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Ort der Ausgangszeichenkette"
+msgstr "Quellenorte"
 
 #: weblate/addons/forms.py:186
 msgid "Use file format settings"
@@ -2156,6 +2149,9 @@ msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Legt fest, wie die Extraktion Quellenorte in die POT-Datei schreibt. "
+"Verwenden Sie diese Option, um Orte in der Vorlage beizubehalten, sie jedoch "
+"in den übersetzten PO-Dateien wegzulassen."
 
 #: weblate/addons/forms.py:238
 msgid "Do not extract comments"
@@ -2796,11 +2792,12 @@ msgstr "Die AMQP-Broker-URL, mit dem eine Verbindung hergestellt werden soll."
 
 #: weblate/addons/forms.py:1655
 msgid "Topic prefix"
-msgstr ""
+msgstr "Themenpräfix"
 
 #: weblate/addons/forms.py:1657
 msgid "Optional prefix to prepend to generated message topics."
 msgstr ""
+"Optionales Präfix, das den generierten Nachrichtenthemen vorangestellt wird."
 
 #: weblate/addons/forms.py:1663
 msgid "CA certificate bundle (PEM)"
@@ -2867,15 +2864,13 @@ msgstr ""
 "Wie viele Sekunden zwischen den Verbindungsversuchen gewartet werden soll."
 
 #: weblate/addons/forms.py:1755
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "Die Zeichenkette enthält Steuerzeichen: %s"
+msgstr "Themenpräfix darf nur ASCII-Zeichen enthalten."
 
 #: weblate/addons/forms.py:1760
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "Themenpräfix darf nicht länger als %(limit)d Zeichen sein."
 
 #: weblate/addons/forms.py:1794
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3170,54 +3165,47 @@ msgstr ""
 "Präfix `wlp_`."
 
 #: weblate/api/docs.py:52
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "Erfolg (grün)"
+msgstr "Antwort erfolgreich."
 
 #: weblate/api/docs.py:53
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "Der Sicherheitsschlüssel wurde entfernt."
+msgstr "Die Ressource wurde erstellt."
 
 #: weblate/api/docs.py:54
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "Die Anfrage wurde zur asynchronen Verarbeitung angenommen."
 
 #: weblate/api/docs.py:55
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "Erfolgreiche Antwort ohne Antworttext."
 
 #: weblate/api/docs.py:56
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "Der Authentifizierungsanbieter konnte nicht erreicht werden."
+msgstr "Die Anfrage war ungültig oder konnte nicht analysiert werden."
 
 #: weblate/api/docs.py:57
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "Zugangsdaten fehlten oder waren ungültig."
 
 #: weblate/api/docs.py:59
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "Sie haben keine Berechtigung, auf diese Komponente zuzugreifen."
+msgstr ""
+"Der angemeldete Benutzer verfügt nicht über die Berechtigung für diesen "
+"Vorgang."
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
 msgstr ""
+"Die angeforderte Ressource wurde nicht gefunden oder ist nicht verfügbar."
 
 #: weblate/api/docs.py:62
 msgid "The HTTP method is not allowed for this resource."
-msgstr ""
+msgstr "Die HTTP-Methode ist für diese Ressource nicht zulässig."
 
 #: weblate/api/docs.py:63
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "Das eingegebene Token ist ungültig."
+msgstr "Der angeforderte Medientyp der Antwort ist nicht verfügbar."
 
 #: weblate/api/docs.py:64
 msgid "The request media type is not supported."
@@ -3229,7 +3217,7 @@ msgstr "Die Ressource ist gesperrt."
 
 #: weblate/api/docs.py:66
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "Die Obergrenze für API-Anfragen wurde überschritten."
 
 #: weblate/api/docs.py:67
 msgid "An unexpected server error occurred."
@@ -3239,6 +3227,8 @@ msgstr "Ein unerwarteter Serverfehler ist aufgetreten."
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
+"Nach Änderungsaktion filtern. Wiederholen Sie diesen Parameter, um nach "
+"mehreren Aktionen zu filtern."
 
 #: weblate/api/docs.py:423
 msgid "Allowed number of requests to perform"
@@ -3322,10 +3312,8 @@ msgid "You do not have permission to access this component."
 msgstr "Sie haben keine Berechtigung, auf diese Komponente zuzugreifen."
 
 #: weblate/api/serializers.py:1597 weblate/trans/forms.py:2259
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr "Sie haben keine Berechtigung, die Projektzugriffssteuerung zu ändern."
+msgstr "Sie haben keine Berechtigung, die Zugriffsbeschränkung zu ändern."
 
 #: weblate/api/serializers.py:2025 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -4315,10 +4303,9 @@ msgstr ""
 "verwendet."
 
 #: weblate/auth/models.py:530
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "Ungültige E-Mail-Adresse: {}"
+msgstr "Interne Bot-E-Mail-Adresse ist zu lang: %s"
 
 #: weblate/auth/models.py:796 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:269
@@ -4512,6 +4499,9 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"Diese Übersetzung ist so konfiguriert, dass über Übersetzungsvorschläge "
+"abgestimmt wird. Fügen Sie einen Vorschlag hinzu, statt eine direkte "
+"Übersetzung zu speichern."
 
 #: weblate/auth/permissions.py:463
 #: weblate/templates/snippets/project/state.html:4
@@ -4593,6 +4583,8 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Erstellen Sie die Komponente und gewähren Sie sich selbst expliziten "
+"Zugriff, bevor Sie den eingeschränkten Zugriff aktivieren."
 
 #: weblate/auth/permissions.py:1106
 msgid "The billing plan does not allow private access control."
@@ -4603,6 +4595,9 @@ msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"Sie benötigen expliziten Zugriff auf diese Komponente, bevor Sie den "
+"eingeschränkten Zugriff aktivieren; andernfalls würden Sie sich selbst "
+"aussperren."
 
 #: weblate/auth/utils.py:100
 msgid "The anonymous user can not be assigned to teams."
@@ -4653,6 +4648,8 @@ msgstr "Testphase zurücksetzen"
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"Stellen Sie diese Abrechnung auf die reguläre Testphase um und heben Sie die "
+"geplante Löschung auf."
 
 #: weblate/billing/models.py:236 weblate/templates/billing/list.html:6
 #: weblate/templates/trans/component_create.html:203
@@ -12280,6 +12277,8 @@ msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"Verwenden Sie dies, wenn veraltete Einträge entfernt werden sollen, ohne "
+"dass die automatische Löschung beim Speichern aktiviert ist."
 
 #: weblate/templates/js/git-status.html:271
 msgid "Use these operations with caution, they rewrite the translation file."
@@ -13463,12 +13462,16 @@ msgid ""
 "Discover Weblate helps translators find Weblate sites and projects to "
 "contribute to."
 msgstr ""
+"Weblate entdecken hilft Übersetzern dabei, Weblate-Seiten und -Projekte zu "
+"finden, zu denen sie beitragen können."
 
 #: weblate/templates/manage/index.html:119
 msgid ""
 "When enabled, weblate.org lists your site details and public or protected "
 "projects."
 msgstr ""
+"Wenn aktiviert, listet weblate.org die Details Ihrer Seite sowie Ihre "
+"öffentlichen oder geschützten Projekte auf."
 
 #: weblate/templates/manage/index.html:123
 msgid "Your Weblate is listed on weblate.org"
@@ -13535,33 +13538,27 @@ msgstr "Übersetzungsspeichermigration"
 
 #: weblate/templates/manage/performance.html:137
 msgid "Scope backfill"
-msgstr ""
+msgstr "Nachverarbeitungsbereich"
 
 #: weblate/templates/manage/performance.html:145
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory scope backfill"
-msgstr "Übersetzungsspeicherstatus"
+msgstr "Nachverarbeitung des Übersetzungsspeichers"
 
 #: weblate/templates/manage/performance.html:153
 msgid "Entries processed"
 msgstr "Einträge verarbeitet"
 
 #: weblate/templates/manage/performance.html:157
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate candidate scan"
-msgstr "Doppelte Übersetzung."
+msgstr "Prüfung auf Duplikate"
 
 #: weblate/templates/manage/performance.html:165
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory duplicate candidate scan"
-msgstr "Übersetzungsspeicherstatus"
+msgstr "Prüfung auf Duplikate im Übersetzungsspeicher"
 
 #: weblate/templates/manage/performance.html:173
 msgid "Candidate scan cursor"
-msgstr ""
+msgstr "Cursor fürs Scannen"
 
 #: weblate/templates/manage/performance.html:177
 msgid "Last update"
@@ -13581,13 +13578,11 @@ msgstr "Abgeschlossen"
 
 #: weblate/templates/manage/performance.html:194
 msgid "Scanning duplicate candidates"
-msgstr ""
+msgstr "Es wird auf Duplikate geprüft"
 
 #: weblate/templates/manage/performance.html:196
-#, fuzzy
-#| msgid "Billing owners"
 msgid "Backfilling scopes"
-msgstr "Rechnungssteller"
+msgstr "Bereiche werden nachverarbeitet"
 
 #: weblate/templates/manage/performance.html:209
 #: weblate/templates/manage/performance.html:224
@@ -14278,12 +14273,13 @@ msgid ""
 "Use query syntax; boolean operators like <code>AND</code>, <code>OR</code>, "
 "and <code>NOT</code> are case-insensitive."
 msgstr ""
+"Die Abfragesyntax verwenden; bei booleschen Operatoren wie <code>AND</code>, "
+"<code>OR</code> und <code>NOT</code> wird die Groß-/Kleinschreibung nicht "
+"berücksichtigt."
 
 #: weblate/templates/screenshots/screenshot_detail.html:88
-#, fuzzy
-#| msgid "View check documentation"
 msgid "Search query syntax documentation"
-msgstr "Dokumentationsprüfung anzeigen"
+msgstr "Dokumentation zur Syntax von Suchanfragen"
 
 #: weblate/templates/screenshots/screenshot_detail.html:96
 msgid "Suggests source strings by recognizing text in this screenshot."
@@ -14318,6 +14314,8 @@ msgid ""
 "Search screenshot names. Use field-specific queries for repository paths, "
 "languages, and assigned strings."
 msgstr ""
+"Nach Namen von Bildschirmfotos suchen. Feldspezifische Abfragen für "
+"Repository-Pfade, Sprachen und zugewiesene Zeichenketten verwenden."
 
 #: weblate/templates/screenshots/screenshot_list.html:125
 msgid "Screenshot search documentation"
@@ -15734,12 +15732,17 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+"Die Komponente scheint reguläre gettext-PO-Dateien zu enthalten, ist jedoch "
+"als einsprachige gettext-PO konfiguriert."
 
 #: weblate/templates/trans/alert/bilingualpoconfiguredasmonolingual.html:4
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
 "clear the monolingual base language file, and update the component."
 msgstr ""
+"Wenn es sich um zweisprachige PO-Dateien handelt, ändern Sie das Dateiformat "
+"in eine gettext-PO-Datei, löschen Sie die einsprachige Basissprachdatei und "
+"aktualisieren Sie die Komponente."
 
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid ""
@@ -16203,10 +16206,10 @@ msgstr ""
 "zu automatisieren."
 
 #: weblate/templates/trans/alert/repositoryoperationfailure.html:3
-#, fuzzy
-#| msgid "Weblate could not validate the repository browser URL:"
 msgid "Weblate could not recover an interrupted repository operation."
-msgstr "Weblate konnte die Repository-Browser-URL nicht validieren:"
+msgstr ""
+"Weblate konnte eine unterbrochene Repository-Operation nicht "
+"wiederherstellen."
 
 #: weblate/templates/trans/alert/repositoryoperationfailure.html:14
 msgid "Reset the repository"
@@ -16465,18 +16468,13 @@ msgstr ""
 "enthält, und %(link_start)sladen Sie diese hoch%(link_end)s."
 
 #: weblate/templates/trans/component_create.html:189
-#, fuzzy
-#| msgid ""
-#| "Pick a repository from a connected GitHub account. The component creation "
-#| "form will be pre-filled with the clone URL, default branch, and GitHub "
-#| "VCS driver."
 msgid ""
 "Pick a repository from a connected account. The component creation form will "
 "be pre-filled with the clone URL, default branch, and matching VCS driver."
 msgstr ""
-"Wählen Sie ein Repository aus einem verbundenen GitHub-Konto aus. Das "
-"Formular zur Komponentenerstellung wird dann automatisch mit der Klon-URL, "
-"dem Standard-Branch und GitHub-VCS-Treiber ausgefüllt."
+"Wählen Sie ein Repository aus einem verbundenen Konto aus. Das Formular zur "
+"Komponentenerstellung wird dann automatisch mit der Klon-URL, dem Standard-"
+"Branch und dem passenden VCS-Treiber ausgefüllt."
 
 #: weblate/templates/trans/component_create.html:192
 #: weblate/templates/vcs/github_installation_detail.html:23
@@ -17485,6 +17483,9 @@ msgid ""
 "The <code>%(host)s</code> host already has stored GitHub App credentials. "
 "You can edit the form, but submitting this host again will be rejected."
 msgstr ""
+"Für den Host <code>%(host)s</code> sind bereits Zugangsdaten für die GitHub-"
+"App gespeichert. Sie können das Formular bearbeiten, eine erneute "
+"Übermittlung für diesen Host wird jedoch abgelehnt."
 
 #: weblate/templates/vcs/github_app_register.html:46
 msgid "GitHub hosts that already have a Weblate GitHub App registered:"
@@ -19600,11 +19601,8 @@ msgid "Labeled: {}"
 msgstr "Beschriftet: {}"
 
 #: weblate/trans/forms.py:176 weblate/trans/models/component.py:4996
-#, fuzzy
-#| msgid "Repository branch is not used when repository is linked!"
 msgid "Repository branch is required for this integration."
-msgstr ""
-"Repository-Zweig wird nicht verwendet, wenn das Repository verlinkt ist!"
+msgstr "Für diese Integration ist ein Repository-Branch erforderlich."
 
 #: weblate/trans/forms.py:246
 msgid "Invalid date!"
@@ -20352,7 +20350,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:4558
 msgid "Turn on customization above to change these settings."
-msgstr ""
+msgstr "Aktivieren Sie obige Anpassung, um diese Einstellungen zu ändern."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/inherited_settings.py:17
@@ -20855,6 +20853,8 @@ msgstr ""
 msgid ""
 "This field is managed by the repository integration and can not be changed."
 msgstr ""
+"Dieses Feld wird von der Repository-Integration verwaltet und kann nicht "
+"geändert werden."
 
 #: weblate/trans/models/component.py:581
 msgid ""
@@ -21752,10 +21752,9 @@ msgid "Could not get repository status!"
 msgstr "Der Repository-Status konnte nicht abgerufen werden!"
 
 #: weblate/trans/models/component.py:6392
-#, fuzzy
-#| msgid "File in original format as translated in the repository"
 msgid "File path is in a restricted location in the repository."
-msgstr "Datei im Originalformat, wie sie im Repository übersetzt wurde"
+msgstr ""
+"Der Dateipfad befindet sich in einem eingeschränkten Bereich im Repository."
 
 #: weblate/trans/models/componentlist.py:48
 msgid "Component list name"
