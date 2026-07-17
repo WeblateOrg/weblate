@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-17 08:38+0000\n"
+"PO-Revision-Date: 2026-07-17 10:45+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -2719,11 +2719,13 @@ msgstr "AMQP-mellanhandens URL att ansluta till."
 
 #: weblate/addons/forms.py:1655
 msgid "Topic prefix"
-msgstr ""
+msgstr "Ämnesprefix"
 
 #: weblate/addons/forms.py:1657
 msgid "Optional prefix to prepend to generated message topics."
 msgstr ""
+"Ett valfritt prefix som skall läggas till i början av genererade meddelandes "
+"ämne."
 
 #: weblate/addons/forms.py:1663
 msgid "CA certificate bundle (PEM)"
@@ -2786,15 +2788,13 @@ msgid "How many seconds to wait between connection attempts."
 msgstr "Hur många sekunder man skall vänta mellan anslutningsförsöken."
 
 #: weblate/addons/forms.py:1755
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "Strängen innehåller kontrolltecken: %s"
+msgstr "Ämnesprefixet får endast innehålla ASCII-tecken."
 
 #: weblate/addons/forms.py:1760
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "Ämnesprefixet får inte överstiga %(limit)d tecken."
 
 #: weblate/addons/forms.py:1794
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3078,82 +3078,67 @@ msgstr ""
 "`wlp_`."
 
 #: weblate/api/docs.py:52
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "Åtgärd lyckades (grön)"
+msgstr "Lyckat svar."
 
 #: weblate/api/docs.py:53
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "Säkerhetsnyckeln har tagits bort."
+msgstr "Resursen skapades."
 
 #: weblate/api/docs.py:54
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "Begäran accepterades för asynkron behandling."
 
 #: weblate/api/docs.py:55
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "Lyckat svar utan innehåll i svaret."
 
 #: weblate/api/docs.py:56
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "Autentiseringsleverantören kunde inte nås."
+msgstr "Begäran var felaktig eller kunde inte tolkas."
 
 #: weblate/api/docs.py:57
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "Autentiseringsuppgifterna saknades eller var felaktiga."
 
 #: weblate/api/docs.py:59
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "Du har inte behörighet att komma åt komponenten."
+msgstr "Den autentiserade användaren har inte behörighet för den här åtgärden."
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
-msgstr ""
+msgstr "Den begärda resursen finns inte eller är inte tillgänglig."
 
 #: weblate/api/docs.py:62
 msgid "The HTTP method is not allowed for this resource."
-msgstr ""
+msgstr "HTTP-metoden är inte tillåten för denna resurs."
 
 #: weblate/api/docs.py:63
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "Det angivna token är ogiltigt."
+msgstr "Den begärda medietypen för svaret är inte tillgänglig."
 
 #: weblate/api/docs.py:64
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The request media type is not supported."
-msgstr "Det upptäckta filformatet stöds inte."
+msgstr "Den begärda medietypen stödjs inte."
 
 #: weblate/api/docs.py:65
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "The resource is locked."
-msgstr ".NET-resursfil"
+msgstr "Resursen är låst."
 
 #: weblate/api/docs.py:66
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "Gränsen för antalet API-förfrågningar per tidsenhet överskreds."
 
 #: weblate/api/docs.py:67
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "Tolkningsfel inträffade"
+msgstr "Ett oväntat serverfel uppstod."
 
 #: weblate/api/docs.py:238
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
+"Filtrera efter ändringsåtgärd. Upprepa denna parameter för att filtrera "
+"efter flera åtgärder."
 
 #: weblate/api/docs.py:423
 msgid "Allowed number of requests to perform"
@@ -3237,11 +3222,8 @@ msgid "You do not have permission to access this component."
 msgstr "Du har inte behörighet att komma åt komponenten."
 
 #: weblate/api/serializers.py:1597 weblate/trans/forms.py:2259
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr ""
-"Du har inte behörighet att ändra åtkomstsinställningarna för projektet."
+msgstr "Du har inte behörighet att ändra begränsad åtkomst."
 
 #: weblate/api/serializers.py:2025 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -3363,10 +3345,8 @@ msgid "Specify a workspace when multiple workspaces can be used."
 msgstr "Ange ett arbetsområde när flera arbetsområden kan användas."
 
 #: weblate/api/views.py:3219 weblate/trans/views/bulk_suggestions.py:129
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to approve strings."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att godkänna strängar."
 
 #: weblate/api/views.py:3231 weblate/trans/models/translation.py:2815
 msgid "This string seems to already exist."
@@ -4216,10 +4196,9 @@ msgstr ""
 "val görs används gruppens språkval utan ytterligare begränsning."
 
 #: weblate/auth/models.py:530
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "Ogiltig e-postadress: {}"
+msgstr "Den interna botens e-postadress är för lång: %s"
 
 #: weblate/auth/models.py:796 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:269
@@ -4324,28 +4303,20 @@ msgid "Suggest full name for the user. It can be changed later."
 msgstr "Föreslå ett fullständigt namn för användaren. Det kan ändras senare."
 
 #: weblate/auth/permissions.py:206
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to edit glossary entries."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att redigera poster i ordlistan."
 
 #: weblate/auth/permissions.py:208
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to add glossary entries."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att lägga till poster i ordlistan."
 
 #: weblate/auth/permissions.py:210
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to delete glossary entries."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att ta bort poster i ordlistan."
 
 #: weblate/auth/permissions.py:212
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to upload glossary entries."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att ladda upp poster till ordlistan."
 
 #: weblate/auth/permissions.py:372
 msgid "Can not perform this operation without an e-mail address."
@@ -4378,37 +4349,30 @@ msgid "Sign in to save translations."
 msgstr "Logga in för att spara översättningar."
 
 #: weblate/auth/permissions.py:419
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to approve translations in this restricted "
 "component."
-msgstr "Du har inte behörighet att komma åt komponenten."
+msgstr ""
+"Du har inte behörighet att godkänna översättningar i denna begränsade "
+"komponent."
 
 #: weblate/auth/permissions.py:424
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to save translations in this restricted component."
-msgstr "Du har inte behörighet att komma åt komponenten."
+msgstr ""
+"Du har inte behörighet att spara översättningar i denna begränsade komponent."
 
 #: weblate/auth/permissions.py:429
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to approve translations."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att godkänna översättningar."
 
 #: weblate/auth/permissions.py:434
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations in this project."
-msgstr "Du har inte behörighet att lägga till ny översättningsfil."
+msgstr "Du har inte behörighet att spara översättningar i detta projekt."
 
 #: weblate/auth/permissions.py:443 weblate/auth/permissions.py:922
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to edit source strings."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att redigera källsträngar."
 
 #: weblate/auth/permissions.py:447
 msgid "Suggestion voting is disabled."
@@ -4419,6 +4383,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"Denna översättning är konfigurerad för förslagsröstning. Lägg till ett "
+"förslag istället för att spara en direkt översättning."
 
 #: weblate/auth/permissions.py:463
 #: weblate/templates/snippets/project/state.html:4
@@ -4493,12 +4459,12 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Skapa komponenten och ge dig själv explicit åtkomst innan du aktiverar "
+"begränsad åtkomst."
 
 #: weblate/auth/permissions.py:1106
-#, fuzzy
-#| msgid "This billing plan covers the following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "Abonnemanget täcker följande projekt:"
+msgstr "Faktureringsplanen tillåter inte privat åtkomstkontroll."
 
 #: weblate/auth/permissions.py:1114
 msgid ""
