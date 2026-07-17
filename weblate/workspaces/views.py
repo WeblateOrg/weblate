@@ -81,7 +81,7 @@ def get_create_project_url(
 def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     workspace = get_object_or_404(Workspace, pk=pk)
     projects = request.user.allowed_projects.filter(workspace=workspace).order()
-    workspace_has_projects = workspace.projects.exists()
+    workspace_has_projects = projects.exists()
     billing = get_workspace_billing(workspace)
     user_can_view_billing = billing is not None and request.user.has_perm(
         "meta:billing.view", billing
