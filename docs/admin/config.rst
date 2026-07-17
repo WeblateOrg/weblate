@@ -1354,9 +1354,9 @@ LEGAL_DOCUMENT_CSS_CLASS
 
 CSS class added to the wrappers around legal document templates.
 
-Defaults to ``"tos"``, which enables the built-in legal document numbering and
-spacing rules. Set this to an empty string to render legal documents without
-the built-in numbering.
+Defaults to ``"tos"``. Weblate does not attach styling to this class; custom
+legal styles can use it to target document wrappers. Set this to an empty
+string to render legal documents without a wrapper class.
 
 .. code-block:: python
 
@@ -1364,7 +1364,8 @@ the built-in numbering.
 
 .. seealso::
 
-   :ref:`legal`
+   * :ref:`legal`
+   * :ref:`legal-customization`
 
 .. setting:: LEGAL_HIDDEN_DOCUMENTS
 

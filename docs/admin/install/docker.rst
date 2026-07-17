@@ -955,8 +955,8 @@ Generic settings
     Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments with
     :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled.
 
-    Set this to an empty string to disable the built-in legal document
-    numbering.
+    Set this to the class targeted by your custom legal stylesheet. Set it to
+    an empty string to render legal documents without a wrapper class.
 
     **Example:**
 
@@ -2678,9 +2678,9 @@ replace the favicon.
    The files are copied to the corresponding location upon container startup, so
    a restart of Weblate is needed after changing the content of the volume.
 
-This approach can be also used to override Weblate templates. For example
-:ref:`legal` documents can be placed into
-:file:`/app/data/python/customize/templates/legal/documents`.
+This approach can be also used to override Weblate templates. For example,
+custom :ref:`legal` documents and styles can be provided as described in
+:ref:`legal-customization`.
 
 Alternatively you can also include own module (see :doc:`../customize`) and add
 it as separate volume to the Docker container, for example:
