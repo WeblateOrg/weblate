@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-17 16:52+0000\n"
+"PO-Revision-Date: 2026-07-17 18:06+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -23381,6 +23381,10 @@ msgid ""
 "descriptions, context, plural metadata, obsolete string removal, specialized "
 "file extensions, and merged variants."
 msgstr ""
+"As tabelas de funcionalidade de formato de ficheiro agora correspondem "
+"melhor ao verdadeiro suporte de formato, incluindo descrições, contexto, "
+"metadados de plurais, eliminação de cadeias de carateres obsoletas, "
+"extensões de ficheiro especializadas, e variantes unidas."
 
 #: changes.rst:92
 msgid ""
@@ -23428,6 +23432,8 @@ msgid ""
 "Azure AI Translator settings now reject malformed region names before "
 "validating service connectivity."
 msgstr ""
+"As definições do Tradutor AI Azure agora rejeitam nomes de região mal "
+"formados antes de validar a conectividade de serviço."
 
 #: changes.rst:103
 msgid ""
@@ -23748,11 +23754,6 @@ msgstr ""
 "as substituições."
 
 #: changes.rst:156
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-regex` and :ref:`check-placeholders` now enforce regular "
-#| "expression timeouts when evaluating source-string flags (:ghsa:`r52j-4vjp-"
-#| "q949`)."
 msgid ""
 ":ref:`check-regex` and :ref:`check-placeholders` now enforce regular "
 "expression timeouts when evaluating source-string flags "
@@ -23760,14 +23761,9 @@ msgid ""
 msgstr ""
 ":ref:`check-regex` e :ref:`check-placeholders` agora aplicam tempos limite "
 "de expressões regulares ao avaliar marcadores de cadeias de carateres fonte "
-"(:ghsa:`r52j-4vjp-q949`)."
+"(:cve:`2026-62326`, :ghsa:`r52j-4vjp-q949`)."
 
 #: changes.rst:157
-#, fuzzy
-#| msgid ""
-#| "Restricted component changes are no longer exposed through nested "
-#| "project, component, or translation API change endpoints (:ghsa:`92m8-wv36-"
-#| "prmx`)."
 msgid ""
 "Restricted component changes are no longer exposed through nested project, "
 "component, or translation API change endpoints "
@@ -23775,29 +23771,19 @@ msgid ""
 msgstr ""
 "Mudanças de componentes restritos já não são expostas através do projeto "
 "aninhado, componentes, ou endpoints da API de mudança da tradução "
-"(:ghsa:`92m8-wv36-prmx`)."
+"(:cve:`2026-62249`, :ghsa:`92m8-wv36-prmx`)."
 
 #: changes.rst:158
-#, fuzzy
-#| msgid ""
-#| "ZIP downloads, including :ref:`appstore` translation bundles, no longer "
-#| "follow child symbolic links outside the downloaded tree (:ghsa:`xwj4-fp82-"
-#| "r2rj`)."
 msgid ""
 "ZIP downloads, including :ref:`appstore` translation bundles, no longer "
 "follow child symbolic links outside the downloaded tree "
 "(:cve:`2026-61792`, :ghsa:`xwj4-fp82-r2rj`)."
 msgstr ""
 "Descarregamentos ZIP, incluindo conjuntos de tradução :ref:`appstore`, já "
-"não seguem links simbólicos para fora da árvore descarregada (:ghsa:`xwj4-"
-"fp82-r2rj`)."
+"não seguem links simbólicos para fora da árvore descarregada (:cve:`2026-"
+"61792`, :ghsa:`xwj4-fp82-r2rj`)."
 
 #: changes.rst:159
-#, fuzzy
-#| msgid ""
-#| "Teams enforcing two-factor authentication now also withhold site-wide "
-#| "permissions from human members without 2FA configured (:ghsa:`x86c-ff69-"
-#| "cr2m`)."
 msgid ""
 "Teams enforcing two-factor authentication now also withhold site-wide "
 "permissions from human members without 2FA configured "
@@ -23805,7 +23791,7 @@ msgid ""
 msgstr ""
 "Equipas que aplicam autenticação de dois fatores agora também retêm "
 "permissões do site inteiro de membros humanos sem A2F configurada "
-"(:ghsa:`x86c-ff69-cr2m`)."
+"(:cve:`2026-61790`, :ghsa:`x86c-ff69-cr2m`)."
 
 #: changes.rst:160
 msgid ""
@@ -24371,6 +24357,10 @@ msgid ""
 "syntax, with :ref:`file_format_params` shared with :ref:`markdown` for line "
 "wrapping, code blocks, front matter, and placeholder handling."
 msgstr ""
+"Suporte para :ref:`mdx` adicionado para traduzir texto Markdown enquanto se "
+"preserva sintaxe JSX, com :ref:`file_format_params` partilhados com "
+":ref:`markdown` para quebra de linha, blocos de código, informações "
+"iniciais, e gestão de espaço reservado."
 
 #: changes.rst:286
 msgid ""
@@ -24378,18 +24368,27 @@ msgid ""
 "automatic suggestions, covering string context, explanations, secondary-"
 "language translations, plurals, failing checks, and placeholders."
 msgstr ""
+":ref:`Contexto de tradução LLM <llm-translation-context>` alargado "
+"adicionado para sugestões automáticas, cobertura de contexto de cadeia de "
+"carateres, explicações, traduções de idioma secundário, plurais, "
+"verificações em falha, e espaços reservados."
 
 #: changes.rst:287
 msgid ""
 "Added a digest-only translation activity summary notification, "
 "see :ref:`notifications`."
 msgstr ""
+"Foi adicionada uma notificação com um resumo da atividade de tradução, "
+"apenas na forma de resumo, veja :ref:`notifications`."
 
 #: changes.rst:288
 msgid ""
 ":ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now "
 "export plural strings as separate plural-form rows that can be imported back."
 msgstr ""
+"Transferências :ref:`CSV <csv>` and :ref:`XLSX <xlsx>` em :ref:`download` "
+"agora exportam cadeias de carateres plurais em linhas de forma de plural "
+"separadas que podem ser importadas de volta."
 
 #: changes.rst:289
 msgid ""
@@ -24397,67 +24396,81 @@ msgid ""
 "Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, "
 "and ``Report-Msgid-Bugs-To`` headers."
 msgstr ""
+":ref:`file_format_params` de Gettext PO e POT adicionados para controlar se "
+"o Weblate atualiza os cabeçalhos ``Language-Team``, ``Last-Translator``, ``X-"
+"Generator``, e ``Report-Msgid-Bugs-To``."
 
 #: changes.rst:290
 msgid ""
 "Added a :ref:`backup-management-command` to run configured backup services "
 "synchronously."
 msgstr ""
+":ref:`backup-management-command` adicionado para executar serviços de cópias "
+"de segurança configurados de forma síncrona."
 
 #: changes.rst:291
 msgid ""
 "The translation memory lookup API can now skip fuzzy matching with the "
 "``exact`` query parameter."
 msgstr ""
+"A API de pesquisa de memória de tradução agora ignora correspondência "
+"aproximada com o parâmetro da consulta ``exact``."
 
 #: changes.rst:292
-#, fuzzy
-#| msgid ""
-#| "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration "
-#| "options."
 msgid ""
 "Added :ref:`addon-weblate.cdn.files` to publish translation files to the "
 "configured CDN."
 msgstr ""
-"A extensão :ref:`addon-weblate.cdn.cdnjs` fornece algumas opções de "
-"configuração."
+":ref:`addon-weblate.cdn.files` adicionada aos ficheiros de tradução "
+"publicados para a CDN configurada."
 
 #: changes.rst:296
 msgid ""
 "Using DOS line endings can now be configured using the "
 "``dos_eol`` :ref:`file_format_params`."
 msgstr ""
+"Utilizar terminações de linha DOS agora pode ser configurado usando o "
+":ref:`file_format_params` ``dos_eol``."
 
 #: changes.rst:297
 msgid ""
 ":ref:`mt-openai` and :ref:`mt-alibaba` no longer require their vendor Python "
 "SDKs."
 msgstr ""
+":ref:`mt-openai` e :ref:`mt-alibaba` já não exigem os SDKs Python dos seus "
+"fornecedores."
 
 #: changes.rst:298
-#, fuzzy
-#| msgid "Access control changes are now tracked in history."
 msgid ""
 "Audited project and component setting changes are now recorded in history."
-msgstr "As alterações de controle de acesso agora são rastreadas no histórico."
+msgstr ""
+"Mudanças inspecionadas de projeto e componente agora são registadas no "
+"histórico."
 
 #: changes.rst:299
 msgid ""
 "Gerrit review pushes now use :ref:`component-push_branch` as the target "
 "branch."
 msgstr ""
+"Envios de revisão Gerrit agora usam o :ref:`component-push_branch` como ramo "
+"alvo."
 
 #: changes.rst:300
 msgid ""
 "Weblate now checks whether :setting:`CACHE_DIR` allows executing generated "
 "helper files."
 msgstr ""
+"O Weblate agora verifica que :setting:`CACHE_DIR` permite execução de "
+"ficheiros auxiliares gerados."
 
 #: changes.rst:301
 msgid ""
 "The :ref:`sbom` is now generated during release and published as a versioned "
 "release asset instead of being stored in the source repository."
 msgstr ""
+"O :ref:`sbom` agora é gerado durante o lançamento e publicado como um "
+"recurso de lançamento com versão em vez de ser armazenado no repositório "
+"fonte."
 
 #: changes.rst:302
 msgid ""
@@ -24465,46 +24478,64 @@ msgid ""
 "collapses rarely used string details, and groups glossary and screenshot "
 "actions more consistently."
 msgstr ""
+"A página de tradução agora separa capturas de ecrã da informação de cadeia "
+"de carateres, colapsa detalhes de cadeias de carateres raramente utilizados, "
+"e agrupa ações de glossário e captura de ecrã mais consistentemente."
 
 #: changes.rst:303
 msgid ""
 "Project access management now paginates users and better explains site-wide "
 "automatic team assignments."
 msgstr ""
+"Gestão de acesso de projeto agora pagina utilizadores e explica melhor as "
+"atribuições de equipa automática no site inteiro."
 
 #: changes.rst:304
 msgid ""
 "Added provider-oriented code-hosting documentation and Gettext-"
 "style :ref:`plural-formula` guidance."
 msgstr ""
+"Documentação de alojamento de código orientado para fornecedores adicionada "
+"e orientações sobre a :ref:`plural-formula` ao estilo do Gettext."
 
 #: changes.rst:305
 msgid ""
 "The Python wheel no longer ships source translation catalogs, test files, or "
 "deployment example files, reducing the installed package size."
 msgstr ""
+"A roda Python já não inclui catálogos de traduções fonte, ficheiros de "
+"teste, ou ficheiros exemplo de implementação, reduzindo o tamanho do pacote "
+"instalado."
 
 #: changes.rst:306
 msgid ""
 "The engage page now highlights actionable translation task buckets for "
 "newcomers."
 msgstr ""
+"A página de interação agora realça grupos de tarefas de tradução concretas "
+"para os recém-chegados."
 
 #: changes.rst:307
 msgid ""
 ":ref:`RSS feeds <rss>` can now use the same filters as the changes browsing "
 "page."
 msgstr ""
+":ref:`Feeds RSS <rss>` agora podem usar os mesmos filtros que a página de "
+"navegação de alterações."
 
 #: changes.rst:308
 msgid ""
 ":ref:`addon-weblate.gettext.django` now supports gettext PO files used as "
 "templates when they are excluded by the language filter."
 msgstr ""
+":ref:`addon-weblate.gettext.django` agora suporta ficheiros gettext PO usado "
+"como modelos quando eles são excluídos pelo filtro de idioma."
 
 #: changes.rst:309
 msgid "Reworked :doc:`/security/threat-model` into a contract-style document."
 msgstr ""
+":doc:`/security/threat-model` revistado para um documento do estilo de "
+"contrato."
 
 #: changes.rst:313
 msgid ""
@@ -24512,6 +24543,10 @@ msgid ""
 "against XSS, and stopped exposing database error details in upload failures "
 "(:cve:`2026-45106` / :ghsa:`6wxc-8mgq-w26m`)."
 msgstr ""
+"Pré-visualizações de pesquisa otimizadas e :ref:`machine-translation` "
+"origens das sugestões contra XSS, e deixou de exibir detalhes de erros da "
+"base de dados em falhas de carregamento(:cve:`2026-45106` / :ghsa:`6wxc-8mgq-"
+"w26m`)."
 
 #: changes.rst:314
 msgid ""
@@ -24519,6 +24554,9 @@ msgid ""
 "weblate.cdn.cdnjs`, and URL health-check redirects now reject internal or "
 "non-public targets by default."
 msgstr ""
+"URL de envios de captura de ecrã, extração remota de HTML em :ref:`addon-"
+"weblate.cdn.cdnjs`, e redirecionamento de verificações de estado de URL "
+"agora rejeitam alvos internos ou não-públicos por predefinição."
 
 #: changes.rst:315
 msgid ""
@@ -24526,6 +24564,9 @@ msgid ""
 "track the target branch before invoking ``git-review``, and suggest short "
 "branch names when full refs are supplied."
 msgstr ""
+"Os envios de revisões Gerrit agora rejeitam ramos alvo que contêm opções de "
+"envio, rastreiam o ramo alvo antes de invocar ``git-review``, e sugere nomes "
+"de ramos curtos quando as referências completas são fornecidas."
 
 #: changes.rst:316
 #, fuzzy
