@@ -383,7 +383,7 @@ class BatchMachineTranslation(DocVersionsMixin):
 
         try:
             MachineryError.objects.create(
-                engine=self.name,
+                engine=self.mtid,
                 project=self.settings.get("_project"),
                 error=f"{cause}: {type(exc).__name__}: {exc}",
             )
