@@ -78,6 +78,7 @@ def get_create_project_url(
 
 
 @never_cache
+@login_required
 def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     workspace = get_object_or_404(Workspace, pk=pk)
     projects = request.user.allowed_projects.filter(workspace=workspace).order()
