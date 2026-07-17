@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-10 19:59-0500\n"
-"PO-Revision-Date: 2026-07-14 15:13+0000\n"
+"PO-Revision-Date: 2026-07-17 12:19+0000\n"
 "Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -4880,13 +4880,11 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Chybějící nedělitelná mezera před dvojitou interpunkcí."
 
 #: weblate/checks/chars.py:680
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign."
 msgid "Missing non breakable space before punctuation mark {}."
 msgid_plural "Missing non breakable space before punctuation marks {}."
-msgstr[0] "Chybějící nedělitelná mezera před dvojitou interpunkcí."
-msgstr[1] "Chybějící nedělitelná mezera před dvojitou interpunkcí."
-msgstr[2] "Chybějící nedělitelná mezera před dvojitou interpunkcí."
+msgstr[0] "Chybí nerozdělitelná mezera před interpunkčním znaménkem {}."
+msgstr[1] "Chybí nerozdělitelná mezera před interpunkčními znaménky {}."
+msgstr[2] "Chybí nerozdělitelná mezera před interpunkčními znaménky {}."
 
 #: weblate/checks/chars.py:730
 msgid "Multiple capitals"
@@ -7213,10 +7211,8 @@ msgstr ""
 "Zadejte vlastní ID systémové kategorie, aby se používalo místo obecného."
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "Zadejte platný kód jazyka."
+msgstr "Zadejte platný název regionu služby Azure."
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7553,28 +7549,19 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:709
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (doporučeno)"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:713
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:717
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:719
 msgctxt "Anthropic model selection"
@@ -7689,52 +7676,39 @@ msgstr "Projekt"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:123
 #: weblate/memory/models.py:1250
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory scope"
 msgid "Workspace"
 msgstr "Pracovní prostor"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:127
 #: weblate/memory/models.py:1251
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory scope"
 msgid "Shared"
-msgstr "Sdílet"
+msgstr "Sdílené"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1252
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "Osobní: {}"
+msgstr "Osobní"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1253
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Soubor"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:140
 #: weblate/memory/models.py:1254
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "Název projektu"
+msgstr "Soubor projektu"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:146
 #: weblate/memory/models.py:1255
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "Osobní údaje"
+msgstr "Osobní soubor"
 
 #: weblate/memory/models.py:539
 #, python-format
@@ -7806,17 +7780,13 @@ msgid "File: {}"
 msgstr "Soubor: {}"
 
 #: weblate/memory/models.py:1033 weblate/memory/models.py:1061
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory category"
 msgid "Workspace: {}"
-msgstr "Pracovní prostor"
+msgstr "Pracovní prostor: {}"
 
 #: weblate/memory/views.py:88
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Zadejte platný kód jazyka."
+msgstr "Neplatný identifikátor jazyka."
 
 #: weblate/memory/views.py:126
 msgid "Entries were deleted."
@@ -8626,13 +8596,12 @@ msgid "Your trial"
 msgstr "Vaše zkušební období"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "Na nastavení projektu budete mít 14 dní."
-msgstr[1] "Na nastavení projektu budete mít 14 dní."
-msgstr[2] "Na nastavení projektu budete mít 14 dní."
+msgstr[0] "Na přípravu projektu budete mít %(days)s den."
+msgstr[1] "Na přípravu projektu budete mít %(days)s dny."
+msgstr[2] "Na přípravu projektu budete mít %(days)s dní."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -8844,24 +8813,18 @@ msgstr "Přidat novou identitu uživatele"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/templates/workspace.html:58 weblate/wladmin/views.py:128
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Code-hosting connections"
-msgstr "Hostování překladů"
+msgstr "Připojení pro hostování kódu"
 
 #: weblate/templates/accounts/profile.html:264
-#, fuzzy
-#| msgid "Manage code hosting accounts connected to workspaces you administer."
 msgid "Manage code-hosting accounts connected to workspaces you administer."
 msgstr ""
 "Spravujte účty pro hostování kódu propojené s pracovními prostory, které "
 "spravujete."
 
 #: weblate/templates/accounts/profile.html:267
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "Manage code-hosting connections"
-msgstr "Nevyřízené pozvánky"
+msgstr "Správa připojení k službám pro hostování kódu"
 
 #: weblate/templates/accounts/profile.html:275
 #: weblate/templates/accounts/user.html:425
@@ -9386,13 +9349,12 @@ msgid "Your trial offer"
 msgstr "Vaše zkušební nabídka"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "Vaše zkušební nabídka bude tvat 14 dní."
-msgstr[1] "Vaše zkušební nabídka bude tvat 14 dní."
-msgstr[2] "Vaše zkušební nabídka bude tvat 14 dní."
+msgstr[0] "Vaše zkušební období potrvá %(days)s den."
+msgstr[1] "Vaše zkušební období potrvá %(days)s dny."
+msgstr[2] "Vaše zkušební období potrvá %(days)s dní."
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -10626,30 +10588,24 @@ msgid "Terminate recurring payment"
 msgstr "Vypnout opakování platby"
 
 #: weblate/templates/billing/detail-content.html:44
-#, fuzzy
-#| msgid "Open in Zen mode"
 msgid "Open in Django admin"
-msgstr "Otevřít v režimu Zen"
+msgstr "Otevřít v adminu Djanga"
 
 #: weblate/templates/billing/detail-content.html:51
 msgid "Terminate billing plan"
 msgstr "Ukončit předplatné"
 
 #: weblate/templates/billing/detail-content.html:62
-#, fuzzy
-#| msgid "Manage billing"
 msgid "Merge billing"
-msgstr "Spravovat předplatné"
+msgstr "Sloučení fakturace"
 
 #: weblate/templates/billing/detail-content.html:66
 msgid "Review merge"
 msgstr "Kontrola sloučení"
 
 #: weblate/templates/billing/detail-content.html:74
-#, fuzzy
-#| msgid "Change plan"
 msgid "Change billing plan"
-msgstr "Změnit balíček"
+msgstr "Změnit tarif"
 
 #: weblate/templates/billing/detail-content.html:81
 #: weblate/templates/billing/status.html:13
@@ -11467,15 +11423,9 @@ msgid "You pull changes from a remote repository to Weblate like this:"
 msgstr "Změny ve vzdáleném repozitáři oznámíte Weblate pomocí:"
 
 #: weblate/templates/data.html:148
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid ""
 "Weblate also supports direct notifications from several code-hosting sites:"
-msgstr ""
-"Weblate také podporuje přímé hooky pro několik služeb pro hostování "
-"zdrojových kódů:"
+msgstr "Weblate také podporuje přímá oznámení z několika webů pro sdílení kódu:"
 
 #: weblate/templates/data.html:154
 msgid "Hosting site"
@@ -12020,28 +11970,24 @@ msgstr ""
 "Tento úkon může automaticky provést doplněk pro úklid překladových souborů."
 
 #: weblate/templates/js/git-status.html:261
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Remove obsolete"
-msgstr "Odstranit zastaralé řetězce"
+msgstr "Odstranit zastaralé"
 
 #: weblate/templates/js/git-status.html:262
-#, fuzzy
-#| msgid "Remove unused strings from the translation file"
 msgid "Remove obsolete strings from the translation file"
-msgstr "Odstraňte nepoužívané řetězce z překladového souboru"
+msgstr "Odeberte zastaralé řetězce z překladového souboru"
 
 #: weblate/templates/js/git-status.html:264
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Removes obsolete strings from PO files."
-msgstr "Odstranit zastaralé řetězce"
+msgstr "Odstraňuje zastaralé řetězce ze souborů PO."
 
 #: weblate/templates/js/git-status.html:265
 msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"Použijte v případě, že je třeba odstranit zastaralé záznamy, aniž by bylo "
+"aktivováno automatické mazání při uložení."
 
 #: weblate/templates/js/git-status.html:271
 msgid "Use these operations with caution, they rewrite the translation file."
@@ -13171,10 +13117,8 @@ msgid "Manage support package"
 msgstr "Správa balíčku podpory"
 
 #: weblate/templates/manage/index.html:78
-#, fuzzy
-#| msgid "Unlink support package"
 msgid "Unlink support package and disable Discover Weblate"
-msgstr "Odpojit balíček podpory"
+msgstr "Odpojit balíček podpory a deaktivovat Objevit Weblate"
 
 #: weblate/templates/manage/index.html:80
 msgid "Unlink support package"
@@ -13202,12 +13146,16 @@ msgid ""
 "Discover Weblate helps translators find Weblate sites and projects to "
 "contribute to."
 msgstr ""
+"Nástroj Objevit Weblate pomáhá překladatelům najít weby a projekty v systému "
+"Weblate, na kterých mohou spolupracovat."
 
 #: weblate/templates/manage/index.html:119
 msgid ""
 "When enabled, weblate.org lists your site details and public or protected "
 "projects."
 msgstr ""
+"Je-li tato funkce zapnutá, weblate.org zobrazuje podrobnosti o vašem webu a "
+"veřejné či chráněné projekty."
 
 #: weblate/templates/manage/index.html:123
 msgid "Your Weblate is listed on weblate.org"
@@ -13230,10 +13178,8 @@ msgid "Manage your listing"
 msgstr "Spravujte svůj zápis"
 
 #: weblate/templates/manage/index.html:150
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Enable Discover Weblate"
-msgstr "Objevte Weblate"
+msgstr "Zapnout Objevit Weblate"
 
 #: weblate/templates/manage/index.html:153
 msgid "Browse discovery"
@@ -13270,38 +13216,28 @@ msgid "Celery queues"
 msgstr "Fronty Celery"
 
 #: weblate/templates/manage/performance.html:131
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory migration"
-msgstr "Stav překladové paměti"
+msgstr "Přenos překladové paměti"
 
 #: weblate/templates/manage/performance.html:137
 msgid "Scope backfill"
-msgstr ""
+msgstr "Doplnění rozsahu"
 
 #: weblate/templates/manage/performance.html:145
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory scope backfill"
-msgstr "Stav překladové paměti"
+msgstr "Doplnění rozsahu překladové paměti"
 
 #: weblate/templates/manage/performance.html:153
-#, fuzzy
-#| msgid "Entries were deleted."
 msgid "Entries processed"
-msgstr "Položky byly odstraněny."
+msgstr "Zpracované záznamy"
 
 #: weblate/templates/manage/performance.html:157
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate candidate scan"
-msgstr "Duplicitní překlad."
+msgstr "Kontrola duplicitních kandidátů"
 
 #: weblate/templates/manage/performance.html:165
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory duplicate candidate scan"
-msgstr "Stav překladové paměti"
+msgstr "Prohledávání kandidátů na duplicity v překladové paměti"
 
 #: weblate/templates/manage/performance.html:173
 msgid "Candidate scan cursor"
