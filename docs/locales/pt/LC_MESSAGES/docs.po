@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-17 18:06+0000\n"
+"PO-Revision-Date: 2026-07-18 06:11+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -24569,20 +24569,22 @@ msgstr ""
 "de ramos curtos quando as referências completas são fornecidas."
 
 #: changes.rst:316
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 "Category :doc:`/admin/announcements` no longer appear across the whole "
 "project, and translation announcement deletion now honors language-scoped "
 "permissions."
 msgstr ""
-":doc:`/admin/announcements` pode ser postado no escopo do projeto/idioma."
+"A categoria :doc:`/admin/announcements` já não aparece no projeto inteiro, e "
+"o anunciar de eliminação de tradução agora honra permissões no âmbito do "
+"idioma."
 
 #: changes.rst:317
 msgid ""
 "Merge request pushes now refresh stale fork remotes after changing "
 "repository hosting."
 msgstr ""
+"O envio de merge request agora atualiza bifurcações remotas desatualizadas "
+"após mudar o alojamento de repositório."
 
 #: changes.rst:318
 msgid ""
@@ -24590,59 +24592,80 @@ msgid ""
 "plural formulas are rejected when they can evaluate outside the configured "
 "plural form range."
 msgstr ""
+"Contagens de plural processadas de cabeçalhos de ficheiros de tradução agora "
+"são limitados, e fórmulas de plural são rejeitadas quando podem avaliar fora "
+"do alcance da forma plural configurada."
 
 #: changes.rst:319
 msgid ""
 ":ref:`project-api` expiring today now remain valid until the end of the day."
 msgstr ""
+":ref:`project-api` que expiram hoje agora permanecerão válidas até ao fim do "
+"dia."
 
 #: changes.rst:320
 msgid ""
 "Malformed ALTCHA CAPTCHA submissions and repository URLs in webhook payloads "
 "no longer cause server errors."
 msgstr ""
+"Submissões ALTCHA CAPTCHA mal formadas e URLs de repositório em cargas de "
+"webhooks já não causam erros de servidor."
 
 #: changes.rst:321
 msgid ""
 ":ref:`check-placeholders` now merges overlapping non-nested spans from "
 "multiple flags."
 msgstr ""
+":ref:`check-placeholders` agora junta intervalos sobrepostos e não aninhados "
+"provenientes de múltiplos marcadores."
 
 #: changes.rst:322
 msgid ""
 ":ref:`backup` logs no longer include OpenSSH post-quantum key exchange "
 "warnings from remote Borg connections."
 msgstr ""
+"Os registos de :ref:`backup` já não incluem avisos de troca de chaves post-"
+"quantum OpenSSH de conexões Borg remotas."
 
 #: changes.rst:323
 msgid ""
 "Category repository paths are now handled more safely during cleanup and "
 "moves."
 msgstr ""
+"Os caminhos de repositório de categoria agora são tratados com mais "
+"segurança durante limpeza e movimentações."
 
 #: changes.rst:324
 msgid ""
 "Locked component pages now show an unsubscribe action after subscribing to "
 "unlock notifications."
 msgstr ""
+"As páginas de componente bloqueadas agora mostram uma ação cancelamento de "
+"subscrição após subscrever para desbloquear notificações."
 
 #: changes.rst:325
 msgid ""
 ":ref:`projectbackup` imports now restore in the background to avoid web "
 "worker memory limits."
 msgstr ""
+"Importações de :ref:`projectbackup` agora restauram em plano de fundo para "
+"evitar limites de memória do trabalhador web."
 
 #: changes.rst:329
 msgid ""
 "The ``dos-eol`` flag is no longer supported. Use the "
 "``dos_eol`` :ref:`file_format_params` instead."
 msgstr ""
+"O marcador ``dos-eol`` já não é suportado. Utilize o ``dos_eol`` "
+":ref:`file_format_params` em vez disso."
 
 #: changes.rst:330
 msgid ""
 "The registration CAPTCHA now uses the ALTCHA widget v3 protocol with "
 "Argon2id proof-of-work."
 msgstr ""
+"O registo CAPTCHA agora utiliza o protocolo ALTCHA widget v3 com prova de "
+"trabalho Argon2id."
 
 #: changes.rst:331
 msgid ""
@@ -24650,17 +24673,24 @@ msgid ""
 "``po_set_language_team`` file format parameter at the component level; "
 "see :ref:`file_format_params`."
 msgstr ""
+"O atributo de projeto ``set_language_team`` foi substituído com o parâmetro "
+"de formato de ficheiro ``po_set_language_team`` ao nível do componente; veja "
+":ref:`file_format_params`."
 
 #: changes.rst:332
 msgid ""
 "Weblate now uses calendar versioning for releases, see :ref:`release-cycle`."
 msgstr ""
+"O Weblate agora utiliza controlo de versões do calendário para lançamentos, "
+"veja :ref:`release-cycle`."
 
 #: changes.rst:333
 msgid ""
 "Weblate now uses stricter dependency version constraints to better control "
 "runtime environment."
 msgstr ""
+"O Weblate agora utiliza restrições mais rigorosas quanto às versões das "
+"dependências para controlar melhor o ambiente de execução."
 
 #: changes.rst:339
 msgid ""
@@ -24668,12 +24698,17 @@ msgid ""
 "by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, "
 "and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly."
 msgstr ""
+"A definição ``ALTCHA_MAX_NUMBER`` foi subsituida por :setting:`ALTCHA_COST`, "
+":setting:`ALTCHA_MEMORY_COST`, e :setting:`ALTCHA_PARALLELISM`; por favor "
+"ajuste as suas configurações em conformidade."
 
 #: changes.rst:340
 msgid ""
 "The upgrading policy was changed, and upgrades are only supported from the "
 "current or previous calendar year."
 msgstr ""
+"A política de atualização foi mudada, e atualizações só são suportados a "
+"partir do ano civil atual ou do ano civil anterior."
 
 #: changes.rst:341
 msgid ""
@@ -24682,18 +24717,18 @@ msgid ""
 "and :ref:`addon-weblate.removal.suggestions` add-ons; configure those add-"
 "ons instead."
 msgstr ""
+"A definição ``COMMENT_CLEANUP_DAYS`` e ``SUGGESTION_CLEANUP_DAYS`` são "
+"migrados uma vez para os extras :ref:`addon-weblate.removal.comments` e "
+":ref:`addon-weblate.removal.suggestions`; em vez disso, configure esses "
+"complementos."
 
 #: changes.rst:347
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "62?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/162?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/62?closed=1>`__."
+"milestone/162?closed=1>`__."
 
 #: changes/contributors/2026.5.rst:2 changes/contributors/2026.6.1.rst:2
 #: changes/contributors/2026.6.rst:2 changes/contributors/2026.7.1.rst:2
@@ -24722,10 +24757,8 @@ msgid "Code contributions"
 msgstr "Contribuições ao código"
 
 #: changes/contributors/2026.5.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Karen Konou, AliceVisek, Gersona, Weblate CI"
 
 #: changes/contributors/2026.5.rst:7 changes/contributors/2026.6.rst:7
 #: changes/contributors/2026.7.1.rst:7 changes/contributors/2026.7.rst:7
@@ -24801,16 +24834,16 @@ msgid "Documentation contributions"
 msgstr "Contribuições para a documentação"
 
 #: changes/contributors/2026.5.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, Karen Konou, AliceVisek"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Gersona, Karen Konou, AliceVisek"
 
 #: changes/contributors/2026.6.rst:5
 msgid ""
 "Michal Čihař, Karen Konou, Weblate CI, Basheer Radman, michael-smt, Kristián "
 "Kunc, felixfon"
 msgstr ""
+"Michal Čihař, Karen Konou, Weblate CI, Basheer Radman, michael-smt, Kristián "
+"Kunc, felixfon"
 
 #: changes/contributors/2026.6.rst:10
 msgid ""
@@ -24835,10 +24868,8 @@ msgstr ""
 "Public, Andi Chandler, Burak SDN, ojppe"
 
 #: changes/contributors/2026.6.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, VfBFan, Basheer Radman, Weblate CI, michael-smt, felixfon"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, VfBFan, Basheer Radman, Weblate CI, michael-smt, felixfon"
 
 #: changes/contributors/2026.6.1.rst:5 changes/contributors/2026.6.1.rst:10
 #: changes/contributors/5.10.4.rst:5 changes/contributors/5.10.4.rst:15
@@ -24861,6 +24892,8 @@ msgid ""
 "Michal Čihař, Karen Konou, Weblate CI, michael-smt, Samuel Gomes, Dinis "
 "Sales, Gersona, Harsha C, Kartik Ohri, Besnik Bleta, fahadhewad"
 msgstr ""
+"Michal Čihař, Karen Konou, Weblate CI, michael-smt, Samuel Gomes, Dinis "
+"Sales, Gersona, Harsha C, Kartik Ohri, Besnik Bleta, fahadhewad"
 
 #: changes/contributors/2026.7.rst:10
 msgid ""
@@ -24903,12 +24936,12 @@ msgid ""
 "Michal Čihař, michael-smt, Karen Konou, Gersona, Weblate CI, Kartik Ohri, "
 "Besnik Bleta, fahadhewad, Harsha C"
 msgstr ""
+"Michal Čihař, michael-smt, Karen Konou, Gersona, Weblate CI, Kartik Ohri, "
+"Besnik Bleta, fahadhewad, Harsha C"
 
 #: changes/contributors/2026.7.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri"
 
 #: changes/contributors/2026.7.1.rst:10
 msgid ""
@@ -24917,12 +24950,14 @@ msgid ""
 "ButterflyOfFire, Kiên Trần Trung, skittles poopy, Ulrik, Horus68, Mickaël "
 "Binos, Adam Havránek"
 msgstr ""
+"Michal Čihař, António Oliveira, 大学没毕业, 為什麼不加空格, ℂ𝕠𝕠𝕠𝕝 "
+"(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), hoanghuy309, Libre, VfBFan, Peter Vančo, Jim Kats, "
+"ButterflyOfFire, Kiên Trần Trung, skittles poopy, Ulrik, Horus68, Mickaël "
+"Binos, Adam Havránek"
 
 #: changes/contributors/2026.7.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 msgid "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
-msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
+msgstr "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -24930,6 +24965,8 @@ msgid ""
 "Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
 "Malte L., StoyanDimitrov, 49"
 msgstr ""
+"Michal Čihař, nijel, Gersona, Javier Pérez, Mehdi El Oualy, Allan Nordhøy, "
+"Malte L., StoyanDimitrov, 49"
 
 #: changes/contributors/5.10.rst:10
 msgid ""
@@ -24969,12 +25006,12 @@ msgstr ""
 
 #: changes/contributors/5.10.1.rst:15 changes/contributors/5.10.2.rst:15
 #: changes/contributors/5.10.3.rst:15 changes/contributors/5.10.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, gersona, Mehdi El Oualy"
 msgid ""
 "Michal Čihař, Rafael Fontenelle, AliceVisek, Gersona, StoyanDimitrov, Mehdi "
 "El Oualy"
-msgstr "Michal Čihař, gersona, Mehdi El Oualy"
+msgstr ""
+"Michal Čihař, Rafael Fontenelle, AliceVisek, Gersona, StoyanDimitrov, Mehdi "
+"El Oualy"
 
 #: changes/contributors/5.10.1.rst:10
 msgid ""
@@ -25103,12 +25140,16 @@ msgid ""
 "Vinko Kastelic, Dick Groskamp, Amalia Nostalgia, VfBFan, Balázs Úr, william "
 "chen, Michal Čihař, cat"
 msgstr ""
+"Vinko Kastelic, Dick Groskamp, Amalia Nostalgia, VfBFan, Balázs Úr, william "
+"chen, Michal Čihař, cat"
 
 #: changes/contributors/5.11.rst:5
 msgid ""
 "Michal Čihař, Gersona, Kartik Ohri, Mehdi El Oualy, Yash Kumar, nijel, "
 "Viktor Khokhryakov, AliceVisek, KasukabeDefenceForce"
 msgstr ""
+"Michal Čihař, Gersona, Kartik Ohri, Mehdi El Oualy, Yash Kumar, nijel, "
+"Viktor Khokhryakov, AliceVisek, KasukabeDefenceForce"
 
 #: changes/contributors/5.11.rst:10
 msgid ""
@@ -25138,11 +25179,11 @@ msgstr ""
 
 #: changes/contributors/5.11.rst:15
 msgid "Michal Čihař, Gersona, Kartik Ohri, Yash Kumar, AliceVisek, gpatel-fr"
-msgstr ""
+msgstr "Michal Čihař, Gersona, Kartik Ohri, Yash Kumar, AliceVisek, gpatel-fr"
 
 #: changes/contributors/5.11.1.rst:5
 msgid "Michal Čihař, Kartik Ohri, nijel, AliceVisek, Cédric Krier"
-msgstr ""
+msgstr "Michal Čihař, Kartik Ohri, nijel, AliceVisek, Cédric Krier"
 
 #: changes/contributors/5.11.1.rst:10
 msgid ""
@@ -25162,7 +25203,7 @@ msgstr ""
 
 #: changes/contributors/5.11.1.rst:15
 msgid "Michal Čihař, AliceVisek, Kartik Ohri, Cédric Krier"
-msgstr ""
+msgstr "Michal Čihař, AliceVisek, Kartik Ohri, Cédric Krier"
 
 #: changes/contributors/5.11.2.rst:10
 msgid ""
@@ -25171,10 +25212,14 @@ msgid ""
 "dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
 "jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri"
 msgstr ""
+"Yauhen, Michal Čihař, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
+"Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
+"dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
+"jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri"
 
 #: changes/contributors/5.11.4.rst:5
 msgid "Michal Čihař, مهدي الوالي"
-msgstr ""
+msgstr "Michal Čihař, مهدي الوالي"
 
 #: changes/contributors/5.12.rst:5
 msgid ""
@@ -25182,6 +25227,9 @@ msgid ""
 "KasukabeDefenceForce, AliceVisek, ButterflyOfFire, Benjamin Alan Jamie, "
 "michael-smt, Javi Boo, Karen Konou, Shubham Padia, KarenKonou, zoe, Zoe"
 msgstr ""
+"Michal Čihař, nijel, Kartik Ohri, مهدي الوالي, Gersona, Mehdi El Oualy, "
+"KasukabeDefenceForce, AliceVisek, ButterflyOfFire, Benjamin Alan Jamie, "
+"michael-smt, Javi Boo, Karen Konou, Shubham Padia, KarenKonou, zoe, Zoe"
 
 #: changes/contributors/5.12.rst:10
 msgid ""
@@ -25227,10 +25275,13 @@ msgid ""
 "ButterflyOfFire, Benjamin Alan Jamie, michael-smt, Renan LE CARO, nijel, "
 "Yuki Noda, zoe, Zoe"
 msgstr ""
+"Michal Čihař, Kartik Ohri, AliceVisek, Gersona, KasukabeDefenceForce, "
+"ButterflyOfFire, Benjamin Alan Jamie, michael-smt, Renan LE CARO, nijel, "
+"Yuki Noda, zoe, Zoe"
 
 #: changes/contributors/5.12.1.rst:10
 msgid "VfBFan, qywter11 qywter11, Manuela Silva"
-msgstr ""
+msgstr "VfBFan, qywter11 qywter11, Manuela Silva"
 
 #: changes/contributors/5.12.2.rst:10
 msgid ""
@@ -25239,6 +25290,10 @@ msgid ""
 "Fakhri, Michal Čihař, Matthaiks, Drugi Sapog, Yuri Chornoivan, Agnieszka C, "
 "Massimo Pissarello, Fjuro, Sketch6580, Любомир Василев, newidyn, Zulfar"
 msgstr ""
+"eulalio, Linerly, Peter Vančo, Yaron Shahrabani, VfBFan, Roland Reck, "
+"Manuela Silva, Abduqadir Abliz, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Zahid Rizky "
+"Fakhri, Michal Čihař, Matthaiks, Drugi Sapog, Yuri Chornoivan, Agnieszka C, "
+"Massimo Pissarello, Fjuro, Sketch6580, Любомир Василев, newidyn, Zulfar"
 
 #: changes/contributors/5.13.rst:5
 msgid ""
@@ -25247,6 +25302,10 @@ msgid ""
 "Paul Harriet Asiñero, Wouter van Os, Martin Komara, Karen Konou, Pavan "
 "Chilukuri"
 msgstr ""
+"Michal Čihař, nijel, michael-smt, Kartik Ohri, مهدي الوالي, Benjamin Alan "
+"Jamie, Gersona, KarenKonou, Julian Wachholz, Jana, softworkz, Luc Didry, "
+"Paul Harriet Asiñero, Wouter van Os, Martin Komara, Karen Konou, Pavan "
+"Chilukuri"
 
 #: changes/contributors/5.13.rst:10
 msgid ""
@@ -25292,12 +25351,17 @@ msgid ""
 "Clayton, Gersona, softworkz, Paul Harriet Asiñero, Kartik Ohri, Martin "
 "Komara, KarenKonou, Martin Trigaux, Pavan Chilukuri"
 msgstr ""
+"Michal Čihař, nijel, Benjamin Alan Jamie, Julian Wachholz, Jana, Nik "
+"Clayton, Gersona, softworkz, Paul Harriet Asiñero, Kartik Ohri, Martin "
+"Komara, KarenKonou, Martin Trigaux, Pavan Chilukuri"
 
 #: changes/contributors/5.13.1.rst:5
 msgid ""
 "Michal Čihař, nijel, alisa, Gersona, Karen Konou, Kartik Ohri, softworkz, "
 "Paul Harriet Asiñero"
 msgstr ""
+"Michal Čihař, nijel, alisa, Gersona, Karen Konou, Kartik Ohri, softworkz, "
+"Paul Harriet Asiñero"
 
 #: changes/contributors/5.13.1.rst:10
 msgid ""
@@ -25341,23 +25405,19 @@ msgstr ""
 
 #: changes/contributors/5.13.1.rst:15
 msgid "Michal Čihař, nijel, Kartik Ohri, Paul Harriet Asiñero"
-msgstr ""
+msgstr "Michal Čihař, nijel, Kartik Ohri, Paul Harriet Asiñero"
 
 #: changes/contributors/5.13.2.rst:10
 msgid "Divarrek, VfBFan"
 msgstr "Divarrek, VfBFan"
 
 #: changes/contributors/5.13.2.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Robin"
 msgid "Michal Čihař, nijel"
-msgstr "Michal Čihař, Robin"
+msgstr "Michal Čihař, nijel"
 
 #: changes/contributors/5.13.3.rst:5 changes/contributors/5.13.3.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 msgid "Michal Čihař, Benjamin Alan Jamie, Raphael Michel, nijel"
-msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
+msgstr "Michal Čihař, Benjamin Alan Jamie, Raphael Michel, nijel"
 
 #: changes/contributors/5.13.3.rst:10
 msgid ""
@@ -25365,6 +25425,9 @@ msgid ""
 "Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
 "Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute"
 msgstr ""
+"Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
+"Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
+"Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute"
 
 #: changes/contributors/5.14.rst:5
 msgid ""
@@ -25372,6 +25435,9 @@ msgid ""
 "Kewley, Raphael Michel, Dmytro Doroshenko, michael-smt, IoeCmcomc, Karen "
 "Konou, Juhari Yusuf Fatahillah, eulalio, Sketch6580"
 msgstr ""
+"Michal Čihař, softworkz, Gersona, Benjamin Alan Jamie, Kartik Ohri, Kai "
+"Kewley, Raphael Michel, Dmytro Doroshenko, michael-smt, IoeCmcomc, Karen "
+"Konou, Juhari Yusuf Fatahillah, eulalio, Sketch6580"
 
 #: changes/contributors/5.14.rst:10
 msgid ""
@@ -25407,12 +25473,13 @@ msgid ""
 "michael-smt, softworkz, Karen Konou, Kartik Ohri, Juhari Yusuf Fatahillah, "
 "eulalio, Sketch6580"
 msgstr ""
+"Michal Čihař, Gersona, Kai Kewley, Raphael Michel, Benjamin Alan Jamie, "
+"michael-smt, softworkz, Karen Konou, Kartik Ohri, Juhari Yusuf Fatahillah, "
+"eulalio, Sketch6580"
 
 #: changes/contributors/5.14.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Karen Konou, Gersona"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Karen Konou, Gersona"
 
 #: changes/contributors/5.14.1.rst:10
 msgid ""
@@ -25435,10 +25502,8 @@ msgstr ""
 "Srebotnjak, Andi Chandler, Ricky Tigg, Kevin Zhang, Nataniel Dika Kurniawan"
 
 #: changes/contributors/5.14.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, DeMiro5001, Gersona, Steffen"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, DeMiro5001, Gersona, Steffen"
 
 #: changes/contributors/5.15.rst:5
 msgid ""
@@ -25446,6 +25511,9 @@ msgid ""
 "Gersona, Miguel A. Bouzada, Kartik Ohri, Florian, Abtin, Aaditya Joshi, "
 "Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 msgstr ""
+"Michal Čihař, michael-smt, Steven Loria, Tudor Gradinaru, Karen Konou, "
+"Gersona, Miguel A. Bouzada, Kartik Ohri, Florian, Abtin, Aaditya Joshi, "
+"Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 
 #: changes/contributors/5.15.rst:10
 msgid ""
@@ -25484,12 +25552,16 @@ msgid ""
 "Michal Čihař, michael-smt, Tudor Gradinaru, Gersona, Karen Konou, Kartik "
 "Ohri, Abtin, Aaditya Joshi, Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 msgstr ""
+"Michal Čihař, michael-smt, Tudor Gradinaru, Gersona, Karen Konou, Kartik "
+"Ohri, Abtin, Aaditya Joshi, Urtzi Odriozola, Cakex2005, was000, KamikazEr101"
 
 #: changes/contributors/5.15.1.rst:5
 msgid ""
 "Michal Čihař, Karen Konou, Kartik Ohri, ZhuHengjin, Edison, aditi-agni, "
 "aditi, Edison Dao, biplopghimire"
 msgstr ""
+"Michal Čihař, Karen Konou, Kartik Ohri, ZhuHengjin, Edison, aditi-agni, "
+"aditi, Edison Dao, biplopghimire"
 
 #: changes/contributors/5.15.1.rst:10
 msgid ""
@@ -25512,12 +25584,16 @@ msgid ""
 "Michal Čihař, ZhuHengjin, Edison, aditi-agni, aditi, Edison Dao, "
 "biplopghimire"
 msgstr ""
+"Michal Čihař, ZhuHengjin, Edison, aditi-agni, aditi, Edison Dao, "
+"biplopghimire"
 
 #: changes/contributors/5.15.2.rst:5
 msgid ""
 "Michal Čihař, Kartik Ohri, Karen Konou, Marek Lukášík, shyraptor, Korpyc, "
 "Benjamin Alan Jamie"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Karen Konou, Marek Lukášík, shyraptor, Korpyc, "
+"Benjamin Alan Jamie"
 
 #: changes/contributors/5.15.2.rst:10
 msgid ""
@@ -25548,6 +25624,8 @@ msgid ""
 "Michal Čihař, Kartik Ohri, michael-smt, Marek Lukášík, shyraptor, Korpyc, "
 "alexis-pinon, Benjamin Alan Jamie"
 msgstr ""
+"Michal Čihař, Kartik Ohri, michael-smt, Marek Lukášík, shyraptor, Korpyc, "
+"alexis-pinon, Benjamin Alan Jamie"
 
 #: changes/contributors/5.16.rst:5
 msgid ""
@@ -25555,6 +25633,9 @@ msgid ""
 "softworkz, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
 "evanjhoward11, Zahid Rizky Fakhri, Francisco Serrador"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Karen Konou, Serrano Pereira, moonchoe, "
+"softworkz, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
+"evanjhoward11, Zahid Rizky Fakhri, Francisco Serrador"
 
 #: changes/contributors/5.16.rst:10
 msgid ""
@@ -25594,10 +25675,13 @@ msgid ""
 "shorelskyi, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
 "evanjhoward11"
 msgstr ""
+"Michal Čihař, Kartik Ohri, moonchoe, Karen Konou, softworkz, Serhii H., "
+"shorelskyi, Gersona, hugorezende, Hendrik Leethaus, AliceVisek, devimarj, "
+"evanjhoward11"
 
 #: changes/contributors/5.16.1.rst:5
 msgid "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
-msgstr ""
+msgstr "Michal Čihař, Simon Urli, Karen Konou, Kartik Ohri, Hendrik Leethaus"
 
 #: changes/contributors/5.16.1.rst:10
 msgid ""
@@ -25625,13 +25709,11 @@ msgstr ""
 
 #: changes/contributors/5.16.1.rst:15
 msgid "Michal Čihař, michael-smt, Kartik Ohri, Hendrik Leethaus"
-msgstr ""
+msgstr "Michal Čihař, michael-smt, Kartik Ohri, Hendrik Leethaus"
 
 #: changes/contributors/5.16.2.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Karen Konou, Kartik Ohri"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
 
 #: changes/contributors/5.17.rst:5
 msgid ""
@@ -25639,6 +25721,9 @@ msgid ""
 "Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
 "Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, michael-smt, Kartik Ohri, bogusdominica, Karen Konou, Sven "
+"Hüster, Gersona, subnix, matilde-gillia, Steven Loria, felixfon, baltenaxis, "
+"Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.rst:10
 msgid ""
@@ -25683,12 +25768,12 @@ msgid ""
 "Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
 "smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 msgstr ""
+"Michal Čihař, Kartik Ohri, Sven Hüster, Dylan Kiss (dyki), Gersona, michael-"
+"smt, matilde-gillia, Steven Loria, baltenaxis, Claw Explorer, Samuel Gomes"
 
 #: changes/contributors/5.17.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, Karen Konou, michael-smt"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Gersona, Karen Konou, michael-smt"
 
 #: changes/contributors/5.17.1.rst:10
 msgid ""
@@ -25717,10 +25802,8 @@ msgstr ""
 "Ivir"
 
 #: changes/contributors/5.17.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Gersona"
 msgid "Michal Čihař, Gersona, michael-smt"
-msgstr "Michal Čihař, Gersona"
+msgstr "Michal Čihař, Gersona, michael-smt"
 
 #: changes/contributors/5.7.rst:5
 msgid ""
@@ -31637,10 +31720,8 @@ msgstr ""
 "verificações com falha."
 
 #: changes/v4.rst:421
-#, fuzzy
-#| msgid "Added support for :ref:`vcs-gitea`."
 msgid "Added support for :ref:`code-hosting-gitea-pull-requests`."
-msgstr "Adicionado suporte para :ref:`vcs-gitea`."
+msgstr "Adicionado suporte para :ref:`code-hosting-gitea-pull-requests`"
 
 #: changes/v4.rst:422
 msgid ""
@@ -31754,18 +31835,12 @@ msgid "*Released on February 25th 2022.*"
 msgstr "*Atualizado em 25 de fevereiro de 2022.*"
 
 #: changes/v4.rst:465
-#, fuzzy
-#| msgid ""
-#| "Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://"
-#| "github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-#| "for more details."
 msgid ""
 "Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more "
 "details."
 msgstr ""
-"Corrige XSS armazenado - CVE-2022-24710, veja `GHSA-6jp6-9rf9-gc66 <https://"
-"github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-"para mais detalhes."
+"Corrige XSS armazenado - :cve:`2022-24710`, veja :ghsa:`6jp6-9rf9-gc66` para "
+"mais detalhes."
 
 #: changes/v4.rst:466
 msgid "Fixed add-on installation using the API."
@@ -32485,13 +32560,11 @@ msgid "Improved SAML authentication integration."
 msgstr "Melhorada a integração de autenticação SAML."
 
 #: changes/v4.rst:683
-#, fuzzy
-#| msgid "Fixed :ref:`vcs-gerrit` integration to better handle corner cases."
 msgid ""
 "Fixed :ref:`code-hosting-gerrit` integration to better handle corner cases."
 msgstr ""
-"Corrigida a integração :ref:`vcs-gerrit` para melhor lidar com casos "
-"complexos."
+"Corrigida a integração :ref:`code-hosting-gerrit` para lidar melhor com "
+"casos complexos."
 
 #: changes/v4.rst:684
 msgid "Weblate now requires Django 3.2."
@@ -34517,16 +34590,16 @@ msgid "Weblate 5.17.1"
 msgstr "Weblate 5.17.1"
 
 #: changes/v5.rst:7
-#, fuzzy
-#| msgid "*Released on April 15th 2025.*"
 msgid "*Released on April 30th 2026.*"
-msgstr "*Atualizado a 15 de abril de 2025.*"
+msgstr "*Atualizado a 30 de abril de 2026.*"
 
 #: changes/v5.rst:11
 msgid ""
 "Add-ons that opt in to manual triggering can now be run from add-on "
 "management and the :ref:`addons-api`."
 msgstr ""
+"Extras que escolhem para ser ativados manualmente podem agora ser executados "
+"a partir da gestão de extras e da :ref:`addons-api`."
 
 #: changes/v5.rst:12
 msgid ""
@@ -34534,25 +34607,27 @@ msgid ""
 "rejecting pending suggestions, and deleting comments across project or site-"
 "wide scopes."
 msgstr ""
+"Administradores agora podem limpar utilizadores bloqueados ou abusivos ao "
+"reverter edições, rejeitar sugestões pendentes, e editar comentários entre "
+"âmbitos de projeto ou do site inteiro."
 
 #: changes/v5.rst:13
 msgid "Admin user management can now find users by audit log IP address."
 msgstr ""
+"A gestão de utilizadores de administrador agora pode encontrar utilizadores "
+"ao auditar registos de endereços IP."
 
 #: changes/v5.rst:14
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ""
 ":doc:`/admin/announcements` can now also be managed via the :ref:`api` for "
 "categories."
 msgstr ""
-":doc:`/admin/announcements` pode ser postado no escopo do projeto/idioma."
+":doc:`/admin/announcements` pode ser gerido através da :ref:`api` para "
+"categorias."
 
 #: changes/v5.rst:15
-#, fuzzy
-#| msgid ":ref:`mt-yandex-v2` machine translation service."
 msgid "Added :ref:`mt-ltengine` machine translation service."
-msgstr ":ref:`mt-yandex-v2` serviço de tradução automática."
+msgstr "Serviço de tradução automática :ref:`mt-ltengine` adicionado."
 
 #: changes/v5.rst:19
 msgid ""
@@ -34560,35 +34635,42 @@ msgid ""
 "permission, :ref:`autoclean-tm`, :ref:`glossary-terminology`, and "
 "current :ref:`translation-memory` management options in the UI."
 msgstr ""
+"Documentação melhorada para a permissão global ``user.edit`` melhorada, "
+":ref:`autoclean-tm`, :ref:`glossary-terminology`, e opções de gestão "
+":ref:`translation-memory` atuais na UI."
 
 #: changes/v5.rst:20
 msgid ""
 "Improved :ref:`screenshots` documentation and linked it from the screenshots "
 "UI."
 msgstr ""
+"Documentação de :ref:`screenshots` melhorada e link efetuado para a mesma a "
+"partir da UI de capturas de ecrã."
 
 #: changes/v5.rst:21
 msgid ""
 "Documented restoring Docker-based setups from backups, see :ref:`restore-"
 "docker`."
 msgstr ""
+"Restaurar configurações a partir de cópias de segurança de configurações "
+"baseadas em Docker documentadas, veja :ref:`restore-docker`."
 
 #: changes/v5.rst:22
-#, fuzzy
-#| msgid ""
-#| "Please follow :ref:`generic-upgrade-instructions` in order to perform "
-#| "update."
 msgid ""
 "Clarified :ref:`generic-upgrade-instructions` to state that Celery queues "
 "should be empty before upgrading."
 msgstr ""
-"Siga as :ref:`generic-upgrade-instructions` para realizar a atualização."
+":ref:`generic-upgrade-instructions` clarificadas para que as filas do Celery "
+"devem estar vazias antes de atualizar."
 
 #: changes/v5.rst:23
 msgid ""
 "The OpenAPI schema is cleaner and now describes action endpoints with their "
 "actual list, statistics, status, upload, and download response payloads."
 msgstr ""
+"O esquema OpenAPI agora é mais claro e descreve os endpoints de ação com a "
+"sua verdadeira lista, estatísticas, estado, cargas de resposta de envio e "
+"descarregamento."
 
 #: changes/v5.rst:24
 msgid ""
@@ -34596,6 +34678,9 @@ msgid ""
 "shows a preview and requires confirmation before creating missing language "
 "files across projects, categories, or site-wide scopes."
 msgstr ""
+"O fluxo de instalação para :ref:`addon-weblate.consistency.languages` agora "
+"mostra uma pré-visualização e requer confirmação antes de criar ficheiros de "
+"idioma em falta em todos os projetos, categorias, ou âmbitos do site inteiro."
 
 #: changes/v5.rst:25
 msgid ""
@@ -34604,14 +34689,17 @@ msgid ""
 "validates ``{{ component }}`` more clearly, and includes a worked discovery-"
 "template example in the docs."
 msgstr ""
+":ref:`addon-weblate.discovery.discovery` agora oferece predefinições guiadas "
+"do lado do cliente, sugere predefinições detetadas a partir dos layouts de "
+"componente do repositório, valida ``{{ component }}`` de forma mais clara, e "
+"inclui um exemplo trabalhado de modelo de descoberta nos documentos."
 
 #: changes/v5.rst:26
-#, fuzzy
-#| msgid "Team membership changes are now tracked in :ref:`audit-log`."
 msgid ""
 "Superuser and site-wide team changes are now tracked in :ref:`audit-log`."
 msgstr ""
-"As alterações de membros da equipa agora são rastreadas em :ref:`audit-log`."
+"As alterações de super utilizador e da equipa no site inteiro agora são "
+"rastreadas em :ref:`audit-log`."
 
 #: changes/v5.rst:27
 msgid ""
@@ -34620,19 +34708,20 @@ msgid ""
 "better explains private or local endpoint restrictions on hosted and self-"
 "managed sites."
 msgstr ""
+"Alertas de validação de URL agora mostram erros mais claro para URLs de "
+"website de projeto e repositório, e a validação de tradução automática a "
+"nível do projeto explica melhor restrições privadas ou do endpoint local em "
+"sites alojados e auto geridos."
 
 #: changes/v5.rst:28
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.autotranslate.autotranslate` and :ref:`auto-"
-#| "translation` are now stored with a dedicated user as an author."
 msgid ""
 ":ref:`addon-weblate.autotranslate.autotranslate` now attributes copied "
 "translations to the add-on user and records automatic translation results in "
 "the add-on activity log."
 msgstr ""
-":ref:`addon-weblate.autotranslate.autotranslate` e :ref:`auto-translation` "
-"agora são armazenados com um utilizador dedicado como autor."
+":ref:`addon-weblate.autotranslate.autotranslate` agora atribui traduções "
+"copiadas ao extra do utilizador e grava resultados de tradução automática no "
+"registo de atividade do extra."
 
 #: changes/v5.rst:29
 msgid ""
@@ -34645,6 +34734,7 @@ msgstr ""
 #: changes/v5.rst:30
 msgid ":ref:`profile` links now show an external-link warning where possible."
 msgstr ""
+"Links de :ref:`profile` agora mostra um aviso de link externo onde possível."
 
 #: changes/v5.rst:31
 msgid ""
@@ -34652,94 +34742,115 @@ msgid ""
 "toasts, with higher-contrast dark theme colors for Bootstrap subtle and "
 "emphasis variants."
 msgstr ""
+"As notificações de popup do lado do cliente ativados por JavaScript agora "
+"usam toasts Bootstrap, com tema de cores escuro de alto contraste para "
+"variantes subtis e de ênfase."
 
 #: changes/v5.rst:32
 msgid ""
 "The :guilabel:`SSH keys` management page can now remove stored host keys so "
 "changed host keys can be replaced there."
 msgstr ""
+"A página de gestão de :guilabel:`chaves SSH` agora podem remover chaves de "
+"anfitrião armazenadas para que chaves de anfitrião mudadas possam ser "
+"substituídas lá."
 
 #: changes/v5.rst:33
 msgid ""
 "Project listings now show review progress columns when any listed project "
 "has reviews enabled."
 msgstr ""
+"Listagens de projeto agora mostra colunas de revisão de progresso quando "
+"qualquer projeto listado tem revisões ativas."
 
 #: changes/v5.rst:37
 msgid ""
 "Image URLs in Markdown are now escaped before rendering "
 "(:cve:`2026-44264` / :ghsa:`5cmv-3rc4-7279`)."
 msgstr ""
+"URLs de imagem em Markdown agora são escapadas antes de ser renderizadas "
+"(:cve:`2026-44264` / :ghsa:`5cmv-3rc4-7279`)."
 
 #: changes/v5.rst:38
 msgid ""
 "Tightened :ref:`api` input validation to prevent translation enumeration "
 "(:cve:`2026-44263` / :ghsa:`gcg5-86jr-f7jg`)."
 msgstr ""
+"Reforçou-se a validação de entrada :ref:`api` para impedir a enumeração de "
+"traduções (:cve:`2026-44263` / :ghsa:`gcg5-86jr-f7jg`)."
 
 #: changes/v5.rst:39
 msgid ""
 "Project backup imports now revalidate component repository URLs before "
 "restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 msgstr ""
+"As importações de cópia de segurança de projeto agora revalidam URLs de "
+"repositório de componente antes de restaurar a partir da cópia de segurança "
+"(:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 
 #: changes/v5.rst:40
-#, fuzzy
-#| msgid "Fixed crash after moving shared component between projects."
 msgid ""
 "Fixed revert links in the translate-view history tab after moving a "
 "component to another project."
 msgstr ""
-"Corrigida a falha após mover o componente compartilhado entre projetos."
+"Corrigiram-se os links de reversão no separador de histórico da vista de "
+"tradução após a transferência de um componente para outro projeto."
 
 #: changes/v5.rst:41
 msgid ""
 "Invitation acceptance now verifies the invited e-mail address and invitation "
 "expiry before granting team membership."
 msgstr ""
+"A aceitação de convite agora verifica o endereço de email convidado e o "
+"expirar de convite antes de conceder a adesão à equipa."
 
 #: changes/v5.rst:42
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-rst-references` check to validate reStructuredText references."
 msgid ""
 ":ref:`check-rst-references` no longer crashes on repeated explicit-link "
 "targets."
 msgstr ""
-"A verificação :ref:`check-rst-references` valida referências "
-"reStructuredText."
+":ref:`check-rst-references` já não quebra em alvos de link de alvo repetido."
 
 #: changes/v5.rst:43
 msgid ""
 "The :ref:`addons-api` now validates required add-on configuration when "
 "installing add-ons."
 msgstr ""
+"O :ref:`addons-api` agora valida configuração de extra necessária ao "
+"instalar extras."
 
 #: changes/v5.rst:44
 msgid ""
 "Component updates no longer time out waiting on their own repository lock "
 "during validation."
 msgstr ""
+"Atualizações de componente já não ficam em espera no seu próprio bloqueio de "
+"repositório durante validação."
 
 #: changes/v5.rst:45
-#, fuzzy
-#| msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgid ""
 ":ref:`check-punctuation-spacing` check no longer triggers false positives "
 "for placeholders."
-msgstr ":ref:`check-punctuation-spacing` já não se aplica a bretão."
+msgstr ""
+"A verificação :ref:`check-punctuation-spacing` já não ativa falsos positivos "
+"para marcadores de lugar."
 
 #: changes/v5.rst:46
 msgid ""
 "Repository alerts, history entries, and task messages now preserve multiline "
 "Git and SSH backend error output."
 msgstr ""
+"Alertas de repositório, entradas de histórico, e mensagens de tarefa agora "
+"preservam saída de erros Git e SSH multi linha."
 
 #: changes/v5.rst:47
 msgid ""
 "Interrupted Git rebases now recover more reliably after worker restarts, and "
 "signal-terminated backend commands are reported more clearly."
 msgstr ""
+"Rebases Git interrompidos agora recuperam de forma mais fiável após "
+"reiniciar de trabalhador, e comandos de backed terminados com sinal são "
+"comunicados de forma mais clara."
 
 #: changes/v5.rst:48
 msgid ""
@@ -34747,22 +34858,32 @@ msgid ""
 "management UI, and backup logs now show ``C`` entries for files that changed "
 "during the backup."
 msgstr ""
+"Cópias de segurança Borg que acabam com avisos já não são mostrados como "
+"falhados no UI de gestão, e registos de cópia de segurança agora mostra "
+"entradas ``C`` para ficheiros que foram mudados durante a cópia de segurança."
 
 #: changes/v5.rst:49
 msgid ""
 "Git exporter no longer rejects shared-history fetches just because the first "
 "negotiated ``have`` revisions are newer than Weblate's local history."
 msgstr ""
+"O exportador Git já não rejeita buscas de histórico partilhado só porque as "
+"primeiras revisões negociadas ``have`` são mais recentes que o histórico "
+"local Weblate."
 
 #: changes/v5.rst:50
 msgid ""
 ":ref:`mt-weblate-translation-memory` automatic translation avoids broad "
 "PostgreSQL searches."
 msgstr ""
+"A tradução automática :ref:`mt-weblate-translation-memory` evita procuras "
+"PostgreSQL abrangentes."
 
 #: changes/v5.rst:51
 msgid "Malformed IPv6 repository URLs no longer crash SSH host key detection."
 msgstr ""
+"URLs de repositório IPv6 mal formados já não quebram a deteção de chave do "
+"anfitrião SSH."
 
 #: changes/v5.rst:52
 msgid ""
@@ -34770,6 +34891,9 @@ msgid ""
 "replace the standard descriptive-title placeholder in normalized POT headers "
 "again."
 msgstr ""
+":ref:`addon-weblate.gettext.xgettext` e atualizações de extras POT "
+"relacionados agora substituem o marcador de lugar de título descritivo "
+"padrão nos cabeçalhos POT novamente."
 
 #: changes/v5.rst:53
 msgid ""
@@ -34777,6 +34901,9 @@ msgid ""
 "during preflight validation, fixing components that store ``django.pot`` in "
 "a top-level ``locale`` directory."
 msgstr ""
+":ref:`addon-weblate.gettext.django` agora ignora árvores de repositório "
+"``locale`` durante a validação de pré-execução, conserta componentes que "
+"armazenam ``django.pot`` em um diretório ``locale`` de nível topo."
 
 #: changes/v5.rst:54
 msgid ""
@@ -41086,6 +41213,11 @@ msgid ""
 "may be limited to particular communication channels or interactions with "
 "particular community members."
 msgstr ""
+"Consequência: Uma advertência privada por escrito, acompanhada de um período "
+"de espera de duração limitada, destinada a sublinhar a gravidade da situação "
+"e a dar aos membros da comunidade envolvidos tempo para refletirem sobre o "
+"incidente. O período de espera pode ser limitado a canais de comunicação "
+"particulares ou interações com membros da comunidade em particular."
 
 #: contributing/code_of_conduct.rst:74
 msgid ""
@@ -41191,6 +41323,13 @@ msgid ""
 "covenant.org/resources. The enforcement ladder was inspired by the work of "
 "`Mozilla’s code of conduct team <https://github.com/mozilla/inclusion>`_."
 msgstr ""
+"Para respostas a perguntas comuns sobre o Pacto dos Colaboradores, veja o "
+"FAQ em https://www.contributor-covenant.org/faq. Traduções são fornecidas em "
+"https://www.contributor-covenant.org/translations. Podem ser consultados "
+"recursos adicionais sobre a aplicação da lei e as orientações comunitárias "
+"em https://www.contributor-covenant.org/resources. A escada de aplicação foi "
+"inspirada pelo trabalho da `equipa do código de conduta do Mozilla <https://"
+"github.com/mozilla/inclusion>`_."
 
 #: contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
@@ -51451,6 +51590,11 @@ msgid ""
 "procurement and readiness questions rather than as a formal compliance "
 "certification."
 msgstr ""
+"O EU Cloud and AI Development Act ainda é uma iniciativa de legislação e "
+"política emergente. Até que o texto legal final e guia de implementação "
+"estejam definidos, o Weblate trata questões do Cloud and AI Development Act "
+"como questões relacionadas com a aquisição e a prontidão, e não como uma "
+"certificação formal de conformidade."
 
 #: security/data-residency.rst:98
 msgid ""
@@ -63066,6 +63210,12 @@ msgid ""
 "leave room for translation expansion. For other source languages, the "
 "configured ``max-length`` is used directly."
 msgstr ""
+"O marcador ``max-length`` também ativa :ref:`check-source-max-length` para "
+"cadeias de carateres fonte. Para cadeias de carateres fonte inglesas, "
+"incluindo variantes inglesas, esta verificação avisa quando a fonte utiliza "
+"mais do que 85% do tamanho configurado para deixar espaço livre para "
+"expansão de tradução. Para outros idiomas fonte, o ``max-length`` "
+"configurado é usado diretamente."
 
 #: snippets/checks-autogenerated.rst:1411
 msgid ""
@@ -68726,6 +68876,11 @@ msgid ""
 "matches, Weblate looks up the corresponding glossary entry for the language "
 "currently being translated and shows it in the editor."
 msgstr ""
+"Quando traduz um componente regular, o Weblate pesquisa a cadeia de "
+"carateres fonte para termos do idioma fonte dos glossários do projeto. "
+"Quando um termo é correspondido, o Weblate procura a entrada de glossário "
+"correspondente do idioma atualmente a ser traduzido e mostra o mesmo no "
+"editor."
 
 #: user/glossary.rst:31
 msgid ""
@@ -68734,6 +68889,11 @@ msgid ""
 "glossary can still store definitions and context, but it will not provide "
 "target-language matches for languages that do not have glossary entries."
 msgstr ""
+"Isto significa que entradas de glossário necessitam de existir no glossário "
+"de idioma alvo para ser mostrado ao traduzir esse idioma alvo. Um glossário "
+"apenas de idioma fonte pode armazenar definições e contexto, mas não "
+"fornecerá correspondências do idioma alvo para idiomas que não tenham "
+"entradas de glossário."
 
 #: user/glossary.rst:36
 msgid ""
@@ -68881,6 +69041,13 @@ msgid ""
 "as :ref:`glossary-untranslatable`, and mark misleading translations "
 "as :ref:`glossary-forbidden`."
 msgstr ""
+"Entradas de glossários são especialmente úteis para nomes de marcas, "
+"acrónimos, funcionalidade de produto, termos técnicos, e palavras "
+"recentemente inventadas ou transliteradas. Utilize variantes para "
+"abreviações, ou formulação mais sucinta, marcar termos entre idiomas "
+"importantes como :ref:`glossary-terminology`, marcar termos que devem "
+"permanecer inalterados como :ref:`glossary-untranslatable`, e marcar "
+"traduções inadequadas como :ref:`glossary-forbidden`."
 
 #: user/glossary.rst:124
 msgid "Untranslatable terms"
@@ -72677,6 +72844,11 @@ msgid ""
 "current run; omitting it does not disable ``allow_insecure_http`` from "
 "configuration."
 msgstr ""
+"Permite enviar chave API através de URLs ``http://`` não locais. Preferir "
+"HTTPS ou HTTP de loopback em vez disso; esta opção destina-se apenas a "
+"implementações antigas onde HTTPS não está disponível. Esta opção apenas "
+"ativa HTTP inseguro para a execução atual; omitir isto não desativa "
+"``allow_insecure_http`` da configuração."
 
 #: wlc.rst:190
 msgid ""
