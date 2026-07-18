@@ -15,9 +15,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-17 21:21-0500\n"
-"PO-Revision-Date: 2026-07-18 06:11+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-19 07:04+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -14380,12 +14379,13 @@ msgid ""
 "Use query syntax; boolean operators like <code>AND</code>, <code>OR</code>, "
 "and <code>NOT</code> are case-insensitive."
 msgstr ""
+"Използвайте синтаксиса за заявки. Булевите оператори като <code>AND</code> "
+"(И), <code>OR</code> (ИЛИ) и <code>NOT</code> (НЕ) могат да се пишат и с "
+"малки, и с главни букви."
 
 #: weblate/templates/screenshots/screenshot_detail.html:83
-#, fuzzy
-#| msgid "View check documentation"
 msgid "Search query syntax documentation"
-msgstr "Преглед на документацията за проверките"
+msgstr "Документация относно синтаксиса на заявките за търсене"
 
 #: weblate/templates/screenshots/screenshot_detail.html:91
 msgid "Suggests source strings by recognizing text in this screenshot."
@@ -14418,12 +14418,12 @@ msgid ""
 "Search screenshot names. Use field-specific queries for repository paths, "
 "languages, and assigned strings."
 msgstr ""
+"Търсете по име на екранна снимка. Използвайте заявки според полетата — за "
+"пътища в хранилища, езици и свързани низове."
 
 #: weblate/templates/screenshots/screenshot_list.html:121
-#, fuzzy
-#| msgid "Import speed documentation"
 msgid "Screenshot search documentation"
-msgstr "Документация за бързото внасяне"
+msgstr "Документация относно търсенето на екранни снимки"
 
 #: weblate/templates/screenshots/screenshot_list.html:139
 #: weblate/templates/snippets/sort-field.html:14
@@ -14633,62 +14633,48 @@ msgstr[1] ""
 "Преводът в момента е заключен автоматично, поради следните предупреждения:"
 
 #: weblate/templates/snippets/diagnostics.html:9
-#, fuzzy
-#| msgid "Filters"
 msgid "Filter"
-msgstr "Филтри"
+msgstr "Филтър"
 
 #: weblate/templates/snippets/diagnostics.html:12
-#, fuzzy
-#| msgid "Search filter"
 msgid "Clear filters"
-msgstr "Филтър за търсене"
+msgstr "Изчистване на филтрите"
 
 #: weblate/templates/snippets/diagnostics.html:24
 #, python-format
 msgid "Active: %(count)s"
-msgstr ""
+msgstr "Активни: %(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:29
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Dismissed checks:"
+#, python-format
 msgid "Dismissed: %(count)s"
-msgstr "Пренебрегнати проверки:"
+msgstr "Пренебрегнати: %(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:35
-#, fuzzy
-#| msgid "All protected projects"
 msgid "Affected projects"
-msgstr "Всички защитени проекти"
+msgstr "Засегнати проекти"
 
 #: weblate/templates/snippets/diagnostics.html:50
-#, fuzzy, python-format
-#| msgid "Browse %(count)s project"
-#| msgid_plural "Browse all %(count)s projects"
+#, python-format
 msgid "%(count)s more affected project."
 msgid_plural "%(count)s more affected projects."
-msgstr[0] "Преглед на %(count)s проект"
-msgstr[1] "Преглед на %(count)s проекта"
+msgstr[0] "Още %(count)s засегнат проект."
+msgstr[1] "Още %(count)s засегнати проекта."
 
 #: weblate/templates/snippets/diagnostics.html:54
-#, fuzzy
-#| msgid "Created component"
 msgid "Affected components"
-msgstr "Създаден е компонент"
+msgstr "Засегнати компоненти"
 
 #: weblate/templates/snippets/diagnostics.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action in %(component)s"
-#| msgid_plural "%(count)s strings needing action in %(component)s"
+#, python-format
 msgid "%(count)s more affected component."
 msgid_plural "%(count)s more affected components."
-msgstr[0] "%(count)s низ се нуждае от действие в %(component)s"
-msgstr[1] "%(count)s низа се нуждаят от действие в %(component)s"
+msgstr[0] "Още %(count)s засегнат компонент."
+msgstr[1] "Още %(count)s засегнати компонента."
 
 #: weblate/templates/snippets/diagnostics.html:77
 msgid "No diagnostics match the selected filters."
-msgstr ""
+msgstr "Няма диагностични данни, които отговарят на избраните филтри."
 
 #: weblate/templates/snippets/donate.html:4
 msgid ""
@@ -15501,10 +15487,10 @@ msgid "Credits"
 msgstr "Заслуги"
 
 #: weblate/templates/snippets/reports.html:26
-#, fuzzy
-#| msgid "Translation activity in this period:"
 msgid "Lists translators contributing in the selected period."
-msgstr "Дейност по превода в този период:"
+msgstr ""
+"Извежда списък с преводачите, които са имали някакъв принос в избрания "
+"период."
 
 #: weblate/templates/snippets/reports.html:30
 #: weblate/templates/snippets/reports.html:56
@@ -15528,54 +15514,40 @@ msgid "Cost estimate"
 msgstr "Предполагаема цена"
 
 #: weblate/templates/snippets/reports.html:79
-#, fuzzy
-#| msgid ""
-#| "Estimates translation costs based on source words, repetitions, needs-"
-#| "editing strings, and translation memory matches."
 msgid ""
 "Estimates translation costs from source words and translation memory matches."
 msgstr ""
 "Преценява каква може да бъде ориентировъчната цена според броя на изходните "
-"думи, повторенията, нуждаещите се от редактиране низове и съвпаденията в "
-"паметта за преводи."
+"думи и съвпаденията в паметта за преводи."
 
 #: weblate/templates/snippets/reports.html:101
 #: weblate/trans/models/report.py:109 weblate/trans/views/reports.py:990
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translator persona"
 msgid "Translator work analysis"
-msgstr "Личност на преводача"
+msgstr "Анализ на работата на преводачите"
 
 #: weblate/templates/snippets/reports.html:105
 msgid ""
 "Analyzes realistic daily translator throughput while filtering obvious "
 "outliers."
 msgstr ""
+"Анализира реалистичната производителност на преводачите за ден, като "
+"филтрира очевидните изключения от нормалното."
 
 #: weblate/templates/snippets/reports.html:119
-#, fuzzy
-#| msgid "Data exports"
 msgid "Past reports"
-msgstr "Изнасяне на данни"
+msgstr "Предишни доклади"
 
 #: weblate/templates/snippets/reports.html:122
-#, fuzzy
-#| msgid "Previously not translated"
 msgid "Previously generated reports"
-msgstr "Досега без превод"
+msgstr "Създадени по-рано доклади"
 
 #: weblate/templates/snippets/reports.html:126
-#, fuzzy
-#| msgid "Create"
 msgid "Creator"
-msgstr "Създаване"
+msgstr "Създател"
 
 #: weblate/templates/snippets/reports.html:128
-#, fuzzy
-#| msgid "Download"
 msgid "Downloads"
-msgstr "Сваляне"
+msgstr "Сваляния"
 
 #: weblate/templates/snippets/reports.html:139
 #: weblate/templates/widgets.html:59
@@ -15588,16 +15560,12 @@ msgid "reStructuredText"
 msgstr "reStructuredText"
 
 #: weblate/templates/snippets/reports.html:145
-#, fuzzy
-#| msgid "No recovery codes generated yet."
 msgid "No reports have been generated yet."
-msgstr "Все още няма създадени кодове за възстановяване."
+msgstr "Все още няма създадени доклади."
 
 #: weblate/templates/snippets/reports.html:152
-#, fuzzy
-#| msgid "Repository initialization"
 msgid "Report history pagination"
-msgstr "Подготовка на хранилището"
+msgstr "Странициране на историята на докладите"
 
 #: weblate/templates/snippets/settings-organize.html:6
 #, python-format
@@ -15990,12 +15958,16 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+"Компонентът изглежда сякаш съдържа обикновени файлове gettext PO, но е "
+"настроен като едноезичен gettext PO."
 
 #: weblate/templates/trans/alert/bilingualpoconfiguredasmonolingual.html:4
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
 "clear the monolingual base language file, and update the component."
 msgstr ""
+"Ако тези файлове PO са двуезични, сменете формата им на gettext PO, "
+"изчистете едноезичния основен езиков файл и обновете компонента."
 
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid ""
