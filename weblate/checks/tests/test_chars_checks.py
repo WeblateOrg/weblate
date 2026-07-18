@@ -24,6 +24,7 @@ from weblate.checks.chars import (
     KabyleCharactersCheck,
     KashidaCheck,
     MaxLengthCheck,
+    MaxLinesCheck,
     MultipleCapitalCheck,
     NewLineCountCheck,
     PunctuationSpacingCheck,
@@ -477,6 +478,74 @@ class MaxLengthCheckTest(SimpleTestCase):
                 ["hi <mrk>%s</mrk>"],
                 ["ahoj <mrk>%s</mk>"],
                 make_unit(flags="max-length:10, xml-text"),
+            )
+        )
+
+
+class MaxLinesCheckTest(SimpleTestCase):
+    def setUp(self) -> None:
+        self.check = MaxLinesCheck()
+
+    def test_single_line_within_limit(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["source"],
+                ["translation"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_single_line_exceeds_limit(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["translation"],
+                make_unit(flags="max-lines:1"),
+            )
+        )
+
+    def test_multi_line_within_limit(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_multi_line_exceeds_limit(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2\nline3\nline4"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_exact_boundary(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2\nline3"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_one_over_boundary(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2\nline3\nline4"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_invalid_flag(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["translation"],
+                make_unit(flags="max-lines:*"),
             )
         )
 
