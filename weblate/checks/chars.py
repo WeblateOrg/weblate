@@ -553,6 +553,22 @@ class MaxLengthCheck(TargetCheckParametrized):
         return any(len(replace(target)) > value for target in targets)
 
 
+class MaxLinesCheck(TargetCheckParametrized):
+    """Check for maximum number of lines in translation."""
+
+    check_id = "max-lines"
+    name = gettext_lazy("Maximum number of lines")
+    description = gettext_lazy("Translation should not exceed given number of lines.")
+    default_disabled = True
+
+    param_type = single_value_flag(int)
+
+    def check_target_params(
+        self, sources: list[str], targets: list[str], unit: Unit, value
+    ):
+        return any(target.count("\n") + 1 > value for target in targets)
+
+
 class EndSemicolonCheck(TargetCheck):
     """Check for semicolon at end."""
 
