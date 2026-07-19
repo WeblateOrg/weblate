@@ -26,13 +26,15 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
-from weblate.trans.signals import vcs_post_update
+from weblate.trans.signals import component_post_update, vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.validators import validate_bitmap
 from weblate.vcs.base import RepositorySymlinkError
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from weblate.trans.models import Component
 
 
@@ -105,13 +107,20 @@ class Screenshot(models.Model, UserDisplayMixin):
 
     def add_unit(self, unit: Unit, user: User | None = None) -> None:
         """Add a unit to this screenshot and create a change event."""
-        self.units.add(unit)
-        self.change_set.create(
-            action=ActionEvents.SCREENSHOT_ADDED,
-            user=user or self.user,
-            target=self.name,
-            unit=unit,
-        )
+        self.add_units([unit], user=user)
+
+    def add_units(self, units: Sequence[Unit], user: User | None = None) -> None:
+        """Add units to this screenshot and create change events."""
+        if not units:
+            return
+        self.units.add(*units)
+        for unit in units:
+            self.change_set.create(
+                action=ActionEvents.SCREENSHOT_ADDED,
+                user=user or self.user,
+                target=self.name,
+                unit=unit,
+            )
 
     def remove_unit(self, unit: Unit, user: User | None = None) -> None:
         """Remove a unit from this screenshot and create a change event."""
@@ -128,31 +137,35 @@ class Screenshot(models.Model, UserDisplayMixin):
 @disable_for_loaddata
 def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
     # Update alerts in case there is change in string assignment
-    if instance.translation.component.alert_set.filter(
-        name="UnusedScreenshot"
-    ).exists():
-        update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
+    if action in {"post_add", "post_remove", "post_clear"}:
+        update_alerts(
+            instance.translation.component,
+            alerts={"MissingScreenshots", "UnusedScreenshot"},
+        )
 
 
 @receiver(post_save, sender=Screenshot)
 @disable_for_loaddata
-def clear_missing_screenshots_alert(sender, instance: Screenshot, **kwargs) -> None:
-    component = instance.translation.component
-    deleted, _counts = component.alert_set.filter(name="MissingScreenshots").delete()
-    if deleted:
-        component.__dict__.pop("all_alerts", None)
-        component.__dict__.pop("all_active_alerts", None)
-        component.__dict__.pop("all_problem_alerts", None)
-        component.clear_prefetched_alerts()
+def update_alerts_on_screenshot_save(sender, instance: Screenshot, **kwargs) -> None:
+    update_alerts(
+        instance.translation.component,
+        alerts={"MissingScreenshots", "UnusedScreenshot"},
+    )
 
 
 @receiver(post_delete, sender=Screenshot)
 def update_alerts_on_screenshot_delete(sender, instance: Screenshot, **kwargs) -> None:
-    # Update the unused screenshot alert if screenshot is deleted
-    if instance.translation.component.alert_set.filter(
-        name="UnusedScreenshot"
-    ).exists():
-        update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
+    update_alerts(
+        instance.translation.component,
+        alerts={"MissingScreenshots", "UnusedScreenshot"},
+    )
+
+
+@receiver(component_post_update)
+def update_screenshot_coverage_on_component_update(
+    sender, component: Component, **kwargs
+) -> None:
+    update_alerts(component, alerts={"MissingScreenshots"})
 
 
 def validate_screenshot_image(component: Component, filename: str) -> str | None:

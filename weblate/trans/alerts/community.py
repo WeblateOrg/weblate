@@ -129,7 +129,7 @@ class ChecklistAlert(BaseAlert):
             )
         )
 
-    def get_context(self, user: User):
+    def get_context(self, user: User) -> dict[str, Any]:
         result = super().get_context(user)
         alert_class = self.__class__
         component = self.instance.component
@@ -152,7 +152,8 @@ class ChecklistAlert(BaseAlert):
 @register
 class MissingRepositoryHook(ChecklistAlert):
     verbose = gettext_lazy(
-        "Configure repository hooks for automated flow of updates to Weblate."
+        "Repository updates are pulled manually. Configure repository hooks to "
+        "automate pulling changes into Weblate."
     )
     url = "settings"
     anchor = "vcs"
@@ -181,7 +182,8 @@ class MissingRepositoryHook(ChecklistAlert):
 @register
 class MissingPushURL(ChecklistAlert):
     verbose = gettext_lazy(
-        "Configure push URL for automated flow of translations from Weblate."
+        "Outbound translation delivery is manual. Configure a push URL or a "
+        "pull or merge request integration to automate it."
     )
     url = "settings"
     anchor = "vcs"
@@ -204,6 +206,7 @@ class MissingTranslationInstructions(ChecklistAlert):
     verbose = gettext_lazy("Define translation instructions to help translators.")
     configure_permission = "project.edit"
     project_wide = True
+    template_name = ""
 
     @classmethod
     def get_dismissal_context(cls, component: Component, details: dict) -> dict:
@@ -237,29 +240,61 @@ class MissingTranslationInstructions(ChecklistAlert):
 
 @register
 class MissingScreenshots(ChecklistAlert):
-    verbose = gettext_lazy("Add screenshots to show where strings are being used.")
+    verbose = gettext_lazy("Improve source string screenshot coverage.")
     severity = AlertSeverity.INFO
     url = "screenshots"
     configure_permission = "screenshot.add"
+    template_name = ""
+
+    def __init__(self, instance, **_details: int) -> None:
+        super().__init__(instance)
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        if "with_screenshots" not in result or "without_screenshots" not in result:
+            with_screenshots, without_screenshots = self.get_coverage(
+                self.instance.component
+            )
+            result["with_screenshots"] = with_screenshots
+            result["without_screenshots"] = without_screenshots
+        return result
+
+    @classmethod
+    def get_coverage(cls, component: Component) -> tuple[int, int]:
+        source_units = component.source_translation.unit_set
+        with_screenshots = (
+            source_units.filter(screenshots__isnull=False).distinct().count()
+        )
+        return with_screenshots, source_units.count() - with_screenshots
 
     @classmethod
     def get_dismissal_context(cls, component: Component, details: dict) -> dict:
-        # ruff: ignore[import-outside-top-level]
-        from weblate.screenshots.models import Screenshot
-
-        screenshots = list(
-            Screenshot.objects.filter(translation__component=component)
+        units_without_screenshots = list(
+            component.source_translation.unit_set.filter(screenshots__isnull=True)
             .order_by("pk")
             .values_list("pk", flat=True)
         )
-        return {"details": details, "screenshots": screenshots}
+        return {
+            "details": details,
+            "units_without_screenshots": units_without_screenshots,
+        }
 
     @classmethod
     def is_passing(cls, component: Component) -> bool:
-        # ruff: ignore[import-outside-top-level]
-        from weblate.screenshots.models import Screenshot
+        _with_screenshots, without_screenshots = cls.get_coverage(component)
+        return without_screenshots == 0
 
-        return Screenshot.objects.filter(translation__component=component).exists()
+    @classmethod
+    def check_component(cls, component: Component) -> bool | dict | None:
+        if not cls.is_relevant(component):
+            return False
+        with_screenshots, without_screenshots = cls.get_coverage(component)
+        if without_screenshots:
+            return {
+                "with_screenshots": with_screenshots,
+                "without_screenshots": without_screenshots,
+            }
+        return False
 
     @classmethod
     def get_doc_url(cls, _component: Component, user: User | None = None) -> str:
