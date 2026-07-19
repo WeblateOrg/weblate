@@ -1,38 +1,8 @@
-{% extends "base.html" %}
+{% extends "addons/addon_base.html" %}
 
 {% load crispy_forms_tags i18n permissions static translations %}
 
-{% block breadcrumbs %}
-  {% if object %}
-    {% path_object_breadcrumbs object %}
-    <li class="breadcrumb-item">
-      <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
-    </li>
-  {% else %}
-    <li class="breadcrumb-item">
-      <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
-    </li>
-  {% endif %}
-  <li class="breadcrumb-item">
-    {% if instance %}
-      <a href="{% url 'addon-detail' pk=instance.pk %}">
-        {% if addon %}
-          {{ addon.verbose }}
-        {% else %}
-          {{ addon_name }}
-        {% endif %}
-      </a>
-    {% else %}
-      {% if addon %}
-        {{ addon.verbose }}
-      {% else %}
-        {{ addon_name }}
-      {% endif %}
-    {% endif %}
-  </li>
-{% endblock breadcrumbs %}
-
-{% block content %}
+{% block addon_content %}
 
   {% if form %}
     <form method="post" id="addon-form">
@@ -54,29 +24,48 @@
         </div>
         <div class="card-footer">
           <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
-          {% if components_url %}
-            <a href="{{ components_url }}" class="btn btn-primary">{% translate "View components" %}</a>
-          {% endif %}
         </div>
       </div>
     </form>
   {% else %}
     <p class="help-block">{% translate "This add-on has no settings." %}</p>
-    {% if instance and instance.can_run_manually %}
-      <form method="post" class="inlineform">
-        {% csrf_token %}
-        <button type="submit" name="run" value="1" class="btn btn-primary">{% translate "Run now" %}</button>
-      </form>
-    {% endif %}
-    {% if instance %}
-      <a href="{% url 'addon-logs' instance.id %}" class="btn btn-primary">{% translate "View Logs" %}</a>
-      {% if components_url %}
-        <a href="{{ components_url }}" class="btn btn-primary">{% translate "View components" %}</a>
-      {% endif %}
-    {% endif %}
   {% endif %}
 
-{% endblock content %}
+  {% if instance and instance.can_run_manually %}
+    <form method="post">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Run add-on" %}</h4>
+        </div>
+        <div class="card-body">
+          {% csrf_token %}
+          <p>{% translate "Schedule this add-on to run as soon as possible." %}</p>
+        </div>
+        <div class="card-footer">
+          <button type="submit" name="run" value="1" class="btn btn-primary">{% translate "Run now" %}</button>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+
+  {% if instance %}
+    <form method="post">
+      <div class="card">
+        <div class="card-header text-bg-danger">
+          <h4 class="card-title">{% translate "Danger zone" %}</h4>
+        </div>
+        <div class="card-body">
+          {% csrf_token %}
+          <p>{% translate "Uninstalling the add-on stops it from running and removes its configuration." %}</p>
+        </div>
+        <div class="card-footer">
+          <button type="submit" name="delete" value="1" class="btn btn-danger">{% translate "Uninstall" %}</button>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+
+{% endblock addon_content %}
 
 {% block extra_script %}
   {{ block.super }}
