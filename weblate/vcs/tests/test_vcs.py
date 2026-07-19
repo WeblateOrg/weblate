@@ -3825,6 +3825,39 @@ class VCSHgTest(VCSGitTest):
         status = self.repo.status()
         self.assertEqual(status, "")
 
+    def test_get_file_option_shaped_filename(self) -> None:
+        filename = "--config=alias.cat=version"
+        content = "OPTION-SHAPED FILE\n"
+        Path(self.tempdir, filename).write_text(content, encoding="utf-8")
+
+        with self.repo.lock:
+            self.repo.commit(
+                "Add option-shaped filename",
+                "Test <test@example.net>",
+                timezone.now(),
+                [filename],
+            )
+
+        self.assertEqual(self.repo.get_file(filename, self.repo.last_revision), content)
+
+    def test_commit_option_shaped_filename(self) -> None:
+        filename = "--config=alias.commit=version"
+        Path(self.tempdir, filename).write_text("COMMITTED FILE\n", encoding="utf-8")
+        old_revision = self.repo.last_revision
+
+        with self.repo.lock:
+            self.repo.commit(
+                "Add option-shaped filename",
+                "Test <test@example.net>",
+                timezone.now(),
+                [filename],
+            )
+
+        self.assertNotEqual(self.repo.last_revision, old_revision)
+        self.assertEqual(
+            self.repo.get_file(filename, self.repo.last_revision), "COMMITTED FILE\n"
+        )
+
     def test_count_outgoing_runtime_private_url_rejected(self) -> None:
         self.repo.component.repo = "https://private.example/repo"
         with (
