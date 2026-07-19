@@ -24,6 +24,7 @@ from weblate.trans.templatetags.translations import (
     format_unit_target,
 )
 from weblate.utils.files import FileUploadMethod, get_upload_message
+from weblate.utils.html import format_html_join_comma
 from weblate.utils.markdown import render_markdown
 from weblate.utils.pii import mask_email
 
@@ -592,7 +593,7 @@ class ShowBackupRestoreEvent(BaseChangeHistoryContext):
             ]
 
         if self.change.action == ActionEvents.PROJECT_RESTORE:
-            return [
+            fields = [
                 self.make_field(
                     gettext("Backup created"),
                     details["backup_timestamp"],
@@ -606,6 +607,18 @@ class ShowBackupRestoreEvent(BaseChangeHistoryContext):
                     details["backup_domain"],
                 ),
             ]
+            skipped_components = details.get("skipped_components")
+            if isinstance(skipped_components, list):
+                fields.append(
+                    self.make_field(
+                        gettext("Skipped components"),
+                        format_html_join_comma(
+                            "<code>{}</code>",
+                            ((component,) for component in skipped_components),
+                        ),
+                    )
+                )
+            return fields
 
         return [
             self.make_field(
