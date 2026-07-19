@@ -5199,6 +5199,14 @@ class ViewTests(ViewTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "addons/addon_logs.html")
         self.assertEqual(response.context["instance"], addon)
+        self.assertEqual(response.context["addon_page"], "logs")
+        self.assertContains(response, 'class="nav-link active"')
+        self.assertContains(response, 'aria-current="page"')
+        self.assertContains(response, addon.get_absolute_url())
+        self.assertContains(response, reverse("addon-logs", kwargs={"pk": addon.pk}))
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": addon.pk})
+        )
         self.assertContains(response, "Skipped")
         self.assertContains(response, "The add-on does not apply to this event.")
 
@@ -5216,13 +5224,20 @@ class ViewTests(ViewTestCase):
 
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
 
-        self.assertContains(response, "Run now")
+        self.assertNotContains(response, "Run now")
         self.assertContains(response, addon.get_absolute_url())
+
+        response = self.client.get(addon.get_absolute_url())
+        self.assertContains(response, "Run now")
+        self.assertContains(response, "Run add-on")
+        self.assertContains(response, "Danger zone")
+        self.assertContains(response, "Uninstall")
 
     def test_non_daily_addon_has_no_manual_run_button(self) -> None:
         GettextAuthorComments.create(component=self.component, run=False)
 
-        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+        addon = self.component.addon_set.get()
+        response = self.client.get(addon.get_absolute_url())
 
         self.assertNotContains(response, "Run now")
 
@@ -5239,9 +5254,14 @@ class ViewTests(ViewTestCase):
             },
         ).instance
 
-        response = self.client.post(addon.get_absolute_url(), {"run": "1"}, follow=True)
+        response = self.client.post(addon.get_absolute_url(), {"run": "1"})
 
         mocked_delay.assert_called_once_with(addon.pk)
+        self.assertRedirects(
+            response, addon.get_absolute_url(), fetch_redirect_response=False
+        )
+
+        response = self.client.get(addon.get_absolute_url())
         self.assertContains(response, "Add-on run has been scheduled.")
 
     def test_nonexisting_detail(self) -> None:
@@ -5255,6 +5275,11 @@ class ViewTests(ViewTestCase):
         self.assertTemplateUsed(response, "addons/addon_detail.html")
         self.assertContains(response, identifier)
         self.assertNotContains(response, 'name="form"')
+        self.assertContains(response, "Configuration")
+        self.assertContains(response, "Logs")
+        self.assertNotContains(response, "Components")
+        self.assertContains(response, "Danger zone")
+        self.assertContains(response, "Uninstall")
 
     def test_nonexisting_logs(self) -> None:
         identifier = "weblate.addon.nonexisting"
@@ -5490,6 +5515,15 @@ class ViewTests(ViewTestCase):
         self.assertContains(response, "Configure add-on")
         self.assertContains(response, "This field is required")
 
+        response = self.client.post(
+            addon.get_absolute_url(),
+            {
+                "filename": "stats/{{ language_code }}.json",
+                "template": '{"code":"{{ language_code }}"}',
+            },
+        )
+        self.assertRedirects(response, addon.get_absolute_url())
+
     def test_delete(self) -> None:
         addon = SourceEditAddon.create(component=self.component)
         response = self.client.post(
@@ -5518,25 +5552,25 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
 
         self.assertContains(response, "Manual result add-on")
         self.assertContains(response, "Test add-on")
-        self.assertContains(response, "project-wide")
-        self.assertContains(response, "category")
-        self.assertContains(response, "site-wide")
+        self.assertContains(response, "Project")
+        self.assertContains(response, "Category")
+        self.assertContains(response, "Site")
+        self.assertContains(response, "badge addon-scope")
         self.assertContains(response, "Inherited from")
         self.assertNotContains(response, "Installed at the current scope.")
         self.assertContains(
+            response, reverse("addon-detail", kwargs={"pk": manual_addon.pk})
+        )
+        self.assertNotContains(
             response, reverse("addon-logs", kwargs={"pk": manual_addon.pk})
         )
         self.assertNotContains(
-            response, reverse("addon-components", kwargs={"pk": manual_addon.pk})
+            response, reverse("addon-detail", kwargs={"pk": sitewide_addon.pk})
         )
         self.assertNotContains(
             response, reverse("addon-components", kwargs={"pk": category_addon.pk})
         )
-        self.assertNotContains(
-            response, reverse("addon-components", kwargs={"pk": sitewide_addon.pk})
-        )
         self.assertContains(response, "Managed at a scope you do not have access to.")
-        self.assertContains(response, "Manage add-ons at Test")
         self.assertNotContains(response, "Run now")
         self.assertNotContains(response, "Uninstall")
         self.assertNotContains(response, "Configure")
@@ -5565,7 +5599,7 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
 
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
 
-        self.assertContains(response, "repository wide")
+        self.assertContains(response, "Repository")
 
     def test_repository_scope_addon_components_view(self) -> None:
         linked_component = self.create_link_existing(name="Linked", slug="linked")
@@ -5575,6 +5609,12 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
 
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
 
+        self.assertContains(response, reverse("addon-detail", kwargs={"pk": addon.pk}))
+        self.assertNotContains(
+            response, reverse("addon-components", kwargs={"pk": addon.pk})
+        )
+
+        response = self.client.get(reverse("addon-detail", kwargs={"pk": addon.pk}))
         self.assertContains(
             response, reverse("addon-components", kwargs={"pk": addon.pk})
         )
@@ -5582,6 +5622,13 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
         response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
 
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["addon_page"], "components")
+        self.assertContains(response, addon.get_absolute_url())
+        self.assertContains(response, reverse("addon-logs", kwargs={"pk": addon.pk}))
+        self.assertContains(
+            response, reverse("addon-components", kwargs={"pk": addon.pk})
+        )
+        self.assertContains(response, 'aria-current="page"')
         components = {row["component"] for row in response.context["component_rows"]}
         self.assertEqual(components, {self.component, linked_component})
 
@@ -5626,6 +5673,11 @@ class AddonScopeViewTests(TestAddonMixin, ViewTestCase):
 
     def test_component_addon_components_view_not_available(self) -> None:
         addon = NoOpAddon.create(component=self.component, run=False).instance
+
+        detail_response = self.client.get(addon.get_absolute_url())
+        self.assertNotContains(
+            detail_response, reverse("addon-components", kwargs={"pk": addon.pk})
+        )
 
         response = self.client.get(reverse("addon-components", kwargs={"pk": addon.pk}))
 
@@ -8944,8 +8996,16 @@ class SiteWideAddonsTest(ViewTestCase):
 
         response = self.client.get(detail_url)
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, reverse("manage"))
+        self.assertContains(response, reverse("manage-addons"))
+        self.assertContains(response, detail_url)
+        self.assertContains(response, logs_url)
         response = self.client.get(logs_url)
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, reverse("manage"))
+        self.assertContains(response, reverse("manage-addons"))
+        self.assertContains(response, detail_url)
+        self.assertContains(response, logs_url)
 
     def test_gettext(self) -> None:
         MsgmergeAddon.create()
@@ -9471,7 +9531,11 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "Installed 1 add-on")
+        self.assertEqual(
+            response.redirect_chain,
+            [(reverse("addon-detail", kwargs={"pk": addon.id}), 302)],
+        )
+        self.assertContains(response, "Configure add-on")
         addon.refresh_from_db()
         self.assertEqual(
             addon.configuration["event_filter"], CHANGE_EVENT_FILTER_CONTENT
