@@ -2738,7 +2738,9 @@ class Translation(
             self.handle_store_change(request, user, previous_revision)
             if source_unit_deleted:
                 transaction.on_commit(
-                    lambda: update_alerts(component, {"MissingScreenshots", "UnusedScreenshot"})
+                    lambda: update_alerts(
+                        component, {"MissingScreenshots", "UnusedScreenshot"}
+                    )
                 )
 
     @transaction.atomic
