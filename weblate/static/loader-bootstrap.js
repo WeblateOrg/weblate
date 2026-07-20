@@ -15,16 +15,6 @@ function hide(element) {
     element.style.display = "none";
   }
 }
-function toggleDisplay(element) {
-  if (!element) {
-    return;
-  }
-  if (getComputedStyle(element).display === "none") {
-    element.style.display = "";
-  } else {
-    element.style.display = "none";
-  }
-}
 function onReady(callback) {
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", callback);
@@ -1711,7 +1701,9 @@ onReady(() => {
         sortValue.replace("-", "") === sortDropdownValue.replace("-", "") &&
         sortValue !== sortDropdownValue
       ) {
-        document.querySelectorAll("span.search-icon").forEach(toggleDisplay);
+        document.querySelectorAll("span.search-icon").forEach((icon) => {
+          icon.classList.toggle("active");
+        });
       }
     }
   }
