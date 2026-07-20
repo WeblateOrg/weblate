@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-17 21:21-0500\n"
-"PO-Revision-Date: 2026-07-19 07:02+0000\n"
+"PO-Revision-Date: 2026-07-20 11:01+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -4688,15 +4688,15 @@ msgid "Billing plan"
 msgstr "Faktureringsplan"
 
 #: weblate/billing/forms.py:50
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "Började provperiod."
+msgstr "Återställ provperioden"
 
 #: weblate/billing/forms.py:53
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"Ställ in denna fakturering på den vanliga provperioden och avbryt den "
+"schemalagda borttagningen."
 
 #: weblate/billing/models.py:236 weblate/templates/billing/list.html:6
 #: weblate/templates/trans/component_create.html:203
@@ -4871,10 +4871,8 @@ msgid "Billing event"
 msgstr "Faktureringshändelse"
 
 #: weblate/billing/models.py:1240
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
-msgstr "E-posten ändrades från {old} till {new}."
+msgstr "Ändrat från ”{}” till ”{}”."
 
 #: weblate/billing/tasks.py:97
 msgid ""
@@ -5094,12 +5092,10 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Saknat fast mellanslag före dubbelt skiljetecken."
 
 #: weblate/checks/chars.py:680
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign."
 msgid "Missing non breakable space before punctuation mark {}."
 msgid_plural "Missing non breakable space before punctuation marks {}."
-msgstr[0] "Saknat fast mellanslag före dubbelt skiljetecken."
-msgstr[1] "Saknat fast mellanslag före dubbelt skiljetecken."
+msgstr[0] "Fast mellanslag saknas före skiljetecknet {}."
+msgstr[1] "Fast mellanslag saknas före skiljetecknen {}."
 
 #: weblate/checks/chars.py:730
 msgid "Multiple capitals"
@@ -7312,6 +7308,8 @@ msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
 msgstr ""
+"Maskinöversättning på projektnivå får inte använda interna eller icke-"
+"offentliga adresser."
 
 #: weblate/machinery/forms.py:81
 msgid ""
@@ -7319,6 +7317,9 @@ msgid ""
 "addresses. Contact the site administrator if this service should be "
 "configured site-wide or allowlisted."
 msgstr ""
+"Maskinöversättning på projektnivå får inte använda interna eller icke-"
+"offentliga adresser. Kontakta webbplatsens administratör om denna tjänst ska "
+"konfigureras för hela webbplatsen eller vitlistas."
 
 #: weblate/machinery/forms.py:125 weblate/machinery/forms.py:152
 #: weblate/machinery/forms.py:169 weblate/machinery/forms.py:176
@@ -7419,10 +7420,8 @@ msgstr ""
 "allmänna."
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "Ange en giltig språkkod."
+msgstr "Ange ett giltigt Azure-regionnamn."
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7515,61 +7514,47 @@ msgstr "Formalitet"
 
 #: weblate/machinery/forms.py:351 weblate/machinery/forms.py:361
 #: weblate/machinery/forms.py:370
-#, fuzzy
-#| msgid "Default font"
 msgctxt "AWS Translate configuration"
 msgid "Default"
-msgstr "Standardteckensnittet"
+msgstr "Standard"
 
 #: weblate/machinery/forms.py:352
-#, fuzzy
-#| msgid "Format"
 msgctxt "AWS Translate configuration"
 msgid "Formal"
-msgstr "Format"
+msgstr "Formellt"
 
 #: weblate/machinery/forms.py:353
-#, fuzzy
-#| msgid "Information"
 msgctxt "AWS Translate configuration"
 msgid "Informal"
-msgstr "Information"
+msgstr "Informellt"
 
 #: weblate/machinery/forms.py:357
 msgctxt "AWS Translate configuration"
 msgid "Brevity"
-msgstr ""
+msgstr "Korthet"
 
 #: weblate/machinery/forms.py:359
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Prefer shorter translations when supported."
-msgstr "Förfyll översättning med källa"
+msgstr "Föredra kortare översättningar när de stödjs."
 
 #: weblate/machinery/forms.py:362
-#, fuzzy
-#| msgid "Enable"
 msgctxt "AWS Translate configuration"
 msgid "Enabled"
-msgstr "Aktivera"
+msgstr "Aktiverat"
 
 #: weblate/machinery/forms.py:366
-#, fuzzy
-#| msgid "Profile"
 msgctxt "AWS Translate configuration"
 msgid "Profanity"
-msgstr "Profil"
+msgstr "Svordomar"
 
 #: weblate/machinery/forms.py:368
-#, fuzzy
-#| msgid "Main website of translated project."
 msgid "Mask profane words in translated text."
-msgstr "Huvudsaklig webbsida för översatt projekt."
+msgstr "Maskera svordomar i den översatta texten."
 
 #: weblate/machinery/forms.py:371
 msgctxt "AWS Translate configuration"
 msgid "Mask profanity"
-msgstr ""
+msgstr "Maskera svordomar"
 
 #: weblate/machinery/forms.py:378
 msgctxt "Alibaba Translate configuration"
@@ -7640,7 +7625,7 @@ msgstr ""
 
 #: weblate/machinery/forms.py:465
 msgid "DeepL API v1 is no longer supported."
-msgstr ""
+msgstr "DeepL API v1 stödjs inte längre."
 
 #: weblate/machinery/forms.py:477
 msgctxt "Automatic suggestion service configuration"
@@ -7672,11 +7657,9 @@ msgstr ""
 "Beskriv översättningsstilen. Till exempel: \"Använd informellt språk.\""
 
 #: weblate/machinery/forms.py:506
-#, fuzzy
-#| msgid "Integration instructions"
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
-msgstr "Integrationsinstruktioner"
+msgstr "Språkspecifika instruktioner"
 
 #: weblate/machinery/forms.py:511
 #, python-format
@@ -7684,20 +7667,22 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to %(limit)d characters each."
 msgstr ""
+"JSON-objekt som avbildar befintliga målspråkkoder till extra instruktioner, "
+"upp till %(limit)d tecken vardera."
 
 #: weblate/machinery/forms.py:524 weblate/machinery/forms.py:531
 msgid "Language-specific instructions must be a JSON object."
-msgstr ""
+msgstr "Språkspecifika instruktioner måste vara ett JSON-objekt."
 
 #: weblate/machinery/forms.py:540
 #, python-format
 msgid "Language-specific instructions contain invalid language code \"%s\"."
-msgstr ""
+msgstr "De språkspecifika instruktionerna innehåller fekaktig språkkod \"%s\"."
 
 #: weblate/machinery/forms.py:548
 #, python-format
 msgid "Language-specific instructions contain unknown language code \"%s\"."
-msgstr ""
+msgstr "De språkspecifika instruktionerna innehåller okänd språkkod \"%s\"."
 
 #: weblate/machinery/forms.py:557
 #, python-format
@@ -7705,6 +7690,8 @@ msgid ""
 "Language-specific instructions for \"%(language)s\" must be at most "
 "%(limit)d characters."
 msgstr ""
+"De språkspecifika instruktionerna för ”%(language)s” får omfatta högst %"
+"(limit)d tecken."
 
 #: weblate/machinery/forms.py:577
 msgctxt "OpenAI model selection"
@@ -7751,43 +7738,29 @@ msgid "Choose custom model here to enable it."
 msgstr "Välj anpassad modell här för att aktivera den."
 
 #: weblate/machinery/forms.py:636
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "Automatiskt val"
 
 #: weblate/machinery/forms.py:643
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "Anpassad modell"
 
 #: weblate/machinery/forms.py:648
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral API base URL"
-msgstr "OpenAI API-bas-URL"
+msgstr "Mistral API:s bas-URL"
 
 #: weblate/machinery/forms.py:652
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
-msgstr "Bas-URL för OpenAI API, om den skiljer sig från OpenAI:s standard-URL"
+msgstr ""
+"Bas-URL till Mistrals API, om den skiljer sig från Mistrals standard-URL"
 
 #: weblate/machinery/forms.py:659
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral model"
-msgstr "Anpassad modell"
+msgstr "Mistralmodell"
 
 #: weblate/machinery/forms.py:667
 msgctxt "Mistral model selection"
@@ -7833,33 +7806,21 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:736
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (Rekommenderas)"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:740
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:744
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:746
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Anthropic model selection"
 msgid "Custom model"
 msgstr "Anpassad modell"
@@ -7867,14 +7828,13 @@ msgstr "Anpassad modell"
 #: weblate/machinery/forms.py:751
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "Antropisks API:s URL"
 
 #: weblate/machinery/forms.py:754
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "Bas-URL för OpenAI API, om den skiljer sig från OpenAI:s standard-URL"
+msgstr ""
+"Bas-URL till Anthropics API. Lämna fältet tomt för att använda standard-"
+"URL:en."
 
 #: weblate/machinery/forms.py:762
 msgctxt "Automatic suggestion service configuration"
@@ -7893,25 +7853,22 @@ msgstr "Max antal tokens"
 
 #: weblate/machinery/forms.py:780
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "Högsta antal token som ska genereras i svaret."
 
 #: weblate/machinery/llm.py:178
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
-msgstr ""
+msgstr "Hej, @@PH1@@!"
 
 #: weblate/machinery/llm.py:179
 msgctxt "LLM translation example"
 msgid "Click <a href=\"/x\">Save</a>."
-msgstr ""
+msgstr "Klicka på <a href=\"/x\">Spara</a>."
 
 #: weblate/machinery/llm.py:180
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks"
 msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
-msgstr "Fallerande kontroller"
+msgstr "@@PH1@@ misslyckade kontroller"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -7955,10 +7912,8 @@ msgid "Target language of the document when not specified in file"
 msgstr "Dokumentets målspråk när det inte anges i filen"
 
 #: weblate/memory/forms.py:52
-#, fuzzy
-#| msgid "You can upload a file of following formats: %s."
 msgid "You can upload a file of following formats:"
-msgstr "Du kan skicka upp en fil med följande format: %s."
+msgstr "Man kan ladda upp en fil med följande format:"
 
 #: weblate/memory/forms.py:65
 msgid ""
@@ -7977,52 +7932,39 @@ msgstr "Projekt"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:123
 #: weblate/memory/models.py:1258
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory scope"
 msgid "Workspace"
 msgstr "Arbetsområde"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:127
 #: weblate/memory/models.py:1259
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory scope"
 msgid "Shared"
-msgstr "Dela"
+msgstr "Delad"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1260
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "Personlig information: {}"
+msgstr "Personlig"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1261
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Fil"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:140
 #: weblate/memory/models.py:1262
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "Projektnamn"
+msgstr "Projektfil"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:146
 #: weblate/memory/models.py:1263
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "Personlig info"
+msgstr "Personlig fil"
 
 #: weblate/memory/models.py:539
 #, python-format
@@ -8044,10 +7986,8 @@ msgid "Could not parse TMX file: %s"
 msgstr "Kunde inte tolka TMX-filen: %s"
 
 #: weblate/memory/models.py:662
-#, fuzzy
-#| msgid "Source language not defined in the TMX file!"
 msgid "Header missing in the TMX file!"
-msgstr "Källspråket är inte definierat i TMX-filen!"
+msgstr "Huvudet saknas i TMX-filen!"
 
 #: weblate/memory/models.py:667
 msgid "Source language not defined in the TMX file!"
@@ -8092,17 +8032,13 @@ msgid "File: {}"
 msgstr "Fil: {}"
 
 #: weblate/memory/models.py:1041 weblate/memory/models.py:1069
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory category"
 msgid "Workspace: {}"
-msgstr "Arbetsområde"
+msgstr "Arbetsområde: {}"
 
 #: weblate/memory/views.py:88
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Ange en giltig språkkod."
+msgstr "Felaktig språkkod."
 
 #: weblate/memory/views.py:126
 msgid "Entries were deleted."
@@ -8224,10 +8160,8 @@ msgid "Timestamp"
 msgstr "Tidsstämpel"
 
 #: weblate/screenshots/forms.py:206
-#, fuzzy
-#| msgid "Assigned source strings"
 msgid "Assigned strings"
-msgstr "Tilldelade källsträngar"
+msgstr "Tilldelade strängar"
 
 #: weblate/screenshots/forms.py:215 weblate/templates/base.html:107
 #: weblate/templates/category-language.html:22
@@ -8251,10 +8185,8 @@ msgstr "Sök"
 
 #: weblate/screenshots/forms.py:219
 #: weblate/templates/screenshots/screenshot_list.html:88
-#, fuzzy
-#| msgid "Screenshots"
 msgid "Search screenshots"
-msgstr "Skärmdumpar"
+msgstr "Sök skärmbilder"
 
 #: weblate/screenshots/forms.py:225 weblate/trans/forms.py:1697
 msgid "Sort by"
@@ -8282,10 +8214,8 @@ msgid "Upload image up to 2000x2000 pixels."
 msgstr "Ladda upp bilder med som mest 2000x2000 pixels."
 
 #: weblate/screenshots/views.py:326
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "All screenshots"
-msgstr "Lägg till skärmdump"
+msgstr "Alla skärmbilder"
 
 #: weblate/screenshots/views.py:327
 #: weblate/templates/snippets/embed-units.html:69
@@ -8294,22 +8224,16 @@ msgstr "Tilldelade skärmdumpar"
 
 #: weblate/screenshots/views.py:328
 #: weblate/templates/screenshots/screenshot_list.html:58
-#, fuzzy
-#| msgid "Assigned screenshots"
 msgid "Unassigned screenshots"
-msgstr "Tilldelade skärmdumpar"
+msgstr "Ej tilldelade skärmbilder"
 
 #: weblate/screenshots/views.py:329
-#, fuzzy
-#| msgid "Repository path to screenshot"
 msgid "Repository screenshots"
-msgstr "Arkivsökväg till skärmdump"
+msgstr "Förrådsskärmbilder"
 
 #: weblate/screenshots/views.py:331
-#, fuzzy
-#| msgid "Assigned screenshots"
 msgid "Unassigned repository screenshots"
-msgstr "Tilldelade skärmdumpar"
+msgstr "Ej tilldelade förrådsskärmbilder"
 
 #: weblate/screenshots/views.py:392
 #: weblate/templates/snippets/query-field.html:12
@@ -8317,14 +8241,12 @@ msgid "Filters"
 msgstr "Filter"
 
 #: weblate/screenshots/views.py:459
-#, fuzzy
-#| msgid ""
-#| "Screenshot has been uploaded, you can now assign it to source strings."
 msgid ""
 "Screenshot has been uploaded. Search for source strings or find strings in "
 "the image."
 msgstr ""
-"Skärmdumpen har blivit uppladdad. Den kan nu tilldelas till källsträngar."
+"Skärmbilden har skickats. Sök efter källsträngar eller hitta strängar i "
+"bilden."
 
 #: weblate/screenshots/views.py:466
 msgid "Could not upload screenshot, please fix errors below."
@@ -8344,22 +8266,19 @@ msgid "Source has been removed."
 msgstr "Källan har tagits bort."
 
 #: weblate/screenshots/views.py:598
-#, fuzzy, python-format
-#| msgid "No matching source strings found."
+#, python-format
 msgid "%(count)s matching source string found."
 msgid_plural "%(count)s matching source strings found."
-msgstr[0] "Inga matchande källsträngar hittades."
-msgstr[1] "Inga matchande källsträngar hittades."
+msgstr[0] "%(count)s matchande källsträng hittades."
+msgstr[1] "%(count)s matchande källsträngar hittades."
 
 #: weblate/screenshots/views.py:603
 msgid "No new matching source strings found."
 msgstr "Inga nya matchande källsträngar hittades."
 
 #: weblate/screenshots/views.py:746
-#, fuzzy
-#| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
-msgstr "Det gick inte att öppna ett ärende. Försök igen senare."
+msgstr "Det gick inte att hämta OCR-data. Försök igen senare."
 
 #: weblate/templates/400.html:7 weblate/templates/400.html:13
 msgid "Bad request"
@@ -8698,24 +8617,19 @@ msgid "Contact server administrators"
 msgstr "Kontakta serveradministratörer"
 
 #: weblate/templates/accounts/contact.html:29
-#, fuzzy, python-format
-#| msgid "You can only contact administrators of %(site_title)s server here."
+#, python-format
 msgid "Use this form to reach the administrators of %(site_title)s."
-msgstr "Du kan bara kontakta administratörer för %(site_title)s-servern här."
+msgstr "Använd detta formulär för att nå administratörerna av %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:31
-#, fuzzy
-#| msgid "You can only contact administrators of the whole server here."
 msgid "Use this form to reach the administrators of this server."
-msgstr "Du kan endast kontakta administratörer för hela servern här."
+msgstr "Använd detta formulär för att nå administratörerna av denna server."
 
 #: weblate/templates/accounts/contact.html:38
 #: weblate/templates/accounts/user_profile_link.html:35
 #: weblate/templates/vcs/github_app_register_submit.html:55
-#, fuzzy
-#| msgid "Backups"
 msgid "Back"
-msgstr "Säkerhetskopior"
+msgstr "Tillbaka"
 
 #: weblate/templates/accounts/contact.html:39
 #: weblate/templates/manage/tools.html:29
