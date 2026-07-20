@@ -7,14 +7,16 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast
+from unittest.mock import patch
 
-from django.db import connection
-from django.test.utils import CaptureQueriesContext
+from django.db import connection, transaction
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 
 from weblate.trans.models import Category, Project
 from weblate.trans.models.component import ComponentLink
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.stats import GlobalStats
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -101,6 +103,7 @@ class ComponentLinkTestCase(ViewTestCase):
     def test_stats_edit(self) -> None:
         self.other.stats.force_load()
         start_data = self.other.stats.get_data()
+        global_changes = GlobalStats().total_changes
 
         with self.captureOnCommitCallbacks(execute=True):
             self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -111,6 +114,12 @@ class ComponentLinkTestCase(ViewTestCase):
         self.maxDiff = None
         self.assertEqual(project.stats.get_data(), other.stats.get_data())
         self.assertNotEqual(start_data, other.stats.get_data())
+        global_stats = GlobalStats()
+        self.assertGreater(global_stats.total_changes, global_changes)
+        self.assertEqual(
+            global_stats.total_changes,
+            sum(item.stats.total_changes for item in Project.objects.all()),
+        )
 
     def test_stats_languages_count_with_shared_components(self) -> None:
         """Project stats should count distinct languages across own and shared components."""
@@ -356,6 +365,40 @@ class ComponentLinkTestCase(ViewTestCase):
         self.link.refresh_from_db()
         self.assertIsNone(self.link.category)
 
+    @override_settings(STATS_LAZY=False)
+    def test_nested_category_deletion_refreshes_shared_stats(self) -> None:
+        parent = Category.objects.create(
+            name="Parent category", slug="parent-category", project=self.other
+        )
+        child = Category.objects.create(
+            name="Child category",
+            slug="child-category",
+            project=self.other,
+            category=parent,
+        )
+        grandchild = Category.objects.create(
+            name="Grandchild category",
+            slug="grandchild-category",
+            project=self.other,
+            category=child,
+        )
+        self.link.category = grandchild
+        with self.captureOnCommitCallbacks(execute=True):
+            self.link.save(update_fields=["category"])
+
+        language = self.component.translation_set.get(language_code="cs").language
+        self.assertEqual(parent.stats.all, self.component.stats.all)
+        self.assertGreater(parent.stats.get_single_language_stats(language).all, 0)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            child.delete()
+
+        self.link.refresh_from_db()
+        parent = Category.objects.get(pk=parent.pk)
+        self.assertIsNone(self.link.category)
+        self.assertEqual(parent.stats.all, 0)
+        self.assertEqual(parent.stats.get_single_language_stats(language).all, 0)
+
     def test_category_stats(self) -> None:
         """Category stats and languages should include shared components."""
         cat = Category.objects.create(
@@ -396,6 +439,103 @@ class ComponentLinkTestCase(ViewTestCase):
         self.assertGreater(len(language_stats), 0)
         for stat in language_stats:
             self.assertGreater(stat.all, 0)
+
+    def assert_categorized_link_stats_refresh(self) -> None:
+        category = Category.objects.create(
+            name="Stats category", slug="stats-category", project=self.other
+        )
+        self.link.category = category
+        with self.captureOnCommitCallbacks(execute=True):
+            self.link.save(update_fields=["category"])
+
+        before_changes = category.stats.total_changes
+        language = self.component.translation_set.get(language_code="cs").language
+        before_language_changes = category.stats.get_single_language_stats(
+            language
+        ).total_changes
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.edit_unit("Hello, world!\n", "Ahoj, světe! test\n")
+
+        category = Category.objects.get(pk=category.pk)
+        self.assertGreater(category.stats.total_changes, before_changes)
+        self.assertGreater(
+            category.stats.get_single_language_stats(language).total_changes,
+            before_language_changes,
+        )
+        self.assertEqual(category.stats.all, self.component.stats.all)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            self.link.delete()
+        category = Category.objects.get(pk=category.pk)
+        self.assertEqual(category.stats.all, 0)
+        self.assertEqual(category.stats.get_single_language_stats(language).all, 0)
+
+    def test_categorized_link_stats_refresh_lazy(self) -> None:
+        self.assert_categorized_link_stats_refresh()
+
+    @override_settings(STATS_LAZY=False)
+    def test_categorized_link_stats_refresh_eager(self) -> None:
+        self.assert_categorized_link_stats_refresh()
+
+    def test_link_stats_callback_discarded_on_rollback(self) -> None:
+        category = Category.objects.create(
+            name="Rollback category", slug="rollback-category", project=self.other
+        )
+        with (
+            patch(
+                "weblate.utils.tasks.update_component_topology_stats.delay"
+            ) as update,
+            self.captureOnCommitCallbacks(execute=True),
+            self.assertRaises(RuntimeError),
+            transaction.atomic(),
+        ):
+            self.link.category = category
+            self.link.save(update_fields=["category"])
+            raise RuntimeError
+        update.assert_not_called()
+
+    def test_link_stats_update_is_queued(self) -> None:
+        category = Category.objects.create(
+            name="Queued category", slug="queued-category", project=self.other
+        )
+        with (
+            patch(
+                "weblate.utils.tasks.update_component_topology_stats.delay"
+            ) as update,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.link.category = category
+            self.link.save(update_fields=["category"])
+
+        update.assert_called_once_with(
+            [self.component.pk], [self.other.pk], [category.pk]
+        )
+
+    def test_project_cascade_does_not_queue_link_stats(self) -> None:
+        with patch(
+            "weblate.utils.tasks.update_component_topology_stats.delay"
+        ) as update:
+            self.other.delete()
+
+        update.assert_not_called()
+
+    def test_stats_dependencies_are_unique_and_global_last(self) -> None:
+        category = Category.objects.create(
+            name="Ordered category", slug="ordered-category", project=self.other
+        )
+        self.link.category = category
+        self.link.save(update_fields=["category"])
+
+        dependencies = list(
+            self.component.stats._iterate_update_objects()  # ruff: ignore[private-member-access]
+        )
+        keys = [stats.cache_key for stats in dependencies]
+        global_index = keys.index(GlobalStats().cache_key)
+        self.assertEqual(len(keys), len(set(keys)))
+        self.assertLess(keys.index(category.stats.cache_key), global_index)
+        self.assertLess(keys.index(self.other.stats.cache_key), global_index)
+        self.assertLess(keys.index(self.project.stats.cache_key), global_index)
 
     def test_add_link_requires_managed_project(self) -> None:
         """Cannot add a link to a project the user does not manage."""
