@@ -1515,6 +1515,34 @@ class AsciiDocMarkupCheckTest(CheckTestCase):
             ),
         )
 
+    def test_escaped_bracket_attr(self) -> None:
+        self.do_test(
+            False,
+            (
+                r"kbd:[Ctrl+\]]",
+                r"kbd:[Ctrl+\]]",
+                "asciidoc-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                r"kbd:[Ctrl+\]]",
+                "Ctrl+]",
+                "asciidoc-text",
+            ),
+        )
+        source = r"kbd:[Ctrl+\]]"
+        unit = make_unit(None, "asciidoc-text", self.default_lang, source=source)
+        highlights = list(self.check.check_highlight(source, unit))
+        self.assertEqual(
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
+            [(0, 13, r"kbd:[Ctrl+\]]")],
+        )
+
     def test_description(self) -> None:
         unit = make_unit(
             source="See link:https://example.com[Example] and <<intro>>.",

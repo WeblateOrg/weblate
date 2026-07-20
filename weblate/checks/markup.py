@@ -1069,7 +1069,7 @@ class RSTSyntaxCheck(PluralResultDescriptionMixin, RSTBaseCheck):
 
 # inline (`name:target[attrs]`) and block (`name::target[attrs]`) macros.
 ASCIIDOC_MACRO = re.compile(
-    r"(?P<name>[a-z][a-z0-9]*)(?P<sep>::?)(?P<target>[^\s\[]*)\[(?P<attrs>[^\]]*)\]"
+    r"(?P<name>[a-z][a-z0-9]*)(?P<sep>::?)(?P<target>[^\s\[]*)\[(?P<attrs>(?:\\.|[^\]])*)\]"
 )
 # cross references: <<id>> or <<id,text>>.
 ASCIIDOC_XREF = re.compile(r"<<(?P<id>[^,>]+)(?:,(?P<text>[^>]*))?>>")

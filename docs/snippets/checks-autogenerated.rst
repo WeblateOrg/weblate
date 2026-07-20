@@ -64,9 +64,9 @@ AsciiDoc markup
 This check compares the markups found in the source with the markups found in the translation.
 It includes:
 
-- inline and block macros (for example, ``link:`` and ``image::``)
+- inline and block macros (e.g. ``link:`` and ``image::``)
 - cross-references (``<<id>>``)
-- passthroughs (``+++...+++``, ``$$...$$``)
+- passthroughs (e.g. ``+++...+++``, ``$$...$$``)
 
 Macro attribute text and cross-reference labels may be translated; the
 macro name, target, and reference identifier must stay the same in both the source and the translation.
