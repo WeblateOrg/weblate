@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n translations %}
+{% load crispy_forms_tags i18n metrics translations %}
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
@@ -19,6 +19,9 @@
            href="#">{% translate "Diagnostics" %}</a>
       </li>
     {% endif %}
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
+    </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
@@ -111,6 +114,10 @@
       {% endif %}
 
       {% include "paginator.html" with page_obj=projects anchor="projects" %}
+    </div>
+
+    <div class="tab-pane" id="information">
+      {% show_info workspace=workspace stats=workspace.stats metrics=workspace|metrics show_source=True %}
     </div>
 
     {% if user.is_authenticated %}

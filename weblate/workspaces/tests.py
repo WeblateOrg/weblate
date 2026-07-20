@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from unittest.mock import patch
+from unittest.mock import PropertyMock, patch
 
 from django.contrib.admin.sites import AdminSite
 from django.core.exceptions import ValidationError
@@ -20,9 +20,10 @@ from weblate.billing.models import Billing, BillingQuerySet
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Project
+from weblate.trans.models import Change, ComponentLink, Project
 from weblate.trans.templatetags.translations import get_breadcrumbs
 from weblate.trans.tests.test_models import BaseTestCase
+from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
     create_test_billing,
@@ -53,6 +54,25 @@ class WorkspaceViewTest(BaseTestCase):
             source_review=source_review,
             translation_review=translation_review,
         )
+
+    def test_metric_ids_are_generated_without_replacing_uuid_primary_key(self) -> None:
+        first = Workspace.objects.create(name="First metric workspace")
+        second = Workspace.objects.create(name="Second metric workspace")
+
+        self.assertNotEqual(first.metric_id, second.metric_id)
+        self.assertIsInstance(first.metric_id, int)
+        self.assertNotEqual(first.pk, first.metric_id)
+
+    def test_billing_or_none_without_billing_relation(self) -> None:
+        workspace = Workspace.objects.create(name="Unbilled workspace")
+
+        with patch.object(
+            Workspace,
+            "billing",
+            new_callable=PropertyMock,
+            side_effect=AttributeError,
+        ):
+            self.assertIsNone(workspace.billing_or_none)
 
     def test_workspace_lists_accessible_projects(self) -> None:
         workspace = Workspace.objects.create(name="Test workspace")
@@ -745,6 +765,105 @@ class WorkspaceViewTest(BaseTestCase):
 
         group.refresh_from_db()
         self.assertEqual(group.language_selection, SELECTION_ALL)
+
+
+class WorkspaceStatsTest(FixtureComponentTestCase):
+    def test_workspace_stats_sum_shared_component_for_each_project(self) -> None:
+        workspace = Workspace.objects.create(name="Statistics workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        shared_project = Project.objects.create(
+            workspace=workspace,
+            name="Shared statistics project",
+            slug="shared-statistics-project",
+            web="https://example.com/",
+        )
+        ComponentLink.objects.create(
+            component=self.component,
+            project=shared_project,
+        )
+
+        self.assertEqual(workspace.stats.all, self.component.stats.all * 2)
+        self.assertEqual(
+            workspace.stats.languages,
+            self.component.translation_set.values("language_id").distinct().count(),
+        )
+
+    def test_component_sharing_refreshes_workspace_stats(self) -> None:
+        workspace = Workspace.objects.create(name="Updated statistics workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        shared_project = Project.objects.create(
+            workspace=workspace,
+            name="Updated shared statistics project",
+            slug="updated-shared-statistics-project",
+            web="https://example.com/",
+        )
+        self.assertEqual(workspace.stats.all, self.component.stats.all)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            ComponentLink.objects.create(
+                component=self.component,
+                project=shared_project,
+            )
+
+        refreshed = Workspace.objects.get(pk=workspace.pk)
+        self.assertEqual(refreshed.stats.all, self.component.stats.all * 2)
+
+    def test_workspace_overview_includes_inaccessible_project_stats(self) -> None:
+        workspace = Workspace.objects.create(name="Overview workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        hidden = Project.objects.create(
+            workspace=workspace,
+            name="Hidden statistics project",
+            slug="hidden-statistics-project",
+            web="https://example.com/",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        ComponentLink.objects.create(component=self.component, project=hidden)
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertNotContains(response, hidden.name, status_code=200)
+        self.assertContains(response, 'data-bs-target="#information"')
+        self.assertContains(response, ">Overview</a>")
+        self.assertContains(response, "String statistics")
+        self.assertEqual(
+            response.context["workspace"].stats.all,
+            self.component.stats.all * 2,
+        )
+
+    def test_workspace_tab_order_matches_project_navigation(self) -> None:
+        workspace = Workspace.objects.create(name="Navigation workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.client.login(username="testuser", password="testpassword")
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        content = response.content
+        tab_targets = [
+            content.index(f'data-bs-target="#{target}"'.encode())
+            for target in ("projects", "diagnostics", "information", "search")
+        ]
+        self.assertEqual(tab_targets, sorted(tab_targets))
+
+    def test_project_move_schedules_workspace_stats(self) -> None:
+        old_workspace = Workspace.objects.create(name="Old statistics workspace")
+        new_workspace = Workspace.objects.create(name="New statistics workspace")
+        self.project.workspace = old_workspace
+        self.project.save(update_fields=["workspace"])
+
+        with patch(
+            "weblate.utils.tasks.update_workspace_stats.delay_on_commit"
+        ) as update_workspace_stats:
+            self.project.workspace = new_workspace
+            self.project.save(update_fields=["workspace"])
+
+        update_workspace_stats.assert_called_once_with(
+            [str(old_workspace.pk), str(new_workspace.pk)]
+        )
 
 
 class WorkspaceAdminTest(BaseTestCase):
