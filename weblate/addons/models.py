@@ -256,6 +256,7 @@ class Addon(models.Model):
     objects = AddonQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "add-on"
         verbose_name_plural = "add-ons"
 
@@ -474,6 +475,7 @@ class Event(models.Model):
     event = models.IntegerField(choices=AddonEvent.choices)
 
     class Meta:
+        required_db_vendor = "postgresql"
         unique_together = [  # ruff: ignore[mutable-class-default]
             ("addon", "event"),
         ]
@@ -987,6 +989,7 @@ class AddonActivityLog(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "add-on activity log"
         verbose_name_plural = "add-on activity logs"
         ordering = ["-created"]  # ruff: ignore[mutable-class-default]

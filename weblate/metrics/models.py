@@ -532,6 +532,7 @@ class Metric(models.Model):
     objects = MetricManager.from_queryset(MetricQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         unique_together = (("scope", "relation", "secondary", "date"),)
         verbose_name = "Metric"
         verbose_name_plural = "Metrics"

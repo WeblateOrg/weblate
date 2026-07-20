@@ -138,6 +138,7 @@ class Comment(models.Model, UserDisplayMixin):
     objects = CommentManager.from_queryset(CommentQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "string comment"
         verbose_name_plural = "string comments"

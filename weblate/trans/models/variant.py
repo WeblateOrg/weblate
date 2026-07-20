@@ -20,6 +20,7 @@ class Variant(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         # ruff: ignore[mutable-class-default]
         constraints = [
             models.UniqueConstraint(

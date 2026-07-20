@@ -39,6 +39,7 @@ class Label(models.Model):
     objects = LabelQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         # ruff: ignore[mutable-class-default]
         unique_together = [("project", "name")]

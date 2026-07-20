@@ -496,6 +496,7 @@ class ComponentLink(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         db_table = "trans_component_links"
         unique_together = (("component", "project"),)
@@ -1126,6 +1127,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     settings_permission = "component.edit"
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "Component"
         verbose_name_plural = "Components"
