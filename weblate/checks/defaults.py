@@ -70,6 +70,7 @@ DEFAULT_CHECK_LIST: tuple[str, ...] = (
     "weblate.checks.markup.SafeHTMLCheck",
     "weblate.checks.markup.RSTReferencesCheck",
     "weblate.checks.markup.RSTSyntaxCheck",
+    "weblate.checks.markup.AsciiDocMarkupCheck",
     "weblate.checks.mdx.SafeMDXCheck",
     "weblate.checks.placeholders.PlaceholderCheck",
     "weblate.checks.placeholders.RegexCheck",

@@ -13,6 +13,7 @@ from docutils.nodes import Text, substitution_reference
 from docutils.nodes import target as docutils_target
 
 from weblate.checks.markup import (
+    AsciiDocMarkupCheck,
     BBCodeCheck,
     MarkdownLinkCheck,
     MarkdownRefLinkCheck,
@@ -1352,4 +1353,183 @@ class RSTSyntaxCheckTest(CheckTestCase):
                 "+ Text",
                 "rst-text",
             ),
+        )
+
+
+class AsciiDocMarkupCheckTest(CheckTestCase):
+    check = AsciiDocMarkupCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        base = "See link:https://example.com[Example]."
+        self.test_good_matching = (base, base, "asciidoc-text")
+        self.test_good_none = (base, base, "")
+        self.test_good_flag = ("string", "string", "asciidoc-text")
+        self.test_failure_1 = (
+            base,
+            "See link:https://other.example[Example].",
+            "asciidoc-text",
+        )
+        self.test_failure_2 = (base, "See Example.", "asciidoc-text")
+        self.test_failure_3 = (
+            "image:photo.png[Photo]",
+            "image::photo.png[Photo]",
+            "asciidoc-text",
+        )
+        self.test_highlight = (
+            "asciidoc-text",
+            "See link:https://example.com[Example] and <<intro>>.",
+            [
+                (4, 37, "link:https://example.com[Example]"),
+                (42, 51, "<<intro>>"),
+            ],
+        )
+
+    def test_translated_link_text(self) -> None:
+        self.do_test(
+            False,
+            (
+                "See link:https://example.com[Example].",
+                "Viz link:https://example.com[Příklad].",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_translated_xref_text(self) -> None:
+        self.do_test(
+            False,
+            (
+                "link <<intro,Introduction>>.",
+                "translated <<intro,Translated>>.",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_xref_id_mismatch(self) -> None:
+        self.do_test(
+            True,
+            (
+                "Go to <<intro>>.",
+                "Go to <<outro>>.",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_block_macro_matching(self) -> None:
+        self.do_test(
+            False,
+            (
+                "image::diagram.png[Diagram]",
+                "image::diagram.png[Translated]",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_block_macro_target_mismatch(self) -> None:
+        self.do_test(
+            True,
+            (
+                "include::chapter.adoc[]",
+                "include:chapter.adoc[]",
+                "asciidoc-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "include::chapter.adoc[]",
+                "include::other.adoc[]",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_passthrough_matching(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Use +++<b>bold</b>+++ here.",
+                "Translated +++<b>bold</b>+++.",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_passthrough_mismatch(self) -> None:
+        self.do_test(
+            True,
+            (
+                "Use +++<b>bold</b>+++ here.",
+                "Translated +++<i>bold</i>+++ here.",
+                "asciidoc-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Use +++<b>bold</b>+++ here.",
+                "Translated ++<i>bold</i>++ here.",
+                "asciidoc-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Use +++<b>bold</b>+++ here.",
+                "Translated +<i>bold</i>+++ here.",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_other_passthrough(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Formula $$a+b$$.",
+                "Translated $$a+b$$.",
+                "asciidoc-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Formula $$a+b$$.",
+                "Translated $$a-b$$.",
+                "asciidoc-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "Keep `+*not bold*+` text.",
+                "Translated `+*not bold*+` text.",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_pass_macro(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Use pass:[<u>underline</u>] here.",
+                "Translated pass:[<u>underline</u>].",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_description(self) -> None:
+        unit = make_unit(
+            source="See link:https://example.com[Example] and <<intro>>.",
+            target="Viz <<outro>>.",
+            flags="asciidoc-text",
+        )
+        check = make_check(unit, self.check)
+        self.assertHTMLEqual(
+            str(self.check.get_description(check)),
+            """
+            The following AsciiDoc markup is missing:
+            <span class="hlcheck" data-value="&lt;&lt;intro&gt;&gt;">&lt;&lt;intro&gt;&gt;</span>,
+            <span class="hlcheck" data-value="link:https://example.com[]">link:https://example.com[]</span>
+            <br />
+            The following AsciiDoc markup is extra:
+            <span class="hlcheck" data-value="&lt;&lt;outro&gt;&gt;">&lt;&lt;outro&gt;&gt;</span>
+            """,
         )
