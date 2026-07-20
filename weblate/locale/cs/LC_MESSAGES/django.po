@@ -20,9 +20,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-17 21:21-0500\n"
-"PO-Revision-Date: 2026-07-18 06:11+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-20 11:02+0000\n"
+"Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -1827,10 +1826,8 @@ msgid "Pending"
 msgstr "Čekající"
 
 #: weblate/addons/events.py:59
-#, fuzzy
-#| msgid "Access"
 msgid "Success"
-msgstr "Přístup"
+msgstr "Úspěch"
 
 #: weblate/addons/events.py:60
 #: weblate/templates/trans/alert/addonscripterror.html:11
@@ -1841,92 +1838,64 @@ msgid "Error"
 msgstr "Chyba"
 
 #: weblate/addons/events.py:61
-#, fuzzy
-#| msgid "Skip"
 msgid "Skipped"
-msgstr "Přeskočit"
+msgstr "Přeskočeno"
 
 #: weblate/addons/events.py:67
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on is not compatible with this component."
-msgstr "Doplněk lze instalovat pouze na součást."
+msgstr "Tento doplněk není s touto součástí kompatibilní."
 
 #: weblate/addons/events.py:71
 msgid "There are no compatible components to process."
-msgstr ""
+msgstr "K dispozici nejsou žádné kompatibilní součásti k zpracování."
 
 #: weblate/addons/events.py:75
-#, fuzzy
-#| msgid "The category was scheduled for removal."
 msgid "The add-on is not scheduled to run yet."
-msgstr "Bylo naplánováno odebrání kategorie."
+msgstr "Spuštění doplňku zatím není naplánováno."
 
 #: weblate/addons/events.py:79
-#, fuzzy
-#| msgid "There are no matching failed checks!"
 msgid "There are no relevant changes to process."
-msgstr "Neodpovídají žádné selhavší kontroly!"
+msgstr "Nedošlo k žádným relevantním změnám, které by bylo třeba zpracovat."
 
 #: weblate/addons/events.py:83
-#, fuzzy
-#| msgid "Suggestion voting is disabled."
 msgid "Background processing is disabled."
-msgstr "Hlasování o návrzích je vypnuto."
+msgstr "Zpracování na pozadí je vypnuté."
 
 #: weblate/addons/events.py:87
-#, fuzzy
-#| msgid "The translation component was scheduled for removal."
 msgid "The component is not scheduled for background processing today."
-msgstr "Bylo naplánováno odstranění součásti překladu."
+msgstr "Tato součást není dnes naplánována ke zpracování na pozadí."
 
 #: weblate/addons/events.py:91
-#, fuzzy
-#| msgid "There are no assigned strings."
 msgid "There are no eligible strings to process."
-msgstr "Nejsou přiřazeny žádné řetězce."
+msgstr "Nejsou k dispozici žádné řetězce, které by bylo možné zpracovat."
 
 #: weblate/addons/events.py:95
-#, fuzzy
-#| msgid "The given language already exists."
 msgid "The target no longer exists."
-msgstr "Daný jazyk již existuje."
+msgstr "Cíl již neexistuje."
 
 #: weblate/addons/events.py:99
-#, fuzzy
-#| msgid "The requested response media type is not available."
 msgid "A required file is not available."
-msgstr "Požadovaný typ média odpovědi není k dispozici."
+msgstr "Požadovaný soubor není k dispozici."
 
 #: weblate/addons/events.py:103
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "There are no outgoing commits to process."
-msgstr "V repozitáři jsou nezapsané změny!"
+msgstr "Nejsou k dispozici žádné odchozí revize ke zpracování."
 
 #: weblate/addons/events.py:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on does not apply to this event."
-msgstr "Doplněk lze instalovat pouze na součást."
+msgstr "Tento doplněk se na tuto událost nevztahuje."
 
 #: weblate/addons/events.py:109
-#, fuzzy
-#| msgid "No source strings are currently assigned!"
 msgid "No source files are configured."
-msgstr "Nebyl přiřazen žádný zdrojový řetězec!"
+msgstr "Nejsou nakonfigurovány žádné zdrojové soubory."
 
 #: weblate/addons/events.py:112
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The configured output path is invalid."
-msgstr "Zadaný token je neplatný."
+msgstr "Nastavená výstupní cesta je neplatná."
 
 #: weblate/addons/events.py:114
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "The add-on execution failed."
-msgstr "Tento doplněk spustí skript."
+msgstr "Spuštění doplňku se nezdařilo."
 
 #: weblate/addons/example.py:31
 msgid "Example add-on"
@@ -2238,7 +2207,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:296
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "Používat výhradně klíčová slova"
 
 #: weblate/addons/forms.py:299
 msgid ""
@@ -2246,6 +2215,9 @@ msgid ""
 "additional keyword, disabling all default keywords so that only the keyword "
 "specified above is recognized."
 msgstr ""
+"Je-li tato volba zapnutá, předá funkci xgettext klíč --keyword bez hodnoty "
+"před dalším klíčem a deaktivuje všechna výchozí klíčová slova, takže bude "
+"rozpoznán pouze výše zadaný klíč."
 
 #: weblate/addons/forms.py:318 weblate/addons/forms.py:422
 #: weblate/addons/forms.py:429
@@ -2255,6 +2227,7 @@ msgstr "Toto pole je vyžadováno."
 #: weblate/addons/forms.py:328
 msgid "An additional keyword is required when using keywords exclusively."
 msgstr ""
+"Při výhradním použití klíčových slov je nutné zadat další klíčové slovo."
 
 #: weblate/addons/forms.py:338
 msgid "Input source"
@@ -3254,10 +3227,8 @@ msgid "Number of seconds until the rate-limit window resets"
 msgstr "Počet vteřin do resetování okna omezování požadavků"
 
 #: weblate/api/serializers.py:128
-#, fuzzy
-#| msgid "Inherited component defaults"
 msgid "Invalid component path."
-msgstr "Výchozí nastavení zděděných komponent"
+msgstr "Neplatná cesta ke součásti."
 
 #: weblate/api/serializers.py:159 weblate/trans/models/category.py:96
 #: weblate/trans/models/component.py:561
@@ -3274,56 +3245,44 @@ msgstr "Název použitý v URL a cestách souborů."
 #: weblate/api/serializers.py:167 weblate/api/serializers.py:173
 msgid "Required for credits, contributor stats, and translator work reports."
 msgstr ""
+"Nezbytné pro zápočet kreditů, statistiky přispěvatelů a zprávy o práci "
+"překladatelů."
 
 #: weblate/api/serializers.py:246 weblate/api/serializers.py:249
-#, fuzzy
-#| msgid "Add workspace"
 msgid "Invalid workspace."
-msgstr "Přidat pracovní prostor"
+msgstr "Neplatný pracovní prostor."
 
 #: weblate/api/serializers.py:262
-#, fuzzy
-#| msgid "Invalid request."
 msgid "Invalid project."
-msgstr "Neplatný požadavek."
+msgstr "Neplatný projekt."
 
 #: weblate/api/serializers.py:275
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid category."
-msgstr "Neplatné datum!"
+msgstr "Neplatná kategorie."
 
 #: weblate/api/serializers.py:290 weblate/api/serializers.py:393
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Do not specify a scope on a scoped reports endpoint."
-msgstr "Nezadávejte projekt i součást najednou!"
+msgstr "Na koncovém bodě pro zprávy s omezeným rozsahem nezadávejte rozsah."
 
 #: weblate/api/serializers.py:294
-#, fuzzy
-#| msgid "Choose what to work on"
 msgid "Choose at most one report scope."
-msgstr "Vyberte si, na čem budete pracovat"
+msgstr "Vyberte maximálně jednu oblast přehledu."
 
 #: weblate/api/serializers.py:306
 msgid "Start and end timestamps are required."
-msgstr ""
+msgstr "Je nutné zadat časové značky začátku a konce."
 
 #: weblate/api/serializers.py:310
-#, fuzzy
-#| msgid "The starting date has to be before the ending date."
 msgid "The report start must be before its end."
-msgstr "Počáteční datum musí být před koncovým datem."
+msgstr "Zpráva musí začít před svým koncem."
 
 #: weblate/api/serializers.py:322 weblate/trans/forms.py:1881
 msgid "Minimum changes can not exceed maximum changes."
-msgstr ""
+msgstr "Minimální změny nesmí překročit maximální změny."
 
 #: weblate/api/serializers.py:809
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "This e-mail address has not been verified."
-msgstr "Tento e-mail není možné použít."
+msgstr "Tato e-mailová adresa nebyla ověřena."
 
 #: weblate/api/serializers.py:939 weblate/templates/accounts/user.html:278
 #: weblate/trans/forms.py:1322
@@ -3442,10 +3401,8 @@ msgid "Rescan all translation files in the Weblate repository"
 msgstr "Znovu naskenovat všechny soubory překladů v repozitáři Weblate"
 
 #: weblate/api/serializers.py:2757
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "Please provide a suggestion"
-msgstr "Hlasovat pro návrh"
+msgstr "Prosím, uveďte návrh"
 
 #: weblate/api/serializers.py:2782 weblate/api/serializers.py:2810
 #: weblate/trans/forms.py:762 weblate/trans/views/edit.py:836
@@ -3453,10 +3410,8 @@ msgid "Translation text too long!"
 msgstr "Text překladu je příliš dlouhý!"
 
 #: weblate/api/serializers.py:2790
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of plurals does not match"
-msgstr "Počet množných čísel"
+msgstr "Počet množných čísel se neshoduje"
 
 #: weblate/api/serializers.py:2807 weblate/trans/views/edit.py:832
 msgid "Your suggestion is similar to the current translation!"
@@ -3534,10 +3489,8 @@ msgid "Cannot change components on a workspace team."
 msgstr "V týmu pracovního prostoru nelze měnit součásti."
 
 #: weblate/api/views.py:1581
-#, fuzzy
-#| msgid "Import of strings scheduled."
 msgid "Report generation scheduled."
-msgstr "Import řetězců naplánován."
+msgstr "Vytvoření zprávy je naplánováno."
 
 #: weblate/api/views.py:2071
 msgid "Specify a workspace when multiple workspaces can be used."
@@ -7538,61 +7491,47 @@ msgstr "Formálnost"
 
 #: weblate/machinery/forms.py:351 weblate/machinery/forms.py:361
 #: weblate/machinery/forms.py:370
-#, fuzzy
-#| msgid "Default font"
 msgctxt "AWS Translate configuration"
 msgid "Default"
-msgstr "Výchozí písmo"
+msgstr "Výchozí"
 
 #: weblate/machinery/forms.py:352
-#, fuzzy
-#| msgid "Format"
 msgctxt "AWS Translate configuration"
 msgid "Formal"
-msgstr "Formát"
+msgstr "Formální"
 
 #: weblate/machinery/forms.py:353
-#, fuzzy
-#| msgid "Information"
 msgctxt "AWS Translate configuration"
 msgid "Informal"
-msgstr "Informace"
+msgstr "Neformální"
 
 #: weblate/machinery/forms.py:357
 msgctxt "AWS Translate configuration"
 msgid "Brevity"
-msgstr ""
+msgstr "Stručnost"
 
 #: weblate/machinery/forms.py:359
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Prefer shorter translations when supported."
-msgstr "Vyplnit překlad zdrojem"
+msgstr "Pokud je to možné, upřednostňujte kratší překlady."
 
 #: weblate/machinery/forms.py:362
-#, fuzzy
-#| msgid "Enable"
 msgctxt "AWS Translate configuration"
 msgid "Enabled"
-msgstr "Povolit"
+msgstr "Povoleno"
 
 #: weblate/machinery/forms.py:366
-#, fuzzy
-#| msgid "Profile"
 msgctxt "AWS Translate configuration"
 msgid "Profanity"
-msgstr "Profil"
+msgstr "Vulgární výrazy"
 
 #: weblate/machinery/forms.py:368
-#, fuzzy
-#| msgid "Main website of translated project."
 msgid "Mask profane words in translated text."
-msgstr "Webové stránky překládaného projektu."
+msgstr "V překladu zamaskujte vulgární výrazy."
 
 #: weblate/machinery/forms.py:371
 msgctxt "AWS Translate configuration"
 msgid "Mask profanity"
-msgstr ""
+msgstr "Skrýt vulgární výrazy"
 
 #: weblate/machinery/forms.py:378
 msgctxt "Alibaba Translate configuration"
@@ -8320,10 +8259,8 @@ msgid "No new matching source strings found."
 msgstr "Nebyly nalezeny žádné nové odpovídající zdrojové řetězce."
 
 #: weblate/screenshots/views.py:746
-#, fuzzy
-#| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
-msgstr "Nepodařilo se otevřít ticket, zkuste to prosím později."
+msgstr "Data OCR se nepodařilo stáhnout. Zkuste to prosím později."
 
 #: weblate/templates/400.html:7 weblate/templates/400.html:13
 msgid "Bad request"
@@ -11483,32 +11420,27 @@ msgid "Appeared %(first)s, last seen %(last)s"
 msgstr "Přidáno %(first)s, obnoveno %(last)s"
 
 #: weblate/templates/component.html:248
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Dismissed by %(user)s %(timestamp)s"
-msgstr "Použito %(used)s z %(total)s"
+msgstr "Odmítnuto uživatelem %(user)s v %(timestamp)s"
 
 #: weblate/templates/component.html:250
-#, fuzzy, python-format
-#| msgid "Generated on %(timestamp)s."
+#, python-format
 msgid "Dismissed %(timestamp)s"
-msgstr "Vygenerováno %(timestamp)s."
+msgstr "Odmítnuto %(timestamp)s"
 
 #: weblate/templates/component.html:253
-#, fuzzy, python-format
-#| msgid "CSRF failure reason: %(reason)s"
+#, python-format
 msgid "Reason: %(reason)s"
-msgstr "Důvod selhání CSRF: %(reason)s"
+msgstr "Důvod: %(reason)s"
 
 #: weblate/templates/component.html:258
-#, fuzzy
-#| msgid "Dismissed"
 msgid "Dismissal reason"
-msgstr "Zahozené"
+msgstr "Důvod odmítnutí"
 
 #: weblate/templates/component.html:263
 msgid "Optional dismissal reason"
-msgstr ""
+msgstr "Volitelný důvod odmítnutí"
 
 #: weblate/templates/component.html:267
 #: weblate/templates/manage/performance.html:49
@@ -12866,7 +12798,7 @@ msgstr "Uživatel %(invitation_author)s vás pozval k připojení se"
 #: weblate/templates/mail/new_alert.html:8
 #, python-format
 msgid "Reopened alert: %(alert)s"
-msgstr ""
+msgstr "Znovu otevřené upozornění: %(alert)s"
 
 #: weblate/templates/mail/new_alert.html:24
 msgid "View diagnostics"
@@ -13499,41 +13431,31 @@ msgstr "Prohledávání kandidátů na duplicity v překladové paměti"
 
 #: weblate/templates/manage/performance.html:173
 msgid "Candidate scan cursor"
-msgstr ""
+msgstr "Kurzor pro vyhledávání kandidátů"
 
 #: weblate/templates/manage/performance.html:177
-#, fuzzy
-#| msgid "Last updated"
 msgid "Last update"
-msgstr "Naposledy aktualizováno"
+msgstr "Poslední aktualizace"
 
 #: weblate/templates/manage/performance.html:182
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not needed"
-msgstr "Zatím neměřeno"
+msgstr "Není třeba"
 
 #: weblate/templates/manage/performance.html:184
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not yet started"
-msgstr "Zatím neměřeno"
+msgstr "Ještě nezačalo"
 
 #: weblate/templates/manage/performance.html:192
-#, fuzzy
-#| msgid "Component"
 msgid "Completed"
-msgstr "Součást"
+msgstr "Dokončeno"
 
 #: weblate/templates/manage/performance.html:194
 msgid "Scanning duplicate candidates"
-msgstr ""
+msgstr "Prohledávání duplicitních kandidátů"
 
 #: weblate/templates/manage/performance.html:196
-#, fuzzy
-#| msgid "Billing owners"
 msgid "Backfilling scopes"
-msgstr "Vlastníci předplatného"
+msgstr "Rozsah zpětného vyplňování"
 
 #: weblate/templates/manage/performance.html:209
 #: weblate/templates/manage/performance.html:224
@@ -13542,7 +13464,7 @@ msgstr "Využití disku"
 
 #: weblate/templates/manage/performance.html:230
 msgid "Storage"
-msgstr ""
+msgstr "Úložiště"
 
 #: weblate/templates/manage/performance.html:231
 msgid "Disk size"
@@ -13557,14 +13479,12 @@ msgid "Disk free"
 msgstr "Volno na disku"
 
 #: weblate/templates/manage/performance.html:236
-#, fuzzy
-#| msgid "Service"
 msgid "Server"
-msgstr "Služba"
+msgstr "Server"
 
 #: weblate/templates/manage/performance.html:243
 msgid "PostgreSQL database"
-msgstr ""
+msgstr "Databáze PostgreSQL"
 
 #: weblate/templates/manage/performance.html:266
 msgid "System encoding"
@@ -14196,34 +14116,24 @@ msgid "Update preview"
 msgstr "Náhled aktualizace"
 
 #: weblate/templates/report.html:26
-#, fuzzy
-#| msgid "Generate"
 msgid "Generated by"
-msgstr "Vytvořit"
+msgstr "Vytvořeno pomocí"
 
 #: weblate/templates/report.html:30
-#, fuzzy
-#| msgid "Generate"
 msgid "Generated on"
-msgstr "Vytvořit"
+msgstr "Vytvořeno dne"
 
 #: weblate/templates/report.html:35
-#, fuzzy
-#| msgid "Download as JSON"
 msgid "Download JSON"
-msgstr "Stáhnout jako JSON"
+msgstr "Stáhnout JSON"
 
 #: weblate/templates/report.html:36
-#, fuzzy
-#| msgid "Download as TMX"
 msgid "Download HTML"
-msgstr "Stáhnout jako TMX"
+msgstr "Stáhnout HTML"
 
 #: weblate/templates/report.html:37
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "Download reStructuredText"
-msgstr "reStructuredText"
+msgstr "Stáhnout reStructuredText"
 
 #: weblate/templates/screenshots/screenshot_detail.html:35
 msgid "Assigned source strings"
@@ -14504,34 +14414,26 @@ msgstr[2] ""
 "Tento překlad byl automaticky uzamčen z důvodu následujících upozornění:"
 
 #: weblate/templates/snippets/diagnostics.html:9
-#, fuzzy
-#| msgid "Filters"
 msgid "Filter"
-msgstr "Filtry"
+msgstr "Filtr"
 
 #: weblate/templates/snippets/diagnostics.html:12
-#, fuzzy
-#| msgid "Search filter"
 msgid "Clear filters"
-msgstr "Filtr vyhledávání"
+msgstr "Vymazat filtry"
 
 #: weblate/templates/snippets/diagnostics.html:24
-#, fuzzy, python-format
-#| msgid "Source (%(count)s)"
+#, python-format
 msgid "Active: %(count)s"
-msgstr "Zdroj (%(count)s)"
+msgstr "Aktivní: %(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:29
-#, fuzzy, python-format
-#| msgid "Dismissed checks"
+#, python-format
 msgid "Dismissed: %(count)s"
-msgstr "Zahozené kontroly"
+msgstr "Odmítnuto: %(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:35
-#, fuzzy
-#| msgid "All protected projects"
 msgid "Affected projects"
-msgstr "Všechny chráněné projekty"
+msgstr "Dotčené projekty"
 
 #: weblate/templates/snippets/diagnostics.html:50
 #, fuzzy, python-format
@@ -14539,31 +14441,25 @@ msgstr "Všechny chráněné projekty"
 #| msgid_plural "Browse all %(count)s projects"
 msgid "%(count)s more affected project."
 msgid_plural "%(count)s more affected projects."
-msgstr[0] "Procházet %(count)s projekt"
-msgstr[1] "Procházet všechny %(count)s projekty"
-msgstr[2] "Procházet všech %(count)s projektů"
+msgstr[0] "(%count)s více dotčený projekt."
+msgstr[1] "(%count)s více dotčené projekty."
+msgstr[2] "(%count)s více dotčených projektů."
 
 #: weblate/templates/snippets/diagnostics.html:54
-#, fuzzy
-#| msgid "Created component"
 msgid "Affected components"
-msgstr "Vytvořena součást"
+msgstr "Dotčené součásti"
 
 #: weblate/templates/snippets/diagnostics.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action in %(component)s"
-#| msgid_plural "%(count)s strings needing action in %(component)s"
+#, python-format
 msgid "%(count)s more affected component."
 msgid_plural "%(count)s more affected components."
-msgstr[0] "V překladu %(component)s je %(count)s řetězec vyžadující pozornost"
-msgstr[1] ""
-"V překladu %(component)s jsou %(count)s řetězce vyžadující pozornost"
-msgstr[2] ""
-"V překladu %(component)s je %(count)s řetězců vyžadujících pozornost"
+msgstr[0] "%(count)s více dotčená součást."
+msgstr[1] "%(count)s více dotčené součásti."
+msgstr[2] "%(count)s více dotčených součástí."
 
 #: weblate/templates/snippets/diagnostics.html:77
 msgid "No diagnostics match the selected filters."
-msgstr ""
+msgstr "Žádná diagnostika neodpovídá zadaným filtrům."
 
 #: weblate/templates/snippets/donate.html:4
 msgid ""
@@ -15367,10 +15263,8 @@ msgid "Credits"
 msgstr "Poděkování"
 
 #: weblate/templates/snippets/reports.html:26
-#, fuzzy
-#| msgid "Translation activity in this period:"
 msgid "Lists translators contributing in the selected period."
-msgstr "Překladatelská činnost v tomto období:"
+msgstr "Zobrazuje seznam překladatelů, kteří přispívali ve vybraném období."
 
 #: weblate/templates/snippets/reports.html:30
 #: weblate/templates/snippets/reports.html:56
@@ -15394,51 +15288,40 @@ msgid "Cost estimate"
 msgstr "Odhad nákladů"
 
 #: weblate/templates/snippets/reports.html:79
-#, fuzzy
-#| msgid ""
-#| "Estimates translation costs based on source words, repetitions, needs-"
-#| "editing strings, and translation memory matches."
 msgid ""
 "Estimates translation costs from source words and translation memory matches."
 msgstr ""
-"Odhaduje náklady na překlad na základě počtu slov ve zdrojovém textu, "
-"opakování, řetězců vyžadujících úpravy a shod v překladové paměti."
+"Odhaduje náklady na překlad na základě počtu slov v zdrojovém textu a shod v "
+"překladové paměti."
 
 #: weblate/templates/snippets/reports.html:101
 #: weblate/trans/models/report.py:109 weblate/trans/views/reports.py:990
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translator persona"
 msgid "Translator work analysis"
-msgstr "Osobnost překladatele"
+msgstr "Analýza práce překladatele"
 
 #: weblate/templates/snippets/reports.html:105
 msgid ""
 "Analyzes realistic daily translator throughput while filtering obvious "
 "outliers."
 msgstr ""
+"Analyzuje reálnou denní produktivitu překladatelů a zároveň odfiltrovává "
+"zjevné extrémní hodnoty."
 
 #: weblate/templates/snippets/reports.html:119
-#, fuzzy
-#| msgid "Data exports"
 msgid "Past reports"
-msgstr "Export dat"
+msgstr "Předchozí zprávy"
 
 #: weblate/templates/snippets/reports.html:122
-#, fuzzy
-#| msgid "Previously not translated"
 msgid "Previously generated reports"
-msgstr "Původně nebylo přeloženo"
+msgstr "Dříve vygenerované zprávy"
 
 #: weblate/templates/snippets/reports.html:126
 msgid "Creator"
 msgstr "Tvůrce"
 
 #: weblate/templates/snippets/reports.html:128
-#, fuzzy
-#| msgid "Download"
 msgid "Downloads"
-msgstr "Stáhnout"
+msgstr "Stažení"
 
 #: weblate/templates/snippets/reports.html:139
 #: weblate/templates/widgets.html:59
@@ -15451,16 +15334,12 @@ msgid "reStructuredText"
 msgstr "reStructuredText"
 
 #: weblate/templates/snippets/reports.html:145
-#, fuzzy
-#| msgid "No recovery codes generated yet."
 msgid "No reports have been generated yet."
-msgstr "Zatím nebyly vygenerovány žádné obnovovací kódy."
+msgstr "Zatím nebyly vygenerovány žádné zprávy."
 
 #: weblate/templates/snippets/reports.html:152
-#, fuzzy
-#| msgid "Repository initialization"
 msgid "Report history pagination"
-msgstr "Inicializace repozitáře"
+msgstr "Stránkování historie zpráv"
 
 #: weblate/templates/snippets/settings-organize.html:6
 #, python-format
@@ -17615,16 +17494,13 @@ msgstr "Organizace"
 
 #: weblate/templates/vcs/github_app_register_submit.html:44
 #: weblate/vcs/forms.py:84
-#, fuzzy
-#| msgid "Group name"
 msgid "App name"
-msgstr "Název skupiny"
+msgstr "Název aplikace"
 
 #: weblate/templates/vcs/github_app_register_submit.html:53
-#, fuzzy, python-format
-#| msgid "Continue to %(return_target)s"
+#, python-format
 msgid "Continue to %(host)s"
-msgstr "Pokračovat do projektu %(return_target)s"
+msgstr "Pokračovat na %(host)s"
 
 #: weblate/templates/vcs/github_install_help.html:4
 msgid ""
@@ -17632,37 +17508,36 @@ msgid ""
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+"GitHub zobrazuje pouze účty, na kterých může váš uživatel GitHubu tuto "
+"aplikaci nainstalovat nebo o ni požádat. Pokud nějaká organizace chybí, "
+"zkontrolujte si v GitHubu svou roli v organizaci a omezení týkající se "
+"instalace aplikací GitHub."
 
 #: weblate/templates/vcs/github_install_select.html:13
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "Choose GitHub host"
-msgstr "Hvězdička na GitHubu"
+msgstr "Vyberte hostitele GitHubu"
 
 #: weblate/templates/vcs/github_install_select.html:17
 msgid ""
 "Select the GitHub or GitHub Enterprise instance where you want to connect "
 "the Weblate GitHub App."
 msgstr ""
+"Vyberte instanci GitHubu nebo GitHub Enterprise, ke které chcete připojit "
+"aplikaci Weblate pro GitHub."
 
 #: weblate/templates/vcs/github_install_select.html:22
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Install on %(hostname)s"
-msgstr "Pozvánka do projektu %(project_name)s"
+msgstr "Nainstalovat na %(hostname)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
 msgid "Connected GitHub account: %(login)s"
-msgstr ""
+msgstr "Připojený účet GitHub: %(login)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:32
-#, fuzzy
-#| msgid "Repositories"
 msgid "Refresh repositories"
-msgstr "Repozitáře"
+msgstr "Obnovit repozitáře"
 
 #: weblate/templates/vcs/github_installation_detail.html:44
 #, python-format
@@ -17671,44 +17546,37 @@ msgid ""
 "refresh and webhook signature checks will not work until the App credentials "
 "are registered again."
 msgstr ""
+"Přihlašovací údaje aplikace Weblate na GitHubu nejsou pro %(hostname)s "
+"zaregistrovány. Obnovení tokenu a kontrola podpisu webhooku nebudou "
+"fungovat, dokud nebudou přihlašovací údaje aplikace znovu zaregistrovány."
 
 #: weblate/templates/vcs/github_installation_detail.html:51
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub installation ID"
-msgstr "Hvězdička na GitHubu"
+msgstr "Identifikátor instalace GitHubu"
 
 #: weblate/templates/vcs/github_installation_detail.html:76
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Repositories updated"
-msgstr "Repozitář je zastaralý."
+msgstr "Aktualizovány repozitáře"
 
 #: weblate/templates/vcs/github_installation_detail.html:88
-#, fuzzy
-#| msgid "Repositories"
 msgid "Available Repositories"
-msgstr "Repozitáře"
+msgstr "Dostupné repozitáře"
 
 #: weblate/templates/vcs/github_installation_detail.html:125
-#, fuzzy
-#| msgid "Not available"
 msgid "Unavailable"
-msgstr "Není dostupná"
+msgstr "Není k dispozici"
 
 #: weblate/templates/vcs/github_installation_detail.html:134
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
 msgstr ""
+"Nebyly nalezeny žádné repozitáře. Kliknutím na „Obnovit repozitáře“ načtete "
+"seznam z GitHubu."
 
 #: weblate/templates/vcs/github_installation_list.html:19
-#, fuzzy
-#| msgid "Weblate status"
 msgid "Weblate GitHub Apps"
-msgstr "Stav Weblate"
+msgstr "Aplikace Weblate na GitHubu"
 
 #: weblate/templates/vcs/github_installation_list.html:28
 msgid ""
@@ -17716,6 +17584,10 @@ msgid ""
 "with the right permissions and webhook URL already filled in — Weblate will "
 "store the credentials automatically once GitHub redirects back."
 msgstr ""
+"Zatím není zaregistrována žádná aplikace pro hostování kódu. Pomocí tlačítka "
+"výše si ji můžete vytvořit s již vyplněnými příslušnými oprávněními a "
+"adresou URL webhooku – Weblate uloží přihlašovací údaje automaticky, jakmile "
+"vás GitHub přesměruje zpět."
 
 #: weblate/templates/vcs/github_installation_list.html:37
 msgid ""
@@ -17723,33 +17595,32 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+"Níže uvedené aplikace poskytují přihlašovací údaje, které Weblate používá "
+"pro komunikaci s poskytovateli hostingu kódu. Proveďte propojení účtu s "
+"každou z těchto aplikací, abyste mohli importovat repozitáře z daného účtu."
 
 #: weblate/templates/vcs/github_installation_list.html:64
 #: weblate/templates/vcs/github_installation_list.html:69
 #: weblate/templates/vcs/github_installation_list.html:126
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove app"
-msgstr "Odstranit"
+msgstr "Odstranit aplikaci"
 
 #: weblate/templates/vcs/github_installation_list.html:69
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove connected accounts first."
-msgstr "Odstranit můj účet"
+msgstr "Nejprve odstraňte propojené účty."
 
 #: weblate/templates/vcs/github_installation_list.html:75
 #: weblate/vcs/github.py:445
 msgid "App ID"
-msgstr ""
+msgstr "ID aplikace"
 
 #: weblate/templates/vcs/github_installation_list.html:79
 msgid "Slug"
-msgstr ""
+msgstr "Slug"
 
 #: weblate/templates/vcs/github_installation_list.html:101
 msgid "Remove Weblate GitHub App?"
-msgstr ""
+msgstr "Odstranit aplikaci Weblate z GitHubu?"
 
 #: weblate/templates/vcs/github_installation_list.html:111
 #, python-format
@@ -17757,45 +17628,51 @@ msgid ""
 "This deletes the stored credentials for the <code>%(slug)s</code> App on "
 "<code>%(host)s</code>."
 msgstr ""
+"Tímto se odstraní uložené přihlašovací údaje pro aplikaci <code>%(slug)s</"
+"code> na <code>%(host)s</code>."
 
 #: weblate/templates/vcs/github_installation_list.html:118
 msgid ""
 "The App itself stays installed on GitHub. Delete it from GitHub separately "
 "if you no longer need it."
 msgstr ""
+"Samotná aplikace zůstává nainstalovaná na GitHubu. Pokud ji již "
+"nepotřebujete, odstraňte ji z GitHubu samostatně."
 
 #: weblate/templates/vcs/github_installation_list.html:175
 msgid ""
 "No connected accounts yet. Use the button above to connect an organization "
 "or user account."
 msgstr ""
+"Zatím nejsou propojeny žádné účty. Pomocí tlačítka výše propojte účet "
+"organizace nebo uživatele."
 
 #: weblate/templates/vcs/github_repository_list.html:9
-#, fuzzy
-#| msgid "Remove account"
 msgid "From connected account"
-msgstr "Odstranit účet"
+msgstr "Z propojeného účtu"
 
 #: weblate/templates/vcs/github_repository_list.html:17
-#, fuzzy
-#| msgid "Remove account"
 msgid "Import from connected account"
-msgstr "Odstranit účet"
+msgstr "Import z propojeného účtu"
 
 #: weblate/templates/vcs/github_repository_list.html:70
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
 "form with the repository URL and branch."
 msgstr ""
+"Vyberte repozitář, který chcete importovat. Tím se do formuláře pro "
+"vytvoření komponenty automaticky vyplní URL repozitáře a název větve."
 
 #: weblate/templates/vcs/github_repository_list.html:112
 msgid "No repositories available from connected accounts."
-msgstr ""
+msgstr "Z připojených účtů nejsou k dispozici žádné repozitáře."
 
 #: weblate/templates/vcs/github_repository_list.html:115
 msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
+"Nainstalujte si aplikaci Weblate pro GitHub a propojte s ní organizaci nebo "
+"uživatelský účet."
 
 #: weblate/templates/vcs/github_repository_list.html:117
 msgid ""
