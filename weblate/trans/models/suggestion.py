@@ -172,6 +172,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     objects = SuggestionManager.from_queryset(SuggestionQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "string suggestion"
         verbose_name_plural = "string suggestions"
@@ -317,6 +318,7 @@ class Vote(models.Model):
     NEGATIVE = -1
 
     class Meta:
+        required_db_vendor = "postgresql"
         # ruff: ignore[mutable-class-default]
         unique_together = [("suggestion", "user")]
         app_label = "trans"

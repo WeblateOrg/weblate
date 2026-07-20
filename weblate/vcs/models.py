@@ -93,6 +93,7 @@ class Installation(models.Model):
     repositories_updated = models.DateTimeField(null=True, blank=True)
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = gettext_lazy("code-hosting installation")
         verbose_name_plural = gettext_lazy("code-hosting installations")
         unique_together = (("provider", "hostname", "installation_id", "workspace"),)
@@ -133,6 +134,7 @@ class PendingInstallation(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = gettext_lazy("pending code-hosting installation")
         verbose_name_plural = gettext_lazy("pending code-hosting installations")
         unique_together = (("provider", "hostname", "installation_id"),)

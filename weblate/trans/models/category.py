@@ -305,6 +305,7 @@ class Category(
     objects = CategoryQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "Category"
         verbose_name_plural = "Categories"

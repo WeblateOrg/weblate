@@ -344,6 +344,7 @@ class Translation(
     settings_permission = "component.edit"
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         unique_together = [("component", "language")]  # ruff: ignore[mutable-class-default]
         verbose_name = "translation"

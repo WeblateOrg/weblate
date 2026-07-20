@@ -112,6 +112,7 @@ class ContributorAgreement(models.Model):
     objects = ContributorAgreementManager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "contributor license agreement"
         verbose_name_plural = "contributor license agreements"
         constraints = [  # ruff: ignore[mutable-class-default]

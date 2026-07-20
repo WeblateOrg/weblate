@@ -383,6 +383,7 @@ class PendingUnitChange(models.Model):
     objects = PendingChangeQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "pending change"
         verbose_name_plural = "pending changes"

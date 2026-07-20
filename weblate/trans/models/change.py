@@ -625,6 +625,7 @@ class Change(models.Model, UserDisplayMixin):
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         # ruff: ignore[mutable-class-default]
         indexes = [
