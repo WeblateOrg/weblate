@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load humanize i18n %}
+{% load i18n %}
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
@@ -32,47 +32,8 @@
         </div>
         {% if search_form.q.errors %}<div class="invalid-feedback d-block">{{ search_form.q.errors }}</div>{% endif %}
       </form>
+      {% include "snippets/list-objects.html" with objects=object_list label=_("Workspace") show_workspace_details=True empty_message=_("No workspaces found.") %}
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>{% translate "Name" %}</th>
-          <th>{% translate "Projects" %}</th>
-          {% if billing_enabled %}
-            <th>{% translate "Billing" %}</th>
-          {% endif %}
-        </tr>
-      </thead>
-      <tbody>
-        {% for workspace in object_list %}
-          <tr>
-            <td>
-              <a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a>
-            </td>
-            <td class="number">{{ workspace.projects__count|intcomma }}</td>
-            {% if billing_enabled %}
-              <td>
-                {% if workspace.billing %}
-                  <a href="{{ workspace.billing.get_absolute_url }}">
-                    {% if workspace.billing.customer_name %}
-                      {{ workspace.billing.customer_name }}
-                    {% else %}
-                      {% blocktranslate with id=workspace.billing.pk %}Billing #{{ id }}{% endblocktranslate %}
-                    {% endif %}
-                  </a>
-                {% else %}
-                  {% translate "Not available" %}
-                {% endif %}
-              </td>
-            {% endif %}
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="{% if billing_enabled %}3{% else %}2{% endif %}">{% translate "No workspaces found." %}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
     <div class="card-footer">{% include "paginator.html" %}</div>
   </div>
 

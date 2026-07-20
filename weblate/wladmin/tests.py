@@ -934,6 +934,34 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, workspace.name)
         self.assertContains(response, workspace.get_absolute_url())
         self.assertContains(response, ">1<")
+        self.assertContains(response, "table-striped")
+        self.assertContains(response, "Translated")
+        self.assertContains(response, "Unfinished words")
+
+    def test_workspaces_stats_sort_preserves_search(self) -> None:
+        workspaces = Workspace.objects.bulk_create(
+            [
+                Workspace(name=f"Sortable localization workspace {index:02}")
+                for index in range(51)
+            ]
+        )
+        Workspace.objects.create(name="Unrelated documentation workspace")
+
+        response = self.client.get(
+            reverse("manage-workspaces"),
+            {"q": "localization", "sort_by": "translated"},
+        )
+
+        self.assertEqual(len(response.context["object_list"]), 50)
+        self.assertEqual(
+            set(response.context["object_list"]),
+            set(workspaces[:50]),
+        )
+        self.assertContains(response, "sort_by=-translated&amp;q=localization")
+        self.assertEqual(
+            response.context["object_list"].paginator.sort_by,
+            "translated",
+        )
 
     def test_alerts_are_ordered(self) -> None:
         zulu_project = self.create_project(name="Zulu", slug="zulu")
@@ -1028,7 +1056,7 @@ class AdminTest(ViewTestCase):
         self.assertTrue(response.context["is_paginated"])
         self.assertEqual(len(response.context["object_list"]), 50)
 
-    def test_workspaces_avoid_billing_display_queries(self) -> None:
+    def test_workspaces_batch_project_stats_queries(self) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.billing.models import Billing, Plan
 
@@ -1063,7 +1091,8 @@ class AdminTest(ViewTestCase):
                 and f'WHERE "{project_table}"."workspace_id"' in query["sql"]
             )
         ]
-        self.assertEqual(project_queries, [])
+        self.assertEqual(len(project_queries), 1)
+        self.assertIn('"workspace_id" IN', project_queries[0])
 
     def test_ssh(self) -> None:
         response = self.client.get(reverse("manage-ssh"))
