@@ -8936,7 +8936,7 @@ class MachineryErrorTest(TestCase):
         )
         self.assertEqual(MachineryError.objects.count(), 1)
         error = MachineryError.objects.get()
-        self.assertEqual(error.engine, machine.name)
+        self.assertEqual(error.engine, machine.mtid)
         self.assertIsNone(error.project)
         self.assertIn("Could not fetch translations", error.error)
         self.assertIn("ValueError", error.error)
@@ -8987,7 +8987,7 @@ class MachineryErrorTest(TestCase):
         self.assertEqual(langs, set())
         self.assertEqual(MachineryError.objects.count(), 1)
         error = MachineryError.objects.get()
-        self.assertEqual(error.engine, machine.name)
+        self.assertEqual(error.engine, machine.mtid)
         self.assertIn("Could not fetch languages", error.error)
         self.assertIn("ValueError", error.error)
 
@@ -9006,7 +9006,7 @@ class MachineryErrorTest(TestCase):
             machine.translate(unit)
         self.assertEqual(MachineryError.objects.count(), 1)
         error = MachineryError.objects.get()
-        self.assertEqual(error.engine, machine.name)
+        self.assertEqual(error.engine, machine.mtid)
         self.assertIn("ValueError", error.error)
         self.assertIn("API unavailable", error.error)
 
