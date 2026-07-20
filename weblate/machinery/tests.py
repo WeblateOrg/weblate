@@ -8942,6 +8942,20 @@ class MachineryErrorTest(TestCase):
         self.assertIn("ValueError", error.error)
         self.assertIn("API quota exceeded", error.error)
 
+    def test_report_error_redacts_url_query_parameters(self) -> None:
+        """Query parameters (which may contain API keys) are redacted before storage."""
+        machine = self.get_machine()
+        exc = HTTPError(
+            "401 Client Error: Unauthorized for url:"
+            " https://api.example.com/translate?key=SECRET&text=hello",
+        )
+        machine.report_error("Auth failed", exc=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn("SECRET", error.error)
+        self.assertNotIn("text=hello", error.error)
+        self.assertIn("?[redacted]", error.error)
+        self.assertIn("https://api.example.com/translate", error.error)
+
     def test_report_error_records_project_from_settings(self) -> None:
         """MachineryError FK is populated when service is project-scoped."""
         project = Project.objects.create(name="Test", slug="test")

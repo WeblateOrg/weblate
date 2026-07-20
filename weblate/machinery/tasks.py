@@ -7,6 +7,7 @@ from __future__ import annotations
 from datetime import timedelta
 
 from celery.schedules import crontab
+from django.conf import settings
 from django.utils import timezone
 
 from weblate.utils.celery import app
@@ -19,7 +20,7 @@ def cleanup_machinery_errors() -> None:
     from weblate.machinery.models import MachineryError
 
     MachineryError.objects.filter(
-        timestamp__lt=timezone.now() - timedelta(days=30)
+        timestamp__lt=timezone.now() - timedelta(days=settings.MACHINERY_ERROR_KEEP_DAYS)
     ).delete()
 
 

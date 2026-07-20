@@ -381,11 +381,14 @@ class BatchMachineTranslation(DocVersionsMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.machinery.models import MachineryError
 
+        # Redact URL query parameters to avoid persisting API keys or source text
+        # that backends such as Yandex and MyMemory pass as GET parameters.
+        error_message = re.sub(r"\?[^#\s]*", "?[redacted]", str(exc))
         try:
             MachineryError.objects.create(
                 engine=self.mtid,
                 project=self.settings.get("_project"),
-                error=f"{cause}: {type(exc).__name__}: {exc}",
+                error=f"{cause}: {type(exc).__name__}: {error_message}",
             )
         except Exception:
             log_handled_exception("Could not save machinery error")

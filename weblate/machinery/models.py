@@ -15,7 +15,7 @@ from django.utils.translation import gettext_lazy
 from weblate.utils.classloader import ClassRegistry
 
 from .base import BatchMachineTranslation
-from .defaults import DEFAULT_WEBLATE_MACHINERY
+from .defaults import DEFAULT_MACHINERY_ERROR_KEEP_DAYS, DEFAULT_WEBLATE_MACHINERY
 
 if TYPE_CHECKING:
     from .types import SettingsDict
@@ -24,18 +24,19 @@ if TYPE_CHECKING:
 class MachineryError(models.Model):
     """Stores errors from automatic suggestion backends for admin visibility."""
 
-    engine = models.CharField(max_length=100, db_index=True)
+    engine = models.CharField(max_length=100)
     project = models.ForeignKey(
         "trans.Project",
         on_delete=models.deletion.CASCADE,
         null=True,
         blank=True,
     )
-    timestamp = models.DateTimeField(default=timezone.now, db_index=True)
+    timestamp = models.DateTimeField(default=timezone.now)
     error = models.TextField()
 
     class Meta:
         ordering = ["-timestamp"]  # ruff: ignore[mutable-class-default]
+        indexes = [ models.Index(fields=["engine", "project", "timestamp"])]  # ruff: ignore[mutable-class-default]
         verbose_name = gettext_lazy("Machinery error")
         verbose_name_plural = gettext_lazy("Machinery errors")
 
@@ -55,6 +56,8 @@ class WeblateConf(AppConf):
 
     # List of machinery classes
     WEBLATE_MACHINERY = DEFAULT_WEBLATE_MACHINERY
+    # Days to keep machinery errors before pruning
+    MACHINERY_ERROR_KEEP_DAYS = DEFAULT_MACHINERY_ERROR_KEEP_DAYS
 
     class Meta:
         prefix = ""

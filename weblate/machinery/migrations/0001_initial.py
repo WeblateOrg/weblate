@@ -29,13 +29,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "engine",
-                    models.CharField(db_index=True, max_length=100),
+                    models.CharField(max_length=100),
                 ),
                 (
                     "timestamp",
-                    models.DateTimeField(
-                        default=django.utils.timezone.now, db_index=True
-                    ),
+                    models.DateTimeField(default=django.utils.timezone.now),
                 ),
                 ("error", models.TextField()),
                 (
@@ -52,6 +50,11 @@ class Migration(migrations.Migration):
                 "verbose_name": "Machinery error",
                 "verbose_name_plural": "Machinery errors",
                 "ordering": ["-timestamp"],
+                "indexes": [
+                    models.Index(
+                        fields=["engine", "project", "timestamp"],
+                    ),
+                ],
             },
         ),
     ]
