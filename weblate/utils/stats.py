@@ -5,9 +5,9 @@
 from __future__ import annotations
 
 import time
+from collections import deque
 from datetime import datetime, timedelta
-from itertools import chain
-from operator import itemgetter
+from itertools import batched, chain
 from types import GeneratorType
 from typing import TYPE_CHECKING, TypedDict, cast
 
@@ -15,13 +15,13 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Count, F, Q
+from django.db.models import Count, Exists, F, OuterRef, Q
 from django.db.models.functions import Length
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 
-from weblate.checks.models import CHECKS
+from weblate.checks.models import CHECKS, Check
 from weblate.lang.models import Language
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.mixins import BaseURLMixin
@@ -47,6 +47,8 @@ if TYPE_CHECKING:
 
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
+
+STATS_PREFETCH_CHUNK_SIZE = 500
 
 
 class UnitSnapshot(TypedDict):
@@ -142,10 +144,19 @@ def prefetch_stats(queryset):
     if not objects:
         return result
 
-    # Use stats prefetch
-    objects[0].stats.prefetch_many([i.stats for i in objects])
+    # Use bounded stats prefetch to avoid oversized cache multi-get requests.
+    for object_batch in batched(objects, STATS_PREFETCH_CHUNK_SIZE):
+        object_batch[0].stats.prefetch_many([item.stats for item in object_batch])
 
     return result
+
+
+def iter_prefetch_stats(queryset, chunk_size: int = STATS_PREFETCH_CHUNK_SIZE):
+    """Yield objects with statistics prefetched in bounded batches."""
+    iterator = queryset.iterator(chunk_size=chunk_size)
+    for object_batch in batched(iterator, chunk_size):
+        object_batch[0].stats.prefetch_many([item.stats for item in object_batch])
+        yield from object_batch
 
 
 def get_non_glossary_stats(
@@ -384,7 +395,9 @@ class BaseStats:
     def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         yield GlobalStats()
 
-    def collect_update_objects(self) -> None:
+    def collect_update_objects(
+        self, *, extra_objects: Iterable[BaseStats] | None = None
+    ) -> None:
         """
         Collect update objects.
 
@@ -392,7 +405,10 @@ class BaseStats:
         cannot be collected once the object is deleted.
         """
         # Use list to force materializing the generator
-        self._collected_update_objects = list(self.get_update_objects())
+        objects: Iterable[BaseStats] = self.get_update_objects()
+        if extra_objects is not None:
+            objects = chain(objects, extra_objects)
+        self._collected_update_objects = list(objects)
 
     def _iterate_update_objects(
         self, *, extra_objects: Iterable[BaseStats] | None = None
@@ -407,12 +423,18 @@ class BaseStats:
         if extra_objects:
             stat_objects = chain(stat_objects, extra_objects)
 
-        # Prefetch stats data from cache
-        fetched_stat_objects: list[BaseStats] = prefetch_stats(stat_objects)
+        # Deduplicate overlapping dependency paths while preserving their
+        # child-before-parent order.
+        unique_stat_objects: dict[str, BaseStats] = {}
+        for stat in stat_objects:
+            unique_stat_objects.setdefault(stat.cache_key, stat)
+
+        # Prefetch stats data from cache.
+        fetched_stat_objects = deque(prefetch_stats(unique_stat_objects.values()))
 
         # Discard references to no longer needed objects
         while fetched_stat_objects:
-            yield fetched_stat_objects.pop(0)
+            yield fetched_stat_objects.popleft()
 
     def update_parents(
         self, *, extra_objects: Iterable[BaseStats] | None = None
@@ -578,9 +600,14 @@ class TranslationStats(BaseStats):
         # Project / language
         yield component.project.stats.get_single_language_stats(translation.language)
 
-        # Linked project / language
-        for link in component.cached_links:
-            yield link.stats.get_single_language_stats(translation.language)
+        # Linked project and category / language
+        for link in component.componentlink_set.select_related("project", "category"):
+            yield link.project.stats.get_single_language_stats(translation.language)
+            if link.category_id:
+                category = link.category
+                while category:
+                    yield category.stats.get_single_language_stats(translation.language)
+                    category = category.category
 
         # Category / language
         category = component.category
@@ -724,203 +751,69 @@ class TranslationStats(BaseStats):
             self.save(update_parents=False)
             return True
 
-    # ruff: ignore[too-many-locals]
     def _calculate_basic(self) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Comment, Suggestion, Unit
+
         values = (
             "state",
             "num_words",
             "active_checks_count",
             "dismissed_checks_count",
             "suggestion_count",
-            "source_label_count",
             "label_count",
             "comment_count",
             "num_chars",
         )
 
-        # Calculate summary for each unit in the database.
-        # We only need presence check, not actual count, but using Exists(OuterRef())
-        # creates a subquery for each field, while Count() creates a single join
-        # and calculates based on that, what performs better.
+        # These are independent to-many relations. Joining and counting all of
+        # them in one query multiplies rows and can produce incorrect presence
+        # results as well as poor query plans. Statistics only need presence.
         units = self._object.unit_set.annotate(
-            active_checks_count=Count("check", filter=Q(check__dismissed=False)),
-            dismissed_checks_count=Count("check", filter=Q(check__dismissed=True)),
-            suggestion_count=Count("suggestion"),
-            source_label_count=Count("source_unit__labels"),
-            label_count=Count("source_unit__labels"),
-            comment_count=Count("comment", filter=Q(comment__resolved=False)),
+            active_checks_count=Exists(
+                Check.objects.filter(unit_id=OuterRef("pk"), dismissed=False)
+            ),
+            dismissed_checks_count=Exists(
+                Check.objects.filter(unit_id=OuterRef("pk"), dismissed=True)
+            ),
+            suggestion_count=Exists(Suggestion.objects.filter(unit_id=OuterRef("pk"))),
+            label_count=Exists(
+                Unit.labels.through.objects.filter(unit_id=OuterRef("source_unit_id"))
+            ),
+            comment_count=Exists(
+                Comment.objects.filter(unit_id=OuterRef("pk"), resolved=False)
+            ),
             num_chars=Length("source"),
         ).values_list(*values)
 
-        (
-            get_state,
-            get_num_words,
-            get_active_checks_count,
-            get_dismissed_checks_count,
-            get_suggestion_count,
-            get_source_label_count,
-            get_label_count,
-            get_comment_count,
-            get_num_chars,
-        ) = (itemgetter(i) for i in range(len(values)))
+        totals = dict.fromkeys(self.UNIT_DELTA_KEYS, 0)
+        for (
+            state,
+            num_words,
+            active_checks_count,
+            dismissed_checks_count,
+            suggestion_count,
+            label_count,
+            comment_count,
+            num_chars,
+        ) in units.iterator(chunk_size=STATS_PREFETCH_CHUNK_SIZE):
+            bucket = self.snapshot_to_bucket(
+                {
+                    "state": state,
+                    "num_words": num_words,
+                    "num_chars": num_chars,
+                    "active_checks_count": active_checks_count,
+                    "dismissed_checks_count": dismissed_checks_count,
+                    "suggestion_count": suggestion_count,
+                    "label_count": label_count,
+                    "comment_count": comment_count,
+                }
+            )
+            for key, value in bucket.items():
+                totals[key] += value
 
-        # Sum stats in Python, this is way faster than conditional sums in the database
-        units_all = units
-        units_fuzzy = [unit for unit in units if get_state(unit) in FUZZY_STATES]
-        units_readonly = [unit for unit in units if get_state(unit) == STATE_READONLY]
-        units_nottranslated = [unit for unit in units if get_state(unit) == STATE_EMPTY]
-        units_unapproved = [
-            unit for unit in units if get_state(unit) == STATE_TRANSLATED
-        ]
-        units_approved = [unit for unit in units if get_state(unit) == STATE_APPROVED]
-        units_translated = [
-            unit for unit in units if get_state(unit) >= STATE_TRANSLATED
-        ]
-        units_todo = [unit for unit in units if get_state(unit) < STATE_TRANSLATED]
-        units_unlabeled = [
-            unit
-            for unit in units
-            if not get_source_label_count(unit) and not get_label_count(unit)
-        ]
-        units_allchecks = [unit for unit in units if get_active_checks_count(unit)]
-        units_translated_checks = [
-            unit
-            for unit in units
-            if get_active_checks_count(unit)
-            and get_state(unit) in {STATE_TRANSLATED, STATE_APPROVED}
-        ]
-        units_dismissed_checks = [
-            unit for unit in units if get_dismissed_checks_count(unit)
-        ]
-        units_suggestions = [unit for unit in units if get_suggestion_count(unit)]
-        units_nosuggestions = [
-            unit
-            for unit in units
-            if not get_suggestion_count(unit) and get_state(unit) < STATE_TRANSLATED
-        ]
-        units_approved_suggestions = [
-            unit
-            for unit in units
-            if get_suggestion_count(unit) and get_state(unit) == STATE_APPROVED
-        ]
-        units_comments = [unit for unit in units if get_comment_count(unit)]
-
-        # Store in a cache
-        self.store("all", len(units_all))
-        self.store("all_words", sum(get_num_words(unit) for unit in units_all))
-        self.store("all_chars", sum(get_num_chars(unit) for unit in units_all))
-        self.store("fuzzy", len(units_fuzzy))
-        self.store("fuzzy_words", sum(get_num_words(unit) for unit in units_fuzzy))
-        self.store("fuzzy_chars", sum(get_num_chars(unit) for unit in units_fuzzy))
-        self.store("readonly", len(units_readonly))
-        self.store(
-            "readonly_words", sum(get_num_words(unit) for unit in units_readonly)
-        )
-        self.store(
-            "readonly_chars", sum(get_num_chars(unit) for unit in units_readonly)
-        )
-        self.store("translated", len(units_translated))
-        self.store(
-            "translated_words", sum(get_num_words(unit) for unit in units_translated)
-        )
-        self.store(
-            "translated_chars", sum(get_num_chars(unit) for unit in units_translated)
-        )
-        self.store("todo", len(units_todo))
-        self.store("todo_words", sum(get_num_words(unit) for unit in units_todo))
-        self.store("todo_chars", sum(get_num_chars(unit) for unit in units_todo))
-        self.store("nottranslated", len(units_nottranslated))
-        self.store(
-            "nottranslated_words",
-            sum(get_num_words(unit) for unit in units_nottranslated),
-        )
-        self.store(
-            "nottranslated_chars",
-            sum(get_num_chars(unit) for unit in units_nottranslated),
-        )
-        # Review workflow
-        self.store("approved", len(units_approved))
-        self.store(
-            "approved_words", sum(get_num_words(unit) for unit in units_approved)
-        )
-        self.store(
-            "approved_chars", sum(get_num_chars(unit) for unit in units_approved)
-        )
-        self.store("unapproved", len(units_unapproved))
-        self.store(
-            "unapproved_words", sum(get_num_words(unit) for unit in units_unapproved)
-        )
-        self.store(
-            "unapproved_chars", sum(get_num_chars(unit) for unit in units_unapproved)
-        )
-        # Labels
-        self.store("unlabeled", len(units_unlabeled))
-        self.store(
-            "unlabeled_words", sum(get_num_words(unit) for unit in units_unlabeled)
-        )
-        self.store(
-            "unlabeled_chars", sum(get_num_chars(unit) for unit in units_unlabeled)
-        )
-        # Checks
-        self.store("allchecks", len(units_allchecks))
-        self.store(
-            "allchecks_words", sum(get_num_words(unit) for unit in units_allchecks)
-        )
-        self.store(
-            "allchecks_chars", sum(get_num_chars(unit) for unit in units_allchecks)
-        )
-        self.store("translated_checks", len(units_translated_checks))
-        self.store(
-            "translated_checks_words",
-            sum(get_num_words(unit) for unit in units_translated_checks),
-        )
-        self.store(
-            "translated_checks_chars",
-            sum(get_num_chars(unit) for unit in units_translated_checks),
-        )
-        self.store("dismissed_checks", len(units_dismissed_checks))
-        self.store(
-            "dismissed_checks_words",
-            sum(get_num_words(unit) for unit in units_dismissed_checks),
-        )
-        self.store(
-            "dismissed_checks_chars",
-            sum(get_num_chars(unit) for unit in units_dismissed_checks),
-        )
-        # Suggestions
-        self.store("suggestions", len(units_suggestions))
-        self.store(
-            "suggestions_words", sum(get_num_words(unit) for unit in units_suggestions)
-        )
-        self.store(
-            "suggestions_chars", sum(get_num_chars(unit) for unit in units_suggestions)
-        )
-        self.store("nosuggestions", len(units_nosuggestions))
-        self.store(
-            "nosuggestions_words",
-            sum(get_num_words(unit) for unit in units_nosuggestions),
-        )
-        self.store(
-            "nosuggestions_chars",
-            sum(get_num_chars(unit) for unit in units_nosuggestions),
-        )
-        self.store("approved_suggestions", len(units_approved_suggestions))
-        self.store(
-            "approved_suggestions_words",
-            sum(get_num_words(unit) for unit in units_approved_suggestions),
-        )
-        self.store(
-            "approved_suggestions_chars",
-            sum(get_num_chars(unit) for unit in units_approved_suggestions),
-        )
-        # Comments
-        self.store("comments", len(units_comments))
-        self.store(
-            "comments_words", sum(get_num_words(unit) for unit in units_comments)
-        )
-        self.store(
-            "comments_chars", sum(get_num_chars(unit) for unit in units_comments)
-        )
+        for key, value in totals.items():
+            self.store(key, value)
 
         # There is single language here, but it is aggregated at higher levels
         self.store("languages", 1)
@@ -1162,31 +1055,53 @@ class ComponentStats(AggregatingStats):
         # Component lists
         yield from yield_stats(self._object.componentlist_set.only("id", "slug"))
 
-        # Projects this component is shared to
-        yield from yield_stats(self._object.cached_links)
+        # Projects and categories this component is shared to.
+        for link in self._object.componentlink_set.select_related(
+            "project", "category__category__category"
+        ):
+            if link.category_id:
+                category = link.category
+                while category:
+                    yield category.stats
+                    category = category.category
+            yield link.project.stats
 
         if self._object.category:
-            # Category
-            yield self._object.category.stats
-            # Category parents, project and global
-            yield from self._object.category.stats.get_update_objects()
-        else:
-            # Project
-            yield self._object.project.stats
-            # Global
-            yield from self._object.project.stats.get_update_objects()
+            category = self._object.category
+            while category:
+                yield category.stats
+                category = category.category
+        yield self._object.project.stats
 
-    def update_language_stats_parents(self) -> None:
-        # Fetch language stats to update
-        extras: Iterable[Iterable[BaseStats]] = (
-            translation.stats.get_update_objects(full=False)
-            for translation in prefetch_stats(
-                self.get_child_objects().select_related("language")
+        # Every project has to be refreshed before the shared global parent.
+        yield GlobalStats()
+
+    def get_language_update_objects(self) -> Generator[BaseStats]:
+        """Yield language-scoped parents affected by this component."""
+        component = self._object
+        links = list(
+            component.componentlink_set.select_related(
+                "project", "category__category__category"
             )
         )
+        for translation in self.get_child_objects().select_related("language"):
+            language = translation.language
+            yield language.stats
+            yield component.project.stats.get_single_language_stats(language)
+            for link in links:
+                yield link.project.stats.get_single_language_stats(language)
+                category = link.category
+                while category:
+                    yield category.stats.get_single_language_stats(language)
+                    category = category.category
+            category = component.category
+            while category:
+                yield category.stats.get_single_language_stats(language)
+                category = category.category
 
-        # Update all parents
-        self.update_parents(extra_objects=chain.from_iterable(extras))
+    def update_language_stats_parents(self) -> None:
+        """Update all language-scoped and aggregate parents."""
+        self.update_parents(extra_objects=self.get_language_update_objects())
 
     def update_language_stats(self) -> None:
         # ruff: ignore[import-outside-top-level]
@@ -1443,7 +1358,16 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
 
     @property
     def enable_review(self) -> bool:
-        return self.project.enable_review
+        project_review = (
+            self.project.source_review
+            if self.is_source
+            else self.project.translation_review
+        )
+        if not project_review:
+            return False
+        if self.workflow_settings is not None:
+            return self.workflow_settings.translation_review
+        return project_review
 
     @property
     def enable_suggestions(self) -> bool:
@@ -1557,10 +1481,7 @@ class CategoryLanguageStats(ChecklistStats):
 
     @cached_property
     def has_review(self):
-        return (
-            self.category.project.source_review
-            or self.category.project.translation_review
-        )
+        return self._object.enable_review
 
     def get_category_objects(self):
         return [
@@ -1589,7 +1510,8 @@ class CategoryStats(ParentAggregatingStats):
             yield self._object.category.stats
             yield from self._object.category.stats.get_update_objects()
         else:
-            # Global
+            # Project and global
+            yield self._object.project.stats
             yield from self._object.project.stats.get_update_objects()
 
     def get_child_objects(self):
@@ -1708,9 +1630,6 @@ class GlobalStats(ParentAggregatingStats):
         return Translation.objects.count()
 
     def get_checks(self):
-        # ruff: ignore[import-outside-top-level]
-        from weblate.checks.models import Check
-
         return Check.objects.count()
 
     def get_configuration_errors(self):
@@ -1733,6 +1652,55 @@ class GlobalStats(ParentAggregatingStats):
 
     def get_name(self):
         return settings.SITE_TITLE
+
+
+def _stats_update_priority(stats: BaseStats) -> tuple[int, int]:
+    """Return a stable child-before-parent ordering for topology updates."""
+    if isinstance(stats, GlobalStats):
+        return (100, 0)
+    if isinstance(stats, ProjectStats):
+        return (90, 0)
+    if isinstance(stats, CategoryStats):
+        depth = 0
+        category = stats.obj.category
+        while category:
+            depth += 1
+            category = category.category
+        return (70, -depth)
+    if isinstance(stats, ProjectLanguageStats):
+        return (60, 0)
+    if isinstance(stats, CategoryLanguageStats):
+        depth = 0
+        category = stats.category.category
+        while category:
+            depth += 1
+            category = category.category
+        return (50, -depth)
+    return (10, 0)
+
+
+def _stats_object_deleted(stats: BaseStats) -> bool:
+    """Whether stats refer to a model instance deleted before recalculation."""
+    if isinstance(stats, CategoryLanguageStats):
+        obj = stats.category
+    elif isinstance(stats, ProjectLanguageStats):
+        obj = stats.project
+    else:
+        obj = stats.obj
+    return (
+        obj is not None and getattr(obj, "_state", None) is not None and obj.pk is None
+    )
+
+
+def update_stats_objects(stats_objects: Iterable[BaseStats]) -> None:
+    """Recalculate a collected dependency graph once per cache key."""
+    unique: dict[str, BaseStats] = {}
+    for stats in stats_objects:
+        if _stats_object_deleted(stats):
+            continue
+        unique.setdefault(stats.cache_key, stats)
+    for stats in sorted(unique.values(), key=_stats_update_priority):
+        stats.update_stats()
 
 
 class GhostStats(BaseStats):
