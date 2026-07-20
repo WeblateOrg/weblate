@@ -53,6 +53,7 @@ class Migration(migrations.Migration):
                 "indexes": [
                     models.Index(
                         fields=["engine", "project", "timestamp"],
+                        name="machinery_error_engine_project_timestamp_idx",
                     ),
                 ],
             },
