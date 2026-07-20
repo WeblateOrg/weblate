@@ -39,7 +39,7 @@ class MachineryError(models.Model):
         indexes = [  # ruff: ignore[mutable-class-default]
             models.Index(
                 fields=["engine", "project", "timestamp"],
-                name="machinery_error_engine_project_timestamp_idx",
+                name="macherr_eng_proj_ts_idx",
             ),
         ]
         verbose_name = gettext_lazy("Machinery error")
