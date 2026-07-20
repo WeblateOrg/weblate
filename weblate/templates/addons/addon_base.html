@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block nav_pills %}
+  {% if instance %}
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link{% if addon_page == "configuration" %} active{% endif %}"
+           {% if addon_page == "configuration" %}aria-current="page"{% endif %}
+           href="{% url 'addon-detail' pk=instance.pk %}">{% translate "Configuration" %}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link{% if addon_page == "logs" %} active{% endif %}"
+           {% if addon_page == "logs" %}aria-current="page"{% endif %}
+           href="{% url 'addon-logs' pk=instance.pk %}">{% translate "Logs" %}</a>
+      </li>
+      {% if has_components %}
+        <li class="nav-item">
+          <a class="nav-link{% if addon_page == "components" %} active{% endif %}"
+             {% if addon_page == "components" %}aria-current="page"{% endif %}
+             href="{% url 'addon-components' pk=instance.pk %}">{% translate "Components" %}</a>
+        </li>
+      {% endif %}
+    </ul>
+  {% endif %}
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% if object %}
+    {% path_object_breadcrumbs object %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
+    </li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
+    </li>
+  {% endif %}
+  <li class="breadcrumb-item">
+    {% if instance %}
+      <a href="{% url 'addon-detail' pk=instance.pk %}">
+      {% endif %}
+      {% if addon %}
+        {{ addon.verbose }}
+      {% else %}
+        {{ addon_name }}
+      {% endif %}
+      {% if instance %}</a>{% endif %}
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  {% block addon_content %}
+  {% endblock addon_content %}
+{% endblock content %}

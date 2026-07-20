@@ -6157,7 +6157,10 @@ class ComponentAPITest(APIBaseTest):
 
     def test_changes(self) -> None:
         request = self.do_request("api:component-changes", self.component_kwargs)
-        self.assertEqual(request.data["count"], 24)
+        self.assertEqual(request.data["count"], 25)
+        latest_change = request.data["results"][0]
+        self.assertEqual(latest_change["action"], ActionEvents.ALERT)
+        self.assertEqual(latest_change["details"]["alert"], "UnusedScreenshot")
 
     def test_screenshots(self) -> None:
         request = self.do_request("api:component-screenshots", self.component_kwargs)

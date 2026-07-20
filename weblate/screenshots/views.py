@@ -272,7 +272,7 @@ def add_sources(request: AuthenticatedHttpRequest, obj) -> dict[str, int | bool]
 
     existing = set(obj.units.filter(pk__in=source_ids).values_list("pk", flat=True))
     units = obj.translation.unit_set.in_bulk(source_ids)
-    added = 0
+    units_to_add: list[Unit] = []
     for source_id in source_ids:
         unit = units.get(source_id)
         if unit is None:
@@ -281,9 +281,11 @@ def add_sources(request: AuthenticatedHttpRequest, obj) -> dict[str, int | bool]
         if source_id in existing:
             skipped += 1
             continue
-        obj.add_unit(unit, user=request.user)
+        units_to_add.append(unit)
         existing.add(source_id)
-        added += 1
+
+    obj.add_units(units_to_add, user=request.user)
+    added = len(units_to_add)
 
     return {
         "status": added > 0,

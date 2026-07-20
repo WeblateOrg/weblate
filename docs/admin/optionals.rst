@@ -159,8 +159,9 @@ documents.
     <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents>.
 
     The bundled terms of service and related legal documents are specific to
-    that service and are not intended for general use. They might still come
-    in handy as a starting point if adjusted to meet your needs.
+    services operated by Weblate s.r.o. They can serve as an implementation
+    example, but should not be used as a basis for legal documents of other
+    services.
 
 Installation
 ++++++++++++
@@ -188,7 +189,8 @@ Installation
 
     weblate migrate
 
-3. Edit the legal documents in the :file:`weblate/legal/templates/legal/` folder to match your service.
+3. Provide legal document templates matching your service, as described in
+   :ref:`legal-customization`.
 
 .. hint::
 
@@ -209,7 +211,7 @@ Installation
 Usage
 +++++
 
-After installation and editing, the legal documents are shown in the Weblate UI.
+After installation and customization, the legal documents are shown in the Weblate UI.
 
 The legal document templates are regular Django templates. Text is translated
 only when you use Django translation tags such as ``{% translate %}`` or
@@ -219,11 +221,50 @@ Legal pages and the sign-in and registration overview provide ``terms_url`` and
 ``privacy_url`` variables for linking to the terms of service and privacy
 policy documents.
 
-By default, legal document wrappers use the ``tos`` CSS class. This class
-automatically numbers ``h2`` headings, paragraphs with ``item``, ``subitem``,
-or ``subsubitem`` classes, and top-level ordered list items. If your legal
-text already contains numbering, set :setting:`LEGAL_DOCUMENT_CSS_CLASS` to an
-empty string to disable this styling.
+.. _legal-customization:
+
+Customizing legal documents and styles
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Provide your own legal documents by overriding these templates in a
+:ref:`custom-module`:
+
+* :file:`templates/legal/documents/tos.html`
+* :file:`templates/legal/documents/privacy.html`
+* :file:`templates/legal/documents/summary.html`
+* :file:`templates/legal/documents/contracts.html`
+* :file:`templates/legal/styles.html`
+* :file:`static/weblate_customization/legal.css`
+
+Place the customization app before ``weblate.legal`` and any other app
+providing legal template overrides in :setting:`django:INSTALLED_APPS` so that
+Django selects its templates. Only templates you provide are overridden; the
+remaining legal templates continue to use the defaults from later apps.
+
+The :file:`legal/styles.html` template is included in the HTML head of every
+legal page. Use it to load a stylesheet from your customization app:
+
+.. code-block:: django
+
+   {% load static %}
+
+   <link rel="stylesheet" href="{% static 'weblate_customization/legal.css' %}" />
+
+Run :samp:`weblate collectstatic --noinput` after adding or changing the static
+file.
+
+In Docker deployments, place document templates in
+:file:`/app/data/python/customize/templates/legal/documents`,
+:file:`styles.html` in
+:file:`/app/data/python/customize/templates/legal/styles.html`, and the
+stylesheet in :file:`/app/data/python/customize/static/legal.css`. The
+stylesheet template then uses ``{% static 'legal.css' %}``. Restart the
+container to apply the changes, see :ref:`docker-static-override`.
+
+By default, legal document wrappers use the ``tos`` CSS class. Weblate does not
+attach any styling to this class; target it from your custom stylesheet, or set
+:setting:`LEGAL_DOCUMENT_CSS_CLASS` to another class matching your document
+markup. Set the setting to an empty string if no wrapper class is needed.
 
 Use :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide optional legal pages such as
 subcontractors from the legal menu. Hidden pages return a 404 response when

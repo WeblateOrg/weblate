@@ -390,10 +390,6 @@ span.replaced {
   margin-bottom: 0;
 }
 
-.card-body .table-sm {
-  margin-bottom: 0;
-}
-
 td .list-group {
   margin-bottom: 0;
 }
@@ -652,7 +648,7 @@ form + .login-label {
 }
 
 .login-label {
-  font-size: normal;
+  font-size: medium;
   font-weight: 600;
 }
 
@@ -788,7 +784,7 @@ form + .login-label {
   right: 25%;
 }
 
-[dir="rtl"] .btn-float {
+[dir="rtl"] .col-sm-9 .btn-float {
   right: auto;
   left: 25%;
 }
@@ -999,116 +995,6 @@ legend {
 
 .search-toolbar {
   margin-bottom: -15px;
-}
-
-.tos {
-  counter-reset: tos_chapter;
-}
-
-.tos h2::before {
-  counter-increment: tos_chapter;
-  content: counter(tos_chapter) ". ";
-}
-
-.tos h2 {
-  counter-reset: tos_item;
-}
-
-.tos p.item,
-.tos p.subitem,
-.tos p.subsubitem {
-  position: relative;
-}
-.tos p,
-.tos dl {
-  padding: 0 3.5em;
-}
-.tos p.item {
-  counter-reset: tos_subitem;
-}
-.tos p.subitem {
-  counter-reset: tos_subsubitem;
-}
-.tos p.subsubitem {
-  padding: 0 4.2em;
-}
-
-.tos p.item::before {
-  counter-increment: tos_item;
-  content: counter(tos_chapter) "." counter(tos_item) ". ";
-  position: absolute;
-  left: 0;
-}
-
-.tos p.subitem::before {
-  counter-increment: tos_subitem;
-  content: counter(tos_chapter) "." counter(tos_item) "." counter(tos_subitem)
-    ". ";
-  position: absolute;
-  left: 0;
-}
-
-.tos p.subsubitem::before {
-  counter-increment: tos_subsubitem;
-  content: counter(tos_chapter) "." counter(tos_item) "." counter(tos_subitem)
-    "." counter(tos_subsubitem) ". ";
-  position: absolute;
-  left: 0;
-}
-
-.tos ol {
-  counter-reset: tos_list;
-  padding: 0 5em;
-}
-.tos ol > li {
-  list-style: none;
-  position: relative;
-}
-.tos ol > li:before {
-  counter-increment: tos_list;
-  content: counter(tos_list, lower-alpha) ") ";
-  position: absolute;
-  left: -1.4em;
-}
-@counter-style lower-belorussian {
-  system: alphabetic;
-  symbols: "а" "б" "в" "г" "д" "е" "ё" "ж" "з" "і" "й" "к" "л" "м" "н" "о" "п"
-    "р" "с" "т" "у" "ў" "ф" "х" "ц" "ч" "ш" "ы" "ь" "э" "ю" "я";
-}
-@counter-style lower-bulgarian {
-  system: alphabetic;
-  symbols: "а" "б" "в" "г" "д" "е" "ж" "з" "и" "й" "к" "л" "м" "н" "о" "п" "р"
-    "с" "т" "у" "ф" "х" "ц" "ч" "ш" "щ" "ъ" "ь" "ю" "я";
-}
-@counter-style lower-macedonian {
-  system: alphabetic;
-  symbols: "а" "б" "в" "г" "д" "ѓ" "е" "ж" "з" "ѕ" "и" "ј" "к" "л" "љ" "м" "н"
-    "њ" "о" "п" "р" "с" "т" "ќ" "у" "ф" "х" "ц" "ч" "џ" "ш";
-}
-@counter-style lower-russian {
-  system: alphabetic;
-  symbols: "а" "б" "в" "г" "д" "е" "ж" "з" "и" "к" "л" "м" "н" "о" "п" "р" "с"
-    "т" "у" "ф" "х" "ц" "ч" "ш" "щ" "э" "ю" "я";
-}
-@counter-style lower-ukrainian {
-  system: alphabetic;
-  symbols: "а" "б" "в" "г" "д" "е" "є" "ж" "з" "и" "і" "к" "л" "м" "н" "о" "п"
-    "р" "с" "т" "у" "ф" "х" "ц" "ч" "ш" "ю" "я";
-}
-[lang="by"] .tos ol > li:before {
-  content: counter(tos_list, lower-belorussian) ") ";
-}
-[lang="bg"] .tos ol > li:before {
-  content: counter(tos_list, lower-bulgarian) ") ";
-}
-[lang="mk"] .tos ol > li:before {
-  content: counter(tos_list, lower-macedonian) ") ";
-}
-[lang="ru"] .tos ol > li:before {
-  content: counter(tos_list, lower-russian) ") ";
-}
-[lang="uk"] .tos ol > li:before {
-  content: counter(tos_list, lower-ukrainian) ") ";
 }
 
 .vertical-badge .badge {
@@ -1359,6 +1245,9 @@ th.number {
 }
 .badge {
   margin: 3px;
+}
+.badge.addon-scope {
+  font-size: 12px;
 }
 .badge.length,
 .badge.license {
@@ -2475,7 +2364,7 @@ tbody.warning {
 }
 /* END: Shortcuts table styles */
 
-/** START: Search Previewe styles */
+/** START: Search Preview styles */
 #search-preview {
   display: none;
   width: 100%;
@@ -2514,7 +2403,7 @@ tbody.warning {
   color: var(--wl-color-primary);
   margin: 10px;
 }
-/** END: Search Previewe styles */
+/** END: Search Preview styles */
 
 /** START: Zen Editor sticky bottom styles */
 .sticky-bottom {

@@ -24,9 +24,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-16 02:42+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-19 07:04+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -4242,19 +4241,10 @@ msgstr ""
 "Tschechischen nicht gleich sind."
 
 #: admin/code-hosting.rst:4
-#, fuzzy
-#| msgid "Code hosting integrations"
 msgid "Code-hosting integrations"
 msgstr "Code-Hosting-Integrationen"
 
 #: admin/code-hosting.rst:6
-#, fuzzy
-#| msgid ""
-#| "Weblate integrates with code hosting sites in several separate places: "
-#| "repository access, incoming notifications, and pushing translations back. "
-#| "The exact setup depends on whether you use Hosted Weblate or run your own "
-#| "Weblate instance, and on whether Weblate should push directly or create "
-#| "pull requests."
 msgid ""
 "Weblate integrates with code-hosting sites in several separate places: "
 "repository access, incoming notifications, and pushing translations back. "
@@ -4266,7 +4256,7 @@ msgstr ""
 "Repository-Zugriff, eingehende Benachrichtigungen und Zurückpushen von "
 "Übersetzungen. Die genaue Einrichtung hängt davon ab, ob Sie Hosted Weblate "
 "nutzen oder eine eigene Weblate-Instanz betreiben, und davon, ob Weblate "
-"direkt pushen oder Pull Requests erstellen soll."
+"direkt pushen soll oder Pull Requests oder Merge Requests erstellen soll."
 
 #: admin/code-hosting.rst:11
 msgid ""
@@ -4309,11 +4299,6 @@ msgstr ""
 "hinzu, sofern dieser verfügbar ist, siehe :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:27
-#, fuzzy
-#| msgid ""
-#| "For self-hosted Weblate, create a dedicated code hosting user and grant "
-#| "access using Weblate's SSH key or an HTTPS token, see :ref:`vcs-repos-"
-#| "code-hosting`."
 msgid ""
 "For self-hosted Weblate, create a dedicated code-hosting user and grant "
 "access using Weblate's SSH key or an HTTPS token, see :ref:`vcs-repos-code-"
@@ -4738,15 +4723,12 @@ msgstr ""
 "Bei Weblate mit einem Konto anmelden, das über Administratorrechte verfügt."
 
 #: admin/code-hosting.rst:287
-#, fuzzy
-#| msgid ""
-#| "Open :guilabel:`Manage → VCS Installations → Register Weblate GitHub App`."
 msgid ""
 "Open :guilabel:`Manage → Code-hosting connections → Register Weblate GitHub "
 "App`."
 msgstr ""
-":guilabel:`Verwalten → VCS-Installationen → Weblate-GitHub-App registrieren` "
-"öffnen."
+":guilabel:`Verwalten → Code-Hosting-Verbindungen → Weblate-GitHub-App "
+"registrieren` öffnen."
 
 #: admin/code-hosting.rst:289
 msgid ""
@@ -4785,16 +4767,6 @@ msgstr ""
 "verbinden` ist unmittelbar danach verfügbar."
 
 #: admin/code-hosting.rst:300
-#, fuzzy
-#| msgid ""
-#| "The manifest requests the permissions and event subscriptions Weblate "
-#| "needs (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-"
-#| "only, ``Organization administration`` read-only, ``Workflows`` read/"
-#| "write, and the ``Installation``, ``Meta`` and ``Push`` events), and sets "
-#| "the callback, setup and per-integration webhook URLs automatically, so no "
-#| "manual GitHub App configuration is required. GitHub delivers the "
-#| "``Installation`` and ``Installation repositories`` events to all GitHub "
-#| "Apps by default."
 msgid ""
 "The manifest requests the permissions and event subscriptions Weblate needs "
 "(``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only, "
@@ -4809,9 +4781,9 @@ msgstr ""
 "requests``, Lesezugriff auf ``Metadata`` und ``Organization "
 "administration``, Lese-/Schreibzugriff auf ``Workflows`` sowie die "
 "Ereignisse ``Installation``, ``Meta`` und ``Push``) und legt die URLs für "
-"Callback, Setup und die Webhooks pro Integration automatisch fest, sodass "
-"keine manuelle Konfiguration der GitHub-App erforderlich ist. GitHub "
-"übermittelt standardmäßig die Ereignisse ``Installation`` und ``Installation "
+"Callback, Setup und die Webhooks pro App automatisch fest, sodass keine "
+"manuelle Konfiguration der GitHub-App erforderlich ist. GitHub übermittelt "
+"standardmäßig die Ereignisse ``Installation`` und ``Installation "
 "repositories`` an alle GitHub-Apps."
 
 #: admin/code-hosting.rst:308
@@ -4836,15 +4808,6 @@ msgid "Connecting a workspace"
 msgstr "Einen Arbeitsbereich verbinden"
 
 #: admin/code-hosting.rst:317
-#, fuzzy
-#| msgid ""
-#| "Connected GitHub accounts are bound to a Weblate :ref:`workspace "
-#| "<workspaces>`. A user with project administration rights for any project "
-#| "in a workspace can connect a GitHub account on that workspace. After "
-#| "connecting, every project in the workspace can import components from "
-#| "repositories the app installation has access to. For organization "
-#| "installations, Weblate verifies that the install-time GitHub user can "
-#| "administer the organization installation."
 msgid ""
 "Connected GitHub accounts are bound to a Weblate :ref:`workspace "
 "<workspaces>`. A user with project administration rights for any project in "
@@ -4858,22 +4821,18 @@ msgstr ""
 "<workspaces>` gebunden. Ein Benutzer mit Projektadministrationsrechten für "
 "ein beliebiges Projekt in einem Arbeitsbereich kann ein GitHub-Konto mit "
 "diesem Arbeitsbereich verbinden. Nach dem Verbinden kann jedes Projekt im "
-"Arbeitsbereich Komponenten aus Repositorys importieren, auf welche die App-"
-"Installation Zugriff hat. Bei Organisationsinstallationen überprüft Weblate, "
-"ob der GitHub-Benutzer, der die Installation durchführt, die "
+"Arbeitsbereich Komponenten aus Repositorys importieren, auf welche die "
+"GitHub-App-Installation Zugriff hat. Bei Organisationskonten überprüft "
+"Weblate, ob der GitHub-Benutzer, der die Installation durchführt, die "
 "Organisationsinstallation verwalten darf."
 
 #: admin/code-hosting.rst:324
-#, fuzzy
-#| msgid ""
-#| "Projects that are not in a workspace cannot connect a GitHub App "
-#| "installation."
 msgid ""
 "Projects that are not in a workspace cannot connect a GitHub account through "
 "the GitHub App."
 msgstr ""
-"Projekte, die sich nicht in einem Arbeitsbereich befinden, können sich nicht "
-"mit einer GitHub-App-Installation verbinden."
+"Projekte, die sich nicht in einem Arbeitsbereich befinden, können über die "
+"GitHub-App keine Verbindung zu einem GitHub-Konto herstellen."
 
 #: admin/code-hosting.rst:327
 msgid ""
@@ -4893,16 +4852,12 @@ msgid "App webhook URL"
 msgstr "App-Webhook-URL"
 
 #: admin/code-hosting.rst:337
-#, fuzzy
-#| msgid ""
-#| "Each registered GitHub App integration has its own webhook URL containing "
-#| "an opaque token that uniquely identifies a single integration:"
 msgid ""
 "Each registered Weblate GitHub App has its own webhook URL containing an "
 "opaque token that uniquely identifies a single registered App:"
 msgstr ""
-"Jede registrierte GitHub-App-Integration verfügt über eine eigene Webhook-"
-"URL mit einem undurchsichtigen Token, das eine einzelne Integration "
+"Jede registrierte Weblate-GitHub-App verfügt über eine eigene Webhook-URL "
+"mit einem undurchsichtigen Token, das eine einzelne registrierte App "
 "eindeutig identifiziert:"
 
 #: admin/code-hosting.rst:344
@@ -5036,19 +4991,14 @@ msgstr ""
 "URLs, z. B. ``git@gitlab.com:group/project.git``."
 
 #: admin/code-hosting.rst:424
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate repositories on Codeberg, add the "
-#| "hosted :guilabel:`weblate` user where write access is needed, "
-#| "see :ref:`hosted-push`."
 msgid ""
 "For Hosted Weblate repositories on GitLab, add the "
 "hosted :guilabel:`weblate` user with the required repository permissions, "
 "see :ref:`hosted-push`."
 msgstr ""
-"Für Hosted-Weblate-Repositorys auf Codeberg fügen Sie den "
-"gehosteten :guilabel:`weblate`-Benutzer hinzu, wenn Sie Schreibrechte "
-"benötigen, siehe :ref:`hosted-push`."
+"Für Hosted-Weblate-Repositorys auf GitLab fügen Sie den gehosteten "
+":guilabel:`weblate`-Benutzer mit den erforderlichen Repository-"
+"Berechtigungen hinzu, siehe :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:431
 msgid "GitLab notifications"
@@ -5148,19 +5098,14 @@ msgid "HTTPS with an access token"
 msgstr "HTTPS mit einem Zugangstoken"
 
 #: admin/code-hosting.rst:493
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate repositories on Codeberg, add the "
-#| "hosted :guilabel:`weblate` user where write access is needed, "
-#| "see :ref:`hosted-push`."
 msgid ""
 "For Hosted Weblate repositories on Codeberg, add the "
 "hosted :guilabel:`weblate` user with the required repository permissions, "
 "see :ref:`hosted-push`."
 msgstr ""
-"Für Hosted-Weblate-Repositorys auf Codeberg fügen Sie den "
-"gehosteten :guilabel:`weblate`-Benutzer hinzu, wenn Sie Schreibrechte "
-"benötigen, siehe :ref:`hosted-push`."
+"Für Hosted-Weblate-Repositorys auf Codeberg fügen Sie den gehosteten "
+":guilabel:`weblate`-Benutzer mit den erforderlichen Repository-"
+"Berechtigungen hinzu, siehe :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:500
 msgid "Gitea notifications"
@@ -5263,19 +5208,14 @@ msgid "Bitbucket repository access"
 msgstr "Bitbucket-Repository-Zugriff"
 
 #: admin/code-hosting.rst:571
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate repositories on Codeberg, add the "
-#| "hosted :guilabel:`weblate` user where write access is needed, "
-#| "see :ref:`hosted-push`."
 msgid ""
 "For Hosted Weblate repositories on Bitbucket, add the "
 "hosted :guilabel:`weblate` user with the required repository permissions, "
 "see :ref:`hosted-push`."
 msgstr ""
-"Für Hosted-Weblate-Repositorys auf Codeberg fügen Sie den "
-"gehosteten :guilabel:`weblate`-Benutzer hinzu, wenn Sie Schreibrechte "
-"benötigen, siehe :ref:`hosted-push`."
+"Für Hosted-Weblate-Repositorys auf Bitbucket fügen Sie den gehosteten "
+":guilabel:`weblate`-Benutzer mit den erforderlichen Repository-"
+"Berechtigungen hinzu, siehe :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:575
 msgid ""
@@ -5601,11 +5541,6 @@ msgstr ""
 "wendet dessen Berechtigungen an."
 
 #: admin/code-hosting.rst:815
-#, fuzzy
-#| msgid ""
-#| "The Gerrit documentation has the details on the configuration necessary "
-#| "to set up such repositories. There is no separate code hosting credential "
-#| "setting for this backend."
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories. There is no separate code-hosting credential "
@@ -5620,10 +5555,6 @@ msgid "Docker credentials"
 msgstr "Docker-Zugangsdaten"
 
 #: admin/code-hosting.rst:822
-#, fuzzy
-#| msgid ""
-#| "For Docker installations, code hosting API credentials can also be "
-#| "provided through environment variables, see :ref:`docker-vcs-config`."
 msgid ""
 "For Docker installations, code-hosting API credentials can also be provided "
 "through environment variables, see :ref:`docker-vcs-config`."
@@ -7018,16 +6949,12 @@ msgid ""
 msgstr ""
 
 #: admin/config.rst:1263
-#, fuzzy
-#| msgid ""
-#| "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
-#| "``{site_domain}``."
 msgid ""
 "It can contain ``{scope}``, ``{name}``, ``{username}``, ``{site_title}``, "
 "and ``{site_domain}``."
 msgstr ""
-"Sie kann ``{user_id}``, ``{username}``, ``{site_title}``, und ``{site_domain}"
-"`` enthalten."
+"Sie kann ``{scope}``, ``{name}``, ``{username}``, ``{site_title}``, und ``"
+"{site_domain}`` enthalten."
 
 #: admin/config.rst:1266
 msgid ""
@@ -8144,12 +8071,8 @@ msgstr ""
 "Ereignisse zu verfolgen, 0 (Standard) deaktiviert die Verfolgung."
 
 #: admin/config.rst:2449 admin/install.rst:1714
-#, fuzzy
-#| msgid ""
-#| "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgid "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
-msgstr ""
-"`Sentry-Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
+msgstr "`Sentry-Profiling <https://docs.sentry.io/product/profiling/>`_"
 
 #: admin/config.rst:2454
 msgid "SESSION_COOKIE_AGE_2FA"
@@ -8577,16 +8500,12 @@ msgstr ""
 "werden. Standardmäßig 180 Tage."
 
 #: admin/config.rst:2882
-#, fuzzy
-#| msgid ""
-#| "List of a available exporters offering downloading translations or "
-#| "glossaries in various file formats."
 msgid ""
 "List of available exporters offering translation downloads or glossaries in "
 "various file formats."
 msgstr ""
-"Liste der verfügbaren Exporter, die das Herunterladen von Übersetzungen oder "
-"Glossaren in verschiedenen Dateiformaten anbieten."
+"Liste der verfügbaren Exporter, die Übersetzungen zum Herunterladen oder "
+"Glossare in verschiedenen Dateiformaten anbieten."
 
 #: admin/config.rst:2894
 msgid "List of file formats available for use."
@@ -8723,11 +8642,6 @@ msgstr ""
 "Menge an neuem Text durchzuarbeiten."
 
 #: admin/continuous.rst:12
-#, fuzzy
-#| msgid ""
-#| ":doc:`/devel/integration` describes basic ways to integrate your "
-#| "development with Weblate. :doc:`/admin/code-hosting` lists provider-"
-#| "specific setup steps for common code hosting sites."
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate. :doc:`/admin/code-hosting` lists provider-specific setup steps "
@@ -8787,16 +8701,13 @@ msgstr ""
 "hosting-push-options`)."
 
 #: admin/continuous.rst:76
-#, fuzzy
-#| msgid ""
-#| "Upstream code hosting is not necessary, you can use Weblate "
-#| "with :ref:`vcs-local` where there is only the repository inside Weblate."
 msgid ""
 "Upstream code-hosting site is not necessary, you can use Weblate "
 "with :ref:`vcs-local` where there is only the repository inside Weblate."
 msgstr ""
-"Upstream-Code-Hosting ist nicht notwendig, Sie können Weblate mit :ref:`vcs-"
-"local` verwenden, bei dem es nur das Repository innerhalb von Weblate gibt."
+"Upstream-Code-Hosting-Site ist nicht notwendig, Sie können Weblate mit "
+":ref:`vcs-local` verwenden, bei dem es nur das Repository innerhalb von "
+"Weblate gibt."
 
 #: admin/continuous.rst:82
 msgid "Updating repositories"
@@ -8811,11 +8722,6 @@ msgstr ""
 "Quelle aus zu aktualisieren."
 
 #: admin/continuous.rst:87
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`hooks` to integrate with the majority of common code hosting "
-#| "services, see :doc:`/admin/code-hosting`. You must also :ref:`project-"
-#| "enable_hooks` for this to work."
 msgid ""
 "Use :ref:`hooks` to integrate with the majority of common code-hosting "
 "services, see :doc:`/admin/code-hosting`. You must also :ref:`project-"
@@ -9469,8 +9375,6 @@ msgstr ""
 "überprüfenden Github-Pull-Requests zu vermeiden."
 
 #: admin/continuous.rst:336
-#, fuzzy
-#| msgid "Code hosting notifications"
 msgid "Code-hosting notifications"
 msgstr "Code-Hosting-Benachrichtigungen"
 
@@ -10665,32 +10569,24 @@ msgstr ""
 "Parallelität von Celery einstellen."
 
 #: admin/install.rst:440
-#, fuzzy
-#| msgid ""
-#| "The actual limit for the number of database connections needs to be "
-#| "higher to account following situations:"
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account for the following situations:"
 msgstr ""
 "Der tatsächliche Grenzwert für die Anzahl der Datenbankverbindungen muss "
-"höher sein, um folgende Situationen zu berücksichtigen:"
+"höher sein, um die folgenden Situationen zu berücksichtigen:"
 
 #: admin/install.rst:443
 msgid ":ref:`manage` need their connection as well."
 msgstr ":ref:`manage` benötigen ebenfalls ihre Verbindung."
 
 #: admin/install.rst:444
-#, fuzzy
-#| msgid ""
-#| "If case process is killed (for example by OOM killer), it might block the "
-#| "existing connection until timeout."
 msgid ""
 "If a process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
 msgstr ""
-"Wenn ein Case-Prozess beendet wird (z. B. durch einen OOM-Killer), kann er "
-"die bestehende Verbindung bis zur Zeitüberschreitung blockieren."
+"Wird ein Prozess beendet (z. B. durch einen OOM-Killer), kann er die "
+"bestehende Verbindung bis zur Zeitüberschreitung blockieren."
 
 #: admin/install.rst:447
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
@@ -11198,19 +11094,14 @@ msgid "Properly configure admins"
 msgstr "Administratoren richtig konfigurieren"
 
 #: admin/install.rst:882
-#, fuzzy
-#| msgid ""
-#| "Set the correct admin addresses to the :setting:`ADMINS` setting to "
-#| "defining who will receive e-mails in case something goes wrong on the "
-#| "server, for example:"
 msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to define "
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
-"Setzen Sie die richtigen Administrator-Adressen in der "
-"Einstellung :setting:`ADMINS`, um festzulegen, wer E-Mails erhalten soll, "
-"wenn zum Beispiel auf dem Server etwas schiefläuft:"
+"Setzen Sie die richtigen Administrator-Adressen in der Einstellung "
+":setting:`ADMINS`, um festzulegen, wer E-Mails erhalten soll, wenn zum "
+"Beispiel auf dem Server etwas schiefläuft:"
 
 #: admin/install.rst:896
 msgid "Set correct site domain"
@@ -11793,14 +11684,10 @@ msgstr ""
 "(definiert durch :setting:`django:STATIC_ROOT`)."
 
 #: admin/install.rst:1300
-#, fuzzy
-#| msgid ""
-#| "Should be rewritten to rewrite a rule to serve :file:`/static/"
-#| "favicon.ico`."
 msgid "Should be rewritten to serve :file:`/static/favicon.ico`."
 msgstr ""
-"Sollte umgeschrieben werden, um eine Regel zur Bereitstellung von :file:`/"
-"static/favicon.ico` umzuschreiben."
+"Sollte so umgeschrieben werden, dass :file:`/static/favicon.ico` "
+"bereitgestellt wird."
 
 #: admin/install.rst:1315
 msgid "Content security policy"
@@ -11828,10 +11715,6 @@ msgid "Sample configuration for NGINX and Granian"
 msgstr "Beispielkonfiguration für NGINX und Granian"
 
 #: admin/install.rst:1336
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate using Granian the NGINX "
-#| "webserver:"
 msgid ""
 "The following configuration runs Weblate using Granian with the NGINX "
 "webserver:"
@@ -13847,10 +13730,8 @@ msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgstr "Konfiguriert :setting:`EXTRA_HTML_HEAD`."
 
 #: admin/install/docker.rst:1217
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid "Configures :setting:`INTERNAL_BOT_EMAIL_TEMPLATE`."
-msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr "Konfiguriert :setting:`INTERNAL_BOT_EMAIL_TEMPLATE`."
 
 #: admin/install/docker.rst:1223
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
@@ -13873,10 +13754,8 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Konfiguriert :setting:`UNUSED_ALERT_DAYS`."
 
 #: admin/install/docker.rst:1253
-#, fuzzy
-#| msgid "Configures :setting:`GET_HELP_URL`."
 msgid "Configures :setting:`REPORT_EXPIRY`."
-msgstr "Konfiguriert :setting:`GET_HELP_URL`."
+msgstr "Konfiguriert :setting:`REPORT_EXPIRY`."
 
 #: admin/install/docker.rst:1259
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
@@ -13981,19 +13860,10 @@ msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr "Konfiguriert :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/install/docker.rst:1397
-#, fuzzy
-#| msgid "Code hosting sites credentials"
 msgid "Code-hosting sites credentials"
 msgstr "Zugangsdaten für Code-Hosting-Sites"
 
 #: admin/install/docker.rst:1399
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the code hosting credentials can be configured "
-#| "either in separate variables or using a Python dictionary to set them at "
-#| "once. The following examples are for :ref:`code-hosting-github-pull-"
-#| "requests`, but apply to all :ref:`vcs` with appropriately changed "
-#| "variable names."
 msgid ""
 "In the Docker container, the code-hosting credentials can be configured "
 "either in separate variables or using a Python dictionary to set them at "
@@ -14050,9 +13920,6 @@ msgstr ""
 #: admin/install/docker.rst:1452 admin/install/docker.rst:1468
 #: admin/install/docker.rst:1480 admin/install/docker.rst:1492
 #: admin/install/docker.rst:1513 admin/install/docker.rst:1526
-#, fuzzy
-#| msgid ""
-#| ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgid ""
 ":ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
@@ -14830,19 +14697,16 @@ msgstr ""
 "Anzahl der verfügbaren CPU-Kerne ermittelt."
 
 #: admin/install/docker.rst:2357
-#, fuzzy
-#| msgid ""
-#| "It is used to "
-#| "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
-#| "and :envvar:`WEB_WORKERS`. You can use these settings to fine-tune."
 msgid ""
 "It is used to "
 "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, "
 "and :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune."
 msgstr ""
-"Wird zur Bestimmung "
-"von :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS` "
-"und :envvar:`WEB_WORKERS` verwendet. Sie können diese Einstellungen zur "
+"Wird zur Bestimmung von :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, und "
+":envvar:`WEB_BLOCKING_THREADS` verwendet. Sie können diese Einstellungen zur "
 "Feinabstimmung nutzen."
 
 #: admin/install/docker.rst:2370
@@ -14895,16 +14759,12 @@ msgstr ""
 "immer mindestens 2."
 
 #: admin/install/docker.rst:2421
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEB_WORKERS` configures how many worker processes will used "
-#| "by :program:`granian`."
 msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will be used "
 "by :program:`granian`."
 msgstr ""
-":envvar:`WEB_WORKERS` konfiguriert, wie viele Worker-Prozesse "
-"von :program:`granian` verwendet werden sollen."
+":envvar:`WEB_WORKERS` konfiguriert, wie viele Worker-Prozesse von "
+":program:`granian` verwendet werden."
 
 #: admin/install/docker.rst:2425
 msgid ""
@@ -16683,12 +16543,6 @@ msgstr ""
 "zugrunde liegenden Implementierung entsprechen müssen."
 
 #: admin/languages.rst:161
-#, fuzzy
-#| msgid ""
-#| "Changing plural number or formula will affect only displaying of the "
-#| "strings, but not parsing and storing strings to the files. Should you "
-#| "think Weblate behaves incorrectly, please file a issue in our issue "
-#| "tracker."
 msgid ""
 "Changing plural number or formula will affect only displaying of the "
 "strings, but not parsing and storing strings to the files. Should you think "
@@ -17575,8 +17429,6 @@ msgstr ""
 "Um :ref:`addon-weblate.gettext.mo` für alle Komponenten zu installieren:"
 
 #: admin/management.rst:790
-#, fuzzy
-#| msgid "Installs an site-wide automatic suggestion service."
 msgid "Installs a site-wide automatic suggestion service."
 msgstr "Installiert einen plattformweiten automatischen Vorschlagsdienst."
 
@@ -21117,10 +20969,6 @@ msgstr ""
 "werden."
 
 #: admin/projects.rst:1273
-#, fuzzy
-#| msgid ""
-#| "This applies to project admins as well — please ensure you will not loose "
-#| "access to the component after toggling the status."
 msgid ""
 "This applies to project admins as well — please ensure you will not lose "
 "access to the component after toggling the status."
@@ -21615,10 +21463,8 @@ msgid "Additionally, if you turn on :ref:`discover-weblate`:"
 msgstr "Zusätzlich, wenn Sie :ref:`discover-weblate` aktivieren:"
 
 #: admin/support.rst:34
-#, fuzzy
-#| msgid "List of public projects (name, URL, and website)."
 msgid "List of public and protected projects (name, URL, and website)."
-msgstr "Liste der öffentlichen Projekte (Name, URL, und Website)."
+msgstr "Liste öffentlicher und geschützter Projekte (Name, URL und Website)."
 
 #: admin/support.rst:37
 msgid ""
@@ -21740,11 +21586,6 @@ msgid ""
 msgstr ""
 
 #: admin/support.rst:105
-#, fuzzy
-#| msgid ""
-#| "Make sure you are OK with publishing your instance name, URL, tally of "
-#| "projects, components, and users, together with names of public projects "
-#| "and components for use on *Discover*."
 msgid ""
 "Make sure you are OK with publishing your instance name, URL, tally of "
 "projects, components, and users, together with names of public and protected "
@@ -21752,7 +21593,7 @@ msgid ""
 msgstr ""
 "Vergewissern Sie sich, dass Sie mit der Veröffentlichung Ihres "
 "Instanznamens, der URL, der Anzahl der Projekte, Komponenten und Benutzer "
-"sowie der Namen der öffentlichen Projekte und Komponenten auf *Entdecken* "
+"sowie der Namen öffentlicher und geschützter Projekte auf *Entdecken* "
 "einverstanden sind."
 
 #: admin/support.rst:109
@@ -21775,12 +21616,12 @@ msgid ""
 msgstr ""
 
 #: admin/support.rst:125
-#, fuzzy
-#| msgid "All steps for listing a server without a support contract:"
 msgid ""
 "All steps for listing a server manually, for example from older Weblate "
 "versions:"
-msgstr "Alle Schritte zum Auflisten eines Servers ohne Supportvertrag:"
+msgstr ""
+"Alle Schritte zum manuellen Auflisten eines Servers, beispielsweise aus "
+"älteren Weblate-Versionen:"
 
 #: admin/support.rst:128
 msgid "Register yourself at https://weblate.org/user/"
@@ -21798,16 +21639,13 @@ msgid "Copy the activation token into your Weblate management interface."
 msgstr ""
 
 #: admin/support.rst:131
-#, fuzzy
-#| msgid ""
-#| "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
-#| "discovery` from its management page :"
 msgid ""
 "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
 "discovery` from the :guilabel:`Discover Weblate` panel:"
 msgstr ""
 "Bestätigen Sie, dass Ihre Weblate-Seite aufgelistet werden soll, indem Sie "
-"auf der Verwaltungsseite auf :guilabel:`Entdeckung aktivieren` klicken:"
+"im Panel :guilabel:`Weblate entdecken` auf :guilabel:`Entdeckung aktivieren` "
+"klicken:"
 
 #: admin/support.rst:139
 msgid "Listing customization"
@@ -23370,10 +23208,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.7"
 msgid "Weblate 2026.8"
-msgstr "Weblate 2026.7"
+msgstr "Weblate 2026.8"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -23457,11 +23293,11 @@ msgid ""
 msgstr ""
 
 #: changes.rst:18
-#, fuzzy
-#| msgid "Improved performance when displaying ghost translations."
 msgid ""
 "Improved matrix view loading performance when displaying multiple languages."
-msgstr "Verbesserte Leistung bei der Anzeige von Ghost-Übersetzungen."
+msgstr ""
+"Verbesserte Ladegeschwindigkeit der Matrixansicht bei der Anzeige mehrerer "
+"Sprachen."
 
 #: changes.rst:19
 msgid ""
@@ -23653,19 +23489,14 @@ msgstr ""
 "durchzuführen."
 
 #: changes.rst:45
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
-#| "accordingly."
 msgid ""
 "There are changes in :file:`settings_example.py`, most notably the new "
 "``STORAGES`` configuration and removal of the ``COMPRESS_*`` settings; "
 "please adjust your settings accordingly."
 msgstr ""
-"Es gibt mehrere Änderungen in :file:`settings_example.py`, am bedeutendsten "
-"ist die Änderung in ``COMPRESS_OFFLINE_CONTEXT``, bitte passen Sie Ihre "
-"Einstellungen entsprechend an."
+"Es gibt Änderungen in :file:`settings_example.py`, insbesondere die neue "
+"``STORAGES``-Konfiguration und das Entfernen der ``COMPRESS_*``-"
+"Einstellungen; bitte passen Sie Ihre Einstellungen entsprechend an."
 
 #: changes.rst:46
 msgid ""
@@ -23691,28 +23522,20 @@ msgid "Contributors"
 msgstr "Mitwirkende"
 
 #: changes.rst:52
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "67?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/167?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"67?closed=1>`__."
+"167?closed=1>`__."
 
 #: changes.rst:55
-#, fuzzy
-#| msgid "Weblate 2026.6.1"
 msgid "Weblate 2026.7.1"
-msgstr "Weblate 2026.6.1"
+msgstr "Weblate 2026.7.1"
 
 #: changes.rst:57
-#, fuzzy
-#| msgid "*Released on July 1st 2026.*"
 msgid "*Released on July 10th 2026.*"
-msgstr "*Veröffentlicht am 1. Juli 2026.*"
+msgstr "*Veröffentlicht am 10. Juli 2026.*"
 
 #: changes.rst:61
 msgid ""
@@ -23922,16 +23745,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:109
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "70?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/170?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"70?closed=1>`__."
+"170?closed=1>`__."
 
 #: changes.rst:112
 msgid "Weblate 2026.7"
@@ -24057,22 +23876,16 @@ msgid ""
 msgstr ""
 
 #: changes.rst:136
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
-#| "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, "
-#| "and :ref:`addon-weblate.gettext.sphinx` to update POT files with "
-#| "configurable update cadence."
 msgid ""
 ":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
 "weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-"
 "weblate.gettext.sphinx` can now keep source locations in generated POT files "
 "even when translated PO files omit locations."
 msgstr ""
-":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-"
-"weblate.gettext.meson`, :ref:`addon-weblate.gettext.django` und :ref:`addon-"
-"weblate.gettext.sphinx` hinzugefügt, um POT-Dateien mit konfigurierbarer "
-"Aktualisierungshäufigkeit zu aktualisieren."
+":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, "
+":ref:`addon-weblate.gettext.django` und :ref:`addon-weblate.gettext.sphinx` "
+"können nun die Quellenorte in den generierten POT-Dateien beibehalten, "
+"selbst wenn diese in den übersetzten PO-Dateien fehlen."
 
 #: changes.rst:137
 msgid ""
@@ -24089,18 +23902,15 @@ msgstr ""
 "verfügbar."
 
 #: changes.rst:139
-#, fuzzy
-#| msgid ""
-#| "LLM automatic suggestions now use translated examples, language-specific "
-#| "instructions, and richer glossary context for more reliable output."
 msgid ""
 "LLM automatic suggestions now use translated examples, language-specific "
 "instructions, richer glossary context, and structured placeholder context "
 "for more reliable output."
 msgstr ""
 "Die automatischen Vorschläge von LLMs nutzen nun übersetzte Beispiele, "
-"sprachspezifische Anweisungen und einen umfangreicheren Kontext des "
-"Glossars, um zuverlässigere Ergebnisse zu liefern."
+"sprachspezifische Anweisungen, einen umfangreicheren Kontext des Glossars "
+"und einen strukturierten Platzhalterkontext, um zuverlässigere Ergebnisse zu "
+"liefern."
 
 #: changes.rst:140
 #, fuzzy
@@ -24159,16 +23969,13 @@ msgid ""
 msgstr ""
 
 #: changes.rst:148
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.fedora_messaging.publish` integration is now "
-#| "available as add-on."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` now validates secure broker "
 "connections and exposes delivery timing and topic prefix settings."
 msgstr ""
-"Integration von :ref:`addon-weblate.fedora_messaging.publish` ist jetzt als "
-"Erweiterung verfügbar."
+":ref:`addon-weblate.fedora_messaging.publish` überprüft nun die Sicherheit "
+"der Broker-Verbindungen und stellt Einstellungen für den "
+"Zustellungszeitpunkt und das Themenpräfix bereit."
 
 #: changes.rst:149
 msgid ""
@@ -24423,19 +24230,14 @@ msgid ""
 msgstr ""
 
 #: changes.rst:196
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are changes in :file:`settings_example.py`, most notably in "
 "``SOCIAL_AUTH_PIPELINE`` and ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; please "
 "adjust your settings accordingly."
 msgstr ""
-"Es gibt mehrere Änderungen in :file:`settings_example.py`, am bedeutendsten "
-"sind die Änderungen in ``CACHES`` und ``SOCIAL_AUTH_PIPELINE``, bitte passen "
-"Sie Ihre Einstellungen entsprechend an."
+"Es gibt Änderungen in :file:`settings_example.py`, insbesondere bei "
+"``SOCIAL_AUTH_PIPELINE`` und ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; bitte "
+"passen Sie Ihre Einstellungen entsprechend an."
 
 #: changes.rst:197
 msgid ""
@@ -24521,17 +24323,15 @@ msgid ""
 msgstr ""
 
 #: changes.rst:239
-#, fuzzy
-#| msgid ""
-#| "Docker containers can now adjust :setting:`WEBLATE_FORMATS`. "
-#| "Use :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgid ""
 "Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` "
 "to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` "
 "using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
-"Docker-Container können nun :setting:`WEBLATE_FORMATS` anpassen. Verwenden "
-"Sie dazu :envvar:`WEBLATE_ADD_FORMATS` und :envvar:`WEBLATE_REMOVE_FORMATS`."
+"Docker-Container können nun :envvar:`WEBLATE_SAML_SECURITY_CONFIG` "
+"konfigurieren, um die SAML-Sicherheitseinstellungen anzupassen, und "
+":setting:`WEBLATE_FORMATS` mithilfe von :envvar:`WEBLATE_ADD_FORMATS` und "
+":envvar:`WEBLATE_REMOVE_FORMATS` anpassen."
 
 #: changes.rst:240
 msgid ""
@@ -25217,10 +25017,8 @@ msgstr ""
 "Besnik Bleta, fahadhewad, Harsha C"
 
 #: changes/contributors/2026.7.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri"
-msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
+msgstr "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri"
 
 #: changes/contributors/2026.7.1.rst:10
 msgid ""
@@ -25229,12 +25027,14 @@ msgid ""
 "ButterflyOfFire, Kiên Trần Trung, skittles poopy, Ulrik, Horus68, Mickaël "
 "Binos, Adam Havránek"
 msgstr ""
+"Michal Čihař, António Oliveira, 大学没毕业, 為什麼不加空格, ℂ𝕠𝕠𝕠𝕝 "
+"(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), hoanghuy309, Libre, VfBFan, Peter Vančo, Jim Kats, "
+"ButterflyOfFire, Kiên Trần Trung, skittles poopy, Ulrik, Horus68, Mickaël "
+"Binos, Adam Havránek"
 
 #: changes/contributors/2026.7.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 msgid "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
-msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
+msgstr "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -34672,7 +34472,7 @@ msgstr "Verbessertes Nachschlagen von zugehörigen Begriffen im Glossar."
 
 #: changes/v4.rst:1139
 msgid "Improved translation memory matches."
-msgstr "Verbessertes Zuordnen vom Übersetzungsspeicher."
+msgstr "Verbesserte Übereinstimmungen im Übersetzungsspeicher."
 
 #: changes/v4.rst:1140
 msgid "Group same machinery results."
@@ -37559,7 +37359,7 @@ msgstr "Ansicht zum Entfernen von Benutzerkonten überarbeitet."
 
 #: changes/v5.rst:622
 msgid "Components pagination."
-msgstr "Komponenten-Seitenumbruch."
+msgstr "Seitenumbruch der Komponenten."
 
 #: changes/v5.rst:623
 msgid ""
@@ -39702,18 +39502,13 @@ msgstr ""
 "siehe :ref:`keyboard`."
 
 #: changes/v5.rst:1522
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
-#| "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
-#| "components and projects."
 msgid ""
 "``GET /api/components/(string:project)/(string:component)/credits/`` and "
 "``GET /api/projects/(string:project)/credits/`` API endpoints for components "
 "and projects."
 msgstr ""
-":http:get:`/api/components/(string:project)/(string:component)/credits/` "
-"und :http:get:`/api/projects/(string:project)/credits/` API-Endpunkte für "
+"``GET /api/components/(string:project)/(string:component)/credits/`` und "
+"``GET /api/projects/(string:project)/credits/`` API-Endpunkte für "
 "Komponenten und Projekte."
 
 #: changes/v5.rst:1523
@@ -40445,8 +40240,8 @@ msgstr ""
 #: changes/v5.rst:1815
 msgid "Repository operations on project could have skipped some components."
 msgstr ""
-"Bei Repository-Vorgängen im Projekt könnten einige Komponenten übersprungen "
-"worden sein."
+"Bei Repository-Operationen im Projekt könnten einige Komponenten "
+"übersprungen worden sein."
 
 #: changes/v5.rst:1821
 msgid ""
@@ -42655,16 +42450,12 @@ msgid ""
 msgstr ""
 
 #: contributing/frontend.rst:41
-#, fuzzy
-#| msgid "User interface fixes."
 msgid "User interface conventions"
-msgstr "Korrekturen an der Bedienoberfläche."
+msgstr "Gepflogenheiten für die Bedienoberfläche"
 
 #: contributing/frontend.rst:44
-#, fuzzy
-#| msgid "Documentation guidelines"
 msgid "Documentation links"
-msgstr "Dokumentationsrichtlinien"
+msgstr "Dokumentationslinks"
 
 #: contributing/frontend.rst:46
 msgid ""
@@ -43310,16 +43101,6 @@ msgstr ""
 "ungenaue oder gefälschte Ergebnisse."
 
 #: contributing/issues.rst:48
-#, fuzzy
-#| msgid ""
-#| "It is *rarely* a good idea to just copy and paste an AI-generated report "
-#| "to the project. Those generated reports typically are too wordy and "
-#| "rarely to the point (in addition to the common fabricated details). If "
-#| "you actually discover a issue with an AI and you have verified it "
-#| "yourself to be true, write the report yourself and explain the issue as "
-#| "you have learned it. This makes sure the AI-generated inaccuracies and "
-#| "invented issues are filtered out early before they waste more people's "
-#| "time."
 msgid ""
 "It is *rarely* a good idea to just copy and paste an AI-generated report to "
 "the project. Those generated reports typically are too wordy and rarely to "
@@ -43330,14 +43111,14 @@ msgid ""
 "out early before they waste more people's time."
 msgstr ""
 "Es ist *selten* eine gute Idee, einen von der KI erzeugten Bericht einfach "
-"zu kopieren und in das Projekt einzufügen. Diese Berichte sind in der Regel "
-"zu wortreich und kommen selten auf den Punkt (zusätzlich zu den üblichen "
-"erfundenen Details). Wenn Sie tatsächlich ein Problem mit einer KI entdecken "
-"und sich selbst davon überzeugt haben, dass es wahr ist, schreiben Sie den "
-"Bericht selbst und erklären Sie das Problem so, wie Sie es erfahren haben. "
-"Dadurch wird sichergestellt, dass die von der KI erzeugten Ungenauigkeiten "
-"und erfundenen Probleme frühzeitig herausgefiltert werden, bevor sie noch "
-"mehr Zeit verschwenden."
+"zu kopieren und in das Projekt einzufügen. Diese generierten Berichte sind "
+"in der Regel zu wortreich und kommen selten auf den Punkt (zusätzlich zu den "
+"üblichen erfundenen Details). Wenn Sie tatsächlich ein Problem mit einer KI "
+"entdecken und sich selbst davon überzeugt haben, dass es wahr ist, schreiben "
+"Sie den Bericht selbst und erklären Sie das Problem so, wie Sie es erfahren "
+"haben. Dadurch wird sichergestellt, dass die von der KI erzeugten "
+"Ungenauigkeiten und erfundenen Probleme frühzeitig herausgefiltert werden, "
+"bevor sie die Zeit weiterer Personen verschwenden."
 
 #: contributing/issues.rst:56
 msgid ""
@@ -44004,10 +43785,6 @@ msgstr ""
 "sollten Sie mit :ref:`adding-projects` fortfahren."
 
 #: contributing/start.rst:77
-#, fuzzy
-#| msgid ""
-#| "Weblate is configured to use :program:`maildev` container as a e-mail "
-#| "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgid ""
 "Weblate is configured to use :program:`maildev` container as an e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
@@ -44701,14 +44478,6 @@ msgid "Social Media Guidelines"
 msgstr "Social-Media-Richtlinien"
 
 #: contributing/trademark.rst:49
-#, fuzzy
-#| msgid ""
-#| "In addition to the General Guidelines above, the name and handle of your "
-#| "social media account and all pages cannot begin with an Weblate "
-#| "trademark. In addition, Weblate logos cannot be used in a way that might "
-#| "suggest affiliation with Weblate, including, but not limited to, the "
-#| "account, profile, or header images. The only exception to these "
-#| "requirements is if you've received prior permission from Weblate."
 msgid ""
 "In addition to the General Guidelines above, the name and handle of your "
 "social media account and all pages cannot begin with a Weblate trademark. In "
@@ -44927,10 +44696,8 @@ msgid "Errors when running add-on (see :doc:`/admin/addons`)"
 msgstr "Fehler beim Ausführen von Erweiterungen (siehe :doc:`/admin/addons`)"
 
 #: devel/alerts.rst:19
-#, fuzzy
-#| msgid "Misconfigured monolingual translation."
 msgid "Misconfigured monolingual or bilingual translation."
-msgstr "Falsch konfigurierte einsprachige Übersetzung."
+msgstr "Falsch konfigurierte einsprachige oder zweisprachige Übersetzung."
 
 #: devel/alerts.rst:20
 msgid "Broken :ref:`component`"
@@ -45043,22 +44810,14 @@ msgid ""
 msgstr ""
 
 #: devel/alerts.rst:69
-#, fuzzy
-#| msgid ""
-#| "Alerts are listed on each respective component page "
-#| "as :guilabel:`Diagnostics`. If it is missing, the component clears all "
-#| "current checks. Problem alerts cannot be ignored, but will disappear once "
-#| "the underlying problem has been fixed."
 msgid ""
 "If it is missing, the component clears all current checks. Problem alerts "
 "cannot be ignored, but will disappear once the underlying problem has been "
 "fixed."
 msgstr ""
-"Warnungen werden auf der jeweiligen Komponentenseite "
-"unter :guilabel:`Diagnose` aufgeführt. Fehlt dieser Eintrag, löscht die "
-"Komponente alle aktuellen Prüfungen. Problematische Warnungen können nicht "
-"ignoriert werden, verschwinden jedoch, sobald das zugrunde liegende Problem "
-"behoben wurde."
+"Fehlt dieser Eintrag, löscht die Komponente alle aktuellen Prüfungen. "
+"Problematische Warnungen können nicht ignoriert werden, verschwinden jedoch, "
+"sobald das zugrunde liegende Problem behoben wurde."
 
 #: devel/alerts.rst:72
 msgid ""
@@ -47272,10 +47031,8 @@ msgid ""
 msgstr ""
 
 #: devel/reporting.rst:142
-#, fuzzy
-#| msgid "Translation workflows"
 msgid "Translator work analysis"
-msgstr "Übersetzungsabläufe"
+msgstr "Analyse der Übersetzungsarbeit"
 
 #: devel/reporting.rst:144
 msgid ""
@@ -47431,16 +47188,12 @@ msgstr ""
 "Komponenten oder einzelne Benutzer überprüft."
 
 #: devel/review.rst:13
-#, fuzzy
-#| msgid ""
-#| "The activity reports for a project or component is accessible from its "
-#| "dashboard, on the :guilabel:`Info` tab."
 msgid ""
 "The activity reports for a project or component are accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
 msgstr ""
 "Die Aktivitätsberichte für ein Projekt oder eine Komponente sind über die "
-"Übersichtsseite auf der Reiterkarte :guilabel:`Information` zugänglich."
+"jeweilige Übersichtsseite auf dem Reiter :guilabel:`Information` zugänglich."
 
 #: devel/review.rst:18
 msgid ""
@@ -47592,14 +47345,6 @@ msgstr ""
 "Dokumentation kostenlos erstellt und veröffentlicht."
 
 #: devel/sphinx.rst:10
-#, fuzzy
-#| msgid ""
-#| "I will not focus on writing documentation itself, if you need guidance "
-#| "with that, just follow instructions on the `Sphinx`_ website. Once you "
-#| "have documentation ready, translating it is quite easy as Sphinx comes "
-#| "with support for this and it is quite nicely covered in "
-#| "their :ref:`sphinx:intl`. It's matter of few configuration directives and "
-#| "invoking of the ``sphinx-intl`` tool."
 msgid ""
 "I will not focus on writing documentation itself, if you need guidance with "
 "that, just follow instructions on the `Sphinx`_ website. Once you have "
@@ -47616,34 +47361,19 @@ msgstr ""
 "paar Konfigurationsanweisungen und dem Aufruf des ``sphinx-intl``-Tools."
 
 #: devel/sphinx.rst:17
-#, fuzzy
-#| msgid ""
-#| "If you are using Read the Docs service, you can start building translated "
-#| "documentation on the Read the Docs. Their :doc:`rtd:localization` covers "
-#| "pretty much everything you need - creating another project, set its "
-#| "language and link it from main project as a translation."
 msgid ""
 "If you are using Read the Docs service, you can start building translated "
 "documentation on Read the Docs. Their :doc:`rtd:localization` covers pretty "
 "much everything you need - creating another project, setting its language, "
 "and linking it from the main project as a translation."
 msgstr ""
-"Wenn Sie den „Read the Docs“-Dienst nutzen, können Sie mit der Erstellung "
-"der übersetzten Dokumentation auf Read the Docs beginnen. "
-"Deren :doc:`rtd:localization` deckt so ziemlich alles ab, was Sie brauchen – "
-"ein weiteres Projekt erstellen, dessen Sprache festlegen und es vom "
+"Wenn Sie den „Read the Docs“-Dienst nutzen, können Sie mit dem Erstellen der "
+"übersetzten Dokumentation auf Read the Docs beginnen. Deren "
+":doc:`rtd:localization` deckt so ziemlich alles ab, was Sie brauchen – ein "
+"weiteres Projekt erstellen, dessen Sprache festlegen, und es vom "
 "Hauptprojekt als Übersetzung verlinken."
 
 #: devel/sphinx.rst:22
-#, fuzzy
-#| msgid ""
-#| "Now all you need is translating the documentation content. Sphinx "
-#| "generates PO file for each directory or top level file, what can lead to "
-#| "quite a lot of files to translate (depending "
-#| "on :confval:`sphinx:gettext_compact` settings). You can import "
-#| "the :file:`index.po` into Weblate as an initial component and then "
-#| "configure :ref:`addon-weblate.discovery.discovery` add-on to "
-#| "automatically discover all others."
 msgid ""
 "Now all you need is translating the documentation content. Sphinx generates "
 "PO file for each directory or top-level file, which can lead to quite a lot "
@@ -49408,12 +49138,6 @@ msgstr ""
 "Funktionen."
 
 #: formats.rst:11
-#, fuzzy
-#| msgid ""
-#| "When choosing a file format for your application, it's better to stick "
-#| "some well established format in the toolkit/platform you use. This way "
-#| "your translators can additionally use whatever tools they are used to, "
-#| "and will more likely contribute to your project."
 msgid ""
 "When choosing a file format for your application, it's better to stick to "
 "some well-established format in the toolkit/platform you use. This way your "
@@ -49693,8 +49417,6 @@ msgstr ""
 "emuliert werden, siehe :ref:`custom-checks`."
 
 #: formats.rst:172
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Removing obsolete strings"
 msgstr "Veraltete Zeichenketten entfernen"
 
@@ -49709,12 +49431,6 @@ msgid "Supporting other formats"
 msgstr "Unterstützung anderer Formate"
 
 #: formats.rst:181
-#, fuzzy
-#| msgid ""
-#| "Most formats supported by `translate-toolkit`_ which support serializing "
-#| "can be easily supported, but they did not (yet) received any testing. In "
-#| "most cases, an additional thin layer is needed in Weblate to hide "
-#| "differences in behavior of different storages."
 msgid ""
 "Most formats supported by `translate-toolkit`_ which support serializing can "
 "be easily supported, but they did not (yet) receive any testing. In most "
@@ -51999,10 +51715,8 @@ msgid "`XLIFF 2.0 Translation File`"
 msgstr "`XLIFF-2.0-Übersetzungsdatei`"
 
 #: formats/xwiki.rst:4
-#, fuzzy
-#| msgid "File formats"
 msgid "XWiki formats"
-msgstr "Dateiformate"
+msgstr "XWiki-Formate"
 
 #: formats/xwiki.rst:6
 #, fuzzy
@@ -52011,20 +51725,14 @@ msgid "Weblate supports several translation formats used by XWiki."
 msgstr "Unterstützung für Joomla-Übersetzungsformat hinzugefügt."
 
 #: formats/xwiki.rst:11
-#, fuzzy
-#| msgid "XWiki Java Properties"
 msgid "XWiki Java properties"
 msgstr "XWiki-Java-Properties"
 
 #: formats/xwiki.rst:18
-#, fuzzy
-#| msgid "XWiki Page Properties"
 msgid "XWiki page properties"
 msgstr "XWiki-Seiteneigenschaften"
 
 #: formats/xwiki.rst:25
-#, fuzzy
-#| msgid "XWiki Full Page"
 msgid "XWiki full page"
 msgstr "Ganze XWiki-Seite"
 
@@ -52421,16 +52129,12 @@ msgid "Weblate s.r.o. is the EU service operator."
 msgstr ""
 
 #: security/data-residency.rst:83
-#, fuzzy
-#| msgid ""
-#| "All customer data, including translations, user information, and backups, "
-#| "is stored and processed within the EU."
 msgid ""
 "Customer data for Weblate-operated services is hosted and processed in the "
 "EU."
 msgstr ""
-"Alle Kundendaten, einschließlich Übersetzungen, Benutzerinformationen und "
-"Sicherungen, werden innerhalb der EU gespeichert und verarbeitet."
+"Kundendaten für von Weblate betriebene Dienste werden in der EU gehostet und "
+"verarbeitet."
 
 #: security/data-residency.rst:84
 msgid "The application is libre software and can be independently deployed."
@@ -53893,22 +53597,17 @@ msgid "Vulnerability disclosure policy"
 msgstr "Richtlinie zur Offenlegung von Schwachstellen"
 
 #: security/issues.rst:95
-#, fuzzy
-#| msgid ""
-#| "Within 30 days following a release containing a vulnerability fix, a "
-#| "security advisory is published at https://github.com/WeblateOrg/weblate/"
-#| "security/advisories. The advisory is available immediately with a release "
-#| "when possible."
 msgid ""
 "For Weblate product vulnerabilities, within 30 days following a release "
 "containing a vulnerability fix, a security advisory is published at https://"
 "github.com/WeblateOrg/weblate/security/advisories. The advisory is available "
 "immediately with a release when possible."
 msgstr ""
-"Innerhalb von 30 Tagen nach einer Veröffentlichung, die das Beheben einer "
-"Schwachstelle enthält, wird ein Sicherheitshinweis unter https://github.com/"
-"WeblateOrg/weblate/security/advisories veröffentlicht. Wenn möglich, wird "
-"der Hinweis sofort mit einer neuen Version veröffentlicht."
+"Bei Schwachstellen in Weblate-Produkten wird innerhalb von 30 Tagen nach "
+"einer Veröffentlichung, die das Beheben einer Schwachstelle enthält, wird "
+"ein Sicherheitshinweis unter https://github.com/WeblateOrg/weblate/security/"
+"advisories veröffentlicht. Wenn möglich, wird der Hinweis sofort mit einer "
+"neuen Version veröffentlicht."
 
 #: security/issues.rst:100
 #, fuzzy
@@ -55007,10 +54706,8 @@ msgid "Repository evidence"
 msgstr "Repository-Wartung"
 
 #: security/release-artifacts.rst:28
-#, fuzzy
-#| msgid "Note"
 msgid "Notes"
-msgstr "Anmerkung"
+msgstr "Anmerkungen"
 
 #: security/release-artifacts.rst:29
 msgid "Source releases and GitHub release assets"
@@ -56292,16 +55989,12 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:314
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
-#| "and :setting:`RATELIMIT_ATTEMPTS`"
 msgid ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`, "
 "and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 msgstr ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
-"und :setting:`RATELIMIT_ATTEMPTS`"
+":setting:`RATELIMIT_ATTEMPTS`, und ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 
 #: security/threat-model.rst:317
 msgid ""
@@ -56920,10 +56613,8 @@ msgid "Violation symptom"
 msgstr ""
 
 #: security/threat-model.rst:532
-#, fuzzy
-#| msgid "Severity"
 msgid "Severity tier"
-msgstr "Gewichtung"
+msgstr "Schweregrad"
 
 #: security/threat-model.rst:533
 #, fuzzy
@@ -57666,7 +57357,7 @@ msgstr ""
 
 #: security/us-compliance.rst:55
 msgid "Cryptographic functionality"
-msgstr ""
+msgstr "Kryptografische Funktionen"
 
 #: security/us-compliance.rst:57
 msgid ""
@@ -58056,12 +57747,12 @@ msgstr "Google Cloud Translation Basic"
 #: snippets/addon-parameters-autogenerated.rst:41
 #: snippets/machines-autogenerated.rst:594
 msgid "LTEngine"
-msgstr ""
+msgstr "LTEngine"
 
 #: snippets/addon-parameters-autogenerated.rst:45
 #: snippets/machines-autogenerated.rst:718
 msgid "Mistral"
-msgstr ""
+msgstr "Mistral"
 
 #: snippets/addon-parameters-autogenerated.rst:47
 #: snippets/machines-autogenerated.rst:774
@@ -58389,10 +58080,8 @@ msgid "Resource updated"
 msgstr "Ressource aktualisiert"
 
 #: snippets/addon-parameters-autogenerated.rst:252
-#, fuzzy
-#| msgid "mask of translation files in the repository"
 msgid "A translation file was synchronized with its repository."
-msgstr "Maske der Übersetzungsdateien im Repository"
+msgstr "Eine Übersetzungsdatei wurde mit ihrem Repository synchronisiert."
 
 #: snippets/addon-parameters-autogenerated.rst:255
 msgid "Translation completed"
@@ -58403,49 +58092,42 @@ msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
 msgstr ""
+"Eine Sprache zur Übersetzung wurde nach einer manuellen Bearbeitung "
+"vollständig übersetzt. Automatische Übersetzungen, Uploads und "
+"Massenbearbeitungen lösen dieses Ereignis nicht aus."
 
 #: snippets/addon-parameters-autogenerated.rst:259
 msgid "Translation changed"
 msgstr "Übersetzung geändert"
 
 #: snippets/addon-parameters-autogenerated.rst:260
-#, fuzzy
-#| msgid "The translations can be used by anybody else."
 msgid "An existing translation was edited by a user."
-msgstr "Die Übersetzungen können von jedem verwendet werden."
+msgstr "Eine vorhandene Übersetzung wurde von einem Benutzer bearbeitet."
 
 #: snippets/addon-parameters-autogenerated.rst:263
 msgid "Comment added"
 msgstr "Kommentar hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:264
-#, fuzzy
-#| msgid "Automatically add language file"
 msgid "A comment was added to a string."
-msgstr "Sprachdatei automatisch hinzufügen"
+msgstr "Ein Kommentar wurde zu einer Zeichenkette hinzugefügt."
 
 #: snippets/addon-parameters-autogenerated.rst:267
 msgid "Suggestion added"
 msgstr "Neuer Vorschlag"
 
 #: snippets/addon-parameters-autogenerated.rst:268
-#, fuzzy
-#| msgid "A new translation is added."
 msgid "A translation suggestion was added."
-msgstr "Eine neue Übersetzung wird hinzugefügt."
+msgstr "Ein Übersetzungsvorschlag wurde hinzugefügt."
 
 #: snippets/addon-parameters-autogenerated.rst:271
 msgid "Translation added"
 msgstr "Übersetzung hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:272
-#, fuzzy
-#| msgid ""
-#| "Amount of newly translated strings which didn't have a translation before."
 msgid "A previously untranslated string was translated by a user."
 msgstr ""
-"Anzahl der neu übersetzten Zeichenketten, für die es keine vorherige "
-"Übersetzung gab."
+"Eine bisher nicht übersetzte Zeichenkette wurde von einem Benutzer übersetzt."
 
 #: snippets/addon-parameters-autogenerated.rst:275 user/translating.rst:126
 msgid "Automatically translated"
@@ -58456,26 +58138,25 @@ msgid ""
 "A translation was added or changed by automatic translation. This is emitted "
 "instead of Translation added or Translation changed."
 msgstr ""
+"Eine Übersetzung wurde durch eine automatische Übersetzung hinzugefügt oder "
+"geändert. Dies wird anstelle von „Übersetzung hinzugefügt“ oder „Übersetzung "
+"geändert“ ausgegeben."
 
 #: snippets/addon-parameters-autogenerated.rst:279
 msgid "Suggestion accepted"
 msgstr "Vorschlag angenommen"
 
 #: snippets/addon-parameters-autogenerated.rst:280
-#, fuzzy
-#| msgid "Whether translation suggestions are accepted for this component."
 msgid "A translation suggestion was accepted as the translation."
-msgstr "Ob Übersetzungsvorschläge für diese Komponente angenommen werden."
+msgstr "Ein Übersetzungsvorschlag wurde als Übersetzung angenommen."
 
 #: snippets/addon-parameters-autogenerated.rst:283
 msgid "Translation reverted"
 msgstr "Übersetzung zurückgesetzt"
 
 #: snippets/addon-parameters-autogenerated.rst:284
-#, fuzzy
-#| msgid "The translations can be used by anybody else."
 msgid "A translation was restored to an earlier value."
-msgstr "Die Übersetzungen können von jedem verwendet werden."
+msgstr "Eine Übersetzung wurde auf einen früheren Wert zurückgesetzt."
 
 #: snippets/addon-parameters-autogenerated.rst:287
 msgid "Translation uploaded"
@@ -58486,78 +58167,67 @@ msgid ""
 "A translation was added or changed by a translation file upload. This is "
 "emitted instead of Translation added or Translation changed."
 msgstr ""
+"Eine Übersetzung wurde durch das Hochladen einer Übersetzungsdatei "
+"hinzugefügt oder geändert. Dies wird anstelle von „Übersetzung hinzugefügt“ "
+"oder „Übersetzung geändert“ ausgegeben."
 
 #: snippets/addon-parameters-autogenerated.rst:291
 msgid "Source string added"
 msgstr "Ausgangszeichenkette hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:292
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added outside repository or upload updates."
-msgstr "Ausgangszeichenkette im Repository hinzugefügt"
+msgstr ""
+"Eine Ausgangszeichenkette wurde außerhalb von Repository-Aktualisierungen "
+"oder Uploads hinzugefügt."
 
 #: snippets/addon-parameters-autogenerated.rst:295
 msgid "Component locked"
 msgstr "Komponente gesperrt"
 
 #: snippets/addon-parameters-autogenerated.rst:296
-#, fuzzy
-#| msgid "Project or component can now be locked for translations."
 msgid "A component was locked for translation."
-msgstr ""
-"Projekte oder Komponenten können jetzt für Übersetzungen gesperrt werden."
+msgstr "Eine Komponente wurde für die Übersetzung gesperrt."
 
 #: snippets/addon-parameters-autogenerated.rst:299
 msgid "Component unlocked"
 msgstr "Komponente entsperrt"
 
 #: snippets/addon-parameters-autogenerated.rst:300
-#, fuzzy
-#| msgid "Project or component can now be locked for translations."
 msgid "A component was unlocked for translation."
-msgstr ""
-"Projekte oder Komponenten können jetzt für Übersetzungen gesperrt werden."
+msgstr "Eine Komponente wurde für die Übersetzung entsperrt."
 
 #: snippets/addon-parameters-autogenerated.rst:303
 msgid "Changes committed"
 msgstr "Änderungen committet"
 
 #: snippets/addon-parameters-autogenerated.rst:304
-#, fuzzy
-#| msgid "Triggered just before the changes are committed."
 msgid "Pending component changes were committed."
-msgstr "Wird ausgelöst, kurz bevor die Änderungen committet werden."
+msgstr "Ausstehende Komponentenänderungen wurden committet."
 
 #: snippets/addon-parameters-autogenerated.rst:307
 msgid "Changes pushed"
 msgstr "Änderungen gepusht"
 
 #: snippets/addon-parameters-autogenerated.rst:308
-#, fuzzy
-#| msgid "Event handler after repository is pushed upstream."
 msgid "Repository changes were pushed upstream."
-msgstr "Ereignis-Handler, nachdem das Repository Upstream gepusht wird."
+msgstr "Repository-Änderungen wurden Upstream gepusht."
 
 #: snippets/addon-parameters-autogenerated.rst:311
 msgid "Repository reset"
 msgstr "Repository zurückgesetzt"
 
 #: snippets/addon-parameters-autogenerated.rst:312
-#, fuzzy
-#| msgid "Reset repository to upstream"
 msgid "A repository was reset to its upstream state."
-msgstr "Repository auf Upstream zurücksetzen"
+msgstr "Ein Repository wurde auf den Upstream-Status zurückgesetzt."
 
 #: snippets/addon-parameters-autogenerated.rst:315
 msgid "Repository merged"
 msgstr "Repository zusammengeführt"
 
 #: snippets/addon-parameters-autogenerated.rst:316
-#, fuzzy
-#| msgid "Upstream repository URL."
 msgid "Upstream repository changes were merged."
-msgstr "URL des Upstream-Repositorys."
+msgstr "Änderungen im Upstream-Repository wurden zusammengeführt."
 
 #: snippets/addon-parameters-autogenerated.rst:319
 msgid "Repository rebased"
@@ -58565,57 +58235,48 @@ msgstr "Repository umbasiert"
 
 #: snippets/addon-parameters-autogenerated.rst:320
 msgid "Repository changes were rebased on upstream."
-msgstr ""
+msgstr "Repository-Änderungen wurden auf Upstream umbasiert."
 
 #: snippets/addon-parameters-autogenerated.rst:323
 msgid "Repository merge failed"
 msgstr "Repository-Merge fehlgeschlagen"
 
 #: snippets/addon-parameters-autogenerated.rst:324
-#, fuzzy
-#| msgid "View upstream repository location"
 msgid "Merging upstream repository changes failed."
-msgstr "Speicherort des Upstream-Repositorys anzeigen"
+msgstr ""
+"Zusammenführen der Änderungen im Upstream-Repository ist fehlgeschlagen."
 
 #: snippets/addon-parameters-autogenerated.rst:327
 msgid "Repository rebase failed"
 msgstr "Repository-Umbasierung fehlgeschlagen"
 
 #: snippets/addon-parameters-autogenerated.rst:328
-#, fuzzy
-#| msgid "Remote repository update failed"
 msgid "Rebasing repository changes failed."
-msgstr "Remote-Repository-Aktualisierung ist fehlgeschlagen"
+msgstr "Umbasieren der Repository-Änderungen ist fehlgeschlagen."
 
 #: snippets/addon-parameters-autogenerated.rst:331
 msgid "Parsing failed"
 msgstr "Analyse fehlgeschlagen"
 
 #: snippets/addon-parameters-autogenerated.rst:332
-#, fuzzy
-#| msgid "Downloads a translation file."
 msgid "Weblate could not parse a translation file."
-msgstr "Lädt eine Übersetzungsdatei herunter."
+msgstr "Weblate konnte eine Übersetzungsdatei nicht analysieren."
 
 #: snippets/addon-parameters-autogenerated.rst:335
 msgid "Translation removed"
 msgstr "Übersetzung entfernt"
 
 #: snippets/addon-parameters-autogenerated.rst:336
-#, fuzzy
-#| msgid "Manage translation memory."
 msgid "A language translation was removed."
-msgstr "Übersetzungsspeicher verwalten."
+msgstr "Eine Sprache zur Übersetzung wurde entfernt."
 
 #: snippets/addon-parameters-autogenerated.rst:339
 msgid "Suggestion removed"
 msgstr "Vorschlag entfernt"
 
 #: snippets/addon-parameters-autogenerated.rst:340
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "A translation suggestion was removed."
-msgstr "Übersetzungsmarkierungen zum Entfernen"
+msgstr "Ein Übersetzungsvorschlag wurde entfernt."
 
 #: snippets/addon-parameters-autogenerated.rst:343
 msgid "Translation replaced"
@@ -58626,46 +58287,42 @@ msgid ""
 "A translation was changed by a search-and-replace operation. This is emitted "
 "instead of Translation changed."
 msgstr ""
+"Eine Übersetzung wurde durch eine Suchen-und-Ersetzen-Aktion geändert. Dies "
+"wird anstelle von „Übersetzung geändert“ ausgegeben."
 
 #: snippets/addon-parameters-autogenerated.rst:347
 msgid "Repository push failed"
 msgstr "Repository-Push fehlgeschlagen"
 
 #: snippets/addon-parameters-autogenerated.rst:348
-#, fuzzy
-#| msgid "Remote repository update failed"
 msgid "Pushing repository changes upstream failed."
-msgstr "Remote-Repository-Aktualisierung ist fehlgeschlagen"
+msgstr "Das Pushen der Repository-Änderungen an Upstream ist fehlgeschlagen."
 
 #: snippets/addon-parameters-autogenerated.rst:351
 msgid "Suggestion removed during cleanup"
 msgstr "Vorschlag wurde während des Bereinigungsvorgangs entfernt"
 
 #: snippets/addon-parameters-autogenerated.rst:352
-#, fuzzy
-#| msgid "Suggestion removed during cleanup"
 msgid "An obsolete translation suggestion was removed during cleanup."
-msgstr "Vorschlag wurde während des Bereinigungsvorgangs entfernt"
+msgstr ""
+"Ein veralteter Übersetzungsvorschlag wurde während des Bereinigungsvorgangs "
+"entfernt."
 
 #: snippets/addon-parameters-autogenerated.rst:355
 msgid "Source string changed"
 msgstr "Ausgangszeichenkette geändert"
 
 #: snippets/addon-parameters-autogenerated.rst:356
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was edited in Weblate."
-msgstr "Ausgangszeichenkette beim Hochladen hinzugefügt"
+msgstr "Eine Ausgangszeichenkette wurde in Weblate bearbeitet."
 
 #: snippets/addon-parameters-autogenerated.rst:359
 msgid "String added"
 msgstr "Zeichenkette hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:360
-#, fuzzy
-#| msgid "Timestamp for when the string was added to Weblate."
 msgid "A new string was added in Weblate."
-msgstr "Zeitstempel, wann die Zeichenkette zu Weblate hinzugefügt wurde."
+msgstr "Eine neue Zeichenkette wurde in Weblate hinzugefügt."
 
 #: snippets/addon-parameters-autogenerated.rst:363
 msgid "Bulk status changed"
@@ -58674,26 +58331,24 @@ msgstr "Große Statusänderung"
 #: snippets/addon-parameters-autogenerated.rst:364
 msgid "The translation state of one or more strings was changed in bulk."
 msgstr ""
+"Der Übersetzungsstatus einer oder mehrerer Zeichenketten wurde per "
+"Massenbearbeitung geändert."
 
 #: snippets/addon-parameters-autogenerated.rst:367
 msgid "Visibility changed"
 msgstr "Sichtbarkeit geändert"
 
 #: snippets/addon-parameters-autogenerated.rst:368
-#, fuzzy
-#| msgid "Project and component descriptions and links"
 msgid "Project or component visibility was changed."
-msgstr "Projekt- und Komponentenbeschreibungen und Links"
+msgstr "Projekt- oder Komponentensichtbarkeit wurde geändert."
 
 #: snippets/addon-parameters-autogenerated.rst:371
 msgid "User added"
 msgstr "Benutzer hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:372
-#, fuzzy
-#| msgid "Restricted access"
 msgid "A user was granted access."
-msgstr "Eingeschränkter Zugriff"
+msgstr "Einem Benutzer wurde Zugriff gewährt."
 
 #: snippets/addon-parameters-autogenerated.rst:375
 msgid "User removed"
@@ -58701,159 +58356,127 @@ msgstr "Benutzer entfernt"
 
 #: snippets/addon-parameters-autogenerated.rst:376
 msgid "A user's access was removed."
-msgstr ""
+msgstr "Einem Benutzer wurde der Zugriff entzogen."
 
 #: snippets/addon-parameters-autogenerated.rst:379
 msgid "Translation approved"
 msgstr "Übersetzung genehmigt"
 
 #: snippets/addon-parameters-autogenerated.rst:380
-#, fuzzy
-#| msgid "Approve translations in a review."
 msgid "A translation was approved during review."
-msgstr "Übersetzungen in einer Überprüfung genehmigen."
+msgstr "Eine Übersetzung wurde während der Überprüfung genehmigt."
 
 #: snippets/addon-parameters-autogenerated.rst:383
 msgid "Marked for edit"
 msgstr "Zur Bearbeitung markiert"
 
 #: snippets/addon-parameters-autogenerated.rst:384
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "A translation was marked as needing editing."
-msgstr "Neue Übersetzungen als „Bearbeitungsbedürftig“ markieren"
+msgstr "Eine Übersetzung wurde als bearbeitungsbedürftig markiert."
 
 #: snippets/addon-parameters-autogenerated.rst:387
 msgid "Component removed"
 msgstr "Komponente entfernt"
 
 #: snippets/addon-parameters-autogenerated.rst:388
-#, fuzzy
-#| msgid "Other translation components"
 msgid "A translation component was removed."
-msgstr "Andere Übersetzungskomponenten"
+msgstr "Eine Übersetzungskomponente wurde entfernt."
 
 #: snippets/addon-parameters-autogenerated.rst:391
 msgid "Project removed"
 msgstr "Projekt entfernt"
 
 #: snippets/addon-parameters-autogenerated.rst:392
-#, fuzzy
-#| msgid "new translation object created"
 msgid "A translation project was removed."
-msgstr "Neues Übersetzungsobjekt wurde erstellt"
+msgstr "Ein Übersetzungsprojekt wurde entfernt."
 
 #: snippets/addon-parameters-autogenerated.rst:395
 msgid "Project renamed"
 msgstr "Projekt umbenannt"
 
 #: snippets/addon-parameters-autogenerated.rst:396
-#, fuzzy
-#| msgid "new translation object created"
 msgid "A translation project was renamed."
-msgstr "Neues Übersetzungsobjekt wurde erstellt"
+msgstr "Ein Übersetzungsprojekt wurde umbenannt."
 
 #: snippets/addon-parameters-autogenerated.rst:399
 msgid "Component renamed"
 msgstr "Komponente umbenannt"
 
 #: snippets/addon-parameters-autogenerated.rst:400
-#, fuzzy
-#| msgid "Other translation components"
 msgid "A translation component was renamed."
-msgstr "Andere Übersetzungskomponenten"
+msgstr "Eine Übersetzungskomponente wurde umbenannt."
 
 #: snippets/addon-parameters-autogenerated.rst:403
 msgid "Moved component"
 msgstr "Komponente verschoben"
 
 #: snippets/addon-parameters-autogenerated.rst:404
-#, fuzzy
-#| msgid "Creating component within a category."
 msgid "A component was moved within a project."
-msgstr "Komponentenerstellung innerhalb einer Kategorie."
+msgstr "Eine Komponente wurde innerhalb eines Projekts verschoben."
 
 #: snippets/addon-parameters-autogenerated.rst:407
 msgid "Contributor joined"
 msgstr "Mitwirkender beigetreten"
 
 #: snippets/addon-parameters-autogenerated.rst:408
-#, fuzzy
-#| msgid "Allow to configure contributing to shared translation memory."
 msgid "A user made their first contribution to a translation."
-msgstr ""
-"Die Konfiguration von Beiträgen zum gemeinsamen Übersetzungsspeicher "
-"ermöglicht."
+msgstr "Ein Benutzer hat seinen ersten Beitrag zu einer Übersetzung geleistet."
 
 #: snippets/addon-parameters-autogenerated.rst:411
 msgid "Announcement posted"
 msgstr "Mitteilung veröffentlicht"
 
 #: snippets/addon-parameters-autogenerated.rst:412
-#, fuzzy
-#| msgid "Announcement posted"
 msgid "An announcement was posted."
-msgstr "Mitteilung veröffentlicht"
+msgstr "Eine Mitteilung wurde veröffentlicht."
 
 #: snippets/addon-parameters-autogenerated.rst:415
 msgid "Alert triggered"
 msgstr "Warnung ausgelöst"
 
 #: snippets/addon-parameters-autogenerated.rst:416
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "A component alert was triggered."
-msgstr "Warnung ausgelöst"
+msgstr "Eine Komponentenwarnung wurde ausgelöst."
 
 #: snippets/addon-parameters-autogenerated.rst:419
 msgid "Language added"
 msgstr "Sprache hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:420
-#, fuzzy
-#| msgid "A new translation is added."
 msgid "A language translation was added."
-msgstr "Eine neue Übersetzung wird hinzugefügt."
+msgstr "Eine Sprache zur Übersetzung wurde hinzugefügt."
 
 #: snippets/addon-parameters-autogenerated.rst:423
 msgid "Language requested"
 msgstr "Sprache gewünscht"
 
 #: snippets/addon-parameters-autogenerated.rst:424
-#, fuzzy
-#| msgid "Creates a new language."
 msgid "A user requested a new language."
-msgstr "Erstellt eine neue Sprache."
+msgstr "Ein Nutzer wünschte sich eine neue Sprache."
 
 #: snippets/addon-parameters-autogenerated.rst:427
 msgid "Project created"
 msgstr "Projekt erstellt"
 
 #: snippets/addon-parameters-autogenerated.rst:428
-#, fuzzy
-#| msgid "new translation object created"
 msgid "A translation project was created."
-msgstr "Neues Übersetzungsobjekt wurde erstellt"
+msgstr "Ein Übersetzungsprojekt wurde erstellt."
 
 #: snippets/addon-parameters-autogenerated.rst:431
 msgid "Component created"
 msgstr "Komponente erstellt"
 
 #: snippets/addon-parameters-autogenerated.rst:432
-#, fuzzy
-#| msgid "new translation object created"
 msgid "A translation component was created."
-msgstr "Neues Übersetzungsobjekt wurde erstellt"
+msgstr "Eine Übersetzungskomponente wurde erstellt."
 
 #: snippets/addon-parameters-autogenerated.rst:435
 msgid "User invited"
 msgstr "Benutzer eingeladen"
 
 #: snippets/addon-parameters-autogenerated.rst:436
-#, fuzzy
-#| msgid "Access for browse to a project"
 msgid "A user was invited to a project."
-msgstr "Kontrolle des Zugriffs auf ein Projekt"
+msgstr "Ein Benutzer wurde zu einem Projekt eingeladen."
 
 #: snippets/addon-parameters-autogenerated.rst:439
 msgid "Repository notification received"
@@ -58862,88 +58485,72 @@ msgstr "Repository-Benachrichtigung erhalten"
 #: snippets/addon-parameters-autogenerated.rst:440
 msgid "Weblate received a repository notification from a code host."
 msgstr ""
+"Weblate hat eine Repository-Benachrichtigung von einem Code-Host erhalten."
 
 #: snippets/addon-parameters-autogenerated.rst:443
 msgid "Translation replaced file by upload"
 msgstr "Datei durch hochgeladene Übersetzung ersetzt"
 
 #: snippets/addon-parameters-autogenerated.rst:444
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "A translation file was replaced by an uploaded file."
-msgstr "Datei durch hochgeladene Übersetzung ersetzt"
+msgstr "Eine Übersetzungsdatei wurde durch eine hochgeladene Datei ersetzt."
 
 #: snippets/addon-parameters-autogenerated.rst:447
 msgid "License changed"
 msgstr "Lizenz geändert"
 
 #: snippets/addon-parameters-autogenerated.rst:448
-#, fuzzy
-#| msgid "Project and component creation"
 msgid "Project or component license information changed."
-msgstr "Projekt- und Komponentenerstellung"
+msgstr "Projekt- oder Komponenten-Lizenzinformationen haben sich geändert."
 
 #: snippets/addon-parameters-autogenerated.rst:451
 msgid "Contributor license agreement changed"
 msgstr "Mitwirkungsvereinbarung geändert"
 
 #: snippets/addon-parameters-autogenerated.rst:452
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "The contributor license agreement was changed."
-msgstr "Mitwirkungsvereinbarung geändert"
+msgstr "Die Mitwirkungsvereinbarung wurde geändert."
 
 #: snippets/addon-parameters-autogenerated.rst:455
 msgid "Screenshot added"
 msgstr "Bildschirmfoto hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:456
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "A screenshot was associated with a string."
-msgstr ""
-"Vermeiden Sie Jahreszahlen, die direkt mit Ihrer Person in Verbindung "
-"gebracht werden können."
+msgstr "Ein Bildschirmfoto wurde einer Zeichenkette zugeordnet."
 
 #: snippets/addon-parameters-autogenerated.rst:459
 msgid "Screenshot uploaded"
 msgstr "Bildschirmfoto hochgeladen"
 
 #: snippets/addon-parameters-autogenerated.rst:460
-#, fuzzy
-#| msgid "Screenshot uploaded"
 msgid "A screenshot image was uploaded."
-msgstr "Bildschirmfoto hochgeladen"
+msgstr "Ein Bildschirmfoto wurde hochgeladen."
 
 #: snippets/addon-parameters-autogenerated.rst:463
 msgid "String updated in the repository"
 msgstr "Zeichenkette im Repository aktualisiert"
 
 #: snippets/addon-parameters-autogenerated.rst:464
-#, fuzzy
-#| msgid "Track string changes from the repository."
 msgid "A string was changed while synchronizing from the repository."
-msgstr "Zeichenkettenänderungen im Repository nachverfolgen."
+msgstr ""
+"Beim Synchronisieren aus dem Repository wurde eine Zeichenkette geändert."
 
 #: snippets/addon-parameters-autogenerated.rst:467
 msgid "Add-on installed"
 msgstr "Erweiterung installiert"
 
 #: snippets/addon-parameters-autogenerated.rst:468
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "An add-on was installed."
-msgstr "Erweiterung installiert"
+msgstr "Eine Erweiterung wurde installiert."
 
 #: snippets/addon-parameters-autogenerated.rst:471
 msgid "Add-on configuration changed"
 msgstr "Konfiguration der Erweiterung geändert"
 
 #: snippets/addon-parameters-autogenerated.rst:472
-#, fuzzy
-#| msgid "Add-on configuration changed"
 msgid "An add-on's configuration was changed."
-msgstr "Konfiguration der Erweiterung geändert"
+msgstr "Die Konfiguration einer Erweiterung wurde geändert."
 
 #: snippets/addon-parameters-autogenerated.rst:475
 msgid "Add-on uninstalled"
@@ -58958,10 +58565,8 @@ msgid "String removed"
 msgstr "Zeichenkette entfernt"
 
 #: snippets/addon-parameters-autogenerated.rst:480
-#, fuzzy
-#| msgid "Listing of other translations."
 msgid "A string was removed from a translation."
-msgstr "Auflistung anderer Übersetzungen."
+msgstr "Eine Zeichenkette wurde aus einer Übersetzung entfernt."
 
 #: snippets/addon-parameters-autogenerated.rst:483
 msgid "Comment removed"
@@ -58976,22 +58581,16 @@ msgid "Comment resolved"
 msgstr "Kommentar geklärt"
 
 #: snippets/addon-parameters-autogenerated.rst:488
-#, fuzzy
-#| msgid "Removed strings are marked as obsolete"
 msgid "A string comment was marked as resolved."
-msgstr "Entfernte Zeichenketten als veraltet gekennzeichnet werden"
+msgstr "Ein Zeichenkettenkommentar wurde als geklärt markiert."
 
 #: snippets/addon-parameters-autogenerated.rst:491
 msgid "Explanation updated"
 msgstr "Erklärung aktualisiert"
 
 #: snippets/addon-parameters-autogenerated.rst:492
-#, fuzzy
-#| msgid "Added support for ordering strings by last update."
 msgid "The explanation for a source string was updated."
-msgstr ""
-"Unterstützung für die Sortierung von Zeichenketten nach letzter "
-"Aktualisierung hinzugefügt."
+msgstr "Die Erklärung zu einer Ausgangszeichenkette wurde aktualisiert."
 
 #: snippets/addon-parameters-autogenerated.rst:495
 msgid "Category removed"
@@ -59022,30 +58621,27 @@ msgid "Saving string failed"
 msgstr "Speichern der Zeichenkette fehlgeschlagen"
 
 #: snippets/addon-parameters-autogenerated.rst:508
-#, fuzzy
-#| msgid "Somebody else changes an already changed string."
 msgid "Weblate could not save a changed string."
-msgstr "Jemand anderes ändert eine bereits geänderte Zeichenkette."
+msgstr "Weblate konnte eine geänderte Zeichenkette nicht speichern."
 
 #: snippets/addon-parameters-autogenerated.rst:511
 msgid "String added in the repository"
 msgstr "Zeichenkette im Repository hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:512
-#, fuzzy
-#| msgid "Added forced file synchronization to the repository maintenance."
 msgid "A new string was found while synchronizing from the repository."
-msgstr "Erzwungene Dateisynchronisierung zur Repository-Wartung hinzugefügt."
+msgstr ""
+"Beim Synchronisieren aus dem Repository wurde eine neue Zeichenkette "
+"gefunden."
 
 #: snippets/addon-parameters-autogenerated.rst:515
 msgid "String updated in the upload"
 msgstr "Zeichenkette beim Hochladen aktualisiert"
 
 #: snippets/addon-parameters-autogenerated.rst:516
-#, fuzzy
-#| msgid "Fixed processing of some uploaded CSV files."
 msgid "A string was changed while processing an uploaded file."
-msgstr "Die Verarbeitung einiger hochgeladener CSV-Dateien korrigiert."
+msgstr ""
+"Beim Verarbeiten einer hochgeladenen Datei wurde eine Zeichenkette geändert."
 
 #: snippets/addon-parameters-autogenerated.rst:519
 msgid "String added in the upload"
@@ -59054,6 +58650,8 @@ msgstr "Zeichenkette beim Hochladen hinzugefügt"
 #: snippets/addon-parameters-autogenerated.rst:520
 msgid "A new string was found while processing an uploaded file."
 msgstr ""
+"Beim Verarbeiten einer hochgeladenen Datei wurde eine neue Zeichenkette "
+"gefunden."
 
 #: snippets/addon-parameters-autogenerated.rst:523
 msgid "Translation updated by source upload"
@@ -59062,6 +58660,7 @@ msgstr "Übersetzung durch hochgeladene Quelle aktualisiert"
 #: snippets/addon-parameters-autogenerated.rst:524
 msgid "A translation was synchronized after uploading a source file."
 msgstr ""
+"Nach dem Hochladen einer Quelldatei wurde eine Übersetzung synchronisiert."
 
 #: snippets/addon-parameters-autogenerated.rst:527
 msgid "Component translation completed"
@@ -59073,6 +58672,9 @@ msgid ""
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
+"Alle Sprachen zur Übersetzung in einer Komponente wurden nach einer "
+"manuellen Bearbeitung vollständig übersetzt. Automatische Übersetzungen, "
+"Uploads und Massenbearbeitungen lösen dieses Ereignis nicht aus."
 
 #: snippets/addon-parameters-autogenerated.rst:531
 msgid "Applied enforced check"
@@ -59081,14 +58683,18 @@ msgstr "Erzwungene Qualitätsprüfungen angewandt"
 #: snippets/addon-parameters-autogenerated.rst:532
 msgid "A translation was marked as needing editing by an enforced check."
 msgstr ""
+"Eine Übersetzung wurde bei einer erzwungenen Qualitätsprüfung als "
+"bearbeitungsbedürftig markiert."
 
 #: snippets/addon-parameters-autogenerated.rst:535
 msgid "Propagated change"
-msgstr "Weitergegebene Änderung"
+msgstr "Änderung weitergegeben"
 
 #: snippets/addon-parameters-autogenerated.rst:536
 msgid "A translation edit was propagated to another matching string."
 msgstr ""
+"Eine Übersetzungsänderung wurde auf eine andere passende Zeichenkette "
+"weitergegeben."
 
 #: snippets/addon-parameters-autogenerated.rst:539
 msgid "File uploaded"
@@ -59103,10 +58709,8 @@ msgid "Extra flags updated"
 msgstr "Zusätzliche Markierungen aktualisiert"
 
 #: snippets/addon-parameters-autogenerated.rst:544
-#, fuzzy
-#| msgid "Additional info on source strings"
 msgid "Additional source-string flags were updated."
-msgstr "Zusätzliche Informationen über Ausgangszeichenketten"
+msgstr "Zusätzliche Markierungen für Ausgangszeichenkette wurden aktualisiert."
 
 #: snippets/addon-parameters-autogenerated.rst:547
 msgid "Font uploaded"
@@ -59122,7 +58726,7 @@ msgstr "Schriftart geändert"
 
 #: snippets/addon-parameters-autogenerated.rst:552
 msgid "An uploaded font was changed."
-msgstr ""
+msgstr "Eine hochgeladene Schriftart wurde geändert."
 
 #: snippets/addon-parameters-autogenerated.rst:555
 msgid "Font removed"
@@ -59130,17 +58734,16 @@ msgstr "Schriftart entfernt"
 
 #: snippets/addon-parameters-autogenerated.rst:556
 msgid "An uploaded font was removed."
-msgstr ""
+msgstr "Eine hochgeladene Schriftart wurde entfernt."
 
 #: snippets/addon-parameters-autogenerated.rst:559
 msgid "Forced synchronization of translations"
 msgstr "Erzwungene Synchronisierung von Übersetzungen"
 
 #: snippets/addon-parameters-autogenerated.rst:560
-#, fuzzy
-#| msgid "mask of translation files in the repository"
 msgid "Translation files were forcibly synchronized with the repository."
-msgstr "Maske der Übersetzungsdateien im Repository"
+msgstr ""
+"Übersetzungsdateien wurden zwangsweise mit dem Repository synchronisiert."
 
 #: snippets/addon-parameters-autogenerated.rst:563
 msgid "Forced rescan of translations"
@@ -59148,7 +58751,7 @@ msgstr "Erzwungenes erneutes Scannen von Übersetzungen"
 
 #: snippets/addon-parameters-autogenerated.rst:564
 msgid "Translation files were forcibly rescanned for changes."
-msgstr ""
+msgstr "Übersetzungsdateien wurden zwangsweise erneut auf Änderungen überprüft."
 
 #: snippets/addon-parameters-autogenerated.rst:567
 msgid "Screenshot removed"
@@ -59164,17 +58767,15 @@ msgstr "Label hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:572
 msgid "A label was added to a string."
-msgstr ""
+msgstr "Ein Label wurde einer Zeichenkette hinzugefügt."
 
 #: snippets/addon-parameters-autogenerated.rst:575
 msgid "Label removed"
 msgstr "Label entfernt"
 
 #: snippets/addon-parameters-autogenerated.rst:576
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid "A label was removed from a string."
-msgstr ":guilabel:`Eine Zeichenkette entfernen`"
+msgstr "Ein Label wurde von einer Zeichenkette entfernt."
 
 #: snippets/addon-parameters-autogenerated.rst:579
 msgid "Repository cleanup"
@@ -59182,27 +58783,27 @@ msgstr "Repositorybereinigung"
 
 #: snippets/addon-parameters-autogenerated.rst:580
 msgid "The repository working tree was cleaned up."
-msgstr ""
+msgstr "Das Repository-Arbeitsverzeichnis wurde bereinigt."
 
 #: snippets/addon-parameters-autogenerated.rst:583
 msgid "Source string added in the upload"
 msgstr "Ausgangszeichenkette beim Hochladen hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:584
-#, fuzzy
-#| msgid "Source string added in the upload"
 msgid "A source string was added while processing an uploaded file."
-msgstr "Ausgangszeichenkette beim Hochladen hinzugefügt"
+msgstr ""
+"Beim Verarbeiten einer hochgeladenen Datei wurde eine Ausgangszeichenkette "
+"hinzugefügt."
 
 #: snippets/addon-parameters-autogenerated.rst:587
 msgid "Source string added in the repository"
 msgstr "Ausgangszeichenkette im Repository hinzugefügt"
 
 #: snippets/addon-parameters-autogenerated.rst:588
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added while synchronizing from the repository."
-msgstr "Ausgangszeichenkette im Repository hinzugefügt"
+msgstr ""
+"Beim Synchronisieren aus dem Repository wurde eine Ausgangszeichenkette "
+"hinzugefügt."
 
 #: snippets/addon-parameters-autogenerated.rst:591
 msgid "Project backed up"
@@ -59218,17 +58819,15 @@ msgstr "Projekt wiederhergestellt"
 
 #: snippets/addon-parameters-autogenerated.rst:596
 msgid "A project was restored from a backup."
-msgstr ""
+msgstr "Ein Projekt wurde aus einer Sicherung wiederhergestellt."
 
 #: snippets/addon-parameters-autogenerated.rst:599
 msgid "Component restored"
 msgstr "Komponente wiederhergestellt"
 
 #: snippets/addon-parameters-autogenerated.rst:600
-#, fuzzy
-#| msgid "Delete componentlist from a group."
 msgid "A component was restored from a backup."
-msgstr "Löscht die Komponentenliste aus einer Gruppe."
+msgstr "Eine Komponente wurde aus einer Sicherung wiederhergestellt."
 
 #: snippets/addon-parameters-autogenerated.rst:603
 msgid "User edit reverted"
@@ -59237,6 +58836,8 @@ msgstr "Benutzerbearbeitung rückgängig gemacht"
 #: snippets/addon-parameters-autogenerated.rst:604
 msgid "All selected edits by a user were reverted."
 msgstr ""
+"Alle von einem Benutzer vorgenommenen Bearbeitungen wurden rückgängig "
+"gemacht."
 
 #: snippets/addon-parameters-autogenerated.rst:607
 msgid "Project setting changed"
@@ -59259,10 +58860,8 @@ msgid "User access changed"
 msgstr "Benutzerzugriff geändert"
 
 #: snippets/addon-parameters-autogenerated.rst:616
-#, fuzzy
-#| msgid "User access changed"
 msgid "A user's access permissions were changed."
-msgstr "Benutzerzugriff geändert"
+msgstr "Die Zugriffsberechtigungen eines Benutzers wurden geändert."
 
 #: snippets/addon-parameters-autogenerated.rst:619
 msgid "Workspace created"
@@ -59305,26 +58904,22 @@ msgid "Updating a remote repository failed."
 msgstr "Das Aktualisieren eines Remote-Repositorys ist fehlgeschlagen."
 
 #: snippets/addon-parameters-autogenerated.rst:639
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Alert dismissed"
-msgstr "Warnung ausgelöst"
+msgstr "Warnung verworfen"
 
 #: snippets/addon-parameters-autogenerated.rst:640
-#, fuzzy
-#| msgid "Updating component alerts (daily)."
 msgid "A component alert was dismissed."
-msgstr "Aktualisieren von Komponentenwarnungen (täglich)."
+msgstr "Eine Komponentenwarnung wurde verworfen."
 
 #: snippets/addon-parameters-autogenerated.rst:643
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Alert reopened"
-msgstr "Warnung ausgelöst"
+msgstr "Warnung erneut aktiviert"
 
 #: snippets/addon-parameters-autogenerated.rst:644
 msgid "A component alert was reopened after its context changed."
 msgstr ""
+"Eine Komponentenwarnung wurde erneut aktiviert, nachdem sich ihr Kontext "
+"geändert hatte."
 
 #: snippets/addons-autogenerated.rst:6
 msgid "Built-in add-ons"
@@ -59994,14 +59589,13 @@ msgid "The AMQP broker URL to connect to."
 msgstr "Die AMQP-Broker-URL, mit dem eine Verbindung hergestellt werden soll."
 
 #: snippets/addons-autogenerated.rst:443
-#, fuzzy
-#| msgid "String prefix"
 msgid "Topic prefix"
-msgstr "Zeichenkettenpräfix"
+msgstr "Themenpräfix"
 
 #: snippets/addons-autogenerated.rst:443
 msgid "Optional prefix to prepend to generated message topics."
 msgstr ""
+"Optionales Präfix, das den generierten Nachrichtenthemen vorangestellt wird."
 
 #: snippets/addons-autogenerated.rst:445
 msgid "Publish timeout"
@@ -60718,10 +60312,8 @@ msgstr ""
 #: snippets/addons-autogenerated.rst:1130
 #: snippets/addons-autogenerated.rst:1316
 #: snippets/addons-autogenerated.rst:1387
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Ort der Ausgangszeichenkette"
+msgstr "Quellenorte"
 
 #: snippets/addons-autogenerated.rst:1055
 #: snippets/addons-autogenerated.rst:1130
@@ -60731,6 +60323,9 @@ msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Legt fest, wie die Extraktion Quellenorte in die POT-Datei schreibt. "
+"Verwenden Sie diese Option, um Orte in der Vorlage beizubehalten, sie jedoch "
+"in den übersetzten PO-Dateien wegzulassen."
 
 #: snippets/addons-autogenerated.rst:1061
 #: snippets/addons-autogenerated.rst:1136
@@ -60772,10 +60367,8 @@ msgstr ""
 "makemessages-Befehls."
 
 #: snippets/addons-autogenerated.rst:1077
-#, fuzzy
-#| msgid "Discovery requirements"
 msgid "Django requirements"
-msgstr "Erkennungsanforderungen"
+msgstr "Django-Anforderungen"
 
 #: snippets/addons-autogenerated.rst:1079
 msgid ""
@@ -60897,7 +60490,7 @@ msgstr ""
 #: snippets/addons-autogenerated.rst:1172
 #: snippets/addons-autogenerated.rst:1429
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "Schlüsselwörter exklusiv verwenden"
 
 #: snippets/addons-autogenerated.rst:1172
 #: snippets/addons-autogenerated.rst:1429
@@ -60931,10 +60524,8 @@ msgstr ""
 "Aktualisiert die gettext-Vorlage mithilfe der Meson-gettext-Konventionen."
 
 #: snippets/addons-autogenerated.rst:1192
-#, fuzzy
-#| msgid "System requirements"
 msgid "Meson requirements"
-msgstr "Systemvoraussetzungen"
+msgstr "Meson-Anforderungen"
 
 #: snippets/addons-autogenerated.rst:1194
 msgid ""
@@ -61111,10 +60702,8 @@ msgstr ""
 "ohne die Projektkonfiguration zu laden."
 
 #: snippets/addons-autogenerated.rst:1349
-#, fuzzy
-#| msgid "System requirements"
 msgid "Sphinx requirements"
-msgstr "Systemvoraussetzungen"
+msgstr "Sphinx-Anforderungen"
 
 #: snippets/addons-autogenerated.rst:1351
 msgid ""
@@ -61200,10 +60789,8 @@ msgstr ""
 "Quelldateien."
 
 #: snippets/addons-autogenerated.rst:1457
-#, fuzzy
-#| msgid "System requirements"
 msgid "xgettext requirements"
-msgstr "Systemvoraussetzungen"
+msgstr "xgettext-Anforderungen"
 
 #: snippets/addons-autogenerated.rst:1459
 msgid ""
@@ -65503,6 +65090,8 @@ msgid ""
 "Prefix values that look like spreadsheet formulas with an apostrophe when "
 "saving CSV files."
 msgstr ""
+"Beim Speichern von CSV-Dateien wird bei Präfixwerten, die wie "
+"Tabellenkalkulationsformeln aussehen, ein Apostroph hinzugefügt."
 
 #: snippets/file-format-parameters.rst:21
 msgid "csv_simple_encoding"
@@ -65666,6 +65255,9 @@ msgid ""
 "Parse YAML front matter and translate only scalar string values. Keys, "
 "structure, comments, and formatting are preserved when possible."
 msgstr ""
+"YAML-Front-Matter wird analysiert und es werden ausschließlich skalare "
+"Zeichenkettenwerte übersetzt. Schlüssel, Struktur, Kommentare und "
+"Formatierungen bleiben, soweit möglich, erhalten."
 
 #: snippets/file-format-parameters.rst:108
 msgid "md_no_placeholders"
@@ -66699,10 +66291,8 @@ msgstr ""
 "checks>`"
 
 #: snippets/format-features/asciidoc-features.rst:8
-#, fuzzy
-#| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``.ad``, ``.adoc``, ``.asciidoc``"
-msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
+msgstr "``.ad``, ``.adoc``, ``.asciidoc``"
 
 #: snippets/format-features/asciidoc-features.rst:30
 #: snippets/format-features/html-features.rst:30
@@ -66719,10 +66309,8 @@ msgid "Bilingual"
 msgstr "Zweisprachig"
 
 #: snippets/format-features/csv-features.rst:8
-#, fuzzy
-#| msgid "``.csv``, ``.xlsx``"
 msgid "``.csv``, ``.txt``"
-msgstr "``.csv``, ``.xlsx``"
+msgstr "``.csv``, ``.txt``"
 
 #: snippets/format-features/csv-features.rst:23
 #: snippets/format-features/po-features.rst:23
@@ -66755,26 +66343,20 @@ msgid "``go-i18n-json``, ``go-i18n-json-v2``"
 msgstr "``go-i18n-json``, ``go-i18n-json-v2``"
 
 #: snippets/format-features/html-features.rst:8
-#, fuzzy
-#| msgid "``.po``, ``.pot``"
 msgid "``.htm``, ``.html``"
-msgstr "``.po``, ``.pot``"
+msgstr "``.htm``, ``.html``"
 
 #: snippets/format-features/idml-features.rst:8
-#, fuzzy
-#| msgid "``.xlf``, ``.xliff``"
 msgid "``.idml``, ``.idms``"
-msgstr "``.xlf``, ``.xliff``"
+msgstr "``.idml``, ``.idms``"
 
 #: snippets/format-features/json-features.rst:24
 msgid "``json``, ``json-nested``"
 msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/markdown-features.rst:8
-#, fuzzy
-#| msgid "``.po``, ``.pot``"
 msgid "``.markdown``, ``.md``"
-msgstr "``.po``, ``.pot``"
+msgstr "``.markdown``, ``.md``"
 
 #: snippets/format-features/markdown-features.rst:30
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
@@ -66791,6 +66373,9 @@ msgid ""
 "``.odt``, ``.otc``, ``.otf``, ``.otg``, ``.oth``, ``.oti``, ``.otp``, "
 "``.ots``, ``.ott``, ``.sxw``"
 msgstr ""
+"``.odc``, ``.odf``, ``.odg``, ``.odi``, ``.odm``, ``.odp``, ``.ods``, "
+"``.odt``, ``.otc``, ``.otf``, ``.otg``, ``.oth``, ``.oti``, ``.otp``, "
+"``.ots``, ``.ott``, ``.sxw``"
 
 #: snippets/format-features/po-features.rst:8
 #: snippets/format-features/po-mono-features.rst:8
@@ -66798,34 +66383,28 @@ msgid "``.po``, ``.pot``"
 msgstr "``.po``, ``.pot``"
 
 #: snippets/format-features/ruby-yaml-features.rst:8
-#, fuzzy
-#| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``.ryml``, ``.yaml``, ``.yml``"
-msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
+msgstr "``.ryml``, ``.yaml``, ``.yml``"
 
 #: snippets/format-features/srt-features.rst:8
 msgid "``.ass``, ``.srt``, ``.ssa``, ``.sub``"
-msgstr ""
+msgstr "``.ass``, ``.srt``, ``.ssa``, ``.sub``"
 
 #: snippets/format-features/srt-features.rst:24
 msgid "``ass``, ``srt``, ``ssa``, ``sub``"
-msgstr ""
+msgstr "``ass``, ``srt``, ``ssa``, ``sub``"
 
 #: snippets/format-features/txt-features.rst:8
-#, fuzzy
-#| msgid "``dokuwiki``, ``mediawiki``, ``txt``"
 msgid "``.dw``, ``.mw``, ``.txt``"
-msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
+msgstr "``.dw``, ``.mw``, ``.txt``"
 
 #: snippets/format-features/txt-features.rst:24
 msgid "``dokuwiki``, ``mediawiki``, ``txt``"
 msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
 
 #: snippets/format-features/xliff-features.rst:8
-#, fuzzy
-#| msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 msgid "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
-msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
+msgstr "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff-features.rst:24
 #: snippets/format-features/xliff2-features.rst:24
@@ -66845,10 +66424,8 @@ msgid "``xliff2``, ``xliff2-placeables``"
 msgstr "``xliff2``, ``xliff2-placeables``"
 
 #: snippets/format-features/yaml-features.rst:8
-#, fuzzy
-#| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``.pyml``, ``.yaml``, ``.yml``"
-msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
+msgstr "``.pyml``, ``.yaml``, ``.yml``"
 
 #: snippets/format-in-development.rst:3
 msgid ""
@@ -66883,10 +66460,8 @@ msgid "`General terms and conditions <https://weblate.org/terms/>`__"
 msgstr "`Allgemeine Geschäftsbedingungen <https://weblate.org/terms/>`__"
 
 #: snippets/hosted-legal-documents.rst:7
-#, fuzzy
-#| msgid "The `customer care portal <https://care.weblate.org/>`_"
 msgid "`Privacy policy <https://weblate.org/privacy/>`__"
-msgstr "Das Kundenbetreuungsportal ` <https://care.weblate.org/>`_"
+msgstr "`Datenschutzerklärung <https://weblate.org/privacy/>`__"
 
 #: snippets/hosted-legal-documents.rst:8
 msgid ""
@@ -67085,22 +66660,16 @@ msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 
 #: snippets/machines-autogenerated.rst:68
-#, fuzzy
-#| msgid "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)"
 msgid "``claude-sonnet-5`` -- Claude Sonnet 5"
-msgstr "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (empfohlen)"
+msgstr "``claude-sonnet-5`` -- Claude Sonnet 5"
 
 #: snippets/machines-autogenerated.rst:70
-#, fuzzy
-#| msgid "``claude-opus-4-5`` -- Claude Opus 4.5"
 msgid "``claude-opus-4-8`` -- Claude Opus 4.8"
-msgstr "``claude-opus-4-5`` -- Claude Opus 4.5"
+msgstr "``claude-opus-4-8`` -- Claude Opus 4.8"
 
 #: snippets/machines-autogenerated.rst:72
-#, fuzzy
-#| msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 msgid "``claude-fable-5`` -- Claude Fable 5"
-msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
+msgstr "``claude-fable-5`` -- Claude Fable 5"
 
 #: snippets/machines-autogenerated.rst:74
 #: snippets/machines-autogenerated.rst:753
@@ -67231,10 +66800,8 @@ msgstr ""
 "started>`_"
 
 #: snippets/machines-autogenerated.rst:107
-#, fuzzy
-#| msgid "`Anthropic Console <https://console.anthropic.com/>`_"
 msgid "`Anthropic Console <https://platform.claude.com/>`_"
-msgstr "`Anthropic Console <https://console.anthropic.com/>`_"
+msgstr "`Anthropic Console <https://platform.claude.com/>`_"
 
 #: snippets/machines-autogenerated.rst:136
 msgid ""
@@ -67293,10 +66860,8 @@ msgid "Brevity"
 msgstr ""
 
 #: snippets/machines-autogenerated.rst:182
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Prefer shorter translations when supported."
-msgstr "Übersetzung mit Ausgangszeichenkette ausfüllen"
+msgstr "Sofern unterstützt kürzere Übersetzungen verwenden."
 
 #: snippets/machines-autogenerated.rst:188
 #, fuzzy
@@ -67311,10 +66876,8 @@ msgid "Profanity"
 msgstr "Benutzerprofil"
 
 #: snippets/machines-autogenerated.rst:190
-#, fuzzy
-#| msgid "Amount of words in the translated string."
 msgid "Mask profane words in translated text."
-msgstr "Anzahl der Wörter in der übersetzten Zeichenkette."
+msgstr "Schimpfwörter im übersetzten Text ausblenden."
 
 #: snippets/machines-autogenerated.rst:196
 msgid "``MASK`` -- Mask profanity"
@@ -67447,10 +67010,6 @@ msgstr ""
 "maschinelle Übersetzungen bevorzugen."
 
 #: snippets/machines-autogenerated.rst:368
-#, fuzzy
-#| msgid ""
-#| "DeepL is paid service providing good machine translation for a few "
-#| "languages. You need to purchase :guilabel:`DeepL API` subscription."
 msgid ""
 "DeepL is a paid service providing good machine translation for a few "
 "languages. You need to purchase :guilabel:`DeepL API` subscription."
@@ -67471,10 +67030,8 @@ msgid "DeepL API v1 is no longer supported."
 msgstr "DeepL-API v1 wird nicht mehr unterstützt."
 
 #: snippets/machines-autogenerated.rst:378
-#, fuzzy
-#| msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
 msgid "``https://api.deepl.com/`` (default in Weblate)"
-msgstr "``https://api.deepl.com/v2/`` (Voreinstellung in Weblate)"
+msgstr "``https://api.deepl.com/`` (Voreinstellung in Weblate)"
 
 #: snippets/machines-autogenerated.rst:379
 msgid ""
@@ -67808,10 +67365,6 @@ msgstr ""
 "allgemeinen Kategorie zu verwenden."
 
 #: snippets/machines-autogenerated.rst:681
-#, fuzzy
-#| msgid ""
-#| "Machine translation service provided by Microsoft in Azure portal as a "
-#| "one of Cognitive Services."
 msgid ""
 "Machine translation service provided by Microsoft in Azure portal as one of "
 "Cognitive Services."
@@ -67927,27 +67480,27 @@ msgstr "Mistral-Modell"
 
 #: snippets/machines-autogenerated.rst:741
 msgid "``ministral-3b-latest`` -- Ministral 3 3B"
-msgstr ""
+msgstr "``ministral-3b-latest`` -- Ministral 3 3B"
 
 #: snippets/machines-autogenerated.rst:743
 msgid "``ministral-8b-latest`` -- Ministral 3 8B"
-msgstr ""
+msgstr "``ministral-8b-latest`` -- Ministral 3 8B"
 
 #: snippets/machines-autogenerated.rst:745
 msgid "``mistral-small-latest`` -- Mistral Small 4"
-msgstr ""
+msgstr "``mistral-small-latest`` -- Mistral Small 4"
 
 #: snippets/machines-autogenerated.rst:747
 msgid "``ministral-14b-latest`` -- Ministral 3 14B"
-msgstr ""
+msgstr "``ministral-14b-latest`` -- Ministral 3 14B"
 
 #: snippets/machines-autogenerated.rst:749
 msgid "``mistral-large-latest`` -- Mistral Large 3"
-msgstr ""
+msgstr "``mistral-large-latest`` -- Mistral Large 3"
 
 #: snippets/machines-autogenerated.rst:751
 msgid "``mistral-medium-latest`` -- Mistral Medium 3.5"
-msgstr ""
+msgstr "``mistral-medium-latest`` -- Mistral Medium 3.5"
 
 #: snippets/machines-autogenerated.rst:794
 msgid "Context vector"
@@ -68058,62 +67611,44 @@ msgid "OpenAI model"
 msgstr "OpenAI-Modell"
 
 #: snippets/machines-autogenerated.rst:971
-#, fuzzy
-#| msgid "``gpt-5-nano`` -- GPT-5-nano"
 msgid "``gpt-5-nano`` -- GPT-5 nano"
-msgstr "``gpt-5-nano`` -- GPT-5-nano"
+msgstr "``gpt-5-nano`` -- GPT-5 nano"
 
 #: snippets/machines-autogenerated.rst:973
-#, fuzzy
-#| msgid "``gpt-5-nano`` -- GPT-5-nano"
 msgid "``gpt-5.4-nano`` -- GPT-5.4 nano"
-msgstr "``gpt-5-nano`` -- GPT-5-nano"
+msgstr "``gpt-5.4-nano`` -- GPT-5.4 nano"
 
 #: snippets/machines-autogenerated.rst:975
-#, fuzzy
-#| msgid "``gpt-5-mini`` -- GPT-5-mini"
 msgid "``gpt-5-mini`` -- GPT-5 mini"
-msgstr "``gpt-5-mini`` -- GPT-5-mini"
+msgstr "``gpt-5-mini`` -- GPT-5 mini"
 
 #: snippets/machines-autogenerated.rst:977
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-5.4-mini`` -- GPT-5.4 mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-5.4-mini`` -- GPT-5.4 mini"
 
 #: snippets/machines-autogenerated.rst:979
-#, fuzzy
-#| msgid "``gpt-5-nano`` -- GPT-5-nano"
 msgid "``gpt-5.6-luna`` -- GPT-5.6 Luna"
-msgstr "``gpt-5-nano`` -- GPT-5-nano"
+msgstr "``gpt-5.6-luna`` -- GPT-5.6 Luna"
 
 #: snippets/machines-autogenerated.rst:981
 msgid "``gpt-5`` -- GPT-5"
 msgstr "``gpt-5`` -- GPT-5"
 
 #: snippets/machines-autogenerated.rst:983
-#, fuzzy
-#| msgid "``gpt-5.2`` -- GPT-5.2"
 msgid "``gpt-5.4`` -- GPT-5.4"
-msgstr "``gpt-5.2`` -- GPT-5.2"
+msgstr "``gpt-5.4`` -- GPT-5.4"
 
 #: snippets/machines-autogenerated.rst:985
-#, fuzzy
-#| msgid "``gpt-5-nano`` -- GPT-5-nano"
 msgid "``gpt-5.6-terra`` -- GPT-5.6 Terra"
-msgstr "``gpt-5-nano`` -- GPT-5-nano"
+msgstr "``gpt-5.6-terra`` -- GPT-5.6 Terra"
 
 #: snippets/machines-autogenerated.rst:987
-#, fuzzy
-#| msgid "``gpt-5.2`` -- GPT-5.2"
 msgid "``gpt-5.5`` -- GPT-5.5"
-msgstr "``gpt-5.2`` -- GPT-5.2"
+msgstr "``gpt-5.5`` -- GPT-5.5"
 
 #: snippets/machines-autogenerated.rst:989
-#, fuzzy
-#| msgid "``gpt-5.2`` -- GPT-5.2"
 msgid "``gpt-5.6`` -- GPT-5.6 Sol"
-msgstr "``gpt-5.2`` -- GPT-5.2"
+msgstr "``gpt-5.6`` -- GPT-5.6 Sol"
 
 #: snippets/machines-autogenerated.rst:1007
 msgid "Performs translation using `OpenAI`_."
@@ -68324,16 +67859,12 @@ msgstr ""
 "Schlüssel von Yandex Cloud erhalten."
 
 #: snippets/machines-autogenerated.rst:1260
-#, fuzzy
-#| msgid ""
-#| "`Yandex Translate API v2 <https://cloud.yandex.com/en/docs/translate/api-"
-#| "ref/authentication>`_"
 msgid ""
 "`Yandex Translate API v2 <https://aistudio.yandex.ru/docs/en/translate/api-"
 "ref/authentication.html>`_"
 msgstr ""
-"`Yandex-Translate-API-v2 <https://cloud.yandex.com/en/docs/translate/api-ref/"
-"authentication>`_"
+"`Yandex-Translate-API-v2 <https://aistudio.yandex.ru/docs/en/translate/api-"
+"ref/authentication.html>`_"
 
 #: snippets/machines-autogenerated.rst:1289
 msgid "Machine translation service provided by Youdao."
@@ -69848,11 +69379,11 @@ msgstr "Glossarbegriffe"
 
 #: user/glossary.rst:84
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: user/glossary.rst:85
 msgid "Purpose"
-msgstr ""
+msgstr "Zweck"
 
 #: user/glossary.rst:87
 msgid "Regular glossary term"
@@ -69911,14 +69442,6 @@ msgid "Untranslatable terms"
 msgstr "Nicht übersetzbare Begriffe"
 
 #: user/glossary.rst:128
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary term translations ``read-only`` by bulk-"
-#| "editing, typing in the flag, or by using :guilabel:`Tools` "
-#| "↓ :guilabel:`Mark as untranslatable` means they can not be translated. "
-#| "Use this for brand names or other terms that should not be changed in "
-#| "other languages. Such terms are visually highlighted in the glossary "
-#| "sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
@@ -69928,12 +69451,12 @@ msgid ""
 "glossary sidebar."
 msgstr ""
 "Das Markieren bestimmter Übersetzungen von Glossarbegriffen als ``Nur "
-"Lesen`` durch Massenbearbeitung, Eingabe der Markierung oder durch "
-"Verwendung von :guilabel:`Werkzeuge` ↓ :guilabel:`Als nicht übersetzbar "
-"markieren` bedeutet, dass sie nicht übersetzt werden können. Verwenden Sie "
-"dies für Markennamen oder andere Begriffe, die in anderen Sprachen nicht "
-"geändert werden sollten. Solche Begriffe werden in der Seitenleiste des "
-"Glossars visuell hervorgehoben."
+"Lesen`` durch Massenbearbeitung, Eingabe der Markierung oder Verwendung von "
+":guilabel:`Werkzeuge` ↓ :guilabel:`Als nicht übersetzbar markieren` "
+"bedeutet, dass sie nicht übersetzt werden können. Verwenden Sie dies für "
+"Markennamen, Produktnamen, Domains, Technologiebegriffe oder andere "
+"Begriffe, die in anderen Sprachen nicht geändert werden sollten. Solche "
+"Begriffe werden in der Seitenleiste des Glossars visuell hervorgehoben."
 
 #: user/glossary.rst:135
 msgid ""
@@ -69973,13 +69496,6 @@ msgid "Terminology"
 msgstr "Terminologie"
 
 #: user/glossary.rst:171
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary terms as ``terminology`` by bulk-editing, "
-#| "typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
-#| "terminology` adds entries for them to all languages in the glossary. Use "
-#| "this for important terms that should be well thought out, and retain a "
-#| "consistent meaning across all languages."
 msgid ""
 "Flagging certain source-language glossary terms as ``terminology`` by bulk-"
 "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark "
@@ -69987,12 +69503,12 @@ msgid ""
 "this for important terms that should be well thought out, and retain a "
 "consistent meaning across all languages."
 msgstr ""
-"Das Markieren bestimmter Glossarbegriffe als ``Terminologie`` durch "
-"Massenbearbeitung, Eingabe der Markierung oder durch Verwendung "
-"von :guilabel:`Werkzeuge` ↓ :guilabel:`Als Terminologie markieren` fügt "
-"Einträge für diese Begriffe in allen Sprachen des Glossars hinzu. Verwenden "
-"Sie dies für wichtige Begriffe, die gut durchdacht sein sollten und in allen "
-"Sprachen eine einheitliche Bedeutung haben."
+"Das Markieren bestimmter Glossarbegriffe der Ausgangssprache als "
+"``Terminologie`` durch Massenbearbeitung, Eingabe der Markierung oder durch "
+"Verwendung von :guilabel:`Werkzeuge` ↓ :guilabel:`Als Terminologie "
+"markieren` fügt Einträge für diese Begriffe in allen Sprachen des Glossars "
+"hinzu. Verwenden Sie dies für wichtige Begriffe, die gut durchdacht sein "
+"sollten und in allen Sprachen eine einheitliche Bedeutung haben."
 
 #: user/glossary.rst:177
 msgid ""
@@ -70069,10 +69585,8 @@ msgid ""
 msgstr ""
 
 #: user/glossary.rst:236
-#, fuzzy
-#| msgid "Language customization"
 msgid "Language files and synchronization"
-msgstr "Anpassung der Sprache"
+msgstr "Sprachdateien und Synchronisierung"
 
 #: user/glossary.rst:238
 msgid ""
@@ -70124,10 +69638,8 @@ msgid ""
 msgstr ""
 
 #: user/glossary.rst:266
-#, fuzzy
-#| msgid "Terminology"
 msgid "Required terminology"
-msgstr "Terminologie"
+msgstr "Erforderliche Terminologie"
 
 #: user/glossary.rst:267
 msgid ""
@@ -70137,10 +69649,8 @@ msgid ""
 msgstr ""
 
 #: user/glossary.rst:271
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Non-translatable terms"
-msgstr "Nicht übersetzte Zeichenketten"
+msgstr "Nicht übersetzbare Begriffe"
 
 #: user/glossary.rst:272
 msgid ""
@@ -70533,11 +70043,6 @@ msgstr ""
 "Sie die entsprechende Option aus dem Menü :guilabel:`Beobachtet` aus."
 
 #: user/profile.rst:181
-#, fuzzy
-#| msgid ""
-#| "In case :guilabel:`Automatically watch projects on contribution` is "
-#| "enabled you will automatically start watching projects upon translating a "
-#| "string. The default value depends on :setting:`DEFAULT_AUTO_WATCH`."
 msgid ""
 "In case :guilabel:`Automatically watch projects on contribution` is enabled "
 "you will automatically start watching projects upon contributing to them. "
@@ -70545,8 +70050,8 @@ msgid ""
 msgstr ""
 "Wenn :guilabel:`Automatisch Projekte nach einem Beitrag beobachten` "
 "aktiviert ist, wird automatisch mit der Beobachtung von Projekten begonnen, "
-"sobald Sie eine Zeichenkette übersetzt haben. Der Standardwert hängt "
-"von :setting:`DEFAULT_AUTO_WATCH` ab."
+"sobald Sie einen Beitrag dazu leisten. Der Standardwert hängt von "
+":setting:`DEFAULT_AUTO_WATCH` ab."
 
 #: user/profile.rst:187
 msgid "You will not receive notifications for your own actions."
@@ -71003,12 +70508,6 @@ msgid "String pending for flushing to VCS."
 msgstr "Zeichenkette, die zur Übergabe an das VCS ansteht."
 
 #: user/search.rst:158
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-#| "``glossary``, ``note``, ``label``, ``location``."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``source-comment``, ``check``, ``dismissed-"
@@ -71016,9 +70515,9 @@ msgid ""
 "``explanation``, ``glossary``, ``note``, ``label``, ``location``."
 msgstr ""
 "Nach Zeichenkette mit den Attributen – ``plural``, ``context``, "
-"``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-"``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-"``glossary``, ``note``, ``label``, ``location`` suchen."
+"``suggestion``, ``comment``, ``source-comment``, ``check``, ``dismissed-"
+"check``, ``translation``, ``variant``, ``screenshot``, ``flags``, "
+"``explanation``, ``glossary``, ``note``, ``label``, ``location`` suchen."
 
 #: user/search.rst:160
 msgid "Filters string on a condition:"
@@ -71183,10 +70682,8 @@ msgstr ""
 "Prüfkennungen."
 
 #: user/search.rst:211
-#, fuzzy
-#| msgid "Search in resolved comments."
 msgid "Search in unresolved user comments on the string."
-msgstr "In geklärten Kommentaren suchen."
+msgstr "In ungeklärten Benutzerkommentaren zur Zeichenkette suchen."
 
 #: user/search.rst:213
 msgid "Search in resolved comments."
@@ -71197,22 +70694,16 @@ msgid "Filter by comment author."
 msgstr "Nach Autor des Kommentars filtern."
 
 #: user/search.rst:217
-#, fuzzy
-#| msgid "Search in resolved comments."
 msgid "Search in unresolved source string comments."
-msgstr "In geklärten Kommentaren suchen."
+msgstr "In ungeklärten Kommentaren zur Ausgangszeichenkette suchen."
 
 #: user/search.rst:219
-#, fuzzy
-#| msgid "Search in resolved comments."
 msgid "Search in resolved source string comments."
-msgstr "In geklärten Kommentaren suchen."
+msgstr "In geklärten Kommentaren zur Ausgangszeichenkette suchen."
 
 #: user/search.rst:221
-#, fuzzy
-#| msgid "Filter by comment author."
 msgid "Filter by source string comment author."
-msgstr "Nach Autor des Kommentars filtern."
+msgstr "Nach Autor des Kommentars zur Ausgangszeichenkette filtern."
 
 #: user/search.rst:223
 msgid ""
@@ -71398,8 +70889,6 @@ msgid "Screenshot search examples"
 msgstr "Bildschirmfoto-Suchbeispiele"
 
 #: user/search.rst:318
-#, fuzzy
-#| msgid "Search for screenshots with ``login`` in the screenshot name."
 msgid "Search for screenshots matching ``login`` in the screenshot name."
 msgstr "Nach Bildschirmfotos, deren Name ``login`` enthält suchen."
 
@@ -72591,17 +72080,13 @@ msgid "Search and replace"
 msgstr "Suchen und Ersetzen"
 
 #: user/translating.rst:504
-#, fuzzy
-#| msgid ""
-#| "Change terminology effectively or perform bulk fixing of the strings "
-#| "using :guilabel:`Search and replace` in the :guilabel:`Tools` menu."
 msgid ""
 "Change terminology effectively or perform bulk fixing of the strings "
 "using :guilabel:`Search and replace` in the :guilabel:`Operations` menu."
 msgstr ""
-"Mit :guilabel:`Suchen und Ersetzen` im Menü :guilabel:`Werkzeuge` können Sie "
-"die Terminologie effektiv ändern oder Zeichenketten durch Massenbearbeitung "
-"korrigieren."
+"Mit :guilabel:`Suchen und Ersetzen` im Menü :guilabel:`Operationen` können "
+"Sie die Terminologie effektiv ändern oder Zeichenketten durch "
+"Massenbearbeitung korrigieren."
 
 #: user/translating.rst:511
 #, fuzzy
@@ -72645,16 +72130,12 @@ msgid "Adjust string labels (see :ref:`labels`)"
 msgstr "Anpassen der Zeichenkette-Labels (siehe :ref:`labels`)"
 
 #: user/translating.rst:531
-#, fuzzy
-#| msgid ""
-#| "This tool is called :guilabel:`Bulk edit`, accessible in "
-#| "the :guilabel:`Tools` menu of each project, component or translation."
 msgid ""
 "This tool is called :guilabel:`Bulk edit`, accessible in "
 "the :guilabel:`Operations` menu of each project, component or translation."
 msgstr ""
-"Dieses Werkzeug heißt :guilabel:`Massenbearbeitung` und ist über das "
-"Menü :guilabel:`Werkzeuge` jedes Projekts, jeder Komponente und jeder "
+"Dieses Werkzeug heißt :guilabel:`Massenbearbeitung` und ist über das Menü "
+":guilabel:`Operationen` jedes Projekts, jeder Komponente und jeder "
 "Übersetzung zugänglich."
 
 #: user/translating.rst:540
@@ -72666,12 +72147,6 @@ msgid "Matrix View"
 msgstr "Matrixansicht"
 
 #: user/translating.rst:545
-#, fuzzy
-#| msgid ""
-#| "You can compare different languages efficiently using this view. It is "
-#| "available on every component page, from the :guilabel:`Tools` menu. First "
-#| "select all languages you want to compare, confirm your selection, then "
-#| "click on any translation to open and edit it."
 msgid ""
 "You can compare different languages efficiently using this view. It is "
 "available on every component page, from the :guilabel:`Operations` menu. "
@@ -72679,10 +72154,10 @@ msgid ""
 "click on any translation to open and edit it."
 msgstr ""
 "Mit dieser Ansicht können Sie verschiedene Sprachen effizient vergleichen. "
-"Sie ist auf jeder Seite einer Komponente über das Menü :guilabel:`Werkzeuge` "
-"verfügbar. Wählen Sie zunächst alle Sprachen aus, die Sie vergleichen "
-"möchten, bestätigen Sie die Auswahl und klicken Sie dann auf eine "
-"Übersetzung, um sie zu öffnen und zu bearbeiten."
+"Sie ist auf jeder Seite einer Komponente über das Menü "
+":guilabel:`Operationen` verfügbar. Wählen Sie zunächst alle Sprachen aus, "
+"die Sie vergleichen möchten, bestätigen Sie die Auswahl und klicken Sie dann "
+"auf eine Übersetzung, um sie zu öffnen und zu bearbeiten."
 
 #: user/translating.rst:550
 msgid ""
@@ -72874,10 +72349,6 @@ msgstr ""
 "``git@github.com:WeblateOrg/weblate.git``)."
 
 #: vcs.rst:76
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
-#| "Azure DevOps, ...)"
 msgid ""
 "Accessing repositories on code-hosting sites (GitHub, GitLab, Bitbucket, "
 "Azure DevOps, ...)"
@@ -73125,6 +72596,8 @@ msgid ""
 "Detailed GitHub repository access is covered in :ref:`code-hosting-github-"
 "repositories`."
 msgstr ""
+"Ausführliche Informationen zum GitHub-Repository-Zugriff finden Sie unter "
+":ref:`code-hosting-github-repositories`."
 
 #: vcs.rst:204
 msgid "GitLab repositories"
@@ -73135,6 +72608,8 @@ msgid ""
 "Detailed GitLab repository access is covered in :ref:`code-hosting-gitlab-"
 "repositories`."
 msgstr ""
+"Ausführliche Informationen zum GitLab-Repository-Zugriff finden Sie unter "
+":ref:`code-hosting-gitlab-repositories`."
 
 #: vcs.rst:212
 msgid "Weblate internal URLs"
@@ -73351,36 +72826,49 @@ msgid ""
 "Detailed GitHub pull request setup is covered in :ref:`code-hosting-github-"
 "pull-requests`."
 msgstr ""
+"Ausführliche Informationen zur GitHub-Pull-Request-Einrichtung finden Sie "
+"unter :ref:`code-hosting-github-pull-requests`."
 
 #: vcs.rst:345
 msgid ""
 "Detailed GitLab merge request setup is covered in :ref:`code-hosting-gitlab-"
 "merge-requests`."
 msgstr ""
+"Ausführliche Informationen zur GitLab-Merge-Request-Einrichtung finden Sie "
+"unter :ref:`code-hosting-gitlab-merge-requests`."
 
 #: vcs.rst:354
 msgid ""
 "Detailed Gitea pull request setup is covered in :ref:`code-hosting-gitea-"
 "pull-requests`."
 msgstr ""
+"Ausführliche Informationen zur Gitea-Pull-Request-Einrichtung finden Sie "
+"unter :ref:`code-hosting-gitea-pull-requests`."
 
 #: vcs.rst:364
 msgid ""
 "Detailed Bitbucket Data Center pull request setup is covered in :ref:`code-"
 "hosting-bitbucket-data-center-pull-requests`."
 msgstr ""
+"Ausführliche Informationen zur Bitbucket-Data-Center-Pull-Request-"
+"Einrichtung finden Sie unter :ref:`code-hosting-bitbucket-data-center-pull-"
+"requests`."
 
 #: vcs.rst:373
 msgid ""
 "Detailed Bitbucket Cloud pull request setup is covered in :ref:`code-hosting-"
 "bitbucket-cloud-pull-requests`."
 msgstr ""
+"Ausführliche Informationen zur Bitbucket-Cloud-Pull-Request-Einrichtung "
+"finden Sie unter :ref:`code-hosting-bitbucket-cloud-pull-requests`."
 
 #: vcs.rst:382
 msgid ""
 "Detailed Pagure merge request setup is covered in :ref:`code-hosting-pagure-"
 "merge-requests`."
 msgstr ""
+"Ausführliche Informationen zur Pagure-Merge-Request-Einrichtung finden Sie "
+"unter :ref:`code-hosting-pagure-merge-requests`."
 
 #: vcs.rst:388
 msgid "Gerrit"
@@ -73391,12 +72879,16 @@ msgid ""
 "Detailed Gerrit review request setup is covered in :ref:`code-hosting-"
 "gerrit`."
 msgstr ""
+"Ausführliche Informationen zur Gerrit-Review-Request-Einrichtung finden Sie "
+"unter :ref:`code-hosting-gerrit`."
 
 #: vcs.rst:399
 msgid ""
 "Detailed Azure DevOps pull request setup is covered in :ref:`code-hosting-"
 "azure-devops-pull-requests`."
 msgstr ""
+"Ausführliche Informationen zur Azure-DevOps-Pull-Request-Einrichtung finden "
+"Sie unter :ref:`code-hosting-azure-devops-pull-requests`."
 
 #: vcs.rst:405
 msgid "Mercurial"
@@ -74038,11 +73530,6 @@ msgid "The API keys are stored in the ``[keys]`` section:"
 msgstr "Die API-Schlüssel werden im Abschnitt ``[keys]`` gespeichert:"
 
 #: wlc.rst:413
-#, fuzzy
-#| msgid ""
-#| "This allows you to store keys in your personal settings, while using "
-#| "the :file:`.weblate` configuration in the VCS repository so "
-#| "that :program:`wlc` knows which server it should talk to."
 msgid ""
 "This allows you to store keys in your personal settings, while using "
 "the :file:`.weblate` configuration in the VCS repository so "
@@ -74051,7 +73538,8 @@ msgid ""
 msgstr ""
 "Dies ermöglicht Ihnen, Schlüssel in Ihren persönlichen Einstellungen zu "
 "speichern, während Sie die :file:`.weblate`-Konfiguration im VCS-Repository "
-"verwenden, damit :program:`wlc` weiß, mit welchem Server es sprechen soll."
+"verwenden, damit :program:`wlc` weiß, mit welchem Server es sprechen soll. "
+"Die ``[keys]``-Abfrage ist auf die genaue API-URL beschränkt."
 
 #: wlc.rst:418
 msgid ""
@@ -74102,10 +73590,10 @@ msgid ""
 msgstr ""
 
 #: wlc.rst:460
-#, fuzzy
-#| msgid "The configuration precedence (highest to lowest) is:"
 msgid "The API URL and key configuration precedence (highest to lowest) is:"
-msgstr "Die Konfigurationspriorität (von hoch nach niedrig) ist:"
+msgstr ""
+"Die Priorität der API-URL und Schlüsselkonfiguration (von hoch nach niedrig) "
+"ist:"
 
 #: wlc.rst:462
 msgid "Command-line arguments (:option:`--url`, :option:`--key`)."

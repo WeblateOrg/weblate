@@ -53,14 +53,22 @@
                   <td>
                     {% if addon.is_valid %}
                       {% if item.inherited %}
-                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage scope_label=item.scope_label scope_description=item.scope_description %}
+                        {% if item.can_manage %}
+                          {% include 'addons/addon_head.html' with addon=addon.addon show_settings=True scope_label=item.scope_label scope_description=item.scope_description url=addon.get_absolute_url %}
+                        {% else %}
+                          {% include 'addons/addon_head.html' with addon=addon.addon show_settings=False scope_label=item.scope_label scope_description=item.scope_description %}
+                        {% endif %}
                       {% elif scope == "component" and addon.repo_scope %}
-                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage %}
+                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage url=addon.get_absolute_url %}
                       {% else %}
-                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage hide_scope_badges=True %}
+                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage hide_scope_badges=True url=addon.get_absolute_url %}
                       {% endif %}
                     {% else %}
-                      <h4>{{ addon.addon_name }}</h4>
+                      <h4>
+                        {% if item.can_manage %}<a href="{{ addon.get_absolute_url }}">{% endif %}
+                          {{ addon.addon_name }}
+                          {% if item.can_manage %}</a>{% endif %}
+                      </h4>
                     {% endif %}
                     {% if item.inherited %}
                       <div>
@@ -69,35 +77,8 @@
                         </span>
                       </div>
                     {% endif %}
-                  </td>
-                  <td class="bottom-button">
-                    {% if item.inherited %}
-                      {% if item.can_manage %}
-                        <a class="btn btn-primary" href="{% url 'addon-logs' addon.id %}">{% translate "View Logs" %}</a>
-                        <a class="btn btn-primary" href="{{ item.manage_url }}">{% blocktranslate with location=item.scope_description %}Manage add-ons at {{ location }}{% endblocktranslate %}</a>
-                      {% else %}
-                        <span class="help-block">{% translate "Managed at a scope you do not have access to." %}</span>
-                      {% endif %}
-                    {% else %}
-                      <form method="post" action="{{ addon.get_absolute_url }}" class="inlineform">
-                        {% csrf_token %}
-                        <input type="hidden" name="delete" value="{{ addon.name }}" />
-                        <button type="submit" class="btn btn-danger">{% translate "Uninstall" %}</button>
-                      </form>
-                      {% if addon.can_run_manually %}
-                        <form method="post" action="{{ addon.get_absolute_url }}" class="inlineform">
-                          {% csrf_token %}
-                          <input type="hidden" name="run" value="1" />
-                          <button type="submit" class="btn btn-primary">{% translate "Run now" %}</button>
-                        </form>
-                      {% endif %}
-                      <a class="btn btn-primary" href="{% url 'addon-logs' addon.id %}">{% translate "View Logs" %}</a>
-                      {% if item.components_url %}
-                        <a class="btn btn-primary" href="{{ item.components_url }}">{% translate "View components" %}</a>
-                      {% endif %}
-                      {% if addon.is_valid and addon.addon.has_settings %}
-                        <a class="btn btn-primary" href="{{ addon.get_absolute_url }}">{% translate "Configure" %}</a>
-                      {% endif %}
+                    {% if item.inherited and not item.can_manage %}
+                      <span class="help-block">{% translate "Managed at a scope you do not have access to." %}</span>
                     {% endif %}
                   </td>
                 </tr>

@@ -2656,12 +2656,16 @@ class Translation(
             get_anonymous,
         )
 
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.alerts.registry import update_alerts
+
         component = self.component
         user = request.user if request else get_anonymous()
         with component.repository.lock:
             component.commit_pending("delete unit", user)
             previous_revision = self.component.repository.last_revision
             cleanup_variants = False
+            source_unit_deleted = False
             for translation in self.get_store_change_translations():
                 # Does unit exist here?
                 try:
@@ -2673,6 +2677,7 @@ class Translation(
                 # Delete the removed unit from the database
                 cleanup_variants |= translation_unit.variant_id is not None
                 translation_unit.delete()
+                source_unit_deleted |= translation.is_source
                 translation.notify_deletion(translation_unit, user)
                 # Skip file processing on source language without a storage
                 if not translation.filename:
@@ -2702,6 +2707,7 @@ class Translation(
                     source_unit = translation_unit.source_unit
                     if source_unit.source_unit.unit_set.count() == 1:
                         source_unit.delete()
+                        source_unit_deleted = True
                         source_unit.translation.notify_deletion(source_unit, user)
 
             if self.is_source and unit.position and not component.has_template():
@@ -2730,6 +2736,12 @@ class Translation(
                     alert.save(update_fields=["details"])
 
             self.handle_store_change(request, user, previous_revision)
+            if source_unit_deleted:
+                transaction.on_commit(
+                    lambda: update_alerts(
+                        component, {"MissingScreenshots", "UnusedScreenshot"}
+                    )
+                )
 
     @transaction.atomic
     def sync_terminology(self) -> None:
