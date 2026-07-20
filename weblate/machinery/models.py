@@ -36,7 +36,7 @@ class MachineryError(models.Model):
 
     class Meta:
         ordering = ["-timestamp"]  # ruff: ignore[mutable-class-default]
-        indexes = [ models.Index(fields=["engine", "project", "timestamp"])]  # ruff: ignore[mutable-class-default]
+        indexes = [models.Index(fields=["engine", "project", "timestamp"])]  # ruff: ignore[mutable-class-default]
         verbose_name = gettext_lazy("Machinery error")
         verbose_name_plural = gettext_lazy("Machinery errors")
 

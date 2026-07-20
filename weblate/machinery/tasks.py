@@ -20,7 +20,8 @@ def cleanup_machinery_errors() -> None:
     from weblate.machinery.models import MachineryError
 
     MachineryError.objects.filter(
-        timestamp__lt=timezone.now() - timedelta(days=settings.MACHINERY_ERROR_KEEP_DAYS)
+        timestamp__lt=timezone.now()
+        - timedelta(days=settings.MACHINERY_ERROR_KEEP_DAYS)
     ).delete()
 
 
