@@ -32134,6 +32134,16 @@ components:
           - string
           - 'null'
           description: First line of the commit message.
+    CommitNameEnum:
+      enum:
+      - 0
+      - 1
+      - 2
+      type: integer
+      description: |-
+        * `0` - Use global default
+        * `1` - Public
+        * `2` - Private
     CommitPolicyEnum:
       enum:
       - 0
@@ -33394,6 +33404,10 @@ components:
             type: string
             format: uri
           readOnly: true
+        profile:
+          allOf:
+          - $ref: '#/components/schemas/Profile'
+          readOnly: true
         notifications:
           type: string
           format: uri
@@ -33447,6 +33461,7 @@ components:
       - languages
       - last_login
       - notifications
+      - profile
       - statistics_url
       - url
       - username
@@ -33670,6 +33685,110 @@ components:
         * `googleplay` - Google Play metadata style
         * `linux` - Linux style
         * `linux_lowercase` - Linux style, lower cased
+    LanguageEnum:
+      enum:
+      - ar
+      - az
+      - ba
+      - be
+      - be-latn
+      - bg
+      - br
+      - ca
+      - cs
+      - cy
+      - da
+      - de
+      - en
+      - el
+      - en-gb
+      - es
+      - fi
+      - fr
+      - ga
+      - gl
+      - he
+      - hu
+      - hr
+      - id
+      - is
+      - it
+      - ja
+      - kab
+      - kk
+      - ko
+      - nb
+      - nl
+      - pl
+      - pt
+      - pt-br
+      - ro
+      - ru
+      - sk
+      - sl
+      - sq
+      - sr
+      - sr-latn
+      - sv
+      - ta
+      - th
+      - tr
+      - uk
+      - vi
+      - zh-hans
+      - zh-hant
+      type: string
+      description: |-
+        * `ar` - العربية
+        * `az` - Azərbaycan
+        * `ba` - башҡорт теле
+        * `be` - Беларуская
+        * `be-latn` - Biełaruskaja
+        * `bg` - Български
+        * `br` - Brezhoneg
+        * `ca` - Català
+        * `cs` - Čeština
+        * `cy` - Cymraeg
+        * `da` - Dansk
+        * `de` - Deutsch
+        * `en` - English
+        * `el` - Ελληνικά
+        * `en-gb` - English (United Kingdom)
+        * `es` - Español
+        * `fi` - Suomi
+        * `fr` - Français
+        * `ga` - Gaeilge
+        * `gl` - Galego
+        * `he` - עברית
+        * `hu` - Magyar
+        * `hr` - Hrvatski
+        * `id` - Indonesia
+        * `is` - Íslenska
+        * `it` - Italiano
+        * `ja` - 日本語
+        * `kab` - Taqbaylit
+        * `kk` - Қазақ тілі
+        * `ko` - 한국어
+        * `nb` - Norsk bokmål
+        * `nl` - Nederlands
+        * `pl` - Polski
+        * `pt` - Português
+        * `pt-br` - Português brasileiro
+        * `ro` - Română
+        * `ru` - Русский
+        * `sk` - Slovenčina
+        * `sl` - Slovenščina
+        * `sq` - Shqip
+        * `sr` - Српски
+        * `sr-latn` - Srpski
+        * `sv` - Svenska
+        * `ta` - தமிழ்
+        * `th` - ไทย
+        * `tr` - Türkçe
+        * `uk` - Українська
+        * `vi` - Tiếng việt
+        * `zh-hans` - 简体中文
+        * `zh-hant` - 正體中文
     LanguagePlural:
       type: object
       properties:
@@ -33705,6 +33824,15 @@ components:
       description: |-
         * `0` - As defined
         * `1` - All languages
+    Last2faEnum:
+      enum:
+      - totp
+      - webauthn
+      type: string
+      description: |-
+        * `` - None
+        * `totp` - TOTP
+        * `webauthn` - WebAuthn
     Lock:
       type: object
       properties:
@@ -35266,6 +35394,10 @@ components:
             type: string
             format: uri
           readOnly: true
+        profile:
+          allOf:
+          - $ref: '#/components/schemas/Profile'
+          readOnly: true
         notifications:
           type: string
           format: uri
@@ -35835,6 +35967,207 @@ components:
         * `100` - Medium
         * `120` - Low
         * `140` - Very low
+    Profile:
+      type: object
+      properties:
+        language:
+          allOf:
+          - $ref: '#/components/schemas/LanguageEnum'
+          title: Interface Language
+        languages:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        secondary_languages:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        suggested:
+          type: integer
+          readOnly: true
+        translated:
+          type: integer
+          readOnly: true
+        uploaded:
+          type: integer
+          readOnly: true
+        commented:
+          type: integer
+          readOnly: true
+        theme:
+          $ref: '#/components/schemas/ThemeEnum'
+        hide_completed:
+          type: boolean
+          title: Hide completed translations on the dashboard
+        secondary_in_zen:
+          type: boolean
+          title: Show secondary translations in the Zen mode
+        hide_source_secondary:
+          type: boolean
+          title: Hide source if a secondary translation exists
+        editor_link:
+          type: string
+          description: Enter a custom URL to be used as link to the source code. You
+            can use {{branch}} for branch, {{filename}} and {{line}} as filename and
+            line placeholders.
+          maxLength: 200
+        translate_mode:
+          allOf:
+          - $ref: '#/components/schemas/TranslateModeEnum'
+          title: Translation editor mode
+          minimum: -2147483648
+          maximum: 2147483647
+        zen_mode:
+          allOf:
+          - $ref: '#/components/schemas/ZenModeEnum'
+          title: Zen editor mode
+          minimum: -2147483648
+          maximum: 2147483647
+        special_chars:
+          type: string
+          title: Special characters
+          description: You can specify additional special visual keyboard characters
+            to be shown while translating. It can be useful for characters you use
+            frequently, but are hard to type on your keyboard.
+          maxLength: 30
+        nearby_strings:
+          type: integer
+          maximum: 50
+          minimum: 1
+          title: Number of nearby strings
+          description: Number of nearby strings to show in each direction in the full
+            editor.
+        auto_watch:
+          type: boolean
+          title: Automatically watch projects on contribution
+          description: Projects are added to your watched projects when you contribute
+            to them.
+        contribute_personal_tm:
+          type: boolean
+          title: Contribute to personal translation memory
+          description: Allow your translations to be added to your personal translation
+            memory.
+        dashboard_component_list:
+          type:
+          - string
+          - 'null'
+          format: uri
+          readOnly: true
+        watched:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        website:
+          title: Website URL
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        contact:
+          title: Contact URL
+          description: Link to contact you online using services like Signal, SimpleX
+            or Telegram.
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        liberapay:
+          title: Liberapay username
+          description: Liberapay is a platform to donate money to teams, organizations
+            and individuals.
+          oneOf:
+          - type: string
+            maxLength: 50
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
+        fediverse:
+          title: Fediverse URL
+          description: Link to your Fediverse profile for federated services like
+            Mastodon or diaspora*.
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        codesite:
+          title: Code site URL
+          description: Link to your code profile for services like Codeberg or GitLab.
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        github:
+          title: GitHub username
+          oneOf:
+          - type: string
+            maxLength: 50
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
+        twitter:
+          title: X username
+          oneOf:
+          - type: string
+            maxLength: 50
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
+        linkedin:
+          title: LinkedIn profile name
+          description: Your LinkedIn profile name from linkedin.com/in/profilename
+          oneOf:
+          - type: string
+            pattern: ^[-\w]+$
+            maxLength: 50
+          - type: string
+            maxLength: 0
+        location:
+          type: string
+          maxLength: 100
+        company:
+          type: string
+          maxLength: 100
+        public_email:
+          type: string
+          format: email
+        commit_email:
+          type: string
+          format: email
+        commit_name:
+          $ref: '#/components/schemas/CommitNameEnum'
+        last_2fa:
+          readOnly: true
+          oneOf:
+          - $ref: '#/components/schemas/Last2faEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+      required:
+      - commented
+      - commit_email
+      - commit_name
+      - dashboard_component_list
+      - language
+      - languages
+      - last_2fa
+      - public_email
+      - secondary_languages
+      - suggested
+      - translated
+      - uploaded
+      - watched
     Project:
       type: object
       properties:
@@ -37419,6 +37752,24 @@ components:
       - log
       - progress
       - result
+    ThemeEnum:
+      enum:
+      - auto
+      - light
+      - dark
+      type: string
+      description: |-
+        * `auto` - Sync with system
+        * `light` - Light
+        * `dark` - Dark
+    TranslateModeEnum:
+      enum:
+      - 0
+      - 1
+      type: integer
+      description: |-
+        * `0` - Full editor
+        * `1` - Zen mode
     Translation:
       type: object
       properties:
@@ -37858,6 +38209,14 @@ components:
         * `mercurial` - Mercurial
         * `pagure` - Pagure merge request
         * `subversion` - Subversion
+    ZenModeEnum:
+      enum:
+      - 0
+      - 1
+      type: integer
+      description: |-
+        * `0` - Top to bottom
+        * `1` - Side by side
     UserGroupDeleteRequest:
       type: object
       properties:

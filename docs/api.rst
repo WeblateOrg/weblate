@@ -277,6 +277,7 @@ API Entry Point
             "languages":"http://example.com/api/languages/"
         }
 
+.. _api-users:
 
 Users
 +++++
@@ -332,6 +333,7 @@ Users
     :>json string last_login: date the user last signed in
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
     :>json array languages: link to translated languages; see :http:get:`/api/languages/(string:language)/`
+    :>json object profile: user profile preferences; see :ref:`api-user-profile`. Returned only with the ``user.view`` or ``user.edit`` permission.
 
     **Example JSON data:**
 
@@ -362,7 +364,7 @@ Users
     Changes the user parameters.
 
     Requires the global ``user.edit`` permission unless a user is updating
-    their own basic profile fields. See :ref:`access-control` for the user
+    their own account or profile fields. See :ref:`access-control` for the user
     management permission model.
 
     :param username: User's username
@@ -374,13 +376,14 @@ Users
     :>json boolean is_active: whether the user is active
     :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
+    :>json object profile: updated profile preferences when included in the request; see :ref:`api-user-profile`
 
 .. http:patch:: /api/users/(str:username)/
 
     Changes the user parameters.
 
     Requires the global ``user.edit`` permission unless a user is updating
-    their own basic profile fields. See :ref:`access-control` for the user
+    their own account or profile fields. See :ref:`access-control` for the user
     management permission model.
 
     :param username: User's username
@@ -392,6 +395,7 @@ Users
     :>json boolean is_active: whether the user is active
     :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
+    :>json object profile: updated profile preferences when included in the request; see :ref:`api-user-profile`
 
 .. http:delete:: /api/users/(str:username)/
 
@@ -505,6 +509,25 @@ Users
     :type username: string
     :param subscription_id: Name of notification registered
     :param subscription_id: int
+
+.. _api-user-profile:
+
+User profile
+++++++++++++
+
+.. versionadded:: 2026.8
+
+The user API exposes profile preferences in a nested ``profile`` object. The
+object is returned on :http:get:`/api/users/(str:username)/` only for callers
+with the ``user.view`` or ``user.edit`` permission. Users without those
+permissions can still update their own profile through
+:http:patch:`/api/users/(str:username)/`; the response then includes the updated
+``profile`` object.
+
+Profile fields mirror the settings described in :ref:`user-profile`.
+
+The top-level ``languages`` field on user objects is deprecated; use
+``profile.languages`` instead.
 
 
 Groups

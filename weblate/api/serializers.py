@@ -733,6 +733,25 @@ PROFILE_READONLY_FIELDS = (
     "dashboard_component_list",
 )
 
+
+@extend_schema_field(serializers.EmailField())
+class ProfileEmailChoiceField(serializers.ChoiceField):
+    """Choice field with runtime choices documented as an email in OpenAPI."""
+
+    def __init__(self, **kwargs) -> None:
+        kwargs.setdefault("choices", [])
+        super().__init__(**kwargs)
+
+
+@extend_schema_field(serializers.ChoiceField(choices=Profile.CommitNameChoices.choices))
+class ProfileCommitNameChoiceField(serializers.ChoiceField):
+    """Choice field with optional runtime choices documented in OpenAPI."""
+
+    def __init__(self, **kwargs) -> None:
+        kwargs.setdefault("choices", Profile.CommitNameChoices.choices)
+        super().__init__(**kwargs)
+
+
 PROFILE_M2M_FIELDS: ClassVar[dict[str, tuple[type[Model], str]]] = {
     "languages": (Language, "code"),
     "secondary_languages": (Language, "code"),
@@ -765,9 +784,9 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
         read_only=True,
         allow_null=True,
     )
-    commit_email = serializers.ChoiceField(choices=[])
-    public_email = serializers.ChoiceField(choices=[])
-    commit_name = serializers.ChoiceField(choices=[])
+    commit_email = ProfileEmailChoiceField()
+    public_email = ProfileEmailChoiceField()
+    commit_name = ProfileCommitNameChoiceField()
 
     class Meta:
         model = Profile
