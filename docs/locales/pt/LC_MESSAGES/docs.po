@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-20 11:03+0000\n"
+"PO-Revision-Date: 2026-07-21 12:02+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -35571,49 +35571,62 @@ msgstr ""
 
 #: changes/v5.rst:160
 msgid ":ref:`mt-deepl` maps plain Portuguese to European Portuguese."
-msgstr ""
+msgstr ":ref:`mt-deepl` mapeia português simples para português Europeu."
 
 #: changes/v5.rst:161
 msgid ""
 ":ref:`mt-mymemory` now falls back to HTTP status handling when the service "
 "returns a non-JSON error response."
 msgstr ""
+":ref:`mt-mymemory` agora recorre à gestão de estados HTTP quando o serviço "
+"devolve uma resposta de erro não JSON."
 
 #: changes/v5.rst:162
 msgid ""
 "Push branches are no longer updated with upstream-only commits in multi-"
 "branch workflows."
 msgstr ""
+"Ramos de envio já não são atualizados apenas com commits upstream em fluxos "
+"de trabalho multi ramo."
 
 #: changes/v5.rst:163
 msgid ""
 "POT update add-ons now fall back to the component URL for the ``Report-Msgid-"
 "Bugs-To`` header when the component setting is empty."
 msgstr ""
+"Atualização de extras POT agora recorrem ao URL alternativo para o cabeçalho "
+"``Report-Msgid-Bugs-To`` quando a definição de componente está vazia."
 
 #: changes/v5.rst:164
-#, fuzzy
-#| msgid "Improved syntax error handling in Fluent format."
 msgid "Improved repository lock error handling when deleting units."
-msgstr "Melhorado o tratamento de erros de sintaxe no formato Fluent."
+msgstr ""
+"Melhorado o tratamento de erros de bloqueio de repositório ao eliminar "
+"unidades."
 
 #: changes/v5.rst:165
 msgid ""
 "Adding new languages now rescans only the newly added languages instead of "
 "forcing a full component scan."
 msgstr ""
+"Adicionar novos idiomas agora reanalisa apenas novos idiomas adicionados em "
+"vez de forçar uma análise de componente completa."
 
 #: changes/v5.rst:166
 msgid ""
 ":ref:`check-max-size` previews now keep the configured text box visible and "
 "render overflowing text in red."
 msgstr ""
+"Pré-visualizações de :ref:`check-max-size` agora mantêm a caixa de texto "
+"configurada visível e renderizam o texto transbordante a vermelho."
 
 #: changes/v5.rst:167
 msgid ""
 "Restored documented default encoding fallback for :doc:`/formats/apple` "
 "and :doc:`/formats/java` when file format parameters are not explicitly set."
 msgstr ""
+"A alternativa padrão para codificação de documento restaurado para :doc:`/"
+"formats/apple` e :doc:`/formats/java` quando os parâmetros de formato de "
+"ficheiro não estão explicitamente definidos."
 
 #: changes/v5.rst:168
 msgid ""
@@ -35622,12 +35635,18 @@ msgid ""
 "auto-translation progress updates when the queued target disappears before "
 "execution."
 msgstr ""
+"Consultas de bases de dados repetidas reduzidas em :ref:`addon-"
+"weblate.generate.fill_read_only` durante a tarefa do extra diária, e "
+"atualizações de progresso de tradução automática corrigida quando o alvo em "
+"fila desaparece antes da execução."
 
 #: changes/v5.rst:169
 msgid ""
 ":doc:`/formats/android` now preserves template-defined escaped markup "
 "formatting when saving translations."
 msgstr ""
+":doc:`/formats/android` agora preserva formatação de marcação escapada "
+"definida no modelo ao guardar traduções."
 
 #: changes/v5.rst:170
 msgid ""
@@ -35642,18 +35661,25 @@ msgid ""
 "SSH repository errors now distinguish changed host keys from missing host "
 "keys and avoid automatically trusting host key replacements."
 msgstr ""
+"Erros de repositório SSH agora distinguem chaves de anfitrião mudadas de "
+"chaves de anfitrião em falta e evita confiar automaticamente em "
+"substituições de chave de anfitrião."
 
 #: changes/v5.rst:172
 msgid ""
 ":ref:`machine-translation` no longer treats translatable reStructuredText "
 "role content as :ref:`placeables-mt`."
 msgstr ""
+":ref:`machine-translation` já não trata o papel do conteúdo reStructuredText "
+"como :ref:`placeables-mt`."
 
 #: changes/v5.rst:173
 msgid ""
 ":ref:`check-end-interrobang` now recognizes Arabic interrobang punctuation "
 "such as ``؟!`` and ``!؟``."
 msgstr ""
+":ref:`check-end-interrobang` agora reconhece pontuação Arábica interrobang "
+"como ``؟!`` e ``!؟``."
 
 #: changes/v5.rst:177
 msgid ""
@@ -35661,6 +35687,9 @@ msgid ""
 "party add-ons that used ``project_scope = True`` should override "
 "``can_install()`` to return ``False`` when ``component`` is not ``None``."
 msgstr ""
+"O atributo de classe ``project_scope`` e extras foram removidos. Extras de "
+"terceiros que usam ``project_scope = True`` devem sobrescrever ``can_install"
+"()`` para devolver ``False`` quando ``component`` não é ``None``."
 
 #: changes/v5.rst:178
 msgid ""
@@ -35681,44 +35710,37 @@ msgstr ""
 "diretamente para implementar a lógica a nível do projeto."
 
 #: changes/v5.rst:179
-#, fuzzy
-#| msgid "Dropped support for Django 1.6 and South migrations."
 msgid "Dropped support for MySQL and MariaDB as the database engine."
-msgstr "Removido o suporte a migrações para Django 1.6 e South."
+msgstr "Suporta para MySQL e MariaDB terminado como motores de bases de dados."
 
 #: changes/v5.rst:180
-#, fuzzy
-#| msgid "Weblate now requires Django 3.2."
 msgid "Weblate now requires Django 6.0."
-msgstr "Weblate agora necessita de Django 3.2."
+msgstr "Weblate agora necessita de Django 6.0."
 
 #: changes/v5.rst:181
-#, fuzzy
-#| msgid "Weblate now requires Git 2.28 or newer."
 msgid "Weblate now requires Git 2.46 or newer."
-msgstr "O Weblate agora requer Git 2.28 ou mais recente."
+msgstr "O Weblate agora requer Git 2.46 ou mais recente."
 
 #: changes/v5.rst:182
 msgid ""
 "Uploaded project backups are now validated more strictly during import and "
 "suspicious ZIP archives can be rejected; see :ref:`projectbackup`."
 msgstr ""
+"Cópias de segurança de projetos enviadas agora são validadas de forma mais "
+"estrita durante importação e arquivos ZIP suspeitos podem ser rejeitados; "
+"veja :ref:`projectbackup`."
 
 #: changes/v5.rst:188
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "are changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; "
-#| "please adjust your settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most "
 "notably :setting:`ADMINS` syntax has changed in Django and "
 "``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please "
 "adjust your settings accordingly."
 msgstr ""
-"Há várias alterações em :file:`settings_example.py`, mais significativas são "
-"as definições alteradas ``AUTH_PASSWORD_VALIDATORS`` e ``INSTALLED_APPS``. "
-"Por favor, ajuste as suas definições de acordo."
+"Há várias alterações em :file:`settings_example.py`, as mais significativas "
+"são a sintaxe de :setting:`ADMINS` mudou no Django e "
+"``SOCIAL_AUTH_PIPELINE`` e ``INSTALLED_APPS`` precisam de ajustes. Por "
+"favor, ajuste as suas definições de acordo."
 
 #: changes/v5.rst:189
 msgid ""
@@ -35727,6 +35749,10 @@ msgid ""
 "listeners only when IPv6 is available in the container runtime; use ``on`` "
 "to always enable them or ``off`` to disable them."
 msgstr ""
+"Se executa o Weblate no Docker e depende de ouvintes IPv6, reveja "
+":envvar:`WEBLATE_NGINX_IPV6`. A predefinição ``auto`` ativa ouvintes IPv6 "
+"apenas quando IPv6 está disponível no tempo de execução do contentor; "
+"utilize ``on`` para ativá-los sempre ou ``off`` para desativá-los."
 
 #: changes/v5.rst:190
 msgid ""
@@ -35747,32 +35773,28 @@ msgstr ""
 "como :setting:`VCS_ALLOW_HOSTS`."
 
 #: changes/v5.rst:196
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "58?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/158?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/58?closed=1>`__."
+"milestone/158?closed=1>`__."
 
 #: changes/v5.rst:199
 msgid "Weblate 5.16.2"
 msgstr "Weblate 5.16.2"
 
 #: changes/v5.rst:201
-#, fuzzy
-#| msgid "*Released on March 26th 2024.*"
 msgid "*Released on March 6th 2026.*"
-msgstr "*Atualizado em 26 de março de 2024.*"
+msgstr "*Atualizado em 6 de março de 2026.*"
 
 #: changes/v5.rst:205
 msgid ""
 "New setting :setting:`PUBLIC_ENGAGE` to make the engage page public even "
 "with :setting:`REQUIRE_LOGIN`."
 msgstr ""
+"Nova definição :setting:`PUBLIC_ENGAGE` para fazer a página de cativação "
+"pública mesmo com :setting:`REQUIRE_LOGIN`."
 
 #: changes/v5.rst:209
 msgid "Improved matching in :doc:`/admin/memory`."
@@ -35788,70 +35810,59 @@ msgid ""
 "Avoid displaying confusing status icons for ghost languages on project or "
 "category level."
 msgstr ""
+"Evita mostrar ícones de estado confusos para idiomas fantasma ao nível do "
+"projeto ou categoria."
 
 #: changes/v5.rst:215
-#, fuzzy
-#| msgid ""
-#| "Fixed displaying of plural source for languages with single plural form."
 msgid ""
 "Fixed missing plural source strings when creating new bilingual plural units."
-msgstr "Exibição fixa de fonte plural para idiomas com forma plural única."
+msgstr ""
+"Corrigida as cadeias de carateres plural fonte ao criar novas unidade "
+"bilingues plurais."
 
 #: changes/v5.rst:216
-#, fuzzy
-#| msgid "Fixed per-language statistics on nested categories."
 msgid "Crash on certain pages with nested categories."
-msgstr "Correção das estatísticas por idioma em categorias aninhadas."
+msgstr "Quebra em certas páginas com categorias aninhadas."
 
 #: changes/v5.rst:217
-#, fuzzy
-#| msgid "Improved validation while adding/saving component."
 msgid "Improved API validation when adding strings."
-msgstr "Melhirada a validação ao adicionar/gravar componente."
+msgstr "Validação da API melhorada ao adicionar cadeias de carateres."
 
 #: changes/v5.rst:218
 msgid "Disabled throttling for incoming webhooks."
-msgstr ""
+msgstr "Limitação desativada para receção de webhooks."
 
 #: changes/v5.rst:219
-#, fuzzy
-#| msgid "Improved displaying of translation changes."
 msgid "Avoid displaying non-actionable ghost languages."
-msgstr "Melhorada a exibição de alterações de tradução."
+msgstr "Exibição de idiomas fantasmas não acionáveis evitada."
 
 #: changes/v5.rst:220
-#, fuzzy
-#| msgid "Fixed searching in the translation memory."
 msgid "Fixed highlighting in the translation editor."
-msgstr "A pesquisa na memória de tradução corrigida."
+msgstr "Realçar no editor de tradução corrigido."
 
 #: changes/v5.rst:230
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "63?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/163?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/63?closed=1>`__."
+"milestone/163?closed=1>`__."
 
 #: changes/v5.rst:233
 msgid "Weblate 5.16.1"
 msgstr "Weblate 5.16.1"
 
 #: changes/v5.rst:235
-#, fuzzy
-#| msgid "*Released on February 16th 2012.*"
 msgid "*Released on February 26th 2026.*"
-msgstr "*Atualizado em 16 de fevereiro de 2012.*"
+msgstr "*Lançado em 26 de fevereiro de 2026.*"
 
 #: changes/v5.rst:239
 msgid ""
 ":doc:`/formats/asciidoc`, :doc:`/formats/xliff` with Apple extensions, "
 "and :doc:`/formats/wxl` are now supported file formats."
 msgstr ""
+":doc:`/formats/asciidoc`, :doc:`/formats/xliff` com extensões Apple, e "
+":doc:`/formats/wxl` agora são formatos de ficheiros suportados."
 
 #: changes/v5.rst:240
 msgid ""
@@ -35859,6 +35870,9 @@ msgid ""
 "disposable e-mail domains during registration (Docker "
 "env: :envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)."
 msgstr ""
+":setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS` adicionado para permitir "
+"domínios de email descartáveis durante registo (Docker env: "
+":envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`)."
 
 #: changes/v5.rst:244
 msgid ""
@@ -35866,6 +35880,9 @@ msgid ""
 "between :guilabel:`Needs editing`, :guilabel:`Needs rewriting`, "
 "and :guilabel:`Needs checking` states."
 msgstr ""
+"Documentação de estados de tradução melhorada para clarificar a diferença "
+"entre os estados :guilabel:`Precisa de edição`, :guilabel:`Precisa de ser "
+"reescrito`, :guilabel:`Precisa de verificação`."
 
 #: changes/v5.rst:245
 msgid ""
@@ -35881,20 +35898,16 @@ msgstr ""
 ":ref:`addon-weblate.webhook.slack` entrega todos os eventos devidamente."
 
 #: changes/v5.rst:250
-#, fuzzy
-#| msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
 msgid ":ref:`check-punctuation-spacing` better handles XML markup."
-msgstr ":ref:`check-punctuation-spacing` já não se aplica a bretão."
+msgstr ":ref:`check-punctuation-spacing` lida melhor com marcação XML."
 
 #: changes/v5.rst:251
 msgid ":doc:`/formats/stringsdict` better handle some plurals."
 msgstr ":doc:`/formats/stringsdict` melhor a lidar com alguns plurais."
 
 #: changes/v5.rst:252
-#, fuzzy
-#| msgid "Improved handling of long language names."
 msgid "Improved plurals handling for language variants."
-msgstr "Tratamento aprimorado de nomes longos do idioma."
+msgstr "Tratamento de plurais melhorado para variantes de idioma."
 
 #: changes/v5.rst:253
 msgid "Fixed API access control."
@@ -35903,86 +35916,90 @@ msgstr "Acesso de controlo API corrigido."
 #: changes/v5.rst:255
 msgid "Users can manage their own notification subscriptions via the API."
 msgstr ""
+"Utilizadores podem gerir as suas próprias notificações de subscrições "
+"através da API."
 
 #: changes/v5.rst:256
 msgid ""
 "Project administrators can manage teams in their projects via the API, "
 "according to access control rules."
 msgstr ""
+"Administradores de projeto podem gerir equipas nos seus projetos através da "
+"API,d e acordo com as regras de controlo de acesso."
 
 #: changes/v5.rst:257
 msgid ""
 "The add-ons listing in the API now correctly honors user permissions "
 "(:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 msgstr ""
+"A listagem de extras na API agora honram corretamente as permissões de "
+"utilizador (:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`)."
 
 #: changes/v5.rst:259
 msgid ""
 "Fixed source column being cleared when translating monolingual :doc:`/"
 "formats/csv`."
 msgstr ""
+"Corrigido a conta fonte ser limpa ao traduzir monolingue :doc:`/formats/csv`."
 
 #: changes/v5.rst:269
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "61?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/161?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/61?closed=1>`__."
+"milestone/161?closed=1>`__."
 
 #: changes/v5.rst:272
 msgid "Weblate 5.16"
 msgstr "Weblate 5.16"
 
 #: changes/v5.rst:274
-#, fuzzy
-#| msgid "*Released on February 16th 2012.*"
 msgid "*Released on February 16th 2026.*"
-msgstr "*Atualizado em 16 de fevereiro de 2012.*"
+msgstr "*Lançado em 16 de fevereiro de 2026.*"
 
 #: changes/v5.rst:278
 msgid ":ref:`check-multiple-capital` quality check."
 msgstr "Verificação de qualidade :ref:`check-multiple-capital`."
 
 #: changes/v5.rst:279
-#, fuzzy
-#| msgid ":ref:`check-xml-tags` better handle XML entities."
 msgid ""
 ":ref:`check-xml-chars-around-tags` reduce translation errors for strings "
 "with XML entities."
-msgstr ":ref:`check-xml-tags` manipular melhor as entidades XML."
+msgstr ""
+":ref:`check-xml-chars-around-tags` reduzem erros de tradução para cadeias de "
+"carateres com entidades XML."
 
 #: changes/v5.rst:280
 msgid "Bulk accepting suggestions from a specific user in :ref:`suggestions`."
 msgstr ""
+"Aceitação de sugestões em massa de um utilizador específico em "
+":ref:`suggestions`."
 
 #: changes/v5.rst:281
-#, fuzzy
-#| msgid "Fixed sorting of machine translation suggestions."
 msgid "Cloning suggestions into translation in :ref:`suggestions`."
-msgstr "Corrigida a classificação de sugestões de tradução de máquina."
+msgstr "Clonar sugestões para tradução em :ref:`suggestions`."
 
 #: changes/v5.rst:282
 msgid ""
 ":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into "
 "other projects."
 msgstr ""
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` para esconder glossários "
+"partilhados para outros projetos."
 
 #: changes/v5.rst:283
 msgid ""
 "Added new management command :wladmin:`list_change_events`, which lists all "
 "possible change events, :ref:`addon-choice-events`."
 msgstr ""
+"Novo comando de gestão :wladmin:`list_change_events` adicionado, que lista "
+"todos os eventos de alteração possíveis, :ref:`addon-choice-events`."
 
 #: changes/v5.rst:284
-#, fuzzy
-#| msgid "Added page navigation while :ref:`translating`."
 msgid "Added Anthropic machinery integration, see :ref:`mt-anthropic`."
-msgstr "Adicionada navegação de página durante :ref:`translating`."
+msgstr ""
+"Integração com a maquinaria Anthropic adicionada, veja :ref:`mt-anthropic`."
 
 #: changes/v5.rst:285
 msgid ""
@@ -35990,14 +36007,16 @@ msgid ""
 "using :ref:`file_format_params` (e.g., ``csv_encoding``, "
 "``properties_encoding``)."
 msgstr ""
+"Codificação para :ref:`formats` agora pode ser configurado usando "
+":ref:`file_format_params` (p.ex., ``csv_encoding``, ``properties_encoding``)."
 
 #: changes/v5.rst:286
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid ""
 "Added support for anonymous commit names "
 "via :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "Configura :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr ""
+"Suporte para nomes anónimos de commit adicionados través de "
+":setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: changes/v5.rst:287
 msgid ""
@@ -36005,86 +36024,104 @@ msgid ""
 "and :ref:`txt` files using ``*merge_duplicates`` parameters "
 "in :ref:`file_format_params`."
 msgstr ""
+"Consolidar cadeias de carateres idênticas em :ref:`markdown`, :ref:`html`, e "
+"ficheiros :ref:`txt` usando parâmetros ``*merge_duplicates`` em "
+":ref:`file_format_params`."
 
 #: changes/v5.rst:291
 msgid ""
 "Delete announcements permission can be assigned to teams, "
 "see :ref:`privileges`."
 msgstr ""
+"Permissão de eliminação de comunicados podem ser adicionadas a equipas, veja "
+":ref:`privileges`."
 
 #: changes/v5.rst:292
 msgid ":doc:`/user/search` better reports errors in the query strings."
 msgstr ""
+":doc:`/user/search` comunica erros melhor nas cadeias de carateres de "
+"pesquisa."
 
 #: changes/v5.rst:293
 msgid "Regular repository maintenance is now performed in the background."
-msgstr ""
+msgstr "Manutenção de repositório regular agora é feita no plano de fundo."
 
 #: changes/v5.rst:294
 msgid "Repository cleanup now recovers failed merges or rebases."
-msgstr ""
+msgstr "A limpeza de repositório agora recupera merges ou rebases falhados."
 
 #: changes/v5.rst:295
 msgid "Better visibility of :ref:`project-commit_policy` to translators."
-msgstr ""
+msgstr "Melhor visibilidade de :ref:`project-commit_policy` a tradutores."
 
 #: changes/v5.rst:296
 msgid ""
 "Validation of VCS settings :ref:`code-hosting-push-options` has been "
 "extended."
 msgstr ""
+"A validação de definições VCS :ref:`code-hosting-push-options` foram "
+"prolongadas."
 
 #: changes/v5.rst:297
-#, fuzzy
-#| msgid ""
-#| "Configures the default value of :ref:`project-use_shared_tm` "
-#| "and :ref:`project-contribute_shared_tm`."
 msgid ""
 "The default values for :ref:`project-translation_review` and :ref:`project-"
 "source_review` can be configured in settings."
 msgstr ""
-"Configura o valor padrão de :ref:`project-use_shared_tm` e :ref:`project-"
-"contribute_shared_tm`."
+"Os valores padrão para :ref:`project-translation_review` e :ref:`project-"
+"source_review` podem ser configurados nas definições."
 
 #: changes/v5.rst:298
 msgid ""
 "The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` "
 "and ``{site_title}`` variables."
 msgstr ""
+"A :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` agora suporta as variáveis ``"
+"{user_id}`` e ``{site_title}``."
 
 #: changes/v5.rst:299
 msgid ""
 "The default value for personal translation memory contribution is now based "
 "on the :setting:`DEFAULT_AUTOCLEAN_TM` configuration."
 msgstr ""
+"O valor predefinido da contribuição para a memória de tradução pessoal agora "
+"é baseado na configuração :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: changes/v5.rst:303
 msgid ""
 "Argument injection in the management console "
 "(:cve:`2026-24126` / :ghsa:`33fm-6gp7-4p47`)."
 msgstr ""
+"Injeção de argumentos na consola de gestão (:cve:`2026-24126` / :ghsa:`33fm-"
+"6gp7-4p47`)."
 
 #: changes/v5.rst:304
 msgid ""
 "Adding plural strings with singular matching existing string is now "
 "prohibited for bilingual translations (see :ref:`bimono`)."
 msgstr ""
+"Adicionar cadeias de carateres plurais com correspondência única de uma "
+"cadeia de carateres existentes agora é proibida para traduções bilingues "
+"(veja: :ref:`bimono`)."
 
 #: changes/v5.rst:305
 msgid "Automatic :ref:`component-repoweb` URL for common code hosting sites."
 msgstr ""
+"URL de :ref:`component-repoweb` automático para sites de alojamento de "
+"códigos comuns."
 
 #: changes/v5.rst:306
 msgid ""
 "Improved cache isolation for suggestion checks to avoid interference with "
 "the parent unit checks."
 msgstr ""
+"Isolação de cache melhorada para verificações de sugestão para evitar "
+"interferência com as verificações de unidade parentes."
 
 #: changes/v5.rst:307
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid "Gracefully handle invalid check flags in :ref:`custom-checks`."
-msgstr "Ajustar os marcadores de tradução (ver :ref:`custom-checks`)"
+msgstr ""
+"Lida com elegância marcadores de verificação inválidos em :ref:`custom-"
+"checks`."
 
 #: changes/v5.rst:308
 msgid ":doc:`/formats/appstore` no longer rewrites unchanged files."
@@ -36096,125 +36133,117 @@ msgid ""
 "allow generic regular-expression-based checking of strings. Use :ref:`check-"
 "placeholders` for checking regular expression matched placeholders."
 msgstr ""
+":ref:`check-regex` já não marca porções correspondentes enquanto não "
+"traduzíveis para permitir verificação genérica baseada em expressões "
+"regulares de cadeias de carateres. Utilize :ref:`check-placeholders` para "
+"verificar marcadores de lugar correspondidos com expressões regulares."
 
 #: changes/v5.rst:313
 msgid ""
 "The default value for :setting:`WEBLATE_FORMATS` changed because of the "
 "removal of encoding-specific formats."
 msgstr ""
+"O valor predefinido para :setting:`WEBLATE_FORMATS` mudou devido à remoção "
+"de formatos específicos à codificação."
 
 #: changes/v5.rst:314
 msgid ""
 "File formats that only differed in encoding (CSV, GWT Properties, Java "
 "Properties, iOS Strings) have been merged into single formats."
 msgstr ""
+"Formatos de ficheiro que apenas diferem em codificação (CSV, GWT Properties, "
+"Java Properties, iOS Strings) foram unidos em formatos únicos."
 
 #: changes/v5.rst:315
 msgid "Fonts used by Weblate are now shipped in a standalone package."
 msgstr ""
+"Fontes utilizadas pelo Weblate agora são agora fornecidas num pacote "
+"independente."
 
 #: changes/v5.rst:316
 msgid "Dropped deprecated compatibility wrappers some classes with typos."
 msgstr ""
+"Foram removidos os wrappers de compatibilidade obsoletos de algumas classes "
+"que continham erros ortográficos."
 
 #: changes/v5.rst:326
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "56?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/156?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/56?closed=1>`__."
+"milestone/156?closed=1>`__."
 
 #: changes/v5.rst:329
 msgid "Weblate 5.15.2"
 msgstr "Weblate 5.15.2"
 
 #: changes/v5.rst:331
-#, fuzzy
-#| msgid "*Released on January 14th 2021.*"
 msgid "*Released on January 14th 2026.*"
-msgstr "*Atualizado em 14 de janeiro de 2021.*"
+msgstr "*Lançado em 14 de janeiro de 2026.*"
 
 #: changes/v5.rst:335
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
-#| "editing."
 msgid ""
 ":ref:`addon-weblate.generate.generate` is now triggered upon installation."
 msgstr ""
-":ref:`addon-weblate.gettext.mo` pode incluir opcionalmente cadeias que "
-"precisam de edição."
+":ref:`addon-weblate.generate.generate` agora é ativado mediante instalação."
 
 #: changes/v5.rst:336
 msgid "Screenshots updated from the repository have proper history."
 msgstr ""
+"Capturas de ecrã enviadas a partir do repositório têm histórico próprio."
 
 #: changes/v5.rst:337
-#, fuzzy
-#| msgid ":ref:`check-rst-syntax` check to validate reStructuredText syntax."
 msgid ":ref:`check-rst-syntax` now reports unintended list conversion."
 msgstr ""
-"A verificação :ref:`check-rst-syntax` valida a sintaxe reStructuredText."
+":ref:`check-rst-syntax` agora comunica conversão de lista não intencionada."
 
 #: changes/v5.rst:338
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgid ":ref:`check-same` check ignores AsciiDoc source code blocks."
-msgstr ""
-":ref:`check-same` agora verifica espaços reservados mesmo no modo estrito."
+msgstr "A verificação :ref:`check-same` ignora blocos de código fonte AsciiDoc."
 
 #: changes/v5.rst:342
 msgid ""
 "Information leak via screenshots "
 "(:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`)."
 msgstr ""
+"Fuga de informação através de capturas de ecrã (:cve:`2026-21889` / "
+":ghsa:`3g2f-4rjg-9385`)."
 
 #: changes/v5.rst:343
-#, fuzzy
-#| msgid "Plural forms handling in :doc:`/formats/qt`."
 msgid "Explanation sync in :doc:`/formats/tbx`."
-msgstr "Manipulação dos formulários de plurais em :doc:`/formats/qt`."
+msgstr "Sincronia dde explicação em :doc:`/formats/tbx`."
 
 #: changes/v5.rst:344
-#, fuzzy
-#| msgid "User interface"
 msgid "User interface fixes."
-msgstr "Interface de utilizador"
+msgstr "Correções na interface de utilizador."
 
 #: changes/v5.rst:345
 msgid "Clarified needs editing/checking/rewriting states."
-msgstr ""
+msgstr "Estados de precisar de edição/verificação/rescrição clarificados."
 
 #: changes/v5.rst:346
-#, fuzzy
-#| msgid "Automatically translated strings"
 msgid "Automatically translated flag with bulk approvals."
-msgstr "Cadeias de carateres traduzidas automaticamente"
+msgstr "Marcador de tradução automática com aprovações em massa."
 
 #: changes/v5.rst:347
 msgid "GitHub forks no longer trigger actions."
-msgstr ""
+msgstr "Bifurcações de GitHub já não ativam ações."
 
 #: changes/v5.rst:348
 msgid ""
 "Tighter validation of user provided websites to avoid confusing homoglyphs."
 msgstr ""
+"Validação mais estrita de websites fornecidos pelo utilizador para evitar "
+"homóglifos confusos."
 
 #: changes/v5.rst:349
-#, fuzzy
-#| msgid ":ref:`mt-google-translate-api-v3`"
 msgid "Glossary support in :ref:`mt-google-translate-api-v3`."
-msgstr ":ref:`mt-google-translate-api-v3`"
+msgstr "Suporte de glossário em :ref:`mt-google-translate-api-v3`."
 
 #: changes/v5.rst:350
 msgid "Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on."
-msgstr ""
+msgstr "Convites aceites quando :setting:`REQUIRE_LOGIN` está ativo."
 
 #: changes/v5.rst:351
 msgid ":ref:`mt-cyrtranslit` installation."
@@ -36225,6 +36254,9 @@ msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of :file:`/media/`."
 msgstr ""
+"Imagens de capturas de ecrã já não são servidas diretamente pelo servidor "
+"HTTP, por favor ajuste o seu servidor HTTP ao remover o servir da :file:`/"
+"media/`."
 
 #: changes/v5.rst:361
 msgid ""
@@ -36232,28 +36264,25 @@ msgid ""
 "media/` path should be removed from the HTTP server configuration; "
 "see :ref:`static-files`."
 msgstr ""
+"Para fazer a correção para :cve:`2026-21889` efetiva, o servidor do caminho "
+":file:`/media/` deve ser removida da configuração do servidor HTTP; veja "
+":ref:`static-files`."
 
 #: changes/v5.rst:367
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "60?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/160?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/60?closed=1>`__."
+"milestone/160?closed=1>`__."
 
 #: changes/v5.rst:370
 msgid "Weblate 5.15.1"
 msgstr "Weblate 5.15.1"
 
 #: changes/v5.rst:372
-#, fuzzy
-#| msgid "*Released on December 15th 2025.*"
 msgid "*Released on December 18th 2025.*"
-msgstr "*Publicado em 15 de dezembro de 2025.*"
+msgstr "*Publicado em 18 de dezembro de 2025.*"
 
 #: changes/v5.rst:376
 msgid ""
@@ -36261,69 +36290,66 @@ msgid ""
 "(string:language_code)/file/` to download a ZIP file of all component "
 "translations of a project for a specified language."
 msgstr ""
+":http:get:`/api/projects/(string:project)/languages/(string:language_code)/"
+"file/` adicionado para descarregar um ficheiro ZIP de todas as traduções de "
+"componentes de um projeto para um idioma especificado."
 
 #: changes/v5.rst:380
 msgid "Updated list of OpenAI models."
-msgstr ""
+msgstr "Lista de modelos OpenAI atualizada."
 
 #: changes/v5.rst:381
 msgid ""
 "Added :doc:`/devel/migration` guide to help users migrate from other "
 "localization platforms."
 msgstr ""
+"Guia do :doc:`/devel/migration` adicionado para ajudar utilizadores a migrar "
+"de outras plataformas de tradução."
 
 #: changes/v5.rst:382
-#, fuzzy
-#| msgid "Redirecting you to the authentication provider."
 msgid "Gracefully handle unreachable authentication providers."
-msgstr "A redirecioná-lo para o fornecedor de autenticação."
+msgstr ""
+"Lidar de forma adequada com os fornecedores com autenticação inacessível."
 
 #: changes/v5.rst:383
-#, fuzzy
-#| msgid "Updated language definitions."
 msgid "Update language definitions to CLDR 48."
-msgstr "Definições de idioma atualizadas."
+msgstr "Definições de idioma atualizador para CLDR 48."
 
 #: changes/v5.rst:387
 msgid ""
 "Git config file overwrite remote code execution "
 "(:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`)."
 msgstr ""
+"Execução de código remota com sobrescrita de ficheiro de configuração Git "
+"(:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`)."
 
 #: changes/v5.rst:388
 msgid ""
 "Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-"
 "f788-4jh7`)."
 msgstr ""
+"Leitura de ficheiro arbitrária través de links simbólicos (:cve:`2025-"
+"68279` / :ghsa:`g925-f788-4jh7`)."
 
 #: changes/v5.rst:389
-#, fuzzy
-#| msgid "Report progress when updating translation component."
 msgid "Locking error that prevented updating linked components."
-msgstr "Reportar progresso quando atualizar um componente de tradução."
+msgstr "Erro bloqueante que impedia a atualização de componentes ligados."
 
 #: changes/v5.rst:390
 msgid "Fixed e-mail SSL configuration in Docker container."
 msgstr "Configuração de email e SSL no contentor Docker corrigido."
 
 #: changes/v5.rst:391
-#, fuzzy
-#| msgid "Inviting users now works with all authentication methods."
 msgid "Invitations on sites with required authentication."
-msgstr ""
-"Convidar utilizadores agora funciona com todos os métodos de autenticação."
+msgstr "Convites em sites com autenticação necessária."
 
 #: changes/v5.rst:401
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "59?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/159?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/59?closed=1>`__."
+"milestone/159?closed=1>`__."
 
 #: changes/v5.rst:404
 msgid "Weblate 5.15"
@@ -36338,18 +36364,25 @@ msgid ""
 "Batch automatic translation can now be manually triggered at project "
 "language, category or component level, see :ref:`auto-translation`."
 msgstr ""
+"Tradução automática em lotes agora pode ser manualmente ativada ao nível do "
+"idioma do projeto, categoria ou componente, veja :ref:`auto-translation`."
 
 #: changes/v5.rst:411
 msgid ""
 "Added ability to completely disable the admin contact form by "
 "setting :setting:`CONTACT_FORM` to ``\"disabled\"``."
 msgstr ""
+"Foi adicionada a possibilidade de desativar completamente o formulário de "
+"contacto do administrador ao definir :setting:`CONTACT_FORM` como "
+"``\"disabled\"``."
 
 #: changes/v5.rst:412
 msgid ""
 "Added new Ollama machinery tool for local Ollama AI model integration, "
 "see :ref:`mt-ollama`."
 msgstr ""
+"Adicionada uma nova ferramenta de maquinaria Ollama para integração de "
+"modelo IA local Ollama, veja :ref:`mt-ollama`."
 
 #: changes/v5.rst:413
 msgid ""
@@ -36362,24 +36395,24 @@ msgstr ""
 #: changes/v5.rst:414
 msgid "Memory contents imported from TMX files include string context."
 msgstr ""
+"Conteúdos de memória importada de ficheiros TMX incluindo contexto de cadeia "
+"de carateres."
 
 #: changes/v5.rst:415
 msgid ""
 ":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
 "resjson`, and :doc:`/formats/toml` are now supported file formats."
 msgstr ""
+":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
+"resjson`, e :doc:`/formats/toml` agora são formatos de ficheiros suportados."
 
 #: changes/v5.rst:416
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
-#| "editing."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` integration is now available "
 "as add-on."
 msgstr ""
-":ref:`addon-weblate.gettext.mo` pode incluir opcionalmente cadeias que "
-"precisam de edição."
+"A integração de :ref:`addon-weblate.fedora_messaging.publish` agora está "
+"disponível na forma de um extra."
 
 #: changes/v5.rst:417
 msgid "Added :ref:`check-laravel-format` quality check."
@@ -36391,78 +36424,67 @@ msgstr ""
 "Sinopse de utilização de disco adicionada em :ref:`manage-performance`."
 
 #: changes/v5.rst:422
-#, fuzzy
-#| msgid ":http:get:`/api/users/` now includes ``languages``."
 msgid ":http:get:`/api/groups/` now includes ``admins``."
-msgstr ":http:get:`/api/users/` agora inclui ``languages``."
+msgstr ":http:get:`/api/groups/` agora inclui ``languages``."
 
 #: changes/v5.rst:423
-#, fuzzy
-#| msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgid ":ref:`mt-modernmt` better supports language variants."
-msgstr ":ref:`mt-modernmt` suporta :ref:`glossary-mt`."
+msgstr ":ref:`mt-modernmt` suporta variações de idioma."
 
 #: changes/v5.rst:424
 msgid ""
 "Automatically translated strings are now identified by a dedicated flag "
 "instead of a label."
 msgstr ""
+"Cadeias de carateres automaticamente traduzidas agora são identificadas por "
+"um marcador dedicado em vez de uma etiqueta."
 
 #: changes/v5.rst:425
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` now "
-#| "preserves :ref:`componentlists`."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`."
 msgstr ""
-":ref:`addon-weblate.discovery.discovery` agora preserva "
-"o :ref:`componentlists`."
+":ref:`addon-weblate.discovery.discovery` preserva o "
+":ref:`file_format_params`."
 
 #: changes/v5.rst:426
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgid ":ref:`mt-cyrtranslit` now supports Belarusian and Greek."
-msgstr ""
-":ref:`mt-microsoft-translator` agora suporta o uso de tradutores "
-"personalizados."
+msgstr ":ref:`mt-cyrtranslit` agora suporta bielorrusso e grego."
 
 #: changes/v5.rst:427
 msgid ""
 ":ref:`block-user` now accepts internal notes that are not visible to the "
 "user."
 msgstr ""
+":ref:`block-user` agora aceita notas internas que não estão visíveis para o "
+"utilizador."
 
 #: changes/v5.rst:428
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.cleanup.blank` and :ref:`addon-"
-#| "weblate.cleanup.generic` now remove all strings at once."
 msgid ""
 ":ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` "
 "can be installed multiple times."
 msgstr ""
-":ref:`addon-weblate.cleanup.blank` e :ref:`addon-weblate.cleanup.generic` "
-"agora removem todas as cadeias de uma vez."
+":ref:`addon-weblate.webhook.slack` e :ref:`addon-weblate.webhook.webhook` "
+"podem ser instaladas múltiplas vezes."
 
 #: changes/v5.rst:429
-#, fuzzy
-#| msgid "Compatibility with older Git versions."
 msgid "Compatibility with Git SHA256 repositories."
-msgstr "Compatibilidade com versões mais antigas do Git."
+msgstr "Compatibilidade com repositórios Git SHA256."
 
 #: changes/v5.rst:430
 msgid ""
 "The allowed version control URLs can now be configured "
 "using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"URLs de controlo de versão permitidas agora podem ser configuradas usando "
+":setting:`VCS_ALLOW_SCHEMES` e :setting:`VCS_ALLOW_HOSTS`."
 
 #: changes/v5.rst:431
 msgid ""
 "The API timeout for creating pull requests or forking can now be configured "
 "via :setting:`VCS_API_TIMEOUT`."
 msgstr ""
+"O tempo limite da API para criar pull requests ou bifurcar agora podem ser "
+"configurados através de :setting:`VCS_API_TIMEOUT`."
 
 #: changes/v5.rst:432
 msgid ""
@@ -36470,86 +36492,93 @@ msgid ""
 "variables, commit authorship, hosted vs. self-hosted setup, and "
 "authentication options."
 msgstr ""
+"Documentação de integração VCS melhorada para clarificar variáveis de "
+"ambiente Docker, autoria do commit, configuração de alojamento vs. auto "
+"alojamento, e opções de autenticação."
 
 #: changes/v5.rst:433
-#, fuzzy
-#| msgid "Timestamp of last change to this file."
 msgid "Timestamps from past are now shown with more detail."
-msgstr "Registo de data e hora da última alteração neste ficheiro."
+msgstr "Registo de data e hora do passado são mostrados em mais detalhe."
 
 #: changes/v5.rst:434
 msgid ""
 "Added two new :ref:`states` to provide more detailed tracking of work-in-"
 "progress translations."
 msgstr ""
+"Dois novos :ref:`states` adicionados para fornecer rastreamento mais "
+"detalhado de traduções com trabalho em progresso."
 
 #: changes/v5.rst:438
 msgid ""
 "Improper invitation validation upon accepting "
 "(:cve:`2025-64725` / :ghsa:`m6hq-f4w9-qrjj`)."
 msgstr ""
+"Validação de convite inválida ao aceitar (:cve:`2025-64725` / :ghsa:`m6hq-"
+"f4w9-qrjj`)."
 
 #: changes/v5.rst:439
 msgid ""
 "Server-Side Request Forgery while cloning repository "
 "(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)."
 msgstr ""
+"Falsificação de Pedido do Lado do Servidor ao clonar o repositório "
+"(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)."
 
 #: changes/v5.rst:440
 msgid ""
 "Over‑permissive webhook endpoint enabling mass repository updates plus "
 "component enumeration (:cve:`2025-67492` / :ghsa:`pj86-258h-qrvf`)."
 msgstr ""
+"Endpoint webhook demasiado permissive que ativa atualizações de repositório "
+"em massa mais enumeração de componente (:cve:`2025-67492` / :ghsa:`pj86-258h-"
+"qrvf`)."
 
 #: changes/v5.rst:441
 msgid ""
 "Notification settings disclosure via Weblate API "
 "(:cve:`2025-67715` / :ghsa:`3pmh-24wp-xpf4`)."
 msgstr ""
+"Divulgação das definições de notificações através da API do Weblate "
+"(:cve:`2025-67715` / :ghsa:`3pmh-24wp-xpf4`)."
 
 #: changes/v5.rst:442
-#, fuzzy
-#| msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgid ""
 ":ref:`mt-deepl` integration now correctly handles translating to Chinese "
 "variants."
-msgstr ":ref:`mt-deepl` lida com glossários para variantes de idioma."
+msgstr ""
+"A integração :ref:`mt-deepl` agora lida corretamente a tradução para "
+"variantes Chinesas."
 
 #: changes/v5.rst:443
 msgid ""
 ":doc:`/formats/csv` format saving translations with empty source fields when "
 "using monolingual base files."
 msgstr ""
+"Guardar traduções em formato :doc:`/formats/csv` com campos de fonte vazias "
+"ao usar ficheiros monolingues base."
 
 #: changes/v5.rst:444
 msgid ""
 "Tighter validation of user and full names to avoid confusing homoglyphs."
 msgstr ""
+"Validação de nomes de utilizador e nomes completos mais restrita para evitar "
+"homóglifos."
 
 #: changes/v5.rst:445
-#, fuzzy
-#| msgid ""
-#| "Avoid false positives of punctuation spacing check for Canadian French."
 msgid "Avoid false positive checks upon committing pending changes."
-msgstr ""
-"Evita falsos positivos de verificação de espaçamento de pontuação para o "
-"francês canadense."
+msgstr "Evitar verificações falso positivas ao enviar mudanças pendentes."
 
 #: changes/v5.rst:446
-#, fuzzy
-#| msgid "Performance improvements for import."
 msgid "Performance improvements for file upload."
-msgstr "Melhorias de desempenho para importação."
+msgstr "Melhorias de desempenho para envio de ficheiro."
 
 #: changes/v5.rst:447
-#, fuzzy
-#| msgid "Source upload is only supported on the source language."
 msgid "Show glossary matches for the source language."
-msgstr "O envio de fonte só é suportado no idioma fonte."
+msgstr "Mostra correspondências de glossário para o idioma fonte."
 
 #: changes/v5.rst:448
 msgid "Pull/merge requests are now only created when necessary."
-msgstr ""
+msgstr "Pull/merge requests agora são apenas criados quando necessário."
 
 #: changes/v5.rst:452
 msgid ""
@@ -36558,41 +36587,35 @@ msgid ""
 "``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their "
 "Docker environment variable counterparts."
 msgstr ""
+"``RequireLoginMiddleware`` personalizado substituído com "
+"``LoginRequiredMiddleware`` do Django 5.1. Isto faz com que as definições "
+"``LOGIN_REQUIRED_URLS`` e ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` já não sejam "
+"suportadas, incluindo os seus homólogos de variável de ambiente Docker."
 
 #: changes/v5.rst:453
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
-#| "editing."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` secret length is now validated to match "
 "the Standard Webhooks specification."
 msgstr ""
-":ref:`addon-weblate.gettext.mo` pode incluir opcionalmente cadeias que "
-"precisam de edição."
+"O tamanho secreto :ref:`addon-weblate.webhook.webhook` agora é validado para "
+"corresponder à especificação Standard Webhooks."
 
 #: changes/v5.rst:454
-#, fuzzy
-#| msgid "Python 3.9 or newer is now required."
 msgid "Python 3.12 or newer is now required."
-msgstr "Python 3.9 ou mais novo agora é necessário."
+msgstr "Python 3.12 ou mais novo agora é necessário."
 
 #: changes/v5.rst:455
-#, fuzzy
-#| msgid "Python 3.9 or newer is now required."
 msgid "GLib 2.80 or newer is now required."
-msgstr "Python 3.9 ou mais novo agora é necessário."
+msgstr "GLib 2.80 ou mais novo agora é necessário."
 
 #: changes/v5.rst:456
-#, fuzzy
-#| msgid "Add support for web monetization."
 msgid "Dropped support for Web Monetization."
-msgstr "Adiciona suporte para monetização na web."
+msgstr "Suporte para Web Monetization descontinuado."
 
 #: changes/v5.rst:457
 msgid ""
 ":doc:`/formats/laravel` no longer includes ``return`` prefix in the keys."
-msgstr ""
+msgstr ":doc:`/formats/laravel` já não inclui o prefixo ``return`` nas chaves."
 
 #: changes/v5.rst:458
 msgid ""
@@ -36605,96 +36628,77 @@ msgstr ""
 "por favor ajuste as suas definições em conformidade."
 
 #: changes/v5.rst:468
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "53?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/152?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/53?closed=1>`__."
+"milestone/152?closed=1>`__."
 
 #: changes/v5.rst:471
 msgid "Weblate 5.14.3"
 msgstr "Weblate 5.14.3"
 
 #: changes/v5.rst:473
-#, fuzzy
-#| msgid "*Released on November 7th 2013.*"
 msgid "*Released on November 7th 2025.*"
-msgstr "*Atualizado em 7 de novembro de 2013.*"
+msgstr "*Publicado em 25 de novembro de 2025.*"
 
 #: changes/v5.rst:477
 msgid "Observed HTTPS status in :ref:`manage-performance`."
-msgstr ""
+msgstr "Estado HTTPS observado em :ref:`manage-performance`."
 
 #: changes/v5.rst:478
 msgid "Forced synchronization in the :guilabel:`Repository maintenance`."
 msgstr "Sincronização forçada na :guilabel:`Manutenção de repositório`."
 
 #: changes/v5.rst:488
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "57?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/157?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/57?closed=1>`__."
+"milestone/157?closed=1>`__."
 
 #: changes/v5.rst:491
 msgid "Weblate 5.14.2"
 msgstr "Weblate 5.14.2"
 
 #: changes/v5.rst:493
-#, fuzzy
-#| msgid "*Released on November 6th 2024.*"
 msgid "*Released on November 6th 2025.*"
-msgstr "*Atualizado em 6 de novembro de 2024.*"
+msgstr "*Publicado em 6 de novembro de 2025.*"
 
 #: changes/v5.rst:497
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Performance when adding strings."
-msgstr "Melhorado desempenho ao adicionar novas cadeias."
+msgstr "Desempenho ao adicionar cadeias de carateres."
 
 #: changes/v5.rst:501
-#, fuzzy
-#| msgid "Not updating statistics in some situations."
 msgid "Adding terms to glossary was not working in some situations."
-msgstr "Não atualizar as estatísticas em algumas situações."
+msgstr ""
+"Adicionar termos ao glossário não estava a funcionar em algumas situações."
 
 #: changes/v5.rst:511
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "53?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/155?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/53?closed=1>`__."
+"milestone/155?closed=1>`__."
 
 #: changes/v5.rst:514
 msgid "Weblate 5.14.1"
 msgstr "Weblate 5.14.1"
 
 #: changes/v5.rst:516
-#, fuzzy
-#| msgid "*Released on November 5th 2022.*"
 msgid "*Released on November 5th 2025.*"
-msgstr "*Atualizado em 5 de novembro de 2022.*"
+msgstr "*Atualizado em 5 de novembro de 2025.*"
 
 #: changes/v5.rst:520
 msgid ""
 "String context are now tracked in changes history and displayed when "
 "available."
 msgstr ""
+"Contexto de cadeias de carateres agora são rastreadas no histórico de "
+"alterações e é exibido quando disponível."
 
 #: changes/v5.rst:524
 msgid "Document using Valkey in :ref:`celery` and :ref:`production-cache`."
@@ -36702,30 +36706,27 @@ msgstr "Documentação usando Valkey em :ref:`celery` e :ref:`production-cache`.
 
 #: changes/v5.rst:525
 msgid "Added HTTP environment overview in :ref:`manage-performance`."
-msgstr ""
+msgstr "Sinopse do ambiente HTTP adicionado em :ref:`manage-performance`."
 
 #: changes/v5.rst:526
-#, fuzzy
-#| msgid "The Weblate Docker container now uses Python 3.10."
 msgid "Docker container is using Python 3.14."
-msgstr "O contentor Docker do Weblate agora usa Python 3.10."
+msgstr "O contentor Docker está a usar Python 3.14."
 
 #: changes/v5.rst:527
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`check-icu-message-format` correctly handles implicit plurals."
-msgstr ""
-":ref:`check-icu-message-format` manipula cadeias plurais com elegância."
+msgstr ":ref:`check-icu-message-format` lida corretamente plurais implícitos."
 
 #: changes/v5.rst:531
 msgid ""
 "Avoid storing inviting user information in the invited user audit log "
 "(:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`)."
 msgstr ""
+"Evita armazenar informação de utilizador no registo de auditoria de "
+"utilizador convidado (:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`)."
 
 #: changes/v5.rst:532
 msgid "Omit admin IP address from audit log."
-msgstr ""
+msgstr "Omitir endereço IP do administrador deste registo de auditoria."
 
 #: changes/v5.rst:533
 msgid "Counting outgoing commits in the repository status."
@@ -36747,88 +36748,76 @@ msgstr ""
 "certas situações."
 
 #: changes/v5.rst:546
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "53?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/154?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/53?closed=1>`__."
+"milestone/154?closed=1>`__."
 
 #: changes/v5.rst:549
 msgid "Weblate 5.14"
 msgstr "Weblate 5.14"
 
 #: changes/v5.rst:551
-#, fuzzy
-#| msgid "*Released on October 25th 2023.*"
 msgid "*Released on October 22nd 2025.*"
-msgstr "*Atualizado em 25 de outubro de 2023.*"
+msgstr "*Atualizado em 22 de outubro de 2025.*"
 
 #: changes/v5.rst:555
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
-#| "editing."
 msgid ""
 ":ref:`addon-weblate.flags.target_repo_update` is now available as an add-on."
 msgstr ""
-":ref:`addon-weblate.gettext.mo` pode incluir opcionalmente cadeias que "
-"precisam de edição."
+":ref:`addon-weblate.flags.target_repo_update` agora está disponível como um "
+"extra."
 
 #: changes/v5.rst:556
 msgid ":http:delete:`/api/projects/(string:project)/labels/(int:label_id)/`."
 msgstr ":http:delete:`/api/projects/(string:project)/labels/(int:label_id)/`."
 
 #: changes/v5.rst:557
-#, fuzzy
-#| msgid "Added CSV download for stats."
 msgid "Added multivalue CSV in :ref:`download` for multivalue formats."
-msgstr "Adicionado download de CSV para estatísticas."
+msgstr ""
+"CSV multi valor adicionado em :ref:`download` para formatos multi valor."
 
 #: changes/v5.rst:558
 msgid ""
 "New global permissions have been added to control viewing teams, users and "
 "roles without edit rights, see :ref:`privileges`."
 msgstr ""
+"Novas permissões globais foram adicionadas para controlar equipas "
+"observantes, utilizadores e funções sem editar permissões, veja "
+":ref:`privileges`."
 
 #: changes/v5.rst:559
 msgid ""
 "New ``unit.bulk_edit`` permission for bulk editing operations, replacing the "
 "overloaded use of ``translation.auto`` permission, see :ref:`privileges`."
 msgstr ""
+"A nova permissão ``unit.bulk_edit`` para operações de edição em massa, "
+"substitui a utilização excessiva da permissão ``translation.auto``, veja "
+":ref:`privileges`."
 
 #: changes/v5.rst:560
 msgid ":ref:`date-search`."
 msgstr ":ref:`date-search`."
 
 #: changes/v5.rst:561
-#, fuzzy
-#| msgid "Same as in :ref:`search-strings`."
 msgid "Last changed lookup in :ref:`search-strings`."
-msgstr "O mesmo que em :ref:`search-strings`."
+msgstr "A última alteração de pesquisa foi em :ref:`search-strings`."
 
 #: changes/v5.rst:562
 msgid ":doc:`/security/localization-threat` documentation."
 msgstr "documentação :doc:`/security/localization-threat`."
 
 #: changes/v5.rst:563
-#, fuzzy
-#| msgid ":ref:`component-merge_style` for any new components."
 msgid ":ref:`component-hide_glossary_matches` component setting."
-msgstr ":ref:`component-merge_style` para quaisquer novos componentes."
+msgstr ":ref:`component-hide_glossary_matches` definição de componente."
 
 #: changes/v5.rst:564
-#, fuzzy
-#| msgid ""
-#| "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgid "Screenshots now can be uploaded from a URL, see :ref:`screenshots`."
 msgstr ""
-"As capturas de ecrã agora podem ser coladas da área de transferência "
-"em :ref:`screenshots`."
+"Capturas de ecrã agora podem ser enviadas a partir de um URL, veja "
+":ref:`screenshots`."
 
 #: changes/v5.rst:568
 msgid ":ref:`hooks` improvements."
@@ -36836,60 +36825,64 @@ msgstr "Melhorias de :ref:`hooks`."
 
 #: changes/v5.rst:570
 msgid "Now follows :ref:`api-errors`."
-msgstr ""
+msgstr "Agora segue :ref:`api-errors`."
 
 #: changes/v5.rst:571
 msgid "Available in the OpenAPI."
-msgstr ""
+msgstr "Disponível na OpenAPI."
 
 #: changes/v5.rst:572
 msgid "Dropped long-deprecated endpoints."
-msgstr ""
+msgstr "Foram eliminados os pontos de extremidade há muito obsoletos."
 
 #: changes/v5.rst:574
-#, fuzzy
-#| msgid ""
-#| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
 msgid ""
 "Improved activity logging for :ref:`addon-weblate.consistency.languages` add-"
 "on."
 msgstr ""
-"Renomeada :ref:`addon-weblate.consistency.languages` para esclarecer o "
-"propósito."
+"Registo de atividade para o extra :ref:`addon-weblate.consistency.languages` "
+"melhorado."
 
 #: changes/v5.rst:575
 msgid ""
 ":ref:`check-rst-references` and :ref:`check-rst-syntax` now support "
 "substitutions."
 msgstr ""
+":ref:`check-rst-references` e :ref:`check-rst-syntax` agora suportam "
+"substituições."
 
 #: changes/v5.rst:576
 msgid ""
 "Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-"
 "untranslated` checks with batch operations."
 msgstr ""
+"Desempenho melhorado para verificações :ref:`check-multiple-failures` e "
+":ref:`check-long-untranslated` com operações em lotes."
 
 #: changes/v5.rst:577
-#, fuzzy
-#| msgid ":ref:`2fa` can be enforced at the team or project level."
 msgid ":ref:`file_format_params` can now be configured via the :ref:`api`."
-msgstr "O :ref:`2fa` pode ser aplicado no nível da equipa ou do projeto."
+msgstr ""
+":ref:`file_format_params` agora pode ser configurado através da :ref:`api`."
 
 #: changes/v5.rst:578
 msgid "Admins can configure :ref:`expiring-accounts`."
-msgstr ""
+msgstr "Administradores podem configurar :ref:`expiring-accounts`."
 
 #: changes/v5.rst:579
 msgid ""
 "Rate limiting of notification e-mails, configurable "
 "by :setting:`RATELIMIT_NOTIFICATION_LIMITS`."
 msgstr ""
+"Taxa limite para emails de notificação, configurável por "
+":setting:`RATELIMIT_NOTIFICATION_LIMITS`."
 
 #: changes/v5.rst:580
 msgid ""
 ":guilabel:`Repository maintenance` now supports resetting the repository "
 "while keeping the current state of translations in Weblate."
 msgstr ""
+":guilabel:`Manutenção de repositório` agora suporta reiniciar o repositório "
+"enquanto que mantém o estado atual de traduções no Weblate."
 
 #: changes/v5.rst:581
 msgid ""
@@ -36907,10 +36900,12 @@ msgstr ""
 #: changes/v5.rst:586
 msgid ":ref:`team-admins` can no longer edit teams besides membership."
 msgstr ""
+":ref:`team-admins` já não podem editar equipas, exceto no que diz respeito à "
+"composição das mesmas."
 
 #: changes/v5.rst:587
 msgid "Highlighting syntax of overlapping elements."
-msgstr ""
+msgstr "Realçar sintaxe para elementos sobrepostos."
 
 #: changes/v5.rst:588
 msgid "Searching case sensitivity for short strings."
@@ -36926,18 +36921,21 @@ msgid ""
 "Memory contents imported via the :wladmin:`import_memory` command are marked "
 "as active."
 msgstr ""
+"Conteúdos de memória importados através do comando :wladmin:`import_memory` "
+"são marcados como ativos."
 
 #: changes/v5.rst:591
-#, fuzzy
-#| msgid "Creating new translations in :doc:`/formats/appstore`."
 msgid "Importing some strings from :doc:`/formats/xliff`."
-msgstr "Criação de traduções em :doc:`/formats/appstore`."
+msgstr ""
+"A importar algumas cadeias de carateres a partir de :doc:`/formats/xliff`."
 
 #: changes/v5.rst:595
 msgid ""
 "The default attributes for :ref:`saml-auth` in Docker container now matches "
 "non-Docker defaults."
 msgstr ""
+"Os atributos predefinidos para :ref:`saml-auth` no contentor Docker agora "
+"corresponde a predefinições que não são do Docker."
 
 #: changes/v5.rst:596
 msgid ""
@@ -36952,6 +36950,8 @@ msgid ""
 "Removed Akismet spam protection integration as it was no longer effective "
 "and used an unmaintained Python library."
 msgstr ""
+"Integração da proteção de spam Akismet removida uma vez que já não é eficaz "
+"e usa uma biblioteca Python não mantida."
 
 #: changes/v5.rst:598
 msgid ""
@@ -36959,34 +36959,33 @@ msgid ""
 "handlers, see :class:`weblate.addons.base.BaseAddon`. Adjust any custom "
 "subclass accordingly."
 msgstr ""
+"O novo argumento posicional (`activity_log_id`) passado para gerenciadores "
+"de eventos de extras, veja :class:`weblate.addons.base.BaseAddon`. Ajusta "
+"qualquer subclasse personalizada de acordo."
 
 #: changes/v5.rst:608
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/149?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/149?closed=1>`__."
 
 #: changes/v5.rst:611
 msgid "Weblate 5.13.3"
 msgstr "Weblate 5.13.3"
 
 #: changes/v5.rst:613
-#, fuzzy
-#| msgid "*Released on September 14th 2023.*"
 msgid "*Released on September 12th 2025.*"
-msgstr "*Atualizado em 14 de setembro de 2023.*"
+msgstr "*Publicado em 12 de setembro de 2025.*"
 
 #: changes/v5.rst:617
 msgid ""
 "Text on the registration page informs about possible use of user’s data in "
 "more detail."
 msgstr ""
+"Texto na página de registo informa sobre a possível utilização dos dados de "
+"utilizador em mais detalhes."
 
 #: changes/v5.rst:618
 msgid "Clarified account removal view."
@@ -36997,11 +36996,11 @@ msgid "Components pagination."
 msgstr "Paginação de componentes."
 
 #: changes/v5.rst:623
-#, fuzzy
-#| msgid ":ref:`projectbackup` now include teams and categories."
 msgid ""
 ":ref:`projectbackup` with same named components in different categories."
-msgstr ":ref:`projectbackup` agora inclui equipas e categorias."
+msgstr ""
+":ref:`projectbackup` com os mesmos componentes com nome em diferentes "
+"categorias."
 
 #: changes/v5.rst:624
 msgid "Source string location display."
@@ -37010,162 +37009,126 @@ msgstr "Exibição da localização do texto fonte."
 #: changes/v5.rst:625
 msgid "Correctly track team adding via invitation in :ref:`audit-log`."
 msgstr ""
+"Acompanhar corretamente a adição de equipas através de convite em "
+":ref:`audit-log`."
 
 #: changes/v5.rst:626
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.consistency.languages` add-on could miss some "
-#| "languages."
 msgid ""
 ":ref:`addon-weblate.consistency.languages` no longer includes shared "
 "component languages."
 msgstr ""
-"O complemento :ref:`addon-weblate.consistency.languages` podia não incluir "
-"alguns idiomas."
+"O complemento :ref:`addon-weblate.consistency.languages` já não inclui "
+"idiomas de componente partilhado."
 
 #: changes/v5.rst:627
-#, fuzzy
-#| msgid ":ref:`vcs-azure-devops`."
 msgid ":ref:`azure-devops-push` API URL parsing."
-msgstr ":ref:`vcs-azure-devops`."
+msgstr ":ref:`azure-devops-push` análise de URL de API."
 
 #: changes/v5.rst:637
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "53?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/153?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/53?closed=1>`__."
+"milestone/153?closed=1>`__."
 
 #: changes/v5.rst:640
 msgid "Weblate 5.13.2"
 msgstr "Weblate 5.13.2"
 
 #: changes/v5.rst:642
-#, fuzzy
-#| msgid "*Released on September 5th 2024.*"
 msgid "*Released on September 5th 2025.*"
-msgstr "*Atualizado em 5 de setembro de 2024.*"
+msgstr "*Publicado em 5 de setembro de 2025.*"
 
 #: changes/v5.rst:646
 msgid "Error reporting upon validation of the file upload method."
-msgstr ""
+msgstr "Comunicação de erro ao validar o método de envio do ficheiro."
 
 #: changes/v5.rst:647
-#, fuzzy
-#| msgid "Include language detailed information on language page."
 msgid "Detailed language information in new language notifications."
-msgstr "Inclui informações detalhadas sobre o idioma na página de idioma."
+msgstr "Informação de idioma detalhado em novas notificações de idioma."
 
 #: changes/v5.rst:651
 msgid "Sign-in could not be completed with LDAP."
-msgstr ""
+msgstr "O iniciar de sessão não pôde ser completado com LDAP."
 
 #: changes/v5.rst:652
-#, fuzzy
-#| msgid "Track add-on changes in a history."
 msgid "Nonspacing mark changes highlighting in history."
-msgstr "Rastreia as alterações de extensões num histórico."
+msgstr "O marcador de espaço não separador altera o realce no histórico."
 
 #: changes/v5.rst:662
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/151?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"milestone/151?closed=1>`__."
 
 #: changes/v5.rst:665
 msgid "Weblate 5.13.1"
 msgstr "Weblate 5.1.1"
 
 #: changes/v5.rst:667
-#, fuzzy
-#| msgid "*Released on September 14th 2023.*"
 msgid "*Released on September 4th 2025.*"
-msgstr "*Atualizado em 14 de setembro de 2023.*"
+msgstr "*Publicado em 14 de setembro de 2025.*"
 
 #: changes/v5.rst:671
-#, fuzzy
-#| msgid "Improved rendering of alerts in changes."
 msgid "Smarter retries of unwritable pending changes."
-msgstr "Melhorada a renderização de alertas em mudanças."
+msgstr "Tentativas mais inteligentes de mudanças pendentes não graváveis."
 
 #: changes/v5.rst:672
 msgid "Failed :ref:`2fa` is visible in :ref:`audit-log`."
-msgstr ""
+msgstr ":ref:`2fa` falhado é visível em :ref:`audit-log`."
 
 #: changes/v5.rst:676
 msgid "Sign-in form not shown for LDAP."
-msgstr ""
+msgstr "Formulário de início de sessão não mostrado para LDAP."
 
 #: changes/v5.rst:677
-#, fuzzy
-#| msgid ""
-#| "Users object attributes are documented at :http:get:`/api/users/"
-#| "(str:username)/`."
 msgid "Access control for :http:get:`/api/users/(str:username)/`."
-msgstr ""
-"Os atributos do objeto dos utilizadores estão documentados em :http:get:`/"
-"api/users/(str:username)/`."
+msgstr "Acesso de controlo para :http:get:`/api/users/(str:username)/`."
 
 #: changes/v5.rst:678
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-rst-references` check to validate reStructuredText references."
 msgid ":ref:`check-rst-references` allows translatable reference names."
-msgstr ""
-"A verificação :ref:`check-rst-references` valida referências "
-"reStructuredText."
+msgstr ":ref:`check-rst-references` permite nomes de referências traduzíveis."
 
 #: changes/v5.rst:679
 msgid ":ref:`file_format_params` were not properly applied in some situations."
 msgstr ""
+":ref:`file_format_params` não foram devidamente aplicados em algumas "
+"situações."
 
 #: changes/v5.rst:680
-#, fuzzy
-#| msgid "Extended supported formats for :ref:`addon-weblate.json.customize`."
 msgid "Removed stale :ref:`addon-weblate.xml.customize`."
-msgstr ""
-"Formatos suportados estendidos para :ref:`addon-weblate.json.customize`."
+msgstr ":ref:`addon-weblate.xml.customize` desatualizado removido."
 
 #: changes/v5.rst:681
-#, fuzzy
-#| msgid "Improved compatibility with password managers."
 msgid ":ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0."
-msgstr "Compatibilidade melhorada com os gestores de palavras-passe."
+msgstr ":ref:`mt-libretranslate` compatibilidade com LibreTranslate 1.7.0."
 
 #: changes/v5.rst:682
-#, fuzzy
-#| msgid "Notify users mentioned in comments."
 msgid "Username autocompletion in comments."
-msgstr "Notifica os utilizadores mencionados nos comentários."
+msgstr "Completar automático de nome de utilizador nos comentários."
 
 #: changes/v5.rst:683
 msgid ""
 "Shorten session expiry while in :ref:`2fa` (:cve:`2025-58352` / :ghsa:`377j-"
 "wj38-4728`)."
 msgstr ""
+"Encurtar do expirar de sessão enquanto em :ref:`2fa` (:cve:`2025-58352` / "
+":ghsa:`377j-wj38-4728`)."
 
 #: changes/v5.rst:684
 msgid "Statistics when using :ref:`component-links`."
-msgstr ""
+msgstr "Estatísticas ao usar :ref:`component-links`."
 
 #: changes/v5.rst:685
 msgid ":ref:`componentlists` are no longer blocking dashboard loading."
-msgstr ""
+msgstr ":ref:`componentlists` já não bloqueiam o carregar do painel."
 
 #: changes/v5.rst:686
 msgid "OpenMetrics API format."
-msgstr ""
+msgstr "Formato da API OpenMetrics."
 
 #: changes/v5.rst:690
 msgid "Removed support for no longer working :ref:`mt-ibm`."
@@ -37182,16 +37145,12 @@ msgstr ""
 "favor ajuste as suas configurações de acordo."
 
 #: changes/v5.rst:702
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "140?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/150?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/140?closed=1>`__."
+"milestone/150?closed=1>`__."
 
 #: changes/v5.rst:705
 msgid "Weblate 5.13"
@@ -37206,12 +37165,16 @@ msgid ""
 "Enhanced :ref:`translation-memory` management with configurable status "
 "control, see :ref:`memory-status`."
 msgstr ""
+"Gestão da :ref:`translation-memory` melhorada com controlo de estado "
+"configurável, veja :ref:`memory-status`."
 
 #: changes/v5.rst:712
 msgid ""
 "Added :wladmin:`cleanup_memory` management command to remove obsolete "
 "translation memory entries."
 msgstr ""
+"Gestão de comando :wladmin:`cleanup_memory` adicionado para remover entradas "
+"de memória de tradução obsoletas."
 
 #: changes/v5.rst:713
 msgid ":doc:`/formats/catkeys`."
@@ -37222,42 +37185,49 @@ msgid ""
 "Some flags are now added to a string by default, based on locations; "
 "see :ref:`location-based-flags`."
 msgstr ""
+"Alguns marcadores agora são adicionados a uma cadeia de carateres por "
+"predefinição, baseado em localizações, veja :ref:`location-based-flags`."
 
 #: changes/v5.rst:715
 msgid ""
 "Added :ref:`project-commit_policy` setting to control which translations are "
 "included when committing changes."
 msgstr ""
+"Definição :ref:`project-commit_policy` adicionada para controlar quais "
+"traduções são incluídas ao submeter mudanças."
 
 #: changes/v5.rst:716
-#, fuzzy
-#| msgid ":ref:`2fa` can be enforced at the team or project level."
 msgid ":ref:`file_format_params` can now be configured at the component level."
-msgstr "O :ref:`2fa` pode ser aplicado no nível da equipa ou do projeto."
+msgstr ""
+":ref:`file_format_params` podem ser configurados ao nível do componente."
 
 #: changes/v5.rst:717
 msgid ""
 "New management command :wladmin:`list_file_format_params` to list all "
 "available file format parameters."
 msgstr ""
+"O novo comando de gestão :wladmin:`list_file_format_params` para listar "
+"todos os parâmetros de formato de ficheiro disponíveis."
 
 #: changes/v5.rst:718
 msgid ""
 "Tag and attribute names can now be customized for :ref:`flatxml` "
 "with :ref:`file_format_params`."
 msgstr ""
+"Nomes de etiqueta e atributo agora podem ser personalizados para "
+":ref:`flatxml` com :ref:`file_format_params`."
 
 #: changes/v5.rst:722
-#, fuzzy
-#| msgid "Allow absolute links in source string locations."
 msgid ":ref:`search-strings` supports ``labels_count:NUMBER`` lookup."
-msgstr "Permite ligações absolutos em locais de texto fonte."
+msgstr ":ref:`search-strings` suporta a procura ``labels_count:NUMBER``."
 
 #: changes/v5.rst:723
 msgid ""
 "A new :envvar:`SENTRY_MONITOR_BEAT_TASKS` setting allows disabling Sentry "
 "monitoring of Celery Beat tasks."
 msgstr ""
+"Uma nova definição :envvar:`SENTRY_MONITOR_BEAT_TASKS` permite desativar "
+"monitorização Sentry de tarefas Celery Beat."
 
 #: changes/v5.rst:724
 msgid ""
@@ -37265,10 +37235,13 @@ msgid ""
 "and :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the "
 "appearance of the generic OIDC authentication."
 msgstr ""
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` e "
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` permitem configurar a aparência da "
+"autenticação OIDC genérica."
 
 #: changes/v5.rst:725
 msgid "Background commits are now identified by an internal user."
-msgstr ""
+msgstr "Commits de plano de fundo são identificados por um utilizador interno."
 
 #: changes/v5.rst:726
 msgid "Reorganized navigation menu."
@@ -37279,76 +37252,77 @@ msgid ""
 "When editing a language definition, a warning about automated updates is "
 "shown; see :ref:`included-languages`."
 msgstr ""
+"Ao editar uma definição de idioma, um aviso sobre atualizações automáticas é "
+"mostrada; veja :ref:`included-languages`."
 
 #: changes/v5.rst:728
 msgid "Avatars for API and internal accounts."
-msgstr ""
+msgstr "Avatares para API e contas internas."
 
 #: changes/v5.rst:729
 msgid ""
 "Adding a new TOTP device removes the existing one by default; checkbox for "
 "not removing previous ones available."
 msgstr ""
+"Adicionar um novo dispositivo TOTP remove o existente por predefinição; está "
+"disponível uma caixa de verificação para não remover os anteriores."
 
 #: changes/v5.rst:730
 msgid ""
 "Creating pull or merge requests to remote repositories is no longer blocked "
 "by merge conflicts."
 msgstr ""
+"Criar pull ou merge requests para repositórios remotos jã não é bloqueado "
+"por conflitos merge."
 
 #: changes/v5.rst:731
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-rst-references` check to validate reStructuredText references."
 msgid ""
 ":ref:`check-rst-references` correctly handles Unicode punctuation and "
 "detects more issues."
 msgstr ""
-"A verificação :ref:`check-rst-references` valida referências "
-"reStructuredText."
+":ref:`check-rst-references` lida corretamente com pontuação Unicode e deteta "
+"mais problemas."
 
 #: changes/v5.rst:732
 msgid ""
 "Migration towards Bootstrap 5 has started, selected views now use Bootstrap "
 "5."
 msgstr ""
+"Migração para o Bootstrap 5 já começou, vistas selecionadas agora usam "
+"Bootstrap 5."
 
 #: changes/v5.rst:733
-#, fuzzy
-#| msgid "Allow absolute links in source string locations."
 msgid ""
 ":ref:`xliff` now supports starting from scratch when :ref:`adding-projects`."
-msgstr "Permite ligações absolutos em locais de texto fonte."
+msgstr ":ref:`xliff` agora suporta começar de novo ao :ref:`adding-projects`."
 
 #: changes/v5.rst:734
-#, fuzzy
-#| msgid "Improved compatibility with password managers."
 msgid ":ref:`mt-openai` compatibility with latest models."
-msgstr "Compatibilidade melhorada com os gestores de palavras-passe."
+msgstr "Compatibilidade :ref:`mt-openai` com os modelos mais recentes."
 
 #: changes/v5.rst:738
 msgid ""
 ":ref:`upload` correctly tracks authorship when using :guilabel:`Replace "
 "existing translation file`."
 msgstr ""
+":ref:`upload` rastreia corretamente autoria ao utilizar "
+":guilabel:`Substituir ficheiro de tradução existente`."
 
 #: changes/v5.rst:739
-#, fuzzy
-#| msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
 msgid ""
 ":ref:`mt-deepl` integration now correctly handles all supported source "
 "languages."
-msgstr ":ref:`mt-deepl` lida com glossários para variantes de idioma."
+msgstr ""
+"Integração :ref:`mt-deepl` agora lida corretamente com todos os idiomas "
+"fonte."
 
 #: changes/v5.rst:740
 msgid "Possible crash on macOS 15 in :samp:`strxfrm`."
-msgstr ""
+msgstr "Possível falha no macOS 15 em :samp:`strxfrm`."
 
 #: changes/v5.rst:741
-#, fuzzy
-#| msgid "Improved error reporting on file upload."
 msgid "Internal server error on permission denied while uploading files."
-msgstr "Melhorado o relatório de erro no envio de ficheiro."
+msgstr "Erro de servidor interno em permissão negada ao enviar ficheiros."
 
 #: changes/v5.rst:745
 msgid ""
@@ -37357,6 +37331,10 @@ msgid ""
 "weblate.gettext.customize`, :ref:`addon-weblate.json.customize`, :ref:`addon-"
 "weblate.yaml.customize`, :ref:`addon-weblate.xml.customize`."
 msgstr ""
+"Alguns extras poderão ter sido descontinuados e substituídos por "
+":ref:`file_format_params`: :ref:`addon-weblate.gettext.customize`, "
+":ref:`addon-weblate.json.customize`, :ref:`addon-weblate.yaml.customize`, "
+":ref:`addon-weblate.xml.customize`."
 
 #: changes/v5.rst:746
 msgid ""
@@ -37366,6 +37344,11 @@ msgid ""
 "limited filters. Existing add-on configuration has been migrated. API users "
 "will need to adjust invocation."
 msgstr ""
+":ref:`machine-translation`, :ref:`addon-weblate.autotranslate.autotranslate` "
+"e :http:post:`/api/translations/(string:project)/(string:component)/"
+"(string:language)/autotranslate/` agora suportam todos os operadores de "
+"procura, não apenas filtros limitados. Configuração de extras existentes "
+"foram migrados. Utilizadores API precisarão de ajustar a invocação."
 
 #: changes/v5.rst:752
 msgid ""
@@ -37373,6 +37356,9 @@ msgid ""
 "introduced several changes in :file:`settings_example.py`, most notably "
 "``BACKEND`` in ``CACHES`` needs to be changed."
 msgstr ""
+"O bloqueio distribuído agora utiliza uma implementação diferente e que "
+"introduziu várias mudanças em :file:`settings_example.py`, o mais notável "
+"``BACKEND`` em ``CACHES`` precisa de ser alterado."
 
 #: changes/v5.rst:753
 msgid ""
@@ -37381,18 +37367,18 @@ msgid ""
 "protocol. :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` typically needs to be "
 "added to avoid redirect loop, for example:"
 msgstr ""
+"O contentor Docker agora está a usar :program:`granian`. Isto requer "
+"configuração explícita de cabeçalhos de proxy confiado, incluindo o "
+"protocolo cliente. :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` tipicamente "
+"precisa de ser adicionado para evitar loop de redirecionamento, por exemplo:"
 
 #: changes/v5.rst:772
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/143?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/143?closed=1>`__."
 
 #: changes/v5.rst:775
 msgid "Weblate 5.12.2"
@@ -37409,26 +37395,20 @@ msgstr ""
 "próxima geração."
 
 #: changes/v5.rst:785
-#, fuzzy
-#| msgid "Imports :ref:`projectbackup`."
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr "Importa :ref:`projectbackup`."
+msgstr "A restaurar :ref:`projectbackup` com votos."
 
 #: changes/v5.rst:786
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
 msgstr "Gestão de erros melhorada em :ref:`mt-apertium-apy`."
 
 #: changes/v5.rst:796
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/148?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/148?closed=1>`__."
 
 #: changes/v5.rst:799
 msgid "Weblate 5.12.1"
@@ -37443,16 +37423,12 @@ msgid ":ref:`sbom` now includes serial number."
 msgstr ":ref:`sbom` agora incluem número de série."
 
 #: changes/v5.rst:815
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/147?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/147?closed=1>`__."
 
 #: changes/v5.rst:818
 msgid "Weblate 5.12"
@@ -37467,12 +37443,16 @@ msgid ""
 "Exposure of personal IP address via e-mail "
 "(:cve:`2025-49134` / :ghsa:`4qqf-9m5c-w2c5`)."
 msgstr ""
+"Exposição de endereço IP pessoal através de email (:cve:`2025-49134` / "
+":ghsa:`4qqf-9m5c-w2c5`)."
 
 #: changes/v5.rst:825
 msgid ""
 "Lack of rate limiting when verifying second factor "
 "(:cve:`2025-47951` / :ghsa:`57jg-m997-cx3q`)."
 msgstr ""
+"Falta de limite de taxa ao verificar o segundo fator (:cve:`2025-47951` / "
+":ghsa:`57jg-m997-cx3q`)."
 
 #: changes/v5.rst:829
 msgid ""
@@ -37494,7 +37474,7 @@ msgstr "Adicionada a verificação de qualidade :ref:`check-kabyle-characters`."
 
 #: changes/v5.rst:832
 msgid ":ref:`sbom` is now being provided for Weblate."
-msgstr ""
+msgstr ":ref:`sbom` agora está a ser fornecido para o Weblate."
 
 #: changes/v5.rst:833
 msgid ":doc:`/security/index` documentation."
@@ -37503,20 +37483,16 @@ msgstr "documentação :doc:`/security/index`."
 #: changes/v5.rst:834
 msgid "Added support for :doc:`/formats/compose-multiplatform-resources`."
 msgstr ""
+"Suporte adicionado para :doc:`/formats/compose-multiplatform-resources`."
 
 #: changes/v5.rst:835
 msgid "Added :guilabel:`Translation Coordinator` role."
 msgstr "Adicionada a função :guilabel:`Coordenador de Tradução`."
 
 #: changes/v5.rst:836
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.gettext.mo` can optionally include strings needing "
-#| "editing."
 msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
 msgstr ""
-":ref:`addon-weblate.gettext.mo` pode incluir opcionalmente cadeias que "
-"precisam de edição."
+":ref:`addon-weblate.webhook.slack` agora está disponível enquanto um extra."
 
 #: changes/v5.rst:837
 msgid ""
@@ -37545,20 +37521,25 @@ msgstr ""
 #: changes/v5.rst:844
 msgid ":ref:`addon-weblate.webhook.webhook` logs are now displayed nicely."
 msgstr ""
+"Registos :ref:`addon-weblate.webhook.webhook` agora são exibidos de forma "
+"clara."
 
 #: changes/v5.rst:845
 msgid ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
 msgstr ""
+":ref:`addon-weblate.webhook.webhook` podem ser instalados múltiplas vezes."
 
 #: changes/v5.rst:846
 msgid ":ref:`user-profile` can now include contact URL."
-msgstr ""
+msgstr ":ref:`user-profile` agora pode incluir URL de contacto."
 
 #: changes/v5.rst:847
 msgid ""
 ":http:post:`/api/projects/` allows non-superusers to create projects "
 "when :ref:`billing` module is enabled."
 msgstr ""
+":http:post:`/api/projects/` permite utilizadores não super a criar projetos "
+"quando o módulo :ref:`billing` está ativo."
 
 #: changes/v5.rst:848
 msgid ""
@@ -37593,12 +37574,12 @@ msgid ""
 "Uploaded fonts can be updated and changes to them are tracked, "
 "see :ref:`fonts`."
 msgstr ""
+"Fontes enviadas podem ser atualizadas e mudanças às mesmas podem ser "
+"rastreadas, veja :ref:`fonts`."
 
 #: changes/v5.rst:854
-#, fuzzy
-#| msgid "Weblate is now available in தமிழ்."
 msgid "Weblate is now available in Bashkir language."
-msgstr "Weblate agora está disponível em தமிழ்."
+msgstr "O Weblate agora está disponível no idioma Bashkir."
 
 #: changes/v5.rst:858
 msgid ":ref:`dashboard` translations ordering when paginating."
@@ -37606,7 +37587,7 @@ msgstr ":ref:`dashboard` ordenação de traduções ao paginar."
 
 #: changes/v5.rst:859
 msgid "Honor DeepL API Free glossary limits in :ref:`mt-deepl`."
-msgstr ""
+msgstr "Honra limites de glossário DeepL API Free em :ref:`mt-deepl`."
 
 #: changes/v5.rst:860
 msgid ":ref:`addon-weblate.webhook.webhook` delivery of project-wide events."
@@ -37614,14 +37595,11 @@ msgstr ""
 ":ref:`addon-weblate.webhook.webhook` entrega de eventos do projeto inteiro."
 
 #: changes/v5.rst:861
-#, fuzzy
-#| msgid ""
-#| "Fixed :ref:`check-translated` to correctly handle source string change."
 msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
 msgstr ""
-"Corrigido :ref:`check-translated` para tratar corretamente da mudança da "
-"cadeia fonte."
+"Relatórios falsos de :ref:`check-translated` com marcadores ou explicações "
+"de alterações."
 
 #: changes/v5.rst:862
 msgid "Creating new translations in :doc:`/formats/appstore`."
@@ -37634,29 +37612,30 @@ msgstr ":ref:`search-replace` lida corretamente com plurais."
 #: changes/v5.rst:867
 msgid "The projects and categories default tab now shows translated languages."
 msgstr ""
+"A aba predefinida de projetos e categorias agora mostra idiomas traduzidos."
 
 #: changes/v5.rst:868
 msgid ""
 "If no ``secret`` is provided in the Webhook add-on configuration, the "
 "Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`."
 msgstr ""
+"Se nenhum ``secret`` é fornecido na configuração de extra Webhook, o pedido "
+"Webhook não será atribuído, veja :ref:`addon-weblate.webhook.webhook`."
 
 #: changes/v5.rst:869
 msgid ""
 ":ref:`saml-auth` support is no longer included in the default dependencies."
 msgstr ""
+"Suporte para :ref:`saml-auth` já não é incluído nas dependências "
+"predefinidas."
 
 #: changes/v5.rst:879
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/141?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/141?closed=1>`__."
 
 #: changes/v5.rst:882
 msgid "Weblate 5.11.4"
@@ -37668,7 +37647,7 @@ msgstr "*Lançado em 7 de maio de 2020.*"
 
 #: changes/v5.rst:888
 msgid ":ref:`addon-weblate.webhook.webhook` logs requests and responses."
-msgstr ""
+msgstr ":ref:`addon-weblate.webhook.webhook` regista pedidos e respostas."
 
 #: changes/v5.rst:892
 msgid ""
@@ -37677,16 +37656,12 @@ msgstr ""
 ":ref:`addon-weblate.webhook.webhook` não foi ativado em algumas situações."
 
 #: changes/v5.rst:902
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "135?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/146?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhe <https://github.com/WeblateOrg/weblate/"
-"milestone/90135?closed=1>`__."
+"milestone/146?closed=1>`__."
 
 #: changes/v5.rst:905
 msgid "Weblate 5.11.3"
@@ -37697,22 +37672,16 @@ msgid "*Released on May 3rd 2025.*"
 msgstr "*Lançado em 3 de maio de 2025.*"
 
 #: changes/v5.rst:911
-#, fuzzy
-#| msgid "Fixed screenshots listing."
 msgid "Fixed release publishing."
-msgstr "Corrigida a listagem de capturas de ecrã."
+msgstr "Corrigido o lançamento de publicação."
 
 #: changes/v5.rst:921
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/145?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/145?closed=1>`__."
 
 #: changes/v5.rst:924
 msgid "Weblate 5.11.2"
@@ -37728,19 +37697,13 @@ msgstr ""
 "Formatos suportados estendidos para :ref:`addon-weblate.json.customize`."
 
 #: changes/v5.rst:935
-#, fuzzy
-#| msgid ""
-#| "Added support for configuring visual keyboard with special characters."
 msgid "XML export no longer crashes on locations with special characters."
 msgstr ""
-"Adicionado suporte para configuração de teclado visual com caracteres "
-"especiais."
+"Exportação de XML já não quebra em localizações com carateres especiais."
 
 #: changes/v5.rst:936
-#, fuzzy
-#| msgid "Improved error handling on string removal."
 msgid "Improved error handling on ZIP upload."
-msgstr "Melhorado o tratamento de erros na remoção de cadeia."
+msgstr "Gestão de erros em envio ZIP melhorado."
 
 #: changes/v5.rst:937
 #, fuzzy
@@ -37755,16 +37718,12 @@ msgid "Avoid repeated glossary synchronizations."
 msgstr "Evite repetir palavras e carateres."
 
 #: changes/v5.rst:948
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/144?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/144?closed=1>`__."
 
 #: changes/v5.rst:951
 msgid "Weblate 5.11.1"
@@ -37797,16 +37756,12 @@ msgid "Removing pending glossary terms."
 msgstr "Remoção de termos pendentes do glossário."
 
 #: changes/v5.rst:974
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "120?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/142?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em pormenores <https://github.com/WeblateOrg/weblate/"
-"milestone/120?closed=1>`__."
+"milestone/142?closed=1>`__."
 
 #: changes/v5.rst:977
 msgid "Weblate 5.11"
