@@ -13,7 +13,7 @@ from zipfile import BadZipfile
 
 from django.conf import settings
 from django.core.exceptions import ValidationError as DjangoValidationError
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Model, TextChoices
 from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import OpenApiSerializerExtension
@@ -765,6 +765,9 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
         read_only=True,
         allow_null=True,
     )
+    commit_email = serializers.ChoiceField(choices=[])
+    public_email = serializers.ChoiceField(choices=[])
+    commit_name = serializers.ChoiceField(choices=[])
 
     class Meta:
         model = Profile
@@ -805,6 +808,27 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
             "last_2fa",
         )
         read_only_fields = PROFILE_READONLY_FIELDS
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:
+            user_emails = list(
+                get_all_user_mails(self.instance.user, filter_deliverable=False)
+            )
+            self.fields["public_email"].choices = user_emails
+
+            commit_email_choices = user_emails
+            if site_commit_email := self.instance.get_site_commit_email():
+                commit_email_choices.append(site_commit_email)
+            self.fields["commit_email"].choices = commit_email_choices
+
+            name_choices = [
+                (Profile.CommitNameChoices.DEFAULT, "Global default"),
+                (Profile.CommitNameChoices.PUBLIC, "Public"),
+            ]
+            if self.instance.get_site_commit_name():
+                name_choices.append((Profile.CommitNameChoices.PRIVATE, "Private"))
+            self.fields["commit_name"].choices = name_choices
 
     def validate(self, attrs):
         attrs = super().validate(attrs)
@@ -887,13 +911,17 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
                     relation.set(model.objects.filter(**{f"{lookup}__in": values}))
             if "dashboard_component_list" in self.initial_data:
                 dashboard_cl = self.initial_data["dashboard_component_list"]
+                update_fields = ["dashboard_component_list", "dashboard_view"]
                 if dashboard_cl is None:
                     instance.dashboard_component_list = None
+                    if instance.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST:
+                        instance.dashboard_view = Profile.DASHBOARD_WATCHED
                 else:
                     instance.dashboard_component_list = ComponentList.objects.get(
                         slug=dashboard_cl
                     )
-                instance.save(update_fields=["dashboard_component_list"])
+                    instance.dashboard_view = Profile.DASHBOARD_COMPONENT_LIST
+                instance.save(update_fields=update_fields)
         return instance
 
 
@@ -929,9 +957,10 @@ class ProfileUpdateMixin:
 
     def update(self, instance, validated_data):
         profile_data = self.get_profile_update_data()
-        instance = super().update(instance, validated_data)
-        if profile_data is not None:
-            update_user_profile(instance, profile_data, self.context)
+        with transaction.atomic():
+            instance = super().update(instance, validated_data)
+            if profile_data is not None:
+                update_user_profile(instance, profile_data, self.context)
         return instance
 
 

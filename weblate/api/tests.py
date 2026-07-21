@@ -1259,11 +1259,15 @@ class UserAPITest(APIBaseTest):
             code=400,
             format="json",
             request={
+                "full_name": "Should not update",
                 "profile": {
                     "languages": ["unknown"],
                 },
             },
         )
+        # check that full_name is not updated if profile data validation fails
+        self.assertNotEqual(self.user.full_name, "Should not update")
+
         self.do_request(
             "api:user-detail",
             kwargs={"username": self.user.username},
@@ -1588,6 +1592,42 @@ class UserAPITest(APIBaseTest):
         )
         other_user.profile.refresh_from_db()
         self.assertEqual(other_user.profile.theme, "dark")
+
+    def test_patch_profile_commit_email(self) -> None:
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            format="json",
+            request={"profile": {"commit_email": "unverified@email.com"}},
+        )
+        verified_email = "verified@example.org"
+        social = self.user.social_auth.create(provider="email", uid=verified_email)
+        VerifiedEmail.objects.create(social=social, email=verified_email)
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={"profile": {"commit_email": verified_email}},
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.commit_email, verified_email)
+
+    @override_settings(
+        PRIVATE_COMMIT_NAME_TEMPLATE="", PRIVATE_COMMIT_NAME_OPT_IN=False
+    )
+    def test_invalid_patch_profile_commit_name(self) -> None:
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            format="json",
+            request={"profile": {"commit_name": Profile.CommitNameChoices.PRIVATE}},
+        )
 
 
 class GroupAPITest(APIBaseTest):
