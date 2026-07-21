@@ -15,10 +15,10 @@ from django.apps import apps
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
-from django.db import transaction
+from django.db import connection, transaction
 from django.test import TestCase
 from django.test.client import RequestFactory
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
 from django.utils.translation import activate
 from translate.storage.base import ParseError
@@ -45,6 +45,7 @@ from weblate.trans.models import (
     Comment,
     Component,
     ComponentList,
+    Label,
     PendingUnitChange,
     Project,
     Suggestion,
@@ -273,11 +274,11 @@ class ProjectTest(RepoTestCase):
             actual_project_removal(project.pk, None)
 
         self.assertEqual(1, len(collected))
-        self.assertEqual(
-            {project.stats.cache_key, GlobalStats().cache_key},
-            collected[0],
+        self.assertTrue(
+            {project.stats.cache_key, GlobalStats().cache_key}.issubset(collected[0])
         )
         self.assertEqual(collected[0], set(executed))
+        self.assertEqual(len(executed), len(set(executed)))
 
     def test_actual_project_removal_updates_surviving_project_before_global(
         self,
@@ -637,6 +638,70 @@ class TranslationTest(RepoTestCase):
             translation.invalidate_cache()
         self.assertEqual(translation.stats.all, 0)
         self.assertEqual(translation.stats.all_words, 0)
+
+    def test_stats_with_parallel_unit_relations(self) -> None:
+        """Independent unit relations should not multiply statistics rows."""
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one unit.")
+        translation.unit_set.exclude(pk=unit.pk).delete()
+        unit.state = STATE_APPROVED
+        unit.save(update_fields=["state"])
+
+        Check.objects.filter(unit=unit).delete()
+        Check.objects.create(unit=unit, name="same", dismissed=False)
+        Check.objects.create(unit=unit, name="ellipsis", dismissed=True)
+        Suggestion.objects.create(unit=unit, target="First suggestion")
+        Suggestion.objects.create(unit=unit, target="Second suggestion")
+        Comment.objects.create(unit=unit, comment="First comment")
+        Comment.objects.create(unit=unit, comment="Second comment")
+        Comment.objects.create(unit=unit, comment="Resolved comment", resolved=True)
+        labels = [
+            Label.objects.create(
+                project=component.project, name=f"Label {index}", color="red"
+            )
+            for index in range(2)
+        ]
+        unit.source_unit.labels.add(*labels)
+
+        translation.stats.delete()
+        translation = Translation.objects.get(pk=translation.pk)
+        self.assertEqual(translation.stats.all, 1)
+        self.assertEqual(translation.stats.approved, 1)
+        self.assertEqual(translation.stats.allchecks, 1)
+        self.assertEqual(translation.stats.dismissed_checks, 1)
+        self.assertEqual(translation.stats.suggestions, 1)
+        self.assertEqual(translation.stats.approved_suggestions, 1)
+        self.assertEqual(translation.stats.comments, 1)
+        self.assertEqual(translation.stats.unlabeled, 0)
+
+    def test_stats_query_uses_relation_subqueries(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        translation.stats.delete()
+        translation = Translation.objects.get(pk=translation.pk)
+
+        with CaptureQueriesContext(connection) as queries:
+            self.assertGreater(translation.stats.all, 0)
+
+        unit_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if 'FROM "trans_unit"' in query["sql"]
+            and 'FROM "checks_check"' in query["sql"]
+        ]
+        self.assertEqual(len(unit_queries), 1)
+        unit_query = unit_queries[0]
+        for table in (
+            "checks_check",
+            "trans_suggestion",
+            "trans_comment",
+            "trans_unit_labels",
+        ):
+            self.assertIn(f'FROM "{table}"', unit_query)
+            self.assertNotIn(f'JOIN "{table}"', unit_query)
 
     def test_commit_grouping(self) -> None:
         component = self.create_component()

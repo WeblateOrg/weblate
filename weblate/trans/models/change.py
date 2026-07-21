@@ -112,8 +112,18 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         return base.filter(action__in=ACTIONS_CONTENT)
 
     def for_category(self, category: Category) -> Self:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import ComponentLink
+
+        shared_component_ids = ComponentLink.objects.filter(
+            Q(category=category)
+            | Q(category__category=category)
+            | Q(category__category__category=category)
+        ).values_list("component_id", flat=True)
         return self.filter(
-            Q(component_id__in=category.all_component_ids) | Q(category=category)
+            Q(component_id__in=category.all_component_ids)
+            | Q(component_id__in=shared_component_ids)
+            | Q(category=category)
         )
 
     def filter_announcements(self) -> Self:
@@ -615,6 +625,7 @@ class Change(models.Model, UserDisplayMixin):
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         # ruff: ignore[mutable-class-default]
         indexes = [

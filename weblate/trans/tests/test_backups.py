@@ -9,6 +9,7 @@ import os
 import tempfile
 import warnings
 from contextlib import contextmanager, suppress
+from io import StringIO
 from shutil import copyfile
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
@@ -89,7 +90,11 @@ class BackupsTest(ViewTestCase):
             )
 
     def write_tampered_component_backup(
-        self, *, repo: str | None = None, push: str | None = None
+        self,
+        *,
+        repo: str | None = None,
+        push: str | None = None,
+        all_components: bool = False,
     ) -> str:
         backup = ProjectBackup()
         backup.backup_project(self.project)
@@ -103,9 +108,10 @@ class BackupsTest(ViewTestCase):
         ):
             for item in source_zip.infolist():
                 data = source_zip.read(item.filename)
-                if item.filename.endswith(
-                    f"{self.component.slug}.json"
-                ) and item.filename.startswith("components/"):
+                if item.filename.startswith("components/") and (
+                    all_components
+                    or item.filename.endswith(f"{self.component.slug}.json")
+                ):
                     component_data = json.loads(data.decode("utf-8"))
                     if repo is not None:
                         component_data["component"]["repo"] = repo
@@ -962,6 +968,124 @@ class BackupsTest(ViewTestCase):
                 },
             )
 
+    def test_restore_skips_inaccessible_linked_component(self) -> None:
+        victim_project = Project.objects.create(name="Victim", slug="victim")
+        victim_component = self.create_po(project=victim_project, name="Victim")
+        temp_name = self.write_tampered_component_backup(
+            repo=victim_component.get_repo_link_url()
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            self.assertFalse(
+                self.anotheruser.has_perm("component.edit", victim_component)
+            )
+
+            restored = restore.restore(
+                project_name="Partial restore",
+                project_slug="partial-restore",
+                user=self.anotheruser,
+            )
+
+        self.assertFalse(
+            restored.component_set.filter(slug=self.component.slug).exists()
+        )
+        self.assertEqual(restore.skipped_components, [self.component.slug])
+        restore_change = restored.change_set.get(action=ActionEvents.PROJECT_RESTORE)
+        self.assertEqual(
+            restore_change.details["skipped_components"], [self.component.slug]
+        )
+        history_data = get_change_history_context(restore_change)
+        self.assertEqual(
+            [field["label"] for field in history_data["change_details_fields"]],
+            ["Backup created", "Backup server", "Backup domain", "Skipped components"],
+        )
+        self.assertIn(
+            f"<code>{self.component.slug}</code>",
+            history_data["change_details_fields"][-1]["content"],
+        )
+
+    def test_restore_skips_missing_linked_component(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            repo="weblate://missing-project/missing-component"
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Missing link restore",
+                project_slug="missing-link-restore",
+                user=self.anotheruser,
+            )
+
+        self.assertFalse(
+            restored.component_set.filter(slug=self.component.slug).exists()
+        )
+        self.assertEqual(restore.skipped_components, [self.component.slug])
+
+    def test_restore_allows_accessible_cross_project_link(self) -> None:
+        target_project = Project.objects.create(name="Target", slug="target")
+        target_component = self.create_po(project=target_project, name="Target")
+        target_project.add_user(self.anotheruser, "Administration")
+        self.anotheruser.clear_permissions_cache()
+        self.assertTrue(self.anotheruser.has_perm("component.edit", target_component))
+        temp_name = self.write_tampered_component_backup(
+            repo=target_component.get_repo_link_url()
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Linked restore",
+                project_slug="linked-restore",
+                user=self.anotheruser,
+            )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(restored_component.linked_component, target_component)
+        self.assertEqual(restore.skipped_components, [])
+
+    def test_import_task_keeps_empty_project_and_reports_skipped_components(
+        self,
+    ) -> None:
+        victim_project = Project.objects.create(name="Task victim", slug="task-victim")
+        victim_component = self.create_po(project=victim_project, name="Taskvictim")
+        temp_name = self.write_tampered_component_backup(
+            repo=victim_component.get_repo_link_url(), all_components=True
+        )
+
+        result = import_project_backup(
+            "Empty partial restore",
+            "empty-partial-restore",
+            self.anotheruser.id,
+            temp_name,
+        )
+
+        restored = Project.objects.get(slug="empty-partial-restore")
+        self.assertFalse(restored.component_set.exists())
+        self.assertNotIn("url", result)
+        self.assertEqual(
+            result["message"],
+            "Project backup import completed with skipped components.",
+        )
+        self.assertEqual(len(result["warnings"]), 2)
+        self.assertTrue(
+            all(
+                warning.endswith(
+                    "was skipped because its linked repository is unavailable."
+                )
+                for warning in result["warnings"]
+            )
+        )
+        restore_change = restored.change_set.get(action=ActionEvents.PROJECT_RESTORE)
+        self.assertEqual(
+            set(restore_change.details["skipped_components"]),
+            {"glossary", self.component.slug},
+        )
+
     def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:
             return list(qs.order_by("name").values_list("name", flat=True))
@@ -991,6 +1115,9 @@ class BackupsTest(ViewTestCase):
             extract_names(Component.objects.filter(project=self.project)),
             extract_names(Component.objects.filter(project=restored)),
         )
+        restored_link = restored.component_set.get(category__isnull=False)
+        restored_target = restored.component_set.get(category__isnull=True, slug="test")
+        self.assertEqual(restored_link.linked_component, restored_target)
 
     def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
@@ -1012,6 +1139,33 @@ class BackupsTest(ViewTestCase):
             "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
         )
         self.verify_restored()
+
+    def test_restore_cli_reports_skipped_components(self) -> None:
+        victim_project = Project.objects.create(name="CLI victim", slug="cli-victim")
+        victim_component = self.create_po(project=victim_project, name="Clivictim")
+        temp_name = self.write_tampered_component_backup(
+            repo=victim_component.get_repo_link_url()
+        )
+        stderr = StringIO()
+
+        with remove_file_after(temp_name):
+            call_command(
+                "import_projectbackup",
+                "CLI partial restore",
+                "cli-partial-restore",
+                self.anotheruser.username,
+                temp_name,
+                stderr=stderr,
+            )
+
+        restored = Project.objects.get(slug="cli-partial-restore")
+        self.assertFalse(
+            restored.component_set.filter(slug=self.component.slug).exists()
+        )
+        self.assertIn(
+            f"Component {self.component.slug} was skipped because its linked repository is unavailable.",
+            stderr.getvalue(),
+        )
 
     def verify_restored(self) -> None:
         restored = Project.objects.get(slug="restored")

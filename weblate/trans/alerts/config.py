@@ -320,6 +320,21 @@ class UnusedScreenshot(BaseAlert):
     doc_page = "admin/translating"
     doc_anchor = "screenshots"
 
+    def __init__(self, instance, **_details: int) -> None:
+        super().__init__(instance)
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        if "unassigned" not in result:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.screenshots.models import Screenshot
+
+            result["unassigned"] = Screenshot.objects.filter(
+                translation__component=self.instance.component,
+                units__isnull=True,
+            ).count()
+        return result
+
     @classmethod
     def can_user_act_for(
         cls, user: User, component: Component, details: dict[str, Any]
@@ -349,11 +364,12 @@ class UnusedScreenshot(BaseAlert):
         # ruff: ignore[import-outside-top-level]
         from weblate.screenshots.models import Screenshot
 
-        return (
-            Screenshot.objects.filter(translation__component=component)
-            .filter(units__isnull=True)
-            .exists()
-        )
+        unassigned = Screenshot.objects.filter(
+            translation__component=component, units__isnull=True
+        ).count()
+        if unassigned:
+            return {"unassigned": unassigned}
+        return False
 
 
 @register

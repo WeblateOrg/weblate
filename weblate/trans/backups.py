@@ -195,6 +195,7 @@ class ProjectBackup:
         self.components_cache: dict[str, Component] = {}
         self.categories_cache: dict[str, Category] = {}
         self.roles_cache: dict[str, Role] = {}
+        self.skipped_components: list[str] = []
         # Project.set_language_team field was migrated to file format parameters after 5.17
         self.set_language_team_project: bool = False
 
@@ -648,13 +649,16 @@ class ProjectBackup:
             },
         )
 
-    def get_restore_history_details(self) -> dict[str, str]:
+    def get_restore_history_details(self) -> dict[str, BackupValue]:
         metadata = self.data["metadata"]
-        return {
+        details: dict[str, BackupValue] = {
             "backup_timestamp": metadata["timestamp"],
             "backup_server": metadata["server"],
             "backup_domain": metadata["domain"],
         }
+        if self.skipped_components:
+            details["skipped_components"] = self.skipped_components
+        return details
 
     @staticmethod
     def get_component_backup_slug(data: dict[str, Any]) -> str:
@@ -800,7 +804,7 @@ class ProjectBackup:
                 if changes is None:
                     msg = "Need a restore changes list."
                     raise TypeError(msg)
-                self.restore_component(zipfile, data, actor, changes)
+                return self.restore_component(zipfile, data, actor, changes)
             return True
 
     @staticmethod
@@ -1305,13 +1309,25 @@ class ProjectBackup:
 
         memory.clear()
 
+    @staticmethod
+    def get_accessible_linked_component(repo: str, actor: User) -> Component | None:
+        try:
+            linked_component = Component.objects.get_linked(repo)
+        except (Component.DoesNotExist, ValueError):
+            return None
+        if linked_component is None or linked_component.is_repo_link:
+            return None
+        if not actor.has_perm("component.edit", linked_component):
+            return None
+        return linked_component
+
     def restore_component(
         self,
         zipfile: ZipFile,
         data: dict,
         actor: User,
         changes: list[Change],
-    ) -> None:
+    ) -> bool:
         if self.project is None:
             raise TypeError
         original_slug = self.get_component_backup_slug(data["component"])
@@ -1326,11 +1342,13 @@ class ProjectBackup:
             old_slug = f"weblate://{self.data['project']['slug']}/"
             new_slug = f"weblate://{self.project.slug}/"
             kwargs["repo"] = kwargs["repo"].replace(old_slug, new_slug)
-            # Update linked_component attribute
-            if kwargs["repo"].startswith(new_slug):
-                kwargs["linked_component"] = self.components_cache[
-                    kwargs["repo"].removeprefix(new_slug)
-                ]
+            linked_component = self.get_accessible_linked_component(
+                kwargs["repo"], actor
+            )
+            if linked_component is None:
+                self.skipped_components.append(original_slug)
+                return False
+            kwargs["linked_component"] = linked_component
 
         if "category" in kwargs:
             kwargs["category"] = self.categories_cache[kwargs["category"]]
@@ -1471,6 +1489,7 @@ class ProjectBackup:
 
         # Update cache
         self.components_cache[self.full_slug_without_project(component)] = component
+        return True
 
     def create_language_cache(self) -> None:
         if not self.languages_cache:
@@ -1521,6 +1540,7 @@ class ProjectBackup:
         if not self.validated:
             msg = "Project backup has to be validated before restore."
             raise ValueError(msg)
+        self.skipped_components.clear()
         with ZipFile(self.filename, "r") as zipfile:
             self.validate_zip_members(zipfile)
             self.load_data(zipfile)

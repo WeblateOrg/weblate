@@ -24,6 +24,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
     Component,
+    ComponentLink,
     ComponentList,
     Project,
     Translation,
@@ -298,7 +299,7 @@ class MetricManager(models.Manager["Metric"]):
     @transaction.atomic
     def collect_category_language(self, category_language: CategoryLanguage):
         category = category_language.category
-        changes = category.project.change_set.for_category(category).filter(
+        changes = Change.objects.for_category(category).filter(
             translation__language=category_language.language
         )
 
@@ -317,7 +318,7 @@ class MetricManager(models.Manager["Metric"]):
             category_language.stats,
             SOURCE_KEYS,
             Metric.SCOPE_CATEGORY_LANGUAGE,
-            category.project.pk,
+            category.pk,
             category_language.language.pk,
         )
 
@@ -329,10 +330,23 @@ class MetricManager(models.Manager["Metric"]):
         for category_language in languages:
             self.collect_category_language(category_language)
         changes = Change.objects.for_category(category)
+        category_filter = (
+            Q(category=category)
+            | Q(category__category=category)
+            | Q(category__category__category=category)
+        )
+        shared_component_ids = ComponentLink.objects.filter(
+            Q(category=category)
+            | Q(category__category=category)
+            | Q(category__category__category=category)
+        ).values_list("component_id", flat=True)
+        components = Component.objects.filter(
+            category_filter | Q(pk__in=shared_component_ids)
+        ).distinct()
         data = {
-            "components": category.component_set.count(),
+            "components": components.count(),
             "translations": Translation.objects.filter(
-                component__category=category
+                component__in=components
             ).count(),
             "changes": changes.filter_by_day(
                 timezone.now().date() - datetime.timedelta(days=1)
@@ -518,6 +532,7 @@ class Metric(models.Model):
     objects = MetricManager.from_queryset(MetricQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         unique_together = (("scope", "relation", "secondary", "date"),)
         verbose_name = "Metric"
         verbose_name_plural = "Metrics"

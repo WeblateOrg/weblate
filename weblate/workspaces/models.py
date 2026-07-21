@@ -219,6 +219,7 @@ class Workspace(models.Model):
     objects = WorkspaceQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Workspace"
         verbose_name_plural = "Workspaces"
 

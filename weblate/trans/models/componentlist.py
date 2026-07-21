@@ -75,6 +75,7 @@ class ComponentList(models.Model, CacheKeyMixin):
     objects = ComponentListQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Component list"
         verbose_name_plural = "Component lists"
 
@@ -116,6 +117,7 @@ class AutoComponentList(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Automatic component list assignment"
         verbose_name_plural = "Automatic component list assignments"
 

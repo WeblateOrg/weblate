@@ -8,9 +8,16 @@ from contextlib import suppress
 from functools import partial
 from typing import TYPE_CHECKING
 
+from django.conf import settings
 from django.db import transaction
 from django.db.models import Q
-from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
+from django.db.models.signals import (
+    m2m_changed,
+    post_delete,
+    post_save,
+    pre_delete,
+    pre_save,
+)
 from django.dispatch import receiver
 
 from weblate.trans.alerts.base import AlertSeverity
@@ -20,7 +27,7 @@ from weblate.trans.models.alert import Alert
 from weblate.trans.models.announcement import Announcement
 from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
-from weblate.trans.models.comment import Comment
+from weblate.trans.models.comment import Comment, schedule_comment_stats_update
 from weblate.trans.models.component import Component, ComponentLink
 from weblate.trans.models.componentlist import AutoComponentList, ComponentList
 from weblate.trans.models.label import Label
@@ -128,9 +135,12 @@ def component_pre_delete(sender, instance: Component, **kwargs) -> None:
     batch = instance.removal_batch or get_current_removal_batch()
     if batch is not None:
         batch.collect_stats(instance.stats.get_update_objects())
+        batch.collect_stats(instance.stats.get_language_update_objects())
         return
     # Collect list of stats to update, this can't be done after removal
-    instance.stats.collect_update_objects()
+    instance.stats.collect_update_objects(
+        extra_objects=instance.stats.get_language_update_objects()
+    )
 
 
 @receiver(post_delete, sender=Component)
@@ -168,14 +178,173 @@ def translation_post_delete(sender, instance: Translation, **kwargs) -> None:
     transaction.on_commit(instance.stats.delete)
 
 
+type StatsTopology = tuple[set[int], set[int], set[int]]
+
+
+def collect_stats_topology(
+    component_id: int, project_id: int, category_id: int | None
+) -> StatsTopology:
+    """Collect persistent identifiers for a placement-dependent stats update."""
+    return ({component_id}, {project_id}, {category_id} if category_id else set())
+
+
+def merge_stats_topologies(*topologies: StatsTopology) -> StatsTopology:
+    """Merge placement-dependent stats update identifiers."""
+    components: set[int] = set()
+    projects: set[int] = set()
+    categories: set[int] = set()
+    for topology in topologies:
+        components.update(topology[0])
+        projects.update(topology[1])
+        categories.update(topology[2])
+    return components, projects, categories
+
+
+def schedule_stats_topology_update(*topologies: StatsTopology) -> None:
+    """Queue recalculation of placement-dependent statistics."""
+    transaction.on_commit(partial(queue_stats_topology_update, *topologies))
+
+
+def queue_stats_topology_update(*topologies: StatsTopology) -> None:
+    """Send a placement-dependent statistics update to Celery."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.tasks import update_component_topology_stats
+
+    component_ids, project_ids, category_ids = merge_stats_topologies(*topologies)
+    update_component_topology_stats.delay(
+        sorted(component_ids), sorted(project_ids), sorted(category_ids)
+    )
+
+
+def is_category_delete(origin: object | None) -> bool:
+    """Whether categories are the root objects being deleted."""
+    return (
+        origin is None
+        or isinstance(origin, Category)
+        or (getattr(origin, "model", None) is Category)
+    )
+
+
+@receiver(pre_delete, sender=Category)
+@disable_for_loaddata
+def category_stats_before_delete(
+    sender, instance: Category, origin=None, **kwargs
+) -> None:
+    """Collect stats affected when category links are set to NULL."""
+    if not is_category_delete(origin):
+        return
+    component_ids = list(
+        ComponentLink.objects.filter(category=instance).values_list(
+            "component_id", flat=True
+        )
+    )
+    if not component_ids:
+        return
+
+    batch = get_current_removal_batch()
+    if batch is not None:
+        for component in Component.objects.filter(pk__in=component_ids):
+            batch.collect_stats(component.stats.get_language_update_objects())
+            batch.collect_stats(component.stats.get_update_objects())
+        return
+
+    deletion_origin = origin if origin is not None else instance
+    deletion_state = getattr(deletion_origin, "__dict__", instance.__dict__)
+    topology: StatsTopology | None = deletion_state.get("category_stats_topology")
+    if topology is None:
+        topology = (set(), set(), set())
+        deletion_state["category_stats_topology"] = topology
+        schedule_stats_topology_update(topology)
+    topology[0].update(component_ids)
+    topology[1].add(instance.project_id)
+    category = instance.category
+    while category is not None:
+        if category.pk is not None:
+            topology[2].add(category.pk)
+        category = category.category
+
+
+@receiver(pre_save, sender=Component)
+@disable_for_loaddata
+def component_topology_before_save(sender, instance: Component, **kwargs) -> None:
+    if not instance.pk:
+        return
+    try:
+        old = Component.objects.get(pk=instance.pk)
+    except Component.DoesNotExist:
+        return
+    if (old.project_id, old.category_id) != (instance.project_id, instance.category_id):
+        instance.__dict__["stats_topology_before"] = collect_stats_topology(
+            old.pk, old.project_id, old.category_id
+        )
+
+
+@receiver(post_save, sender=Component)
+@disable_for_loaddata
+def component_topology_after_save(sender, instance: Component, **kwargs) -> None:
+    before = instance.__dict__.pop("stats_topology_before", None)
+    if before is None:
+        return
+    schedule_stats_topology_update(
+        before,
+        collect_stats_topology(instance.pk, instance.project_id, instance.category_id),
+    )
+
+
+@receiver(pre_save, sender=ComponentLink)
+@disable_for_loaddata
+def component_link_stats_before_save(sender, instance: ComponentLink, **kwargs) -> None:
+    if instance.pk:
+        try:
+            old = ComponentLink.objects.get(pk=instance.pk)
+        except ComponentLink.DoesNotExist:
+            return
+        instance.__dict__["stats_topology_before"] = collect_stats_topology(
+            old.component_id, old.project_id, old.category_id
+        )
+
+
 @receiver(post_save, sender=ComponentLink)
+@disable_for_loaddata
+def component_link_stats_after_save(sender, instance: ComponentLink, **kwargs) -> None:
+    before = instance.__dict__.pop("stats_topology_before", None)
+    current = collect_stats_topology(
+        instance.component_id, instance.project_id, instance.category_id
+    )
+    schedule_stats_topology_update(*((before, current) if before else (current,)))
+
+
+def is_standalone_component_link_delete(origin: object | None) -> bool:
+    """Whether a link is explicitly deleted rather than removed by a cascade."""
+    return (
+        origin is None
+        or isinstance(origin, ComponentLink)
+        or (getattr(origin, "model", None) is ComponentLink)
+    )
+
+
+@receiver(pre_delete, sender=ComponentLink)
+@disable_for_loaddata
+def component_link_stats_before_delete(
+    sender, instance: ComponentLink, origin=None, **kwargs
+) -> None:
+    if not is_standalone_component_link_delete(origin):
+        return
+    instance.__dict__["stats_topology_before"] = collect_stats_topology(
+        instance.component_id, instance.project_id, instance.category_id
+    )
+
+
 @receiver(post_delete, sender=ComponentLink)
 @disable_for_loaddata
-def component_links_updated(sender, instance, **kwargs) -> None:
-    # ruff: ignore[import-outside-top-level]
-    from weblate.utils.tasks import update_project_stats_link
-
-    update_project_stats_link.delay_on_commit(instance.project_id)
+def component_link_stats_after_delete(
+    sender, instance: ComponentLink, origin=None, **kwargs
+) -> None:
+    if not is_standalone_component_link_delete(origin):
+        return
+    before = instance.__dict__.pop("stats_topology_before", None)
+    if before is not None:
+        schedule_stats_topology_update(before)
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
@@ -225,6 +394,24 @@ def user_commit_pending(sender, instance: User, **kwargs) -> None:
             translation.commit_pending("user delete", None)
 
 
+@receiver(pre_delete, sender=settings.AUTH_USER_MODEL)
+def user_comment_stats_before_delete(sender, instance: User, **kwargs) -> None:
+    """Collect translations affected by comments removed with a user."""
+    instance.__dict__["comment_stats_translation_ids"] = list(
+        Comment.objects.filter(user=instance)
+        .values_list("unit__translation_id", flat=True)
+        .distinct()
+    )
+
+
+@receiver(post_delete, sender=settings.AUTH_USER_MODEL)
+def user_comment_stats_after_delete(sender, instance: User, **kwargs) -> None:
+    """Queue a batched stats refresh after a user comment cascade."""
+    schedule_comment_stats_update(
+        instance.__dict__.pop("comment_stats_translation_ids", [])
+    )
+
+
 @receiver(m2m_changed, sender=ComponentList.components.through)
 @disable_for_loaddata
 def change_componentlist(sender, instance, action, **kwargs) -> None:
@@ -271,5 +458,5 @@ def post_delete_linked(sender, instance, **kwargs) -> None:
 @receiver(post_save, sender=Suggestion)
 @disable_for_loaddata
 def stats_invalidate(sender, instance, **kwargs) -> None:
-    """Invalidate stats on new comment or suggestion."""
+    """Invalidate stats on new comments or suggestions."""
     instance.unit.invalidate_related_cache()
