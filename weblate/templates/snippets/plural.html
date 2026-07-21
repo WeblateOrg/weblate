@@ -25,17 +25,17 @@
   {% if plural.number > 1 %}
     {% for item in plural.list_plurals %}
       {% if item.index > 1 %}<tr>{% endif %}
-        <td>{{ item.name }}</td>
-        <td>{{ item.examples }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.examples }}</td>
       </tr>
     {% endfor %}
   {% else %}
     <td colspan="2"></td>
+    </tr>
+  {% endif %}
+  <tr>
+    <th>{% translate "Plural formula" %}</th>
+    <td colspan="2" class="full-cell">
+      <code>{{ plural.formula }}</code>
+    </td>
   </tr>
-{% endif %}
-<tr>
-  <th>{% translate "Plural formula" %}</th>
-  <td colspan="2" class="full-cell">
-    <code>{{ plural.formula }}</code>
-  </td>
-</tr>
