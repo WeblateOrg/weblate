@@ -348,6 +348,7 @@ class UserSettingsForm(ProfileBaseForm):
             "nearby_strings",
             "secondary_in_zen",
             "hide_source_secondary",
+            "wide_tables",
             "editor_link",
             "special_chars",
             "contribute_personal_tm",

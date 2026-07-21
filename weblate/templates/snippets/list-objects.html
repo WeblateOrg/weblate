@@ -1,6 +1,7 @@
 {% load humanize i18n icons permissions translations %}
 
 {% if objects or list_categories %}
+  <div class="table-listing-wrapper{% if user.is_authenticated and user.profile.wide_tables %} table-scroll{% endif %}">
   <table {% if objects.paginator.num_pages > 1 %} class="table progress-table autocolspan table-listing" {% else %} class="sort table progress-table autocolspan table-listing" {% endif %}>
     {% if not hide_details and not hide_header %}
       <thead class="sticky-header">
@@ -322,6 +323,7 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
 {% else %}
   <p>
     <em>

@@ -748,6 +748,7 @@ class ProfileTest(FixtureTestCase):
                 "zen_mode": Profile.ZEN_VERTICAL,
                 "nearby_strings": 10,
                 "theme": "auto",
+                "wide_tables": "on",
                 "notifications__0-scope": 0,
                 "notifications__0-project": "",
                 "notifications__0-component": "",
@@ -760,6 +761,8 @@ class ProfileTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, reverse("profile"))
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.profile.wide_tables)
 
     def test_profile_group_display_uses_scoped_team_queryset(self) -> None:
         workspace = Workspace.objects.create(name="Profile workspace")
