@@ -55,7 +55,7 @@ jobs:
       run: sudo ./ci/apt-install
     - name: Install legacy rendering dependencies
       run: sudo apt-get install -y libgirepository-2.0-dev libcairo-dev gir1.2-rsvg-2.0 gir1.2-pango-1.0
-    - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+    - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
