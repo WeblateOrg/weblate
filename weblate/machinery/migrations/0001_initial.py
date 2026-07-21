@@ -52,8 +52,8 @@ class Migration(migrations.Migration):
                 "ordering": ["-timestamp"],
                 "indexes": [
                     models.Index(
-                        fields=["engine", "project", "timestamp"],
-                        name="macherr_eng_proj_ts_idx",
+                        fields=["-timestamp", "project"],
+                        name="macherr_ts_proj_idx",
                     ),
                 ],
             },

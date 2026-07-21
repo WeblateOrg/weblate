@@ -38,8 +38,8 @@ class MachineryError(models.Model):
         ordering = ["-timestamp"]  # ruff: ignore[mutable-class-default]
         indexes = [  # ruff: ignore[mutable-class-default]
             models.Index(
-                fields=["engine", "project", "timestamp"],
-                name="macherr_eng_proj_ts_idx",
+                fields=["-timestamp", "project"],
+                name="macherr_ts_proj_idx",
             ),
         ]
         verbose_name = gettext_lazy("Machinery error")
