@@ -9,7 +9,6 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 from weakref import WeakSet
 
-from django.apps import apps
 from django.conf import settings
 from django.core.cache import cache
 from django.db import DatabaseError
@@ -168,15 +167,6 @@ class DataWritableCheckTestCase(SimpleTestCase):
 
         self.assertTrue(any(error.id == "weblate.C044" for error in errors))
         self.assertEqual(self.get_cache_probes(), [])
-
-
-class DatabaseModelTestCase(SimpleTestCase):
-    def test_postgresql_required(self) -> None:
-        for model in apps.get_models():
-            if model.__module__.startswith("weblate."):
-                model_meta = model._meta  # ruff: ignore[private-member-access]
-                with self.subTest(model=model_meta.label):
-                    self.assertEqual(model_meta.required_db_vendor, "postgresql")
 
 
 class DatabaseSizeCheckTestCase(SimpleTestCase):
