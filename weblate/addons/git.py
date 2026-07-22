@@ -221,21 +221,23 @@ class GitSquashAddon(
             )
 
     def get_commit_language(
-        self, repository: GitRepository, commit: str, languages: dict[str, list[str]]
+        self, repository: GitRepository, commit: str, filename_languages: dict[str, str]
     ) -> str:
-        filenames = set(
-            repository.execute(
-                ["diff-tree", "--no-commit-id", "--name-only", "-r", commit],
-                remote_op="none",
-            ).splitlines()
-        )
-        matches = [
-            code
-            for code, language_filenames in languages.items()
-            if filenames.intersection(language_filenames)
-        ]
-        if len(matches) == 1:
-            return matches[0]
+        filenames = repository.execute(
+            ["diff-tree", "--no-commit-id", "--name-only", "-r", commit],
+            remote_op="none",
+        ).splitlines()
+        codes = set()
+        for filename in filenames:
+            try:
+                codes.add(filename_languages[filename])
+            except KeyError:
+                # The commit touches a non-translation file, so it can not be
+                # attributed to a single language and stays in its own group.
+                return commit
+        if len(codes) == 1:
+            return codes.pop()
+        # Empty commit or a commit spanning multiple languages is kept separate.
         return commit
 
     def squash_author_commits(
@@ -304,26 +306,30 @@ class GitSquashAddon(
         include_language: bool = False,
     ) -> None:
         remote = repository.get_remote_branch_name()
-        languages = self.get_filenames(component) if include_language else {}
+        # Build a filename -> language code lookup once, so each commit can be
+        # attributed in O(changed files) instead of scanning every language.
+        filename_languages: dict[str, str] = {}
+        if include_language:
+            for code, filenames in self.get_filenames(component).items():
+                for filename in filenames:
+                    filename_languages[filename] = code
         # Get list of pending commits with authors
-        commits: list[tuple[str, str, tuple[str, str]]] = [
-            (
-                commit,
-                author,
-                (author, self.get_commit_language(repository, commit, languages))
-                if include_language
-                else (author, ""),
-            )
-            for commit, author in (
-                x.split(None, 1)
-                for x in reversed(
-                    repository.execute(
-                        ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"],
-                        remote_op="none",
-                    ).splitlines()
+        commits: list[tuple[str, str, tuple[str, str]]] = []
+        log_lines = reversed(
+            repository.execute(
+                ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"],
+                remote_op="none",
+            ).splitlines()
+        )
+        for line in log_lines:
+            commit, author = line.split(None, 1)
+            if include_language:
+                language = self.get_commit_language(
+                    repository, commit, filename_languages
                 )
-            )
-        ]
+            else:
+                language = ""
+            commits.append((commit, author, (author, language)))
         gpg_sign = repository.get_gpg_sign_args()
 
         tmp = "weblate-squash-tmp"

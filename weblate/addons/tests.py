@@ -7144,6 +7144,36 @@ class GitSquashAddonTest(ViewTestCase):
     def test_author_language(self) -> None:
         self.test_squash("author-language", 4)
 
+    def test_get_commit_language(self) -> None:
+        addon = self.create("author-language")
+        repository = self.component.repository
+        filename_languages = {"cs.po": "cs", "de.po": "de"}
+
+        cases = {
+            # A commit touching a single language is grouped by that language.
+            "cs.po": "cs",
+            # A commit spanning multiple languages stays in its own group.
+            "cs.po\nde.po": "commit-sha",
+            # A translation file mixed with a non-translation file is not
+            # attributed to the language and stays separate.
+            "cs.po\nREADME.rst": "commit-sha",
+            # A commit touching only non-translation files stays separate.
+            "README.rst": "commit-sha",
+            # An empty commit stays separate.
+            "": "commit-sha",
+        }
+        for diff_output, expected in cases.items():
+            with (
+                self.subTest(diff_output=diff_output),
+                patch.object(repository, "execute", return_value=diff_output),
+            ):
+                self.assertEqual(
+                    addon.get_commit_language(
+                        repository, "commit-sha", filename_languages
+                    ),
+                    expected,
+                )
+
     def test_multiple_authors_on_same_file(self) -> None:
         self.test_squash("author", 3, repeated=True)
 
