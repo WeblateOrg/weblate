@@ -5,10 +5,9 @@
 from __future__ import annotations
 
 import re
-from collections import defaultdict
 from contextlib import nullcontext
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Literal, TypedDict, cast
+from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
 from django.http import Http404
 from django.utils.html import format_html, format_html_join
@@ -447,7 +446,7 @@ class TargetCheck(BaseCheck):
             yield self.get_errors_text(set(errors))
 
 
-class PluralResultDescriptionMixin:
+class PluralResultDescriptionMixin(TargetCheck):
     """
     Build check descriptions by merging MissingExtraDict results across plurals.
 
@@ -460,16 +459,21 @@ class PluralResultDescriptionMixin:
         unit = check_obj.unit
 
         errors: list[StrOrPromise] = []
-        results: MissingExtraDict = cast("MissingExtraDict", defaultdict(list))
 
         # Merge plurals
+        results: MissingExtraDict = {}
         for result in self.check_target_generator(
             unit.get_source_plurals(), unit.get_target_plurals(), unit
         ):
-            if isinstance(result, dict):
-                for key, value in result.items():
-                    results[key].extend(value)
-        if results:
+            if not isinstance(result, dict):
+                continue
+            if missing := result.get("missing"):
+                results.setdefault("missing", []).extend(missing)
+            if extra := result.get("extra"):
+                results.setdefault("extra", []).extend(extra)
+            if result_errors := result.get("errors"):
+                results.setdefault("errors", []).extend(result_errors)
+        if any(results.values()):
             errors.extend(self.format_result(results))
         if errors:
             return format_html_join(
