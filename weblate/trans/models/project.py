@@ -567,6 +567,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     billing_previous_workspace_id: UUID | None
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "Project"
         verbose_name_plural = "Projects"

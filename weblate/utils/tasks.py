@@ -10,6 +10,7 @@ import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import time
 from importlib import import_module
+from itertools import batched
 from pathlib import Path
 from shutil import copyfile
 from typing import cast
@@ -24,7 +25,7 @@ import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
 from weblate.logger import LOGGER
 from weblate.machinery.models import MACHINERY
-from weblate.trans.models import Component, Project, Translation
+from weblate.trans.models import Category, Component, Project, Translation
 from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
 from weblate.utils.commands import get_clean_env
@@ -112,6 +113,77 @@ def update_project_stats_link(pk: int) -> None:
     for language in project.stats.get_language_stats():
         language.update_stats(update_parents=False)
     project.stats.update_stats()
+
+
+@app.task(trail=False)
+def update_component_topology_stats(
+    component_ids: list[int], project_ids: list[int], category_ids: list[int]
+) -> None:
+    """Update placement-dependent stats after moving or sharing components."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.lang.models import Language
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.stats import BaseStats, GlobalStats, update_stats_objects
+
+    categories: dict[int, Category] = {}
+    affected_project_ids = set(project_ids)
+    for leaf_category in Category.objects.filter(pk__in=category_ids).select_related(
+        "project",
+        "category__project",
+        "category__category__project",
+        "category__category__category__project",
+    ):
+        category: Category | None = leaf_category
+        while category is not None:
+            categories[category.pk] = category
+            affected_project_ids.add(category.project_id)
+            category = category.category
+
+    projects = list(Project.objects.filter(pk__in=affected_project_ids))
+    languages = Language.objects.filter(
+        pk__in=Translation.objects.filter(component_id__in=component_ids).values_list(
+            "language_id", flat=True
+        )
+    )
+
+    stats_objects: list[BaseStats] = []
+    for language in languages:
+        stats_objects.extend(
+            category.stats.get_single_language_stats(language)
+            for category in categories.values()
+        )
+        stats_objects.extend(
+            project.stats.get_single_language_stats(language) for project in projects
+        )
+    stats_objects.extend(category.stats for category in categories.values())
+    stats_objects.extend(project.stats for project in projects)
+    stats_objects.append(GlobalStats())
+    update_stats_objects(stats_objects)
+
+
+@app.task(trail=False)
+def update_translation_stats(pks: list[int]) -> None:
+    """Update translations in chunks and refresh their shared parents once."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.stats import (
+        BaseStats,
+        iter_prefetch_stats,
+        update_stats_objects,
+    )
+
+    parent_stats: dict[str, BaseStats] = {}
+    for pk_batch in batched(pks, 100):
+        translations = Translation.objects.filter(pk__in=pk_batch).select_related(
+            "language",
+            "component__project",
+            "component__category",
+        )
+        for translation in iter_prefetch_stats(translations):
+            translation.stats.update_stats(update_parents=False)
+            for stats in translation.stats.get_update_objects():
+                parent_stats.setdefault(stats.cache_key, stats)
+    update_stats_objects(parent_stats.values())
 
 
 def run_database_backup() -> None:

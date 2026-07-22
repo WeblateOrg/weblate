@@ -137,6 +137,7 @@ class Plan(models.Model):
     objects = PlanQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Billing plan"
         verbose_name_plural = "Billing plans"
 
@@ -307,6 +308,7 @@ class Billing(models.Model):
     objects = BillingManager.from_queryset(BillingQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Customer billing"
         verbose_name_plural = "Customer billings"
 
@@ -1117,6 +1119,7 @@ class Invoice(models.Model):
     objects = InvoiceQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Invoice"
         verbose_name_plural = "Invoices"
 
@@ -1222,6 +1225,9 @@ class BillingLog(models.Model):
     details = models.JSONField(default=dict)
 
     objects = BillingLogQuerySet.as_manager()
+
+    class Meta:
+        required_db_vendor = "postgresql"
 
     def __str__(self) -> str:
         return f"{self.timestamp.isoformat()}: {self.billing}: {self.get_event_display()} {self.summary}"

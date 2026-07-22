@@ -27,6 +27,7 @@ class Setting(models.Model):
     objects = SettingQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         # ruff: ignore[mutable-class-default]
         unique_together = [
             ("category", "name"),
