@@ -29040,7 +29040,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FullUser'
+              $ref: '#/components/schemas/UserUpdateRequest'
         required: true
       security:
       - tokenAuth: []
@@ -29208,7 +29208,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedFullUser'
+              $ref: '#/components/schemas/PatchedUserUpdateRequest'
       security:
       - tokenAuth: []
       - bearerAuth: []
@@ -33405,7 +33405,9 @@ components:
             format: uri
           readOnly: true
         profile:
-          $ref: '#/components/schemas/Profile'
+          allOf:
+          - $ref: '#/components/schemas/Profile'
+          readOnly: true
         notifications:
           type: string
           format: uri
@@ -33459,6 +33461,7 @@ components:
       - languages
       - last_login
       - notifications
+      - profile
       - statistics_url
       - url
       - username
@@ -35358,85 +35361,6 @@ components:
           type: string
           format: uri
           readOnly: true
-    PatchedFullUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        email:
-          type:
-          - string
-          - 'null'
-          title: E-mail
-          format: email
-          maxLength: 190
-        full_name:
-          type: string
-          maxLength: 150
-        username:
-          type: string
-          description: 'Username may only contain letters, numbers or the following
-            characters: @ . + - _'
-          maxLength: 150
-        groups:
-          type: array
-          items:
-            type: string
-            format: uri
-          readOnly: true
-        languages:
-          type: array
-          items:
-            type: string
-            format: uri
-          readOnly: true
-        profile:
-          $ref: '#/components/schemas/Profile'
-        notifications:
-          type: string
-          format: uri
-          readOnly: true
-        is_superuser:
-          type: boolean
-          title: Superuser status
-          description: User has all possible permissions.
-        is_active:
-          type: boolean
-          title: Active
-          description: Mark user as inactive instead of removing.
-        is_bot:
-          type: boolean
-          title: Robot user
-        date_joined:
-          type: string
-          format: date-time
-          readOnly: true
-        date_expires:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          title: Expires
-          description: The account will be disabled after the expiry.
-        last_login:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        statistics_url:
-          type: string
-          format: uri
-          readOnly: true
-        contributions_url:
-          type: string
-          format: uri
-          readOnly: true
     PatchedGroup:
       type: object
       properties:
@@ -35924,6 +35848,85 @@ components:
           type: array
           items:
             type: integer
+    PatchedUserUpdateRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type:
+          - string
+          - 'null'
+          title: E-mail
+          format: email
+          maxLength: 190
+        full_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: 'Username may only contain letters, numbers or the following
+            characters: @ . + - _'
+          maxLength: 150
+        groups:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        languages:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        profile:
+          $ref: '#/components/schemas/Profile'
+        notifications:
+          type: string
+          format: uri
+          readOnly: true
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: User has all possible permissions.
+        is_active:
+          type: boolean
+          title: Active
+          description: Mark user as inactive instead of removing.
+        is_bot:
+          type: boolean
+          title: Robot user
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+        date_expires:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          title: Expires
+          description: The account will be disabled after the expiry.
+        last_login:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+        contributions_url:
+          type: string
+          format: uri
+          readOnly: true
     PendingUnits:
       type: object
       description: Detailed breakdown of pending translation units.
@@ -38164,6 +38167,97 @@ components:
       - suggested
       - translated
       - uploaded
+    UserUpdateRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type:
+          - string
+          - 'null'
+          title: E-mail
+          format: email
+          maxLength: 190
+        full_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: 'Username may only contain letters, numbers or the following
+            characters: @ . + - _'
+          maxLength: 150
+        groups:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        languages:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        profile:
+          $ref: '#/components/schemas/Profile'
+        notifications:
+          type: string
+          format: uri
+          readOnly: true
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: User has all possible permissions.
+        is_active:
+          type: boolean
+          title: Active
+          description: Mark user as inactive instead of removing.
+        is_bot:
+          type: boolean
+          title: Robot user
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+        date_expires:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          title: Expires
+          description: The account will be disabled after the expiry.
+        last_login:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+        contributions_url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - contributions_url
+      - date_joined
+      - full_name
+      - groups
+      - id
+      - languages
+      - last_login
+      - notifications
+      - statistics_url
+      - url
+      - username
     ValueEnum:
       enum:
       - 1
@@ -38244,7 +38338,7 @@ components:
         project tokens whose access to the API is limited to operations to their associated
         project. These tokens have the `wlp_` prefix.\n        "
 servers:
-- url: http://localhost:8000
+- url: 'http:'
   description: Weblate
 tags:
 - name: root

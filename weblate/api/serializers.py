@@ -841,11 +841,12 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
 
     def validate(self, attrs):
         attrs = super().validate(attrs)
-        if isinstance(self.initial_data, dict):
+        initial_data = getattr(self, "initial_data", None)
+        if isinstance(initial_data, dict):
             self._validate_m2m_fields()
-            if "dashboard_component_list" in self.initial_data:
+            if "dashboard_component_list" in initial_data:
                 self._validate_dashboard_component_list(
-                    self.initial_data["dashboard_component_list"]
+                    initial_data["dashboard_component_list"]
                 )
         return attrs
 
@@ -993,7 +994,7 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
         many=True,
         read_only=True,
     )
-    profile = ProfileSerializer(required=False)
+    profile = ProfileSerializer(read_only=True)
     notifications = serializers.HyperlinkedIdentityField(
         view_name="api:user-notifications",
         lookup_field="username",
@@ -1049,8 +1050,19 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
         }
 
 
-class SelfUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
+class UserUpdateRequestSerializer(FullUserSerializer):
+    """
+    Schema-only serializer for user update requests.
+
+    Writable nested fields are not supported by default in .update()
+    'profile' field update logic is handled by ProfileUpdateMixin
+    """
+
     profile = ProfileSerializer(required=False)
+
+
+class SelfUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
+    profile = ProfileSerializer(read_only=True)
 
     def validate_email(self, value: str | None) -> str | None:
         if self.instance is not None:
