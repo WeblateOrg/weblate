@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-21 15:41+0000\n"
+"PO-Revision-Date: 2026-07-22 18:02+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -49424,13 +49424,6 @@ msgid "This feature is modelled on flags in :ref:`gettext`."
 msgstr "Diese Funktion ist den Markierungen in :ref:`gettext` nachempfunden."
 
 #: formats.rst:113
-#, fuzzy
-#| msgid ""
-#| "Additionally, for all XML based format, the flags are extracted from the "
-#| "non-standard attribute ``weblate-flags``. Additionally ``max-length:N`` "
-#| "is supported through the ``maxwidth`` `attribute <https://docs.oasis-"
-#| "open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the "
-#| "XLIFF standard, see :ref:`xliff-flags`."
 msgid ""
 "Additionally, XML-based formats that support flags extract them from the non-"
 "standard attribute ``weblate-flags``. The ``max-length:N`` flag is also "
@@ -49438,11 +49431,12 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
-"Zusätzlich werden die Markierungen für alle XML-basierten Formate aus dem "
-"nicht standardisierten Attribut ``weblate-flags`` extrahiert. Zusätzlich "
-"wird ``max-length:N`` durch das ``maxwidth``-`Attribut <https://docs.oasis-"
-"open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ unterstützt, wie im XLIFF-"
-"Standard definiert, siehe :ref:`xliff-flags`."
+"Darüber hinaus extrahieren XML-basierte Formate, die Markierungen "
+"unterstützen, diese aus dem nicht standardmäßigen Attribut ``weblate-"
+"flags``. Die Markierung ``max-length:N`` wird ebenfalls über das `Attribut "
+"<https://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ "
+"``maxwidth`` unterstützt, wie im XLIFF-Standard definiert (siehe :ref:`xliff-"
+"flags`)."
 
 #: formats.rst:122
 msgid "`PO files documentation`_"
@@ -50938,6 +50932,9 @@ msgid ""
 "Markdown text and preserves imports, exports, JSX components, and "
 "expressions."
 msgstr ""
+"MDX-Dateien sind Markdown-Dateien mit JSX-Syntax. Weblate extrahiert den zu "
+"übersetzenden Markdown-Text und behält Importe, Exporte, JSX-Komponenten und "
+"Ausdrücke bei."
 
 #: formats/mdx.rst:13
 msgid ""
@@ -51276,45 +51273,35 @@ msgstr ""
 "gespeichert."
 
 #: formats/tbx.rst:27
-#, fuzzy
-#| msgid "Source string explanation is stored as ``<descrip></descrip>`` tag."
 msgid ""
 "Source string description is stored as ``<descrip type=\"Usage note\"></"
 "descrip>`` tag."
 msgstr ""
-"Die Erklärung der Ausgangszeichenkette wird als Tag ``<descrip></descrip>`` "
-"gespeichert."
+"Die Beschreibung der Ausgangszeichenkette wird als Tag ``<descrip "
+"type=\"Usage note\"></descrip>`` gespeichert."
 
 #: formats/tbx.rst:30
 msgid "Glossary flags and read-only metadata"
-msgstr ""
+msgstr "Glossar-Markierungen und schreibgeschützte Metadaten"
 
 #: formats/tbx.rst:32
-#, fuzzy
-#| msgid ""
-#| "Terms with administrative status ``forbidden`` or ``obsolete`` in "
-#| "``<termNote type=\"administrativeStatus\">`` are marked with the "
-#| "``forbidden`` flag (:ref:`glossary-forbidden`).,"
 msgid ""
 "Weblate imports terms with ``forbidden`` or ``obsolete`` administrative "
 "status in ``<termNote type=\"administrativeStatus\">`` as :ref:`glossary-"
 "forbidden`."
 msgstr ""
-"Begriffe mit Verwaltungsstatus ``forbidden`` oder ``obsolete`` in "
-"``<termNote type=\"administrativeStatus\">`` werden mit der Markierung "
-"``forbidden`` versehen (:ref:`glossary-forbidden`).,"
+"Weblate importiert Begriffe mit Verwaltungsstatus ``forbidden`` oder "
+"``obsolete`` in ``<termNote type=\"administrativeStatus\">`` als "
+":ref:`glossary-forbidden`)."
 
 #: formats/tbx.rst:36
-#, fuzzy
-#| msgid ""
-#| "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
-#| "marked as read-only (:ref:`glossary-untranslatable`).,"
 msgid ""
 "Terms with ``<descrip type=\"Translation needed\">No</descrip>`` are "
 "imported as read-only strings, see :ref:`glossary-untranslatable`."
 msgstr ""
-"Begriffe mit ``<termNote type=\"translationNote\">`` die ``no`` enthalten, "
-"werden als schreibgeschützt markiert (:ref:`glossary-untranslatable`).,"
+"Begriffe mit ``<descrip type=\"Translation needed\">No</descrip>`` werden "
+"als schreibgeschützte Zeichenketten importiert, siehe :ref:`glossary-"
+"untranslatable`."
 
 #: formats/tbx.rst:40
 msgid "Importing glossary files"
@@ -51328,6 +51315,11 @@ msgid ""
 "source terms and the language parsed from the file name is used as the "
 "target glossary language."
 msgstr ""
+"TBX kann mehrere Sprachen in einer XML-Datei speichern, doch Weblate ordnet "
+"jede Komponentendatei weiterhin anhand der Komponentendateimaske einer "
+"Übersetzungssprache zu. Bei einer TBX-Glossarkomponente wird die "
+"Ausgangssprache der Komponente für die Ausgangsbegriffe verwendet, und die "
+"aus dem Dateinamen abgeleitete Sprache dient als Zielsprache des Glossars."
 
 #: formats/tbx.rst:48
 msgid ""
@@ -51335,6 +51327,10 @@ msgid ""
 "component source language, because the source language already exists in "
 "Weblate and the file can be detected as a duplicate language."
 msgstr ""
+"Vermeiden Sie es, eine TBX-Übersetzungsdatei mit demselben Sprachcode wie "
+"die Ausgangssprache der Komponente zu benennen, da die Ausgangssprache "
+"bereits in Weblate vorhanden ist und die Datei als Sprachduplikat erkannt "
+"werden könnte."
 
 #: formats/tbx.rst:78
 msgid "`TermBase eXchange file`"
@@ -52017,22 +52013,21 @@ msgid "Weblate's Python API"
 msgstr "Weblates Python-API"
 
 #: python.rst:13
-#, fuzzy
-#| msgid ""
-#| "The Python API is shipped separately, you need to install the :ref:`wlc` "
-#| "(wlc) to have it."
 msgid ""
 "The Python API is shipped separately as the :pypi:`Weblate Client <wlc>` "
 "package:"
 msgstr ""
-"Die Python-API wird separat ausgeliefert, Sie müssen den :ref:`wlc` (wlc) "
-"installieren, um sie zu nutzen."
+"Die Python-API wird separat als das „:pypi:`Weblate Client <wlc>`“-Paket "
+"ausgeliefert:"
 
 #: python.rst:27
 msgid ""
 "The :mod:`wlc` module exposes the Weblate API client, API objects returned "
 "by the client, and exceptions raised for common API failures."
 msgstr ""
+"Das :mod:`wlc` -Modul stellt den Weblate-API-Client, die vom Client "
+"zurückgegebenen API-Objekte sowie die bei häufigen API-Fehlern ausgelösten "
+"Ausnahmen bereit."
 
 #: python.rst:32
 msgid ":class:`Weblate`"
@@ -52040,7 +52035,7 @@ msgstr ":class:`Weblate`"
 
 #: python.rst:34
 msgid "The :class:`Weblate` class is the main API entry point."
-msgstr "Die Klasse :class:`Weblate` ist der zentrale Einstiegspunkt der API."
+msgstr "Die :class:`Weblate`-Klasse ist der zentrale Einstiegspunkt der API."
 
 #: python.rst:41
 msgid "Exceptions"
@@ -52055,6 +52050,9 @@ msgid ""
 "API objects behave as mappings and support deferred loading. Attribute "
 "access loads missing data from the API when needed."
 msgstr ""
+"API-Objekte verhalten sich wie Zuordnungen und unterstützen das verzögerte "
+"Laden. Beim Zugriff auf Attribute werden fehlende Daten bei Bedarf aus der "
+"API geladen."
 
 #: security/data-residency.rst:2
 msgid "Data residency and EU cloud sovereignty"
@@ -52204,22 +52202,13 @@ msgstr ""
 "Kontrollmöglichkeiten benötigt."
 
 #: security/data-residency.rst:59
-#, fuzzy
-#| msgid ""
-#| "Customers retain full control over their data: - Projects, translations, "
-#| "and user accounts can be exported or deleted at any time. - External "
-#| "integrations are optional and fully configurable. - Dedicated Weblate "
-#| "instances are available for organizations needing isolated or customized "
-#| "environments."
 msgid ""
 "**Customer control:** Projects, translations, and user data can be exported "
 "or deleted. External integrations are optional and configurable."
 msgstr ""
-"Die Kunden behalten die volle Kontrolle über ihre Daten: – Projekte, "
-"Übersetzungen und Benutzerkonten können jederzeit exportiert oder gelöscht "
-"werden. – Externe Integrationen sind optional und vollständig "
-"konfigurierbar. – Dedizierte Weblate-Instanzen sind für Unternehmen "
-"verfügbar, die isolierte oder angepasste Einsatzumgebungen benötigen."
+"**Kundeneigene Kontrolle:** Projekte, Übersetzungen und Benutzerdaten können "
+"exportiert oder gelöscht werden. Externe Integrationen sind optional und "
+"konfigurierbar."
 
 #: security/data-residency.rst:62
 msgid ""
@@ -52269,18 +52258,15 @@ msgstr ""
 #: security/data-residency.rst:84
 msgid "The application is libre software and can be independently deployed."
 msgstr ""
+"Die Anwendung ist Freie Software und kann eigenständig bereitgestellt werden."
 
 #: security/data-residency.rst:85
-#, fuzzy
-#| msgid "Translate the project and upload translations made offline."
 msgid "Customer projects and translations can be exported."
-msgstr "Das Projekt übersetzen und offline erstellte Übersetzungen hochladen."
+msgstr "Kundenprojekte und Übersetzungen können exportiert werden."
 
 #: security/data-residency.rst:86
-#, fuzzy
-#| msgid "Confirm all services are operational and accessible."
 msgid "External integrations are optional and configurable."
-msgstr "Bestätigen, dass alle Dienste betriebsbereit und zugänglich sind."
+msgstr "Externe Integrationen sind optional und konfigurierbar."
 
 #: security/data-residency.rst:87
 msgid ""
@@ -52313,30 +52299,40 @@ msgid ""
 "The current Weblate service design supports likely cloud and AI sovereignty "
 "questions in these areas:"
 msgstr ""
+"Das aktuelle Design des Weblate-Dienstes bietet Unterstützung bei Fragen "
+"hinsichtlich der Cloud- und KI-Souveränität in diesen Bereichen:"
 
 #: security/data-residency.rst:101
 msgid ""
 "**European cloud infrastructure:** Weblate-operated services use EU hosting "
 "for customer data and operational data."
 msgstr ""
+"**Europäische Cloud-Infrastruktur:** Die von Weblate betriebenen Dienste "
+"nutzen EU-Hosting für Kundendaten und Betriebsdaten."
 
 #: security/data-residency.rst:103
 msgid ""
 "**Open-source stack:** Weblate is libre software, reducing dependency on "
 "proprietary cloud application code."
 msgstr ""
+"**Open-Source-Stack:** Weblate ist Freie Software, wodurch die Abhängigkeit "
+"von proprietärem Cloud-Anwendungscode verringert wird."
 
 #: security/data-residency.rst:105
 msgid ""
 "**Portability:** Translation files, project data, and user data can be "
 "exported."
 msgstr ""
+"**Portabilität:** Übersetzungsdateien, Projektdaten und Benutzerdaten können "
+"exportiert werden."
 
 #: security/data-residency.rst:107
 msgid ""
 "**No mandatory external AI provider:** Core Weblate workflows do not require "
 "external AI or machine-translation services."
 msgstr ""
+"**Kein externer KI-Anbieter erforderlich:** Die Kernabläufe von Weblate "
+"erfordern keine externen KI- oder maschinellen Übersetzungsdienste."
 
 #: security/data-residency.rst:109
 msgid ""
@@ -52346,6 +52342,13 @@ msgid ""
 "translations, and related context, so their use should be reviewed against "
 "the customer's sovereignty and data-transfer requirements."
 msgstr ""
+"**Konfigurierbare KI und maschinelle Übersetzung:** Automatische Vorschläge "
+"können nur dann maschinelle Übersetzungen von Drittanbietern oder LLM-"
+"Anbietern nutzen, wenn dies von einem Administrator oder "
+"Projektverantwortlichen konfiguriert wurde. Diese Dienste können "
+"Ausgangszeichenketten, Übersetzungen und zugehörigen Kontext erhalten; daher "
+"sollte ihre Nutzung im Hinblick auf die Souveränität des Kunden und die "
+"Anforderungen an den Datentransfer überprüft werden."
 
 #: security/data-residency.rst:115
 msgid ""
@@ -52353,27 +52356,34 @@ msgid ""
 "jurisdiction can disable external machine-translation services or use a self-"
 "hosted provider such as LibreTranslate."
 msgstr ""
+"Unternehmen, die darauf angewiesen sind, dass die KI-Verarbeitung innerhalb "
+"einer bestimmten Rechtsordnung erfolgt, können externe maschinelle "
+"Übersetzungsdienste deaktivieren oder einen selbst gehosteten Anbieter wie "
+"LibreTranslate nutzen."
 
 #: security/data-residency.rst:126
-#, fuzzy
 msgid "Customer control"
-msgstr "Kundenverwaltung"
+msgstr "Kundeneigene Kontrolle"
 
 #: security/data-residency.rst:128
 msgid "Customers retain control over their Weblate data:"
-msgstr ""
+msgstr "Kunden behalten die Kontrolle über ihre Weblate-Daten:"
 
 #: security/data-residency.rst:130
 msgid ""
 "Project translation files can be downloaded from Weblate or synchronized "
 "back to the customer's repository."
 msgstr ""
+"Projektübersetzungsdateien können von Weblate heruntergeladen oder zurück in "
+"das Repository des Kunden synchronisiert werden."
 
 #: security/data-residency.rst:132
 msgid ""
 "User data can be exported and account removal can be requested as described "
 "in :doc:`privacy-compliance`."
 msgstr ""
+"Benutzerdaten können exportiert und die Löschung des Kontos beantragt "
+"werden, wie unter :doc:`privacy-compliance` beschrieben."
 
 #: security/data-residency.rst:134
 msgid ""
@@ -52382,12 +52392,19 @@ msgid ""
 "and should be configured according to the customer's transfer and processor "
 "requirements."
 msgstr ""
+"Externe Integrationen, darunter Code-Hosting, Authentifizierung, E-Mail, "
+"Sicherungen, Analysen, Fehlerberichte und maschinelle Übersetzungen, sind "
+"optional und sollten entsprechend den Anforderungen des Kunden hinsichtlich "
+"Datenübermittlung und Datenverarbeitung konfiguriert werden."
 
 #: security/data-residency.rst:138
 msgid ""
 "Dedicated Weblate instances are available for organizations needing stronger "
 "isolation or customized operational controls."
 msgstr ""
+"Für Organisationen, die eine stärkere Isolierung oder maßgeschneiderte "
+"betriebliche Kontrollen benötigen, stehen dedizierte Weblate-Instanzen zur "
+"Verfügung."
 
 #: security/data-residency.rst:142
 msgid "Service legal documents"
@@ -52421,12 +52438,16 @@ msgid ""
 "Python dependencies are declared in :file:`pyproject.toml` and resolved "
 "in :file:`uv.lock`."
 msgstr ""
+"Python-Abhängigkeiten werden in :file:`pyproject.toml` deklariert und in "
+":file:`uv.lock` aufgelöst."
 
 #: security/dependencies.rst:16
 msgid ""
 "Frontend dependencies are declared in :file:`client/package.json` and "
 "resolved in :file:`client/yarn.lock`."
 msgstr ""
+"Frontend-Abhängigkeiten werden unter :file:`client/package.json` deklariert "
+"und in :file:`client/yarn.lock` aufgelöst."
 
 #: security/dependencies.rst:18
 msgid ""
