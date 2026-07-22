@@ -271,10 +271,7 @@ class ProfileForm(ProfileBaseForm):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        emails = get_all_user_mails(self.instance.user)
-
-        self.fields["public_email"].choices += [(x, x) for x in sorted(emails)]
-
+        self.fields["public_email"].choices = self.instance.get_public_email_choices()
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False

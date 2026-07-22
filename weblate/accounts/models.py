@@ -1315,19 +1315,33 @@ class Profile(models.Model):
             name_choices.append((Profile.CommitNameChoices.PRIVATE, site_name))
         return name_choices
 
-    def get_commit_email_choices(self) -> list[tuple[str, str]]:
+    def get_commit_email_choices(self) -> list[tuple[str, StrOrPromise]]:
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.utils import get_all_user_mails
 
         commit_emails = get_all_user_mails(self.user, filter_deliverable=False)
-        choices = []
+        choices = [("", gettext_lazy("Use account e-mail address"))]
+
         if site_commit_email := self.get_site_commit_email():
             if not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
-                choices.append(("", site_commit_email))
+                choices = [("", site_commit_email)]
             else:
                 commit_emails.add(site_commit_email)
 
         choices.extend((x, x) for x in sorted(commit_emails))
+        return choices
+
+    def get_public_email_choices(self) -> list[tuple[str, StrOrPromise]]:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.utils import get_all_user_mails
+
+        choices = [
+            ("", gettext_lazy("Hide e-mail address from public view")),
+        ]
+        choices.extend(
+            (x, x)
+            for x in sorted(get_all_user_mails(self.user, filter_deliverable=False))
+        )
         return choices
 
     def get_site_commit_name(self) -> str:

@@ -831,9 +831,9 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance:
-            self.fields["public_email"].choices = list(
-                get_all_user_mails(self.instance.user, filter_deliverable=False)
-            )
+            self.fields[
+                "public_email"
+            ].choices = self.instance.get_public_email_choices()
             self.fields[
                 "commit_email"
             ].choices = self.instance.get_commit_email_choices()
@@ -934,42 +934,40 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
         return instance
 
 
-def update_user_profile(
-    user: User,
-    profile_data: dict[str, Any],
-    context: dict[str, Any],
-) -> None:
-    profile_serializer = ProfileSerializer(
-        user.profile,
-        data=profile_data,
-        partial=True,
-        context=context,
-    )
-    profile_serializer.is_valid(raise_exception=True)
-    profile_serializer.save()
-
-
 class ProfileUpdateMixin:
     profile_field = "profile"
+    _profile_serializer: ProfileSerializer | None = None
 
-    def get_profile_update_data(self) -> dict[str, Any] | None:
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        self._profile_serializer = None
         initial_data = getattr(self, "initial_data", None)
         if not isinstance(initial_data, dict):
-            return None
+            return attrs
         profile_data = initial_data.get(self.profile_field)
         if profile_data is None:
-            return None
+            return attrs
         if not isinstance(profile_data, dict):
             msg = "Expected an object."
             raise serializers.ValidationError({self.profile_field: msg})
-        return profile_data
+        profile_serializer = ProfileSerializer(
+            self.instance.profile,
+            data=profile_data,
+            partial=True,
+            context=self.context,
+        )
+        if not profile_serializer.is_valid():
+            raise serializers.ValidationError(
+                {self.profile_field: profile_serializer.errors}
+            )
+        self._profile_serializer = profile_serializer
+        return attrs
 
     def update(self, instance, validated_data):
-        profile_data = self.get_profile_update_data()
         with transaction.atomic():
             instance = super().update(instance, validated_data)
-            if profile_data is not None:
-                update_user_profile(instance, profile_data, self.context)
+            if self._profile_serializer is not None:
+                self._profile_serializer.save()
         return instance
 
 

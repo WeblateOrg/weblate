@@ -1593,15 +1593,21 @@ class UserAPITest(APIBaseTest):
         other_user.profile.refresh_from_db()
         self.assertEqual(other_user.profile.theme, "dark")
 
-    def test_patch_profile_commit_email(self) -> None:
+    def test_patch_profile_emails(self) -> None:
         self.do_request(
             "api:user-detail",
             kwargs={"username": self.user.username},
             method="patch",
             code=400,
             format="json",
-            request={"profile": {"commit_email": "unverified@email.com"}},
+            request={
+                "profile": {
+                    "commit_email": "unverified@email.com",
+                    "public_email": "unverified@email.com",
+                }
+            },
         )
+
         verified_email = "verified@example.org"
         social = self.user.social_auth.create(provider="email", uid=verified_email)
         VerifiedEmail.objects.create(social=social, email=verified_email)
@@ -1611,10 +1617,30 @@ class UserAPITest(APIBaseTest):
             method="patch",
             code=200,
             format="json",
-            request={"profile": {"commit_email": verified_email}},
+            request={
+                "profile": {
+                    "commit_email": verified_email,
+                    "public_email": verified_email,
+                }
+            },
         )
         self.user.profile.refresh_from_db()
         self.assertEqual(self.user.profile.commit_email, verified_email)
+        self.assertEqual(self.user.profile.public_email, verified_email)
+
+        # sending an empty string clears email preferences
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={"profile": {"commit_email": "", "public_email": ""}},
+        )
+
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.commit_email, "")
+        self.assertEqual(self.user.profile.public_email, "")
 
     @override_settings(
         PRIVATE_COMMIT_NAME_TEMPLATE="", PRIVATE_COMMIT_NAME_OPT_IN=False
