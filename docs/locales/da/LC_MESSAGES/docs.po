@@ -21,7 +21,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-10 10:01+0000\n"
+"PO-Revision-Date: 2026-07-22 18:02+0000\n"
 "Last-Translator: Ulrik <ulrik@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:262
@@ -381,8 +381,8 @@ msgid ""
 msgstr ""
 "Tilføjelse af eksisterende brugere sender dem en invitation til at bekræfte. "
 "Med :setting:`REGISTRATION_OPEN` kan administratoren også invitere nye "
-"brugere via e-mail. Inviterede brugere skal gennemføre "
-"registreringsprocessen for at få adgang til projektet."
+"brugere via email. Inviterede brugere skal gennemføre registreringsprocessen "
+"for at få adgang til projektet."
 
 #: admin/access.rst:177
 msgid ""
@@ -841,7 +841,7 @@ msgid ""
 "project by anyone is assumed (see below)."
 msgstr ""
 "Et team kan ikke tildeles nogen roller – i så fald antages det, at alle har "
-"adgang til at gennemse projektet (se nedenfor)."
+"adgang til at gennemsé projektet (se nedenfor)."
 
 #: admin/access.rst:415
 msgid "Project-browsing access"
@@ -1009,8 +1009,8 @@ msgid ""
 msgstr ""
 "Når du redigerer :guilabel:`Team`, kan du angive :guilabel:`Automatiske "
 "tildelinger`, som er en liste over regulære udtryk, der bruges til "
-"automatisk at tildele nyoprettede brugere til et team baseret på deres e-"
-"mailadresser. Denne tildeling sker kun, når kontoen oprettes."
+"automatisk at tildele nyoprettede brugere til et team baseret på deres email-"
+"adresser. Denne tildeling sker kun, når kontoen oprettes."
 
 #: admin/access.rst:513
 msgid ""
@@ -1033,7 +1033,7 @@ msgid ""
 msgstr ""
 "En anden brugssag for denne mulighed kan være at give nogle ekstra "
 "rettigheder til ansatte i din virksomhed som standard. Forudsat at alle "
-"bruger virksomhedens e-mailadresser på dit domæne, kan det gøres med et "
+"bruger virksomhedens email-adresser på dit domæne, kan det gøres med et "
 "udtryk som ``^.*@mycompany.com``."
 
 #: admin/access.rst:526
@@ -2435,14 +2435,14 @@ msgstr ""
 
 #: admin/auth.rst:825
 msgid "Two-factor authentication"
-msgstr "To-faktor-godkendelse"
+msgstr "Tofaktorgodkendelse"
 
 #: admin/auth.rst:831
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
 msgstr ""
-"To-faktor-godkendelse føjer endnu et lag af sikkerhed til din konto ved at "
+"Tofaktorgodkendelse føjer endnu et lag af sikkerhed til din konto ved at "
 "kræve mere end blot en adgangskode for at logge ind."
 
 #: admin/auth.rst:833
@@ -2451,17 +2451,20 @@ msgstr "Weblate understøtter følgende to-faktorer:"
 
 #: admin/auth.rst:835
 msgid "Security keys (WebAuthn)"
-msgstr "Sikkerhedsnøgler (WebAuthn)"
+msgstr "Loginnøgler (WebAuthn)"
 
 #: admin/auth.rst:836
 msgid "Both, Passkeys and security keys are supported."
-msgstr "Både adgangs- og sikkerhedsnøgler understøttes."
+msgstr "Både loginnøgler og sikkerhedsnøgler understøttes."
 
 #: admin/auth.rst:838
 msgid ""
 "Passkeys validate your identity using touch, facial recognition, a device "
 "password, or a PIN as they include user verification."
 msgstr ""
+"Loginnøgler bekræfter din identitet ved hjælp af fingeraftryk, "
+"ansigtsgenkendelse, en enhedskode eller en pinkode, da de omfatter "
+"brugerverificering."
 
 #: admin/auth.rst:840
 msgid ""
@@ -2495,7 +2498,7 @@ msgid ""
 "device and cannot receive two-factor authentication codes."
 msgstr ""
 "Gendannelseskoder kan bruges, hvis du mister adgang til din enhed og ikke "
-"kan modtage to-faktor-godkendelseskoder."
+"kan modtage tofaktorgodkendelseskoder."
 
 #: admin/auth.rst:851
 msgid ""
@@ -4714,7 +4717,7 @@ msgstr ""
 
 #: admin/config.rst:29
 msgid "Configure this as a list of e-mail addresses:"
-msgstr "Konfigurér dette som en liste over e-mailadresser:"
+msgstr "Konfigurér dette som en liste over email-adresser:"
 
 #: admin/config.rst:48
 msgid "Configures which domains are allowed for fetching assets in Weblate."
@@ -8161,7 +8164,7 @@ msgstr ""
 
 #: admin/install.rst:154
 msgid "E-mail server"
-msgstr "E-mail-server"
+msgstr "Email-server"
 
 #: admin/install.rst:155
 msgid ""
@@ -15045,10 +15048,8 @@ msgid "Password authentication on sign-in"
 msgstr ":ref:`password-authentication`"
 
 #: admin/optionals.rst:382
-#, fuzzy
-#| msgid "Two-factor authentication"
 msgid "Second-factor authentication"
-msgstr "To-faktor-godkendelse"
+msgstr "Tofaktorgodkendelse"
 
 #: admin/optionals.rst:384
 msgid "Sitewide search"
@@ -15452,7 +15453,7 @@ msgstr "Standardværdien kan ændres ved :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: admin/projects.rst:271
 msgid "Enforced two-factor authentication"
-msgstr "Tvungen to-faktor-godkendelse"
+msgstr "Tvungen tofaktorgodkendelse"
 
 #: admin/projects.rst:275
 msgid ""
@@ -17312,7 +17313,7 @@ msgstr "Tilmeld dig på https://weblate.org/user/"
 msgid ""
 "Register your Weblate site at https://weblate.org/subscription/discovery/"
 msgstr ""
-"Registrer dit Weblate-site på https://weblate.org/subscription/discovery/"
+"Registrér dit Weblate-site på https://weblate.org/subscription/discovery/"
 
 #: admin/support.rst:130
 msgid "Copy the activation token into your Weblate management interface."
@@ -33078,6 +33079,8 @@ msgid ""
 ":ref:`2fa` is now supported using Passkeys, WebAuthn, authentication apps "
 "(TOTP), and recovery codes."
 msgstr ""
+":ref:`2fa` understøttes nu med loginnøgler, WebAuthn, godkendelsesapps "
+"(TOTP) og gendannelseskoder."
 
 #: changes/v5.rst:1507
 msgid ":ref:`2fa` can be enforced at the team or project level."
@@ -39375,10 +39378,8 @@ msgid ""
 msgstr ""
 
 #: devel/reporting-example.rst:2
-#, fuzzy
-#| msgid "E-mail"
 msgid "Email"
-msgstr "E-mail"
+msgstr "Email"
 
 #: devel/reporting-example.rst:2
 msgid "Date joined"
@@ -49815,10 +49816,8 @@ msgid "User invited"
 msgstr "Bruger inviteret"
 
 #: snippets/addon-parameters-autogenerated.rst:436
-#, fuzzy
-#| msgid "Access for browse to a project"
 msgid "A user was invited to a project."
-msgstr "Adgang til at gennemse et projekt"
+msgstr "Adgang til at gennemsé et projekt."
 
 #: snippets/addon-parameters-autogenerated.rst:439
 msgid "Repository notification received"
@@ -52389,8 +52388,8 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"Slutlinjer er linjer, der ligner RFC 822 e-mailoverskrifter, i slutningen af "
-"den ellers friformede del af en commit-besked, såsom \"Medforfatter: ...\"."
+"Slutlinjer er linjer, der ligner RFC 822 email-headers, i slutningen af den "
+"ellers friformede del af en commit-besked, såsom \"Medforfatter: ...\"."
 
 #: snippets/addons-autogenerated.rst:1514
 msgid "Commit message"
@@ -58498,7 +58497,7 @@ msgstr ""
 
 #: snippets/machines-autogenerated.rst:826
 msgid "Contact e-mail"
-msgstr "Kontakt e-mail"
+msgstr "Kontakt-email"
 
 #: snippets/machines-autogenerated.rst:836
 msgid "Huge translation memory with machine translation."
@@ -60212,7 +60211,7 @@ msgstr ""
 
 #: user/glossary.rst:63
 msgid "You can browse all glossary terms:"
-msgstr "Du kan gennemse alle ordlistetermer:"
+msgstr "Du kan gennemsé alle ordlistetermer:"
 
 #: user/glossary.rst:67
 msgid "or edit them as any translations."
@@ -60236,7 +60235,7 @@ msgstr "Ordlistetermer"
 
 #: user/glossary.rst:84
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: user/glossary.rst:85
 msgid "Purpose"
@@ -61654,7 +61653,7 @@ msgstr "Søg efter aktive brugere."
 
 #: user/search.rst:379
 msgid "Search by e-mail."
-msgstr "Søg efter e-mail."
+msgstr "Søg efter email."
 
 #: user/search.rst:381
 msgid "Search by audit log IP address."
@@ -62247,7 +62246,7 @@ msgstr ""
 
 #: user/translating.rst:344
 msgid "Browse the next translation string."
-msgstr "Gennemse den næste oversættelsesstreng."
+msgstr "Gennemsé den næste oversættelsesstreng."
 
 #: user/translating.rst:346
 msgid ":kbd:`←`"
@@ -62255,7 +62254,7 @@ msgstr ""
 
 #: user/translating.rst:346
 msgid "Browse the previous translation string."
-msgstr "Gennemse den forrige oversættelsesstreng."
+msgstr "Gennemsé den forrige oversættelsesstreng."
 
 #: user/translating.rst:352
 msgid "Visual keyboard"
