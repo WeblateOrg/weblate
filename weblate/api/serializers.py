@@ -831,23 +831,13 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance:
-            user_emails = list(
+            self.fields["public_email"].choices = list(
                 get_all_user_mails(self.instance.user, filter_deliverable=False)
             )
-            self.fields["public_email"].choices = user_emails
-
-            commit_email_choices = user_emails
-            if site_commit_email := self.instance.get_site_commit_email():
-                commit_email_choices.append(site_commit_email)
-            self.fields["commit_email"].choices = commit_email_choices
-
-            name_choices = [
-                (Profile.CommitNameChoices.DEFAULT, "Global default"),
-                (Profile.CommitNameChoices.PUBLIC, "Public"),
-            ]
-            if self.instance.get_site_commit_name():
-                name_choices.append((Profile.CommitNameChoices.PRIVATE, "Private"))
-            self.fields["commit_name"].choices = name_choices
+            self.fields[
+                "commit_email"
+            ].choices = self.instance.get_commit_email_choices()
+            self.fields["commit_name"].choices = self.instance.get_commit_name_choices()
 
     def validate(self, attrs):
         attrs = super().validate(attrs)

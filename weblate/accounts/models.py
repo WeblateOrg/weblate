@@ -1299,6 +1299,37 @@ class Profile(models.Model):
             return visible_name
         return self.get_site_commit_name() or visible_name
 
+    def get_commit_name_choices(
+        self,
+    ) -> list[tuple[Profile.CommitNameChoices, StrOrPromise]]:
+        site_name = self.get_site_commit_name()
+        if not settings.PRIVATE_COMMIT_NAME_OPT_IN and site_name:
+            default_label = gettext_lazy("Use anonymous account name")
+        else:
+            default_label = gettext_lazy("Use account name")
+        name_choices = [
+            (Profile.CommitNameChoices.DEFAULT, default_label),
+            (Profile.CommitNameChoices.PUBLIC, self.user.get_visible_name()),
+        ]
+        if site_name:
+            name_choices.append((Profile.CommitNameChoices.PRIVATE, site_name))
+        return name_choices
+
+    def get_commit_email_choices(self) -> list[tuple[str, str]]:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.utils import get_all_user_mails
+
+        commit_emails = get_all_user_mails(self.user, filter_deliverable=False)
+        choices = []
+        if site_commit_email := self.get_site_commit_email():
+            if not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
+                choices.append(("", site_commit_email))
+            else:
+                commit_emails.add(site_commit_email)
+
+        choices.extend((x, x) for x in sorted(commit_emails))
+        return choices
+
     def get_site_commit_name(self) -> str:
         """Return the generated private commit name from the site template."""
         return format_private_commit_data(
