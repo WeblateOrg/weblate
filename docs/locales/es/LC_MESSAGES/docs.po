@@ -35,9 +35,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-16 03:17+0200\n"
-"PO-Revision-Date: 2026-07-16 02:42+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-20 11:02+0000\n"
+"Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -1701,7 +1700,7 @@ msgstr "Configurar addons para todo el sitio, consulte :ref:`addons`."
 
 #: admin/admin.rst:29
 msgid "Performance report"
-msgstr "Reporte de rendimiento"
+msgstr "Parte de rendimiento"
 
 #: admin/admin.rst:31
 msgid ""
@@ -1826,8 +1825,8 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
-"En la sección :guilabel:`Informes`, puedes comprobar el estado de tu sitio, "
-"ajústalo para :ref:`production`, o gestiona las claves SSH utilizadas para "
+"En la sección :guilabel:`Partes`, puedes comprobar el estado de tu sitio, "
+"ajustarlo para :ref:`production`, o gestiona las claves SSH utilizadas para "
 "acceder a :ref:`vcs-repos`."
 
 #: admin/admin.rst:91
@@ -2108,10 +2107,10 @@ msgid ""
 "using :setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the "
 "Docker container."
 msgstr ""
-"La mayoría de los backends de autenticación requieren HTTPS. Una vez que el "
+"La mayoría de los backend de autenticación requieren HTTPS. Una vez que el "
 "HTTPS esté habilitado en tu servidor web, por favor configura Weblate para "
-"que lo informe correctamente usando :setting:`ENABLE_HTTPS`, o "
-"mediante :envvar:`WEBLATE_ENABLE_HTTPS` en el contenedor Docker."
+"generar partes apropiados utilizando :setting:`ENABLE_HTTPS`, o mediante "
+":envvar:`WEBLATE_ENABLE_HTTPS` en el contenedor Docker."
 
 #: admin/auth.rst:70
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -7760,6 +7759,9 @@ msgid ""
 "to 90 days. Changing the value also changes when existing reports become "
 "eligible for removal by the daily cleanup task."
 msgstr ""
+"Defina cuantos días generados de partes de traducción están retenidos. Por "
+"defecto a 90 días. Cambiar el valor además cambia cuando existan partes se "
+"vuelven elegibles para retirada por la tarea de purga diariamente."
 
 #: admin/config.rst:2113
 msgid "Limits how many notifications for a single user will be sent out."
@@ -8286,7 +8288,7 @@ msgstr ""
 
 #: admin/config.rst:2607
 msgid "The URL where your Weblate instance reports its status."
-msgstr "La URL donde su instancia de Weblate informa su estado."
+msgstr "La URL donde su instancia de Weblate genera partes sobre su estado."
 
 #: admin/config.rst:2616
 msgid ""
@@ -9223,8 +9225,8 @@ msgid ""
 "Repair duplicate strings reported by Weblate when the file contains repeated "
 "units."
 msgstr ""
-"Repara cadenas duplicadas reportadas por Weblate cuando el archivo contenga "
-"unidades repetidas."
+"Repara cadenas duplicadas generando partes por Weblate cuando el archivo "
+"contenga unidades repetidas."
 
 #: admin/continuous.rst:260
 msgid ":guilabel:`Cleanup unused`"
@@ -9290,8 +9292,8 @@ msgid ""
 "generic parse error."
 msgstr ""
 "Si no se cumple ninguna de estas condiciones, Weblate conserva los cambios "
-"pendientes en su base de datos e informa de un error de recuperación en "
-"lugar de fallar posteriormente con un error de intérprete genérico."
+"pendientes en su base de datos y partes de un error de recuperación en lugar "
+"de fallar posteriormente con un error de intérprete genérico."
 
 #: admin/continuous.rst:287
 msgid "Avoiding merge conflicts by focusing on Git operations"
@@ -11095,7 +11097,7 @@ msgid ""
 "in the admin interface, which will give you hints of potential non optimal "
 "configuration on your site."
 msgstr ""
-"Una vez que haya terminado, también debe comprobar el :guilabel:`Informe de "
+"Una vez que haya terminado, también debe comprobar el :guilabel:`Parte de "
 "rendimiento` en la interfaz administrativa, que le dará pistas de "
 "configuración no óptima potencial en su página."
 
@@ -11285,6 +11287,9 @@ msgid ""
 "Weblate deployment checks report non-finite PostgreSQL relation statistics. "
 "Run ``ANALYZE`` on the reported relations to rebuild corrupted statistics."
 msgstr ""
+"El despliegue de Weblate comprueba los partes no finitos de estadísticas en "
+"relación con PostgreSQL. Ejecute ``ANALYZE`` en las relaciones del parte "
+"generado para reconstruir estadísticas corruptas."
 
 #: admin/install.rst:983
 msgid "Configure cache"
@@ -12218,7 +12223,7 @@ msgstr ""
 
 #: admin/install.rst:1676 admin/install/docker.rst:2162
 msgid "Collecting error reports and monitoring performance"
-msgstr "Recopilación de informes de errores y supervisión del rendimiento"
+msgstr "Recopilación de partes de error y supervisión del rendimiento"
 
 #: admin/install.rst:1678
 msgid ""
@@ -12231,9 +12236,9 @@ msgstr ""
 "Weblate, como cualquier otro software, puede fallar. Para recopilar estados "
 "de falla útiles, recomendamos utilizar servicios de terceros para recopilar "
 "dicha información. Esto es especialmente útil en caso de fallas en las "
-"tareas de Celery, que de lo contrario solo informarían errores a los "
-"registros y no se le notificará sobre ellos. Weblate tiene soporte para los "
-"siguientes servicios:"
+"tareas de Celery, que de lo contrario solo partes de errores a los registros "
+"y no se le notificará sobre ellos. Weblate tiene soporte para los siguientes "
+"servicios:"
 
 #: admin/install.rst:1687
 msgid ""
@@ -12287,7 +12292,7 @@ msgstr ""
 
 #: admin/install.rst:1717
 msgid "Google Cloud Error Reporting"
-msgstr "Informe de error de Google Cloud"
+msgstr "Partes de error en Google Cloud"
 
 #: admin/install.rst:1719
 msgid ""
@@ -12295,9 +12300,10 @@ msgid ""
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
-"Weblate puede informar sobre errores del servidor gestionados a `Google "
-"Cloud Error Reporting`_. Instale Weblate con el extra ``google-errors`` y "
-"configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` en :file:`settings.py`:"
+"Weblate puede generar partes acerca de errores del servidor gestionados a "
+"`Google Cloud Error Reporting`_. Instale Weblate con el extra ``google-"
+"errors`` y configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` en "
+":file:`settings.py`:"
 
 #: admin/install.rst:1729
 msgid ""
@@ -12306,10 +12312,10 @@ msgid ""
 "values can be overridden by setting ``service`` or ``version`` "
 "in :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 msgstr ""
-"Weblate informa automáticamente errores bajo el servicio ``Weblate`` y usa "
-"la versión actual de Weblate o la revisión de Git como la versión informada. "
-"Estos valores pueden ser anulados configurando ``servicio`` o ``versión`` "
-"en :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
+"Weblate automáticamente genera partes de errores bajo el servicio "
+"``Weblate`` y usa la versión actual de Weblate o la revisión de Git como la "
+"versión informada. Estos valores pueden ser anulados configurando "
+"``servicio`` o ``versión`` en :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 
 #: admin/install.rst:1737
 msgid "OpenTelemetry"
@@ -13813,10 +13819,8 @@ msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Configura :setting:`UNUSED_ALERT_DAYS`."
 
 #: admin/install/docker.rst:1253
-#, fuzzy
-#| msgid "Configures :setting:`GET_HELP_URL`."
 msgid "Configures :setting:`REPORT_EXPIRY`."
-msgstr "Configura :setting:`GET_HELP_URL`."
+msgstr "Configura :setting:`REPORT_EXPIRY`."
 
 #: admin/install/docker.rst:1259
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
@@ -14634,7 +14638,7 @@ msgstr "Configura :setting:`SENTRY_SEND_PII`."
 #: admin/install/docker.rst:2217
 msgid "To enable support for Google Cloud Error Reporting, set following:"
 msgstr ""
-"Para habilitar mantenimiento con Informes de Error en Gnome Cloud, defina lo "
+"Para habilitar mantenimiento con Partes de Error en Google Cloud, defina lo "
 "siguiente:"
 
 #: admin/install/docker.rst:2221
@@ -14647,16 +14651,16 @@ msgid ""
 "Google Cloud project to report errors to. If omitted, the Google client uses "
 "application default credentials to detect the project."
 msgstr ""
-"proyecto de Google Cloud para informar errores. Si se omite, el cliente de "
-"Google utiliza credenciales predeterminadas de la aplicación para detectar "
-"el proyecto."
+"Proyecto de Google Cloud para partes de errores. Si es omitido, el cliente "
+"de Google utiliza la aplicación de credenciales predeterminadas para "
+"detectar el proyecto."
 
 #: admin/install/docker.rst:2230
 msgid ""
 "Service name to use in Google Cloud Error Reporting, defaults to ``weblate``."
 msgstr ""
 "Nombre del servicio que se utilizará en Google Cloud Error Reporting, "
-"predeterminado a ``Weblate``."
+"predeterminado a ``weblate``."
 
 #: admin/install/docker.rst:2232
 msgid "To enable support for OpenTelemetry tracing, set following:"
@@ -16452,11 +16456,11 @@ msgid ""
 msgstr ""
 "Si esto también falla, se creará una nueva definición de idioma usando los "
 "valores por defecto (dirección del texto de izquierda a derecha, un plural). "
-"El lenguaje creado automáticamente con código ``xx_XX`` se nombrará "
-"como :guilabel:`xx_XX (generado)`. Es posible que quieras cambiar esto en la "
-"interfaz administrativa más tarde, (consulte :ref:`changing-languages`) e "
-"informar al seguimiento de incidencias (consulte :ref:`contributing`), para "
-"que la definición adecuada pueda ser agregada a la próxima versión de "
+"El lenguaje creado automáticamente con código ``xx_XX`` se nombrará como "
+":guilabel:`xx_XX (generado)`. Es posible que quieras cambiar esto en la "
+"interfaz administrativa más tarde, (consulte :ref:`changing-languages`) y "
+"generar un parte al seguimiento de incidencias (consulte :ref:`contributing`)"
+", para que la definición adecuada pueda ser agregada a la próxima versión de "
 "Weblate."
 
 #: admin/languages.rst:59
@@ -17834,9 +17838,8 @@ msgstr ""
 "sugerencias y en las vistas de administración de memoria. Mantenga Celery en "
 "ejecución después de la actualización para que la tarea periódica pueda "
 "iniciar o reanudar la migración. Los administradores del sitio pueden "
-"supervisar el proceso de reutilización y la consolidación de entradas "
-"duplicadas en :guilabel:`Administración` > :guilabel:`Informe de "
-"rendimiento`."
+"supervisar el proceso de reutilización y la consolidación de apuntes "
+"duplicados en :guilabel:`Administración` > :guilabel:`Parte de rendimiento`."
 
 #: admin/memory.rst:42
 msgid "Imported translation memory"
@@ -19695,8 +19698,8 @@ msgid ""
 msgstr ""
 "Si falta la definición de idioma para una traducción, se crea una definición "
 "vacía y se denomina \"cs_CZ (generado)\". Debe ajustar la definición e "
-"informar de ello a los autores de Weblate, para que los idiomas faltantes "
-"puedan incluirse en la próxima versión."
+"generar partes de ello a los autores de Weblate, para que los idiomas "
+"faltantes puedan incluirse en la próxima versión."
 
 #: admin/projects.rst:481
 msgid ""
@@ -20221,16 +20224,16 @@ msgstr ""
 
 #: admin/projects.rst:773
 msgid "Source string bug reporting address"
-msgstr "Dirección para informar defectos en la cadena origen"
+msgstr "Dirección para el parte de defectos en la cadena origen"
 
 #: admin/projects.rst:775
 msgid ""
 "Email address used for reporting upstream bugs. This address will also "
 "receive notification about any source string comments made in Weblate."
 msgstr ""
-"Dirección de correo-e para informar defectos en la rama principal. Esta "
-"dirección además recibirá notificación acerca de cualquier comentario de la "
-"cadena de fuente realizada en Weblate."
+"Dirección de correo-e para generar un parte sobre defectos en la rama "
+"principal. Esta dirección además recibirá notificación acerca de cualquier "
+"comentario de la cadena de fuente realizada en Weblate."
 
 #: admin/projects.rst:778
 msgid ""
@@ -20238,7 +20241,7 @@ msgid ""
 "the :mailheader:`Report-Msgid-Bugs-To` header of the file."
 msgstr ""
 "Con el formato :ref:`gettext`, esta dirección además es guardada por Weblate "
-"en la cabecera :mailheader:`Report-Msgid-Bugs-To` en el fichero."
+"en la cabecera :mailheader:`Report-Msgid-Bugs-To` en el archivo."
 
 #: admin/projects.rst:784
 msgid "Do not show glossary matches"
@@ -21453,7 +21456,7 @@ msgstr ""
 "Los paquetes de asistencia comprados pueden ser integrados opcionalmente en "
 "su interfaz Weblate `subscription management <https://weblate.org/user/>`_ , "
 "desde donde encontrará un enlace para ello. La instancia básica detalla "
-"sobre su instalación además se informó para Weblate de esta manera."
+"sobre su instalación además se generó in parte para Weblate de esta manera."
 
 #: admin/support.rst:24
 msgid "Info sent to the Weblate"
@@ -22269,8 +22272,8 @@ msgstr ""
 "Algunas migraciones realizan la repoblación y la consolidación del ámbito de "
 "la memoria de traducción en segundo plano mediante tareas periódicas de "
 "Celery. Mantén Celery en ejecución tras la migración y supervisa el progreso "
-"en :guilabel:`Administración` > :guilabel:`Informe de rendimiento`. "
-"Consulte :ref:`memory-scopes` para obtener más detalles."
+"en :guilabel:`Administración` > :guilabel:`Parte de rendimiento`. Consulte "
+":ref:`memory-scopes` para obtener más detalles."
 
 #: admin/upgrade.rst:119
 msgid "Version-specific instructions"
@@ -23025,7 +23028,8 @@ msgstr ""
 #: api.rst:211
 msgid "The status of rate limiting is reported in following headers:"
 msgstr ""
-"El estado del tipo limitado está reportado en las siguientes cabeceras:"
+"El estado del tipo limitado está generado un parte en las siguientes "
+"cabeceras:"
 
 #: api.rst:214
 msgid "Allowed number of requests to perform"
@@ -23143,7 +23147,7 @@ msgstr ""
 
 #: api.rst:3157 snippets/permissions.rst:101
 msgid "Reports"
-msgstr "Informes"
+msgstr "Partes"
 
 #: api.rst:3192
 msgid "Tasks"
@@ -23250,6 +23254,9 @@ msgid ""
 "background, stored for later download, available at workspace scope, and "
 "include translator work analysis."
 msgstr ""
+":doc:`Partes de traducción </devel/reporting>` ahora son generados en el "
+"segundo plano, almacenado para descarga posterior, disponible en ámbito de "
+"espacio de trabajo, e incluye análisis de trabajo del traductor."
 
 #: changes.rst:10
 msgid ""
@@ -23341,6 +23348,8 @@ msgid ""
 "Improved :ref:`screenshots` OCR reliability and error reporting when "
 "downloading recognition data."
 msgstr ""
+"Se ha mejorado la fiabilidad del :ref:`screenshots` de OCR y el parte de "
+"errores al descargar datos de reconocimiento."
 
 #: changes.rst:24
 msgid ""
@@ -23439,6 +23448,12 @@ msgid ""
 "returned task URL, and fetch the completed report. See :http:post:`/api/"
 "reports/`."
 msgstr ""
+"Los puntos finales del punto final de API REST ``credits`` del componente "
+"del proyecto y sus campos de respuesta ``credits_url`` ha sido reemplazado "
+"por puntos finales de alcance ``reports`` y ``reports_url``. La generación "
+"del parte de créditos ahora es asíncrona; los clientes requieren enviar un "
+"parte de ``créditos``, seguir la URL de la tarea devuelta y obtener el parte "
+"completo. Consulte :http:post:`/api/reports/`."
 
 #: changes.rst:42 changes.rst:100 changes.rst:193 changes.rst:215
 #: changes.rst:266 changes.rst:336 changes/v4.rst:54 changes/v4.rst:86
@@ -23601,15 +23616,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:69
-#, fuzzy
-#| msgid ""
-#| "Delete translation memory [`Administration`, `Manage translation memory`]"
 msgid ""
 "Translation memory fuzzy lookups are now faster on large translation "
 "memories."
 msgstr ""
-"Borrar la memoria de traducción [`Administración`, `Gestión de la memoria de "
-"traducción`]"
+"La memoria de traducción difusa aparece son ahora más rápidas en memorias de "
+"traducción más grandes."
 
 #: changes.rst:70
 msgid ""
@@ -23916,11 +23928,11 @@ msgid ""
 "verification, SBOMs, dependency handling, vulnerability reporting, hosted-"
 "service incident response, and self-hosted operator responsibilities."
 msgstr ""
-"Expandió :doc:`security documentation </security/index>` para datos "
-"redidentes, soberanía de nube UE, liberación de artefactos, versiones "
-"admitidas, verificación de lanzamiento, SBOM, dependencia manipulada, "
-"informes de vulnerabilidad, respuesta de incidencia del servicio hospedado, "
-"y responsabilidades de operador de hospedaje autónomo."
+"Expandió :doc:`security documentation </security/index>` para datos de "
+"residencia, soberanía de nube UE, liberación de artefactos, versiones "
+"admitidas, verificación de lanzamiento, SBOM, dependencia manipulada, partes "
+"de vulnerabilidad, respuesta de incidencia del servicio hospedado, y "
+"responsabilidades de operador de hospedaje autónomo."
 
 #: changes.rst:134
 msgid ""
@@ -24221,7 +24233,7 @@ msgid ""
 "Webhook target fallback matching is now stricter and reported in component "
 "diagnostics."
 msgstr ""
-"La coincidencia de destino de reserva del webhook ahora es más estricta y se "
+"La coincidencia de destino de reserva del Webhook ahora es más estricta y se "
 "informa en los diagnósticos del componente."
 
 #: changes.rst:168
@@ -24478,7 +24490,8 @@ msgstr ""
 #: changes.rst:233
 msgid "Added :ref:`cost estimates <cost-estimate>` to translation reports."
 msgstr ""
-"Se agregó :ref:`costo estimado <cost-estimate>` para informes de traducción."
+"Se agregó el :ref:`costo estimado <cost-estimate>` para los partes de "
+"traducción."
 
 #: changes.rst:234
 msgid ""
@@ -27594,8 +27607,8 @@ msgstr "Compatibilidad con django_auth_ldap 1.3.0."
 #: changes/v2.rst:46
 msgid "Configuration errors are now stored and reported persistently."
 msgstr ""
-"Los errores de configuración ahora se almacenan y se informan de forma "
-"persistente."
+"Los errores de configuración ahora se almacenan y generan los partes de "
+"forma persistente."
 
 #: changes/v2.rst:47
 msgid "Honor ignore flags in whitespace autofixer."
@@ -27624,7 +27637,7 @@ msgstr "Se retiró compatibilidad para anuncios en correo-e de notificación."
 #: changes/v2.rst:53
 msgid "Improved translation progress reporting at language level."
 msgstr ""
-"Se han mejorado los informes de progreso de la traducción a nivel de idioma."
+"Se han mejorado los partes de progreso de la traducción a nivel de idioma."
 
 #: changes/v2.rst:54
 msgid "Improved support for different plural formulas."
@@ -28072,7 +28085,7 @@ msgstr "El historial ahora incluye los cambios a las cadenas."
 
 #: changes/v2.rst:190
 msgid "Better error reporting when adding new translation."
-msgstr "Mejor informe de error al agregar una traducción nueva."
+msgstr "Mejor parte de error al agregar una traducción nueva."
 
 #: changes/v2.rst:191
 msgid "Added per language search within project."
@@ -28776,7 +28789,7 @@ msgstr ""
 
 #: changes/v2.rst:393
 msgid "Added support for error reporting to Rollbar."
-msgstr "Agregó compatibilidad para informes de errores a Rollbar."
+msgstr "Agregó compatibilidad para parte de error a Rollbar."
 
 #: changes/v2.rst:394
 msgid "Projects now can have multiple owners."
@@ -29227,8 +29240,8 @@ msgstr "Se corrigió la representación de sugerencias."
 #: changes/v3.rst:34
 msgid "Fixed some strings wrongly reported as having no words."
 msgstr ""
-"Se corrigió un problema por el cual algunas cadenas incorrectamente "
-"informaban que no contenían ninguna palabra."
+"Se corrigieron algunas cadenas incorrectamente reportadas como no tener "
+"ninguna palabra."
 
 #: changes/v3.rst:37
 msgid "Weblate 3.11.1"
@@ -29627,7 +29640,7 @@ msgstr "Eliminar algunos archivos innecesarios de copias de seguridad."
 
 #: changes/v3.rst:153
 msgid "Fixed potential crash in reports."
-msgstr "Se corrigió un posible bloqueo en los informes."
+msgstr "Se corrigió un cuelgue potencial en los partes."
 
 #: changes/v3.rst:154
 msgid "Fixed cross database migration failure."
@@ -29806,7 +29819,7 @@ msgstr "Se agregaron capacidades de búsqueda avanzada."
 
 #: changes/v3.rst:196
 msgid "Allow users to download their own reports."
-msgstr "Concede a usuarios descargar sus propios informes."
+msgstr "Concede a usuarios descargar sus propios partes."
 
 #: changes/v3.rst:197
 msgid "Added localization guide to help configuring components."
@@ -29901,7 +29914,7 @@ msgstr "Agregado mantenimiento para cambios de filtro."
 
 #: changes/v3.rst:223
 msgid "Extended predefined periods for reporting."
-msgstr "Periodos predefinidos extendidos para informes."
+msgstr "Periodos predefinidos extendidos para partes."
 
 #: changes/v3.rst:224
 msgid "Added webhook support for Azure Repos."
@@ -29990,7 +30003,7 @@ msgstr ""
 #: changes/v3.rst:247
 msgid "More verbosely report missing file format requirements."
 msgstr ""
-"Más reportes verbosos con ausencia de requisitos del formato del archivo."
+"Más partes detallados con ausencia de requisitos del formato del archivo."
 
 #: changes/v3.rst:250
 msgid "Weblate 3.7"
@@ -30010,7 +30023,7 @@ msgstr "Utiliza búsqueda consistente con aplicación para explorar el API."
 
 #: changes/v3.rst:256
 msgid "Include approved stats in the reports."
-msgstr "Incluir estadísticas aprobadas en los informes."
+msgstr "Incluir estadísticas aprobadas en los partes."
 
 #: changes/v3.rst:257
 msgid "Report progress when updating translation component."
@@ -30111,7 +30124,7 @@ msgstr "Incluye estadísticas de completado en general para idiomas."
 
 #: changes/v3.rst:279
 msgid "Added reporting at project and global scope."
-msgstr "Agregaron informes en competencia de proyecto y global."
+msgstr "Agregaron partes en ámbito de proyecto y global."
 
 #: changes/v3.rst:280
 msgid "Improved user interface when showing translation status."
@@ -30413,7 +30426,7 @@ msgstr "Ahora es posible cambiar el nombre y mover proyectos y componentes."
 
 #: changes/v3.rst:367
 msgid "Include characters counts in reports."
-msgstr "Se incluye el recuento de caracteres en los informes."
+msgstr "Se incluye el recuento de caracteres en los partes."
 
 #: changes/v3.rst:368
 msgid ""
@@ -30571,11 +30584,12 @@ msgstr "Manipulación de error mejorada en el módulo gitexport."
 
 #: changes/v3.rst:414
 msgid "Fixed progress reporting for newly added languages."
-msgstr "Se corrigió progreso de informe para idiomas añadidos nuevamente."
+msgstr "Se corrigió progreso del parte para idiomas nuevamente añadidos."
 
 #: changes/v3.rst:415
 msgid "Correctly report Celery worker errors to Sentry."
-msgstr "Correctamente informa errores de trabajador Celery para Sentry."
+msgstr ""
+"Genera correctamente los partes de errores de trabajador Celery para Sentry."
 
 #: changes/v3.rst:416
 msgid "Fixed creating new translations with Qt Linguist."
@@ -30667,7 +30681,7 @@ msgstr "Modo de edición configurable (zen/completo)."
 
 #: changes/v3.rst:440
 msgid "Added support for error reporting to Sentry."
-msgstr "Se agregó compatibilidad para reportar error a Sentry."
+msgstr "Se agregó compatibilidad para reportes de error a Sentry."
 
 #: changes/v3.rst:441
 msgid "Added support for automated daily update of repositories."
@@ -30900,7 +30914,7 @@ msgstr ""
 
 #: changes/v4.rst:11
 msgid "Fixed language filtering in reports."
-msgstr "Se corrigió filtrado de idioma en informes."
+msgstr "Se corrigió filtrado de idioma en los partes."
 
 #: changes/v4.rst:12
 msgid "Improved ModernMT languages mapping."
@@ -31085,7 +31099,7 @@ msgstr "*Publicada el 17 de abril de 2023.*"
 
 #: changes/v4.rst:68
 msgid "Allow to filter on language in reports."
-msgstr "Concede filtrar por idioma en los informes."
+msgstr "Concede filtrar por idioma en los partes."
 
 #: changes/v4.rst:69
 msgid "Dropped deprecated command ``cleanup_celery``."
@@ -31744,7 +31758,7 @@ msgstr ""
 
 #: changes/v4.rst:279
 msgid "Improved error reporting when uploading files."
-msgstr "Se mejoró el informe de error cuando suba archivos."
+msgstr "Se mejoró el parte de error cuando suba archivos."
 
 #: changes/v4.rst:280
 msgid "Fetch all user verified e-mails from GitHub during authentication."
@@ -34353,8 +34367,7 @@ msgstr "Se corrigió la autenticación LDAP con sincronización de grupo."
 #: changes/v4.rst:1048
 msgid "Fixed crash in reporting automatic translation progress."
 msgstr ""
-"Se corrigió un cierre inesperado al informar del progreso automático de la "
-"traducción."
+"Se corrigió un cuelgue en el parte del progreso automático de la traducción."
 
 #: changes/v4.rst:1049
 msgid "Fixed Git commit squashing with trailers enabled."
@@ -34814,8 +34827,8 @@ msgstr ""
 #: changes/v4.rst:1159
 msgid "API now reports rate limiting status in the HTTP headers."
 msgstr ""
-"El API ahora informa del estado de limitación de velocidad en las cabeceras "
-"HTTP."
+"El API ahora genera partes de cantidad de limitación de estado en las "
+"cabeceras HTTP."
 
 #: changes/v4.rst:1160
 msgid "Added support for Google Translate V3 API (Advanced)."
@@ -34866,7 +34879,7 @@ msgid ""
 "There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting "
 "of rate limiting in the API."
 msgstr ""
-"Hay cambio en ajustes de ``DEFAULT_THROTTLE_CLASSES`` para conceder reporte "
+"Hay cambio en ajustes de ``DEFAULT_THROTTLE_CLASSES`` para conceder partes "
 "de tipo de limitación en el API."
 
 #: changes/v4.rst:1179
@@ -34938,7 +34951,7 @@ msgstr "*Publicada el 2 de mayo de 2020.*"
 
 #: changes/v4.rst:1200
 msgid "Fixed possible crash in reports."
-msgstr "Se corrigió cuelgue posible en informes."
+msgstr "Se corrigió cuelgue posible en los partes."
 
 #: changes/v4.rst:1201
 msgid "User mentions in comments are now case insensitive."
@@ -34997,7 +35010,7 @@ msgstr ""
 
 #: changes/v4.rst:1220
 msgid "Included edit distance in changes listing and CSV and reports."
-msgstr "Distancia de edición incluida en cambios listados y CSV e informes."
+msgstr "Distancia de edición incluida en cambios listados y CSV y los partes."
 
 #: changes/v4.rst:1221
 msgid "Avoid false positives of punctuation spacing check for Canadian French."
@@ -35015,7 +35028,7 @@ msgstr "Se corrigió falso positivo con comprobación de anchura cero."
 
 #: changes/v4.rst:1224
 msgid "Improved reporting of configuration errors."
-msgstr "Reporte mejorado de errores de configuración."
+msgstr "Sistema de partes mejorado en los errores de configuración."
 
 #: changes/v4.rst:1225
 msgid "Fixed bilingual source upload."
@@ -35445,9 +35458,9 @@ msgid ""
 "Interrupted Git rebases now recover more reliably after worker restarts, and "
 "signal-terminated backend commands are reported more clearly."
 msgstr ""
-"Las interrupción de operaciones de rebase en Git ahora se recuperan de forma "
-"más fiable tras el reinicio del proceso, y los comandos en segundo plano que "
-"finalizan por señal se notifican con mayor claridad."
+"Rebases de Git interrumpidas ahora se recuperan con más fiabilidad tras el "
+"reinicio del trabajador, y los comandos de backend que finalizan por señal "
+"se notifican con mayor claridad."
 
 #: changes/v5.rst:48
 msgid ""
@@ -35528,8 +35541,8 @@ msgid ""
 "instead of failing the request."
 msgstr ""
 ":ref:`Translation memory upload <memory-user>` y :wladmin:`import_memory` "
-"ahora informan un error de validación para los archivos TMX a los que les "
-"falta el encabezado requerido en lugar de rechazar la solicitud."
+"ahora generan un parte de un error de validación para los archivos TMX a los "
+"que les falta el encabezado requerido en lugar de rechazar la solicitud."
 
 #: changes/v5.rst:57
 msgid ""
@@ -35909,8 +35922,8 @@ msgid ""
 "later with a generic parse error."
 msgstr ""
 ":ref:`manage-vcs-reset-reapply` ahora recrea archivos de traducción ausentes "
-"cuando sea posible y por otro lado informa un error de recuperación clara en "
-"vez de fallar más tarde con un error de interpretación genérica."
+"cuando sea posible y por otro lado da un parte de error de recuperación "
+"clara en vez de fallar más tarde con un error de interpretación genérica."
 
 #: changes/v5.rst:122
 msgid ""
@@ -35958,8 +35971,8 @@ msgid ""
 "Improved :ref:`backup` status reporting while keeping maintenance after "
 "failed backup attempts."
 msgstr ""
-"Estado :ref:`backup` mejorado informando mientras que conserva mantenimiento "
-"tras intentos de respaldo incorrectos."
+"Estado :ref:`backup` mejorado sobre partes mientras que conserva "
+"mantenimiento tras intentos de respaldo incorrectos."
 
 #: changes/v5.rst:128
 msgid ""
@@ -36166,9 +36179,9 @@ msgid ""
 "Reduced error-reporting noise for handled authentication callback failures "
 "and clarified password reset confirmation messages."
 msgstr ""
-"Se redujo el ruido en los informes de errores cuando se gestionaron fallos "
-"en las devoluciones de llamada de autenticación y se aclararon los mensajes "
-"de confirmación."
+"Se redujo el ruido en los partes de errores cuando se gestionaron fallos en "
+"las devoluciones de llamada de autenticación y se aclararon los mensajes de "
+"confirmación."
 
 #: changes/v5.rst:159
 msgid ""
@@ -36657,7 +36670,7 @@ msgstr ""
 #: changes/v5.rst:292
 msgid ":doc:`/user/search` better reports errors in the query strings."
 msgstr ""
-"Errores de Informes :doc:`/user/search` mejorados internos a cadenas "
+"Errores de los partes :doc:`/user/search` mejorados internos a cadenas "
 "solicitadas."
 
 #: changes/v5.rst:293
@@ -36816,8 +36829,8 @@ msgstr ""
 #: changes/v5.rst:337
 msgid ":ref:`check-rst-syntax` now reports unintended list conversion."
 msgstr ""
-":ref:`check-rst-syntax` informa ahora acerca de la conversión no "
-"intencionado del listado."
+":ref:`check-rst-syntax` ahora genera partes no intencionados en lista de "
+"conversión."
 
 #: changes/v5.rst:338
 msgid ":ref:`check-same` check ignores AsciiDoc source code blocks."
@@ -37666,7 +37679,7 @@ msgstr "*Publicada el 5 de septiembre de 2025.*"
 
 #: changes/v5.rst:646
 msgid "Error reporting upon validation of the file upload method."
-msgstr "Informe de errores al validar el método de subida del archivo."
+msgstr "Parte de errores al validar el método de subida del archivo."
 
 #: changes/v5.rst:647
 msgid "Detailed language information in new language notifications."
@@ -38234,7 +38247,7 @@ msgstr ""
 msgid ""
 "False reports of :ref:`check-translated` with flags or explanation changes."
 msgstr ""
-"Informes falsos de :ref:`check-translated` con indicadores o cambios de "
+"Partes falsos de :ref:`check-translated` con indicadores o cambios de "
 "explicación."
 
 #: changes/v5.rst:862
@@ -38473,8 +38486,8 @@ msgid ""
 "number of strings translated."
 msgstr ""
 ":ref:`credits` y :ref:`stats` incluyen la fecha de incorporación del "
-"traductor. Adicionalmente, ambos informes pueden ser ordenados por la fecha "
-"de unión o el número de cadenas traducidas."
+"traductor. Adicionalmente, ambos partes pueden ser ordenados por la fecha de "
+"unión o el número de cadenas traducidas."
 
 #: changes/v5.rst:995
 msgid "Widgets show more precise stats."
@@ -39731,19 +39744,14 @@ msgstr ""
 "consulte :ref:`keyboard`."
 
 #: changes/v5.rst:1522
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
-#| "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
-#| "components and projects."
 msgid ""
 "``GET /api/components/(string:project)/(string:component)/credits/`` and "
 "``GET /api/projects/(string:project)/credits/`` API endpoints for components "
 "and projects."
 msgstr ""
-"Utilice :http:get:`/api/components/(string:project)/(string:component)/"
-"credits/` y :http:get:`/api/projects/(string:project)/credits/` puntos "
-"finales de API para componentes y proyectos."
+"``GET /api/components/(string:project)/(string:component)/credits/`` y los "
+"puntos finales del API ``GET /api/projects/(string:project)/credits/`` para "
+"componentes y proyectos."
 
 #: changes/v5.rst:1523
 msgid ""
@@ -39814,8 +39822,8 @@ msgid ""
 "Translation credit reports in the JSON format now follows a different format "
 "for entries."
 msgstr ""
-"Créditos de traducción reporta en el formato JSON ahora sigue un formato "
-"diferente para apuntes."
+"Los partes sobre créditos de traducción en el formato JSON ahora siguen un "
+"formato diferente para apuntes."
 
 #: changes/v5.rst:1546
 msgid ""
@@ -40282,7 +40290,7 @@ msgstr ""
 
 #: changes/v5.rst:1766
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
-msgstr "Error mejorado reportando en :ref:`machine-translation-setup`."
+msgstr "Error mejorado sobre partes en :ref:`machine-translation-setup`."
 
 #: changes/v5.rst:1767
 msgid ":ref:`check-max-size` better displays rendered text."
@@ -40559,7 +40567,8 @@ msgstr "Acceso mejor en :wladmin:`createadmin`."
 #: changes/v5.rst:1870
 msgid ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgstr ""
-":ref:`addon-weblate.discovery.discovery` ahora reporta apuntes omitidos."
+":ref:`addon-weblate.discovery.discovery` ahora genera partes de apuntes "
+"omitidos."
 
 #: changes/v5.rst:1871
 msgid "Adding string in a repository triggers :ref:`notifications`."
@@ -41863,7 +41872,7 @@ msgstr ""
 
 #: contributing/code_of_conduct.rst:50
 msgid "Reporting an Issue"
-msgstr "Informe de una Incidencia"
+msgstr "Dar parte acerca de Incidencia"
 
 #: contributing/code_of_conduct.rst:52
 msgid ""
@@ -41884,8 +41893,8 @@ msgid ""
 "report a possible violation, please reach the Community Moderators at "
 "community@weblate.org."
 msgstr ""
-"Cuando ocurre un incidente, es importante reportarlo de inmediato. Para "
-"reportar una posible infracción, comuníquese con los moderadores de la "
+"Cuando ocurre un incidente, es importante dar un parte de inmediato. Para "
+"dar un parte a una posible infracción, comuníquese con los moderadores de la "
 "comunidad en <community@weblate.org>."
 
 #: contributing/code_of_conduct.rst:56
@@ -41900,16 +41909,16 @@ msgid ""
 "involved parties, but communicating to the whole community may be part of a "
 "mutually agreed upon resolution."
 msgstr ""
-"Los Moderadores de la Comunidad se toman muy en serio las denuncias de "
-"infracciones y harán todo lo posible por responder de forma oportuna. "
-"Investigarán todas las denuncias de infracciones del código de conducta, "
-"revisando mensajes, bitácoras y grabaciones, o entrevistando a testigos y "
-"otros participantes. Los Moderadores de la Comunidad mantendrán la mayor "
-"transparencia posible en las investigaciones y acciones de cumplimiento, "
-"priorizando la seguridad y la confidencialidad. Para honrar estos valores, "
-"las acciones de cumplimiento se llevan a cabo en privado con las partes "
-"implicadas, pero la comunicación a toda la comunidad puede formar parte de "
-"una resolución mutuamente acordada."
+"Los partes de Moderadores de la Comunidad se toman muy en serio las "
+"denuncias de infracciones y harán todo lo posible por responder de forma "
+"oportuna. Investigarán todos los partes de infracciones del código de "
+"conducta, revisando mensajes, bitácoras y grabaciones, o entrevistando a "
+"testigos y otros participantes. Los Moderadores de la Comunidad mantendrán "
+"la mayor transparencia posible en las investigaciones y acciones de "
+"cumplimiento, priorizando la seguridad y la confidencialidad. Para honrar "
+"estos valores, las acciones de cumplimiento se llevan a cabo en privado con "
+"las partes implicadas, pero la comunicación a toda la comunidad puede formar "
+"parte de una resolución mutuamente acordada."
 
 #: contributing/code_of_conduct.rst:60
 msgid "Addressing and Repairing Harm"
@@ -42142,11 +42151,12 @@ msgid ""
 "documentation, Discussions, HackerOne program, and Weblate Care."
 msgstr ""
 "En `Incidencias de GitHub <https://github.com/WeblateOrg/weblate/issues>`_ "
-"se pueden reportar errores y solicitar funcionalidades. El formulario de "
-"envío de incidencia proporciona plantillas para cada uno de ellos, "
-"simplificando así la creación de incidencia, revisión e implementación. "
-"También ofrece acceso a otros recursos con información como documentación, "
-"debates, el programa HackerOne y Weblate Care."
+"es donde los defectos pueden crear partes sobre fallos, y solicitar "
+"funcionalidades. El formulario de envío de incidencia proporciona plantillas "
+"para cada uno de ellos, simplificando así la creación de incidencia, "
+"revisión e implementación. También ofrece acceso a otros recursos con "
+"información como documentación, debates, el programa HackerOne y Weblate "
+"Care."
 
 #: contributing/communication.rst:11
 msgid "Weblate GitHub Discussions"
@@ -42222,8 +42232,8 @@ msgid ""
 "service."
 msgstr ""
 "En un entorno de producción, utilice :setting:`ADMINS` para recibir correos "
-"electrónicos que contengan informes de errores o configure la recopilación "
-"de errores mediante un servicio de terceros."
+"electrónicos que contengan partes de errores o configure la recopilación de "
+"errores mediante un servicio de terceros."
 
 #: contributing/debugging.rst:27
 msgid "Weblate logs"
@@ -42719,10 +42729,8 @@ msgstr ""
 "lector de pantalla."
 
 #: contributing/frontend.rst:41
-#, fuzzy
-#| msgid "User interface fixes."
 msgid "User interface conventions"
-msgstr "Reparaciones del interfaz de usuario."
+msgstr "Convenciones del interfaz de usuario"
 
 #: contributing/frontend.rst:44
 #, fuzzy
@@ -43270,7 +43278,7 @@ msgstr ""
 
 #: contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
-msgstr "Informar incidencias en Weblate"
+msgstr "Dar partes de incidencias en Weblate"
 
 #: contributing/issues.rst:6
 msgid ""
@@ -43288,7 +43296,7 @@ msgid ""
 msgstr ""
 "No dudes en informar cualquiera de las incidencias o sugerir mejoras para "
 "Weblate. Disponemos de varias plantillas para guiarle fácilmente en el "
-"proceso de informe de incidencia."
+"proceso del parte de incidencia."
 
 #: contributing/issues.rst:13
 msgid ""
@@ -43303,8 +43311,8 @@ msgid ""
 "If you are not sure about your bug report or feature request, you can "
 "try :ref:`discussions`."
 msgstr ""
-"Si no está seguro acerca de su informe de fallo o solicitud de función, "
-"puede intentar :ref:`discussions`."
+"Si no está seguro acerca de su parte de fallo o solicitud de función, puede "
+"intentar :ref:`discussions`."
 
 #: contributing/issues.rst:18
 msgid "Accessibility issues"
@@ -43318,7 +43326,7 @@ msgid ""
 "use, and whether the problem occurs with keyboard-only navigation."
 msgstr ""
 "Los problemas de accesibilidad utilizarían la plantilla de incidencia en "
-"accesibilidad. Un buen informe debe incluir la página o el flujo de trabajo "
+"accesibilidad. Un buen parte debe incluir la página o el flujo de trabajo "
 "afectado, los pasos para reproducir el problema, el comportamiento esperado "
 "y el real, el navegador y el sistema operativo, la tecnología de asistencia "
 "utilizada y si el problema se produce al navegar únicamente con el teclado."
@@ -43329,8 +43337,8 @@ msgid ""
 "triage, use the impact on core workflows and available workarounds to choose "
 "priority:"
 msgstr ""
-"Los responsables del mantenimiento etiquetan los informes de accesibilidad "
-"con ``accesibilidad``. Durante la fase de triaje, utilice el impacto en los "
+"Los responsables del mantenimiento etiquetan los partes de accesibilidad con "
+"``accesibilidad``. Durante la fase de triaje, utilice el impacto en los "
 "flujos de trabajo principales y las soluciones alternativas disponibles para "
 "elegir la prioridad:"
 
@@ -43360,7 +43368,7 @@ msgid ""
 "reporting guidance."
 msgstr ""
 "Consulte :file:`ACCESSIBILITY.md` para el objetivo de accesibilidad y las "
-"directrices de presentación de informes de Weblate."
+"directrices de partes de Weblate."
 
 #: contributing/issues.rst:39
 msgid "Using AI to create issues"
@@ -43372,7 +43380,7 @@ msgid ""
 "**must** make sure to reveal this fact in your report."
 msgstr ""
 "Si le pide a una herramienta de IA que encuentre problemas en Weblate o sus "
-"módulos, **debe** asegurarse de revelar este hecho en su informe."
+"módulos, **debe** asegurarse de revelar este hecho en su parte."
 
 #: contributing/issues.rst:44
 msgid ""
@@ -43381,22 +43389,12 @@ msgid ""
 "the AI says. AI-based tools frequently generate inaccurate or fabricated "
 "results."
 msgstr ""
-"También debe verificar cuidadosamente los hallazgos antes de comunicárnoslos "
-"para validar que las incidencias existan y funcionen exactamente como indica "
-"la IA. Las herramientas basadas en IA suelen generar resultados inexactos o "
-"falsos."
+"También debe verificar cuidadosamente los hallazgos antes de comunicar "
+"partes para validar que las incidencias existan y funcionen exactamente como "
+"indica la IA. Las herramientas basadas en IA suelen generar resultados "
+"inexactos o falsos."
 
 #: contributing/issues.rst:48
-#, fuzzy
-#| msgid ""
-#| "It is *rarely* a good idea to just copy and paste an AI-generated report "
-#| "to the project. Those generated reports typically are too wordy and "
-#| "rarely to the point (in addition to the common fabricated details). If "
-#| "you actually discover a issue with an AI and you have verified it "
-#| "yourself to be true, write the report yourself and explain the issue as "
-#| "you have learned it. This makes sure the AI-generated inaccuracies and "
-#| "invented issues are filtered out early before they waste more people's "
-#| "time."
 msgid ""
 "It is *rarely* a good idea to just copy and paste an AI-generated report to "
 "the project. Those generated reports typically are too wordy and rarely to "
@@ -43407,12 +43405,13 @@ msgid ""
 "out early before they waste more people's time."
 msgstr ""
 "Es *raramente* una idea buena copiar y pegar un informe generado por IA en "
-"el proyecto. Estos informes suelen ser demasiado extensos y rara vez van al "
-"grano (además de incluir los habituales detalles inventados). Si descubre un "
-"problema con una IA y lo ha verificado usted mismo, redacte el informe y "
-"explique la incidencia tal como lo ha descubierto. Esto garantiza que las "
-"imprecisiones generadas por la IA y las incidencias inventadas se filtren "
-"rápidamente, antes de que hagan perder el tiempo a más personas."
+"el proyecto. Estos partes generados suelen ser demasiado extensos y rara vez "
+"van al grano (además de incluir los habituales detalles inventados). Si "
+"descubre una incidencia con una IA y lo ha verificado usted mismo, redacte "
+"el informe y explique la incidencia tal como lo ha descubierto. Esto "
+"garantiza que las imprecisiones generadas por la IA y las incidencias "
+"inventadas se filtren rápidamente, antes de que hagan perder el tiempo a más "
+"personas."
 
 #: contributing/issues.rst:56
 msgid ""
@@ -43422,16 +43421,16 @@ msgid ""
 "effectively prevent us from doing real project work and make us waste time "
 "and resources."
 msgstr ""
-"Como nos tomamos muy en serio los informes de seguridad, investigamos cada "
-"uno con prioridad. Esta labor consume tiempo y energía, y nos distrae de "
-"otras tareas importantes. Las incidencias de seguridad falsas o inventadas "
-"nos impiden realizar proyectos reales y nos hacen perder tiempo y recursos."
+"Como nos tomamos muy en serio los partes de seguridad, investigamos cada uno "
+"con prioridad. Esta labor consume tiempo y energía, y nos distrae de otras "
+"tareas importantes. Las incidencias de seguridad falsas o inventadas nos "
+"impiden realizar proyectos reales y nos hacen perder tiempo y recursos."
 
 #: contributing/issues.rst:62
 msgid ""
 "We ban users immediately who submit made-up fake reports to the project."
 msgstr ""
-"Baneamos inmediatamente a aquellos usuarios que envíen informes falsos e "
+"Bloqueamos inmediatamente a aquellos usuarios que envíen partes falsos e "
 "inventados al proyecto."
 
 #: contributing/issues.rst:65
@@ -43652,7 +43651,6 @@ msgstr ""
 "remote update; git merge origin/weblate`"
 
 #: contributing/release.rst:31
-#, fuzzy
 msgid ""
 "When building distribution packages locally, start from a clean checkout or "
 "remove ignored packaging artifacts such as :file:`build/`, :file:`dist/"
@@ -43660,9 +43658,9 @@ msgid ""
 "files."
 msgstr ""
 "Cuando los paquetes de distribución de edificios localmente, comiencen de "
-"una salida limpia o retiren artefactos de embalaje ignorados "
-"como :file:`build/`, :file:`dist/`, :file:`weblate.egg-info/`, y "
-"generados :file:`weblate/locale/**/*.mo[20."
+"una salida limpia o retiren artefactos de embalaje ignorados como "
+":file:`build/`, :file:`dist/`, :file:`weblate.egg-info/`, y archivos "
+":file:`weblate/locale/**/*.mo` generados."
 
 #: contributing/release.rst:35
 msgid "Perform the release:"
@@ -43879,7 +43877,6 @@ msgstr ""
 "Django que realiza la comprobación del tipo de apps hechas en Django)."
 
 #: contributing/snippets/code-guide.rst:77
-#, fuzzy
 msgid ""
 "New and changed code should not introduce new :program:`mypy` failures where "
 "current Django typing support makes that practical. The code base is not yet "
@@ -43887,11 +43884,11 @@ msgid ""
 "difficult to annotate precisely. CI therefore enforces :program:`mypy` only "
 "for selected modules and reports other findings separately."
 msgstr ""
-"Código nuevo y cambiado no tendría que presentar nuevo :program:`mypy` "
-"fallos donde actuales Django escribiendo el apoyo hace que práctico. La base "
+"Código nuevo y cambiado no tendría que presentar fallos :program:`mypy` "
+"nuevos donde actuales Django escribiendo el apoyo hace que práctico. La base "
 "de código no es todavía completamente cubierto por anotaciones de tipo, y "
-"algunos Django construye es difícil de anotar precisamente. #Ci por eso "
-"aplica :program:`mypy` sólo para seleccionó módulos e informa otros "
+"algunos Django construye es difícil de anotar precisamente. IC por eso "
+"aplica :program:`mypy` sólo para seleccionó módulos genere partes en otros "
 "hallazgos por separado."
 
 #: contributing/snippets/code-guide.rst:84
@@ -45185,21 +45182,14 @@ msgid ""
 msgstr ""
 
 #: devel/alerts.rst:69
-#, fuzzy
-#| msgid ""
-#| "Alerts are listed on each respective component page "
-#| "as :guilabel:`Diagnostics`. If it is missing, the component clears all "
-#| "current checks. Problem alerts cannot be ignored, but will disappear once "
-#| "the underlying problem has been fixed."
 msgid ""
 "If it is missing, the component clears all current checks. Problem alerts "
 "cannot be ignored, but will disappear once the underlying problem has been "
 "fixed."
 msgstr ""
-"Las alertas se enumeran en la página correspondiente a cada componente en el "
-"apartado :guilabel:`Diagnósticos`. Si falta, el componente ha superado todas "
-"las comprobaciones. Las alertas no pueden ignorarse, pero desaparecerán una "
-"vez que se haya corregido el problema subyacente."
+"Si falta, el componente ha superado todas las comprobaciones. Las alertas no "
+"pueden ignorarse, pero desaparecerán una vez que se haya corregido el "
+"problema subyacente."
 
 #: devel/alerts.rst:72
 msgid ""
@@ -45290,14 +45280,6 @@ msgstr ""
 "#firefox_chrome>`_ es útil como una herramienta de prueba de lectura."
 
 #: devel/community.rst:6
-#, fuzzy
-#| msgid ""
-#| "Many times translators will find problems with the source strings. Make "
-#| "sure it is easy for them to report such problems. To gather this "
-#| "feedback, you can set up the :ref:`component-repoweb` field on your "
-#| "Weblate component, for translators to propose their changes to the "
-#| "upstream repository. You can also receive translator comments if you "
-#| "setup :ref:`component-report_source_bugs`."
 msgid ""
 "Many times translators will find problems with the source strings. Make sure "
 "it is easy for them to report such problems. To gather this feedback, you "
@@ -46040,7 +46022,6 @@ msgstr ""
 "convierte las traducciones a JSON bilingüe."
 
 #: devel/html.rst:143
-#, fuzzy
 msgid ""
 "Single-file translations are named using the language code and original file "
 "extension, for example ``cs.json`` or ``de.po``. Multi-file translations are "
@@ -46049,13 +46030,14 @@ msgid ""
 "bilingual components publish only target-language files. See :ref:`cdn-"
 "server-security` for secure server setup."
 msgstr ""
-"Las traducciones de un solo fichero se denominan usando el código de idioma "
-"y la extensión de archivo original, por ejemplo ``cs.json`` o ``de.po`. Las "
-"traducciones multiarchivo se sirven por debajo del código de idioma "
+"Las traducciones de un solo archivo se denominan usando el código de idioma "
+"y la extensión de archivo original, por ejemplo ``cs.json`` o ``de.po``. Las "
+"traducciones multi‐archivo se sirven por debajo del código de idioma "
 "utilizando caminos relativos al directorio de traducción. Los componentes "
 "monolingües incluyen el archivo de idioma fuente, mientras que los "
 "componentes bilingües publican únicamente los archivos de idioma objetivo. "
-"Véase :ref:`cdn-server-security` para la configuración segura del servidor."
+"Consulte :ref:`cdn-server-security` para la configuración segura del "
+"servidor."
 
 #: devel/integration.rst:2
 msgid "Integrating with Weblate"
@@ -47072,8 +47054,7 @@ msgstr ":doc:`/api` - API para automatización e integraciones"
 
 #: devel/migration.rst:293
 msgid ":doc:`/devel/reporting` - Setting up translation progress reports"
-msgstr ""
-":doc:`/devel/reporting` - configurar reportes de progreso de traducción"
+msgstr ":doc:`/devel/reporting` - configurar partes del progreso de traducción"
 
 #: devel/migration.rst:294
 msgid ":doc:`/faq` - Frequently asked questions"
@@ -47129,27 +47110,21 @@ msgstr ""
 
 #: devel/reporting.rst:2
 msgid "Translation progress reporting"
-msgstr "Informes de progreso de la traducción"
+msgstr "Partes de progreso de la traducción"
 
 #: devel/reporting.rst:4
-#, fuzzy
-#| msgid ""
-#| "Reporting features give insight into translation progress over a given "
-#| "period. A summary of contributions to any given component over time is "
-#| "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
-#| "the dashboard, any translation component, or project:"
 msgid ""
 "Reporting features give insight into translation progress over a given "
 "period. A summary of contributions to any given component over time is "
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "the dashboard, workspace, project, category, or translation component:"
 msgstr ""
-"Las funciones de generación de informes brindan información sobre el "
-"progreso de la traducción durante un período determinado. Se proporciona un "
-"resumen de las contribuciones a cualquier componente determinado a lo largo "
-"del tiempo. La herramienta de generación de informes se encuentra en el "
-"menú :guilabel:`Perspectivas` del cuadro de mando, cualquier componente de "
-"traducción o proyecto:"
+"Las funciones de generación de partes brindan información sobre el progreso "
+"de la traducción durante un período determinado. Se proporciona un resumen "
+"de las contribuciones a cualquier componente determinado a lo largo del "
+"tiempo. La herramienta de generación de partes se encuentra en el menú "
+":guilabel:`Perspectivas` del cuadro de mando, espacio de trabajo, proyecto, "
+"categoría, o componente de traducción:"
 
 #: devel/reporting.rst:11
 msgid ""
@@ -47158,6 +47133,10 @@ msgid ""
 "reports remain available on the same page according "
 "to :setting:`REPORT_EXPIRY`."
 msgstr ""
+"Los partes son generados en segundo plano. Weblate muestra el progreso de "
+"generación y abre el parte almacenado cuando está preparado. Previamente los "
+"partes generados permanecen disponibles en la misma página de acuerdo a "
+":setting:`REPORT_EXPIRY`."
 
 #: devel/reporting.rst:17
 msgid ""
@@ -47166,11 +47145,10 @@ msgid ""
 "for embedding statistics into existing documentation, while JSON is useful "
 "for further processing of the data."
 msgstr ""
-"Varias herramientas de informe están disponibles en esta página, todo lo "
-"cual puede producir salidas en HTML, reStructuredText o JSON. Los dos "
-"primeros formatos son adaptables para embeber estadísticas en la "
-"documentación existente, mientras que JSON es útil para más procesos de "
-"datos."
+"Varias herramientas del parte están disponibles en esta página, todo lo cual "
+"puede producir salidas en HTML, reStructuredText o JSON. Los dos primeros "
+"formatos son adaptables para embeber estadísticas en la documentación "
+"existente, mientras que JSON es útil para más procesos de datos."
 
 #: devel/reporting.rst:22
 msgid ""
@@ -47268,7 +47246,6 @@ msgstr ""
 "traductores."
 
 #: devel/reporting.rst:90
-#, fuzzy
 msgid ""
 "By default, repeated changes by the same translator on the same string are "
 "counted once for each stats variant in the selected report period. "
@@ -47276,9 +47253,9 @@ msgid ""
 "or approval to be counted separately."
 msgstr ""
 "Por defecto, los cambios repetidos por el mismo traductor en la misma cadena "
-"se contabilizan una vez por cada variante de estadísticas en el período de "
-"informe seleccionado. Elija :guilabel:`Todos los cambios` en el modo de "
-"conteo si necesita que cada edición o aprobación se cuente por separado."
+"se contabilizan una vez por cada variante de estadísticas en el período del "
+"parte seleccionado. Elija :guilabel:`Todos los cambios` en el modo de "
+"contador si necesita que cada edición o aprobación se cuente por separado."
 
 #: devel/reporting.rst:95
 msgid "All stats are available in four variants:"
@@ -47376,7 +47353,7 @@ msgstr "Cantidad de caracteres de la cadena traducida."
 
 #: devel/reporting.rst:121
 msgid "The translator's join date is also included in the report."
-msgstr "La fecha de fusión del traductor además está incluida en el informe."
+msgstr "La fecha de fusión del traductor además está incluida en el parte."
 
 #: devel/reporting.rst:123
 #, fuzzy
@@ -47422,10 +47399,8 @@ msgstr ""
 "excluye que categoría del total."
 
 #: devel/reporting.rst:142
-#, fuzzy
-#| msgid "Translation workflows"
 msgid "Translator work analysis"
-msgstr "Flujos de trabajo de traducción"
+msgstr "Análisis del trabajo del traductor"
 
 #: devel/reporting.rst:144
 msgid ""
@@ -47435,6 +47410,13 @@ msgid ""
 "maximum source words can be used to exclude incomplete work days, automated "
 "changes, and obvious outliers."
 msgstr ""
+"Estima el rendimiento diario del traductor realista a partir del historial "
+"de cambios. Genera partes de mediana, media, percentil 75 y el percentil 90 "
+"tanto para las cadenas traducidas como para las palabras del texto original. "
+"Los valores mínimos y máximos de cambios diarios y el número máximo de "
+"palabras del texto original pueden utilizarse para excluir los días "
+"laborables incompletos, los cambios automáticos y los valores atípicos "
+"evidentes."
 
 #: devel/reporting-example.rst:2
 msgid "Email"
@@ -47570,26 +47552,22 @@ msgstr "Revisando cadenas"
 
 #: devel/review.rst:9
 msgid "Activity reports"
-msgstr "Informes de actividad"
+msgstr "Partes de actividad"
 
 #: devel/review.rst:11
 msgid ""
 "Activity reports check changes of translations, for projects, components or "
 "individual users."
 msgstr ""
-"Los comprobantes de los informes de actividad cambian en las traducciones, "
-"para proyectos, componentes o usos individuales."
+"Los partes de actividad comprueban los cambios de traducciones, para "
+"proyectos, componentes o usuarios individuales."
 
 #: devel/review.rst:13
-#, fuzzy
-#| msgid ""
-#| "The activity reports for a project or component is accessible from its "
-#| "dashboard, on the :guilabel:`Info` tab."
 msgid ""
 "The activity reports for a project or component are accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
 msgstr ""
-"Los informes de actividad de un proyecto o componente son accesibles desde "
+"Los partes de actividad para un proyecto o componente son accesibles desde "
 "su cuadro de mandos, en la pestaña :guilabel:`Info`."
 
 #: devel/review.rst:18
@@ -47597,8 +47575,8 @@ msgid ""
 "More reports are accessible on the :guilabel:`Insights` tab, "
 "selecting :guilabel:`Translation reports`."
 msgstr ""
-"Puede acceder a más informes en la pestaña :guilabel:`Perspectivas`, "
-"seleccionando :guilabel:`Informes de traducción`."
+"Más partes son accesibles en la lengüeta :guilabel:`Perspectivas`, "
+"seleccionando :guilabel:`Partes de traducción`."
 
 #: devel/review.rst:21
 msgid ""
@@ -47638,7 +47616,7 @@ msgid ""
 msgstr ""
 "Las comprobaciones erróneas de cadenas de traducción que no funcionan "
 "indican que el problema está en la cadena de origen. A veces, los "
-"traductores corrigen errores en la traducción en lugar de informarlos; un "
+"traductores corrigen errores en la traducción en lugar de dar partes; un "
 "ejemplo típico es la falta de un punto al final de una oración."
 
 #: devel/review.rst:40
@@ -47685,7 +47663,7 @@ msgid ""
 msgstr ""
 "Los traductores pueden comentar tanto las cadenas traducidas como las "
 "originales. Cada :ref:`component` puede configurarse para recibir dichos "
-"comentarios en una dirección de correo electrónico (véase :ref:`component-"
+"comentarios en una dirección de correo electrónico (consulte :ref:`component-"
 "report_source_bugs`), y lo mejor suele ser utilizar la lista de correo de "
 "los desarrolladores. De esta forma, puedes estar al tanto de los problemas "
 "que surjan en la traducción, ocuparte de ellos y solucionarlos rápidamente."
@@ -48960,9 +48938,9 @@ msgid ""
 "admin interface, or open the ``/manage/performance/`` URL directly."
 msgstr ""
 "Weblate incluye un conjunto de comprobantes de configuración los cuales "
-"pueden ver en el interfaz de admin, tan solo siga el "
-"enlace :guilabel:`Informe de rendimiento` en el interfaz admin, o abra "
-"directamente el URL ``/manage/performance/``."
+"pueden ver en el interfaz de admin, tan solo siga el enlace :guilabel:`Parte "
+"de rendimiento` en el interfaz admin, o abra directamente el URL ``/manage/"
+"performance/``."
 
 #: faq.rst:290
 msgid "Why are all commits committed by Weblate <noreply@weblate.org>?"
@@ -51660,14 +51638,12 @@ msgstr ""
 "descrip>``."
 
 #: formats/tbx.rst:27
-#, fuzzy
-#| msgid "Source string explanation is stored as ``<descrip></descrip>`` tag."
 msgid ""
 "Source string description is stored as ``<descrip type=\"Usage note\"></"
 "descrip>`` tag."
 msgstr ""
-"La explicación de la cadena de origen se almacena como etiqueta ``<descrip></"
-"descrip>``."
+"Descripción de cadena origen está almacenado como la etiqueta ``<descrip "
+"type=\"Nota de uso\"></descrip>``."
 
 #: formats/tbx.rst:30
 msgid "Glossary flags and read-only metadata"
@@ -52516,11 +52492,6 @@ msgid "Primary service locations are in Germany."
 msgstr "Los centros de datos principales están ubicados en **Alemania**."
 
 #: security/data-residency.rst:21
-#, fuzzy
-#| msgid ""
-#| "No operational data leaves the EU unless explicitly requested by the "
-#| "customer (for example, for external backups or region-specific "
-#| "deployments)."
 msgid ""
 "No operational data leaves the EU unless explicitly requested or configured "
 "by the customer, for example by enabling external backups, repository "
@@ -52528,8 +52499,10 @@ msgid ""
 "translation integrations outside the EU."
 msgstr ""
 "Ningún dato operativo sale de la UE a menos que el cliente lo solicite "
-"explícitamente (por ejemplo, para respaldos externos o implementaciones "
-"específicas de la región)."
+"explícitamente o configurado por el cliente, por ejemplo habilitando "
+"respaldos externos, hospedaje de repositorio con autenticación, correo-e, "
+"análisis, error de parte, o integraciones con máquina‐traductor fuera de la "
+"UE."
 
 #: security/data-residency.rst:27
 msgid "Infrastructure provider"
@@ -52853,10 +52826,9 @@ msgid ""
 "requirements."
 msgstr ""
 "Las integraciones externas, que incluyen el alojamiento de código, la "
-"autenticación, el correo electrónico, las copias de respaldo, el análisis, "
-"la notificación de errores y la traducción automática, son opcionales y "
-"deben configurarse de acuerdo con los requisitos de transferencia y "
-"procesamiento del cliente."
+"autenticación, el correo-e, las copias de respaldo, el análisis, partes de "
+"errores y máquina de traducción, son opcionales y serían configurados de "
+"acuerdo con los requisitos de transferencia y procesamiento del cliente."
 
 #: security/data-residency.rst:138
 msgid ""
@@ -53028,10 +53000,10 @@ msgid ""
 "report, maintainers evaluate whether it affects Weblate. The triage checks "
 "include:"
 msgstr ""
-"Cuando Renovate, la revisión de dependencias de GitHub, FOSSA, una revisión "
-"SBOM de lanzamiento, un análisis de contenedores o un informe de "
-"vulnerabilidad informan sobre una vulnerabilidad, los mantenedores evalúan "
-"si afecta a Weblate. Las comprobaciones de triaje incluyen:"
+"Cuando se de un parte de una dependencia de vulnerabilidad por Renovate, la "
+"revisión de dependencias de GitHub, FOSSA, una revisión SBOM de lanzamiento, "
+"un análisis de contenedores, o un parte de vulnerabilidad, los mantenedores "
+"evalúan si afectan a Weblate. Las comprobaciones de triaje incluyen:"
 
 #: security/dependencies.rst:61
 msgid ""
@@ -53055,8 +53027,8 @@ msgid ""
 "whether the issue is in Weblate's use of the dependency or should be "
 "reported to the upstream project;"
 msgstr ""
-"si el problema reside en el uso que hace Weblate de la dependencia o si debe "
-"informarse al proyecto original;"
+"si la incidencia reside en el uso que hace Weblate de la dependencia o sería "
+"dar un parte al proyecto original;"
 
 #: security/dependencies.rst:67
 msgid ""
@@ -53485,8 +53457,8 @@ msgid ""
 "Vulnerability reporting, disclosure handling, and service incident reporting "
 "are documented in :doc:`issues`."
 msgstr ""
-"La notificación de vulnerabilidades, el manejo de divulgaciones y la "
-"notificación de incidentes de servicio están documentados en :doc:`issues`."
+"El parte de vulnerabilidades, el manejo de divulgaciones, y el parte de "
+"incidentes de servicio están documentados en :doc:`issues`."
 
 #: security/governance.rst:25
 msgid ""
@@ -53523,8 +53495,8 @@ msgid ""
 "self-assessment for Weblate."
 msgstr ""
 "Actualmente, este repositorio no registra ninguna evaluación de seguridad "
-"formal de terceros, certificación, informe de auditoría, informe de prueba "
-"de penetración ni autoevaluación formal para Weblate."
+"formal de terceros, certificación, parte de auditoría, parte de prueba de "
+"penetración, ni autoevaluación formal para Weblate."
 
 #: security/governance.rst:38
 msgid ""
@@ -53537,7 +53509,7 @@ msgstr ""
 "como CodeQL, la revisión de dependencias de GitHub, FOSSA, OpenSSF Scorecard "
 "y los análisis de vulnerabilidades de contenedores, son evidencias de "
 "seguridad e indicadores de automatización. No constituyen evaluaciones "
-"formales, certificaciones ni informes de auditoría."
+"formales, certificaciones ni el parte de auditoría."
 
 #: security/governance.rst:43
 msgid ""
@@ -53655,7 +53627,7 @@ msgid ""
 "in :doc:`/security/issues`."
 msgstr ""
 "Si un incidente incluye una vulnerabilidad del producto Weblate, siga el "
-"proceso de notificación de vulnerabilidades del producto y la directiva de "
+"proceso del parte de vulnerabilidades del producto y la directiva de "
 "divulgación de vulnerabilidades que se encuentra en la documentación de "
 "seguridad :ref:`vulnerability-disclosure-policy` en :doc:`/security/issues`."
 
@@ -54171,7 +54143,7 @@ msgstr ""
 
 #: security/index.rst:35
 msgid ":doc:`issues` - vulnerability reporting and disclosure."
-msgstr ":doc:`issues` - notificación y divulgación de vulnerabilidades."
+msgstr ":doc:`issues` - parte y divulgación de vulnerabilidades."
 
 #: security/index.rst:42
 msgid "Compliance"
@@ -54190,10 +54162,8 @@ msgid "Vulnerability and incident handling"
 msgstr "Vulnerabilidad y tratamiento de incidente"
 
 #: security/issues.rst:7
-#, fuzzy
-#| msgid "Activity reports"
 msgid "Product vulnerability reports"
-msgstr "Informes de actividad"
+msgstr "Partes de vulnerabilidad del producto"
 
 #: security/issues.rst:11
 msgid ""
@@ -54211,7 +54181,7 @@ msgid ""
 "Weblate."
 msgstr ""
 "El equipo de desarrollo de Weblate está firmemente comprometido con la "
-"divulgación y los informes responsables de incidencias relacionadas con la "
+"divulgación y los partes responsables de incidencias relacionadas con la "
 "seguridad. Hemos adoptado y seguimos normativas orientadas a entregar "
 "actualizaciones de seguridad a Weblate de manera oportuna."
 
@@ -54221,7 +54191,7 @@ msgid ""
 "release artifacts, and documented Weblate security properties. They do not "
 "replace operational incident response for a particular deployment."
 msgstr ""
-"Los informes de vulnerabilidades de productos abarcan problemas de seguridad "
+"Los partes de vulnerabilidades de productos abarcan problemas de seguridad "
 "en el código fuente de Weblate, los artefactos de lanzamiento y las "
 "propiedades de seguridad documentadas de Weblate. No sustituyen la respuesta "
 "operativa ante incidentes para una implementación específica."
@@ -54233,10 +54203,11 @@ msgid ""
 "sensitive nature of security issues, we ask them not to be publicly reported "
 "in this fashion."
 msgstr ""
-"La mayoría de los fallos normales en Weblate se informan a nuestro "
+"La mayoría de los fallos normales en Weblate son reportados a nuestro "
 "`seguimiento de incidencias de GitHub público <https://github.com/WeblateOrg/"
 "weblate/issues>`_, pero debido a la naturaleza sensible de las incidencias "
-"de seguridad, solicitamos que no se informen públicamente de esta manera."
+"de seguridad, solicitamos que no se den los partes públicamente de esta "
+"manera."
 
 #: security/issues.rst:26
 msgid ""
@@ -54277,7 +54248,7 @@ msgstr ""
 
 #: security/issues.rst:41
 msgid "**Sending encrypted reports**"
-msgstr "**Envío de informes cifrados**"
+msgstr "**Envío de partes cifrados**"
 
 #: security/issues.rst:43
 msgid ""
@@ -54308,7 +54279,7 @@ msgid ""
 msgstr ""
 "Weblate depende de componentes de terceros para muchas cosas. En caso de que "
 "encuentre una vulnerabilidad que afecte a uno de esos componentes en "
-"general, infórmelo directamente al proyecto correspondiente ."
+"general, abra un parte directamente al proyecto correspondiente."
 
 #: security/issues.rst:56
 msgid "Some of these are:"
@@ -54352,9 +54323,9 @@ msgid ""
 msgstr ""
 "Cuando dicho incidente también involucra una vulnerabilidad de un producto "
 "Weblate, el informe de vulnerabilidad y el aviso público siguen el proceso "
-"de informe de vulnerabilidades del producto y la directiva de divulgación de "
-"vulnerabilidades que se encuentra en la página :ref:`vulnerability-"
-"disclosure-policy`."
+"de dar un parte de vulnerabilidades del producto y la directiva de "
+"divulgación de vulnerabilidades que se encuentra en la página "
+":ref:`vulnerability-disclosure-policy`."
 
 #: security/issues.rst:78
 #, fuzzy
@@ -54410,21 +54381,16 @@ msgstr ""
 "inmediatamente con la publicación, cuando es posible."
 
 #: security/issues.rst:100
-#, fuzzy
-#| msgid ""
-#| "Any actively exploited vulnerability or severe incidents are notified to "
-#| "CSIRT within 24 hours, general info is provided to CSIRT within 72 hours, "
-#| "and a full report is provided within 14 days."
 msgid ""
 "Any actively exploited Weblate vulnerability, or any severe incident "
 "affecting Weblate-operated services, is notified to CSIRT within 24 hours, "
 "general info is provided to CSIRT within 72 hours, and a full report is "
 "provided within 14 days."
 msgstr ""
-"Cualquier vulnerabilidad explotada activamente o incidente grave se notifica "
-"al CSIRT dentro de las 24 horas, se proporciona información general al CSIRT "
-"dentro de las 72 horas y se proporciona un informe completo dentro de los 14 "
-"días."
+"Cualquier vulnerabilidad de Weblate, o cualquier incidente severo afectando "
+"servicios operativos con Weblate, es notificado a CSIRT dentro de las 24 "
+"horas, se proporciona información general al CSIRT dentro de las 72 horas, y "
+"se proporciona un parte completo dentro de los 14 días."
 
 #: security/issues.rst:105
 msgid ""
@@ -55072,12 +55038,11 @@ msgstr ""
 "agentes de usuario, marcas de tiempo y eventos relacionados con la seguridad."
 
 #: security/privacy-compliance.rst:43
-#, fuzzy
 msgid ""
 "External analytics, crash reporting, remote logging, and avatar providers "
 "are optional integrations controlled by the site operator."
 msgstr ""
-"Análisis externo, reportaje de fallos, registro remoto y proveedores de "
+"Análisis externo, partes de cuelgues, bitácora remoto, y proveedores de "
 "avatar son integraciones opcionales controladas por el operador del sitio."
 
 #: security/privacy-compliance.rst:47
@@ -55174,15 +55139,14 @@ msgstr ""
 "directamente a través de la interfaz de perfil."
 
 #: security/privacy-compliance.rst:75
-#, fuzzy
 msgid ""
 "Users can request account removal from the :guilabel:`Account` tab. The "
 "removal flow requires confirmation and then deactivates and anonymizes the "
 "account."
 msgstr ""
-"Los usuarios pueden solicitar la eliminación de su cuenta desde la lengüeta "
-"«` » de la cuenta de :guilabel:`. El proceso de eliminación requiere una "
-"confirmación y, a continuación, desactiva y anonimiza la cuenta."
+"Los usuarios pueden solicitar la retirada de su cuenta desde la lengüeta "
+":guilabel:`Cuenta`. El proceso de retirada requiere una confirmación y, a "
+"continuación, desactiva y anonimiza la cuenta."
 
 #: security/privacy-compliance.rst:78
 #, fuzzy
@@ -55312,16 +55276,15 @@ msgid "Weblate itself does not require a specific hosting region."
 msgstr "Weblate no requiere una región de alojamiento específica."
 
 #: security/privacy-compliance.rst:117
-#, fuzzy
 msgid ""
 "Hosting location, backups, e-mail delivery, repository hosting, external "
 "authentication, analytics, error reporting, and machine translation services "
 "determine where data is processed."
 msgstr ""
-"La ubicación del alojamiento, las copias de seguridad, la entrega de correo-"
-"e, el alojamiento del repositorio, la autenticación externa, los análisis, "
-"el informe de errores y los servicios de traducción automática determinan "
-"dónde se procesan los datos."
+"El lugar del alojamiento, los respaldos, la entrega de correo-e, el "
+"alojamiento del repositorio, la autenticación externa, análisis, los partes "
+"de error y los servicios de traducción automática determinan donde se "
+"procesan los datos."
 
 #: security/privacy-compliance.rst:120
 #, fuzzy
@@ -55570,8 +55533,8 @@ msgid ""
 "contributing/issues`."
 msgstr ""
 "Los suscriptores pueden contactar con el servicio de atención al cliente de "
-"Weblate en care@weblate.org, tal como se indica en :ref:`support-contact`. "
-"La forma de informar sobre incidencias de la comunidad se describe en :doc:`/"
+"Weblate en <care@weblate.org>, tal como se indica en :ref:`support-contact`. "
+"Los partes de incidencia de la comunidad está descrito en :doc:`/"
 "contributing/issues`."
 
 #: security/product-information.rst:32
@@ -55579,9 +55542,9 @@ msgid ""
 "Report security issues using private channels documented in :doc:`/security/"
 "issues`. The primary security contact is security@weblate.org."
 msgstr ""
-"Informe los problemas de seguridad a través de los canales privados "
+"Las incidencias del parte de seguridad utilizan canales privados "
 "documentados en :doc:`/security/issues`. El contacto principal de seguridad "
-"es security@weblate.org."
+"es <security@weblate.org>."
 
 #: security/product-information.rst:36
 #, fuzzy
@@ -56221,13 +56184,6 @@ msgid "Security updates"
 msgstr "Actualizaciones de seguridad"
 
 #: security/releases.rst:36
-#, fuzzy
-#| msgid ""
-#| "Weblate provides security updates to address vulnerabilities and enhance "
-#| "the application’s security posture. Only the latest release is guaranteed "
-#| "to receive security updates. Users are encouraged to keep Weblate up to "
-#| "date to benefit from the latest security improvements. Learn more "
-#| "about :ref:`Weblate releases and the release life cycle <release-cycle>`."
 msgid ""
 "Weblate provides security updates to address vulnerabilities and enhance the "
 "application's security posture. Only the latest release is guaranteed to "
@@ -56238,9 +56194,7 @@ msgstr ""
 "vulnerabilidades y mejorar la seguridad de la aplicación. Solo la última "
 "versión está garantizada para recibir actualizaciones de seguridad. Se "
 "recomienda a los usuarios mantener Weblate actualizado para beneficiarse de "
-"las últimas mejoras de seguridad. Obtenga más información sobre "
-"las :ref:`versiones de Weblate y el ciclo de vida de las versiones <release-"
-"cycle>`."
+"las últimas mejoras de seguridad."
 
 #: security/releases.rst:41
 msgid ""
@@ -56321,18 +56275,12 @@ msgid "Not guaranteed."
 msgstr "No se utiliza."
 
 #: security/releases.rst:63
-#, fuzzy
-#| msgid ""
-#| "Upgrade the configuration file by following "
-#| "either :file:`settings_example.py`, or :ref:`version-specific-"
-#| "instructions`."
 msgid ""
 "Upgrade through the intermediate versions listed in :ref:`version-specific-"
 "instructions`."
 msgstr ""
-"Mejora el archivo de la configuración siguiendo o "
-"bien :file:`settings_example.py`, o bien :ref:`version-specific-"
-"instructions`."
+"Mejora a través de las versiones intermedias listadas en :ref:`version-"
+"specific-instructions`."
 
 #: security/releases.rst:66
 #, fuzzy
@@ -56372,19 +56320,17 @@ msgid "Status: Accepted, 2026-05-14."
 msgstr "Estado: Aceptado, 14 de mayo de 2026."
 
 #: security/threat-model.rst:12
-#, fuzzy
 msgid ""
 "Version binding: This model is versioned with Weblate releases. A report "
 "against Weblate version N is triaged against the model published for version "
 "N, not against the latest development branch. *(maintainer)*"
 msgstr ""
 "Vinculación a la versión: Este modelo se versiona con las versiones de "
-"Weblate. Un informe relativo a la versión N de Weblate se evalúa en función "
+"Weblate. Un parte relativo a la versión N de Weblate se evalúa en función "
 "del modelo publicado para la versión N, y no en función de la última rama de "
 "desarrollo. *(responsable)*"
 
 #: security/threat-model.rst:16
-#, fuzzy
 msgid ""
 "Reporting cross-reference: Reports that violate a property Weblate claims in "
 "`Security properties Weblate provides`_ are reported "
@@ -56393,13 +56339,13 @@ msgid ""
 "be closed by citing this document unless this model routes them to ``VALID-"
 "HARDENING``. *(documented)* (source: :doc:`/security/issues`)"
 msgstr ""
-"Referencia cruzada de informes: Los informes que violan una propiedad que "
-"reclama Weblate en `Propiedades de seguridad que proporciona Weblate`_ se "
-"informan a través de :file:`SECURITY.md` y :doc:`/security/issues`. Los "
-"informes que caen bajo `Fuera del alcance`_ o `Propiedades de seguridad que "
-"no proporciona Weblate`_ pueden cerrarse citando este documento a menos que "
-"este modelo los enruté a ``VALID-HARDENING``. *(documentado)* "
-"(fuente: :doc:`/security/issues`)"
+"Referencia cruzada de partes: Los partes que violan una propiedad que "
+"reclama Weblate en `Propiedades de seguridad que proporciona Weblate`_ son "
+"informados a través de :file:`SECURITY.md` y :doc:`/security/issues`. Los "
+"partes que caen bajo `Fuera del alcance`_ o `Propiedades de seguridad que no "
+"proporciona Weblate`_ pueden cerrarse citando este documento a menos que "
+"este modelo los enruté a ``VALID-HARDENING``. *(documentado)* (fuente: "
+":doc:`/security/issues`)"
 
 #: security/threat-model.rst:23
 #, fuzzy
@@ -56491,14 +56437,12 @@ msgstr ""
 "api`, :doc:`/admin/install`)"
 
 #: security/threat-model.rst:51
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid "Stored translation reports"
-msgstr "Memoria de traducción compartida"
+msgstr "Partes de traducción almacenados"
 
 #: security/threat-model.rst:52
 msgid "Report forms and :http:get:`/api/reports/` endpoints"
-msgstr ""
+msgstr "Formularios del parte y :http:get:`/api/reports/` de puntos finales"
 
 #: security/threat-model.rst:53
 #, fuzzy
@@ -56507,14 +56451,14 @@ msgid "Database snapshots and background tasks"
 msgstr "No procesar tareas en segundo plano"
 
 #: security/threat-model.rst:54
-#, fuzzy
 msgid ""
 "In scope as authenticated, permission-checked contributor data with operator-"
 "configured retention. *(documented)* (source: :doc:`/devel/"
 "reporting`, :doc:`/api`)"
 msgstr ""
-"Dentro del alcance como actores autenticados con alcance de proyecto "
-"delegado. *(documentado)* (fuente: :doc:`/api`, :doc:`/admin/access`)"
+"Dentro del alcance como ámbitos autenticados, los datos del contribuidor con "
+"permisos marcados con relación al operador configurado. *(documentado)* "
+"(origen: :doc:`/devel/reporting`, :doc:`/api`)"
 
 #: security/threat-model.rst:57
 msgid "Authentication, sessions, and authorization"
@@ -56719,13 +56663,13 @@ msgid "Machine translation and outbound integrations"
 msgstr "Motores de máquinas de traducción"
 
 #: security/threat-model.rst:97
-#, fuzzy
 msgid ""
 "Machine translation, avatars, status reporting, telemetry, error reporting, "
 "VCS hosts, GitHub App connections, CDN add-on, Fedora Messaging add-on"
 msgstr ""
-"Traducción automática, avatares, informes de estado, telemetría, informes de "
-"errores, anfitriones VCS, complemento de CDN"
+"Traducción por máquina, avatares, partes de estado, telemetría, partes de "
+"errores, hospedajes VCS, conexiones App Github, complemento de CDN, "
+"complemento Fedora Messaging"
 
 #: security/threat-model.rst:100
 #, fuzzy
@@ -56894,7 +56838,6 @@ msgstr ""
 "configuraciones, credenciales, datos o código. *(maintainer)*"
 
 #: security/threat-model.rst:146
-#, fuzzy
 msgid ""
 "Vulnerabilities in third-party dependencies as independent projects. General "
 "Django, Django REST framework, Python Social Auth, BorgBackup, VCS, "
@@ -56903,10 +56846,10 @@ msgid ""
 "issues`)"
 msgstr ""
 "Vulnerabilidades en dependencias de terceros como proyectos independientes. "
-"General Django, Django REST framework, Python Social Auth, BorgBackup, VCS, "
+"Django general, Django REST framework, Python Social Auth, BorgBackup, VCS, "
 "base de datos y vulnerabilidades de proveedores se reportan en la parte "
-"superior a menos que el problema esté en el uso de Weblate. *(documented)* "
-"(source: :doc:`/security/issues`)"
+"superior a menos que la incidencia esté en el uso de Weblate. *(documented)* "
+"(origen: :doc:`/security/issues`)"
 
 #: security/threat-model.rst:150
 #, fuzzy
@@ -57158,17 +57101,17 @@ msgstr ""
 "(fuente: :ref:`projectbackup`, :wladmin:`import_projectbackup`)"
 
 #: security/threat-model.rst:222
-#, fuzzy
 msgid ""
 "A backup export finding is in model only when reachable from documented "
 "project backup creation or download routes, including the REST API for users "
 "or project-scoped tokens with project edit permission. *(documented)* "
 "(source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/access`)"
 msgstr ""
-"Un hallazgo de importación de respaldo solo está en el modelo cuando se "
-"puede acceder desde una copia de seguridad del proyecto cargada a través de "
-"Weblate o suministrada a :wladmin:`import_projectbackup`. *(documentado)* "
-"(fuente: :ref:`projectbackup`, :wladmin:`import_projectbackup`)"
+"Un hallazgo de exportación de respaldo solo está en el modelo cuando se "
+"puede acceder desde una creación de respaldo del proyecto documentado o "
+"rutas de descargas, incluyendo el REST API para usuarios o vales de proyecto "
+"de ámbito con permisos de edición del proyecto. *(documentado)* (origen: "
+":doc:`/api`, :ref:`projectbackup`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:226
 #, fuzzy
@@ -57189,6 +57132,11 @@ msgid ""
 "``reports.view`` scope. *(documented)* (source: :doc:`/devel/"
 "reporting`, :doc:`/api`)"
 msgstr ""
+"Se considera que un hallazgo de parte de almacenado se ajusta al modelo "
+"cuando un usuario autenticado puede generar, enumerar o representar datos de "
+"colaboradores fuera del ámbito del creador o del ámbito actual de "
+"``reports.view``. *(documentado)* (origen: :doc:`/devel/reporting`, :doc:`/"
+"api`)"
 
 #: security/threat-model.rst:233
 #, fuzzy
@@ -57291,7 +57239,6 @@ msgid "What Weblate does to its host:"
 msgstr "Qué hace Weblate a su host:"
 
 #: security/threat-model.rst:269
-#, fuzzy
 msgid ""
 "It opens outbound network connections for configured VCS, identity-provider, "
 "avatar, machine-translation, backup, status-reporting, telemetry, error-"
@@ -57299,10 +57246,11 @@ msgid ""
 "Messaging AMQP delivery. *(documented)* (source: :doc:`/admin/"
 "config`, :doc:`/admin/code-hosting`, :doc:`/admin/backup`)"
 msgstr ""
-"Abre conexiones de red salientes para VCS, proveedor de identidad, avatar, "
-"traducción automática, copia de seguridad, informe de estado, telemetría, "
-"informe de errores y funciones de complemento configuradas. *(documentado)* "
-"(fuente: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/"
+"Abre conexiones de red salientes para VCS configurado, proveedor de "
+"identidad, avatar, máquina de traducción, copia de respaldo, parte de "
+"estado, telemetría, parte de errores y funciones de complemento tales como "
+"gancho web saliente y entrega de Fedora Messaging AMQP. *(documentado)* "
+"(origen: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/"
 "backup`)"
 
 #: security/threat-model.rst:275
@@ -58428,6 +58376,7 @@ msgid "Security properties Weblate does not provide"
 msgstr ""
 
 #: security/threat-model.rst:621
+#, fuzzy
 msgid ""
 "Weblate does not authenticate every webhook delivery cryptographically for "
 "all supported forge integrations. Hook endpoints are compatibility-oriented "
@@ -58435,6 +58384,12 @@ msgid ""
 "that show only unauthenticated triggering within modeled effects are ``VALID-"
 "HARDENING`` rather than ``BY-DESIGN``. *(maintainer)*"
 msgstr ""
+"Weblate no autentica criptográficamente cada envío de gancho web para todas "
+"las integraciones de Forge compatibles. Los puntos finales de los ganchos "
+"están orientados a la compatibilidad y reforzados para el despliegue, en "
+"lugar de estar autenticados de forma uniforme por Forge. Los informes que "
+"muestran únicamente activaciones no autenticadas dentro de los efectos "
+"modelados son ``VALID-HARDENING``, en lugar de ``BY-DESIGN``. *(responsable)*"
 
 #: security/threat-model.rst:627
 msgid ""
@@ -58648,50 +58603,85 @@ msgid "Known non-findings"
 msgstr ""
 
 #: security/threat-model.rst:735
+#, fuzzy
 msgid ""
 "A report that a reachable webhook can be called without forge authentication "
 "and only triggers modeled update scheduling is not ``VALID`` by itself. It "
 "is routed to ``VALID-HARDENING`` unless it bypasses documented limits, leaks "
 "data, or causes effects beyond modeled scheduling. *(maintainer)*"
 msgstr ""
+"El hecho de que se pueda invocar un webhook accesible sin autenticación de "
+"Forge y que este solo active la programación de actualizaciones prevista no "
+"constituye, por sí solo, un caso de « ` » `VALID``. Se redirige a « ` » "
+"`VALID-HARDENING``, a menos que se sobrepasen los límites documentados, se "
+"filtren datos o se produzcan efectos que vayan más allá de la programación "
+"prevista. *(responsable del mantenimiento)*"
 
 #: security/threat-model.rst:739
+#, fuzzy
 msgid ""
 "A report that a project manager can change repository settings, VCS "
 "credentials, or project configuration is not a vulnerability when the actor "
 "has the documented permission for that action. *(documented)* "
 "(source: :doc:`/admin/access`)"
 msgstr ""
+"El hecho de que un gestor de proyectos pueda modificar los ajustes del "
+"repositorio, las credenciales del VCS o la configuración del proyecto no "
+"constituye una vulnerabilidad cuando el usuario cuenta con el permiso "
+"documentado para realizar dicha acción. *(documentado)* (fuente: :doc:`/"
+"admin/access`)"
 
 #: security/threat-model.rst:742
+#, fuzzy
 msgid ""
 "A report that a project manager can configure Gerrit review push options is "
 "not a vulnerability by itself. Gerrit interprets these options as the "
 "configured Weblate Gerrit account and enforces Gerrit-side permissions. "
 "*(documented)* (source: :ref:`component-push_branch`)"
 msgstr ""
+"El hecho de que un gestor de proyectos pueda configurar las opciones de "
+"envío de revisiones de Gerrit no constituye en sí mismo una vulnerabilidad. "
+"Gerrit interpreta estas opciones según la cuenta de Gerrit configurada en "
+"Weblate y aplica los permisos propios de Gerrit. *(documentado)* (fuente: "
+":ref:`component-push_branch`)"
 
 #: security/threat-model.rst:746
+#, fuzzy
 msgid ""
 "A report against third-party add-on behavior is not a Weblate core "
 "vulnerability unless the report shows Weblate's permission or installation "
 "boundaries are bypassed. *(maintainer)*"
 msgstr ""
+"Un informe sobre el comportamiento de un complemento de terceros no "
+"constituye una vulnerabilidad del núcleo de Weblate, a menos que el informe "
+"demuestre que se han eludido los límites de permisos o de instalación de "
+"Weblate. *(responsable)*"
 
 #: security/threat-model.rst:749
+#, fuzzy
 msgid ""
 "A report that a malicious local operator can read configuration, run "
 "management commands, or alter files is out of model because local operators "
 "are trusted infrastructure. *(maintainer)*"
 msgstr ""
+"Un informe que indica que un operador local malintencionado pueda leer la "
+"configuración, ejecutar comandos de gestión o modificar archivos no se "
+"ajusta al modelo, ya que los operadores locales forman parte de la "
+"infraestructura de confianza. *(responsable del mantenimiento)*"
 
 #: security/threat-model.rst:752
+#, fuzzy
 msgid ""
 "A report that a downstream application renders a dangerous translation is "
 "not a Weblate vulnerability unless Weblate itself violates a claimed "
 "property while storing, checking, reviewing, or displaying that translation. "
 "*(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Un informe que indique que una aplicación posterior representa una "
+"traducción peligrosa no constituye una vulnerabilidad de Weblate, a menos "
+"que el propio Weblate incumpla una propiedad declarada al almacenar, "
+"comprobar, revisar o mostrar dicha traducción. *(documentado)* (fuente: "
+":doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:758
 msgid "Conditions that change this model"
@@ -58708,12 +58698,19 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:766
+#, fuzzy
 msgid ""
 "Revise this model when an unsupported component becomes supported product "
 "surface, when a documented security property is removed or narrowed, or when "
 "maintainers accept a vulnerability report that cannot be routed to a triage "
 "disposition below. *(maintainer)*"
 msgstr ""
+"Revisa este modelo cuando un componente que no estaba soportado pase a "
+"formar parte de la superficie de producto soportada, cuando se elimine o se "
+"restrinja una propiedad de seguridad documentada, o cuando los responsables "
+"de mantenimiento acepten un informe de vulnerabilidad que no pueda "
+"clasificarse en ninguna de las categorías de triaje que se indican a "
+"continuación. *(responsable de mantenimiento)*"
 
 #: security/threat-model.rst:772
 #, fuzzy
@@ -60080,10 +60077,8 @@ msgid "License changed"
 msgstr "Licencia cambiada"
 
 #: snippets/addon-parameters-autogenerated.rst:448
-#, fuzzy
-#| msgid "Project and component creation"
 msgid "Project or component license information changed."
-msgstr "Creación de proyecto y componente"
+msgstr "Proyecto o componente de información de licencia modificada."
 
 #: snippets/addon-parameters-autogenerated.rst:451
 msgid "Contributor license agreement changed"
@@ -60158,20 +60153,16 @@ msgid "Comment removed"
 msgstr "Comentario eliminado"
 
 #: snippets/addon-parameters-autogenerated.rst:484
-#, fuzzy
-#| msgid "Comment removed"
 msgid "A string comment was removed."
-msgstr "Comentario eliminado"
+msgstr "Un comentario de cadena fue retirado."
 
 #: snippets/addon-parameters-autogenerated.rst:487
 msgid "Comment resolved"
 msgstr "Comentario resuelto"
 
 #: snippets/addon-parameters-autogenerated.rst:488
-#, fuzzy
-#| msgid "Removed strings are marked as obsolete"
 msgid "A string comment was marked as resolved."
-msgstr "Las cadenas eliminadas están marcadas como obsoletas"
+msgstr "Un comentario de cadena fue marcado como resuelto."
 
 #: snippets/addon-parameters-autogenerated.rst:491
 msgid "Explanation updated"
@@ -60189,30 +60180,24 @@ msgid "Category removed"
 msgstr "Categoría eliminada"
 
 #: snippets/addon-parameters-autogenerated.rst:496
-#, fuzzy
-#| msgid "Component removed"
 msgid "A component category was removed."
-msgstr "Componente eliminado"
+msgstr "Una categoría de componente fue retirado."
 
 #: snippets/addon-parameters-autogenerated.rst:499
 msgid "Category renamed"
 msgstr "Categoría renombrada"
 
 #: snippets/addon-parameters-autogenerated.rst:500
-#, fuzzy
-#| msgid "Component renamed"
 msgid "A component category was renamed."
-msgstr "Componente renombrado"
+msgstr "Una categoría de componente fue renombrada."
 
 #: snippets/addon-parameters-autogenerated.rst:503
 msgid "Category moved"
 msgstr "Categoría movida"
 
 #: snippets/addon-parameters-autogenerated.rst:504
-#, fuzzy
-#| msgid "Component removed"
 msgid "A component category was moved."
-msgstr "Componente eliminado"
+msgstr "Una categoría de componente fue trasladada."
 
 #: snippets/addon-parameters-autogenerated.rst:507
 msgid "Saving string failed"
@@ -60301,10 +60286,8 @@ msgid "Extra flags updated"
 msgstr "Indicadores adicionales actualizados"
 
 #: snippets/addon-parameters-autogenerated.rst:544
-#, fuzzy
-#| msgid "Additional info on source strings"
 msgid "Additional source-string flags were updated."
-msgstr "Información adicional sobre las cadenas de origen"
+msgstr "Se actualizaron indicadores adicionales de la cadena de origen."
 
 #: snippets/addon-parameters-autogenerated.rst:547
 msgid "Font uploaded"
@@ -60376,10 +60359,8 @@ msgid "Label removed"
 msgstr "Etiqueta quitada"
 
 #: snippets/addon-parameters-autogenerated.rst:576
-#, fuzzy
-#| msgid ":guilabel:`Remove a string`"
 msgid "A label was removed from a string."
-msgstr ":guilabel:`Eliminar una cadena`"
+msgstr "Una etiqueta fue retirada desde una cadena."
 
 #: snippets/addon-parameters-autogenerated.rst:579
 msgid "Repository cleanup"
@@ -62107,7 +62088,7 @@ msgstr ""
 #: snippets/addons-autogenerated.rst:1172
 #: snippets/addons-autogenerated.rst:1429
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "Utilice palabras clave exclusivamente"
 
 #: snippets/addons-autogenerated.rst:1172
 #: snippets/addons-autogenerated.rst:1429
@@ -66577,12 +66558,18 @@ msgid ""
 msgstr ""
 
 #: snippets/checks-autogenerated.rst:2598
+#, fuzzy
 msgid ""
 "For English source strings, including English variants, the check reports "
 "strings using more than 85% of the configured ``max-length``. For other "
 "source languages, it reports source strings longer than the configured ``max-"
 "length``."
 msgstr ""
+"En el caso de las cadenas de fuente en inglés, incluidas las variantes del "
+"inglés, la comprobación parte y informa sobre aquellas cadenas que superan "
+"el 85 % del valor configurado en ``max-length``. Para otros idiomas de "
+"fuente, informa sobre las cadenas de fuente que superan el valor configurado "
+"en ``max-length``."
 
 #: snippets/checks-autogenerated.rst:2603
 msgid ""
@@ -67020,11 +67007,11 @@ msgstr ""
 
 #: snippets/file-format-parameters.rst:141
 msgid "po_report_msgid_bugs_to"
-msgstr ""
+msgstr "po_report_msgid_bugs_to"
 
 #: snippets/file-format-parameters.rst:141
 msgid "Report msgid bugs to"
-msgstr "Reportar fallos de msgid a"
+msgstr "Parte de fallos de msgid a"
 
 #: snippets/file-format-parameters.rst:141
 msgid ""
@@ -67032,7 +67019,7 @@ msgid ""
 "string bug reporting address is set."
 msgstr ""
 "Permite que Weblate actualice la cabecera de archivo \"Report-Msgid-Bugs-"
-"To\" si la cadena Origen informa defecto de dirección está establecido."
+"To\" si la cadena Origen generando el parte de dirección está establecido."
 
 #: snippets/file-format-parameters.rst:144
 #, fuzzy
@@ -68519,7 +68506,7 @@ msgstr "Nombre de la región"
 #: snippets/machines-autogenerated.rst:174
 #: snippets/machines-autogenerated.rst:358
 msgid "Formality"
-msgstr "Formal"
+msgstr "Formalidad"
 
 #: snippets/machines-autogenerated.rst:176
 #: snippets/machines-autogenerated.rst:186
@@ -68540,10 +68527,8 @@ msgid "Brevity"
 msgstr ""
 
 #: snippets/machines-autogenerated.rst:182
-#, fuzzy
-#| msgid "Several translation workflows are supported."
 msgid "Prefer shorter translations when supported."
-msgstr "Se admiten varios flujos de trabajo de traducción."
+msgstr "Preferir traducciones más breves cuando se admita."
 
 #: snippets/machines-autogenerated.rst:188
 #, fuzzy
@@ -68558,10 +68543,8 @@ msgid "Profanity"
 msgstr "Perfil"
 
 #: snippets/machines-autogenerated.rst:190
-#, fuzzy
-#| msgid "Amount of words in the translated string."
 msgid "Mask profane words in translated text."
-msgstr "Cantidad de palabras en la cadena traducida."
+msgstr "Máscara de palabras vulgares en texto traducido."
 
 #: snippets/machines-autogenerated.rst:196
 msgid "``MASK`` -- Mask profanity"
@@ -69800,7 +69783,7 @@ msgstr "Gestionar acceso al proyecto"
 
 #: snippets/permissions.rst:101
 msgid "Download reports"
-msgstr "Descargar informes"
+msgstr "Descargar partes"
 
 #: snippets/permissions.rst:103 snippets/permissions.rst:329
 #: snippets/permissions.rst:331 snippets/permissions.rst:335
@@ -70161,7 +70144,7 @@ msgstr ":guilabel:`Gestionar el acceso al proyecto`"
 
 #: snippets/roles.rst:29 snippets/roles.rst:199
 msgid ":guilabel:`Download reports`"
-msgstr ":guilabel:`Descargar informes`"
+msgstr ":guilabel:`Descargar partes`"
 
 #: snippets/roles.rst:30 snippets/roles.rst:122 snippets/roles.rst:185
 msgid ":guilabel:`Add screenshot`"
@@ -70523,8 +70506,8 @@ msgid ""
 msgstr ""
 "Weblate emplea una amplia gama de controles de calidad para las cadenas. La "
 "siguiente sección los describe con más detalle. También existen controles "
-"específicos para cada idioma. Por favor, informe de un error si detecta "
-"algún error."
+"específicos para cada idioma. Por favor, genere un parte si detecta algún "
+"error."
 
 #: user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -71351,6 +71334,7 @@ msgid ""
 msgstr ""
 
 #: user/glossary.rst:252
+#, fuzzy
 msgid ""
 "Weblate can clean up stale glossary translations only for Weblate-managed "
 "glossaries, only when no regular component in the project still uses that "
@@ -71358,6 +71342,12 @@ msgid ""
 "terms. If the stale glossary language still contains terms, Weblate keeps it "
 "and reports it as an unused glossary language."
 msgstr ""
+"Weblate solo puede eliminar las traducciones obsoletas de los glosarios "
+"gestionados por Weblate, siempre y cuando ningún componente habitual del "
+"proyecto siga utilizando ese idioma y siempre que la traducción obsoleta del "
+"glosario no contenga términos traducidos. Si el idioma del glosario obsoleto "
+"sigue conteniendo términos, Weblate lo conserva y lo indica como un idioma "
+"de glosario no utilizado."
 
 #: user/glossary.rst:259
 #, fuzzy
@@ -72932,7 +72922,7 @@ msgid ""
 "for reporting source string bugs when this functionality is turned on "
 "using :ref:`project-source_review`."
 msgstr ""
-"para informar defectos en la cadena origen cuando esta funcionalidad está "
+"para generar un parte en la cadena origen cuando esta funcionalidad está "
 "encendida utilizando :ref:`project-source_review`."
 
 #: user/translating.rst:82
@@ -73143,12 +73133,18 @@ msgid "Plural forms"
 msgstr "Fórmula de plurales"
 
 #: user/translating.rst:195
+#, fuzzy
 msgid ""
 "Translate each plural field Weblate shows. Do not combine forms into a "
 "single construction such as ``file(s)`` unless that is correct for the "
 "target language and project. If the source string uses an ambiguous plural, "
 "report it with a source string comment or review."
 msgstr ""
+"Traduce cada campo de plural que muestre Weblate. No combines formas en una "
+"sola construcción, como « ` » o «file(s)` », a menos que sea correcto para "
+"el idioma de destino y el proyecto. Si la cadena de origen utiliza un plural "
+"ambiguo, indícalo mediante un comentario en la cadena de origen o durante la "
+"revisión."
 
 #: user/translating.rst:200
 msgid ""
@@ -75244,13 +75240,6 @@ msgid "The API keys are stored in the ``[keys]`` section:"
 msgstr "Las claves del API son almacenadas dentro de la sección ``[keys]``:"
 
 #: wlc.rst:413
-#, fuzzy
-#| msgid ""
-#| "This allows you to store keys in your personal settings, while using "
-#| "the :file:`.weblate` configuration in the VCS repository so "
-#| "that :program:`wlc` knows which server it should talk to. In CI, keep "
-#| "only the repository configuration in version control and inject the API "
-#| "key using :envvar:`WLC_KEY`."
 msgid ""
 "This allows you to store keys in your personal settings, while using "
 "the :file:`.weblate` configuration in the VCS repository so "
@@ -75258,10 +75247,9 @@ msgid ""
 "lookup is scoped to the exact API URL."
 msgstr ""
 "Esto le permite almacenar claves en sus ajustes personales, mientras utiliza "
-"la configuración :file:`.weblate` en el repositorio VCS para "
-"que :program:`wlc` sepa con qué servidor debe comunicarse. En IC, mantenga "
-"solo la configuración del repositorio en el control de versiones e inyecte "
-"la clave API usando :envvar:`WLC_KEY`."
+"la configuración :file:`.weblate` en el repositorio VCS para que "
+":program:`wlc` sepa con qué servidor debe comunicarse. Las ``[claves]`` "
+"aparecidas están dirigidas para el API URL exacto."
 
 #: wlc.rst:418
 msgid ""
@@ -75546,8 +75534,8 @@ msgstr ""
 "Estado utilizado para las cadenas de origen/plantilla que requieren revisión "
 "por parte del desarrollador. Normalmente se establece para las cadenas de "
 "origen nuevas importadas desde el sistema de control de versiones cuando se "
-"habilita el complemento de edición de origen, o cuando se informa de una "
-"cadena de origen para su revisión."
+"habilita el complemento de edición de origen, o cuando genere un parte de "
+"una cadena de origen para su revisión."
 
 #: workflows.rst:76
 msgid "Translated / Waiting for review"
@@ -75908,8 +75896,8 @@ msgid ""
 msgstr ""
 "Con :ref:`project-source_review` activado, se puede aplicar el proceso de "
 "revisión a las cadenas de código fuente. Una vez activado, los usuarios "
-"pueden informar sobre incidencias con las cadenas fuente. El proceso real "
-"depende de si se utilizan formatos bilingües o monolingües."
+"pueden generar un parte sobre incidencias con las cadenas fuente. El proceso "
+"real depende de si se utilizan formatos bilingües o monolingües."
 
 #: workflows.rst:319
 msgid ""
@@ -75918,8 +75906,9 @@ msgid ""
 "source string is marked as :guilabel:`Needs editing`."
 msgstr ""
 "Para los formatos monolingües, la revisión de la cadena de origen se "
-"comporta de manera similar a :ref:`reviews`: una vez que se informa de una "
-"incidencia en la cadena de origen, se marca como :guilabel:`Needs editing`."
+"comporta de manera similar a :ref:`reviews`: una vez que se genere un parte "
+"de una incidencia en la cadena de origen, se marca como :guilabel:`Necesita "
+"editar`."
 
 #: workflows.rst:323
 msgid ""
@@ -75932,8 +75921,8 @@ msgstr ""
 "Los formatos bilingües no permiten la edición directa de las cadenas de "
 "origen (éstas suelen extraerse directamente del código fuente). En este "
 "caso, la etiqueta :guilabel:`Source needs review` se adjunta a las cadenas "
-"informadas por los traductores. Debe revisar dichas cadenas y editarlas en "
-"el código fuente o eliminar la etiqueta."
+"del parte por los traductores. Debe revisar dichas cadenas y editarlas en el "
+"código fuente o eliminar la etiqueta."
 
 #~ msgid "Compressing client assets"
 #~ msgstr "Comprimir bienes cliente"

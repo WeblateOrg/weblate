@@ -31,6 +31,7 @@ Weblate 2026.8
 
 .. rubric:: Bug fixes
 
+* Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
 * Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.

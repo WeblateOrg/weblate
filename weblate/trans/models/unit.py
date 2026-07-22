@@ -631,6 +631,7 @@ class Unit(models.Model, LoggerMixin):
     objects = UnitQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         unique_together = [("translation", "id_hash")]  # ruff: ignore[mutable-class-default]
         verbose_name = "string"

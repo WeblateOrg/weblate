@@ -123,6 +123,7 @@ class Permission(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Permission"
         verbose_name_plural = "Permissions"
 
@@ -189,6 +190,7 @@ class Role(models.Model):
     objects = RoleQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Role"
         verbose_name_plural = "Roles"
 
@@ -340,6 +342,7 @@ class Group(models.Model):
     objects = GroupQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Group"
         verbose_name_plural = "Groups"
         # ruff: ignore[mutable-class-default]
@@ -470,6 +473,7 @@ class TeamMembership(models.Model):
     objects = TeamMembershipQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         db_table = "weblate_auth_user_groups"
         # ruff: ignore[mutable-class-default]
         constraints = [
@@ -871,6 +875,7 @@ class User(AbstractBaseUser):
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "User"
         verbose_name_plural = "Users"
         # ruff: ignore[mutable-class-default]
@@ -1694,6 +1699,7 @@ class AutoGroup(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Automatic team assignment"
         verbose_name_plural = "Automatic team assignments"
 
@@ -1721,6 +1727,7 @@ class UserBlock(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Blocked user"
         verbose_name_plural = "Blocked users"
         # ruff: ignore[mutable-class-default]
@@ -1976,6 +1983,9 @@ class Invitation(models.Model):
             "Empty selection uses the team language selection without additional limit."
         ),
     )
+
+    class Meta:
+        required_db_vendor = "postgresql"
 
     def __str__(self) -> str:
         return f"invitation {self.uuid} for {self.user or self.email} to {self.group}"

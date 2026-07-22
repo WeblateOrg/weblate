@@ -131,6 +131,7 @@ class ConfigurationError(models.Model):
     objects = ConfigurationErrorManager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         indexes: ClassVar = [
             models.Index(fields=["ignored", "timestamp"]),
         ]
@@ -180,6 +181,7 @@ class SupportStatus(models.Model):
     objects = SupportStatusManager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Support status"
         verbose_name_plural = "Support statuses"
 
@@ -298,6 +300,7 @@ class BackupService(models.Model):
     paperkey = models.TextField()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Support service"
         verbose_name_plural = "Support services"
 
@@ -410,6 +413,7 @@ class BackupLog(models.Model):
     log = models.TextField()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Backup log"
         verbose_name_plural = "Backup logs"
 

@@ -94,6 +94,10 @@ from weblate.wladmin.forms import (
     WorkspaceCreateForm,
     WorkspaceSearchForm,
 )
+from weblate.wladmin.middleware import (
+    claim_configuration_health_check,
+    perform_configuration_health_check,
+)
 from weblate.wladmin.models import (
     BackupService,
     ConfigurationError,
@@ -657,12 +661,11 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         if not request.user.has_perm("management.configure"):
             raise PermissionDenied
         return handle_dismiss(request)
+    all_checks = run_checks(include_deployment_checks=True)
+    if settings.BACKGROUND_ADMIN_CHECKS and claim_configuration_health_check():
+        perform_configuration_health_check(all_checks)
     checks = sorted(
-        (
-            check
-            for check in run_checks(include_deployment_checks=True)
-            if not check.is_silenced()
-        ),
+        (check for check in all_checks if not check.is_silenced()),
         key=lambda check: (check.id, check.msg),
     )
 

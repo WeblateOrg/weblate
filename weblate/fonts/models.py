@@ -47,6 +47,7 @@ class Font(models.Model, UserDisplayMixin):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         unique_together: ClassVar[list[tuple[str, str, str]]] = [
             ("family", "style", "project")
         ]
@@ -124,6 +125,7 @@ class FontGroup(models.Model):
     objects = FontGroupQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         unique_together: ClassVar[list[tuple[str, str]]] = [("project", "name")]
         verbose_name = "Font group"
         verbose_name_plural = "Font groups"
@@ -151,6 +153,7 @@ class FontOverride(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         unique_together: ClassVar[list[tuple[str, str]]] = [("group", "language")]
         verbose_name = "Font override"
         verbose_name_plural = "Font overrides"

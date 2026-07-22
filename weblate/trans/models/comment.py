@@ -19,10 +19,21 @@ from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.state import STATE_NEEDS_CHECKING, STATE_NEEDS_REWRITING
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models.unit import Unit
+
+
+def schedule_comment_stats_update(translation_ids: Iterable[int]) -> None:
+    """Queue one stats update for translations affected by a comment deletion."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.tasks import update_translation_stats
+
+    pks = list(translation_ids)
+    if pks:
+        update_translation_stats.delay_on_commit(pks)
 
 
 class CommentManager(models.Manager):
@@ -102,6 +113,14 @@ class CommentQuerySet(models.QuerySet["Comment", "Comment"]):
     def order(self):
         return self.order_by("timestamp")
 
+    def delete(self):
+        translation_ids = list(
+            self.values_list("unit__translation_id", flat=True).distinct()
+        )
+        result = super().delete()
+        schedule_comment_stats_update(translation_ids)
+        return result
+
 
 class Comment(models.Model, UserDisplayMixin):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
@@ -119,6 +138,7 @@ class Comment(models.Model, UserDisplayMixin):
     objects = CommentManager.from_queryset(CommentQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "string comment"
         verbose_name_plural = "string comments"
@@ -152,6 +172,7 @@ class Comment(models.Model, UserDisplayMixin):
 
     # pylint: disable-next=arguments-renamed
     def delete(self, user=None, using=None, keep_parents=False) -> None:
+        translation_id = self.unit.translation_id
         self.unit.change_set.create(
             action=ActionEvents.COMMENT_DELETE,
             user=user,
@@ -159,3 +180,4 @@ class Comment(models.Model, UserDisplayMixin):
             details={"comment": self.comment},
         )
         super().delete(using=using, keep_parents=keep_parents)
+        schedule_comment_stats_update([translation_id])

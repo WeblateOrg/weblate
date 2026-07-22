@@ -84,6 +84,7 @@ class Screenshot(models.Model, UserDisplayMixin):
     objects = ScreenshotQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Screenshot"
         verbose_name_plural = "Screenshots"
 
