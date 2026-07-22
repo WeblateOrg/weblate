@@ -993,7 +993,7 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
         many=True,
         read_only=True,
     )
-    profile = ProfileSerializer(read_only=True)
+    profile = ProfileSerializer(required=False)
     notifications = serializers.HyperlinkedIdentityField(
         view_name="api:user-notifications",
         lookup_field="username",
@@ -1050,7 +1050,7 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
 
 
 class SelfUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
-    profile = ProfileSerializer(read_only=True)
+    profile = ProfileSerializer(required=False)
 
     def validate_email(self, value: str | None) -> str | None:
         if self.instance is not None:

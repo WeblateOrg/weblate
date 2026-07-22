@@ -33405,9 +33405,7 @@ components:
             format: uri
           readOnly: true
         profile:
-          allOf:
-          - $ref: '#/components/schemas/Profile'
-          readOnly: true
+          $ref: '#/components/schemas/Profile'
         notifications:
           type: string
           format: uri
@@ -33461,7 +33459,6 @@ components:
       - languages
       - last_login
       - notifications
-      - profile
       - statistics_url
       - url
       - username
@@ -35395,9 +35392,7 @@ components:
             format: uri
           readOnly: true
         profile:
-          allOf:
-          - $ref: '#/components/schemas/Profile'
-          readOnly: true
+          $ref: '#/components/schemas/Profile'
         notifications:
           type: string
           format: uri
@@ -38249,7 +38244,7 @@ components:
         project tokens whose access to the API is limited to operations to their associated
         project. These tokens have the `wlp_` prefix.\n        "
 servers:
-- url: 'http:'
+- url: http://localhost:8000
   description: Weblate
 tags:
 - name: root
