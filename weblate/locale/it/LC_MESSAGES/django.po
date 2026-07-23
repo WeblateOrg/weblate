@@ -13,14 +13,15 @@
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # Uh idk <twitchy@users.noreply.hosted.weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
+# Giacomo La Serra <laserragiacomo1@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-17 21:21-0500\n"
-"PO-Revision-Date: 2026-07-20 11:01+0000\n"
-"Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
+"PO-Revision-Date: 2026-07-22 18:01+0000\n"
+"Last-Translator: Giacomo La Serra <laserragiacomo1@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -644,10 +645,9 @@ msgstr "L'utente è stato rimosso dal team {team} da {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:369
-#, fuzzy, python-brace-format
-#| msgid "Access to project {project} was blocked."
+#, python-brace-format
 msgid "Project token for {project} was created."
-msgstr "L’accesso al progetto {project} è stato bloccato."
+msgstr "L’accesso al progetto {project} è stato creato."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:371
@@ -731,14 +731,10 @@ msgstr ""
 "sia inappropriato."
 
 #: weblate/accounts/models.py:433 weblate/accounts/models.py:437
-#, fuzzy
-#| msgid ""
-#| "If it was you, please use a password reset to regain access to your "
-#| "account."
 msgid "If it was you, reset your password to regain access to your account."
 msgstr ""
-"Se sei stato tu, usa la reimpostazione della password per riottenere "
-"l'accesso all'account."
+"Se sei stato tu, resetta la tua password per riottenere l'accesso "
+"all'account."
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:468
@@ -757,26 +753,20 @@ msgstr "Altro"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:472
-#, fuzzy
-#| msgid "Generate"
 msgctxt "User agent device type"
 msgid "Generic Smartphone"
-msgstr "Genera"
+msgstr "Smartphone generico"
 
 #: weblate/accounts/models.py:475
-#, fuzzy
-#| msgid "Repository reset"
 msgctxt "User agent device type"
 msgid "Generic Feature Phone"
-msgstr "Reimpostazione repository"
+msgstr "Telefono cellulare tradizionale"
 
 #. Translators: User agent device type
 #: weblate/accounts/models.py:478
-#, fuzzy
-#| msgid "Service"
 msgctxt "User agent device type"
 msgid "iOS-Device"
-msgstr "Servizio"
+msgstr "Dispositivo iOS"
 
 #: weblate/accounts/models.py:614 weblate/templates/accounts/profile.html:513
 #: weblate/templates/accounts/user.html:311
@@ -903,6 +893,7 @@ msgstr "Monitora automaticamente i progetti al momento del contributo"
 msgid ""
 "Projects are added to your watched projects when you contribute to them."
 msgstr ""
+"I progetti vengono aggiunti nei tuoi progetti monitorati quando contribuisci."
 
 #: weblate/accounts/models.py:845
 msgid "Contribute to personal translation memory"
@@ -1129,11 +1120,9 @@ msgid "Strings are available for translation"
 msgstr "Le stringhe sono disponibili per la traduzione"
 
 #: weblate/accounts/notifications.py:659
-#, fuzzy
-#| msgid "Translation summary"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "Riepilogo della traduzione"
+msgstr "Riepilogo delle attività di traduzione"
 
 #: weblate/accounts/notifications.py:926
 msgctxt "Notification name"
@@ -1196,19 +1185,15 @@ msgid "You were mentioned in some comments"
 msgstr "Sei stato menzionato in alcuni commenti"
 
 #: weblate/accounts/notifications.py:1034
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Your translation received a comment"
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
-msgstr "La tua traduzione ha ricevuto un commento"
+msgstr "Una stringa a cui hai contribuito ha ricevuto un commento"
 
 #: weblate/accounts/notifications.py:1038
 #, fuzzy
-#| msgid "Strings with source comments"
 msgctxt "Notification name"
 msgid "Strings you contributed to received comments"
-msgstr "Stringhe con commenti nel sorgente"
+msgstr "Le stringhe a cui hai contribuito hanno ricevuto commenti"
 
 #: weblate/accounts/notifications.py:1120
 msgctxt "Notification name"
@@ -1348,10 +1333,8 @@ msgid "The registration link has been invalidated."
 msgstr "Il collegamento per la registrazione non è più valido."
 
 #: weblate/accounts/pipeline.py:89 weblate/accounts/pipeline.py:522
-#, fuzzy
-#| msgid "The registration link has been invalidated."
 msgid "The invitation link is no longer valid."
-msgstr "Il collegamento per la registrazione non è più valido."
+msgstr "Il link di invito non è più valido."
 
 #: weblate/accounts/pipeline.py:92 weblate/accounts/pipeline.py:430
 #: weblate/accounts/pipeline.py:506 weblate/accounts/pipeline.py:515
@@ -1360,7 +1343,7 @@ msgstr "Il collegamento per la registrazione non è più valido."
 #, fuzzy
 #| msgid "User invitation was removed."
 msgid "This invitation has expired."
-msgstr "L'invito dell'utente è stato rimosso."
+msgstr "Questo invito è scaduto."
 
 #: weblate/accounts/pipeline.py:396
 msgid "You can not complete password reset while signed in."
@@ -1508,23 +1491,24 @@ msgstr "Prova gratuita"
 #, fuzzy
 #| msgid "The source string cannot be edited."
 msgid "This user can not be edited."
-msgstr "La stringa sorgente non può essere modificata."
+msgstr "Non è possibile modificare questo utente."
 
 #: weblate/accounts/views.py:818
 #, python-format
 msgid "Reverting edits by %(user)s site-wide was scheduled."
 msgstr ""
+"È stato programmato il ripristino delle modifiche apportate da %(user)s in "
+"tutto il sito."
 
 #: weblate/accounts/views.py:834
 #, python-format
 msgid "Cleaning up contributions by %(user)s site-wide was scheduled."
 msgstr ""
+"È stata programmata la rimozione dei contributi di %(user)s in tutto il sito."
 
 #: weblate/accounts/views.py:841 weblate/trans/views/acl.py:378
-#, fuzzy
-#| msgid "User invitation was removed."
 msgid "No cleanup action was selected."
-msgstr "L'invito dell'utente è stato rimosso."
+msgstr "Nessuna operazione di pulizia selezionata."
 
 #: weblate/accounts/views.py:993 weblate/templates/base.html:432
 msgid "Website"
@@ -1543,7 +1527,7 @@ msgstr "Questo link al profilo non è più disponibile."
 #, fuzzy
 #| msgid "User profile"
 msgid "External profile link"
-msgstr "Profilo utente"
+msgstr "Link al profilo esterno"
 
 #: weblate/accounts/views.py:1152 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -1621,8 +1605,8 @@ msgid ""
 "Try resetting your password again to verify your identity, the confirmation "
 "link probably expired."
 msgstr ""
-"Prova a registrarti di nuovo per verificare la tua identità, il collegamento "
-"di conferma probabilmente è scaduto."
+"Prova a reimpostare la password per verificare la tua identità. È probabile "
+"che il link di conferma sia scaduto."
 
 #: weblate/accounts/views.py:1747
 msgid ""
@@ -1763,10 +1747,8 @@ msgstr ""
 "nella localizzazione JavaScript o HTML."
 
 #: weblate/addons/cdn.py:279
-#, fuzzy
-#| msgid "Translation files"
 msgid "Translation files CDN"
-msgstr "File di traduzione"
+msgstr "File di traduzione CDN"
 
 #: weblate/addons/cdn.py:281
 #, fuzzy
@@ -1775,14 +1757,15 @@ msgstr "File di traduzione"
 #| "JavaScript or HTML localization."
 msgid "Publishes translation files into a content delivery network."
 msgstr ""
-"Pubblica traduzioni nella rete di distribuzione dei contenuti per l'uso "
-"nella localizzazione JavaScript o HTML."
+"Pubblica i file di traduzione su una rete di distribuzione dei contenuti."
 
 #: weblate/addons/cdn.py:318
 #, fuzzy
 #| msgid "The translation base language can not be edited."
 msgid "The translation files CDN add-on cannot publish weblate.js."
-msgstr "La lingua di base della traduzione non può essere modificata."
+msgstr ""
+"Il componente aggiuntivo CDN per i file di traduzione non può pubblicare "
+"weblate.js."
 
 #: weblate/addons/cleanup.py:48
 msgid "Cleanup translation files"
@@ -1831,18 +1814,25 @@ msgid ""
 "This add-on affects the whole project and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Questo componente aggiuntivo si applica all'intero progetto e può creare "
+"file di traduzione per più componenti o repository."
 
 #: weblate/addons/consistency.py:140
 msgid ""
 "This add-on affects the whole category and may create translation files "
 "across many components or repositories."
 msgstr ""
+"Questo componente aggiuntivo si applica all'intera categoria e può creare "
+"file di traduzione per più componenti o repository."
 
 #: weblate/addons/consistency.py:144
+#, fuzzy
 msgid ""
 "This add-on affects all projects and may create translation files across "
 "many components or repositories."
 msgstr ""
+"Questo componente aggiuntivo si applica a tutti i progetti e può creare file "
+"di traduzione per più componenti o repository."
 
 #: weblate/addons/consistency.py:251 weblate/trans/models/component.py:5964
 msgid ""
@@ -1881,10 +1871,8 @@ msgid "Pending"
 msgstr "In attesa"
 
 #: weblate/addons/events.py:59
-#, fuzzy
-#| msgid "Access"
 msgid "Success"
-msgstr "Accesso"
+msgstr "Successo"
 
 #: weblate/addons/events.py:60
 #: weblate/templates/trans/alert/addonscripterror.html:11
@@ -1895,72 +1883,68 @@ msgid "Error"
 msgstr "Errore"
 
 #: weblate/addons/events.py:61
-#, fuzzy
-#| msgid "Skip"
 msgid "Skipped"
-msgstr "Salta"
+msgstr "Saltato"
 
 #: weblate/addons/events.py:67
 #, fuzzy
 #| msgid "The add-on can only be installed on the component."
 msgid "The add-on is not compatible with this component."
-msgstr "L'add-on può essere installato solo sul componente."
+msgstr "La componente aggiuntiva non è compatibile con questo componente."
 
 #: weblate/addons/events.py:71
+#, fuzzy
 msgid "There are no compatible components to process."
-msgstr ""
+msgstr "Non ci sono componenti compatibili da elaborare."
 
 #: weblate/addons/events.py:75
 #, fuzzy
 #| msgid "The category was scheduled for removal."
 msgid "The add-on is not scheduled to run yet."
-msgstr "La categoria è stata programmata per la rimozione."
+msgstr "L'esecuzione del componente aggiuntivo non è ancora pianificata."
 
 #: weblate/addons/events.py:79
+#, fuzzy
 msgid "There are no relevant changes to process."
-msgstr ""
+msgstr "Non ci sono modifiche rilevanti da elaborare."
 
 #: weblate/addons/events.py:83
 #, fuzzy
 #| msgid "Suggestion voting is disabled."
 msgid "Background processing is disabled."
-msgstr "La votazione dei suggerimenti è disabilitata."
+msgstr "L'elaborazione in background è disabilitata."
 
 #: weblate/addons/events.py:87
 #, fuzzy
 #| msgid "The translation component was scheduled for removal."
 msgid "The component is not scheduled for background processing today."
-msgstr "È stata pianificata la rimozione del componente di traduzione."
+msgstr "L'elaborazione in background del componente non è programmata per oggi."
 
 #: weblate/addons/events.py:91
 #, fuzzy
 #| msgid "There are no assigned strings."
 msgid "There are no eligible strings to process."
-msgstr "Non ci sono stringhe assegnate."
+msgstr "Non ci sono stringhe idonee da elaborare."
 
 #: weblate/addons/events.py:95
 #, fuzzy
 #| msgid "The given language already exists."
 msgid "The target no longer exists."
-msgstr "La lingua indicata esiste già."
+msgstr "La destinazione non esiste più."
 
 #: weblate/addons/events.py:99
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "A required file is not available."
-msgstr "Il token inserito non è valido."
+msgstr "Il file richiesto non è disponibile."
 
 #: weblate/addons/events.py:103
 #, fuzzy
 #| msgid "There are some uncommitted changes!"
 msgid "There are no outgoing commits to process."
-msgstr "Non ci sono commit da elaborare."
+msgstr "Non ci sono commit in uscita da elaborare."
 
 #: weblate/addons/events.py:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on does not apply to this event."
-msgstr "L'add-on può essere installato solo sul componente."
+msgstr "Questo componente aggiuntivo non si applica a questo evento."
 
 #: weblate/addons/events.py:109
 msgid "No source files are configured."
@@ -1970,13 +1954,13 @@ msgstr "Non è stato configurato un file di origine."
 #, fuzzy
 #| msgid "The entered token is not valid."
 msgid "The configured output path is invalid."
-msgstr "Il token inserito non è valido."
+msgstr "Il percorso di output configurato non è valido."
 
 #: weblate/addons/events.py:114
 #, fuzzy
 #| msgid "This add-on executes a script."
 msgid "The add-on execution failed."
-msgstr "Questo add-on esegue uno script."
+msgstr "L'esecuzione del componente aggiuntivo non è riuscita."
 
 #: weblate/addons/example.py:31
 msgid "Example add-on"
@@ -2003,16 +1987,18 @@ msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
 msgstr "Invia notifiche a uno scambio AMQP compatibile con Fedora Messaging."
 
 #: weblate/addons/fedora_messaging.py:204
-#, python-format
+#, fuzzy, python-format
 msgid "Message ID: %(message_id)s"
-msgstr ""
+msgstr "ID Messaggio: %(message_id)s"
 
 #: weblate/addons/fedora_messaging.py:456
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
 msgstr ""
+"Pubblicazione su Fedora Messaging scaduta; la connessione al broker o la "
+"conferma di consegna non è stata completata: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:460
 #, python-format
@@ -2020,16 +2006,19 @@ msgid ""
 "Fedora Messaging publisher service was unavailable; the connection will be "
 "recreated on the next attempt: %(error)s"
 msgstr ""
+"Il servizio di pubblicazione di Fedora Messaging non era disponibile. La "
+"connessione verrà ricreata al prossimo tentativo: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:464
-#, python-format
+#, fuzzy, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
 msgstr ""
+"Il broker di Fedora Messaging ha restituito il seguente messaggio: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:468
-#, python-format
+#, fuzzy, python-format
 msgid "Fedora Messaging broker rejected the message: %(error)s"
-msgstr ""
+msgstr "Il broker di Fedora Messaging ha rifiutato il messaggio: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:470
 #, python-format

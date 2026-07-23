@@ -1217,6 +1217,7 @@ def get_alerts(
     | Component
     | ProjectLanguage
     | Project
+    | Workspace
     | GhostProjectLanguageStats
     | GhostCategoryLanguageStats,
     translation: Translation | GhostTranslation | None,
@@ -1296,6 +1297,7 @@ def indicate_alerts(
     | Component
     | ProjectLanguage
     | Project
+    | Workspace
     | GhostProjectLanguageStats
     | GhostCategoryLanguageStats,
 ) -> str:
@@ -1704,6 +1706,7 @@ def list_objects_percent(
 def show_info(  # ruff: ignore[too-many-arguments]
     context: Context,
     *,
+    workspace: Workspace | None = None,
     project: Project | None = None,
     component: Component | None = None,
     translation: Translation | None = None,
@@ -1724,6 +1727,7 @@ def show_info(  # ruff: ignore[too-many-arguments]
     """
     return {
         "user": context["user"],
+        "workspace": workspace,
         "project": project,
         "component": component,
         "translation": translation,

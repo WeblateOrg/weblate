@@ -18,6 +18,8 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 
 if TYPE_CHECKING:
+    from uuid import UUID
+
     from weblate.auth.models import User
     from weblate.trans.models import Category, Project
 
@@ -29,7 +31,7 @@ class _HasUser(Protocol):
 
 class _HasOptionalId(Protocol):
     @property
-    def id(self) -> int | None: ...
+    def id(self) -> int | UUID | None: ...
 
 
 class _HasComponentCategoryAttrs(Protocol):
