@@ -172,9 +172,7 @@ class ListMachineryView(TemplateView):
         result = super().get_context_data(**kwargs)
         result["configured_services"] = self.configured_services
         result["available_services"] = self.available_services
-        errors_qs = MachineryError.objects.select_related("project")
-        if self.project:
-            errors_qs = errors_qs.filter(project=self.project)
+        errors_qs = MachineryError.objects.filter(project=self.project)
         result["machinery_errors"] = errors_qs[:50]
         if not self.project:
             result["menu_items"] = MANAGE_MENU
