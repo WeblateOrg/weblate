@@ -22,6 +22,7 @@ Weblate 2026.8
 * Improved matrix view loading performance when displaying multiple languages.
 * Translation memory management pages now load origin summaries with a single database aggregation.
 * Dashboard component list tabs now load without processing unrelated component lists.
+* Category pages now load recent history and shared component listings more efficiently.
 * Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed.
 * :ref:`Empty workspaces <workspace-removal>` not associated with billing can now be removed from the workspace :guilabel:`Operations` menu.
 * :ref:`mt-aws` machine translation now supports configuring formality, brevity, and profanity masking.

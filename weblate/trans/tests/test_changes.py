@@ -21,9 +21,9 @@ from weblate.utils.xml import parse_xml
 class FeedQueriesTest(FixtureTestCase):
     # Reverse managers populate different related objects up front, so the
     # fixed query budget differs between project/component/translation feeds.
-    PROJECT_FEED_QUERIES = 12
-    COMPONENT_FEED_QUERIES = 11
-    TRANSLATION_FEED_QUERIES = 11
+    PROJECT_FEED_QUERIES = 11
+    COMPONENT_FEED_QUERIES = 10
+    TRANSLATION_FEED_QUERIES = 10
 
     def setUp(self) -> None:
         super().setUp()
