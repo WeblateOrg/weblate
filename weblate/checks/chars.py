@@ -553,6 +553,34 @@ class MaxLengthCheck(TargetCheckParametrized):
         return any(len(replace(target)) > value for target in targets)
 
 
+class MaxLinesCheck(TargetCheckParametrized):
+    """
+    Check for maximum number of lines in translation.
+
+    This check flags translations that exceed a configured maximum number of
+    lines. It is useful for translations targeting fixed-height UI elements
+    such as displays, terminals, or constrained containers where a specific
+    number of visible lines is required.
+
+    The flag ``max-lines:<value>`` sets the upper bound. A translation with
+    more than ``<value>`` lines (counted by newlines + 1) triggers a warning.
+
+    Example flag: ``max-lines:3``
+    """
+
+    check_id = "max-lines"
+    name = gettext_lazy("Maximum number of lines")
+    description = gettext_lazy("Translation should not exceed given number of lines.")
+    default_disabled = True
+
+    param_type = single_value_flag(int)
+
+    def check_target_params(
+        self, sources: list[str], targets: list[str], unit: Unit, value
+    ):
+        return any(target.count("\n") + 1 > value for target in targets)
+
+
 class EndSemicolonCheck(TargetCheck):
     """Check for semicolon at end."""
 
