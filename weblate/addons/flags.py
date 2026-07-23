@@ -43,7 +43,12 @@ class FlagBase(BaseAddon):
         project: Project | None = None,
     ) -> bool:
         # Following formats support fuzzy flag, so avoid messing up with them
-        if component is not None and component.file_format in {"ts", "po", "po-mono"}:
+        if component is not None and component.file_format in {
+            "ts",
+            "ts1",
+            "po",
+            "po-mono",
+        }:
             return False
         return super().can_install(
             component=component, category=category, project=project
