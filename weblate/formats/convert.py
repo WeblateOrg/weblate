@@ -926,7 +926,7 @@ class AsciiDocFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
     name = gettext_lazy("AsciiDoc file")
     autoload = ("*.ad", "*.adoc", "*.asciidoc")
     format_id = "asciidoc"
-    check_flags = ("safe-html", "strict-same")
+    check_flags = ("safe-html", "strict-same", "asciidoc-text")
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
