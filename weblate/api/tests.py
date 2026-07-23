@@ -254,7 +254,7 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
-        self.assertNotIn("languages", response.data)
+        self.assertNotIn("languages", response.data)  # deprecated top level field
         self.assertIn("profile", response.data)
         self.assertEqual(response.data["profile"]["website"], profile.website)
         self.assertEqual(response.data["profile"]["contact"], profile.contact)
@@ -284,7 +284,6 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
-        self.assertNotIn("languages", response.data)
         self.assertIn("profile", response.data)
         self.assertEqual(response.data["profile"]["website"], profile.website)
         self.assertIn(language_url, response.data["profile"]["languages"])

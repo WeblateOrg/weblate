@@ -346,12 +346,54 @@ Users
                 "http://example.com/api/groups/2/",
                 "http://example.com/api/groups/3/"
             ],
+            "languages": [
+                "http://example.com/api/languages/cs/",
+            ],
+            "profile": {
+                "language": "en",
+                "languages": [
+                    "http://example.com/api/languages/cs/"
+                ],
+                "secondary_languages": [],
+                "translated": 42,
+                "suggested": 3,
+                "uploaded": 1,
+                "commented": 5,
+                "theme": "auto",
+                "hide_completed": false,
+                "secondary_in_zen": true,
+                "hide_source_secondary": false,
+                "editor_link": "",
+                "translate_mode": 0,
+                "zen_mode": 0,
+                "special_chars": "",
+                "nearby_strings": 10,
+                "auto_watch": true,
+                "contribute_personal_tm": true,
+                "dashboard_view": 1,
+                "dashboard_component_list": null,
+                "watched": [],
+                "website": "https://example.com/",
+                "contact": "",
+                "liberapay": "",
+                "fediverse": "",
+                "codesite": "",
+                "github": "",
+                "twitter": "",
+                "linkedin": "",
+                "location": "",
+                "company": "",
+                "public_email": "",
+                "commit_email": "",
+                "commit_name": 0,
+                "last_2fa": ""
+            },
             "is_superuser": true,
             "is_active": true,
             "is_bot": false,
             "date_joined": "2020-03-29T18:42:42.617681Z",
             "url": "http://example.com/api/users/exampleusername/",
-            "contributions_url": "http://example.com/api/users/exampleusername/contributions/"
+            "contributions_url": "http://example.com/api/users/exampleusername/contributions/",
             "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
         }
 
