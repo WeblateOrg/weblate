@@ -499,7 +499,7 @@ class MaxLinesCheckTest(SimpleTestCase):
         self.assertTrue(
             self.check.check_target(
                 ["source"],
-                ["translation"],
+                ["line1\nline2"],
                 make_unit(flags="max-lines:1"),
             )
         )

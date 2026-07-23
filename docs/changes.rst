@@ -8,6 +8,7 @@ Weblate 2026.8
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
 * :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
+* Added :ref:`check-max-lines` quality check for limiting the number of lines in translations, useful for fixed-height UI elements.
 
 .. rubric:: Improvements
 
