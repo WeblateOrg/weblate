@@ -254,7 +254,7 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
-        self.assertIn(language_url, response.data["languages"])
+        self.assertNotIn("languages", response.data)
         self.assertIn("profile", response.data)
         self.assertEqual(response.data["profile"]["website"], profile.website)
         self.assertEqual(response.data["profile"]["contact"], profile.contact)
@@ -284,7 +284,7 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
-        self.assertIn(language_url, response.data["languages"])
+        self.assertNotIn("languages", response.data)
         self.assertIn("profile", response.data)
         self.assertEqual(response.data["profile"]["website"], profile.website)
         self.assertIn(language_url, response.data["profile"]["languages"])
@@ -327,7 +327,6 @@ class UserAPITest(APIBaseTest):
             skip={
                 "id",
                 "groups",
-                "languages",
                 "profile",
                 "notifications",
                 "date_joined",

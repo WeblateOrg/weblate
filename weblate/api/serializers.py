@@ -986,14 +986,6 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
         many=True,
         read_only=True,
     )
-    # Deprecated: use profile.languages. Kept for compatibility; remove in a future release.
-    languages = serializers.HyperlinkedIdentityField(
-        view_name="api:language-detail",
-        lookup_field="code",
-        source="profile.languages",
-        many=True,
-        read_only=True,
-    )
     profile = ProfileSerializer(read_only=True)
     notifications = serializers.HyperlinkedIdentityField(
         view_name="api:user-notifications",
@@ -1027,7 +1019,6 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
             "full_name",
             "username",
             "groups",
-            "languages",
             "profile",
             "notifications",
             "is_superuser",

@@ -35850,6 +35850,11 @@ components:
             type: integer
     PatchedUserUpdateRequest:
       type: object
+      description: |-
+        Schema-only serializer for user update requests.
+
+        Writable nested fields are not supported by default in .update()
+        'profile' field update logic is handled by ProfileUpdateMixin
       properties:
         id:
           type: integer
@@ -38169,6 +38174,11 @@ components:
       - uploaded
     UserUpdateRequest:
       type: object
+      description: |-
+        Schema-only serializer for user update requests.
+
+        Writable nested fields are not supported by default in .update()
+        'profile' field update logic is handled by ProfileUpdateMixin
       properties:
         id:
           type: integer

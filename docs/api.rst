@@ -332,7 +332,6 @@ Users
     :>json string date_joined: date the user is created
     :>json string last_login: date the user last signed in
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
-    :>json array languages: link to translated languages; see :http:get:`/api/languages/(string:language)/`
     :>json object profile: user profile preferences; see :ref:`api-user-profile`. Returned only with the ``user.view`` or ``user.edit`` permission.
 
     **Example JSON data:**
@@ -346,9 +345,6 @@ Users
             "groups": [
                 "http://example.com/api/groups/2/",
                 "http://example.com/api/groups/3/"
-            ],
-            "languages": [
-                "http://example.com/api/languages/cs/",
             ],
             "is_superuser": true,
             "is_active": true,
@@ -525,9 +521,6 @@ permissions can still update their own profile through
 ``profile`` object.
 
 Profile fields mirror the settings described in :ref:`user-profile`.
-
-The top-level ``languages`` field on user objects is deprecated; use
-``profile.languages`` instead.
 
 
 Groups
