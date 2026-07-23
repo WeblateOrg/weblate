@@ -305,6 +305,7 @@ class Category(
     objects = CategoryQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "Category"
         verbose_name_plural = "Categories"
@@ -639,10 +640,21 @@ class Category(
                 )
 
     @cached_property
-    def source_language_ids(self):
-        return set(
+    def source_language_ids(self) -> set[int]:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import ComponentLink
+
+        result = set(
             self.all_components.values_list("source_language_id", flat=True).distinct()
         )
+        result.update(
+            ComponentLink.objects.filter(
+                Q(category=self)
+                | Q(category__category=self)
+                | Q(category__category__category=self)
+            ).values_list("component__source_language_id", flat=True)
+        )
+        return result
 
     def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""

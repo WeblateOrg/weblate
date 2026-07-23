@@ -78,7 +78,8 @@ from weblate.formats.ttkit import (
     StringsFormat,
     TBXFormat,
     TOMLFormat,
-    TSFormat,
+    TS1Format,
+    TS2Format,
     TTKitFormat,
     WebExtensionJSONFormat,
     Xliff2Format,
@@ -272,6 +273,7 @@ TEST_XLIFF2 = get_test_file("cs.xliff2")
 TEST_POT = get_test_file("hello.pot")
 TEST_POT_UNICODE = get_test_file("unicode.pot")
 TEST_RESX = get_test_file("cs.resx")
+TEST_TS1 = get_test_file("cs-ts1.ts")
 TEST_TS = get_test_file("cs.ts")
 TEST_YAML = get_test_file("cs.pyml")
 TEST_RUBY_YAML = get_test_file("cs.ryml")
@@ -642,7 +644,7 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
         self.assertTrue(PoFormat.supports_adding_plural_units())
 
     def test_qt_context(self) -> None:
-        storage = TSFormat(
+        storage = TS2Format(
             NamedBytesIO(
                 "test.ts",
                 b'<?xml version="1.0" encoding="utf-8"?>'
@@ -655,7 +657,7 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
         )
         unit = storage.content_units[0]
 
-        self.assertTrue(TSFormat.supports_context)
+        self.assertTrue(TS2Format.supports_context)
         self.assertEqual(unit.context, "Menu")
 
     def test_unsupported_location_metadata(self) -> None:
@@ -744,7 +746,7 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
                 )
 
     def test_qt_flags(self) -> None:
-        self.assert_file_flags(TSFormat, "cs.ts", "c-format, max-length:100")
+        self.assert_file_flags(TS2Format, "cs.ts", "c-format, max-length:100")
 
     def test_xliff1_variant_flags(self) -> None:
         content = (
@@ -2508,8 +2510,88 @@ class RubyYAMLFormatTest(YAMLFormatTest):
     MONOLINGUAL = True
 
 
-class TSFormatTest(XMLMixin, BaseFormatTest):
-    format_class = TSFormat
+class TS1FormatTest(XMLMixin, BaseFormatTest):
+    format_class = TS1Format
+    FILE = TEST_TS1
+    BASE = TEST_TS1
+    MIME = "application/x-linguist"
+    EXT = "ts"
+    COUNT = 4
+    MASK = "ts1/*.ts"
+    EXPECTED_PATH = "ts1/cs_CZ.ts"
+    MATCH = '<TS version="1.1">'
+    FIND = "Hello, world!"
+    FIND_CONTEXT = "First\nbutton"
+    FIND_MATCH = "Ahoj světe!"
+    NEW_UNIT_MATCH = (
+        b"<name>key</name>",
+        b"<source>Source string</source>",
+    )
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    SUPPORTS_NOTES = False
+
+    def assert_same(self, newdata, testdata) -> None:
+        newdata = newdata.replace(b"<!DOCTYPE TS>", b"")
+        testdata = testdata.replace(b"<!DOCTYPE TS>", b"")
+        super().assert_same(newdata, testdata)
+
+    def test_states(self) -> None:
+        units = self.parse_file(self.FILE).all_units
+
+        self.assertTrue(units[0].is_translated())
+        self.assertFalse(units[0].is_fuzzy())
+        self.assertEqual(units[1].target, "Use source as fallback")
+        self.assertTrue(units[1].is_translated())
+        self.assertFalse(units[2].is_translated())
+        self.assertFalse(units[2].is_fuzzy())
+        self.assertTrue(units[3].is_translated())
+        self.assertTrue(units[3].is_fuzzy())
+
+    def test_new_template_unit_disambiguation(self) -> None:
+        storage = self.format_class(self.FILE, is_template=True)
+        storage.new_unit("Dialog\nverb", "Open")
+
+        content = storage.store.serialize()
+        self.assertIn(b"<name>Dialog</name>", content)
+        self.assertIn(b"<comment>verb</comment>", content)
+        self.assertIn(b"<source>Open</source>", content)
+        self.assertNotIn(b"<source>Dialog\nverb</source>", content)
+
+    def test_monolingual_template(self) -> None:
+        template = self.format_class(self.FILE, is_template=True)
+        storage = self.format_class(
+            NamedBytesIO("target.ts", b"<TS version='1.1'></TS>"),
+            template_store=template,
+        )
+        missing_unit = storage.content_units[0]
+
+        self.assertEqual(missing_unit.source, "Ahoj světe!")
+        self.assertEqual(missing_unit.target, "")
+
+        unit, add = storage.find_unit(missing_unit.context, missing_unit.source)
+        self.assertTrue(add)
+        storage.add_unit(unit)
+        unit.set_target("Nazdar světe!")
+
+        content = storage.store.serialize()
+        self.assertIn(b"<source>Hello, world!</source>", content)
+        self.assertIn("<translation>Nazdar světe!</translation>".encode(), content)
+
+    def test_delete_unit(self) -> None:
+        storage = self.format_class(self.FILE)
+        storage.delete_unit(storage.all_units[0].unit)
+
+        content = storage.store.serialize()
+        self.assertNotIn(b"Hello, world!", content)
+        self.assertIn(b"<userdata>preserved</userdata>", content)
+
+    def test_registry(self) -> None:
+        self.assertIs(FILE_FORMATS["ts1"], TS1Format)
+        self.assertIs(FILE_FORMATS["ts"], TS2Format)
+
+
+class TS2FormatTest(XMLMixin, BaseFormatTest):
+    format_class = TS2Format
     FILE = TEST_TS
     BASE = TEST_TS
     MIME = "application/x-linguist"
@@ -2520,6 +2602,9 @@ class TSFormatTest(XMLMixin, BaseFormatTest):
     MATCH = '<TS version="2.0" language="cs">'
     FIND_MATCH = "Ahoj svete!\n"
     NEW_UNIT_MATCH = b"<source>Source string</source>"
+
+    def test_autodetection_prefers_version_2(self) -> None:
+        self.assertIs(detect_filename("test.ts"), TS2Format)
 
     def assert_same(self, newdata, testdata) -> None:
         # Comparing of XML with doctype fails...

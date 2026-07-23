@@ -567,6 +567,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     billing_previous_workspace_id: UUID | None
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "Project"
         verbose_name_plural = "Projects"
@@ -593,6 +594,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def save(self, *args, **kwargs) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import component_alerts
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import update_workspace_stats
 
         update_tm = self.contribute_shared_tm or self.effective_contribute_workspace_tm
 
@@ -675,6 +679,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 old_workspace_id,
                 update_tm,
             )
+            if (
+                should_track_field(self, "workspace", update_fields)
+                and old_workspace_id != self.workspace_id
+            ):
+                update_workspace_stats.delay_on_commit(
+                    [
+                        str(workspace_id)
+                        for workspace_id in (old_workspace_id, self.workspace_id)
+                        if workspace_id is not None
+                    ]
+                )
 
         # Update translation memory on enabled sharing
         if update_tm:

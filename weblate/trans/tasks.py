@@ -1294,7 +1294,7 @@ def restore_project_backup(
     filename: str,
     billing_id: int | None,
     workspace_id: str | None = None,
-) -> Project:
+) -> tuple[Project, list[str]]:
     # ruff: ignore[import-outside-top-level]
     from weblate.trans.backups import ProjectBackup
 
@@ -1325,7 +1325,7 @@ def restore_project_backup(
         progress_callback=report_restore_component_progress,
     )
     report_task_progress(95)
-    return project
+    return project, restore.skipped_components.copy()
 
 
 @app.task(trail=False)
@@ -1336,9 +1336,9 @@ def import_project_backup(
     filename: str,
     billing_id: int | None = None,
     workspace_id: str | None = None,
-) -> dict[str, str]:
+) -> dict[str, Any]:
     try:
-        project = restore_project_backup(
+        project, skipped_components = restore_project_backup(
             project_name,
             project_slug,
             user_id,
@@ -1349,6 +1349,20 @@ def import_project_backup(
     finally:
         with suppress(OSError):
             os.unlink(filename)
+
+    if skipped_components:
+        return {
+            "message": gettext(
+                "Project backup import completed with skipped components."
+            ),
+            "warnings": [
+                gettext(
+                    "Component %(component)s was skipped because its linked repository is unavailable."
+                )
+                % {"component": component}
+                for component in skipped_components
+            ],
+        }
 
     return {
         "message": gettext("Project backup import completed."),

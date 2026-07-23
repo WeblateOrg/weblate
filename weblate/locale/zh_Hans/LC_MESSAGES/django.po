@@ -32,9 +32,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-17 21:21-0500\n"
-"PO-Revision-Date: 2026-07-18 06:11+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-19 07:03+0000\n"
+"Last-Translator: Hosted Weblate user 54392 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1746,10 +1746,8 @@ msgid "Pending"
 msgstr "待处理"
 
 #: weblate/addons/events.py:59
-#, fuzzy
-#| msgid "Access"
 msgid "Success"
-msgstr "访问"
+msgstr "成功"
 
 #: weblate/addons/events.py:60
 #: weblate/templates/trans/alert/addonscripterror.html:11
@@ -1760,92 +1758,64 @@ msgid "Error"
 msgstr "出错"
 
 #: weblate/addons/events.py:61
-#, fuzzy
-#| msgid "Skip"
 msgid "Skipped"
 msgstr "跳过"
 
 #: weblate/addons/events.py:67
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on is not compatible with this component."
-msgstr "该附加组件只能安装在部件上。"
+msgstr "该附加组件不兼容此部件。"
 
 #: weblate/addons/events.py:71
 msgid "There are no compatible components to process."
-msgstr ""
+msgstr "没有要处理的兼容部件。"
 
 #: weblate/addons/events.py:75
-#, fuzzy
-#| msgid "The category was scheduled for removal."
 msgid "The add-on is not scheduled to run yet."
-msgstr "已设定好删除此类别的时间。"
+msgstr "尚未安排该附加组件运行时间。"
 
 #: weblate/addons/events.py:79
-#, fuzzy
-#| msgid "There are no matching failed checks!"
 msgid "There are no relevant changes to process."
-msgstr "所有条目均已通过检查！"
+msgstr "没有要处理的相关更改。"
 
 #: weblate/addons/events.py:83
-#, fuzzy
-#| msgid "Suggestion voting is disabled."
 msgid "Background processing is disabled."
-msgstr "建议投票被禁用。"
+msgstr "禁用了后台处理。"
 
 #: weblate/addons/events.py:87
-#, fuzzy
-#| msgid "The translation component was scheduled for removal."
 msgid "The component is not scheduled for background processing today."
-msgstr "翻译部件已计划删除。"
+msgstr "没有安排该部件今日进行后台处理。"
 
 #: weblate/addons/events.py:91
-#, fuzzy
-#| msgid "There are no assigned strings."
 msgid "There are no eligible strings to process."
-msgstr "没有分配的字符串。"
+msgstr "没有要处理的符合条件的字符串。"
 
 #: weblate/addons/events.py:95
-#, fuzzy
-#| msgid "The given language already exists."
 msgid "The target no longer exists."
-msgstr "给定的语言已存在。"
+msgstr "目标不再存在。"
 
 #: weblate/addons/events.py:99
-#, fuzzy
-#| msgid "The requested response media type is not available."
 msgid "A required file is not available."
-msgstr "请求的响应媒体类型不可用。"
+msgstr "没有必需的文件。"
 
 #: weblate/addons/events.py:103
-#, fuzzy
-#| msgid "There are some uncommitted changes!"
 msgid "There are no outgoing commits to process."
-msgstr "有尚未提交的修改！"
+msgstr "没有要处理的传出提交。"
 
 #: weblate/addons/events.py:107
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on does not apply to this event."
-msgstr "该附加组件只能安装在部件上。"
+msgstr "该附加组件未应用到此事件。"
 
 #: weblate/addons/events.py:109
-#, fuzzy
-#| msgid "No source strings are currently assigned!"
 msgid "No source files are configured."
-msgstr "目前未关联任何源字符串！"
+msgstr "未配置源文件。"
 
 #: weblate/addons/events.py:112
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The configured output path is invalid."
-msgstr "输入的令牌无效。"
+msgstr "配置的输出路径无效。"
 
 #: weblate/addons/events.py:114
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "The add-on execution failed."
-msgstr "该附加组件会执行一个脚本。"
+msgstr "附加组件执行失败。"
 
 #: weblate/addons/example.py:31
 msgid "Example add-on"
@@ -2136,7 +2106,7 @@ msgstr "用 --keyword 传递给 xgettext 的可选的附加关键词。"
 
 #: weblate/addons/forms.py:296
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "排他性地使用关键词"
 
 #: weblate/addons/forms.py:299
 msgid ""
@@ -2144,6 +2114,8 @@ msgid ""
 "additional keyword, disabling all default keywords so that only the keyword "
 "specified above is recognized."
 msgstr ""
+"启用后，在额外的关键词之前传递不含值的 --keyword 参数到 xgettext，这会禁用所"
+"有默认关键词只识别上方指定的关键词。"
 
 #: weblate/addons/forms.py:318 weblate/addons/forms.py:422
 #: weblate/addons/forms.py:429
@@ -2152,7 +2124,7 @@ msgstr "该字段必填。"
 
 #: weblate/addons/forms.py:328
 msgid "An additional keyword is required when using keywords exclusively."
-msgstr ""
+msgstr "排他性地使用关键词时需要一个额外关键词。"
 
 #: weblate/addons/forms.py:338
 msgid "Input source"
@@ -3108,10 +3080,8 @@ msgid "Number of seconds until the rate-limit window resets"
 msgstr "速率限制窗口重置前的秒数"
 
 #: weblate/api/serializers.py:128
-#, fuzzy
-#| msgid "Inherited component defaults"
 msgid "Invalid component path."
-msgstr "继承的部件默认值"
+msgstr "无效的部件路径。"
 
 #: weblate/api/serializers.py:159 weblate/trans/models/category.py:96
 #: weblate/trans/models/component.py:561
@@ -3127,57 +3097,43 @@ msgstr "用在网址和文件名中的名字。"
 
 #: weblate/api/serializers.py:167 weblate/api/serializers.py:173
 msgid "Required for credits, contributor stats, and translator work reports."
-msgstr ""
+msgstr "致谢、贡献者统计数字和译者工作报告需要。"
 
 #: weblate/api/serializers.py:246 weblate/api/serializers.py:249
-#, fuzzy
-#| msgid "Add workspace"
 msgid "Invalid workspace."
-msgstr "添加工作区"
+msgstr "无效的工作区。"
 
 #: weblate/api/serializers.py:262
-#, fuzzy
-#| msgid "Invalid request."
 msgid "Invalid project."
-msgstr "无效请求。"
+msgstr "无效项目。"
 
 #: weblate/api/serializers.py:275
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid category."
-msgstr "无效日期！"
+msgstr "无效分类。"
 
 #: weblate/api/serializers.py:290 weblate/api/serializers.py:393
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Do not specify a scope on a scoped reports endpoint."
-msgstr "不要同时指定部件和项目！"
+msgstr "不要在限定范围的报告端点指定作用域。"
 
 #: weblate/api/serializers.py:294
-#, fuzzy
-#| msgid "Choose what to work on"
 msgid "Choose at most one report scope."
-msgstr "选择要翻译的内容"
+msgstr "最多选择一个报告作用域。"
 
 #: weblate/api/serializers.py:306
 msgid "Start and end timestamps are required."
-msgstr ""
+msgstr "需要开始和结束的时间戳。"
 
 #: weblate/api/serializers.py:310
-#, fuzzy
-#| msgid "The starting date has to be before the ending date."
 msgid "The report start must be before its end."
-msgstr "开始日期必须在结束日期之前。"
+msgstr "报告开始日必须在结束日前面。"
 
 #: weblate/api/serializers.py:322 weblate/trans/forms.py:1881
 msgid "Minimum changes can not exceed maximum changes."
-msgstr ""
+msgstr "最少更改不能超过最大更改。"
 
 #: weblate/api/serializers.py:809
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "This e-mail address has not been verified."
-msgstr "不允许使用此电子邮件地址。"
+msgstr "此电子邮件地址还没有验证。"
 
 #: weblate/api/serializers.py:939 weblate/templates/accounts/user.html:278
 #: weblate/trans/forms.py:1322
@@ -3292,10 +3248,8 @@ msgid "Rescan all translation files in the Weblate repository"
 msgstr "重新扫描 Weblate 仓库中的所有翻译文件"
 
 #: weblate/api/serializers.py:2757
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "Please provide a suggestion"
-msgstr "为建议投票"
+msgstr "请提供一个建议"
 
 #: weblate/api/serializers.py:2782 weblate/api/serializers.py:2810
 #: weblate/trans/forms.py:762 weblate/trans/views/edit.py:836
@@ -3303,10 +3257,8 @@ msgid "Translation text too long!"
 msgstr "译文文本太长！"
 
 #: weblate/api/serializers.py:2790
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of plurals does not match"
-msgstr "复数数量"
+msgstr "复数个数不匹配"
 
 #: weblate/api/serializers.py:2807 weblate/trans/views/edit.py:832
 msgid "Your suggestion is similar to the current translation!"
@@ -3381,10 +3333,8 @@ msgid "Cannot change components on a workspace team."
 msgstr "无法对工作区团队更改部件。"
 
 #: weblate/api/views.py:1581
-#, fuzzy
-#| msgid "Import of strings scheduled."
 msgid "Report generation scheduled."
-msgstr "已计划导入字符串。"
+msgstr "已安排了报告生成时间。"
 
 #: weblate/api/views.py:2071
 msgid "Specify a workspace when multiple workspaces can be used."
@@ -7273,41 +7223,33 @@ msgstr "正式程度"
 
 #: weblate/machinery/forms.py:351 weblate/machinery/forms.py:361
 #: weblate/machinery/forms.py:370
-#, fuzzy
-#| msgid "Default font"
 msgctxt "AWS Translate configuration"
 msgid "Default"
-msgstr "默认字体"
+msgstr "默认"
 
 #: weblate/machinery/forms.py:352
-#, fuzzy
-#| msgid "Format"
 msgctxt "AWS Translate configuration"
 msgid "Formal"
-msgstr "格式"
+msgstr "正式"
 
 #: weblate/machinery/forms.py:353
-#, fuzzy
-#| msgid "Information"
 msgctxt "AWS Translate configuration"
 msgid "Informal"
-msgstr "信息"
+msgstr "非正式"
 
 #: weblate/machinery/forms.py:357
 msgctxt "AWS Translate configuration"
 msgid "Brevity"
-msgstr ""
+msgstr "简短"
 
 #: weblate/machinery/forms.py:359
 msgid "Prefer shorter translations when supported."
 msgstr "如果支持则首选较短的译文。"
 
 #: weblate/machinery/forms.py:362
-#, fuzzy
-#| msgid "Enable"
 msgctxt "AWS Translate configuration"
 msgid "Enabled"
-msgstr "启用"
+msgstr "已启用"
 
 #: weblate/machinery/forms.py:366
 msgctxt "AWS Translate configuration"
@@ -7321,7 +7263,7 @@ msgstr "在翻译文本中遮盖污言秽语。"
 #: weblate/machinery/forms.py:371
 msgctxt "AWS Translate configuration"
 msgid "Mask profanity"
-msgstr ""
+msgstr "遮盖污言秽语"
 
 #: weblate/machinery/forms.py:378
 msgctxt "Alibaba Translate configuration"
@@ -8025,10 +7967,8 @@ msgid "No new matching source strings found."
 msgstr "未找到新的匹配的源字符串。"
 
 #: weblate/screenshots/views.py:746
-#, fuzzy
-#| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
-msgstr "无法打开工单，请稍后重试。"
+msgstr "无法下载 OCR 数据。请稍后重试。"
 
 #: weblate/templates/400.html:7 weblate/templates/400.html:13
 msgid "Bad request"
@@ -11016,32 +10956,27 @@ msgid "Appeared %(first)s, last seen %(last)s"
 msgstr "首次出现是在 %(first)s，最后一次出现是在 %(last)s"
 
 #: weblate/templates/component.html:248
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Dismissed by %(user)s %(timestamp)s"
-msgstr "已使用 %(used)s（共 %(total)s）"
+msgstr "被 %(user)s 在 %(timestamp)s 忽略"
 
 #: weblate/templates/component.html:250
-#, fuzzy, python-format
-#| msgid "Generated on %(timestamp)s."
+#, python-format
 msgid "Dismissed %(timestamp)s"
-msgstr "生成于 %(timestamp)s。"
+msgstr "忽略于 %(timestamp)s"
 
 #: weblate/templates/component.html:253
-#, fuzzy, python-format
-#| msgid "CSRF failure reason: %(reason)s"
+#, python-format
 msgid "Reason: %(reason)s"
-msgstr "CSRF 失败原因：%(reason)s"
+msgstr "原因：%(reason)s"
 
 #: weblate/templates/component.html:258
-#, fuzzy
-#| msgid "Dismissed"
 msgid "Dismissal reason"
-msgstr "已忽略"
+msgstr "忽略原因"
 
 #: weblate/templates/component.html:263
 msgid "Optional dismissal reason"
-msgstr ""
+msgstr "可选的忽略原因"
 
 #: weblate/templates/component.html:267
 #: weblate/templates/manage/performance.html:49
@@ -12286,7 +12221,7 @@ msgstr "%(invitation_author)s 邀请您加入"
 #: weblate/templates/mail/new_alert.html:8
 #, python-format
 msgid "Reopened alert: %(alert)s"
-msgstr ""
+msgstr "重开了警报：%(alert)s"
 
 #: weblate/templates/mail/new_alert.html:24
 msgid "View diagnostics"
@@ -13543,34 +13478,24 @@ msgid "Update preview"
 msgstr "更新预览"
 
 #: weblate/templates/report.html:26
-#, fuzzy
-#| msgid "Generate"
 msgid "Generated by"
-msgstr "生成"
+msgstr "生成方"
 
 #: weblate/templates/report.html:30
-#, fuzzy
-#| msgid "Generate"
 msgid "Generated on"
-msgstr "生成"
+msgstr "生成于"
 
 #: weblate/templates/report.html:35
-#, fuzzy
-#| msgid "Download as JSON"
 msgid "Download JSON"
-msgstr "以 JSON 格式下载"
+msgstr "下载 JSON"
 
 #: weblate/templates/report.html:36
-#, fuzzy
-#| msgid "Download as TMX"
 msgid "Download HTML"
-msgstr "以 TMX 格式下载"
+msgstr "下载 HTML"
 
 #: weblate/templates/report.html:37
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "Download reStructuredText"
-msgstr "reStructuredText"
+msgstr "下载 reStructuredText"
 
 #: weblate/templates/screenshots/screenshot_detail.html:35
 msgid "Assigned source strings"
@@ -13823,60 +13748,46 @@ msgid_plural ""
 msgstr[0] "由于以下警报，该翻译被自动锁定："
 
 #: weblate/templates/snippets/diagnostics.html:9
-#, fuzzy
-#| msgid "Filters"
 msgid "Filter"
 msgstr "筛选器"
 
 #: weblate/templates/snippets/diagnostics.html:12
-#, fuzzy
-#| msgid "Search filter"
 msgid "Clear filters"
-msgstr "搜索筛选器"
+msgstr "清除筛选器"
 
 #: weblate/templates/snippets/diagnostics.html:24
-#, fuzzy, python-format
-#| msgid "Source (%(count)s)"
+#, python-format
 msgid "Active: %(count)s"
-msgstr "源条目 (%(count)s)"
+msgstr "活动： %(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:29
-#, fuzzy, python-format
-#| msgid "Dismissed checks"
+#, python-format
 msgid "Dismissed: %(count)s"
-msgstr "略过的检查"
+msgstr "已忽略：%(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:35
-#, fuzzy
-#| msgid "All protected projects"
 msgid "Affected projects"
-msgstr "所有受保护项目"
+msgstr "受影响项目"
 
 #: weblate/templates/snippets/diagnostics.html:50
-#, fuzzy, python-format
-#| msgid "Browse %(count)s project"
-#| msgid_plural "Browse all %(count)s projects"
+#, python-format
 msgid "%(count)s more affected project."
 msgid_plural "%(count)s more affected projects."
-msgstr[0] "浏览所有 %(count)s 个项目"
+msgstr[0] "另外 %(count)s 个受影响的项目。"
 
 #: weblate/templates/snippets/diagnostics.html:54
-#, fuzzy
-#| msgid "Created component"
 msgid "Affected components"
-msgstr "创建了部件"
+msgstr "受影响的部件"
 
 #: weblate/templates/snippets/diagnostics.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action in %(component)s"
-#| msgid_plural "%(count)s strings needing action in %(component)s"
+#, python-format
 msgid "%(count)s more affected component."
 msgid_plural "%(count)s more affected components."
-msgstr[0] "在 %(component)s 中还有 %(count)s 个字符串需要处理"
+msgstr[0] "另外 %(count)s 个受影响部件。"
 
 #: weblate/templates/snippets/diagnostics.html:77
 msgid "No diagnostics match the selected filters."
-msgstr ""
+msgstr "没有匹配所选筛选器的诊断。"
 
 #: weblate/templates/snippets/donate.html:4
 msgid ""
@@ -14651,10 +14562,8 @@ msgid "Credits"
 msgstr "鸣谢表"
 
 #: weblate/templates/snippets/reports.html:26
-#, fuzzy
-#| msgid "Translation activity in this period:"
 msgid "Lists translators contributing in the selected period."
-msgstr "这一时间段的翻译活动："
+msgstr "列出在所选时间段内作出贡献的译者。"
 
 #: weblate/templates/snippets/reports.html:30
 #: weblate/templates/snippets/reports.html:56
@@ -14678,13 +14587,9 @@ msgid "Cost estimate"
 msgstr "花费估算"
 
 #: weblate/templates/snippets/reports.html:79
-#, fuzzy
-#| msgid ""
-#| "Estimates translation costs based on source words, repetitions, needs-"
-#| "editing strings, and translation memory matches."
 msgid ""
 "Estimates translation costs from source words and translation memory matches."
-msgstr "根据源词数、重复数、需要编辑字符串数和翻译记忆库匹配数估计翻译成本。"
+msgstr "根据源单词和翻译记忆库匹配数预估翻译成本。"
 
 #: weblate/templates/snippets/reports.html:101
 #: weblate/trans/models/report.py:109 weblate/trans/views/reports.py:990
@@ -14695,29 +14600,21 @@ msgstr "译者工作分析"
 msgid ""
 "Analyzes realistic daily translator throughput while filtering obvious "
 "outliers."
-msgstr ""
+msgstr "分析真实的每日译者翻译量并过滤掉明显的偏离值。"
 
 #: weblate/templates/snippets/reports.html:119
-#, fuzzy
-#| msgid "Data exports"
 msgid "Past reports"
-msgstr "数据导出"
+msgstr "以往报告"
 
 #: weblate/templates/snippets/reports.html:122
-#, fuzzy
-#| msgid "Previously not translated"
 msgid "Previously generated reports"
-msgstr "未曾翻译"
+msgstr "先前生成的报告"
 
 #: weblate/templates/snippets/reports.html:126
-#, fuzzy
-#| msgid "Create"
 msgid "Creator"
-msgstr "创建"
+msgstr "创建者"
 
 #: weblate/templates/snippets/reports.html:128
-#, fuzzy
-#| msgid "Download"
 msgid "Downloads"
 msgstr "下载"
 
@@ -14732,16 +14629,12 @@ msgid "reStructuredText"
 msgstr "reStructuredText"
 
 #: weblate/templates/snippets/reports.html:145
-#, fuzzy
-#| msgid "No recovery codes generated yet."
 msgid "No reports have been generated yet."
-msgstr "尚未生成恢复代码。"
+msgstr "尚未生成报告。"
 
 #: weblate/templates/snippets/reports.html:152
-#, fuzzy
-#| msgid "Repository initialization"
 msgid "Report history pagination"
-msgstr "仓库初始化"
+msgstr "报告历史分页"
 
 #: weblate/templates/snippets/settings-organize.html:6
 #, python-format
@@ -17000,39 +16893,32 @@ msgstr "浏览所有工作区的变化"
 msgid ""
 "The workspace cannot be removed while it contains projects. Move or remove "
 "the projects first."
-msgstr ""
+msgstr "生产区包含项目时无法删除生产区。先移动或删除其中的项目。"
 
 #: weblate/templates/workspace.html:173 weblate/workspaces/views.py:188
 msgid "A workspace associated with billing cannot be removed."
-msgstr ""
+msgstr "无法删除与账单相关联的工作区。"
 
 #: weblate/templates/workspace.html:186
-#, fuzzy
-#| msgid "I understand the consequences, delete this translation"
 msgid "I understand the consequences, delete this workspace"
-msgstr "我明白后果，删除这个翻译"
+msgstr "我明白后果，删除此工作空间"
 
 #: weblate/templates/workspaces/delete-workspace.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "component and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "workspace and all related workspace data."
-msgstr "此操作无法撤销。这将永久删除 %(object)s 部件及其所有相关内容。"
+msgstr "此操作无法撤销。这将永久删除 %(object)s 工作区及所有相关的工作区数据。"
 
 #: weblate/templates/workspaces/delete-workspace.html:5
 msgid ""
 "This includes workspace access-control teams, translation memory, and code-"
 "hosting connections."
-msgstr ""
+msgstr "这包括工作区访问控制团队、翻译记忆库和代码托管连接。"
 
 #: weblate/templates/workspaces/delete-workspace.html:9
-#, fuzzy
-#| msgid "Workspace name"
 msgid "Workspace to remove"
-msgstr "工作区名"
+msgstr "要删除的工作区"
 
 #: weblate/templates/zen-units.html:23
 msgid "Open in full editor"
@@ -17849,10 +17735,8 @@ msgid "Alert dismissed"
 msgstr "忽略了警报"
 
 #: weblate/trans/actions.py:648
-#, fuzzy
-#| msgid "A component alert was triggered."
 msgid "A component alert was reopened after its context changed."
-msgstr "触发了一则部件警报。"
+msgstr "在上下文更改后重新打开了一则部件警报。"
 
 #: weblate/trans/actions.py:649
 msgid "Alert reopened"
@@ -18287,7 +18171,7 @@ msgstr "状态"
 #: weblate/trans/diagnostics.py:54 weblate/trans/diagnostics.py:61
 #: weblate/trans/diagnostics.py:68
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: weblate/trans/diagnostics.py:60 weblate/trans/models/announcement.py:204
 msgid "Severity"
@@ -18295,7 +18179,7 @@ msgstr "严重程度"
 
 #: weblate/trans/diagnostics.py:72
 msgid "Actionable by me"
-msgstr ""
+msgstr "我可以操作的项目"
 
 #: weblate/trans/discovery.py:497
 msgid "Discovery configuration"
@@ -19049,15 +18933,15 @@ msgstr "重复率"
 
 #: weblate/trans/forms.py:1860
 msgid "Minimum changes per day"
-msgstr ""
+msgstr "每日最少更改"
 
 #: weblate/trans/forms.py:1863
 msgid "Maximum changes per day"
-msgstr ""
+msgstr "每日最多更改"
 
 #: weblate/trans/forms.py:1866
 msgid "Maximum source words per day"
-msgstr ""
+msgstr "每日最多源词数"
 
 #: weblate/trans/forms.py:1925
 msgid "Inherit from workspace"
@@ -21069,10 +20953,8 @@ msgid "Automatic translation skipped because the target no longer exists."
 msgstr "跳过了自动翻译，因目标不再存在。"
 
 #: weblate/trans/tasks.py:1262
-#, fuzzy
-#| msgid "Report format"
 msgid "Report generated."
-msgstr "报告格式"
+msgstr "生成了报告。"
 
 #: weblate/trans/tasks.py:1354
 msgid "Project backup import completed."
@@ -21614,10 +21496,8 @@ msgid "Invalid suggestion!"
 msgstr "无效建议！"
 
 #: weblate/trans/views/edit.py:1087
-#, fuzzy
-#| msgid "Rejection reason"
 msgid "Rejection reason is too long!"
-msgstr "拒绝原因"
+msgstr "拒绝原因过长！"
 
 #: weblate/trans/views/edit.py:1120
 #, python-format
@@ -21756,10 +21636,8 @@ msgid "All components are now open for translation updates."
 msgstr "现已开放所有部件进行翻译更新。"
 
 #: weblate/trans/views/reports.py:246
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Generating report…"
-msgstr "翻译报告"
+msgstr "正在生成报告…"
 
 #: weblate/trans/views/reports.py:275
 msgid "Repetitions"
@@ -21790,50 +21668,36 @@ msgid "Cost"
 msgstr "成本"
 
 #: weblate/trans/views/reports.py:960
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Translated strings per day"
-msgstr "已翻译字符串"
+msgstr "每日翻译的字符串数"
 
 #: weblate/trans/views/reports.py:961
-#, fuzzy
-#| msgid "Source words"
 msgid "Source words per day"
-msgstr "原文单词"
+msgstr "每日源单词数"
 
 #: weblate/trans/views/reports.py:962
-#, fuzzy
-#| msgid "Medium"
 msgid "Median"
-msgstr "中"
+msgstr "中等"
 
 #: weblate/trans/views/reports.py:963
 msgid "Average"
-msgstr ""
+msgstr "均值"
 
 #: weblate/trans/views/reports.py:964
-#, fuzzy
-#| msgid "Strings percent"
 msgid "75th percentile"
-msgstr "字符串百分比"
+msgstr "75%"
 
 #: weblate/trans/views/reports.py:965
-#, fuzzy
-#| msgid "Strings percent"
 msgid "90th percentile"
-msgstr "字符串百分比"
+msgstr "90%"
 
 #: weblate/trans/views/reports.py:981 weblate/trans/views/reports.py:991
-#, fuzzy
-#| msgid "Download user data"
 msgid "Included user days"
-msgstr "下载用户数据"
+msgstr "包含的用户天数"
 
 #: weblate/trans/views/reports.py:983 weblate/trans/views/reports.py:992
-#, fuzzy
-#| msgid "Exclude author (username)"
 msgid "Excluded user days"
-msgstr "排除作者（用户名）"
+msgstr "排除了用户天数"
 
 #: weblate/trans/views/search.py:69 weblate/trans/views/search.py:246
 msgid "Could not process form!"
@@ -23387,16 +23251,12 @@ msgid "Weblate workspaces"
 msgstr "Weblate 工作区"
 
 #: weblate/workspaces/forms.py:22
-#, fuzzy
-#| msgid "Please type in the slug of the category to confirm."
 msgid "Please type in the workspace name to confirm its removal."
-msgstr "请输入类别标识符以确认。"
+msgstr "请输入工作区名称确认删除。"
 
 #: weblate/workspaces/forms.py:45
-#, fuzzy
-#| msgid "The slug does not match the one marked for deletion!"
 msgid "The workspace name does not match the one marked for removal!"
-msgstr "标识符与标记为删除的名称不匹配！"
+msgstr "输入的工作区名称和被标记为删除的工作区名称不匹配！"
 
 #: weblate/workspaces/forms.py:96
 msgid "Inherited component defaults"
@@ -23433,13 +23293,11 @@ msgstr "用户可以在这个工作区中翻译部件前需先同意的贡献者
 
 #: weblate/workspaces/views.py:202
 msgid "The workspace cannot be removed because it is still being used."
-msgstr ""
+msgstr "仍在使用该工作区，无法删除它。"
 
 #: weblate/workspaces/views.py:206
-#, fuzzy
-#| msgid "Source has been removed."
 msgid "The workspace has been removed."
-msgstr "原文已删除。"
+msgstr "删除了工作区。"
 
 #~ msgid ""
 #~ "Lists all translators contributing to this project in a given time "

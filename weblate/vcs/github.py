@@ -469,6 +469,7 @@ class GitHubAppCredentials(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = gettext_lazy("Weblate GitHub App credentials")
         verbose_name_plural = gettext_lazy("Weblate GitHub App credentials")
 
@@ -792,6 +793,7 @@ class GitHubInstallation(Installation):
     objects = GitHubInstallationManager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         proxy = True
         verbose_name = gettext_lazy("connected GitHub account")
         verbose_name_plural = gettext_lazy("connected GitHub accounts")

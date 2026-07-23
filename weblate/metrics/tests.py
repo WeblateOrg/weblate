@@ -2,25 +2,153 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import importlib
 from datetime import timedelta
 
+from django.apps import apps
 from django.utils import timezone
 
 from weblate.metrics.models import Metric
 from weblate.metrics.tasks import cleanup_metrics, collect_metrics
 from weblate.metrics.wrapper import MetricsWrapper
-from weblate.trans.models import Project
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Category, ComponentLink, Project
+from weblate.trans.models.change import Change
 from weblate.trans.tests.test_views import FixtureComponentTestCase
+from weblate.workspaces.models import Workspace
 
 
 class MetricTestCase(FixtureComponentTestCase):
     def test_collect(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Metrics", slug="metrics"
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
         collect_metrics()
         self.assertNotEqual(Metric.objects.count(), 0)
+        self.assertTrue(
+            Metric.objects.filter(
+                scope=Metric.SCOPE_CATEGORY,
+                relation=category.pk,
+                data__isnull=False,
+            ).exists()
+        )
+        self.assertTrue(
+            Metric.objects.filter(
+                scope=Metric.SCOPE_CATEGORY_LANGUAGE,
+                relation=category.pk,
+                data__isnull=False,
+            ).exists()
+        )
+
+    def test_collect_nested_shared_category(self) -> None:
+        Change.objects.all().delete()
+        other = Project.objects.create(name="Metrics target", slug="metrics-target")
+        parent = Category.objects.create(
+            project=other, name="Metrics parent", slug="metrics-parent"
+        )
+        child = Category.objects.create(
+            project=other,
+            category=parent,
+            name="Metrics child",
+            slug="metrics-child",
+        )
+        ComponentLink.objects.create(
+            component=self.component, project=other, category=child
+        )
+        change = self.translation.change_set.create(
+            action=ActionEvents.CHANGE, user=self.user
+        )
+        Change.objects.filter(pk=change.pk).update(
+            timestamp=timezone.now() - timedelta(days=1)
+        )
+        Metric.objects.filter(scope=Metric.SCOPE_CATEGORY, relation=parent.pk).delete()
+
+        metric = Metric.objects.collect_category(parent)
+        self.assertEqual(metric.dict_data["components"], 1)
+        self.assertEqual(
+            metric.dict_data["translations"], self.component.translation_set.count()
+        )
+        self.assertEqual(metric.dict_data["all"], self.component.stats.all)
+        self.assertEqual(metric.changes, 1)
+        self.assertEqual(metric.dict_data["contributors"], 1)
+        self.assertEqual(metric.dict_data["contributors_total"], 1)
+        for language in parent.languages:
+            language_metric = Metric.objects.get(
+                scope=Metric.SCOPE_CATEGORY_LANGUAGE,
+                relation=parent.pk,
+                secondary=language.pk,
+                data__isnull=False,
+            )
+            expected = int(language == self.translation.language)
+            self.assertEqual(language_metric.changes, expected)
+            self.assertEqual(language_metric.dict_data["contributors"], expected)
+            self.assertEqual(language_metric.dict_data["contributors_total"], expected)
+
+    def test_cleanup_legacy_category_language_metric_keys(self) -> None:
+        migration = importlib.import_module(
+            "weblate.metrics.migrations.0003_cleanup_category_language_metric_keys"
+        )
+        legacy = Metric.objects.create(
+            scope=Metric.SCOPE_CATEGORY_LANGUAGE,
+            relation=self.project.pk,
+            secondary=self.translation.language_id,
+            changes=0,
+            data={},
+        )
+        retained = Metric.objects.create(
+            scope=Metric.SCOPE_PROJECT,
+            relation=self.project.pk,
+            changes=0,
+            data={},
+        )
+
+        migration.cleanup_category_language_metrics(apps, None)
+
+        self.assertFalse(Metric.objects.filter(pk=legacy.pk).exists())
+        self.assertTrue(Metric.objects.filter(pk=retained.pk).exists())
 
     def test_collect_global(self) -> None:
         Metric.objects.collect_global()
         self.assertNotEqual(Metric.objects.count(), 0)
+
+    def test_collect_workspace(self) -> None:
+        workspace = Workspace.objects.create(name="Metrics workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+
+        metric = Metric.objects.collect_workspace(workspace)
+
+        self.assertEqual(metric.scope, Metric.SCOPE_WORKSPACE)
+        self.assertEqual(metric.relation, workspace.metric_id)
+        self.assertEqual(metric.dict_data["projects"], 1)
+        self.assertEqual(metric.dict_data["components"], 1)
+        self.assertEqual(
+            metric.dict_data["translations"],
+            self.component.translation_set.count(),
+        )
+        self.assertEqual(metric.dict_data["all"], self.project.stats.all)
+
+    def test_workspace_metric_lifecycle(self) -> None:
+        workspace = Workspace.objects.create(name="Metric lifecycle workspace")
+        relation = workspace.metric_id
+
+        self.assertTrue(
+            Metric.objects.filter(
+                scope=Metric.SCOPE_WORKSPACE,
+                relation=relation,
+            ).exists()
+        )
+
+        workspace.delete()
+
+        self.assertFalse(
+            Metric.objects.filter(
+                scope=Metric.SCOPE_WORKSPACE,
+                relation=relation,
+            ).exists()
+        )
 
     def test_wrapper_prefers_today_metric(self) -> None:
         today = timezone.now().date()

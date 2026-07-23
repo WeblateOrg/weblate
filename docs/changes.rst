@@ -5,16 +5,19 @@ Weblate 2026.8
 
 .. rubric:: New features
 
+* Workspaces now provide aggregate translation statistics and historical metrics.
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
 * :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
 * Added :ref:`check-max-lines` quality check for limiting the number of lines in translations, useful for fixed-height UI elements.
+* Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`.
 
 .. rubric:: Improvements
 
 * Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters.
 * Component diagnostics now record dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors.
 * :ref:`Add-on activity logs <addon-activity-logging>` now distinguish pending, successful, failed, and skipped executions and explain why an add-on was skipped.
+* Add-on management now uses separate configuration, logs, and components tabs.
 * Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
 * Improved matrix view loading performance when displaying multiple languages.
 * Translation memory management pages now load origin summaries with a single database aggregation.
@@ -26,11 +29,15 @@ Weblate 2026.8
 * Celery workers now prefetch fewer tasks by default to reduce memory usage and improve task distribution.
 * Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
+* :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
 
 .. rubric:: Bug fixes
 
+* Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
+* Mercurial repository filenames beginning with a dash are now handled safely.
 * Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
+* Project backup imports now skip repository-linked components when the importer cannot access the target component.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
 * Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.

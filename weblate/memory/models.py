@@ -929,6 +929,7 @@ class Memory(models.Model):
     objects = MemoryManager.from_queryset(MemoryQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Translation memory entry"
         verbose_name_plural = "Translation memory entries"
         # ruff: ignore[mutable-class-default]
@@ -1310,6 +1311,7 @@ class MemoryScope(models.Model):
     objects = MemoryScopeManager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Translation memory scope"
         verbose_name_plural = "Translation memory scopes"
         # ruff: ignore[mutable-class-default]
@@ -1407,6 +1409,7 @@ class MemoryScopeMigrationState(models.Model):
     updated = models.DateTimeField(default=timezone.now)
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Translation memory scope migration state"
         verbose_name_plural = "Translation memory scope migration states"
 

@@ -24,6 +24,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
     Component,
+    ComponentLink,
     ComponentList,
     Project,
     Translation,
@@ -36,6 +37,7 @@ from weblate.utils.stats import (
     ProjectLanguage,
     prefetch_stats,
 )
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.trans.models.change import ChangeQuerySet
@@ -207,7 +209,8 @@ class MetricManager(models.Manager["Metric"]):
             | User
             | Language
             | ProjectLanguage
-            | CategoryLanguage,
+            | CategoryLanguage
+            | Workspace,
         ):
             changes = cast("ChangeQuerySet", obj.change_set.all())  # type: ignore[misc]
         elif isinstance(obj, ComponentList):
@@ -233,6 +236,8 @@ class MetricManager(models.Manager["Metric"]):
             return self.collect_component(obj)
         if isinstance(obj, Project):
             return self.collect_project(obj)
+        if isinstance(obj, Workspace):
+            return self.collect_workspace(obj)
         if isinstance(obj, Category):
             return self.collect_category(obj)
         if isinstance(obj, ComponentList):
@@ -298,7 +303,7 @@ class MetricManager(models.Manager["Metric"]):
     @transaction.atomic
     def collect_category_language(self, category_language: CategoryLanguage):
         category = category_language.category
-        changes = category.project.change_set.for_category(category).filter(
+        changes = Change.objects.for_category(category).filter(
             translation__language=category_language.language
         )
 
@@ -317,7 +322,7 @@ class MetricManager(models.Manager["Metric"]):
             category_language.stats,
             SOURCE_KEYS,
             Metric.SCOPE_CATEGORY_LANGUAGE,
-            category.project.pk,
+            category.pk,
             category_language.language.pk,
         )
 
@@ -329,10 +334,23 @@ class MetricManager(models.Manager["Metric"]):
         for category_language in languages:
             self.collect_category_language(category_language)
         changes = Change.objects.for_category(category)
+        category_filter = (
+            Q(category=category)
+            | Q(category__category=category)
+            | Q(category__category__category=category)
+        )
+        shared_component_ids = ComponentLink.objects.filter(
+            Q(category=category)
+            | Q(category__category=category)
+            | Q(category__category__category=category)
+        ).values_list("component_id", flat=True)
+        components = Component.objects.filter(
+            category_filter | Q(pk__in=shared_component_ids)
+        ).distinct()
         data = {
-            "components": category.component_set.count(),
+            "components": components.count(),
             "translations": Translation.objects.filter(
-                component__category=category
+                component__in=components
             ).count(),
             "changes": changes.filter_by_day(
                 timezone.now().date() - datetime.timedelta(days=1)
@@ -391,6 +409,44 @@ class MetricManager(models.Manager["Metric"]):
 
         return self.create_metrics(
             data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
+        )
+
+    @transaction.atomic
+    def collect_workspace(self, workspace: Workspace):
+        workspace_scope = MemoryScope.objects.filter(
+            memory_id=OuterRef("pk"),
+            workspace=workspace,
+            scope=MemoryScope.SCOPE_WORKSPACE,
+        )
+        changes = workspace.change_set.all()
+        data = {
+            "projects": workspace.projects.count(),
+            "components": Component.objects.filter(
+                project__workspace=workspace
+            ).count(),
+            "translations": Translation.objects.filter(
+                component__project__workspace=workspace
+            ).count(),
+            "memory": Memory.objects.alias(has_workspace_scope=Exists(workspace_scope))
+            .filter(has_workspace_scope=True)
+            .count(),
+            "screenshots": Screenshot.objects.filter(
+                translation__component__project__workspace=workspace
+            ).count(),
+            "changes": changes.filter_by_day(
+                timezone.now().date() - datetime.timedelta(days=1)
+            ).count(),
+            "contributors": changes.since_day(
+                timezone.now().date() - datetime.timedelta(days=30)
+            ).count_users(),
+            "contributors_total": changes.count_users(),
+        }
+        return self.create_metrics(
+            data,
+            workspace.stats,
+            SOURCE_KEYS,
+            Metric.SCOPE_WORKSPACE,
+            workspace.metric_id,
         )
 
     @transaction.atomic
@@ -506,6 +562,7 @@ class Metric(models.Model):
     SCOPE_LANGUAGE = 7
     SCOPE_CATEGORY = 8
     SCOPE_CATEGORY_LANGUAGE = 9
+    SCOPE_WORKSPACE = 10
 
     id = models.BigAutoField(primary_key=True)
     date = models.DateField(default=datetime.date.today)
@@ -518,6 +575,7 @@ class Metric(models.Model):
     objects = MetricManager.from_queryset(MetricQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         unique_together = (("scope", "relation", "secondary", "date"),)
         verbose_name = "Metric"
         verbose_name_plural = "Metrics"
@@ -542,6 +600,15 @@ def create_metrics_project(sender, instance, created=False, **kwargs) -> None:
     if created:
         Metric.objects.initialize_metrics(
             scope=Metric.SCOPE_PROJECT, relation=instance.pk
+        )
+
+
+@receiver(post_save, sender=Workspace)
+@disable_for_loaddata
+def create_metrics_workspace(sender, instance, created=False, **kwargs) -> None:
+    if created:
+        Metric.objects.initialize_metrics(
+            scope=Metric.SCOPE_WORKSPACE, relation=instance.metric_id
         )
 
 
@@ -585,6 +652,14 @@ def delete_metrics_category(sender, instance, **kwargs) -> None:
     Metric.objects.filter(
         scope__in=(Metric.SCOPE_CATEGORY_LANGUAGE, Metric.SCOPE_CATEGORY),
         relation=instance.pk,
+    ).delete()
+
+
+@receiver(post_delete, sender=Workspace)
+@disable_for_loaddata
+def delete_metrics_workspace(sender, instance, **kwargs) -> None:
+    Metric.objects.filter(
+        scope=Metric.SCOPE_WORKSPACE, relation=instance.metric_id
     ).delete()
 
 

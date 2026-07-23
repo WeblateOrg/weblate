@@ -11,6 +11,7 @@ from uuid import uuid4
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
+from django.db.models.expressions import RawSQL
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from django.urls import reverse
@@ -24,6 +25,7 @@ from weblate.trans.inherited_settings import (
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
 )
+from weblate.trans.mixins import CacheKeyMixin
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.render import (
@@ -31,6 +33,7 @@ from weblate.utils.render import (
     validate_render_commit,
     validate_render_component,
 )
+from weblate.utils.stats import WorkspaceStats
 
 if TYPE_CHECKING:
     from collections.abc import Collection
@@ -39,6 +42,7 @@ if TYPE_CHECKING:
     from django.db.models.base import Deferred
 
     from weblate.auth.models import Group, User
+    from weblate.billing.models import Billing
 
 WORKSPACE_NAME_LENGTH = 100
 
@@ -60,7 +64,7 @@ class WorkspaceQuerySet(models.QuerySet["Workspace", "Workspace"]):
         return self.defer(*HUGE_INHERITABLE_SETTINGS)
 
 
-class Workspace(models.Model):
+class Workspace(models.Model, CacheKeyMixin):
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
         "name",
         "use_workspace_tm",
@@ -78,8 +82,14 @@ class Workspace(models.Model):
     workspace_original_name: str | Deferred
     # Name management flag loaded with this instance if the field is not deferred.
     workspace_original_name_managed: bool | Deferred
-
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    metric_id = models.IntegerField(
+        db_default=RawSQL(
+            "nextval('workspaces_workspace_metric_id_seq'::regclass)", ()
+        ),
+        editable=False,
+        unique=True,
+    )
     name = models.CharField(
         verbose_name=gettext_lazy("Workspace name"),
         max_length=WORKSPACE_NAME_LENGTH,
@@ -219,6 +229,7 @@ class Workspace(models.Model):
     objects = WorkspaceQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Workspace"
         verbose_name_plural = "Workspaces"
 
@@ -229,6 +240,8 @@ class Workspace(models.Model):
             "name_managed", models.DEFERRED
         )
         self.acting_user: User | None = None
+        self.stats_languages: int | None = None
+        self.stats = WorkspaceStats(self)
 
     def __str__(self) -> str:
         return self.name
@@ -289,6 +302,13 @@ class Workspace(models.Model):
 
     def get_absolute_url(self) -> str:
         return reverse("workspace", kwargs={"pk": self.pk})
+
+    @property
+    def billing_or_none(self) -> Billing | None:
+        """Associated billing, or none for unbilled workspaces."""
+        with suppress(AttributeError, ObjectDoesNotExist):
+            return self.billing
+        return None
 
     def get_url_path(self) -> tuple[str, ...]:
         return ("-", "workspace", str(self.pk))

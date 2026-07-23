@@ -10,6 +10,7 @@ from contextlib import ExitStack
 from unittest.mock import call, patch
 
 from django.core.exceptions import ValidationError
+from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.lang.models import get_default_lang
@@ -488,11 +489,20 @@ class CategoriesTest(ViewTestCase):
             category_removal(category.pk, self.user.pk)
 
         self.assertEqual(1, len(collected))
-        self.assertEqual(
-            {category.stats.cache_key, GlobalStats().cache_key},
-            collected[0],
+        self.assertTrue(
+            {
+                category.stats.cache_key,
+                self.project.stats.cache_key,
+                GlobalStats().cache_key,
+            }.issubset(collected[0])
         )
-        self.assertEqual(collected[0], set(executed))
+        self.assertTrue(set(executed).issubset(collected[0]))
+        self.assertEqual(len(executed), len(set(executed)))
+        self.assertNotIn(category.stats.cache_key, executed)
+        self.assertLess(
+            executed.index(self.project.stats.cache_key),
+            executed.index(GlobalStats().cache_key),
+        )
         self.assertEqual(
             2,
             self.project.change_set.filter(
@@ -500,7 +510,7 @@ class CategoriesTest(ViewTestCase):
             ).count(),
         )
 
-    def test_category_removal_updates_nested_categories_before_global(self) -> None:
+    def test_category_removal_skips_deleted_categories_before_global(self) -> None:
         category = Category.objects.create(
             project=self.project, name="Parent category", slug="parent"
         )
@@ -542,11 +552,85 @@ class CategoriesTest(ViewTestCase):
         ):
             category_removal(category.pk, self.user.pk)
 
+        self.assertNotIn(child.stats.cache_key, executed)
+        self.assertNotIn(category.stats.cache_key, executed)
         self.assertLess(
-            executed.index(child.stats.cache_key),
-            executed.index(category.stats.cache_key),
-        )
-        self.assertLess(
-            executed.index(category.stats.cache_key),
+            executed.index(self.project.stats.cache_key),
             executed.index(GlobalStats().cache_key),
+        )
+
+    @override_settings(STATS_LAZY=False)
+    def test_category_removal_sorts_shared_category_dependencies(self) -> None:
+        removed = Category.objects.create(
+            project=self.project, name="Removed category", slug="removed"
+        )
+        target = Project.objects.create(name="Stats target", slug="stats-target")
+        parent = Category.objects.create(
+            project=target, name="Target parent", slug="target-parent"
+        )
+        child = Category.objects.create(
+            project=target,
+            category=parent,
+            name="Target child",
+            slug="target-child",
+        )
+        first = self.create_po(
+            project=self.project,
+            name="Shared with parent",
+            slug="shared-parent",
+            category=removed,
+        )
+        second = self.create_po(
+            project=self.project,
+            name="Shared with child",
+            slug="shared-child",
+            category=removed,
+        )
+        with self.captureOnCommitCallbacks(execute=True):
+            ComponentLink.objects.create(
+                component=first, project=target, category=parent
+            )
+            ComponentLink.objects.create(
+                component=second, project=target, category=child
+            )
+
+        language = first.translation_set.get(language_code="cs").language
+        self.assertGreater(parent.stats.all, 0)
+        self.assertGreater(parent.stats.get_single_language_stats(language).all, 0)
+        self.assertGreater(child.stats.all, 0)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            category_removal(removed.pk, self.user.pk)
+
+        parent = Category.objects.get(pk=parent.pk)
+        child = Category.objects.get(pk=child.pk)
+        self.assertEqual(child.stats.all, 0)
+        self.assertEqual(parent.stats.all, 0)
+        self.assertEqual(parent.stats.get_single_language_stats(language).all, 0)
+
+    def test_component_category_move_updates_warm_stats(self) -> None:
+        old_category = Category.objects.create(
+            project=self.project, name="Old category", slug="old"
+        )
+        new_category = Category.objects.create(
+            project=self.project, name="New category", slug="new"
+        )
+        self.component.category = old_category
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.save(update_fields=["category"])
+
+        self.assertEqual(old_category.stats.all, self.component.stats.all)
+        self.assertEqual(new_category.stats.all, 0)
+        project_total = self.project.stats.all
+
+        self.component.category = new_category
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.save(update_fields=["category"])
+
+        old_category = Category.objects.get(pk=old_category.pk)
+        new_category = Category.objects.get(pk=new_category.pk)
+        self.assertEqual(old_category.stats.all, 0)
+        self.assertEqual(new_category.stats.all, self.component.stats.all)
+        self.assertEqual(
+            Project.objects.get(pk=self.project.pk).stats.all, project_total
         )
