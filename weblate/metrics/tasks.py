@@ -19,6 +19,7 @@ from weblate.trans.models import (
 )
 from weblate.utils.celery import app
 from weblate.utils.stats import iter_prefetch_stats
+from weblate.workspaces.models import Workspace
 
 
 @app.task(trail=False)
@@ -26,6 +27,8 @@ def collect_metrics() -> None:
     Metric.objects.collect_global()
     for project in iter_prefetch_stats(Project.objects.all()):
         Metric.objects.collect_project(project)
+    for workspace in iter_prefetch_stats(Workspace.objects.all()):
+        Metric.objects.collect_workspace(workspace)
     for category in iter_prefetch_stats(Category.objects.all()):
         Metric.objects.collect_category(category)
     for component in iter_prefetch_stats(Component.objects.all()):

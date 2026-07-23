@@ -500,6 +500,16 @@ class Billing(models.Model):
             project_objects = project_objects.db_manager(database)
         if not project_objects.filter(pk=project.pk).update(workspace=self.workspace):
             raise Project.DoesNotExist
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import update_workspace_stats
+
+        update_workspace_stats.delay_on_commit(
+            [
+                str(workspace_id)
+                for workspace_id in (previous_workspace_id, self.workspace_id)
+                if workspace_id is not None
+            ]
+        )
         project.workspace = self.workspace
         project.billing_original_workspace_id = self.workspace_id
         self.update_workspace_name()

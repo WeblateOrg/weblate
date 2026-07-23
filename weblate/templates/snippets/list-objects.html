@@ -1,7 +1,7 @@
 {% load humanize i18n icons permissions translations %}
 
 {% if objects or list_categories %}
-  <table {% if objects.paginator.num_pages > 1 %} class="table progress-table autocolspan table-listing" {% else %} class="sort table progress-table autocolspan table-listing" {% endif %}>
+  <table class="{% if objects.paginator.num_pages <= 1 %}sort {% endif %}table progress-table autocolspan table-listing{% if show_workspace_details %} table-striped{% endif %}">
     {% if not hide_details and not hide_header %}
       <thead class="sticky-header">
         <tr>
@@ -45,17 +45,23 @@
           </th>
           <th title="{% translate "Sort this column" %}" class="sort-cell">
             {% if objects.paginator.num_pages > 1 %}
-              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "name" %}-{% endif %}name">
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "name" %}-{% endif %}name{% if query_string %}&amp;{{ query_string }}{% endif %}">
               {% endif %}
               {{ label|default:_("Project") }}
               <span class="sort-icon {% if objects.paginator.sort_by == "name" %}sort-down{% elif objects.paginator.sort_by == "-name" %}sort-up{% endif %}" />
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
+          {% if show_workspace_details %}
+            <th class="number sort-skip">{% translate "Projects" %}</th>
+            {% if billing_enabled %}
+              <th class="sort-skip">{% translate "Billing" %}</th>
+            {% endif %}
+          {% endif %}
           {% if show_review_columns or project and project.enable_review %}
             <th title="{% translate "Sort this column" %}"
                 class="number zero-width-540 sort-cell">
               {% if objects.paginator.num_pages > 1 %}
-                <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "approved" %}-{% endif %}approved">
+                <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "approved" %}-{% endif %}approved{% if query_string %}&amp;{{ query_string }}{% endif %}">
                 {% endif %}
                 <span class="sort-icon {% if objects.paginator.sort_by == "approved" %}sort-down{% elif objects.paginator.sort_by == "-approved" %}sort-up{% endif %}"> </span>
                 {% translate "Approved" %}
@@ -64,7 +70,7 @@
           {% endif %}
           <th title="{% translate "Sort this column" %}" class="number sort-cell">
             {% if objects.paginator.num_pages > 1 %}
-              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "translated" %}-{% endif %}translated">
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "translated" %}-{% endif %}translated{% if query_string %}&amp;{{ query_string }}{% endif %}">
               {% endif %}
               <span class="sort-icon {% if objects.paginator.sort_by == "translated" %}sort-down{% elif objects.paginator.sort_by == "-translated" %}sort-up{% endif %}"> </span>
               {% translate "Translated" %}
@@ -74,7 +80,7 @@
             <th title="{% translate "Sort this column" %}"
                 class="number zero-width-640 sort-cell">
               {% if objects.paginator.num_pages > 1 %}
-                <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "unreviewed" %}-{% endif %}unreviewed">
+                <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "unreviewed" %}-{% endif %}unreviewed{% if query_string %}&amp;{{ query_string }}{% endif %}">
                 {% endif %}
                 <span class="sort-icon {% if objects.paginator.sort_by == "unreviewed" %}sort-down{% elif objects.paginator.sort_by == "-unreviewed" %}sort-up{% endif %}"> </span>
                 {% translate "Unreviewed" %}
@@ -84,7 +90,7 @@
           <th title="{% translate "Sort this column" %}"
               class="number zero-width-640 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
-              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated" %}-{% endif %}untranslated">
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated" %}-{% endif %}untranslated{% if query_string %}&amp;{{ query_string }}{% endif %}">
               {% endif %}
               <span class="sort-icon {% if objects.paginator.sort_by == "untranslated" %}sort-down{% elif objects.paginator.sort_by == "-untranslated" %}sort-up{% endif %}"> </span>
               {% translate "Unfinished" %}
@@ -93,7 +99,7 @@
           <th title="{% translate "Sort this column" %}"
               class="number zero-width-720 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
-              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_words" %}-{% endif %}untranslated_words">
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_words" %}-{% endif %}untranslated_words{% if query_string %}&amp;{{ query_string }}{% endif %}">
               {% endif %}
               <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_words" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_words" %}sort-up{% endif %}"> </span>
               {% translate "Unfinished words" %}
@@ -102,7 +108,7 @@
           <th title="{% translate "Sort this column" %}"
               class="number zero-width-1200 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
-              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_chars" %}-{% endif %}untranslated_chars">
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_chars" %}-{% endif %}untranslated_chars{% if query_string %}&amp;{{ query_string }}{% endif %}">
               {% endif %}
               <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_chars" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_chars" %}sort-up{% endif %}"> </span>
               {% translate "Unfinished characters" %}
@@ -111,7 +117,7 @@
           <th title="{% translate "Sort this column" %}"
               class="number zero-width-1400 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
-              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "nottranslated" %}-{% endif %}nottranslated">
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "nottranslated" %}-{% endif %}nottranslated{% if query_string %}&amp;{{ query_string }}{% endif %}">
               {% endif %}
               <span class="sort-icon {% if objects.paginator.sort_by == "nottranslated" %}sort-down{% elif objects.paginator.sort_by == "-nottranslated" %}sort-up{% endif %}"> </span>
               {% translate "Untranslated" %}
@@ -120,7 +126,7 @@
           <th title="{% translate "Sort this column" %}"
               class="number zero-width-768 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
-              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "checks" %}-{% endif %}checks">
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "checks" %}-{% endif %}checks{% if query_string %}&amp;{{ query_string }}{% endif %}">
               {% endif %}
               <span class="sort-icon {% if objects.paginator.sort_by == "checks" %}sort-down{% elif objects.paginator.sort_by == "-checks" %}sort-up{% endif %}"> </span>
               {% translate "Checks" %}
@@ -129,7 +135,7 @@
           <th title="{% translate "Sort this column" %}"
               class="number zero-width-900 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
-              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "suggestions" %}-{% endif %}suggestions">
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "suggestions" %}-{% endif %}suggestions{% if query_string %}&amp;{{ query_string }}{% endif %}">
               {% endif %}
               <span class="sort-icon {% if objects.paginator.sort_by == "suggestions" %}sort-down{% elif objects.paginator.sort_by == "-suggestions" %}sort-up{% endif %}"> </span>
               {% translate "Suggestions" %}
@@ -138,7 +144,7 @@
           <th title="{% translate "Sort this column" %}"
               class="number zero-width-1000 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
-              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "comments" %}-{% endif %}comments">
+              <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "comments" %}-{% endif %}comments{% if query_string %}&amp;{{ query_string }}{% endif %}">
               {% endif %}
               <span class="sort-icon {% if objects.paginator.sort_by == "comments" %}sort-down{% elif objects.paginator.sort_by == "-comments" %}sort-up{% endif %}"> </span>
               {% translate "Comments" %}
@@ -286,6 +292,26 @@
               <span class="badge  text-bg-secondary">{% translate "Customized workflow" %}</span>
             {% endif %}
           </th>
+          {% if show_workspace_details %}
+            <td class="number" rowspan="2">{{ object.projects__count|intcomma }}</td>
+            {% if billing_enabled %}
+              <td rowspan="2">
+                {% with workspace_billing=object.billing_or_none %}
+                  {% if workspace_billing %}
+                    <a href="{{ workspace_billing.get_absolute_url }}">
+                      {% if workspace_billing.customer_name %}
+                        {{ workspace_billing.customer_name }}
+                      {% else %}
+                        {% blocktranslate with id=workspace_billing.pk %}Billing #{{ id }}{% endblocktranslate %}
+                      {% endif %}
+                    </a>
+                  {% else %}
+                    {% translate "Not available" %}
+                  {% endif %}
+                {% endwith %}
+              </td>
+            {% endif %}
+          {% endif %}
           {% if show_review_columns or project and project.enable_review %}
             {% if object.stats.has_review %}
               {% review_percent object.stats %}
