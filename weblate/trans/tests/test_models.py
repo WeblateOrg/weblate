@@ -54,6 +54,8 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
+from weblate.trans.models.change import ChangeQuerySet
+from weblate.trans.models.component import ComponentLink
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.removal import RemovalBatch
 from weblate.trans.tasks import actual_project_removal
@@ -1629,6 +1631,93 @@ class AnnouncementTest(ModelTestCase):
 
 class ChangeTest(ModelTestCase):
     """Test(s) for Change model."""
+
+    def test_recent_uses_limited_identifier_query(self) -> None:
+        Change.objects.all().delete()
+        changes = [
+            self.component.change_set.create(action=ActionEvents.LOCK) for _ in range(3)
+        ]
+        queryset = self.component.change_set.prefetch_for_render()
+
+        with CaptureQueriesContext(connection) as queries:
+            recent = queryset.recent(count=2)
+
+        self.assertEqual(
+            [change.pk for change in recent], [changes[2].pk, changes[1].pk]
+        )
+        candidate_sql = queries[0]["sql"]
+        self.assertIn("LIMIT 2", candidate_sql)
+        self.assertNotIn("trans_comment", candidate_sql)
+        self.assertNotIn("trans_suggestion", candidate_sql)
+
+    def test_recent_skips_changes_deleted_before_hydration(self) -> None:
+        Change.objects.all().delete()
+        changes = [
+            self.component.change_set.create(action=ActionEvents.LOCK) for _ in range(3)
+        ]
+        original_prefetch = ChangeQuerySet.prefetch_for_render
+
+        def delete_change_before_prefetch(
+            queryset: ChangeQuerySet,
+        ) -> ChangeQuerySet:
+            Change.objects.filter(pk=changes[1].pk).delete()
+            return original_prefetch(queryset)
+
+        with patch.object(
+            ChangeQuerySet,
+            "prefetch_for_render",
+            delete_change_before_prefetch,
+        ):
+            recent = self.component.change_set.recent(count=2)
+
+        self.assertEqual([change.pk for change in recent], [changes[2].pk])
+
+    def test_category_changes_exclude_inaccessible_linked_project(self) -> None:
+        source_project = self.component.project
+        source_project.access_control = Project.ACCESS_PRIVATE
+        source_project.save(update_fields=["access_control"])
+        target_project = Project.objects.create(
+            name="Category history target",
+            slug="category-history-target",
+        )
+        category = Category.objects.create(
+            name="Category history",
+            slug="category-history",
+            project=target_project,
+        )
+        ComponentLink.objects.create(
+            component=self.component,
+            project=target_project,
+            category=category,
+        )
+        user = User.objects.create_user(
+            "category-history",
+            "category-history@example.com",
+            "category-history",
+        )
+        language = self.component.translation_set.get(language_code="cs").language
+        visible_change = Change.objects.create(
+            action=ActionEvents.RENAME_CATEGORY,
+            project=target_project,
+            category=category,
+            language=language,
+        )
+        hidden_change = self.component.change_set.create(
+            action=ActionEvents.LOCK,
+            language=language,
+        )
+
+        self.assertTrue(user.can_access_project(target_project))
+        self.assertFalse(user.can_access_project(source_project))
+
+        changes = Change.objects.last_changes(
+            user,
+            category=category,
+            language=language,
+        )
+
+        self.assertIn(visible_change, changes)
+        self.assertNotIn(hidden_change, changes)
 
     def test_fixup_references_inherits_project_workspace(self) -> None:
         workspace = Workspace.objects.create(name="Change workspace")
