@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import re
 import threading
-from collections import Counter, defaultdict
+from collections import Counter
 from functools import cache, lru_cache
 from itertools import chain
 from types import SimpleNamespace
@@ -16,8 +16,6 @@ import regex
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
-from django.utils.html import format_html_join
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from docutils import utils
 from docutils.core import Publisher
@@ -39,7 +37,7 @@ from docutils.parsers.rst.states import Inliner
 from docutils.readers.standalone import Reader
 from docutils.writers.null import Writer
 
-from weblate.checks.base import Highlight, TargetCheck
+from weblate.checks.base import Highlight, PluralResultDescriptionMixin, TargetCheck
 from weblate.checks.format import (
     ES_TEMPLATE_MATCH,
     FLAG_RULES,
@@ -73,7 +71,6 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
     from .base import FixupType
-    from .models import Check
 
 DOCUTILS_PARSER_LOCK = threading.Lock()
 BBCODE_MATCH = re.compile(
@@ -902,7 +899,7 @@ def extract_rst_references(
     return dict(result), Counter(item[0] for item in result), tuple(highlights)
 
 
-class RSTReferencesCheck(RSTBaseCheck):
+class RSTReferencesCheck(PluralResultDescriptionMixin, RSTBaseCheck):
     check_id = "rst-references"
     name = gettext_lazy("Inconsistent reStructuredText")
     description = gettext_lazy(
@@ -946,29 +943,6 @@ class RSTReferencesCheck(RSTBaseCheck):
                 "errors": [],
             }
         return False
-
-    def get_description(self, check_obj: Check) -> StrOrPromise:
-        unit = check_obj.unit
-
-        errors: list[StrOrPromise] = []
-        results: MissingExtraDict = cast("MissingExtraDict", defaultdict(list))
-
-        # Merge plurals
-        for result in self.check_target_generator(
-            unit.get_source_plurals(), unit.get_target_plurals(), unit
-        ):
-            if isinstance(result, dict):
-                for key, value in result.items():
-                    results[key].extend(value)
-        if results:
-            errors.extend(self.format_result(results))
-        if errors:
-            return format_html_join(
-                mark_safe("<br />"),
-                "{}",
-                ((error,) for error in errors),
-            )
-        return super().get_description(check_obj)
 
     def check_highlight(self, source: str, unit: Unit):
         if self.should_skip(unit):
@@ -1060,7 +1034,7 @@ def validate_rst_snippet(
     return tuple(errors), tuple(roles)
 
 
-class RSTSyntaxCheck(RSTBaseCheck):
+class RSTSyntaxCheck(PluralResultDescriptionMixin, RSTBaseCheck):
     check_id = "rst-syntax"
     name = gettext_lazy("reStructuredText syntax error")
     description = gettext_lazy("reStructuredText syntax error in the translation.")
@@ -1092,25 +1066,122 @@ class RSTSyntaxCheck(RSTBaseCheck):
             return {"errors": errors}
         return False
 
-    def get_description(self, check_obj: Check) -> StrOrPromise:
-        unit = check_obj.unit
 
-        errors: list[StrOrPromise] = []
-        results: MissingExtraDict = cast("MissingExtraDict", defaultdict(list))
+# inline (`name:target[attrs]`) and block (`name::target[attrs]`) macros.
+ASCIIDOC_MACRO = re.compile(
+    r"(?P<name>[a-z][a-z0-9]*)(?P<sep>::?)(?P<target>[^\s\[]*)\[(?P<attrs>(?:\\.|[^\]])*)\]"
+)
+# cross references: <<id>> or <<id,text>>.
+ASCIIDOC_XREF = re.compile(r"<<(?P<id>[^,>]+)(?:,(?P<text>[^>]*))?>>")
+# inline anchors: [[id]] or [[id,label]].
+ASCIIDOC_INLINE_ANCHOR = re.compile(r"\[\[(?P<id>[^,\]]+)(?:,(?P<label>[^\]]*))?\]\]")
+# passthroughs. Bare single-plus `+...+` is excluded to avoid false positives.
+ASCIIDOC_PASSTHROUGH = re.compile(
+    r"\+\+\+.+?\+\+\+|\+\+.+?\+\+|`\+.+?\+`|\$\$.+?\$\$",
+    re.DOTALL,
+)
 
-        # Merge plurals
-        for result in self.check_target_generator(
-            unit.get_source_plurals(), unit.get_target_plurals(), unit
-        ):
-            if isinstance(result, dict):
-                for key, value in result.items():
-                    results[key].extend(value)
-        if results:
-            errors.extend(self.format_result(results))
-        if errors:
-            return format_html_join(
-                mark_safe("<br />"),
-                "{}",
-                ((error,) for error in errors),
+
+def is_preceded_by_asciidoc_escape(text: str, start: int) -> bool:
+    """Return whether markup at ``start`` is escaped and renders as literal text."""
+    backslashes = 0
+    pos = start - 1
+    while pos >= 0 and text[pos] == "\\":
+        backslashes += 1
+        pos -= 1
+    return backslashes % 2 == 1
+
+
+class AsciiDocMarkupCheck(PluralResultDescriptionMixin, TargetCheck):
+    """Check that AsciiDoc macros, xrefs, and passthroughs match the source."""
+
+    check_id = "asciidoc-markup"
+    name = gettext_lazy("AsciiDoc markup")
+    description = gettext_lazy("AsciiDoc markup does not match source.")
+    version_added = "2026.8"
+    default_disabled = True
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.enable_string = "asciidoc-text"
+
+    def get_missing_text(self, values: Iterable[str]) -> StrOrPromise:
+        return self.get_values_text(
+            gettext("The following AsciiDoc markup is missing: {}"), values
+        )
+
+    def get_extra_text(self, values: Iterable[str]) -> StrOrPromise:
+        return self.get_values_text(
+            gettext("The following AsciiDoc markup is extra: {}"), values
+        )
+
+    def check_single(
+        self, source: str, target: str, unit: Unit
+    ) -> bool | MissingExtraDict:
+        src_set = extract_asciidoc_markup(source)
+        tgt_set = extract_asciidoc_markup(target)
+
+        missing = src_set - tgt_set
+        extra = tgt_set - src_set
+
+        if missing or extra:
+            return {
+                "missing": list(missing.elements()),
+                "extra": list(extra.elements()),
+                "errors": [],
+            }
+        return False
+
+    def check_highlight(self, source: str, unit: Unit):
+        if self.should_skip(unit):
+            return
+        yield from iter_asciidoc_highlights(source)
+
+
+def extract_asciidoc_markup(text: str) -> Counter[str]:
+    tokens: list[str] = []
+    for match in ASCIIDOC_MACRO.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
+        if match.group("name") == "pass":
+            # special case for passthrough macros, the content is not translatable and must be preserved
+            tokens.append(match.group())
+        else:
+            tokens.append(
+                f"{match.group('name')}{match.group('sep')}{match.group('target')}[]"
             )
-        return super().get_description(check_obj)
+    tokens.extend(
+        f"<<{match.group('id')}>>"
+        for match in ASCIIDOC_XREF.finditer(text)
+        if not is_preceded_by_asciidoc_escape(text, match.start())
+    )
+    tokens.extend(
+        f"[[{match.group('id')}]]"
+        for match in ASCIIDOC_INLINE_ANCHOR.finditer(text)
+        if not is_preceded_by_asciidoc_escape(text, match.start())
+    )
+    tokens.extend(
+        match.group()
+        for match in ASCIIDOC_PASSTHROUGH.finditer(text)
+        if not is_preceded_by_asciidoc_escape(text, match.start())
+    )
+    return Counter(tokens)
+
+
+def iter_asciidoc_highlights(text: str) -> Iterable[Highlight]:
+    for match in ASCIIDOC_MACRO.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
+        yield Highlight(match.start(), match.end(), match.group(), kind="syntax")
+    for match in ASCIIDOC_XREF.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
+        yield Highlight(match.start(), match.end(), match.group(), kind="syntax")
+    for match in ASCIIDOC_INLINE_ANCHOR.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
+        yield Highlight(match.start(), match.end(), match.group(), kind="syntax")
+    for match in ASCIIDOC_PASSTHROUGH.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
+        yield Highlight(match.start(), match.end(), match.group(), kind="syntax")
