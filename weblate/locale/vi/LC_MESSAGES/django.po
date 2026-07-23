@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-17 21:21-0500\n"
-"PO-Revision-Date: 2026-07-22 18:01+0000\n"
+"PO-Revision-Date: 2026-07-23 09:04+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -1858,10 +1858,8 @@ msgid "There are no compatible components to process."
 msgstr "Không có thành phần tương thích để xử lý."
 
 #: weblate/addons/events.py:75
-#, fuzzy
-#| msgid "Your profile has been updated."
 msgid "The add-on is not scheduled to run yet."
-msgstr "Hồ sơ của bạn đã được cập nhật."
+msgstr "Tiện ích bổ sung này hiện chưa được lên lịch chạy."
 
 #: weblate/addons/events.py:79
 msgid "There are no relevant changes to process."
@@ -2555,7 +2553,8 @@ msgstr "Biểu thức chính quy để lọc các tệp dịch khi quét mặt n
 
 #: weblate/addons/forms.py:900
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr "Sao chép các add-on từ thành phần chính sang các add-on mới đã tạo"
+msgstr ""
+"Nhân bản các tiện ích bổ sung từ thành phần chính sang các tiện ích mới tạo"
 
 #: weblate/addons/forms.py:906
 msgid "Remove components for inexistent files"
@@ -3520,7 +3519,7 @@ msgstr ""
 
 #: weblate/api/views.py:922
 msgid "Expected an object."
-msgstr ""
+msgstr "Dự kiến là một đối tượng."
 
 #: weblate/api/views.py:952 weblate/trans/forms.py:4536
 msgid "At least one team is required for a project token."
@@ -4756,6 +4755,8 @@ msgstr "Đặt lại thời gian dùng thử"
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"Đặt chế độ thanh toán này theo thời gian dùng thử thông thường và hủy lịch "
+"gỡ bỏ đã lên kế hoạch."
 
 #: weblate/billing/models.py:236 weblate/templates/billing/list.html:6
 #: weblate/templates/trans/component_create.html:203
@@ -4843,7 +4844,7 @@ msgstr ""
 
 #: weblate/billing/models.py:489
 msgid "Project already belongs to another workspace."
-msgstr ""
+msgstr "Dự án này đã thuộc về một không gian làm việc khác."
 
 #: weblate/billing/models.py:492
 msgid "Project needs to be saved before assigning it to billing."
@@ -4985,7 +4986,7 @@ msgstr "Không thể phân tích cú pháp cờ {}: {}"
 
 #: weblate/checks/chars.py:77
 msgid "Accelerator key"
-msgstr ""
+msgstr "Khóa tăng tốc"
 
 #: weblate/checks/chars.py:79
 #, fuzzy
@@ -5828,16 +5829,12 @@ msgid "C format string does not match source."
 msgstr "Chuỗi định dạng C không khớp với nguồn."
 
 #: weblate/checks/format.py:644
-#, fuzzy
-#| msgid "Object Pascal format"
 msgid "Objective-C format"
-msgstr "Định dạng Object Pascal"
+msgstr "Định dạng Objective-C"
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "Objective-C format string does not match source."
-msgstr "Chuỗi định dạng C không khớp với nguồn."
+msgstr "Chuỗi định dạng Objective-C không khớp với nguồn."
 
 #: weblate/checks/format.py:653
 msgid "Perl brace format"
@@ -7311,10 +7308,8 @@ msgid "Privacy Policy"
 msgstr "Chính Sách Quyền Riêng Tư"
 
 #: weblate/legal/templates/legal/confirm.html:32
-#, fuzzy
-#| msgid "Please read following General Terms and Conditions document:"
 msgid "Please read the following General Terms and Conditions document:"
-msgstr "Vui lòng đọc tài liệu Thuật ngữ và Điều kiện Chung sau đây:"
+msgstr "Vui lòng đọc tài liệu Điều khoản và Điều kiện chung sau đây:"
 
 #: weblate/legal/templates/legal/confirm.html:41
 #: weblate/templates/contributor-agreement.html:33
@@ -7795,10 +7790,12 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to %(limit)d characters each."
 msgstr ""
+"Ánh xạ đối tượng JSON tới các mã ngôn ngữ đích hiện có thành các hướng dẫn "
+"bổ sung, mỗi hướng dẫn có tối đa %(limit)d ký tự."
 
 #: weblate/machinery/forms.py:524 weblate/machinery/forms.py:531
 msgid "Language-specific instructions must be a JSON object."
-msgstr ""
+msgstr "Các hướng dẫn dành riêng cho từng ngôn ngữ phải là một đối tượng JSON."
 
 #: weblate/machinery/forms.py:540
 #, python-format
@@ -8672,7 +8669,7 @@ msgstr "Các khóa Weblate"
 
 #: weblate/templates/about/keys.html:22
 msgid "Commit signing"
-msgstr ""
+msgstr "Ký kết bản ghi nhận"
 
 #: weblate/templates/about/keys.html:31
 #: weblate/templates/snippets/ssh-key.html:16
@@ -8715,10 +8712,12 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
+"Tất cả các ghi nhận được thực hiện bằng Weblate đều được ký bằng khóa GPG %"
+"(gpg_key_id)s, khóa công khai tương ứng được tìm thấy bên dưới."
 
 #: weblate/templates/about/keys.html:38
 msgid "Commit signing is not configured."
-msgstr ""
+msgstr "Việc ký xác nhận chưa được cấu hình."
 
 #: weblate/templates/about/stats.html:10
 #: weblate/templates/dashboard/user.html:66 weblate/templates/data.html:58
@@ -8792,11 +8791,11 @@ msgstr "Gửi"
 
 #: weblate/templates/accounts/contact.html:48
 msgid "How can we help?"
-msgstr ""
+msgstr "Chúng tôi có thể giúp gì?"
 
 #: weblate/templates/accounts/contact.html:51
 msgid "Select one of the options below to get help."
-msgstr ""
+msgstr "Hãy chọn một trong các tùy chọn bên dưới để được trợ giúp."
 
 #: weblate/templates/accounts/contact.html:60
 msgid "Question about a translation project"
@@ -8815,10 +8814,8 @@ msgid "Browse projects"
 msgstr "Xem các dự án"
 
 #: weblate/templates/accounts/contact.html:76
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Weblate product feedback"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Phản hồi về sản phẩm Weblate"
 
 #: weblate/templates/accounts/contact.html:80
 msgid ""
@@ -8830,7 +8827,7 @@ msgstr ""
 
 #: weblate/templates/accounts/contact.html:87
 msgid "Open issue tracker"
-msgstr ""
+msgstr "Mở theo dõi sự cố"
 
 #: weblate/templates/accounts/contact.html:96
 msgid "Support for another Weblate server"
@@ -8848,10 +8845,8 @@ msgstr ""
 "mẫu liên hệ trên máy chủ đúng."
 
 #: weblate/templates/accounts/contact.html:107
-#, fuzzy
-#| msgid "Review strings"
 msgid "View support offerings"
-msgstr "Đánh giá chuỗi"
+msgstr "Xem các dịch vụ hỗ trợ"
 
 #: weblate/templates/accounts/contact.html:116 weblate/templates/base.html:412
 #: weblate/templates/base.html:414 weblate/templates/footer.html:45
@@ -8877,7 +8872,7 @@ msgstr ""
 
 #: weblate/templates/accounts/contact.html:125
 msgid "Read the docs"
-msgstr ""
+msgstr "Đọc tài liệu"
 
 #: weblate/templates/accounts/contact.html:135
 #, python-format
@@ -8901,7 +8896,7 @@ msgstr ""
 
 #: weblate/templates/accounts/contact.html:147
 msgid "Open contact form"
-msgstr ""
+msgstr "Mở biểu mẫu liên hệ"
 
 #: weblate/templates/accounts/email-sent.html:7
 #: weblate/templates/accounts/register.html:11
@@ -9202,7 +9197,7 @@ msgstr "Chọn địa chỉ e-mail chính từ những địa chỉ đã đượ
 
 #: weblate/templates/accounts/profile.html:194
 msgid "Current user identities"
-msgstr ""
+msgstr "Danh tính người dùng hiện tại"
 
 #: weblate/templates/accounts/profile.html:204
 #, fuzzy
@@ -9215,10 +9210,8 @@ msgid "Disconnect"
 msgstr "Ngắt kết nối"
 
 #: weblate/templates/accounts/profile.html:239
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add new user identity"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm thông tin người dùng mới"
 
 #: weblate/templates/accounts/profile.html:257
 #: weblate/templates/vcs/account_integrations.html:14
@@ -9333,20 +9326,16 @@ msgid "View recovery codes"
 msgstr ""
 
 #: weblate/templates/accounts/profile.html:376
-#, fuzzy
-#| msgid "Username"
 msgid "User data"
-msgstr "Tên tài khoản"
+msgstr "Dữ liệu người dùng"
 
 #: weblate/templates/accounts/profile.html:380
 msgid "You can download all your private data."
-msgstr ""
+msgstr "Bạn có thể tải xuống tất cả dữ liệu riêng tư của mình."
 
 #: weblate/templates/accounts/profile.html:383
-#, fuzzy
-#| msgid "Download"
 msgid "Download user data"
-msgstr "Tải về"
+msgstr "Tải xuống dữ liệu người dùng"
 
 #: weblate/templates/accounts/profile.html:391
 #: weblate/templates/accounts/user.html:503
@@ -9356,7 +9345,7 @@ msgstr "Xóa"
 #: weblate/templates/accounts/profile.html:395
 #: weblate/templates/accounts/removal.html:21
 msgid "Account removal deletes all your private data."
-msgstr ""
+msgstr "Việc xóa tài khoản sẽ xóa tất cả dữ liệu cá nhân của bạn."
 
 #: weblate/templates/accounts/profile.html:398
 msgid "Remove my account"
@@ -9606,7 +9595,7 @@ msgstr ""
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
-msgstr ""
+msgstr "Mọi hóa đơn mà bạn đã tạo sẽ không bị hủy bỏ khi tài khoản này bị xóa."
 
 #: weblate/templates/accounts/removal.html:39
 msgid ""
@@ -9619,6 +9608,8 @@ msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
 msgstr ""
+"Bạn cần xác nhận việc xóa tài khoản bằng cách nhấp vào liên kết trong email "
+"bạn sẽ nhận được."
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -9659,6 +9650,8 @@ msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
+"Đây là tóm tắt nhanh về Điều khoản và Điều kiện chung cũng như Chính sách "
+"Bảo mật, nhưng bạn vẫn nên đọc các tài liệu gốc để hiểu đầy đủ hơn:"
 
 #: weblate/templates/accounts/snippets/login-info.html:32
 msgid ""
@@ -9672,6 +9665,9 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Ngoài ra, tên và địa chỉ email của bạn có thể được sử dụng trong các bản ghi "
+"nhận hệ thống kiểm soát phiên bản để ghi nhận những thay đổi bạn đã thực "
+"hiện; chúng có thể được lưu trữ ở đó vô thời hạn."
 
 #: weblate/templates/accounts/snippets/login-info.html:40
 msgid ""
@@ -9687,6 +9683,9 @@ msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"Ngoài ra, tên của bạn có thể được sử dụng trong các bản ghi nhận hệ thống "
+"kiểm soát phiên bản để ghi nhận tác giả của những thay đổi bạn đã thực hiện; "
+"tên của bạn có thể được lưu trữ ở đó vô thời hạn."
 
 #: weblate/templates/accounts/snippets/login-info.html:51
 msgid "You can enable the use of a private commit name in your profile."
@@ -10053,10 +10052,8 @@ msgid "Clean up selected contributions"
 msgstr "Dọn dẹp các đóng góp đã chọn"
 
 #: weblate/templates/accounts/user.html:505
-#, fuzzy
-#| msgid "Account and all private data removed."
 msgid "Account removal deletes all user private data."
-msgstr "Đã xoá tài khoản và tất cả dữ liệu riêng tư."
+msgstr "Việc xóa tài khoản sẽ xóa tất cả dữ liệu riêng tư của người dùng."
 
 #: weblate/templates/accounts/user.html:509
 #: weblate/templates/accounts/user.html:534
@@ -11523,7 +11520,7 @@ msgstr "Tiếp tục đến %(return_target)s"
 
 #: weblate/templates/component-progress.html:40
 msgid "Abort the update"
-msgstr ""
+msgstr "Hủy cập nhật"
 
 #: weblate/templates/component-progress.html:45
 #: weblate/templates/multi-progress.html:31
@@ -12206,6 +12203,8 @@ msgid ""
 "Missing language files must already exist upstream or Weblate must be able "
 "to create them for the component."
 msgstr ""
+"Các tệp ngôn ngữ bị thiếu phải đã tồn tại ở nguồn gốc hoặc Weblate phải có "
+"khả năng tạo ra chúng cho thành phần đó."
 
 #: weblate/templates/js/git-status.html:186
 msgid "Cleanup"
@@ -12332,6 +12331,8 @@ msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"Sử dụng khi cần loại bỏ các mục lỗi thời mà không cần bật tính năng tự động "
+"xóa khi lưu."
 
 #: weblate/templates/js/git-status.html:269
 #, fuzzy
@@ -14640,7 +14641,7 @@ msgstr ""
 msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
-msgstr ""
+msgstr "Bản dịch tạm thời dừng đóng góp do bảo trì, vui lòng quay lại sau."
 
 #: weblate/templates/snippets/component/lock.html:34
 msgid "The translation was automatically locked due to the following alert:"
@@ -15646,6 +15647,9 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
+"Weblate sử dụng khóa SSH để truy cập các kho lưu trữ từ xa. Khóa công khai "
+"tương ứng được tìm thấy bên dưới, bạn có thể sử dụng nó để cấp quyền truy "
+"cập cho Weblate vào kho lưu trữ."
 
 #: weblate/templates/snippets/ssh-key.html:27
 #, python-format
@@ -15653,16 +15657,16 @@ msgid "Download %(key_type)s private key"
 msgstr "Tải xuống khóa riêng của %(key_type)s"
 
 #: weblate/templates/snippets/ssh-key.html:40
-#, fuzzy
-#| msgid "Email addresses"
 msgid "IP addresses"
-msgstr "Địa chỉ email"
+msgstr "Địa chỉ IP"
 
 #: weblate/templates/snippets/ssh-key.html:44
 msgid ""
 "Weblate utilizes the IP addresses listed below to access repositories or "
 "initiate webhooks."
 msgstr ""
+"Weblate sử dụng các địa chỉ IP được liệt kê bên dưới để truy cập kho lưu trữ "
+"hoặc khởi tạo webhook."
 
 #: weblate/templates/snippets/ssh-key.html:52
 msgid "IP address copied to clipboard."
@@ -15701,7 +15705,7 @@ msgstr "Chấp nhận và phê duyệt"
 
 #: weblate/templates/snippets/suggestions.html:77
 msgid "Accept and edit"
-msgstr ""
+msgstr "Chấp nhận và chỉnh sửa"
 
 #: weblate/templates/snippets/suggestions.html:92
 #: weblate/trans/change_display.py:640
@@ -15908,7 +15912,7 @@ msgstr "Bạn không thể hoàn tất đăng ký khi đã đăng nhập."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:42
 msgid "Continue only if you opened the confirmation link from your e-mail."
-msgstr ""
+msgstr "Chỉ tiếp tục nếu bạn đã mở liên kết xác nhận trong email của mình."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:56
 #, fuzzy
@@ -15917,10 +15921,8 @@ msgid "Continue password reset"
 msgstr "Cài đặt lại mật khẩu"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:58
-#, fuzzy
-#| msgid "Confirm account removal"
 msgid "Continue account removal"
-msgstr "Xác nhận xóa tài khoản"
+msgstr "Tiếp tục xóa tài khoản"
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:60
 #: weblate/templates/weblate_auth/invitation_detail.html:54
@@ -16230,6 +16232,8 @@ msgid ""
 "Inexact webhook matching is currently scheduled for removal in Weblate "
 "2026.9, see <a href=\"%(issue_url)s\">issue #19855</a>."
 msgstr ""
+"Việc khớp webhook không chính xác hiện đang được lên kế hoạch loại bỏ trong "
+"Weblate 2026.9, xem <a href=\"%(issue_url)s\">vấn đề #19855</a>."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:24
 msgid "Service"
@@ -16351,6 +16355,9 @@ msgid ""
 "<code>%(filemask)s</code> matches files in your version control system "
 "repository."
 msgstr ""
+"Nếu bản dịch đã tồn tại, hãy kiểm tra xem mặt nạ tệp <code>%(filemask)s</"
+"code> có khớp với các tệp trong kho lưu trữ hệ thống kiểm soát phiên bản của "
+"bạn hay không."
 
 #. Translators: This is shown when an alert contains too many occurrences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:6
@@ -16683,6 +16690,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
+"Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn các bản dịch "
+"của %(object)s và tất cả nội dung liên quan."
 
 #: weblate/templates/trans/delete-category-language.html:7
 #: weblate/templates/trans/delete-project-language.html:7
@@ -16702,6 +16711,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
 msgstr ""
+"Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn dự án %"
+"(object)s và tất cả nội dung liên quan."
 
 #: weblate/templates/trans/delete-category.html:5
 #: weblate/templates/trans/delete-project.html:5
@@ -16736,6 +16747,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
 msgstr ""
+"Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn thành phần %"
+"(object)s và tất cả nội dung liên quan."
 
 #: weblate/templates/trans/delete-component.html:25
 #, fuzzy
@@ -16753,6 +16766,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "category and all related content."
 msgstr ""
+"Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn danh mục %"
+"(object)s và tất cả nội dung liên quan."
 
 #: weblate/templates/trans/delete-project.html:10
 #, python-format
@@ -16778,6 +16793,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
 msgstr ""
+"Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn bản dịch của %"
+"(object)s và tất cả nội dung liên quan."
 
 #: weblate/templates/trans/delete-translation.html:18
 msgid "Translation to remove"
@@ -17118,10 +17135,8 @@ msgid "Variants"
 msgstr "Biến thể"
 
 #: weblate/templates/translate.html:325
-#, fuzzy
-#| msgid "Last name"
 msgid "Other occurrences"
-msgstr "Họ"
+msgstr "Các vị trí khác"
 
 #: weblate/templates/translate.html:347
 #, fuzzy
@@ -17765,6 +17780,9 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+"Các ứng dụng bên dưới cung cấp thông tin đăng nhập mà Weblate sử dụng để "
+"liên lạc với các nhà cung cấp dịch vụ lưu trữ mã nguồn. Kết nối một tài "
+"khoản với mỗi ứng dụng để nhập kho lưu trữ từ tài khoản đó."
 
 #: weblate/templates/vcs/github_installation_list.html:64
 #: weblate/templates/vcs/github_installation_list.html:69
@@ -17993,6 +18011,9 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "workspace and all related workspace data."
 msgstr ""
+"Thao tác này không thể hoàn tác. Thao tác này sẽ xóa vĩnh viễn không gian "
+"làm việc của %(object)s và tất cả dữ liệu liên quan đến không gian làm việc "
+"đó."
 
 #: weblate/templates/workspaces/delete-workspace.html:5
 msgid ""
@@ -20698,10 +20719,8 @@ msgstr "Đường dẫn này không khớp với đường dẫn đã được �
 #: weblate/trans/forms.py:4262 weblate/trans/forms.py:4278
 #: weblate/trans/forms.py:4287 weblate/trans/forms.py:4298
 #: weblate/workspaces/forms.py:20
-#, fuzzy
-#| msgid "New password confirmation"
 msgid "Removal confirmation"
-msgstr "Xác nhận mật khẩu"
+msgstr "Xác nhận xóa"
 
 #: weblate/trans/forms.py:4234
 #, fuzzy
@@ -22578,11 +22597,11 @@ msgstr "Chèn ký tự {0}"
 
 #: weblate/trans/specialchars.py:285
 msgid "Main opening quote"
-msgstr ""
+msgstr "Ngoặc trích dẫn mở chính"
 
 #: weblate/trans/specialchars.py:286
 msgid "Main closing quote"
-msgstr ""
+msgstr "Ngoặc trích dẫn đóng chính"
 
 #: weblate/trans/specialchars.py:287
 msgid "Alternative opening quote"
@@ -23555,16 +23574,12 @@ msgid "The translation component was scheduled for removal."
 msgstr "Thành phần dịch thuật đã được lên kế hoạch loại bỏ."
 
 #: weblate/trans/views/settings.py:278
-#, fuzzy
-#| msgid "Your profile has been updated."
 msgid "The category was scheduled for removal."
-msgstr "Hồ sơ của bạn đã được cập nhật."
+msgstr "Danh mục này đã được lên kế hoạch xóa bỏ."
 
 #: weblate/trans/views/settings.py:282
-#, fuzzy
-#| msgid "Your profile has been updated."
 msgid "The project was scheduled for removal."
-msgstr "Hồ sơ của bạn đã được cập nhật."
+msgstr "Dự án này đã được lên kế hoạch tháo dỡ."
 
 #: weblate/trans/views/settings.py:288
 #, fuzzy
@@ -23696,10 +23711,8 @@ msgid "No valid billing found or limit exceeded."
 msgstr ""
 
 #: weblate/trans/workspace_move.py:82
-#, fuzzy
-#| msgid "This component is currently locked."
 msgid "The project is already assigned to this workspace."
-msgstr "Tính năng thêm bản dịch mới bị tắt trong cấu hình thành phần."
+msgstr "Dự án đã được chỉ định cho không gian làm việc này."
 
 #: weblate/trans/workspace_move.py:88
 #, fuzzy
@@ -24921,6 +24934,8 @@ msgid ""
 "A Weblate GitHub App is already registered for %(hostname)s. Remove it "
 "before registering another one."
 msgstr ""
+"Một ứng dụng Weblate GitHub đã được đăng ký cho %(hostname)s. Hãy xóa ứng "
+"dụng này trước khi đăng ký ứng dụng khác."
 
 #: weblate/vcs/views.py:1195
 #, fuzzy
