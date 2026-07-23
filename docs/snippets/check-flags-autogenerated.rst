@@ -50,6 +50,9 @@
 ``accelerator``
     Specify the single punctuation accelerator marker, for example ``accelerator:&``, ``accelerator:_``, or ``accelerator:~``.
     Enables the :ref:`check-accelerator` quality check.
+``asciidoc-text``
+    Treat a text as an AsciiDoc document, affects :ref:`check-same`.
+    Enables the :ref:`check-asciidoc-markup` quality check.
 ``bbcode-text``
     Treat a text as an Bulletin Board Code (BBCode) document, affects :ref:`check-same`.
     Enables the :ref:`check-bbcode` quality check.
@@ -159,6 +162,8 @@
 
 ``ignore-accelerator``
     Skip the :ref:`check-accelerator` quality check.
+``ignore-asciidoc-markup``
+    Skip the :ref:`check-asciidoc-markup` quality check.
 ``ignore-bbcode``
     Skip the :ref:`check-bbcode` quality check.
 ``ignore-xml-chars-around-tags``
