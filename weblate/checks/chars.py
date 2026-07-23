@@ -554,7 +554,8 @@ class MaxLengthCheck(TargetCheckParametrized):
 
 
 class MaxLinesCheck(TargetCheckParametrized):
-    """Check for maximum number of lines in translation.
+    """
+    Check for maximum number of lines in translation.
 
     This check flags translations that exceed a configured maximum number of
     lines. It is useful for translations targeting fixed-height UI elements
