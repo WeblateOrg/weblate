@@ -33398,12 +33398,6 @@ components:
             type: string
             format: uri
           readOnly: true
-        languages:
-          type: array
-          items:
-            type: string
-            format: uri
-          readOnly: true
         profile:
           allOf:
           - $ref: '#/components/schemas/Profile'
@@ -33458,7 +33452,6 @@ components:
       - full_name
       - groups
       - id
-      - languages
       - last_login
       - notifications
       - profile
@@ -35880,12 +35873,6 @@ components:
             type: string
             format: uri
           readOnly: true
-        languages:
-          type: array
-          items:
-            type: string
-            format: uri
-          readOnly: true
         profile:
           $ref: '#/components/schemas/Profile'
         notifications:
@@ -38204,12 +38191,6 @@ components:
             type: string
             format: uri
           readOnly: true
-        languages:
-          type: array
-          items:
-            type: string
-            format: uri
-          readOnly: true
         profile:
           $ref: '#/components/schemas/Profile'
         notifications:
@@ -38262,7 +38243,6 @@ components:
       - full_name
       - groups
       - id
-      - languages
       - last_login
       - notifications
       - statistics_url
