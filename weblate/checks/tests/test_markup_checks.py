@@ -1515,6 +1515,124 @@ class AsciiDocMarkupCheckTest(CheckTestCase):
             ),
         )
 
+    def test_pass_macro_content_mismatch(self) -> None:
+        self.do_test(
+            True,
+            (
+                'pass:[<span class="source">Text</span>]',
+                'pass:[<span class="translated">Text</span>]',
+                "asciidoc-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Keep pass:[AT&T]",
+                "Keep pass:[AT+T]",
+                "asciidoc-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "pass:q[<b>bold</b>]",
+                "pass:q[<i>bold</i>]",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_inline_anchor_matching(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[[install]]Install",
+                "[[install]]Instalace",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_inline_anchor_id_mismatch(self) -> None:
+        self.do_test(
+            True,
+            (
+                "[[install]]Install",
+                "[[install-cs]]Instalace",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_inline_anchor_translated_label(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[[install,Installation]]",
+                "[[install,Instalace]]",
+                "asciidoc-text",
+            ),
+        )
+
+    def test_escaped_markups(self) -> None:
+        """
+        Test that escaped markups are ignored.
+
+        A preceding backslash character renders the markup as literal text.
+        """
+        # escaped macro is ignore
+        self.do_test(
+            False,
+            (
+                r"\link:old[old]",
+                r"\link:new[new]",
+                "asciidoc-text",
+            ),
+        )
+
+        # escaped xref is ignored
+        self.do_test(
+            False,
+            (
+                r"Use \<<intro>> syntax.",
+                r"Use \<<outro>> syntax.",
+                "asciidoc-text",
+            ),
+        )
+
+        # escaped passthrough is ignored
+        self.do_test(
+            False,
+            (
+                r"Show \+++literal+++ example.",
+                r"Show \+++translated+++ example.",
+                "asciidoc-text",
+            ),
+        )
+
+        # escaped inline anchor is ignored
+        self.do_test(
+            False,
+            (
+                r"\[[install]]Install",
+                r"\[[install-cs]]Instalace",
+                "asciidoc-text",
+            ),
+        )
+
+        # double backslash is still checked
+        self.do_test(
+            True,
+            (
+                r"\\link:old[old]",
+                r"\\link:new[new]",
+                "asciidoc-text",
+            ),
+        )
+
+        # escaped macro is not highlighted
+        source = r"\link:old[old]"
+        unit = make_unit(None, "asciidoc-text", self.default_lang, source=source)
+        highlights = list(self.check.check_highlight(source, unit))
+        self.assertEqual(highlights, [])
+
     def test_escaped_bracket_attr(self) -> None:
         self.do_test(
             False,

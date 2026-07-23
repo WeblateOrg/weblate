@@ -1073,11 +1073,23 @@ ASCIIDOC_MACRO = re.compile(
 )
 # cross references: <<id>> or <<id,text>>.
 ASCIIDOC_XREF = re.compile(r"<<(?P<id>[^,>]+)(?:,(?P<text>[^>]*))?>>")
+# inline anchors: [[id]] or [[id,label]].
+ASCIIDOC_INLINE_ANCHOR = re.compile(r"\[\[(?P<id>[^,\]]+)(?:,(?P<label>[^\]]*))?\]\]")
 # passthroughs. Bare single-plus `+...+` is excluded to avoid false positives.
 ASCIIDOC_PASSTHROUGH = re.compile(
     r"\+\+\+.+?\+\+\+|\+\+.+?\+\+|`\+.+?\+`|\$\$.+?\$\$",
     re.DOTALL,
 )
+
+
+def is_preceded_by_asciidoc_escape(text: str, start: int) -> bool:
+    """Return whether markup at ``start`` is escaped and renders as literal text."""
+    backslashes = 0
+    pos = start - 1
+    while pos >= 0 and text[pos] == "\\":
+        backslashes += 1
+        pos -= 1
+    return backslashes % 2 == 1
 
 
 class AsciiDocMarkupCheck(PluralResultDescriptionMixin, TargetCheck):
@@ -1127,19 +1139,49 @@ class AsciiDocMarkupCheck(PluralResultDescriptionMixin, TargetCheck):
 
 
 def extract_asciidoc_markup(text: str) -> Counter[str]:
-    tokens: list[str] = [
-        f"{match.group('name')}{match.group('sep')}{match.group('target')}[]"
-        for match in ASCIIDOC_MACRO.finditer(text)
-    ]
-    tokens.extend(f"<<{match.group('id')}>>" for match in ASCIIDOC_XREF.finditer(text))
-    tokens.extend(match.group() for match in ASCIIDOC_PASSTHROUGH.finditer(text))
+    tokens: list[str] = []
+    for match in ASCIIDOC_MACRO.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
+        if match.group("name") == "pass":
+            # special case for passthrough macros, the content is not translatable and must be preserved
+            tokens.append(match.group())
+        else:
+            tokens.append(
+                f"{match.group('name')}{match.group('sep')}{match.group('target')}[]"
+            )
+    tokens.extend(
+        f"<<{match.group('id')}>>"
+        for match in ASCIIDOC_XREF.finditer(text)
+        if not is_preceded_by_asciidoc_escape(text, match.start())
+    )
+    tokens.extend(
+        f"[[{match.group('id')}]]"
+        for match in ASCIIDOC_INLINE_ANCHOR.finditer(text)
+        if not is_preceded_by_asciidoc_escape(text, match.start())
+    )
+    tokens.extend(
+        match.group()
+        for match in ASCIIDOC_PASSTHROUGH.finditer(text)
+        if not is_preceded_by_asciidoc_escape(text, match.start())
+    )
     return Counter(tokens)
 
 
 def iter_asciidoc_highlights(text: str) -> Iterable[Highlight]:
     for match in ASCIIDOC_MACRO.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
         yield Highlight(match.start(), match.end(), match.group(), kind="syntax")
     for match in ASCIIDOC_XREF.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
+        yield Highlight(match.start(), match.end(), match.group(), kind="syntax")
+    for match in ASCIIDOC_INLINE_ANCHOR.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
         yield Highlight(match.start(), match.end(), match.group(), kind="syntax")
     for match in ASCIIDOC_PASSTHROUGH.finditer(text):
+        if is_preceded_by_asciidoc_escape(text, match.start()):
+            continue
         yield Highlight(match.start(), match.end(), match.group(), kind="syntax")
