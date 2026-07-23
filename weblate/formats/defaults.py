@@ -7,7 +7,8 @@ from __future__ import annotations
 DEFAULT_FORMATS: tuple[str, ...] = (
     "weblate.formats.ttkit.PoFormat",
     "weblate.formats.ttkit.PoMonoFormat",
-    "weblate.formats.ttkit.TSFormat",
+    "weblate.formats.ttkit.TS2Format",
+    "weblate.formats.ttkit.TS1Format",
     "weblate.formats.ttkit.XliffFormat",
     "weblate.formats.ttkit.RichXliffFormat",
     "weblate.formats.ttkit.Xliff2Format",
