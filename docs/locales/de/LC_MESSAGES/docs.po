@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-23 09:04+0000\n"
+"PO-Revision-Date: 2026-07-24 10:02+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -7064,23 +7064,20 @@ msgstr "Der Standardwert ist -1."
 
 #: admin/config.rst:1355
 msgid "CSS class added to the wrappers around legal document templates."
-msgstr "CSS-Klasse, die zu den Wrappern für Rechtsdokumente hinzugefügt wurde."
+msgstr ""
+"CSS-Klasse, die zu den Wrappern der Vorlagen für Rechtsdokumente hinzugefügt "
+"wurde."
 
 #: admin/config.rst:1357
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``\"tos\"``, which enables the built-in legal document "
-#| "numbering and spacing rules. Set this to an empty string to render legal "
-#| "documents without the built-in numbering."
 msgid ""
 "Defaults to ``\"tos\"``. Weblate does not attach styling to this class; "
 "custom legal styles can use it to target document wrappers. Set this to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
-"Der Standardwert ist ``\"tos\"``, der die integrierten Regeln für die "
-"Nummerierung und die Abstände von Rechtsdokumenten aktiviert. Setzen Sie "
-"dies auf eine leere Zeichenkette, um Rechtsdokumente ohne die integrierte "
-"Nummerierung darzustellen."
+"Der Standardwert ist ``\"tos\"``. Weblate weist dieser Klasse keine "
+"Formatierung zu; benutzerdefinierte Rechtsformate können Sie werden, um "
+"Dokument-Wrapper anzusprechen. Setzen Sie diesen Wert auf eine leere "
+"Zeichenfolge, um Rechtsdokumente ohne Wrapper-Klasse darzustellen."
 
 #: admin/config.rst:1377
 msgid "List of legal document page identifiers to hide from the legal module."
@@ -13498,19 +13495,13 @@ msgstr ""
 "bei denen :envvar:`WEBLATE_LEGAL_INTEGRATION` aktiviert ist."
 
 #: admin/install/docker.rst:958
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``\"tos\"``, which enables the built-in legal document "
-#| "numbering and spacing rules. Set this to an empty string to render legal "
-#| "documents without the built-in numbering."
 msgid ""
 "Set this to the class targeted by your custom legal stylesheet. Set it to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
-"Der Standardwert ist ``\"tos\"``, der die integrierten Regeln für die "
-"Nummerierung und die Abstände von Rechtsdokumenten aktiviert. Setzen Sie "
-"dies auf eine leere Zeichenkette, um Rechtsdokumente ohne die integrierte "
-"Nummerierung darzustellen."
+"Setzen Sie diesen Wert auf die Klasse, auf die Ihre benutzerdefinierte "
+"Formatvorlage für Rechtsdokumente abzielt. Setzen Sie ihn auf eine leere "
+"Zeichenfolge, um Rechtsdokumente ohne Wrapper-Klasse darzustellen."
 
 #: admin/install/docker.rst:970
 msgid ""
@@ -15200,19 +15191,15 @@ msgstr ""
 "des Volumes geändert wurde."
 
 #: admin/install/docker.rst:2681
-#, fuzzy
-#| msgid ""
-#| "This approach can be also used to override Weblate templates. For "
-#| "example :ref:`legal` documents can be placed into :file:`/app/data/python/"
-#| "customize/templates/legal/documents`."
 msgid ""
 "This approach can be also used to override Weblate templates. For example, "
 "custom :ref:`legal` documents and styles can be provided as described "
 "in :ref:`legal-customization`."
 msgstr ""
-"Dieser Ansatz kann auch verwendet werden, um Weblate-Vorlagen außer Kraft zu "
-"setzen. Zum Beispiel können :ref:`legal`-Dokumente in :file:`/app/data/"
-"python/customize/templates/legal/documents` platziert werden."
+"Dieser Ansatz kann auch zum Überschreiben von Weblate-Vorlagen verwendet "
+"werden. So können beispielsweise benutzerdefinierte :ref:`legal`-Dokumente "
+"und -Stile bereitgestellt werden, wie unter :ref:`legal-customization` "
+"beschrieben."
 
 #: admin/install/docker.rst:2685
 msgid ""
@@ -18463,21 +18450,16 @@ msgstr ""
 "WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents> verfügbar."
 
 #: admin/optionals.rst:161
-#, fuzzy
-#| msgid ""
-#| "The bundled terms of service and related legal documents are specific to "
-#| "that service and are not intended for general use. They might still come "
-#| "in handy as a starting point if adjusted to meet your needs."
 msgid ""
 "The bundled terms of service and related legal documents are specific to "
 "services operated by Weblate s.r.o. They can serve as an implementation "
 "example, but should not be used as a basis for legal documents of other "
 "services."
 msgstr ""
-"Die beigefügten Nutzungsbedingungen und zugehörigen Rechtsdokumente beziehen "
-"sich speziell auf diesen Dienst und sind nicht für den allgemeinen Gebrauch "
-"bestimmt. Sie können dennoch als Ausgangspunkt dienen, wenn Sie sie an Ihre "
-"Bedürfnisse anpassen."
+"Die beigefügten Nutzungsbedingungen und die zugehörigen Rechtsdokumente "
+"beziehen sich speziell auf die von Weblate s.r.o. betriebenen Dienste. Sie "
+"können als Anwendungsbeispiel dienen, sollten jedoch nicht als Grundlage für "
+"Rechtsdokumente anderer Dienste herangezogen werden."
 
 #: admin/optionals.rst:169
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -18490,6 +18472,8 @@ msgid ""
 "Provide legal document templates matching your service, as described "
 "in :ref:`legal-customization`."
 msgstr ""
+"Vorlagen für Rechtsdokumente bereitstellen, die zu Ihrem Dienst passen, wie "
+"unter :ref:`legal-customization` beschrieben."
 
 #: admin/optionals.rst:197
 msgid ""
@@ -18525,15 +18509,11 @@ msgstr ""
 "nicht übernommen."
 
 #: admin/optionals.rst:214
-#, fuzzy
-#| msgid ""
-#| "After installation and editing, the legal documents are shown in the "
-#| "Weblate UI."
 msgid ""
 "After installation and customization, the legal documents are shown in the "
 "Weblate UI."
 msgstr ""
-"Nach der Installation und Bearbeitung werden die Rechtsdokumente in der "
+"Nach der Installation und Anpassung werden die Rechtsdokumente in der "
 "Weblate-Bedienoberfläche angezeigt."
 
 #: admin/optionals.rst:216
@@ -18558,16 +18538,16 @@ msgstr ""
 "Verlinkungen zu den Nutzungsbedingungen und der Datenschutzerklärung."
 
 #: admin/optionals.rst:227
-#, fuzzy
-#| msgid "Customizing behavior using flags"
 msgid "Customizing legal documents and styles"
-msgstr "Verhalten mit Markierungen anpassen"
+msgstr "Rechtsdokumente und Vorlagen anpassen"
 
 #: admin/optionals.rst:229
 msgid ""
 "Provide your own legal documents by overriding these templates in "
 "a :ref:`custom-module`:"
 msgstr ""
+"Stellen Sie Ihre eigenen Rechtsdokumente bereit, indem Sie diese Vorlagen in "
+":ref:`custom-module` überschreiben:"
 
 #: admin/optionals.rst:239
 msgid ""
@@ -18577,24 +18557,29 @@ msgid ""
 "overridden; the remaining legal templates continue to use the defaults from "
 "later apps."
 msgstr ""
+"Platzieren Sie die Anpassungs-App vor ``weblate.legal`` und allen anderen "
+"Apps, die Rechtsvorlagen überschreiben, in :setting:`django:INSTALLED_APPS`, "
+"damit Django die entsprechenden Vorlagen auswählt. Es werden nur die von "
+"Ihnen bereitgestellten Vorlagen überschrieben; für die übrigen "
+"Rechtsvorlagen gelten weiterhin die Standardvorlagen aus den nachfolgenden "
+"Apps."
 
 #: admin/optionals.rst:244
 msgid ""
 "The :file:`legal/styles.html` template is included in the HTML head of every "
 "legal page. Use it to load a stylesheet from your customization app:"
 msgstr ""
+"Die Vorlage :file:`legal/styles.html` ist im HTML-Header jeder Seite mit "
+"rechtlichen Hinweisen enthalten. Verwenden Sie sie, um eine Formatvorlage "
+"aus Ihrer Anpassungs-App zu laden:"
 
 #: admin/optionals.rst:253
-#, fuzzy
-#| msgid ""
-#| "Run :samp:`weblate collectstatic --noinput`, to collect static files "
-#| "served to clients."
 msgid ""
 "Run :samp:`weblate collectstatic --noinput` after adding or changing the "
 "static file."
 msgstr ""
-"Führen Sie :samp:`weblate collectstatic --noinput` aus, um statische Dateien "
-"zu sammeln, die an Clients geliefert werden."
+"Führen Sie :samp:`weblate collectstatic --noinput` nach dem Hinzufügen oder "
+"Ändern der statischen Datei aus."
 
 #: admin/optionals.rst:256
 msgid ""
@@ -18605,6 +18590,13 @@ msgid ""
 "template then uses ``{% static 'legal.css' %}``. Restart the container to "
 "apply the changes, see :ref:`docker-static-override`."
 msgstr ""
+"Bei Docker-Bereitstellungen legen Sie Dokumentvorlagen unter :file:`/app/"
+"data/python/customize/templates/legal/documents` ab, :file:`styles.html` "
+"unter :file:`/app/data/python/customize/templates/legal/styles.html`, und "
+"die Formatvorlage unter :file:`/app/data/python/customize/static/legal.css`. "
+"Die Formatvorlage verwendet dann ``{% static 'legal.css' %}``. Starten Sie "
+"den Container neu, um die Änderungen zu übernehmen, siehe :ref:`docker-"
+"static-override`."
 
 #: admin/optionals.rst:264
 msgid ""
@@ -18614,6 +18606,12 @@ msgid ""
 "document markup. Set the setting to an empty string if no wrapper class is "
 "needed."
 msgstr ""
+"Standardmäßig verwenden Wrapper für Rechtsdokumente die CSS-Klasse ``tos``. "
+"Weblate weist dieser Klasse keine Formatierung zu; nehmen Sie sie in Ihrer "
+"benutzerdefinierten Formatvorlage auf oder setzen Sie "
+":setting:`LEGAL_DOCUMENT_CSS_CLASS` auf eine andere Klasse, die zu Ihrer "
+"Dokumentenauszeichnung passt. Setzen Sie die Einstellung auf eine leere "
+"Zeichenfolge, wenn keine Wrapper-Klasse benötigt wird."
 
 #: admin/optionals.rst:269
 msgid ""
@@ -19319,6 +19317,10 @@ msgid ""
 "with source strings, and where translations can be tested or when they are "
 "released."
 msgstr ""
+"Gute Übersetzungsrichtlinien erklären, wie Mitwirkende Übersetzungen "
+"einreichen sollen, mit welcher Art von Überprüfung sie rechnen müssen, wie "
+"sie Probleme mit Ausgangszeichenketten melden können und wo Übersetzungen "
+"getestet werden können bzw. wann sie veröffentlicht werden."
 
 #: admin/projects.rst:176 admin/projects.rst:881 admin/workspaces.rst:94
 msgid "Translation license"
@@ -22567,31 +22569,26 @@ msgstr ""
 "unter :guilabel:`Verwalten` ↓ :guilabel:`Arbeitsbereiche` auflisten."
 
 #: admin/workspaces.rst:29
-#, fuzzy
-#| msgid "Workspace created"
 msgid "Workspace removal"
-msgstr "Arbeitsbereich erstellt"
+msgstr "Arbeitsbereich entfernen"
 
 #: admin/workspaces.rst:31
-#, fuzzy
-#| msgid ""
-#| "Users with :guilabel:`Edit workspace settings` permission can view and "
-#| "pay the billing plan. Billing notification e-mails are sent to these "
-#| "users."
 msgid ""
 "Users with the :guilabel:`Edit workspace settings` permission can remove a "
 "workspace from :guilabel:`Operations` ↓ :guilabel:`Organize or remove`."
 msgstr ""
 "Benutzer mit der Berechtigung :guilabel:`Arbeitsbereicheinstellungen "
-"bearbeiten` können das Abrechnungsmodell einsehen und bezahlen. "
-"Benachrichtigungs-E-Mails für die Abrechnung werden an diese Benutzer "
-"gesendet."
+"bearbeiten` können einen Arbeitsbereich unter :guilabel:`Operationen` ↓ "
+":guilabel:`Organisieren oder Entfernen` entfernen."
 
 #: admin/workspaces.rst:34
 msgid ""
 "Only empty workspaces can be removed. Move or remove all projects in the "
 "workspace first. Workspaces associated with billing cannot be removed."
 msgstr ""
+"Es können nur leere Arbeitsbereiche entfernt werden. Verschieben oder "
+"entfernen Sie zunächst alle Projekte im Arbeitsbereich. Arbeitsbereiche, die "
+"der Abrechnung zugeordnet sind, können nicht entfernt werden."
 
 #: admin/workspaces.rst:40
 msgid "Project creation and moves"
@@ -23356,6 +23353,8 @@ msgid ""
 "Workspaces now provide aggregate translation statistics and historical "
 "metrics."
 msgstr ""
+"Arbeitsbereiche bieten nun aggregierte Übersetzungsstatistiken und "
+"historische Metriken."
 
 #: changes.rst:9
 msgid ""
@@ -23440,6 +23439,8 @@ msgstr ""
 msgid ""
 "Add-on management now uses separate configuration, logs, and components tabs."
 msgstr ""
+"Die Erweiterungsverwaltung verfügt nun über separate Reiter für "
+"Konfiguration, Protokolle und Komponenten."
 
 #: changes.rst:19
 msgid ""
@@ -23486,6 +23487,9 @@ msgid ""
 ":ref:`Empty workspaces <workspace-removal>` not associated with billing can "
 "now be removed from the workspace :guilabel:`Operations` menu."
 msgstr ""
+":ref:`Leere Arbeitsbereiche <workspace-removal>` die nicht einer Abrechnung "
+"zugeordnet sind, können nun über das Menü :guilabel:`Operationen` aus dem "
+"Arbeitsbereich entfernt werden."
 
 #: changes.rst:25
 msgid ""
@@ -23508,6 +23512,8 @@ msgid ""
 "Celery workers now prefetch fewer tasks by default to reduce memory usage "
 "and improve task distribution."
 msgstr ""
+"Celery-Worker laden nun standardmäßig weniger Aufgaben vorab, um die "
+"Speicherauslastung zu senken und die Aufgabenverteilung zu verbessern."
 
 #: changes.rst:28
 msgid ""
@@ -45495,7 +45501,7 @@ msgid ""
 "translation."
 msgstr ""
 "Jede ``msgid``-Zeile definiert eine zu übersetzende Zeichenkette, die "
-"spezielle leere Zeichenkette am Anfang ist der Dateiheader, der Metadaten "
+"spezielle leere Zeichenfolge am Anfang ist der Dateiheader, der Metadaten "
 "über die Übersetzung enthält."
 
 #: devel/gettext.rst:146
@@ -69641,10 +69647,8 @@ msgstr ""
 "Menü :guilabel:`Werkzeuge` für jeden Begriff einschalten."
 
 #: user/glossary.rst:81
-#, fuzzy
-#| msgid "Glossary terms"
 msgid "Glossary entry types"
-msgstr "Glossarbegriffe"
+msgstr "Glossareintragstypen"
 
 #: user/glossary.rst:84
 msgid "Type"
@@ -69662,28 +69666,32 @@ msgstr "Regulärer Glossarbegriff"
 msgid ""
 "Preferred translation or explanation for a term in one or more languages."
 msgstr ""
+"Bevorzugte Übersetzung oder Erklärung eines Begriffs in einer oder mehreren "
+"Sprachen."
 
 #: user/glossary.rst:92
 msgid ""
 "Source term Weblate keeps present in every glossary language so missing "
 "translations can be tracked and filled."
 msgstr ""
+"Weblate speichert den Ausgangsbegriff in jeder Glossarsprache, sodass "
+"fehlende Übersetzungen nachverfolgt und ergänzt werden können."
 
 #: user/glossary.rst:96
 msgid "Term that should stay unchanged or should not be translated."
-msgstr ""
+msgstr "Begriff, der unverändert bleiben oder nicht übersetzt werden sollte."
 
 #: user/glossary.rst:99
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation that should not be used for the source term."
-msgstr "Übersetzung sollte die angegebene Länge nicht überschreiten."
+msgstr "Übersetzung, die für den Ausgangsbegriff nicht verwendet werden sollte."
 
 #: user/glossary.rst:102
 msgid ""
 "Alternative wording, abbreviation, or shorter form grouped with another "
 "glossary term."
 msgstr ""
+"Alternative Bezeichnung, Abkürzung oder Kurzform, die mit einem anderen "
+"Glossarbegriff zusammengefasst ist."
 
 #: user/glossary.rst:108
 msgid "Choosing glossary terms"
@@ -69695,6 +69703,10 @@ msgid ""
 "shape. If a source term is ambiguous, add an explanation so translators know "
 "which meaning applies in the project."
 msgstr ""
+"Wählen Sie Glossarbegriffe nach ihrer Bedeutung und der Zielgruppe aus, "
+"nicht nur nach der wörtlichen Form. Ist ein Ausgangsbegriff mehrdeutig, "
+"fügen Sie eine Erklärung hinzu, damit die Übersetzer wissen, welche "
+"Bedeutung im jeweiligen Projekt gilt."
 
 #: user/glossary.rst:114
 msgid ""
@@ -69890,14 +69902,12 @@ msgid ""
 msgstr ""
 
 #: user/glossary.rst:259
-#, fuzzy
-#| msgid "Common setups"
 msgid "Common setup patterns"
-msgstr "Allgemeine Einstellungen"
+msgstr "Gängige Konfigurationsmuster"
 
 #: user/glossary.rst:261
 msgid "English-only explanatory glossary"
-msgstr ""
+msgstr "Erklärendes Glossar nur in englischer Sprache"
 
 #: user/glossary.rst:262
 msgid ""
@@ -71173,19 +71183,19 @@ msgstr "Nach Bildschirmfotos in Sprachen suchen, die mit ``cs`` übereinstimmen.
 msgid ""
 "Search for screenshots assigned to source strings matching ``Save changes``."
 msgstr ""
-"Nach Bildschirmfotos, die Ausgangszeichenketten zugewiesen sind, die mit "
-"``Save changes`` übereinstimmen suchen."
+"Nach Bildschirmfotos suchen, die Ausgangszeichenketten zugewiesen sind und "
+"mit ``Save changes`` übereinstimmen."
 
 #: user/search.rst:327
 msgid "Search for screenshots assigned to at least one source string."
 msgstr ""
-"Nach Bildschirmfotos, die mindestens einer Ausgangszeichenkette zugewiesen "
-"sind suchen."
+"Nach Bildschirmfotos suchen, die mindestens einer Ausgangszeichenkette "
+"zugewiesen sind."
 
 #: user/search.rst:329
 msgid "Search for screenshots not assigned to any source string."
 msgstr ""
-"Nach Bildschirmfotos, die keiner Ausgangszeichenkette zugewiesen sind suchen."
+"Nach Bildschirmfotos suchen, die keiner Ausgangszeichenkette zugewiesen sind."
 
 #: user/search.rst:331
 msgid "Search for screenshots with ``fastlane`` in the repository path."
@@ -71194,16 +71204,16 @@ msgstr "Nach Bildschirmfotos mit ``fastlane`` im Repository-Pfad suchen."
 #: user/search.rst:333
 msgid "Search for screenshots assigned to more than two source strings."
 msgstr ""
-"Nach Bildschirmfotos, die mehr als zwei Ausgangszeichenketten zugewiesen "
-"sind suchen."
+"Nach Bildschirmfotos suchen, die mehr als zwei Ausgangszeichenketten "
+"zugewiesen sind."
 
 #: user/search.rst:335
 msgid ""
 "Search for screenshots imported from the repository that still need source "
 "string assignment."
 msgstr ""
-"Nach Bildschirmfotos, die aus dem Repository importiert wurden und die noch "
-"Ausgangszeichenketten zugewiesen werden müssen suchen."
+"Nach Bildschirmfotos suchen, die aus dem Repository importiert wurden und "
+"denen noch Ausgangszeichenketten zugewiesen werden müssen."
 
 #: user/search.rst:338
 msgid ""
