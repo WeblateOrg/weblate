@@ -220,6 +220,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         "use_workspace_tm",
         "contribute_workspace_tm",
         "check_flags",
+        "enforced_checks",
+        "inherit_enforced_checks",
     )
 
     ACCESS_PUBLIC = 0
@@ -382,6 +384,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         ),
         validators=[validate_check_flags],
         blank=True,
+    )
+    enforced_checks = models.JSONField(
+        verbose_name=gettext_lazy("Enforced checks"),
+        help_text=gettext_lazy("List of checks which can not be dismissed."),
+        default=list,
+        blank=True,
+    )
+    inherit_enforced_checks = models.BooleanField(
+        default=True,
+        verbose_name=gettext_lazy("Inherit enforced checks"),
+        help_text=gettext_lazy("Use enforced checks from the workspace."),
     )
     license = models.CharField(
         verbose_name=gettext_lazy("Translation license"),
@@ -673,6 +686,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 transaction.on_commit(
                     lambda: self.schedule_component_check_updates(update_state=True)
                 )
+            # Propagate enforced checks changes to child components
+            if old.effective_enforced_checks != self.effective_enforced_checks:
+                transaction.on_commit(self.schedule_component_enforced_checks_updates)
             update_tm = self.update_memory_scope_changes(
                 old,
                 old_effective_contribute_workspace_tm,
@@ -713,6 +729,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if workspace is None:
             return False
         return workspace.contribute_workspace_tm
+
+    @property
+    def effective_enforced_checks(self) -> list[str]:
+        """Return effective enforced checks for the project."""
+        return self.get_effective_setting('enforced_checks')
 
     def update_memory_scope_changes(
         self,
@@ -773,6 +794,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def schedule_component_check_updates(self, *, update_state: bool = False) -> None:
         for component in self.component_set.iterator():
             component.schedule_update_checks(update_state=update_state)
+
+    def schedule_component_enforced_checks_updates(self) -> None:
+        """Trigger enforced checks updates on all components in this project."""
+        for component in self.component_set.iterator():
+            component.update_enforced_checks()
 
     def clean(self) -> None:
         super().clean()

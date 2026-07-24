@@ -84,6 +84,8 @@ class Category(
         "language_code_style",
         "secondary_language",
         "check_flags",
+        "enforced_checks",
+        "inherit_enforced_checks",
         *COMPONENT_MESSAGE_SETTINGS,
     )
 
@@ -120,6 +122,21 @@ class Category(
         validators=[validate_check_flags],
         blank=True,
     )
+
+    enforced_checks = models.JSONField(
+        verbose_name=gettext_lazy("Enforced checks"),
+        help_text=gettext_lazy("List of checks which can not be dismissed."),
+        default=list,
+        blank=True,
+    )
+    inherit_enforced_checks = models.BooleanField(
+        default=True,
+        verbose_name=gettext_lazy("Inherit enforced checks"),
+        help_text=gettext_lazy(
+            "Use enforced checks from the parent category, project or workspace."
+        ),
+    )
+
     license = models.CharField(
         verbose_name=gettext_lazy("Translation license"),
         max_length=150,
@@ -372,6 +389,19 @@ class Category(
                 transaction.on_commit(
                     lambda: self.schedule_component_check_updates(update_state=True)
                 )
+            # Propagate enforced checks changes to descendant components
+            if old.effective_enforced_checks != self.effective_enforced_checks:
+                transaction.on_commit(self.schedule_component_enforced_checks_updates)
+
+    @property
+    def effective_enforced_checks(self) -> list[str]:
+        """Return effective enforced checks for the category."""
+        return self.get_effective_setting('enforced_checks')
+
+    def schedule_component_enforced_checks_updates(self) -> None:
+        """Trigger enforced checks updates on all components in this category."""
+        for component in self.all_components.iterator():
+            component.update_enforced_checks()
 
     def move_to_project(self, project) -> None:
         """Trigger save with changed project on categories and components."""

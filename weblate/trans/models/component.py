@@ -801,6 +801,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
         default=list,
         blank=True,
     )
+    inherit_enforced_checks = models.BooleanField(
+        default=True,
+        verbose_name=gettext_lazy("Inherit enforced checks"),
+        help_text=gettext_lazy("Use enforced checks from the project, category or workspace."),
+    )
 
     # Licensing
     license = models.CharField(
@@ -1281,8 +1286,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if changed_git or was_renamed:
                 self.drop_repository_cache()
 
+            # CHANGED: detect change in enforced_checks (raw or inherit flag)
             changed_enforced_checks = (
-                old.enforced_checks != self.enforced_checks and self.enforced_checks
+                (old.enforced_checks != self.enforced_checks and self.enforced_checks)
+                or (old.inherit_enforced_checks != self.inherit_enforced_checks)
             )
 
             create = False
@@ -4523,7 +4530,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 processed_revision=current_revision
             )
 
-        if self.enforced_checks:
+        # CHANGED: use effective enforced checks
+        effective = self.get_effective_setting('enforced_checks')
+        if effective:
             update_enforced_checks.delay_on_commit(component=self.pk)
 
         self.log_info("updating completed")
@@ -6412,9 +6421,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
         except RepositoryError as error:
             return f"{gettext('Could not get repository status!')}\n\n{error}"
 
+    # CHANGED: use effective enforced checks
     def update_enforced_checks(self) -> None:
+        effective = self.get_effective_setting('enforced_checks')
         units = Unit.objects.filter(
-            check__name__in=self.enforced_checks,
+            check__name__in=effective,
             translation__component=self,
             state__in=(STATE_TRANSLATED, STATE_APPROVED),
         )
