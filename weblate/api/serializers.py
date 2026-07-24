@@ -1390,7 +1390,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
         return obj.effective_check_flags.format()
 
     def get_effective_enforced_checks(self, obj: Project) -> list[str]:
-        return obj.get_effective_setting('enforced_checks')
+        return obj.get_effective_setting("enforced_checks")
 
     def create(self, validated_data):
         has_workspace = validated_data.get("workspace") is not None
@@ -1569,7 +1569,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
     inherit_enforced_checks = serializers.BooleanField(
         required=False,
         default=True,
-        help_text=gettext_lazy("Inherit enforced checks from the project, category or workspace."),
+        help_text=gettext_lazy(
+            "Inherit enforced checks from the project, category or workspace."
+        ),
     )
 
     category = serializers.HyperlinkedRelatedField(
@@ -1632,7 +1634,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
         return obj.all_flags.format()
 
     def get_effective_enforced_checks(self, obj: Component) -> list[str]:
-        return obj.get_effective_setting('enforced_checks')
+        return obj.get_effective_setting("enforced_checks")
 
     class Meta:
         model = Component
@@ -3231,7 +3233,9 @@ class CategorySerializer(RemovableSerializer[Category]):
     inherit_enforced_checks = serializers.BooleanField(
         required=False,
         default=True,
-        help_text=gettext_lazy("Inherit enforced checks from the parent category, project or workspace."),
+        help_text=gettext_lazy(
+            "Inherit enforced checks from the parent category, project or workspace."
+        ),
     )
 
     class Meta:
@@ -3328,7 +3332,7 @@ class CategorySerializer(RemovableSerializer[Category]):
         return obj.effective_check_flags.format()
 
     def get_effective_enforced_checks(self, obj: Category) -> list[str]:
-        return obj.get_effective_setting('enforced_checks')
+        return obj.get_effective_setting("enforced_checks")
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

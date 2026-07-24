@@ -733,7 +733,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @property
     def effective_enforced_checks(self) -> list[str]:
         """Return effective enforced checks for the project."""
-        return self.get_effective_setting('enforced_checks')
+        return self.get_effective_setting("enforced_checks")
 
     def update_memory_scope_changes(
         self,

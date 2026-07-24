@@ -396,7 +396,7 @@ class Category(
     @property
     def effective_enforced_checks(self) -> list[str]:
         """Return effective enforced checks for the category."""
-        return self.get_effective_setting('enforced_checks')
+        return self.get_effective_setting("enforced_checks")
 
     def schedule_component_enforced_checks_updates(self) -> None:
         """Trigger enforced checks updates on all components in this category."""

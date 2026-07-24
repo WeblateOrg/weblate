@@ -6,7 +6,7 @@ from django.db import migrations, models
 
 
 def set_category_inherit_enforced_checks(apps, schema_editor):
-    Category = apps.get_model('trans', 'Category')
+    Category = apps.get_model("trans", "Category")
     # Categories with custom enforced_checks should not inherit
     Category.objects.exclude(enforced_checks=[]).update(inherit_enforced_checks=False)
     # Categories with empty enforced_checks (default) should inherit
@@ -15,27 +15,27 @@ def set_category_inherit_enforced_checks(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('trans', '0098_project_inherit_enforced_checks'),
+        ("trans", "0098_project_inherit_enforced_checks"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='category',
-            name='enforced_checks',
+            model_name="category",
+            name="enforced_checks",
             field=models.JSONField(
                 blank=True,
                 default=list,
-                help_text='List of checks which can not be dismissed.',
-                verbose_name='Enforced checks',
+                help_text="List of checks which can not be dismissed.",
+                verbose_name="Enforced checks",
             ),
         ),
         migrations.AddField(
-            model_name='category',
-            name='inherit_enforced_checks',
+            model_name="category",
+            name="inherit_enforced_checks",
             field=models.BooleanField(
                 default=True,
-                help_text='Use enforced checks from the parent category, project or workspace.',
-                verbose_name='Inherit enforced checks',
+                help_text="Use enforced checks from the parent category, project or workspace.",
+                verbose_name="Inherit enforced checks",
             ),
         ),
         migrations.RunPython(

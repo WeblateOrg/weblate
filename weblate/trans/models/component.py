@@ -804,7 +804,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     inherit_enforced_checks = models.BooleanField(
         default=True,
         verbose_name=gettext_lazy("Inherit enforced checks"),
-        help_text=gettext_lazy("Use enforced checks from the project, category or workspace."),
+        help_text=gettext_lazy(
+            "Use enforced checks from the project, category or workspace."
+        ),
     )
 
     # Licensing
@@ -1288,9 +1290,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
             # CHANGED: detect change in enforced_checks (raw or inherit flag)
             changed_enforced_checks = (
-                (old.enforced_checks != self.enforced_checks and self.enforced_checks)
-                or (old.inherit_enforced_checks != self.inherit_enforced_checks)
-            )
+                old.enforced_checks != self.enforced_checks and self.enforced_checks
+            ) or (old.inherit_enforced_checks != self.inherit_enforced_checks)
 
             create = False
 
@@ -4531,7 +4532,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
 
         # CHANGED: use effective enforced checks
-        effective = self.get_effective_setting('enforced_checks')
+        effective = self.get_effective_setting("enforced_checks")
         if effective:
             update_enforced_checks.delay_on_commit(component=self.pk)
 
@@ -6423,7 +6424,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     # CHANGED: use effective enforced checks
     def update_enforced_checks(self) -> None:
-        effective = self.get_effective_setting('enforced_checks')
+        effective = self.get_effective_setting("enforced_checks")
         units = Unit.objects.filter(
             check__name__in=effective,
             translation__component=self,
