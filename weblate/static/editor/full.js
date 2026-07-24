@@ -804,7 +804,9 @@
       const qualityCell = document.createElement("td");
       qualityCell.className = "number";
       if (el.show_quality) {
-        qualityCell.innerHTML = `<strong>${el.quality}</strong> %`;
+        const quality = document.createElement("strong");
+        quality.textContent = String(el.quality);
+        qualityCell.append(quality, " %");
       }
       row.append(qualityCell);
 
