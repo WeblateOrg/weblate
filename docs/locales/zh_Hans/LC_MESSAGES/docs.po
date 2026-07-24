@@ -40,7 +40,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-24 12:07+0000\n"
+"PO-Revision-Date: 2026-07-24 12:43+0000\n"
 "Last-Translator: AlexYang <A012pyshjs210@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
@@ -4940,6 +4940,12 @@ msgid ""
 "Gerrit interprets these options as the configured Weblate Gerrit account and "
 "applies its own permissions."
 msgstr ""
+"可选的 :ref:`component-push_branch` 配置项用于指定提交 Gerrit review 时的目标"
+"分支。如果留空，则默认使用组件的主分支（:ref:`component-branch`）。请使用简短"
+"的分支名（例如 ``main``），Weblate 和 ``git-review`` 会自动将代码推送到 "
+"``refs/for/<分支名>`` 进行审核。无论在上述哪个配置里，你都可以在分支名后面加"
+"上 ``%`` 来附加 Gerrit 的推送参数（例如 ``main%topic=l10n``）。Gerrit 会认定"
+"这些选项是由配置的 Weblate Gerrit 账号提交的，并校验该账号的对应权限。"
 
 #: admin/code-hosting.rst:815
 msgid ""
@@ -4987,6 +4993,9 @@ msgid ""
 "administrators can also use the low-level :ref:`admin-interface` when direct "
 "database-object management is necessary."
 msgstr ""
+"每个部件列表都包含一个面向用户显示的名称，以及一个用于 URL 的标识名（slug）。"
+"部件列表可以通过 :ref:`api` 进行管理。当需要直接管理数据库对象时，系统管理员"
+"还可以使用底层的 :ref:`admin-interface`。"
 
 #: admin/componentlists.rst:22
 msgid ""
@@ -5193,6 +5202,8 @@ msgid ""
 "This does not replace :setting:`ALLOWED_ASSET_DOMAINS`; remote assets must "
 "still match the asset domain allowlist."
 msgstr ""
+"这并不能替代 :setting:`ALLOWED_ASSET_DOMAINS`；远程资源服务器的域名仍必须在域"
+"名白名单内。"
 
 #: admin/config.rst:140 admin/config.rst:1946 admin/config.rst:1980
 #: admin/config.rst:2057
@@ -5224,20 +5235,22 @@ msgstr ""
 msgid ""
 "Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``."
 msgstr ""
+"用于 ALTCHA 工作量证明挑战（ALTCHA proof-of-work challenge）的 Argon2id 时间"
+"开销（Argon2id time cost）。默认值为 ``3``。"
 
 #: admin/config.rst:183
 msgid ""
 "Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget "
 "v2."
-msgstr ""
+msgstr "此选项用于替代 ``ALTCHA_MAX_NUMBER``，后者适用于已废弃的 ALTCHA widget v2。"
 
 #: admin/config.rst:192
 msgid "Argon2id memory cost in KiB. Defaults to ``65536``."
-msgstr ""
+msgstr "以 KiB 为单位的 Argon2id 内存开销（memory cost）。默认值为 ``65536``。"
 
 #: admin/config.rst:201
 msgid "Argon2id parallelism factor. Defaults to ``1``."
-msgstr ""
+msgstr "Argon2id 并行度系数（parallelism factor）。默认值为 ``1``。"
 
 #: admin/config.rst:205
 msgid ""
@@ -5476,6 +5489,9 @@ msgid ""
 "so :setting:`CACHE_DIR` has to be writable and mounted on a filesystem that "
 "allows execution. Avoid using ``noexec`` mount options for this directory."
 msgstr ""
+"Weblate 会在此处存放生成的辅助文件并执行其中的一部分，因此 "
+":setting:`CACHE_DIR` 必须可写，且必须挂载在允许执行程序的文件系统上。请避免对"
+"此目录使用 ``noexec`` 挂载选项。"
 
 #: admin/config.rst:441 admin/config.rst:612
 msgid ""
@@ -5742,6 +5758,10 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"内置的默认模板遵循 Conventional Commits 规范，，并在可用时包含 Weblate 链接。"
+"更改这些设置仅会影响新建的默认模板；现有的消息模板可以在设置表单中通过 "
+":guilabel:`Restore site default` 进行重置。对于继承的值，恢复站点默认值会同时"
+"断开该消息的继承关系。"
 
 #: admin/config.rst:731
 msgid "Default add-ons to install for every created component."
@@ -5825,6 +5845,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"内置的默认模板遵循 Conventional Commits 规范，并包含 Weblate 链接及翻译状态信"
+"息。"
 
 #: admin/config.rst:878
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -6167,6 +6189,8 @@ msgid ""
 "Template used to generate e-mail addresses for internal Weblate bot "
 "accounts. Defaults to ``\"noreply-{scope}-{name}@weblate.org\"``."
 msgstr ""
+"用于生成 Weblate 内部机器人账号邮箱地址的模板。默认值为 ``\"noreply-{scope}-"
+"{name}@weblate.org\"``。"
 
 #: admin/config.rst:1263
 msgid ""
@@ -6177,10 +6201,13 @@ msgstr ""
 "和 ``{site_domain}`` 。"
 
 #: admin/config.rst:1266
+#, fuzzy
 msgid ""
 "Use ``{scope}`` and ``{name}`` when generating the e-mail local part. The "
 "``{username}`` value contains the internal ``scope:name`` username."
 msgstr ""
+"生成邮箱地址的本地部分（local part，即 @ 符号左侧）时，请使用 ``{scope}`` 和 "
+"``{name}``。``{username}`` 变量的值包含内部形如 ``scope:name``的用户名。"
 
 #: admin/config.rst:1269
 msgid ""
