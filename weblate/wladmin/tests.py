@@ -1124,6 +1124,7 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "PRIVATE KEY")
 
     @tempdir_setting("DATA_DIR")
+    @override_settings(VCS_RESTRICT_PRIVATE=False)
     def test_ssh_add(self) -> None:
         self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         oldpath = os.environ["PATH"]

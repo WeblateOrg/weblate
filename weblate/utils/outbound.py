@@ -11,6 +11,8 @@ from urllib.parse import urlparse
 from django.core.exceptions import ValidationError
 from django.http.request import validate_host
 from django.utils.translation import gettext
+from idna import IDNAError
+from idna import encode as idna_encode
 
 from weblate.utils.errors import add_breadcrumb
 
@@ -48,6 +50,13 @@ def _normalize_hostname(value: str) -> str:
     normalized = value.rstrip(".")
     if not normalized:
         return ""
+
+    try:
+        ipaddress.ip_address(normalized)
+    except ValueError:
+        pass
+    else:
+        return normalized
 
     if "://" not in normalized:
         normalized = f"//{normalized}"
@@ -260,8 +269,15 @@ def validate_outbound_hostname(
 def validate_runtime_hostname(
     value: str, *, allow_private_targets: bool = True
 ) -> None:
+    resolve_runtime_hostname(value, allow_private_targets=allow_private_targets)
+
+
+def resolve_runtime_hostname(
+    value: str, *, allow_private_targets: bool = True
+) -> tuple[str, ...]:
+    """Resolve a hostname and return all validated connection addresses."""
     if allow_private_targets:
-        return
+        return ()
 
     normalized = _normalize_hostname(value)
 
@@ -269,19 +285,27 @@ def validate_runtime_hostname(
         validate_runtime_ip(
             str(ip_address), allow_private_targets=allow_private_targets
         )
-        return
+        return (str(ip_address),)
 
     try:
-        addresses = socket.getaddrinfo(normalized, None, type=socket.SOCK_STREAM)
-    except (OSError, UnicodeError) as error:
+        resolution_hostname = idna_encode(normalized, uts46=True).decode("ascii")
+        addresses = socket.getaddrinfo(
+            resolution_hostname, None, type=socket.SOCK_STREAM
+        )
+    except (IDNAError, OSError, UnicodeError) as error:
         raise ValidationError(
             gettext("Could not resolve the URL domain: {}").format(error)
         ) from error
 
+    result: list[str] = []
     for _family, _type, _proto, _canonname, sockaddr in addresses:
         address = sockaddr[0]
-        if isinstance(address, str):
+        if isinstance(address, str) and address not in result:
             validate_runtime_ip(address, allow_private_targets=allow_private_targets)
+            result.append(address)
+    if not result:
+        raise ValidationError(gettext("Could not resolve the URL domain."))
+    return tuple(result)
 
 
 def validate_runtime_url(value: str, *, allow_private_targets: bool = True) -> None:

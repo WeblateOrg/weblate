@@ -353,6 +353,13 @@ Build-time and configuration variants
        (source: :setting:`ASSET_RESTRICT_PRIVATE`,
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
+       Protected Git HTTPS and SSH operations are bound to addresses approved
+       by runtime validation. Protected SSH operations validate the effective
+       ``HostName`` and ``Port``. Trusted administrator SSH configuration can
+       alter routing, and :setting:`SSH_EXTRA_ARGS` can override connection
+       binding. Git LFS object transfers are disabled and outside the supported
+       VCS integration surface. VCS clients without connection binding require
+       an explicit trusted-host exemption. *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
        reachability. *(documented)* (source: :setting:`ASSET_PRIVATE_ALLOWLIST`,
        :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`,
@@ -363,7 +370,8 @@ Build-time and configuration variants
    * - :setting:`SSH_EXTRA_ARGS`
      - Allows custom SSH options. *(documented)* (source: :setting:`SSH_EXTRA_ARGS`)
      - Weakening SSH algorithms or host verification changes VCS transport
-       assumptions. *(maintainer)*
+       assumptions. Routing options can override protected repository address
+       pinning. *(maintainer)*
      - Operators own the security impact of custom SSH options. *(maintainer)*
    * - Third-party add-ons and local customization
      - Administrators can extend behavior. *(documented)* (source: :doc:`/admin/addons`)
@@ -587,7 +595,9 @@ Security properties Weblate provides
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
      - Default private-target checks are enabled and no trusted allowlist
-       exemption applies.
+       exemption applies. VCS restrictions remain enabled, Git HTTPS and SSH
+       address binding is not bypassed, and VCS backends without binding use
+       only explicitly trusted hosts.
      - A user-configurable screenshot URL, remote HTML URL, project website or
        repository browser URL, outbound webhook URL, Fedora Messaging AMQP
        broker URL, or VCS URL reaches an internal or non-public target despite

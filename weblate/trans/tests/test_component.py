@@ -10,7 +10,7 @@ import os
 import pathlib
 from types import SimpleNamespace
 from typing import cast
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, call, patch
 
 from django.contrib.messages import get_messages
 from django.core.cache import cache
@@ -50,7 +50,7 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.vcs.base import RepositoryError, RepositoryRecoveryEvent
-from weblate.vcs.git import GitRepository
+from weblate.vcs.git import GitMergeRequestBase, GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
@@ -3176,6 +3176,95 @@ class LinkedResetDiskStateTest(ComponentTestCase):
 
 
 class ComponentHostKeyHandlingTest(SimpleTestCase):
+    def test_add_host_key_skips_invalid_remote(self) -> None:
+        repository = Mock(
+            validate_remote_url=Mock(
+                side_effect=RepositoryError(0, "repository URL is no longer allowed")
+            )
+        )
+        component = SimpleNamespace(
+            repository=repository,
+            repo="git@private.example:owner/repo.git",
+            push="",
+            log_info=Mock(),
+        )
+
+        with patch("weblate.trans.models.component.add_host_key") as add_host_key:
+            Component.add_ssh_host_key(component)  # type: ignore[arg-type]
+
+        repository.validate_remote_url.assert_called_once_with(component.repo)
+        add_host_key.assert_not_called()
+
+    def test_add_host_key_uses_generated_fork_remote(self) -> None:
+        fork_url = "git@fork.example:owner/repo.git"
+        repository = Mock(spec=GitMergeRequestBase)
+        repository.get_fork_push_url.return_value = fork_url
+        repository.validate_remote_url.side_effect = [
+            SimpleNamespace(scheme="https"),
+            SimpleNamespace(
+                scheme="ssh",
+                hostname="fork.example",
+                port=22,
+                addresses=("93.184.216.34",),
+                requires_pinning=True,
+            ),
+        ]
+        component = SimpleNamespace(
+            repository=repository,
+            repo="https://upstream.example/owner/repo.git",
+            push="",
+            log_info=Mock(),
+        )
+
+        with patch("weblate.trans.models.component.add_host_key") as add_host_key:
+            Component.add_ssh_host_key(component)  # type: ignore[arg-type]
+
+        self.assertEqual(
+            repository.validate_remote_url.call_args_list,
+            [
+                call(component.repo),
+                call(fork_url),
+            ],
+        )
+        repository.get_fork_push_url.assert_called_once_with()
+        add_host_key.assert_called_once_with(
+            None,
+            "fork.example",
+            22,
+            restrict_private=True,
+            validated_addresses=("93.184.216.34",),
+        )
+
+    def test_add_host_key_uses_effective_validated_destination(self) -> None:
+        target = SimpleNamespace(
+            scheme="ssh",
+            hostname="alias.example",
+            connection_hostname="effective.example",
+            port=2222,
+            addresses=("93.184.216.34", "2001:4860:4860::8888"),
+            requires_pinning=True,
+        )
+        component = SimpleNamespace(
+            repository=Mock(
+                validate_remote_url=Mock(return_value=target),
+            ),
+            repo="git@alias.example:repo.git",
+            push="",
+            log_info=Mock(),
+        )
+
+        with patch("weblate.trans.models.component.add_host_key") as add_host_key:
+            Component.add_ssh_host_key(component)  # type: ignore[arg-type]
+
+        component.repository.validate_remote_url.assert_called_once_with(component.repo)
+        add_host_key.assert_called_once_with(
+            None,
+            "alias.example",
+            2222,
+            restrict_private=True,
+            validated_addresses=("93.184.216.34", "2001:4860:4860::8888"),
+        )
+
     def test_error_text_preserves_newlines(self) -> None:
         component = SimpleNamespace(
             repo="ssh://git@example.com/private/repo.git",
