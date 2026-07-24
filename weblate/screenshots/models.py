@@ -29,7 +29,6 @@ from weblate.trans.models import Translation, Unit
 from weblate.trans.signals import component_post_update, vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
-from weblate.utils.validators import validate_bitmap
 from weblate.vcs.base import RepositorySymlinkError
 
 if TYPE_CHECKING:
@@ -101,6 +100,15 @@ class Screenshot(models.Model, UserDisplayMixin):
 
     def get_view_url(self) -> str:
         return reverse("screenshot-view", kwargs={"pk": self.pk})
+
+    @classmethod
+    def validate_image_file(cls, image: File) -> None:
+        """Validate screenshot uploads using the model field policy."""
+        field = cls._meta.get_field("image")
+        if not isinstance(field, ScreenshotField):
+            msg = "Screenshot.image is not a ScreenshotField."
+            raise TypeError(msg)
+        field.run_validators(image)
 
     @property
     def filter_name(self) -> str:
@@ -188,7 +196,7 @@ def validate_screenshot_image(component: Component, filename: str) -> str | None
     try:
         with open(full_name, "rb") as f:
             image_file = File(f, name=os.path.basename(filename))
-            validate_bitmap(image_file)
+            Screenshot.validate_image_file(image_file)
     except OSError as error:
         component.log_info(
             "ignoring screenshot %s, could not open: %s", filename, error

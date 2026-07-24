@@ -461,6 +461,10 @@ Size and rate assumptions:
 * Project backup imports are bounded by member count, aggregate uncompressed
   size, compressed entry size, minimum ratio size, and compression ratio
   settings. *(documented)* (source: :doc:`/admin/config`)
+* Project backup metadata, object references, repository paths, outbound URLs,
+  regular expressions, and screenshot content are validated before restore
+  writes project state. Failed restores remove repository and media objects
+  created by that attempt. *(documented)* (source: :ref:`projectbackup`)
 * API and selected web actions are expected to be protected by configured rate
   limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
 * Repository size, number of projects, number of components, and worker
