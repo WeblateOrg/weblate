@@ -246,6 +246,7 @@ class UserAPITest(APIBaseTest):
         profile.theme = "dark"
         profile.save()
         language_url = f"http://example.com/api/languages/{language.code}/"
+
         response = self.do_request(
             "api:user-detail",
             kwargs={"username": "apitest"},
@@ -254,7 +255,6 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
-        self.assertNotIn("languages", response.data)  # deprecated top level field
         self.assertIn("profile", response.data)
         self.assertEqual(response.data["profile"]["website"], profile.website)
         self.assertEqual(response.data["profile"]["contact"], profile.contact)
@@ -271,10 +271,17 @@ class UserAPITest(APIBaseTest):
             superuser=False,
             code=200,
         )
-        self.assertNotIn("languages", response.data)
-        self.assertNotIn("profile", response.data)
+        self.assertEqual({"id", "username", "full_name"}, set(response.data.keys()))
 
-        # user with right permission can see detailed information
+        project = Project.objects.create(
+            name="Watched Project",
+            slug="watched-project",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        project_url = f"http://example.com/api/projects/{project.slug}/"
+        project.add_user(self.user)
+
+        # user with right permission can see own detailed information
         self.grant_perm_to_user("user.view")
         response = self.do_request(
             "api:user-detail",
@@ -287,6 +294,22 @@ class UserAPITest(APIBaseTest):
         self.assertIn("profile", response.data)
         self.assertEqual(response.data["profile"]["website"], profile.website)
         self.assertIn(language_url, response.data["profile"]["languages"])
+        self.assertIn(project_url, response.data["profile"]["watched"])
+
+        # other user with right permissions can't see private watched projects
+        other_user = User.objects.create_user(
+            "other-apitest", "other-apitest@example.org", "x"
+        )
+        self.user = other_user
+        self.grant_perm_to_user("user.view")
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": "apitest"},
+            method="get",
+            superuser=False,
+            code=200,
+        )
+        self.assertNotIn(project_url, response.data["profile"]["watched"])
 
     def test_get_anonymous(self) -> None:
         # User info not accessible without auth
@@ -482,7 +505,7 @@ class UserAPITest(APIBaseTest):
 
     def test_create(self) -> None:
         self.do_request("api:user-list", method="post", code=403)
-        self.do_request(
+        response = self.do_request(
             "api:user-list",
             method="post",
             superuser=True,
@@ -495,6 +518,7 @@ class UserAPITest(APIBaseTest):
             },
         )
         self.assertEqual(User.objects.count(), 5)
+        self.assertIn("profile", response.data)
 
     def test_create_logs_superuser_grant(self) -> None:
         self.do_request(

@@ -759,6 +759,26 @@ PROFILE_M2M_FIELDS: ClassVar[dict[str, tuple[type[Model], str]]] = {
 }
 
 
+@extend_schema_field(serializers.ListField(child=serializers.URLField()))
+class AllowedProjectsField(serializers.Field):
+    """Hyperlinked allowed projects filtered by the viewer's ACL."""
+
+    def to_representation(self, value):
+        request = self.context["request"]
+        projects = value.all()
+        user = request.user
+        if hasattr(user, "allowed_projects"):
+            projects &= user.allowed_projects
+        return [
+            reverse(
+                "api:project-detail",
+                kwargs={"slug": project.slug},
+                request=request,
+            )
+            for project in projects.order()
+        ]
+
+
 class ProfileSerializer(serializers.ModelSerializer[Profile]):
     languages = serializers.HyperlinkedIdentityField(
         view_name="api:language-detail",
@@ -772,12 +792,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
         many=True,
         read_only=True,
     )
-    watched = serializers.HyperlinkedIdentityField(
-        view_name="api:project-detail",
-        lookup_field="slug",
-        many=True,
-        read_only=True,
-    )
+    watched = AllowedProjectsField(read_only=True)
     dashboard_component_list = serializers.HyperlinkedRelatedField(
         view_name="api:componentlist-detail",
         lookup_field="slug",
@@ -951,17 +966,19 @@ class ProfileUpdateMixin:
         if not isinstance(profile_data, dict):
             msg = "Expected an object."
             raise serializers.ValidationError({self.profile_field: msg})
-        profile_serializer = ProfileSerializer(
-            self.instance.profile,
-            data=profile_data,
-            partial=True,
-            context=self.context,
-        )
-        if not profile_serializer.is_valid():
-            raise serializers.ValidationError(
-                {self.profile_field: profile_serializer.errors}
+
+        if self.instance is not None:
+            profile_serializer = ProfileSerializer(
+                self.instance.profile,
+                data=profile_data,
+                partial=True,
+                context=self.context,
             )
-        self._profile_serializer = profile_serializer
+            if not profile_serializer.is_valid():
+                raise serializers.ValidationError(
+                    {self.profile_field: profile_serializer.errors}
+                )
+            self._profile_serializer = profile_serializer
         return attrs
 
     def update(self, instance, validated_data):
@@ -1041,6 +1058,21 @@ class FullUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):
         }
 
 
+class ProfileUpdateRequestSerializer(ProfileSerializer):
+    """Schema-only profile serializer for update request bodies."""
+
+    languages = serializers.ListField(
+        child=serializers.CharField(), required=False, allow_null=True
+    )
+    secondary_languages = serializers.ListField(
+        child=serializers.CharField(), required=False, allow_null=True
+    )
+    watched = serializers.ListField(
+        child=serializers.SlugField(), required=False, allow_null=True
+    )
+    dashboard_component_list = serializers.SlugField(required=False, allow_null=True)
+
+
 class UserUpdateRequestSerializer(FullUserSerializer):
     """
     Schema-only serializer for user update requests.
@@ -1049,7 +1081,7 @@ class UserUpdateRequestSerializer(FullUserSerializer):
     'profile' field update logic is handled by ProfileUpdateMixin
     """
 
-    profile = ProfileSerializer(required=False)
+    profile = ProfileUpdateRequestSerializer(required=False)
 
 
 class SelfUserSerializer(ProfileUpdateMixin, serializers.ModelSerializer[User]):

@@ -1340,7 +1340,7 @@ class Profile(models.Model):
         ]
         choices.extend(
             (x, x)
-            for x in sorted(get_all_user_mails(self.user, filter_deliverable=False))
+            for x in sorted(get_all_user_mails(self.user, filter_deliverable=True))
         )
         return choices
 
