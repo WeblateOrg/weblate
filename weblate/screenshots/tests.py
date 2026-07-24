@@ -96,7 +96,7 @@ class TesseractDataTest(SimpleTestCase):
                         response,
                     ],
                 ) as fetch_url,
-                patch("weblate.screenshots.views.time.sleep") as sleep,
+                patch("weblate.screenshots.views.sleep") as sleep,
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
 
@@ -136,7 +136,7 @@ class TesseractDataTest(SimpleTestCase):
                     "weblate.screenshots.views.fetch_url",
                     side_effect=requests.Timeout("timed out"),
                 ) as fetch_url,
-                patch("weblate.screenshots.views.time.sleep"),
+                patch("weblate.screenshots.views.sleep"),
                 self.assertRaises(requests.Timeout),
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
