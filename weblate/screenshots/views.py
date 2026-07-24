@@ -6,8 +6,8 @@ from __future__ import annotations
 import difflib
 import os
 import tempfile
-import time
 from contextlib import contextmanager, suppress
+from time import sleep
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.contrib.auth.decorators import login_required
@@ -197,7 +197,7 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                     TESSERACT_DOWNLOAD_ATTEMPTS,
                     error,
                 )
-                time.sleep(2 ** (attempt - 1))
+                sleep(2 ** (attempt - 1))
                 continue
 
             with tempfile.NamedTemporaryFile(
@@ -486,11 +486,13 @@ class ScreenshotBaseView(DetailView):
 class ScreenshotView(ScreenshotBaseView):
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> FileResponse:  # type: ignore[override]
         obj = self.get_object()
-        # Django will automatically set Content-Type based on the filename
+        with Image.open(obj.image.open(), formats=PIL_FORMATS) as image:
+            content_type = Image.MIME[cast("str", image.format)]
         return FileResponse(
             obj.image.open(),
             as_attachment=False,
             filename=os.path.basename(obj.image.name),
+            content_type=content_type,
         )
 
 

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import warnings
 from collections import defaultdict
 from datetime import datetime
@@ -30,10 +31,10 @@ from zipfile import ZipFile
 
 from django.conf import settings
 from django.contrib.staticfiles.storage import HashedFilesMixin, staticfiles_storage
-from django.core.exceptions import ValidationError
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.core.files import File
 from django.db import transaction
-from django.db.models import Exists, OuterRef, Prefetch
+from django.db.models import Exists, Field, Model, OuterRef, Prefetch
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
@@ -56,6 +57,7 @@ from weblate.memory.utils import CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
 from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
+from weblate.trans.defines import CATEGORY_DEPTH
 from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_FLAGS,
     INHERITABLE_COMPONENT_SETTINGS,
@@ -74,12 +76,9 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.utils.data import data_path
+from weblate.utils.files import remove_tree
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
-from weblate.utils.validators import (
-    validate_bitmap,
-    validate_filename,
-    validate_repo_url,
-)
+from weblate.utils.validators import validate_filename
 from weblate.utils.version import VERSION
 from weblate.utils.zip import (
     ZipSafetyLimits,
@@ -90,14 +89,12 @@ from weblate.utils.zip import (
 from weblate.utils.zip import (
     validate_zip_members as validate_safe_zip_members,
 )
-from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Mapping
     from zipfile import ZipInfo
 
     from django.core.files.storage import Storage
-    from django.db.models import Model
 
     from weblate.billing.models import Billing
     from weblate.workspaces.models import Workspace
@@ -196,6 +193,17 @@ class ProjectBackup:
         self.categories_cache: dict[str, Category] = {}
         self.roles_cache: dict[str, Role] = {}
         self.skipped_components: list[str] = []
+        self.component_data: dict[str, dict[str, Any]] = {}
+        self.memory_data: list[dict[str, Any]] = []
+        self.memory_loaded = False
+        self.category_paths: set[str] = set()
+        self.component_full_slugs: set[str] = set()
+        self.component_repo_links: set[str] = set()
+        self.label_names: set[str] = set()
+        self.name_siblings: set[tuple[str, str]] = set()
+        self.path_siblings: set[tuple[str, str]] = set()
+        self.validation_project: Project | None = None
+        self.created_media: list[tuple[Storage, str]] = []
         # Project.set_language_team field was migrated to file format parameters after 5.17
         self.set_language_team_project: bool = False
 
@@ -207,6 +215,265 @@ class ProjectBackup:
 
     def validate_data(self) -> None:
         validate_schema(self.data, "weblate-backup.schema.json")
+
+    @staticmethod
+    def contextualize_validation_error(
+        error: ValidationError, path: str
+    ) -> ValidationError:
+        if not hasattr(error, "message_dict"):
+            return ValidationError({path: error.messages})
+        return ValidationError(
+            {
+                (
+                    path
+                    if name == NON_FIELD_ERRORS
+                    else f"{path}.{name}"
+                    if path
+                    else name
+                ): messages
+                for name, messages in error.message_dict.items()
+            }
+        )
+
+    @classmethod
+    def validate_model_data(
+        cls,
+        model: type[ModelT],
+        data: Mapping[str, Any],
+        path: str,
+        *,
+        exclude: frozenset[str] = frozenset(),
+        allow_blank: frozenset[str] = frozenset(),
+        overrides: Mapping[str, Any] | None = None,
+        model_clean: bool = False,
+    ) -> ModelT:
+        """Validate serialized values on an unsaved destination model."""
+        kwargs = {name: value for name, value in data.items() if name not in exclude}
+        kwargs.update(overrides or {})
+        try:
+            instance = model(**kwargs)
+        except (TypeError, ValueError) as error:
+            raise ValidationError({path: [str(error)]}) from error
+
+        # Relations are resolved separately from the archive graph. Fields absent
+        # from older backup formats retain their model defaults without making an
+        # otherwise compatible backup fail current validation. Empty values listed
+        # in allow_blank are synthesized later by the restore.
+        # ruff: ignore[private-member-access]
+        field_exclude = {
+            field.name
+            for field in model._meta.fields
+            if field.is_relation or field.name not in kwargs
+        }
+        field_exclude.update(exclude)
+        field_exclude.update(
+            name for name in allow_blank if data.get(name) in Field.empty_values
+        )
+        try:
+            if model_clean:
+                instance.full_clean(
+                    exclude=field_exclude,
+                    validate_unique=False,
+                    validate_constraints=False,
+                )
+            else:
+                instance.clean_fields(exclude=field_exclude)
+        except ValidationError as error:
+            raise cls.contextualize_validation_error(error, path) from error
+        return instance
+
+    @staticmethod
+    def validate_checksum(value: object, path: str) -> int:
+        """Validate the serialized 64-bit checksum and return its integer value."""
+        if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{16}", value) is None:
+            raise ValidationError(
+                {
+                    path: [
+                        gettext(
+                            "The checksum has to be exactly 16 hexadecimal characters."
+                        )
+                    ]
+                }
+            )
+        try:
+            return checksum_to_hash(value)
+        except (OverflowError, ValueError) as error:
+            raise ValidationError(
+                {path: [gettext("The checksum is invalid.")]}
+            ) from error
+
+    @staticmethod
+    def validate_language(code: str, path: str) -> Language:
+        """Resolve a language as restore would, without creating database rows."""
+        try:
+            # ruff: ignore[private-member-access]
+            Language._meta.get_field("code").clean(code, None)
+            return Language.objects.auto_get_or_create(code, create=False)
+        except (TypeError, ValueError, ValidationError) as error:
+            if isinstance(error, ValidationError):
+                messages = error.messages
+            else:
+                messages = [str(error)]
+            raise ValidationError({path: messages}) from error
+
+    def validate_categories(
+        self,
+        categories: list[dict[str, Any]],
+        *,
+        parent: str = "",
+        depth: int = 1,
+        path_prefix: str = "categories",
+        paths: set[str] | None = None,
+        names: set[tuple[str, str]] | None = None,
+        siblings: set[tuple[str, str]] | None = None,
+    ) -> tuple[set[str], set[tuple[str, str]]]:
+        if paths is None:
+            paths = set()
+        if siblings is None:
+            siblings = set()
+        if names is None:
+            names = set()
+        if categories and depth > CATEGORY_DEPTH:
+            raise ValidationError(
+                {path_prefix: [gettext("Too deep nesting of categories!")]}
+            )
+        for index, category in enumerate(categories):
+            path = f"{path_prefix}[{index}]"
+            self.validate_model_data(
+                Category,
+                category,
+                path,
+                exclude=frozenset({"categories", "secondary_language"}),
+            )
+            if secondary := category.get("secondary_language"):
+                self.validate_language(secondary, f"{path}.secondary_language")
+            sibling = (parent, category["slug"])
+            if sibling in siblings:
+                raise ValidationError(
+                    {f"{path}.slug": [gettext("Duplicate category or component slug.")]}
+                )
+            siblings.add(sibling)
+            name_sibling = (parent, category["name"])
+            if name_sibling in names:
+                raise ValidationError(
+                    {f"{path}.name": [gettext("Duplicate category or component name.")]}
+                )
+            names.add(name_sibling)
+            full_slug = f"{parent}/{category['slug']}" if parent else category["slug"]
+            if full_slug in paths:
+                raise ValidationError(
+                    {f"{path}.slug": [gettext("Duplicate category slug.")]}
+                )
+            paths.add(full_slug)
+            self.validate_categories(
+                category["categories"],
+                parent=full_slug,
+                depth=depth + 1,
+                path_prefix=f"{path}.categories",
+                paths=paths,
+                names=names,
+                siblings=siblings,
+            )
+        return paths, siblings
+
+    def validate_project_objects(
+        self,
+        *,
+        target_project_name: str | None = None,
+        target_project_slug: str | None = None,
+    ) -> None:
+        project = self.data["project"]
+        self.validation_project = self.validate_model_data(
+            Project,
+            project,
+            "project",
+            exclude=frozenset({"secondary_language", "set_language_team"}),
+            overrides={
+                "name": (
+                    project["name"]
+                    if target_project_name is None
+                    else target_project_name
+                ),
+                "slug": (
+                    project["slug"]
+                    if target_project_slug is None
+                    else target_project_slug
+                ),
+            },
+            model_clean=True,
+        )
+        # Component.clean_model_settings() skips validation without a project
+        # primary key. This sentinel keeps validation database-free while
+        # allowing it to reuse project-dependent model invariants.
+        self.validation_project.pk = -1
+        if secondary := project.get("secondary_language"):
+            self.validate_language(secondary, "project.secondary_language")
+
+        labels: set[str] = set()
+        for index, label in enumerate(self.data["labels"]):
+            self.validate_model_data(Label, label, f"labels[{index}]")
+            if label["name"] in labels:
+                raise ValidationError(
+                    {f"labels[{index}].name": [gettext("Duplicate label name.")]}
+                )
+            labels.add(label["name"])
+
+        self.category_paths, self.path_siblings = self.validate_categories(
+            self.data.get("categories", []), names=self.name_siblings
+        )
+        self.label_names = labels
+
+        team_names: set[str] = set()
+        for index, team in enumerate(self.data.get("teams", [])):
+            path = f"teams[{index}]"
+            self.validate_model_data(
+                Group,
+                team,
+                path,
+                exclude=frozenset(
+                    {
+                        "admins",
+                        "autogroups",
+                        "components",
+                        "languages",
+                        "members",
+                        "roles",
+                    }
+                ),
+            )
+            if team["name"] in team_names:
+                raise ValidationError(
+                    {f"{path}.name": [gettext("Duplicate team name.")]}
+                )
+            team_names.add(team["name"])
+            for autogroup_index, match in enumerate(team["autogroups"]):
+                self.validate_model_data(
+                    AutoGroup,
+                    {"match": match},
+                    f"{path}.autogroups[{autogroup_index}]",
+                )
+            for language_index, code in enumerate(team["languages"]):
+                self.validate_language(code, f"{path}.languages[{language_index}]")
+            for member_index, member in enumerate(team["members"]):
+                if isinstance(member, str):
+                    continue
+                for language_index, code in enumerate(member["limit_languages"]):
+                    self.validate_language(
+                        code,
+                        f"{path}.members[{member_index}].limit_languages[{language_index}]",
+                    )
+
+    def validate_memory_objects(self, data: list[dict[str, Any]]) -> None:
+        for index, item in enumerate(data):
+            path = f"memory[{index}]"
+            self.validate_model_data(
+                Memory,
+                item,
+                path,
+                exclude=frozenset({"category", "source_language", "target_language"}),
+            )
+            self.validate_language(item["source_language"], f"{path}.source_language")
+            self.validate_language(item["target_language"], f"{path}.target_language")
 
     def backup_value(self, value: object) -> BackupValue:
         if isinstance(value, Language):
@@ -671,7 +938,7 @@ class ProjectBackup:
         return [
             name
             for name in zipfile.namelist()
-            if name.startswith(self.COMPONENTS_PREFIX)
+            if name.startswith(self.COMPONENTS_PREFIX) and name.endswith(".json")
         ]
 
     @staticmethod
@@ -737,11 +1004,437 @@ class ProjectBackup:
         self.validate_data()
         self.timestamp = datetime.fromisoformat(self.data["metadata"]["timestamp"])
 
-    def load_memory(self, zipfile: ZipFile) -> dict:
+    def load_memory(self, zipfile: ZipFile) -> list[dict[str, Any]]:
+        if self.memory_loaded:
+            return self.memory_data
         with zipfile.open("weblate-memory.json") as handle:
             data = json.load(handle)
         validate_schema(data, "weblate-memory.schema.json")
+        self.validate_memory_objects(data)
+        self.memory_data = data
+        self.memory_loaded = True
         return data
+
+    # ruff: ignore[complex-structure, too-many-branches, too-many-statements, too-many-locals]
+    def validate_component_object(
+        self,
+        zipfile: ZipFile,
+        filename: str,
+        data: dict[str, Any],
+    ) -> None:
+        component = data["component"]
+        path = filename
+        # Keep the established top-level error keys for repository URLs while
+        # still using the validators declared on the Component model fields.
+        self.validate_model_data(
+            Component,
+            {"repo": component["repo"], "push": component["push"]},
+            "",
+        )
+        component_object = self.validate_model_data(
+            Component,
+            component,
+            f"{path}.component",
+            exclude=frozenset(
+                {
+                    "category",
+                    "push",
+                    "repo",
+                    "secondary_language",
+                    "source_language",
+                }
+            ),
+            overrides={
+                "project": self.validation_project,
+                "push": component["push"],
+                "repo": component["repo"],
+            },
+        )
+        source_language = self.validate_language(
+            component["source_language"], f"{path}.component.source_language"
+        )
+        component_object.source_language = source_language
+        if secondary := component.get("secondary_language"):
+            component_object.secondary_language = self.validate_language(
+                secondary, f"{path}.component.secondary_language"
+            )
+        try:
+            component_object.clean_model_settings()
+            component_object.clean_branches()
+        except ValidationError as error:
+            raise self.contextualize_validation_error(
+                error, f"{path}.component"
+            ) from error
+        enforced_checks: set[str] = set()
+        for index, name in enumerate(component["enforced_checks"]):
+            self.validate_model_data(
+                Check,
+                {"name": name, "dismissed": False},
+                f"{path}.component.enforced_checks[{index}]",
+            )
+            if name in enforced_checks:
+                raise ValidationError(
+                    {
+                        f"{path}.component.enforced_checks[{index}]": [
+                            gettext("Duplicate check name.")
+                        ]
+                    }
+                )
+            enforced_checks.add(name)
+
+        category = component.get("category", "")
+        if category and category not in self.category_paths:
+            raise ValidationError(
+                {
+                    f"{path}.component.category": [
+                        gettext("Referenced category does not exist.")
+                    ]
+                }
+            )
+        sibling = (category, component["slug"])
+        if sibling in self.path_siblings:
+            raise ValidationError(
+                {
+                    f"{path}.component.slug": [
+                        gettext("Duplicate category or component slug.")
+                    ]
+                }
+            )
+        self.path_siblings.add(sibling)
+        name_sibling = (category, component["name"])
+        if name_sibling in self.name_siblings:
+            raise ValidationError(
+                {
+                    f"{path}.component.name": [
+                        gettext("Duplicate category or component name.")
+                    ]
+                }
+            )
+        self.name_siblings.add(name_sibling)
+        full_slug = f"{category}/{component['slug']}" if category else component["slug"]
+        expected_filename = f"{self.COMPONENTS_PREFIX}{full_slug}.json"
+        if filename != expected_filename:
+            raise ValidationError(
+                {
+                    filename: [
+                        gettext(
+                            "Component filename does not match its category and slug."
+                        )
+                    ]
+                }
+            )
+        if full_slug in self.component_full_slugs:
+            raise ValidationError({filename: [gettext("Duplicate component slug.")]})
+        self.component_full_slugs.add(full_slug)
+        if component["repo"].startswith("weblate:"):
+            self.component_repo_links.add(full_slug)
+
+        translation_ids: set[int] = set()
+        translation_languages: dict[int, str] = {}
+        language_sources: dict[str, str] = {}
+        source_translation_ids: list[int] = []
+        for index, item in enumerate(data["translations"]):
+            item_path = f"{path}.translations[{index}]"
+            self.validate_model_data(
+                Translation,
+                item,
+                item_path,
+                exclude=frozenset({"id", "plural"}),
+                allow_blank=frozenset({"filename"}),
+            )
+            if item["filename"]:
+                try:
+                    validate_filename(item["filename"])
+                except ValidationError as error:
+                    raise ValidationError(
+                        {f"{item_path}.filename": error.messages}
+                    ) from error
+            self.validate_model_data(Plural, item["plural"], f"{item_path}.plural")
+            language = self.validate_language(
+                item["language_code"], f"{item_path}.language_code"
+            )
+            if item["id"] in translation_ids:
+                raise ValidationError(
+                    {f"{item_path}.id": [gettext("Duplicate translation identifier.")]}
+                )
+            if previous_code := language_sources.get(language.code):
+                values = [previous_code, item["language_code"]]
+                msg = (
+                    "Several languages from backup map to single language on this "
+                    f"server {values} -> {language.code}"
+                )
+                raise ValueError(msg)
+            translation_ids.add(item["id"])
+            translation_languages[item["id"]] = language.code
+            language_sources[language.code] = item["language_code"]
+            if language.code == source_language.code:
+                source_translation_ids.append(item["id"])
+        if len(source_translation_ids) != 1:
+            raise ValidationError(
+                {
+                    f"{path}.translations": [
+                        gettext(
+                            "Component has to contain exactly one source translation."
+                        )
+                    ]
+                }
+            )
+        source_translation_id = source_translation_ids[0]
+
+        unit_hashes_by_translation: dict[int, set[str]] = defaultdict(set)
+        for index, item in enumerate(data["units"]):
+            item_path = f"{path}.units[{index}]"
+            self.validate_model_data(
+                Unit,
+                item,
+                item_path,
+                allow_blank=frozenset({"details"}),
+                exclude=frozenset(
+                    {
+                        "checks",
+                        "comments",
+                        "id_hash",
+                        "labels",
+                        "pending",
+                        "suggestions",
+                        "translation_id",
+                    }
+                ),
+            )
+            self.validate_checksum(item["id_hash"], f"{item_path}.id_hash")
+            translation_id = item["translation_id"]
+            if translation_id not in translation_ids:
+                raise ValidationError(
+                    {
+                        f"{item_path}.translation_id": [
+                            gettext("Referenced translation does not exist.")
+                        ]
+                    }
+                )
+            if item["id_hash"] in unit_hashes_by_translation[translation_id]:
+                raise ValidationError(
+                    {f"{item_path}.id_hash": [gettext("Duplicate unit checksum.")]}
+                )
+            unit_hashes_by_translation[translation_id].add(item["id_hash"])
+            for label_index, label in enumerate(item["labels"]):
+                if label not in self.label_names:
+                    raise ValidationError(
+                        {
+                            f"{item_path}.labels[{label_index}]": [
+                                gettext("Referenced label does not exist.")
+                            ]
+                        }
+                    )
+            for comment_index, comment in enumerate(item["comments"]):
+                self.validate_model_data(
+                    Comment,
+                    comment,
+                    f"{item_path}.comments[{comment_index}]",
+                    exclude=frozenset({"user"}),
+                )
+            for suggestion_index, suggestion in enumerate(item["suggestions"]):
+                suggestion_path = f"{item_path}.suggestions[{suggestion_index}]"
+                self.validate_model_data(
+                    Suggestion,
+                    suggestion,
+                    suggestion_path,
+                    exclude=frozenset({"user", "votes"}),
+                )
+                for vote_index, vote in enumerate(suggestion["votes"]):
+                    self.validate_model_data(
+                        Vote,
+                        vote,
+                        f"{suggestion_path}.votes[{vote_index}]",
+                        exclude=frozenset({"user"}),
+                    )
+            check_names: set[str] = set()
+            for check_index, check in enumerate(item["checks"]):
+                self.validate_model_data(
+                    Check, check, f"{item_path}.checks[{check_index}]"
+                )
+                if check["name"] in check_names:
+                    raise ValidationError(
+                        {
+                            f"{item_path}.checks[{check_index}].name": [
+                                gettext("Duplicate check name.")
+                            ]
+                        }
+                    )
+                check_names.add(check["name"])
+
+        source_hashes = unit_hashes_by_translation[source_translation_id]
+        for translation_id, hashes in unit_hashes_by_translation.items():
+            if translation_id == source_translation_id:
+                continue
+            missing = hashes - source_hashes
+            if missing:
+                raise ValidationError(
+                    {
+                        f"{path}.units": [
+                            gettext(
+                                "A translated unit references a missing source unit."
+                            )
+                        ]
+                    }
+                )
+
+        for index, item in enumerate(data.get("pending_unit_changes", [])):
+            item_path = f"{path}.pending_unit_changes[{index}]"
+            self.validate_model_data(
+                PendingUnitChange,
+                item,
+                item_path,
+                exclude=frozenset({"author", "translation_id", "unit_id_hash"}),
+            )
+            self.validate_checksum(item["unit_id_hash"], f"{item_path}.unit_id_hash")
+            translation_id = item["translation_id"]
+            if translation_id not in translation_ids:
+                raise ValidationError(
+                    {
+                        f"{item_path}.translation_id": [
+                            gettext("Referenced translation does not exist.")
+                        ]
+                    }
+                )
+            if item["unit_id_hash"] not in unit_hashes_by_translation[translation_id]:
+                raise ValidationError(
+                    {
+                        f"{item_path}.unit_id_hash": [
+                            gettext("Referenced unit does not exist.")
+                        ]
+                    }
+                )
+
+        for index, item in enumerate(data["screenshots"]):
+            item_path = f"{path}.screenshots[{index}]"
+            self.validate_model_data(
+                Screenshot,
+                item,
+                item_path,
+                exclude=frozenset({"image", "translation_id", "units", "user"}),
+            )
+            translation_id = item["translation_id"]
+            if translation_id not in translation_ids:
+                raise ValidationError(
+                    {
+                        f"{item_path}.translation_id": [
+                            gettext("Referenced translation does not exist.")
+                        ]
+                    }
+                )
+            image = item["image"]
+            if (
+                image != os.path.basename(image)
+                or "/" in image
+                or "\\" in image
+                or not image
+            ):
+                raise ValidationError(
+                    {f"{item_path}.image": [gettext("Screenshot filename is invalid.")]}
+                )
+            member_name = f"screenshots/{image}"
+            try:
+                info = zipfile.getinfo(member_name)
+            except KeyError as error:
+                raise ValidationError(
+                    {
+                        f"{item_path}.image": [
+                            gettext("Referenced screenshot image does not exist.")
+                        ]
+                    }
+                ) from error
+            if info.file_size > settings.ALLOWED_ASSET_SIZE:
+                raise ValidationError(
+                    {f"{item_path}.image": [gettext("Uploaded file is too big.")]}
+                )
+            with zipfile.open(info) as handle:
+                content = handle.read(settings.ALLOWED_ASSET_SIZE + 1)
+            if len(content) > settings.ALLOWED_ASSET_SIZE:
+                raise ValidationError(
+                    {f"{item_path}.image": [gettext("Uploaded file is too big.")]}
+                )
+            restored_image = File(BytesIO(content), name=image)
+            try:
+                Screenshot.validate_image_file(restored_image)
+            except ValidationError as error:
+                raise ValidationError(
+                    {
+                        f"{item_path}.image": [
+                            gettext("Could not validate screenshot: %(error)s")
+                            % {"error": error}
+                        ]
+                    }
+                ) from error
+            for unit_index, checksum in enumerate(item["units"]):
+                self.validate_checksum(checksum, f"{item_path}.units[{unit_index}]")
+                if checksum not in unit_hashes_by_translation[translation_id]:
+                    raise ValidationError(
+                        {
+                            f"{item_path}.units[{unit_index}]": [
+                                gettext("Referenced unit does not exist.")
+                            ]
+                        }
+                    )
+
+    def validate_team_references(self, *, validate_roles: bool) -> None:
+        roles = {role.name for role in Role.objects.all()} if validate_roles else set()
+        for index, team in enumerate(self.data.get("teams", [])):
+            path = f"teams[{index}]"
+            for component_index, component in enumerate(team["components"]):
+                if component not in self.component_full_slugs:
+                    raise ValidationError(
+                        {
+                            f"{path}.components[{component_index}]": [
+                                gettext("Referenced component does not exist.")
+                            ]
+                        }
+                    )
+            if validate_roles:
+                for role_index, role in enumerate(team["roles"]):
+                    if role not in roles:
+                        raise ValidationError(
+                            {
+                                f"{path}.roles[{role_index}]": [
+                                    gettext("Referenced role does not exist.")
+                                ]
+                            }
+                        )
+
+    def validate_vcs_component_paths(self, zipfile: ZipFile) -> None:
+        """Ensure every restored repository member belongs to a local component."""
+        components = sorted(self.component_full_slugs, key=len, reverse=True)
+        for info in zipfile.infolist():
+            if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
+                continue
+            path = info.filename[self.VCS_PREFIX_LEN :]
+            component = next(
+                (
+                    slug
+                    for slug in components
+                    if path == slug or path.startswith(f"{slug}/")
+                ),
+                None,
+            )
+            if component is None:
+                raise ValidationError(
+                    {
+                        info.filename: [
+                            gettext(
+                                "Repository data does not belong to a restored component."
+                            )
+                        ]
+                    }
+                )
+            if component in self.component_repo_links:
+                raise ValidationError(
+                    {
+                        info.filename: [
+                            gettext(
+                                "Repository-linked components can not contain repository data."
+                            )
+                        ]
+                    }
+                )
 
     @overload
     def load_component(
@@ -777,46 +1470,25 @@ class ProjectBackup:
         actor: User | None = None,
         changes: list[Change] | None = None,
     ) -> bool:
-        with zipfile.open(filename) as handle:
-            data = json.load(handle)
+        try:
+            data = self.component_data[filename]
+        except KeyError:
+            with zipfile.open(filename) as handle:
+                data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
-            self.validate_component_urls(data["component"])
-            if skip_linked and data["component"]["repo"].startswith("weblate:"):
-                return False
-            if data["component"]["vcs"] not in VCS_REGISTRY:
-                msg = f"Component {data['component']['name']} uses unsupported VCS: {data['component']['vcs']}"
-                raise ValueError(msg)
-            # Validate translations have unique languages
-            languages = defaultdict(list)
-            for item in data["translations"]:
-                language = self.import_language(item["language_code"])
-                languages[language.code].append(item["language_code"])
-
-            for code, values in languages.items():
-                if len(values) > 1:
-                    msg = f"Several languages from backup map to single language on this server {values} -> {code}"
-                    raise ValueError(msg)
-
-            if do_restore:
-                if actor is None:
-                    msg = "Need a restore actor."
-                    raise TypeError(msg)
-                if changes is None:
-                    msg = "Need a restore changes list."
-                    raise TypeError(msg)
-                return self.restore_component(zipfile, data, actor, changes)
-            return True
-
-    @staticmethod
-    def validate_component_urls(component: dict[str, Any]) -> None:
-        for field in ("repo", "push"):
-            value = component.get(field)
-            if not value:
-                continue
-            try:
-                validate_repo_url(value)
-            except ValidationError as error:
-                raise ValidationError({field: error.messages}) from error
+            self.validate_component_object(zipfile, filename, data)
+            self.component_data[filename] = data
+        if skip_linked and data["component"]["repo"].startswith("weblate:"):
+            return False
+        if do_restore:
+            if actor is None:
+                msg = "Need a restore actor."
+                raise TypeError(msg)
+            if changes is None:
+                msg = "Need a restore changes list."
+                raise TypeError(msg)
+            return self.restore_component(zipfile, data, actor, changes)
+        return True
 
     @overload
     def load_components(
@@ -913,11 +1585,38 @@ class ProjectBackup:
             raise TypeError(msg)
         self.validated = False
         with ZipFile(input_file, "r") as zipfile:
-            self.validate_zip_members(zipfile)
-            self.load_data(zipfile)
-            self.load_memory(zipfile)
-            self.load_components(zipfile)
+            self.validate_archive(zipfile)
         self.validated = True
+
+    def validate_archive(
+        self,
+        zipfile: ZipFile,
+        *,
+        target_project_name: str | None = None,
+        target_project_slug: str | None = None,
+        validate_roles: bool = False,
+    ) -> None:
+        """Validate and cache all restore input before any state is changed."""
+        self.component_data.clear()
+        self.memory_data.clear()
+        self.memory_loaded = False
+        self.component_full_slugs = set()
+        self.component_repo_links = set()
+        self.category_paths = set()
+        self.path_siblings = set()
+        self.name_siblings = set()
+        self.label_names = set()
+        self.validation_project = None
+        self.validate_zip_members(zipfile)
+        self.load_data(zipfile)
+        self.validate_project_objects(
+            target_project_name=target_project_name,
+            target_project_slug=target_project_slug,
+        )
+        self.load_memory(zipfile)
+        self.load_components(zipfile)
+        self.validate_vcs_component_paths(zipfile)
+        self.validate_team_references(validate_roles=validate_roles)
 
     def restore_unit(
         self,
@@ -1442,19 +2141,19 @@ class ProjectBackup:
                 user=self.restore_user(item["user"]),
                 timestamp=item["timestamp"],
             )
-            with zipfile.open(os.path.join("screenshots", item["image"])) as handle:
+            member_name = f"screenshots/{item['image']}"
+            with zipfile.open(member_name) as handle:
                 restored_image = File(
-                    BytesIO(handle.read()), name=os.path.basename(item["image"])
+                    BytesIO(handle.read(settings.ALLOWED_ASSET_SIZE + 1)),
+                    name=os.path.basename(item["image"]),
                 )
-                try:
-                    validate_bitmap(restored_image)
-                except ValidationError as error:
-                    raise ValidationError(
-                        gettext("Could not restore screenshot %(name)s: %(error)s")
-                        % {"name": item["image"], "error": error}
-                    ) from error
-                screenshot.image.save(
-                    os.path.basename(item["image"]), restored_image, save=False
+            Screenshot.validate_image_file(restored_image)
+            screenshot.image.save(
+                os.path.basename(item["image"]), restored_image, save=False
+            )
+            if screenshot.image.name is not None:
+                self.created_media.append(
+                    (screenshot.image.storage, screenshot.image.name)
                 )
             screenshot.import_data = item
             screenshots.append(screenshot)
@@ -1472,7 +2171,7 @@ class ProjectBackup:
                 )
 
         # Trigger checks update, the implementation might have changed
-        component.schedule_update_checks()
+        transaction.on_commit(component.schedule_update_checks, robust=True)
 
         if not component.is_repo_link:
             component.configure_repo(pull=False)
@@ -1524,7 +2223,6 @@ class ProjectBackup:
             self.categories_cache[self.full_slug_without_project(obj)] = obj
             self.restore_categories(nested_categories, obj)
 
-    @transaction.atomic
     def restore(
         self,
         project_name: str,
@@ -1540,76 +2238,133 @@ class ProjectBackup:
         if not self.validated:
             msg = "Project backup has to be validated before restore."
             raise ValueError(msg)
+
         self.skipped_components.clear()
+        self.created_media.clear()
+        self.project = None
+        self.languages_cache.clear()
+        self.labels_map.clear()
+        self.components_cache.clear()
+        self.categories_cache.clear()
+        project_path = Path(Project(name=project_name, slug=project_slug).full_path)
+        if project_path.exists():
+            raise ValidationError(
+                {"slug": [gettext("The project repository directory already exists.")]}
+            )
+
         with ZipFile(self.filename, "r") as zipfile:
-            self.validate_zip_members(zipfile)
-            self.load_data(zipfile)
-            restore_changes: list[Change] = []
-
-            # Create project
-            kwargs = self.data["project"].copy()
-            kwargs["name"] = project_name
-            kwargs["slug"] = project_slug
-            self.import_inherited_settings(kwargs)
-            if workspace is not None:
-                for field in INHERITABLE_COMPONENT_FLAGS:
-                    kwargs[field] = False
-                kwargs["workspace"] = workspace
-            # the attribute `set_language_team` is present in legacy backups prior to 5.17.1
-            self.set_language_team_project = kwargs.pop("set_language_team", False)
-            self.project = project = Project.objects.create(**kwargs)
-
-            # Handle billing and ACL (creating user needs access)
-            self.project.post_create(user, billing)
-
-            # Create labels
-            labels = Label.objects.bulk_create(
-                Label(project=project, **entry) for entry in self.data["labels"]
-            )
-            self.labels_map = {label.name: label for label in labels}
-            if "categories" in self.data:
-                self.restore_categories(self.data["categories"], None)
-
-            # Import translation memory
-            self.restore_memory(zipfile, project)
-
-            # Extract VCS
-            project_path = Path(project.full_path)
-
-            def skip_vcs_member(info: ZipInfo) -> bool:
-                if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
-                    return True
-                path = info.filename[self.VCS_PREFIX_LEN :]
-                # Skip potentially dangerous paths
-                return path != os.path.normpath(path) or self.is_unsafe_vcs_path(path)
-
-            def vcs_member_name(info: ZipInfo) -> str:
-                return info.filename[self.VCS_PREFIX_LEN :]
-
-            for info, targetpath in iter_safe_zip_members(
+            self.validate_archive(
                 zipfile,
-                project_path,
-                skip_member=skip_vcs_member,
-                member_name=vcs_member_name,
-            ):
-                extract_zip_member(zipfile, info, targetpath)
-                # Create possibly missing refs directory in .git, this is not restored as
-                # all references are in packed_refs after `git gc`.
-                if vcs_member_name(info).endswith(".git/packed-refs"):
-                    git_refs_dir = targetpath.parent / "refs"
-                    git_refs_dir.mkdir(parents=True, exist_ok=True)
-
-            # Create components
-            self.load_components(
-                zipfile,
-                do_restore=True,
-                actor=user,
-                changes=restore_changes,
-                progress_callback=progress_callback,
+                target_project_name=project_name,
+                target_project_slug=project_slug,
+                validate_roles=True,
             )
+            project_path_created = False
+            try:
+                project_path.mkdir(parents=True, exist_ok=False)
+                project_path_created = True
+                with transaction.atomic():
+                    project = self.restore_validated(
+                        zipfile,
+                        project_name,
+                        project_slug,
+                        user,
+                        billing=billing,
+                        workspace=workspace,
+                        progress_callback=progress_callback,
+                    )
+            except Exception:
+                restore_committed = (
+                    self.project is not None
+                    and self.project.pk is not None
+                    and Project.objects.filter(pk=self.project.pk).exists()
+                )
+                if not restore_committed:
+                    for storage, name in reversed(self.created_media):
+                        try:
+                            storage.delete(name)
+                        except Exception as error:
+                            warnings.warn(
+                                f"Could not remove restored media {name!r}: {error}",
+                                RuntimeWarning,
+                                stacklevel=2,
+                            )
+                    if project_path_created and project_path.exists():
+                        remove_tree(project_path, ignore_errors=True)
+                raise
 
-            if "teams" in self.data:
-                self.restore_teams(self.data["teams"])
+        self.created_media.clear()
+        return project
+
+    def restore_validated(
+        self,
+        zipfile: ZipFile,
+        project_name: str,
+        project_slug: str,
+        user: User,
+        *,
+        billing: Billing | None,
+        workspace: Workspace | None,
+        progress_callback: Callable[[int, int], None] | None,
+    ) -> Project:
+        """Apply a fully validated restore plan inside a database transaction."""
+        restore_changes: list[Change] = []
+
+        kwargs = self.data["project"].copy()
+        kwargs["name"] = project_name
+        kwargs["slug"] = project_slug
+        self.import_inherited_settings(kwargs)
+        if workspace is not None:
+            for field in INHERITABLE_COMPONENT_FLAGS:
+                kwargs[field] = False
+            kwargs["workspace"] = workspace
+        # The attribute is present in legacy backups prior to 5.17.1.
+        self.set_language_team_project = kwargs.pop("set_language_team", False)
+        self.project = project = Project.objects.create(**kwargs)
+
+        project.post_create(user, billing)
+
+        labels = Label.objects.bulk_create(
+            Label(project=project, **entry) for entry in self.data["labels"]
+        )
+        self.labels_map = {label.name: label for label in labels}
+        if "categories" in self.data:
+            self.restore_categories(self.data["categories"], None)
+
+        self.restore_memory(zipfile, project)
+
+        project_path = Path(project.full_path)
+
+        def skip_vcs_member(info: ZipInfo) -> bool:
+            if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
+                return True
+            path = info.filename[self.VCS_PREFIX_LEN :]
+            return path != os.path.normpath(path) or self.is_unsafe_vcs_path(path)
+
+        def vcs_member_name(info: ZipInfo) -> str:
+            return info.filename[self.VCS_PREFIX_LEN :]
+
+        for info, targetpath in iter_safe_zip_members(
+            zipfile,
+            project_path,
+            skip_member=skip_vcs_member,
+            member_name=vcs_member_name,
+        ):
+            extract_zip_member(zipfile, info, targetpath)
+            if vcs_member_name(info).endswith(".git/packed-refs"):
+                git_refs_dir = targetpath.parent / "refs"
+                git_refs_dir.mkdir(parents=True, exist_ok=True)
+
+        self.load_components(
+            zipfile,
+            do_restore=True,
+            actor=user,
+            changes=restore_changes,
+            progress_callback=progress_callback,
+        )
+
+        if "teams" in self.data:
+            self.restore_teams(self.data["teams"])
 
         restore_changes.append(
             Change(
@@ -1621,8 +2376,7 @@ class ProjectBackup:
             )
         )
         Change.objects.bulk_create(restore_changes, batch_size=500)
-
-        return self.project
+        return project
 
     def store_for_import(self) -> str:
         backup_dir = data_path(PROJECTBACKUP_PREFIX) / "import"

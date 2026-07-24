@@ -112,17 +112,8 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         return base.filter(action__in=ACTIONS_CONTENT)
 
     def for_category(self, category: Category) -> Self:
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.component import ComponentLink
-
-        shared_component_ids = ComponentLink.objects.filter(
-            Q(category=category)
-            | Q(category__category=category)
-            | Q(category__category__category=category)
-        ).values_list("component_id", flat=True)
         return self.filter(
-            Q(component_id__in=category.all_component_ids)
-            | Q(component_id__in=shared_component_ids)
+            Q(component_id__in=category.get_component_ids_with_links())
             | Q(category=category)
         )
 
@@ -264,15 +255,24 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
         """
         Return recent changes to show on object pages.
 
-        This uses iterator() as server-side cursors are typically
-        more effective here.
+        Fetch the identifiers first to keep the ordered and limited query
+        narrow. Related objects are loaded only for the selected changes.
         """
-        result: list[Change] = []
-        with transaction.atomic(), start_span(op="change.recent"):
-            for change in self.order().iterator(chunk_size=count):
-                result.append(change)
-                if len(result) >= count:
-                    break
+        with start_span(op="change.recent"):
+            change_ids = list(self.order().values_list("pk", flat=True)[:count])
+            if not change_ids:
+                return []
+
+            selected_changes = cast(
+                "ChangeQuerySet",
+                self.filter(pk__in=change_ids).prefetch_for_render().order(),
+            )
+            changes: dict[int, Change] = {
+                change.pk: change for change in selected_changes
+            }
+            result = [
+                changes[change_id] for change_id in change_ids if change_id in changes
+            ]
             return self.preload_list(result, skip_preload)
 
     def bulk_create(  # type: ignore[override]
@@ -395,6 +395,9 @@ class ChangeQuerySet(models.QuerySet["Change", "Change"]):
 
 
 class ChangeManager(models.Manager["Change"]):
+    def get_queryset(self) -> ChangeQuerySet:
+        return cast("ChangeQuerySet", super().get_queryset())
+
     def create(self, *, user: User | None = None, **kwargs) -> Change:
         """
         Create a change object.
@@ -404,6 +407,22 @@ class ChangeManager(models.Manager["Change"]):
         if user is not None and not user.is_authenticated:
             user = None
         return super().create(user=user, **kwargs)
+
+    def _last_category_changes(
+        self,
+        user: User,
+        category: Category,
+        language: Language | None,
+    ) -> ChangeQuerySet:
+        result = self.get_queryset()
+        if not user.can_access_project(category.project):
+            return result.none()
+        result = (
+            result.for_category(category).filter_projects(user).filter_components(user)
+        )
+        if language is not None:
+            result = result.filter(language=language)
+        return result
 
     def last_changes(
         self,
@@ -443,6 +462,8 @@ class ChangeManager(models.Manager["Change"]):
                 result = result.filter(language=language)
             if category is not None:
                 result = result.filter(category=category)
+        elif category is not None:
+            result = self._last_category_changes(user, category, language)
         elif workspace is not None:
             if not workspace.can_view(user):
                 return cast("ChangeQuerySet", self.none())
@@ -667,6 +688,21 @@ class Change(models.Model, UserDisplayMixin):
                 fields=["category", "-timestamp", "action"],
                 condition=Q(category__isnull=False),
                 name="trans_change_category_idx",
+            ),
+            models.Index(
+                fields=["-timestamp"],
+                condition=Q(action=ActionEvents.ANNOUNCEMENT),
+                name="trans_change_announce_idx",
+            ),
+            models.Index(
+                fields=["language", "component", "-timestamp"],
+                condition=Q(component__isnull=False) & Q(language__isnull=False),
+                name="trans_change_lang_comp_idx",
+            ),
+            models.Index(
+                fields=["language", "category", "-timestamp"],
+                condition=Q(category__isnull=False) & Q(language__isnull=False),
+                name="trans_change_lang_cat_idx",
             ),
             models.Index(
                 fields=["unit", "-timestamp", "action"],

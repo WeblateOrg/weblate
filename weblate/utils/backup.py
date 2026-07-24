@@ -149,6 +149,9 @@ def initialize(location: str, passphrase: str) -> BorgResult:
     """Initialize repository."""
     parsed = urlparse(location)
     if parsed.hostname:
+        if parsed.hostname.startswith("-"):
+            msg = gettext("Invalid host name given!")
+            raise BackupError(msg)
         add_host_key(None, parsed.hostname, parsed.port)
     return run_borg(
         ["init", "--encryption", "repokey-blake2", location],

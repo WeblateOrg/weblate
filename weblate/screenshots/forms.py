@@ -4,6 +4,7 @@
 
 import io
 from typing import Any, ClassVar, NoReturn, cast
+from urllib.parse import unquote, urlsplit
 
 import requests
 from django import forms
@@ -69,9 +70,7 @@ class ScreenshotImageValidationMixin(BaseForm):
         ):
             # download from image_url only if image is not provided and not updated
             cleaned_data["image"] = self.download_image(image_url)
-            # ruff: ignore[private-member-access]
-            image_field = Screenshot._meta.get_field("image")
-            image_field.run_validators(cleaned_data["image"])
+            Screenshot.validate_image_file(cleaned_data["image"])
 
         cleaned_data.pop("image_url", None)
         return cleaned_data
@@ -99,11 +98,11 @@ class ScreenshotImageValidationMixin(BaseForm):
                     )
                 }
             ) from e
-        filename = url.rsplit("/", maxsplit=1)[-1] or "screenshot"
+        filename = unquote(urlsplit(url).path).rsplit("/", maxsplit=1)[-1]
         return InMemoryUploadedFile(
             file=io.BytesIO(content),
             field_name="image",
-            name=filename,
+            name=filename or "screenshot",
             content_type=content_type,
             size=len(content),
             charset=None,

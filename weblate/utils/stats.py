@@ -1422,16 +1422,11 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
     def get_translate_url(self):
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
-    def _translation_filter(self) -> Q:
-        return (
-            Q(component__category__category__category=self.category)
-            | Q(component__category__category=self.category)
-            | Q(component__category=self.category)
-        )
-
     @property
     def action_translation_set(self):
-        return self.language.translation_set.filter(self._translation_filter())
+        return self.language.translation_set.filter(
+            component_id__in=self.category.all_component_ids
+        )
 
     @cached_property
     def has_action_translations(self) -> bool:
@@ -1443,14 +1438,8 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
 
     @cached_property
     def translation_set(self):
-        # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.component import ComponentLink
-
-        shared_component_ids = ComponentLink.objects.filter(
-            category=self.category
-        ).values_list("component_id", flat=True)
         result = self.language.translation_set.filter(
-            self._translation_filter() | Q(component__pk__in=shared_component_ids)
+            component_id__in=self.category.get_component_ids_with_links()
         ).prefetch()
         for item in result:
             item.is_shared = (

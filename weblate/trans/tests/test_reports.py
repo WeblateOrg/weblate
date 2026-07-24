@@ -11,15 +11,21 @@ from django.utils import timezone
 
 from weblate.auth.models import User
 from weblate.memory.models import Memory
-from weblate.trans.forms import MIN_COST_ESTIMATE_TM_THRESHOLD, CountsReportsForm
+from weblate.trans.forms import (
+    MIN_COST_ESTIMATE_TM_THRESHOLD,
+    CountsReportsForm,
+    get_report_language_choices,
+)
 from weblate.trans.models import (
     Category,
     Change,
     PendingUnitChange,
+    Project,
     Report,
     Suggestion,
     Unit,
 )
+from weblate.trans.models.component import ComponentLink
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import TESTPASSWORD
 from weblate.trans.views.reports import (
@@ -228,6 +234,35 @@ class ReportsTest(BaseReportsTest):
                 }
             ],
         )
+
+    def test_category_reports_exclude_linked_components(self) -> None:
+        project = Project.objects.create(
+            name="Linked report project",
+            slug="linked-report-project",
+        )
+        category = self.create_category(project=project)
+        ComponentLink.objects.create(
+            component=self.component,
+            project=project,
+            category=category,
+        )
+        self.add_change()
+
+        credit_data = generate_credits(
+            None,
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1),
+            "",
+            category,
+            "date_joined",
+            "ascending",
+        )
+        costs = self.generate_cost_data(entity=category)
+        language_choices = get_report_language_choices({"category": category})
+
+        self.assertEqual(credit_data, [])
+        self.assertEqual(costs["total"]["count"], 0)
+        self.assertEqual(len(language_choices), 1)
 
     def test_counts_one(self) -> None:
         self.add_change()

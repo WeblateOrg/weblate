@@ -23,12 +23,14 @@ Weblate 2026.8
 * Improved matrix view loading performance when displaying multiple languages.
 * Translation memory management pages now load origin summaries with a single database aggregation.
 * Dashboard component list tabs now load without processing unrelated component lists.
+* Category pages now load recent history and shared component listings more efficiently.
 * Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed.
 * :ref:`Empty workspaces <workspace-removal>` not associated with billing can now be removed from the workspace :guilabel:`Operations` menu.
 * :ref:`mt-aws` machine translation now supports configuring formality, brevity, and profanity masking.
 * Improved :ref:`screenshots` OCR reliability and error reporting when downloading recognition data.
 * Celery workers now prefetch fewer tasks by default to reduce memory usage and improve task distribution.
 * Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload.
+* Added opt-in :ref:`running-granian-asgi` deployment support.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
 
@@ -38,7 +40,7 @@ Weblate 2026.8
 * Mercurial repository filenames beginning with a dash are now handled safely.
 * Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
-* Project backup imports now skip repository-linked components when the importer cannot access the target component.
+* :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state and skip repository-linked components when the importer cannot access the target component.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
 * Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.

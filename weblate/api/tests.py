@@ -21,6 +21,7 @@ from django.contrib import messages as django_messages
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.files import File
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError
 from django.db.models import Q
 from django.test.utils import modify_settings, override_settings
@@ -4417,6 +4418,42 @@ class ProjectAPITest(APIBaseTest):
         # Verify that the repo was not checked out
         real_path = os.path.join(data_dir("vcs"), *component.get_url_path())
         self.assertFalse(os.path.exists(real_path))
+
+    def test_create_component_rejects_inaccessible_repository_link(self) -> None:
+        private_component = self.create_acl()
+        self.grant_perm_to_user(
+            "project.edit",
+            group_name="Target project managers",
+            project=self.project,
+        )
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            format="json",
+            request={
+                "name": "Inaccessible repository link",
+                "slug": "inaccessible-repository-link",
+                "repo": private_component.get_repo_link_url(),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "repo")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "You do not have permission to access this component.",
+        )
+        self.assertFalse(
+            self.project.component_set.filter(
+                slug="inaccessible-repository-link"
+            ).exists()
+        )
 
     def test_create_component_no_push(self) -> None:
         repo_url = self.format_local_path(self.git_repo_path)
@@ -12678,6 +12715,26 @@ class ScreenshotAPITest(APIBaseTest):
 
     def test_upload_invalid(self) -> None:
         self.test_upload(True, 400, TEST_PO)
+
+    def test_upload_invalid_extension(self) -> None:
+        self.authenticate(True)
+        screenshot = Screenshot.objects.get()
+        original_name = screenshot.image.name
+        image = SimpleUploadedFile(
+            "screenshot.html",
+            Path(TEST_SCREENSHOT).read_bytes(),
+            content_type="image/png",
+        )
+
+        response = self.client.post(
+            reverse("api:screenshot-file", kwargs={"pk": screenshot.pk}),
+            {"image": image},
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("invalid_extension", str(response.data))
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.name, original_name)
 
     @override_settings(ALLOWED_ASSET_SIZE=1)
     def test_upload_too_big(self) -> None:

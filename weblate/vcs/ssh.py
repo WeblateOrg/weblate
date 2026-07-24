@@ -375,7 +375,7 @@ def add_host_key(
         cmdline = ["ssh-keyscan"]
         if port:
             cmdline.extend(["-p", str(port)])
-        cmdline.append(host)
+        cmdline.extend(["--", host])
         try:
             result = subprocess.run(
                 cmdline,

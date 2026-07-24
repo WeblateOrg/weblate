@@ -79,17 +79,17 @@ test = [
   "standardwebhooks==1.1.0"
 ]
 types = [
-  "boto3-stubs==1.43.51",
+  "boto3-stubs==1.43.55",
   "celery-types==0.26.0",
   "django-stubs-ext==6.0.7",
   "django-stubs[compatible-mypy]==6.0.7",
   "djangorestframework-stubs==3.17.0",
   "mypy==2.1.0",
   "types-dateparser==1.4.1.20260617",
-  "types-docutils==0.22.3.20260712",
+  "types-docutils==0.22.3.20260724",
   "types-jsonschema==4.26.0.20260518",
   "types-lxml==2026.2.16",
-  "types-openpyxl==3.1.5.20260518",
+  "types-openpyxl==3.1.5.20260724",
   "types-python-dateutil==2.9.0.20260716",
   "types-regex==2026.7.19.20260720",
   "types-setuptools==83.0.0.20260716"
@@ -138,7 +138,7 @@ dependencies = [
   "cyrtranslit==1.2.0",
   "dateparser==1.4.1",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.225",
+  "disposable-email-domains==0.0.229",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-cors-headers==4.9.0",
@@ -231,7 +231,10 @@ all = [
   "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.51"
+  "boto3==1.43.55"
+]
+asgi = [
+  "granian==2.7.9"
 ]
 gelf = [
   "logging-gelf==0.0.32"
@@ -363,6 +366,7 @@ package_omit = [
   "weblate/examples/celery-weblate.logrotate",
   "weblate/examples/celery-weblate.service",
   "weblate/examples/docker-compose.yml",
+  "weblate/examples/granian-asgi.service",
   "weblate/examples/granian.service",
   "weblate/examples/gunicorn.service",
   "weblate/examples/gunicorn.socket",

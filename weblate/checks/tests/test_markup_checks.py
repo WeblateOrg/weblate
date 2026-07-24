@@ -25,6 +25,7 @@ from weblate.checks.markup import (
     XMLCharsAroundTagsCheck,
     XMLTagsCheck,
     XMLValidityCheck,
+    extract_asciidoc_markup,
     extract_rst_references,
     has_changed_placeholder_attributes,
 )
@@ -1660,6 +1661,10 @@ class AsciiDocMarkupCheckTest(CheckTestCase):
             ],
             [(0, 13, r"kbd:[Ctrl+\]]")],
         )
+
+    def test_incomplete_markup(self) -> None:
+        for text in ("a" * 100_000, "<" * 100_000, "[" * 100_000):
+            self.assertEqual(extract_asciidoc_markup(text), {})
 
     def test_description(self) -> None:
         unit = make_unit(

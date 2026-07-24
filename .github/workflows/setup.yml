@@ -186,8 +186,8 @@ jobs:
       env:
         PYTHON_VERSION: ${{ steps.setup_python.outputs.python-version }}
         # renovate-cyclonedx-cli
-        CYCLONEDX_CLI_VERSION: v0.32.0
-        CYCLONEDX_CLI_DIGEST: sha256:454879e6a4a405c8a13bff49b8982adcb0596f3019b26b0811c66e4d7f0783e1
+        CYCLONEDX_CLI_VERSION: v0.33.1
+        CYCLONEDX_CLI_DIGEST: sha256:bfc8b2538da86fe239bc53658bbb63c1c8c510a293c1e6891aa5bea5d3c58746
       run: |
         version=$(uv run --frozen --only-group sbom ./scripts/show-version.py)
         sbom="build/sbom/weblate-$version-sbom.cdx.json"

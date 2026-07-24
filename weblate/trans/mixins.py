@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, Protocol
 
 from django.core.exceptions import ValidationError
@@ -97,7 +98,14 @@ class PathMixin(LoggerMixin, URLMixin):
 
     def _get_path(self) -> str:
         """Actual calculation of path."""
-        return os.path.join(data_dir("vcs"), *self.get_url_path())
+        root = Path(data_dir("vcs")).resolve()
+        path = root.joinpath(*self.get_url_path()).resolve()
+        try:
+            path.relative_to(root)
+        except ValueError as error:
+            msg = f"Object path escapes the VCS directory: {path}"
+            raise ValueError(msg) from error
+        return path.as_posix()
 
     @cached_property
     def full_path(self) -> str:

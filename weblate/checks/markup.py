@@ -1069,12 +1069,14 @@ class RSTSyntaxCheck(PluralResultDescriptionMixin, RSTBaseCheck):
 
 # inline (`name:target[attrs]`) and block (`name::target[attrs]`) macros.
 ASCIIDOC_MACRO = re.compile(
-    r"(?P<name>[a-z][a-z0-9]*)(?P<sep>::?)(?P<target>[^\s\[]*)\[(?P<attrs>(?:\\.|[^\]])*)\]"
+    r"(?<![a-z0-9])(?P<name>[a-z][a-z0-9]*?)(?P<sep>::?)(?P<target>[^\s\[]*+)\[(?P<attrs>(?:\\.|[^\]])*+)\]"
 )
 # cross references: <<id>> or <<id,text>>.
-ASCIIDOC_XREF = re.compile(r"<<(?P<id>[^,>]+)(?:,(?P<text>[^>]*))?>>")
+ASCIIDOC_XREF = re.compile(r"(?<!<)<<(?P<id>[^,>]++)(?:,(?P<text>[^>]*+))?>>")
 # inline anchors: [[id]] or [[id,label]].
-ASCIIDOC_INLINE_ANCHOR = re.compile(r"\[\[(?P<id>[^,\]]+)(?:,(?P<label>[^\]]*))?\]\]")
+ASCIIDOC_INLINE_ANCHOR = re.compile(
+    r"(?<!\[)\[\[(?P<id>[^,\]]++)(?:,(?P<label>[^\]]*+))?\]\]"
+)
 # passthroughs. Bare single-plus `+...+` is excluded to avoid false positives.
 ASCIIDOC_PASSTHROUGH = re.compile(
     r"\+\+\+.+?\+\+\+|\+\+.+?\+\+|`\+.+?\+`|\$\$.+?\$\$",

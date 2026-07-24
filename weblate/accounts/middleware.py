@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.models import AnonymousUser
@@ -17,6 +18,8 @@ from weblate.accounts.utils import adjust_session_expiry
 from weblate.auth.models import get_anonymous
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
@@ -43,6 +46,21 @@ class AuthenticationMiddleware(OTPMiddleware):
     """
 
     def __call__(self, request: AuthenticatedHttpRequest):
+        if self._is_async:
+            return self._acall(request)
+
+        user = self.prepare_request(request)
+        response = self.get_response(request)
+        return self.finalize_response(request, response, user)
+
+    async def _acall(self, request: AuthenticatedHttpRequest):
+        user = await sync_to_async(self.prepare_request, thread_sensitive=True)(request)
+        response = await self.get_response(request)
+        return await sync_to_async(self.finalize_response, thread_sensitive=True)(
+            request, response, user
+        )
+
+    def prepare_request(self, request: AuthenticatedHttpRequest):
         # ruff: ignore[import-outside-top-level]
         from weblate.lang.models import Language
 
@@ -69,9 +87,12 @@ class AuthenticationMiddleware(OTPMiddleware):
         activate(language)
         request.LANGUAGE_CODE = get_language()
 
-        # Invoke the request
-        response = self.get_response(request)
+        return user
 
+    @staticmethod
+    def finalize_response(
+        request: AuthenticatedHttpRequest, response: HttpResponse, user
+    ) -> HttpResponse:
         # Update the language cookie if needed
         if user.is_authenticated and user.profile.language != request.COOKIES.get(
             settings.LANGUAGE_COOKIE_NAME

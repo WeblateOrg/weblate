@@ -455,15 +455,11 @@ class Category(
     def get_child_components_access(self, user: User):
         """List child components, including shared components linked to this category."""
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.component import (
-            Component,
-            ComponentLink,
-        )
+        from weblate.trans.models.component import Component
 
-        shared_ids = ComponentLink.objects.filter(category=self).values_list(
-            "component_id", flat=True
+        qs = Component.objects.filter(
+            pk__in=self.get_component_ids_with_links(include_descendants=False)
         )
-        qs = Component.objects.filter(Q(category=self) | Q(pk__in=shared_ids))
         return qs.filter_access(user).prefetch().order()
 
     def uses_parent_setting(self, field: str) -> bool:
@@ -565,21 +561,32 @@ class Category(
     def languages(self):
         """Return list of all languages used in category, including shared components."""
         # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
+
+        language_ids = Translation.objects.filter(
+            component_id__in=self.get_component_ids_with_links()
+        ).values_list("language_id", flat=True)
+        return Language.objects.filter(pk__in=language_ids).order()
+
+    def get_component_ids_with_links(self, *, include_descendants: bool = True):
+        """Return a lazy query of owned and linked component identifiers."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
+
+        # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.component import ComponentLink
 
-        shared_ids = ComponentLink.objects.filter(
-            Q(category=self)
-            | Q(category__category=self)
-            | Q(category__category__category=self)
-        ).values_list("component_id", flat=True)
-        return (
-            Language.objects.filter(
-                Q(translation__component_id__in=self.all_component_ids)
-                | Q(translation__component_id__in=shared_ids)
+        category_filter = Q(category=self)
+        if include_descendants:
+            category_filter |= Q(category__category=self) | Q(
+                category__category__category=self
             )
-            .distinct()
-            .order()
+
+        owned = Component.objects.filter(category_filter).values_list("pk", flat=True)
+        shared = ComponentLink.objects.filter(category_filter).values_list(
+            "component_id", flat=True
         )
+        return owned.union(shared)
 
     @cached_property
     def all_components(self) -> ComponentQuerySet:
@@ -612,6 +619,7 @@ class Category(
 
     @cached_property
     def all_component_ids(self):
+        """Return cached identifiers of components owned by this category tree."""
         return set(self.all_components.values_list("pk", flat=True))
 
     def generate_changes(self, old) -> None:
