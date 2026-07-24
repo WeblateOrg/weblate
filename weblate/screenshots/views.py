@@ -486,11 +486,13 @@ class ScreenshotBaseView(DetailView):
 class ScreenshotView(ScreenshotBaseView):
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> FileResponse:  # type: ignore[override]
         obj = self.get_object()
-        # Django will automatically set Content-Type based on the filename
+        with Image.open(obj.image.open(), formats=PIL_FORMATS) as image:
+            content_type = Image.MIME[cast("str", image.format)]
         return FileResponse(
             obj.image.open(),
             as_attachment=False,
             filename=os.path.basename(obj.image.name),
+            content_type=content_type,
         )
 
 
