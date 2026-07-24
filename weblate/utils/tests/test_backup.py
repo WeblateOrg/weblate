@@ -10,6 +10,7 @@ from typing import cast
 from unittest.mock import patch
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.utils import override_settings
 
@@ -139,6 +140,19 @@ class RunBorgTest(SimpleTestCase):
             str(raised.exception),
             "Borg exited with status 2 without any output",
         )
+
+
+class InitializeBackupTest(SimpleTestCase):
+    def test_initialize_rejects_option_as_ssh_hostname(self) -> None:
+        with (
+            patch("weblate.utils.backup.add_host_key") as add_host_key,
+            patch("weblate.utils.backup.run_borg") as run_borg,
+            self.assertRaises(ValidationError),
+        ):
+            initialize("ssh://-f/etc/passwd:22/path", "key")
+
+        add_host_key.assert_not_called()
+        run_borg.assert_not_called()
 
 
 class BackupCommandTest(SimpleTestCase):
