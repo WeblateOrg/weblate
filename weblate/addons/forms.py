@@ -651,6 +651,7 @@ class GitSquashForm(
             ("language", gettext_lazy("Per language")),
             ("file", gettext_lazy("Per file")),
             ("author", gettext_lazy("Per author")),
+            ("author-language", gettext_lazy("Per author and language")),
         ),
         initial="all",
         required=True,
