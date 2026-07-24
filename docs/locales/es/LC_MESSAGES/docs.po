@@ -36,9 +36,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-23 09:04+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-24 10:03+0000\n"
+"Last-Translator: Libre <6n0n1m0s@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -1610,6 +1609,7 @@ msgstr ""
 "la actividad del complemento."
 
 #: admin/addons.rst:191
+#, fuzzy
 msgid ""
 "Each entry records whether processing is pending, successful, failed, or "
 "skipped. Skipped entries include the reason the add-on did not run, such as "
@@ -1617,12 +1617,21 @@ msgid ""
 "that is not due yet. A successful entry can still mean that the add-on "
 "checked its inputs but found nothing to change."
 msgstr ""
+"Cada apunte indica si el procesamiento está pendiente, logrado, fallado, o "
+"descartado. Los apuntes descartados incluyen el motivo por el que el "
+"complemento no se ha ejecutado, como un componente incompatible, sin cambios "
+"relevantes, o una planificación configurada que no está vencido aún. Un "
+"apunte correcto aún puede significar que el complemento comprobado sus "
+"entradas pero no ha encontrado nada que modificar."
 
 #: admin/addons.rst:197
 msgid ""
 "For scope-wide add-ons that process components independently, the activity "
 "log contains a separate entry for each component."
 msgstr ""
+"En el caso de los complementos que abarcan todo el ámbito y que procesan los "
+"componentes independientemente, la bitácora de actividad contiene un apunte "
+"separado por cada componente."
 
 #: admin/addons.rst:200
 msgid ""
@@ -4223,19 +4232,11 @@ msgstr ""
 "las dos formas de plural en checo no sean iguales."
 
 #: admin/code-hosting.rst:4
-#, fuzzy
-#| msgid "Code hosting integrations"
 msgid "Code-hosting integrations"
-msgstr "Integraciones de hospedaje para código"
+msgstr "Integraciones de código‐hospedado"
 
 #: admin/code-hosting.rst:6
 #, fuzzy
-#| msgid ""
-#| "Weblate integrates with code hosting sites in several separate places: "
-#| "repository access, incoming notifications, and pushing translations back. "
-#| "The exact setup depends on whether you use Hosted Weblate or run your own "
-#| "Weblate instance, and on whether Weblate should push directly or create "
-#| "pull requests."
 msgid ""
 "Weblate integrates with code-hosting sites in several separate places: "
 "repository access, incoming notifications, and pushing translations back. "
@@ -4243,11 +4244,11 @@ msgid ""
 "Weblate instance, and on whether Weblate should push directly or create pull "
 "or merge requests."
 msgstr ""
-"Weblate se integra con los sitios de alojamiento de código en varios "
-"aspectos distintos: acceso al repositorio, recepción de notificaciones y "
-"envío de traducciones. La configuración exacta depende de si utilizas Hosted "
-"Weblate o gestionas tu propia instancia de Weblate, así como de si Weblate "
-"debe enviar las traducciones directamente o crear solicitudes de extracción."
+"Weblate se integra con los sitios de código‐hospedado en varios lugares "
+"distintos: acceso al repositorio, notificaciones de entradas y devoluciones "
+"de traducciones. La configuración exacta depende si donde sea utilizas "
+"Hosted Weblate o ejecutas tu propia instancia de Weblate, así como si "
+"Weblate subiría directamente o crearía la subido o fusión solicitadas."
 
 #: admin/code-hosting.rst:11
 msgid ""
@@ -4290,19 +4291,14 @@ msgstr ""
 "de :guilabel:`weblate` está disponible, consulte :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:27
-#, fuzzy
-#| msgid ""
-#| "For self-hosted Weblate, create a dedicated code hosting user and grant "
-#| "access using Weblate's SSH key or an HTTPS token, see :ref:`vcs-repos-"
-#| "code-hosting`."
 msgid ""
 "For self-hosted Weblate, create a dedicated code-hosting user and grant "
 "access using Weblate's SSH key or an HTTPS token, see :ref:`vcs-repos-code-"
 "hosting`."
 msgstr ""
-"Para Weblate hospedado para sí, crea un usuario dedicado al hospedaje de "
-"código y concédele acceso mediante la clave SSH de Weblate o un vale de "
-"HTTPS; consulte :ref:`vcs-repos-code-hosting`."
+"Para Weblate hospedado para sí, crea un usuario dedicado al código‐hospedado "
+"y concédele acceso mediante la clave SSH de Weblate o un vale de HTTPS; "
+"consulte :ref:`vcs-repos-code-hosting`."
 
 #: admin/code-hosting.rst:31
 msgid "Configure :ref:`component-repo` so Weblate can clone the repository."
@@ -4718,15 +4714,12 @@ msgid "Sign in to Weblate with an account that has management access."
 msgstr "Inicie a Weblate con una cuenta que ha gestionado acceso."
 
 #: admin/code-hosting.rst:287
-#, fuzzy
-#| msgid ""
-#| "Open :guilabel:`Manage → VCS Installations → Register Weblate GitHub App`."
 msgid ""
 "Open :guilabel:`Manage → Code-hosting connections → Register Weblate GitHub "
 "App`."
 msgstr ""
-"Abra: :guilabel:`Gestión → Instalación VCS → Registrar App GitHub en "
-"Weblate`."
+"Abra: :guilabel:`Gestión → Conexiones de Código‐hospedado → Registrar App "
+"GitHub en Weblate`."
 
 #: admin/code-hosting.rst:289
 msgid ""
@@ -4764,16 +4757,6 @@ msgstr ""
 "está disponible inmediatamente después."
 
 #: admin/code-hosting.rst:300
-#, fuzzy
-#| msgid ""
-#| "The manifest requests the permissions and event subscriptions Weblate "
-#| "needs (``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-"
-#| "only, ``Organization administration`` read-only, ``Workflows`` read/"
-#| "write, and the ``Installation``, ``Meta`` and ``Push`` events), and sets "
-#| "the callback, setup and per-integration webhook URLs automatically, so no "
-#| "manual GitHub App configuration is required. GitHub delivers the "
-#| "``Installation`` and ``Installation repositories`` events to all GitHub "
-#| "Apps by default."
 msgid ""
 "The manifest requests the permissions and event subscriptions Weblate needs "
 "(``Contents`` and ``Pull requests`` read/write, ``Metadata`` read-only, "
@@ -4787,9 +4770,9 @@ msgstr ""
 "Weblate necesita (lectura/escritura en ``Contents`` y ``Pull requests``, "
 "solo lectura en ``Metadata``, ``Organization administration``, lectura/"
 "escritura en ``Workflows``, y los eventos ``Installation``, ``Meta`` y "
-"``Push``), y conjuntos de callback, configuración y ganchos web por "
-"integración de las URL automáticamente, tal que no es requerida ninguna "
-"configuración manual en GitHub App. GitHub entrega eventos ``Instalación`` y "
+"``Push``), y conjuntos de callback, configuración y ganchos web por-apl de "
+"las URL automáticamente, tal que no es requerida ninguna configuración "
+"manual en GitHub App. GitHub entrega eventos ``Instalación`` y "
 "``Repositorios de instalación`` a todas las Apps de GitHub por defecto."
 
 #: admin/code-hosting.rst:308
@@ -4814,15 +4797,6 @@ msgid "Connecting a workspace"
 msgstr "Conectando un espacio trabajo"
 
 #: admin/code-hosting.rst:317
-#, fuzzy
-#| msgid ""
-#| "Connected GitHub accounts are bound to a Weblate :ref:`workspace "
-#| "<workspaces>`. A user with project administration rights for any project "
-#| "in a workspace can connect a GitHub account on that workspace. After "
-#| "connecting, every project in the workspace can import components from "
-#| "repositories the app installation has access to. For organization "
-#| "installations, Weblate verifies that the install-time GitHub user can "
-#| "administer the organization installation."
 msgid ""
 "Connected GitHub accounts are bound to a Weblate :ref:`workspace "
 "<workspaces>`. A user with project administration rights for any project in "
@@ -4837,21 +4811,17 @@ msgstr ""
 "para cualquier proyecto en un espacio de trabajo puede conectar una cuenta "
 "de GitHub a dicho espacio. Tras la conexión, todos los proyectos del espacio "
 "de trabajo pueden importar componentes de los repositorios a los que tenga "
-"acceso la instalación de la aplicación. En el caso de instalaciones de "
+"acceso la instalación de la Apl GitHub. En el caso de cuentas de "
 "organizaciones, Weblate verifica que el usuario de GitHub que realizó la "
 "instalación tenga permisos de administrador para dicha organización."
 
 #: admin/code-hosting.rst:324
-#, fuzzy
-#| msgid ""
-#| "Projects that are not in a workspace cannot connect a GitHub App "
-#| "installation."
 msgid ""
 "Projects that are not in a workspace cannot connect a GitHub account through "
 "the GitHub App."
 msgstr ""
 "Los proyectos que no estén dentro de un espacio de trabajo no pueden "
-"conectar a la instalación de GitHud App."
+"conectar una cuenta GitHub a través de la Apl GitHub."
 
 #: admin/code-hosting.rst:327
 msgid ""
@@ -4871,17 +4841,12 @@ msgid "App webhook URL"
 msgstr "URL de gancho a App"
 
 #: admin/code-hosting.rst:337
-#, fuzzy
-#| msgid ""
-#| "Each registered GitHub App integration has its own webhook URL containing "
-#| "an opaque token that uniquely identifies a single integration:"
 msgid ""
 "Each registered Weblate GitHub App has its own webhook URL containing an "
 "opaque token that uniquely identifies a single registered App:"
 msgstr ""
-"Cada integración registrada en GitHub App tiene su propio URL de enganche "
-"web conteniendo un vale opaco que únicamente identifica una integración "
-"simple:"
+"Cada Weblate GitHub App registrada tiene su propio gancho web URL "
+"conteniendo un vale opaco que únicamente identifica una única Apl registrada:"
 
 #: admin/code-hosting.rst:344
 msgid ""
@@ -5012,18 +4977,13 @@ msgstr ""
 "ejemplo ``git@gitlab.com:group/proyecto.git``."
 
 #: admin/code-hosting.rst:424
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate repositories on Codeberg, add the "
-#| "hosted :guilabel:`weblate` user where write access is needed, "
-#| "see :ref:`hosted-push`."
 msgid ""
 "For Hosted Weblate repositories on GitLab, add the "
 "hosted :guilabel:`weblate` user with the required repository permissions, "
 "see :ref:`hosted-push`."
 msgstr ""
-"Para los repositorios de Hosted Weblate en Codeberg, añada el "
-"usuario :guilabel:`weblate` donde se necesita acceso de escritura, "
+"Para los repositorios de Hosted Weblate en GitLab, agregue el usuario "
+":guilabel:`weblate` hospedado con los permisos del repositorios requeridos, "
 "consulte :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:431
@@ -5123,18 +5083,13 @@ msgid "HTTPS with an access token"
 msgstr "HTTPS con vale de acceso"
 
 #: admin/code-hosting.rst:493
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate repositories on Codeberg, add the "
-#| "hosted :guilabel:`weblate` user where write access is needed, "
-#| "see :ref:`hosted-push`."
 msgid ""
 "For Hosted Weblate repositories on Codeberg, add the "
 "hosted :guilabel:`weblate` user with the required repository permissions, "
 "see :ref:`hosted-push`."
 msgstr ""
-"Para los repositorios de Hosted Weblate en Codeberg, añada el "
-"usuario :guilabel:`weblate` donde se necesita acceso de escritura, "
+"Para los repositorios de Hosted Weblate en Codeberg, añada el usuario "
+":guilabel:`weblate` hospedado con los permisos del repositorio requeridos, "
 "consulte :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:500
@@ -5238,19 +5193,14 @@ msgid "Bitbucket repository access"
 msgstr "Acceso a repositorios en Bitbucket"
 
 #: admin/code-hosting.rst:571
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate repositories on Codeberg, add the "
-#| "hosted :guilabel:`weblate` user where write access is needed, "
-#| "see :ref:`hosted-push`."
 msgid ""
 "For Hosted Weblate repositories on Bitbucket, add the "
 "hosted :guilabel:`weblate` user with the required repository permissions, "
 "see :ref:`hosted-push`."
 msgstr ""
-"Para los repositorios de Hosted Weblate en Codeberg, añada el "
-"usuario :guilabel:`weblate` donde se necesita acceso de escritura, "
-"consulte :ref:`hosted-push`."
+"Para los repositorios de Hosted Weblate en Bitbucket, añada el usuario "
+":guilabel:`weblate` con los permisos de repositorio requeridos, consulte "
+":ref:`hosted-push`."
 
 #: admin/code-hosting.rst:575
 msgid ""
@@ -5570,11 +5520,6 @@ msgstr ""
 "propios permisos."
 
 #: admin/code-hosting.rst:815
-#, fuzzy
-#| msgid ""
-#| "The Gerrit documentation has the details on the configuration necessary "
-#| "to set up such repositories. There is no separate code hosting credential "
-#| "setting for this backend."
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories. There is no separate code-hosting credential "
@@ -5582,24 +5527,20 @@ msgid ""
 msgstr ""
 "La documentación de Gerrit tiene los detalles sobre la configuración "
 "necesaria para la puesta en marcha de dichos repositorios. No hay ningún "
-"código separado hospedando para ajuste credencial para este backend."
+"código‐hospedaje separado para ajuste credencial para este segundo plano."
 
 #: admin/code-hosting.rst:820
 msgid "Docker credentials"
 msgstr "Credenciales de Docker"
 
 #: admin/code-hosting.rst:822
-#, fuzzy
-#| msgid ""
-#| "For Docker installations, code hosting API credentials can also be "
-#| "provided through environment variables, see :ref:`docker-vcs-config`."
 msgid ""
 "For Docker installations, code-hosting API credentials can also be provided "
 "through environment variables, see :ref:`docker-vcs-config`."
 msgstr ""
-"Para instalaciones de Docker, las credenciales del código donde hospeda el "
-"API además puede ser proporcionado a través de variables del entorno, "
-"consulte :ref:`docker-vcs-config`."
+"Para instalaciones de Docker, las credenciales del API del código‐hospedaje "
+"además puede ser proporcionado a través de variables del entorno, consulte "
+":ref:`docker-vcs-config`."
 
 #: admin/componentlists.rst:4
 msgid "Component Lists"
@@ -6993,15 +6934,11 @@ msgstr ""
 "@weblate.org\"``."
 
 #: admin/config.rst:1263
-#, fuzzy
-#| msgid ""
-#| "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
-#| "``{site_domain}``."
 msgid ""
 "It can contain ``{scope}``, ``{name}``, ``{username}``, ``{site_title}``, "
 "and ``{site_domain}``."
 msgstr ""
-"Puede contener ``{user_id}``, ``{username}``, ``{site_title}``, y "
+"Puede contener ``{scope}``, ``{name}``, ``{username}``, ``{site_title}``, y "
 "``{site_domain}``."
 
 #: admin/config.rst:1266
@@ -7103,20 +7040,15 @@ msgstr ""
 "documentos legales."
 
 #: admin/config.rst:1357
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``\"tos\"``, which enables the built-in legal document "
-#| "numbering and spacing rules. Set this to an empty string to render legal "
-#| "documents without the built-in numbering."
 msgid ""
 "Defaults to ``\"tos\"``. Weblate does not attach styling to this class; "
 "custom legal styles can use it to target document wrappers. Set this to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
-"El valor predeterminado es ``\"tos\"``, lo que activa las reglas integradas "
-"de numeración y espaciado de los documentos legales. Establece este valor en "
-"una cadena vacía para representar documentos legales sin la numeración "
-"integrada."
+"El valor predeterminado es ``\"tos\"``. Weblate no adjunta estilos a esta "
+"clase; los estilos legales personalizados pueden usarla para dirigirse a los "
+"contenedores de documentos. Establece este valor en una cadena vacía para "
+"representar documentos legales sin una clase contenedora."
 
 #: admin/config.rst:1377
 msgid "List of legal document page identifiers to hide from the legal module."
@@ -8126,12 +8058,8 @@ msgstr ""
 "para trazado de todos los sucesos, 0 (lo predet.) desactiva traza."
 
 #: admin/config.rst:2450 admin/install.rst:1687
-#, fuzzy
-#| msgid ""
-#| "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgid "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
-msgstr ""
-"`Perfilado Sentry <https://docs.sentry.io/product/explore/profiling/>`_"
+msgstr "`Perfilado de centinelas <https://docs.sentry.io/product/profiling/>`_"
 
 #: admin/config.rst:2455
 msgid "SESSION_COOKIE_AGE_2FA"
@@ -8554,16 +8482,12 @@ msgstr ""
 "adjuntos. Por defecto son 180 días."
 
 #: admin/config.rst:2883
-#, fuzzy
-#| msgid ""
-#| "List of a available exporters offering downloading translations or "
-#| "glossaries in various file formats."
 msgid ""
 "List of available exporters offering translation downloads or glossaries in "
 "various file formats."
 msgstr ""
-"Lista de una traducción descargada ofrecida a exportaciones disponibles o "
-"glosarios en varios formatos de archivo."
+"Listado de exportadores disponibles ofreciendo descargas de traducción o "
+"glosarios en variaos formatos de archivo."
 
 #: admin/config.rst:2895
 msgid "List of file formats available for use."
@@ -8698,11 +8622,6 @@ msgstr ""
 "texto nuevo justo antes del lanzamiento."
 
 #: admin/continuous.rst:12
-#, fuzzy
-#| msgid ""
-#| ":doc:`/devel/integration` describes basic ways to integrate your "
-#| "development with Weblate. :doc:`/admin/code-hosting` lists provider-"
-#| "specific setup steps for common code hosting sites."
 msgid ""
 ":doc:`/devel/integration` describes basic ways to integrate your development "
 "with Weblate. :doc:`/admin/code-hosting` lists provider-specific setup steps "
@@ -8710,7 +8629,7 @@ msgid ""
 msgstr ""
 ":doc:`/devel/integration` describe maneras básicas para integrar su "
 "desarrollo con Weblate. :doc:`/admin/code-hosting` enumera pasos de "
-"configuración específicos del proveedor para código común hospedando sitios."
+"configuración específicos del proveedor para sitios comunes de code-hosting."
 
 #: admin/continuous.rst:17
 msgid "This is the process:"
@@ -8760,16 +8679,12 @@ msgstr ""
 "(consulte :ref:`code-hosting-push-options`)."
 
 #: admin/continuous.rst:76
-#, fuzzy
-#| msgid ""
-#| "Upstream code hosting is not necessary, you can use Weblate "
-#| "with :ref:`vcs-local` where there is only the repository inside Weblate."
 msgid ""
 "Upstream code-hosting site is not necessary, you can use Weblate "
 "with :ref:`vcs-local` where there is only the repository inside Weblate."
 msgstr ""
-"Hospedaje de código ascendente no es necesario, puede utilizar Weblate "
-"con: :ref:`vcs-local` donde solo hay el repo dentro de Weblate."
+"Hospedaje de código en desarrollo no es necesario, puede utilizar Weblate "
+"con: :ref:`vcs-local` donde solo está el repo dentro interno al Weblate."
 
 #: admin/continuous.rst:82
 msgid "Updating repositories"
@@ -8784,19 +8699,14 @@ msgstr ""
 "desde su fuente."
 
 #: admin/continuous.rst:87
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`hooks` to integrate with the majority of common code hosting "
-#| "services, see :doc:`/admin/code-hosting`. You must also :ref:`project-"
-#| "enable_hooks` for this to work."
 msgid ""
 "Use :ref:`hooks` to integrate with the majority of common code-hosting "
 "services, see :doc:`/admin/code-hosting`. You must also :ref:`project-"
 "enable_hooks` for this to work."
 msgstr ""
 "Use :ref:`hooks` para integrarse con la mayoría de los servicios comunes de "
-"alojamiento de código, consulte :doc:`/admin/code-hosting`. También "
-"debe :ref:`project-enable_hooks` para que esto funcione."
+"hospedaje de código, consulte :doc:`/admin/code-hosting`. También debe "
+":ref:`project-enable_hooks` para que esto funcione."
 
 #: admin/continuous.rst:91
 msgid ""
@@ -9436,8 +9346,6 @@ msgstr ""
 "GitHub está dentro de revisión."
 
 #: admin/continuous.rst:336
-#, fuzzy
-#| msgid "Code hosting notifications"
 msgid "Code-hosting notifications"
 msgstr "Notificaciones de hospedaje del código"
 
@@ -10588,32 +10496,24 @@ msgstr ""
 "Celery."
 
 #: admin/install.rst:413
-#, fuzzy
-#| msgid ""
-#| "The actual limit for the number of database connections needs to be "
-#| "higher to account following situations:"
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account for the following situations:"
 msgstr ""
 "El límite actual para el número de conexiones de base de datos necesarias "
-"para ser más alta para cuenta siguientes estas situaciones:"
+"para ser cuenta más alta en las situaciones siguientes:"
 
 #: admin/install.rst:416
 msgid ":ref:`manage` need their connection as well."
 msgstr ":ref:`manage` necesita su conexión también."
 
 #: admin/install.rst:417
-#, fuzzy
-#| msgid ""
-#| "If case process is killed (for example by OOM killer), it might block the "
-#| "existing connection until timeout."
 msgid ""
 "If a process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
 msgstr ""
-"Si el proceso case es eliminado (por ejemplo por OOM killer), puede bloquear "
-"la conexión existente hasta que se agote el tiempo de espera."
+"Si se mata un proceso (por ejemplo por OOM killer), quizá bloquea la "
+"conexión existente hasta que se agote el tiempo de espera."
 
 #: admin/install.rst:420
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
@@ -11117,19 +11017,14 @@ msgid "Properly configure admins"
 msgstr "Configurar correctamente los administradores"
 
 #: admin/install.rst:855
-#, fuzzy
-#| msgid ""
-#| "Set the correct admin addresses to the :setting:`ADMINS` setting to "
-#| "defining who will receive e-mails in case something goes wrong on the "
-#| "server, for example:"
 msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to define "
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
-"Establecer las direcciones de administrador correctas a la "
-"configuración :setting:`ADMINS` para definir quién recibirá correos "
-"electrónicos en caso de que algo salga mal en el servidor, por ejemplo:"
+"Establecer las direcciones de administrador correctas a los ajustes de "
+":setting:`ADMINS` para definir quién recibirá correos-e en caso que algo "
+"salga mal en el servidor, por ejemplo:"
 
 #: admin/install.rst:869
 msgid "Set correct site domain"
@@ -11673,13 +11568,6 @@ msgid ":file:`/media/` is no longer used for serving screenshots."
 msgstr ":file:`/media/` no es utilizado más para servir capturas de pantalla."
 
 #: admin/install.rst:1259
-#, fuzzy
-#| msgid ""
-#| "Django needs to collect its static files in a single directory. To do so, "
-#| "execute :samp:`weblate collectstatic --noinput`. This will copy the "
-#| "static files into a directory specified by "
-#| "the :setting:`django:STATIC_ROOT` setting (this defaults to a ``static`` "
-#| "directory inside :setting:`CACHE_DIR`)."
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -11691,9 +11579,12 @@ msgid ""
 msgstr ""
 "Django necesita recopilar sus archivos estáticos en un solo directorio. Para "
 "ello, ejecute :samp:`weblate collectstatic --noinput`. Esto copiará los "
-"archivos estáticos en un directorio especificado por los ajustes "
-"de :setting:`django:STATIC_ROOT` (esto por defecto es un directorio "
-"``static`` interno a :setting:`CACHE_DIR`)."
+"archivos estáticos en un directorio especificado por los ajustes de "
+":setting:`django:STATIC_ROOT` (esto por defecto es un directorio ``static`` "
+"interno a :setting:`CACHE_DIR`). Las instalaciones de producción utilizan "
+"hashes de contenido en los nombres de archivo recopilados para que los "
+"recursos actualizados no reutilicen cachés obsoletas del navegador o del "
+"proxy."
 
 #: admin/install.rst:1266
 msgid ""
@@ -11712,14 +11603,8 @@ msgstr ""
 "por :setting:`django:STATIC_ROOT`)."
 
 #: admin/install.rst:1273
-#, fuzzy
-#| msgid ""
-#| "Should be rewritten to rewrite a rule to serve :file:`/static/"
-#| "favicon.ico`."
 msgid "Should be rewritten to serve :file:`/static/favicon.ico`."
-msgstr ""
-"Debería reescribirse para reescribir una regla para servir :file:`/static/"
-"favicon.ico`."
+msgstr "Sería reescrito para servir :file:`/static/favicon.ico`."
 
 #: admin/install.rst:1288
 msgid "Content security policy"
@@ -11746,16 +11631,12 @@ msgid "Sample configuration for NGINX and Granian"
 msgstr "Configuración de muestra para NGINX y Granian"
 
 #: admin/install.rst:1309
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate using Granian the NGINX "
-#| "webserver:"
 msgid ""
 "The following configuration runs Weblate using Granian with the NGINX "
 "webserver:"
 msgstr ""
-"La siguiente configuración ejecuta Weblate usando Granian el servidor web "
-"NGINX:"
+"La siguiente configuración ejecuta Weblate usando Granian con el servidor "
+"web NGINX:"
 
 #: admin/install.rst:1318 admin/install.rst:1438
 msgid "https://github.com/emmett-framework/granian"
@@ -11884,6 +11765,7 @@ msgstr ""
 "través de systemd:"
 
 #: admin/install.rst:1428
+#, fuzzy
 msgid ""
 "Granian uses worker processes for parallel Python execution, blocking "
 "threads for concurrent WSGI requests, and runtime threads for network I/O. "
@@ -11893,6 +11775,16 @@ msgid ""
 "memory, CPU cores, and database connection limit. Keep the backpressure "
 "equal to or higher than the number of blocking threads."
 msgstr ""
+"Granian utiliza procesos de trabajo para la ejecución paralela de Python, "
+"subprocesos de bloqueo para las solicitudes WSGI concurrentes y subprocesos "
+"de tiempo de ejecución para las operaciones de E/S de red. El ejemplo "
+"utiliza dos procesos de trabajo con ocho subprocesos de bloqueo cada uno, "
+"limita cada proceso de trabajo a 16 conexiones concurrentes y deja los "
+"subprocesos de tiempo de ejecución con los valores predeterminados de "
+"Granian. Ajusta el número de procesos de trabajo y de subprocesos de bloqueo "
+"en función de la memoria disponible, los núcleos de CPU y el límite de "
+"conexiones a la base de datos. Mantén la contrapresión igual o superior al "
+"número de subprocesos de bloqueo."
 
 #: admin/install.rst:1444
 msgid "Sample configuration to start Gunicorn"
@@ -13001,6 +12893,7 @@ msgid "You can also fine-tune individual worker categories:"
 msgstr "También puede ajustar las categorías individuales de los trabajadores:"
 
 #: admin/install/docker.rst:409
+#, fuzzy
 msgid ""
 "The prefetch multiplier controls how many tasks each worker execution slot "
 "can reserve. The default of one avoids reserving additional long-running or "
@@ -13008,6 +12901,13 @@ msgid ""
 "because its short tasks can benefit from buffering. Increase the value only "
 "after measuring queue latency and worker memory usage."
 msgstr ""
+"El multiplicador de precarga controla el número de tareas que puede reservar "
+"cada ranura de ejecución del worker. El valor predeterminado, que es uno, "
+"evita reservar tareas adicionales de larga duración o con una gran carga de "
+"datos. En este ejemplo, el worker de notificaciones utiliza cuatro, ya que "
+"sus tareas cortas pueden beneficiarse del almacenamiento en tampón. Aumenta "
+"el valor solo después de medir la latencia de la cola y el uso de memoria "
+"del worker."
 
 #: admin/install/docker.rst:415
 msgid ""
@@ -13526,19 +13426,13 @@ msgstr ""
 "con :envvar:`WEBLATE_LEGAL_INTEGRATION` habilitado."
 
 #: admin/install/docker.rst:958
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``\"tos\"``, which enables the built-in legal document "
-#| "numbering and spacing rules. Set this to an empty string to render legal "
-#| "documents without the built-in numbering."
 msgid ""
 "Set this to the class targeted by your custom legal stylesheet. Set it to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
-"El valor predeterminado es ``\"tos\"``, lo que activa las reglas integradas "
-"de numeración y espaciado de los documentos legales. Establece este valor en "
-"una cadena vacía para representar documentos legales sin la numeración "
-"integrada."
+"Establezca esto a la clase destino por su hoja de estilo legal "
+"personalizada. Póngalo a una cadena vacía para analizar documentos legales "
+"sin una clase de cobertura."
 
 #: admin/install/docker.rst:970
 msgid ""
@@ -13761,10 +13655,8 @@ msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgstr "Configura :setting:`EXTRA_HTML_HEAD`."
 
 #: admin/install/docker.rst:1217
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid "Configures :setting:`INTERNAL_BOT_EMAIL_TEMPLATE`."
-msgstr "Configurar :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr "Configurar :setting:`INTERNAL_BOT_EMAIL_TEMPLATE`."
 
 #: admin/install/docker.rst:1223
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
@@ -13892,19 +13784,10 @@ msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr "Configura :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/install/docker.rst:1397
-#, fuzzy
-#| msgid "Code hosting sites credentials"
 msgid "Code-hosting sites credentials"
 msgstr "Credenciales de sitios de alojamiento de código"
 
 #: admin/install/docker.rst:1399
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the code hosting credentials can be configured "
-#| "either in separate variables or using a Python dictionary to set them at "
-#| "once. The following examples are for :ref:`code-hosting-github-pull-"
-#| "requests`, but apply to all :ref:`vcs` with appropriately changed "
-#| "variable names."
 msgid ""
 "In the Docker container, the code-hosting credentials can be configured "
 "either in separate variables or using a Python dictionary to set them at "
@@ -13912,11 +13795,11 @@ msgid ""
 "requests`, but apply to all :ref:`vcs` with appropriately changed variable "
 "names."
 msgstr ""
-"En el contenedor Docker, las credenciales de alojamiento de código se pueden "
-"configurar en variables separadas o usando un diccionario Python para "
-"configurarlas a la vez. Los siguientes ejemplos son para :ref:`code-hosting-"
-"github-pull-requests`, pero se aplican a todos :ref:`vcs` con nombres de "
-"variables modificados adecuadamente."
+"En el contenedor Docker, las credenciales de alojamiento de código pueden "
+"ser configurados en variables separadas o usando un diccionario Python para "
+"establecerlos a la vez. Los ejemplos a continuación son para :ref:`code-"
+"hosting-github-pull-requests`, pero se aplican a todos :ref:`vcs` con "
+"nombres de variables modificados adecuadamente."
 
 #: admin/install/docker.rst:1406
 msgid ""
@@ -13962,9 +13845,6 @@ msgstr ""
 #: admin/install/docker.rst:1452 admin/install/docker.rst:1468
 #: admin/install/docker.rst:1480 admin/install/docker.rst:1492
 #: admin/install/docker.rst:1513 admin/install/docker.rst:1526
-#, fuzzy
-#| msgid ""
-#| ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgid ""
 ":ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
@@ -14737,27 +14617,19 @@ msgstr ""
 "en función del número de núcleos de CPU disponibles."
 
 #: admin/install/docker.rst:2357
-#, fuzzy
-#| msgid ""
-#| "It is used to "
-#| "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
-#| "and :envvar:`WEB_WORKERS`. You can use these settings to fine-tune."
 msgid ""
 "It is used to "
 "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, "
 "and :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune."
 msgstr ""
-"Se utiliza para "
-"determinar :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
-"y :envvar:`WEB_WORKERS`. Puedes utilizar estas opciones para realizar "
-"ajustes."
+"Se utiliza para determinar :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS` y "
+":envvar:`WEB_BLOCKING_THREADS`. Puedes utilizar estas opciones para realizar "
+"ajustes de tono fino."
 
 #: admin/install/docker.rst:2370
-#, fuzzy
-#| msgid ""
-#| "These variables allow you to adjust Celery worker options. It can be "
-#| "useful to adjust concurrency (``--concurrency 16``) or use different pool "
-#| "implementation (``--pool=gevent``)."
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``), prefetching (``--prefetch-"
@@ -14766,8 +14638,11 @@ msgid ""
 "allowing each worker category to use a different prefetch multiplier."
 msgstr ""
 "Estas variables permiten ajustar las opciones de trabajo de Celery. Puede "
-"ser útil ajustar la concurrencia (``--concurrency 16``) o usar una "
-"implementación de pool diferente (``--pool=gevent``)."
+"ser útil ajustar la concurrencia (``--concurrency 16``), pre‐obtención (``--"
+"prefetch-multiplier 4``), o utilizar una implementación de reserva diferente "
+"(``--pool=gevent``). Las opciones de la línea de comandos tienen prioridad "
+"sobre la configuración correspondiente de Celery, lo que permite que cada "
+"categoría de trabajador utilice un multiplicador de precarga diferente."
 
 #: admin/install/docker.rst:2377
 msgid ""
@@ -14803,22 +14678,20 @@ msgstr ""
 "menos 2."
 
 #: admin/install/docker.rst:2421
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEB_WORKERS` configures how many worker processes will used "
-#| "by :program:`granian`."
 msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will be used "
 "by :program:`granian`."
 msgstr ""
-":envvar:`WEB_WORKERS` configura cuantos procesos de trabajador utilizados "
-"por :program:`granian`."
+":envvar:`WEB_WORKERS` configura cuantos procesos de trabajador serán "
+"utilizados por :program:`granian`."
 
 #: admin/install/docker.rst:2425
 msgid ""
 "Configure how many blocking WSGI threads each :program:`granian` worker can "
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS`."
 msgstr ""
+"Configure cuantos hilos WSGI bloqueantes pueden usar cada trabajador "
+":program:`granian`. Predetermina a dos veces :envvar:`WEBLATE_WORKERS`."
 
 #: admin/install/docker.rst:2428
 msgid ""
@@ -14827,6 +14700,10 @@ msgid ""
 "by :envvar:`WEB_BLOCKING_THREADS`. Each thread can hold its own database "
 "connection, so keep the resulting total within the database connection limit."
 msgstr ""
+"El número máximo de solicitudes WSGI simultáneas es aproximadamente "
+":envvar:`WEB_WORKERS` multiplicado por :envvar:`WEB_BLOCKING_THREADS`. Cada "
+"hilo puede mantener su propia conexión de base de datos, así que mantenga el "
+"total resultante dentro del límite de conexión de la base de datos."
 
 #: admin/install/docker.rst:2443
 msgid ""
@@ -15232,19 +15109,14 @@ msgstr ""
 "volumen."
 
 #: admin/install/docker.rst:2681
-#, fuzzy
-#| msgid ""
-#| "This approach can be also used to override Weblate templates. For "
-#| "example :ref:`legal` documents can be placed into :file:`/app/data/python/"
-#| "customize/templates/legal/documents`."
 msgid ""
 "This approach can be also used to override Weblate templates. For example, "
 "custom :ref:`legal` documents and styles can be provided as described "
 "in :ref:`legal-customization`."
 msgstr ""
-"Este enfoque también se puede utilizar para anular las plantillas de "
-"Weblate. Por ejemplo los documentos :ref:`legal` se pueden colocar "
-"en :file:`/app/data/python/customize/templates/legal/documents`."
+"Este método también se puede utilizar para anular las plantillas de Weblate. "
+"Por ejemplo los documentos :ref:`legal` personalizados y los estilos pueden "
+"ser proporcionados como se describe en :ref:`legal-customization`."
 
 #: admin/install/docker.rst:2685
 msgid ""
@@ -16572,21 +16444,15 @@ msgstr ""
 "implementación subyacente."
 
 #: admin/languages.rst:161
-#, fuzzy
-#| msgid ""
-#| "Changing plural number or formula will affect only displaying of the "
-#| "strings, but not parsing and storing strings to the files. Should you "
-#| "think Weblate behaves incorrectly, please file a issue in our issue "
-#| "tracker."
 msgid ""
 "Changing plural number or formula will affect only displaying of the "
 "strings, but not parsing and storing strings to the files. Should you think "
 "Weblate behaves incorrectly, please file an issue in our issue tracker."
 msgstr ""
-"Cambiar el número plural o la fórmula afectará solo a la visualización de "
-"las cadenas, pero no al análisis sintáctico ni al almacenamiento de cadenas "
-"en los archivos. Si crees que Weblate se comporta de manera incorrecta, "
-"presenta una incidencia en nuestro seguimiento de incidencias."
+"Cambiar el número plural o la fórmula solamente afectará a la exhibición de "
+"las cadenas, pero no al interpretar y almacenar cadenas a los archivos. Si "
+"crees que Weblate se comporta de manera incorrecta, envíanos una incidencia "
+"en nuestro seguimiento de incidencias."
 
 #: admin/languages.rst:169
 msgid "Plural number"
@@ -16887,7 +16753,6 @@ msgstr ""
 "glosario."
 
 #: admin/machine.rst:76
-#, fuzzy
 msgid ""
 "You can add target-language-specific instructions in :guilabel:`Language-"
 "specific instructions` using a JSON object mapping language codes to text. "
@@ -16896,16 +16761,15 @@ msgid ""
 "first looks for the exact target language code and then falls back to the "
 "base language code."
 msgstr ""
-"Puedes añadir instrucciones específicas para cada idioma de destino "
-"en :guilabel:`. Las instrucciones específicas para cada idioma` se definen "
+"Puedes añadir instrucciones específicas para cada idioma de destino en "
+":guilabel:`Las instrucciones específicas para cada idioma` se definen "
 "mediante un objeto JSON que asocia los códigos de idioma al texto. Los "
 "códigos de idioma deben existir en Weblate y deben coincidir exactamente; "
 "los espacios en blanco no se ignoran. Cada instrucción puede contener hasta "
-"1000 caracteres. Weblate busca primero el código exacto del idioma de "
+"1.000 caracteres. Weblate primero busca el código exacto del idioma de "
 "destino y, a continuación, recurre al código del idioma base."
 
 #: admin/machine.rst:83
-#, fuzzy
 msgid ""
 "The added metadata is used only to guide the generated suggestion; the "
 "returned translation still has to preserve the source placeholders and "
@@ -16920,10 +16784,10 @@ msgstr ""
 "marcado del texto de la fuente. Weblate también envía un breve intercambio "
 "de chat previo a los servicios LLM para mostrar el formato de respuesta JSON "
 "esperado. El intercambio utiliza ejemplos traducidos incluidos en el "
-"paquete, cuando están disponibles para el par de idiomas de la fuente y del "
-"destino, o, en su defecto, ejemplos de formato neutros en cuanto al idioma. "
-"Las traducciones existentes para el mismo idioma de destino pueden añadirse "
-"como ejemplos adicionales."
+"paquete, cuando están disponibles para la pareja de idiomas de la fuente y "
+"del destino, o, en su defecto, ejemplos de formato neutros en cuanto al "
+"idioma. Las traducciones existentes para el mismo idioma de destino pueden "
+"añadirse como ejemplos adicionales."
 
 #: admin/machine.rst:97
 msgid "Custom machine translation"
@@ -17455,8 +17319,6 @@ msgstr ""
 "Para instalar :ref:`addon-weblate.gettext.mo` para todos los componentes:"
 
 #: admin/management.rst:790
-#, fuzzy
-#| msgid "Installs an site-wide automatic suggestion service."
 msgid "Installs a site-wide automatic suggestion service."
 msgstr "Instala un servicio sugerido por todo el sitio automático."
 
@@ -18470,21 +18332,16 @@ msgstr ""
 "WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents>."
 
 #: admin/optionals.rst:161
-#, fuzzy
-#| msgid ""
-#| "The bundled terms of service and related legal documents are specific to "
-#| "that service and are not intended for general use. They might still come "
-#| "in handy as a starting point if adjusted to meet your needs."
 msgid ""
 "The bundled terms of service and related legal documents are specific to "
 "services operated by Weblate s.r.o. They can serve as an implementation "
 "example, but should not be used as a basis for legal documents of other "
 "services."
 msgstr ""
-"Los términos de servicio vinculados y relativos a documentos legislativos "
-"están especificados a ese servicio y no son intencionados para uso general. "
-"Aún podrían resultar útiles como punto de partida si se adaptan a sus "
-"necesidades."
+"Los términos de servicio agrupados y los documentos legales relacionados son "
+"específicos de los servicios operados por Weblate s.r.o. Pueden servir como "
+"ejemplo de implementación, pero no deben utilizarse como base para "
+"documentos legales de otros servicios."
 
 #: admin/optionals.rst:169
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -18497,6 +18354,8 @@ msgid ""
 "Provide legal document templates matching your service, as described "
 "in :ref:`legal-customization`."
 msgstr ""
+"Proporcionar plantillas de documentos legales que coincidan con su servicio, "
+"como se describe en :ref:`legal-customization`."
 
 #: admin/optionals.rst:197
 msgid ""
@@ -18531,15 +18390,11 @@ msgstr ""
 "contenedor existente no aplica los valores de entorno cambiados."
 
 #: admin/optionals.rst:214
-#, fuzzy
-#| msgid ""
-#| "After installation and editing, the legal documents are shown in the "
-#| "Weblate UI."
 msgid ""
 "After installation and customization, the legal documents are shown in the "
 "Weblate UI."
 msgstr ""
-"Después de la instalación y edición, los documentos legales se muestran en "
+"Tras la instalación y personalización, los documentos legales se muestran en "
 "la interfaz de usuario de Weblate."
 
 #: admin/optionals.rst:216
@@ -18564,18 +18419,19 @@ msgstr ""
 "documentos de términos de servicio y normativa de privacidad."
 
 #: admin/optionals.rst:227
-#, fuzzy
-#| msgid "Customizing behavior using flags"
 msgid "Customizing legal documents and styles"
-msgstr "Personalizar el comportamiento mediante indicadores"
+msgstr "Adaptar documentos y estilos legales"
 
 #: admin/optionals.rst:229
 msgid ""
 "Provide your own legal documents by overriding these templates in "
 "a :ref:`custom-module`:"
 msgstr ""
+"Proporcione sus propios documentos legales al sobrescribir estas plantillas "
+"en un :ref:`custom-module`:"
 
 #: admin/optionals.rst:239
+#, fuzzy
 msgid ""
 "Place the customization app before ``weblate.legal`` and any other app "
 "providing legal template overrides in :setting:`django:INSTALLED_APPS` so "
@@ -18583,24 +18439,28 @@ msgid ""
 "overridden; the remaining legal templates continue to use the defaults from "
 "later apps."
 msgstr ""
+"Coloque la aplicación de personalización antes de ``weblate.legal`` y "
+"cualquier otra aplicación que proporcione plantilla legal se anula en "
+":setting:`django:INSTALLED_APPS` para que Django seleccione sus plantillas. "
+"Sólo las plantillas que proporcionas están sobrecargadas; las plantillas "
+"legales restantes siguen utilizando los defectos de aplicaciones posteriores."
 
 #: admin/optionals.rst:244
 msgid ""
 "The :file:`legal/styles.html` template is included in the HTML head of every "
 "legal page. Use it to load a stylesheet from your customization app:"
 msgstr ""
+"La plantilla :file:`legal/styles.html` está incluida en la cabecera de HTML "
+"en cada página legal. Úsalo para cargar una hoja de estilo de tu aplicación "
+"de personalización:"
 
 #: admin/optionals.rst:253
-#, fuzzy
-#| msgid ""
-#| "Run :samp:`weblate collectstatic --noinput`, to collect static files "
-#| "served to clients."
 msgid ""
 "Run :samp:`weblate collectstatic --noinput` after adding or changing the "
 "static file."
 msgstr ""
-"Ejecute :samp:`weblate collectstatic --noinput`, para colección estática de "
-"archivos servidos a clientes."
+"Ejecute :samp:`weblate collectstatic --noinput`, tras agregar o modificar el "
+"archivo estático."
 
 #: admin/optionals.rst:256
 msgid ""
@@ -18611,6 +18471,13 @@ msgid ""
 "template then uses ``{% static 'legal.css' %}``. Restart the container to "
 "apply the changes, see :ref:`docker-static-override`."
 msgstr ""
+"En despliegues de Docker, coloque plantillas de documentos en :file:`/app/"
+"data/python/customize/templates/legal/documents`, :file:`styles.html` en "
+":file:`/app/data/python/customize/templates/legal/styles.html`, y la "
+"plantilla de hoja de estilo en :file:`/app/data/python/customize/static/"
+"legal.css`. La plantilla de la hoja de estilo entonces utiliza ``{%static "
+"'legal.css' %}``. Reinicie el contenedor para aplicar los cambios, consulte "
+":ref:`docker-static-override`."
 
 #: admin/optionals.rst:264
 msgid ""
@@ -18620,6 +18487,12 @@ msgid ""
 "document markup. Set the setting to an empty string if no wrapper class is "
 "needed."
 msgstr ""
+"Por defecto, los envoltorios de documentos legales utilizan la clase ``tos`` "
+"de CSS. Weblate no adjunta ningún estilo a esta clase; puedes aplicarle "
+"estilos desde tu hoja de estilos personalizada, o establecer "
+":setting:`LEGAL_DOCUMENT_CSS_CLASS` en otra clase que se ajuste al marcado "
+"de tu documento. Establece el ajuste en una cadena vacía si no se necesita "
+"ninguna clase de contenedor."
 
 #: admin/optionals.rst:269
 msgid ""
@@ -18869,15 +18742,6 @@ msgid "The rate limiting no longer applies to signed in superusers."
 msgstr "El tipo limitante no se aplica más para firmado en superusuarios."
 
 #: admin/optionals.rst:402
-#, fuzzy
-#| msgid ""
-#| "Several operations in Weblate are rate limited. At "
-#| "most :setting:`RATELIMIT_ATTEMPTS` attempts are allowed "
-#| "within :setting:`RATELIMIT_WINDOW` seconds. The user is then blocked "
-#| "for :setting:`RATELIMIT_LOCKOUT`. There are also settings specific to "
-#| "scopes, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or "
-#| "``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of "
-#| "available scopes."
 msgid ""
 "Several operations in Weblate are rate limited. Rate limits are evaluated "
 "independently for each scope. At most :setting:`RATELIMIT_ATTEMPTS` attempts "
@@ -18890,13 +18754,17 @@ msgid ""
 "``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of "
 "available scopes."
 msgstr ""
-"Varias operaciones en Weblate tienen un límite de frecuencia. Se permiten "
-"como máximo :setting:`RATELIMIT_ATTEMPTS` intentos "
-"en :setting:`RATELIMIT_WINDOW` segundos. El usuario queda bloqueado "
-"durante :setting:`RATELIMIT_LOCKOUT`. También existen ajustes específicos "
-"para ciertos ámbitos, como ``RATELIMIT_CONTACT_ATTEMPTS`` o "
-"``RATELIMIT_TRANSLATE_ATTEMPTS``. La tabla siguiente es un listado completo "
-"de ámbitos disponibles."
+"Varias operaciones en Weblate tienen limitaciones de uso. Los límites de "
+"velocidad se evalúan de forma independiente para cada ámbito. A lo sumo "
+"intenta :setting:`RATELIMIT_ATTEMPTS` en :setting:`RATELIMIT_WINDOW` "
+"segundos. El usuario queda bloqueado durante :setting:`RATELIMIT_LOCKOUT`; "
+"Weblate no convierte esto en un bloqueo temporal de IP para todo el sitio. "
+"La tabla siguiente es un listado completo de ámbitos disponibles. El hecho "
+"de exceder un ámbito, como ``TRANSLATE`` o ``SEARCH``, no bloquea por sí "
+"solo ámbitos no relacionados como ``LOGIN`` o ``SECOND_FACTOR``. También "
+"existen configuraciones específicas para cada ámbito, como "
+"``RATELIMIT_CONTACT_ATTEMPTS`` o ``RATELIMIT_TRANSLATE_ATTEMPTS``. La tabla "
+"que aparece a continuación muestra la lista completa de ámbitos disponibles."
 
 #: admin/optionals.rst:412
 msgid "The following operations are subject to rate limiting:"
@@ -19314,6 +19182,10 @@ msgid ""
 "with source strings, and where translations can be tested or when they are "
 "released."
 msgstr ""
+"Unas buenas instrucciones de traducción explican cómo deben enviar las "
+"traducciones los colaboradores, qué proceso de revisión pueden esperar, cómo "
+"pueden informar de problemas con las cadenas de texto de la fuente y dónde "
+"se pueden probar las traducciones o cuándo se publica la versión."
 
 #: admin/projects.rst:176 admin/projects.rst:881 admin/workspaces.rst:94
 msgid "Translation license"
@@ -20980,10 +20852,13 @@ msgid "Restricted access"
 msgstr "Acceso restringido"
 
 #: admin/projects.rst:1260
+#, fuzzy
 msgid ""
 "On Hosted Weblate, this requires a billing plan which permits private "
 "projects."
 msgstr ""
+"Alojado en Weblate, para ello es necesario disponer de un plan de "
+"facturación que permita proyectos privados."
 
 #: admin/projects.rst:1263
 msgid ""
@@ -21636,6 +21511,8 @@ msgid ""
 "Discover Weblate registration can be started directly from the management "
 "interface without manually copying the activation token."
 msgstr ""
+"El proceso de registro en Discover Weblate puede iniciarse directamente "
+"desde la interfaz de gestión sin copiar manualmente el vale de activación."
 
 #: admin/support.rst:105
 #, fuzzy
@@ -21653,6 +21530,7 @@ msgstr ""
 "componentes públicos para usar en *Discover*."
 
 #: admin/support.rst:109
+#, fuzzy
 msgid ""
 "Use the :guilabel:`Discover Weblate` panel in the management interface to "
 "manage the listing. If you have an activated support package, list your "
@@ -21660,8 +21538,15 @@ msgid ""
 "connected to weblate.org yet, start the registration by "
 "clicking :guilabel:`Enable Discover Weblate`:"
 msgstr ""
+"Utiliza el panel « :guilabel:`» (Descubrir Weblate)` de la interfaz de "
+"administración para gestionar la entrada. Si tienes un paquete de "
+"compatibilidad, apoyo, asistencia, mantenimiento activado, añade tu servidor "
+"haciendo clic en :guilabel:`«Habilitar descubrimiento»`. Si la instancia aún "
+"no está conectada a weblate.org, inicia el registro haciendo clic en "
+":guilabel:`«Habilitar Discover Weblate»`:"
 
 #: admin/support.rst:118
+#, fuzzy
 msgid ""
 "This opens the registration form on weblate.org and returns to your Weblate "
 "management interface to complete activation with discovery already enabled. "
@@ -21670,6 +21555,14 @@ msgid ""
 "purchased support package is handled by :ref:`activate-support`. Unlinking "
 "the support package disables the Discover Weblate listing."
 msgstr ""
+"Esto abre el formulario de registro en weblate.org y te redirige a tu "
+"interfaz de administración de Weblate para completar la activación con la "
+"función «Discover» ya habilitada. El proceso de registro se puede realizar "
+"desde una cuenta que cuente con una suscripción de asistencia técnica, pero "
+"lo que se registra es la ficha de «Discover Weblate»; la activación de un "
+"paquete de asistencia técnica adquirido se gestiona a través de "
+":ref:`activate-support`. Al desvincular el paquete de asistencia técnica, se "
+"desactiva la ficha de «Discover Weblate»."
 
 #: admin/support.rst:125
 #, fuzzy
@@ -21691,20 +21584,19 @@ msgstr ""
 "Registre su sitio Weblate en https://weblate.org/subscription/discovery/"
 
 #: admin/support.rst:130
+#, fuzzy
 msgid "Copy the activation token into your Weblate management interface."
 msgstr ""
+"Copia el token de activación en tu interfaz de administración de Weblate."
 
 #: admin/support.rst:131
-#, fuzzy
-#| msgid ""
-#| "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
-#| "discovery` from its management page :"
 msgid ""
 "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
 "discovery` from the :guilabel:`Discover Weblate` panel:"
 msgstr ""
-"Confirme que desea que su Weblate aparezca en la lista pulsando "
-"sobre :guilabel:`Habilitar descubrimiento` desde su página de gestión:"
+"Confirme que desea que su Weblate aparezca en la lista pulsando sobre "
+":guilabel:`Habilitar descubrimiento` desde el panel :guilabel:`Descubrir "
+"Weblate`:"
 
 #: admin/support.rst:139
 msgid "Listing customization"
@@ -22492,10 +22384,15 @@ msgstr ""
 "puedes acceder."
 
 #: admin/workspaces.rst:18
+#, fuzzy
 msgid ""
 "Signed-in users can also review grouped project and component findings on "
 "the workspace :guilabel:`Diagnostics` tab. See :ref:`diagnostics-overviews`."
 msgstr ""
+"Los usuarios que hayan iniciado sesión también pueden consultar los "
+"resultados agrupados por proyectos y componentes en la lengüeta « "
+":guilabel:`» (Diagnóstico) del espacio de trabajo`. Consulte "
+":ref:`diagnostics-overviews`."
 
 #: admin/workspaces.rst:21
 msgid ""
@@ -22512,24 +22409,23 @@ msgid "Workspace removal"
 msgstr "Espacio de trabajo creado"
 
 #: admin/workspaces.rst:31
-#, fuzzy
-#| msgid ""
-#| "Users with :guilabel:`Edit workspace settings` permission can view and "
-#| "pay the billing plan. Billing notification e-mails are sent to these "
-#| "users."
 msgid ""
 "Users with the :guilabel:`Edit workspace settings` permission can remove a "
 "workspace from :guilabel:`Operations` ↓ :guilabel:`Organize or remove`."
 msgstr ""
-"Los usuarios con permiso para :guilabel:`Editar ajustes del espacio de "
-"trabajo` puede ver y abonar el plan de facturación. Los correos-e de "
-"notificación de factura se envían a estos usuarios."
+"Los usuarios con el permiso de :guilabel:`Editar ajustes del espacio de "
+"trabajo` puede retirar un espacio de trabajo desde las "
+":guilabel:`Operaciones` ↓ :guilabel:`Organizar o retirar`."
 
 #: admin/workspaces.rst:34
+#, fuzzy
 msgid ""
 "Only empty workspaces can be removed. Move or remove all projects in the "
 "workspace first. Workspaces associated with billing cannot be removed."
 msgstr ""
+"Solo se pueden eliminar los espacios de trabajo vacíos. Primero, desplaza o "
+"elimina todos los proyectos del espacio de trabajo. Los espacios de trabajo "
+"asociados a la facturación no se pueden eliminar."
 
 #: admin/workspaces.rst:40
 msgid "Project creation and moves"
@@ -23250,10 +23146,13 @@ msgid "Changes in translations are exported in RSS feeds."
 msgstr "Las modificaciones a las traducciones se exportan en suministros RSS."
 
 #: api.rst:3597
+#, fuzzy
 msgid ""
 "The feeds contain only changes in projects and components the requesting "
 "user can access."
 msgstr ""
+"Las fuentes solo contienen los cambios en los proyectos y componentes a los "
+"que tiene acceso el usuario que realiza la solicitud."
 
 #: api.rst:3600
 msgid ""
@@ -23292,16 +23191,22 @@ msgid "New features"
 msgstr "Características nuevas"
 
 #: changes.rst:8
+#, fuzzy
 msgid ""
 "Workspaces now provide aggregate translation statistics and historical "
 "metrics."
 msgstr ""
+"Los espacios de trabajo ofrecen ahora estadísticas de traducciones agregadas "
+"y métricas históricas."
 
 #: changes.rst:9
+#, fuzzy
 msgid ""
 "Added API endpoints for listing, adding, accepting, rejecting, and voting on "
 "translation suggestions."
 msgstr ""
+"Se han añadido puntos finales del API para consultar, añadir, aceptar, "
+"rechazar y votar las sugerencias de traducción."
 
 #: changes.rst:10
 msgid ""
@@ -23314,11 +23219,16 @@ msgstr ""
 "espacio de trabajo, e incluye análisis de trabajo del traductor."
 
 #: changes.rst:11
+#, fuzzy
 msgid ""
 "Added :guilabel:`Use keywords exclusively` option to :ref:`addon-"
 "weblate.gettext.xgettext`, allowing projects to disable xgettext default "
 "keywords and rely only on a custom keyword."
 msgstr ""
+"Añadido :guilabel:`Usar palabras clave exclusivamente` opción a :ref:`addon-"
+"weblate.gettext.xgettext`, permitiendo que los proyectos desactiven las "
+"palabras clave predeterminadas de xgettext y confíen únicamente en una "
+"palabra clave personalizada."
 
 #: changes.rst:14 changes.rst:73 changes.rst:137 changes.rst:248
 #: changes.rst:305 changes/v5.rst:18 changes/v5.rst:104 changes/v5.rst:208
@@ -23340,35 +23250,55 @@ msgid "Improvements"
 msgstr "Mejoras"
 
 #: changes.rst:15
+#, fuzzy
 msgid ""
 "Added grouped project and workspace :guilabel:`Diagnostics` views with "
 "state, severity, category, and actionable-by-user filters."
 msgstr ""
+"Se han añadido vistas agrupadas de proyectos y espacios de trabajo "
+":guilabel:`y de Diagnósticos` con filtros por estado, gravedad, categoría y "
+"acciones que puede realizar el usuario."
 
 #: changes.rst:16
+#, fuzzy
 msgid ""
 "Component diagnostics now record dismissal ownership, reopen after relevant "
 "changes, and notify only project maintainers who can act on warnings and "
 "errors."
 msgstr ""
+"El diagnóstico de componentes ahora registra quién ha descartado un "
+"problema, lo vuelve a abrir tras los cambios pertinentes y notifica "
+"únicamente a los responsables del mantenimiento del proyecto, que son los "
+"únicos que pueden tomar medidas ante las advertencias y los errores."
 
 #: changes.rst:17
+#, fuzzy
 msgid ""
 ":ref:`Add-on activity logs <addon-activity-logging>` now distinguish "
 "pending, successful, failed, and skipped executions and explain why an add-"
 "on was skipped."
 msgstr ""
+":ref:`Los registros de actividad de los complementos <addon-activity-logging>"
+"` ahora distinguen entre ejecuciones pendientes, correctas, fallidas y "
+"omitidas, y explican por qué se ha omitido un complemento."
 
 #: changes.rst:18
+#, fuzzy
 msgid ""
 "Add-on management now uses separate configuration, logs, and components tabs."
 msgstr ""
+"La gestión de complementos utiliza ahora lengüetas independientes para la "
+"configuración, los registros y los componentes."
 
 #: changes.rst:19
+#, fuzzy
 msgid ""
 "Expanded :ref:`change-actions` documentation with detailed event semantics "
 "and improved OpenAPI schema accuracy."
 msgstr ""
+"Se ha ampliado la documentación de « :ref:`change-actions` » con una "
+"descripción detallada de la semántica de los eventos y se ha mejorado la "
+"precisión del esquema OpenAPI."
 
 #: changes.rst:20
 #, fuzzy
@@ -23378,10 +23308,13 @@ msgid ""
 msgstr "Se mejoró el rendimiento al mostrar traducciones fantasma."
 
 #: changes.rst:21
+#, fuzzy
 msgid ""
 "Translation memory management pages now load origin summaries with a single "
 "database aggregation."
 msgstr ""
+"Las páginas de gestión de memorias de traducción ahora cargan los resúmenes "
+"de origen mediante una única consulta a la base de datos."
 
 #: changes.rst:22
 #, fuzzy
@@ -23392,22 +23325,34 @@ msgid ""
 msgstr "Asociar un componente con un listado del componente."
 
 #: changes.rst:23
+#, fuzzy
 msgid ""
 "Static assets now use content-hashed filenames, and CAPTCHA JavaScript is "
 "loaded only when needed."
 msgstr ""
+"Los recursos estáticos utilizan ahora nombres de archivo con hash de "
+"contenido, y el código JavaScript de CAPTCHA solo se carga cuando es "
+"necesario."
 
 #: changes.rst:24
+#, fuzzy
 msgid ""
 ":ref:`Empty workspaces <workspace-removal>` not associated with billing can "
 "now be removed from the workspace :guilabel:`Operations` menu."
 msgstr ""
+":ref:`Los espacios de trabajo vacíos <workspace-removal>` que no estén "
+"asociados a ninguna factura ya se pueden eliminar desde el menú «Operaciones"
+"» :guilabel:`de «Operaciones»` del espacio de trabajo."
 
 #: changes.rst:25
+#, fuzzy
 msgid ""
 ":ref:`mt-aws` machine translation now supports configuring formality, "
 "brevity, and profanity masking."
 msgstr ""
+":ref:`mt-aws` La traducción automática ahora ofrece compatibilidad para "
+"configurar el nivel de formalidad, la concisión y el enmascaramiento de "
+"palabrotas."
 
 #: changes.rst:26
 msgid ""
@@ -23418,27 +23363,40 @@ msgstr ""
 "errores al descargar datos de reconocimiento."
 
 #: changes.rst:27
+#, fuzzy
 msgid ""
 "Celery workers now prefetch fewer tasks by default to reduce memory usage "
 "and improve task distribution."
 msgstr ""
+"Ahora, los procesos de Celery precargan menos tareas de forma predeterminada "
+"para reducir el consumo de memoria y mejorar la distribución de tareas."
 
 #: changes.rst:28
 msgid ""
 "Improved the recommended :ref:`running-granian` configuration and Docker "
 "container worker resilience for Weblate's WSGI workload."
 msgstr ""
+"Se ha mejorado la configuración :ref:`running-granian` recomendada y la "
+"resiliencia del trabajador de contenedores Docker para la carga de trabajo "
+"WSGI de Weblate."
 
 #: changes.rst:29
 msgid "Deployment checks now detect corrupted PostgreSQL relation statistics."
 msgstr ""
+"Las comprobaciones de implementación ahora detectan estadísticas de "
+"relaciones de PostgreSQL corruptas."
 
 #: changes.rst:30
+#, fuzzy
 msgid ""
 ":ref:`Community diagnostics <alerts>` now show source-string screenshot "
 "coverage, recommend key translation-instruction topics, and distinguish "
 "inbound from outbound repository automation."
 msgstr ""
+":ref:`Los diagnósticos de la comunidad <alerts>` ahora muestran la cobertura "
+"de capturas de pantalla de las cadenas de código fuente, recomiendan temas "
+"clave sobre instrucciones de traducción y distinguen entre la automatización "
+"de repositorios entrantes y salientes."
 
 #: changes.rst:33 changes.rst:90 changes.rst:164 changes.rst:221
 #: changes.rst:259 changes.rst:322 changes/v5.rst:36 changes/v5.rst:144
@@ -23465,59 +23423,91 @@ msgid "Bug fixes"
 msgstr "Correcciones de defectos"
 
 #: changes.rst:34
+#, fuzzy
 msgid ""
 "Category, project, and comment statistics now stay consistent after "
 "component topology and comment changes, and category metrics are collected "
 "correctly."
 msgstr ""
+"Las estadísticas de categorías, proyectos y comentarios ahora se mantienen "
+"coherentes tras los cambios en la topología de los componentes y en los "
+"comentarios, y las métricas de categorías se recopilan correctamente."
 
 #: changes.rst:35
+#, fuzzy
 msgid ""
 "Mercurial repository filenames beginning with a dash are now handled safely."
 msgstr ""
+"Los nombres de archivo del repositorio de Mercurial que empiezan por un "
+"guión ahora se gestionan de forma segura."
 
 #: changes.rst:36
+#, fuzzy
 msgid ""
 "Self-service REST API e-mail changes are now restricted to verified "
 "addresses."
 msgstr ""
+"Los cambios de correo-e a través de la API REST de autoservicio ahora están "
+"restringidos a direcciones verificadas."
 
 #: changes.rst:37
+#, fuzzy
 msgid ""
 "REST API authorization now consistently protects internal accounts, "
 "restricted components, add-on configuration, component sharing, repository "
 "links, and review states."
 msgstr ""
+"La autorización de la API REST protege ahora de forma sistemática las "
+"cuentas internas, los componentes restringidos, la configuración de "
+"complementos, el uso compartido de componentes, los enlaces a repositorios y "
+"los estados de revisión."
 
 #: changes.rst:38
+#, fuzzy
 msgid ""
 "Project backup imports now skip repository-linked components when the "
 "importer cannot access the target component."
 msgstr ""
+"Las importaciones de copias de seguridad de proyectos ahora omiten los "
+"componentes vinculados al repositorio cuando el importador no puede acceder "
+"al componente de destino."
 
 #: changes.rst:39
+#, fuzzy
 msgid ""
 "Suggestion submission and rejection now reject excessively long suggestion "
 "text and rejection reasons."
 msgstr ""
+"El sistema de envío y rechazo de sugerencias ahora rechaza los textos de "
+"sugerencia y los motivos de rechazo que sean excesivamente largos."
 
 #: changes.rst:40
+#, fuzzy
 msgid ""
 "Restricted components are now available on Hosted Weblate when the billing "
 "plan permits private projects."
 msgstr ""
+"Los componentes restringidos ya están disponibles en Alojado en Weblate "
+"siempre que el plan de facturación permita proyectos privados."
 
 #: changes.rst:41
+#, fuzzy
 msgid ""
 "Machine translation and translation memory AJAX lookups no longer disclose "
 "whether inaccessible unit IDs exist."
 msgstr ""
+"Las consultas AJAX relacionadas con la traducción automática y las memorias "
+"de traducción ya no indican si existen identificadores de unidad "
+"inaccesibles."
 
 #: changes.rst:42
+#, fuzzy
 msgid ""
 ":ref:`RSS feeds <rss>` no longer disclose change history from inaccessible "
 "projects or restricted components."
 msgstr ""
+":ref:`Las fuentes RSS de <rss>` ya no muestran la historia de cambios de "
+"proyectos inaccesibles ni de componentes restringidos."
 
 #: changes.rst:45 changes.rst:198 changes.rst:338 changes/v5.rst:66
 #: changes/v5.rst:176 changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451
@@ -23535,12 +23525,18 @@ msgid ""
 "django-compressor is no longer used, and the ``COMPRESS_*`` settings have "
 "been removed."
 msgstr ""
+"django-compressor ya no se utiliza más, y los ajustes ``COMPRESS_*`` han "
+"sido retirados."
 
 #: changes.rst:47
+#, fuzzy
 msgid ""
 "Legal document styling is now provided through an overridable template "
 "instead of Weblate's global stylesheet. See :ref:`legal-customization`."
 msgstr ""
+"El formato de los documentos jurídicos se define ahora mediante una "
+"plantilla que se puede anular, en lugar de la hoja de estilos global de "
+"Weblate. Consulte :ref:`legal-customization`."
 
 #: changes.rst:48
 msgid ""
@@ -23618,18 +23614,14 @@ msgstr ""
 "actualización."
 
 #: changes.rst:54
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
-#| "accordingly."
 msgid ""
 "There are changes in :file:`settings_example.py`, most notably the new "
 "``STORAGES`` configuration and removal of the ``COMPRESS_*`` settings; "
 "please adjust your settings accordingly."
 msgstr ""
-"Hay varios cambios en :file:`settings_example.py`, muy notable es cambiar en "
-"``COMPRESS_OFFLINE_CONTEXT``, p.f. ajuste sus parámetros respectivamente."
+"Hay varios cambios en :file:`settings_example.py`, muy notable es la "
+"configuración ``STORAGES`` y retirada de los ajustes ``COMPRESS_*``; por "
+"favor ajustes su parámetros respectivamente."
 
 #: changes.rst:55
 msgid ""
@@ -23637,6 +23629,9 @@ msgid ""
 "necessary; :program:`weblate collectstatic --noinput` now prepares versioned "
 "static assets without clearing the static storage."
 msgstr ""
+"Ya no es necesario ejecutar :program:`weblate compress` ahora "
+":program:`weblate collectstatic --noinput` prepara los recursos estáticos "
+"versionados sin vaciar el almacenamiento estático."
 
 #: changes.rst:58 changes.rst:115 changes.rst:210 changes.rst:229
 #: changes.rst:283 changes.rst:354 changes/v5.rst:77 changes/v5.rst:193
@@ -23713,10 +23708,13 @@ msgstr ""
 "lectura."
 
 #: changes.rst:77
+#, fuzzy
 msgid ""
 "Component diagnostics now warn when regular :ref:`gettext` PO files are "
 "configured as monolingual PO files."
 msgstr ""
+"El diagnóstico de componentes ahora avisa cuando los archivos PO normales de "
+":ref:`gettext` están configurados como archivos PO monolingües."
 
 #: changes.rst:78
 msgid ""
@@ -23727,29 +23725,32 @@ msgstr ""
 "traducción más grandes."
 
 #: changes.rst:79
+#, fuzzy
 msgid ""
 "Permission denied messages when saving translations, editing glossaries, or "
 "voting on suggestions now show more specific reasons."
 msgstr ""
+"Los mensajes de permiso denegado que aparecen al guardar traducciones, "
+"editar glosarios o votar sugerencias ahora muestran motivos más específicos."
 
 #: changes.rst:80
+#, fuzzy
 msgid ""
 "Comment notifications for strings you translated now also include strings "
 "you previously commented on or suggested translations for."
 msgstr ""
+"Las notificaciones de comentarios sobre las cadenas que has traducido ahora "
+"también incluyen las cadenas sobre las que hayas comentado o para las que "
+"hayas sugerido traducciones anteriormente."
 
 #: changes.rst:81
-#, fuzzy
-#| msgid ""
-#| "Configures whether :guilabel:`Automatically watch projects on "
-#| "contribution` should be turned on for new users. Defaults to ``True``."
 msgid ""
 "Comments and suggestions now auto-watch the project "
 "when :guilabel:`Automatically watch projects on contribution` is enabled."
 msgstr ""
-"Configura si la etiqueta :guilabel:`Ver automáticamente los proyectos en los "
-"que colabora` debe ser activada para los nuevos usuarios. Por defecto es "
-"``True``."
+"Ahora los comentarios y las sugerencias son auto-ver el proyecto cuando "
+":guilabel:`Ver automáticamente los proyectos en los que colabora` está "
+"habilitado."
 
 #: changes.rst:82
 msgid ""
@@ -23768,16 +23769,25 @@ msgstr ""
 "actual y búsquedas de comentarios de cadena de origen separadas."
 
 #: changes.rst:84
+#, fuzzy
 msgid ""
 "Code-hosting account pages now consistently use :guilabel:`Code-hosting "
 "connections` and provider-neutral connected account wording."
 msgstr ""
+"Las páginas de las cuentas de alojamiento de código utilizan ahora de forma "
+"sistemática :guilabel:`, las conexiones de alojamiento de código` y una "
+"redacción relativa a las cuentas conectadas que no hace referencia a ningún "
+"Proveedor concreto."
 
 #: changes.rst:85
+#, fuzzy
 msgid ""
 ":ref:`discover-weblate` registration can now be started from the management "
 "interface without manually copying the activation token."
 msgstr ""
+":ref:`discover-weblate` Ahora es posible iniciar el registro desde la "
+"interfaz de administración sin necesidad de copiar manualmente el token de "
+"activación."
 
 #: changes.rst:86
 msgid ""
@@ -23785,19 +23795,30 @@ msgid ""
 "panel, registration starts with discovery enabled, and protected projects "
 "are included in the listing."
 msgstr ""
+":ref:`discover-weblate` ahora se pueden gestionar desde un panel de gestión "
+"específico; el registro comienza con la función de detección activada, y los "
+"proyectos protegidos se incluyen en el listado."
 
 #: changes.rst:87
+#, fuzzy
 msgid ""
 "Updated the :ref:`mt-openai`, :ref:`mt-mistral`, and :ref:`mt-anthropic` "
 "model lists for currently supported models."
 msgstr ""
+"Se han actualizado las listas de modelos de :ref:`mt-openai`, :ref:`mt-"
+"mistral` y :ref:`mt-anthropic` con los modelos que tienen compatibilidad "
+"actual."
 
 #: changes.rst:91
+#, fuzzy
 msgid ""
 "Filtered translation and zen navigation now reuse a stable session result "
 "list, keeping positions and counts stable after translated strings leave the "
 "filter."
 msgstr ""
+"La traducción filtrada y la navegación Zen ahora reutilizan una lista de "
+"resultados de sesión estable, lo que mantiene estables las posiciones y los "
+"recuentos una vez que las cadenas traducidas salen del filtro."
 
 #: changes.rst:92
 #, fuzzy
@@ -23807,10 +23828,14 @@ msgstr ""
 "Se ofrecen primero a los traductores los componentes con mayor prioridad."
 
 #: changes.rst:93
+#, fuzzy
 msgid ""
 ":ref:`check-punctuation-spacing` no longer flags Markdown image markers as "
 "French punctuation and now shows which punctuation marks triggered the check."
 msgstr ""
+":ref:`check-punctuation-spacing` ya no indica los indicadores de imagen de "
+"Markdown como signos de puntuación franceses y ahora muestra qué signos de "
+"puntuación han activado la comprobación."
 
 #: changes.rst:94
 #, fuzzy
@@ -23825,83 +23850,132 @@ msgstr ""
 "estar disponible como adjunto."
 
 #: changes.rst:95
+#, fuzzy
 msgid ""
 "The :guilabel:`Things to check` panel no longer uses error highlighting for "
 "suggestions and other non-error translation states."
 msgstr ""
+"El panel :guilabel:`: Cosas para comprobar` ya no utiliza el resaltado de "
+"errores para las sugerencias y otros estados de traducción que no sean de "
+"error."
 
 #: changes.rst:96
+#, fuzzy
 msgid ""
 "Translation workflow customization now makes it clearer when per-language "
 "workflow settings are disabled until customization is enabled."
 msgstr ""
+"La personalización del flujo de trabajo de traducción ahora indica con mayor "
+"claridad cuándo están desactivados los ajustes del flujo de trabajo por "
+"idioma hasta que se active la personalización."
 
 #: changes.rst:97
+#, fuzzy
 msgid "Anonymous user permission caches are now isolated between requests."
 msgstr ""
+"Las cachés de permisos de los usuarios anónimos ahora están aisladas entre "
+"una solicitud y otra."
 
 #: changes.rst:98
+#, fuzzy
 msgid ""
 "GitHub App setup now explains that a workspace is required instead of "
 "showing a permission error when no workspace exists."
 msgstr ""
+"La configuración de la aplicación de GitHub ahora explica que es necesario "
+"disponer de un espacio de trabajo, en lugar de mostrar un error de permisos "
+"cuando no existe ninguno."
 
 #: changes.rst:99
 msgid ""
 "LLM automatic suggestion settings no longer show ``null`` for empty language-"
 "specific instructions."
 msgstr ""
+"los ajustes de sugerencias automáticas en LLM ya no muestra ``null`` cuando "
+"las instrucciones específicas del idioma están vacías."
 
 #: changes.rst:100
+#, fuzzy
 msgid ""
 "File format feature tables now better match actual format support, including "
 "descriptions, context, plural metadata, obsolete string removal, specialized "
 "file extensions, and merged variants."
 msgstr ""
+"Las tablas de características de los formatos de archivo se ajustan ahora "
+"mejor a la compatibilidad real con los formatos, incluyendo descripciones, "
+"contexto, metadatos en plural, eliminación de cadenas obsoletas, extensiones "
+"de archivo especializadas y variantes de fusión."
 
 #: changes.rst:101
+#, fuzzy
 msgid ""
 "Accepting a project invitation now automatically adds the project to the "
 "user's watched projects."
 msgstr ""
+"Al aceptar una invitación a un proyecto, este se añade automáticamente a la "
+"lista de proyectos monitorizados del usuario."
 
 #: changes.rst:102
+#, fuzzy
 msgid ""
 "Dismissing a failing check no longer shows a JSON parsing error in the "
 "translation editor."
 msgstr ""
+"Al descartar una comprobación fallida, ya no aparece un error del intérprete "
+"de JSON en el editor de traducción."
 
 #: changes.rst:103
+#, fuzzy
 msgid ""
 "Screenshot searches without an explicit field now match screenshot names "
 "only, and the search box links to the full screenshot search documentation."
 msgstr ""
+"Las búsquedas de capturas de pantalla sin un campo específico ahora solo "
+"coinciden con los nombres de las capturas de pantalla, y el cuadro de "
+"búsqueda incluye un enlace a la documentación completa sobre la búsqueda de "
+"capturas de pantalla."
 
 #: changes.rst:104
+#, fuzzy
 msgid ""
 "Anonymous and internal bot accounts can no longer be edited through generic "
 "user management."
 msgstr ""
+"Las cuentas anónimas y las cuentas de bots internas ya no se pueden editar a "
+"través de la gestión genérica de usuarios."
 
 #: changes.rst:105
+#, fuzzy
 msgid ""
 "LLM machine translation suggestions now recover from more malformed "
 "structured JSON replies."
 msgstr ""
+"Las sugerencias de traducción automática de LLM ahora se recuperan mejor "
+"ante respuestas JSON estructuradas con más errores de formato."
 
 #: changes.rst:106
+#, fuzzy
 msgid ""
 "Azure AI Translator settings now reject malformed region names before "
 "validating service connectivity."
 msgstr ""
+"La configuración de Azure AI Translator ahora rechaza los nombres de región "
+"con formato incorrecto antes de validar la conectividad del servicio."
 
 #: changes.rst:112
+#, fuzzy
 msgid ""
 "Weblate now requires the PostgreSQL ``btree_gist`` extension for translation "
 "memory lookups. The migration installs it automatically when the database "
 "user has sufficient privileges. Installations using a non-superuser database "
 "user should pre-create it before upgrading; see :ref:`dbsetup-postgres`."
 msgstr ""
+"Weblate ahora requiere la extensión de PostgreSQL ``btree_gist`` para las "
+"búsquedas en la memoria de traducción. La migración la instala "
+"automáticamente siempre que el usuario de la base de datos tenga los "
+"privilegios suficientes. En las instalaciones que utilicen un usuario de la "
+"base de datos que no sea superusuario, se debe crear previamente antes de la "
+"migración; consulte :ref:`dbsetup-postgres`."
 
 #: changes.rst:118
 #, fuzzy
@@ -24214,26 +24288,16 @@ msgstr ""
 "reemplazos."
 
 #: changes.rst:165
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-regex` and :ref:`check-placeholders` now enforce regular "
-#| "expression timeouts when evaluating source-string flags (:ghsa:`r52j-4vjp-"
-#| "q949`)."
 msgid ""
 ":ref:`check-regex` and :ref:`check-placeholders` now enforce regular "
 "expression timeouts when evaluating source-string flags "
 "(:cve:`2026-62326`, :ghsa:`r52j-4vjp-q949`)."
 msgstr ""
-":ref:`check-regex` y :ref:`check-placeholders` ahora refuerza expresión "
-"regular vencidas cuando evalúen indicadores de cadena origen "
-"(:ghsa:`r52j-4vjp-q949`)."
+":ref:`check-regex` y :ref:`check-placeholders` ahora refuerza vencimientos "
+"de expresión regular cuando evalúen indicadores de cadena origen (:cve:`2026-"
+"62326`, :ghsa:`r52j-4vjp-q949`)."
 
 #: changes.rst:166
-#, fuzzy
-#| msgid ""
-#| "Restricted component changes are no longer exposed through nested "
-#| "project, component, or translation API change endpoints (:ghsa:`92m8-wv36-"
-#| "prmx`)."
 msgid ""
 "Restricted component changes are no longer exposed through nested project, "
 "component, or translation API change endpoints "
@@ -24241,37 +24305,27 @@ msgid ""
 msgstr ""
 "Cambios de componente restringido no son expuestos más por medio de proyecto "
 "anidado, componente, o cambio de API de traducción en puntos finales "
-"(:ghsa:`92m8-wv36-prmx`)."
+"(:cve:`2026-62249`, :ghsa:`92m8-wv36-prmx`)."
 
 #: changes.rst:167
-#, fuzzy
-#| msgid ""
-#| "ZIP downloads, including :ref:`appstore` translation bundles, no longer "
-#| "follow child symbolic links outside the downloaded tree (:ghsa:`xwj4-fp82-"
-#| "r2rj`)."
 msgid ""
 "ZIP downloads, including :ref:`appstore` translation bundles, no longer "
 "follow child symbolic links outside the downloaded tree "
 "(:cve:`2026-61792`, :ghsa:`xwj4-fp82-r2rj`)."
 msgstr ""
-"Las descargas de archivos ZIP, incluyendo manojos :ref:`appstore`, no siguen "
-"más enlace simbólicos heredados fuera del árbol descargado (:ghsa:`xwj4-fp82-"
-"r2rj`)."
+"Las descargas de archivos ZIP, incluyendo manojos :ref:`appstore` de "
+"traducción, no siguen más enlace simbólicos heredados fuera del árbol "
+"descargado (:cve:`2026-61792`, :ghsa:`xwj4-fp82-r2rj`)."
 
 #: changes.rst:168
-#, fuzzy
-#| msgid ""
-#| "Teams enforcing two-factor authentication now also withhold site-wide "
-#| "permissions from human members without 2FA configured (:ghsa:`x86c-ff69-"
-#| "cr2m`)."
 msgid ""
 "Teams enforcing two-factor authentication now also withhold site-wide "
 "permissions from human members without 2FA configured "
 "(:cve:`2026-61790`, :ghsa:`x86c-ff69-cr2m`)."
 msgstr ""
 "Equipos reforzados con autenticación de factor-dos ahora además sin permisos "
-"por todo el sitio desde miembros humanos sin 2FA configurado (:ghsa:`x86c-"
-"ff69-cr2m`)."
+"por todo el sitio desde miembros humanos sin 2FA configurado (:cve:`2026-"
+"61790`, :ghsa:`x86c-ff69-cr2m`)."
 
 #: changes.rst:169
 msgid ""
@@ -24405,10 +24459,14 @@ msgstr ""
 "configuradas para que quepan en una línea."
 
 #: changes.rst:184
+#, fuzzy
 msgid ""
 "Bitmap widgets and :ref:`check-max-size` previews now use Matplotlib and no "
 "longer require Pango, Cairo, librsvg, or GObject Introspection."
 msgstr ""
+"Los widgets de mapa de bits y las vistas previas de « :ref:`check-max-size` "
+"» utilizan ahora Matplotlib y ya no requieren Pango, Cairo, librsvg ni "
+"GObject Introspection."
 
 #: changes.rst:185
 #, fuzzy
@@ -25456,12 +25514,17 @@ msgid "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri
 msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
 
 #: changes/contributors/2026.7.1.rst:10
+#, fuzzy
 msgid ""
 "Michal Čihař, António Oliveira, 大学没毕业, 為什麼不加空格, ℂ𝕠𝕠𝕠𝕝 "
 "(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), hoanghuy309, Libre, VfBFan, Peter Vančo, Jim Kats, "
 "ButterflyOfFire, Kiên Trần Trung, skittles poopy, Ulrik, Horus68, Mickaël "
 "Binos, Adam Havránek"
 msgstr ""
+"Michal Čihař, António Oliveira, no se ha licenciado, ¿por qué no pone un "
+"espacio?, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), hoanghuy309, Libre, VfBFan, Peter Vančo, "
+"Jim Kats, ButterflyOfFire, Kiên Trần Trung, skittles poopy, Ulrik, Horus68, "
+"Mickaël Binos, Adam Havránek"
 
 #: changes/contributors/2026.7.1.rst:15
 #, fuzzy
@@ -34117,7 +34180,7 @@ msgid ""
 "file format issues."
 msgstr ""
 "Se ha aumentado la versión mínima requerida de translate-toolkit para "
-"solucionar varios defectos relacionados con el formato de las incidencias."
+"solucionar varias incidencias de formato de archivo."
 
 #: changes/v4.rst:949
 msgid "Weblate 4.3.2"
@@ -34169,8 +34232,7 @@ msgstr ""
 #: changes/v4.rst:961
 msgid "Fixed CodeMirror display issues in some situations."
 msgstr ""
-"Se corrigieron incidencias de representación en CodeMirror en algunas "
-"situaciones."
+"Se corrigieron incidencias de pantalla en CodeMirror en algunas situaciones."
 
 #: changes/v4.rst:962
 msgid "Renamed Template group to \"Sources\" to clarify its meaning."
@@ -42857,6 +42919,15 @@ msgid ""
 "documentation links when they are part of explanatory prose rather than a "
 "contextual action."
 msgstr ""
+"Utiliza el icono de información para los enlaces contextuales a la "
+"documentación de Weblate, en lugar de un botón de texto de la "
+":guilabel:`Documentación`. En las plantillas de Django, utiliza la etiqueta "
+"de plantilla ``documentation_icon`` tal que el enlace tenga un estilo "
+"consistente, un etiquetado y un comportamiento como enlace externo "
+"coherentes. Los iconos de documentación son enlaces interactivos y deben "
+"poder seleccionarse con el teclado. Mantén los enlaces de documentación en "
+"forma de texto cuando formen parte de un texto explicativo, en lugar de una "
+"acción contextual."
 
 #: contributing/frontend.rst:55
 msgid "Dependency management"
@@ -44353,15 +44424,14 @@ msgstr ""
 "usted, pero el ambiente gestionado por uv es preferido:"
 
 #: contributing/start.rst:145
-#, fuzzy
 msgid ""
 "Don't forget to install the dependencies once the interpreter is set. When "
 "using the preferred uv-managed environment, run ``uv sync --all-extras --"
 "dev`` from the console."
 msgstr ""
 "No olvides instalar las dependencias una vez configurado el intérprete. Si "
-"utilizas el entorno gestionado por DeepL, ejecuta ` `` `uv sync --all-extras "
-"--dev`` desde la consola."
+"utilizas el entorno gestionado por DeepL, ejecuta ``uv sync --all-extras --"
+"dev`` desde la consola."
 
 #: contributing/start.rst:149
 msgid ""
@@ -44548,18 +44618,12 @@ msgstr ""
 "Los cambios visuales de pruebas utilizan `Argos CI <https://argos-ci.com>`_."
 
 #: contributing/tests.rst:27
-#, fuzzy
-#| msgid ""
-#| "Code formatting using `prek <https://pypi.org/project/prek/>`_, a faster "
-#| "third-party reimplementation of the `pre-commit <https://pre-commit.com/"
-#| ">`_ framework."
 msgid ""
 "Code formatting using :pypi:`prek`, a faster third-party reimplementation of "
 "the `pre-commit <https://pre-commit.com/>`_ framework."
 msgstr ""
-"Formato de código utilizando `prek <https://pypi.org/project/prek/>`_, una "
-"reimplementación de terceros más rápida del framework `pre-commit <https://"
-"pre-commit.com/>`_."
+"Formato de código utilizando :pypi:`prek`, una re‐implementación de terceros "
+"más rápida del framework `pre-commit <https://pre-commit.com/>`_."
 
 #: contributing/tests.rst:30
 msgid "Migration testing from all supported releases"
@@ -44590,7 +44654,6 @@ msgstr ""
 "test-database.sh`:"
 
 #: contributing/tests.rst:39
-#, fuzzy
 msgid ""
 "The Selenium screenshot tests in :file:`weblate/trans/tests/"
 "test_selenium.py` serve two purposes. They generate images for visual change "
@@ -44603,7 +44666,7 @@ msgstr ""
 "Las pruebas de captura de pantalla de Selenium en :file:`weblate/trans/tests/"
 "test_selenium.py` tienen dos propósitos. Generan imágenes para pruebas de "
 "cambios visuales en CI, y las mismas imágenes se convierten en capturas de "
-"pantalla de documentación mediante: comando:`make -C docs update-"
+"pantalla de documentación mediante: :command:`make -C docs update-"
 "screenshots`. Mantenga las capturas de pantalla cerca de las páginas "
 "renderizadas reales para que CI detecte las regresiones de la interfaz de "
 "usuario. Cuando una captura de pantalla incluye datos de tiempo de ejecución "
@@ -45239,56 +45302,87 @@ msgstr ""
 "generará más alertas para sitios web del proyecto no alcanzables."
 
 #: devel/alerts.rst:37
+#, fuzzy
 msgid ""
 "Alerts are listed on each respective component page "
 "as :guilabel:`Diagnostics`."
 msgstr ""
+"Las alertas aparecen en la página de cada componente correspondiente, como « "
+":guilabel:`» y «Diagnósticos»`."
 
 #: devel/alerts.rst:43
+#, fuzzy
 msgid "Project and workspace diagnostics overviews"
-msgstr ""
+msgstr "Resúmenes de diagnóstico de proyectos y espacios de trabajo"
 
 #: devel/alerts.rst:45
+#, fuzzy
 msgid ""
 "Signed-in users can open the :guilabel:`Diagnostics` tab on project and "
 "workspace pages. The overview is loaded when opened and groups alerts of the "
 "same type instead of repeating them for every component."
 msgstr ""
+"Los usuarios que hayan iniciado sesión pueden abrir la lengüeta «Diagnóstico "
+"de :guilabel:`» (` ) en las páginas de proyectos y espacios de trabajo. Al "
+"abrirla, se carga la vista general, que agrupa las alertas del mismo tipo en "
+"lugar de repetirlas para cada componente."
 
 #: devel/alerts.rst:49
+#, fuzzy
 msgid ""
 "The project overview shows project-wide findings once and lists the "
 "components affected by component-specific findings:"
 msgstr ""
+"La visión general del proyecto muestra de un solo vistazo los resultados "
+"correspondientes a todo el proyecto y enumera los componentes afectados por "
+"los resultados específicos de cada uno de ellos:"
 
 #: devel/alerts.rst:52
+#, fuzzy
 msgid "Project diagnostics overview with grouped findings and filters"
-msgstr ""
+msgstr "Resumen del diagnóstico del proyecto con resultados agrupados y filtros"
 
 #: devel/alerts.rst:55
+#, fuzzy
 msgid ""
 "The workspace overview groups project-wide findings by project and "
 "identifies components using both the project and component name:"
 msgstr ""
+"La vista general del espacio de trabajo agrupa los resultados de todo el "
+"proyecto por proyecto e identifica los componentes utilizando tanto el "
+"nombre del proyecto como el del componente:"
 
 #: devel/alerts.rst:58
+#, fuzzy
 msgid "Workspace diagnostics overview with grouped findings and filters"
 msgstr ""
+"Resumen del diagnóstico del espacio de trabajo con resultados agrupados y "
+"filtros"
 
 #: devel/alerts.rst:61
+#, fuzzy
 msgid ""
 "Each finding lists up to 20 affected projects or components. Additional "
 "affected objects are shown as a count. Follow a component link to see the "
 "complete diagnostic details or dismiss a diagnostic on the component page."
 msgstr ""
+"Cada resultado enumera hasta 20 proyectos o componentes afectados. Los "
+"objetos afectados adicionales se muestran como un recuento. Haz clic en el "
+"enlace de un componente para consultar los detalles completos del "
+"diagnóstico o para descartar un diagnóstico en la página del componente."
 
 #: devel/alerts.rst:65
+#, fuzzy
 msgid ""
 "The summary can be filtered by active or dismissed state, severity, "
 "category, or whether the signed-in user can act on the diagnostic. "
 "Components shared into a project are listed only in the diagnostics of their "
 "owning project."
 msgstr ""
+"El resumen se puede filtrar por estado (activo o descartado), gravedad, "
+"categoría o según si el usuario que ha iniciado sesión puede actuar sobre el "
+"diagnóstico. Los componentes compartidos en un proyecto solo aparecen en los "
+"diagnósticos del proyecto al que pertenecen."
 
 #: devel/alerts.rst:69
 msgid ""
@@ -45312,27 +45406,43 @@ msgstr ""
 "componente en los listados."
 
 #: devel/alerts.rst:77
+#, fuzzy
 msgid ""
 "Dismissed diagnostics record who dismissed them, when they were dismissed, "
 "and an optional reason. A dismissal is automatically reopened when the "
 "diagnostic details or the configuration relevant to that diagnostic changes. "
 "Dismissal and reopening are both recorded in the component change history."
 msgstr ""
+"Los registros de diagnósticos descartados indican quién los descartó, cuándo "
+"se descartaron y, opcionalmente, el motivo. Un diagnóstico descartado se "
+"reabre automáticamente cuando cambian los detalles del diagnóstico o la "
+"configuración relevante para dicho diagnóstico. Tanto el descarte como la "
+"reapertura quedan registrados en la historia de cambios del componente."
 
 #: devel/alerts.rst:82
+#, fuzzy
 msgid ""
 "Warning and error notifications are sent only to subscribed project "
 "maintainers who have permission to act on the diagnostic. Informational "
 "recommendations do not send unsolicited notifications."
 msgstr ""
+"Aviso y notificaciones de error están enviados sólo a proyecto suscrito "
+"maintainers quiénes tienen permiso para obrar en el diagnóstico. Las "
+"recomendaciones informativas no envían unsolicited notificaciones."
 
 #: devel/alerts.rst:86
+#, fuzzy
 msgid ""
 "Custom alerts can override ``BaseAlert.get_dismissal_context(component, "
 "details)`` to include stable, JSON-serializable configuration or diagnostic "
 "inputs. Changing the returned context reopens a dismissed alert. Incidental "
 "values such as evaluation time should not be included."
 msgstr ""
+"Las alertas personalizadas pueden anular ``BaseAlert.get_dismissal_context"
+"(component, details)`` para incluir entradas de configuración o de "
+"diagnóstico estables y serializables en JSON. Al modificar el contexto "
+"devuelto, se vuelve a abrir una alerta que se había descartado. No deben "
+"incluirse valores incidentales, como el tiempo de evaluación."
 
 #: devel/alerts.rst:92
 msgid "A component with both duplicated strings and languages looks like this:"
@@ -47493,7 +47603,6 @@ msgstr ""
 "luego aplica el porcentaje de tarifa configurado para cada categoría."
 
 #: devel/reporting.rst:136
-#, fuzzy
 msgid ""
 "The estimate uses Weblate translation memory matches and does not contact "
 "external machine translation services. The base rate is the price per source "
@@ -47503,7 +47612,7 @@ msgid ""
 msgstr ""
 "Los usos de estimación Weblate partidos de memoria de traducción y no "
 "contacta servicios de traducción automática externa. La tasa de base es el "
-"precio por palabra de fuente. Tasas de categoría son porcentajes  de aquella "
+"precio por palabra de fuente. Tasas de categoría son porcentajes de aquella "
 "tasa de base; por ejemplo, ``50`` cargos a medias de la tasa de base y ``0`` "
 "excluye que categoría del total."
 
@@ -49912,12 +50021,18 @@ msgstr ""
 "muchos formatos siguen la especificación CLDR para eso."
 
 #: formats.rst:148
+#, fuzzy
 msgid ""
 "Plural support in the supported features table means Weblate can represent "
 "plural strings for the format. Some formats need existing plural metadata or "
 "a specific variant, and cannot create new plural strings unless that is "
 "natively supported by the format."
 msgstr ""
+"La compatibilidad con el plural en la tabla de características compatibles "
+"significa que Weblate puede representar cadenas en plural para ese formato. "
+"Algunos formatos requieren que ya existan metadatos de plural o una variante "
+"específica, y no pueden crear nuevas cadenas en plural a menos que el "
+"formato lo admita de forma nativa."
 
 #: formats.rst:155
 msgid ""
@@ -49953,10 +50068,14 @@ msgid "Removing obsolete strings"
 msgstr "Quitar cadenas obsoletas"
 
 #: formats.rst:174
+#, fuzzy
 msgid ""
 "Some file formats can store obsolete strings. Weblate can remove these "
 "obsolete strings from formats that support this operation."
 msgstr ""
+"Algunos formatos de archivo pueden contener cadenas obsoletas. Weblate puede "
+"eliminar estas cadenas obsoletas de los formatos que tienen compatibilidad "
+"para esta operación."
 
 #: formats.rst:179
 msgid "Supporting other formats"
@@ -51313,14 +51432,6 @@ msgstr ""
 "utilice :ref:`mdx`."
 
 #: formats/markdown.rst:13
-#, fuzzy
-#| msgid ""
-#| "Markdown units automatically get the ``md-text`` and ``auto-safe-html`` "
-#| "flags. This keeps the unsafe HTML check active for plain text, standard "
-#| "HTML, and custom elements while avoiding HTML cleanup on non-HTML angle-"
-#| "bracket syntax such as MDX or JSX-like components. Use the explicit "
-#| "``safe-html`` flag for strings that are known to contain HTML and should "
-#| "always be sanitized, including SVG or MathML snippets."
 msgid ""
 "Markdown units automatically get the ``md-text``, ``auto-safe-html`` and "
 "``strict-same`` flags. This keeps the unsafe HTML check active for plain "
@@ -51329,13 +51440,13 @@ msgid ""
 "explicit ``safe-html`` flag for strings that are known to contain HTML and "
 "should always be sanitized, including SVG or MathML snippets."
 msgstr ""
-"Las unidades Markdown obtienen automáticamente los indicadores ``md-text`` y "
-"``auto-safe-html``. Esto mantiene activa la comprobación de HTML no seguro "
-"para texto plano, HTML estándar y elementos personalizados, evitando el "
-"vaciado de HTML en sintaxis de corchetes angulares que no sean HTML, como "
-"componentes MDX o similares a JSX. Utilice el indicador explícito ``safe-"
-"html`` para cadenas que se sabe que contienen HTML y que siempre deben "
-"suavizarse, incluidos fragmentos SVG o MathML."
+"Las unidades Markdown obtienen automáticamente los indicadores ``md-text``, "
+"``auto-safe-html`` y ``strict-same``. Esto mantiene activa la comprobación "
+"de HTML no seguro para texto plano, HTML estándar y elementos "
+"personalizados, evitando el vaciado de HTML en sintaxis de corchetes "
+"angulares que no sean HTML, como componentes MDX o similares a JSX. Utilice "
+"el indicador explícito ``safe-html`` para cadenas que se sabe que contienen "
+"HTML y que siempre deben suavizarse, incluidos fragmentos SVG o MathML."
 
 #: formats/markdown.rst:45
 msgid "`Markdown file`"
@@ -51360,7 +51471,6 @@ msgid "Translating front matter values"
 msgstr "Estado de la memoria de traducción"
 
 #: formats/markdown.rst:74
-#, fuzzy
 msgid ""
 "By default, YAML front matter is extracted as a single translatable block. "
 "Enable :guilabel:`Translate front matter values` in :ref:`component-"
@@ -51369,11 +51479,12 @@ msgid ""
 "when possible. The same setting is available for :ref:`mdx` files."
 msgstr ""
 "Por defecto, el encabezado YAML se extrae como un único bloque traducible. "
-"Habilite la opción `Traducir valores del encabezado` en los parámetros del "
-"formato del archivo de componente para analizar el encabezado YAML y "
-"traducir solo los valores de cadena escalares, conservando las claves, la "
-"estructura, los comentarios y el formato cuando sea posible. Esta misma "
-"configuración está disponible para los archivos `mdx`."
+"Habilite la opción :guilabel:`Traducir valores del encabezado` en los "
+"parámetros del formato del archivo de componente :ref:`component-"
+"file_format_params` para interpretar el encabezado YAML y traducir solo los "
+"valores de cadena escalares, conservando las claves, la estructura, los "
+"comentarios y el formato cuando sea posible. Esta misma configuración está "
+"disponible para los archivos :ref:`mdx`."
 
 #: formats/mdx.rst:4
 #, fuzzy
@@ -51392,14 +51503,6 @@ msgstr ""
 "los componentes JSX y las expresiones."
 
 #: formats/mdx.rst:13
-#, fuzzy
-#| msgid ""
-#| "Markdown units automatically get the ``md-text`` and ``auto-safe-html`` "
-#| "flags. This keeps the unsafe HTML check active for plain text, standard "
-#| "HTML, and custom elements while avoiding HTML cleanup on non-HTML angle-"
-#| "bracket syntax such as MDX or JSX-like components. Use the explicit "
-#| "``safe-html`` flag for strings that are known to contain HTML and should "
-#| "always be sanitized, including SVG or MathML snippets."
 msgid ""
 "MDX units automatically get the ``md-text``, ``auto-safe-html``, ``strict-"
 "same`` and ``safe-mdx`` flags. This keeps the unsafe HTML check active for "
@@ -51408,13 +51511,13 @@ msgid ""
 "that are known to contain HTML and should always be sanitized, including SVG "
 "or MathML snippets."
 msgstr ""
-"Las unidades Markdown obtienen automáticamente los indicadores ``md-text`` y "
-"``auto-safe-html``. Esto mantiene activa la comprobación de HTML no seguro "
-"para texto plano, HTML estándar y elementos personalizados, evitando el "
-"vaciado de HTML en sintaxis de corchetes angulares que no sean HTML, como "
-"componentes MDX o similares a JSX. Utilice el indicador explícito ``safe-"
-"html`` para cadenas que se sabe que contienen HTML y que siempre deben "
-"suavizarse, incluidos fragmentos SVG o MathML."
+"Las unidades MDX obtienen automáticamente los indicadores ``md-text``, "
+"``auto-safe-html``, ``strict-same`` y ``safe-mdx``. Esto mantiene activa la "
+"comprobación de HTML no seguro para texto plano, HTML estándar y elementos "
+"personalizados, evitando el vaciado de HTML en sintaxis similares a MDX y "
+"JSK . Utilice el indicador explícito ``safe-html`` para cadenas que se sabe "
+"que contienen HTML y que siempre deben suavizarse, incluidos fragmentos SVG "
+"o MathML."
 
 #: formats/mdx.rst:44
 #, fuzzy
@@ -52595,10 +52698,8 @@ msgstr ""
 "Europea."
 
 #: security/data-residency.rst:20
-#, fuzzy
-#| msgid "Primary data centers are located in **Germany**."
 msgid "Primary service locations are in Germany."
-msgstr "Los centros de datos principales están ubicados en **Alemania**."
+msgstr "Las ubicaciones del servicio primario están en Alemania."
 
 #: security/data-residency.rst:21
 msgid ""
@@ -52649,10 +52750,8 @@ msgid "`Hetzner ISMS and data protection`_"
 msgstr "`SGSI de Hetzner y protección de datos`_"
 
 #: security/data-residency.rst:42
-#, fuzzy
-#| msgid "Sustainability"
 msgid "`Hetzner sustainability`_"
-msgstr "Sostenibilidad"
+msgstr "`Mantenibilidad Hetzner`_"
 
 #: security/data-residency.rst:45
 msgid "EU cloud sovereignty"
@@ -52707,22 +52806,13 @@ msgstr ""
 "implementación."
 
 #: security/data-residency.rst:59
-#, fuzzy
-#| msgid ""
-#| "Customers retain full control over their data: - Projects, translations, "
-#| "and user accounts can be exported or deleted at any time. - External "
-#| "integrations are optional and fully configurable. - Dedicated Weblate "
-#| "instances are available for organizations needing isolated or customized "
-#| "environments."
 msgid ""
 "**Customer control:** Projects, translations, and user data can be exported "
 "or deleted. External integrations are optional and configurable."
 msgstr ""
-"Los clientes conservan el control total sobre sus datos: - Los proyectos, "
-"las traducciones y las cuentas de usuario se pueden exportar o eliminar en "
-"cualquier momento. - Las integraciones externas son opcionales y totalmente "
-"configurables. - Hay instancias dedicadas de Weblate disponibles para "
-"organizaciones que necesitan entornos aislados o personalizados."
+"**Control cliente:** Proyectos, traducciones, y datos de usuarios pueden ser "
+"exportados o eliminados. Las integraciones externas son opcionales y "
+"totalmente configurables."
 
 #: security/data-residency.rst:62
 msgid ""
@@ -53039,20 +53129,14 @@ msgid "Tracking dependencies for vulnerabilities"
 msgstr "Búsqueda de vulnerabilidades en las dependencias"
 
 #: security/dependencies.rst:33
-#, fuzzy
-#| msgid ""
-#| "Security issues in our dependencies are monitored using `Renovate`_. This "
-#| "covers the Python and JavaScript libraries, and the latest stable release "
-#| "has its dependencies updated to avoid vulnerabilities."
 msgid ""
 "Security issues in Weblate dependencies are monitored using `Renovate`_, "
 "GitHub dependency review, FOSSA_, release SBOMs, and container vulnerability "
 "scans."
 msgstr ""
-"Incidencias de seguridad en nuestras dependencias están monitorizadas "
-"utilizando `Renovar`_. Esto cubre las bibliotecas de Python y JavaScript, y "
-"la última liberación estable tiene sus dependencias actualizadas para evitar "
-"las vulnerabilidades."
+"Incidencias de seguridad en dependencias de Weblate están monitorizadas "
+"utilizando `Renovar`_, las revisiones de las dependencias en GitHub, FOSSA_, "
+"versiones de SBOM, y análisis de vulnerabilidad de contenedor."
 
 #: security/dependencies.rst:37
 msgid ""
@@ -54279,8 +54363,8 @@ msgid ""
 "Please read :ref:`ai-issues` in case you have used AI to discover a security "
 "issue in Weblate."
 msgstr ""
-"Lea :ref:`ai-issues` en caso de que haya utilizado IA para descubrir una "
-"incidencia de seguridad en Weblate."
+"Consulte :ref:`ai-issues` en caso de que haya utilizado IA para descubrir "
+"una incidencia de seguridad en Weblate."
 
 #: security/issues.rst:13
 msgid ""
@@ -54300,7 +54384,7 @@ msgid ""
 "release artifacts, and documented Weblate security properties. They do not "
 "replace operational incident response for a particular deployment."
 msgstr ""
-"Los partes de vulnerabilidades de productos abarcan problemas de seguridad "
+"Los partes de vulnerabilidades de productos abarcan incidencias de seguridad "
 "en el código fuente de Weblate, los artefactos de lanzamiento y las "
 "propiedades de seguridad documentadas de Weblate. No sustituyen la respuesta "
 "operativa ante incidentes para una implementación específica."
@@ -54313,10 +54397,9 @@ msgid ""
 "in this fashion."
 msgstr ""
 "La mayoría de los fallos normales en Weblate son reportados a nuestro "
-"`seguimiento de incidencias de GitHub público <https://github.com/WeblateOrg/"
-"weblate/issues>`_, pero debido a la naturaleza sensible de las incidencias "
-"de seguridad, solicitamos que no se den los partes públicamente de esta "
-"manera."
+"`Seguimiento de incidencias de GitHub <https://github.com/WeblateOrg/weblate/"
+"issues>`_, pero debido a la naturaleza sensible de las incidencias de "
+"seguridad, solicitamos que no se den los partes públicamente de esta manera."
 
 #: security/issues.rst:26
 msgid ""
@@ -55614,10 +55697,8 @@ msgid "Documentation: https://docs.weblate.org/"
 msgstr "`Documentación de Gallette <https://doc.galette.eu/>`_"
 
 #: security/product-information.rst:16
-#, fuzzy
-#| msgid "https://github.com/WeblateOrg/weblate/issues"
 msgid "Source code: https://github.com/WeblateOrg/weblate"
-msgstr "https://github.com/WeblateOrg/weblate/issues"
+msgstr "Código fuente: https://github.com/WeblateOrg/weblate"
 
 #: security/product-information.rst:17
 msgid "License: GPL-3.0-or-later"
@@ -55790,10 +55871,8 @@ msgid ":file:`WeblateOrg/weblate`"
 msgstr ":file:`~/.config/weblate`"
 
 #: security/release-artifacts.rst:31
-#, fuzzy
-#| msgid "GitHub repositories"
 msgid "`GitHub releases`_"
-msgstr "Repositorios en GitHub"
+msgstr "`Versiones de GitHub`_"
 
 #: security/release-artifacts.rst:32
 msgid ""
@@ -55856,6 +55935,10 @@ msgid ""
 "container CI workflow`_, :doc:`/admin/install/docker`, :doc:`/contributing/"
 "release`, and :file:`security.yaml`"
 msgstr ""
+"`Dockerfile de Weblate`_, `Flujo de trabajo de la imagen Docker de "
+"Weblate`_, `Flujo de trabajo de CI del contenedor Docker de Weblate`_, "
+":doc:`/admin/install/docker`, :doc:`/contributing/release` y "
+":file:`security.yaml`"
 
 #: security/release-artifacts.rst:48
 msgid ""
@@ -55875,10 +55958,8 @@ msgid "Kubernetes Helm chart"
 msgstr "Gráfico Helm de Kubernetes"
 
 #: security/release-artifacts.rst:53
-#, fuzzy
-#| msgid "`Manage repository`"
 msgid "`Weblate Helm repository`_"
-msgstr "`Gestionar repositorio`"
+msgstr "`Repositorio Weblate Helm`_"
 
 #: security/release-artifacts.rst:54
 msgid "`Weblate Helm repository endpoint`_ and `Artifact Hub`_"
@@ -55912,10 +55993,8 @@ msgid ":file:`docs/`, :file:`docs/conf.py`, and :file:`.readthedocs.yml`"
 msgstr ":file:`docs/`, :file:`docs/conf.py`, y :file:`.readthedocs.yml`"
 
 #: security/release-artifacts.rst:65
-#, fuzzy
-#| msgid "Weblate documentation"
 msgid "`Weblate documentation`_"
-msgstr "Documentación de Weblate"
+msgstr "`Documentación de Weblate`_"
 
 #: security/release-artifacts.rst:66
 msgid ":file:`.github/workflows/docs.yml` and :file:`.readthedocs.yml`"
@@ -55937,10 +56016,8 @@ msgid "Weblate Client package and releases"
 msgstr "Versión estable de Weblate"
 
 #: security/release-artifacts.rst:69 security/release-artifacts.rst:78
-#, fuzzy
-#| msgid "Weblate Client"
 msgid "`Weblate Client repository`_"
-msgstr "Cliente de Weblate"
+msgstr "`Repositorio Weblate Client`_"
 
 #: security/release-artifacts.rst:70
 msgid ":pypi:`wlc` and `Weblate Client GitHub releases`_"
@@ -56106,34 +56183,24 @@ msgid "Release signatures"
 msgstr "Comprobar las firmas de liberación"
 
 #: security/release-artifacts.rst:138
-#, fuzzy
-#| msgid ""
-#| "Weblate release are cryptographically signed using `Sigstore signatures "
-#| "<https://www.sigstore.dev/>`_. The signatures are attached to the GitHub "
-#| "release."
 msgid ""
 "Weblate package archives are cryptographically signed using Sigstore "
 "signatures. The signature bundles are attached to the GitHub release next to "
 "the signed :file:`.tar.gz` and :file:`.whl` files."
 msgstr ""
-"La liberación Weblate están firmadas cifradamente utilizando `Firmas de "
-"sigsote <https://www.sigstore.dev/>`_. Las firmas están adjuntadas a la "
-"liberación GitHub."
+"Los archivos de paquetes de Weblate están firmados criptográficamente "
+"mediante firmas de Sigstore. Los paquetes de firmas se adjuntan a la versión "
+"de GitHub junto a los archivos :file:`tar.gz` y :file:`.whl` firmados."
 
 #: security/release-artifacts.rst:142
-#, fuzzy
-#| msgid ""
-#| "The verification can be performed using `sigstore package <https://"
-#| "pypi.org/project/sigstore/>`_. The following example verifies signature "
-#| "of the 5.4 release:"
 msgid ""
 "The verification can be performed using the :pypi:`sigstore package "
 "<sigstore>`. The following example verifies the wheel from the 5.4 release; "
 "adjust the version and filenames for the release you are checking:"
 msgstr ""
-"La verificación puede ser realizada utilizando `sigstore package <https://"
-"pypi.org/project/sigstore/>`_. El siguiente ejemplo verifica firma de la "
-"liberación 5.4:"
+"La verificación puede ser realizada utilizando :pypi:`sigstore package "
+"<sigstore>`. El siguiente ejemplo verifica la bola desde la versión 5.4; "
+"justo la versión nombre de archivos para la versión que está comprobando:"
 
 #: security/release-artifacts.rst:154
 #, fuzzy
@@ -56622,12 +56689,12 @@ msgid "Webhooks"
 msgstr "Webhook"
 
 #: security/threat-model.rst:67
-#, fuzzy
-#| msgid ":ref:`hooks`, project :ref:`project-enable_hooks`"
 msgid ""
 ":ref:`hooks`, project :ref:`project-enable_hooks`, :ref:`code-hosting-github-"
 "app-webhook`"
-msgstr ":ref:`hooks`, proyecto :ref:`project-enable_hooks`"
+msgstr ""
+":ref:`hooks`, proyecto :ref:`project-enable_hooks`, :ref:`code-hosting-"
+"github-app-webhook`"
 
 #: security/threat-model.rst:69
 #, fuzzy
@@ -56636,17 +56703,14 @@ msgid "Background task scheduling and VCS repository updates"
 msgstr "Tareas en segundo plano con Celery"
 
 #: security/threat-model.rst:70
-#, fuzzy
-#| msgid ""
-#| "In scope as a public, deployment-hardened interface. *(documented)* "
-#| "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgid ""
 "In scope as a public, deployment-hardened interface. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-"
 "github-app-webhook`)"
 msgstr ""
-"En ámbito como uno público, interfaz de despliegue-reforzado. "
-"*(documentado)* (origen: :ref:`hooks` y :ref:`project-enable_hooks`)"
+"En ámbito como uno público, interfaz de despliegue-reforzado. *(documentado)"
+"* (origen: :ref:`hooks` y :ref:`project-enable_hooks`, :ref:`code-hosting-"
+"github-app-webhook`)"
 
 #: security/threat-model.rst:71
 msgid "VCS integration"
@@ -56712,12 +56776,12 @@ msgid "Project backup import/export"
 msgstr "Respaldo del proyecto"
 
 #: security/threat-model.rst:84
-#, fuzzy
-#| msgid ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
 msgid ""
 ":ref:`projectbackup`, :doc:`/api` project backup "
 "endpoints, :wladmin:`import_projectbackup`"
-msgstr ":ref:`projectbackup`, :wladmin:`import_projectbackup`"
+msgstr ""
+":ref:`projectbackup`, proyecto :doc:`/api` de respaldo en punto final, "
+":wladmin:`import_projectbackup`"
 
 #: security/threat-model.rst:86
 #, fuzzy
@@ -56729,13 +56793,12 @@ msgstr ""
 "repositorio"
 
 #: security/threat-model.rst:88
-#, fuzzy
 msgid ""
 "In scope. *(documented)* (source: :doc:`/admin/backup`, :doc:`/api`, :doc:`/"
 "admin/management`)"
 msgstr ""
-"Dentro del ámbito de aplicación. *(documentado)* (fuente: :doc:`/admin/"
-"backup`, :doc:`/admin/management`)"
+"Dentro del ámbito. *(documentado)* (fuente: :doc:`/admin/backup`, ::doc:`/"
+"api`, :doc:`/admin/management`)"
 
 #: security/threat-model.rst:90
 #, fuzzy
@@ -56786,7 +56849,6 @@ msgid "Outbound HTTP(S), AMQP(S), provider APIs, logs"
 msgstr "HTTP(S) saliente, APIs de Proveedor, registros"
 
 #: security/threat-model.rst:101
-#, fuzzy
 msgid ""
 "In scope for Weblate's enforcement of configured access and network "
 "restrictions. Provider behavior is out of scope. *(documented)* "
@@ -56795,8 +56857,8 @@ msgid ""
 msgstr ""
 "Entra dentro del ámbito de aplicación de la aplicación por parte de Weblate "
 "de las restricciones al acceso y de red configuradas. El comportamiento del "
-"Proveedor queda fuera de este ámbito. *(documentado)* (fuente: :doc:`/admin/"
-"config`, :doc:`/admin/addons`)"
+"Proveedor queda fuera de este ámbito. *(documentado)* (origen: :doc:`/admin/"
+"config`, :doc:`/admin/code-hosting`, :doc:`/admin/addons`)"
 
 #: security/threat-model.rst:104
 #, fuzzy
@@ -57066,7 +57128,6 @@ msgid "Webhook sender to Weblate"
 msgstr "Secreto Webhook"
 
 #: security/threat-model.rst:183
-#, fuzzy
 msgid ""
 "Public forge notifications can schedule repository synchronization where "
 "hooks are enabled. GitHub App webhooks additionally authenticate with a per-"
@@ -57076,7 +57137,8 @@ msgid ""
 msgstr ""
 "Las notificaciones públicas de la forja pueden programar la sincronización "
 "del repositorio cuando los ganchos están habilitados. *(documentado)* "
-"(fuente: :ref:`hooks`, :ref:`project-enable_hooks`)"
+"(fuente: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-"
+"github-app-webhook`)"
 
 #: security/threat-model.rst:188
 msgid "Weblate to database/datastore"
@@ -57131,7 +57193,6 @@ msgid "Project backup archives and Weblate filesystem"
 msgstr "Archivo de respaldo al sistema de archivos de Weblate"
 
 #: security/threat-model.rst:199
-#, fuzzy
 msgid ""
 "Uploaded ZIP members and metadata become restored project state; generated "
 "project backups are written to and read from local backup storage. "
@@ -57139,7 +57200,8 @@ msgid ""
 "api`, :ref:`projectbackup`)"
 msgstr ""
 "Los miembros y metadatos cargados desde el ZIP se convierten en el estado "
-"restaurado del proyecto. *(documentado)* (fuente: :doc:`/admin/backup`)"
+"restaurado del proyecto. *(documentado)* (fuente: :doc:`/admin/backup`, "
+":doc:`/api`, :ref:`projectbackup`)"
 
 #: security/threat-model.rst:204
 #, fuzzy
@@ -57527,16 +57589,12 @@ msgstr ""
 "instancia. *(mantenedor)*"
 
 #: security/threat-model.rst:314
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
-#| "and :setting:`RATELIMIT_ATTEMPTS`"
 msgid ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`, "
 "and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 msgstr ""
 ":envvar:`WEBLATE_API_RATELIMIT_ANON`, :envvar:`WEBLATE_API_RATELIMIT_USER`, "
-"y :setting:`RATELIMIT_ATTEMPTS`"
+":setting:`RATELIMIT_ATTEMPTS`, y ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``"
 
 #: security/threat-model.rst:317
 #, fuzzy
@@ -57557,13 +57615,12 @@ msgstr ""
 "el tamaño del despliegue y la exposición. *(Mantenimiento)*"
 
 #: security/threat-model.rst:321
-#, fuzzy
 msgid ""
 "Disabling rate limits changes DoS triage from Weblate bug to deployment "
 "posture unless a single request violates a claimed property. *(maintainer)*"
 msgstr ""
-"Inutilizando límites de tasa cambia DoS triage de Weblate bug a postura de "
-"despliegue a no ser que una petición sola viola una hacienda alegada. "
+"Deshabilitando límites de tasa cambia triage DoS de Weblate bug a postura de "
+"despliegue a no ser que una petición sola viola una propiedad alegada. *"
 "(maintainer)*"
 
 #: security/threat-model.rst:324
@@ -57812,11 +57869,15 @@ msgid "Translation content"
 msgstr "Contexto de la traducción"
 
 #: security/threat-model.rst:395
+#, fuzzy
 msgid ""
 "Source strings, translations, comments, suggestions, glossary entries; "
 "suggestion API requests including ``rejection_reason`` text, ``is_spam`` "
 "flag, and ``approve`` flag"
 msgstr ""
+"Cadenas de fuente, traducciones, comentarios, sugerencias, apuntes del "
+"glosario; solicitudes de API de sugerencias, incluyendo ``rejection_reason`` "
+"texto, ``is_spam`` indicador y ``approve`` indicador"
 
 #: security/threat-model.rst:398
 msgid ""
@@ -57827,18 +57888,16 @@ msgstr ""
 "*(documentado)* (fuente: :doc:`/user/translating`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:400
-#, fuzzy
-#| msgid ""
-#| "Review workflows for project-specific content integrity. *(documented)* "
-#| "(source: :doc:`/workflows`)"
 msgid ""
 "Review workflows for project-specific content integrity; approving a "
 "suggestion via the API additionally requires the ``unit.review`` permission "
 "check to be satisfied. *(documented)* (source: :doc:`/workflows`, :doc:`/"
 "api`)"
 msgstr ""
-"Revise los flujos de trabajo para garantizar la integridad del contenido "
-"específico del proyecto. *(documentado)* (fuente: :doc:`/workflows`)"
+"Revise los flujos de trabajo para garantizar la integridad; aprobando una "
+"sugerencia por medio del API adicionalmente requiere el comprobante de "
+"permiso ``unit.review`` para ser satisfecho. *(documentado)* (fuente: :doc:`/"
+"workflows`, :doc:`/api`)"
 
 #: security/threat-model.rst:404
 msgid "Webhook endpoints"
@@ -57855,33 +57914,48 @@ msgstr ""
 "(fuente: :ref:`hooks`)"
 
 #: security/threat-model.rst:407
+#, fuzzy
 msgid ""
 "Hook enablement only where needed, request limits, and monitoring. "
 "*(maintainer)*"
 msgstr ""
+"Ganar la habilitación sólo cuando sea necesario, solicitar límites y "
+"monitorizar. *(Mantenimiento)*"
 
 #: security/threat-model.rst:409
+#, fuzzy
 msgid "GitHub App connection callbacks"
-msgstr ""
+msgstr "Callbacks de conexión de la aplicación de GitHub"
 
 #: security/threat-model.rst:410
+#, fuzzy
 msgid ""
 "GitHub OAuth code, signed Weblate state, installation ID, account metadata"
 msgstr ""
+"GitHub Código OAuth, estado Weblate firmado, ID de instalación, metadatos de "
+"cuenta"
 
 #: security/threat-model.rst:411
+#, fuzzy
 msgid ""
 "Yes, from authenticated Weblate users and GitHub redirect query strings. "
 "*(documented)* (source: :ref:`code-hosting-github-app-register`)"
 msgstr ""
+"Sí, de los usuarios autenticados de Weblate y GitHub redirige cadenas de "
+"consulta. *(documented)* (source: :ref:`code-hosting-github-app-register`)"
 
 #: security/threat-model.rst:413
+#, fuzzy
 msgid ""
 "Weblate requires workspace management rights and verifies that the GitHub "
 "user owns the personal installation or can administer the organization "
 "installation before saving it. *(documented)* (source: :ref:`code-hosting-"
 "github-app-register`)"
 msgstr ""
+"Weblate requiere derechos de gestión del espacio de trabajo y comprueba que "
+"el usuario de GitHub sea el propietario de la instalación personal o pueda "
+"administrar la instalación de la organización antes de guardarla. *"
+"(documentado)* (fuente: :ref:`code-hosting-github-app-register`)"
 
 #: security/threat-model.rst:417
 #, fuzzy
@@ -57899,36 +57973,49 @@ msgstr ""
 "locales"
 
 #: security/threat-model.rst:420
+#, fuzzy
 msgid ""
 "Trusted to users with corresponding management permissions. *(documented)* "
 "(source: :doc:`/admin/access`, :doc:`/admin/continuous`)"
 msgstr ""
+"Se concede a los usuarios con los permisos de administración "
+"correspondientes. *(documentado)* (fuente: :doc:`/admin/access`, :doc:`/"
+"admin/continuous`)"
 
 #: security/threat-model.rst:422
+#, fuzzy
 msgid ""
 "Assign VCS and project management permissions only to trusted users. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Asignar VCS y permisos de gestión de proyectos únicamente a usuarios de "
+"confianza. *(documentado)* (fuente: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:424
 msgid "External repository content"
 msgstr "Contenido del repositorio externo"
 
 #: security/threat-model.rst:425
+#, fuzzy
 msgid "Translation files, paths, branch names, commit metadata"
-msgstr ""
+msgstr "Archivos de traducción, caminos, nombres de rama, metadatos"
 
 #: security/threat-model.rst:426
 msgid ""
 "Yes, if the upstream repository is controlled by another actor. "
 "*(maintainer)*"
 msgstr ""
+"Sí, si el repositorio en desarrollo está controlado por otro actor. *"
+"(maintainer)*"
 
 #: security/threat-model.rst:428
+#, fuzzy
 msgid ""
 "Trust the configured upstream repository or review imported changes. "
 "*(maintainer)*"
 msgstr ""
+"Confía en el repositorio configurado o revisa los cambios importados. *"
+"(Mantenimiento)*"
 
 #: security/threat-model.rst:430
 #, fuzzy
@@ -57937,14 +58024,19 @@ msgid "Project backup import"
 msgstr "Respaldo del proyecto"
 
 #: security/threat-model.rst:431
+#, fuzzy
 msgid "ZIP archive members, metadata, translation files, repository state"
 msgstr ""
+"Elementos del archivo ZIP, metadatos, archivos de traducción, estado del "
+"repositorio"
 
 #: security/threat-model.rst:432
 msgid ""
 "Yes, for whoever can upload or provide the backup. *(documented)* "
 "(source: :ref:`projectbackup`)"
 msgstr ""
+"Sí, para quienquiera puede subir o proporcionar la copia de respaldo. *"
+"(documentado)* (origen: :ref:`projectbackup`)"
 
 #: security/threat-model.rst:433
 msgid ""
@@ -57963,14 +58055,14 @@ msgid "Backup creation requests and requested backup file names"
 msgstr ""
 
 #: security/threat-model.rst:436
-#, fuzzy
 msgid ""
 "Yes, for users or project-scoped tokens with project edit permission. "
 "*(documented)* (source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/"
 "access`)"
 msgstr ""
-"Dentro del alcance como actores autenticados con alcance de proyecto "
-"delegado. *(documentado)* (fuente: :doc:`/api`, :doc:`/admin/access`)"
+"Sí, para usuarios o vales de ámbito de proyecto con permiso de edición del "
+"proyecto. *(documentado)* (fuente: :doc:`/api`, :ref:`projectbackup`, :doc:`/"
+"admin/access`)"
 
 #: security/threat-model.rst:438
 #, fuzzy
@@ -58248,11 +58340,6 @@ msgid "Severity tier"
 msgstr "Gravedad"
 
 #: security/threat-model.rst:533
-#, fuzzy
-#| msgid ""
-#| "Web authorization separates site, project, component, language, glossary, "
-#| "VCS, translation memory, screenshot, review, and access management "
-#| "permissions. *(documented)* (source: :doc:`/admin/access`)"
 msgid ""
 "Web authorization separates site, project, component, language, glossary, "
 "VCS, translation memory, screenshot, review, and access management "
@@ -58261,7 +58348,7 @@ msgid ""
 msgstr ""
 "Autorización de web separa el sitio, proyecto, componente, idioma, glosario, "
 "VCS, memoria de traducción, capturas, revisión, y permisos de gestión de "
-"acceso. *(documentado)* (origen: :doc:`/admin/access`)"
+"acceso. *(documentado)* (origen: :doc:`/admin/access`, :doc:`/admin/auth`)"
 
 #: security/threat-model.rst:537
 msgid ""
@@ -58721,10 +58808,10 @@ msgid ""
 msgstr ""
 "El hecho de que se pueda invocar un webhook accesible sin autenticación de "
 "Forge y que este solo active la programación de actualizaciones prevista no "
-"constituye, por sí solo, un caso de « ` » `VALID``. Se redirige a « ` » "
-"`VALID-HARDENING``, a menos que se sobrepasen los límites documentados, se "
-"filtren datos o se produzcan efectos que vayan más allá de la programación "
-"prevista. *(responsable del mantenimiento)*"
+"constituye, por sí solo, un caso de ``VALID``. Se redirige a ``VALID-"
+"HARDENING``, a menos que se sobrepasen los límites documentados, se filtren "
+"datos o se produzcan efectos que vayan más allá de la planificación "
+"modelada. *(mantenimiento)*"
 
 #: security/threat-model.rst:739
 #, fuzzy
@@ -59788,6 +59875,9 @@ msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
 msgstr ""
+"Una traducción del idioma se volvió totalmente traducido tras una edición "
+"individual. Traducción automática, subidas y ediciones a granel no emiten "
+"este evento."
 
 #: snippets/addon-parameters-autogenerated.rst:259
 msgid "Translation changed"
@@ -59979,6 +60069,8 @@ msgid ""
 "A translation was changed by a search-and-replace operation. This is emitted "
 "instead of Translation changed."
 msgstr ""
+"Una traducción fue modificada mediante una operación de búsqueda y "
+"sustitución. Esto es emitido en vez de «Traducción modificada»."
 
 #: snippets/addon-parameters-autogenerated.rst:347
 msgid "Repository push failed"
@@ -60042,7 +60134,7 @@ msgstr "Usuario eliminado"
 
 #: snippets/addon-parameters-autogenerated.rst:376
 msgid "A user's access was removed."
-msgstr ""
+msgstr "Se ha retirado un acceso de usuario."
 
 #: snippets/addon-parameters-autogenerated.rst:379
 msgid "Translation approved"
@@ -60202,10 +60294,8 @@ msgid "Screenshot added"
 msgstr "Captura agregada"
 
 #: snippets/addon-parameters-autogenerated.rst:456
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "A screenshot was associated with a string."
-msgstr "Evite los años asociados con usted."
+msgstr "Una captura de pantalla fue asociada con una cadena."
 
 #: snippets/addon-parameters-autogenerated.rst:459
 msgid "Screenshot uploaded"
@@ -60253,10 +60343,8 @@ msgid "String removed"
 msgstr "Cadena eliminada"
 
 #: snippets/addon-parameters-autogenerated.rst:480
-#, fuzzy
-#| msgid "Listing of other translations."
 msgid "A string was removed from a translation."
-msgstr "Listado de otras traducciones."
+msgstr "Una cadena fue retirada de una traducción."
 
 #: snippets/addon-parameters-autogenerated.rst:483
 msgid "Comment removed"
@@ -60279,11 +60367,8 @@ msgid "Explanation updated"
 msgstr "Explicación actualizada"
 
 #: snippets/addon-parameters-autogenerated.rst:492
-#, fuzzy
-#| msgid "Added support for ordering strings by last update."
 msgid "The explanation for a source string was updated."
-msgstr ""
-"Se agregó mantenimiento para ordenación de cadenas por última actualización."
+msgstr "Se ha actualizado una explicación para una cadena origen."
 
 #: snippets/addon-parameters-autogenerated.rst:495
 msgid "Category removed"
@@ -60314,10 +60399,8 @@ msgid "Saving string failed"
 msgstr "Error al guardar la cadena"
 
 #: snippets/addon-parameters-autogenerated.rst:508
-#, fuzzy
-#| msgid "Somebody else changes an already changed string."
 msgid "Weblate could not save a changed string."
-msgstr "Alguien más modifica una cadena ya modificada."
+msgstr "Weblate no pudo guardar una cadena modificada."
 
 #: snippets/addon-parameters-autogenerated.rst:511
 msgid "String added in the repository"
@@ -60333,10 +60416,8 @@ msgid "String updated in the upload"
 msgstr "Cadena actualizada al cargar"
 
 #: snippets/addon-parameters-autogenerated.rst:516
-#, fuzzy
-#| msgid "Fixed processing of some uploaded CSV files."
 msgid "A string was changed while processing an uploaded file."
-msgstr "Se corrigió el procesamiento de algunas subidas de archivos CSV."
+msgstr "Ha sido cambiada una cadena mientras procesaba una subida del archivo."
 
 #: snippets/addon-parameters-autogenerated.rst:519
 msgid "String added in the upload"
@@ -60345,6 +60426,7 @@ msgstr "Cadena agregada al ser subida"
 #: snippets/addon-parameters-autogenerated.rst:520
 msgid "A new string was found while processing an uploaded file."
 msgstr ""
+"Se ha encontrado una cadena nueva mientras procesaba una subida del archivo."
 
 #: snippets/addon-parameters-autogenerated.rst:523
 msgid "Translation updated by source upload"
@@ -60352,7 +60434,7 @@ msgstr "Traducción actualizada mediante la carga de las fuentes"
 
 #: snippets/addon-parameters-autogenerated.rst:524
 msgid "A translation was synchronized after uploading a source file."
-msgstr ""
+msgstr "Se ha sincronizado una traducción tras subir un archivo de fuente."
 
 #: snippets/addon-parameters-autogenerated.rst:527
 msgid "Component translation completed"
@@ -60364,6 +60446,9 @@ msgid ""
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
+"Todas las traducciones de un componente se han traducido por completo tras "
+"una edición individual. La traducción automática, las subidas de archivos y "
+"las ediciones masivas no emiten este evento."
 
 #: snippets/addon-parameters-autogenerated.rst:531
 msgid "Applied enforced check"
@@ -60413,7 +60498,7 @@ msgstr "Tipografía cambiada"
 
 #: snippets/addon-parameters-autogenerated.rst:552
 msgid "An uploaded font was changed."
-msgstr ""
+msgstr "Una fuente tipográfica subida ha sido modificada."
 
 #: snippets/addon-parameters-autogenerated.rst:555
 msgid "Font removed"
@@ -60421,32 +60506,26 @@ msgstr "Tipografía retirada"
 
 #: snippets/addon-parameters-autogenerated.rst:556
 msgid "An uploaded font was removed."
-msgstr ""
+msgstr "Una fuente tipográfica subida ha sido retirada."
 
 #: snippets/addon-parameters-autogenerated.rst:559
 msgid "Forced synchronization of translations"
 msgstr "Sincronización forzada de traducciones"
 
 #: snippets/addon-parameters-autogenerated.rst:560
-#, fuzzy
-#| msgid ""
-#| "Project translation files can be downloaded from Weblate or synchronized "
-#| "back to the customer's repository."
 msgid "Translation files were forcibly synchronized with the repository."
 msgstr ""
-"Los archivos de traducción del proyecto se pueden descargar desde Weblate o "
-"sincronizar con el repositorio del cliente."
+"Los archivos de traducción fueron sincronizados a la fuerza con el "
+"repositorio."
 
 #: snippets/addon-parameters-autogenerated.rst:563
 msgid "Forced rescan of translations"
 msgstr "Re-analizado forzado de traducciones"
 
 #: snippets/addon-parameters-autogenerated.rst:564
-#, fuzzy
-#| msgid "Translation needs to be rewritten because of a source string change."
 msgid "Translation files were forcibly rescanned for changes."
 msgstr ""
-"La transacción necesita ser rescrita porque ha cambiado una cadena origen."
+"Los archivos de la traducción fueron reanalizados a la fuerza para cambios."
 
 #: snippets/addon-parameters-autogenerated.rst:567
 msgid "Screenshot removed"
@@ -60462,7 +60541,7 @@ msgstr "Etiqueta agregada"
 
 #: snippets/addon-parameters-autogenerated.rst:572
 msgid "A label was added to a string."
-msgstr ""
+msgstr "Ha sido añadida una etiqueta a una cadena."
 
 #: snippets/addon-parameters-autogenerated.rst:575
 msgid "Label removed"
@@ -60478,7 +60557,7 @@ msgstr "Purga de repositorio"
 
 #: snippets/addon-parameters-autogenerated.rst:580
 msgid "The repository working tree was cleaned up."
-msgstr ""
+msgstr "El árbol del trabajo del repositorio fue purgado."
 
 #: snippets/addon-parameters-autogenerated.rst:583
 msgid "Source string added in the upload"
@@ -60501,10 +60580,8 @@ msgid "Project backed up"
 msgstr "Respaldo del proyecto"
 
 #: snippets/addon-parameters-autogenerated.rst:592
-#, fuzzy
-#| msgid "Project backed up"
 msgid "A project backup was created."
-msgstr "Respaldo del proyecto"
+msgstr "Se ha creado un respaldo del proyecto."
 
 #: snippets/addon-parameters-autogenerated.rst:595
 msgid "Project restored"
@@ -60512,7 +60589,7 @@ msgstr "Proyecto restaurado"
 
 #: snippets/addon-parameters-autogenerated.rst:596
 msgid "A project was restored from a backup."
-msgstr ""
+msgstr "Se ha restaurado un proyecto desde una copia de respaldo."
 
 #: snippets/addon-parameters-autogenerated.rst:599
 msgid "Component restored"
@@ -60528,7 +60605,7 @@ msgstr "Edición de usuario revertida"
 
 #: snippets/addon-parameters-autogenerated.rst:604
 msgid "All selected edits by a user were reverted."
-msgstr ""
+msgstr "Todas las ediciones seleccionadas por un usuario fueron revertidas."
 
 #: snippets/addon-parameters-autogenerated.rst:607
 msgid "Project setting changed"
@@ -60559,10 +60636,8 @@ msgid "Workspace created"
 msgstr "Espacio de trabajo creado"
 
 #: snippets/addon-parameters-autogenerated.rst:620
-#, fuzzy
-#| msgid "Workspace created"
 msgid "A workspace was created."
-msgstr "Espacio de trabajo creado"
+msgstr "Se ha creado un espacio de trabajo."
 
 #: snippets/addon-parameters-autogenerated.rst:623
 msgid "Workspace setting changed"
@@ -60577,10 +60652,9 @@ msgid "Project moved"
 msgstr "Proyecto trasladado"
 
 #: snippets/addon-parameters-autogenerated.rst:628
-#, fuzzy
-#| msgid "Projects can be created with or without a workspace:"
 msgid "A project was moved into or out of a workspace."
-msgstr "Los proyectos pueden ser creados con o sin un pupitre:"
+msgstr ""
+"Se ha trasladado un proyecto interno o externo de un espacio de trabajo."
 
 #: snippets/addon-parameters-autogenerated.rst:631
 msgid "Remote repository updated"
@@ -60599,26 +60673,21 @@ msgid "Updating a remote repository failed."
 msgstr "La actualización de un repositorio remoto ha fallado."
 
 #: snippets/addon-parameters-autogenerated.rst:639
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Alert dismissed"
-msgstr "Alerta activada"
+msgstr "Alerta desestimada"
 
 #: snippets/addon-parameters-autogenerated.rst:640
-#, fuzzy
-#| msgid "Updating component alerts (daily)."
 msgid "A component alert was dismissed."
-msgstr "Actualizar alertas de componente (diariamente)."
+msgstr "Se ha desestimado una alerta de componente."
 
 #: snippets/addon-parameters-autogenerated.rst:643
-#, fuzzy
-#| msgid "Alert triggered"
 msgid "Alert reopened"
-msgstr "Alerta activada"
+msgstr "Alerta reabierta"
 
 #: snippets/addon-parameters-autogenerated.rst:644
 msgid "A component alert was reopened after its context changed."
 msgstr ""
+"Una alerta de componente ha sido reabierta tras su contexto fue modificado."
 
 #: snippets/addons-autogenerated.rst:6
 msgid "Built-in add-ons"
@@ -61405,13 +61474,6 @@ msgid "Message topic"
 msgstr "Tema de mensaje"
 
 #: snippets/addons-autogenerated.rst:475
-#, fuzzy
-#| msgid ""
-#| "All messages have topic ``weblate.<action>.<project>.<component>."
-#| "<translation>``. The action is lowercase textual representation of action "
-#| "with underscores instead of space, for example ``resource_update``, all "
-#| "other parts are optional and represent slug of the object or a language "
-#| "code."
 msgid ""
 "All messages have topic ``weblate.<action>.<project>.<category...>."
 "<component>.<translation>``. When configured, ``topic_prefix`` is prepended "
@@ -61421,11 +61483,14 @@ msgid ""
 "space, for example ``resource_updated``; see :ref:`change-actions` for all "
 "action identifiers. The remaining parts match Weblate object path segments."
 msgstr ""
-"Todos los mensajes tienen tema ``weblate.<action>.<project>.<component>."
-"<translation>``. La representación de acción textual en minúscula de la "
-"acción con guion bajo en vez de espacio, por ejemplo ``resource_update``, "
-"todas las otras partes son opcionales y representan indicación del objeto o "
-"un código de idioma."
+"Todos los mensajes tienen tema ``weblate.<action>.<project>.<category...>"
+".<component>.<translation>``. Cuando esté configurado, ``topic_prefix`` es "
+"presentado a este tema utilizando un separador único de punto, por ejemplo "
+"``org.fedoraproject.weblate.project_backed_up.website``. La acción es "
+"representación textual en minúscula de acción con guion bajo en vez de "
+"espacio, por ejemplo ``resource_update``; consulte :ref:`change-actions` "
+"para todas los identificadores de acción. Las partes restantes coinciden "
+"segmentos de ruta del objeto Weblate."
 
 #: snippets/addons-autogenerated.rst:484
 msgid ""
@@ -62369,17 +62434,15 @@ msgstr ""
 "Las cadenas modificadas están marcadas como necesidad de revisión (fuzzy)"
 
 #: snippets/addons-autogenerated.rst:1278
-#, fuzzy
-#| msgid ""
-#| "Most msgmerge command-line options can be set up through file format "
-#| "parameters configuration."
 msgid ""
 "Most msgmerge command-line options can be set up through file format "
 "parameters configuration. Enable the ``po_remove_obsolete`` parameter to "
 "remove obsolete ``#~`` entries when PO files are saved."
 msgstr ""
 "La mayoría de las opciones de consola msgmerge pueden ser configuradas a "
-"través de los parámetros de formato del archivo en la configuración."
+"través de los parámetros de formato del archivo en la configuración. "
+"Habilite el parámetro ``po_remove_obsolete`` para retirar los apuntes ``#~`` "
+"obsoletos cuando los archivos PO son guardados."
 
 #: snippets/addons-autogenerated.rst:1296
 msgid "Update POT file (Sphinx)"
@@ -62863,19 +62926,15 @@ msgstr ""
 "siguiendo la especificación estándar de Webhooks."
 
 #: snippets/addons-autogenerated.rst:1740
-#, fuzzy
-#| msgid ""
-#| "The request payload complies with the :ref:`schema-messaging` schema. The "
-#| "OpenAPI description can also be found at ``/api/docs/``. Sample request "
-#| "body:"
 msgid ""
 "The request payload complies with the :ref:`schema-messaging` schema. The "
 "``action`` field uses the action name listed in :ref:`change-actions`. The "
 "OpenAPI description can also be found at ``/api/docs/``. Sample request body:"
 msgstr ""
-"La carga útil de la solicitud cumple con el esquema :ref:`schema-messaging` "
-"La descripción de OpenAPI también se puede encontrar en ``/api/docs/``. "
-"Cuerpo de solicitud de muestra:"
+"La carga útil de la solicitud cumple con el esquema :ref:`schema-messaging`. "
+"El campo ``action`` utiliza el nombre de la acción listada en :ref:`change-"
+"actions`. La descripción de OpenAPI también se puede encontrar en ``/api/"
+"docs/``. Muestra del cuerpo de solicitud:"
 
 #: snippets/addons-autogenerated.rst:1762
 msgid "Sample request body with categories:"
@@ -63419,10 +63478,8 @@ msgid "Enables the :ref:`check-regex` quality check."
 msgstr "Habilita la comprobación de calidad en :ref:`check-regex`."
 
 #: snippets/check-flags-autogenerated.rst:136
-#, fuzzy
-#| msgid "Enables the :ref:`check-safe-html` quality check."
 msgid "Enables the :ref:`check-safe-mdx` quality check."
-msgstr "Habilita el control de calidad en :ref:`check-safe-html`."
+msgstr "Habilita el control de calidad en :ref:`check-safe-mdx`."
 
 #: snippets/check-flags-autogenerated.rst:138
 msgid "Enables the :ref:`check-safe-html` quality check."
@@ -63465,10 +63522,8 @@ msgid "Ignore all quality checks."
 msgstr "Ignora todos los controles de calidad."
 
 #: snippets/check-flags-autogenerated.rst:159
-#, fuzzy
-#| msgid "Skip the :ref:`check-placeholders` quality check."
 msgid "Skip the :ref:`check-accelerator` quality check."
-msgstr "Pasa por alto la comprobación de calidad :ref:`check-placeholders`."
+msgstr "Pasa por alto la comprobación de calidad :ref:`check-accelerator`."
 
 #: snippets/check-flags-autogenerated.rst:161
 msgid "Skip the :ref:`check-bbcode` quality check."
@@ -63739,10 +63794,8 @@ msgid "Skip the :ref:`check-reused` quality check."
 msgstr "Pasa por alto la comprobación de calidad :ref:`check-reused`."
 
 #: snippets/check-flags-autogenerated.rst:283
-#, fuzzy
-#| msgid "Skip the :ref:`check-safe-html` quality check."
 msgid "Skip the :ref:`check-safe-mdx` quality check."
-msgstr "Pasa por alto la comprobación de calidad :ref:`check-safe-html`."
+msgstr "Pasa por alto la comprobación de calidad :ref:`check-safe-mdx`."
 
 #: snippets/check-flags-autogenerated.rst:285
 msgid "Skip the :ref:`check-same-plurals` quality check."
@@ -63825,10 +63878,9 @@ msgid "Skip the :ref:`check-unnamed-format` quality check."
 msgstr "Pasa por alto la comprobación de calidad :ref:`check-unnamed-format`."
 
 #: snippets/check-flags-autogenerated.rst:321
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-length` quality check."
 msgid "Skip the :ref:`check-source-max-length` quality check."
-msgstr "Pasa por alto la comprobación de calidad :ref:`check-max-length`."
+msgstr ""
+"Pasa por alto la comprobación de calidad :ref:`check-source-max-length`."
 
 #: snippets/check-flags-autogenerated.rst:323
 msgid "Skip the :ref:`check-optional-plural` quality check."
@@ -67985,10 +68037,8 @@ msgstr "Admite cadenas de solo lectura en :ref:`ⓘ <read-only-strings>`"
 #: snippets/format-features/xwiki-java-properties-features.rst:27
 #: snippets/format-features/xwiki-page-properties-features.rst:27
 #: snippets/format-features/yaml-features.rst:27
-#, fuzzy
-#| msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
 msgid "Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`"
-msgstr "Admite cadenas de solo lectura en :ref:`ⓘ <read-only-strings>`"
+msgstr "Admite retirar cadenas obsoletas :ref:`ⓘ <obsolete-strings>`"
 
 #: snippets/format-features/arb-features.rst:10
 #: snippets/format-features/csv-features.rst:10
@@ -68115,10 +68165,8 @@ msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
 msgstr "``auto-safe-html``, ``strict-same``, ``md-text``"
 
 #: snippets/format-features/mdx-features.rst:30
-#, fuzzy
-#| msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``, :ref:`check-safe-mdx`"
-msgstr "``auto-safe-html``, ``strict-same``, ``md-text``"
+msgstr "``auto-safe-html``, ``strict-same``, ``md-text``, :ref:`check-safe-mdx`"
 
 #: snippets/format-features/odf-features.rst:8
 msgid ""
@@ -68157,10 +68205,8 @@ msgid "``dokuwiki``, ``mediawiki``, ``txt``"
 msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
 
 #: snippets/format-features/xliff-features.rst:8
-#, fuzzy
-#| msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 msgid "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
-msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
+msgstr "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
 
 #: snippets/format-features/xliff-features.rst:24
 #: snippets/format-features/xliff2-features.rst:24
@@ -68218,10 +68264,8 @@ msgstr ""
 "Weblate s.r.o., como Hosted Weblate y Weblate Cloud."
 
 #: snippets/hosted-legal-documents.rst:6
-#, fuzzy
-#| msgid "`General terms and conditions`_"
 msgid "`General terms and conditions <https://weblate.org/terms/>`__"
-msgstr "`Términos y condiciones generales`_"
+msgstr "`Términos y condiciones generales <https://weblate.org/terms/>`__"
 
 #: snippets/hosted-legal-documents.rst:7
 #, fuzzy
@@ -68230,15 +68274,12 @@ msgid "`Privacy policy <https://weblate.org/privacy/>`__"
 msgstr "El `portal de asistencia al cliente <https://care.weblate.org/>`_"
 
 #: snippets/hosted-legal-documents.rst:8
-#, fuzzy
-#| msgid ""
-#| "The data processing agreement can be obtained in the `Customer area`_."
 msgid ""
 "The data processing agreement can be obtained in the `Customer area <https://"
 "weblate.org/user/>`__."
 msgstr ""
-"El acuerdo de tratamiento de datos se puede obtener en el `Área de "
-"clientes`_."
+"El acuerdo de tratamiento de datos se puede obtener en el `Área de clientes "
+"<https://weblate.org/user/>`__."
 
 #: snippets/linked-repository-setting.rst:1
 msgid ""
@@ -68788,18 +68829,13 @@ msgstr ""
 "traducción."
 
 #: snippets/machines-autogenerated.rst:368
-#, fuzzy
-#| msgid ""
-#| "DeepL is paid service providing good machine translation for a few "
-#| "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
-#| "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgid ""
 "DeepL is a paid service providing good machine translation for a few "
 "languages. You need to purchase :guilabel:`DeepL API` subscription."
 msgstr ""
 "DeepL es un servicio de pago que proporciona una buena traducción automática "
 "para algunos idiomas. Necesita comprar la suscripción a :guilabel:`API de "
-"DeepL`, o puede usar el plan heredado de :guilabel:`DeepL Pro (clásico)`."
+"DeepL`."
 
 #: snippets/machines-autogenerated.rst:371
 msgid ""
@@ -70478,11 +70514,6 @@ msgstr ""
 "credentials`."
 
 #: user/checks.rst:4
-#, fuzzy
-#| msgid ""
-#| "The quality checks help catch common translator errors, ensuring the "
-#| "translation is in good shape. The checks can be ignored in case of false "
-#| "positives."
 msgid ""
 "The quality checks help catch common translator errors, ensuring the "
 "translation is in good shape. The checks can be ignored in case of false "
@@ -70491,7 +70522,9 @@ msgid ""
 msgstr ""
 "Los controles de calidad ayudan a detectar errores comunes de traducción, "
 "garantizando así la calidad de la traducción. En caso de falsos positivos, "
-"se pueden ignorar."
+"se pueden ignorar. Para obtener orientación práctica sobre traducción en "
+"relación con marcadores de posición, formato, puntuación y formas plurales, "
+"consulte :ref:`translating-special-text`."
 
 #: user/checks.rst:9
 msgid ""
@@ -72069,17 +72102,15 @@ msgid "Boolean operators"
 msgstr "Operadores booleanos"
 
 #: user/search.rst:16
-#, fuzzy
-#| msgid ""
-#| "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
-#| "form complex queries."
 msgid ""
 "You can combine lookups using ``AND``, ``OR``, ``NOT`` and parentheses to "
 "form complex queries. Boolean operators are case-insensitive, so ``and``, "
 "``And`` and ``AND`` are equivalent."
 msgstr ""
 "Puedes combinar búsquedas utilizando ``AND``, ``OR``, ``NOT`` y paréntesis "
-"para formar solicitudes complejas."
+"para formar solicitudes complejas .Los operadores booleanos no distinguen "
+"entre mayúsculas y minúsculas, por lo que ``and``, ``And`` y ``AND`` son "
+"equivalentes."
 
 #: user/search.rst:20
 msgid ""
@@ -72359,23 +72390,16 @@ msgid "String pending for flushing to VCS."
 msgstr "Cadena pendiente de vaciar a VCS."
 
 #: user/search.rst:158
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-#| "``glossary``, ``note``, ``label``, ``location``."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``source-comment``, ``check``, ``dismissed-"
 "check``, ``translation``, ``variant``, ``screenshot``, ``flags``, "
 "``explanation``, ``glossary``, ``note``, ``label``, ``location``."
 msgstr ""
-"Busque una cadena con los atributos: ``plural``, ``contexto``, "
-"``sugerencia``, ``comentario``, ``verificación``, ``verificación "
-"descartada``, ``traducción``, ``variante``, ``captura de pantalla``, "
-"``indicadores``, ``explicación``, ``glosario``, ``nota``, ``etiqueta``, "
-"``lugar``."
+"Busque una cadena con los atributos: ``plural``, ``context``, "
+"``suggestion``, ``comment``, ``source-comment``, ``check``, ``dismissed-"
+"check``, ``translation``, ``variant``, ``screenshot``, ``flags``, "
+"``explanation``, ``glossary``, ``note``, ``label``, ``location``."
 
 #: user/search.rst:160
 msgid "Filters string on a condition:"
@@ -73241,7 +73265,6 @@ msgid "Plural forms"
 msgstr "Fórmula de plurales"
 
 #: user/translating.rst:195
-#, fuzzy
 msgid ""
 "Translate each plural field Weblate shows. Do not combine forms into a "
 "single construction such as ``file(s)`` unless that is correct for the "
@@ -73249,10 +73272,9 @@ msgid ""
 "report it with a source string comment or review."
 msgstr ""
 "Traduce cada campo de plural que muestre Weblate. No combines formas en una "
-"sola construcción, como « ` » o «file(s)` », a menos que sea correcto para "
-"el idioma de destino y el proyecto. Si la cadena de origen utiliza un plural "
-"ambiguo, indícalo mediante un comentario en la cadena de origen o durante la "
-"revisión."
+"sola construcción, como ``file(s)`` a menos que sea correcto para el idioma "
+"de destino y el proyecto. Si la cadena de origen utiliza un plural ambiguo, "
+"indícalo mediante un comentario en la cadena de origen o durante la revisión."
 
 #: user/translating.rst:200
 msgid ""
@@ -74984,11 +75006,6 @@ msgstr ""
 "con ``/api/``, por ejemplo, ``https://hosted.weblate.org/api/``."
 
 #: wlc.rst:174
-#, fuzzy
-#| msgid ""
-#| "Specify the API user key to use. Overrides any value found in the "
-#| "configuration file, see :ref:`wlc-config`. You can find your key in your "
-#| "profile on Weblate."
 msgid ""
 "Specify the API user key to use. Overrides any value found in the "
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
@@ -74998,7 +75015,10 @@ msgid ""
 msgstr ""
 "Especifique la clave del usuario del API a utilizar. Sustituya cualquier "
 "valor encontrado en el archivo de configuración, consulte :ref:`wlc-config`. "
-"Puede encontrar su clave en su perfil de Weblate."
+"Puede encontrar su clave en su perfil de Weblate. Cuando la URL del API se "
+"carga desde la configuración del proyecto detectada automáticamente, se debe "
+"usar :option:`--key` junto con :option:`--url`. Las claves del API se "
+"rechazan de forma predeterminada en las URL ``http://`` que no son locales."
 
 #: wlc.rst:182
 msgid ""
@@ -75378,20 +75398,15 @@ msgid ""
 msgstr ""
 
 #: wlc.rst:434
-#, fuzzy
-#| msgid ""
-#| "The API URL and key can also be configured using environment variables. "
-#| "This is especially useful for CI workflows where the repository provides "
-#| "the project configuration and :envvar:`WLC_KEY` is injected as a secret:"
 msgid ""
 "The API URL and key can also be configured using environment variables. This "
 "is especially useful for CI workflows where :envvar:`WLC_URL` pins the "
 "destination and :envvar:`WLC_KEY` is injected as a secret:"
 msgstr ""
 "La URL y la clave del API también se pueden configurar mediante variables de "
-"entorno. Esto resulta especialmente útil para los flujos de trabajo de "
-"integración continua (IC) donde el repositorio proporciona la configuración "
-"del proyecto y :envvar:`WLC_KEY` se inyecta como un secreto:"
+"entorno. Esto es especialmente útil para flujos de trabajo de IC donde "
+":envvar:`WLC_URL` fija el destino y :envvar:`WLC_KEY` se inyecta como un "
+"secreto:"
 
 #: wlc.rst:444
 msgid ""
@@ -75898,7 +75913,6 @@ msgstr ""
 "revisiones` para los idiomas que no deban requerir revisión."
 
 #: workflows.rst:223
-#, fuzzy
 msgid ""
 "Reviewers also need review access for the same language. Add them to a team "
 "whose roles include :guilabel:`Review strings`, and limit that team or the "
@@ -75906,9 +75920,10 @@ msgid ""
 "and :ref:`custom-acl` for language-scoped access setup."
 msgstr ""
 "Los revisores también necesitan acceso de revisión para el mismo idioma. "
-"Añádelos a un equipo cuyos roles incluyan `Revisar cadenas` y limita la "
-"pertenencia de ese equipo o usuario al idioma que deben revisar. Consulta "
-"`manage-acl` y `custom-acl` para configurar el acceso por idioma."
+"Añádelos a un equipo cuyos roles incluyan :guilabel:`Revisar cadenas` y "
+"limita la pertenencia de ese equipo o usuario al idioma que deben revisar. "
+"Consulte :ref:`manage-acl` y :ref:`custom-acl` para configurar el acceso por "
+"idioma."
 
 #: workflows.rst:228
 #, fuzzy

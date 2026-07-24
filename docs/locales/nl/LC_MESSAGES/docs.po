@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-20 11:03+0000\n"
+"PO-Revision-Date: 2026-07-24 10:03+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -7019,19 +7019,15 @@ msgstr ""
 "documenten."
 
 #: admin/config.rst:1357
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``\"tos\"``, which enables the built-in legal document "
-#| "numbering and spacing rules. Set this to an empty string to render legal "
-#| "documents without the built-in numbering."
 msgid ""
 "Defaults to ``\"tos\"``. Weblate does not attach styling to this class; "
 "custom legal styles can use it to target document wrappers. Set this to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
-"Standaard ``\"tos\"``, wat de ingebouwde regels voor nummeren afstanden in "
-"wettelijke documenten inschakelt. Stel dit in op een lege tekenreeks om "
-"wettelijke documenten te renderen zonder ingebouwde nummering."
+"Standaard ``\"tos\"``. Weblate koppelt geen opmaak aan deze klasse; "
+"aangepaste juridische opmaak kan het gebruiken als doel voor de document-"
+"wrapper. Stel dit in op een lege tekenreeks om wettelijke documenten te "
+"renderen zonder een wrapper-klasse."
 
 #: admin/config.rst:1377
 msgid "List of legal document page identifiers to hide from the legal module."
@@ -13408,18 +13404,13 @@ msgstr ""
 "met :envvar:`WEBLATE_LEGAL_INTEGRATION` ingeschakeld."
 
 #: admin/install/docker.rst:958
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``\"tos\"``, which enables the built-in legal document "
-#| "numbering and spacing rules. Set this to an empty string to render legal "
-#| "documents without the built-in numbering."
 msgid ""
 "Set this to the class targeted by your custom legal stylesheet. Set it to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
-"Standaard ``\"tos\"``, wat de ingebouwde regels voor nummeren afstanden in "
-"wettelijke documenten inschakelt. Stel dit in op een lege tekenreeks om "
-"wettelijke documenten te renderen zonder ingebouwde nummering."
+"Stel dit in op de klasse die als doel is ingesteld in uw aangepaste "
+"juridische stylesheet. Stel dit in op een lege tekenreeks om juridische "
+"documenten te renderen een klasse voor een wrapper."
 
 #: admin/install/docker.rst:970
 msgid ""
@@ -15099,19 +15090,15 @@ msgstr ""
 "het wijzigen van de inhoud van het volume."
 
 #: admin/install/docker.rst:2681
-#, fuzzy
-#| msgid ""
-#| "This approach can be also used to override Weblate templates. For "
-#| "example :ref:`legal` documents can be placed into :file:`/app/data/python/"
-#| "customize/templates/legal/documents`."
 msgid ""
 "This approach can be also used to override Weblate templates. For example, "
 "custom :ref:`legal` documents and styles can be provided as described "
 "in :ref:`legal-customization`."
 msgstr ""
 "Deze benadering kan ook worden gebruikt om sjablonen van Weblate te "
-"overschrijven. Bijvoorbeeld documenten voor :ref:`legal` kunnen worden "
-"geplaatst in :file:`/app/data/python/customize/templates/legal/documents`."
+"overschrijven. Bijvoorbeeld: aangepaste documenten en stijlen voor "
+":ref:`legal` kunnen worden verschaft, zoals beschreven in :ref:`legal-"
+"customization`."
 
 #: admin/install/docker.rst:2685
 msgid ""
@@ -18328,11 +18315,6 @@ msgstr ""
 "github.com/WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents>."
 
 #: admin/optionals.rst:161
-#, fuzzy
-#| msgid ""
-#| "The bundled terms of service and related legal documents are specific to "
-#| "that service and are not intended for general use. They might still come "
-#| "in handy as a starting point if adjusted to meet your needs."
 msgid ""
 "The bundled terms of service and related legal documents are specific to "
 "services operated by Weblate s.r.o. They can serve as an implementation "
@@ -18340,8 +18322,9 @@ msgid ""
 "services."
 msgstr ""
 "De gebundelde gebruiksbepalingen en gerelateerde wettelijke documenten zijn "
-"specifiek voor die service en zijn niet bedoeld voor algemeen gebruik. Ze "
-"kunnen handig zijn als een beginpunt om aan te passen naar uw behoeften."
+"specifiek voor services die worden uitgevoerd door Weblate s.r.o. Ze kunnen "
+"dienen als een voorbeeld voor implementatie, maar zouden niet moeten worden "
+"gebruikt als basis voor juridische documenten of andere services."
 
 #: admin/optionals.rst:169
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -18353,6 +18336,8 @@ msgid ""
 "Provide legal document templates matching your service, as described "
 "in :ref:`legal-customization`."
 msgstr ""
+"Verschaf sjablonen voor juridische documenten die overeenkomen met uw "
+"service, zoals beschreven in :ref:`legal-customization`."
 
 #: admin/optionals.rst:197
 msgid ""
@@ -18387,15 +18372,11 @@ msgstr ""
 "bestaande container past niet de gewijzigde omgevingswaarden toe."
 
 #: admin/optionals.rst:214
-#, fuzzy
-#| msgid ""
-#| "After installation and editing, the legal documents are shown in the "
-#| "Weblate UI."
 msgid ""
 "After installation and customization, the legal documents are shown in the "
 "Weblate UI."
 msgstr ""
-"Na het installeren en bewerken worden de wettelijke documenten weergegeven "
+"Na het installeren en aanpassen worden de juridische documenten weergegeven "
 "in de gebruikersinterface van Weblate."
 
 #: admin/optionals.rst:216
@@ -18420,16 +18401,16 @@ msgstr ""
 "naar documenten voor de voorwaarden voor de service en voor privacybeleid."
 
 #: admin/optionals.rst:227
-#, fuzzy
-#| msgid "Customizing behavior using flags"
 msgid "Customizing legal documents and styles"
-msgstr "Gedrag aanpassen met vlaggen"
+msgstr "Juridische documenten en opmaak aanpassen"
 
 #: admin/optionals.rst:229
 msgid ""
 "Provide your own legal documents by overriding these templates in "
 "a :ref:`custom-module`:"
 msgstr ""
+"Verschaf uw eigen juridische documenten door deze sjablonen te overschrijven "
+"in een :ref:`custom-module`:"
 
 #: admin/optionals.rst:239
 msgid ""
@@ -18439,24 +18420,28 @@ msgid ""
 "overridden; the remaining legal templates continue to use the defaults from "
 "later apps."
 msgstr ""
+"Plaats de aangepaste app voor ``weblate.legal`` en elke andere app die "
+"juridische documenten overschrijft in :setting:`django:INSTALLED_APPS`, "
+"zodat Django de sjablonen ervan selecteert. Alleen sjablonen die u verschaft "
+"worden overschreven; de resterende juridische sjablonen blijven de "
+"standaarden gebruiken uit latere apps."
 
 #: admin/optionals.rst:244
 msgid ""
 "The :file:`legal/styles.html` template is included in the HTML head of every "
 "legal page. Use it to load a stylesheet from your customization app:"
 msgstr ""
+"Het sjabloon :file:`legal/styles.html` is opgenomen in de kop van de HTML op "
+"elke juridische pagina. Gebruik dat om een stylesheet te laden vanuit uw "
+"aangepaste app:"
 
 #: admin/optionals.rst:253
-#, fuzzy
-#| msgid ""
-#| "Run :samp:`weblate collectstatic --noinput`, to collect static files "
-#| "served to clients."
 msgid ""
 "Run :samp:`weblate collectstatic --noinput` after adding or changing the "
 "static file."
 msgstr ""
-"Voer uit :samp:`weblate collectstatic --noinput`, om statische bestanden die "
-"worden geserveerd aan cliënten te verzamelen."
+"Voer :samp:`weblate collectstatic --noinput` uit, na toevoegen of wijzigen "
+"van het statische bestand."
 
 #: admin/optionals.rst:256
 msgid ""
@@ -18467,6 +18452,13 @@ msgid ""
 "template then uses ``{% static 'legal.css' %}``. Restart the container to "
 "apply the changes, see :ref:`docker-static-override`."
 msgstr ""
+"In uitrollen van Docker, plaats sjablonen voor documenten in :file:`/app/"
+"data/python/customize/templates/legal/documents`, :file:`styles.html` in "
+":file:`/app/data/python/customize/templates/legal/styles.html`, en het "
+"stylesheet in :file:`/app/data/python/customize/static/legal.css`. Het "
+"sjabloon voor het stylesheet gebruikt dan ``{% static 'legal.css' %}``. "
+"Herstart de container om de wijzigingen door te voeren, bekijk :ref:`docker-"
+"static-override`."
 
 #: admin/optionals.rst:264
 msgid ""
@@ -18476,6 +18468,12 @@ msgid ""
 "document markup. Set the setting to an empty string if no wrapper class is "
 "needed."
 msgstr ""
+"Standaard gebruiken wrappers voor juridische documenten de CSS-klasse "
+"``tos``. Weblate verbindt geen enkele stijl aan deze klasse; benader het "
+"vanuit uw aangepaste stylesheet, of stel :setting:`LEGAL_DOCUMENT_CSS_CLASS` "
+"in op een andere klasse die overeenkomt met de opmaak van uw document. Stel "
+"de instelling in op een lege tekenreeks als geen klasse voor de wrapper "
+"nodig is."
 
 #: admin/optionals.rst:269
 msgid ""
@@ -19159,6 +19157,10 @@ msgid ""
 "with source strings, and where translations can be tested or when they are "
 "released."
 msgstr ""
+"Goede instructies voor vertalen leggen uit hoe deelnemers vertalingen zouden "
+"moeten indienen, welke beoordeling ze zouden kunnen verwachten, hoe ze "
+"problemen met brontekenreeksen kunnen rapporteren en waar vertalingen kunnen "
+"worden getest of wanneer ze worden uitgegeven."
 
 #: admin/projects.rst:176 admin/projects.rst:881 admin/workspaces.rst:94
 msgid "Translation license"
@@ -22367,30 +22369,26 @@ msgstr ""
 "op :guilabel:`Beheren` ↓ :guilabel:`Werkruimten`."
 
 #: admin/workspaces.rst:29
-#, fuzzy
-#| msgid "Workspace created"
 msgid "Workspace removal"
-msgstr "Werkruimte aangemaakt"
+msgstr "Verwijderen werkruimte"
 
 #: admin/workspaces.rst:31
-#, fuzzy
-#| msgid ""
-#| "Users with :guilabel:`Edit workspace settings` permission can view and "
-#| "pay the billing plan. Billing notification e-mails are sent to these "
-#| "users."
 msgid ""
 "Users with the :guilabel:`Edit workspace settings` permission can remove a "
 "workspace from :guilabel:`Operations` ↓ :guilabel:`Organize or remove`."
 msgstr ""
 "Gebruikers met het recht :guilabel:`Instellingen werkruimte bewerken` kunnen "
-"de facturatie bekijken en betalen. E-mails voor notificatie worden verzonden "
-"aan deze gebruikers."
+"een werkruimte verwijderen vanuit :guilabel:`Bewerkingen` ↓ "
+":guilabel:`Beheren of verwijderen`."
 
 #: admin/workspaces.rst:34
 msgid ""
 "Only empty workspaces can be removed. Move or remove all projects in the "
 "workspace first. Workspaces associated with billing cannot be removed."
 msgstr ""
+"Alleen lege werkruimten kunnen worden verwijderd. Verplaats of verwijder "
+"eerst alle projecten uit de werkruimte. Werkruimten die zijn geassocieerd "
+"met facturatie kunnen niet worden verwijderd."
 
 #: admin/workspaces.rst:40
 msgid "Project creation and moves"
@@ -23149,6 +23147,8 @@ msgid ""
 "Workspaces now provide aggregate translation statistics and historical "
 "metrics."
 msgstr ""
+"Werkruimten verschaffen nu verzamelde statistieken voor vertalingen en "
+"historische metrieken."
 
 #: changes.rst:9
 msgid ""
@@ -23231,6 +23231,8 @@ msgstr ""
 msgid ""
 "Add-on management now uses separate configuration, logs, and components tabs."
 msgstr ""
+"Beheren van add-ons gebruikt nu afzonderlijke configuratie, logs en tabs "
+"voor onderdelen."
 
 #: changes.rst:19
 msgid ""
@@ -23276,6 +23278,9 @@ msgid ""
 ":ref:`Empty workspaces <workspace-removal>` not associated with billing can "
 "now be removed from the workspace :guilabel:`Operations` menu."
 msgstr ""
+":ref:`Lege werkruimten <workspace-removal>`, niet geassocieerd met "
+"facturatie, kunnen nu worden verwijderd vanuit het werkruimte-menu "
+":guilabel:`Bewerkingen`."
 
 #: changes.rst:25
 msgid ""
@@ -23321,6 +23326,10 @@ msgid ""
 "coverage, recommend key translation-instruction topics, and distinguish "
 "inbound from outbound repository automation."
 msgstr ""
+":ref:`Gemeenschap diagnostiek <alerts>` geeft nu de bedekking door "
+"schermafdrukken van brontekenreeksen weer, aanbevolen instructieonderwerpen "
+"voor sleutelvertalingen en maakt onderscheid tussen inkomende en uitgaande "
+"automatisering voor opslagruimten."
 
 #: changes.rst:33 changes.rst:90 changes.rst:164 changes.rst:221
 #: changes.rst:259 changes.rst:322 changes/v5.rst:36 changes/v5.rst:144
@@ -23352,11 +23361,16 @@ msgid ""
 "component topology and comment changes, and category metrics are collected "
 "correctly."
 msgstr ""
+"Statistieken voor categorie, project en opmerkingen blijven nu consistent na "
+"wijzigingen in topologie voor onderdelen en opmerkingen en metrieken voor "
+"categorie worden nu op de juist wijze verzameld."
 
 #: changes.rst:35
 msgid ""
 "Mercurial repository filenames beginning with a dash are now handled safely."
 msgstr ""
+"Bestandsnamen voor opslagruimten van Mercurial beginnend met een streepje "
+"worden nu veilig afgehandeld."
 
 #: changes.rst:36
 msgid ""
@@ -23381,12 +23395,16 @@ msgid ""
 "Project backup imports now skip repository-linked components when the "
 "importer cannot access the target component."
 msgstr ""
+"Projectback-up importeert nu overgeslagen aan opslagruimten gekoppelde "
+"onderdelen als de importer geen toegang heeft tot het doel-onderdeel."
 
 #: changes.rst:39
 msgid ""
 "Suggestion submission and rejection now reject excessively long suggestion "
 "text and rejection reasons."
 msgstr ""
+"Indienen van suggesties en afwijzen: weigeren nu excessief lange teksten "
+"voor suggesties en redenen voor afwijzen."
 
 #: changes.rst:40
 msgid ""
@@ -23436,6 +23454,9 @@ msgid ""
 "Legal document styling is now provided through an overridable template "
 "instead of Weblate's global stylesheet. See :ref:`legal-customization`."
 msgstr ""
+"Opmaak van juridische documenten wordt nu verschaft door een te "
+"overschrijven sjabloon, in plaats van door Weblate's globale stylesheet. "
+"Bekijk :ref:`legal-customization`."
 
 #: changes.rst:48
 msgid ""
@@ -24301,6 +24322,9 @@ msgid ""
 "Bitmap widgets and :ref:`check-max-size` previews now use Matplotlib and no "
 "longer require Pango, Cairo, librsvg, or GObject Introspection."
 msgstr ""
+"Widgets van bitmaps en voorbeelden :ref:`check-max-size` gebruiken nu "
+"Matplotlib en vereisen niet langer Pango, Cairo, librsvg, of GObject "
+"Introspection."
 
 #: changes.rst:185
 msgid ""

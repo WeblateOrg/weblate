@@ -33,15 +33,15 @@
 # Hosted Weblate user 54392 <hamburger2048@users.noreply.hosted.weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # reducedradius <137701630+flytothehighest@users.noreply.github.com>, 2026.
+# AlexYang <A012pyshjs210@126.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-23 09:05+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-24 14:50+0000\n"
+"Last-Translator: AlexYang <A012pyshjs210@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -453,6 +453,10 @@ msgid ""
 "the cleanup actions in the block form. For users who are already blocked, "
 "use :guilabel:`Clean up user contributions` in the blocked users list."
 msgstr ""
+"当封禁垃圾信息发送者或恶意账户时，项目管理员还可以清理该用户在该项目中的现有"
+"贡献。请依次前往 :guilabel:`操作` ↓ :guilabel:`用户`，封禁该用户，并在封禁表"
+"单中选择清理操作。对于已被封禁的用户，请在已封禁用户列表中使用 :guilabel:`清"
+"理用户贡献`。"
 
 #: admin/access.rst:230
 msgid "The available cleanup actions are:"
@@ -462,16 +466,16 @@ msgstr "可用的清理操作有："
 msgid ""
 ":guilabel:`Revert user edits` reverts the latest editable translations by "
 "the user."
-msgstr ""
+msgstr ":guilabel:`撤销用户编辑` 撤销该用户最新的可编辑翻译。"
 
 #: admin/access.rst:234
 msgid ""
 ":guilabel:`Reject user suggestions` rejects pending suggestions by the user."
-msgstr ""
+msgstr ":guilabel:`拒绝用户建议` 拒绝该用户待处理的建议。"
 
 #: admin/access.rst:235
 msgid ":guilabel:`Delete user comments` deletes comments by the user."
-msgstr ""
+msgstr ":guilabel:`删除用户评论` 删除用户的评论。"
 
 #: admin/access.rst:237
 msgid ""
@@ -481,6 +485,10 @@ msgid ""
 "user's profile, select the :guilabel:`Edit` tab, and "
 "use :guilabel:`Contribution cleanup`."
 msgstr ""
+"拥有全站 ``user.edit`` 权限的站点管理员可以在 :ref:`管理界面 <management-"
+"interface>` 的 :guilabel:`用户` 标签页中，对所有项目执行相同的批量清理。只需"
+"打开该用户的个人资料，选择 :guilabel:`编辑` 标签页，然后使用 :guilabel:`清理"
+"贡献` 即可"
 
 #: admin/access.rst:244
 msgid "Per-project permission management"
@@ -1447,12 +1455,17 @@ msgid ""
 "that is not due yet. A successful entry can still mean that the add-on "
 "checked its inputs but found nothing to change."
 msgstr ""
+"每条记录会显示处理状态为待处理、成功、失败还是已跳过。已跳过的记录会包含附加"
+"组件未运行的原因，例如组件不兼容、无相关更改或尚未到达设定的运行计划时间。显"
+"示为成功的记录仍可能表示该附加组件检查了输入但未发现需要更改的内容。"
 
 #: admin/addons.rst:197
 msgid ""
 "For scope-wide add-ons that process components independently, the activity "
 "log contains a separate entry for each component."
 msgstr ""
+"对于独立处理各个组件的作用域级附加组件，活动日志会为每个组件包含一条单独的记"
+"录。"
 
 #: admin/addons.rst:200
 msgid ""
@@ -1510,6 +1523,8 @@ msgid ""
 "Users and teams, see :ref:`custom-acl`; site administrators can "
 "also :ref:`clean up user contributions <cleanup-user-contributions>`."
 msgstr ""
+"用户和团队，请参阅 :ref:`custom-acl`；站点管理员还可以 :ref:`清理用户贡献 "
+"<cleanup-user-contributions>`。"
 
 #: admin/admin.rst:22
 msgid ":ref:`manage-appearance`."
@@ -1640,6 +1655,8 @@ msgid ""
 "Use the Weblate UI or API for normal operations such as creating projects, "
 "creating components, managing users, or posting announcements."
 msgstr ""
+"使用 Weblate 界面或 API 进行常规操作，例如创建项目、创建组件、管理用户或发布"
+"公告。"
 
 #: admin/admin.rst:98
 msgid "Project and component creation"
@@ -1653,6 +1670,9 @@ msgid ""
 "and :ref:`component` for the available settings, and :ref:`bimono` for how "
 "bilingual and monolingual formats differ."
 msgstr ""
+"项目和部件可在 Weblate 常规界面中创建。一个项目可以包含多个翻译组件，而组件可"
+"使用双语或单语翻译文件。关于可用设置，请参阅 :ref:`project` 和 "
+":ref:`component`；关于双语与单语格式的区别，请参阅 :ref:`bimono`。"
 
 #: admin/announcements.rst:2 snippets/permissions.rst:321
 msgid "Announcements"
@@ -2301,6 +2321,8 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"部分身份提供者（Identity Provider，如启用了多因素身份验证的 Microsoft Entra "
+"ID）要求在 SAML 安全配置中禁用默认的 ``requestedAuthnContext``："
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
@@ -2606,7 +2628,7 @@ msgstr ""
 msgid ""
 "Project backups can also be created, listed, and downloaded through "
 "the :ref:`api` since version 2026.7;"
-msgstr ""
+msgstr "自 2026.7 版本起，还可以通过 :ref:`api` 创建、列出和下载项目备份；"
 
 #: admin/backup.rst:26
 msgid ""
@@ -3747,12 +3769,17 @@ msgid ""
 "Weblate instance, and on whether Weblate should push directly or create pull "
 "or merge requests."
 msgstr ""
+"Weblate 与代码托管平台的集成体现在多个独立环节：代码库访问、接收通知以及推送"
+"翻译结果。具体配置取决于您使用的是 Hosted Weblate 还是自行托管 Weblate 实例，"
+"以及 Weblate 是直接推送代码还是创建 Pull Request / Merge Request。"
 
 #: admin/code-hosting.rst:11
 msgid ""
 "Use this page as a provider-oriented checklist. The individual setting pages "
 "remain the canonical reference for setting syntax."
 msgstr ""
+"本页面仅作为针对各平台的对照检查清单。有关具体配置语法的准确说明，请以各自对"
+"应的设置页面为准。"
 
 #: admin/code-hosting.rst:15
 msgid "Setup overview"
@@ -3769,6 +3796,10 @@ msgid ""
 "GitHub account` flow. The App gives Hosted Weblate repository access without "
 "inviting the hosted :guilabel:`weblate` user."
 msgstr ""
+"如果在 Hosted Weblate 上对接 GitHub 仓库，请在 Weblate 的 :guilabel:`连接 "
+"GitHub 帐户` 流程中安装 `Hosted Weblate App <https://github.com/apps/hosted-"
+"weblate>`_。通过该 App 即可直接向 Hosted Weblate 授予仓库访问权限，无需手动"
+"将 :guilabel:`weblate` 用户添加为 GitHub 仓库成员。"
 
 #: admin/code-hosting.rst:24
 msgid ""
@@ -3798,6 +3829,9 @@ msgid ""
 "The repository webhook or app must point to the matching Weblate hook URL, "
 "and the project must have :ref:`project-enable_hooks` enabled."
 msgstr ""
+"请配置接收通知，以便在代码推送后 Weblate 能及时拉取变更。仓库的 Webhook 或 "
+"App 必须指向对应的 Weblate Hook URL，同时项目必须已启用 :ref:`project-"
+"enable_hooks`。"
 
 #: admin/code-hosting.rst:37
 msgid "Decide how Weblate should push translations back:"
@@ -3817,12 +3851,17 @@ msgid ""
 "or :guilabel:`GitLab`, to create pull or merge requests. These backends need "
 "API credentials in the Weblate settings."
 msgstr ""
+"若要创建 Pull Request 或 Merge Request等，请选择对应平台专用的版本控制后端（"
+"如 :guilabel:`GitHub` 或 :guilabel:`GitLab`）。使用此类后端需要在 Weblate 设"
+"置中配置 API 凭据。"
 
 #: admin/code-hosting.rst:45
 msgid ""
 "Optionally set :ref:`component-push_branch` when Weblate should push to a "
 "branch in the upstream repository instead of using a fork where supported."
 msgstr ""
+"（可选）当 Weblate 需要直接推送到上游仓库的某个分支，而非在支持的平台上使用 "
+"Fork 时，请配置 :ref:`component-push_branch`。"
 
 #: admin/code-hosting.rst:51 admin/continuous.rst:378
 msgid "Pushing changes from Weblate"
@@ -3846,6 +3885,8 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
+"如果您不希望自动推送变更，可以在 :guilabel:`仓库维护` 页面中手动推送，或通过 "
+"API 使用 :option:`wlc push` 命令进行推送。"
 
 #: admin/code-hosting.rst:63
 msgid ""
@@ -4011,6 +4052,11 @@ msgid ""
 "repositories, grant it access to the repositories you want to translate, and "
 "import components from the connected GitHub account."
 msgstr ""
+"在 Hosted Weblate 上，推荐的配置方式是从您项目所在的 Weblate 工作区连接 "
+"`Hosted Weblate App <https://github.com/apps/hosted-weblate>`_。请通过 "
+":guilabel:`连接 GitHub 帐户` 流程，将该 App 安装至拥有待翻译仓库的 GitHub 用"
+"户或组织下，为其授予对应仓库的访问权限，随后即可直接从已连接的 GitHub 帐户导"
+"入部件。"
 
 #: admin/code-hosting.rst:207
 msgid ""
@@ -4020,6 +4066,10 @@ msgid ""
 "Weblate :guilabel:`weblate` GitHub user or configure a separate repository "
 "webhook for components imported this way."
 msgstr ""
+"基于 GitHub App 的集成会使用 GitHub 的“安装访问令牌”（Installation Access "
+"Token）来进行代码克隆、推送翻译分支、创建 Pull Request 以及接收传入的通知。通"
+"过这种方式导入的部件，无需再邀请 Hosted Weblate 的 :guilabel:`weblate` "
+"GitHub 用户，也无需单独配置仓库 Webhook。"
 
 #: admin/code-hosting.rst:213
 msgid ""
@@ -4071,6 +4121,9 @@ msgid ""
 "GitHub SSH URLs for your repositories, for example ``git@github.com:owner/"
 "repo.git``."
 msgstr ""
+"对于 GitHub，请创建一个专用账户（例如 ``weblate-bot``）；在 Weblate 中配置仓"
+"库时，请将仓库 URL 填为 GitHub SSH 地址（例如 ``git@github.com:owner/"
+"repo.git``）。"
 
 #: admin/code-hosting.rst:241
 msgid ""
@@ -4078,6 +4131,9 @@ msgid ""
 "outside the recommended `Hosted Weblate app <https://github.com/apps/hosted-"
 "weblate>`_ workflow."
 msgstr ""
+"在 Hosted Weblate 上，仅当您不使用推荐的 `Hosted Weblate App <https://"
+"github.com/apps/hosted-weblate>`_ 集成、而是需要直接进行 SSH 推送时，才应使用"
+"这种专用 SSH 账户的配置方式。"
 
 #: admin/code-hosting.rst:247
 msgid ""
@@ -4120,6 +4176,9 @@ msgid ""
 "Use it only when you need the legacy app to deliver GitHub notifications to "
 "Hosted Weblate."
 msgstr ""
+"`Hosted Weblate legacy App`_ 仅用于兼容现有的纯 Webhook 配置。只有当您仍需要"
+"通过该旧版 App 向 Hosted Weblate 转发 GitHub 事件通知时，才需保留或使用此选项"
+"。"
 
 #: admin/code-hosting.rst:273
 msgid ""
@@ -4128,6 +4187,9 @@ msgid ""
 "GitHub returns the credentials, and they are stored in the database - there "
 "is no settings-based configuration."
 msgstr ""
+"对于自建（Self-hosted）Weblate 实例，请按照下文说明，直接在 Weblate 界面中完"
+"成 GitHub App 的注册。Weblate 会自动生成 App 清单（App Manifest），GitHub 返"
+"回凭据后将直接存入数据库，无需修改任何配置文件。"
 
 #: admin/code-hosting.rst:281
 msgid "Registering the GitHub App from Weblate"
@@ -4139,16 +4201,18 @@ msgid ""
 "App manifest with the correct permissions, events, and webhook URL pre-"
 "filled:"
 msgstr ""
+"配置 GitHub App 最快捷的方式，是让 Weblate 自动生成包含正确权限、订阅事件及预"
+"填 Webhook URL 的配置清单（App Manifest）："
 
 #: admin/code-hosting.rst:286
 msgid "Sign in to Weblate with an account that has management access."
-msgstr ""
+msgstr "使用具有管理权限的账号登录 Weblate。"
 
 #: admin/code-hosting.rst:287
 msgid ""
 "Open :guilabel:`Manage → Code-hosting connections → Register Weblate GitHub "
 "App`."
-msgstr ""
+msgstr "依次打开：:guilabel:`管理 → 代码托管连接 → 注册 Weblate GitHub App`。"
 
 #: admin/code-hosting.rst:289
 msgid ""
@@ -4157,6 +4221,9 @@ msgid ""
 "Leave :guilabel:`Organization` blank to register the App under your personal "
 "account, or enter an organization slug to register it under that org."
 msgstr ""
+"填写表单。:guilabel:`GitHub 主机` 默认填有 ``github.com``；如有需要，请将其修"
+"改为您的 GitHub Enterprise 主机名。若要在个人账号下注册该 App，请将 "
+":guilabel:`组织` 一栏留空；若要在组织下注册，请输入对应的组织 Slug。"
 
 #: admin/code-hosting.rst:293
 msgid ""
@@ -4164,6 +4231,8 @@ msgid ""
 "GitHub's :guilabel:`Create GitHub App` page (you can still rename the App "
 "there)."
 msgstr ""
+"点击 :guilabel:`继续前往 GitHub` 并在 GitHub 的 :guilabel:`Create GitHub "
+"App` 界面确认（您仍可以在该页面重新命名 App）。"
 
 #: admin/code-hosting.rst:295
 msgid ""
@@ -4172,6 +4241,9 @@ msgid ""
 "database. The :guilabel:`Connect GitHub account` button is available "
 "immediately afterwards."
 msgstr ""
+"GitHub 会重定向回 Weblate，随后 Weblate 会使用该临时授权码换取 App ID、私钥、"
+"Webhook 密钥及 Slug 并存入数据库。完成此操作后，:guilabel:`连接 GitHub 账号` "
+"按钮将立即可用。"
 
 #: admin/code-hosting.rst:300
 msgid ""
@@ -4183,6 +4255,13 @@ msgid ""
 "configuration is required. GitHub delivers the ``Installation`` and "
 "``Installation repositories`` events to all GitHub Apps by default."
 msgstr ""
+"配置清单（Manifest）会自动声明 Weblate 所需的权限与事件订阅（包括 "
+"``Contents`` 与 ``Pull requests`` 的读写权限、``Metadata`` 的只读权限"
+"、``Organization administration`` 的只读权限、``Workflows`` 的读写权限，以及 "
+"``Installation``、``Meta`` 和 ``Push`` 事件），并自动设置回调 URL、安装 URL "
+"以及每个 App 专属的 Webhook URL，因此无需手动配置 GitHub App。GitHub 默认会"
+"将 ``Installation`` 和 ``Installation repositories`` 事件投递给所有 GitHub "
+"App。"
 
 #: admin/code-hosting.rst:308
 msgid ""
@@ -4193,6 +4272,10 @@ msgid ""
 "other accounts; private apps can only be installed on the account that owns "
 "the app."
 msgstr ""
+"GitHub 只会显示你当前有权安装（或提交安装申请）的个人账号及组织。如果列表中没"
+"有显示某个组织，请检查你在该组织中的角色以及组织的 App 安装限制。在 "
+"GitHub.com 上，公开 App 可以安装到任意账号下，而私有 App 只能安装到创建它的账"
+"号下。"
 
 #: admin/code-hosting.rst:315
 msgid "Connecting a workspace"
@@ -4208,12 +4291,16 @@ msgid ""
 "accounts, Weblate verifies that the install-time GitHub user can administer "
 "the organization installation."
 msgstr ""
+"已连接的 GitHub 账号会绑定至 Weblate :ref:`工作区 <workspaces>`。具有该工作区"
+"内任意项目管理权限的用户，均可在该工作区中连接 GitHub 账号。连接完成后，该工"
+"作区下的所有项目均可从该 GitHub App 获权访问的仓库中导入部件。对于组织账号，"
+"Weblate 会验证在 GitHub 上执行安装授权的用户是否拥有该组织的管理权限。"
 
 #: admin/code-hosting.rst:324
 msgid ""
 "Projects that are not in a workspace cannot connect a GitHub account through "
 "the GitHub App."
-msgstr ""
+msgstr "不在工作区的项目不能通过 Github App 连接 Github 账户。"
 
 #: admin/code-hosting.rst:327
 msgid ""
@@ -4222,6 +4309,9 @@ msgid ""
 "component settings UI keeps the repository URL read-only to prevent the App-"
 "issued credentials from being redirected to an unrelated repository."
 msgstr ""
+"通过 GitHub App 流程导入的部件会使用专用的 :guilabel:`GitHub (via Weblate "
+"GitHub app)` VCS 后端。部件设置界面中的仓库 URL 为只读状态，防止 App 的授权访"
+"问权限被套用或滥用到其他无关仓库上。"
 
 #: admin/code-hosting.rst:335
 msgid "App webhook URL"
@@ -4232,6 +4322,8 @@ msgid ""
 "Each registered Weblate GitHub App has its own webhook URL containing an "
 "opaque token that uniquely identifies a single registered App:"
 msgstr ""
+"每个已注册的 Weblate GitHub App 都有专属的 Webhook URL，其中包含用于唯一标识"
+"该 App 的不透明令牌（opaque token）："
 
 #: admin/code-hosting.rst:344
 msgid ""
@@ -4295,6 +4387,11 @@ msgid ""
 "write repository contents and create pull requests. If Weblate should fork "
 "private repositories, the token might also need administration access."
 msgstr ""
+"若要创建 Pull Request，请将 :ref:`component-vcs` 选择为 :guilabel:`GitHub`，"
+"并配置 :setting:`GITHUB_CREDENTIALS`。对于 GitHub.com，请使用 "
+"``api.github.com`` 作为 API 主机（Host）。所使用的令牌（Token）必须赋予 "
+"Weblate 读取与写入仓库内容、以及创建 Pull Request 的权限。如果需要 Weblate "
+"Fork 私有仓库，该令牌可能还需要具备管理员权限。"
 
 #: admin/code-hosting.rst:387 admin/install/docker.rst:1671
 msgid "GitLab"
@@ -4344,6 +4441,8 @@ msgid ""
 "For GitLab, create a dedicated user and use GitLab SSH URLs, for example "
 "``git@gitlab.com:group/project.git``."
 msgstr ""
+"对于 GitLab，请创建一个专用用户并使用 GitLab SSH URL，例如 "
+"``git@gitlab.com:group/project.git``。"
 
 #: admin/code-hosting.rst:424
 msgid ""
@@ -4412,6 +4511,8 @@ msgid ""
 "To create merge requests, select :guilabel:`GitLab` as :ref:`component-vcs` "
 "and configure :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+"若要创建 Merge Request，请将 :ref:`component-vcs` 选择为 :guilabel:`GitLab`，"
+"并配置 :setting:`GITLAB_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:466
 msgid ""
@@ -4426,7 +4527,7 @@ msgstr ""
 
 #: admin/code-hosting.rst:476
 msgid "Gitea, Forgejo, and Codeberg"
-msgstr ""
+msgstr "Gitea、Forgejo 以及 Codeberg"
 
 #: admin/code-hosting.rst:481
 msgid "Gitea, Forgejo, and Codeberg repository access"
@@ -4529,6 +4630,8 @@ msgid ""
 "To create pull requests, select :guilabel:`Gitea` as :ref:`component-vcs` "
 "and configure :setting:`GITEA_CREDENTIALS`."
 msgstr ""
+"若要创建 Pull Request，请将 :ref:`component-vcs` 选择为 :guilabel:`Gitea`，并"
+"配置 :setting:`GITEA_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:554 admin/install/docker.rst:1645
 msgid "Bitbucket"
@@ -4656,11 +4759,11 @@ msgstr "Azure Repos 仓库访问"
 
 #: admin/code-hosting.rst:661
 msgid "Use the HTTPS clone URL shown by Azure Repos for the repository."
-msgstr ""
+msgstr "请使用 Azure Repos 页面上给出的 HTTPS clone URL。"
 
 #: admin/code-hosting.rst:668
 msgid "Use the SSH URL shown by Azure Repos for the repository."
-msgstr ""
+msgstr "请使用 Azure Repos 页面上给出的 SSH URL。"
 
 #: admin/code-hosting.rst:673
 msgid "Azure Repos notifications"
@@ -4718,10 +4821,12 @@ msgid ""
 "To create pull requests, select :guilabel:`Azure DevOps` as :ref:`component-"
 "vcs` and configure :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
+"若要创建 Pull Request，请将 :ref:`component-vcs` 选择为 :guilabel:`Azure "
+"DevOps`，并配置 :setting:`AZURE_DEVOPS_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:708
 msgid "Pagure"
-msgstr ""
+msgstr "Pagure"
 
 #: admin/code-hosting.rst:713
 msgid "Pagure repository access"
@@ -4776,6 +4881,8 @@ msgid ""
 "To create merge requests, select :guilabel:`Pagure` as :ref:`component-vcs` "
 "and configure :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
+"若要创建 Merge Request，请将 :ref:`component-vcs` 选择为 :guilabel:`Pagure`，"
+"并配置 :setting:`PAGURE_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:764
 msgid "Other workflows"
@@ -4833,6 +4940,12 @@ msgid ""
 "Gerrit interprets these options as the configured Weblate Gerrit account and "
 "applies its own permissions."
 msgstr ""
+"可选的 :ref:`component-push_branch` 配置项用于指定提交 Gerrit review 时的目标"
+"分支。如果留空，则默认使用组件的主分支（:ref:`component-branch`）。请使用简短"
+"的分支名（例如 ``main``），Weblate 和 ``git-review`` 会自动将代码推送到 "
+"``refs/for/<分支名>`` 进行审核。无论在上述哪个配置里，你都可以在分支名后面加"
+"上 ``%`` 来附加 Gerrit 的推送参数（例如 ``main%topic=l10n``）。Gerrit 会认定"
+"这些选项是由配置的 Weblate Gerrit 账号提交的，并校验该账号的对应权限。"
 
 #: admin/code-hosting.rst:815
 msgid ""
@@ -4880,6 +4993,9 @@ msgid ""
 "administrators can also use the low-level :ref:`admin-interface` when direct "
 "database-object management is necessary."
 msgstr ""
+"每个部件列表都包含一个面向用户显示的名称，以及一个用于 URL 的标识名（slug）。"
+"部件列表可以通过 :ref:`api` 进行管理。当需要直接管理数据库对象时，系统管理员"
+"还可以使用底层的 :ref:`admin-interface`。"
 
 #: admin/componentlists.rst:22
 msgid ""
@@ -5086,6 +5202,8 @@ msgid ""
 "This does not replace :setting:`ALLOWED_ASSET_DOMAINS`; remote assets must "
 "still match the asset domain allowlist."
 msgstr ""
+"这并不能替代 :setting:`ALLOWED_ASSET_DOMAINS`；远程资源服务器的域名仍必须在域"
+"名白名单内。"
 
 #: admin/config.rst:140 admin/config.rst:1946 admin/config.rst:1980
 #: admin/config.rst:2057
@@ -5117,20 +5235,22 @@ msgstr ""
 msgid ""
 "Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``."
 msgstr ""
+"用于 ALTCHA 工作量证明挑战（ALTCHA proof-of-work challenge）的 Argon2id 时间"
+"开销（Argon2id time cost）。默认值为 ``3``。"
 
 #: admin/config.rst:183
 msgid ""
 "Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget "
 "v2."
-msgstr ""
+msgstr "此选项用于替代 ``ALTCHA_MAX_NUMBER``，后者适用于已废弃的 ALTCHA widget v2。"
 
 #: admin/config.rst:192
 msgid "Argon2id memory cost in KiB. Defaults to ``65536``."
-msgstr ""
+msgstr "以 KiB 为单位的 Argon2id 内存开销（memory cost）。默认值为 ``65536``。"
 
 #: admin/config.rst:201
 msgid "Argon2id parallelism factor. Defaults to ``1``."
-msgstr ""
+msgstr "Argon2id 并行度系数（parallelism factor）。默认值为 ``1``。"
 
 #: admin/config.rst:205
 msgid ""
@@ -5369,6 +5489,9 @@ msgid ""
 "so :setting:`CACHE_DIR` has to be writable and mounted on a filesystem that "
 "allows execution. Avoid using ``noexec`` mount options for this directory."
 msgstr ""
+"Weblate 会在此处存放生成的辅助文件并执行其中的一部分，因此 "
+":setting:`CACHE_DIR` 必须可写，且必须挂载在允许执行程序的文件系统上。请避免对"
+"此目录使用 ``noexec`` 挂载选项。"
 
 #: admin/config.rst:441 admin/config.rst:612
 msgid ""
@@ -5635,6 +5758,10 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"内置的默认模板遵循 Conventional Commits 规范，，并在可用时包含 Weblate 链接。"
+"更改这些设置仅会影响新建的默认模板；现有的消息模板可以在设置表单中通过 "
+":guilabel:`Restore site default` 进行重置。对于继承的值，恢复站点默认值会同时"
+"断开该消息的继承关系。"
 
 #: admin/config.rst:731
 msgid "Default add-ons to install for every created component."
@@ -5718,6 +5845,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"内置的默认模板遵循 Conventional Commits 规范，并包含 Weblate 链接及翻译状态信"
+"息。"
 
 #: admin/config.rst:878
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -6060,6 +6189,8 @@ msgid ""
 "Template used to generate e-mail addresses for internal Weblate bot "
 "accounts. Defaults to ``\"noreply-{scope}-{name}@weblate.org\"``."
 msgstr ""
+"用于生成 Weblate 内部机器人账号邮箱地址的模板。默认值为 ``\"noreply-{scope}-"
+"{name}@weblate.org\"``。"
 
 #: admin/config.rst:1263
 msgid ""
@@ -6070,16 +6201,21 @@ msgstr ""
 "和 ``{site_domain}`` 。"
 
 #: admin/config.rst:1266
+#, fuzzy
 msgid ""
 "Use ``{scope}`` and ``{name}`` when generating the e-mail local part. The "
 "``{username}`` value contains the internal ``scope:name`` username."
 msgstr ""
+"生成邮箱地址的本地部分（local part，即 @ 符号左侧）时，请使用 ``{scope}`` 和 "
+"``{name}``。``{username}`` 变量的值包含内部形如 ``scope:name``的用户名。"
 
 #: admin/config.rst:1269
 msgid ""
 "Existing internal bot accounts are updated when :wladmin:`migrate` is run. "
 "Project API token accounts are not affected."
 msgstr ""
+"运行 :wladmin:`migrate` 时会更新现有的内部机器人账号。项目 API 令牌账号不受影"
+"响。"
 
 #: admin/config.rst:1277
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -6152,7 +6288,7 @@ msgstr "默认为 -1。"
 
 #: admin/config.rst:1355
 msgid "CSS class added to the wrappers around legal document templates."
-msgstr ""
+msgstr "法律文档模板外层包裹元素（wrapper）的 CSS 类。"
 
 #: admin/config.rst:1357
 msgid ""
@@ -6160,16 +6296,21 @@ msgid ""
 "custom legal styles can use it to target document wrappers. Set this to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
+"默认值为 ``\"tos\"``。Weblate 不会为此类附加任何样式；自定义的法律文档样式可"
+"以使用该类来指定文档的外层容器。将此项设为空字符串则渲染法律文档时不添加外层"
+"容器类。"
 
 #: admin/config.rst:1377
 msgid "List of legal document page identifiers to hide from the legal module."
-msgstr ""
+msgstr "需要隐藏的法律文档页面 ID 列表（如 terms、privacy）。"
 
 #: admin/config.rst:1379
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"``index`` 页面始终可见。支持的页面 ID 有 ``terms``、``cookies``、``privacy`` "
+"和 ``contracts``。"
 
 #: admin/config.rst:1382
 msgid ""
@@ -6177,6 +6318,8 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"隐藏的页面将从法律菜单中移除，且直接请求时会返回 404 响应。当启用了服务条款确"
+"认功能时，不建议隐藏 ``terms`` 或 ``privacy``。"
 
 #: admin/config.rst:1386
 msgid ""
@@ -6185,6 +6328,10 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"当隐藏了 ``terms`` 或 ``privacy`` 页面时，模板变量 ``terms_url`` 与 "
+"``privacy_url`` 会自动改用配置好的 :setting:`LEGAL_URL` 和 "
+":setting:`PRIVACY_URL` 作为备用链接，如果未配置备用链接，则直接不渲染这两个链"
+"接。"
 
 #: admin/config.rst:1391
 msgid ""
@@ -6193,6 +6340,9 @@ msgid ""
 "external terms document instead of embedding :file:`legal/documents/"
 "tos.html`."
 msgstr ""
+"当启用了服务条款确认功能时，隐藏 ``terms`` 并配置 :setting:`LEGAL_URL`，会让"
+"确认页面直接跳转至外部条款文档，而不是内置的 :file:`legal/documents/"
+"tos.html`。"
 
 #: admin/config.rst:1395
 msgid ""
@@ -6200,6 +6350,9 @@ msgid ""
 "and :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the "
 "API schema terms link uses the same fallback."
 msgstr ""
+"非 Docker 部署时，请在配置文件中将 :setting:`LEGAL_HIDDEN_DOCUMENTS` 和 "
+":setting:`LEGAL_URL` 声明在 ``SPECTACULAR_SETTINGS`` 代码块上方，确保 API "
+"schema里的条款链接也能正确使用该备用地址。"
 
 #: admin/config.rst:1416
 msgid "You need :ref:`legal` installed to make this work."
@@ -6388,6 +6541,8 @@ msgid ""
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
+"适用于将隐私政策托管在 Weblate 外部而非使用 :ref:`legal` 模块的场景。启用 "
+"legal 模块时，Weblate 默认会链接至内部的法律相关页面。"
 
 #: admin/config.rst:1700
 msgid ""
@@ -13207,18 +13362,13 @@ msgstr ""
 "Weblate。"
 
 #: admin/install/docker.rst:2681
-#, fuzzy
-#| msgid ""
-#| "This approach can be also used to override Weblate templates. For "
-#| "example :ref:`legal` documents can be placed into :file:`/app/data/python/"
-#| "customize/templates/legal/documents`."
 msgid ""
 "This approach can be also used to override Weblate templates. For example, "
 "custom :ref:`legal` documents and styles can be provided as described "
 "in :ref:`legal-customization`."
 msgstr ""
-"这种方法也可以用来覆盖 Weblate 的模板。例如 :ref:`legal` 文件可以放"
-"在 :file:`/app/data/python/customize/templates/legal/documents` 里。"
+"这种方法也可以用来覆盖 Weblate 的模板。例如，可根据 :ref:`legal-"
+"customization` 所述提供自定义 :ref:`legal` 文档和样式。"
 
 #: admin/install/docker.rst:2685
 msgid ""
@@ -15992,19 +16142,14 @@ msgstr ""
 "文件。"
 
 #: admin/optionals.rst:161
-#, fuzzy
-#| msgid ""
-#| "The bundled terms of service and related legal documents are specific to "
-#| "that service and are not intended for general use. They might still come "
-#| "in handy as a starting point if adjusted to meet your needs."
 msgid ""
 "The bundled terms of service and related legal documents are specific to "
 "services operated by Weblate s.r.o. They can serve as an implementation "
 "example, but should not be used as a basis for legal documents of other "
 "services."
 msgstr ""
-"捆绑的服务条款和相关法律文档仅针对该服务，不用于一般用途。但如果进行调整来满"
-"足你的需求，它们作为起点仍然可能派得上用处。"
+"捆绑的服务条款和相关法律文档仅针对 Weblate s.r.o 运营的服务。它们可作为实施示"
+"例，但不应用作其他服务法律文档的基础。"
 
 #: admin/optionals.rst:169
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -16043,14 +16188,10 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:214
-#, fuzzy
-#| msgid ""
-#| "After installation and editing, the legal documents are shown in the "
-#| "Weblate UI."
 msgid ""
 "After installation and customization, the legal documents are shown in the "
 "Weblate UI."
-msgstr "安装并编辑后，法律文件显示在 Weblate 界面中。"
+msgstr "安装并自定义后，法律文件显示在 Weblate 界面中。"
 
 #: admin/optionals.rst:216
 msgid ""
@@ -16067,10 +16208,8 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:227
-#, fuzzy
-#| msgid "Customizing behavior using flags"
 msgid "Customizing legal documents and styles"
-msgstr "使用标记定制行为"
+msgstr "自定义法律文档和样式"
 
 #: admin/optionals.rst:229
 msgid ""
@@ -16094,15 +16233,10 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:253
-#, fuzzy
-#| msgid ""
-#| "Run :samp:`weblate collectstatic --noinput`, to collect static files "
-#| "served to clients."
 msgid ""
 "Run :samp:`weblate collectstatic --noinput` after adding or changing the "
 "static file."
-msgstr ""
-"运行 :samp:`weblate collectstatic --noinput`，来收集提供给客户端的静态文件。"
+msgstr "添加或更改静态文件后运行 :samp:`weblate collectstatic --noinput`。"
 
 #: admin/optionals.rst:256
 msgid ""
@@ -19465,10 +19599,8 @@ msgid ""
 msgstr ""
 
 #: admin/workspaces.rst:29
-#, fuzzy
-#| msgid "Workspace created"
 msgid "Workspace removal"
-msgstr "创建了工作区"
+msgstr "工作区删除"
 
 #: admin/workspaces.rst:31
 msgid ""
