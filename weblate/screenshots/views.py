@@ -6,8 +6,8 @@ from __future__ import annotations
 import difflib
 import os
 import tempfile
-import time
 from contextlib import contextmanager, suppress
+from time import sleep
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.contrib.auth.decorators import login_required
@@ -197,7 +197,7 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                     TESSERACT_DOWNLOAD_ATTEMPTS,
                     error,
                 )
-                time.sleep(2 ** (attempt - 1))
+                sleep(2 ** (attempt - 1))
                 continue
 
             with tempfile.NamedTemporaryFile(
