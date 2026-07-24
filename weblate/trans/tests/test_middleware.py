@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from django.contrib.messages import get_messages
 from django.db import connection
+from django.http import HttpResponse
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
@@ -19,7 +20,7 @@ class MiddlewareTestCase(FixtureTestCase):
     """Test case insensitive lookups and aliases in middleware."""
 
     def test_existing_translations_check_avoids_language_listing(self) -> None:
-        middleware = RedirectMiddleware()
+        middleware = RedirectMiddleware(lambda _request: HttpResponse())
         language = self.translation.language
 
         with CaptureQueriesContext(connection) as queries:

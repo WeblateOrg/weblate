@@ -5500,6 +5500,9 @@ all = [
 amazon = [
     { name = "boto3" },
 ]
+asgi = [
+    { name = "granian" },
+]
 gelf = [
     { name = "logging-gelf" },
 ]
@@ -5720,6 +5723,7 @@ requires-dist = [
     { name = "google-cloud-error-reporting", marker = "extra == 'google-errors'", specifier = "==1.16.0" },
     { name = "google-cloud-storage", marker = "extra == 'google'", specifier = "==3.13.0" },
     { name = "google-cloud-translate", marker = "extra == 'google'", specifier = "==3.27.0" },
+    { name = "granian", marker = "extra == 'asgi'", specifier = "==2.7.9" },
     { name = "granian", marker = "extra == 'wsgi'", specifier = "==2.7.9" },
     { name = "hiredis", specifier = "==3.4.0" },
     { name = "html2text", specifier = "==2025.4.15" },
@@ -5780,7 +5784,7 @@ requires-dist = [
     { name = "wllegal", marker = "extra == 'wllegal'", specifier = "==2026.5" },
     { name = "xmlsec", marker = "extra == 'saml'", specifier = "==1.3.17" },
 ]
-provides-extras = ["all", "amazon", "gelf", "gerrit", "google", "google-errors", "ldap", "mercurial", "postgres", "rollbar", "saml", "saml2idp", "sphinx", "wllegal", "wsgi", "zxcvbn"]
+provides-extras = ["all", "amazon", "asgi", "gelf", "gerrit", "google", "google-errors", "ldap", "mercurial", "postgres", "rollbar", "saml", "saml2idp", "sphinx", "wllegal", "wsgi", "zxcvbn"]
 
 [package.metadata.requires-dev]
 dev = [

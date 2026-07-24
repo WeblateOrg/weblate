@@ -94,7 +94,7 @@ Architecture overview
             style=filled];
          wsgi [fillcolor="#144d3f",
             fontcolor=white,
-            label="WSGI server",
+            label="WSGI or ASGI server",
             style=filled];
       }
       subgraph cluster_services {
@@ -135,8 +135,8 @@ Celery workers
    Depending on your workload, you might want to customize the number of workers.
 
    Use dedicated node when scaling Weblate horizontally.
-WSGI server
-   A WSGI server serving web pages to users.
+Application server
+   A WSGI or ASGI server serving web pages to users.
 
    Use dedicated node when scaling Weblate horizontally.
 Database
@@ -213,6 +213,10 @@ Django REST Framework
        - | :pypi:`boto3`
        - :ref:`mt-aws`
 
+     * - ``asgi``
+       - | :pypi:`granian`
+       - ASGI server for Weblate
+
      * - ``gelf``
        - | :pypi:`logging-gelf`
        - :ref:`graylog`
@@ -264,7 +268,7 @@ Django REST Framework
 
      * - ``wsgi``
        - | :pypi:`granian`
-       - wsgi server for Weblate
+       - WSGI server for Weblate
 
      * - ``zxcvbn``
        - | :pypi:`django-zxcvbn-password-validator`
@@ -1435,8 +1439,44 @@ number of blocking threads.
 
 .. seealso::
 
+   * :ref:`running-granian-asgi`
    * https://github.com/emmett-framework/granian
    * :doc:`django:howto/deployment/wsgi/index`
+
+.. _running-granian-asgi:
+
+Sample configuration to start Granian with ASGI
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+ASGI deployment is available as an opt-in alternative to WSGI. Install the
+``asgi`` optional dependency:
+
+.. code-block:: shell
+
+   uv pip install Weblate[all,asgi]
+
+The following systemd unit runs the Django ASGI application:
+
+.. literalinclude:: ../../weblate/examples/granian-asgi.service
+   :caption: /etc/systemd/system/granian-asgi.service
+   :language: ini
+
+The sample uses Granian's ASGI interface without lifespan or WebSocket support,
+because Weblate currently exposes HTTP only. Weblate's middleware supports both
+deployment modes and uses thread-sensitive adapters where it still relies on
+synchronous Django APIs. The health check is asynchronous, but most Weblate
+views remain synchronous, and CPU-intensive or long-running work should still
+be handled by :ref:`celery`.
+
+WSGI remains the default deployment mode, including for the Docker images.
+Adjust the worker count and backpressure to the available memory, CPU cores,
+and database connection limit.
+
+.. seealso::
+
+   * :ref:`running-granian`
+   * https://github.com/emmett-framework/granian
+   * :doc:`django:howto/deployment/asgi/index`
 
 .. _running-gunicorn:
 

@@ -1,0 +1,23 @@
+[Unit]
+Description=granian ASGI daemon
+After=network.target
+
+[Service]
+User=weblate
+Group=weblate
+WorkingDirectory=/home/weblate/weblate-env/
+Environment="DJANGO_SETTINGS_MODULE=weblate.settings"
+RuntimeDirectory=granian
+ExecStart=/home/weblate/weblate-env/bin/granian \
+    --no-ws \
+    --workers-max-rss 450 \
+    --interface asginl \
+    --workers 2 \
+    --backlog 128 \
+    --backpressure 16 \
+    --runtime-mode mt \
+    --port 8888 \
+    weblate.asgi:application
+
+[Install]
+WantedBy=multi-user.target
