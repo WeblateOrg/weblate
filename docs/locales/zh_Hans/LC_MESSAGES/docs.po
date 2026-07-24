@@ -40,7 +40,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-24 12:43+0000\n"
+"PO-Revision-Date: 2026-07-24 13:06+0000\n"
 "Last-Translator: AlexYang <A012pyshjs210@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
@@ -6214,6 +6214,8 @@ msgid ""
 "Existing internal bot accounts are updated when :wladmin:`migrate` is run. "
 "Project API token accounts are not affected."
 msgstr ""
+"运行 :wladmin:`migrate` 时会更新现有的内部机器人账号。项目 API 令牌账号不受影"
+"响。"
 
 #: admin/config.rst:1277
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -6286,7 +6288,7 @@ msgstr "默认为 -1。"
 
 #: admin/config.rst:1355
 msgid "CSS class added to the wrappers around legal document templates."
-msgstr ""
+msgstr "法律文档模板外层包裹元素（wrapper）的 CSS 类。"
 
 #: admin/config.rst:1357
 msgid ""
@@ -6294,16 +6296,21 @@ msgid ""
 "custom legal styles can use it to target document wrappers. Set this to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
+"默认值为 ``\"tos\"``。Weblate 不会为此类附加任何样式；自定义的法律文档样式可"
+"以使用该类来指定文档的外层容器。将此项设为空字符串则渲染法律文档时不添加外层"
+"容器类。"
 
 #: admin/config.rst:1377
 msgid "List of legal document page identifiers to hide from the legal module."
-msgstr ""
+msgstr "需要隐藏的法律文档页面 ID 列表（如 terms、privacy）。"
 
 #: admin/config.rst:1379
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"``index`` 页面始终可见。支持的页面 ID 有 ``terms``、``cookies``、``privacy`` "
+"和 ``contracts``。"
 
 #: admin/config.rst:1382
 msgid ""
@@ -6311,6 +6318,8 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"隐藏的页面将从法律菜单中移除，且直接请求时会返回 404 响应。当启用了服务条款确"
+"认功能时，不建议隐藏 ``terms`` 或 ``privacy``。"
 
 #: admin/config.rst:1386
 msgid ""
@@ -6319,6 +6328,10 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"当隐藏了 ``terms`` 或 ``privacy`` 页面时，模板变量 ``terms_url`` 与 "
+"``privacy_url`` 会自动改用配置好的 :setting:`LEGAL_URL` 和 "
+":setting:`PRIVACY_URL` 作为备用链接，如果未配置备用链接，则直接不渲染这两个链"
+"接。"
 
 #: admin/config.rst:1391
 msgid ""
