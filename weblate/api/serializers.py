@@ -1233,6 +1233,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     effective_addon_message = serializers.SerializerMethodField()
     effective_pull_message = serializers.SerializerMethodField()
     effective_check_flags = serializers.SerializerMethodField()
+    effective_enforced_checks = serializers.SerializerMethodField()  # New field
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-components", lookup_field="slug"
@@ -1267,6 +1268,14 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     locked = serializers.BooleanField(read_only=True)
     announcements_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-announcements", lookup_field="slug"
+    )
+
+    # New fields for enforced_checks inheritance
+    enforced_checks = serializers.JSONField(required=False, allow_null=True)
+    inherit_enforced_checks = serializers.BooleanField(
+        required=False,
+        default=True,
+        help_text=gettext_lazy("Inherit enforced checks from the workspace."),
     )
 
     class Meta:
@@ -1333,6 +1342,10 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "machinery_settings",
             "locked",
             "announcements_url",
+            # New fields
+            "enforced_checks",
+            "inherit_enforced_checks",
+            "effective_enforced_checks",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
@@ -1374,6 +1387,9 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
 
     def get_effective_check_flags(self, obj: Project) -> str:
         return obj.effective_check_flags.format()
+
+    def get_effective_enforced_checks(self, obj: Project) -> list[str]:
+        return obj.get_effective_setting("enforced_checks")
 
     def create(self, validated_data):
         has_workspace = validated_data.get("workspace") is not None
@@ -1521,6 +1537,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
     effective_addon_message = serializers.SerializerMethodField()
     effective_pull_message = serializers.SerializerMethodField()
     effective_check_flags = serializers.SerializerMethodField()
+    effective_enforced_checks = serializers.SerializerMethodField()
     announcements_url = MultiFieldHyperlinkedIdentityField(
         view_name="api:component-announcements", lookup_field=("project__slug", "slug")
     )
@@ -1548,6 +1565,13 @@ class ComponentSerializer(RemovableSerializer[Component]):
     disable_autoshare = serializers.BooleanField(required=False)
 
     enforced_checks = serializers.JSONField(required=False)
+    inherit_enforced_checks = serializers.BooleanField(
+        required=False,
+        default=True,
+        help_text=gettext_lazy(
+            "Inherit enforced checks from the project, category or workspace."
+        ),
+    )
 
     category = serializers.HyperlinkedRelatedField(
         view_name="api:category-detail",
@@ -1608,6 +1632,9 @@ class ComponentSerializer(RemovableSerializer[Component]):
     def get_effective_check_flags(self, obj: Component) -> str:
         return obj.all_flags.format()
 
+    def get_effective_enforced_checks(self, obj: Component) -> list[str]:
+        return obj.get_effective_setting("enforced_checks")
+
     class Meta:
         model = Component
         fields: tuple[str, ...] = (
@@ -1658,6 +1685,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "effective_check_flags",
             "priority",
             "enforced_checks",
+            "inherit_enforced_checks",
+            "effective_enforced_checks",
             "restricted",
             "repoweb",
             "report_source_bugs",
@@ -3196,6 +3225,17 @@ class CategorySerializer(RemovableSerializer[Category]):
     effective_addon_message = serializers.SerializerMethodField()
     effective_pull_message = serializers.SerializerMethodField()
     effective_check_flags = serializers.SerializerMethodField()
+    effective_enforced_checks = serializers.SerializerMethodField()  # New field
+
+    # New fields for enforced_checks inheritance
+    enforced_checks = serializers.JSONField(required=False, allow_null=True)
+    inherit_enforced_checks = serializers.BooleanField(
+        required=False,
+        default=True,
+        help_text=gettext_lazy(
+            "Inherit enforced checks from the parent category, project or workspace."
+        ),
+    )
 
     class Meta:
         model = Category
@@ -3244,6 +3284,10 @@ class CategorySerializer(RemovableSerializer[Category]):
             "pull_message",
             "inherit_pull_message",
             "effective_pull_message",
+            # New fields
+            "enforced_checks",
+            "inherit_enforced_checks",
+            "effective_enforced_checks",
         )
         extra_kwargs: ClassVar[dict[str, Any]] = {
             "url": {"view_name": "api:category-detail"},
@@ -3285,6 +3329,9 @@ class CategorySerializer(RemovableSerializer[Category]):
 
     def get_effective_check_flags(self, obj: Category) -> str:
         return obj.effective_check_flags.format()
+
+    def get_effective_enforced_checks(self, obj: Category) -> list[str]:
+        return obj.get_effective_setting("enforced_checks")
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
