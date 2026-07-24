@@ -4068,6 +4068,42 @@ class ProjectAPITest(APIBaseTest):
         real_path = os.path.join(data_dir("vcs"), *component.get_url_path())
         self.assertFalse(os.path.exists(real_path))
 
+    def test_create_component_rejects_inaccessible_repository_link(self) -> None:
+        private_component = self.create_acl()
+        self.grant_perm_to_user(
+            "project.edit",
+            group_name="Target project managers",
+            project=self.project,
+        )
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            format="json",
+            request={
+                "name": "Inaccessible repository link",
+                "slug": "inaccessible-repository-link",
+                "repo": private_component.get_repo_link_url(),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "repo")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "You do not have permission to access this component.",
+        )
+        self.assertFalse(
+            self.project.component_set.filter(
+                slug="inaccessible-repository-link"
+            ).exists()
+        )
+
     def test_create_component_no_push(self) -> None:
         repo_url = self.format_local_path(self.git_repo_path)
         response = self.do_request(
