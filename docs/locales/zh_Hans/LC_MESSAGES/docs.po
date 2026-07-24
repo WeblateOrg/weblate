@@ -33,6 +33,7 @@
 # Hosted Weblate user 54392 <hamburger2048@users.noreply.hosted.weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # reducedradius <137701630+flytothehighest@users.noreply.github.com>, 2026.
+# AlexYang <A012pyshjs210@126.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
@@ -40,8 +41,7 @@ msgstr ""
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
 "PO-Revision-Date: 2026-07-24 10:03+0000\n"
-"Last-Translator: Hosted Weblate user 54392 "
-"<hamburger2048@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: AlexYang <A012pyshjs210@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -453,6 +453,10 @@ msgid ""
 "the cleanup actions in the block form. For users who are already blocked, "
 "use :guilabel:`Clean up user contributions` in the blocked users list."
 msgstr ""
+"当封禁垃圾信息发送者或恶意账户时，项目管理员还可以清理该用户在该项目中的现有"
+"贡献。请依次前往 :guilabel:`操作` ↓ :guilabel:`用户`，封禁该用户，并在封禁表"
+"单中选择清理操作。对于已被封禁的用户，请在已封禁用户列表中使用 :guilabel:`清"
+"理用户贡献`。"
 
 #: admin/access.rst:230
 msgid "The available cleanup actions are:"
@@ -462,16 +466,16 @@ msgstr "可用的清理操作有："
 msgid ""
 ":guilabel:`Revert user edits` reverts the latest editable translations by "
 "the user."
-msgstr ""
+msgstr ":guilabel:`撤销用户编辑` 撤销该用户最新的可编辑翻译。"
 
 #: admin/access.rst:234
 msgid ""
 ":guilabel:`Reject user suggestions` rejects pending suggestions by the user."
-msgstr ""
+msgstr ":guilabel:`拒绝用户建议` 拒绝该用户待处理的建议。"
 
 #: admin/access.rst:235
 msgid ":guilabel:`Delete user comments` deletes comments by the user."
-msgstr ""
+msgstr ":guilabel:`删除用户评论` 删除用户的评论。"
 
 #: admin/access.rst:237
 msgid ""
@@ -481,6 +485,10 @@ msgid ""
 "user's profile, select the :guilabel:`Edit` tab, and "
 "use :guilabel:`Contribution cleanup`."
 msgstr ""
+"拥有全站 ``user.edit`` 权限的站点管理员可以在 :ref:`管理界面 <management-"
+"interface>` 的 :guilabel:`用户` 标签页中，对所有项目执行相同的批量清理。只需"
+"打开该用户的个人资料，选择 :guilabel:`编辑` 标签页，然后使用 :guilabel:`清理"
+"贡献` 即可"
 
 #: admin/access.rst:244
 msgid "Per-project permission management"
@@ -1447,12 +1455,17 @@ msgid ""
 "that is not due yet. A successful entry can still mean that the add-on "
 "checked its inputs but found nothing to change."
 msgstr ""
+"每条记录会显示处理状态为待处理、成功、失败还是已跳过。已跳过的记录会包含附加"
+"组件未运行的原因，例如组件不兼容、无相关更改或尚未到达设定的运行计划时间。显"
+"示为成功的记录仍可能表示该附加组件检查了输入但未发现需要更改的内容。"
 
 #: admin/addons.rst:197
 msgid ""
 "For scope-wide add-ons that process components independently, the activity "
 "log contains a separate entry for each component."
 msgstr ""
+"对于独立处理各个组件的作用域级附加组件，活动日志会为每个组件包含一条单独的记"
+"录。"
 
 #: admin/addons.rst:200
 msgid ""
@@ -1510,6 +1523,8 @@ msgid ""
 "Users and teams, see :ref:`custom-acl`; site administrators can "
 "also :ref:`clean up user contributions <cleanup-user-contributions>`."
 msgstr ""
+"用户和团队，请参阅 :ref:`custom-acl`；站点管理员还可以 :ref:`清理用户贡献 "
+"<cleanup-user-contributions>`。"
 
 #: admin/admin.rst:22
 msgid ":ref:`manage-appearance`."
@@ -1640,6 +1655,8 @@ msgid ""
 "Use the Weblate UI or API for normal operations such as creating projects, "
 "creating components, managing users, or posting announcements."
 msgstr ""
+"使用 Weblate 界面或 API 进行常规操作，例如创建项目、创建组件、管理用户或发布"
+"公告。"
 
 #: admin/admin.rst:98
 msgid "Project and component creation"
@@ -1653,6 +1670,9 @@ msgid ""
 "and :ref:`component` for the available settings, and :ref:`bimono` for how "
 "bilingual and monolingual formats differ."
 msgstr ""
+"项目和部件可在 Weblate 常规界面中创建。一个项目可以包含多个翻译组件，而组件可"
+"使用双语或单语翻译文件。关于可用设置，请参阅 :ref:`project` 和 "
+":ref:`component`；关于双语与单语格式的区别，请参阅 :ref:`bimono`。"
 
 #: admin/announcements.rst:2 snippets/permissions.rst:321
 msgid "Announcements"
@@ -2301,6 +2321,8 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"部分身份提供者（Identity Provider，如启用了多因素身份验证的 Microsoft Entra "
+"ID）要求在 SAML 安全配置中禁用默认的 ``requestedAuthnContext``："
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
@@ -2606,7 +2628,7 @@ msgstr ""
 msgid ""
 "Project backups can also be created, listed, and downloaded through "
 "the :ref:`api` since version 2026.7;"
-msgstr ""
+msgstr "自 2026.7 版本起，还可以通过 :ref:`api` 创建、列出和下载项目备份；"
 
 #: admin/backup.rst:26
 msgid ""
@@ -3747,12 +3769,17 @@ msgid ""
 "Weblate instance, and on whether Weblate should push directly or create pull "
 "or merge requests."
 msgstr ""
+"Weblate 与代码托管平台的集成体现在多个独立环节：代码库访问、接收通知以及推送"
+"翻译结果。具体配置取决于您使用的是 Hosted Weblate 还是自行托管 Weblate 实例，"
+"以及 Weblate 是直接推送代码还是创建 Pull Request / Merge Request。"
 
 #: admin/code-hosting.rst:11
 msgid ""
 "Use this page as a provider-oriented checklist. The individual setting pages "
 "remain the canonical reference for setting syntax."
 msgstr ""
+"本页面仅作为针对各平台的对照检查清单。有关具体配置语法的准确说明，请以各自对"
+"应的设置页面为准。"
 
 #: admin/code-hosting.rst:15
 msgid "Setup overview"
@@ -3769,6 +3796,10 @@ msgid ""
 "GitHub account` flow. The App gives Hosted Weblate repository access without "
 "inviting the hosted :guilabel:`weblate` user."
 msgstr ""
+"如果在 Hosted Weblate 上对接 GitHub 仓库，请在 Weblate 的 :guilabel:`连接 "
+"GitHub 帐户` 流程中安装 `Hosted Weblate App <https://github.com/apps/hosted-"
+"weblate>`_。通过该 App 即可直接向 Hosted Weblate 授予仓库访问权限，无需手动"
+"将 :guilabel:`weblate` 用户添加为 GitHub 仓库成员。"
 
 #: admin/code-hosting.rst:24
 msgid ""
@@ -3798,6 +3829,9 @@ msgid ""
 "The repository webhook or app must point to the matching Weblate hook URL, "
 "and the project must have :ref:`project-enable_hooks` enabled."
 msgstr ""
+"请配置接收通知，以便在代码推送后 Weblate 能及时拉取变更。仓库的 Webhook 或 "
+"App 必须指向对应的 Weblate Hook URL，同时项目必须已启用 :ref:`project-"
+"enable_hooks`。"
 
 #: admin/code-hosting.rst:37
 msgid "Decide how Weblate should push translations back:"
@@ -3817,12 +3851,17 @@ msgid ""
 "or :guilabel:`GitLab`, to create pull or merge requests. These backends need "
 "API credentials in the Weblate settings."
 msgstr ""
+"若要创建 Pull Request 或 Merge Request等，请选择对应平台专用的版本控制后端（"
+"如 :guilabel:`GitHub` 或 :guilabel:`GitLab`）。使用此类后端需要在 Weblate 设"
+"置中配置 API 凭据。"
 
 #: admin/code-hosting.rst:45
 msgid ""
 "Optionally set :ref:`component-push_branch` when Weblate should push to a "
 "branch in the upstream repository instead of using a fork where supported."
 msgstr ""
+"（可选）当 Weblate 需要直接推送到上游仓库的某个分支，而非在支持的平台上使用 "
+"Fork 时，请配置 :ref:`component-push_branch`。"
 
 #: admin/code-hosting.rst:51 admin/continuous.rst:378
 msgid "Pushing changes from Weblate"
@@ -3846,6 +3885,8 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
+"如果您不希望自动推送变更，可以在 :guilabel:`仓库维护` 页面中手动推送，或通过 "
+"API 使用 :option:`wlc push` 命令进行推送。"
 
 #: admin/code-hosting.rst:63
 msgid ""
@@ -4011,6 +4052,11 @@ msgid ""
 "repositories, grant it access to the repositories you want to translate, and "
 "import components from the connected GitHub account."
 msgstr ""
+"在 Hosted Weblate 上，推荐的配置方式是从您项目所在的 Weblate 工作区连接 "
+"`Hosted Weblate App <https://github.com/apps/hosted-weblate>`_。请通过 "
+":guilabel:`连接 GitHub 帐户` 流程，将该 App 安装至拥有待翻译仓库的 GitHub 用"
+"户或组织下，为其授予对应仓库的访问权限，随后即可直接从已连接的 GitHub 帐户导"
+"入部件。"
 
 #: admin/code-hosting.rst:207
 msgid ""
@@ -4020,6 +4066,10 @@ msgid ""
 "Weblate :guilabel:`weblate` GitHub user or configure a separate repository "
 "webhook for components imported this way."
 msgstr ""
+"基于 GitHub App 的集成会使用 GitHub 的“安装访问令牌”（Installation Access "
+"Token）来进行代码克隆、推送翻译分支、创建 Pull Request 以及接收传入的通知。通"
+"过这种方式导入的部件，无需再邀请 Hosted Weblate 的 :guilabel:`weblate` "
+"GitHub 用户，也无需单独配置仓库 Webhook。"
 
 #: admin/code-hosting.rst:213
 msgid ""
@@ -4071,6 +4121,9 @@ msgid ""
 "GitHub SSH URLs for your repositories, for example ``git@github.com:owner/"
 "repo.git``."
 msgstr ""
+"对于 GitHub，请创建一个专用账户（例如 ``weblate-bot``）；在 Weblate 中配置仓"
+"库时，请将仓库 URL 填为 GitHub SSH 地址（例如 ``git@github.com:owner/"
+"repo.git``）。"
 
 #: admin/code-hosting.rst:241
 msgid ""
@@ -4078,6 +4131,9 @@ msgid ""
 "outside the recommended `Hosted Weblate app <https://github.com/apps/hosted-"
 "weblate>`_ workflow."
 msgstr ""
+"在 Hosted Weblate 上，仅当您不使用推荐的 `Hosted Weblate App <https://"
+"github.com/apps/hosted-weblate>`_ 集成、而是需要直接进行 SSH 推送时，才应使用"
+"这种专用 SSH 账户的配置方式。"
 
 #: admin/code-hosting.rst:247
 msgid ""
@@ -4120,6 +4176,9 @@ msgid ""
 "Use it only when you need the legacy app to deliver GitHub notifications to "
 "Hosted Weblate."
 msgstr ""
+"`Hosted Weblate legacy App`_ 仅用于兼容现有的纯 Webhook 配置。只有当您仍需要"
+"通过该旧版 App 向 Hosted Weblate 转发 GitHub 事件通知时，才需保留或使用此选项"
+"。"
 
 #: admin/code-hosting.rst:273
 msgid ""
@@ -4128,6 +4187,9 @@ msgid ""
 "GitHub returns the credentials, and they are stored in the database - there "
 "is no settings-based configuration."
 msgstr ""
+"对于自建（Self-hosted）Weblate 实例，请按照下文说明，直接在 Weblate 界面中完"
+"成 GitHub App 的注册。Weblate 会自动生成 App 清单（App Manifest），GitHub 返"
+"回凭据后将直接存入数据库，无需修改任何配置文件。"
 
 #: admin/code-hosting.rst:281
 msgid "Registering the GitHub App from Weblate"
@@ -4139,16 +4201,18 @@ msgid ""
 "App manifest with the correct permissions, events, and webhook URL pre-"
 "filled:"
 msgstr ""
+"配置 GitHub App 最快捷的方式，是让 Weblate 自动生成包含正确权限、订阅事件及预"
+"填 Webhook URL 的配置清单（App Manifest）："
 
 #: admin/code-hosting.rst:286
 msgid "Sign in to Weblate with an account that has management access."
-msgstr ""
+msgstr "使用具有管理权限的账号登录 Weblate。"
 
 #: admin/code-hosting.rst:287
 msgid ""
 "Open :guilabel:`Manage → Code-hosting connections → Register Weblate GitHub "
 "App`."
-msgstr ""
+msgstr "依次打开：:guilabel:`管理 → 代码托管连接 → 注册 Weblate GitHub App`。"
 
 #: admin/code-hosting.rst:289
 msgid ""
@@ -4157,6 +4221,9 @@ msgid ""
 "Leave :guilabel:`Organization` blank to register the App under your personal "
 "account, or enter an organization slug to register it under that org."
 msgstr ""
+"填写表单。:guilabel:`GitHub 主机` 默认填有 ``github.com``；如有需要，请将其修"
+"改为您的 GitHub Enterprise 主机名。若要在个人账号下注册该 App，请将 "
+":guilabel:`组织` 一栏留空；若要在组织下注册，请输入对应的组织 Slug。"
 
 #: admin/code-hosting.rst:293
 msgid ""
@@ -4164,6 +4231,8 @@ msgid ""
 "GitHub's :guilabel:`Create GitHub App` page (you can still rename the App "
 "there)."
 msgstr ""
+"点击 :guilabel:`继续前往 GitHub` 并在 GitHub 的 :guilabel:`Create GitHub "
+"App` 界面确认（您仍可以在该页面重新命名 App）。"
 
 #: admin/code-hosting.rst:295
 msgid ""
@@ -4172,6 +4241,9 @@ msgid ""
 "database. The :guilabel:`Connect GitHub account` button is available "
 "immediately afterwards."
 msgstr ""
+"GitHub 会重定向回 Weblate，随后 Weblate 会使用该临时授权码换取 App ID、私钥、"
+"Webhook 密钥及 Slug 并存入数据库。完成此操作后，:guilabel:`连接 GitHub 账号` "
+"按钮将立即可用。"
 
 #: admin/code-hosting.rst:300
 msgid ""
