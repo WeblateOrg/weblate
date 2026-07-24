@@ -23,7 +23,6 @@ from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.lock import WeblateLock
-from weblate.utils.validators import DomainOrIPValidator
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 BORG_SSH_OPTIONS = (
@@ -150,7 +149,9 @@ def initialize(location: str, passphrase: str) -> BorgResult:
     """Initialize repository."""
     parsed = urlparse(location)
     if parsed.hostname:
-        DomainOrIPValidator()(parsed.hostname)
+        if parsed.hostname.startswith("-"):
+            msg = gettext("Invalid host name given!")
+            raise BackupError(msg)
         add_host_key(None, parsed.hostname, parsed.port)
     return run_borg(
         ["init", "--encryption", "repokey-blake2", location],

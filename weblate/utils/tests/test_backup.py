@@ -10,7 +10,6 @@ from typing import cast
 from unittest.mock import patch
 
 from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase, TransactionTestCase
 from django.test.utils import override_settings
 
@@ -147,12 +146,27 @@ class InitializeBackupTest(SimpleTestCase):
         with (
             patch("weblate.utils.backup.add_host_key") as add_host_key,
             patch("weblate.utils.backup.run_borg") as run_borg,
-            self.assertRaises(ValidationError),
+            self.assertRaisesMessage(BackupError, "Invalid host name given!"),
         ):
             initialize("ssh://-f/etc/passwd:22/path", "key")
 
         add_host_key.assert_not_called()
         run_borg.assert_not_called()
+
+    def test_initialize_accepts_single_label_ssh_hostname(self) -> None:
+        with (
+            patch("weblate.utils.backup.add_host_key") as add_host_key,
+            patch(
+                "weblate.utils.backup.run_borg", return_value=BorgResult(output="")
+            ) as run_borg,
+        ):
+            initialize("ssh://backup/path", "key")
+
+        add_host_key.assert_called_once_with(None, "backup", None)
+        run_borg.assert_called_once_with(
+            ["init", "--encryption", "repokey-blake2", "ssh://backup/path"],
+            {"BORG_NEW_PASSPHRASE": "key"},
+        )
 
 
 class BackupCommandTest(SimpleTestCase):
