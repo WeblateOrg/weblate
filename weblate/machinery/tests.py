@@ -8,7 +8,7 @@ import json
 import os
 import re
 from copy import copy
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from functools import partial
 from io import StringIO
 from pathlib import Path
@@ -26,6 +26,7 @@ from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import get_language
 from django.utils.translation import override as translation_override
 from google.api_core import exceptions as google_api_exceptions
@@ -84,6 +85,7 @@ from weblate.machinery.management.commands.list_machinery import (
 )
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.mistral import MistralTranslation
+from weblate.machinery.models import MachineryError
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
@@ -91,7 +93,9 @@ from weblate.machinery.ollama import OllamaTranslation
 from weblate.machinery.openai import AzureOpenAITranslation, OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
+from weblate.machinery.tasks import cleanup_machinery_errors
 from weblate.machinery.tmserver import TMServerTranslation
+from weblate.machinery.views import ListMachineryView
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
@@ -8909,3 +8913,164 @@ class SourceLanguageTranslateTestCase(FixtureTestCase):
                 "quality": [100],
             },
         )
+
+
+class MachineryErrorTest(TestCase):
+    """Tests for machinery error collection via the MachineryError model."""
+
+    def get_machine(self, settings=None):
+        machine = DummyTranslation(settings or {})
+        machine.delete_cache()
+        return machine
+
+    def test_report_error_without_exc_creates_no_db_record(self) -> None:
+        """report_error without exc does not create a MachineryError row."""
+        self.get_machine().report_error("Something went wrong")
+        self.assertEqual(MachineryError.objects.count(), 0)
+
+    def test_report_error_with_exc_creates_db_record(self) -> None:
+        """report_error with exc creates a MachineryError with correct fields."""
+        machine = self.get_machine()
+        machine.report_error(
+            "Could not fetch translations", exc=ValueError("API quota exceeded")
+        )
+        self.assertEqual(MachineryError.objects.count(), 1)
+        error = MachineryError.objects.get()
+        self.assertEqual(error.engine, machine.mtid)
+        self.assertIsNone(error.project)
+        self.assertIn("Could not fetch translations", error.error)
+        self.assertIn("ValueError", error.error)
+        self.assertIn("API quota exceeded", error.error)
+
+    def test_report_error_redacts_url_query_parameters(self) -> None:
+        """Query parameters (which may contain API keys) are redacted before storage."""
+        machine = self.get_machine()
+        exc = HTTPError(
+            "401 Client Error: Unauthorized for url:"
+            " https://api.example.com/translate?key=SECRET&text=hello",
+        )
+        machine.report_error("Auth failed", exc=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn("SECRET", error.error)
+        self.assertNotIn("text=hello", error.error)
+        self.assertIn("?[redacted]", error.error)
+        self.assertIn("https://api.example.com/translate", error.error)
+
+    def test_report_error_records_project_from_settings(self) -> None:
+        """MachineryError FK is populated when service is project-scoped."""
+        project = Project.objects.create(name="Test", slug="test")
+        machine = self.get_machine({"_project": project})
+        machine.report_error(
+            "Could not fetch translations", exc=ValueError("rate limited")
+        )
+        self.assertEqual(MachineryError.objects.get().project, project)
+
+    def test_save_machinery_error_resilient_to_db_failure(self) -> None:
+        """A database failure inside _save_machinery_error does not propagate."""
+        machine = self.get_machine()
+        with patch(
+            "weblate.machinery.models.MachineryError.objects.create",
+            side_effect=Exception("DB failure"),
+        ):
+            # Must not raise
+            machine.report_error("test cause", exc=ValueError("test"))
+
+    def test_language_fetch_error_creates_db_record(self) -> None:
+        """Errors in download_languages are persisted as MachineryError rows."""
+        machine = self.get_machine()
+        with patch.object(
+            type(machine),
+            "download_languages",
+            side_effect=ValueError("Connection refused"),
+        ):
+            langs = machine.supported_languages
+        self.assertEqual(langs, set())
+        self.assertEqual(MachineryError.objects.count(), 1)
+        error = MachineryError.objects.get()
+        self.assertEqual(error.engine, machine.mtid)
+        self.assertIn("Could not fetch languages", error.error)
+        self.assertIn("ValueError", error.error)
+
+    def test_translation_fetch_error_creates_db_record(self) -> None:
+        """Errors in download_pending_translations are persisted as MachineryError rows."""
+        machine = self.get_machine()
+        unit = make_unit(code="cs", source="Hello, world!")
+        with (
+            patch.object(
+                machine,
+                "download_pending_translations",
+                side_effect=ValueError("API unavailable"),
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine.translate(unit)
+        self.assertEqual(MachineryError.objects.count(), 1)
+        error = MachineryError.objects.get()
+        self.assertEqual(error.engine, machine.mtid)
+        self.assertIn("ValueError", error.error)
+        self.assertIn("API unavailable", error.error)
+
+    def test_rate_limit_error_creates_db_record_and_sets_cache(self) -> None:
+        """HTTP 429 rate-limit errors are stored and the rate-limit flag is set."""
+        machine = self.get_machine()
+        unit = make_unit(code="cs", source="Hello, world!")
+        mock_response = MagicMock()
+        mock_response.status_code = 429
+        mock_response.url = "https://api.example.com/"
+        exc = HTTPError(response=mock_response)
+        with (
+            patch.object(machine, "download_pending_translations", side_effect=exc),
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine.translate(unit)
+        self.assertEqual(MachineryError.objects.count(), 1)
+        self.assertTrue(machine.is_rate_limited())
+
+    def test_cleanup_task_removes_old_errors(self) -> None:
+        """cleanup_machinery_errors deletes records older than 30 days."""
+        recent = MachineryError.objects.create(engine="Dummy", error="recent")
+        MachineryError.objects.create(
+            engine="Dummy",
+            error="old",
+            timestamp=timezone.now() - timedelta(days=31),
+        )
+        cleanup_machinery_errors()
+        self.assertSequenceEqual(list(MachineryError.objects.all()), [recent])
+
+    def test_cleanup_task_keeps_recent_errors(self) -> None:
+        """cleanup_machinery_errors retains records younger than 30 days."""
+        for days in (0, 15, 29):
+            MachineryError.objects.create(
+                engine="Dummy",
+                error=f"{days} days ago",
+                timestamp=timezone.now() - timedelta(days=days),
+            )
+        cleanup_machinery_errors()
+        self.assertEqual(MachineryError.objects.count(), 3)
+
+    def test_list_view_context_includes_machinery_errors(self) -> None:
+        """ListMachineryView exposes machinery_errors in template context."""
+        error = MachineryError.objects.create(engine="Dummy", error="test error")
+        view = ListMachineryView()
+        view.project = None
+        view.configured_services = []
+        view.available_services = []
+        context = view.get_context_data()
+        self.assertIn("machinery_errors", context)
+        self.assertIn(error, context["machinery_errors"])
+
+    def test_list_view_filters_errors_by_project(self) -> None:
+        """ListMachineryView shows only the project's errors in project scope."""
+        project = Project.objects.create(name="Test", slug="test")
+        global_error = MachineryError.objects.create(engine="Dummy", error="global")
+        project_error = MachineryError.objects.create(
+            engine="Dummy", error="project", project=project
+        )
+        view = ListMachineryView()
+        view.project = project
+        view.configured_services = []
+        view.available_services = []
+        context = view.get_context_data()
+        errors = list(context["machinery_errors"])
+        self.assertIn(project_error, errors)
+        self.assertNotIn(global_error, errors)

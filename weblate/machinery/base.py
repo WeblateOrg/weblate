@@ -364,12 +364,34 @@ class BatchMachineTranslation(DocVersionsMixin):
         return code
 
     def report_error(
-        self, cause: str, extra_log: str | None = None, message: bool = False
+        self,
+        cause: str,
+        extra_log: str | None = None,
+        message: bool = False,
+        exc: Exception | None = None,
     ) -> None:
         """Report error situations."""
         report_error(
             f"machinery[{self.name}]: {cause}", extra_log=extra_log, message=message
         )
+        if exc is not None:
+            self._save_machinery_error(exc, cause)
+
+    def _save_machinery_error(self, exc: Exception, cause: str) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.machinery.models import MachineryError
+
+        # Redact URL query parameters to avoid persisting API keys or source text
+        # that backends such as Yandex and MyMemory pass as GET parameters.
+        error_message = re.sub(r"\?[^#\s]*", "?[redacted]", str(exc))
+        try:
+            MachineryError.objects.create(
+                engine=self.mtid,
+                project=self.settings.get("_project"),
+                error=f"{cause}: {type(exc).__name__}: {error_message}",
+            )
+        except Exception:
+            log_handled_exception("Could not save machinery error")
 
     def log_handled_error(self, cause: str, extra_log: str | None = None) -> None:
         """Log a handled error without reporting it to external services."""
@@ -393,7 +415,7 @@ class BatchMachineTranslation(DocVersionsMixin):
         except Exception as exc:
             self.supported_languages_error = exc
             self.supported_languages_error_age = time.time()
-            self.report_error("Could not fetch languages, using defaults")
+            self.report_error("Could not fetch languages, using defaults", exc=exc)
             return set()
 
         # Update cache
@@ -919,7 +941,7 @@ class BatchMachineTranslation(DocVersionsMixin):
                 if self.is_rate_limit_error(exc):
                     self.set_rate_limit()
 
-                self.report_error("Could not fetch translations")
+                self.report_error("Could not fetch translations", exc=exc)
                 if isinstance(exc, MachineTranslationError):
                     raise
                 raise MachineTranslationError(self.get_error_message(exc)) from exc

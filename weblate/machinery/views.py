@@ -25,7 +25,7 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.machinery.base import (
     MachineTranslationError,
 )
-from weblate.machinery.models import MACHINERY
+from weblate.machinery.models import MACHINERY, MachineryError
 from weblate.trans.models import Project, Unit
 from weblate.trans.templatetags.translations import format_language_string
 from weblate.utils.errors import report_error
@@ -172,6 +172,8 @@ class ListMachineryView(TemplateView):
         result = super().get_context_data(**kwargs)
         result["configured_services"] = self.configured_services
         result["available_services"] = self.available_services
+        errors_qs = MachineryError.objects.filter(project=self.project)
+        result["machinery_errors"] = errors_qs[:50]
         if not self.project:
             result["menu_items"] = MANAGE_MENU
             result["menu_page"] = "machinery"
