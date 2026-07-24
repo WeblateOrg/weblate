@@ -235,6 +235,10 @@ Reachability preconditions:
   list, or render contributor data outside the creator or current
   ``reports.view`` scope. *(documented)* (source: :doc:`/devel/reporting`,
   :doc:`/api`)
+* A user-profile API finding is in model when an authenticated user can read or
+  mutate another user's profile preferences outside the documented
+  ``user.view``, ``user.edit``, or self-service boundaries.
+  *(documented)* (source: :doc:`/api`, :ref:`user-profile`)
 * A management-command finding is in model only when untrusted Weblate data is
   processed by the command; arbitrary local shell access is not an attacker
   capability. *(maintainer)*
@@ -406,6 +410,17 @@ Input assumptions
        suggestion via the API additionally requires the ``unit.review``
        permission check to be satisfied.
        *(documented)* (source: :doc:`/workflows`, :doc:`/api`)
+   * - User profile API
+     - Nested ``profile`` object on :http:get:`/api/users/(str:username)/` and
+       :http:patch:`/api/users/(str:username)/`, including language and project
+       watch preferences, dashboard component list selection, and commit or
+       public e-mail choices
+     - Yes, for authenticated users updating their own profile or actors with
+       ``user.edit``. *(documented)* (source: :doc:`/api`, :ref:`user-profile`)
+     - Assign ``user.edit`` only to trusted administrators; self-service profile
+       e-mail fields accept only verified addresses, watched projects are
+       limited to accessible projects, and dashboard component lists are limited
+       to lists the user is allowed to use. *(documented)* (source: :doc:`/api`)
    * - Webhook endpoints
      - Headers, event type, body, repository and branch metadata
      - Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)

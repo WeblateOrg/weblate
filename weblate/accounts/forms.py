@@ -236,33 +236,8 @@ class CommitForm(ProfileBaseForm):
         super().__init__(*args, **kwargs)
         instance = self.instance
 
-        commit_emails = get_all_user_mails(instance.user, filter_deliverable=False)
-        site_commit_email = instance.get_site_commit_email()
-        if site_commit_email:
-            if not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
-                self.fields["commit_email"].choices = [("", site_commit_email)]
-            else:
-                commit_emails.add(site_commit_email)
-
-        self.fields["commit_email"].choices += [(x, x) for x in sorted(commit_emails)]
-
-        site_name = instance.get_site_commit_name()
-        visible_name = instance.user.get_visible_name()
-
-        if not settings.PRIVATE_COMMIT_NAME_OPT_IN and site_name:
-            default_label = gettext_lazy("Use anonymous account name")
-        else:
-            default_label = gettext_lazy("Use account name")
-
-        name_choices = [
-            (Profile.CommitNameChoices.DEFAULT, default_label),
-            (Profile.CommitNameChoices.PUBLIC, visible_name),
-        ]
-
-        if site_name:
-            name_choices.append((Profile.CommitNameChoices.PRIVATE, site_name))
-
-        self.fields["commit_name"].choices = name_choices
+        self.fields["commit_email"].choices = instance.get_commit_email_choices()
+        self.fields["commit_name"].choices = instance.get_commit_name_choices()
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
@@ -296,10 +271,7 @@ class ProfileForm(ProfileBaseForm):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        emails = get_all_user_mails(self.instance.user)
-
-        self.fields["public_email"].choices += [(x, x) for x in sorted(emails)]
-
+        self.fields["public_email"].choices = self.instance.get_public_email_choices()
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False

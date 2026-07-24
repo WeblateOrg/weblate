@@ -126,6 +126,7 @@ from weblate.api.serializers import (
     UploadRequestSerializer,
     UploadResultSerializer,
     UserStatisticsSerializer,
+    UserUpdateRequestSerializer,
     edit_service_settings_response_serializer,
     get_reverse_kwargs,
 )
@@ -785,7 +786,15 @@ class MemoryLookupResultData(TypedDict):
 
 @extend_schema_view(
     retrieve=extend_schema(description="Return information about users."),
-    partial_update=extend_schema(description="Change the user parameters."),
+    update=extend_schema(
+        request=UserUpdateRequestSerializer,
+        responses=FullUserSerializer,
+    ),
+    partial_update=extend_schema(
+        request=UserUpdateRequestSerializer,
+        responses=FullUserSerializer,
+        description="Change the user parameters.",
+    ),
 )
 class UserViewSet(viewsets.ModelViewSet):
     """Users API."""
@@ -816,7 +825,13 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = User.objects.order_by("id")
         if not user.has_perm("user.edit") and not user.has_perm("user.view"):
             return queryset
-        return queryset.prefetch_related("groups", "profile", "profile__languages")
+        return queryset.prefetch_related(
+            "groups",
+            "profile",
+            "profile__languages",
+            "profile__secondary_languages",
+            "profile__watched",
+        ).select_related("profile__dashboard_component_list")
 
     def list(self, request, *args, **kwargs):
         """
