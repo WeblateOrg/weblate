@@ -6,6 +6,7 @@ import os
 import shutil
 from pathlib import Path
 from time import time
+from unittest.mock import patch
 
 from django.conf import settings
 from django.test import TestCase
@@ -17,6 +18,7 @@ from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.ssh import (
     STALE_WRAPPER_SECONDS,
     SSHWrapper,
+    add_host_key,
     cleanup_legacy_wrapper_dirs,
     cleanup_stale_wrapper_dirs,
     extract_url_host_port,
@@ -151,4 +153,15 @@ class SSHTest(TestCase):
         )
         self.assertEqual(
             ("github.com", 1234), extract_url_host_port("git://github.com:1234/repo")
+        )
+
+    @patch("weblate.vcs.ssh.subprocess.run")
+    def test_add_host_key_separates_hostname_from_options(self, mocked_run) -> None:
+        mocked_run.return_value.stdout = ""
+        mocked_run.return_value.stderr = ""
+
+        add_host_key(None, "-f", 22)
+
+        self.assertEqual(
+            mocked_run.call_args.args[0], ["ssh-keyscan", "-p", "22", "--", "-f"]
         )
