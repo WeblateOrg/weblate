@@ -13,6 +13,7 @@ from django.core.cache import cache
 from django.db import connections
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.deprecation import MiddlewareMixin
 
 from weblate.accounts.models import AuditLog
 from weblate.utils.errors import report_error
@@ -22,6 +23,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     from django.core.checks import CheckMessage
+    from django.http import HttpResponse
 
     from weblate.auth.models import AuthenticatedHttpRequest
 
@@ -62,7 +64,7 @@ def run_background_configuration_health_check() -> None:
         connections.close_all()
 
 
-class ManageMiddleware:
+class ManageMiddleware(MiddlewareMixin):
     """
     Middleware to trigger periodic management tasks.
 
@@ -70,8 +72,8 @@ class ManageMiddleware:
     Celery and website environments.
     """
 
-    def __init__(self, get_response=None) -> None:
-        self.get_response = get_response
+    def __init__(self, get_response) -> None:
+        super().__init__(get_response)
         self._poll_lock = Lock()
         self._next_poll = 0.0
 
@@ -108,11 +110,16 @@ class ManageMiddleware:
         if last_success is None or time.time() - last_success >= CHECK_INTERVAL:
             self.trigger_check()
 
-    def __call__(self, request: AuthenticatedHttpRequest):
+    def process_request(self, request: AuthenticatedHttpRequest):
         if request.session.pop("redirect_to_donate", False):
             AuditLog.objects.create(request.user, request, "donate")
+            request.__dict__["_skip_configuration_health_check"] = True
             return redirect(reverse("donate"))
-        response = self.get_response(request)
-        self.trigger_check_if_due()
+        return None
 
+    def process_response(
+        self, request: AuthenticatedHttpRequest, response: HttpResponse
+    ) -> HttpResponse:
+        if not request.__dict__.pop("_skip_configuration_health_check", False):
+            self.trigger_check_if_due()
         return response

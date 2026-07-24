@@ -6,6 +6,7 @@
 
 from unittest.mock import patch
 
+from asgiref.sync import async_to_sync
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -51,6 +52,10 @@ class BasicViewTest(FixtureTestCase):
 
     def test_healthz(self) -> None:
         response = self.client.get(reverse("healthz"))
+        self.assertContains(response, "ok")
+
+    def test_healthz_asgi(self) -> None:
+        response = async_to_sync(self.async_client.get)(reverse("healthz"))
         self.assertContains(response, "ok")
 
     @patch(

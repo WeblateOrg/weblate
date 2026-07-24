@@ -117,9 +117,14 @@ Scope and intended use
      - Out of scope for product security claims. *(maintainer)*
 
 The intended deployment is a server-side Weblate installation behind a web
-server or reverse proxy, with a WSGI application server, PostgreSQL database,
-datastore, Celery workers, a writable data directory, and optional outbound VCS,
-backup, identity-provider, and machine-translation integrations. *(documented)* (source: :doc:`/admin/install`)
+server or reverse proxy, with a WSGI or ASGI application server, PostgreSQL
+database, datastore, Celery workers, a writable data directory, and optional
+outbound VCS, backup, identity-provider, and machine-translation integrations.
+*(documented)* (source: :doc:`/admin/install`)
+
+The WSGI and ASGI deployment modes expose the same Django HTTP request surface
+and rely on the same reverse-proxy controls. ASGI deployment does not add a
+WebSocket interface. *(documented)* (source: :ref:`running-granian-asgi`)
 
 The relevant actors are split by trust level: unauthenticated clients,
 authenticated users, reviewers, project managers, administrators,

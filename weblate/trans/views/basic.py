@@ -1142,7 +1142,9 @@ def add_languages_to_component(
 
 @never_cache
 @login_not_required
-def healthz(request: AuthenticatedHttpRequest) -> HttpResponse:
+async def healthz(  # ruff: ignore[unused-async]
+    request: AuthenticatedHttpRequest,
+) -> HttpResponse:
     """Make simple health check endpoint."""
     return HttpResponse("ok")
 
