@@ -21,6 +21,7 @@ from django.contrib import messages as django_messages
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.files import File
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError
 from django.db.models import Q
 from django.test.utils import modify_settings, override_settings
@@ -12364,6 +12365,26 @@ class ScreenshotAPITest(APIBaseTest):
 
     def test_upload_invalid(self) -> None:
         self.test_upload(True, 400, TEST_PO)
+
+    def test_upload_invalid_extension(self) -> None:
+        self.authenticate(True)
+        screenshot = Screenshot.objects.get()
+        original_name = screenshot.image.name
+        image = SimpleUploadedFile(
+            "screenshot.html",
+            Path(TEST_SCREENSHOT).read_bytes(),
+            content_type="image/png",
+        )
+
+        response = self.client.post(
+            reverse("api:screenshot-file", kwargs={"pk": screenshot.pk}),
+            {"image": image},
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("invalid_extension", str(response.data))
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.name, original_name)
 
     @override_settings(ALLOWED_ASSET_SIZE=1)
     def test_upload_too_big(self) -> None:

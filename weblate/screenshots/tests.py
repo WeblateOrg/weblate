@@ -13,7 +13,9 @@ from unittest.mock import MagicMock, patch
 import requests
 import responses
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.files import File
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import connection
 from django.test import SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
@@ -45,6 +47,20 @@ PUBLIC_TEST_ADDRESS = "93.184.216.34"
 PRIVATE_TEST_ADDRESS = "127.0.0.1"
 PUBLIC_GETADDRINFO = [(0, 0, 0, "", (PUBLIC_TEST_ADDRESS, 443))]
 PRIVATE_GETADDRINFO = [(0, 0, 0, "", (PRIVATE_TEST_ADDRESS, 443))]
+
+
+class ScreenshotImageValidationTest(SimpleTestCase):
+    def test_rejects_invalid_extension(self) -> None:
+        image = SimpleUploadedFile(
+            "screenshot.html",
+            Path(TEST_SCREENSHOT).read_bytes(),
+            content_type="image/png",
+        )
+
+        with self.assertRaises(ValidationError) as error:
+            Screenshot.validate_image_file(image)
+
+        self.assertEqual(error.exception.error_list[0].code, "invalid_extension")
 
 
 class TesseractDataTest(SimpleTestCase):
@@ -997,19 +1013,48 @@ class ViewTest(FixtureTestCase):
     )
     def test_upload_with_image_url(self, _mocked_getaddrinfo, _mocked_get_peer) -> None:
         data = Path(TEST_SCREENSHOT).read_bytes()
+        image_url = "https://example.com/test-image.png?signature=test#preview"
         responses.add(
             responses.GET,
-            "https://example.com/test-image.png",
+            "https://example.com/test-image.png?signature=test",
             content_type="image/png",
             body=data,
         )
 
         self.make_manager()
-        response = self.do_upload(
-            image="", image_url="https://example.com/test-image.png"
-        )
+        response = self.do_upload(image="", image_url=image_url)
         self.assertContains(response, "Obrazek")
         self.assertEqual(Screenshot.objects.count(), 1)
+        image_name = Screenshot.objects.get().image.name
+        assert image_name is not None
+        self.assertTrue(image_name.endswith(".png"))
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_upload_with_image_url_invalid_extension(
+        self, _mocked_getaddrinfo, _mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://example.com/test-image.html",
+            content_type="image/png",
+            body=Path(TEST_SCREENSHOT).read_bytes(),
+        )
+
+        self.make_manager()
+        response = self.do_upload(
+            image="", image_url="https://example.com/test-image.html"
+        )
+
+        self.assertContains(response, "File extension")
+        self.assertEqual(Screenshot.objects.count(), 0)
 
     @responses.activate
     @patch(

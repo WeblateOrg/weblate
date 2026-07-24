@@ -92,7 +92,6 @@ from weblate.utils.forms import QueryField
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_READONLY, StringState
 from weblate.utils.validators import (
-    validate_bitmap,
     validate_component_zip_upload_size,
     validate_file_extension,
     validate_plural_formula_range,
@@ -3390,7 +3389,7 @@ class ScreenshotCreateSerializer(ScreenshotSerializer):
 
 
 class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
-    image = serializers.ImageField(validators=[validate_bitmap])
+    image = serializers.ImageField(validators=[Screenshot.validate_image_file])
 
     class Meta:
         model = Screenshot
