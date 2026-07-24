@@ -40,7 +40,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-24 10:03+0000\n"
+"PO-Revision-Date: 2026-07-24 12:07+0000\n"
 "Last-Translator: AlexYang <A012pyshjs210@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
@@ -4255,6 +4255,13 @@ msgid ""
 "configuration is required. GitHub delivers the ``Installation`` and "
 "``Installation repositories`` events to all GitHub Apps by default."
 msgstr ""
+"配置清单（Manifest）会自动声明 Weblate 所需的权限与事件订阅（包括 "
+"``Contents`` 与 ``Pull requests`` 的读写权限、``Metadata`` 的只读权限"
+"、``Organization administration`` 的只读权限、``Workflows`` 的读写权限，以及 "
+"``Installation``、``Meta`` 和 ``Push`` 事件），并自动设置回调 URL、安装 URL "
+"以及每个 App 专属的 Webhook URL，因此无需手动配置 GitHub App。GitHub 默认会"
+"将 ``Installation`` 和 ``Installation repositories`` 事件投递给所有 GitHub "
+"App。"
 
 #: admin/code-hosting.rst:308
 msgid ""
@@ -4265,6 +4272,10 @@ msgid ""
 "other accounts; private apps can only be installed on the account that owns "
 "the app."
 msgstr ""
+"GitHub 只会显示你当前有权安装（或提交安装申请）的个人账号及组织。如果列表中没"
+"有显示某个组织，请检查你在该组织中的角色以及组织的 App 安装限制。在 "
+"GitHub.com 上，公开 App 可以安装到任意账号下，而私有 App 只能安装到创建它的账"
+"号下。"
 
 #: admin/code-hosting.rst:315
 msgid "Connecting a workspace"
@@ -4280,12 +4291,16 @@ msgid ""
 "accounts, Weblate verifies that the install-time GitHub user can administer "
 "the organization installation."
 msgstr ""
+"已连接的 GitHub 账号会绑定至 Weblate :ref:`工作区 <workspaces>`。具有该工作区"
+"内任意项目管理权限的用户，均可在该工作区中连接 GitHub 账号。连接完成后，该工"
+"作区下的所有项目均可从该 GitHub App 获权访问的仓库中导入部件。对于组织账号，"
+"Weblate 会验证在 GitHub 上执行安装授权的用户是否拥有该组织的管理权限。"
 
 #: admin/code-hosting.rst:324
 msgid ""
 "Projects that are not in a workspace cannot connect a GitHub account through "
 "the GitHub App."
-msgstr ""
+msgstr "不在工作区的项目不能通过 Github App 连接 Github 账户。"
 
 #: admin/code-hosting.rst:327
 msgid ""
@@ -4294,6 +4309,9 @@ msgid ""
 "component settings UI keeps the repository URL read-only to prevent the App-"
 "issued credentials from being redirected to an unrelated repository."
 msgstr ""
+"通过 GitHub App 流程导入的部件会使用专用的 :guilabel:`GitHub (via Weblate "
+"GitHub app)` VCS 后端。部件设置界面中的仓库 URL 为只读状态，防止 App 的授权访"
+"问权限被套用或滥用到其他无关仓库上。"
 
 #: admin/code-hosting.rst:335
 msgid "App webhook URL"
@@ -4304,6 +4322,8 @@ msgid ""
 "Each registered Weblate GitHub App has its own webhook URL containing an "
 "opaque token that uniquely identifies a single registered App:"
 msgstr ""
+"每个已注册的 Weblate GitHub App 都有专属的 Webhook URL，其中包含用于唯一标识"
+"该 App 的不透明令牌（opaque token）："
 
 #: admin/code-hosting.rst:344
 msgid ""
@@ -4367,6 +4387,11 @@ msgid ""
 "write repository contents and create pull requests. If Weblate should fork "
 "private repositories, the token might also need administration access."
 msgstr ""
+"若要创建 Pull Request，请将 :ref:`component-vcs` 选择为 :guilabel:`GitHub`，"
+"并配置 :setting:`GITHUB_CREDENTIALS`。对于 GitHub.com，请使用 "
+"``api.github.com`` 作为 API 主机（Host）。所使用的令牌（Token）必须赋予 "
+"Weblate 读取与写入仓库内容、以及创建 Pull Request 的权限。如果需要 Weblate "
+"Fork 私有仓库，该令牌可能还需要具备管理员权限。"
 
 #: admin/code-hosting.rst:387 admin/install/docker.rst:1671
 msgid "GitLab"
@@ -4416,6 +4441,8 @@ msgid ""
 "For GitLab, create a dedicated user and use GitLab SSH URLs, for example "
 "``git@gitlab.com:group/project.git``."
 msgstr ""
+"对于 GitLab，请创建一个专用用户并使用 GitLab SSH URL，例如 "
+"``git@gitlab.com:group/project.git``。"
 
 #: admin/code-hosting.rst:424
 msgid ""
@@ -4484,6 +4511,8 @@ msgid ""
 "To create merge requests, select :guilabel:`GitLab` as :ref:`component-vcs` "
 "and configure :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+"若要创建 Merge Request，请将 :ref:`component-vcs` 选择为 :guilabel:`GitLab`，"
+"并配置 :setting:`GITLAB_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:466
 msgid ""
@@ -4498,7 +4527,7 @@ msgstr ""
 
 #: admin/code-hosting.rst:476
 msgid "Gitea, Forgejo, and Codeberg"
-msgstr ""
+msgstr "Gitea、Forgejo 以及 Codeberg"
 
 #: admin/code-hosting.rst:481
 msgid "Gitea, Forgejo, and Codeberg repository access"
@@ -4601,6 +4630,8 @@ msgid ""
 "To create pull requests, select :guilabel:`Gitea` as :ref:`component-vcs` "
 "and configure :setting:`GITEA_CREDENTIALS`."
 msgstr ""
+"若要创建 Pull Request，请将 :ref:`component-vcs` 选择为 :guilabel:`Gitea`，并"
+"配置 :setting:`GITEA_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:554 admin/install/docker.rst:1645
 msgid "Bitbucket"
@@ -4728,11 +4759,11 @@ msgstr "Azure Repos 仓库访问"
 
 #: admin/code-hosting.rst:661
 msgid "Use the HTTPS clone URL shown by Azure Repos for the repository."
-msgstr ""
+msgstr "请使用 Azure Repos 页面上给出的 HTTPS clone URL。"
 
 #: admin/code-hosting.rst:668
 msgid "Use the SSH URL shown by Azure Repos for the repository."
-msgstr ""
+msgstr "请使用 Azure Repos 页面上给出的 SSH URL。"
 
 #: admin/code-hosting.rst:673
 msgid "Azure Repos notifications"
@@ -4790,10 +4821,12 @@ msgid ""
 "To create pull requests, select :guilabel:`Azure DevOps` as :ref:`component-"
 "vcs` and configure :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
+"若要创建 Pull Request，请将 :ref:`component-vcs` 选择为 :guilabel:`Azure "
+"DevOps`，并配置 :setting:`AZURE_DEVOPS_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:708
 msgid "Pagure"
-msgstr ""
+msgstr "Pagure"
 
 #: admin/code-hosting.rst:713
 msgid "Pagure repository access"
@@ -4848,6 +4881,8 @@ msgid ""
 "To create merge requests, select :guilabel:`Pagure` as :ref:`component-vcs` "
 "and configure :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
+"若要创建 Merge Request，请将 :ref:`component-vcs` 选择为 :guilabel:`Pagure`，"
+"并配置 :setting:`PAGURE_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:764
 msgid "Other workflows"
