@@ -384,6 +384,20 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
 
+    def test_view_uses_image_content_type(self) -> None:
+        self.make_manager()
+        screenshot = Screenshot.objects.create(
+            name="Polyglot", translation=self.component.source_translation
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot.image.save("polyglot.html", File(handle))
+
+        response = self.client.get(screenshot.get_view_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["content-type"], "image/png")
+        response.close()
+
     def test_private_screenshot_actions_hidden(self) -> None:
         self.make_manager()
         self.do_upload()
