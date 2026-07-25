@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-24 10:03+0000\n"
+"PO-Revision-Date: 2026-07-25 05:40+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -49082,13 +49082,6 @@ msgid "This feature is modelled on flags in :ref:`gettext`."
 msgstr "Esta funcionalidade é modelada em sinalizadores em :ref:`gettext`."
 
 #: formats.rst:113
-#, fuzzy
-#| msgid ""
-#| "Additionally, for all XML based format, the flags are extracted from the "
-#| "non-standard attribute ``weblate-flags``. Additionally ``max-length:N`` "
-#| "is supported through the ``maxwidth`` `attribute <https://docs.oasis-"
-#| "open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the "
-#| "XLIFF standard, see :ref:`xliff-flags`."
 msgid ""
 "Additionally, XML-based formats that support flags extract them from the non-"
 "standard attribute ``weblate-flags``. The ``max-length:N`` flag is also "
@@ -49096,11 +49089,11 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
-"Adicionalmente, para todo formato baseado em XML, os marcadores são "
-"extraídos do atributo não padrão ``weblate-flags``. Adicionalmente, o ``max-"
-"length:N`` é suportado através do `atributo <https://docs.oasis-open.org/"
-"xliff/v1.2/os/xliff-core.html#maxwidth>`_ ``maxwidth`` como definido no "
-"padrão XLIFF, consulte :ref:`xliff-flags`."
+"Adicionalmente, formatos baseados em XML que suportam marcadores extraem-nos "
+"do atributo não padrão ``weblate-flags``. O marcador ``max-length:N`` também "
+"é suportado através do `atributo <https://docs.oasis-open.org/xliff/v1.2/os/"
+"xliff-core.html#maxwidth>`_ ``maxwidth`` como definido no padrão XLIFF, "
+"consulte :ref:`xliff-flags`."
 
 #: formats.rst:122
 msgid "`PO files documentation`_"
@@ -49150,6 +49143,11 @@ msgid ""
 "a specific variant, and cannot create new plural strings unless that is "
 "natively supported by the format."
 msgstr ""
+"Suporte de plural na tabela de funcionalidades suportadas significa que o "
+"Weblate pode representar cadeias de carateres plurais para o formato. Alguns "
+"formatos precisam de metadados de plural existentes ou uma variante "
+"específica, e não podem criar novas cadeias de carateres plurais a não ser "
+"que sejam suportadas nativamente pelo formato."
 
 #: formats.rst:155
 msgid ""
@@ -49179,28 +49177,23 @@ msgstr ""
 "checks`."
 
 #: formats.rst:172
-#, fuzzy
-#| msgid "Remove obsolete strings"
 msgid "Removing obsolete strings"
-msgstr "Remover cadeias de carateres obsoletas"
+msgstr "Remoção de cadeias de carateres obsoletas"
 
 #: formats.rst:174
 msgid ""
 "Some file formats can store obsolete strings. Weblate can remove these "
 "obsolete strings from formats that support this operation."
 msgstr ""
+"Alguns formatos de ficheiros podem ser cadeias de carateres obsoletas. O "
+"Weblate pode remover estas cadeias de carateres obsoletas de formatos que "
+"suportem esta operação."
 
 #: formats.rst:179
 msgid "Supporting other formats"
 msgstr "Suportando outros formatos"
 
 #: formats.rst:181
-#, fuzzy
-#| msgid ""
-#| "Most formats supported by `translate-toolkit`_ which support serializing "
-#| "can be easily supported, but they did not (yet) received any testing. In "
-#| "most cases, an additional thin layer is needed in Weblate to hide "
-#| "differences in behavior of different storages."
 msgid ""
 "Most formats supported by `translate-toolkit`_ which support serializing can "
 "be easily supported, but they did not (yet) receive any testing. In most "
@@ -49227,12 +49220,14 @@ msgid ""
 "file format. They are configured at component level and allow you to "
 "customize how file parsing and serialization are handled."
 msgstr ""
+"Parâmetros de formato de ficheiro fornece uma maneira de configurar "
+"definições relacionadas ao formato do ficheiro. Eles são configurados ao "
+"nível do componente e permitem-lhe personalizar como é que análise e "
+"serialização de ficheiro é feita."
 
 #: formats.rst:206
-#, fuzzy
-#| msgid "File format"
 msgid "List of file format parameters"
-msgstr "Formato de ficheiro"
+msgstr "Lista de parâmetros de formato de ficheiro"
 
 #: formats/android.rst:4
 msgid "Android string resources"
@@ -49247,6 +49242,8 @@ msgid ""
 "A very similar formats are :doc:`/formats/compose-multiplatform-resources` "
 "and :doc:`/formats/moko-resources`."
 msgstr ""
+"Formatos muito semelhantes são :doc:`/formats/compose-multiplatform-"
+"resources` e :doc:`/formats/moko-resources`."
 
 #: formats/android.rst:17
 msgid ""
@@ -49427,6 +49424,9 @@ msgid ""
 "`Message Catalog File Format in PWG 5100.13 <https://ftp.pwg.org/pub/pwg/"
 "candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_"
 msgstr ""
+"`Catálogo de Mensagens de Formato de Ficheiro em PWG 5100.13 <https://"
+"ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-"
+"5100.13.pdf#page=66>`_"
 
 #: formats/apple.rst:33
 msgid ""
@@ -49527,7 +49527,7 @@ msgstr ""
 
 #: formats/arb.rst:17
 msgid "`Application Resource Bundle Specification`_"
-msgstr ""
+msgstr "`Especificação de Conjunto de Recursos de Aplicação`_"
 
 #: formats/arb.rst:18
 msgid "`Internationalization of Flutter apps`_"
@@ -49576,6 +49576,10 @@ msgid ""
 "AsciiDoc tables, where reordering rows changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Por predefinição, o Weblate trata cada ocorrência de uma cadeia de carateres "
+"como uma unidade de tradução separada para fornecer contexto baseado em "
+"linhas. Isto pode ser problemático em tabelas AsciiDoc, onde reordenar "
+"linhas muda o contexto e pode levar a perda de tradução."
 
 #: formats/asciidoc.rst:49 formats/html.rst:50 formats/markdown.rst:60
 #: formats/mdx.rst:59 formats/txt.rst:59
@@ -49584,6 +49588,9 @@ msgid ""
 "enable :guilabel:`Deduplicate identical strings` in the :ref:`component-"
 "file_format_params`."
 msgstr ""
+"Para consolidar cadeias de carateres idênticas em uma única unidade de "
+"tradução, ative :guilabel:`Deduplicar cadeias de carateres idênticas` no "
+":ref:`component-file_format_params`."
 
 #: formats/asciidoc.rst:54 formats/markdown.rst:65 formats/mdx.rst:64
 msgid ""
@@ -49591,6 +49598,9 @@ msgid ""
 "ensuring that translations remain stable even if rows or sections are moved "
 "within the document."
 msgstr ""
+"Ativar esta opção desativa contexto baseado em linha para as unidade unidas, "
+"assegurando que traduções permanecem estáveis ainda que linhas ou secções "
+"sejam movidas para dentro do documento."
 
 #: formats/catkeys.rst:4
 msgid "Catkeys file"
@@ -49610,7 +49620,7 @@ msgstr "Recursos Compose Multiplatform"
 
 #: formats/compose-multiplatform-resources.rst:11
 msgid "A variant of :doc:`/formats/android`. It differs in escaping."
-msgstr ""
+msgstr "Uma variante de :doc:`/formats/android`. Difere em escapamento."
 
 #: formats/compose-multiplatform-resources.rst:16
 msgid ""
@@ -49622,7 +49632,7 @@ msgstr ""
 
 #: formats/compose-multiplatform-resources.rst:34
 msgid "`Compose Multiplatform Resource`"
-msgstr ""
+msgstr "`Compor Recurso Multiplataforma`"
 
 #: formats/csv.rst:4
 msgid "CSV files"
@@ -49678,12 +49688,6 @@ msgstr ""
 "são monolíngues (veja :ref:`bimono`)."
 
 #: formats/csv.rst:27
-#, fuzzy
-#| msgid ""
-#| "By default, the CSV format does autodetection of file encoding. This can "
-#| "be unreliable in some corner cases and causes performance penalty. Please "
-#| "choose file format variant with encoding to avoid this (for "
-#| "example :guilabel:`CSV file (UTF-8)`)."
 msgid ""
 "By default, the CSV format does autodetection of file encoding. This can be "
 "unreliable in some corner cases and causes performance penalty. Please "
@@ -49691,8 +49695,8 @@ msgid ""
 msgstr ""
 "Por padrão, o formato CSV detecta automaticamente a codificação do ficheiro. "
 "Isso pode não ser confiável em alguns casos de canto e causa penalidade de "
-"desempenho. Por favor, escolha a variante de formato de ficheiro com "
-"codificação para evitar isso (por exemplo :guilabel:`Ficheiro CSV (UTF-8)`)."
+"desempenho. Por favor, escolha o formato de ficheiro com codificação para "
+"evitar isso (por exemplo :guilabel:`UTF-8`)."
 
 #: formats/csv.rst:33
 msgid ""
@@ -49791,12 +49795,12 @@ msgid ""
 "The tag and attribute names can now be customized "
 "using :ref:`file_format_params`."
 msgstr ""
+"A etiqueta e nomes de atributo podem agora ser personalizadas usando "
+":ref:`file_format_params`."
 
 #: formats/flatxml.rst:18
-#, fuzzy
-#| msgid "Example of a flat XML file:"
 msgid "Example of flat XML files:"
-msgstr "Exemplo de um ficheiro XML simples:"
+msgstr "Exemplo de ficheiro XML simples:"
 
 #: formats/flatxml.rst:40
 msgid "`Flat XML file`"
@@ -49889,6 +49893,9 @@ msgid ""
 "This is controlled by the ``po_keep_previous`` :ref:`file_format_params` "
 "parameter. It does not affect obsolete entries marked with ``#~``."
 msgstr ""
+"Isto é controlado pelo parâmetro ``po_keep_previous`` "
+":ref:`file_format_params`. Isto não afeta entradas obsoletas marcadas com "
+"``#~``."
 
 #: formats/gettext.rst:47
 msgid "Obsolete strings"
@@ -49901,6 +49908,10 @@ msgid ""
 "``po_remove_obsolete`` :ref:`file_format_params` parameter to remove "
 "obsolete entries when Weblate saves PO files."
 msgstr ""
+":program:`msgmerge` mantém cadeias de carateres obsoletas do ficheiro POT "
+"enquanto entradas obsoletas ``#~`` por predefinição. Ative o parâmetro "
+"``po_remove_obsolete`` :ref:`file_format_params` para remover entradas "
+"obsoletas quando o Weblate guarda ficheiros PO."
 
 #: formats/gettext.rst:54
 msgid "PO file header"
@@ -49913,12 +49924,18 @@ msgid ""
 "Generator`` and ``Report-Msgid-Bugs-To`` headers using "
 "the :ref:`file_format_params`."
 msgstr ""
+"O cabeçalho do ficheiro PO é automaticamente mantido pelo Weblate. Pode ser "
+"configurado para incluir os cabeçalhos ``Language-Team``, ``Last-"
+"Translator``, ``X-Generator`` e ``Report-Msgid-Bugs-To`` usando "
+":ref:`file_format_params`."
 
 #: formats/gettext.rst:60
 msgid ""
 "The header comments also can be updated to contain author names "
 "using :ref:`addon-weblate.gettext.authors`."
 msgstr ""
+"Os comentários do cabeçalho também podem ser atualizador para conter nomes "
+"de autor usando :ref:`addon-weblate.gettext.authors`."
 
 #: formats/gettext.rst:63
 msgid "Line wrapping"
@@ -49930,18 +49947,21 @@ msgid ""
 "algorithm in the GNU gettext and the Unicode data the wrapping is based on "
 "evolve which might cause differences in some corner cases."
 msgstr ""
+"A quebra de linha corresponde mais ao comportamento GNU gettext. Ambos o "
+"algoritmo de quebra e o GNU gettext e os dados Unicode na qual a quebra é "
+"baseada para evoluir podem causar diferenças em alguns casos particulares."
 
 #: formats/gettext.rst:69
 msgid ""
 "The wrapping width can be configured using the ``po_line_wrap`` parameter, "
 "see :ref:`file_format_params`."
 msgstr ""
+"A largura de quebra pode ser configurada usando o parâmetro "
+"``po_line_wrap``, veja :ref:`file_format_params`."
 
 #: formats/gettext.rst:72
-#, fuzzy
-#| msgid "Generate MO files"
 msgid "Generating matching MO files"
-msgstr "Gerar ficheiros MO"
+msgstr "Gerar ficheiros MO correspondentes"
 
 #: formats/gettext.rst:74
 msgid ""
@@ -49949,18 +49969,21 @@ msgid ""
 "files, :ref:`addon-weblate.gettext.mo` can be used to keep them up-to-date "
 "with PO files."
 msgstr ""
+"No caso de ficheiros MO serem mantidos no repositório em conjunto com "
+"ficheiros PO, :ref:`addon-weblate.gettext.mo` pode ser usado para mantê-los "
+"atualizados com ficheiros PO."
 
 #: formats/gettext.rst:79
-#, fuzzy
-#| msgid "Update PO files to match POT (msgmerge)"
 msgid "Updating PO files from the POT file"
-msgstr "Atualizar ficheiros PO para coincidir com POT (msgmerge)"
+msgstr "Atualizar ficheiros PO a partir do ficheiro POT"
 
 #: formats/gettext.rst:81
 msgid ""
 ":ref:`addon-weblate.gettext.msgmerge` can be used to update PO files from "
 "the POT file, see :ref:`updating-target-files`."
 msgstr ""
+":ref:`addon-weblate.gettext.msgmerge` podem ser usados para atualizar "
+"ficheiros PO a partir do ficheiro POT, veja :ref:`updating-target-files`."
 
 #: formats/gettext.rst:87
 msgid "Monolingual gettext"
@@ -50012,6 +50035,8 @@ msgid ""
 ":ref:`file_format_params` with the pattern `po_*` can be used to configure "
 "the behavior of the gettext format."
 msgstr ""
+":ref:`file_format_params` com o padrão `po_*` podem ser usados para "
+"configurar o comportamento do formato gettext."
 
 #: formats/go-i18n.rst:4
 msgid "go-i18n JSON files"
@@ -50074,16 +50099,12 @@ msgstr ""
 "ficheiro base com (o que é mais frequentemente os) cadeias em inglês."
 
 #: formats/gotext.rst:17
-#, fuzzy
-#| msgid ""
-#| "`Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/"
-#| "machine-translation>`_"
 msgid ""
 "`I18n in Go: Managing Translations <https://www.alexedwards.net/blog/i18n-"
 "managing-translations>`_"
 msgstr ""
-"`Documentação do Alibaba Translate <https://www.alibabacloud.com/help/en/"
-"machine-translation>`_"
+"`I18n in Go: Gerir Traduções <https://www.alexedwards.net/blog/i18n-managing-"
+"translations>`_"
 
 #: formats/gotext.rst:36
 msgid "`gotext JSON file`"
@@ -50106,12 +50127,16 @@ msgid ""
 "`GWT localization guide <https://www.gwtproject.org/doc/latest/"
 "DevGuideI18n.html>`_"
 msgstr ""
+"`Guia de tradução GWT <https://www.gwtproject.org/doc/latest/"
+"DevGuideI18n.html>`_"
 
 #: formats/gwt.rst:16
 msgid ""
 "`GWT Internationalization Tutorial <https://www.gwtproject.org/doc/latest/"
 "tutorial/i18n.html>`_"
 msgstr ""
+"`Tutorial de Internacionalização GWT <https://www.gwtproject.org/doc/latest/"
+"tutorial/i18n.html>`_"
 
 #: formats/gwt.rst:36
 msgid "`GWT Properties`"
@@ -50140,6 +50165,10 @@ msgid ""
 "HTML files, where moving elements changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Por predefinição, o Weblate trata cada ocorrência de uma cadeia de carateres "
+"como uma unidade de tradução separada para fornecer contexto baseado em "
+"linhas. Isto pode ser problemático para ficheiros HTML, onde elementos que "
+"se movem mudam o contexto e podem levar a perda de tradução."
 
 #: formats/html.rst:55
 msgid ""
@@ -50147,6 +50176,9 @@ msgid ""
 "ensuring that translations remain stable even if elements are moved within "
 "the document."
 msgstr ""
+"Ativar esta opção desativa contexto baseado em linhas para as unidade "
+"mescladas, assegurando que traduções permanecem estáveis ainda que elementos "
+"sejam movidos dentro do documento."
 
 #: formats/i18next.rst:6
 msgid "i18next JSON files"
@@ -50216,7 +50248,7 @@ msgstr "https://www.i18next.com/"
 
 #: formats/i18next.rst:46
 msgid "`i18next JSON Format <https://www.i18next.com/misc/json-format>`_"
-msgstr ""
+msgstr "`Formato i18next JSON <https://www.i18next.com/misc/json-format>`_"
 
 #: formats/i18next.rst:72
 msgid "`i18next JSON file v3`"
@@ -50343,12 +50375,10 @@ msgstr ""
 "necessidades da aplicação."
 
 #: formats/java.rst:27
-#, fuzzy
-#| msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
 msgid ""
 "`Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_"
 msgstr ""
-"`Reticências na Wikipédia <https://pt.wikipedia.org/wiki/Reticências>`_"
+"`Propriedades Java na Wikipedia <https://en.wikipedia.org/wiki/.properties>`_"
 
 #: formats/java.rst:49
 msgid "`Java Properties`"
@@ -50458,6 +50488,8 @@ msgid ""
 ":ref:`file_format_params` with the pattern `json_*` can be used to configure "
 "the behavior of the JSON format."
 msgstr ""
+":ref:`file_format_params` com o padrão `json_*` podem ser usados para "
+"configurar o comportamento do formato JSON."
 
 #: formats/laravel.rst:5 snippets/addon-parameters-autogenerated.rst:142
 msgid "Laravel PHP strings"
@@ -50474,6 +50506,8 @@ msgid ""
 "The translation keys no longer include PHP structure and only contain the "
 "actual key."
 msgstr ""
+"As chaves de tradução já não incluem estrutura PHP e apenas contêm a chave "
+"propriamente dita."
 
 #: formats/laravel.rst:21
 msgid "`Localization in Laravel`_"
@@ -50523,12 +50557,14 @@ msgid ""
 "Markdown tables, where reordering rows changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Por predefinição, o Weblate trata cada ocorrência de uma cadeia de carateres "
+"como uma unidade de tradução separada para fornecer contexto baseado em "
+"linhas. Isto pode ser problemático para tabelas Markdown, onde reordenar "
+"linhas muda o contexto e pode levar a perda de tradução."
 
 #: formats/markdown.rst:72
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translating front matter values"
-msgstr "Estado da memória de tradução"
+msgstr "Traduzir valores de informações iniciais"
 
 #: formats/markdown.rst:74
 msgid ""
@@ -50555,6 +50591,9 @@ msgid ""
 "Markdown text and preserves imports, exports, JSX components, and "
 "expressions."
 msgstr ""
+"Ficheiros MDX são ficheiros Markdown com sintaxe JSX. O Weblate extrai texto "
+"Markdown traduzível e preserva importações, exportações, componentes JSX, e "
+"expressões."
 
 #: formats/mdx.rst:13
 msgid ""
@@ -50583,6 +50622,10 @@ msgid ""
 "MDX tables or repeated component content, where reordering changes the "
 "context and can lead to translation loss."
 msgstr ""
+"Por predefinição, o Weblate trata cada ocorrência de uma cadeia de carateres "
+"como uma unidade de tradução separada para fornecer contexto baseado em "
+"linhas. Isto pode ser problemático para tabelas MDX, onde reordenar mudanças "
+"altera o contexto e pode levar a perda de tradução."
 
 #: formats/mi18n.rst:4
 msgid "draggable/i18n lang files"
@@ -50617,31 +50660,32 @@ msgid ""
 "A variant of :doc:`/formats/android`. It differs in plural tag (``plural`` "
 "is used instead of ``plurals``) and escaping."
 msgstr ""
+"Uma variante de :doc:`/formats/android`. Difere da etiqueta plural "
+"(``plural`` é usado em vez de ``plurals``) e escapamento."
 
 #: formats/moko-resources.rst:16
 msgid ""
 "`Mobile Kotlin resources <https://github.com/icerockdev/moko-resources>`_"
 msgstr ""
+"`Recursos Mobile Kotlin <https://github.com/icerockdev/moko-resources>`_"
 
 #: formats/moko-resources.rst:34
 msgid "`Mobile Kotlin Resource`"
 msgstr "`Recursos Kotlin para dispositivos móveis`"
 
 #: formats/nextcloud-json.rst:2
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Nextcloud Apps JSON files"
-msgstr "Ficheiro de gotext JSON"
+msgstr "Ficheiros JSON das Aplicações Nextcloud"
 
 #: formats/nextcloud-json.rst:8
 msgid "JSON-based format used in Nextcloud Apps that use JavaScript and HTML."
 msgstr ""
+"Formato baseado em JSON usado nas Aplicações Nextcloud que usam JavaScript e "
+"HTML."
 
 #: formats/nextcloud-json.rst:37
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "`Nextcloud JSON file`"
-msgstr "Ficheiro de gotext JSON"
+msgstr "`Ficheiro JSON Nextcloud`"
 
 #: formats/odf.rst:4
 msgid "OpenDocument Format"
@@ -50717,13 +50761,15 @@ msgstr ":ref:`component` típica do Weblate ao usar como monolíngue"
 
 #: formats/resjson.rst:2
 msgid "JavaScript Resource Files (RESJSON)"
-msgstr ""
+msgstr "Ficheiros de Recurso JavaScript (RESJSON)"
 
 #: formats/resjson.rst:8
 msgid ""
 "JSON-based format used in Windows Store apps that use JavaScript and HTML. "
 "Sometimes it is also referred as Windows JSON."
 msgstr ""
+"Formato baseado em JSON usado para as aplicações Windows Store que usam "
+"JavaScript e HTML. Ás vezes é usado como JSON Windows."
 
 #: formats/resjson.rst:37
 msgid "`RESJSON file`"
@@ -50859,10 +50905,8 @@ msgid "TBX is an XML format for the exchange of terminology data."
 msgstr "TBX é um formato XML para a troca de dados de terminologia."
 
 #: formats/tbx.rst:14
-#, fuzzy
-#| msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
 msgid "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
-msgstr "`Kashida na Wikipédia <https://en.wikipedia.org/wiki/Kashida>`_"
+msgstr "`TBX na Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
 
 #: formats/tbx.rst:21
 msgid "Explanations"
@@ -50899,7 +50943,7 @@ msgstr ""
 
 #: formats/tbx.rst:30
 msgid "Glossary flags and read-only metadata"
-msgstr ""
+msgstr "Marcadores de glossário e metadados apenas de leitura"
 
 #: formats/tbx.rst:32
 msgid ""
@@ -50907,18 +50951,22 @@ msgid ""
 "status in ``<termNote type=\"administrativeStatus\">`` as :ref:`glossary-"
 "forbidden`."
 msgstr ""
+"O Weblate importa termos com estatuto administrativo ``forbidden`` ou "
+"``obsolete`` em ``<termNote type=\"administrativeStatus\">`` enquanto "
+":ref:`glossary-forbidden`."
 
 #: formats/tbx.rst:36
 msgid ""
 "Terms with ``<descrip type=\"Translation needed\">No</descrip>`` are "
 "imported as read-only strings, see :ref:`glossary-untranslatable`."
 msgstr ""
+"Termos com ``<descrip type=\"Translation needed\">No</descrip>`` são "
+"importados enquanto cadeias de carateres apenas de leituras, veja "
+":ref:`glossary-untranslatable`."
 
 #: formats/tbx.rst:40
-#, fuzzy
-#| msgid "Managing glossaries"
 msgid "Importing glossary files"
-msgstr "Gestão de glossários"
+msgstr "Importar ficheiros de glossário"
 
 #: formats/tbx.rst:42
 msgid ""
@@ -50940,6 +50988,9 @@ msgid ""
 "component source language, because the source language already exists in "
 "Weblate and the file can be detected as a duplicate language."
 msgstr ""
+"Evite nomear um ficheiro de tradução TBX com o mesmo código de idioma que o "
+"componente de idioma fonte, porque o idioma fonte já existe no Weblate e o "
+"ficheiro pode ser detetado como um idioma duplicado."
 
 #: formats/tbx.rst:78
 msgid "`TermBase eXchange file`"
@@ -50954,12 +51005,12 @@ msgid ""
 "TOML is a generic format like :doc:`/formats/yaml` or :doc:`/formats/json` "
 "and can be used to localize applications."
 msgstr ""
+"TOML é um formato genérico como :doc:`/formats/yaml` ou :doc:`/formats/json` "
+"e pode ser usado para traduzir aplicações."
 
 #: formats/toml.rst:10
-#, fuzzy
-#| msgid "Weblate supports XLIFF in several variants:"
 msgid "Weblate supports TOML in several variants:"
-msgstr "O Weblate tem suporte a XLIFF em várias variantes:"
+msgstr "O Weblate suporta TOML em várias variantes:"
 
 #: formats/toml.rst:12 formats/toml.rst:44
 msgid "`TOML file`"
@@ -50967,17 +51018,15 @@ msgstr "`Ficheiro TOML`"
 
 #: formats/toml.rst:13
 msgid "Plain TOML file without support for plurals."
-msgstr ""
+msgstr "Ficheiro TOML simples sem suporte para plurais."
 
 #: formats/toml.rst:14
-#, fuzzy
-#| msgid "go-i18n v1 JSON file"
 msgid "`go-i18n TOML file`"
-msgstr "Ficheiro JSON go-i18n v1"
+msgstr "`Ficheiro go-i18n TOML`"
 
 #: formats/toml.rst:15
 msgid "go-i18n variant with plurals support."
-msgstr ""
+msgstr "Variante go-i18n sem suporte de plurais."
 
 #: formats/txt.rst:4
 msgid "Text files"
@@ -51018,12 +51067,19 @@ msgid ""
 "paragraphs are frequently reordered, as it changes the context and can lead "
 "to translation loss."
 msgstr ""
+"Por predefinição, o Weblate trata cada parágrafo como uma unidade de "
+"tradução separada para fornecer contexto baseado em linhas. Isto pode ser "
+"problemático em ficheiros de texto onde parágrafos são frequentemente "
+"reordenados, uma vez que muda o contexto e pode levar a perda de tradução."
 
 #: formats/txt.rst:64
 msgid ""
 "This parameter is shared with **DokuWiki** and **MediaWiki** formats. "
 "Enabling this option disables line-based context for the merged units."
 msgstr ""
+"Este parâmetro é partilhado com os formatos **DokuWiki** and **MediaWiki**. "
+"Ativar esta opção desativa contexto baseado em linhas para as unidades "
+"mescladas."
 
 #: formats/webextension.rst:4
 msgid "WebExtension JSON"
@@ -51052,6 +51108,8 @@ msgid ""
 "`Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/"
 "api/i18n>`_"
 msgstr ""
+"`Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/"
+"api/i18n>`_"
 
 #: formats/webextension.rst:18
 msgid ""
@@ -51094,28 +51152,20 @@ msgid "WixLocalization file"
 msgstr "Ficheiro WixLocalization"
 
 #: formats/wxl.rst:8
-#, fuzzy
-#| msgid ""
-#| "RC files are language files used to localize translatable text, dialogs, "
-#| "menus, for Windows applications."
 msgid ""
 "WixLocalization (WXL) files are language files used to localize translatable "
 "text, dialogs, menus, for WiX Toolset."
 msgstr ""
-"Ficheiros RC são ficheiros de idioma usados para localizar texto traduzível, "
-"caixas de diálogo e menus para aplicações do Windows."
+"Ficheiros WixLocalization (WXL) são ficheiros de idioma usados para "
+"localizar texto traduzível, caixas de diálogo e menus, para o Wix Toolset."
 
 #: formats/wxl.rst:18
-#, fuzzy
-#| msgid "Example XLIFF file:"
 msgid "Example WXL file:"
-msgstr "Exemplo de ficheiro XLIFF:"
+msgstr "Exemplo de ficheiro WXL:"
 
 #: formats/wxl.rst:37
-#, fuzzy
-#| msgid "Localization file formats"
 msgid "`WixLocalization file`"
-msgstr "Formatos de ficheiro de localização"
+msgstr "`Ficheiro WixLocalization`"
 
 #: formats/xliff.rst:4
 msgid "XLIFF 1.1 and 1.2"
@@ -51183,10 +51233,8 @@ msgstr ""
 "oferecer suporte a plurais."
 
 #: formats/xliff.rst:26
-#, fuzzy
-#| msgid "`XLIFF 1.2 with gettext extensions`"
 msgid "`XLIFF 1.2 with Apple extensions`"
-msgstr "`XLIFF 1.2 com complementos gettext`"
+msgstr "`XLIFF 1.2 com extensões Apple`"
 
 #: formats/xliff.rst:27
 msgid "XLIFF enriched by Apple to support plurals."
@@ -51201,10 +51249,8 @@ msgid "`XLIFF 1.2 Representation Guide for Gettext PO`_"
 msgstr "`Guia de representação XLIFF 1.2 para Gettext PO`_"
 
 #: formats/xliff.rst:34 formats/xliff2.rst:28
-#, fuzzy
-#| msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgid "`XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_"
-msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
+msgstr "`XLIFF na Wikipédia <https://en.wikipedia.org/wiki/XLIFF>`_"
 
 #: formats/xliff.rst:42 workflows.rst:59
 msgid "Translation states"
@@ -51395,68 +51441,52 @@ msgid ""
 ":doc:`/formats/xliff` is a different format and is not compatible with XLIFF "
 "2.0."
 msgstr ""
+":doc:`/formats/xliff` é um formato diferente e não é compatível com XLIFF "
+"2.0."
 
 #: formats/xliff2.rst:15
-#, fuzzy
-#| msgid ""
-#| "`XML Localization Interchange File Format (XLIFF)` is usually used as "
-#| "bilingual, but Weblate supports it as monolingual as well."
 msgid ""
 "`XML Localization Interchange File Format (XLIFF) 2.0` is currently only "
 "supported as bilingual."
 msgstr ""
-"`XML Localization Interchange File Format (XLIFF)` é normalmente utilizado "
-"como bilíngue, mas Weblate também o suporta como monolíngue."
+"`XML Localization Interchange File Format (XLIFF) 2.0` é atualmente apenas "
+"suportado como bilingue."
 
 #: formats/xliff2.rst:20
-#, fuzzy
-#| msgid "XLIFF 1.2 translation file"
 msgid "`XLIFF 2.0 translation file`"
-msgstr "Ficheiro 1.2 de tradução XLIFF"
+msgstr "`Ficheiro de tradução XLIFF 2.0`"
 
 #: formats/xliff2.rst:22
-#, fuzzy
-#| msgid "`XLIFF 1.2 with placeables support`"
 msgid "`XLIFF 2.0 with placeables support`"
-msgstr "`XLIFF 1.2 com apoio a objetos púnheis`"
+msgstr "`XLIFF 1.2 com suporte de elementos posicionáveis`"
 
 #: formats/xliff2.rst:27
 msgid "`XML Localization Interchange File Format (XLIFF) 2.0`_ specification"
 msgstr "Especificação `XML Localization Interchange File Format (XLIFF) 2.0`_"
 
 #: formats/xliff2.rst:55
-#, fuzzy
-#| msgid "`XLIFF Translation File`"
 msgid "`XLIFF 2.0 Translation File`"
-msgstr "`Ficheiro de tradução XLIFF`"
+msgstr "`Ficheiro de Tradução XLIFF 2.0`"
 
 #: formats/xwiki.rst:4
-#, fuzzy
-#| msgid "File formats"
 msgid "XWiki formats"
-msgstr "Formatos de ficheiro"
+msgstr "Formatos XWiki"
 
 #: formats/xwiki.rst:6
-#, fuzzy
-#| msgid "Added support for Joomla translation format."
 msgid "Weblate supports several translation formats used by XWiki."
-msgstr "Adicionado suporte para o formato de tradução do Joomla."
+msgstr "O Weblate suporta vários formatos de tradução usados pelo XWiki."
 
 #: formats/xwiki.rst:11
-#, fuzzy
-#| msgid "Java properties"
 msgid "XWiki Java properties"
-msgstr "Propriedades Java"
+msgstr "Propriedades Java XWiki"
 
 #: formats/xwiki.rst:18
-#, fuzzy
-#| msgid "`GWT Properties`"
 msgid "XWiki page properties"
-msgstr "`Propriedades GWT`"
+msgstr "Propriedades de página XWiki"
 
 #: formats/xwiki.rst:25
 msgid "XWiki full page"
-msgstr ""
+msgstr "Página inteira XWiki"
 
 #: formats/yaml.rst:4
 msgid "YAML files"
@@ -51487,6 +51517,8 @@ msgid ""
 ":ref:`file_format_params` with the pattern `yaml_*` can be used to configure "
 "the behavior of the YAML format."
 msgstr ""
+":ref:`file_format_params` com o padrão `yaml_*` podem ser usados para "
+"configurar o comportamento do formato YAML."
 
 #: index.rst:52
 msgid "User docs"
@@ -51641,6 +51673,8 @@ msgid ""
 "The :mod:`wlc` module exposes the Weblate API client, API objects returned "
 "by the client, and exceptions raised for common API failures."
 msgstr ""
+"O módulo :mod:`wlc` expõe a API Weblate do cliente, objetos API devolvidos "
+"pelo cliente, e exceções lançadas para falhas comuns da API."
 
 #: python.rst:32
 msgid ":class:`Weblate`"
@@ -51648,27 +51682,28 @@ msgstr ":class:`Weblate`"
 
 #: python.rst:34
 msgid "The :class:`Weblate` class is the main API entry point."
-msgstr ""
+msgstr "A classe :class:`Weblate` é o ponto de entrada API."
 
 #: python.rst:41
 msgid "Exceptions"
 msgstr "Exceções"
 
 #: python.rst:53
-#, fuzzy
-#| msgid "Projects"
 msgid "API objects"
-msgstr "Projetos"
+msgstr "Objetos API"
 
 #: python.rst:55
 msgid ""
 "API objects behave as mappings and support deferred loading. Attribute "
 "access loads missing data from the API when needed."
 msgstr ""
+"Objetos API comportam-se como mapeamentos e suportam carregamento diferido. "
+"Acesso aos atributos carrega os dados em falta a partir da API sempre que "
+"necessário."
 
 #: security/data-residency.rst:2
 msgid "Data residency and EU cloud sovereignty"
-msgstr ""
+msgstr "Residência dos dados e soberania da nuvem da UE"
 
 #: security/data-residency.rst:4
 msgid ""
@@ -51678,6 +51713,11 @@ msgid ""
 "deployments, where the deploying organization controls hosting, backups, "
 "integrations, legal basis, and retention."
 msgstr ""
+"Esta página descreve as propriedades de residência de dados e soberania da "
+"nuvem dos serviços Weblate operados por Weblate s.r.o., incluindo **Hosted "
+"Weblate** e **Weblate Cloud**. Não descreve implementações arbitrárias auto "
+"alojadas do Weblate, onde a organização de implementação controla "
+"alojamento, cópias de segurança, integrações, bases legais, e retenção."
 
 #: security/data-residency.rst:10
 msgid ""
@@ -51686,20 +51726,27 @@ msgid ""
 "established in the European Union, and the primary hosting infrastructure is "
 "provided by Hetzner Online GmbH and Hetzner Finland Oy."
 msgstr ""
+"Os serviços operados pelo Weblate são desenhados para residência de dados "
+"Europeia e controlo de consumidor. O operador de serviço Weblate s.r.o., uma "
+"empresa estabelecida na União Europeia, e a infraestrutura de alojamento "
+"primária é fornecida por Hetzner Online GmbH e Hetzner Finland Oy."
 
 #: security/data-residency.rst:16
 msgid "Where data lives"
-msgstr ""
+msgstr "Onde os dados residem"
 
 #: security/data-residency.rst:18
 msgid ""
 "Customer data, including translations, user information, operational data, "
 "and backups, is stored and processed within the European Union."
 msgstr ""
+"Dados de cliente, incluindo traduções, informação de utilizador, dados "
+"operacionais, e cópias de segurança, são processados dentro da União "
+"Europeia."
 
 #: security/data-residency.rst:20
 msgid "Primary service locations are in Germany."
-msgstr ""
+msgstr "As localizações de serviço primário são na Alemanha."
 
 #: security/data-residency.rst:21
 msgid ""
@@ -51708,6 +51755,11 @@ msgid ""
 "hosting, authentication, e-mail, analytics, error reporting, or machine-"
 "translation integrations outside the EU."
 msgstr ""
+"Nenhuns dados operacionais saem da UE a não ser que seja explicitamente "
+"pedido ou configurado pelo cliente, por exemplo ao ativar cópias de "
+"segurança externas, alojamento de repositório, autenticação, e-mail, "
+"analíticas, reportagem de erro, ou integrações de tradução automática fora "
+"da UE."
 
 #: security/data-residency.rst:27
 msgid "Infrastructure provider"
@@ -51721,6 +51773,11 @@ msgid ""
 "operation, and customer support for their data center parks in Nuremberg, "
 "Falkenstein, and Helsinki."
 msgstr ""
+"Serviços operados pelo Weblate utilizam infraestrutura Hetzner. Hetzner "
+"Online GmbH e Hetzner Finland Oy são certificados de acordo com DIN ISO/IEC "
+"27001:2022 para um sistema de gestão da segurança da informação que abranja "
+"a infraestrutura, operação, e suporte de cliente para o centro de dados dos "
+"mesmos em Nuremberg, Falkenstein, e Helsinki."
 
 #: security/data-residency.rst:35
 msgid ""
@@ -51728,35 +51785,44 @@ msgid ""
 "Its German data centers use hydropower, and its Finnish data center park has "
 "used hydropower since opening."
 msgstr ""
+"O Hetzner afirma que os seus centros de dados utilizam eletricidade a partir "
+"de fontes renováveis. Os seus centros de dados alemães utilizam energia "
+"hidroelétrica, e o seu parque de centro de dados finlandês utilizou energia "
+"hidroelétrica deste a sua abertura."
 
 #: security/data-residency.rst:41
 msgid "`Hetzner ISMS and data protection`_"
-msgstr ""
+msgstr "`Hetzner ISMS e proteção de dados`_"
 
 #: security/data-residency.rst:42
 msgid "`Hetzner sustainability`_"
-msgstr ""
+msgstr "`Sustentabilidade da Hetzner`_"
 
 #: security/data-residency.rst:45
 msgid "EU cloud sovereignty"
-msgstr ""
+msgstr "Soberania de nuvem da UE"
 
 #: security/data-residency.rst:47
 msgid ""
 "Weblate-operated services are intended to support common European cloud "
 "sovereignty requirements:"
 msgstr ""
+"Serviços operados pelo Weblate têm o fim de suportar requisitos de soberania "
+"da nuvem comuns Europeus:"
 
 #: security/data-residency.rst:50
 msgid ""
 "**Data sovereignty:** Weblate stores and processes customer data in the EU."
 msgstr ""
+"**Soberania de dados:** O Weblate armazena e processa dados do cliente na UE."
 
 #: security/data-residency.rst:51
 msgid ""
 "**Operational sovereignty:** Weblate s.r.o. operates the application service "
 "from within the EU using EU infrastructure providers."
 msgstr ""
+"**Soberania operacional:** O Weblate s.r.o. opera o serviço da aplicação a "
+"partir da UE usando fornecedores de infraestrutura da UE."
 
 #: security/data-residency.rst:53
 msgid ""
@@ -51764,6 +51830,10 @@ msgid ""
 "hosting infrastructure. This reduces exposure to non-EU cloud operators, but "
 "does not remove every possible cross-border legal or integration dependency."
 msgstr ""
+"**Soberania legal:** O serviço é fornecido por uma empresa da UE e utiliza "
+"infraestrutura de alojamento UE. Isto reduz exposição a operadores de nuvem "
+"não EU, mas não remove todas as possível dependências de integração entre "
+"fronteiras legais."
 
 #: security/data-residency.rst:56
 msgid ""
@@ -51771,12 +51841,18 @@ msgid ""
 "migrated, or run as a dedicated deployment when an organization needs "
 "stronger isolation or deployment-specific controls."
 msgstr ""
+"**Soberania técnica:** O Weblate é software livre e pode ser auto alojado, "
+"migrado, ou executar uma implementação dedicada quando uma organização "
+"precisa de isolação mais forte ou controlos de implementação específicos."
 
 #: security/data-residency.rst:59
 msgid ""
 "**Customer control:** Projects, translations, and user data can be exported "
 "or deleted. External integrations are optional and configurable."
 msgstr ""
+"**Controlo de cliente:** Projetos, traduções, e dados de utilizador podem "
+"ser exportados ou eliminados. Integrações externas são opcionais e "
+"configuráveis."
 
 #: security/data-residency.rst:62
 msgid ""
@@ -51784,10 +51860,13 @@ msgid ""
 "are documented in :doc:`incident-response-plan` and :doc:`disaster-recovery-"
 "plan`."
 msgstr ""
+"Os controlos operacionais à volta de incidentes de segurança e continuidade "
+"de serviço são documentadas em :doc:`incident-response-plan` e "
+":doc:`disaster-recovery-plan`."
 
 #: security/data-residency.rst:67
 msgid "Cloud Sovereignty Framework"
-msgstr ""
+msgstr "Estrutura de Soberania de Nuvem"
 
 #: security/data-residency.rst:69
 msgid ""
@@ -51812,44 +51891,50 @@ msgid ""
 "would depend on a formal assessment route and on provider-level evidence "
 "from subprocessors such as Hetzner."
 msgstr ""
+"O Weblate atualmente não afirma certificação SEAL-4 formal, certificado de "
+"terceiros, ou aprovação de estrutura do setor público equivalente. Tal "
+"afirmação dependeria de um processo de avaliação formal e de dados "
+"fornecidos pelos subcontratantes, como a Hetzner."
 
 #: security/data-residency.rst:80
 msgid "For procurement reviews, the current evidence points are:"
-msgstr ""
+msgstr "Para análises de revisões, os pontos de evidência atuais são:"
 
 #: security/data-residency.rst:82
 msgid "Weblate s.r.o. is the EU service operator."
-msgstr ""
+msgstr "O Weblate s.r.o. é o operador de serviço UE."
 
 #: security/data-residency.rst:83
 msgid ""
 "Customer data for Weblate-operated services is hosted and processed in the "
 "EU."
 msgstr ""
+"Dados de clientes para serviços operados pelo Weblate são alojados e "
+"processados na UE."
 
 #: security/data-residency.rst:84
 msgid "The application is libre software and can be independently deployed."
-msgstr ""
+msgstr "A aplicação é software livre e pode ser independentemente implementado."
 
 #: security/data-residency.rst:85
-#, fuzzy
-#| msgid "Translate the project and upload translations made offline."
 msgid "Customer projects and translations can be exported."
-msgstr "Traduzir o projeto e enviar as traduções efetuas ''off-line''."
+msgstr "Projetos e traduções de cliente podem ser exportados."
 
 #: security/data-residency.rst:86
 msgid "External integrations are optional and configurable."
-msgstr ""
+msgstr "Integrações externas são opcionais e configuráveis."
 
 #: security/data-residency.rst:87
 msgid ""
 "Hetzner publishes ISO/IEC 27001:2022 certification for the relevant data "
 "center parks."
 msgstr ""
+"O Hetzner publica certificação ISO/IEC 27001:2022 para os parques de centro "
+"de dados relevantes."
 
 #: security/data-residency.rst:91
 msgid "Cloud and AI Development Act"
-msgstr ""
+msgstr "Ato da Nuvem e Desenvolvimento IA"
 
 #: security/data-residency.rst:93
 msgid ""
@@ -51870,30 +51955,40 @@ msgid ""
 "The current Weblate service design supports likely cloud and AI sovereignty "
 "questions in these areas:"
 msgstr ""
+"O desenho do serviço Weblate atual suporta aborda questões prováveis "
+"relacionadas com a soberania na nuvem e na IA nestas áreas:"
 
 #: security/data-residency.rst:101
 msgid ""
 "**European cloud infrastructure:** Weblate-operated services use EU hosting "
 "for customer data and operational data."
 msgstr ""
+"**Infraestrutura da nuvem Europeia:** Os serviços operados pelo Weblate "
+"utilizam alojamento da UE para dados do cliente e dados operacionais."
 
 #: security/data-residency.rst:103
 msgid ""
 "**Open-source stack:** Weblate is libre software, reducing dependency on "
 "proprietary cloud application code."
 msgstr ""
+"**Conjunto de código aberto:** O Weblate é software livre, que reduz "
+"dependência em código de aplicação da nuvem proprietário."
 
 #: security/data-residency.rst:105
 msgid ""
 "**Portability:** Translation files, project data, and user data can be "
 "exported."
 msgstr ""
+"**Portabilidade:** Ficheiros de tradução, dados de projeto, e dados de "
+"utilizador podem ser exportados."
 
 #: security/data-residency.rst:107
 msgid ""
 "**No mandatory external AI provider:** Core Weblate workflows do not require "
 "external AI or machine-translation services."
 msgstr ""
+"**Nenhum fornecedor de IA externo obrigatório:** Fluxos de trabalho "
+"principais do Weblate não exigem serviços de tradução automática IA externos."
 
 #: security/data-residency.rst:109
 msgid ""
@@ -51916,6 +52011,9 @@ msgid ""
 "jurisdiction can disable external machine-translation services or use a self-"
 "hosted provider such as LibreTranslate."
 msgstr ""
+"Organizações que exigem processamento IA para permanecer dentro de uma "
+"jurisdição escolhida podem desativar serviços de tradução automática ou "
+"utilizar um fornecedor auto alojado tais como LibreTranslate."
 
 #: security/data-residency.rst:126
 msgid "Customer control"
@@ -51923,19 +52021,23 @@ msgstr "Controlo de cliente"
 
 #: security/data-residency.rst:128
 msgid "Customers retain control over their Weblate data:"
-msgstr ""
+msgstr "Clientes mantêm controlo sobre os seus dados no Weblate:"
 
 #: security/data-residency.rst:130
 msgid ""
 "Project translation files can be downloaded from Weblate or synchronized "
 "back to the customer's repository."
 msgstr ""
+"Ficheiros de tradução de projeto podem ser transferidos a partir do Weblate "
+"ou sincronizados de volta para o repositório do consumidor."
 
 #: security/data-residency.rst:132
 msgid ""
 "User data can be exported and account removal can be requested as described "
 "in :doc:`privacy-compliance`."
 msgstr ""
+"Dados de utilizador podem ser exportados e eliminação de conta pode ser "
+"pedida conforme descrito em :doc:`privacy-compliance`."
 
 #: security/data-residency.rst:134
 msgid ""
@@ -51944,18 +52046,22 @@ msgid ""
 "and should be configured according to the customer's transfer and processor "
 "requirements."
 msgstr ""
+"Integrações externas, incluindo alojameto de código, autenticação, e-mail, "
+"cópias de segurança, análises, comunicação de erros, e tradução automática, "
+"são opcionais e devem ser configurados de acordo com os requisitos de "
+"transferência e processador do cliente."
 
 #: security/data-residency.rst:138
 msgid ""
 "Dedicated Weblate instances are available for organizations needing stronger "
 "isolation or customized operational controls."
 msgstr ""
+"As instâncias Weblate dedicadas estão disponíveis para organizações que "
+"precisam de isolação mais forte ou controlos operacionais personalizados."
 
 #: security/data-residency.rst:142
-#, fuzzy
-#| msgid "Legal documents"
 msgid "Service legal documents"
-msgstr "Documentos legais"
+msgstr "Serviço de documentos legais"
 
 #: security/dependencies.rst:2
 msgid "Dependencies"
@@ -51968,6 +52074,10 @@ msgid ""
 "release artifacts, SBOMs, signatures, and provenance attestations, "
 "see :doc:`release-artifacts`."
 msgstr ""
+"Esta página descreve inventário de dependências, monitorização de "
+"vulnerabilidade, triagem de dependências, e análise de vulnerabilidades de "
+"contentor. Para artefactos de lançamentos publicados, SBOMs, assinaturas, e "
+"certificados de proveniências, veja :doc:`release-artifacts`."
 
 #: security/dependencies.rst:10
 msgid "Dependency inventory"
@@ -51977,35 +52087,48 @@ msgstr "Inventário de dependências"
 msgid ""
 "Weblate dependency information is maintained in several repository files:"
 msgstr ""
+"Informação de dependência do Weblate é mantida em vários ficheiros de "
+"repositório:"
 
 #: security/dependencies.rst:14
 msgid ""
 "Python dependencies are declared in :file:`pyproject.toml` and resolved "
 "in :file:`uv.lock`."
 msgstr ""
+"Dependências de Python são declaradas em :file:`pyproject.toml` e resolvidos "
+"em :file:`uv.lock`."
 
 #: security/dependencies.rst:16
 msgid ""
 "Frontend dependencies are declared in :file:`client/package.json` and "
 "resolved in :file:`client/yarn.lock`."
 msgstr ""
+"Dependências de frontend são declaradas em :file:`client/package.json` e "
+"resolvidas em :file:`client/yarn.lock`."
 
 #: security/dependencies.rst:18
 msgid ""
 "Vendored frontend libraries and generated license data are documented "
 "in :doc:`/contributing/submodules`."
 msgstr ""
+"Bibliotecas de frontend fornecidas e dados de licença gerados estão "
+"documentados em :doc:`/contributing/submodules`."
 
 #: security/dependencies.rst:20
 msgid ""
 "Release SBOMs are published for Weblate releases as described in :ref:`sbom`."
 msgstr ""
+"SBOMs lançados são publicados para lançamentos Weblate conforme descrito em "
+":ref:`sbom`."
 
 #: security/dependencies.rst:22
 msgid ""
 "Docker image and Helm chart dependencies are maintained in the Weblate-owned "
 "Docker and Helm repositories listed in :ref:`release-artifact-inventory`."
 msgstr ""
+"Imagem do Docker e dependências de gráficos do Helm agora são mantidas nos "
+"repositórios do Weblate Docker e Helm listados em :ref:`release-artifact-"
+"inventory`."
 
 #: security/dependencies.rst:26
 msgid ""
@@ -52013,6 +52136,10 @@ msgid ""
 "runtime requirements. The lock files describe the tested dependency set used "
 "by CI and release automation."
 msgstr ""
+"Os intervalos de dependências em :file:`pyproject.toml` descrevem os "
+"requisitos de tempo de execução suportados. Os ficheiros de bloqueio "
+"descrevem o conjunto de dependências testado utilizado pelo CI e a "
+"automatização de lançamento."
 
 #: security/dependencies.rst:31
 msgid "Tracking dependencies for vulnerabilities"
@@ -52052,6 +52179,10 @@ msgid ""
 "``stable``; security update coverage for Weblate releases is described "
 "in :ref:`security-updates`."
 msgstr ""
+"Este repositório adiciona ``main`` e ``stable`` enquanto ramos base "
+"Renovate. Atualizações de dependências gerais e manutenção de ficheiros lock "
+"estão desativados no ``stable``; cobertura de atualizações de segurança para "
+"lançamentos do Weblate estão descritas em :ref:`security-updates`."
 
 #: security/dependencies.rst:49
 msgid ""
@@ -52059,12 +52190,14 @@ msgid ""
 "before they are merged. FOSSA runs on pushes to ``main`` and records scan "
 "and policy-test results in the FOSSA service."
 msgstr ""
+"A revisão de dependências GitHub é executado em pull requests para mostrar "
+"mudanças de dependências antes de serem unidos. FOSSA é executado em pushes "
+"para o ``main`` e grava resultados de análise e teste de políticas no "
+"serviço FOSSA."
 
 #: security/dependencies.rst:54
-#, fuzzy
-#| msgid "Tracking dependencies for vulnerabilities"
 msgid "Dependency vulnerability triage"
-msgstr "Rastreamento de dependências para vulnerabilidades"
+msgstr "Rastreamento de triagens de vulnerabilidades"
 
 #: security/dependencies.rst:56
 msgid ""
@@ -52073,30 +52206,42 @@ msgid ""
 "report, maintainers evaluate whether it affects Weblate. The triage checks "
 "include:"
 msgstr ""
+"Quando uma vulnerabilidade de dependência é reportado pelo Renovate, revisão "
+"de dependência GitHub, FOSSA, uma revisão de lançamento SBOM, uma análise de "
+"contentor, ou um relatório de vulnerabilidade, colaboradores avaliam se "
+"afeta ou não o Weblate. As verificações de triagem incluem:"
 
 #: security/dependencies.rst:61
 msgid ""
 "whether the affected dependency and version are used by Weblate, a published "
 "release artifact, or a maintained deployment artifact;"
 msgstr ""
+"se a dependência afetada e versão são usadas pelo Weblate, um artefacto de "
+"lançamento publicado, ou um artefacto de implementação mantido;"
 
 #: security/dependencies.rst:63
 msgid ""
 "whether the vulnerable code path is reachable through supported Weblate "
 "functionality or supported deployment modes;"
 msgstr ""
+"se o caminho do código da vulnerabilidade é alcançável através de uma "
+"funcionalidade Weblate suportada ou modos de implementação suportados;"
 
 #: security/dependencies.rst:65
 msgid ""
 "whether the issue is in Weblate's use of the dependency or should be "
 "reported to the upstream project;"
 msgstr ""
+"se o problema na utilização da dependência no Weblate deve ser reportado "
+"para o projeto na fonte;"
 
 #: security/dependencies.rst:67
 msgid ""
 "whether a dependency update, configuration change, mitigation, advisory, or "
 "Weblate security update is needed."
 msgstr ""
+"se uma atualização de dependências, alteração de configuração, mitigação, "
+"aconselhamento, ou atualização de segurança do Weblate é necessária."
 
 #: security/dependencies.rst:72
 msgid ""
@@ -52108,10 +52253,8 @@ msgstr ""
 "correção de bugs do Weblate."
 
 #: security/dependencies.rst:76
-#, fuzzy
-#| msgid "Dependency management"
 msgid "Dependency and lockfile maintenance"
-msgstr "Gestão de dependências"
+msgstr "Dependência e manutenção de ficheiros de bloqueio"
 
 #: security/dependencies.rst:78
 msgid ""
@@ -52119,6 +52262,9 @@ msgid ""
 "frontend dependency lock file and vendored frontend files are maintained by "
 "the ``yarn update`` workflow."
 msgstr ""
+"O ficheiro de bloqueio do Python é mantido pelo fluxo de trabalho ``uv lock "
+"update``. O ficheiro de bloqueio de dependências do frontend e ficheiros de "
+"frontend fornecidos são mantidos pelo fluxo de trabalho ``yarn update``."
 
 #: security/dependencies.rst:82
 msgid ""
@@ -52126,23 +52272,24 @@ msgid ""
 "patch`` workflow. That workflow applies only validated patch artifacts and "
 "limits the paths that each maintenance workflow is allowed to update."
 msgstr ""
+"Alterações de manutenção geradas são passadas pelo fluxo de trabalho "
+"``Aplicar patch de manutenção``. O fluxo de trabalho aplica-se apenas a "
+"artefactos de patches validados e limita os camihos que cada fluxo de "
+"trabalho de manutenção tem permissão para atualizar."
 
 #: security/dependencies.rst:87
 msgid "Docker container security"
 msgstr "Segurança de contentor Docker"
 
 #: security/dependencies.rst:89
-#, fuzzy
-#| msgid ""
-#| "This allows us to detect vulnerabilities early and release improvements "
-#| "quickly."
 msgid ""
 "The Weblate and Weblate Client Docker containers are scanned for security "
 "vulnerabilities in CI. This allows us to detect vulnerabilities early and "
 "release improvements quickly."
 msgstr ""
-"Isso nos permite detetar vulnerabilidades antecipadamente e lançar melhorias "
-"rapidamente."
+"Os contentores do Weblate e Weblate Client Docker são analisados para "
+"vulnerabilidade de segurança no CI. Isso nos permite detetar "
+"vulnerabilidades antecipadamente e lançar melhorias rapidamente."
 
 #: security/dependencies.rst:93
 msgid ""
@@ -52161,34 +52308,44 @@ msgstr ""
 
 #: security/dependencies.rst:100
 msgid "Known external policy details"
-msgstr ""
+msgstr "Detalhes de política externas conhecidas"
 
 #: security/dependencies.rst:102
 msgid ""
 "Some dependency and vulnerability-management details are maintained outside "
 "this documentation:"
 msgstr ""
+"Alguns detalhes de dependência e gestão de vulnerabilidades são mantidos "
+"fora desta documentação:"
 
 #: security/dependencies.rst:105
 msgid ""
 "complete Renovate behavior is defined in the shared `WeblateOrg/meta`_ "
 "preset and repository platform settings;"
 msgstr ""
+"o comportamento Renovate completo é definido na predefinição `WeblateOrg/"
+"meta`_ partilhado e configurações de plataforma de repositório;"
 
 #: security/dependencies.rst:107
 msgid ""
 "GitHub dependency graph, Dependabot alert, and branch-protection state are "
 "GitHub platform configuration;"
 msgstr ""
+"Gráfico de dependência GitHub, alerta Dependabot, e proteção de estado de "
+"ramo são configuração da plataforma GitHub;"
 
 #: security/dependencies.rst:109
 msgid "FOSSA result history and policy thresholds are stored in FOSSA;"
 msgstr ""
+"Histórico de resultado FOSSA e limites de política estão armazenados em "
+"FOSSA;"
 
 #: security/dependencies.rst:110
 msgid ""
 "scanner output is stored in GitHub code scanning and workflow artifacts."
 msgstr ""
+"análise de resultado é armazenada nos artefactos de fluxo de trabalho de "
+"análise de código."
 
 #: security/dependencies.rst:115
 msgid "Renovate_"
@@ -52196,7 +52353,7 @@ msgstr "Renovar_"
 
 #: security/dependencies.rst:116
 msgid "`GitHub dependency review`_"
-msgstr ""
+msgstr "`Revisão de dependências GitHub`_"
 
 #: security/dependencies.rst:118
 msgid "Anchore_"
@@ -52207,10 +52364,8 @@ msgid "Trivy_"
 msgstr "Trivy_"
 
 #: security/disaster-recovery-plan.rst:2
-#, fuzzy
-#| msgid "Disable discovery"
 msgid "Disaster recovery plan"
-msgstr "Desativar descoberta"
+msgstr "Plano de recuperação de desastre"
 
 #: security/disaster-recovery-plan.rst:5 security/incident-response-plan.rst:5
 msgid "Scope and objectives"
@@ -52221,12 +52376,18 @@ msgid ""
 "This plan addresses recovery from catastrophic events impacting Weblate "
 "service availability, data integrity, or operational continuity."
 msgstr ""
+"Este plano aborda recuperação de eventos catastróficos que impactam a "
+"disponibilidade de serviço Weblate, integração de dados, ou continuidade "
+"operacional."
 
 #: security/disaster-recovery-plan.rst:11
 msgid ""
 "The plan is specifically designed for deployments of Weblate by Weblate "
 "s.r.o., but it can be applied to other deployments similarly."
 msgstr ""
+"O plano está especificamente desenhado para implementação do Weblate pelo "
+"Weblate s.r.o., mas pode ser aplicado a outras implementações de forma "
+"semelhante."
 
 #: security/disaster-recovery-plan.rst:14
 msgid "Definitions"
@@ -52238,18 +52399,26 @@ msgid ""
 "service, data, or system functionality. Examples include hardware failure, "
 "data corruption, infrastructure outage, or malicious attack."
 msgstr ""
+"**Desastre:** Qualquer evento não planeado que causa uma perda completa ou "
+"significante de serviço, dados, ou funcionalidade de sistema. Exemplos "
+"incluem falhas de hardware, corrupção de dados, falhas na infraestrutura, ou "
+"ataques maliciosos."
 
 #: security/disaster-recovery-plan.rst:17
 msgid ""
 "**Recovery Point Objective (RPO):** Maximum acceptable data loss interval: "
 "**24 hours**."
 msgstr ""
+"**Objetivo de Recuperação de Ponto (RPO):** Intervalo aceitável máximo para "
+"perda de dados: **24 horas**."
 
 #: security/disaster-recovery-plan.rst:18
 msgid ""
 "**Recovery Time Objective (RTO):** Maximum acceptable time to restore full "
 "service: **8 hours**."
 msgstr ""
+"**Tempo de Recuperação Objetivo (RTO):** Tempo máximo aceitável para "
+"restaurar serviço máximo: **8 horas**."
 
 #: security/disaster-recovery-plan.rst:21
 msgid "Critical components"
@@ -52260,18 +52429,24 @@ msgid ""
 "**Application Layer:** Weblate Python/Django application, background workers "
 "(Celery), and scheduled tasks."
 msgstr ""
+"**Camada de Aplicação:** Aplicação Weblate Python/Django, trabalhadores de "
+"plano de fundo (Celery), e tarefas agendadas."
 
 #: security/disaster-recovery-plan.rst:24
 msgid ""
 "**Data Layer:** PostgreSQL database, translation repositories (Git), and "
 "logs."
 msgstr ""
+"**Camada de Dados:** Base de dados PostgreSQL, repositórios de tradução (Git)"
+", e registos."
 
 #: security/disaster-recovery-plan.rst:25
 msgid ""
 "**Infrastructure:** Web server (NGINX/Apache), reverse proxy, storage "
 "volumes, SSL/TLS configuration, and optional SIEM logging system."
 msgstr ""
+"**Infraestrutura:** Servidor web (NGINX/Apache), proxy reverso, volumes de "
+"armazenamento, configuração SSL/TLS, e sistema de registo opcional SIEM."
 
 #: security/disaster-recovery-plan.rst:28
 msgid "Backup policy"
@@ -52285,6 +52460,12 @@ msgid ""
 "policy ensures that recent backups are available daily and keeps six months "
 "of backups."
 msgstr ""
+":ref:`automated-backup` processos garantem que todos os componente "
+"essenciais (base de dados, dados, e configuração) tem cópia de segurança "
+"feita diariamente. As cópias de segurança são armazenadas em duas "
+"localizações geograficamente diferentes. A política de retenção de cópias de "
+"segurança assegura-se que cópias de segurança estão disponíveis diariamente "
+"e mantém seis meses de cópia de segurança."
 
 #: security/disaster-recovery-plan.rst:36
 msgid "Recovery Procedures"
@@ -52292,7 +52473,7 @@ msgstr "Procedimentos de Recuperação"
 
 #: security/disaster-recovery-plan.rst:41
 msgid "Failure scenario: full host/system loss"
-msgstr ""
+msgstr "Cenário de falha: hóspede cheio/perda de sistema"
 
 #: security/disaster-recovery-plan.rst:43
 msgid "Provision new host."
@@ -52300,50 +52481,55 @@ msgstr "Provisionar novo host."
 
 #: security/disaster-recovery-plan.rst:44
 msgid "Bootstrap Weblate using provisioning software."
-msgstr ""
+msgstr "Bootstrap Weblate a usar software de aprovisionamento."
 
 #: security/disaster-recovery-plan.rst:45
 #: security/disaster-recovery-plan.rst:53
 msgid "Restore Weblate backup following :ref:`restore-borg`."
-msgstr ""
+msgstr "Restaura a cópia de segurança Weblate seguido de :ref:`restore-borg`."
 
 #: security/disaster-recovery-plan.rst:46
 msgid "Restart Weblate container."
 msgstr "Reinicar o contentor do Weblate."
 
 #: security/disaster-recovery-plan.rst:47
-#, fuzzy
-#| msgid "Improved performance of consistency checks."
 msgid "Verify functionality and perform consistency checks."
-msgstr "Aprimorado o desempenho de verificações de consistência."
+msgstr "Verifica funcionalidade e executa verificações de consistência."
 
 #: security/disaster-recovery-plan.rst:50
 msgid "Failure scenario: database corruption or data volume loss"
 msgstr ""
+"Falha de cenário: corrupção de base de dados ou perda de volume de dados"
 
 #: security/disaster-recovery-plan.rst:52
 msgid "Stop Weblate to prevent further write operations."
-msgstr ""
+msgstr "Impeça o Weblate de prevenir operações de escrita futuras."
 
 #: security/disaster-recovery-plan.rst:54
 msgid "Restart services and verify translation and user data consistency."
 msgstr ""
+"Reinicia serviços e verifica a consistência de tradução e dados de "
+"utilizador."
 
 #: security/disaster-recovery-plan.rst:57
 msgid "Failure scenario: malicious tampering or ransomware"
-msgstr ""
+msgstr "Cenário de falha: manipulação maliciosa ou ransomware"
 
 #: security/disaster-recovery-plan.rst:59
 msgid "Isolate affected host from the network."
-msgstr ""
+msgstr "Isole o anfitrião afetado da rede."
 
 #: security/disaster-recovery-plan.rst:60
 msgid "Identify last known-good backup (pre-infection)."
 msgstr ""
+"Identifique a última cópia de segurança que saiba que está em bom estado "
+"(antes da infeção)."
 
 #: security/disaster-recovery-plan.rst:61
 msgid "Follow steps from :ref:`drp-host` to deploy the system on a new host."
 msgstr ""
+"Siga os passos de :ref:`drp-host` para implementar o sistema em um novo "
+"anfitrião."
 
 #: security/disaster-recovery-plan.rst:64
 msgid "Validation and testing"
@@ -52352,18 +52538,24 @@ msgstr "Validação e testes"
 #: security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
 msgstr ""
+"**Verificação de cópia de segurança:** Teste de restauração automática de "
+"cópias de segurança do Weblate."
 
 #: security/disaster-recovery-plan.rst:67
 msgid ""
 "**Disaster Recovery Drill:** Conduct at least annually, involving full "
 "restoration to a staging environment."
 msgstr ""
+"**Exercício de Recuperação de Desastre:** Realizar, pelo menos uma vez por "
+"ano, envolvendo a restauração completa de um ambiente de teste."
 
 #: security/disaster-recovery-plan.rst:68
 msgid ""
 "**Automated Integrity Checks:** BorgBackup ensures integrity of backup "
 "archives."
 msgstr ""
+"**Verificações de Integridade Automáticas:** BorgBackup assegura integridade "
+"dos arquivos de cópia de segurança."
 
 #: security/disaster-recovery-plan.rst:71
 msgid "Post-recovery steps"
@@ -52371,29 +52563,33 @@ msgstr "Etapas de pós-recuperação"
 
 #: security/disaster-recovery-plan.rst:73
 msgid "Confirm all services are operational and accessible."
-msgstr ""
+msgstr "Confirme que todos os serviços estão operacionais e acessíveis."
 
 #: security/disaster-recovery-plan.rst:74
 msgid "Notify users and stakeholders of the recovery status."
-msgstr ""
+msgstr "Notifica utilizadores e partes interessadas do estado da recuperação."
 
 #: security/disaster-recovery-plan.rst:75
 msgid "Document timeline, root cause, and lessons learned."
-msgstr ""
+msgstr "Linha temporal do documento, causa principal, e lições aprendidas."
 
 #: security/disaster-recovery-plan.rst:76
 msgid "Apply updates or infrastructure changes to prevent recurrence."
 msgstr ""
+"Aplicar atualizações ou alterações de infraestrutura para prevenir "
+"reincidências."
 
 #: security/disaster-recovery-plan.rst:77
 msgid ""
 "Follow :ref:`vulnerability-disclosure-policy` in case vulnerability was "
 "involved."
 msgstr ""
+"Siga :ref:`vulnerability-disclosure-policy` no caso da vulnerabilidade ter "
+"sido envolvida."
 
 #: security/governance.rst:2
 msgid "Security governance and assessment status"
-msgstr ""
+msgstr "Governação da segurança e estado da avaliação"
 
 #: security/governance.rst:4
 msgid ""
@@ -52402,12 +52598,19 @@ msgid ""
 "documentation index and does not claim certification, audit completion, or "
 "regulatory compliance."
 msgstr ""
+"Esta página resume onde o Weblate publica informação sobre a governação de "
+"segurança e regista o estado atual da avaliação formal. É um índice de "
+"documentação factual e não alega ter obtido qualquer certificação, ter "
+"concluído uma auditoria ou estar em conformidade com os requisitos "
+"regulamentares."
 
 #: security/governance.rst:9
 msgid ""
 "For product identity, contact, support, release, and SBOM identity, "
 "see :doc:`product-information`."
 msgstr ""
+"Para identidade de produto, contacto, suporte, lançamento, e identidade "
+"SBOM, veja :doc:`product-information`."
 
 #: security/governance.rst:13
 msgid "Governance documentation"
@@ -52418,6 +52621,8 @@ msgid ""
 "Weblate publishes security governance information in these documentation "
 "areas:"
 msgstr ""
+"O Weblate publica informação de governação de segurança nestas áreas de "
+"documentação:"
 
 #: security/governance.rst:18
 msgid ""
@@ -52425,39 +52630,52 @@ msgid ""
 "documented in :doc:`/contributing/index`, :doc:`/contributing/code`, "
 "and :doc:`/contributing/code_of_conduct`."
 msgstr ""
+"Regras de contribuição, expectativas de revisão de código, e participação de "
+"projeto são documentadas em :doc:`/contributing/index`, :doc:`/contributing/"
+"code`, e :doc:`/contributing/code_of_conduct`."
 
 #: security/governance.rst:21
 msgid ""
 "Release lifecycle, security update coverage, and upgrade support are "
 "documented in :doc:`releases`."
 msgstr ""
+"Ciclo de vida de lançamento, cobertura de atualização de segurança, e "
+"suporte de atualização são documentados em :doc:`releases`."
 
 #: security/governance.rst:23
 msgid ""
 "Vulnerability reporting, disclosure handling, and service incident reporting "
 "are documented in :doc:`issues`."
 msgstr ""
+"Comunicação de vulnerabilidades, gestão da divulgação, e comunicação de "
+"incidentes de serviço são documentados em :doc:`issues`."
 
 #: security/governance.rst:25
 msgid ""
 "Dependency inventory, vulnerability triage, update automation, and container "
 "scanning are documented in :doc:`dependencies`."
 msgstr ""
+"Inventário de dependência, triagem de vulnerabilidades, automatização de "
+"atualizações, e análise de contentor estão documentadas em "
+":doc:`dependencies`."
 
 #: security/governance.rst:27
 msgid ""
 "Security assumptions and boundaries are documented in :doc:`threat-model`."
 msgstr ""
+"Pressupostos de segurança e limites são documentados em :doc:`threat-model`."
 
 #: security/governance.rst:28
 msgid ""
 "Release artifact inventory, SBOMs, signatures, attestations, and "
 "verification are documented in :doc:`release-artifacts`."
 msgstr ""
+"Inventário de lançamento de artefactos, SBOMs, assinaturas, certificados, e "
+"verificação são documentados em :doc:`release-artifacts`."
 
 #: security/governance.rst:32
 msgid "Formal assessment status"
-msgstr ""
+msgstr "Estado da avaliação formal"
 
 #: security/governance.rst:34
 msgid ""
@@ -52465,6 +52683,9 @@ msgid ""
 "assessment, certification, audit report, penetration-test report, or formal "
 "self-assessment for Weblate."
 msgstr ""
+"Este repositório não grava atualmente uma avaliação de segurança formal de "
+"terceiros, certificação, relatório de auditoria, relatório de testes "
+"penetrativos, ou auto avaliação formal para o Weblate."
 
 #: security/governance.rst:38
 msgid ""
@@ -52473,6 +52694,11 @@ msgid ""
 "scans are security evidence and automation signals. They are not formal "
 "assessments, certifications, or audit reports."
 msgstr ""
+"Verificações de segurança automática e ferramentas de conformidade tais como "
+"CodeQL, revisão de dependência GitHub, FOSSA, OpenSSF Scorecard, e análises "
+"de vulnerabilidades de contentor são evidência de segurança e sinais de "
+"automação. Não são avaliações formais, certificações, ou relatórios de "
+"auditoria."
 
 #: security/governance.rst:43
 msgid ""
@@ -52480,6 +52706,9 @@ msgid ""
 "the repository security metadata should be updated with the assessment "
 "reference and date."
 msgstr ""
+"Se o Weblate publica evidência de avaliação formal no futuro, esta página e "
+"os metadados de segurança do repositório devem ser atualizados com a "
+"referência e data de avaliação."
 
 #: security/incident-response-plan.rst:2
 msgid "Incident response plan for Weblate"
@@ -52490,6 +52719,8 @@ msgid ""
 "This IRP covers incidents impacting the confidentiality, integrity, or "
 "availability of Weblate-operated deployments."
 msgstr ""
+"Este IRP cobre incidentes que impactam a confidencialidade, integridade, ou "
+"disponibilidade de implementações operadas pelo Weblate."
 
 #: security/incident-response-plan.rst:12
 msgid ""
@@ -52497,6 +52728,9 @@ msgid ""
 "s.r.o. Other deployments need to adapt provider-specific and organizational "
 "steps to their own environment."
 msgstr ""
+"Este plano é especificamente desenhado para implementações operadas pelo "
+"Weblate s.r.o. Outras implementações precisam de adaptar passos específicos "
+"ao fornecedor e à organização para o seu próprio ambiente."
 
 #: security/incident-response-plan.rst:17
 msgid "Roles and responsibilities"
@@ -52507,27 +52741,35 @@ msgid ""
 "**Incident Response Lead (IRL):** Coordinates all phases of the response "
 "process."
 msgstr ""
+"**Responsável pela Resposta a Incidentes (IRL):** Coordena todas as fases do "
+"processo de resposta."
 
 #: security/incident-response-plan.rst:20
 msgid "**System Administrator:** Executes containment and recovery measures."
 msgstr ""
+"**Administrador de Sistema:** Executa medidas de contenção e recuperação."
 
 #: security/incident-response-plan.rst:21
 msgid ""
 "**Security Officer:** Evaluates security impact and regulatory consequences."
 msgstr ""
+"**Agente de Segurança:** Avalia o impacto e consequências regulamentares."
 
 #: security/incident-response-plan.rst:22
 msgid ""
 "**Data Protection Officer (DPO):** Evaluates if personal data (PII) was "
 "compromised and manages mandatory GDPR notifications."
 msgstr ""
+"**Agente de Proteção de Dados (DPO):** Avalia se dados pessoas (PII) foi "
+"comprometida e gere notificações GDPR obrigatórias."
 
 #: security/incident-response-plan.rst:23
 msgid ""
 "**Communications Lead:** Manages notifications to internal stakeholders and "
 "external parties if required."
 msgstr ""
+"**Responsável pelas comunicações:** Gere as notificações destinadas às "
+"partes interessadas internas e a entidades externas, caso seja necessário."
 
 #: security/incident-response-plan.rst:26
 msgid "Communication logistics"
@@ -52539,7 +52781,7 @@ msgstr "**Comunicação Interna:**"
 
 #: security/incident-response-plan.rst:29
 msgid "Primary channel is **Signal** for human-to-human coordination."
-msgstr ""
+msgstr "O canal primário é **Signal** para coordenação entre humanos."
 
 #: security/incident-response-plan.rst:30
 msgid "Technical alerts remain outside of Signal to avoid noise."
