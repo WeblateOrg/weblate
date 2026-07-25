@@ -9,7 +9,6 @@ from __future__ import annotations
 import json
 from datetime import timedelta
 
-import responses
 from django.core.cache import cache
 from django.utils import timezone
 from rest_framework.test import APIClient
@@ -17,6 +16,7 @@ from rest_framework.test import APIClient
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.tests import http_mock as responses
 from weblate.vcs.github import (
     GitHubAppCredentials,
     GitHubInstallation,

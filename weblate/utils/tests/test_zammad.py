@@ -6,11 +6,11 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-import responses
 from django.core.exceptions import ImproperlyConfigured
 from django.test.utils import override_settings
 
-from weblate.utils.zammad import submit_zammad_ticket
+from weblate.utils.tests import http_mock as responses
+from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 
 class ZammadTest(TestCase):
@@ -54,3 +54,18 @@ class ZammadTest(TestCase):
             submit_zammad_ticket(title="title", body="body", name="name", email="mail"),
             ("https://example.com/#ticket/zoom/123", "4123"),
         )
+
+    @override_settings(ZAMMAD_URL="https://example.com")
+    @responses.activate
+    def test_invalid_json_encoding(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://example.com/api/v1/form_config",
+            body=b"\xff",
+            content_type="application/json",
+        )
+
+        with self.assertRaisesRegex(
+            ZammadError, "Customer care is currently unavailable"
+        ):
+            submit_zammad_ticket(title="title", body="body", name="name", email="mail")

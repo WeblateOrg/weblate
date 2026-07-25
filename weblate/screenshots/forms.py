@@ -6,7 +6,7 @@ import io
 from typing import Any, ClassVar, NoReturn, cast
 from urllib.parse import unquote, urlsplit
 
-import requests
+import httpx2
 from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -35,7 +35,7 @@ class ScreenshotImageValidationMixin(BaseForm):
             allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
         ) as response:
             content = b""
-            for chunk in response.iter_content(
+            for chunk in response.iter_bytes(
                 chunk_size=settings.ALLOWED_ASSET_SIZE + 1
             ):
                 if not content:
@@ -90,7 +90,7 @@ class ScreenshotImageValidationMixin(BaseForm):
                     % error.params
                 )
             self.raise_image_url_error(error.messages[0])
-        except requests.RequestException as e:
+        except httpx2.HTTPError as e:
             raise forms.ValidationError(
                 {
                     "image_url": gettext(

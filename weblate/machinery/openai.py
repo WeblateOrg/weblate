@@ -37,23 +37,49 @@ class BaseOpenAITranslation(BaseLLMTranslation):
     def fetch_llm_translations(
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
-        messages = [
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": previous_content},
-            {"role": "assistant", "content": previous_response},
-            {"role": "user", "content": content},
-        ]
-        self.validate_runtime_url(self.get_runtime_base_url())
         model = self.get_traced_model()
         response = self.request(
             "post",
             self.get_chat_completions_url(),
-            json={
-                "model": model,
-                "messages": messages,
-            },
+            json=self.get_chat_payload(
+                model, prompt, content, previous_content, previous_response
+            ),
         )
-        payload = response.json()
+        return self.parse_chat_response(response.json())
+
+    async def afetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
+        model = await self.aget_traced_model()
+        response = await self.arequest(
+            "post",
+            self.get_chat_completions_url(),
+            json=self.get_chat_payload(
+                model, prompt, content, previous_content, previous_response
+            ),
+        )
+        return self.parse_chat_response(response.json())
+
+    @staticmethod
+    def get_chat_payload(
+        model: str,
+        prompt: str,
+        content: str,
+        previous_content: str,
+        previous_response: str,
+    ) -> dict:
+        return {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": previous_content},
+                {"role": "assistant", "content": previous_response},
+                {"role": "user", "content": content},
+            ],
+        }
+
+    @staticmethod
+    def parse_chat_response(payload) -> str | None:
         choices = payload.get("choices", []) if isinstance(payload, dict) else []
         if choices:
             first_choice = choices[0]
@@ -98,23 +124,43 @@ class OpenAITranslation(BaseOpenAITranslation):
                 # hiredis-py 3 makes list from set
                 self._models = set(models_cache)
             else:
-                self.validate_runtime_url(self.get_runtime_base_url())
                 payload = self.request("get", self.get_models_url()).json()
-                models = payload.get("data", []) if isinstance(payload, dict) else []
-                self._models = {
-                    model["id"]
-                    for model in models
-                    if isinstance(model, dict) and isinstance(model.get("id"), str)
-                }
+                self._models = self.parse_models(payload)
                 cache.set(cache_key, self._models, 3600)
 
-        if self.settings["model"] in self._models:
+        return self.select_model()
+
+    async def aget_model(self) -> str:
+        if self._models is None:
+            cache_key = self.get_cache_key("models")
+            models_cache = await cache.aget(cache_key)
+            if models_cache is not None:
+                self._models = set(models_cache)
+            else:
+                payload = (await self.arequest("get", self.get_models_url())).json()
+                self._models = self.parse_models(payload)
+                await cache.aset(cache_key, self._models, 3600)
+
+        return self.select_model()
+
+    @staticmethod
+    def parse_models(payload) -> set[str]:
+        models = payload.get("data", []) if isinstance(payload, dict) else []
+        return {
+            model["id"]
+            for model in models
+            if isinstance(model, dict) and isinstance(model.get("id"), str)
+        }
+
+    def select_model(self) -> str:
+        models = self._models if self._models is not None else set()
+        if self.settings["model"] in models:
             return self.settings["model"]
         if self.settings["model"] == "auto":
             for model, _name in self.settings_form.MODEL_CHOICES:
                 if model == "auto":
                     continue
-                if model in self._models:
+                if model in models:
                     return model
         if self.settings["model"] == "custom":
             return self.settings["custom_model"]
@@ -146,3 +192,6 @@ class AzureOpenAITranslation(BaseOpenAITranslation):
 
     def get_model(self) -> str:
         return self.settings["deployment"]
+
+    async def aget_model(self) -> str:
+        return self.get_model()

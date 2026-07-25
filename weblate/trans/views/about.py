@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import requests
+import httpx2
 from django.core.cache import cache
 from django.db.models import Sum
 from django.utils.translation import gettext, gettext_lazy
@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 
 from weblate.accounts.models import Profile
 from weblate.metrics.models import Metric
-from weblate.utils.requests import fetch_url
+from weblate.utils.requests import JSON_RESPONSE_ERRORS, fetch_url
 from weblate.utils.requirements import get_versions_list
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
@@ -115,7 +115,7 @@ class DonateView(AboutView):
             try:
                 repo = self.fetch_url(REPO_URL)
                 activity = self.fetch_url(ACTIVITY_URL)
-            except requests.exceptions.RequestException:
+            except (httpx2.HTTPError, *JSON_RESPONSE_ERRORS):
                 return FALLBACK_STATS
             activity = sorted(activity, key=lambda item: -item["week"])
             result = {

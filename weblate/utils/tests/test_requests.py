@@ -3,24 +3,241 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
-from unittest.mock import Mock, patch
+from contextlib import contextmanager
+from threading import get_ident
+from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
-import responses
+import httpx2
+from asgiref.sync import async_to_sync
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
-from requests.cookies import RequestsCookieJar
 
+from weblate.utils import tracing
 from weblate.utils.requests import (
     PEER_IP_RESPONSE_ATTR,
+    AsyncHTTPClient,
+    HTTPClient,
+    _get_proxy,
     _get_response_peer_ip,
     _validate_response_peer,
+    fetch_url,
     fetch_validated_url,
     get_uri_error,
     open_asset_url,
     open_restricted_asset_url,
+    trace_http_request,
 )
+from weblate.utils.tests import http_mock as responses
+
+
+class TrackedSyncStream(httpx2.SyncByteStream):
+    def __init__(self, events: list[str]) -> None:
+        self.events = events
+
+    def __iter__(self):
+        self.events.append("read")
+        yield b"response-body"
+
+
+class TrackedAsyncStream(httpx2.AsyncByteStream):
+    def __init__(self, events: list[str]) -> None:
+        self.events = events
+
+    async def __aiter__(self):
+        self.events.append("read")
+        yield b"response-body"
+
+
+class FetchURLTest(SimpleTestCase):
+    @patch(
+        "weblate.utils.requests.getproxies",
+        return_value={
+            "https": "http://proxy.example:8080",
+            "no": "example.com:8443",
+        },
+    )
+    @patch("weblate.utils.requests.proxy_bypass", return_value=False)
+    def test_get_proxy_honors_no_proxy_port(
+        self, mocked_proxy_bypass, mocked_getproxies
+    ) -> None:
+        self.assertIsNone(_get_proxy("https://example.com:8443/source"))
+        self.assertEqual(
+            _get_proxy("https://example.com:443/source"),
+            "http://proxy.example:8080",
+        )
+
+    @patch(
+        "weblate.utils.requests.getproxies",
+        return_value={
+            "https": "http://proxy.example:8080",
+            "no": "10.0.0.0/8",
+        },
+    )
+    @patch("weblate.utils.requests.proxy_bypass", return_value=False)
+    def test_get_proxy_honors_no_proxy_cidr(
+        self, mocked_proxy_bypass, mocked_getproxies
+    ) -> None:
+        self.assertIsNone(_get_proxy("https://10.1.2.3/source"))
+        self.assertEqual(
+            _get_proxy("https://192.0.2.1/source"),
+            "http://proxy.example:8080",
+        )
+
+    @responses.activate
+    def test_fetch_url_omits_null_form_values(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://gitlab.example.com/merge_requests",
+            status=201,
+        )
+
+        fetch_url(
+            "post",
+            "https://gitlab.example.com/merge_requests",
+            data={
+                "source_branch": "weblate",
+                "target_project_id": None,
+            },
+        )
+
+        self.assertEqual(
+            responses.calls[0].request.body,
+            b"source_branch=weblate",
+        )
+
+    def test_http_client_buffers_response_inside_span(self) -> None:
+        events: list[str] = []
+        request = httpx2.Request("GET", "https://example.com/data")
+        response = httpx2.Response(
+            200,
+            request=request,
+            stream=TrackedSyncStream(events),
+        )
+        transport_client = MagicMock()
+        transport_client.build_request.return_value = request
+        transport_client.send.return_value = response
+
+        @contextmanager
+        def tracked_span(_request):
+            events.append("span-start")
+            try:
+                yield None
+            finally:
+                events.append("span-end")
+
+        client = HTTPClient()
+        with (
+            patch.object(
+                client,
+                "_get_client",
+                return_value=(transport_client, False),
+            ),
+            patch(
+                "weblate.utils.requests.trace_http_request",
+                side_effect=tracked_span,
+            ),
+        ):
+            result = client.request("get", "https://example.com/data")
+
+        self.assertEqual(result.content, b"response-body")
+        self.assertEqual(events, ["span-start", "read", "span-end"])
+
+    def test_async_http_client_buffers_response_inside_span(self) -> None:
+        events: list[str] = []
+        request = httpx2.Request("GET", "https://example.com/data")
+        response = httpx2.Response(
+            200,
+            request=request,
+            stream=TrackedAsyncStream(events),
+        )
+        transport_client = MagicMock()
+        transport_client.build_request.return_value = request
+        transport_client.send = AsyncMock(return_value=response)
+
+        @contextmanager
+        def tracked_span(_request):
+            events.append("span-start")
+            try:
+                yield None
+            finally:
+                events.append("span-end")
+
+        client = AsyncHTTPClient()
+        with (
+            patch.object(
+                client,
+                "_get_client",
+                return_value=(transport_client, False),
+            ),
+            patch(
+                "weblate.utils.requests.trace_http_request",
+                side_effect=tracked_span,
+            ),
+        ):
+            result = async_to_sync(client.request)("get", "https://example.com/data")
+
+        self.assertEqual(result.content, b"response-body")
+        self.assertEqual(events, ["span-start", "read", "span-end"])
+
+    def test_async_http_client_validates_request_off_event_loop(self) -> None:
+        request = httpx2.Request("GET", "https://example.com/data")
+        response = httpx2.Response(
+            200,
+            request=request,
+            content=b"response-body",
+        )
+        transport_client = MagicMock()
+        transport_client.build_request.return_value = request
+        transport_client.send = AsyncMock(return_value=response)
+        validation_thread_ids: list[int] = []
+        validators = MagicMock()
+
+        def record_validation_thread(*_args, **_kwargs) -> None:
+            validation_thread_ids.append(get_ident())
+
+        validators.validate_request_url.side_effect = record_validation_thread
+        client = AsyncHTTPClient()
+
+        async def make_request() -> tuple[int, httpx2.Response]:
+            event_loop_thread_id = get_ident()
+            result = await client.request(
+                "get",
+                "https://example.com/data",
+                validators=validators,
+            )
+            return event_loop_thread_id, result
+
+        with patch.object(
+            client,
+            "_get_client",
+            return_value=(transport_client, False),
+        ):
+            event_loop_thread_id, result = async_to_sync(make_request)()
+
+        self.assertEqual(result.content, b"response-body")
+        self.assertEqual(len(validation_thread_ids), 1)
+        self.assertNotEqual(validation_thread_ids[0], event_loop_thread_id)
+        validators.validate_request_url.assert_called_once_with(
+            "https://example.com/data",
+            used_proxy=False,
+        )
+
+    def test_http_trace_uses_configured_tracer(self) -> None:
+        request = httpx2.Request("GET", "https://example.com/data")
+        span = MagicMock()
+        span_context = MagicMock()
+        span_context.__enter__.return_value = span
+        tracer = MagicMock()
+        tracer.start_as_current_span.return_value = span_context
+        tracing.configure_opentelemetry_tracer(tracer)
+        self.addCleanup(tracing.configure_opentelemetry_tracer, None)
+
+        with trace_http_request(request) as current_span:
+            self.assertIs(current_span, span)
+
+        tracer.start_as_current_span.assert_called_once()
 
 
 class OpenAssetURLTest(SimpleTestCase):
@@ -447,87 +664,83 @@ class GetUriErrorTest(SimpleTestCase):
 
 
 class FetchValidatedURLTest(SimpleTestCase):
+    @responses.activate
     def test_fetch_validated_url_strips_auth_on_cross_origin_redirect(self) -> None:
-        recorded_calls: list[tuple[dict[str, str], bool]] = []
-        redirect_response = Mock()
-        redirect_response.is_redirect = True
-        redirect_response.url = "https://public.example.com/source"
-        redirect_response.headers = {"location": "https://other.example.com/final"}
-        redirect_response.cookies = RequestsCookieJar()
-        redirect_response.history = []
-        redirect_response.close = Mock()
+        recorded_headers: list[dict[str, str]] = []
 
-        final_response = Mock()
-        final_response.is_redirect = False
-        final_response.url = "https://other.example.com/final"
-        final_response.headers = {}
-        final_response.history = []
-        final_response.raise_for_status = Mock()
-        final_response.content = b"ok"
-
-        with patch("requests.sessions.Session.request") as mocked_request:
-
-            def record_request(*args, **kwargs):
-                recorded_calls.append((dict(kwargs["headers"]), "auth" in kwargs))
-                if len(recorded_calls) == 1:
-                    return redirect_response
-                return final_response
-
-            mocked_request.side_effect = record_request
-
-            fetch_validated_url(
-                "get",
-                "https://public.example.com/source",
-                headers={"Authorization": "Bearer secret"},
-                auth=("user", "pass"),
-                allow_redirects=True,
+        def redirect(request):
+            recorded_headers.append(dict(request.headers))
+            return (
+                302,
+                {"Location": "https://other.example.com/final"},
+                b"",
             )
 
-        self.assertEqual(mocked_request.call_count, 2)
-        self.assertEqual(recorded_calls[0][0]["Authorization"], "Bearer secret")
-        self.assertNotIn("Authorization", recorded_calls[1][0])
-        self.assertFalse(recorded_calls[1][1])
+        def final(request):
+            recorded_headers.append(dict(request.headers))
+            return 200, {}, b"ok"
 
+        responses.add_callback(
+            responses.GET,
+            "https://public.example.com/source",
+            callback=redirect,
+        )
+        responses.add_callback(
+            responses.GET,
+            "https://other.example.com/final",
+            callback=final,
+        )
+
+        fetch_validated_url(
+            "get",
+            "https://public.example.com/source",
+            headers={"Authorization": "Bearer secret"},
+            auth=("user", "pass"),
+            allow_redirects=True,
+        )
+
+        self.assertEqual(len(recorded_headers), 2)
+        self.assertIn("authorization", recorded_headers[0])
+        self.assertNotIn("authorization", recorded_headers[1])
+
+    @responses.activate
     def test_fetch_validated_url_preserves_delete_method_on_301_redirect(self) -> None:
-        recorded_calls: list[tuple[str, dict[str, object]]] = []
-        redirect_response = Mock()
-        redirect_response.is_redirect = True
-        redirect_response.status_code = 301
-        redirect_response.url = "https://public.example.com/source"
-        redirect_response.headers = {"location": "https://public.example.com/final"}
-        redirect_response.cookies = RequestsCookieJar()
-        redirect_response.history = []
-        redirect_response.close = Mock()
+        recorded_calls: list[tuple[str, bytes | None]] = []
 
-        final_response = Mock()
-        final_response.is_redirect = False
-        final_response.url = "https://public.example.com/final"
-        final_response.headers = {}
-        final_response.history = []
-        final_response.raise_for_status = Mock()
-        final_response.content = b"ok"
-
-        with patch("requests.sessions.Session.request") as mocked_request:
-
-            def record_request(*args, **kwargs):
-                recorded_calls.append((args[0], dict(kwargs)))
-                if len(recorded_calls) == 1:
-                    return redirect_response
-                return final_response
-
-            mocked_request.side_effect = record_request
-
-            fetch_validated_url(
-                "delete",
-                "https://public.example.com/source",
-                allow_redirects=True,
-                data=b"payload",
+        def redirect(request):
+            recorded_calls.append((request.method, request.body))
+            return (
+                301,
+                {"Location": "https://public.example.com/final"},
+                b"",
             )
 
-        self.assertEqual(mocked_request.call_count, 2)
-        self.assertEqual(recorded_calls[0][0], "delete")
-        self.assertEqual(recorded_calls[1][0], "delete")
-        self.assertEqual(recorded_calls[1][1]["data"], b"payload")
+        def final(request):
+            recorded_calls.append((request.method, request.body))
+            return 200, {}, b"ok"
+
+        responses.add_callback(
+            responses.DELETE,
+            "https://public.example.com/source",
+            callback=redirect,
+        )
+        responses.add_callback(
+            responses.DELETE,
+            "https://public.example.com/final",
+            callback=final,
+        )
+
+        fetch_validated_url(
+            "delete",
+            "https://public.example.com/source",
+            allow_redirects=True,
+            data=b"payload",
+        )
+
+        self.assertEqual(
+            recorded_calls,
+            [("DELETE", b"payload"), ("DELETE", b"payload")],
+        )
 
     @responses.activate
     @patch(

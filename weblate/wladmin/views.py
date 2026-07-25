@@ -11,6 +11,7 @@ from shutil import disk_usage
 from typing import TYPE_CHECKING, Any, Literal, cast, get_args
 from urllib.parse import quote, urlencode
 
+import httpx2
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
@@ -35,7 +36,6 @@ from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, FormMixin
-from requests.exceptions import HTTPError, Timeout
 
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
 from weblate.accounts.views import UserList, get_initial_contact
@@ -421,7 +421,7 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
         support.refresh(
             site_url=get_discovery_site_url(reverse("manage-discovery-callback"))
         )
-    except Timeout:
+    except httpx2.TimeoutException:
         report_error("Activation timeout")
         messages.error(
             request,
@@ -486,12 +486,12 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
         activation_error = ""
         try:
             support.refresh()
-        except Timeout:
+        except httpx2.TimeoutException:
             report_error("Activation timeout")
             activation_error = gettext(
                 "Could not activate your installation. Please try again later."
             )
-        except HTTPError as error:
+        except httpx2.HTTPStatusError as error:
             report_error("Activation error")
             if error.response is not None and error.response.status_code == 404:
                 activation_error = gettext(

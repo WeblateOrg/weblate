@@ -16,6 +16,7 @@ from shutil import disk_usage
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 
+import httpx2
 from celery.exceptions import TimeoutError as CeleryTimeoutError
 from django.apps import AppConfig
 from django.conf import settings
@@ -591,7 +592,7 @@ def check_version(
 ) -> Iterable[CheckMessage]:
     try:
         latest = get_latest_version()
-    except (ValueError, OSError):
+    except (ValueError, OSError, httpx2.HTTPError):
         return []
     if Version(latest.version) > Version(VERSION_BASE):
         # With release every two months, this gets triggered after three releases

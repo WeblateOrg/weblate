@@ -14,7 +14,6 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlparse
 
-import responses
 from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
@@ -37,6 +36,7 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.backup import BackupError, BorgResult
 from weblate.utils.data import data_path
+from weblate.utils.tests import http_mock as responses
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.middleware import (

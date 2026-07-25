@@ -9,7 +9,6 @@ from datetime import timedelta
 from typing import cast
 from urllib.parse import parse_qs, urlencode, urlparse
 
-import responses
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.test import TestCase
@@ -21,6 +20,7 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.site import get_site_url
+from weblate.utils.tests import http_mock as responses
 from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
     GITHUB_APP_MANIFEST_PERMISSIONS,

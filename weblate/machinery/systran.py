@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import httpx2
+
 from .base import (
     MACHINERY_DEFAULT_THRESHOLD,
     MachineTranslation,
@@ -22,6 +24,9 @@ class SystranTranslation(MachineTranslation):
         return {"Authorization": f"Key {self.settings['key']}"}
 
     def check_failure(self, response) -> None:
+        if isinstance(response, httpx2.Response):
+            super().check_failure(response)
+            return
         if "error" not in response:
             return
         raise MachineTranslationError(response["error"]["message"])

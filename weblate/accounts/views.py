@@ -14,6 +14,7 @@ from datetime import timedelta
 from typing import TYPE_CHECKING, Any, ClassVar
 from urllib.parse import quote
 
+import httpx2
 import qrcode
 import qrcode.image.svg
 from django.conf import settings
@@ -329,7 +330,7 @@ def mail_admins_contact(
             )
         except ZammadError as error:
             messages.error(request, str(error))
-        except OSError:
+        except (OSError, httpx2.HTTPError):
             report_error("Could not create ticket")
             messages.error(
                 request, gettext("Could not open a ticket, please try again later.")

@@ -24,18 +24,18 @@ from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
 from unittest.mock import call, patch
 from zipfile import ZIP_DEFLATED, ZipFile
 
-import responses
 from django.core.cache import cache
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
-from responses import matchers
 
 from weblate.trans import defaults
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.render import render_template
+from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests.http_mock import matchers
 from weblate.utils.zip import ZipSafetyLimits
 from weblate.vcs.base import (
     RepositoryCommandError,
@@ -3581,6 +3581,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         for body, content_type in (
             ("", None),
             ("<html><body>Bad gateway</body></html>", "text/html"),
+            (b"\xff", "application/json"),
         ):
             with self.subTest(body=body):
                 responses.reset()
@@ -4910,6 +4911,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
         for body, content_type in (
             ("", None),
             ("<html><body>Bad gateway</body></html>", "text/html"),
+            (b"\xff", "application/json"),
         ):
             with self.subTest(body=body):
                 responses.reset()

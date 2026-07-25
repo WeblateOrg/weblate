@@ -10,8 +10,7 @@ from pathlib import Path
 from shutil import copyfile, rmtree
 from unittest.mock import MagicMock, patch
 
-import requests
-import responses
+import httpx2
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files import File
@@ -41,6 +40,7 @@ from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.utils.docs import get_doc_url
+from weblate.utils.tests import http_mock as responses
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 PUBLIC_TEST_ADDRESS = "93.184.216.34"
@@ -65,10 +65,14 @@ class ScreenshotImageValidationTest(SimpleTestCase):
 
 class TesseractDataTest(SimpleTestCase):
     @staticmethod
-    def get_http_error(status_code: int) -> requests.HTTPError:
-        response = requests.Response()
-        response.status_code = status_code
-        return requests.HTTPError(response=response)
+    def get_http_error(status_code: int) -> httpx2.HTTPStatusError:
+        request = httpx2.Request("GET", "https://example.com/tesseract")
+        response = httpx2.Response(status_code, request=request)
+        try:
+            response.raise_for_status()
+        except httpx2.HTTPStatusError as error:
+            return error
+        raise AssertionError
 
     def test_cached_data(self) -> None:
         with tempfile.TemporaryDirectory() as cache_dir:
@@ -100,6 +104,7 @@ class TesseractDataTest(SimpleTestCase):
         makedirs.assert_called_once_with(str(tessdata), exist_ok=True)
 
     def test_transient_errors_are_retried(self) -> None:
+        request = httpx2.Request("GET", "https://example.com/eng")
         response = MagicMock(content=b"trained data")
         with tempfile.TemporaryDirectory() as cache_dir:
             target = Path(cache_dir) / "eng.traineddata"
@@ -107,8 +112,11 @@ class TesseractDataTest(SimpleTestCase):
                 patch(
                     "weblate.screenshots.views.fetch_url",
                     side_effect=[
-                        requests.Timeout("timed out"),
-                        self.get_http_error(503),
+                        httpx2.ReadError("connection reset", request=request),
+                        httpx2.RemoteProtocolError(
+                            "server disconnected",
+                            request=request,
+                        ),
                         response,
                     ],
                 ) as fetch_url,
@@ -136,7 +144,7 @@ class TesseractDataTest(SimpleTestCase):
                     "weblate.screenshots.views.fetch_url",
                     side_effect=self.get_http_error(404),
                 ) as fetch_url,
-                self.assertRaises(requests.HTTPError),
+                self.assertRaises(httpx2.HTTPStatusError),
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
 
@@ -150,10 +158,10 @@ class TesseractDataTest(SimpleTestCase):
             with (
                 patch(
                     "weblate.screenshots.views.fetch_url",
-                    side_effect=requests.Timeout("timed out"),
+                    side_effect=httpx2.TimeoutException("timed out"),
                 ) as fetch_url,
                 patch("weblate.screenshots.views.sleep"),
-                self.assertRaises(requests.Timeout),
+                self.assertRaises(httpx2.TimeoutException),
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
 
@@ -945,7 +953,7 @@ class ViewTest(FixtureTestCase):
         with (
             patch(
                 "weblate.screenshots.views.get_tesseract",
-                side_effect=requests.Timeout("timed out"),
+                side_effect=httpx2.TimeoutException("timed out"),
             ),
             self.assertLogs("weblate", level="WARNING") as logs,
         ):
@@ -1115,7 +1123,10 @@ class ViewTest(FixtureTestCase):
         responses.add(
             responses.GET,
             "https://example.com/broken-image.png",
-            body=requests.RequestException("Network error"),
+            body=httpx2.ConnectError(
+                "Network error",
+                request=httpx2.Request("GET", "https://example.com/broken-image.png"),
+            ),
         )
         response = self.do_upload(
             image="", image_url="https://example.com/missing-image.png"

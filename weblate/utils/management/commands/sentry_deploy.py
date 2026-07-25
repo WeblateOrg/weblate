@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import requests
+import httpx2
 from django.conf import settings
 from django.core.management.base import CommandError
 
@@ -22,14 +22,16 @@ class Command(BaseCommand):
         else:
             # Get commit hash from GitHub
             version = weblate.utils.version.TAG_NAME
-            response = requests.get(TAGS_API.format(version), timeout=5)
+            response = httpx2.get(
+                TAGS_API.format(version), timeout=5, follow_redirects=True
+            )
             response.raise_for_status()
             data = response.json()
             object_url = data["object"]["url"]
             if not object_url.startswith("https://api.github.com/"):
                 msg = f"Unexpected URL from GitHub: {object_url}"
                 raise CommandError(msg)
-            response = requests.get(object_url, timeout=5)
+            response = httpx2.get(object_url, timeout=5, follow_redirects=True)
             response.raise_for_status()
             ref = response.json()["object"]["sha"]
 
@@ -38,7 +40,9 @@ class Command(BaseCommand):
         release_url = f"{sentry_url}{version}/"
 
         # Ensure the release is tracked on Sentry
-        response = requests.get(release_url, headers=sentry_auth, timeout=30)
+        response = httpx2.get(
+            release_url, headers=sentry_auth, timeout=30, follow_redirects=True
+        )
         if response.status_code == 404:
             data = {
                 "version": version,
@@ -46,14 +50,14 @@ class Command(BaseCommand):
                 "ref": ref,
                 "refs": [{"repository": "WeblateOrg/weblate", "commit": ref}],
             }
-            response = requests.post(
+            response = httpx2.post(
                 sentry_url, json=data, headers=sentry_auth, timeout=30
             )
             self.stdout.write(f"Created new release {version}")
         response.raise_for_status()
 
         # Track the deploy
-        response = requests.post(
+        response = httpx2.post(
             f"{release_url}deploys/",
             data={"environment": settings.SENTRY_ENVIRONMENT},
             headers=sentry_auth,
