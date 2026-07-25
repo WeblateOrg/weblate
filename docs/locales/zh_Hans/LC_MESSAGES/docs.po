@@ -41,8 +41,7 @@ msgstr ""
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
 "PO-Revision-Date: 2026-07-25 05:40+0000\n"
-"Last-Translator: Hosted Weblate user 54392 "
-"<hamburger2048@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: AlexYang <A012pyshjs210@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -6640,6 +6639,10 @@ msgid ""
 "deployments can be constrained by their reverse proxy request body-size "
 "limit."
 msgstr ""
+"在 Docker 环境中，可通过 ``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE`` 环境变量"
+"来配置此项。Docker 部署可能还会受到 :envvar:`CLIENT_MAX_BODY_SIZE` 的限制；而"
+"其他部署方式则可能会受到其反向代理的请求体大小限制（request body-size limit）"
+"的约束。"
 
 #: admin/config.rst:1819
 msgid ""
@@ -6675,6 +6678,8 @@ msgid ""
 "This limits archives that are small when uploaded but expand to much more "
 "data during validation or restore."
 msgstr ""
+"此项用于限制那些在上传时体积较小、但在校验或恢复过程中解压展开后数据量会急剧"
+"膨胀的归档文件。"
 
 #: admin/config.rst:1845
 msgid ""
@@ -6864,6 +6869,8 @@ msgid ""
 "to 90 days. Changing the value also changes when existing reports become "
 "eligible for removal by the daily cleanup task."
 msgstr ""
+"设置翻译报告保存多少天，默认 90 天。修改这个天数后，旧报告什么时候会被系统自"
+"动删掉，也会跟着这个新天数一起变。"
 
 #: admin/config.rst:2114
 msgid "Limits how many notifications for a single user will be sent out."
@@ -7062,6 +7069,9 @@ msgid ""
 "Reporting. Set to ``None`` to disable the integration, or set to a "
 "dictionary of keyword arguments for the Google Cloud Error Reporting client."
 msgstr ""
+"使用 Google Cloud Error Reporting 进行错误收集（详见 :ref:`collecting-"
+"errors`）的相关配置。设置为 ``None`` 可禁用该集成，或设置为关键字参数字典以传"
+"递给 Google Cloud Error Reporting 客户端。"
 
 #: admin/config.rst:2338
 msgid ""
@@ -7069,34 +7079,41 @@ msgid ""
 "the current Weblate version or Git revision. Explicit values in the "
 "dictionary override these defaults."
 msgstr ""
+"Weblate 会自动将 ``service`` （服务名）设为 ``weblate`` ，并将 ``version`` （"
+"版本号）设为当前的 Weblate 版本或 Git 提交哈希。若在字典中显式传入这些键值，"
+"则会覆盖默认设定。"
 
 #: admin/config.rst:2349
 msgid "Enable backend tracing using OpenTelemetry. Disabled by default."
-msgstr ""
+msgstr "使用 OpenTelemetry 启用后端追踪。默认禁用。"
 
 #: admin/config.rst:2351
 msgid ""
 "Traces are exported only when this is enabled "
 "and :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is configured."
 msgstr ""
+"只有在启用此项且配置了 :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` 时，才"
+"会导出追踪数据。"
 
 #: admin/config.rst:2359
 msgid ""
 "OTLP HTTP traces endpoint for OpenTelemetry, for example ``https://"
 "collector.example.com/v1/traces``."
 msgstr ""
+"用于 OpenTelemetry 的 OTLP HTTP 追踪端点，例如 ``https://"
+"collector.example.com/v1/traces``。"
 
 #: admin/config.rst:2367
 msgid ""
 "Additional HTTP headers for the OpenTelemetry OTLP exporter. Defaults to an "
 "empty dictionary."
-msgstr ""
+msgstr "OpenTelemetry OTLP exporter的附加 HTTP 请求头。默认为空字典。"
 
 #: admin/config.rst:2375
 msgid ""
 "Additional OpenTelemetry resource attributes. Defaults to an empty "
 "dictionary."
-msgstr ""
+msgstr "附加的 OpenTelemetry 资源属性。默认为空字典。"
 
 #: admin/config.rst:2382
 msgid "OpenTelemetry service name. Defaults to ``weblate``."
@@ -7726,6 +7743,8 @@ msgid ""
 "services, see :doc:`/admin/code-hosting`. You must also :ref:`project-"
 "enable_hooks` for this to work."
 msgstr ""
+"使用 :ref:`hooks` 与绝大多数常见代码托管服务进行集成，详见 :doc:`/admin/code-"
+"hosting`。此外，必须 :ref:`project-enable_hooks` 才能使此功能生效。"
 
 #: admin/continuous.rst:91
 msgid ""
@@ -7872,6 +7891,8 @@ msgid ""
 "actions rewrite that translation file and commit the result; they are not "
 "project-wide or component-wide operations."
 msgstr ""
+"仅可在单个语言的 :guilabel:`仓库维护` 页面中使用 :guilabel:`文件` 操作。这些"
+"操作会重写对应的翻译文件并提交变更，并非针对整个项目或整个部件全局生效。"
 
 #: admin/continuous.rst:195
 msgid ""
@@ -7881,6 +7902,9 @@ msgid ""
 "language synchronization and cleanup are described in :ref:`glossary-"
 "language-sync`."
 msgstr ""
+"读取仓库内容的操作（如更新、重置或重新扫描）还会同步校准 Weblate 中的翻译文件"
+"。新增或删除的翻译文件会在处理完成后显示。词汇表语言的同步与清理说明详见 "
+":ref:`glossary-language-sync`。"
 
 #: admin/continuous.rst:204
 msgid "Action"
@@ -8082,7 +8106,7 @@ msgstr "从单个翻译文件中删除标识符相同的重复字符串。"
 msgid ""
 "Repair duplicate strings reported by Weblate when the file contains repeated "
 "units."
-msgstr ""
+msgstr "当文件中存在重复单元时，修复由 Weblate 标记的重复字符串问题。"
 
 #: admin/continuous.rst:260
 msgid ":guilabel:`Cleanup unused`"
@@ -8094,10 +8118,12 @@ msgid ""
 "file. The :ref:`addon-weblate.cleanup.generic` add-on can perform this "
 "automatically."
 msgstr ""
+"从单个翻译文件中移除源语言文件（基准文件）中已不存在的字符串。:ref:`addon-"
+"weblate.cleanup.generic` 附加组件可自动执行此操作。"
 
 #: admin/continuous.rst:262
 msgid "Run a one-time cleanup without installing the add-on."
-msgstr ""
+msgstr "无需安装附加组件，直接运行一次性清理。"
 
 #: admin/continuous.rst:264
 msgid ":guilabel:`Remove obsolete`"
@@ -8110,7 +8136,7 @@ msgstr "从单个 PO 翻译文件中删除陈旧字符串。"
 #: admin/continuous.rst:266
 msgid ""
 "Run a one-time PO cleanup without enabling automatic obsolete string removal."
-msgstr ""
+msgstr "无需启用自动清除弃用字符串功能，直接运行一次性 PO 文件清理。"
 
 #: admin/continuous.rst:271
 msgid "Reset and reapply recovery behavior"
@@ -8183,8 +8209,14 @@ msgid ""
 "can differ from both repositories, so Weblate can keep failing to update "
 "even after the pull request was merged upstream."
 msgstr ""
+"以压缩合并（Squash merge）方式合并 Weblate 的变更会导致此类问题更难恢复。压缩"
+"合并会生成一个新的提交，而不是在远程主仓库的提交历史记录中保留 Weblate 的各个"
+"原始提交。Weblate 本地仓库中依然保留着这些原始提交，导致 Git 无法判定远程仓库"
+"是否已经包含了它们。如果在此过程中还手动解决了冲突，文件内容可能会与两个仓库"
+"都产生差异，最终导致即便 PR 已在远程合并，Weblate 依然会持续更新失败。"
 
 #: admin/continuous.rst:308
+#, fuzzy
 msgid ""
 "If upstream no longer contains Weblate commits because they were squash "
 "merged, updating the repository might not be enough. Use :guilabel:`Reset "
@@ -8193,6 +8225,12 @@ msgid ""
 "reapply`. Use :guilabel:`Reset and discard` only when upstream should fully "
 "replace Weblate's local changes."
 msgstr ""
+"如果远程仓库因采用了压缩合并（Squash merge）而不再包含 Weblate 的原始提交，仅"
+"更新仓库可能无法解决问题。可在 :guilabel:`仓库维护` 中使用 :guilabel:`重置并"
+"重新应用`（Reset and reapply），在保留待处理翻译的同时将 Weblate 重置为远程仓"
+"库状态，详见 :ref:`manage-vcs-reset-reapply` 。仅当需要用远程仓库内容完全覆"
+"盖 Weblate 本地变更时，才应使用 :guilabel:`重置并丢弃` （Reset and discard）"
+"。"
 
 #: admin/continuous.rst:315
 msgid ""
@@ -8222,6 +8260,9 @@ msgid ""
 "regular merge commit and push that result upstream. Do not squash merge the "
 "conflict-resolution pull request."
 msgstr ""
+"在 Weblate 之外解决冲突时，请使用常规合并提交（Merge commit）来合并 Weblate "
+"的提交，并将其推送到远程仓库。切勿对用于解决冲突的 Pull Request 执行压缩合并"
+"（Squash merge）。"
 
 #: admin/continuous.rst:327
 msgid ""
@@ -8255,6 +8296,8 @@ msgid ""
 "Bitbucket, Pagure, Azure Repos, Gitea, Forgejo, and Gitee are covered "
 "in :doc:`/admin/code-hosting`."
 msgstr ""
+"有关 GitHub、GitLab、Bitbucket、Pagure、Azure Repos、Gitea、Forgejo 及 Gitee "
+"的特定平台应用与 Webhook 配置说明，详见 :doc:`/admin/code-hosting`。"
 
 #: admin/continuous.rst:352
 msgid "Provider-specific notifications"
@@ -8265,39 +8308,41 @@ msgid ""
 "These legacy anchors are kept for compatibility. Current provider-specific "
 "app and webhook setup is documented in :doc:`/admin/code-hosting`."
 msgstr ""
+"保留这些旧版的锚点链接是为了保持兼容性。当前特定平台的应用与 Webhook 配置说明"
+"，请参阅 :doc:`/admin/code-hosting`。"
 
 #: admin/continuous.rst:359
 msgid ":ref:`GitHub notifications <code-hosting-github-notifications>`"
-msgstr ""
+msgstr ":ref:`GitHub 通知 <code-hosting-github-notifications>`"
 
 #: admin/continuous.rst:360
 msgid ":ref:`GitLab notifications <code-hosting-gitlab-notifications>`"
-msgstr ""
+msgstr ":ref:`GitLab 通知 <code-hosting-gitlab-notifications>`"
 
 #: admin/continuous.rst:361
 msgid ":ref:`Bitbucket notifications <code-hosting-bitbucket-notifications>`"
-msgstr ""
+msgstr ":ref:`Bitbucket 通知 <code-hosting-bitbucket-notifications>`"
 
 #: admin/continuous.rst:362
 msgid ":ref:`Pagure notifications <code-hosting-pagure-notifications>`"
-msgstr ""
+msgstr ":ref:`Pagure 通知 <code-hosting-pagure-notifications>`"
 
 #: admin/continuous.rst:363
 msgid ""
 ":ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`"
-msgstr ""
+msgstr ":ref:`Azure Repos 通知 <code-hosting-azure-repos-notifications>`"
 
 #: admin/continuous.rst:364
 msgid ":ref:`Gitea notifications <code-hosting-gitea-notifications>`"
-msgstr ""
+msgstr ":ref:`Gitea 通知 <code-hosting-gitea-notifications>`"
 
 #: admin/continuous.rst:365
 msgid ":ref:`Forgejo notifications <code-hosting-forgejo-notifications>`"
-msgstr ""
+msgstr ":ref:`Forgejo 通知 <code-hosting-forgejo-notifications>`"
 
 #: admin/continuous.rst:366
 msgid ":ref:`Gitee notifications <code-hosting-gitee-notifications>`"
-msgstr ""
+msgstr ":ref:`Gitee 通知 <code-hosting-gitee-notifications>`"
 
 #: admin/continuous.rst:369
 msgid "Automatically updating repositories nightly"
@@ -8328,6 +8373,8 @@ msgid ""
 "For the push options table and provider-specific pull, merge, and review "
 "request workflows, see :ref:`code-hosting-push-options`."
 msgstr ""
+"有关推送选项表以及特定平台的拉取（Pull）、合并（Merge）和评审（Review）请求工"
+"作流，请参阅 :ref:`code-hosting-push-options`。"
 
 #: admin/continuous.rst:390
 msgid ""
@@ -9163,6 +9210,8 @@ msgid ""
 "Release archives can be verified using the signatures, attestations, and "
 "SBOMs published with GitHub release assets. See :ref:`verify`."
 msgstr ""
+"发布归档文件（Release archives）可以通过 GitHub Release 资产中随附发布的签名"
+"、证明（Attestations）及软件物料清单（SBOM）进行校验。详见 :ref:`verify`。"
 
 #: admin/install.rst:350
 msgid "Filesystem permissions"
@@ -9200,6 +9249,8 @@ msgid ""
 "process and has to allow executing generated helper files. Do not "
 "mount :setting:`CACHE_DIR` with the ``noexec`` option."
 msgstr ""
+"已配置的 :setting:`CACHE_DIR` 目录必须对 Weblate 进程具备可写权限，且必须允许"
+"执行生成的辅助文件。切勿在挂载 :setting:`CACHE_DIR` 时使用 ``noexec`` 选项。"
 
 #: admin/install.rst:367
 msgid ""
@@ -9847,6 +9898,8 @@ msgid ""
 "Weblate deployment checks report non-finite PostgreSQL relation statistics. "
 "Run ``ANALYZE`` on the reported relations to rebuild corrupted statistics."
 msgstr ""
+"Weblate 部署检查报告了非有限值（Non-finite）PostgreSQL 关系统计信息。请在被报"
+"告的关系上运行 ``ANALYZE``，以重建损坏的统计数据。"
 
 #: admin/install.rst:956
 msgid "Configure cache"
@@ -10187,6 +10240,10 @@ msgid ""
 "runtime files. When installing Weblate from PyPI, get the matching source "
 "distribution or source checkout before copying these examples."
 msgstr ""
+"下文所示的示例配置文件托管于 Weblate 源码树中的 :file:`weblate/examples/` 目"
+"录下。它们包含在源码包（Source distributions）及本文档中，但 Python Wheel 包"
+"仅安装运行时必需文件。从 PyPI 安装 Weblate 时，请在复制这些示例前先获取对应的"
+"源码包或检出（Checkout）源码。"
 
 #: admin/install.rst:1226
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -10406,6 +10463,12 @@ msgid ""
 "memory, CPU cores, and database connection limit. Keep the backpressure "
 "equal to or higher than the number of blocking threads."
 msgstr ""
+"Granian 使用工作进程（Worker processes）实现 Python 并行执行，使用阻塞线程（"
+"Blocking threads）处理并发 WSGI 请求，并使用运行时线程（Runtime threads）处理"
+"网络 I/O。示例配置了 2 个工作进程，每个进程包含 8 个阻塞线程，并将每个工作进"
+"程的并发连接数限制为 16，运行时线程数则保持 Granian 的默认值。请根据可用内存"
+"、CPU 核心数以及数据库连接数限制调整工作进程数和阻塞线程数。背压（"
+"Backpressure）数值必须大于或等于阻塞线程的数量。"
 
 #: admin/install.rst:1444
 msgid "Sample configuration to start Gunicorn"
