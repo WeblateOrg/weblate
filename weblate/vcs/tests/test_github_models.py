@@ -9,11 +9,11 @@ from __future__ import annotations
 from base64 import b64decode
 from unittest.mock import patch
 
-import responses
 from django.core.cache import cache
 from django.test import TestCase
 
 from weblate.trans.models import Component, Project
+from weblate.utils.tests import http_mock as responses
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.github import (
     GitHubAppCredentials,

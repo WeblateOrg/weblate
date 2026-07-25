@@ -17,7 +17,7 @@ import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from contextlib import contextmanager, suppress
 from ipaddress import ip_address
-from json import JSONDecodeError, dumps
+from json import dumps
 from pathlib import Path
 from time import sleep, time
 from typing import (
@@ -34,14 +34,13 @@ from typing import (
 from urllib.parse import urlparse, urlunparse
 from zipfile import ZipFile
 
-import requests
+import httpx2
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
 from idna import encode as idna_encode
-from requests.exceptions import HTTPError
 
 from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error
@@ -51,6 +50,7 @@ from weblate.utils.files import (
 )
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
+from weblate.utils.requests import JSON_RESPONSE_ERRORS, fetch_url
 from weblate.utils.tracing import start_span
 from weblate.utils.xml import parse_xml
 from weblate.utils.zip import (
@@ -75,7 +75,6 @@ if TYPE_CHECKING:
     from zipfile import ZipInfo
 
     from django_stubs_ext import StrOrPromise
-    from requests.auth import AuthBase
 
     from weblate.trans.models import Component
     from weblate.utils.validators import ResolvedRepositoryURL
@@ -123,12 +122,12 @@ class GitAPIRequestError(RepositoryError):
     """Error raised for failed hosting API responses without parsed errors."""
 
     def __init__(
-        self, response: requests.Response, response_data: dict, error: str = ""
+        self, response: httpx2.Response, response_data: dict, error: str = ""
     ) -> None:
         self.response = response
         self.response_data = response_data
         self.error = error
-        message = error or f"{response.status_code} {response.reason}".strip()
+        message = error or f"{response.status_code} {response.reason_phrase}".strip()
         if 500 <= response.status_code <= 599:
             message = gettext("%(message)s Please retry later.") % {"message": message}
         super().__init__(0, message)
@@ -1921,7 +1920,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.get_fork_failed_message(error.error, credentials, error.response),
         ) from error
 
-    def add_api_retry_guidance(self, message: str, response: requests.Response) -> str:
+    def add_api_retry_guidance(self, message: str, response: httpx2.Response) -> str:
         if 500 <= response.status_code <= 599:
             return gettext("%(message)s Please retry later.") % {"message": message}
         return message
@@ -1930,13 +1929,13 @@ class GitMergeRequestBase(GitForcePushRepository):
         self,
         error: str,
         credentials: GitCredentials,
-        response: requests.Response,
+        response: httpx2.Response,
     ) -> str:
         hostname = credentials["hostname"]
         username = credentials["username"]
         try:
             data = response.json()
-        except JSONDecodeError:
+        except JSON_RESPONSE_ERRORS:
             data = response.text
         self.log(
             f"Creating fork via {response.url} failed ({response.status_code}): {data!r}",
@@ -1946,7 +1945,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             error = f"Repository not found. Check whether exists and user '{username}' has access to it."
         if error.strip():
             message = f"Could not fork repository at {hostname}: {error}"
-        elif not response.ok:
+        elif not response.is_success:
             message = (
                 f"Could not fork repository at {hostname}: "
                 f"{self.get_response_status_message(response)}"
@@ -1985,7 +1984,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def get_auth(
         self, credentials: GitCredentials
-    ) -> tuple[str, str] | AuthBase | None:
+    ) -> tuple[str, str] | httpx2.Auth | None:
         return None
 
     def get_error_message(self, response_data: dict) -> str:
@@ -2026,19 +2025,19 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         return ", ".join(errors)
 
-    def get_response_status_message(self, response: requests.Response) -> str:
-        return f"{response.status_code} {response.reason}".strip()
+    def get_response_status_message(self, response: httpx2.Response) -> str:
+        return f"{response.status_code} {response.reason_phrase}".strip()
 
     def get_response_error_message(
-        self, response: requests.Response, response_data: dict
+        self, response: httpx2.Response, response_data: dict
     ) -> str:
         error = self.get_error_message(response_data)
-        if error or response.ok:
+        if error or response.is_success:
             return error
         return ""
 
     def should_retry_request(
-        self, response: requests.Response, response_data: dict
+        self, response: httpx2.Response, response_data: dict
     ) -> bool:
         retry_after = response.headers.get("Retry-After")
         if retry_after and retry_after.isdigit():
@@ -2069,7 +2068,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         data: dict | None,
         params: dict | None,
         json: dict | None,
-    ) -> tuple[bool, dict, requests.Response, bool]:
+    ) -> tuple[bool, dict, httpx2.Response, bool]:
         do_retry = False
         invalid_error_response = False
         with lock:
@@ -2079,7 +2078,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 with start_span(op="vcs.api_sleep", name=vcs_id):
                     sleep(next_api_time - now)
             try:
-                response = requests.request(
+                response = fetch_url(
                     method,
                     url,
                     headers=self.get_headers(credentials),
@@ -2088,8 +2087,9 @@ class GitMergeRequestBase(GitForcePushRepository):
                     json=json,
                     auth=self.get_auth(credentials),
                     timeout=settings.VCS_API_TIMEOUT,
+                    raise_for_status=False,
                 )
-            except (OSError, HTTPError) as error:
+            except (OSError, httpx2.HTTPError) as error:
                 report_error("Git API request")
                 raise RepositoryError(0, str(error)) from error
 
@@ -2100,8 +2100,8 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.add_response_breadcrumb(response)
             try:
                 response_data = {} if response.status_code == 204 else response.json()
-            except JSONDecodeError as error:
-                if not response.ok:
+            except JSON_RESPONSE_ERRORS as error:
+                if not response.is_success:
                     response_data = {}
                     invalid_error_response = True
                     self.log(
@@ -2128,7 +2128,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         params: dict | None = None,
         json: dict | None = None,
         retry: int = 0,
-    ) -> tuple[dict, requests.Response, str]:
+    ) -> tuple[dict, httpx2.Response, str]:
         do_retry = False
         vcs_id = self.get_identifier()
         self.log(f"HTTP {method} {url}")
@@ -2180,10 +2180,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         )
 
     def get_api_request_failure_message(
-        self, response: requests.Response, action: str, error: str
+        self, response: httpx2.Response, action: str, error: str
     ) -> str:
         status = response.status_code
-        status_text = f"{status} {response.reason}".strip()
+        status_text = f"{status} {response.reason_phrase}".strip()
         error = error.strip()
         if error:
             message = gettext(
@@ -2209,7 +2209,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         self,
         error: str,
         pr_url: str,
-        response: requests.Response,
+        response: httpx2.Response,
         data: dict,
     ) -> NoReturn:
         status_code = response.status_code
@@ -2230,11 +2230,11 @@ class GitMergeRequestBase(GitForcePushRepository):
         )
 
     @classmethod
-    def raise_for_response(cls, response: requests.Response) -> None:
+    def raise_for_response(cls, response: httpx2.Response) -> None:
         """
         Validate response status code.
 
-        Raises :class:`HTTPError`, if one occurred.
+        Raises :class:`httpx2.HTTPStatusError`, if one occurred.
 
         Some providers (Azure DevOps for instance) respond with codes in the 2XX range
         even though the response was an error. This method exists to let the
@@ -2242,7 +2242,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         """
         try:
             response.raise_for_status()
-        except HTTPError as error:
+        except httpx2.HTTPStatusError as error:
             report_error("Git API request")
             raise RepositoryError(0, str(error)) from error
 
@@ -2269,7 +2269,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
     )
 
     @classmethod
-    def raise_for_response(cls, response: requests.Response) -> None:
+    def raise_for_response(cls, response: httpx2.Response) -> None:
         super().raise_for_response(response)
 
         # Azure DevOps returns 203 when the token is invalid
@@ -2337,7 +2337,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
     def get_auth(
         self, credentials: GitCredentials
-    ) -> tuple[str, str] | AuthBase | None:
+    ) -> tuple[str, str] | httpx2.Auth | None:
         return ("", credentials["token"])
 
     def create_fork(self, credentials: GitCredentials) -> None:
@@ -2564,7 +2564,7 @@ class GithubRepository(GitMergeRequestBase):
         return headers
 
     def should_retry_request(
-        self, response: requests.Response, response_data: dict
+        self, response: httpx2.Response, response_data: dict
     ) -> bool:
         if super().should_retry_request(response, response_data):
             return True
@@ -2988,7 +2988,7 @@ class GitLabRepository(GitMergeRequestBase):
             "get", credentials, credentials["url"]
         )
         if "id" not in response_data:
-            detail = error or response.reason or gettext("Unknown error")
+            detail = error or response.reason_phrase or gettext("Unknown error")
             report_error(
                 "Could not get GitLab project",
                 message=True,
@@ -3299,18 +3299,18 @@ class BitbucketServerRepository(GitMergeRequestBase):
                 forks, response, error_message = self.request(
                     "get", credentials, forks_url, params={"limit": 1000, "start": page}
                 )
-                if "values" in forks:
-                    for f in forks["values"]:
-                        fork_slug = f["origin"]["slug"]
-                        fork_project_key = f["origin"]["project"]["key"]
-                        if (
-                            fork_slug == credentials["slug"]
-                            and fork_project_key.upper() == credentials["owner"].upper()
-                        ):
-                            self.bb_fork = f
-                            break
+                values = forks.get("values", [])
+                for fork in values:
+                    fork_slug = fork["origin"]["slug"]
+                    fork_project_key = fork["origin"]["project"]["key"]
+                    if (
+                        fork_slug == credentials["slug"]
+                        and fork_project_key.upper() == credentials["owner"].upper()
+                    ):
+                        self.bb_fork = fork
+                        break
 
-                if self.bb_fork or forks["isLastPage"] or not forks["values"]:
+                if self.bb_fork or forks.get("isLastPage", True) or not values:
                     break
 
                 page += 1

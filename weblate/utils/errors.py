@@ -9,6 +9,7 @@ import sys
 from contextlib import suppress
 from importlib import import_module
 from json import JSONDecodeError
+from traceback import format_exception
 from typing import TYPE_CHECKING, Any, Literal, cast
 
 from django.conf import settings
@@ -70,6 +71,7 @@ def report_error(
     extra_log: str | None = None,
     project=None,
     message: bool = False,
+    exception: BaseException | None = None,
 ) -> None:
     """
     Report errors.
@@ -79,14 +81,20 @@ def report_error(
     """
     # pylint: disable-next=unused-variable
     __traceback_hide__ = True  # ruff: ignore[unused-variable]
-    error = sys.exc_info()[1]
+    explicit_exception = exception is not None
+    error = exception if explicit_exception else sys.exc_info()[1]
     locale = get_language()
     report_as_message = message or error is None
 
     if not skip_error_reporting:
         if hasattr(settings, "ROLLBAR"):
             rollbar = get_rollbar()
-            rollbar.report_exc_info(level=level)
+            if explicit_exception and error is not None:
+                rollbar.report_exc_info(
+                    (type(error), error, error.__traceback__), level=level
+                )
+            else:
+                rollbar.report_exc_info(level=level)
 
         if settings.SENTRY_DSN:
             sentry_sdk = get_sentry_sdk()
@@ -97,6 +105,8 @@ def report_error(
             sentry_sdk.set_level(level)
             if report_as_message:
                 sentry_sdk.capture_message(cause)
+            elif explicit_exception:
+                sentry_sdk.capture_exception(error)
             else:
                 sentry_sdk.capture_exception()
 
@@ -104,6 +114,10 @@ def report_error(
         if google_client is not None:
             if report_as_message:
                 google_client.report(cause)
+            elif explicit_exception and error is not None:
+                google_client.report(
+                    "".join(format_exception(type(error), error, error.__traceback__))
+                )
             else:
                 google_client.report_exception()
 
@@ -117,7 +131,13 @@ def report_error(
             },
         )
 
-    _log_error(cause, level=level, extra_log=extra_log, print_tb=print_tb)
+    _log_error(
+        cause,
+        level=level,
+        extra_log=extra_log,
+        print_tb=print_tb,
+        exception=exception,
+    )
 
 
 def _log_error(
@@ -128,10 +148,11 @@ def _log_error(
     ] = "warning",
     extra_log: str | None = None,
     print_tb: bool = False,
+    exception: BaseException | None = None,
 ) -> None:
     """Log the current exception without reporting it to external services."""
     log = getattr(LOGGER, level)
-    error = sys.exc_info()[1]
+    error = exception if exception is not None else sys.exc_info()[1]
 
     # Include JSON document if available. It might be missing
     # when the error is raised from requests.
@@ -146,8 +167,14 @@ def _log_error(
         else:
             log("%s: %s", cause, extra_log)
     if print_tb:
-        # This is called from an exception handler
-        LOGGER.exception(cause)  # ruff: ignore[log-exception-outside-except-handler]
+        if exception is None:
+            # This is called from an exception handler
+            LOGGER.exception(cause)  # ruff: ignore[log-exception-outside-except-handler]
+        else:
+            LOGGER.error(
+                cause,
+                exc_info=(type(exception), exception, exception.__traceback__),
+            )
 
 
 def log_handled_exception(
@@ -190,6 +217,11 @@ def init_sentry() -> None:
     )
 
     # ruff: ignore[import-outside-top-level]
+    from sentry_sdk.integrations.httpx2 import (
+        Httpx2Integration,
+    )
+
+    # ruff: ignore[import-outside-top-level]
     from sentry_sdk.integrations.logging import (
         ignore_logger,
     )
@@ -202,6 +234,7 @@ def init_sentry() -> None:
     integrations = [
         CeleryIntegration(monitor_beat_tasks=settings.SENTRY_MONITOR_BEAT_TASKS),
         DjangoIntegration(),
+        Httpx2Integration(),
         RedisIntegration(),
     ]
 

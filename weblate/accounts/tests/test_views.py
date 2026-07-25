@@ -10,6 +10,7 @@ from time import sleep
 from types import SimpleNamespace
 from unittest import mock
 
+import httpx2
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
@@ -143,6 +144,28 @@ class ViewTest(RepoTestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, "[Weblate] Message from dark side")
         self.assertEqual(mail.outbox[0].to, list(settings.ADMINS))
+
+    @override_settings(
+        REGISTRATION_CAPTCHA=False,
+        ADMINS=("Weblate test <noreply@weblate.org>",),
+        ADMINS_CONTACT=["noreply@weblate.org"],
+        ZAMMAD_URL="https://support.example.com",
+    )
+    def test_contact_handles_zammad_http_error(self) -> None:
+        with (
+            mock.patch(
+                "weblate.accounts.views.submit_zammad_ticket",
+                side_effect=httpx2.ConnectError("Zammad unavailable"),
+            ),
+            mock.patch("weblate.accounts.views.report_error") as report_error,
+        ):
+            response = self.client.post(reverse("contact"), CONTACT_DATA, follow=True)
+
+        self.assertContains(
+            response,
+            "Could not open a ticket, please try again later.",
+        )
+        report_error.assert_called_once_with("Could not create ticket")
 
     @override_settings(
         REGISTRATION_CAPTCHA=False, ADMINS_CONTACT=["noreply@example.com"]

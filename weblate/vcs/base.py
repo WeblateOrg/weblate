@@ -52,7 +52,7 @@ from weblate.vcs.ssh import SSH_WRAPPER
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator, Iterator
 
-    import requests
+    import httpx2
     from django_stubs_ext import StrOrPromise
 
     from weblate.trans.models import Component
@@ -384,7 +384,7 @@ class Repository:
         add_breadcrumb(category="vcs", message=message, **data)
 
     @classmethod
-    def add_response_breadcrumb(cls, response: requests.Response) -> None:
+    def add_response_breadcrumb(cls, response: httpx2.Response) -> None:
         cls.add_breadcrumb(
             "http.response",
             status_code=response.status_code,

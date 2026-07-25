@@ -4,9 +4,11 @@
 
 """Tests for data exports."""
 
+from json import JSONDecodeError
 from unittest.mock import patch
 
 from asgiref.sync import async_to_sync
+from django.core.cache import cache
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -14,7 +16,7 @@ from django.urls import reverse
 from weblate.auth.models import User
 from weblate.trans.context_processors import weblate_context
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.trans.views.about import AboutView
+from weblate.trans.views.about import FALLBACK_STATS, AboutView, DonateView
 from weblate.utils.version import GIT_VERSION, VERSION
 from weblate.utils.version_display import (
     VERSION_DISPLAY_HIDE,
@@ -49,6 +51,18 @@ class BasicViewTest(FixtureTestCase):
     def test_donate(self) -> None:
         response = self.client.get(reverse("donate"))
         self.assertContains(response, "Support Weblate")
+
+    def test_donate_falls_back_on_malformed_github_json(self) -> None:
+        errors = (
+            JSONDecodeError("Invalid JSON", "", 0),
+            UnicodeDecodeError("utf-8", b"\xff", 0, 1, "invalid start byte"),
+        )
+
+        for error in errors:
+            with self.subTest(error=error):
+                cache.delete(DonateView.cache_key)
+                with patch.object(DonateView, "fetch_url", side_effect=error):
+                    self.assertEqual(DonateView().get_stats(), FALLBACK_STATS)
 
     def test_healthz(self) -> None:
         response = self.client.get(reverse("healthz"))

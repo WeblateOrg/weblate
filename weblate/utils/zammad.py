@@ -4,17 +4,12 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
+import httpx2
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from requests.exceptions import JSONDecodeError, RequestException
 
 from .errors import report_error
-from .requests import fetch_url
-
-if TYPE_CHECKING:
-    from requests import Response
+from .requests import JSON_RESPONSE_ERRORS, fetch_url
 
 FINGERPRINT = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASw"
 ERR_UNCONFIGURED = "ZAMMAD_URL is not configured!"
@@ -25,10 +20,10 @@ class ZammadError(Exception):
     pass
 
 
-def process_zammad_response(response: Response) -> dict:
+def process_zammad_response(response: httpx2.Response) -> dict:
     try:
         data = response.json()
-    except JSONDecodeError as error:
+    except JSON_RESPONSE_ERRORS as error:
         report_error("Zammad JSON response")
         raise ZammadError(ERR_TEMPORARY) from error
 
@@ -37,7 +32,7 @@ def process_zammad_response(response: Response) -> dict:
 
     try:
         response.raise_for_status()
-    except RequestException as error:
+    except httpx2.HTTPError as error:
         report_error("Zammad response status")
         raise ZammadError(ERR_TEMPORARY) from error
 

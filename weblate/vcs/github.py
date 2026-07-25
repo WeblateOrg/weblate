@@ -15,8 +15,8 @@ import uuid
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import quote, urlencode, urlparse
 
+import httpx2
 import jwt
-import requests
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -24,6 +24,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext, gettext_lazy
 
+from weblate.utils.requests import fetch_url
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
@@ -233,10 +234,12 @@ def exchange_github_app_manifest_code(
     """Exchange a temporary manifest code for the created app's credentials."""
     code = quote(normalize_github_callback_code(code), safe="")
     api_base = get_github_api_base(normalize_github_app_hostname(hostname))
-    response = requests.post(
+    response = fetch_url(
+        "post",
         f"{api_base}/app-manifests/{code}/conversions",
         headers={"Accept": "application/vnd.github.v3+json"},
         timeout=30,
+        raise_for_status=False,
     )
     response.raise_for_status()
     return response.json()
@@ -317,13 +320,15 @@ def get_installation_token(
     token = generate_jwt(app_id, private_key_pem)
 
     api_base = get_github_api_base(hostname)
-    response = requests.post(
+    response = fetch_url(
+        "post",
         f"{api_base}/app/installations/{installation_id}/access_tokens",
         headers={
             "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.github.v3+json",
         },
         timeout=30,
+        raise_for_status=False,
     )
     response.raise_for_status()
     data = response.json()
@@ -349,13 +354,15 @@ def get_app_installation(
     private_key_pem = validate_private_key(private_key)
     token = generate_jwt(app_id, private_key_pem)
     api_base = get_github_api_base(hostname)
-    response = requests.get(
+    response = fetch_url(
+        "get",
         f"{api_base}/app/installations/{installation_id}",
         headers={
             "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.github.v3+json",
         },
         timeout=30,
+        raise_for_status=False,
     )
     response.raise_for_status()
     return response.json()
@@ -380,7 +387,9 @@ def get_app_repositories(
         "Accept": "application/vnd.github.v3+json",
     }
     while url:
-        response = requests.get(url, headers=headers, timeout=30)
+        response = fetch_url(
+            "get", url, headers=headers, timeout=30, raise_for_status=False
+        )
         response.raise_for_status()
         data = response.json()
 
@@ -493,7 +502,8 @@ def get_github_oauth_base(hostname: str) -> str:
 
 def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> str:
     """Exchange an install-time OAuth ``code`` for a user-to-server access token."""
-    response = requests.post(
+    response = fetch_url(
+        "post",
         f"{get_github_oauth_base(config.hostname)}/login/oauth/access_token",
         data={
             "client_id": config.client_id,
@@ -502,6 +512,7 @@ def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> str:
         },
         headers={"Accept": "application/json"},
         timeout=30,
+        raise_for_status=False,
     )
     response.raise_for_status()
     payload = response.json()
@@ -517,10 +528,12 @@ def get_authenticated_github_user(
 ) -> dict:
     """Return metadata for the authenticated GitHub user."""
     api_base = get_github_api_base(normalize_github_app_hostname(config.hostname))
-    response = requests.get(
+    response = fetch_url(
+        "get",
         f"{api_base}/user",
         headers=_get_github_user_headers(user_token),
         timeout=30,
+        raise_for_status=False,
     )
     response.raise_for_status()
     return response.json()
@@ -542,7 +555,9 @@ def _get_user_accessible_installation(
     url: str | None = f"{api_base}/user/installations?per_page=100"
     headers = _get_github_user_headers(user_token)
     while url:
-        response = requests.get(url, headers=headers, timeout=30)
+        response = fetch_url(
+            "get", url, headers=headers, timeout=30, raise_for_status=False
+        )
         response.raise_for_status()
         for installation in response.json().get("installations", []):
             if str(installation.get("id")) == installation_id:
@@ -565,10 +580,12 @@ def user_can_administer_org_installation(
     )
     headers = _get_github_user_headers(user_token)
     while url:
-        response = requests.get(url, headers=headers, timeout=30)
+        response = fetch_url(
+            "get", url, headers=headers, timeout=30, raise_for_status=False
+        )
         try:
             response.raise_for_status()
-        except requests.HTTPError as error:
+        except httpx2.HTTPStatusError as error:
             if error.response is not None and error.response.status_code in {403, 404}:
                 return False
             raise
@@ -994,7 +1011,7 @@ class GithubAppRepository(GithubRepository):
         except ValueError as error:
             msg = gettext("Invalid GitHub App installation ID.")
             raise RepositoryError(0, msg) from error
-        except requests.RequestException as error:
+        except httpx2.HTTPError as error:
             msg = gettext("Could not obtain GitHub App access token: %s") % error
             raise RepositoryError(0, msg) from error
 
