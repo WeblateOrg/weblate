@@ -40,7 +40,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-25 07:18+0000\n"
+"PO-Revision-Date: 2026-07-25 07:44+0000\n"
 "Last-Translator: AlexYang <A012pyshjs210@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
@@ -12585,12 +12585,15 @@ msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
 msgstr "SAML 身份提供者设置，请参见 :ref:`saml-auth`。"
 
 #: admin/install/docker.rst:1813
+#, fuzzy
 msgid ""
 "SAML security configuration as a JSON object, passed to "
 "``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. For example, to disable the "
 "``requestedAuthnContext`` (needed for some identity providers such as "
 "Microsoft Entra ID with multi-factor authentication):"
 msgstr ""
+"用于接收错误报告的 Google Cloud 项目标识（Project ID）。如未指定，Google 客户"
+"端将通过应用默认凭据（Application Default Credentials）自动识别项目。"
 
 #: admin/install/docker.rst:1825
 msgid ""
@@ -12931,11 +12934,13 @@ msgid ""
 "Google Cloud project to report errors to. If omitted, the Google client uses "
 "application default credentials to detect the project."
 msgstr ""
+"用于接收错误报告的 Google Cloud 项目标识（Project ID）。如未指定，Google 客户"
+"端将通过应用默认凭据（Application Default Credentials）自动识别项目。"
 
 #: admin/install/docker.rst:2230
 msgid ""
 "Service name to use in Google Cloud Error Reporting, defaults to ``weblate``."
-msgstr ""
+msgstr "在 Google Cloud Error Reporting 中使用的服务名称，默认为 ``weblate``。"
 
 #: admin/install/docker.rst:2232
 msgid "To enable support for OpenTelemetry tracing, set following:"
@@ -12943,7 +12948,7 @@ msgstr "要启用 OpenTelemetry 跟踪支持，请进行以下设置："
 
 #: admin/install/docker.rst:2236
 msgid "Enables :setting:`OPENTELEMETRY_ENABLED`, defaults to ``False``."
-msgstr ""
+msgstr "启用 :setting:`OPENTELEMETRY_ENABLED`，默认为 ``False``。"
 
 #: admin/install/docker.rst:2240
 msgid "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
@@ -13093,6 +13098,8 @@ msgid ""
 "Configure how many blocking WSGI threads each :program:`granian` worker can "
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS`."
 msgstr ""
+"配置每个 :program:`granian` worker 可使用的阻塞式 WSGI 线程数量。默认值为 "
+":envvar:`WEBLATE_WORKERS` 的 2 倍。"
 
 #: admin/install/docker.rst:2428
 msgid ""
@@ -13101,6 +13108,9 @@ msgid ""
 "by :envvar:`WEB_BLOCKING_THREADS`. Each thread can hold its own database "
 "connection, so keep the resulting total within the database connection limit."
 msgstr ""
+"并行处理的 WSGI 请求数上限约为 :envvar:`WEB_WORKERS` 乘以 "
+":envvar:`WEB_BLOCKING_THREADS`。由于每个线程都会独立占用一个数据库连接，请确"
+"保计算出的总连接数不会超出数据库的连接数限制。"
 
 #: admin/install/docker.rst:2443
 msgid ""
@@ -13244,10 +13254,12 @@ msgid ""
 "When mounting :file:`/app/cache` explicitly as ``tmpfs`` in Docker Compose, "
 "enable execution:"
 msgstr ""
+"在 Docker Compose 中将 :file:`/app/cache` 明确挂载为 ``tmpfs`` 时，请开启执行"
+"权限(Execution)："
 
 #: admin/install/docker.rst:2533
 msgid "When also setting ownership options, keep the ``exec`` option:"
-msgstr ""
+msgstr "同时配置所有权选项（Ownership options）时，请保留 ``exec`` 选项："
 
 #: admin/install/docker.rst:2540
 msgid ""
@@ -13993,6 +14005,8 @@ msgid ""
 "If you intend to run the testsuite from the source checkout, install the "
 "development dependencies as described in :ref:`local-tests`."
 msgstr ""
+"如果您打算直接从源码检出目录（Source checkout）运行测试套件，请按照 "
+":ref:`local-tests` 中的说明安装开发依赖。"
 
 #: admin/install/source.rst:31
 msgid ""
@@ -14018,7 +14032,7 @@ msgstr "无论任何时候更新仓库时，都应该重复这一步骤。"
 
 #: admin/install/source.rst:53
 msgid "Packaging Weblate for distributions"
-msgstr ""
+msgstr "为发行版打包 Weblate"
 
 #: admin/install/source.rst:55
 msgid ""
@@ -14028,6 +14042,9 @@ msgid ""
 "cannot validate every dependency-version combination covered by wider "
 "version ranges."
 msgstr ""
+":file:`pyproject.toml` 中的依赖版本定义了 Weblate 项目经过测试的运行时环境。"
+"在从 PyPI 安装以及进行 Weblate 发布流程时，这些版本限制被刻意保持严格，因为 "
+"Weblate 无法验证更宽泛版本范围所涵盖的每一种依赖组合。"
 
 #: admin/install/source.rst:60
 msgid ""
