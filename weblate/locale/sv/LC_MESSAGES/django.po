@@ -18,9 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-25 00:40-0500\n"
-"PO-Revision-Date: 2026-07-25 07:44+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-25 19:01+0000\n"
+"Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
 "Language: sv\n"
@@ -3076,11 +3075,9 @@ msgid "site-wide add-ons"
 msgstr "webbplatsgemensamma tillägg"
 
 #: weblate/addons/views.py:118 weblate/templates/addons/addon_head.html:12
-#, fuzzy
-#| msgid "Repository"
 msgctxt "Add-on scope"
 msgid "Repository"
-msgstr "Arkiv"
+msgstr "Förråd"
 
 #: weblate/addons/views.py:119
 msgctxt "Add-on scope"
@@ -3088,11 +3085,9 @@ msgid "Component"
 msgstr "Komponent"
 
 #: weblate/addons/views.py:122 weblate/addons/views.py:127
-#, fuzzy
-#| msgid "parent category"
 msgctxt "Add-on scope"
 msgid "Parent category"
-msgstr "föräldrakategori"
+msgstr "Föräldrakategori"
 
 #: weblate/addons/views.py:128
 msgctxt "Add-on scope"
@@ -3107,7 +3102,7 @@ msgstr "Projekt"
 #: weblate/addons/views.py:131
 msgctxt "Add-on scope"
 msgid "Site"
-msgstr ""
+msgstr "Sida"
 
 #: weblate/addons/views.py:305 weblate/addons/views.py:308
 #: weblate/addons/views.py:435
@@ -6094,28 +6089,20 @@ msgid "The translation should not start with a list marker."
 msgstr "Översättningen ska inte börja med en listmarkör."
 
 #: weblate/checks/markup.py:1101
-#, fuzzy
-#| msgid "AsciiDoc file"
 msgid "AsciiDoc markup"
-msgstr "AsciiDoc-fil"
+msgstr "AsciiDoc-markering"
 
 #: weblate/checks/markup.py:1102
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "C-formatsträngen stämmer inte överens med källan."
+msgstr "AsciiDoc-markeringen stämmer inte överens med källtexten."
 
 #: weblate/checks/markup.py:1112
-#, fuzzy
-#| msgid "The following reStructuredText markup is missing: {}"
 msgid "The following AsciiDoc markup is missing: {}"
-msgstr "Följande reStructuredText-markup saknas: {}"
+msgstr "Följande AsciiDoc-markering saknas: {}"
 
 #: weblate/checks/markup.py:1117
-#, fuzzy
-#| msgid "The following reStructuredText markup is extra: {}"
 msgid "The following AsciiDoc markup is extra: {}"
-msgstr "Följande reStructuredText-markup är extra: {}"
+msgstr "Följande AsciiDoc-markering är överflödig: {}"
 
 #: weblate/checks/mdx.py:301
 msgid "Safe MDX"
@@ -6524,17 +6511,13 @@ msgstr "gettext po-fil (enspråkig)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1981
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 1)"
-msgstr "Qt Linguist-översättningsfil"
+msgstr "Qt Linguist-översättningsfil (version 1)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2091
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)"
-msgstr "Qt Linguist-översättningsfil"
+msgstr "Qt Linguist-översättningsfil (version 2)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2108
@@ -10028,10 +10011,8 @@ msgid "Configuration"
 msgstr "Konfiguration"
 
 #: weblate/templates/addons/addon_base.html:16
-#, fuzzy
-#| msgid "View Logs"
 msgid "Logs"
-msgstr "Visa loggar"
+msgstr "Loggar"
 
 #: weblate/templates/addons/addon_base.html:33
 #: weblate/templates/addons/addon_base.html:40
@@ -10096,14 +10077,12 @@ msgid "This add-on has no settings."
 msgstr "Det här tillägget har inga inställningar."
 
 #: weblate/templates/addons/addon_detail.html:38
-#, fuzzy
-#| msgid "Enable add-on:"
 msgid "Run add-on"
-msgstr "Aktivera tillägg:"
+msgstr "Kör tillägget"
 
 #: weblate/templates/addons/addon_detail.html:42
 msgid "Schedule this add-on to run as soon as possible."
-msgstr ""
+msgstr "Schemalägg detta tillägg så att det körs så snart som möjligt."
 
 #: weblate/templates/addons/addon_detail.html:45
 msgid "Run now"
@@ -10118,6 +10097,8 @@ msgstr "Farliga zonen"
 msgid ""
 "Uninstalling the add-on stops it from running and removes its configuration."
 msgstr ""
+"Att avinstallera tillägget hindrar det från att köra och tar bort dess "
+"konfiguration."
 
 #: weblate/templates/addons/addon_detail.html:62
 msgid "Uninstall"
@@ -12194,23 +12175,21 @@ msgid "Remove obsolete strings from the translation file"
 msgstr "Ta bort föråldrade strängar från översättningsfilen"
 
 #: weblate/templates/js/git-status.html:262
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Removes obsolete strings from PO files."
-msgstr "Ta bort tomma strängar"
+msgstr "Tar bort föråldrade strängar från PO-filer."
 
 #: weblate/templates/js/git-status.html:263
 msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"Använd när föråldrade poster skall ansas bort utan att aktivera att de "
+"automatiskt tas bort när man sparar."
 
 #: weblate/templates/js/git-status.html:269
-#, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
 msgid "Use these operations with caution, they rewrite the translation file."
 msgstr ""
-"Använd dessa operationer med försiktighet, de kan leda till dataförlust."
+"Använd dessa operationer med försiktighet, de skriver om översättningsfilen."
 
 #: weblate/templates/js/git-status.html:278
 #, python-format
@@ -12410,16 +12389,12 @@ msgid "Please see a documentation for more info."
 msgstr "Se dokumentationen för mer information."
 
 #: weblate/templates/language-project.html:248
-#, fuzzy
-#| msgid ""
-#| "The message is shown for all translations within the project, until its "
-#| "given expiry, or permanently until it is deleted."
 msgid ""
 "The message is shown for all translations in this project language, until "
 "its given expiry, or permanently until it is deleted."
 msgstr ""
-"Meddelandet visas på alla översättningar inom projektet så länge det är "
-"giltigt eller permanent tills det tas bort."
+"Meddelandet visas på alla översättningar inom dett projektsprål så länge det "
+"är giltigt eller permanent tills det tas bort."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:205 weblate/wladmin/views.py:146
@@ -12483,6 +12458,9 @@ msgid ""
 "third-party provider. Review the provider's terms and privacy policy before "
 "enabling it."
 msgstr ""
+"Denna tjänst kan skicka källsträngar, översättningar och relaterat "
+"sammanhang till en tredjepartsleverantör. Granska leverantörens villkor och "
+"sekretesspolicy innan du aktiverar den."
 
 #: weblate/templates/machinery/list.html:28
 msgid "Configured automatic suggestion services"
@@ -12594,6 +12572,8 @@ msgid ""
 "Following billings have recurring payment scheduled for automatic "
 "disablement due to inactivity:"
 msgstr ""
+"Följande fakturor har automatisk avaktivering av återkommande betalningar "
+"schemalagdt på grund av inaktivitet:"
 
 #: weblate/templates/mail/billing_expired.html:7
 msgid "Your billing plan has expired and all its projects have been removed."
@@ -12691,6 +12671,9 @@ msgid ""
 "Recurring annual payment for your billing plan will be disabled on %(date)s "
 "because the covered projects seem abandoned."
 msgstr ""
+"Den återkommande årliga betalningen för ditt abonnemang kommer att "
+"deaktiveras den %(date)s eftersom de projekt som omfattas av abonnemanget "
+"verkar ha övergivits."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:13
 #, python-format
@@ -12698,42 +12681,39 @@ msgid ""
 "The newest known upstream repository commit for these projects is from "
 "%(date)s."
 msgstr ""
+"Den senaste kända uppdateringen i uppströmsförrådet för dessa projekt är "
+"från %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
+#, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
 msgstr ""
-"En förfrågan om en ny översättning har skickats till projektets utvecklare."
+"Weblate har översättningsändringar som väntar för dessa projekt sedan den %"
+"(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
 msgid "Weblate has repository changes waiting to be pushed since %(date)s."
 msgstr ""
+"Weblate har ändringar i förrådet som väntar på att skickas sedan %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:28
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate should now be able to see updated repository and you can unlock "
-#| "it."
+#, python-format
 msgid "Weblate has been unable to push repository changes since %(date)s."
-msgstr "Weblate bör nu kunna se uppdaterat arkiv som du kan låsa upp."
+msgstr "Weblate har inte kunnat skicka ändringar i förrådet sedan %(date)s."
 
 #: weblate/templates/mail/billing_inactive_recurring.html:47
 msgid ""
 "The projects will remain available, but the next payment will need to be "
 "made manually."
 msgstr ""
+"Projekten förblir tillgängliga, men nästa betalning måste göras manuellt."
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/billing_inactive_recurring_subject.txt:4
-#, fuzzy
-#| msgid "The account will be disabled after the expiry."
 msgid "Recurring payment will be disabled for inactive projects"
-msgstr "Kontot kommer att inaktiveras efter utgången."
+msgstr "Återkommande betalningar kommer att deaktiveras för inaktiva projekt"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
@@ -12847,13 +12827,11 @@ msgstr "%(invitation_author)s har bjudit in dig att delta"
 #: weblate/templates/mail/new_alert.html:8
 #, python-format
 msgid "Reopened alert: %(alert)s"
-msgstr ""
+msgstr "Återöppnad varning: %(alert)s"
 
 #: weblate/templates/mail/new_alert.html:24
-#, fuzzy
-#| msgid "View details"
 msgid "View diagnostics"
-msgstr "Visa detaljer"
+msgstr "Visa diagnostik"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/new_alert_subject.txt:5
@@ -13054,12 +13032,12 @@ msgid ""
 "Weblate.org has created this Hosted Weblate sign-in account so you can "
 "access purchased Weblate services."
 msgstr ""
+"Weblate.org har skapat detta inloggningskonto för Hosted Weblate så att du "
+"kan få tillgång till de Weblate-tjänster du har köpt."
 
 #: weblate/templates/mail/reset.html:9
-#, fuzzy
-#| msgid "Please enable the password authentication to secure your account."
 msgid "Please set the password for this sign-in account now."
-msgstr "Aktivera autentisering med lösenord för att säkra ditt konto."
+msgstr "Ange lösenordet för detta inloggningskonto nu."
 
 #: weblate/templates/mail/reset.html:11
 #, python-format
@@ -13068,7 +13046,7 @@ msgstr "En begäran att återställa ditt lösenord har gjorts på %(site_title)
 
 #: weblate/templates/mail/reset_subject.txt:6
 msgid "Set password for your Weblate account"
-msgstr ""
+msgstr "Sätt ett lösenord för ditt Weblate-konto"
 
 #: weblate/templates/mail/reset_subject.txt:8
 #, python-format
@@ -13107,10 +13085,8 @@ msgstr ""
 "fortsätta."
 
 #: weblate/templates/mail/shared-registration.html:18
-#, fuzzy
-#| msgid "Set password"
 msgid "Set account password"
-msgstr "Ställ in lösenord"
+msgstr "Sätt kontolösenord"
 
 #: weblate/templates/mail/shared-registration.html:20
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:19
@@ -13178,22 +13154,16 @@ msgid "%(translation)s has been completed"
 msgstr "%(translation)s har slutförts"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "Filter för översättningskvalitet"
+msgstr "Översättningsaktivitet under denna period:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
-#, fuzzy
-#| msgid "Added user"
 msgid "Added"
-msgstr "Användare tillagd"
+msgstr "Tillagda"
 
 #: weblate/templates/mail/translation_activity_summary.html:12
-#, fuzzy
-#| msgid "Update"
 msgid "Updated"
-msgstr "Uppdatera"
+msgstr "Uppdaterade"
 
 #: weblate/templates/mail/translation_activity_summary.html:14
 #: weblate/templates/snippets/list-objects.html:67
@@ -13214,16 +13184,12 @@ msgstr "Ofärdigt"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/translation_activity_summary_subject.txt:5
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Translation activity summary"
-msgstr "Översättningssammanfattning:"
+msgstr "Översättningsaktivitetssammanfattning"
 
 #: weblate/templates/manage/alerts.html:10
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component diagnostics"
-msgstr "Komponentlistor"
+msgstr "Komponentdiagnostik"
 
 #: weblate/templates/manage/alerts.html:40
 msgid "Projects without components"
@@ -13261,10 +13227,8 @@ msgid "Failed with an error"
 msgstr "Misslyckades med ett fel"
 
 #: weblate/templates/manage/backups.html:27
-#, fuzzy
-#| msgid "Completed translation"
 msgid "Completed with warnings"
-msgstr "Slutförd översättning"
+msgstr "Slutförda med varningar"
 
 #: weblate/templates/manage/backups.html:30
 msgid "Turned off"
@@ -13292,16 +13256,12 @@ msgid "Backup service credentials"
 msgstr "Autentiseringsuppgifter för säkerhetskopieringstjänst"
 
 #: weblate/templates/manage/backups.html:85
-#, fuzzy
-#| msgid "Failures"
 msgid "Failed"
-msgstr "Fel"
+msgstr "Misslyckade"
 
 #: weblate/templates/manage/backups.html:87
-#, fuzzy
-#| msgid "Strings"
 msgid "Warnings"
-msgstr "Strängar"
+msgstr "Varningar"
 
 #: weblate/templates/manage/backups.html:109
 msgid "Turn off"
