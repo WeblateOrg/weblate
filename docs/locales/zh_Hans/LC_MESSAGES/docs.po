@@ -40,7 +40,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-25 05:40+0000\n"
+"PO-Revision-Date: 2026-07-25 07:18+0000\n"
 "Last-Translator: AlexYang <A012pyshjs210@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
@@ -10792,7 +10792,7 @@ msgstr ""
 
 #: admin/install.rst:1690
 msgid "Google Cloud Error Reporting"
-msgstr ""
+msgstr "Google Cloud Error Reporting"
 
 #: admin/install.rst:1692
 msgid ""
@@ -10800,6 +10800,9 @@ msgid ""
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
+"Weblate 可以将已处理的服务端错误上报至 `Google Cloud Error Reporting`_。安装 "
+"Weblate 时需包含 ``google-errors`` 额外依赖项，并在 :file:`settings.py` 中配"
+"置 :setting:`GOOGLE_CLOUD_ERROR_REPORTING`："
 
 #: admin/install.rst:1702
 msgid ""
@@ -10808,10 +10811,14 @@ msgid ""
 "values can be overridden by setting ``service`` or ``version`` "
 "in :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 msgstr ""
+"Weblate 会自动在 ``weblate`` 服务下上报错误，并使用当前的 Weblate 版本号或 "
+"Git 提交版本（Git revision）作为上报的版本信息。这些值可以通过在 "
+":setting:`GOOGLE_CLOUD_ERROR_REPORTING` 中设置 ``service`` 或 ``version`` 来"
+"覆盖。"
 
 #: admin/install.rst:1710
 msgid "OpenTelemetry"
-msgstr ""
+msgstr "OpenTelemetry"
 
 #: admin/install.rst:1712
 msgid ""
@@ -10819,6 +10826,9 @@ msgid ""
 "opentelemetry.io/>`_. It uses OTLP over HTTP and can send traces to an "
 "OpenTelemetry Collector or a compatible vendor endpoint."
 msgstr ""
+"Weblate 可以使用 `OpenTelemetry <https://opentelemetry.io/>`_ 导出后端追踪（"
+"Traces）数据。它采用 OTLP over HTTP 传输，并能将追踪数据发送至 OpenTelemetry "
+"Collector 或兼容的第三方服务端点（Vendor endpoint）。"
 
 #: admin/install.rst:1722
 msgid ""
@@ -10827,6 +10837,10 @@ msgid ""
 "using :setting:`OPENTELEMETRY_ENABLED`, :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, "
 "and :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 msgstr ""
+"该集成能追踪 Django 请求、Celery 任务、Redis、出站 HTTP 请求、数据库调用以及 "
+"Weblate 特有的 Span。可以通过配置 "
+":setting:`OPENTELEMETRY_ENABLED`、:setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` "
+"和 :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE` 来启用和设置该功能。"
 
 #: admin/install.rst:1731
 msgid "Rollbar"
@@ -10990,6 +11004,10 @@ msgid ""
 "changes. Weblate application updates are delivered through Docker image "
 "tags; there is no release-bound update path for customized Compose files."
 msgstr ""
+"Docker Compose 文件仅作为部署配置示例。运维人员通常会根据自身的部署需求对其进"
+"行自定义，并自行维护这些本地改动。Weblate 应用程序的更新是通过 Docker 镜像标"
+"签（Image tags）发布的；如果自定义过 Compose 文件，官方不会提供自动随版本更新"
+"的升级路径（需要手动适配）。"
 
 #: admin/install/docker.rst:40
 msgid ""
@@ -11287,6 +11305,8 @@ msgid ""
 "calendar year. If you need to upgrade from an older release, upgrade first "
 "to an intermediate version listed in :ref:`version-specific-instructions`."
 msgstr ""
+"仅支持从当前或上一日历年发布的旧版本进行直接升级。如果您使用的是更早的版本，"
+"请先按 :ref:`version-specific-instructions` 中列出的中间版本进行阶梯式升级。"
 
 #: admin/install/docker.rst:263
 msgid ""
@@ -11456,6 +11476,10 @@ msgid ""
 "because its short tasks can benefit from buffering. Increase the value only "
 "after measuring queue latency and worker memory usage."
 msgstr ""
+"预取乘数（Prefetch multiplier）用于控制每个工作进程执行槽（Worker execution "
+"slot）可以预留的任务数量。默认值 1 可以避免预留额外的长耗时或高载荷任务。在本"
+"示例中，通知工作进程（Notification worker）将其设为 4，因为其短耗时任务能从预"
+"缓冲中获益。请仅在评估过队列延迟和工作进程内存占用后再调高该值。"
 
 #: admin/install/docker.rst:415
 msgid ""
@@ -11716,7 +11740,7 @@ msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`。"
 
 #: admin/install/docker.rst:741
 msgid "Expects a comma-separated list of trusted project slugs."
-msgstr ""
+msgstr "需填入以英文逗号分隔的受信任项目标识符（Project slugs）列表。"
 
 #: admin/install/docker.rst:747
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
@@ -11728,7 +11752,7 @@ msgstr "配置 :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/install/docker.rst:757 admin/install/docker.rst:779
 msgid "Expects a comma-separated list of trusted hostnames or domains."
-msgstr ""
+msgstr "需填入以英文逗号分隔的受信任主机名或域名（hostnames or domains）列表。"
 
 #: admin/install/docker.rst:763
 msgid "Configures :setting:`ALLOWED_ASSET_SIZE`."
@@ -11906,28 +11930,36 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"修改此环境变量后需重新创建 Docker 容器，例如使用 :program:`docker compose "
+"up -d`。仅重启（restart）已存在的容器不会应用环境变量值的更改。"
 
 #: admin/install/docker.rst:955
 msgid ""
 "Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"在启用了 :envvar:`WEBLATE_LEGAL_INTEGRATION` 的 Docker 部署中，用该变量来配"
+"置 :setting:`LEGAL_DOCUMENT_CSS_CLASS`。"
 
 #: admin/install/docker.rst:958
 msgid ""
 "Set this to the class targeted by your custom legal stylesheet. Set it to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
+"用于指定自定义法律文件样式表所作用的 CSS 类名（Class）。设为空字符串则渲染法"
+"律文件时不附加外层类名。"
 
 #: admin/install/docker.rst:970
 msgid ""
 "Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"在启用了 :setting:`LEGAL_HIDDEN_DOCUMENTS` 的 Docker 部署中，用该变量来配置 "
+":envvar:`WEBLATE_LEGAL_INTEGRATION`。"
 
 #: admin/install/docker.rst:973
 msgid "Provide a comma-separated list of legal document page identifiers."
-msgstr ""
+msgstr "需填入以英文逗号分隔的法律文件页面标识符（Page identifiers）列表。"
 
 #: admin/install/docker.rst:984
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -12224,6 +12256,8 @@ msgid ""
 "The value is in bytes. Make sure :envvar:`CLIENT_MAX_BODY_SIZE` is also "
 "large enough for uploaded backup files."
 msgstr ""
+"单位为字节（Bytes）。请确保 :envvar:`CLIENT_MAX_BODY_SIZE` 的配置值足够大，以"
+"容纳上传备份文件。"
 
 #: admin/install/docker.rst:1361
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
@@ -12309,6 +12343,9 @@ msgid ""
 "the database, so there are no GitHub App environment variables to configure. "
 "See :ref:`code-hosting-github-notifications`."
 msgstr ""
+"Weblate 的 GitHub App 是通过界面内的 Manifest 流程注册并存入数据库的，因此无"
+"需配置任何 GitHub App 相关的环境变量。详见 :ref:`code-hosting-github-"
+"notifications`。"
 
 #: admin/install/docker.rst:1463
 msgid ""
@@ -12887,7 +12924,7 @@ msgstr "要启用 Google 云错误报告支持，请进行以下设置："
 
 #: admin/install/docker.rst:2221
 msgid "Enables :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, defaults to ``False``."
-msgstr ""
+msgstr "启用 :setting:`GOOGLE_CLOUD_ERROR_REPORTING`，默认为 ``False``。"
 
 #: admin/install/docker.rst:2225
 msgid ""
