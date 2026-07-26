@@ -35,6 +35,7 @@ from weblate.trans.discovery import (
     ComponentDiscovery,
     get_component_detected_discovery_presets,
     get_detected_discovery_preset_values_key,
+    parse_reversible_component_template,
 )
 from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.trans.models import Translation
@@ -884,6 +885,26 @@ class DiscoveryForm(BaseAddonForm):
             "used when creating actual source strings. This template must include {{ component }}."
         ),
     )
+    create_from_template = forms.BooleanField(
+        label=gettext_lazy("Create components from monolingual base or new base files"),
+        required=False,
+        initial=False,
+        help_text=gettext_lazy(
+            "When enabled, discovery also creates components when a configured "
+            "monolingual base or new base file exists, even if no translation "
+            "files are present yet."
+        ),
+    )
+    filemask_template = forms.CharField(
+        label=gettext_lazy("Define the translation file mask"),
+        initial="",
+        required=False,
+        help_text=gettext_lazy(
+            "Used when creating components without translation files. "
+            "Include a language wildcard and {{ component }}, for example "
+            "locale/*/{{ component }}.po or docs/{{ component }}_*.md."
+        ),
+    )
 
     language_regex = forms.CharField(
         label=gettext_lazy("Language filter"),
@@ -921,6 +942,8 @@ class DiscoveryForm(BaseAddonForm):
             Field("base_file_template"),
             Field("new_base_template"),
             Field("intermediate_template"),
+            Field("create_from_template"),
+            Field("filemask_template"),
             Field("language_regex"),
             Field("copy_addons"),
             Field("remove"),
@@ -1215,6 +1238,50 @@ class DiscoveryForm(BaseAddonForm):
                         )
                     }
                 )
+            if self.cleaned_data.get("create_from_template"):
+                new_base_template = self.cleaned_data.get("new_base_template")
+                base_file_template = self.cleaned_data.get("base_file_template")
+                filemask_template = self.cleaned_data.get("filemask_template")
+                errors: dict[str, str] = {}
+                if is_monolingual is False and not new_base_template:
+                    errors["new_base_template"] = gettext(
+                        "Define the base file for new translations when creating components from a template."
+                    )
+                elif is_monolingual is None and not (
+                    base_file_template or new_base_template
+                ):
+                    errors["base_file_template"] = gettext(
+                        "Define a monolingual base or new base filename when creating components from a template."
+                    )
+                if not filemask_template:
+                    errors["filemask_template"] = gettext(
+                        "Define the translation file mask when creating components from a template."
+                    )
+
+                if is_monolingual:
+                    source_template = base_file_template
+                    source_field = "base_file_template"
+                elif is_monolingual is False:
+                    source_template = new_base_template
+                    source_field = "new_base_template"
+                else:
+                    source_template = base_file_template or new_base_template
+                    source_field = (
+                        "base_file_template"
+                        if base_file_template
+                        else "new_base_template"
+                    )
+
+                if (
+                    source_template
+                    and parse_reversible_component_template(source_template) is None
+                ):
+                    errors[source_field] = gettext(
+                        "This template must contain exactly one plain {{ component }} placeholder with no filters or other variables."
+                    )
+
+                if errors:
+                    raise forms.ValidationError(errors)
 
         self.cleaned_data["preview"] = False
 
@@ -1291,6 +1358,9 @@ class DiscoveryForm(BaseAddonForm):
 
     def clean_intermediate_template(self):
         return self.template_clean("intermediate_template")
+
+    def clean_filemask_template(self):
+        return self.template_clean("filemask_template")
 
 
 class AutoAddonForm(

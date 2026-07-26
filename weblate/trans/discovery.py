@@ -44,6 +44,8 @@ DISCOVERY_PRESET_COMPONENT_MARKER = "__COMPONENT__"
 DISCOVERY_PRESET_COMPONENT_TEMPLATE = "{{ component }}"
 DISCOVERY_PRESET_LANGUAGE_CAPTURE = r"(?P<language>[^/.]*)"
 DISCOVERY_PRESET_COMPONENT_CAPTURE = r"(?P<component>[^/]*)"
+COMPONENT_PLACEHOLDER_RE = re.compile(r"\{\{\s*component\s*\}\}")
+OTHER_TEMPLATE_MARKUP_RE = re.compile(r"(\{\{|\{%)")
 
 
 class DiscoveryErrorMatch(TypedDict):
@@ -61,8 +63,10 @@ class DiscoveryKwargs(TypedDict):
     base_file_template: NotRequired[str]
     new_base_template: NotRequired[str]
     intermediate_template: NotRequired[str]
+    filemask_template: NotRequired[str]
     file_format: Required[str]
     copy_addons: NotRequired[bool]
+    create_from_template: NotRequired[bool]
 
 
 class MutableDiscoveryMatch(TypedDict):
@@ -133,6 +137,40 @@ def get_discovery_result_key(
 
 def get_discovery_language_regex(result: DiscoveryResult) -> str:
     return str(result.get("language_regex") or "^[^.]+$")
+
+
+def parse_reversible_component_template(template: str) -> tuple[str, str] | None:
+    """
+    Return ``(prefix, suffix)`` for a directly reversible component template.
+
+    The template must contain exactly one plain ``{{ component }}`` placeholder
+    and no other Django template markup.
+    """
+    if not template:
+        return None
+    matches = list(COMPONENT_PLACEHOLDER_RE.finditer(template))
+    if len(matches) != 1:
+        return None
+    match = matches[0]
+    prefix = template[: match.start()]
+    suffix = template[match.end() :]
+    if OTHER_TEMPLATE_MARKUP_RE.search(prefix) or OTHER_TEMPLATE_MARKUP_RE.search(
+        suffix
+    ):
+        return None
+    return prefix, suffix
+
+
+def compile_component_template_match(template: str):
+    """Compile a regex that extracts ``component`` from a reversible path template."""
+    parsed = parse_reversible_component_template(template)
+    if parsed is None:
+        msg = "Template is not reversible"
+        raise ValueError(msg)
+    prefix, suffix = parsed
+    return compile_regex(
+        f"^{re.escape(prefix)}(?P<component>[^/]+){re.escape(suffix)}$"
+    )
 
 
 def split_discovery_path(value: str) -> list[str]:
@@ -472,8 +510,10 @@ class ComponentDiscovery:
         base_file_template: str = "",
         new_base_template: str = "",
         intermediate_template: str = "",
+        filemask_template: str = "",
         path: str | None = None,
         copy_addons: bool = True,
+        create_from_template: bool = False,
     ) -> None:
         self.component = component
         self.match = match
@@ -487,10 +527,12 @@ class ComponentDiscovery:
         self.base_file_template = base_file_template
         self.new_base_template = new_base_template
         self.intermediate_template = intermediate_template
+        self.filemask_template = filemask_template
         self.language_re = language_regex
         self.language_match = compile_regex(language_regex)
         self.file_format = file_format
         self.copy_addons = copy_addons
+        self.create_from_template = create_from_template
 
     def add_error(self, reason: str, *, mask: str = "") -> None:
         match: DiscoveryErrorMatch = {
@@ -526,8 +568,14 @@ class ComponentDiscovery:
             kwargs["intermediate_template"] = cast(
                 "str", params["intermediate_template"]
             )
+        if "filemask_template" in params:
+            kwargs["filemask_template"] = cast("str", params["filemask_template"])
         if "copy_addons" in params:
             kwargs["copy_addons"] = cast("bool", params["copy_addons"])
+        if "create_from_template" in params:
+            kwargs["create_from_template"] = cast(
+                "bool", params["create_from_template"]
+            )
         return kwargs
 
     def compile_match(self, match: str):
@@ -537,6 +585,15 @@ class ComponentDiscovery:
             parts[0:2] = [f"{parts[0]}(?P<_language_{offset}>(?P=language)){parts[1]}"]
             offset += 1
         return compile_regex(f"^{parts[0]}$")
+
+    @property
+    def source_file_template(self) -> str:
+        """Template used to discover components without translation files."""
+        if self.file_format_cls.monolingual:
+            return self.base_file_template
+        if self.file_format_cls.monolingual is False:
+            return self.new_base_template
+        return self.base_file_template or self.new_base_template
 
     @cached_property
     def matches(self):
@@ -641,24 +698,20 @@ class ComponentDiscovery:
         result: dict[str, MutableDiscoveryMatch] = {}
         for path, groups, mask in self.matches:
             if mask not in result:
-                name = render_template(self.name_template, **groups)
-                result[mask] = {
-                    "files": {path},
-                    "languages": {groups["language"]},
-                    "files_langs": {(path, groups["language"])},
-                    "base_file": render_template(self.base_file_template, **groups),
-                    "new_base": render_template(self.new_base_template, **groups),
-                    "intermediate": render_template(
-                        self.intermediate_template, **groups
-                    ),
-                    "mask": mask,
-                    "name": name,
-                    "slug": slugify(name),
-                }
+                result[mask] = self.build_match_from_groups(
+                    groups, mask=mask, path=path
+                )
             else:
                 result[mask]["files"].add(path)
                 result[mask]["languages"].add(groups["language"])
                 result[mask]["files_langs"].add((path, groups["language"]))
+
+        # Add components discovered from template/new-base only when no
+        # translation files matched the same file mask.
+        for mask, match in self.matched_base_only_components.items():
+            if mask not in result:
+                result[mask] = match
+
         return {
             mask: {
                 **match,
@@ -666,6 +719,127 @@ class ComponentDiscovery:
             }
             for mask, match in result.items()
         }
+
+    def build_match_from_groups(
+        self, groups: Mapping[str, str], *, mask: str, path: str | None = None
+    ) -> MutableDiscoveryMatch:
+        name = render_template(self.name_template, **groups)
+        files = {path} if path else set()
+        languages = {groups["language"]} if path and "language" in groups else set()
+        files_langs = (
+            {(path, groups["language"])} if path and "language" in groups else set()
+        )
+        return {
+            "files": files,
+            "languages": languages,
+            "files_langs": files_langs,
+            "base_file": render_template(self.base_file_template, **groups),
+            "new_base": render_template(self.new_base_template, **groups),
+            "intermediate": render_template(self.intermediate_template, **groups),
+            "mask": mask,
+            "name": name,
+            "slug": slugify(name),
+        }
+
+    @cached_property
+    def matched_base_only_components(self) -> dict[str, MutableDiscoveryMatch]:
+        """Return components discovered from template or new-base files only."""
+        result: dict[str, MutableDiscoveryMatch] = {}
+        if not self.create_from_template:
+            return result
+
+        source_template = self.source_file_template
+        if not source_template or not self.filemask_template:
+            return result
+
+        try:
+            source_match = compile_component_template_match(source_template)
+        except ValueError:
+            self.add_error(
+                gettext(
+                    "The template used to discover components without translations must contain exactly one plain {{ component }} placeholder."
+                ),
+                mask=source_template,
+            )
+            return result
+
+        base = Path(self.path).resolve()
+        for root, dirnames, filenames in os.walk(self.path, followlinks=True):
+            dirnames[:] = [
+                dirname
+                for dirname in dirnames
+                if is_path_within_resolved_directory(os.path.join(root, dirname), base)
+            ]
+            for filename in filenames:
+                fullname = os.path.join(root, filename)
+                if not is_path_within_resolved_directory(fullname, base):
+                    continue
+
+                path = path_separator(os.path.relpath(fullname, self.path))
+                try:
+                    matches = regex_match(source_match, path)
+                except TimeoutError:
+                    report_error(
+                        "Component discovery base path regex timed out",
+                        project=self.component.project if self.component else None,
+                    )
+                    self.add_error(
+                        gettext(
+                            "The template used to discover components without translations is too complex and took too long to evaluate."
+                        ),
+                        mask=source_template,
+                    )
+                    LOGGER.warning(
+                        "Regex matching timed out for discovery base path: %s", path
+                    )
+                    return result
+                if not matches:
+                    continue
+
+                # Skip files that already match the translation discovery regex
+                # so translation layouts like docs/news_cs.md are not treated as
+                # monolingual bases for a docs/{{ component }}.md template.
+                try:
+                    translation_match = regex_match(self.path_match, path)
+                except TimeoutError:
+                    report_error(
+                        "Component discovery path regex timed out",
+                        project=self.component.project if self.component else None,
+                    )
+                    self.add_error(
+                        gettext(
+                            "The regular expression used to match discovered files is too complex and took too long to evaluate."
+                        ),
+                        mask=self.match,
+                    )
+                    return result
+                if translation_match:
+                    language_part = translation_match.group("language")
+                    try:
+                        if language_part is not None and regex_match(
+                            self.language_match, language_part
+                        ):
+                            continue
+                    except TimeoutError:
+                        report_error(
+                            "Component discovery language regex timed out",
+                            project=self.component.project if self.component else None,
+                        )
+                        self.add_error(
+                            gettext(
+                                "The language filter regular expression is too complex and took too long to evaluate."
+                            ),
+                            mask=self.language_re,
+                        )
+                        return result
+
+                groups = {"component": matches.group("component")}
+                mask = render_template(self.filemask_template, **groups)
+                if not mask or mask in result:
+                    continue
+                result[mask] = self.build_match_from_groups(groups, mask=mask)
+
+        return result
 
     def log(self, *args) -> None:
         if self.component:
