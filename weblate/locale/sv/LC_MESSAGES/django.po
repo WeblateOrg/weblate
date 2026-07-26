@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-25 00:40-0500\n"
-"PO-Revision-Date: 2026-07-25 19:01+0000\n"
+"PO-Revision-Date: 2026-07-27 07:02+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -13333,10 +13333,8 @@ msgid "Manage support package"
 msgstr "Hantera supportpaket"
 
 #: weblate/templates/manage/index.html:78
-#, fuzzy
-#| msgid "Unlink support package"
 msgid "Unlink support package and disable Discover Weblate"
-msgstr "Koppla bort supportpaket"
+msgstr "Ta bort kopplingen till stödpaketet och deaktivera Discover Weblate"
 
 #: weblate/templates/manage/index.html:80
 msgid "Unlink support package"
@@ -13364,12 +13362,16 @@ msgid ""
 "Discover Weblate helps translators find Weblate sites and projects to "
 "contribute to."
 msgstr ""
+"Discover Weblate hjälper översättare att hitta Weblate-sajter och projekt "
+"att bidra till."
 
 #: weblate/templates/manage/index.html:119
 msgid ""
 "When enabled, weblate.org lists your site details and public or protected "
 "projects."
 msgstr ""
+"När funktionen är aktiverad listar weblate.org dina webbplatsuppgifter och "
+"offentliga eller skyddade projekt."
 
 #: weblate/templates/manage/index.html:123
 msgid "Your Weblate is listed on weblate.org"
@@ -13392,10 +13394,8 @@ msgid "Manage your listing"
 msgstr "Hantera din listning"
 
 #: weblate/templates/manage/index.html:150
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Enable Discover Weblate"
-msgstr "Upptäck Weblate"
+msgstr "Aktivera Discover Weblate"
 
 #: weblate/templates/manage/index.html:153
 msgid "Browse discovery"
@@ -13433,76 +13433,56 @@ msgid "Celery queues"
 msgstr "Celery-köer"
 
 #: weblate/templates/manage/performance.html:131
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory migration"
-msgstr "Status för översättningsminnet"
+msgstr "Överföring av översättningsminne"
 
 #: weblate/templates/manage/performance.html:137
 msgid "Scope backfill"
-msgstr ""
+msgstr "Räckvidd för återfyllnad"
 
 #: weblate/templates/manage/performance.html:145
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory scope backfill"
-msgstr "Status för översättningsminnet"
+msgstr "Räckvidd för återfyllnad av översättningsminnet"
 
 #: weblate/templates/manage/performance.html:153
-#, fuzzy
-#| msgid "Entries were deleted."
 msgid "Entries processed"
-msgstr "Poster togs bort."
+msgstr "Bearbetade poster"
 
 #: weblate/templates/manage/performance.html:157
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate candidate scan"
-msgstr "Duplicerad översättning."
+msgstr "Kontroll av dubbla kandidater"
 
 #: weblate/templates/manage/performance.html:165
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory duplicate candidate scan"
-msgstr "Status för översättningsminnet"
+msgstr "Genomsökning av kandidater för dubbletter i översättningsminnet"
 
 #: weblate/templates/manage/performance.html:173
 msgid "Candidate scan cursor"
-msgstr ""
+msgstr "Markör för kandidatsökning"
 
 #: weblate/templates/manage/performance.html:177
-#, fuzzy
-#| msgid "Last updated"
 msgid "Last update"
-msgstr "Senast uppdaterad"
+msgstr "Senaste uppdatering"
 
 #: weblate/templates/manage/performance.html:182
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not needed"
-msgstr "Ännu inte uppmätt"
+msgstr "Behövs inte"
 
 #: weblate/templates/manage/performance.html:184
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not yet started"
-msgstr "Ännu inte uppmätt"
+msgstr "Ej påbörjad ännu"
 
 #: weblate/templates/manage/performance.html:192
-#, fuzzy
-#| msgid "Component"
 msgid "Completed"
-msgstr "Komponent"
+msgstr "Slutförd"
 
 #: weblate/templates/manage/performance.html:194
 msgid "Scanning duplicate candidates"
-msgstr ""
+msgstr "Genomsökning efter dubbla kandidater"
 
 #: weblate/templates/manage/performance.html:196
-#, fuzzy
-#| msgid "Billing owners"
 msgid "Backfilling scopes"
-msgstr "Faktureringsägare"
+msgstr "Räckvidder för återfyllnad"
 
 #: weblate/templates/manage/performance.html:209
 #: weblate/templates/manage/performance.html:224
@@ -13511,7 +13491,7 @@ msgstr "Diskanvändning"
 
 #: weblate/templates/manage/performance.html:230
 msgid "Storage"
-msgstr ""
+msgstr "Lagring"
 
 #: weblate/templates/manage/performance.html:231
 msgid "Disk size"
@@ -13526,14 +13506,12 @@ msgid "Disk free"
 msgstr "Disk ledigt"
 
 #: weblate/templates/manage/performance.html:236
-#, fuzzy
-#| msgid "Service"
 msgid "Server"
-msgstr "Tjänst"
+msgstr "Server"
 
 #: weblate/templates/manage/performance.html:243
 msgid "PostgreSQL database"
-msgstr ""
+msgstr "PostgreSQL-databas"
 
 #: weblate/templates/manage/performance.html:266
 msgid "System encoding"
@@ -13781,10 +13759,8 @@ msgstr "Lägg till ny användare"
 
 #: weblate/templates/manage/users.html:41
 #: weblate/templates/trans/project-access.html:270
-#, fuzzy
-#| msgid "Invited user"
 msgid "Bulk invite users"
-msgstr "Inbjuden användare"
+msgstr "Bjud in användare i grupp"
 
 #: weblate/templates/manage/users.html:45
 #: weblate/templates/trans/project-access.html:255
@@ -13817,38 +13793,30 @@ msgstr "Kontrollera användaråtkomst"
 
 #: weblate/templates/manage/workspace_form.html:11
 #: weblate/templates/manage/workspaces.html:10 weblate/wladmin/views.py:142
-#, fuzzy
-#| msgid "Spaces"
 msgid "Workspaces"
-msgstr "Mellanslag"
+msgstr "Arbetsområden"
 
 #: weblate/templates/manage/workspace_form.html:15
 #: weblate/templates/manage/workspace_form.html:25
 #: weblate/templates/manage/workspaces.html:19
 msgid "Add workspace"
-msgstr ""
+msgstr "Lägg till ett arbetsområde"
 
 #: weblate/templates/manage/workspaces.html:21
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage workspaces"
-msgstr "Hantera användare"
+msgstr "Hantera arbetsområden"
 
 #: weblate/templates/manage/workspaces.html:25 weblate/wladmin/forms.py:87
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Search workspaces"
-msgstr "Weblate-nycklar"
+msgstr "Sök i arbetsområden"
 
 #: weblate/templates/manage/workspaces.html:30
 msgid "Clear"
 msgstr "Rensa"
 
 #: weblate/templates/manage/workspaces.html:35
-#, fuzzy
-#| msgid "No words found!"
 msgid "No workspaces found."
-msgstr "Inga ord hittades!"
+msgstr "Inga arbetsområden hittades."
 
 #: weblate/templates/matrix-table.html:14
 msgid "String missing"
@@ -14120,10 +14088,8 @@ msgstr ""
 "Om du byter namn på projektet ändras även URL:er för alla dess komponenter."
 
 #: weblate/templates/project.html:427
-#, fuzzy
-#| msgid "Removed project"
 msgid "Move project"
-msgstr "Projektet borttaget"
+msgstr "Flytta projekt"
 
 #: weblate/templates/project.html:434
 msgid "Move"
@@ -14171,40 +14137,28 @@ msgstr ""
 "för att ersätta fler."
 
 #: weblate/templates/replace.html:23
-#, fuzzy
-#| msgid "Start review"
 msgid "Update preview"
-msgstr "Påbörja granskning"
+msgstr "Förhandsgranskning av uppdatering"
 
 #: weblate/templates/report.html:26
-#, fuzzy
-#| msgid "Generate"
 msgid "Generated by"
-msgstr "Generera"
+msgstr "Skapad av"
 
 #: weblate/templates/report.html:30
-#, fuzzy
-#| msgid "Generate"
 msgid "Generated on"
-msgstr "Generera"
+msgstr "Skapad den"
 
 #: weblate/templates/report.html:35
-#, fuzzy
-#| msgid "Download as JSON"
 msgid "Download JSON"
-msgstr "Ladda ner som JSON"
+msgstr "Ladda ner JSON"
 
 #: weblate/templates/report.html:36
-#, fuzzy
-#| msgid "Download as TMX"
 msgid "Download HTML"
-msgstr "Ladda ner som TMX"
+msgstr "Ladda ner HTML"
 
 #: weblate/templates/report.html:37
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "Download reStructuredText"
-msgstr "reStructuredText"
+msgstr "Ladda ner reStructuredText"
 
 #: weblate/templates/screenshots/screenshot_detail.html:35
 msgid "Assigned source strings"
@@ -14229,28 +14183,25 @@ msgid ""
 "Use query syntax; boolean operators like <code>AND</code>, <code>OR</code>, "
 "and <code>NOT</code> are case-insensitive."
 msgstr ""
+"Använd frågesyntax; booleska operatorer som <code>AND</code>, <code>OR</"
+"code> och <code>NOT</code> är skiftlägesokänsliga."
 
 #: weblate/templates/screenshots/screenshot_detail.html:83
-#, fuzzy
-#| msgid "View check documentation"
 msgid "Search query syntax documentation"
-msgstr "Visa kontrolldokumentation"
+msgstr "Dokumentation av sökfrågesyntax"
 
 #: weblate/templates/screenshots/screenshot_detail.html:91
 msgid "Suggests source strings by recognizing text in this screenshot."
 msgstr ""
+"Föreslår källsträngar genom att känna igen texten i den här skärmdumpen."
 
 #: weblate/templates/screenshots/screenshot_detail.html:92
-#, fuzzy
-#| msgid "Include strings needing editing"
 msgid "Find strings in image"
-msgstr "Inkludera strängar som behöver redigeras"
+msgstr "Sök efter strängar i bilden"
 
 #: weblate/templates/screenshots/screenshot_detail.html:98
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Add selected"
-msgstr "Lägg till skärmdump"
+msgstr "Lägg till valda"
 
 #: weblate/templates/screenshots/screenshot_detail.html:161
 msgid "Deleting screenshot will remove it from all associated source strings."
@@ -14260,17 +14211,13 @@ msgstr ""
 
 #: weblate/templates/screenshots/screenshot_list.html:68
 #: weblate/templates/trans/alert/missingscreenshots.html:7
-#, fuzzy
-#| msgid "Strings with screenshots"
 msgid "Source strings with screenshots"
-msgstr "Strängar med skärmdumpar"
+msgstr "Källsträngar med skärmdumpar"
 
 #: weblate/templates/screenshots/screenshot_list.html:78
 #: weblate/templates/trans/alert/missingscreenshots.html:11
-#, fuzzy
-#| msgid "Strings without screenshots"
 msgid "Source strings without screenshots"
-msgstr "Strängar utan skärmdumpar"
+msgstr "Källsträngar utan skärmdumpar"
 
 #: weblate/templates/screenshots/screenshot_list.html:114
 msgid ""
