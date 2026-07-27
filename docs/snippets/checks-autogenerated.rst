@@ -2612,7 +2612,7 @@ Consider using named variables instead to allow translators to reorder them.
 Source string length
 ~~~~~~~~~~~~~~~~~~~~
 
-:Summary: Source string is too long to fit into the configured maximum length.
+:Summary: Source string is close to or exceeds the configured maximum length for translations.
 :Scope: source strings
 :Check class: ``weblate.checks.source.SourceMaxLengthCheck``
 :Check identifier: ``source-max-length``
