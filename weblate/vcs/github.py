@@ -17,6 +17,7 @@ from urllib.parse import quote, urlencode, urlparse
 
 import httpx2
 import jwt
+from asgiref.sync import async_to_sync, sync_to_async
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -24,7 +25,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.utils.requests import fetch_url
+from weblate.utils.requests import async_fetch_url
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
@@ -228,13 +229,13 @@ def get_github_app_manifest_new_url(hostname: str, org: str | None = None) -> st
     return f"https://{hostname}/settings/apps/new"
 
 
-def exchange_github_app_manifest_code(
+async def exchange_github_app_manifest_code(
     code: str, hostname: str = "github.com"
 ) -> dict[str, object]:
     """Exchange a temporary manifest code for the created app's credentials."""
     code = quote(normalize_github_callback_code(code), safe="")
     api_base = get_github_api_base(normalize_github_app_hostname(hostname))
-    response = fetch_url(
+    response = await async_fetch_url(
         "post",
         f"{api_base}/app-manifests/{code}/conversions",
         headers={"Accept": "application/vnd.github.v3+json"},
@@ -303,7 +304,7 @@ def get_github_api_base(hostname: str) -> str:
     return f"https://{hostname}/api/v3"
 
 
-def get_installation_token(
+async def get_installation_token(
     app_id: str | int,
     private_key: str,
     installation_id: str | int,
@@ -312,7 +313,7 @@ def get_installation_token(
     """Return a cached installation access token for the given installation."""
     installation_id = normalize_github_installation_id(installation_id)
     cache_key = f"github-app-token:{hostname}:{installation_id}"
-    cached_token = cache.get(cache_key)
+    cached_token = await cache.aget(cache_key)
     if cached_token is not None:
         return cached_token
 
@@ -320,7 +321,7 @@ def get_installation_token(
     token = generate_jwt(app_id, private_key_pem)
 
     api_base = get_github_api_base(hostname)
-    response = fetch_url(
+    response = await async_fetch_url(
         "post",
         f"{api_base}/app/installations/{installation_id}/access_tokens",
         headers={
@@ -334,7 +335,7 @@ def get_installation_token(
     data = response.json()
 
     access_token = data["token"]
-    cache.set(cache_key, access_token, TOKEN_CACHE_TTL)
+    await cache.aset(cache_key, access_token, TOKEN_CACHE_TTL)
     logger.info(
         "Obtained Weblate GitHub app installation token for %s/%s",
         hostname,
@@ -343,7 +344,7 @@ def get_installation_token(
     return access_token
 
 
-def get_app_installation(
+async def get_app_installation(
     app_id: str | int,
     private_key: str,
     installation_id: str | int,
@@ -354,7 +355,7 @@ def get_app_installation(
     private_key_pem = validate_private_key(private_key)
     token = generate_jwt(app_id, private_key_pem)
     api_base = get_github_api_base(hostname)
-    response = fetch_url(
+    response = await async_fetch_url(
         "get",
         f"{api_base}/app/installations/{installation_id}",
         headers={
@@ -368,14 +369,14 @@ def get_app_installation(
     return response.json()
 
 
-def get_app_repositories(
+async def get_app_repositories(
     app_id: str | int,
     private_key: str,
     installation_id: str | int,
     hostname: str,
 ) -> list[dict]:
     """List repositories accessible to the installation, paginated."""
-    access_token = get_installation_token(
+    access_token = await get_installation_token(
         app_id, private_key, installation_id, hostname
     )
     api_base = get_github_api_base(hostname)
@@ -387,7 +388,7 @@ def get_app_repositories(
         "Accept": "application/vnd.github.v3+json",
     }
     while url:
-        response = fetch_url(
+        response = await async_fetch_url(
             "get", url, headers=headers, timeout=30, raise_for_status=False
         )
         response.raise_for_status()
@@ -500,9 +501,9 @@ def get_github_oauth_base(hostname: str) -> str:
     return "https://github.com" if hostname == "github.com" else f"https://{hostname}"
 
 
-def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> str:
+async def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> str:
     """Exchange an install-time OAuth ``code`` for a user-to-server access token."""
-    response = fetch_url(
+    response = await async_fetch_url(
         "post",
         f"{get_github_oauth_base(config.hostname)}/login/oauth/access_token",
         data={
@@ -523,12 +524,12 @@ def exchange_github_user_code(config: GitHubAppCredentials, code: str) -> str:
     return token
 
 
-def get_authenticated_github_user(
+async def get_authenticated_github_user(
     config: GitHubAppCredentials, user_token: str
 ) -> dict:
     """Return metadata for the authenticated GitHub user."""
     api_base = get_github_api_base(normalize_github_app_hostname(config.hostname))
-    response = fetch_url(
+    response = await async_fetch_url(
         "get",
         f"{api_base}/user",
         headers=_get_github_user_headers(user_token),
@@ -546,7 +547,7 @@ def _get_github_user_headers(user_token: str) -> dict[str, str]:
     }
 
 
-def _get_user_accessible_installation(
+async def _get_user_accessible_installation(
     config: GitHubAppCredentials, user_token: str, installation_id: str | int
 ) -> dict | None:
     """Return the user-visible installation metadata for ``installation_id``."""
@@ -555,7 +556,7 @@ def _get_user_accessible_installation(
     url: str | None = f"{api_base}/user/installations?per_page=100"
     headers = _get_github_user_headers(user_token)
     while url:
-        response = fetch_url(
+        response = await async_fetch_url(
             "get", url, headers=headers, timeout=30, raise_for_status=False
         )
         response.raise_for_status()
@@ -566,7 +567,7 @@ def _get_user_accessible_installation(
     return None
 
 
-def user_can_administer_org_installation(
+async def user_can_administer_org_installation(
     config: GitHubAppCredentials,
     user_token: str,
     org: str,
@@ -580,7 +581,7 @@ def user_can_administer_org_installation(
     )
     headers = _get_github_user_headers(user_token)
     while url:
-        response = fetch_url(
+        response = await async_fetch_url(
             "get", url, headers=headers, timeout=30, raise_for_status=False
         )
         try:
@@ -596,7 +597,7 @@ def user_can_administer_org_installation(
     return False
 
 
-def get_user_admin_installation(
+async def get_user_admin_installation(
     config: GitHubAppCredentials, user_token: str, installation_id: str | int
 ) -> dict | None:
     """
@@ -606,7 +607,7 @@ def get_user_admin_installation(
     installations need an additional owner/admin check before Weblate can bind
     the installation and mint installation tokens for all repositories.
     """
-    installation = _get_user_accessible_installation(
+    installation = await _get_user_accessible_installation(
         config, user_token, installation_id
     )
     if installation is None:
@@ -617,12 +618,12 @@ def get_user_admin_installation(
     target_type: str = account["type"].lower()
 
     if target_type == "user":
-        user = get_authenticated_github_user(config, user_token)
+        user = await get_authenticated_github_user(config, user_token)
         if user.get("login") == target_login:
             return installation
         return None
 
-    if target_type == "organization" and user_can_administer_org_installation(
+    if target_type == "organization" and await user_can_administer_org_installation(
         config, user_token, target_login, installation_id
     ):
         return installation
@@ -744,7 +745,7 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
         installation.save()
         return installation, created
 
-    def sync_from_api(
+    async def sync_from_api(
         self,
         hostname: str,
         installation_id: str | int,
@@ -754,18 +755,18 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
     ) -> GitHubInstallation:
         """Fetch installation metadata from GitHub and persist it."""
         hostname = normalize_github_app_hostname(hostname)
-        config = get_github_app_settings(hostname)
+        config = await sync_to_async(get_github_app_settings)(hostname)
         if config is None:
             msg = f"Weblate GitHub app is not configured for {hostname}"
             raise GitHubAppNotConfiguredError(msg)
 
-        data = get_app_installation(
+        data = await get_app_installation(
             config.app_id,
             config.private_key,
             installation_id,
             hostname,
         )
-        return self.upsert_from_data(
+        return await sync_to_async(self.upsert_from_data)(
             hostname,
             installation_id,
             data,
@@ -773,25 +774,25 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             enabled=enabled,
         )
 
-    def connect_workspace(
+    async def connect_workspace(
         self, hostname: str, installation_id: str | int, workspace: Workspace
     ) -> tuple[GitHubInstallation, bool]:
         """Connect an existing GitHub installation to a Weblate workspace."""
         hostname = normalize_github_app_hostname(hostname)
 
-        installation = self.get_for_installation(
+        installation = await sync_to_async(self.get_for_installation)(
             hostname, installation_id, workspace=workspace
         )
         if installation is not None:
             return (
-                self.sync_from_api(
+                await self.sync_from_api(
                     hostname, installation_id, workspace=workspace, enabled=True
                 ),
                 False,
             )
 
         return (
-            self.sync_from_api(hostname, installation_id, workspace=workspace),
+            await self.sync_from_api(hostname, installation_id, workspace=workspace),
             True,
         )
 
@@ -838,16 +839,16 @@ class GitHubInstallation(Installation):
 
     def get_access_token(self) -> str:
         config = self._require_app_settings()
-        return get_installation_token(
+        return async_to_sync(get_installation_token)(
             config.app_id,
             config.private_key,
             self.installation_id,
             self.hostname,
         )
 
-    def refresh_repositories(self) -> list[dict]:
-        config = self._require_app_settings()
-        repos = get_app_repositories(
+    async def refresh_repositories(self) -> list[dict]:
+        config = await sync_to_async(self._require_app_settings)()
+        repos = await get_app_repositories(
             config.app_id,
             config.private_key,
             self.installation_id,
@@ -855,7 +856,9 @@ class GitHubInstallation(Installation):
         )
         self.repositories = repos
         self.repositories_updated = timezone.now()
-        self.save(update_fields=["repositories", "repositories_updated"])
+        await sync_to_async(self.save)(
+            update_fields=["repositories", "repositories_updated"]
+        )
         logger.info(
             "Refreshed %d repositories for connected GitHub account %s/%s",
             len(repos),

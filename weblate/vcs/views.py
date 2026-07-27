@@ -12,6 +12,7 @@ from collections import defaultdict
 from typing import TYPE_CHECKING
 from urllib.parse import urlencode
 
+from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core import signing
@@ -517,19 +518,21 @@ def remove_github_app(request, pk):
 
 
 @login_required
-def refresh_repositories(request, pk):
+async def refresh_repositories(request, pk):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
-    installation = get_object_or_404(GitHubInstallation, pk=pk)
-    _require_installation_access(request, installation)
+    installation = await sync_to_async(get_object_or_404)(GitHubInstallation, pk=pk)
+    await sync_to_async(_require_installation_access)(request, installation)
     next_url = _get_redirect_url(
         request,
         _get_installation_repository_url(installation),
     )
     try:
-        repos = installation.refresh_repositories()
+        repos = await installation.refresh_repositories()
     except Exception:
-        report_error("Failed to refresh connected GitHub account repositories")
+        await sync_to_async(report_error)(
+            "Failed to refresh connected GitHub account repositories"
+        )
         messages.error(
             request,
             gettext("Failed to refresh repositories from GitHub."),
@@ -604,7 +607,9 @@ def github_app_install(request):
     return redirect(install_url)
 
 
-def _get_authorized_installation(request, config, code, installation_id) -> dict | None:
+async def _get_authorized_installation(
+    request, config, code, installation_id
+) -> dict | None:
     """
     Return the installation when the current user controls it via OAuth.
 
@@ -614,10 +619,12 @@ def _get_authorized_installation(request, config, code, installation_id) -> dict
     if not code:
         return None
     try:
-        user_token = exchange_github_user_code(config, code)
-        return get_user_admin_installation(config, user_token, installation_id)
+        user_token = await exchange_github_user_code(config, code)
+        return await get_user_admin_installation(config, user_token, installation_id)
     except Exception:
-        report_error("Failed to verify GitHub installation ownership")
+        await sync_to_async(report_error)(
+            "Failed to verify GitHub installation ownership"
+        )
         return None
 
 
@@ -671,9 +678,9 @@ def _get_update_callback_next_url(request, installation: GitHubInstallation) -> 
 
 
 @login_required
-def github_app_setup(request):
+async def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
-    next_url = _default_next_url(request)
+    next_url = await sync_to_async(_default_next_url)(request)
     installation_id = request.GET.get("installation_id", "").strip()
 
     # Handle GitHub's stateless ``setup_on_update`` callback before the stricter
@@ -681,13 +688,19 @@ def github_app_setup(request):
     # signed ``state``. Signed callbacks fall through to the normal setup flow
     # below.
     if request.GET.get("setup_action") == "update" and not request.GET.get("state"):
-        installation = _get_update_callback_installation(request, installation_id)
+        installation = await sync_to_async(_get_update_callback_installation)(
+            request, installation_id
+        )
         if installation:
             messages.success(
                 request,
                 gettext("Connected GitHub account updated."),
             )
-            return redirect(_get_update_callback_next_url(request, installation))
+            return redirect(
+                await sync_to_async(_get_update_callback_next_url)(
+                    request, installation
+                )
+            )
         messages.error(
             request,
             gettext(
@@ -697,16 +710,22 @@ def github_app_setup(request):
         )
         return redirect(next_url)
 
-    if response := _handle_missing_github_app_access(request, next_url):
+    if response := await sync_to_async(_handle_missing_github_app_access)(
+        request, next_url
+    ):
         return response
 
     hostname = ""
     workspace = None
     try:
-        state = _load_install_state(request, request.GET.get("state", ""))
+        state = await sync_to_async(_load_install_state)(
+            request, request.GET.get("state", "")
+        )
         next_url = str(state["next"])
         hostname = str(state["host"])
-        workspace = _get_installation_workspace(request.user, state["workspace"])
+        workspace = await sync_to_async(_get_installation_workspace)(
+            request.user, state["workspace"]
+        )
     except (BadSignature, SignatureExpired):
         messages.error(
             request,
@@ -732,7 +751,7 @@ def github_app_setup(request):
         return redirect(next_url)
     installation_id = callback_form.cleaned_data["installation_id"]
 
-    config = get_github_app_settings(hostname or None)
+    config = await sync_to_async(get_github_app_settings)(hostname or None)
     if config is None:
         messages.error(
             request,
@@ -747,7 +766,7 @@ def github_app_setup(request):
         )
         return redirect(next_url)
 
-    if not check_rate_limit("github_setup", request):
+    if not await sync_to_async(check_rate_limit)("github_setup", request):
         messages.error(
             request,
             gettext(
@@ -759,7 +778,7 @@ def github_app_setup(request):
         return redirect(next_url)
 
     code = callback_form.cleaned_data.get("code", "")
-    authorized_installation = _get_authorized_installation(
+    authorized_installation = await _get_authorized_installation(
         request, config, code, installation_id
     )
     if authorized_installation is None:
@@ -772,23 +791,30 @@ def github_app_setup(request):
             ),
         )
         return redirect(next_url)
-    installation, is_new_install = GitHubInstallation.objects.upsert_pending_from_data(
+    installation, is_new_install = await sync_to_async(
+        GitHubInstallation.objects.upsert_pending_from_data
+    )(
         config.hostname,
         installation_id,
         authorized_installation,
         workspace=workspace,
         enabled=True,
     )
-    apply_pending_github_installation_event(config.hostname, installation_id)
+    await sync_to_async(apply_pending_github_installation_event)(
+        config.hostname, installation_id
+    )
     try:
-        installation, synced_is_new_install = (
-            GitHubInstallation.objects.connect_workspace(
-                config.hostname, installation_id, workspace
-            )
+        (
+            installation,
+            synced_is_new_install,
+        ) = await GitHubInstallation.objects.connect_workspace(
+            config.hostname, installation_id, workspace
         )
         is_new_install = is_new_install or synced_is_new_install
     except Exception:
-        report_error("Failed to connect GitHub account to workspace")
+        await sync_to_async(report_error)(
+            "Failed to connect GitHub account to workspace"
+        )
         messages.warning(
             request,
             gettext(
@@ -800,9 +826,11 @@ def github_app_setup(request):
         return redirect(next_url)
 
     try:
-        installation.refresh_repositories()
+        await installation.refresh_repositories()
     except Exception:
-        report_error("Failed to refresh connected GitHub account repositories")
+        await sync_to_async(report_error)(
+            "Failed to refresh connected GitHub account repositories"
+        )
         messages.warning(
             request,
             gettext(
@@ -1185,7 +1213,7 @@ def github_app_register_submit(request):
 
 
 @management_permission_required("management.configure")
-def github_app_register_callback(request):
+async def github_app_register_callback(request):
     """Exchange a temporary manifest code for the App's credentials."""
     accounts_url = reverse("manage-github-accounts")
     callback_form = GitHubAppRegisterCallbackForm(request.GET)
@@ -1212,9 +1240,9 @@ def github_app_register_callback(request):
         return redirect(accounts_url)
 
     try:
-        data = exchange_github_app_manifest_code(code, hostname)
+        data = await exchange_github_app_manifest_code(code, hostname)
     except Exception:
-        report_error("Failed to exchange GitHub App manifest code")
+        await sync_to_async(report_error)("Failed to exchange GitHub App manifest code")
         messages.error(
             request,
             gettext(
@@ -1245,7 +1273,7 @@ def github_app_register_callback(request):
         )
         return redirect(accounts_url)
 
-    credentials, created = GitHubAppCredentials.objects.update_or_create(
+    credentials, created = await GitHubAppCredentials.objects.aupdate_or_create(
         hostname=hostname,
         defaults={
             "app_id": app_id,
