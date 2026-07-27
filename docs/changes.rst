@@ -33,6 +33,7 @@ Weblate 2026.8
 * Added opt-in :ref:`running-granian-asgi` deployment support, including :envvar:`WEBLATE_ASGI` for Docker containers.
 * Added opt-in :ref:`running-granian-asgi` deployment support.
 * Machine translation editor requests now use asynchronous HTTP for DeepL, LibreTranslate, ModernMT, OpenAI-compatible, Anthropic, and Ollama services on ASGI deployments.
+* GitHub App connection and repository refresh requests now use asynchronous HTTP on ASGI deployments.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
 

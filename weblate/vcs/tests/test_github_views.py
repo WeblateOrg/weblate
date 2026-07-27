@@ -9,6 +9,7 @@ from datetime import timedelta
 from typing import cast
 from urllib.parse import parse_qs, urlencode, urlparse
 
+from asgiref.sync import async_to_sync
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.test import TestCase
@@ -1276,12 +1277,17 @@ class GitHubInstallationViewTest(ViewTestCase):
                 ]
             },
         )
-        response = self.client.post(
+        self.async_client.force_login(self.user)
+        response = async_to_sync(self.async_client.post)(
             reverse("manage-github-account-refresh", kwargs={"pk": installation.pk}),
             {"next": reverse("github-app-repositories")},
         )
 
-        self.assertRedirects(response, reverse("github-app-repositories"))
+        self.assertRedirects(
+            response,
+            reverse("github-app-repositories"),
+            fetch_redirect_response=False,
+        )
         installation.refresh_from_db()
         self.assertEqual(installation.repositories, [repo])
         self.assertIsNotNone(installation.repositories_updated)
