@@ -21,7 +21,7 @@ def print_language(lang, fmt="{0} ({1})") -> None:
 
 def main() -> None:
     # load and parse data
-    data = httpx2.get(URL, timeout=5, follow_redirects=True).json()
+    data = httpx2.get(URL, timeout=5).json()
 
     # select languages
     languages_list = []

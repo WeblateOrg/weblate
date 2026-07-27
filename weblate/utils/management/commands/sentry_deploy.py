@@ -40,9 +40,7 @@ class Command(BaseCommand):
         release_url = f"{sentry_url}{version}/"
 
         # Ensure the release is tracked on Sentry
-        response = httpx2.get(
-            release_url, headers=sentry_auth, timeout=30, follow_redirects=True
-        )
+        response = httpx2.get(release_url, headers=sentry_auth, timeout=30)
         if response.status_code == 404:
             data = {
                 "version": version,
