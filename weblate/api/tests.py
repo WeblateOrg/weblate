@@ -23,6 +23,7 @@ from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError
 from django.db.models import Q
+from django.templatetags.static import static
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -15851,4 +15852,16 @@ class OpenAPITest(APIBaseTest):
         )
 
     def test_redoc(self) -> None:
-        self.do_request("redoc")
+        response = self.do_request("redoc")
+        self.assertContains(response, f'data-schema-url="{reverse("api-schema")}"')
+        self.assertContains(response, "data-settings=")
+        self.assertContains(response, static("styles/redoc.css"))
+        self.assertContains(response, static("js/redoc.js"))
+        self.assertNotContains(response, "<style")
+        self.assertNotContains(response, "Redoc.init")
+        script_src = next(
+            directive
+            for directive in response["Content-Security-Policy"].split(";")
+            if directive.strip().startswith("script-src ")
+        )
+        self.assertNotIn("'unsafe-inline'", script_src)
