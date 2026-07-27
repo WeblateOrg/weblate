@@ -7,10 +7,17 @@
 {% include "trans/alert/common-repo.html" %}
 
 {% perm 'vcs.push' component as user_can_push %}
-{% if user_can_push %}
+{% perm 'component.edit' component as user_can_edit_component %}
+{% if user_can_push or user_can_edit_component %}
   <p>
-    <a href="#"
-       class="btn btn-primary link-post"
-       data-href="{% url "push" path=component.get_url_path %}">{% translate "Push the repository" %}</a>
+    {% if user_can_push %}
+      <a href="#"
+         class="btn btn-primary link-post"
+         data-href="{% url "push" path=component.get_url_path %}">{% translate "Push the repository" %}</a>
+    {% endif %}
+    {% if user_can_edit_component %}
+      <a class="btn btn-link"
+         href="{% url 'settings' path=component.get_url_path %}#vcs">{% translate "Edit component settings" %}</a>
+    {% endif %}
   </p>
 {% endif %}
