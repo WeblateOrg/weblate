@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-25 00:40-0500\n"
-"PO-Revision-Date: 2026-07-27 14:26+0000\n"
+"PO-Revision-Date: 2026-07-27 15:36+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -1932,10 +1932,8 @@ msgid "The configured output path is invalid."
 msgstr "Налаштований шлях до результатів є некоректним."
 
 #: weblate/addons/events.py:114
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "The add-on execution failed."
-msgstr "Цей додаток виконує скрипт."
+msgstr "Не вдалося виконати додаток."
 
 #: weblate/addons/example.py:31
 msgid "Example add-on"
@@ -1964,7 +1962,7 @@ msgstr "Надсилає сповіщення на обмін AMQP, сумісн
 #: weblate/addons/fedora_messaging.py:204
 #, python-format
 msgid "Message ID: %(message_id)s"
-msgstr ""
+msgstr "Ідентифікатор повідомлення: %(message_id)s"
 
 #: weblate/addons/fedora_messaging.py:456
 #, python-format
@@ -1972,6 +1970,8 @@ msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
 msgstr ""
+"Перевищено час на оприлюднення повідомлення Fedora Messaging; не завершено "
+"з'єднання з обробником або підтвердження доставлення: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:460
 #, python-format
@@ -1979,54 +1979,62 @@ msgid ""
 "Fedora Messaging publisher service was unavailable; the connection will be "
 "recreated on the next attempt: %(error)s"
 msgstr ""
+"Недоступна служба оприлюднення Fedora Messaging; з'єднання буде повторно "
+"створено під час наступної спроби: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:464
 #, python-format
 msgid "Fedora Messaging broker returned the message: %(error)s"
-msgstr ""
+msgstr "Обробник Fedora Messaging повернув повідомлення: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:468
 #, python-format
 msgid "Fedora Messaging broker rejected the message: %(error)s"
-msgstr ""
+msgstr "Обробник Fedora Messaging відкинув повідомлення: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:470
 #, python-format
 msgid "Fedora Messaging publish failed: %(error)s"
-msgstr ""
+msgstr "Помилка оприлюднення Fedora Messaging: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:556
-#, fuzzy
-#| msgid "Configure"
 msgid "configured"
-msgstr "Налаштувати"
+msgstr "налаштовано"
 
 #: weblate/addons/fedora_messaging.py:611
 msgid "Could not reset Fedora Messaging publisher service."
 msgstr ""
+"Не вдалося відновити початковий стан служби оприлюднення Fedora Messaging."
 
 #: weblate/addons/fedora_messaging.py:701
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"Сертифікати служби сертифікації мають бути коректними сертифікатами X.509 у "
+"кодуванні PEM."
 
 #: weblate/addons/fedora_messaging.py:705
 msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
+"Клієнтським ключем SSL має бути нешифрований закритий ключ у кодуванні PEM."
 
 #: weblate/addons/fedora_messaging.py:710
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"Клієнтськими сертифікатами SSL мають бути коректні сертифікати X.509 у "
+"кодуванні PEM."
 
 #: weblate/addons/fedora_messaging.py:730
 #, python-format
 msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr ""
+msgstr "Адреса обробника Fedora Messaging є некоректною: %(error)s"
 
 #: weblate/addons/fedora_messaging.py:756
 #, python-format
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
 msgstr ""
+"Не вдалося підтвердити з'єднання TLS із обробником Fedora Messaging: %(error)"
+"s"
 
 #: weblate/addons/flags.py:60
 msgid "Flag new source strings as \"Needs checking\""
@@ -2166,34 +2174,29 @@ msgstr ""
 "файлу POT."
 
 #: weblate/addons/forms.py:197
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Розташування початкового рядка"
+msgstr "Розташування у джерелі"
 
 #: weblate/addons/forms.py:199
-#, fuzzy
-#| msgid "Use default setting"
 msgid "Use file format settings"
-msgstr "Використовувати типове значення"
+msgstr "Використовувати параметри формату файлів"
 
 #: weblate/addons/forms.py:200
-#, fuzzy
-#| msgid "Extract strings from HTML files"
 msgid "Extract locations to the POT file"
-msgstr "Видобути рядки з файлів HTML"
+msgstr "Видобути дані щодо розташування до файла POT"
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Do not extract comments"
 msgid "Do not extract locations"
-msgstr "Не видобувати коментарі"
+msgstr "Не видобувати дані щодо розташування"
 
 #: weblate/addons/forms.py:206
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Виберіть спосіб записування видобутих даних щодо розташування у коді до "
+"файла POT. Скористайтеся цим для зберігання даних щодо розташування до "
+"шаблону, не записуючи їх до перекладених файлів PO."
 
 #: weblate/addons/forms.py:251
 msgid "Do not extract comments"
@@ -2252,7 +2255,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:296
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "Використовувати ключові слова у виключний спосіб"
 
 #: weblate/addons/forms.py:299
 msgid ""
@@ -2260,6 +2263,9 @@ msgid ""
 "additional keyword, disabling all default keywords so that only the keyword "
 "specified above is recognized."
 msgstr ""
+"Якщо увімкнено, передає --keyword без значення до xgettext до додаткового "
+"ключового слова, вимикаємо усі типові ключові слова, щоб було розпізнано "
+"лише вказане ключове слово."
 
 #: weblate/addons/forms.py:318 weblate/addons/forms.py:422
 #: weblate/addons/forms.py:429
@@ -2269,6 +2275,7 @@ msgstr "Це поле є обов’язковим для заповнення."
 #: weblate/addons/forms.py:328
 msgid "An additional keyword is required when using keywords exclusively."
 msgstr ""
+"Потрібне додаткове ключове слово при виключному використанні ключових слів."
 
 #: weblate/addons/forms.py:338
 msgid "Input source"
@@ -2295,13 +2302,12 @@ msgid "xgettext language"
 msgstr "xgettext: мова"
 
 #: weblate/addons/forms.py:355
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
 msgstr ""
-"Мова програмування, яка передається до xgettext, наприклад Python або C."
+"Мова програмування, яка передається до xgettext, наприклад Python або C. Не "
+"заповнюйте, щоб xgettext визначив мову за суфіксом назв файлів."
 
 #: weblate/addons/forms.py:364
 msgid ""
@@ -2800,33 +2806,24 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Дозволити сортування ключів з урахуванням регістру"
 
 #: weblate/addons/forms.py:1558
-#, fuzzy
-#| msgid "Change events"
 msgid "Change events to trigger"
-msgstr "Події зміни"
+msgstr "Події зміни для вмикання"
 
 #: weblate/addons/forms.py:1564
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation context"
 msgid "Translation content events"
-msgstr "Контекст перекладу"
+msgstr "Події вмісту перекладу"
 
 #: weblate/addons/forms.py:1568
-#, fuzzy
-#| msgid "Change events"
 msgid "All change events"
-msgstr "Події зміни"
+msgstr "Усі події зміни"
 
 #: weblate/addons/forms.py:1572 weblate/addons/forms.py:1586
-#, fuzzy
-#| msgid "Change events"
 msgid "Selected change events"
-msgstr "Події зміни"
+msgstr "Вибрані події зміни"
 
 #: weblate/addons/forms.py:1576
 msgid "Choose which change events should trigger this add-on."
-msgstr ""
+msgstr "Виберіть, які події зміни мають вмикати цей додаток."
 
 #: weblate/addons/forms.py:1647
 #: weblate/templates/vcs/github_app_register.html:57
@@ -2842,24 +2839,22 @@ msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "Секрет стандартних вебхуків — це рядок, закодований у base64."
 
 #: weblate/addons/forms.py:1687
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Хост брокера AMQP"
+msgstr "Адреса обробника AMQP"
 
 #: weblate/addons/forms.py:1688
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "Брокер AMQP для підключення."
+msgstr "Адреса обробника AMQP для встановлення з'єднання."
 
 #: weblate/addons/forms.py:1692
 msgid "Topic prefix"
-msgstr ""
+msgstr "Префікс теми"
 
 #: weblate/addons/forms.py:1694
 msgid "Optional prefix to prepend to generated message topics."
 msgstr ""
+"Необов'язковий префікс для дописування перед створеними записами тем "
+"повідомлень."
 
 #: weblate/addons/forms.py:1700
 #, fuzzy
