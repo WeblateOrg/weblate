@@ -8,7 +8,7 @@ import re
 from itertools import chain
 from operator import itemgetter
 from pathlib import Path
-from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
+from typing import TYPE_CHECKING, Any, NotRequired, Required, TypedDict, cast
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -596,18 +596,42 @@ class ComponentDiscovery:
         return self.base_file_template or self.new_base_template
 
     @cached_property
-    def matches(self):
-        """Return matched files together with match groups and mask."""
-        result = []
+    def _scan_matches(
+        self,
+    ) -> tuple[
+        list[tuple[str, dict[str, Any], str]],
+        list[tuple[str, dict[str, Any], str]],
+    ]:
+        """Return translation and base-only matches from one directory scan."""
+        translation_matches: list[tuple[str, dict[str, Any], str]] = []
+        base_only_matches: list[tuple[str, dict[str, Any], str]] = []
         base = Path(self.path).resolve()
-        timeout_detected = False
+
+        source_template = self.source_file_template
+        source_match = None
+        if self.create_from_template and source_template and self.filemask_template:
+            try:
+                source_match = compile_component_template_match(source_template)
+            except ValueError:
+                self.add_error(
+                    gettext(
+                        "The template used to discover components without translations must contain exactly one plain {{ component }} placeholder."
+                    ),
+                    mask=source_template,
+                )
+
+        search_translation_matches = True
         for root, dirnames, filenames in os.walk(self.path, followlinks=True):
             dirnames[:] = [
                 dirname
                 for dirname in dirnames
                 if is_path_within_resolved_directory(os.path.join(root, dirname), base)
             ]
-            for filename in chain(filenames, dirnames):
+            paths = chain(
+                ((filename, True) for filename in filenames),
+                ((dirname, False) for dirname in dirnames),
+            )
+            for filename, is_file in paths:
                 fullname = os.path.join(root, filename)
 
                 # Skip files outside our root
@@ -616,76 +640,125 @@ class ComponentDiscovery:
 
                 # Calculate relative path
                 path = path_separator(os.path.relpath(fullname, self.path))
-
-                # Check match against our regexp
-                try:
-                    matches = regex_match(self.path_match, path)
-                except TimeoutError:
-                    report_error(
-                        "Component discovery path regex timed out",
-                        project=self.component.project if self.component else None,
-                    )
-                    self.add_error(
-                        gettext(
-                            "The regular expression used to match discovered files is too complex and took too long to evaluate."
-                        ),
-                        mask=self.match,
-                    )
-                    LOGGER.warning(
-                        "Regex matching timed out for discovery path: %s", path
-                    )
-                    timeout_detected = True
-                    break
-                if not matches:
+                translation_match = None
+                if search_translation_matches:
+                    try:
+                        translation_match = self._get_translation_match(path)
+                    except TimeoutError:
+                        search_translation_matches = False
+                        source_match = None
+                if translation_match:
+                    translation_matches.append(translation_match)
                     continue
 
-                # Check language regexp
-                language_part = matches.group("language")
-                try:
-                    language_matches = language_part is not None and regex_match(
-                        self.language_match, language_part
-                    )
-                except TimeoutError:
-                    report_error(
-                        "Component discovery language regex timed out",
-                        project=self.component.project if self.component else None,
-                    )
-                    self.add_error(
-                        gettext(
-                            "The language filter regular expression is too complex and took too long to evaluate."
-                        ),
-                        mask=self.language_re,
-                    )
-                    LOGGER.warning(
-                        "Regex matching timed out for discovery language: %s",
-                        language_part,
-                    )
-                    timeout_detected = True
-                    break
-                if not language_matches:
-                    continue
+                if is_file and source_match is not None:
+                    try:
+                        base_only_match = self._get_base_only_match(
+                            source_match, source_template, path
+                        )
+                    except TimeoutError:
+                        source_match = None
+                    else:
+                        if base_only_match:
+                            base_only_matches.append(base_only_match)
 
-                # Calculate file mask for match
-                replacements = [(matches.start("language"), matches.end("language"))]
-                replacements.extend(
-                    (matches.start(group), matches.end(group))
-                    for group in matches.groupdict()
-                    if group.startswith("_language_")
-                )
-                maskparts = []
-                maskpath = path
-                for start, end in sorted(replacements, reverse=True):
-                    maskparts.append(maskpath[end:])
-                    maskpath = maskpath[:start]
-                maskparts.append(maskpath)
+        return translation_matches, base_only_matches
 
-                mask = "*".join(reversed(maskparts))
+    def _get_translation_match(
+        self, path: str
+    ) -> tuple[str, dict[str, Any], str] | None:
+        """Return a translation match for a path."""
+        try:
+            matches = regex_match(self.path_match, path)
+        except TimeoutError:
+            report_error(
+                "Component discovery path regex timed out",
+                project=self.component.project if self.component else None,
+            )
+            self.add_error(
+                gettext(
+                    "The regular expression used to match discovered files is too complex and took too long to evaluate."
+                ),
+                mask=self.match,
+            )
+            LOGGER.warning("Regex matching timed out for discovery path: %s", path)
+            raise
 
-                result.append((path, matches.groupdict(), mask))
-            if timeout_detected:
-                break
+        if not matches:
+            return None
 
-        return result
+        language_part = matches.group("language")
+        try:
+            language_matches = language_part is not None and regex_match(
+                self.language_match, language_part
+            )
+        except TimeoutError:
+            report_error(
+                "Component discovery language regex timed out",
+                project=self.component.project if self.component else None,
+            )
+            self.add_error(
+                gettext(
+                    "The language filter regular expression is too complex and took too long to evaluate."
+                ),
+                mask=self.language_re,
+            )
+            LOGGER.warning(
+                "Regex matching timed out for discovery language: %s",
+                language_part,
+            )
+            raise
+
+        if not language_matches:
+            return None
+
+        replacements = [(matches.start("language"), matches.end("language"))]
+        replacements.extend(
+            (matches.start(group), matches.end(group))
+            for group in matches.groupdict()
+            if group.startswith("_language_")
+        )
+        maskparts = []
+        maskpath = path
+        for start, end in sorted(replacements, reverse=True):
+            maskparts.append(maskpath[end:])
+            maskpath = maskpath[:start]
+        maskparts.append(maskpath)
+
+        return path, matches.groupdict(), "*".join(reversed(maskparts))
+
+    def _get_base_only_match(
+        self, source_match, source_template: str, path: str
+    ) -> tuple[str, dict[str, Any], str] | None:
+        """Return a base-only match for a file path."""
+        try:
+            matches = regex_match(source_match, path)
+        except TimeoutError:
+            report_error(
+                "Component discovery base path regex timed out",
+                project=self.component.project if self.component else None,
+            )
+            self.add_error(
+                gettext(
+                    "The template used to discover components without translations is too complex and took too long to evaluate."
+                ),
+                mask=source_template,
+            )
+            LOGGER.warning("Regex matching timed out for discovery base path: %s", path)
+            raise
+
+        if not matches:
+            return None
+
+        groups = {"component": matches.group("component")}
+        if mask := render_template(self.filemask_template, **groups):
+            return path, groups, mask
+        return None
+
+    @cached_property
+    def matches(self) -> list[tuple[str, dict[str, Any], str]]:
+        """Return matched files together with match groups and mask."""
+        return self._scan_matches[0]
 
     @cached_property
     def matched_files(self):
@@ -708,9 +781,9 @@ class ComponentDiscovery:
 
         # Add components discovered from template/new-base only when no
         # translation files matched the same file mask.
-        for mask, match in self.matched_base_only_components.items():
+        for _, groups, mask in self.base_only_matches:
             if mask not in result:
-                result[mask] = match
+                result[mask] = self.build_match_from_groups(groups, mask=mask)
 
         return {
             mask: {
@@ -742,104 +815,9 @@ class ComponentDiscovery:
         }
 
     @cached_property
-    def matched_base_only_components(self) -> dict[str, MutableDiscoveryMatch]:
+    def base_only_matches(self) -> list[tuple[str, dict[str, Any], str]]:
         """Return components discovered from template or new-base files only."""
-        result: dict[str, MutableDiscoveryMatch] = {}
-        if not self.create_from_template:
-            return result
-
-        source_template = self.source_file_template
-        if not source_template or not self.filemask_template:
-            return result
-
-        try:
-            source_match = compile_component_template_match(source_template)
-        except ValueError:
-            self.add_error(
-                gettext(
-                    "The template used to discover components without translations must contain exactly one plain {{ component }} placeholder."
-                ),
-                mask=source_template,
-            )
-            return result
-
-        base = Path(self.path).resolve()
-        for root, dirnames, filenames in os.walk(self.path, followlinks=True):
-            dirnames[:] = [
-                dirname
-                for dirname in dirnames
-                if is_path_within_resolved_directory(os.path.join(root, dirname), base)
-            ]
-            for filename in filenames:
-                fullname = os.path.join(root, filename)
-                if not is_path_within_resolved_directory(fullname, base):
-                    continue
-
-                path = path_separator(os.path.relpath(fullname, self.path))
-                try:
-                    matches = regex_match(source_match, path)
-                except TimeoutError:
-                    report_error(
-                        "Component discovery base path regex timed out",
-                        project=self.component.project if self.component else None,
-                    )
-                    self.add_error(
-                        gettext(
-                            "The template used to discover components without translations is too complex and took too long to evaluate."
-                        ),
-                        mask=source_template,
-                    )
-                    LOGGER.warning(
-                        "Regex matching timed out for discovery base path: %s", path
-                    )
-                    return result
-                if not matches:
-                    continue
-
-                # Skip files that already match the translation discovery regex
-                # so translation layouts like docs/news_cs.md are not treated as
-                # monolingual bases for a docs/{{ component }}.md template.
-                try:
-                    translation_match = regex_match(self.path_match, path)
-                except TimeoutError:
-                    report_error(
-                        "Component discovery path regex timed out",
-                        project=self.component.project if self.component else None,
-                    )
-                    self.add_error(
-                        gettext(
-                            "The regular expression used to match discovered files is too complex and took too long to evaluate."
-                        ),
-                        mask=self.match,
-                    )
-                    return result
-                if translation_match:
-                    language_part = translation_match.group("language")
-                    try:
-                        if language_part is not None and regex_match(
-                            self.language_match, language_part
-                        ):
-                            continue
-                    except TimeoutError:
-                        report_error(
-                            "Component discovery language regex timed out",
-                            project=self.component.project if self.component else None,
-                        )
-                        self.add_error(
-                            gettext(
-                                "The language filter regular expression is too complex and took too long to evaluate."
-                            ),
-                            mask=self.language_re,
-                        )
-                        return result
-
-                groups = {"component": matches.group("component")}
-                mask = render_template(self.filemask_template, **groups)
-                if not mask or mask in result:
-                    continue
-                result[mask] = self.build_match_from_groups(groups, mask=mask)
-
-        return result
+        return self._scan_matches[1]
 
     def log(self, *args) -> None:
         if self.component:
