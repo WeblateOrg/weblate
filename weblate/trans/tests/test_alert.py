@@ -1684,6 +1684,62 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    @staticmethod
+    def render_failure_alert(template_name: str, permissions: set[str]) -> str:
+        component = SimpleNamespace(get_url_path=lambda: ("test", "component"))
+        user = SimpleNamespace(
+            has_perm=lambda permission, _obj: permission in permissions
+        )
+        return render_to_string(
+            template_name,
+            {
+                "analysis": {},
+                "component": component,
+                "error": "Repository operation failed",
+                "user": user,
+            },
+        )
+
+    def test_repository_failure_settings_action_permissions(self) -> None:
+        settings_url = (
+            reverse(
+                "settings",
+                kwargs={"path": ("test", "component")},
+            )
+            + "#vcs"
+        )
+        cases = (
+            (
+                "trans/alert/repositoryoperationfailure.html",
+                "vcs.reset",
+                "Reset the repository",
+            ),
+            (
+                "trans/alert/updatefailure.html",
+                "vcs.update",
+                "Update the repository",
+            ),
+            (
+                "trans/alert/pushfailure.html",
+                "vcs.push",
+                "Push the repository",
+            ),
+        )
+
+        for template_name, retry_permission, retry_label in cases:
+            with self.subTest(template_name=template_name, permission="component.edit"):
+                rendered = self.render_failure_alert(template_name, {"component.edit"})
+
+                self.assertIn("Edit component settings", rendered)
+                self.assertIn(f'href="{settings_url}"', rendered)
+                self.assertNotIn(retry_label, rendered)
+
+            with self.subTest(template_name=template_name, permission=retry_permission):
+                rendered = self.render_failure_alert(template_name, {retry_permission})
+
+                self.assertNotIn("Edit component settings", rendered)
+                self.assertIn(retry_label, rendered)
+
     def test_repository_guidance_uses_header_documentation_link(self) -> None:
         for template_name in (
             "trans/alert/repositoryoutdated.html",
