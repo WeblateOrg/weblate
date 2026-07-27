@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-25 00:40-0500\n"
-"PO-Revision-Date: 2026-07-27 11:37+0000\n"
+"PO-Revision-Date: 2026-07-27 11:58+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -8460,6 +8460,9 @@ msgid ""
 "This can easily happen for unauthenticated requests where session validity "
 "is limited. You might want to try your intended action again in such a case."
 msgstr ""
+"Có thể cookie phiên của bạn đã hết hạn do không hoạt động. Điều này dễ xảy "
+"ra với các yêu cầu chưa được xác thực, nơi thời hạn hiệu lực của phiên bị "
+"giới hạn. Trong trường hợp đó, bạn nên thử lại thao tác dự định của mình."
 
 #: weblate/templates/403_csrf.html:32
 msgid ""
@@ -13830,6 +13833,9 @@ msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
 msgstr ""
+"Để truy cập máy chủ SSH, cần phải xác minh khóa máy chủ. Bạn có thể lấy khóa "
+"máy chủ bằng cách nhập tên miền hoặc địa chỉ IP của máy chủ vào biểu mẫu bên "
+"dưới."
 
 #: weblate/templates/manage/teams.html:74
 #, python-format
@@ -16157,6 +16163,9 @@ msgid ""
 "repository URL sent by the webhook, or when Weblate does not yet understand "
 "the repository URL format in the webhook payload."
 msgstr ""
+"Điều này có thể xảy ra khi URL kho lưu trữ thành phần không khớp với URL kho "
+"lưu trữ được gửi bởi webhook, hoặc khi Weblate chưa hiểu định dạng URL kho "
+"lưu trữ trong dữ liệu webhook."
 
 #: weblate/templates/trans/alert/inexacthookmatch.html:12
 msgid ""
@@ -16791,6 +16800,11 @@ msgid ""
 "Weblate repository or using an outdated upstream checkout can fail even when "
 "Weblate and upstream are in sync. See the FAQ below for details."
 msgstr ""
+"Kho lưu trữ Weblate được xuất ra có thể có dung lượng nông theo mặc định, vì "
+"vậy quy trình này hoạt động tốt nhất khi sử dụng bản sao chép cập nhật từ "
+"nguồn gốc. Việc sao chép từ kho lưu trữ Weblate đã xuất hoặc sử dụng bản sao "
+"chép lỗi thời từ nguồn gốc có thể thất bại ngay cả khi Weblate và nguồn gốc "
+"đồng bộ. Xem phần Câu hỏi thường gặp bên dưới để biết thêm chi tiết."
 
 #: weblate/templates/trans/merge_instructions.html:12
 msgid ""
@@ -16990,6 +17004,10 @@ msgid ""
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
 msgstr ""
+"Khi thay đổi URL kho lưu trữ, nội dung hiện có sẽ được hợp nhất với kho lưu "
+"trữ mới. Điều này sẽ hoạt động tốt nếu kho lưu trữ đã được di chuyển đến một "
+"vị trí khác. Nếu nội dung kho lưu trữ khác nhau, có lẽ nên tạo một thành "
+"phần dịch thuật mới."
 
 #: weblate/templates/trans/vcs_push_help.html:10
 msgid "Learn more about pushing changes from Weblate."
@@ -17751,6 +17769,9 @@ msgid ""
 "with the right permissions and webhook URL already filled in — Weblate will "
 "store the credentials automatically once GitHub redirects back."
 msgstr ""
+"Chưa có ứng dụng lưu trữ mã nào được đăng ký. Sử dụng nút ở trên để tạo một "
+"ứng dụng với các quyền và URL webhook phù hợp đã được điền sẵn — Weblate sẽ "
+"tự động lưu trữ thông tin đăng nhập sau khi GitHub chuyển hướng trở lại."
 
 #: weblate/templates/vcs/github_installation_list.html:37
 msgid ""
@@ -21772,6 +21793,8 @@ msgid ""
 "remove the stored host key, and add the new one on the SSH page in the admin "
 "interface."
 msgstr ""
+"Khóa SSH của kho lưu trữ đã thay đổi. Hãy xác minh dấu vân tay mới, xóa khóa "
+"máy chủ đã lưu và thêm khóa mới vào trang SSH trong giao diện quản trị."
 
 #: weblate/trans/models/component.py:2466
 msgid ""
@@ -21819,6 +21842,10 @@ msgid_plural ""
 "add the files upstream and rescan, or configure the component so Weblate can "
 "create the translation files."
 msgstr[0] ""
+"Đặt lại kho lưu trữ, nhưng không thể áp dụng lại các bản dịch đang chờ xử lý "
+"vì thiếu các tệp này: %(files)s. Các thay đổi đang chờ xử lý đã được giữ "
+"lại. Để khắc phục, hãy thêm các tệp vào kho lưu trữ gốc và quét lại, hoặc "
+"cấu hình thành phần để Weblate có thể tạo các tệp dịch."
 
 #: weblate/trans/models/component.py:3128
 #, python-format
@@ -21832,6 +21859,10 @@ msgid_plural ""
 "upstream and rescan, or configure the component so Weblate can create the "
 "translation files."
 msgstr[0] ""
+"Quá trình đồng bộ hóa tập tin không thể tạo lại các tập tin này vì chúng bị "
+"thiếu: %(files)s. Các thay đổi đang chờ xử lý đã được giữ lại. Để khắc phục, "
+"hãy thêm các tập tin vào nguồn và quét lại, hoặc cấu hình thành phần để "
+"Weblate có thể tạo các tập tin dịch."
 
 #: weblate/trans/models/component.py:3258
 #, python-format
@@ -21856,6 +21887,9 @@ msgid_plural ""
 "Reset the repository, but could not recreate these files while reapplying "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
+"Đã đặt lại kho lưu trữ, nhưng không thể tạo lại các tệp này trong khi áp "
+"dụng lại các bản dịch đang chờ xử lý: %(files)s. Các thay đổi đang chờ xử lý "
+"đã được giữ nguyên."
 
 #: weblate/trans/models/component.py:3295
 #, python-format
@@ -24425,6 +24459,9 @@ msgid ""
 "here only means the App is not restricted to its owner; it does not list the "
 "App on the GitHub Marketplace."
 msgstr ""
+"Ứng dụng này yêu cầu cài đặt trên nhiều người dùng hoặc tổ chức. \"Công "
+"khai\" ở đây chỉ có nghĩa là ứng dụng không bị giới hạn đối với người sở "
+"hữu; nó không niêm yết ứng dụng trên GitHub Marketplace."
 
 #: weblate/vcs/git.py:126 weblate/vcs/git.py:1785
 #, python-format
