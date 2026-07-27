@@ -919,10 +919,14 @@ class BatchMachineTranslation(DocVersionsMixin):
                 if self.is_rate_limit_error(exc):
                     self.set_rate_limit()
 
-                self.report_error("Could not fetch translations")
+                error_message = self.get_error_message(exc)
+                self.report_error(
+                    "Could not fetch translations",
+                    extra_log=error_message,
+                )
                 if isinstance(exc, MachineTranslationError):
                     raise
-                raise MachineTranslationError(self.get_error_message(exc)) from exc
+                raise MachineTranslationError(error_message) from exc
 
             # Postprocess translations
             for pending_key in batch_keys:
