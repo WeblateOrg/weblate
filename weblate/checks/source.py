@@ -61,7 +61,8 @@ class SourceMaxLengthCheck(SourceCheck):
     check_id = "source-max-length"
     name = gettext_lazy("Source string length")
     description = gettext_lazy(
-        "Source string is too long to fit into the configured maximum length."
+        "Source string is close to or exceeds the configured maximum length for "
+        "translations."
     )
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
