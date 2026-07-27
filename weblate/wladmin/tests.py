@@ -38,6 +38,7 @@ from weblate.utils.backup import BackupError, BorgResult
 from weblate.utils.data import data_path
 from weblate.utils.tests import http_mock as responses
 from weblate.utils.unittest import tempdir_setting
+from weblate.utils.zammad import ZammadError
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.middleware import (
     CHECK_ATTEMPT_CACHE_KEY,
@@ -918,6 +919,31 @@ class AdminTest(ViewTestCase):
     def test_backup_page_hides_discovery_registration(self) -> None:
         response = self.client.get(reverse("manage-backups"))
         self.assertNotContains(response, "Register on weblate.org")
+
+    def test_support_form_handles_zammad_error(self) -> None:
+        SupportStatus.objects.create(
+            name="basic",
+            secret="paid-secret",
+            expiry=timezone.now() + timedelta(days=1),
+            enabled=True,
+        )
+
+        with patch(
+            "weblate.wladmin.views.submit_zammad_ticket",
+            side_effect=ZammadError("Customer care is currently unavailable."),
+        ):
+            response = self.client.post(
+                reverse("manage-support"),
+                {
+                    "subject": "Support request",
+                    "name": "Test user",
+                    "email": "test@example.com",
+                    "message": "Please help.",
+                },
+                follow=True,
+            )
+
+        self.assertContains(response, "Customer care is currently unavailable.")
 
     def test_workspaces(self) -> None:
         workspace = Workspace.objects.create(name="Test workspace")

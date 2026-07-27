@@ -10,7 +10,6 @@ from time import sleep
 from types import SimpleNamespace
 from unittest import mock
 
-import httpx2
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
@@ -50,6 +49,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.zammad import ZammadError
 from weblate.workspaces.models import Workspace
 
 CONTACT_DATA = {
@@ -151,21 +151,17 @@ class ViewTest(RepoTestCase):
         ADMINS_CONTACT=["noreply@weblate.org"],
         ZAMMAD_URL="https://support.example.com",
     )
-    def test_contact_handles_zammad_http_error(self) -> None:
-        with (
-            mock.patch(
-                "weblate.accounts.views.submit_zammad_ticket",
-                side_effect=httpx2.ConnectError("Zammad unavailable"),
-            ),
-            mock.patch("weblate.accounts.views.report_error") as report_error,
+    def test_contact_handles_zammad_error(self) -> None:
+        with mock.patch(
+            "weblate.accounts.views.submit_zammad_ticket",
+            side_effect=ZammadError("Customer care is currently unavailable."),
         ):
             response = self.client.post(reverse("contact"), CONTACT_DATA, follow=True)
 
         self.assertContains(
             response,
-            "Could not open a ticket, please try again later.",
+            "Customer care is currently unavailable.",
         )
-        report_error.assert_called_once_with("Could not create ticket")
 
     @override_settings(
         REGISTRATION_CAPTCHA=False, ADMINS_CONTACT=["noreply@example.com"]
