@@ -847,7 +847,11 @@ class UserPage(UpdateView):
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
         if "disable_password" in request.POST:
-            lock_user(user, "admin-locked")
+            lock_user(
+                user,
+                "admin-locked",
+                regenerate_api_key="regenerate_api_key" in request.POST,
+            )
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
         user.store_audit_state()
