@@ -1145,14 +1145,14 @@ Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or
 Using custom certificate authority
 ++++++++++++++++++++++++++++++++++
 
-Weblate does verify SSL certificates during HTTP requests. In case you are
-using custom certificate authority which is not trusted in default bundles, you
-will have to add its certificate as trusted.
+Weblate verifies SSL certificates during HTTP requests. Requests made using
+HTTPX2 use the system certificate store, so install custom certificate
+authorities there.
 
-The preferred approach is to do this at system level, please check your distro
-documentation for more details (for example on debian this can be done by
-placing the CA certificate into :file:`/usr/local/share/ca-certificates/` and
-running :command:`update-ca-certificates`).
+Check your distribution documentation for more details. For example, on Debian
+this can be done by placing the CA certificate into
+:file:`/usr/local/share/ca-certificates/` and running
+:command:`update-ca-certificates`.
 
 .. hint::
 
@@ -1163,12 +1163,14 @@ running :command:`update-ca-certificates`).
 
       docker compose exec -u root weblate /usr/sbin/update-ca-certificates
 
-Once this is done, system tools will trust the certificate and this includes
-Git.
+Once this is done, Weblate HTTPX2 requests and system tools, including Git, will
+trust the certificate.
 
-For Python code, you will need to configure requests to use system CA bundle
-instead of the one shipped with it. This can be achieved by placing following
-snippet to :file:`settings.py` (the path is Debian specific):
+Some integrations, including OAuth and OpenID Connect authentication, use
+Requests, which does not use the system certificate store by default. When
+these integrations communicate with services using the custom certificate
+authority, configure Requests to use the system CA bundle by adding the
+following to :file:`settings.py` (the path is Debian-specific):
 
 .. code-block:: python
 
