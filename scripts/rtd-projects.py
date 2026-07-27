@@ -51,19 +51,16 @@ TOKEN = Path("~/.config/readthedocs.token").expanduser().read_text(encoding="utf
 AUTH = {"Authorization": f"Token {TOKEN}", "Content-Type": "application/json"}
 
 response = httpx2.get(
-    "https://readthedocs.org/api/v3/projects/weblate/",
+    "https://app.readthedocs.org/api/v3/projects/weblate/",
     headers=AUTH,
     timeout=1,
-    follow_redirects=True,
 )
 response.raise_for_status()
 base = response.json()
 
-result = {"next": "https://readthedocs.org/api/v3/projects/"}
+result = {"next": "https://app.readthedocs.org/api/v3/projects/"}
 while result["next"]:
-    response = httpx2.get(
-        result["next"], headers=AUTH, timeout=1, follow_redirects=True
-    )
+    response = httpx2.get(result["next"], headers=AUTH, timeout=1)
     response.raise_for_status()
     result = response.json()
     for project in result["results"]:
@@ -98,7 +95,6 @@ while result["next"]:
                 f"{project['_links']['versions']}?active=true",
                 headers=AUTH,
                 timeout=1,
-                follow_redirects=True,
             )
             versions_response.raise_for_status()
             versions = versions_response.json()
@@ -115,7 +111,6 @@ while result["next"]:
                     versions["next"],
                     headers=AUTH,
                     timeout=1,
-                    follow_redirects=True,
                 )
                 versions_response.raise_for_status()
                 versions = versions_response.json()
