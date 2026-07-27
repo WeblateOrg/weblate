@@ -381,9 +381,10 @@ To reset `admin` password, restart the container with
 Number of processes and memory consumption
 ------------------------------------------
 
-The number of worker processes for both WSGI and Celery is determined
-automatically based on number of CPUs. This works well for most cloud virtual
-machines as these typically have few CPUs and good amount of memory.
+The number of worker processes for both the web application and Celery is
+determined automatically based on number of CPUs. This works well for most
+cloud virtual machines as these typically have few CPUs and good amount of
+memory.
 
 In case you have a lot of CPU cores and hit out of memory issues, try reducing
 number of workers:
@@ -429,6 +430,7 @@ Memory usage can be further reduced by running only a single Celery process:
    * :envvar:`CELERY_BACKUP_OPTIONS`
    * :envvar:`CELERY_BEAT_OPTIONS`
    * :envvar:`CELERY_SINGLE_PROCESS`
+   * :envvar:`WEBLATE_ASGI`
    * :envvar:`WEB_WORKERS`
    * :envvar:`WEB_BLOCKING_THREADS`
 
@@ -2403,9 +2405,27 @@ Container settings
 
         :ref:`minimal-celery`
 
+.. envvar:: WEBLATE_ASGI
+
+   .. versionadded:: 2026.8
+
+   Set to ``1`` to run the web application using ASGI instead of WSGI. This is
+   an opt-in setting intended for testing the transition to ASGI. WSGI remains
+   the default for now, but a future release will run ASGI only and remove this
+   setting.
+
+   .. code-block:: yaml
+
+       environment:
+         WEBLATE_ASGI: 1
+
+   .. seealso::
+
+      :ref:`running-granian-asgi`
+
 .. envvar:: WEB_WORKERS
 
-    Configure how many WSGI workers should be executed.
+    Configure how many web application workers should be executed.
 
     It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2.
 
@@ -2423,7 +2443,8 @@ Container settings
 .. envvar:: WEB_BLOCKING_THREADS
 
    Configure how many blocking WSGI threads each :program:`granian` worker can
-   use. It defaults to twice :envvar:`WEBLATE_WORKERS`.
+   use. It defaults to twice :envvar:`WEBLATE_WORKERS` and is ignored when
+   :envvar:`WEBLATE_ASGI` is enabled.
 
    The maximum number of simultaneous WSGI requests is approximately
    :envvar:`WEB_WORKERS` multiplied by :envvar:`WEB_BLOCKING_THREADS`. Each

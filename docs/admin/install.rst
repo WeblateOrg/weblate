@@ -1448,6 +1448,8 @@ number of blocking threads.
 Sample configuration to start Granian with ASGI
 ++++++++++++++++++++++++++++++++++++++++++++++++
 
+.. versionadded:: 2026.8
+
 ASGI deployment is available as an opt-in alternative to WSGI. Install the
 ``asgi`` optional dependency:
 
@@ -1468,9 +1470,9 @@ synchronous Django APIs. The health check is asynchronous, but most Weblate
 views remain synchronous, and CPU-intensive or long-running work should still
 be handled by :ref:`celery`.
 
-WSGI remains the default deployment mode, including for the Docker images.
-Adjust the worker count and backpressure to the available memory, CPU cores,
-and database connection limit.
+WSGI remains the default deployment mode. Docker images can opt in to ASGI by
+setting :envvar:`WEBLATE_ASGI` to ``1``. Adjust the worker count and
+backpressure to the available memory, CPU cores, and database connection limit.
 
 .. seealso::
 
