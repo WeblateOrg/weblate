@@ -55,8 +55,8 @@
             <th rowspan="{{ limit_details|length }}">{% translate "Support package limits" %}</th>
             {% for limit in limit_details %}
               {% if not forloop.first %}<tr>{% endif %}
-                <td>{{ limit.name }}</td>
-                {% include "billing/used.html" with max=limit.limit total=limit.limit used=limit.current %}
+              <td>{{ limit.name }}</td>
+              {% include "billing/used.html" with max=limit.limit total=limit.limit used=limit.current %}
               </tr>
             {% endfor %}
           {% endif %}

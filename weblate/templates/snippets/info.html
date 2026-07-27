@@ -485,10 +485,10 @@
             <div class="metric">
               {% if not workspace %}
                 <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
-                {% endif %}
-                <div class="metric-number">{{ metrics.contributors_total|number_format }}</div>
-                <div class="metric-text">{% translate "Contributors" %}</div>
-                {% if not workspace %}</a>{% endif %}
+              {% endif %}
+              <div class="metric-number">{{ metrics.contributors_total|number_format }}</div>
+              <div class="metric-text">{% translate "Contributors" %}</div>
+              {% if not workspace %}</a>{% endif %}
             </div>
           </div>
           {% if workspace %}

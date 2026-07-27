@@ -91,13 +91,13 @@
       </td>
 
       {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}
-      </tr>
+        </tr>
 
 
-      <tr id="row-edit-{{ item.unit.checksum }}">
-        <td id="status-{{ item.unit.checksum }}"
-            class="unit-state-cell {% unit_state_class item.unit %}"
-            title="{% unit_state_title item.unit %}"></td>
+        <tr id="row-edit-{{ item.unit.checksum }}">
+          <td id="status-{{ item.unit.checksum }}"
+              class="unit-state-cell {% unit_state_class item.unit %}"
+              title="{% unit_state_title item.unit %}"></td>
       {% endif %}
       <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %}
           class="translator">
