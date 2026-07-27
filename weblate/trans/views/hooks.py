@@ -881,8 +881,20 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     if request:
         event = request.headers.get("x-github-event", "")
         if data.get("installation"):
-            msg = "GitHub App webhooks must use the per-App hook URL"
-            raise PermissionDenied(msg)
+            signature = request.headers.get("x-hub-signature-256", "")
+            secret = getattr(settings, "GITHUB_LEGACY_APP_WEBHOOK_SECRET", "")
+            if not secret:
+                LOGGER.warning(
+                    "Rejected legacy GitHub App webhook because no secret is configured"
+                )
+                msg = "Invalid legacy GitHub App webhook signature"
+                raise PermissionDenied(msg)
+            if not verify_webhook_signature(request.body, signature, secret):
+                LOGGER.warning(
+                    "Rejected legacy GitHub App webhook with invalid signature"
+                )
+                msg = "Invalid legacy GitHub App webhook signature"
+                raise PermissionDenied(msg)
         if event != "push":
             return None
 

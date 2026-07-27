@@ -211,6 +211,9 @@ TEMPLATES = [
 # Please see the documentation for more details.
 GITHUB_CREDENTIALS = {}
 
+# Webhook secret for a legacy GitHub App delivering to /hooks/github/.
+GITHUB_LEGACY_APP_WEBHOOK_SECRET = ""
+
 # Azure DevOps username and token for sending pull requests.
 # Please see the documentation for more details.
 AZURE_DEVOPS_CREDENTIALS = {}

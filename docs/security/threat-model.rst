@@ -186,10 +186,13 @@ repository state, background tasks, outbound requests, and rendered UI.
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
-       where hooks are enabled. GitHub App webhooks additionally authenticate
-       with a per-app URL token and GitHub signature
-       verification before processing. *(documented)* (source: :ref:`hooks`,
-       :ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)
+       where hooks are enabled. Registered GitHub App webhooks additionally
+       authenticate with a per-app URL token and GitHub signature verification.
+       Opt-in legacy GitHub App deliveries to the generic GitHub webhook URL
+       authenticate with a separately configured secret. *(documented)*
+       (source: :ref:`hooks`, :ref:`project-enable_hooks`,
+       :ref:`code-hosting-github-app-webhook`,
+       :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)
    * - Weblate to database/datastore
      - Permission-checked application state becomes persistent data and queued
        work. *(documented)* (source: :doc:`/admin/install`)

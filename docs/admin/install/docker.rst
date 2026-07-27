@@ -1453,8 +1453,15 @@ Or the path to a file containing the Python dictionary:
 
        :ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`
 
-GitHub Apps are registered through the in-app manifest flow and stored in the
-database, so there are no GitHub App environment variables to configure. See
+.. envvar:: WEBLATE_GITHUB_LEGACY_APP_WEBHOOK_SECRET
+
+   .. versionadded:: 2026.8
+
+   Configures :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. The ``_FILE``
+   variant can be used to load the secret from a file.
+
+GitHub Apps registered through the in-app manifest flow are stored in the
+database and do not need environment variables. See
 :ref:`code-hosting-github-notifications`.
 
 .. envvar:: WEBLATE_GITLAB_USERNAME

@@ -256,6 +256,11 @@ TEMPLATES = [
 # Please see the documentation for more details.
 GITHUB_CREDENTIALS = get_env_credentials("GITHUB")
 
+# Webhook secret for a legacy GitHub App delivering to /hooks/github/.
+GITHUB_LEGACY_APP_WEBHOOK_SECRET = get_env_str(
+    "WEBLATE_GITHUB_LEGACY_APP_WEBHOOK_SECRET", ""
+)
+
 # Azure DevOps username, token, and organization for sending pull requests.
 # Please see the documentation for more details.
 AZURE_DEVOPS_CREDENTIALS = get_env_credentials("AZURE_DEVOPS")
