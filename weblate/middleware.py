@@ -395,7 +395,6 @@ class CSPBuilder:
     def build_csp_google_analytics(self) -> None:
         # Google Analytics
         if settings.GOOGLE_ANALYTICS_ID:
-            self.directives["script-src"].add("'unsafe-inline'")
             self.directives["script-src"].add("www.google-analytics.com")
             self.directives["img-src"].add("www.google-analytics.com")
 
