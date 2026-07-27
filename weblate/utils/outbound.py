@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import ipaddress
 import socket
+from asyncio import get_running_loop
+from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
 
 from django.core.exceptions import ValidationError
@@ -15,6 +17,9 @@ from idna import IDNAError
 from idna import encode as idna_encode
 
 from weblate.utils.errors import add_breadcrumb
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 LOCAL_HOST_SUFFIXES = (
     ".local",
@@ -276,8 +281,55 @@ def resolve_runtime_hostname(
     value: str, *, allow_private_targets: bool = True
 ) -> tuple[str, ...]:
     """Resolve a hostname and return all validated connection addresses."""
+    resolution_hostname, result = _prepare_runtime_hostname(
+        value, allow_private_targets=allow_private_targets
+    )
+    if resolution_hostname is None:
+        return result
+
+    try:
+        addresses = socket.getaddrinfo(
+            resolution_hostname, None, type=socket.SOCK_STREAM
+        )
+    except OSError as error:
+        raise ValidationError(
+            gettext("Could not resolve the URL domain: {}").format(error)
+        ) from error
+
+    return _validate_runtime_addresses(
+        addresses, allow_private_targets=allow_private_targets
+    )
+
+
+async def async_resolve_runtime_hostname(
+    value: str, *, allow_private_targets: bool = True
+) -> tuple[str, ...]:
+    """Asynchronously resolve all validated connection addresses."""
+    resolution_hostname, result = _prepare_runtime_hostname(
+        value, allow_private_targets=allow_private_targets
+    )
+    if resolution_hostname is None:
+        return result
+
+    try:
+        addresses = await get_running_loop().getaddrinfo(
+            resolution_hostname, None, type=socket.SOCK_STREAM
+        )
+    except OSError as error:
+        raise ValidationError(
+            gettext("Could not resolve the URL domain: {}").format(error)
+        ) from error
+
+    return _validate_runtime_addresses(
+        addresses, allow_private_targets=allow_private_targets
+    )
+
+
+def _prepare_runtime_hostname(
+    value: str, *, allow_private_targets: bool
+) -> tuple[str | None, tuple[str, ...]]:
     if allow_private_targets:
-        return ()
+        return None, ()
 
     normalized = _normalize_hostname(value)
 
@@ -285,18 +337,19 @@ def resolve_runtime_hostname(
         validate_runtime_ip(
             str(ip_address), allow_private_targets=allow_private_targets
         )
-        return (str(ip_address),)
+        return None, (str(ip_address),)
 
     try:
-        resolution_hostname = idna_encode(normalized, uts46=True).decode("ascii")
-        addresses = socket.getaddrinfo(
-            resolution_hostname, None, type=socket.SOCK_STREAM
-        )
-    except (IDNAError, OSError, UnicodeError) as error:
+        return idna_encode(normalized, uts46=True).decode("ascii"), ()
+    except (IDNAError, UnicodeError) as error:
         raise ValidationError(
             gettext("Could not resolve the URL domain: {}").format(error)
         ) from error
 
+
+def _validate_runtime_addresses(
+    addresses: Iterable[Any], *, allow_private_targets: bool
+) -> tuple[str, ...]:
     result: list[str] = []
     for _family, _type, _proto, _canonname, sockaddr in addresses:
         address = sockaddr[0]

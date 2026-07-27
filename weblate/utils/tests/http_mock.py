@@ -16,7 +16,11 @@ from urllib.parse import urlsplit, urlunsplit
 
 import httpx2
 
-from weblate.utils.requests import PEER_IP_RESPONSE_ATTR, set_test_transport
+from weblate.utils.requests import (
+    ORIGINAL_URL_REQUEST_EXTENSION,
+    PEER_IP_RESPONSE_ATTR,
+    set_test_transport,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -42,11 +46,16 @@ class PreparedRequest:
 
     def __init__(self, request: httpx2.Request) -> None:
         self._request = request
+        self.extensions = dict(request.extensions)
+        request_url = request.extensions.get(
+            ORIGINAL_URL_REQUEST_EXTENSION, request.url
+        )
         self.method = request.method
-        self.url = str(request.url.copy_with(fragment=None))
+        self.url = str(request_url.copy_with(fragment=None))
+        self.transport_url = str(request.url.copy_with(fragment=None))
         self.headers = request.headers
         self.body = request.content or None
-        self.path_url = request.url.raw_path.decode("ascii")
+        self.path_url = request_url.raw_path.decode("ascii")
 
 
 @dataclass

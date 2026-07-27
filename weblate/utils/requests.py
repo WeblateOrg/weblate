@@ -12,12 +12,12 @@ from contextlib import asynccontextmanager, contextmanager
 from dataclasses import dataclass
 from hashlib import sha256
 from ipaddress import ip_address, ip_network
-from typing import TYPE_CHECKING, Self
+from time import monotonic
+from typing import TYPE_CHECKING, Any, Self, cast
 from urllib.parse import urlparse
 from urllib.request import getproxies, proxy_bypass
 
 import httpx2
-from asgiref.sync import sync_to_async
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
@@ -26,16 +26,27 @@ from opentelemetry.trace import Span, SpanKind, Status, StatusCode
 
 from weblate.logger import LOGGER
 from weblate.utils.outbound import (
+    async_resolve_runtime_hostname,
     is_allowlisted_hostname,
+    resolve_runtime_hostname,
     validate_connected_peer,
     validate_outbound_url,
-    validate_runtime_url,
 )
 from weblate.utils.tracing import get_opentelemetry_tracer
 from weblate.utils.validators import validate_asset_url
 
 if TYPE_CHECKING:
-    from collections.abc import AsyncGenerator, Callable, Generator
+    from collections.abc import (
+        AsyncGenerator,
+        AsyncIterator,
+        Callable,
+        Generator,
+        Iterator,
+    )
+    from types import TracebackType
+    from typing import Never
+
+    from httpx2._types import AuthTypes
 
 
 @dataclass
@@ -45,7 +56,10 @@ class TestTransport:
 
 _TEST_TRANSPORT = TestTransport()
 PEER_IP_RESPONSE_ATTR = "_weblate_peer_ip"
+ORIGINAL_URL_REQUEST_EXTENSION = "weblate_original_url"
+VALIDATORS_REQUEST_EXTENSION = "weblate_redirect_validators"
 JSON_RESPONSE_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
+ADDRESS_FALLBACK_DELAY = 0.25
 
 
 def set_test_transport(transport: httpx2.MockTransport | None) -> None:
@@ -57,8 +71,17 @@ def set_test_transport(transport: httpx2.MockTransport | None) -> None:
 class RedirectValidators:
     """Transport-neutral outbound request validation policy."""
 
-    def validate_request_url(self, request_url: str, *, used_proxy: bool) -> None:
-        return
+    def validate_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
+        """Validate a request and return addresses to pin, when needed."""
+        return ()
+
+    async def validate_async_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
+        """Asynchronously validate a request and return addresses to pin."""
+        return self.validate_request_url(request_url, used_proxy=used_proxy)
 
     def validate_response(self, response: httpx2.Response, *, used_proxy: bool) -> None:
         return
@@ -69,7 +92,9 @@ class RuntimeRedirectValidators(RedirectValidators):
     allow_private_targets: bool = True
     allowed_domains: list[str] | tuple[str, ...] = ()
 
-    def validate_request_url(self, request_url: str, *, used_proxy: bool) -> None:
+    def _get_hostname_to_resolve(
+        self, request_url: str, *, used_proxy: bool
+    ) -> str | None:
         hostname = urlparse(request_url).hostname or ""
         if is_allowlisted_hostname(hostname, self.allowed_domains):
             validate_outbound_url(
@@ -77,16 +102,34 @@ class RuntimeRedirectValidators(RedirectValidators):
                 allow_private_targets=False,
                 allowed_domains=self.allowed_domains,
             )
-            return
+            return None
         if used_proxy:
             validate_outbound_url(
                 request_url,
                 allow_private_targets=self.allow_private_targets,
                 allowed_domains=self.allowed_domains,
             )
-            return
-        validate_runtime_url(
-            request_url, allow_private_targets=self.allow_private_targets
+            return None
+        return hostname
+
+    def validate_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
+        hostname = self._get_hostname_to_resolve(request_url, used_proxy=used_proxy)
+        if hostname is None:
+            return ()
+        return resolve_runtime_hostname(
+            hostname, allow_private_targets=self.allow_private_targets
+        )
+
+    async def validate_async_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
+        hostname = self._get_hostname_to_resolve(request_url, used_proxy=used_proxy)
+        if hostname is None:
+            return ()
+        return await async_resolve_runtime_hostname(
+            hostname, allow_private_targets=self.allow_private_targets
         )
 
     def validate_response(self, response: httpx2.Response, *, used_proxy: bool) -> None:
@@ -100,15 +143,28 @@ class RuntimeRedirectValidators(RedirectValidators):
 
 @dataclass
 class AssetRedirectValidators(RedirectValidators):
-    def validate_request_url(self, request_url: str, *, used_proxy: bool) -> None:
+    def validate_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
         validate_asset_url(request_url)
+        return ()
 
 
 @dataclass
 class RestrictedAssetRedirectValidators(RuntimeRedirectValidators):
-    def validate_request_url(self, request_url: str, *, used_proxy: bool) -> None:
+    def validate_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
         validate_asset_url(request_url)
-        super().validate_request_url(request_url, used_proxy=used_proxy)
+        return super().validate_request_url(request_url, used_proxy=used_proxy)
+
+    async def validate_async_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
+        validate_asset_url(request_url)
+        return await super().validate_async_request_url(
+            request_url, used_proxy=used_proxy
+        )
 
 
 @dataclass
@@ -116,9 +172,12 @@ class ChainedRedirectValidators(RedirectValidators):
     request_validators: tuple[Callable[[str], None], ...] = ()
     response_validator: Callable[[httpx2.Response, bool], None] | None = None
 
-    def validate_request_url(self, request_url: str, *, used_proxy: bool) -> None:
+    def validate_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
         for validator in self.request_validators:
             validator(request_url)
+        return ()
 
     def validate_response(self, response: httpx2.Response, *, used_proxy: bool) -> None:
         if self.response_validator is not None:
@@ -277,33 +336,568 @@ def record_http_response(span: Span | None, response: httpx2.Response) -> None:
         span.set_status(Status(StatusCode.ERROR))
 
 
-@contextmanager
-def _close_response_on_error(
+class TracedStream:
+    """Keep a client span open until its response stream is consumed."""
+
+    def __init__(self, trace) -> None:
+        self.trace = trace
+
+    def _finish(
+        self,
+        exc_type: type[BaseException] | None = None,
+        exc_value: BaseException | None = None,
+        traceback: TracebackType | None = None,
+    ) -> None:
+        if self.trace is not None:
+            trace, self.trace = self.trace, None
+            trace.__exit__(exc_type, exc_value, traceback)
+
+
+class TracedSyncStream(TracedStream, httpx2.SyncByteStream):
+    """Synchronous traced response stream."""
+
+    def __init__(self, stream: httpx2.SyncByteStream, trace) -> None:
+        super().__init__(trace)
+        self.stream = stream
+
+    def __iter__(self) -> Iterator[bytes]:
+        try:
+            yield from self.stream
+        except BaseException as error:
+            self._finish(type(error), error, error.__traceback__)
+            raise
+        self._finish()
+
+    def close(self) -> None:
+        try:
+            self.stream.close()
+        except BaseException as error:
+            self._finish(type(error), error, error.__traceback__)
+            raise
+        self._finish()
+
+
+class TracedAsyncStream(TracedStream, httpx2.AsyncByteStream):
+    """Asynchronous traced response stream."""
+
+    def __init__(self, stream: httpx2.AsyncByteStream, trace) -> None:
+        super().__init__(trace)
+        self.stream = stream
+
+    async def __aiter__(self) -> AsyncIterator[bytes]:
+        try:
+            async for chunk in self.stream:
+                yield chunk
+        except BaseException as error:
+            self._finish(type(error), error, error.__traceback__)
+            raise
+        self._finish()
+
+    async def aclose(self) -> None:
+        try:
+            await self.stream.aclose()
+        except BaseException as error:
+            self._finish(type(error), error, error.__traceback__)
+            raise
+        self._finish()
+
+
+def _build_pinned_request(
+    request: httpx2.Request, connection_address: str
+) -> httpx2.Request:
+    """Clone a request for a validated address while retaining its HTTP origin."""
+    extensions = {
+        **request.extensions,
+        ORIGINAL_URL_REQUEST_EXTENSION: request.url,
+        "sni_hostname": request.url.raw_host.decode("ascii"),
+    }
+    return httpx2.Request(
+        method=request.method,
+        url=request.url.copy_with(host=connection_address),
+        headers=request.headers,
+        stream=request.stream,
+        extensions=extensions,
+    )
+
+
+def _transport_key(
+    request: httpx2.Request,
+    *,
+    proxy: str | None,
+    connection_address: str | None,
+) -> tuple[str, ...]:
+    if proxy is not None:
+        return ("proxy", proxy)
+    if connection_address is None:
+        return ("direct",)
+    return (
+        "pinned",
+        request.url.scheme,
+        request.url.host,
+        str(request.url.port or ""),
+        connection_address,
+    )
+
+
+class OutboundTransportPool[
+    TransportType: httpx2.BaseTransport | httpx2.AsyncBaseTransport
+]:
+    """Share outbound transport selection and connection-pool isolation."""
+
+    def __init__(
+        self,
+        transport: TransportType | None,
+        transport_factory: Callable[[str | None], TransportType],
+    ) -> None:
+        self.transport_override = transport or cast(
+            "TransportType | None", _TEST_TRANSPORT.transport
+        )
+        self.transport_factory = transport_factory
+        self.transports: dict[tuple[str, ...], TransportType] = {}
+
+    def get(
+        self,
+        request: httpx2.Request,
+        *,
+        proxy: str | None,
+        connection_address: str | None,
+    ) -> TransportType:
+        if self.transport_override is not None:
+            return self.transport_override
+        key = _transport_key(
+            request,
+            proxy=proxy,
+            connection_address=connection_address,
+        )
+        if (transport := self.transports.get(key)) is None:
+            transport = self.transport_factory(proxy)
+            self.transports[key] = transport
+        return transport
+
+    def active(self) -> list[TransportType]:
+        if self.transport_override is not None:
+            return [self.transport_override]
+        return list(self.transports.values())
+
+    def clear(self) -> None:
+        self.transports.clear()
+
+
+@dataclass(frozen=True)
+class OutboundRequest:
+    """Transport-neutral details used to validate and route a request."""
+
+    url: str
+    proxy: str | None
+    validators: RedirectValidators | None
+
+    @property
+    def used_proxy(self) -> bool:
+        return self.proxy is not None
+
+
+def _prepare_outbound_request(request: httpx2.Request) -> OutboundRequest:
+    request_url = str(request.url)
+    return OutboundRequest(
+        url=request_url,
+        proxy=_get_proxy(request_url),
+        validators=cast(
+            "RedirectValidators | None",
+            request.extensions.get(VALIDATORS_REQUEST_EXTENSION),
+        ),
+    )
+
+
+async def _validate_async_outbound_request(
+    outbound: OutboundRequest,
+) -> tuple[str, ...]:
+    if outbound.validators is None:
+        return ()
+    return await outbound.validators.validate_async_request_url(
+        outbound.url,
+        used_proxy=outbound.used_proxy,
+    )
+
+
+def _route_outbound_request[
+    TransportType: httpx2.BaseTransport | httpx2.AsyncBaseTransport
+](
+    pool: OutboundTransportPool[TransportType],
+    request: httpx2.Request,
+    connection_addresses: tuple[str, ...],
+    *,
+    proxy: str | None,
+) -> tuple[tuple[TransportType, httpx2.Request], ...]:
+    addresses: tuple[str | None, ...] = connection_addresses or (None,)
+    return tuple(
+        (
+            pool.get(
+                request,
+                proxy=proxy,
+                connection_address=connection_address,
+            ),
+            (
+                _build_pinned_request(request, connection_address)
+                if connection_address is not None
+                else request
+            ),
+        )
+        for connection_address in addresses
+    )
+
+
+def _connection_deadline[
+    TransportType: httpx2.BaseTransport | httpx2.AsyncBaseTransport
+](
+    routes: tuple[tuple[TransportType, httpx2.Request], ...],
+) -> float | None:
+    if len(routes) == 1:
+        return None
+    connect_timeout = routes[0][1].extensions.get("timeout", {}).get("connect")
+    if connect_timeout is None:
+        return None
+    return monotonic() + float(connect_timeout)
+
+
+def _set_attempt_connect_timeout(
+    request: httpx2.Request,
+    *,
+    deadline: float | None,
+    probe: bool,
+) -> None:
+    if deadline is None:
+        connect_timeout = ADDRESS_FALLBACK_DELAY if probe else None
+    else:
+        remaining = max(0.0, deadline - monotonic())
+        connect_timeout = min(ADDRESS_FALLBACK_DELAY, remaining) if probe else remaining
+    timeouts = dict(request.extensions.get("timeout", {}))
+    timeouts["connect"] = connect_timeout
+    request.extensions["timeout"] = timeouts
+
+
+def _connection_budget_exhausted(deadline: float | None) -> bool:
+    return deadline is not None and monotonic() >= deadline
+
+
+class _ConnectionFallback[
+    TransportType: httpx2.BaseTransport | httpx2.AsyncBaseTransport
+]:
+    """
+    Track fast probes and retries within one request's connection budget.
+
+    AnyIO's Happy Eyeballs API resolves hostnames itself and cannot accept the
+    address set already approved by the SSRF validator.
+    """
+
+    def __init__(
+        self,
+        routes: tuple[tuple[TransportType, httpx2.Request], ...],
+    ) -> None:
+        self.routes = routes
+        self.deadline = _connection_deadline(routes)
+        self.timed_out_routes: list[tuple[TransportType, httpx2.Request]] = []
+        self.last_error: httpx2.ConnectError | httpx2.ConnectTimeout | None = None
+
+    def attempts(
+        self,
+    ) -> Iterator[tuple[TransportType, httpx2.Request, bool]]:
+        for probe, routes in (
+            (True, self.routes),
+            (False, self.timed_out_routes),
+        ):
+            for transport, request in routes:
+                _set_attempt_connect_timeout(
+                    request,
+                    deadline=self.deadline,
+                    probe=probe,
+                )
+                yield transport, request, probe
+
+    def record_failure(
+        self,
+        route: tuple[TransportType, httpx2.Request],
+        error: httpx2.ConnectError | httpx2.ConnectTimeout,
+        *,
+        probe: bool,
+    ) -> None:
+        if probe and isinstance(error, httpx2.ConnectTimeout):
+            self.timed_out_routes.append(route)
+        self.last_error = error
+        if _connection_budget_exhausted(self.deadline):
+            raise error
+
+    def raise_last_error(self) -> Never:
+        if self.last_error is not None:
+            raise self.last_error
+        msg = "No outbound routes available."
+        raise RuntimeError(msg)
+
+
+def _send_request_with_fallback(
+    routes: tuple[tuple[httpx2.BaseTransport, httpx2.Request], ...],
+) -> httpx2.Response:
+    if len(routes) == 1:
+        transport, request = routes[0]
+        return transport.handle_request(request)
+
+    fallback = _ConnectionFallback(routes)
+    for transport, request, probe in fallback.attempts():
+        try:
+            return transport.handle_request(request)
+        except (httpx2.ConnectError, httpx2.ConnectTimeout) as error:
+            fallback.record_failure(
+                (transport, request),
+                error,
+                probe=probe,
+            )
+    return fallback.raise_last_error()
+
+
+async def _send_async_request_with_fallback(
+    routes: tuple[tuple[httpx2.AsyncBaseTransport, httpx2.Request], ...],
+) -> httpx2.Response:
+    if len(routes) == 1:
+        transport, request = routes[0]
+        return await transport.handle_async_request(request)
+
+    fallback = _ConnectionFallback(routes)
+    for transport, request, probe in fallback.attempts():
+        try:
+            return await transport.handle_async_request(request)
+        except (httpx2.ConnectError, httpx2.ConnectTimeout) as error:
+            fallback.record_failure(
+                (transport, request),
+                error,
+                probe=probe,
+            )
+    return fallback.raise_last_error()
+
+
+def _validate_transport_response(
     response: httpx2.Response,
-) -> Generator[None, None, None]:
-    try:
-        yield
-    except Exception:
+    *,
+    request: httpx2.Request,
+    span: Span | None,
+    validators: RedirectValidators | None,
+    used_proxy: bool,
+) -> None:
+    response.request = request
+    record_http_response(span, response)
+    if validators is not None:
+        validators.validate_response(response, used_proxy=used_proxy)
+
+
+class OutboundHTTPTransport(httpx2.BaseTransport):
+    """Validate and route every synchronous HTTPX2 request hop."""
+
+    def __init__(self, transport: httpx2.BaseTransport | None = None) -> None:
+        self.pool = OutboundTransportPool(
+            transport,
+            lambda proxy: httpx2.HTTPTransport(proxy=proxy, trust_env=True),
+        )
+
+    def handle_request(self, request: httpx2.Request) -> httpx2.Response:
+        outbound = _prepare_outbound_request(request)
+        connection_addresses = (
+            outbound.validators.validate_request_url(
+                outbound.url, used_proxy=outbound.used_proxy
+            )
+            if outbound.validators is not None
+            else ()
+        )
+        trace = trace_http_request(request)
+        span = trace.__enter__()  # ruff: ignore[unnecessary-dunder-call]
+        response: httpx2.Response | None = None
+        try:
+            routes = _route_outbound_request(
+                self.pool,
+                request,
+                connection_addresses,
+                proxy=outbound.proxy,
+            )
+            response = _send_request_with_fallback(routes)
+            _validate_transport_response(
+                response,
+                request=request,
+                span=span,
+                validators=outbound.validators,
+                used_proxy=outbound.used_proxy,
+            )
+            response.stream = TracedSyncStream(
+                cast("httpx2.SyncByteStream", response.stream), trace
+            )
+        except BaseException as error:
+            try:
+                if response is not None:
+                    response.close()
+            finally:
+                trace.__exit__(type(error), error, error.__traceback__)
+            raise
+        return response
+
+    def close(self) -> None:
+        for transport in self.pool.active():
+            transport.close()
+        self.pool.clear()
+
+
+class AsyncOutboundHTTPTransport(httpx2.AsyncBaseTransport):
+    """Validate and route every asynchronous HTTPX2 request hop."""
+
+    def __init__(self, transport: httpx2.AsyncBaseTransport | None = None) -> None:
+        self.pool = OutboundTransportPool(
+            transport,
+            lambda proxy: httpx2.AsyncHTTPTransport(proxy=proxy, trust_env=True),
+        )
+
+    async def handle_async_request(self, request: httpx2.Request) -> httpx2.Response:
+        outbound = _prepare_outbound_request(request)
+        connection_addresses = await _validate_async_outbound_request(outbound)
+        trace = trace_http_request(request)
+        span = trace.__enter__()  # ruff: ignore[unnecessary-dunder-call]
+        response: httpx2.Response | None = None
+        try:
+            routes = _route_outbound_request(
+                self.pool,
+                request,
+                connection_addresses,
+                proxy=outbound.proxy,
+            )
+            response = await _send_async_request_with_fallback(routes)
+            _validate_transport_response(
+                response,
+                request=request,
+                span=span,
+                validators=outbound.validators,
+                used_proxy=outbound.used_proxy,
+            )
+            response.stream = TracedAsyncStream(
+                cast("httpx2.AsyncByteStream", response.stream), trace
+            )
+        except BaseException as error:
+            try:
+                if response is not None:
+                    await response.aclose()
+            finally:
+                trace.__exit__(type(error), error, error.__traceback__)
+            raise
+        return response
+
+    async def aclose(self) -> None:
+        for transport in self.pool.active():
+            await transport.aclose()
+        self.pool.clear()
+
+
+def _build_client_request(
+    client: httpx2.Client | httpx2.AsyncClient,
+    method: str,
+    url: str,
+    *,
+    headers: dict[str, str] | None,
+    timeout: float,
+    validators: RedirectValidators | None,
+    kwargs: dict[str, Any],
+) -> tuple[httpx2.Request, AuthTypes | None]:
+    request_kwargs = _normalize_request_kwargs(kwargs)
+    request_auth = request_kwargs.pop("auth", None)
+    extensions = dict(request_kwargs.pop("extensions", {}) or {})
+    extensions[VALIDATORS_REQUEST_EXTENSION] = validators
+    request = client.build_request(
+        method,
+        url,
+        headers=_prepare_headers(headers),
+        timeout=timeout,
+        extensions=extensions,
+        **request_kwargs,
+    )
+    return request, request_auth
+
+
+def _next_streaming_redirect(
+    response: httpx2.Response,
+    history: list[httpx2.Response],
+    max_redirects: int,
+) -> httpx2.Request | None:
+    """Return HTTPX's next redirect request without consuming the response."""
+    response.history = list(history)
+    next_request = response.next_request
+    if next_request is None:
+        return None
+
+    history.append(response)
+    if len(history) > max_redirects:
+        msg = "Exceeded maximum allowed redirects."
+        raise httpx2.TooManyRedirects(
+            msg,
+            request=next_request,
+        )
+    return next_request
+
+
+def _send_with_redirects(
+    client: httpx2.Client,
+    request: httpx2.Request,
+    *,
+    auth: AuthTypes | None,
+    max_redirects: int,
+) -> httpx2.Response:
+    history: list[httpx2.Response] = []
+    while True:
+        response = client.send(
+            request,
+            stream=True,
+            auth=auth,
+            follow_redirects=False,
+        )
+        try:
+            next_request = _next_streaming_redirect(response, history, max_redirects)
+        except BaseException:
+            response.close()
+            raise
+        if next_request is None:
+            return response
         response.close()
-        raise
+        request = next_request
+        auth = None
 
 
-@asynccontextmanager
-async def _aclose_response_on_error(
-    response: httpx2.Response,
-) -> AsyncGenerator[None]:
-    try:
-        yield
-    except Exception:
+async def _async_send_with_redirects(
+    client: httpx2.AsyncClient,
+    request: httpx2.Request,
+    *,
+    auth: AuthTypes | None,
+    max_redirects: int,
+) -> httpx2.Response:
+    history: list[httpx2.Response] = []
+    while True:
+        response = await client.send(
+            request,
+            stream=True,
+            auth=auth,
+            follow_redirects=False,
+        )
+        try:
+            next_request = _next_streaming_redirect(response, history, max_redirects)
+        except BaseException:
+            await response.aclose()
+            raise
+        if next_request is None:
+            return response
         await response.aclose()
-        raise
+        request = next_request
+        auth = None
 
 
 class HTTPClient:
-    """Synchronous HTTPX2 client pool with per-hop proxy routing."""
+    """Synchronous HTTPX2 client using Weblate's outbound transport."""
 
-    def __init__(self) -> None:
-        self._clients: dict[str | None, httpx2.Client] = {}
+    def __init__(self, transport: httpx2.BaseTransport | None = None) -> None:
+        self.client = httpx2.Client(
+            transport=OutboundHTTPTransport(transport),
+            trust_env=False,
+            follow_redirects=False,
+        )
 
     def __enter__(self) -> Self:
         return self
@@ -312,26 +906,7 @@ class HTTPClient:
         self.close()
 
     def close(self) -> None:
-        for client in self._clients.values():
-            client.close()
-        self._clients.clear()
-
-    def _get_client(self, url: str) -> tuple[httpx2.Client, bool]:
-        proxy = _get_proxy(url)
-        client = self._clients.get(proxy)
-        if client is None:
-            transport: httpx2.BaseTransport
-            if _TEST_TRANSPORT.transport is not None:
-                transport = _TEST_TRANSPORT.transport
-            else:
-                transport = httpx2.HTTPTransport(proxy=proxy, trust_env=True)
-            client = httpx2.Client(
-                transport=transport,
-                trust_env=False,
-                follow_redirects=False,
-            )
-            self._clients[proxy] = client
-        return client, proxy is not None
+        self.client.close()
 
     def request(
         self,
@@ -346,59 +921,47 @@ class HTTPClient:
         validators: RedirectValidators | None = None,
         **kwargs,
     ) -> httpx2.Response:
-        history: list[httpx2.Response] = []
-        current_request: httpx2.Request | None = None
-        request_kwargs = _normalize_request_kwargs(kwargs)
-        request_auth = request_kwargs.pop("auth", None)
-
-        for _ in range(max_redirects + 1):
-            request_url = url if current_request is None else str(current_request.url)
-            client, used_proxy = self._get_client(request_url)
-            if validators is not None:
-                validators.validate_request_url(request_url, used_proxy=used_proxy)
-
-            if current_request is None:
-                current_request = client.build_request(
-                    method,
-                    url,
-                    headers=_prepare_headers(headers),
-                    timeout=timeout,
-                    **request_kwargs,
-                )
-
-            with trace_http_request(current_request) as span:
-                response = client.send(
-                    current_request,
-                    stream=True,
-                    follow_redirects=False,
-                    auth=request_auth if not history else None,
-                )
-                record_http_response(span, response)
-                response.history = history.copy()
-                with _close_response_on_error(response):
-                    if validators is not None:
-                        validators.validate_response(response, used_proxy=used_proxy)
-
-                    next_request = response.next_request
-                    if not allow_redirects or next_request is None:
-                        if not stream:
-                            response.read()
-                            response.close()
-                        return response
-
-                    history.append(response)
-                    response.close()
-                    current_request = next_request
-
-        msg = f"Exceeded {max_redirects} redirects."
-        raise httpx2.TooManyRedirects(msg, request=current_request)
+        request, request_auth = _build_client_request(
+            self.client,
+            method,
+            url,
+            headers=headers,
+            timeout=timeout,
+            validators=validators,
+            kwargs=kwargs,
+        )
+        if allow_redirects:
+            response = _send_with_redirects(
+                self.client,
+                request,
+                auth=request_auth,
+                max_redirects=max_redirects,
+            )
+            if stream:
+                return response
+            try:
+                response.read()
+            except BaseException:
+                response.close()
+                raise
+            return response
+        return self.client.send(
+            request,
+            stream=stream,
+            auth=request_auth,
+            follow_redirects=False,
+        )
 
 
 class AsyncHTTPClient:
-    """Asynchronous HTTPX2 client pool with the same validation policy."""
+    """Asynchronous HTTPX2 client using Weblate's outbound transport."""
 
-    def __init__(self) -> None:
-        self._clients: dict[str | None, httpx2.AsyncClient] = {}
+    def __init__(self, transport: httpx2.AsyncBaseTransport | None = None) -> None:
+        self.client = httpx2.AsyncClient(
+            transport=AsyncOutboundHTTPTransport(transport),
+            trust_env=False,
+            follow_redirects=False,
+        )
 
     async def __aenter__(self) -> Self:
         return self
@@ -407,26 +970,7 @@ class AsyncHTTPClient:
         await self.aclose()
 
     async def aclose(self) -> None:
-        for client in self._clients.values():
-            await client.aclose()
-        self._clients.clear()
-
-    def _get_client(self, url: str) -> tuple[httpx2.AsyncClient, bool]:
-        proxy = _get_proxy(url)
-        client = self._clients.get(proxy)
-        if client is None:
-            transport: httpx2.AsyncBaseTransport
-            if _TEST_TRANSPORT.transport is not None:
-                transport = _TEST_TRANSPORT.transport
-            else:
-                transport = httpx2.AsyncHTTPTransport(proxy=proxy, trust_env=True)
-            client = httpx2.AsyncClient(
-                transport=transport,
-                trust_env=False,
-                follow_redirects=False,
-            )
-            self._clients[proxy] = client
-        return client, proxy is not None
+        await self.client.aclose()
 
     async def request(
         self,
@@ -441,55 +985,36 @@ class AsyncHTTPClient:
         validators: RedirectValidators | None = None,
         **kwargs,
     ) -> httpx2.Response:
-        history: list[httpx2.Response] = []
-        current_request: httpx2.Request | None = None
-        request_kwargs = _normalize_request_kwargs(kwargs)
-        request_auth = request_kwargs.pop("auth", None)
-
-        for _ in range(max_redirects + 1):
-            request_url = url if current_request is None else str(current_request.url)
-            client, used_proxy = self._get_client(request_url)
-            if validators is not None:
-                await sync_to_async(
-                    validators.validate_request_url,
-                    thread_sensitive=False,
-                )(request_url, used_proxy=used_proxy)
-
-            if current_request is None:
-                current_request = client.build_request(
-                    method,
-                    url,
-                    headers=_prepare_headers(headers),
-                    timeout=timeout,
-                    **request_kwargs,
-                )
-
-            with trace_http_request(current_request) as span:
-                response = await client.send(
-                    current_request,
-                    stream=True,
-                    follow_redirects=False,
-                    auth=request_auth if not history else None,
-                )
-                record_http_response(span, response)
-                response.history = history.copy()
-                async with _aclose_response_on_error(response):
-                    if validators is not None:
-                        validators.validate_response(response, used_proxy=used_proxy)
-
-                    next_request = response.next_request
-                    if not allow_redirects or next_request is None:
-                        if not stream:
-                            await response.aread()
-                            await response.aclose()
-                        return response
-
-                    history.append(response)
-                    await response.aclose()
-                    current_request = next_request
-
-        msg = f"Exceeded {max_redirects} redirects."
-        raise httpx2.TooManyRedirects(msg, request=current_request)
+        request, request_auth = _build_client_request(
+            self.client,
+            method,
+            url,
+            headers=headers,
+            timeout=timeout,
+            validators=validators,
+            kwargs=kwargs,
+        )
+        if allow_redirects:
+            response = await _async_send_with_redirects(
+                self.client,
+                request,
+                auth=request_auth,
+                max_redirects=max_redirects,
+            )
+            if stream:
+                return response
+            try:
+                await response.aread()
+            except BaseException:
+                await response.aclose()
+                raise
+            return response
+        return await self.client.send(
+            request,
+            stream=stream,
+            auth=request_auth,
+            follow_redirects=False,
+        )
 
 
 def _request_with_redirects(
