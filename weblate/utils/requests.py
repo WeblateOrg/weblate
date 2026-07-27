@@ -21,8 +21,6 @@ import httpx2
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
-from opentelemetry import propagate
-from opentelemetry.trace import Span, SpanKind, Status, StatusCode
 
 from weblate.logger import LOGGER
 from weblate.utils.outbound import (
@@ -32,18 +30,15 @@ from weblate.utils.outbound import (
     validate_connected_peer,
     validate_outbound_url,
 )
-from weblate.utils.tracing import get_opentelemetry_tracer
 from weblate.utils.validators import validate_asset_url
 
 if TYPE_CHECKING:
     from collections.abc import (
         AsyncGenerator,
-        AsyncIterator,
         Callable,
         Generator,
         Iterator,
     )
-    from types import TracebackType
     from typing import Never
 
     from httpx2._types import AuthTypes
@@ -301,105 +296,6 @@ def _normalize_request_kwargs(kwargs: dict) -> dict:
     result.pop("verify", None)
     result.pop("cert", None)
     return result
-
-
-@contextmanager
-def trace_http_request(
-    request: httpx2.Request,
-) -> Generator[Span | None, None, None]:
-    tracer = get_opentelemetry_tracer()
-    if tracer is None:
-        yield None
-        return
-
-    attributes: dict[str, str | int] = {
-        "http.request.method": request.method,
-        "server.address": request.url.host,
-        "url.scheme": request.url.scheme,
-    }
-    if request.url.port is not None:
-        attributes["server.port"] = request.url.port
-    with tracer.start_as_current_span(
-        f"{request.method} {request.url.host}",
-        kind=SpanKind.CLIENT,
-        attributes=attributes,
-    ) as span:
-        propagate.inject(request.headers)
-        yield span
-
-
-def record_http_response(span: Span | None, response: httpx2.Response) -> None:
-    if span is None:
-        return
-    span.set_attribute("http.response.status_code", response.status_code)
-    if response.is_error:
-        span.set_status(Status(StatusCode.ERROR))
-
-
-class TracedStream:
-    """Keep a client span open until its response stream is consumed."""
-
-    def __init__(self, trace) -> None:
-        self.trace = trace
-
-    def _finish(
-        self,
-        exc_type: type[BaseException] | None = None,
-        exc_value: BaseException | None = None,
-        traceback: TracebackType | None = None,
-    ) -> None:
-        if self.trace is not None:
-            trace, self.trace = self.trace, None
-            trace.__exit__(exc_type, exc_value, traceback)
-
-
-class TracedSyncStream(TracedStream, httpx2.SyncByteStream):
-    """Synchronous traced response stream."""
-
-    def __init__(self, stream: httpx2.SyncByteStream, trace) -> None:
-        super().__init__(trace)
-        self.stream = stream
-
-    def __iter__(self) -> Iterator[bytes]:
-        try:
-            yield from self.stream
-        except BaseException as error:
-            self._finish(type(error), error, error.__traceback__)
-            raise
-        self._finish()
-
-    def close(self) -> None:
-        try:
-            self.stream.close()
-        except BaseException as error:
-            self._finish(type(error), error, error.__traceback__)
-            raise
-        self._finish()
-
-
-class TracedAsyncStream(TracedStream, httpx2.AsyncByteStream):
-    """Asynchronous traced response stream."""
-
-    def __init__(self, stream: httpx2.AsyncByteStream, trace) -> None:
-        super().__init__(trace)
-        self.stream = stream
-
-    async def __aiter__(self) -> AsyncIterator[bytes]:
-        try:
-            async for chunk in self.stream:
-                yield chunk
-        except BaseException as error:
-            self._finish(type(error), error, error.__traceback__)
-            raise
-        self._finish()
-
-    async def aclose(self) -> None:
-        try:
-            await self.stream.aclose()
-        except BaseException as error:
-            self._finish(type(error), error, error.__traceback__)
-            raise
-        self._finish()
 
 
 def _build_pinned_request(
@@ -677,12 +573,10 @@ def _validate_transport_response(
     response: httpx2.Response,
     *,
     request: httpx2.Request,
-    span: Span | None,
     validators: RedirectValidators | None,
     used_proxy: bool,
 ) -> None:
     response.request = request
-    record_http_response(span, response)
     if validators is not None:
         validators.validate_response(response, used_proxy=used_proxy)
 
@@ -705,33 +599,22 @@ class OutboundHTTPTransport(httpx2.BaseTransport):
             if outbound.validators is not None
             else ()
         )
-        trace = trace_http_request(request)
-        span = trace.__enter__()  # ruff: ignore[unnecessary-dunder-call]
-        response: httpx2.Response | None = None
+        routes = _route_outbound_request(
+            self.pool,
+            request,
+            connection_addresses,
+            proxy=outbound.proxy,
+        )
+        response = _send_request_with_fallback(routes)
         try:
-            routes = _route_outbound_request(
-                self.pool,
-                request,
-                connection_addresses,
-                proxy=outbound.proxy,
-            )
-            response = _send_request_with_fallback(routes)
             _validate_transport_response(
                 response,
                 request=request,
-                span=span,
                 validators=outbound.validators,
                 used_proxy=outbound.used_proxy,
             )
-            response.stream = TracedSyncStream(
-                cast("httpx2.SyncByteStream", response.stream), trace
-            )
-        except BaseException as error:
-            try:
-                if response is not None:
-                    response.close()
-            finally:
-                trace.__exit__(type(error), error, error.__traceback__)
+        except BaseException:
+            response.close()
             raise
         return response
 
@@ -753,33 +636,22 @@ class AsyncOutboundHTTPTransport(httpx2.AsyncBaseTransport):
     async def handle_async_request(self, request: httpx2.Request) -> httpx2.Response:
         outbound = _prepare_outbound_request(request)
         connection_addresses = await _validate_async_outbound_request(outbound)
-        trace = trace_http_request(request)
-        span = trace.__enter__()  # ruff: ignore[unnecessary-dunder-call]
-        response: httpx2.Response | None = None
+        routes = _route_outbound_request(
+            self.pool,
+            request,
+            connection_addresses,
+            proxy=outbound.proxy,
+        )
+        response = await _send_async_request_with_fallback(routes)
         try:
-            routes = _route_outbound_request(
-                self.pool,
-                request,
-                connection_addresses,
-                proxy=outbound.proxy,
-            )
-            response = await _send_async_request_with_fallback(routes)
             _validate_transport_response(
                 response,
                 request=request,
-                span=span,
                 validators=outbound.validators,
                 used_proxy=outbound.used_proxy,
             )
-            response.stream = TracedAsyncStream(
-                cast("httpx2.AsyncByteStream", response.stream), trace
-            )
-        except BaseException as error:
-            try:
-                if response is not None:
-                    await response.aclose()
-            finally:
-                trace.__exit__(type(error), error, error.__traceback__)
+        except BaseException:
+            await response.aclose()
             raise
         return response
 

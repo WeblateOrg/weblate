@@ -5,7 +5,6 @@
 import asyncio
 import os
 from concurrent.futures import ThreadPoolExecutor
-from contextlib import contextmanager
 from threading import Event
 from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
@@ -15,7 +14,6 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from weblate.utils import tracing
 from weblate.utils.requests import (
     PEER_IP_RESPONSE_ATTR,
     AsyncHTTPClient,
@@ -29,7 +27,6 @@ from weblate.utils.requests import (
     get_uri_error,
     open_asset_url,
     open_restricted_asset_url,
-    trace_http_request,
 )
 from weblate.utils.tests import http_mock as responses
 
@@ -118,72 +115,6 @@ class FetchURLTest(SimpleTestCase):
             responses.calls[0].request.body,
             b"source_branch=weblate",
         )
-
-    def test_http_client_buffers_response_inside_span(self) -> None:
-        events: list[str] = []
-        request = httpx2.Request("GET", "https://example.com/data")
-        response = httpx2.Response(
-            200,
-            request=request,
-            stream=TrackedSyncStream(events),
-        )
-
-        @contextmanager
-        def tracked_span(_request):
-            events.append("span-start")
-            try:
-                yield None
-            finally:
-                events.append("span-end")
-
-        client = HTTPClient(
-            httpx2.MockTransport(lambda _request: response),
-        )
-        with (
-            patch(
-                "weblate.utils.requests.trace_http_request",
-                side_effect=tracked_span,
-            ),
-            client,
-        ):
-            result = client.request("get", "https://example.com/data")
-
-        self.assertEqual(result.content, b"response-body")
-        self.assertEqual(events, ["span-start", "read", "span-end"])
-
-    def test_async_http_client_buffers_response_inside_span(self) -> None:
-        events: list[str] = []
-        request = httpx2.Request("GET", "https://example.com/data")
-        response = httpx2.Response(
-            200,
-            request=request,
-            stream=TrackedAsyncStream(events),
-        )
-
-        @contextmanager
-        def tracked_span(_request):
-            events.append("span-start")
-            try:
-                yield None
-            finally:
-                events.append("span-end")
-
-        client = AsyncHTTPClient(
-            httpx2.MockTransport(lambda _request: response),
-        )
-
-        async def make_request() -> httpx2.Response:
-            async with client:
-                return await client.request("get", "https://example.com/data")
-
-        with patch(
-            "weblate.utils.requests.trace_http_request",
-            side_effect=tracked_span,
-        ):
-            result = asyncio.run(make_request())
-
-        self.assertEqual(result.content, b"response-body")
-        self.assertEqual(events, ["span-start", "read", "span-end"])
 
     def test_http_client_does_not_read_streaming_redirect_body(self) -> None:
         events: list[str] = []
@@ -389,21 +320,6 @@ class FetchURLTest(SimpleTestCase):
             used_proxy=False,
         )
         validators.validate_request_url.assert_not_called()
-
-    def test_http_trace_uses_configured_tracer(self) -> None:
-        request = httpx2.Request("GET", "https://example.com/data")
-        span = MagicMock()
-        span_context = MagicMock()
-        span_context.__enter__.return_value = span
-        tracer = MagicMock()
-        tracer.start_as_current_span.return_value = span_context
-        tracing.configure_opentelemetry_tracer(tracer)
-        self.addCleanup(tracing.configure_opentelemetry_tracer, None)
-
-        with trace_http_request(request) as current_span:
-            self.assertIs(current_span, span)
-
-        tracer.start_as_current_span.assert_called_once()
 
 
 class OpenAssetURLTest(SimpleTestCase):
@@ -1148,113 +1064,6 @@ class FetchValidatedURLTest(SimpleTestCase):
             "xn--fa-hia.de",
         )
         mocked_getaddrinfo.assert_called_once_with("xn--fa-hia.de", None, type=1)
-
-    @responses.activate
-    @patch(
-        "weblate.utils.outbound.socket.getaddrinfo",
-        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
-    )
-    def test_fetch_validated_url_injects_current_trace_before_pinning(
-        self, mocked_getaddrinfo
-    ) -> None:
-        responses.add(
-            responses.GET,
-            "https://public.example.com/source",
-            status=302,
-            headers={"Location": "/final"},
-        )
-        responses.add(
-            responses.GET,
-            "https://public.example.com/final",
-            status=200,
-            body=b"traced",
-        )
-        trace_headers = iter(
-            (
-                "00-00000000000000000000000000000001-0000000000000001-01",
-                "00-00000000000000000000000000000002-0000000000000002-01",
-            )
-        )
-
-        def inject(headers) -> None:
-            headers["traceparent"] = next(trace_headers)
-
-        tracer = MagicMock()
-        tracer.start_as_current_span.return_value.__enter__.return_value = MagicMock()
-        with (
-            patch(
-                "weblate.utils.requests.get_opentelemetry_tracer",
-                return_value=tracer,
-            ),
-            patch(
-                "weblate.utils.requests.propagate.inject",
-                side_effect=inject,
-            ),
-        ):
-            response = fetch_validated_url(
-                "get",
-                "https://public.example.com/source",
-                allow_private_targets=False,
-            )
-
-        self.assertEqual(response.content, b"traced")
-        self.assertEqual(
-            [call.request.headers["traceparent"] for call in responses.calls],
-            [
-                "00-00000000000000000000000000000001-0000000000000001-01",
-                "00-00000000000000000000000000000002-0000000000000002-01",
-            ],
-        )
-        self.assertEqual(mocked_getaddrinfo.call_count, 2)
-
-    @responses.activate
-    @patch(
-        "weblate.utils.requests.async_resolve_runtime_hostname",
-        new_callable=AsyncMock,
-        return_value=("93.184.216.34",),
-    )
-    def test_async_fetch_validated_url_injects_trace_before_pinning(
-        self, mocked_resolve
-    ) -> None:
-        responses.add(
-            responses.GET,
-            "https://public.example.com/source",
-            status=200,
-            body=b"async-traced",
-        )
-        trace_header = "00-00000000000000000000000000000001-0000000000000001-01"
-
-        def inject(headers) -> None:
-            headers["traceparent"] = trace_header
-
-        tracer = MagicMock()
-        tracer.start_as_current_span.return_value.__enter__.return_value = MagicMock()
-        with (
-            patch(
-                "weblate.utils.requests.get_opentelemetry_tracer",
-                return_value=tracer,
-            ),
-            patch(
-                "weblate.utils.requests.propagate.inject",
-                side_effect=inject,
-            ),
-        ):
-            response = asyncio.run(
-                async_fetch_validated_url(
-                    "get",
-                    "https://public.example.com/source",
-                    allow_private_targets=False,
-                )
-            )
-
-        self.assertEqual(response.content, b"async-traced")
-        self.assertEqual(
-            responses.calls[0].request.headers["traceparent"],
-            trace_header,
-        )
-        mocked_resolve.assert_awaited_once_with(
-            "public.example.com", allow_private_targets=False
-        )
 
     @responses.activate
     @patch(
