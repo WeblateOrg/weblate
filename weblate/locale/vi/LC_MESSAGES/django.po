@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-25 00:40-0500\n"
-"PO-Revision-Date: 2026-07-27 07:02+0000\n"
+"PO-Revision-Date: 2026-07-27 11:37+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -8699,10 +8699,8 @@ msgid "Your profile"
 msgstr "Hồ sơ của bạn"
 
 #: weblate/templates/accounts/confirm.html:16
-#, fuzzy
-#| msgid "Could not remove user identity"
 msgid "Confirm adding user identity"
-msgstr "Không thể xoá danh tính người dùng"
+msgstr "Xác nhận thêm thông tin người dùng"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:21
@@ -8711,6 +8709,8 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+"Sau khi xác nhận, bạn sẽ có thể xác thực vào Weblate bằng cách sử dụng %"
+"(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/confirm.html:27
 msgid "Confirm"
@@ -8880,12 +8880,16 @@ msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
 msgstr ""
+"Bạn có thể hủy tài khoản bằng cách nhấp vào liên kết xác nhận được gửi đến "
+"hộp thư email của mình."
 
 #: weblate/templates/accounts/email-sent.html:34
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
+"Hãy nhấp vào liên kết xác nhận được gửi đến hộp thư email của bạn và bắt đầu "
+"sử dụng tài khoản."
 
 #: weblate/templates/accounts/email-sent.html:39
 msgid "Please look into your spam folder if you cannot see it in your inbox."
@@ -8896,11 +8900,11 @@ msgstr ""
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] ""
+msgstr[0] "Liên kết xác nhận sẽ hết hạn sau %(count)s giờ."
 
 #: weblate/templates/accounts/email-sent.html:45
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "Hãy yêu cầu liên kết xác nhận mới nếu liên kết hiện tại hết hạn."
 
 #: weblate/templates/accounts/email-sent.html:47
 msgid "Register again if the confirmation link expires."
@@ -9700,10 +9704,8 @@ msgstr "Khóa bí mật đã được sao chép vào khay nhớ tạm."
 #: weblate/templates/accounts/totp.html:43
 #: weblate/templates/mail/shared-registration.html:27
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:25
-#, fuzzy
-#| msgid "User registration"
 msgid "Confirm registration"
-msgstr "Đăng ký người dùng"
+msgstr "Xác nhận đăng ký"
 
 #: weblate/templates/accounts/trial.html:15
 msgid "Thank you for your interest in trying Weblate!"
@@ -10540,7 +10542,7 @@ msgstr "Chuỗi đã tạo"
 
 #: weblate/templates/addons/pseudolocale.html:6
 msgid "The strings will be generated using following pattern:"
-msgstr ""
+msgstr "Các chuỗi ký tự sẽ được tạo ra theo mẫu sau:"
 
 #: weblate/templates/addons/pseudolocale.html:11
 #: weblate/templates/mail/snippets/source-string.html:9
@@ -11071,10 +11073,8 @@ msgid "View"
 msgstr "Xem"
 
 #: weblate/templates/billing/merge.html:36
-#, fuzzy
-#| msgid "Change password"
 msgid "Confirm merge"
-msgstr "Thay đổi mật khẩu"
+msgstr "Xác nhận hợp nhất"
 
 #: weblate/templates/billing/overview.html:20
 msgid "No subscriptions or due payments."
@@ -12199,6 +12199,7 @@ msgstr "Tải các bản dịch từ các tệp vào Weblate."
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
+"Sử dụng khi Weblate bỏ sót một số chuỗi ký tự sau khi cập nhật kho lưu trữ."
 
 #: weblate/templates/js/git-status.html:212
 msgid ""
@@ -12237,7 +12238,7 @@ msgstr "Xóa các chuỗi không có bản dịch khỏi các tệp dịch."
 msgid ""
 "Use when the translation file contains duplicate strings that are not "
 "present in Weblate."
-msgstr ""
+msgstr "Sử dụng khi tệp dịch chứa các chuỗi trùng lặp không có trong Weblate."
 
 #: weblate/templates/js/git-status.html:247
 msgid "Cleanup unused"
@@ -13180,10 +13181,8 @@ msgstr "Đặt mật khẩu tài khoản"
 
 #: weblate/templates/mail/shared-registration.html:20
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:19
-#, fuzzy
-#| msgid "Password reset"
 msgid "Confirm password reset"
-msgstr "Cài đặt lại mật khẩu"
+msgstr "Xác nhận đặt lại mật khẩu"
 
 #: weblate/templates/mail/shared-registration.html:23
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:21
@@ -13192,10 +13191,8 @@ msgstr "Xác nhận xóa tài khoản"
 
 #: weblate/templates/mail/shared-registration.html:25
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:23
-#, fuzzy
-#| msgid "User registration"
 msgid "Confirm invitation"
-msgstr "Đăng ký người dùng"
+msgstr "Xác nhận lời mời"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/glossary.html:38
@@ -14344,6 +14341,7 @@ msgstr "Tài liệu"
 #: weblate/templates/screenshots/screenshot_detail.html:91
 msgid "Suggests source strings by recognizing text in this screenshot."
 msgstr ""
+"Đề xuất chuỗi nguồn bằng cách nhận diện văn bản trong ảnh chụp màn hình này."
 
 #: weblate/templates/screenshots/screenshot_detail.html:92
 msgid "Find strings in image"
@@ -14357,7 +14355,7 @@ msgstr "Thêm ảnh chụp màn hình"
 
 #: weblate/templates/screenshots/screenshot_detail.html:161
 msgid "Deleting screenshot will remove it from all associated source strings."
-msgstr ""
+msgstr "Xóa ảnh màn hình sẽ loại bỏ nó khỏi tất cả các chuỗi nguồn liên kết."
 
 #: weblate/templates/screenshots/screenshot_list.html:68
 #: weblate/templates/trans/alert/missingscreenshots.html:7
@@ -14374,6 +14372,8 @@ msgid ""
 "Search screenshot names. Use field-specific queries for repository paths, "
 "languages, and assigned strings."
 msgstr ""
+"Tìm kiếm tên ảnh chụp màn hình. Sử dụng các truy vấn cụ thể theo trường cho "
+"đường dẫn kho lưu trữ, ngôn ngữ và chuỗi được gán."
 
 #: weblate/templates/screenshots/screenshot_list.html:121
 #, fuzzy
@@ -15716,7 +15716,7 @@ msgstr "Chỉnh sửa chuỗi nguồn bị vô hiệu hóa."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:11
 msgid "Source strings can’t be edited. You can delete them and add new ones."
-msgstr ""
+msgstr "Chuỗi nguồn không thể chỉnh sửa. Bạn có thể xóa chúng và thêm mới."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:14
 msgid "The source string cannot be edited."
@@ -16110,7 +16110,7 @@ msgstr "Tên tệp"
 
 #: weblate/templates/trans/alert/duplicatestring.html:3
 msgid "The component contains several duplicated translation strings."
-msgstr ""
+msgstr "Thành phần có chứa một số chuỗi dịch trùng lặp."
 
 #: weblate/templates/trans/alert/duplicatestring.html:12
 #: weblate/templates/translate.html:412 weblate/templates/translate.html:515
@@ -16122,6 +16122,8 @@ msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
+"Vui lòng khắc phục lỗi này bằng cách xóa các chuỗi trùng lặp có cùng mã định "
+"danh khỏi các tệp dịch."
 
 #: weblate/templates/trans/alert/duplicatestring.html:42
 msgid "Remove duplicate strings"
@@ -16582,6 +16584,7 @@ msgid ""
 "Create a new translation component from an uploaded ZIP file containing "
 "strings for translation."
 msgstr ""
+"Tạo một thành phần dịch mới từ tệp ZIP đã tải lên chứa các chuỗi cần dịch."
 
 #: weblate/templates/trans/component_create.html:139
 msgid "The filenames within the archive need to have locale codes in them."
@@ -17123,7 +17126,7 @@ msgstr "Danh sách các thay đổi gần đây được thực hiện trong Web
 
 #: weblate/templates/translate.html:401
 msgid "Showing only subset of the strings as there were too many matches."
-msgstr ""
+msgstr "Chỉ hiển thị một phần nhỏ các chuỗi vì có quá nhiều kết quả trùng khớp."
 
 #: weblate/templates/translate.html:414
 msgid "Difference to current string"
@@ -17449,6 +17452,8 @@ msgid ""
 "Select it from the dropdown menu if you want to overwrite already translated "
 "strings."
 msgstr ""
+"Chọn tùy chọn này từ menu thả xuống nếu bạn muốn ghi đè lên các chuỗi đã "
+"được dịch."
 
 #: weblate/templates/translation.html:413
 msgid ""
@@ -17574,6 +17579,10 @@ msgid ""
 "GitHub, you will be redirected back here and the credentials will be stored "
 "automatically."
 msgstr ""
+"Gửi biểu mẫu bên dưới để tạo ứng dụng GitHub với tất cả quyền và sự kiện mà "
+"Weblate cần đã được điền đầy đủ. Sau khi bạn xác nhận tên ứng dụng trên "
+"GitHub, bạn sẽ được chuyển hướng trở lại đây và thông tin đăng nhập sẽ được "
+"lưu tự động."
 
 #: weblate/templates/vcs/github_app_register.html:38
 #, python-format
@@ -19871,7 +19880,7 @@ msgstr "UTF-16"
 
 #: weblate/trans/file_format_params.py:609
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Mã hóa được sử dụng cho các tệp chuỗi iOS"
 
 #: weblate/trans/file_format_params.py:619
 #: weblate/trans/file_format_params.py:650
@@ -19920,6 +19929,8 @@ msgstr "Kết thúc dòng DOS"
 msgid ""
 "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n) in strings."
 msgstr ""
+"Hãy sử dụng ký tự xuống dòng kiểu DOS (\\r\\n) thay vì ký tự xuống dòng kiểu "
+"UNIX (\\n) trong chuỗi ký tự."
 
 #: weblate/trans/file_format_params.py:704
 msgid "Maximum line length"
@@ -20236,6 +20247,8 @@ msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
+"Xin lưu ý rằng việc dịch tất cả các chuỗi ký tự sẽ loại bỏ tất cả các bản "
+"dịch hiện có."
 
 #: weblate/trans/forms.py:1146
 msgid "Source of automated translations"
@@ -20838,7 +20851,7 @@ msgstr "Liên hệ với người bảo trì"
 #. Translators: Action when adding new translation
 #: weblate/trans/inherited_settings.py:19
 msgid "Point to translation instructions URL"
-msgstr ""
+msgstr "Trỏ đến URL hướng dẫn dịch"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/inherited_settings.py:21
@@ -21436,6 +21449,8 @@ msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
 msgstr ""
+"Tên tệp tin cơ sở dịch thuật, chứa tất cả các chuỗi ký tự và nguồn gốc của "
+"chúng cho các bản dịch đơn ngữ."
 
 #: weblate/trans/models/component.py:694
 msgid "Edit base file"
@@ -21666,7 +21681,7 @@ msgstr "Có nên khóa thành phần khi có lỗi kho lưu trữ hay không."
 
 #: weblate/trans/models/component.py:1015
 msgid "Language used for source strings in all components"
-msgstr ""
+msgstr "Ngôn ngữ được sử dụng cho chuỗi nguồn trong tất cả các thành phần"
 
 #: weblate/trans/models/component.py:1025
 msgid ""
@@ -22429,10 +22444,8 @@ msgstr ""
 "Bạn có thể chỉnh sửa cái này sau, như với mọi chuỗi trong ngôn ngữ nguồn."
 
 #: weblate/trans/models/translation.py:974
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid "No duplicate strings were found in the translation file."
-msgstr "Nhận thông báo khi phần dịch bổ sung các chuỗi mới"
+msgstr "Không tìm thấy chuỗi ký tự trùng lặp nào trong tệp dịch."
 
 #: weblate/trans/models/translation.py:985
 msgid "Cleanup of unused strings is not supported for this file format."
@@ -23120,10 +23133,8 @@ msgid "Invalid request."
 msgstr "Yêu cầu không hợp lệ."
 
 #: weblate/trans/views/bulk_suggestions.py:122
-#, fuzzy
-#| msgid "This field is required."
 msgid "Confirmation is required."
-msgstr "Trường này là bắt buộc."
+msgstr "Cần phải xác nhận."
 
 #: weblate/trans/views/bulk_suggestions.py:154
 #, python-format
@@ -23406,22 +23417,16 @@ msgid "Updates of translations are in progress."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/trans/views/git.py:220
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Duplicate strings have been removed from the translation file."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Các chuỗi trùng lặp đã được loại bỏ khỏi tệp dịch."
 
 #: weblate/trans/views/git.py:238
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Unused strings have been removed from the translation file."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Các chuỗi ký tự không sử dụng đã được xóa khỏi tệp dịch."
 
 #: weblate/trans/views/git.py:256
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Obsolete strings have been removed from the translation file."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Các chuỗi ký tự lỗi thời đã được xóa khỏi tệp dịch."
 
 #: weblate/trans/views/git.py:273
 msgid "Pending translations are being committed."
@@ -23868,7 +23873,7 @@ msgstr "Thêm chuỗi mới"
 
 #: weblate/utils/files.py:52
 msgid "No strings were imported from the uploaded file."
-msgstr ""
+msgstr "Không có chuỗi nào được nhập từ tệp đã tải lên."
 
 #: weblate/utils/files.py:54
 #, python-brace-format
@@ -23953,6 +23958,8 @@ msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr ""
+"Các chuỗi định dạng không còn được hỗ trợ nữa, vui lòng sử dụng ngôn ngữ mẫu "
+"thay thế."
 
 #: weblate/utils/requests.py:512 weblate/utils/requests.py:549
 #, python-format
@@ -24405,6 +24412,8 @@ msgid ""
 "GitHub App names must be unique and at most %(limit)s characters. You will "
 "still be able to change the name on GitHub before confirming."
 msgstr ""
+"Tên ứng dụng GitHub phải là duy nhất và tối đa %(limit)s ký tự. Bạn vẫn có "
+"thể thay đổi tên trên GitHub trước khi xác nhận."
 
 #: weblate/vcs/forms.py:93
 msgid "Public (any GitHub account can install it)"
@@ -24921,6 +24930,9 @@ msgid ""
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
 msgstr ""
+"Weblate không thể xác nhận rằng bạn có thể quản trị cài đặt GitHub này. Hãy "
+"bắt đầu lại quá trình cài đặt với người dùng GitHub sở hữu tài khoản hoặc có "
+"quyền quản trị tổ chức."
 
 #: weblate/vcs/views.py:795
 msgid ""
