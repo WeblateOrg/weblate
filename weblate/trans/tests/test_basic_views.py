@@ -9,6 +9,7 @@ from unittest.mock import patch
 
 from asgiref.sync import async_to_sync
 from django.core.cache import cache
+from django.templatetags.static import static
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -30,6 +31,20 @@ class BasicViewTest(FixtureTestCase):
     def test_about(self) -> None:
         response = self.client.get(reverse("about"))
         self.assertContains(response, "translate-toolkit")
+
+    @override_settings(GOOGLE_ANALYTICS_ID="UA-123")
+    def test_google_analytics(self) -> None:
+        response = self.client.get(reverse("about"))
+        self.assertContains(response, static("js/google-analytics.js"))
+        self.assertContains(response, 'data-tracking-id="UA-123"')
+        self.assertNotContains(response, "GoogleAnalyticsObject")
+        script_src = next(
+            directive
+            for directive in response["Content-Security-Policy"].split(";")
+            if directive.strip().startswith("script-src ")
+        )
+        self.assertIn("www.google-analytics.com", script_src)
+        self.assertNotIn("'unsafe-inline'", script_src)
 
     def test_keys(self) -> None:
         ensure_ssh_key()
