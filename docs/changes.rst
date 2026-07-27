@@ -49,6 +49,7 @@ Weblate 2026.8
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
 * Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.
 * :ref:`RSS feeds <rss>` no longer disclose change history from inaccessible projects or restricted components.
+* Authenticated legacy GitHub App webhooks can again trigger repository updates through the :ref:`generic GitHub webhook endpoint <code-hosting-github-notifications>`.
 
 .. rubric:: Compatibility
 

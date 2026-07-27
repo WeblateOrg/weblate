@@ -1071,6 +1071,30 @@ List for credentials for GitHub servers.
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
+.. setting:: GITHUB_LEGACY_APP_WEBHOOK_SECRET
+
+GITHUB_LEGACY_APP_WEBHOOK_SECRET
+--------------------------------
+
+.. versionadded:: 2026.8
+
+Webhook secret for a legacy GitHub App which delivers events to the generic
+GitHub webhook URL, ``/hooks/github/``.
+
+App webhook deliveries to the generic URL are rejected when this setting is
+empty or their ``X-Hub-Signature-256`` does not match. Ordinary repository
+webhooks are unaffected. GitHub Apps registered through Weblate use their
+per-App webhook URLs and do not use this setting.
+
+.. code-block:: python
+
+   GITHUB_LEGACY_APP_WEBHOOK_SECRET = "your-webhook-secret"
+
+.. seealso::
+
+   * :ref:`code-hosting-github-notifications`
+   * :ref:`code-hosting-github-app-webhook`
+
 .. setting:: BITBUCKETSERVER_CREDENTIALS
 
 BITBUCKETSERVER_CREDENTIALS
