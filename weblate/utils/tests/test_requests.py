@@ -2,13 +2,14 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import asyncio
 import os
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
-from threading import get_ident
+from threading import Event
 from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
 import httpx2
-from asgiref.sync import async_to_sync
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
@@ -22,6 +23,7 @@ from weblate.utils.requests import (
     _get_proxy,
     _get_response_peer_ip,
     _validate_response_peer,
+    async_fetch_validated_url,
     fetch_url,
     fetch_validated_url,
     get_uri_error,
@@ -48,6 +50,16 @@ class TrackedAsyncStream(httpx2.AsyncByteStream):
     async def __aiter__(self):
         self.events.append("read")
         yield b"response-body"
+
+
+class TrackedRedirectSyncStream(TrackedSyncStream):
+    def close(self) -> None:
+        self.events.append("close")
+
+
+class TrackedRedirectAsyncStream(TrackedAsyncStream):
+    async def aclose(self) -> None:
+        self.events.append("close")
 
 
 class FetchURLTest(SimpleTestCase):
@@ -115,9 +127,6 @@ class FetchURLTest(SimpleTestCase):
             request=request,
             stream=TrackedSyncStream(events),
         )
-        transport_client = MagicMock()
-        transport_client.build_request.return_value = request
-        transport_client.send.return_value = response
 
         @contextmanager
         def tracked_span(_request):
@@ -127,17 +136,15 @@ class FetchURLTest(SimpleTestCase):
             finally:
                 events.append("span-end")
 
-        client = HTTPClient()
+        client = HTTPClient(
+            httpx2.MockTransport(lambda _request: response),
+        )
         with (
-            patch.object(
-                client,
-                "_get_client",
-                return_value=(transport_client, False),
-            ),
             patch(
                 "weblate.utils.requests.trace_http_request",
                 side_effect=tracked_span,
             ),
+            client,
         ):
             result = client.request("get", "https://example.com/data")
 
@@ -152,9 +159,6 @@ class FetchURLTest(SimpleTestCase):
             request=request,
             stream=TrackedAsyncStream(events),
         )
-        transport_client = MagicMock()
-        transport_client.build_request.return_value = request
-        transport_client.send = AsyncMock(return_value=response)
 
         @contextmanager
         def tracked_span(_request):
@@ -164,65 +168,227 @@ class FetchURLTest(SimpleTestCase):
             finally:
                 events.append("span-end")
 
-        client = AsyncHTTPClient()
-        with (
-            patch.object(
-                client,
-                "_get_client",
-                return_value=(transport_client, False),
-            ),
-            patch(
-                "weblate.utils.requests.trace_http_request",
-                side_effect=tracked_span,
-            ),
+        client = AsyncHTTPClient(
+            httpx2.MockTransport(lambda _request: response),
+        )
+
+        async def make_request() -> httpx2.Response:
+            async with client:
+                return await client.request("get", "https://example.com/data")
+
+        with patch(
+            "weblate.utils.requests.trace_http_request",
+            side_effect=tracked_span,
         ):
-            result = async_to_sync(client.request)("get", "https://example.com/data")
+            result = asyncio.run(make_request())
 
         self.assertEqual(result.content, b"response-body")
         self.assertEqual(events, ["span-start", "read", "span-end"])
 
-    def test_async_http_client_validates_request_off_event_loop(self) -> None:
+    def test_http_client_does_not_read_streaming_redirect_body(self) -> None:
+        events: list[str] = []
+
+        def handle_request(request):
+            if request.url.path == "/redirect":
+                return httpx2.Response(
+                    302,
+                    headers={"Location": "/final"},
+                    stream=TrackedRedirectSyncStream(events),
+                )
+            return httpx2.Response(200, content=b"final-response")
+
+        client = HTTPClient(httpx2.MockTransport(handle_request))
+        with client:
+            response = client.request(
+                "get",
+                "https://example.com/redirect",
+                stream=True,
+            )
+            try:
+                self.assertEqual(response.read(), b"final-response")
+                self.assertEqual(len(response.history), 1)
+                self.assertTrue(response.history[0].is_closed)
+            finally:
+                response.close()
+
+        self.assertEqual(events, ["close"])
+
+    def test_async_http_client_does_not_read_streaming_redirect_body(self) -> None:
+        events: list[str] = []
+
+        def handle_request(request):
+            if request.url.path == "/redirect":
+                return httpx2.Response(
+                    302,
+                    headers={"Location": "/final"},
+                    stream=TrackedRedirectAsyncStream(events),
+                )
+            return httpx2.Response(200, content=b"final-response")
+
+        client = AsyncHTTPClient(httpx2.MockTransport(handle_request))
+
+        async def make_request() -> httpx2.Response:
+            async with client:
+                response = await client.request(
+                    "get",
+                    "https://example.com/redirect",
+                    stream=True,
+                )
+                try:
+                    self.assertEqual(await response.aread(), b"final-response")
+                    self.assertEqual(len(response.history), 1)
+                    self.assertTrue(response.history[0].is_closed)
+                    return response
+                finally:
+                    await response.aclose()
+
+        asyncio.run(make_request())
+
+        self.assertEqual(events, ["close"])
+
+    def test_http_client_limits_streaming_redirects(self) -> None:
+        events: list[str] = []
+
+        def handle_request(_request):
+            return httpx2.Response(
+                302,
+                headers={"Location": "/redirect"},
+                stream=TrackedRedirectSyncStream(events),
+            )
+
+        client = HTTPClient(httpx2.MockTransport(handle_request))
+        with (
+            client,
+            self.assertRaises(httpx2.TooManyRedirects),
+        ):
+            client.request(
+                "get",
+                "https://example.com/redirect",
+                stream=True,
+                max_redirects=1,
+            )
+
+        self.assertEqual(events, ["close", "close"])
+
+    def test_http_client_keeps_redirect_limit_request_local(self) -> None:
+        short_started = Event()
+        long_started = Event()
+        short_finished = Event()
+
+        def handle_request(request):
+            if request.url.path == "/short":
+                short_started.set()
+                if not long_started.wait(5):
+                    msg = "Long request did not start."
+                    raise RuntimeError(msg)
+                return httpx2.Response(302, headers={"Location": "/short-final"})
+            if request.url.path == "/long":
+                long_started.set()
+                if not short_finished.wait(5):
+                    msg = "Short request did not finish."
+                    raise RuntimeError(msg)
+            return httpx2.Response(200)
+
+        client = HTTPClient(httpx2.MockTransport(handle_request))
+
+        def request_short_url() -> httpx2.Response:
+            try:
+                return client.request(
+                    "get",
+                    "https://example.com/short",
+                    max_redirects=0,
+                )
+            finally:
+                short_finished.set()
+
+        with client, ThreadPoolExecutor(max_workers=2) as executor:
+            short_result = executor.submit(request_short_url)
+            self.assertTrue(short_started.wait(5))
+            long_result = executor.submit(
+                client.request,
+                "get",
+                "https://example.com/long",
+                max_redirects=2,
+            )
+
+            with self.assertRaises(httpx2.TooManyRedirects):
+                short_result.result(timeout=5)
+            self.assertEqual(long_result.result(timeout=5).status_code, 200)
+
+    def test_async_http_client_keeps_redirect_limit_request_local(self) -> None:
+        async def run_requests() -> None:
+            short_started = asyncio.Event()
+            long_started = asyncio.Event()
+            short_finished = asyncio.Event()
+
+            async def handle_request(request):
+                if request.url.path == "/short":
+                    short_started.set()
+                    await asyncio.wait_for(long_started.wait(), timeout=5)
+                    return httpx2.Response(302, headers={"Location": "/short-final"})
+                if request.url.path == "/long":
+                    long_started.set()
+                    await asyncio.wait_for(short_finished.wait(), timeout=5)
+                return httpx2.Response(200)
+
+            client = AsyncHTTPClient(httpx2.MockTransport(handle_request))
+
+            async def request_short_url() -> httpx2.Response:
+                try:
+                    return await client.request(
+                        "get",
+                        "https://example.com/short",
+                        max_redirects=0,
+                    )
+                finally:
+                    short_finished.set()
+
+            async with client:
+                short_result = asyncio.create_task(request_short_url())
+                await asyncio.wait_for(short_started.wait(), timeout=5)
+                long_result = asyncio.create_task(
+                    client.request(
+                        "get",
+                        "https://example.com/long",
+                        max_redirects=2,
+                    )
+                )
+
+                with self.assertRaises(httpx2.TooManyRedirects):
+                    await short_result
+                self.assertEqual((await long_result).status_code, 200)
+
+        asyncio.run(run_requests())
+
+    def test_async_http_client_uses_async_validator(self) -> None:
         request = httpx2.Request("GET", "https://example.com/data")
         response = httpx2.Response(
             200,
             request=request,
             content=b"response-body",
         )
-        transport_client = MagicMock()
-        transport_client.build_request.return_value = request
-        transport_client.send = AsyncMock(return_value=response)
-        validation_thread_ids: list[int] = []
         validators = MagicMock()
+        validators.validate_async_request_url = AsyncMock(return_value=())
+        client = AsyncHTTPClient(
+            httpx2.MockTransport(lambda _request: response),
+        )
 
-        def record_validation_thread(*_args, **_kwargs) -> None:
-            validation_thread_ids.append(get_ident())
+        async def make_request() -> httpx2.Response:
+            async with client:
+                return await client.request(
+                    "get",
+                    "https://example.com/data",
+                    validators=validators,
+                )
 
-        validators.validate_request_url.side_effect = record_validation_thread
-        client = AsyncHTTPClient()
-
-        async def make_request() -> tuple[int, httpx2.Response]:
-            event_loop_thread_id = get_ident()
-            result = await client.request(
-                "get",
-                "https://example.com/data",
-                validators=validators,
-            )
-            return event_loop_thread_id, result
-
-        with patch.object(
-            client,
-            "_get_client",
-            return_value=(transport_client, False),
-        ):
-            event_loop_thread_id, result = async_to_sync(make_request)()
+        result = asyncio.run(make_request())
 
         self.assertEqual(result.content, b"response-body")
-        self.assertEqual(len(validation_thread_ids), 1)
-        self.assertNotEqual(validation_thread_ids[0], event_loop_thread_id)
-        validators.validate_request_url.assert_called_once_with(
+        validators.validate_async_request_url.assert_awaited_once_with(
             "https://example.com/data",
             used_proxy=False,
         )
+        validators.validate_request_url.assert_not_called()
 
     def test_http_trace_uses_configured_tracer(self) -> None:
         request = httpx2.Request("GET", "https://example.com/data")
@@ -664,6 +830,474 @@ class GetUriErrorTest(SimpleTestCase):
 
 
 class FetchValidatedURLTest(SimpleTestCase):
+    @responses.activate
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=[
+            [
+                (0, 0, 0, "", ("93.184.216.34", 8443)),
+                (0, 0, 0, "", ("2606:2800:220:1:248:1893:25c8:1946", 8443)),
+            ],
+            [(0, 0, 0, "", ("127.0.0.1", 8443))],
+        ],
+    )
+    def test_fetch_validated_url_pins_validated_address(
+        self, mocked_getaddrinfo
+    ) -> None:
+        url = "https://public.example.com:8443/source"
+        responses.add(
+            responses.GET,
+            url,
+            status=200,
+            body=b"pinned",
+        )
+
+        response = fetch_validated_url(
+            "get",
+            url,
+            allow_private_targets=False,
+        )
+
+        self.assertEqual(response.content, b"pinned")
+        self.assertEqual(str(response.url), url)
+        self.assertEqual(
+            responses.calls[0].request.transport_url,
+            "https://93.184.216.34:8443/source",
+        )
+        self.assertEqual(
+            responses.calls[0].request.headers["Host"],
+            "public.example.com:8443",
+        )
+        self.assertEqual(
+            responses.calls[0].request.extensions["sni_hostname"],
+            "public.example.com",
+        )
+        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+
+    @responses.activate
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[
+            (0, 0, 0, "", ("2606:2800:220:1:248:1893:25c8:1946", 443)),
+            (0, 0, 0, "", ("93.184.216.34", 443)),
+        ],
+    )
+    def test_fetch_validated_url_falls_back_to_validated_address(
+        self, mocked_getaddrinfo
+    ) -> None:
+        url = "https://public.example.com/source"
+        responses.add(
+            responses.GET,
+            url,
+            body=httpx2.ConnectError("IPv6 route unavailable"),
+        )
+        responses.add(
+            responses.GET,
+            url,
+            status=200,
+            body=b"fallback",
+        )
+
+        with patch(
+            "weblate.utils.requests.monotonic",
+            side_effect=[0, 0, 0.25, 0.25],
+        ):
+            response = fetch_validated_url(
+                "get",
+                url,
+                allow_private_targets=False,
+            )
+
+        self.assertEqual(response.content, b"fallback")
+        self.assertEqual(
+            [call.request.transport_url for call in responses.calls],
+            [
+                "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
+                "https://93.184.216.34/source",
+            ],
+        )
+        self.assertEqual(
+            [call.request.extensions["timeout"]["connect"] for call in responses.calls],
+            [0.25, 0.25],
+        )
+        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+
+    @responses.activate
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[
+            (0, 0, 0, "", ("2606:2800:220:1:248:1893:25c8:1946", 443)),
+            (0, 0, 0, "", ("93.184.216.34", 443)),
+        ],
+    )
+    def test_fetch_validated_url_retries_slow_validated_address(
+        self, mocked_getaddrinfo
+    ) -> None:
+        url = "https://public.example.com/source"
+        responses.add(
+            responses.GET,
+            url,
+            body=httpx2.ConnectTimeout("IPv6 probe timed out"),
+        )
+        responses.add(
+            responses.GET,
+            url,
+            body=httpx2.ConnectTimeout("IPv4 probe timed out"),
+        )
+        responses.add(
+            responses.GET,
+            url,
+            status=200,
+            body=b"slow-fallback",
+        )
+
+        with patch(
+            "weblate.utils.requests.monotonic",
+            side_effect=[0, 0, 0.25, 0.25, 0.25, 0.25],
+        ):
+            response = fetch_validated_url(
+                "get",
+                url,
+                allow_private_targets=False,
+            )
+
+        self.assertEqual(response.content, b"slow-fallback")
+        self.assertEqual(
+            [call.request.transport_url for call in responses.calls],
+            [
+                "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
+                "https://93.184.216.34/source",
+                "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
+            ],
+        )
+        self.assertEqual(
+            [call.request.extensions["timeout"]["connect"] for call in responses.calls],
+            [0.25, 0.25, 4.75],
+        )
+        mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests.async_resolve_runtime_hostname",
+        new_callable=AsyncMock,
+        return_value=("93.184.216.34",),
+    )
+    def test_async_fetch_validated_url_pins_validated_address(
+        self, mocked_resolve
+    ) -> None:
+        url = "https://public.example.com/source"
+        responses.add(
+            responses.GET,
+            url,
+            status=200,
+            body=b"async-pinned",
+        )
+
+        response = asyncio.run(
+            async_fetch_validated_url(
+                "get",
+                url,
+                allow_private_targets=False,
+            )
+        )
+
+        self.assertEqual(response.content, b"async-pinned")
+        self.assertEqual(str(response.url), url)
+        self.assertEqual(
+            responses.calls[0].request.transport_url,
+            "https://93.184.216.34/source",
+        )
+        mocked_resolve.assert_awaited_once_with(
+            "public.example.com", allow_private_targets=False
+        )
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests.async_resolve_runtime_hostname",
+        new_callable=AsyncMock,
+        return_value=(
+            "2606:2800:220:1:248:1893:25c8:1946",
+            "93.184.216.34",
+        ),
+    )
+    def test_async_fetch_validated_url_falls_back_to_validated_address(
+        self, mocked_resolve
+    ) -> None:
+        url = "https://public.example.com/source"
+        responses.add(
+            responses.GET,
+            url,
+            body=httpx2.ConnectTimeout("IPv6 route timed out"),
+        )
+        responses.add(
+            responses.GET,
+            url,
+            status=200,
+            body=b"async-fallback",
+        )
+
+        with patch(
+            "weblate.utils.requests.monotonic",
+            side_effect=[0, 0, 0.25, 0.25],
+        ):
+            response = asyncio.run(
+                async_fetch_validated_url(
+                    "get",
+                    url,
+                    allow_private_targets=False,
+                )
+            )
+
+        self.assertEqual(response.content, b"async-fallback")
+        self.assertEqual(
+            [call.request.transport_url for call in responses.calls],
+            [
+                "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
+                "https://93.184.216.34/source",
+            ],
+        )
+        self.assertEqual(
+            [call.request.extensions["timeout"]["connect"] for call in responses.calls],
+            [0.25, 0.25],
+        )
+        mocked_resolve.assert_awaited_once_with(
+            "public.example.com", allow_private_targets=False
+        )
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests.async_resolve_runtime_hostname",
+        new_callable=AsyncMock,
+        return_value=(
+            "2606:2800:220:1:248:1893:25c8:1946",
+            "93.184.216.34",
+        ),
+    )
+    def test_async_fetch_validated_url_retries_slow_validated_address(
+        self, mocked_resolve
+    ) -> None:
+        url = "https://public.example.com/source"
+        responses.add(
+            responses.GET,
+            url,
+            body=httpx2.ConnectTimeout("IPv6 probe timed out"),
+        )
+        responses.add(
+            responses.GET,
+            url,
+            body=httpx2.ConnectTimeout("IPv4 probe timed out"),
+        )
+        responses.add(
+            responses.GET,
+            url,
+            status=200,
+            body=b"async-slow-fallback",
+        )
+
+        with patch(
+            "weblate.utils.requests.monotonic",
+            side_effect=[0, 0, 0.25, 0.25, 0.25, 0.25],
+        ):
+            response = asyncio.run(
+                async_fetch_validated_url(
+                    "get",
+                    url,
+                    allow_private_targets=False,
+                )
+            )
+
+        self.assertEqual(response.content, b"async-slow-fallback")
+        self.assertEqual(
+            [call.request.transport_url for call in responses.calls],
+            [
+                "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
+                "https://93.184.216.34/source",
+                "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
+            ],
+        )
+        self.assertEqual(
+            [call.request.extensions["timeout"]["connect"] for call in responses.calls],
+            [0.25, 0.25, 4.75],
+        )
+        mocked_resolve.assert_awaited_once_with(
+            "public.example.com", allow_private_targets=False
+        )
+
+    @responses.activate
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_fetch_validated_url_uses_idna_sni_name(self, mocked_getaddrinfo) -> None:
+        responses.add(
+            responses.GET,
+            "https://xn--fa-hia.de/source",
+            status=200,
+            body=b"idna",
+        )
+
+        response = fetch_validated_url(
+            "get",
+            "https://faß.de/source",
+            allow_private_targets=False,
+        )
+
+        self.assertEqual(response.content, b"idna")
+        self.assertEqual(
+            responses.calls[0].request.extensions["sni_hostname"],
+            "xn--fa-hia.de",
+        )
+        mocked_getaddrinfo.assert_called_once_with("xn--fa-hia.de", None, type=1)
+
+    @responses.activate
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_fetch_validated_url_injects_current_trace_before_pinning(
+        self, mocked_getaddrinfo
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/source",
+            status=302,
+            headers={"Location": "/final"},
+        )
+        responses.add(
+            responses.GET,
+            "https://public.example.com/final",
+            status=200,
+            body=b"traced",
+        )
+        trace_headers = iter(
+            (
+                "00-00000000000000000000000000000001-0000000000000001-01",
+                "00-00000000000000000000000000000002-0000000000000002-01",
+            )
+        )
+
+        def inject(headers) -> None:
+            headers["traceparent"] = next(trace_headers)
+
+        tracer = MagicMock()
+        tracer.start_as_current_span.return_value.__enter__.return_value = MagicMock()
+        with (
+            patch(
+                "weblate.utils.requests.get_opentelemetry_tracer",
+                return_value=tracer,
+            ),
+            patch(
+                "weblate.utils.requests.propagate.inject",
+                side_effect=inject,
+            ),
+        ):
+            response = fetch_validated_url(
+                "get",
+                "https://public.example.com/source",
+                allow_private_targets=False,
+            )
+
+        self.assertEqual(response.content, b"traced")
+        self.assertEqual(
+            [call.request.headers["traceparent"] for call in responses.calls],
+            [
+                "00-00000000000000000000000000000001-0000000000000001-01",
+                "00-00000000000000000000000000000002-0000000000000002-01",
+            ],
+        )
+        self.assertEqual(mocked_getaddrinfo.call_count, 2)
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests.async_resolve_runtime_hostname",
+        new_callable=AsyncMock,
+        return_value=("93.184.216.34",),
+    )
+    def test_async_fetch_validated_url_injects_trace_before_pinning(
+        self, mocked_resolve
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/source",
+            status=200,
+            body=b"async-traced",
+        )
+        trace_header = "00-00000000000000000000000000000001-0000000000000001-01"
+
+        def inject(headers) -> None:
+            headers["traceparent"] = trace_header
+
+        tracer = MagicMock()
+        tracer.start_as_current_span.return_value.__enter__.return_value = MagicMock()
+        with (
+            patch(
+                "weblate.utils.requests.get_opentelemetry_tracer",
+                return_value=tracer,
+            ),
+            patch(
+                "weblate.utils.requests.propagate.inject",
+                side_effect=inject,
+            ),
+        ):
+            response = asyncio.run(
+                async_fetch_validated_url(
+                    "get",
+                    "https://public.example.com/source",
+                    allow_private_targets=False,
+                )
+            )
+
+        self.assertEqual(response.content, b"async-traced")
+        self.assertEqual(
+            responses.calls[0].request.headers["traceparent"],
+            trace_header,
+        )
+        mocked_resolve.assert_awaited_once_with(
+            "public.example.com", allow_private_targets=False
+        )
+
+    @responses.activate
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_fetch_validated_url_keeps_logical_url_for_relative_redirect(
+        self, mocked_getaddrinfo
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://public.example.com/source",
+            status=302,
+            headers={"Location": "/final"},
+        )
+        responses.add(
+            responses.GET,
+            "https://public.example.com/final",
+            status=200,
+            body=b"redirected",
+        )
+
+        response = fetch_validated_url(
+            "get",
+            "https://public.example.com/source",
+            allow_private_targets=False,
+        )
+
+        self.assertEqual(response.content, b"redirected")
+        self.assertEqual(str(response.url), "https://public.example.com/final")
+        self.assertEqual(
+            [str(item.url) for item in response.history],
+            ["https://public.example.com/source"],
+        )
+        self.assertEqual(
+            [call.request.transport_url for call in responses.calls],
+            [
+                "https://93.184.216.34/source",
+                "https://93.184.216.34/final",
+            ],
+        )
+        self.assertEqual(mocked_getaddrinfo.call_count, 2)
+
     @responses.activate
     def test_fetch_validated_url_strips_auth_on_cross_origin_redirect(self) -> None:
         recorded_headers: list[dict[str, str]] = []

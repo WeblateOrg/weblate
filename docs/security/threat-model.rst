@@ -353,6 +353,9 @@ Build-time and configuration variants
        (source: :setting:`ASSET_RESTRICT_PRIVATE`,
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
+       Protected direct HTTP requests are bound to addresses approved by
+       runtime validation; configured proxies are trusted infrastructure and
+       resolve their destination hosts.
        Protected Git HTTPS and SSH operations are bound to addresses approved
        by runtime validation. Protected SSH operations validate the effective
        ``HostName`` and ``Port``. Trusted administrator SSH configuration can
@@ -595,9 +598,10 @@ Security properties Weblate provides
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
      - Default private-target checks are enabled and no trusted allowlist
-       exemption applies. VCS restrictions remain enabled, Git HTTPS and SSH
-       address binding is not bypassed, and VCS backends without binding use
-       only explicitly trusted hosts.
+       exemption applies. Direct protected HTTP requests and Git HTTPS and SSH
+       operations retain address binding, VCS restrictions remain enabled,
+       and VCS backends without binding use only explicitly trusted hosts.
+       Configured proxies remain trusted routing infrastructure.
      - A user-configurable screenshot URL, remote HTML URL, project website or
        repository browser URL, outbound webhook URL, Fedora Messaging AMQP
        broker URL, or VCS URL reaches an internal or non-public target despite

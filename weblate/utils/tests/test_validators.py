@@ -2,16 +2,21 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import asyncio
 import base64
 import os
-from unittest.mock import patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from weblate.utils.outbound import validate_runtime_ip, validate_runtime_url
+from weblate.utils.outbound import (
+    async_resolve_runtime_hostname,
+    validate_runtime_ip,
+    validate_runtime_url,
+)
 from weblate.utils.render import validate_editor, validate_repoweb
 from weblate.utils.validators import (
     EmailValidator,
@@ -761,6 +766,26 @@ class FediverseURLTest(SimpleTestCase):
 
 
 class OutboundAddressValidationTest(SimpleTestCase):
+    @patch("weblate.utils.outbound.get_running_loop")
+    def test_async_resolve_runtime_hostname(self, mocked_get_loop) -> None:
+        resolver = AsyncMock(
+            return_value=[
+                (0, 0, 0, "", ("93.184.216.34", 443)),
+                (0, 0, 0, "", ("2001:4860:4860::8888", 443)),
+            ]
+        )
+        mocked_get_loop.return_value = MagicMock(getaddrinfo=resolver)
+
+        addresses = asyncio.run(
+            async_resolve_runtime_hostname("faß.de", allow_private_targets=False)
+        )
+
+        self.assertEqual(
+            addresses,
+            ("93.184.216.34", "2001:4860:4860::8888"),
+        )
+        resolver.assert_awaited_once_with("xn--fa-hia.de", None, type=1)
+
     def test_validate_runtime_ip_rejects_shared_address_space(self) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_runtime_ip("100.64.0.1", allow_private_targets=False)

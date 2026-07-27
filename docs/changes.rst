@@ -40,6 +40,7 @@ Weblate 2026.8
 
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
+* Protected outbound HTTP requests now bind connections to validated public addresses.
 * VCS operations now bind protected Git connections to validated public addresses and fail closed for clients which cannot enforce that binding.
 * Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.

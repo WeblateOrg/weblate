@@ -9277,6 +9277,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.WEBHOOK_CLS.create(
             configuration=self.addon_configuration, project=self.project
         )
+        responses.add(responses.POST, self.WEBHOOK_URL, status=200)
 
         self.reset_calls()
         with self.captureOnCommitCallbacks(execute=True):
@@ -9404,7 +9405,11 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.assertEqual(self.count_requests(), 2)
 
     @responses.activate
-    def test_connection_error(self) -> None:
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_connection_error(self, _mocked_getaddrinfo) -> None:
         """Test connection error when during message delivery."""
         request = httpx2.Request("POST", self.WEBHOOK_URL)
         self.do_translation_added_test(
