@@ -48,7 +48,7 @@ RUN ./ci/pip-install latest
 # Reinstall selected native wheels for the oldest runtime ABI used by
 # ClusterFuzzLite. Keep the platform override scoped to these packages; using it
 # with uv sync makes uv validate unrelated build-only packages for that target.
-RUN python3 - <<'PY' > /tmp/cflite-native-wheels.txt
+RUN .venv/bin/python - <<'PY' > /tmp/cflite-native-wheels.txt
 import tomllib
 
 with open("uv.lock", "rb") as handle:
