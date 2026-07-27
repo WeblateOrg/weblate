@@ -2740,11 +2740,14 @@ When enabled, hostnames that cannot be resolved during validation are rejected
 unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`.
 
 For Git repositories accessed over HTTPS or SSH, Weblate binds each VCS command
-to the addresses approved during runtime validation. HTTPS redirects and proxy
-use are disabled for these protected commands because either could delegate
-hostname resolution to an unvalidated connection path. Mercurial, Subversion,
-custom VCS backends, and additional URL schemes are rejected unless the target
-host is explicitly included in :setting:`VCS_ALLOW_HOSTS`.
+to the addresses approved during runtime validation for direct connections.
+Configured HTTP proxies are trusted infrastructure and resolve repository
+hostnames instead. Automatic redirect following remains disabled. Permanent
+same-host HTTP redirects are probed separately through the same outbound route,
+validated, and stored as the canonical component repository URL. Cross-host
+redirects have to be configured manually. Mercurial, Subversion, custom VCS
+backends, and additional URL schemes are rejected unless the target host is
+explicitly included in :setting:`VCS_ALLOW_HOSTS`.
 
 Network-level egress filtering which blocks internal, loopback, link-local,
 reserved, and cloud metadata address ranges is recommended as defense in depth,

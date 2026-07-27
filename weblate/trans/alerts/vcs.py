@@ -49,6 +49,18 @@ class RepositoryErrorAlert(ErrorAlert):
     category = AlertCategory.VCS
     repository_permissions: tuple[str, ...] = ()
 
+    def get_analysis(self) -> dict[str, Any]:
+        normalized = self.error.lower()
+        return {
+            "redirect": (
+                "returned error: 301" in normalized
+                or "returned error: 308" in normalized
+                or "http redirect" in normalized
+                or "permanently redirects" in normalized
+                or "repository url redirects" in normalized
+            )
+        }
+
     @classmethod
     def can_user_act_for(
         cls, user: User, component: Component, details: dict[str, Any]
@@ -214,6 +226,7 @@ class BaseGitFailure(RepositoryErrorAlert):
     )
 
     def get_analysis(self) -> dict[str, Any]:
+        analysis = super().get_analysis()
         terminal_disabled = self.terminal_message in self.error
         repo_suggestion = None
         force_push_suggestion = False
@@ -244,6 +257,7 @@ class BaseGitFailure(RepositoryErrorAlert):
             )
 
         return {
+            **analysis,
             "terminal": terminal_disabled,
             "behind": behind,
             "repo_suggestion": repo_suggestion,

@@ -2,7 +2,7 @@
 
 <p>{% translate "Weblate could not fetch upstream changes when updating the repository." %}</p>
 
-<pre>{{ error }}</pre>
+{% if not analysis.redirect %}<pre>{{ error }}</pre>{% endif %}
 
 {% include "trans/alert/common-repo.html" %}
 

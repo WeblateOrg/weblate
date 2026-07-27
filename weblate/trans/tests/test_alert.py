@@ -29,7 +29,7 @@ from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, MultiAlert
 from weblate.trans.alerts.registry import update_alerts
-from weblate.trans.alerts.vcs import UpdateFailure
+from weblate.trans.alerts.vcs import RepositoryErrorAlert, UpdateFailure
 from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
 from weblate.trans.models import (
     Category,
@@ -1685,7 +1685,13 @@ class MonolingualAlertTest(ViewTestCase):
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
     @staticmethod
-    def render_failure_alert(template_name: str, permissions: set[str]) -> str:
+    def render_failure_alert(
+        template_name: str,
+        permissions: set[str],
+        *,
+        analysis: dict | None = None,
+        error: str = "Repository operation failed",
+    ) -> str:
         component = SimpleNamespace(get_url_path=lambda: ("test", "component"))
         user = SimpleNamespace(
             has_perm=lambda permission, _obj: permission in permissions
@@ -1693,12 +1699,43 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
         return render_to_string(
             template_name,
             {
-                "analysis": {},
+                "analysis": analysis or {},
                 "component": component,
-                "error": "Repository operation failed",
+                "error": error,
                 "user": user,
             },
         )
+
+    def test_repository_redirect_failure_hides_raw_git_error(self) -> None:
+        raw_error = (
+            "fatal: unable to access repository URL: "
+            "The requested URL returned error: 301 (128)"
+        )
+        rendered = self.render_failure_alert(
+            "trans/alert/updatefailure.html",
+            set(),
+            analysis={"redirect": True},
+            error=raw_error,
+        )
+
+        self.assertIn("permanent HTTP redirect", rendered)
+        self.assertNotIn(raw_error, rendered)
+
+    def test_repository_redirect_errors_are_classified(self) -> None:
+        errors = (
+            "The repository URL permanently redirects to a canonical URL.",
+            "The repository returned a permanent HTTP redirect without a target URL.",
+            "The repository returned an HTTP redirect with an invalid hostname.",
+            "The repository returned too many HTTP redirects.",
+        )
+
+        for error in errors:
+            with self.subTest(error=error):
+                alert = RepositoryErrorAlert(
+                    cast("Alert", SimpleNamespace()),
+                    error,
+                )
+                self.assertTrue(alert.get_analysis()["redirect"])
 
     def test_repository_failure_settings_action_permissions(self) -> None:
         settings_url = (

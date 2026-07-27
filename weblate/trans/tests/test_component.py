@@ -49,7 +49,11 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-from weblate.vcs.base import RepositoryError, RepositoryRecoveryEvent
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositoryRecoveryEvent,
+    RepositoryRedirectError,
+)
 from weblate.vcs.git import GitMergeRequestBase, GitRepository
 from weblate.vcs.github import GitHubInstallation
 from weblate.vcs.models import VCS_REGISTRY
@@ -90,6 +94,92 @@ class ComponentTest(RepoTestCase):
         )
         self.assertFalse(
             component.alert_set.filter(name="RepositoryOperationFailure").exists()
+        )
+
+    def test_persist_repository_redirect_uses_repository_bot(self) -> None:
+        component = self.create_component()
+        old_url = "https://user:secret@git.example/owner/repo"
+        canonical_url = "https://user:secret@git.example/owner/repo.git"
+        Component.objects.filter(pk=component.pk).update(repo=old_url)
+        component.repo = old_url
+        repository = component.repository
+
+        with patch.object(repository, "configure_remote") as configure_remote:
+            changed = component.persist_repository_redirect(
+                "repo",
+                RepositoryRedirectError(old_url, canonical_url, 301),
+            )
+
+        self.assertTrue(changed)
+        component.refresh_from_db()
+        self.assertEqual(component.repo, canonical_url)
+        configure_remote.assert_called_once_with(
+            canonical_url,
+            component.push,
+            component.branch,
+        )
+        change = component.change_set.get(
+            action=ActionEvents.COMPONENT_SETTING_CHANGE,
+            target="repo",
+        )
+        self.assertEqual(change.user.username, "weblate:repository")
+        self.assertEqual(change.author.username, "weblate:repository")
+        self.assertEqual(change.user.full_name, "Repository maintenance")
+        self.assertEqual(
+            change.details,
+            {
+                "field": "repo",
+                "old": "https://git.example/owner/repo",
+                "target": "https://git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+
+    def test_validate_update_stages_repository_redirect(self) -> None:
+        component = self.create_component()
+        saved_url = component.repo
+        original_url = "https://git.example/owner/repo"
+        canonical_url = f"{original_url}.git"
+        component.repo = original_url
+        component.branch = "redirected"
+        component.drop_repository_cache()
+        repository = component.repository
+        repository.__dict__["last_remote_revision"] = None
+        repository.last_output = ""
+
+        with (
+            patch.object(
+                component,
+                "update_remote_repository",
+                side_effect=[
+                    (
+                        None,
+                        RepositoryRedirectError(
+                            original_url,
+                            canonical_url,
+                            301,
+                        ),
+                    ),
+                    (None, None),
+                ],
+            ) as update_remote,
+            patch.object(repository, "configure_remote") as configure_remote,
+        ):
+            updated = component.update_remote_branch(validate=True)
+
+        self.assertTrue(updated)
+        self.assertEqual(update_remote.call_count, 2)
+        self.assertEqual(component.repo, canonical_url)
+        self.assertEqual(
+            component.repository_redirect_changes,
+            [("repo", original_url, canonical_url)],
+        )
+        self.assertEqual(Component.objects.get(pk=component.pk).repo, saved_url)
+        configure_remote.assert_called_once_with(
+            canonical_url,
+            component.push,
+            component.branch,
         )
 
     def test_handle_repository_recovery_failure_adds_alert(self) -> None:

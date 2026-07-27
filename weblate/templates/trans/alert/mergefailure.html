@@ -2,6 +2,10 @@
 
 <p>{% translate "Weblate could not merge upstream changes while updating the repository." %}</p>
 
-<pre>{{ error }}</pre>
+{% if analysis.redirect %}
+  {% include "trans/alert/common-repo.html" %}
+{% else %}
+  <pre>{{ error }}</pre>
 
-{% include "trans/merge_instructions.html" %}
+  {% include "trans/merge_instructions.html" %}
+{% endif %}
