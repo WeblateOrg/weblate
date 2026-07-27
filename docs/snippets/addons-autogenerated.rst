@@ -283,6 +283,18 @@ To discover a component successfully, the configuration has to do all of the fol
 * For monolingual formats, the component must contain a file matching
   ``base_file_template`` and at least one translation file matching ``match``.
 
+Discovering components without translation files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Enable :guilabel:`Create components from monolingual base or new base files`
+to discover components from ``base_file_template`` (monolingual formats) or
+``new_base_template`` (bilingual formats) alone, even when no translation files
+exist yet.
+Set :guilabel:`Define the translation file mask` to a path that
+includes both a language wildcard and ``{{ component }}``, for example
+``locale/*/{{ component }}.po``. The source path template must contain exactly
+one plain ``{{ component }}`` placeholder, with no filters or other variables.
+
 Worked example: ``news_<lang>.md``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

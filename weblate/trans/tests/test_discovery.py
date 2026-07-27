@@ -322,7 +322,8 @@ class ComponentDiscoveryTest(RepoTestCase):
             base_file_template="docs/{{ component }}_en.md",
         )
 
-        created, matched, deleted, skipped = discovery.perform(preview=True)
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform(preview=True)
 
         self.assertEqual(skipped, [])
         self.assertEqual(matched, [])
@@ -351,7 +352,8 @@ class ComponentDiscoveryTest(RepoTestCase):
             create_from_template=True,
         )
 
-        created, matched, deleted, skipped = discovery.perform()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform()
         self.assertEqual(skipped, [])
         self.assertEqual(matched, [])
         self.assertEqual(deleted, [])
@@ -384,7 +386,8 @@ class ComponentDiscoveryTest(RepoTestCase):
             create_from_template=True,
         )
 
-        created, matched, deleted, skipped = discovery.perform()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            created, matched, deleted, skipped = discovery.perform()
 
         self.assertEqual(skipped, [])
         self.assertEqual(matched, [])

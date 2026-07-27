@@ -11,6 +11,7 @@ Weblate 2026.8
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
 * Added :ref:`check-asciidoc-markup` quality check for AsciiDoc strings.
 * Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`.
+* :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
 
 .. rubric:: Improvements
 
