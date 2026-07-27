@@ -271,6 +271,24 @@ class RepositoryValidationError(RepositoryError):
     """Error raised when repository configuration violates runtime policy."""
 
 
+class RepositoryRedirectError(RepositoryError):
+    """A repository URL permanently redirects to a validated canonical URL."""
+
+    def __init__(
+        self,
+        original_url: str,
+        canonical_url: str,
+        status_code: int,
+    ) -> None:
+        super().__init__(
+            0,
+            gettext("The repository URL permanently redirects to a canonical URL."),
+        )
+        self.original_url = original_url
+        self.canonical_url = canonical_url
+        self.status_code = status_code
+
+
 class RepositorySymlinkError(ValueError):
     """Raised when symlink resolution fails due to links outside the repository tree or excessive symlink depth."""
 
@@ -637,12 +655,17 @@ class Repository:
             if self.component:
                 self.ensure_config_updated()
         remote_target = None
+        effective_remote_url = remote_url
         if remote_url:
             remote_target = self.validate_remote_url(remote_url)
         elif remote_op == "pull":
             remote_target = self.validate_pull_url()
+            if self.component is not None:
+                effective_remote_url = self.component.repo
         elif remote_op == "push":
             remote_target = self.validate_push_url()
+            if self.component is not None:
+                effective_remote_url = self.component.push or self.component.repo
         args, environment = self.prepare_remote_command(
             args, environment, remote_target
         )
@@ -660,6 +683,13 @@ class Repository:
         except RepositoryCommandError as error:
             if not is_status and not self.local:
                 self.log_status(error)
+            if effective_remote_url and remote_target is not None:
+                self.handle_remote_command_error(
+                    error,
+                    effective_remote_url,
+                    remote_target,
+                    environment,
+                )
             raise
         return self.last_output
 
@@ -771,6 +801,17 @@ class Repository:
     ) -> tuple[list[str], dict[str, str] | None]:
         """Bind a remote command to the addresses approved during validation."""
         return args, environment
+
+    @classmethod
+    def handle_remote_command_error(
+        cls,
+        _error: RepositoryCommandError,
+        _remote_url: str,
+        _target: ResolvedRepositoryURL,
+        _environment: dict[str, str] | None,
+    ) -> None:
+        """Convert backend-specific failures into structured repository errors."""
+        return
 
     def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
         """Validate that a remote branch is compatible with this checkout."""

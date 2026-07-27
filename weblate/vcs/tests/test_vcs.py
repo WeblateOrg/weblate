@@ -20,8 +20,9 @@ from io import BytesIO
 from os import utime
 from pathlib import Path
 from time import time
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, Any, ClassVar, NamedTuple, NoReturn, Protocol
-from unittest.mock import call, patch
+from unittest.mock import MagicMock, call, patch
 from zipfile import ZIP_DEFLATED, ZipFile
 
 from django.core.cache import cache
@@ -37,9 +38,11 @@ from weblate.utils.render import render_template
 from weblate.utils.tests import http_mock as responses
 from weblate.utils.tests.http_mock import matchers
 from weblate.utils.zip import ZipSafetyLimits
+from weblate.vcs import git as git_module
 from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
+    RepositoryRedirectError,
     RepositoryRestrictedPathError,
     RepositorySymlinkError,
     RepositoryValidationError,
@@ -50,6 +53,7 @@ from weblate.vcs.base import (
     should_auto_add_ssh_host_key,
 )
 from weblate.vcs.git import (
+    GIT_UPLOAD_PACK_MEDIA_TYPE,
     SSH_PROXY_PATH,
     AzureDevOpsRepository,
     BitbucketCloudRepository,
@@ -70,7 +74,6 @@ from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 if TYPE_CHECKING:
     from contextlib import AbstractContextManager
-    from unittest.mock import MagicMock
 
     from weblate.vcs.base import Repository
 
@@ -1276,6 +1279,216 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         self.assertEqual(environment["GIT_LFS_SKIP_PUSH"], "1")
         self.assertEqual(environment["GIT_LFS_SKIP_SMUDGE"], "1")
 
+    @responses.activate
+    def test_git_redirect_probe_uses_smart_http_and_validated_address(self) -> None:
+        probe_url = (
+            "https://user:secret@git.example/owner/repo/"
+            "info/refs?service=git-upload-pack"
+        )
+        responses.add(
+            responses.GET,
+            probe_url,
+            status=301,
+            headers={
+                "Location": "/owner/repo.git/info/refs?service=git-upload-pack",
+            },
+        )
+        target = SimpleNamespace(
+            requires_pinning=True,
+            addresses=("93.184.216.34",),
+        )
+
+        with (
+            patch(
+                "weblate.utils.requests._get_proxy",
+                return_value=None,
+            ),
+            patch("weblate.utils.version.USER_AGENT", "Weblate/test"),
+        ):
+            result = git_module._request_git_probe(  # ruff: ignore[private-member-access]
+                "https://user:secret@git.example/owner/repo",
+                target,  # type: ignore[arg-type]
+                None,
+            )
+
+        self.assertEqual(
+            result,
+            (
+                301,
+                "/owner/repo.git/info/refs?service=git-upload-pack",
+                "",
+            ),
+        )
+        self.assertEqual(len(responses.calls), 1)
+        request = responses.calls[0].request
+        self.assertEqual(
+            request.transport_url,
+            "https://user:secret@93.184.216.34/owner/repo/"
+            "info/refs?service=git-upload-pack",
+        )
+        self.assertEqual(request.headers["Host"], "git.example")
+        self.assertEqual(request.extensions["sni_hostname"], "git.example")
+        self.assertEqual(
+            request.headers["Accept"],
+            "application/x-git-upload-pack-advertisement",
+        )
+        self.assertEqual(request.headers["Git-Protocol"], "version=2")
+        self.assertEqual(request.headers["User-Agent"], "Weblate/test")
+        self.assertEqual(request.headers["Authorization"], "Basic dXNlcjpzZWNyZXQ=")
+
+    def test_git_redirect_probe_allows_shared_proxy_routing(self) -> None:
+        target = SimpleNamespace(
+            requires_pinning=True,
+            addresses=("93.184.216.34",),
+        )
+        validators = git_module.GitProbeRedirectValidators(
+            target,  # type: ignore[arg-type]
+        )
+
+        self.assertEqual(
+            validators.validate_request_url(
+                "https://git.example/owner/repo",
+                used_proxy=True,
+            ),
+            (),
+        )
+
+    def test_git_redirect_probe_rejects_invalid_hostname(self) -> None:
+        with self.assertRaisesMessage(
+            RepositoryError,
+            "HTTP redirect with an invalid hostname",
+        ):
+            git_module._repository_url_from_probe_redirect(  # ruff: ignore[private-member-access]
+                "https://git.example/owner/repo",
+                "https://git.example/owner/repo/info/refs?service=git-upload-pack",
+                "https://invalid host/repo.git/info/refs?service=git-upload-pack",
+            )
+
+    def test_git_redirect_preserves_default_port_ipv6_brackets(self) -> None:
+        source_url = "https://[2001:db8::1]/owner/repo"
+
+        canonical_url = git_module._repository_url_from_probe_redirect(  # ruff: ignore[private-member-access]
+            source_url,
+            f"{source_url}/info/refs?service=git-upload-pack",
+            "/owner/repo.git/info/refs?service=git-upload-pack",
+        )
+
+        self.assertEqual(
+            canonical_url,
+            "https://[2001:db8::1]/owner/repo.git",
+        )
+
+    def test_permanent_same_host_redirect_returns_canonical_url(self) -> None:
+        original_url = "https://user:secret@git.example/owner/repo"
+        original_target = SimpleNamespace(scheme="https")
+        redirected_target = SimpleNamespace(scheme="https")
+        error = RepositoryCommandError(
+            128,
+            "fatal: unable to access repository URL: "
+            "The requested URL returned error: 301",
+        )
+
+        with (
+            patch(
+                "weblate.vcs.git.GitRepository.probe_remote_redirect",
+                side_effect=[
+                    (
+                        301,
+                        "/owner/repo.git/info/refs?service=git-upload-pack",
+                        "",
+                    ),
+                    (200, None, "application/x-git-upload-pack-advertisement"),
+                ],
+            ) as probe,
+            patch.object(
+                GitRepository,
+                "validate_remote_url",
+                return_value=redirected_target,
+            ) as validate,
+            self.assertRaises(RepositoryRedirectError) as raised,
+        ):
+            GitRepository.handle_remote_command_error(
+                error,
+                original_url,
+                original_target,  # type: ignore[arg-type]
+                None,
+            )
+
+        self.assertEqual(raised.exception.original_url, original_url)
+        self.assertEqual(
+            raised.exception.canonical_url,
+            "https://user:secret@git.example/owner/repo.git",
+        )
+        self.assertEqual(raised.exception.status_code, 301)
+        validate.assert_called_once_with(
+            "https://user:secret@git.example/owner/repo.git"
+        )
+        self.assertEqual(probe.call_count, 2)
+
+    def test_permanent_redirect_errors_are_probed(self) -> None:
+        for status_code in (301, 308):
+            with (
+                self.subTest(status_code=status_code),
+                patch.object(
+                    GitRepository,
+                    "probe_remote_redirect",
+                    return_value=(200, None, GIT_UPLOAD_PACK_MEDIA_TYPE),
+                ) as probe,
+            ):
+                GitRepository.handle_remote_command_error(
+                    RepositoryCommandError(
+                        128,
+                        f"The requested URL returned error: {status_code}",
+                    ),
+                    "https://git.example/repo",
+                    SimpleNamespace(scheme="https"),  # type: ignore[arg-type]
+                    None,
+                )
+
+            probe.assert_called_once()
+
+    def test_unrelated_http_errors_are_not_probed(self) -> None:
+        errors = (
+            "The requested URL returned error: 401",
+            "! [rejected] main -> main (non-fast-forward)",
+            "Failed to connect to git.example: Connection timed out",
+        )
+
+        with patch.object(GitRepository, "probe_remote_redirect") as probe:
+            for message in errors:
+                with self.subTest(message=message):
+                    GitRepository.handle_remote_command_error(
+                        RepositoryCommandError(128, message),
+                        "https://git.example/repo",
+                        SimpleNamespace(scheme="https"),  # type: ignore[arg-type]
+                        None,
+                    )
+
+        probe.assert_not_called()
+
+    def test_cross_host_redirect_is_rejected(self) -> None:
+        error = RepositoryCommandError(128, "The requested URL returned error: 301")
+        with (
+            patch(
+                "weblate.vcs.git.GitRepository.probe_remote_redirect",
+                return_value=(
+                    301,
+                    "https://other.example/repo.git/info/refs?service=git-upload-pack",
+                    "",
+                ),
+            ),
+            self.assertRaisesMessage(
+                RepositoryError,
+                "Automatic cross-host redirects are disabled",
+            ),
+        ):
+            GitRepository.handle_remote_command_error(
+                error,
+                "https://git.example/repo",
+                SimpleNamespace(scheme="https"),  # type: ignore[arg-type]
+                None,
+            )
+
     @override_settings(
         VCS_ALLOW_HOSTS=set(),
         VCS_ALLOW_SCHEMES={"https", "ssh"},
@@ -1290,6 +1503,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                     (0, 0, 0, "", ("2001:4860:4860::8888", 443, 0, 0)),
                 ],
             ),
+            patch("weblate.vcs.git._get_proxy", return_value=None),
             patch.object(
                 GitRepository,
                 "_popen",
@@ -1301,15 +1515,55 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         self.assertEqual(branch, "main")
         args = popen.call_args.args[0]
         self.assertEqual(
-            args[:6],
+            args[:4],
             [
                 "-c",
                 "http.curloptResolve=git.example:443:93.184.216.34,[2001:4860:4860::8888]",
                 "-c",
                 "http.followRedirects=false",
-                "-c",
-                "http.proxy=",
             ],
+        )
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_https_remote_forwards_environment_proxy(self) -> None:
+        with (
+            patch.dict(
+                os.environ,
+                {"ALL_PROXY": "http://proxy.example:8080"},
+                clear=True,
+            ),
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+            ),
+            patch.object(
+                GitRepository,
+                "_popen",
+                return_value="ref: refs/heads/main\tHEAD\n",
+            ) as popen,
+        ):
+            branch = GitRepository.get_remote_branch("https://git.example/repo.git")
+
+        self.assertEqual(branch, "main")
+        args = popen.call_args.args[0]
+        self.assertNotIn(
+            "http.curloptResolve=git.example:443:93.184.216.34",
+            args,
+        )
+        self.assertNotIn("http.proxy=", args)
+        self.assertIn("http.followRedirects=false", args)
+        environment = popen.call_args.kwargs["environment"]
+        self.assertEqual(
+            environment,
+            {"https_proxy": "http://proxy.example:8080"},
+        )
+        self.assertEqual(
+            GitRepository._getenv(environment)["https_proxy"],  # ruff: ignore[private-member-access]
+            "http://proxy.example:8080",
         )
 
     @override_settings(
@@ -1323,6 +1577,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
             ) as getaddrinfo,
+            patch("weblate.vcs.git._get_proxy", return_value=None),
             patch.object(
                 GitRepository,
                 "_popen",
@@ -1349,6 +1604,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         ):
             with (
                 self.subTest(url=url),
+                patch("weblate.vcs.git._get_proxy", return_value=None),
                 patch.object(
                     GitRepository,
                     "_popen",
@@ -1362,7 +1618,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 any(arg.startswith("http.curloptResolve=") for arg in args)
             )
             self.assertIn("http.followRedirects=false", args)
-            self.assertIn("http.proxy=", args)
+            self.assertNotIn("http.proxy=", args)
 
     @override_settings(
         VCS_ALLOW_HOSTS=set(),
@@ -1376,6 +1632,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
             ) as getaddrinfo,
+            patch("weblate.vcs.git._get_proxy", return_value=None),
             patch.object(GitRepository, "validate_branch_name", return_value="main"),
             patch.object(GitRepository, "_popen", return_value="") as popen,
         ):

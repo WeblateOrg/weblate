@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+import base64
 import logging
 import os
 import os.path
@@ -16,6 +17,7 @@ import sys
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from contextlib import contextmanager, suppress
+from dataclasses import dataclass
 from ipaddress import ip_address
 from json import dumps
 from pathlib import Path
@@ -40,6 +42,7 @@ from django.core.cache import cache
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
+from idna import IDNAError
 from idna import encode as idna_encode
 
 from weblate.utils.data import data_dir, data_path
@@ -50,7 +53,13 @@ from weblate.utils.files import (
 )
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
-from weblate.utils.requests import JSON_RESPONSE_ERRORS, fetch_url
+from weblate.utils.requests import (
+    JSON_RESPONSE_ERRORS,
+    HTTPClient,
+    RedirectValidators,
+    _get_proxy,
+    fetch_url,
+)
 from weblate.utils.tracing import start_span
 from weblate.utils.xml import parse_xml
 from weblate.utils.zip import (
@@ -65,6 +74,7 @@ from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
     RepositoryRecoveryEvent,
+    RepositoryRedirectError,
 )
 from weblate.vcs.gpg import get_gpg_sign_key
 from weblate.vcs.ssh import SSH_WRAPPER, resolve_ssh_destination
@@ -98,6 +108,236 @@ RECOVERABLE_ABORT_LOCKS = frozenset(
         "REVERT_HEAD.lock",
     }
 )
+GIT_REDIRECT_LIMIT = 5
+GIT_UPLOAD_PACK_MEDIA_TYPE = "application/x-git-upload-pack-advertisement"
+
+
+@dataclass
+class GitProbeRedirectValidators(RedirectValidators):
+    """Bind direct Git probes to the addresses approved by VCS validation."""
+
+    target: ResolvedRepositoryURL
+
+    def validate_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
+        if used_proxy or not self.target.requires_pinning:
+            return ()
+        if not self.target.addresses:
+            raise RepositoryError(
+                0,
+                gettext("The repository redirect target has no validated address."),
+            )
+        return self.target.addresses
+
+
+def _normalize_redirect_hostname(hostname: str) -> str:
+    """Normalize hostnames for redirect-origin comparisons."""
+    normalized = hostname.rstrip(".")
+    try:
+        return str(ip_address(normalized))
+    except ValueError:
+        try:
+            return idna_encode(normalized, uts46=True).decode("ascii").lower()
+        except (IDNAError, UnicodeError) as error:
+            raise RepositoryError(
+                0,
+                gettext(
+                    "The repository returned an HTTP redirect with an invalid hostname."
+                ),
+            ) from error
+
+
+def _strip_url_credentials(url: str) -> str:
+    """Remove credentials without importing the component utility module."""
+    parsed = urlparse(url)
+    if parsed.username is None:
+        return url
+    return urlunparse(parsed._replace(netloc=parsed.netloc.rsplit("@", 1)[-1]))
+
+
+def _copy_url_credentials(source: str, target: str) -> str:
+    """Retain existing credentials across an accepted same-host redirect."""
+    source_parsed = urlparse(source)
+    if source_parsed.username is None:
+        return target
+    target_parsed = urlparse(target)
+    userinfo = source_parsed.netloc.rsplit("@", 1)[0]
+    return urlunparse(
+        target_parsed._replace(netloc=f"{userinfo}@{target_parsed.netloc}")
+    )
+
+
+def _build_git_probe_url(repository_url: str) -> str:
+    """Build the smart-HTTP upload-pack discovery endpoint."""
+    parsed = urlparse(repository_url)
+    query = urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
+    query.append(("service", "git-upload-pack"))
+    return urlunparse(
+        parsed._replace(
+            path=f"{parsed.path.rstrip('/')}/info/refs",
+            query=urllib.parse.urlencode(query),
+            fragment="",
+        )
+    )
+
+
+def _repository_url_from_probe_redirect(
+    source_url: str,
+    probe_url: str,
+    location: str,
+) -> str:
+    """Derive a repository base URL from a redirected smart-HTTP endpoint."""
+    try:
+        location_parsed = urlparse(location)
+    except ValueError as error:
+        raise RepositoryError(
+            0, gettext("The repository returned an invalid HTTP redirect.")
+        ) from error
+    if location_parsed.username is not None:
+        raise RepositoryError(
+            0,
+            gettext(
+                "The repository HTTP redirect contains credentials and was rejected."
+            ),
+        )
+
+    redirected_probe = urllib.parse.urljoin(probe_url, location)
+    try:
+        parsed = urlparse(redirected_probe)
+        port = parsed.port
+    except ValueError as error:
+        raise RepositoryError(
+            0, gettext("The repository returned an invalid HTTP redirect.")
+        ) from error
+    if not parsed.hostname or not parsed.path.endswith("/info/refs"):
+        raise RepositoryError(
+            0,
+            gettext(
+                "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
+            ),
+        )
+
+    source_parsed = urlparse(source_url)
+    if _normalize_redirect_hostname(parsed.hostname) != _normalize_redirect_hostname(
+        source_parsed.hostname or ""
+    ):
+        raise RepositoryError(
+            0,
+            gettext(
+                "The repository URL redirects to a different host. Automatic cross-host redirects are disabled for security; update the repository URL manually."
+            ),
+        )
+    if source_parsed.scheme == "https" and parsed.scheme != "https":
+        raise RepositoryError(
+            0,
+            gettext(
+                "The repository URL redirects from HTTPS to an insecure URL and was rejected."
+            ),
+        )
+    if parsed.scheme not in {"http", "https"}:
+        raise RepositoryError(
+            0, gettext("The repository URL redirects to an unsupported URL scheme.")
+        )
+
+    query = urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
+    query_without_service = [
+        (key, value)
+        for key, value in query
+        if not (key == "service" and value == "git-upload-pack")
+    ]
+    source_query = urllib.parse.parse_qsl(
+        source_parsed.query,
+        keep_blank_values=True,
+    )
+    if query_without_service != source_query:
+        raise RepositoryError(
+            0,
+            gettext("The repository HTTP redirect unexpectedly changed the URL query."),
+        )
+    host = f"[{parsed.hostname}]" if ":" in parsed.hostname else parsed.hostname
+    netloc = host if port is None else f"{host}:{port}"
+    result = urlunparse(
+        parsed._replace(
+            netloc=netloc,
+            path=parsed.path.removesuffix("/info/refs").rstrip("/"),
+            query=source_parsed.query,
+            fragment="",
+        )
+    )
+    return _copy_url_credentials(source_url, result)
+
+
+def _get_git_probe_headers(
+    repository_url: str,
+    environment: dict[str, str] | None,
+) -> dict[str, str]:
+    """Build smart-HTTP headers, including explicitly configured Git auth."""
+    headers = {
+        "Accept": GIT_UPLOAD_PACK_MEDIA_TYPE,
+        "Git-Protocol": "version=2",
+    }
+    parsed = urlparse(repository_url)
+    if parsed.username is not None:
+        username = urllib.parse.unquote(parsed.username)
+        password = urllib.parse.unquote(parsed.password or "")
+        value = base64.b64encode(f"{username}:{password}".encode()).decode("ascii")
+        headers["Authorization"] = f"Basic {value}"
+
+    environment = environment or {}
+    try:
+        config_count = int(environment.get("GIT_CONFIG_COUNT", "0"))
+    except ValueError:
+        config_count = 0
+    for index in range(config_count):
+        if environment.get(f"GIT_CONFIG_KEY_{index}") != "http.extraHeader":
+            continue
+        value = environment.get(f"GIT_CONFIG_VALUE_{index}", "")
+        name, separator, header_value = value.partition(":")
+        if separator and name.lower() == "authorization":
+            headers["Authorization"] = header_value.strip()
+    return headers
+
+
+def _request_git_probe(
+    repository_url: str,
+    target: ResolvedRepositoryURL,
+    environment: dict[str, str] | None,
+) -> tuple[int, str | None, str]:
+    """Make one no-redirect smart-HTTP request using shared outbound routing."""
+    try:
+        return _perform_git_probe(repository_url, target, environment)
+    except httpx2.HTTPError as error:
+        raise RepositoryError(
+            0,
+            gettext("Could not probe the repository HTTP redirect: %s") % error,
+        ) from error
+
+
+def _perform_git_probe(
+    repository_url: str,
+    target: ResolvedRepositoryURL,
+    environment: dict[str, str] | None,
+) -> tuple[int, str | None, str]:
+    """Perform one Git smart-HTTP probe using the shared HTTP client."""
+    with HTTPClient() as client:
+        response = client.request(
+            "GET",
+            _build_git_probe_url(repository_url),
+            headers=_get_git_probe_headers(repository_url, environment),
+            timeout=20,
+            allow_redirects=False,
+            stream=True,
+            validators=GitProbeRedirectValidators(target),
+        )
+        try:
+            return (
+                response.status_code,
+                response.headers.get("Location"),
+                response.headers.get("Content-Type", ""),
+            )
+        finally:
+            response.close()
 
 
 class GitCredentials(TypedDict):
@@ -231,40 +471,42 @@ class GitRepository(Repository):
         target: ResolvedRepositoryURL | None,
     ) -> tuple[list[str], dict[str, str] | None]:
         """Pin Git's connection to addresses approved during validation."""
-        if target is None or not target.requires_pinning:
+        if target is None:
             return args, environment
 
-        if target.scheme == "https":
+        if target.scheme in {"http", "https"}:
             resolve_options: list[str] = []
-            try:
-                ip_address(target.hostname)
-            except ValueError:
-                resolve_hostname = idna_encode(target.hostname, uts46=True).decode(
-                    "ascii"
-                )
-                addresses = ",".join(
-                    f"[{address}]" if ":" in address else address
-                    for address in target.addresses
-                )
-                resolve_options = [
-                    "-c",
-                    f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
-                ]
-            # Numeric URL hosts cannot be rebound and older libcurl releases do
-            # not accept an IPv6 literal in CURLOPT_RESOLVE's host field.
+            proxy = _get_proxy(target.url)
+            proxy_environment = environment
+            if proxy is not None:
+                proxy_environment = dict(environment or {})
+                proxy_environment[f"{target.scheme}_proxy"] = proxy
+            elif target.requires_pinning:
+                try:
+                    ip_address(target.hostname)
+                except ValueError:
+                    resolve_hostname = idna_encode(target.hostname, uts46=True).decode(
+                        "ascii"
+                    )
+                    addresses = ",".join(
+                        f"[{address}]" if ":" in address else address
+                        for address in target.addresses
+                    )
+                    resolve_options = [
+                        "-c",
+                        f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
+                    ]
             return (
                 [
                     *resolve_options,
                     "-c",
                     "http.followRedirects=false",
-                    "-c",
-                    "http.proxy=",
                     *args,
                 ],
-                environment,
+                proxy_environment,
             )
 
-        if target.scheme == "ssh":
+        if target.scheme == "ssh" and target.requires_pinning:
             pinned_environment = dict(environment or {})
             host_key_alias = (
                 f"[{target.hostname}]:{target.port}"
@@ -292,6 +534,117 @@ class GitRepository(Repository):
             return args, pinned_environment
 
         return super().prepare_remote_command(args, environment, target)
+
+    @classmethod
+    def probe_remote_redirect(
+        cls,
+        repository_url: str,
+        target: ResolvedRepositoryURL,
+        environment: dict[str, str] | None,
+    ) -> tuple[int, str | None, str]:
+        """Probe one repository URL using the same proxy policy as Git."""
+        return _request_git_probe(
+            repository_url,
+            target,
+            environment,
+        )
+
+    @classmethod
+    def handle_remote_command_error(
+        cls,
+        error: RepositoryCommandError,
+        remote_url: str,
+        target: ResolvedRepositoryURL,
+        environment: dict[str, str] | None,
+    ) -> None:
+        """Turn permanent HTTP redirects into canonical URL suggestions."""
+        if target.scheme not in {"http", "https"}:
+            return
+        error_message = error.get_message().lower()
+        if not any(
+            f"returned error: {status_code}" in error_message
+            for status_code in (301, 308)
+        ):
+            return
+
+        original_url = remote_url
+        current_url = remote_url
+        current_target = target
+        seen = {_strip_url_credentials(current_url)}
+
+        try:
+            status_code, location, content_type = cls.probe_remote_redirect(
+                current_url,
+                current_target,
+                environment,
+            )
+        except RepositoryError:
+            # Preserve the original Git failure when the independent probe cannot
+            # establish that a redirect caused it.
+            return
+        if status_code not in {301, 308}:
+            return
+        initial_status = status_code
+
+        for _redirect_count in range(GIT_REDIRECT_LIMIT + 1):
+            if status_code in {301, 308}:
+                if location is None:
+                    raise RepositoryError(
+                        0,
+                        gettext(
+                            "The repository returned a permanent HTTP redirect without a target URL."
+                        ),
+                    ) from error
+                next_url = _repository_url_from_probe_redirect(
+                    current_url,
+                    _build_git_probe_url(current_url),
+                    location,
+                )
+                identity = _strip_url_credentials(next_url)
+                if identity in seen:
+                    raise RepositoryError(
+                        0, gettext("The repository HTTP redirect contains a loop.")
+                    ) from error
+                seen.add(identity)
+                validated_target = cls.validate_remote_url(next_url)
+                if validated_target is None:
+                    raise RepositoryError(
+                        0,
+                        gettext(
+                            "The repository HTTP redirect target could not be validated."
+                        ),
+                    ) from error
+                current_target = validated_target
+                current_url = next_url
+                status_code, location, content_type = cls.probe_remote_redirect(
+                    current_url,
+                    current_target,
+                    environment,
+                )
+                continue
+
+            if (
+                current_url != original_url
+                and status_code == 200
+                and content_type.split(";", 1)[0].strip().lower()
+                == GIT_UPLOAD_PACK_MEDIA_TYPE
+            ):
+                raise RepositoryRedirectError(
+                    original_url,
+                    current_url,
+                    initial_status,
+                ) from error
+
+            raise RepositoryError(
+                0,
+                gettext(
+                    "The repository HTTP redirect target could not be verified as a Git repository."
+                ),
+            ) from error
+
+        raise RepositoryError(
+            0, gettext("The repository returned too many HTTP redirects.")
+        ) from error
 
     @staticmethod
     def cleanup_stale_lock(lock: Path) -> bool:
@@ -345,6 +698,11 @@ class GitRepository(Repository):
         )
         try:
             result = cls._popen(args, environment=environment)
+        except RepositoryCommandError as error:
+            if target is not None:
+                cls.handle_remote_command_error(error, repo, target, environment)
+            report_error("Listing remote branch")
+            return super().get_remote_branch(repo)
         except RepositoryError:
             report_error("Listing remote branch")
             return super().get_remote_branch(repo)
@@ -673,7 +1031,17 @@ class GitRepository(Repository):
             self._get_auth_environment(source),
             remote_target,
         )
-        self._popen(args, environment=environment)
+        try:
+            self._popen(args, environment=environment)
+        except RepositoryCommandError as error:
+            if remote_target is not None:
+                self.handle_remote_command_error(
+                    error,
+                    source,
+                    remote_target,
+                    environment,
+                )
+            raise
 
     def get_config(self, path):
         """Read entry from configuration."""

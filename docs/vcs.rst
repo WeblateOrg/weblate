@@ -320,6 +320,13 @@ Git
    and pre-push uploads are disabled for Weblate-managed repositories, so LFS
    tracked files remain pointer files and cannot be used as translation files.
 
+.. note::
+
+   Weblate validates permanent HTTP redirects which stay on the repository
+   hostname and automatically stores the canonical repository URL. The change
+   is recorded in the component history as repository maintenance. Redirects
+   to another hostname have to be configured manually.
+
 .. seealso::
 
     See :ref:`vcs-repos` for info on how to access different kinds of repositories.

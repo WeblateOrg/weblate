@@ -290,6 +290,7 @@ class CreateComponent(BaseCreateView):
     passthrough_fields = (
         "category",
         "is_glossary",
+        "repository_redirect_proof",
         "source_component",
         *ComponentCreateForm.CREATE_INHERITABLE_SETTINGS,
         *(

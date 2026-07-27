@@ -363,9 +363,13 @@ Build-time and configuration variants
        by runtime validation. Protected SSH operations validate the effective
        ``HostName`` and ``Port``. Trusted administrator SSH configuration can
        alter routing, and :setting:`SSH_EXTRA_ARGS` can override connection
-       binding. Git LFS object transfers are disabled and outside the supported
-       VCS integration surface. VCS clients without connection binding require
-       an explicit trusted-host exemption. *(maintainer)*
+       binding. Permanent same-host Git HTTP redirects are probed without
+       automatic redirect following. Every direct destination is independently
+       validated and bound before use; configured HTTP proxies use the shared
+       trusted outbound routing. Git LFS object transfers are disabled and
+       outside the supported VCS integration surface. VCS clients without
+       connection binding require an explicit trusted-host exemption.
+       *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
        reachability. *(documented)* (source: :setting:`ASSET_PRIVATE_ALLOWLIST`,
        :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`,
