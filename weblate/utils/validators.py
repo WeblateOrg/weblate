@@ -521,6 +521,8 @@ def validate_webhook_secret_string(value: str) -> None:
 class WeblateURLValidator(URLValidator):
     """Validator for http and https URLs only."""
 
+    unsafe_chars = URLValidator.unsafe_chars | frozenset({"\\"})
+
     # ruff: ignore[mutable-class-default]
     schemes: list[str] = [
         "http",

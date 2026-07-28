@@ -528,11 +528,17 @@ class WebsiteTest(SimpleTestCase):
         validator("http://1.1.1.1")
         validator("https://[2606:4700:4700::1111]")
         validator("https://domain.tld:5000")
+        validator("https://user:password@domain.tld/path")
+        validator("https://user%5C@domain.tld/path")
         with self.assertRaises(ValidationError):
             validator("ftp://domain.tld")
         with self.assertRaises(ValidationError):
             # The first "e" is replaced with a Cyrillic character
             validator("https://wеblate.org")
+        with self.assertRaisesMessage(ValidationError, "Enter a valid URL."):
+            validator(r"https://127.0.0.1:8080\@domain.tld/path")
+        with self.assertRaisesMessage(ValidationError, "Enter a valid URL."):
+            validator(r"https://domain.tld/path\file")
 
     def test_url_validator(self) -> None:
         validator = WeblateURLValidator()
