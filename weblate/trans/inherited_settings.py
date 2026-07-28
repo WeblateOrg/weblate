@@ -71,6 +71,7 @@ INHERITABLE_COMPONENT_SETTINGS = (
     "merge_message",
     "addon_message",
     "pull_message",
+    "enforced_checks",
 )
 
 type InheritableStringSetting = Literal[
@@ -84,6 +85,7 @@ type InheritableStringSetting = Literal[
     "merge_message",
     "addon_message",
     "pull_message",
+    "enforced_checks",
 ]
 type InheritableLanguageSetting = Literal["secondary_language"]
 

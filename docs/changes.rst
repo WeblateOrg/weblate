@@ -5,6 +5,7 @@ Weblate 2026.8
 
 .. rubric:: New features
 
+* Added inheritance support for enforced checks, allowing them to be configured at workspace, project, category, or component level.
 * Workspaces now provide aggregate translation statistics and historical metrics.
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
 * :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.
@@ -33,28 +34,22 @@ Weblate 2026.8
 * Added opt-in :ref:`running-granian-asgi` deployment support, including :envvar:`WEBLATE_ASGI` for Docker containers.
 * Added opt-in :ref:`running-granian-asgi` deployment support.
 * Machine translation editor requests now use asynchronous HTTP for DeepL, LibreTranslate, ModernMT, OpenAI-compatible, Anthropic, and Ollama services on ASGI deployments.
-* GitHub App connection and repository refresh requests now use asynchronous HTTP on ASGI deployments.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
 
 .. rubric:: Bug fixes
 
-* :ref:`Disabling password authentication <site-wide-user-management>` from site-wide user management now regenerates the user's personal API key by default.
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
-* URLs containing backslashes are now rejected as invalid.
 * Protected outbound HTTP requests now bind connections to validated public addresses.
-* Permanent same-host Git HTTP redirects are now validated and stored as canonical component repository URLs.
 * VCS operations now bind protected Git connections to validated public addresses and fail closed for clients which cannot enforce that binding.
 * Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state and skip repository-linked components when the importer cannot access the target component.
-* Project backup restores no longer load Mercurial repository configuration or shared-repository indirection supplied by archives.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
-* Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.
+* Machine translation and translation memory AJAX lookups no longer disclose whether unavailable unit IDs exist.
 * :ref:`RSS feeds <rss>` no longer disclose change history from inaccessible projects or restricted components.
-* Authenticated legacy GitHub App webhooks can again trigger repository updates through the :ref:`generic GitHub webhook endpoint <code-hosting-github-notifications>`.
 
 .. rubric:: Compatibility
 

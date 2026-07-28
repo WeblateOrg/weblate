@@ -26,7 +26,6 @@ from crispy_forms.layout import (
 )
 from django import forms
 from django.conf import settings
-from django.core import signing
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db.models import Count, Q
@@ -143,9 +142,6 @@ from weblate.vcs.git import GitMergeRequestBase
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
-REPOSITORY_REDIRECT_PROOF_SALT = "weblate.component.repository-redirect"
-REPOSITORY_REDIRECT_PROOF_MAX_AGE = 86400
-
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import QueryDict
@@ -171,62 +167,6 @@ def copy_form_data(
     if isinstance(result, MutableMapping):
         return result
     return dict(result)
-
-
-def create_repository_redirect_proof(
-    request: AuthenticatedHttpRequest,
-    data: Mapping[str, Any],
-    original_url: str,
-    canonical_url: str,
-) -> str:
-    """Sign repository redirect provenance for the component creation wizard."""
-    project = data.get("project")
-    return signing.dumps(
-        {
-            "user": request.user.pk,
-            "project": getattr(project, "pk", project),
-            "vcs": data.get("vcs"),
-            "original": original_url,
-            "canonical": canonical_url,
-        },
-        salt=REPOSITORY_REDIRECT_PROOF_SALT,
-        compress=True,
-    )
-
-
-def get_repository_redirect_change(
-    request: AuthenticatedHttpRequest,
-    data: Mapping[str, Any],
-) -> tuple[str, str, str] | None:
-    """Verify redirect provenance carried between component creation steps."""
-    proof = data.get("repository_redirect_proof")
-    if not isinstance(proof, str) or not proof:
-        return None
-    try:
-        details = signing.loads(
-            proof,
-            salt=REPOSITORY_REDIRECT_PROOF_SALT,
-            max_age=REPOSITORY_REDIRECT_PROOF_MAX_AGE,
-        )
-    except signing.BadSignature:
-        return None
-    if not isinstance(details, dict):
-        return None
-
-    project = data.get("project")
-    original_url = details.get("original")
-    canonical_url = data.get("repo")
-    if (
-        details.get("user") != request.user.pk
-        or details.get("project") != getattr(project, "pk", project)
-        or details.get("vcs") != data.get("vcs")
-        or details.get("canonical") != canonical_url
-        or not isinstance(original_url, str)
-        or not isinstance(canonical_url, str)
-        or original_url == canonical_url
-    ):
-        return None
-    return ("repo", original_url, canonical_url)
 
 
 def clean_integration_component_data(
@@ -2292,6 +2232,7 @@ class ComponentSettingsForm(
             "priority",
             "check_flags",
             "enforced_checks",
+            "inherit_enforced_checks",
             "inherit_commit_message",
             "commit_message",
             "inherit_add_message",
@@ -2417,7 +2358,7 @@ class ComponentSettingsForm(
                         "manage_units",
                         "check_flags",
                         "variant_regex",
-                        "enforced_checks",
+                        InheritedSetting("enforced_checks"),
                         InheritedSetting("secondary_language"),
                     ),
                     css_id="translation",
@@ -2589,13 +2530,10 @@ class ComponentCreateForm(
         "license",
         "new_lang",
         "language_code_style",
+        "enforced_checks",
     )
 
     detected_license = forms.CharField(required=False, widget=forms.HiddenInput)
-    repository_redirect_proof = forms.CharField(
-        required=False,
-        widget=forms.HiddenInput,
-    )
     source_component = forms.ModelChoiceField(
         queryset=Component.objects.none(),
         required=False,
@@ -2715,7 +2653,6 @@ class ComponentCreateForm(
             "source_language",
             "is_glossary",
             "detected_license",
-            "repository_redirect_proof",
             "source_component",
         )
 
@@ -2806,13 +2743,7 @@ class ComponentCreateForm(
                 data["file_format"], data["file_format_params"]
             )
         self.preserve_inherited_values()
-        repository_redirect_change = get_repository_redirect_change(
-            self.request,
-            data,
-        )
-        if repository_redirect_change is not None:
-            self.instance.repository_redirect_changes = [repository_redirect_change]
-        for field in ("license", "new_lang", "language_code_style"):
+        for field in ("license", "new_lang", "language_code_style", "enforced_checks"):
             if self.disables_inheritance_for_explicit_setting(field):
                 setattr(self.instance, get_inherit_field_name(field), False)
 
@@ -3029,10 +2960,6 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         help_text=Component.branch.field.help_text,
         required=False,
     )
-    repository_redirect_proof = forms.CharField(
-        required=False,
-        widget=forms.HiddenInput,
-    )
     instance: Component  # type: ignore[assignment]
 
     def __init__(self, *args, **kwargs) -> None:
@@ -3047,15 +2974,9 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
 
     def clean_instance(self, data) -> None:
         params = copy.copy(data)
-        for field in (
-            "detected_license",
-            "discovery",
-            "repository_redirect_proof",
-            "source_component",
-        ):
+        for field in ("detected_license", "discovery", "source_component"):
             params.pop(field, None)
 
-        original_repo = params.get("repo")
         instance = Component(**params)
         instance.clean_fields(
             exclude=(
@@ -3069,14 +2990,6 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         instance.validate_unique()
         instance.clean_unique_together()
         instance.clean_repo()
-        if original_repo != instance.repo:
-            data["repository_redirect_proof"] = create_repository_redirect_proof(
-                self.request,
-                data,
-                original_repo,
-                instance.repo,
-            )
-            data["repo"] = instance.repo
         instance.clean_category()
         self.instance = instance
 
@@ -3340,6 +3253,8 @@ class CategorySettingsForm(
             "inherit_agreement",
             "agreement",
             "check_flags",
+            "enforced_checks",
+            "inherit_enforced_checks",
             "inherit_secondary_language",
             "secondary_language",
             "inherit_new_lang",
@@ -3361,9 +3276,14 @@ class CategorySettingsForm(
         )
         # ruff: ignore[mutable-class-default]
         widgets = {
+            "enforced_checks": SelectChecksWidget,
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
+        }
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
+            "enforced_checks": SelectChecksField,
         }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
@@ -3394,6 +3314,7 @@ class CategorySettingsForm(
                 Tab(
                     gettext("Workflow"),
                     "check_flags",
+                    InheritedSetting("enforced_checks"),
                     InheritedSetting("secondary_language"),
                     InheritedSetting("new_lang"),
                     InheritedSetting("language_code_style"),
@@ -3455,6 +3376,8 @@ class ProjectSettingsForm(
             "source_review",
             "commit_policy",
             "check_flags",
+            "enforced_checks",
+            "inherit_enforced_checks",
             "inherit_commit_message",
             "commit_message",
             "inherit_add_message",
@@ -3473,6 +3396,7 @@ class ProjectSettingsForm(
             "access_control": forms.RadioSelect,
             "instructions": MarkdownTextarea,
             "language_aliases": forms.TextInput,
+            "enforced_checks": SelectChecksWidget,
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
@@ -3480,6 +3404,7 @@ class ProjectSettingsForm(
         # ruff: ignore[mutable-class-default]
         field_classes = {
             "check_flags": FlagField,
+            "enforced_checks": SelectChecksField,
         }
 
     def get_unlicensed_components(self, project_license: str) -> list[Component]:
@@ -3660,6 +3585,7 @@ class ProjectSettingsForm(
                     "contribute_workspace_tm",
                     "autoclean_tm",
                     "check_flags",
+                    InheritedSetting("enforced_checks"),
                     "enable_hooks",
                     "language_aliases",
                     InheritedSetting("secondary_language"),

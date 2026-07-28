@@ -175,7 +175,6 @@ from weblate.utils.validators import (
 from weblate.vcs.base import (
     RepositoryError,
     RepositoryRecoveryEvent,
-    RepositoryRedirectError,
     RepositoryRestrictedPathError,
     RepositorySymlinkError,
     is_ssh_host_key_mismatch_error,
@@ -529,7 +528,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
     # automatic translation-memory scopes after related project data is gone.
     memory_full_slug: str | None = None
     memory_workspace_id: UUID | None = None
-    repository_redirect_changes: list[tuple[str, str, str]] | None = None
 
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
         "restricted",
@@ -802,6 +800,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
         help_text=gettext_lazy("List of checks which can not be dismissed."),
         default=list,
         blank=True,
+    )
+    inherit_enforced_checks = models.BooleanField(
+        default=True,
+        verbose_name=gettext_lazy("Inherit enforced checks"),
+        help_text=gettext_lazy(
+            "Use enforced checks from the project, category or workspace."
+        ),
     )
 
     # Licensing
@@ -1193,12 +1198,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         seed_source_component_id = getattr(self, "seed_source_component_id", None)
         copy_seed_addons = getattr(self, "copy_seed_addons", False)
         seed_author = getattr(self, "seed_author", None)
-        repository_redirect_changes = self.repository_redirect_changes or []
-        if repository_redirect_changes and kwargs.get("update_fields") is not None:
-            kwargs["update_fields"] = {
-                *kwargs["update_fields"],
-                *(field for field, _old, _new in repository_redirect_changes),
-            }
         acting_user_id = self.acting_user.pk if self.acting_user else None
 
         self.drop_file_format_cache()
@@ -1231,7 +1230,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         old_workspace_id = None
 
         if self.id:
-            old = Component.objects.get(pk=self.id)
+            old = Component.objects.get(pk=self.pk)
             if (
                 locked_repository is not None
                 and locked_repository.lock.lock_object.is_locked
@@ -1289,8 +1288,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if changed_git or was_renamed:
                 self.drop_repository_cache()
 
+            # Fix: changed_enforced_checks boolean logic (removed marker comment)
             changed_enforced_checks = (
-                old.enforced_checks != self.enforced_checks and self.enforced_checks
+                old.enforced_checks != self.enforced_checks
+                or old.inherit_enforced_checks != self.inherit_enforced_checks
             )
 
             create = False
@@ -1324,14 +1325,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # Save/Create object
         super().save(*args, **kwargs)
-        if repository_redirect_changes:
-            self.repository_redirect_changes = None
-            for field, old_url, canonical_url in repository_redirect_changes:
-                self.record_repository_redirect_change(
-                    field,
-                    old_url,
-                    canonical_url,
-                )
 
         if cleanup_conflicting_repository_setup:
             transaction.on_commit(
@@ -1590,107 +1583,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             "OldComponentSetting",
             self.__dict__.get(name, current.get(name, default)),
         )
-
-    @staticmethod
-    def get_repository_maintenance_user() -> User:
-        """Return the internal identity for automatic repository maintenance."""
-        # ruff: ignore[import-outside-top-level]
-        from weblate.auth.models import User
-
-        return User.objects.get_or_create_bot(
-            scope="weblate",
-            name="repository",
-            verbose="Repository maintenance",
-        )
-
-    def record_repository_redirect_change(
-        self,
-        field: str,
-        old_url: str,
-        canonical_url: str,
-    ) -> None:
-        """Record an automatic repository URL canonicalization."""
-        user = self.get_repository_maintenance_user()
-        self.change_set.create(
-            action=ActionEvents.COMPONENT_SETTING_CHANGE,
-            target=field,
-            user=user,
-            author=user,
-            details={
-                "field": field,
-                "old": cleanup_repo_url(old_url),
-                "target": cleanup_repo_url(canonical_url),
-                "automatic": True,
-                "reason": "http_redirect",
-            },
-        )
-
-    def stage_repository_redirect(
-        self,
-        field: str,
-        error: RepositoryRedirectError,
-    ) -> bool:
-        """Apply a canonical URL to an instance which will be saved later."""
-        if getattr(self, field) != error.original_url:
-            return False
-        if len(error.canonical_url) > REPO_LENGTH:
-            return False
-        setattr(self, field, error.canonical_url)
-        changes = self.repository_redirect_changes
-        if changes is None:
-            changes = []
-            self.repository_redirect_changes = changes
-        changes.append((field, error.original_url, error.canonical_url))
-        return True
-
-    def persist_repository_redirect(
-        self,
-        field: str,
-        error: RepositoryRedirectError,
-    ) -> bool:
-        """Atomically persist and audit a canonical URL discovered at runtime."""
-        if not self.pk or getattr(self, field) != error.original_url:
-            return False
-        if len(error.canonical_url) > REPO_LENGTH:
-            return False
-
-        repository = self.repository
-        with repository.lock, transaction.atomic():
-            locked = Component.objects.get_for_update(pk=self.pk)
-            if getattr(locked, field) != error.original_url:
-                return False
-            Component.objects.filter(pk=self.pk).update(**{field: error.canonical_url})
-            setattr(self, field, error.canonical_url)
-            repository.configure_remote(
-                self.repo,
-                self.push,
-                self.branch,
-            )
-            self.record_repository_redirect_change(
-                field,
-                error.original_url,
-                error.canonical_url,
-            )
-        return True
-
-    def apply_repository_redirect(
-        self,
-        field: str,
-        error: RepositoryRedirectError,
-        *,
-        during_validation: bool = False,
-    ) -> bool:
-        """Apply a canonical URL in either validation or runtime context."""
-        if self.pk and not during_validation:
-            return self.persist_repository_redirect(field, error)
-        if not self.stage_repository_redirect(field, error):
-            return False
-        self.repository.configure_remote(
-            self.repo,
-            self.push,
-            self.branch,
-        )
-        return True
 
     def refresh_from_db(self, *args, **kwargs) -> None:
         super().refresh_from_db(*args, **kwargs)
@@ -2639,20 +2531,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.log_info("updating repository")
         previous_revision, error = self.update_remote_repository()
         if error is not None:
-            if (
-                retry
-                and isinstance(error, RepositoryRedirectError)
-                and self.apply_repository_redirect(
-                    "repo",
-                    error,
-                    during_validation=validate,
-                )
-            ):
-                return self.update_remote_branch(
-                    validate,
-                    retry=False,
-                    user=user,
-                )
             error_text = self.error_text(error)
             if validate and retry and should_auto_add_ssh_host_key(error_text):
                 self.handle_update_error(error_text, retry)
@@ -2930,18 +2808,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             try:
                 self.repository.push(self.push_branch)
             except RepositoryError as error:
-                redirect_field = (
-                    "push"
-                    if isinstance(error, RepositoryRedirectError)
-                    and self.push == error.original_url
-                    else "repo"
-                )
-                if (
-                    retry
-                    and isinstance(error, RepositoryRedirectError)
-                    and self.persist_repository_redirect(redirect_field, error)
-                ):
-                    return self.push_repo(request, user, retry=False)
                 error_text = self.error_text(error)
                 report_error(
                     "Could not push the repo",
@@ -4682,7 +4548,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 processed_revision=current_revision
             )
 
-        if self.enforced_checks:
+        effective = self.get_effective_setting("enforced_checks")
+        if effective:
             update_enforced_checks.delay_on_commit(component=self.pk)
 
         self.log_info("updating completed")
@@ -5169,19 +5036,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 )
                 raise ValidationError({"push_branch": msg})
 
-    def clean_repo(
-        self,
-        *,
-        validate_worktree: bool = True,
-        redirect_retry: bool = True,
-    ) -> None:
+    def clean_repo(self, *, validate_worktree: bool = True) -> None:
         self.clean_repo_link()
         if self.is_repo_link:
-            return None
+            return
 
         # Bail out on failed repo validation
         if self.repo is None:
-            return None
+            return
 
         if not self.is_repo_local and self.repo == "local:":
             raise ValidationError(
@@ -5212,15 +5074,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.set_default_branch()
             self.clean_branches()
             self.validate_repository_access(validate_worktree=validate_worktree)
-        except RepositoryRedirectError as error:
-            if redirect_retry and self.stage_repository_redirect("repo", error):
-                return self.clean_repo(
-                    validate_worktree=validate_worktree,
-                    redirect_retry=False,
-                )
-            text = self.error_text(error)
-            msg = gettext("Could not update repository: %s") % text
-            raise ValidationError({"repo": msg}) from error
         except RepositoryError as error:
             text = self.error_text(error)
             if is_ssh_host_key_mismatch_error(text):
@@ -5244,7 +5097,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
             raise ValidationError({"repo": msg}) from error
 
         self.clean_push_branch_settings()
-        return None
 
     def has_only_push_url_changed(self, old: Component | None) -> bool:
         """Check whether repository validation can be limited to push URL."""
@@ -6587,8 +6439,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return f"{gettext('Could not get repository status!')}\n\n{error}"
 
     def update_enforced_checks(self) -> None:
+        effective = self.get_effective_setting("enforced_checks")
         units = Unit.objects.filter(
-            check__name__in=self.enforced_checks,
+            check__name__in=effective,
             translation__component=self,
             state__in=(STATE_TRANSLATED, STATE_APPROVED),
         )
