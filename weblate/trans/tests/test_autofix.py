@@ -74,6 +74,25 @@ class AutoFixTest(TestCase):
             (["%(percent)s %%"], False),
         )
 
+    def test_html_source_event_handler(self) -> None:
+        fix = BleachHTML()
+        unit = make_unit(
+            source="<a onclick=\"alert('source')\">link</a>", flags="safe-html"
+        )
+        self.assertEqual(
+            fix.fix_target(["<a onclick=\"alert('translated')\">link</a>"], unit),
+            (["<a>link</a>"], True),
+        )
+
+    def test_html_markdown_code_block_event_handler(self) -> None:
+        fix = BleachHTML()
+        value = "<button onclick=\"alert('source')\">link</button>"
+        unit = make_unit(
+            source=value,
+            flags="auto-safe-html,md-text,ignore-safe-html",
+        )
+        self.assertEqual(fix.fix_target([value], unit), ([value], False))
+
     def test_html_ignored(self) -> None:
         fix = BleachHTML()
         unit = make_unit(

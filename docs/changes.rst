@@ -39,6 +39,7 @@ Weblate 2026.8
 
 .. rubric:: Bug fixes
 
+* :ref:`check-safe-html` now reports event-handler attributes in source strings and removes them from translated HTML while preserving Markdown code examples.
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
 * Protected outbound HTTP requests now bind connections to validated public addresses.

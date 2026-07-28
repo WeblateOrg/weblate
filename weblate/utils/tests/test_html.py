@@ -20,9 +20,9 @@ from weblate.utils.html import (
 
 
 class HTMLSanitizerTestCase(SimpleTestCase):
-    def sanitize(self, source: str, translation: str, flags: str = "") -> str:
+    def sanitize(self, translation: str, source: str, flags: str = "") -> str:
         sanitizer = HTMLSanitizer()
-        return sanitizer.clean(source, translation, Flags(flags))
+        return sanitizer.clean(translation, source, Flags(flags))
 
     def test_clean(self) -> None:
         self.assertEqual(self.sanitize("<b>translation</b>", "text"), "translation")
@@ -31,6 +31,38 @@ class HTMLSanitizerTestCase(SimpleTestCase):
         self.assertEqual(
             self.sanitize("<style>translation</style>", "<style>text</style>"),
             "<style>translation</style>",
+        )
+
+    def test_clean_source_event_handler(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                "<a onclick=\"alert('translated')\">translation</a>",
+                "<a onclick=\"alert('source')\">text</a>",
+            ),
+            "<a>translation</a>",
+        )
+
+    def test_clean_markdown_inline_code_event_handler(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                "Use `<button onclick=\"alert('translated')\">code</button>` "
+                "and <b>translated</b>. <button>extra</button>",
+                "Use `<button onclick=\"alert('source')\">code</button>` "
+                "and <b>source</b>.",
+                "md-text",
+            ),
+            "Use `<button onclick=\"alert('translated')\">code</button>` "
+            "and <b>translated</b>. extra",
+        )
+
+    def test_clean_markdown_escaped_code_event_handler(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                "Use \\`<button onclick=\"alert('translated')\">code</button>`.",
+                "Use \\`<button>code</button>`.",
+                "md-text",
+            ),
+            "Use \\`<button>code</button>`.",
         )
 
 

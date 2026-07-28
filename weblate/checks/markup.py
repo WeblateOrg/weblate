@@ -55,6 +55,7 @@ from weblate.utils.html import (
     MD_SYNTAX_GROUPS,
     HTMLSanitizer,
     extract_html_attributes,
+    has_html_event_attributes,
 )
 from weblate.utils.xml import parse_xml
 
@@ -639,9 +640,18 @@ class URLCheck(TargetCheck):
 class SafeHTMLCheck(TargetCheck):
     check_id = "safe-html"
     name = gettext_lazy("Unsafe HTML")
-    description = gettext_lazy("The translation uses unsafe HTML markup.")
+    description = gettext_lazy("The string uses unsafe HTML markup.")
+    source = True
     default_disabled = True
     extra_enable_strings = ("auto-safe-html",)
+
+    def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
+        flags = unit.all_flags
+        return any(
+            flags.is_active("safe-html", source)
+            and has_html_event_attributes(source, flags)
+            for source in sources
+        )
 
     def check_single(self, source: str, target: str, unit: Unit):
         flags = unit.all_flags
