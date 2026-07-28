@@ -52,6 +52,7 @@ def validate_accelerator_marker(marker: str) -> None:
 
 
 parse_accelerator_marker = single_value_flag(str, validate_accelerator_marker)
+parse_max_lines = single_value_flag(int)
 
 
 def markdown_link_syntax_ranges(target: str) -> Iterable[tuple[int, int]]:
@@ -573,12 +574,15 @@ class MaxLinesCheck(TargetCheckParametrized):
     description = gettext_lazy("Translation should not exceed given number of lines.")
     default_disabled = True
 
-    param_type = single_value_flag(int)
+    @property
+    def param_type(self):
+        return parse_max_lines
 
     def check_target_params(
         self, sources: list[str], targets: list[str], unit: Unit, value
     ):
-        return any(target.count("\n") + 1 > value for target in targets)
+        replace = self.get_replacement_function(unit)
+        return any(replace(target).count("\n") + 1 > value for target in targets)
 
 
 class EndSemicolonCheck(TargetCheck):
