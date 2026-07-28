@@ -102,10 +102,11 @@ Defaults to ``[]``.
 The allowlist affects project-managed machinery in two ways: it permits the
 configured endpoint during outbound validation, and it marks matching hosts as
 trusted when deciding whether remote provider error details or response bodies
-can be shown to the user. For direct connections, runtime checks still reject
-destinations that resolve to private or otherwise non-public addresses. When an
-HTTP(S) proxy is used, runtime validation falls back to hostname validation and
-does not perform the same local DNS or peer-IP checks.
+can be shown to the user. Matching hosts are also exempt from private-target
+restrictions. For direct connections, Weblate does not resolve, pin, or verify
+the peer address of matching hosts. Only add hosts or domains whose network
+destinations are trusted. When an HTTP(S) proxy is used, the proxy is trusted
+to resolve the destination hostname.
 
 .. setting:: ALLOWED_ASSET_SIZE
 

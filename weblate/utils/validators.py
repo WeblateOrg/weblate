@@ -438,10 +438,10 @@ def _validate_runtime_public_url(
     *,
     allow_private_targets: bool,
     allow_unresolved_hostname: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> None:
     hostname = urlparse(value).hostname or ""
-    if allow_private_targets or is_allowlisted_hostname(hostname, allowed_domains):
+    if allow_private_targets or is_allowlisted_hostname(hostname, private_allowlist):
         return
 
     try:
@@ -786,13 +786,13 @@ def validate_restricted_asset_url(value: str) -> None:
     validate_outbound_url(
         value,
         allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
-        allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
     )
     _validate_runtime_public_url(
         value,
         allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
         allow_unresolved_hostname=False,
-        allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
     )
 
 
@@ -801,7 +801,7 @@ def validate_machinery_url(value: str, *, allow_private_targets: bool = True) ->
     validate_outbound_url(
         value,
         allow_private_targets=allow_private_targets,
-        allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+        private_allowlist=settings.ALLOWED_MACHINERY_DOMAINS,
     )
 
 
@@ -811,7 +811,7 @@ def validate_machinery_hostname(
     validate_outbound_hostname(
         value,
         allow_private_targets=allow_private_targets,
-        allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+        private_allowlist=settings.ALLOWED_MACHINERY_DOMAINS,
     )
 
 
@@ -820,13 +820,13 @@ def validate_webhook_url(value: str) -> None:
     validate_outbound_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
     _validate_runtime_public_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
         allow_unresolved_hostname=False,
-        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
 
 
@@ -891,13 +891,13 @@ def validate_fedora_messaging_url(value: str) -> None:
     validate_outbound_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
     _validate_runtime_public_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
         allow_unresolved_hostname=False,
-        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
 
 

@@ -25,7 +25,6 @@ from weblate.utils.requests import (
     fetch_url,
     fetch_validated_url,
     get_uri_error,
-    open_asset_url,
     open_restricted_asset_url,
 )
 from weblate.utils.tests import http_mock as responses
@@ -322,10 +321,10 @@ class FetchURLTest(SimpleTestCase):
         validators.validate_request_url.assert_not_called()
 
 
-class OpenAssetURLTest(SimpleTestCase):
+class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_asset_url_follows_allowed_redirect(self) -> None:
+    def test_open_restricted_asset_url_follows_allowed_redirect(self) -> None:
         responses.add(
             responses.GET,
             "https://images.allowed.com/redirect-image.png",
@@ -339,8 +338,10 @@ class OpenAssetURLTest(SimpleTestCase):
             body=b"image-data",
         )
 
-        with open_asset_url(
-            "get", "https://images.allowed.com/redirect-image.png"
+        with open_restricted_asset_url(
+            "get",
+            "https://images.allowed.com/redirect-image.png",
+            allow_private_targets=True,
         ) as response:
             self.assertEqual(response.content, b"image-data")
 
@@ -352,7 +353,7 @@ class OpenAssetURLTest(SimpleTestCase):
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_asset_url_blocks_disallowed_redirect(self) -> None:
+    def test_open_restricted_asset_url_blocks_disallowed_redirect(self) -> None:
         responses.add(
             responses.GET,
             "https://images.allowed.com/redirect-image.png",
@@ -368,7 +369,11 @@ class OpenAssetURLTest(SimpleTestCase):
 
         with (
             self.assertRaises(ValidationError),
-            open_asset_url("get", "https://images.allowed.com/redirect-image.png"),
+            open_restricted_asset_url(
+                "get",
+                "https://images.allowed.com/redirect-image.png",
+                allow_private_targets=True,
+            ),
         ):
             pass
 
@@ -380,7 +385,7 @@ class OpenAssetURLTest(SimpleTestCase):
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_asset_url_preserves_redirect_cookies(self) -> None:
+    def test_open_restricted_asset_url_preserves_redirect_cookies(self) -> None:
         responses.add(
             responses.GET,
             "https://images.allowed.com/redirect-image.png",
@@ -397,8 +402,10 @@ class OpenAssetURLTest(SimpleTestCase):
             body=b"image-data",
         )
 
-        with open_asset_url(
-            "get", "https://images.allowed.com/redirect-image.png"
+        with open_restricted_asset_url(
+            "get",
+            "https://images.allowed.com/redirect-image.png",
+            allow_private_targets=True,
         ) as response:
             self.assertEqual(response.content, b"image-data")
 
@@ -409,7 +416,9 @@ class OpenAssetURLTest(SimpleTestCase):
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_asset_url_raises_validation_error_for_http_status(self) -> None:
+    def test_open_restricted_asset_url_raises_validation_error_for_http_status(
+        self,
+    ) -> None:
         responses.add(
             responses.GET,
             "https://images.allowed.com/missing-image.png",
@@ -421,13 +430,19 @@ class OpenAssetURLTest(SimpleTestCase):
                 ValidationError,
                 "Unable to download asset from the provided URL (HTTP status code: 404).",
             ),
-            open_asset_url("get", "https://images.allowed.com/missing-image.png"),
+            open_restricted_asset_url(
+                "get",
+                "https://images.allowed.com/missing-image.png",
+                allow_private_targets=True,
+            ),
         ):
             pass
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_open_asset_url_raises_validation_error_for_redirect_status(self) -> None:
+    def test_open_restricted_asset_url_raises_validation_error_for_redirect_status(
+        self,
+    ) -> None:
         responses.add(
             responses.GET,
             "https://images.allowed.com/redirect-image.png",
@@ -439,7 +454,11 @@ class OpenAssetURLTest(SimpleTestCase):
                 ValidationError,
                 "Unable to download asset from the provided URL (HTTP status code: 301).",
             ),
-            open_asset_url("get", "https://images.allowed.com/redirect-image.png"),
+            open_restricted_asset_url(
+                "get",
+                "https://images.allowed.com/redirect-image.png",
+                allow_private_targets=True,
+            ),
         ):
             pass
 
@@ -466,7 +485,6 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
             open_restricted_asset_url(
                 "get",
                 "https://private.example.com/messages.html",
-                allow_private_targets=False,
             ),
         ):
             pass
@@ -597,7 +615,7 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
             "get",
             "https://private.example.com/messages.html",
             allow_private_targets=False,
-            allowed_domains=["private.example.com"],
+            private_allowlist=["private.example.com"],
         ) as response:
             self.assertEqual(response.content, b"allowlisted-private-target")
 
@@ -931,6 +949,35 @@ class FetchValidatedURLTest(SimpleTestCase):
     @patch(
         "weblate.utils.requests.async_resolve_runtime_hostname",
         new_callable=AsyncMock,
+        side_effect=ValidationError("This URL is prohibited"),
+    )
+    def test_async_fetch_validated_url_blocks_private_target_by_default(
+        self, mocked_resolve
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://private.example.com/source",
+            status=200,
+            body=b"should-not-be-fetched",
+        )
+
+        with self.assertRaises(ValidationError):
+            asyncio.run(
+                async_fetch_validated_url(
+                    "get",
+                    "https://private.example.com/source",
+                )
+            )
+
+        mocked_resolve.assert_awaited_once_with(
+            "private.example.com", allow_private_targets=False
+        )
+        self.assertEqual(len(responses.calls), 0)
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests.async_resolve_runtime_hostname",
+        new_callable=AsyncMock,
         return_value=(
             "2606:2800:220:1:248:1893:25c8:1946",
             "93.184.216.34",
@@ -1140,6 +1187,7 @@ class FetchValidatedURLTest(SimpleTestCase):
             headers={"Authorization": "Bearer secret"},
             auth=("user", "pass"),
             allow_redirects=True,
+            allow_private_targets=True,
         )
 
         self.assertEqual(len(recorded_headers), 2)
@@ -1177,6 +1225,7 @@ class FetchValidatedURLTest(SimpleTestCase):
             "delete",
             "https://public.example.com/source",
             allow_redirects=True,
+            allow_private_targets=True,
             data=b"payload",
         )
 
@@ -1190,7 +1239,7 @@ class FetchValidatedURLTest(SimpleTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
     )
-    def test_fetch_validated_url_blocks_private_target(
+    def test_fetch_validated_url_blocks_private_target_by_default(
         self, mocked_getaddrinfo
     ) -> None:
         responses.add(
@@ -1204,7 +1253,6 @@ class FetchValidatedURLTest(SimpleTestCase):
             fetch_validated_url(
                 "get",
                 "https://public.example.com/source",
-                allow_private_targets=False,
             )
 
         mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
@@ -1293,7 +1341,7 @@ class FetchValidatedURLTest(SimpleTestCase):
             "get",
             "https://private.example/source",
             allow_private_targets=False,
-            allowed_domains=["private.example"],
+            private_allowlist=["private.example"],
         )
 
         self.assertEqual(response.content, b"allowlisted-private-target")
@@ -1333,7 +1381,7 @@ class FetchValidatedURLTest(SimpleTestCase):
             "get",
             "https://public.example.com/source",
             allow_private_targets=False,
-            allowed_domains=["private.example"],
+            private_allowlist=["private.example"],
         )
 
         self.assertEqual(response.content, b"allowlisted-private-redirect")
@@ -1442,7 +1490,7 @@ class FetchValidatedURLTest(SimpleTestCase):
                 "get",
                 "http://ollama/api/tags",
                 allow_private_targets=False,
-                allowed_domains=["ollama"],
+                private_allowlist=["ollama"],
             )
 
         self.assertEqual(response.content, b'{"models":[]}')
@@ -1541,7 +1589,7 @@ class FetchValidatedURLTest(SimpleTestCase):
         _validate_response_peer(
             response,
             allow_private_targets=False,
-            allowed_domains=["private.example"],
+            private_allowlist=["private.example"],
             used_proxy=False,
         )
 

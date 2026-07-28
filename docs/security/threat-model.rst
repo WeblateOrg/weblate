@@ -353,8 +353,8 @@ Build-time and configuration variants
        *(documented)*
    * - Private-target restrictions and allowlists for outbound URLs
      - User-configurable outbound URL surfaces documented with private-target
-       restriction settings, including Fedora Messaging AMQP broker URLs,
-       reject internal or non-public targets by default. *(documented)*
+       restriction settings reject internal or non-public targets by default.
+       *(documented)*
        (source: :setting:`ASSET_RESTRICT_PRIVATE`,
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
@@ -373,7 +373,9 @@ Build-time and configuration variants
        connection binding require an explicit trusted-host exemption.
        *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
-       reachability. *(documented)* (source: :setting:`ASSET_PRIVATE_ALLOWLIST`,
+       reachability. Fedora Messaging broker URLs are site-administrator
+       configuration and are trusted by this model. *(documented)* (source:
+       :setting:`ASSET_PRIVATE_ALLOWLIST`,
        :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`,
        :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)
      - Default private-target rejection is an application-level security
@@ -614,9 +616,8 @@ Security properties Weblate provides
        and VCS backends without binding use only explicitly trusted hosts.
        Configured proxies remain trusted routing infrastructure.
      - A user-configurable screenshot URL, remote HTML URL, project website or
-       repository browser URL, outbound webhook URL, Fedora Messaging AMQP
-       broker URL, or VCS URL reaches an internal or non-public target despite
-       default controls.
+       repository browser URL, outbound webhook URL, or VCS URL reaches an
+       internal or non-public target despite default controls.
      - Security-critical when it exposes internal services or metadata.
    * - Weblate records security-relevant account, permission, and project or
        component setting changes in audit logs or history. *(documented)*
