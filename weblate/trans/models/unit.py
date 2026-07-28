@@ -2361,7 +2361,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Enforced checks can revert the state to needs editing (fuzzy)
         # Use effective enforced checks (inherited)
-        effective_enforced = component.get_effective_setting('enforced_checks')
+        effective_enforced = component.get_effective_setting("enforced_checks")
         if (
             self.state >= STATE_TRANSLATED
             and effective_enforced
