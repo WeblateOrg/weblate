@@ -106,25 +106,28 @@ class SettingsTest(ViewTestCase):
         migration.repair_license_inheritance(apps, None)
 
     def assert_huge_inherited_settings_deferred(self, component: Component) -> None:
+        workspace = component.project.workspace
+        assert workspace is not None
+        category = component.category
+        if component.category_id:
+            assert category is not None
         for field in ("commit_message",):
             self.assertIn(field, component.get_deferred_fields())
             self.assertIn(field, component.project.get_deferred_fields())
-            self.assertIn(field, component.project.workspace.get_deferred_fields())
-            if component.category_id:
-                self.assertIn(field, component.category.get_deferred_fields())
+            self.assertIn(field, workspace.get_deferred_fields())
+            if category is not None:
+                self.assertIn(field, category.get_deferred_fields())
         for field in ("agreement",):
             self.assertNotIn(field, component.get_deferred_fields())
             self.assertNotIn(field, component.project.get_deferred_fields())
-            self.assertNotIn(field, component.project.workspace.get_deferred_fields())
-            if component.category_id:
-                self.assertNotIn(field, component.category.get_deferred_fields())
+            self.assertNotIn(field, workspace.get_deferred_fields())
+            if category is not None:
+                self.assertNotIn(field, category.get_deferred_fields())
         self.assertNotIn("check_flags", component.get_deferred_fields())
         self.assertNotIn("check_flags", component.project.get_deferred_fields())
-        self.assertNotIn(
-            "check_flags", component.project.workspace.get_deferred_fields()
-        )
-        if component.category_id:
-            self.assertNotIn("check_flags", component.category.get_deferred_fields())
+        self.assertNotIn("check_flags", workspace.get_deferred_fields())
+        if category is not None:
+            self.assertNotIn("check_flags", category.get_deferred_fields())
 
     def test_defer_huge_inherited_settings(self) -> None:
         workspace = Workspace.objects.create(name="Settings workspace")
@@ -143,7 +146,7 @@ class SettingsTest(ViewTestCase):
         self.assert_huge_inherited_settings_deferred(translation.component)
 
         unit_id = self.translation.unit_set.values_list("pk", flat=True).first()
-        self.assertIsNotNone(unit_id)
+        assert unit_id is not None
         unit = Unit.objects.filter(pk=unit_id).prefetch().get()
         self.assert_huge_inherited_settings_deferred(unit.translation.component)
 
@@ -1433,9 +1436,11 @@ class SettingsTest(ViewTestCase):
             name="Settings linked lock", slug="settings-linked-lock"
         )
         new_target = self.create_po(name="settings-new-target", project=self.project)
+        source_language_id = linked_component.source_language_id
+        assert source_language_id is not None
         translation = (
             linked_component.translation_set.exclude(filename="")
-            .exclude(language_id=linked_component.source_language_id)
+            .exclude(language_id=source_language_id)
             .first()
         )
         if translation is None:

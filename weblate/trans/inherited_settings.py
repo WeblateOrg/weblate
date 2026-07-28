@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 from django.db.models import Q
 from django.utils.translation import gettext_lazy
@@ -72,6 +72,20 @@ INHERITABLE_COMPONENT_SETTINGS = (
     "addon_message",
     "pull_message",
 )
+
+type InheritableStringSetting = Literal[
+    "license",
+    "agreement",
+    "new_lang",
+    "language_code_style",
+    "commit_message",
+    "add_message",
+    "delete_message",
+    "merge_message",
+    "addon_message",
+    "pull_message",
+]
+type InheritableLanguageSetting = Literal["secondary_language"]
 
 COMPONENT_MESSAGE_SETTINGS = (
     "commit_message",

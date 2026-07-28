@@ -10,25 +10,36 @@ from django.utils import timezone
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.metrics.models import Metric
-from weblate.trans.models import Component, ComponentList, Project, Translation
+from weblate.trans.models import (
+    Category,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+)
 from weblate.utils.celery import app
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import iter_prefetch_stats
+from weblate.workspaces.models import Workspace
 
 
 @app.task(trail=False)
 def collect_metrics() -> None:
     Metric.objects.collect_global()
-    for project in prefetch_stats(Project.objects.all()):
+    for project in iter_prefetch_stats(Project.objects.all()):
         Metric.objects.collect_project(project)
-    for component in prefetch_stats(Component.objects.all()):
+    for workspace in iter_prefetch_stats(Workspace.objects.all()):
+        Metric.objects.collect_workspace(workspace)
+    for category in iter_prefetch_stats(Category.objects.all()):
+        Metric.objects.collect_category(category)
+    for component in iter_prefetch_stats(Component.objects.all()):
         Metric.objects.collect_component(component)
-    for clist in prefetch_stats(ComponentList.objects.all()):
+    for clist in iter_prefetch_stats(ComponentList.objects.all()):
         Metric.objects.collect_component_list(clist)
-    for translation in prefetch_stats(Translation.objects.all()):
+    for translation in iter_prefetch_stats(Translation.objects.all()):
         Metric.objects.collect_translation(translation)
     for user in User.objects.filter():
         Metric.objects.collect_user(user)
-    for language in prefetch_stats(Language.objects.all()):
+    for language in iter_prefetch_stats(Language.objects.all()):
         Metric.objects.collect_language(language)
 
 

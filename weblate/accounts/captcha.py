@@ -46,7 +46,7 @@ def operator_display(name: Literal["+", "-", "*"]) -> str:
 class MathCaptcha:
     """Simple match captcha object."""
 
-    operators = ("+", "-", "*")
+    operators: tuple[Literal["+", "-", "*"], ...] = ("+", "-", "*")
     interval = (1, 10)
 
     def __init__(self, question=None, timestamp=None) -> None:

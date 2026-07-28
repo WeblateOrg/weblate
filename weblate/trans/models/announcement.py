@@ -227,6 +227,7 @@ class Announcement(models.Model):
     objects = AnnouncementManager.from_queryset(AnnouncementQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "Announcement"
         verbose_name_plural = "Announcements"

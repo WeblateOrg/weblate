@@ -6,15 +6,20 @@
 
 from __future__ import annotations
 
+import base64
 import logging
 import os
 import os.path
 import random
 import re
+import shlex
+import sys
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
 from contextlib import contextmanager, suppress
-from json import JSONDecodeError, dumps
+from dataclasses import dataclass
+from ipaddress import ip_address
+from json import dumps
 from pathlib import Path
 from time import sleep, time
 from typing import (
@@ -31,13 +36,14 @@ from typing import (
 from urllib.parse import urlparse, urlunparse
 from zipfile import ZipFile
 
-import requests
+import httpx2
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from git.config import GitConfigParser
-from requests.exceptions import HTTPError
+from idna import IDNAError
+from idna import encode as idna_encode
 
 from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error
@@ -47,6 +53,13 @@ from weblate.utils.files import (
 )
 from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
+from weblate.utils.requests import (
+    JSON_RESPONSE_ERRORS,
+    HTTPClient,
+    RedirectValidators,
+    _get_proxy,
+    fetch_url,
+)
 from weblate.utils.tracing import start_span
 from weblate.utils.xml import parse_xml
 from weblate.utils.zip import (
@@ -61,18 +74,20 @@ from weblate.vcs.base import (
     RepositoryCommandError,
     RepositoryError,
     RepositoryRecoveryEvent,
+    RepositoryRedirectError,
 )
 from weblate.vcs.gpg import get_gpg_sign_key
+from weblate.vcs.ssh import SSH_WRAPPER, resolve_ssh_destination
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Callable, Iterator
     from datetime import datetime
     from zipfile import ZipInfo
 
     from django_stubs_ext import StrOrPromise
-    from requests.auth import AuthBase
 
     from weblate.trans.models import Component
+    from weblate.utils.validators import ResolvedRepositoryURL
     from weblate.vcs.base import (
         RawCommitInfo,
     )
@@ -81,6 +96,7 @@ LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exis
 # Assume lock is stale after one hour
 LOCK_STALE_SECONDS = 3600
 TEMPORARY_BRANCHES = frozenset({"weblate-merge-tmp", "weblate-squash-tmp"})
+SSH_PROXY_PATH = Path(__file__).with_name("ssh_proxy.py").resolve()
 RECOVERABLE_ABORT_LOCKS = frozenset(
     {
         "AUTO_MERGE.lock",
@@ -92,6 +108,236 @@ RECOVERABLE_ABORT_LOCKS = frozenset(
         "REVERT_HEAD.lock",
     }
 )
+GIT_REDIRECT_LIMIT = 5
+GIT_UPLOAD_PACK_MEDIA_TYPE = "application/x-git-upload-pack-advertisement"
+
+
+@dataclass
+class GitProbeRedirectValidators(RedirectValidators):
+    """Bind direct Git probes to the addresses approved by VCS validation."""
+
+    target: ResolvedRepositoryURL
+
+    def validate_request_url(
+        self, request_url: str, *, used_proxy: bool
+    ) -> tuple[str, ...]:
+        if used_proxy or not self.target.requires_pinning:
+            return ()
+        if not self.target.addresses:
+            raise RepositoryError(
+                0,
+                gettext("The repository redirect target has no validated address."),
+            )
+        return self.target.addresses
+
+
+def _normalize_redirect_hostname(hostname: str) -> str:
+    """Normalize hostnames for redirect-origin comparisons."""
+    normalized = hostname.rstrip(".")
+    try:
+        return str(ip_address(normalized))
+    except ValueError:
+        try:
+            return idna_encode(normalized, uts46=True).decode("ascii").lower()
+        except (IDNAError, UnicodeError) as error:
+            raise RepositoryError(
+                0,
+                gettext(
+                    "The repository returned an HTTP redirect with an invalid hostname."
+                ),
+            ) from error
+
+
+def _strip_url_credentials(url: str) -> str:
+    """Remove credentials without importing the component utility module."""
+    parsed = urlparse(url)
+    if parsed.username is None:
+        return url
+    return urlunparse(parsed._replace(netloc=parsed.netloc.rsplit("@", 1)[-1]))
+
+
+def _copy_url_credentials(source: str, target: str) -> str:
+    """Retain existing credentials across an accepted same-host redirect."""
+    source_parsed = urlparse(source)
+    if source_parsed.username is None:
+        return target
+    target_parsed = urlparse(target)
+    userinfo = source_parsed.netloc.rsplit("@", 1)[0]
+    return urlunparse(
+        target_parsed._replace(netloc=f"{userinfo}@{target_parsed.netloc}")
+    )
+
+
+def _build_git_probe_url(repository_url: str) -> str:
+    """Build the smart-HTTP upload-pack discovery endpoint."""
+    parsed = urlparse(repository_url)
+    query = urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
+    query.append(("service", "git-upload-pack"))
+    return urlunparse(
+        parsed._replace(
+            path=f"{parsed.path.rstrip('/')}/info/refs",
+            query=urllib.parse.urlencode(query),
+            fragment="",
+        )
+    )
+
+
+def _repository_url_from_probe_redirect(
+    source_url: str,
+    probe_url: str,
+    location: str,
+) -> str:
+    """Derive a repository base URL from a redirected smart-HTTP endpoint."""
+    try:
+        location_parsed = urlparse(location)
+    except ValueError as error:
+        raise RepositoryError(
+            0, gettext("The repository returned an invalid HTTP redirect.")
+        ) from error
+    if location_parsed.username is not None:
+        raise RepositoryError(
+            0,
+            gettext(
+                "The repository HTTP redirect contains credentials and was rejected."
+            ),
+        )
+
+    redirected_probe = urllib.parse.urljoin(probe_url, location)
+    try:
+        parsed = urlparse(redirected_probe)
+        port = parsed.port
+    except ValueError as error:
+        raise RepositoryError(
+            0, gettext("The repository returned an invalid HTTP redirect.")
+        ) from error
+    if not parsed.hostname or not parsed.path.endswith("/info/refs"):
+        raise RepositoryError(
+            0,
+            gettext(
+                "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
+            ),
+        )
+
+    source_parsed = urlparse(source_url)
+    if _normalize_redirect_hostname(parsed.hostname) != _normalize_redirect_hostname(
+        source_parsed.hostname or ""
+    ):
+        raise RepositoryError(
+            0,
+            gettext(
+                "The repository URL redirects to a different host. Automatic cross-host redirects are disabled for security; update the repository URL manually."
+            ),
+        )
+    if source_parsed.scheme == "https" and parsed.scheme != "https":
+        raise RepositoryError(
+            0,
+            gettext(
+                "The repository URL redirects from HTTPS to an insecure URL and was rejected."
+            ),
+        )
+    if parsed.scheme not in {"http", "https"}:
+        raise RepositoryError(
+            0, gettext("The repository URL redirects to an unsupported URL scheme.")
+        )
+
+    query = urllib.parse.parse_qsl(parsed.query, keep_blank_values=True)
+    query_without_service = [
+        (key, value)
+        for key, value in query
+        if not (key == "service" and value == "git-upload-pack")
+    ]
+    source_query = urllib.parse.parse_qsl(
+        source_parsed.query,
+        keep_blank_values=True,
+    )
+    if query_without_service != source_query:
+        raise RepositoryError(
+            0,
+            gettext("The repository HTTP redirect unexpectedly changed the URL query."),
+        )
+    host = f"[{parsed.hostname}]" if ":" in parsed.hostname else parsed.hostname
+    netloc = host if port is None else f"{host}:{port}"
+    result = urlunparse(
+        parsed._replace(
+            netloc=netloc,
+            path=parsed.path.removesuffix("/info/refs").rstrip("/"),
+            query=source_parsed.query,
+            fragment="",
+        )
+    )
+    return _copy_url_credentials(source_url, result)
+
+
+def _get_git_probe_headers(
+    repository_url: str,
+    environment: dict[str, str] | None,
+) -> dict[str, str]:
+    """Build smart-HTTP headers, including explicitly configured Git auth."""
+    headers = {
+        "Accept": GIT_UPLOAD_PACK_MEDIA_TYPE,
+        "Git-Protocol": "version=2",
+    }
+    parsed = urlparse(repository_url)
+    if parsed.username is not None:
+        username = urllib.parse.unquote(parsed.username)
+        password = urllib.parse.unquote(parsed.password or "")
+        value = base64.b64encode(f"{username}:{password}".encode()).decode("ascii")
+        headers["Authorization"] = f"Basic {value}"
+
+    environment = environment or {}
+    try:
+        config_count = int(environment.get("GIT_CONFIG_COUNT", "0"))
+    except ValueError:
+        config_count = 0
+    for index in range(config_count):
+        if environment.get(f"GIT_CONFIG_KEY_{index}") != "http.extraHeader":
+            continue
+        value = environment.get(f"GIT_CONFIG_VALUE_{index}", "")
+        name, separator, header_value = value.partition(":")
+        if separator and name.lower() == "authorization":
+            headers["Authorization"] = header_value.strip()
+    return headers
+
+
+def _request_git_probe(
+    repository_url: str,
+    target: ResolvedRepositoryURL,
+    environment: dict[str, str] | None,
+) -> tuple[int, str | None, str]:
+    """Make one no-redirect smart-HTTP request using shared outbound routing."""
+    try:
+        return _perform_git_probe(repository_url, target, environment)
+    except httpx2.HTTPError as error:
+        raise RepositoryError(
+            0,
+            gettext("Could not probe the repository HTTP redirect: %s") % error,
+        ) from error
+
+
+def _perform_git_probe(
+    repository_url: str,
+    target: ResolvedRepositoryURL,
+    environment: dict[str, str] | None,
+) -> tuple[int, str | None, str]:
+    """Perform one Git smart-HTTP probe using the shared HTTP client."""
+    with HTTPClient() as client:
+        response = client.request(
+            "GET",
+            _build_git_probe_url(repository_url),
+            headers=_get_git_probe_headers(repository_url, environment),
+            timeout=20,
+            allow_redirects=False,
+            stream=True,
+            validators=GitProbeRedirectValidators(target),
+        )
+        try:
+            return (
+                response.status_code,
+                response.headers.get("Location"),
+                response.headers.get("Content-Type", ""),
+            )
+        finally:
+            response.close()
 
 
 class GitCredentials(TypedDict):
@@ -116,12 +362,12 @@ class GitAPIRequestError(RepositoryError):
     """Error raised for failed hosting API responses without parsed errors."""
 
     def __init__(
-        self, response: requests.Response, response_data: dict, error: str = ""
+        self, response: httpx2.Response, response_data: dict, error: str = ""
     ) -> None:
         self.response = response
         self.response_data = response_data
         self.error = error
-        message = error or f"{response.status_code} {response.reason}".strip()
+        message = error or f"{response.status_code} {response.reason_phrase}".strip()
         if 500 <= response.status_code <= 599:
             message = gettext("%(message)s Please retry later.") % {"message": message}
         super().__init__(0, message)
@@ -133,6 +379,7 @@ class GitRepository(Repository):
     metadata_dir_name: ClassVar[str] = ".git"
     supports_remote_compatibility_validation: ClassVar[bool] = True
     remote_compatibility_deepen: ClassVar[int] = 50
+    pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset({"https", "ssh"})
 
     RESERVED_BRANCH_NAMES: ClassVar[frozenset[str]] = frozenset(
         {
@@ -192,6 +439,213 @@ class GitRepository(Repository):
             ["init", "--template=", "--initial-branch", cls.default_branch, path]
         )
 
+    @classmethod
+    def _getenv(
+        cls,
+        environment: dict[str, str] | None = None,
+        *,
+        cwd: str | None = None,
+    ) -> dict[str, str]:
+        """Generate a Git environment without unsupported LFS transfers."""
+        git_environment = dict(environment or {})
+        git_environment.update(
+            {
+                "GIT_LFS_SKIP_PUSH": "1",
+                "GIT_LFS_SKIP_SMUDGE": "1",
+            }
+        )
+        return super()._getenv(git_environment, cwd=cwd)
+
+    @classmethod
+    def get_ssh_destination_resolver(
+        cls,
+    ) -> Callable[[str, str | None, int | None], tuple[str, int]]:
+        """Resolve effective OpenSSH host and port before pinning."""
+        return resolve_ssh_destination
+
+    @classmethod
+    def prepare_remote_command(
+        cls,
+        args: list[str],
+        environment: dict[str, str] | None,
+        target: ResolvedRepositoryURL | None,
+    ) -> tuple[list[str], dict[str, str] | None]:
+        """Pin Git's connection to addresses approved during validation."""
+        if target is None:
+            return args, environment
+
+        if target.scheme in {"http", "https"}:
+            resolve_options: list[str] = []
+            proxy = _get_proxy(target.url)
+            proxy_environment = environment
+            if proxy is not None:
+                proxy_environment = dict(environment or {})
+                proxy_environment[f"{target.scheme}_proxy"] = proxy
+            elif target.requires_pinning:
+                try:
+                    ip_address(target.hostname)
+                except ValueError:
+                    resolve_hostname = idna_encode(target.hostname, uts46=True).decode(
+                        "ascii"
+                    )
+                    addresses = ",".join(
+                        f"[{address}]" if ":" in address else address
+                        for address in target.addresses
+                    )
+                    resolve_options = [
+                        "-c",
+                        f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
+                    ]
+            return (
+                [
+                    *resolve_options,
+                    "-c",
+                    "http.followRedirects=false",
+                    *args,
+                ],
+                proxy_environment,
+            )
+
+        if target.scheme == "ssh" and target.requires_pinning:
+            pinned_environment = dict(environment or {})
+            host_key_alias = (
+                f"[{target.hostname}]:{target.port}"
+                if target.port != 22
+                else target.hostname
+            )
+            proxy_command = shlex.join(
+                [
+                    sys.executable,
+                    "-I",
+                    SSH_PROXY_PATH.as_posix(),
+                    str(target.port),
+                    *target.addresses,
+                ]
+            )
+            pinned_environment["GIT_SSH_COMMAND"] = shlex.join(
+                [
+                    SSH_WRAPPER.filename.as_posix(),
+                    "-o",
+                    f"ProxyCommand={proxy_command}",
+                    "-o",
+                    f"HostKeyAlias={host_key_alias}",
+                ]
+            )
+            return args, pinned_environment
+
+        return super().prepare_remote_command(args, environment, target)
+
+    @classmethod
+    def probe_remote_redirect(
+        cls,
+        repository_url: str,
+        target: ResolvedRepositoryURL,
+        environment: dict[str, str] | None,
+    ) -> tuple[int, str | None, str]:
+        """Probe one repository URL using the same proxy policy as Git."""
+        return _request_git_probe(
+            repository_url,
+            target,
+            environment,
+        )
+
+    @classmethod
+    def handle_remote_command_error(
+        cls,
+        error: RepositoryCommandError,
+        remote_url: str,
+        target: ResolvedRepositoryURL,
+        environment: dict[str, str] | None,
+    ) -> None:
+        """Turn permanent HTTP redirects into canonical URL suggestions."""
+        if target.scheme not in {"http", "https"}:
+            return
+        error_message = error.get_message().lower()
+        if not any(
+            f"returned error: {status_code}" in error_message
+            for status_code in (301, 308)
+        ):
+            return
+
+        original_url = remote_url
+        current_url = remote_url
+        current_target = target
+        seen = {_strip_url_credentials(current_url)}
+
+        try:
+            status_code, location, content_type = cls.probe_remote_redirect(
+                current_url,
+                current_target,
+                environment,
+            )
+        except RepositoryError:
+            # Preserve the original Git failure when the independent probe cannot
+            # establish that a redirect caused it.
+            return
+        if status_code not in {301, 308}:
+            return
+        initial_status = status_code
+
+        for _redirect_count in range(GIT_REDIRECT_LIMIT + 1):
+            if status_code in {301, 308}:
+                if location is None:
+                    raise RepositoryError(
+                        0,
+                        gettext(
+                            "The repository returned a permanent HTTP redirect without a target URL."
+                        ),
+                    ) from error
+                next_url = _repository_url_from_probe_redirect(
+                    current_url,
+                    _build_git_probe_url(current_url),
+                    location,
+                )
+                identity = _strip_url_credentials(next_url)
+                if identity in seen:
+                    raise RepositoryError(
+                        0, gettext("The repository HTTP redirect contains a loop.")
+                    ) from error
+                seen.add(identity)
+                validated_target = cls.validate_remote_url(next_url)
+                if validated_target is None:
+                    raise RepositoryError(
+                        0,
+                        gettext(
+                            "The repository HTTP redirect target could not be validated."
+                        ),
+                    ) from error
+                current_target = validated_target
+                current_url = next_url
+                status_code, location, content_type = cls.probe_remote_redirect(
+                    current_url,
+                    current_target,
+                    environment,
+                )
+                continue
+
+            if (
+                current_url != original_url
+                and status_code == 200
+                and content_type.split(";", 1)[0].strip().lower()
+                == GIT_UPLOAD_PACK_MEDIA_TYPE
+            ):
+                raise RepositoryRedirectError(
+                    original_url,
+                    current_url,
+                    initial_status,
+                ) from error
+
+            raise RepositoryError(
+                0,
+                gettext(
+                    "The repository HTTP redirect target could not be verified as a Git repository."
+                ),
+            ) from error
+
+        raise RepositoryError(
+            0, gettext("The repository returned too many HTTP redirects.")
+        ) from error
+
     @staticmethod
     def cleanup_stale_lock(lock: Path) -> bool:
         try:
@@ -238,9 +692,17 @@ class GitRepository(Repository):
     def get_remote_branch(cls, repo: str):
         if not repo:
             return super().get_remote_branch(repo)
-        cls.validate_remote_url(repo)
+        target = cls.validate_remote_url(repo)
+        args, environment = cls.prepare_remote_command(
+            ["ls-remote", "--symref", "--", repo, "HEAD"], None, target
+        )
         try:
-            result = cls._popen(["ls-remote", "--symref", "--", repo, "HEAD"])
+            result = cls._popen(args, environment=environment)
+        except RepositoryCommandError as error:
+            if target is not None:
+                cls.handle_remote_command_error(error, repo, target, environment)
+            report_error("Listing remote branch")
+            return super().get_remote_branch(repo)
         except RepositoryError:
             report_error("Listing remote branch")
             return super().get_remote_branch(repo)
@@ -457,7 +919,6 @@ class GitRepository(Repository):
     def deepen_remote_compatibility_history(self, branch: str) -> None:
         """Fetch bounded history for the currently configured remote branch."""
         remote_url = self.get_config("remote.origin.url")
-        self.validate_pull_url(remote_url)
         refspec = f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
         self.execute(
             [
@@ -472,6 +933,7 @@ class GitRepository(Repository):
             remote_op="none",
             environment=self._get_auth_environment(remote_url),
             merge_err=False,
+            remote_url=remote_url,
         )
         self.clean_revision_cache()
 
@@ -486,7 +948,6 @@ class GitRepository(Repository):
 
     def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
         """Validate that a remote branch shares history with this checkout."""
-        self.validate_pull_url(pull_url)
         branch = self.validate_branch_name(branch)
         validation_ref = f"refs/weblate/validation/{branch}"
         refspec = f"+refs/heads/{branch}:{validation_ref}"
@@ -505,6 +966,7 @@ class GitRepository(Repository):
                     remote_op="none",
                     environment=self._get_auth_environment(pull_url),
                     merge_err=False,
+                    remote_url=pull_url,
                 )
                 if any(
                     self.has_common_history(validation_ref, revision)
@@ -543,9 +1005,19 @@ class GitRepository(Repository):
         )
 
     def _clone(self, source: str, target: str, branch: str) -> None:
+        """Clone repository without a protected target binding."""
+        self._clone_resolved(source, target, branch, None)
+
+    def _clone_resolved(
+        self,
+        source: str,
+        target: str,
+        branch: str,
+        remote_target: ResolvedRepositoryURL | None,
+    ) -> None:
         """Clone repository."""
         branch = self.validate_branch_name(branch)
-        self._popen(
+        args, environment = self.prepare_remote_command(
             [
                 *self._get_auth_args(source),
                 "clone",
@@ -556,8 +1028,20 @@ class GitRepository(Repository):
                 source,
                 target,
             ],
-            environment=self._get_auth_environment(source),
+            self._get_auth_environment(source),
+            remote_target,
         )
+        try:
+            self._popen(args, environment=environment)
+        except RepositoryCommandError as error:
+            if remote_target is not None:
+                self.handle_remote_command_error(
+                    error,
+                    source,
+                    remote_target,
+                    environment,
+                )
+            raise
 
     def get_config(self, path):
         """Read entry from configuration."""
@@ -1156,6 +1640,11 @@ class GitWithGerritRepository(GitRepository):
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
 
     @classmethod
+    def is_supported(cls) -> bool:
+        """Check both Git and git-review versions."""
+        return GitRepository.is_supported() and super().is_supported()
+
+    @classmethod
     def validate_review_target(cls, branch: str) -> str:
         """Validate Gerrit review target, including optional push options."""
         review_target = super().validate_branch_name(branch)
@@ -1248,6 +1737,7 @@ class SubversionRepository(GitRepository):
     name: ClassVar[StrOrPromise] = "Subversion"
     default_branch: ClassVar[str] = "master"
     supports_remote_compatibility_validation: ClassVar[bool] = False
+    pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will commit changes to the Subversion repository."
     )
@@ -1335,6 +1825,7 @@ class SubversionRepository(GitRepository):
 
         The git svn init errors in case the URL is not matching.
         """
+        self.validate_remote_url(pull_url)
         try:
             existing = self.get_config("svn-remote.svn.url")
         except RepositoryError:
@@ -1367,6 +1858,15 @@ class SubversionRepository(GitRepository):
         if revision:
             args.insert(0, revision)
         self._popen(["svn", "clone", *args])
+
+    def _clone_resolved(
+        self,
+        source: str,
+        target: str,
+        branch: str,
+        remote_target: ResolvedRepositoryURL | None,
+    ) -> None:
+        self._clone(source, target, branch)
 
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
@@ -1664,6 +2164,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         self, credentials: GitCredentials, local_branch: str, fork_branch: str
     ) -> None:
         """Push given local branch to branch in forked repository."""
+        remote_url = self.get_fork_push_url(credentials)
         self.execute(
             [
                 "push",
@@ -1672,7 +2173,14 @@ class GitMergeRequestBase(GitForcePushRepository):
                 f"{local_branch}:{fork_branch}",
             ],
             remote_op="push",
+            remote_url=remote_url,
         )
+
+    def get_fork_push_url(self, credentials: GitCredentials | None = None) -> str:
+        """Return the configured push URL for the Weblate-managed fork."""
+        if credentials is None:
+            credentials = self.get_credentials()
+        return self.get_config(f"remote.{credentials['username']}.pushurl")
 
     def configure_fork_remote(
         self, ssh_url: str, http_url: str, credentials: GitCredentials
@@ -1780,7 +2288,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.get_fork_failed_message(error.error, credentials, error.response),
         ) from error
 
-    def add_api_retry_guidance(self, message: str, response: requests.Response) -> str:
+    def add_api_retry_guidance(self, message: str, response: httpx2.Response) -> str:
         if 500 <= response.status_code <= 599:
             return gettext("%(message)s Please retry later.") % {"message": message}
         return message
@@ -1789,13 +2297,13 @@ class GitMergeRequestBase(GitForcePushRepository):
         self,
         error: str,
         credentials: GitCredentials,
-        response: requests.Response,
+        response: httpx2.Response,
     ) -> str:
         hostname = credentials["hostname"]
         username = credentials["username"]
         try:
             data = response.json()
-        except JSONDecodeError:
+        except JSON_RESPONSE_ERRORS:
             data = response.text
         self.log(
             f"Creating fork via {response.url} failed ({response.status_code}): {data!r}",
@@ -1805,7 +2313,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             error = f"Repository not found. Check whether exists and user '{username}' has access to it."
         if error.strip():
             message = f"Could not fork repository at {hostname}: {error}"
-        elif not response.ok:
+        elif not response.is_success:
             message = (
                 f"Could not fork repository at {hostname}: "
                 f"{self.get_response_status_message(response)}"
@@ -1844,7 +2352,7 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def get_auth(
         self, credentials: GitCredentials
-    ) -> tuple[str, str] | AuthBase | None:
+    ) -> tuple[str, str] | httpx2.Auth | None:
         return None
 
     def get_error_message(self, response_data: dict) -> str:
@@ -1885,19 +2393,19 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         return ", ".join(errors)
 
-    def get_response_status_message(self, response: requests.Response) -> str:
-        return f"{response.status_code} {response.reason}".strip()
+    def get_response_status_message(self, response: httpx2.Response) -> str:
+        return f"{response.status_code} {response.reason_phrase}".strip()
 
     def get_response_error_message(
-        self, response: requests.Response, response_data: dict
+        self, response: httpx2.Response, response_data: dict
     ) -> str:
         error = self.get_error_message(response_data)
-        if error or response.ok:
+        if error or response.is_success:
             return error
         return ""
 
     def should_retry_request(
-        self, response: requests.Response, response_data: dict
+        self, response: httpx2.Response, response_data: dict
     ) -> bool:
         retry_after = response.headers.get("Retry-After")
         if retry_after and retry_after.isdigit():
@@ -1928,7 +2436,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         data: dict | None,
         params: dict | None,
         json: dict | None,
-    ) -> tuple[bool, dict, requests.Response, bool]:
+    ) -> tuple[bool, dict, httpx2.Response, bool]:
         do_retry = False
         invalid_error_response = False
         with lock:
@@ -1938,7 +2446,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                 with start_span(op="vcs.api_sleep", name=vcs_id):
                     sleep(next_api_time - now)
             try:
-                response = requests.request(
+                response = fetch_url(
                     method,
                     url,
                     headers=self.get_headers(credentials),
@@ -1947,8 +2455,9 @@ class GitMergeRequestBase(GitForcePushRepository):
                     json=json,
                     auth=self.get_auth(credentials),
                     timeout=settings.VCS_API_TIMEOUT,
+                    raise_for_status=False,
                 )
-            except (OSError, HTTPError) as error:
+            except (OSError, httpx2.HTTPError) as error:
                 report_error("Git API request")
                 raise RepositoryError(0, str(error)) from error
 
@@ -1959,8 +2468,8 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.add_response_breadcrumb(response)
             try:
                 response_data = {} if response.status_code == 204 else response.json()
-            except JSONDecodeError as error:
-                if not response.ok:
+            except JSON_RESPONSE_ERRORS as error:
+                if not response.is_success:
                     response_data = {}
                     invalid_error_response = True
                     self.log(
@@ -1987,7 +2496,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         params: dict | None = None,
         json: dict | None = None,
         retry: int = 0,
-    ) -> tuple[dict, requests.Response, str]:
+    ) -> tuple[dict, httpx2.Response, str]:
         do_retry = False
         vcs_id = self.get_identifier()
         self.log(f"HTTP {method} {url}")
@@ -2039,10 +2548,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         )
 
     def get_api_request_failure_message(
-        self, response: requests.Response, action: str, error: str
+        self, response: httpx2.Response, action: str, error: str
     ) -> str:
         status = response.status_code
-        status_text = f"{status} {response.reason}".strip()
+        status_text = f"{status} {response.reason_phrase}".strip()
         error = error.strip()
         if error:
             message = gettext(
@@ -2068,7 +2577,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         self,
         error: str,
         pr_url: str,
-        response: requests.Response,
+        response: httpx2.Response,
         data: dict,
     ) -> NoReturn:
         status_code = response.status_code
@@ -2089,11 +2598,11 @@ class GitMergeRequestBase(GitForcePushRepository):
         )
 
     @classmethod
-    def raise_for_response(cls, response: requests.Response) -> None:
+    def raise_for_response(cls, response: httpx2.Response) -> None:
         """
         Validate response status code.
 
-        Raises :class:`HTTPError`, if one occurred.
+        Raises :class:`httpx2.HTTPStatusError`, if one occurred.
 
         Some providers (Azure DevOps for instance) respond with codes in the 2XX range
         even though the response was an error. This method exists to let the
@@ -2101,7 +2610,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         """
         try:
             response.raise_for_status()
-        except HTTPError as error:
+        except httpx2.HTTPStatusError as error:
             report_error("Git API request")
             raise RepositoryError(0, str(error)) from error
 
@@ -2128,7 +2637,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
     )
 
     @classmethod
-    def raise_for_response(cls, response: requests.Response) -> None:
+    def raise_for_response(cls, response: httpx2.Response) -> None:
         super().raise_for_response(response)
 
         # Azure DevOps returns 203 when the token is invalid
@@ -2196,7 +2705,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
 
     def get_auth(
         self, credentials: GitCredentials
-    ) -> tuple[str, str] | AuthBase | None:
+    ) -> tuple[str, str] | httpx2.Auth | None:
         return ("", credentials["token"])
 
     def create_fork(self, credentials: GitCredentials) -> None:
@@ -2423,7 +2932,7 @@ class GithubRepository(GitMergeRequestBase):
         return headers
 
     def should_retry_request(
-        self, response: requests.Response, response_data: dict
+        self, response: httpx2.Response, response_data: dict
     ) -> bool:
         if super().should_retry_request(response, response_data):
             return True
@@ -2731,12 +3240,7 @@ class LocalRepository(GitRepository):
         cls._popen(["add", "README.md"], cwd=path)
         cls._popen(["commit", "--message", "Repository created by Weblate"], cwd=path)
 
-    def _clone(
-        self,
-        source: str,
-        target: str,
-        branch: str,
-    ) -> None:
+    def _clone(self, source: str, target: str, branch: str) -> None:
         if not os.path.exists(target):
             os.makedirs(target)
         self.create_blank_repository(target)
@@ -2852,7 +3356,7 @@ class GitLabRepository(GitMergeRequestBase):
             "get", credentials, credentials["url"]
         )
         if "id" not in response_data:
-            detail = error or response.reason or gettext("Unknown error")
+            detail = error or response.reason_phrase or gettext("Unknown error")
             report_error(
                 "Could not get GitLab project",
                 message=True,
@@ -3163,18 +3667,18 @@ class BitbucketServerRepository(GitMergeRequestBase):
                 forks, response, error_message = self.request(
                     "get", credentials, forks_url, params={"limit": 1000, "start": page}
                 )
-                if "values" in forks:
-                    for f in forks["values"]:
-                        fork_slug = f["origin"]["slug"]
-                        fork_project_key = f["origin"]["project"]["key"]
-                        if (
-                            fork_slug == credentials["slug"]
-                            and fork_project_key.upper() == credentials["owner"].upper()
-                        ):
-                            self.bb_fork = f
-                            break
+                values = forks.get("values", [])
+                for fork in values:
+                    fork_slug = fork["origin"]["slug"]
+                    fork_project_key = fork["origin"]["project"]["key"]
+                    if (
+                        fork_slug == credentials["slug"]
+                        and fork_project_key.upper() == credentials["owner"].upper()
+                    ):
+                        self.bb_fork = fork
+                        break
 
-                if self.bb_fork or forks["isLastPage"] or not forks["values"]:
+                if self.bb_fork or forks.get("isLastPage", True) or not values:
                     break
 
                 page += 1

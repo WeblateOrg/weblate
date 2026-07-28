@@ -9,8 +9,11 @@ from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.http.request import UnreadablePostError
+from django.utils.deprecation import MiddlewareMixin
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
@@ -19,13 +22,10 @@ RATELIMIT_REMAINING_HEADER = "X-RateLimit-Remaining"
 RATELIMIT_RESET_HEADER = "X-RateLimit-Reset"
 
 
-class ThrottlingMiddleware:
-    def __init__(self, get_response=None) -> None:
-        self.get_response = get_response
-
-    def __call__(self, request: AuthenticatedHttpRequest):
-        response = self.get_response(request)
-
+class ThrottlingMiddleware(MiddlewareMixin):
+    def process_response(
+        self, request: AuthenticatedHttpRequest, response: HttpResponse
+    ) -> HttpResponse:
         # API payload workaround
         if request.method != "GET" and request.path_info.startswith(
             f"{settings.URL_PREFIX}/api"

@@ -1980,7 +1980,7 @@ class SphinxAddon(ExtractPotBaseAddon):
     ) -> None:
         source_root = source_dir.resolve()
         build_root = build_dir.resolve()
-        file_format_cls = cast("PoFormat", component.file_format_cls)
+        file_format_cls = cast("type[PoFormat]", component.file_format_cls)
         file_format_params = dict(component.file_format_params)
         location_mode = self.get_location_mode()
         if location_mode == "keep":

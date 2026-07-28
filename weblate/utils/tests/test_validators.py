@@ -2,22 +2,28 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import asyncio
 import base64
 import os
-from unittest.mock import patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from weblate.utils.outbound import validate_runtime_ip, validate_runtime_url
+from weblate.utils.outbound import (
+    async_resolve_runtime_hostname,
+    validate_runtime_ip,
+    validate_runtime_url,
+)
 from weblate.utils.render import validate_editor, validate_repoweb
 from weblate.utils.validators import (
     EmailValidator,
     WeblateServiceURLValidator,
     WeblateURLValidator,
     clean_fullname,
+    resolve_repo_url,
     validate_asset_url,
     validate_backup_path,
     validate_code_site_url,
@@ -246,6 +252,21 @@ class WebhookURLTest(SimpleTestCase):
             self.assertRaises(ValidationError) as error,
         ):
             validate_webhook_url("https://private.example/hook")
+        self.assertIn("internal or non-public address", str(error.exception))
+
+    def test_mixed_public_and_private_resolution_rejected(self) -> None:
+        with (
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[
+                    (0, 0, 0, "", ("93.184.216.34", 443)),
+                    (0, 0, 0, "", ("127.0.0.1", 443)),
+                ],
+            ),
+            self.assertRaises(ValidationError) as error,
+        ):
+            resolve_repo_url("https://mixed.example/repo.git")
+
         self.assertIn("internal or non-public address", str(error.exception))
 
     def test_private_disabled(self) -> None:
@@ -487,7 +508,7 @@ class WebsiteTest(SimpleTestCase):
             validate_project_web("https://a..b")
 
         self.assertIn("Could not resolve the URL domain", str(error.exception))
-        mocked_getaddrinfo.assert_called_once()
+        mocked_getaddrinfo.assert_not_called()
 
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -500,7 +521,7 @@ class WebsiteTest(SimpleTestCase):
             validate_repoweb("https://a..b/{{ filename }}")
 
         self.assertIn("Could not resolve the URL domain", str(error.exception))
-        mocked_getaddrinfo.assert_called_once()
+        mocked_getaddrinfo.assert_not_called()
 
     def verify_validator(self, validator) -> None:
         validator("https://1.1.1.1")
@@ -745,6 +766,26 @@ class FediverseURLTest(SimpleTestCase):
 
 
 class OutboundAddressValidationTest(SimpleTestCase):
+    @patch("weblate.utils.outbound.get_running_loop")
+    def test_async_resolve_runtime_hostname(self, mocked_get_loop) -> None:
+        resolver = AsyncMock(
+            return_value=[
+                (0, 0, 0, "", ("93.184.216.34", 443)),
+                (0, 0, 0, "", ("2001:4860:4860::8888", 443)),
+            ]
+        )
+        mocked_get_loop.return_value = MagicMock(getaddrinfo=resolver)
+
+        addresses = asyncio.run(
+            async_resolve_runtime_hostname("faß.de", allow_private_targets=False)
+        )
+
+        self.assertEqual(
+            addresses,
+            ("93.184.216.34", "2001:4860:4860::8888"),
+        )
+        resolver.assert_awaited_once_with("xn--fa-hia.de", None, type=1)
+
     def test_validate_runtime_ip_rejects_shared_address_space(self) -> None:
         with self.assertRaises(ValidationError) as error:
             validate_runtime_ip("100.64.0.1", allow_private_targets=False)
@@ -847,6 +888,27 @@ class OutboundAddressValidationTest(SimpleTestCase):
 
 
 class RepoURLValidationTestCase(SimpleTestCase):
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[
+            (0, 0, 0, "", ("93.184.216.34", 443)),
+            (0, 0, 0, "", ("2001:4860:4860::8888", 443, 0, 0)),
+            (0, 0, 0, "", ("93.184.216.34", 443)),
+        ],
+    )
+    def test_resolve_repo_url_retains_validated_addresses(
+        self, mocked_getaddrinfo
+    ) -> None:
+        target = resolve_repo_url("https://example.com/repo.git")
+
+        self.assertIsNotNone(target)
+        assert target is not None
+        self.assertEqual(target.hostname, "example.com")
+        self.assertEqual(target.connection_hostname, "example.com")
+        self.assertEqual(target.port, 443)
+        self.assertEqual(target.addresses, ("93.184.216.34", "2001:4860:4860::8888"))
+        self.assertTrue(target.requires_pinning)
+
     def test_file_rejected(self):
         with (
             override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
@@ -934,11 +996,38 @@ class RepoURLValidationTestCase(SimpleTestCase):
         return_value=[(0, 0, 0, "", ("93.184.216.34", 22))],
     )
     def test_ssh(self, mocked_getaddrinfo):
-        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}):
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            patch(
+                "weblate.vcs.ssh.resolve_ssh_destination",
+                side_effect=lambda hostname, _username, port: (
+                    hostname,
+                    port or 22,
+                ),
+            ) as resolve_destination,
+        ):
             validate_repo_url("ssh://username@example.com/path")
             validate_repo_url("username@example.com:path")
             validate_repo_url("username@example.com/path")
         self.assertEqual(mocked_getaddrinfo.call_count, 3)
+        self.assertEqual(resolve_destination.call_count, 3)
+
+    def test_ssh_effective_destination(self) -> None:
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            patch(
+                "weblate.vcs.ssh.resolve_ssh_destination",
+                return_value=("effective.example", 2222),
+            ) as resolve_destination,
+            patch(
+                "weblate.utils.outbound.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", ("93.184.216.34", 2222))],
+            ) as getaddrinfo,
+        ):
+            validate_repo_url("git@alias.example:repo.git")
+
+        resolve_destination.assert_called_once_with("alias.example", "git", None)
+        self.assertEqual(getaddrinfo.call_args.args[0], "effective.example")
 
     def test_ext_rejected(self):
         with (
@@ -1034,6 +1123,10 @@ class RepoURLValidationTestCase(SimpleTestCase):
     def test_private_ssh(self) -> None:
         with (
             override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            patch(
+                "weblate.vcs.ssh.resolve_ssh_destination",
+                return_value=("private.example", 22),
+            ),
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("127.0.0.1", 22))],

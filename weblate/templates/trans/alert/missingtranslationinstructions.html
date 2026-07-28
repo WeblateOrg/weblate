@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<p>{{ description }}</p>
+
+<p>{% translate "Include the following recommended topics:" %}</p>
+
+<ul>
+  <li>{% translate "How contributors should submit translations." %}</li>
+  <li>{% translate "What review translators should expect." %}</li>
+  <li>{% translate "How to report problems with source strings." %}</li>
+  <li>{% translate "Where translations can be tested or when they are released." %}</li>
+</ul>
+
+{% if can_configure %}
+  <p>
+    <a class="btn btn-primary" href="{{ configure_url }}">{% translate "Configure" %}</a>
+  </p>
+{% endif %}

@@ -9,8 +9,10 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 from weakref import WeakSet
 
+import httpx2
 from django.conf import settings
 from django.core.cache import cache
+from django.db import DatabaseError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
@@ -19,9 +21,11 @@ from weblate.utils.apps import (
     CACHE_EXEC_CHECK_PREFIX,
     check_class_loader,
     check_data_writable,
+    check_database,
     check_database_size,
     check_errors,
     check_settings,
+    check_version,
 )
 from weblate.utils.celery import is_celery_queue_long
 from weblate.utils.classloader import ClassLoader
@@ -125,6 +129,22 @@ class DataWritableCheckTestCase(SimpleTestCase):
 
         self.assertFalse(any(error.id == "weblate.C044" for error in errors))
         self.assertEqual(self.get_cache_probes(), [])
+        self.assertTrue((Path(settings.CACHE_DIR) / "matplotlib").is_dir())
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_matplotlib_cache_path_creation_error(self) -> None:
+        matplotlib_cache = Path(settings.CACHE_DIR) / "matplotlib"
+        matplotlib_cache.write_text("not a directory", encoding="utf-8")
+
+        errors = list(check_data_writable(app_configs=None, databases=None))
+
+        self.assertTrue(
+            any(
+                error.id == "weblate.E002" and str(matplotlib_cache) in error.msg
+                for error in errors
+            )
+        )
 
     @tempdir_setting("CACHE_DIR")
     @tempdir_setting("DATA_DIR")
@@ -191,6 +211,44 @@ class DatabaseSizeCheckTestCase(SimpleTestCase):
         database_size_mock.assert_not_called()
 
 
+class DatabaseStatisticsCheckTestCase(SimpleTestCase):
+    @patch("weblate.utils.apps.measure_database_latency", return_value=1)
+    @patch("weblate.utils.apps.get_invalid_database_statistics", return_value=[])
+    def test_valid_statistics(self, statistics_mock, latency_mock) -> None:
+        errors = list(check_database(app_configs=None, databases=None))
+
+        self.assertFalse(any(error.id == "weblate.C047" for error in errors))
+        statistics_mock.assert_called_once_with()
+        latency_mock.assert_called_once_with()
+
+    @patch("weblate.utils.apps.measure_database_latency", return_value=1)
+    @patch(
+        "weblate.utils.apps.get_invalid_database_statistics",
+        return_value=["public.trans_unit"],
+    )
+    def test_invalid_statistics(self, statistics_mock, latency_mock) -> None:
+        errors = list(check_database(app_configs=None, databases=None))
+
+        error = next(error for error in errors if error.id == "weblate.C047")
+        self.assertIn("public.trans_unit", error.msg)
+        self.assertIn("Run ANALYZE", error.msg)
+        statistics_mock.assert_called_once_with()
+        latency_mock.assert_called_once_with()
+
+    @patch("weblate.utils.apps.measure_database_latency", return_value=1)
+    @patch(
+        "weblate.utils.apps.get_invalid_database_statistics",
+        side_effect=DatabaseError("catalog query failed"),
+    )
+    def test_statistics_database_error(self, statistics_mock, latency_mock) -> None:
+        errors = list(check_database(app_configs=None, databases=None))
+
+        error = next(error for error in errors if error.id == "weblate.C037")
+        self.assertIn("catalog query failed", error.msg)
+        statistics_mock.assert_called_once_with()
+        latency_mock.assert_called_once_with()
+
+
 class SettingsCheckTestCase(SimpleTestCase):
     @override_settings(ADMINS=["Weblate Admin <weblate@example.com>"])
     def test_default_admin_string_email(self) -> None:
@@ -215,3 +273,15 @@ class ErrorCollectionCheckTestCase(SimpleTestCase):
         errors = list(check_errors(app_configs=None, databases=None))
 
         self.assertFalse(any(error.id == "weblate.I021" for error in errors))
+
+
+class VersionCheckTestCase(SimpleTestCase):
+    @patch(
+        "weblate.utils.apps.get_latest_version",
+        side_effect=httpx2.ConnectError("PyPI unavailable"),
+    )
+    def test_http_error_is_ignored(self, get_latest_version) -> None:
+        errors = list(check_version(app_configs=None, databases=None))
+
+        self.assertEqual(errors, [])
+        get_latest_version.assert_called_once_with()

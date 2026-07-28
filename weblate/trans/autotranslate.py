@@ -18,7 +18,14 @@ from weblate.logger import LOGGER
 from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Category, Component, Suggestion, Translation, Unit
+from weblate.trans.models import (
+    Category,
+    Component,
+    Suggestion,
+    SuggestionAddResult,
+    Translation,
+    Unit,
+)
 from weblate.trans.util import is_plural, split_plural
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -192,7 +199,7 @@ class AutoTranslate(BaseAutoTranslate):
             target = [target]
         max_length = unit.get_max_length()
         if self.mode == "suggest" or any(len(item) > max_length for item in target):
-            suggestion = Suggestion.objects.add(
+            _, result = Suggestion.objects.add(
                 unit,
                 target,
                 request=None,
@@ -200,7 +207,7 @@ class AutoTranslate(BaseAutoTranslate):
                 user=user or self.user,
                 raise_exception=False,
             )
-            if suggestion:
+            if result == SuggestionAddResult.CREATED:
                 self.updated += 1
         else:
             if (

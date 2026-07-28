@@ -39,7 +39,7 @@ from weblate.utils.state import STATE_READONLY
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from django.http import HttpResponseBase
+    from django.test.client import _MonkeyPatchedWSGIResponse as ClientResponse
 
 TEST_PO = get_test_file("cs.po")
 TEST_PO_PLURAL = get_test_file("cs-plural.po")
@@ -119,7 +119,7 @@ class ImportBaseTest(ViewTestCase):
 
     def do_import(
         self, *, test_file: str | None = None, follow: bool = False, **kwargs
-    ) -> HttpResponseBase:
+    ) -> ClientResponse:
         """Perform file import."""
         if test_file is None:
             test_file = self.test_file
@@ -806,7 +806,7 @@ class RubyPluralImportText(ImportBaseTest):
         language = Language.objects.get(code="pt_BR")
         with self.captureOnCommitCallbacks(execute=True):
             translation = self.component.add_new_language(language, None)
-        self.assertIsNotNone(translation)
+        assert translation is not None
         with self.captureOnCommitCallbacks(execute=True):
             response = self.client.post(
                 reverse("upload", kwargs={"path": translation.get_url_path()}),
@@ -979,8 +979,8 @@ class ExportTest(ViewTestCase):
 
     source = "Hello, world!\n"
     target = "Nazdar svete!\n"
-    test_match_1 = "Weblate Hello World 2016"
-    test_match_2 = "Nazdar svete!"
+    test_match_1: str | bytes = "Weblate Hello World 2016"
+    test_match_2: str | bytes = "Nazdar svete!"
     test_header = "attachment; filename=test-test-cs.po"
     test_source = "Orangutan has %d banana"
     test_source_plural = "Orangutan has %d bananas"
@@ -1380,7 +1380,7 @@ class DownloadMultiTest(ViewTestCase):
 
         root = data_dir("vcs")
         translation_filename = self.get_translation().get_filename()
-        self.assertIsNotNone(translation_filename)
+        assert translation_filename is not None
         translation_rel = os.path.relpath(translation_filename, root)
         template_rel = os.path.relpath(template_path, root)
 

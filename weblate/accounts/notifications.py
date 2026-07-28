@@ -44,7 +44,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.markdown import get_mention_users
 from weblate.utils.ratelimit import rate_limit_notify
 from weblate.utils.site import get_site_domain, get_site_url
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import iter_prefetch_stats, prefetch_stats
 from weblate.utils.version import USER_AGENT
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE
 
@@ -1348,7 +1348,7 @@ class SummaryNotification(Notification):
     ) -> None:
         users = {}
         notifications: dict[int, list[dict[str, Any]]] = defaultdict(list)
-        for translation in prefetch_stats(Translation.objects.prefetch()):
+        for translation in iter_prefetch_stats(Translation.objects.prefetch()):
             count = self.get_count(translation)
             if not count:
                 continue

@@ -247,6 +247,8 @@ class TranslationUnit[U: InnerUnit, F: "TranslationFormat"]:
             elif extension == ".mdx":
                 yield "md-text"
                 yield "safe-mdx"
+            elif extension in {".adoc", ".ad", ".asciidoc"}:
+                yield "asciidoc-text"
         yield from self.add_flags
 
     @cached_property

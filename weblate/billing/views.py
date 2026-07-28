@@ -132,6 +132,20 @@ def restore_backup(request: AuthenticatedHttpRequest) -> HttpResponse:
     )
 
 
+def handle_termination(request: AuthenticatedHttpRequest, billing: Billing) -> None:
+    if not billing.can_terminate:
+        messages.error(
+            request,
+            gettext("To terminate billing you have to remove all projects first."),
+        )
+        return
+    billing.state = Billing.STATE_TERMINATED
+    billing.expiry = None
+    billing.removal = None
+    billing.save()
+    billing.billinglog_set.create(event=BillingEvent.TERMINATED, user=request.user)
+
+
 def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
     if "extend" in request.POST and request.user.has_perm("billing.manage"):
         now = timezone.now()
@@ -189,11 +203,7 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
             event=BillingEvent.DISABLED_RECURRING, user=request.user
         )
     elif "terminate" in request.POST:
-        billing.state = Billing.STATE_TERMINATED
-        billing.expiry = None
-        billing.removal = None
-        billing.save()
-        billing.billinglog_set.create(event=BillingEvent.TERMINATED, user=request.user)
+        handle_termination(request, billing)
     elif billing.valid_libre:
         if "approve" in request.POST and request.user.has_perm("billing.manage"):
             billing.state = Billing.STATE_ACTIVE
@@ -297,7 +307,15 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         if "all" in billing.payment:
             other.payment.setdefault("all", []).extend(billing.payment["all"])
         other.save()
-        billing.get_projects_queryset().update(workspace=other.workspace)
+        moved_projects = billing.get_projects_queryset()
+        projects_moved = moved_projects.update(workspace=other.workspace)
+        if projects_moved:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.utils.tasks import update_workspace_stats
+
+            update_workspace_stats.delay_on_commit(
+                [str(billing.workspace_id), str(other.workspace_id)]
+            )
         other.update_workspace_name()
         merge_workspace_access(billing, other)
         billing.invoice_set.update(billing=other)

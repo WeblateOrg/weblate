@@ -7,7 +7,7 @@ Installing on macOS
 
 .. code-block:: sh
 
-   brew install python pango cairo gobject-introspection glib libyaml pkgconf zstd lz4 xxhash libxmlsec1 librsvg uv
+   brew install python libyaml pkgconf zstd lz4 xxhash libxmlsec1 uv
 
 .. include:: steps/install-system-server.rst
 

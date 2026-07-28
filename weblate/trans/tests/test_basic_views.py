@@ -4,8 +4,12 @@
 
 """Tests for data exports."""
 
+from json import JSONDecodeError
 from unittest.mock import patch
 
+from asgiref.sync import async_to_sync
+from django.core.cache import cache
+from django.templatetags.static import static
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -13,7 +17,7 @@ from django.urls import reverse
 from weblate.auth.models import User
 from weblate.trans.context_processors import weblate_context
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.trans.views.about import AboutView
+from weblate.trans.views.about import FALLBACK_STATS, AboutView, DonateView
 from weblate.utils.version import GIT_VERSION, VERSION
 from weblate.utils.version_display import (
     VERSION_DISPLAY_HIDE,
@@ -27,6 +31,20 @@ class BasicViewTest(FixtureTestCase):
     def test_about(self) -> None:
         response = self.client.get(reverse("about"))
         self.assertContains(response, "translate-toolkit")
+
+    @override_settings(GOOGLE_ANALYTICS_ID="UA-123")
+    def test_google_analytics(self) -> None:
+        response = self.client.get(reverse("about"))
+        self.assertContains(response, static("js/google-analytics.js"))
+        self.assertContains(response, 'data-tracking-id="UA-123"')
+        self.assertNotContains(response, "GoogleAnalyticsObject")
+        script_src = next(
+            directive
+            for directive in response["Content-Security-Policy"].split(";")
+            if directive.strip().startswith("script-src ")
+        )
+        self.assertIn("www.google-analytics.com", script_src)
+        self.assertNotIn("'unsafe-inline'", script_src)
 
     def test_keys(self) -> None:
         ensure_ssh_key()
@@ -49,8 +67,24 @@ class BasicViewTest(FixtureTestCase):
         response = self.client.get(reverse("donate"))
         self.assertContains(response, "Support Weblate")
 
+    def test_donate_falls_back_on_malformed_github_json(self) -> None:
+        errors = (
+            JSONDecodeError("Invalid JSON", "", 0),
+            UnicodeDecodeError("utf-8", b"\xff", 0, 1, "invalid start byte"),
+        )
+
+        for error in errors:
+            with self.subTest(error=error):
+                cache.delete(DonateView.cache_key)
+                with patch.object(DonateView, "fetch_url", side_effect=error):
+                    self.assertEqual(DonateView().get_stats(), FALLBACK_STATS)
+
     def test_healthz(self) -> None:
         response = self.client.get(reverse("healthz"))
+        self.assertContains(response, "ok")
+
+    def test_healthz_asgi(self) -> None:
+        response = async_to_sync(self.async_client.get)(reverse("healthz"))
         self.assertContains(response, "ok")
 
     @patch(

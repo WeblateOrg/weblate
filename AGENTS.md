@@ -21,7 +21,9 @@ For application-developer workflows and broader product integration guidance, us
   modules.
 - Use `TYPE_CHECKING` imports for type-only dependencies when that avoids
   runtime import cycles.
-- All user-facing strings must be translatable using Django i18n helpers.
+- All user-facing strings must be translatable using Django i18n helpers, except
+  messages used in the API or persisted storage, such as the audit log, add-on
+  log, or changes; these messages should not be localized.
 - In templates, use `{% translate %}` / `{% blocktranslate %}` for translatable
   text.
 - Preserve accessibility and the existing Bootstrap/jQuery-based frontend

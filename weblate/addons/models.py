@@ -36,7 +36,7 @@ from weblate.trans.signals import (
     vcs_pre_push,
     vcs_pre_update,
 )
-from weblate.utils.classloader import ClassLoader
+from weblate.utils.classloader import ClassRegistry
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.tracing import start_span
@@ -65,7 +65,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Translation
 
 # Initialize addons registry
-ADDONS = ClassLoader("WEBLATE_ADDONS", construct=False, base_class=BaseAddon)
+ADDONS = ClassRegistry("WEBLATE_ADDONS", base_class=BaseAddon)
 POT_MSGMERGE_ADDON = "weblate.gettext.msgmerge"
 
 
@@ -256,6 +256,7 @@ class Addon(models.Model):
     objects = AddonQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "add-on"
         verbose_name_plural = "add-ons"
 
@@ -370,7 +371,7 @@ class Addon(models.Model):
             self.component.drop_addons_cache()
 
     def affected_components(self):
-        if self.component:
+        if self.component_id:
             if self.repo_scope:
                 return Component.objects.filter(
                     Q(pk=self.component_id) | Q(linked_component=self.component_id)
@@ -474,6 +475,7 @@ class Event(models.Model):
     event = models.IntegerField(choices=AddonEvent.choices)
 
     class Meta:
+        required_db_vendor = "postgresql"
         unique_together = [  # ruff: ignore[mutable-class-default]
             ("addon", "event"),
         ]
@@ -987,6 +989,7 @@ class AddonActivityLog(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "add-on activity log"
         verbose_name_plural = "add-on activity logs"
         ordering = ["-created"]  # ruff: ignore[mutable-class-default]

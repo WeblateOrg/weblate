@@ -166,6 +166,10 @@ Translation instructions
 Text describing localization process in the project, and any other information
 useful for translators. Markdown can be used for text formatting or inserting links.
 
+Good translation instructions explain how contributors should submit
+translations, what review they should expect, how they can report problems with
+source strings, and where translations can be tested or when they are released.
+
 .. _project-license:
 
 Translation license

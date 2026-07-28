@@ -47,7 +47,7 @@ from weblate.vcs.git import LocalRepository
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Generator, Mapping
 
     from django.db.models import Model
     from django.http import HttpRequest, HttpResponseBase, QueryDict
@@ -748,7 +748,9 @@ def download_translation_file(
     return response
 
 
-def get_form_data(data: dict[str, str | int | None]) -> dict[str, str | int]:
+def get_form_data[ValueT](
+    data: Mapping[str, ValueT | None],
+) -> dict[str, ValueT | str]:
     return {key: "" if value is None else value for key, value in data.items()}
 
 

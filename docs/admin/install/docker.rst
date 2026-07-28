@@ -381,9 +381,10 @@ To reset `admin` password, restart the container with
 Number of processes and memory consumption
 ------------------------------------------
 
-The number of worker processes for both WSGI and Celery is determined
-automatically based on number of CPUs. This works well for most cloud virtual
-machines as these typically have few CPUs and good amount of memory.
+The number of worker processes for both the web application and Celery is
+determined automatically based on number of CPUs. This works well for most
+cloud virtual machines as these typically have few CPUs and good amount of
+memory.
 
 In case you have a lot of CPU cores and hit out of memory issues, try reducing
 number of workers:
@@ -399,6 +400,7 @@ You can also fine-tune individual worker categories:
 
     environment:
       WEB_WORKERS: 4
+      WEB_BLOCKING_THREADS: 4
       CELERY_MAIN_OPTIONS: --concurrency 2 --prefetch-multiplier 1
       CELERY_NOTIFY_OPTIONS: --concurrency 1 --prefetch-multiplier 4
       CELERY_MEMORY_OPTIONS: --concurrency 1 --prefetch-multiplier 1
@@ -428,7 +430,9 @@ Memory usage can be further reduced by running only a single Celery process:
    * :envvar:`CELERY_BACKUP_OPTIONS`
    * :envvar:`CELERY_BEAT_OPTIONS`
    * :envvar:`CELERY_SINGLE_PROCESS`
+   * :envvar:`WEBLATE_ASGI`
    * :envvar:`WEB_WORKERS`
+   * :envvar:`WEB_BLOCKING_THREADS`
 
 .. _docker-scaling:
 
@@ -953,8 +957,8 @@ Generic settings
     Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments with
     :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled.
 
-    Set this to an empty string to disable the built-in legal document
-    numbering.
+    Set this to the class targeted by your custom legal stylesheet. Set it to
+    an empty string to render legal documents without a wrapper class.
 
     **Example:**
 
@@ -1449,8 +1453,15 @@ Or the path to a file containing the Python dictionary:
 
        :ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`
 
-GitHub Apps are registered through the in-app manifest flow and stored in the
-database, so there are no GitHub App environment variables to configure. See
+.. envvar:: WEBLATE_GITHUB_LEGACY_APP_WEBHOOK_SECRET
+
+   .. versionadded:: 2026.8
+
+   Configures :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. The ``_FILE``
+   variant can be used to load the secret from a file.
+
+GitHub Apps registered through the in-app manifest flow are stored in the
+database and do not need environment variables. See
 :ref:`code-hosting-github-notifications`.
 
 .. envvar:: WEBLATE_GITLAB_USERNAME
@@ -2355,8 +2366,8 @@ Container settings
    It is used to determine :envvar:`CELERY_MAIN_OPTIONS`,
    :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`,
    :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`,
-   :envvar:`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use
-   these settings to fine-tune.
+   :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, and
+   :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune.
 
 .. envvar:: CELERY_MAIN_OPTIONS
 .. envvar:: CELERY_NOTIFY_OPTIONS
@@ -2401,9 +2412,27 @@ Container settings
 
         :ref:`minimal-celery`
 
+.. envvar:: WEBLATE_ASGI
+
+   .. versionadded:: 2026.8
+
+   Set to ``1`` to run the web application using ASGI instead of WSGI. This is
+   an opt-in setting intended for testing the transition to ASGI. WSGI remains
+   the default for now, but a future release will run ASGI only and remove this
+   setting.
+
+   .. code-block:: yaml
+
+       environment:
+         WEBLATE_ASGI: 1
+
+   .. seealso::
+
+      :ref:`running-granian-asgi`
+
 .. envvar:: WEB_WORKERS
 
-    Configure how many WSGI workers should be executed.
+    Configure how many web application workers should be executed.
 
     It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2.
 
@@ -2416,7 +2445,26 @@ Container settings
 
    .. versionchanged:: 5.13
 
-      :envvar:`WEB_WORKERS` configures how many worker processes will used by :program:`granian`.
+      :envvar:`WEB_WORKERS` configures how many worker processes will be used by :program:`granian`.
+
+.. envvar:: WEB_BLOCKING_THREADS
+
+   Configure how many blocking WSGI threads each :program:`granian` worker can
+   use. It defaults to twice :envvar:`WEBLATE_WORKERS` and is ignored when
+   :envvar:`WEBLATE_ASGI` is enabled.
+
+   The maximum number of simultaneous WSGI requests is approximately
+   :envvar:`WEB_WORKERS` multiplied by :envvar:`WEB_BLOCKING_THREADS`. Each
+   thread can hold its own database connection, so keep the resulting total
+   within the database connection limit.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+       environment:
+         WEB_WORKERS: 2
+         WEB_BLOCKING_THREADS: 8
 
 .. envvar:: WEBLATE_SERVICE
 
@@ -2658,9 +2706,9 @@ replace the favicon.
    The files are copied to the corresponding location upon container startup, so
    a restart of Weblate is needed after changing the content of the volume.
 
-This approach can be also used to override Weblate templates. For example
-:ref:`legal` documents can be placed into
-:file:`/app/data/python/customize/templates/legal/documents`.
+This approach can be also used to override Weblate templates. For example,
+custom :ref:`legal` documents and styles can be provided as described in
+:ref:`legal-customization`.
 
 Alternatively you can also include own module (see :doc:`../customize`) and add
 it as separate volume to the Docker container, for example:

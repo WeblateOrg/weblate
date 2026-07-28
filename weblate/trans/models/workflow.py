@@ -50,6 +50,9 @@ class WorkflowSetting(models.Model):
         validators=[validate_autoaccept],
     )
 
+    class Meta:
+        required_db_vendor = "postgresql"
+
     def __str__(self) -> str:
         return f"<WorkflowSetting {self.project}:{self.language}>"
 

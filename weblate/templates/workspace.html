@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load crispy_forms_tags i18n translations %}
+{% load crispy_forms_tags i18n metrics translations %}
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
@@ -19,6 +19,9 @@
            href="#">{% translate "Diagnostics" %}</a>
       </li>
     {% endif %}
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
+    </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
@@ -77,6 +80,14 @@
                 <a class="dropdown-item" href="{% url 'workspace-access' pk=workspace.pk %}">{% translate "Access control" %}</a>
               </li>
             {% endif %}
+            {% if can_edit_workspace %}
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
+              </li>
+            {% endif %}
           {% endif %}
         </ul>
       </li>
@@ -103,6 +114,10 @@
       {% endif %}
 
       {% include "paginator.html" with page_obj=projects anchor="projects" %}
+    </div>
+
+    <div class="tab-pane" id="information">
+      {% show_info workspace=workspace stats=workspace.stats metrics=workspace|metrics show_source=True %}
     </div>
 
     {% if user.is_authenticated %}
@@ -150,6 +165,36 @@
             </div>
           </div>
         </form>
+      </div>
+    {% endif %}
+
+    {% if can_edit_workspace %}
+      <div class="tab-pane" id="organize">
+        {% if workspace_has_projects %}
+          <div class="alert alert-warning" role="alert">
+            {% translate "The workspace cannot be removed while it contains projects. Move or remove the projects first." %}
+          </div>
+        {% endif %}
+        {% if workspace_has_billing %}
+          <div class="alert alert-warning" role="alert">
+            {% translate "A workspace associated with billing cannot be removed." %}
+          </div>
+        {% endif %}
+        {% if delete_form %}
+          <form method="post" action="{% url 'workspace-remove' pk=workspace.pk %}">
+            <div class="card card-danger">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Are you absolutely sure?" %}</h4>
+              </div>
+              <div class="card-body">{% crispy delete_form %}</div>
+              <div class="card-footer">
+                <input type="submit"
+                       class="btn btn-danger"
+                       value="{% translate "I understand the consequences, delete this workspace" %}">
+              </div>
+            </div>
+          </form>
+        {% endif %}
       </div>
     {% endif %}
 

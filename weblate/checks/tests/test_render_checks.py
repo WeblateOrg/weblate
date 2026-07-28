@@ -4,9 +4,11 @@
 
 """Tests for rendering quality checks."""
 
+from unittest.mock import patch
+
 from weblate.checks.render import MaxSizeCheck
-from weblate.fonts.models import FontGroup, FontOverride
-from weblate.fonts.tests.utils import FontTestCase
+from weblate.fonts.models import FONT_STORAGE, Font, FontGroup, FontOverride
+from weblate.fonts.tests.utils import FONT_BOLD, FontTestCase
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -60,9 +62,27 @@ class MaxSizeCheckTest(FontTestCase):
         return FontGroup.objects.create(name="droid", font=font, project=self.project)
 
     def test_custom_font(self) -> None:
-        self.add_font_group()
+        group = self.add_font_group()
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
-        self.assertEqual(self.check.last_font, "Kurinto Sans Regular")
+        self.assertEqual(self.check.last_font, group.font.font.path)
+
+    @patch("weblate.checks.render.check_render_size", return_value=True)
+    def test_custom_font_uses_same_family_faces(self, check_render_size_mock) -> None:
+        self.add_font_group()
+        with FONT_BOLD.open("rb") as handle:
+            fontfile = FONT_STORAGE.save(FONT_BOLD.name, handle)
+        bold_font = Font.objects.create(
+            font=fontfile,
+            project=self.project,
+            user=self.user,
+        )
+
+        self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
+
+        self.assertEqual(
+            check_render_size_mock.call_args.kwargs["font_siblings"],
+            (bold_font.font.path,),
+        )
 
     def test_custom_font_override(self) -> None:
         group = self.add_font_group()
@@ -70,4 +90,4 @@ class MaxSizeCheckTest(FontTestCase):
             group=group, language=self.get_translation().language, font=group.font
         )
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
-        self.assertEqual(self.check.last_font, "Kurinto Sans Regular")
+        self.assertEqual(self.check.last_font, group.font.font.path)

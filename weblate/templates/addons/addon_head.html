@@ -3,17 +3,19 @@
 <h4>
   {% if not hide_scope_badges %}
     {% if scope_label %}
-      <span class="badge float-end text-bg-secondary"
+      <span class="badge addon-scope float-end text-bg-secondary"
             {% if scope_description %}title="{{ scope_description }}"{% endif %}>{{ scope_label }}</span>
     {% elif scope and scope != "component" and addon.needs_component %}
       <span class="badge badge-danger float-end">{% translate "The add-on can only be installed on the component." %}</span>
     {% elif addon.repo_scope %}
-      <span class="badge float-end text-bg-secondary"
-            title="{% translate "This add-on is used for all components sharing this repository." %}">{% translate "repository wide" %}</span>
+      <span class="badge addon-scope float-end text-bg-secondary"
+            title="{% translate "This add-on is used for all components sharing this repository." %}">{% translate "Repository" context "Add-on scope" %}</span>
     {% endif %}
   {% endif %}
   {% icon addon.icon %}
-  {{ addon.verbose }}
+  {% if url %}<a href="{{ url }}">{% endif %}
+    {{ addon.verbose }}
+    {% if url %}</a>{% endif %}
   {% documentation_icon "admin/addons" addon.doc_anchor %}
 </h4>
 <p>{{ addon.description }}</p>

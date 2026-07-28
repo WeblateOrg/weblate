@@ -22,6 +22,7 @@ from weblate.trans.alerts.base import AlertSeverity, BaseAlert
 from weblate.trans.alerts.community import (
     AddonRecommendationAlert,
     ChecklistAlert,
+    MissingPushURL,
     MissingRepositoryHook,
     MissingSafeHTMLFlag,
     MissingScreenshots,
@@ -206,6 +207,16 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, doc_url, count=1)
 
+    def test_repository_guidance_distinguishes_manual_directions(self) -> None:
+        self.component.add_alert(MissingRepositoryHook.__name__)
+        self.component.add_alert(MissingPushURL.__name__)
+
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertContains(response, "Repository updates are pulled manually.")
+        self.assertContains(response, "Outbound translation delivery is manual.")
+        self.assertContains(response, "pull or merge request integration")
+
     def test_unused_screenshot_does_not_make_component_problem(self) -> None:
         alert_name = UnusedScreenshot.__name__
         problem_alerts = {alert.name for alert in self.component.all_problem_alerts}
@@ -266,9 +277,7 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
             MissingLicense.get_doc_url(self.component), "https://choosealicense.com/"
         )
         self.assertContains(response, license_doc_url, count=1)
-        self.assertContains(
-            response, "Add screenshots to show where strings are being used."
-        )
+        self.assertContains(response, "Improve source string screenshot coverage.")
         self.assertNotIn(UnusedScreenshot.__name__, alert_names)
         self.assertContains(
             response,
@@ -286,7 +295,7 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         )
         self.assertLess(
             content.index("Repository outdated."),
-            content.index("Add screenshots to show where strings are being used."),
+            content.index("Improve source string screenshot coverage."),
         )
         self.assertEqual(
             alert_names,
@@ -310,7 +319,7 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
         )
         self.assertLess(
             content.index("Unused screenshot"),
-            content.index("Add screenshots to show where strings are being used."),
+            content.index("Improve source string screenshot coverage."),
         )
         self.assertEqual(
             alert_names,
@@ -329,6 +338,29 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
 
         self.component.project.instructions = "Translate clearly."
         self.component.project.save(update_fields=["instructions"])
+
+        self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())
+
+    def test_translation_instructions_recommend_topics(self) -> None:
+        alert_name = MissingTranslationInstructions.__name__
+        update_alerts(self.component, {alert_name})
+
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertContains(response, "How contributors should submit translations.")
+        self.assertContains(response, "What review translators should expect.")
+        self.assertContains(response, "How to report problems with source strings.")
+        self.assertContains(
+            response,
+            "Where translations can be tested or when they are released.",
+        )
+
+    def test_translation_instructions_content_is_not_analyzed(self) -> None:
+        alert_name = MissingTranslationInstructions.__name__
+        self.component.project.instructions = "Brief project guidance."
+        self.component.project.save(update_fields=["instructions"])
+
+        update_alerts(self.component, {alert_name})
 
         self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())
 
@@ -427,28 +459,185 @@ class ExtractorGuidanceAlertTest(ViewTestCase):
 
         self.assertTrue(self.component.alert_set.filter(name=alert_name).exists())
 
-    def test_screenshot_guidance_removed_when_screenshot_is_added(self) -> None:
+    def test_screenshot_guidance_reports_distinct_source_coverage(self) -> None:
         alert_name = MissingScreenshots.__name__
-        self.component.add_alert(alert_name)
+        source_units = list(self.component.source_translation.unit_set.order_by("pk"))
 
-        Screenshot.objects.create(
-            name="Screenshot",
+        first = Screenshot.objects.create(
+            name="First screenshot",
             image="screenshots/test.png",
             translation=self.component.source_translation,
         )
+        first.units.add(source_units[0])
+        second = Screenshot.objects.create(
+            name="Second screenshot",
+            image="screenshots/test-2.png",
+            translation=self.component.source_translation,
+        )
+        second.units.add(source_units[0])
 
-        self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())
+        alert = self.component.alert_set.get(name=alert_name)
+        self.assertEqual(
+            alert.details,
+            {
+                "with_screenshots": 1,
+                "without_screenshots": len(source_units) - 1,
+            },
+        )
 
-    def test_screenshot_guidance_not_created_when_screenshot_is_deleted(self) -> None:
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, "Source strings with screenshots")
+        self.assertContains(response, "Source strings without screenshots")
+        self.assertContains(response, "?q=has%3Ascreenshot")
+        self.assertContains(response, "?q=NOT%20has%3Ascreenshot")
+
+    def test_screenshot_guidance_removed_at_complete_coverage(self) -> None:
         alert_name = MissingScreenshots.__name__
         screenshot = Screenshot.objects.create(
             name="Screenshot",
             image="screenshots/test.png",
             translation=self.component.source_translation,
         )
-        screenshot.delete()
+
+        screenshot.units.add(*self.component.source_translation.unit_set.all())
 
         self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())
+
+    def test_source_import_refreshes_screenshot_coverage(self) -> None:
+        alert_name = MissingScreenshots.__name__
+        screenshot = Screenshot.objects.create(
+            name="Screenshot",
+            image="screenshots/test.png",
+            translation=self.component.source_translation,
+        )
+        source_units = self.component.source_translation.unit_set.all()
+        original_count = source_units.count()
+        screenshot.units.add(*source_units)
+        self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())
+
+        source_filename = self.component.get_new_base_filename()
+        self.assertIsNotNone(source_filename)
+        source_path = Path(source_filename)
+        source_path.write_text(
+            source_path.read_text(encoding="utf-8")
+            + '\n#: new.py:1\nmsgid "New source string"\nmsgstr ""\n',
+            encoding="utf-8",
+        )
+
+        self.component.create_translations_immediate(force=True)
+
+        updated_source_units = self.component.source_translation.unit_set
+        with_screenshots = (
+            updated_source_units.filter(screenshots__isnull=False).distinct().count()
+        )
+        updated_count = updated_source_units.count()
+        self.assertEqual(updated_count, original_count + 1)
+        alert = self.component.alert_set.get(name=alert_name)
+        self.assertEqual(
+            alert.details,
+            {
+                "with_screenshots": with_screenshots,
+                "without_screenshots": updated_count - with_screenshots,
+            },
+        )
+
+    def test_source_unit_deletion_refreshes_screenshot_coverage(self) -> None:
+        alert_name = MissingScreenshots.__name__
+        source_translation = self.component.source_translation
+        source_units = list(source_translation.unit_set.order_by("pk"))
+        self.assertGreaterEqual(len(source_units), 2)
+        uncovered_units = source_units[-2:]
+        screenshot = Screenshot.objects.create(
+            name="Screenshot",
+            image="screenshots/test.png",
+            translation=source_translation,
+        )
+        screenshot.units.add(*source_units[:-2])
+
+        alert = self.component.alert_set.get(name=alert_name)
+        self.assertEqual(
+            alert.details,
+            {
+                "with_screenshots": len(source_units) - 2,
+                "without_screenshots": 2,
+            },
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            source_translation.delete_unit(None, uncovered_units[0])
+
+        alert.refresh_from_db()
+        self.assertEqual(
+            alert.details,
+            {
+                "with_screenshots": len(source_units) - 2,
+                "without_screenshots": 1,
+            },
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            source_translation.delete_unit(None, uncovered_units[1])
+
+        self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())
+
+    def test_screenshot_coverage_change_reopens_dismissed_guidance(self) -> None:
+        alert_name = MissingScreenshots.__name__
+        update_alerts(self.component, {alert_name})
+        alert = self.component.alert_set.get(name=alert_name)
+        self.assertTrue(alert.dismiss(self.user))
+
+        screenshot = Screenshot.objects.create(
+            name="Screenshot",
+            image="screenshots/test.png",
+            translation=self.component.source_translation,
+        )
+        alert.refresh_from_db()
+        self.assertTrue(alert.is_dismissed)
+
+        screenshot.units.add(self.component.source_translation.unit_set.first())
+
+        alert.refresh_from_db()
+        self.assertFalse(alert.is_dismissed)
+
+    def test_screenshot_guidance_created_when_covering_screenshot_is_deleted(
+        self,
+    ) -> None:
+        alert_name = MissingScreenshots.__name__
+        screenshot = Screenshot.objects.create(
+            name="Screenshot",
+            image="screenshots/test.png",
+            translation=self.component.source_translation,
+        )
+        screenshot.units.add(*self.component.source_translation.unit_set.all())
+        self.assertFalse(self.component.alert_set.filter(name=alert_name).exists())
+
+        screenshot.delete()
+
+        self.assertTrue(self.component.alert_set.filter(name=alert_name).exists())
+
+    def test_unassigned_screenshot_uses_separate_warning(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Unassigned screenshot",
+            image="screenshots/test.png",
+            translation=self.component.source_translation,
+        )
+
+        self.assertTrue(
+            self.component.alert_set.filter(name=UnusedScreenshot.__name__).exists()
+        )
+        unused = self.component.alert_set.get(name=UnusedScreenshot.__name__)
+        self.assertEqual(unused.details, {"unassigned": 1})
+        coverage = self.component.alert_set.get(name=MissingScreenshots.__name__)
+        self.assertNotIn("unassigned", coverage.details)
+
+        response = self.client.get(self.component.get_absolute_url())
+        self.assertContains(response, "One screenshot has no string assigned to it.")
+
+        screenshot.units.add(self.component.source_translation.unit_set.first())
+
+        self.assertFalse(
+            self.component.alert_set.filter(name=UnusedScreenshot.__name__).exists()
+        )
 
     def test_addon_guidance_removed_when_addon_is_added(self) -> None:
         alert_name = RecommendedXgettextAddon.__name__

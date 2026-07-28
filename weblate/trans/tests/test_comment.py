@@ -4,13 +4,16 @@
 
 """Tests for comment views."""
 
+from unittest.mock import patch
+
 from django.db import connection
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
 from weblate.auth.data import SELECTION_ALL
-from weblate.auth.models import Group, UserBlock
+from weblate.auth.models import Group, User, UserBlock
 from weblate.trans.models import Comment, Project
+from weblate.trans.models.comment import schedule_comment_stats_update
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
@@ -126,19 +129,83 @@ class CommentViewTest(FixtureTestCase):
         self.make_manager()
 
         # Add comment
-        response = self.client.post(
-            reverse("comment", kwargs={"pk": unit.id}),
-            {"comment": "New target testing comment", "scope": "translation"},
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("comment", kwargs={"pk": unit.id}),
+                {"comment": "New target testing comment", "scope": "translation"},
+            )
+        self.assertRedirects(response, unit.get_absolute_url())
+        translation = unit.translation.__class__.objects.get(pk=unit.translation_id)
+        self.assertEqual(translation.stats.comments, 1)
 
         comment = Comment.objects.all()[0]
-        response = self.client.post(
-            reverse("delete-comment", kwargs={"pk": comment.pk}), kwargs
-        )
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(
+                reverse("delete-comment", kwargs={"pk": comment.pk}), kwargs
+            )
         self.assertRedirects(response, unit.get_absolute_url())
+        translation = unit.translation.__class__.objects.get(pk=unit.translation_id)
+        self.assertEqual(translation.stats.comments, 0)
 
     def test_spam_comment(self) -> None:
         self.test_delete_comment(spam=1)
+
+    def test_queryset_delete_comment_updates_stats(self) -> None:
+        unit = self.get_unit()
+        with self.captureOnCommitCallbacks(execute=True):
+            comment = Comment.objects.create(
+                unit=unit, comment="Delete in queryset", user=self.anotheruser
+            )
+        translation = unit.translation.__class__.objects.get(pk=unit.translation_id)
+        self.assertEqual(translation.stats.comments, 1)
+
+        with self.captureOnCommitCallbacks(execute=True):
+            Comment.objects.filter(pk=comment.pk).delete()
+
+        translation = unit.translation.__class__.objects.get(pk=unit.translation_id)
+        self.assertEqual(translation.stats.comments, 0)
+
+    def test_comment_stats_update_is_coalesced(self) -> None:
+        with patch(
+            "weblate.utils.tasks.update_translation_stats.delay_on_commit"
+        ) as update:
+            schedule_comment_stats_update(range(201))
+
+        update.assert_called_once_with(list(range(201)))
+
+    def test_user_comment_cascade_updates_stats_once(self) -> None:
+        unit = self.get_unit()
+        comment_user = User.objects.create_user(
+            "comment-owner", "comment-owner@example.com"
+        )
+        comment_user_id = comment_user.pk
+        Comment.objects.bulk_create(
+            [
+                Comment(unit=unit, comment=f"User comment {index}", user=comment_user)
+                for index in range(5)
+            ]
+        )
+
+        with patch(
+            "weblate.utils.tasks.update_translation_stats.delay_on_commit"
+        ) as update:
+            comment_user.delete()
+
+        update.assert_called_once_with([unit.translation_id])
+        self.assertFalse(Comment.objects.filter(user_id=comment_user_id).exists())
+
+    def test_unit_comment_cascade_does_not_queue_comment_stats(self) -> None:
+        unit = self.get_unit()
+        Comment.objects.bulk_create(
+            [Comment(unit=unit, comment=f"Unit comment {index}") for index in range(5)]
+        )
+
+        with patch(
+            "weblate.utils.tasks.update_translation_stats.delay_on_commit"
+        ) as update:
+            unit.delete()
+
+        update.assert_not_called()
 
     def test_resolve_comment(self) -> None:
         unit = self.get_unit()

@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.translation import gettext
+from django.utils.translation import gettext, pgettext
 from django.views.generic import DetailView, ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
@@ -34,9 +34,7 @@ class AddonListItem:
     inherited: bool
     scope_label: StrOrPromise
     scope_description: str
-    manage_url: str
     can_manage: bool
-    components_url: str
 
 
 class AddonList(PathViewMixin, ListView):
@@ -69,22 +67,19 @@ class AddonList(PathViewMixin, ListView):
         check_management_access(self.request, "management.addons")
         return Addon.objects.filter_sitewide()
 
-    def _get_scope_url(self, addon: Addon) -> str:
-        target = addon.component or addon.category or addon.project
-        if target is None:
-            return reverse("manage-addons")
-        return reverse("addons", kwargs={"path": target.get_url_path()})
-
     def _can_manage_addon(self, addon: Addon) -> bool:
         if addon.component:
-            return self.request.user.has_perm("component.edit", addon.component)
+            return bool(self.request.user.has_perm("component.edit", addon.component))
         if addon.category:
-            return self.request.user.has_perm("project.edit", addon.category.project)
+            return bool(
+                self.request.user.has_perm("project.edit", addon.category.project)
+            )
         if addon.project:
-            return self.request.user.has_perm("project.edit", addon.project)
-        return self.request.user.has_perm(
-            "management.use"
-        ) and self.request.user.has_perm("management.addons")
+            return bool(self.request.user.has_perm("project.edit", addon.project))
+        return bool(
+            self.request.user.has_perm("management.use")
+            and self.request.user.has_perm("management.addons")
+        )
 
     @staticmethod
     def _get_scope_rank(addon: Addon, target: Component | Project | Category | None):
@@ -120,20 +115,20 @@ class AddonList(PathViewMixin, ListView):
     ) -> StrOrPromise:
         if addon.component:
             if addon.repo_scope:
-                return gettext("repository wide")
-            return gettext("component")
+                return pgettext("Add-on scope", "Repository")
+            return pgettext("Add-on scope", "Component")
         if addon.category:
             if isinstance(target, Category) and addon.category != target:
-                return gettext("parent category")
+                return pgettext("Add-on scope", "Parent category")
             if (
                 isinstance(target, Component)
                 and addon.category_id != target.category_id
             ):
-                return gettext("parent category")
-            return gettext("category")
+                return pgettext("Add-on scope", "Parent category")
+            return pgettext("Add-on scope", "Category")
         if addon.project:
-            return gettext("project-wide")
-        return gettext("site-wide")
+            return pgettext("Add-on scope", "Project")
+        return pgettext("Add-on scope", "Site")
 
     def _get_visible_queryset(self):
         target = self.path_object
@@ -198,17 +193,7 @@ class AddonList(PathViewMixin, ListView):
                     inherited=inherited,
                     scope_label=self._get_scope_label(addon, target),
                     scope_description=self._get_scope_description(addon),
-                    manage_url=self._get_scope_url(addon),
                     can_manage=can_manage,
-                    components_url=(
-                        reverse("addon-components", kwargs={"pk": addon.pk})
-                        if not inherited
-                        and can_manage
-                        and addon.pk
-                        and addon.is_valid
-                        and (addon.component_id is None or addon.repo_scope)
-                        else ""
-                    ),
                 )
             )
         return items
@@ -372,6 +357,7 @@ class AddonList(PathViewMixin, ListView):
 class BaseAddonView(DetailView):
     model = Addon
     request: AuthenticatedHttpRequest
+    addon_page = ""
 
     # pylint: disable-next=arguments-differ
     def get_object(self):  # type: ignore[override]
@@ -393,10 +379,25 @@ class BaseAddonView(DetailView):
             check_management_access(self.request, "management.addons")
         return obj
 
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+        result["object"] = (
+            self.object.component or self.object.category or self.object.project
+        )
+        result["instance"] = self.object
+        result["addon"] = self.object.addon if self.object.is_valid else None
+        result["addon_name"] = self.object.addon_name
+        result["addon_page"] = self.addon_page
+        result["has_components"] = self.object.is_valid and (
+            self.object.component_id is None or self.object.repo_scope
+        )
+        return result
+
 
 class AddonDetail(BaseAddonView, UpdateView):
     template_name_suffix = "_detail"
     object: Addon
+    addon_page = "configuration"
 
     def get_form(self, form_class=None):
         if not self.object.is_valid:
@@ -405,27 +406,8 @@ class AddonDetail(BaseAddonView, UpdateView):
             self.request.user, **self.get_form_kwargs()
         )
 
-    def _get_target(self):
-        return self.object.component or self.object.category or self.object.project
-
-    def get_context_data(self, **kwargs):
-        result = super().get_context_data(**kwargs)
-        result["object"] = self._get_target()
-        result["instance"] = self.object
-        result["addon"] = self.object.addon if self.object.is_valid else None
-        result["addon_name"] = self.object.addon_name
-        result["components_url"] = (
-            reverse("addon-components", kwargs={"pk": self.object.pk})
-            if self.object.is_valid and self.object.component_id is None
-            else ""
-        )
-        return result
-
     def get_success_url(self):
-        target = self._get_target()
-        if target is None:
-            return reverse("manage-addons")
-        return reverse("addons", kwargs={"path": target.get_url_path()})
+        return reverse("addon-detail", kwargs={"pk": self.object.pk})
 
     def trigger_manual_run(self, request: AuthenticatedHttpRequest):
         if not self.object.can_run_manually:
@@ -460,15 +442,10 @@ class AddonDetail(BaseAddonView, UpdateView):
 
 class AddonLogs(BaseAddonView):
     template_name_suffix = "_logs"
+    addon_page = "logs"
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        result["object"] = (
-            self.object.component or self.object.category or self.object.project
-        )
-        result["instance"] = self.object
-        result["addon"] = self.object.addon if self.object.is_valid else None
-        result["addon_name"] = self.object.addon_name
         result["addon_activity_log"] = get_paginator(
             self.request,
             self.object.get_addon_activity_logs(),
@@ -478,6 +455,7 @@ class AddonLogs(BaseAddonView):
 
 class AddonComponents(BaseAddonView):
     template_name_suffix = "_components"
+    addon_page = "components"
 
     def get_components(self) -> QuerySet[Component]:
         if not self.object.is_valid or (
@@ -497,12 +475,6 @@ class AddonComponents(BaseAddonView):
             raise Http404
 
         result = super().get_context_data(**kwargs)
-        result["object"] = (
-            self.object.component or self.object.category or self.object.project
-        )
-        result["instance"] = self.object
-        result["addon"] = self.object.addon
-        result["addon_name"] = self.object.addon_name
         components = get_paginator(self.request, self.get_components())
         result["components"] = components
         result["component_rows"] = [

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import time
 from collections import UserDict
-from typing import TYPE_CHECKING, ClassVar, Self, cast
+from typing import TYPE_CHECKING, ClassVar, Self, cast, overload
 
 from django.conf import settings
 from django.core.cache import cache
@@ -32,6 +32,8 @@ from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
+    InheritableLanguageSetting,
+    InheritableStringSetting,
     get_disabled_component_new_language_filter,
     get_inherit_field_name,
     get_inheritable_setting_value,
@@ -565,6 +567,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     billing_previous_workspace_id: UUID | None
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "Project"
         verbose_name_plural = "Projects"
@@ -591,6 +594,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def save(self, *args, **kwargs) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.tasks import component_alerts
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.utils.tasks import update_workspace_stats
 
         update_tm = self.contribute_shared_tm or self.effective_contribute_workspace_tm
 
@@ -673,6 +679,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 old_workspace_id,
                 update_tm,
             )
+            if (
+                should_track_field(self, "workspace", update_fields)
+                and old_workspace_id != self.workspace_id
+            ):
+                update_workspace_stats.delay_on_commit(
+                    [
+                        str(workspace_id)
+                        for workspace_id in (old_workspace_id, self.workspace_id)
+                        if workspace_id is not None
+                    ]
+                )
 
         # Update translation memory on enabled sharing
         if update_tm:
@@ -772,6 +789,17 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             and self.workspace_id is not None
             and getattr(self, get_inherit_field_name(field), False)
         )
+
+    @overload
+    def get_effective_setting(self, field: InheritableStringSetting) -> str: ...
+
+    @overload
+    def get_effective_setting(
+        self, field: InheritableLanguageSetting
+    ) -> Language | None: ...
+
+    @overload
+    def get_effective_setting(self, field: str) -> str | Language | None: ...
 
     def get_effective_setting(self, field: str) -> str | Language | None:
         """Return setting value after applying workspace inheritance."""

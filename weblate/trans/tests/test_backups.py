@@ -9,6 +9,7 @@ import os
 import tempfile
 import warnings
 from contextlib import contextmanager, suppress
+from io import StringIO
 from shutil import copyfile
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
@@ -55,6 +56,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.vcs.git import GitRepository
 from weblate.workspaces.models import Workspace
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
@@ -70,6 +72,11 @@ def remove_file_after(filename: str):
     finally:
         with suppress(OSError):
             os.unlink(filename)
+
+
+def resolve_private_example(host, *args, **kwargs):
+    address = "127.0.0.1" if host == "private.example" else "8.8.8.8"
+    return [(0, 0, 0, "", (address, 443))]
 
 
 class BackupsTest(ViewTestCase):
@@ -88,7 +95,14 @@ class BackupsTest(ViewTestCase):
             )
 
     def write_tampered_component_backup(
-        self, *, repo: str | None = None, push: str | None = None
+        self,
+        *,
+        component_updates: dict | None = None,
+        repo: str | None = None,
+        push: str | None = None,
+        translation_updates: dict | None = None,
+        unit_updates: dict | None = None,
+        all_components: bool = False,
     ) -> str:
         backup = ProjectBackup()
         backup.backup_project(self.project)
@@ -101,16 +115,54 @@ class BackupsTest(ViewTestCase):
             ZipFile(temp_name, "w") as target_zip,
         ):
             for item in source_zip.infolist():
+                if (
+                    repo is not None
+                    and repo.startswith("weblate:")
+                    and item.filename.startswith("vcs/")
+                    and (
+                        all_components
+                        or item.filename.startswith(f"vcs/{self.component.slug}/")
+                    )
+                ):
+                    continue
                 data = source_zip.read(item.filename)
-                if item.filename.endswith(
-                    f"{self.component.slug}.json"
-                ) and item.filename.startswith("components/"):
+                if item.filename.startswith("components/") and (
+                    all_components
+                    or item.filename.endswith(f"{self.component.slug}.json")
+                ):
                     component_data = json.loads(data.decode("utf-8"))
                     if repo is not None:
                         component_data["component"]["repo"] = repo
                     if push is not None:
                         component_data["component"]["push"] = push
+                    if component_updates is not None:
+                        component_data["component"].update(component_updates)
+                    if translation_updates is not None:
+                        component_data["translations"][0].update(translation_updates)
+                    if unit_updates is not None:
+                        component_data["units"][0].update(unit_updates)
                     data = json.dumps(component_data).encode("utf-8")
+                target_zip.writestr(item, data)
+
+        return temp_name
+
+    def write_tampered_project_backup(self, **updates) -> str:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with (
+            ZipFile(backup.filename, "r") as source_zip,
+            ZipFile(temp_name, "w") as target_zip,
+        ):
+            for item in source_zip.infolist():
+                data = source_zip.read(item.filename)
+                if item.filename == "weblate-backup.json":
+                    project_data = json.loads(data.decode("utf-8"))
+                    project_data["project"].update(updates)
+                    data = json.dumps(project_data).encode("utf-8")
                 target_zip.writestr(item, data)
 
         return temp_name
@@ -503,13 +555,14 @@ class BackupsTest(ViewTestCase):
         restored_screenshot = Screenshot.objects.get(
             translation__component__project=restored
         )
+        assert restored_screenshot.image.name is not None
         self.assertTrue(
             restored_screenshot.image.storage.exists(restored_screenshot.image.name)
         )
         self.assertGreater(restored_screenshot.image.size, 0)
 
         restored_team = restored.defined_groups.filter(name=team.name).first()
-        self.assertIsNotNone(restored_team)
+        assert restored_team is not None
         self.assertEqual(team.language_selection, restored_team.language_selection)
         self.assertEqual(
             set(team.roles.values_list("name", flat=True)),
@@ -632,6 +685,7 @@ class BackupsTest(ViewTestCase):
         self.assertIsNone(restored.workspace)
         self.assertEqual(restored.license, "MIT")
         self.assertEqual(restored.commit_message, "Workspace commit")
+        assert restored.secondary_language is not None
         self.assertEqual(restored.secondary_language.code, "de")
         self.assertEqual(
             restored.effective_check_flags.format(), "safe-html, strict-same"
@@ -646,7 +700,9 @@ class BackupsTest(ViewTestCase):
         self.assertTrue(restored_component.inherit_commit_message)
         self.assertTrue(restored_component.inherit_secondary_language)
         self.assertEqual(restored_component.effective_commit_message, "Category commit")
-        self.assertEqual(restored_component.effective_secondary_language.code, "de")
+        component_secondary_language = restored_component.effective_secondary_language
+        assert component_secondary_language is not None
+        self.assertEqual(component_secondary_language.code, "de")
         self.assertEqual(
             set(restored_component.all_flags),
             {"safe-html", "strict-same", "xml-text", "ignore-same"},
@@ -681,7 +737,7 @@ class BackupsTest(ViewTestCase):
         secondary_language = restored_workspace_project.get_effective_setting(
             "secondary_language"
         )
-        self.assertIsInstance(secondary_language, Language)
+        assert isinstance(secondary_language, Language)
         self.assertEqual(secondary_language.code, "de")
 
     def test_backup_team_members_prefetches_limit_languages(self) -> None:
@@ -873,6 +929,58 @@ class BackupsTest(ViewTestCase):
 
         self.assertFalse(team.user_set.filter(pk=user.pk).exists())
 
+    def test_restore_rejects_invalid_autogroup_expression(self) -> None:
+        with self.assertRaises(ValidationError):
+            ProjectBackup.validate_model_data(
+                AutoGroup, {"match": "["}, "teams[0].autogroups[0]"
+            )
+
+    def test_checksum_validation_rejects_non_string(self) -> None:
+        path = "components/test.json.units[0].id_hash"
+        for value in (None, 123):
+            with (
+                self.subTest(value=value),
+                self.assertRaises(ValidationError) as error,
+            ):
+                ProjectBackup.validate_checksum(value, path)
+
+            self.assertEqual(set(error.exception.message_dict), {path})
+
+    def test_nested_category_validation_preserves_path(self) -> None:
+        categories = [
+            {
+                "name": "Parent",
+                "slug": "parent",
+                "categories": [
+                    {"name": "First", "slug": "duplicate", "categories": []},
+                    {"name": "Second", "slug": "duplicate", "categories": []},
+                ],
+            }
+        ]
+
+        with self.assertRaises(ValidationError) as error:
+            ProjectBackup().validate_categories(categories)
+
+        self.assertIn("categories[0].categories[1].slug", error.exception.message_dict)
+
+    def test_validation_resolves_languages_without_creating_them(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        language_count = Language.objects.count()
+
+        with patch.object(
+            Language.objects,
+            "auto_get_or_create",
+            wraps=Language.objects.auto_get_or_create,
+        ) as resolver:
+            ProjectBackup(backup.filename).validate()
+
+        self.assertGreater(resolver.call_count, 0)
+        self.assertTrue(
+            all(call.kwargs.get("create") is False for call in resolver.call_args_list)
+        )
+        self.assertEqual(Language.objects.count(), language_count)
+
     def test_restore_synthesizes_source_translation_check_flags(self) -> None:
         source = self.component.source_translation
         source.check_flags = "strict-same"
@@ -917,7 +1025,7 @@ class BackupsTest(ViewTestCase):
             with (
                 patch(
                     "weblate.utils.outbound.socket.getaddrinfo",
-                    return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+                    side_effect=resolve_private_example,
                 ),
                 self.assertRaises(ValidationError) as error,
             ):
@@ -942,7 +1050,7 @@ class BackupsTest(ViewTestCase):
             with (
                 patch(
                     "weblate.utils.outbound.socket.getaddrinfo",
-                    return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
+                    side_effect=resolve_private_example,
                 ),
                 self.assertRaises(ValidationError) as error,
             ):
@@ -956,6 +1064,194 @@ class BackupsTest(ViewTestCase):
                     ]
                 },
             )
+
+    def test_restore_rejects_invalid_component_slug(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            component_updates={"slug": "../../outside"}
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            with self.assertRaises(ValidationError) as error:
+                restore.validate()
+
+        self.assertIn("component.slug", next(iter(error.exception.message_dict)))
+
+    def test_component_path_rejects_escape(self) -> None:
+        component = Component(
+            project=Project(name="Path test", slug="path-test"),
+            name="Outside",
+            slug="/outside",
+        )
+
+        with self.assertRaisesRegex(ValueError, "escapes the VCS directory"):
+            self.assertIsInstance(component.full_path, str)
+
+    def test_restore_rejects_invalid_repository_browser_url(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            component_updates={"repoweb": "javascript:alert(1)"}
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            with self.assertRaises(ValidationError) as error:
+                restore.validate()
+
+        self.assertIn("component.repoweb", next(iter(error.exception.message_dict)))
+
+    def test_restore_rejects_invalid_project_url(self) -> None:
+        temp_name = self.write_tampered_project_backup(web="javascript:alert(1)")
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            with self.assertRaises(ValidationError) as error:
+                restore.validate()
+
+        self.assertIn("project.web", error.exception.message_dict)
+
+    def test_restore_rejects_malformed_unit_checksum(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            unit_updates={"id_hash": "x0123456789abcdefy"}
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            with self.assertRaises(ValidationError) as error:
+                restore.validate()
+
+        self.assertIn("units[0].id_hash", next(iter(error.exception.message_dict)))
+
+    def test_restore_rejects_unsafe_translation_filename(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            translation_updates={"filename": "../../outside.po"}
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            with self.assertRaises(ValidationError) as error:
+                restore.validate()
+
+        self.assertIn(
+            "translations[0].filename", next(iter(error.exception.message_dict))
+        )
+
+    def test_restore_skips_inaccessible_linked_component(self) -> None:
+        victim_project = Project.objects.create(name="Victim", slug="victim")
+        victim_component = self.create_po(project=victim_project, name="Victim")
+        temp_name = self.write_tampered_component_backup(
+            repo=victim_component.get_repo_link_url()
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            self.assertFalse(
+                self.anotheruser.has_perm("component.edit", victim_component)
+            )
+
+            restored = restore.restore(
+                project_name="Partial restore",
+                project_slug="partial-restore",
+                user=self.anotheruser,
+            )
+
+        self.assertFalse(
+            restored.component_set.filter(slug=self.component.slug).exists()
+        )
+        self.assertEqual(restore.skipped_components, [self.component.slug])
+        restore_change = restored.change_set.get(action=ActionEvents.PROJECT_RESTORE)
+        self.assertEqual(
+            restore_change.details["skipped_components"], [self.component.slug]
+        )
+        history_data = get_change_history_context(restore_change)
+        self.assertEqual(
+            [field["label"] for field in history_data["change_details_fields"]],
+            ["Backup created", "Backup server", "Backup domain", "Skipped components"],
+        )
+        self.assertIn(
+            f"<code>{self.component.slug}</code>",
+            history_data["change_details_fields"][-1]["content"],
+        )
+
+    def test_restore_skips_missing_linked_component(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            repo="weblate://missing-project/missing-component"
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Missing link restore",
+                project_slug="missing-link-restore",
+                user=self.anotheruser,
+            )
+
+        self.assertFalse(
+            restored.component_set.filter(slug=self.component.slug).exists()
+        )
+        self.assertEqual(restore.skipped_components, [self.component.slug])
+
+    def test_restore_allows_accessible_cross_project_link(self) -> None:
+        target_project = Project.objects.create(name="Target", slug="target")
+        target_component = self.create_po(project=target_project, name="Target")
+        target_project.add_user(self.anotheruser, "Administration")
+        self.anotheruser.clear_permissions_cache()
+        self.assertTrue(self.anotheruser.has_perm("component.edit", target_component))
+        temp_name = self.write_tampered_component_backup(
+            repo=target_component.get_repo_link_url()
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Linked restore",
+                project_slug="linked-restore",
+                user=self.anotheruser,
+            )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(restored_component.linked_component, target_component)
+        self.assertEqual(restore.skipped_components, [])
+
+    def test_import_task_keeps_empty_project_and_reports_skipped_components(
+        self,
+    ) -> None:
+        victim_project = Project.objects.create(name="Task victim", slug="task-victim")
+        victim_component = self.create_po(project=victim_project, name="Taskvictim")
+        temp_name = self.write_tampered_component_backup(
+            repo=victim_component.get_repo_link_url(), all_components=True
+        )
+
+        result = import_project_backup(
+            "Empty partial restore",
+            "empty-partial-restore",
+            self.anotheruser.id,
+            temp_name,
+        )
+
+        restored = Project.objects.get(slug="empty-partial-restore")
+        self.assertFalse(restored.component_set.exists())
+        self.assertNotIn("url", result)
+        self.assertEqual(
+            result["message"],
+            "Project backup import completed with skipped components.",
+        )
+        self.assertEqual(len(result["warnings"]), 2)
+        self.assertTrue(
+            all(
+                warning.endswith(
+                    "was skipped because its linked repository is unavailable."
+                )
+                for warning in result["warnings"]
+            )
+        )
+        restore_change = restored.change_set.get(action=ActionEvents.PROJECT_RESTORE)
+        self.assertEqual(
+            set(restore_change.details["skipped_components"]),
+            {"glossary", self.component.slug},
+        )
 
     def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:
@@ -986,6 +1282,9 @@ class BackupsTest(ViewTestCase):
             extract_names(Component.objects.filter(project=self.project)),
             extract_names(Component.objects.filter(project=restored)),
         )
+        restored_link = restored.component_set.get(category__isnull=False)
+        restored_target = restored.component_set.get(category__isnull=True, slug="test")
+        self.assertEqual(restored_link.linked_component, restored_target)
 
     def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
@@ -1007,6 +1306,33 @@ class BackupsTest(ViewTestCase):
             "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
         )
         self.verify_restored()
+
+    def test_restore_cli_reports_skipped_components(self) -> None:
+        victim_project = Project.objects.create(name="CLI victim", slug="cli-victim")
+        victim_component = self.create_po(project=victim_project, name="Clivictim")
+        temp_name = self.write_tampered_component_backup(
+            repo=victim_component.get_repo_link_url()
+        )
+        stderr = StringIO()
+
+        with remove_file_after(temp_name):
+            call_command(
+                "import_projectbackup",
+                "CLI partial restore",
+                "cli-partial-restore",
+                self.anotheruser.username,
+                temp_name,
+                stderr=stderr,
+            )
+
+        restored = Project.objects.get(slug="cli-partial-restore")
+        self.assertFalse(
+            restored.component_set.filter(slug=self.component.slug).exists()
+        )
+        self.assertIn(
+            f"Component {self.component.slug} was skipped because its linked repository is unavailable.",
+            stderr.getvalue(),
+        )
 
     def verify_restored(self) -> None:
         restored = Project.objects.get(slug="restored")
@@ -1176,6 +1502,25 @@ class BackupsTest(ViewTestCase):
             with self.assertRaisesRegex(ValueError, "ZIP file contains invalid path"):
                 restore.validate()
 
+    def test_restore_rejects_unowned_repository_data(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with remove_file_after(temp_name):
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr("vcs/orphan/file", b"blocked")
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaises(ValidationError) as error:
+                restore.validate()
+
+        self.assertIn("vcs/orphan/file", error.exception.message_dict)
+
     @override_settings(
         PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO=5,
         PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE=10,
@@ -1209,6 +1554,51 @@ class BackupsTest(ViewTestCase):
                     project_name="Restored", project_slug="restored", user=self.user
                 )
 
+    def test_restore_failure_cleans_database_and_repository(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Cleanup screenshot", translation=self.component.source_translation
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot.image.save("cleanup-screenshot.png", File(handle))
+        screenshot_dir = os.path.join(settings.MEDIA_ROOT, "screenshots")
+        media_before = set(os.listdir(screenshot_dir))
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        project_path = Project(name="Restored", slug="restored").full_path
+
+        with (
+            patch.object(
+                Component, "configure_repo", side_effect=RuntimeError("failed")
+            ),
+            self.assertRaisesRegex(RuntimeError, "failed"),
+        ):
+            restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+
+        self.assertFalse(Project.objects.filter(slug="restored").exists())
+        self.assertFalse(os.path.exists(project_path))
+        self.assertEqual(set(os.listdir(screenshot_dir)), media_before)
+
+    def test_restore_does_not_remove_existing_repository_directory(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        project_path = Project(name="Restored", slug="restored").full_path
+        os.mkdir(project_path)
+        self.addCleanup(os.rmdir, project_path)
+
+        with self.assertRaises(ValidationError):
+            restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+
+        self.assertTrue(os.path.isdir(project_path))
+
     def test_restore_skips_git_hooks(self) -> None:
         backup = ProjectBackup()
         backup.backup_project(self.project)
@@ -1234,20 +1624,20 @@ class BackupsTest(ViewTestCase):
                 project_name="Restored", project_slug="restored", user=self.user
             )
             component = restored.component_set.get(slug="test")
+            repository = component.repository
+            assert isinstance(repository, GitRepository)
             self.assertFalse(
                 os.path.exists(
                     os.path.join(component.full_path, ".git", "hooks", "post-checkout")
                 )
             )
+            self.assertEqual(repository.get_config("remote.origin.url"), component.repo)
             self.assertEqual(
-                component.repository.get_config("remote.origin.url"), component.repo
-            )
-            self.assertEqual(
-                component.repository.get_config(f"branch.{component.branch}.remote"),
+                repository.get_config(f"branch.{component.branch}.remote"),
                 "origin",
             )
             self.assertEqual(
-                component.repository.get_config(f"branch.{component.branch}.merge"),
+                repository.get_config(f"branch.{component.branch}.merge"),
                 f"refs/heads/{component.branch}",
             )
             restored.do_reset()
@@ -1277,11 +1667,80 @@ class BackupsTest(ViewTestCase):
                     target_zip.writestr(item, data)
 
             restore = ProjectBackup(temp_name)
-            restore.validate()
             with self.assertRaises(ValidationError):
-                restore.restore(
-                    project_name="Restored", project_slug="restored", user=self.user
-                )
+                restore.validate()
+
+    def test_restore_rejects_screenshot_with_invalid_extension(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Invalid extension screenshot",
+            translation=self.component.source_translation,
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot.image.save("screenshot.png", File(handle))
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with remove_file_after(temp_name):
+            with ZipFile(backup.filename, "r") as source_zip:
+                entries = [
+                    (item, source_zip.read(item.filename))
+                    for item in source_zip.infolist()
+                ]
+
+            renamed_images: dict[str, str] = {}
+            updated_entries = []
+            for item, content in entries:
+                if item.filename.startswith("components/"):
+                    component_data = json.loads(content.decode())
+                    for screenshot_data in component_data["screenshots"]:
+                        image = screenshot_data["image"]
+                        renamed_images[image] = f"{image}.html"
+                        screenshot_data["image"] = renamed_images[image]
+                    content = json.dumps(component_data).encode()
+                updated_entries.append((item, content))
+
+            with ZipFile(temp_name, "w") as target_zip:
+                for item, content in updated_entries:
+                    image = item.filename.removeprefix("screenshots/")
+                    if (
+                        item.filename.startswith("screenshots/")
+                        and image in renamed_images
+                    ):
+                        target_zip.writestr(
+                            f"screenshots/{renamed_images[image]}", content
+                        )
+                    else:
+                        target_zip.writestr(item, content)
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaises(ValidationError) as error:
+                restore.validate()
+
+        self.assertIn("File extension", str(error.exception))
+        self.assertIn("html", str(error.exception))
+
+    def test_restore_rejects_oversized_screenshot_during_validation(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Oversized screenshot", translation=self.component.source_translation
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot.image.save("oversized-screenshot.png", File(handle))
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        restore = ProjectBackup(backup.filename)
+        with (
+            override_settings(ALLOWED_ASSET_SIZE=1),
+            self.assertRaises(ValidationError) as error,
+        ):
+            restore.validate()
+
+        self.assertIn("screenshots[0].image", next(iter(error.exception.message_dict)))
 
     def test_cleanup(self) -> None:
         cleanup_project_backups()
@@ -1327,7 +1786,7 @@ class BackupsTest(ViewTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         # Testing staticfiles doesn't work, so we emulate this manually
-        url = response.url
+        url = response["Location"]
         self.assertTrue(url.startswith(settings.STATIC_URL))
         filename = url[len(settings.STATIC_URL) :]
         with get_project_backup_download_storage().open(filename, "rb") as handle:

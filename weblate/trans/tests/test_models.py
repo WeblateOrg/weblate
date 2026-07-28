@@ -15,9 +15,10 @@ from django.apps import apps
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
-from django.db import transaction
+from django.db import connection, transaction
 from django.test import TestCase
-from django.test.utils import override_settings
+from django.test.client import RequestFactory
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
 from django.utils.translation import activate
 from translate.storage.base import ParseError
@@ -31,7 +32,11 @@ from weblate.glossary.models import (
 )
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
+from weblate.trans.exceptions import (
+    FileParseError,
+    SuggestionSimilarToTranslationError,
+    SuggestionTooLongError,
+)
 from weblate.trans.models import (
     Announcement,
     AutoComponentList,
@@ -40,13 +45,17 @@ from weblate.trans.models import (
     Comment,
     Component,
     ComponentList,
+    Label,
     PendingUnitChange,
     Project,
     Suggestion,
+    SuggestionAddResult,
     Translation,
     Unit,
     Vote,
 )
+from weblate.trans.models.change import ChangeQuerySet
+from weblate.trans.models.component import ComponentLink
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.removal import RemovalBatch
 from weblate.trans.tasks import actual_project_removal
@@ -57,6 +66,7 @@ from weblate.trans.tests.utils import (
     fixup_languages_seq,
     get_optional_path,
 )
+from weblate.trans.validators import get_translation_text_max_length
 from weblate.utils.files import remove_tree
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -266,11 +276,11 @@ class ProjectTest(RepoTestCase):
             actual_project_removal(project.pk, None)
 
         self.assertEqual(1, len(collected))
-        self.assertEqual(
-            {project.stats.cache_key, GlobalStats().cache_key},
-            collected[0],
+        self.assertTrue(
+            {project.stats.cache_key, GlobalStats().cache_key}.issubset(collected[0])
         )
         self.assertEqual(collected[0], set(executed))
+        self.assertEqual(len(executed), len(set(executed)))
 
     def test_actual_project_removal_updates_surviving_project_before_global(
         self,
@@ -333,14 +343,15 @@ class ProjectTest(RepoTestCase):
             user = create_test_user()
             translation = component.translation_set.get(language_code="cs")
             unit = translation.unit_set.get(source="Hello, world!\n")
-            suggestion = Suggestion.objects.add(unit, ["Test"], None)
+            suggestion, _ = Suggestion.objects.add(unit, ["Test"], None)
             Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
         component.project.delete()
 
     def test_add_suggestion_validation(self) -> None:
         with transaction.atomic():
             component = self.create_po(
-                suggestion_voting=True, suggestion_autoaccept=True
+                suggestion_voting=True,
+                suggestion_autoaccept=2,
             )
             user = create_test_user()
             another_user = create_another_user()
@@ -359,28 +370,87 @@ class ProjectTest(RepoTestCase):
                     raise_exception=True,
                 )
 
-            # check that same operation doesn't raise an error if raise_exception=False but returns false
-            self.assertFalse(
+            # check that same operation doesn't raise an error if raise_exception=Fal   se
+            _, result = Suggestion.objects.add(
+                unit,
+                ["Translation of unit"],
+                None,
+                user=another_user,
+                raise_exception=False,
+            )
+            self.assertEqual(result, SuggestionAddResult.SIMILAR)
+
+            too_long_target = "x" * (get_translation_text_max_length(unit) + 1)
+            with self.assertRaises(SuggestionTooLongError):
                 Suggestion.objects.add(
                     unit,
-                    ["Translation of unit"],
+                    [too_long_target],
                     None,
                     user=another_user,
-                    raise_exception=False,
+                    raise_exception=True,
                 )
+            _, result = Suggestion.objects.add(
+                unit,
+                [too_long_target],
+                None,
+                user=another_user,
+                raise_exception=False,
             )
+            self.assertEqual(result, SuggestionAddResult.TOO_LONG)
+
+            max_length = get_translation_text_max_length(unit)
+            long_segments = ["x" * (max_length // 2 + 1)] * 2
+            _, result = Suggestion.objects.add(
+                unit,
+                long_segments,
+                None,
+                user=another_user,
+                raise_exception=False,
+            )
+            self.assertEqual(result, SuggestionAddResult.TOO_LONG)
+
+            unit.extra_flags = "max-length:*"
+            unit.save(update_fields=["extra_flags"])
+            unit = Unit.objects.get(pk=unit.pk)
+            suggestion, result = Suggestion.objects.add(
+                unit,
+                ["Invalid flag suggestion"],
+                None,
+                user=another_user,
+                raise_exception=True,
+            )
+            self.assertIsNotNone(suggestion)
+            self.assertEqual(result, SuggestionAddResult.CREATED)
 
             # check that user submitting suggestion twice doesn't create duplicated suggestions
-            suggestion = Suggestion.objects.add(
+            suggestion, result = Suggestion.objects.add(
                 unit, ["New suggestion"], None, user=another_user, raise_exception=True
             )
             suggestion_count = Suggestion.objects.count()
-            self.assertTrue(bool(suggestion))
-            suggestion = Suggestion.objects.add(
+            self.assertIsNotNone(suggestion)
+            self.assertEqual(result, SuggestionAddResult.CREATED)
+            _, result = Suggestion.objects.add(
                 unit, ["New suggestion"], None, user=another_user, raise_exception=True
             )
-            self.assertFalse(suggestion)
+            self.assertEqual(result, SuggestionAddResult.DUPLICATE)
+            self.assertIsNotNone(suggestion)
             self.assertEqual(suggestion_count, Suggestion.objects.count())
+
+            # check that another user creating similar suggestion upvotes existing
+            factory = RequestFactory()
+            request = factory.get("/")
+            request.user = user
+            request.session = {}
+            suggestion, result = Suggestion.objects.add(
+                unit,
+                ["New suggestion"],
+                request,
+                vote=True,
+                user=user,
+                raise_exception=True,
+            )
+            self.assertEqual(result, SuggestionAddResult.VOTED)
+            self.assertEqual(suggestion.get_num_votes(), 1)
 
     def test_delete_all(self) -> None:
         project = self.create_project()
@@ -570,6 +640,70 @@ class TranslationTest(RepoTestCase):
             translation.invalidate_cache()
         self.assertEqual(translation.stats.all, 0)
         self.assertEqual(translation.stats.all_words, 0)
+
+    def test_stats_with_parallel_unit_relations(self) -> None:
+        """Independent unit relations should not multiply statistics rows."""
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected at least one unit.")
+        translation.unit_set.exclude(pk=unit.pk).delete()
+        unit.state = STATE_APPROVED
+        unit.save(update_fields=["state"])
+
+        Check.objects.filter(unit=unit).delete()
+        Check.objects.create(unit=unit, name="same", dismissed=False)
+        Check.objects.create(unit=unit, name="ellipsis", dismissed=True)
+        Suggestion.objects.create(unit=unit, target="First suggestion")
+        Suggestion.objects.create(unit=unit, target="Second suggestion")
+        Comment.objects.create(unit=unit, comment="First comment")
+        Comment.objects.create(unit=unit, comment="Second comment")
+        Comment.objects.create(unit=unit, comment="Resolved comment", resolved=True)
+        labels = [
+            Label.objects.create(
+                project=component.project, name=f"Label {index}", color="red"
+            )
+            for index in range(2)
+        ]
+        unit.source_unit.labels.add(*labels)
+
+        translation.stats.delete()
+        translation = Translation.objects.get(pk=translation.pk)
+        self.assertEqual(translation.stats.all, 1)
+        self.assertEqual(translation.stats.approved, 1)
+        self.assertEqual(translation.stats.allchecks, 1)
+        self.assertEqual(translation.stats.dismissed_checks, 1)
+        self.assertEqual(translation.stats.suggestions, 1)
+        self.assertEqual(translation.stats.approved_suggestions, 1)
+        self.assertEqual(translation.stats.comments, 1)
+        self.assertEqual(translation.stats.unlabeled, 0)
+
+    def test_stats_query_uses_relation_subqueries(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        translation.stats.delete()
+        translation = Translation.objects.get(pk=translation.pk)
+
+        with CaptureQueriesContext(connection) as queries:
+            self.assertGreater(translation.stats.all, 0)
+
+        unit_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if 'FROM "trans_unit"' in query["sql"]
+            and 'FROM "checks_check"' in query["sql"]
+        ]
+        self.assertEqual(len(unit_queries), 1)
+        unit_query = unit_queries[0]
+        for table in (
+            "checks_check",
+            "trans_suggestion",
+            "trans_comment",
+            "trans_unit_labels",
+        ):
+            self.assertIn(f'FROM "{table}"', unit_query)
+            self.assertNotIn(f'JOIN "{table}"', unit_query)
 
     def test_commit_grouping(self) -> None:
         component = self.create_component()
@@ -1068,6 +1202,37 @@ class SourceUnitTest(ModelTestCase):
 
 
 class UnitTest(ModelTestCase):
+    def test_prefetch_api(self) -> None:
+        unit = Unit.objects.filter(translation__language_code="cs").first()
+        if unit is None:
+            self.fail("Expected a unit in test fixture.")
+
+        user = create_test_user()
+        Comment.objects.create(unit=unit, comment="Comment")
+        Suggestion.objects.create(unit=unit, target="Suggestion", user=user)
+        PendingUnitChange.objects.create(unit=unit, author=user)
+
+        expected = (
+            unit.check_set.filter(dismissed=False).exists(),
+            unit.comment_set.filter(resolved=False).exists(),
+            unit.suggestion_set.exists(),
+            unit.pending_changes.exists(),
+        )
+        with self.assertNumQueries(6):
+            unit = Unit.objects.filter(pk=unit.pk).prefetch_api().get()
+
+        with self.assertNumQueries(0):
+            self.assertEqual(
+                (
+                    unit.has_failing_check,
+                    unit.has_comment,
+                    unit.has_suggestion,
+                    unit.has_pending_changes,
+                ),
+                expected,
+            )
+            list(unit.labels.all())
+
     def test_newlines(self) -> None:
         user = create_test_user()
         unit = Unit.objects.filter(
@@ -1466,6 +1631,93 @@ class AnnouncementTest(ModelTestCase):
 
 class ChangeTest(ModelTestCase):
     """Test(s) for Change model."""
+
+    def test_recent_uses_limited_identifier_query(self) -> None:
+        Change.objects.all().delete()
+        changes = [
+            self.component.change_set.create(action=ActionEvents.LOCK) for _ in range(3)
+        ]
+        queryset = self.component.change_set.prefetch_for_render()
+
+        with CaptureQueriesContext(connection) as queries:
+            recent = queryset.recent(count=2)
+
+        self.assertEqual(
+            [change.pk for change in recent], [changes[2].pk, changes[1].pk]
+        )
+        candidate_sql = queries[0]["sql"]
+        self.assertIn("LIMIT 2", candidate_sql)
+        self.assertNotIn("trans_comment", candidate_sql)
+        self.assertNotIn("trans_suggestion", candidate_sql)
+
+    def test_recent_skips_changes_deleted_before_hydration(self) -> None:
+        Change.objects.all().delete()
+        changes = [
+            self.component.change_set.create(action=ActionEvents.LOCK) for _ in range(3)
+        ]
+        original_prefetch = ChangeQuerySet.prefetch_for_render
+
+        def delete_change_before_prefetch(
+            queryset: ChangeQuerySet,
+        ) -> ChangeQuerySet:
+            Change.objects.filter(pk=changes[1].pk).delete()
+            return original_prefetch(queryset)
+
+        with patch.object(
+            ChangeQuerySet,
+            "prefetch_for_render",
+            delete_change_before_prefetch,
+        ):
+            recent = self.component.change_set.recent(count=2)
+
+        self.assertEqual([change.pk for change in recent], [changes[2].pk])
+
+    def test_category_changes_exclude_inaccessible_linked_project(self) -> None:
+        source_project = self.component.project
+        source_project.access_control = Project.ACCESS_PRIVATE
+        source_project.save(update_fields=["access_control"])
+        target_project = Project.objects.create(
+            name="Category history target",
+            slug="category-history-target",
+        )
+        category = Category.objects.create(
+            name="Category history",
+            slug="category-history",
+            project=target_project,
+        )
+        ComponentLink.objects.create(
+            component=self.component,
+            project=target_project,
+            category=category,
+        )
+        user = User.objects.create_user(
+            "category-history",
+            "category-history@example.com",
+            "category-history",
+        )
+        language = self.component.translation_set.get(language_code="cs").language
+        visible_change = Change.objects.create(
+            action=ActionEvents.RENAME_CATEGORY,
+            project=target_project,
+            category=category,
+            language=language,
+        )
+        hidden_change = self.component.change_set.create(
+            action=ActionEvents.LOCK,
+            language=language,
+        )
+
+        self.assertTrue(user.can_access_project(target_project))
+        self.assertFalse(user.can_access_project(source_project))
+
+        changes = Change.objects.last_changes(
+            user,
+            category=category,
+            language=language,
+        )
+
+        self.assertIn(visible_change, changes)
+        self.assertNotIn(hidden_change, changes)
 
     def test_fixup_references_inherits_project_workspace(self) -> None:
         workspace = Workspace.objects.create(name="Change workspace")

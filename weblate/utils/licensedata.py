@@ -298,6 +298,12 @@ LICENSES = (
         False,
     ),
     (
+        "atc-game",
+        "atc Game License",
+        "https://spdx.org/licenses/atc-game.html",
+        False,
+    ),
+    (
         "AAL",
         "Attribution Assurance License",
         "https://spdx.org/licenses/AAL.html",
@@ -613,6 +619,12 @@ LICENSES = (
         "BOLA-1.1",
         "Buena Onda License Agreement v1.1",
         "https://spdx.org/licenses/BOLA-1.1.html",
+        False,
+    ),
+    (
+        "Bugroff",
+        "Bugroff License",
+        "https://spdx.org/licenses/Bugroff.html",
         False,
     ),
     (
@@ -1033,6 +1045,12 @@ LICENSES = (
         "CC-BY-NC-3.0-DE",
         "Creative Commons Attribution Non Commercial 3.0 Germany",
         "https://spdx.org/licenses/CC-BY-NC-3.0-DE.html",
+        False,
+    ),
+    (
+        "CC-BY-NC-3.0-IGO",
+        "Creative Commons Attribution Non Commercial 3.0 IGO",
+        "https://spdx.org/licenses/CC-BY-NC-3.0-IGO.html",
         False,
     ),
     (
@@ -2179,6 +2197,12 @@ LICENSES = (
         "Info-ZIP",
         "Info-ZIP License",
         "https://spdx.org/licenses/Info-ZIP.html",
+        False,
+    ),
+    (
+        "Informatica",
+        "Informatica License",
+        "https://spdx.org/licenses/Informatica.html",
         False,
     ),
     (

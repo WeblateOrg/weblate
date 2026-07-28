@@ -47,6 +47,7 @@ class Agreement(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "TOS agreement"
         verbose_name_plural = "TOS agreements"
 

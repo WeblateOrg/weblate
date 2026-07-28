@@ -82,8 +82,8 @@ def tag_cache_dirs() -> None:
     dirs = [
         # SSH wrapper cache
         data_dir("cache", "ssh"),
-        # Fontconfig cache
-        data_dir("cache", "fonts"),
+        # Matplotlib cache
+        data_dir("cache", "matplotlib"),
         # Static files (default is inside data)
         settings.STATIC_ROOT,
         # Project backups
@@ -149,6 +149,9 @@ def initialize(location: str, passphrase: str) -> BorgResult:
     """Initialize repository."""
     parsed = urlparse(location)
     if parsed.hostname:
+        if parsed.hostname.startswith("-"):
+            msg = gettext("Invalid host name given!")
+            raise BackupError(msg)
         add_host_key(None, parsed.hostname, parsed.port)
     return run_borg(
         ["init", "--encryption", "repokey-blake2", location],

@@ -10,10 +10,11 @@ from pathlib import Path
 from shutil import copyfile, rmtree
 from unittest.mock import MagicMock, patch
 
-import requests
-import responses
+import httpx2
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.files import File
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import connection
 from django.test import SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
@@ -39,6 +40,7 @@ from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.utils.docs import get_doc_url
+from weblate.utils.tests import http_mock as responses
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 PUBLIC_TEST_ADDRESS = "93.184.216.34"
@@ -47,12 +49,30 @@ PUBLIC_GETADDRINFO = [(0, 0, 0, "", (PUBLIC_TEST_ADDRESS, 443))]
 PRIVATE_GETADDRINFO = [(0, 0, 0, "", (PRIVATE_TEST_ADDRESS, 443))]
 
 
+class ScreenshotImageValidationTest(SimpleTestCase):
+    def test_rejects_invalid_extension(self) -> None:
+        image = SimpleUploadedFile(
+            "screenshot.html",
+            Path(TEST_SCREENSHOT).read_bytes(),
+            content_type="image/png",
+        )
+
+        with self.assertRaises(ValidationError) as error:
+            Screenshot.validate_image_file(image)
+
+        self.assertEqual(error.exception.error_list[0].code, "invalid_extension")
+
+
 class TesseractDataTest(SimpleTestCase):
     @staticmethod
-    def get_http_error(status_code: int) -> requests.HTTPError:
-        response = requests.Response()
-        response.status_code = status_code
-        return requests.HTTPError(response=response)
+    def get_http_error(status_code: int) -> httpx2.HTTPStatusError:
+        request = httpx2.Request("GET", "https://example.com/tesseract")
+        response = httpx2.Response(status_code, request=request)
+        try:
+            response.raise_for_status()
+        except httpx2.HTTPStatusError as error:
+            return error
+        raise AssertionError
 
     def test_cached_data(self) -> None:
         with tempfile.TemporaryDirectory() as cache_dir:
@@ -84,6 +104,7 @@ class TesseractDataTest(SimpleTestCase):
         makedirs.assert_called_once_with(str(tessdata), exist_ok=True)
 
     def test_transient_errors_are_retried(self) -> None:
+        request = httpx2.Request("GET", "https://example.com/eng")
         response = MagicMock(content=b"trained data")
         with tempfile.TemporaryDirectory() as cache_dir:
             target = Path(cache_dir) / "eng.traineddata"
@@ -91,12 +112,15 @@ class TesseractDataTest(SimpleTestCase):
                 patch(
                     "weblate.screenshots.views.fetch_url",
                     side_effect=[
-                        requests.Timeout("timed out"),
-                        self.get_http_error(503),
+                        httpx2.ReadError("connection reset", request=request),
+                        httpx2.RemoteProtocolError(
+                            "server disconnected",
+                            request=request,
+                        ),
                         response,
                     ],
                 ) as fetch_url,
-                patch("weblate.screenshots.views.time.sleep") as sleep,
+                patch("weblate.screenshots.views.sleep") as sleep,
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
 
@@ -120,7 +144,7 @@ class TesseractDataTest(SimpleTestCase):
                     "weblate.screenshots.views.fetch_url",
                     side_effect=self.get_http_error(404),
                 ) as fetch_url,
-                self.assertRaises(requests.HTTPError),
+                self.assertRaises(httpx2.HTTPStatusError),
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
 
@@ -134,10 +158,10 @@ class TesseractDataTest(SimpleTestCase):
             with (
                 patch(
                     "weblate.screenshots.views.fetch_url",
-                    side_effect=requests.Timeout("timed out"),
+                    side_effect=httpx2.TimeoutException("timed out"),
                 ) as fetch_url,
-                patch("weblate.screenshots.views.time.sleep"),
-                self.assertRaises(requests.Timeout),
+                patch("weblate.screenshots.views.sleep"),
+                self.assertRaises(httpx2.TimeoutException),
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
 
@@ -384,6 +408,20 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
 
+    def test_view_uses_image_content_type(self) -> None:
+        self.make_manager()
+        screenshot = Screenshot.objects.create(
+            name="Polyglot", translation=self.component.source_translation
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot.image.save("polyglot.html", File(handle))
+
+        response = self.client.get(screenshot.get_view_url())
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["content-type"], "image/png")
+        response.close()
+
     def test_private_screenshot_actions_hidden(self) -> None:
         self.make_manager()
         self.do_upload()
@@ -628,6 +666,26 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(data["skipped"], 0)
         self.assertEqual(data["invalid"], 2)
         self.assertEqual(screenshot.units.count(), 0)
+
+    def test_source_bulk_updates_alerts_once(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        source_units = list(
+            self.component.source_translation.unit_set.order_by("pk")[:2]
+        )
+
+        with patch("weblate.screenshots.models.update_alerts") as update_alerts:
+            response = self.client.post(
+                reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
+                {"source": [unit.pk for unit in source_units]},
+            )
+
+        self.assertEqual(response.json()["added"], 2)
+        update_alerts.assert_called_once_with(
+            self.component,
+            alerts={"MissingScreenshots", "UnusedScreenshot"},
+        )
 
     def test_source_bulk_denied(self) -> None:
         self.make_manager()
@@ -895,7 +953,7 @@ class ViewTest(FixtureTestCase):
         with (
             patch(
                 "weblate.screenshots.views.get_tesseract",
-                side_effect=requests.Timeout("timed out"),
+                side_effect=httpx2.TimeoutException("timed out"),
             ),
             self.assertLogs("weblate", level="WARNING") as logs,
         ):
@@ -963,19 +1021,48 @@ class ViewTest(FixtureTestCase):
     )
     def test_upload_with_image_url(self, _mocked_getaddrinfo, _mocked_get_peer) -> None:
         data = Path(TEST_SCREENSHOT).read_bytes()
+        image_url = "https://example.com/test-image.png?signature=test#preview"
         responses.add(
             responses.GET,
-            "https://example.com/test-image.png",
+            "https://example.com/test-image.png?signature=test",
             content_type="image/png",
             body=data,
         )
 
         self.make_manager()
-        response = self.do_upload(
-            image="", image_url="https://example.com/test-image.png"
-        )
+        response = self.do_upload(image="", image_url=image_url)
         self.assertContains(response, "Obrazek")
         self.assertEqual(Screenshot.objects.count(), 1)
+        image_name = Screenshot.objects.get().image.name
+        assert image_name is not None
+        self.assertTrue(image_name.endswith(".png"))
+
+    @responses.activate
+    @patch(
+        "weblate.utils.requests._get_response_peer_ip",
+        return_value=PUBLIC_TEST_ADDRESS,
+    )
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=PUBLIC_GETADDRINFO,
+    )
+    def test_upload_with_image_url_invalid_extension(
+        self, _mocked_getaddrinfo, _mocked_get_peer
+    ) -> None:
+        responses.add(
+            responses.GET,
+            "https://example.com/test-image.html",
+            content_type="image/png",
+            body=Path(TEST_SCREENSHOT).read_bytes(),
+        )
+
+        self.make_manager()
+        response = self.do_upload(
+            image="", image_url="https://example.com/test-image.html"
+        )
+
+        self.assertContains(response, "File extension")
+        self.assertEqual(Screenshot.objects.count(), 0)
 
     @responses.activate
     @patch(
@@ -1036,7 +1123,10 @@ class ViewTest(FixtureTestCase):
         responses.add(
             responses.GET,
             "https://example.com/broken-image.png",
-            body=requests.RequestException("Network error"),
+            body=httpx2.ConnectError(
+                "Network error",
+                request=httpx2.Request("GET", "https://example.com/broken-image.png"),
+            ),
         )
         response = self.do_upload(
             image="", image_url="https://example.com/missing-image.png"

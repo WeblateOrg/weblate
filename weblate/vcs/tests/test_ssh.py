@@ -6,6 +6,8 @@ import os
 import shutil
 from pathlib import Path
 from time import time
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from django.conf import settings
 from django.test import TestCase
@@ -15,14 +17,17 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.ssh import (
+    SSH_WRAPPER,
     STALE_WRAPPER_SECONDS,
     SSHWrapper,
+    add_host_key,
     cleanup_legacy_wrapper_dirs,
     cleanup_stale_wrapper_dirs,
     extract_url_host_port,
     get_host_key_entries,
     get_host_keys,
     remove_host_key,
+    resolve_ssh_destination,
     ssh_file,
     ssh_wrapper_path,
 )
@@ -93,6 +98,58 @@ class SSHTest(TestCase):
         wrapper.create()
         self.assertEqual(timestamp, os.stat(filename).st_mtime)
 
+    def test_resolve_effective_destination(self) -> None:
+        result = SimpleNamespace(stdout="hostname effective.example\nport 2222\n")
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", return_value=result) as run,
+        ):
+            destination = resolve_ssh_destination("alias.example", "git", None)
+
+        self.assertEqual(destination, ("effective.example", 2222))
+        self.assertEqual(
+            run.call_args.args[0],
+            [SSH_WRAPPER.filename.as_posix(), "-G", "--", "git@alias.example"],
+        )
+
+    def test_resolve_effective_destination_with_explicit_port(self) -> None:
+        result = SimpleNamespace(stdout="hostname git.example\nport 2022\n")
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", return_value=result) as run,
+        ):
+            destination = resolve_ssh_destination("git.example", None, 2022)
+
+        self.assertEqual(destination, ("git.example", 2022))
+        self.assertEqual(
+            run.call_args.args[0],
+            [
+                SSH_WRAPPER.filename.as_posix(),
+                "-G",
+                "-p",
+                "2022",
+                "--",
+                "git.example",
+            ],
+        )
+
+    def test_allow_admin_ssh_proxy_routing(self) -> None:
+        result = SimpleNamespace(
+            stdout=(
+                "hostname git.example\n"
+                "port 22\n"
+                "proxycommand nc internal.example 22\n"
+                "proxyjump bastion.example\n"
+            )
+        )
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", return_value=result),
+        ):
+            destination = resolve_ssh_destination("git.example", "git", None)
+
+        self.assertEqual(destination, ("git.example", 22))
+
     @tempdir_setting("DATA_DIR")
     def test_cleanup_legacy_wrappers(self) -> None:
         legacy_wrapper_dir = ssh_file("bin-legacy-dir")
@@ -151,4 +208,15 @@ class SSHTest(TestCase):
         )
         self.assertEqual(
             ("github.com", 1234), extract_url_host_port("git://github.com:1234/repo")
+        )
+
+    @patch("weblate.vcs.ssh.subprocess.run")
+    def test_add_host_key_separates_hostname_from_options(self, mocked_run) -> None:
+        mocked_run.return_value.stdout = ""
+        mocked_run.return_value.stderr = ""
+
+        add_host_key(None, "-f", 22)
+
+        self.assertEqual(
+            mocked_run.call_args.args[0], ["ssh-keyscan", "-p", "22", "--", "-f"]
         )

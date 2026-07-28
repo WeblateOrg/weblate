@@ -2,15 +2,22 @@
 
 <p>{% translate "Weblate could not recover an interrupted repository operation." %}</p>
 
-<pre>{{ error }}</pre>
+{% if not analysis.redirect %}<pre>{{ error }}</pre>{% endif %}
 
 {% include "trans/alert/common-repo.html" %}
 
 {% perm 'vcs.reset' component as user_can_reset %}
-{% if user_can_reset %}
+{% perm 'component.edit' component as user_can_edit_component %}
+{% if user_can_reset or user_can_edit_component %}
   <p>
-    <a href="#"
-       class="btn btn-primary link-post"
-       data-href="{% url "reset" path=component.get_url_path %}">{% translate "Reset the repository" %}</a>
+    {% if user_can_reset %}
+      <a href="#"
+         class="btn btn-primary link-post"
+         data-href="{% url "reset" path=component.get_url_path %}">{% translate "Reset the repository" %}</a>
+    {% endif %}
+    {% if user_can_edit_component %}
+      <a class="btn btn-link"
+         href="{% url 'settings' path=component.get_url_path %}#vcs">{% translate "Edit component settings" %}</a>
+    {% endif %}
   </p>
 {% endif %}

@@ -113,6 +113,11 @@ from weblate.api.serializers import (
     SelfUserSerializer,
     SingleServiceConfigSerializer,
     StatisticsSerializer,
+    SuggestionAcceptRequestSerializer,
+    SuggestionDeleteRequestSerializer,
+    SuggestionSerializer,
+    SuggestionVoteRequestSerializer,
+    SuggestionVoteResultSerializer,
     TaskSerializer,
     TranslationCreateSerializer,
     TranslationSerializer,
@@ -154,6 +159,8 @@ from weblate.trans.models import (
     PendingUnitChange,
     Project,
     Report,
+    Suggestion,
+    SuggestionAddResult,
     Unit,
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
@@ -197,10 +204,26 @@ from .renderers import FlatJsonRenderer, OpenMetricsRenderer, OpenMetricsSample
 if TYPE_CHECKING:
     from django.db.models import Model
     from django.http import HttpResponse
+    from django.http.response import HttpResponseBase
     from rest_framework.request import Request
 
     from weblate.api.serializers import NewUnitSerializer
     from weblate.auth.models import AuthenticatedHttpRequest
+
+    class AuthenticatedRequest(Request):
+        """DRF request after Weblate's authentication middleware."""
+
+        user: User
+        _request: AuthenticatedHttpRequest
+
+    class APIViewSetMixin(viewsets.GenericViewSet):
+        """Expose GenericViewSet methods to type checking for API mixins."""
+
+else:
+
+    class APIViewSetMixin:
+        pass
+
 
 COMPONENT_LINK_RESPONSE_SERIALIZER = inline_serializer(
     "ComponentLinkResponseSerializer",
@@ -455,7 +478,16 @@ def binary_download_response_schema(description: str):
     }
 
 
+def get_request_user(request: Request) -> User:
+    """Return the Weblate user installed by authentication middleware."""
+    user = request.user
+    if not isinstance(user, User):
+        raise PermissionDenied
+    return user
+
+
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
+    request: AuthenticatedRequest  # type: ignore[assignment]
     raw_urls: tuple[str, ...] = ()
     raw_formats: tuple[str, ...] = tuple(EXPORTERS)
 
@@ -478,7 +510,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 
     def download_file(
         self, filename: str, content_type: str, component: Component | None = None
-    ) -> HttpResponse:
+    ) -> HttpResponseBase:
         """Download file."""
         if os.path.isdir(filename):
             return zip_download(
@@ -509,7 +541,11 @@ class WeblateViewSet(DownloadViewSet):
             isinstance(component, Component)
             and component.linked_component_id is not None
         ):
-            return component.linked_component
+            linked_component = component.linked_component
+            if linked_component is None:
+                msg = "Linked component ID exists without a linked component"
+                raise RuntimeError(msg)
+            return linked_component
         return component if component_scope else obj
 
     @transaction.atomic
@@ -543,12 +579,12 @@ class WeblateViewSet(DownloadViewSet):
         obj = self.get_object()
 
         if request.method == "POST":
-            serializer = RepoRequestSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
+            request_serializer = RepoRequestSerializer(data=request.data)
+            request_serializer.is_valid(raise_exception=True)
 
             data = {
                 "result": self.repository_operation(
-                    request, obj, serializer.validated_data["operation"]
+                    request, obj, request_serializer.validated_data["operation"]
                 )
             }
 
@@ -612,8 +648,8 @@ class WeblateViewSet(DownloadViewSet):
 
         data["pending_units"] = PendingUnitChange.objects.detailed_count(obj)
 
-        serializer = RepositorySerializer(data)
-        return Response(serializer.data)
+        response_serializer = RepositorySerializer(data)
+        return Response(response_serializer.data)
 
 
 class MultipleFieldViewSet(WeblateViewSet):
@@ -623,6 +659,8 @@ class MultipleFieldViewSet(WeblateViewSet):
     Apply this mixin to any view or viewset to get multiple field filtering based on a
     `lookup_fields` attribute, instead of the default single field filtering.
     """
+
+    lookup_fields: tuple[str, ...]
 
     def get_object(self):
         # Get the base queryset
@@ -752,6 +790,7 @@ class MemoryLookupResultData(TypedDict):
 class UserViewSet(viewsets.ModelViewSet):
     """Users API."""
 
+    request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = User.objects.none()
     lookup_field = "username"
     filterset_class = UserFilter
@@ -1040,7 +1079,7 @@ class UserViewSet(viewsets.ModelViewSet):
             .values_list("translation", flat=True)
         )
         user_translations = (
-            Translation.objects.filter_access(request.user)
+            Translation.objects.filter_access(get_request_user(request))
             .prefetch()
             .filter(
                 id__in=user_translation_ids,
@@ -1067,6 +1106,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet):
     """Groups API."""
 
+    request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Group.objects.none()
     serializer_class = GroupSerializer
     lookup_field = "id"
@@ -1378,7 +1418,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         elif request.user.has_perm("group.edit"):
             component_queryset = Component.objects
         else:
-            component_queryset = Component.objects.filter_access(request.user)
+            component_queryset = Component.objects.filter_access(
+                get_request_user(request)
+            )
         try:
             component = component_queryset.get(pk=int(request.data[field_name]))
         except (TypeError, ValueError) as error:
@@ -1465,6 +1507,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 class RoleViewSet(viewsets.ModelViewSet):
     """Roles API."""
 
+    request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Role.objects.none()
     serializer_class = RoleSerializer
     lookup_field = "id"
@@ -1542,7 +1585,7 @@ def enqueue_report(request: Request, serializer: ReportCreateSerializer) -> Resp
     )
 
 
-class ReportsMixin:
+class ReportsMixin(APIViewSetMixin):
     @extend_schema(
         methods=["get"],
         description="List accessible reports generated directly for this scope.",
@@ -1564,11 +1607,11 @@ class ReportsMixin:
             self.permission_denied(request, "Must be authenticated to access reports")
         scope = self.get_object()
         if request.method == "POST":
-            serializer = ScopedReportCreateSerializer(
+            create_serializer = ScopedReportCreateSerializer(
                 data=request.data,
                 context={"request": request, "scope": scope},
             )
-            return enqueue_report(request, serializer)
+            return enqueue_report(request, create_serializer)
 
         scope_type, _scope_id = get_report_scope_values(scope)
         reports = (
@@ -1580,17 +1623,17 @@ class ReportsMixin:
             .filter_access(request.user)
         )
         page = self.paginate_queryset(reports)
-        serializer = ReportListSerializer(
+        list_serializer = ReportListSerializer(
             page if page is not None else reports,
             many=True,
             context={"request": request},
         )
         if page is not None:
-            return self.get_paginated_response(serializer.data)
-        return Response(serializer.data)
+            return self.get_paginated_response(list_serializer.data)
+        return Response(list_serializer.data)
 
 
-class AnnouncementsMixin:
+class AnnouncementsMixin(APIViewSetMixin):
     def get_context(self, obj):
         project = None
         category = None
@@ -1733,16 +1776,17 @@ class ProjectViewSet(
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
     lookup_field = "slug"
-    request: Request  # type: ignore[assignment]
+    request: AuthenticatedRequest  # type: ignore[assignment]
 
     def get_create_workspaces(self, request: Request):
-        workspaces = request.user.workspaces_with_perm("workspace.add_project")
+        user = get_request_user(request)
+        workspaces = user.workspaces_with_perm("workspace.add_project")
         if "weblate.billing" in settings.INSTALLED_APPS:
             # ruff: ignore[import-outside-top-level]
             from weblate.billing.models import Billing
 
             valid_billing_workspaces = Billing.objects.for_user_within_limits(
-                request.user
+                user
             ).values("workspace")
             workspaces = workspaces.filter(
                 Q(billing__isnull=True) | Q(pk__in=valid_billing_workspaces)
@@ -1775,8 +1819,8 @@ class ProjectViewSet(
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
     )
-    def repository(self, request: Request, **kwargs):
-        return super().repository(request, **kwargs)
+    def repository(self, request: Request, **kwargs):  # type: ignore[override]
+        return super().repository(request, **kwargs)  # type: ignore[arg-type]
 
     @extend_schema(
         description="Return a list of translation components in the given project.",
@@ -1809,7 +1853,11 @@ class ProjectViewSet(
                 )
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
-                serializer.instance.post_create(self.request.user, origin="api")
+                component = serializer.instance
+                if component is None:
+                    msg = "Component serializer did not produce an instance"
+                    raise RuntimeError(msg)
+                component.post_create(self.request.user, origin="api")
                 return Response(
                     serializer.data,
                     status=HTTP_201_CREATED,
@@ -1895,9 +1943,12 @@ class ProjectViewSet(
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.last_changes(request.user, project=obj)
+        queryset = Change.objects.last_changes(get_request_user(request), project=obj)
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
+        if page is None:
+            msg = "Changes endpoint requires pagination"
+            raise RuntimeError(msg)
         page = Change.objects.preload_list(page)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
@@ -1979,6 +2030,7 @@ class ProjectViewSet(
 
     def create(self, request: Request, *args, **kwargs):
         """Create a new project."""
+        user = get_request_user(request)
         workspace_id = request.data.get("workspace")
         data = request.data
         if workspace_id:
@@ -1986,7 +2038,7 @@ class ProjectViewSet(
                 workspace = get_object_or_404(Workspace, pk=workspace_id)
             except (DjangoValidationError, ValueError) as error:
                 raise ValidationError({"workspace": error.messages}) from error
-            if not request.user.has_perm("workspace.add_project", workspace):
+            if not user.has_perm("workspace.add_project", workspace):
                 self.permission_denied(request, "Can not create projects")
             if "weblate.billing" in settings.INSTALLED_APPS and hasattr(
                 workspace, "billing"
@@ -1996,14 +2048,14 @@ class ProjectViewSet(
 
                 if not (
                     Billing.objects.filter(pk=workspace.billing.pk)
-                    .for_user_within_limits(request.user)
+                    .for_user_within_limits(user)
                     .exists()
                 ):
                     self.permission_denied(
                         request, "No valid billing found or limit exceeded."
                     )
-        elif not request.user.has_perm("project.add"):
-            if not request.user.workspaces_with_perm("workspace.add_project").exists():
+        elif not user.has_perm("project.add"):
+            if not user.workspaces_with_perm("workspace.add_project").exists():
                 self.permission_denied(request, "Can not create projects")
 
             try:
@@ -2423,7 +2475,7 @@ class ComponentViewSet(
     queryset = Component.objects.none()
     serializer_class = ComponentSerializer
     lookup_fields = ("project__slug", "slug")
-    request: AuthenticatedHttpRequest  # type: ignore[assignment]
+    request: AuthenticatedRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         return (
@@ -2471,8 +2523,8 @@ class ComponentViewSet(
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
     )
-    def repository(self, request: Request, **kwargs):
-        return super().repository(request, **kwargs)
+    def repository(self, request: Request, **kwargs):  # type: ignore[override]
+        return super().repository(request, **kwargs)  # type: ignore[arg-type]
 
     @extend_schema(
         description="Return component lock status.",
@@ -2596,7 +2648,7 @@ class ComponentViewSet(
 
             if source_components:
                 auto = AutoTranslate(
-                    user=request.user,
+                    user=get_request_user(request),
                     translation=translation,
                     q="state:<translated",
                     mode="translate",
@@ -2684,9 +2736,12 @@ class ComponentViewSet(
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.last_changes(request.user, component=obj)
+        queryset = Change.objects.last_changes(get_request_user(request), component=obj)
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
+        if page is None:
+            msg = "Changes endpoint requires pagination"
+            raise RuntimeError(msg)
         page = Change.objects.preload_list(page)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
@@ -2822,6 +2877,7 @@ class ComponentViewSet(
 class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     """Memory API."""
 
+    request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Memory.objects.none()
     serializer_class = MemorySerializer
     filterset_class = MemoryFilter
@@ -3057,6 +3113,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
 class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsMixin):
     """Translation components API."""
 
+    request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Translation.objects.none()
     serializer_class = TranslationSerializer
     lookup_fields = ("component__project__slug", "component__slug", "language__code")
@@ -3099,8 +3156,8 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
     )
-    def repository(self, request: Request, **kwargs):
-        return super().repository(request, **kwargs)
+    def repository(self, request: Request, **kwargs):  # type: ignore[override]
+        return super().repository(request, **kwargs)  # type: ignore[arg-type]
 
     def get_translation_file_response(
         self, request: Request, obj: Translation, user: User
@@ -3150,7 +3207,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     )
     def file(self, request: Request, **kwargs):
         obj = self.get_object()
-        user = request.user
+        user = get_request_user(request)
         if request.method == "GET":
             return self.get_translation_file_response(request, obj, user)
 
@@ -3166,7 +3223,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.check_perms(request.user, obj)
+        serializer.check_perms(user, obj)
 
         data = serializer.validated_data
 
@@ -3278,7 +3335,9 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     def changes(self, request: Request, **kwargs):
         obj = self.get_object()
 
-        queryset = Change.objects.last_changes(request.user, translation=obj)
+        queryset = Change.objects.last_changes(
+            get_request_user(request), translation=obj
+        )
         queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
@@ -3357,12 +3416,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             msg = f"Could not parse query string: {error}"
             raise ValidationError({"q": msg}) from error
 
-        queryset = (
-            obj.unit_set.search(query_string)
-            .order_by("id")
-            .prefetch_full()
-            .prefetch_related("pending_changes")
-        )
+        queryset = obj.unit_set.search(query_string).order_by("id").prefetch_api()
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})
@@ -3390,7 +3444,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             raise ValidationError(errors)
 
         auto = AutoTranslate(
-            user=request.user,
+            user=get_request_user(request),
             translation=translation,
             q=autoform.cleaned_data["q"],
             mode=autoform.cleaned_data["mode"],
@@ -3431,6 +3485,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 class LanguageViewSet(viewsets.ModelViewSet):
     """Languages API."""
 
+    request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Language.objects.none()
     serializer_class = LanguageSerializer
     lookup_field = "code"
@@ -3478,6 +3533,25 @@ class LanguageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+def suggestion_vote_response(request: Request, suggestion_pk: int) -> Response:
+    suggestion = Suggestion.objects.filter(pk=suggestion_pk).load_votes().first()
+    if suggestion is None:
+        return Response(
+            {"result": "accepted", "suggestion": None},
+            status=HTTP_200_OK,
+        )
+
+    return Response(
+        {
+            "result": "voted",
+            "suggestion": SuggestionSerializer(
+                suggestion, context={"request": request}
+            ).data,
+        },
+        status=HTTP_200_OK,
+    )
+
+
 @extend_schema_view(
     list=extend_schema(description="Return a list of translation units."),
     retrieve=extend_schema(description="Return information about translation unit."),
@@ -3489,6 +3563,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
 class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     """Units API."""
 
+    request: AuthenticatedRequest  # type: ignore[assignment]
     pagination_class = LargePagination
 
     queryset = Unit.objects.none()
@@ -3503,8 +3578,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         return (
             Unit.objects.filter_access(self.request.user)
             .prefetch()
-            .prefetch_full()
-            .prefetch_related("pending_changes")
+            .prefetch_api()
             .order_by("id")
         )
 
@@ -3625,7 +3699,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     @action(detail=True, methods=["get"])
     def translations(self, request: Request, *args, **kwargs):
         unit = self.get_object()
-        user = request.user
+        user = get_request_user(request)
         user.check_access_component(unit.translation.component)
 
         if not unit.is_source:
@@ -3676,6 +3750,156 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         page = self.paginate_queryset(qs)
         serializer = CommentSerializer(page, context={"request": request}, many=True)
         return self.get_paginated_response(serializer.data)
+
+    @extend_schema(
+        description="Add a suggestion to the unit.",
+        methods=["post"],
+        request=SuggestionSerializer,
+        responses={
+            201: SuggestionSerializer,
+            200: SuggestionVoteResultSerializer,
+        },
+    )
+    @extend_schema(
+        description="Return a list of suggestions on the unit.",
+        methods=["get"],
+        responses={200: SuggestionSerializer(many=True)},
+    )
+    @action(detail=True, methods=["get", "post"], serializer_class=SuggestionSerializer)
+    def suggestions(self, request, *args, **kwargs):
+        """List suggestions on a unit or add a new suggestion to a unit."""
+        unit = self.get_object()
+        user = request.user
+
+        if request.method == "POST":
+            if not user.has_perm("suggestion.add", unit):
+                self.permission_denied(request)
+
+            serializer = SuggestionSerializer(
+                data=request.data,
+                context={
+                    "unit": unit,
+                    "request": request,
+                },
+            )
+            serializer.is_valid(raise_exception=True)
+            suggestion = serializer.save()
+            if serializer.add_result == SuggestionAddResult.VOTED:
+                return suggestion_vote_response(request, suggestion.pk)
+
+            if Suggestion.objects.filter(pk=suggestion.pk).exists():
+                return Response(serializer.data, status=HTTP_201_CREATED)
+            # The suggestion was removed after autoaccept
+            return Response(
+                {"result": "accepted", "suggestion": None},
+                status=HTTP_200_OK,
+            )
+
+        qs = unit.suggestion_set.load_votes().select_related("user").order()
+        page = self.paginate_queryset(qs)
+        serializer = SuggestionSerializer(page, context={"request": request}, many=True)
+        return self.get_paginated_response(serializer.data)
+
+
+@extend_schema_view(
+    list=extend_schema(description="Return a list of suggestions."),
+    retrieve=extend_schema(description="Return information about a suggestion."),
+)
+class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
+    """Suggestions API."""
+
+    queryset = Suggestion.objects.none()
+    serializer_class = SuggestionSerializer
+    pagination_class = LargePagination
+
+    def get_queryset(self):
+        return (
+            Suggestion.objects.filter_access(self.request.user)
+            .select_related("unit", "user", "unit__translation__component__project")
+            .order_by("-timestamp")
+            .load_votes()
+        )
+
+    @extend_schema(
+        description="Delete a suggestion.",
+        methods=["delete"],
+        request=SuggestionDeleteRequestSerializer,
+        responses={204: None},
+    )
+    def destroy(self, request: Request, *args, **kwargs):
+        """Remove a suggestion."""
+        suggestion = self.get_object()
+        user = request.user
+        if not user.has_perm("suggestion.delete", suggestion):
+            self.permission_denied(request)
+
+        serializer = SuggestionDeleteRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        suggestion.delete_log(
+            user,
+            is_spam=data.get("is_spam", False),
+            rejection_reason=data.get("rejection_reason", ""),
+            old=suggestion.unit.target,
+        )
+        return Response(status=HTTP_204_NO_CONTENT)
+
+    @extend_schema(
+        description="Accept a suggestion.",
+        methods=["post"],
+        request=SuggestionAcceptRequestSerializer,
+        responses={
+            200: inline_serializer(
+                "SuggestionActionResultSerializer", {"result": serializers.CharField()}
+            )
+        },
+    )
+    @action(detail=True, methods=["post"])
+    def accept(self, request: Request, **kwargs):
+        suggestion = self.get_object()
+        unit = suggestion.unit
+        user = request.user
+
+        serializer = SuggestionAcceptRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        approve = serializer.validated_data["approve"]
+
+        if not user.has_perm("suggestion.accept", unit):
+            self.permission_denied(request)
+
+        if approve and not user.has_perm("unit.review", unit):
+            self.permission_denied(request)
+
+        suggestion.accept(
+            request,
+            state=STATE_APPROVED if approve else STATE_TRANSLATED,
+        )
+        return Response(data={"result": "accepted"}, status=HTTP_200_OK)
+
+    @extend_schema(
+        description="Vote on a suggestion.",
+        methods=["post"],
+        request=SuggestionVoteRequestSerializer,
+        responses={200: SuggestionVoteResultSerializer},
+    )
+    @action(detail=True, methods=["post"])
+    def vote(self, request: Request, **kwargs):
+        suggestion = self.get_object()
+        unit = suggestion.unit
+        user = request.user
+
+        if not user.has_perm("suggestion.vote", unit):
+            self.permission_denied(request)
+
+        serializer = SuggestionVoteRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        value = serializer.validated_data["value"]
+
+        suggestion_pk = suggestion.pk
+        suggestion.add_vote(request, value)
+
+        return suggestion_vote_response(request, suggestion_pk)
 
 
 @extend_schema_view(
@@ -3864,6 +4088,7 @@ class ChangesFilterBackend(filters.DjangoFilterBackend):
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     """Changes API."""
 
+    request: AuthenticatedRequest  # type: ignore[assignment]
     queryset = Change.objects.none()
     serializer_class = ChangeSerializer
     filter_backends = (ChangesFilterBackend,)
@@ -3887,7 +4112,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
     queryset = ComponentList.objects.none()
     serializer_class = ComponentListSerializer
     lookup_field = "slug"
-    request: Request  # type: ignore[assignment]
+    request: AuthenticatedRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         component_queryset = Component.objects.select_related("project")
@@ -3987,7 +4212,7 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
     queryset = Category.objects.none()
     serializer_class = CategorySerializer
     lookup_field = "pk"
-    request: Request  # type: ignore[assignment]
+    request: AuthenticatedRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -4079,7 +4304,7 @@ class Search(APIView):
     """Site-wide search endpoint."""
 
     serializer_class = SearchResultSerializer
-    request: AuthenticatedHttpRequest  # type: ignore[assignment]
+    request: AuthenticatedRequest  # type: ignore[assignment]
 
     @extend_schema(
         operation_id="api_search_retrieve",
@@ -4168,7 +4393,7 @@ class ReportViewSet(viewsets.ModelViewSet):
     serializer_class = ReportSerializer
     http_method_names = ("get", "post", "head", "options")
     permission_classes = (IsAuthenticated,)
-    request: AuthenticatedHttpRequest  # type: ignore[assignment]
+    request: AuthenticatedRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -4354,7 +4579,7 @@ class TasksViewSet(ViewSet):
 class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
     queryset = Addon.objects.none()
     serializer_class = AddonSerializer
-    request: AuthenticatedHttpRequest  # type: ignore[assignment]
+    request: AuthenticatedRequest  # type: ignore[assignment]
 
     def get_queryset(self):
         return Addon.objects.filter_access(self.request.user).order_by("id")

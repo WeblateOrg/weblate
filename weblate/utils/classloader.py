@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import TYPE_CHECKING, Protocol, TypeVar
+from typing import TYPE_CHECKING, Protocol, TypeVar, runtime_checkable
 from weakref import WeakSet
 
 from django.conf import settings
@@ -40,15 +40,16 @@ def load_class(name, setting):
         raise ImproperlyConfigured(msg) from error
 
 
+@runtime_checkable
 class ClassLoaderProtocol(Protocol):
     @property
     def name(self) -> StrOrPromise: ...
 
 
-T = TypeVar("T", bound=ClassLoaderProtocol)
+T = TypeVar("T")
 
 
-class ClassLoader[T: ClassLoaderProtocol]:
+class ClassLoader[T]:
     """Dict like object to lazy load list of classes."""
 
     instances: WeakSet[ClassLoader] = WeakSet()
@@ -154,14 +155,36 @@ class ClassLoader[T: ClassLoaderProtocol]:
             def cond(x: T) -> bool:
                 return True
 
-        result = [
-            (x, self[x].name)
-            for x in sorted(self.keys())
-            if x not in exclude and cond(self[x])
-        ]
+        result = []
+        for key in sorted(self.keys()):
+            value = self[key]
+            if key in exclude or not cond(value):
+                continue
+            if not isinstance(value, ClassLoaderProtocol):
+                msg = f"Loaded object {value!r} does not provide a name"
+                raise TypeError(msg)
+            result.append((key, value.name))
         if empty:
             result.insert(0, ("", ""))
         return result
+
+
+class ClassRegistry[T: ClassLoaderProtocol](ClassLoader[type[T]]):
+    """Class loader variant which retains classes instead of constructing them."""
+
+    def __init__(
+        self,
+        name: str,
+        *,
+        base_class: type[T],
+        collect_errors: bool = False,
+    ) -> None:
+        super().__init__(
+            name,
+            base_class=base_class,  # type: ignore[arg-type]
+            construct=False,
+            collect_errors=collect_errors,
+        )
 
 
 @receiver(setting_changed)

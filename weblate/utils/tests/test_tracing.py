@@ -320,16 +320,16 @@ class TracingTest(SimpleTestCase):
             patch(
                 "opentelemetry.instrumentation.psycopg.PsycopgInstrumentor"
             ) as psycopg,
-            patch("weblate.utils.errors.os.getpid", side_effect=[100, 101]),
-            patch("weblate.utils.errors.os.register_at_fork") as register_at_fork,
+            patch("weblate.utils.errors.os", autospec=True) as os_mock,
         ):
+            os_mock.getpid.side_effect = [100, 101]
             for instrumentor in (django, celery, redis, requests, psycopg):
                 instrumentor.return_value.is_instrumented_by_opentelemetry = False
             errors.init_opentelemetry()
             errors.init_opentelemetry()
 
         self.assertEqual(tracer_provider.call_count, 2)
-        register_at_fork.assert_called_once_with(
+        os_mock.register_at_fork.assert_called_once_with(
             # ruff: ignore[private-member-access]
             after_in_child=errors._init_opentelemetry_after_fork
         )

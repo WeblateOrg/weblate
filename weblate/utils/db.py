@@ -102,6 +102,35 @@ def get_database_size(*, alias: str = "default") -> int | None:
         return None
 
 
+def get_invalid_database_statistics(*, alias: str = "default") -> list[str]:
+    """Return user relations with non-finite PostgreSQL row estimates."""
+    connection = connections[alias]
+    if connection.vendor != "postgresql":
+        return []
+
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT DISTINCT namespace.nspname, relation.relname
+              FROM pg_catalog.pg_class statistics
+              LEFT JOIN pg_catalog.pg_index index_statistics
+                ON index_statistics.indexrelid = statistics.oid
+              JOIN pg_catalog.pg_class relation
+                ON relation.oid = COALESCE(
+                    index_statistics.indrelid, statistics.oid
+                )
+              JOIN pg_catalog.pg_namespace namespace
+                ON namespace.oid = relation.relnamespace
+             WHERE statistics.relkind IN ('r', 'm', 'p', 'i')
+               AND namespace.nspname !~ '^pg_'
+               AND namespace.nspname <> 'information_schema'
+               AND statistics.reltuples::text IN ('Infinity', '-Infinity', 'NaN')
+             ORDER BY namespace.nspname, relation.relname
+            """
+        )
+        return [f"{namespace}.{relation}" for namespace, relation in cursor.fetchall()]
+
+
 def count_alnum(string):
     return sum(map(str.isalnum, string))
 

@@ -6,6 +6,7 @@ from __future__ import annotations
 from itertools import chain
 from typing import TYPE_CHECKING, cast
 
+from asgiref.sync import sync_to_async
 from django.core.exceptions import PermissionDenied
 from django.http import (
     Http404,
@@ -214,7 +215,7 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
 class EditMachineryView(FormView):
     template_name = "machinery/edit.html"
 
-    machinery: DeprecatedMachinery | BatchMachineTranslation
+    machinery: DeprecatedMachinery | type[BatchMachineTranslation]
 
     def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
@@ -400,11 +401,61 @@ def get_machinery_translations(
 ) -> list[dict]:
     if search:
         translations = translation_service.search(unit, search, request.user)
+        return format_machinery_translations(
+            translations,
+            search=True,
+            targets=targets,
+            translation=translation,
+            source_translation=source_translation,
+        )
+
+    translations = translation_service.translate(unit, request.user)
+    return format_machinery_translations(
+        translations,
+        search=False,
+        targets=targets,
+        translation=translation,
+        source_translation=source_translation,
+    )
+
+
+async def get_machinery_translations_async(
+    request: AuthenticatedHttpRequest,
+    translation_service: BatchMachineTranslation,
+    unit: Unit,
+    search: str | None,
+    targets: list[str],
+    translation: Translation,
+    source_translation: Translation,
+) -> list[dict]:
+    if search:
+        translations = await translation_service.asearch(unit, search, request.user)
+        is_search = True
+    else:
+        translations = await translation_service.atranslate(unit, request.user)
+        is_search = False
+    return await sync_to_async(format_machinery_translations)(
+        translations,
+        search=is_search,
+        targets=targets,
+        translation=translation,
+        source_translation=source_translation,
+    )
+
+
+def format_machinery_translations(
+    translations,
+    *,
+    search: bool,
+    targets: list[str],
+    translation: Translation,
+    source_translation: Translation,
+) -> list[dict]:
+    if search:
         for item in translations:
             format_results_helper(item, targets, 0, translation, source_translation)
         return translations
 
-    translations = translation_service.translate(unit, request.user)
     for plural_form, possible_translations in enumerate(translations):
         for item in possible_translations:
             format_results_helper(
@@ -470,11 +521,79 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
     return JsonResponse(data=response)
 
 
+def get_machinery_unit(user, unit_id: int) -> Unit:
+    return get_object_or_404(
+        Unit.objects.filter_access(user).select_related(
+            "translation__component__project",
+            "translation__language",
+        ),
+        pk=unit_id,
+    )
+
+
 @require_POST
-def translate(request: AuthenticatedHttpRequest, unit_id: int, service: str):
+async def translate(request: AuthenticatedHttpRequest, unit_id: int, service: str):
     """AJAX handler for translating."""
-    unit = get_object_or_404(Unit.objects.filter_access(request.user), pk=unit_id)
-    return handle_machinery(request, service, unit)
+    unit = await sync_to_async(get_machinery_unit)(request.user, unit_id)
+    translation = await sync_to_async(lambda: unit.translation)()
+    component = await sync_to_async(lambda: translation.component)()
+    source_translation = await sync_to_async(lambda: component.source_translation)()
+    if not await sync_to_async(request.user.has_perm)("machinery.view", translation):
+        raise PermissionDenied
+
+    try:
+        translation_service_class = MACHINERY[service]
+    except KeyError as error:
+        msg = "Invalid service specified"
+        raise Http404(msg) from error
+
+    response = {
+        "responseStatus": 500,
+        "responseDetails": "",
+        "translations": [],
+        "lang": translation.language.code,
+        "dir": translation.language.direction,
+        "service": translation_service_class.name,
+    }
+
+    machinery_settings, targets = await sync_to_async(
+        lambda: (
+            component.project.get_machinery_settings(),
+            unit.get_target_plurals(),
+        )
+    )()
+    try:
+        translation_service = translation_service_class(machinery_settings[service])
+    except KeyError:
+        response["responseDetails"] = gettext("Service is currently not available.")
+    else:
+        try:
+            response["translations"] = await get_machinery_translations_async(
+                request,
+                translation_service,
+                unit,
+                None,
+                targets,
+                translation,
+                source_translation,
+            )
+            response["responseStatus"] = 200
+        except MachineTranslationError as exc:
+            response["responseDetails"] = str(exc)
+        except Exception as error:
+            await sync_to_async(report_error)(
+                "Machinery failed",
+                project=component.project,
+                exception=error,
+            )
+            response["responseDetails"] = f"{error.__class__.__name__}: {error}"
+
+    if response["responseStatus"] != 200:
+        await sync_to_async(translation.log_info)(
+            "machinery %s failed: %s", service, response["responseDetails"]
+        )
+
+    return JsonResponse(data=response)
 
 
 @require_POST

@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, overload
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -24,6 +24,8 @@ from weblate.trans.inherited_settings import (
     INHERITABLE_COMPONENT_SETTINGS,
     LANGUAGE_CODE_STYLE_CHOICES,
     NEW_LANG_CHOICES,
+    InheritableLanguageSetting,
+    InheritableStringSetting,
     get_disabled_component_new_language_filter,
     get_inherit_field_name,
     get_inheritable_setting_value,
@@ -303,6 +305,7 @@ class Category(
     objects = CategoryQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         app_label = "trans"
         verbose_name = "Category"
         verbose_name_plural = "Categories"
@@ -452,15 +455,11 @@ class Category(
     def get_child_components_access(self, user: User):
         """List child components, including shared components linked to this category."""
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.models.component import (
-            Component,
-            ComponentLink,
-        )
+        from weblate.trans.models.component import Component
 
-        shared_ids = ComponentLink.objects.filter(category=self).values_list(
-            "component_id", flat=True
+        qs = Component.objects.filter(
+            pk__in=self.get_component_ids_with_links(include_descendants=False)
         )
-        qs = Component.objects.filter(Q(category=self) | Q(pk__in=shared_ids))
         return qs.filter_access(user).prefetch().order()
 
     def uses_parent_setting(self, field: str) -> bool:
@@ -472,6 +471,17 @@ class Category(
     @property
     def settings_parent(self):
         return self.category or self.project
+
+    @overload
+    def get_effective_setting(self, field: InheritableStringSetting) -> str: ...
+
+    @overload
+    def get_effective_setting(
+        self, field: InheritableLanguageSetting
+    ) -> Language | None: ...
+
+    @overload
+    def get_effective_setting(self, field: str) -> str | Language | None: ...
 
     def get_effective_setting(self, field: str) -> str | Language | None:
         """Return setting value after applying parent inheritance."""
@@ -492,47 +502,47 @@ class Category(
 
     @property
     def effective_license(self) -> str:
-        return cast("str", self.get_effective_setting("license"))
+        return self.get_effective_setting("license")
 
     @property
     def effective_agreement(self) -> str:
-        return cast("str", self.get_effective_setting("agreement"))
+        return self.get_effective_setting("agreement")
 
     @property
     def effective_new_lang(self) -> str:
-        return cast("str", self.get_effective_setting("new_lang"))
+        return self.get_effective_setting("new_lang")
 
     @property
     def effective_language_code_style(self) -> str:
-        return cast("str", self.get_effective_setting("language_code_style"))
+        return self.get_effective_setting("language_code_style")
 
     @property
     def effective_secondary_language(self) -> Language | None:
-        return cast("Language | None", self.get_effective_setting("secondary_language"))
+        return self.get_effective_setting("secondary_language")
 
     @property
     def effective_commit_message(self) -> str:
-        return cast("str", self.get_effective_setting("commit_message"))
+        return self.get_effective_setting("commit_message")
 
     @property
     def effective_add_message(self) -> str:
-        return cast("str", self.get_effective_setting("add_message"))
+        return self.get_effective_setting("add_message")
 
     @property
     def effective_delete_message(self) -> str:
-        return cast("str", self.get_effective_setting("delete_message"))
+        return self.get_effective_setting("delete_message")
 
     @property
     def effective_merge_message(self) -> str:
-        return cast("str", self.get_effective_setting("merge_message"))
+        return self.get_effective_setting("merge_message")
 
     @property
     def effective_addon_message(self) -> str:
-        return cast("str", self.get_effective_setting("addon_message"))
+        return self.get_effective_setting("addon_message")
 
     @property
     def effective_pull_message(self) -> str:
-        return cast("str", self.get_effective_setting("pull_message"))
+        return self.get_effective_setting("pull_message")
 
     def schedule_component_check_updates(self, *, update_state: bool = False) -> None:
         for component in self.all_components.iterator():
@@ -551,21 +561,32 @@ class Category(
     def languages(self):
         """Return list of all languages used in category, including shared components."""
         # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Translation
+
+        language_ids = Translation.objects.filter(
+            component_id__in=self.get_component_ids_with_links()
+        ).values_list("language_id", flat=True)
+        return Language.objects.filter(pk__in=language_ids).order()
+
+    def get_component_ids_with_links(self, *, include_descendants: bool = True):
+        """Return a lazy query of owned and linked component identifiers."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
+
+        # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.component import ComponentLink
 
-        shared_ids = ComponentLink.objects.filter(
-            Q(category=self)
-            | Q(category__category=self)
-            | Q(category__category__category=self)
-        ).values_list("component_id", flat=True)
-        return (
-            Language.objects.filter(
-                Q(translation__component_id__in=self.all_component_ids)
-                | Q(translation__component_id__in=shared_ids)
+        category_filter = Q(category=self)
+        if include_descendants:
+            category_filter |= Q(category__category=self) | Q(
+                category__category__category=self
             )
-            .distinct()
-            .order()
+
+        owned = Component.objects.filter(category_filter).values_list("pk", flat=True)
+        shared = ComponentLink.objects.filter(category_filter).values_list(
+            "component_id", flat=True
         )
+        return owned.union(shared)
 
     @cached_property
     def all_components(self) -> ComponentQuerySet:
@@ -598,6 +619,7 @@ class Category(
 
     @cached_property
     def all_component_ids(self):
+        """Return cached identifiers of components owned by this category tree."""
         return set(self.all_components.values_list("pk", flat=True))
 
     def generate_changes(self, old) -> None:
@@ -626,10 +648,21 @@ class Category(
                 )
 
     @cached_property
-    def source_language_ids(self):
-        return set(
+    def source_language_ids(self) -> set[int]:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.component import ComponentLink
+
+        result = set(
             self.all_components.values_list("source_language_id", flat=True).distinct()
         )
+        result.update(
+            ComponentLink.objects.filter(
+                Q(category=self)
+                | Q(category__category=self)
+                | Q(category__category__category=self)
+            ).values_list("component__source_language_id", flat=True)
+        )
+        return result
 
     def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""

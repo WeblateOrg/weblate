@@ -14,6 +14,7 @@ from itertools import chain
 from operator import itemgetter
 from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict, TypeGuard
 
+from asgiref.sync import sync_to_async
 from django.utils.html import strip_tags
 from django.utils.translation import override, pgettext
 
@@ -46,6 +47,7 @@ if TYPE_CHECKING:
         SettingsDict,
         TranslationResultDict,
     )
+    from .forms import LLMBasicMachineryForm
 
 type JSONValue = (
     bool | int | float | str | list[JSONValue] | dict[str, JSONValue] | None
@@ -257,6 +259,7 @@ class LLMStringPayload(LLMStringContext):
 
 
 class BaseLLMTranslation(BatchMachineTranslation):
+    settings_form: type[LLMBasicMachineryForm]
     max_score = 90
     request_timeout = 120
     glossary_support = True
@@ -292,11 +295,26 @@ class BaseLLMTranslation(BatchMachineTranslation):
     ) -> str | None:
         raise NotImplementedError
 
+    async def afetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
+        return await sync_to_async(self.fetch_llm_translations, thread_sensitive=False)(
+            prompt, content, previous_content, previous_response
+        )
+
     def get_model(self) -> str:
         raise NotImplementedError
 
+    async def aget_model(self) -> str:
+        return await sync_to_async(self.get_model, thread_sensitive=False)()
+
     def get_traced_model(self) -> str:
         model = self.get_model()
+        add_breadcrumb(self.name, "model", model=model)
+        return model
+
+    async def aget_traced_model(self) -> str:
+        model = await self.aget_model()
         add_breadcrumb(self.name, "model", model=model)
         return model
 
@@ -2287,6 +2305,37 @@ class BaseLLMTranslation(BatchMachineTranslation):
             ],
         )
 
+    async def adownload_multiple_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadMultipleTranslations:
+        return await self._adownload_multiple_translations(
+            source_language, target_language, sources, user, threshold
+        )
+
+    async def adownload_pending_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None, int]],
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadMultipleTranslations:
+        return await self._adownload_multiple_translations(
+            source_language,
+            target_language,
+            [(text, unit) for text, unit, _occurrence in sources],
+            user,
+            threshold,
+            source_occurrences=[
+                source_occurrence for _text, _unit, source_occurrence in sources
+            ],
+        )
+
     def _download_multiple_translations(
         self,
         source_language,
@@ -2320,8 +2369,57 @@ class BaseLLMTranslation(BatchMachineTranslation):
         *,
         source_occurrences: list[int] | None = None,
     ) -> DownloadMultipleTranslations:
-        result: DownloadMultipleTranslations = defaultdict(list)
+        prompt, content, previous_content, previous_response = (
+            self._prepare_llm_translation(
+                source_language,
+                target_language,
+                sources,
+                source_occurrences,
+            )
+        )
+        translations_string = self.fetch_llm_translations(
+            prompt, content, previous_content, previous_response
+        )
+        return self._parse_llm_translations(
+            translations_string, sources, source_occurrences
+        )
 
+    async def _adownload_multiple_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+        *,
+        source_occurrences: list[int] | None = None,
+    ) -> DownloadMultipleTranslations:
+        started_cache = await sync_to_async(self._ensure_secondary_context_cache)()
+        try:
+            prompt, content, previous_content, previous_response = await sync_to_async(
+                self._prepare_llm_translation
+            )(
+                source_language,
+                target_language,
+                sources,
+                source_occurrences,
+            )
+            translations_string = await self.afetch_llm_translations(
+                prompt, content, previous_content, previous_response
+            )
+            return await sync_to_async(self._parse_llm_translations)(
+                translations_string, sources, source_occurrences
+            )
+        finally:
+            await sync_to_async(self._clear_secondary_context_cache)(started_cache)
+
+    def _prepare_llm_translation(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        source_occurrences: list[int] | None,
+    ) -> tuple[str, str, str, str]:
         prompt = self._get_prompt(target_language)
         content = self._get_message(
             source_language, target_language, sources, source_occurrences
@@ -2331,17 +2429,21 @@ class BaseLLMTranslation(BatchMachineTranslation):
         )
         add_breadcrumb(self.name, "prompt", prompt=prompt)
         add_breadcrumb(self.name, "chat", content=content)
+        return prompt, content, previous_content, previous_response
 
-        translations_string = self.fetch_llm_translations(
-            prompt, content, previous_content, previous_response
-        )
-
+    def _parse_llm_translations(
+        self,
+        translations_string: str | None,
+        sources: list[tuple[str, Unit | None]],
+        source_occurrences: list[int] | None,
+    ) -> DownloadMultipleTranslations:
         add_breadcrumb(self.name, "response", translations_string=translations_string)
         if translations_string is None or not translations_string:
             msg = "Blank assistant reply"
             self.log_handled_error(msg, extra_log=translations_string)
             raise MachineTranslationError(msg)
 
+        result: DownloadMultipleTranslations = defaultdict(list)
         try:
             translations = json.loads(translations_string)
         except json.JSONDecodeError as error:

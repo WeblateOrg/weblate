@@ -152,6 +152,7 @@ class Report(models.Model):
     objects = ReportQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         ordering = ("-created", "-pk")
         constraints: ClassVar[list[models.BaseConstraint]] = [
             models.CheckConstraint(

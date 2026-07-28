@@ -243,11 +243,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Accept English as primary language, this does not seem to work
         options.add_experimental_option("prefs", {"intl.accept_languages": "en,en_US"})
 
-        # Need to revert fontconfig custom config for starting chrome
-        backup_fc = os.environ.get("FONTCONFIG_FILE")
-        if backup_fc is not None:
-            del os.environ["FONTCONFIG_FILE"]
-
         # Force English locales, the --lang and accept_language settings does not
         # work in some cases
         backup_lang = os.environ.get("LANG")
@@ -290,9 +285,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 },
             )
 
-        # Restore custom fontconfig settings
-        if backup_fc is not None:
-            os.environ["FONTCONFIG_FILE"] = backup_fc
         # Restore locales
         if backup_lang is None:
             del os.environ["LANG"]
@@ -1312,7 +1304,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.get(f"{self.live_server_url}{reverse('manage-ssh')}")
 
         # Add SSH host key
-        self.driver.find_element(By.ID, "id_host").send_keys("example.com")
+        self.driver.find_element(By.ID, "id_host").send_keys("github.com")
         with (
             patch.dict(
                 os.environ,
@@ -1785,9 +1777,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.use_live_server_widget_preview()
             self.screenshot("promote.png")
             widget_select = Select(self.driver.find_element(By.ID, "widget-type"))
-            for widget_name in WIDGETS:
-                widget_select.select_by_value(widget_name)
-                self.screenshot_widget(widget_name)
+            language_select = Select(
+                self.driver.find_element(By.ID, "translation-language")
+            )
+            for language, suffix in (("", ""), ("he", "-rtl")):
+                language_select.select_by_value(language)
+                for widget_name in WIDGETS:
+                    widget_select.select_by_value(widget_name)
+                    self.screenshot_widget(f"{widget_name}{suffix}")
         with self.wait_for_page_load():
             self.driver.get(
                 f"{self.live_server_url}"

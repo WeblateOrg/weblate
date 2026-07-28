@@ -18,7 +18,14 @@ from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.bulk import bulk_perform
-from weblate.trans.models import Change, Comment, Component, PendingUnitChange, Unit
+from weblate.trans.models import (
+    Change,
+    Comment,
+    Component,
+    PendingUnitChange,
+    Translation,
+    Unit,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
@@ -125,9 +132,9 @@ class SearchViewTest(ViewTestCase):
         self.do_search_url(reverse("search"))
 
     def test_pagination(self) -> None:
-        response = self.client.get(reverse("search"), {"q": "hello", "page": 1})
+        response = self.client.get(reverse("search"), {"q": "hello", "page": "1"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
-        response = self.client.get(reverse("search"), {"q": "hello", "page": 10})
+        response = self.client.get(reverse("search"), {"q": "hello", "page": "10"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
         response = self.client.get(reverse("search"), {"q": "hello", "page": "x"})
         self.assertContains(response, '<span class="hlmatch">Hello</span>, world')
@@ -358,6 +365,7 @@ class SearchViewTest(ViewTestCase):
         self.do_search({"q": "is:automatically-translated"}, None)
 
         unit = self.translation.unit_set.first()
+        assert unit is not None
         unit.automatically_translated = True
         unit.save()
 
@@ -376,8 +384,8 @@ class SearchViewTest(ViewTestCase):
     def assert_search_variant(
         self,
         expected_source: str,
-        match_components: list[Component],
-        no_match_component: Component,
+        match_components: list[Translation],
+        no_match_component: Translation,
     ) -> None:
         for component in match_components:
             response = self.client.get(

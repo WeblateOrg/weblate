@@ -117,9 +117,14 @@ Scope and intended use
      - Out of scope for product security claims. *(maintainer)*
 
 The intended deployment is a server-side Weblate installation behind a web
-server or reverse proxy, with a WSGI application server, PostgreSQL database,
-datastore, Celery workers, a writable data directory, and optional outbound VCS,
-backup, identity-provider, and machine-translation integrations. *(documented)* (source: :doc:`/admin/install`)
+server or reverse proxy, with a WSGI or ASGI application server, PostgreSQL
+database, datastore, Celery workers, a writable data directory, and optional
+outbound VCS, backup, identity-provider, and machine-translation integrations.
+*(documented)* (source: :doc:`/admin/install`)
+
+The WSGI and ASGI deployment modes expose the same Django HTTP request surface
+and rely on the same reverse-proxy controls. ASGI deployment does not add a
+WebSocket interface. *(documented)* (source: :ref:`running-granian-asgi`)
 
 The relevant actors are split by trust level: unauthenticated clients,
 authenticated users, reviewers, project managers, administrators,
@@ -181,10 +186,13 @@ repository state, background tasks, outbound requests, and rendered UI.
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
-       where hooks are enabled. GitHub App webhooks additionally authenticate
-       with a per-app URL token and GitHub signature
-       verification before processing. *(documented)* (source: :ref:`hooks`,
-       :ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)
+       where hooks are enabled. Registered GitHub App webhooks additionally
+       authenticate with a per-app URL token and GitHub signature verification.
+       Opt-in legacy GitHub App deliveries to the generic GitHub webhook URL
+       authenticate with a separately configured secret. *(documented)*
+       (source: :ref:`hooks`, :ref:`project-enable_hooks`,
+       :ref:`code-hosting-github-app-webhook`,
+       :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)
    * - Weblate to database/datastore
      - Permission-checked application state becomes persistent data and queued
        work. *(documented)* (source: :doc:`/admin/install`)
@@ -348,6 +356,20 @@ Build-time and configuration variants
        (source: :setting:`ASSET_RESTRICT_PRIVATE`,
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
+       Protected direct HTTP requests are bound to addresses approved by
+       runtime validation; configured proxies are trusted infrastructure and
+       resolve their destination hosts.
+       Protected Git HTTPS and SSH operations are bound to addresses approved
+       by runtime validation. Protected SSH operations validate the effective
+       ``HostName`` and ``Port``. Trusted administrator SSH configuration can
+       alter routing, and :setting:`SSH_EXTRA_ARGS` can override connection
+       binding. Permanent same-host Git HTTP redirects are probed without
+       automatic redirect following. Every direct destination is independently
+       validated and bound before use; configured HTTP proxies use the shared
+       trusted outbound routing. Git LFS object transfers are disabled and
+       outside the supported VCS integration surface. VCS clients without
+       connection binding require an explicit trusted-host exemption.
+       *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
        reachability. *(documented)* (source: :setting:`ASSET_PRIVATE_ALLOWLIST`,
        :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`,
@@ -358,7 +380,8 @@ Build-time and configuration variants
    * - :setting:`SSH_EXTRA_ARGS`
      - Allows custom SSH options. *(documented)* (source: :setting:`SSH_EXTRA_ARGS`)
      - Weakening SSH algorithms or host verification changes VCS transport
-       assumptions. *(maintainer)*
+       assumptions. Routing options can override protected repository address
+       pinning. *(maintainer)*
      - Operators own the security impact of custom SSH options. *(maintainer)*
    * - Third-party add-ons and local customization
      - Administrators can extend behavior. *(documented)* (source: :doc:`/admin/addons`)
@@ -392,10 +415,15 @@ Input assumptions
      - Token storage, rotation, and least-privilege team membership.
        *(maintainer)*
    * - Translation content
-     - Source strings, translations, comments, suggestions, glossary entries
+     - Source strings, translations, comments, suggestions, glossary entries;
+       suggestion API requests including ``rejection_reason`` text, ``is_spam``
+       flag, and ``approve`` flag
      - Yes, from users with relevant permissions or imported repositories.
        *(documented)* (source: :doc:`/user/translating`, :doc:`/admin/access`)
-     - Review workflows for project-specific content integrity. *(documented)* (source: :doc:`/workflows`)
+     - Review workflows for project-specific content integrity; approving a
+       suggestion via the API additionally requires the ``unit.review``
+       permission check to be satisfied.
+       *(documented)* (source: :doc:`/workflows`, :doc:`/api`)
    * - Webhook endpoints
      - Headers, event type, body, repository and branch metadata
      - Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)
@@ -451,6 +479,10 @@ Size and rate assumptions:
 * Project backup imports are bounded by member count, aggregate uncompressed
   size, compressed entry size, minimum ratio size, and compression ratio
   settings. *(documented)* (source: :doc:`/admin/config`)
+* Project backup metadata, object references, repository paths, outbound URLs,
+  regular expressions, and screenshot content are validated before restore
+  writes project state. Failed restores remove repository and media objects
+  created by that attempt. *(documented)* (source: :ref:`projectbackup`)
 * API and selected web actions are expected to be protected by configured rate
   limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
 * Repository size, number of projects, number of components, and worker
@@ -573,7 +605,10 @@ Security properties Weblate provides
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
      - Default private-target checks are enabled and no trusted allowlist
-       exemption applies.
+       exemption applies. Direct protected HTTP requests and Git HTTPS and SSH
+       operations retain address binding, VCS restrictions remain enabled,
+       and VCS backends without binding use only explicitly trusted hosts.
+       Configured proxies remain trusted routing infrastructure.
      - A user-configurable screenshot URL, remote HTML URL, project website or
        repository browser URL, outbound webhook URL, Fedora Messaging AMQP
        broker URL, or VCS URL reaches an internal or non-public target despite

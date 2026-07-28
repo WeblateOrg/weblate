@@ -33,7 +33,37 @@ class OllamaTranslation(BaseLLMTranslation):
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
         model = self.get_traced_model()
-        payload = {
+        response = self.request(
+            "post",
+            self.get_chat_url(),
+            json=self.get_chat_payload(
+                model, prompt, content, previous_content, previous_response
+            ),
+        )
+        return self.parse_chat_response(response.json())
+
+    async def afetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
+        model = await self.aget_traced_model()
+        response = await self.arequest(
+            "post",
+            self.get_chat_url(),
+            json=self.get_chat_payload(
+                model, prompt, content, previous_content, previous_response
+            ),
+        )
+        return self.parse_chat_response(response.json())
+
+    @staticmethod
+    def get_chat_payload(
+        model: str,
+        prompt: str,
+        content: str,
+        previous_content: str,
+        previous_response: str,
+    ) -> dict:
+        return {
             "model": model,
             "messages": [
                 {"role": "system", "content": prompt},
@@ -43,10 +73,13 @@ class OllamaTranslation(BaseLLMTranslation):
             ],
             "stream": False,
         }
-        api_url = urljoin(self.settings["base_url"], self.end_point)
-        response = self.request("post", api_url, json=payload)
 
-        if message := response.json().get("message"):
+    def get_chat_url(self) -> str:
+        return urljoin(self.settings["base_url"], self.end_point)
+
+    @staticmethod
+    def parse_chat_response(response_data) -> str | None:
+        if message := response_data.get("message"):
             return message["content"]
 
         return None

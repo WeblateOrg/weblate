@@ -1669,14 +1669,14 @@ class EditComplexTest(ViewTestCase):
         self.assertNotIn("partial_ids", session[search_key])
 
         response = self.client.get(
-            self.translate_url, {"q": "state:<translated", "offset": 2}
+            self.translate_url, {"q": "state:<translated", "offset": "2"}
         )
         self.assertEqual(response.context["unit"].pk, expected_unit_id)
         self.assertEqual(response.context["filter_pos"], 2)
         self.assertEqual(response.context["filter_count"], initial_count)
 
         response = self.client.get(
-            self.translate_url, {"q": "state:<translated", "offset": 1}
+            self.translate_url, {"q": "state:<translated", "offset": "1"}
         )
         self.assertEqual(response.context["unit"].pk, first.pk)
         self.assertEqual(response.context["filter_pos"], 1)
@@ -1723,7 +1723,7 @@ class EditComplexTest(ViewTestCase):
 
     def test_translate_mutable_sort_uses_cached_search_ids(self) -> None:
         response = self.client.get(
-            self.translate_url, {"sort_by": "target", "offset": 1}
+            self.translate_url, {"sort_by": "target", "offset": "1"}
         )
         unit = response.context["unit"]
 
@@ -1762,7 +1762,7 @@ class EditComplexTest(ViewTestCase):
         self,
     ) -> None:
         query = "state:<translated"
-        self.client.get(self.translate_url, {"q": query, "offset": 1})
+        self.client.get(self.translate_url, {"q": query, "offset": "1"})
 
         session = self.client.session
         session_keys = session.keys()
@@ -1778,12 +1778,12 @@ class EditComplexTest(ViewTestCase):
         current_id = expected_ids[1]
         self.client.get(
             self.translate_url,
-            {"q": query, "offset": original_ids.index(current_id) + 1},
+            {"q": query, "offset": str(original_ids.index(current_id) + 1)},
         )
 
         response = self.client.get(
             self.translate_url,
-            {"q": query, "sort_by": "source", "offset": 1},
+            {"q": query, "sort_by": "source", "offset": "1"},
         )
 
         self.assertEqual(response.context["unit"].pk, current_id)
@@ -1805,7 +1805,7 @@ class EditComplexTest(ViewTestCase):
         query = "state:<translated"
         self.client.get(
             self.translate_url,
-            {"q": query, "sort_by": "source", "offset": 1},
+            {"q": query, "sort_by": "source", "offset": "1"},
         )
 
         session = self.client.session
@@ -1820,7 +1820,7 @@ class EditComplexTest(ViewTestCase):
         self.assertGreaterEqual(len(source_ids), 2)
 
         current_id = source_ids[1]
-        self.client.get(self.translate_url, {"q": query, "offset": 1})
+        self.client.get(self.translate_url, {"q": query, "offset": "1"})
         session = self.client.session
         session_keys = session.keys()
         default_key = next(
@@ -1834,7 +1834,7 @@ class EditComplexTest(ViewTestCase):
 
         response = self.client.get(
             self.translate_url,
-            {"q": query, "offset": default_ids.index(current_id) + 1},
+            {"q": query, "offset": str(default_ids.index(current_id) + 1)},
         )
         self.assertEqual(response.context["unit"].pk, current_id)
 
@@ -1847,7 +1847,7 @@ class EditComplexTest(ViewTestCase):
 
         response = self.client.get(
             self.translate_url,
-            {"q": query, "sort_by": "source", "offset": 1},
+            {"q": query, "sort_by": "source", "offset": "1"},
         )
 
         self.assertEqual(response.context["unit"].pk, current_id)
@@ -1880,7 +1880,7 @@ class EditComplexTest(ViewTestCase):
             return targets
 
         response = self.client.get(
-            self.translate_url, {"q": "state:<translated", "offset": 2}
+            self.translate_url, {"q": "state:<translated", "offset": "2"}
         )
         first = response.context["unit"]
 
@@ -1950,7 +1950,7 @@ class EditComplexTest(ViewTestCase):
 
         self.assert_redirects_offset(response, self.translate_url, 1)
         response = self.client.get(
-            self.translate_url, {"q": "has:suggestion", "offset": 1}
+            self.translate_url, {"q": "has:suggestion", "offset": "1"}
         )
         self.assertEqual(response.context["unit"].pk, unit.pk)
         self.assertEqual(response.context["filter_count"], 1)
@@ -2095,7 +2095,9 @@ class EditComplexTest(ViewTestCase):
             self.project, self.translation.language
         ).get_translate_url()
 
-        self.client.get(translate_url, {"sort_by": "component,-priority", "offset": 1})
+        self.client.get(
+            translate_url, {"sort_by": "component,-priority", "offset": "1"}
+        )
 
         session = self.client.session
         session_keys = session.keys()

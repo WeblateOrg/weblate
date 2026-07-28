@@ -16,6 +16,7 @@ from shutil import disk_usage
 from tempfile import TemporaryDirectory
 from typing import TYPE_CHECKING, cast
 
+import httpx2
 from celery.exceptions import TimeoutError as CeleryTimeoutError
 from django.apps import AppConfig
 from django.conf import settings
@@ -41,6 +42,7 @@ from .db import (
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
     get_database_size,
+    get_invalid_database_statistics,
     measure_database_latency,
 )
 from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
@@ -219,6 +221,24 @@ def check_celery(
     return errors
 
 
+def check_database_statistics(errors: list[CheckMessage]) -> None:
+    invalid_statistics = get_invalid_database_statistics()
+    if not invalid_statistics:
+        return
+
+    displayed = invalid_statistics[:10]
+    relations = ", ".join(displayed)
+    if remaining := len(invalid_statistics) - len(displayed):
+        relations = f"{relations}, and {remaining} more"
+    errors.append(
+        weblate_check(
+            "weblate.C047",
+            "PostgreSQL relation statistics are corrupted for "
+            f"{relations}. Run ANALYZE on the affected relations.",
+        )
+    )
+
+
 @register(deploy=True)
 def check_database(
     *,
@@ -245,6 +265,8 @@ def check_database(
                     f"The database seems slow, the query took {delta} milliseconds",
                 )
             )
+
+        check_database_statistics(errors)
 
     except DatabaseError as error:
         errors.append(
@@ -389,12 +411,16 @@ def check_data_writable(
         data_path("backups"),
         data_path("fonts"),
         data_path("cache") / "ssh",
-        data_path("cache") / "fonts",
+        data_path("cache") / "matplotlib",
     ]
     message = "Path {} is not writable, check your DATA_DIR and CACHE_DIR settings."
     cache_path = data_path("cache") / "ssh"
     for path in dirs:
-        path.mkdir(parents=True, exist_ok=True)
+        try:
+            path.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            errors.append(weblate_check("weblate.E002", message.format(path), Error))
+            continue
         if not os.access(path, os.W_OK):
             errors.append(weblate_check("weblate.E002", message.format(path), Error))
 
@@ -566,7 +592,7 @@ def check_version(
 ) -> Iterable[CheckMessage]:
     try:
         latest = get_latest_version()
-    except (ValueError, OSError):
+    except (ValueError, OSError, httpx2.HTTPError):
         return []
     if Version(latest.version) > Version(VERSION_BASE):
         # With release every two months, this gets triggered after three releases

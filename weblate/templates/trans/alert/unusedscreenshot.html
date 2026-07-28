@@ -1,6 +1,8 @@
 {% load i18n %}
 
-<p>{% translate "At least one screenshot has no string assigned to it." %}</p>
+<p>
+  {% blocktranslate count count=unassigned %}One screenshot has no string assigned to it.{% plural %}{{ count }} screenshots have no string assigned to them.{% endblocktranslate %}
+</p>
 
 <a class="btn btn-primary"
    href="{% url 'screenshots' path=component.get_url_path %}">{% translate "Manage screenshots" %}</a>

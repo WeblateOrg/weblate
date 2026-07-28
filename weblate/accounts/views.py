@@ -329,11 +329,6 @@ def mail_admins_contact(
             )
         except ZammadError as error:
             messages.error(request, str(error))
-        except OSError:
-            report_error("Could not create ticket")
-            messages.error(
-                request, gettext("Could not open a ticket, please try again later.")
-            )
         else:
             messages.success(
                 request,
@@ -852,7 +847,11 @@ class UserPage(UpdateView):
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
         if "disable_password" in request.POST:
-            lock_user(user, "admin-locked")
+            lock_user(
+                user,
+                "admin-locked",
+                regenerate_api_key="regenerate_api_key" in request.POST,
+            )
             return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
         user.store_audit_state()

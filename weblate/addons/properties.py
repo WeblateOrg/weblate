@@ -62,7 +62,7 @@ def fix_newlines(lines) -> None:
 def format_unicode(lines) -> None:
     """Format unicode characters."""
     for i, line in enumerate(lines):
-        if UNICODE.findall(line) is None:
+        if not UNICODE.findall(line):
             continue
         lines[i] = UNICODE.sub(unicode_format, line)
 

@@ -88,8 +88,6 @@ def get_clean_env(
         # Keep linker configuration
         "LD_LIBRARY_PATH",
         "LD_PRELOAD",
-        # Fontconfig configuration by weblate.fonts
-        "FONTCONFIG_FILE",
         # Needed by Git on Windows
         "SystemRoot",
         # Pass proxy configuration

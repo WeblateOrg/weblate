@@ -154,7 +154,7 @@ class ResetAddon(BaseAddon):
         category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
-        # Only instalable on the sandbox project
+        # Only installable on the sandbox project
         return (
             component is not None
             and component.project.slug == "sandbox"

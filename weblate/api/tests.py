@@ -14,15 +14,16 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
-import responses
 import yaml
 from django.conf import settings
 from django.contrib import messages as django_messages
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.files import File
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError
 from django.db.models import Q
+from django.templatetags.static import static
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -76,6 +77,7 @@ from weblate.trans.models import (
     ComponentLink,
     ComponentList,
     Project,
+    Suggestion,
     Translation,
     Unit,
 )
@@ -87,6 +89,8 @@ from weblate.trans.tests.utils import (
     fixup_languages_seq,
     get_test_file,
 )
+from weblate.trans.util import join_plural
+from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
 from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -97,6 +101,7 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
+from weblate.utils.tests import http_mock as responses
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
@@ -4065,6 +4070,42 @@ class ProjectAPITest(APIBaseTest):
         real_path = os.path.join(data_dir("vcs"), *component.get_url_path())
         self.assertFalse(os.path.exists(real_path))
 
+    def test_create_component_rejects_inaccessible_repository_link(self) -> None:
+        private_component = self.create_acl()
+        self.grant_perm_to_user(
+            "project.edit",
+            group_name="Target project managers",
+            project=self.project,
+        )
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            format="json",
+            request={
+                "name": "Inaccessible repository link",
+                "slug": "inaccessible-repository-link",
+                "repo": private_component.get_repo_link_url(),
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "repo")
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "You do not have permission to access this component.",
+        )
+        self.assertFalse(
+            self.project.component_set.filter(
+                slug="inaccessible-repository-link"
+            ).exists()
+        )
+
     def test_create_component_no_push(self) -> None:
         repo_url = self.format_local_path(self.git_repo_path)
         response = self.do_request(
@@ -4776,6 +4817,8 @@ class ProjectAPITest(APIBaseTest):
     def test_create_component_overwrite(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
         trasnslation_filename = translation.get_filename()
+        assert trasnslation_filename is not None
+        assert self.component.full_path is not None
         self.assertTrue(os.path.exists(trasnslation_filename))
         with open(TEST_PO, "rb") as handle:
             self.do_request(
@@ -4906,7 +4949,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(component.enforced_checks, ["same"])
 
     def test_create_component_with_file_format_params(self) -> None:
-        payload = {
+        payload: dict[str, object] = {
             "name": "API project",
             "slug": "api-project",
             "repo": self.format_local_path(self.git_repo_path),
@@ -5145,7 +5188,7 @@ class ProjectAPITest(APIBaseTest):
 
         # Assert a few key entries
         translation_filename = translation.get_filename()
-        self.assertIsNotNone(translation_filename)
+        assert translation_filename is not None
         translation_rel = os.path.relpath(translation_filename, root)
         template_rel = os.path.relpath(
             os.path.join(self.component.full_path, self.component.template),
@@ -5187,7 +5230,7 @@ class ProjectAPITest(APIBaseTest):
         translation_filename = self.component.translation_set.get(
             language__code="cs"
         ).get_filename()
-        self.assertIsNotNone(translation_filename)
+        assert translation_filename is not None
         translation_rel = os.path.relpath(translation_filename, root)
         template_rel = os.path.relpath(template_path, root)
 
@@ -5214,14 +5257,14 @@ class ProjectAPITest(APIBaseTest):
         root = data_dir("vcs")
 
         included_translation_filename = included_translation.get_filename()
-        self.assertIsNotNone(included_translation_filename)
+        assert included_translation_filename is not None
         included_translation_rel = os.path.relpath(included_translation_filename, root)
         included_template_rel = os.path.relpath(
             os.path.join(self.component.full_path, self.component.template),
             root,
         )
         excluded_translation_filename = excluded_translation.get_filename()
-        self.assertIsNotNone(excluded_translation_filename)
+        assert excluded_translation_filename is not None
         excluded_translation_rel = os.path.relpath(excluded_translation_filename, root)
 
         self.assertIn(included_translation_rel, zip_names)
@@ -5991,6 +6034,7 @@ class ComponentAPITest(APIBaseTest):
         """Test repository status with pending changes and detailed breakdown."""
         component = Component.objects.get(**self.component_kwargs)
         translation = component.translation_set.first()
+        assert translation is not None
         unit, unit2 = translation.unit_set.all()[:2]
 
         unit.translate(self.user, "First change", STATE_TRANSLATED)
@@ -6151,7 +6195,10 @@ class ComponentAPITest(APIBaseTest):
 
     def test_changes(self) -> None:
         request = self.do_request("api:component-changes", self.component_kwargs)
-        self.assertEqual(request.data["count"], 24)
+        self.assertEqual(request.data["count"], 25)
+        latest_change = request.data["results"][0]
+        self.assertEqual(latest_change["action"], ActionEvents.ALERT)
+        self.assertEqual(latest_change["details"]["alert"], "UnusedScreenshot")
 
     def test_screenshots(self) -> None:
         request = self.do_request("api:component-screenshots", self.component_kwargs)
@@ -7606,7 +7653,7 @@ class ComponentAPITest(APIBaseTest):
             (source_two, "Second source translation!\n"),
         ):
             translation = component.add_new_language(language, None)
-            self.assertIsNotNone(translation)
+            assert translation is not None
             if component == source_one:
                 unit = translation.unit_set.get(source="Hello, world!\n")
             else:
@@ -7647,7 +7694,7 @@ class ComponentAPITest(APIBaseTest):
         language = Language.objects.get(code="fa")
 
         translation = source.add_new_language(language, None)
-        self.assertIsNotNone(translation)
+        assert translation is not None
         unit = translation.unit_set.get(source="Hello, world!\n")
         unit.translate(self.user, "Duplicated source translation!\n", STATE_TRANSLATED)
 
@@ -7678,7 +7725,7 @@ class ComponentAPITest(APIBaseTest):
         language = Language.objects.get(code="pt_BR")
 
         translation = source.add_new_language(language, None)
-        self.assertIsNotNone(translation)
+        assert translation is not None
         self.assertEqual(translation.language.code, "pt_BR")
         self.assertEqual(translation.language_code, "pt-BR")
         unit = translation.unit_set.get(source="Hello, world!\n")
@@ -7706,7 +7753,7 @@ class ComponentAPITest(APIBaseTest):
         source = self.create_po_new_base(name="source", project=self.component.project)
         language = Language.objects.get(code="fa")
         source_translation = source.add_new_language(language, None)
-        self.assertIsNotNone(source_translation)
+        assert source_translation is not None
 
         self.do_request(
             "api:component-translations",
@@ -7731,7 +7778,7 @@ class ComponentAPITest(APIBaseTest):
         source = self.create_po_new_base(name="source", project=source_project)
         language = Language.objects.get(code="fa")
         source_translation = source.add_new_language(language, None)
-        self.assertIsNotNone(source_translation)
+        assert source_translation is not None
         unit = source_translation.unit_set.get(source="Hello, world!\n")
         unit.translate(self.user, "Shared TM source translation!\n", STATE_TRANSLATED)
 
@@ -8632,7 +8679,7 @@ class TasksAPITest(APIBaseTest):
                 code=403,
             )
 
-        self.assertIsNotNone(DummyAsyncResult.latest)
+        assert DummyAsyncResult.latest is not None
         self.assertFalse(DummyAsyncResult.latest.revoked)
 
     def test_retrieve_hides_inaccessible_cached_component(self) -> None:
@@ -10880,6 +10927,7 @@ class TranslationAPITest(APIBaseTest):
         """Test repository status with actual pending changes."""
         translation = Translation.objects.get(**self.translation_kwargs)
         unit = translation.unit_set.first()
+        assert unit is not None
         unit.translate(self.user, "Modified translation", STATE_TRANSLATED)
 
         response = self.do_request(
@@ -11280,6 +11328,7 @@ class UnitAPITest(APIBaseTest):
         changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_ADD)
         self.assertEqual(changes.count(), 1)
         change = changes.first()
+        assert change is not None
         self.assertEqual(change.target, "Added label test")
         self.assertEqual(change.user, self.user)
 
@@ -11333,7 +11382,9 @@ class UnitAPITest(APIBaseTest):
 
         changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_REMOVE)
         self.assertEqual(changes.count(), 1)
-        self.assertEqual(changes.first().target, f"Removed label {label2.name}")
+        change = changes.first()
+        assert change is not None
+        self.assertEqual(change.target, f"Removed label {label2.name}")
 
         label1.delete()
         label2.delete()
@@ -11789,6 +11840,484 @@ class UnitAPITest(APIBaseTest):
         self.assertIn("timestamp", first_comment)
 
 
+class SuggestionAPITest(APIBaseTest):
+    def _get_unit(self):
+        return Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+
+    def _add_suggestion(self, unit, target, *, code=201):
+        return self.do_request(
+            reverse("api:unit-suggestions", kwargs={"pk": unit.pk}),
+            request={"target": target},
+            method="post",
+            code=code,
+        )
+
+    def test_add_suggestion(self) -> None:
+        unit = self._get_unit()
+        count = unit.suggestion_set.count()
+        response = self._add_suggestion(unit, "Navrh")
+        self.assertIn("id", response.data)
+        self.assertEqual(response.data["target"], ["Navrh\n"])
+        self.assertIn("unit", response.data)
+        self.assertEqual(response.data["user"], "http://example.com/api/users/apitest/")
+        self.assertEqual(response.data["votes"], 0)
+        unit.refresh_from_db()
+        self.assertEqual(unit.suggestion_set.count(), count + 1)
+
+    def test_add_suggestion_plural(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source__startswith="Orangutan has "
+        )
+        target = [
+            "Orangutan má %d banán.\n",
+            "Orangutan má %d banány.\n",
+        ]
+        response = self._add_suggestion(unit, target, code=400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Number of plurals does not match",
+        )
+        target = [
+            "Orangutan má %d banán.\n",
+            "Orangutan má %d banány.\n",
+            "Orangutan má %d banánů.\n",
+        ]
+        response = self._add_suggestion(unit, target)
+        self.assertEqual(response.data["target"], target)
+
+    def test_add_suggestion_multivalue_alternatives(self) -> None:
+        """Multivalue units should accept alternative translation suggestions."""
+        with self.captureOnCommitCallbacks(execute=True):
+            component = self._create_component(
+                "csv-multi",
+                "multivalue/*.csv",
+                name="Multivalue",
+                project=self.project,
+                new_lang="add",
+                manage_units=True,
+            )
+        self.assertTrue(component.is_multivalue)
+
+        target_language = Language.objects.get(code="cs")
+        translation = Translation.objects.create(
+            component=component,
+            language=target_language,
+            language_code=target_language.code,
+            plural=target_language.plural,
+            filename="multivalue/cs.csv",
+        )
+
+        alternatives = ["Ahoj A\n", "Ahoj B\n"]
+
+        source_unit = Unit(
+            translation=component.source_translation,
+            id_hash=1,
+            source="Hello\n",
+            target="Hello\n",
+            state=STATE_TRANSLATED,
+            position=1,
+        )
+        source_unit.save(run_checks=False)
+
+        unit = Unit(
+            translation=translation,
+            id_hash=1,
+            source="Hello\n",
+            target=join_plural(alternatives),
+            state=STATE_EMPTY,
+            position=1,
+            source_unit=source_unit,
+        )
+        unit.save(run_checks=False)
+
+        self.assertEqual(unit.get_target_plurals(), alternatives)
+
+        response = self._add_suggestion(unit, alternatives)
+        self.assertEqual(response.data["target"], alternatives)
+
+    def test_add_suggestion_empty(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, [""], code=400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Please provide a suggestion"
+        )
+
+    def test_add_suggestion_too_long(self) -> None:
+        unit = self._get_unit()
+        max_length = 10 * (unit.get_max_length() + 100)
+        response = self._add_suggestion(unit, "x" * (max_length + 1), code=400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Translation text too long!"
+        )
+
+    def test_add_suggestion_duplicate(self) -> None:
+        unit = self._get_unit()
+        self._add_suggestion(unit, "Navrh")
+        response = self._add_suggestion(unit, "Navrh", code=400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Your suggestion already exists!",
+        )
+
+    def test_add_suggestion_similar(self) -> None:
+        unit = self._get_unit()
+        unit.translate(self.user, "Ahoj svete!\n", STATE_TRANSLATED)
+        response = self._add_suggestion(unit, "Ahoj svete!\n", code=400)
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Your suggestion is similar to the current translation!",
+        )
+
+    def test_add_suggestion_denied(self) -> None:
+        unit = self._get_unit()
+        self.do_request(
+            reverse("api:unit-suggestions", kwargs={"pk": unit.pk}),
+            request={"target": "Navrh"},
+            method="post",
+            authenticated=False,
+            code=401,
+        )
+        acl_component = self.create_acl()
+        acl_unit = acl_component.translation_set.get(
+            language_code="cs"
+        ).unit_set.first()
+        self.do_request(
+            reverse("api:unit-suggestions", kwargs={"pk": acl_unit.pk}),
+            request={"target": "Navrh"},
+            method="post",
+            code=404,
+        )
+
+    def test_list_unit_suggestions(self) -> None:
+        unit = self._get_unit()
+        self._add_suggestion(unit, "Navrh 1")
+        self._add_suggestion(unit, "Navrh 2")
+        response = self.do_request(
+            reverse("api:unit-suggestions", kwargs={"pk": unit.pk}),
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 2)
+        targets = [s["target"][0] for s in response.data["results"]]
+        self.assertIn("Navrh 1\n", targets)
+        self.assertIn("Navrh 2\n", targets)
+
+    def test_list_suggestions(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        response = self.do_request("api:suggestion-list", method="get", code=200)
+        self.assertGreaterEqual(response.data["count"], 1)
+        ids = [s["id"] for s in response.data["results"]]
+        self.assertIn(suggestion_id, ids)
+
+    def test_get_suggestion(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        response = self.do_request(
+            "api:suggestion-detail",
+            kwargs={"pk": suggestion_id},
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["target"], ["Navrh\n"])
+        self.assertEqual(response.data["id"], suggestion_id)
+
+    def test_get_suggestion_inaccessible(self) -> None:
+        acl_component = self.create_acl()
+        acl_unit = acl_component.translation_set.get(
+            language_code="cs"
+        ).unit_set.first()
+        suggestion = Suggestion.objects.create(
+            unit=acl_unit, target="Secret", user=self.user
+        )
+        self.do_request(
+            "api:suggestion-detail",
+            kwargs={"pk": suggestion.pk},
+            method="get",
+            code=404,
+        )
+
+    def test_delete_suggestion(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        self.do_request(
+            "api:suggestion-detail",
+            kwargs={"pk": suggestion_id},
+            method="delete",
+            request={"rejection_reason": "nope"},
+            format="json",
+            code=204,
+        )
+        self.assertFalse(Suggestion.objects.filter(pk=suggestion_id).exists())
+        self.assertTrue(
+            unit.change_set.filter(action=ActionEvents.SUGGESTION_DELETE).exists()
+        )
+
+    def _setup_guest_user(self, authenticate: bool = False) -> None:
+        guest_user = User.objects.create_user(
+            "guest_suggestion_user", "guest-suggestion@example.org", "x"
+        )
+        # New users are auto-assigned to Users/Viewers via AutoGroup (^.*$).
+        guest_user.groups.set([Group.objects.get(name="Guests")])
+        guest_user.refresh_from_db()
+        if authenticate:
+            self.client.credentials(
+                HTTP_AUTHORIZATION=f"Token {guest_user.auth_token.key}"
+            )
+
+    def test_delete_suggestion_reason_too_long(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        self.do_request(
+            "api:suggestion-detail",
+            kwargs={"pk": suggestion_id},
+            method="delete",
+            request={
+                "rejection_reason": "x" * (SUGGESTION_REJECTION_REASON_LENGTH + 1)
+            },
+            format="json",
+            code=400,
+        )
+        self.assertTrue(Suggestion.objects.filter(pk=suggestion_id).exists())
+
+    def test_delete_suggestion_denied(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        self._setup_guest_user(authenticate=True)
+        self.do_request(
+            "api:suggestion-detail",
+            kwargs={"pk": suggestion_id},
+            method="delete",
+            authenticated=False,
+            code=403,
+        )
+
+    def test_accept_suggestion(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        with self.captureOnCommitCallbacks(execute=True):
+            self.do_request(
+                "api:suggestion-accept",
+                kwargs={"pk": suggestion_id},
+                method="post",
+                code=200,
+            )
+        unit.refresh_from_db()
+        self.assertTrue(unit.translated)
+        self.assertEqual(unit.target, "Navrh\n")
+        self.assertFalse(Suggestion.objects.filter(pk=suggestion_id).exists())
+
+    def test_accept_suggestion_approve_denied(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        # missing unit.review permission
+        self.do_request(
+            "api:suggestion-accept",
+            kwargs={"pk": suggestion_id},
+            method="post",
+            request={"approve": True},
+            code=403,
+        )
+
+        # missing suggestion.accept permission
+        self._setup_guest_user(authenticate=True)
+        self.do_request(
+            "api:suggestion-accept",
+            kwargs={"pk": suggestion_id},
+            method="post",
+            request={"approve": True},
+            code=403,
+            authenticated=False,
+        )
+
+    def test_accept_suggestion_approve(self) -> None:
+        unit = self._get_unit()
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        self.grant_perm_to_user("unit.review", project=self.project)
+        self.user.refresh_from_db()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.do_request(
+                "api:suggestion-accept",
+                kwargs={"pk": suggestion_id},
+                method="post",
+                request={"approve": True},
+                code=200,
+            )
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_APPROVED)
+        self.assertEqual(unit.target, "Navrh\n")
+
+    def test_vote_suggestion(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.save(update_fields=["suggestion_voting"])
+
+        unit = self._get_unit()
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Navrh\n", user=self.user
+        )
+
+        response = self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 1},
+            code=200,
+        )
+        self.assertEqual(response.data["result"], "voted")
+        self.assertEqual(response.data["suggestion"]["votes"], 1)
+
+        response = self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": -1},
+            code=200,
+        )
+        self.assertEqual(response.data["result"], "voted")
+        self.assertEqual(response.data["suggestion"]["votes"], -1)
+
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 5},
+            code=400,
+        )
+
+    def test_vote_suggestion_denied(self) -> None:
+        unit = self._get_unit()
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Navrh\n", user=self.user
+        )
+
+        # Voting disabled on translation.
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 1},
+            code=403,
+        )
+
+        self.component.suggestion_voting = True
+        self.component.save(update_fields=["suggestion_voting"])
+
+        self.client.credentials()
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 1},
+            code=401,
+            authenticated=False,
+        )
+
+        self._setup_guest_user(authenticate=True)
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": 1},
+            code=403,
+            authenticated=False,
+        )
+
+    def test_vote_autoaccept(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 1
+        self.component.save(
+            update_fields=["suggestion_voting", "suggestion_autoaccept"]
+        )
+
+        unit = self._get_unit()
+        other_user = User.objects.create_user(
+            "vote_other_user", "vote-other@example.org", "x"
+        )
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Navrh\n", user=other_user
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.do_request(
+                "api:suggestion-vote",
+                kwargs={"pk": suggestion.pk},
+                method="post",
+                request={"value": 1},
+                code=200,
+            )
+        self.assertEqual(response.data["result"], "accepted")
+        self.assertIsNone(response.data["suggestion"])
+        self.assertFalse(Suggestion.objects.filter(pk=suggestion.pk).exists())
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Navrh\n")
+
+    def test_vote_autoaccept_on_vote_change(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 1
+        self.component.save(
+            update_fields=["suggestion_voting", "suggestion_autoaccept"]
+        )
+
+        unit = self._get_unit()
+        other_user = User.objects.create_user(
+            "vote_change_user", "vote-change@example.org", "x"
+        )
+        suggestion = Suggestion.objects.create(
+            unit=unit, target="Navrh\n", user=other_user
+        )
+
+        self.do_request(
+            "api:suggestion-vote",
+            kwargs={"pk": suggestion.pk},
+            method="post",
+            request={"value": -1},
+            code=200,
+        )
+
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.do_request(
+                "api:suggestion-vote",
+                kwargs={"pk": suggestion.pk},
+                method="post",
+                request={"value": 1},
+                code=200,
+            )
+        self.assertEqual(response.data["result"], "accepted")
+        self.assertIsNone(response.data["suggestion"])
+        self.assertFalse(Suggestion.objects.filter(pk=suggestion.pk).exists())
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Navrh\n")
+
+    def test_add_suggestion_autoaccept(self) -> None:
+        self.component.suggestion_voting = True
+        self.component.suggestion_autoaccept = 1
+        self.component.save(
+            update_fields=["suggestion_voting", "suggestion_autoaccept"]
+        )
+
+        unit = self._get_unit()
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self._add_suggestion(unit, "Navrh", code=200)
+
+        self.assertEqual(response.data["result"], "accepted")
+        self.assertIsNone(response.data["suggestion"])
+        self.assertFalse(unit.suggestion_set.exists())
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Navrh\n")
+
+
 class ScreenshotAPITest(APIBaseTest):
     def setUp(self) -> None:
         super().setUp()
@@ -11837,6 +12366,26 @@ class ScreenshotAPITest(APIBaseTest):
 
     def test_upload_invalid(self) -> None:
         self.test_upload(True, 400, TEST_PO)
+
+    def test_upload_invalid_extension(self) -> None:
+        self.authenticate(True)
+        screenshot = Screenshot.objects.get()
+        original_name = screenshot.image.name
+        image = SimpleUploadedFile(
+            "screenshot.html",
+            Path(TEST_SCREENSHOT).read_bytes(),
+            content_type="image/png",
+        )
+
+        response = self.client.post(
+            reverse("api:screenshot-file", kwargs={"pk": screenshot.pk}),
+            {"image": image},
+        )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("invalid_extension", str(response.data))
+        screenshot.refresh_from_db()
+        self.assertEqual(screenshot.image.name, original_name)
 
     @override_settings(ALLOWED_ASSET_SIZE=1)
     def test_upload_too_big(self) -> None:
@@ -12143,7 +12692,9 @@ class ChangeAPITest(APIBaseTest):
 
     def test_filter_changes_after(self) -> None:
         """Filter changes since timestamp."""
-        start = Change.objects.order().last().timestamp
+        latest_change = Change.objects.order().last()
+        assert latest_change is not None
+        start = latest_change.timestamp
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
@@ -13814,6 +14365,7 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertIsNotNone(announcement)
         self.assertEqual(announcement.project, project)
         self.assertIsNone(announcement.component)
+        assert announcement.language is not None
         self.assertEqual(
             announcement.language.code, self.project_language_kwargs["language_code"]
         )
@@ -14512,6 +15064,7 @@ class AnnouncementAPITest(APIBaseTest):
         self.assertIsNotNone(announcement)
         self.assertEqual(announcement.project, component.project)
         self.assertEqual(announcement.component, component)
+        assert announcement.language is not None
         self.assertEqual(
             announcement.language.code, self.translation_kwargs["language__code"]
         )
@@ -15299,4 +15852,16 @@ class OpenAPITest(APIBaseTest):
         )
 
     def test_redoc(self) -> None:
-        self.do_request("redoc")
+        response = self.do_request("redoc")
+        self.assertContains(response, f'data-schema-url="{reverse("api-schema")}"')
+        self.assertContains(response, "data-settings=")
+        self.assertContains(response, static("styles/redoc.css"))
+        self.assertContains(response, static("js/redoc.js"))
+        self.assertNotContains(response, "<style")
+        self.assertNotContains(response, "Redoc.init")
+        script_src = next(
+            directive
+            for directive in response["Content-Security-Policy"].split(";")
+            if directive.strip().startswith("script-src ")
+        )
+        self.assertNotIn("'unsafe-inline'", script_src)

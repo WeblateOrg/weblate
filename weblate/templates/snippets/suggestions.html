@@ -87,6 +87,7 @@
                 {% endif %}
                 <input type="text"
                        name="rejection"
+                       maxlength="{{ suggestion_rejection_reason_length }}"
                        class="rejection-reason"
                        placeholder="{% translate "Rejection reason" %}">
                 <button type="submit"

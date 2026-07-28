@@ -54,9 +54,6 @@ def _install_font_utils_stub() -> None:
         "": None,
     }
 
-    def configure_fontconfig() -> None:
-        return
-
     def get_font_weight(weight: str) -> int | None:
         return font_weights[weight]
 
@@ -92,7 +89,6 @@ def _install_font_utils_stub() -> None:
 
     module.Dimensions = _FontDimensions
     module.FONT_WEIGHTS = font_weights
-    module.configure_fontconfig = configure_fontconfig
     module.get_font_weight = get_font_weight
     module.render_size = render_size
     module.check_render_size = check_render_size

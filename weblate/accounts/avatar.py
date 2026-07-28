@@ -9,6 +9,7 @@ from ssl import CertificateError
 from typing import TYPE_CHECKING, Literal, cast
 from urllib.parse import urlencode
 
+import httpx2
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.cache import InvalidCacheBackendError, caches
@@ -68,7 +69,7 @@ def get_avatar_image(user: User, size: int) -> bytes:
         try:
             image = download_avatar_image(user.email, size)
             cache.set(cache_key, image)
-        except (OSError, CertificateError):
+        except (OSError, CertificateError, httpx2.HTTPError):
             report_error(f"Could not fetch avatar for {username}")
             return get_fallback_avatar(size)
 

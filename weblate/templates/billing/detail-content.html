@@ -24,33 +24,35 @@
       </div>
       {% include "billing/status.html" %}
       {% if billing.is_active %}
-        <div class="card-footer">
-          {% if billing.all_projects %}
-            <p class="text-danger">{% translate "To terminate billing you have to remove all projects first." %}</p>
-          {% endif %}
-          <form method="post" action="{{ billing.get_absolute_url }}">
-            {% csrf_token %}
-            {% if payment_enabled and billing.can_be_paid %}
-              <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
-                 class="btn btn-primary">{% translate "Change plan or payment method" %}</a>
+        {% with can_terminate=billing.can_terminate %}
+          <div class="card-footer">
+            {% if not can_terminate %}
+              <p class="text-danger">{% translate "To terminate billing you have to remove all projects first." %}</p>
             {% endif %}
-            {% if billing.payment.recurring %}
-              <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">
-                {% translate "Terminate recurring payment" %}
+            <form method="post" action="{{ billing.get_absolute_url }}">
+              {% csrf_token %}
+              {% if payment_enabled and billing.can_be_paid %}
+                <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
+                   class="btn btn-primary">{% translate "Change plan or payment method" %}</a>
+              {% endif %}
+              {% if billing.payment.recurring %}
+                <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">
+                  {% translate "Terminate recurring payment" %}
+                </button>
+              {% endif %}
+              {% if user.is_superuser %}
+                <a href="{% url "admin:billing_billing_change" billing.pk %}" class="btn btn-info">{% translate "Open in Django admin" %}</a>
+              {% endif %}
+              <button type="submit"
+                      name="terminate"
+                      value="{{ billing.pk }}"
+                      class="btn btn-danger"
+                      {% if not can_terminate %} title="{% translate "To terminate billing you have to remove all projects first." %}" disabled {% endif %}>
+                {% translate "Terminate billing plan" %}
               </button>
-            {% endif %}
-            {% if user.is_superuser %}
-              <a href="{% url "admin:billing_billing_change" billing.pk %}" class="btn btn-info">{% translate "Open in Django admin" %}</a>
-            {% endif %}
-            <button type="submit"
-                    name="terminate"
-                    value="{{ billing.pk }}"
-                    class="btn btn-danger"
-                    {% if billing.all_projects %} title="{% translate "To terminate billing you have to remove all projects first." %}" disabled {% endif %}>
-              {% translate "Terminate billing plan" %}
-            </button>
-          </form>
-        </div>
+            </form>
+          </div>
+        {% endwith %}
       {% endif %}
     </div>
 

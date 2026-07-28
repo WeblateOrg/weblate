@@ -6,10 +6,11 @@ from __future__ import annotations
 import difflib
 import os
 import tempfile
-import time
 from contextlib import contextmanager, suppress
+from time import sleep
 from typing import TYPE_CHECKING, ClassVar, cast
 
+import httpx2
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
@@ -22,8 +23,6 @@ from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
-from requests import ConnectionError as RequestsConnectionError
-from requests import HTTPError, RequestException, Timeout
 from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
 from weblate.logger import LOGGER
@@ -165,10 +164,18 @@ TESSERACT_DOWNLOAD_ATTEMPTS = 3
 TESSERACT_DOWNLOAD_TIMEOUT = 30
 
 
-def is_retryable_tesseract_download_error(error: RequestException) -> bool:
-    if isinstance(error, (RequestsConnectionError, Timeout)):
+def is_retryable_tesseract_download_error(error: httpx2.HTTPError) -> bool:
+    if isinstance(
+        error,
+        (
+            httpx2.NetworkError,
+            httpx2.ProxyError,
+            httpx2.RemoteProtocolError,
+            httpx2.TimeoutException,
+        ),
+    ):
         return True
-    if not isinstance(error, HTTPError) or error.response is None:
+    if not isinstance(error, httpx2.HTTPStatusError):
         return False
     return error.response.status_code == 429 or error.response.status_code >= 500
 
@@ -185,7 +192,7 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                         allow_redirects=True,
                         timeout=TESSERACT_DOWNLOAD_TIMEOUT,
                     )
-            except RequestException as error:
+            except httpx2.HTTPError as error:
                 if (
                     attempt == TESSERACT_DOWNLOAD_ATTEMPTS
                     or not is_retryable_tesseract_download_error(error)
@@ -197,7 +204,7 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                     TESSERACT_DOWNLOAD_ATTEMPTS,
                     error,
                 )
-                time.sleep(2 ** (attempt - 1))
+                sleep(2 ** (attempt - 1))
                 continue
 
             with tempfile.NamedTemporaryFile(
@@ -272,7 +279,7 @@ def add_sources(request: AuthenticatedHttpRequest, obj) -> dict[str, int | bool]
 
     existing = set(obj.units.filter(pk__in=source_ids).values_list("pk", flat=True))
     units = obj.translation.unit_set.in_bulk(source_ids)
-    added = 0
+    units_to_add: list[Unit] = []
     for source_id in source_ids:
         unit = units.get(source_id)
         if unit is None:
@@ -281,9 +288,11 @@ def add_sources(request: AuthenticatedHttpRequest, obj) -> dict[str, int | bool]
         if source_id in existing:
             skipped += 1
             continue
-        obj.add_unit(unit, user=request.user)
+        units_to_add.append(unit)
         existing.add(source_id)
-        added += 1
+
+    obj.add_units(units_to_add, user=request.user)
+    added = len(units_to_add)
 
     return {
         "status": added > 0,
@@ -484,11 +493,13 @@ class ScreenshotBaseView(DetailView):
 class ScreenshotView(ScreenshotBaseView):
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> FileResponse:  # type: ignore[override]
         obj = self.get_object()
-        # Django will automatically set Content-Type based on the filename
+        with Image.open(obj.image.open(), formats=PIL_FORMATS) as image:
+            content_type = Image.MIME[cast("str", image.format)]
         return FileResponse(
             obj.image.open(),
             as_attachment=False,
             filename=os.path.basename(obj.image.name),
+            content_type=content_type,
         )
 
 
@@ -737,7 +748,7 @@ def ocr_search(request: AuthenticatedHttpRequest, pk):
                     resolution=resolution,
                 )
             }
-    except RequestException as error:
+    except httpx2.HTTPError as error:
         LOGGER.warning("Could not download Tesseract data: %s", error)
         return search_results(
             request,

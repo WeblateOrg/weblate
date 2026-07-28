@@ -234,6 +234,7 @@ class Subscription(models.Model):
     objects = SubscriptionQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Notification subscription"
         verbose_name_plural = "Notification subscriptions"
         constraints = [  # ruff: ignore[mutable-class-default]
@@ -564,6 +565,7 @@ class AuditLog(models.Model):
     objects = AuditLogManager.from_queryset(AuditLogQuerySet)()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Audit log entry"
         verbose_name_plural = "Audit log entries"
 
@@ -669,7 +671,7 @@ class AuditLog(models.Model):
         ):
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
-                lock_user(self.user, "locked", request)
+                lock_user(self.user, "locked", request, regenerate_api_key=False)
                 return True
 
         elif (
@@ -681,7 +683,7 @@ class AuditLog(models.Model):
                 self.user, "twofactor-login", "twofactor-failed"
             )
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
-                lock_user(self.user, "locked", request)
+                lock_user(self.user, "locked", request, regenerate_api_key=False)
                 return True
 
         elif self.activity == "reset-request":
@@ -713,6 +715,7 @@ class VerifiedEmail(models.Model):
     email = EmailField()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Verified e-mail"
         verbose_name_plural = "Verified e-mails"
         indexes = [  # ruff: ignore[mutable-class-default]
@@ -1007,6 +1010,7 @@ class Profile(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "User profile"
         verbose_name_plural = "User profiles"
 

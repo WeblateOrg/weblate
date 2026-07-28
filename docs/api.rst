@@ -2719,6 +2719,122 @@ and XLIFF.
     :>json string timestamp: creation timestamp of the comment
     :>json string user: URL of the commenter's object
 
+.. http:post:: /api/units/(int:id)/suggestions/
+
+    .. versionadded:: 2026.8
+
+    Create a new suggestion on the given translation unit.
+
+    Requires authentication and the :guilabel:`Add suggestion` permission on the
+    translation. Suggestions must be enabled on the translation, the translation
+    must not be read-only, and the user must have signed any required contributor
+    agreement.
+
+    :param id: Unit ID
+    :type id: int
+    :<json array target: suggested translation text as a list of plural forms; use a single-element array for non-plural strings
+    :>json int id: suggestion identifier
+    :>json array target: suggested translation text as a list of plural forms
+    :>json string unit: URL of the related unit object
+    :>json string user: URL of the suggester's object
+    :>json string timestamp: creation timestamp of the suggestion
+    :>json int votes: net vote count for the suggestion
+
+    Users who also have the :guilabel:`Vote on suggestion` permission
+    automatically upvote their suggestion when it is created.
+
+    When the same suggestion already exists from another user and the caller has
+    the :guilabel:`Vote on suggestion` permission, the existing suggestion is
+    upvoted instead and the response uses the same format as
+    :http:post:`/api/suggestions/(int:id)/vote/` (HTTP status 200 instead of 201).
+
+.. http:get:: /api/units/(int:id)/suggestions/
+
+    .. versionadded:: 2026.8
+
+    Returns a paginated list of suggestions on a given translation unit.
+
+    :param id: Unit ID
+    :type id: int
+    :>json array results: array of suggestion objects; see :http:get:`/api/suggestions/(int:id)/`
+
+Suggestions
++++++++++++
+
+.. http:get:: /api/suggestions/
+
+    .. versionadded:: 2026.8
+
+    Returns a paginated list of suggestions the user has access to, ordered by
+    creation time (most recent first).
+
+    .. seealso::
+
+        Suggestion object attributes are documented at :http:get:`/api/suggestions/(int:id)/`.
+
+    :>json array results: array of suggestion objects; see :http:get:`/api/suggestions/(int:id)/`
+
+.. http:get:: /api/suggestions/(int:id)/
+
+    .. versionadded:: 2026.8
+
+    Returns information about a suggestion.
+
+    :param id: Suggestion ID
+    :type id: int
+    :>json int id: suggestion identifier
+    :>json array target: suggested translation text as a list of plural forms
+    :>json string unit: URL of the related unit object
+    :>json string user: URL of the suggester's object, or ``null`` for anonymous suggestions
+    :>json string timestamp: creation timestamp of the suggestion
+    :>json int votes: net vote count for the suggestion
+
+.. http:delete:: /api/suggestions/(int:id)/
+
+    .. versionadded:: 2026.8
+
+    Delete or reject a suggestion.
+
+    Requires the :guilabel:`Delete suggestion` permission on the related
+    translation, or ownership of the suggestion.
+
+    :param id: Suggestion ID
+    :type id: int
+    :<json string rejection_reason: optional reason for rejecting the suggestion
+    :<json boolean is_spam: whether to report the suggestion as spam
+
+    The request body is optional. When ``is_spam`` is ``true``, the suggestion
+    content is reported to the antispam service.
+
+.. http:post:: /api/suggestions/(int:id)/accept/
+
+    .. versionadded:: 2026.8
+
+    Accept a suggestion and apply it to the translation unit.
+
+    Requires the :guilabel:`Accept suggestion` permission on the related
+    translation unit.
+
+    :param id: Suggestion ID
+    :type id: int
+    :<json boolean approve: whether to mark the translation as approved after accepting; requires the :guilabel:`Review strings` permission and review workflow enabled (see :ref:`reviews`)
+    :>json string result: ``accepted`` when the suggestion was accepted
+
+.. http:post:: /api/suggestions/(int:id)/vote/
+
+    .. versionadded:: 2026.8
+
+    Vote for or against a suggestion.
+
+    Requires the :guilabel:`Vote on suggestion` permission and voting enabled
+    on the related translation (see :ref:`voting`).
+
+    :param id: Suggestion ID
+    :type id: int
+    :<json int value: ``1`` to vote for the suggestion or ``-1`` to vote against it
+    :>json string result: ``voted`` when the suggestion remains open; ``accepted`` when auto-accept applied it
+    :>json object suggestion: updated suggestion object when ``result`` is ``voted``; ``null`` when ``result`` is ``accepted``
+
 Changes
 +++++++
 

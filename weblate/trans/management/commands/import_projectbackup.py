@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.utils.translation import gettext
+
 from weblate.auth.models import User
 from weblate.trans.backups import ProjectBackup
 from weblate.utils.management.base import BaseCommand
@@ -40,3 +42,12 @@ class Command(BaseCommand):
         restore.validate()
 
         restore.restore(project_name=project_name, project_slug=project_slug, user=user)
+        for component in restore.skipped_components:
+            self.stderr.write(
+                self.style.WARNING(
+                    gettext(
+                        "Component %(component)s was skipped because its linked repository is unavailable."
+                    )
+                    % {"component": component}
+                )
+            )

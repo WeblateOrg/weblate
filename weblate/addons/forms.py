@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, ClassVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 from urllib.parse import urlparse
 
 import regex
@@ -89,6 +89,19 @@ if TYPE_CHECKING:
         DetectedDiscoveryPresetValues,
     )
     from weblate.trans.models import Component, Project
+
+
+class BuiltinDiscoveryUIPreset(TypedDict):
+    id: str
+    kind: str
+    title: str
+    details: str
+    file_format_label: str
+    base_file_label: str
+    examples: tuple[str, ...]
+    label: str
+    description: str
+    values: DetectedDiscoveryPresetValues
 
 
 class BaseAddonForm[StoredConfigurationT, AddonT: BaseAddon](forms.Form):
@@ -960,7 +973,7 @@ class DiscoveryForm(BaseAddonForm):
         preset_id: str,
         label: str,
         description: str,
-    ) -> dict[str, object]:
+    ) -> BuiltinDiscoveryUIPreset:
         values = cls.PRESETS[preset_id]
         file_format_label = cls.render_preset_file_format_label(values)
         base_file_label = cls.render_preset_base_file_label(values)
@@ -1011,7 +1024,7 @@ class DiscoveryForm(BaseAddonForm):
         }
 
     @classmethod
-    def get_builtin_ui_presets(cls) -> list[dict[str, object]]:
+    def get_builtin_ui_presets(cls) -> list[BuiltinDiscoveryUIPreset]:
         return [
             cls.render_builtin_ui_preset(
                 cls.PRESET_FOLDER_PER_LANGUAGE,
@@ -1130,13 +1143,15 @@ class DiscoveryForm(BaseAddonForm):
         return detected
 
     @cached_property
-    def generic_ui_presets(self) -> list[dict[str, object]]:
+    def generic_ui_presets(self) -> list[BuiltinDiscoveryUIPreset]:
         if self._addon.instance.pk is not None:
             return []
         return self.get_builtin_ui_presets()
 
     @cached_property
-    def guided_presets(self) -> list[dict[str, object]]:
+    def guided_presets(
+        self,
+    ) -> list[dict[str, object] | BuiltinDiscoveryUIPreset]:
         return [*self.detected_ui_presets, *self.generic_ui_presets]
 
     @cached_property
@@ -1165,7 +1180,9 @@ class DiscoveryForm(BaseAddonForm):
             )
         return sections
 
-    def get_ui_presets(self) -> list[dict[str, object]]:
+    def get_ui_presets(
+        self,
+    ) -> list[dict[str, object] | BuiltinDiscoveryUIPreset]:
         return self.guided_presets
 
     @cached_property

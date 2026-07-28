@@ -1,5 +1,11 @@
 {% load i18n %}
 
+{% if analysis.redirect %}
+  <p>
+    {% translate "The repository URL returned a permanent HTTP redirect. Weblate automatically accepts only verified redirects on the same host. Update the component to use the canonical repository URL if the redirect points elsewhere." %}
+  </p>
+{% endif %}
+
 {% if analysis.not_found %}
   <p>
     {% translate "The upstream repository was not found. Please check whether it exists and is accessible to Weblate." %}
@@ -46,6 +52,8 @@
   </p>
 {% endif %}
 
-<p>
-  {% translate "Weblate will retry the operation once it is needed again, so the alert might disappear for the temporary issues." %}
-</p>
+{% if not analysis.redirect %}
+  <p>
+    {% translate "Weblate will retry the operation once it is needed again, so the alert might disappear for the temporary issues." %}
+  </p>
+{% endif %}

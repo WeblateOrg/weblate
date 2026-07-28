@@ -14,7 +14,7 @@ import inspect
 import os
 import re
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
-from copy import copy
+from copy import copy, deepcopy
 from io import StringIO
 from pathlib import Path
 from typing import IO, TYPE_CHECKING, Any, ClassVar, TypedDict, cast
@@ -52,13 +52,16 @@ from translate.storage.poxliff import PoXliffFile, PoXliffUnit
 from translate.storage.pypo import pofile, pounit
 from translate.storage.resx import RESXFile
 from translate.storage.tbx import tbxfile, tbxunit
-from translate.storage.ts2 import tsfile
+from translate.storage.ts import QtTsParser
+from translate.storage.ts2 import tsfile as ts2file
 from translate.storage.xliff import ID_SEPARATOR, Xliff1File, Xliff1Unit
 from translate.storage.xliff2 import Xliff2File, Xliff2Unit
 from translate.storage.xliff_common import XliffUnit as TranslateToolkitXliffUnit
 
 import weblate.utils.version
 from weblate.formats.base import (
+    BaseItem,
+    BaseStore,
     BilingualUpdateMixin,
     MissingTemplateError,
     TranslationFormat,
@@ -112,6 +115,7 @@ if TYPE_CHECKING:
     from translate.storage.placeables import StringElem
     from translate.storage.poheader import poheader
     from translate.storage.properties import propfile, propunit
+    from translate.storage.ts import TSInput
 
     from weblate.checks.flags import Flags
     from weblate.lang.models import Language
@@ -1157,7 +1161,150 @@ class MonolingualIDUnit(TTKitUnit):
         return self.mainunit.getcontext()
 
 
-class TSUnit(MonolingualIDUnit):
+class TS1Item(BaseItem):
+    """A translation item backed by a legacy Qt TS message element."""
+
+    def __init__(self, context_name: str, message: etree._Element) -> None:
+        self.context_name = context_name
+        self.message = message
+
+    def __copy__(self):
+        return type(self)(self.context_name, deepcopy(self.message))
+
+    @property
+    def source(self) -> str:
+        return QtTsParser.getmessagesource(self.message)
+
+    @source.setter
+    def source(self, value: str) -> None:
+        node = self.message.find("source")
+        if node is None:
+            node = etree.SubElement(self.message, "source")
+        node.text = value
+
+    @property
+    def target(self) -> str:
+        return QtTsParser.getmessagetranslation(self.message)
+
+    @target.setter
+    def target(self, value: str) -> None:
+        node = self.message.find("translation")
+        if node is None:
+            node = etree.SubElement(self.message, "translation")
+        node.text = value
+
+    @property
+    def translation_type(self) -> str:
+        return QtTsParser.getmessagetype(self.message)
+
+    @translation_type.setter
+    def translation_type(self, value: str) -> None:
+        node = self.message.find("translation")
+        if node is None:
+            node = etree.SubElement(self.message, "translation")
+        if value:
+            node.set("type", value)
+        else:
+            node.attrib.pop("type", None)
+
+    def getcontext(self) -> str:
+        comment = QtTsParser.getmessagecomment(self.message)
+        return "\n".join(filter(None, (self.context_name, comment)))
+
+    def getid(self) -> str:
+        return f"{self.getcontext()}{self.source}"
+
+    def getnotes(self) -> str:
+        return ""
+
+    def removenotes(self) -> None:
+        return
+
+    def isobsolete(self) -> bool:
+        return self.translation_type == "obsolete"
+
+
+class TS1Store(BaseStore):
+    """Store adapter for translate-toolkit's legacy Qt TS parser."""
+
+    units: list[TS1Item]
+
+    def __init__(self, storefile: str | IO[bytes]) -> None:
+        self.parser = QtTsParser(cast("TSInput", storefile))
+        self.units = [
+            TS1Item(context_name, message)
+            for context_name, messages in self.parser.iteritems()
+            for message in messages
+        ]
+
+    def addunit(self, unit: TS1Item) -> None:
+        context = self.parser.getcontextnode(unit.context_name)
+        if context is None:
+            context = etree.SubElement(self.parser.documentElement, "context")
+            etree.SubElement(context, "name").text = unit.context_name
+            self.parser.knowncontextnodes[unit.context_name] = context
+        context.append(unit.message)
+        self.units.append(unit)
+
+    def removeunit(self, unit: TS1Item) -> None:
+        parent = unit.message.getparent()
+        if parent is not None:
+            parent.remove(unit.message)
+        self.units.remove(unit)
+
+    def serialize(self) -> bytes:
+        return self.parser.getxml().encode()
+
+
+class TS1Unit(TranslationUnit[TS1Item, "TS1Format"]):
+    """Weblate unit wrapper for legacy Qt TS messages."""
+
+    @cached_property
+    def source(self) -> str:
+        if self.template is not None:
+            return self.template.target or self.template.source
+        return self.unit.source
+
+    @cached_property
+    def target(self) -> str:
+        if not self.has_unit():
+            return ""
+        if self.unit.translation_type != "unfinished" and not self.unit.target:
+            return self.source
+        return self.unit.target
+
+    @cached_property
+    def context(self) -> str:
+        if self.template is not None:
+            return self.template.getid()
+        return self.mainunit.getcontext()
+
+    def is_translated(self) -> bool:
+        if not self.has_unit():
+            return False
+        return self.unit.translation_type != "unfinished" or bool(self.unit.target)
+
+    def is_fuzzy(self, fallback: bool = False) -> bool:
+        if not self.has_unit():
+            return fallback
+        return self.unit.translation_type == "unfinished" and bool(self.unit.target)
+
+    def has_content(self) -> bool:
+        return bool(self.mainunit.getid()) and not self.mainunit.isobsolete()
+
+    def set_target(self, target: str | list[str]) -> None:
+        self._invalidate_target()
+        if isinstance(target, list):
+            target = target[0]
+        self.unit.target = target
+
+    def set_state(self, state) -> None:
+        self.unit.translation_type = (
+            "unfinished" if state == STATE_EMPTY or state in FUZZY_STATES else ""
+        )
+
+
+class TS2Unit(MonolingualIDUnit):
     @cached_property
     def source(self):
         if self.template is None and self.mainunit.hasplural():
@@ -1829,13 +1976,123 @@ class PoMonoFormat(BasePoFormat):
         return key
 
 
-class TSFormat(TTKitFormat):
+class TS1Format(TranslationFormat[TS1Store, TS1Item, TS1Unit]):
     # Translators: File format name
-    name = gettext_lazy("Qt Linguist translation file")
+    name = gettext_lazy("Qt Linguist translation file (version 1)")
+    format_id = "ts1"
+    unit_class = TS1Unit
+    additional_states = (STATE_FUZZY,)
+    supports_context = True
+
+    def load(
+        self,
+        storefile: str | IO[bytes],
+        template_store: TranslationFormat | None,
+    ) -> TS1Store:
+        return TS1Store(storefile)
+
+    @staticmethod
+    def mimetype() -> str:
+        return "application/x-linguist"
+
+    @staticmethod
+    def extension() -> str:
+        return "ts"
+
+    def create_unit(
+        self,
+        key: str,
+        source: str | list[str],
+        target: str | list[str] | None = None,
+    ) -> TS1Item:
+        if isinstance(source, list):
+            source = source[0]
+        if isinstance(target, list):
+            target = target[0]
+        if target is None:
+            target = ""
+
+        context_name, separator, comment = key.partition("\n")
+        message = etree.Element("message")
+        etree.SubElement(message, "source").text = source
+        if separator:
+            etree.SubElement(message, "comment").text = comment
+        etree.SubElement(message, "translation").text = target
+        return TS1Item(context_name, message)
+
+    def add_unit(self, unit: TS1Unit) -> None:
+        self.store.addunit(unit.unit)
+
+    # pylint: disable-next=useless-return
+    def delete_unit(self, ttkit_unit: TS1Item) -> str | None:
+        self.store.removeunit(ttkit_unit)
+        return None
+
+    @property
+    def all_store_units(self) -> list[TS1Item]:
+        return [unit for unit in self.store.units if not unit.isobsolete()]
+
+    def save_content(self, handle: IO[bytes]) -> None:
+        handle.write(self.store.serialize())
+
+    def save(self) -> None:
+        if not isinstance(self.storefile, str):
+            msg = "Can save only to a file."
+            raise TypeError(msg)
+        self.save_atomic(
+            self.storefile, self.save_content, repo_temp_dir=self.repo_temp_dir
+        )
+
+    @classmethod
+    def create_new_file(
+        cls,
+        filename: str,
+        language: Language,
+        base: str,
+        callback: Callable | None = None,
+        file_format_params: FileFormatParams | None = None,
+    ) -> None:
+        if not base:
+            msg = "Not supported"
+            raise ValueError(msg)
+        storage = cls(base, file_format_params=file_format_params)
+        if callback:
+            callback(storage)
+        for unit in storage.content_units:
+            unit.untranslate(language)
+        Path(filename).write_bytes(storage.store.serialize())
+
+    @classmethod
+    # ruff: ignore[unused-class-method-argument]
+    def is_valid_base_for_new(
+        cls,
+        base: str,
+        monolingual: bool,
+        errors: list[Exception] | None = None,
+        fast: bool = False,
+        file_format_params: FileFormatParams | None = None,
+    ) -> bool:
+        if not base:
+            return False
+        try:
+            if not fast:
+                cls(base, file_format_params=file_format_params)
+        except Exception as exception:
+            if errors is not None:
+                errors.append(exception)
+            if not is_expected_parse_error(exception):
+                report_error("File-parsing error")
+            return False
+        return os.path.exists(base)
+
+
+class TS2Format(TTKitFormat):
+    # Translators: File format name
+    name = gettext_lazy("Qt Linguist translation file (version 2)")
     format_id = "ts"
-    loader = tsfile
+    loader = ts2file
     autoload: tuple[str, ...] = ("*.ts",)
-    unit_class = TSUnit
+    unit_class = TS2Unit
     set_context_bilingual = False
     supports_plural: bool = True
     plural_preference = (Plural.SOURCE_QT,)

@@ -5,13 +5,46 @@
 from __future__ import annotations
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Fieldset, Layout
+from crispy_forms.layout import Field, Fieldset, Layout
 from django import forms
-from django.utils.translation import gettext
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.forms import FieldDocsMixin, setup_message_setting_site_defaults
-from weblate.utils.forms import SearchableSelect, SortedSelect
+from weblate.utils.forms import ContextDiv, SearchableSelect, SortedSelect
 from weblate.workspaces.models import Workspace
+
+
+class WorkspaceDeleteForm(forms.Form):
+    confirm = forms.CharField(
+        label=gettext_lazy("Removal confirmation"),
+        help_text=gettext_lazy(
+            "Please type in the workspace name to confirm its removal."
+        ),
+        required=True,
+    )
+
+    def __init__(self, workspace: Workspace, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.workspace = workspace
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            ContextDiv(
+                template="workspaces/delete-workspace.html",
+                css_class="form-group",
+                context={"object": workspace},
+            ),
+            Field("confirm"),
+        )
+        self.helper.form_tag = False
+
+    def clean_confirm(self) -> str:
+        confirm = self.cleaned_data["confirm"]
+        if confirm != self.workspace.name:
+            raise ValidationError(
+                gettext("The workspace name does not match the one marked for removal!")
+            )
+        return confirm
 
 
 class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):

@@ -58,6 +58,7 @@ EXTRA_ENABLE_FLAG_DESCRIPTION = {
     ),
     "rst-text": "Treat a text as an reStructuredText document, affects :ref:`check-same`.",
     "bbcode-text": "Treat a text as an Bulletin Board Code (BBCode) document, affects :ref:`check-same`.",
+    "asciidoc-text": "Treat a text as an AsciiDoc document, affects :ref:`check-same`.",
     "md-text": "Treat a text as a Markdown document, and provide Markdown syntax highlighting on the translation text area.",
     "auto-java-messageformat": "Treat a text as conditional Java MessageFormat, enabling :ref:`check-java-format` only when the source contains Java MessageFormat placeholders.",
     "auto-safe-html": "Treat a text as conditional HTML, enabling :ref:`check-safe-html` only for plain text or source strings that contain standard HTML markup or valid custom elements. This is useful for extended Markdown variants such as MDX, where angle-bracket syntax may not be HTML.",

@@ -120,20 +120,22 @@ class Command(DocGeneratorCommand):
             addon_lines.extend([*obj.get_versions_rst_lines(), ""])
             addon_lines.append(f":Add-on ID: ``{obj.name}``")
             prefix = ":Configuration: "
-            if obj.settings_form:
+            settings_form = obj.settings_form
+            if settings_form is not None:
                 addon = obj(fake_addon)  # type: ignore[operator]
                 addon.documentation_build = True
                 form = addon.get_settings_form(None)
+                if form is None:
+                    msg = f"Add-on {obj.name} unexpectedly returned no settings form"
+                    raise TypeError(msg)
                 table: list[list[CellType]] = [
                     [
                         f"``{name}``",
                         str(
-                            self.get_documented_field(
-                                obj.settings_form, name, field
-                            ).label
+                            self.get_documented_field(settings_form, name, field).label
                         ),
                         self.get_help_text(
-                            self.get_documented_field(obj.settings_form, name, field),
+                            self.get_documented_field(settings_form, name, field),
                             field,
                             name,
                         ),

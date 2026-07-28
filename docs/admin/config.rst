@@ -1071,6 +1071,30 @@ List for credentials for GitHub servers.
 
 .. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
+.. setting:: GITHUB_LEGACY_APP_WEBHOOK_SECRET
+
+GITHUB_LEGACY_APP_WEBHOOK_SECRET
+--------------------------------
+
+.. versionadded:: 2026.8
+
+Webhook secret for a legacy GitHub App which delivers events to the generic
+GitHub webhook URL, ``/hooks/github/``.
+
+App webhook deliveries to the generic URL are rejected when this setting is
+empty or their ``X-Hub-Signature-256`` does not match. Ordinary repository
+webhooks are unaffected. GitHub Apps registered through Weblate use their
+per-App webhook URLs and do not use this setting.
+
+.. code-block:: python
+
+   GITHUB_LEGACY_APP_WEBHOOK_SECRET = "your-webhook-secret"
+
+.. seealso::
+
+   * :ref:`code-hosting-github-notifications`
+   * :ref:`code-hosting-github-app-webhook`
+
 .. setting:: BITBUCKETSERVER_CREDENTIALS
 
 BITBUCKETSERVER_CREDENTIALS
@@ -1354,9 +1378,9 @@ LEGAL_DOCUMENT_CSS_CLASS
 
 CSS class added to the wrappers around legal document templates.
 
-Defaults to ``"tos"``, which enables the built-in legal document numbering and
-spacing rules. Set this to an empty string to render legal documents without
-the built-in numbering.
+Defaults to ``"tos"``. Weblate does not attach styling to this class; custom
+legal styles can use it to target document wrappers. Set this to an empty
+string to render legal documents without a wrapper class.
 
 .. code-block:: python
 
@@ -1364,7 +1388,8 @@ the built-in numbering.
 
 .. seealso::
 
-   :ref:`legal`
+   * :ref:`legal`
+   * :ref:`legal-customization`
 
 .. setting:: LEGAL_HIDDEN_DOCUMENTS
 
@@ -2595,6 +2620,13 @@ Their offer: diffie-hellman-group1-sha1`, you can turn that on using:
    The string is evaluated by the shell, so ensure any whitespace and
    special characters is quoted.
 
+.. warning::
+
+   This is trusted administrator-controlled configuration. Arbitrary SSH
+   options can alter connection routing and override the address pinning
+   provided by :setting:`VCS_RESTRICT_PRIVATE`. Administrators are responsible
+   for the security and compatibility impact of all configured arguments.
+
 .. seealso::
 
    `OpenSSH Legacy Options <https://www.openssh.org/legacy.html>`_
@@ -2704,7 +2736,9 @@ A set of hosts to allow when configuring VCS URL. Defaults to an empty set,
 which does no filtering at all.
 
 When :setting:`VCS_RESTRICT_PRIVATE` is enabled, matching hosts are also exempt
-from the private-target restriction.
+from the private-target restriction. This exemption is also needed for VCS
+backends which cannot bind the client connection to the address validated by
+Weblate, such as Mercurial and Subversion.
 
 .. setting:: VCS_ALLOW_SCHEMES
 
@@ -2728,6 +2762,20 @@ the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
 
 When enabled, hostnames that cannot be resolved during validation are rejected
 unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`.
+
+For Git repositories accessed over HTTPS or SSH, Weblate binds each VCS command
+to the addresses approved during runtime validation for direct connections.
+Configured HTTP proxies are trusted infrastructure and resolve repository
+hostnames instead. Automatic redirect following remains disabled. Permanent
+same-host HTTP redirects are probed separately through the same outbound route,
+validated, and stored as the canonical component repository URL. Cross-host
+redirects have to be configured manually. Mercurial, Subversion, custom VCS
+backends, and additional URL schemes are rejected unless the target host is
+explicitly included in :setting:`VCS_ALLOW_HOSTS`.
+
+Network-level egress filtering which blocks internal, loopback, link-local,
+reserved, and cloud metadata address ranges is recommended as defense in depth,
+especially for custom integrations and administrator-installed extensions.
 
 .. setting:: VCS_API_DELAY
 

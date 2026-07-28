@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
     - name: Get changed files
@@ -48,15 +48,15 @@ jobs:
       run: sudo ./ci/apt-install
     - name: Setup Python
       id: setup_python
-      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@11f9893b081a58869d3b5fccaea48c9e9e46f990 # v8.3.2
+    - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.11.28
+        version: 0.11.32
     - name: Install deps
       run: uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --group types
     - name: Run mypy
@@ -81,11 +81,23 @@ jobs:
     - name: Enforced mypy
       # TODO: Enforce mypy to pass on certain modules, this should eventually grow to complete codebase
       env:
-        EXCLUDED_MODULES: accounts/|addons/(base|models|resx|views|gettext|tests)|api/|auth/|billing/|fonts/|checks/|lang/|machinery/|metrics/|trans/(admin|autofixes|autotranslate|context_processors|debug|feeds|forms|guide|management|mixins|models/(agreement|pending|suggestion|comment|announcement|category|unit|translation|component)|tests|views|widgets)|vcs/(gpg|base|git|tests/test_vcs)
+        EXCLUDED_MODULES: |
+          accounts/(admin|auth|avatar|forms|middleware|models|notifications|pipeline|strategy|utils|views|tests/(test_avatars|test_notifications|test_registration|test_twofactor|test_views))
+          addons/(base|gettext|resx|tests|views)
+          api/(docs|serializers|tests|views)
+          auth/(forms|models|permissions|views|management/commands/list_permissions|tests/test_models)
+          billing/(admin|models|tests|views|migrations/0007_migrate_owners)
+          checks/(chars|consistency|format|glossary|markup|placeholders|render|source|utils|views|management/commands/list_same_checks|tests/(test_glossary_checks|test_mdx|test_models))
+          fonts/(utils|views|tests/test_utils)
+          lang/(admin|models|tests|views)
+          machinery/(deepl|forms|llm|microsoft|modernmt|tests|tmserver|yandex|yandexv2|management/commands/list_machinery)
+          trans/(admin|autofixes/__init__|debug|feeds|management/commands/(add_suggestions|import_project|list_file_format_params|list_versions)|models/(agreement|comment|component|pending|translation|unit)|tests|views|widgets)
+          vcs/(git|github|gpg|tests/test_vcs)
       run: |
         echo "::add-matcher::.github/matchers/mypy.json"
-        if grep --silent --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log ; then
-          grep --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log
+        excluded_modules="$(printf '%s' "$EXCLUDED_MODULES" | paste -sd '|' -)"
+        if grep --silent --invert-match --extended-regexp "^weblate/($excluded_modules)" mypy.log ; then
+          grep --invert-match --extended-regexp "^weblate/($excluded_modules)" mypy.log
           exit 1
         fi
         echo "::remove-matcher owner=mypy::"

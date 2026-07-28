@@ -70,7 +70,7 @@ from weblate.trans.models import Change, Project
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_another_user, get_test_file
 from weblate.utils.hash import hash_to_checksum
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.workspaces.models import Workspace
 
 
@@ -779,6 +779,17 @@ msgstr "Nazdar svete!\n"
         self.assertEqual(Memory.objects.count(), 4)
         self.import_memory_with_callbacks(self.project.id)
         self.assertEqual(Memory.objects.count(), 4)
+
+    def test_import_project_uses_bulk_updates(self) -> None:
+        with patch("weblate.memory.tasks.schedule_memory_updates") as mocked_schedule:
+            import_memory(self.project.id, self.component.id)
+
+        mocked_schedule.assert_called_once()
+        payloads = mocked_schedule.call_args.args[0]
+        self.assertTrue(payloads)
+        self.assertTrue(
+            all(payload["project_id"] == self.project.id for payload in payloads)
+        )
 
     def test_user_contribute_personal_tm(self) -> None:
         self.user.profile.contribute_personal_tm = False
@@ -2014,6 +2025,41 @@ msgstr "Nazdar svete!\n"
                 scope=MemoryScope.SCOPE_PROJECT,
                 project=self.project,
             ).exists()
+        )
+
+    def test_bulk_create_uses_last_duplicate_status(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        source = "Bulk duplicate status source"
+        self.project.translation_review = True
+        self.project.save(update_fields=["translation_review"])
+        payload = {
+            "source_language_id": source_language.id,
+            "target_language_id": target_language.id,
+            "source": source,
+            "context": "",
+            "target": "Davkovy duplicitni cil",
+            "origin": self.component.full_slug,
+            "add_shared": False,
+            "add_workspace": False,
+            "add_project": True,
+            "add_user": False,
+            "user_id": None,
+            "workspace_id": None,
+            "project_id": self.project.id,
+            "unit_state": STATE_TRANSLATED,
+        }
+
+        update_memory_bulk([payload, {**payload, "unit_state": STATE_APPROVED}])
+
+        memory = Memory.objects.get(source=source)
+        self.assertEqual(memory.status, Memory.STATUS_ACTIVE)
+        self.assertEqual(
+            memory.scopes.filter(
+                scope=MemoryScope.SCOPE_PROJECT,
+                project=self.project,
+            ).count(),
+            1,
         )
 
     def test_compact_backfills_scopes_before_merging_duplicates(self) -> None:

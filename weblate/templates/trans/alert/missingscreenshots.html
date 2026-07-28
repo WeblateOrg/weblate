@@ -1,0 +1,20 @@
+{% load humanize i18n %}
+
+<p>{{ description }}</p>
+
+<ul>
+  <li>
+    <a href="{{ component.source_translation.get_translate_url }}?q={{ "has:screenshot"|urlencode }}">{% translate "Source strings with screenshots" %}</a>:
+    {{ with_screenshots|intcomma }}
+  </li>
+  <li>
+    <a href="{{ component.source_translation.get_translate_url }}?q={{ "NOT has:screenshot"|urlencode }}">{% translate "Source strings without screenshots" %}</a>:
+    {{ without_screenshots|intcomma }}
+  </li>
+</ul>
+
+{% if can_configure %}
+  <p>
+    <a class="btn btn-primary" href="{{ configure_url }}">{% translate "Configure" %}</a>
+  </p>
+{% endif %}

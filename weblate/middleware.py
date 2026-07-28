@@ -17,6 +17,7 @@ from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 from django.urls import is_valid_path, reverse
 from django.urls.exceptions import NoReverseMatch
+from django.utils.deprecation import MiddlewareMixin
 from django.utils.http import MAX_URL_LENGTH, escape_leading_slashes
 from django.utils.translation import gettext
 from social_core.backends.oauth import OAuthAuth
@@ -84,7 +85,7 @@ INLINE_PATHS = {
 }
 
 
-class ProxyMiddleware:
+class ProxyMiddleware(MiddlewareMixin):
     """
     Middleware that updates REMOTE_ADDR from proxy.
 
@@ -92,10 +93,7 @@ class ProxyMiddleware:
     proxy setup.
     """
 
-    def __init__(self, get_response=None) -> None:
-        self.get_response = get_response
-
-    def __call__(self, request: HttpRequest):
+    def process_request(self, request: HttpRequest):
         # Fake HttpRequest attribute to inject configured
         # site name into build_absolute_uri
         request.__dict__["_current_scheme_host"] = get_site_url()
@@ -113,10 +111,8 @@ class ProxyMiddleware:
             except ValidationError:
                 report_error("Invalid IP address")
 
-        return self.get_response(request)
 
-
-class RedirectMiddleware:
+class RedirectMiddleware(MiddlewareMixin):
     """
     Middleware that handles URL redirecting.
 
@@ -124,11 +120,9 @@ class RedirectMiddleware:
     or after renaming.
     """
 
-    def __init__(self, get_response=None) -> None:
-        self.get_response = get_response
-
-    def __call__(self, request: AuthenticatedHttpRequest) -> HttpResponse:
-        response = self.get_response(request)
+    def process_response(
+        self, request: AuthenticatedHttpRequest, response: HttpResponse
+    ) -> HttpResponse:
         # This is based on APPEND_SLASH handling in Django
         if response.status_code == 404 and self.should_redirect_with_slash(request):
             new_path = request.get_full_path(force_append_slash=True)
@@ -324,7 +318,7 @@ class CSPBuilder:
         self.build_csp_static_url()
         self.build_csp_cdn()
         self.build_csp_auth()
-        self.build_csp_redoc()
+        self.build_csp_api_docs()
 
     def apply_csp_settings(self) -> None:
         setting_names: dict[str, CSP_KIND] = {
@@ -362,13 +356,15 @@ class CSPBuilder:
 
         return domain
 
-    def build_csp_redoc(self) -> None:
+    def build_csp_api_docs(self) -> None:
         if self.request.resolver_match and self.request.resolver_match.view_name in {
             "redoc",
             "swagger",
         }:
-            self.directives["script-src"].add("'unsafe-inline'")
+            # ReDoc and Swagger render images using data URIs.
             self.directives["img-src"].add("data:")
+            if self.request.resolver_match.view_name == "swagger":
+                self.directives["script-src"].add("'unsafe-inline'")
 
     def build_csp_inline(self) -> None:
         if (
@@ -401,7 +397,6 @@ class CSPBuilder:
     def build_csp_google_analytics(self) -> None:
         # Google Analytics
         if settings.GOOGLE_ANALYTICS_ID:
-            self.directives["script-src"].add("'unsafe-inline'")
             self.directives["script-src"].add("www.google-analytics.com")
             self.directives["img-src"].add("www.google-analytics.com")
 
@@ -479,14 +474,12 @@ class CSPBuilder:
                         self.directives["form-action"].add("*.awsapps.com")
 
 
-class SecurityMiddleware:
+class SecurityMiddleware(MiddlewareMixin):
     """Middleware that sets Content-Security-Policy."""
 
-    def __init__(self, get_response=None) -> None:
-        self.get_response = get_response
-
-    def __call__(self, request: AuthenticatedHttpRequest):
-        response = self.get_response(request)
+    def process_response(
+        self, request: AuthenticatedHttpRequest, response: HttpResponse
+    ) -> HttpResponse:
         csp_builder = CSPBuilder(request, response)
 
         response["Content-Security-Policy"] = "; ".join(

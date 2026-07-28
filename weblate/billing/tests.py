@@ -10,6 +10,7 @@ from unittest.mock import patch
 from uuid import UUID
 
 from django.apps import apps
+from django.contrib.messages import get_messages
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
@@ -270,6 +271,148 @@ class BillingTest(BaseTestCase):
         self.assertContains(response, "btn btn-info")
         self.assertNotContains(response, 'title="Django admin"', status_code=200)
         self.assertNotContains(response, "cog.svg", status_code=200)
+
+    def test_can_terminate(self) -> None:
+        self.assertTrue(self.billing.can_terminate)
+
+        self.billing.state = Billing.STATE_TRIAL
+        self.billing.save(skip_limits=True)
+        self.assertTrue(self.billing.can_terminate)
+
+        self.billing.state = Billing.STATE_TERMINATED
+        self.billing.save(skip_limits=True)
+        self.assertFalse(self.billing.can_terminate)
+
+        self.billing.state = Billing.STATE_ACTIVE
+        self.billing.save(skip_limits=True)
+        self.add_project()
+        self.assertFalse(self.billing.can_terminate)
+
+    def test_termination_button(self) -> None:
+        self.client.login(username=self.user.username, password="testpassword")
+        billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
+
+        response = self.client.get(billing_url)
+        terminate = html.fromstring(response.content).xpath(
+            '//button[@name="terminate"]'
+        )
+        self.assertEqual(len(terminate), 1)
+        self.assertNotIn("disabled", terminate[0].attrib)
+
+        self.add_project()
+        response = self.client.get(billing_url)
+        terminate = html.fromstring(response.content).xpath(
+            '//button[@name="terminate"]'
+        )
+        self.assertEqual(len(terminate), 1)
+        self.assertIn("disabled", terminate[0].attrib)
+        self.assertContains(
+            response, "To terminate billing you have to remove all projects first."
+        )
+
+    def test_terminate(self) -> None:
+        workspace_editor = create_another_user(suffix="-editor")
+        workspace_edit = Role.objects.create(name="Terminate billing")
+        workspace_edit.permissions.add(
+            Permission.objects.get(codename="workspace.edit")
+        )
+        workspace_editors = Group.objects.create(
+            name="Billing editors",
+            defining_workspace=self.billing.workspace,
+        )
+        workspace_editors.roles.add(workspace_edit)
+        workspace_editor.add_team(None, workspace_editors)
+        self.billing.expiry = timezone.now()
+        self.billing.removal = timezone.now() + timedelta(days=1)
+        self.billing.save(skip_limits=True)
+        self.client.login(username=workspace_editor.username, password="testpassword")
+        billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
+
+        response = self.client.post(billing_url, {"terminate": self.billing.pk})
+
+        self.assertRedirects(response, billing_url)
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
+        self.assertIsNone(self.billing.expiry)
+        self.assertIsNone(self.billing.removal)
+        log = self.billing.billinglog_set.get(event=BillingEvent.TERMINATED)
+        self.assertEqual(log.user, workspace_editor)
+
+    def test_terminate_with_projects(self) -> None:
+        self.add_project()
+        removal = timezone.now() + timedelta(days=1)
+        self.billing.removal = removal
+        self.billing.save(skip_limits=True)
+        self.client.login(username=self.user.username, password="testpassword")
+        billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
+
+        response = self.client.post(billing_url, {"terminate": self.billing.pk})
+
+        self.assertRedirects(response, billing_url)
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(
+            response_messages,
+            ["To terminate billing you have to remove all projects first."],
+        )
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(self.billing.removal, removal)
+        self.assertFalse(
+            self.billing.billinglog_set.filter(event=BillingEvent.TERMINATED).exists()
+        )
+
+    def test_disable_recurring(self) -> None:
+        self.billing.payment = {"recurring": "processor-token"}
+        self.billing.inactive_recurring_notification = timezone.now()
+        self.billing.inactive_recurring_disable = timezone.now() + timedelta(days=1)
+        self.billing.save(
+            update_fields=[
+                "payment",
+                "inactive_recurring_notification",
+                "inactive_recurring_disable",
+            ]
+        )
+        self.client.login(username=self.user.username, password="testpassword")
+        billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
+
+        response = self.client.post(billing_url, {"recurring": self.billing.pk})
+
+        self.assertRedirects(response, billing_url)
+        self.refresh_from_db()
+        self.assertNotIn("recurring", self.billing.payment)
+        for field in Billing.INACTIVE_RECURRING_FIELDS:
+            self.assertIsNone(getattr(self.billing, field))
+        log = self.billing.billinglog_set.get(event=BillingEvent.DISABLED_RECURRING)
+        self.assertEqual(log.user, self.user)
+
+    def test_billing_actions_require_access(self) -> None:
+        other_user = create_another_user()
+        self.billing.payment = {"recurring": "processor-token"}
+        self.billing.save(update_fields=["payment"])
+        self.client.login(username=other_user.username, password="testpassword")
+        billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
+
+        for post in (
+            {"recurring": self.billing.pk},
+            {"terminate": self.billing.pk},
+        ):
+            with self.subTest(post=post):
+                response = self.client.post(billing_url, post)
+                self.assertEqual(response.status_code, 403)
+
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertIn("recurring", self.billing.payment)
+        self.assertFalse(
+            self.billing.billinglog_set.filter(
+                event__in=[
+                    BillingEvent.DISABLED_RECURRING,
+                    BillingEvent.TERMINATED,
+                ]
+            ).exists()
+        )
 
     @override_settings(OFFER_HOSTING=True)
     def test_billing_overview_shows_component_alerts(self) -> None:

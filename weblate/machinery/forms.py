@@ -344,6 +344,33 @@ class AWSMachineryForm(KeySecretMachineryForm):
     region = forms.CharField(
         label=pgettext_lazy("AWS Translate configuration", "Region name")
     )
+    formality = forms.ChoiceField(
+        label=pgettext_lazy("AWS Translate configuration", "Formality"),
+        required=False,
+        choices=(
+            ("", pgettext_lazy("AWS Translate configuration", "Default")),
+            ("FORMAL", pgettext_lazy("AWS Translate configuration", "Formal")),
+            ("INFORMAL", pgettext_lazy("AWS Translate configuration", "Informal")),
+        ),
+    )
+    brevity = forms.ChoiceField(
+        label=pgettext_lazy("AWS Translate configuration", "Brevity"),
+        required=False,
+        help_text=gettext_lazy("Prefer shorter translations when supported."),
+        choices=(
+            ("", pgettext_lazy("AWS Translate configuration", "Default")),
+            ("ON", pgettext_lazy("AWS Translate configuration", "Enabled")),
+        ),
+    )
+    profanity = forms.ChoiceField(
+        label=pgettext_lazy("AWS Translate configuration", "Profanity"),
+        required=False,
+        help_text=gettext_lazy("Mask profane words in translated text."),
+        choices=(
+            ("", pgettext_lazy("AWS Translate configuration", "Default")),
+            ("MASK", pgettext_lazy("AWS Translate configuration", "Mask profanity")),
+        ),
+    )
 
 
 class AlibabaMachineryForm(KeySecretMachineryForm):

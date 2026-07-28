@@ -4,8 +4,9 @@
 
 import io
 from typing import Any, ClassVar, NoReturn, cast
+from urllib.parse import unquote, urlsplit
 
-import requests
+import httpx2
 from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -34,7 +35,7 @@ class ScreenshotImageValidationMixin(BaseForm):
             allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
         ) as response:
             content = b""
-            for chunk in response.iter_content(
+            for chunk in response.iter_bytes(
                 chunk_size=settings.ALLOWED_ASSET_SIZE + 1
             ):
                 if not content:
@@ -69,9 +70,7 @@ class ScreenshotImageValidationMixin(BaseForm):
         ):
             # download from image_url only if image is not provided and not updated
             cleaned_data["image"] = self.download_image(image_url)
-            # ruff: ignore[private-member-access]
-            image_field = Screenshot._meta.get_field("image")
-            image_field.run_validators(cleaned_data["image"])
+            Screenshot.validate_image_file(cleaned_data["image"])
 
         cleaned_data.pop("image_url", None)
         return cleaned_data
@@ -91,7 +90,7 @@ class ScreenshotImageValidationMixin(BaseForm):
                     % error.params
                 )
             self.raise_image_url_error(error.messages[0])
-        except requests.RequestException as e:
+        except httpx2.HTTPError as e:
             raise forms.ValidationError(
                 {
                     "image_url": gettext(
@@ -99,11 +98,11 @@ class ScreenshotImageValidationMixin(BaseForm):
                     )
                 }
             ) from e
-        filename = url.rsplit("/", maxsplit=1)[-1] or "screenshot"
+        filename = unquote(urlsplit(url).path).rsplit("/", maxsplit=1)[-1]
         return InMemoryUploadedFile(
             file=io.BytesIO(content),
             field_name="image",
-            name=filename,
+            name=filename or "screenshot",
             content_type=content_type,
             size=len(content),
             charset=None,

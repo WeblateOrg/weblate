@@ -52,6 +52,7 @@ class SettingsDict(TypedDict, total=False):
     style: str
     language_instructions: dict[str, str]
     custom_model: str
+    max_tokens: int
     bucket_name: str
     context_vector: str
     deployment: str

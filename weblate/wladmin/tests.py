@@ -14,7 +14,6 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlparse
 
-import responses
 from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
@@ -37,8 +36,21 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.backup import BackupError, BorgResult
 from weblate.utils.data import data_path
+from weblate.utils.tests import http_mock as responses
 from weblate.utils.unittest import tempdir_setting
+from weblate.utils.zammad import ZammadError
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
+from weblate.wladmin.middleware import (
+    CHECK_ATTEMPT_CACHE_KEY,
+    CHECK_ATTEMPT_TIMEOUT,
+    CHECK_CACHE_KEY,
+    CHECK_INTERVAL,
+    CHECK_POLL_INTERVAL,
+    ManageMiddleware,
+    claim_configuration_health_check,
+    perform_configuration_health_check,
+    run_background_configuration_health_check,
+)
 from weblate.wladmin.models import (
     BackupService,
     ConfigurationError,
@@ -685,6 +697,164 @@ class ManagementAccessControlTest(ViewTestCase):
         self.assertEqual(response.status_code, 403)
 
 
+class ManageMiddlewareTest(TestCase):
+    def test_claim_configuration_health_check(self) -> None:
+        with (
+            patch("weblate.wladmin.middleware.time.time", return_value=123),
+            patch(
+                "weblate.wladmin.middleware.cache.add", return_value=True
+            ) as cache_add,
+        ):
+            self.assertTrue(claim_configuration_health_check())
+
+        cache_add.assert_called_once_with(
+            CHECK_ATTEMPT_CACHE_KEY,
+            123,
+            timeout=CHECK_ATTEMPT_TIMEOUT,
+        )
+
+    @override_settings(BACKGROUND_ADMIN_CHECKS=False)
+    def test_disabled(self) -> None:
+        middleware = ManageMiddleware(Mock())
+        with patch.object(middleware, "should_poll") as should_poll:
+            middleware.trigger_check_if_due()
+        should_poll.assert_not_called()
+
+    @override_settings(BACKGROUND_ADMIN_CHECKS=True)
+    def test_poll_interval(self) -> None:
+        middleware = ManageMiddleware(Mock())
+        with (
+            patch(
+                "weblate.wladmin.middleware.time.monotonic",
+                side_effect=[100, 120, 100 + CHECK_POLL_INTERVAL],
+            ),
+            patch("weblate.wladmin.middleware.cache.get", return_value=None),
+            patch.object(middleware, "trigger_check") as trigger_check,
+        ):
+            middleware.trigger_check_if_due()
+            middleware.trigger_check_if_due()
+            middleware.trigger_check_if_due()
+
+        self.assertEqual(trigger_check.call_count, 2)
+
+    @override_settings(BACKGROUND_ADMIN_CHECKS=True)
+    def test_recent_check(self) -> None:
+        middleware = ManageMiddleware(Mock())
+        with (
+            patch("weblate.wladmin.middleware.time.monotonic", return_value=100),
+            patch("weblate.wladmin.middleware.time.time", return_value=1000),
+            patch(
+                "weblate.wladmin.middleware.cache.get",
+                return_value=1000 - CHECK_INTERVAL + 1,
+            ),
+            patch.object(middleware, "trigger_check") as trigger_check,
+        ):
+            middleware.trigger_check_if_due()
+
+        trigger_check.assert_not_called()
+
+    @override_settings(BACKGROUND_ADMIN_CHECKS=True)
+    def test_atomic_attempt_claim(self) -> None:
+        with (
+            patch(
+                "weblate.wladmin.middleware.claim_configuration_health_check",
+                return_value=False,
+            ),
+            patch("weblate.wladmin.middleware.Thread") as thread,
+        ):
+            ManageMiddleware.trigger_check()
+
+        thread.assert_not_called()
+
+    @override_settings(BACKGROUND_ADMIN_CHECKS=True)
+    def test_starts_background_thread(self) -> None:
+        with (
+            patch(
+                "weblate.wladmin.middleware.claim_configuration_health_check",
+                return_value=True,
+            ),
+            patch("weblate.wladmin.middleware.Thread") as thread,
+        ):
+            ManageMiddleware.trigger_check()
+
+        thread.assert_called_once_with(
+            target=run_background_configuration_health_check,
+            name="configuration-health-check",
+            daemon=False,
+        )
+        thread.return_value.start.assert_called_once_with()
+
+    @override_settings(BACKGROUND_ADMIN_CHECKS=True)
+    def test_thread_start_failure(self) -> None:
+        with (
+            patch(
+                "weblate.wladmin.middleware.claim_configuration_health_check",
+                return_value=True,
+            ),
+            patch(
+                "weblate.wladmin.middleware.Thread",
+                side_effect=RuntimeError("thread failed"),
+            ),
+            patch("weblate.wladmin.middleware.report_error") as report_error,
+        ):
+            ManageMiddleware.trigger_check()
+
+        report_error.assert_called_once_with(
+            "Could not start configuration health check"
+        )
+
+    def test_perform_configuration_health_check(self) -> None:
+        checks = [Critical(msg="Test error", id="weblate.E002")]
+        with (
+            patch.object(
+                ConfigurationError.objects, "configuration_health_check"
+            ) as health_check,
+            patch("weblate.wladmin.middleware.time.time", return_value=123),
+            patch("weblate.wladmin.middleware.cache.set") as cache_set,
+        ):
+            self.assertTrue(perform_configuration_health_check(checks))
+
+        health_check.assert_called_once_with(checks)
+        cache_set.assert_called_once_with(CHECK_CACHE_KEY, 123, timeout=None)
+
+    def test_perform_configuration_health_check_failure(self) -> None:
+        with (
+            patch.object(
+                ConfigurationError.objects,
+                "configuration_health_check",
+                side_effect=RuntimeError("check failed"),
+            ),
+            patch("weblate.wladmin.middleware.cache.set") as cache_set,
+            patch("weblate.wladmin.middleware.report_error") as report_error,
+        ):
+            self.assertFalse(perform_configuration_health_check())
+
+        cache_set.assert_not_called()
+        report_error.assert_called_once_with("Configuration health check failed")
+
+    def test_background_check_closes_connections(self) -> None:
+        with (
+            patch("weblate.wladmin.middleware.perform_configuration_health_check"),
+            patch("weblate.wladmin.middleware.connections.close_all") as close_all,
+        ):
+            run_background_configuration_health_check()
+
+        close_all.assert_called_once_with()
+
+    def test_background_check_closes_connections_on_failure(self) -> None:
+        with (
+            patch(
+                "weblate.wladmin.middleware.perform_configuration_health_check",
+                side_effect=RuntimeError("reporting failed"),
+            ),
+            patch("weblate.wladmin.middleware.connections.close_all") as close_all,
+            self.assertRaises(RuntimeError),
+        ):
+            run_background_configuration_health_check()
+
+        close_all.assert_called_once_with()
+
+
 class AdminTest(ViewTestCase):
     """Test for customized admin interface."""
 
@@ -750,6 +920,31 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse("manage-backups"))
         self.assertNotContains(response, "Register on weblate.org")
 
+    def test_support_form_handles_zammad_error(self) -> None:
+        SupportStatus.objects.create(
+            name="basic",
+            secret="paid-secret",
+            expiry=timezone.now() + timedelta(days=1),
+            enabled=True,
+        )
+
+        with patch(
+            "weblate.wladmin.views.submit_zammad_ticket",
+            side_effect=ZammadError("Customer care is currently unavailable."),
+        ):
+            response = self.client.post(
+                reverse("manage-support"),
+                {
+                    "subject": "Support request",
+                    "name": "Test user",
+                    "email": "test@example.com",
+                    "message": "Please help.",
+                },
+                follow=True,
+            )
+
+        self.assertContains(response, "Customer care is currently unavailable.")
+
     def test_workspaces(self) -> None:
         workspace = Workspace.objects.create(name="Test workspace")
         Project.objects.create(
@@ -765,6 +960,34 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, workspace.name)
         self.assertContains(response, workspace.get_absolute_url())
         self.assertContains(response, ">1<")
+        self.assertContains(response, "table-striped")
+        self.assertContains(response, "Translated")
+        self.assertContains(response, "Unfinished words")
+
+    def test_workspaces_stats_sort_preserves_search(self) -> None:
+        workspaces = Workspace.objects.bulk_create(
+            [
+                Workspace(name=f"Sortable localization workspace {index:02}")
+                for index in range(51)
+            ]
+        )
+        Workspace.objects.create(name="Unrelated documentation workspace")
+
+        response = self.client.get(
+            reverse("manage-workspaces"),
+            {"q": "localization", "sort_by": "translated"},
+        )
+
+        self.assertEqual(len(response.context["object_list"]), 50)
+        self.assertEqual(
+            set(response.context["object_list"]),
+            set(workspaces[:50]),
+        )
+        self.assertContains(response, "sort_by=-translated&amp;q=localization")
+        self.assertEqual(
+            response.context["object_list"].paginator.sort_by,
+            "translated",
+        )
 
     def test_alerts_are_ordered(self) -> None:
         zulu_project = self.create_project(name="Zulu", slug="zulu")
@@ -859,7 +1082,7 @@ class AdminTest(ViewTestCase):
         self.assertTrue(response.context["is_paginated"])
         self.assertEqual(len(response.context["object_list"]), 50)
 
-    def test_workspaces_avoid_billing_display_queries(self) -> None:
+    def test_workspaces_batch_project_stats_queries(self) -> None:
         # ruff: ignore[import-outside-top-level]
         from weblate.billing.models import Billing, Plan
 
@@ -894,7 +1117,8 @@ class AdminTest(ViewTestCase):
                 and f'WHERE "{project_table}"."workspace_id"' in query["sql"]
             )
         ]
-        self.assertEqual(project_queries, [])
+        self.assertEqual(len(project_queries), 1)
+        self.assertIn('"workspace_id" IN', project_queries[0])
 
     def test_ssh(self) -> None:
         response = self.client.get(reverse("manage-ssh"))
@@ -926,6 +1150,7 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "PRIVATE KEY")
 
     @tempdir_setting("DATA_DIR")
+    @override_settings(VCS_RESTRICT_PRIVATE=False)
     def test_ssh_add(self) -> None:
         self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         oldpath = os.environ["PATH"]
@@ -1236,6 +1461,51 @@ class AdminTest(ViewTestCase):
             [("aqueue", 2), ("zqueue", 1)],
         )
 
+    @override_settings(BACKGROUND_ADMIN_CHECKS=True)
+    def test_performance_persists_existing_checks(self) -> None:
+        checks = [Critical(msg="Test Error", id="weblate.E002")]
+        with (
+            patch("weblate.wladmin.views.run_checks", return_value=checks),
+            patch(
+                "weblate.wladmin.views.claim_configuration_health_check",
+                return_value=True,
+            ) as claim_health_check,
+            patch(
+                "weblate.wladmin.views.perform_configuration_health_check"
+            ) as perform_health_check,
+            patch(
+                "weblate.wladmin.middleware.ManageMiddleware.should_poll",
+                return_value=False,
+            ),
+        ):
+            response = self.client.get(reverse("manage-performance"))
+
+        self.assertEqual(response.status_code, 200)
+        claim_health_check.assert_called_once_with()
+        perform_health_check.assert_called_once_with(checks)
+
+    @override_settings(BACKGROUND_ADMIN_CHECKS=True)
+    def test_performance_skips_persistence_during_active_check(self) -> None:
+        checks = [Critical(msg="Test Error", id="weblate.E002")]
+        with (
+            patch("weblate.wladmin.views.run_checks", return_value=checks),
+            patch(
+                "weblate.wladmin.views.claim_configuration_health_check",
+                return_value=False,
+            ),
+            patch(
+                "weblate.wladmin.views.perform_configuration_health_check"
+            ) as perform_health_check,
+            patch(
+                "weblate.wladmin.middleware.ManageMiddleware.should_poll",
+                return_value=False,
+            ),
+        ):
+            response = self.client.get(reverse("manage-performance"))
+
+        self.assertEqual(response.status_code, 200)
+        perform_health_check.assert_not_called()
+
     def test_error(self) -> None:
         ConfigurationError.objects.create(name="Test error", message="FOOOOOOOOOOOOOO")
         response = self.client.get(reverse("manage-performance"))
@@ -1283,13 +1553,18 @@ class AdminTest(ViewTestCase):
                 Critical(msg="Error", id="weblate.E001"),
                 Critical(msg="Test Error", id="weblate.E002"),
                 Critical(msg="Cache Error", id="weblate.C044"),
+                Critical(msg="Database statistics error", id="weblate.C047"),
             ]
         )
         all_errors = ConfigurationError.objects.all()
-        self.assertEqual(len(all_errors), 2)
+        self.assertEqual(len(all_errors), 3)
         self.assertEqual(
             {error.name: error.message for error in all_errors},
-            {"weblate.E002": "Test Error", "weblate.C044": "Cache Error"},
+            {
+                "weblate.E002": "Test Error",
+                "weblate.C044": "Cache Error",
+                "weblate.C047": "Database statistics error",
+            },
         )
         # No triggered checks
         ConfigurationError.objects.create(name="weblate.C046", message="Retired check")

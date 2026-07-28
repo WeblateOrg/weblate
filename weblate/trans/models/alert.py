@@ -80,6 +80,7 @@ class Alert(models.Model):
     objects = AlertQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         # ruff: ignore[mutable-class-default]
         unique_together = [("component", "name")]
         # ruff: ignore[mutable-class-default]

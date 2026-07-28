@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-import re
 import uuid
 from collections import defaultdict
 from contextvars import ContextVar
@@ -13,6 +12,7 @@ from datetime import timedelta
 from functools import cache as functools_cache
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
 
+import regex
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
@@ -57,11 +57,13 @@ from weblate.auth.utils import (
     migrate_permissions,
     migrate_roles,
 )
+from weblate.logger import LOGGER
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
+from weblate.utils.regex import regex_match
 from weblate.utils.search import parse_query
 from weblate.utils.tracing import start_span
 from weblate.utils.validators import (
@@ -82,6 +84,7 @@ if TYPE_CHECKING:
     from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.results import PermissionResult
     from weblate.lang.models import Language
+    from weblate.utils.stats import CategoryLanguage, ProjectLanguage
     from weblate.wladmin.models import SupportStatusDict
 
     SimplePermissionList = list[tuple[set[str], PermissionLanguageScope | None]]
@@ -122,6 +125,7 @@ class Permission(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Permission"
         verbose_name_plural = "Permissions"
 
@@ -188,6 +192,7 @@ class Role(models.Model):
     objects = RoleQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Role"
         verbose_name_plural = "Roles"
 
@@ -339,6 +344,7 @@ class Group(models.Model):
     objects = GroupQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Group"
         verbose_name_plural = "Groups"
         # ruff: ignore[mutable-class-default]
@@ -469,6 +475,7 @@ class TeamMembership(models.Model):
     objects = TeamMembershipQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         db_table = "weblate_auth_user_groups"
         # ruff: ignore[mutable-class-default]
         constraints = [
@@ -870,6 +877,7 @@ class User(AbstractBaseUser):
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "User"
         verbose_name_plural = "Users"
         # ruff: ignore[mutable-class-default]
@@ -1004,11 +1012,17 @@ class User(AbstractBaseUser):
         """Compatibility API for third-party modules."""
         return self.full_name
 
-    def has_perms(self, perm_list: list[str], obj: models.Model | None = None) -> bool:
+    def has_perms(
+        self,
+        perm_list: list[str],
+        obj: models.Model | ProjectLanguage | CategoryLanguage | None = None,
+    ) -> bool:
         return all(self.has_perm(perm, obj) for perm in perm_list)
 
     def has_perm(
-        self, perm: str, obj: models.Model | None = None
+        self,
+        perm: str,
+        obj: models.Model | ProjectLanguage | CategoryLanguage | None = None,
     ) -> PermissionResult | bool:
         """Permission check."""
         # Weblate global scope permissions
@@ -1687,6 +1701,7 @@ class AutoGroup(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Automatic team assignment"
         verbose_name_plural = "Automatic team assignments"
 
@@ -1714,6 +1729,7 @@ class UserBlock(models.Model):
     )
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Blocked user"
         verbose_name_plural = "Blocked users"
         # ruff: ignore[mutable-class-default]
@@ -1767,8 +1783,11 @@ def auto_assign_group(user: User) -> None:
         return
     # Add user to automatic groups
     for auto in AutoGroup.objects.prefetch_related("group"):
-        if re.match(auto.match, user.email or ""):
-            user.add_team(None, auto.group)
+        try:
+            if regex_match(auto.match, user.email or ""):
+                user.add_team(None, auto.group)
+        except (regex.error, TimeoutError):
+            LOGGER.error("Invalid automatic group rule %s", auto.pk)
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
@@ -1969,6 +1988,9 @@ class Invitation(models.Model):
             "Empty selection uses the team language selection without additional limit."
         ),
     )
+
+    class Meta:
+        required_db_vendor = "postgresql"
 
     def __str__(self) -> str:
         return f"invitation {self.uuid} for {self.user or self.email} to {self.group}"

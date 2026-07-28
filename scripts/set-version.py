@@ -12,7 +12,7 @@ import sys
 import time
 from pathlib import Path
 
-import requests
+import httpx2
 from ruamel.yaml import YAML
 from update_version import VERSION_FILES, replace_file, update_version
 
@@ -38,8 +38,11 @@ def prepend_file(name: str, content: str) -> None:
 def fetch_commit_activity(request_headers: dict[str, str]) -> list[dict[str, int]]:
     """Fetch commit activity, retrying while GitHub prepares the stats."""
     for _attempt in range(5):
-        activity_response = requests.get(
-            ACTIVITY_API, headers=request_headers, timeout=5
+        activity_response = httpx2.get(
+            ACTIVITY_API,
+            headers=request_headers,
+            timeout=5,
+            follow_redirects=True,
         )
         if activity_response.status_code != 202:
             activity_response.raise_for_status()
@@ -51,7 +54,9 @@ def fetch_commit_activity(request_headers: dict[str, str]) -> list[dict[str, int
 
 
 def fetch_fallback_stats(request_headers: dict[str, str]) -> dict[str, int]:
-    repo_response = requests.get(REPO_API, headers=request_headers, timeout=5)
+    repo_response = httpx2.get(
+        REPO_API, headers=request_headers, timeout=5, follow_redirects=True
+    )
     repo_response.raise_for_status()
     repo = repo_response.json()
     activity = sorted(
@@ -87,8 +92,12 @@ config = yaml.load(Path("~/.config/hub").expanduser().read_text(encoding="utf-8"
 milestones_api = f"{REPO_API}/milestones"
 api_auth = f"token {config['github.com'][0]['oauth_token']}"
 headers = {"Authorization": api_auth, "Accept": "application/vnd.github.v3+json"}
-response = requests.get(
-    milestones_api, headers=headers, timeout=1, params={"state": "open"}
+response = httpx2.get(
+    milestones_api,
+    headers=headers,
+    timeout=1,
+    params={"state": "open"},
+    follow_redirects=True,
 )
 response.raise_for_status()
 milestone_url = None
@@ -97,7 +106,7 @@ for milestone in response.json():
         milestone_url = milestone["html_url"]
 
 if milestone_url is None:
-    response = requests.post(
+    response = httpx2.post(
         milestones_api, headers=headers, json={"title": version}, timeout=1
     )
     payload = response.json()

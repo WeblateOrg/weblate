@@ -1,31 +1,8 @@
-{% extends "base.html" %}
+{% extends "addons/addon_base.html" %}
 
 {% load i18n translations %}
 
-{% block breadcrumbs %}
-  {% if object %}
-    {% path_object_breadcrumbs object %}
-    <li class="breadcrumb-item">
-      <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
-    </li>
-  {% else %}
-    <li class="breadcrumb-item">
-      <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
-    </li>
-  {% endif %}
-  <li class="breadcrumb-item">
-    <a href="{% url 'addon-detail' pk=instance.pk %}">
-      {% if addon %}
-        {{ addon.verbose }}
-      {% else %}
-        {{ addon_name }}
-      {% endif %}
-    </a>
-  </li>
-  <li class="breadcrumb-item">{% translate "Components" %}</li>
-{% endblock breadcrumbs %}
-
-{% block content %}
+{% block addon_content %}
 
   <div class="card">
     <div class="card-header">
@@ -76,4 +53,4 @@
     {% endif %}
   </div>
 
-{% endblock content %}
+{% endblock addon_content %}

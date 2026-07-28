@@ -9,14 +9,15 @@ from __future__ import annotations
 import json
 from datetime import timedelta
 
-import responses
 from django.core.cache import cache
+from django.test import override_settings
 from django.utils import timezone
 from rest_framework.test import APIClient
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.tests import http_mock as responses
 from weblate.vcs.github import (
     GitHubAppCredentials,
     GitHubInstallation,
@@ -475,13 +476,25 @@ class TestGitHubAppHooks(ViewTestCase):
         response = self._post("push", data)
         self.assertIn(response.status_code, (200, 202))
 
-    def _legacy_post(self, event_type, data):
+    def _legacy_post(
+        self,
+        event_type,
+        data,
+        *,
+        secret: str | None = None,
+        signature: str | None = None,
+    ):
         body = json.dumps(data)
+        headers = {"X-Github-Event": event_type}
+        if signature is not None:
+            headers["X-Hub-Signature-256"] = signature
+        elif secret is not None:
+            headers["X-Hub-Signature-256"] = sign_webhook_payload(body, secret)
         return self.client.post(
             self.LEGACY_WEBHOOK_URL,
             data=body,
             content_type="application/json",
-            headers={"X-Github-Event": event_type},
+            headers=headers,
         )
 
     def test_push_event_without_app_configured(self):
@@ -501,7 +514,7 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertIn(response.status_code, (200, 202))
 
     def test_app_delivery_rejected_on_generic_endpoint(self):
-        """GitHub App deliveries must use the per-App endpoint."""
+        """App deliveries are rejected unless a legacy secret is configured."""
         data = {
             "ref": "refs/heads/main",
             "installation": {"id": 12345, "app_id": 99999},
@@ -516,6 +529,86 @@ class TestGitHubAppHooks(ViewTestCase):
         }
         response = self._post("push", data, url=self.LEGACY_WEBHOOK_URL)
         self.assertEqual(response.status_code, 403)
+
+    @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
+    def test_legacy_app_push_with_valid_signature(self):
+        """A signed legacy App push updates ordinary Git components."""
+        data = {
+            "ref": f"refs/heads/{self.component.branch}",
+            "installation": {"id": 12345},
+            "repository": {
+                "name": "local-repo",
+                "owner": {"login": "test-org"},
+                "url": "https://github.com/test-org/local-repo",
+                "clone_url": self.component.repo,
+            },
+        }
+
+        response = self._legacy_post("push", data, secret="legacy-secret")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        )
+
+    @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
+    def test_legacy_app_push_rejects_invalid_signatures(self):
+        data = {
+            "ref": "refs/heads/main",
+            "installation": {"id": 12345},
+            "repository": {
+                "name": "test-repo",
+                "owner": {"login": "test-org"},
+                "url": "https://github.com/test-org/test-repo",
+                "clone_url": "https://github.com/test-org/test-repo.git",
+            },
+        }
+        signatures = (
+            {"secret": None},
+            {"secret": "wrong-secret"},
+            {"signature": "invalid"},
+        )
+
+        for signature in signatures:
+            with self.subTest(signature=signature):
+                response = self._legacy_post("push", data, **signature)
+                self.assertEqual(response.status_code, 403)
+
+    @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
+    def test_legacy_app_push_excludes_github_app_components(self):
+        self.component.vcs = "github-app"
+        self.component.save(update_fields=["vcs"])
+        data = {
+            "ref": f"refs/heads/{self.component.branch}",
+            "installation": {"id": 12345},
+            "repository": {
+                "name": "local-repo",
+                "owner": {"login": "test-org"},
+                "url": "https://github.com/test-org/local-repo",
+                "clone_url": self.component.repo,
+            },
+        }
+
+        response = self._legacy_post("push", data, secret="legacy-secret")
+
+        self.assertEqual(response.status_code, 202)
+        self.assertFalse(
+            self.component.change_set.filter(action=ActionEvents.HOOK).exists()
+        )
+
+    @override_settings(GITHUB_LEGACY_APP_WEBHOOK_SECRET="legacy-secret")
+    def test_legacy_app_non_push_event_is_ignored(self):
+        installation = self._create_installation()
+        data = {
+            "action": "deleted",
+            "installation": {"id": 12345, "app_id": 99999, "account": {}},
+        }
+
+        response = self._legacy_post("installation", data, secret="legacy-secret")
+
+        self.assertEqual(response.status_code, 201)
+        installation.refresh_from_db()
+        self.assertTrue(installation.enabled)
 
     def test_signed_integration_hook_runs_repository_update(self):
         self.project.workspace = self.workspace

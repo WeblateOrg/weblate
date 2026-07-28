@@ -1030,6 +1030,7 @@ class Language(models.Model, CacheKeyMixin):
     objects = LanguageManager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Language"
         verbose_name_plural = "Languages"
         # Use own manager to utilize caching of English
@@ -1359,6 +1360,7 @@ class Plural(models.Model):
     objects = PluralQuerySet.as_manager()
 
     class Meta:
+        required_db_vendor = "postgresql"
         verbose_name = "Plural form"
         verbose_name_plural = "Plural forms"
 

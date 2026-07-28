@@ -6,6 +6,7 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 from django.db import DatabaseError
+from django.test import TestCase as DjangoTestCase
 
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import FixtureComponentTestCase
@@ -13,6 +14,7 @@ from weblate.utils.db import (
     adjust_similarity_threshold,
     get_database_disk_usage,
     get_database_size,
+    get_invalid_database_statistics,
     re_escape,
 )
 
@@ -86,6 +88,39 @@ class DbTest(TestCase):
 
         self.assertIsNone(get_database_size())
 
+    @patch("weblate.utils.db.connections")
+    def test_get_invalid_database_statistics(self, connections_mock) -> None:
+        cursor = MagicMock()
+        cursor.__enter__.return_value = cursor
+        cursor.fetchall.return_value = [
+            ("public", "trans_unit"),
+            ("weblate", "memory_memory"),
+        ]
+        connection = MagicMock(vendor="postgresql")
+        connection.cursor.return_value = cursor
+        connections_mock.__getitem__.return_value = connection
+
+        self.assertEqual(
+            get_invalid_database_statistics(),
+            ["public.trans_unit", "weblate.memory_memory"],
+        )
+        cursor.execute.assert_called_once()
+        query = cursor.execute.call_args.args[0]
+        self.assertIn("pg_catalog.pg_index", query)
+        self.assertIn("('r', 'm', 'p', 'i')", query)
+        self.assertNotIn("'I'", query)
+        self.assertIn("index_statistics.indrelid", query)
+
+    @patch("weblate.utils.db.connections")
+    def test_get_invalid_database_statistics_non_postgresql(
+        self, connections_mock
+    ) -> None:
+        connection = MagicMock(vendor="sqlite")
+        connections_mock.__getitem__.return_value = connection
+
+        self.assertEqual(get_invalid_database_statistics(), [])
+        connection.cursor.assert_not_called()
+
     @patch("weblate.utils.db.disk_usage", return_value="usage")
     @patch("weblate.utils.db.connections")
     def test_get_database_disk_usage_postgresql(
@@ -133,6 +168,11 @@ class DbTest(TestCase):
 
         self.assertIsNone(get_database_disk_usage())
         disk_usage_mock.assert_called_once_with("/var/lib/postgresql/data")
+
+
+class DatabaseStatisticsTest(DjangoTestCase):
+    def test_query(self) -> None:
+        self.assertIsInstance(get_invalid_database_statistics(), list)
 
 
 class PostgreSQLOperatorTest(TestCase):

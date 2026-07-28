@@ -332,6 +332,7 @@ class HgRepository(Repository):
 
         # Add files one by one, this has to deal with
         # removed, untracked and non existing files
+        commit_files = []
         if files is not None:
             for name in files:
                 try:
@@ -341,7 +342,10 @@ class HgRepository(Repository):
                         self.execute(["remove", "--", name], remote_op="none")
                     except RepositoryError:
                         continue
-                cmd.append(name)
+                commit_files.append(name)
+
+        if commit_files:
+            cmd.extend(["--", *commit_files])
 
         # Bail out if there is nothing to commit.
         # This can easily happen with squashing and reverting changes.
@@ -429,10 +433,10 @@ class HgRepository(Repository):
                 return
             raise
 
-    def get_file(self, path, revision):
+    def get_file(self, path: str, revision: str) -> str:
         """Return content of file at given revision."""
         return self.execute(
-            ["cat", "--rev", revision, path],
+            ["cat", "--rev", revision, "--", path],
             remote_op="none",
             needs_lock=False,
             merge_err=False,

@@ -36,7 +36,6 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     libicu-dev \
-    libcairo2-dev \
     libxml2-dev \
     libacl1-dev \
     liblz4-dev \
@@ -50,8 +49,7 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     libpq-dev \
     zlib1g-dev \
-    libjpeg62-dev \
-    libgirepository-2.0-dev
+    libjpeg62-dev
 
 # List should match weblate/weblate
 RUN chown -R "${USER_ID}:${GROUP_ID}" /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /app/cache /run /home/weblate /etc/localtime /etc/supervisor/conf.d /tmp /home
