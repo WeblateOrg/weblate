@@ -19,7 +19,7 @@ from django.core import signing
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.core.signing import BadSignature, SignatureExpired
 from django.http import HttpResponse, HttpResponseNotAllowed
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -47,6 +47,8 @@ from weblate.vcs.github import (
     GITHUB_APP_NAME_MAX_LENGTH,
     GitHubAppCredentials,
     GitHubInstallation,
+    aget_github_app_configurations,
+    aget_github_app_settings,
     build_github_app_manifest,
     exchange_github_app_manifest_code,
     exchange_github_user_code,
@@ -94,10 +96,35 @@ def _user_can_install_github_app(user) -> bool:
     return _installation_workspaces(user).exists()
 
 
+async def _auser_can_install_github_app(user) -> bool:
+    await user.aprepare_permissions()
+    return await _installation_workspaces(user).aexists()
+
+
 def _handle_missing_github_app_access(request, next_url: str) -> HttpResponse | None:
     if _user_can_install_github_app(request.user):
         return None
     if request.user.has_perm("management.use") and not Workspace.objects.exists():
+        messages.error(
+            request,
+            gettext(
+                "Create a workspace before connecting a GitHub account. "
+                "GitHub App connections are linked to workspaces."
+            ),
+        )
+        return redirect(next_url)
+    raise PermissionDenied
+
+
+async def _ahandle_missing_github_app_access(
+    request, next_url: str
+) -> HttpResponse | None:
+    if await _auser_can_install_github_app(request.user):
+        return None
+    if (
+        request.user.has_perm("management.use")
+        and not await Workspace.objects.aexists()
+    ):
         messages.error(
             request,
             gettext(
@@ -116,6 +143,18 @@ def _default_next_url(request, workspace: Workspace | None = None) -> str:
             f"{urlencode({'workspace': workspace.pk})}"
         )
     if _managed_workspaces(request.user).exists():
+        return reverse("github-app-repositories")
+    return reverse("manage-github-accounts")
+
+
+async def _adefault_next_url(request, workspace: Workspace | None = None) -> str:
+    if workspace is not None:
+        return (
+            f"{reverse('github-app-repositories')}?"
+            f"{urlencode({'workspace': workspace.pk})}"
+        )
+    await request.user.aprepare_permissions()
+    if await _managed_workspaces(request.user).aexists():
         return reverse("github-app-repositories")
     return reverse("manage-github-accounts")
 
@@ -143,8 +182,12 @@ def _get_managed_workspace(user, workspace_id) -> Workspace:
     return _get_workspace(_managed_workspaces(user), workspace_id)
 
 
-def _get_installation_workspace(user, workspace_id) -> Workspace:
-    return _get_workspace(_installation_workspaces(user), workspace_id)
+async def _aget_installation_workspace(user, workspace_id) -> Workspace:
+    await user.aprepare_permissions()
+    try:
+        return await _installation_workspaces(user).aget(pk=workspace_id)
+    except (Workspace.DoesNotExist, ValidationError, ValueError) as error:
+        raise PermissionDenied from error
 
 
 def _get_requested_workspace(request, workspaces) -> Workspace | None:
@@ -225,7 +268,9 @@ def _build_install_state(
     )
 
 
-def _load_install_state(request, state: str) -> dict[str, str]:
+def _load_install_state(
+    request, state: str, default_next_url: str | None = None
+) -> dict[str, str]:
     payload = signing.loads(
         state,
         salt=_GITHUB_APP_STATE_SALT,
@@ -244,7 +289,7 @@ def _load_install_state(request, state: str) -> dict[str, str]:
         allowed_hosts={request.get_host()},
         require_https=request.is_secure(),
     ):
-        next_url = _default_next_url(request)
+        next_url = default_next_url or _default_next_url(request)
 
     hostname = payload.get("host", "")
     if not isinstance(hostname, str):
@@ -289,15 +334,28 @@ def _get_workspace_install_url(
     )
 
 
-def _user_can_use_installation(user, installation: GitHubInstallation) -> bool:
+def _user_can_manage_installation(user, installation: GitHubInstallation) -> bool:
+    return _installation_workspaces(user).filter(pk=installation.workspace_id).exists()
+
+
+async def _auser_can_use_installation(user, installation: GitHubInstallation) -> bool:
+    await user.aprepare_permissions()
+    if user.has_perm("management.use"):
+        return True
     return (
-        user.has_perm("management.use")
-        or _managed_workspaces(user).filter(pk=installation.workspace_id).exists()
+        await _managed_workspaces(user).filter(pk=installation.workspace_id).aexists()
     )
 
 
-def _user_can_manage_installation(user, installation: GitHubInstallation) -> bool:
-    return _installation_workspaces(user).filter(pk=installation.workspace_id).exists()
+async def _auser_can_manage_installation(
+    user, installation: GitHubInstallation
+) -> bool:
+    await user.aprepare_permissions()
+    return (
+        await _installation_workspaces(user)
+        .filter(pk=installation.workspace_id)
+        .aexists()
+    )
 
 
 def _require_installation_access(request, installation: GitHubInstallation) -> None:
@@ -305,8 +363,15 @@ def _require_installation_access(request, installation: GitHubInstallation) -> N
         raise PermissionDenied
 
 
-def _require_installation_use(request, installation: GitHubInstallation) -> None:
-    if not _user_can_use_installation(request.user, installation):
+async def _arequire_installation_access(
+    request, installation: GitHubInstallation
+) -> None:
+    if not await _auser_can_manage_installation(request.user, installation):
+        raise PermissionDenied
+
+
+async def _arequire_installation_use(request, installation: GitHubInstallation) -> None:
+    if not await _auser_can_use_installation(request.user, installation):
         raise PermissionDenied
 
 
@@ -470,11 +535,11 @@ class GitHubInstallationDetailView(View):
 
 
 @login_required
-def remove_installation(request, pk):
+async def remove_installation(request, pk):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
-    installation = get_object_or_404(GitHubInstallation, pk=pk)
-    _require_installation_access(request, installation)
+    installation = await aget_object_or_404(GitHubInstallation, pk=pk)
+    await _arequire_installation_access(request, installation)
     next_url = _get_redirect_url(
         request,
         (
@@ -484,7 +549,7 @@ def remove_installation(request, pk):
         ),
     )
     target = str(installation)
-    installation.delete()
+    await installation.adelete()
     messages.success(
         request,
         gettext("Removed connected GitHub account %(target)s.") % {"target": target},
@@ -493,13 +558,13 @@ def remove_installation(request, pk):
 
 
 @management_permission_required("management.configure")
-def remove_github_app(request, pk):
+async def remove_github_app(request, pk):
     """Delete the Weblate GitHub App credentials registered for one host."""
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
-    credentials = get_object_or_404(GitHubAppCredentials, pk=pk)
+    credentials = await aget_object_or_404(GitHubAppCredentials, pk=pk)
     hostname = credentials.hostname
-    if GitHubInstallation.objects.filter(hostname=hostname).exists():
+    if await GitHubInstallation.objects.filter(hostname=hostname).aexists():
         messages.error(
             request,
             gettext(
@@ -508,7 +573,7 @@ def remove_github_app(request, pk):
             % {"hostname": hostname},
         )
         return redirect("manage-github-accounts")
-    credentials.delete()
+    await credentials.adelete()
     messages.success(
         request,
         gettext("Removed Weblate GitHub App credentials for %(hostname)s.")
@@ -521,8 +586,8 @@ def remove_github_app(request, pk):
 async def refresh_repositories(request, pk):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
-    installation = await sync_to_async(get_object_or_404)(GitHubInstallation, pk=pk)
-    await sync_to_async(_require_installation_access)(request, installation)
+    installation = await aget_object_or_404(GitHubInstallation, pk=pk)
+    await _arequire_installation_access(request, installation)
     next_url = _get_redirect_url(
         request,
         _get_installation_repository_url(installation),
@@ -628,7 +693,7 @@ async def _get_authorized_installation(
         return None
 
 
-def _get_update_callback_installation(
+async def _aget_update_callback_installation(
     request, installation_id: str
 ) -> GitHubInstallation | None:
     """
@@ -651,7 +716,8 @@ def _get_update_callback_installation(
     ):
         return None
 
-    configured_hosts = set(get_github_app_configurations())
+    await request.user.aprepare_permissions()
+    configured_hosts = set(await aget_github_app_configurations())
     if not configured_hosts:
         return None
 
@@ -664,10 +730,10 @@ def _get_update_callback_installation(
             workspace__in=_managed_workspaces(request.user)
         )
 
-    return (
+    return await (
         installations.select_related("workspace")
         .order_by("workspace__name", "target_login", "hostname")
-        .first()
+        .afirst()
     )
 
 
@@ -680,7 +746,7 @@ def _get_update_callback_next_url(request, installation: GitHubInstallation) -> 
 @login_required
 async def github_app_setup(request):
     """Finish connecting a GitHub account after GitHub redirects back."""
-    next_url = await sync_to_async(_default_next_url)(request)
+    next_url = await _adefault_next_url(request)
     installation_id = request.GET.get("installation_id", "").strip()
 
     # Handle GitHub's stateless ``setup_on_update`` callback before the stricter
@@ -688,7 +754,7 @@ async def github_app_setup(request):
     # signed ``state``. Signed callbacks fall through to the normal setup flow
     # below.
     if request.GET.get("setup_action") == "update" and not request.GET.get("state"):
-        installation = await sync_to_async(_get_update_callback_installation)(
+        installation = await _aget_update_callback_installation(
             request, installation_id
         )
         if installation:
@@ -696,11 +762,7 @@ async def github_app_setup(request):
                 request,
                 gettext("Connected GitHub account updated."),
             )
-            return redirect(
-                await sync_to_async(_get_update_callback_next_url)(
-                    request, installation
-                )
-            )
+            return redirect(_get_update_callback_next_url(request, installation))
         messages.error(
             request,
             gettext(
@@ -710,21 +772,22 @@ async def github_app_setup(request):
         )
         return redirect(next_url)
 
-    if response := await sync_to_async(_handle_missing_github_app_access)(
-        request, next_url
-    ):
+    if response := await _ahandle_missing_github_app_access(request, next_url):
         return response
 
     hostname = ""
     workspace = None
     try:
-        state = await sync_to_async(_load_install_state)(
-            request, request.GET.get("state", "")
+        state = _load_install_state(
+            request,
+            request.GET.get("state", ""),
+            default_next_url=next_url,
         )
         next_url = str(state["next"])
         hostname = str(state["host"])
-        workspace = await sync_to_async(_get_installation_workspace)(
-            request.user, state["workspace"]
+        workspace = await _aget_installation_workspace(
+            request.user,
+            state["workspace"],
         )
     except (BadSignature, SignatureExpired):
         messages.error(
@@ -751,7 +814,7 @@ async def github_app_setup(request):
         return redirect(next_url)
     installation_id = callback_form.cleaned_data["installation_id"]
 
-    config = await sync_to_async(get_github_app_settings)(hostname or None)
+    config = await aget_github_app_settings(hostname or None)
     if config is None:
         messages.error(
             request,
@@ -791,9 +854,10 @@ async def github_app_setup(request):
             ),
         )
         return redirect(next_url)
-    installation, is_new_install = await sync_to_async(
-        GitHubInstallation.objects.upsert_pending_from_data
-    )(
+    (
+        installation,
+        is_new_install,
+    ) = await GitHubInstallation.objects.aupsert_pending_from_data(
         config.hostname,
         installation_id,
         authorized_installation,
@@ -927,16 +991,16 @@ def github_app_repository_list(request):
 
 
 @login_required
-def github_app_import_repository(request, pk, repo_full_name):
+async def github_app_import_repository(request, pk, repo_full_name):
     """Import a repository selected from a connected GitHub account."""
-    configured_hosts = set(get_github_app_configurations())
-    installation = get_object_or_404(
+    configured_hosts = set(await aget_github_app_configurations())
+    installation = await aget_object_or_404(
         GitHubInstallation.objects.select_related("workspace"),
         pk=pk,
         enabled=True,
         hostname__in=configured_hosts,
     )
-    _require_installation_use(request, installation)
+    await _arequire_installation_use(request, installation)
 
     repository = None
     for entry in installation.repositories:
@@ -959,7 +1023,7 @@ def github_app_import_repository(request, pk, repo_full_name):
     project_id = request.GET.get("project", "").strip()
     if project_id:
         try:
-            selected_project = request.user.managed_projects.get(pk=project_id)
+            selected_project = await request.user.managed_projects.aget(pk=project_id)
         except (Project.DoesNotExist, ValueError) as error:
             raise PermissionDenied from error
         if selected_project.workspace_id != installation.workspace_id:
@@ -969,8 +1033,11 @@ def github_app_import_repository(request, pk, repo_full_name):
     category_id = request.GET.get("category", "").strip()
     if category_id:
         try:
-            selected_category = Category.objects.get(
-                pk=category_id, project__in=request.user.managed_projects
+            selected_category = await Category.objects.select_related(
+                "project__workspace"
+            ).aget(
+                pk=category_id,
+                project__in=request.user.managed_projects,
             )
         except (Category.DoesNotExist, ValueError) as error:
             raise PermissionDenied from error

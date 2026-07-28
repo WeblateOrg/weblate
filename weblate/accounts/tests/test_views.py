@@ -10,6 +10,7 @@ from time import sleep
 from types import SimpleNamespace
 from unittest import mock
 
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
@@ -1172,7 +1173,10 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 10)
 
         # Watch component
-        self.client.post(reverse("watch", kwargs=self.kw_component))
+        self.async_client.force_login(self.user)
+        async_to_sync(self.async_client.post)(
+            reverse("watch", kwargs=self.kw_component)
+        )
         self.assertEqual(self.user.profile.watched.count(), 1)
         # All project notifications should be muted
         self.assertEqual(
