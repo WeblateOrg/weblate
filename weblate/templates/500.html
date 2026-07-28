@@ -19,16 +19,11 @@
 
     {% if sentry_dsn %}
       <script src="{% static "js/vendor/sentry.js" %}"></script>
-
-      <script>
-      Sentry.init({ dsn: '{{ sentry_dsn|escapejs }}' });
-      Sentry.showReportDialog({
-        {% if request.user.is_authenticated %}
-          user: { name: "{{ user.full_name|escapejs }}", email: "{{ user.email|escapejs }}" },
-        {% endif %}
-        eventId: '{{ sentry_event_id|escapejs }}'
-      })
-      </script>
+      <script src="{% static 'js/sentry-feedback.js' %}"
+              id="sentry-feedback"
+              data-dsn="{{ sentry_dsn }}"
+              data-event-id="{{ sentry_event_id }}"
+              {% if request.user.is_authenticated %} data-user-name="{{ user.full_name }}" data-user-email="{{ user.email }}" {% endif %}></script>
     {% endif %}
 
   {% else %}

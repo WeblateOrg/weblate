@@ -384,7 +384,6 @@ class CSPBuilder:
             elif domain.endswith(".sentry.io"):
                 self.directives["script-src"].add("sentry.io")
                 self.directives["connect-src"].add("sentry.io")
-            self.directives["script-src"].add("'unsafe-inline'")
             self.directives["img-src"].add("data:")
 
     def build_csp_piwik(self) -> None:

@@ -332,7 +332,9 @@ Build-time and configuration variants
    * - :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`,
        :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`,
        :setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`
-     - Content Security Policy sources are configurable. *(documented)* (source: :doc:`/admin/config`)
+     - Content Security Policy sources are configurable. *(documented)*
+       (source: :doc:`/admin/config`) The default script policy permits inline
+       execution only on explicitly scoped compatibility paths. *(maintainer)*
      - Broadening sources can reduce browser-side containment for XSS or
        third-party content. *(maintainer)*
      - Deployments adding third-party sources accept that expanded browser
