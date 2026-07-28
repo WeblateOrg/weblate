@@ -787,7 +787,9 @@ class Profile(models.Model):
         default=False,
     )
     wide_tables = models.BooleanField(
-        verbose_name=gettext_lazy("Show all columns in lists using horizontal scrolling"),
+        verbose_name=gettext_lazy(
+            "Show all columns in lists using horizontal scrolling"
+        ),
         default=False,
         help_text=gettext_lazy(
             "Instead of hiding columns on narrow screens, keep all columns and "
