@@ -14,11 +14,11 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
+from weblate.utils.outbound import get_environment_proxy
 from weblate.utils.requests import (
     PEER_IP_RESPONSE_ATTR,
     AsyncHTTPClient,
     HTTPClient,
-    _get_proxy,
     _get_response_peer_ip,
     _validate_response_peer,
     async_fetch_validated_url,
@@ -59,39 +59,35 @@ class TrackedRedirectAsyncStream(TrackedAsyncStream):
 
 
 class FetchURLTest(SimpleTestCase):
-    @patch(
-        "weblate.utils.requests.getproxies",
-        return_value={
-            "https": "http://proxy.example:8080",
-            "no": "example.com:8443",
-        },
-    )
-    @patch("weblate.utils.requests.proxy_bypass", return_value=False)
-    def test_get_proxy_honors_no_proxy_port(
-        self, mocked_proxy_bypass, mocked_getproxies
-    ) -> None:
-        self.assertIsNone(_get_proxy("https://example.com:8443/source"))
-        self.assertEqual(
-            _get_proxy("https://example.com:443/source"),
-            "http://proxy.example:8080",
-        )
+    def test_environment_proxy_uses_per_protocol_environment(self) -> None:
+        with patch.dict(
+            os.environ,
+            {
+                "http_proxy": "http://http-proxy.example:8080",
+                "https_proxy": "http://https-proxy.example:8080",
+                "all_proxy": "http://generic-proxy.example:8080",
+                "ftp_proxy": "http://ftp-proxy.example:8080",
+                "no_proxy": "*",
+            },
+            clear=True,
+        ):
+            self.assertEqual(
+                get_environment_proxy("http://example.com/source"),
+                "http://http-proxy.example:8080",
+            )
+            self.assertEqual(
+                get_environment_proxy("https://example.com/source"),
+                "http://https-proxy.example:8080",
+            )
+            self.assertIsNone(get_environment_proxy("ftp://example.com/source"))
 
-    @patch(
-        "weblate.utils.requests.getproxies",
-        return_value={
-            "https": "http://proxy.example:8080",
-            "no": "10.0.0.0/8",
-        },
-    )
-    @patch("weblate.utils.requests.proxy_bypass", return_value=False)
-    def test_get_proxy_honors_no_proxy_cidr(
-        self, mocked_proxy_bypass, mocked_getproxies
-    ) -> None:
-        self.assertIsNone(_get_proxy("https://10.1.2.3/source"))
-        self.assertEqual(
-            _get_proxy("https://192.0.2.1/source"),
-            "http://proxy.example:8080",
-        )
+    def test_environment_proxy_does_not_use_all_proxy(self) -> None:
+        with patch.dict(
+            os.environ,
+            {"all_proxy": "http://generic-proxy.example:8080"},
+            clear=True,
+        ):
+            self.assertIsNone(get_environment_proxy("https://example.com/source"))
 
     @responses.activate
     def test_fetch_url_omits_null_form_values(self) -> None:

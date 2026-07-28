@@ -282,28 +282,8 @@ In case you don't provide credentials in the URL and the repository requires it,
 Using proxy
 +++++++++++
 
-If you need to access HTTP/HTTPS VCS repositories using a proxy server,
-configure the VCS to use it.
-
-This can be done using the ``http_proxy``, ``https_proxy``, and ``all_proxy``
-environment variables, (as described in the `cURL documentation <https://curl.se/docs/>`_)
-or by enforcing it in the VCS configuration, for example:
-
-.. code-block:: sh
-
-    git config --global http.proxy http://user:password@proxy.example.com:80
-
-.. note::
-
-    The proxy configuration needs to be done under user running Weblate (see
-    also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see
-    :setting:`DATA_DIR`), otherwise Git executed by Weblate will not use it.
-
-.. seealso::
-
-    * `The cURL manpage <https://curl.se/docs/manpage.html>`_
-    * `Git config documentation <https://git-scm.com/docs/git-config>`_
-
+If you need to access Git repositories over HTTPS using a proxy server,
+configure the per-protocol environment variables described in :ref:`http-proxy`.
 
 .. _vcs-git:
 

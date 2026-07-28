@@ -11,11 +11,9 @@ from collections.abc import Mapping
 from contextlib import contextmanager
 from dataclasses import dataclass
 from hashlib import sha256
-from ipaddress import ip_address, ip_network
 from time import monotonic
 from typing import TYPE_CHECKING, Any, Self, cast
 from urllib.parse import urlparse
-from urllib.request import getproxies, proxy_bypass
 
 import httpx2
 from django.core.cache import cache
@@ -25,6 +23,7 @@ from django.utils.translation import gettext
 from weblate.logger import LOGGER
 from weblate.utils.outbound import (
     async_resolve_runtime_hostname,
+    get_environment_proxy,
     is_allowlisted_hostname,
     resolve_runtime_hostname,
     validate_connected_peer,
@@ -161,48 +160,6 @@ def _prepare_headers(headers: dict[str, str] | None) -> dict[str, str]:
     return {**headers, **agent} if headers is not None else agent
 
 
-def _matches_no_proxy(hostname: str, port: int | None, no_proxy: str) -> bool:
-    no_proxy_hosts = (host for host in no_proxy.replace(" ", "").split(",") if host)
-    try:
-        address = ip_address(hostname)
-    except ValueError:
-        host_with_port = hostname if port is None else f"{hostname}:{port}"
-        for host in no_proxy_hosts:
-            host = host.lstrip(".").lower()
-            if host in {hostname, host_with_port}:
-                return True
-            suffix = f".{host}"
-            if hostname.endswith(suffix) or host_with_port.endswith(suffix):
-                return True
-    else:
-        for host in no_proxy_hosts:
-            try:
-                if address in ip_network(host, strict=False):
-                    return True
-            except ValueError:
-                if hostname == host:
-                    return True
-    return False
-
-
-def _get_proxy(url: str) -> str | None:
-    parsed = urlparse(url)
-    if not parsed.hostname:
-        return None
-    proxies = getproxies()
-    if (no_proxy := proxies.get("no")) and _matches_no_proxy(
-        parsed.hostname, parsed.port, no_proxy
-    ):
-        return None
-    if proxy_bypass(parsed.hostname):
-        return None
-    return proxies.get(parsed.scheme) or proxies.get("all")
-
-
-def _request_uses_proxy(url: str) -> bool:
-    return _get_proxy(url) is not None
-
-
 def validate_request_url(
     url: str,
     *,
@@ -212,7 +169,7 @@ def validate_request_url(
     RuntimeRedirectValidators(
         allow_private_targets=allow_private_targets,
         private_allowlist=private_allowlist,
-    ).validate_request_url(url, used_proxy=_request_uses_proxy(url))
+    ).validate_request_url(url, used_proxy=get_environment_proxy(url) is not None)
 
 
 def _get_response_peer_ip(response: httpx2.Response) -> str | None:
@@ -369,7 +326,7 @@ def _prepare_outbound_request(request: httpx2.Request) -> OutboundRequest:
     request_url = str(request.url)
     return OutboundRequest(
         url=request_url,
-        proxy=_get_proxy(request_url),
+        proxy=get_environment_proxy(request_url),
         validators=cast(
             "RedirectValidators | None",
             request.extensions.get(VALIDATORS_REQUEST_EXTENSION),

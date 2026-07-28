@@ -639,11 +639,13 @@ Client protocol
    * :envvar:`WEBLATE_IP_PROXY_HEADER`
    * :envvar:`WEBLATE_IP_PROXY_OFFSET`
 
+.. _http-proxy:
+
 HTTP proxy
 ++++++++++
 
-Weblate does execute VCS commands and those accept proxy configuration from
-environment. The recommended approach is to define proxy settings in
+Weblate supports per-protocol HTTP proxy configuration for outbound HTTP
+requests and Git repositories. Define the proxy environment variables in
 :file:`settings.py`:
 
 .. code-block:: python
@@ -651,11 +653,15 @@ environment. The recommended approach is to define proxy settings in
    import os
 
    os.environ["http_proxy"] = "http://proxy.example.com:8080"
-   os.environ["HTTPS_PROXY"] = "http://proxy.example.com:8080"
+   os.environ["https_proxy"] = "http://proxy.example.com:8080"
+
+Only ``http_proxy`` and ``https_proxy`` are supported. Generic and bypass
+variables such as ``all_proxy`` and ``no_proxy``, operating-system proxy
+configuration, and VCS-specific proxy configuration are not supported.
 
 .. seealso::
 
-   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/env.html>`_
+   `Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/env.html>`_
 
 .. _configuration:
 

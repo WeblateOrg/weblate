@@ -9,6 +9,7 @@ import socket
 from asyncio import get_running_loop
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
+from urllib.request import getproxies_environment
 
 from django.core.exceptions import ValidationError
 from django.http.request import validate_host
@@ -42,6 +43,14 @@ _NON_PUBLIC_SPECIAL_USE_PREFIXES: tuple[
     ipaddress.IPv6Network("5f00::/16"),  # IPv6 Segment Routing
     ipaddress.IPv6Network("2001:20::/28"),  # ORCHIDv2
 )
+
+
+def get_environment_proxy(url: str) -> str | None:
+    """Return the per-protocol environment proxy configured for a URL."""
+    scheme = urlparse(url).scheme
+    if scheme not in {"http", "https"}:
+        return None
+    return getproxies_environment().get(scheme)
 
 
 def _parse_ip(value: str) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:

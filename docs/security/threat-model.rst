@@ -359,18 +359,18 @@ Build-time and configuration variants
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
        Protected direct HTTP requests are bound to addresses approved by
-       runtime validation; configured proxies are trusted infrastructure and
-       resolve their destination hosts.
+       runtime validation; configured per-protocol HTTP proxies are trusted
+       infrastructure and resolve their destination hosts.
        Protected Git HTTPS and SSH operations are bound to addresses approved
        by runtime validation. Protected SSH operations validate the effective
        ``HostName`` and ``Port``. Trusted administrator SSH configuration can
        alter routing, and :setting:`SSH_EXTRA_ARGS` can override connection
        binding. Permanent same-host Git HTTP redirects are probed without
        automatic redirect following. Every direct destination is independently
-       validated and bound before use; configured HTTP proxies use the shared
-       trusted outbound routing. Git LFS object transfers are disabled and
-       outside the supported VCS integration surface. VCS clients without
-       connection binding require an explicit trusted-host exemption.
+       validated and bound before use; configured per-protocol HTTP proxies use
+       the shared trusted outbound routing. Git LFS object transfers are
+       disabled and outside the supported VCS integration surface. VCS clients
+       without connection binding require an explicit trusted-host exemption.
        *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
        reachability. Fedora Messaging broker URLs are site-administrator
@@ -614,7 +614,8 @@ Security properties Weblate provides
        exemption applies. Direct protected HTTP requests and Git HTTPS and SSH
        operations retain address binding, VCS restrictions remain enabled,
        and VCS backends without binding use only explicitly trusted hosts.
-       Configured proxies remain trusted routing infrastructure.
+       Configured per-protocol HTTP proxies remain trusted routing
+       infrastructure.
      - A user-configurable screenshot URL, remote HTML URL, project website or
        repository browser URL, outbound webhook URL, or VCS URL reaches an
        internal or non-public target despite default controls.
