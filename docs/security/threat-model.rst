@@ -587,7 +587,9 @@ Security properties Weblate provides
    * - Repository, branch, path, and VCS inputs processed by Weblate must not
        become shell command execution. *(maintainer)*
      - VCS operations are invoked through Weblate-supported repository
-       workflows and configured credentials.
+       workflows and configured credentials. Project backup restores discard
+       archive-supplied repository-local Git and Mercurial configuration, Git
+       hooks, and Mercurial shared-repository indirection.
      - Command injection or arbitrary code execution as the Weblate user.
      - Security-critical.
    * - Private project data, user data, credentials, tokens, SSH keys, and 2FA
