@@ -72,6 +72,26 @@ class BasicViewTest(FixtureTestCase):
         )
         self.assertNotContains(response, "Sentry.init", status_code=500)
 
+    @override_settings(
+        MATOMO_SITE_ID="123",
+        MATOMO_URL="https://matomo.example.com/",
+    )
+    def test_matomo(self) -> None:
+        response = self.client.get(self.project_url)
+        self.assertContains(response, static("js/matomo.js"))
+        self.assertContains(response, 'data-url="https://matomo.example.com/"')
+        self.assertContains(response, 'data-site-id="123"')
+        self.assertContains(response, 'data-language="en"')
+        self.assertContains(response, f'data-project="{self.project.name}"')
+        self.assertNotContains(response, "setTrackerUrl")
+        script_src = next(
+            directive
+            for directive in response["Content-Security-Policy"].split(";")
+            if directive.strip().startswith("script-src ")
+        )
+        self.assertIn("matomo.example.com", script_src)
+        self.assertNotIn("'unsafe-inline'", script_src)
+
     def test_keys(self) -> None:
         ensure_ssh_key()
         response = self.client.get(reverse("keys"))
