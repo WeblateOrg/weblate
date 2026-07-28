@@ -11,6 +11,7 @@ from datetime import timedelta
 from types import SimpleNamespace
 from unittest.mock import patch
 
+from asgiref.sync import async_to_sync
 from django.apps import apps
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.cache import cache
@@ -1455,6 +1456,38 @@ class AnnouncementTest(ModelTestCase):
             message="test component",
         )
         Announcement.objects.create(message="test global")
+
+    def test_async_create_with_foreign_key_ids(self) -> None:
+        category = self.create_category(self.component.project)
+
+        async def create_announcements():
+            category_announcement = await Announcement.objects.acreate(
+                category_id=category.pk,
+                language_id=self.czech.pk,
+                message="async category",
+            )
+            component_announcement = await Announcement.objects.acreate(
+                project_id=self.component.project_id,
+                component_id=self.component.pk,
+                language_id=self.czech.pk,
+                message="async component",
+            )
+            return category_announcement, component_announcement
+
+        category_announcement, component_announcement = async_to_sync(
+            create_announcements
+        )()
+
+        self.assertIsNone(category_announcement.project_id)
+        category_change = Change.objects.get(announcement=category_announcement)
+        self.assertEqual(category_change.project_id, category.project_id)
+        self.assertEqual(category_change.category_id, category.pk)
+        self.assertEqual(category_change.language_id, self.czech.pk)
+
+        component_change = Change.objects.get(announcement=component_announcement)
+        self.assertEqual(component_change.project_id, self.component.project_id)
+        self.assertEqual(component_change.component_id, self.component.pk)
+        self.assertEqual(component_change.language_id, self.czech.pk)
 
     def verify_filter(self, messages, count, message=None) -> None:
         """Verify whether messages have given count and first contains string."""

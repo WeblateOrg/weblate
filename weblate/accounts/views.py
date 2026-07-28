@@ -178,7 +178,7 @@ from weblate.utils.validators import (
     validate_profile_url,
 )
 from weblate.utils.version import USER_AGENT
-from weblate.utils.views import get_paginator, parse_path
+from weblate.utils.views import aparse_path, get_paginator
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
@@ -1516,21 +1516,21 @@ def userdata(request: AuthenticatedHttpRequest):
 
 @require_POST
 @login_required
-def watch(request: AuthenticatedHttpRequest, path):
+async def watch(request: AuthenticatedHttpRequest, path):
     user = request.user
-    redirect_obj = obj = parse_path(request, path, (Component, Project))
+    redirect_obj = obj = await aparse_path(request, path, (Component, Project))
     if isinstance(obj, Component):
         project = obj.project
 
         # Mute project level subscriptions
-        mute_real(
+        await amute_real(
             user, scope=NotificationScope.SCOPE_PROJECT, component=None, project=project
         )
         # Manually enable component level subscriptions
-        for default_subscription in user.subscription_set.filter(
+        async for default_subscription in user.subscription_set.filter(
             scope=NotificationScope.SCOPE_WATCHED
         ):
-            subscription, created = user.subscription_set.get_or_create(
+            subscription, created = await user.subscription_set.aget_or_create(
                 notification=default_subscription.notification,
                 scope=NotificationScope.SCOPE_COMPONENT,
                 component=obj,
@@ -1539,61 +1539,66 @@ def watch(request: AuthenticatedHttpRequest, path):
             )
             if not created and subscription.frequency != default_subscription.frequency:
                 subscription.frequency = default_subscription.frequency
-                subscription.save(update_fields=["frequency"])
+                await subscription.asave(update_fields=["frequency"])
 
         # Watch project
         obj = project
-    user.profile.watched.add(obj)
+    await user.profile.watched.aadd(obj)  # codespell:ignore aadd
     return redirect_next(request.GET.get("next"), redirect_obj)
 
 
 @require_POST
 @login_required
-def unwatch(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(request, path, (Project,))
-    request.user.profile.watched.remove(obj)
-    request.user.subscription_set.filter(
+async def unwatch(request: AuthenticatedHttpRequest, path):
+    obj = await aparse_path(request, path, (Project,))
+    await request.user.profile.watched.aremove(obj)
+    await request.user.subscription_set.filter(
         Q(project=obj) | Q(component__project=obj)
-    ).delete()
+    ).adelete()
     return redirect_next(request.GET.get("next"), obj)
 
 
-def mute_real(user: User, **kwargs) -> None:
+async def amute_real(user: User, **kwargs) -> None:
     for notification_cls in NOTIFICATIONS:
         if notification_cls.ignore_watched:
             continue
         try:
-            subscription = user.subscription_set.get_or_create(
-                notification=notification_cls.get_name(),
-                defaults={"frequency": NotificationFrequency.FREQ_NONE},
-                **kwargs,
+            subscription = (
+                await user.subscription_set.aget_or_create(
+                    notification=notification_cls.get_name(),
+                    defaults={"frequency": NotificationFrequency.FREQ_NONE},
+                    **kwargs,
+                )
             )[0]
         except Subscription.MultipleObjectsReturned:
-            subscriptions = user.subscription_set.filter(
-                notification=notification_cls.get_name(), **kwargs
-            )
+            subscriptions = [
+                subscription
+                async for subscription in user.subscription_set.filter(
+                    notification=notification_cls.get_name(), **kwargs
+                )
+            ]
             # Remove extra subscriptions
             for subscription in subscriptions[1:]:
-                subscription.delete()
+                await subscription.adelete()
             subscription = subscriptions[0]
         if subscription.frequency != NotificationFrequency.FREQ_NONE:
             subscription.frequency = NotificationFrequency.FREQ_NONE
-            subscription.save(update_fields=["frequency"])
+            await subscription.asave(update_fields=["frequency"])
 
 
 @require_POST
 @login_required
-def mute(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(request, path, (Component, Project))
+async def mute(request: AuthenticatedHttpRequest, path):
+    obj = await aparse_path(request, path, (Component, Project))
     if isinstance(obj, Component):
-        mute_real(
+        await amute_real(
             request.user,
             scope=NotificationScope.SCOPE_COMPONENT,
             component=obj,
             project=None,
         )
         return redirect(f"{reverse('profile')}?notify_component={obj.pk}#notifications")
-    mute_real(
+    await amute_real(
         request.user, scope=NotificationScope.SCOPE_PROJECT, component=None, project=obj
     )
     return redirect(f"{reverse('profile')}?notify_project={obj.pk}#notifications")
@@ -2013,9 +2018,12 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
 
 @login_required
 @require_POST
-def subscribe(request: AuthenticatedHttpRequest):
+async def subscribe(request: AuthenticatedHttpRequest):
     if "onetime" in request.POST:
-        component = Component.objects.get(pk=request.POST["component"])
+        await request.user.aprepare_permissions()
+        component = await Component.objects.select_related("project").aget(
+            pk=request.POST["component"]
+        )
         request.user.check_access_component(component)
         subscription = Subscription(
             user=request.user,
@@ -2027,11 +2035,15 @@ def subscribe(request: AuthenticatedHttpRequest):
             onetime=True,
         )
         try:
-            subscription.full_clean(validate_unique=False, validate_constraints=False)
+            subscription.full_clean(
+                exclude={"user", "project", "component"},
+                validate_unique=False,
+                validate_constraints=False,
+            )
         except ValidationError:
             pass
         else:
-            Subscription.objects.update_or_create(
+            await Subscription.objects.aupdate_or_create(
                 user=subscription.user,
                 notification=subscription.notification,
                 scope=subscription.scope,
@@ -2047,10 +2059,10 @@ def subscribe(request: AuthenticatedHttpRequest):
 
 
 @login_not_required
-def unsubscribe(request: AuthenticatedHttpRequest):
+async def unsubscribe(request: AuthenticatedHttpRequest):
     if "i" in request.GET:
         try:
-            subscription = Subscription.get_by_signed_id(request.GET["i"])
+            subscription = await Subscription.aget_by_signed_id(request.GET["i"])
         except (BadSignature, SignatureExpired, Subscription.DoesNotExist):
             messages.error(
                 request,
@@ -2061,7 +2073,7 @@ def unsubscribe(request: AuthenticatedHttpRequest):
             )
         else:
             subscription.frequency = NotificationFrequency.FREQ_NONE
-            subscription.save(update_fields=["frequency"])
+            await subscription.asave(update_fields=["frequency"])
             messages.success(request, gettext("Notification settings adjusted."))
 
     return redirect_profile("#notifications")

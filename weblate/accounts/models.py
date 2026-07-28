@@ -256,8 +256,8 @@ class Subscription(models.Model):
         return self.sign_id(self.pk)
 
     @classmethod
-    def get_by_signed_id(cls, signed_id: str) -> Subscription:
-        return cls.objects.get(
+    async def aget_by_signed_id(cls, signed_id: str) -> Subscription:
+        return await cls.objects.aget(
             pk=int(TimestampSigner().unsign(signed_id, max_age=cls.SIGNATURE_MAX_AGE))
         )
 

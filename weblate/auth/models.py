@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
 
 import regex
 from appconf import AppConf
+from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
@@ -1049,6 +1050,19 @@ class User(AbstractBaseUser):
 
         # Generic permission
         return check_permission(self, perm, obj)
+
+    async def aprepare_permissions(self) -> None:
+        """Populate synchronous permission caches for async callers."""
+        if self.is_superuser:
+            return
+
+        def prepare() -> None:
+            _ = self._permissions
+            _ = self.global_permissions
+            _ = self.needs_project_filter
+            _ = self.needs_component_restrictions_filter
+
+        await sync_to_async(prepare, thread_sensitive=True)()
 
     def can_access_project(self, project):
         """Check access to given project."""
