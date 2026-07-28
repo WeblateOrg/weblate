@@ -1607,6 +1607,12 @@ class BackupsTest(ViewTestCase):
             "test/nested/.hg/hgrc",
             "test/.hg/sharedpath",
             "test\\.hg\\hgrc-not-shared",
+            "test/.HG/HGRC-NOT-SHARED",
+            "test/.Hg/HgRc-Future",
+            "test/.HG/SHAREDPATH",
+            "test/.GIT/CONFIG",
+            "test/.GiT/HOOKS/pre-commit",
+            "test/.GIT/MODULES/submodule/config",
         ):
             with self.subTest(path=path):
                 self.assertTrue(ProjectBackup.is_unsafe_vcs_path(path))
@@ -1616,6 +1622,9 @@ class BackupsTest(ViewTestCase):
             "test/.hg/hgrc.d/example.rc",
             "test/.hg/store/data/hgrc.i",
             "test/.hg/store/sharedpath",
+            "test/.HG/store/data/HGRC.i",
+            "test/.GITISH/HOOKS/pre-commit",
+            "test/.git/hooks-backup/pre-commit",
         ):
             with self.subTest(path=path):
                 self.assertFalse(ProjectBackup.is_unsafe_vcs_path(path))
@@ -1629,6 +1638,10 @@ class BackupsTest(ViewTestCase):
             ".hg/hgrc-not-shared",
             ".hg/hgrc-future",
             ".hg/sharedpath",
+            ".HG/HGRC-NOT-SHARED",
+            ".Hg/SharedPath",
+            ".GIT/HOOKS/pre-commit",
+            ".GiT/CONFIG",
         )
 
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
