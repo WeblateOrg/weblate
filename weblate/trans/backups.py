@@ -944,7 +944,8 @@ class ProjectBackup:
     @staticmethod
     def is_unsafe_vcs_path(path: str) -> bool:
         normalized = path.replace("\\", "/")
-        parts = PurePosixPath(normalized).parts
+        casefolded = normalized.casefold()
+        parts = PurePosixPath(casefolded).parts
         filename = parts[-1] if parts else ""
         # Mercurial reads hgrc variants and can redirect configuration lookup
         # through sharedpath.
@@ -955,7 +956,7 @@ class ProjectBackup:
         )
         return (
             unsafe_mercurial_path
-            or normalized.endswith(
+            or casefolded.endswith(
                 (
                     "/.git",
                     "/.git/config",
@@ -966,8 +967,8 @@ class ProjectBackup:
             )
             # Hooks are executable content; Gerrit's commit-msg hook is recreated
             # by git-review when needed.
-            or "/.git/hooks/" in normalized
-            or "/.git/modules/" in normalized
+            or "/.git/hooks/" in casefolded
+            or "/.git/modules/" in casefolded
         )
 
     @classmethod
