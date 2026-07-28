@@ -400,8 +400,10 @@ class Category(
 
     def schedule_component_enforced_checks_updates(self) -> None:
         """Trigger enforced checks updates on all components in this category."""
+        from weblate.trans.tasks import update_enforced_checks
+
         for component in self.all_components.iterator():
-            component.update_enforced_checks()
+            update_enforced_checks.delay_on_commit(component.pk)
 
     def move_to_project(self, project) -> None:
         """Trigger save with changed project on categories and components."""

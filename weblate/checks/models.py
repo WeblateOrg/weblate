@@ -116,7 +116,10 @@ class Check(models.Model):
             return None
 
     def is_enforced(self) -> bool:
-        return self.name in self.unit.translation.component.enforced_checks
+        """Return whether this check is enforced (inherited or local)."""
+        component = self.unit.translation.component
+        effective = component.get_effective_setting("enforced_checks")
+        return self.name in effective
 
     def get_description(self) -> StrOrPromise:
         if self.check_obj:

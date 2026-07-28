@@ -1273,7 +1273,6 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     enforced_checks = serializers.JSONField(required=False)
     inherit_enforced_checks = serializers.BooleanField(
         required=False,
-        default=True,
         help_text=gettext_lazy("Inherit enforced checks from the workspace."),
     )
 
@@ -1575,7 +1574,6 @@ class ComponentSerializer(RemovableSerializer[Component]):
     enforced_checks = serializers.JSONField(required=False)
     inherit_enforced_checks = serializers.BooleanField(
         required=False,
-        default=True,
         help_text=gettext_lazy(
             "Inherit enforced checks from the project, category or workspace."
         ),
@@ -3238,7 +3236,6 @@ class CategorySerializer(RemovableSerializer[Category]):
     enforced_checks = serializers.JSONField(required=False)
     inherit_enforced_checks = serializers.BooleanField(
         required=False,
-        default=True,
         help_text=gettext_lazy(
             "Inherit enforced checks from the parent category, project or workspace."
         ),

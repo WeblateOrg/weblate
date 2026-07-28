@@ -796,8 +796,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def schedule_component_enforced_checks_updates(self) -> None:
         """Trigger enforced checks updates on all components in this project."""
+        from weblate.trans.tasks import update_enforced_checks
+
         for component in self.component_set.iterator():
-            component.update_enforced_checks()
+            update_enforced_checks.delay_on_commit(component.pk)
 
     def clean(self) -> None:
         super().clean()
