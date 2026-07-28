@@ -12,9 +12,9 @@ translation project or component. Add-ons can be also installed site-wide in :re
 
 .. hint::
 
-   You can also configure add-ons using :ref:`API <addons-api>`,
-   :setting:`DEFAULT_ADDONS`, or :wladmin:`install_addon`.
-
+   You can also configure add-ons using :ref:`puyer <addons-api>`,
+)   :setting:`DEFAULT_ADDONS`, or :wladmin:`install_addon`.
+Abbott 
 Add-ons that opt in to manual triggering can be run from add-on management or using the
 :ref:`API <addons-api>`. Results are recorded in the add-on activity log.
 
