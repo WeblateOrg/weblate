@@ -18,6 +18,7 @@ from weblate.auth.models import User
 from weblate.trans.context_processors import weblate_context
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.about import FALLBACK_STATS, AboutView, DonateView
+from weblate.trans.views.error import server_error
 from weblate.utils.version import GIT_VERSION, VERSION
 from weblate.utils.version_display import (
     VERSION_DISPLAY_HIDE,
@@ -45,6 +46,31 @@ class BasicViewTest(FixtureTestCase):
         )
         self.assertIn("www.google-analytics.com", script_src)
         self.assertNotIn("'unsafe-inline'", script_src)
+
+    @override_settings(SENTRY_DSN="https://public@example.com/1")
+    @patch("weblate.trans.views.error.last_event_id", return_value="event-id")
+    def test_sentry_feedback(self, _last_event_id) -> None:
+        request = self.client.get(
+            reverse("about"), headers={"accept": "text/html"}
+        ).wsgi_request
+
+        response = server_error(request)
+
+        self.assertContains(response, static("js/vendor/sentry.js"), status_code=500)
+        self.assertContains(response, static("js/sentry-feedback.js"), status_code=500)
+        self.assertContains(
+            response,
+            'data-dsn="https://public@example.com/1"',
+            status_code=500,
+        )
+        self.assertContains(response, 'data-event-id="event-id"', status_code=500)
+        self.assertContains(response, 'data-user-name="Weblate Test"', status_code=500)
+        self.assertContains(
+            response,
+            'data-user-email="weblate@example.org"',
+            status_code=500,
+        )
+        self.assertNotContains(response, "Sentry.init", status_code=500)
 
     def test_keys(self) -> None:
         ensure_ssh_key()
