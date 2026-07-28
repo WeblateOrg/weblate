@@ -170,14 +170,14 @@ def validate_connected_peer(
     peer_ip: str | None,
     *,
     allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
     used_proxy: bool = False,
 ) -> None:
     if allow_private_targets:
         return
     if used_proxy:
         return
-    if is_allowlisted_hostname(hostname, allowed_domains):
+    if is_allowlisted_hostname(hostname, private_allowlist):
         return
 
     if peer_ip is None:
@@ -192,17 +192,17 @@ def validate_connected_peer(
 
 
 def is_allowlisted_hostname(
-    hostname: str, allowed_domains: list[str] | tuple[str, ...]
+    hostname: str, private_allowlist: list[str] | tuple[str, ...]
 ) -> bool:
-    return bool(allowed_domains) and validate_host(
-        _normalize_hostname(hostname), allowed_domains
+    return bool(private_allowlist) and validate_host(
+        _normalize_hostname(hostname), private_allowlist
     )
 
 
 def validate_untrusted_hostname(
     hostname: str,
     *,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> None:
     normalized = _normalize_hostname(hostname)
     if not normalized:
@@ -213,7 +213,7 @@ def validate_untrusted_hostname(
             code="private_target",
         )
 
-    if is_allowlisted_hostname(normalized, allowed_domains):
+    if is_allowlisted_hostname(normalized, private_allowlist):
         return
 
     if ip_address := _parse_hostname_ip(normalized):
@@ -247,7 +247,7 @@ def validate_outbound_url(
     value: str,
     *,
     allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> None:
     if allow_private_targets:
         return
@@ -256,19 +256,19 @@ def validate_outbound_url(
     if not hostname:
         raise ValidationError(gettext("Could not parse URL."))
 
-    validate_untrusted_hostname(hostname, allowed_domains=allowed_domains)
+    validate_untrusted_hostname(hostname, private_allowlist=private_allowlist)
 
 
 def validate_outbound_hostname(
     value: str,
     *,
     allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> None:
     if allow_private_targets:
         return
 
-    validate_untrusted_hostname(value, allowed_domains=allowed_domains)
+    validate_untrusted_hostname(value, private_allowlist=private_allowlist)
 
 
 def validate_runtime_hostname(

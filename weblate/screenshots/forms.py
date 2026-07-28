@@ -32,7 +32,7 @@ class ScreenshotImageValidationMixin(BaseForm):
             "get",
             url,
             allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
-            allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+            private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
         ) as response:
             content = b""
             for chunk in response.iter_bytes(
