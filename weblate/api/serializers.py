@@ -1270,7 +1270,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
         view_name="api:project-announcements", lookup_field="slug"
     )
 
-    enforced_checks = serializers.JSONField(required=False, allow_null=True)
+    enforced_checks = serializers.JSONField(required=False)
     inherit_enforced_checks = serializers.BooleanField(
         required=False,
         default=True,
@@ -1388,6 +1388,16 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
 
     def get_effective_enforced_checks(self, obj: Project) -> list[str]:
         return obj.get_effective_setting("enforced_checks")
+
+    def validate_enforced_checks(self, value):
+        if not isinstance(value, list):
+            msg = "Enforced checks has to be a list."
+            raise serializers.ValidationError(msg)
+        for item in value:
+            if item not in CHECKS:
+                msg = f"Unsupported enforced check: {item}"
+                raise serializers.ValidationError(msg)
+        return value
 
     def create(self, validated_data):
         has_workspace = validated_data.get("workspace") is not None
@@ -3225,7 +3235,7 @@ class CategorySerializer(RemovableSerializer[Category]):
     effective_check_flags = serializers.SerializerMethodField()
     effective_enforced_checks = serializers.SerializerMethodField()
 
-    enforced_checks = serializers.JSONField(required=False, allow_null=True)
+    enforced_checks = serializers.JSONField(required=False)
     inherit_enforced_checks = serializers.BooleanField(
         required=False,
         default=True,
@@ -3328,6 +3338,16 @@ class CategorySerializer(RemovableSerializer[Category]):
 
     def get_effective_enforced_checks(self, obj: Category) -> list[str]:
         return obj.get_effective_setting("enforced_checks")
+
+    def validate_enforced_checks(self, value):
+        if not isinstance(value, list):
+            msg = "Enforced checks has to be a list."
+            raise serializers.ValidationError(msg)
+        for item in value:
+            if item not in CHECKS:
+                msg = f"Unsupported enforced check: {item}"
+                raise serializers.ValidationError(msg)
+        return value
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

@@ -728,7 +728,7 @@ class Unit(models.Model, LoggerMixin):
             # Avoid storing if .only() was used to fetch the query (eg. in stats)
             self.store_old_unit(self)
 
-    # pylint: disable-next=arguments-differ
+    # pylint: disable-next=arguments-diff
     def save(  # type: ignore[override]
         self,
         *,
@@ -2360,10 +2360,12 @@ class Unit(models.Model, LoggerMixin):
         )
 
         # Enforced checks can revert the state to needs editing (fuzzy)
+        # Use effective enforced checks (inherited)
+        effective_enforced = component.get_effective_setting('enforced_checks')
         if (
             self.state >= STATE_TRANSLATED
-            and component.enforced_checks
-            and self.all_checks_names & set(component.enforced_checks)
+            and effective_enforced
+            and self.all_checks_names & set(effective_enforced)
         ):
             self.state = self.original_state = STATE_NEEDS_REWRITING
             self.save(

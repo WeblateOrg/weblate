@@ -10,7 +10,12 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy
 
-from weblate.trans.forms import FieldDocsMixin, setup_message_setting_site_defaults
+from weblate.trans.forms import (
+    FieldDocsMixin,
+    SelectChecksField,
+    SelectChecksWidget,
+    setup_message_setting_site_defaults,
+)
 from weblate.utils.forms import ContextDiv, SearchableSelect, SortedSelect
 from weblate.workspaces.models import Workspace
 
@@ -60,6 +65,7 @@ class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
             "language_code_style",
             "secondary_language",
             "check_flags",
+            "enforced_checks",
             "commit_message",
             "add_message",
             "delete_message",
@@ -72,6 +78,11 @@ class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
             "license": SearchableSelect,
             "language_code_style": SortedSelect,
             "secondary_language": SortedSelect,
+            "enforced_checks": SelectChecksWidget,
+        }
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
+            "enforced_checks": SelectChecksField,
         }
 
     def __init__(self, *args, **kwargs) -> None:
@@ -100,6 +111,7 @@ class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
                 "language_code_style",
                 "secondary_language",
                 "check_flags",
+                "enforced_checks",
             ),
             Fieldset(
                 gettext("Commit messages"),
