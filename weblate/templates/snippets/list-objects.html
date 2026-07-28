@@ -1,7 +1,7 @@
 {% load humanize i18n icons permissions translations %}
 
 {% if objects or list_categories %}
-  <table class="{% if objects.paginator.num_pages <= 1 %}sort {% endif %}table progress-table autocolspan table-listing{% if show_workspace_details %} table-striped{% endif %}">
+  <table class="{% if not objects.paginator or objects.paginator.num_pages <= 1 %}sort {% endif %}table progress-table autocolspan table-listing{% if show_workspace_details %} table-striped{% endif %}">
     {% if not hide_details and not hide_header %}
       <thead class="sticky-header">
         <tr>
