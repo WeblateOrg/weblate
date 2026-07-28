@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-const tracker = document.getElementById("google-analytics-tracker");
+const googleAnalyticsTracker = document.getElementById(
+  "google-analytics-tracker",
+);
 
 window.GoogleAnalyticsObject = "ga";
 if (typeof window.ga !== "function") {
@@ -20,12 +22,12 @@ analyticsScript.async = true;
 analyticsScript.src = "https://www.google-analytics.com/analytics.js";
 document.head.append(analyticsScript);
 
-window.ga("create", tracker.dataset.trackingId, "auto");
+window.ga("create", googleAnalyticsTracker.dataset.trackingId, "auto");
 
 const pageView = {
-  dimension1: tracker.dataset.language,
+  dimension1: googleAnalyticsTracker.dataset.language,
 };
-if (tracker.dataset.project !== undefined) {
-  pageView.dimension2 = tracker.dataset.project;
+if (googleAnalyticsTracker.dataset.project !== undefined) {
+  pageView.dimension2 = googleAnalyticsTracker.dataset.project;
 }
 window.ga("send", "pageview", pageView);

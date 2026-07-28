@@ -848,7 +848,6 @@ real_patterns = [
         ),
         name="js-catalog",
     ),
-    path("js/matomo/", weblate.trans.views.js.matomo, name="js-matomo"),
     path(
         "js/flags/",
         weblate.trans.views.js.flag_choices,
