@@ -105,8 +105,8 @@ trusted when deciding whether remote provider error details or response bodies
 can be shown to the user. Matching hosts are also exempt from private-target
 restrictions. For direct connections, Weblate does not resolve, pin, or verify
 the peer address of matching hosts. Only add hosts or domains whose network
-destinations are trusted. When an HTTP(S) proxy is used, the proxy is trusted
-to resolve the destination hostname.
+destinations are trusted. When a configured :ref:`http-proxy` is used, the
+proxy is trusted to resolve the destination hostname.
 
 .. setting:: ALLOWED_ASSET_SIZE
 

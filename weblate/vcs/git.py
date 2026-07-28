@@ -57,7 +57,6 @@ from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
     HTTPClient,
     RedirectValidators,
-    _get_proxy,
     fetch_url,
 )
 from weblate.utils.tracing import start_span
@@ -299,6 +298,22 @@ def _get_git_probe_headers(
     return headers
 
 
+def _with_git_http_proxy(
+    environment: dict[str, str] | None,
+    proxy: str,
+) -> dict[str, str]:
+    """Configure Git's proxy without exposing it in command arguments."""
+    result = dict(environment or {})
+    try:
+        index = int(result.get("GIT_CONFIG_COUNT", "0"))
+    except ValueError:
+        index = 0
+    result["GIT_CONFIG_COUNT"] = str(index + 1)
+    result[f"GIT_CONFIG_KEY_{index}"] = "http.proxy"
+    result[f"GIT_CONFIG_VALUE_{index}"] = proxy
+    return result
+
+
 def _request_git_probe(
     repository_url: str,
     target: ResolvedRepositoryURL,
@@ -475,35 +490,39 @@ class GitRepository(Repository):
             return args, environment
 
         if target.scheme in {"http", "https"}:
-            resolve_options: list[str] = []
-            proxy = _get_proxy(target.url)
-            proxy_environment = environment
+            proxy = target.proxy_url
             if proxy is not None:
-                proxy_environment = dict(environment or {})
-                proxy_environment[f"{target.scheme}_proxy"] = proxy
-            elif target.requires_pinning:
-                try:
-                    ip_address(target.hostname)
-                except ValueError:
-                    resolve_hostname = idna_encode(target.hostname, uts46=True).decode(
-                        "ascii"
-                    )
-                    addresses = ",".join(
-                        f"[{address}]" if ":" in address else address
-                        for address in target.addresses
-                    )
-                    resolve_options = [
-                        "-c",
-                        f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
-                    ]
+                environment = _with_git_http_proxy(
+                    environment,
+                    proxy,
+                )
+                connection_options: list[str] = []
+            else:
+                connection_options = ["-c", "http.proxy="]
+                if target.requires_pinning:
+                    try:
+                        ip_address(target.hostname)
+                    except ValueError:
+                        resolve_hostname = idna_encode(
+                            target.hostname, uts46=True
+                        ).decode("ascii")
+                        addresses = ",".join(
+                            f"[{address}]" if ":" in address else address
+                            for address in target.addresses
+                        )
+                        connection_options = [
+                            *connection_options,
+                            "-c",
+                            f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
+                        ]
             return (
                 [
-                    *resolve_options,
+                    *connection_options,
                     "-c",
                     "http.followRedirects=false",
                     *args,
                 ],
-                proxy_environment,
+                environment,
             )
 
         if target.scheme == "ssh" and target.requires_pinning:
