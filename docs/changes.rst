@@ -42,6 +42,7 @@ Weblate 2026.8
 * :ref:`Disabling password authentication <site-wide-user-management>` from site-wide user management now regenerates the user's personal API key by default.
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
+* URLs containing backslashes are now rejected as invalid.
 * Protected outbound HTTP requests now bind connections to validated public addresses.
 * Permanent same-host Git HTTP redirects are now validated and stored as canonical component repository URLs.
 * VCS operations now bind protected Git connections to validated public addresses and fail closed for clients which cannot enforce that binding.
