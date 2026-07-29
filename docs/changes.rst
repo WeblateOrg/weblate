@@ -13,6 +13,7 @@ Weblate 2026.8
 * Added :ref:`check-max-lines` quality check for limiting the number of lines in translations, useful for fixed-height UI elements.
 * Added :ref:`check-asciidoc-markup` quality check for AsciiDoc strings.
 * Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`.
+* Weblate is now available in Lao language.
 
 .. rubric:: Improvements
 
