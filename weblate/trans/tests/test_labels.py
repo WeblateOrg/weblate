@@ -7,6 +7,7 @@
 from typing import cast
 from unittest.mock import patch
 
+from asgiref.sync import async_to_sync
 from django.core.cache import cache
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -109,14 +110,13 @@ class LabelTest(FixtureTestCase):
     def test_delete(self) -> None:
         self.test_create()
         label = self.project.label_set.get()
-        response = self.client.post(
+        self.async_client.force_login(self.user)
+        response = async_to_sync(self.async_client.post)(
             reverse(
                 "label_delete", kwargs={"project": self.project.slug, "pk": label.pk}
             ),
-            follow=True,
         )
-        self.assertRedirects(response, self.labels_url)
-        self.assertNotContains(response, "Test label")
+        self.assertRedirects(response, self.labels_url, fetch_redirect_response=False)
         self.assertFalse(self.project.label_set.filter(name="Test label").exists())
 
     def test_assign(self) -> None:

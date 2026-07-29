@@ -9,8 +9,9 @@ import os
 import tempfile
 from typing import TYPE_CHECKING, ClassVar
 
+import httpx2
+from asgiref.sync import sync_to_async
 from dateutil.parser import isoparse
-from requests.exceptions import HTTPError
 
 import weblate.utils.version
 
@@ -25,6 +26,7 @@ from .forms import ModernMTMachineryForm
 if TYPE_CHECKING:
     from .base import (
         DownloadTranslations,
+        TranslationResultDict,
     )
 
 
@@ -89,6 +91,39 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
+        params = self._prepare_translation_request(
+            source_language, target_language, text, unit
+        )
+        response = self.request(
+            "get",
+            self.get_api_url("translate"),
+            params=params,
+        )
+        yield self._format_translation(text, response.json())
+
+    async def adownload_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit,
+        user,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        """Download a translation without blocking."""
+        params = await sync_to_async(self._prepare_translation_request)(
+            source_language, target_language, text, unit
+        )
+        response = await self.arequest(
+            "get",
+            self.get_api_url("translate"),
+            params=params,
+        )
+        return [self._format_translation(text, response.json())]
+
+    def _prepare_translation_request(
+        self, source_language, target_language, text: str, unit
+    ) -> dict[str, str]:
         params = {"q": text, "source": source_language, "target": target_language}
         glossary_id: str | None = self.get_glossary_id(
             source_language, target_language, unit
@@ -99,15 +134,10 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
 
         if context_vector := self.settings.get("context_vector"):
             params["context_vector"] = context_vector
+        return params
 
-        response = self.request(
-            "get",
-            self.get_api_url("translate"),
-            params=params,
-        )
-        payload = response.json()
-
-        yield {
+    def _format_translation(self, text: str, payload: dict) -> TranslationResultDict:
+        return {
             "text": payload["data"]["translation"],
             "quality": self.max_score,
             "service": self.name,
@@ -146,7 +176,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
         """Delete single glossary."""
         try:
             self.request("delete", self.get_api_url("memories", str(glossary_id)))
-        except HTTPError as error:
+        except httpx2.HTTPStatusError as error:
             if error.response.status_code == 404:
                 raise GlossaryDoesNotExistError from error
 

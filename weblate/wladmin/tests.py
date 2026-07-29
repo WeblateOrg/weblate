@@ -14,7 +14,6 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlparse
 
-import responses
 from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
@@ -37,7 +36,9 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.backup import BackupError, BorgResult
 from weblate.utils.data import data_path
+from weblate.utils.tests import http_mock as responses
 from weblate.utils.unittest import tempdir_setting
+from weblate.utils.zammad import ZammadError
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.middleware import (
     CHECK_ATTEMPT_CACHE_KEY,
@@ -919,6 +920,31 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse("manage-backups"))
         self.assertNotContains(response, "Register on weblate.org")
 
+    def test_support_form_handles_zammad_error(self) -> None:
+        SupportStatus.objects.create(
+            name="basic",
+            secret="paid-secret",
+            expiry=timezone.now() + timedelta(days=1),
+            enabled=True,
+        )
+
+        with patch(
+            "weblate.wladmin.views.submit_zammad_ticket",
+            side_effect=ZammadError("Customer care is currently unavailable."),
+        ):
+            response = self.client.post(
+                reverse("manage-support"),
+                {
+                    "subject": "Support request",
+                    "name": "Test user",
+                    "email": "test@example.com",
+                    "message": "Please help.",
+                },
+                follow=True,
+            )
+
+        self.assertContains(response, "Customer care is currently unavailable.")
+
     def test_workspaces(self) -> None:
         workspace = Workspace.objects.create(name="Test workspace")
         Project.objects.create(
@@ -1124,6 +1150,7 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "PRIVATE KEY")
 
     @tempdir_setting("DATA_DIR")
+    @override_settings(VCS_RESTRICT_PRIVATE=False)
     def test_ssh_add(self) -> None:
         self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         oldpath = os.environ["PATH"]

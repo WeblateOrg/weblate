@@ -947,6 +947,46 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "inner",
         )
 
+    def test_table_sorting(self) -> None:
+        """Clicking sortable table headers reorders the rows client-side."""
+        # Load a page so that loader-bootstrap.js is loaded
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+
+        result = self.driver.execute_script(
+            r"""
+            const table = document.createElement("table");
+            table.className = "sort";
+            table.innerHTML = `
+              <thead><tr>
+                <th class="sort-skip"></th>
+                <th class="sort-cell">Name</th>
+                <th class="number sort-cell"><span class="sort-icon"> </span>Count</th>
+              </tr></thead>
+              <tbody>
+                <tr id="9row-1"><td></td><th class="object-link">Beta</th><td class="number" data-value="30">30</td></tr>
+                <tr data-parent="9row-1"><td colspan="3">progress</td></tr>
+                <tr id="9row-2"><td></td><th class="object-link">Alpha</th><td class="number" data-value="10">10</td></tr>
+                <tr data-parent="9row-2"><td colspan="3">progress</td></tr>
+                <tr id="9row-3"><td></td><th class="object-link">Gamma</th><td class="number" data-value="20">20</td></tr>
+                <tr data-parent="9row-3"><td colspan="3">progress</td></tr>
+              </tbody>`;
+            document.body.appendChild(table);
+            loadTableSorting();
+            const header = table.querySelectorAll("thead th")[2];
+            const readNames = () => Array.from(
+                table.querySelectorAll("tbody tr[id] th.object-link")
+            ).map((el) => el.textContent.trim());
+            header.click();
+            const ascending = readNames();
+            header.click();
+            const descending = readNames();
+            return {ascending: ascending, descending: descending};
+            """
+        )
+        self.assertEqual(result["ascending"], ["Alpha", "Gamma", "Beta"])
+        self.assertEqual(result["descending"], ["Beta", "Gamma", "Alpha"])
+
     def test_hotkeys(self) -> None:
         """Test hotkeys functionality."""
         # Check that the hotkeys library is loaded and the filter is overridden by our wrapper.
@@ -1304,7 +1344,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.get(f"{self.live_server_url}{reverse('manage-ssh')}")
 
         # Add SSH host key
-        self.driver.find_element(By.ID, "id_host").send_keys("example.com")
+        self.driver.find_element(By.ID, "id_host").send_keys("github.com")
         with (
             patch.dict(
                 os.environ,

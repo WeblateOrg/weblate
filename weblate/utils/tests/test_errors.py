@@ -200,6 +200,29 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
         client.report_exception.assert_called_once_with()
         client.report.assert_not_called()
 
+    @override_settings(SENTRY_DSN=None)
+    def test_report_error_reports_explicit_google_exception(self) -> None:
+        client = MagicMock()
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = client
+        handled_error: ValueError | None = None
+        try:
+            raise_broken_error()
+        except ValueError as error:
+            handled_error = error
+
+        with patch("weblate.utils.errors.record_error"):
+            errors.report_error(
+                "Handled asynchronous error",
+                level="error",
+                exception=handled_error,
+            )
+
+        report = client.report.call_args.args[0]
+        self.assertIn("Traceback (most recent call last):", report)
+        self.assertIn("ValueError: broken", report)
+        client.report_exception.assert_not_called()
+
     @override_settings(SENTRY_DSN="https://public@example.com/1")
     def test_report_error_reports_sentry_message_without_exception(self) -> None:
         sentry_sdk = MagicMock()
@@ -228,6 +251,33 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
 
         sentry_sdk.capture_exception.assert_called_once_with()
         sentry_sdk.capture_message.assert_not_called()
+
+    @override_settings(
+        SENTRY_DSN="https://public@example.com/1",
+        ROLLBAR={},
+    )
+    def test_report_error_preserves_explicit_exception(self) -> None:
+        error = ValueError("async failure")
+        sentry_sdk = MagicMock()
+        rollbar = MagicMock()
+
+        with (
+            patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
+            patch("weblate.utils.errors.get_rollbar", return_value=rollbar),
+            patch("weblate.utils.errors.record_error") as record_error,
+        ):
+            errors.report_error(
+                "Handled asynchronous error",
+                level="error",
+                exception=error,
+            )
+
+        sentry_sdk.capture_exception.assert_called_once_with(error)
+        rollbar.report_exc_info.assert_called_once_with(
+            (ValueError, error, error.__traceback__),
+            level="error",
+        )
+        self.assertIs(record_error.call_args.kwargs["exception"], error)
 
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_google_message(self) -> None:

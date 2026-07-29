@@ -9,6 +9,7 @@ from functools import partial
 from typing import TYPE_CHECKING, ClassVar, NotRequired, TypedDict, cast
 from urllib.parse import quote, urlparse
 
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.db.models import Q
 from drf_spectacular.utils import OpenApiParameter, extend_schema
@@ -474,7 +475,7 @@ def _refresh_github_installations(installations) -> None:
     if not installations:
         return
     try:
-        repositories = installations[0].refresh_repositories()
+        repositories = async_to_sync(installations[0].refresh_repositories)()
     except Exception:
         report_error("Failed to refresh connected GitHub account repositories")
         return
@@ -881,8 +882,20 @@ def github_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     if request:
         event = request.headers.get("x-github-event", "")
         if data.get("installation"):
-            msg = "GitHub App webhooks must use the per-App hook URL"
-            raise PermissionDenied(msg)
+            signature = request.headers.get("x-hub-signature-256", "")
+            secret = getattr(settings, "GITHUB_LEGACY_APP_WEBHOOK_SECRET", "")
+            if not secret:
+                LOGGER.warning(
+                    "Rejected legacy GitHub App webhook because no secret is configured"
+                )
+                msg = "Invalid legacy GitHub App webhook signature"
+                raise PermissionDenied(msg)
+            if not verify_webhook_signature(request.body, signature, secret):
+                LOGGER.warning(
+                    "Rejected legacy GitHub App webhook with invalid signature"
+                )
+                msg = "Invalid legacy GitHub App webhook signature"
+                raise PermissionDenied(msg)
         if event != "push":
             return None
 

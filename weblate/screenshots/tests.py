@@ -10,8 +10,8 @@ from pathlib import Path
 from shutil import copyfile, rmtree
 from unittest.mock import MagicMock, patch
 
-import requests
-import responses
+import httpx2
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files import File
@@ -41,6 +41,7 @@ from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.utils.docs import get_doc_url
+from weblate.utils.tests import http_mock as responses
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 PUBLIC_TEST_ADDRESS = "93.184.216.34"
@@ -65,10 +66,14 @@ class ScreenshotImageValidationTest(SimpleTestCase):
 
 class TesseractDataTest(SimpleTestCase):
     @staticmethod
-    def get_http_error(status_code: int) -> requests.HTTPError:
-        response = requests.Response()
-        response.status_code = status_code
-        return requests.HTTPError(response=response)
+    def get_http_error(status_code: int) -> httpx2.HTTPStatusError:
+        request = httpx2.Request("GET", "https://example.com/tesseract")
+        response = httpx2.Response(status_code, request=request)
+        try:
+            response.raise_for_status()
+        except httpx2.HTTPStatusError as error:
+            return error
+        raise AssertionError
 
     def test_cached_data(self) -> None:
         with tempfile.TemporaryDirectory() as cache_dir:
@@ -100,6 +105,7 @@ class TesseractDataTest(SimpleTestCase):
         makedirs.assert_called_once_with(str(tessdata), exist_ok=True)
 
     def test_transient_errors_are_retried(self) -> None:
+        request = httpx2.Request("GET", "https://example.com/eng")
         response = MagicMock(content=b"trained data")
         with tempfile.TemporaryDirectory() as cache_dir:
             target = Path(cache_dir) / "eng.traineddata"
@@ -107,8 +113,11 @@ class TesseractDataTest(SimpleTestCase):
                 patch(
                     "weblate.screenshots.views.fetch_url",
                     side_effect=[
-                        requests.Timeout("timed out"),
-                        self.get_http_error(503),
+                        httpx2.ReadError("connection reset", request=request),
+                        httpx2.RemoteProtocolError(
+                            "server disconnected",
+                            request=request,
+                        ),
                         response,
                     ],
                 ) as fetch_url,
@@ -136,7 +145,7 @@ class TesseractDataTest(SimpleTestCase):
                     "weblate.screenshots.views.fetch_url",
                     side_effect=self.get_http_error(404),
                 ) as fetch_url,
-                self.assertRaises(requests.HTTPError),
+                self.assertRaises(httpx2.HTTPStatusError),
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
 
@@ -150,10 +159,10 @@ class TesseractDataTest(SimpleTestCase):
             with (
                 patch(
                     "weblate.screenshots.views.fetch_url",
-                    side_effect=requests.Timeout("timed out"),
+                    side_effect=httpx2.TimeoutException("timed out"),
                 ) as fetch_url,
                 patch("weblate.screenshots.views.sleep"),
-                self.assertRaises(requests.Timeout),
+                self.assertRaises(httpx2.TimeoutException),
             ):
                 download_tesseract_data("https://example.com/eng", str(target))
 
@@ -536,6 +545,33 @@ class ViewTest(FixtureTestCase):
     def extract_pk(self, data):
         return int(data.split('data-pk="')[1].split('"')[0])
 
+    def test_async_source_changes_use_screenshot_owner(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Owner",
+            translation=self.component.source_translation,
+            user=self.user,
+        )
+        unit = self.component.source_translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected a source unit")
+
+        async def update_sources() -> None:
+            async_screenshot = await Screenshot.objects.aget(pk=screenshot.pk)
+            await async_screenshot.add_units_async([unit])
+            await async_screenshot.aremove_unit(unit)
+
+        async_to_sync(update_sources)()
+
+        changes = Change.objects.filter(screenshot=screenshot).order_by("pk")
+        self.assertEqual(
+            list(changes.values_list("action", "user_id")),
+            [
+                (ActionEvents.SCREENSHOT_ADDED, self.user.pk),
+                (ActionEvents.SCREENSHOT_REMOVED, self.user.pk),
+            ],
+        )
+        self.assertFalse(screenshot.units.filter(pk=unit.pk).exists())
+
     def test_source_manipulations(self) -> None:
         self.make_manager()
         self.do_upload()
@@ -560,11 +596,12 @@ class ViewTest(FixtureTestCase):
         )
 
         # Add found string
-        response = self.client.post(
+        self.async_client.force_login(self.user)
+        async_response = async_to_sync(self.async_client.post)(
             reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
             {"source": source_pk},
         )
-        data = response.json()
+        data = async_response.json()
         self.assertEqual(data["responseCode"], 200)
         self.assertEqual(data["status"], True)
         self.assertEqual(screenshot.units.count(), 1)
@@ -583,7 +620,7 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, "Hello")
 
         # Remove added string
-        self.client.post(
+        async_to_sync(self.async_client.post)(
             reverse("screenshot-remove-source", kwargs={"pk": screenshot.pk}),
             {"source": source_pk},
         )
@@ -945,7 +982,7 @@ class ViewTest(FixtureTestCase):
         with (
             patch(
                 "weblate.screenshots.views.get_tesseract",
-                side_effect=requests.Timeout("timed out"),
+                side_effect=httpx2.TimeoutException("timed out"),
             ),
             self.assertLogs("weblate", level="WARNING") as logs,
         ):
@@ -1115,7 +1152,10 @@ class ViewTest(FixtureTestCase):
         responses.add(
             responses.GET,
             "https://example.com/broken-image.png",
-            body=requests.RequestException("Network error"),
+            body=httpx2.ConnectError(
+                "Network error",
+                request=httpx2.Request("GET", "https://example.com/broken-image.png"),
+            ),
         )
         response = self.do_upload(
             image="", image_url="https://example.com/missing-image.png"

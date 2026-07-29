@@ -256,8 +256,8 @@ class Subscription(models.Model):
         return self.sign_id(self.pk)
 
     @classmethod
-    def get_by_signed_id(cls, signed_id: str) -> Subscription:
-        return cls.objects.get(
+    async def aget_by_signed_id(cls, signed_id: str) -> Subscription:
+        return await cls.objects.aget(
             pk=int(TimestampSigner().unsign(signed_id, max_age=cls.SIGNATURE_MAX_AGE))
         )
 
@@ -671,7 +671,7 @@ class AuditLog(models.Model):
         ):
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
-                lock_user(self.user, "locked", request)
+                lock_user(self.user, "locked", request, regenerate_api_key=False)
                 return True
 
         elif (
@@ -683,7 +683,7 @@ class AuditLog(models.Model):
                 self.user, "twofactor-login", "twofactor-failed"
             )
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
-                lock_user(self.user, "locked", request)
+                lock_user(self.user, "locked", request, regenerate_api_key=False)
                 return True
 
         elif self.activity == "reset-request":

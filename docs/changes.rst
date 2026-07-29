@@ -28,28 +28,43 @@ Weblate 2026.8
 * :ref:`Empty workspaces <workspace-removal>` not associated with billing can now be removed from the workspace :guilabel:`Operations` menu.
 * :ref:`mt-aws` machine translation now supports configuring formality, brevity, and profanity masking.
 * Improved :ref:`screenshots` OCR reliability and error reporting when downloading recognition data.
+* Repository failure alerts now link directly to component version control settings for users who can edit them.
 * Celery workers now prefetch fewer tasks by default to reduce memory usage and improve task distribution.
 * Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload.
+* Added opt-in :ref:`running-granian-asgi` deployment support, including :envvar:`WEBLATE_ASGI` for Docker containers.
 * Added opt-in :ref:`running-granian-asgi` deployment support.
+* Machine translation editor requests now use asynchronous HTTP for DeepL, LibreTranslate, ModernMT, OpenAI-compatible, Anthropic, and Ollama services on ASGI deployments.
+* GitHub App connection and repository refresh requests now use asynchronous HTTP on ASGI deployments.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
 
 .. rubric:: Bug fixes
 
+* :ref:`Disabling password authentication <site-wide-user-management>` from site-wide user management now regenerates the user's personal API key by default.
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
+* URLs containing backslashes are now rejected as invalid.
+* Protected outbound HTTP requests now bind connections to validated public addresses.
+* Permanent same-host Git HTTP redirects are now validated and stored as canonical component repository URLs.
+* VCS operations now bind protected Git connections to validated public addresses and fail closed for clients which cannot enforce that binding.
 * Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state and skip repository-linked components when the importer cannot access the target component.
+* Project backup restores no longer load Mercurial repository configuration or shared-repository indirection supplied by archives.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
 * Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.
 * :ref:`RSS feeds <rss>` no longer disclose change history from inaccessible projects or restricted components.
+* Authenticated legacy GitHub App webhooks can again trigger repository updates through the :ref:`generic GitHub webhook endpoint <code-hosting-github-notifications>`.
 
 .. rubric:: Compatibility
 
 * django-compressor is no longer used, and the ``COMPRESS_*`` settings have been removed.
 * Legal document styling is now provided through an overridable template instead of Weblate's global stylesheet. See :ref:`legal-customization`.
+* When :setting:`VCS_RESTRICT_PRIVATE` is enabled, Mercurial and Subversion repository hosts must be explicitly included in :setting:`VCS_ALLOW_HOSTS`; Git over HTTPS and SSH enforces connection address pinning without an allowlist entry.
+* Outbound HTTP proxy configuration is limited to the per-protocol environment variables documented in :ref:`http-proxy`.
+* Git SSH validates configured ``HostName`` and ``Port`` destinations before connecting; administrator SSH configuration remains trusted, and :setting:`SSH_EXTRA_ARGS` can override connection routing and address pinning.
+* Git LFS object transfers are unsupported and disabled for Weblate-managed repositories; LFS-tracked files remain pointer files.
 * The project and component ``credits`` REST API endpoints and their ``credits_url`` response fields have been replaced by scoped ``reports`` endpoints and ``reports_url``. Credits report generation is now asynchronous; clients need to submit a ``credits`` report, follow the returned task URL, and fetch the completed report. See :http:post:`/api/reports/`.
 * The top-level ``languages`` field on user REST API responses has been removed; use ``profile.languages`` instead. See :ref:`api-user-profile`.
 

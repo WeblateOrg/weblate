@@ -9,11 +9,12 @@ from __future__ import annotations
 from base64 import b64decode
 from unittest.mock import patch
 
-import responses
+from asgiref.sync import async_to_sync
 from django.core.cache import cache
 from django.test import TestCase
 
 from weblate.trans.models import Component, Project
+from weblate.utils.tests import http_mock as responses
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.github import (
     GitHubAppCredentials,
@@ -211,7 +212,7 @@ class TestGitHubInstallationManager(TestCase):
     @responses.activate
     def test_installation_token_rejects_malformed_installation_id(self):
         with self.assertRaises(ValueError):
-            get_installation_token(
+            async_to_sync(get_installation_token)(
                 "99999",
                 SETTINGS_PRIVATE_KEY,
                 "67890/access_tokens",
@@ -229,7 +230,7 @@ class TestGitHubInstallationManager(TestCase):
             json={"id": 99},
         )
 
-        exchange_github_app_manifest_code(
+        async_to_sync(exchange_github_app_manifest_code)(
             "../installations/67890/access_tokens?x=1", "github.com"
         )
 
@@ -248,7 +249,7 @@ class TestGitHubInstallationManager(TestCase):
             },
         )
 
-        installation = GitHubInstallation.objects.sync_from_api(
+        installation = async_to_sync(GitHubInstallation.objects.sync_from_api)(
             "github.com", "24680", workspace=_make_workspace("sync-workspace")
         )
 
@@ -258,7 +259,7 @@ class TestGitHubInstallationManager(TestCase):
 
     def test_sync_from_api_requires_credentials(self):
         with self.assertRaises(GitHubAppNotConfiguredError):
-            GitHubInstallation.objects.sync_from_api(
+            async_to_sync(GitHubInstallation.objects.sync_from_api)(
                 "github.com",
                 "24680",
                 workspace=_make_workspace("sync-missing-workspace"),
@@ -279,9 +280,9 @@ class TestGitHubInstallationManager(TestCase):
             },
         )
 
-        installation, created = GitHubInstallation.objects.connect_workspace(
-            "github.com", "67890", self.installation.workspace
-        )
+        installation, created = async_to_sync(
+            GitHubInstallation.objects.connect_workspace
+        )("github.com", "67890", self.installation.workspace)
 
         self.assertFalse(created)
         self.assertEqual(installation.pk, self.installation.pk)

@@ -29,7 +29,7 @@ from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity, MultiAlert
 from weblate.trans.alerts.registry import update_alerts
-from weblate.trans.alerts.vcs import UpdateFailure
+from weblate.trans.alerts.vcs import RepositoryErrorAlert, UpdateFailure
 from weblate.trans.diagnostics import DIAGNOSTICS_LINK_LIMIT, get_diagnostics_context
 from weblate.trans.models import (
     Category,
@@ -1684,6 +1684,99 @@ class MonolingualAlertTest(ViewTestCase):
 
 
 class RepositoryAlertTemplateTest(SimpleTestCase):
+    @staticmethod
+    def render_failure_alert(
+        template_name: str,
+        permissions: set[str],
+        *,
+        analysis: dict | None = None,
+        error: str = "Repository operation failed",
+    ) -> str:
+        component = SimpleNamespace(get_url_path=lambda: ("test", "component"))
+        user = SimpleNamespace(
+            has_perm=lambda permission, _obj: permission in permissions
+        )
+        return render_to_string(
+            template_name,
+            {
+                "analysis": analysis or {},
+                "component": component,
+                "error": error,
+                "user": user,
+            },
+        )
+
+    def test_repository_redirect_failure_hides_raw_git_error(self) -> None:
+        raw_error = (
+            "fatal: unable to access repository URL: "
+            "The requested URL returned error: 301 (128)"
+        )
+        rendered = self.render_failure_alert(
+            "trans/alert/updatefailure.html",
+            set(),
+            analysis={"redirect": True},
+            error=raw_error,
+        )
+
+        self.assertIn("permanent HTTP redirect", rendered)
+        self.assertNotIn(raw_error, rendered)
+
+    def test_repository_redirect_errors_are_classified(self) -> None:
+        errors = (
+            "The repository URL permanently redirects to a canonical URL.",
+            "The repository returned a permanent HTTP redirect without a target URL.",
+            "The repository returned an HTTP redirect with an invalid hostname.",
+            "The repository returned too many HTTP redirects.",
+        )
+
+        for error in errors:
+            with self.subTest(error=error):
+                alert = RepositoryErrorAlert(
+                    cast("Alert", SimpleNamespace()),
+                    error,
+                )
+                self.assertTrue(alert.get_analysis()["redirect"])
+
+    def test_repository_failure_settings_action_permissions(self) -> None:
+        settings_url = (
+            reverse(
+                "settings",
+                kwargs={"path": ("test", "component")},
+            )
+            + "#vcs"
+        )
+        cases = (
+            (
+                "trans/alert/repositoryoperationfailure.html",
+                "vcs.reset",
+                "Reset the repository",
+            ),
+            (
+                "trans/alert/updatefailure.html",
+                "vcs.update",
+                "Update the repository",
+            ),
+            (
+                "trans/alert/pushfailure.html",
+                "vcs.push",
+                "Push the repository",
+            ),
+        )
+
+        for template_name, retry_permission, retry_label in cases:
+            with self.subTest(template_name=template_name, permission="component.edit"):
+                rendered = self.render_failure_alert(template_name, {"component.edit"})
+
+                self.assertIn("Edit component settings", rendered)
+                self.assertIn(f'href="{settings_url}"', rendered)
+                self.assertNotIn(retry_label, rendered)
+
+            with self.subTest(template_name=template_name, permission=retry_permission):
+                rendered = self.render_failure_alert(template_name, {retry_permission})
+
+                self.assertNotIn("Edit component settings", rendered)
+                self.assertIn(retry_label, rendered)
+
     def test_repository_guidance_uses_header_documentation_link(self) -> None:
         for template_name in (
             "trans/alert/repositoryoutdated.html",

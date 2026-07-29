@@ -92,6 +92,21 @@ class CSPBuilderTest(TestCase):
     def setUp(self) -> None:
         self.factory = RequestFactory()
 
+    @override_settings(
+        SENTRY_DSN="https://public@o123.ingest.sentry.io/456",
+    )
+    def test_sentry_error_does_not_allow_inline_scripts(self) -> None:
+        request = self.factory.get("/")
+        request.resolver_match = None
+
+        builder = CSPBuilder(request, HttpResponse(status=500))
+
+        self.assertIn("o123.ingest.sentry.io", builder.directives["script-src"])
+        self.assertIn("sentry.io", builder.directives["script-src"])
+        self.assertIn("o123.ingest.sentry.io", builder.directives["connect-src"])
+        self.assertIn("sentry.io", builder.directives["connect-src"])
+        self.assertNotIn("'unsafe-inline'", builder.directives["script-src"])
+
     @override_settings(STATIC_URL="https://cdn.example.test/static/")
     def test_external_static_url_added_to_worker_src(self) -> None:
         request = self.factory.get("/")

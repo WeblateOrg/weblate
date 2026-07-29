@@ -25,9 +25,8 @@ from unittest.mock import MagicMock, patch
 
 import fedora_messaging.api
 import fedora_messaging.config
+import httpx2
 import jsonschema.exceptions
-import requests
-import responses
 from django.apps import apps
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -83,6 +82,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.tests import http_mock as responses
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.base import Repository, RepositoryError
 
@@ -163,21 +163,23 @@ from .tasks import (
     cleanup_addon_activity_log,
     daily_addons,
     language_consistency,
+    parse_cdn_html,
     run_addon_manually,
     update_addon_activity_log,
 )
-from .webhooks import SlackWebhookAddon, WebhookAddon
+from .webhooks import MessageNotDeliveredError, SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
     from weblate.trans.models import (
         Project,
     )
+    from weblate.utils.tests.http_mock import PreparedRequest
 
 
 def get_webhook_request_data(
-    request: requests.PreparedRequest,
+    request: PreparedRequest,
 ) -> tuple[bytes | str, dict[str, str]]:
-    """Return the concrete body and string headers prepared by requests."""
+    """Return the concrete body and string headers prepared by the HTTP client."""
     body = request.body
     assert isinstance(body, (bytes, str))
     headers: dict[str, str] = {}
@@ -8350,6 +8352,7 @@ class CDNJSAddonTest(ViewTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
     )
+    @responses.activate
     def test_form_rejects_private_remote_file_before_request(
         self, mocked_getaddrinfo
     ) -> None:
@@ -8365,11 +8368,10 @@ class CDNJSAddonTest(ViewTestCase):
         )
 
         assert form is not None
-        with patch("requests.sessions.Session.request") as mocked_request:
-            self.assertFalse(form.is_valid())
+        self.assertFalse(form.is_valid())
 
         mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
-        mocked_request.assert_not_called()
+        self.assertEqual(len(responses.calls), 0)
         self.assertIn("internal or non-public address", str(form.errors["files"]))
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
@@ -8439,6 +8441,62 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertEqual(
             Unit.objects.filter(translation__component=self.component).count(), 14
         )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_extract_reads_streamed_remote_html(self) -> None:
+        addon = self.create_addon(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "https://cdn.example.com/messages.html",
+                "cookie_name": "django_languages",
+                "css_selector": ".l10n",
+            },
+            run=False,
+        )
+        response = httpx2.Response(
+            200,
+            stream=httpx2.ByteStream(
+                b"<html><body><div class='l10n'>Remote string</div></body></html>"
+            ),
+        )
+
+        with patch(
+            "weblate.addons.tasks.open_restricted_asset_url",
+            return_value=contextlib.nullcontext(response),
+        ):
+            errors = parse_cdn_html(addon.instance, self.component)
+
+        self.assertEqual(errors, [])
+        self.assertTrue(
+            self.component.source_translation.unit_set.filter(
+                source="Remote string"
+            ).exists()
+        )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_extract_handles_remote_http_error(self) -> None:
+        addon = self.create_addon(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "https://cdn.example.com/messages.html",
+                "cookie_name": "django_languages",
+                "css_selector": ".l10n",
+            },
+            run=False,
+        )
+
+        with patch(
+            "weblate.addons.tasks.open_restricted_asset_url",
+            side_effect=httpx2.ConnectError("CDN unavailable"),
+        ):
+            errors = parse_cdn_html(addon.instance, self.component)
+
+        self.assertEqual(len(errors), 1)
+        self.assertIn("CDN unavailable", errors[0]["error"])
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
@@ -9084,6 +9142,37 @@ class TasksTest(TestCase):
         cleanup_addon_activity_log()
 
 
+class WebhookDeliveryTest(SimpleTestCase):
+    def test_transport_errors(self) -> None:
+        storage = MagicMock()
+        storage.configuration = {"webhook_url": "https://example.com/webhooks"}
+        addon = WebhookAddon(storage)
+        request = httpx2.Request("POST", storage.configuration["webhook_url"])
+        for error_class in (
+            httpx2.ConnectError,
+            httpx2.ConnectTimeout,
+            httpx2.ProxyError,
+            httpx2.ReadError,
+            httpx2.ReadTimeout,
+            httpx2.RemoteProtocolError,
+        ):
+            with self.subTest(error_class=error_class):
+                error = error_class("Webhook delivery failed", request=request)
+                with (
+                    patch(
+                        "weblate.addons.webhooks.fetch_validated_url",
+                        side_effect=error,
+                    ),
+                    self.assertRaisesMessage(
+                        MessageNotDeliveredError,
+                        "Unable to deliver webhook: could not connect to the remote server.",
+                    ) as raised,
+                ):
+                    addon.send_message(MagicMock(spec=Change), {}, {})
+
+                self.assertIs(raised.exception.__cause__, error)
+
+
 if TYPE_CHECKING:
 
     class _WebhookTestsTypingBase(ViewTestCase):
@@ -9188,6 +9277,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.WEBHOOK_CLS.create(
             configuration=self.addon_configuration, project=self.project
         )
+        responses.add(responses.POST, self.WEBHOOK_URL, status=200)
 
         self.reset_calls()
         with self.captureOnCommitCallbacks(execute=True):
@@ -9315,9 +9405,16 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.assertEqual(self.count_requests(), 2)
 
     @responses.activate
-    def test_connection_error(self) -> None:
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_connection_error(self, _mocked_getaddrinfo) -> None:
         """Test connection error when during message delivery."""
-        self.do_translation_added_test(body=requests.ConnectionError())
+        request = httpx2.Request("POST", self.WEBHOOK_URL)
+        self.do_translation_added_test(
+            body=httpx2.ConnectError("Connection failed", request=request)
+        )
 
 
 class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):

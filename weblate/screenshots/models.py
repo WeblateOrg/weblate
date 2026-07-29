@@ -131,12 +131,39 @@ class Screenshot(models.Model, UserDisplayMixin):
                 unit=unit,
             )
 
+    async def add_units_async(
+        self, units: Sequence[Unit], user: User | None = None
+    ) -> None:
+        """Asynchronously add units and create change events."""
+        if not units:
+            return
+        user_id = user.pk if user is not None else self.user_id
+        await self.units.aadd(*units)  # codespell:ignore aadd
+        for unit in units:
+            await self.change_set.acreate(
+                action=ActionEvents.SCREENSHOT_ADDED,
+                user_id=user_id,
+                target=self.name,
+                unit=unit,
+            )
+
     def remove_unit(self, unit: Unit, user: User | None = None) -> None:
         """Remove a unit from this screenshot and create a change event."""
         self.units.remove(unit)
         self.change_set.create(
             action=ActionEvents.SCREENSHOT_REMOVED,
             user=user or self.user,
+            target=self.name,
+            unit=unit,
+        )
+
+    async def aremove_unit(self, unit: Unit, user: User | None = None) -> None:
+        """Asynchronously remove a unit and create a change event."""
+        user_id = user.pk if user is not None else self.user_id
+        await self.units.aremove(unit)
+        await self.change_set.acreate(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            user_id=user_id,
             target=self.name,
             unit=unit,
         )

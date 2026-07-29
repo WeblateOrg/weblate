@@ -14,7 +14,6 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
-import responses
 import yaml
 from django.conf import settings
 from django.contrib import messages as django_messages
@@ -24,6 +23,7 @@ from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import DatabaseError
 from django.db.models import Q
+from django.templatetags.static import static
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -101,6 +101,7 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
+from weblate.utils.tests import http_mock as responses
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
@@ -16259,4 +16260,16 @@ class OpenAPITest(APIBaseTest):
         )
 
     def test_redoc(self) -> None:
-        self.do_request("redoc")
+        response = self.do_request("redoc")
+        self.assertContains(response, f'data-schema-url="{reverse("api-schema")}"')
+        self.assertContains(response, "data-settings=")
+        self.assertContains(response, static("styles/redoc.css"))
+        self.assertContains(response, static("js/redoc.js"))
+        self.assertNotContains(response, "<style")
+        self.assertNotContains(response, "Redoc.init")
+        script_src = next(
+            directive
+            for directive in response["Content-Security-Policy"].split(";")
+            if directive.strip().startswith("script-src ")
+        )
+        self.assertNotIn("'unsafe-inline'", script_src)

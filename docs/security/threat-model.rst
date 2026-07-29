@@ -186,10 +186,13 @@ repository state, background tasks, outbound requests, and rendered UI.
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
-       where hooks are enabled. GitHub App webhooks additionally authenticate
-       with a per-app URL token and GitHub signature
-       verification before processing. *(documented)* (source: :ref:`hooks`,
-       :ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)
+       where hooks are enabled. Registered GitHub App webhooks additionally
+       authenticate with a per-app URL token and GitHub signature verification.
+       Opt-in legacy GitHub App deliveries to the generic GitHub webhook URL
+       authenticate with a separately configured secret. *(documented)*
+       (source: :ref:`hooks`, :ref:`project-enable_hooks`,
+       :ref:`code-hosting-github-app-webhook`,
+       :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)
    * - Weblate to database/datastore
      - Permission-checked application state becomes persistent data and queued
        work. *(documented)* (source: :doc:`/admin/install`)
@@ -333,7 +336,9 @@ Build-time and configuration variants
    * - :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`,
        :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`,
        :setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`
-     - Content Security Policy sources are configurable. *(documented)* (source: :doc:`/admin/config`)
+     - Content Security Policy sources are configurable. *(documented)*
+       (source: :doc:`/admin/config`) The default script policy permits inline
+       execution only on explicitly scoped compatibility paths. *(maintainer)*
      - Broadening sources can reduce browser-side containment for XSS or
        third-party content. *(maintainer)*
      - Deployments adding third-party sources accept that expanded browser
@@ -352,13 +357,29 @@ Build-time and configuration variants
        *(documented)*
    * - Private-target restrictions and allowlists for outbound URLs
      - User-configurable outbound URL surfaces documented with private-target
-       restriction settings, including Fedora Messaging AMQP broker URLs,
-       reject internal or non-public targets by default. *(documented)*
+       restriction settings reject internal or non-public targets by default.
+       *(documented)*
        (source: :setting:`ASSET_RESTRICT_PRIVATE`,
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
+       Protected direct HTTP requests are bound to addresses approved by
+       runtime validation; configured per-protocol HTTP proxies are trusted
+       infrastructure and resolve their destination hosts.
+       Protected Git HTTPS and SSH operations are bound to addresses approved
+       by runtime validation. Protected SSH operations validate the effective
+       ``HostName`` and ``Port``. Trusted administrator SSH configuration can
+       alter routing, and :setting:`SSH_EXTRA_ARGS` can override connection
+       binding. Permanent same-host Git HTTP redirects are probed without
+       automatic redirect following. Every direct destination is independently
+       validated and bound before use; configured per-protocol HTTP proxies use
+       the shared trusted outbound routing. Git LFS object transfers are
+       disabled and outside the supported VCS integration surface. VCS clients
+       without connection binding require an explicit trusted-host exemption.
+       *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
-       reachability. *(documented)* (source: :setting:`ASSET_PRIVATE_ALLOWLIST`,
+       reachability. Fedora Messaging broker URLs are site-administrator
+       configuration and are trusted by this model. *(documented)* (source:
+       :setting:`ASSET_PRIVATE_ALLOWLIST`,
        :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`,
        :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)
      - Default private-target rejection is an application-level security
@@ -367,7 +388,8 @@ Build-time and configuration variants
    * - :setting:`SSH_EXTRA_ARGS`
      - Allows custom SSH options. *(documented)* (source: :setting:`SSH_EXTRA_ARGS`)
      - Weakening SSH algorithms or host verification changes VCS transport
-       assumptions. *(maintainer)*
+       assumptions. Routing options can override protected repository address
+       pinning. *(maintainer)*
      - Operators own the security impact of custom SSH options. *(maintainer)*
    * - Third-party add-ons and local customization
      - Administrators can extend behavior. *(documented)* (source: :doc:`/admin/addons`)
@@ -582,7 +604,9 @@ Security properties Weblate provides
    * - Repository, branch, path, and VCS inputs processed by Weblate must not
        become shell command execution. *(maintainer)*
      - VCS operations are invoked through Weblate-supported repository
-       workflows and configured credentials.
+       workflows and configured credentials. Project backup restores discard
+       archive-supplied repository-local Git and Mercurial configuration, Git
+       hooks, and Mercurial shared-repository indirection.
      - Command injection or arbitrary code execution as the Weblate user.
      - Security-critical.
    * - Private project data, user data, credentials, tokens, SSH keys, and 2FA
@@ -602,11 +626,14 @@ Security properties Weblate provides
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
      - Default private-target checks are enabled and no trusted allowlist
-       exemption applies.
+       exemption applies. Direct protected HTTP requests and Git HTTPS and SSH
+       operations retain address binding, VCS restrictions remain enabled,
+       and VCS backends without binding use only explicitly trusted hosts.
+       Configured per-protocol HTTP proxies remain trusted routing
+       infrastructure.
      - A user-configurable screenshot URL, remote HTML URL, project website or
-       repository browser URL, outbound webhook URL, Fedora Messaging AMQP
-       broker URL, or VCS URL reaches an internal or non-public target despite
-       default controls.
+       repository browser URL, outbound webhook URL, or VCS URL reaches an
+       internal or non-public target despite default controls.
      - Security-critical when it exposes internal services or metadata.
    * - Weblate records security-relevant account, permission, and project or
        component setting changes in audit logs or history. *(documented)*

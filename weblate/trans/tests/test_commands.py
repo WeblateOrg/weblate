@@ -10,7 +10,7 @@ from typing import cast
 from unittest import SkipTest
 from unittest.mock import Mock, patch
 
-import requests
+import httpx2
 from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
 from django.test import SimpleTestCase, TestCase
@@ -508,29 +508,30 @@ class ImportDemoTestCase(TestCase):
 class RequireGitHubTest(SimpleTestCase):
     repository = "https://github.com/WeblateOrg/demo.git"
 
-    @patch("weblate.trans.tests.utils.requests.get")
-    def test_success(self, get: Mock) -> None:
+    @patch("weblate.trans.tests.utils.fetch_url")
+    def test_success(self, fetch_url: Mock) -> None:
         require_github(self.repository)
 
-        get.assert_called_once_with(self.repository, timeout=1)
-        get.return_value.raise_for_status.assert_called_once_with()
+        fetch_url.assert_called_once_with("get", self.repository, timeout=1)
 
-    @patch("weblate.trans.tests.utils.requests.get")
-    def test_request_errors(self, get: Mock) -> None:
+    @patch("weblate.trans.tests.utils.fetch_url")
+    def test_request_errors(self, fetch_url: Mock) -> None:
         for exception in (
-            requests.exceptions.ConnectionError,
-            requests.exceptions.Timeout,
-            requests.exceptions.RequestException,
+            httpx2.ConnectError,
+            httpx2.TimeoutException,
+            httpx2.HTTPError,
         ):
             with self.subTest(exception=exception):
-                get.side_effect = exception("unavailable")
+                fetch_url.side_effect = exception("unavailable")
                 with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):
                     require_github(self.repository)
 
-    @patch("weblate.trans.tests.utils.requests.get")
-    def test_http_error(self, get: Mock) -> None:
-        get.return_value.raise_for_status.side_effect = requests.exceptions.HTTPError(
-            "unavailable"
+    @patch("weblate.trans.tests.utils.fetch_url")
+    def test_http_error(self, fetch_url: Mock) -> None:
+        fetch_url.side_effect = httpx2.HTTPStatusError(
+            "unavailable",
+            request=httpx2.Request("GET", self.repository),
+            response=httpx2.Response(500),
         )
 
         with self.assertRaisesRegex(SkipTest, "GitHub not reachable"):

@@ -15,7 +15,7 @@ from datetime import datetime
 from functools import partial
 from io import BytesIO
 from operator import itemgetter
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from shutil import copyfileobj
 from typing import (
     TYPE_CHECKING,
@@ -944,21 +944,31 @@ class ProjectBackup:
     @staticmethod
     def is_unsafe_vcs_path(path: str) -> bool:
         normalized = path.replace("\\", "/")
+        casefolded = normalized.casefold()
+        parts = PurePosixPath(casefolded).parts
+        filename = parts[-1] if parts else ""
+        # Mercurial reads hgrc variants and can redirect configuration lookup
+        # through sharedpath.
+        unsafe_mercurial_path = (
+            len(parts) > 1
+            and parts[-2] == ".hg"
+            and (filename.startswith("hgrc") or filename == "sharedpath")
+        )
         return (
-            normalized.endswith(
+            unsafe_mercurial_path
+            or casefolded.endswith(
                 (
                     "/.git",
                     "/.git/config",
                     "/.git/config.worktree",
                     "/.git/hooks",
                     "/.git/modules",
-                    "/.hg/hgrc",
                 )
             )
             # Hooks are executable content; Gerrit's commit-msg hook is recreated
             # by git-review when needed.
-            or "/.git/hooks/" in normalized
-            or "/.git/modules/" in normalized
+            or "/.git/hooks/" in casefolded
+            or "/.git/modules/" in casefolded
         )
 
     @classmethod

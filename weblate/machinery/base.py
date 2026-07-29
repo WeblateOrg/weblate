@@ -11,18 +11,20 @@ import random
 import re
 import time
 from collections import defaultdict
+from dataclasses import dataclass
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import quote, urlparse
 
+import httpx2
+from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
-from requests.exceptions import HTTPError, JSONDecodeError, RequestException
 
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
@@ -33,9 +35,11 @@ from weblate.utils.forms import WeblateServiceURLField
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.outbound import is_allowlisted_hostname
 from weblate.utils.requests import (
+    JSON_RESPONSE_ERRORS,
+    async_fetch_url,
+    async_fetch_validated_url,
     fetch_url,
     fetch_validated_url,
-    validate_request_url,
 )
 from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
@@ -48,9 +52,6 @@ MACHINERY_DEFAULT_THRESHOLD = 80
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
-
-    from requests import Response
-    from requests.auth import AuthBase
 
     from weblate.auth.models import User
     from weblate.checks.base import Highlight
@@ -90,6 +91,16 @@ class GlossaryAlreadyExistsError(MachineTranslationError):
 
 class GlossaryDoesNotExistError(MachineTranslationError):
     """Raised when glossary deletion fails because it does not exist."""
+
+
+@dataclass
+class TranslationDownloadPlan:
+    output: list[list[TranslationResultDict]]
+    pending: dict[str, list[tuple[int, Unit | None, str, dict[str, str]]]]
+    pending_units: dict[str, Unit | None]
+    pending_texts: dict[str, str]
+    pending_occurrences: dict[str, int]
+    cache_keys: dict[str, str | None]
 
 
 class BatchMachineTranslation(DocVersionsMixin):
@@ -191,30 +202,25 @@ class BatchMachineTranslation(DocVersionsMixin):
         """Add authentication headers to request."""
         return {}
 
-    def get_auth(self) -> tuple[str, str] | AuthBase | None:
+    def get_auth(self) -> tuple[str, str] | httpx2.Auth | None:
         return None
 
-    def check_failure(self, response: Response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         # Directly raise error as last resort, subclass can prepend this
         # with something more clever
         try:
             response.raise_for_status()
-        except HTTPError as error:
+        except httpx2.HTTPStatusError as error:
             if detail := self.get_error_detail(response):
                 message = f"{error.args[0]}: {detail[:200]}"
-                raise HTTPError(message, response=response) from error
+                raise httpx2.HTTPStatusError(
+                    message, request=response.request, response=response
+                ) from error
             raise
 
     @property
     def allow_private_targets(self) -> bool:
         return "_project" not in self.settings
-
-    def validate_runtime_url(self, url: str) -> None:
-        validate_request_url(
-            url,
-            allow_private_targets=self.allow_private_targets,
-            allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
-        )
 
     @staticmethod
     def get_host_from_setting(value: object) -> str | None:
@@ -267,28 +273,28 @@ class BatchMachineTranslation(DocVersionsMixin):
                 return True
         return False
 
-    def can_display_error_detail(self, response: Response) -> bool:
+    def can_display_error_detail(self, response: httpx2.Response) -> bool:
         if self.allow_private_targets:
             return True
         return self.is_trusted_error_host(response)
 
-    def is_trusted_error_host(self, response: Response) -> bool:
+    def is_trusted_error_host(self, response: httpx2.Response) -> bool:
         if (
             self.settings_form is not None
             and not self.has_configurable_outbound_target()
         ):
             return True
-        hostname = urlparse(response.url).hostname or ""
+        hostname = response.url.host
         return is_allowlisted_hostname(hostname, list(self.get_trusted_error_hosts()))
 
-    def get_error_detail(self, response: Response) -> str | None:
+    def get_error_detail(self, response: httpx2.Response) -> str | None:
         if not self.can_display_error_detail(response):
             return None
         trusted_host = self.is_trusted_error_host(response)
 
         try:
             payload = response.json()
-        except JSONDecodeError:
+        except JSON_RESPONSE_ERRORS:
             if trusted_host:
                 return response.text or None
             return None
@@ -311,8 +317,7 @@ class BatchMachineTranslation(DocVersionsMixin):
             return response.text or None
         return None
 
-    def request(self, method, url, skip_auth=False, **kwargs):
-        """Perform JSON request."""
+    def _prepare_request_kwargs(self, skip_auth: bool, kwargs: dict) -> dict:
         # Create custom headers
         headers = {
             "Referer": get_site_url(),
@@ -323,29 +328,51 @@ class BatchMachineTranslation(DocVersionsMixin):
         # Optional authentication
         if not skip_auth:
             headers.update(self.get_headers())
+        return {
+            **kwargs,
+            "headers": headers,
+            "timeout": self.request_timeout,
+            "auth": self.get_auth(),
+            "raise_for_status": False,
+        }
 
+    def request(self, method, url, skip_auth=False, **kwargs):
+        """Perform JSON request."""
+        request_kwargs = self._prepare_request_kwargs(skip_auth, kwargs)
         # Fire request
         if self.allow_private_targets:
             response = fetch_url(
                 method,
                 url,
-                headers=headers,
-                timeout=self.request_timeout,
-                auth=self.get_auth(),
-                raise_for_status=False,
-                **kwargs,
+                **request_kwargs,
             )
         else:
             response = fetch_validated_url(
                 method,
                 url,
-                headers=headers,
-                timeout=self.request_timeout,
-                auth=self.get_auth(),
-                raise_for_status=False,
                 allow_private_targets=False,
-                allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
-                **kwargs,
+                private_allowlist=settings.ALLOWED_MACHINERY_DOMAINS,
+                **request_kwargs,
+            )
+
+        self.check_failure(response)
+
+        return response
+
+    async def arequest(self, method, url, skip_auth=False, **kwargs):
+        """Perform JSON request without blocking the event loop."""
+        request_kwargs = await sync_to_async(self._prepare_request_kwargs)(
+            skip_auth, kwargs
+        )
+        if self.allow_private_targets:
+            response = await async_fetch_url(method, url, **request_kwargs)
+        else:
+            response = await async_fetch_validated_url(
+                method,
+                url,
+                allow_private_targets=False,
+                private_allowlist=settings.ALLOWED_MACHINERY_DOMAINS,
+                **request_kwargs,
             )
 
         self.check_failure(response)
@@ -364,11 +391,18 @@ class BatchMachineTranslation(DocVersionsMixin):
         return code
 
     def report_error(
-        self, cause: str, extra_log: str | None = None, message: bool = False
+        self,
+        cause: str,
+        extra_log: str | None = None,
+        message: bool = False,
+        exception: BaseException | None = None,
     ) -> None:
         """Report error situations."""
         report_error(
-            f"machinery[{self.name}]: {cause}", extra_log=extra_log, message=message
+            f"machinery[{self.name}]: {cause}",
+            extra_log=extra_log,
+            message=message,
+            exception=exception,
         )
 
     def log_handled_error(self, cause: str, extra_log: str | None = None) -> None:
@@ -417,7 +451,7 @@ class BatchMachineTranslation(DocVersionsMixin):
     def is_rate_limit_error(self, exc: Exception) -> bool:
         if isinstance(exc, MachineryRateLimitError):
             return True
-        if not isinstance(exc, HTTPError) or exc.response is None:
+        if not isinstance(exc, httpx2.HTTPStatusError):
             return False
         # Apply rate limiting for following status codes:
         # HTTP 456 Client Error: Quota Exceeded (DeepL)
@@ -662,8 +696,7 @@ class BatchMachineTranslation(DocVersionsMixin):
             text=text,
         )
 
-    def search(self, unit, text, user: User | None):
-        """Search for known translations of `text`."""
+    def _prepare_search(self, unit, text):
         translation = unit.translation
         try:
             source_language, target_language = self.get_languages(
@@ -676,11 +709,31 @@ class BatchMachineTranslation(DocVersionsMixin):
                 translation.component.source_language.code,
                 translation.language.code,
             )
-            return []
+            return None
 
         self.account_usage(translation.component.project)
+        return source_language, target_language, [(text, unit)]
+
+    def search(self, unit, text, user: User | None):
+        """Search for known translations of `text`."""
+        prepared = self._prepare_search(unit, text)
+        if prepared is None:
+            return []
+        source_language, target_language, sources = prepared
         return self._translate_sources(
-            source_language, target_language, [(text, unit)], user, threshold=10
+            source_language, target_language, sources, user, threshold=10
+        )[0]
+
+    async def asearch(self, unit, text, user: User | None):
+        """Search for known translations without blocking the event loop."""
+        prepared = await sync_to_async(self._prepare_search)(unit, text)
+        if prepared is None:
+            return []
+        source_language, target_language, sources = prepared
+        return (
+            await self._atranslate_sources(
+                source_language, target_language, sources, user, threshold=10
+            )
         )[0]
 
     def get_default_source_language(self, translation: Translation) -> Language:
@@ -700,15 +753,12 @@ class BatchMachineTranslation(DocVersionsMixin):
 
         return self.get_default_source_language(translation)
 
-    def translate(
+    def _prepare_translate(
         self,
         unit: Unit,
-        user: User | None = None,
-        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
         *,
         source_language: Language | None = None,
     ):
-        """Return list of machine translations."""
         translation = unit.translation
         if source_language is None:
             # Fall back to component source language
@@ -728,7 +778,7 @@ class BatchMachineTranslation(DocVersionsMixin):
                 source_language.code,
                 translation.language.code,
             )
-            return []
+            return None
 
         self.account_usage(translation.component.project)
 
@@ -740,13 +790,68 @@ class BatchMachineTranslation(DocVersionsMixin):
             alternate_units = plural_mapper.get_other_units([unit], source_language)
 
         plural_mapper.map_units([unit], alternate_units)
-        return self._translate_sources(
+        return (
             mapped_source_language,
             target_language,
             [(text, unit) for text in unit.plural_map],
+        )
+
+    def translate(
+        self,
+        unit: Unit,
+        user: User | None = None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+        *,
+        source_language: Language | None = None,
+    ):
+        """Return list of machine translations."""
+        prepared = self._prepare_translate(unit, source_language=source_language)
+        if prepared is None:
+            return []
+        mapped_source_language, target_language, sources = prepared
+        return self._translate_sources(
+            mapped_source_language,
+            target_language,
+            sources,
             user,
             threshold=threshold,
         )
+
+    async def atranslate(
+        self,
+        unit: Unit,
+        user: User | None = None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+        *,
+        source_language: Language | None = None,
+    ):
+        """Return machine translations without blocking the event loop."""
+        prepared = await sync_to_async(self._prepare_translate)(
+            unit, source_language=source_language
+        )
+        if prepared is None:
+            return []
+        mapped_source_language, target_language, sources = prepared
+        return await self._atranslate_sources(
+            mapped_source_language,
+            target_language,
+            sources,
+            user,
+            threshold=threshold,
+        )
+
+    async def adownload_multiple_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user: User | None = None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadMultipleTranslations:
+        """Download translations while keeping synchronous backends usable."""
+        return await sync_to_async(
+            self.download_multiple_translations, thread_sensitive=False
+        )(source_language, target_language, sources, user, threshold)
 
     def download_multiple_translations(
         self,
@@ -795,6 +900,47 @@ class BatchMachineTranslation(DocVersionsMixin):
         user=None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> list[list[TranslationResultDict]]:
+        plan = self._prepare_translation_download(
+            source_language, target_language, sources, threshold
+        )
+        if plan.pending:
+            self._download_pending_translations(
+                plan,
+                source_language=source_language,
+                target_language=target_language,
+                user=user,
+                threshold=threshold,
+            )
+        return plan.output
+
+    async def _atranslate_sources(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> list[list[TranslationResultDict]]:
+        plan = await sync_to_async(self._prepare_translation_download)(
+            source_language, target_language, sources, threshold
+        )
+        if plan.pending:
+            await self._adownload_pending_translations(
+                plan,
+                source_language=source_language,
+                target_language=target_language,
+                user=user,
+                threshold=threshold,
+            )
+        return plan.output
+
+    def _prepare_translation_download(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        threshold: int,
+    ) -> TranslationDownloadPlan:
         output: list[list[TranslationResultDict]] = [[] for _source in sources]
         pending: dict[str, list[tuple[int, Unit | None, str, dict[str, str]]]] = (
             defaultdict(list)
@@ -855,48 +1001,29 @@ class BatchMachineTranslation(DocVersionsMixin):
             pending_occurrences[pending_key] = source_occurrence
             cache_keys[pending_key] = cache_key
 
-        # Fetch pending strings to translate
-        if pending:
-            self._download_pending_translations(
-                pending,
-                pending_units,
-                pending_texts,
-                pending_occurrences,
-                cache_keys,
-                output,
-                source_language=source_language,
-                target_language=target_language,
-                user=user,
-                threshold=threshold,
-            )
-        return output
+        return TranslationDownloadPlan(
+            output=output,
+            pending=pending,
+            pending_units=pending_units,
+            pending_texts=pending_texts,
+            pending_occurrences=pending_occurrences,
+            cache_keys=cache_keys,
+        )
 
     def _download_pending_translations(
         self,
-        pending: dict[str, list[tuple[int, Unit | None, str, dict[str, str]]]],
-        pending_units: dict[str, Unit | None],
-        pending_texts: dict[str, str],
-        pending_occurrences: dict[str, int],
-        cache_keys: dict[str, str | None],
-        output: list[list[TranslationResultDict]],
+        plan: TranslationDownloadPlan,
         *,
         source_language,
         target_language,
         user=None,
         threshold: int = MACHINERY_DEFAULT_THRESHOLD,
     ) -> None:
-        remaining_keys = list(pending)
+        remaining_keys = list(plan.pending)
         while remaining_keys:
-            batch_keys: list[str] = []
-            batch_texts: set[str] = set()
-            next_remaining_keys: list[str] = []
-            for pending_key in remaining_keys:
-                text = pending_texts[pending_key]
-                if text in batch_texts:
-                    next_remaining_keys.append(pending_key)
-                    continue
-                batch_keys.append(pending_key)
-                batch_texts.add(text)
+            batch_keys, remaining_keys = self._get_pending_batch(
+                remaining_keys, plan.pending_texts
+            )
 
             # Unit is only used in WeblateMemory and it is used only to get a project
             # so it doesn't matter we potentially flatten this.
@@ -906,9 +1033,9 @@ class BatchMachineTranslation(DocVersionsMixin):
                     target_language,
                     [
                         (
-                            pending_texts[pending_key],
-                            pending_units[pending_key],
-                            pending_occurrences[pending_key],
+                            plan.pending_texts[pending_key],
+                            plan.pending_units[pending_key],
+                            plan.pending_occurrences[pending_key],
                         )
                         for pending_key in batch_keys
                     ],
@@ -916,31 +1043,93 @@ class BatchMachineTranslation(DocVersionsMixin):
                     threshold,
                 )
             except Exception as exc:
-                if self.is_rate_limit_error(exc):
-                    self.set_rate_limit()
+                self._handle_download_error(exc)
 
-                self.report_error("Could not fetch translations")
-                if isinstance(exc, MachineTranslationError):
-                    raise
-                raise MachineTranslationError(self.get_error_message(exc)) from exc
+            self._apply_downloaded_translations(plan, batch_keys, translations)
 
-            # Postprocess translations
-            for pending_key in batch_keys:
-                text = pending_texts[pending_key]
-                result = translations[text]
-                for index, _unit, original_source, replacements in pending[pending_key]:
-                    # Always operate on copy of the dictionaries
-                    partial = [x.copy() for x in result]
+    async def _adownload_pending_translations(
+        self,
+        plan: TranslationDownloadPlan,
+        *,
+        source_language,
+        target_language,
+        user=None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> None:
+        remaining_keys = list(plan.pending)
+        while remaining_keys:
+            batch_keys, remaining_keys = self._get_pending_batch(
+                remaining_keys, plan.pending_texts
+            )
+            try:
+                translations = await self.adownload_pending_translations(
+                    source_language,
+                    target_language,
+                    [
+                        (
+                            plan.pending_texts[pending_key],
+                            plan.pending_units[pending_key],
+                            plan.pending_occurrences[pending_key],
+                        )
+                        for pending_key in batch_keys
+                    ],
+                    user,
+                    threshold,
+                )
+            except Exception as exc:
+                await sync_to_async(self._handle_download_error)(exc)
 
-                    for item in partial:
-                        item["original_source"] = original_source
-                    if cache_key := cache_keys[pending_key]:
-                        cache.set(cache_key, partial, self.cache_expiry)
-                    if replacements or self.force_uncleanup:
-                        self.uncleanup_results(replacements, partial)
-                    output[index] = partial
+            await sync_to_async(self._apply_downloaded_translations)(
+                plan, batch_keys, translations
+            )
 
-            remaining_keys = next_remaining_keys
+    @staticmethod
+    def _get_pending_batch(
+        remaining_keys: list[str], pending_texts: dict[str, str]
+    ) -> tuple[list[str], list[str]]:
+        batch_keys: list[str] = []
+        batch_texts: set[str] = set()
+        next_remaining_keys: list[str] = []
+        for pending_key in remaining_keys:
+            text = pending_texts[pending_key]
+            if text in batch_texts:
+                next_remaining_keys.append(pending_key)
+                continue
+            batch_keys.append(pending_key)
+            batch_texts.add(text)
+        return batch_keys, next_remaining_keys
+
+    def _handle_download_error(self, exc: Exception) -> None:
+        if self.is_rate_limit_error(exc):
+            self.set_rate_limit()
+
+        self.report_error("Could not fetch translations", exception=exc)
+        if isinstance(exc, MachineTranslationError):
+            raise exc
+        raise MachineTranslationError(self.get_error_message(exc)) from exc
+
+    def _apply_downloaded_translations(
+        self,
+        plan: TranslationDownloadPlan,
+        batch_keys: list[str],
+        translations: DownloadMultipleTranslations,
+    ) -> None:
+        for pending_key in batch_keys:
+            text = plan.pending_texts[pending_key]
+            result = translations[text]
+            for index, _unit, original_source, replacements in plan.pending[
+                pending_key
+            ]:
+                # Always operate on copy of the dictionaries
+                partial = [x.copy() for x in result]
+
+                for item in partial:
+                    item["original_source"] = original_source
+                if cache_key := plan.cache_keys[pending_key]:
+                    cache.set(cache_key, partial, self.cache_expiry)
+                if replacements or self.force_uncleanup:
+                    self.uncleanup_results(replacements, partial)
+                plan.output[index] = partial
 
     def download_pending_translations(
         self,
@@ -958,10 +1147,34 @@ class BatchMachineTranslation(DocVersionsMixin):
             threshold,
         )
 
+    async def adownload_pending_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None, int]],
+        user: User | None = None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadMultipleTranslations:
+        if (
+            type(self).download_pending_translations
+            is BatchMachineTranslation.download_pending_translations
+        ):
+            return await self.adownload_multiple_translations(
+                source_language,
+                target_language,
+                [(text, unit) for text, unit, _occurrence in sources],
+                user,
+                threshold,
+            )
+        return await sync_to_async(
+            self.download_pending_translations, thread_sensitive=False
+        )(source_language, target_language, sources, user, threshold)
+
     def get_error_message(self, exc: Exception) -> str:
         message = f"{exc.__class__.__name__}: {exc}"
-        if isinstance(exc, RequestException) and exc.response:
-            detail = self.get_error_detail(exc.response)
+        response = getattr(exc, "response", None)
+        if isinstance(exc, httpx2.HTTPError) and response is not None:
+            detail = self.get_error_detail(response)
             if detail and detail not in str(exc):
                 return f"{message}: {detail}"
         return message
@@ -1056,6 +1269,30 @@ class BatchMachineTranslation(DocVersionsMixin):
 
 
 class MachineTranslation(BatchMachineTranslation):
+    async def adownload_translations(
+        self,
+        source_language,
+        target_language,
+        text: str,
+        unit: Unit | None,
+        user: User | None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadTranslations:
+        """Download one translation using a synchronous backend as fallback."""
+        return await sync_to_async(
+            lambda: list(
+                self.download_translations(
+                    source_language,
+                    target_language,
+                    text,
+                    unit,
+                    user,
+                    threshold=threshold,
+                )
+            ),
+            thread_sensitive=False,
+        )()
+
     def download_translations(
         self,
         source_language,
@@ -1098,6 +1335,28 @@ class MachineTranslation(BatchMachineTranslation):
             )
             for text, unit in sources
         }
+
+    async def adownload_multiple_translations(
+        self,
+        source_language,
+        target_language,
+        sources: list[tuple[str, Unit | None]],
+        user: User | None = None,
+        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
+    ) -> DownloadMultipleTranslations:
+        result: DownloadMultipleTranslations = {}
+        for text, unit in sources:
+            result[text] = list(
+                await self.adownload_translations(
+                    source_language,
+                    target_language,
+                    text,
+                    unit,
+                    user,
+                    threshold=threshold,
+                )
+            )
+        return result
 
 
 class InternalMachineTranslation(MachineTranslation):
@@ -1308,10 +1567,10 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
 
 
 class ResponseStatusMachineTranslation(MachineTranslation):
-    def check_failure(self, response: Response) -> None:
+    def check_failure(self, response: httpx2.Response) -> None:
         try:
             payload = response.json()
-        except JSONDecodeError:
+        except JSON_RESPONSE_ERRORS:
             super().check_failure(response)
             return
 

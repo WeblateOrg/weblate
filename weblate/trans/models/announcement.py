@@ -4,6 +4,10 @@
 
 """Announcement model."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, TypedDict
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
@@ -12,6 +16,21 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+
+
+class AnnouncementChangeKwargs(TypedDict):
+    action: int
+    project_id: int | None
+    category_id: int | None
+    component_id: int | None
+    language_id: int | None
+    announcement_id: int
+    target: str
+    user: User | None
+
 
 ANNOUNCEMENT_SEVERITY_CHOICES = (
     ("info", gettext_lazy("Info (light blue)")),
@@ -22,6 +41,34 @@ ANNOUNCEMENT_SEVERITY_CHOICES = (
 
 
 class AnnouncementManager(models.Manager["Announcement"]):
+    @staticmethod
+    def _normalize_create_scope(kwargs) -> None:
+        has_category = (
+            kwargs.get("category") is not None or kwargs.get("category_id") is not None
+        )
+        has_component = (
+            kwargs.get("component") is not None
+            or kwargs.get("component_id") is not None
+        )
+        if has_category and not has_component:
+            kwargs.pop("project", None)
+            kwargs["project_id"] = None
+
+    @staticmethod
+    def _get_change_kwargs(
+        result, project_id: int | None, user: User | None
+    ) -> AnnouncementChangeKwargs:
+        return {
+            "action": ActionEvents.ANNOUNCEMENT,
+            "project_id": project_id,
+            "category_id": result.category_id,
+            "component_id": result.component_id,
+            "language_id": result.language_id,
+            "announcement_id": result.pk,
+            "target": result.message,
+            "user": user,
+        }
+
     @staticmethod
     def _category_filter(category):
         category_ids = []
@@ -113,25 +160,43 @@ class AnnouncementManager(models.Manager["Announcement"]):
 
     def create(self, user=None, **kwargs):
         # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.category import Category
+
+        # ruff: ignore[import-outside-top-level]
         from weblate.trans.models.change import Change
 
-        if kwargs.get("category") is not None and kwargs.get("component") is None:
-            kwargs["project"] = None
+        self._normalize_create_scope(kwargs)
 
         result = super().create(**kwargs)
-        project = result.project
-        if project is None and result.category is not None:
-            project = result.category.project
+        project_id = result.project_id
+        if project_id is None and result.category_id is not None:
+            project_id = Category.objects.values_list("project_id", flat=True).get(
+                pk=result.category_id
+            )
 
         Change.objects.create(
-            action=ActionEvents.ANNOUNCEMENT,
-            project=project,
-            category=result.category,
-            component=result.component,
-            language=result.language,
-            announcement=result,
-            target=result.message,
-            user=user,
+            **self._get_change_kwargs(result, project_id, user),
+        )
+        return result
+
+    async def acreate(self, user=None, **kwargs):
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.category import Category
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models.change import Change
+
+        self._normalize_create_scope(kwargs)
+
+        result = await super().acreate(**kwargs)
+        project_id = result.project_id
+        if project_id is None and result.category_id is not None:
+            project_id = await Category.objects.values_list(
+                "project_id", flat=True
+            ).aget(pk=result.category_id)
+
+        await Change.objects.acreate(
+            **self._get_change_kwargs(result, project_id, user),
         )
         return result
 

@@ -24,7 +24,7 @@ from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_path
 from weblate.utils.files import cleanup_error_message, remove_tree
 from weblate.utils.hash import calculate_checksum
-from weblate.utils.validators import DomainOrIPValidator
+from weblate.utils.validators import DomainOrIPValidator, resolve_repo_hostname
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -367,15 +367,33 @@ def add_host_key(
     port: int | None = None,
     *,
     accept_fingerprint: str | None = None,
+    restrict_private: bool = False,
+    validated_addresses: tuple[str, ...] | None = None,
 ) -> None:
     """Add host key for a host."""
     if not host:
         messages.error(request, gettext("Invalid host name given!"))
     else:
+        resolved_hosts: tuple[str, ...] = ()
+        if validated_addresses is not None:
+            resolved_hosts = validated_addresses
+        elif restrict_private:
+            try:
+                resolved_hosts = resolve_repo_hostname(host)
+            except ValidationError as error:
+                add_host_key_error(request, "; ".join(error.messages))
+                return
+        if validated_addresses is not None and not resolved_hosts:
+            add_host_key_error(
+                request, gettext("No validated SSH addresses available.")
+            )
+            return
         cmdline = ["ssh-keyscan"]
         if port:
             cmdline.extend(["-p", str(port)])
-        cmdline.extend(["--", host])
+        if not resolved_hosts:
+            resolved_hosts = (host,)
+        cmdline.extend(["--", *resolved_hosts])
         try:
             result = subprocess.run(
                 cmdline,
@@ -384,9 +402,24 @@ def add_host_key(
                 text=True,
                 capture_output=True,
             )
-            store_host_key_scan_result(request, result, accept_fingerprint)
         except subprocess.CalledProcessError as exc:
             add_host_key_error(request, exc.stderr or exc.stdout)
+            return
+        except OSError as exc:
+            add_host_key_error(request, str(exc))
+            return
+
+        known_host = f"[{host}]:{port}" if port and port != 22 else host
+        output_lines = []
+        for line in result.stdout.splitlines():
+            if line.startswith("#"):
+                output_lines.append(line)
+                continue
+            _scanned_host, separator, key = line.partition(" ")
+            output_lines.append(f"{known_host}{separator}{key}" if separator else line)
+        result.stdout = "\n".join(output_lines)
+        try:
+            store_host_key_scan_result(request, result, accept_fingerprint)
         except OSError as exc:
             add_host_key_error(request, str(exc))
 
@@ -547,6 +580,68 @@ def cleanup_stale_wrapper_dirs(
 def can_generate_key() -> bool:
     """Check whether we can generate key."""
     return find_command("ssh-keygen") is not None
+
+
+def resolve_ssh_destination(
+    hostname: str,
+    username: str | None,
+    explicit_port: int | None,
+) -> tuple[str, int]:
+    """Resolve the effective OpenSSH destination without connecting."""
+    destination = f"{username}@{hostname}" if username else hostname
+    command = [SSH_WRAPPER.filename.as_posix(), "-G"]
+    if explicit_port is not None:
+        command.extend(("-p", str(explicit_port)))
+    command.extend(("--", destination))
+
+    try:
+        SSH_WRAPPER.create()
+        result = subprocess.run(
+            command,
+            env=get_clean_env(),
+            check=True,
+            text=True,
+            capture_output=True,
+        )
+    except subprocess.CalledProcessError as error:
+        detail = (error.stderr or error.stdout or "").strip()
+        if not detail:
+            raise ValidationError(
+                gettext("Could not determine the effective SSH destination.")
+            ) from error
+        raise ValidationError(
+            gettext("Could not determine the effective SSH destination: %s")
+            % cleanup_error_message(detail)
+        ) from error
+    except OSError as error:
+        raise ValidationError(
+            gettext("Could not determine the effective SSH destination: %s")
+            % cleanup_error_message(str(error))
+        ) from error
+
+    configuration: dict[str, str] = {}
+    for line in result.stdout.splitlines():
+        key, separator, value = line.partition(" ")
+        if separator:
+            configuration[key.casefold()] = value.strip()
+
+    effective_hostname = configuration.get("hostname")
+    effective_port = configuration.get("port")
+    if not effective_hostname or not effective_port:
+        raise ValidationError(
+            gettext("Could not determine the effective SSH destination.")
+        )
+    try:
+        parsed_port = int(effective_port)
+    except ValueError as error:
+        raise ValidationError(
+            gettext("Could not determine the effective SSH destination.")
+        ) from error
+    if not 0 < parsed_port <= 65535:
+        raise ValidationError(
+            gettext("Could not determine the effective SSH destination.")
+        )
+    return effective_hostname, parsed_port
 
 
 SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh

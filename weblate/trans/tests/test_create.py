@@ -489,6 +489,89 @@ class CreateTest(ViewTestCase):
         self.assertIn("vcs", form.errors)
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_carries_canonical_repository_url(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        original_url = self.component.repo
+        canonical_url = f"{original_url}-canonical"
+        request = self.get_request()
+
+        def canonicalize(component: Component) -> None:
+            component.repo = canonical_url
+
+        form = ComponentInitCreateForm(
+            request,
+            data={
+                "name": "Redirected Component",
+                "slug": "redirected-component",
+                "project": self.project.pk,
+                "source_language": get_default_lang(),
+                "vcs": "git",
+                "repo": original_url,
+                "branch": "main",
+            },
+        )
+        form.fields["project"].queryset = Project.objects.filter(pk=self.project.pk)
+
+        with patch.object(Component, "clean_repo", autospec=True) as clean_repo:
+            clean_repo.side_effect = canonicalize
+            self.assertTrue(form.is_valid(), form.errors)
+
+        self.assertEqual(form.cleaned_data["repo"], canonical_url)
+        proof = form.cleaned_data["repository_redirect_proof"]
+        self.assertIsInstance(proof, str)
+
+        create_form = ComponentCreateForm(
+            request,
+            data={
+                "name": "Redirected Component",
+                "slug": "redirected-component",
+                "project": self.project.pk,
+                "source_language": get_default_lang(),
+                "vcs": "git",
+                "repo": canonical_url,
+                "branch": "main",
+                "file_format": "po",
+                "filemask": "po/*.po",
+                "new_lang": "add",
+                "language_regex": "^[^.]+$",
+                "repository_redirect_proof": proof,
+            },
+        )
+        with patch.object(Component, "clean"):
+            self.assertTrue(create_form.is_valid(), create_form.errors)
+        self.assertEqual(
+            create_form.instance.repository_redirect_changes,
+            [("repo", original_url, canonical_url)],
+        )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_rejects_forged_repository_redirect_proof(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+
+        form = ComponentCreateForm(
+            self.get_request(),
+            data={
+                "name": "Redirected Component",
+                "slug": "redirected-component",
+                "project": self.project.pk,
+                "source_language": get_default_lang(),
+                "vcs": "git",
+                "repo": self.component.repo,
+                "branch": "main",
+                "file_format": "po",
+                "filemask": "po/*.po",
+                "new_lang": "add",
+                "language_regex": "^[^.]+$",
+                "repository_redirect_proof": "forged",
+            },
+        )
+        with patch.object(Component, "clean"):
+            self.assertTrue(form.is_valid(), form.errors)
+        self.assertIsNone(form.instance.repository_redirect_changes)
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_accepts_github_app_repository_link(self) -> None:
         self.user.is_superuser = True
         self.user.save()

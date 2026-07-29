@@ -14,6 +14,7 @@ from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django_otp import DEVICE_ID_SESSION_KEY
 from django_otp.plugins.otp_totp.models import TOTPDevice
+from rest_framework.authtoken.models import Token
 
 from weblate.accounts.models import format_private_commit_data
 from weblate.accounts.pipeline import slugify_username
@@ -28,6 +29,7 @@ from weblate.accounts.utils import (
     SESSION_EXPIRY_SCOPE_SAML,
     adjust_session_expiry,
     get_session_expiry_refresh_seconds,
+    lock_user,
 )
 from weblate.auth.models import User
 from weblate.utils.validators import EmailValidator, validate_username
@@ -41,6 +43,26 @@ class PipelineTest(SimpleTestCase):
         self.assertEqual(slugify_username(" zkouska "), "zkouska")
         self.assertEqual(slugify_username("ahoj - ahoj"), "ahoj-ahoj")
         self.assertEqual(slugify_username("..test"), "test")
+
+
+class LockUserTest(TestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(
+            username="testuser", password="testpassword"
+        )
+        self.old_token = self.user.auth_token.key
+
+    def test_regenerate_api_key(self) -> None:
+        lock_user(self.user, "admin-locked")
+
+        token = Token.objects.get(user=self.user)
+        self.assertNotEqual(token.key, self.old_token)
+        self.assertFalse(Token.objects.filter(key=self.old_token).exists())
+
+    def test_keep_api_key(self) -> None:
+        lock_user(self.user, "locked", regenerate_api_key=False)
+
+        self.assertEqual(Token.objects.get(user=self.user).key, self.old_token)
 
 
 class SessionExpiryTest(TestCase):

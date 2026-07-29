@@ -8,14 +8,14 @@ from typing import TYPE_CHECKING
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import aget_object_or_404, get_object_or_404, redirect
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from weblate.trans.forms import LabelForm
 from weblate.trans.models import Label, Project
 from weblate.trans.util import render
-from weblate.utils.views import parse_path
+from weblate.utils.views import aparse_path, parse_path
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -78,14 +78,14 @@ def label_edit(request: AuthenticatedHttpRequest, project, pk):
 @login_required
 @never_cache
 @require_POST
-def label_delete(request: AuthenticatedHttpRequest, project, pk):
-    obj = parse_path(request, [project], (Project,))
+async def label_delete(request: AuthenticatedHttpRequest, project, pk):
+    obj = await aparse_path(request, [project], (Project,))
 
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied
 
-    label = get_object_or_404(Label, pk=pk, project=obj)
+    label = await aget_object_or_404(Label, pk=pk, project=obj)
 
-    label.delete()
+    await label.adelete()
 
     return redirect("labels", project=project)

@@ -51,7 +51,37 @@ class AnthropicTranslation(BaseLLMTranslation):
         self, prompt: str, content: str, previous_content: str, previous_response: str
     ) -> str | None:
         model = self.get_traced_model()
-        payload = {
+        response = self.request(
+            "post",
+            self.get_chat_url(),
+            json=self.get_chat_payload(
+                model, prompt, content, previous_content, previous_response
+            ),
+        )
+        return self.parse_chat_response(response.json())
+
+    async def afetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
+        model = await self.aget_traced_model()
+        response = await self.arequest(
+            "post",
+            self.get_chat_url(),
+            json=self.get_chat_payload(
+                model, prompt, content, previous_content, previous_response
+            ),
+        )
+        return self.parse_chat_response(response.json())
+
+    def get_chat_payload(
+        self,
+        model: str,
+        prompt: str,
+        content: str,
+        previous_content: str,
+        previous_response: str,
+    ) -> dict:
+        return {
             "model": model,
             "max_tokens": self.settings.get("max_tokens", 4096),
             "system": prompt,
@@ -61,13 +91,15 @@ class AnthropicTranslation(BaseLLMTranslation):
                 {"role": "user", "content": content},
             ],
         }
-        api_url = urljoin(
+
+    def get_chat_url(self) -> str:
+        return urljoin(
             self.settings.get("base_url") or "https://api.anthropic.com",
             self.end_point,
         )
-        response = self.request("post", api_url, json=payload)
-        response_data = response.json()
 
+    @staticmethod
+    def parse_chat_response(response_data) -> str | None:
         content_blocks = response_data.get("content", [])
         for block in content_blocks:
             if isinstance(block, dict) and block.get("type") == "text":

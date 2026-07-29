@@ -47,7 +47,7 @@
         </span>
       {% endif %}
     </p>
-    {% if page_profile.translated or page_profile.suggested or page_profile.uploaded %}
+    {% if page_profile.translated or page_profile.suggested or page_profile.uploaded or page_profile.commented %}
       <p>
         {% if page_profile.translated %}
           <span class="middle-dot-divider">
@@ -445,7 +445,19 @@
               <div class="card-header text-bg-danger">
                 <h4 class="card-title">{% translate "Password reset" %}</h4>
               </div>
-              <div class="card-body">{% translate "Disables password authentication for the user." %}</div>
+              <div class="card-body">
+                <p>{% translate "Disables password authentication for the user." %}</p>
+                <div class="form-check">
+                  <input class="form-check-input"
+                         type="checkbox"
+                         name="regenerate_api_key"
+                         id="regenerate_api_key_{{ page_user.id }}"
+                         aria-describedby="regenerate_api_key_help_{{ page_user.id }}"
+                         checked />
+                  <label class="form-check-label" for="regenerate_api_key_{{ page_user.id }}">{% translate "Regenerate API key" %}</label>
+                  <div class="form-text" id="regenerate_api_key_help_{{ page_user.id }}">{% translate "Leave enabled to revoke the current API key and generate a new one." %}</div>
+                </div>
+              </div>
               <div class="card-footer">
                 <input type="submit"
                        name="disable_password"

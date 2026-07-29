@@ -33,15 +33,16 @@
 # Hosted Weblate user 54392 <hamburger2048@users.noreply.hosted.weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # reducedradius <137701630+flytothehighest@users.noreply.github.com>, 2026.
+# AlexYang <A012pyshjs210@126.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-23 09:05+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-26 06:06+0000\n"
+"Last-Translator: Hosted Weblate user 54392 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -453,6 +454,10 @@ msgid ""
 "the cleanup actions in the block form. For users who are already blocked, "
 "use :guilabel:`Clean up user contributions` in the blocked users list."
 msgstr ""
+"当封禁垃圾信息发送者或恶意账户时，项目管理员还可以清理该用户在该项目中的现有"
+"贡献。请依次前往 :guilabel:`操作` ↓ :guilabel:`用户`，封禁该用户，并在封禁表"
+"单中选择清理操作。对于已被封禁的用户，请在已封禁用户列表中使用 :guilabel:`清"
+"理用户贡献`。"
 
 #: admin/access.rst:230
 msgid "The available cleanup actions are:"
@@ -462,16 +467,16 @@ msgstr "可用的清理操作有："
 msgid ""
 ":guilabel:`Revert user edits` reverts the latest editable translations by "
 "the user."
-msgstr ""
+msgstr ":guilabel:`撤销用户编辑` 撤销该用户最新的可编辑翻译。"
 
 #: admin/access.rst:234
 msgid ""
 ":guilabel:`Reject user suggestions` rejects pending suggestions by the user."
-msgstr ""
+msgstr ":guilabel:`拒绝用户建议` 拒绝该用户待处理的建议。"
 
 #: admin/access.rst:235
 msgid ":guilabel:`Delete user comments` deletes comments by the user."
-msgstr ""
+msgstr ":guilabel:`删除用户评论` 删除用户的评论。"
 
 #: admin/access.rst:237
 msgid ""
@@ -481,6 +486,10 @@ msgid ""
 "user's profile, select the :guilabel:`Edit` tab, and "
 "use :guilabel:`Contribution cleanup`."
 msgstr ""
+"拥有全站 ``user.edit`` 权限的站点管理员可以在 :guilabel:`用户` 标签页中的 "
+":ref:`管理界面 <management-interface>` 对所有项目执行相同的批量清理。只需打开"
+"该用户的个人资料，选择 :guilabel:`编辑` 标签页，然后使用 :guilabel:`清理贡"
+"献` 即可。"
 
 #: admin/access.rst:244
 msgid "Per-project permission management"
@@ -1447,12 +1456,17 @@ msgid ""
 "that is not due yet. A successful entry can still mean that the add-on "
 "checked its inputs but found nothing to change."
 msgstr ""
+"每条记录会显示处理状态为待处理、成功、失败还是已跳过。已跳过的记录会包含附加"
+"组件未运行的原因，例如组件不兼容、无相关更改或尚未到达设定的运行计划时间。显"
+"示为成功的记录仍可能表示该附加组件检查了输入但未发现需要更改的内容。"
 
 #: admin/addons.rst:197
 msgid ""
 "For scope-wide add-ons that process components independently, the activity "
 "log contains a separate entry for each component."
 msgstr ""
+"对于独立处理各个组件的作用域级附加组件，活动日志会为每个组件包含一条单独的记"
+"录。"
 
 #: admin/addons.rst:200
 msgid ""
@@ -1510,6 +1524,8 @@ msgid ""
 "Users and teams, see :ref:`custom-acl`; site administrators can "
 "also :ref:`clean up user contributions <cleanup-user-contributions>`."
 msgstr ""
+"用户和团队，请参阅 :ref:`custom-acl`；站点管理员还可以 :ref:`清理用户贡献 "
+"<cleanup-user-contributions>`。"
 
 #: admin/admin.rst:22
 msgid ":ref:`manage-appearance`."
@@ -1640,6 +1656,8 @@ msgid ""
 "Use the Weblate UI or API for normal operations such as creating projects, "
 "creating components, managing users, or posting announcements."
 msgstr ""
+"使用 Weblate 界面或 API 进行常规操作，例如创建项目、创建组件、管理用户或发布"
+"公告。"
 
 #: admin/admin.rst:98
 msgid "Project and component creation"
@@ -1653,6 +1671,9 @@ msgid ""
 "and :ref:`component` for the available settings, and :ref:`bimono` for how "
 "bilingual and monolingual formats differ."
 msgstr ""
+"项目和部件可在 Weblate 常规界面中创建。一个项目可以包含多个翻译组件，而组件可"
+"使用双语或单语翻译文件。关于可用设置，请参阅 :ref:`project` 和 "
+":ref:`component`；关于双语与单语格式的区别，请参阅 :ref:`bimono`。"
 
 #: admin/announcements.rst:2 snippets/permissions.rst:321
 msgid "Announcements"
@@ -2301,6 +2322,8 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"部分身份提供者（Identity Provider，如启用了多因素身份验证的 Microsoft Entra "
+"ID）要求在 SAML 安全配置中禁用默认的 ``requestedAuthnContext``："
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
@@ -2606,7 +2629,7 @@ msgstr ""
 msgid ""
 "Project backups can also be created, listed, and downloaded through "
 "the :ref:`api` since version 2026.7;"
-msgstr ""
+msgstr "自 2026.7 版本起，还可以通过 :ref:`api` 创建、列出和下载项目备份；"
 
 #: admin/backup.rst:26
 msgid ""
@@ -3747,12 +3770,17 @@ msgid ""
 "Weblate instance, and on whether Weblate should push directly or create pull "
 "or merge requests."
 msgstr ""
+"Weblate 与代码托管平台的集成体现在多个独立环节：代码库访问、接收通知以及推送"
+"翻译结果。具体配置取决于您使用的是 Hosted Weblate 还是自行托管 Weblate 实例，"
+"以及 Weblate 是直接推送代码还是创建 Pull Request / Merge Request。"
 
 #: admin/code-hosting.rst:11
 msgid ""
 "Use this page as a provider-oriented checklist. The individual setting pages "
 "remain the canonical reference for setting syntax."
 msgstr ""
+"本页面仅作为针对各平台的对照检查清单。有关具体配置语法的准确说明，请以各自对"
+"应的设置页面为准。"
 
 #: admin/code-hosting.rst:15
 msgid "Setup overview"
@@ -3769,6 +3797,10 @@ msgid ""
 "GitHub account` flow. The App gives Hosted Weblate repository access without "
 "inviting the hosted :guilabel:`weblate` user."
 msgstr ""
+"如果在 Hosted Weblate 上对接 GitHub 仓库，请在 Weblate 的 :guilabel:`连接 "
+"GitHub 帐户` 流程中安装 `Hosted Weblate App <https://github.com/apps/hosted-"
+"weblate>`_。通过该 App 即可直接向 Hosted Weblate 授予仓库访问权限，无需手动"
+"将 :guilabel:`weblate` 用户添加为 GitHub 仓库成员。"
 
 #: admin/code-hosting.rst:24
 msgid ""
@@ -3798,6 +3830,9 @@ msgid ""
 "The repository webhook or app must point to the matching Weblate hook URL, "
 "and the project must have :ref:`project-enable_hooks` enabled."
 msgstr ""
+"请配置接收通知，以便在代码推送后 Weblate 能及时拉取变更。仓库的 Webhook 或 "
+"App 必须指向对应的 Weblate Hook URL，同时项目必须已启用 :ref:`project-"
+"enable_hooks`。"
 
 #: admin/code-hosting.rst:37
 msgid "Decide how Weblate should push translations back:"
@@ -3817,12 +3852,17 @@ msgid ""
 "or :guilabel:`GitLab`, to create pull or merge requests. These backends need "
 "API credentials in the Weblate settings."
 msgstr ""
+"若要创建 Pull Request 或 Merge Request等，请选择对应平台专用的版本控制后端（"
+"如 :guilabel:`GitHub` 或 :guilabel:`GitLab`）。使用此类后端需要在 Weblate 设"
+"置中配置 API 凭据。"
 
 #: admin/code-hosting.rst:45
 msgid ""
 "Optionally set :ref:`component-push_branch` when Weblate should push to a "
 "branch in the upstream repository instead of using a fork where supported."
 msgstr ""
+"（可选）当 Weblate 需要直接推送到上游仓库的某个分支，而非在支持的平台上使用 "
+"Fork 时，请配置 :ref:`component-push_branch`。"
 
 #: admin/code-hosting.rst:51 admin/continuous.rst:378
 msgid "Pushing changes from Weblate"
@@ -3846,6 +3886,8 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
+"如果您不希望自动推送变更，可以在 :guilabel:`仓库维护` 页面中手动推送，或通过 "
+"API 使用 :option:`wlc push` 命令进行推送。"
 
 #: admin/code-hosting.rst:63
 msgid ""
@@ -4011,6 +4053,11 @@ msgid ""
 "repositories, grant it access to the repositories you want to translate, and "
 "import components from the connected GitHub account."
 msgstr ""
+"在 Hosted Weblate 上，推荐的配置方式是从您项目所在的 Weblate 工作区连接 "
+"`Hosted Weblate App <https://github.com/apps/hosted-weblate>`_。请通过 "
+":guilabel:`连接 GitHub 帐户` 流程，将该 App 安装至拥有待翻译仓库的 GitHub 用"
+"户或组织下，为其授予对应仓库的访问权限，随后即可直接从已连接的 GitHub 帐户导"
+"入部件。"
 
 #: admin/code-hosting.rst:207
 msgid ""
@@ -4020,6 +4067,10 @@ msgid ""
 "Weblate :guilabel:`weblate` GitHub user or configure a separate repository "
 "webhook for components imported this way."
 msgstr ""
+"基于 GitHub App 的集成会使用 GitHub 的“安装访问令牌”（Installation Access "
+"Token）来进行代码克隆、推送翻译分支、创建 Pull Request 以及接收传入的通知。通"
+"过这种方式导入的部件，无需再邀请 Hosted Weblate 的 :guilabel:`weblate` "
+"GitHub 用户，也无需单独配置仓库 Webhook。"
 
 #: admin/code-hosting.rst:213
 msgid ""
@@ -4071,6 +4122,9 @@ msgid ""
 "GitHub SSH URLs for your repositories, for example ``git@github.com:owner/"
 "repo.git``."
 msgstr ""
+"对于 GitHub，请创建一个专用账户（例如 ``weblate-bot``）；在 Weblate 中配置仓"
+"库时，请将仓库 URL 填为 GitHub SSH 地址（例如 ``git@github.com:owner/"
+"repo.git``）。"
 
 #: admin/code-hosting.rst:241
 msgid ""
@@ -4078,6 +4132,9 @@ msgid ""
 "outside the recommended `Hosted Weblate app <https://github.com/apps/hosted-"
 "weblate>`_ workflow."
 msgstr ""
+"在 Hosted Weblate 上，仅当您不使用推荐的 `Hosted Weblate App <https://"
+"github.com/apps/hosted-weblate>`_ 集成、而是需要直接进行 SSH 推送时，才应使用"
+"这种专用 SSH 账户的配置方式。"
 
 #: admin/code-hosting.rst:247
 msgid ""
@@ -4120,6 +4177,9 @@ msgid ""
 "Use it only when you need the legacy app to deliver GitHub notifications to "
 "Hosted Weblate."
 msgstr ""
+"`Hosted Weblate legacy App`_ 仅用于兼容现有的纯 Webhook 配置。只有当您仍需要"
+"通过该旧版 App 向 Hosted Weblate 转发 GitHub 事件通知时，才需保留或使用此选项"
+"。"
 
 #: admin/code-hosting.rst:273
 msgid ""
@@ -4128,6 +4188,9 @@ msgid ""
 "GitHub returns the credentials, and they are stored in the database - there "
 "is no settings-based configuration."
 msgstr ""
+"对于自建（Self-hosted）Weblate 实例，请按照下文说明，直接在 Weblate 界面中完"
+"成 GitHub App 的注册。Weblate 会自动生成 App 清单（App Manifest），GitHub 返"
+"回凭据后将直接存入数据库，无需修改任何配置文件。"
 
 #: admin/code-hosting.rst:281
 msgid "Registering the GitHub App from Weblate"
@@ -4139,16 +4202,18 @@ msgid ""
 "App manifest with the correct permissions, events, and webhook URL pre-"
 "filled:"
 msgstr ""
+"配置 GitHub App 最快捷的方式，是让 Weblate 自动生成包含正确权限、订阅事件及预"
+"填 Webhook URL 的配置清单（App Manifest）："
 
 #: admin/code-hosting.rst:286
 msgid "Sign in to Weblate with an account that has management access."
-msgstr ""
+msgstr "使用具有管理权限的账号登录 Weblate。"
 
 #: admin/code-hosting.rst:287
 msgid ""
 "Open :guilabel:`Manage → Code-hosting connections → Register Weblate GitHub "
 "App`."
-msgstr ""
+msgstr "依次打开：:guilabel:`管理 → 代码托管连接 → 注册 Weblate GitHub App`。"
 
 #: admin/code-hosting.rst:289
 msgid ""
@@ -4157,6 +4222,9 @@ msgid ""
 "Leave :guilabel:`Organization` blank to register the App under your personal "
 "account, or enter an organization slug to register it under that org."
 msgstr ""
+"填写表单。:guilabel:`GitHub 主机` 默认填有 ``github.com``；如有需要，请将其修"
+"改为您的 GitHub Enterprise 主机名。若要在个人账号下注册该 App，请将 "
+":guilabel:`组织` 一栏留空；若要在组织下注册，请输入对应的组织 Slug。"
 
 #: admin/code-hosting.rst:293
 msgid ""
@@ -4164,6 +4232,8 @@ msgid ""
 "GitHub's :guilabel:`Create GitHub App` page (you can still rename the App "
 "there)."
 msgstr ""
+"点击 :guilabel:`继续前往 GitHub` 并在 GitHub 的 :guilabel:`Create GitHub "
+"App` 界面确认（您仍可以在该页面重新命名 App）。"
 
 #: admin/code-hosting.rst:295
 msgid ""
@@ -4172,6 +4242,9 @@ msgid ""
 "database. The :guilabel:`Connect GitHub account` button is available "
 "immediately afterwards."
 msgstr ""
+"GitHub 会重定向回 Weblate，随后 Weblate 会使用该临时授权码换取 App ID、私钥、"
+"Webhook 密钥及 Slug 并存入数据库。完成此操作后，:guilabel:`连接 GitHub 账号` "
+"按钮将立即可用。"
 
 #: admin/code-hosting.rst:300
 msgid ""
@@ -4183,6 +4256,13 @@ msgid ""
 "configuration is required. GitHub delivers the ``Installation`` and "
 "``Installation repositories`` events to all GitHub Apps by default."
 msgstr ""
+"配置清单（Manifest）会自动声明 Weblate 所需的权限与事件订阅（包括 "
+"``Contents`` 与 ``Pull requests`` 的读写权限、``Metadata`` 的只读权限"
+"、``Organization administration`` 的只读权限、``Workflows`` 的读写权限，以及 "
+"``Installation``、``Meta`` 和 ``Push`` 事件），并自动设置回调 URL、安装 URL "
+"以及每个 App 专属的 Webhook URL，因此无需手动配置 GitHub App。GitHub 默认会"
+"将 ``Installation`` 和 ``Installation repositories`` 事件投递给所有 GitHub "
+"App。"
 
 #: admin/code-hosting.rst:308
 msgid ""
@@ -4193,6 +4273,10 @@ msgid ""
 "other accounts; private apps can only be installed on the account that owns "
 "the app."
 msgstr ""
+"GitHub 只会显示你当前有权安装（或提交安装申请）的个人账号及组织。如果列表中没"
+"有显示某个组织，请检查你在该组织中的角色以及组织的 App 安装限制。在 "
+"GitHub.com 上，公开 App 可以安装到任意账号下，而私有 App 只能安装到创建它的账"
+"号下。"
 
 #: admin/code-hosting.rst:315
 msgid "Connecting a workspace"
@@ -4208,12 +4292,16 @@ msgid ""
 "accounts, Weblate verifies that the install-time GitHub user can administer "
 "the organization installation."
 msgstr ""
+"已连接的 GitHub 账号会绑定至 Weblate :ref:`工作区 <workspaces>`。具有该工作区"
+"内任意项目管理权限的用户，均可在该工作区中连接 GitHub 账号。连接完成后，该工"
+"作区下的所有项目均可从该 GitHub App 获权访问的仓库中导入部件。对于组织账号，"
+"Weblate 会验证在 GitHub 上执行安装授权的用户是否拥有该组织的管理权限。"
 
 #: admin/code-hosting.rst:324
 msgid ""
 "Projects that are not in a workspace cannot connect a GitHub account through "
 "the GitHub App."
-msgstr ""
+msgstr "不在工作区的项目不能通过 Github App 连接 Github 账户。"
 
 #: admin/code-hosting.rst:327
 msgid ""
@@ -4222,6 +4310,9 @@ msgid ""
 "component settings UI keeps the repository URL read-only to prevent the App-"
 "issued credentials from being redirected to an unrelated repository."
 msgstr ""
+"通过 GitHub App 流程导入的部件会使用专用的 :guilabel:`GitHub (via Weblate "
+"GitHub app)` VCS 后端。部件设置界面中的仓库 URL 为只读状态，防止 App 的授权访"
+"问权限被套用或滥用到其他无关仓库上。"
 
 #: admin/code-hosting.rst:335
 msgid "App webhook URL"
@@ -4232,6 +4323,8 @@ msgid ""
 "Each registered Weblate GitHub App has its own webhook URL containing an "
 "opaque token that uniquely identifies a single registered App:"
 msgstr ""
+"每个已注册的 Weblate GitHub App 都有专属的 Webhook URL，其中包含用于唯一标识"
+"该 App 的不透明令牌（opaque token）："
 
 #: admin/code-hosting.rst:344
 msgid ""
@@ -4295,6 +4388,11 @@ msgid ""
 "write repository contents and create pull requests. If Weblate should fork "
 "private repositories, the token might also need administration access."
 msgstr ""
+"若要创建 Pull Request，请将 :ref:`component-vcs` 选择为 :guilabel:`GitHub`，"
+"并配置 :setting:`GITHUB_CREDENTIALS`。对于 GitHub.com，请使用 "
+"``api.github.com`` 作为 API 主机（Host）。所使用的令牌（Token）必须赋予 "
+"Weblate 读取与写入仓库内容、以及创建 Pull Request 的权限。如果需要 Weblate "
+"Fork 私有仓库，该令牌可能还需要具备管理员权限。"
 
 #: admin/code-hosting.rst:387 admin/install/docker.rst:1671
 msgid "GitLab"
@@ -4344,6 +4442,8 @@ msgid ""
 "For GitLab, create a dedicated user and use GitLab SSH URLs, for example "
 "``git@gitlab.com:group/project.git``."
 msgstr ""
+"对于 GitLab，请创建一个专用用户并使用 GitLab SSH URL，例如 "
+"``git@gitlab.com:group/project.git``。"
 
 #: admin/code-hosting.rst:424
 msgid ""
@@ -4412,6 +4512,8 @@ msgid ""
 "To create merge requests, select :guilabel:`GitLab` as :ref:`component-vcs` "
 "and configure :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+"若要创建 Merge Request，请将 :ref:`component-vcs` 选择为 :guilabel:`GitLab`，"
+"并配置 :setting:`GITLAB_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:466
 msgid ""
@@ -4426,7 +4528,7 @@ msgstr ""
 
 #: admin/code-hosting.rst:476
 msgid "Gitea, Forgejo, and Codeberg"
-msgstr ""
+msgstr "Gitea、Forgejo 以及 Codeberg"
 
 #: admin/code-hosting.rst:481
 msgid "Gitea, Forgejo, and Codeberg repository access"
@@ -4529,6 +4631,8 @@ msgid ""
 "To create pull requests, select :guilabel:`Gitea` as :ref:`component-vcs` "
 "and configure :setting:`GITEA_CREDENTIALS`."
 msgstr ""
+"若要创建 Pull Request，请将 :ref:`component-vcs` 选择为 :guilabel:`Gitea`，并"
+"配置 :setting:`GITEA_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:554 admin/install/docker.rst:1645
 msgid "Bitbucket"
@@ -4656,11 +4760,11 @@ msgstr "Azure Repos 仓库访问"
 
 #: admin/code-hosting.rst:661
 msgid "Use the HTTPS clone URL shown by Azure Repos for the repository."
-msgstr ""
+msgstr "请使用 Azure Repos 页面上给出的 HTTPS clone URL。"
 
 #: admin/code-hosting.rst:668
 msgid "Use the SSH URL shown by Azure Repos for the repository."
-msgstr ""
+msgstr "请使用 Azure Repos 页面上给出的 SSH URL。"
 
 #: admin/code-hosting.rst:673
 msgid "Azure Repos notifications"
@@ -4718,10 +4822,12 @@ msgid ""
 "To create pull requests, select :guilabel:`Azure DevOps` as :ref:`component-"
 "vcs` and configure :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
+"若要创建 Pull Request，请将 :ref:`component-vcs` 选择为 :guilabel:`Azure "
+"DevOps`，并配置 :setting:`AZURE_DEVOPS_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:708
 msgid "Pagure"
-msgstr ""
+msgstr "Pagure"
 
 #: admin/code-hosting.rst:713
 msgid "Pagure repository access"
@@ -4776,6 +4882,8 @@ msgid ""
 "To create merge requests, select :guilabel:`Pagure` as :ref:`component-vcs` "
 "and configure :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
+"若要创建 Merge Request，请将 :ref:`component-vcs` 选择为 :guilabel:`Pagure`，"
+"并配置 :setting:`PAGURE_CREDENTIALS`。"
 
 #: admin/code-hosting.rst:764
 msgid "Other workflows"
@@ -4833,6 +4941,12 @@ msgid ""
 "Gerrit interprets these options as the configured Weblate Gerrit account and "
 "applies its own permissions."
 msgstr ""
+"可选的 :ref:`component-push_branch` 配置项用于指定提交 Gerrit review 时的目标"
+"分支。如果留空，则默认使用组件的主分支（:ref:`component-branch`）。请使用简短"
+"的分支名（例如 ``main``），Weblate 和 ``git-review`` 会自动将代码推送到 "
+"``refs/for/<分支名>`` 进行审核。无论在上述哪个配置里，你都可以在分支名后面加"
+"上 ``%`` 来附加 Gerrit 的推送参数（例如 ``main%topic=l10n``）。Gerrit 会认定"
+"这些选项是由配置的 Weblate Gerrit 账号提交的，并校验该账号的对应权限。"
 
 #: admin/code-hosting.rst:815
 msgid ""
@@ -4880,6 +4994,9 @@ msgid ""
 "administrators can also use the low-level :ref:`admin-interface` when direct "
 "database-object management is necessary."
 msgstr ""
+"每个部件列表都包含一个面向用户显示的名称，以及一个用于 URL 的标识名（slug）。"
+"部件列表可以通过 :ref:`api` 进行管理。当需要直接管理数据库对象时，系统管理员"
+"还可以使用底层的 :ref:`admin-interface`。"
 
 #: admin/componentlists.rst:22
 msgid ""
@@ -5086,6 +5203,8 @@ msgid ""
 "This does not replace :setting:`ALLOWED_ASSET_DOMAINS`; remote assets must "
 "still match the asset domain allowlist."
 msgstr ""
+"这并不能替代 :setting:`ALLOWED_ASSET_DOMAINS`；远程资源服务器的域名仍必须在域"
+"名白名单内。"
 
 #: admin/config.rst:140 admin/config.rst:1946 admin/config.rst:1980
 #: admin/config.rst:2057
@@ -5117,20 +5236,22 @@ msgstr ""
 msgid ""
 "Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``."
 msgstr ""
+"用于 ALTCHA 工作量证明挑战（ALTCHA proof-of-work challenge）的 Argon2id 时间"
+"开销（Argon2id time cost）。默认值为 ``3``。"
 
 #: admin/config.rst:183
 msgid ""
 "Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget "
 "v2."
-msgstr ""
+msgstr "此选项用于替代 ``ALTCHA_MAX_NUMBER``，后者适用于已废弃的 ALTCHA widget v2。"
 
 #: admin/config.rst:192
 msgid "Argon2id memory cost in KiB. Defaults to ``65536``."
-msgstr ""
+msgstr "以 KiB 为单位的 Argon2id 内存开销（memory cost）。默认值为 ``65536``。"
 
 #: admin/config.rst:201
 msgid "Argon2id parallelism factor. Defaults to ``1``."
-msgstr ""
+msgstr "Argon2id 并行度系数（parallelism factor）。默认值为 ``1``。"
 
 #: admin/config.rst:205
 msgid ""
@@ -5369,6 +5490,9 @@ msgid ""
 "so :setting:`CACHE_DIR` has to be writable and mounted on a filesystem that "
 "allows execution. Avoid using ``noexec`` mount options for this directory."
 msgstr ""
+"Weblate 会在此处存放生成的辅助文件并执行其中的一部分，因此 "
+":setting:`CACHE_DIR` 必须可写，且必须挂载在允许执行程序的文件系统上。请避免对"
+"此目录使用 ``noexec`` 挂载选项。"
 
 #: admin/config.rst:441 admin/config.rst:612
 msgid ""
@@ -5635,6 +5759,10 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"内置的默认模板遵循 Conventional Commits 规范，，并在可用时包含 Weblate 链接。"
+"更改这些设置仅会影响新建的默认模板；现有的消息模板可以在设置表单中通过 "
+":guilabel:`Restore site default` 进行重置。对于继承的值，恢复站点默认值会同时"
+"断开该消息的继承关系。"
 
 #: admin/config.rst:731
 msgid "Default add-ons to install for every created component."
@@ -5718,6 +5846,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"内置的默认模板遵循 Conventional Commits 规范，并包含 Weblate 链接及翻译状态信"
+"息。"
 
 #: admin/config.rst:878
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -6060,6 +6190,8 @@ msgid ""
 "Template used to generate e-mail addresses for internal Weblate bot "
 "accounts. Defaults to ``\"noreply-{scope}-{name}@weblate.org\"``."
 msgstr ""
+"用于生成 Weblate 内部机器人账号邮箱地址的模板。默认值为 ``\"noreply-{scope}-"
+"{name}@weblate.org\"``。"
 
 #: admin/config.rst:1263
 msgid ""
@@ -6074,12 +6206,16 @@ msgid ""
 "Use ``{scope}`` and ``{name}`` when generating the e-mail local part. The "
 "``{username}`` value contains the internal ``scope:name`` username."
 msgstr ""
+"生成电子邮件本地端口时使用 ``{scope}`` 和 ``{name}`` 。 ``{username}`` 值包含"
+"内部 ``scope:name`` 用户名。"
 
 #: admin/config.rst:1269
 msgid ""
 "Existing internal bot accounts are updated when :wladmin:`migrate` is run. "
 "Project API token accounts are not affected."
 msgstr ""
+"运行 :wladmin:`migrate` 时会更新现有的内部机器人账号。项目 API 令牌账号不受影"
+"响。"
 
 #: admin/config.rst:1277
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -6152,7 +6288,7 @@ msgstr "默认为 -1。"
 
 #: admin/config.rst:1355
 msgid "CSS class added to the wrappers around legal document templates."
-msgstr ""
+msgstr "法律文档模板外层包裹元素（wrapper）的 CSS 类。"
 
 #: admin/config.rst:1357
 msgid ""
@@ -6160,16 +6296,21 @@ msgid ""
 "custom legal styles can use it to target document wrappers. Set this to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
+"默认值为 ``\"tos\"``。Weblate 不会为此类附加任何样式；自定义的法律文档样式可"
+"以使用该类来指定文档的外层容器。将此项设为空字符串则渲染法律文档时不添加外层"
+"容器类。"
 
 #: admin/config.rst:1377
 msgid "List of legal document page identifiers to hide from the legal module."
-msgstr ""
+msgstr "需要隐藏的法律文档页面 ID 列表（如 terms、privacy）。"
 
 #: admin/config.rst:1379
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"``index`` 页面始终可见。支持的页面 ID 有 ``terms``、``cookies``、``privacy`` "
+"和 ``contracts``。"
 
 #: admin/config.rst:1382
 msgid ""
@@ -6177,6 +6318,8 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "terms of service confirmation is enabled."
 msgstr ""
+"隐藏的页面将从法律菜单中移除，且直接请求时会返回 404 响应。当启用了服务条款确"
+"认功能时，不建议隐藏 ``terms`` 或 ``privacy``。"
 
 #: admin/config.rst:1386
 msgid ""
@@ -6185,6 +6328,10 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"当隐藏了 ``terms`` 或 ``privacy`` 页面时，模板变量 ``terms_url`` 与 "
+"``privacy_url`` 会自动改用配置好的 :setting:`LEGAL_URL` 和 "
+":setting:`PRIVACY_URL` 作为备用链接，如果未配置备用链接，则直接不渲染这两个链"
+"接。"
 
 #: admin/config.rst:1391
 msgid ""
@@ -6193,6 +6340,9 @@ msgid ""
 "external terms document instead of embedding :file:`legal/documents/"
 "tos.html`."
 msgstr ""
+"当启用了服务条款确认功能时，隐藏 ``terms`` 并配置 :setting:`LEGAL_URL`，会让"
+"确认页面直接跳转至外部条款文档，而不是内置的 :file:`legal/documents/"
+"tos.html`。"
 
 #: admin/config.rst:1395
 msgid ""
@@ -6200,6 +6350,9 @@ msgid ""
 "and :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the "
 "API schema terms link uses the same fallback."
 msgstr ""
+"非 Docker 部署时，请在配置文件中将 :setting:`LEGAL_HIDDEN_DOCUMENTS` 和 "
+":setting:`LEGAL_URL` 声明在 ``SPECTACULAR_SETTINGS`` 代码块上方，确保 API "
+"schema里的条款链接也能正确使用该备用地址。"
 
 #: admin/config.rst:1416
 msgid "You need :ref:`legal` installed to make this work."
@@ -6388,6 +6541,8 @@ msgid ""
 "the :ref:`legal` module. When the legal module is enabled, Weblate links to "
 "the internal legal pages by default."
 msgstr ""
+"适用于将隐私政策托管在 Weblate 外部而非使用 :ref:`legal` 模块的场景。启用 "
+"legal 模块时，Weblate 默认会链接至内部的法律相关页面。"
 
 #: admin/config.rst:1700
 msgid ""
@@ -6485,6 +6640,10 @@ msgid ""
 "deployments can be constrained by their reverse proxy request body-size "
 "limit."
 msgstr ""
+"在 Docker 环境中，可通过 ``WEBLATE_PROJECT_BACKUP_UPLOAD_MAX_SIZE`` 环境变量"
+"来配置此项。Docker 部署可能还会受到 :envvar:`CLIENT_MAX_BODY_SIZE` 的限制；而"
+"其他部署方式则可能会受到其反向代理的请求体大小限制（request body-size limit）"
+"的约束。"
 
 #: admin/config.rst:1819
 msgid ""
@@ -6520,6 +6679,8 @@ msgid ""
 "This limits archives that are small when uploaded but expand to much more "
 "data during validation or restore."
 msgstr ""
+"此项用于限制那些在上传时体积较小、但在校验或恢复过程中解压展开后数据量会急剧"
+"膨胀的归档文件。"
 
 #: admin/config.rst:1845
 msgid ""
@@ -6709,6 +6870,8 @@ msgid ""
 "to 90 days. Changing the value also changes when existing reports become "
 "eligible for removal by the daily cleanup task."
 msgstr ""
+"设置翻译报告保存多少天，默认 90 天。修改这个天数后，旧报告什么时候会被系统自"
+"动删掉，也会跟着这个新天数一起变。"
 
 #: admin/config.rst:2114
 msgid "Limits how many notifications for a single user will be sent out."
@@ -6907,6 +7070,9 @@ msgid ""
 "Reporting. Set to ``None`` to disable the integration, or set to a "
 "dictionary of keyword arguments for the Google Cloud Error Reporting client."
 msgstr ""
+"使用 Google Cloud Error Reporting 进行错误收集（详见 :ref:`collecting-"
+"errors`）的相关配置。设置为 ``None`` 可禁用该集成，或设置为关键字参数字典以传"
+"递给 Google Cloud Error Reporting 客户端。"
 
 #: admin/config.rst:2338
 msgid ""
@@ -6914,34 +7080,41 @@ msgid ""
 "the current Weblate version or Git revision. Explicit values in the "
 "dictionary override these defaults."
 msgstr ""
+"Weblate 会自动将 ``service`` （服务名）设为 ``weblate`` ，并将 ``version`` （"
+"版本号）设为当前的 Weblate 版本或 Git 提交哈希。若在字典中显式传入这些键值，"
+"则会覆盖默认设定。"
 
 #: admin/config.rst:2349
 msgid "Enable backend tracing using OpenTelemetry. Disabled by default."
-msgstr ""
+msgstr "使用 OpenTelemetry 启用后端追踪。默认禁用。"
 
 #: admin/config.rst:2351
 msgid ""
 "Traces are exported only when this is enabled "
 "and :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is configured."
 msgstr ""
+"只有在启用此项且配置了 :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` 时，才"
+"会导出追踪数据。"
 
 #: admin/config.rst:2359
 msgid ""
 "OTLP HTTP traces endpoint for OpenTelemetry, for example ``https://"
 "collector.example.com/v1/traces``."
 msgstr ""
+"用于 OpenTelemetry 的 OTLP HTTP 追踪端点，例如 ``https://"
+"collector.example.com/v1/traces``。"
 
 #: admin/config.rst:2367
 msgid ""
 "Additional HTTP headers for the OpenTelemetry OTLP exporter. Defaults to an "
 "empty dictionary."
-msgstr ""
+msgstr "OpenTelemetry OTLP exporter的附加 HTTP 请求头。默认为空字典。"
 
 #: admin/config.rst:2375
 msgid ""
 "Additional OpenTelemetry resource attributes. Defaults to an empty "
 "dictionary."
-msgstr ""
+msgstr "附加的 OpenTelemetry 资源属性。默认为空字典。"
 
 #: admin/config.rst:2382
 msgid "OpenTelemetry service name. Defaults to ``weblate``."
@@ -7571,6 +7744,8 @@ msgid ""
 "services, see :doc:`/admin/code-hosting`. You must also :ref:`project-"
 "enable_hooks` for this to work."
 msgstr ""
+"使用 :ref:`hooks` 与绝大多数常见代码托管服务进行集成，详见 :doc:`/admin/code-"
+"hosting`。此外，必须 :ref:`project-enable_hooks` 才能使此功能生效。"
 
 #: admin/continuous.rst:91
 msgid ""
@@ -7717,6 +7892,8 @@ msgid ""
 "actions rewrite that translation file and commit the result; they are not "
 "project-wide or component-wide operations."
 msgstr ""
+"仅可在单个语言的 :guilabel:`仓库维护` 页面中使用 :guilabel:`文件` 操作。这些"
+"操作会重写对应的翻译文件并提交变更，并非针对整个项目或整个部件全局生效。"
 
 #: admin/continuous.rst:195
 msgid ""
@@ -7726,6 +7903,9 @@ msgid ""
 "language synchronization and cleanup are described in :ref:`glossary-"
 "language-sync`."
 msgstr ""
+"读取仓库内容的操作（如更新、重置或重新扫描）还会同步校准 Weblate 中的翻译文件"
+"。新增或删除的翻译文件会在处理完成后显示。词汇表语言的同步与清理说明详见 "
+":ref:`glossary-language-sync`。"
 
 #: admin/continuous.rst:204
 msgid "Action"
@@ -7927,7 +8107,7 @@ msgstr "从单个翻译文件中删除标识符相同的重复字符串。"
 msgid ""
 "Repair duplicate strings reported by Weblate when the file contains repeated "
 "units."
-msgstr ""
+msgstr "当文件中存在重复单元时，修复由 Weblate 标记的重复字符串问题。"
 
 #: admin/continuous.rst:260
 msgid ":guilabel:`Cleanup unused`"
@@ -7939,10 +8119,12 @@ msgid ""
 "file. The :ref:`addon-weblate.cleanup.generic` add-on can perform this "
 "automatically."
 msgstr ""
+"从单个翻译文件中移除源语言文件（基准文件）中已不存在的字符串。:ref:`addon-"
+"weblate.cleanup.generic` 附加组件可自动执行此操作。"
 
 #: admin/continuous.rst:262
 msgid "Run a one-time cleanup without installing the add-on."
-msgstr ""
+msgstr "无需安装附加组件，直接运行一次性清理。"
 
 #: admin/continuous.rst:264
 msgid ":guilabel:`Remove obsolete`"
@@ -7955,7 +8137,7 @@ msgstr "从单个 PO 翻译文件中删除陈旧字符串。"
 #: admin/continuous.rst:266
 msgid ""
 "Run a one-time PO cleanup without enabling automatic obsolete string removal."
-msgstr ""
+msgstr "无需启用自动清除弃用字符串功能，直接运行一次性 PO 文件清理。"
 
 #: admin/continuous.rst:271
 msgid "Reset and reapply recovery behavior"
@@ -8028,6 +8210,11 @@ msgid ""
 "can differ from both repositories, so Weblate can keep failing to update "
 "even after the pull request was merged upstream."
 msgstr ""
+"以压缩合并（Squash merge）方式合并 Weblate 的变更会导致此类问题更难恢复。压缩"
+"合并会生成一个新的提交，而不是在远程主仓库的提交历史记录中保留 Weblate 的各个"
+"原始提交。Weblate 本地仓库中依然保留着这些原始提交，导致 Git 无法判定远程仓库"
+"是否已经包含了它们。如果在此过程中还手动解决了冲突，文件内容可能会与两个仓库"
+"都产生差异，最终导致即便 PR 已在远程合并，Weblate 依然会持续更新失败。"
 
 #: admin/continuous.rst:308
 msgid ""
@@ -8038,6 +8225,10 @@ msgid ""
 "reapply`. Use :guilabel:`Reset and discard` only when upstream should fully "
 "replace Weblate's local changes."
 msgstr ""
+"如果因为 Weblate 提交被压缩合并造成上游不再包含 Weblate 提交，更新仓库可能不"
+"够。可在 :guilabel:`仓库维护` 中使用 :guilabel:`重置并重新应用`，在保留待处理"
+"翻译的同时将 Weblate 重置为上游状态，详见 :ref:`manage-vcs-reset-reapply` 。"
+"仅在上游应完整替换 Weblate 本地变更时使用 :guilabel:`重置并丢弃`。"
 
 #: admin/continuous.rst:315
 msgid ""
@@ -8067,6 +8258,9 @@ msgid ""
 "regular merge commit and push that result upstream. Do not squash merge the "
 "conflict-resolution pull request."
 msgstr ""
+"在 Weblate 之外解决冲突时，请使用常规合并提交（Merge commit）来合并 Weblate "
+"的提交，并将其推送到远程仓库。切勿对用于解决冲突的 Pull Request 执行压缩合并"
+"（Squash merge）。"
 
 #: admin/continuous.rst:327
 msgid ""
@@ -8100,6 +8294,8 @@ msgid ""
 "Bitbucket, Pagure, Azure Repos, Gitea, Forgejo, and Gitee are covered "
 "in :doc:`/admin/code-hosting`."
 msgstr ""
+"有关 GitHub、GitLab、Bitbucket、Pagure、Azure Repos、Gitea、Forgejo 及 Gitee "
+"的特定平台应用与 Webhook 配置说明，详见 :doc:`/admin/code-hosting`。"
 
 #: admin/continuous.rst:352
 msgid "Provider-specific notifications"
@@ -8110,39 +8306,41 @@ msgid ""
 "These legacy anchors are kept for compatibility. Current provider-specific "
 "app and webhook setup is documented in :doc:`/admin/code-hosting`."
 msgstr ""
+"保留这些旧版的锚点链接是为了保持兼容性。当前特定平台的应用与 Webhook 配置说明"
+"，请参阅 :doc:`/admin/code-hosting`。"
 
 #: admin/continuous.rst:359
 msgid ":ref:`GitHub notifications <code-hosting-github-notifications>`"
-msgstr ""
+msgstr ":ref:`GitHub 通知 <code-hosting-github-notifications>`"
 
 #: admin/continuous.rst:360
 msgid ":ref:`GitLab notifications <code-hosting-gitlab-notifications>`"
-msgstr ""
+msgstr ":ref:`GitLab 通知 <code-hosting-gitlab-notifications>`"
 
 #: admin/continuous.rst:361
 msgid ":ref:`Bitbucket notifications <code-hosting-bitbucket-notifications>`"
-msgstr ""
+msgstr ":ref:`Bitbucket 通知 <code-hosting-bitbucket-notifications>`"
 
 #: admin/continuous.rst:362
 msgid ":ref:`Pagure notifications <code-hosting-pagure-notifications>`"
-msgstr ""
+msgstr ":ref:`Pagure 通知 <code-hosting-pagure-notifications>`"
 
 #: admin/continuous.rst:363
 msgid ""
 ":ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`"
-msgstr ""
+msgstr ":ref:`Azure Repos 通知 <code-hosting-azure-repos-notifications>`"
 
 #: admin/continuous.rst:364
 msgid ":ref:`Gitea notifications <code-hosting-gitea-notifications>`"
-msgstr ""
+msgstr ":ref:`Gitea 通知 <code-hosting-gitea-notifications>`"
 
 #: admin/continuous.rst:365
 msgid ":ref:`Forgejo notifications <code-hosting-forgejo-notifications>`"
-msgstr ""
+msgstr ":ref:`Forgejo 通知 <code-hosting-forgejo-notifications>`"
 
 #: admin/continuous.rst:366
 msgid ":ref:`Gitee notifications <code-hosting-gitee-notifications>`"
-msgstr ""
+msgstr ":ref:`Gitee 通知 <code-hosting-gitee-notifications>`"
 
 #: admin/continuous.rst:369
 msgid "Automatically updating repositories nightly"
@@ -8173,6 +8371,8 @@ msgid ""
 "For the push options table and provider-specific pull, merge, and review "
 "request workflows, see :ref:`code-hosting-push-options`."
 msgstr ""
+"有关推送选项表以及特定平台的拉取（Pull）、合并（Merge）和评审（Review）请求工"
+"作流，请参阅 :ref:`code-hosting-push-options`。"
 
 #: admin/continuous.rst:390
 msgid ""
@@ -9008,6 +9208,8 @@ msgid ""
 "Release archives can be verified using the signatures, attestations, and "
 "SBOMs published with GitHub release assets. See :ref:`verify`."
 msgstr ""
+"发布归档文件（Release archives）可以通过 GitHub Release 资产中随附发布的签名"
+"、证明（Attestations）及软件物料清单（SBOM）进行校验。详见 :ref:`verify`。"
 
 #: admin/install.rst:350
 msgid "Filesystem permissions"
@@ -9045,6 +9247,8 @@ msgid ""
 "process and has to allow executing generated helper files. Do not "
 "mount :setting:`CACHE_DIR` with the ``noexec`` option."
 msgstr ""
+"已配置的 :setting:`CACHE_DIR` 目录必须对 Weblate 进程具备可写权限，且必须允许"
+"执行生成的辅助文件。切勿在挂载 :setting:`CACHE_DIR` 时使用 ``noexec`` 选项。"
 
 #: admin/install.rst:367
 msgid ""
@@ -9692,6 +9896,8 @@ msgid ""
 "Weblate deployment checks report non-finite PostgreSQL relation statistics. "
 "Run ``ANALYZE`` on the reported relations to rebuild corrupted statistics."
 msgstr ""
+"Weblate 部署检查报告了非有限值（Non-finite）PostgreSQL 关系统计信息。请在被报"
+"告的关系上运行 ``ANALYZE``，以重建损坏的统计数据。"
 
 #: admin/install.rst:956
 msgid "Configure cache"
@@ -10032,6 +10238,10 @@ msgid ""
 "runtime files. When installing Weblate from PyPI, get the matching source "
 "distribution or source checkout before copying these examples."
 msgstr ""
+"下文所示的示例配置文件托管于 Weblate 源码树中的 :file:`weblate/examples/` 目"
+"录下。它们包含在源码包（Source distributions）及本文档中，但 Python Wheel 包"
+"仅安装运行时必需文件。从 PyPI 安装 Weblate 时，请在复制这些示例前先获取对应的"
+"源码包或检出（Checkout）源码。"
 
 #: admin/install.rst:1226
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -10251,6 +10461,12 @@ msgid ""
 "memory, CPU cores, and database connection limit. Keep the backpressure "
 "equal to or higher than the number of blocking threads."
 msgstr ""
+"Granian 使用工作进程（Worker processes）实现 Python 并行执行，使用阻塞线程（"
+"Blocking threads）处理并发 WSGI 请求，并使用运行时线程（Runtime threads）处理"
+"网络 I/O。示例配置了 2 个工作进程，每个进程包含 8 个阻塞线程，并将每个工作进"
+"程的并发连接数限制为 16，运行时线程数则保持 Granian 的默认值。请根据可用内存"
+"、CPU 核心数以及数据库连接数限制调整工作进程数和阻塞线程数。背压（"
+"Backpressure）数值必须大于或等于阻塞线程的数量。"
 
 #: admin/install.rst:1444
 msgid "Sample configuration to start Gunicorn"
@@ -10574,7 +10790,7 @@ msgstr ""
 
 #: admin/install.rst:1690
 msgid "Google Cloud Error Reporting"
-msgstr ""
+msgstr "Google Cloud Error Reporting"
 
 #: admin/install.rst:1692
 msgid ""
@@ -10582,6 +10798,9 @@ msgid ""
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
+"Weblate 可以将已处理的服务端错误上报至 `Google Cloud Error Reporting`_。安装 "
+"Weblate 时需包含 ``google-errors`` 额外依赖项，并在 :file:`settings.py` 中配"
+"置 :setting:`GOOGLE_CLOUD_ERROR_REPORTING`："
 
 #: admin/install.rst:1702
 msgid ""
@@ -10590,10 +10809,14 @@ msgid ""
 "values can be overridden by setting ``service`` or ``version`` "
 "in :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 msgstr ""
+"Weblate 会自动在 ``weblate`` 服务下上报错误，并使用当前的 Weblate 版本号或 "
+"Git 提交版本（Git revision）作为上报的版本信息。这些值可以通过在 "
+":setting:`GOOGLE_CLOUD_ERROR_REPORTING` 中设置 ``service`` 或 ``version`` 来"
+"覆盖。"
 
 #: admin/install.rst:1710
 msgid "OpenTelemetry"
-msgstr ""
+msgstr "OpenTelemetry"
 
 #: admin/install.rst:1712
 msgid ""
@@ -10601,6 +10824,9 @@ msgid ""
 "opentelemetry.io/>`_. It uses OTLP over HTTP and can send traces to an "
 "OpenTelemetry Collector or a compatible vendor endpoint."
 msgstr ""
+"Weblate 可以使用 `OpenTelemetry <https://opentelemetry.io/>`_ 导出后端追踪（"
+"Traces）数据。它采用 OTLP over HTTP 传输，并能将追踪数据发送至 OpenTelemetry "
+"Collector 或兼容的第三方服务端点（Vendor endpoint）。"
 
 #: admin/install.rst:1722
 msgid ""
@@ -10609,6 +10835,10 @@ msgid ""
 "using :setting:`OPENTELEMETRY_ENABLED`, :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, "
 "and :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 msgstr ""
+"该集成能追踪 Django 请求、Celery 任务、Redis、出站 HTTP 请求、数据库调用以及 "
+"Weblate 特有的 Span。可以通过配置 "
+":setting:`OPENTELEMETRY_ENABLED`、:setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` "
+"和 :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE` 来启用和设置该功能。"
 
 #: admin/install.rst:1731
 msgid "Rollbar"
@@ -10772,6 +11002,10 @@ msgid ""
 "changes. Weblate application updates are delivered through Docker image "
 "tags; there is no release-bound update path for customized Compose files."
 msgstr ""
+"Docker Compose 文件仅作为部署配置示例。运维人员通常会根据自身的部署需求对其进"
+"行自定义，并自行维护这些本地改动。Weblate 应用程序的更新是通过 Docker 镜像标"
+"签（Image tags）发布的；如果自定义过 Compose 文件，官方不会提供自动随版本更新"
+"的升级路径（需要手动适配）。"
 
 #: admin/install/docker.rst:40
 msgid ""
@@ -11069,6 +11303,8 @@ msgid ""
 "calendar year. If you need to upgrade from an older release, upgrade first "
 "to an intermediate version listed in :ref:`version-specific-instructions`."
 msgstr ""
+"仅支持从当前或上一日历年发布的旧版本进行直接升级。如果您使用的是更早的版本，"
+"请先按 :ref:`version-specific-instructions` 中列出的中间版本进行阶梯式升级。"
 
 #: admin/install/docker.rst:263
 msgid ""
@@ -11238,6 +11474,10 @@ msgid ""
 "because its short tasks can benefit from buffering. Increase the value only "
 "after measuring queue latency and worker memory usage."
 msgstr ""
+"预取乘数（Prefetch multiplier）用于控制每个工作进程执行槽（Worker execution "
+"slot）可以预留的任务数量。默认值 1 可以避免预留额外的长耗时或高载荷任务。在本"
+"示例中，通知工作进程（Notification worker）将其设为 4，因为其短耗时任务能从预"
+"缓冲中获益。请仅在评估过队列延迟和工作进程内存占用后再调高该值。"
 
 #: admin/install/docker.rst:415
 msgid ""
@@ -11498,7 +11738,7 @@ msgstr "配置 :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`。"
 
 #: admin/install/docker.rst:741
 msgid "Expects a comma-separated list of trusted project slugs."
-msgstr ""
+msgstr "需填入以英文逗号分隔的受信任项目标识符（Project slugs）列表。"
 
 #: admin/install/docker.rst:747
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
@@ -11510,7 +11750,7 @@ msgstr "配置 :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 
 #: admin/install/docker.rst:757 admin/install/docker.rst:779
 msgid "Expects a comma-separated list of trusted hostnames or domains."
-msgstr ""
+msgstr "需填入以英文逗号分隔的受信任主机名或域名（hostnames or domains）列表。"
 
 #: admin/install/docker.rst:763
 msgid "Configures :setting:`ALLOWED_ASSET_SIZE`."
@@ -11688,28 +11928,36 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"修改此环境变量后需重新创建 Docker 容器，例如使用 :program:`docker compose "
+"up -d`。仅重启（restart）已存在的容器不会应用环境变量值的更改。"
 
 #: admin/install/docker.rst:955
 msgid ""
 "Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"在启用了 :envvar:`WEBLATE_LEGAL_INTEGRATION` 的 Docker 部署中，用该变量来配"
+"置 :setting:`LEGAL_DOCUMENT_CSS_CLASS`。"
 
 #: admin/install/docker.rst:958
 msgid ""
 "Set this to the class targeted by your custom legal stylesheet. Set it to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
+"用于指定自定义法律文件样式表所作用的 CSS 类名（Class）。设为空字符串则渲染法"
+"律文件时不附加外层类名。"
 
 #: admin/install/docker.rst:970
 msgid ""
 "Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"在启用了 :setting:`LEGAL_HIDDEN_DOCUMENTS` 的 Docker 部署中，用该变量来配置 "
+":envvar:`WEBLATE_LEGAL_INTEGRATION`。"
 
 #: admin/install/docker.rst:973
 msgid "Provide a comma-separated list of legal document page identifiers."
-msgstr ""
+msgstr "需填入以英文逗号分隔的法律文件页面标识符（Page identifiers）列表。"
 
 #: admin/install/docker.rst:984
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -12006,6 +12254,8 @@ msgid ""
 "The value is in bytes. Make sure :envvar:`CLIENT_MAX_BODY_SIZE` is also "
 "large enough for uploaded backup files."
 msgstr ""
+"单位为字节（Bytes）。请确保 :envvar:`CLIENT_MAX_BODY_SIZE` 的配置值足够大，以"
+"容纳上传备份文件。"
 
 #: admin/install/docker.rst:1361
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
@@ -12091,6 +12341,9 @@ msgid ""
 "the database, so there are no GitHub App environment variables to configure. "
 "See :ref:`code-hosting-github-notifications`."
 msgstr ""
+"Weblate 的 GitHub App 是通过界面内的 Manifest 流程注册并存入数据库的，因此无"
+"需配置任何 GitHub App 相关的环境变量。详见 :ref:`code-hosting-github-"
+"notifications`。"
 
 #: admin/install/docker.rst:1463
 msgid ""
@@ -12336,6 +12589,9 @@ msgid ""
 "``requestedAuthnContext`` (needed for some identity providers such as "
 "Microsoft Entra ID with multi-factor authentication):"
 msgstr ""
+"JSON 对象形式的 SAML 安全配置，传递给 ``SOCIAL_AUTH_SAML_SECURITY_CONFIG`` 。"
+"用于禁用 ``requestedAuthnContext`` （Microsoft Entra ID 等一些身份提供商需要"
+"这个进行多因素身份认证）："
 
 #: admin/install/docker.rst:1825
 msgid ""
@@ -12669,18 +12925,20 @@ msgstr "要启用 Google 云错误报告支持，请进行以下设置："
 
 #: admin/install/docker.rst:2221
 msgid "Enables :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, defaults to ``False``."
-msgstr ""
+msgstr "启用 :setting:`GOOGLE_CLOUD_ERROR_REPORTING`，默认为 ``False``。"
 
 #: admin/install/docker.rst:2225
 msgid ""
 "Google Cloud project to report errors to. If omitted, the Google client uses "
 "application default credentials to detect the project."
 msgstr ""
+"用于接收错误报告的 Google Cloud 项目标识（Project ID）。如未指定，Google 客户"
+"端将通过应用默认凭据（Application Default Credentials）自动识别项目。"
 
 #: admin/install/docker.rst:2230
 msgid ""
 "Service name to use in Google Cloud Error Reporting, defaults to ``weblate``."
-msgstr ""
+msgstr "在 Google Cloud Error Reporting 中使用的服务名称，默认为 ``weblate``。"
 
 #: admin/install/docker.rst:2232
 msgid "To enable support for OpenTelemetry tracing, set following:"
@@ -12688,7 +12946,7 @@ msgstr "要启用 OpenTelemetry 跟踪支持，请进行以下设置："
 
 #: admin/install/docker.rst:2236
 msgid "Enables :setting:`OPENTELEMETRY_ENABLED`, defaults to ``False``."
-msgstr ""
+msgstr "启用 :setting:`OPENTELEMETRY_ENABLED`，默认为 ``False``。"
 
 #: admin/install/docker.rst:2240
 msgid "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
@@ -12838,6 +13096,8 @@ msgid ""
 "Configure how many blocking WSGI threads each :program:`granian` worker can "
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS`."
 msgstr ""
+"配置每个 :program:`granian` worker 可使用的阻塞式 WSGI 线程数量。默认值为 "
+":envvar:`WEBLATE_WORKERS` 的 2 倍。"
 
 #: admin/install/docker.rst:2428
 msgid ""
@@ -12846,6 +13106,9 @@ msgid ""
 "by :envvar:`WEB_BLOCKING_THREADS`. Each thread can hold its own database "
 "connection, so keep the resulting total within the database connection limit."
 msgstr ""
+"并行处理的 WSGI 请求数上限约为 :envvar:`WEB_WORKERS` 乘以 "
+":envvar:`WEB_BLOCKING_THREADS`。由于每个线程都会独立占用一个数据库连接，请确"
+"保计算出的总连接数不会超出数据库的连接数限制。"
 
 #: admin/install/docker.rst:2443
 msgid ""
@@ -12989,10 +13252,12 @@ msgid ""
 "When mounting :file:`/app/cache` explicitly as ``tmpfs`` in Docker Compose, "
 "enable execution:"
 msgstr ""
+"在 Docker Compose 中将 :file:`/app/cache` 明确挂载为 ``tmpfs`` 时，请开启执行"
+"权限(Execution)："
 
 #: admin/install/docker.rst:2533
 msgid "When also setting ownership options, keep the ``exec`` option:"
-msgstr ""
+msgstr "同时配置所有权选项（Ownership options）时，请保留 ``exec`` 选项："
 
 #: admin/install/docker.rst:2540
 msgid ""
@@ -13207,18 +13472,13 @@ msgstr ""
 "Weblate。"
 
 #: admin/install/docker.rst:2681
-#, fuzzy
-#| msgid ""
-#| "This approach can be also used to override Weblate templates. For "
-#| "example :ref:`legal` documents can be placed into :file:`/app/data/python/"
-#| "customize/templates/legal/documents`."
 msgid ""
 "This approach can be also used to override Weblate templates. For example, "
 "custom :ref:`legal` documents and styles can be provided as described "
 "in :ref:`legal-customization`."
 msgstr ""
-"这种方法也可以用来覆盖 Weblate 的模板。例如 :ref:`legal` 文件可以放"
-"在 :file:`/app/data/python/customize/templates/legal/documents` 里。"
+"这种方法也可以用来覆盖 Weblate 的模板。例如，可根据 :ref:`legal-"
+"customization` 所述提供自定义 :ref:`legal` 文档和样式。"
 
 #: admin/install/docker.rst:2685
 msgid ""
@@ -13743,6 +14003,8 @@ msgid ""
 "If you intend to run the testsuite from the source checkout, install the "
 "development dependencies as described in :ref:`local-tests`."
 msgstr ""
+"如果您打算直接从源码检出目录（Source checkout）运行测试套件，请按照 "
+":ref:`local-tests` 中的说明安装开发依赖。"
 
 #: admin/install/source.rst:31
 msgid ""
@@ -13768,7 +14030,7 @@ msgstr "无论任何时候更新仓库时，都应该重复这一步骤。"
 
 #: admin/install/source.rst:53
 msgid "Packaging Weblate for distributions"
-msgstr ""
+msgstr "为发行版打包 Weblate"
 
 #: admin/install/source.rst:55
 msgid ""
@@ -13778,6 +14040,9 @@ msgid ""
 "cannot validate every dependency-version combination covered by wider "
 "version ranges."
 msgstr ""
+":file:`pyproject.toml` 中的依赖版本定义了 Weblate 项目经过测试的运行时环境。"
+"在从 PyPI 安装以及进行 Weblate 发布流程时，这些版本限制被刻意保持严格，因为 "
+"Weblate 无法验证更宽泛版本范围所涵盖的每一种依赖组合。"
 
 #: admin/install/source.rst:60
 msgid ""
@@ -13786,24 +14051,31 @@ msgid ""
 "against the packaged dependency set and treat passing tests as the "
 "compatibility signal for the distribution package."
 msgstr ""
+"发行版软件包可以使用发行版软件集中的版本来替换这些 Python 软件包。此时，请针"
+"对打包后的依赖集运行 Weblate 的测试套件，并以测试是否通过作为发行版软件包的兼"
+"容性依据。"
 
 #: admin/install/source.rst:65
 msgid ""
 "Keep Weblate's tightly coupled companion packages in sync with the Weblate "
 "release:"
-msgstr ""
+msgstr "请确保与 Weblate 紧密耦合的配套软件包与 Weblate 发行版本保持同步："
 
 #: admin/install/source.rst:74
 msgid ""
 "Mismatched versions of these packages are more likely to break at runtime or "
 "during tests than other Python dependency substitutions."
 msgstr ""
+"相较于替换其他 Python 依赖的版本，这些软件包的版本不匹配更有可能在运行时或测"
+"试期间引发故障。"
 
 #: admin/install/source.rst:79
 msgid ""
 "See :ref:`local-tests` for test setup and :ref:`release-cycle` for Weblate's "
 "release cadence."
 msgstr ""
+"测试环境搭建和配置请参阅 :ref:`local-tests`，Weblate 的发布周期请参阅 "
+":ref:`release-cycle`。"
 
 #: admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -14431,6 +14703,9 @@ msgid ""
 "forms the language has, and the formula returns the zero-based index of the "
 "plural form to use for a count ``n``."
 msgstr ""
+"该公式使用的表达式语法与 Gettext ``Plural-Forms`` 标头中 ``plural=`` 部分相同"
+"。``nplurals`` 值用于设定语言包含多少种复数形式，而公式则会返回数量 ``n`` 所"
+"对应的复数形式索引（从零开始）。"
 
 #: admin/languages.rst:185
 msgid ""
@@ -14442,6 +14717,11 @@ msgid ""
 "(``condition ? value1 : value2``). The result must be between ``0`` and "
 "``nplurals - 1``."
 msgstr ""
+"Weblate 会使用 Python 提供的 Gettext 解析器校验该公式。可接受的语法是以 "
+"``n`` 为唯一变量的 C 语言风格整数表达式。它可以包含十进制数字、括号、算术运算"
+"符（``+``、``-``、``*``、``/``、``%``）、比较和相等运算符、逻辑运算符"
+"（``&&``、``||``、``!``）以及三元运算符（``condition ? value1 : value2``）。"
+"计算结果必须介于 ``0`` 到 ``nplurals - 1`` 之间。"
 
 #: admin/languages.rst:193
 msgid "For example, English uses:"
@@ -14662,6 +14942,10 @@ msgid ""
 "contents. Matching glossary entries are passed with their explanations and "
 "selected flags, so duplicate glossary terms can be disambiguated."
 msgstr ""
+"当有额外上下文可用时，基于 LLM 的自动建议服务会接收每个待翻译字符串的相关内容"
+"。这包括字符串上下文或单语键、额外说明、已配置的源语言/第二语言翻译、复数信息"
+"、未通过的质量检查以及占位符内容。匹配的术语表词条会连同其说明和选定的标志一"
+"并发送，以便区分重复的术语表词汇。"
 
 #: admin/machine.rst:76
 msgid ""
@@ -14672,6 +14956,11 @@ msgid ""
 "first looks for the exact target language code and then falls back to the "
 "base language code."
 msgstr ""
+"在 :guilabel:`特定语言的操作指南` 中，你可以传入一个 JSON 对象（格式为语言代"
+"码到提示词文本的映射），从而为不同的目标语言单独配置提示词。输入的语言代码必"
+"须严格匹配 Weblate 系统中已注册的语言代号（且对空格敏感）。每条提示词最多可包"
+"含 1000 个字符。构建 Prompt 时，Weblate 会优先匹配完整的目标语言代码，若未命"
+"中则会自动降级回退至基础语言代码（如由 zh_CN 回退至 zh）。"
 
 #: admin/machine.rst:83
 msgid ""
@@ -14683,6 +14972,10 @@ msgid ""
 "or language-neutral formatting examples otherwise. Existing translations for "
 "the same target language can be appended as additional examples."
 msgstr ""
+"追加的元数据仅用于引导生成翻译建议，返回的译文仍必须保留源文本中的占位符和标"
+"记。Weblate 还会向 LLM 服务发送一小段先前的对话，示范预期返回的 JSON 回应格式"
+"。如果系统预置了当前语言组合（如“中译英”）的翻译示例，就会直接使用；否则会使"
+"用与语言无关的格式化范例。也可以附加同一目标语言的既有译文作为额外范例。"
 
 #: admin/machine.rst:97
 msgid "Custom machine translation"
@@ -14794,6 +15087,10 @@ msgid ""
 "skip obvious outliers, bots, bulk imports, uploads, and other events that "
 "would pollute the result."
 msgstr ""
+"通过分析变更历史，估算贴近实际的人类译者日均处理量。该指令仅统计活跃人类用户"
+"的翻译单元（Translation Units）手动变更，并设置了每日处理量的上下限阈值，以过"
+"滤明显的离群值（Outliers）、Bot 脚本、批量导入、文件上传及其他干扰统计结果的"
+"异常事件。"
 
 #: admin/management.rst:159
 msgid "Added parameter for translation mode."
@@ -14809,6 +15106,9 @@ msgid ""
 "updates the settings and database backup dumps in :setting:`DATA_DIR`, then "
 "runs the selected Borg backup service or services."
 msgstr ""
+"以同步方式运行已配置的备份任务（不经过 Celery 异步队列）。系统会优先更新 "
+":setting:`DATA_DIR` 目录下的配置文件与数据库 Dump 备份文件，随后触发执行指定"
+"的 Borg 备份服务。"
 
 #: admin/management.rst:232
 msgid ""
@@ -15992,19 +16292,14 @@ msgstr ""
 "文件。"
 
 #: admin/optionals.rst:161
-#, fuzzy
-#| msgid ""
-#| "The bundled terms of service and related legal documents are specific to "
-#| "that service and are not intended for general use. They might still come "
-#| "in handy as a starting point if adjusted to meet your needs."
 msgid ""
 "The bundled terms of service and related legal documents are specific to "
 "services operated by Weblate s.r.o. They can serve as an implementation "
 "example, but should not be used as a basis for legal documents of other "
 "services."
 msgstr ""
-"捆绑的服务条款和相关法律文档仅针对该服务，不用于一般用途。但如果进行调整来满"
-"足你的需求，它们作为起点仍然可能派得上用处。"
+"捆绑的服务条款和相关法律文档仅针对 Weblate s.r.o 运营的服务。它们可作为实施示"
+"例，但不应用作其他服务法律文档的基础。"
 
 #: admin/optionals.rst:169
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -16043,14 +16338,10 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:214
-#, fuzzy
-#| msgid ""
-#| "After installation and editing, the legal documents are shown in the "
-#| "Weblate UI."
 msgid ""
 "After installation and customization, the legal documents are shown in the "
 "Weblate UI."
-msgstr "安装并编辑后，法律文件显示在 Weblate 界面中。"
+msgstr "安装并自定义后，法律文件显示在 Weblate 界面中。"
 
 #: admin/optionals.rst:216
 msgid ""
@@ -16067,10 +16358,8 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:227
-#, fuzzy
-#| msgid "Customizing behavior using flags"
 msgid "Customizing legal documents and styles"
-msgstr "使用标记定制行为"
+msgstr "自定义法律文档和样式"
 
 #: admin/optionals.rst:229
 msgid ""
@@ -16094,15 +16383,10 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:253
-#, fuzzy
-#| msgid ""
-#| "Run :samp:`weblate collectstatic --noinput`, to collect static files "
-#| "served to clients."
 msgid ""
 "Run :samp:`weblate collectstatic --noinput` after adding or changing the "
 "static file."
-msgstr ""
-"运行 :samp:`weblate collectstatic --noinput`，来收集提供给客户端的静态文件。"
+msgstr "添加或更改静态文件后运行 :samp:`weblate collectstatic --noinput`。"
 
 #: admin/optionals.rst:256
 msgid ""
@@ -19465,10 +19749,8 @@ msgid ""
 msgstr ""
 
 #: admin/workspaces.rst:29
-#, fuzzy
-#| msgid "Workspace created"
 msgid "Workspace removal"
-msgstr "创建了工作区"
+msgstr "工作区删除"
 
 #: admin/workspaces.rst:31
 msgid ""

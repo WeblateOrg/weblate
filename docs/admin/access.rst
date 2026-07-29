@@ -190,11 +190,18 @@ users at once by pasting whitespace-separated e-mail addresses. All
 invitations created in one bulk action use the selected team, and site-wide
 bulk invites also apply the selected superuser flag.
 
+.. _site-wide-user-management:
+
 Site-wide user management is controlled by the global ``user.edit``
 permission. Unlike project access management, this is a trusted administrative
 permission which allows editing user accounts across the whole instance,
 including assigning site-wide teams and granting superuser status to the
 managed account, even the caller's own account.
+
+Site administrators can also disable password authentication for a user. The
+:guilabel:`Regenerate API key` option is enabled by default so that the current
+personal API key stops working. Clear it only when the current API key should
+remain active.
 
 Bulk invitations are processed individually. Invalid addresses and addresses
 with an already pending invitation are skipped while valid invitations are

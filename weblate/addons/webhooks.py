@@ -11,8 +11,8 @@ import json
 from math import floor
 from typing import TYPE_CHECKING
 
+import httpx2
 import jsonschema.exceptions
-import requests
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
@@ -73,7 +73,7 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
 
     def send_message(
         self, change: Change, headers: dict, payload: PayloadType
-    ) -> requests.Response:
+    ) -> httpx2.Response:
         try:
             return fetch_validated_url(
                 method="post",
@@ -83,11 +83,11 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
                 timeout=15,
                 raise_for_status=False,
                 allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-                allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+                private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
             )
         except ValidationError as error:
             raise MessageNotDeliveredError("; ".join(error.messages)) from error
-        except requests.exceptions.ConnectionError as error:
+        except httpx2.TransportError as error:
             msg = "Unable to deliver webhook: could not connect to the remote server."
             raise MessageNotDeliveredError(msg) from error
 
@@ -177,7 +177,10 @@ class WebhookAddon(JSONWebhookBaseAddon):
         }
         if secret := self.instance.configuration.get("secret", ""):
             headers["webhook-signature"] = standard_webhooks_sign(
-                secret, webhook_id, attempt_time, json.dumps(payload)
+                secret,
+                webhook_id,
+                attempt_time,
+                json.dumps(payload, ensure_ascii=False, separators=(",", ":")),
             )
 
         return headers

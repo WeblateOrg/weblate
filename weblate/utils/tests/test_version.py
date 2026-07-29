@@ -7,7 +7,6 @@ from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 from unittest.mock import patch
 
-import responses
 from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -15,6 +14,7 @@ from packaging.version import Version
 
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.docs import get_doc_url
+from weblate.utils.tests import http_mock as responses
 from weblate.utils.version import (
     PYPI,
     VERSION,

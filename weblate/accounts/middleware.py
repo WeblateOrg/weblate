@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from functools import partial
 from typing import TYPE_CHECKING
 
 from asgiref.sync import sync_to_async
@@ -38,6 +39,13 @@ def get_user(request: AuthenticatedHttpRequest):
     return request.weblate_cached_user
 
 
+async def aget_user(request: AuthenticatedHttpRequest):
+    """Return the user prepared by Weblate's authentication middleware."""
+    if hasattr(request, "weblate_cached_user"):
+        return request.weblate_cached_user
+    return await sync_to_async(get_user, thread_sensitive=True)(request)
+
+
 class AuthenticationMiddleware(OTPMiddleware):
     """
     Copy of django.contrib.auth.middleware.AuthenticationMiddleware.
@@ -67,6 +75,7 @@ class AuthenticationMiddleware(OTPMiddleware):
         # Django uses lazy object here, but we need the user in pretty
         # much every request, so there is no reason to delay this
         request.user = user = get_user(request)
+        request.auser = partial(aget_user, request)
         self._verify_user_sync(request, user)
 
         # Get language to use in this request

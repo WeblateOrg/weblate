@@ -14,7 +14,7 @@ from .base import (
 from .forms import KeySecretMachineryForm
 
 if TYPE_CHECKING:
-    from requests import Response
+    from httpx2 import Response
 
     from weblate.auth.models import User
     from weblate.trans.models import Unit

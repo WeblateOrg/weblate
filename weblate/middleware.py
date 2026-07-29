@@ -318,7 +318,7 @@ class CSPBuilder:
         self.build_csp_static_url()
         self.build_csp_cdn()
         self.build_csp_auth()
-        self.build_csp_redoc()
+        self.build_csp_api_docs()
 
     def apply_csp_settings(self) -> None:
         setting_names: dict[str, CSP_KIND] = {
@@ -356,13 +356,15 @@ class CSPBuilder:
 
         return domain
 
-    def build_csp_redoc(self) -> None:
+    def build_csp_api_docs(self) -> None:
         if self.request.resolver_match and self.request.resolver_match.view_name in {
             "redoc",
             "swagger",
         }:
-            self.directives["script-src"].add("'unsafe-inline'")
+            # ReDoc and Swagger render images using data URIs.
             self.directives["img-src"].add("data:")
+            if self.request.resolver_match.view_name == "swagger":
+                self.directives["script-src"].add("'unsafe-inline'")
 
     def build_csp_inline(self) -> None:
         if (
@@ -382,7 +384,6 @@ class CSPBuilder:
             elif domain.endswith(".sentry.io"):
                 self.directives["script-src"].add("sentry.io")
                 self.directives["connect-src"].add("sentry.io")
-            self.directives["script-src"].add("'unsafe-inline'")
             self.directives["img-src"].add("data:")
 
     def build_csp_piwik(self) -> None:
@@ -395,7 +396,6 @@ class CSPBuilder:
     def build_csp_google_analytics(self) -> None:
         # Google Analytics
         if settings.GOOGLE_ANALYTICS_ID:
-            self.directives["script-src"].add("'unsafe-inline'")
             self.directives["script-src"].add("www.google-analytics.com")
             self.directives["img-src"].add("www.google-analytics.com")
 
