@@ -199,7 +199,12 @@ from weblate.utils.version_display import show_metrics_version
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.workspaces.models import Workspace
 
-from .renderers import FlatJsonRenderer, OpenMetricsRenderer, OpenMetricsSample
+from .renderers import (
+    FlatJsonRenderer,
+    OpenMetricsMetric,
+    OpenMetricsRenderer,
+    OpenMetricsSample,
+)
 
 if TYPE_CHECKING:
     from django.db.models import Model
@@ -4277,6 +4282,46 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         return Response(serializer.data)
 
 
+OPENMETRICS_METRIC_HELP = (
+    ("units", "Number of translation units."),
+    ("units_translated", "Number of translated translation units."),
+    ("users", "Number of users."),
+    ("changes", "Number of recorded changes."),
+    ("projects", "Number of projects."),
+    ("components", "Number of components."),
+    ("translations", "Number of translations."),
+    ("languages", "Number of configured languages."),
+    ("checks", "Number of triggered quality checks."),
+    ("configuration_errors", "Number of active configuration errors."),
+    ("suggestions", "Number of pending suggestions."),
+)
+
+
+def get_openmetrics_data(data: Mapping[str, object]) -> list[OpenMetricsMetric]:
+    result = [
+        OpenMetricsMetric(
+            name=name,
+            help_text=help_text,
+            metric_type="gauge",
+            samples=(OpenMetricsSample(value=cast("int", data[name]), labels={}),),
+        )
+        for name, help_text in OPENMETRICS_METRIC_HELP
+    ]
+    queues = cast("Mapping[str, int]", data["celery_queues"])
+    result.append(
+        OpenMetricsMetric(
+            name="celery_queues",
+            help_text="Number of tasks in each Celery queue.",
+            metric_type="gauge",
+            samples=tuple(
+                OpenMetricsSample(value=value, labels={"queue": queue})
+                for queue, value in queues.items()
+            ),
+        )
+    )
+    return result
+
+
 class Metrics(APIView):
     """Metrics view for monitoring."""
 
@@ -4290,12 +4335,25 @@ class Metrics(APIView):
         stats = GlobalStats()
         serializer = self.serializer_class(stats)
         data = dict(serializer.data)
-        if request.accepted_renderer.format == "openmetrics" and show_metrics_version(
-            settings.VERSION_DISPLAY
-        ):
-            data["weblate_info"] = OpenMetricsSample(
-                value=1,
-                labels={"version": GIT_VERSION},
+        if request.accepted_renderer.format == "openmetrics":
+            metrics = get_openmetrics_data(data)
+            if show_metrics_version(settings.VERSION_DISPLAY):
+                metrics.append(
+                    OpenMetricsMetric(
+                        name="weblate_info",
+                        help_text="Weblate build information.",
+                        metric_type="gauge",
+                        samples=(
+                            OpenMetricsSample(
+                                value=1,
+                                labels={"version": GIT_VERSION},
+                            ),
+                        ),
+                    )
+                )
+            return Response(
+                metrics,
+                content_type=OpenMetricsRenderer.response_content_type,
             )
         return Response(data)
 

@@ -15,6 +15,7 @@ Weblate 2026.8
 
 .. rubric:: Improvements
 
+* OpenMetrics API responses now include metric metadata and a versioned content type.
 * Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters.
 * Component diagnostics now record dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors.
 * :ref:`Add-on activity logs <addon-activity-logging>` now distinguish pending, successful, failed, and skipped executions and explain why an add-on was skipped.
