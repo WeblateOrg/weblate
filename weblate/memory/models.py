@@ -530,7 +530,7 @@ class MemoryManager(models.Manager["Memory"]):
         user: User | None = None,
         project: Project | None = None,
         from_file: bool = True,
-    ):
+    ) -> int:
         origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
 

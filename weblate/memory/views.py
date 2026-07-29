@@ -13,7 +13,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
-from django.utils.translation import gettext
+from django.utils.translation import gettext, ngettext
 from django.views.generic.base import TemplateView
 
 from weblate.lang.models import Language
@@ -146,10 +146,14 @@ class RebuildView(MemoryFormView):
             except ObjectDoesNotExist as error:
                 raise PermissionDenied from error
         # Delete private entries
-        entries = Memory.objects.filter_type(**self.objects)
+        entries = Memory.objects.filter_type(**self.objects).exclude(
+            legacy_from_file=True
+        )
         if origin:
             entries = entries.filter(origin=origin)
-        entries.using("default").delete_scope(get_scope_delete_query(self.objects))
+        entries.using("default").delete_scope(
+            Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
+        )
         # Delete possible shared entries
         if origin:
             slugs = [origin]
@@ -169,8 +173,9 @@ class RebuildView(MemoryFormView):
         messages.success(
             self.request,
             gettext(
-                "Entries were deleted and the translation memory will be "
-                "rebuilt in the background."
+                "Translation memory entries created from current translations "
+                "were deleted and will be rebuilt in the background. Uploaded "
+                "entries were preserved."
             ),
         )
         return super().form_valid(form)
@@ -184,7 +189,7 @@ class UploadView(MemoryFormView):
         if not check_perm(self.request.user, "memory.edit", self.objects):
             raise PermissionDenied
         try:
-            Memory.objects.import_file(
+            count = Memory.objects.import_file(
                 request=self.request,
                 fileobj=form.cleaned_data["file"],
                 source_language=form.cleaned_data["source_language"],
@@ -193,7 +198,12 @@ class UploadView(MemoryFormView):
             )
             messages.success(
                 self.request,
-                gettext("File processed, the entries will appear shortly."),
+                ngettext(
+                    "Processed %(count)d active translation memory entry.",
+                    "Processed %(count)d active translation memory entries.",
+                    count,
+                )
+                % {"count": count},
             )
         except MemoryImportError as error:
             messages.error(self.request, str(error))
@@ -218,6 +228,34 @@ class MemoryView(TemplateView):
     @cached_property
     def entries(self):
         return Memory.objects.filter_type(**self.objects)
+
+    @cached_property
+    def component_slugs(self) -> set[str]:
+        return {
+            component.full_slug
+            for component in self.objects["project"].component_set.prefetch()
+        }
+
+    def get_rebuild_entries(self):
+        project = self.objects["project"]
+        scope_query = Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
+        if self.component_slugs:
+            scope_query |= Q(
+                scope__in=(MemoryScope.SCOPE_SHARED, MemoryScope.SCOPE_WORKSPACE),
+                source_project=project,
+                memory__origin__in=self.component_slugs,
+            )
+        return Memory.objects.using(self.entries.db).filter_scope(scope_query)
+
+    @cached_property
+    def rebuild_counts(self) -> dict[str, int]:
+        return {
+            entry["origin"]: entry["id__count"]
+            for entry in self.get_rebuild_entries()
+            .values("origin")
+            .order_by("origin")
+            .annotate(Count("id"))
+        }
 
     def get_origins(self):
         def get_url(slug: str) -> str:
@@ -249,22 +287,20 @@ class MemoryView(TemplateView):
         for entry in result:
             entry["url"] = get_url(entry["origin"])
         if "project" in self.objects:
-            slugs = {
-                component.full_slug
-                for component in self.objects["project"].component_set.prefetch()
-            }
             existing = {entry["origin"] for entry in result}
             for entry in result:
-                entry["can_rebuild"] = entry["origin"] in slugs
+                entry["can_rebuild"] = entry["origin"] in self.component_slugs
+                entry["rebuild_count"] = self.rebuild_counts.get(entry["origin"], 0)
             # Add missing ones
             result.extend(
                 {
                     "origin": missing,
                     "id__count": 0,
                     "can_rebuild": True,
+                    "rebuild_count": self.rebuild_counts.get(missing, 0),
                     "url": get_url(missing),
                 }
-                for missing in slugs - existing
+                for missing in self.component_slugs - existing
             )
         return from_file + result
 
@@ -296,7 +332,14 @@ class MemoryView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(self.objects)
-        context["num_entries"] = self.entries.count()
+        status_counts = self.entries.aggregate(
+            total=Count("id"),
+            active=Count("id", filter=Q(status=Memory.STATUS_ACTIVE)),
+            pending=Count("id", filter=Q(status=Memory.STATUS_PENDING)),
+        )
+        context["num_entries"] = status_counts["total"]
+        context["active_entries"] = status_counts["active"]
+        context["pending_entries"] = status_counts["pending"]
         context["entries_origin"] = self.get_origins()
         context["entries_languages"] = self.get_languages()
         context["total_entries"] = Metric.objects.get_current_metric(
@@ -309,6 +352,7 @@ class MemoryView(TemplateView):
             context["delete_url"] = self.get_url("memory-delete")
             if "project" in self.objects:
                 context["rebuild_url"] = self.get_url("memory-rebuild")
+                context["rebuild_entries_count"] = sum(self.rebuild_counts.values())
         if check_perm(user, "memory.edit", self.objects):
             context["upload_form"] = UploadForm()
         if "from_file" in self.objects:

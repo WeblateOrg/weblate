@@ -3079,6 +3079,85 @@ class MemoryViewTest(FixtureTestCase):
 
         self.assertContains(response, "Uploaded translation file is too big.")
 
+    def test_upload_reports_active_entry(self) -> None:
+        unit = self.get_unit()
+        target = "Uploaded active translation"
+        handle = BytesIO(
+            json.dumps(
+                [
+                    {
+                        "source_language": "en",
+                        "target_language": "cs",
+                        "source": unit.source,
+                        "target": target,
+                        "origin": "Uploaded",
+                        "context": unit.context,
+                        "category": CATEGORY_FILE,
+                    }
+                ]
+            ).encode()
+        )
+        handle.name = "active.json"
+
+        response = self.client.post(
+            reverse("memory-upload"),
+            {"file": handle},
+            follow=True,
+        )
+
+        self.assertContains(response, "Processed 1 active translation memory entry.")
+        memory = Memory.objects.filter_type(user=self.user).get(target=target)
+        self.assertEqual(memory.status, Memory.STATUS_ACTIVE)
+        results = WeblateMemory({}).search(unit, unit.source, self.user)
+        result = next(result for result in results if result["text"] == target)
+        self.assertEqual(result["quality"], 100)
+
+    def test_status_counts(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        for status in (Memory.STATUS_ACTIVE, Memory.STATUS_PENDING):
+            memory = Memory.objects.create(
+                source_language=source_language,
+                target_language=target_language,
+                source=f"Status count source {status}",
+                target=f"Status count target {status}",
+                origin="status-count",
+                status=status,
+            )
+            MemoryScope.objects.create(
+                memory=memory,
+                scope=MemoryScope.SCOPE_USER,
+                user=self.user,
+            )
+
+        unrelated = Memory.objects.create(
+            source_language=source_language,
+            target_language=target_language,
+            source="Unrelated status count source",
+            target="Unrelated status count target",
+            origin="status-count",
+            status=Memory.STATUS_PENDING,
+        )
+        MemoryScope.objects.create(
+            memory=unrelated,
+            scope=MemoryScope.SCOPE_GLOBAL_FILE,
+        )
+
+        response = self.client.get(reverse("memory"))
+
+        entries = Memory.objects.filter_type(user=self.user)
+        self.assertEqual(response.context["num_entries"], entries.count())
+        self.assertEqual(
+            response.context["active_entries"],
+            entries.filter(status=Memory.STATUS_ACTIVE).count(),
+        )
+        self.assertEqual(
+            response.context["pending_entries"],
+            entries.filter(status=Memory.STATUS_PENDING).count(),
+        )
+        self.assertContains(response, "Active entries")
+        self.assertContains(response, "Pending entries")
+
     def test_memory(
         self, match="Number of your entries", fail=False, prefix: str = "", **kwargs
     ) -> None:
@@ -3104,7 +3183,9 @@ class MemoryViewTest(FixtureTestCase):
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
-            self.assertContains(response, "File processed")
+            self.assertContains(
+                response, "Processed 2 active translation memory entries."
+            )
 
         # Test download
         response = self.client.get(reverse(f"{prefix}memory-download", **kwargs))
@@ -3163,7 +3244,8 @@ class MemoryViewTest(FixtureTestCase):
                 self.assertContains(response, "Permission Denied", status_code=403)
             else:
                 self.assertContains(
-                    response, "Entries were deleted and the translation memory"
+                    response,
+                    "Translation memory entries created from current translations",
                 )
                 self.assertEqual(4, Memory.objects.count())
                 with self.captureOnCommitCallbacks(execute=True):
@@ -3173,7 +3255,8 @@ class MemoryViewTest(FixtureTestCase):
                         follow=True,
                     )
                 self.assertContains(
-                    response, "Entries were deleted and the translation memory"
+                    response,
+                    "Translation memory entries created from current translations",
                 )
                 self.assertEqual(4, Memory.objects.count())
 
@@ -3216,7 +3299,9 @@ class MemoryViewTest(FixtureTestCase):
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
-            self.assertContains(response, "File processed")
+            self.assertContains(
+                response, "Processed 2 active translation memory entries."
+            )
 
     def test_memory_project(self) -> None:
         self.test_memory("Number of entries for Test", True, kwargs=self.kw_project)
@@ -3259,10 +3344,85 @@ class MemoryViewTest(FixtureTestCase):
                 follow=True,
             )
 
-        self.assertContains(response, "Entries were deleted and the translation memory")
+        self.assertContains(
+            response, "Translation memory entries created from current translations"
+        )
         self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
         mocked_import.assert_called_once_with(
             project_id=self.project.id, component_id=self.component.id
+        )
+
+    def test_rebuild_preserves_uploaded_entries(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        response = self.client.get(reverse("memory", kwargs=self.kw_project))
+        initial_rebuild_count = response.context["rebuild_entries_count"]
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        file_memory = Memory.objects.create(
+            source_language=source_language,
+            target_language=target_language,
+            source="Uploaded rebuild source",
+            target="Uploaded rebuild target",
+            origin="uploaded.tmx",
+            legacy_project=self.project,
+            legacy_from_file=True,
+            status=Memory.STATUS_ACTIVE,
+        )
+        compacted_memory = Memory.objects.create(
+            source_language=source_language,
+            target_language=target_language,
+            source="Compacted rebuild source",
+            target="Compacted rebuild target",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=compacted_memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        MemoryScope.objects.create(
+            memory=compacted_memory,
+            scope=MemoryScope.SCOPE_PROJECT_FILE,
+            project=self.project,
+        )
+
+        response = self.client.get(reverse("memory", kwargs=self.kw_project))
+        rebuild_count = response.context["rebuild_entries_count"]
+        self.assertEqual(rebuild_count, initial_rebuild_count + 1)
+        self.assertContains(
+            response,
+            f"Rebuilding in the background will replace {rebuild_count} "
+            "translation memory "
+            f"{'entry' if rebuild_count == 1 else 'entries'}",
+        )
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs=self.kw_project),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(response, "Uploaded entries were preserved.")
+        self.assertTrue(Memory.objects.filter(pk=file_memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=compacted_memory.pk).exists())
+        self.assertFalse(
+            MemoryScope.objects.filter(
+                memory=compacted_memory,
+                scope=MemoryScope.SCOPE_PROJECT,
+                project=self.project,
+            ).exists()
+        )
+        self.assertTrue(
+            MemoryScope.objects.filter(
+                memory=compacted_memory,
+                scope=MemoryScope.SCOPE_PROJECT_FILE,
+                project=self.project,
+            ).exists()
+        )
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id, component_id=None
         )
 
     def test_global_memory_superuser(self) -> None:

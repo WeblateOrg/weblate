@@ -103,8 +103,7 @@
                               aria-label="{% translate "Close" %}"></button>
                     </div>
                     <div class="modal-body">
-                      {% blocktranslate count count=num_entries %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
-                      {% translate "Memory will be then populated with the current translations." %}
+                      {% blocktranslate count count=rebuild_entries_count %}Rebuilding in the background will replace {{ count }} translation memory entry created from current translations. Uploaded translation memory entries will be preserved.{% plural %}Rebuilding in the background will replace {{ count }} translation memory entries created from current translations. Uploaded translation memory entries will be preserved.{% endblocktranslate %}
                     </div>
                     <div class="modal-footer">
                       <input type="submit" class="btn btn-warning" value="{% translate "Rebuild" %}" />
@@ -118,6 +117,18 @@
             </form>
           {% endif %}
         </td>
+      </tr>
+      <tr>
+        <th>{% translate "Active entries" %}</th>
+        <td></td>
+        <td class="number">{{ active_entries|intcomma }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>{% translate "Pending entries" %}</th>
+        <td></td>
+        <td class="number">{{ pending_entries|intcomma }}</td>
+        <td></td>
       </tr>
       {% for item in entries_origin %}
         <tr>
@@ -193,8 +204,7 @@
                                 aria-label="{% translate "Close" %}"></button>
                       </div>
                       <div class="modal-body">
-                        {% blocktranslate count count=item.id__count %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
-                        {% translate "Memory will be then populated with the current translations." %}
+                        {% blocktranslate count count=item.rebuild_count %}Rebuilding in the background will replace {{ count }} translation memory entry created from current translations. Uploaded translation memory entries will be preserved.{% plural %}Rebuilding in the background will replace {{ count }} translation memory entries created from current translations. Uploaded translation memory entries will be preserved.{% endblocktranslate %}
                       </div>
                       <div class="modal-footer">
                         <input type="submit" class="btn btn-warning" value="{% translate "Rebuild" %}" />

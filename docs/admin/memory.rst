@@ -105,6 +105,9 @@ Translation memory status
 
 Translation memory entries can have two different statuses: **active** and **pending**.
 Pending entries are included in suggestions, but with a quality penalty applied.
+Depending on the configured score threshold, the penalty can exclude even exact
+matches from suggestions and automatic translation. Entries imported from
+translation memory files are stored as active.
 If :ref:`autoclean-tm` is enabled, matching pending entries are removed when a
 translation becomes active.
 
@@ -173,7 +176,7 @@ translation memory are enabled for the project, with a link to the project
 workflow settings when the user can edit the project.
 
 Translation memory files can be imported on the same page. Uploaded files are
-stored in the selected scope:
+processed during the request, stored as active, and added to the selected scope:
 
 * Personal uploads are available in your personal translation memory.
 * Project uploads are available in the selected project's translation memory.
@@ -209,9 +212,10 @@ uploaded entries, and download uploaded, shared, or all entries as JSON or TMX.
 .. versionadded:: 4.12
 
 The project translation memory view also allows rebuilding parts of or the
-entire project translation memory. Existing entries for the selected component
-or project are deleted, and the memory is populated again from the current
-translations in the background.
+entire project translation memory. Automatically generated entries for the
+selected component or project are deleted, and the memory is populated again
+from the current translations in the background. Entries imported from files
+are preserved.
 
 Management interface
 ++++++++++++++++++++
