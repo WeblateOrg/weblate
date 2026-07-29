@@ -21,6 +21,7 @@ Weblate 2026.8
 * Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
 * Improved matrix view loading performance when displaying multiple languages.
 * Translation memory management pages now load origin summaries with a single database aggregation.
+* Translation memory management shows active and pending entry counts and reports the number of entries processed during import.
 * Dashboard component list tabs now load without processing unrelated component lists.
 * Category pages now load recent history and shared component listings more efficiently.
 * Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed.
@@ -49,6 +50,7 @@ Weblate 2026.8
 * Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state and skip repository-linked components when the importer cannot access the target component.
+* Rebuilding project translation memory no longer removes entries imported from files.
 * Project backup restores no longer load Mercurial repository configuration or shared-repository indirection supplied by archives.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
