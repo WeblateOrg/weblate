@@ -4,8 +4,6 @@
 
 import asyncio
 import os
-from concurrent.futures import ThreadPoolExecutor
-from threading import Event
 from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
 import httpx2
@@ -17,17 +15,17 @@ from django.test.utils import override_settings
 from weblate.utils.outbound import get_environment_proxy
 from weblate.utils.requests import (
     PEER_IP_RESPONSE_ATTR,
-    AsyncHTTPClient,
-    HTTPClient,
     _get_response_peer_ip,
     _validate_response_peer,
+    async_fetch_url,
     async_fetch_validated_url,
+    create_async_http_client,
     fetch_url,
     fetch_validated_url,
     get_uri_error,
     open_restricted_asset_url,
 )
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 
 
 class TrackedSyncStream(httpx2.SyncByteStream):
@@ -89,29 +87,7 @@ class FetchURLTest(SimpleTestCase):
         ):
             self.assertIsNone(get_environment_proxy("https://example.com/source"))
 
-    @responses.activate
-    def test_fetch_url_omits_null_form_values(self) -> None:
-        responses.add(
-            responses.POST,
-            "https://gitlab.example.com/merge_requests",
-            status=201,
-        )
-
-        fetch_url(
-            "post",
-            "https://gitlab.example.com/merge_requests",
-            data={
-                "source_branch": "weblate",
-                "target_project_id": None,
-            },
-        )
-
-        self.assertEqual(
-            responses.calls[0].request.body,
-            b"source_branch=weblate",
-        )
-
-    def test_http_client_does_not_read_streaming_redirect_body(self) -> None:
+    def test_fetch_url_does_not_read_redirect_body(self) -> None:
         events: list[str] = []
 
         def handle_request(request):
@@ -123,23 +99,18 @@ class FetchURLTest(SimpleTestCase):
                 )
             return httpx2.Response(200, content=b"final-response")
 
-        client = HTTPClient(httpx2.MockTransport(handle_request))
-        with client:
-            response = client.request(
-                "get",
-                "https://example.com/redirect",
-                stream=True,
-            )
-            try:
-                self.assertEqual(response.read(), b"final-response")
-                self.assertEqual(len(response.history), 1)
-                self.assertTrue(response.history[0].is_closed)
-            finally:
-                response.close()
+        with patch(
+            "weblate.utils.requests._TEST_TRANSPORT.transport",
+            httpx2.MockTransport(handle_request),
+        ):
+            response = fetch_url("get", "https://example.com/redirect")
 
+        self.assertEqual(response.content, b"final-response")
+        self.assertEqual(len(response.history), 1)
+        self.assertTrue(response.history[0].is_closed)
         self.assertEqual(events, ["close"])
 
-    def test_async_http_client_does_not_read_streaming_redirect_body(self) -> None:
+    def test_async_fetch_url_does_not_read_redirect_body(self) -> None:
         events: list[str] = []
 
         def handle_request(request):
@@ -151,28 +122,24 @@ class FetchURLTest(SimpleTestCase):
                 )
             return httpx2.Response(200, content=b"final-response")
 
-        client = AsyncHTTPClient(httpx2.MockTransport(handle_request))
-
         async def make_request() -> httpx2.Response:
-            async with client:
-                response = await client.request(
-                    "get",
-                    "https://example.com/redirect",
-                    stream=True,
-                )
-                try:
-                    self.assertEqual(await response.aread(), b"final-response")
-                    self.assertEqual(len(response.history), 1)
-                    self.assertTrue(response.history[0].is_closed)
-                    return response
-                finally:
-                    await response.aclose()
+            return await async_fetch_url(
+                "get",
+                "https://example.com/redirect",
+            )
 
-        asyncio.run(make_request())
+        with patch(
+            "weblate.utils.requests._TEST_TRANSPORT.transport",
+            httpx2.MockTransport(handle_request),
+        ):
+            response = asyncio.run(make_request())
 
+        self.assertEqual(response.content, b"final-response")
+        self.assertEqual(len(response.history), 1)
+        self.assertTrue(response.history[0].is_closed)
         self.assertEqual(events, ["close"])
 
-    def test_http_client_limits_streaming_redirects(self) -> None:
+    def test_fetch_url_limits_redirects(self) -> None:
         events: list[str] = []
 
         def handle_request(_request):
@@ -182,109 +149,36 @@ class FetchURLTest(SimpleTestCase):
                 stream=TrackedRedirectSyncStream(events),
             )
 
-        client = HTTPClient(httpx2.MockTransport(handle_request))
         with (
-            client,
+            patch(
+                "weblate.utils.requests._TEST_TRANSPORT.transport",
+                httpx2.MockTransport(handle_request),
+            ),
             self.assertRaises(httpx2.TooManyRedirects),
         ):
-            client.request(
-                "get",
-                "https://example.com/redirect",
-                stream=True,
-                max_redirects=1,
-            )
+            fetch_url("get", "https://example.com/redirect")
 
-        self.assertEqual(events, ["close", "close"])
+        self.assertEqual(events, ["close"] * 6)
 
-    def test_http_client_keeps_redirect_limit_request_local(self) -> None:
-        short_started = Event()
-        long_started = Event()
-        short_finished = Event()
+    @http_mock.activate
+    def test_fetch_url_does_not_follow_redirects_when_disabled(self) -> None:
+        http_mock.register(
+            "GET",
+            "https://example.com/redirect",
+            status_code=302,
+            headers={"Location": "/final"},
+        )
 
-        def handle_request(request):
-            if request.url.path == "/short":
-                short_started.set()
-                if not long_started.wait(5):
-                    msg = "Long request did not start."
-                    raise RuntimeError(msg)
-                return httpx2.Response(302, headers={"Location": "/short-final"})
-            if request.url.path == "/long":
-                long_started.set()
-                if not short_finished.wait(5):
-                    msg = "Short request did not finish."
-                    raise RuntimeError(msg)
-            return httpx2.Response(200)
+        response = fetch_url(
+            "get",
+            "https://example.com/redirect",
+            follow_redirects=False,
+            raise_for_status=False,
+        )
 
-        client = HTTPClient(httpx2.MockTransport(handle_request))
-
-        def request_short_url() -> httpx2.Response:
-            try:
-                return client.request(
-                    "get",
-                    "https://example.com/short",
-                    max_redirects=0,
-                )
-            finally:
-                short_finished.set()
-
-        with client, ThreadPoolExecutor(max_workers=2) as executor:
-            short_result = executor.submit(request_short_url)
-            self.assertTrue(short_started.wait(5))
-            long_result = executor.submit(
-                client.request,
-                "get",
-                "https://example.com/long",
-                max_redirects=2,
-            )
-
-            with self.assertRaises(httpx2.TooManyRedirects):
-                short_result.result(timeout=5)
-            self.assertEqual(long_result.result(timeout=5).status_code, 200)
-
-    def test_async_http_client_keeps_redirect_limit_request_local(self) -> None:
-        async def run_requests() -> None:
-            short_started = asyncio.Event()
-            long_started = asyncio.Event()
-            short_finished = asyncio.Event()
-
-            async def handle_request(request):
-                if request.url.path == "/short":
-                    short_started.set()
-                    await asyncio.wait_for(long_started.wait(), timeout=5)
-                    return httpx2.Response(302, headers={"Location": "/short-final"})
-                if request.url.path == "/long":
-                    long_started.set()
-                    await asyncio.wait_for(short_finished.wait(), timeout=5)
-                return httpx2.Response(200)
-
-            client = AsyncHTTPClient(httpx2.MockTransport(handle_request))
-
-            async def request_short_url() -> httpx2.Response:
-                try:
-                    return await client.request(
-                        "get",
-                        "https://example.com/short",
-                        max_redirects=0,
-                    )
-                finally:
-                    short_finished.set()
-
-            async with client:
-                short_result = asyncio.create_task(request_short_url())
-                await asyncio.wait_for(short_started.wait(), timeout=5)
-                long_result = asyncio.create_task(
-                    client.request(
-                        "get",
-                        "https://example.com/long",
-                        max_redirects=2,
-                    )
-                )
-
-                with self.assertRaises(httpx2.TooManyRedirects):
-                    await short_result
-                self.assertEqual((await long_result).status_code, 200)
-
-        asyncio.run(run_requests())
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.history, [])
+        self.assertEqual(len(http_mock.calls), 1)
 
     def test_async_http_client_uses_async_validator(self) -> None:
         request = httpx2.Request("GET", "https://example.com/data")
@@ -295,8 +189,9 @@ class FetchURLTest(SimpleTestCase):
         )
         validators = MagicMock()
         validators.validate_async_request_url = AsyncMock(return_value=())
-        client = AsyncHTTPClient(
-            httpx2.MockTransport(lambda _request: response),
+        client = create_async_http_client(
+            transport=httpx2.MockTransport(lambda _request: response),
+            validators=validators,
         )
 
         async def make_request() -> httpx2.Response:
@@ -304,7 +199,6 @@ class FetchURLTest(SimpleTestCase):
                 return await client.request(
                     "get",
                     "https://example.com/data",
-                    validators=validators,
                 )
 
         result = asyncio.run(make_request())
@@ -318,20 +212,53 @@ class FetchURLTest(SimpleTestCase):
 
 
 class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
-    @responses.activate
+    def test_open_restricted_asset_url_does_not_read_redirect_body(self) -> None:
+        events: list[str] = []
+
+        def handle_request(request):
+            if request.url.path == "/redirect":
+                return httpx2.Response(
+                    302,
+                    headers={"Location": "/final"},
+                    stream=TrackedRedirectSyncStream(events),
+                )
+            return httpx2.Response(200, content=b"final-response")
+
+        with (
+            patch(
+                "weblate.utils.requests._TEST_TRANSPORT.transport",
+                httpx2.MockTransport(handle_request),
+            ),
+            patch(
+                "weblate.utils.requests.RestrictedAssetRedirectValidators.validate_request_url",
+                return_value=(),
+            ),
+            open_restricted_asset_url(
+                "get",
+                "https://example.com/redirect",
+                allow_private_targets=True,
+            ) as response,
+        ):
+            self.assertEqual(response.read(), b"final-response")
+            self.assertEqual(len(response.history), 1)
+            self.assertTrue(response.history[0].is_closed)
+
+        self.assertEqual(events, ["close"])
+
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     def test_open_restricted_asset_url_follows_allowed_redirect(self) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://images.allowed.com/redirect-image.png",
-            status=302,
+            status_code=302,
             headers={"Location": "https://cdn.allowed.com/final-image.png"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://cdn.allowed.com/final-image.png",
-            status=200,
-            body=b"image-data",
+            status_code=200,
+            content=b"image-data",
         )
 
         with open_restricted_asset_url(
@@ -341,26 +268,26 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
         ) as response:
             self.assertEqual(response.content, b"image-data")
 
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(len(http_mock.calls), 2)
         self.assertEqual(
-            responses.calls[1].request.url,
+            http_mock.calls[1].request.url,
             "https://cdn.allowed.com/final-image.png",
         )
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     def test_open_restricted_asset_url_blocks_disallowed_redirect(self) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://images.allowed.com/redirect-image.png",
-            status=302,
+            status_code=302,
             headers={"Location": "https://proof.example.com/final-image.png"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://proof.example.com/final-image.png",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with (
@@ -373,29 +300,29 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
         ):
             pass
 
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
         self.assertEqual(
-            responses.calls[0].request.url,
+            http_mock.calls[0].request.url,
             "https://images.allowed.com/redirect-image.png",
         )
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     def test_open_restricted_asset_url_preserves_redirect_cookies(self) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://images.allowed.com/redirect-image.png",
-            status=302,
+            status_code=302,
             headers={
                 "Location": "https://cdn.allowed.com/final-image.png",
                 "Set-Cookie": "asset-token=allowed; Domain=.allowed.com; Path=/",
             },
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://cdn.allowed.com/final-image.png",
-            status=200,
-            body=b"image-data",
+            status_code=200,
+            content=b"image-data",
         )
 
         with open_restricted_asset_url(
@@ -406,19 +333,19 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
             self.assertEqual(response.content, b"image-data")
 
         self.assertEqual(
-            responses.calls[1].request.headers["Cookie"],
+            http_mock.calls[1].request.headers["Cookie"],
             "asset-token=allowed",
         )
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     def test_open_restricted_asset_url_raises_validation_error_for_http_status(
         self,
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://images.allowed.com/missing-image.png",
-            status=404,
+            status_code=404,
         )
 
         with (
@@ -434,15 +361,15 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
         ):
             pass
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     def test_open_restricted_asset_url_raises_validation_error_for_redirect_status(
         self,
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://images.allowed.com/redirect-image.png",
-            status=301,
+            status_code=301,
         )
 
         with (
@@ -460,7 +387,7 @@ class OpenRestrictedAssetURLBehaviorTest(SimpleTestCase):
 
 
 class OpenRestrictedAssetURLTest(SimpleTestCase):
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -469,11 +396,11 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
     def test_open_restricted_asset_url_blocks_private_target(
         self, mocked_getaddrinfo
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/messages.html",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with (
@@ -486,9 +413,9 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
             pass
 
         mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
     @patch(
@@ -501,17 +428,17 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
     def test_open_restricted_asset_url_blocks_private_redirect(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/messages.html",
-            status=302,
+            status_code=302,
             headers={"Location": "https://private.example.com/messages.html"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/messages.html",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with (
@@ -526,9 +453,9 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         self.assertEqual(mocked_getaddrinfo.call_count, 2)
         mocked_get_peer.assert_called_once()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="127.0.0.1")
     @patch(
@@ -538,11 +465,11 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
     def test_open_restricted_asset_url_blocks_private_peer_after_public_dns(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/messages.html",
-            status=200,
-            body=b"should-not-be-read",
+            status_code=200,
+            content=b"should-not-be-read",
         )
 
         with (
@@ -557,9 +484,9 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
         mocked_get_peer.assert_called_once()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch("weblate.utils.requests._get_response_peer_ip", return_value=None)
     @patch(
@@ -569,11 +496,11 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
     def test_open_restricted_asset_url_blocks_missing_peer_after_public_dns(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/messages.html",
-            status=200,
-            body=b"connection-close-response",
+            status_code=200,
+            content=b"connection-close-response",
         )
 
         with (
@@ -588,9 +515,9 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
         mocked_get_peer.assert_called_once()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch("weblate.utils.requests._get_response_peer_ip")
     @patch(
@@ -600,11 +527,11 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
     def test_open_restricted_asset_url_allows_allowlisted_private_target(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/messages.html",
-            status=200,
-            body=b"allowlisted-private-target",
+            status_code=200,
+            content=b"allowlisted-private-target",
         )
 
         with open_restricted_asset_url(
@@ -617,19 +544,19 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
 
         mocked_getaddrinfo.assert_not_called()
         mocked_get_peer.assert_not_called()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     @patch("weblate.utils.outbound.socket.getaddrinfo")
     def test_open_restricted_asset_url_blocks_disallowed_asset_domain(
         self, mocked_getaddrinfo
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://blocked.example.com/messages.html",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with (
@@ -643,25 +570,25 @@ class OpenRestrictedAssetURLTest(SimpleTestCase):
             pass
 
         mocked_getaddrinfo.assert_not_called()
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
 
 class GetUriErrorTest(SimpleTestCase):
     def setUp(self) -> None:
         cache.clear()
 
-    @responses.activate
+    @http_mock.activate
     def test_get_uri_error_allows_internal_host_by_default(self) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://gitlab.intranet.example/project",
-            status=200,
-            body=b"ok",
+            status_code=200,
+            content=b"ok",
         )
 
         self.assertIsNone(get_uri_error("https://gitlab.intranet.example/project"))
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
         return_value="93.184.216.34",
@@ -676,17 +603,17 @@ class GetUriErrorTest(SimpleTestCase):
     def test_get_uri_error_blocks_private_redirect(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/source",
-            status=302,
+            status_code=302,
             headers={"Location": "https://private.example.com/final"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/final",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         expected_error = (
@@ -702,9 +629,9 @@ class GetUriErrorTest(SimpleTestCase):
 
         self.assertEqual(mocked_getaddrinfo.call_count, 2)
         mocked_get_peer.assert_called_once()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
         return_value="93.184.216.34",
@@ -719,17 +646,17 @@ class GetUriErrorTest(SimpleTestCase):
     def test_get_uri_error_cache_is_scoped_by_private_target_policy(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/source",
-            status=302,
+            status_code=302,
             headers={"Location": "https://private.example.com/final"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/final",
-            status=200,
-            body=b"private-target",
+            status_code=200,
+            content=b"private-target",
         )
 
         expected_error = (
@@ -747,7 +674,7 @@ class GetUriErrorTest(SimpleTestCase):
 
         self.assertEqual(mocked_getaddrinfo.call_count, 2)
         mocked_get_peer.assert_called_once()
-        self.assertEqual(len(responses.calls), 3)
+        self.assertEqual(len(http_mock.calls), 3)
 
     @patch("weblate.utils.requests._probe_validated_url")
     def test_get_uri_error_flattens_validation_error(self, mocked_probe) -> None:
@@ -760,7 +687,7 @@ class GetUriErrorTest(SimpleTestCase):
 
 
 class FetchValidatedURLTest(SimpleTestCase):
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         side_effect=[
@@ -775,11 +702,11 @@ class FetchValidatedURLTest(SimpleTestCase):
         self, mocked_getaddrinfo
     ) -> None:
         url = "https://public.example.com:8443/source"
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             url,
-            status=200,
-            body=b"pinned",
+            status_code=200,
+            content=b"pinned",
         )
 
         response = fetch_validated_url(
@@ -791,20 +718,20 @@ class FetchValidatedURLTest(SimpleTestCase):
         self.assertEqual(response.content, b"pinned")
         self.assertEqual(str(response.url), url)
         self.assertEqual(
-            responses.calls[0].request.transport_url,
+            str(http_mock.get_transport_url(http_mock.calls[0].request)),
             "https://93.184.216.34:8443/source",
         )
         self.assertEqual(
-            responses.calls[0].request.headers["Host"],
+            http_mock.calls[0].request.headers["Host"],
             "public.example.com:8443",
         )
         self.assertEqual(
-            responses.calls[0].request.extensions["sni_hostname"],
+            http_mock.calls[0].request.extensions["sni_hostname"],
             "public.example.com",
         )
         mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[
@@ -816,16 +743,16 @@ class FetchValidatedURLTest(SimpleTestCase):
         self, mocked_getaddrinfo
     ) -> None:
         url = "https://public.example.com/source"
-        responses.add(
-            responses.GET,
+        http_mock.register_exception(
+            "GET",
             url,
-            body=httpx2.ConnectError("IPv6 route unavailable"),
+            exception=httpx2.ConnectError("IPv6 route unavailable"),
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             url,
-            status=200,
-            body=b"fallback",
+            status_code=200,
+            content=b"fallback",
         )
 
         with patch(
@@ -840,19 +767,22 @@ class FetchValidatedURLTest(SimpleTestCase):
 
         self.assertEqual(response.content, b"fallback")
         self.assertEqual(
-            [call.request.transport_url for call in responses.calls],
+            [
+                str(http_mock.get_transport_url(call.request))
+                for call in http_mock.calls
+            ],
             [
                 "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
                 "https://93.184.216.34/source",
             ],
         )
         self.assertEqual(
-            [call.request.extensions["timeout"]["connect"] for call in responses.calls],
+            [call.request.extensions["timeout"]["connect"] for call in http_mock.calls],
             [0.25, 0.25],
         )
         mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[
@@ -864,21 +794,21 @@ class FetchValidatedURLTest(SimpleTestCase):
         self, mocked_getaddrinfo
     ) -> None:
         url = "https://public.example.com/source"
-        responses.add(
-            responses.GET,
+        http_mock.register_exception(
+            "GET",
             url,
-            body=httpx2.ConnectTimeout("IPv6 probe timed out"),
+            exception=httpx2.ConnectTimeout("IPv6 probe timed out"),
         )
-        responses.add(
-            responses.GET,
+        http_mock.register_exception(
+            "GET",
             url,
-            body=httpx2.ConnectTimeout("IPv4 probe timed out"),
+            exception=httpx2.ConnectTimeout("IPv4 probe timed out"),
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             url,
-            status=200,
-            body=b"slow-fallback",
+            status_code=200,
+            content=b"slow-fallback",
         )
 
         with patch(
@@ -893,7 +823,10 @@ class FetchValidatedURLTest(SimpleTestCase):
 
         self.assertEqual(response.content, b"slow-fallback")
         self.assertEqual(
-            [call.request.transport_url for call in responses.calls],
+            [
+                str(http_mock.get_transport_url(call.request))
+                for call in http_mock.calls
+            ],
             [
                 "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
                 "https://93.184.216.34/source",
@@ -901,12 +834,12 @@ class FetchValidatedURLTest(SimpleTestCase):
             ],
         )
         self.assertEqual(
-            [call.request.extensions["timeout"]["connect"] for call in responses.calls],
+            [call.request.extensions["timeout"]["connect"] for call in http_mock.calls],
             [0.25, 0.25, 4.75],
         )
         mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests.async_resolve_runtime_hostname",
         new_callable=AsyncMock,
@@ -916,11 +849,11 @@ class FetchValidatedURLTest(SimpleTestCase):
         self, mocked_resolve
     ) -> None:
         url = "https://public.example.com/source"
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             url,
-            status=200,
-            body=b"async-pinned",
+            status_code=200,
+            content=b"async-pinned",
         )
 
         response = asyncio.run(
@@ -934,14 +867,14 @@ class FetchValidatedURLTest(SimpleTestCase):
         self.assertEqual(response.content, b"async-pinned")
         self.assertEqual(str(response.url), url)
         self.assertEqual(
-            responses.calls[0].request.transport_url,
+            str(http_mock.get_transport_url(http_mock.calls[0].request)),
             "https://93.184.216.34/source",
         )
         mocked_resolve.assert_awaited_once_with(
             "public.example.com", allow_private_targets=False
         )
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests.async_resolve_runtime_hostname",
         new_callable=AsyncMock,
@@ -950,11 +883,11 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_async_fetch_validated_url_blocks_private_target_by_default(
         self, mocked_resolve
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/source",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with self.assertRaises(ValidationError):
@@ -968,9 +901,9 @@ class FetchValidatedURLTest(SimpleTestCase):
         mocked_resolve.assert_awaited_once_with(
             "private.example.com", allow_private_targets=False
         )
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests.async_resolve_runtime_hostname",
         new_callable=AsyncMock,
@@ -983,16 +916,16 @@ class FetchValidatedURLTest(SimpleTestCase):
         self, mocked_resolve
     ) -> None:
         url = "https://public.example.com/source"
-        responses.add(
-            responses.GET,
+        http_mock.register_exception(
+            "GET",
             url,
-            body=httpx2.ConnectTimeout("IPv6 route timed out"),
+            exception=httpx2.ConnectTimeout("IPv6 route timed out"),
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             url,
-            status=200,
-            body=b"async-fallback",
+            status_code=200,
+            content=b"async-fallback",
         )
 
         with patch(
@@ -1009,21 +942,24 @@ class FetchValidatedURLTest(SimpleTestCase):
 
         self.assertEqual(response.content, b"async-fallback")
         self.assertEqual(
-            [call.request.transport_url for call in responses.calls],
+            [
+                str(http_mock.get_transport_url(call.request))
+                for call in http_mock.calls
+            ],
             [
                 "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
                 "https://93.184.216.34/source",
             ],
         )
         self.assertEqual(
-            [call.request.extensions["timeout"]["connect"] for call in responses.calls],
+            [call.request.extensions["timeout"]["connect"] for call in http_mock.calls],
             [0.25, 0.25],
         )
         mocked_resolve.assert_awaited_once_with(
             "public.example.com", allow_private_targets=False
         )
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests.async_resolve_runtime_hostname",
         new_callable=AsyncMock,
@@ -1036,21 +972,21 @@ class FetchValidatedURLTest(SimpleTestCase):
         self, mocked_resolve
     ) -> None:
         url = "https://public.example.com/source"
-        responses.add(
-            responses.GET,
+        http_mock.register_exception(
+            "GET",
             url,
-            body=httpx2.ConnectTimeout("IPv6 probe timed out"),
+            exception=httpx2.ConnectTimeout("IPv6 probe timed out"),
         )
-        responses.add(
-            responses.GET,
+        http_mock.register_exception(
+            "GET",
             url,
-            body=httpx2.ConnectTimeout("IPv4 probe timed out"),
+            exception=httpx2.ConnectTimeout("IPv4 probe timed out"),
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             url,
-            status=200,
-            body=b"async-slow-fallback",
+            status_code=200,
+            content=b"async-slow-fallback",
         )
 
         with patch(
@@ -1067,7 +1003,10 @@ class FetchValidatedURLTest(SimpleTestCase):
 
         self.assertEqual(response.content, b"async-slow-fallback")
         self.assertEqual(
-            [call.request.transport_url for call in responses.calls],
+            [
+                str(http_mock.get_transport_url(call.request))
+                for call in http_mock.calls
+            ],
             [
                 "https://[2606:2800:220:1:248:1893:25c8:1946]/source",
                 "https://93.184.216.34/source",
@@ -1075,24 +1014,24 @@ class FetchValidatedURLTest(SimpleTestCase):
             ],
         )
         self.assertEqual(
-            [call.request.extensions["timeout"]["connect"] for call in responses.calls],
+            [call.request.extensions["timeout"]["connect"] for call in http_mock.calls],
             [0.25, 0.25, 4.75],
         )
         mocked_resolve.assert_awaited_once_with(
             "public.example.com", allow_private_targets=False
         )
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
     )
     def test_fetch_validated_url_uses_idna_sni_name(self, mocked_getaddrinfo) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://xn--fa-hia.de/source",
-            status=200,
-            body=b"idna",
+            status_code=200,
+            content=b"idna",
         )
 
         response = fetch_validated_url(
@@ -1103,12 +1042,12 @@ class FetchValidatedURLTest(SimpleTestCase):
 
         self.assertEqual(response.content, b"idna")
         self.assertEqual(
-            responses.calls[0].request.extensions["sni_hostname"],
+            http_mock.calls[0].request.extensions["sni_hostname"],
             "xn--fa-hia.de",
         )
         mocked_getaddrinfo.assert_called_once_with("xn--fa-hia.de", None, type=1)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
@@ -1116,17 +1055,17 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_fetch_validated_url_keeps_logical_url_for_relative_redirect(
         self, mocked_getaddrinfo
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/source",
-            status=302,
+            status_code=302,
             headers={"Location": "/final"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/final",
-            status=200,
-            body=b"redirected",
+            status_code=200,
+            content=b"redirected",
         )
 
         response = fetch_validated_url(
@@ -1142,7 +1081,10 @@ class FetchValidatedURLTest(SimpleTestCase):
             ["https://public.example.com/source"],
         )
         self.assertEqual(
-            [call.request.transport_url for call in responses.calls],
+            [
+                str(http_mock.get_transport_url(call.request))
+                for call in http_mock.calls
+            ],
             [
                 "https://93.184.216.34/source",
                 "https://93.184.216.34/final",
@@ -1150,29 +1092,29 @@ class FetchValidatedURLTest(SimpleTestCase):
         )
         self.assertEqual(mocked_getaddrinfo.call_count, 2)
 
-    @responses.activate
+    @http_mock.activate
     def test_fetch_validated_url_strips_auth_on_cross_origin_redirect(self) -> None:
         recorded_headers: list[dict[str, str]] = []
 
         def redirect(request):
             recorded_headers.append(dict(request.headers))
-            return (
+            return httpx2.Response(
                 302,
-                {"Location": "https://other.example.com/final"},
-                b"",
+                headers={"Location": "https://other.example.com/final"},
+                content=b"",
             )
 
         def final(request):
             recorded_headers.append(dict(request.headers))
-            return 200, {}, b"ok"
+            return httpx2.Response(200, headers={}, content=b"ok")
 
-        responses.add_callback(
-            responses.GET,
+        http_mock.register_callback(
+            "GET",
             "https://public.example.com/source",
             callback=redirect,
         )
-        responses.add_callback(
-            responses.GET,
+        http_mock.register_callback(
+            "GET",
             "https://other.example.com/final",
             callback=final,
         )
@@ -1182,7 +1124,7 @@ class FetchValidatedURLTest(SimpleTestCase):
             "https://public.example.com/source",
             headers={"Authorization": "Bearer secret"},
             auth=("user", "pass"),
-            allow_redirects=True,
+            follow_redirects=True,
             allow_private_targets=True,
         )
 
@@ -1190,29 +1132,29 @@ class FetchValidatedURLTest(SimpleTestCase):
         self.assertIn("authorization", recorded_headers[0])
         self.assertNotIn("authorization", recorded_headers[1])
 
-    @responses.activate
+    @http_mock.activate
     def test_fetch_validated_url_preserves_delete_method_on_301_redirect(self) -> None:
-        recorded_calls: list[tuple[str, bytes | None]] = []
+        recorded_calls: list[tuple[str, bytes]] = []
 
         def redirect(request):
-            recorded_calls.append((request.method, request.body))
-            return (
+            recorded_calls.append((request.method, request.content))
+            return httpx2.Response(
                 301,
-                {"Location": "https://public.example.com/final"},
-                b"",
+                headers={"Location": "https://public.example.com/final"},
+                content=b"",
             )
 
         def final(request):
-            recorded_calls.append((request.method, request.body))
-            return 200, {}, b"ok"
+            recorded_calls.append((request.method, request.content))
+            return httpx2.Response(200, headers={}, content=b"ok")
 
-        responses.add_callback(
-            responses.DELETE,
+        http_mock.register_callback(
+            "DELETE",
             "https://public.example.com/source",
             callback=redirect,
         )
-        responses.add_callback(
-            responses.DELETE,
+        http_mock.register_callback(
+            "DELETE",
             "https://public.example.com/final",
             callback=final,
         )
@@ -1220,9 +1162,9 @@ class FetchValidatedURLTest(SimpleTestCase):
         fetch_validated_url(
             "delete",
             "https://public.example.com/source",
-            allow_redirects=True,
+            follow_redirects=True,
             allow_private_targets=True,
-            data=b"payload",
+            content=b"payload",
         )
 
         self.assertEqual(
@@ -1230,7 +1172,7 @@ class FetchValidatedURLTest(SimpleTestCase):
             [("DELETE", b"payload"), ("DELETE", b"payload")],
         )
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
@@ -1238,11 +1180,11 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_fetch_validated_url_blocks_private_target_by_default(
         self, mocked_getaddrinfo
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/source",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with self.assertRaises(ValidationError):
@@ -1252,9 +1194,9 @@ class FetchValidatedURLTest(SimpleTestCase):
             )
 
         mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -1266,17 +1208,17 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_fetch_validated_url_blocks_private_redirect(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/source",
-            status=302,
+            status_code=302,
             headers={"Location": "https://private.example.com/final"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/final",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with self.assertRaises(ValidationError):
@@ -1288,9 +1230,9 @@ class FetchValidatedURLTest(SimpleTestCase):
 
         self.assertEqual(mocked_getaddrinfo.call_count, 2)
         mocked_get_peer.assert_called_once()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="127.0.0.1")
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -1299,11 +1241,11 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_fetch_validated_url_blocks_private_peer_after_public_dns(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/source",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with self.assertRaises(ValidationError):
@@ -1315,9 +1257,9 @@ class FetchValidatedURLTest(SimpleTestCase):
 
         mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
         mocked_get_peer.assert_called_once()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="127.0.0.1")
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -1326,11 +1268,11 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_fetch_validated_url_allows_allowlisted_private_target(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example/source",
-            status=200,
-            body=b"allowlisted-private-target",
+            status_code=200,
+            content=b"allowlisted-private-target",
         )
 
         response = fetch_validated_url(
@@ -1343,9 +1285,9 @@ class FetchValidatedURLTest(SimpleTestCase):
         self.assertEqual(response.content, b"allowlisted-private-target")
         mocked_getaddrinfo.assert_not_called()
         mocked_get_peer.assert_not_called()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
         side_effect=["93.184.216.34", "127.0.0.1"],
@@ -1360,17 +1302,17 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_fetch_validated_url_allows_redirect_to_allowlisted_private_target(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/source",
-            status=302,
+            status_code=302,
             headers={"Location": "https://private.example/final"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example/final",
-            status=200,
-            body=b"allowlisted-private-redirect",
+            status_code=200,
+            content=b"allowlisted-private-redirect",
         )
 
         response = fetch_validated_url(
@@ -1383,9 +1325,9 @@ class FetchValidatedURLTest(SimpleTestCase):
         self.assertEqual(response.content, b"allowlisted-private-redirect")
         self.assertEqual(mocked_getaddrinfo.call_count, 1)
         self.assertEqual(mocked_get_peer.call_count, 1)
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(len(http_mock.calls), 2)
 
-    @responses.activate
+    @http_mock.activate
     @patch("weblate.utils.requests._get_response_peer_ip")
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -1394,11 +1336,11 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_fetch_validated_url_skips_peer_validation_through_proxy(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/source",
-            status=200,
-            body=b"fetched-via-proxy",
+            status_code=200,
+            content=b"fetched-via-proxy",
         )
 
         with patch.dict(
@@ -1419,9 +1361,9 @@ class FetchValidatedURLTest(SimpleTestCase):
         self.assertEqual(response.content, b"fetched-via-proxy")
         mocked_getaddrinfo.assert_not_called()
         mocked_get_peer.assert_not_called()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @patch("weblate.utils.requests._get_response_peer_ip")
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -1430,11 +1372,11 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_fetch_validated_url_allows_proxy_resolved_hostname(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/source",
-            status=200,
-            body=b"resolved-by-proxy",
+            status_code=200,
+            content=b"resolved-by-proxy",
         )
 
         with patch.dict(
@@ -1455,9 +1397,9 @@ class FetchValidatedURLTest(SimpleTestCase):
         self.assertEqual(response.content, b"resolved-by-proxy")
         mocked_getaddrinfo.assert_not_called()
         mocked_get_peer.assert_not_called()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @patch("weblate.utils.requests._get_response_peer_ip")
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -1466,11 +1408,11 @@ class FetchValidatedURLTest(SimpleTestCase):
     def test_fetch_validated_url_allows_allowlisted_hostname_through_proxy(
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "http://ollama/api/tags",
-            status=200,
-            body=b'{"models":[]}',
+            status_code=200,
+            content=b'{"models":[]}',
         )
 
         with patch.dict(
@@ -1492,15 +1434,15 @@ class FetchValidatedURLTest(SimpleTestCase):
         self.assertEqual(response.content, b'{"models":[]}')
         mocked_getaddrinfo.assert_not_called()
         mocked_get_peer.assert_not_called()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_fetch_validated_url_blocks_localhost_alias_through_proxy(self) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "http://localhost./source",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with (
@@ -1521,15 +1463,15 @@ class FetchValidatedURLTest(SimpleTestCase):
                 allow_private_targets=False,
             )
 
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     def test_fetch_validated_url_blocks_shorthand_loopback_through_proxy(self) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "http://127.1/source",
-            status=200,
-            body=b"should-not-be-fetched",
+            status_code=200,
+            content=b"should-not-be-fetched",
         )
 
         with (
@@ -1550,7 +1492,7 @@ class FetchValidatedURLTest(SimpleTestCase):
                 allow_private_targets=False,
             )
 
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
     @patch("weblate.utils.requests._get_response_peer_ip", return_value=None)
     def test_http_request_fails_when_peer_ip_is_unavailable(

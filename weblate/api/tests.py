@@ -101,7 +101,7 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
@@ -5331,7 +5331,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(len(response.data["results"]), 1)
 
-    @responses.activate
+    @http_mock.activate
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",

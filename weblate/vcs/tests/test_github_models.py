@@ -14,7 +14,7 @@ from django.core.cache import cache
 from django.test import TestCase
 
 from weblate.trans.models import Component, Project
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.github import (
     GitHubAppCredentials,
@@ -209,7 +209,7 @@ class TestGitHubInstallationManager(TestCase):
             with self.subTest(code=code), self.assertRaises(ValueError):
                 normalize_github_callback_code(code)
 
-    @responses.activate
+    @http_mock.activate
     def test_installation_token_rejects_malformed_installation_id(self):
         with self.assertRaises(ValueError):
             async_to_sync(get_installation_token)(
@@ -219,12 +219,12 @@ class TestGitHubInstallationManager(TestCase):
                 "github.com",
             )
 
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     def test_manifest_code_quotes_code_path_segment(self):
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app-manifests/"
             "..%2Finstallations%2F67890%2Faccess_tokens%3Fx%3D1/conversions",
             json={"id": 99},
@@ -234,13 +234,13 @@ class TestGitHubInstallationManager(TestCase):
             "../installations/67890/access_tokens?x=1", "github.com"
         )
 
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_sync_from_api(self):
         _make_credentials()
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/app/installations/24680",
             json={
                 "id": 24680,
@@ -255,7 +255,7 @@ class TestGitHubInstallationManager(TestCase):
 
         self.assertEqual(installation.target_login, "synced-org")
         self.assertEqual(installation.app_id, "99999")
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
     def test_sync_from_api_requires_credentials(self):
         with self.assertRaises(GitHubAppNotConfiguredError):
@@ -265,13 +265,13 @@ class TestGitHubInstallationManager(TestCase):
                 workspace=_make_workspace("sync-missing-workspace"),
             )
 
-    @responses.activate
+    @http_mock.activate
     def test_connect_workspace_reenables_existing_installation(self):
         _make_credentials()
         self.installation.enabled = False
         self.installation.save(update_fields=["enabled"])
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/app/installations/67890",
             json={
                 "id": 67890,
@@ -287,14 +287,14 @@ class TestGitHubInstallationManager(TestCase):
         self.assertFalse(created)
         self.assertEqual(installation.pk, self.installation.pk)
         self.assertTrue(installation.enabled)
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_auth_environment_uses_installation_token(self):
         _make_credentials()
         cache.clear()
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/67890/access_tokens",
             json={"token": "ghs_test"},
         )
@@ -305,9 +305,9 @@ class TestGitHubInstallationManager(TestCase):
 
         _assert_no_github_app_auth_args(self, args)
         _assert_github_app_auth_environment(self, environment)
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
         self.assertEqual(
-            responses.calls[0].request.url,
+            http_mock.calls[0].request.url,
             "https://api.github.com/app/installations/67890/access_tokens",
         )
 
@@ -330,7 +330,7 @@ class TestGitHubInstallationManager(TestCase):
 
         self.assertEqual(component.branch, "")
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_auth_environment_requires_workspace(self):
         repository = GithubAppRepository(".", branch="main", local=True)
 
@@ -339,9 +339,9 @@ class TestGitHubInstallationManager(TestCase):
         ):
             repository.get_auth_environment()
 
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_auth_environment_require_installation(self):
         _make_credentials()
         cache.clear()
@@ -352,18 +352,18 @@ class TestGitHubInstallationManager(TestCase):
         ):
             repository.get_auth_environment()
 
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_auth_environment_token_failure_raises_repository_error(
         self,
     ):
         _make_credentials()
         cache.clear()
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/67890/access_tokens",
-            status=500,
+            status_code=500,
         )
         repository = self._make_app_repository()
 
@@ -372,9 +372,9 @@ class TestGitHubInstallationManager(TestCase):
         ):
             repository.get_auth_environment()
 
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_auth_args_malformed_installation_id_raises_repository_error(
         self,
     ):
@@ -388,9 +388,9 @@ class TestGitHubInstallationManager(TestCase):
         ):
             repository.get_auth_environment()
 
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_instance_auth_requires_workspace(self):
         component = self._make_component(has_workspace=False)
         repository = GithubAppRepository(
@@ -405,18 +405,18 @@ class TestGitHubInstallationManager(TestCase):
             RepositoryError, "GitHub App components require a project with a workspace"
         ):
             repository.get_credentials_by_hostname("api.github.com")
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_instance_auth_token_failure_raises_repository_error(
         self,
     ):
         _make_credentials()
         cache.clear()
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/67890/access_tokens",
-            status=500,
+            status_code=500,
         )
         component = self._make_component()
         repository = GithubAppRepository(
@@ -428,14 +428,14 @@ class TestGitHubInstallationManager(TestCase):
         ):
             repository.get_credentials_by_hostname("api.github.com")
 
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_clone_uses_installation_token(self):
         _make_credentials()
         cache.clear()
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/67890/access_tokens",
             json={"token": "ghs_test"},
         )
@@ -452,14 +452,14 @@ class TestGitHubInstallationManager(TestCase):
         self.assertIn("clone", clone_args)
         _assert_no_github_app_auth_args(self, clone_args)
         _assert_github_app_auth_environment(self, environment)
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_push_uses_installation_token_environment(self):
         _make_credentials()
         cache.clear()
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/67890/access_tokens",
             json={"token": "ghs_test"},
         )
@@ -477,16 +477,16 @@ class TestGitHubInstallationManager(TestCase):
         self.assertIn("push", push_args)
         _assert_no_github_app_auth_args(self, push_args)
         _assert_github_app_auth_environment(self, environment)
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_remote_compatibility_deepen_uses_installation_token(
         self,
     ):
         _make_credentials()
         cache.clear()
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/67890/access_tokens",
             json={"token": "ghs_test"},
         )
@@ -511,14 +511,14 @@ class TestGitHubInstallationManager(TestCase):
         self.assertIn(f"--deepen={repository.remote_compatibility_deepen}", deepen_args)
         _assert_no_github_app_auth_args(self, deepen_args)
         _assert_github_app_auth_environment(self, environment)
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_github_repository_remote_compatibility_uses_installation_token(self):
         _make_credentials()
         cache.clear()
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/67890/access_tokens",
             json={"token": "ghs_test"},
         )
@@ -544,4 +544,4 @@ class TestGitHubInstallationManager(TestCase):
         self.assertIn("fetch", fetch_args)
         _assert_no_github_app_auth_args(self, fetch_args)
         _assert_github_app_auth_environment(self, environment)
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
