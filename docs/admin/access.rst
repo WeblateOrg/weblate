@@ -67,11 +67,15 @@ project.
 
 The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. _statistics-access-filtering:
+
 .. note::
 
-    Even `Private` project statistics are counted into
-    the site-wide statistics and language summary.
-    This does not reveal project names or any other info.
+    Aggregate statistics include `Private` projects and
+    :ref:`restricted components <component-restricted>`, including in
+    site-wide, language, and workspace summaries. Object listings, names, and
+    actions remain permission-filtered, so these aggregates do not grant access
+    to the underlying projects or components.
 
 .. note::
 

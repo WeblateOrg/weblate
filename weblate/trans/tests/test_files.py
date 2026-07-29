@@ -30,11 +30,20 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.forms import SimpleUploadForm, UploadForm, get_upload_form
-from weblate.trans.models import Change, ComponentList, PendingUnitChange, Translation
+from weblate.trans.models import (
+    Change,
+    Component,
+    ComponentList,
+    PendingUnitChange,
+    Project,
+    Translation,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path, get_test_file
+from weblate.trans.views.files import can_download_workspace
 from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_READONLY
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -1321,6 +1330,87 @@ class DownloadMultiTest(ViewTestCase):
             reverse("download", kwargs={"path": self.project.get_url_path()})
         )
         self.assert_zip(response, "test/test/po/de.po")
+
+    def test_workspace(self) -> None:
+        workspace = Workspace.objects.create(name="Download workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+
+        response = self.client.get(
+            reverse("download", kwargs={"path": workspace.get_url_path()})
+        )
+
+        self.assert_zip(response, "test/test/po/de.po")
+        self.assertIn(f"workspace-{workspace.pk}.zip", response["Content-Disposition"])
+
+    def test_workspace_commits_only_downloadable_components(self) -> None:
+        workspace = Workspace.objects.create(name="Download workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.create_po(
+            project=self.project,
+            name="Restricted",
+            restricted=True,
+        )
+        self.user.clear_permissions_cache()
+
+        with (
+            patch.object(
+                Component, "commit_pending", autospec=True
+            ) as component_commit,
+            patch.object(Project, "commit_pending") as project_commit,
+        ):
+            response = self.client.get(
+                reverse("download", kwargs={"path": workspace.get_url_path()})
+            )
+
+        self.assertEqual(response.status_code, 200)
+        component_commit.assert_called_once_with(self.component, "download", None)
+        project_commit.assert_not_called()
+
+    def test_workspace_download_check_stops_at_first_component(self) -> None:
+        workspace = Workspace.objects.create(name="Download workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.create_po(project=self.project, name="Second")
+
+        with patch.object(
+            self.user,
+            "has_perm",
+            side_effect=[True, AssertionError("Checked another component")],
+        ) as has_perm:
+            self.assertTrue(can_download_workspace(self.user, workspace))
+
+        has_perm.assert_called_once()
+
+    def test_workspace_ownership_does_not_bypass_project_access(self) -> None:
+        workspace = Workspace.objects.create(name="Private download workspace")
+        workspace.add_owner(self.user)
+        self.project.workspace = workspace
+        self.project.access_control = self.project.ACCESS_PRIVATE
+        self.project.save(update_fields=["workspace", "access_control"])
+        self.user.clear_permissions_cache()
+
+        response = self.client.get(
+            reverse("download", kwargs={"path": workspace.get_url_path()})
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_workspace_download_excludes_restricted_components(self) -> None:
+        workspace = Workspace.objects.create(name="Restricted download workspace")
+        workspace.add_owner(self.user)
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+
+        response = self.client.get(
+            reverse("download", kwargs={"path": workspace.get_url_path()})
+        )
+
+        self.assertEqual(response.status_code, 403)
 
     def test_project_lang(self) -> None:
         response = self.client.get(
