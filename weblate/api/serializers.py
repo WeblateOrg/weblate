@@ -963,9 +963,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
             )
             missing = sorted(set(values) - found)
             if missing:
-                errors[field] = "Invalid value: {value}".format(
-                    value=", ".join(missing),
-                )
+                errors[field] = f"Invalid value: {', '.join(missing)}"
                 continue
 
             if field == "watched":
@@ -976,9 +974,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
                 )
                 disallowed = sorted(set(values) - allowed)
                 if disallowed:
-                    errors[field] = "Invalid value: {value}".format(
-                        value=", ".join(disallowed),
-                    )
+                    errors[field] = f"Invalid value: {', '.join(disallowed)}"
         if errors:
             raise serializers.ValidationError(errors)
 
