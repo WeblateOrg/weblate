@@ -620,9 +620,10 @@ Security properties Weblate provides
        repository browser URL, outbound webhook URL, or VCS URL reaches an
        internal or non-public target despite default controls.
      - Security-critical when it exposes internal services or metadata.
-   * - Weblate records security-relevant account, permission, and project or
-       component setting changes in audit logs or history. *(documented)*
-       (source: :doc:`/security/privacy-compliance`, :doc:`/changes`)
+   * - Weblate records security-relevant account, permission, authenticated
+       web-action rate-limit lockouts, and project or component setting changes
+       in audit logs or history. *(documented)* (source:
+       :doc:`/security/privacy-compliance`, :ref:`rate-limit`, :doc:`/changes`)
      - Logging is configured and storage is available.
      - Missing audit trail for an action Weblate claims to log.
      - Security-critical when it blocks investigation of privileged changes;

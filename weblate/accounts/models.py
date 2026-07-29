@@ -278,6 +278,8 @@ ACCOUNT_ACTIVITY = {
     # Translators: Audit log entry
     "password": gettext_lazy("Password changed."),
     # Translators: Audit log entry
+    "rate-limit": gettext_lazy("Rate limit exceeded for {scope} at {path}."),
+    # Translators: Audit log entry
     "username": gettext_lazy("Username changed from {old} to {new}."),
     # Translators: Audit log entry
     "email": gettext_lazy("E-mail changed from {old} to {new}."),
@@ -602,7 +604,15 @@ class AuditLog(models.Model):
         for name, value in self.params.items():
             if value is None:
                 value = format_html("<em>{}</em>", value)
-            elif name in {"old", "new", "name", "email", "username"}:
+            elif name in {
+                "old",
+                "new",
+                "name",
+                "email",
+                "username",
+                "scope",
+                "path",
+            }:
                 value = format_html("<code>{}</code>", mail_quote_value(value))
             elif name == "method":
                 value = format_html("<strong>{}</strong>", get_auth_name(value))

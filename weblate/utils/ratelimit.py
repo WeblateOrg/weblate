@@ -63,7 +63,23 @@ def check_rate_limit(scope: str, request: AuthenticatedHttpRequest) -> bool:
 
     if is_exceeded:
         # Set key to longer expiry for lockout period
-        limiter.touch(get_rate_setting(scope, "LOCKOUT"))
+        lockout = get_rate_setting(scope, "LOCKOUT")
+        limiter.touch(lockout)
+        if (
+            request.user.is_authenticated
+            and request.user.pk is not None
+            and limiter.should_create_audit_log(lockout)
+        ):
+            # ruff: ignore[import-outside-top-level]
+            from weblate.accounts.models import AuditLog
+
+            AuditLog.objects.create(
+                request.user,
+                request,
+                "rate-limit",
+                scope=scope,
+                path=request.path,
+            )
         LOGGER.info(
             "rate-limit lockout for %s in %s scope from %s",
             limiter.key,
@@ -196,6 +212,21 @@ class RateLimitHttpRequest(RateLimitBase):
         attempts = get_rate_setting(scope, "ATTEMPTS")
 
         RateLimitBase.__init__(self, base_key, [(attempts, window)])
+
+    @property
+    def audit_cache_key(self) -> str:
+        return f"{self.key}:audit"
+
+    def should_create_audit_log(self, timeout: int) -> bool:
+        """Return whether this lockout needs an audit log entry."""
+        created = cache.add(self.audit_cache_key, True, timeout)
+        if not created:
+            cache.touch(self.audit_cache_key, timeout)
+        return created
+
+    def reset(self) -> None:
+        super().reset()
+        cache.delete(self.audit_cache_key)
 
 
 class CacheCounterItem:
