@@ -651,6 +651,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.get_screenshot_as_png()
         )
 
+    def screenshot_viewport(self, name: str, width: int, height: int = 1024) -> None:
+        """
+        Capture screenshot of a fixed size viewport
+
+        Unlike screenshot(), the window is not grown to fit the whole document,
+        so that responsive layout and scrollbars are captured as the user sees
+        them at the given width.
+        """
+        self.driver.set_window_size(width, height)
+        self.scroll_top()
+        self.wait_for_screenshot_ready()
+        Path(os.path.join(self.image_path, name)).write_bytes(
+            self.driver.get_screenshot_as_png()
+        )
+
     def use_live_server_widget_preview(self) -> None:
         """Load widget preview from the live server while displaying public URLs."""
         protocol = "https" if settings.ENABLE_HTTPS else "http"
@@ -2130,6 +2145,88 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Dashboard")
         time.sleep(0.2)
         self.screenshot("your-translations.png")
+
+    def get_dashboard_listing_scroll(self) -> dict:
+        """Measure horizontal scrolling of the watched translations listing."""
+        return self.driver.execute_script(
+            """
+            const wrapper = document.querySelector(
+                "#your-subscriptions .table-listing-wrapper"
+            );
+            if (wrapper === null) {
+                return null;
+            }
+            const header = wrapper.querySelector(".sticky-header");
+            const hidden = Array.from(
+                wrapper.querySelectorAll("thead th[class*='zero-width-']")
+            ).filter((cell) => getComputedStyle(cell).display === "none");
+            // Scroll to the end to see how far the listing actually scrolls
+            wrapper.scrollLeft = wrapper.scrollWidth;
+            const scrollLeft = wrapper.scrollLeft;
+            wrapper.scrollLeft = 0;
+            return {
+                scrollable: wrapper.classList.contains("table-scroll"),
+                overflow: wrapper.scrollWidth - wrapper.clientWidth,
+                hiddenColumns: hidden.length,
+                scrollLeft: scrollLeft,
+                headerPosition: header === null ? "" : getComputedStyle(header).position,
+            };
+            """
+        )
+
+    def test_dashboard_wide_tables(self) -> None:
+        """Test horizontal scrolling of the dashboard listing."""
+        # Window narrow enough for the responsive rules to hide some columns
+        narrow_width = 900
+
+        project = self.create_component()
+        user = self.do_login()
+        user.profile.watched.add(project)
+
+        self.driver.set_window_size(narrow_width, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
+
+        # Columns are hidden and the listing does not scroll by default
+        before = self.get_dashboard_listing_scroll()
+        self.assertIsNotNone(before)
+        self.assertFalse(before["scrollable"])
+        self.assertGreater(before["hiddenColumns"], 0)
+        self.assertEqual(before["scrollLeft"], 0)
+        self.assertEqual(before["headerPosition"], "sticky")
+        self.screenshot_viewport("dashboard-narrow-columns.png", narrow_width)
+
+        # Turn the preference on in the settings
+        self.driver.set_window_size(1200, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('profile')}")
+        self.click("Preferences")
+        wide_tables = self.driver.find_element(By.ID, "id_wide_tables")
+        self.assertFalse(wide_tables.is_selected())
+        self.click(wide_tables)
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, "#preferences input[type='submit']"
+                )
+            )
+        user.profile.refresh_from_db()
+        self.assertTrue(user.profile.wide_tables)
+
+        self.driver.set_window_size(narrow_width, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
+
+        # All columns are shown and the listing scrolls horizontally instead
+        after = self.get_dashboard_listing_scroll()
+        self.assertIsNotNone(after)
+        self.assertTrue(after["scrollable"])
+        self.assertEqual(after["hiddenColumns"], 0)
+        self.assertGreater(after["overflow"], 0)
+        self.assertGreater(after["scrollLeft"], 0)
+        # Sticky header does not work inside a scrolling container
+        self.assertEqual(after["headerPosition"], "static")
+        self.screenshot_viewport("dashboard-wide-tables.png", narrow_width)
 
     def test_team_management(self) -> None:
         """Test team management screenshots."""
