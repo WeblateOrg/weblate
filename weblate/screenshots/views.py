@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.http import FileResponse, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -302,6 +302,57 @@ def add_sources(request: AuthenticatedHttpRequest, obj) -> dict[str, int | bool]
     }
 
 
+async def add_sources_async(
+    request: AuthenticatedHttpRequest, obj
+) -> dict[str, int | bool]:
+    sources = request.POST.getlist("source")
+    if not sources:
+        return {"status": False, "added": 0, "skipped": 0, "invalid": 0}
+
+    source_ids: list[int] = []
+    seen: set[int] = set()
+    skipped = 0
+    invalid = 0
+    for source in sources:
+        try:
+            source_id = int(source)
+        except ValueError:
+            invalid += 1
+            continue
+        if source_id in seen:
+            skipped += 1
+            continue
+        seen.add(source_id)
+        source_ids.append(source_id)
+
+    existing = {
+        pk
+        async for pk in obj.units.filter(pk__in=source_ids).values_list("pk", flat=True)
+    }
+    units = await obj.translation.unit_set.ain_bulk(source_ids)
+    units_to_add: list[Unit] = []
+    for source_id in source_ids:
+        unit = units.get(source_id)
+        if unit is None:
+            invalid += 1
+            continue
+        if source_id in existing:
+            skipped += 1
+            continue
+        units_to_add.append(unit)
+        existing.add(source_id)
+
+    await obj.add_units_async(units_to_add, user=request.user)
+    added = len(units_to_add)
+
+    return {
+        "status": added > 0,
+        "added": added,
+        "skipped": skipped,
+        "invalid": invalid,
+    }
+
+
 def try_add_source(request: AuthenticatedHttpRequest, obj) -> bool:
     return bool(add_sources(request, obj)["status"])
 
@@ -565,18 +616,31 @@ def get_screenshot(request: AuthenticatedHttpRequest, pk):
     return obj
 
 
+async def aget_screenshot(request: AuthenticatedHttpRequest, pk):
+    await request.user.aprepare_permissions()
+    obj = await aget_object_or_404(
+        Screenshot.objects.filter_access(request.user).select_related(
+            "translation__component__project"
+        ),
+        pk=pk,
+    )
+    if not request.user.has_perm("screenshot.edit", obj.translation.component):
+        raise PermissionDenied
+    return obj
+
+
 @require_POST
 @login_required
-def remove_source(request: AuthenticatedHttpRequest, pk):
-    obj = get_screenshot(request, pk)
+async def remove_source(request: AuthenticatedHttpRequest, pk):
+    obj = await aget_screenshot(request, pk)
 
     try:
-        unit = obj.translation.unit_set.get(pk=int(request.POST["source"]))
+        unit = await obj.translation.unit_set.aget(pk=int(request.POST["source"]))
     except (Unit.DoesNotExist, ValueError):
         messages.error(request, gettext("Invalid unit."))
         return redirect(obj)
 
-    obj.remove_unit(unit, user=request.user)
+    await obj.aremove_unit(unit, user=request.user)
 
     messages.success(request, gettext("Source has been removed."))
 
@@ -766,9 +830,11 @@ def ocr_search(request: AuthenticatedHttpRequest, pk):
 
 @login_required
 @require_POST
-def add_source(request: AuthenticatedHttpRequest, pk):
-    obj = get_screenshot(request, pk)
-    return JsonResponse(data={"responseCode": 200, **add_sources(request, obj)})
+async def add_source(request: AuthenticatedHttpRequest, pk):
+    obj = await aget_screenshot(request, pk)
+    return JsonResponse(
+        data={"responseCode": 200, **await add_sources_async(request, obj)}
+    )
 
 
 @login_required

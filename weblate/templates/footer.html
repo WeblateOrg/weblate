@@ -54,11 +54,14 @@
 
 {% if matomo_site_id and matomo_url %}
   <!-- Matomo -->
-  <script src="{% url "js-matomo" %}"
+  <script src="{% static 'js/matomo.js' %}"
           async
           defer
           id="matomo-tracker"
-          data-params='{"Language": "{{ LANGUAGE_CODE|escapejs }}"{% if project %}, "Project": "{{ project.name|escapejs }}"{% endif %}}'></script>
+          data-url="{{ matomo_url }}"
+          data-site-id="{{ matomo_site_id }}"
+          data-language="{{ LANGUAGE_CODE }}"
+          {% if project %}data-project="{{ project.name }}"{% endif %}></script>
   <noscript>
     <img src="{{ matomo_url }}matomo.php?idsite={{ matomo_site_id }}&amp;rec=1"
          style="border:0"

@@ -10,6 +10,7 @@ import tempfile
 import warnings
 from contextlib import contextmanager, suppress
 from io import StringIO
+from pathlib import Path
 from shutil import copyfile
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
@@ -1599,9 +1600,50 @@ class BackupsTest(ViewTestCase):
 
         self.assertTrue(os.path.isdir(project_path))
 
-    def test_restore_skips_git_hooks(self) -> None:
+    def test_unsafe_vcs_paths(self) -> None:
+        for path in (
+            "test/.hg/hgrc",
+            "test/.hg/hgrc-not-shared",
+            "test/.hg/hgrc-future",
+            "test/nested/.hg/hgrc",
+            "test/.hg/sharedpath",
+            "test\\.hg\\hgrc-not-shared",
+            "test/.HG/HGRC-NOT-SHARED",
+            "test/.Hg/HgRc-Future",
+            "test/.HG/SHAREDPATH",
+            "test/.GIT/CONFIG",
+            "test/.GiT/HOOKS/pre-commit",
+            "test/.GIT/MODULES/submodule/config",
+        ):
+            with self.subTest(path=path):
+                self.assertTrue(ProjectBackup.is_unsafe_vcs_path(path))
+
+        for path in (
+            "test/hgrc-not-shared",
+            "test/.hg/hgrc.d/example.rc",
+            "test/.hg/store/data/hgrc.i",
+            "test/.hg/store/sharedpath",
+            "test/.HG/store/data/HGRC.i",
+            "test/.GITISH/HOOKS/pre-commit",
+            "test/.git/hooks-backup/pre-commit",
+        ):
+            with self.subTest(path=path):
+                self.assertFalse(ProjectBackup.is_unsafe_vcs_path(path))
+
+    def test_restore_skips_unsafe_vcs_files(self) -> None:
         backup = ProjectBackup()
         backup.backup_project(self.project)
+        unsafe_paths = (
+            ".git/hooks/post-checkout",
+            ".hg/hgrc",
+            ".hg/hgrc-not-shared",
+            ".hg/hgrc-future",
+            ".hg/sharedpath",
+            ".HG/HGRC-NOT-SHARED",
+            ".Hg/SharedPath",
+            ".GIT/HOOKS/pre-commit",
+            ".GiT/CONFIG",
+        )
 
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -1613,10 +1655,8 @@ class BackupsTest(ViewTestCase):
             ):
                 for item in source_zip.infolist():
                     target_zip.writestr(item, source_zip.read(item.filename))
-                target_zip.writestr(
-                    "vcs/test/.git/hooks/post-checkout",
-                    b"#!/bin/sh\nexit 1\n",
-                )
+                for path in unsafe_paths:
+                    target_zip.writestr(f"vcs/test/{path}", b"unsafe")
 
             restore = ProjectBackup(temp_name)
             restore.validate()
@@ -1626,11 +1666,13 @@ class BackupsTest(ViewTestCase):
             component = restored.component_set.get(slug="test")
             repository = component.repository
             assert isinstance(repository, GitRepository)
-            self.assertFalse(
-                os.path.exists(
-                    os.path.join(component.full_path, ".git", "hooks", "post-checkout")
-                )
-            )
+            for path in unsafe_paths:
+                with self.subTest(path=path):
+                    restored_path = os.path.join(component.full_path, path)
+                    if os.path.exists(restored_path):
+                        # On case-insensitive filesystems, a mixed-case path can
+                        # resolve to the legitimate .git/config from the backup.
+                        self.assertNotEqual(Path(restored_path).read_bytes(), b"unsafe")
             self.assertEqual(repository.get_config("remote.origin.url"), component.repo)
             self.assertEqual(
                 repository.get_config(f"branch.{component.branch}.remote"),

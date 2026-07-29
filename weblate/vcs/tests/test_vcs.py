@@ -1300,7 +1300,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
 
         with (
             patch(
-                "weblate.utils.requests._get_proxy",
+                "weblate.utils.requests.get_environment_proxy",
                 return_value=None,
             ),
             patch("weblate.utils.version.USER_AGENT", "Weblate/test"),
@@ -1503,7 +1503,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                     (0, 0, 0, "", ("2001:4860:4860::8888", 443, 0, 0)),
                 ],
             ),
-            patch("weblate.vcs.git._get_proxy", return_value=None),
+            patch("weblate.vcs.base.get_environment_proxy", return_value=None),
             patch.object(
                 GitRepository,
                 "_popen",
@@ -1515,8 +1515,10 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         self.assertEqual(branch, "main")
         args = popen.call_args.args[0]
         self.assertEqual(
-            args[:4],
+            args[:6],
             [
+                "-c",
+                "http.proxy=",
                 "-c",
                 "http.curloptResolve=git.example:443:93.184.216.34,[2001:4860:4860::8888]",
                 "-c",
@@ -1533,13 +1535,13 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         with (
             patch.dict(
                 os.environ,
-                {"ALL_PROXY": "http://proxy.example:8080"},
+                {"https_proxy": "http://proxy.example:8080"},
                 clear=True,
             ),
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
-                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
-            ),
+                side_effect=OSError("Name or service not known"),
+            ) as getaddrinfo,
             patch.object(
                 GitRepository,
                 "_popen",
@@ -1549,6 +1551,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             branch = GitRepository.get_remote_branch("https://git.example/repo.git")
 
         self.assertEqual(branch, "main")
+        getaddrinfo.assert_not_called()
         args = popen.call_args.args[0]
         self.assertNotIn(
             "http.curloptResolve=git.example:443:93.184.216.34",
@@ -1559,11 +1562,44 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         environment = popen.call_args.kwargs["environment"]
         self.assertEqual(
             environment,
-            {"https_proxy": "http://proxy.example:8080"},
+            {
+                "GIT_CONFIG_COUNT": "1",
+                "GIT_CONFIG_KEY_0": "http.proxy",
+                "GIT_CONFIG_VALUE_0": "http://proxy.example:8080",
+            },
         )
         self.assertEqual(
-            GitRepository._getenv(environment)["https_proxy"],  # ruff: ignore[private-member-access]
+            GitRepository._getenv(environment)[  # ruff: ignore[private-member-access]
+                "GIT_CONFIG_VALUE_0"
+            ],
             "http://proxy.example:8080",
+        )
+
+    def test_https_proxy_preserves_command_authentication(self) -> None:
+        authentication = {
+            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_KEY_0": "http.extraHeader",
+            "GIT_CONFIG_VALUE_0": "Authorization: Basic secret",
+        }
+        target = SimpleNamespace(
+            scheme="https",
+            proxy_url="http://proxy.example:8080",
+        )
+
+        _args, environment = GitRepository.prepare_remote_command(
+            ["fetch"],
+            authentication,
+            target,  # type: ignore[arg-type]
+        )
+
+        self.assertEqual(
+            environment,
+            {
+                **authentication,
+                "GIT_CONFIG_COUNT": "2",
+                "GIT_CONFIG_KEY_1": "http.proxy",
+                "GIT_CONFIG_VALUE_1": "http://proxy.example:8080",
+            },
         )
 
     @override_settings(
@@ -1577,7 +1613,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
             ) as getaddrinfo,
-            patch("weblate.vcs.git._get_proxy", return_value=None),
+            patch("weblate.vcs.base.get_environment_proxy", return_value=None),
             patch.object(
                 GitRepository,
                 "_popen",
@@ -1604,7 +1640,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         ):
             with (
                 self.subTest(url=url),
-                patch("weblate.vcs.git._get_proxy", return_value=None),
+                patch("weblate.vcs.base.get_environment_proxy", return_value=None),
                 patch.object(
                     GitRepository,
                     "_popen",
@@ -1618,7 +1654,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 any(arg.startswith("http.curloptResolve=") for arg in args)
             )
             self.assertIn("http.followRedirects=false", args)
-            self.assertNotIn("http.proxy=", args)
+            self.assertIn("http.proxy=", args)
 
     @override_settings(
         VCS_ALLOW_HOSTS=set(),
@@ -1632,7 +1668,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
             ) as getaddrinfo,
-            patch("weblate.vcs.git._get_proxy", return_value=None),
+            patch("weblate.vcs.base.get_environment_proxy", return_value=None),
             patch.object(GitRepository, "validate_branch_name", return_value="main"),
             patch.object(GitRepository, "_popen", return_value="") as popen,
         ):

@@ -43,12 +43,14 @@ Weblate 2026.8
 * :ref:`Disabling password authentication <site-wide-user-management>` from site-wide user management now regenerates the user's personal API key by default.
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
+* URLs containing backslashes are now rejected as invalid.
 * Protected outbound HTTP requests now bind connections to validated public addresses.
 * Permanent same-host Git HTTP redirects are now validated and stored as canonical component repository URLs.
 * VCS operations now bind protected Git connections to validated public addresses and fail closed for clients which cannot enforce that binding.
 * Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state and skip repository-linked components when the importer cannot access the target component.
+* Project backup restores no longer load Mercurial repository configuration or shared-repository indirection supplied by archives.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
 * Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.
@@ -60,6 +62,7 @@ Weblate 2026.8
 * django-compressor is no longer used, and the ``COMPRESS_*`` settings have been removed.
 * Legal document styling is now provided through an overridable template instead of Weblate's global stylesheet. See :ref:`legal-customization`.
 * When :setting:`VCS_RESTRICT_PRIVATE` is enabled, Mercurial and Subversion repository hosts must be explicitly included in :setting:`VCS_ALLOW_HOSTS`; Git over HTTPS and SSH enforces connection address pinning without an allowlist entry.
+* Outbound HTTP proxy configuration is limited to the per-protocol environment variables documented in :ref:`http-proxy`.
 * Git SSH validates configured ``HostName`` and ``Port`` destinations before connecting; administrator SSH configuration remains trusted, and :setting:`SSH_EXTRA_ARGS` can override connection routing and address pinning.
 * Git LFS object transfers are unsupported and disabled for Weblate-managed repositories; LFS-tracked files remain pointer files.
 * The project and component ``credits`` REST API endpoints and their ``credits_url`` response fields have been replaced by scoped ``reports`` endpoints and ``reports_url``. Credits report generation is now asynchronous; clients need to submit a ``credits`` report, follow the returned task URL, and fetch the completed report. See :http:post:`/api/reports/`.

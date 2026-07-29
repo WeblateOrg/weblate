@@ -47,6 +47,7 @@ from weblate.utils.files import (
     remove_tree,
 )
 from weblate.utils.lock import WeblateLock
+from weblate.utils.outbound import get_environment_proxy
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
@@ -752,6 +753,7 @@ class Repository:
             target = resolve_repo_url(
                 url,
                 ssh_destination_resolver=cls.get_ssh_destination_resolver(),
+                proxy_url=get_environment_proxy(url),
             )
         except ValidationError as error:
             raise RepositoryValidationError(0, "; ".join(error.messages)) from error

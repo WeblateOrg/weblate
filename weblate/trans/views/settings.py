@@ -7,12 +7,13 @@ import os
 from contextlib import ExitStack, contextmanager
 from typing import TYPE_CHECKING
 
+from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.db import transaction
 from django.http import Http404, JsonResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import aget_object_or_404, redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
@@ -61,7 +62,7 @@ from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
-from weblate.utils.views import parse_path, show_form_errors
+from weblate.utils.views import aparse_path, parse_path, show_form_errors
 from weblate.workspaces.forms import WorkspaceSettingsForm
 from weblate.workspaces.models import Workspace
 
@@ -453,18 +454,20 @@ def component_link_add(request: AuthenticatedHttpRequest, path):
 
 @login_required
 @require_POST
-def component_link_delete(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(request, path, (Component,))
+async def component_link_delete(request: AuthenticatedHttpRequest, path):
+    obj = await aparse_path(request, path, (Component,))
     if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied
 
     link_id = request.POST.get("link_id")
+    if link_id is None:
+        raise Http404
     try:
-        link = ComponentLink.objects.get(pk=link_id, component=obj)
+        link = await ComponentLink.objects.aget(pk=link_id, component=obj)
     except (ComponentLink.DoesNotExist, ValueError, TypeError) as e:
         raise Http404 from e
 
-    link.delete()
+    await link.adelete()
     return redirect_param(obj, "#sharing")
 
 
@@ -494,12 +497,12 @@ def component_link_categories(request: AuthenticatedHttpRequest, path):
 
 @login_required
 @require_POST
-def announcement(request: AuthenticatedHttpRequest, path):
-    obj = parse_path(
+async def announcement(request: AuthenticatedHttpRequest, path):
+    obj = await aparse_path(
         request, path, (ProjectLanguage, Translation, Component, Project, Category)
     )
 
-    if not request.user.has_perm("announcement.add", obj):
+    if not await sync_to_async(request.user.has_perm)("announcement.add", obj):
         raise PermissionDenied
 
     form = AnnouncementForm(request.POST)
@@ -524,7 +527,7 @@ def announcement(request: AuthenticatedHttpRequest, path):
     elif isinstance(obj, Project):
         scope["project"] = obj
 
-    Announcement.objects.create(
+    await Announcement.objects.acreate(
         user=request.user,
         **scope,
         **form.cleaned_data,
@@ -535,15 +538,24 @@ def announcement(request: AuthenticatedHttpRequest, path):
 
 @login_required
 @require_POST
-def announcement_delete(request: AuthenticatedHttpRequest, pk):
-    announcement = get_object_or_404(
-        Announcement.objects.filter_access(request.user), pk=pk
+async def announcement_delete(request: AuthenticatedHttpRequest, pk):
+    await request.user.aprepare_permissions()
+    announcement = await aget_object_or_404(
+        Announcement.objects.filter_access(request.user).select_related(
+            "category__project",
+            "component__project",
+            "language",
+            "project",
+        ),
+        pk=pk,
     )
 
-    if not request.user.has_perm("announcement.delete", announcement):
+    if not await sync_to_async(request.user.has_perm)(
+        "announcement.delete", announcement
+    ):
         raise PermissionDenied
 
-    announcement.delete()
+    await announcement.adelete()
     return JsonResponse({"responseStatus": 200})
 
 

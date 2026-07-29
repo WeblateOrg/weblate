@@ -351,7 +351,7 @@ class BatchMachineTranslation(DocVersionsMixin):
                 method,
                 url,
                 allow_private_targets=False,
-                allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+                private_allowlist=settings.ALLOWED_MACHINERY_DOMAINS,
                 **request_kwargs,
             )
 
@@ -371,7 +371,7 @@ class BatchMachineTranslation(DocVersionsMixin):
                 method,
                 url,
                 allow_private_targets=False,
-                allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+                private_allowlist=settings.ALLOWED_MACHINERY_DOMAINS,
                 **request_kwargs,
             )
 

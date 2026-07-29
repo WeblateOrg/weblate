@@ -8,14 +8,12 @@ from __future__ import annotations
 
 import json
 from collections.abc import Mapping
-from contextlib import asynccontextmanager, contextmanager
+from contextlib import contextmanager
 from dataclasses import dataclass
 from hashlib import sha256
-from ipaddress import ip_address, ip_network
 from time import monotonic
 from typing import TYPE_CHECKING, Any, Self, cast
 from urllib.parse import urlparse
-from urllib.request import getproxies, proxy_bypass
 
 import httpx2
 from django.core.cache import cache
@@ -25,6 +23,7 @@ from django.utils.translation import gettext
 from weblate.logger import LOGGER
 from weblate.utils.outbound import (
     async_resolve_runtime_hostname,
+    get_environment_proxy,
     is_allowlisted_hostname,
     resolve_runtime_hostname,
     validate_connected_peer,
@@ -34,7 +33,6 @@ from weblate.utils.validators import validate_asset_url
 
 if TYPE_CHECKING:
     from collections.abc import (
-        AsyncGenerator,
         Callable,
         Generator,
         Iterator,
@@ -84,25 +82,25 @@ class RedirectValidators:
 
 @dataclass
 class RuntimeRedirectValidators(RedirectValidators):
-    allow_private_targets: bool = True
-    allowed_domains: list[str] | tuple[str, ...] = ()
+    allow_private_targets: bool = False
+    private_allowlist: list[str] | tuple[str, ...] = ()
 
     def _get_hostname_to_resolve(
         self, request_url: str, *, used_proxy: bool
     ) -> str | None:
         hostname = urlparse(request_url).hostname or ""
-        if is_allowlisted_hostname(hostname, self.allowed_domains):
+        if is_allowlisted_hostname(hostname, self.private_allowlist):
             validate_outbound_url(
                 request_url,
                 allow_private_targets=False,
-                allowed_domains=self.allowed_domains,
+                private_allowlist=self.private_allowlist,
             )
             return None
         if used_proxy:
             validate_outbound_url(
                 request_url,
                 allow_private_targets=self.allow_private_targets,
-                allowed_domains=self.allowed_domains,
+                private_allowlist=self.private_allowlist,
             )
             return None
         return hostname
@@ -131,18 +129,9 @@ class RuntimeRedirectValidators(RedirectValidators):
         _validate_response_peer(
             response,
             allow_private_targets=self.allow_private_targets,
-            allowed_domains=self.allowed_domains,
+            private_allowlist=self.private_allowlist,
             used_proxy=used_proxy,
         )
-
-
-@dataclass
-class AssetRedirectValidators(RedirectValidators):
-    def validate_request_url(
-        self, request_url: str, *, used_proxy: bool
-    ) -> tuple[str, ...]:
-        validate_asset_url(request_url)
-        return ()
 
 
 @dataclass
@@ -162,23 +151,6 @@ class RestrictedAssetRedirectValidators(RuntimeRedirectValidators):
         )
 
 
-@dataclass
-class ChainedRedirectValidators(RedirectValidators):
-    request_validators: tuple[Callable[[str], None], ...] = ()
-    response_validator: Callable[[httpx2.Response, bool], None] | None = None
-
-    def validate_request_url(
-        self, request_url: str, *, used_proxy: bool
-    ) -> tuple[str, ...]:
-        for validator in self.request_validators:
-            validator(request_url)
-        return ()
-
-    def validate_response(self, response: httpx2.Response, *, used_proxy: bool) -> None:
-        if self.response_validator is not None:
-            self.response_validator(response, used_proxy)
-
-
 def _prepare_headers(headers: dict[str, str] | None) -> dict[str, str]:
     # Lazy import avoids the version -> VCS -> HTTP import cycle during startup.
     # ruff: ignore[import-outside-top-level]
@@ -188,58 +160,16 @@ def _prepare_headers(headers: dict[str, str] | None) -> dict[str, str]:
     return {**headers, **agent} if headers is not None else agent
 
 
-def _matches_no_proxy(hostname: str, port: int | None, no_proxy: str) -> bool:
-    no_proxy_hosts = (host for host in no_proxy.replace(" ", "").split(",") if host)
-    try:
-        address = ip_address(hostname)
-    except ValueError:
-        host_with_port = hostname if port is None else f"{hostname}:{port}"
-        for host in no_proxy_hosts:
-            host = host.lstrip(".").lower()
-            if host in {hostname, host_with_port}:
-                return True
-            suffix = f".{host}"
-            if hostname.endswith(suffix) or host_with_port.endswith(suffix):
-                return True
-    else:
-        for host in no_proxy_hosts:
-            try:
-                if address in ip_network(host, strict=False):
-                    return True
-            except ValueError:
-                if hostname == host:
-                    return True
-    return False
-
-
-def _get_proxy(url: str) -> str | None:
-    parsed = urlparse(url)
-    if not parsed.hostname:
-        return None
-    proxies = getproxies()
-    if (no_proxy := proxies.get("no")) and _matches_no_proxy(
-        parsed.hostname, parsed.port, no_proxy
-    ):
-        return None
-    if proxy_bypass(parsed.hostname):
-        return None
-    return proxies.get(parsed.scheme) or proxies.get("all")
-
-
-def _request_uses_proxy(url: str) -> bool:
-    return _get_proxy(url) is not None
-
-
 def validate_request_url(
     url: str,
     *,
     allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> None:
     RuntimeRedirectValidators(
         allow_private_targets=allow_private_targets,
-        allowed_domains=allowed_domains,
-    ).validate_request_url(url, used_proxy=_request_uses_proxy(url))
+        private_allowlist=private_allowlist,
+    ).validate_request_url(url, used_proxy=get_environment_proxy(url) is not None)
 
 
 def _get_response_peer_ip(response: httpx2.Response) -> str | None:
@@ -262,19 +192,19 @@ def _validate_response_peer(
     response: httpx2.Response,
     *,
     allow_private_targets: bool,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
     used_proxy: bool = False,
 ) -> None:
     if allow_private_targets or used_proxy:
         return
     hostname = urlparse(str(response.url)).hostname or ""
-    if is_allowlisted_hostname(hostname, allowed_domains):
+    if is_allowlisted_hostname(hostname, private_allowlist):
         return
     validate_connected_peer(
         hostname,
         _get_response_peer_ip(response),
         allow_private_targets=allow_private_targets,
-        allowed_domains=allowed_domains,
+        private_allowlist=private_allowlist,
         used_proxy=used_proxy,
     )
 
@@ -396,7 +326,7 @@ def _prepare_outbound_request(request: httpx2.Request) -> OutboundRequest:
     request_url = str(request.url)
     return OutboundRequest(
         url=request_url,
-        proxy=_get_proxy(request_url),
+        proxy=get_environment_proxy(request_url),
         validators=cast(
             "RedirectValidators | None",
             request.extensions.get(VALIDATORS_REQUEST_EXTENSION),
@@ -911,8 +841,8 @@ def _validated_request_with_redirects(
     method: str,
     url: str,
     *,
-    allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    allow_private_targets: bool = False,
+    private_allowlist: list[str] | tuple[str, ...] = (),
     **kwargs,
 ) -> httpx2.Response:
     return _request_with_redirects(
@@ -920,7 +850,7 @@ def _validated_request_with_redirects(
         url,
         validators=RuntimeRedirectValidators(
             allow_private_targets=allow_private_targets,
-            allowed_domains=allowed_domains,
+            private_allowlist=private_allowlist,
         ),
         **kwargs,
     )
@@ -930,8 +860,8 @@ async def _async_validated_request_with_redirects(
     method: str,
     url: str,
     *,
-    allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    allow_private_targets: bool = False,
+    private_allowlist: list[str] | tuple[str, ...] = (),
     **kwargs,
 ) -> httpx2.Response:
     return await _async_request_with_redirects(
@@ -939,7 +869,7 @@ async def _async_validated_request_with_redirects(
         url,
         validators=RuntimeRedirectValidators(
             allow_private_targets=allow_private_targets,
-            allowed_domains=allowed_domains,
+            private_allowlist=private_allowlist,
         ),
         **kwargs,
     )
@@ -976,8 +906,8 @@ def fetch_validated_url(
     url: str,
     *,
     raise_for_status: bool = True,
-    allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    allow_private_targets: bool = False,
+    private_allowlist: list[str] | tuple[str, ...] = (),
     **kwargs,
 ) -> httpx2.Response:
     response = _validated_request_with_redirects(
@@ -985,7 +915,7 @@ def fetch_validated_url(
         url,
         stream=False,
         allow_private_targets=allow_private_targets,
-        allowed_domains=allowed_domains,
+        private_allowlist=private_allowlist,
         **kwargs,
     )
     if raise_for_status:
@@ -998,8 +928,8 @@ async def async_fetch_validated_url(
     url: str,
     *,
     raise_for_status: bool = True,
-    allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    allow_private_targets: bool = False,
+    private_allowlist: list[str] | tuple[str, ...] = (),
     **kwargs,
 ) -> httpx2.Response:
     response = await _async_validated_request_with_redirects(
@@ -1007,7 +937,7 @@ async def async_fetch_validated_url(
         url,
         stream=False,
         allow_private_targets=allow_private_targets,
-        allowed_domains=allowed_domains,
+        private_allowlist=private_allowlist,
         **kwargs,
     )
     if raise_for_status:
@@ -1016,101 +946,13 @@ async def async_fetch_validated_url(
 
 
 @contextmanager
-def open_validated_url(
-    method: str,
-    url: str,
-    *,
-    raise_for_status: bool = True,
-    allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
-    **kwargs,
-) -> Generator[httpx2.Response, None, None]:
-    with HTTPClient() as client:
-        response = client.request(
-            method,
-            url,
-            stream=True,
-            validators=RuntimeRedirectValidators(
-                allow_private_targets=allow_private_targets,
-                allowed_domains=allowed_domains,
-            ),
-            **kwargs,
-        )
-        try:
-            if raise_for_status:
-                response.raise_for_status()
-            yield response
-        finally:
-            response.close()
-
-
-@asynccontextmanager
-async def async_open_validated_url(
-    method: str,
-    url: str,
-    *,
-    raise_for_status: bool = True,
-    allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
-    **kwargs,
-) -> AsyncGenerator[httpx2.Response]:
-    async with AsyncHTTPClient() as client:
-        response = await client.request(
-            method,
-            url,
-            stream=True,
-            validators=RuntimeRedirectValidators(
-                allow_private_targets=allow_private_targets,
-                allowed_domains=allowed_domains,
-            ),
-            **kwargs,
-        )
-        try:
-            if raise_for_status:
-                response.raise_for_status()
-            yield response
-        finally:
-            await response.aclose()
-
-
-@contextmanager
-def open_asset_url(
-    method: str,
-    url: str,
-    *,
-    raise_for_status: bool = True,
-    **kwargs,
-) -> Generator[httpx2.Response, None, None]:
-    with HTTPClient() as client:
-        response = client.request(
-            method,
-            url,
-            stream=True,
-            validators=AssetRedirectValidators(),
-            **kwargs,
-        )
-        try:
-            if raise_for_status and not response.is_success:
-                raise ValidationError(
-                    gettext(
-                        "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
-                    ),
-                    code="download_failed",
-                    params={"code": response.status_code},
-                )
-            yield response
-        finally:
-            response.close()
-
-
-@contextmanager
 def open_restricted_asset_url(
     method: str,
     url: str,
     *,
     raise_for_status: bool = True,
-    allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    allow_private_targets: bool = False,
+    private_allowlist: list[str] | tuple[str, ...] = (),
     **kwargs,
 ) -> Generator[httpx2.Response, None, None]:
     with HTTPClient() as client:
@@ -1120,7 +962,7 @@ def open_restricted_asset_url(
             stream=True,
             validators=RestrictedAssetRedirectValidators(
                 allow_private_targets=allow_private_targets,
-                allowed_domains=allowed_domains,
+                private_allowlist=private_allowlist,
             ),
             **kwargs,
         )
@@ -1165,9 +1007,9 @@ def _uri_error_cache_key(
     uri: str,
     *,
     allow_private_targets: bool,
-    allowed_domains: list[str] | tuple[str, ...],
+    private_allowlist: list[str] | tuple[str, ...],
 ) -> str:
-    policy = f"{allow_private_targets}:{tuple(sorted(allowed_domains))}:{uri}"
+    policy = f"{allow_private_targets}:{tuple(sorted(private_allowlist))}:{uri}"
     return f"uri-check-{sha256(policy.encode()).hexdigest()}"
 
 
@@ -1183,7 +1025,7 @@ def get_uri_error(
     uri: str,
     *,
     allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> str | None:
     """Return error for fetching the URL or None if it works."""
     if uri.startswith("https://nonexisting.weblate.org/"):
@@ -1191,7 +1033,7 @@ def get_uri_error(
     cache_key = _uri_error_cache_key(
         uri,
         allow_private_targets=allow_private_targets,
-        allowed_domains=allowed_domains,
+        private_allowlist=private_allowlist,
     )
     cached = cache.get(cache_key)
     if cached is True:
@@ -1205,7 +1047,7 @@ def get_uri_error(
             uri,
             validators=RuntimeRedirectValidators(
                 allow_private_targets=allow_private_targets,
-                allowed_domains=allowed_domains,
+                private_allowlist=private_allowlist,
             ),
         )
     except (httpx2.HTTPError, ValidationError) as error:

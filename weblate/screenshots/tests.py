@@ -11,6 +11,7 @@ from shutil import copyfile, rmtree
 from unittest.mock import MagicMock, patch
 
 import httpx2
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.files import File
@@ -544,6 +545,33 @@ class ViewTest(FixtureTestCase):
     def extract_pk(self, data):
         return int(data.split('data-pk="')[1].split('"')[0])
 
+    def test_async_source_changes_use_screenshot_owner(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Owner",
+            translation=self.component.source_translation,
+            user=self.user,
+        )
+        unit = self.component.source_translation.unit_set.first()
+        if unit is None:
+            self.fail("Expected a source unit")
+
+        async def update_sources() -> None:
+            async_screenshot = await Screenshot.objects.aget(pk=screenshot.pk)
+            await async_screenshot.add_units_async([unit])
+            await async_screenshot.aremove_unit(unit)
+
+        async_to_sync(update_sources)()
+
+        changes = Change.objects.filter(screenshot=screenshot).order_by("pk")
+        self.assertEqual(
+            list(changes.values_list("action", "user_id")),
+            [
+                (ActionEvents.SCREENSHOT_ADDED, self.user.pk),
+                (ActionEvents.SCREENSHOT_REMOVED, self.user.pk),
+            ],
+        )
+        self.assertFalse(screenshot.units.filter(pk=unit.pk).exists())
+
     def test_source_manipulations(self) -> None:
         self.make_manager()
         self.do_upload()
@@ -568,11 +596,12 @@ class ViewTest(FixtureTestCase):
         )
 
         # Add found string
-        response = self.client.post(
+        self.async_client.force_login(self.user)
+        async_response = async_to_sync(self.async_client.post)(
             reverse("screenshot-js-add", kwargs={"pk": screenshot.pk}),
             {"source": source_pk},
         )
-        data = response.json()
+        data = async_response.json()
         self.assertEqual(data["responseCode"], 200)
         self.assertEqual(data["status"], True)
         self.assertEqual(screenshot.units.count(), 1)
@@ -591,7 +620,7 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, "Hello")
 
         # Remove added string
-        self.client.post(
+        async_to_sync(self.async_client.post)(
             reverse("screenshot-remove-source", kwargs={"pk": screenshot.pk}),
             {"source": source_pk},
         )

@@ -1327,11 +1327,16 @@ class GitHubInstallationViewTest(ViewTestCase):
             workspace=self.workspace,
         )
 
-        response = self.client.post(
-            reverse("manage-github-account-remove", kwargs={"pk": installation.pk})
+        self.async_client.force_login(self.user)
+        response = async_to_sync(self.async_client.post)(
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
         )
 
-        self.assertRedirects(response, reverse("manage-github-accounts"))
+        self.assertRedirects(
+            response,
+            reverse("manage-github-accounts"),
+            fetch_redirect_response=False,
+        )
         self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
 
     def test_remove_installation_rejects_get(self):
