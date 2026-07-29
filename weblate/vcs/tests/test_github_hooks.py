@@ -17,7 +17,7 @@ from rest_framework.test import APIClient
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 from weblate.vcs.github import (
     GitHubAppCredentials,
     GitHubInstallation,
@@ -125,18 +125,18 @@ class TestGitHubAppHooks(ViewTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertTrue(GitHubInstallation.objects.get(installation_id="12345").enabled)
 
-    @responses.activate
+    @http_mock.activate
     def test_installation_created_syncs_existing_row(self):
         """``created`` updates rows owned by the setup flow; never auto-creates."""
         cache.clear()
         self._create_installation(target_login="placeholder")
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/12345/access_tokens",
             json={"token": "ghs_test"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/installation/repositories?per_page=100",
             json={
                 "repositories": [
@@ -182,7 +182,7 @@ class TestGitHubAppHooks(ViewTestCase):
             ["test-org/synced-repo"],
         )
         self.assertEqual(
-            [call.request.method for call in responses.calls], ["POST", "GET"]
+            [call.request.method for call in http_mock.calls], ["POST", "GET"]
         )
 
     def test_installation_created_without_row_is_pending(self):

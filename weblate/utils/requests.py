@@ -7,12 +7,11 @@
 from __future__ import annotations
 
 import json
-from collections.abc import Mapping
 from contextlib import contextmanager
 from dataclasses import dataclass
 from hashlib import sha256
 from time import monotonic
-from typing import TYPE_CHECKING, Any, Self, cast
+from typing import TYPE_CHECKING, cast
 from urllib.parse import urlparse
 
 import httpx2
@@ -50,9 +49,9 @@ class TestTransport:
 _TEST_TRANSPORT = TestTransport()
 PEER_IP_RESPONSE_ATTR = "_weblate_peer_ip"
 ORIGINAL_URL_REQUEST_EXTENSION = "weblate_original_url"
-VALIDATORS_REQUEST_EXTENSION = "weblate_redirect_validators"
 JSON_RESPONSE_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 ADDRESS_FALLBACK_DELAY = 0.25
+MAX_REDIRECTS = 5
 
 
 def set_test_transport(transport: httpx2.MockTransport | None) -> None:
@@ -209,25 +208,6 @@ def _validate_response_peer(
     )
 
 
-def _normalize_request_kwargs(kwargs: dict) -> dict:
-    result = kwargs.copy()
-    data = result.get("data")
-    if isinstance(data, str | bytes) and "files" not in result:
-        result["content"] = result.pop("data")
-    elif isinstance(data, Mapping):
-        # Match Requests form encoding, which omitted mapping entries with null
-        # values instead of sending them as empty fields.
-        result["data"] = {
-            key: value for key, value in data.items() if value is not None
-        }
-    # Requests accepted this argument per request. HTTPX2 transport selection is
-    # handled centrally instead.
-    result.pop("proxies", None)
-    result.pop("verify", None)
-    result.pop("cert", None)
-    return result
-
-
 def _build_pinned_request(
     request: httpx2.Request, connection_address: str
 ) -> httpx2.Request:
@@ -315,7 +295,6 @@ class OutboundRequest:
 
     url: str
     proxy: str | None
-    validators: RedirectValidators | None
 
     @property
     def used_proxy(self) -> bool:
@@ -327,19 +306,16 @@ def _prepare_outbound_request(request: httpx2.Request) -> OutboundRequest:
     return OutboundRequest(
         url=request_url,
         proxy=get_environment_proxy(request_url),
-        validators=cast(
-            "RedirectValidators | None",
-            request.extensions.get(VALIDATORS_REQUEST_EXTENSION),
-        ),
     )
 
 
 async def _validate_async_outbound_request(
     outbound: OutboundRequest,
+    validators: RedirectValidators | None,
 ) -> tuple[str, ...]:
-    if outbound.validators is None:
+    if validators is None:
         return ()
-    return await outbound.validators.validate_async_request_url(
+    return await validators.validate_async_request_url(
         outbound.url,
         used_proxy=outbound.used_proxy,
     )
@@ -514,7 +490,13 @@ def _validate_transport_response(
 class OutboundHTTPTransport(httpx2.BaseTransport):
     """Validate and route every synchronous HTTPX2 request hop."""
 
-    def __init__(self, transport: httpx2.BaseTransport | None = None) -> None:
+    def __init__(
+        self,
+        transport: httpx2.BaseTransport | None = None,
+        *,
+        validators: RedirectValidators | None = None,
+    ) -> None:
+        self.validators = validators
         self.pool = OutboundTransportPool(
             transport,
             lambda proxy: httpx2.HTTPTransport(proxy=proxy, trust_env=True),
@@ -523,10 +505,10 @@ class OutboundHTTPTransport(httpx2.BaseTransport):
     def handle_request(self, request: httpx2.Request) -> httpx2.Response:
         outbound = _prepare_outbound_request(request)
         connection_addresses = (
-            outbound.validators.validate_request_url(
+            self.validators.validate_request_url(
                 outbound.url, used_proxy=outbound.used_proxy
             )
-            if outbound.validators is not None
+            if self.validators is not None
             else ()
         )
         routes = _route_outbound_request(
@@ -540,7 +522,7 @@ class OutboundHTTPTransport(httpx2.BaseTransport):
             _validate_transport_response(
                 response,
                 request=request,
-                validators=outbound.validators,
+                validators=self.validators,
                 used_proxy=outbound.used_proxy,
             )
         except BaseException:
@@ -557,7 +539,13 @@ class OutboundHTTPTransport(httpx2.BaseTransport):
 class AsyncOutboundHTTPTransport(httpx2.AsyncBaseTransport):
     """Validate and route every asynchronous HTTPX2 request hop."""
 
-    def __init__(self, transport: httpx2.AsyncBaseTransport | None = None) -> None:
+    def __init__(
+        self,
+        transport: httpx2.AsyncBaseTransport | None = None,
+        *,
+        validators: RedirectValidators | None = None,
+    ) -> None:
+        self.validators = validators
         self.pool = OutboundTransportPool(
             transport,
             lambda proxy: httpx2.AsyncHTTPTransport(proxy=proxy, trust_env=True),
@@ -565,7 +553,9 @@ class AsyncOutboundHTTPTransport(httpx2.AsyncBaseTransport):
 
     async def handle_async_request(self, request: httpx2.Request) -> httpx2.Response:
         outbound = _prepare_outbound_request(request)
-        connection_addresses = await _validate_async_outbound_request(outbound)
+        connection_addresses = await _validate_async_outbound_request(
+            outbound, self.validators
+        )
         routes = _route_outbound_request(
             self.pool,
             request,
@@ -577,7 +567,7 @@ class AsyncOutboundHTTPTransport(httpx2.AsyncBaseTransport):
             _validate_transport_response(
                 response,
                 request=request,
-                validators=outbound.validators,
+                validators=self.validators,
                 used_proxy=outbound.used_proxy,
             )
         except BaseException:
@@ -591,26 +581,50 @@ class AsyncOutboundHTTPTransport(httpx2.AsyncBaseTransport):
         self.pool.clear()
 
 
+def create_http_client(
+    *,
+    transport: httpx2.BaseTransport | None = None,
+    validators: RedirectValidators | None = None,
+    max_redirects: int = MAX_REDIRECTS,
+) -> httpx2.Client:
+    """Create a synchronous HTTPX2 client using Weblate's outbound transport."""
+    return httpx2.Client(
+        headers=_prepare_headers(None),
+        transport=OutboundHTTPTransport(transport, validators=validators),
+        trust_env=False,
+        follow_redirects=False,
+        max_redirects=max_redirects,
+    )
+
+
+def create_async_http_client(
+    *,
+    transport: httpx2.AsyncBaseTransport | None = None,
+    validators: RedirectValidators | None = None,
+    max_redirects: int = MAX_REDIRECTS,
+) -> httpx2.AsyncClient:
+    """Create an asynchronous HTTPX2 client using Weblate's outbound transport."""
+    return httpx2.AsyncClient(
+        headers=_prepare_headers(None),
+        transport=AsyncOutboundHTTPTransport(transport, validators=validators),
+        trust_env=False,
+        follow_redirects=False,
+        max_redirects=max_redirects,
+    )
+
+
 def _build_client_request(
     client: httpx2.Client | httpx2.AsyncClient,
     method: str,
     url: str,
     *,
-    headers: dict[str, str] | None,
-    timeout: float,
-    validators: RedirectValidators | None,
-    kwargs: dict[str, Any],
+    kwargs: dict,
 ) -> tuple[httpx2.Request, AuthTypes | None]:
-    request_kwargs = _normalize_request_kwargs(kwargs)
+    request_kwargs = kwargs.copy()
     request_auth = request_kwargs.pop("auth", None)
-    extensions = dict(request_kwargs.pop("extensions", {}) or {})
-    extensions[VALIDATORS_REQUEST_EXTENSION] = validators
     request = client.build_request(
         method,
         url,
-        headers=_prepare_headers(headers),
-        timeout=timeout,
-        extensions=extensions,
         **request_kwargs,
     )
     return request, request_auth
@@ -642,7 +656,6 @@ def _send_with_redirects(
     request: httpx2.Request,
     *,
     auth: AuthTypes | None,
-    max_redirects: int,
 ) -> httpx2.Response:
     history: list[httpx2.Response] = []
     while True:
@@ -653,7 +666,9 @@ def _send_with_redirects(
             follow_redirects=False,
         )
         try:
-            next_request = _next_streaming_redirect(response, history, max_redirects)
+            next_request = _next_streaming_redirect(
+                response, history, client.max_redirects
+            )
         except BaseException:
             response.close()
             raise
@@ -669,7 +684,6 @@ async def _async_send_with_redirects(
     request: httpx2.Request,
     *,
     auth: AuthTypes | None,
-    max_redirects: int,
 ) -> httpx2.Response:
     history: list[httpx2.Response] = []
     while True:
@@ -680,7 +694,9 @@ async def _async_send_with_redirects(
             follow_redirects=False,
         )
         try:
-            next_request = _next_streaming_redirect(response, history, max_redirects)
+            next_request = _next_streaming_redirect(
+                response, history, client.max_redirects
+            )
         except BaseException:
             await response.aclose()
             raise
@@ -691,188 +707,64 @@ async def _async_send_with_redirects(
         auth = None
 
 
-class HTTPClient:
-    """Synchronous HTTPX2 client using Weblate's outbound transport."""
-
-    def __init__(self, transport: httpx2.BaseTransport | None = None) -> None:
-        self.client = httpx2.Client(
-            transport=OutboundHTTPTransport(transport),
-            trust_env=False,
-            follow_redirects=False,
-        )
-
-    def __enter__(self) -> Self:
-        return self
-
-    def __exit__(self, *args) -> None:
-        self.close()
-
-    def close(self) -> None:
-        self.client.close()
-
-    def request(
-        self,
-        method: str,
-        url: str,
-        *,
-        headers: dict[str, str] | None = None,
-        timeout: float = 5,
-        allow_redirects: bool = True,
-        stream: bool = False,
-        max_redirects: int = 5,
-        validators: RedirectValidators | None = None,
-        **kwargs,
-    ) -> httpx2.Response:
-        request, request_auth = _build_client_request(
-            self.client,
-            method,
-            url,
-            headers=headers,
-            timeout=timeout,
-            validators=validators,
-            kwargs=kwargs,
-        )
-        if allow_redirects:
-            response = _send_with_redirects(
-                self.client,
-                request,
-                auth=request_auth,
-                max_redirects=max_redirects,
-            )
-            if stream:
-                return response
-            try:
-                response.read()
-            except BaseException:
-                response.close()
-                raise
-            return response
-        return self.client.send(
-            request,
-            stream=stream,
-            auth=request_auth,
-            follow_redirects=False,
-        )
-
-
-class AsyncHTTPClient:
-    """Asynchronous HTTPX2 client using Weblate's outbound transport."""
-
-    def __init__(self, transport: httpx2.AsyncBaseTransport | None = None) -> None:
-        self.client = httpx2.AsyncClient(
-            transport=AsyncOutboundHTTPTransport(transport),
-            trust_env=False,
-            follow_redirects=False,
-        )
-
-    async def __aenter__(self) -> Self:
-        return self
-
-    async def __aexit__(self, *args) -> None:
-        await self.aclose()
-
-    async def aclose(self) -> None:
-        await self.client.aclose()
-
-    async def request(
-        self,
-        method: str,
-        url: str,
-        *,
-        headers: dict[str, str] | None = None,
-        timeout: float = 5,  # ruff: ignore[async-function-with-timeout]
-        allow_redirects: bool = True,
-        stream: bool = False,
-        max_redirects: int = 5,
-        validators: RedirectValidators | None = None,
-        **kwargs,
-    ) -> httpx2.Response:
-        request, request_auth = _build_client_request(
-            self.client,
-            method,
-            url,
-            headers=headers,
-            timeout=timeout,
-            validators=validators,
-            kwargs=kwargs,
-        )
-        if allow_redirects:
-            response = await _async_send_with_redirects(
-                self.client,
-                request,
-                auth=request_auth,
-                max_redirects=max_redirects,
-            )
-            if stream:
-                return response
-            try:
-                await response.aread()
-            except BaseException:
-                await response.aclose()
-                raise
-            return response
-        return await self.client.send(
-            request,
-            stream=stream,
-            auth=request_auth,
-            follow_redirects=False,
-        )
-
-
-def _request_with_redirects(
-    method: str,
-    url: str,
-    **kwargs,
-) -> httpx2.Response:
-    with HTTPClient() as client:
-        return client.request(method, url, **kwargs)
-
-
-async def _async_request_with_redirects(
-    method: str,
-    url: str,
-    **kwargs,
-) -> httpx2.Response:
-    async with AsyncHTTPClient() as client:
-        return await client.request(method, url, **kwargs)
-
-
-def _validated_request_with_redirects(
+def _request(
     method: str,
     url: str,
     *,
-    allow_private_targets: bool = False,
-    private_allowlist: list[str] | tuple[str, ...] = (),
+    validators: RedirectValidators | None = None,
+    follow_redirects: bool = True,
     **kwargs,
 ) -> httpx2.Response:
-    return _request_with_redirects(
-        method,
-        url,
-        validators=RuntimeRedirectValidators(
-            allow_private_targets=allow_private_targets,
-            private_allowlist=private_allowlist,
-        ),
-        **kwargs,
-    )
+    with create_http_client(validators=validators) as client:
+        request, request_auth = _build_client_request(
+            client, method, url, kwargs=kwargs
+        )
+        response = (
+            _send_with_redirects(client, request, auth=request_auth)
+            if follow_redirects
+            else client.send(
+                request,
+                stream=True,
+                auth=request_auth,
+                follow_redirects=False,
+            )
+        )
+        try:
+            response.read()
+        except BaseException:
+            response.close()
+            raise
+        return response
 
 
-async def _async_validated_request_with_redirects(
+async def _async_request(
     method: str,
     url: str,
     *,
-    allow_private_targets: bool = False,
-    private_allowlist: list[str] | tuple[str, ...] = (),
+    validators: RedirectValidators | None = None,
+    follow_redirects: bool = True,
     **kwargs,
 ) -> httpx2.Response:
-    return await _async_request_with_redirects(
-        method,
-        url,
-        validators=RuntimeRedirectValidators(
-            allow_private_targets=allow_private_targets,
-            private_allowlist=private_allowlist,
-        ),
-        **kwargs,
-    )
+    async with create_async_http_client(validators=validators) as client:
+        request, request_auth = _build_client_request(
+            client, method, url, kwargs=kwargs
+        )
+        response = (
+            await _async_send_with_redirects(client, request, auth=request_auth)
+            if follow_redirects
+            else await client.send(
+                request,
+                stream=True,
+                auth=request_auth,
+                follow_redirects=False,
+            )
+        )
+        try:
+            await response.aread()
+        except BaseException:
+            await response.aclose()
+            raise
+        return response
 
 
 def fetch_url(
@@ -880,9 +772,10 @@ def fetch_url(
     url: str,
     *,
     raise_for_status: bool = True,
+    follow_redirects: bool = True,
     **kwargs,
 ) -> httpx2.Response:
-    response = _request_with_redirects(method, url, stream=False, **kwargs)
+    response = _request(method, url, follow_redirects=follow_redirects, **kwargs)
     if raise_for_status:
         response.raise_for_status()
     return response
@@ -893,9 +786,12 @@ async def async_fetch_url(
     url: str,
     *,
     raise_for_status: bool = True,
+    follow_redirects: bool = True,
     **kwargs,
 ) -> httpx2.Response:
-    response = await _async_request_with_redirects(method, url, stream=False, **kwargs)
+    response = await _async_request(
+        method, url, follow_redirects=follow_redirects, **kwargs
+    )
     if raise_for_status:
         response.raise_for_status()
     return response
@@ -906,16 +802,19 @@ def fetch_validated_url(
     url: str,
     *,
     raise_for_status: bool = True,
+    follow_redirects: bool = True,
     allow_private_targets: bool = False,
     private_allowlist: list[str] | tuple[str, ...] = (),
     **kwargs,
 ) -> httpx2.Response:
-    response = _validated_request_with_redirects(
+    response = _request(
         method,
         url,
-        stream=False,
-        allow_private_targets=allow_private_targets,
-        private_allowlist=private_allowlist,
+        validators=RuntimeRedirectValidators(
+            allow_private_targets=allow_private_targets,
+            private_allowlist=private_allowlist,
+        ),
+        follow_redirects=follow_redirects,
         **kwargs,
     )
     if raise_for_status:
@@ -928,21 +827,53 @@ async def async_fetch_validated_url(
     url: str,
     *,
     raise_for_status: bool = True,
+    follow_redirects: bool = True,
     allow_private_targets: bool = False,
     private_allowlist: list[str] | tuple[str, ...] = (),
     **kwargs,
 ) -> httpx2.Response:
-    response = await _async_validated_request_with_redirects(
+    response = await _async_request(
         method,
         url,
-        stream=False,
-        allow_private_targets=allow_private_targets,
-        private_allowlist=private_allowlist,
+        validators=RuntimeRedirectValidators(
+            allow_private_targets=allow_private_targets,
+            private_allowlist=private_allowlist,
+        ),
+        follow_redirects=follow_redirects,
         **kwargs,
     )
     if raise_for_status:
         response.raise_for_status()
     return response
+
+
+@contextmanager
+def _open_url(
+    method: str,
+    url: str,
+    *,
+    validators: RedirectValidators | None = None,
+    follow_redirects: bool = True,
+    **kwargs,
+) -> Generator[httpx2.Response, None, None]:
+    with create_http_client(validators=validators) as client:
+        request, request_auth = _build_client_request(
+            client, method, url, kwargs=kwargs
+        )
+        response = (
+            _send_with_redirects(client, request, auth=request_auth)
+            if follow_redirects
+            else client.send(
+                request,
+                stream=True,
+                auth=request_auth,
+                follow_redirects=False,
+            )
+        )
+        try:
+            yield response
+        finally:
+            response.close()
 
 
 @contextmanager
@@ -955,52 +886,39 @@ def open_restricted_asset_url(
     private_allowlist: list[str] | tuple[str, ...] = (),
     **kwargs,
 ) -> Generator[httpx2.Response, None, None]:
-    with HTTPClient() as client:
-        response = client.request(
-            method,
-            url,
-            stream=True,
-            validators=RestrictedAssetRedirectValidators(
-                allow_private_targets=allow_private_targets,
-                private_allowlist=private_allowlist,
-            ),
-            **kwargs,
-        )
-        try:
-            if raise_for_status and not response.is_success:
-                raise ValidationError(
-                    gettext(
-                        "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
-                    ),
-                    code="download_failed",
-                    params={"code": response.status_code},
-                )
-            yield response
-        finally:
-            response.close()
+    with _open_url(
+        method,
+        url,
+        validators=RestrictedAssetRedirectValidators(
+            allow_private_targets=allow_private_targets,
+            private_allowlist=private_allowlist,
+        ),
+        **kwargs,
+    ) as response:
+        if raise_for_status and not response.is_success:
+            raise ValidationError(
+                gettext(
+                    "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
+                ),
+                code="download_failed",
+                params={"code": response.status_code},
+            )
+        yield response
 
 
 def _probe_validated_url(
     url: str,
     *,
     timeout: float = 5,
-    max_redirects: int = 5,
     validators: RedirectValidators,
 ) -> None:
-    with HTTPClient() as client:
-        response = client.request(
-            "get",
-            url,
-            timeout=timeout,
-            allow_redirects=True,
-            stream=True,
-            max_redirects=max_redirects,
-            validators=validators,
-        )
-        try:
-            response.raise_for_status()
-        finally:
-            response.close()
+    with _open_url(
+        "get",
+        url,
+        timeout=timeout,
+        validators=validators,
+    ) as response:
+        response.raise_for_status()
 
 
 def _uri_error_cache_key(

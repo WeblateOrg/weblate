@@ -189,7 +189,7 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                     response = fetch_url(
                         "GET",
                         url,
-                        allow_redirects=True,
+                        follow_redirects=True,
                         timeout=TESSERACT_DOWNLOAD_TIMEOUT,
                     )
             except httpx2.HTTPError as error:

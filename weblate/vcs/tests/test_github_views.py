@@ -21,7 +21,7 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.site import get_site_url
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
     GITHUB_APP_MANIFEST_PERMISSIONS,
@@ -117,8 +117,8 @@ class GitHubInstallationViewTest(ViewTestCase):
             if hostname == "github.com"
             else f"https://{hostname}/api/v3"
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             f"{oauth_base}/login/oauth/access_token",
             json={"access_token": token, "token_type": "bearer"},
         )
@@ -133,8 +133,8 @@ class GitHubInstallationViewTest(ViewTestCase):
                 for i in accessible_ids
             ]
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             f"{api_base}/user/installations?per_page=100",
             json={"installations": installation_rows},
         )
@@ -157,8 +157,8 @@ class GitHubInstallationViewTest(ViewTestCase):
             if str(installation.get("id")) in managed_ids:
                 rows.append(installation)
         for org, rows in org_rows.items():
-            responses.add(
-                responses.GET,
+            http_mock.register(
+                "GET",
                 f"{api_base}/orgs/{org}/installations?per_page=100",
                 json={"installations": rows},
             )
@@ -173,18 +173,18 @@ class GitHubInstallationViewTest(ViewTestCase):
             repositories = [_repo_entry("test-org/repo1")]
         if account is None:
             account = {"login": "test-org", "type": "Organization"}
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/app/installations/12345",
             json={"id": 12345, "account": account},
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/12345/access_tokens",
             json={"token": "ghs_test"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/installation/repositories?per_page=100",
             json={"repositories": repositories},
         )
@@ -535,7 +535,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             "/github-apps/weblate-enterprise-app/installations/select_target",
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_connects_installation(self):
         repositories = [_repo_entry("test-org/repo1", default_branch="stable")]
         next_url = "/create/component/#github"
@@ -558,7 +558,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(connected.repositories, repositories)
         self.assertIsNotNone(connected.repositories_updated)
         self.assertEqual(
-            [(call.request.method, call.request.url) for call in responses.calls],
+            [(call.request.method, call.request.url) for call in http_mock.calls],
             [
                 ("POST", "https://github.com/login/oauth/access_token"),
                 ("GET", "https://api.github.com/user/installations?per_page=100"),
@@ -578,7 +578,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             ],
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_connects_personal_installation_for_account_owner(self):
         repositories = [_repo_entry("octocat/repo1", default_branch="stable")]
         next_url = "/create/component/#github"
@@ -590,8 +590,8 @@ class GitHubInstallationViewTest(ViewTestCase):
                 {"id": 12345, "account": {"login": "octocat", "type": "User"}}
             ]
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/user",
             json={"login": "octocat"},
         )
@@ -612,7 +612,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(connected.target_type, "User")
         self.assertEqual(connected.repositories, repositories)
         self.assertEqual(
-            [(call.request.method, call.request.url) for call in responses.calls],
+            [(call.request.method, call.request.url) for call in http_mock.calls],
             [
                 ("POST", "https://github.com/login/oauth/access_token"),
                 ("GET", "https://api.github.com/user/installations?per_page=100"),
@@ -629,7 +629,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             ],
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_persists_pending_installation_when_api_not_ready(self):
         next_url = "/create/component/#github"
         install_url = self._start_install(next_url)
@@ -691,7 +691,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertIn("might still be pending", response_messages[0])
         self.assertIn("Try connecting the account again later", response_messages[0])
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_applies_pending_installation_webhook(self):
         repositories = [_repo_entry("test-org/repo1", default_branch="stable")]
         PendingInstallation.objects.create(
@@ -733,7 +733,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             ).exists()
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_ignores_stale_pending_installation_webhook(self):
         pending = PendingInstallation.objects.create(
             provider=InstallationProvider.GITHUB,
@@ -867,7 +867,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         ]
         self.assertEqual(response_messages, ["Connected GitHub account updated."])
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_update_with_state_runs_full_setup(self):
         # An update callback that carries a signed Weblate state is a
         # Weblate-initiated install flow and must run the full setup (OAuth
@@ -896,7 +896,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(connected.repositories, repositories)
         self.assertIsNotNone(connected.repositories_updated)
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_rejects_malformed_installation_id(self):
         install_url = self._start_install("/create/component/#github")
         state = parse_qs(urlparse(install_url).query)["state"][0]
@@ -912,7 +912,7 @@ class GitHubInstallationViewTest(ViewTestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertFalse(GitHubInstallation.objects.exists())
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
         response_messages = [
             str(message) for message in get_messages(response.wsgi_request)
         ]
@@ -920,7 +920,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             response_messages, ["GitHub did not return a valid installation ID."]
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_rejects_foreign_installation_id(self):
         # The attacker holds a valid signed state for their own workspace and a
         # valid OAuth code for *their* GitHub account, then swaps in another
@@ -942,14 +942,14 @@ class GitHubInstallationViewTest(ViewTestCase):
         # Ownership is rejected before any App-level token is minted: only the
         # OAuth exchange and the user-installations lookup are called.
         self.assertEqual(
-            [(call.request.method, call.request.url) for call in responses.calls],
+            [(call.request.method, call.request.url) for call in http_mock.calls],
             [
                 ("POST", "https://github.com/login/oauth/access_token"),
                 ("GET", "https://api.github.com/user/installations?per_page=100"),
             ],
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_rejects_personal_installation_for_non_owner(self):
         install_url = self._start_install("/create/component/#github")
         state = parse_qs(urlparse(install_url).query)["state"][0]
@@ -959,8 +959,8 @@ class GitHubInstallationViewTest(ViewTestCase):
                 {"id": 12345, "account": {"login": "octocat", "type": "User"}}
             ]
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/user",
             json={"login": "repo-collaborator"},
         )
@@ -974,7 +974,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             GitHubInstallation.objects.filter(installation_id="12345").exists()
         )
         self.assertEqual(
-            [(call.request.method, call.request.url) for call in responses.calls],
+            [(call.request.method, call.request.url) for call in http_mock.calls],
             [
                 ("POST", "https://github.com/login/oauth/access_token"),
                 ("GET", "https://api.github.com/user/installations?per_page=100"),
@@ -982,7 +982,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             ],
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_rejects_org_installation_without_admin_access(self):
         # ``GET /user/installations`` can list organization installations where
         # the user merely has repository access. Weblate must require the
@@ -1001,7 +1001,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             GitHubInstallation.objects.filter(installation_id="12345").exists()
         )
         self.assertEqual(
-            [(call.request.method, call.request.url) for call in responses.calls],
+            [(call.request.method, call.request.url) for call in http_mock.calls],
             [
                 ("POST", "https://github.com/login/oauth/access_token"),
                 ("GET", "https://api.github.com/user/installations?per_page=100"),
@@ -1012,13 +1012,13 @@ class GitHubInstallationViewTest(ViewTestCase):
             ],
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_setup_rejects_when_code_exchange_fails(self):
         install_url = self._start_install("/create/component/#github")
         state = parse_qs(urlparse(install_url).query)["state"][0]
 
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://github.com/login/oauth/access_token",
             json={"error": "bad_verification_code"},
         )
@@ -1252,7 +1252,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "test-org/active")
         self.assertNotContains(response, "test-org/archived")
 
-    @responses.activate
+    @http_mock.activate
     def test_refresh_repositories_updates_installation(self):
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
@@ -1262,13 +1262,13 @@ class GitHubInstallationViewTest(ViewTestCase):
         )
         repo = _repo_entry("test-org/repo1", default_branch="stable")
 
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/12345/access_tokens",
             json={"token": "ghs_test"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/installation/repositories?per_page=100",
             json={
                 "repositories": [
@@ -1292,7 +1292,7 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(installation.repositories, [repo])
         self.assertIsNotNone(installation.repositories_updated)
         self.assertEqual(
-            [(call.request.method, call.request.url) for call in responses.calls],
+            [(call.request.method, call.request.url) for call in http_mock.calls],
             [
                 (
                     "POST",
@@ -1391,13 +1391,13 @@ class GitHubAppAccessControlTest(ViewTestCase):
         )
 
     def _mock_setup_api(self, repositories: list[dict]) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://github.com/login/oauth/access_token",
             json={"access_token": "ghu_user", "token_type": "bearer"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/user/installations?per_page=100",
             json={
                 "installations": [
@@ -1408,8 +1408,8 @@ class GitHubAppAccessControlTest(ViewTestCase):
                 ]
             },
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/orgs/test-org/installations?per_page=100",
             json={
                 "installations": [
@@ -1420,21 +1420,21 @@ class GitHubAppAccessControlTest(ViewTestCase):
                 ]
             },
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/app/installations/12345",
             json={
                 "id": 12345,
                 "account": {"login": "test-org", "type": "Organization"},
             },
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app/installations/12345/access_tokens",
             json={"token": "ghs_test"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.github.com/installation/repositories?per_page=100",
             json={"repositories": repositories},
         )
@@ -1489,7 +1489,7 @@ class GitHubAppAccessControlTest(ViewTestCase):
             GitHubInstallation.objects.filter(installation_id="12345").exists()
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_workspace_member_can_import_repo_linked_by_other_user(self):
         repo = _repo_entry("test-org/repo1", default_branch="stable")
 
@@ -1704,10 +1704,10 @@ class GitHubAppManifestViewTest(TestCase):
         manifest = json.loads(response.context["manifest_json"])
         self.assertEqual(manifest["name"], "Acme Translate (testserver)")
 
-    @responses.activate
+    @http_mock.activate
     def test_register_callback_stores_credentials(self):
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app-manifests/tempcode123/conversions",
             json=MANIFEST_RESPONSE,
         )
@@ -1721,9 +1721,9 @@ class GitHubAppManifestViewTest(TestCase):
         )
 
         self.assertRedirects(response, reverse("manage-github-accounts"))
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
         self.assertEqual(
-            responses.calls[0].request.url,
+            http_mock.calls[0].request.url,
             "https://api.github.com/app-manifests/tempcode123/conversions",
         )
         credentials = GitHubAppCredentials.objects.get(hostname="github.com")
@@ -1734,10 +1734,10 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(credentials.client_secret, "manifest-client-secret")
         self.assertIn("manifest", credentials.private_key)
 
-    @responses.activate
+    @http_mock.activate
     def test_register_callback_quotes_code_path_segment(self):
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app-manifests/"
             "..%2Finstallations%2F123%2Faccess_tokens/conversions",
             json=MANIFEST_RESPONSE,
@@ -1756,15 +1756,15 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertRedirects(response, reverse("manage-github-accounts"))
         self.assertTrue(GitHubAppCredentials.objects.exists())
         self.assertEqual(
-            responses.calls[0].request.url,
+            http_mock.calls[0].request.url,
             "https://api.github.com/app-manifests/"
             "..%2Finstallations%2F123%2Faccess_tokens/conversions",
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_register_callback_updates_existing(self):
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app-manifests/tempcode123/conversions",
             json=MANIFEST_RESPONSE,
         )
@@ -1789,7 +1789,7 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertEqual(credentials.app_slug, "weblate-auto")
         self.assertEqual(GitHubAppCredentials.objects.count(), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_register_callback_reject(self):
         response = self.client.get(reverse("github-app-register-callback"))
 
@@ -1804,8 +1804,8 @@ class GitHubAppManifestViewTest(TestCase):
         self.assertRedirects(response, reverse("manage-github-accounts"))
         self.assertFalse(GitHubAppCredentials.objects.exists())
 
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/app-manifests/x/conversions",
             json={"id": 99},  # missing pem/slug/secret
         )

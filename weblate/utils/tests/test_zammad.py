@@ -11,7 +11,7 @@ import httpx2
 from django.core.exceptions import ImproperlyConfigured
 from django.test.utils import override_settings
 
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 ZAMMAD_URL = "https://example.com"
@@ -39,23 +39,23 @@ class ZammadTest(TestCase):
         return report_error, raised.exception
 
     def mock_zammad(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
             json={"enabled": True, "endpoint": SUBMIT_URL, "token": "token"},
         )
-        responses.add(
-            responses.POST, SUBMIT_URL, json={"ticket": {"id": 123, "number": 4123}}
+        http_mock.register(
+            "POST", SUBMIT_URL, json={"ticket": {"id": 123, "number": 4123}}
         )
 
     @override_settings(ZAMMAD_URL=None)
-    @responses.activate
+    @http_mock.activate
     def test_unconfigured(self) -> None:
         with self.assertRaises(ImproperlyConfigured):
             submit_zammad_ticket(**TICKET_DATA)
 
     @override_settings(ZAMMAD_URL=None)
-    @responses.activate
+    @http_mock.activate
     def test_unconfigured_override(self) -> None:
         self.mock_zammad()
         self.assertEqual(
@@ -67,7 +67,7 @@ class ZammadTest(TestCase):
         )
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_configured(self) -> None:
         self.mock_zammad()
         self.assertEqual(
@@ -76,82 +76,82 @@ class ZammadTest(TestCase):
         )
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_invalid_json_encoding(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
-            body=b"\xff",
-            content_type="application/json",
+            content=b"\xff",
+            headers={"Content-Type": "application/json"},
         )
 
         self.assert_zammad_failure()
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_configuration_connection_error(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register_exception(
+            "POST",
             CONFIG_URL,
-            body=httpx2.ConnectError("Zammad unavailable"),
+            exception=httpx2.ConnectError("Zammad unavailable"),
         )
 
         _, error = self.assert_zammad_failure()
         self.assertIsInstance(error.__cause__, httpx2.ConnectError)
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_submission_connection_error(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
             json={"enabled": True, "endpoint": SUBMIT_URL, "token": "token"},
         )
-        responses.add(
-            responses.POST,
+        http_mock.register_exception(
+            "POST",
             SUBMIT_URL,
-            body=httpx2.ConnectError("Zammad unavailable"),
+            exception=httpx2.ConnectError("Zammad unavailable"),
         )
 
         _, error = self.assert_zammad_failure()
         self.assertIsInstance(error.__cause__, httpx2.ConnectError)
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_configuration_timeout(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register_exception(
+            "POST",
             CONFIG_URL,
-            body=httpx2.ReadTimeout("Zammad timed out"),
+            exception=httpx2.ReadTimeout("Zammad timed out"),
         )
 
         _, error = self.assert_zammad_failure()
         self.assertIsInstance(error.__cause__, httpx2.ReadTimeout)
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_submission_timeout(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
             json={"enabled": True, "endpoint": SUBMIT_URL, "token": "token"},
         )
-        responses.add(
-            responses.POST,
+        http_mock.register_exception(
+            "POST",
             SUBMIT_URL,
-            body=httpx2.ReadTimeout("Zammad timed out"),
+            exception=httpx2.ReadTimeout("Zammad timed out"),
         )
 
         _, error = self.assert_zammad_failure()
         self.assertIsInstance(error.__cause__, httpx2.ReadTimeout)
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_http_error_with_zammad_errors(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
-            status=503,
+            status_code=503,
             json={"errors": "Backend unavailable"},
         )
 
@@ -163,34 +163,34 @@ class ZammadTest(TestCase):
         )
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_http_error_with_json(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
-            status=503,
+            status_code=503,
             json={"detail": "Backend unavailable"},
         )
 
         self.assert_zammad_failure()
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_http_error_with_invalid_json(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
-            status=503,
-            body="<html>Unavailable</html>",
+            status_code=503,
+            text="<html>Unavailable</html>",
         )
 
         self.assert_zammad_failure()
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_api_error_is_not_exposed(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
             json={"errors": "Secret internal detail"},
         )
@@ -203,24 +203,24 @@ class ZammadTest(TestCase):
         )
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_unexpected_json_type(self) -> None:
-        responses.add(responses.POST, CONFIG_URL, json=[])
+        http_mock.register("POST", CONFIG_URL, json=[])
 
         self.assert_zammad_failure()
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_disabled_configuration(self) -> None:
-        responses.add(responses.POST, CONFIG_URL, json={"enabled": False})
+        http_mock.register("POST", CONFIG_URL, json={"enabled": False})
 
         self.assert_zammad_failure()
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_malformed_configuration(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
             json={"enabled": True, "endpoint": SUBMIT_URL},
         )
@@ -228,13 +228,13 @@ class ZammadTest(TestCase):
         self.assert_zammad_failure()
 
     @override_settings(ZAMMAD_URL=ZAMMAD_URL)
-    @responses.activate
+    @http_mock.activate
     def test_malformed_ticket(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             CONFIG_URL,
             json={"enabled": True, "endpoint": SUBMIT_URL, "token": "token"},
         )
-        responses.add(responses.POST, SUBMIT_URL, json={"ticket": {}})
+        http_mock.register("POST", SUBMIT_URL, json={"ticket": {}})
 
         self.assert_zammad_failure()
