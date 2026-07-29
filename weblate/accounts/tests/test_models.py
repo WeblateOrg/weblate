@@ -38,6 +38,10 @@ class AuditLogTestCase(SimpleTestCase):
         self.assertIn("superuser-granted", NOTIFY_ACTIVITY)
         self.assertIn("superuser-revoked", NOTIFY_ACTIVITY)
 
+    def test_rate_limit_audit_classification(self) -> None:
+        self.assertNotIn("rate-limit", AUDIT_WARNING)
+        self.assertNotIn("rate-limit", NOTIFY_ACTIVITY)
+
     def test_user_agent_display_empty(self) -> None:
         audit = AuditLog(user_agent="")
         self.assertEqual(audit.get_user_agent_display(), "")
