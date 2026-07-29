@@ -12778,8 +12778,51 @@ class MetricsAPITest(APIBaseTest):
     def test_metrics_openmetrics(self) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        self.assertEqual(
+            response["Content-Type"],
+            "application/openmetrics-text; version=1.0.0; charset=utf-8",
+        )
+        self.assertContains(
+            response,
+            "# HELP units Number of translation units.\n# TYPE units gauge\nunits ",
+        )
+        self.assertContains(
+            response,
+            "# HELP celery_queues Number of tasks in each Celery queue.\n"
+            "# TYPE celery_queues gauge",
+        )
+        self.assertContains(
+            response,
+            "# HELP weblate_info Weblate build information.\n# TYPE weblate_info gauge",
+        )
         self.assertContains(response, f'weblate_info{{version="{GIT_VERSION}"}} 1')
-        self.assertContains(response, "# EOF")
+        self.assertTrue(response.content.endswith(b"# EOF\n"))
+
+    @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_SOFT, HIDE_VERSION=False)
+    def test_metrics_openmetrics_accept_header(self) -> None:
+        self.authenticate()
+        response = self.client.get(
+            reverse("api:metrics"),
+            headers={"accept": "application/openmetrics-text"},
+        )
+        self.assertEqual(
+            response["Content-Type"],
+            "application/openmetrics-text; version=1.0.0; charset=utf-8",
+        )
+        self.assertContains(response, "# TYPE projects gauge")
+
+    @patch(
+        "weblate.utils.celery.get_queue_stats",
+        return_value={'queue"\\\n': 7},
+    )
+    def test_metrics_openmetrics_escapes_labels(self, mock_queues) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        mock_queues.assert_called_once_with()
+        self.assertContains(
+            response,
+            r'celery_queues{queue="queue\"\\\n"} 7',
+        )
 
     def test_metrics_csv(self) -> None:
         self.authenticate()
