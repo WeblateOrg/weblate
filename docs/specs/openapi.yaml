@@ -29014,7 +29014,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FullUser'
+                $ref: '#/components/schemas/UserResponse'
           description: Successful response.
           headers:
             X-RateLimit-Limit:
@@ -31637,6 +31637,24 @@ components:
       - name
       - size
       - timestamp
+    BasicUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: 'Username may only contain letters, numbers or the following
+            characters: @ . + - _'
+          maxLength: 150
+      required:
+      - full_name
+      - id
+      - username
     BilingualSourceUnit:
       type: object
       properties:
@@ -32848,6 +32866,20 @@ components:
       required:
       - detail
       - task_url
+    DashboardViewEnum:
+      enum:
+      - 1
+      - 6
+      - 4
+      - 5
+      - 7
+      type: integer
+      description: |-
+        * `1` - Watched translations
+        * `6` - All component lists
+        * `4` - Component list
+        * `5` - Suggested translations
+        * `7` - Managed projects
     DirectionEnum:
       enum:
       - ltr
@@ -36043,9 +36075,16 @@ components:
           title: Contribute to personal translation memory
           description: Allow your translations to be added to your personal translation
             memory.
+        dashboard_view:
+          allOf:
+          - $ref: '#/components/schemas/DashboardViewEnum'
+          title: Default dashboard view
+          minimum: -2147483648
+          maximum: 2147483647
         dashboard_component_list:
           type:
           - string
+          - 'null'
           - 'null'
           format: uri
           readOnly: true
@@ -36134,11 +36173,19 @@ components:
           type: string
           maxLength: 100
         public_email:
-          type: string
-          format: email
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            enum:
+            - ''
         commit_email:
-          type: string
-          format: email
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            enum:
+            - ''
         commit_name:
           $ref: '#/components/schemas/CommitNameEnum'
         last_2fa:
@@ -36180,18 +36227,6 @@ components:
           - 'null'
           items:
             type: string
-        suggested:
-          type: integer
-          readOnly: true
-        translated:
-          type: integer
-          readOnly: true
-        uploaded:
-          type: integer
-          readOnly: true
-        commented:
-          type: integer
-          readOnly: true
         theme:
           $ref: '#/components/schemas/ThemeEnum'
         hide_completed:
@@ -36245,6 +36280,12 @@ components:
           title: Contribute to personal translation memory
           description: Allow your translations to be added to your personal translation
             memory.
+        dashboard_view:
+          allOf:
+          - $ref: '#/components/schemas/DashboardViewEnum'
+          title: Default dashboard view
+          minimum: -2147483648
+          maximum: 2147483647
         dashboard_component_list:
           type:
           - string
@@ -36336,28 +36377,21 @@ components:
           type: string
           maxLength: 100
         public_email:
-          type: string
-          format: email
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            enum:
+            - ''
         commit_email:
-          type: string
-          format: email
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            enum:
+            - ''
         commit_name:
           $ref: '#/components/schemas/CommitNameEnum'
-        last_2fa:
-          readOnly: true
-          oneOf:
-          - $ref: '#/components/schemas/Last2faEnum'
-          - $ref: '#/components/schemas/BlankEnum'
-      required:
-      - commented
-      - commit_email
-      - commit_name
-      - language
-      - last_2fa
-      - public_email
-      - suggested
-      - translated
-      - uploaded
     Project:
       type: object
       properties:
@@ -38340,6 +38374,10 @@ components:
             type: string
       required:
       - group_id
+    UserResponse:
+      oneOf:
+      - $ref: '#/components/schemas/BasicUser'
+      - $ref: '#/components/schemas/FullUser'
     UserStatistics:
       type: object
       properties:

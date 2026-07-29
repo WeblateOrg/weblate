@@ -261,6 +261,9 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(response.data["profile"]["contact"], profile.contact)
         self.assertEqual(response.data["profile"]["commit_email"], profile.commit_email)
         self.assertEqual(response.data["profile"]["theme"], profile.theme)
+        self.assertEqual(
+            response.data["profile"]["dashboard_view"], profile.dashboard_view
+        )
         self.assertIn(language_url, response.data["profile"]["languages"])
         self.assertIn("last_2fa", response.data["profile"])
 
@@ -281,6 +284,19 @@ class UserAPITest(APIBaseTest):
         )
         project_url = f"http://example.com/api/projects/{project.slug}/"
         project.add_user(self.user)
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user)
+        component_list = ComponentList.objects.create(
+            name="Private component list", slug="private-component-list"
+        )
+        component_list.components.add(self.component)
+        profile.dashboard_component_list = component_list
+        profile.dashboard_view = Profile.DASHBOARD_COMPONENT_LIST
+        profile.save(update_fields=["dashboard_component_list", "dashboard_view"])
+        component_list_url = (
+            "http://example.com/api/component-lists/private-component-list/"
+        )
 
         # user with right permission can see own detailed information
         self.grant_perm_to_user("user.view")
@@ -296,6 +312,9 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(response.data["profile"]["website"], profile.website)
         self.assertIn(language_url, response.data["profile"]["languages"])
         self.assertIn(project_url, response.data["profile"]["watched"])
+        self.assertEqual(
+            response.data["profile"]["dashboard_component_list"], component_list_url
+        )
 
         # other user with right permissions can't see private watched projects
         other_user = User.objects.create_user(
@@ -311,6 +330,7 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertNotIn(project_url, response.data["profile"]["watched"])
+        self.assertIsNone(response.data["profile"]["dashboard_component_list"])
 
     def test_get_anonymous(self) -> None:
         # User info not accessible without auth
@@ -1573,6 +1593,23 @@ class UserAPITest(APIBaseTest):
         )
         self.user.profile.refresh_from_db()
         self.assertEqual(self.user.profile.dashboard_component_list, clist)
+        self.assertEqual(
+            self.user.profile.dashboard_view, Profile.DASHBOARD_COMPONENT_LIST
+        )
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "dashboard_view": Profile.DASHBOARD_SUGGESTIONS,
+                    "dashboard_component_list": None,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(
+            self.user.profile.dashboard_view, Profile.DASHBOARD_SUGGESTIONS
+        )
+        self.assertIsNone(self.user.profile.dashboard_component_list)
 
         # User cannot update read-only profile statistics
         self.do_request(
@@ -1607,6 +1644,27 @@ class UserAPITest(APIBaseTest):
             [self.project.slug],
         )
         self.assertEqual(other_user.profile.translated, original_translated)
+
+        # Watched projects are validated against the profile owner, not the actor.
+        private_project = Project.objects.create(
+            name="Owner-only project",
+            slug="owner-only-project",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_project.add_user(other_user)
+        self.grant_perm_to_user("user.edit")
+        self.do_request(
+            **user_details_kwargs(
+                kwargs={"username": other_user.username}, superuser=False
+            ),
+            request={"profile": {"watched": [private_project.slug]}},
+        )
+        self.assertEqual(
+            list(other_user.profile.watched.values_list("slug", flat=True)),
+            [private_project.slug],
+        )
+        self.user.groups.remove(Group.objects.get(name="Permission group"))
+        self.user.clear_permissions_cache()
 
         # Regular user cannot update another user's profile
         self.do_request(

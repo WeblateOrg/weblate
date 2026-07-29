@@ -346,9 +346,6 @@ Users
                 "http://example.com/api/groups/2/",
                 "http://example.com/api/groups/3/"
             ],
-            "languages": [
-                "http://example.com/api/languages/cs/",
-            ],
             "profile": {
                 "language": "en",
                 "languages": [

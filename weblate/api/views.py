@@ -365,6 +365,11 @@ NEW_UNIT_REQUEST_SERIALIZER = PolymorphicProxySerializer(
     ],
     resource_type_field_name=None,
 )
+USER_RESPONSE_SERIALIZER = PolymorphicProxySerializer(
+    component_name="UserResponse",
+    serializers=[BasicUserSerializer, FullUserSerializer],
+    resource_type_field_name=None,
+)
 
 REPO_OPERATIONS: dict[str, tuple[str, str, tuple, dict, bool]] = {
     "push": ("vcs.push", "do_push", (), {}, True),
@@ -785,7 +790,10 @@ class MemoryLookupResultData(TypedDict):
 
 
 @extend_schema_view(
-    retrieve=extend_schema(description="Return information about users."),
+    retrieve=extend_schema(
+        description="Return information about users.",
+        responses=USER_RESPONSE_SERIALIZER,
+    ),
     update=extend_schema(
         request=UserUpdateRequestSerializer,
         responses=FullUserSerializer,

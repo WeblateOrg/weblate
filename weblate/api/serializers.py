@@ -733,7 +733,14 @@ PROFILE_READONLY_FIELDS = (
 )
 
 
-@extend_schema_field(serializers.EmailField())
+@extend_schema_field(
+    {
+        "oneOf": [
+            {"type": "string", "format": "email"},
+            {"type": "string", "enum": [""]},
+        ]
+    }
+)
 class ProfileEmailChoiceField(serializers.ChoiceField):
     """Choice field with runtime choices documented as an email in OpenAPI."""
 
@@ -764,18 +771,50 @@ class AllowedProjectsField(serializers.Field):
 
     def to_representation(self, value):
         request = self.context["request"]
-        projects = value.all()
+        projects = list(value.all())
         user = request.user
         if hasattr(user, "allowed_projects"):
-            projects &= user.allowed_projects
+            cache_key = "_profile_allowed_project_ids"
+            if cache_key not in self.context:
+                self.context[cache_key] = set(
+                    user.allowed_projects.values_list("pk", flat=True)
+                )
+            allowed_project_ids = self.context[cache_key]
+            projects = [
+                project for project in projects if project.pk in allowed_project_ids
+            ]
         return [
             reverse(
                 "api:project-detail",
                 kwargs={"slug": project.slug},
                 request=request,
             )
-            for project in projects.order()
+            for project in sorted(projects, key=lambda project: project.name)
         ]
+
+
+@extend_schema_field(serializers.URLField(allow_null=True))
+class AllowedComponentListField(serializers.Field):
+    """Hyperlinked component list filtered by the viewer's ACL."""
+
+    def to_representation(self, value):
+        if value is None:
+            return None
+        request = self.context["request"]
+        cache_key = "_profile_allowed_component_list_ids"
+        if cache_key not in self.context:
+            self.context[cache_key] = set(
+                ComponentList.objects.filter_access(request.user).values_list(
+                    "pk", flat=True
+                )
+            )
+        if value.pk not in self.context[cache_key]:
+            return None
+        return reverse(
+            "api:componentlist-detail",
+            kwargs={"slug": value.slug},
+            request=request,
+        )
 
 
 class ProfileSerializer(serializers.ModelSerializer[Profile]):
@@ -792,11 +831,8 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
         read_only=True,
     )
     watched = AllowedProjectsField(read_only=True)
-    dashboard_component_list = serializers.HyperlinkedRelatedField(
-        view_name="api:componentlist-detail",
-        lookup_field="slug",
-        read_only=True,
-        allow_null=True,
+    dashboard_component_list = AllowedComponentListField(
+        read_only=True, allow_null=True
     )
     commit_email = ProfileEmailChoiceField()
     public_email = ProfileEmailChoiceField()
@@ -823,6 +859,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
             "nearby_strings",
             "auto_watch",
             "contribute_personal_tm",
+            "dashboard_view",
             "dashboard_component_list",
             "watched",
             "website",
@@ -862,25 +899,49 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
                 self._validate_dashboard_component_list(
                     initial_data["dashboard_component_list"]
                 )
+            if "dashboard_view" in initial_data:
+                self._validate_dashboard_view(attrs["dashboard_view"], initial_data)
         return attrs
+
+    def _validate_dashboard_view(
+        self, dashboard_view: int, initial_data: dict[str, Any]
+    ) -> None:
+        component_list = initial_data.get(
+            "dashboard_component_list", self.instance.dashboard_component_list_id
+        )
+        if (
+            dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
+            and component_list is None
+        ):
+            raise serializers.ValidationError(
+                {"dashboard_view": "A component list is required for this view."}
+            )
+        if (
+            dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
+            and component_list is not None
+        ):
+            raise serializers.ValidationError(
+                {
+                    "dashboard_view": (
+                        "Clear the dashboard component list when selecting this view."
+                    )
+                }
+            )
 
     def _validate_dashboard_component_list(self, value: str | None) -> None:
         if value is None:
             return
         if not isinstance(value, str):
-            raise serializers.ValidationError(
-                gettext_lazy("Expected a string or null.")
-            )
+            msg = "Expected a string or null."
+            raise serializers.ValidationError(msg)
         try:
             component_list = ComponentList.objects.get(slug=value)
             if component_list not in self.instance.allowed_dashboard_component_lists:
-                raise serializers.ValidationError(
-                    gettext_lazy("Invalid value: %(value)s") % {"value": value}
-                )
+                msg = f"Invalid value: {value}"
+                raise serializers.ValidationError(msg)
         except ComponentList.DoesNotExist as e:
-            raise serializers.ValidationError(
-                gettext_lazy("Invalid value: %(value)s") % {"value": value}
-            ) from e
+            msg = f"Invalid value: {value}"
+            raise serializers.ValidationError(msg) from e
 
     def _validate_m2m_fields(self) -> None:
         errors: dict[str, Any] = {}
@@ -893,7 +954,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
             if not isinstance(values, list) or not all(
                 isinstance(value, str) for value in values
             ):
-                errors[field] = gettext_lazy("Expected a list of items.")
+                errors[field] = "Expected a list of items."
                 continue
             found = set(
                 model.objects.filter(**{f"{lookup}__in": values}).values_list(
@@ -902,22 +963,22 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
             )
             missing = sorted(set(values) - found)
             if missing:
-                errors[field] = gettext_lazy("Invalid value: %(value)s") % {
-                    "value": ", ".join(missing)
-                }
+                errors[field] = "Invalid value: {value}".format(
+                    value=", ".join(missing),
+                )
                 continue
 
-            if field == "watched" and (request := self.context.get("request")):
+            if field == "watched":
                 allowed = set(
-                    request.user.allowed_projects.filter(slug__in=values).values_list(
-                        "slug", flat=True
-                    )
+                    self.instance.user.allowed_projects.filter(
+                        slug__in=values
+                    ).values_list("slug", flat=True)
                 )
                 disallowed = sorted(set(values) - allowed)
                 if disallowed:
-                    errors[field] = gettext_lazy("Invalid value: %(value)s") % {
-                        "value": ", ".join(disallowed)
-                    }
+                    errors[field] = "Invalid value: {value}".format(
+                        value=", ".join(disallowed),
+                    )
         if errors:
             raise serializers.ValidationError(errors)
 
@@ -1070,6 +1131,21 @@ class ProfileUpdateRequestSerializer(ProfileSerializer):
         child=serializers.SlugField(), required=False, allow_null=True
     )
     dashboard_component_list = serializers.SlugField(required=False, allow_null=True)
+
+    def get_fields(self):
+        fields = super().get_fields()
+        for field in fields.values():
+            field.required = False
+        return fields
+
+    class Meta(ProfileSerializer.Meta):
+        fields = tuple(
+            field
+            for field in ProfileSerializer.Meta.fields
+            if field
+            not in {"suggested", "translated", "uploaded", "commented", "last_2fa"}
+        )
+        read_only_fields = ()
 
 
 class UserUpdateRequestSerializer(FullUserSerializer):
