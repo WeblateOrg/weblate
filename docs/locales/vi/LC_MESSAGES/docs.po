@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-23 09:26+0200\n"
-"PO-Revision-Date: 2026-07-27 11:37+0000\n"
+"PO-Revision-Date: 2026-07-29 18:02+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -14572,10 +14572,8 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr ""
 
 #: admin/optionals.rst:142
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Subcontractor information"
-msgstr "Thông báo bản dịch"
+msgstr "Thông tin về nhà thầu phụ"
 
 #: admin/optionals.rst:144
 msgid ""
@@ -14717,6 +14715,12 @@ msgid ""
 "``terms_url`` or ``privacy_url`` fall back to :setting:`LEGAL_URL` "
 "or :setting:`PRIVACY_URL` when configured, otherwise the link is omitted."
 msgstr ""
+"Sử dụng :setting:`LEGAL_HIDDEN_DOCUMENTS` để ẩn các trang pháp lý tùy chọn, "
+"chẳng hạn như nhà thầu phụ, khỏi menu pháp lý. Các trang bị ẩn sẽ trả về "
+"phản hồi 404 khi được truy cập trực tiếp. Nếu ``terms`` hoặc ``privacy`` bị "
+"ẩn, các liên kết sử dụng ``terms_url`` hoặc ``privacy_url`` sẽ sử dụng "
+":setting:`LEGAL_URL` hoặc :setting:`PRIVACY_URL` khi được cấu hình, nếu "
+"không thì liên kết sẽ bị bỏ qua."
 
 #: admin/optionals.rst:275
 msgid ""
@@ -34134,10 +34138,8 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:1934
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-microsoft-translator` hỗ trợ :ref:`glossary-mt`."
 
 #: changes/v5.rst:1935
 #, fuzzy
@@ -36396,10 +36398,8 @@ msgid "To review licensing of Weblate dependencies please see :ref:`sbom`."
 msgstr ""
 
 #: contributing/license.rst:13
-#, fuzzy
-#| msgid "License"
 msgid "License terms"
-msgstr "Giấy phép"
+msgstr "Điều khoản cấp phép"
 
 #: contributing/license.rst:15
 msgid "Copyright © Michal Čihař michal@weblate.org"
@@ -37310,6 +37310,16 @@ msgid ""
 "(including some product names that are part of our organization) you must "
 "comply with these Weblate Trademark Guidelines."
 msgstr ""
+"Weblate là một tổ chức mã nguồn mở. Vì chúng tôi tạo ra các công cụ bản địa "
+"hóa tôn trọng quyền riêng tư và cung cấp chúng dưới dạng phần mềm tự do "
+"copyleft, việc sử dụng đúng cách các nhãn hiệu của chúng tôi là điều cần "
+"thiết để thông báo cho người dùng biết liệu Weblate có đứng sau sản phẩm "
+"hoặc dịch vụ đó hay không, để chúng tôi có thể tiếp tục phát triển. Tên "
+"Weblate không chỉ là nhãn hiệu được sử dụng để nhận diện công nghệ, các "
+"thành phần và dịch vụ của chúng tôi, mà còn là tên công ty của chúng tôi. "
+"Khi sử dụng các nhãn hiệu của Weblate (bao gồm một số tên sản phẩm thuộc tổ "
+"chức của chúng tôi), bạn phải tuân thủ các Hướng dẫn về Nhãn hiệu của "
+"Weblate này."
 
 #: contributing/trademark.rst:6
 msgid "Some of our trademarks include:"
@@ -37837,10 +37847,8 @@ msgid ""
 msgstr ""
 
 #: devel/community.rst:21
-#, fuzzy
-#| msgid "Versions"
 msgid "Terminology management"
-msgstr "Phiên bản"
+msgstr "Quản lý thuật ngữ"
 
 #: devel/community.rst:22
 msgid ""
@@ -43014,10 +43022,8 @@ msgid "`SubRip subtitle file`"
 msgstr ""
 
 #: formats/tbx.rst:4
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "TermBase eXchange format"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Định dạng TermBase eXchange"
 
 #: formats/tbx.rst:10
 msgid "TBX is an XML format for the exchange of terminology data."
@@ -43093,10 +43099,8 @@ msgid ""
 msgstr ""
 
 #: formats/tbx.rst:78
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "`TermBase eXchange file`"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Tệp `TermBase eXchange`"
 
 #: formats/toml.rst:2
 #, fuzzy
@@ -43775,6 +43779,10 @@ msgid ""
 "established in the European Union, and the primary hosting infrastructure is "
 "provided by Hetzner Online GmbH and Hetzner Finland Oy."
 msgstr ""
+"Các dịch vụ do Weblate vận hành được thiết kế để lưu trữ dữ liệu tại châu Âu "
+"và khách hàng có quyền kiểm soát. Nhà điều hành dịch vụ là Weblate s.r.o., "
+"một công ty được thành lập tại Liên minh châu Âu, và cơ sở hạ tầng lưu trữ "
+"chính được cung cấp bởi Hetzner Online GmbH và Hetzner Finland Oy."
 
 #: security/data-residency.rst:16
 msgid "Where data lives"
@@ -43788,7 +43796,7 @@ msgstr ""
 
 #: security/data-residency.rst:20
 msgid "Primary service locations are in Germany."
-msgstr ""
+msgstr "Các địa điểm cung cấp dịch vụ chính nằm ở Đức."
 
 #: security/data-residency.rst:21
 msgid ""
@@ -43853,6 +43861,10 @@ msgid ""
 "hosting infrastructure. This reduces exposure to non-EU cloud operators, but "
 "does not remove every possible cross-border legal or integration dependency."
 msgstr ""
+"**Chủ quyền pháp lý:** Dịch vụ được cung cấp bởi một công ty thuộc EU và sử "
+"dụng cơ sở hạ tầng lưu trữ của EU. Điều này giảm thiểu rủi ro phụ thuộc vào "
+"các nhà cung cấp dịch vụ đám mây ngoài EU, nhưng không loại bỏ mọi khả năng "
+"phụ thuộc pháp lý hoặc tích hợp xuyên biên giới."
 
 #: security/data-residency.rst:56
 msgid ""
@@ -45830,6 +45842,10 @@ msgid ""
 "subcontractor information using :ref:`legal`, or link externally "
 "using :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`."
 msgstr ""
+"Quản trị viên có thể công bố chính sách bảo mật, điều khoản, thông tin về "
+"cookie và thông tin nhà thầu phụ bằng cách sử dụng :ref:`legal`, hoặc liên "
+"kết ra bên ngoài bằng cách sử dụng :setting:`LEGAL_URL` và "
+":setting:`PRIVACY_URL`."
 
 #: security/privacy-compliance.rst:54
 msgid ""
@@ -46076,6 +46092,10 @@ msgid ""
 "information through :ref:`legal`, and update :setting:`LEGAL_TOS_DATE` when "
 "users must accept changed terms."
 msgstr ""
+"**Thông báo và sự đồng ý:** Cung cấp thông tin về quyền riêng tư, cookie, "
+"nhà thầu phụ và điều khoản thông qua :ref:`legal`, và cập nhật "
+":setting:`LEGAL_TOS_DATE` khi người dùng phải chấp nhận các điều khoản đã "
+"thay đổi."
 
 #: security/privacy-compliance.rst:159
 msgid ""
@@ -48827,6 +48847,12 @@ msgid ""
 "``5D992.c`` after the applicable BIS classification or self-classification "
 "process."
 msgstr ""
+"Weblate chưa nhận được quyết định Phân loại Hàng hóa Tự động Theo dõi "
+"(CCATS) từ Cục Công nghiệp và An ninh (BIS). Dựa trên chức năng mã hóa được "
+"sử dụng thông qua các thành phần phụ thuộc, Weblate nói chung nên được coi "
+"là phần mềm mã hóa theo mã ECCN ``5D002.c.1``. Việc phân phối đại trà có thể "
+"được phân loại là ECCN ``5D992.c`` sau quá trình phân loại hoặc tự phân loại "
+"của BIS."
 
 #: security/us-compliance.rst:37
 msgid ""
@@ -49540,10 +49566,8 @@ msgid "MicroDVD subtitle file"
 msgstr "Tệp phụ đề MicroDVD"
 
 #: snippets/addon-parameters-autogenerated.rst:190
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "TermBase eXchange file"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Tệp TermBase eXchange"
 
 #: snippets/addon-parameters-autogenerated.rst:192
 msgid "TOML file"
@@ -50482,28 +50506,20 @@ msgid "A user's access permissions were changed."
 msgstr "Họ"
 
 #: snippets/addon-parameters-autogenerated.rst:619
-#, fuzzy
-#| msgid "Component alerts"
 msgid "Workspace created"
-msgstr "Cảnh báo component"
+msgstr "Đã tạo không gian làm việc"
 
 #: snippets/addon-parameters-autogenerated.rst:620
-#, fuzzy
-#| msgid "Component alerts"
 msgid "A workspace was created."
-msgstr "Cảnh báo component"
+msgstr "Một không gian làm việc đã được tạo."
 
 #: snippets/addon-parameters-autogenerated.rst:623
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Workspace setting changed"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Cài đặt không gian làm việc đã thay đổi"
 
 #: snippets/addon-parameters-autogenerated.rst:624
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "A workspace setting was changed."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Một cài đặt không gian làm việc đã được thay đổi."
 
 #: snippets/addon-parameters-autogenerated.rst:627
 #, fuzzy
@@ -50512,10 +50528,8 @@ msgid "Project moved"
 msgstr "Tiêu đề dự án"
 
 #: snippets/addon-parameters-autogenerated.rst:628
-#, fuzzy
-#| msgid "Add projects to workspace"
 msgid "A project was moved into or out of a workspace."
-msgstr "Thêm dự án vào không gian làm việc"
+msgstr "Một dự án đã được di chuyển vào hoặc ra khỏi không gian làm việc."
 
 #: snippets/addon-parameters-autogenerated.rst:631
 #, fuzzy
@@ -54280,13 +54294,15 @@ msgstr ""
 
 #: snippets/checks-autogenerated.rst:415 snippets/checks-autogenerated.rst:2477
 msgid "`Fluent Syntax Guide <https://projectfluent.org/fluent/guide/>`_"
-msgstr ""
+msgstr "`Hướng Dẫn Cú Pháp Fluent <https://projectfluent.org/fluent/guide/>`_"
 
 #: snippets/checks-autogenerated.rst:416 snippets/checks-autogenerated.rst:2478
 msgid ""
 "`Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-"
 "documentation/tools/fluent/basic_syntax.html>`_"
 msgstr ""
+"`Hướng Dẫn Cú Pháp Cơ Bản Mozilla <https://mozilla-l10n.github.io/localizer-"
+"documentation/tools/fluent/basic_syntax.html>`_"
 
 #: snippets/checks-autogenerated.rst:421
 msgid "Formatted strings"
@@ -55728,6 +55744,11 @@ msgid ""
 "markup or valid custom elements. This is useful for extended Markdown "
 "variants such as MDX, where angle-bracket syntax may not be HTML."
 msgstr ""
+"``auto-safe-html``: Xử lý văn bản như HTML có điều kiện, chỉ cho phép "
+":ref:`check-safe-html` đối với văn bản thuần túy hoặc chuỗi nguồn chứa đánh "
+"dấu HTML chuẩn hoặc các phần tử tùy chỉnh hợp lệ. Điều này hữu ích cho các "
+"biến thể Markdown mở rộng như MDX, nơi cú pháp dấu ngoặc nhọn có thể không "
+"phải là HTML."
 
 #: snippets/checks-autogenerated.rst:2157
 msgid ""
@@ -57606,6 +57627,10 @@ msgid ""
 "references`, :ref:`check-fluent-source-inner-html`, :ref:`check-fluent-"
 "target-inner-html`, ``ignore-xml-tags``, ``ignore-xml-invalid``"
 msgstr ""
+":ref:`check-fluent-source-syntax`, :ref:`check-fluent-target-syntax`, "
+":ref:`check-fluent-parts`, :ref:`check-fluent-references`, :ref:`check-"
+"fluent-source-inner-html`, :ref:`check-fluent-target-inner-html`, ``ignore-"
+"xml-tags``, ``ignore-xml-invalid``"
 
 #: snippets/format-features/go-i18n-json-features.rst:24
 msgid "``go-i18n-json``, ``go-i18n-json-v2``"
@@ -60144,10 +60169,8 @@ msgid "XLIFF 1.1 (``xliff11``)"
 msgstr ""
 
 #: user/files.rst:33
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "TermBase eXchange (``tbx``)"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "TermBase eXchange (``tbx``)"
 
 #: user/files.rst:34
 #, fuzzy
@@ -60583,7 +60606,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: user/glossary.rst:70
 msgid "Glossary terms"
-msgstr "Điều khoản thuật ngữ"
+msgstr "Các thuật ngữ"
 
 #: user/glossary.rst:72
 msgid ""
@@ -60662,10 +60685,8 @@ msgid ""
 msgstr ""
 
 #: user/glossary.rst:124
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Untranslatable terms"
-msgstr "PHP strings"
+msgstr "Các thuật ngữ không thể dịch"
 
 #: user/glossary.rst:128
 msgid ""
@@ -60842,10 +60863,8 @@ msgid ""
 msgstr ""
 
 #: user/glossary.rst:266
-#, fuzzy
-#| msgid "Terminology"
 msgid "Required terminology"
-msgstr "Thuật ngữ"
+msgstr "Thuật ngữ cần thiết"
 
 #: user/glossary.rst:267
 msgid ""
@@ -60855,10 +60874,8 @@ msgid ""
 msgstr ""
 
 #: user/glossary.rst:271
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Non-translatable terms"
-msgstr "PHP strings"
+msgstr "Các thuật ngữ không thể dịch"
 
 #: user/glossary.rst:272
 msgid ""
