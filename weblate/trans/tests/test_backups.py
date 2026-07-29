@@ -10,6 +10,7 @@ import tempfile
 import warnings
 from contextlib import contextmanager, suppress
 from io import StringIO
+from pathlib import Path
 from shutil import copyfile
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
@@ -1667,9 +1668,11 @@ class BackupsTest(ViewTestCase):
             assert isinstance(repository, GitRepository)
             for path in unsafe_paths:
                 with self.subTest(path=path):
-                    self.assertFalse(
-                        os.path.exists(os.path.join(component.full_path, path))
-                    )
+                    restored_path = os.path.join(component.full_path, path)
+                    if os.path.exists(restored_path):
+                        # On case-insensitive filesystems, a mixed-case path can
+                        # resolve to the legitimate .git/config from the backup.
+                        self.assertNotEqual(Path(restored_path).read_bytes(), b"unsafe")
             self.assertEqual(repository.get_config("remote.origin.url"), component.repo)
             self.assertEqual(
                 repository.get_config(f"branch.{component.branch}.remote"),
