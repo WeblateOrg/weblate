@@ -18396,6 +18396,249 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
           description: The request was invalid or could not be parsed.
+  /api/projects/{slug}/metrics/:
+    get:
+      operationId: api_projects_metrics_retrieve
+      description: Return translation metrics for a project.
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+          - openmetrics
+      - in: path
+        name: slug
+        schema:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+        required: true
+      tags:
+      - projects
+      - metrics
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: The authenticated user does not have permission for this operation.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      translated:
+                        type: integer
+                      translated_words:
+                        type: integer
+                      translated_chars:
+                        type: integer
+                      total:
+                        type: integer
+                      total_words:
+                        type: integer
+                      total_chars:
+                        type: integer
+                      fuzzy:
+                        type: integer
+                      fuzzy_words:
+                        type: integer
+                      fuzzy_chars:
+                        type: integer
+                      failing:
+                        type: integer
+                      failing_words:
+                        type: integer
+                      failing_chars:
+                        type: integer
+                      approved:
+                        type: integer
+                      approved_words:
+                        type: integer
+                      approved_chars:
+                        type: integer
+                      suggestions:
+                        type: integer
+                      comments:
+                        type: integer
+                      translated_percent:
+                        type: number
+                      translated_words_percent:
+                        type: number
+                      translated_chars_percent:
+                        type: number
+                      approved_percent:
+                        type: number
+                      approved_words_percent:
+                        type: number
+                      approved_chars_percent:
+                        type: number
+                    required:
+                    - name
+                    - translated
+                    - translated_words
+                    - translated_chars
+                    - total
+                    - total_words
+                    - total_chars
+                    - fuzzy
+                    - fuzzy_words
+                    - fuzzy_chars
+                    - failing
+                    - failing_words
+                    - failing_chars
+                    - approved
+                    - approved_words
+                    - approved_chars
+                    - suggestions
+                    - comments
+                    - translated_percent
+                    - translated_words_percent
+                    - translated_chars_percent
+                    - approved_percent
+                    - approved_words_percent
+                    - approved_chars_percent
+            text/csv:
+              schema:
+                type: string
+            application/openmetrics-text:
+              schema:
+                type: string
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/reports/:
     get:
       operationId: api_projects_reports_list
@@ -35502,6 +35745,10 @@ components:
           type: string
           format: uri
           readOnly: true
+        metrics_url:
+          type: string
+          format: uri
+          readOnly: true
         categories_url:
           type: string
           format: uri
@@ -35887,6 +36134,10 @@ components:
           type: string
           format: uri
           readOnly: true
+        metrics_url:
+          type: string
+          format: uri
+          readOnly: true
         categories_url:
           type: string
           format: uri
@@ -36126,6 +36377,7 @@ components:
       - lock_url
       - locked
       - machinery_settings
+      - metrics_url
       - name
       - reports_url
       - repository_url

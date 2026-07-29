@@ -1246,6 +1246,9 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-statistics", lookup_field="slug"
     )
+    metrics_url = serializers.HyperlinkedIdentityField(
+        view_name="api:project-metrics", lookup_field="slug"
+    )
     categories_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-categories", lookup_field="slug"
     )
@@ -1283,6 +1286,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "components_list_url",
             "repository_url",
             "statistics_url",
+            "metrics_url",
             "categories_url",
             "changes_list_url",
             "languages_url",

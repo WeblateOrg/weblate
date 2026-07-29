@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import os.path
+from collections import Counter
 from collections.abc import Mapping
 from contextlib import suppress
 from typing import TYPE_CHECKING, TypedDict, cast
@@ -193,7 +194,12 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
-from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
+from weblate.utils.stats import (
+    GlobalStats,
+    ProjectLanguage,
+    iter_prefetch_stats,
+    prefetch_stats,
+)
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import show_metrics_version
 from weblate.utils.views import download_translation_file, zip_download
@@ -294,6 +300,119 @@ REPORT_RST_RESPONSE = OpenApiResponse(
     response=OpenApiTypes.STR,
     description="Rendered reStructuredText report.",
 )
+
+PROJECT_METRIC_DEFINITIONS = (
+    ("translated", "translated", "Number of translated strings.", "integer"),
+    ("translated_words", "translated_words", "Number of translated words.", "integer"),
+    (
+        "translated_chars",
+        "translated_chars",
+        "Number of translated characters.",
+        "integer",
+    ),
+    ("total", "all", "Total number of strings.", "integer"),
+    ("total_words", "all_words", "Total number of words.", "integer"),
+    ("total_chars", "all_chars", "Total number of characters.", "integer"),
+    ("fuzzy", "fuzzy", "Number of fuzzy strings.", "integer"),
+    ("fuzzy_words", "fuzzy_words", "Number of fuzzy words.", "integer"),
+    ("fuzzy_chars", "fuzzy_chars", "Number of fuzzy characters.", "integer"),
+    (
+        "failing",
+        "allchecks",
+        "Number of strings with failing checks.",
+        "integer",
+    ),
+    (
+        "failing_words",
+        "allchecks_words",
+        "Number of words with failing checks.",
+        "integer",
+    ),
+    (
+        "failing_chars",
+        "allchecks_chars",
+        "Number of characters with failing checks.",
+        "integer",
+    ),
+    ("approved", "approved", "Number of approved strings.", "integer"),
+    ("approved_words", "approved_words", "Number of approved words.", "integer"),
+    ("approved_chars", "approved_chars", "Number of approved characters.", "integer"),
+    (
+        "suggestions",
+        "suggestions",
+        "Number of strings with suggestions.",
+        "integer",
+    ),
+    (
+        "comments",
+        "comments",
+        "Number of strings with unresolved comments.",
+        "integer",
+    ),
+    (
+        "translated_percent",
+        "translated_percent",
+        "Percentage of translated strings.",
+        "number",
+    ),
+    (
+        "translated_words_percent",
+        "translated_words_percent",
+        "Percentage of translated words.",
+        "number",
+    ),
+    (
+        "translated_chars_percent",
+        "translated_chars_percent",
+        "Percentage of translated characters.",
+        "number",
+    ),
+    (
+        "approved_percent",
+        "approved_percent",
+        "Percentage of approved strings.",
+        "number",
+    ),
+    (
+        "approved_words_percent",
+        "approved_words_percent",
+        "Percentage of approved words.",
+        "number",
+    ),
+    (
+        "approved_chars_percent",
+        "approved_chars_percent",
+        "Percentage of approved characters.",
+        "number",
+    ),
+)
+
+PROJECT_OPENMETRICS_NAMES = {
+    "suggestions": "strings_with_suggestions",
+}
+
+PROJECT_METRIC_VALUE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        **{
+            name: {"type": value_type}
+            for name, _source, _help_text, value_type in PROJECT_METRIC_DEFINITIONS
+        },
+    },
+    "required": [
+        "name",
+        *(name for name, _source, _help_text, _type in PROJECT_METRIC_DEFINITIONS),
+    ],
+}
+
+PROJECT_METRICS_RESPONSE_SCHEMA = {
+    "type": "object",
+    "additionalProperties": {
+        "type": "object",
+        "additionalProperties": PROJECT_METRIC_VALUE_SCHEMA,
+    },
+}
 
 USER_GROUP_REQUEST_SERIALIZER = inline_serializer(
     "UserGroupRequest",
@@ -1917,6 +2036,30 @@ class ProjectViewSet(
         serializer = StatisticsSerializer(obj, context={"request": request})
 
         return Response(serializer.data)
+
+    @extend_schema(
+        description="Return translation metrics for a project.",
+        methods=["get"],
+        tags=["projects", "metrics"],
+        responses=OpenApiResponse(response=PROJECT_METRICS_RESPONSE_SCHEMA),
+    )
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, OpenMetricsRenderer),
+    )
+    def metrics(self, request: Request, **kwargs):
+        project = self.get_object()
+        data, timestamps = get_project_metrics_data(project, self.request.user)
+
+        if request.accepted_renderer.format == "openmetrics":
+            return Response(
+                get_project_openmetrics_data(data, timestamps),
+                content_type=OpenMetricsRenderer.response_content_type,
+            )
+        if request.accepted_renderer.format == "csv":
+            return Response(get_project_metrics_csv_data(data))
+        return Response(data)
 
     @extend_schema(
         description="Return statistics for all languages within a project.",
@@ -4295,6 +4438,139 @@ OPENMETRICS_METRIC_HELP = (
     ("configuration_errors", "Number of active configuration errors."),
     ("suggestions", "Number of pending suggestions."),
 )
+
+
+def get_project_metrics_data(
+    project: Project, user: User
+) -> tuple[
+    dict[str, dict[str, dict[str, int | float | str]]],
+    dict[str, dict[str, int | float]],
+]:
+    result: dict[str, dict[str, dict[str, int | float | str]]] = {}
+    timestamps: dict[str, dict[str, int | float]] = {}
+    components = list(project.get_child_components_access(user))
+    component_paths = {
+        component.pk: "/".join(component.get_url_path()[1:])
+        for component in components
+        if component.pk is not None
+    }
+    for link in ComponentLink.objects.filter(
+        project=project, component_id__in=component_paths
+    ).select_related(
+        "component",
+        "category",
+        "category__category",
+        "category__category__category",
+    ):
+        component_paths[link.component_id] = "/".join(
+            (
+                *(
+                    link.category.get_url_path()[1:]
+                    if link.category is not None
+                    else ()
+                ),
+                link.component.slug,
+            )
+        )
+
+    path_counts = Counter(component_paths.values())
+    component_paths = {
+        component_id: (f"{path}@{component_id}" if path_counts[path] > 1 else path)
+        for component_id, path in component_paths.items()
+    }
+    translations = (
+        Translation.objects.filter(component_id__in=component_paths).prefetch().order()
+    )
+    for translation in iter_prefetch_stats(translations):
+        component = component_paths[translation.component_id]
+        values: dict[str, int | float | str] = {
+            "name": translation.language.name,
+        }
+        values.update(
+            {
+                name: cast("int | float", getattr(translation.stats, source))
+                for name, source, _help_text, _type in PROJECT_METRIC_DEFINITIONS
+            }
+        )
+        result.setdefault(component, {})[translation.language.code] = values
+        timestamps.setdefault(component, {})[translation.language.code] = cast(
+            "int | float", translation.stats.stats_timestamp
+        )
+    return result, timestamps
+
+
+def get_project_metrics_csv_data(
+    data: Mapping[str, Mapping[str, Mapping[str, int | float | str]]],
+) -> list[dict[str, int | float | str]]:
+    return [
+        {
+            "component": component,
+            "language": language,
+            "name": values["name"],
+            "metric": metric,
+            "value": values[metric],
+        }
+        for component, languages in data.items()
+        for language, values in languages.items()
+        for metric, _source, _help_text, _type in PROJECT_METRIC_DEFINITIONS
+    ]
+
+
+def get_project_openmetrics_data(
+    data: Mapping[str, Mapping[str, Mapping[str, int | float | str]]],
+    timestamps: Mapping[str, Mapping[str, int | float]],
+) -> list[OpenMetricsMetric]:
+    result = [
+        OpenMetricsMetric(
+            name="weblate_translation_info",
+            help_text="Translation information.",
+            metric_type="gauge",
+            samples=tuple(
+                OpenMetricsSample(
+                    value=1,
+                    labels={
+                        "component": component,
+                        "language": language,
+                        "name": cast("str", values["name"]),
+                    },
+                )
+                for component, languages in data.items()
+                for language, values in languages.items()
+            ),
+        )
+    ]
+    result.extend(
+        OpenMetricsMetric(
+            name=f"weblate_{PROJECT_OPENMETRICS_NAMES.get(metric, metric)}",
+            help_text=help_text,
+            metric_type="gauge",
+            samples=tuple(
+                OpenMetricsSample(
+                    value=cast("int | float", values[metric]),
+                    labels={"component": component, "language": language},
+                )
+                for component, languages in data.items()
+                for language, values in languages.items()
+            ),
+        )
+        for metric, _source, help_text, _type in PROJECT_METRIC_DEFINITIONS
+    )
+    result.append(
+        OpenMetricsMetric(
+            name="weblate_last_update_timestamp",
+            help_text="Unix timestamp of last statistics update.",
+            metric_type="gauge",
+            samples=tuple(
+                OpenMetricsSample(
+                    value=timestamp,
+                    labels={"component": component, "language": language},
+                )
+                for component, languages in timestamps.items()
+                for language, timestamp in languages.items()
+            ),
+        )
+    )
+    return result
 
 
 def get_openmetrics_data(data: Mapping[str, object]) -> list[OpenMetricsMetric]:
