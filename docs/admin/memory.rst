@@ -161,6 +161,9 @@ Translation memory can be managed from several places in the Weblate UI:
   personal translation memory.
 * Open a project and choose :guilabel:`Translation memory` from the project menu
   to manage translation memory for that project.
+* Open a workspace and choose :guilabel:`Operations` ↓
+  :guilabel:`Translation memory` to manage automatically created translation
+  memory for that workspace. Editing the workspace is required.
 * Open :guilabel:`Administration` and choose :guilabel:`Translation memory` to
   manage uploaded translation memory for the whole Weblate instance.
 
@@ -174,6 +177,11 @@ translations.
 The project view also shows whether shared translation memory and autoclean
 translation memory are enabled for the project, with a link to the project
 workflow settings when the user can edit the project.
+
+The workspace view can rebuild all currently contributing projects or an
+individual contributing component. It manages workspace-scoped automatic
+entries only. Translation-memory files cannot be uploaded into a workspace
+scope.
 
 Translation memory files can be imported on the same page. Uploaded files are
 processed during the request, stored as active, and added to the selected scope:

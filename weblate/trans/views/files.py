@@ -39,9 +39,38 @@ from weblate.utils.views import (
     show_form_errors,
     zip_download,
 )
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from collections.abc import Iterator
+
+    from weblate.auth.models import AuthenticatedHttpRequest, User
+
+
+def iter_workspace_download_components(
+    user: User, workspace: Workspace
+) -> Iterator[Component]:
+    """Yield accessible workspace components the user is allowed to download."""
+    components = (
+        Component.objects.filter(project__workspace=workspace)
+        .filter_access(user)
+        .select_related("project")
+    )
+    for component in components.iterator(chunk_size=1):
+        if user.has_perm("translation.download", component):
+            yield component
+
+
+def get_workspace_download_components(
+    user: User, workspace: Workspace
+) -> list[Component]:
+    """Return accessible workspace components the user is allowed to download."""
+    return list(iter_workspace_download_components(user, workspace))
+
+
+def can_download_workspace(user: User, workspace: Workspace) -> bool:
+    """Return whether the user can download any workspace component."""
+    return next(iter_workspace_download_components(user, workspace), None) is not None
 
 
 def download_multi(
@@ -136,8 +165,28 @@ def download(request: AuthenticatedHttpRequest, path):
     obj = parse_path(
         request,
         path,
-        (Translation, Component, Project, ProjectLanguage, Category, CategoryLanguage),
+        (
+            Translation,
+            Component,
+            Project,
+            ProjectLanguage,
+            Category,
+            CategoryLanguage,
+            Workspace,
+        ),
     )
+    if isinstance(obj, Workspace):
+        components = get_workspace_download_components(request.user, obj)
+        if not components:
+            raise PermissionDenied
+        return download_multi(
+            request,
+            Translation.objects.filter(component__in=components).prefetch(),
+            components,
+            request.GET.get("format"),
+            name=f"workspace-{obj.pk}",
+        )
+
     if not request.user.has_perm("translation.download", obj):
         raise PermissionDenied
 

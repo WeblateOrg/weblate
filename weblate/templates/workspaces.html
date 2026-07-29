@@ -4,10 +4,7 @@
 
 {% block breadcrumbs %}
   <li class="breadcrumb-item">
-    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a href="{% url 'manage-workspaces' %}">{% translate "Workspaces" %}</a>
+    <a href="{% url 'workspaces' %}">{% translate "My workspaces" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
@@ -18,7 +15,7 @@
       {% if workspace_creation_enabled and can_add_workspace %}
         <a class="btn btn-primary float-end" href="{% url 'manage-workspace-add' %}">{% translate "Add workspace" %}</a>
       {% endif %}
-      <h4 class="card-title">{% translate "Manage workspaces" %}</h4>
+      <h4 class="card-title">{% translate "My workspaces" %}</h4>
     </div>
     <div class="card-body">
       <form method="get" class="result-page-form">
@@ -27,7 +24,7 @@
           {{ search_form.q }}
           <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
           {% if search_query %}
-            <a class="btn btn-outline-secondary" href="{% url 'manage-workspaces' %}">{% translate "Clear" %}</a>
+            <a class="btn btn-outline-secondary" href="{% url 'workspaces' %}">{% translate "Clear" %}</a>
           {% endif %}
         </div>
         {% if search_form.q.errors %}<div class="invalid-feedback d-block">{{ search_form.q.errors }}</div>{% endif %}
