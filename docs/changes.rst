@@ -27,6 +27,7 @@ Weblate 2026.8
 * Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
+* User-provided links, such as those in comments, announcements, and profiles, are now underlined and use a higher contrast color.
 
 .. rubric:: Bug fixes
 

@@ -2048,6 +2048,17 @@ input.color_edit:checked + label {
 .markdown p:last-child {
   margin-bottom: 0;
 }
+
+a[rel~="ugc"] {
+  color: var(--wl-color-link-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a[rel~="ugc"]:hover,
+a[rel~="ugc"]:focus {
+  color: var(--wl-color-link-strong-hover);
+  text-decoration: underline;
+}
 .metric {
   text-align: center;
   padding: 20px 0;
