@@ -653,7 +653,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def screenshot_viewport(self, name: str, width: int, height: int = 1024) -> None:
         """
-        Capture screenshot of a fixed size viewport
+        Capture screenshot of a fixed size viewport.
 
         Unlike screenshot(), the window is not grown to fit the whole document,
         so that responsive layout and scrollbars are captured as the user sees
