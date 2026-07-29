@@ -6,6 +6,7 @@ Weblate 2026.8
 .. rubric:: New features
 
 * Workspaces now provide aggregate translation statistics and historical metrics.
+* Added :ref:`project-level translation metrics <monitoring-translation-progress>` in JSON, CSV, and OpenMetrics formats.
 * :ref:`Workspaces <workspaces>` now provide a permission-filtered :guilabel:`My workspaces` list, archive downloads, and management of workspace translation memory.
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
 * :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.

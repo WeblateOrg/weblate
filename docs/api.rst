@@ -1311,6 +1311,29 @@ Projects
 
        Returned attributes are described in :ref:`api-statistics`.
 
+.. http:get:: /api/projects/(string:project)/metrics/
+
+    .. versionadded:: 2026.8
+
+    Returns translation metrics for the project components visible to the
+    caller. Components are identified by their project-relative path and the
+    result is grouped by component and language. When multiple components have
+    the same project-relative path, ``@`` and the component ID are appended to
+    each colliding path.
+
+    The OpenMetrics representation exposes ``weblate_translation_info`` and
+    ``weblate_*`` gauges compatible with the project translation statistics.
+    Strings containing suggestions use
+    ``weblate_strings_with_suggestions`` to distinguish them from the
+    server-wide ``weblate_suggestions`` object count.
+    The CSV representation contains one row for each component, language, and
+    numeric metric.
+
+    :param project: Project URL slug
+    :type project: string
+    :query string format: Response format; use ``openmetrics`` or ``csv`` for
+       monitoring and tabular output.
+
 .. http:get:: /api/projects/(string:project)/categories/
 
    .. versionadded:: 5.0
@@ -3299,6 +3322,12 @@ Metrics
     In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
     when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``. All metrics are
     exposed as gauges.
+
+Project metrics expose translation statistics for each visible component and
+language at :http:get:`/api/projects/(string:project)/metrics/`. They include
+translated, total, fuzzy, failing-check, and approved string, word, and
+character counts; suggestions; comments; and translated and approved
+percentages.
 
 Search
 +++++++
