@@ -3554,7 +3554,7 @@ update individual repositories; see
 
         :ref:`Gitea notifications <code-hosting-gitea-notifications>`
             For instruction on setting up Gitea integration
-        https://docs.gitea.io/en-us/webhooks/
+        https://docs.gitea.com/usage/repository/webhooks
             Generic information about Gitea Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
