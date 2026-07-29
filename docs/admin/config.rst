@@ -997,7 +997,7 @@ List for credentials for Gitea servers.
    * :ref:`code-hosting-gitea-pull-requests`
    * `Creating a Gitea personal access token`_
 
-.. _Creating a Gitea personal access token: https://docs.gitea.io/en-us/api-usage
+.. _Creating a Gitea personal access token: https://docs.gitea.com/development/api-usage
 
 .. setting:: GITLAB_CREDENTIALS
 
