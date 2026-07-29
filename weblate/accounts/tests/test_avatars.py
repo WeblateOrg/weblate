@@ -16,7 +16,7 @@ from weblate.accounts import avatar
 from weblate.accounts.apps import check_avatars
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 
 TEST_URL = (
     "https://www.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&s=32"
@@ -44,13 +44,13 @@ class AvatarTest(FixtureTestCase):
             "https://cdn.example.com/static/api-32.png",
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_avatar(self) -> None:
         image = Image.new("RGB", (32, 32))
         storage = BytesIO()
         image.save(storage, "PNG")
         imagedata = storage.getvalue()
-        responses.add(responses.GET, TEST_URL, body=imagedata)
+        http_mock.register("GET", TEST_URL, content=imagedata)
         # Real user
         response = self.client.get(
             reverse("user_avatar", kwargs={"user": self.user.username, "size": 32})
@@ -64,9 +64,9 @@ class AvatarTest(FixtureTestCase):
         self.assert_png(response)
         self.assertEqual(response.content, imagedata)
 
-    @responses.activate
+    @http_mock.activate
     def test_avatar_error(self) -> None:
-        responses.add(responses.GET, TEST_URL, status=503)
+        http_mock.register("GET", TEST_URL, status_code=503)
         # Choose different username to avoid using cache
         self.user.username = "test2"
         self.user.save()
@@ -86,13 +86,13 @@ class AvatarTest(FixtureTestCase):
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0].id, "weblate.E018")
 
-    @responses.activate
+    @http_mock.activate
     def test_avatar_rejects_unsupported_size_before_fetch(self) -> None:
         response = self.client.get(
             reverse("user_avatar", kwargs={"user": self.user.username, "size": 999})
         )
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
     def test_anonymous_avatar(self) -> None:
         anonymous = User.objects.get(username="anonymous")

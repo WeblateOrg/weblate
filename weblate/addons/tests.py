@@ -82,7 +82,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.base import Repository, RepositoryError
 
@@ -173,20 +173,17 @@ if TYPE_CHECKING:
     from weblate.trans.models import (
         Project,
     )
-    from weblate.utils.tests.http_mock import PreparedRequest
 
 
 def get_webhook_request_data(
-    request: PreparedRequest,
-) -> tuple[bytes | str, dict[str, str]]:
+    request: httpx2.Request,
+) -> tuple[bytes, dict[str, str]]:
     """Return the concrete body and string headers prepared by the HTTP client."""
-    body = request.body
-    assert isinstance(body, (bytes, str))
     headers: dict[str, str] = {}
     for key, value in request.headers.items():
         assert isinstance(value, str)
         headers[key] = value
-    return body, headers
+    return request.content, headers
 
 
 class GettextUtilityTest(SimpleTestCase):
@@ -8352,7 +8349,7 @@ class CDNJSAddonTest(ViewTestCase):
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
     )
-    @responses.activate
+    @http_mock.activate
     def test_form_rejects_private_remote_file_before_request(
         self, mocked_getaddrinfo
     ) -> None:
@@ -8371,7 +8368,7 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertFalse(form.is_valid())
 
         mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
         self.assertIn("internal or non-public address", str(form.errors["files"]))
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
@@ -8601,7 +8598,7 @@ class CDNJSAddonTest(ViewTestCase):
         alert = self.component.alert_set.get(name="CDNAddonError")
         self.assertIn("domain is not allowed", alert.details["occurrences"][0]["error"])
 
-    @responses.activate
+    @http_mock.activate
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(
         LOCALIZE_CDN_URL="http://localhost/", ALLOWED_ASSET_DOMAINS=[".allowed.com"]
@@ -8620,17 +8617,17 @@ class CDNJSAddonTest(ViewTestCase):
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
 
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://cdn.allowed.com/messages.html",
-            status=302,
+            status_code=302,
             headers={"Location": "https://blocked.example.com/messages.html"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://blocked.example.com/messages.html",
-            status=200,
-            body="<html><body><div class='l10n'>Blocked</div></body></html>",
+            status_code=200,
+            text="<html><body><div class='l10n'>Blocked</div></body></html>",
         )
 
         self.create_addon(
@@ -8650,10 +8647,10 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertIn("domain is not allowed", alert.details["occurrences"][0]["error"])
         self.assertNotIn(
             "https://blocked.example.com/messages.html",
-            [call.request.url for call in responses.calls],
+            [call.request.url for call in http_mock.calls],
         )
 
-    @responses.activate
+    @http_mock.activate
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     @patch(
@@ -8666,11 +8663,11 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertEqual(
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/messages.html",
-            status=200,
-            body="<html><body><div class='l10n'>Private</div></body></html>",
+            status_code=200,
+            text="<html><body><div class='l10n'>Private</div></body></html>",
         )
 
         self.create_addon(
@@ -8687,13 +8684,13 @@ class CDNJSAddonTest(ViewTestCase):
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
         self.assertGreaterEqual(mocked_getaddrinfo.call_count, 1)
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
         alert = self.component.alert_set.get(name="CDNAddonError")
         self.assertIn(
             "internal or non-public address", alert.details["occurrences"][0]["error"]
         )
 
-    @responses.activate
+    @http_mock.activate
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
@@ -8713,17 +8710,17 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertEqual(
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/messages.html",
-            status=302,
+            status_code=302,
             headers={"Location": "https://private.example.com/messages.html"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/messages.html",
-            status=200,
-            body="<html><body><div class='l10n'>Private</div></body></html>",
+            status_code=200,
+            text="<html><body><div class='l10n'>Private</div></body></html>",
         )
 
         self.create_addon(
@@ -8747,10 +8744,10 @@ class CDNJSAddonTest(ViewTestCase):
         )
         self.assertNotIn(
             "https://private.example.com/messages.html",
-            [call.request.url for call in responses.calls],
+            [call.request.url for call in http_mock.calls],
         )
 
-    @responses.activate
+    @http_mock.activate
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(
         LOCALIZE_CDN_URL="http://localhost/",
@@ -8766,11 +8763,11 @@ class CDNJSAddonTest(ViewTestCase):
         self.assertEqual(
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/messages.html",
-            status=200,
-            body="<html><body><div class='l10n'>Allowed private</div></body></html>",
+            status_code=200,
+            text="<html><body><div class='l10n'>Allowed private</div></body></html>",
         )
 
         self.create_addon(
@@ -9198,19 +9195,30 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_CUSTOM
 
     def count_requests(self) -> int:
-        return len(responses.calls)
+        return len(http_mock.calls)
 
     def reset_calls(self) -> None:
-        responses.calls.reset()
+        http_mock.calls.clear()
 
     def do_translation_added_test(
-        self, response_code=None, expected_calls: int = 1, **responses_kwargs
+        self,
+        response_code: int = 200,
+        expected_calls: int = 1,
+        *,
+        content: bytes | None = None,
+        exception: BaseException | None = None,
     ) -> None:
         """Install addon, edit unit and assert outgoing calls."""
         self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
-        if response_code:
-            responses_kwargs |= {"status": response_code}
-        responses.add(responses.POST, self.WEBHOOK_URL, **responses_kwargs)
+        if exception is None:
+            http_mock.register(
+                "POST",
+                self.WEBHOOK_URL,
+                status_code=response_code,
+                content=content,
+            )
+        else:
+            http_mock.register_exception("POST", self.WEBHOOK_URL, exception)
 
         with self.captureOnCommitCallbacks(execute=True):
             self.edit_unit(
@@ -9223,7 +9231,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
             )  # triggers ActionEvents.STRING_REMOVE event
         self.assertEqual(self.count_requests(), expected_calls)
 
-    @responses.activate
+    @http_mock.activate
     def test_bulk_changes(self) -> None:
         """Test bulk change create via the propagate() method."""
         # create another component in project with same units as self.component
@@ -9237,14 +9245,14 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
             configuration=self.addon_configuration, project=self.project
         )
         self.component.drop_addons_cache()
-        responses.add(responses.POST, self.WEBHOOK_URL, status=200)
+        http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
 
         # create translation for unit and similar units across project
         with self.captureOnCommitCallbacks(execute=True):
             self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
         self.assertEqual(self.count_requests(), 2)
 
-    @responses.activate
+    @http_mock.activate
     def test_translation_added(self) -> None:
         """Test translation added and translation edited action change."""
         self.addon_configuration["events"].append(ActionEvents.CHANGE)
@@ -9254,13 +9262,13 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
             self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
         self.assertEqual(self.count_requests(), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_all_events(self) -> None:
         """Test processing every change action without event filtering."""
         self.addon_configuration["event_filter"] = CHANGE_EVENT_FILTER_ALL
         self.do_translation_added_test(response_code=200, expected_calls=2)
 
-    @responses.activate
+    @http_mock.activate
     def test_content_events(self) -> None:
         """Test processing translation content events preset."""
         self.assertIn(ActionEvents.NEW, ACTIONS_CONTENT)
@@ -9269,7 +9277,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.addon_configuration["events"] = []
         self.do_translation_added_test(response_code=200)
 
-    @responses.activate
+    @http_mock.activate
     def test_announcement(self) -> None:
         """Test project and site wide events."""
         self.addon_configuration["events"].append(ActionEvents.ANNOUNCEMENT)
@@ -9277,7 +9285,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.WEBHOOK_CLS.create(
             configuration=self.addon_configuration, project=self.project
         )
-        responses.add(responses.POST, self.WEBHOOK_URL, status=200)
+        http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
 
         self.reset_calls()
         with self.captureOnCommitCallbacks(execute=True):
@@ -9293,7 +9301,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         # Both site-wide and project-wide add-ons should receive this
         self.assertEqual(self.count_requests(), 2)
 
-    @responses.activate
+    @http_mock.activate
     def test_component_scopes(self) -> None:
         """Test webhook addon installed at component level."""
         secondary_url = f"{self.WEBHOOK_URL}-2"
@@ -9307,8 +9315,8 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.WEBHOOK_CLS.create(configuration=config1, component=component1)
         self.WEBHOOK_CLS.create(configuration=config2, component=component2)
 
-        resp1 = responses.post(self.WEBHOOK_URL, status=200)
-        resp2 = responses.post(secondary_url, status=200)
+        resp1 = http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
+        resp2 = http_mock.register("POST", secondary_url, status_code=200)
         translation1 = self.get_translation()
         translation2 = component2.translation_set.get(language__code="cs")
 
@@ -9330,7 +9338,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.assertEqual(len(resp1.calls), 1)
         self.assertEqual(len(resp2.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_project_scopes(self) -> None:
         """Test webhook addon installed at project level."""
         secondary_url = f"{self.WEBHOOK_URL}-2"
@@ -9351,8 +9359,8 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.WEBHOOK_CLS.create(configuration=config_a, project=project_a)
         self.WEBHOOK_CLS.create(configuration=config_b, project=project_b)
 
-        resp_a = responses.post(self.WEBHOOK_URL, status=200)
-        resp_b = responses.post(secondary_url, status=200)
+        resp_a = http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
+        resp_b = http_mock.register("POST", secondary_url, status_code=200)
 
         translation_a1 = component_a1.translation_set.get(language__code="cs")
         translation_a2 = component_a2.translation_set.get(language__code="cs")
@@ -9380,7 +9388,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         self.assertEqual(len(resp_a.calls), 2)
         self.assertEqual(len(resp_b.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_site_wide_scope(self) -> None:
         """Test webhook addon installed site-wide."""
         project_b = self.create_project(name="Test 2", slug="project2")
@@ -9389,7 +9397,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         )
 
         self.WEBHOOK_CLS.create(configuration=self.addon_configuration)
-        responses.add(responses.POST, self.WEBHOOK_URL, status=200)
+        http_mock.register("POST", self.WEBHOOK_URL, status_code=200)
 
         translation_a1 = self.get_translation()
         translation_b1 = component_b1.translation_set.get(language__code="cs")
@@ -9404,7 +9412,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
 
         self.assertEqual(self.count_requests(), 2)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
@@ -9413,7 +9421,7 @@ class BaseWebhookTests(_WebhookTestsTypingBase):
         """Test connection error when during message delivery."""
         request = httpx2.Request("POST", self.WEBHOOK_URL)
         self.do_translation_added_test(
-            body=httpx2.ConnectError("Connection failed", request=request)
+            exception=httpx2.ConnectError("Connection failed", request=request)
         )
 
 
@@ -9428,18 +9436,18 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         "events": [],
     }
 
-    @responses.activate
+    @http_mock.activate
     def test_invalid_response(self) -> None:
         """Test invalid response from client."""
         self.do_translation_added_test(response_code=301)
 
-    @responses.activate
+    @http_mock.activate
     def test_webhook_signature_prefix(self) -> None:
         """Test webhook signature features."""
         self.addon_configuration["secret"] = "whsec_secret-string"
         self.do_translation_added_test(response_code=200)
 
-        wh_request = responses.calls[0].request
+        wh_request = http_mock.calls[0].request
         body, headers = get_webhook_request_data(wh_request)
         wh_utils = Webhook("whsec_secret-string")
         wh_utils.verify(body, headers)
@@ -9453,13 +9461,13 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
             wh_utils = Webhook("public-string")
             wh_utils.verify(body, headers)
 
-    @responses.activate
+    @http_mock.activate
     def test_webhook_signature(self) -> None:
         """Test webhook signature features."""
         self.addon_configuration["secret"] = "secret-string"
         self.do_translation_added_test(response_code=200)
 
-        wh_request = responses.calls[0].request
+        wh_request = http_mock.calls[0].request
         body, wh_headers = get_webhook_request_data(wh_request)
         wh_utils = Webhook("secret-string")
 
@@ -9700,7 +9708,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
 
         self.assertContains(response, "Installed 1 add-on")
 
-    @responses.activate
+    @http_mock.activate
     def test_jsonschema_error(self) -> None:
         """Test payload schema validation error."""
         with patch(
@@ -9709,7 +9717,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         ):
             self.do_translation_added_test(expected_calls=0)
 
-    @responses.activate
+    @http_mock.activate
     def test_category_in_payload(self) -> None:
         """Test webhook payload includes category field when available."""
         self.project.add_user(self.user, "Administration")
@@ -9735,7 +9743,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         self.component.category = sub_category
         self.component.save()
 
-        responses.add(responses.POST, "https://example.com/webhooks", status=200)
+        http_mock.register("POST", "https://example.com/webhooks", status_code=200)
         with self.captureOnCommitCallbacks(execute=True):
             self.client.post(
                 reverse("rename", kwargs={"path": self.component.get_url_path()}),
@@ -9747,12 +9755,12 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 },
             )
 
-        request_body = json.loads(cast("bytes", responses.calls[0].request.body))
+        request_body = json.loads(http_mock.calls[0].request.content)
         self.assertIn("child-category", request_body["category"])
         self.assertIn("parent-category", request_body["category"])
         self.assertIn("sub-category", request_body["category"])
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 80))],
@@ -9786,10 +9794,12 @@ class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
         "events": [str(ActionEvents.NEW)],
     }
 
-    @responses.activate
+    @http_mock.activate
     def test_invalid_response(self) -> None:
         """Test invalid response from client."""
-        self.do_translation_added_test(response_code=410, body=b"channel_is_archived")
+        self.do_translation_added_test(
+            response_code=410, content=b"channel_is_archived"
+        )
 
 
 class FedoraMessagingPEMBlockTest(SimpleTestCase):

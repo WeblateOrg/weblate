@@ -65,22 +65,22 @@
                   </strong>
                 </p>
               {% endif %}
-            {% endwith %}
-          </label>
+        {% endwith %}
+        </label>
         </div>
-      {% endfor %}
-    </div>
-    {% if "disabled" in flat_attrs %}
-      <div>
-        <p>
-          {% translate "You do not have permission to change project access control." %}
-          {% if has_billing %}
-            <a href="{% url 'billing' %}">{% translate "Check your billing status" %}</a>
-          {% endif %}
-        </p>
-      </div>
-    {% endif %}
-
+    {% endfor %}
   </div>
+  {% if "disabled" in flat_attrs %}
+    <div>
+      <p>
+        {% translate "You do not have permission to change project access control." %}
+        {% if has_billing %}
+          <a href="{% url 'billing' %}">{% translate "Check your billing status" %}</a>
+        {% endif %}
+      </p>
+    </div>
+  {% endif %}
+
+</div>
 
 </div>

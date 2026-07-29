@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-25 00:40-0500\n"
-"PO-Revision-Date: 2026-07-27 15:37+0000\n"
+"PO-Revision-Date: 2026-07-28 16:01+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -2865,65 +2865,66 @@ msgid ""
 "Paste only PEM certificate blocks, each starting with \"-----BEGIN "
 "CERTIFICATE-----\" and ending with \"-----END CERTIFICATE-----\"."
 msgstr ""
+"Вставити лише блоки сертифіката PEM, кожен починатиметься з «-----BEGIN "
+"CERTIFICATE-----» і завершуватиметься «-----END CERTIFICATE-----»."
 
 #: weblate/addons/forms.py:1708
 msgid "Client private key (PEM)"
-msgstr ""
+msgstr "Клієнтський закритий ключ (PEM)"
 
 #: weblate/addons/forms.py:1710
 msgid ""
 "Paste a single unencrypted PEM private key block. Encrypted private keys are "
 "not supported."
 msgstr ""
+"Вставити єдиний нешифрований блок закритого ключа PEM. Підтримки шифрованих "
+"закритих ключів не передбачено."
 
 #: weblate/addons/forms.py:1717
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "SSL-сертифікати клієнта"
+msgstr "Клієнтський сертифікат (PEM)"
 
 #: weblate/addons/forms.py:1719
 msgid ""
 "Paste only the PEM certificate block starting with \"-----BEGIN "
 "CERTIFICATE-----\"; do not paste the output from \"openssl x509 -text\"."
 msgstr ""
+"Вставити лише блок сертифіката PEM, що починається з «-----BEGIN "
+"CERTIFICATE-----»; не вставляти дані, виведені «openssl x509 -text»."
 
 #: weblate/addons/forms.py:1724
 msgid "Publish timeout"
-msgstr ""
+msgstr "Перевищення часу очікування на оприлюднення"
 
 #: weblate/addons/forms.py:1726
 msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgstr ""
+"Кількість секунд очікування на сповіщення щодо доставлення від обробника."
 
 #: weblate/addons/forms.py:1734
 msgid "Connection attempts"
-msgstr ""
+msgstr "Спроби з'єднання"
 
 #: weblate/addons/forms.py:1735
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Кількість спроб встановити з'єднання з обробником."
 
 #: weblate/addons/forms.py:1742
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "Подробиці репозиторію"
+msgstr "Затримка повторних спроб"
 
 #: weblate/addons/forms.py:1743
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Кількість секунд очікування між спробами встановлення з'єднання."
 
 #: weblate/addons/forms.py:1792
-#, fuzzy
-#| msgid "String contains control character: %s"
 msgid "Topic prefix can contain only ASCII characters."
-msgstr "Рядок містить керівний символ: %s"
+msgstr "Префікс теми має складатися лише з символів ASCII."
 
 #: weblate/addons/forms.py:1797
 #, python-format
 msgid "Topic prefix must not exceed %(limit)d characters."
-msgstr ""
+msgstr "Довжина префікса теми не може перевищувати %(limit)d символів."
 
 #: weblate/addons/forms.py:1831
 msgid "The SSL certificates have to be provided for SSL connection."
@@ -3115,14 +3116,10 @@ msgstr ""
 "початкового рядка."
 
 #: weblate/addons/views.py:110
-#, fuzzy
-#| msgid "Manage site-wide add-ons"
 msgid "site-wide add-ons"
-msgstr "Керування додатками для усього сайта"
+msgstr "додатки рівня сайта"
 
 #: weblate/addons/views.py:118 weblate/templates/addons/addon_head.html:12
-#, fuzzy
-#| msgid "Repository"
 msgctxt "Add-on scope"
 msgid "Repository"
 msgstr "Сховище"
@@ -3133,11 +3130,9 @@ msgid "Component"
 msgstr "Складник"
 
 #: weblate/addons/views.py:122 weblate/addons/views.py:127
-#, fuzzy
-#| msgid "Move category"
 msgctxt "Add-on scope"
 msgid "Parent category"
-msgstr "Пересунути категорію"
+msgstr "Батьківська категорія"
 
 #: weblate/addons/views.py:128
 msgctxt "Add-on scope"
@@ -3152,7 +3147,7 @@ msgstr "Проєкт"
 #: weblate/addons/views.py:131
 msgctxt "Add-on scope"
 msgid "Site"
-msgstr ""
+msgstr "Сайт"
 
 #: weblate/addons/views.py:305 weblate/addons/views.py:308
 #: weblate/addons/views.py:435
@@ -3222,82 +3217,68 @@ msgstr ""
 "з відповідним проектом. Ці маркери мають префікс `wlp_`."
 
 #: weblate/api/docs.py:52
-#, fuzzy
-#| msgid "Success (green)"
 msgid "Successful response."
-msgstr "Успіх (зелений)"
+msgstr "Успішна відповідь."
 
 #: weblate/api/docs.py:53
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "Код захисту вилучено."
+msgstr "Створено ресурс."
 
 #: weblate/api/docs.py:54
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "Запит прийнято для асинхронної обробки."
 
 #: weblate/api/docs.py:55
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "Успішна відповідь без вмісту відповіді."
 
 #: weblate/api/docs.py:56
-#, fuzzy
-#| msgid "The authentication provider could not be reached."
 msgid "The request was invalid or could not be parsed."
-msgstr "Не вдалося отримати доступу до програми надання даних розпізнавання."
+msgstr "Запит є некоректним або його не вдалося обробити."
 
 #: weblate/api/docs.py:57
 msgid "Authentication credentials were missing or invalid."
 msgstr ""
+"Не вказано реєстраційні дані для розпізнавання або вказано некоректні дані."
 
 #: weblate/api/docs.py:59
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "У вас немає права доступу до цього складника."
+msgstr "У розпізнаного користувача немає прав доступу до виконання цієї дії."
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
-msgstr ""
+msgstr "Потрібного ресурсу не знайдено або ресурс є недоступним."
 
 #: weblate/api/docs.py:62
 msgid "The HTTP method is not allowed for this resource."
-msgstr ""
+msgstr "Доступ до цього ресурсу за допомогою HTTP заборонено."
 
 #: weblate/api/docs.py:63
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "Введений маркер недійсний."
+msgstr "Потрібний тип мультимедійних даних відповіді є недоступним."
 
 #: weblate/api/docs.py:64
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The request media type is not supported."
-msgstr "Виявлений назвошир не підтримується."
+msgstr "Підтримки потрібного типу мультимедійних даних не передбачено."
 
 #: weblate/api/docs.py:65
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "The resource is locked."
-msgstr "Файл ресурсів .NET"
+msgstr "Ресурс заблоковано."
 
 #: weblate/api/docs.py:66
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "Перевищено частоту доступу до програмного інтерфейсу."
 
 #: weblate/api/docs.py:67
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "Сталася помилка обробки"
+msgstr "Сталася неочікувана помилка сервера."
 
 #: weblate/api/docs.py:238
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
+"Фільтрувати за дією зі зміни. Скористайтеся цим параметром повторно, щоб "
+"фільтрувати за декількома діями."
 
 #: weblate/api/docs.py:423
 msgid "Allowed number of requests to perform"
@@ -3312,10 +3293,8 @@ msgid "Number of seconds until the rate-limit window resets"
 msgstr "Кількість секунд до скидання вікна обмеження швидкості"
 
 #: weblate/api/serializers.py:127
-#, fuzzy
-#| msgid "Restricted component"
 msgid "Invalid component path."
-msgstr "Складник із обмеженим доступом"
+msgstr "Некоректний шлях до складника."
 
 #: weblate/api/serializers.py:158 weblate/trans/models/category.py:96
 #: weblate/trans/models/component.py:562
@@ -3332,56 +3311,44 @@ msgstr "Назва, що використовується в URL-адресах 
 #: weblate/api/serializers.py:166 weblate/api/serializers.py:172
 msgid "Required for credits, contributor stats, and translator work reports."
 msgstr ""
+"Слід вказати для подяк, статистики внесків та звітів щодо роботи "
+"перекладачів."
 
 #: weblate/api/serializers.py:245 weblate/api/serializers.py:248
-#, fuzzy
-#| msgid "Add workspace"
 msgid "Invalid workspace."
-msgstr "Додати робочий простір"
+msgstr "Некоректний робочий простір."
 
 #: weblate/api/serializers.py:261
-#, fuzzy
-#| msgid "Invalid request."
 msgid "Invalid project."
-msgstr "Недійсний запит."
+msgstr "Некоректний проєкт."
 
 #: weblate/api/serializers.py:274
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid category."
-msgstr "Неправильна дата!"
+msgstr "Некоректна категорія."
 
 #: weblate/api/serializers.py:289 weblate/api/serializers.py:392
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Do not specify a scope on a scoped reports endpoint."
-msgstr "Не вказуйте проєкт і складник!"
+msgstr "Не вказуйте область для кінцевої точки звітів з областю."
 
 #: weblate/api/serializers.py:293
-#, fuzzy
-#| msgid "Choose what to work on"
 msgid "Choose at most one report scope."
-msgstr "Виберіть, над чим працювати"
+msgstr "Виберіть принаймні одну область звіту."
 
 #: weblate/api/serializers.py:305
 msgid "Start and end timestamps are required."
-msgstr ""
+msgstr "Слід вказати початкову і кінцеву часові позначки."
 
 #: weblate/api/serializers.py:309
-#, fuzzy
-#| msgid "The starting date has to be before the ending date."
 msgid "The report start must be before its end."
-msgstr "Дата початку повинна передувати даті кінця."
+msgstr "Початок звіту має передувати його кінцю."
 
 #: weblate/api/serializers.py:321 weblate/trans/forms.py:1881
 msgid "Minimum changes can not exceed maximum changes."
-msgstr ""
+msgstr "Мінімальні зміни не можуть бути більшими за максимальні зміни."
 
 #: weblate/api/serializers.py:808
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "This e-mail address has not been verified."
-msgstr "Цією адресою електронної пошти скористатися не можна."
+msgstr "Цю адресу електронної пошти не було перевірено."
 
 #: weblate/api/serializers.py:938 weblate/templates/accounts/user.html:278
 #: weblate/trans/forms.py:1322
@@ -3445,20 +3412,16 @@ msgid "A team with this name already exists in this workspace."
 msgstr "У цьому робочому просторі вже існує команда з такою назвою."
 
 #: weblate/api/serializers.py:1200
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change this on a scoped team."
-msgstr "У вже існуючій команді це змінити неможливо."
+msgstr "Не можна змінювати це у команді з областю."
 
 #: weblate/api/serializers.py:1855 weblate/trans/forms.py:1900
 msgid "You do not have permission to access this component."
 msgstr "У вас немає права доступу до цього складника."
 
 #: weblate/api/serializers.py:2004 weblate/trans/forms.py:2309
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr "У вас немає права змінювати доступ до проєкту."
+msgstr "У вас немає права змінювати обмежений доступ."
 
 #: weblate/api/serializers.py:2432 weblate/templates/js/git-status.html:23
 msgid "Commit"
@@ -3506,10 +3469,8 @@ msgid "Rescan all translation files in the Weblate repository"
 msgstr "Виконати повторне сканування усіх файлів перекладу у сховищі Weblate"
 
 #: weblate/api/serializers.py:2756
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Please provide a suggestion"
-msgstr "Вилучити пропозицію"
+msgstr "Будь ласка, надайте пропозицію"
 
 #: weblate/api/serializers.py:2781 weblate/api/serializers.py:2809
 #: weblate/trans/forms.py:762 weblate/trans/views/edit.py:836
@@ -3517,10 +3478,8 @@ msgid "Translation text too long!"
 msgstr "Текст перекладу надто довгий!"
 
 #: weblate/api/serializers.py:2789
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of plurals does not match"
-msgstr "Число множин"
+msgstr "Невідповідність кількості форм множини"
 
 #: weblate/api/serializers.py:2806 weblate/trans/views/edit.py:832
 msgid "Your suggestion is similar to the current translation!"
@@ -3584,45 +3543,34 @@ msgid "This role cannot be assigned to this team."
 msgstr "Цю роль неможливо призначити цій команді."
 
 #: weblate/api/views.py:1241 weblate/api/views.py:1278
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change languages on a workspace team."
-msgstr "У вже існуючій команді це змінити неможливо."
+msgstr "Не можна змінювати мови у команді з робочою областю."
 
 #: weblate/api/views.py:1298 weblate/api/views.py:1326
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change projects on a scoped team."
-msgstr "У вже існуючій команді це змінити неможливо."
+msgstr "Не можна змінювати проєкти у команді з областю."
 
 #: weblate/api/views.py:1347 weblate/api/views.py:1388
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change component lists on a scoped team."
-msgstr "У вже існуючій команді це змінити неможливо."
+msgstr "Не можна змінювати списки складників у команді з областю."
 
 #: weblate/api/views.py:1409 weblate/api/views.py:1446
-#, fuzzy
-#| msgid "Cannot change this on an existing team."
 msgid "Cannot change components on a workspace team."
-msgstr "У вже існуючій команді це змінити неможливо."
+msgstr "Не можна змінювати складники у команді з робочою областю."
 
 #: weblate/api/views.py:1581
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Report generation scheduled."
-msgstr "Не вдалося виконати дію з репозиторієм"
+msgstr "Заплановано створення звіту."
 
 #: weblate/api/views.py:2071
 msgid "Specify a workspace when multiple workspaces can be used."
 msgstr ""
+"Вказати робочий простір, якщо може бути використано декілька робочих "
+"просторів."
 
 #: weblate/api/views.py:3395 weblate/trans/views/bulk_suggestions.py:129
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to approve strings."
-msgstr "Ви не маєте дозволу приймати пропозиції."
+msgstr "Ви не маєте права затверджувати рядки."
 
 #: weblate/api/views.py:3407 weblate/trans/models/translation.py:2837
 msgid "This string seems to already exist."
@@ -3987,10 +3935,8 @@ msgstr "Використовувати інтерфейс керування"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
-#, fuzzy
-#| msgid "Weblate configuration"
 msgid "Manage site configuration"
-msgstr "Налаштування Weblate"
+msgstr "Керування налаштуваннями сайта"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
@@ -4486,10 +4432,9 @@ msgstr ""
 "використано вибір мови команди без додаткових обмежень."
 
 #: weblate/auth/models.py:545
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "Некоректна адреса ел. пошти: {}"
+msgstr "Адреса електронної пошти внутрішнього бота є надто довгою: %s"
 
 #: weblate/auth/models.py:811 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:269
@@ -4595,28 +4540,20 @@ msgid "Suggest full name for the user. It can be changed later."
 msgstr "Запропонувати повне ім'я користувача. Його може бути змінено пізніше."
 
 #: weblate/auth/permissions.py:206
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit glossary entries."
-msgstr "Ви не маєте дозволу приймати пропозиції."
+msgstr "У вас немає прав доступу до редагування записів глосарія."
 
 #: weblate/auth/permissions.py:208
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to add glossary entries."
-msgstr "Ви не маєте дозволу приймати пропозиції."
+msgstr "У вас немає прав доступу для додавання записів глосарія."
 
 #: weblate/auth/permissions.py:210
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to delete glossary entries."
-msgstr "Ви не маєте дозволу приймати пропозиції."
+msgstr "У вас немає прав доступу для вилучення записів глосарія."
 
 #: weblate/auth/permissions.py:212
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to upload glossary entries."
-msgstr "Ви не маєте дозволу приймати пропозиції."
+msgstr "У вас немає прав доступу для вивантаження записів глосарія."
 
 #: weblate/auth/permissions.py:372
 msgid "Can not perform this operation without an e-mail address."
@@ -4649,37 +4586,31 @@ msgid "Sign in to save translations."
 msgstr "Увійдіть, щоб зберегти переклади."
 
 #: weblate/auth/permissions.py:419
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to approve translations in this restricted "
 "component."
-msgstr "У вас немає права доступу до цього складника."
+msgstr ""
+"У вас немає прав доступу для затвердження перекладів у цьому обмеженому "
+"складнику."
 
 #: weblate/auth/permissions.py:424
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to save translations in this restricted component."
-msgstr "У вас немає права доступу до цього складника."
+msgstr ""
+"У вас немає прав доступу для зберігання перекладів у цьому обмеженому "
+"складнику."
 
 #: weblate/auth/permissions.py:429
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to approve translations."
-msgstr "Ви не маєте дозволу приймати пропозиції."
+msgstr "У вас немає прав доступу для затвердження перекладів."
 
 #: weblate/auth/permissions.py:434
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations in this project."
-msgstr "У вас немає прав для додавання нового файла перекладу."
+msgstr "У вас немає прав доступу для збереження перекладів у цьому проєкті."
 
 #: weblate/auth/permissions.py:443 weblate/auth/permissions.py:922
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to edit source strings."
-msgstr "Ви не маєте дозволу приймати пропозиції."
+msgstr "У вас немає прав доступу для редагування початкових рядків."
 
 #: weblate/auth/permissions.py:447
 msgid "Suggestion voting is disabled."
@@ -4690,6 +4621,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"Цей переклад налаштовано на голосування за переклади. Додайте пропозицію "
+"замість збереження перекладу безпосередньо."
 
 #: weblate/auth/permissions.py:463
 #: weblate/templates/snippets/project/state.html:4
@@ -4763,18 +4696,19 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Створіть складник і надайте собі явний доступ до вмикання обмеженого доступу."
 
 #: weblate/auth/permissions.py:1108
-#, fuzzy
-#| msgid "This billing plan covers the following projects:"
 msgid "The billing plan does not allow private access control."
-msgstr "Цей тарифний план охоплює такі проєкти:"
+msgstr "Тарифний план забороняє керування закритим доступом."
 
 #: weblate/auth/permissions.py:1116
 msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"Вам потрібен явний доступ до цього складника, перш ніж можна буде вмикати "
+"обмежений доступ; якщо його не буде, ви просто заблокуєте його для себе."
 
 #: weblate/auth/utils.py:100
 msgid "The anonymous user can not be assigned to teams."
@@ -4816,15 +4750,15 @@ msgid "Billing plan"
 msgstr "Плани хостингу"
 
 #: weblate/billing/forms.py:50
-#, fuzzy
-#| msgid "Started trial period."
 msgid "Reset trial period"
-msgstr "Розпочато тестовий період."
+msgstr "Скинути тестовий період"
 
 #: weblate/billing/forms.py:53
 msgid ""
 "Set this billing to the regular trial period and clear scheduled removal."
 msgstr ""
+"Встановити для цього рахунку звичайний тестовий період і скасувати "
+"заплановане вилучення."
 
 #: weblate/billing/models.py:237 weblate/templates/billing/list.html:6
 #: weblate/templates/manage/workspaces.html:35
@@ -5007,10 +4941,8 @@ msgid "Billing event"
 msgstr "Подія виставлення рахунків"
 
 #: weblate/billing/models.py:1256
-#, fuzzy
-#| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
-msgstr "Е-пошту змінено з {old} на {new}."
+msgstr "Змінено з «{}» на «{}»."
 
 #: weblate/billing/tasks.py:97
 msgid ""
@@ -5064,13 +4996,11 @@ msgstr "Не вдалося проаналізувати {} прапорець: 
 
 #: weblate/checks/chars.py:77
 msgid "Accelerator key"
-msgstr ""
+msgstr "Клавіша-прискорювач"
 
 #: weblate/checks/chars.py:79
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon."
 msgid "Source and translation contain inconsistent accelerator keys."
-msgstr "Джерело та переклад не закінчуються двокрапкою."
+msgstr "Джерело і переклад містять несумісні клавіші-прискорювачі."
 
 #: weblate/checks/chars.py:128
 msgid "Starting newline"

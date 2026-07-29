@@ -55,9 +55,8 @@ from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
-    HTTPClient,
     RedirectValidators,
-    _get_proxy,
+    create_http_client,
     fetch_url,
 )
 from weblate.utils.tracing import start_span
@@ -299,6 +298,22 @@ def _get_git_probe_headers(
     return headers
 
 
+def _with_git_http_proxy(
+    environment: dict[str, str] | None,
+    proxy: str,
+) -> dict[str, str]:
+    """Configure Git's proxy without exposing it in command arguments."""
+    result = dict(environment or {})
+    try:
+        index = int(result.get("GIT_CONFIG_COUNT", "0"))
+    except ValueError:
+        index = 0
+    result["GIT_CONFIG_COUNT"] = str(index + 1)
+    result[f"GIT_CONFIG_KEY_{index}"] = "http.proxy"
+    result[f"GIT_CONFIG_VALUE_{index}"] = proxy
+    return result
+
+
 def _request_git_probe(
     repository_url: str,
     target: ResolvedRepositoryURL,
@@ -320,24 +335,21 @@ def _perform_git_probe(
     environment: dict[str, str] | None,
 ) -> tuple[int, str | None, str]:
     """Perform one Git smart-HTTP probe using the shared HTTP client."""
-    with HTTPClient() as client:
-        response = client.request(
+    with (
+        create_http_client(validators=GitProbeRedirectValidators(target)) as client,
+        client.stream(
             "GET",
             _build_git_probe_url(repository_url),
             headers=_get_git_probe_headers(repository_url, environment),
             timeout=20,
-            allow_redirects=False,
-            stream=True,
-            validators=GitProbeRedirectValidators(target),
+            follow_redirects=False,
+        ) as response,
+    ):
+        return (
+            response.status_code,
+            response.headers.get("Location"),
+            response.headers.get("Content-Type", ""),
         )
-        try:
-            return (
-                response.status_code,
-                response.headers.get("Location"),
-                response.headers.get("Content-Type", ""),
-            )
-        finally:
-            response.close()
 
 
 class GitCredentials(TypedDict):
@@ -475,35 +487,39 @@ class GitRepository(Repository):
             return args, environment
 
         if target.scheme in {"http", "https"}:
-            resolve_options: list[str] = []
-            proxy = _get_proxy(target.url)
-            proxy_environment = environment
+            proxy = target.proxy_url
             if proxy is not None:
-                proxy_environment = dict(environment or {})
-                proxy_environment[f"{target.scheme}_proxy"] = proxy
-            elif target.requires_pinning:
-                try:
-                    ip_address(target.hostname)
-                except ValueError:
-                    resolve_hostname = idna_encode(target.hostname, uts46=True).decode(
-                        "ascii"
-                    )
-                    addresses = ",".join(
-                        f"[{address}]" if ":" in address else address
-                        for address in target.addresses
-                    )
-                    resolve_options = [
-                        "-c",
-                        f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
-                    ]
+                environment = _with_git_http_proxy(
+                    environment,
+                    proxy,
+                )
+                connection_options: list[str] = []
+            else:
+                connection_options = ["-c", "http.proxy="]
+                if target.requires_pinning:
+                    try:
+                        ip_address(target.hostname)
+                    except ValueError:
+                        resolve_hostname = idna_encode(
+                            target.hostname, uts46=True
+                        ).decode("ascii")
+                        addresses = ",".join(
+                            f"[{address}]" if ":" in address else address
+                            for address in target.addresses
+                        )
+                        connection_options = [
+                            *connection_options,
+                            "-c",
+                            f"http.curloptResolve={resolve_hostname}:{target.port}:{addresses}",
+                        ]
             return (
                 [
-                    *resolve_options,
+                    *connection_options,
                     "-c",
                     "http.followRedirects=false",
                     *args,
                 ],
-                proxy_environment,
+                environment,
             )
 
         if target.scheme == "ssh" and target.requires_pinning:
@@ -3479,8 +3495,9 @@ class GitLabRepository(GitMergeRequestBase):
             "target_branch": origin_branch,
             "title": title,
             "description": description,
-            "target_project_id": target_project_id,
         }
+        if target_project_id is not None:
+            request["target_project_id"] = target_project_id
         try:
             response_data, response, error = self.request(
                 "post", credentials, pr_url, data=request

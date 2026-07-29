@@ -14,7 +14,7 @@ from packaging.version import Version
 
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.docs import get_doc_url
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 from weblate.utils.version import (
     PYPI,
     VERSION,
@@ -49,24 +49,24 @@ class VersionTest(SimpleTestCase):
     @staticmethod
     def mock_pypi() -> None:
         test_file = Path(get_test_file("pypi.json"))
-        responses.add(responses.GET, PYPI, body=test_file.read_text(encoding="utf-8"))
+        http_mock.register("GET", PYPI, text=test_file.read_text(encoding="utf-8"))
 
-    @responses.activate
+    @http_mock.activate
     def test_download(self) -> None:
         self.mock_pypi()
         data = download_version_info()
         self.assertEqual(len(data), 47)
 
-    @responses.activate
+    @http_mock.activate
     def test_get(self) -> None:
         self.mock_pypi()
         data = get_version_info()
         self.assertEqual(len(data), 47)
-        responses.replace(responses.GET, PYPI, body="")
+        http_mock.replace("GET", PYPI, text="")
         data = get_version_info()
         self.assertEqual(len(data), 47)
 
-    @responses.activate
+    @http_mock.activate
     def test_latest(self) -> None:
         self.mock_pypi()
         latest = get_latest_version()

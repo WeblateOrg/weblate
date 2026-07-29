@@ -61,7 +61,7 @@ def read_cdn_file(component: Component, filename: str) -> str:
         "get",
         filename,
         allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
-        allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
     ) as response:
         response.read()
         return response.text

@@ -512,6 +512,11 @@ class LanguagesViewTest(FixtureTestCase):
         response = self.client.get(reverse("languages"))
         self.assertContains(response, "Czech")
 
+    def test_languages_sortable(self) -> None:
+        """Client-side sorting must stay enabled for non-paginated listings."""
+        response = self.client.get(reverse("languages"))
+        self.assertContains(response, "sort table progress-table autocolspan")
+
     def test_language(self) -> None:
         response = self.client.get(reverse("show_language", kwargs={"lang": "cs"}))
         self.assertContains(response, "Czech")

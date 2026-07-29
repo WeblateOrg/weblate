@@ -52,6 +52,19 @@ class WorkspaceDeleteForm(forms.Form):
         return confirm
 
 
+class WorkspaceSearchForm(forms.Form):
+    q = forms.CharField(
+        label=gettext_lazy("Search"),
+        required=False,
+        widget=forms.SearchInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": gettext_lazy("Search workspaces"),
+            }
+        ),
+    )
+
+
 class WorkspaceSettingsForm(FieldDocsMixin, forms.ModelForm):
     class Meta:
         model = Workspace

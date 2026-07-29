@@ -42,6 +42,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_unsafe_path, is_vcs_metadata_path, read_file_bytes
 from weblate.utils.outbound import (
+    get_environment_proxy,
     is_allowlisted_hostname,
     resolve_runtime_hostname,
     validate_outbound_hostname,
@@ -438,10 +439,10 @@ def _validate_runtime_public_url(
     *,
     allow_private_targets: bool,
     allow_unresolved_hostname: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> None:
     hostname = urlparse(value).hostname or ""
-    if allow_private_targets or is_allowlisted_hostname(hostname, allowed_domains):
+    if allow_private_targets or is_allowlisted_hostname(hostname, private_allowlist):
         return
 
     try:
@@ -786,13 +787,13 @@ def validate_restricted_asset_url(value: str) -> None:
     validate_outbound_url(
         value,
         allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
-        allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
     )
     _validate_runtime_public_url(
         value,
         allow_private_targets=not settings.ASSET_RESTRICT_PRIVATE,
         allow_unresolved_hostname=False,
-        allowed_domains=settings.ASSET_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.ASSET_PRIVATE_ALLOWLIST,
     )
 
 
@@ -801,7 +802,7 @@ def validate_machinery_url(value: str, *, allow_private_targets: bool = True) ->
     validate_outbound_url(
         value,
         allow_private_targets=allow_private_targets,
-        allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+        private_allowlist=settings.ALLOWED_MACHINERY_DOMAINS,
     )
 
 
@@ -811,7 +812,7 @@ def validate_machinery_hostname(
     validate_outbound_hostname(
         value,
         allow_private_targets=allow_private_targets,
-        allowed_domains=settings.ALLOWED_MACHINERY_DOMAINS,
+        private_allowlist=settings.ALLOWED_MACHINERY_DOMAINS,
     )
 
 
@@ -820,13 +821,13 @@ def validate_webhook_url(value: str) -> None:
     validate_outbound_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
     _validate_runtime_public_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
         allow_unresolved_hostname=False,
-        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
 
 
@@ -891,28 +892,26 @@ def validate_fedora_messaging_url(value: str) -> None:
     validate_outbound_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
     _validate_runtime_public_url(
         value,
         allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
         allow_unresolved_hostname=False,
-        allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+        private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
     )
 
 
 @dataclass(frozen=True, slots=True)
 class ResolvedRepositoryURL:
-    """Validated repository URL and addresses approved for connecting."""
+    """Validated repository URL and approved outbound route."""
 
-    url: str
-    normalized_url: str
     scheme: str
     hostname: str
-    connection_hostname: str
     port: int | None
     addresses: tuple[str, ...]
     requires_pinning: bool
+    proxy_url: str | None
 
 
 def resolve_repo_hostname(
@@ -942,8 +941,9 @@ def resolve_repo_url(
     *,
     ssh_destination_resolver: Callable[[str, str | None, int | None], tuple[str, int]]
     | None = None,
+    proxy_url: str | None = None,
 ) -> ResolvedRepositoryURL | None:
-    """Validate a repository URL and retain its approved DNS resolution."""
+    """Validate a repository URL and retain its approved outbound route."""
     normalized_url = url
     parsed = urlparse(normalized_url)
     implicit_ssh = not parsed.scheme
@@ -1017,20 +1017,25 @@ def resolve_repo_url(
             hostname, parsed.username, explicit_port
         )
 
-    addresses = resolve_repo_hostname(
-        connection_hostname,
-        policy_hostname=hostname,
-    )
+    if proxy_url is None:
+        addresses = resolve_repo_hostname(
+            connection_hostname,
+            policy_hostname=hostname,
+        )
+    else:
+        validate_outbound_hostname(
+            hostname,
+            allow_private_targets=allow_private_targets,
+        )
+        addresses = ()
 
     return ResolvedRepositoryURL(
-        url=url,
-        normalized_url=normalized_url,
         scheme=parsed.scheme,
         hostname=hostname,
-        connection_hostname=connection_hostname,
         port=port,
         addresses=addresses,
         requires_pinning=not allow_private_targets,
+        proxy_url=proxy_url,
     )
 
 
@@ -1040,7 +1045,11 @@ def validate_repo_url(url: str) -> None:
         resolve_ssh_destination,
     )
 
-    resolve_repo_url(url, ssh_destination_resolver=resolve_ssh_destination)
+    resolve_repo_url(
+        url,
+        ssh_destination_resolver=resolve_ssh_destination,
+        proxy_url=get_environment_proxy(url),
+    )
 
 
 @deconstructible

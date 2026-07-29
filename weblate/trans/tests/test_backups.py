@@ -10,6 +10,7 @@ import tempfile
 import warnings
 from contextlib import contextmanager, suppress
 from io import StringIO
+from pathlib import Path
 from shutil import copyfile
 from unittest.mock import MagicMock, patch
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
@@ -1607,6 +1608,12 @@ class BackupsTest(ViewTestCase):
             "test/nested/.hg/hgrc",
             "test/.hg/sharedpath",
             "test\\.hg\\hgrc-not-shared",
+            "test/.HG/HGRC-NOT-SHARED",
+            "test/.Hg/HgRc-Future",
+            "test/.HG/SHAREDPATH",
+            "test/.GIT/CONFIG",
+            "test/.GiT/HOOKS/pre-commit",
+            "test/.GIT/MODULES/submodule/config",
         ):
             with self.subTest(path=path):
                 self.assertTrue(ProjectBackup.is_unsafe_vcs_path(path))
@@ -1616,6 +1623,9 @@ class BackupsTest(ViewTestCase):
             "test/.hg/hgrc.d/example.rc",
             "test/.hg/store/data/hgrc.i",
             "test/.hg/store/sharedpath",
+            "test/.HG/store/data/HGRC.i",
+            "test/.GITISH/HOOKS/pre-commit",
+            "test/.git/hooks-backup/pre-commit",
         ):
             with self.subTest(path=path):
                 self.assertFalse(ProjectBackup.is_unsafe_vcs_path(path))
@@ -1629,6 +1639,10 @@ class BackupsTest(ViewTestCase):
             ".hg/hgrc-not-shared",
             ".hg/hgrc-future",
             ".hg/sharedpath",
+            ".HG/HGRC-NOT-SHARED",
+            ".Hg/SharedPath",
+            ".GIT/HOOKS/pre-commit",
+            ".GiT/CONFIG",
         )
 
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
@@ -1654,9 +1668,11 @@ class BackupsTest(ViewTestCase):
             assert isinstance(repository, GitRepository)
             for path in unsafe_paths:
                 with self.subTest(path=path):
-                    self.assertFalse(
-                        os.path.exists(os.path.join(component.full_path, path))
-                    )
+                    restored_path = os.path.join(component.full_path, path)
+                    if os.path.exists(restored_path):
+                        # On case-insensitive filesystems, a mixed-case path can
+                        # resolve to the legitimate .git/config from the backup.
+                        self.assertNotEqual(Path(restored_path).read_bytes(), b"unsafe")
             self.assertEqual(repository.get_config("remote.origin.url"), component.repo)
             self.assertEqual(
                 repository.get_config(f"branch.{component.branch}.remote"),

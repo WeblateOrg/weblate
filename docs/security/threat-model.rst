@@ -353,27 +353,29 @@ Build-time and configuration variants
        *(documented)*
    * - Private-target restrictions and allowlists for outbound URLs
      - User-configurable outbound URL surfaces documented with private-target
-       restriction settings, including Fedora Messaging AMQP broker URLs,
-       reject internal or non-public targets by default. *(documented)*
+       restriction settings reject internal or non-public targets by default.
+       *(documented)*
        (source: :setting:`ASSET_RESTRICT_PRIVATE`,
        :setting:`PROJECT_WEB_RESTRICT_PRIVATE`,
        :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)
        Protected direct HTTP requests are bound to addresses approved by
-       runtime validation; configured proxies are trusted infrastructure and
-       resolve their destination hosts.
+       runtime validation; configured per-protocol HTTP proxies are trusted
+       infrastructure and resolve their destination hosts.
        Protected Git HTTPS and SSH operations are bound to addresses approved
        by runtime validation. Protected SSH operations validate the effective
        ``HostName`` and ``Port``. Trusted administrator SSH configuration can
        alter routing, and :setting:`SSH_EXTRA_ARGS` can override connection
        binding. Permanent same-host Git HTTP redirects are probed without
        automatic redirect following. Every direct destination is independently
-       validated and bound before use; configured HTTP proxies use the shared
-       trusted outbound routing. Git LFS object transfers are disabled and
-       outside the supported VCS integration surface. VCS clients without
-       connection binding require an explicit trusted-host exemption.
+       validated and bound before use; configured per-protocol HTTP proxies use
+       the shared trusted outbound routing. Git LFS object transfers are
+       disabled and outside the supported VCS integration surface. VCS clients
+       without connection binding require an explicit trusted-host exemption.
        *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
-       reachability. *(documented)* (source: :setting:`ASSET_PRIVATE_ALLOWLIST`,
+       reachability. Fedora Messaging broker URLs are site-administrator
+       configuration and are trusted by this model. *(documented)* (source:
+       :setting:`ASSET_PRIVATE_ALLOWLIST`,
        :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`,
        :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)
      - Default private-target rejection is an application-level security
@@ -612,15 +614,16 @@ Security properties Weblate provides
        exemption applies. Direct protected HTTP requests and Git HTTPS and SSH
        operations retain address binding, VCS restrictions remain enabled,
        and VCS backends without binding use only explicitly trusted hosts.
-       Configured proxies remain trusted routing infrastructure.
+       Configured per-protocol HTTP proxies remain trusted routing
+       infrastructure.
      - A user-configurable screenshot URL, remote HTML URL, project website or
-       repository browser URL, outbound webhook URL, Fedora Messaging AMQP
-       broker URL, or VCS URL reaches an internal or non-public target despite
-       default controls.
+       repository browser URL, outbound webhook URL, or VCS URL reaches an
+       internal or non-public target despite default controls.
      - Security-critical when it exposes internal services or metadata.
-   * - Weblate records security-relevant account, permission, and project or
-       component setting changes in audit logs or history. *(documented)*
-       (source: :doc:`/security/privacy-compliance`, :doc:`/changes`)
+   * - Weblate records security-relevant account, permission, authenticated
+       web-action rate-limit lockouts, and project or component setting changes
+       in audit logs or history. *(documented)* (source:
+       :doc:`/security/privacy-compliance`, :ref:`rate-limit`, :doc:`/changes`)
      - Logging is configured and storage is available.
      - Missing audit trail for an action Weblate claims to log.
      - Security-critical when it blocks investigation of privileged changes;
