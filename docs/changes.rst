@@ -38,6 +38,7 @@ Weblate 2026.8
 * GitHub App connection and repository refresh requests now use asynchronous HTTP on ASGI deployments.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
+* User-provided links, such as those in comments, announcements, and profiles, are now underlined and use a higher contrast color.
 
 .. rubric:: Bug fixes
 
