@@ -2049,15 +2049,14 @@ input.color_edit:checked + label {
   margin-bottom: 0;
 }
 
-a[rel~="ugc"] {
+a[rel~="ugc"]:not(.btn) {
   color: var(--wl-color-link-strong);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-a[rel~="ugc"]:hover,
-a[rel~="ugc"]:focus {
+a[rel~="ugc"]:not(.btn):hover,
+a[rel~="ugc"]:not(.btn):focus {
   color: var(--wl-color-link-strong-hover);
-  text-decoration: underline;
 }
 .metric {
   text-align: center;
