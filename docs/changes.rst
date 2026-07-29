@@ -6,6 +6,7 @@ Weblate 2026.8
 .. rubric:: New features
 
 * Workspaces now provide aggregate translation statistics and historical metrics.
+* :ref:`Workspaces <workspaces>` now provide a permission-filtered :guilabel:`My workspaces` list, archive downloads, and management of workspace translation memory.
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
 * :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
@@ -15,6 +16,7 @@ Weblate 2026.8
 .. rubric:: Improvements
 
 * Authenticated web-action rate-limit lockouts are now recorded in the :ref:`audit-log` with the affected scope and request path.
+* OpenMetrics API responses now include metric metadata and a versioned content type.
 * Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters.
 * Component diagnostics now record dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors.
 * :ref:`Add-on activity logs <addon-activity-logging>` now distinguish pending, successful, failed, and skipped executions and explain why an add-on was skipped.
@@ -38,6 +40,7 @@ Weblate 2026.8
 * GitHub App connection and repository refresh requests now use asynchronous HTTP on ASGI deployments.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
+* User-provided links, such as those in comments, announcements, and profiles, are now underlined and use a higher contrast color.
 
 .. rubric:: Bug fixes
 

@@ -41,7 +41,34 @@
         {% endif %}
       </ul>
     </li>
-    {% if bulk_state_form or autoform or billing or can_edit_workspace or can_manage_access %}
+    {% if can_download_workspace %}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
+        <ul class="dropdown-menu shadow">
+          <li>
+            <a class="dropdown-item"
+               href="{% url 'download' path=object.get_url_path %}?format=zip"
+               title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item"
+               href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
+               title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item"
+               href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
+               title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item"
+               href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
+               title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
+          </li>
+        </ul>
+      </li>
+    {% endif %}
+    {% if bulk_state_form or autoform or billing or can_edit_workspace or can_manage_access or create_project_url %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
         <ul class="dropdown-menu shadow">
@@ -55,8 +82,13 @@
               <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
             </li>
           {% endif %}
+          {% if create_project_url %}
+            <li>
+              <a class="dropdown-item" href="{{ create_project_url }}">{% translate "Add new translation project" %}</a>
+            </li>
+          {% endif %}
           {% if billing or can_edit_workspace or can_manage_access %}
-            {% if bulk_state_form or autoform %}
+            {% if bulk_state_form or autoform or create_project_url %}
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -69,6 +101,9 @@
             {% if can_edit_workspace %}
               <li>
                 <a class="dropdown-item" href="{% url 'settings' path=workspace.get_url_path %}">{% translate "Settings" %}</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'memory' workspace=workspace.pk %}">{% translate "Translation memory" %}</a>
               </li>
               <li>
                 <a class="dropdown-item"

@@ -2997,6 +2997,172 @@ msgstr "Nazdar svete!\n"
 
 
 class MemoryViewTest(FixtureTestCase):
+    def create_workspace_memory(self):
+        workspace = Workspace.objects.create(
+            name="Managed memory workspace",
+            use_workspace_tm=True,
+            contribute_workspace_tm=True,
+        )
+        workspace.add_owner(self.user)
+        self.project.workspace = workspace
+        self.project.contribute_workspace_tm = True
+        self.project.save(update_fields=["workspace", "contribute_workspace_tm"])
+        self.user.clear_permissions_cache()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Workspace management source",
+            target="Workspace management target",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_WORKSPACE,
+            workspace=workspace,
+            source_project=self.project,
+        )
+        return workspace, memory
+
+    def test_workspace_memory_management(self) -> None:
+        workspace, _memory = self.create_workspace_memory()
+
+        response = self.client.get(
+            reverse("memory", kwargs={"workspace": workspace.pk})
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["num_entries"], 1)
+        self.assertContains(response, f"Number of entries for {workspace.name}")
+        self.assertContains(response, "Use workspace translation memory")
+        self.assertContains(response, "Contribute to workspace translation memory")
+        self.assertNotIn("upload_form", response.context)
+        self.assertNotIn("upload_url", response.context)
+
+    def test_workspace_memory_management_requires_workspace_edit(self) -> None:
+        workspace = Workspace.objects.create(name="Protected memory workspace")
+
+        response = self.client.get(
+            reverse("memory", kwargs={"workspace": workspace.pk})
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_workspace_memory_download_is_scope_filtered(self) -> None:
+        workspace, memory = self.create_workspace_memory()
+        other_workspace = Workspace.objects.create(name="Other memory workspace")
+        unrelated = Memory.objects.create(
+            source_language=memory.source_language,
+            target_language=memory.target_language,
+            source="Unrelated workspace source",
+            target="Unrelated workspace target",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=unrelated,
+            scope=MemoryScope.SCOPE_WORKSPACE,
+            workspace=other_workspace,
+            source_project=self.project,
+        )
+
+        response = self.client.get(
+            reverse("memory-download", kwargs={"workspace": workspace.pk})
+        )
+
+        self.assertEqual(
+            [entry["source"] for entry in response.json()],
+            [memory.source],
+        )
+        self.assertEqual(response.json()[0]["category"], 0)
+
+    def test_workspace_memory_delete_removes_only_workspace_scope(self) -> None:
+        workspace, memory = self.create_workspace_memory()
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+
+        response = self.client.post(
+            reverse("memory-delete", kwargs={"workspace": workspace.pk}),
+            {"confirm": "1"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Entries were deleted.")
+        self.assertTrue(Memory.objects.filter(pk=memory.pk).exists())
+        self.assertFalse(
+            MemoryScope.objects.filter(
+                memory=memory,
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace=workspace,
+            ).exists()
+        )
+        self.assertTrue(
+            MemoryScope.objects.filter(
+                memory=memory,
+                scope=MemoryScope.SCOPE_PROJECT,
+                project=self.project,
+            ).exists()
+        )
+
+    def test_workspace_memory_rebuild_component(self) -> None:
+        workspace, memory = self.create_workspace_memory()
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs={"workspace": workspace.pk}),
+                {"confirm": "1", "origin": self.component.full_slug},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id,
+            component_id=self.component.id,
+        )
+
+    def test_workspace_memory_rebuilds_contributing_projects(self) -> None:
+        workspace, memory = self.create_workspace_memory()
+        contributing = Project.objects.create(
+            name="Contributing workspace project",
+            slug="contributing-workspace-project",
+            workspace=workspace,
+            contribute_workspace_tm=True,
+        )
+        Project.objects.create(
+            name="Noncontributing workspace project",
+            slug="noncontributing-workspace-project",
+            workspace=workspace,
+            contribute_workspace_tm=False,
+        )
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs={"workspace": workspace.pk}),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+        self.assertEqual(mocked_import.call_count, 2)
+        mocked_import.assert_has_calls(
+            [
+                call(project_id=self.project.id, component_id=None),
+                call(project_id=contributing.id, component_id=None),
+            ],
+            any_order=True,
+        )
+
     def test_origin_counts_use_single_query(self) -> None:
         source_language = Language.objects.get(code="en")
         target_language = Language.objects.get(code="cs")

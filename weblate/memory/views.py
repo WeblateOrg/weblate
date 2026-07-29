@@ -3,13 +3,13 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, NotRequired, TypedDict
+from typing import TYPE_CHECKING, NotRequired, TypedDict, cast
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db.models import Count, Exists, OuterRef, Q
 from django.http import Http404, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
@@ -27,10 +27,11 @@ from weblate.memory.utils import (
     CATEGORY_USER_OFFSET,
 )
 from weblate.metrics.models import Metric
-from weblate.trans.models import Project
+from weblate.trans.models import Component, Project
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, parse_path
 from weblate.wladmin.views import MENU
+from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
@@ -40,6 +41,13 @@ CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 
 class ObjectsDict(TypedDict):
     project: NotRequired[Project]
+    workspace: NotRequired[Workspace]
+    from_file: NotRequired[bool]
+    user: NotRequired[User]
+
+
+class UploadObjectsDict(TypedDict):
+    project: NotRequired[Project]
     from_file: NotRequired[bool]
     user: NotRequired[User]
 
@@ -47,12 +55,20 @@ class ObjectsDict(TypedDict):
 def get_objects(request: AuthenticatedHttpRequest, kwargs) -> ObjectsDict:
     if "project" in kwargs:
         return {"project": parse_path(request, [kwargs["project"]], (Project,))}
+    if "workspace" in kwargs:
+        workspace = get_object_or_404(Workspace, pk=kwargs["workspace"])
+        if not request.user.has_perm("workspace.edit", workspace):
+            msg = "Access denied"
+            raise Http404(msg)
+        return {"workspace": workspace}
     if "manage" in kwargs:
         return {"from_file": True}
     return {"user": request.user}
 
 
 def check_perm(user: User, permission: str, objects: ObjectsDict):
+    if "workspace" in objects:
+        return user.has_perm("workspace.edit", objects["workspace"])
     if "project" in objects:
         return user.has_perm(permission, objects["project"])
     if "user" in objects:
@@ -64,6 +80,11 @@ def check_perm(user: User, permission: str, objects: ObjectsDict):
 
 
 def get_scope_delete_query(objects: ObjectsDict) -> Q:
+    if "workspace" in objects:
+        return Q(
+            scope=MemoryScope.SCOPE_WORKSPACE,
+            workspace=objects["workspace"],
+        )
     if "project" in objects:
         project = objects["project"]
         return Q(
@@ -91,6 +112,9 @@ def get_language_filter(request: AuthenticatedHttpRequest, name: str) -> int | N
 
 
 def get_export_category(objects: ObjectsDict) -> int | None:
+    if "workspace" in objects:
+        # The JSON memory format has no workspace category.
+        return 0
     if "project" in objects:
         return CATEGORY_PRIVATE_OFFSET + objects["project"].pk
     if "user" in objects:
@@ -132,12 +156,14 @@ class RebuildView(MemoryFormView):
     request: AuthenticatedHttpRequest
 
     def form_valid(self, form):
-        if (
-            not check_perm(self.request.user, "memory.delete", self.objects)
-            or "project" not in self.objects
+        if not check_perm(self.request.user, "memory.delete", self.objects) or not (
+            {"project", "workspace"} & self.objects.keys()
         ):
             raise PermissionDenied
         origin = self.request.POST.get("origin")
+        if "workspace" in self.objects:
+            return self.rebuild_workspace(origin, form)
+
         project = self.objects["project"]
         component_id = None
         if origin:
@@ -180,21 +206,62 @@ class RebuildView(MemoryFormView):
         )
         return super().form_valid(form)
 
+    def rebuild_workspace(self, origin: str | None, form):
+        workspace = self.objects["workspace"]
+        component = None
+        projects = workspace.projects.filter(contribute_workspace_tm=True)
+        if not workspace.contribute_workspace_tm:
+            projects = projects.none()
+        if origin:
+            try:
+                component = Component.objects.filter(project__in=projects).get_by_path(
+                    origin
+                )
+            except ObjectDoesNotExist as error:
+                raise PermissionDenied from error
+
+        entries = Memory.objects.filter_type(workspace=workspace)
+        if origin:
+            entries = entries.filter(origin=origin)
+        entries.using("default").delete_scope(
+            Q(scope=MemoryScope.SCOPE_WORKSPACE, workspace=workspace),
+            delete_legacy=False,
+        )
+
+        if component is not None:
+            import_memory.delay(
+                project_id=component.project_id, component_id=component.id
+            )
+        else:
+            for project_id in projects.values_list("id", flat=True):
+                import_memory.delay(project_id=project_id, component_id=None)
+        messages.success(
+            self.request,
+            gettext(
+                "Translation memory entries created from current translations "
+                "were deleted and will be rebuilt in the background."
+            ),
+        )
+        return super().form_valid(form)
+
 
 class UploadView(MemoryFormView):
     form_class = UploadForm
     request: AuthenticatedHttpRequest
 
     def form_valid(self, form):
-        if not check_perm(self.request.user, "memory.edit", self.objects):
+        if "workspace" in self.objects or not check_perm(
+            self.request.user, "memory.edit", self.objects
+        ):
             raise PermissionDenied
+        upload_objects = cast("UploadObjectsDict", self.objects)
         try:
             count = Memory.objects.import_file(
                 request=self.request,
                 fileobj=form.cleaned_data["file"],
                 source_language=form.cleaned_data["source_language"],
                 target_language=form.cleaned_data["target_language"],
-                **self.objects,
+                **upload_objects,
             )
             messages.success(
                 self.request,
@@ -231,12 +298,24 @@ class MemoryView(TemplateView):
 
     @cached_property
     def component_slugs(self) -> set[str]:
-        return {
-            component.full_slug
-            for component in self.objects["project"].component_set.prefetch()
-        }
+        if "workspace" in self.objects:
+            workspace = self.objects["workspace"]
+            if not workspace.contribute_workspace_tm:
+                return set()
+            components = Component.objects.filter(
+                project__workspace=workspace,
+                project__contribute_workspace_tm=True,
+            ).prefetch()
+        else:
+            components = self.objects["project"].component_set.prefetch()
+        return {component.full_slug for component in components}
 
     def get_rebuild_entries(self):
+        if "workspace" in self.objects:
+            workspace = self.objects["workspace"]
+            return Memory.objects.using(self.entries.db).filter_scope(
+                Q(scope=MemoryScope.SCOPE_WORKSPACE, workspace=workspace)
+            )
         project = self.objects["project"]
         scope_query = Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
         if self.component_slugs:
@@ -268,9 +347,11 @@ class MemoryView(TemplateView):
             MemoryScope.SCOPE_PROJECT_FILE,
             MemoryScope.SCOPE_USER_FILE,
         )
-        file_scope = MemoryScope.objects.using(self.entries.db).filter(
-            memory_id=OuterRef("pk"), scope__in=file_scopes
-        )
+        file_scope = MemoryScope.objects.using(self.entries.db).none()
+        if "workspace" not in self.objects:
+            file_scope = MemoryScope.objects.using(self.entries.db).filter(
+                memory_id=OuterRef("pk"), scope__in=file_scopes
+            )
         entries = (
             self.entries.annotate(has_file_scope=Exists(file_scope))
             .values("origin", "has_file_scope")
@@ -286,7 +367,7 @@ class MemoryView(TemplateView):
                 result.append(entry)
         for entry in result:
             entry["url"] = get_url(entry["origin"])
-        if "project" in self.objects:
+        if {"project", "workspace"} & self.objects.keys():
             existing = {entry["origin"] for entry in result}
             for entry in result:
                 entry["can_rebuild"] = entry["origin"] in self.component_slugs
@@ -345,15 +426,17 @@ class MemoryView(TemplateView):
         context["total_entries"] = Metric.objects.get_current_metric(
             None, Metric.SCOPE_GLOBAL, 0
         )["memory"]
-        context["upload_url"] = self.get_url("memory-upload")
         context["download_url"] = self.get_url("memory-download")
         user = self.request.user
         if check_perm(user, "memory.delete", self.objects):
             context["delete_url"] = self.get_url("memory-delete")
-            if "project" in self.objects:
+            if {"project", "workspace"} & self.objects.keys():
                 context["rebuild_url"] = self.get_url("memory-rebuild")
                 context["rebuild_entries_count"] = sum(self.rebuild_counts.values())
-        if check_perm(user, "memory.edit", self.objects):
+        if "workspace" not in self.objects and check_perm(
+            user, "memory.edit", self.objects
+        ):
+            context["upload_url"] = self.get_url("memory-upload")
             context["upload_form"] = UploadForm()
         if "from_file" in self.objects:
             context["menu_items"] = MENU

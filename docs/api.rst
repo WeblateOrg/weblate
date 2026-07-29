@@ -3276,6 +3276,11 @@ Metrics
 
        Metrics can now be exposed in OpenMetrics compatible format with ``?format=openmetrics``.
 
+    .. versionchanged:: 2026.8
+
+       OpenMetrics responses now include ``HELP`` and ``TYPE`` metadata and use
+       the versioned OpenMetrics content type.
+
     :>json int units: Number of units
     :>json int units_translated: Number of translated units
     :>json int users: Number of users
@@ -3292,7 +3297,8 @@ Metrics
     :>json string version: Running Weblate version, included when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``
 
     In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
-    when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``.
+    when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``. All metrics are
+    exposed as gauges.
 
 Search
 +++++++
