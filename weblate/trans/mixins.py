@@ -54,6 +54,10 @@ class _HasComponentCategoryAttrs(Protocol):
     def _clean_unique_together(self, field: str, msg: str, lookup: str) -> None: ...
 
 
+class URLPathObject(Protocol):
+    def get_url_path(self) -> tuple[str, ...]: ...
+
+
 class BaseURLMixin:
     def get_url_path(self) -> tuple[str, ...]:
         raise NotImplementedError
