@@ -41,7 +41,7 @@ from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
 from weblate.utils.docs import get_doc_url
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 PUBLIC_TEST_ADDRESS = "93.184.216.34"
@@ -132,7 +132,7 @@ class TesseractDataTest(SimpleTestCase):
         fetch_url.assert_called_with(
             "GET",
             "https://example.com/eng",
-            allow_redirects=True,
+            follow_redirects=True,
             timeout=TESSERACT_DOWNLOAD_TIMEOUT,
         )
         self.assertEqual([call.args for call in sleep.call_args_list], [(1,), (2,)])
@@ -1039,7 +1039,7 @@ class ViewTest(FixtureTestCase):
         )
         self.assertEqual(screenshot.units.count(), 0)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
         return_value=PUBLIC_TEST_ADDRESS,
@@ -1051,11 +1051,11 @@ class ViewTest(FixtureTestCase):
     def test_upload_with_image_url(self, _mocked_getaddrinfo, _mocked_get_peer) -> None:
         data = Path(TEST_SCREENSHOT).read_bytes()
         image_url = "https://example.com/test-image.png?signature=test#preview"
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://example.com/test-image.png?signature=test",
-            content_type="image/png",
-            body=data,
+            headers={"Content-Type": "image/png"},
+            content=data,
         )
 
         self.make_manager()
@@ -1066,7 +1066,7 @@ class ViewTest(FixtureTestCase):
         assert image_name is not None
         self.assertTrue(image_name.endswith(".png"))
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
         return_value=PUBLIC_TEST_ADDRESS,
@@ -1078,11 +1078,11 @@ class ViewTest(FixtureTestCase):
     def test_upload_with_image_url_invalid_extension(
         self, _mocked_getaddrinfo, _mocked_get_peer
     ) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://example.com/test-image.html",
-            content_type="image/png",
-            body=Path(TEST_SCREENSHOT).read_bytes(),
+            headers={"Content-Type": "image/png"},
+            content=Path(TEST_SCREENSHOT).read_bytes(),
         )
 
         self.make_manager()
@@ -1093,7 +1093,7 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, "File extension")
         self.assertEqual(Screenshot.objects.count(), 0)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
         return_value=PUBLIC_TEST_ADDRESS,
@@ -1110,11 +1110,11 @@ class ViewTest(FixtureTestCase):
         old_filename = screenshot.image.file.name
 
         data = Path(TEST_SCREENSHOT).read_bytes()
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://example.com/test-image.png",
-            content_type="image/png",
-            body=data,
+            headers={"Content-Type": "image/png"},
+            content=data,
         )
 
         self.client.post(
@@ -1129,7 +1129,7 @@ class ViewTest(FixtureTestCase):
         self.assertNotEqual(screenshot.image.name, old_name)
         self.assertNotEqual(screenshot.image.file.name, old_filename)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
         return_value=PUBLIC_TEST_ADDRESS,
@@ -1143,16 +1143,16 @@ class ViewTest(FixtureTestCase):
     ) -> None:
         """Test handling of image download failures."""
         self.make_manager()
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://example.com/missing-image.png",
-            content_type="text/html",
-            status=301,
+            headers={"Content-Type": "text/html"},
+            status_code=301,
         )
-        responses.add(
-            responses.GET,
+        http_mock.register_exception(
+            "GET",
             "https://example.com/broken-image.png",
-            body=httpx2.ConnectError(
+            exception=httpx2.ConnectError(
                 "Network error",
                 request=httpx2.Request("GET", "https://example.com/broken-image.png"),
             ),
@@ -1170,7 +1170,7 @@ class ViewTest(FixtureTestCase):
         )
         self.assertContains(response, "Unable to download image from the provided URL.")
 
-    @responses.activate
+    @http_mock.activate
     def test_no_image_or_url_validation(self) -> None:
         """Test validation when neither image nor URL is provided."""
         self.make_manager()
@@ -1179,14 +1179,14 @@ class ViewTest(FixtureTestCase):
             response, "You need to provide either image file or image URL."
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_both_image_and_url_provided(self) -> None:
         """Test that providing both image file and URL prioritizes the file."""
         self.make_manager()
         self.do_upload(image_url="https://example.com/should-be-ignored.png")
         self.assertEqual(Screenshot.objects.count(), 1)
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
         return_value=PUBLIC_TEST_ADDRESS,
@@ -1200,17 +1200,17 @@ class ViewTest(FixtureTestCase):
     ) -> None:
         self.make_manager()
         # Mock a non-image content type
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://example.com/not-an-image.png",
-            content_type="text/html",
+            headers={"Content-Type": "text/html"},
         )
         response = self.do_upload(
             image="", image_url="https://example.com/not-an-image.png"
         )
         self.assertContains(response, "Unsupported image type")
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_SIZE=1)
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
@@ -1225,18 +1225,18 @@ class ViewTest(FixtureTestCase):
     ) -> None:
         self.make_manager()
         # Mock a too big image
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://example.com/big-image.png",
-            content_type="image/png",
-            body=b"x" * (settings.ALLOWED_ASSET_SIZE + 1),
+            headers={"Content-Type": "image/png"},
+            content=b"x" * (settings.ALLOWED_ASSET_SIZE + 1),
         )
         response = self.do_upload(
             image="", image_url="https://example.com/big-image.png"
         )
         self.assertContains(response, "Image is too big")
 
-    @responses.activate
+    @http_mock.activate
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
         return_value=PUBLIC_TEST_ADDRESS,
@@ -1250,18 +1250,18 @@ class ViewTest(FixtureTestCase):
     ) -> None:
         self.make_manager()
         # Mock a non-image content
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://example.com/invalid-image.png",
-            content_type="image/png",
-            body=b"x",
+            headers={"Content-Type": "image/png"},
+            content=b"x",
         )
         response = self.do_upload(
             image="", image_url="https://example.com/invalid-image.png"
         )
         self.assertContains(response, "Upload a valid image.")
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     def test_disallowed_image_url_domain(self) -> None:
         """Test validation when image URL domain is not allowed."""
@@ -1271,7 +1271,7 @@ class ViewTest(FixtureTestCase):
         )
         self.assertContains(response, "URL domain is not allowed.")
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
@@ -1286,17 +1286,17 @@ class ViewTest(FixtureTestCase):
     ) -> None:
         """Reject redirects leaving the allowed asset domains."""
         self.make_manager()
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://images.allowed.com/redirect-image.png",
-            status=302,
+            status_code=302,
             headers={"Location": "https://proof.example.com/final-image.png"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://proof.example.com/final-image.png",
-            content_type="image/png",
-            body=Path(TEST_SCREENSHOT).read_bytes(),
+            headers={"Content-Type": "image/png"},
+            content=Path(TEST_SCREENSHOT).read_bytes(),
         )
 
         response = self.do_upload(
@@ -1306,7 +1306,7 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, "URL domain is not allowed.")
         self.assertEqual(Screenshot.objects.count(), 0)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
@@ -1321,17 +1321,17 @@ class ViewTest(FixtureTestCase):
     ) -> None:
         """Allow redirects that stay within the allowed asset domains."""
         self.make_manager()
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://images.allowed.com/redirect-image.png",
-            status=302,
+            status_code=302,
             headers={"Location": "https://cdn.allowed.com/final-image.png"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://cdn.allowed.com/final-image.png",
-            content_type="image/png",
-            body=Path(TEST_SCREENSHOT).read_bytes(),
+            headers={"Content-Type": "image/png"},
+            content=Path(TEST_SCREENSHOT).read_bytes(),
         )
 
         response = self.do_upload(
@@ -1342,7 +1342,7 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, screenshot.name)
         self.assertEqual(screenshot.image.size, Path(TEST_SCREENSHOT).stat().st_size)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -1350,11 +1350,11 @@ class ViewTest(FixtureTestCase):
     )
     def test_image_url_private_target(self, mocked_getaddrinfo) -> None:
         self.make_manager()
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/test-image.png",
-            content_type="image/png",
-            body=Path(TEST_SCREENSHOT).read_bytes(),
+            headers={"Content-Type": "image/png"},
+            content=Path(TEST_SCREENSHOT).read_bytes(),
         )
 
         response = self.do_upload(
@@ -1364,9 +1364,9 @@ class ViewTest(FixtureTestCase):
         self.assertContains(response, "internal or non-public address")
         self.assertEqual(Screenshot.objects.count(), 0)
         mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
@@ -1386,17 +1386,17 @@ class ViewTest(FixtureTestCase):
 
         mocked_getaddrinfo.side_effect = getaddrinfo
         self.make_manager()
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/redirect-image.png",
-            status=302,
+            status_code=302,
             headers={"Location": "https://private.example.com/final-image.png"},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/final-image.png",
-            content_type="image/png",
-            body=Path(TEST_SCREENSHOT).read_bytes(),
+            headers={"Content-Type": "image/png"},
+            content=Path(TEST_SCREENSHOT).read_bytes(),
         )
 
         response = self.do_upload(
@@ -1409,10 +1409,10 @@ class ViewTest(FixtureTestCase):
         mocked_get_peer.assert_called_once()
         self.assertEqual(
             ["https://public.example.com/redirect-image.png"],
-            [call.request.url for call in responses.calls],
+            [call.request.url for call in http_mock.calls],
         )
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch(
         "weblate.utils.requests._get_response_peer_ip",
@@ -1424,11 +1424,11 @@ class ViewTest(FixtureTestCase):
     )
     def test_image_url_private_peer(self, mocked_getaddrinfo, mocked_get_peer) -> None:
         self.make_manager()
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://public.example.com/test-image.png",
-            content_type="image/png",
-            body=Path(TEST_SCREENSHOT).read_bytes(),
+            headers={"Content-Type": "image/png"},
+            content=Path(TEST_SCREENSHOT).read_bytes(),
         )
 
         response = self.do_upload(
@@ -1439,9 +1439,9 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(Screenshot.objects.count(), 0)
         mocked_getaddrinfo.assert_called_once_with("public.example.com", None, type=1)
         mocked_get_peer.assert_called_once()
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(http_mock.calls), 1)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(
         ALLOWED_ASSET_DOMAINS=["*"], ASSET_PRIVATE_ALLOWLIST=["private.example.com"]
     )
@@ -1451,11 +1451,11 @@ class ViewTest(FixtureTestCase):
         self, mocked_getaddrinfo, mocked_get_peer
     ) -> None:
         self.make_manager()
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/test-image.png",
-            content_type="image/png",
-            body=Path(TEST_SCREENSHOT).read_bytes(),
+            headers={"Content-Type": "image/png"},
+            content=Path(TEST_SCREENSHOT).read_bytes(),
         )
 
         response = self.do_upload(
@@ -1467,7 +1467,7 @@ class ViewTest(FixtureTestCase):
         mocked_getaddrinfo.assert_not_called()
         mocked_get_peer.assert_not_called()
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=["*"])
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -1482,11 +1482,11 @@ class ViewTest(FixtureTestCase):
         old_name = screenshot.name
         old_image_name = screenshot.image.name
         old_filename = screenshot.image.file.name
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://private.example.com/test-image.png",
-            content_type="image/png",
-            body=Path(TEST_SCREENSHOT).read_bytes(),
+            headers={"Content-Type": "image/png"},
+            content=Path(TEST_SCREENSHOT).read_bytes(),
         )
 
         response = self.client.post(
@@ -1504,7 +1504,7 @@ class ViewTest(FixtureTestCase):
         self.assertEqual(screenshot.image.name, old_image_name)
         self.assertEqual(screenshot.image.file.name, old_filename)
         mocked_getaddrinfo.assert_called_once_with("private.example.com", None, type=1)
-        self.assertEqual(len(responses.calls), 0)
+        self.assertEqual(len(http_mock.calls), 0)
 
 
 class ScreenshotVCSTest(APITestCase, RepoTestCase):

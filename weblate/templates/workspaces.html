@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'workspaces' %}">{% translate "My workspaces" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      {% if workspace_creation_enabled and can_add_workspace %}
+        <a class="btn btn-primary float-end" href="{% url 'manage-workspace-add' %}">{% translate "Add workspace" %}</a>
+      {% endif %}
+      <h4 class="card-title">{% translate "My workspaces" %}</h4>
+    </div>
+    <div class="card-body">
+      <form method="get" class="result-page-form">
+        <label class="visually-hidden" for="{{ search_form.q.id_for_label }}">{% translate "Search workspaces" %}</label>
+        <div class="input-group search-group query-field">
+          {{ search_form.q }}
+          <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
+          {% if search_query %}
+            <a class="btn btn-outline-secondary" href="{% url 'workspaces' %}">{% translate "Clear" %}</a>
+          {% endif %}
+        </div>
+        {% if search_form.q.errors %}<div class="invalid-feedback d-block">{{ search_form.q.errors }}</div>{% endif %}
+      </form>
+      {% include "snippets/list-objects.html" with objects=object_list label=_("Workspace") show_workspace_details=True empty_message=_("No workspaces found.") %}
+    </div>
+    <div class="card-footer">{% include "paginator.html" %}</div>
+  </div>
+
+{% endblock content %}

@@ -5,31 +5,41 @@
 from __future__ import annotations
 
 from contextlib import suppress
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Count, ProtectedError, Q
+from django.db.models import Count, Exists, OuterRef, Prefetch, ProtectedError, Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
+from django.views.generic import ListView
 
 from weblate.trans.forms import AutoForm, BulkEditForm, SearchForm
 from weblate.trans.models.change import Change
-from weblate.trans.models.project import prefetch_project_flags
+from weblate.trans.models.project import Project, prefetch_project_flags
+from weblate.trans.models.translation import Translation
+from weblate.trans.views.files import can_download_workspace
 from weblate.trans.views.reports import get_reports_context
 from weblate.utils import messages
+from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator, show_form_errors
-from weblate.workspaces.forms import WorkspaceDeleteForm
+from weblate.workspaces.forms import WorkspaceDeleteForm, WorkspaceSearchForm
 from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from uuid import UUID
+
+    from django.db.models import QuerySet
+
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.billing.models import Billing
 
@@ -75,6 +85,128 @@ def get_create_project_url(
         return None
 
     return f"{reverse('create-project')}?{urlencode({'workspace': workspace.pk})}"
+
+
+class WorkspaceListBase(ListView):
+    model = Workspace
+    request: AuthenticatedHttpRequest
+
+    def include_billing(self) -> bool:
+        return False
+
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
+        super().setup(request, *args, **kwargs)
+        self.search_form = WorkspaceSearchForm(request.GET)
+
+    def get_base_queryset(self) -> QuerySet[Workspace]:
+        return Workspace.objects.all()
+
+    def get_queryset(self) -> QuerySet[Workspace]:
+        review_projects = Project.objects.filter(workspace_id=OuterRef("pk")).filter(
+            Q(source_review=True) | Q(translation_review=True)
+        )
+        queryset = (
+            self.get_base_queryset()
+            .annotate(
+                Count("projects"),
+                stats_has_review=Exists(review_projects),
+            )
+            .prefetch_related(
+                Prefetch(
+                    "projects",
+                    queryset=Project.objects.only("id", "slug", "workspace"),
+                )
+            )
+            .order_by("name")
+        )
+        if self.search_form.is_valid() and (
+            query := self.search_form.cleaned_data["q"].strip()
+        ):
+            filters = Q(name__icontains=query)
+            if self.include_billing():
+                filters |= Q(billing__customer_name__icontains=query)
+            queryset = queryset.filter(filters)
+        if self.include_billing():
+            queryset = queryset.select_related("billing")
+        return queryset
+
+    @staticmethod
+    def prepare_workspace_stats(workspaces: Iterable[Workspace]) -> None:
+        """Batch language counts needed to initialize uncached workspace stats."""
+        missing = [
+            workspace for workspace in workspaces if not workspace.stats.has_cached_data
+        ]
+        if not missing:
+            return
+
+        language_ids: dict[UUID, set[int]] = {
+            workspace.pk: set() for workspace in missing
+        }
+        workspace_ids = language_ids.keys()
+        owned_languages = Translation.objects.filter(
+            component__project__workspace_id__in=workspace_ids
+        ).values_list("component__project__workspace_id", "language_id")
+        shared_languages = Translation.objects.filter(
+            component__links__workspace_id__in=workspace_ids
+        ).values_list("component__links__workspace_id", "language_id")
+        for workspace_id, language_id in owned_languages.union(shared_languages):
+            language_ids[workspace_id].add(language_id)
+        for workspace in missing:
+            workspace.stats_languages = len(language_ids[workspace.pk])
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        result = super().get_context_data(**kwargs)
+        queryset = result["object_list"]
+        sort_by = self.request.GET.get("sort_by")
+        if sort_by and sort_by.lstrip("-") != "name":
+            queryset = prefetch_stats(queryset)
+            self.prepare_workspace_stats(queryset)
+        workspaces = get_paginator(
+            self.request,
+            queryset,
+            page_limit=50,
+            stats=True,
+            sort_by=sort_by,
+        )
+        self.prepare_workspace_stats(workspaces)
+        result["object_list"] = workspaces
+        result["page_obj"] = workspaces
+        result["paginator"] = workspaces.paginator
+        result["is_paginated"] = workspaces.paginator.num_pages > 1
+        search_query = ""
+        if self.search_form.is_valid():
+            search_query = self.search_form.cleaned_data["q"].strip()
+        search_items = (("q", search_query),) if search_query else ()
+        result["billing_enabled"] = self.include_billing()
+        result["workspace_creation_enabled"] = (
+            "weblate.billing" not in settings.INSTALLED_APPS
+        )
+        result["can_add_workspace"] = self.request.user.has_perm("workspace.add")
+        result["search_form"] = self.search_form
+        result["search_query"] = search_query
+        result["search_items"] = search_items
+        result["query_string"] = urlencode(search_items)
+        result["show_review_columns"] = (
+            Project.objects.filter(workspace__in=queryset)
+            .filter(Q(source_review=True) | Q(translation_review=True))
+            .exists()
+        )
+        return result
+
+
+@method_decorator(login_required, name="dispatch")
+class WorkspaceListView(WorkspaceListBase):
+    template_name = "workspaces.html"
+
+    def get_base_queryset(self) -> QuerySet[Workspace]:
+        return Workspace.objects.filter(
+            pk__in=self.request.user.workspace_permissions.keys()
+        )
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        result = super().get_context_data(**kwargs)
+        result["title"] = gettext("My workspaces")
+        return result
 
 
 @never_cache
@@ -150,6 +282,7 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             ).recent(),
             "can_edit_workspace": can_edit_workspace,
             "can_manage_access": can_manage_access,
+            "can_download_workspace": can_download_workspace(request.user, workspace),
             "workspace_has_billing": billing is not None,
             "workspace_has_projects": workspace_has_projects,
             **(

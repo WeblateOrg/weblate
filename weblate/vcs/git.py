@@ -55,8 +55,8 @@ from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
 from weblate.utils.render import render_template
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
-    HTTPClient,
     RedirectValidators,
+    create_http_client,
     fetch_url,
 )
 from weblate.utils.tracing import start_span
@@ -335,24 +335,21 @@ def _perform_git_probe(
     environment: dict[str, str] | None,
 ) -> tuple[int, str | None, str]:
     """Perform one Git smart-HTTP probe using the shared HTTP client."""
-    with HTTPClient() as client:
-        response = client.request(
+    with (
+        create_http_client(validators=GitProbeRedirectValidators(target)) as client,
+        client.stream(
             "GET",
             _build_git_probe_url(repository_url),
             headers=_get_git_probe_headers(repository_url, environment),
             timeout=20,
-            allow_redirects=False,
-            stream=True,
-            validators=GitProbeRedirectValidators(target),
+            follow_redirects=False,
+        ) as response,
+    ):
+        return (
+            response.status_code,
+            response.headers.get("Location"),
+            response.headers.get("Content-Type", ""),
         )
-        try:
-            return (
-                response.status_code,
-                response.headers.get("Location"),
-                response.headers.get("Content-Type", ""),
-            )
-        finally:
-            response.close()
 
 
 class GitCredentials(TypedDict):
@@ -3498,8 +3495,9 @@ class GitLabRepository(GitMergeRequestBase):
             "target_branch": origin_branch,
             "title": title,
             "description": description,
-            "target_project_id": target_project_id,
         }
+        if target_project_id is not None:
+            request["target_project_id"] = target_project_id
         try:
             response_data, response, error = self.request(
                 "post", credentials, pr_url, data=request

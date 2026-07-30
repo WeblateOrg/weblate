@@ -40,6 +40,7 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Project
+    from weblate.workspaces.models import Workspace
 
 NON_WORD_RE = re.compile(r"\W")
 
@@ -130,6 +131,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         *,
         user: User | None = None,
         project: Project | None = None,
+        workspace: Workspace | None = None,
         use_shared: bool = False,
         from_file: bool = False,
         use_workspace: bool = False,
@@ -154,6 +156,11 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
                     source_project__contribute_workspace_tm=True,
                     source_project__workspace__contribute_workspace_tm=True,
                 )
+        if workspace:
+            query |= Q(
+                scope=MemoryScope.SCOPE_WORKSPACE,
+                workspace=workspace,
+            )
         if user:
             query |= Q(scope=MemoryScope.SCOPE_USER, user=user)
             query |= Q(scope=MemoryScope.SCOPE_USER_FILE, user=user)
@@ -164,6 +171,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         *,
         user: User | None = None,
         project: Project | None = None,
+        workspace: Workspace | None = None,
         use_shared: bool = False,
         from_file: bool = False,
         use_workspace: bool = False,
@@ -175,6 +183,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
             base.get_type_scope_query(
                 user=user,
                 project=project,
+                workspace=workspace,
                 use_shared=use_shared,
                 from_file=from_file,
                 use_workspace=use_workspace,
@@ -530,7 +539,7 @@ class MemoryManager(models.Manager["Memory"]):
         user: User | None = None,
         project: Project | None = None,
         from_file: bool = True,
-    ):
+    ) -> int:
         origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
 

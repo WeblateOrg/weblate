@@ -88,6 +88,11 @@ if URL_PREFIX:
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
+    path(
+        "workspaces/",
+        weblate.workspaces.views.WorkspaceListView.as_view(),
+        name="workspaces",
+    ),
     path("workspaces/<uuid:pk>/", weblate.workspaces.views.detail, name="workspace"),
     path(
         "workspaces/<uuid:pk>/access/",
@@ -667,6 +672,26 @@ real_patterns = [
     ),
     path(
         "memory/project/<name:project>/download/",
+        weblate.memory.views.DownloadView.as_view(),
+        name="memory-download",
+    ),
+    path(
+        "memory/workspace/<uuid:workspace>/",
+        weblate.memory.views.MemoryView.as_view(),
+        name="memory",
+    ),
+    path(
+        "memory/workspace/<uuid:workspace>/delete/",
+        weblate.memory.views.DeleteView.as_view(),
+        name="memory-delete",
+    ),
+    path(
+        "memory/workspace/<uuid:workspace>/rebuild/",
+        weblate.memory.views.RebuildView.as_view(),
+        name="memory-rebuild",
+    ),
+    path(
+        "memory/workspace/<uuid:workspace>/download/",
         weblate.memory.views.DownloadView.as_view(),
         name="memory-download",
     ),
