@@ -433,7 +433,8 @@ Input assumptions
        permission check to be satisfied.
        *(documented)* (source: :doc:`/workflows`, :doc:`/api`)
    * - User profile API
-     - Nested ``profile`` object on :http:get:`/api/users/(str:username)/` and
+     - Nested ``profile`` object on :http:get:`/api/users/(str:username)/`,
+       :http:put:`/api/users/(str:username)/`, and
        :http:patch:`/api/users/(str:username)/`, including language and project
        watch preferences, dashboard component list selection, and commit or
        public e-mail choices

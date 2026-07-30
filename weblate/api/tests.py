@@ -1528,6 +1528,7 @@ class UserAPITest(APIBaseTest):
                     "languages": [cs_language.code],
                     "secondary_languages": [en_language.code],
                     "nearby_strings": 5,
+                    "special_chars": "\xa0",
                 }
             },
         )
@@ -1543,6 +1544,8 @@ class UserAPITest(APIBaseTest):
             list(self.user.profile.secondary_languages.values_list("code", flat=True)),
             [en_language.code],
         )
+        # check special_chars is not stripped when saved
+        self.assertEqual(self.user.profile.special_chars, "\xa0")
 
         # invalid dashboard component list update
         self.do_request(
@@ -1582,6 +1585,22 @@ class UserAPITest(APIBaseTest):
             },
         )
         self.assertIsNone(self.user.profile.dashboard_component_list)
+
+        # all component lists view requires at least one accessible list
+        response = self.do_request(
+            **user_details_kwargs(code=400),
+            request={
+                "profile": {
+                    "dashboard_view": Profile.DASHBOARD_COMPONENT_LISTS,
+                    "dashboard_component_list": None,
+                }
+            },
+        )
+        self.assertEqual(
+            dict(response.data)["errors"][0]["detail"],
+            "No component lists are available for this dashboard view.",
+        )
+
         clist = ComponentList.objects.create(name="Dashboard CL", slug="dashboard-cl")
         clist.components.add(self.component)
         self.do_request(
@@ -1597,6 +1616,20 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(
             self.user.profile.dashboard_view, Profile.DASHBOARD_COMPONENT_LIST
         )
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "dashboard_view": Profile.DASHBOARD_COMPONENT_LISTS,
+                    "dashboard_component_list": None,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(
+            self.user.profile.dashboard_view, Profile.DASHBOARD_COMPONENT_LISTS
+        )
+        self.assertIsNone(self.user.profile.dashboard_component_list)
         self.do_request(
             **user_details_kwargs(),
             request={

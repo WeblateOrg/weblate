@@ -881,6 +881,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["special_chars"].trim_whitespace = False
         if self.instance:
             self.fields[
                 "public_email"
@@ -924,6 +925,17 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
                 {
                     "dashboard_view": (
                         "Clear the dashboard component list when selecting this view."
+                    )
+                }
+            )
+        if (
+            dashboard_view == Profile.DASHBOARD_COMPONENT_LISTS
+            and not self.instance.allowed_dashboard_component_lists.exists()
+        ):
+            raise serializers.ValidationError(
+                {
+                    "dashboard_view": (
+                        "No component lists are available for this dashboard view."
                     )
                 }
             )
