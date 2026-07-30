@@ -41,10 +41,10 @@
         {% endif %}
       </ul>
     </li>
-    {% if can_download_workspace %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
-        <ul class="dropdown-menu shadow">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
+      <ul class="dropdown-menu shadow">
+        {% if can_download_workspace %}
           <li>
             <a class="dropdown-item"
                href="{% url 'download' path=object.get_url_path %}?format=zip"
@@ -65,13 +65,21 @@
                href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
                title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
           </li>
-        </ul>
-      </li>
-    {% endif %}
-    {% if bulk_state_form or autoform or billing or can_edit_workspace or can_manage_access or create_project_url %}
+        {% endif %}
+        <li>
+          <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
+        </li>
+      </ul>
+    </li>
+    {% if replace_form or bulk_state_form or autoform or billing or can_edit_workspace or can_manage_access or create_project_url %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Operations" %}</a>
         <ul class="dropdown-menu shadow">
+          {% if replace_form %}
+            <li>
+              <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
+            </li>
+          {% endif %}
           {% if bulk_state_form %}
             <li>
               <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
@@ -88,7 +96,7 @@
             </li>
           {% endif %}
           {% if billing or can_edit_workspace or can_manage_access %}
-            {% if bulk_state_form or autoform or create_project_url %}
+            {% if replace_form or bulk_state_form or autoform or create_project_url %}
               <li>
                 <hr class="dropdown-divider">
               </li>
@@ -178,6 +186,27 @@
       <div class="tab-pane" id="reports">{% include "snippets/reports.html" %}</div>
     {% endif %}
 
+    {% if replace_form %}
+      <div class="tab-pane" id="replace">
+        <form action="{% url 'replace' path=workspace.get_url_path %}"
+              method="post"
+              enctype="multipart/form-data">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'user/translating' 'search-replace' right=True %}
+                {% translate "Search and replace" %}
+              </h4>
+            </div>
+            <div class="card-body">{% crispy replace_form %}</div>
+            <div class="card-footer">
+              <input type="submit" value="{% translate "Replace" %}" class="btn btn-primary" />
+            </div>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+
     {% if autoform %}
       <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=workspace autoform=autoform %}</div>
     {% endif %}
@@ -202,6 +231,10 @@
         </form>
       </div>
     {% endif %}
+
+    <div class="tab-pane" id="upload">
+      {% include "snippets/upload-placeholder.html" with upload_translation_tab="#projects" upload_translation_label=_("Browse projects") %}
+    </div>
 
     {% if can_edit_workspace %}
       <div class="tab-pane" id="organize">
