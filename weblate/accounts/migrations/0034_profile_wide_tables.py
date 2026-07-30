@@ -7,7 +7,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("accounts", "0032_alter_subscription_notification"),
+        ("accounts", "0033_audit_rate_limit"),
     ]
 
     operations = [
