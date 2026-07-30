@@ -439,6 +439,11 @@ The following operations are subject to rate limiting:
 Within each scope, the rate limiting is based on sessions when user is signed in
 and on IP address if not.
 
+For signed-in users, Weblate records the first rejected request during each
+active scope lockout in the :ref:`audit-log`, including the scope and request
+path. Repeated rejections during the same lockout do not create additional
+audit-log entries.
+
 If a user fails to sign in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.
 
 The settings can be also applied in the Docker container by adding ``WEBLATE_`` prefix to the setting name, for example :setting:`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`.

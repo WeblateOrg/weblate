@@ -111,6 +111,7 @@ LANGUAGES = (
     ("kab", "Taqbaylit"),
     ("kk", "Қазақ тілі"),
     ("ko", "한국어"),
+    ("lo", "ລາວ"),
     ("nb", "Norsk bokmål"),
     ("nl", "Nederlands"),
     ("pl", "Polski"),

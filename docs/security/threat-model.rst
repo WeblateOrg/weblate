@@ -48,6 +48,15 @@ Scope and intended use
      - Browser views, forms, session endpoints, :doc:`/api`
      - Database, datastore, e-mail, logs, uploaded files
      - In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)
+   * - Project translation metrics
+     - :http:get:`/api/projects/(string:project)/metrics/` in JSON, CSV, and
+       OpenMetrics formats
+     - Database and statistics-cache reads, including possible lazy cache
+       population
+     - In scope as a read-only public API. Unauthenticated callers can query
+       public projects; private projects and restricted components remain
+       permission-filtered. *(documented)* (source: :doc:`/api`,
+       :doc:`/admin/access`)
    * - Stored translation reports
      - Report forms and :http:get:`/api/reports/` endpoints
      - Database snapshots and background tasks
@@ -214,6 +223,12 @@ Reachability preconditions:
 * A web UI or API finding is in model only when reachable by an unauthenticated
   client, authenticated user, or project-scoped token through documented
   routes, forms, or API endpoints. *(maintainer)*
+* A project-metrics finding is in model when the response includes a project
+  or component the caller cannot access, or exposes data beyond the documented
+  component and language identifiers, aggregate translation statistics, and
+  statistics update timestamps. Unauthenticated access to these aggregates for
+  public projects is intentional. *(documented)* (source: :doc:`/api`,
+  :doc:`/admin/access`)
 * An authorization finding is in model only when it crosses a documented
   permission, team, project, component, language, glossary, token, or site-wide
   boundary. *(documented)* (source: :doc:`/admin/access`)
@@ -489,6 +504,12 @@ Size and rate assumptions:
   created by that attempt. *(documented)* (source: :ref:`projectbackup`)
 * API and selected web actions are expected to be protected by configured rate
   limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
+* Project metrics response size and request work scale with the number of
+  visible components and translations and with statistics-cache state. Cache
+  misses can calculate and store translation statistics. The endpoint relies
+  on standard API rate limits and deployment sizing rather than a separate
+  fixed project-size limit. *(documented)* (source: :doc:`/api`,
+  :doc:`/admin/config`)
 * Repository size, number of projects, number of components, and worker
   capacity are deployment-sizing concerns unless a single in-scope input
   bypasses documented limits or permissions. *(maintainer)*
@@ -620,9 +641,10 @@ Security properties Weblate provides
        repository browser URL, outbound webhook URL, or VCS URL reaches an
        internal or non-public target despite default controls.
      - Security-critical when it exposes internal services or metadata.
-   * - Weblate records security-relevant account, permission, and project or
-       component setting changes in audit logs or history. *(documented)*
-       (source: :doc:`/security/privacy-compliance`, :doc:`/changes`)
+   * - Weblate records security-relevant account, permission, authenticated
+       web-action rate-limit lockouts, and project or component setting changes
+       in audit logs or history. *(documented)* (source:
+       :doc:`/security/privacy-compliance`, :ref:`rate-limit`, :doc:`/changes`)
      - Logging is configured and storage is available.
      - Missing audit trail for an action Weblate claims to log.
      - Security-critical when it blocks investigation of privileged changes;

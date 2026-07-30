@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-25 00:40-0500\n"
-"PO-Revision-Date: 2026-07-28 16:01+0000\n"
+"PO-Revision-Date: 2026-07-29 18:34+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -5159,14 +5159,12 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Пропущений нерозривний пробіл перед подвійним знаком пунктуації."
 
 #: weblate/checks/chars.py:680
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign."
 msgid "Missing non breakable space before punctuation mark {}."
 msgid_plural "Missing non breakable space before punctuation marks {}."
-msgstr[0] "Пропущений нерозривний пробіл перед подвійним знаком пунктуації."
-msgstr[1] "Пропущений нерозривний пробіл перед подвійним знаком пунктуації."
-msgstr[2] "Пропущений нерозривний пробіл перед подвійним знаком пунктуації."
-msgstr[3] "Пропущений нерозривний пробіл перед подвійним знаком пунктуації."
+msgstr[0] "Пропущений нерозривний пробіл перед знаком пунктуації {}."
+msgstr[1] "Пропущений нерозривний пробіл перед знаком пунктуації {}."
+msgstr[2] "Пропущений нерозривний пробіл перед знаком пунктуації {}."
+msgstr[3] "Пропущений нерозривний пробіл перед знаком пунктуації {}."
 
 #: weblate/checks/chars.py:730
 msgid "Multiple capitals"
@@ -5379,49 +5377,34 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Відсутні параметри для прапорця перекладу: \"%s\""
 
 #: weblate/checks/flags.py:462
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgid "Format"
-msgstr "Формальність"
+msgstr "Формат"
 
 #: weblate/checks/flags.py:463
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "Памʼять перекладів"
+msgstr "Поведінка перекладу"
 
 #: weblate/checks/flags.py:464
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "Переклад"
+msgstr "Перевірка чинності"
 
 #: weblate/checks/flags.py:465
-#, fuzzy
-#| msgid "Review strings"
 msgid "Rendering"
-msgstr "Перерити рядки"
+msgstr "Обробка"
 
 #: weblate/checks/flags.py:466 weblate/checks/icu.py:290
 msgid "ICU MessageFormat"
 msgstr "MessageFormat ICU"
 
 #: weblate/checks/flags.py:467
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks:"
 msgid "Disabled check"
-msgstr "Невдалі перевірки:"
+msgstr "Вимкнена перевірка"
 
 #: weblate/checks/flags.py:468
 msgid "Automatic detection"
 msgstr "Автоматичне виявлення"
 
 #: weblate/checks/flags.py:469
-#, fuzzy
-#| msgctxt "User agent device type"
-#| msgid "Other"
 msgid "Other"
 msgstr "Інше"
 
@@ -6169,45 +6152,35 @@ msgstr "Синтаксична помилка reStructuredText у перекла
 #: weblate/checks/markup.py:1053
 #, python-brace-format
 msgid "The reStructuredText role should not be wrapped in backticks: {role}"
-msgstr ""
+msgstr "Роль reStructuredText не слід брати у зворотні лапки: {role}"
 
 #: weblate/checks/markup.py:1062
 msgid "The translation should not start with a list marker."
 msgstr "Переклад не повинен починатися з маркера списку."
 
 #: weblate/checks/markup.py:1101
-#, fuzzy
-#| msgid "AsciiDoc file"
 msgid "AsciiDoc markup"
-msgstr "Файли AsciiDoc"
+msgstr "Розмітка AsciiDoc"
 
 #: weblate/checks/markup.py:1102
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "Рядок, формату C, не відповідає джерелу."
+msgstr "Розмітка AsciiDoc не відповідає джерелу."
 
 #: weblate/checks/markup.py:1112
-#, fuzzy
-#| msgid "The following reStructuredText markup is missing: {}"
 msgid "The following AsciiDoc markup is missing: {}"
-msgstr "Відсутня така розмітка reStructuredText: {}"
+msgstr "Пропущено таку розмітку AsciiDoc: {}"
 
 #: weblate/checks/markup.py:1117
-#, fuzzy
-#| msgid "The following reStructuredText markup is extra: {}"
 msgid "The following AsciiDoc markup is extra: {}"
-msgstr "Наступна розмітка reStructuredText є зайвою: {}"
+msgstr "Зайвою є така розмітка AsciiDoc: {}"
 
 #: weblate/checks/mdx.py:301
 msgid "Safe MDX"
-msgstr ""
+msgstr "Безпечний MDX"
 
 #: weblate/checks/mdx.py:303
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid "JSX expressions in the translation do not match the source."
-msgstr "Теґи XML у перекладі не збігаються з тегами XML у джерелі."
+msgstr "Вирази JSX у перекладі не відповідають джерелу."
 
 #: weblate/checks/placeholders.py:51
 msgid "Placeholders"
@@ -6250,10 +6223,8 @@ msgid "Maximum size of translation"
 msgstr "Найбільший розмір перекладу"
 
 #: weblate/checks/render.py:35
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size."
 msgid "Rendered text should not exceed given size."
-msgstr "Перекладений текст не повинен перевищувати заданий розмір."
+msgstr "Оброблений текст не повинен перевищувати за розміром вказане значення."
 
 #: weblate/checks/render.py:141
 msgid ""
@@ -6304,6 +6275,8 @@ msgstr "Довжина початкового рядка"
 #: weblate/checks/source.py:64
 msgid "Source string is too long to fit into the configured maximum length."
 msgstr ""
+"Рядок джерела є надто довгим і не вкладається у налаштоване значення "
+"максимальної довжини."
 
 #: weblate/checks/source.py:87
 msgid "Multiple failing checks"
@@ -6609,17 +6582,13 @@ msgstr "gettext PO файл (одномовний)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1981
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 1)"
-msgstr "файл перекладу Qt Linguist"
+msgstr "Файл перекладу Qt Linguist (версія 1)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2091
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)"
-msgstr "файл перекладу Qt Linguist"
+msgstr "Файл перекладу Qt Linguist (версія 2)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2108
@@ -7317,10 +7286,8 @@ msgid "You have to agree to the General Terms and Conditions"
 msgstr "Ви повинні погодитися із Загальними умовами надання послуг"
 
 #: weblate/legal/templates/legal/confirm.html:20
-#, fuzzy
-#| msgid "Please read the following contributor license agreement:"
 msgid "Please read the following legal documents:"
-msgstr "Прочитайте наступну ліцензійну угоду співавтора:"
+msgstr "Прочитайте наступні юридичні документи:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/legal/templates/legal/cookies.html:32
@@ -7339,8 +7306,6 @@ msgid "Privacy Policy"
 msgstr "Політика конфіденційності"
 
 #: weblate/legal/templates/legal/confirm.html:32
-#, fuzzy
-#| msgid "Please read following General Terms and Conditions document:"
 msgid "Please read the following General Terms and Conditions document:"
 msgstr "Будь ласка, прочитайте наступні Загальні умови надання послуг:"
 
@@ -7563,10 +7528,8 @@ msgstr ""
 "загального."
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "Введіть правильний код мови."
+msgstr "Введіть коректну назву регіону Azure."
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7659,62 +7622,47 @@ msgstr "Формальність"
 
 #: weblate/machinery/forms.py:351 weblate/machinery/forms.py:361
 #: weblate/machinery/forms.py:370
-#, fuzzy
-#| msgid "Default font"
 msgctxt "AWS Translate configuration"
 msgid "Default"
-msgstr "Типовий шрифт"
+msgstr "Типовий"
 
 #: weblate/machinery/forms.py:352
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Formality"
 msgctxt "AWS Translate configuration"
 msgid "Formal"
-msgstr "Формальність"
+msgstr "Формальний"
 
 #: weblate/machinery/forms.py:353
-#, fuzzy
-#| msgid "Information"
 msgctxt "AWS Translate configuration"
 msgid "Informal"
-msgstr "Відомості"
+msgstr "Неформальний"
 
 #: weblate/machinery/forms.py:357
 msgctxt "AWS Translate configuration"
 msgid "Brevity"
-msgstr ""
+msgstr "Стислість"
 
 #: weblate/machinery/forms.py:359
-#, fuzzy
-#| msgid "Prefill translation with source"
 msgid "Prefer shorter translations when supported."
-msgstr "Заповнити переклади початковими рядками"
+msgstr "Перевага коротших перекладів, якщо передбачено підтримку."
 
 #: weblate/machinery/forms.py:362
-#, fuzzy
-#| msgid "Enable"
 msgctxt "AWS Translate configuration"
 msgid "Enabled"
-msgstr "Увімкнути"
+msgstr "Увімкнено"
 
 #: weblate/machinery/forms.py:366
-#, fuzzy
-#| msgid "Profile"
 msgctxt "AWS Translate configuration"
 msgid "Profanity"
-msgstr "Профіль"
+msgstr "Ненормативність"
 
 #: weblate/machinery/forms.py:368
-#, fuzzy
-#| msgid "Main website of translated project."
 msgid "Mask profane words in translated text."
-msgstr "Головний сайт перекладеного проєкту."
+msgstr "Маскувати ненормативну лексику у перекладеному тексті."
 
 #: weblate/machinery/forms.py:371
 msgctxt "AWS Translate configuration"
 msgid "Mask profanity"
-msgstr ""
+msgstr "Маскувати ненормативність"
 
 #: weblate/machinery/forms.py:378
 msgctxt "Alibaba Translate configuration"
@@ -7785,7 +7733,7 @@ msgstr ""
 
 #: weblate/machinery/forms.py:465
 msgid "DeepL API v1 is no longer supported."
-msgstr ""
+msgstr "Підтримку програмного інтерфейсу DeepL версії 1 припинено."
 
 #: weblate/machinery/forms.py:477
 msgctxt "Automatic suggestion service configuration"
@@ -7816,11 +7764,9 @@ msgid ""
 msgstr "Опишіть стиль перекладу. Наприклад: «Використовуйте неформальну мову»."
 
 #: weblate/machinery/forms.py:506
-#, fuzzy
-#| msgid "Integration instructions"
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
-msgstr "Настанови щодо інтеграції"
+msgstr "Специфічні щодо мови настанови"
 
 #: weblate/machinery/forms.py:511
 #, python-format
@@ -10147,10 +10093,8 @@ msgstr ""
 
 #: weblate/templates/accounts/user.html:495
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Clean up user contributions"
 msgid "Clean up selected contributions"
-msgstr "Очистити матеріали, додані користувачами"
+msgstr "Очистити вибрані внески"
 
 #: weblate/templates/accounts/user.html:505
 msgid "Account removal deletes all user private data."
@@ -10238,10 +10182,8 @@ msgid "Configuration"
 msgstr "Налаштування"
 
 #: weblate/templates/addons/addon_base.html:16
-#, fuzzy
-#| msgid "View Logs"
 msgid "Logs"
-msgstr "Переглянути журнали"
+msgstr "Журнали"
 
 #: weblate/templates/addons/addon_base.html:33
 #: weblate/templates/addons/addon_base.html:40
@@ -10282,26 +10224,20 @@ msgid "Compatibility"
 msgstr "Сумісність"
 
 #: weblate/templates/addons/addon_components.html:33
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project root"
-msgstr "Проєкт вилучено"
+msgstr "Корінь проєкту"
 
 #: weblate/templates/addons/addon_components.html:38
 msgid "Compatible"
-msgstr ""
+msgstr "Сумісний"
 
 #: weblate/templates/addons/addon_components.html:40
-#, fuzzy
-#| msgid "Not available"
 msgid "Not compatible"
-msgstr "Не доступно"
+msgstr "Несумісний"
 
 #: weblate/templates/addons/addon_components.html:46
-#, fuzzy
-#| msgid "No components specified"
 msgid "No components found."
-msgstr "Не вказано жодного складника"
+msgstr "Не знайдено складників."
 
 #: weblate/templates/addons/addon_detail.html:15
 msgid "Configure add-on"
@@ -10312,14 +10248,12 @@ msgid "This add-on has no settings."
 msgstr "У цього додатка немає параметрів."
 
 #: weblate/templates/addons/addon_detail.html:38
-#, fuzzy
-#| msgid "Enable add-on:"
 msgid "Run add-on"
-msgstr "Увімкнути додаток:"
+msgstr "Запустити додаток"
 
 #: weblate/templates/addons/addon_detail.html:42
 msgid "Schedule this add-on to run as soon as possible."
-msgstr ""
+msgstr "Запланувати якнайшвидший запуск цього додатка."
 
 #: weblate/templates/addons/addon_detail.html:45
 msgid "Run now"
@@ -10334,6 +10268,8 @@ msgstr "Зона небезпеки"
 msgid ""
 "Uninstalling the add-on stops it from running and removes its configuration."
 msgstr ""
+"Вилучення додатка призведе до припинення його запуску і вилучення його "
+"налаштувань."
 
 #: weblate/templates/addons/addon_detail.html:62
 msgid "Uninstall"
@@ -10374,10 +10310,8 @@ msgstr[2] "Встановлено %(count)s додатків"
 msgstr[3] "Встановлено %(count)s додаток"
 
 #: weblate/templates/addons/addon_list.html:76
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Inherited from"
-msgstr "Успадковані прапорці"
+msgstr "Успадковане від"
 
 #: weblate/templates/addons/addon_list.html:81
 msgid "Managed at a scope you do not have access to."

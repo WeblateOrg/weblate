@@ -36,7 +36,7 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.backup import BackupError, BorgResult
 from weblate.utils.data import data_path
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 from weblate.utils.unittest import tempdir_setting
 from weblate.utils.zammad import ZammadError
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
@@ -69,11 +69,7 @@ TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
 
 
 def get_response_call_body(index: int) -> str:
-    request_body = responses.calls[index].request.body
-    if isinstance(request_body, bytes):
-        return request_body.decode()
-    assert isinstance(request_body, str)
-    return request_body
+    return http_mock.calls[index].request.content.decode()
 
 
 @contextmanager
@@ -1690,13 +1686,13 @@ class AdminTest(ViewTestCase):
     def test_send_test_email_error(self) -> None:
         self.test_send_test_email("Could not send test e-mail")
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(SITE_TITLE="Test Weblate")
     def test_activation_wrong(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             get_support_url(),
-            status=404,
+            status_code=404,
         )
         response = self.client.post(
             reverse("manage-activate"), {"secret": "123456"}, follow=True
@@ -1705,13 +1701,13 @@ class AdminTest(ViewTestCase):
         self.assertFalse(SupportStatus.objects.exists())
         self.assertFalse(BackupService.objects.exists())
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(SITE_TITLE="Test Weblate")
     def test_activation_error(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             get_support_url(),
-            status=500,
+            status_code=500,
         )
         response = self.client.post(
             reverse("manage-activate"), {"secret": "123456"}, follow=True
@@ -1720,13 +1716,13 @@ class AdminTest(ViewTestCase):
         self.assertFalse(SupportStatus.objects.exists())
         self.assertFalse(BackupService.objects.exists())
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(SITE_TITLE="Test Weblate")
     def test_activation_community(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             get_support_url(),
-            body=json.dumps(
+            text=json.dumps(
                 {
                     "name": "community",
                     "backup_repository": "",
@@ -1846,7 +1842,7 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "Invalid activation state.")
         self.assertFalse(SupportStatus.objects.exists())
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
@@ -1868,15 +1864,15 @@ class AdminTest(ViewTestCase):
         )
         self.assertFalse(SupportStatus.objects.exists())
 
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://weblate.example/api/support/activation/",
             json={"secret": "secret-123"},
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             get_support_url(),
-            body=json.dumps(
+            text=json.dumps(
                 {
                     "name": "community",
                     "backup_repository": "",
@@ -1913,7 +1909,7 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "Missing activation code.")
         self.assertFalse(SupportStatus.objects.exists())
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
@@ -1923,15 +1919,15 @@ class AdminTest(ViewTestCase):
     def test_discovery_callback_exchanges_code(self) -> None:
         response = self.client.post(reverse("manage-discovery-register"))
         state = parse_qs(urlparse(response["Location"]).query)["state"][0]
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://weblate.example/api/support/activation/",
             json={"secret": "secret-123"},
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             get_support_url(),
-            body=json.dumps(
+            text=json.dumps(
                 {
                     "name": "community",
                     "backup_repository": "",
@@ -1975,7 +1971,7 @@ class AdminTest(ViewTestCase):
         self.assertNotIn("discoverable", refresh_body)
         self.assertNotIn("public_projects", refresh_body)
 
-    @responses.activate
+    @http_mock.activate
     def test_support_refresh_includes_discoverable_projects(self) -> None:
         Project.objects.update(access_control=Project.ACCESS_PRIVATE)
         Project.objects.create(
@@ -1996,10 +1992,10 @@ class AdminTest(ViewTestCase):
             web="https://private.example/",
             access_control=Project.ACCESS_PRIVATE,
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             get_support_url(),
-            body=json.dumps(
+            text=json.dumps(
                 {
                     "name": "community",
                     "backup_repository": "",
@@ -2063,7 +2059,7 @@ class AdminTest(ViewTestCase):
         self.assertNotContains(response, "internal detail")
         self.assertFalse(SupportStatus.objects.exists())
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
@@ -2082,10 +2078,10 @@ class AdminTest(ViewTestCase):
             "expires": (timezone.now() + DISCOVERY_REGISTRATION_STATE_AGE).timestamp(),
         }
         session.save()
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://weblate.example/api/support/activation/",
-            status=500,
+            status_code=500,
         )
 
         response = self.client.get(
@@ -2098,7 +2094,7 @@ class AdminTest(ViewTestCase):
         self.assertTrue(old_status.enabled)
         self.assertEqual(SupportStatus.objects.get_current(), old_status)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(
         ENABLE_HTTPS=True,
         SITE_DOMAIN="instance.example",
@@ -2119,15 +2115,15 @@ class AdminTest(ViewTestCase):
             "expires": (timezone.now() + DISCOVERY_REGISTRATION_STATE_AGE).timestamp(),
         }
         session.save()
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://weblate.example/api/support/activation/",
             json={"secret": "discovery-secret"},
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             get_support_url(),
-            body=json.dumps(
+            text=json.dumps(
                 {
                     "name": "community",
                     "backup_repository": "",
@@ -2157,7 +2153,7 @@ class AdminTest(ViewTestCase):
             SupportStatus.objects.filter(secret="discovery-secret").exists()
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_activation_unlink_disables_discovery_remotely(self) -> None:
         SupportStatus.objects.create(
             name="community",
@@ -2166,10 +2162,10 @@ class AdminTest(ViewTestCase):
             discoverable=True,
             enabled=True,
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             get_support_url(),
-            body=json.dumps(
+            text=json.dumps(
                 {
                     "name": "community",
                     "backup_repository": "",
@@ -2190,7 +2186,7 @@ class AdminTest(ViewTestCase):
         self.assertNotIn("public_projects", unlink_body)
         self.assertFalse(SupportStatus.objects.filter(enabled=True).exists())
 
-    @responses.activate
+    @http_mock.activate
     def test_activation_unlink_disables_locally_on_discovery_error(self) -> None:
         status = SupportStatus.objects.create(
             name="community",
@@ -2199,10 +2195,10 @@ class AdminTest(ViewTestCase):
             discoverable=True,
             enabled=True,
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             get_support_url(),
-            status=500,
+            status_code=500,
         )
 
         response = self.client.post(
@@ -2215,14 +2211,14 @@ class AdminTest(ViewTestCase):
         self.assertFalse(status.enabled)
         self.assertFalse(status.discoverable)
 
-    @responses.activate
+    @http_mock.activate
     @override_settings(SITE_TITLE="Test Weblate")
     def test_activation_hosted(self) -> None:
         with TemporaryDirectory() as tempdir:
-            responses.add(
-                responses.POST,
+            http_mock.register(
+                "POST",
                 get_support_url(),
-                body=json.dumps(
+                text=json.dumps(
                     {
                         "name": "hosted",
                         "backup_repository": tempdir,
@@ -2249,11 +2245,11 @@ class AdminTest(ViewTestCase):
             self.assertTrue(status.discoverable)
 
             # Use different payload for second registration
-            responses.delete(responses.POST, get_support_url())
-            responses.add(
-                responses.POST,
+            http_mock.unregister("POST", get_support_url())
+            http_mock.register(
+                "POST",
                 get_support_url(),
-                body=json.dumps(
+                text=json.dumps(
                     {
                         "name": "hosted",
                         "backup_repository": tempdir,

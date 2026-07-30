@@ -6,15 +6,21 @@ Weblate 2026.8
 .. rubric:: New features
 
 * Workspaces now provide aggregate translation statistics and historical metrics.
+* Added :ref:`project-level translation metrics <monitoring-translation-progress>` in JSON, CSV, and OpenMetrics formats.
+* :ref:`Workspaces <workspaces>` now provide a permission-filtered :guilabel:`My workspaces` list, archive downloads, and management of workspace translation memory.
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
 * :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
 * Added a :guilabel:`Show all columns in lists using horizontal scrolling` preference to keep all listing columns visible on narrow screens instead of hiding them.
+* Added :ref:`check-max-lines` quality check for limiting the number of lines in translations, useful for fixed-height UI elements.
 * Added :ref:`check-asciidoc-markup` quality check for AsciiDoc strings.
 * Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`.
+* Weblate is now available in Lao language.
 
 .. rubric:: Improvements
 
+* Authenticated web-action rate-limit lockouts are now recorded in the :ref:`audit-log` with the affected scope and request path.
+* OpenMetrics API responses now include metric metadata and a versioned content type.
 * Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters.
 * Component diagnostics now record dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors.
 * :ref:`Add-on activity logs <addon-activity-logging>` now distinguish pending, successful, failed, and skipped executions and explain why an add-on was skipped.
@@ -22,6 +28,7 @@ Weblate 2026.8
 * Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
 * Improved matrix view loading performance when displaying multiple languages.
 * Translation memory management pages now load origin summaries with a single database aggregation.
+* Translation memory management shows active and pending entry counts and reports the number of entries processed during import.
 * Dashboard component list tabs now load without processing unrelated component lists.
 * Category pages now load recent history and shared component listings more efficiently.
 * Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed.
@@ -37,6 +44,7 @@ Weblate 2026.8
 * GitHub App connection and repository refresh requests now use asynchronous HTTP on ASGI deployments.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
+* User-provided links, such as those in comments, announcements, and profiles, are now underlined and use a higher contrast color.
 
 .. rubric:: Bug fixes
 
@@ -50,6 +58,7 @@ Weblate 2026.8
 * Self-service REST API e-mail changes are now restricted to verified addresses.
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state and skip repository-linked components when the importer cannot access the target component.
+* Rebuilding project translation memory no longer removes entries imported from files.
 * Project backup restores no longer load Mercurial repository configuration or shared-repository indirection supplied by archives.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.

@@ -2,13 +2,12 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-"""Small responses-compatible HTTPX2 mock used by the existing test suite."""
+"""HTTPX2 mock transport helpers for the test suite."""
 
 from __future__ import annotations
 
 import json as json_module
 import re
-from collections import UserList
 from dataclasses import dataclass, field
 from functools import wraps
 from typing import TYPE_CHECKING
@@ -25,70 +24,50 @@ from weblate.utils.requests import (
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-GET = "GET"
-POST = "POST"
-PUT = "PUT"
-PATCH = "PATCH"
-DELETE = "DELETE"
-HEAD = "HEAD"
-OPTIONS = "OPTIONS"
-
 type ResponseHeaders = dict[str, str] | list[tuple[str, str]] | None
+type RequestMatcher = Callable[[httpx2.Request], tuple[bool, str]]
+type ResponseCallback = Callable[[httpx2.Request], httpx2.Response]
+
+_TRANSPORT_URL_REQUEST_EXTENSION = "weblate.transport_url"
 
 
-class Calls(UserList):
-    def reset(self) -> None:
-        self.clear()
+class _Unset:
+    pass
 
 
-class PreparedRequest:
-    """Requests-shaped view of an HTTPX2 request for legacy callbacks."""
-
-    def __init__(self, request: httpx2.Request) -> None:
-        self._request = request
-        self.extensions = dict(request.extensions)
-        request_url = request.extensions.get(
-            ORIGINAL_URL_REQUEST_EXTENSION, request.url
-        )
-        self.method = request.method
-        self.url = str(request_url.copy_with(fragment=None))
-        self.transport_url = str(request.url.copy_with(fragment=None))
-        self.headers = request.headers
-        self.body = request.content or None
-        self.path_url = request_url.raw_path.decode("ascii")
+_UNSET = _Unset()
 
 
 @dataclass
 class Call:
-    request: PreparedRequest
+    request: httpx2.Request
     response: httpx2.Response | BaseException
 
 
 @dataclass
-class Registration:
+class Route:
     method: str
     url: str | re.Pattern[str]
-    body: str | bytes | BaseException = b""
-    json: object | None = None
-    status: int = 200
+    status_code: int = 200
     headers: ResponseHeaders = None
-    callback: (
-        Callable[[PreparedRequest], tuple[int, ResponseHeaders, object]] | None
-    ) = None
-    match: list[Callable[[PreparedRequest], tuple[bool, str]]] = field(
-        default_factory=list
-    )
-    calls: Calls = field(default_factory=Calls)
+    content: bytes | None = None
+    text: str | None = None
+    json: object = _UNSET
+    callback: ResponseCallback | None = None
+    exception: BaseException | None = None
+    match: list[RequestMatcher] = field(default_factory=list)
+    calls: list[Call] = field(default_factory=list)
 
-    def matches(self, request: PreparedRequest) -> bool:
+    def matches(self, request: httpx2.Request) -> bool:
+        request_url = str(request.url)
         if self.method != request.method:
             return False
         if isinstance(self.url, re.Pattern):
-            if self.url.search(request.url) is None:
+            if self.url.search(request_url) is None:
                 return False
-        elif self.url != request.url:
+        elif self.url != request_url:
             registered = urlsplit(self.url)
-            requested = urlsplit(request.url)
+            requested = urlsplit(request_url)
             if registered.query or self.url != urlunsplit(
                 (requested.scheme, requested.netloc, requested.path, "", "")
             ):
@@ -96,26 +75,11 @@ class Registration:
         return all(matcher(request)[0] for matcher in self.match)
 
     def respond(
-        self, request: PreparedRequest, original: httpx2.Request
+        self, request: httpx2.Request, transport_request: httpx2.Request
     ) -> httpx2.Response:
         try:
-            if self.callback is not None:
-                status, headers, body = self.callback(request)
-                response = _build_response(
-                    original,
-                    status=status,
-                    headers=headers,
-                    body=body,
-                )
-            else:
-                response = _build_response(
-                    original,
-                    status=self.status,
-                    headers=self.headers,
-                    body=self.body,
-                    json=self.json,
-                )
-        except Exception as error:
+            response = self._get_response(request, transport_request)
+        except BaseException as error:
             call = Call(request=request, response=error)
             calls.append(call)
             self.calls.append(call)
@@ -125,49 +89,70 @@ class Registration:
         self.calls.append(call)
         return response
 
-
-calls = Calls()
-_registrations: list[Registration] = []
-
-
-class Matchers:
-    @staticmethod
-    def json_params_matcher(expected: object, *, strict_match: bool = True):
-        def match(request: PreparedRequest) -> tuple[bool, str]:
-            try:
-                actual = json_module.loads(request.body or b"null")
-            except (json_module.JSONDecodeError, UnicodeDecodeError) as error:
-                return False, f"request body is not valid JSON: {error}"
-            if (
-                not strict_match
-                and isinstance(actual, dict)
-                and isinstance(expected, dict)
-            ):
-                actual = _filter_mapping(actual, expected)
-            return (
-                actual == expected,
-                f"JSON body {actual!r} does not match {expected!r}",
+    def _get_response(
+        self, request: httpx2.Request, transport_request: httpx2.Request
+    ) -> httpx2.Response:
+        if self.exception is not None:
+            raise self.exception
+        if self.callback is not None:
+            response = self.callback(request)
+            if not isinstance(response, httpx2.Response):
+                msg = "HTTP mock callbacks must return an httpx2.Response"
+                raise TypeError(msg)
+        else:
+            response = _build_response(
+                transport_request,
+                status_code=self.status_code,
+                headers=self.headers,
+                content=self.content,
+                text=self.text,
+                json=self.json,
             )
-
-        return match
-
-    @staticmethod
-    def header_matcher(expected: dict[str, str]):
-        def match(request: PreparedRequest) -> tuple[bool, str]:
-            actual = {
-                name: request.headers.get(name)
-                for name in expected
-                if name in request.headers
-            }
-            return (
-                actual == expected,
-                f"headers {actual!r} do not match {expected!r}",
-            )
-
-        return match
+        response.request = transport_request
+        setattr(response, PEER_IP_RESPONSE_ATTR, "93.184.216.34")
+        return response
 
 
-matchers = Matchers()
+calls: list[Call] = []
+_routes: list[Route] = []
+
+
+def json_params_matcher(
+    expected: object, *, strict_match: bool = True
+) -> RequestMatcher:
+    def match(request: httpx2.Request) -> tuple[bool, str]:
+        try:
+            actual = json_module.loads(request.content or b"null")
+        except (json_module.JSONDecodeError, UnicodeDecodeError) as error:
+            return False, f"request body is not valid JSON: {error}"
+        if not strict_match and isinstance(actual, dict) and isinstance(expected, dict):
+            actual = _filter_mapping(actual, expected)
+        return (
+            actual == expected,
+            f"JSON body {actual!r} does not match {expected!r}",
+        )
+
+    return match
+
+
+def header_matcher(expected: dict[str, str]) -> RequestMatcher:
+    def match(request: httpx2.Request) -> tuple[bool, str]:
+        actual = {
+            name: request.headers.get(name)
+            for name in expected
+            if name in request.headers
+        }
+        return (
+            actual == expected,
+            f"headers {actual!r} do not match {expected!r}",
+        )
+
+    return match
+
+
+def get_transport_url(request: httpx2.Request) -> httpx2.URL:
+    """Return the URL passed to the transport after address pinning."""
+    return request.extensions[_TRANSPORT_URL_REQUEST_EXTENSION]
 
 
 def _filter_mapping(actual: dict, expected: dict) -> dict:
@@ -184,63 +169,82 @@ def _filter_mapping(actual: dict, expected: dict) -> dict:
 def _build_response(
     request: httpx2.Request,
     *,
-    status: int,
-    headers: ResponseHeaders = None,
-    body: object = b"",
-    json: object | None = None,
+    status_code: int,
+    headers: ResponseHeaders,
+    content: bytes | None,
+    text: str | None,
+    json: object,
 ) -> httpx2.Response:
-    if isinstance(body, BaseException):
-        raise body
-    if json is not None:
-        response = httpx2.Response(
-            status,
+    if json is not _UNSET:
+        if json is None:
+            result_headers = httpx2.Headers(headers)
+            result_headers.setdefault("Content-Type", "application/json")
+            return httpx2.Response(
+                status_code,
+                headers=result_headers,
+                content=b"null",
+                request=request,
+            )
+        return httpx2.Response(
+            status_code,
             headers=headers,
             json=json,
             request=request,
         )
-    elif isinstance(body, bytes):
-        response = httpx2.Response(
-            status,
+    if text is not None:
+        return httpx2.Response(
+            status_code,
             headers=headers,
-            content=body,
+            text=text,
             request=request,
         )
-    elif body is not None:
-        response = httpx2.Response(
-            status,
-            headers=headers,
-            text=str(body),
-            request=request,
-        )
-    else:
-        response = httpx2.Response(status, headers=headers, request=request)
-    setattr(response, PEER_IP_RESPONSE_ATTR, "93.184.216.34")
-    return response
+    return httpx2.Response(
+        status_code,
+        headers=headers,
+        content=content,
+        request=request,
+    )
+
+
+def _logical_request(request: httpx2.Request) -> httpx2.Request:
+    transport_url = request.url.copy_with(fragment=None)
+    logical_url = request.extensions.get(
+        ORIGINAL_URL_REQUEST_EXTENSION, request.url
+    ).copy_with(fragment=None)
+    extensions = dict(request.extensions)
+    extensions[_TRANSPORT_URL_REQUEST_EXTENSION] = transport_url
+    return httpx2.Request(
+        request.method,
+        logical_url,
+        headers=request.headers,
+        content=request.content,
+        extensions=extensions,
+    )
 
 
 def _handler(request: httpx2.Request) -> httpx2.Response:
-    prepared = PreparedRequest(request)
+    logical_request = _logical_request(request)
     matches = [
-        (index, registration)
-        for index, registration in enumerate(_registrations)
-        if registration.matches(prepared)
+        (index, route)
+        for index, route in enumerate(_routes)
+        if route.matches(logical_request)
     ]
     if not matches:
         msg = f"Connection refused: {request.method} {request.url}"
         error = httpx2.ConnectError(msg, request=request)
-        calls.append(Call(request=prepared, response=error))
+        calls.append(Call(request=logical_request, response=error))
         raise error
-    index, registration = matches[0]
+    index, route = matches[0]
     if len(matches) > 1:
-        _registrations.pop(index)
-        if registration.calls:
-            registration = matches[1][1]
-    return registration.respond(prepared, request)
+        _routes.pop(index)
+        if route.calls:
+            route = matches[1][1]
+    return route.respond(logical_request, request)
 
 
 def reset() -> None:
-    _registrations.clear()
-    calls.reset()
+    _routes.clear()
+    calls.clear()
 
 
 def activate(function):
@@ -267,76 +271,109 @@ def activate(function):
     return async_wrapper if function.__code__.co_flags & 0x80 else wrapper
 
 
-def add(
+def _validate_response_body(
+    *, content: bytes | None, text: str | None, json: object
+) -> None:
+    supplied = sum((content is not None, text is not None, json is not _UNSET))
+    if supplied > 1:
+        msg = "Only one of content, text, or json can be supplied"
+        raise TypeError(msg)
+
+
+def register(
     method: str,
     url: str | re.Pattern[str],
-    body: str | bytes | BaseException = b"",
     *,
-    json: object | None = None,
-    status: int = 200,
-    headers: dict[str, str] | list[tuple[str, str]] | None = None,
-    content_type: str | None = None,
-    match: list[Callable[[PreparedRequest], tuple[bool, str]]] | None = None,
-    **_kwargs,
-) -> Registration:
-    result_headers = dict(headers or {})
-    if content_type is not None:
-        result_headers["Content-Type"] = content_type
-    registration = Registration(
+    status_code: int = 200,
+    headers: ResponseHeaders = None,
+    content: bytes | None = None,
+    text: str | None = None,
+    json: object = _UNSET,
+    match: list[RequestMatcher] | None = None,
+) -> Route:
+    _validate_response_body(content=content, text=text, json=json)
+    route = Route(
         method=method.upper(),
         url=url,
-        body=body,
+        status_code=status_code,
+        headers=headers,
+        content=content,
+        text=text,
         json=json,
-        status=status,
-        headers=result_headers,
         match=list(match or ()),
     )
-    _registrations.append(registration)
-    return registration
+    _routes.append(route)
+    return route
 
 
-def add_callback(
+def register_callback(
     method: str,
     url: str | re.Pattern[str],
+    callback: ResponseCallback,
     *,
-    callback,
-    match=None,
-    **kwargs,
-) -> Registration:
-    registration = add(method, url, match=match, **kwargs)
-    registration.callback = callback
-    return registration
+    match: list[RequestMatcher] | None = None,
+) -> Route:
+    route = Route(
+        method=method.upper(),
+        url=url,
+        callback=callback,
+        match=list(match or ()),
+    )
+    _routes.append(route)
+    return route
 
 
-def remove(method: str, url: str | re.Pattern[str]) -> None:
-    _registrations[:] = [
-        registration
-        for registration in _registrations
-        if not (registration.method == method.upper() and registration.url == url)
+def register_exception(
+    method: str,
+    url: str | re.Pattern[str],
+    exception: BaseException,
+    *,
+    match: list[RequestMatcher] | None = None,
+) -> Route:
+    route = Route(
+        method=method.upper(),
+        url=url,
+        exception=exception,
+        match=list(match or ()),
+    )
+    _routes.append(route)
+    return route
+
+
+def unregister(method: str, url: str | re.Pattern[str]) -> None:
+    _routes[:] = [
+        route
+        for route in _routes
+        if not (route.method == method.upper() and route.url == url)
     ]
 
 
-def replace(method: str, url: str | re.Pattern[str], **kwargs) -> Registration:
-    remove(method, url)
-    return add(method, url, **kwargs)
+def replace(
+    method: str,
+    url: str | re.Pattern[str],
+    *,
+    status_code: int = 200,
+    headers: ResponseHeaders = None,
+    content: bytes | None = None,
+    text: str | None = None,
+    json: object = _UNSET,
+    match: list[RequestMatcher] | None = None,
+) -> Route:
+    unregister(method, url)
+    return register(
+        method,
+        url,
+        status_code=status_code,
+        headers=headers,
+        content=content,
+        text=text,
+        json=json,
+        match=match,
+    )
 
 
 def assert_call_count(url: str, count: int) -> None:
-    actual = sum(call.request.url == url for call in calls)
+    actual = sum(str(call.request.url) == url for call in calls)
     if actual != count:
         msg = f"Expected {url!r} to be called {count} times, called {actual} times."
         raise AssertionError(msg)
-
-
-def get(url, **kwargs) -> Registration:
-    return add(GET, url, **kwargs)
-
-
-def post(url, **kwargs) -> Registration:
-    return add(POST, url, **kwargs)
-
-
-def delete(*args, **kwargs):
-    if len(args) == 2:
-        return remove(args[0], args[1])
-    return add(DELETE, args[0], **kwargs)
