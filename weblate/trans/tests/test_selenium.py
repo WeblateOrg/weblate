@@ -2164,12 +2164,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             wrapper.scrollLeft = wrapper.scrollWidth;
             const scrollLeft = wrapper.scrollLeft;
             wrapper.scrollLeft = 0;
+            const doc = document.documentElement;
             return {
                 scrollable: wrapper.classList.contains("table-scroll"),
                 overflow: wrapper.scrollWidth - wrapper.clientWidth,
                 hiddenColumns: hidden.length,
                 scrollLeft: scrollLeft,
                 headerPosition: header === null ? "" : getComputedStyle(header).position,
+                documentOverflow: doc.scrollWidth - doc.clientWidth,
             };
             """
         )
@@ -2193,6 +2195,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertFalse(before["scrollable"])
         self.assertGreater(before["hiddenColumns"], 0)
         self.assertEqual(before["scrollLeft"], 0)
+        self.assertEqual(before["documentOverflow"], 0)
         self.assertEqual(before["headerPosition"], "sticky")
         self.screenshot_viewport("dashboard-narrow-columns.png", narrow_width)
 
@@ -2224,6 +2227,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertEqual(after["hiddenColumns"], 0)
         self.assertGreater(after["overflow"], 0)
         self.assertGreater(after["scrollLeft"], 0)
+        # Only the listing scrolls, the page itself must not overflow
+        self.assertEqual(after["documentOverflow"], 0)
         # Sticky header does not work inside a scrolling container
         self.assertEqual(after["headerPosition"], "static")
         self.screenshot_viewport("dashboard-wide-tables.png", narrow_width)
