@@ -144,6 +144,7 @@ class WebhookAddon(JSONWebhookBaseAddon):
             data["old"] = split_plural(change.old)
         if change.unit:
             data["source"] = split_plural(change.unit.source)
+            data["context"] = change.unit.context
         if url := change.get_absolute_url():
             data["url"] = url
         if change.author:
