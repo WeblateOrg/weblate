@@ -1295,11 +1295,38 @@ thead th {
 .table-scroll {
   overflow-x: auto;
   position: relative;
+  container-type: inline-size;
 }
 
 .table-scroll .table-listing {
   width: max-content;
   min-width: 100%;
+}
+
+/* Keep the actions column and progress bars pinned while the other columns scroll. */
+.table-scroll .table-listing > thead > tr > th:first-child,
+.table-scroll .table-listing > tbody > tr > .actions {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: var(--wl-color-bg);
+}
+
+.dir-rtl .table-scroll .table-listing > thead > tr > th:first-child,
+.dir-rtl .table-scroll .table-listing > tbody > tr > .actions {
+  left: auto;
+  right: 0;
+}
+
+.table-scroll .progress-row .progress-stacked {
+  position: sticky;
+  left: 58px;
+  width: calc(100cqw - 66px);
+}
+
+.dir-rtl .table-scroll .progress-row .progress-stacked {
+  left: auto;
+  right: 58px;
 }
 
 .table-scroll .zero-width-540,
