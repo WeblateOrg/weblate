@@ -11,6 +11,7 @@ Weblate 2026.8
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
 * :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
+* Added API support for reading and updating :ref:`user-profile` preferences. See :ref:`api-users` endpoint.
 * Added :ref:`check-max-lines` quality check for limiting the number of lines in translations, useful for fixed-height UI elements.
 * Added :ref:`check-asciidoc-markup` quality check for AsciiDoc strings.
 * Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`.
@@ -74,6 +75,7 @@ Weblate 2026.8
 * Git SSH validates configured ``HostName`` and ``Port`` destinations before connecting; administrator SSH configuration remains trusted, and :setting:`SSH_EXTRA_ARGS` can override connection routing and address pinning.
 * Git LFS object transfers are unsupported and disabled for Weblate-managed repositories; LFS-tracked files remain pointer files.
 * The project and component ``credits`` REST API endpoints and their ``credits_url`` response fields have been replaced by scoped ``reports`` endpoints and ``reports_url``. Credits report generation is now asynchronous; clients need to submit a ``credits`` report, follow the returned task URL, and fetch the completed report. See :http:post:`/api/reports/`.
+* The top-level ``languages`` field on user REST API responses has been removed; use ``profile.languages`` instead. See :ref:`api-user-profile`.
 
 .. rubric:: Upgrading
 
