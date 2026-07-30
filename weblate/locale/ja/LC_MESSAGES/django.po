@@ -19,15 +19,15 @@
 # Nozomu Matsui <nozomu.matsui@gree.net>, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
+# Yoshihoko <yyyyyoshihoko@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-25 00:40-0500\n"
-"PO-Revision-Date: 2026-07-25 07:16+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-30 21:02+0000\n"
+"Last-Translator: Yoshihoko <yyyyyoshihoko@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1170,19 +1170,14 @@ msgid "You were mentioned in some comments"
 msgstr "いくつかのコメントでメンションされました"
 
 #: weblate/accounts/notifications.py:1034
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Your translation received a comment"
 msgctxt "Notification name"
 msgid "String you contributed to received a comment"
-msgstr "あなたの翻訳にコメントが付きました"
+msgstr "貢献した翻訳にコメントがつきました"
 
 #: weblate/accounts/notifications.py:1038
-#, fuzzy
-#| msgid "Strings with source comments"
 msgctxt "Notification name"
 msgid "Strings you contributed to received comments"
-msgstr "原文コメントがある文字列"
+msgstr "貢献した翻訳にコメントがつきました"
 
 #: weblate/accounts/notifications.py:1120
 msgctxt "Notification name"
@@ -1819,10 +1814,8 @@ msgid "Pending"
 msgstr "保留中"
 
 #: weblate/addons/events.py:59
-#, fuzzy
-#| msgid "Access"
 msgid "Success"
-msgstr "アクセス"
+msgstr "成功"
 
 #: weblate/addons/events.py:60
 #: weblate/templates/trans/alert/addonscripterror.html:11
@@ -1839,10 +1832,8 @@ msgid "Skipped"
 msgstr "スキップ"
 
 #: weblate/addons/events.py:67
-#, fuzzy
-#| msgid "The add-on can only be installed on the component."
 msgid "The add-on is not compatible with this component."
-msgstr "このアドオンは、コンポーネントにのみインストールできます。"
+msgstr "このアドオンは、このコンポーネントと互換性がありません。"
 
 #: weblate/addons/events.py:71
 msgid "There are no compatible components to process."
@@ -1861,10 +1852,8 @@ msgid "There are no relevant changes to process."
 msgstr "不完全なものはありません！"
 
 #: weblate/addons/events.py:83
-#, fuzzy
-#| msgid "Suggestion voting is disabled."
 msgid "Background processing is disabled."
-msgstr "提案への投票は無効になっています。"
+msgstr "バックグラウンド処理は無効になっています。"
 
 #: weblate/addons/events.py:87
 #, fuzzy
@@ -1873,10 +1862,8 @@ msgid "The component is not scheduled for background processing today."
 msgstr "翻訳コンポーネントの削除を予定しました。"
 
 #: weblate/addons/events.py:91
-#, fuzzy
-#| msgid "There are no assigned strings."
 msgid "There are no eligible strings to process."
-msgstr "割り当てられた文字列はありません。"
+msgstr "処理可能な文字列はありません。"
 
 #: weblate/addons/events.py:95
 #, fuzzy
@@ -1885,10 +1872,8 @@ msgid "The target no longer exists."
 msgstr "指定された言語はすでに存在しています。"
 
 #: weblate/addons/events.py:99
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "A required file is not available."
-msgstr "入力されたトークンが無効です。"
+msgstr "必要なファイルが利用できません。"
 
 #: weblate/addons/events.py:103
 #, fuzzy
@@ -1903,22 +1888,16 @@ msgid "The add-on does not apply to this event."
 msgstr "このアドオンは、コンポーネントにのみインストールできます。"
 
 #: weblate/addons/events.py:109
-#, fuzzy
-#| msgid "No source strings are currently assigned!"
 msgid "No source files are configured."
-msgstr "現時点では原文が割り当てられていません！"
+msgstr "原文ファイルが設定されていません。"
 
 #: weblate/addons/events.py:112
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The configured output path is invalid."
-msgstr "入力されたトークンが無効です。"
+msgstr "設定されている出力先が正しくありません。"
 
 #: weblate/addons/events.py:114
-#, fuzzy
-#| msgid "This add-on executes a script."
 msgid "The add-on execution failed."
-msgstr "このアドオンは、スクリプトを実行します。"
+msgstr "アドオンの実行に失敗しました。"
 
 #: weblate/addons/example.py:31
 msgid "Example add-on"
@@ -1979,10 +1958,8 @@ msgid "Fedora Messaging publish failed: %(error)s"
 msgstr ""
 
 #: weblate/addons/fedora_messaging.py:556
-#, fuzzy
-#| msgid "Configure"
 msgid "configured"
-msgstr "設定"
+msgstr "設定済"
 
 #: weblate/addons/fedora_messaging.py:611
 msgid "Could not reset Fedora Messaging publisher service."
@@ -2151,22 +2128,16 @@ msgid "Source locations"
 msgstr "原文の記載位置"
 
 #: weblate/addons/forms.py:199
-#, fuzzy
-#| msgid "Use default setting"
 msgid "Use file format settings"
-msgstr "デフォルト設定の使用"
+msgstr "ファイル形式設定の使用"
 
 #: weblate/addons/forms.py:200
-#, fuzzy
-#| msgid "Extract strings from HTML files"
 msgid "Extract locations to the POT file"
-msgstr "HTMLファイルから文字列を抽出"
+msgstr "位置をPOTファイルに抽出"
 
 #: weblate/addons/forms.py:201
-#, fuzzy
-#| msgid "Do not extract comments"
 msgid "Do not extract locations"
-msgstr "コメントを抽出しません"
+msgstr "位置を抽出しません"
 
 #: weblate/addons/forms.py:206
 msgid ""
@@ -2773,10 +2744,8 @@ msgid "Enable case-sensitive key sorting"
 msgstr "大文字と小文字を区別したキーの並べ替えを有効にする"
 
 #: weblate/addons/forms.py:1558
-#, fuzzy
-#| msgid "Change events"
 msgid "Change events to trigger"
-msgstr "変更イベント"
+msgstr "トリガーになる変更イベント"
 
 #: weblate/addons/forms.py:1564
 #, fuzzy
@@ -2786,16 +2755,12 @@ msgid "Translation content events"
 msgstr "翻訳情報"
 
 #: weblate/addons/forms.py:1568
-#, fuzzy
-#| msgid "Change events"
 msgid "All change events"
-msgstr "変更イベント"
+msgstr "すべての変更イベント"
 
 #: weblate/addons/forms.py:1572 weblate/addons/forms.py:1586
-#, fuzzy
-#| msgid "Change events"
 msgid "Selected change events"
-msgstr "変更イベント"
+msgstr "選択した変更イベント"
 
 #: weblate/addons/forms.py:1576
 msgid "Choose which change events should trigger this add-on."
@@ -2815,16 +2780,12 @@ msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "標準の Webhooks シークレットは、Base64 でエンコードされた文字列です。"
 
 #: weblate/addons/forms.py:1687
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "AMQP ブローカー ホスト"
+msgstr "AMQP ブローカーのURL"
 
 #: weblate/addons/forms.py:1688
-#, fuzzy
-#| msgid "The AMQP broker to connect to."
 msgid "The AMQP broker URL to connect to."
-msgstr "接続先の AMQP ブローカーです。"
+msgstr "接続先の AMQP ブローカーのURLです。"
 
 #: weblate/addons/forms.py:1692
 msgid "Topic prefix"
@@ -2835,10 +2796,8 @@ msgid "Optional prefix to prepend to generated message topics."
 msgstr ""
 
 #: weblate/addons/forms.py:1700
-#, fuzzy
-#| msgid "CA certificates"
 msgid "CA certificate bundle (PEM)"
-msgstr "CA 証明書"
+msgstr "CA証明書 バンドル (PEM)"
 
 #: weblate/addons/forms.py:1702
 msgid ""
@@ -2857,10 +2816,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:1717
-#, fuzzy
-#| msgid "Client SSL certificates"
 msgid "Client certificate (PEM)"
-msgstr "クライアント SSL 証明書"
+msgstr "クライアント証明書 (PEM)"
 
 #: weblate/addons/forms.py:1719
 msgid ""
@@ -2885,10 +2842,8 @@ msgid "How many times to try connecting to the broker."
 msgstr ""
 
 #: weblate/addons/forms.py:1742
-#, fuzzy
-#| msgid "Repository details"
 msgid "Retry delay"
-msgstr "リポジトリの詳細"
+msgstr "再試行の遅延"
 
 #: weblate/addons/forms.py:1743
 msgid "How many seconds to wait between connection attempts."
@@ -3094,14 +3049,10 @@ msgstr ""
 "ピーして追加されます。"
 
 #: weblate/addons/views.py:110
-#, fuzzy
-#| msgid "Manage site-wide add-ons"
 msgid "site-wide add-ons"
-msgstr "サイト全体のアドオンの管理"
+msgstr "サイト全体のアドオン"
 
 #: weblate/addons/views.py:118 weblate/templates/addons/addon_head.html:12
-#, fuzzy
-#| msgid "Repository"
 msgctxt "Add-on scope"
 msgid "Repository"
 msgstr "リポジトリ"
@@ -3112,11 +3063,9 @@ msgid "Component"
 msgstr "コンポーネント"
 
 #: weblate/addons/views.py:122 weblate/addons/views.py:127
-#, fuzzy
-#| msgid "Move category"
 msgctxt "Add-on scope"
 msgid "Parent category"
-msgstr "カテゴリの移動"
+msgstr "親カテゴリ"
 
 #: weblate/addons/views.py:128
 msgctxt "Add-on scope"
@@ -3206,10 +3155,8 @@ msgid "Successful response."
 msgstr "成功 (緑)"
 
 #: weblate/api/docs.py:53
-#, fuzzy
-#| msgid "The security key was removed."
 msgid "The resource was created."
-msgstr "セキュリティキーが削除されました。"
+msgstr "リソースを作成しました。"
 
 #: weblate/api/docs.py:54
 msgid "The request was accepted for asynchronous processing."
@@ -3230,10 +3177,8 @@ msgid "Authentication credentials were missing or invalid."
 msgstr ""
 
 #: weblate/api/docs.py:59
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid "The authenticated user does not have permission for this operation."
-msgstr "このコンポーネントにアクセスする権限がありません。"
+msgstr "その認証済みユーザーは、この操作を行う権限を持っていません。"
 
 #: weblate/api/docs.py:61
 msgid "The requested resource was not found or is not accessible."
@@ -3244,33 +3189,24 @@ msgid "The HTTP method is not allowed for this resource."
 msgstr ""
 
 #: weblate/api/docs.py:63
-#, fuzzy
-#| msgid "The entered token is not valid."
 msgid "The requested response media type is not available."
-msgstr "入力されたトークンが無効です。"
+msgstr "応答に要求されたメディア形式は利用できません。"
 
 #: weblate/api/docs.py:64
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "The request media type is not supported."
-msgstr "検出したファイル形式はサポートしていません。"
+msgstr "要求されたメディア形式には対応していません。"
 
 #: weblate/api/docs.py:65
-#, fuzzy
-#| msgid ".NET resource file"
 msgid "The resource is locked."
-msgstr ".NET リソース ファイル"
+msgstr "リソースがロックされています。"
 
 #: weblate/api/docs.py:66
 msgid "The API request rate limit was exceeded."
 msgstr ""
 
 #: weblate/api/docs.py:67
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgid "An unexpected server error occurred."
-msgstr "解析エラーが発生しました"
+msgstr "サーバーで予期せぬエラーが発生しました。"
 
 #: weblate/api/docs.py:238
 msgid ""
@@ -3290,10 +3226,8 @@ msgid "Number of seconds until the rate-limit window resets"
 msgstr "接続制限がリセットされるまでの秒数"
 
 #: weblate/api/serializers.py:127
-#, fuzzy
-#| msgid "Restricted component"
 msgid "Invalid component path."
-msgstr "制限付きコンポーネント"
+msgstr "コンポーネントのパスが間違っています。"
 
 #: weblate/api/serializers.py:158 weblate/trans/models/category.py:96
 #: weblate/trans/models/component.py:562
@@ -3312,54 +3246,42 @@ msgid "Required for credits, contributor stats, and translator work reports."
 msgstr ""
 
 #: weblate/api/serializers.py:245 weblate/api/serializers.py:248
-#, fuzzy
-#| msgid "Manage users"
 msgid "Invalid workspace."
-msgstr "ユーザーの管理"
+msgstr "ワークスペースが間違っています。"
 
 #: weblate/api/serializers.py:261
-#, fuzzy
-#| msgid "Invalid request."
 msgid "Invalid project."
-msgstr "無効なリクエストです。"
+msgstr "プロジェクトが間違っています。"
 
 #: weblate/api/serializers.py:274
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid category."
-msgstr "日付が正しくありません！"
+msgstr "カテゴリが間違っています。"
 
 #: weblate/api/serializers.py:289 weblate/api/serializers.py:392
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Do not specify a scope on a scoped reports endpoint."
-msgstr "コンポーネントとプロジェクトの両方を指定してはなりません！"
+msgstr "範囲付きレポート エンドポイントに範囲を指定してはなりません。"
 
 #: weblate/api/serializers.py:293
 #, fuzzy
 #| msgid "Choose a file format for the report"
 msgid "Choose at most one report scope."
-msgstr "レポートのファイル形式を選んでください"
+msgstr "最大1つのレポート範囲を選んでください"
 
 #: weblate/api/serializers.py:305
 msgid "Start and end timestamps are required."
 msgstr ""
 
 #: weblate/api/serializers.py:309
-#, fuzzy
-#| msgid "The starting date has to be before the ending date."
 msgid "The report start must be before its end."
-msgstr "開始日は、終了日よりも前の日付でなければなりません。"
+msgstr "レポート開始日は、終了日よりも前でなければなりません。"
 
 #: weblate/api/serializers.py:321 weblate/trans/forms.py:1881
 msgid "Minimum changes can not exceed maximum changes."
 msgstr ""
 
 #: weblate/api/serializers.py:808
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "This e-mail address has not been verified."
-msgstr "無効なメールアドレスです。"
+msgstr "メールアドレスは認証されていません。"
 
 #: weblate/api/serializers.py:938 weblate/templates/accounts/user.html:278
 #: weblate/trans/forms.py:1322
@@ -3430,10 +3352,8 @@ msgid "You do not have permission to access this component."
 msgstr "このコンポーネントにアクセスする権限がありません。"
 
 #: weblate/api/serializers.py:2004 weblate/trans/forms.py:2309
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to change restricted access."
-msgstr "プロジェクトのアクセス制御を変更するための権限がありません。"
+msgstr "制限付きアクセスを変更するための権限がありません。"
 
 #: weblate/api/serializers.py:2432 weblate/templates/js/git-status.html:23
 msgid "Commit"
@@ -3481,10 +3401,8 @@ msgid "Rescan all translation files in the Weblate repository"
 msgstr "Weblate リポジトリ内のすべての翻訳ファイルを再スキャンします"
 
 #: weblate/api/serializers.py:2756
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "Please provide a suggestion"
-msgstr "提案への投票"
+msgstr "提案をお願いします"
 
 #: weblate/api/serializers.py:2781 weblate/api/serializers.py:2809
 #: weblate/trans/forms.py:762 weblate/trans/views/edit.py:836
@@ -4451,10 +4369,9 @@ msgstr ""
 "ません。選択を空欄にすると、追加の制限なしでチームの言語選択が使用されます。"
 
 #: weblate/auth/models.py:545
-#, fuzzy, python-format
-#| msgid "Invalid e-mail address: {}"
+#, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "無効なメールアドレス: {}"
+msgstr "内部ボットのメールアドレスが長すぎます：%s"
 
 #: weblate/auth/models.py:811 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:269
@@ -4609,19 +4526,15 @@ msgid "Sign in to save translations."
 msgstr "翻訳を保存するには、サインインが必要です。"
 
 #: weblate/auth/permissions.py:419
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to approve translations in this restricted "
 "component."
-msgstr "このコンポーネントにアクセスする権限がありません。"
+msgstr "この制限付きコンポーネントで翻訳を採用する権限がありません。"
 
 #: weblate/auth/permissions.py:424
-#, fuzzy
-#| msgid "You do not have permission to access this component."
 msgid ""
 "You do not have permission to save translations in this restricted component."
-msgstr "このコンポーネントにアクセスする権限がありません。"
+msgstr "この制限付きコンポーネントに翻訳を保存する権限がありません。"
 
 #: weblate/auth/permissions.py:429
 #, fuzzy
@@ -6782,16 +6695,14 @@ msgid "Plural form metadata in CSV file requires source_plural_form."
 msgstr ""
 
 #: weblate/formats/ttkit.py:2811
-#, fuzzy, python-format
-#| msgid "Duplicated string found in the file."
+#, python-format
 msgid "Duplicate target plural form in CSV file: %s"
-msgstr "ファイル内に重複した文字列が見つかりました。"
+msgstr "CSV ファイル内で重複している複数形：%s"
 
 #: weblate/formats/ttkit.py:2820
-#, fuzzy, python-format
-#| msgid "Encoding used for CSV files"
+#, python-format
 msgid "Conflicting source plural form in CSV file: %s"
-msgstr "CSV ファイルで使用されるエンコーディング"
+msgstr "CSV ファイル内で競合している元の複数形：%s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:3003
@@ -7046,10 +6957,8 @@ msgid "No language limit"
 msgstr "言語数の上限"
 
 #: weblate/lang/models.py:73
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid language code."
-msgstr "正しくない言語を選択しています！"
+msgstr "正しい言語コードを入力してください。"
 
 #: weblate/lang/models.py:1009 weblate/templates/addons/generate_help.html:26
 #: weblate/templates/mail/new_language.html:31
@@ -7559,10 +7468,8 @@ msgid ""
 msgstr "一般的なシステム カテゴリ ID ではなく、独自の ID を使用します。"
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid Azure region name."
-msgstr "正しくない言語を選択しています！"
+msgstr "正しい Azure 地域名を入力してください。"
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -8469,11 +8376,10 @@ msgid "Source has been removed."
 msgstr "原文を削除しました。"
 
 #: weblate/screenshots/views.py:602
-#, fuzzy, python-format
-#| msgid "No matching source strings found."
+#, python-format
 msgid "%(count)s matching source string found."
 msgid_plural "%(count)s matching source strings found."
-msgstr[0] "該当する原文が見つかりませんでした。"
+msgstr[0] "該当する原文が %(count)s 個見つかりました。"
 
 #: weblate/screenshots/views.py:607
 msgid "No new matching source strings found."
@@ -8954,16 +8860,13 @@ msgid "Read the docs"
 msgstr ""
 
 #: weblate/templates/accounts/contact.html:135
-#, fuzzy, python-format
-#| msgid "Contact site administrators"
+#, python-format
 msgid "Question for %(site_title)s administrators"
-msgstr "サイト管理者に連絡"
+msgstr "%(site_title)s の管理者に質問"
 
 #: weblate/templates/accounts/contact.html:137
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Question for the server administrators"
-msgstr "サイト管理者に連絡"
+msgstr "サイト管理者に質問"
 
 #: weblate/templates/accounts/contact.html:143
 msgid ""
@@ -9078,11 +8981,10 @@ msgid "Your trial"
 msgstr "あなたの無料体験"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "プロジェクトの設定には 14 日間必要です。"
+msgstr[0] "プロジェクトの設定には %(days)s 日間必要です。"
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -9833,11 +9735,10 @@ msgid "Your trial offer"
 msgstr "無料体験の申し込み"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "無料体験の試用期間は 14 日間です。"
+msgstr[0] "無料体験の試用期間は %(days)s 日間です。"
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -11563,10 +11464,8 @@ msgstr "実行"
 
 #: weblate/templates/component-progress.html:19
 #: weblate/templates/multi-progress.html:16
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes are being processed…"
-msgstr "リポジトリ変更の警告"
+msgstr "リポジトリ変更が進行中…"
 
 #: weblate/templates/component-progress.html:38
 #: weblate/templates/multi-progress.html:27
@@ -11644,10 +11543,9 @@ msgstr "除外"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:240
-#, fuzzy, python-format
-#| msgid "Appeared %(first)s, last seen %(last)s"
+#, python-format
 msgid "Appeared %(first)s"
-msgstr "警告発生：%(first)s、最終更新：%(last)s"
+msgstr "警告発生：%(first)s"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:243
@@ -11656,10 +11554,9 @@ msgid "Appeared %(first)s, last seen %(last)s"
 msgstr "警告発生：%(first)s、最終更新：%(last)s"
 
 #: weblate/templates/component.html:248
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Dismissed by %(user)s %(timestamp)s"
-msgstr "%(used)s / %(total)s 個を使用中"
+msgstr "%(user)s によって除外 %(timestamp)s"
 
 #: weblate/templates/component.html:250
 #, fuzzy, python-format
@@ -12894,13 +12791,10 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/mail/billing_inactive_recurring.html:18
-#, fuzzy, python-format
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
+#, python-format
 msgid ""
 "Weblate has pending translation changes for these projects since %(date)s."
-msgstr "新しい翻訳に対するリクエストをプロジェクトのメンテナに送信しました。"
+msgstr "Weblate は %(date)s からこれらのプロジェクトへの翻訳の変更を保留しています。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:23
 #, python-format
@@ -12908,12 +12802,9 @@ msgid "Weblate has repository changes waiting to be pushed since %(date)s."
 msgstr ""
 
 #: weblate/templates/mail/billing_inactive_recurring.html:28
-#, fuzzy, python-format
-#| msgid ""
-#| "Weblate should now be able to see updated repository and you can unlock "
-#| "it."
+#, python-format
 msgid "Weblate has been unable to push repository changes since %(date)s."
-msgstr "Weblate で更新されたリポジトリを確認して、ロックを解除できます。"
+msgstr "Weblate は %(date)s からリポジトリの変更をプッシュできていません。"
 
 #: weblate/templates/mail/billing_inactive_recurring.html:47
 msgid ""
@@ -13368,10 +13259,8 @@ msgid "%(translation)s has been completed"
 msgstr "%(translation)s が完了しました"
 
 #: weblate/templates/mail/translation_activity_summary.html:6
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Translation activity in this period:"
-msgstr "翻訳品質フィルタ"
+msgstr "期間内の翻訳活動:"
 
 #: weblate/templates/mail/translation_activity_summary.html:11
 #, fuzzy
@@ -14057,10 +13946,8 @@ msgid "Clear"
 msgstr "消去"
 
 #: weblate/templates/manage/workspaces.html:35
-#, fuzzy
-#| msgid "No words found!"
 msgid "No workspaces found."
-msgstr "単語が見つかりません!"
+msgstr "ワークスペースが見つかりません。"
 
 #: weblate/templates/matrix-table.html:14
 msgid "String missing"
@@ -14721,16 +14608,14 @@ msgid "Clear filters"
 msgstr "検索フィルター"
 
 #: weblate/templates/snippets/diagnostics.html:24
-#, fuzzy, python-format
-#| msgid "Strings with comments (%d)"
+#, python-format
 msgid "Active: %(count)s"
-msgstr "コメントのついている文字列 (%d)"
+msgstr "活動：%(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:29
-#, fuzzy, python-format
-#| msgid "Dismissed checks"
+#, python-format
 msgid "Dismissed: %(count)s"
-msgstr "検査の除外"
+msgstr "除外：%(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:35
 #, fuzzy
@@ -14753,12 +14638,10 @@ msgid "Affected components"
 msgstr "コンポーネントの作成"
 
 #: weblate/templates/snippets/diagnostics.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action in %(component)s"
-#| msgid_plural "%(count)s strings needing action in %(component)s"
+#, python-format
 msgid "%(count)s more affected component."
 msgid_plural "%(count)s more affected components."
-msgstr[0] "%(component)s には作業が必要な文字列が %(count)s 個あります"
+msgstr[0] "さらに %(count)s つの影響するコンポーネント。"
 
 #: weblate/templates/snippets/diagnostics.html:77
 msgid "No diagnostics match the selected filters."
@@ -16659,8 +16542,7 @@ msgstr ""
 #| msgid "At least one screenshot has no string assigned to it."
 msgid "One screenshot has no string assigned to it."
 msgid_plural "%(count)s screenshots have no string assigned to them."
-msgstr[0] ""
-"文字列に割り当てられていないスクリーンショットが最低でも１つあります。"
+msgstr[0] "文字列に割り当てられていないスクリーンショットが1つ以上あります。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:8
 #: weblate/templates/translate.html:839
@@ -17734,10 +17616,8 @@ msgstr ""
 #: weblate/templates/vcs/account_integrations.html:97
 #: weblate/templates/vcs/github_installation_list.html:134
 #: weblate/templates/vcs/github_repository_list.html:28
-#, fuzzy
-#| msgid "Remove account"
 msgid "Connected accounts"
-msgstr "アカウントの削除"
+msgstr "接続したアカウント"
 
 #: weblate/templates/vcs/account_integrations.html:104
 #: weblate/templates/vcs/github_installation_list.html:142
@@ -17768,10 +17648,8 @@ msgid "Refresh"
 msgstr ""
 
 #: weblate/templates/vcs/account_integrations.html:150
-#, fuzzy
-#| msgid "Do not have an account yet?"
 msgid "No connected accounts yet."
-msgstr "まだアカウントをお持ちではありませんか？"
+msgstr "接続したアカウントがまだありません。"
 
 #: weblate/templates/vcs/github_app_register.html:16
 #: weblate/templates/vcs/github_app_register.html:23
@@ -17866,10 +17744,9 @@ msgid "App name"
 msgstr "グループ名"
 
 #: weblate/templates/vcs/github_app_register_submit.html:53
-#, fuzzy, python-format
-#| msgid "Continue to %(return_target)s"
+#, python-format
 msgid "Continue to %(host)s"
-msgstr "%(return_target)s へ戻る"
+msgstr "%(host)s へ続行"
 
 #: weblate/templates/vcs/github_install_help.html:4
 msgid ""
@@ -17893,10 +17770,9 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_install_select.html:22
-#, fuzzy, python-format
-#| msgid "Invitation to %(project_name)s"
+#, python-format
 msgid "Install on %(hostname)s"
-msgstr "%(project_name)s への招待"
+msgstr "%(hostname)s へインストール"
 
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
@@ -17918,12 +17794,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_installation_detail.html:51
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub installation ID"
-msgstr "GitHub スター数"
+msgstr "GitHub インストール ID"
 
 #: weblate/templates/vcs/github_installation_detail.html:76
 #, fuzzy
@@ -17978,10 +17850,8 @@ msgid "Remove app"
 msgstr "削除"
 
 #: weblate/templates/vcs/github_installation_list.html:69
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove connected accounts first."
-msgstr "アカウントを削除"
+msgstr "まず接続したアカウントを削除してください。"
 
 #: weblate/templates/vcs/github_installation_list.html:75
 #: weblate/vcs/github.py:445
@@ -18049,22 +17919,16 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/vcs/github_repository_list.html:119
-#, fuzzy
-#| msgid "Total number of entries in this Weblate instance"
 msgid "Weblate GitHub app is not registered on this Weblate instance."
-msgstr "この Weblate インスタンスのエントリの総数"
+msgstr "Weblate GitHubアプリはこの Weblate インスタンスに登録されていません。"
 
 #: weblate/templates/vcs/github_repository_list.html:122
-#, fuzzy
-#| msgid "Push the repository"
 msgid "Try refreshing the repository list."
-msgstr "リポジトリをプッシュする"
+msgstr "リポジトリ一覧を更新してみてください。"
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:15
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove connected account?"
-msgstr "アカウントを削除"
+msgstr "接続したアカウントを削除しますか？"
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:25
 #, python-format
@@ -18354,11 +18218,8 @@ msgid "Component locked"
 msgstr "コンポーネントのロック"
 
 #: weblate/trans/actions.py:114
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "A component was unlocked for translation."
-msgstr ""
-"すべてのコンポーネントに対して、翻訳を更新できないようにロックしました！"
+msgstr "コンポーネントの翻訳をロック解除しました。"
 
 #: weblate/trans/actions.py:115
 msgid "Component unlocked"
@@ -18395,10 +18256,8 @@ msgid "Repository reset"
 msgstr "リポジトリのリセット"
 
 #: weblate/trans/actions.py:139
-#, fuzzy
-#| msgid "The remote repository needs to be merged!"
 msgid "Upstream repository changes were merged."
-msgstr "リモートのリポジトリにマージさせる必要があります！"
+msgstr "上流のリポジトリ変更がマージされました。"
 
 #: weblate/trans/actions.py:140
 msgid "Repository merged"
@@ -18617,10 +18476,8 @@ msgid "Component renamed"
 msgstr "コンポーネント名変更"
 
 #: weblate/trans/actions.py:277
-#, fuzzy
-#| msgid "All components in current project"
 msgid "A component was moved within a project."
-msgstr "現在のプロジェクトにおけるすべてのコンポーネント"
+msgstr "プロジェクト内でコンポーネントを移動しました。"
 
 #: weblate/trans/actions.py:278
 msgid "Moved component"
@@ -19672,10 +19529,9 @@ msgid "Uploaded file is too big."
 msgstr "アップロードしたファイルは大きすぎます。"
 
 #: weblate/trans/backups.py:1363
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not validate screenshot: %(error)s"
-msgstr "復元に失敗したスクリーンショット %(name)s：%(error)s"
+msgstr "スクリーンショットの検証に失敗：%(error)s"
 
 #: weblate/trans/backups.py:1388
 #, fuzzy
@@ -19744,14 +19600,9 @@ msgstr ""
 "されました。"
 
 #: weblate/trans/change_display.py:264
-#, fuzzy, python-format
-#| msgid ""
-#| "The license of the \"%(component)s\" component was changed from %(old)s "
-#| "to %(target)s."
+#, python-format
 msgid "%(setting)s changed from \"%(old)s\" to \"%(target)s\"."
-msgstr ""
-"\"%(component)s\" コンポーネントのライセンスは %(old)s から %(target)s に変更"
-"されました。"
+msgstr "%(setting)s を \"%(old)s\" から \"%(target)s\" に変更しました。"
 
 #: weblate/trans/change_display.py:274
 #, fuzzy
@@ -19766,14 +19617,9 @@ msgid "No workspace"
 msgstr ""
 
 #: weblate/trans/change_display.py:298
-#, fuzzy, python-format
-#| msgid ""
-#| "The license of the \"%(component)s\" component was changed from %(old)s "
-#| "to %(target)s."
+#, python-format
 msgid "Project moved from \"%(old)s\" to \"%(target)s\"."
-msgstr ""
-"\"%(component)s\" コンポーネントのライセンスは %(old)s から %(target)s に変更"
-"されました。"
+msgstr "プロジェクトを \"%(old)s\" から \"%(target)s\" に移動しました。"
 
 #: weblate/trans/change_display.py:393
 msgid "Original revision: {}"
@@ -20354,11 +20200,8 @@ msgid "Labeled: {}"
 msgstr "ラベル: {}"
 
 #: weblate/trans/forms.py:191 weblate/trans/models/component.py:5039
-#, fuzzy
-#| msgid "Repository branch is not used when repository is linked!"
 msgid "Repository branch is required for this integration."
-msgstr ""
-"リポジトリがリンクされている場合、リポジトリ ブランチは使用されません！"
+msgstr "リポジトリ ブランチはこの連携に必須です。"
 
 #: weblate/trans/forms.py:261
 msgid "Invalid date!"
@@ -20440,7 +20283,7 @@ msgstr "翻訳済みとしてインポート"
 
 #: weblate/trans/forms.py:866
 msgid "Conflict handling"
-msgstr "コンフリクト処理"
+msgstr "競合の処理"
 
 #: weblate/trans/forms.py:868
 msgid ""
@@ -22466,10 +22309,8 @@ msgid "Could not get repository status!"
 msgstr "リポジトリのステータスを取得できません！"
 
 #: weblate/trans/models/component.py:6446
-#, fuzzy
-#| msgid "File in original format as translated in the repository"
 msgid "File path is in a restricted location in the repository."
-msgstr "リポジトリで使われている元の形式の翻訳ファイル"
+msgstr "ファイルがリポジトリで制限付きの場所の中にあります。"
 
 #: weblate/trans/models/componentlist.py:48
 msgid "Component list name"
@@ -22807,16 +22648,14 @@ msgid_plural "Could not find %d strings:"
 msgstr[0] "%d個の文字列が見つかりません:"
 
 #: weblate/trans/models/translation.py:1659
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is out of range."
-msgstr "アップロードしたファイル内の複数形は、現在の翻訳と合っていません。"
+msgstr "アップロードしたファイル内の複数形 %d は範囲外です。"
 
 #: weblate/trans/models/translation.py:1665
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is missing."
-msgstr "アップロードしたファイル内の複数形は、現在の翻訳と合っていません。"
+msgstr "アップロードしたファイル内の複数形 %d が見つかりません。"
 
 #: weblate/trans/models/translation.py:1877
 #: weblate/trans/models/translation.py:1882
@@ -22835,16 +22674,14 @@ msgstr ""
 "{file_format} として解析できなかったアップロードされたファイル：{error}"
 
 #: weblate/trans/models/translation.py:2118
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "アップロードした ZIP ファイルの解析に失敗しました。"
+msgstr "アップロードしたファイルの解析に失敗しました: %s"
 
 #: weblate/trans/models/translation.py:2805
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "翻訳ファイルを解析できません。"
+msgstr "翻訳ファイルを解析できません：%s"
 
 #: weblate/trans/models/translation.py:2858
 msgid "Plurals are not supported by the file format."
@@ -23262,14 +23099,11 @@ msgid "File upload has failed: %s"
 msgstr "ファイルのアップロードに失敗しました: %s"
 
 #: weblate/trans/util.py:287
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "<strong>%(count)s 言語</strong> に翻訳されています。"
+msgstr[0] "{project} は Weblate を使用して {count} 種類の言語に翻訳されています。"
 
 #: weblate/trans/util.py:292
 #, fuzzy
@@ -23623,10 +23457,8 @@ msgid "Invalid suggestion!"
 msgstr "無効な提案です！"
 
 #: weblate/trans/views/edit.py:1087
-#, fuzzy
-#| msgid "Rejection reason"
 msgid "Rejection reason is too long!"
-msgstr "不採用理由"
+msgstr "不採用理由が長すぎます！"
 
 #: weblate/trans/views/edit.py:1120
 #, python-format
@@ -23791,10 +23623,8 @@ msgid "All components are now open for translation updates."
 msgstr "全コンポーネントの翻訳の更新を許可しました。"
 
 #: weblate/trans/views/reports.py:246
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Generating report…"
-msgstr "翻訳のレポート"
+msgstr "レポートを生成中…"
 
 #: weblate/trans/views/reports.py:275
 #, fuzzy
@@ -24486,10 +24316,9 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "複数形判定式の評価に失敗しました: {}"
 
 #: weblate/utils/validators.py:341
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "複数形判定式の評価に失敗しました: {}"
+msgstr "カウンタ {count} に対する複数形判定式の評価に失敗しました: {error}"
 
 #: weblate/utils/validators.py:347
 #, python-brace-format
@@ -24645,10 +24474,9 @@ msgid "Component and priority"
 msgstr "コンポーネントと優先度"
 
 #: weblate/utils/zip.py:55 weblate/utils/zip.py:149
-#, fuzzy, python-brace-format
-#| msgid "ZIP file containing project backup"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "プロジェクトのバックアップが入った ZIP ファイル"
+msgstr "ZIPファイルが無効なパスを含んでいます: {path}"
 
 #: weblate/utils/zip.py:63
 #, fuzzy
@@ -24690,10 +24518,8 @@ msgid "This will push changes to the upstream repository."
 msgstr "これにより、変更が上流のリポジトリにプッシュされます。"
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1103
-#, fuzzy
-#| msgid "Invalid language chosen!"
 msgid "Enter a valid GitHub host."
-msgstr "正しくない言語を選択しています！"
+msgstr "正しい GitHub ホストを入力してください。"
 
 #: weblate/vcs/forms.py:63
 msgid ""
@@ -24736,21 +24562,18 @@ msgid ""
 msgstr ""
 
 #: weblate/vcs/git.py:126 weblate/vcs/git.py:1785
-#, fuzzy, python-format
-#| msgid "Too many messages sent, please try again later."
+#, python-format
 msgid "%(message)s Please retry later."
-msgstr "メッセージを送りすぎです。時間をおいて送信してください。"
+msgstr "%(message)s 時間をおいてやり直してください。"
 
 #: weblate/vcs/git.py:174
 msgid "This will push changes to the upstream Git repository."
 msgstr "これにより、変更が上流の Git リポジトリにプッシュされます。"
 
 #: weblate/vcs/git.py:323
-#, fuzzy, python-format
-#| msgid "Repository branch is not used when repository is linked!"
+#, python-format
 msgid "Repository has an interrupted Git %(operation)s operation."
-msgstr ""
-"リポジトリがリンクされている場合、リポジトリ ブランチは使用されません！"
+msgstr "リポジトリに中断されたGit %(operation)s操作があります。"
 
 #: weblate/vcs/git.py:343
 #, python-format
@@ -24758,10 +24581,9 @@ msgid "Unsupported interrupted Git operation: %(operation)s"
 msgstr ""
 
 #: weblate/vcs/git.py:357
-#, fuzzy, python-format
-#| msgid "Could not obtain the lock to perform the operation."
+#, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
-msgstr "ロックを取得できなかったため、操作を実行できません。"
+msgstr "中断されたGit %(operation)s操作を回復できませんでした。"
 
 #: weblate/vcs/git.py:526
 msgid ""
@@ -25240,10 +25062,8 @@ msgid ""
 msgstr ""
 
 #: weblate/vcs/views.py:817
-#, fuzzy
-#| msgid "Created user account {}."
 msgid "Connected GitHub account added."
-msgstr "ユーザーアカウント {} を作成しました。"
+msgstr "GitHub アカウントへの接続を追加しました。"
 
 #: weblate/vcs/views.py:1134
 #, fuzzy
