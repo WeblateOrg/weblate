@@ -1010,11 +1010,14 @@ class Billing(models.Model):
                     queryset=Alert.objects.order_component(),
                 )
             )
-        yield LibreCheck(
-            len(components) > 0,
-            ngettext("Contains %d component", "Contains %d components", len(components))
-            % len(components),
+        component_count = len(components)
+        message = ngettext(
+            "Contains %d component", "Contains %d components", component_count
         )
+        # Ignore when format string is not present
+        with suppress(TypeError):
+            message %= component_count
+        yield LibreCheck(component_count > 0, message)
         for component in components:
             license_name = component.get_license_display()
             license_error = None
