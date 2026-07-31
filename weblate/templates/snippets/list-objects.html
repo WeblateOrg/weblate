@@ -1,7 +1,14 @@
 {% load humanize i18n icons permissions translations %}
 
 {% if objects or list_categories %}
-  <div class="table-listing-wrapper{% if user.is_authenticated and user.profile.wide_tables %} table-scroll{% endif %}">
+  {% if user.is_authenticated and user.profile.wide_tables %}
+    <div class="table-listing-wrapper table-scroll"
+         tabindex="0"
+         role="region"
+         aria-label="{% translate "Scrollable table" %}">
+  {% else %}
+    <div class="table-listing-wrapper">
+  {% endif %}
     <table class="{% if not objects.paginator or objects.paginator.num_pages <= 1 %}sort {% endif %}table progress-table autocolspan table-listing{% if show_workspace_details %} table-striped{% endif %}">
       {% if not hide_details and not hide_header %}
         <thead class="sticky-header">

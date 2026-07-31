@@ -2172,6 +2172,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 scrollLeft: scrollLeft,
                 headerPosition: header === null ? "" : getComputedStyle(header).position,
                 documentOverflow: doc.scrollWidth - doc.clientWidth,
+                tabindex: wrapper.getAttribute("tabindex"),
             };
             """
         )
@@ -2196,6 +2197,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assertGreater(before["hiddenColumns"], 0)
         self.assertEqual(before["scrollLeft"], 0)
         self.assertEqual(before["documentOverflow"], 0)
+        self.assertIsNone(before["tabindex"])
         self.assertEqual(before["headerPosition"], "sticky")
         self.screenshot_viewport("dashboard-narrow-columns.png", narrow_width)
 
@@ -2232,6 +2234,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Sticky header does not work inside a scrolling container
         self.assertEqual(after["headerPosition"], "static")
         self.screenshot_viewport("dashboard-wide-tables.png", narrow_width)
+
+        # The listing is keyboard focusable and scrollable
+        self.assertEqual(after["tabindex"], "0")
+        wrapper = self.driver.find_element(
+            By.CSS_SELECTOR, "#your-subscriptions .table-listing-wrapper"
+        )
+        self.driver.execute_script("arguments[0].focus();", wrapper)
+        for _ in range(3):
+            wrapper.send_keys(Keys.ARROW_RIGHT)
+        time.sleep(0.2)
+        self.assertGreater(
+            self.driver.execute_script("return arguments[0].scrollLeft;", wrapper), 0
+        )
 
     def test_team_management(self) -> None:
         """Test team management screenshots."""
