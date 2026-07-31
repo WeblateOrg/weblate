@@ -18,9 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 08:23+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-31 20:51+0000\n"
+"Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
 "Language: sv\n"
@@ -437,7 +436,7 @@ msgstr "Lösenordet har ändrats."
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Taktbegränsningen överskriden för {scope} på {path}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -5086,16 +5085,12 @@ msgid "Translation should not exceed given length."
 msgstr "Översättningen får inte överskrida angiven längd."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Maximal storlek för översättningen"
+msgstr "Maximalt antal rader"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "Översättningen får inte överskrida angiven längd."
+msgstr "Översättningen får inte överskrida det angivna antalet rader."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -6221,13 +6216,12 @@ msgid "Source string length"
 msgstr "Källsträngens längd"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"Källsträngen är för lång för att passa in i den konfigurerade maxlängden."
+"Källsträngen är nära eller överstiger den konfigurerade maximala längden för "
+"översättningar."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -8104,25 +8098,24 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Poster i översättningsminnet som skapades från nuvarande översättningar "
+"raderades och kommer att byggas upp igen i bakgrunden. Uppladdade poster "
+"bevarades."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
-"Poster togs bort och översättningsminnet kommer att byggas om i bakgrunden."
+"Poster i översättningsminnet som skapades från nuvarande översättningar "
+"raderades och kommer att byggas upp igen i bakgrunden."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Ta bort valda poster i översättningsminnet"
-msgstr[1] "Ta bort valda poster i översättningsminnet"
+msgstr[0] "Bearbetade %(count)d aktiv översättningsminnepost."
+msgstr[1] "Bearbetade %(count)d aktiv översättningsminneposter."
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -9906,6 +9899,8 @@ msgstr "Inaktiverar lösenordsautentisering för användaren."
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
 msgstr ""
+"Låt den vara aktiverad för att återkalla den nuvarande API-nyckeln och "
+"generera en ny."
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -10710,10 +10705,8 @@ msgstr "Hantera bevakade projekt"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "Spaces"
 msgid "My workspaces"
-msgstr "Mellanslag"
+msgstr "Mina arbetsområden"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11681,18 +11674,20 @@ msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
 msgstr ""
+"Mätvärden på projektöversättningar ger statistik för alla synliga "
+"komponenter och språk i en enda begäran."
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "JSON-mätvärden"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "CSV-mätvärden"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "OpenMetrics-mätvärden"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -13924,10 +13919,9 @@ msgid "Translation memory status"
 msgstr "Status för översättningsminnet"
 
 #: weblate/templates/memory/index.html:50
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "Antal poster för %(project)s"
+msgstr "Antal poster för %(workspace)s"
 
 #: weblate/templates/memory/index.html:52
 #, python-format
@@ -13987,7 +13981,11 @@ msgid_plural ""
 "Rebuilding in the background will replace %(count)s translation memory "
 "entries created from current translations."
 msgstr[0] ""
+"Ombyggnad i bakgrunden kommer att ersätta %(count)s översättningsminnespost "
+"som skapats från nuvarande översättningar."
 msgstr[1] ""
+"Ombyggnad i bakgrunden kommer att ersätta %(count)s "
+"översättningsminnesposter som skapats från nuvarande översättningar."
 
 #: weblate/templates/memory/index.html:118
 #: weblate/templates/memory/index.html:223
@@ -14001,19 +13999,21 @@ msgid_plural ""
 "entries created from current translations. Uploaded translation memory "
 "entries will be preserved."
 msgstr[0] ""
+"Ombyggnad i bakgrunden kommer att ersätta %(count)s översättningsminnespost "
+"som skapats från nuvarande översättningar. Uppladdade "
+"översättningsminnesposter kommer att bevaras."
 msgstr[1] ""
+"Ombyggnad i bakgrunden kommer att ersätta %(count)s "
+"översättningsminnesposter som skapats från nuvarande översättningar. "
+"Uppladdade översättningsminnesposter kommer att bevaras."
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Active: %(count)s"
 msgid "Active entries"
-msgstr "Aktiva: %(count)s"
+msgstr "Aktiva poster"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "Väntande sträng"
+msgstr "Väntande poster"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -14046,17 +14046,13 @@ msgstr "Automatisk rensning av översättningsminne"
 
 #: weblate/templates/memory/index.html:300 weblate/trans/models/project.py:289
 #: weblate/workspaces/models.py:105
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Use workspace translation memory"
-msgstr "Använd delat översättningsminne"
+msgstr "Använd arbetsområdets översättningsminne"
 
 #: weblate/templates/memory/index.html:314 weblate/trans/models/project.py:296
 #: weblate/workspaces/models.py:112
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to workspace translation memory"
-msgstr "Bidra till det delade översättningsminnet"
+msgstr "Bidra till arbetsområdets översättningsminne"
 
 #: weblate/templates/memory/index.html:330
 msgid "Number of shared entries in this Weblate instance"
