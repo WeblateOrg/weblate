@@ -20,9 +20,11 @@
         <td>{{ occurrence.language }}</td>
         <td>{{ occurrence.language_code }}</td>
         <td>
-          {% perm "translation.delete" occurrence.translation as user_can_delete_translation %}
-          {% if user_can_delete_translation %}
-            <a href="{{ occurrence.translation.get_absolute_url }}#organize">{% translate "Remove" %}</a>
+          {% if occurrence.translation %}
+            {% perm "translation.delete" occurrence.translation as user_can_delete_translation %}
+            {% if user_can_delete_translation %}
+              <a href="{{ occurrence.translation.get_absolute_url }}#organize">{% translate "Remove" %}</a>
+            {% endif %}
           {% endif %}
         </td>
       </tr>
