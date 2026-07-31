@@ -192,10 +192,12 @@ def sanitize_backend_error_message(
     *,
     repo_urls: Iterable[str | None] = (),
     extra_paths: Iterable[os.PathLike[str] | str | None] = (),
+    url_placeholder: str | None = None,
 ) -> str:
     """Strip internal transport and filesystem details from backend errors."""
     result = str(text)
-    url_placeholder = gettext("repository URL")
+    if url_placeholder is None:
+        url_placeholder = gettext("repository URL")
 
     for repo_url in repo_urls:
         if repo_url:

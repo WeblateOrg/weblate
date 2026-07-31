@@ -607,16 +607,21 @@ def resolve_ssh_destination(
         detail = (error.stderr or error.stdout or "").strip()
         if not detail:
             raise ValidationError(
-                gettext("Could not determine the effective SSH destination.")
+                gettext("Could not determine the effective SSH destination."),
+                code="ssh_destination_unresolved",
             ) from error
+        detail = cleanup_error_message(detail)
         raise ValidationError(
-            gettext("Could not determine the effective SSH destination: %s")
-            % cleanup_error_message(detail)
+            gettext("Could not determine the effective SSH destination: %s") % detail,
+            code="ssh_destination_unresolved_with_error",
+            params={"error": detail},
         ) from error
     except OSError as error:
+        detail = cleanup_error_message(str(error))
         raise ValidationError(
-            gettext("Could not determine the effective SSH destination: %s")
-            % cleanup_error_message(str(error))
+            gettext("Could not determine the effective SSH destination: %s") % detail,
+            code="ssh_destination_unresolved_with_error",
+            params={"error": detail},
         ) from error
 
     configuration: dict[str, str] = {}
@@ -629,17 +634,20 @@ def resolve_ssh_destination(
     effective_port = configuration.get("port")
     if not effective_hostname or not effective_port:
         raise ValidationError(
-            gettext("Could not determine the effective SSH destination.")
+            gettext("Could not determine the effective SSH destination."),
+            code="ssh_destination_unresolved",
         )
     try:
         parsed_port = int(effective_port)
     except ValueError as error:
         raise ValidationError(
-            gettext("Could not determine the effective SSH destination.")
+            gettext("Could not determine the effective SSH destination."),
+            code="ssh_destination_unresolved",
         ) from error
     if not 0 < parsed_port <= 65535:
         raise ValidationError(
-            gettext("Could not determine the effective SSH destination.")
+            gettext("Could not determine the effective SSH destination."),
+            code="ssh_destination_unresolved",
         )
     return effective_hostname, parsed_port
 

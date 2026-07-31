@@ -643,7 +643,9 @@ def repository_alerts(threshold: int = settings.REPOSITORY_ALERT_THRESHOLD) -> N
             update_repository_alerts(component, threshold)
         except RepositoryError as error:
             report_error("Could not check repository status", project=component.project)
-            component.add_alert("MergeFailure", error=component.error_text(error))
+            component.add_alert(
+                "MergeFailure", **component.get_repository_alert_details(error)
+            )
 
 
 def update_repository_alerts(component: Component, threshold: int) -> None:

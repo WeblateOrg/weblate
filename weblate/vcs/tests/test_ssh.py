@@ -4,12 +4,14 @@
 
 import os
 import shutil
+import subprocess  # ruff: ignore[suspicious-subprocess-import]
 from pathlib import Path
 from time import time
 from types import SimpleNamespace
 from unittest.mock import patch
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.test.utils import override_settings
 
@@ -131,6 +133,47 @@ class SSHTest(TestCase):
                 "--",
                 "git.example",
             ],
+        )
+
+    def test_resolve_effective_destination_failure_with_detail(self) -> None:
+        process_error = subprocess.CalledProcessError(
+            255,
+            ["ssh", "-G"],
+            stderr="Invalid SSH configuration",
+        )
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", side_effect=process_error),
+            self.assertRaises(ValidationError) as raised,
+        ):
+            resolve_ssh_destination("git.example", "git", None)
+
+        self.assertEqual(raised.exception.code, "ssh_destination_unresolved_with_error")
+        self.assertEqual(
+            raised.exception.params, {"error": "Invalid SSH configuration"}
+        )
+        self.assertEqual(
+            raised.exception.messages,
+            [
+                "Could not determine the effective SSH destination: Invalid SSH configuration"
+            ],
+        )
+
+    def test_resolve_effective_destination_failure_without_detail(self) -> None:
+        with (
+            patch.object(SSH_WRAPPER, "create"),
+            patch(
+                "weblate.vcs.ssh.subprocess.run",
+                return_value=SimpleNamespace(stdout=""),
+            ),
+            self.assertRaises(ValidationError) as raised,
+        ):
+            resolve_ssh_destination("git.example", "git", None)
+
+        self.assertEqual(raised.exception.code, "ssh_destination_unresolved")
+        self.assertEqual(
+            raised.exception.messages,
+            ["Could not determine the effective SSH destination."],
         )
 
     def test_allow_admin_ssh_proxy_routing(self) -> None:

@@ -921,7 +921,10 @@ def resolve_repo_hostname(
     policy_hostname = policy_hostname or hostname
     if settings.VCS_ALLOW_HOSTS and policy_hostname not in settings.VCS_ALLOW_HOSTS:
         raise ValidationError(
-            gettext("Fetching VCS repository from %s is not allowed.") % policy_hostname
+            gettext("Fetching VCS repository from %s is not allowed.")
+            % policy_hostname,
+            code="repository_host_not_allowed",
+            params={"hostname": policy_hostname},
         )
     allow_private_targets = (
         policy_hostname in settings.VCS_ALLOW_HOSTS or not settings.VCS_RESTRICT_PRIVATE
@@ -951,7 +954,10 @@ def resolve_repo_url(
         if os.path.isabs(url) or url.startswith(("./", "../")):
             if "file" not in settings.VCS_ALLOW_SCHEMES:
                 raise ValidationError(
-                    gettext("Fetching VCS repository using %s is not allowed.") % "file"
+                    gettext("Fetching VCS repository using %s is not allowed.")
+                    % "file",
+                    code="repository_scheme_not_allowed",
+                    params={"scheme": "file"},
                 )
             return None
         # assume all links without schema are ssh links
@@ -960,7 +966,9 @@ def resolve_repo_url(
             parsed = urlparse(normalized_url)
         except ValueError as error:
             raise ValidationError(
-                gettext("Could not parse URL: {}").format(error)
+                gettext("Could not parse URL: {}").format(error),
+                code="url_parse_failed",
+                params={"error": str(error)},
             ) from error
 
     # Allow Weblate internal URLs
@@ -970,7 +978,9 @@ def resolve_repo_url(
     # Filter out schemes early
     if parsed.scheme not in settings.VCS_ALLOW_SCHEMES:
         raise ValidationError(
-            gettext("Fetching VCS repository using %s is not allowed.") % parsed.scheme
+            gettext("Fetching VCS repository using %s is not allowed.") % parsed.scheme,
+            code="repository_scheme_not_allowed",
+            params={"scheme": parsed.scheme},
         )
 
     # URL validation using for http (the URL validator is too strict to handle others)
@@ -983,14 +993,16 @@ def resolve_repo_url(
     if parsed.scheme == "file":
         if hostname is None:
             return None
-        raise ValidationError(gettext("Could not parse URL."))
+        raise ValidationError(gettext("Could not parse URL."), code="url_parse_invalid")
 
     if hostname is None:
-        raise ValidationError(gettext("Could not parse URL."))
+        raise ValidationError(gettext("Could not parse URL."), code="url_parse_invalid")
 
     if settings.VCS_ALLOW_HOSTS and hostname not in settings.VCS_ALLOW_HOSTS:
         raise ValidationError(
-            gettext("Fetching VCS repository from %s is not allowed.") % hostname
+            gettext("Fetching VCS repository from %s is not allowed.") % hostname,
+            code="repository_host_not_allowed",
+            params={"hostname": hostname},
         )
 
     allow_private_targets = (
@@ -1001,7 +1013,9 @@ def resolve_repo_url(
         explicit_port = None if implicit_ssh else parsed.port
     except ValueError as error:
         raise ValidationError(
-            gettext("Could not parse URL: {}").format(error)
+            gettext("Could not parse URL: {}").format(error),
+            code="url_parse_failed",
+            params={"error": str(error)},
         ) from error
     port = explicit_port
     if port is None:

@@ -26,7 +26,7 @@ from django.utils import timezone
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.utils.requests import async_fetch_url
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryInternalError
 from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
 
@@ -1044,9 +1044,7 @@ class GithubAppRepository(GithubRepository):
             or self.component.project_id is None
             or self.component.project.workspace_id is None
         ):
-            raise RepositoryError(
-                0, gettext("GitHub App components require a project with a workspace.")
-            )
+            raise RepositoryInternalError(0, "github_app_workspace_required")
         return self.component.project.workspace
 
     def push(self, branch: str) -> None:
@@ -1084,11 +1082,15 @@ class GithubAppRepository(GithubRepository):
         except GitHubAppNotConfiguredError:
             return None
         except ValueError as error:
-            msg = gettext("Invalid GitHub App installation ID.")
-            raise RepositoryError(0, msg) from error
+            raise RepositoryInternalError(
+                0, "github_app_installation_invalid"
+            ) from error
         except httpx2.HTTPError as error:
-            msg = gettext("Could not obtain GitHub App access token: %s") % error
-            raise RepositoryError(0, msg) from error
+            raise RepositoryInternalError(
+                0,
+                "github_app_token_failed",
+                params={"error": str(error)},
+            ) from error
 
         return {
             "username": "x-access-token",
@@ -1102,9 +1104,7 @@ class GithubAppRepository(GithubRepository):
             repo, workspace=workspace
         )
         if app_creds is None:
-            raise RepositoryError(
-                0, gettext("No Weblate GitHub app installation available.")
-            )
+            raise RepositoryInternalError(0, "github_app_installation_missing")
 
         environment = super()._get_auth_environment(repo)
         environment.update(
@@ -1114,23 +1114,17 @@ class GithubAppRepository(GithubRepository):
 
     def get_auth_environment(self) -> dict[str, str]:
         if self.component is None:
-            raise RepositoryError(
-                0, gettext("GitHub App components require a project with a workspace.")
-            )
+            raise RepositoryInternalError(0, "github_app_workspace_required")
         return self._get_auth_environment(self.component.repo)
 
     @classmethod
     def get_remote_branch(cls, _repo: str) -> str:
-        raise RepositoryError(
-            0, gettext("GitHub App repositories must be imported with a branch.")
-        )
+        raise RepositoryInternalError(0, "github_app_branch_required")
 
     def _resolve_github_app_token(self, _hostname: str) -> dict[str, str] | None:
         """Resolve an installation access token for the parsed repository."""
         if self.component is None:
-            raise RepositoryError(
-                0, gettext("GitHub App components require a project with a workspace.")
-            )
+            raise RepositoryInternalError(0, "github_app_workspace_required")
         workspace = self._get_component_workspace()
         return GithubAppRepository._resolve_github_app_credentials_for_repo(
             self.component.repo, workspace=workspace
@@ -1139,7 +1133,9 @@ class GithubAppRepository(GithubRepository):
     def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
         app_creds = self._resolve_github_app_token(hostname)
         if app_creds is None:
-            raise RepositoryError(
-                0, f"No Weblate GitHub app installation available for {hostname}"
+            raise RepositoryInternalError(
+                0,
+                "github_app_installation_missing_for_host",
+                params={"hostname": hostname},
             )
         return app_creds

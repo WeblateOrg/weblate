@@ -24,6 +24,16 @@
   </p>
 {% endif %}
 
+{% if analysis.github_pull_request_creation_restricted %}
+  <p>
+    {% if analysis.github_pull_request_creation_restricted_username %}
+      {% blocktranslate with username=analysis.github_pull_request_creation_restricted_username %}The GitHub repository allows only collaborators to create pull requests. Ask a repository maintainer to allow pull requests from all users or add <code>{{ username }}</code> as a collaborator.{% endblocktranslate %}
+    {% else %}
+      {% translate "The GitHub repository allows only collaborators to create pull requests. Ask a repository maintainer to allow pull requests from all users." %}
+    {% endif %}
+  </p>
+{% endif %}
+
 {% if analysis.temporary %}
   <p>{% translate "The upstream repository could not be temporarily accessed. Please try it again later." %}</p>
 {% endif %}

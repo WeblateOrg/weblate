@@ -29,6 +29,8 @@ from django.core.cache import cache
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
+from django.utils.translation import gettext
+from django.utils.translation import override as translation_override
 
 from weblate.trans import defaults
 from weblate.trans.models import Component, Project
@@ -46,6 +48,7 @@ from weblate.vcs.base import (
     RepositorySymlinkError,
     RepositoryValidationError,
     get_config_check_cache_key,
+    get_repository_error_diagnoses,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
     parse_commit_date,
@@ -275,6 +278,117 @@ class RepositoryTest(SimpleTestCase):
         error = RepositoryError(-1, "Can not switch subversion URL")
 
         self.assertEqual(str(error), "Can not switch subversion URL (-1)")
+
+    def test_repository_error_diagnoses(self) -> None:
+        cases = (
+            ("The requested URL returned error: 301", "repository_redirect"),
+            ("fatal: terminal prompts disabled", "missing_credentials"),
+            ("rejected: fetch first", "branch_behind"),
+            ("Repository not found.", "repository_not_found"),
+            ("push denied to user", "repository_permission"),
+            ("push prohibited by Gerrit", "gerrit_permission"),
+            ("Connection timed out", "temporary_failure"),
+            ("Host key verification failed", "ssh_host_key_unverified"),
+            (
+                (
+                    "REMOTE HOST IDENTIFICATION HAS CHANGED!\n"
+                    "Host key verification failed."
+                ),
+                "ssh_host_key_mismatch",
+            ),
+        )
+        for message, expected in cases:
+            with self.subTest(message=message):
+                self.assertIn(
+                    expected,
+                    {
+                        diagnosis["code"]
+                        for diagnosis in get_repository_error_diagnoses(message)
+                    },
+                )
+
+    def test_repository_redirect_error_is_not_localized(self) -> None:
+        with translation_override("fr"):
+            error = RepositoryRedirectError(
+                "https://example.com/old",
+                "https://example.com/new",
+                301,
+            )
+
+        self.assertEqual(
+            error.get_message(),
+            "The repository URL permanently redirects to a canonical URL.",
+        )
+        self.assertEqual(error.diagnoses, [{"code": "repository_redirect"}])
+
+    def test_repository_validation_error_is_structured(self) -> None:
+        with (
+            translation_override("fr"),
+            self.assertRaises(RepositoryValidationError) as raised,
+        ):
+            GitRepository.validate_remote_url("https://exa mple.com")
+
+        self.assertEqual(raised.exception.code, "repository_url_invalid")
+        self.assertEqual(raised.exception.params, {})
+        self.assertEqual(raised.exception.get_message(), "Enter a valid URL.")
+        with translation_override("fr"):
+            # spellchecker:off
+            self.assertEqual(
+                raised.exception.get_message(gettext),
+                "Saisissez une URL valide.",  # codespell:ignore valide
+            )
+            # spellchecker:on
+
+    @override_settings(VCS_ALLOW_SCHEMES={"https"})
+    def test_eager_repository_validation_error_is_structured(self) -> None:
+        with (
+            translation_override("fr"),
+            self.assertRaises(RepositoryValidationError) as raised,
+        ):
+            GitRepository.validate_remote_url("ftp://example.com/repository")
+
+        self.assertEqual(raised.exception.code, "repository_url_scheme_not_allowed")
+        self.assertEqual(raised.exception.params, {"scheme": "ftp"})
+        self.assertEqual(
+            raised.exception.get_message(),
+            "Fetching VCS repository using ftp is not allowed.",
+        )
+        self.assertEqual(
+            raised.exception.get_message(lambda message: f"Translated: {message}"),
+            "Translated: Fetching VCS repository using ftp is not allowed.",
+        )
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_ssh_destination_validation_error_is_structured(self) -> None:
+        process_error = subprocess.CalledProcessError(
+            255,
+            ["ssh", "-G"],
+            stderr="Invalid SSH configuration",
+        )
+        with (
+            translation_override("fr"),
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", side_effect=process_error),
+            self.assertRaises(RepositoryValidationError) as raised,
+        ):
+            GitRepository.validate_remote_url("ssh://git@git.example/repository")
+
+        self.assertEqual(
+            raised.exception.code,
+            "repository_ssh_destination_unresolved_with_error",
+        )
+        self.assertEqual(
+            raised.exception.params,
+            {"error": "Invalid SSH configuration"},
+        )
+        self.assertEqual(
+            raised.exception.get_message(),
+            "Could not determine the effective SSH destination: Invalid SSH configuration",
+        )
 
     def test_popen_retry_does_not_duplicate_command(self) -> None:
         failed_process = subprocess.CompletedProcess(
@@ -2296,12 +2410,20 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with tempfile.TemporaryDirectory() as tempdir:
             self.create_unrelated_git_repository(tempdir)
 
-            with self.assertRaisesRegex(
-                RepositoryError, "does not share common history"
-            ):
+            with self.assertRaises(RepositoryValidationError) as raised:
                 self.repo.validate_remote_compatibility(
                     self.format_local_path(tempdir), self._remote_branch
                 )
+
+        self.assertEqual(raised.exception.code, "repository_remote_branch_unrelated")
+        self.assertEqual(
+            raised.exception.get_message(),
+            "Remote branch does not share common history with the existing repository.",
+        )
+        with translation_override("cs"):
+            self.assertNotEqual(
+                raised.exception.get_message(gettext), raised.exception.get_message()
+            )
 
     def test_validate_remote_compatibility_rejects_inconclusive_shallow_history(
         self,
@@ -2314,12 +2436,21 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with tempfile.TemporaryDirectory() as tempdir:
             self.create_unrelated_git_repository(tempdir)
 
-            with self.assertRaisesRegex(
-                RepositoryError, "could not be verified against the shallow"
-            ):
+            with self.assertRaises(RepositoryValidationError) as raised:
                 self.repo.validate_remote_compatibility(
                     self.format_local_path(tempdir), self._remote_branch
                 )
+
+        self.assertEqual(raised.exception.code, "repository_remote_branch_shallow")
+        self.assertEqual(
+            raised.exception.get_message(),
+            "Remote branch could not be verified against the shallow existing "
+            "repository.",
+        )
+        with translation_override("cs"):
+            self.assertNotEqual(
+                raised.exception.get_message(gettext), raised.exception.get_message()
+            )
 
     def test_validate_remote_compatibility_allows_shallow_fork(self) -> None:
         if self._class is not GitRepository:
@@ -3340,6 +3471,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         pr_status: int = 200,
         pr_body: str | None = None,
         pr_content_type: str | None = None,
+        pull_request_creation_policy: str = "all",
     ) -> None:
         """
         Mock response helper function.
@@ -3359,6 +3491,13 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             "PUT",
             "https://api.github.com/repos/test/test/actions/permissions",
             status_code=204,
+        )
+        http_mock.register(
+            "GET",
+            "https://api.github.com/repos/WeblateOrg/test",
+            json={
+                "pull_request_creation_policy": pull_request_creation_policy,
+            },
         )
         if pr_body is None:
             http_mock.register(
@@ -3553,6 +3692,85 @@ class VCSGitHubTest(VCSGitUpstreamTest):
                 self.assertIn(str(status), message)
                 self.assertIn("Some error", message)
                 self.assertNotIn("Please retry later.", message)
+                self.assertEqual(error.exception.diagnoses, [])
+
+    @http_mock.activate
+    def test_pull_request_creation_restricted(self) -> None:
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            self.mock_responses(
+                pr_status=404,
+                pr_response={"message": "Not Found"},
+                pull_request_creation_policy="collaborators_only",
+            )
+
+            with self.assertRaises(RepositoryError) as error:
+                super().test_push("")
+
+        message = error.exception.get_message()
+        self.assertIn("404 Not Found", message)
+        self.assertEqual(
+            error.exception.diagnoses,
+            [
+                {
+                    "code": "github_pull_request_creation_restricted",
+                    "params": {"username": "test"},
+                }
+            ],
+        )
+        http_mock.assert_call_count("https://api.github.com/repos/WeblateOrg/test", 1)
+
+    @http_mock.activate
+    def test_pull_request_creation_policy_not_queried_for_other_errors(self) -> None:
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            self.mock_responses(
+                pr_status=403,
+                pr_response={"message": "Forbidden"},
+                pull_request_creation_policy="collaborators_only",
+            )
+
+            with self.assertRaises(RepositoryError) as error:
+                super().test_push("")
+
+        self.assertEqual(error.exception.diagnoses, [])
+        http_mock.assert_call_count("https://api.github.com/repos/WeblateOrg/test", 0)
+
+    def test_pull_request_creation_policy_lookup_failure(self) -> None:
+        repository = SimpleNamespace(
+            request=MagicMock(side_effect=RepositoryError(0, "API failed"))
+        )
+
+        diagnoses = GithubRepository.get_pull_request_failure_diagnoses(
+            repository,  # type: ignore[arg-type]
+            {"url": "https://api.github.com/repos/WeblateOrg/test"},
+            SimpleNamespace(status_code=404),  # type: ignore[arg-type]
+        )
+
+        self.assertEqual(diagnoses, [])
+
+    def test_pull_request_creation_restricted_for_github_app(self) -> None:
+        credentials = self.repo.get_credentials()
+        credentials["github_app"] = True
+        credentials["username"] = "x-access-token"
+        with patch.object(
+            self.repo,
+            "request",
+            return_value=(
+                {"pull_request_creation_policy": "collaborators_only"},
+                SimpleNamespace(is_success=True),
+                "",
+            ),
+        ):
+            diagnoses = self.repo.get_pull_request_failure_diagnoses(
+                credentials,
+                SimpleNamespace(status_code=404),  # type: ignore[arg-type]
+            )
+
+        self.assertEqual(
+            diagnoses,
+            [{"code": "github_pull_request_creation_restricted"}],
+        )
 
     @http_mock.activate
     def test_pull_request_exists(self, branch: str = "") -> None:

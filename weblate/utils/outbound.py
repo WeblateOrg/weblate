@@ -302,7 +302,9 @@ def resolve_runtime_hostname(
         )
     except OSError as error:
         raise ValidationError(
-            gettext("Could not resolve the URL domain: {}").format(error)
+            gettext("Could not resolve the URL domain: {}").format(error),
+            code="url_unresolved_with_error",
+            params={"error": str(error)},
         ) from error
 
     return _validate_runtime_addresses(
@@ -326,7 +328,9 @@ async def async_resolve_runtime_hostname(
         )
     except OSError as error:
         raise ValidationError(
-            gettext("Could not resolve the URL domain: {}").format(error)
+            gettext("Could not resolve the URL domain: {}").format(error),
+            code="url_unresolved_with_error",
+            params={"error": str(error)},
         ) from error
 
     return _validate_runtime_addresses(
@@ -352,7 +356,9 @@ def _prepare_runtime_hostname(
         return idna_encode(normalized, uts46=True).decode("ascii"), ()
     except (IDNAError, UnicodeError) as error:
         raise ValidationError(
-            gettext("Could not resolve the URL domain: {}").format(error)
+            gettext("Could not resolve the URL domain: {}").format(error),
+            code="url_unresolved_with_error",
+            params={"error": str(error)},
         ) from error
 
 
@@ -366,7 +372,9 @@ def _validate_runtime_addresses(
             validate_runtime_ip(address, allow_private_targets=allow_private_targets)
             result.append(address)
     if not result:
-        raise ValidationError(gettext("Could not resolve the URL domain."))
+        raise ValidationError(
+            gettext("Could not resolve the URL domain."), code="url_unresolved"
+        )
     return tuple(result)
 
 

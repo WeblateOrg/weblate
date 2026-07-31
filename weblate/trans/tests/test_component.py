@@ -3438,13 +3438,16 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
         )
 
     def test_repo_needs_push_host_key_mismatch_skips_tofu_retry(self) -> None:
+        error = RepositoryError(255, HOST_KEY_MISMATCH_ERROR)
         component = SimpleNamespace(
-            repository=Mock(
-                needs_push=Mock(
-                    side_effect=RepositoryError(255, HOST_KEY_MISMATCH_ERROR)
-                )
-            ),
+            repository=Mock(needs_push=Mock(side_effect=error)),
             error_text=Mock(return_value=HOST_KEY_MISMATCH_ERROR),
+            get_repository_alert_details=Mock(
+                return_value={
+                    "error": HOST_KEY_MISMATCH_ERROR,
+                    "diagnoses": [{"code": "ssh_host_key_mismatch"}],
+                }
+            ),
             add_alert=Mock(),
             add_ssh_host_key=Mock(),
             push_branch="main",
@@ -3457,8 +3460,11 @@ class ComponentHostKeyHandlingTest(SimpleTestCase):
             )
 
         component.add_ssh_host_key.assert_not_called()
+        component.get_repository_alert_details.assert_called_once_with(error)
         component.add_alert.assert_called_once_with(
-            "PushFailure", error=HOST_KEY_MISMATCH_ERROR
+            "PushFailure",
+            error=HOST_KEY_MISMATCH_ERROR,
+            diagnoses=[{"code": "ssh_host_key_mismatch"}],
         )
         mocked_report.assert_called_once()
 
