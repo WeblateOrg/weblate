@@ -20,9 +20,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 08:23+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-31 10:28+0000\n"
+"Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -434,7 +433,7 @@ msgstr "Heslo změněno."
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "U {scope} na adrese {path} došlo k překročení limitu požadavků."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -5061,16 +5060,12 @@ msgid "Translation should not exceed given length."
 msgstr "Délka překladu by neměla překročit zadané omezení."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Maximální velikost překladu"
+msgstr "Maximální počet řádků"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "Délka překladu by neměla překročit zadané omezení."
+msgstr "Překlad by neměl překročit stanovený počet řádků."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -6198,13 +6193,12 @@ msgid "Source string length"
 msgstr "Délka zdrojového řetězce"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"Zdrojový řetězec je příliš dlouhý a nepřesahuje nastavenou maximální délku."
+"Zdrojový řetězec se blíží nastavené maximální délce překladů nebo ji "
+"překračuje."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -8083,26 +8077,25 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Položky překladové paměti vytvořené na základě aktuálních překladů byly "
+"odstraněny a budou znovu vytvořeny na pozadí. Nahrané položky zůstaly "
+"zachovány."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
-"Záznamy byly odstraněny a překladová paměť bude znovu vytvořena na pozadí."
+"Položky překladové paměti vytvořené na základě aktuálních překladů byly "
+"odstraněny a budou znovu vytvořeny na pozadí."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Odstranit zvolené položky v překladové paměti"
-msgstr[1] "Odstranit zvolené položky v překladové paměti"
-msgstr[2] "Odstranit zvolené položky v překladové paměti"
+msgstr[0] "Byl zpracován %(count)d aktivní záznam v překladové paměti."
+msgstr[1] "Byly zpracovány %(count)d aktivn záznamy v překladové paměti."
+msgstr[2] "Bylo zpracováno %(count)d aktivních záznamů v překladové paměti."
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -9885,6 +9878,8 @@ msgstr "Vypnout přihlašování heslem pro uživatele."
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
 msgstr ""
+"Ponechte tuto možnost povolenou, abyste mohli zrušit platnost aktuálního "
+"klíče API a vygenerovat nový."
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -10709,10 +10704,8 @@ msgstr "Spravovat sledované projekty"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "workspace"
 msgid "My workspaces"
-msgstr "pracovní prostor"
+msgstr "Moje pracovní prostory"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
