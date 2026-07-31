@@ -5,6 +5,7 @@ Weblate 2026.8
 
 .. rubric:: New features
 
+* Added inheritance support for enforced checks, allowing them to be configured at workspace, project, category, or component level.
 * Workspaces now provide aggregate translation statistics and historical metrics.
 * Added :ref:`project-level translation metrics <monitoring-translation-progress>` in JSON, CSV, and OpenMetrics formats.
 * :ref:`Workspaces <workspaces>` now provide a permission-filtered :guilabel:`My workspaces` list, archive downloads, and management of workspace translation memory.
