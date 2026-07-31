@@ -213,6 +213,35 @@ def get_glossary_permission_denial(permission: str) -> str:
     return ""
 
 
+@register_perm("meta:unit.direct_edit")
+def check_direct_editing(
+    user: User,
+    permission: str,
+    obj: Unit
+    | Translation
+    | ProjectLanguage
+    | CategoryLanguage
+    | Component
+    | Category
+    | Project,
+) -> bool | PermissionResult:
+    if isinstance(obj, Unit):
+        obj = obj.translation
+    if not isinstance(obj, Translation | ProjectLanguage | CategoryLanguage):
+        return True
+    if not obj.restrict_direct_editing:
+        return True
+    if check_permission(user, "unit.override", obj):
+        return True
+    if obj.enable_suggestions:
+        return Denied(
+            gettext(
+                "Direct editing is restricted for this language. Add a suggestion instead."
+            )
+        )
+    return Denied(gettext("Direct editing is restricted for this language."))
+
+
 def check_permission(
     user: User,
     permission: str,
@@ -343,6 +372,7 @@ def check_can_edit(
     | Project,
     *,
     is_vote: bool = False,
+    direct_edit: bool = True,
     allow_limited_without_language: bool | None = None,
 ) -> bool | PermissionResult:
     translation = component = None
@@ -441,6 +471,13 @@ def check_can_edit(
         and not check_permission(user, "unit.template", obj)
     ):
         return Denied(gettext("You do not have permission to edit source strings."))
+
+    if direct_edit and not (
+        direct_edit_permission := check_direct_editing(
+            user, "meta:unit.direct_edit", obj
+        )
+    ):
+        return direct_edit_permission
 
     # Special checks for voting
     if is_vote and translation and not translation.suggestion_voting:
@@ -680,7 +717,12 @@ def check_autotranslate(
         or translation.is_readonly
     ):
         return False
-    return check_can_edit(user, permission, translation)
+    return check_can_edit(
+        user,
+        permission,
+        translation,
+        direct_edit=permission != "translation.auto",
+    )
 
 
 @register_perm("suggestion.vote")
@@ -689,7 +731,7 @@ def check_suggestion_vote(
 ) -> bool | PermissionResult:
     if isinstance(obj, Unit):
         obj = obj.translation
-    return check_can_edit(user, permission, obj, is_vote=True)
+    return check_can_edit(user, permission, obj, is_vote=True, direct_edit=False)
 
 
 @register_perm("suggestion.add")
@@ -931,15 +973,21 @@ def check_upload(
             )
         if obj.component.is_glossary:
             permission = "glossary.upload"
-        return check_can_edit(user, permission, obj) and (
+        return check_can_edit(user, permission, obj, direct_edit=False) and (
             # Normal upload
             check_edit_approved(user, "unit.edit", obj)
             # Suggestion upload
             or check_suggestion_add(user, "suggestion.add", obj)
             # Add upload
-            or check_suggestion_add(user, "unit.add", obj)
+            or (
+                check_direct_editing(user, "meta:unit.direct_edit", obj)
+                and check_suggestion_add(user, "unit.add", obj)
+            )
             # Source upload
-            or obj.is_source
+            or (
+                obj.is_source
+                and check_direct_editing(user, "meta:unit.direct_edit", obj)
+            )
         )
 
     return _has_upload_child(user, obj)

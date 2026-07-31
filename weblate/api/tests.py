@@ -81,6 +81,7 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.utils import (
@@ -8472,6 +8473,79 @@ class ComponentAPITest(APIBaseTest):
             },
         )
 
+    def test_create_translation_from_component_restrict_direct_editing(self) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        source = self.create_po_new_base(name="source", project=self.component.project)
+        language = Language.objects.get(code="fa")
+        source_translation = source.add_new_language(language, None)
+        self.assertIsNotNone(source_translation)
+        WorkflowSetting.objects.create(
+            project=target.project,
+            language=language,
+            restrict_direct_editing=True,
+        )
+        self.grant_perm_to_user(
+            "translation.auto",
+            group_name="Target automatic translation",
+            component=target,
+        )
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Target component editing",
+            component=target,
+        )
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Source component editing",
+            component=source,
+        )
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.user.has_perm("translation.auto", target))
+        with patch.object(AutoTranslate, "perform") as perform:
+            response = self.do_request(
+                "api:component-translations",
+                {"project__slug": target.project.slug, "slug": target.slug},
+                method="post",
+                code=403,
+                format="json",
+                request={
+                    "language_code": "fa",
+                    "from_component": [source.full_slug],
+                },
+            )
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Direct editing is restricted for this language. Add a suggestion instead.",
+        )
+        perform.assert_not_called()
+        self.assertFalse(target.translation_set.filter(language_code="fa").exists())
+
+        self.grant_perm_to_user(
+            "unit.override",
+            group_name="Target workflow override",
+            component=target,
+        )
+        self.user.clear_permissions_cache()
+        with patch.object(
+            AutoTranslate, "perform", return_value="Automatic translation completed"
+        ) as perform:
+            self.do_request(
+                "api:component-translations",
+                {"project__slug": target.project.slug, "slug": target.slug},
+                method="post",
+                code=201,
+                format="json",
+                request={
+                    "language_code": "fa",
+                    "from_component": [source.full_slug],
+                },
+            )
+
+        perform.assert_called_once()
+        self.assertTrue(target.translation_set.filter(language_code="fa").exists())
+
     def test_create_translation_from_component_allows_shared_tm_source_without_edit(
         self,
     ) -> None:
@@ -11196,6 +11270,55 @@ class TranslationAPITest(APIBaseTest):
 
     def test_autotranslate_json(self) -> None:
         self.test_autotranslate("json")
+
+    def test_autotranslate_restrict_direct_editing(self) -> None:
+        translation = Translation.objects.get(**self.translation_kwargs)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=translation.language,
+            restrict_direct_editing=True,
+        )
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Restricted automatic translation",
+            language_selection=SELECTION_ALL,
+        )
+        group.components.add(self.component)
+        group.roles.add(
+            Role.objects.get(name="Translate"),
+            Role.objects.get(name="Automatic translation"),
+        )
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        translation = Translation.objects.get(pk=translation.pk)
+        self.assertTrue(self.user.has_perm("translation.auto", translation))
+        self.assertFalse(self.user.has_perm("meta:unit.direct_edit", translation))
+        self.assertTrue(self.user.has_perm("suggestion.add", translation))
+
+        request = {
+            "q": "state:<translated",
+            "auto_source": "others",
+            "threshold": "100",
+        }
+        with patch.object(
+            AutoTranslate, "perform", return_value="Automatic translation completed"
+        ) as perform:
+            self.do_request(
+                "api:translation-autotranslate",
+                self.translation_kwargs,
+                method="post",
+                request={"mode": "translate", **request},
+                code=403,
+            )
+            self.do_request(
+                "api:translation-autotranslate",
+                self.translation_kwargs,
+                method="post",
+                request={"mode": "suggest", **request},
+                code=200,
+            )
+        perform.assert_called_once()
 
     def test_add_monolingual(self) -> None:
         component = self.create_acl()

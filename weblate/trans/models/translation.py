@@ -1606,6 +1606,12 @@ class Translation(
         return self.component.enable_suggestions
 
     @property
+    def restrict_direct_editing(self) -> bool:
+        if self.workflow_settings is not None:
+            return self.workflow_settings.restrict_direct_editing
+        return False
+
+    @property
     def suggestion_voting(self):
         if self.workflow_settings is not None:
             return self.workflow_settings.suggestion_voting

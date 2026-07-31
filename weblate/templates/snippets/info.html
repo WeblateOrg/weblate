@@ -93,7 +93,19 @@
               <td colspan="2" class="full-cell">
                 <ul>
                   {% get_workflow_flags translation component as workflow_flags %}
-                  {% if workflow_flags.suggestion_voting and workflow_flags.suggestion_autoaccept %}
+                  {% if workflow_flags.restrict_direct_editing %}
+                    <li>{% translate "Direct translation editing is restricted to privileged users." %}</li>
+                    {% if workflow_flags.enable_suggestions %}
+                      <li>{% translate "Translation suggestions can be made." %}</li>
+                    {% else %}
+                      <li>{% translate "Translation suggestions are turned off." %}</li>
+                    {% endif %}
+                    {% if workflow_flags.suggestion_voting and workflow_flags.suggestion_autoaccept %}
+                      <li>
+                        {% blocktranslate count count=workflow_flags.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktranslate %}
+                      </li>
+                    {% endif %}
+                  {% elif workflow_flags.suggestion_voting and workflow_flags.suggestion_autoaccept %}
                     <li>{% translate "Translations can only be done through suggestions." %}</li>
                     <li>
                       {% blocktranslate count count=workflow_flags.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktranslate %}

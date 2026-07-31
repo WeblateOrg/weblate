@@ -1204,6 +1204,12 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
         return True
 
     @property
+    def restrict_direct_editing(self) -> bool:
+        if self.workflow_settings is not None:
+            return self.workflow_settings.restrict_direct_editing
+        return False
+
+    @property
     def is_readonly(self) -> bool:
         return False
 
@@ -1388,6 +1394,12 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
         return any(
             translation.enable_suggestions for translation in self.translation_set
         )
+
+    @property
+    def restrict_direct_editing(self) -> bool:
+        if self.workflow_settings is not None:
+            return self.workflow_settings.restrict_direct_editing
+        return False
 
     @property
     def is_readonly(self) -> bool:

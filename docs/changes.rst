@@ -14,6 +14,7 @@ Weblate 2026.8
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
 * Added API support for reading and updating :ref:`user-profile` preferences. See :ref:`api-users` endpoint.
 * Added :ref:`check-max-lines` and :ref:`check-asciidoc-markup` quality checks for limiting the number of translation lines and validating AsciiDoc strings.
+* Added :ref:`workflow-language-restrictions`, including per-language control for restricting direct translation editing to privileged users.
 * Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`.
 * Weblate is now available in Lao language.
 

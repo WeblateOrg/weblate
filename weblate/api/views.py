@@ -142,7 +142,7 @@ from weblate.machinery.models import validate_service_configuration
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.autotranslate import AutoTranslate
+from weblate.trans.autotranslate import AutoTranslate, check_auto_translate_permission
 from weblate.trans.backups import list_backups
 from weblate.trans.exceptions import (
     FailedCommitError,
@@ -2808,6 +2808,18 @@ class ComponentViewSet(
                 message = f"Could not add {language_code!r}!"
                 raise ValidationError({"language_code": message}) from error
 
+            if source_components:
+                auto_permission = check_auto_translate_permission(
+                    request.user,
+                    Translation(component=obj, language=language),
+                    "translate",
+                )
+                if not auto_permission:
+                    self.permission_denied(
+                        request,
+                        getattr(auto_permission, "reason", "Can not auto translate"),
+                    )
+
             translation = obj.add_new_language(language, request)
             if translation is None:
                 storage = get_messages(request)
@@ -3613,6 +3625,15 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                     else:
                         errors[field.name] = str(error)
             raise ValidationError(errors)
+
+        auto_permission = check_auto_translate_permission(
+            request.user, translation, autoform.cleaned_data["mode"]
+        )
+        if not auto_permission:
+            self.permission_denied(
+                request,
+                getattr(auto_permission, "reason", "Can not auto translate"),
+            )
 
         auto = AutoTranslate(
             user=get_request_user(request),
