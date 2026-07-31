@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 10:28+0000\n"
+"PO-Revision-Date: 2026-07-31 10:54+0000\n"
 "Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -11672,18 +11672,20 @@ msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
 msgstr ""
+"Metriky překladu projektu poskytují statistické údaje o všech viditelných "
+"komponentách a jazycích v rámci jediného dotazu."
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "Metriky JSON"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "Metriky CSV"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "Metriky OpenMetrics"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -13922,10 +13924,9 @@ msgid "Translation memory status"
 msgstr "Stav překladové paměti"
 
 #: weblate/templates/memory/index.html:50
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "Počet položek pro %(project)s"
+msgstr "Počet záznamů pro %(workspace)s"
 
 #: weblate/templates/memory/index.html:52
 #, python-format
@@ -13984,8 +13985,14 @@ msgid_plural ""
 "Rebuilding in the background will replace %(count)s translation memory "
 "entries created from current translations."
 msgstr[0] ""
+"Obnova na pozadí nahradí %(count)s záznam v překladové paměti vytvořených z "
+"aktuálních překladů."
 msgstr[1] ""
+"Obnova na pozadí nahradí %(count)s záznamy v překladové paměti vytvořených z "
+"aktuálních překladů."
 msgstr[2] ""
+"Obnova na pozadí nahradí %(count)s záznamů v překladové paměti vytvořených z "
+"aktuálních překladů."
 
 #: weblate/templates/memory/index.html:118
 #: weblate/templates/memory/index.html:223
@@ -13999,20 +14006,22 @@ msgid_plural ""
 "entries created from current translations. Uploaded translation memory "
 "entries will be preserved."
 msgstr[0] ""
+"Obnova na pozadí nahradí %(count)s záznam v překladové paměti vytvořených z "
+"aktuálních překladů. Nahrané záznamy v překladové paměti zůstanou zachovány."
 msgstr[1] ""
+"Obnova na pozadí nahradí %(count)s záznamy v překladové paměti vytvořených z "
+"aktuálních překladů. Nahrané záznamy v překladové paměti zůstanou zachovány."
 msgstr[2] ""
+"Obnova na pozadí nahradí %(count)s záznamů v překladové paměti vytvořených z "
+"aktuálních překladů. Nahrané záznamy v překladové paměti zůstanou zachovány."
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Active: %(count)s"
 msgid "Active entries"
-msgstr "Aktivní: %(count)s"
+msgstr "Aktivní záznamy"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "Čekající řetězec"
+msgstr "Čekající záznamy"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -15956,6 +15965,10 @@ msgid ""
 "accepts only verified redirects on the same host. Update the component to "
 "use the canonical repository URL if the redirect points elsewhere."
 msgstr ""
+"URL repozitáře vrátila trvalé přesměrování HTTP. Weblate automaticky "
+"akceptuje pouze ověřená přesměrování na stejném hostiteli. Pokud "
+"přesměrování směřuje jinam, upravte komponentu tak, aby používala kanonickou "
+"URL repozitáře."
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
@@ -23664,10 +23677,8 @@ msgid "Could not resolve the URL domain: {}"
 msgstr "Nepodařilo se zjistit doménu URL: {}"
 
 #: weblate/utils/outbound.py:369
-#, fuzzy
-#| msgid "Could not resolve the URL domain: {}"
 msgid "Could not resolve the URL domain."
-msgstr "Nepodařilo se zjistit doménu URL: {}"
+msgstr "Nepodařilo se vyřešit doménu URL."
 
 #: weblate/utils/render.py:27
 #, python-format
@@ -24037,10 +24048,8 @@ msgid "Component and priority"
 msgstr "Součást a priorita"
 
 #: weblate/utils/zammad.py:19
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Customer care is currently unavailable."
-msgstr "Služba v tuto chvíli není k dispozici."
+msgstr "Zákaznická podpora je momentálně nedostupná."
 
 #: weblate/utils/zip.py:55 weblate/utils/zip.py:149
 #, python-brace-format
@@ -24082,7 +24091,7 @@ msgstr "Soubor ZIP obsahuje příliš velký komprimovaný záznam."
 
 #: weblate/vcs/base.py:286
 msgid "The repository URL permanently redirects to a canonical URL."
-msgstr ""
+msgstr "URL repozitáře trvale přesměrovává na kanonickou URL."
 
 #: weblate/vcs/base.py:344
 msgid "This will push changes to the upstream repository."
@@ -24093,6 +24102,8 @@ msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
 msgstr ""
+"Tento backend VCS se nemůže bezpečně připojit k této URL, pokud jsou "
+"aktivována omezení týkající se soukromých adres."
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1198
 msgid "Enter a valid GitHub host."
@@ -24148,54 +24159,55 @@ msgstr ""
 "Marketplace."
 
 #: weblate/vcs/git.py:128
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository redirect target has no validated address."
-msgstr "Pracovní strom repozitáře byl vyčištěn."
+msgstr "Cíl přesměrování repozitáře nemá ověřenou adresu."
 
 #: weblate/vcs/git.py:145
 msgid "The repository returned an HTTP redirect with an invalid hostname."
-msgstr ""
+msgstr "Repozitář vrátil přesměrování HTTP s neplatným názvem hostitele."
 
 #: weblate/vcs/git.py:194 weblate/vcs/git.py:210
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "Úložiště vrátilo neplatné přesměrování HTTP."
 
 #: weblate/vcs/git.py:200
 msgid "The repository HTTP redirect contains credentials and was rejected."
 msgstr ""
+"HTTP přesměrování repozitáře obsahovalo přihlašovací údaje a bylo zamítnuto."
 
 #: weblate/vcs/git.py:216
-#, fuzzy
-#| msgid "Repository data does not belong to a restored component."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "Data v repozitáři nepatří k obnovené komponentě."
+msgstr "HTTP přesměrování repozitáře nesměřuje na chytrý HTTP koncový bod Git."
 
 #: weblate/vcs/git.py:227
 msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"URL repozitáře přesměrovává na jiný hostitel. Automatické přesměrování mezi "
+"hostiteli je z bezpečnostních důvodů deaktivováno; aktualizujte URL "
+"repozitáře ručně."
 
 #: weblate/vcs/git.py:234
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
 msgstr ""
+"URL repozitáře přesměrovává z protokolu HTTPS na nezabezpečenou adresu a "
+"byla zamítnuta."
 
 #: weblate/vcs/git.py:239
 msgid "The repository URL redirects to an unsupported URL scheme."
-msgstr ""
+msgstr "URL repozitáře přesměrovává na nepodporované schéma URL."
 
 #: weblate/vcs/git.py:255
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
-msgstr ""
+msgstr "HTTP přesměrování repozitáře neočekávaně změnilo dotaz v URL."
 
 #: weblate/vcs/git.py:328
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %s"
-msgstr "Nepodařilo se stáhnout repozitář: %s"
+msgstr "Nelze prověřit přesměrování HTTP v repozitáři: %s"
 
 #: weblate/vcs/git.py:384 weblate/vcs/git.py:2309
 #, python-format
@@ -24208,33 +24220,26 @@ msgstr "Toto odešle změny do upstream Git repozitáře."
 
 #: weblate/vcs/git.py:611
 msgid "The repository returned a permanent HTTP redirect without a target URL."
-msgstr ""
+msgstr "Repozitář vrátil trvalé přesměrování HTTP bez cílové adresy URL."
 
 #: weblate/vcs/git.py:622
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "Pracovní strom repozitáře byl vyčištěn."
+msgstr "HTTP přesměrování v repozitáři obsahuje smyčku."
 
 #: weblate/vcs/git.py:630
 msgid "The repository HTTP redirect target could not be validated."
-msgstr ""
+msgstr "Cíl přesměrování HTTP repozitáře nebylo možné ověřit."
 
 #: weblate/vcs/git.py:657
-#, fuzzy
-#| msgid ""
-#| "Remote branch could not be verified against the shallow existing "
-#| "repository."
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
 msgstr ""
-"Vzdálenou větev nebylo možné ověřit na základě stávajícího repozitáře s "
-"mělkým stromy."
+"Cíl přesměrování HTTP repozitáře nebylo možné ověřit jako repozitář Git."
 
 #: weblate/vcs/git.py:662
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "Repozitář vrátil příliš mnoho přesměrování HTTP."
 
 #: weblate/vcs/git.py:801
 #, python-format
@@ -24570,10 +24575,8 @@ msgstr ""
 "prosím ověřte, že je tento otisk správný."
 
 #: weblate/vcs/ssh.py:388
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "Žádné týmy nejsou k dispozici."
+msgstr "Nejsou k dispozici žádné ověřené adresy SSH."
 
 #: weblate/vcs/ssh.py:434
 msgid "Could not read stored host keys."
@@ -24597,16 +24600,13 @@ msgstr ""
 
 #: weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:632 weblate/vcs/ssh.py:638
 #: weblate/vcs/ssh.py:642
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "Nepodařilo se zjistit zdrojový adresář Sphinx."
+msgstr "Nepodařilo se určit platný cíl SSH."
 
 #: weblate/vcs/ssh.py:613 weblate/vcs/ssh.py:618
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "Nepodařilo se odstranit řetezec: %s"
+msgstr "Nelze určit platný cíl SSH: %s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
 msgid ""
