@@ -473,18 +473,24 @@ class SafeHTMLCheckTest(CheckTestCase):
         )
 
     def test_source_event_handler_attribute(self) -> None:
-        source = "<a onclick=\"alert('source')\">link</a>"
-        self.assertTrue(
-            self.check.check_source(
-                [source], make_unit(flags="safe-html", source=source)
-            )
-        )
-        self.assertTrue(
-            self.check.check_source(
-                [source], make_unit(flags="auto-safe-html", source=source)
-            )
-        )
-        self.assertFalse(self.check.check_source([source], make_unit(source=source)))
+        for source in (
+            "<a onclick=\"alert('source')\">link</a>",
+            '<button onclick="if (x) { alert(1); }">link</button>',
+        ):
+            with self.subTest(source=source):
+                self.assertTrue(
+                    self.check.check_source(
+                        [source], make_unit(flags="safe-html", source=source)
+                    )
+                )
+                self.assertTrue(
+                    self.check.check_source(
+                        [source], make_unit(flags="auto-safe-html", source=source)
+                    )
+                )
+                self.assertFalse(
+                    self.check.check_source([source], make_unit(source=source))
+                )
 
     def test_target_event_handler_allowed_by_source(self) -> None:
         self.do_test(
@@ -508,6 +514,16 @@ class SafeHTMLCheckTest(CheckTestCase):
             (
                 source,
                 "Use `<button onclick=\"alert('translated')\">code</button>`.",
+                "auto-safe-html,md-text",
+            ),
+        )
+
+    def test_markdown_backticks_in_html_attribute(self) -> None:
+        self.do_test(
+            True,
+            (
+                '<a title="safe">link</a>',
+                '<a title="foo`" onclick="alert(1)" data-x="`bar">link</a>',
                 "auto-safe-html,md-text",
             ),
         )

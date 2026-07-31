@@ -76,13 +76,26 @@ class AutoFixTest(TestCase):
 
     def test_html_source_event_handler(self) -> None:
         fix = BleachHTML()
-        unit = make_unit(
-            source="<a onclick=\"alert('source')\">link</a>", flags="safe-html"
-        )
-        self.assertEqual(
-            fix.fix_target(["<a onclick=\"alert('translated')\">link</a>"], unit),
-            (["<a>link</a>"], True),
-        )
+        for source, target, expected, flags in (
+            (
+                "<a onclick=\"alert('source')\">link</a>",
+                "<a onclick=\"alert('translated')\">link</a>",
+                "<a>link</a>",
+                "safe-html",
+            ),
+            (
+                '<button onclick="if (x) { alert(1); }">link</button>',
+                "<button onclick=\"alert('translated')\">link</button>",
+                "<button>link</button>",
+                "auto-safe-html",
+            ),
+        ):
+            with self.subTest(source=source):
+                unit = make_unit(source=source, flags=flags)
+                self.assertEqual(
+                    fix.fix_target([target], unit),
+                    ([expected], True),
+                )
 
     def test_html_markdown_code_block_event_handler(self) -> None:
         fix = BleachHTML()

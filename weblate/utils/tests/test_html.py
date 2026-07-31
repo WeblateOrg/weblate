@@ -65,6 +65,16 @@ class HTMLSanitizerTestCase(SimpleTestCase):
             "Use \\`<button>code</button>`.",
         )
 
+    def test_clean_markdown_backticks_in_html_attribute(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                '<a title="foo`" onclick="alert(1)" data-x="`bar">link</a>',
+                '<a title="safe">link</a>',
+                "md-text",
+            ),
+            '<a title="foo`">link</a>',
+        )
+
 
 class HtmlTestCase(SimpleTestCase):
     def test_noattr(self) -> None:
@@ -129,6 +139,14 @@ class HtmlTestCase(SimpleTestCase):
         self.assertFalse(
             is_auto_safe_html_source(
                 "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                Flags("md-text"),
+            )
+        )
+
+    def test_auto_safe_html_event_handler_with_braces(self) -> None:
+        self.assertTrue(
+            is_auto_safe_html_source(
+                '<button onclick="if (x) { alert(1); }">link</button>',
                 Flags("md-text"),
             )
         )

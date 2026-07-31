@@ -182,14 +182,25 @@ def extract_html_tags(text: str) -> tuple[set[str], dict[str, set[str]]]:
 
 
 def replace_markdown_code_spans(text: str, replacement: Callable[[str], str]) -> str:
-    """Replace Markdown inline code spans using the Markdown parser's pattern."""
+    """Replace Markdown inline code spans outside raw HTML."""
     # Avoid loading the Markdown renderer on non-Markdown sanitizer paths.
     # ruff: ignore[import-outside-top-level]
     from mistletoe.span_token import (
+        HtmlSpan,
         InlineCode,
     )
 
-    return InlineCode.pattern.sub(lambda match: replacement(match.group()), text)
+    html_spans = tuple(match.span() for match in HtmlSpan.pattern.finditer(text))
+
+    def replace(match: re.Match) -> str:
+        # Backticks inside raw HTML attributes are literal Markdown text. Masking
+        # them could hide unsafe attributes from the HTML sanitizer and restore
+        # those attributes after sanitization.
+        if any(start < match.start() < end for start, end in html_spans):
+            return match.group()
+        return replacement(match.group())
+
+    return InlineCode.pattern.sub(replace, text)
 
 
 def strip_markdown_code_spans(text: str) -> str:
@@ -235,6 +246,9 @@ def is_auto_safe_html_source(source: str, flags: Flags) -> bool:
     if "md-text" in flags:
         source = MD_LINK.sub("", source)
 
+    if has_html_event_attributes(source, flags):
+        return True
+
     if AUTO_SAFE_HTML_START.search(source) is None:
         return True
 
@@ -251,9 +265,6 @@ def is_auto_safe_html_source(source: str, flags: Flags) -> bool:
 
     if not all(is_auto_safe_html_segment(segment.group(0)) for segment in segments):
         return False
-
-    if has_html_event_attributes(source, flags):
-        return True
 
     sanitizer = HTMLSanitizer()
     return is_auto_safe_html_roundtrip_stable(
