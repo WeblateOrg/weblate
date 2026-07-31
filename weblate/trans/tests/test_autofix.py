@@ -179,9 +179,13 @@ class AutoFixTest(TestCase):
 
     def test_auto_safe_html_markdown_component(self) -> None:
         fix = BleachHTML()
-        value = "<TOCInline toc={toc.filter((node)) => node.level === 2)} />"
-        unit = make_unit(source=value, flags="auto-safe-html,md-text")
-        self.assertEqual(fix.fix_target([value], unit), ([value], False))
+        for value in (
+            "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+            "<Component onClick={handler}>Text</Component>",
+        ):
+            with self.subTest(value=value):
+                unit = make_unit(source=value, flags="auto-safe-html,md-text")
+                self.assertEqual(fix.fix_target([value], unit), ([value], False))
 
     def test_auto_safe_html_safe_html_wins(self) -> None:
         fix = BleachHTML()

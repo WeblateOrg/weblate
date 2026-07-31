@@ -55,6 +55,24 @@ class HTMLSanitizerTestCase(SimpleTestCase):
             "and <b>translated</b>. extra",
         )
 
+    def test_clean_markdown_inline_code_in_link(self) -> None:
+        for value in (
+            "[the `foo` docs](https://example.com)",
+            "![the `foo` diagram](https://example.com/image.png)",
+        ):
+            with self.subTest(value=value):
+                self.assertEqual(self.sanitize(value, value, "md-text"), value)
+
+    def test_clean_markdown_backtick_in_link_destination(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                "[x](foo`)<script>alert(1)</script>`",
+                "Plain text",
+                "md-text",
+            ),
+            "[x](foo`)`",
+        )
+
     def test_clean_markdown_escaped_code_event_handler(self) -> None:
         self.assertEqual(
             self.sanitize(
@@ -147,6 +165,14 @@ class HtmlTestCase(SimpleTestCase):
         self.assertTrue(
             is_auto_safe_html_source(
                 '<button onclick="if (x) { alert(1); }">link</button>',
+                Flags("md-text"),
+            )
+        )
+
+    def test_auto_safe_html_jsx_event_property(self) -> None:
+        self.assertFalse(
+            is_auto_safe_html_source(
+                "<Component onClick={handler}>Text</Component>",
                 Flags("md-text"),
             )
         )

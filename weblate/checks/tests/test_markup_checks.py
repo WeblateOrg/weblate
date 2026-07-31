@@ -674,11 +674,25 @@ class SafeHTMLCheckTest(CheckTestCase):
         )
 
     def test_auto_safe_html_markdown_component(self) -> None:
+        for source in (
+            "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+            "<Component onClick={handler}>Text</Component>",
+        ):
+            self.do_test(
+                False,
+                (
+                    source,
+                    source,
+                    "auto-safe-html,md-text",
+                ),
+            )
+
+    def test_auto_safe_html_markdown_link_destination_backtick(self) -> None:
         self.do_test(
-            False,
+            True,
             (
-                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
-                "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                "Plain text",
+                "[x](foo`)<script>alert(1)</script>`",
                 "auto-safe-html,md-text",
             ),
         )

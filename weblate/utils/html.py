@@ -17,6 +17,8 @@ from html2text import HTML2Text as _HTML2Text
 from lxml.etree import HTMLParser
 from lxml.html.defs import tags as lxml_html_tags
 
+from weblate.utils.concurrency import MARKDOWN_LOCK
+
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
@@ -182,25 +184,41 @@ def extract_html_tags(text: str) -> tuple[set[str], dict[str, set[str]]]:
 
 
 def replace_markdown_code_spans(text: str, replacement: Callable[[str], str]) -> str:
-    """Replace Markdown inline code spans outside raw HTML."""
+    """Replace inline code spans recognized in Markdown context."""
     # Avoid loading the Markdown renderer on non-Markdown sanitizer paths.
     # ruff: ignore[import-outside-top-level]
-    from mistletoe.span_token import (
-        HtmlSpan,
-        InlineCode,
-    )
+    from mistletoe import span_token, span_tokenizer
 
-    html_spans = tuple(match.span() for match in HtmlSpan.pattern.finditer(text))
+    code_spans: set[tuple[int, int]] = set()
+
+    class ContextInlineCode(span_token.InlineCode):
+        def __init__(self, match: re.Match) -> None:
+            code_spans.add(match.span())
+            super().__init__(match)
+
+    # Mirror Mistletoe's HTML span-token order, replacing InlineCode with a
+    # tracker so links and raw HTML resolve before code spans are selected.
+    with MARKDOWN_LOCK:
+        span_tokenizer.tokenize(
+            text,
+            (
+                span_token.EscapeSequence,
+                span_token.HtmlSpan,
+                span_token.Strikethrough,
+                span_token.AutoLink,
+                span_token.CoreTokens,
+                ContextInlineCode,
+                span_token.LineBreak,
+                span_token.RawText,
+            ),
+        )
 
     def replace(match: re.Match) -> str:
-        # Backticks inside raw HTML attributes are literal Markdown text. Masking
-        # them could hide unsafe attributes from the HTML sanitizer and restore
-        # those attributes after sanitization.
-        if any(start < match.start() < end for start, end in html_spans):
-            return match.group()
-        return replacement(match.group())
+        if match.span() in code_spans:
+            return replacement(match.group())
+        return match.group()
 
-    return InlineCode.pattern.sub(replace, text)
+    return span_token.InlineCode.pattern.sub(replace, text)
 
 
 def strip_markdown_code_spans(text: str) -> str:
@@ -246,9 +264,6 @@ def is_auto_safe_html_source(source: str, flags: Flags) -> bool:
     if "md-text" in flags:
         source = MD_LINK.sub("", source)
 
-    if has_html_event_attributes(source, flags):
-        return True
-
     if AUTO_SAFE_HTML_START.search(source) is None:
         return True
 
@@ -262,6 +277,14 @@ def is_auto_safe_html_source(source: str, flags: Flags) -> bool:
         for start_match in AUTO_SAFE_HTML_START.finditer(source)
     ):
         return False
+
+    if not all(
+        is_auto_safe_html_segment_type(segment.group(0)) for segment in segments
+    ):
+        return False
+
+    if has_html_event_attributes(source, flags):
+        return True
 
     if not all(is_auto_safe_html_segment(segment.group(0)) for segment in segments):
         return False
@@ -277,6 +300,11 @@ def is_auto_safe_html_segment(segment: str) -> bool:
     if "{" in segment or "}" in segment:
         return False
 
+    return is_auto_safe_html_segment_type(segment)
+
+
+def is_auto_safe_html_segment_type(segment: str) -> bool:
+    """Validate the HTML tag or declaration type of a tag-like segment."""
     lower_segment = segment.lower()
     if lower_segment.startswith(("<!--", "<!doctype")):
         return True
@@ -432,7 +460,8 @@ class HTMLSanitizer:
         return SANE_CHARS.sub(self.handle_replace, text)
 
     def add_back_special(self, text: str) -> str:
-        for replacement, original in self.replacements.items():
+        # Enclosing placeholders can contain placeholders created earlier.
+        for replacement, original in reversed(self.replacements.items()):
             text = text.replace(replacement, original)
         return text
 
