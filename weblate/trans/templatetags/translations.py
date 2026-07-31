@@ -1589,12 +1589,14 @@ def get_workflow_flags(translation: Translation | None, component: Component):
             "suggestion_voting": translation.suggestion_voting,
             "suggestion_autoaccept": translation.suggestion_autoaccept,
             "enable_suggestions": translation.enable_suggestions,
+            "restrict_direct_editing": translation.restrict_direct_editing,
             "translation_review": translation.enable_review,
         }
     return {
         "suggestion_voting": component.suggestion_voting,
         "suggestion_autoaccept": component.suggestion_autoaccept,
         "enable_suggestions": component.enable_suggestions,
+        "restrict_direct_editing": False,
         "translation_review": component.project.translation_review,
     }
 

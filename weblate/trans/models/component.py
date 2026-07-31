@@ -774,9 +774,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     suggestion_voting = models.BooleanField(
         verbose_name=gettext_lazy("Suggestion voting"),
         default=False,
-        help_text=gettext_lazy(
-            "Users can only vote for suggestions and can’t make direct translations."
-        ),
+        help_text=gettext_lazy("Allows users to vote on suggestions."),
     )
     # This should match definition in WorkflowSetting
     suggestion_autoaccept = models.PositiveSmallIntegerField(

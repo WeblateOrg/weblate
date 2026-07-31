@@ -31,6 +31,7 @@ from weblate.trans.models import (
     Project,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
@@ -961,14 +962,27 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, "Settings")
         response = self.client.post(
             url,
-            {"workflow-enable": 1, "workflow-suggestion_autoaccept": 0},
+            {
+                "workflow-enable": 1,
+                "workflow-restrict_direct_editing": 1,
+                "workflow-suggestion_autoaccept": 0,
+            },
             follow=True,
         )
         self.assertContains(response, "Settings saved")
-        self.assertIsNotNone(
+        workflow_settings = (
             Project.objects.get(pk=self.project.pk)
             .project_languages[self.translation.language]
             .workflow_settings
+        )
+        self.assertIsNotNone(workflow_settings)
+        self.assertTrue(workflow_settings.restrict_direct_editing)
+        self.assertTrue(
+            WorkflowSetting.objects.filter(
+                project=self.project,
+                language=self.translation.language,
+                restrict_direct_editing=True,
+            ).exists()
         )
         response = self.client.post(
             url, {"workflow-suggestion_autoaccept": 0}, follow=True

@@ -31,13 +31,19 @@ class WorkflowSetting(models.Model):
         default=True,
         help_text=gettext_lazy("Whether to allow translation suggestions at all."),
     )
+    restrict_direct_editing = models.BooleanField(
+        verbose_name=gettext_lazy("Restrict direct editing"),
+        default=False,
+        help_text=gettext_lazy(
+            "Only users with the “Edit string when suggestions are enforced” "
+            "permission can make direct changes."
+        ),
+    )
     # This should match definition in Component
     suggestion_voting = models.BooleanField(
         verbose_name=gettext_lazy("Suggestion voting"),
         default=False,
-        help_text=gettext_lazy(
-            "Users can only vote for suggestions and can’t make direct translations."
-        ),
+        help_text=gettext_lazy("Allows users to vote on suggestions."),
     )
     # This should match definition in Component
     suggestion_autoaccept = models.PositiveSmallIntegerField(

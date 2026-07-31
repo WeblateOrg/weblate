@@ -25,6 +25,7 @@ from weblate.trans.models import (
     PendingUnitChange,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.ratelimit import reset_rate_limit
@@ -1001,6 +1002,46 @@ class BulkEditTest(ViewTestCase):
         self.assertEqual(updated, 0)
         self.unit.refresh_from_db()
         self.assertEqual(self.unit.state, STATE_FUZZY)
+
+    def test_bulk_edit_skips_restricted_language(self) -> None:
+        limited_user = User.objects.create_user(
+            "restricted-bulk", "restricted-bulk@example.com", "restricted-bulk"
+        )
+        group = Group.objects.create(
+            name="Restricted bulk", language_selection=SELECTION_ALL
+        )
+        group.roles.add(
+            Role.objects.get(name="Translate"), Role.objects.get(name="Bulk editing")
+        )
+        group.components.add(self.component)
+        limited_user.groups.add(group)
+        limited_user.clear_permissions_cache()
+        self.assertTrue(limited_user.has_perm("unit.edit", self.unit))
+        self.assertTrue(limited_user.has_perm("unit.bulk_edit", self.unit))
+
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            restrict_direct_editing=True,
+        )
+        unit = Unit.objects.get(pk=self.unit.pk)
+
+        updated = bulk_perform(
+            limited_user,
+            Unit.objects.filter(pk=unit.pk),
+            query="state:needs-editing",
+            target_state=STATE_TRANSLATED,
+            add_flags="",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+            components=[self.component],
+        )
+
+        self.assertEqual(updated, 0)
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_FUZZY)
 
     def test_bulk_edit_requires_review_permission_to_approve(self) -> None:
         self.project.translation_review = True

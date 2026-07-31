@@ -54,7 +54,7 @@ from weblate.addons.forms import (
     SphinxExtractPotForm,
     XgettextExtractPotForm,
 )
-from weblate.auth.models import Group, Permission, Role
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.exceptions import FileParseError
@@ -7484,6 +7484,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             source_component_id=None,
             user_id=None,
             activity_log_id=None,
+            enforce_permissions=False,
         )
         self.assertEqual(outcome, AddonEventOutcome.pending())
 
@@ -7581,6 +7582,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             source_component_id=None,
             user_id=None,
             activity_log_id=123,
+            enforce_permissions=False,
         )
 
     def test_auto_others_component_uses_addon_user(self) -> None:
@@ -7611,6 +7613,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             source_component_id=None,
             user_id=addon.user.id,
             activity_log_id=None,
+            enforce_permissions=False,
         )
 
     def test_auto_change_event_normalizes_blank_component(self) -> None:
@@ -7649,6 +7652,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             translation_id=self.translation.id,
             activity_log_id=None,
             activity_log_task_count=2,
+            enforce_permissions=False,
         )
 
     def test_auto_change_event_passes_fanout_task_count(self) -> None:
@@ -7880,8 +7884,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         self.assertIn("First task failed", rendered)
         self.assertIn("Second task succeeded", rendered)
 
-    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
-    def test_auto_change_event(self) -> None:
+    def assert_auto_change_event(self, change_user: User | None) -> None:
         component_1 = self.create_po_new_base(name="Component 1", project=self.project)
         component_1.allow_translation_propagation = False
         component_1.save()
@@ -7915,8 +7918,8 @@ class AutoTranslateAddonTest(ComponentTestCase):
         with self.captureOnCommitCallbacks(execute=True):
             Comment.objects.create(unit=unit_2, comment="Foo")
         change = unit_2.change_set.latest("timestamp")
-        change.user = None
-        change.author = None
+        change.user = change_user
+        change.author = change_user
         change.save(update_fields=["user", "author"])
 
         with self.captureOnCommitCallbacks(execute=True):
@@ -7924,17 +7927,26 @@ class AutoTranslateAddonTest(ComponentTestCase):
 
         unit_2 = translation_2.unit_set.get(source="one")
         self.assertEqual(unit_2.target, "jeden")
+        expected_author = change_user or addon.user
         self.assertEqual(
             unit_2.change_set.get(action=ActionEvents.AUTO).author,
-            addon.user,
+            expected_author,
         )
         self.assertTrue(
             PendingUnitChange.objects.filter(
                 unit=unit_2,
-                author=addon.user,
+                author=expected_author,
                 automatically_translated=True,
             ).exists()
         )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_auto_change_event(self) -> None:
+        self.assert_auto_change_event(None)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_auto_change_event_uses_triggering_user(self) -> None:
+        self.assert_auto_change_event(self.user)
 
 
 class AddonConfigurationUnitTest(SimpleTestCase):
@@ -7983,6 +7995,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             translation_id=2,
             activity_log_id=None,
             activity_log_task_count=None,
+            enforce_permissions=False,
         )
 
     def test_trigger_autotranslate_normalizes_blank_component_for_component_task(
@@ -8018,6 +8031,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             source_component_id=None,
             user_id=None,
             activity_log_id=None,
+            enforce_permissions=False,
         )
 
     def test_get_configuration_normalizes_legacy_filter_configuration(self) -> None:
