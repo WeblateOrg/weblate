@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 08:40+0000\n"
+"PO-Revision-Date: 2026-07-31 10:28+0000\n"
 "Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -14133,14 +14133,14 @@ msgid_plural ""
 "Rebuilding in the background will replace %(count)s translation memory "
 "entries created from current translations."
 msgstr[0] ""
-"Przebudowa w tle spowoduje zastąpienie %(count)s wpisu pamięci tłumaczeń "
-"utworzonego z bieżących tłumaczeń."
+"Przebudowa w tle spowoduje zastąpienie %(count)s wpisu pamięci "
+"tłumaczeniowej utworzonego z bieżących tłumaczeń."
 msgstr[1] ""
-"Przebudowa w tle spowoduje zastąpienie %(count)s wpisów pamięci tłumaczeń "
-"utworzonych z bieżących tłumaczeń."
+"Przebudowa w tle spowoduje zastąpienie %(count)s wpisów pamięci "
+"tłumaczeniowej utworzonych z bieżących tłumaczeń."
 msgstr[2] ""
-"Przebudowa w tle spowoduje zastąpienie %(count)s wpisów pamięci tłumaczeń "
-"utworzonych z bieżących tłumaczeń."
+"Przebudowa w tle spowoduje zastąpienie %(count)s wpisów pamięci "
+"tłumaczeniowej utworzonych z bieżących tłumaczeń."
 
 #: weblate/templates/memory/index.html:118
 #: weblate/templates/memory/index.html:223
@@ -14154,20 +14154,25 @@ msgid_plural ""
 "entries created from current translations. Uploaded translation memory "
 "entries will be preserved."
 msgstr[0] ""
+"Przebudowa w tle spowoduje zastąpienie %(count)s wpisu pamięci "
+"tłumaczeniowej utworzonego z bieżących tłumaczeń. Przesłane wpisy w pamięci "
+"tłumaczeń zostaną zachowane."
 msgstr[1] ""
+"Przebudowa w tle spowoduje zastąpienie %(count)s wpisów pamięci "
+"tłumaczeniowej utworzonych z bieżących tłumaczeń. Przesłane wpisy w pamięci "
+"tłumaczeń zostaną zachowane."
 msgstr[2] ""
+"Przebudowa w tle spowoduje zastąpienie %(count)s wpisów pamięci "
+"tłumaczeniowej utworzonych z bieżących tłumaczeń. Przesłane wpisy w pamięci "
+"tłumaczeń zostaną zachowane."
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Active: %(count)s"
 msgid "Active entries"
-msgstr "Aktywne: %(count)s"
+msgstr "Aktywne wpisy"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "Oczekujący ciąg"
+msgstr "Oczekujący wpisy"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -16131,6 +16136,10 @@ msgid ""
 "accepts only verified redirects on the same host. Update the component to "
 "use the canonical repository URL if the redirect points elsewhere."
 msgstr ""
+"Adres URL repozytorium zwrócił stałe przekierowanie HTTP. Weblate "
+"automatycznie akceptuje tylko zweryfikowane przekierowania na tym samym "
+"hoście. Zaktualizuj komponent, aby używał kanonicznego adresu URL "
+"repozytorium, jeśli przekierowanie wskazuje gdzie indziej."
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
@@ -23932,10 +23941,8 @@ msgid "Could not resolve the URL domain: {}"
 msgstr "Nie udało się rozwiązać domeny adresu URL: {}"
 
 #: weblate/utils/outbound.py:369
-#, fuzzy
-#| msgid "Could not resolve the URL domain: {}"
 msgid "Could not resolve the URL domain."
-msgstr "Nie udało się rozwiązać domeny adresu URL: {}"
+msgstr "Nie udało się rozwiązać domeny adresu URL."
 
 #: weblate/utils/render.py:27
 #, python-format
@@ -24307,10 +24314,8 @@ msgid "Component and priority"
 msgstr "Komponent i priorytet"
 
 #: weblate/utils/zammad.py:19
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Customer care is currently unavailable."
-msgstr "Usługa jest obecnie niedostępna."
+msgstr "Obsługa klienta jest obecnie niedostępna."
 
 #: weblate/utils/zip.py:55 weblate/utils/zip.py:149
 #, python-brace-format
@@ -24353,6 +24358,7 @@ msgstr "Plik ZIP zawiera skompresowany wpis, który jest za duży."
 #: weblate/vcs/base.py:286
 msgid "The repository URL permanently redirects to a canonical URL."
 msgstr ""
+"Adres URL repozytorium na stałe przekierowuje do kanonicznego adresu URL."
 
 #: weblate/vcs/base.py:344
 msgid "This will push changes to the upstream repository."
@@ -24363,6 +24369,8 @@ msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
 msgstr ""
+"Ten backend VCS nie może bezpiecznie nawiązać połączenia z tym adresem URL, "
+"gdy włączone są ograniczenia adresów prywatnych."
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1198
 msgid "Enter a valid GitHub host."
@@ -24418,54 +24426,59 @@ msgstr ""
 "GitHub Marketplace."
 
 #: weblate/vcs/git.py:128
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository redirect target has no validated address."
-msgstr "Drzewo robocze repozytorium zostało uporządkowane."
+msgstr "Cel przekierowania repozytorium nie ma sprawdzonego adresu."
 
 #: weblate/vcs/git.py:145
 msgid "The repository returned an HTTP redirect with an invalid hostname."
-msgstr ""
+msgstr "Repozytorium zwróciło przekierowanie HTTP z nieprawidłową nazwą hosta."
 
 #: weblate/vcs/git.py:194 weblate/vcs/git.py:210
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "Repozytorium zwróciło nieprawidłowe przekierowanie HTTP."
 
 #: weblate/vcs/git.py:200
 msgid "The repository HTTP redirect contains credentials and was rejected."
 msgstr ""
+"Przekierowanie HTTP do repozytorium zawiera dane uwierzytelniające i zostało "
+"odrzucone."
 
 #: weblate/vcs/git.py:216
-#, fuzzy
-#| msgid "Repository data does not belong to a restored component."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "Dane repozytorium nie należą do przywróconego komponentu."
+msgstr ""
+"Przekierowanie HTTP repozytorium nie wskazuje na inteligentny punkt końcowy "
+"HTTP Git."
 
 #: weblate/vcs/git.py:227
 msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"Adres URL repozytorium przekierowuje do innego hosta. Automatyczne "
+"przekierowania między hostami są wyłączone ze względów bezpieczeństwa. "
+"Zaktualizuj adres URL repozytorium ręcznie."
 
 #: weblate/vcs/git.py:234
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
 msgstr ""
+"Adres URL repozytorium przekierowuje z protokołu HTTPS do niezabezpieczonego "
+"adresu URL i został odrzucony."
 
 #: weblate/vcs/git.py:239
 msgid "The repository URL redirects to an unsupported URL scheme."
 msgstr ""
+"Adres URL repozytorium przekierowuje do nieobsługiwanego schematu adresu URL."
 
 #: weblate/vcs/git.py:255
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
-msgstr ""
+msgstr "Przekierowanie HTTP repozytorium nieoczekiwanie zmieniło zapytanie URL."
 
 #: weblate/vcs/git.py:328
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %s"
-msgstr "Nie udało się pobrać repozytorium: %s"
+msgstr "Nie można zbadać przekierowania HTTP repozytorium: %s"
 
 #: weblate/vcs/git.py:384 weblate/vcs/git.py:2309
 #, python-format
@@ -24479,32 +24492,27 @@ msgstr "Spowoduje to wypchnięcie zmian do nadrzędnego repozytorium Git."
 #: weblate/vcs/git.py:611
 msgid "The repository returned a permanent HTTP redirect without a target URL."
 msgstr ""
+"Repozytorium zwróciło stałe przekierowanie HTTP bez docelowego adresu URL."
 
 #: weblate/vcs/git.py:622
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "Drzewo robocze repozytorium zostało uporządkowane."
+msgstr "Przekierowanie HTTP repozytorium zawiera pętlę."
 
 #: weblate/vcs/git.py:630
 msgid "The repository HTTP redirect target could not be validated."
-msgstr ""
+msgstr "Nie można zweryfikować celu przekierowania HTTP repozytorium."
 
 #: weblate/vcs/git.py:657
-#, fuzzy
-#| msgid ""
-#| "Remote branch could not be verified against the shallow existing "
-#| "repository."
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
 msgstr ""
-"Nie udało się zweryfikować zdalnej gałęzi względem istniejącego płytkiego "
-"repozytorium."
+"Nie udało się zweryfikować celu przekierowania HTTP repozytorium jako "
+"repozytorium Git."
 
 #: weblate/vcs/git.py:662
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "Repozytorium zwróciło zbyt wiele przekierowań HTTP."
 
 #: weblate/vcs/git.py:801
 #, python-format
@@ -24843,10 +24851,8 @@ msgstr ""
 "(%(keytype)s). Prosimy o zweryfikowanie ich poprawności."
 
 #: weblate/vcs/ssh.py:388
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "Brak dostępnych zespołów."
+msgstr "Brak dostępnych zweryfikowanych adresów SSH."
 
 #: weblate/vcs/ssh.py:434
 msgid "Could not read stored host keys."
@@ -24870,16 +24876,13 @@ msgstr ""
 
 #: weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:632 weblate/vcs/ssh.py:638
 #: weblate/vcs/ssh.py:642
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "Nie udało się ustalić katalogu źródłowego Sphinx."
+msgstr "Nie można ustalić efektywnego miejsca docelowego protokołu SSH."
 
 #: weblate/vcs/ssh.py:613 weblate/vcs/ssh.py:618
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "Nie udało się usunąć ciągu: %s"
+msgstr "Nie można określić efektywnego miejsca docelowego SSH: %s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
 msgid ""
