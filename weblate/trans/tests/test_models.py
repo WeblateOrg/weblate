@@ -34,6 +34,7 @@ from weblate.glossary.models import (
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import (
+    FailedCommitError,
     FileParseError,
     SuggestionSimilarToTranslationError,
     SuggestionTooLongError,
@@ -1056,6 +1057,34 @@ class TranslationTest(RepoTestCase):
             .latest("timestamp")
             .target,
         )
+
+    def test_commit_serialization_error(self) -> None:
+        """Serialization errors should be exposed as commit errors."""
+        user = create_test_user()
+        component = self._create_component(
+            "i18next", "i18next/*.json", "i18next/en.json"
+        )
+        translation = component.source_translation
+        filename = get_optional_path(translation.get_filename())
+        original_content = filename.read_bytes()
+        unit = translation.unit_set.get(source="Hello")
+        unit.translate(user, "Updated hello", STATE_TRANSLATED)
+
+        pending_count = PendingUnitChange.objects.count()
+        serialization_error = TypeError("'str' object does not support item assignment")
+        with (
+            patch(
+                "weblate.formats.ttkit.I18NextFormat.save",
+                side_effect=serialization_error,
+            ),
+            self.assertRaises(FailedCommitError) as context,
+        ):
+            component.commit_pending("test", None)
+
+        self.assertIs(context.exception.__cause__, serialization_error)
+        self.assertEqual(str(context.exception), str(serialization_error))
+        self.assertEqual(PendingUnitChange.objects.count(), pending_count)
+        self.assertEqual(filename.read_bytes(), original_content)
 
     def test_commit_successful_deletes_failed_changes(self) -> None:
         """Test that failed changes are deleted when a subsequent successful change to the unit is applied."""

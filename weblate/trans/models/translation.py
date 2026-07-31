@@ -1579,7 +1579,12 @@ class Translation(
         store.update_header(self.component.file_format_params, **headers)
 
         # save translation changes
-        store.save()
+        try:
+            store.save()
+        except Exception as error:
+            raise FailedCommitError(
+                self.component.get_parse_error_message(error)
+            ) from error
 
         return changes_status
 
