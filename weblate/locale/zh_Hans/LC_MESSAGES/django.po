@@ -33,9 +33,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 08:24+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-07-31 18:49+0000\n"
+"Last-Translator: reducedradius "
+"<137701630+flytothehighest@users.noreply.github.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -7806,11 +7806,10 @@ msgid ""
 msgstr "条目已删除，将在后台重建翻译记忆库。"
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "移除选定的翻译记忆库条目"
+msgstr[0] "已处理%(count)d条活动的翻译记忆库条目。"
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -10252,10 +10251,8 @@ msgstr "管理已关注项目"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "workspace"
 msgid "My workspaces"
-msgstr "工作空间"
+msgstr "我的工作空间"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11201,11 +11198,11 @@ msgstr ""
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "JSON指标"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "CSV指标"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
@@ -13301,10 +13298,9 @@ msgid "Translation memory status"
 msgstr "翻译记忆库状态"
 
 #: weblate/templates/memory/index.html:50
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "%(project)s 的条目数量"
+msgstr "%(workspace)s 的条目数量"
 
 #: weblate/templates/memory/index.html:52
 #, python-format
@@ -13376,16 +13372,12 @@ msgid_plural ""
 msgstr[0] ""
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Active: %(count)s"
 msgid "Active entries"
-msgstr "活动： %(count)s"
+msgstr "活动的条目"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "待处理的字符串"
+msgstr "待处理的条目"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -22383,10 +22375,8 @@ msgid "Could not resolve the URL domain: {}"
 msgstr "无法解析 URL 域名：{}"
 
 #: weblate/utils/outbound.py:369
-#, fuzzy
-#| msgid "Could not resolve the URL domain: {}"
 msgid "Could not resolve the URL domain."
-msgstr "无法解析 URL 域名：{}"
+msgstr "无法解析 URL 域名。"
 
 #: weblate/utils/render.py:27
 #, python-format
@@ -22782,7 +22772,7 @@ msgstr "该 ZIP 文件包含过大的已压缩项。"
 
 #: weblate/vcs/base.py:286
 msgid "The repository URL permanently redirects to a canonical URL."
-msgstr ""
+msgstr "仓库URL会永久重定向到规范的URL。"
 
 #: weblate/vcs/base.py:344
 msgid "This will push changes to the upstream repository."
@@ -22878,17 +22868,16 @@ msgstr ""
 
 #: weblate/vcs/git.py:239
 msgid "The repository URL redirects to an unsupported URL scheme."
-msgstr ""
+msgstr "仓库 URL 会重定向到一个不支持的 URL 格式。"
 
 #: weblate/vcs/git.py:255
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
 msgstr ""
 
 #: weblate/vcs/git.py:328
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %s"
-msgstr "无法抓取仓库：%s"
+msgstr "无法探寻仓库的 HTTP 重定向：%s"
 
 #: weblate/vcs/git.py:384 weblate/vcs/git.py:2309
 #, python-format
@@ -22904,28 +22893,22 @@ msgid "The repository returned a permanent HTTP redirect without a target URL."
 msgstr ""
 
 #: weblate/vcs/git.py:622
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "清理了仓库工作树。"
+msgstr "仓库的 HTTP 重定向包含一个循环。"
 
 #: weblate/vcs/git.py:630
 msgid "The repository HTTP redirect target could not be validated."
 msgstr ""
 
 #: weblate/vcs/git.py:657
-#, fuzzy
-#| msgid ""
-#| "Remote branch could not be verified against the shallow existing "
-#| "repository."
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
-msgstr "无法将远程分支与现有的浅层仓库进行验证。"
+msgstr "仓库的 HTTP 重定向目标无法被验证为 Git 仓库。"
 
 #: weblate/vcs/git.py:662
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "仓库返回了太多 HTTP 重定向。"
 
 #: weblate/vcs/git.py:801
 #, python-format
@@ -23245,10 +23228,8 @@ msgstr ""
 "正确。"
 
 #: weblate/vcs/ssh.py:388
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "团队不可用。"
+msgstr "没有经过验证的SSH地址。"
 
 #: weblate/vcs/ssh.py:434
 msgid "Could not read stored host keys."
