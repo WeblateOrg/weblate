@@ -23,8 +23,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
 "PO-Revision-Date: 2026-07-31 08:23+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -444,7 +443,7 @@ msgstr "Hasło zostało zmienione."
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Przekroczono limit dla {scope} w {path}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -5123,16 +5122,12 @@ msgid "Translation should not exceed given length."
 msgstr "Tłumaczenie nie powinno przekraczać określonej długości."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Maksymalny rozmiar tłumaczenia"
+msgstr "Maksymalna liczba wierszy"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "Tłumaczenie nie powinno przekraczać określonej długości."
+msgstr "Tłumaczenie nie powinno przekraczać określonej liczby wierszy."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -6275,14 +6270,12 @@ msgid "Source string length"
 msgstr "Długość ciągu źródłowego"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"Ciąg źródłowy jest zbyt długi, aby zmieścić się w ustawionej maksymalnej "
-"długości."
+"Ciąg źródłowy jest bliski lub przekracza maksymalną ustawioną długość "
+"tłumaczeń."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -8172,26 +8165,25 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Wpisy w pamięci tłumaczeniowej utworzone na podstawie bieżących tłumaczeń "
+"zostały usunięte i zostaną odtworzone w tle. Przesłane wpisy zostały "
+"zachowane."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
-"Wpisy zostały usunięte, a pamięć tłumaczeniowa zostanie przebudowana w tle."
+"Wpisy w pamięci tłumaczeniowej utworzone na podstawie bieżących tłumaczeń "
+"zostały usunięte i zostaną odtworzone w tle."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Usuń wybrane wpisy z pamięci tłumaczeniowej"
-msgstr[1] "Usuń wybrane wpisy z pamięci tłumaczeniowej"
-msgstr[2] "Usuń wybrane wpisy z pamięci tłumaczeniowej"
+msgstr[0] "Przetworzono %(count)d aktywny wpis pamięci tłumaczeniowej."
+msgstr[1] "Przetworzono %(count)d aktywne wpisy pamięci tłumaczeniowej."
+msgstr[2] "Przetworzono %(count)d aktywnych wpisów pamięci tłumaczeniowej."
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -9998,6 +9990,7 @@ msgstr "Wyłącza uwierzytelnianie hasłem dla użytkownika."
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
 msgstr ""
+"Pozostaw opcję włączoną, aby unieważnić bieżący klucz API i wygenerować nowy."
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -10832,10 +10825,8 @@ msgstr "Zarządzaj obserwowanymi projektami"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "workspace"
 msgid "My workspaces"
-msgstr "obszar roboczy"
+msgstr "Moje obszary robocze"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11808,6 +11799,8 @@ msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
 msgstr ""
+"Wskaźniki tłumaczeń projektu zapewniają statystyki dla wszystkich widocznych "
+"komponentów i języków w jednym żądaniu."
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
