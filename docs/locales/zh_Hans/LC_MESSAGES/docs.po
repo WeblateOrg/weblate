@@ -40,9 +40,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-30 03:46+0200\n"
-"PO-Revision-Date: 2026-07-30 21:03+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-07-31 04:39+0000\n"
+"Last-Translator: Hosted Weblate user 54392 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -4189,11 +4189,6 @@ msgstr ""
 "Weblate :guilabel:`weblate` GitHub 用户，同样用该应用进行仓库访问和拉取请求。"
 
 #: admin/code-hosting.rst:267
-#, fuzzy
-#| msgid ""
-#| "The `Hosted Weblate legacy app`_ is kept for existing webhook-only "
-#| "setups. Use it only when you need the legacy app to deliver GitHub "
-#| "notifications to Hosted Weblate."
 msgid ""
 "The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. "
 "Its deliveries use the generic GitHub webhook URL and are authenticated "
@@ -4201,9 +4196,10 @@ msgid ""
 "Use it only when you need the legacy app to deliver GitHub notifications to "
 "Hosted Weblate."
 msgstr ""
-"`Hosted Weblate legacy App`_ 仅用于兼容现有的纯 Webhook 配置。只有当您仍需要"
-"通过该旧版 App 向 Hosted Weblate 转发 GitHub 事件通知时，才需保留或使用此选"
-"项。"
+"保留 `Hosted Weblate legacy App`_ 用于现有的纯 Webhook 安装。其传送物使用一般"
+"性的 GitHub webhook URL 并用 Hosted Weblate 运营方配置的单独 webhook secret "
+"进行身份认证。只有您仍需要通过该旧版 App 向 Hosted Weblate 传送 GitHub 事件通"
+"知时才使用它。"
 
 #: admin/code-hosting.rst:274
 msgid ""
@@ -4591,12 +4587,11 @@ msgstr ""
 "在 :guilabel:`Settings` 之下的 :guilabel:`Webhooks` 中完成。"
 
 #: admin/code-hosting.rst:510
-#, fuzzy
-#| msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.com/usage/repository/"
 "webhooks>`_"
-msgstr "`Gitea 手册中的 Webhooks <https://docs.gitea.io/en-us/webhooks/>`_"
+msgstr ""
+"`Gitea 手册中的 Webhooks <https://docs.gitea.com/usage/repository/webhooks>`_"
 
 #: admin/code-hosting.rst:511
 msgid ":http:post:`/hooks/gitea/`"
@@ -5193,16 +5188,6 @@ msgid "Defaults to ``[]``."
 msgstr "默认为 ``[]``。"
 
 #: admin/config.rst:102
-#, fuzzy
-#| msgid ""
-#| "The allowlist affects project-managed machinery in two ways: it permits "
-#| "the configured endpoint during outbound validation, and it marks matching "
-#| "hosts as trusted when deciding whether remote provider error details or "
-#| "response bodies can be shown to the user. For direct connections, runtime "
-#| "checks still reject destinations that resolve to private or otherwise non-"
-#| "public addresses. When an HTTP(S) proxy is used, runtime validation falls "
-#| "back to hostname validation and does not perform the same local DNS or "
-#| "peer-IP checks."
 msgid ""
 "The allowlist affects project-managed machinery in two ways: it permits the "
 "configured endpoint during outbound validation, and it marks matching hosts "
@@ -5213,11 +5198,11 @@ msgid ""
 "whose network destinations are trusted. When a configured :ref:`http-proxy` "
 "is used, the proxy is trusted to resolve the destination hostname."
 msgstr ""
-"允许列表对项目管理的机器翻译服务的影响体现在两个方面：一是在出站验证期间允许"
-"配置的端点，二是在决定是否可以向用户显示远程提供商错误详情或响应正文时将匹配"
-"主机标记为可信。对于直接连接，运行时检查仍会拒绝解析为私有或非公开地址的目"
-"标。使用 HTTP(S) 代理时，运行时验证将回退到主机名验证，并且不会执行相同的本"
-"地 DNS 或对等 IP 检查。"
+"此白名单以两种方式影响项目管理的机器： 它在出站验证期间允许配置的端点，并且在"
+"决定是否可以向用户显示远程提供商错误详细信息或响应正文时将匹配的主机标记为受"
+"信任。 匹配的主机也豁免内网目标限制。对于直连，Weblate 不解析、固定或验证匹配"
+"主机的对端地址。只添加网络目标受信任的主机或域名。 使用配置的 :ref:`http-"
+"proxy` 时会信任该代理解析目标主机名。"
 
 #: admin/config.rst:118
 msgid ""
@@ -8889,12 +8874,6 @@ msgid "Weblate Cloudron Package"
 msgstr "Weblate Cloudron 包"
 
 #: admin/deployments.rst:23
-#, fuzzy
-#| msgid ""
-#| "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
-#| "applications. Weblate installed with Cloudron will be automatically kept "
-#| "up-to-date. The package is maintained by the Cloudron team at their "
-#| "`Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgid ""
 "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
 "applications. Weblate installed with Cloudron will be automatically kept up-"
@@ -8902,8 +8881,8 @@ msgid ""
 "package documentation <https://docs.cloudron.io/packages/weblate/>`_."
 msgstr ""
 "`Cloudron <https://www.cloudron.io/>`_ 是自托管 web 应用的平台。安装有 "
-"Cloudron 的 Weblate 会自动更新。软件包由 Cloudron 团队在它们的 `Weblate "
-"package repo <https://git.cloudron.io/cloudron/weblate-app>`_ 上维护。"
+"Cloudron 的 Weblate 会自动更新。软件包由 Cloudron 团队维护，见`Weblate 包文"
+"档 <https://docs.cloudron.io/packages/weblate/>`_ 。"
 
 #: admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
@@ -9000,16 +8979,12 @@ msgid "Use dedicated node when scaling Weblate horizontally."
 msgstr "垂直缩放 Weblate 时使用专门节点。"
 
 #: admin/install.rst:138
-#, fuzzy
-#| msgid "Application region"
 msgid "Application server"
-msgstr "应用区域"
+msgstr "应用程序服务器"
 
 #: admin/install.rst:139
-#, fuzzy
-#| msgid "A WSGI server serving web pages to users."
 msgid "A WSGI or ASGI server serving web pages to users."
-msgstr "提供网页给用户的 WSGI 服务器。"
+msgstr "提供网页给用户的 WSGI 或 ASGI 服务器。"
 
 #: admin/install.rst:143
 msgid ""
@@ -9170,10 +9145,8 @@ msgid "Weblate feature"
 msgstr "Weblate 功能"
 
 #: admin/install.rst:218
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "ASGI server for Weblate"
-msgstr "Weblate wsgi 服务器"
+msgstr "Weblate 的 ASGI 服务器"
 
 #: admin/install.rst:231
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
@@ -9200,10 +9173,8 @@ msgid "Hosted Weblate integration"
 msgstr "Hosted Weblate 集成"
 
 #: admin/install.rst:271
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "WSGI server for Weblate"
-msgstr "Weblate wsgi 服务器"
+msgstr "Weblate 的 WSGI 服务器"
 
 #: admin/install.rst:277
 msgid ""
@@ -9715,15 +9686,10 @@ msgid ""
 msgstr ""
 
 #: admin/install.rst:664
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies/env.html>`_"
 msgid ""
 "`Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
-msgstr ""
-"`代理环境变量 <https://everything.curl.dev/usingcurl/proxies/env.html>`_"
+msgstr "`代理环境变量 <https://everything.curl.dev/usingcurl/proxies/env.html>`_"
 
 #: admin/install.rst:669
 msgid "Adjusting configuration"
@@ -10216,34 +10182,23 @@ msgid "Using custom certificate authority"
 msgstr "使用定制的证书授权"
 
 #: admin/install.rst:1154
-#, fuzzy
-#| msgid ""
-#| "Weblate does verify SSL certificates during HTTP requests. In case you "
-#| "are using custom certificate authority which is not trusted in default "
-#| "bundles, you will have to add its certificate as trusted."
 msgid ""
 "Weblate verifies SSL certificates during HTTP requests. Requests made using "
 "HTTPX2 use the system certificate store, so install custom certificate "
 "authorities there."
 msgstr ""
-"Weblate 在 HTTP 请求时验证 SSL 证书。在使用 定制的证书授权的情况下，这样定制"
-"的证书授权在默认 bundles 的中不被信任，你必须将其证书添加为可信任。"
+"Weblate 在 HTTP 请求期间验证 SSL 证书。用 HTTPX2 所做请求使用系统证书存储，因"
+"此在这里安装自定义 CA。"
 
 #: admin/install.rst:1158
-#, fuzzy
-#| msgid ""
-#| "The preferred approach is to do this at system level, please check your "
-#| "distro documentation for more details (for example on debian this can be "
-#| "done by placing the CA certificate into :file:`/usr/local/share/ca-"
-#| "certificates/` and running :command:`update-ca-certificates`)."
 msgid ""
 "Check your distribution documentation for more details. For example, on "
 "Debian this can be done by placing the CA certificate into :file:`/usr/local/"
 "share/ca-certificates/` and running :command:`update-ca-certificates`."
 msgstr ""
-"首选方法是在系统层面上进行，请查看你的发行版文档了解详情（例如在 debian 中，"
-"这可以通过将 CA 证书放置在 :file:`/usr/local/share/ca-certificates/`，并运"
-"行 :command:`update-ca-certificates` 来完成）。"
+"请查看你的发行版文档了解详情，例如在 Debian 中，这可以通过将 CA 证书放置在 "
+":file:`/usr/local/share/ca-certificates/`，并运行 :command:`update-ca-"
+"certificates` 来完成。"
 
 #: admin/install.rst:1165
 msgid ""
@@ -10252,14 +10207,10 @@ msgid ""
 msgstr "Weblate 容器不将它包括在搜索路径内，你需要指定完整路径来执行它。比如："
 
 #: admin/install.rst:1172
-#, fuzzy
-#| msgid ""
-#| "Once this is done, system tools will trust the certificate and this "
-#| "includes Git."
 msgid ""
 "Once this is done, Weblate HTTPX2 requests and system tools, including Git, "
 "will trust the certificate."
-msgstr "一旦完成，系统工具就会信任证书，这包括 Git。"
+msgstr "一旦完成，Weblate HTTPX2 请求和系统工具，包括 Git，会信任该证书。"
 
 #: admin/install.rst:1175
 msgid ""
@@ -10592,10 +10543,8 @@ msgstr ""
 "（Backpressure）数值必须大于或等于阻塞线程的数量。"
 
 #: admin/install.rst:1457
-#, fuzzy
-#| msgid "Sample configuration to start Granian"
 msgid "Sample configuration to start Granian with ASGI"
-msgstr "启动 Granian 的配置示例"
+msgstr "用 ASGI 启动 Granian 的示例配置"
 
 #: admin/install.rst:1461
 msgid ""
@@ -11604,20 +11553,14 @@ msgid "Number of processes and memory consumption"
 msgstr "进程数量和内存消耗"
 
 #: admin/install/docker.rst:384
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both WSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both the web application and Celery is "
 "determined automatically based on number of CPUs. This works well for most "
 "cloud virtual machines as these typically have few CPUs and good amount of "
 "memory."
 msgstr ""
-"WSGI 和 Celery 的工作进程数是根据 CPU 的数量自动确定的。这适用于大多数云虚拟"
-"机，因为这些虚拟机通常具有很少的CPU和大量的内存。"
+"该 web 程序和 Celery 的工作进程数是根据 CPU 的数量自动确定的。这适用于大多数"
+"云虚拟机，因为这些虚拟机通常具有很少的CPU和大量的内存。"
 
 #: admin/install/docker.rst:389
 msgid ""
@@ -12506,19 +12449,13 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:1463
-#, fuzzy
-#| msgid ""
-#| "GitHub Apps are registered through the in-app manifest flow and stored in "
-#| "the database, so there are no GitHub App environment variables to "
-#| "configure. See :ref:`code-hosting-github-notifications`."
 msgid ""
 "GitHub Apps registered through the in-app manifest flow are stored in the "
 "database and do not need environment variables. See :ref:`code-hosting-"
 "github-notifications`."
 msgstr ""
-"Weblate 的 GitHub App 是通过界面内的 Manifest 流程注册并存入数据库的，因此无"
-"需配置任何 GitHub App 相关的环境变量。详见 :ref:`code-hosting-github-"
-"notifications`。"
+"通过应用内的 Manifest 流程注册的 GitHub 应用存入数据库，无需环境变量。详见 "
+":ref:`code-hosting-github-notifications`。"
 
 #: admin/install/docker.rst:1472
 msgid ""
@@ -13260,10 +13197,8 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:2435
-#, fuzzy
-#| msgid "Configure how many WSGI workers should be executed."
 msgid "Configure how many web application workers should be executed."
-msgstr "配置应该执行多少个 WSGI 工作进程。"
+msgstr "配置应该执行多少个 web 应用工作进程。"
 
 #: admin/install/docker.rst:2437
 msgid ""
@@ -13277,17 +13212,13 @@ msgid ""
 msgstr ":envvar:`WEB_WORKERS` 配置 :program:`granian` 将使用多少 worker 进程。"
 
 #: admin/install/docker.rst:2452
-#, fuzzy
-#| msgid ""
-#| "Configure how many blocking WSGI threads each :program:`granian` worker "
-#| "can use. It defaults to twice :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "Configure how many blocking WSGI threads each :program:`granian` worker can "
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS` and is ignored "
 "when :envvar:`WEBLATE_ASGI` is enabled."
 msgstr ""
-"配置每个 :program:`granian` worker 可使用的阻塞式 WSGI 线程数量。默认值"
-"为 :envvar:`WEBLATE_WORKERS` 的 2 倍。"
+"配置每个 :program:`granian` worker 可使用的阻塞式 WSGI 线程数量。默认值为 "
+":envvar:`WEBLATE_WORKERS` 的 2 倍，当启用 :envvar:`WEBLATE_ASGI` 时将被忽略。"
 
 #: admin/install/docker.rst:2456
 msgid ""
@@ -16024,12 +15955,6 @@ msgid "Translation memory status"
 msgstr "翻译记忆库状态"
 
 #: admin/memory.rst:106
-#, fuzzy
-#| msgid ""
-#| "Translation memory entries can have two different statuses: **active** "
-#| "and **pending**. Pending entries are included in suggestions, but with a "
-#| "quality penalty applied. If :ref:`autoclean-tm` is enabled, matching "
-#| "pending entries are removed when a translation becomes active."
 msgid ""
 "Translation memory entries can have two different statuses: **active** and "
 "**pending**. Pending entries are included in suggestions, but with a quality "
@@ -16040,8 +15965,9 @@ msgid ""
 "a translation becomes active."
 msgstr ""
 "翻译记忆库条目可以有两种不同状态：**活跃** 和 **未提交**。未提交条目包含在建"
-"议中，但适用质量惩罚。如启用了 :ref:`autoclean-tm`，当译文状态变为活跃时匹配"
-"的未提交条目被删除。"
+"议中，但适用质量惩罚。根据配置的分数阈值，惩罚甚至可以排除来自建议和自动翻译"
+"的精确匹配。从翻译记忆库文件导入的条目被存储为活跃状态。如启用了 "
+":ref:`autoclean-tm`，当译文状态变为活跃时匹配的未提交条目被删除。"
 
 #: admin/memory.rst:117 admin/projects.rst:247
 msgid "Autoclean translation memory"
@@ -16127,17 +16053,13 @@ msgstr ""
 "打开项目，从项目菜单选择 :guilabel:`翻译记忆库` 来管理项目的翻译记忆库。"
 
 #: admin/memory.rst:164
-#, fuzzy
-#| msgid ""
-#| "Open :guilabel:`Administration` and choose :guilabel:`Translation memory` "
-#| "to manage uploaded translation memory for the whole Weblate instance."
 msgid ""
 "Open a workspace and choose :guilabel:`Operations` ↓ :guilabel:`Translation "
 "memory` to manage automatically created translation memory for that "
 "workspace. Editing the workspace is required."
 msgstr ""
-"打开 :guilabel:`管理`，选择 :guilabel:`翻译记忆库` 管理整个 Weblate 实例的已"
-"上传的翻译记忆库。"
+"打开工作区，选择 :guilabel:`操作` ↓ :guilabel:`翻译记忆库` 管理该工作区自动创"
+"建的翻译记忆库。需要编辑该工作区。"
 
 #: admin/memory.rst:167
 msgid ""
@@ -16178,15 +16100,13 @@ msgid ""
 msgstr ""
 
 #: admin/memory.rst:186
-#, fuzzy
-#| msgid ""
-#| "Translation memory files can be imported on the same page. Uploaded files "
-#| "are stored in the selected scope:"
 msgid ""
 "Translation memory files can be imported on the same page. Uploaded files "
 "are processed during the request, stored as active, and added to the "
 "selected scope:"
-msgstr "可以在相同页面上导入翻译记忆库。上传的文件存储在所选作用域中："
+msgstr ""
+"可以在相同页面导入翻译记忆库。上传的文件在请求期间被处理，存储为活跃状态，并"
+"添加到所选作用域："
 
 #: admin/memory.rst:189
 msgid "Personal uploads are available in your personal translation memory."
@@ -16246,12 +16166,6 @@ msgstr ""
 "所有条目为 JSON 或 TMX 文件。"
 
 #: admin/memory.rst:222
-#, fuzzy
-#| msgid ""
-#| "The project translation memory view also allows rebuilding parts of or "
-#| "the entire project translation memory. Existing entries for the selected "
-#| "component or project are deleted, and the memory is populated again from "
-#| "the current translations in the background."
 msgid ""
 "The project translation memory view also allows rebuilding parts of or the "
 "entire project translation memory. Automatically generated entries for the "
@@ -16259,8 +16173,8 @@ msgid ""
 "from the current translations in the background. Entries imported from files "
 "are preserved."
 msgstr ""
-"项目翻译记忆库视图也允许重建部分或完整的项目翻译记忆库。所选部件或项目的现有"
-"条目被删除，记忆库在后台从当前翻译再次被填充。"
+"项目翻译记忆库视图也允许重建部分或完整的项目翻译记忆库。所选部件或项目的自动"
+"生成条目被删除，记忆库在后台从当前翻译再次被填充。从文件导入的条目将被保留。"
 
 #: admin/memory.rst:231
 msgid ""
@@ -20714,24 +20628,17 @@ msgid ""
 msgstr ""
 
 #: changes.rst:15
-#, fuzzy
-#| msgid "Added :ref:`check-laravel-format` quality check."
 msgid "Added :ref:`check-asciidoc-markup` quality check for AsciiDoc strings."
-msgstr "新增 :ref:`check-laravel-format` 质量检查。"
+msgstr "新增 AsciiDoc 字符串 :ref:`check-asciidoc-markup` 质量检查。"
 
 #: changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "Added support for acting as SAML Service Provider, see :ref:`saml-auth`."
 msgid ""
 "Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`."
-msgstr "为作为 SAML 服务提供商添加了支持，请参见 :ref:`saml-auth`。"
+msgstr "新增支持旧版 Qt Linguist TS 版本 1 文件。见 :ref:`qtling`。"
 
 #: changes.rst:17
-#, fuzzy
-#| msgid "Weblate is now available in Bashkir language."
 msgid "Weblate is now available in Lao language."
-msgstr "Weblate 现在可用巴什基尔语显示。"
+msgstr "Weblate 现在可用老挝语显示。"
 
 #: changes.rst:20 changes.rst:101 changes.rst:165 changes.rst:276
 #: changes.rst:333 changes/v5.rst:18 changes/v5.rst:104 changes/v5.rst:208
@@ -20992,12 +20899,10 @@ msgid ""
 msgstr ""
 
 #: changes.rst:60
-#, fuzzy
-#| msgid "Fixed rebuilding project translation-memory for some components."
 msgid ""
 "Rebuilding project translation memory no longer removes entries imported "
 "from files."
-msgstr "修复了重建某些部件的项目翻译记忆库的问题。"
+msgstr "重建项目翻译记忆库不再删除从文件导入的条目。"
 
 #: changes.rst:61
 msgid ""
@@ -41125,10 +41030,8 @@ msgstr ""
 "配你的 codebase。"
 
 #: devel/integration.rst:69
-#, fuzzy
-#| msgid "Joining a translation project"
 msgid "Monitoring translation progress"
-msgstr "加入翻译项目"
+msgstr "监控翻译进度"
 
 #: devel/integration.rst:71
 msgid ""
@@ -41145,10 +41048,8 @@ msgid ""
 msgstr ""
 
 #: devel/integration.rst:81
-#, fuzzy
-#| msgid ":http:get:`/api/projects/(string:project)/statistics/`"
 msgid ":http:get:`/api/projects/(string:project)/metrics/`"
-msgstr ":http:get:`/api/projects/(string:project)/statistics/`"
+msgstr ":http:get:`/api/projects/(string:project)/metrics/`"
 
 #: devel/integration.rst:87 devel/translations.rst:7
 msgid "Adding new strings"
@@ -45809,10 +45710,8 @@ msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 msgstr "`Qt Linguist 手册 <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: formats/qt.rst:24
-#, fuzzy
-#| msgid "Version"
 msgid "Version 2"
-msgstr "版本"
+msgstr "版本 2"
 
 #: formats/qt.rst:26
 msgid ""
@@ -45821,10 +45720,8 @@ msgid ""
 msgstr ""
 
 #: formats/qt.rst:37
-#, fuzzy
-#| msgid "Version"
 msgid "Version 1"
-msgstr "版本"
+msgstr "版本 1"
 
 #: formats/qt.rst:39
 msgid ""
@@ -45837,10 +45734,8 @@ msgid "Typical Weblate :ref:`component` when using as bilingual"
 msgstr "用作双语言时典型的 Weblate :ref:`component`"
 
 #: formats/qt.rst:56 formats/qt.rst:69
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)`"
-msgstr "Qt Linguist 翻译文件"
+msgstr "Qt Linguist 翻译文件（版本 2）`"
 
 #: formats/qt.rst:61
 msgid "Typical Weblate :ref:`component` when using as monolingual"
@@ -49741,18 +49636,16 @@ msgid "In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)"
 msgstr ""
 
 #: security/threat-model.rst:51
-#, fuzzy
-#| msgid "Per-project translation memory"
 msgid "Project translation metrics"
-msgstr "以项目为基准的翻译记忆库"
+msgstr "项目翻译指标"
 
 #: security/threat-model.rst:52
-#, fuzzy
-#| msgid ":http:get:`/api/projects/(string:project)/statistics/`"
 msgid ""
 ":http:get:`/api/projects/(string:project)/metrics/` in JSON, CSV, and "
 "OpenMetrics formats"
-msgstr ":http:get:`/api/projects/(string:project)/statistics/`"
+msgstr ""
+"JSON、CSV、OpenMetrics 格式的 :http:get:`/api/projects/(string:project)/"
+"metrics/`"
 
 #: security/threat-model.rst:54
 msgid ""
@@ -50125,13 +50018,6 @@ msgid "Webhook sender to Weblate"
 msgstr "Webhook 发送方到 Weblate"
 
 #: security/threat-model.rst:197
-#, fuzzy
-#| msgid ""
-#| "Public forge notifications can schedule repository synchronization where "
-#| "hooks are enabled. GitHub App webhooks additionally authenticate with a "
-#| "per-app URL token and GitHub signature verification before processing. "
-#| "*(documented)* (source: :ref:`hooks`, :ref:`project-"
-#| "enable_hooks`, :ref:`code-hosting-github-app-webhook`)"
 msgid ""
 "Public forge notifications can schedule repository synchronization where "
 "hooks are enabled. Registered GitHub App webhooks additionally authenticate "
@@ -50141,10 +50027,11 @@ msgid ""
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-"
 "github-app-webhook`, :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)"
 msgstr ""
-"公共 forge 通知可以安排启用了 hook 的仓库同步的时间。GitHub 应用 webhook 在处"
-"理前额外使用每个应用的 URL 令牌和 GitHub 签名验证进行身份认证。 *(有文档信"
-"息)* (来源： :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-"
-"github-app-webhook`)"
+"公共 forge 通知可以安排启用了 hook 的仓库同步的时间。注册的 GitHub 应用额外使"
+"用每个应用的 URL 令牌和 GitHub 签名验证进行身份认证。需手动启用的旧版 GitHub "
+"应用传输数据到一般 GitHub webhook URL 用单独配置的 secret 进行身份认证。 *(有"
+"文档信息)* (来源： :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-"
+"hosting-github-app-webhook`、:setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)"
 
 #: security/threat-model.rst:205
 msgid "Weblate to database/datastore"
@@ -55678,16 +55565,12 @@ msgid ""
 msgstr ""
 
 #: snippets/check-flags-autogenerated.rst:54
-#, fuzzy
-#| msgid ""
-#| "Treat a text as an Bulletin Board Code (BBCode) document, "
-#| "affects :ref:`check-same`. Enables the :ref:`check-bbcode` quality check."
 msgid ""
 "Treat a text as an AsciiDoc document, affects :ref:`check-same`. Enables "
 "the :ref:`check-asciidoc-markup` quality check."
 msgstr ""
-"将文本视为 Bulletin Board Code（BBCode）文档，影响 :ref:`check-same`。启"
-"用 :ref:`check-bbcode` 质量检查。"
+"将文本视为 AsciiDoc 文档，影响 :ref:`check-same`。启用 :ref:`check-asciidoc-"
+"markup` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:57
 msgid ""
@@ -55855,10 +55738,8 @@ msgid "Enables the :ref:`check-max-length` quality check."
 msgstr "启用 :ref:`check-max-length` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:133
-#, fuzzy
-#| msgid "Enables the :ref:`check-max-size` quality check."
 msgid "Enables the :ref:`check-max-lines` quality check."
-msgstr "启用 :ref:`check-max-size` 质量检查。"
+msgstr "启用 :ref:`check-max-lines` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:135
 msgid "Enables the :ref:`check-max-size` quality check."
@@ -55915,10 +55796,8 @@ msgid "Skip the :ref:`check-accelerator` quality check."
 msgstr "跳过 :ref:`check-accelerator` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:166
-#, fuzzy
-#| msgid "Skip the :ref:`check-kashida` quality check."
 msgid "Skip the :ref:`check-asciidoc-markup` quality check."
-msgstr "跳过 :ref:`check-kashida` 质量检查。"
+msgstr "跳过 :ref:`check-asciidoc-markup` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:168
 msgid "Skip the :ref:`check-bbcode` quality check."
@@ -56089,10 +55968,8 @@ msgid "Skip the :ref:`check-max-length` quality check."
 msgstr "跳过 :ref:`check-max-length` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:252
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-size` quality check."
 msgid "Skip the :ref:`check-max-lines` quality check."
-msgstr "跳过 :ref:`check-max-size` 质量检查。"
+msgstr "跳过 :ref:`check-max-lines` 质量检查。"
 
 #: snippets/check-flags-autogenerated.rst:254
 msgid "Skip the :ref:`check-max-size` quality check."
@@ -56444,10 +56321,8 @@ msgid "inline and block macros (e.g. ``link:`` and ``image::``)"
 msgstr ""
 
 #: snippets/checks-autogenerated.rst:68
-#, fuzzy
-#| msgid "``rst-references``"
 msgid "cross-references (``<<id>>``)"
-msgstr "``rst-references``"
+msgstr "交叉引用 (``<<id>>``)"
 
 #: snippets/checks-autogenerated.rst:69
 msgid "passthroughs (e.g. ``+++...+++``, ``$$...$$``)"
@@ -57799,16 +57674,12 @@ msgid ""
 msgstr "当同时使用 ``xml-text`` 标志时，长度计算会忽略 XML 标记。"
 
 #: snippets/checks-autogenerated.rst:1457
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "译文最大尺寸"
+msgstr "最大行数"
 
 #: snippets/checks-autogenerated.rst:1459
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "译文不应超过给定长度。"
+msgstr "译文不应超过给定行数。"
 
 #: snippets/checks-autogenerated.rst:1469
 msgid ""
@@ -57819,15 +57690,10 @@ msgid ""
 msgstr ""
 
 #: snippets/checks-autogenerated.rst:1474
-#, fuzzy
-#| msgid ""
-#| "Unlike the other checks, the flag should be set as a ``key:value`` pair "
-#| "like ``max-length:100``."
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-lines:3``."
-msgstr ""
-"与其他检查不同，该标记应设置为 ``key:value`` 对，如 ``max-length:100``。"
+msgstr "与其他检查不同，该标记应设置为 ``key:value`` 对，如 ``max-lines:3`` 。"
 
 #: snippets/checks-autogenerated.rst:1477
 msgid ""
@@ -58888,12 +58754,10 @@ msgid "Source string length"
 msgstr "源字符串长度"
 
 #: snippets/checks-autogenerated.rst:2649
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
-msgstr "源字符串过长无法适配配置的最大长度。"
+msgstr "源字符串接近或超过了配置的译文的最大长度。"
 
 #: snippets/checks-autogenerated.rst:2658
 msgid ""
@@ -60251,10 +60115,8 @@ msgid "``.ad``, ``.adoc``, ``.asciidoc``"
 msgstr "``.ad``, ``.adoc``, ``.asciidoc``"
 
 #: snippets/format-features/asciidoc-features.rst:30
-#, fuzzy
-#| msgid ":ref:`check-safe-html`, ``strict-same``"
 msgid ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
-msgstr ":ref:`check-safe-html`, ``strict-same``"
+msgstr ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -62639,21 +62501,13 @@ msgstr ""
 "何挂起更改，并且生成最新文件而不进行任何转换。"
 
 #: user/files.rst:25
-#, fuzzy
-#| msgid ""
-#| "You can also download the translation converted into one of the widely "
-#| "used localization formats. The converted files will be enriched with data "
-#| "provided in Weblate; such as additional context, comments or flags. "
-#| "Several file formats are available via the :guilabel:`Files` "
-#| "↓ :guilabel:`Customize download` menu:"
 msgid ""
 "You can also download the translation converted into one of the widely used "
 "localization formats. The converted files will be enriched with data "
 "provided in Weblate; such as additional context, comments or flags."
 msgstr ""
 "您还可以下载转换为一种广泛使用的本地化格式的翻译。转换后的文件将使用 Weblate "
-"中提供的数据进行丰富；例如附加上下文、评论或标记。以下各种文件格式可通"
-"过 :guilabel:`文件` ↓ :guilabel:`自定义下载` 菜单获得："
+"中提供的数据进行丰富；例如附加上下文、评论或标记。"
 
 #: user/files.rst:31
 msgid ""
@@ -66044,26 +65898,21 @@ msgid "Using proxy"
 msgstr "使用代理"
 
 #: vcs.rst:285
-#, fuzzy
-#| msgid ""
-#| "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
-#| "configure the VCS to use it."
 msgid ""
 "If you need to access Git repositories over HTTPS using a proxy server, "
 "configure the per-protocol environment variables described in :ref:`http-"
 "proxy`."
 msgstr ""
-"如果需要使用代理服务器访问 HTTP/HTTPS VCS 仓库，请将 VCS 配置为使用它。"
+"如需用代理服务器访问 Git 仓库，配置 :ref:`http-proxy` 中所述的不同协议的环境"
+"变量。"
 
 #: vcs.rst:291
 msgid "Git"
 msgstr "Git"
 
 #: vcs.rst:295
-#, fuzzy
-#| msgid "Weblate needs Git 2.28 or newer."
 msgid "Weblate needs Git 2.46 or newer."
-msgstr "Weblate 需要 Git 2.28 或更新版本。"
+msgstr "Weblate 需要 Git 2.46 或更高版本。"
 
 #: vcs.rst:299
 msgid ""
