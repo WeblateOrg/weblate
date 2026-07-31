@@ -23,6 +23,8 @@ from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 from openpyxl import load_workbook
 
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Permission, Role
 from weblate.auth.results import Denied
 from weblate.formats.helpers import NamedBytesIO, format_csv_id_hash
 from weblate.formats.ttkit import CSVFormat
@@ -37,9 +39,11 @@ from weblate.trans.models import (
     PendingUnitChange,
     Project,
     Translation,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path, get_test_file
+from weblate.trans.util import check_upload_method_permissions
 from weblate.trans.views.files import can_download_workspace
 from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_READONLY
@@ -113,6 +117,60 @@ class UploadFormPermissionTest(ViewTestCase):
 
         choices = [choice[0] for choice in form.fields["conflicts"].choices]
         self.assertIn("replace-approved", choices)
+
+
+class RestrictedDirectEditingUploadTest(ViewTestCase):
+    def add_project_role(self, role: Role) -> None:
+        group = Group.objects.create(
+            name=f"Restricted upload {role.name}",
+            language_selection=SELECTION_ALL,
+        )
+        group.projects.add(self.project)
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+    def restrict_language(self, translation: Translation) -> Translation:
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=translation.language,
+            restrict_direct_editing=True,
+        )
+        return Translation.objects.get(pk=translation.pk)
+
+    def test_direct_and_suggestion_upload(self) -> None:
+        translation = self.restrict_language(self.translation)
+
+        self.assertTrue(self.user.has_perm("upload.perform", translation))
+        self.assertFalse(
+            check_upload_method_permissions(self.user, translation, "translate")
+        )
+        self.assertTrue(
+            check_upload_method_permissions(self.user, translation, "suggest")
+        )
+
+    def test_replace_upload(self) -> None:
+        role = Role.objects.create(name="Replace upload")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        self.add_project_role(role)
+        self.assertTrue(
+            check_upload_method_permissions(self.user, self.translation, "replace")
+        )
+
+        translation = self.restrict_language(self.translation)
+
+        self.assertFalse(
+            check_upload_method_permissions(self.user, translation, "replace")
+        )
+
+    def test_source_upload(self) -> None:
+        self.add_project_role(Role.objects.get(name="Edit source"))
+        source = self.get_translation("en")
+        self.assertTrue(check_upload_method_permissions(self.user, source, "source"))
+
+        source = self.restrict_language(source)
+
+        self.assertFalse(check_upload_method_permissions(self.user, source, "source"))
 
 
 class ImportBaseTest(ViewTestCase):

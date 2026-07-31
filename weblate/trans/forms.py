@@ -4648,6 +4648,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         # ruff: ignore[mutable-class-default]
         fields = [
             "translation_review",
+            "restrict_direct_editing",
             "enable_suggestions",
             "suggestion_voting",
             "suggestion_autoaccept",
@@ -4699,6 +4700,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
             ),
             Div(
                 Field("translation_review"),
+                Field("restrict_direct_editing"),
                 Field("enable_suggestions"),
                 Field("suggestion_voting"),
                 Field("suggestion_autoaccept"),

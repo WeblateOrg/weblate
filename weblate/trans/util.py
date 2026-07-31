@@ -434,9 +434,13 @@ def check_upload_method_permissions(
     if method == "approve":
         return user.has_perm("unit.review", translation)
     if method == "replace":
-        return bool(translation.filename) and (
-            user.has_perm("component.edit", translation)
-            or user.has_perms(["unit.add", "unit.delete", "unit.edit"], translation)
+        return (
+            bool(translation.filename)
+            and user.has_perm("meta:unit.direct_edit", translation)
+            and (
+                user.has_perm("component.edit", translation)
+                or user.has_perms(["unit.add", "unit.delete", "unit.edit"], translation)
+            )
         )
     msg = f"Invalid method: {method}"
     raise ValueError(msg)

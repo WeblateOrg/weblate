@@ -985,6 +985,7 @@ def auto_translate(
     workspace_id: str | None = None,
     activity_log_id: int | None = None,
     activity_log_task_count: int | None = None,
+    enforce_permissions: bool = True,
 ) -> dict[str, Any]:
     result: dict[str, Any] = {"warnings": []}
     user = User.objects.get(pk=user_id) if user_id else None
@@ -1017,6 +1018,7 @@ def auto_translate(
             mode=mode,
             component_wide=component_wide,
             unit_ids=unit_ids,
+            enforce_permissions=enforce_permissions,
         )
         try:
             message = auto.perform(
@@ -1060,6 +1062,7 @@ def auto_translate_component(
     source_component_id: int | None = None,
     user_id: int | None = None,
     activity_log_id: int | None = None,
+    enforce_permissions: bool = True,
 ) -> dict[str, Any]:
     component_obj = Component.objects.get(pk=component_id)
     user = User.objects.get(pk=user_id) if user_id else None
@@ -1069,6 +1072,7 @@ def auto_translate_component(
         q=q,
         mode=mode,
         component_wide=True,
+        enforce_permissions=enforce_permissions,
     )
     message = auto.perform(
         auto_source=auto_source,
