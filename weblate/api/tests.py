@@ -1531,6 +1531,7 @@ class UserAPITest(APIBaseTest):
                     "secondary_languages": [en_language.code],
                     "nearby_strings": 5,
                     "special_chars": "\xa0",
+                    "wide_tables": True,
                 }
             },
         )
@@ -1538,6 +1539,7 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(self.user.profile.theme, "dark")
         self.assertEqual(self.user.profile.location, "Prague")
         self.assertEqual(self.user.profile.nearby_strings, 5)
+        self.assertTrue(self.user.profile.wide_tables)
         self.assertEqual(
             list(self.user.profile.languages.values_list("code", flat=True)),
             [cs_language.code],

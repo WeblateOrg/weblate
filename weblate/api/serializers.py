@@ -852,6 +852,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
             "hide_completed",
             "secondary_in_zen",
             "hide_source_secondary",
+            "wide_tables",
             "editor_link",
             "translate_mode",
             "zen_mode",

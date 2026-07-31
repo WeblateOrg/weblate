@@ -796,6 +796,16 @@ class Profile(models.Model):
         verbose_name=gettext_lazy("Hide source if a secondary translation exists"),
         default=False,
     )
+    wide_tables = models.BooleanField(
+        verbose_name=gettext_lazy(
+            "Show all columns in lists using horizontal scrolling"
+        ),
+        default=False,
+        help_text=gettext_lazy(
+            "Instead of hiding columns on narrow screens, keep all columns and "
+            "scroll the table horizontally."
+        ),
+    )
     editor_link = models.CharField(
         default="",
         blank=True,
@@ -1117,6 +1127,7 @@ class Profile(models.Model):
                 "theme",
                 "secondary_in_zen",
                 "hide_source_secondary",
+                "wide_tables",
                 "editor_link",
                 "translate_mode",
                 "zen_mode",

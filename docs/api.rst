@@ -360,6 +360,7 @@ Users
                 "hide_completed": false,
                 "secondary_in_zen": true,
                 "hide_source_secondary": false,
+                "wide_tables": false,
                 "editor_link": "",
                 "translate_mode": 0,
                 "zen_mode": 0,
