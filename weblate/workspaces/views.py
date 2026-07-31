@@ -22,10 +22,11 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 
-from weblate.trans.forms import AutoForm, BulkEditForm, SearchForm
+from weblate.trans.forms import AutoForm, BulkEditForm, ReplaceForm, SearchForm
 from weblate.trans.models.change import Change
 from weblate.trans.models.project import Project, prefetch_project_flags
 from weblate.trans.models.translation import Translation
+from weblate.trans.models.unit import Unit
 from weblate.trans.views.files import can_download_workspace
 from weblate.trans.views.reports import get_reports_context
 from weblate.utils import messages
@@ -219,6 +220,12 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         "meta:billing.view", billing
     )
     can_edit_workspace = request.user.has_perm("workspace.edit", workspace)
+    can_edit_units = (
+        Unit.objects.filter(translation__component__project__workspace=workspace)
+        .filter_access(request.user)
+        .filter_editable_scope(request.user)
+        .exists()
+    )
     user_has_workspace_access = any(
         request.user.has_perm(permission, workspace)
         for permission in (
@@ -269,9 +276,9 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "autoform": AutoForm(workspace, user=request.user)
             if request.user.has_perm("translation.auto", workspace)
             else None,
+            "replace_form": ReplaceForm(workspace) if can_edit_units else None,
             "bulk_state_form": BulkEditForm(request.user, workspace)
-            if request.user.has_perm("unit.bulk_edit", workspace)
-            and request.user.has_perm("unit.edit", workspace)
+            if request.user.has_perm("unit.bulk_edit", workspace) and can_edit_units
             else None,
             "create_project_url": get_create_project_url(request, workspace, billing),
             "delete_form": WorkspaceDeleteForm(workspace)
