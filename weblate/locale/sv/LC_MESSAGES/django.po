@@ -12,6 +12,7 @@
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # goeran <goeran@uddeborg.se>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
+# win7guru <winsevn@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
@@ -19,7 +20,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
 "PO-Revision-Date: 2026-08-02 03:02+0000\n"
-"Last-Translator: goeran <goeran@uddeborg.se>\n"
+"Last-Translator: win7guru <winsevn@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
 "Language: sv\n"
@@ -17709,6 +17710,9 @@ msgid ""
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+"GitHub visar bara konton där din GitHub-användare kan installera eller "
+"begära den här appen. Om en organisation saknas, kontrollera din "
+"organisationsroll och installationsbegränsningar för GitHub-appen i GitHub."
 
 #: weblate/templates/vcs/github_install_select.html:13
 #, fuzzy
@@ -17723,6 +17727,8 @@ msgid ""
 "Select the GitHub or GitHub Enterprise instance where you want to connect "
 "the Weblate GitHub App."
 msgstr ""
+"Välj den GitHub- eller GitHub Enterprise-instans där du vill ansluta Weblate "
+"GitHub-appen."
 
 #: weblate/templates/vcs/github_install_select.html:22
 #, fuzzy, python-format
@@ -17733,7 +17739,7 @@ msgstr "Inbjudan till %(project_name)s"
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
 msgid "Connected GitHub account: %(login)s"
-msgstr ""
+msgstr "Anslutet GitHub-konto: %(login)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:32
 #, fuzzy
@@ -17748,6 +17754,9 @@ msgid ""
 "refresh and webhook signature checks will not work until the App credentials "
 "are registered again."
 msgstr ""
+"Weblate GitHub-appens inloggningsuppgifter är inte registrerade för %"
+"(hostname)s. Tokenuppdatering och webhook-signaturkontroller fungerar inte "
+"förrän appens inloggningsuppgifter är registrerade igen."
 
 #: weblate/templates/vcs/github_installation_detail.html:51
 #, fuzzy
@@ -17780,12 +17789,12 @@ msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
 msgstr ""
+"Inga arkiv hittades. Klicka på \"Uppdatera arkiv\" för att hämta listan från "
+"GitHub."
 
 #: weblate/templates/vcs/github_installation_list.html:19
-#, fuzzy
-#| msgid "Weblate status"
 msgid "Weblate GitHub Apps"
-msgstr "Weblate status"
+msgstr "Weblate GitHub-appar"
 
 #: weblate/templates/vcs/github_installation_list.html:28
 msgid ""
@@ -17793,6 +17802,10 @@ msgid ""
 "with the right permissions and webhook URL already filled in — Weblate will "
 "store the credentials automatically once GitHub redirects back."
 msgstr ""
+"Ingen kodhostingsapp är registrerad ännu. Använd knappen ovan för att skapa "
+"en med rätt behörigheter och en webhook-URL som redan är ifylld – Weblate "
+"kommer att lagra inloggningsuppgifterna automatiskt när GitHub omdirigerar "
+"tillbaka."
 
 #: weblate/templates/vcs/github_installation_list.html:37
 msgid ""
@@ -17800,6 +17813,9 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+"Apparna nedan tillhandahåller inloggningsuppgifter som Weblate använder för "
+"att kommunicera med kodvärdsleverantörer. Koppla ett konto till varje app "
+"för att importera arkiv från det kontot."
 
 #: weblate/templates/vcs/github_installation_list.html:64
 #: weblate/templates/vcs/github_installation_list.html:69
@@ -17818,15 +17834,15 @@ msgstr "Ta bort mitt konto"
 #: weblate/templates/vcs/github_installation_list.html:75
 #: weblate/vcs/github.py:478
 msgid "App ID"
-msgstr ""
+msgstr "App-ID"
 
 #: weblate/templates/vcs/github_installation_list.html:79
 msgid "Slug"
-msgstr ""
+msgstr "Snigel"
 
 #: weblate/templates/vcs/github_installation_list.html:101
 msgid "Remove Weblate GitHub App?"
-msgstr ""
+msgstr "Ta bort Weblate GitHub-appen?"
 
 #: weblate/templates/vcs/github_installation_list.html:111
 #, python-format
@@ -17834,18 +17850,24 @@ msgid ""
 "This deletes the stored credentials for the <code>%(slug)s</code> App on "
 "<code>%(host)s</code>."
 msgstr ""
+"Detta raderar de lagrade inloggningsuppgifterna för <code>%(slug)s</code>-"
+"appen på <code>%(host)s</code>."
 
 #: weblate/templates/vcs/github_installation_list.html:118
 msgid ""
 "The App itself stays installed on GitHub. Delete it from GitHub separately "
 "if you no longer need it."
 msgstr ""
+"Själva appen förblir installerad på GitHub. Ta bort den separat från GitHub "
+"om du inte längre behöver den."
 
 #: weblate/templates/vcs/github_installation_list.html:175
 msgid ""
 "No connected accounts yet. Use the button above to connect an organization "
 "or user account."
 msgstr ""
+"Inga anslutna konton ännu. Använd knappen ovan för att ansluta ett "
+"organisations- eller användarkonto."
 
 #: weblate/templates/vcs/github_repository_list.html:9
 #, fuzzy
@@ -17864,21 +17886,27 @@ msgid ""
 "Select a repository to import. This will pre-fill the component creation "
 "form with the repository URL and branch."
 msgstr ""
+"Välj ett arkiv att importera. Detta kommer att förfylla formuläret för att "
+"skapa komponenter med arkivets URL och gren."
 
 #: weblate/templates/vcs/github_repository_list.html:112
 msgid "No repositories available from connected accounts."
-msgstr ""
+msgstr "Inga arkiv tillgängliga från anslutna konton."
 
 #: weblate/templates/vcs/github_repository_list.html:115
 msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
+"Installera Weblate GitHub-appen för att ansluta en organisation eller ett "
+"användarkonto."
 
 #: weblate/templates/vcs/github_repository_list.html:117
 msgid ""
 "Select a project with a workspace before connecting an account. Code-hosting "
 "accounts are connected to workspaces."
 msgstr ""
+"Välj ett projekt med en arbetsyta innan du ansluter ett konto. Kodvärdkonton "
+"är anslutna till arbetsytor."
 
 #: weblate/templates/vcs/github_repository_list.html:119
 #, fuzzy
@@ -17901,13 +17929,15 @@ msgstr "Ta bort mitt konto"
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:25
 #, python-format
 msgid "This removes the connected account <code>%(login)s</code> from Weblate."
-msgstr ""
+msgstr "Detta tar bort det anslutna kontot <code>%(login)s</code> från Weblate."
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:31
 msgid ""
 "The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
 "separately if you no longer need it."
 msgstr ""
+"Weblate GitHub-appen förblir installerad på GitHub. Ta bort den separat från "
+"GitHub om du inte längre behöver den."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:7
 msgid "Invitations"
@@ -18016,10 +18046,12 @@ msgid ""
 "The workspace cannot be removed while it contains projects. Move or remove "
 "the projects first."
 msgstr ""
+"Arbetsytan kan inte tas bort medan den innehåller projekt. Flytta eller ta "
+"bort projekten först."
 
 #: weblate/templates/workspace.html:248 weblate/workspaces/views.py:328
 msgid "A workspace associated with billing cannot be removed."
-msgstr ""
+msgstr "En arbetsyta som är kopplad till fakturering kan inte tas bort."
 
 #: weblate/templates/workspace.html:261
 #, fuzzy
@@ -18044,6 +18076,8 @@ msgid ""
 "This includes workspace access-control teams, translation memory, and code-"
 "hosting connections."
 msgstr ""
+"Detta inkluderar team för åtkomstkontroll av arbetsytor, översättningsminne "
+"och kodhostinganslutningar."
 
 #: weblate/templates/workspaces/delete-workspace.html:9
 #, fuzzy
@@ -19146,6 +19180,8 @@ msgid ""
 "Outbound translation delivery is manual. Configure a push URL or a pull or "
 "merge request integration to automate it."
 msgstr ""
+"Utgående översättningsleverans är manuell. Konfigurera en push-URL eller en "
+"integration med pull- eller merge-förfrågningar för att automatisera den."
 
 #: weblate/trans/alerts/community.py:206
 #, fuzzy
@@ -19372,6 +19408,9 @@ msgid ""
 "translation skipped pluralized strings and processed only single-form "
 "strings."
 msgstr ""
+"Pluralformer i %(component)s matchar inte målöversättningen. Automatisk "
+"översättning hoppade över pluraliserade strängar och bearbetade endast "
+"strängar i en enda form."
 
 #: weblate/trans/autotranslate.py:511
 #, python-format
@@ -19383,6 +19422,8 @@ msgid ""
 "Automatic translation skipped some translations because selected source "
 "components use a different source language."
 msgstr ""
+"Automatisk översättning hoppade över vissa översättningar eftersom valda "
+"källkomponenter använder ett annat källspråk."
 
 #: weblate/trans/autotranslate.py:693
 #, fuzzy
@@ -19398,7 +19439,7 @@ msgstr ""
 
 #: weblate/trans/backups.py:293
 msgid "The checksum has to be exactly 16 hexadecimal characters."
-msgstr ""
+msgstr "Kontrollsumman måste vara exakt 16 hexadecimala tecken lång."
 
 #: weblate/trans/backups.py:302
 #, fuzzy
@@ -19460,7 +19501,7 @@ msgstr "{filename} ({parameter}) finns inte."
 
 #: weblate/trans/backups.py:1131
 msgid "Component filename does not match its category and slug."
-msgstr ""
+msgstr "Komponentens filnamn matchar inte dess kategori och slug."
 
 #: weblate/trans/backups.py:1137
 #, fuzzy
@@ -19501,7 +19542,7 @@ msgstr "Filen finns inte."
 
 #: weblate/trans/backups.py:1285
 msgid "A translated unit references a missing source unit."
-msgstr ""
+msgstr "En översatt enhet refererar till en saknad källenhet."
 
 #: weblate/trans/backups.py:1313 weblate/trans/backups.py:1384
 #, fuzzy
@@ -19555,7 +19596,7 @@ msgstr "Kategorin hör inte till detta projekt."
 
 #: weblate/trans/backups.py:1443
 msgid "Repository-linked components can not contain repository data."
-msgstr ""
+msgstr "Databaslänkade komponenter får inte innehålla databasdata."
 
 #: weblate/trans/backups.py:2262
 #, fuzzy
@@ -19621,7 +19662,7 @@ msgstr "Nästa avsnitt"
 #: weblate/trans/change_display.py:294 weblate/trans/forms.py:3778
 #: weblate/trans/views/create.py:122
 msgid "No workspace"
-msgstr ""
+msgstr "Ingen arbetsyta"
 
 #: weblate/trans/change_display.py:298
 #, fuzzy, python-format
@@ -19743,7 +19784,7 @@ msgstr "Tillstånd"
 #: weblate/trans/diagnostics.py:54 weblate/trans/diagnostics.py:61
 #: weblate/trans/diagnostics.py:68
 msgid "All"
-msgstr ""
+msgstr "Alla"
 
 #: weblate/trans/diagnostics.py:60 weblate/trans/models/announcement.py:269
 msgid "Severity"
@@ -19751,7 +19792,7 @@ msgstr "Svårighetsgrad"
 
 #: weblate/trans/diagnostics.py:72
 msgid "Actionable by me"
-msgstr ""
+msgstr "Åtgärdbar av mig"
 
 #: weblate/trans/discovery.py:497
 #, fuzzy
@@ -19777,6 +19818,8 @@ msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
 msgstr ""
+"Språkfiltrets reguljära uttryck är för komplext och tog för lång tid att "
+"utvärdera."
 
 #: weblate/trans/discovery.py:831
 msgid "File mask matches the main component."
@@ -20442,7 +20485,7 @@ msgstr "Komponenten hittades inte!"
 
 #: weblate/trans/forms.py:1355
 msgid "Enter component ID or project/component slug."
-msgstr ""
+msgstr "Ange komponent-ID eller projekt-/komponent-slug."
 
 #: weblate/trans/forms.py:1372
 msgid "Source component needs to have same source language as target one."
@@ -20527,6 +20570,8 @@ msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
 "separate changes."
 msgstr ""
+"Välj om upprepade ändringar på samma sträng ska räknas en gång eller som "
+"separata ändringar."
 
 #: weblate/trans/forms.py:1819
 #, fuzzy
@@ -20592,15 +20637,15 @@ msgstr "Registreringsdatum"
 
 #: weblate/trans/forms.py:1920
 msgid "Minimum changes per day"
-msgstr ""
+msgstr "Minsta ändringar per dag"
 
 #: weblate/trans/forms.py:1923
 msgid "Maximum changes per day"
-msgstr ""
+msgstr "Maximalt antal ändringar per dag"
 
 #: weblate/trans/forms.py:1926
 msgid "Maximum source words per day"
-msgstr ""
+msgstr "Maximalt antal källord per dag"
 
 #: weblate/trans/forms.py:1985
 #, fuzzy
@@ -20624,6 +20669,8 @@ msgstr "Ärvda flaggor"
 msgid ""
 "Inherited value is shown. Disable inheritance to edit the stored override."
 msgstr ""
+"Ärvt värde visas. Inaktivera arv för att redigera den lagrade "
+"åsidosättningen."
 
 #: weblate/trans/forms.py:2240
 msgid "This submission has been identified as spam!"
@@ -20755,12 +20802,17 @@ msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects."
 msgstr ""
+"Ange UUID för en arbetsyta där du har behörighet att redigera inställningar "
+"och lägga till projekt."
 
 #: weblate/trans/forms.py:3764
 msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects, or leave empty to move the project out of a workspace."
 msgstr ""
+"Ange UUID för en arbetsyta där du har behörighet att redigera inställningar "
+"och lägga till projekt, eller lämna tomt om du vill flytta projektet från en "
+"arbetsyta."
 
 #: weblate/trans/forms.py:3787
 #, fuzzy
@@ -20981,7 +21033,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:4697
 msgid "Turn on customization above to change these settings."
-msgstr ""
+msgstr "Aktivera anpassning ovan för att ändra dessa inställningar."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/inherited_settings.py:17
@@ -21069,6 +21121,8 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+"Komponent %(component)s hoppades över eftersom dess länkade arkiv inte är "
+"tillgängligt."
 
 #: weblate/trans/mixins.py:212
 msgid ""
@@ -21244,6 +21298,8 @@ msgstr "Språkkodstil"
 msgid ""
 "Use the language code style configured in the parent category or project."
 msgstr ""
+"Använd språkkodsstilen som konfigurerats i den överordnade kategorin eller "
+"projektet."
 
 #: weblate/trans/models/category.py:187 weblate/trans/models/component.py:1103
 #: weblate/trans/models/project.py:367 weblate/workspaces/models.py:154
@@ -21310,6 +21366,8 @@ msgid ""
 "Use the commit message when translating configured in the parent category or "
 "project."
 msgstr ""
+"Använd commit-meddelandet vid översättning av konfigurerade element i den "
+"överordnade kategorin eller projektet."
 
 #: weblate/trans/models/category.py:221 weblate/trans/models/component.py:910
 #: weblate/trans/models/project.py:472 weblate/workspaces/models.py:183
@@ -21328,6 +21386,8 @@ msgid ""
 "Use the commit message when adding translation configured in the parent "
 "category or project."
 msgstr ""
+"Använd commit-meddelandet när du lägger till översättning som konfigurerats "
+"i den överordnade kategorin eller projektet."
 
 #: weblate/trans/models/category.py:237 weblate/trans/models/component.py:926
 #: weblate/trans/models/project.py:488 weblate/workspaces/models.py:192
@@ -21346,6 +21406,8 @@ msgid ""
 "Use the commit message when removing translation configured in the parent "
 "category or project."
 msgstr ""
+"Använd commit-meddelandet när du tar bort översättning som konfigurerats i "
+"den överordnade kategorin eller projektet."
 
 #. Translators: The commit message, for when merging the translation
 #: weblate/trans/models/category.py:254 weblate/trans/models/component.py:943
@@ -21365,6 +21427,8 @@ msgid ""
 "Use the commit message when merging translation configured in the parent "
 "category or project."
 msgstr ""
+"Använd commit-meddelandet när du sammanfogar översättningar som "
+"konfigurerats i den överordnade kategorin eller projektet."
 
 #: weblate/trans/models/category.py:270 weblate/trans/models/component.py:959
 #: weblate/trans/models/project.py:521 weblate/workspaces/models.py:211
@@ -21383,6 +21447,8 @@ msgid ""
 "Use the commit message when add-on makes a change configured in the parent "
 "category or project."
 msgstr ""
+"Använd commit-meddelandet när tillägget gör en ändring som konfigurerats i "
+"den överordnade kategorin eller projektet."
 
 #: weblate/trans/models/category.py:286 weblate/trans/models/component.py:975
 #: weblate/trans/models/project.py:537 weblate/workspaces/models.py:220
@@ -21400,6 +21466,8 @@ msgstr "Meddelande för merge-begäran"
 msgid ""
 "Use the merge request message configured in the parent category or project."
 msgstr ""
+"Använd meddelandet om sammanslagningsförfrågan som konfigurerats i den "
+"överordnade kategorin eller projektet."
 
 #: weblate/trans/models/category.py:427
 msgid "Parent category has to be in the same project!"
@@ -21478,7 +21546,7 @@ msgstr ""
 #: weblate/trans/models/component.py:555
 msgid ""
 "This field is managed by the repository integration and can not be changed."
-msgstr ""
+msgstr "Det här fältet hanteras av databasintegrationen och kan inte ändras."
 
 #: weblate/trans/models/component.py:586
 #, fuzzy
@@ -21732,7 +21800,7 @@ msgstr "Navigera till den sista översättningen i den aktuella sökningen."
 
 #: weblate/trans/models/component.py:869
 msgid "Use the language code style configured in the category or project."
-msgstr ""
+msgstr "Använd språkkodsstilen som konfigurerats i kategorin eller projektet."
 
 #: weblate/trans/models/component.py:873
 msgid "Manage strings"
@@ -21765,6 +21833,8 @@ msgid ""
 "Use the commit message when translating configured in the category or "
 "project."
 msgstr ""
+"Använd commit-meddelandet vid översättning av konfigurerade element i "
+"kategorin eller projektet."
 
 #: weblate/trans/models/component.py:922
 #, fuzzy
@@ -21801,6 +21871,8 @@ msgstr "Arkiveringsmeddelande när ett tillägg gör en ändring"
 #: weblate/trans/models/component.py:987
 msgid "Use the merge request message configured in the category or project."
 msgstr ""
+"Använd meddelandet om sammanslagningsförfrågan som konfigurerats i kategorin "
+"eller projektet."
 
 #: weblate/trans/models/component.py:991
 msgid "Push on commit"
@@ -21926,6 +21998,9 @@ msgid ""
 "remove the stored host key, and add the new one on the SSH page in the admin "
 "interface."
 msgstr ""
+"SSH-värdnyckeln för arkivet har ändrats. Verifiera det nya fingeravtrycket, "
+"ta bort den lagrade värdnyckeln och lägg till den nya på SSH-sidan i "
+"administratörsgränssnittet."
 
 #: weblate/trans/models/component.py:2599
 msgid ""
@@ -21996,6 +22071,8 @@ msgid ""
 "Reset the repository, but could not recreate %(file)s while reapplying "
 "pending translations. Pending changes were kept."
 msgstr ""
+"Återställde arkivet, men kunde inte återskapa %(file)s när väntande "
+"översättningar tillämpades igen. Väntande ändringar behölls."
 
 #: weblate/trans/models/component.py:3425
 #, fuzzy, python-format
@@ -22251,6 +22328,8 @@ msgid ""
 "Use %(branch)s instead of %(ref)s; Weblate and git-review add the Gerrit "
 "refs automatically."
 msgstr ""
+"Använd %(branch)s istället för %(ref)s; Weblate och git-review lägger till "
+"Gerrit-referenserna automatiskt."
 
 #: weblate/trans/models/component.py:5296
 #, python-format
@@ -22412,6 +22491,7 @@ msgstr "Översättningsinstruktioner"
 #: weblate/trans/models/project.py:270
 msgid "Workspace this project belongs to. Standalone projects do not need one."
 msgstr ""
+"Arbetsyta som detta projekt tillhör. Fristående projekt behöver inte en."
 
 #: weblate/trans/models/project.py:275
 msgid "Use shared translation memory"
@@ -22535,10 +22615,12 @@ msgstr "Ändrat licensavtal för bidragsgivare"
 #: weblate/trans/models/project.py:427
 msgid "Use the adding new translations setting configured in the workspace."
 msgstr ""
+"Använd inställningen för att lägga till nya översättningar som konfigurerats "
+"i arbetsytan."
 
 #: weblate/trans/models/project.py:445
 msgid "Use the language code style configured in the workspace."
-msgstr ""
+msgstr "Använd språkkodsstilen som konfigurerats i arbetsytan."
 
 #: weblate/trans/models/project.py:452
 #, fuzzy
@@ -22585,6 +22667,8 @@ msgstr "Arkiveringsmeddelande när ett tillägg gör en ändring"
 #: weblate/trans/models/project.py:549
 msgid "Use the merge request message configured in the workspace."
 msgstr ""
+"Använd meddelandet om sammanslagningsförfrågan som konfigurerats i "
+"arbetsytan."
 
 #: weblate/trans/models/project.py:1418
 #, fuzzy
@@ -23243,7 +23327,7 @@ msgstr "Weblate statistik"
 #: weblate/trans/views/acl.py:107
 #, python-format
 msgid "Cleaning up contributions by %(user)s in this project was scheduled."
-msgstr ""
+msgstr "Rensning av bidrag från %(user)s i det här projektet var schemalagd."
 
 #: weblate/trans/views/acl.py:171 weblate/trans/views/acl.py:417
 msgid "You can not remove yourself!"
@@ -23265,6 +23349,8 @@ msgstr "Användaren är redan blockerad i det här projektet."
 #, python-format
 msgid "Reverting edits by %(user)s in this project was scheduled."
 msgstr ""
+"Återställning av redigeringar av %(user)s i det här projektet har "
+"schemalagts."
 
 #: weblate/trans/views/acl.py:351
 #, fuzzy
@@ -23420,7 +23506,7 @@ msgstr "Det är inte tillåtet att hämta VCS-arkivet från %s."
 
 #: weblate/trans/views/create.py:274
 msgid "Project backup import in progress"
-msgstr ""
+msgstr "Import av säkerhetskopia av projekt pågår"
 
 #: weblate/trans/views/create.py:356
 #, python-format
@@ -23605,6 +23691,7 @@ msgstr ""
 #: weblate/trans/views/git.py:46
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
+"Använd knappen på statussidan för arkivet för att köra den här åtgärden."
 
 #: weblate/trans/views/git.py:67
 #, fuzzy
@@ -23970,7 +24057,7 @@ msgstr[1] "språken"
 
 #: weblate/trans/workspace_move.py:68
 msgid "No valid billing found or limit exceeded."
-msgstr ""
+msgstr "Ingen giltig faktura hittades eller så har gränsen överskridits."
 
 #: weblate/trans/workspace_move.py:82
 #, fuzzy
@@ -24006,7 +24093,7 @@ msgstr ""
 
 #: weblate/utils/backup.py:138
 msgid "Borg completed with warnings without any output."
-msgstr ""
+msgstr "Borg slutfördes med varningar utan någon utdata."
 
 #: weblate/utils/backup.py:153 weblate/vcs/ssh.py:375
 msgid "Invalid host name given!"
@@ -24166,6 +24253,8 @@ msgid ""
 "This URL is prohibited because it points to an internal or non-public "
 "address."
 msgstr ""
+"Denna URL är förbjuden eftersom den pekar på en intern eller icke-offentlig "
+"adress."
 
 #: weblate/utils/outbound.py:195
 #, fuzzy
@@ -24224,7 +24313,7 @@ msgstr ""
 
 #: weblate/utils/search.py:148 weblate/utils/search.py:165
 msgid "Search query is too complex."
-msgstr ""
+msgstr "Sökfrågan är för komplex."
 
 #: weblate/utils/search.py:263
 msgid "Unsupported state: {}"
@@ -24428,6 +24517,8 @@ msgid ""
 "Plural formula result {result} for count {count} is outside the allowed "
 "range 0..{max}."
 msgstr ""
+"Pluralformelns resultat {result} för count {count} ligger utanför det "
+"tillåtna intervallet 0..{max}."
 
 #: weblate/utils/validators.py:359
 msgid "The filename can not contain reference to a parent directory."
@@ -24447,7 +24538,7 @@ msgstr "Filnamnet innehåller en förbjuden mapp."
 
 #: weblate/utils/validators.py:387
 msgid "No archive can be specified in backup location."
-msgstr ""
+msgstr "Inget arkiv kan anges på säkerhetskopian."
 
 #: weblate/utils/validators.py:393 weblate/utils/validators.py:401
 #, fuzzy
@@ -24458,6 +24549,8 @@ msgstr "Filnamnet kan inte vara en absolut sökväg."
 #: weblate/utils/validators.py:408
 msgid "Backup location should be outside Weblate backups in DATA_DIR."
 msgstr ""
+"Säkerhetskopieringens plats bör vara utanför Weblate-säkerhetskopiorna i "
+"DATA_DIR."
 
 #: weblate/utils/validators.py:417 weblate/utils/validators.py:434
 msgid "This name is prohibited"
@@ -24469,7 +24562,7 @@ msgstr "Syntaxfel i språkaliasen."
 
 #: weblate/utils/validators.py:475
 msgid "This URL is prohibited because it matches a restricted pattern."
-msgstr ""
+msgstr "Denna URL är förbjuden eftersom den matchar ett begränsat mönster."
 
 #: weblate/utils/validators.py:486
 msgid "This URL is prohibited because it uses a restricted host."
@@ -24499,32 +24592,38 @@ msgstr "Denna webbplats kan inte användas. Ange en annan."
 
 #: weblate/utils/validators.py:671 weblate/utils/validators.py:685
 msgid "Profile URL cannot include username or password credentials."
-msgstr ""
+msgstr "Profil-URL:en får inte innehålla användarnamn eller lösenord."
 
 #: weblate/utils/validators.py:674 weblate/utils/validators.py:688
 msgid ""
 "Profile URL should link to a profile page, not directly to a file download."
 msgstr ""
+"Profilens URL ska länka till en profilsida, inte direkt till en "
+"filnedladdning."
 
 #: weblate/utils/validators.py:716
 msgid ""
 "Code site URL should link to a user profile or repository page on a code-"
 "hosting site."
 msgstr ""
+"Kodwebbplatsens URL ska länka till en användarprofil eller databassida på en "
+"kodvärdswebbplats."
 
 #: weblate/utils/validators.py:727
 msgid "Contact URL cannot include username or password credentials."
-msgstr ""
+msgstr "Kontakt-URL:en får inte innehålla användarnamn eller lösenord."
 
 #: weblate/utils/validators.py:730
 msgid ""
 "Contact URL should link to a contact or profile page, not directly to a file "
 "download."
 msgstr ""
+"Kontakt-URL:en ska länka till en kontakt- eller profilsida, inte direkt till "
+"en filnedladdning."
 
 #: weblate/utils/validators.py:773
 msgid "Fediverse URL should link to a Fediverse user profile."
-msgstr ""
+msgstr "Fediverse-URL:en ska länka till en Fediverse-användarprofil."
 
 #: weblate/utils/validators.py:782
 #, fuzzy
@@ -24613,6 +24712,8 @@ msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
 msgstr ""
+"Zip-filen innehåller dubbletter av filer. Vänligen skapa en ny "
+"säkerhetskopia med en nyare version av Weblate."
 
 #: weblate/utils/zip.py:116
 #, python-format
@@ -24620,14 +24721,16 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"ZIP-filen innehåller %(actual_size)s data efter uppackning, vilket "
+"överskrider den konfigurerade gränsen på %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
-msgstr ""
+msgstr "ZIP-filen innehåller en komprimerad post som är för stor."
 
 #: weblate/vcs/base.py:286
 msgid "The repository URL permanently redirects to a canonical URL."
-msgstr ""
+msgstr "Arkivets URL omdirigerar permanent till en kanonisk URL."
 
 #: weblate/vcs/base.py:344
 msgid "This will push changes to the upstream repository."
@@ -24638,6 +24741,8 @@ msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
 msgstr ""
+"Denna VCS-backend kan inte ansluta säkert till denna URL medan begränsningar "
+"för privata adresser är aktiverade."
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1198
 #, fuzzy
@@ -24650,6 +24755,8 @@ msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
 msgstr ""
+"Använd github.com för GitHub.com eller webbhotellnamnet för GitHub "
+"Enterprise Server."
 
 #: weblate/vcs/forms.py:69
 #, fuzzy
@@ -24662,10 +24769,12 @@ msgid ""
 "Enter a GitHub organization slug to register the App under that organization "
 "instead of your personal account."
 msgstr ""
+"Ange en GitHub-organisationsslug för att registrera appen under den "
+"organisationen istället för ditt personliga konto."
 
 #: weblate/vcs/forms.py:78
 msgid "Leave blank to register on your personal account"
-msgstr ""
+msgstr "Lämna tomt för att registrera dig på ditt personliga konto"
 
 #: weblate/vcs/forms.py:86
 #, python-format
@@ -24673,10 +24782,12 @@ msgid ""
 "GitHub App names must be unique and at most %(limit)s characters. You will "
 "still be able to change the name on GitHub before confirming."
 msgstr ""
+"GitHub-appnamn måste vara unika och högst %(limit)s tecken. Du kommer "
+"fortfarande att kunna ändra namnet på GitHub innan du bekräftar."
 
 #: weblate/vcs/forms.py:93
 msgid "Public (any GitHub account can install it)"
-msgstr ""
+msgstr "Offentlig (alla GitHub-konton kan installera det)"
 
 #: weblate/vcs/forms.py:96
 msgid ""
@@ -24684,6 +24795,9 @@ msgid ""
 "here only means the App is not restricted to its owner; it does not list the "
 "App on the GitHub Marketplace."
 msgstr ""
+"Krävs för att installera appen på mer än en användare eller organisation. "
+"Offentlig här betyder endast att appen inte är begränsad till sin ägare; den "
+"listar inte appen på GitHub Marketplace."
 
 #: weblate/vcs/git.py:128
 #, fuzzy
@@ -24693,15 +24807,17 @@ msgstr "Alla arkiv har rensats upp."
 
 #: weblate/vcs/git.py:145
 msgid "The repository returned an HTTP redirect with an invalid hostname."
-msgstr ""
+msgstr "Arkivet returnerade en HTTP-omdirigering med ett ogiltigt värdnamn."
 
 #: weblate/vcs/git.py:194 weblate/vcs/git.py:210
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "Arkivet returnerade en ogiltig HTTP-omdirigering."
 
 #: weblate/vcs/git.py:200
 msgid "The repository HTTP redirect contains credentials and was rejected."
 msgstr ""
+"HTTP-omdirigeringen för arkivet innehåller autentiseringsuppgifter och "
+"avvisades."
 
 #: weblate/vcs/git.py:216
 #, fuzzy
@@ -24715,19 +24831,22 @@ msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"URL:en för arkivet omdirigerar till en annan värd. Automatiska "
+"omdirigeringar mellan värdar är inaktiverade av säkerhetsskäl; uppdatera "
+"URL:en för arkivet manuellt."
 
 #: weblate/vcs/git.py:234
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
-msgstr ""
+msgstr "Arkivets URL omdirigerar från HTTPS till en osäker URL och avvisades."
 
 #: weblate/vcs/git.py:239
 msgid "The repository URL redirects to an unsupported URL scheme."
-msgstr ""
+msgstr "Databasens URL omdirigerar till ett URL-schema som inte stöds."
 
 #: weblate/vcs/git.py:255
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
-msgstr ""
+msgstr "HTTP-omdirigeringen av arkivet ändrade oväntat URL-frågan."
 
 #: weblate/vcs/git.py:328
 #, fuzzy, python-format
@@ -24747,7 +24866,7 @@ msgstr "Detta kommer att pusha ändringar till uppströms Git-arkiv."
 
 #: weblate/vcs/git.py:611
 msgid "The repository returned a permanent HTTP redirect without a target URL."
-msgstr ""
+msgstr "Arkivet returnerade en permanent HTTP-omdirigering utan en mål-URL."
 
 #: weblate/vcs/git.py:622
 #, fuzzy
@@ -24757,17 +24876,19 @@ msgstr "Alla arkiv har rensats upp."
 
 #: weblate/vcs/git.py:630
 msgid "The repository HTTP redirect target could not be validated."
-msgstr ""
+msgstr "Det gick inte att validera HTTP-omdirigeringsmålet för arkivet."
 
 #: weblate/vcs/git.py:657
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
 msgstr ""
+"Det gick inte att verifiera att HTTP-omdirigeringsmålet för arkivet var ett "
+"Git-arkiv."
 
 #: weblate/vcs/git.py:662
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "Arkivet returnerade för många HTTP-omdirigeringar."
 
 #: weblate/vcs/git.py:801
 #, fuzzy, python-format
@@ -24778,7 +24899,7 @@ msgstr "Förråds-branch används inte till länkade förråd."
 #: weblate/vcs/git.py:821
 #, python-format
 msgid "Unsupported interrupted Git operation: %(operation)s"
-msgstr ""
+msgstr "Ostödd avbruten Git-operation: %(operation)s"
 
 #: weblate/vcs/git.py:835
 #, fuzzy, python-format
@@ -24789,12 +24910,12 @@ msgstr "Det gick inte att erhålla låset för att utföra åtgärden."
 #: weblate/vcs/git.py:1004
 msgid ""
 "Remote branch could not be verified against the shallow existing repository."
-msgstr ""
+msgstr "Fjärrgrenen kunde inte verifieras mot det ytliga befintliga arkivet."
 
 #: weblate/vcs/git.py:1019
 msgid ""
 "Remote branch does not share common history with the existing repository."
-msgstr ""
+msgstr "Fjärrgrenen delar inte gemensam historik med det befintliga arkivet."
 
 #: weblate/vcs/git.py:1629
 msgid "Possible cleanups:"
@@ -24821,11 +24942,12 @@ msgstr ""
 #, python-format
 msgid "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
 msgstr ""
+"%(service)s API-begäran misslyckades medan %(action)s (%(status)s): %(error)s"
 
 #: weblate/vcs/git.py:2584
 #, python-format
 msgid "%(service)s API request failed while %(action)s: %(status)s"
-msgstr ""
+msgstr "%(service)s API-begäran misslyckades medan %(action)s: %(status)s"
 
 #: weblate/vcs/git.py:2612
 #, fuzzy
@@ -24949,7 +25071,7 @@ msgstr "URL för API"
 
 #: weblate/vcs/github.py:506 weblate/vcs/github.py:507
 msgid "Weblate GitHub App credentials"
-msgstr ""
+msgstr "Weblate GitHub-appens inloggningsuppgifter"
 
 #: weblate/vcs/github.py:887
 #, fuzzy
@@ -24963,7 +25085,7 @@ msgstr ""
 
 #: weblate/vcs/github.py:962
 msgid "GitHub (via Weblate GitHub app)"
-msgstr ""
+msgstr "GitHub (via Weblate GitHub-appen)"
 
 #: weblate/vcs/github.py:973
 #, fuzzy
@@ -24982,13 +25104,15 @@ msgstr "Välj antingen ett projekt eller en arbetsyta."
 
 #: weblate/vcs/github.py:1014
 msgid "GitHub App components require a GitHub HTTPS repository URL."
-msgstr ""
+msgstr "GitHub-appkomponenter kräver en GitHub HTTPS-arkiv-URL."
 
 #: weblate/vcs/github.py:1030
 msgid ""
 "Repository is not available from a connected GitHub account for this "
 "workspace."
 msgstr ""
+"Arkivet är inte tillgängligt från ett anslutet GitHub-konto för den här "
+"arbetsytan."
 
 #: weblate/vcs/github.py:1087
 #, fuzzy
@@ -25001,15 +25125,15 @@ msgstr "GitHub-stjärna"
 #: weblate/vcs/github.py:1090
 #, python-format
 msgid "Could not obtain GitHub App access token: %s"
-msgstr ""
+msgstr "Kunde inte hämta GitHub-appens åtkomsttoken: %s"
 
 #: weblate/vcs/github.py:1106
 msgid "No Weblate GitHub app installation available."
-msgstr ""
+msgstr "Ingen installation av Weblate GitHub-appen är tillgänglig."
 
 #: weblate/vcs/github.py:1125
 msgid "GitHub App repositories must be imported with a branch."
-msgstr ""
+msgstr "GitHub-appdatabaser måste importeras med en gren."
 
 #: weblate/vcs/mercurial.py:61
 msgid "This will push changes to the upstream Mercurial repository."
@@ -25208,11 +25332,13 @@ msgid ""
 "Create a workspace before connecting a GitHub account. GitHub App "
 "connections are linked to workspaces."
 msgstr ""
+"Skapa en arbetsyta innan du ansluter ett GitHub-konto. GitHub-"
+"appanslutningar är länkade till arbetsytor."
 
 #: weblate/vcs/views.py:555
 #, python-format
 msgid "Removed connected GitHub account %(target)s."
-msgstr ""
+msgstr "Tog bort det anslutna GitHub-kontot %(target)s."
 
 #: weblate/vcs/views.py:571
 #, python-format
@@ -25220,11 +25346,13 @@ msgid ""
 "Remove connected GitHub accounts on %(hostname)s before removing the app "
 "credentials."
 msgstr ""
+"Ta bort anslutna GitHub-konton på %(hostname)s innan du tar bort appens "
+"inloggningsuppgifter."
 
 #: weblate/vcs/views.py:579
 #, python-format
 msgid "Removed Weblate GitHub App credentials for %(hostname)s."
-msgstr ""
+msgstr "Tog bort Weblate GitHub-appens inloggningsuppgifter för %(hostname)s."
 
 #: weblate/vcs/views.py:603
 #, fuzzy
@@ -25235,7 +25363,7 @@ msgstr "Kunde inte hämta arkiv: %s"
 #: weblate/vcs/views.py:608
 #, python-format
 msgid "Refreshed %(count)d repositories from GitHub."
-msgstr ""
+msgstr "Uppdaterade %(count)d arkiv från GitHub."
 
 #: weblate/vcs/views.py:625 weblate/vcs/views.py:668 weblate/vcs/views.py:821
 #, fuzzy
@@ -25245,21 +25373,23 @@ msgstr "Totalt antal poster i denna Weblate-instans"
 
 #: weblate/vcs/views.py:633
 msgid "Select a workspace before connecting a GitHub account."
-msgstr ""
+msgstr "Välj en arbetsyta innan du ansluter ett GitHub-konto."
 
 #: weblate/vcs/views.py:643
 msgid "Weblate GitHub app is not configured for the selected host."
-msgstr ""
+msgstr "Weblate GitHub-appen är inte konfigurerad för den valda värden."
 
 #: weblate/vcs/views.py:763 weblate/vcs/views.py:914
 msgid "Connected GitHub account updated."
-msgstr ""
+msgstr "Anslutet GitHub-konto uppdaterat."
 
 #: weblate/vcs/views.py:769 weblate/vcs/views.py:796
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
 "installation again."
 msgstr ""
+"Installationslänken för Weblate GitHub-appen är inte längre giltig. Starta "
+"installationen igen."
 
 #: weblate/vcs/views.py:804 weblate/vcs/views.py:828
 #, fuzzy
@@ -25278,6 +25408,9 @@ msgid ""
 "Too many GitHub account connection attempts. The GitHub installation was not "
 "connected and might still be pending. Try connecting the account again later."
 msgstr ""
+"För många försök att ansluta till GitHub-kontot. GitHub-installationen kunde "
+"inte anslutas och kan fortfarande vara i väntan på hantering. Försök att "
+"ansluta kontot igen senare."
 
 #: weblate/vcs/views.py:851
 msgid ""
@@ -25285,6 +25418,9 @@ msgid ""
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
 msgstr ""
+"Weblate kunde inte bekräfta att du kan administrera denna GitHub-"
+"installation. Starta installationen igen med en GitHub-användare som äger "
+"kontot eller kan administrera organisationen."
 
 #: weblate/vcs/views.py:885
 msgid ""
@@ -25292,12 +25428,17 @@ msgid ""
 "pending and repositories might not appear yet. Try connecting the account "
 "again later if they do not show up."
 msgstr ""
+"GitHub synkroniserar fortfarande det anslutna GitHub-kontot. Anslutningen "
+"väntar och arkiven kanske inte visas ännu. Försök att ansluta kontot igen "
+"senare om de inte visas."
 
 #: weblate/vcs/views.py:901
 msgid ""
 "The connected GitHub account was saved, but refreshing the repository list "
 "failed. Try again in a moment."
 msgstr ""
+"Det anslutna GitHub-kontot sparades, men det gick inte att uppdatera "
+"arkivlistan. Försök igen om en stund."
 
 #: weblate/vcs/views.py:909
 #, fuzzy
@@ -25317,6 +25458,8 @@ msgid ""
 "A Weblate GitHub App is already registered for %(hostname)s. Remove it "
 "before registering another one."
 msgstr ""
+"En Weblate GitHub-app är redan registrerad för %(hostname)s. Ta bort den "
+"innan du registrerar en annan."
 
 #: weblate/vcs/views.py:1290
 #, fuzzy
@@ -25347,10 +25490,11 @@ msgstr "Du kan inte slutföra registreringen när du är inloggad."
 #: weblate/vcs/views.py:1368
 msgid "Weblate GitHub App registered. You can now connect a GitHub account."
 msgstr ""
+"Weblate GitHub-appen är registrerad. Du kan nu ansluta ett GitHub-konto."
 
 #: weblate/vcs/views.py:1374
 msgid "Weblate GitHub App credentials updated."
-msgstr ""
+msgstr "Weblate GitHub-appens inloggningsuppgifter har uppdaterats."
 
 #: weblate/wladmin/forms.py:18
 msgid "Activation token"
@@ -25373,6 +25517,8 @@ msgstr "Håll tom för att använda standard-porten för SSH."
 msgid ""
 "Fingerprint of key to add. Keep blank to add all keys offered by the host."
 msgstr ""
+"Fingeravtryck för nyckel som ska läggas till. Låt fältet vara tomt för att "
+"lägga till alla nycklar som värden erbjuder."
 
 #: weblate/wladmin/forms.py:59
 msgid "The test e-mail will be sent to this address."
@@ -25553,6 +25699,8 @@ msgid ""
 "This installation is already linked to weblate.org. Use discovery settings "
 "to manage its listing."
 msgstr ""
+"Den här installationen är redan länkad till weblate.org. Använd "
+"identifieringsinställningarna för att hantera dess listning."
 
 #: weblate/wladmin/views.py:385
 #, fuzzy
@@ -25581,6 +25729,7 @@ msgstr "Det gick inte att aktivera din installation. Försök igen senare."
 msgid ""
 "Could not activate discovery because a support package is already linked."
 msgstr ""
+"Kunde inte aktivera identifiering eftersom ett supportpaket redan är länkat."
 
 #: weblate/wladmin/views.py:447 weblate/wladmin/views.py:521
 msgid "Activation completed."
@@ -25604,6 +25753,8 @@ msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
 "disabled on weblate.org. The site may remain listed."
 msgstr ""
+"Supportpaketet kopplades bort lokalt, men Discover Weblate kunde inte "
+"inaktiveras på weblate.org. Webbplatsen kan komma att finnas kvar i listan."
 
 #: weblate/wladmin/views.py:563
 msgid "Backup process triggered"
@@ -25691,7 +25842,7 @@ msgstr ""
 
 #: weblate/workspaces/views.py:342
 msgid "The workspace cannot be removed because it is still being used."
-msgstr ""
+msgstr "Arbetsytan kan inte tas bort eftersom den fortfarande används."
 
 #: weblate/workspaces/views.py:346
 #, fuzzy
