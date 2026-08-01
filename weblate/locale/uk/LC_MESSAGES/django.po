@@ -29,9 +29,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 08:23+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-08-02 03:02+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -453,7 +452,7 @@ msgstr "Пароль змінено."
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Перевищено обмеження на частоту запитів для {scope} у {path}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -5142,16 +5141,12 @@ msgid "Translation should not exceed given length."
 msgstr "Переклад не перевищує заданої довжини."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Найбільший розмір перекладу"
+msgstr "Максимальна кількість рядків"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "Переклад не перевищує заданої довжини."
+msgstr "У перекладі не повинно бути більше заданої кількості рядків."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -6292,14 +6287,12 @@ msgid "Source string length"
 msgstr "Довжина початкового рядка"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"Рядок джерела є надто довгим і не вкладається у налаштоване значення "
-"максимальної довжини."
+"Рядок джерела близький до перевищення налаштованої максимальної довжини "
+"перекладу."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -7797,20 +7790,22 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to %(limit)d characters each."
 msgstr ""
+"Існує прив'язка об'єктів JSON із кодами мови перекладу з додатковими "
+"інструкціями, аж до %(limit)d символів кожна."
 
 #: weblate/machinery/forms.py:524 weblate/machinery/forms.py:531
 msgid "Language-specific instructions must be a JSON object."
-msgstr ""
+msgstr "Специфічні для мови інструкції мають бути об'єктом JSON."
 
 #: weblate/machinery/forms.py:540
 #, python-format
 msgid "Language-specific instructions contain invalid language code \"%s\"."
-msgstr ""
+msgstr "Специфічні для мови інструкції містять некоректний код мови «%s»."
 
 #: weblate/machinery/forms.py:548
 #, python-format
 msgid "Language-specific instructions contain unknown language code \"%s\"."
-msgstr ""
+msgstr "Специфічні для мови інструкції містять невідомий код мови «%s»."
 
 #: weblate/machinery/forms.py:557
 #, python-format
@@ -7818,6 +7813,8 @@ msgid ""
 "Language-specific instructions for \"%(language)s\" must be at most "
 "%(limit)d characters."
 msgstr ""
+"Специфічні для мови інструкції для «%(language)s» мають не перевищувати за "
+"довжиною %(limit)d символів."
 
 #: weblate/machinery/forms.py:577
 msgctxt "OpenAI model selection"
@@ -7866,45 +7863,30 @@ msgid "Choose custom model here to enable it."
 msgstr "Тут ви можете вибрати нетипову модель для її вмикання."
 
 #: weblate/machinery/forms.py:636
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "Автовибір"
 
 #: weblate/machinery/forms.py:643
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "Нетипова модель"
 
 #: weblate/machinery/forms.py:648
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral API base URL"
-msgstr "Базова адреса програмного інтерфейсу OpenAI"
+msgstr "Базова адреса програмного інтерфейсу Mistral"
 
 #: weblate/machinery/forms.py:652
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
 msgstr ""
-"Базова адреса програмного інтерфейсу OpenAI, якщо вона відрізняється від "
-"типової адреси OpenAI"
+"Базова адреса програмного інтерфейсу Mistral, якщо вона відрізняється від "
+"типової адреси Mistral"
 
 #: weblate/machinery/forms.py:659
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral model"
-msgstr "Нетипова модель"
+msgstr "Модель Mistral"
 
 #: weblate/machinery/forms.py:667
 msgctxt "Mistral model selection"
@@ -7952,28 +7934,19 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:736
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (Рекомендовано)"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:740
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:744
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:746
 msgctxt "Anthropic model selection"
@@ -8013,20 +7986,17 @@ msgstr "Максимальна кількість токенів, які мож�
 #: weblate/machinery/llm.py:179
 msgctxt "LLM translation example"
 msgid "Hello, @@PH1@@!"
-msgstr ""
+msgstr "Вітаємо, @@PH1@@!"
 
 #: weblate/machinery/llm.py:180
 msgctxt "LLM translation example"
 msgid "Click <a href=\"/x\">Save</a>."
-msgstr ""
+msgstr "Натисніть <a href=\"/x\">Зберегти</a>."
 
 #: weblate/machinery/llm.py:181
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks:"
 msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
-msgstr "Невдалі перевірки:"
+msgstr "@@PH1@@ не пройдено перевірки"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -8091,52 +8061,39 @@ msgstr "Проєкт"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:123
 #: weblate/memory/models.py:1268
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory scope"
 msgid "Workspace"
 msgstr "Робочий простір"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:127
 #: weblate/memory/models.py:1269
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory scope"
 msgid "Shared"
-msgstr "Поширити"
+msgstr "Оприлюднене"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1270
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "Особисте: {}"
+msgstr "Особисте"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1271
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Файл"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:140
 #: weblate/memory/models.py:1272
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "Назва проєкту"
+msgstr "Файл проєкту"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:146
 #: weblate/memory/models.py:1273
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "Особисті відомості"
+msgstr "Особистий файл"
 
 #: weblate/memory/models.py:548
 #, python-format
@@ -8204,17 +8161,13 @@ msgid "File: {}"
 msgstr "Файл: {}"
 
 #: weblate/memory/models.py:1051 weblate/memory/models.py:1079
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory category"
 msgid "Workspace: {}"
-msgstr "Робочий простір"
+msgstr "Робочий простір: {}"
 
 #: weblate/memory/views.py:109
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Введіть правильний код мови."
+msgstr "Некоректний ідентифікатор мови."
 
 #: weblate/memory/views.py:150
 msgid "Entries were deleted."
@@ -8225,26 +8178,26 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Створені на основі поточних перекладів записи пам'яті перекладів вилучено — "
+"їх буде повторно створено у фоновому режимі. Вивантажені записи буде "
+"збережено."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
-msgstr "Вилучено записи. Пам'ять буде перебудовано у фоновому режимі."
+msgstr ""
+"Створені на основі поточних перекладів записи пам'яті перекладів було "
+"вилучено — їх буде повторно зібрано у фоновому режимі."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Вилучити вибрані записи з пам'яті перекладів"
-msgstr[1] "Вилучити вибрані записи з пам'яті перекладів"
-msgstr[2] "Вилучити вибрані записи з пам'яті перекладів"
-msgstr[3] "Вилучити вибрані записи з пам'яті перекладів"
+msgstr[0] "Оброблено %(count)d активний запис пам'яті перекладів."
+msgstr[1] "Оброблено %(count)d активні записи пам'яті перекладів."
+msgstr[2] "Оброблено %(count)d активних записів пам'яті перекладів."
+msgstr[3] "Оброблено %(count)d активний запис пам'яті перекладів."
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -8459,24 +8412,23 @@ msgid "Source has been removed."
 msgstr "Ваше джерело вилучено."
 
 #: weblate/screenshots/views.py:673
-#, fuzzy, python-format
-#| msgid "No matching strings found."
+#, python-format
 msgid "%(count)s matching source string found."
 msgid_plural "%(count)s matching source strings found."
-msgstr[0] "Жодного збігу серед рядків не виявлено."
-msgstr[1] "Жодного збігу серед рядків не виявлено."
-msgstr[2] "Жодного збігу серед рядків не виявлено."
-msgstr[3] "Жодного збігу серед рядків не виявлено."
+msgstr[0] "Знайдено %(count)s відповідний початковий рядок."
+msgstr[1] "Знайдено %(count)s відповідних початкових рядки."
+msgstr[2] "Знайдено %(count)s відповідних початкових рядків."
+msgstr[3] "Знайдено %(count)s відповідний початковий рядок."
 
 #: weblate/screenshots/views.py:678
 msgid "No new matching source strings found."
 msgstr "Нові відповідності у початкових рядках не знайдені."
 
 #: weblate/screenshots/views.py:821
-#, fuzzy
-#| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
-msgstr "Не вдалося відкрити квиток, спробуйте пізніше."
+msgstr ""
+"Не вдалося отримати дані розпізнавання тексту. Будь ласка, повторіть спробу "
+"пізніше."
 
 #: weblate/templates/400.html:7 weblate/templates/400.html:13
 msgid "Bad request"
@@ -9064,14 +9016,13 @@ msgid "Your trial"
 msgstr "Ваша пробна версія"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "Ви маєте 14 днів, щоб налаштувати свій проєкт."
-msgstr[1] "Ви маєте 14 днів, щоб налаштувати свій проєкт."
-msgstr[2] "Ви маєте 14 днів, щоб налаштувати свій проєкт."
-msgstr[3] "Ви маєте 14 днів, щоб налаштувати свій проєкт."
+msgstr[0] "Ви маєте %(days)s день, щоб налаштувати свій проєкт."
+msgstr[1] "Ви маєте %(days)s дні, щоб налаштувати свій проєкт."
+msgstr[2] "Ви маєте %(days)s днів, щоб налаштувати свій проєкт."
+msgstr[3] "Ви маєте %(days)s день, щоб налаштувати свій проєкт."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -9290,20 +9241,18 @@ msgstr "Додати новий профіль користувача"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/templates/workspace.html:118 weblate/wladmin/views.py:138
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Code-hosting connections"
-msgstr "Хостинг перекладів"
+msgstr "З'єднання із сховищами програмного коду"
 
 #: weblate/templates/accounts/profile.html:260
 msgid "Manage code-hosting accounts connected to workspaces you administer."
 msgstr ""
+"Керування обліковими записами сховищ програмного коду, які з'єднано із "
+"робочими просторами, які ви адмініструєте."
 
 #: weblate/templates/accounts/profile.html:263
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "Manage code-hosting connections"
-msgstr "Запрошення у черзі"
+msgstr "Керування з'єднаннями зі сховищами програмного коду"
 
 #: weblate/templates/accounts/profile.html:271
 #: weblate/templates/accounts/user.html:425
@@ -9836,14 +9785,13 @@ msgid "Your trial offer"
 msgstr "Ваша пропозиція щодо тестування"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "Ваш тестовий період триватиме 14 днів."
-msgstr[1] "Ваш тестовий період триватиме 14 днів."
-msgstr[2] "Ваш тестовий період триватиме 14 днів."
-msgstr[3] "Ваш тестовий період триватиме 14 днів."
+msgstr[0] "Ваш тестовий період триватиме %(days)s день."
+msgstr[1] "Ваш тестовий період триватиме %(days)s дні."
+msgstr[2] "Ваш тестовий період триватиме %(days)s днів."
+msgstr[3] "Ваш тестовий період триватиме %(days)s день."
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -10076,6 +10024,8 @@ msgstr "Вимикає автентифікацію користувача па�
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
 msgstr ""
+"Не вимикайте, щоб відкликати поточний ключ до програмного інтерфейсу і "
+"створити новий."
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -10097,10 +10047,8 @@ msgstr ""
 #: weblate/templates/accounts/user.html:494
 #: weblate/templates/trans/project-access.html:103
 #: weblate/templates/trans/project-access.html:125
-#, fuzzy
-#| msgid "No cleanup action was selected."
 msgid "Choose cleanup actions"
-msgstr "Не було обрано жодної дії з очищення."
+msgstr "Виберіть дії з очищення"
 
 #: weblate/templates/accounts/user.html:498
 #: weblate/templates/accounts/user.html:538
@@ -10360,7 +10308,7 @@ msgstr "Успадковане від"
 
 #: weblate/templates/addons/addon_list.html:81
 msgid "Managed at a scope you do not have access to."
-msgstr ""
+msgstr "Кероване в області, до якої ви не маєте доступу."
 
 #: weblate/templates/addons/addon_list.html:95
 msgid "Available add-ons"
@@ -10935,10 +10883,8 @@ msgstr "Керування відстежуваними проєктами"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "Spaces"
 msgid "My workspaces"
-msgstr "Пробіли"
+msgstr "Ваші робочі простори"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11123,30 +11069,24 @@ msgid "Terminate recurring payment"
 msgstr "Припинити повторення платежів"
 
 #: weblate/templates/billing/detail-content.html:44
-#, fuzzy
-#| msgid "Open in Zen mode"
 msgid "Open in Django admin"
-msgstr "Відкрити у режимі Дзен"
+msgstr "Відкрити в адмінці Django"
 
 #: weblate/templates/billing/detail-content.html:51
 msgid "Terminate billing plan"
 msgstr "Припинити тарифний план"
 
 #: weblate/templates/billing/detail-content.html:63
-#, fuzzy
-#| msgid "Manage billing"
 msgid "Merge billing"
-msgstr "Керування рахунками"
+msgstr "Об'єднати рахунки"
 
 #: weblate/templates/billing/detail-content.html:67
 msgid "Review merge"
 msgstr "Перегляд злиття"
 
 #: weblate/templates/billing/detail-content.html:75
-#, fuzzy
-#| msgid "Change plan"
 msgid "Change billing plan"
-msgstr "Змінити план"
+msgstr "Змінити тарифний план"
 
 #: weblate/templates/billing/detail-content.html:82
 #: weblate/templates/billing/status.html:13
@@ -11344,7 +11284,7 @@ msgstr "Використано %(used)s із %(total)s"
 #: weblate/templates/bootstrap5/field.html:25
 #: weblate/templates/bootstrap5/field.html:26
 msgid "Restore site default"
-msgstr ""
+msgstr "Відновити типові параметри сайта"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:38
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:46
@@ -11515,10 +11455,8 @@ msgstr "Застосувати"
 
 #: weblate/templates/category-language.html:162
 #: weblate/templates/language-project.html:230
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Browse components"
-msgstr "Навігація всіма складниками"
+msgstr "Навігація складниками"
 
 #: weblate/templates/category.html:39
 #: weblate/templates/language-project.html:39 weblate/templates/project.html:50
@@ -11576,17 +11514,13 @@ msgid "Post announcement"
 msgstr "Повідомлення оголошення"
 
 #: weblate/templates/category.html:194 weblate/templates/category.html:201
-#, fuzzy
-#| msgid "Browse all repository changes"
 msgid "Browse all category changes"
-msgstr "Переглянути всі зміни в репозиторії"
+msgstr "Навігація усіма змінами категорій"
 
 #: weblate/templates/category.html:264 weblate/templates/component.html:340
 #: weblate/templates/project.html:345
-#, fuzzy
-#| msgid "Allow translation"
 msgid "Browse translations"
-msgstr "Дозволити переклад"
+msgstr "Навігація перекладами"
 
 #: weblate/templates/category.html:275 weblate/templates/project.html:382
 msgid "Add a category"
@@ -11653,10 +11587,8 @@ msgstr "Поступ"
 
 #: weblate/templates/component-progress.html:19
 #: weblate/templates/multi-progress.html:16
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes are being processed…"
-msgstr "Сповіщення про зміни в репозиторії"
+msgstr "Обробка змін у репозиторії…"
 
 #: weblate/templates/component-progress.html:38
 #: weblate/templates/multi-progress.html:27
@@ -11680,14 +11612,12 @@ msgid "Diagnostics"
 msgstr "Діагностика"
 
 #: weblate/templates/component.html:30
-#, fuzzy
-#| msgid "Error"
 msgid "error"
 msgid_plural "errors"
-msgstr[0] "Помилка"
-msgstr[1] "Помилка"
-msgstr[2] "Помилка"
-msgstr[3] "Помилка"
+msgstr[0] "помилки"
+msgstr[1] "помилки"
+msgstr[2] "помилки"
+msgstr[3] "помилка"
 
 #: weblate/templates/component.html:51 weblate/templates/project.html:55
 msgid "Download language statistics (CSV)"
@@ -11737,10 +11667,9 @@ msgstr "пропущено"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:240
-#, fuzzy, python-format
-#| msgid "Appeared %(first)s, last seen %(last)s"
+#, python-format
 msgid "Appeared %(first)s"
-msgstr "Виявлено %(first)s, востаннє зареєстровано %(last)s"
+msgstr "Виявлено %(first)s"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:243
@@ -11749,32 +11678,27 @@ msgid "Appeared %(first)s, last seen %(last)s"
 msgstr "Виявлено %(first)s, востаннє зареєстровано %(last)s"
 
 #: weblate/templates/component.html:248
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Dismissed by %(user)s %(timestamp)s"
-msgstr "Використано %(used)s із %(total)s"
+msgstr "Відкинуто %(user)s %(timestamp)s"
 
 #: weblate/templates/component.html:250
-#, fuzzy, python-format
-#| msgid "Generated on %(timestamp)s."
+#, python-format
 msgid "Dismissed %(timestamp)s"
-msgstr "Створено за %(timestamp)s."
+msgstr "Відкинуто %(timestamp)s"
 
 #: weblate/templates/component.html:253
-#, fuzzy, python-format
-#| msgid "CSRF failure reason: %(reason)s"
+#, python-format
 msgid "Reason: %(reason)s"
-msgstr "Причина помилки CSRF: %(reason)s"
+msgstr "Причина: %(reason)s"
 
 #: weblate/templates/component.html:258
-#, fuzzy
-#| msgid "Dismissed"
 msgid "Dismissal reason"
-msgstr "Пропущено"
+msgstr "Причина відкидання"
 
 #: weblate/templates/component.html:263
 msgid "Optional dismissal reason"
-msgstr ""
+msgstr "Необов'язкова причина відкидання"
 
 #: weblate/templates/component.html:267
 #: weblate/templates/manage/performance.html:49
@@ -11935,18 +11859,20 @@ msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
 msgstr ""
+"У метриці перекладу проєкту зібрано статистичні дані для усіх видимих "
+"складників та мов, доступні за єдиним запитом."
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "Метрика JSON"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "Метрика CSV"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "Метрика OpenMetrics"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -11969,10 +11895,6 @@ msgid "You pull changes from a remote repository to Weblate like this:"
 msgstr "Отримати зміни із зовнішнього репозиторію до Weblate можна так:"
 
 #: weblate/templates/data.html:170
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid ""
 "Weblate also supports direct notifications from several code-hosting sites:"
 msgstr ""
@@ -12499,63 +12421,42 @@ msgstr ""
 "Користуйтеся цими діями обережно. Вони можуть призвести до втрати даних."
 
 #: weblate/templates/js/git-status.html:227
-#, fuzzy
-#| msgid "File names"
 msgid "File management"
-msgstr "Назви файлів"
+msgstr "Керування файлами"
 
 #: weblate/templates/js/git-status.html:235
-#, fuzzy
-#| msgid "Removed category"
 msgid "Remove duplicates"
-msgstr "Вилучено категорію"
+msgstr "Вилучити дублікати"
 
 #: weblate/templates/js/git-status.html:236
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove duplicated strings from the translation file"
-msgstr "Примусовий запис усіх рядків до файлів перекладів."
+msgstr "Вилучити рядки-дублікати з файла перекладу"
 
 #: weblate/templates/js/git-status.html:238
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing duplicated strings with same identifier from "
-#| "the translation files."
 msgid ""
 "Removes repeated strings with the same identifier from the translation file."
 msgstr ""
-"Виправте це, вилучивши дубльовані рядки з тим самим ідентифікатором із "
-"файлів перекладу."
+"Вилучає повторювані рядки з тим самим ідентифікатором із файла перекладу."
 
 #: weblate/templates/js/git-status.html:239
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
 msgid ""
 "Use when the translation file contains duplicate strings that are not "
 "present in Weblate."
 msgstr ""
-"Це може статися, якщо шлях у файлах перекладу містить посилання на "
-"батьківську теку або він абсолютний."
+"Скористайтеся, якщо у файлі перекладу містяться рядки-дублікати, яких немає "
+"на Weblate."
 
 #: weblate/templates/js/git-status.html:247
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Cleanup unused"
-msgstr "Очистити"
+msgstr "Вилучити невикористані"
 
 #: weblate/templates/js/git-status.html:248
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove unused strings from the translation file"
-msgstr "Примусовий запис усіх рядків до файлів перекладів."
+msgstr "Вилучити невикористані рядки з файла перекладу"
 
 #: weblate/templates/js/git-status.html:250
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgid "Removes strings that are no longer present in the base file."
-msgstr "Вилучає рядки без перекладу з файлів перекладу."
+msgstr "Вилучає рядки, яких більше немає в основному файлі."
 
 #: weblate/templates/js/git-status.html:251
 #, fuzzy
