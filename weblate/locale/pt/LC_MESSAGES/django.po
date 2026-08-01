@@ -19,9 +19,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 08:23+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-08-02 03:01+0000\n"
+"Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
 "Language: pt\n"
@@ -446,7 +445,7 @@ msgstr "Palavra-passe alterada."
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Taxa limite excedida para {scope} em {path}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -5165,16 +5164,12 @@ msgid "Translation should not exceed given length."
 msgstr "A tradução não deverá exceder o tamanho indicado."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Tamanho máximo da tradução"
+msgstr "Número máximo de linhas"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "A tradução não deverá exceder o tamanho indicado."
+msgstr "A tradução não deverá exceder o número de linhas dado."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -6319,14 +6314,12 @@ msgid "Source string length"
 msgstr "Tamanho da cadeia de carateres fonte"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"Cadeia de carateres fonte é demasiado grande para caber no comprimento "
-"máximo configurado."
+"Cadeia de carateres fonte está perto de ou excede o tamanho máximo "
+"configurado para traduções."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -8219,26 +8212,24 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Entradas de memória de tradução criadas para traduções atuais foram "
+"eliminadas e serão reconstruidas em plano de fundo. Entradas enviadas foram "
+"preservadas."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
-"As entradas foram eliminadas e a memória de tradução será recriada em "
-"segundo plano."
+"Entradas de memória de tradução criadas de traduções atuais foram eliminadas "
+"e serão reconstruidas no plano de fundo."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Remover entradas selecionadas da memória de tradução"
-msgstr[1] "Remover entradas selecionadas da memória de tradução"
+msgstr[0] "%(count)d entrada de memória de tradução ativa processada."
+msgstr[1] "%(count)d entradas de memória de tradução ativas processadas."
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -10044,7 +10035,7 @@ msgstr "Desativa a autenticação por palavra-passe para o utilizador."
 
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
-msgstr ""
+msgstr "Deixe em branco para revogar a chave API atual e gerar uma nova."
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -10861,10 +10852,8 @@ msgstr "Gerir projetos monitorizados"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "workspace"
 msgid "My workspaces"
-msgstr "espaço de trabalho"
+msgstr "Os meus espaços de trabalho"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11836,18 +11825,20 @@ msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
 msgstr ""
+"Métricas de tradução de projeto fornecem estatísticas para todo os "
+"componentes visíveis e idiomas em um único pedido."
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "Métricas JSON"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "Métricas CSV"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "Métricas OpenMetrics"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -14097,10 +14088,9 @@ msgid "Translation memory status"
 msgstr "Estado da memória de tradução"
 
 #: weblate/templates/memory/index.html:50
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "Quantidade de entradas para %(project)s"
+msgstr "Número de entradas para %(workspace)s"
 
 #: weblate/templates/memory/index.html:52
 #, python-format
@@ -14160,7 +14150,11 @@ msgid_plural ""
 "Rebuilding in the background will replace %(count)s translation memory "
 "entries created from current translations."
 msgstr[0] ""
+"Reconstruir no plano de fundo substituirá %(count)s entrada de memória de "
+"tradução criada a partir de traduções atuais."
 msgstr[1] ""
+"Reconstruir no plano de fundo substituirá %(count)s entradas de memórias de "
+"tradução criadas a partir de traduções atuais."
 
 #: weblate/templates/memory/index.html:118
 #: weblate/templates/memory/index.html:223
@@ -14174,19 +14168,21 @@ msgid_plural ""
 "entries created from current translations. Uploaded translation memory "
 "entries will be preserved."
 msgstr[0] ""
+"Reconstruir no plano de fundo substituirá %(count)s entrada de memória de "
+"tradução criada a partir de traduções atuais. Entradas de memória de "
+"tradução serão preservadas."
 msgstr[1] ""
+"Reconstruir no plano de fundo substituirá %(count)s entradas de memórias de "
+"tradução criadas a partir de traduções atuais. Entradas de memória de "
+"tradução serão preservadas."
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Active: %(count)s"
 msgid "Active entries"
-msgstr "Ativo: (%(count)s)"
+msgstr "Entradas ativas"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "Cadeia de carateres pendente"
+msgstr "Entradas pendentes"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -16141,6 +16137,10 @@ msgid ""
 "accepts only verified redirects on the same host. Update the component to "
 "use the canonical repository URL if the redirect points elsewhere."
 msgstr ""
+"O URL de repositório retornou um redirecionamento HTTP permanente. O Weblate "
+"aceita automaticamente apenas redirecionamentos verificados no mesmo "
+"anfitrião. Atualize o componente para utilize o repositório URL atual se o "
+"redirecionamento aponta para outro sítio."
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
@@ -23959,10 +23959,8 @@ msgid "Could not resolve the URL domain: {}"
 msgstr "Não foi possível resolver o domínio da URL: {}"
 
 #: weblate/utils/outbound.py:369
-#, fuzzy
-#| msgid "Could not resolve the URL domain: {}"
 msgid "Could not resolve the URL domain."
-msgstr "Não foi possível resolver o domínio da URL: {}"
+msgstr "Não foi possível resolver o domínio da URL."
 
 #: weblate/utils/render.py:27
 #, python-format
@@ -24345,10 +24343,8 @@ msgid "Component and priority"
 msgstr "Componente e prioridade"
 
 #: weblate/utils/zammad.py:19
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Customer care is currently unavailable."
-msgstr "O serviço está atualmente indisponível."
+msgstr "O atendimento ao cliente está atualmente indisponível."
 
 #: weblate/utils/zip.py:55 weblate/utils/zip.py:149
 #, python-brace-format
@@ -24390,7 +24386,7 @@ msgstr "O ficheiro ZIP contém uma entrada comprimida que é demasiado grande."
 
 #: weblate/vcs/base.py:286
 msgid "The repository URL permanently redirects to a canonical URL."
-msgstr ""
+msgstr "O URL de repositório redireciona permanentemente para um URL canónico."
 
 #: weblate/vcs/base.py:344
 msgid "This will push changes to the upstream repository."
@@ -24401,6 +24397,8 @@ msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
 msgstr ""
+"O backend VCS não pode conectar de forma segura a este URL enquanto "
+"restrições de endereço privadas estão ativas."
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1198
 msgid "Enter a valid GitHub host."
@@ -24454,54 +24452,61 @@ msgstr ""
 "utilizador; não lista a Aplicação no GitHub MarketPlace."
 
 #: weblate/vcs/git.py:128
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository redirect target has no validated address."
-msgstr "A árvore de trabalho do repositório foi limpa."
+msgstr "O alvo de redirecionamento de repositório não tem endereços válidos."
 
 #: weblate/vcs/git.py:145
 msgid "The repository returned an HTTP redirect with an invalid hostname."
 msgstr ""
+"O repositório retornou um redirecionamento HTTP com um nome de anfitrião "
+"inválido."
 
 #: weblate/vcs/git.py:194 weblate/vcs/git.py:210
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "O repositório retornou um redirecionamento HTTP inválido."
 
 #: weblate/vcs/git.py:200
 msgid "The repository HTTP redirect contains credentials and was rejected."
 msgstr ""
+"O redirecionamento HTTP de repositório contém credenciais e foi rejeitado."
 
 #: weblate/vcs/git.py:216
-#, fuzzy
-#| msgid "Repository data does not belong to a restored component."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "Os dados do repositório não pertencem a um componente restaurado."
+msgstr ""
+"O redirecionamento HTTP de repositório não aponta para um endpoint Git smart "
+"HTTP."
 
 #: weblate/vcs/git.py:227
 msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"O URL de repositório redireciona para um anfitrião diferente. "
+"Redirecionamentos entre anfitriões automáticos estão desativados por "
+"questões de segurança; atualize o URL de repositório manualmente."
 
 #: weblate/vcs/git.py:234
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
 msgstr ""
+"O URL de repositório redireciona de HTTPS para um URL inseguro e foi "
+"rejeitado."
 
 #: weblate/vcs/git.py:239
 msgid "The repository URL redirects to an unsupported URL scheme."
-msgstr ""
+msgstr "O URL de repositório redireciona para um esquema URL não suportado."
 
 #: weblate/vcs/git.py:255
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
 msgstr ""
+"O redirecionamento HTTP de repositório mudou a consulta de URL "
+"inesperadamente."
 
 #: weblate/vcs/git.py:328
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %s"
-msgstr "Não foi possível obter o repositório: %s"
+msgstr "Não foi possível rastrear o redirecionamento HTTP de repositório: %s"
 
 #: weblate/vcs/git.py:384 weblate/vcs/git.py:2309
 #, python-format
@@ -24515,32 +24520,28 @@ msgstr "Isto enviará as alterações para o repositório Git upstream."
 #: weblate/vcs/git.py:611
 msgid "The repository returned a permanent HTTP redirect without a target URL."
 msgstr ""
+"O repositório devolveu um redirecionamento HTTP permanente sem um URL alvo."
 
 #: weblate/vcs/git.py:622
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "A árvore de trabalho do repositório foi limpa."
+msgstr "O redirecionamento HTTP do repositório contém um ciclo."
 
 #: weblate/vcs/git.py:630
 msgid "The repository HTTP redirect target could not be validated."
 msgstr ""
+"O alvo do redirecionamento HTTP de repositório alvo não pôde ser validado."
 
 #: weblate/vcs/git.py:657
-#, fuzzy
-#| msgid ""
-#| "Remote branch could not be verified against the shallow existing "
-#| "repository."
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
 msgstr ""
-"Ramo remoto não pôde ser verificado em relação ao repositório superficial "
-"existente."
+"O alvo de redirecionamento HTTP do repositório não pôde ser verificado "
+"enquanto repositório Git."
 
 #: weblate/vcs/git.py:662
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "O repositório devolveu demasiados redirecionamentos HTTP."
 
 #: weblate/vcs/git.py:801
 #, python-format
@@ -24880,10 +24881,8 @@ msgstr ""
 "(%(keytype)s), verifique se está correcta."
 
 #: weblate/vcs/ssh.py:388
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "Não há equipas disponíveis."
+msgstr "Nenhum endereço SSH validados disponíveis."
 
 #: weblate/vcs/ssh.py:434
 msgid "Could not read stored host keys."
@@ -24907,16 +24906,13 @@ msgstr ""
 
 #: weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:632 weblate/vcs/ssh.py:638
 #: weblate/vcs/ssh.py:642
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "Não foi possível determinar o diretório de fontes Sphinx."
+msgstr "Não foi possível determinar o destino SSH efetivo."
 
 #: weblate/vcs/ssh.py:613 weblate/vcs/ssh.py:618
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "Não foi possível remover a cadeia: %s"
+msgstr "Não foi possível determinar o destino SSH efetivo: %s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
 msgid ""
