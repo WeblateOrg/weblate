@@ -926,6 +926,39 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
 
+    def test_search_preview_scopes_boolean_query(self) -> None:
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        self.do_login(superuser=True)
+        self.open_component(component, project)
+        self.click("Operations")
+        self.click("Bulk edit")
+
+        self.driver.execute_script(
+            """
+            window.previewRequestUrl = null;
+            window.fetch = (url) => {
+                window.previewRequestUrl = url;
+                return Promise.resolve({ok: false});
+            };
+            """
+        )
+        self.driver.find_element(By.ID, "id_bulk_q").send_keys('"a" OR ""')
+
+        preview_url = WebDriverWait(self.driver, 5).until(
+            lambda driver: driver.execute_script("return window.previewRequestUrl;")
+        )
+        preview_query = self.driver.execute_script(
+            """
+            return new URL(arguments[0], document.baseURI).searchParams.get("q");
+            """,
+            preview_url,
+        )
+        self.assertEqual(
+            preview_query,
+            f'path:{component.full_slug} AND ("a" OR "")',
+        )
+
     def test_js_unit_tests(self) -> None:
         self.assertEqual(self.driver.execute_script("return getNumber('1,23');"), 1.23)
         self.assertEqual(self.driver.execute_script("return getNumber('1.23');"), 1.23)
