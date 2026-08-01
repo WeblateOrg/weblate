@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 20:51+0000\n"
+"PO-Revision-Date: 2026-08-02 03:02+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -15952,6 +15952,10 @@ msgid ""
 "accepts only verified redirects on the same host. Update the component to "
 "use the canonical repository URL if the redirect points elsewhere."
 msgstr ""
+"URL:en till förrådet returnerade en permanent HTTP-omdirigering. Weblate "
+"accepterar automatiskt endast verifierade omdirigeringar på samma värd. "
+"Uppdatera komponenten så att den använder den kanoniska URL:en till förrådet "
+"om omdirigeringen pekar på en annan plats."
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
@@ -17526,12 +17530,11 @@ msgstr ""
 "användas när man skapar komponenter från versionskontroll."
 
 #: weblate/templates/vcs/account_integrations.html:40
-#, fuzzy
 msgid ""
 "Connect code-hosting accounts to workspaces you manage. These accounts can "
 "then be used when creating components from version control."
 msgstr ""
-"Anslut kodvårdskonton till arbetsområden som du förvaltar. Dessa konton kan "
+"Anslut kodvärdskonton till arbetsområden som du förvaltar. Dessa konton kan "
 "sedan användas när man skapar komponenter från versionskontroll."
 
 #: weblate/templates/vcs/account_integrations.html:56
@@ -17549,34 +17552,31 @@ msgid ""
 "connected accounts can be removed, but new accounts cannot be connected "
 "until a site administrator registers the app again."
 msgstr ""
+"Kodvärdsprogrammets inloggningsuppgifter är inte registrerade för %(hostname)"
+"s. Befintliga anslutna konton kan tas bort, men nya konton kan inte kopplas "
+"upp förrän en webbplatsadministratör registrerar programmet igen."
 
 #: weblate/templates/vcs/account_integrations.html:76
-#, fuzzy
-#| msgid "Remove account"
 msgid "Connect accounts"
-msgstr "Ta bort konto"
+msgstr "Anslut konton"
 
 #: weblate/templates/vcs/account_integrations.html:89
 #: weblate/templates/vcs/github_install_select.html:6
 #: weblate/templates/vcs/github_installation_list.html:58
 #: weblate/templates/vcs/github_repository_list.html:19
 msgid "Connect GitHub account"
-msgstr ""
+msgstr "Anslut GitHub-konto"
 
 #: weblate/templates/vcs/account_integrations.html:97
 #: weblate/templates/vcs/github_installation_list.html:134
 #: weblate/templates/vcs/github_repository_list.html:28
-#, fuzzy
-#| msgid "Remove account"
 msgid "Connected accounts"
-msgstr "Ta bort konto"
+msgstr "Anslutna konton"
 
 #: weblate/templates/vcs/account_integrations.html:104
 #: weblate/templates/vcs/github_installation_list.html:142
-#, fuzzy
-#| msgid "Provider"
 msgid "Provider ID"
-msgstr "Leverantör"
+msgstr "Leverantörs-ID"
 
 #: weblate/templates/vcs/account_integrations.html:105
 #: weblate/templates/vcs/account_integrations.html:129
@@ -17589,30 +17589,24 @@ msgstr "Arkiv"
 #: weblate/templates/vcs/account_integrations.html:124
 #: weblate/templates/vcs/github_installation_detail.html:72
 #: weblate/templates/vcs/github_installation_list.html:162
-#, fuzzy
-#| msgid "Disable"
 msgid "Disabled"
-msgstr "Avaktivera"
+msgstr "Avaktiverat"
 
 #: weblate/templates/vcs/account_integrations.html:136
 #: weblate/templates/vcs/github_repository_list.html:54
 msgid "Refresh"
-msgstr ""
+msgstr "Uppdatera"
 
 #: weblate/templates/vcs/account_integrations.html:150
-#, fuzzy
-#| msgid "Do not have an account yet?"
 msgid "No connected accounts yet."
-msgstr "Har du inget konto ännu?"
+msgstr "Inga anslutna konton ännu."
 
 #: weblate/templates/vcs/github_app_register.html:16
 #: weblate/templates/vcs/github_app_register.html:23
 #: weblate/templates/vcs/github_app_register_submit.html:13
 #: weblate/templates/vcs/github_installation_list.html:21
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
-msgstr "Registrera dig i Weblate"
+msgstr "Registrera Weblateprogrammet på GitHub"
 
 #: weblate/templates/vcs/github_app_register.html:27
 msgid ""
@@ -17621,6 +17615,10 @@ msgid ""
 "GitHub, you will be redirected back here and the credentials will be stored "
 "automatically."
 msgstr ""
+"Skicka in formuläret nedan för att skapa ett GitHub-programmet där alla "
+"behörigheter och händelser som Weblate behöver redan är ifyllda. När du har "
+"bekräftat programmets namn på GitHub kommer du att omdirigeras tillbaka hit "
+"och inloggningsuppgifterna sparas automatiskt."
 
 #: weblate/templates/vcs/github_app_register.html:38
 #, python-format
@@ -17628,23 +17626,22 @@ msgid ""
 "The <code>%(host)s</code> host already has stored GitHub App credentials. "
 "You can edit the form, but submitting this host again will be rejected."
 msgstr ""
+"Värden <code>%(host)s</code> har redan lagrade inloggningsuppgifter för "
+"GitHub-programmet. Du kan redigera formuläret, men att skicka in denna värd "
+"igen kommer att avvisas."
 
 #: weblate/templates/vcs/github_app_register.html:44
 msgid "GitHub hosts that already have a Weblate GitHub App registered:"
-msgstr ""
+msgstr "GitHub-värdar som redan har ett Weblate GitHub-program registrerat:"
 
 #: weblate/templates/vcs/github_app_register.html:75
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Subscribed events"
-msgstr "Prenumererade projekt"
+msgstr "Händelser prenumererade på"
 
 #: weblate/templates/vcs/github_app_register.html:87
 #: weblate/templates/vcs/github_app_register_submit.html:15
-#, fuzzy
-#| msgid "Continue"
 msgid "Continue to GitHub"
-msgstr "Fortsätt"
+msgstr "Fortsätt till GitHub"
 
 #: weblate/templates/vcs/github_app_register.html:88
 #: weblate/templates/vcs/github_installation_list.html:125
@@ -17653,21 +17650,21 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: weblate/templates/vcs/github_app_register.html:96
-#, fuzzy
-#| msgid "Live Preview"
 msgid "Manifest preview"
-msgstr "Förhandsvisa direkt"
+msgstr "Förhandsgranskning av manifestet"
 
 #: weblate/templates/vcs/github_app_register.html:100
 msgid ""
 "The JSON document below is the manifest that GitHub will use to pre-fill the "
 "new App's settings."
 msgstr ""
+"JSON-dokumentet nedan är det manifest som GitHub kommer att använda för att "
+"förifylld inställningarna för det nya programmet."
 
 #: weblate/templates/vcs/github_app_register_submit.html:23
 #, python-format
 msgid "Sending you to %(host)s"
-msgstr ""
+msgstr "Skickar dig till %(host)s"
 
 #: weblate/templates/vcs/github_app_register_submit.html:28
 #, python-format
@@ -17675,6 +17672,9 @@ msgid ""
 "Click the button below to send the pre-filled GitHub App manifest to "
 "%(host)s. You will be redirected back here once GitHub confirms."
 msgstr ""
+"Klicka på knappen nedan för att skicka det förifyllda GitHub-program-"
+"manifestet till %(host)s. Du kommer att omdirigeras tillbaka hit när GitHub "
+"bekräftar."
 
 #: weblate/templates/vcs/github_app_register_submit.html:34
 #: weblate/templates/vcs/github_installation_list.html:83
