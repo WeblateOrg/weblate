@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 18:49+0000\n"
+"PO-Revision-Date: 2026-08-02 03:02+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -426,7 +426,7 @@ msgstr "密码已更改。"
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "{path} 处的 {scope} 已超出速率限制。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -7793,7 +7793,7 @@ msgstr "条目已删除。"
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
-msgstr ""
+msgstr "已删除创建自当前翻译的翻译记忆库条目，将在后台重建。保留了已上传的条目。"
 
 #: weblate/memory/views.py:241
 msgid ""
@@ -9484,7 +9484,7 @@ msgstr "禁用用户的密码身份验证。"
 
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
-msgstr ""
+msgstr "启用以撤销当前 API 密钥并生成一个新密钥。"
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -11190,7 +11190,7 @@ msgstr "指标"
 msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
-msgstr ""
+msgstr "只需单个请求，项目翻译指标即可提供所有可见部件和语言的统计数字。"
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
@@ -11202,7 +11202,7 @@ msgstr "CSV指标"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "OpenMetrics 指标"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -13352,7 +13352,7 @@ msgid ""
 msgid_plural ""
 "Rebuilding in the background will replace %(count)s translation memory "
 "entries created from current translations."
-msgstr[0] ""
+msgstr[0] "在后台重建会替换 %(count)s 个创建自当前翻译的翻译记忆库条目。"
 
 #: weblate/templates/memory/index.html:118
 #: weblate/templates/memory/index.html:223
@@ -13366,6 +13366,8 @@ msgid_plural ""
 "entries created from current translations. Uploaded translation memory "
 "entries will be preserved."
 msgstr[0] ""
+"在后台重建会替换 %(count)s 个创建自当前翻译的翻译记忆库条目。将保留已上传的翻"
+"译记忆库条目。"
 
 #: weblate/templates/memory/index.html:135
 msgid "Active entries"
@@ -15204,6 +15206,8 @@ msgid ""
 "accepts only verified redirects on the same host. Update the component to "
 "use the canonical repository URL if the redirect points elsewhere."
 msgstr ""
+"仓库 URL 返回了永久 HTTP 重定向。Weblate 仅自动接受相同主机上已验证的重定向。"
+"如果重定向指向别处，更新部件以使用典型的仓库 URL。"
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
@@ -22776,7 +22780,7 @@ msgstr "这会推送更改到上游仓库。"
 msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
-msgstr ""
+msgstr "启用内网地址限制时，该 VCS 后端无法安全连接到这个 URL。"
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1198
 msgid "Enter a valid GitHub host."
@@ -22830,15 +22834,15 @@ msgstr "仓库重定向目标没有有效的地址。"
 
 #: weblate/vcs/git.py:145
 msgid "The repository returned an HTTP redirect with an invalid hostname."
-msgstr ""
+msgstr "该仓库返回了无效主机名的 HTTP 重定向。"
 
 #: weblate/vcs/git.py:194 weblate/vcs/git.py:210
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "仓库返回了无效的 HTTP 重定向。"
 
 #: weblate/vcs/git.py:200
 msgid "The repository HTTP redirect contains credentials and was rejected."
-msgstr ""
+msgstr "仓库 HTTP 重定向包含凭证，被拒绝。"
 
 #: weblate/vcs/git.py:216
 msgid ""
@@ -22850,11 +22854,13 @@ msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"仓库 URL 重定向到不同的主机。自动跨主机重定向因安全性考虑被禁用；手动更新仓"
+"库 URL。"
 
 #: weblate/vcs/git.py:234
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
-msgstr ""
+msgstr "仓库 URL 从 HTTPS 重定向到不安全 URL，被拒绝。"
 
 #: weblate/vcs/git.py:239
 msgid "The repository URL redirects to an unsupported URL scheme."
@@ -22862,7 +22868,7 @@ msgstr "仓库 URL 会重定向到一个不支持的 URL 格式。"
 
 #: weblate/vcs/git.py:255
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
-msgstr ""
+msgstr "仓库 HTTP 重定向意外更改了 URL 查询。"
 
 #: weblate/vcs/git.py:328
 #, python-format
@@ -22880,7 +22886,7 @@ msgstr "这会推送更改到上游 Git 仓库。"
 
 #: weblate/vcs/git.py:611
 msgid "The repository returned a permanent HTTP redirect without a target URL."
-msgstr ""
+msgstr "仓库返回了没有目标 URL 的永久 HTTP 重定向。"
 
 #: weblate/vcs/git.py:622
 msgid "The repository HTTP redirect contains a loop."
@@ -22888,7 +22894,7 @@ msgstr "仓库的 HTTP 重定向包含一个循环。"
 
 #: weblate/vcs/git.py:630
 msgid "The repository HTTP redirect target could not be validated."
-msgstr ""
+msgstr "无法验证仓库 HTTP 重定向目标。"
 
 #: weblate/vcs/git.py:657
 msgid ""
@@ -23245,10 +23251,9 @@ msgid "Could not determine the effective SSH destination."
 msgstr "无法确定有效的 SSH 目的地。"
 
 #: weblate/vcs/ssh.py:613 weblate/vcs/ssh.py:618
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "无法移除字符串：%s"
+msgstr "无法确定有效的 SSH 目的地：%s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
 msgid ""
