@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 18:49+0000\n"
+"PO-Revision-Date: 2026-08-02 03:02+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -8201,12 +8201,11 @@ msgstr ""
 "бяха изтрити и ще бъдат създадени наново на заден план."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Премахване на избраните записи от паметта за преводи"
-msgstr[1] "Премахване на избраните записи от паметта за преводи"
+msgstr[0] "Обработен е %(count)d активен запис от паметта за преводи."
+msgstr[1] "Обработени са %(count)d активни записа от паметта за преводи."
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -10012,6 +10011,7 @@ msgstr "Изключва удостоверяването чрез парола 
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
 msgstr ""
+"Оставете включено, за да се анулира текущия ключ за ППИ и да се създаде нов."
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -10158,16 +10158,12 @@ msgid "Unfortunately, your browser has no WebAuthn support."
 msgstr "За съжаление, браузърът Ви не поддържа WebAuthn."
 
 #: weblate/templates/addons/addon_base.html:11 weblate/trans/diagnostics.py:31
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Configuration"
-msgstr "Лоша настройка"
+msgstr "Настройка"
 
 #: weblate/templates/addons/addon_base.html:16
-#, fuzzy
-#| msgid "View Logs"
 msgid "Logs"
-msgstr "Преглед на дневника"
+msgstr "Журнал"
 
 #: weblate/templates/addons/addon_base.html:33
 #: weblate/templates/addons/addon_base.html:40
@@ -10232,14 +10228,12 @@ msgid "This add-on has no settings."
 msgstr "Тази добавка няма настройки."
 
 #: weblate/templates/addons/addon_detail.html:38
-#, fuzzy
-#| msgid "Enable add-on:"
 msgid "Run add-on"
-msgstr "Включване на добавката:"
+msgstr "Изпълнение на добавката"
 
 #: weblate/templates/addons/addon_detail.html:42
 msgid "Schedule this add-on to run as soon as possible."
-msgstr ""
+msgstr "Насрочване на изпълнението на тази добавка възможно най-скоро."
 
 #: weblate/templates/addons/addon_detail.html:45
 msgid "Run now"
@@ -10254,6 +10248,8 @@ msgstr "Опасна зона"
 msgid ""
 "Uninstalling the add-on stops it from running and removes its configuration."
 msgstr ""
+"Деинсталирането на добавката прекратява възможността тя да се изпълнява и "
+"премахва настройките ѝ."
 
 #: weblate/templates/addons/addon_detail.html:62
 msgid "Uninstall"
@@ -10825,10 +10821,8 @@ msgstr "Наблюдавани проекти"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "workspace"
 msgid "My workspaces"
-msgstr "работно пространство"
+msgstr "Моите работни пространства"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11798,6 +11792,8 @@ msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
 msgstr ""
+"Метриките за превода на проекта предоставят статистика за всички видими "
+"компоненти и езици само с една заявка."
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
@@ -12695,7 +12691,7 @@ msgstr "Включване"
 #: weblate/templates/trans/alert/missingscreenshots.html:18
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:16
 msgid "Configure"
-msgstr "Настройка"
+msgstr "Настройване"
 
 #: weblate/templates/machinery/list.html:62
 msgid "There are no services currently installed."
