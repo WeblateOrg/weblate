@@ -14,9 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 08:24+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-08-03 08:02+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
 "Language: ga\n"
@@ -445,7 +444,7 @@ msgstr "Athraíodh an pasfhocal."
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Sáraíodh an teorainn ráta do {scope} ag {path}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -5198,17 +5197,12 @@ msgstr ""
 "Níor cheart go mbeadh an t-aistriúchán níos faide ná an fad atá tugtha."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Uasmhéid an aistriúcháin"
+msgstr "Uasmhéid na línte"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr ""
-"Níor cheart go mbeadh an t-aistriúchán níos faide ná an fad atá tugtha."
+msgstr "Níor cheart go mbeadh níos mó ná líon na línte tugtha san aistriúchán."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -6359,13 +6353,12 @@ msgid "Source string length"
 msgstr "Fad teaghrán foinse"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"Tá an teaghrán foinse rófhada le go n-oirfidh sé don uasfhad cumraithe."
+"Tá an teaghrán foinse gar don uasfhad cumraithe le haghaidh aistriúcháin nó "
+"níos mó ná é."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -8250,29 +8243,26 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Scriosadh iontrálacha cuimhne aistriúcháin a cruthaíodh ó aistriúcháin "
+"reatha agus atógfar iad sa chúlra. Coinníodh iontrálacha uaslódáilte."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
-"Scriosadh na hiontrálacha agus déanfar an chuimhne aistriúcháin a atógáil sa "
-"chúlra."
+"Scriosadh iontrálacha cuimhne aistriúcháin a cruthaíodh ó aistriúcháin "
+"reatha agus atógfar iad sa chúlra."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Bain na hiontrálacha cuimhne aistriúcháin roghnaithe"
-msgstr[1] "Bain na hiontrálacha cuimhne aistriúcháin roghnaithe"
-msgstr[2] "Bain na hiontrálacha cuimhne aistriúcháin roghnaithe"
-msgstr[3] "Bain na hiontrálacha cuimhne aistriúcháin roghnaithe"
-msgstr[4] "Bain na hiontrálacha cuimhne aistriúcháin roghnaithe"
+msgstr[0] "Próiseáladh %(count)d iontráil chuimhne aistriúcháin ghníomhach."
+msgstr[1] "Próiseáladh %(count)d iontráil chuimhne aistriúcháin ghníomhacha."
+msgstr[2] "Próiseáladh %(count)d iontráil chuimhne aistriúcháin ghníomhacha."
+msgstr[3] "Próiseáladh %(count)d iontráil chuimhne aistriúcháin ghníomhacha."
+msgstr[4] "Próiseáladh %(count)d iontráil chuimhne aistriúcháin ghníomhacha."
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -10123,6 +10113,8 @@ msgstr "Díchumasaigh fíordheimhniú pasfhocail don úsáideoir."
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
 msgstr ""
+"Fág cumasaithe chun an eochair API reatha a chúlghairm agus ceann nua a "
+"ghiniúint."
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -11006,10 +10998,8 @@ msgstr "Bainistigh tionscadail faire"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "workspace"
 msgid "My workspaces"
-msgstr "spás oibre"
+msgstr "Mo spásanna oibre"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11987,18 +11977,21 @@ msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
 msgstr ""
+"Soláthraíonn méadrachtaí aistriúcháin tionscadail staitisticí do na "
+"comhpháirteanna agus na teangacha uile atá le feiceáil in aon iarratas "
+"amháin."
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "Méadrachtaí JSON"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "Méadrachtaí CSV"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "Méadrachtaí OpenMetrics"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -14329,10 +14322,9 @@ msgid "Translation memory status"
 msgstr "Stádas cuimhne aistriúcháin"
 
 #: weblate/templates/memory/index.html:50
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "Líon iontrálacha %(project)s"
+msgstr "Líon na n-iontrálacha do %(workspace)s"
 
 #: weblate/templates/memory/index.html:52
 #, python-format
@@ -14398,10 +14390,20 @@ msgid_plural ""
 "Rebuilding in the background will replace %(count)s translation memory "
 "entries created from current translations."
 msgstr[0] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó na haistriúcháin reatha in ionad na hiontrála."
 msgstr[1] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó aistriúcháin reatha in ionad na n-iontrálacha."
 msgstr[2] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó aistriúcháin reatha in ionad na n-iontrálacha."
 msgstr[3] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó aistriúcháin reatha in ionad na n-iontrálacha."
 msgstr[4] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó aistriúcháin reatha in ionad na n-iontrálacha."
 
 #: weblate/templates/memory/index.html:118
 #: weblate/templates/memory/index.html:223
@@ -14415,22 +14417,38 @@ msgid_plural ""
 "entries created from current translations. Uploaded translation memory "
 "entries will be preserved."
 msgstr[0] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó na haistriúcháin reatha in ionad na n-iontrálacha cuimhne "
+"aistriúcháin a uaslódáiltear. Coinneofar iontrálacha cuimhne aistriúcháin a "
+"uaslódáiltear."
 msgstr[1] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó aistriúcháin reatha in ionad na n-iontrálacha cuimhne "
+"aistriúcháin a uaslódáiltear. Coinneofar iontrálacha cuimhne aistriúcháin a "
+"uaslódáiltear."
 msgstr[2] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó aistriúcháin reatha in ionad na n-iontrálacha cuimhne "
+"aistriúcháin a uaslódáiltear. Coinneofar iontrálacha cuimhne aistriúcháin a "
+"uaslódáiltear."
 msgstr[3] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó aistriúcháin reatha in ionad na n-iontrálacha cuimhne "
+"aistriúcháin a uaslódáiltear. Coinneofar iontrálacha cuimhne aistriúcháin a "
+"uaslódáiltear."
 msgstr[4] ""
+"Cuirfidh atógáil sa chúlra %(count)s iontráil chuimhne aistriúcháin a "
+"cruthaíodh ó aistriúcháin reatha in ionad na n-iontrálacha cuimhne "
+"aistriúcháin a uaslódáiltear. Coinneofar iontrálacha cuimhne aistriúcháin a "
+"uaslódáiltear."
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Active: %(count)s"
 msgid "Active entries"
-msgstr "Gníomhach: %(count)s"
+msgstr "Iontrálacha gníomhacha"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "Teaghrán ar feitheamh"
+msgstr "Iontrálacha ar feitheamh"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -16426,6 +16444,10 @@ msgid ""
 "accepts only verified redirects on the same host. Update the component to "
 "use the canonical repository URL if the redirect points elsewhere."
 msgstr ""
+"D’fhill URL an stórais athsheoladh buan HTTP. Glacann Weblate go "
+"huathoibríoch le hathreoruithe fíoraithe amháin ar an óstach céanna. "
+"Nuashonraigh an chomhpháirt chun URL canónach an stórais a úsáid má dhíríonn "
+"an t-athsheoladh in áit eile."
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
@@ -24479,10 +24501,8 @@ msgid "Could not resolve the URL domain: {}"
 msgstr "Níorbh fhéidir an fearann URL a réiteach: {}"
 
 #: weblate/utils/outbound.py:369
-#, fuzzy
-#| msgid "Could not resolve the URL domain: {}"
 msgid "Could not resolve the URL domain."
-msgstr "Níorbh fhéidir an fearann URL a réiteach: {}"
+msgstr "Níorbh fhéidir fearann an URL a réiteach."
 
 #: weblate/utils/render.py:27
 #, python-format
@@ -24861,10 +24881,8 @@ msgid "Component and priority"
 msgstr "Comhpháirt agus tosaíocht"
 
 #: weblate/utils/zammad.py:19
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Customer care is currently unavailable."
-msgstr "Níl an tseirbhís ar fáil faoi láthair."
+msgstr "Níl cúram custaiméirí ar fáil faoi láthair."
 
 #: weblate/utils/zip.py:55 weblate/utils/zip.py:149
 #, python-brace-format
@@ -24906,7 +24924,7 @@ msgstr "Tá iontráil chomhbhrúite atá rómhór sa chomhad ZIP."
 
 #: weblate/vcs/base.py:286
 msgid "The repository URL permanently redirects to a canonical URL."
-msgstr ""
+msgstr "Atreoraíonn URL an stórais go buan chuig URL canónach."
 
 #: weblate/vcs/base.py:344
 msgid "This will push changes to the upstream repository."
@@ -24917,6 +24935,8 @@ msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
 msgstr ""
+"Ní féidir leis an gcúltaca VCS seo ceangal go sábháilte leis an URL seo agus "
+"srianta seoltaí príobháideacha cumasaithe."
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1198
 msgid "Enter a valid GitHub host."
@@ -24971,54 +24991,53 @@ msgstr ""
 "liostaítear an Aip ar Mhargadh GitHub."
 
 #: weblate/vcs/git.py:128
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository redirect target has no validated address."
-msgstr "Glanadh suas crann oibre an stórais."
+msgstr "Níl aon seoladh bailíochtaithe ag sprioc atreoraithe an stórais."
 
 #: weblate/vcs/git.py:145
 msgid "The repository returned an HTTP redirect with an invalid hostname."
-msgstr ""
+msgstr "D’fhill an stór atreorú HTTP le hainm óstach neamhbhailí."
 
 #: weblate/vcs/git.py:194 weblate/vcs/git.py:210
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "D’fhill an stór atreorú HTTP neamhbhailí."
 
 #: weblate/vcs/git.py:200
 msgid "The repository HTTP redirect contains credentials and was rejected."
-msgstr ""
+msgstr "Tá dintiúir san atreorú HTTP stórtha agus diúltaíodh dó."
 
 #: weblate/vcs/git.py:216
-#, fuzzy
-#| msgid "Repository data does not belong to a restored component."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "Ní bhaineann sonraí an stórais le comhpháirt athchóirithe."
+msgstr "Ní dhíríonn atreorú HTTP an stórais ar chríochphointe HTTP cliste Git."
 
 #: weblate/vcs/git.py:227
 msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"Atreoraíonn URL an stórais chuig óstach difriúil. Tá atreoruithe "
+"uathoibríocha tras-óstach díchumasaithe ar mhaithe le slándáil; nuashonraigh "
+"URL an stórais de láimh."
 
 #: weblate/vcs/git.py:234
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
 msgstr ""
+"Atreoraíonn URL an stórais ó HTTPS chuig URL neamhshlán agus diúltaíodh dó."
 
 #: weblate/vcs/git.py:239
 msgid "The repository URL redirects to an unsupported URL scheme."
-msgstr ""
+msgstr "Atreoraíonn URL an stórais chuig scéim URL nach dtacaítear leis."
 
 #: weblate/vcs/git.py:255
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
-msgstr ""
+msgstr "D'athraigh atreorú HTTP an stórais an fiosrúchán URL gan choinne."
 
 #: weblate/vcs/git.py:328
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %s"
-msgstr "Níorbh fhéidir an stór a fháil: %s"
+msgstr "Níorbh fhéidir atreorú HTTP an stórais a fhiosrú: %s"
 
 #: weblate/vcs/git.py:384 weblate/vcs/git.py:2309
 #, python-format
@@ -25031,33 +25050,26 @@ msgstr "Cuirfidh sé seo brú ar athruithe ar an stór Git in aghaidh an tsrutha
 
 #: weblate/vcs/git.py:611
 msgid "The repository returned a permanent HTTP redirect without a target URL."
-msgstr ""
+msgstr "D’fhill an stór atreorú buan HTTP gan URL sprice."
 
 #: weblate/vcs/git.py:622
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "Glanadh suas crann oibre an stórais."
+msgstr "Tá lúb san atreorú HTTP sa stórlann."
 
 #: weblate/vcs/git.py:630
 msgid "The repository HTTP redirect target could not be validated."
-msgstr ""
+msgstr "Níorbh fhéidir sprioc atreoraithe HTTP an stórais a bhailíochtú."
 
 #: weblate/vcs/git.py:657
-#, fuzzy
-#| msgid ""
-#| "Remote branch could not be verified against the shallow existing "
-#| "repository."
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
 msgstr ""
-"Níorbh fhéidir an brainse cianda a fhíorú i gcoinne an stórais éadomhain atá "
-"ann cheana féin."
+"Níorbh fhéidir sprioc atreoraithe HTTP an stórais a fhíorú mar stóras Git."
 
 #: weblate/vcs/git.py:662
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "D’fhill an stór an iomarca atreoruithe HTTP."
 
 #: weblate/vcs/git.py:801
 #, python-format
@@ -25399,10 +25411,8 @@ msgstr ""
 "(%(keytype)s), deimhnigh go bhfuil sé ceart."
 
 #: weblate/vcs/ssh.py:388
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "Níl aon fhoirne ar fáil."
+msgstr "Níl aon seoltaí SSH bailíochtaithe ar fáil."
 
 #: weblate/vcs/ssh.py:434
 msgid "Could not read stored host keys."
@@ -25426,16 +25436,13 @@ msgstr ""
 
 #: weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:632 weblate/vcs/ssh.py:638
 #: weblate/vcs/ssh.py:642
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "Níorbh fhéidir eolaire foinse Sphinx a chinneadh."
+msgstr "Níorbh fhéidir an ceann scríbe SSH éifeachtach a chinneadh."
 
 #: weblate/vcs/ssh.py:613 weblate/vcs/ssh.py:618
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "Níorbh fhéidir an teaghrán a bhaint: %s"
+msgstr "Níorbh fhéidir an ceann scríbe SSH éifeachtach a chinneadh: %s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
 msgid ""
