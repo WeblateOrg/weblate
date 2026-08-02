@@ -7425,6 +7425,15 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
         )
 
 
+class MistralOptionalPromptSettingsTranslationTest(MistralTranslationTest):
+    """Configuration without the optional prompt settings, as stored by the API."""
+
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "x",
+        "model": "auto",
+    }
+
+
 class AzureOpenAITranslationTest(OpenAITranslationTest):
     MACHINE_CLS: type[BaseLLMTranslation] = AzureOpenAITranslation
     CONFIGURATION: ClassVar[SettingsDict] = {
@@ -7580,6 +7589,15 @@ class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
                 "eval_count": 481,
             },
         )
+
+
+class OllamaOptionalPromptSettingsTranslationTest(OllamaTranslationTest):
+    """Configuration without the optional prompt settings, as stored by the API."""
+
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "base_url": "http://localhost:11434",
+        "model": "itzune/latxa:8b",
+    }
 
 
 class AnthropicTranslationTest(BaseMachineTranslationTest):
