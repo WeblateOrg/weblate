@@ -588,7 +588,6 @@ class KashidaCheckTest(CheckTestCase):
         self.do_test(False, ("string", "ــ٘ـ", ""))
 
 
-
 class PunctuationSpacingCheckTest(CheckTestCase):
     check = PunctuationSpacingCheck()
     default_lang = "fr"
