@@ -19,9 +19,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 08:23+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-08-02 06:34+0000\n"
+"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -441,7 +440,7 @@ msgstr "Mật khẩu đã được thay đổi."
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Đã vượt quá giới hạn số lượt truy cập cho {scope} tại {path}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -1867,7 +1866,7 @@ msgstr "Tiện ích bổ sung này hiện chưa được lên lịch chạy."
 
 #: weblate/addons/events.py:79
 msgid "There are no relevant changes to process."
-msgstr ""
+msgstr "Không có thay đổi nào đáng kể đối với quy trình."
 
 #: weblate/addons/events.py:83
 msgid "Background processing is disabled."
@@ -1899,7 +1898,7 @@ msgstr "Gói bổ sung này không áp dụng cho sự kiện này."
 
 #: weblate/addons/events.py:109
 msgid "No source files are configured."
-msgstr ""
+msgstr "Chưa có tệp nguồn nào được cấu hình."
 
 #: weblate/addons/events.py:112
 msgid "The configured output path is invalid."
@@ -2225,7 +2224,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:296
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "Chỉ sử dụng từ khóa"
 
 #: weblate/addons/forms.py:299
 msgid ""
@@ -2233,6 +2232,9 @@ msgid ""
 "additional keyword, disabling all default keywords so that only the keyword "
 "specified above is recognized."
 msgstr ""
+"Khi được bật, tham số này sẽ truyền --keyword không có giá trị cho xgettext "
+"trước từ khóa bổ sung, vô hiệu hóa tất cả các từ khóa mặc định để chỉ nhận "
+"diện từ khóa được chỉ định ở trên."
 
 #: weblate/addons/forms.py:318 weblate/addons/forms.py:422
 #: weblate/addons/forms.py:429
@@ -2241,7 +2243,7 @@ msgstr "Trường này là bắt buộc."
 
 #: weblate/addons/forms.py:328
 msgid "An additional keyword is required when using keywords exclusively."
-msgstr ""
+msgstr "Khi chỉ sử dụng từ khóa, cần thêm một từ khóa nữa."
 
 #: weblate/addons/forms.py:338
 msgid "Input source"
@@ -2811,7 +2813,7 @@ msgstr "URL của máy trung gian AMQP cần kết nối."
 
 #: weblate/addons/forms.py:1692
 msgid "Topic prefix"
-msgstr ""
+msgstr "Tiền tố chủ đề"
 
 #: weblate/addons/forms.py:1694
 msgid "Optional prefix to prepend to generated message topics."
@@ -2855,11 +2857,12 @@ msgstr ""
 
 #: weblate/addons/forms.py:1724
 msgid "Publish timeout"
-msgstr ""
+msgstr "Thời gian chờ xuất bản"
 
 #: weblate/addons/forms.py:1726
 msgid "How many seconds to wait for the broker delivery acknowledgement."
 msgstr ""
+"Cần chờ bao nhiêu giây để nhận được xác nhận giao hàng từ máy chủ trung gian."
 
 #: weblate/addons/forms.py:1734
 msgid "Connection attempts"
@@ -2867,15 +2870,15 @@ msgstr "Các lần thử kết nối"
 
 #: weblate/addons/forms.py:1735
 msgid "How many times to try connecting to the broker."
-msgstr ""
+msgstr "Cần thử kết nối với máy chủ trung chuyển bao nhiêu lần."
 
 #: weblate/addons/forms.py:1742
 msgid "Retry delay"
-msgstr ""
+msgstr "Độ trễ thử lại"
 
 #: weblate/addons/forms.py:1743
 msgid "How many seconds to wait between connection attempts."
-msgstr ""
+msgstr "Cần chờ bao nhiêu giây giữa các lần thử kết nối."
 
 #: weblate/addons/forms.py:1792
 msgid "Topic prefix can contain only ASCII characters."
@@ -3032,7 +3035,7 @@ msgstr ""
 #: weblate/addons/models.py:357 weblate/addons/views.py:415
 #: weblate/api/views.py:5003
 msgid "This add-on cannot be triggered manually."
-msgstr ""
+msgstr "Tiện ích bổ sung này không thể được kích hoạt thủ công."
 
 #: weblate/addons/properties.py:164
 msgid "Format the Java properties file"
@@ -3077,8 +3080,6 @@ msgid "site-wide add-ons"
 msgstr "tiện ích bổ sung trên toàn trang"
 
 #: weblate/addons/views.py:118 weblate/templates/addons/addon_head.html:12
-#, fuzzy
-#| msgid "Repository"
 msgctxt "Add-on scope"
 msgid "Repository"
 msgstr "Kho lưu trữ"
@@ -3089,11 +3090,9 @@ msgid "Component"
 msgstr "Thành phần"
 
 #: weblate/addons/views.py:122 weblate/addons/views.py:127
-#, fuzzy
-#| msgid "parent category"
 msgctxt "Add-on scope"
 msgid "Parent category"
-msgstr "danh mục cha"
+msgstr "Danh mục cha"
 
 #: weblate/addons/views.py:128
 msgctxt "Add-on scope"
@@ -3108,7 +3107,7 @@ msgstr "Dự án"
 #: weblate/addons/views.py:131
 msgctxt "Add-on scope"
 msgid "Site"
-msgstr ""
+msgstr "Trang"
 
 #: weblate/addons/views.py:305 weblate/addons/views.py:308
 #: weblate/addons/views.py:435
@@ -3143,7 +3142,7 @@ msgstr ""
 
 #: weblate/addons/webhooks.py:215
 msgid "Slack Webhooks"
-msgstr ""
+msgstr "Slack Webhooks"
 
 #: weblate/addons/webhooks.py:217
 msgid "Sends notification to a Slack channel based on selected events."
@@ -3177,7 +3176,7 @@ msgstr ""
 
 #: weblate/api/docs.py:54
 msgid "Successful response."
-msgstr ""
+msgstr "Phản hồi thành công."
 
 #: weblate/api/docs.py:55
 msgid "The resource was created."
@@ -3185,11 +3184,11 @@ msgstr "Tài nguyên đã được tạo."
 
 #: weblate/api/docs.py:56
 msgid "The request was accepted for asynchronous processing."
-msgstr ""
+msgstr "Yêu cầu xử lý bất đồng bộ đã được chấp nhận."
 
 #: weblate/api/docs.py:57
 msgid "Successful response without a response body."
-msgstr ""
+msgstr "Phản hồi thành công mà không cần nội dung phản hồi."
 
 #: weblate/api/docs.py:58
 msgid "The request was invalid or could not be parsed."
@@ -3197,7 +3196,7 @@ msgstr "Yêu cầu không hợp lệ hoặc không thể phân tích cú pháp."
 
 #: weblate/api/docs.py:59
 msgid "Authentication credentials were missing or invalid."
-msgstr ""
+msgstr "Thông tin xác thực bị thiếu hoặc không hợp lệ."
 
 #: weblate/api/docs.py:61
 msgid "The authenticated user does not have permission for this operation."
@@ -3206,10 +3205,11 @@ msgstr "Người dùng đã xác thực không có quyền thực hiện thao t�
 #: weblate/api/docs.py:63
 msgid "The requested resource was not found or is not accessible."
 msgstr ""
+"Tài nguyên được yêu cầu không được tìm thấy hoặc không thể truy cập được."
 
 #: weblate/api/docs.py:64
 msgid "The HTTP method is not allowed for this resource."
-msgstr ""
+msgstr "Phương thức HTTP này không được phép sử dụng cho tài nguyên này."
 
 #: weblate/api/docs.py:65
 msgid "The requested response media type is not available."
@@ -3225,7 +3225,7 @@ msgstr "Tài nguyên đã bị khóa."
 
 #: weblate/api/docs.py:68
 msgid "The API request rate limit was exceeded."
-msgstr ""
+msgstr "Đã vượt quá giới hạn số lượng yêu cầu API."
 
 #: weblate/api/docs.py:69
 msgid "An unexpected server error occurred."
@@ -3235,6 +3235,7 @@ msgstr "Đã xảy ra lỗi máy chủ không mong muốn."
 msgid ""
 "Filter by change action. Repeat this parameter to filter by multiple actions."
 msgstr ""
+"Lọc theo hành động thay đổi. Lặp lại tham số này để lọc theo nhiều hành động."
 
 #: weblate/api/docs.py:425
 msgid "Allowed number of requests to perform"
@@ -3256,13 +3257,13 @@ msgstr "Đường dẫn thành phần không hợp lệ."
 #: weblate/trans/models/component.py:564
 #: weblate/trans/models/componentlist.py:55 weblate/trans/models/project.py:245
 msgid "URL slug"
-msgstr ""
+msgstr "URL slug"
 
 #: weblate/api/serializers.py:159 weblate/trans/models/category.py:98
 #: weblate/trans/models/component.py:566
 #: weblate/trans/models/componentlist.py:59 weblate/trans/models/project.py:248
 msgid "Name used in URLs and filenames."
-msgstr ""
+msgstr "Tên được sử dụng trong URL và tên tập tin."
 
 #: weblate/api/serializers.py:166 weblate/api/serializers.py:172
 msgid "Required for credits, contributor stats, and translator work reports."
@@ -3284,7 +3285,7 @@ msgstr "Danh mục không hợp lệ."
 
 #: weblate/api/serializers.py:289 weblate/api/serializers.py:392
 msgid "Do not specify a scope on a scoped reports endpoint."
-msgstr ""
+msgstr "Không chỉ định phạm vi trên điểm cuối báo cáo có phạm vi."
 
 #: weblate/api/serializers.py:293
 msgid "Choose at most one report scope."
@@ -3292,15 +3293,15 @@ msgstr "Chọn tối đa một phạm vi báo cáo."
 
 #: weblate/api/serializers.py:305
 msgid "Start and end timestamps are required."
-msgstr ""
+msgstr "Cần có mốc thời gian bắt đầu và kết thúc."
 
 #: weblate/api/serializers.py:309
 msgid "The report start must be before its end."
-msgstr ""
+msgstr "Thời điểm bắt đầu báo cáo phải trước thời điểm kết thúc."
 
 #: weblate/api/serializers.py:321 weblate/trans/forms.py:1941
 msgid "Minimum changes can not exceed maximum changes."
-msgstr ""
+msgstr "Mức thay đổi tối thiểu không được vượt quá mức thay đổi tối đa."
 
 #: weblate/api/serializers.py:1183
 msgid "This e-mail address has not been verified."
@@ -3361,7 +3362,7 @@ msgstr "Không thể thay đổi điều này đối với một nhóm hiện c�
 
 #: weblate/api/serializers.py:1541
 msgid "Choose either a project or a workspace."
-msgstr ""
+msgstr "Hãy chọn một dự án hoặc một không gian làm việc."
 
 #: weblate/api/serializers.py:1558 weblate/auth/models.py:423
 msgid "A team with this name already exists in this workspace."
@@ -3522,6 +3523,8 @@ msgstr "Việc tạo báo cáo đã được lên lịch."
 #: weblate/api/views.py:2242
 msgid "Specify a workspace when multiple workspaces can be used."
 msgstr ""
+"Chỉ định một không gian làm việc khi có thể sử dụng nhiều không gian làm "
+"việc."
 
 #: weblate/api/views.py:3566 weblate/trans/views/bulk_suggestions.py:129
 msgid "You do not have permission to approve strings."
@@ -4565,6 +4568,8 @@ msgid ""
 "This translation is configured for suggestion voting. Add a suggestion "
 "instead of saving a direct translation."
 msgstr ""
+"Bản dịch này được cấu hình để bình chọn đề xuất. Hãy thêm đề xuất thay vì "
+"lưu bản dịch trực tiếp."
 
 #: weblate/auth/permissions.py:463
 #: weblate/templates/snippets/project/state.html:4
@@ -4638,6 +4643,8 @@ msgid ""
 "Create the component and grant yourself explicit access before enabling "
 "restricted access."
 msgstr ""
+"Tạo thành phần đó và cấp cho mình quyền truy cập rõ ràng trước khi bật quyền "
+"truy cập hạn chế."
 
 #: weblate/auth/permissions.py:1108
 msgid "The billing plan does not allow private access control."
@@ -4648,6 +4655,8 @@ msgid ""
 "You need explicit access to this component before enabling restricted "
 "access; otherwise, you would lock yourself out."
 msgstr ""
+"Bạn cần có quyền truy cập rõ ràng vào thành phần này trước khi bật chế độ "
+"truy cập hạn chế; nếu không, bạn sẽ tự khóa mình khỏi hệ thống."
 
 #: weblate/auth/utils.py:100
 msgid "The anonymous user can not be assigned to teams."
@@ -4777,15 +4786,15 @@ msgstr "Cảnh báo lỗi đẩy"
 
 #: weblate/billing/models.py:305
 msgid "Scheduled recurring payment disablement"
-msgstr ""
+msgstr "Vô hiệu hóa thanh toán định kỳ theo lịch trình"
 
 #: weblate/billing/models.py:405
 msgid "Billing workspace can not be changed."
-msgstr ""
+msgstr "Không thể thay đổi không gian làm việc lập hóa đơn."
 
 #: weblate/billing/models.py:483
 msgid "Billing needs to be saved before assigning projects."
-msgstr ""
+msgstr "Thông tin hóa đơn cần được lưu lại trước khi giao dự án."
 
 #: weblate/billing/models.py:491
 msgid "Project already belongs to another workspace."
@@ -4793,7 +4802,7 @@ msgstr "Dự án này đã thuộc về một không gian làm việc khác."
 
 #: weblate/billing/models.py:494
 msgid "Project needs to be saved before assigning it to billing."
-msgstr ""
+msgstr "Dự án cần được lưu lại trước khi chuyển giao cho bộ phận lập hóa đơn."
 
 #: weblate/billing/models.py:570
 msgid "Changes in last month"
@@ -5068,16 +5077,12 @@ msgid "Translation should not exceed given length."
 msgstr "Bản dịch không được vượt quá độ dài cho phép."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Kích thước tối đa của bản dịch"
+msgstr "Số dòng tối đa"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "Bản dịch không được vượt quá độ dài cho phép."
+msgstr "Bản dịch không được vượt quá số dòng quy định."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -5248,7 +5253,7 @@ msgstr "Sử dụng các chỗ giữ chỗ không phân biệt chữ hoa chữ t
 #: weblate/templates/fonts/font_detail.html:25
 #: weblate/templates/fonts/font_list.html:93
 msgid "Font family"
-msgstr ""
+msgstr "Họ phông chữ"
 
 #: weblate/checks/flags.py:136
 msgid "Font size"
@@ -5312,28 +5317,20 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Thiếu tham số cho cờ dịch: \"%s\""
 
 #: weblate/checks/flags.py:464
-#, fuzzy
-#| msgid "Somali"
 msgid "Format"
-msgstr "Tiếng Somali"
+msgstr "Định dạng"
 
 #: weblate/checks/flags.py:465
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation behavior"
-msgstr "Bộ nhớ phiên dịch"
+msgstr "Hành vi dịch thuật"
 
 #: weblate/checks/flags.py:466
-#, fuzzy
-#| msgid "Translation"
 msgid "Validation"
-msgstr "Bản dịch"
+msgstr "Xác thực"
 
 #: weblate/checks/flags.py:467
-#, fuzzy
-#| msgid "Review strings"
 msgid "Rendering"
-msgstr "Đánh giá chuỗi"
+msgstr "Kết xuất"
 
 #: weblate/checks/flags.py:468 weblate/checks/icu.py:290
 msgid "ICU MessageFormat"
@@ -5348,17 +5345,11 @@ msgid "Automatic detection"
 msgstr "Tự động nhận diện"
 
 #: weblate/checks/flags.py:471
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgid "Other"
 msgstr "Khác"
 
 #: weblate/checks/fluent/inner_html.py:130
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML tag. Maybe use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML tag. Maybe use "
 "{suggestion}."
@@ -5367,10 +5358,7 @@ msgstr ""
 "dùng {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:145
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The Fluent reference in {sequence} may expand into a HTML character "
-#| "reference. Maybe use {suggestion}."
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
@@ -5389,10 +5377,7 @@ msgstr ""
 "{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:186
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the name is not "
-#| "valid. If you do not want to begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the name is not valid. "
 "If you do not want to begin an HTML tag, use {suggestion}."
@@ -5401,11 +5386,7 @@ msgstr ""
 "không muốn bắt đầu bằng một thẻ HTML, hãy sử dụng {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:199
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the tag is never "
-#| "closed by {close}. If you do not want to begin a HTML tag, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin an HTML tag, use {suggestion}."
@@ -5422,11 +5403,7 @@ msgstr ""
 "HTML nội bộ Fluent không nên bao gồm {sequence}. Có thể sử dụng {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:229
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} begins with a HTML tag, but the sequence "
-#| "{attribute} is not a valid attribute with a value. If you do not want to "
-#| "begin a HTML tag, use {suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} begins with an HTML tag, but the sequence "
 "{attribute} is not a valid attribute with a value. If you do not want to "
@@ -5480,11 +5457,7 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Thẻ HTML {tag} thiếu thẻ kết thúc phù hợp: {end}."
 
 #: weblate/checks/fluent/inner_html.py:343
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The sequence {sequence} will begin a HTML character reference, but does "
-#| "not end with {semicolon}. If you do not want a character reference, use "
-#| "{suggestion}."
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin an HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -5508,16 +5481,12 @@ msgid "Fluent source should be valid inner HTML."
 msgstr "Nguồn Fluent phải là mã HTML nội bộ hợp lệ."
 
 #: weblate/checks/fluent/inner_html.py:1024
-#, fuzzy, python-brace-format
-#| msgid "Fluent value is missing a HTML {tag} tag."
+#, python-brace-format
 msgid "Fluent value is missing an HTML {tag} tag."
 msgstr "Giá trị Fluent thiếu thẻ HTML {tag}."
 
 #: weblate/checks/fluent/inner_html.py:1029
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Fluent value is missing a HTML {tag} tag for the following variants: "
-#| "{variant_list}."
+#, python-brace-format
 msgid ""
 "Fluent value is missing an HTML {tag} tag for the following variants: "
 "{variant_list}."
@@ -6076,8 +6045,6 @@ msgid "Markdown syntax does not match source."
 msgstr "Cú pháp Markdown không khớp với nguồn."
 
 #: weblate/checks/markup.py:622
-#, fuzzy
-#| msgid "The translation does not contain an URL."
 msgid "The translation does not contain a URL."
 msgstr "Bản dịch không chứa URL."
 
@@ -6117,44 +6084,35 @@ msgstr "Lỗi cú pháp reStructuredText trong bản dịch."
 #, python-brace-format
 msgid "The reStructuredText role should not be wrapped in backticks: {role}"
 msgstr ""
+"Vai trò reStructuredText không nên được đặt trong dấu ngoặc kép ngược: {role}"
 
 #: weblate/checks/markup.py:1062
 msgid "The translation should not start with a list marker."
 msgstr "Bản dịch không nên bắt đầu bằng dấu hiệu liệt kê."
 
 #: weblate/checks/markup.py:1101
-#, fuzzy
-#| msgid "AsciiDoc file"
 msgid "AsciiDoc markup"
-msgstr "Tệp AsciiDoc"
+msgstr "Đánh dấu AsciiDoc"
 
 #: weblate/checks/markup.py:1102
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "Chuỗi định dạng C không khớp với nguồn."
+msgstr "Đánh dấu AsciiDoc không khớp với nguồn."
 
 #: weblate/checks/markup.py:1112
-#, fuzzy
-#| msgid "The following reStructuredText markup is missing: {}"
 msgid "The following AsciiDoc markup is missing: {}"
-msgstr "Đánh dấu reStructuredText sau đây bị thiếu: {}"
+msgstr "Đánh dấu AsciiDoc sau đây bị thiếu: {}"
 
 #: weblate/checks/markup.py:1117
-#, fuzzy
-#| msgid "The following reStructuredText markup is extra: {}"
 msgid "The following AsciiDoc markup is extra: {}"
-msgstr "Đánh dấu reStructuredText sau đây là phần bổ sung: {}"
+msgstr "Đánh dấu AsciiDoc sau đây là phần bổ sung: {}"
 
 #: weblate/checks/mdx.py:301
 msgid "Safe MDX"
-msgstr ""
+msgstr "MDX an toàn"
 
 #: weblate/checks/mdx.py:303
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid "JSX expressions in the translation do not match the source."
-msgstr "Thẻ XML trong bản dịch không khớp với nguồn."
+msgstr "Các biểu thức JSX trong bản dịch không khớp với bản gốc."
 
 #: weblate/checks/placeholders.py:51
 msgid "Placeholders"
@@ -6197,10 +6155,8 @@ msgid "Maximum size of translation"
 msgstr "Kích thước tối đa của bản dịch"
 
 #: weblate/checks/render.py:35
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size."
 msgid "Rendered text should not exceed given size."
-msgstr "Văn bản dịch không được vượt quá kích thước cho phép."
+msgstr "Văn bản hiển thị không được vượt quá kích thước cho phép."
 
 #: weblate/checks/render.py:141
 msgid ""
@@ -6238,13 +6194,10 @@ msgid "Ellipsis"
 msgstr "Dấu ba chấm"
 
 #: weblate/checks/source.py:51
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)."
 msgid ""
 "The string uses three dots ``(...)`` instead of an ellipsis character "
 "``(…)``."
-msgstr "Chuỗi sử dụng ba dấu chấm (...) thay vì ký tự dấu ba chấm (…)."
+msgstr "Chuỗi sử dụng ba dấu chấm ``(...)`` thay vì ký tự dấu ba chấm ``(…)``."
 
 #: weblate/checks/source.py:62 weblate/templates/snippets/editor.html:15
 msgid "Source string length"
@@ -6255,6 +6208,7 @@ msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
+"Chuỗi nguồn gần bằng hoặc vượt quá độ dài tối đa được cấu hình cho bản dịch."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -6418,10 +6372,8 @@ msgstr "Tệp Markdown"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:561
-#, fuzzy
-#| msgid "DTD file"
 msgid "MDX file"
-msgstr "Tệp DTD"
+msgstr "Tệp MDX"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:650
@@ -6460,10 +6412,8 @@ msgstr "Tệp AsciiDoc"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:974
-#, fuzzy
-#| msgid "Action"
 msgid "WixLocalization file"
-msgstr "Hành động"
+msgstr "Tệp WixLocalization"
 
 #: weblate/formats/exporters.py:71
 msgid "gettext PO"
@@ -6551,7 +6501,7 @@ msgstr "Dữ liệu mô tả id_hash không hợp lệ trong tệp CSV: %s"
 
 #: weblate/formats/ttkit.py:217 weblate/formats/ttkit.py:2734
 msgid "Plural form metadata in CSV file requires id_hash."
-msgstr ""
+msgstr "Dữ liệu mô tả dạng số nhiều trong tệp CSV yêu cầu id_hash."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1877
@@ -6565,17 +6515,13 @@ msgstr "tệp PO gettext (đơn ngữ)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1981
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 1)"
-msgstr "Tệp phiên dịch Qt Linguist"
+msgstr "Tệp dịch Qt Linguist (phiên bản 1)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2091
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)"
-msgstr "Tệp phiên dịch Qt Linguist"
+msgstr "Tệp dịch Qt Linguist (phiên bản 2)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2108
@@ -6645,7 +6591,7 @@ msgstr "Tài nguyên Kotlin cho thiết bị di động"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2377
 msgid "Compose Multiplatform Resource"
-msgstr ""
+msgstr "Soạn Thảo Tài Nguyên Đa Nền Tảng"
 
 #: weblate/formats/ttkit.py:2392
 #, python-format
@@ -6654,7 +6600,7 @@ msgstr "Không thể phân tích khóa: %s"
 
 #: weblate/formats/ttkit.py:2441 weblate/formats/ttkit.py:2456
 msgid "This key conflicts with an existing hierarchical key."
-msgstr ""
+msgstr "Khóa này xung đột với một khóa phân cấp hiện có."
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2468
@@ -6683,10 +6629,8 @@ msgstr "tệp JSON go-i18n v1"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2540
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "go-i18n v2 JSON file"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "Tệp JSON go-i18n v2"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2550
@@ -6735,11 +6679,11 @@ msgstr "Dữ liệu mô tả dạng số nhiều trong tệp CSV bị thiếu �
 
 #: weblate/formats/ttkit.py:2781
 msgid "Plural form metadata in CSV file requires target_plural_form."
-msgstr ""
+msgstr "Dữ liệu mô tả dạng số nhiều trong tệp CSV yêu cầu target_plural_form."
 
 #: weblate/formats/ttkit.py:2790
 msgid "Plural form metadata in CSV file requires source_plural_form."
-msgstr ""
+msgstr "Dữ liệu mô tả dạng số nhiều trong tệp CSV yêu cầu nguồn_plural_form."
 
 #: weblate/formats/ttkit.py:2811
 #, python-format
@@ -6850,6 +6794,8 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead."
 msgstr ""
+"Chức năng đẩy không được hỗ trợ thông qua trình xuất Git của Weblate. Thay "
+"vào đó, hãy đẩy lên kho lưu trữ gốc."
 
 #: weblate/gitexport/views.py:107
 #, python-brace-format
@@ -6857,12 +6803,16 @@ msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
 "repository instead: {location}"
 msgstr ""
+"Chức năng đẩy không được hỗ trợ thông qua trình xuất Git của Weblate. Thay "
+"vào đó, hãy đẩy lên kho lưu trữ đầu nguồn: {location}"
 
 #: weblate/gitexport/views.py:117
 msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first."
 msgstr ""
+"Phiên bản được yêu cầu hiện không có trong kho Git cục bộ của Weblate. Vui "
+"lòng tải nó từ kho lưu trữ gốc trước."
 
 #: weblate/gitexport/views.py:122
 #, python-brace-format
@@ -6870,16 +6820,16 @@ msgid ""
 "The requested revision is not available in Weblate's local Git checkout. "
 "Fetch it from the upstream repository first: {location}"
 msgstr ""
+"Phiên bản được yêu cầu không có sẵn trong kho Git cục bộ của Weblate. Vui "
+"lòng tải nó từ kho lưu trữ gốc trước: {location}"
 
 #: weblate/gitexport/views.py:142
 msgid "Git export failed."
-msgstr ""
+msgstr "Quá trình xuất Git thất bại."
 
 #: weblate/gitexport/views.py:295
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Unsupported Git service."
-msgstr "Định dạng tệp không được hỗ trợ."
+msgstr "Dịch vụ Git không được hỗ trợ."
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
@@ -6979,19 +6929,17 @@ msgstr "Ba"
 msgid ""
 "Leave empty to use the team's language selection without additional limit."
 msgstr ""
+"Để trống nếu muốn sử dụng tùy chọn ngôn ngữ của nhóm mà không có giới hạn bổ "
+"sung."
 
 #: weblate/lang/forms.py:87 weblate/templates/auth/team.html:127
 #: weblate/templates/trans/project-access-team-form.html:14
-#, fuzzy
-#| msgid "Languages limit"
 msgid "Language limit"
 msgstr "Giới hạn ngôn ngữ"
 
 #: weblate/lang/forms.py:94
-#, fuzzy
-#| msgid "Languages limit"
 msgid "No language limit"
-msgstr "Giới hạn ngôn ngữ"
+msgstr "Không giới hạn ngôn ngữ"
 
 #: weblate/lang/models.py:73
 msgid "Enter a valid language code."
@@ -7183,11 +7131,11 @@ msgstr "Công thức số nhiều của gettext"
 
 #: weblate/lang/models.py:1334
 msgid "CLDR plural with zero"
-msgstr ""
+msgstr "CLDR số nhiều với số không"
 
 #: weblate/lang/models.py:1335
 msgid "CLDR v38+ plural"
-msgstr ""
+msgstr "CLDR v38+ số nhiều"
 
 #: weblate/lang/models.py:1336
 msgid "Android plural"
@@ -7396,6 +7344,8 @@ msgid ""
 "Project-level machine translation cannot use internal or non-public "
 "addresses."
 msgstr ""
+"Dịch máy ở cấp độ dự án không được sử dụng địa chỉ nội bộ hoặc không công "
+"khai."
 
 #: weblate/machinery/forms.py:81
 msgid ""
@@ -7418,12 +7368,12 @@ msgstr "Khoá API"
 #: weblate/machinery/forms.py:711
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
-msgstr ""
+msgstr "API URL"
 
 #: weblate/machinery/forms.py:137
 msgctxt "Automatic suggestion service configuration"
 msgid "Client ID"
-msgstr ""
+msgstr "ID Máy khách"
 
 #: weblate/machinery/forms.py:141
 msgctxt "Automatic suggestion service configuration"
@@ -7441,25 +7391,19 @@ msgid "Username"
 msgstr "Tên người dùng"
 
 #: weblate/machinery/forms.py:181
-#, fuzzy
-#| msgid "Username"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP username"
-msgstr "Tên tài khoản"
+msgstr "Tên người dùng SAP"
 
 #: weblate/machinery/forms.py:187
-#, fuzzy
-#| msgid "Change password"
 msgctxt "Automatic suggestion service configuration"
 msgid "SAP password"
-msgstr "Thay đổi mật khẩu"
+msgstr "Mật khẩu SAP"
 
 #: weblate/machinery/forms.py:194
-#, fuzzy
-#| msgid "Notification on any translation"
 msgctxt "Automatic suggestion service configuration"
 msgid "Enable machine translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bật tính năng dịch máy"
 
 #: weblate/machinery/forms.py:201
 #, fuzzy
@@ -7486,11 +7430,9 @@ msgid "Application base URL"
 msgstr "URL cơ sở của ứng dụng"
 
 #: weblate/machinery/forms.py:242
-#, fuzzy
-#| msgid "Authentication"
 msgctxt "Automatic suggestion service configuration"
 msgid "Authentication service URL"
-msgstr "Xác thực"
+msgstr "URL dịch vụ xác thực"
 
 #: weblate/machinery/forms.py:251
 msgid "Regional or multi-service can be specified using region field below."
@@ -7516,10 +7458,8 @@ msgstr ""
 "Hãy chỉ định ID danh mục hệ thống tùy chỉnh để sử dụng thay vì ID chung."
 
 #: weblate/machinery/forms.py:274
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid Azure region name."
-msgstr "Nhập mã ngôn ngữ hợp lệ."
+msgstr "Nhập tên vùng Azure hợp lệ."
 
 #: weblate/machinery/forms.py:282
 msgctxt "Automatic suggestion service configuration"
@@ -7669,11 +7609,9 @@ msgid "Region ID"
 msgstr "ID Vùng"
 
 #: weblate/machinery/forms.py:395
-#, fuzzy
-#| msgid "Component locking"
 msgctxt "Automatic suggestion service configuration"
 msgid "Context vector"
-msgstr "Khoá thành phần"
+msgstr "Vectơ ngữ cảnh"
 
 #: weblate/machinery/forms.py:398
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
@@ -7725,7 +7663,7 @@ msgstr "Ưu tiên LLM thế hệ mới thay vì mô hình dịch máy truyền t
 
 #: weblate/machinery/forms.py:465
 msgid "DeepL API v1 is no longer supported."
-msgstr ""
+msgstr "API DeepL phiên bản 1 không còn được hỗ trợ nữa."
 
 #: weblate/machinery/forms.py:477
 msgctxt "Automatic suggestion service configuration"
@@ -7757,11 +7695,9 @@ msgstr ""
 "Hãy mô tả phong cách dịch thuật. Ví dụ: “Sử dụng ngôn ngữ không trang trọng.”"
 
 #: weblate/machinery/forms.py:506
-#, fuzzy
-#| msgid "Translation notifications"
 msgctxt "Automatic suggestion service configuration"
 msgid "Language-specific instructions"
-msgstr "Thông báo bản dịch"
+msgstr "Hướng dẫn cụ thể theo ngôn ngữ"
 
 #: weblate/machinery/forms.py:511
 #, python-format
@@ -7843,43 +7779,28 @@ msgid "Choose custom model here to enable it."
 msgstr "Chọn mô hình tùy chỉnh tại đây để kích hoạt."
 
 #: weblate/machinery/forms.py:636
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Mistral model selection"
 msgid "Automatic selection"
 msgstr "Lựa chọn tự động"
 
 #: weblate/machinery/forms.py:643
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Mistral model selection"
 msgid "Custom model"
 msgstr "Mô hình tùy chỉnh"
 
 #: weblate/machinery/forms.py:648
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "OpenAI API base URL"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral API base URL"
-msgstr "URL cơ sở OpenAI API"
+msgstr "URL cơ sở của API Mistral"
 
 #: weblate/machinery/forms.py:652
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Mistral API, if it differs from the Mistral default URL"
-msgstr "URL cơ sở của API OpenAI, nếu nó khác với URL mặc định của OpenAI"
+msgstr "URL cơ sở của API Mistral, nếu nó khác với URL mặc định của Mistral"
 
 #: weblate/machinery/forms.py:659
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Automatic suggestion service configuration"
 msgid "Mistral model"
-msgstr "Mô hình tùy chỉnh"
+msgstr "Mô hình Mistral"
 
 #: weblate/machinery/forms.py:667
 msgctxt "Mistral model selection"
@@ -7889,7 +7810,7 @@ msgstr "Tên mô hình tùy chỉnh"
 #: weblate/machinery/forms.py:692
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
-msgstr ""
+msgstr "URL điểm cuối Azure OpenAI"
 
 #: weblate/machinery/forms.py:696
 msgid ""
@@ -7904,45 +7825,42 @@ msgstr "Triển khai Azure OpenAI"
 
 #: weblate/machinery/forms.py:705
 msgid "The model's unique deployment name."
-msgstr ""
+msgstr "Tên triển khai duy nhất của mô hình."
 
 #: weblate/machinery/forms.py:713
 msgid "Base URL of the Ollama API, localhost and port 11434 by default."
-msgstr ""
+msgstr "URL cơ sở của API Ollama mặc định là localhost và cổng 11434."
 
 #: weblate/machinery/forms.py:720
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
-msgstr ""
+msgstr "Mô hình Ollama"
 
 #: weblate/machinery/forms.py:722
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
+msgstr "Tên của mẫu sản phẩm được mô tả trong danh mục của Ollama."
 
 #: weblate/machinery/forms.py:732
 msgctxt "Anthropic model selection"
 msgid "Claude Haiku 4.5"
-msgstr ""
+msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:736
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr ""
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:740
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr ""
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:744
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr ""
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:746
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Anthropic model selection"
 msgid "Custom model"
 msgstr "Mô hình tùy chỉnh"
@@ -7950,7 +7868,7 @@ msgstr "Mô hình tùy chỉnh"
 #: weblate/machinery/forms.py:751
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "Anthropic API URL"
 
 #: weblate/machinery/forms.py:754
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
@@ -7973,7 +7891,7 @@ msgstr ""
 
 #: weblate/machinery/forms.py:780
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "Số lượng token tối đa được tạo ra trong phản hồi."
 
 #: weblate/machinery/llm.py:179
 msgctxt "LLM translation example"
@@ -7983,7 +7901,7 @@ msgstr "Xin chào, @@PH1@@!"
 #: weblate/machinery/llm.py:180
 msgctxt "LLM translation example"
 msgid "Click <a href=\"/x\">Save</a>."
-msgstr ""
+msgstr "Nhấp vào <a href=\"/x\">Lưu</a>."
 
 #: weblate/machinery/llm.py:181
 msgctxt "LLM translation example"
@@ -8094,7 +8012,7 @@ msgstr "Định dạng tệp không được hỗ trợ: %s"
 
 #: weblate/memory/models.py:590
 msgid "No valid entries found in the uploaded file!"
-msgstr ""
+msgstr "Không tìm thấy mục nào hợp lệ trong tệp đã tải lên!"
 
 #: weblate/memory/models.py:614 weblate/memory/models.py:619
 #, python-format
@@ -8108,11 +8026,11 @@ msgstr "Không thể phân tích cú pháp tệp TMX: %s"
 
 #: weblate/memory/models.py:671
 msgid "Header missing in the TMX file!"
-msgstr ""
+msgstr "Thiếu phần tiêu đề trong tệp TMX!"
 
 #: weblate/memory/models.py:676
 msgid "Source language not defined in the TMX file!"
-msgstr ""
+msgstr "Ngôn ngữ nguồn không được định nghĩa trong tệp TMX!"
 
 #: weblate/memory/models.py:682 weblate/memory/models.py:700
 #: weblate/memory/models.py:778
@@ -8126,7 +8044,7 @@ msgstr "Tệp không được hỗ trợ!"
 
 #: weblate/memory/models.py:762
 msgid "Monolingual format not supported for memory upload"
-msgstr ""
+msgstr "Định dạng đơn ngữ không được hỗ trợ cho việc tải lên bộ nhớ"
 
 #: weblate/memory/models.py:772
 msgid "Missing source or target language in file!"
@@ -8158,10 +8076,8 @@ msgid "Workspace: {}"
 msgstr "Không gian làm việc: {}"
 
 #: weblate/memory/views.py:109
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Nhập mã ngôn ngữ hợp lệ."
+msgstr "Định danh ngôn ngữ không hợp lệ."
 
 #: weblate/memory/views.py:150
 msgid "Entries were deleted."
@@ -8172,23 +8088,22 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Các mục trong bộ nhớ dịch được tạo từ các bản dịch hiện tại đã bị xóa và sẽ "
+"được tạo lại trong nền. Các mục đã tải lên vẫn được giữ nguyên."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
-msgstr "Các mục đã bị xóa và bộ nhớ dịch sẽ được xây dựng lại ở chế độ nền."
+msgstr ""
+"Các mục trong bộ nhớ dịch được tạo từ các bản dịch hiện tại đã bị xóa và sẽ "
+"được tạo lại trong nền."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Xóa các mục bộ nhớ dịch đã chọn"
+msgstr[0] "Đã xử lý %(count)d mục bộ nhớ dịch đang hoạt động."
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -8398,10 +8313,8 @@ msgid "Invalid unit."
 msgstr "Đơn vị không hợp lệ."
 
 #: weblate/screenshots/views.py:645
-#, fuzzy
-#| msgid "Your profile has been updated."
 msgid "Source has been removed."
-msgstr "Hồ sơ của bạn đã được cập nhật."
+msgstr "Nguồn đã bị xóa."
 
 #: weblate/screenshots/views.py:673
 #, python-format
@@ -8419,12 +8332,12 @@ msgstr "Không thể tải xuống dữ liệu OCR. Vui lòng thử lại sau."
 
 #: weblate/templates/400.html:7 weblate/templates/400.html:13
 msgid "Bad request"
-msgstr ""
+msgstr "Yêu cầu không hợp lệ"
 
 #: weblate/templates/400.html:16
 msgid ""
 "We’re sorry but something appears to be wrong with the request you made."
-msgstr ""
+msgstr "Rất tiếc nhưng có vẻ như yêu cầu của bạn đã gặp sự cố."
 
 #: weblate/templates/403.html:7 weblate/templates/403.html:15
 #: weblate/templates/403_csrf.html:7 weblate/templates/403_csrf.html:14
@@ -8507,7 +8420,7 @@ msgstr "Lý do lỗi CSRF: %(reason)s"
 #: weblate/templates/404.html:7 weblate/templates/404.html:14
 #: weblate/trans/views/error.py:33
 msgid "Page Not Found"
-msgstr ""
+msgstr "Không Tìm Thấy Trang"
 
 #: weblate/templates/404.html:16
 msgid "The page you are looking for was not found."
@@ -8656,7 +8569,7 @@ msgstr "Ký kết bản ghi nhận"
 #: weblate/templates/about/keys.html:31
 #: weblate/templates/snippets/ssh-key.html:16
 msgid "Public key copied to clipboard."
-msgstr ""
+msgstr "Khóa công khai đã được sao chép vào bảng nhớ tạm."
 
 #: weblate/templates/about/keys.html:32
 #: weblate/templates/accounts/profile.html:567
@@ -8709,11 +8622,11 @@ msgstr "Thống kê"
 
 #: weblate/templates/accounts/2fa.html:20
 msgid "Second factor sign-in"
-msgstr ""
+msgstr "Đăng nhập hai yếu tố"
 
 #: weblate/templates/accounts/2fa.html:25
 msgid "Please complete your sign-in using second factor credential."
-msgstr ""
+msgstr "Vui lòng hoàn tất đăng nhập bằng xác thực hai yếu tố."
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:7
@@ -8863,10 +8776,8 @@ msgid "Question for %(site_title)s administrators"
 msgstr "Câu hỏi dành cho quản trị viên của %(site_title)s"
 
 #: weblate/templates/accounts/contact.html:137
-#, fuzzy
-#| msgid "Site administrator"
 msgid "Question for the server administrators"
-msgstr "Trang quản trị"
+msgstr "Câu hỏi dành cho quản trị viên máy chủ"
 
 #: weblate/templates/accounts/contact.html:143
 msgid ""
@@ -8896,14 +8807,13 @@ msgid "Account removal almost complete"
 msgstr "Quá trình xóa tài khoản gần như hoàn tất"
 
 #: weblate/templates/accounts/email-sent.html:24
-#, fuzzy
-#| msgid "User registration"
 msgid "Registration almost complete"
-msgstr "Đăng ký người dùng"
+msgstr "Quá trình đăng ký gần như hoàn tất"
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr ""
+"Hãy làm theo hướng dẫn khôi phục mật khẩu được gửi đến hộp thư email của bạn."
 
 #: weblate/templates/accounts/email-sent.html:32
 msgid ""
@@ -8924,6 +8834,7 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:39
 msgid "Please look into your spam folder if you cannot see it in your inbox."
 msgstr ""
+"Nếu không thấy email trong hộp thư đến, vui lòng kiểm tra thư mục thư rác."
 
 #: weblate/templates/accounts/email-sent.html:43
 #: weblate/templates/mail/shared-registration.html:12
@@ -8962,10 +8873,8 @@ msgstr "Vui lòng sửa lỗi trong mẫu đăng ký."
 
 #: weblate/templates/accounts/email.html:19
 #: weblate/templates/accounts/profile.html:178
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Verify new e-mail address"
-msgstr "Sử dụng địa chỉ e-mail của tài khoản"
+msgstr "Xác minh địa chỉ email mới"
 
 #. Translators: Register on the site
 #: weblate/templates/accounts/email.html:27
@@ -8975,20 +8884,16 @@ msgid "Register"
 msgstr "Đăng ký"
 
 #: weblate/templates/accounts/hosting.html:16
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Trial subscriptions"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đăng ký dùng thử"
 
 #: weblate/templates/accounts/hosting.html:30
 msgid "Set up your libre project"
 msgstr "Thiết lập dự án tự do của bạn"
 
 #: weblate/templates/accounts/hosting.html:35
-#, fuzzy
-#| msgid "User profile"
 msgid "Your trial"
-msgstr "Hồ sơ người dùng"
+msgstr "Bản dùng thử của bạn"
 
 #: weblate/templates/accounts/hosting.html:37
 #, python-format
@@ -9009,12 +8914,11 @@ msgid ""
 "We reserve our right to reject inappropriate content (erotic, gambling, "
 "etc.)."
 msgstr ""
+"Chúng tôi có quyền từ chối nội dung không phù hợp (khiêu dâm, cờ bạc, v.v.)."
 
 #: weblate/templates/accounts/hosting.html:45
-#, fuzzy
-#| msgid "Status"
 msgid "Get started"
-msgstr "Tình trạng"
+msgstr "Bắt đầu"
 
 #: weblate/templates/accounts/hosting.html:54
 msgid "Looking for commercial hosting?"
@@ -9031,7 +8935,7 @@ msgstr "Đăng nhập vào %(formatted_site_title)s"
 
 #: weblate/templates/accounts/login.html:47
 msgid "Sign in with:"
-msgstr ""
+msgstr "Đăng nhập bằng:"
 
 #: weblate/templates/accounts/login.html:69
 msgid "Forgot your password?"
@@ -9043,21 +8947,21 @@ msgstr "Đăng ký tài khoản mới"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
-msgstr ""
+msgstr "Vui lòng bật xác thực mật khẩu để bảo mật tài khoản của bạn."
 
 #: weblate/templates/accounts/password-warning.html:6
 msgid "You will be still able to authenticate using third party services."
-msgstr ""
+msgstr "Bạn vẫn có thể xác thực bằng các dịch vụ của bên thứ ba."
 
 #: weblate/templates/accounts/password-warning.html:7
 msgid "The password is used to verify important changes on your account."
 msgstr ""
+"Mật khẩu được sử dụng để xác minh những thay đổi quan trọng trên tài khoản "
+"của bạn."
 
 #: weblate/templates/accounts/password-warning.html:11
-#, fuzzy
-#| msgid "Change password"
 msgid "Configure the password"
-msgstr "Thay đổi mật khẩu"
+msgstr "Cấu hình mật khẩu"
 
 #: weblate/templates/accounts/password.html:21
 msgid ""
@@ -9180,10 +9084,8 @@ msgid "Remove this notification setting"
 msgstr "Xóa cài đặt thông báo này"
 
 #: weblate/templates/accounts/profile.html:180
-#, fuzzy
-#| msgid "Choose primary e-mail from verified addresses."
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "Chọn địa chỉ e-mail chính từ những địa chỉ đã được kiểm chứng."
+msgstr "Bạn chỉ có thể chọn địa chỉ email từ các địa chỉ đã được xác minh."
 
 #: weblate/templates/accounts/profile.html:194
 msgid "Current user identities"
@@ -9224,10 +9126,8 @@ msgstr "Quản lý các kết nối lưu trữ mã"
 
 #: weblate/templates/accounts/profile.html:271
 #: weblate/templates/accounts/user.html:425
-#, fuzzy
-#| msgid "Authentication"
 msgid "Two-factor authentication"
-msgstr "Xác thực"
+msgstr "Xác thực hai yếu tố"
 
 #: weblate/templates/accounts/profile.html:276
 msgid ""
@@ -16368,20 +16268,16 @@ msgid "Include the following recommended topics:"
 msgstr "Vui lòng đọc các văn bản pháp lý sau:"
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:8
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "How contributors should submit translations."
-msgstr "Người đóng góp mới trong %(translation)s"
+msgstr "Hướng dẫn cách thức người đóng góp nên gửi bản dịch."
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:9
 msgid "What review translators should expect."
 msgstr ""
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:10
-#, fuzzy
-#| msgid "Report issue with the source string"
 msgid "How to report problems with source strings."
-msgstr "Báo cáo sự cố với chuỗi nguồn"
+msgstr "Cách báo cáo sự cố với chuỗi nguồn."
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:11
 #, fuzzy
@@ -19124,10 +19020,8 @@ msgid "Define translation instructions to help translators."
 msgstr "Đưa ra các hướng dẫn dịch thuật để hỗ trợ người dịch."
 
 #: weblate/trans/alerts/community.py:243
-#, fuzzy
-#| msgid "Source strings with screenshots"
 msgid "Improve source string screenshot coverage."
-msgstr "Chuỗi nguồn kèm ảnh chụp màn hình"
+msgstr "Cải thiện phạm vi bao phủ ảnh chụp màn hình chuỗi nguồn."
 
 #: weblate/trans/alerts/community.py:306
 msgid "Use flags to indicate special strings in your translation."
@@ -19367,44 +19261,32 @@ msgid "Too deep nesting of categories!"
 msgstr ""
 
 #: weblate/trans/backups.py:353 weblate/trans/backups.py:1109
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate category or component slug."
-msgstr "Nhân bản thành phần này"
+msgstr "Tên slug của danh mục hoặc thành phần bị trùng lặp."
 
 #: weblate/trans/backups.py:359 weblate/trans/backups.py:1119
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate category or component name."
-msgstr "Nhân bản thành phần này"
+msgstr "Tên danh mục hoặc thành phần bị trùng lặp."
 
 #: weblate/trans/backups.py:365
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Duplicate category slug."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đường dẫn danh mục trùng lặp."
 
 #: weblate/trans/backups.py:417
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Duplicate label name."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Tên nhãn bị trùng lặp."
 
 #: weblate/trans/backups.py:446
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Duplicate team name."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Tên đội bị trùng lặp."
 
 #: weblate/trans/backups.py:832
 msgid "Screenshot image is missing."
 msgstr "Ảnh chụp màn hình bị thiếu."
 
 #: weblate/trans/backups.py:1089 weblate/trans/backups.py:1269
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Duplicate check name."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Trùng tên kiểm tra."
 
 #: weblate/trans/backups.py:1100
 #, fuzzy
@@ -19417,16 +19299,12 @@ msgid "Component filename does not match its category and slug."
 msgstr ""
 
 #: weblate/trans/backups.py:1137
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate component slug."
-msgstr "Nhân bản thành phần này"
+msgstr "Trùng lặp slug thành phần."
 
 #: weblate/trans/backups.py:1168
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Duplicate translation identifier."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Mã định danh bản dịch trùng lặp."
 
 #: weblate/trans/backups.py:1187
 #, fuzzy
@@ -19442,10 +19320,8 @@ msgid "Referenced translation does not exist."
 msgstr "Bản dịch này hiện không tồn tại."
 
 #: weblate/trans/backups.py:1226
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Duplicate unit checksum."
-msgstr "Kiểm tra chất lượng cập nhật"
+msgstr "Trùng lặp mã kiểm tra đơn vị."
 
 #: weblate/trans/backups.py:1234
 #, fuzzy
@@ -19500,10 +19376,8 @@ msgid "Referenced role does not exist."
 msgstr "Tập tin không tồn tại."
 
 #: weblate/trans/backups.py:1433
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Repository data does not belong to a restored component."
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Dữ liệu trong kho lưu trữ không thuộc về thành phần đã được khôi phục."
 
 #: weblate/trans/backups.py:1443
 msgid "Repository-linked components can not contain repository data."
@@ -23932,10 +23806,8 @@ msgid "Could not resolve the URL domain: {}"
 msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #: weblate/utils/outbound.py:369
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Could not resolve the URL domain."
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Không thể phân giải tên miền URL."
 
 #: weblate/utils/render.py:27
 #, python-format
@@ -24451,11 +24323,11 @@ msgid "The repository HTTP redirect contains credentials and was rejected."
 msgstr ""
 
 #: weblate/vcs/git.py:216
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr ""
+"Việc chuyển hướng HTTP của kho lưu trữ không trỏ đến điểm cuối HTTP thông "
+"minh của Git."
 
 #: weblate/vcs/git.py:227
 msgid ""
