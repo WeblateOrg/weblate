@@ -572,11 +572,21 @@ class KashidaCheckTest(CheckTestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_good_matching = ("string", "string", "")
+        self.test_good_matching = ("string", "مـ", "")
         self.test_good_ignore = ("string", "بـ:", "")
-        self.test_failure_1 = ("string", "string\u0640", "")
-        self.test_failure_2 = ("string", "string\ufe79", "")
-        self.test_failure_3 = ("string", "string\ufe7f", "")
+        self.test_failure_1 = ("string", "صـــفــــحـــــے", "")
+        self.test_failure_2 = ("string", "صـف", "")
+        self.test_failure_3 = ("string", "بـالبيت", "")
+
+    def test_kashida_abbreviation(self) -> None:
+        # Single and multiple kashidas at end of abbreviation/word should be allowed
+        self.do_test(False, ("string", "اتـ", ""))
+        self.do_test(False, ("string", "مــ", ""))
+
+    def test_kashida_combining_mark(self) -> None:
+        # Kashidas holding combining marks should be allowed
+        self.do_test(False, ("string", "ــ٘ـ", ""))
+
 
 
 class PunctuationSpacingCheckTest(CheckTestCase):
