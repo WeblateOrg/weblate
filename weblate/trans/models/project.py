@@ -1453,7 +1453,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             license_value = self.license
         if inherit_license is None:
             inherit_license = self.inherit_license
-        if inherit_license and self.workspace_id:
+        if inherit_license and self.workspace is not None:
             return self.workspace.license
         return license_value
 
