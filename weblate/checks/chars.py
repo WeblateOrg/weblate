@@ -606,12 +606,13 @@ class KashidaCheck(TargetCheck):
     description = gettext_lazy("The decorative kashida letters should not be used.")
 
     kashida_regex = (
-        # Allow kashida after certain letters
-        "(?<![\u0628\u0643\u0644])"
+        # Allow kashida after certain letters, only if sandwiched between actual letters
+        r"(?<=\p{sc=Arab})(?<![\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f])"
         # List of kashida letters to check
-        "[\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f]"
+        r"[\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f]+"
+        r"(?=\p{sc=Arab})(?![\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f])"
     )
-    kashida_re = re.compile(kashida_regex)
+    kashida_re = regex.compile(kashida_regex)
 
     def check_single(self, source: str, target: str, unit: Unit):
         return self.kashida_re.search(target)
