@@ -3500,6 +3500,19 @@ class ProjectAPITest(APIBaseTest):
             response.data["metrics_url"],
             "http://example.com/api/projects/test/metrics/",
         )
+        self.assertEqual(response.data["access_control"], self.project.access_control)
+        self.assertEqual(response.data["use_shared_tm"], self.project.use_shared_tm)
+        self.assertEqual(
+            response.data["contribute_shared_tm"], self.project.contribute_shared_tm
+        )
+        self.assertEqual(
+            response.data["use_workspace_tm"], self.project.use_workspace_tm
+        )
+        self.assertEqual(
+            response.data["contribute_workspace_tm"],
+            self.project.contribute_workspace_tm,
+        )
+        self.assertEqual(response.data["autoclean_tm"], self.project.autoclean_tm)
 
     def test_repo_ops(self) -> None:
         for operation in RepoOperations.values:
@@ -4977,6 +4990,226 @@ class ProjectAPITest(APIBaseTest):
             request={"slug": "new-slug"},
         )
         self.assertEqual(response.data["slug"], "new-slug")
+
+    def test_patch_translation_memory_settings(self) -> None:
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "use_shared_tm": False,
+                "contribute_shared_tm": False,
+                "use_workspace_tm": True,
+                "contribute_workspace_tm": True,
+                "autoclean_tm": not self.project.autoclean_tm,
+            },
+        )
+        self.assertFalse(response.data["use_shared_tm"])
+        self.assertFalse(response.data["contribute_shared_tm"])
+        self.assertTrue(response.data["use_workspace_tm"])
+        self.assertTrue(response.data["contribute_workspace_tm"])
+        self.assertEqual(response.data["autoclean_tm"], not self.project.autoclean_tm)
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.use_shared_tm)
+        self.assertFalse(self.project.contribute_shared_tm)
+        self.assertTrue(self.project.use_workspace_tm)
+        self.assertTrue(self.project.contribute_workspace_tm)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_patch_translation_memory_settings_offer_hosting(self) -> None:
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "use_shared_tm": False,
+                "contribute_shared_tm": True,
+                "use_workspace_tm": True,
+                "contribute_workspace_tm": False,
+            },
+        )
+        self.assertFalse(response.data["use_shared_tm"])
+        self.assertFalse(response.data["contribute_shared_tm"])
+        self.assertTrue(response.data["use_workspace_tm"])
+        self.assertTrue(response.data["contribute_workspace_tm"])
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.use_shared_tm)
+        self.assertFalse(self.project.contribute_shared_tm)
+        self.assertTrue(self.project.use_workspace_tm)
+        self.assertTrue(self.project.contribute_workspace_tm)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_patch_translation_memory_settings_offer_hosting_uses_instance(
+        self,
+    ) -> None:
+        Project.objects.filter(pk=self.project.pk).update(
+            use_shared_tm=True,
+            contribute_shared_tm=False,
+            use_workspace_tm=False,
+            contribute_workspace_tm=True,
+        )
+        # Only patch workspace TM; shared TM falls back to the instance value.
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "use_workspace_tm": True,
+                "contribute_workspace_tm": False,
+            },
+        )
+        self.assertTrue(response.data["use_shared_tm"])
+        self.assertTrue(response.data["contribute_shared_tm"])
+        self.assertTrue(response.data["use_workspace_tm"])
+        self.assertTrue(response.data["contribute_workspace_tm"])
+        self.project.refresh_from_db()
+        self.assertTrue(self.project.use_shared_tm)
+        self.assertTrue(self.project.contribute_shared_tm)
+        self.assertTrue(self.project.use_workspace_tm)
+        self.assertTrue(self.project.contribute_workspace_tm)
+
+        # Only patch shared TM; workspace TM falls back to the instance value.
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "use_shared_tm": False,
+                "contribute_shared_tm": True,
+            },
+        )
+        self.assertFalse(response.data["use_shared_tm"])
+        self.assertFalse(response.data["contribute_shared_tm"])
+        self.assertTrue(response.data["use_workspace_tm"])
+        self.assertTrue(response.data["contribute_workspace_tm"])
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.use_shared_tm)
+        self.assertFalse(self.project.contribute_shared_tm)
+        self.assertTrue(self.project.use_workspace_tm)
+        self.assertTrue(self.project.contribute_workspace_tm)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_create_translation_memory_settings_offer_hosting(self) -> None:
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Hosted TM project",
+                "slug": "hosted-tm-project",
+                "web": "https://weblate.org/",
+                "use_shared_tm": False,
+                "contribute_shared_tm": True,
+                "use_workspace_tm": True,
+                "contribute_workspace_tm": False,
+            },
+        )
+        self.assertFalse(response.data["use_shared_tm"])
+        self.assertFalse(response.data["contribute_shared_tm"])
+        self.assertTrue(response.data["use_workspace_tm"])
+        self.assertTrue(response.data["contribute_workspace_tm"])
+        project = Project.objects.get(slug="hosted-tm-project")
+        self.assertFalse(project.use_shared_tm)
+        self.assertFalse(project.contribute_shared_tm)
+        self.assertTrue(project.use_workspace_tm)
+        self.assertTrue(project.contribute_workspace_tm)
+
+    def test_patch_access_control(self) -> None:
+        self.component.license = "MIT"
+        self.component.save(update_fields=["license"])
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"access_control": Project.ACCESS_PRIVATE},
+        )
+        self.assertEqual(response.data["access_control"], Project.ACCESS_PRIVATE)
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PRIVATE)
+
+    def test_patch_access_control_requires_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"access_control": Project.ACCESS_PRIVATE},
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PUBLIC)
+
+    @override_settings(LICENSE_REQUIRED=True)
+    def test_patch_access_control_requires_license(self) -> None:
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"access_control": Project.ACCESS_PROTECTED},
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PUBLIC)
+
+        self.project.component_set.update(license="MIT")
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"access_control": Project.ACCESS_PROTECTED},
+        )
+        self.assertEqual(response.data["access_control"], Project.ACCESS_PROTECTED)
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PROTECTED)
+
+    @override_settings(LICENSE_REQUIRED=True)
+    def test_patch_access_control_uses_workspace_license(self) -> None:
+        workspace = Workspace.objects.create(name="Licensed workspace", license="MIT")
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace,
+            inherit_license=True,
+            license="",
+        )
+        # Components inherit the project license; without the workspace fallback
+        # the empty project license would leave them unlicensed.
+        self.project.component_set.update(license="", inherit_license=True)
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"access_control": Project.ACCESS_PROTECTED},
+        )
+        self.assertEqual(response.data["access_control"], Project.ACCESS_PROTECTED)
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PROTECTED)
 
     def test_patch_inherited_setting_disables_inheritance(self) -> None:
         workspace = Workspace.objects.create(

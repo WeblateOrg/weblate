@@ -69,6 +69,7 @@ if TYPE_CHECKING:
     from weblate.billing.models import Billing
     from weblate.machinery.types import SettingsDict
     from weblate.trans.models import Alert
+    from weblate.trans.models.category import Category
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
@@ -1411,6 +1412,42 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             and not settings.REQUIRE_LOGIN
             and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
         )
+
+    def get_unlicensed_components(self, project_license: str) -> list[Component]:
+        """Return components that would lack a license under the given project license."""
+        categories_by_id = {
+            category.pk: category for category in self.category_set.all()
+        }
+        category_license_cache: dict[int, str] = {}
+
+        def get_category_license(category: Category) -> str:
+            if category.pk in category_license_cache:
+                return category_license_cache[category.pk]
+            if category.inherit_license:
+                if category.category_id is None:
+                    license_value = project_license
+                else:
+                    license_value = get_category_license(
+                        categories_by_id[category.category_id]
+                    )
+            else:
+                license_value = category.license
+            category_license_cache[category.pk] = license_value
+            return license_value
+
+        unlicensed_categories = [
+            category_id
+            for category_id, category in categories_by_id.items()
+            if not get_category_license(category)
+        ]
+        components_filter = Q(inherit_license=False, license="")
+        if not project_license:
+            components_filter |= Q(inherit_license=True, category__isnull=True)
+        if unlicensed_categories:
+            components_filter |= Q(
+                inherit_license=True, category_id__in=unlicensed_categories
+            )
+        return list(self.component_set.filter(components_filter))
 
     def get_commit_policy_description(self) -> str:
         if self.commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:

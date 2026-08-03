@@ -1677,6 +1677,12 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "instructions",
             "enable_hooks",
             "language_aliases",
+            "access_control",
+            "use_shared_tm",
+            "contribute_shared_tm",
+            "use_workspace_tm",
+            "contribute_workspace_tm",
+            "autoclean_tm",
             "license",
             "inherit_license",
             "effective_license",
@@ -1780,6 +1786,53 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                     raise PermissionDenied(error)
                 if error := get_project_move_billing_error(workspace):
                     raise serializers.ValidationError({"workspace": error})
+
+        if settings.OFFER_HOSTING:
+            use_shared_tm = attrs.get(
+                "use_shared_tm",
+                (
+                    self.instance.use_shared_tm
+                    if self.instance
+                    else settings.DEFAULT_SHARED_TM
+                ),
+            )
+            use_workspace_tm = attrs.get(
+                "use_workspace_tm",
+                self.instance.use_workspace_tm if self.instance else False,
+            )
+            attrs["contribute_shared_tm"] = use_shared_tm
+            attrs["contribute_workspace_tm"] = use_workspace_tm
+
+        if self.instance is not None and "access_control" in attrs:
+            access = attrs["access_control"]
+            if access != self.instance.access_control:
+                request = self.context.get("request")
+                if request is None or not request.user.has_perm(
+                    "billing:project.permissions", self.instance
+                ):
+                    raise serializers.ValidationError(
+                        {
+                            "access_control": "You do not have permission to change project access control."
+                        }
+                    )
+                if self.instance.needs_license(access):
+                    project_license = attrs.get("license", self.instance.license)
+                    inherit_license = attrs.get(
+                        "inherit_license", self.instance.inherit_license
+                    )
+                    if inherit_license and self.instance.workspace_id:
+                        project_license = self.instance.workspace.license
+                    unlicensed = self.instance.get_unlicensed_components(
+                        project_license
+                    )
+                    if unlicensed:
+                        names = ", ".join(component.name for component in unlicensed)
+                        raise serializers.ValidationError(
+                            {
+                                "access_control": f"You must specify a license for these components to make them publicly accessible: {names}"
+                            }
+                        )
+
         # Call model validation here, DRF does not do that
         if self.instance:
             instance = copy(self.instance)

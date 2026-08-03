@@ -3482,41 +3482,6 @@ class ProjectSettingsForm(
             "check_flags": FlagField,
         }
 
-    def get_unlicensed_components(self, project_license: str) -> list[Component]:
-        categories_by_id = {
-            category.pk: category for category in self.instance.category_set.all()
-        }
-        category_license_cache: dict[int, str] = {}
-
-        def get_category_license(category: Category) -> str:
-            if category.pk in category_license_cache:
-                return category_license_cache[category.pk]
-            if category.inherit_license:
-                if category.category_id is None:
-                    license_value = project_license
-                else:
-                    license_value = get_category_license(
-                        categories_by_id[category.category_id]
-                    )
-            else:
-                license_value = category.license
-            category_license_cache[category.pk] = license_value
-            return license_value
-
-        unlicensed_categories = [
-            category_id
-            for category_id, category in categories_by_id.items()
-            if not get_category_license(category)
-        ]
-        components_filter = Q(inherit_license=False, license="")
-        if not project_license:
-            components_filter |= Q(inherit_license=True, category__isnull=True)
-        if unlicensed_categories:
-            components_filter |= Q(
-                inherit_license=True, category_id__in=unlicensed_categories
-            )
-        return list(self.instance.component_set.filter(components_filter))
-
     def clean(self) -> None:
         data = self.cleaned_data
         if settings.OFFER_HOSTING:
@@ -3550,7 +3515,7 @@ class ProjectSettingsForm(
                 and self.instance.workspace_id
             ):
                 project_license = self.instance.workspace.license
-            unlicensed = self.get_unlicensed_components(project_license)
+            unlicensed = self.instance.get_unlicensed_components(project_license)
             if unlicensed:
                 raise ValidationError(
                     {
