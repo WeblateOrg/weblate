@@ -6156,6 +6156,20 @@ class DiscoveryTest(ViewTestCase):
             ["This template must include {{ component }}."],
         )
 
+    def test_form_match_help_text(self) -> None:
+        form = DiscoveryAddon.get_add_form(self.user, component=self.component)
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        help_text = str(form.fields["match"].help_text)
+        self.assertEqual(
+            help_text,
+            "The regular expression must define a named group for component. "
+            "Also define a named group for language when matching translation files. "
+            "When creating components from a monolingual base or new base file, "
+            "omit language and match that source file instead.",
+        )
+
     def test_form_create_from_template_requires_new_base_and_filemask(self) -> None:
         form = DiscoveryAddon.get_add_form(
             self.user,
@@ -6214,6 +6228,35 @@ class DiscoveryTest(ViewTestCase):
         self.assertEqual(
             form.errors["filemask_template"],
             ["The translation file mask must include a language wildcard (*)."],
+        )
+
+    def test_form_create_from_template_rejects_language_group(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<language>[^/]+)/(?P<component>[^/]+)\.po",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "create_from_template": True,
+                "filemask_template": "locale/*/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["match"],
+            [
+                "Omit the language named group when creating components from a monolingual base or new base file."
+            ],
         )
 
     def test_form_create_from_template_rejects_unknown_match_groups(self) -> None:

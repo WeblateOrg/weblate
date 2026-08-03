@@ -840,9 +840,9 @@ class DiscoveryForm(BaseAddonForm):
         label=gettext_lazy("Regular expression to match translation files against"),
         required=True,
         help_text=gettext_lazy(
-            "The regular expressionmust defined a named group for component."
-            "Also define a named group for language when matching translation files."
-            "When creating components from a monolingual base or new base file,"
+            "The regular expression must define a named group for component. "
+            "Also define a named group for language when matching translation files. "
+            "When creating components from a monolingual base or new base file, "
             "omit language and match that source file instead."
         ),
     )
@@ -1283,6 +1283,13 @@ class DiscoveryForm(BaseAddonForm):
         match = self.cleaned_data["match"]
         if self.is_create_from_template_enabled():
             validate_re(match, ("component",))
+            if "language" in compile_regex(match).groupindex:
+                raise forms.ValidationError(
+                    gettext(
+                        "Omit the language named group when creating components "
+                        "from a monolingual base or new base file."
+                    )
+                )
         else:
             validate_re(match, ("component", "language"))
         return match
