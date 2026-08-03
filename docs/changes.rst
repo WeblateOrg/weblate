@@ -1,7 +1,32 @@
+Weblate 2026.8.1
+----------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+* Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.8.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?closed=1>`__.
+
 Weblate 2026.8
 --------------
 
-*Not yet released.*
+*Released on August 3rd 2026.*
 
 .. rubric:: New features
 

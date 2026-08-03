@@ -203,7 +203,7 @@ dependencies = [
   # Pin for translate-toolkit extra
   "tomlkit==0.15.1",
   "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.17",
-  "translation-finder==3.3.1",
+  "translation-finder==3.4.0",
   "twisted==26.4.0",
   "unicode-segmentation-rs==0.3.1",
   "unidecode==1.4.0",
@@ -227,7 +227,7 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 name = "weblate"
 requires-python = ">=3.12"
-version = "2026.8.dev0"
+version = "2026.8.1.dev0"
 
 [project.optional-dependencies]
 all = [
@@ -677,6 +677,7 @@ max-complexity = 16  # TODO: should be lower
 [tool.ruff.lint.per-file-ignores]
 "ci/migrate-scripts/*.py" = ["INP001", "S101"]
 "docs/_ext/*.py" = ["INP001"]
+"docs/_ext/test_*.py" = ["S101"]
 "docs/conf.py" = ["ERA001", "INP001"]
 "fuzzing/targets.py" = ["PLC0415"]
 "scripts/*" = ["T201", "T203"]
