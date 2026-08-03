@@ -3964,8 +3964,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         user = request.user
 
         if request.method == "POST":
-            if not user.has_perm("suggestion.add", unit):
-                self.permission_denied(request)
+            suggestion_permission = user.has_perm("suggestion.add", unit)
+            if not suggestion_permission:
+                self.permission_denied(
+                    request, getattr(suggestion_permission, "reason", None)
+                )
 
             serializer = SuggestionSerializer(
                 data=request.data,
@@ -4057,11 +4060,16 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         serializer.is_valid(raise_exception=True)
         approve = serializer.validated_data["approve"]
 
-        if not user.has_perm("suggestion.accept", unit):
-            self.permission_denied(request)
+        accept_permission = user.has_perm("suggestion.accept", unit)
+        if not accept_permission:
+            self.permission_denied(request, getattr(accept_permission, "reason", None))
 
-        if approve and not user.has_perm("unit.review", unit):
-            self.permission_denied(request)
+        if approve:
+            review_permission = user.has_perm("unit.review", unit)
+            if not review_permission:
+                self.permission_denied(
+                    request, getattr(review_permission, "reason", None)
+                )
 
         suggestion.accept(
             request,
@@ -4081,8 +4089,9 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         unit = suggestion.unit
         user = request.user
 
-        if not user.has_perm("suggestion.vote", unit):
-            self.permission_denied(request)
+        vote_permission = user.has_perm("suggestion.vote", unit)
+        if not vote_permission:
+            self.permission_denied(request, getattr(vote_permission, "reason", None))
 
         serializer = SuggestionVoteRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
