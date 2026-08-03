@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-30 03:46+0200\n"
-"PO-Revision-Date: 2026-08-03 08:02+0000\n"
+"PO-Revision-Date: 2026-08-03 16:37+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -47093,6 +47093,12 @@ msgid ""
 "strings using different placeholder syntaxes, such as ``Hello {name}`` and "
 "``Hello %s``, do not match."
 msgstr ""
+"Propagação de tradução apenas reutiliza cadeias de carateres "
+"correspondentes. O texto fonte e o contexto têm que ser idênticos. Para "
+"formatos monolingues, a chave também tem que corresponder. A propagação não "
+"converte sintaxe ou semântica de mensagem, e por isso cadeias de carateres a "
+"usar sintaxes de marcadores de lugar diferentes, tais como ``Hello {name}`` "
+"e ``Hello %s``, não correspondem."
 
 #: devel/mobile.rst:22
 msgid ""
@@ -47105,6 +47111,15 @@ msgid ""
 "these components, or assign distinct keys or contexts to platform-specific "
 "messages, so later edits do not overwrite intentional differences."
 msgstr ""
+"Quando clientes usam as mesmas mensagens mas requerem diferentes "
+"representações em tempo de execução, considere manter um formato de tradução "
+"canónico e gerar recursos específicos para clientes na pipeline. Isto também "
+"permite que os recursos gerados contenham apenas as cadeias de carateres e "
+"idiomas exigidos por cada cliente. Utilize componentes separados quando "
+"tradutores precisam de manter mensagens genuinamente diferentes. Desative "
+"propagação de tradução para estes componentes, o atribua teclas distintas ou "
+"contexto para mensagens específicas de plataforma, para que edições "
+"posteriores não sobrescrevam diferenças intencionais."
 
 #: devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -51339,6 +51354,10 @@ msgid ""
 "format. Select the file format matching the version produced by your "
 "application."
 msgstr ""
+"Ficheiros Qt Linguist são usados tanto para traduções bilingues e "
+"monolingues. O Weblate suporta ambos formato da versão 2 atual e o formato "
+"da versão 1 de legado. Selecione o formato de ficheiro correspondente à "
+"versão produzida pela sua aplicação."
 
 #: formats/qt.rst:19
 msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
@@ -51346,16 +51365,16 @@ msgstr ""
 "`Manual do Qt Linguist <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: formats/qt.rst:24
-#, fuzzy
-#| msgid "Version"
 msgid "Version 2"
-msgstr "Versão"
+msgstr "Versão 2"
 
 #: formats/qt.rst:26
 msgid ""
 "This is the default format for ``.ts`` files and supports the full set of Qt "
 "Linguist features available in Weblate."
 msgstr ""
+"Isto é o formato padrão para ficheiros ``.ts`` e suporta o conjunto completo "
+"de funcionalidades Qt Linguist disponíveis no Weblate."
 
 #: formats/qt.rst:37
 #, fuzzy
