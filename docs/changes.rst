@@ -1,10 +1,11 @@
 Weblate 2026.8.1
 ----------------
---------------
 
 *Not yet released.*
 
 .. rubric:: New features
+
+* :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
 
 .. rubric:: Improvements
 
@@ -23,7 +24,6 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 .. include:: /changes/contributors/2026.8.1.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?closed=1>`__.
-* :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
 
 
 Weblate 2026.8
