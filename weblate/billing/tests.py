@@ -515,6 +515,15 @@ class BillingTest(BaseTestCase):
         self.assertNotIn('data-bs-target="#libre-check-', content)
         self.assertNotIn("libre-check-", content)
 
+    def test_libre_checklist_translation_without_count_placeholder(self) -> None:
+        project = self.add_project()
+        self.add_component(project, "000000")
+
+        with translation.override("he"):
+            messages = [str(check) for check in self.billing.libre_general_checklist]
+
+        self.assertIn("מכיל רכיב אחד", messages)
+
     def test_limit_projects(self) -> None:
         self.assertTrue(self.billing.in_limits)
         self.add_project()

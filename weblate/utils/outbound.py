@@ -9,6 +9,7 @@ import socket
 from asyncio import get_running_loop
 from typing import TYPE_CHECKING, Any
 from urllib.parse import urlparse
+from urllib.request import getproxies_environment
 
 from django.core.exceptions import ValidationError
 from django.http.request import validate_host
@@ -42,6 +43,14 @@ _NON_PUBLIC_SPECIAL_USE_PREFIXES: tuple[
     ipaddress.IPv6Network("5f00::/16"),  # IPv6 Segment Routing
     ipaddress.IPv6Network("2001:20::/28"),  # ORCHIDv2
 )
+
+
+def get_environment_proxy(url: str) -> str | None:
+    """Return the per-protocol environment proxy configured for a URL."""
+    scheme = urlparse(url).scheme
+    if scheme not in {"http", "https"}:
+        return None
+    return getproxies_environment().get(scheme)
 
 
 def _parse_ip(value: str) -> ipaddress.IPv4Address | ipaddress.IPv6Address | None:
@@ -170,14 +179,14 @@ def validate_connected_peer(
     peer_ip: str | None,
     *,
     allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
     used_proxy: bool = False,
 ) -> None:
     if allow_private_targets:
         return
     if used_proxy:
         return
-    if is_allowlisted_hostname(hostname, allowed_domains):
+    if is_allowlisted_hostname(hostname, private_allowlist):
         return
 
     if peer_ip is None:
@@ -192,17 +201,17 @@ def validate_connected_peer(
 
 
 def is_allowlisted_hostname(
-    hostname: str, allowed_domains: list[str] | tuple[str, ...]
+    hostname: str, private_allowlist: list[str] | tuple[str, ...]
 ) -> bool:
-    return bool(allowed_domains) and validate_host(
-        _normalize_hostname(hostname), allowed_domains
+    return bool(private_allowlist) and validate_host(
+        _normalize_hostname(hostname), private_allowlist
     )
 
 
 def validate_untrusted_hostname(
     hostname: str,
     *,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> None:
     normalized = _normalize_hostname(hostname)
     if not normalized:
@@ -213,7 +222,7 @@ def validate_untrusted_hostname(
             code="private_target",
         )
 
-    if is_allowlisted_hostname(normalized, allowed_domains):
+    if is_allowlisted_hostname(normalized, private_allowlist):
         return
 
     if ip_address := _parse_hostname_ip(normalized):
@@ -247,7 +256,7 @@ def validate_outbound_url(
     value: str,
     *,
     allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> None:
     if allow_private_targets:
         return
@@ -256,19 +265,19 @@ def validate_outbound_url(
     if not hostname:
         raise ValidationError(gettext("Could not parse URL."))
 
-    validate_untrusted_hostname(hostname, allowed_domains=allowed_domains)
+    validate_untrusted_hostname(hostname, private_allowlist=private_allowlist)
 
 
 def validate_outbound_hostname(
     value: str,
     *,
     allow_private_targets: bool = True,
-    allowed_domains: list[str] | tuple[str, ...] = (),
+    private_allowlist: list[str] | tuple[str, ...] = (),
 ) -> None:
     if allow_private_targets:
         return
 
-    validate_untrusted_hostname(value, allowed_domains=allowed_domains)
+    validate_untrusted_hostname(value, private_allowlist=private_allowlist)
 
 
 def validate_runtime_hostname(
@@ -293,7 +302,9 @@ def resolve_runtime_hostname(
         )
     except OSError as error:
         raise ValidationError(
-            gettext("Could not resolve the URL domain: {}").format(error)
+            gettext("Could not resolve the URL domain: {}").format(error),
+            code="url_unresolved_with_error",
+            params={"error": str(error)},
         ) from error
 
     return _validate_runtime_addresses(
@@ -317,7 +328,9 @@ async def async_resolve_runtime_hostname(
         )
     except OSError as error:
         raise ValidationError(
-            gettext("Could not resolve the URL domain: {}").format(error)
+            gettext("Could not resolve the URL domain: {}").format(error),
+            code="url_unresolved_with_error",
+            params={"error": str(error)},
         ) from error
 
     return _validate_runtime_addresses(
@@ -343,7 +356,9 @@ def _prepare_runtime_hostname(
         return idna_encode(normalized, uts46=True).decode("ascii"), ()
     except (IDNAError, UnicodeError) as error:
         raise ValidationError(
-            gettext("Could not resolve the URL domain: {}").format(error)
+            gettext("Could not resolve the URL domain: {}").format(error),
+            code="url_unresolved_with_error",
+            params={"error": str(error)},
         ) from error
 
 
@@ -357,7 +372,9 @@ def _validate_runtime_addresses(
             validate_runtime_ip(address, allow_private_targets=allow_private_targets)
             result.append(address)
     if not result:
-        raise ValidationError(gettext("Could not resolve the URL domain."))
+        raise ValidationError(
+            gettext("Could not resolve the URL domain."), code="url_unresolved"
+        )
     return tuple(result)
 
 

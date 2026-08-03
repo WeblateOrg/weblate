@@ -9,9 +9,10 @@ from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
-from django.test import SimpleTestCase
+from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
+from weblate.accounts.models import AuditLog
 from weblate.auth.models import User
 from weblate.utils.ratelimit import (
     RateLimitNotify,
@@ -133,6 +134,88 @@ class RateLimitUserTest(RateLimitTest):
         request = super().get_request()
         request.user = User()
         return request
+
+
+@override_settings(
+    RATELIMIT_TRANSLATE_ATTEMPTS=1,
+    RATELIMIT_COMMENT_ATTEMPTS=1,
+    RATELIMIT_SEARCH_ATTEMPTS=1,
+)
+class RateLimitAuditTest(TestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create(username="rate-limit-user")
+
+    def get_request(self, path: str = "/translate/example/?q=secret"):
+        request = RequestFactory().post(
+            path,
+            HTTP_USER_AGENT=(
+                "Mozilla/5.0 (X11; Linux x86_64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0"
+            ),
+            REMOTE_ADDR="1.2.3.4",
+        )
+        request.user = self.user
+        return request
+
+    def trigger_lockout(self, scope: str, request) -> None:
+        reset_rate_limit(scope, request)
+        self.assertTrue(check_rate_limit(scope, request))
+        self.assertFalse(check_rate_limit(scope, request))
+
+    def test_authenticated_lockout_audit(self) -> None:
+        request = self.get_request()
+
+        self.trigger_lockout("translate", request)
+
+        audit = AuditLog.objects.get(user=self.user, activity="rate-limit")
+        self.assertEqual(
+            audit.params,
+            {"scope": "translate", "path": "/translate/example/"},
+        )
+        self.assertEqual(audit.address, "1.2.3.4")
+        self.assertTrue(audit.user_agent)
+        self.assertEqual(
+            str(audit.get_message()),
+            (
+                "Rate limit exceeded for <code>translate</code> at "
+                "<code>/translate/example/</code>."
+            ),
+        )
+
+    def test_audit_once_per_scope_and_lockout(self) -> None:
+        request = self.get_request()
+        self.trigger_lockout("translate", request)
+
+        self.assertFalse(check_rate_limit("translate", request))
+        self.assertEqual(
+            AuditLog.objects.filter(user=self.user, activity="rate-limit").count(),
+            1,
+        )
+
+        self.trigger_lockout("comment", request)
+        self.assertEqual(
+            AuditLog.objects.filter(user=self.user, activity="rate-limit").count(),
+            2,
+        )
+
+    def test_reset_allows_new_audit(self) -> None:
+        request = self.get_request()
+        self.trigger_lockout("translate", request)
+
+        self.trigger_lockout("translate", request)
+
+        self.assertEqual(
+            AuditLog.objects.filter(user=self.user, activity="rate-limit").count(),
+            2,
+        )
+
+    def test_anonymous_lockout_not_audited(self) -> None:
+        request = self.get_request()
+        request.user = User(username=settings.ANONYMOUS_USER_NAME)
+
+        self.trigger_lockout("search", request)
+
+        self.assertFalse(AuditLog.objects.filter(activity="rate-limit").exists())
 
 
 class NotifyRateLimitTest(SimpleTestCase):

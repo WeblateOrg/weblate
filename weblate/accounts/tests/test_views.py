@@ -10,6 +10,7 @@ from time import sleep
 from types import SimpleNamespace
 from unittest import mock
 
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
@@ -641,8 +642,10 @@ class ViewTest(RepoTestCase):
     def test_login_ratelimit(self, login=False) -> None:
         if login:
             self.test_login()
+            user = User.objects.get(username="testuser")
         else:
-            self.get_user()
+            user = self.get_user()
+        old_token = user.auth_token.key
 
         # Use auth attempts
         for _unused in range(5):
@@ -656,6 +659,7 @@ class ViewTest(RepoTestCase):
             reverse("login"), {"username": "testuser", "password": "testpassword"}
         )
         self.assertContains(response, "Please try again.")
+        self.assertEqual(Token.objects.get(user=user).key, old_token)
 
     @override_settings(RATELIMIT_ATTEMPTS=10, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit_login(self) -> None:
@@ -767,6 +771,7 @@ class ProfileTest(FixtureTestCase):
                 "zen_mode": Profile.ZEN_VERTICAL,
                 "nearby_strings": 10,
                 "theme": "auto",
+                "wide_tables": "on",
                 "notifications__0-scope": 0,
                 "notifications__0-project": "",
                 "notifications__0-component": "",
@@ -779,6 +784,8 @@ class ProfileTest(FixtureTestCase):
             },
         )
         self.assertRedirects(response, reverse("profile"))
+        self.user.profile.refresh_from_db()
+        self.assertTrue(self.user.profile.wide_tables)
 
     def test_profile_group_display_uses_scoped_team_queryset(self) -> None:
         workspace = Workspace.objects.create(name="Profile workspace")
@@ -1169,7 +1176,10 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 10)
 
         # Watch component
-        self.client.post(reverse("watch", kwargs=self.kw_component))
+        self.async_client.force_login(self.user)
+        async_to_sync(self.async_client.post)(
+            reverse("watch", kwargs=self.kw_component)
+        )
         self.assertEqual(self.user.profile.watched.count(), 1)
         # All project notifications should be muted
         self.assertEqual(
@@ -1306,6 +1316,44 @@ class EditUserTest(FixtureTestCase):
 
         response = self.client.get(target.get_absolute_url())
         self.assertContains(response, "No language limit")
+
+    def test_disable_password_regenerates_api_key(self) -> None:
+        target = User.objects.create_user(
+            username="password-reset-target", password="testpassword"
+        )
+        old_token = target.auth_token.key
+
+        response = self.client.get(target.get_absolute_url())
+        self.assertContains(response, 'name="regenerate_api_key"')
+        self.assertContains(response, "checked")
+
+        response = self.client.post(
+            target.get_absolute_url(),
+            {"disable_password": "1", "regenerate_api_key": "on"},
+        )
+
+        self.assertRedirects(response, f"{target.get_absolute_url()}#edit")
+        target.refresh_from_db()
+        self.assertFalse(target.has_usable_password())
+        self.assertTrue(target.is_active)
+        token = Token.objects.get(user=target)
+        self.assertNotEqual(token.key, old_token)
+        self.assertFalse(Token.objects.filter(key=old_token).exists())
+
+    def test_disable_password_keeps_api_key(self) -> None:
+        target = User.objects.create_user(
+            username="password-reset-target", password="testpassword"
+        )
+        old_token = target.auth_token.key
+
+        response = self.client.post(
+            target.get_absolute_url(), {"disable_password": "1"}
+        )
+
+        self.assertRedirects(response, f"{target.get_absolute_url()}#edit")
+        target.refresh_from_db()
+        self.assertFalse(target.has_usable_password())
+        self.assertEqual(Token.objects.get(user=target).key, old_token)
 
 
 class AdminUserRevertTest(FixtureTestCase):

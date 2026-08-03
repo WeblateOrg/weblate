@@ -129,6 +129,8 @@
     Enables the :ref:`check-md-link`, :ref:`check-md-reflink` and :ref:`check-md-syntax` quality checks.
 ``max-length``
     Enables the :ref:`check-max-length` quality check.
+``max-lines``
+    Enables the :ref:`check-max-lines` quality check.
 ``max-size``
     Enables the :ref:`check-max-size` quality check.
 ``placeholders``
@@ -246,6 +248,8 @@
     Skip the :ref:`check-md-syntax` quality check.
 ``ignore-max-length``
     Skip the :ref:`check-max-length` quality check.
+``ignore-max-lines``
+    Skip the :ref:`check-max-lines` quality check.
 ``ignore-max-size``
     Skip the :ref:`check-max-size` quality check.
 ``ignore-escaped-newline``

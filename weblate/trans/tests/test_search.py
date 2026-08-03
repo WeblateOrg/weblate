@@ -25,6 +25,7 @@ from weblate.trans.models import (
     PendingUnitChange,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.ratelimit import reset_rate_limit
@@ -663,6 +664,185 @@ class ReplaceTest(ViewTestCase):
             reverse("replace", kwargs={"path": self.project.get_url_path()})
         )
 
+    def test_replace_workspace(self) -> None:
+        workspace = Workspace.objects.create(name="Replace workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, 'data-bs-target="#replace"')
+        self.do_replace_test(
+            reverse("replace", kwargs={"path": workspace.get_url_path()})
+        )
+
+    def test_replace_workspace_excludes_other_workspaces(self) -> None:
+        workspace = Workspace.objects.create(name="Replace workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        outside_project = self.create_project(
+            name="Outside workspace",
+            slug="outside-workspace",
+        )
+        outside_component = self.create_po(
+            project=outside_project,
+            name="Outside component",
+        )
+        outside_unit = outside_component.translation_set.get(
+            language_code="cs"
+        ).unit_set.get(source__startswith="Hello, world!")
+        outside_unit.translate(
+            self.user,
+            "Nazdar outside!\n",
+            STATE_TRANSLATED,
+        )
+        url = reverse("replace", kwargs={"path": workspace.get_url_path()})
+
+        response = self.client.post(
+            url,
+            {"q": "", "search": "Nazdar", "replacement": "Ahoj"},
+        )
+
+        self.assertContains(
+            response, "Please review and confirm the search and replace results."
+        )
+        self.assertNotContains(response, outside_component.name)
+
+        response = self.client.post(
+            url,
+            {
+                "q": "",
+                "search": "Nazdar",
+                "replacement": "Ahoj",
+                "confirm": "1",
+                "units": self.unit.pk,
+            },
+            follow=True,
+        )
+
+        self.assertContains(
+            response, "Search and replace completed, 1 string was updated."
+        )
+        outside_unit.refresh_from_db()
+        self.assertEqual(outside_unit.target, "Nazdar outside!\n")
+
+    def test_replace_workspace_requires_edit_permission(self) -> None:
+        workspace = Workspace.objects.create(name="Read-only replace workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Workspace project access",
+            language_selection=SELECTION_ALL,
+        )
+        group.projects.add(self.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        url = reverse("replace", kwargs={"path": workspace.get_url_path()})
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertNotContains(response, "Search and replace", status_code=200)
+
+        response = self.client.post(
+            url,
+            {"q": "", "search": "Nazdar", "replacement": "Ahoj"},
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_replace_workspace_caps_editable_units(self) -> None:
+        workspace = Workspace.objects.create(name="Mixed access workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        Unit.objects.bulk_create(
+            [
+                Unit(
+                    translation=self.translation,
+                    id_hash=-10_000_000 - index,
+                    source=f"View-only source {index}",
+                    target="Nazdar view-only",
+                    state=STATE_TRANSLATED,
+                    original_state=STATE_TRANSLATED,
+                    position=10_000 + index,
+                    source_unit=self.unit.source_unit,
+                )
+                for index in range(249)
+            ]
+        )
+        editable_project = self.create_project(
+            name="Editable workspace project",
+            slug="editable-workspace-project",
+            workspace=workspace,
+        )
+        editable_component = self.create_po(
+            project=editable_project,
+            name="editable-workspace-component",
+        )
+        editable_unit = editable_component.translation_set.get(
+            language_code="cs"
+        ).unit_set.get(source__startswith="Hello, world!")
+        editable_unit.translate(
+            self.user,
+            "Nazdar editable\n",
+            STATE_TRANSLATED,
+        )
+
+        self.user.groups.clear()
+        view_group = Group.objects.create(
+            name="View-only workspace project",
+            language_selection=SELECTION_ALL,
+        )
+        view_group.projects.add(self.project)
+        edit_group = Group.objects.create(
+            name="Editable workspace project",
+            language_selection=SELECTION_ALL,
+        )
+        edit_group.roles.add(Role.objects.get(name="Translate"))
+        edit_group.projects.add(editable_project)
+        self.user.groups.add(view_group, edit_group)
+        self.user.clear_permissions_cache()
+
+        response = self.client.post(
+            reverse("replace", kwargs={"path": workspace.get_url_path()}),
+            {"q": "", "search": "Nazdar", "replacement": "Ahoj"},
+        )
+
+        self.assertContains(
+            response, "Please review and confirm the search and replace results."
+        )
+        self.assertEqual(list(response.context["matching"]), [editable_unit])
+        self.assertFalse(response.context["limited"])
+
+    def test_replace_workspace_with_component_language_permission(self) -> None:
+        workspace = Workspace.objects.create(name="Component access workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+        self.user.groups.clear()
+        group = Group.objects.create(name="Workspace component translator")
+        group.roles.add(Role.objects.get(name="Translate"))
+        group.components.add(self.component)
+        group.languages.add(self.translation.language)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(self.user.has_perm("unit.edit", self.project))
+        self.assertTrue(self.user.has_perm("unit.edit", self.unit))
+        editable_scope = Unit.objects.filter_editable_scope(self.user)
+        self.assertTrue(editable_scope.filter(pk=self.unit.pk).exists())
+        self.assertFalse(
+            editable_scope.filter(translation__component=self.component)
+            .exclude(translation__language=self.translation.language)
+            .exists()
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, 'data-bs-target="#replace"')
+        self.do_replace_test(
+            reverse("replace", kwargs={"path": workspace.get_url_path()})
+        )
+
     def test_replace_component(self) -> None:
         self.do_replace_test(reverse("replace", kwargs=self.kw_component))
 
@@ -822,6 +1002,46 @@ class BulkEditTest(ViewTestCase):
         self.assertEqual(updated, 0)
         self.unit.refresh_from_db()
         self.assertEqual(self.unit.state, STATE_FUZZY)
+
+    def test_bulk_edit_skips_restricted_language(self) -> None:
+        limited_user = User.objects.create_user(
+            "restricted-bulk", "restricted-bulk@example.com", "restricted-bulk"
+        )
+        group = Group.objects.create(
+            name="Restricted bulk", language_selection=SELECTION_ALL
+        )
+        group.roles.add(
+            Role.objects.get(name="Translate"), Role.objects.get(name="Bulk editing")
+        )
+        group.components.add(self.component)
+        limited_user.groups.add(group)
+        limited_user.clear_permissions_cache()
+        self.assertTrue(limited_user.has_perm("unit.edit", self.unit))
+        self.assertTrue(limited_user.has_perm("unit.bulk_edit", self.unit))
+
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            restrict_direct_editing=True,
+        )
+        unit = Unit.objects.get(pk=self.unit.pk)
+
+        updated = bulk_perform(
+            limited_user,
+            Unit.objects.filter(pk=unit.pk),
+            query="state:needs-editing",
+            target_state=STATE_TRANSLATED,
+            add_flags="",
+            remove_flags="",
+            add_labels=self.project.label_set.none(),
+            remove_labels=self.project.label_set.none(),
+            project=self.project,
+            components=[self.component],
+        )
+
+        self.assertEqual(updated, 0)
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, STATE_FUZZY)
 
     def test_bulk_edit_requires_review_permission_to_approve(self) -> None:
         self.project.translation_review = True

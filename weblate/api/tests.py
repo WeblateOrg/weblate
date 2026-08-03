@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import csv
 import operator
 import os
 import tempfile
@@ -9,7 +10,7 @@ import zipfile
 from contextlib import nullcontext
 from copy import copy
 from datetime import UTC, date, datetime, timedelta
-from io import BytesIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
@@ -30,7 +31,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
-from weblate.accounts.models import Subscription, VerifiedEmail
+from weblate.accounts.models import Profile, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
@@ -39,7 +40,7 @@ from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
 from weblate.addons.git import GitSquashAddon
 from weblate.addons.models import Addon
-from weblate.api.docs import DOCS_OPENAPI_ALL_VCS_CHOICES_ENV
+from weblate.api.docs import DOCS_OPENAPI_ALL_VCS_CHOICES_ENV, METRICS_PATHS
 from weblate.api.serializers import (
     CommentSerializer,
     ComponentSerializer,
@@ -80,6 +81,7 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.utils import (
@@ -101,7 +103,7 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
-from weblate.utils.tests import http_mock as responses
+from weblate.utils.tests import http_mock
 from weblate.utils.version import GIT_VERSION
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 from weblate.vcs.base import RepositoryError, RepositoryLock
@@ -241,6 +243,14 @@ class UserAPITest(APIBaseTest):
 
     def test_get(self) -> None:
         language = Language.objects.get(code="cs")
+        profile = self.user.profile
+        profile.website = "https://example.com/"
+        profile.contact = "https://signal.me/#eu/example"
+        profile.commit_email = "commit@example.org"
+        profile.theme = "dark"
+        profile.save()
+        language_url = f"http://example.com/api/languages/{language.code}/"
+
         response = self.do_request(
             "api:user-detail",
             kwargs={"username": "apitest"},
@@ -249,10 +259,16 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
-        self.assertIn(
-            f"http://example.com/api/languages/{language.code}/",
-            response.data["languages"],
+        self.assertIn("profile", response.data)
+        self.assertEqual(response.data["profile"]["website"], profile.website)
+        self.assertEqual(response.data["profile"]["contact"], profile.contact)
+        self.assertEqual(response.data["profile"]["commit_email"], profile.commit_email)
+        self.assertEqual(response.data["profile"]["theme"], profile.theme)
+        self.assertEqual(
+            response.data["profile"]["dashboard_view"], profile.dashboard_view
         )
+        self.assertIn(language_url, response.data["profile"]["languages"])
+        self.assertIn("last_2fa", response.data["profile"])
 
         # user without permission can only see basic information
         response = self.do_request(
@@ -262,9 +278,30 @@ class UserAPITest(APIBaseTest):
             superuser=False,
             code=200,
         )
-        self.assertNotIn("languages", response.data)
+        self.assertEqual({"id", "username", "full_name"}, set(response.data.keys()))
 
-        # user with right permission can see detailed information
+        project = Project.objects.create(
+            name="Watched Project",
+            slug="watched-project",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        project_url = f"http://example.com/api/projects/{project.slug}/"
+        project.add_user(self.user)
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.add_user(self.user)
+        component_list = ComponentList.objects.create(
+            name="Private component list", slug="private-component-list"
+        )
+        component_list.components.add(self.component)
+        profile.dashboard_component_list = component_list
+        profile.dashboard_view = Profile.DASHBOARD_COMPONENT_LIST
+        profile.save(update_fields=["dashboard_component_list", "dashboard_view"])
+        component_list_url = (
+            "http://example.com/api/component-lists/private-component-list/"
+        )
+
+        # user with right permission can see own detailed information
         self.grant_perm_to_user("user.view")
         response = self.do_request(
             "api:user-detail",
@@ -274,10 +311,29 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
-        self.assertIn(
-            f"http://example.com/api/languages/{language.code}/",
-            response.data["languages"],
+        self.assertIn("profile", response.data)
+        self.assertEqual(response.data["profile"]["website"], profile.website)
+        self.assertIn(language_url, response.data["profile"]["languages"])
+        self.assertIn(project_url, response.data["profile"]["watched"])
+        self.assertEqual(
+            response.data["profile"]["dashboard_component_list"], component_list_url
         )
+
+        # other user with right permissions can't see private watched projects
+        other_user = User.objects.create_user(
+            "other-apitest", "other-apitest@example.org", "x"
+        )
+        self.user = other_user
+        self.grant_perm_to_user("user.view")
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": "apitest"},
+            method="get",
+            superuser=False,
+            code=200,
+        )
+        self.assertNotIn(project_url, response.data["profile"]["watched"])
+        self.assertIsNone(response.data["profile"]["dashboard_component_list"])
 
     def test_get_anonymous(self) -> None:
         # User info not accessible without auth
@@ -317,7 +373,7 @@ class UserAPITest(APIBaseTest):
             skip={
                 "id",
                 "groups",
-                "languages",
+                "profile",
                 "notifications",
                 "date_joined",
                 "url",
@@ -473,7 +529,7 @@ class UserAPITest(APIBaseTest):
 
     def test_create(self) -> None:
         self.do_request("api:user-list", method="post", code=403)
-        self.do_request(
+        response = self.do_request(
             "api:user-list",
             method="post",
             superuser=True,
@@ -486,6 +542,7 @@ class UserAPITest(APIBaseTest):
             },
         )
         self.assertEqual(User.objects.count(), 5)
+        self.assertIn("profile", response.data)
 
     def test_create_logs_superuser_grant(self) -> None:
         self.do_request(
@@ -1043,6 +1100,39 @@ class UserAPITest(APIBaseTest):
         )
         self.assertFalse(User.objects.filter(username="apitest2").exists())
 
+        en_language = Language.objects.get(code="en")
+
+        # User can update own profile fields via PUT
+        self.assertFalse(self.user.profile.secondary_languages.exists())
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="put",
+            code=200,
+            format="json",
+            request={
+                "full_name": "Name",
+                "username": "apitest",
+                "email": "apitest@example.org",
+                "profile": {
+                    "language": "en",
+                    "secondary_languages": [en_language.code],
+                    "theme": "dark",
+                    "commit_name": Profile.CommitNameChoices.PUBLIC,
+                },
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.language, "en")
+        self.assertEqual(self.user.profile.theme, "dark")
+        self.assertEqual(
+            self.user.profile.commit_name, Profile.CommitNameChoices.PUBLIC
+        )
+        self.assertEqual(
+            list(self.user.profile.secondary_languages.values_list("code", flat=True)),
+            [en_language.code],
+        )
+
     def test_put_self_without_user_view_keeps_email(self) -> None:
         self.do_request(
             "api:user-detail",
@@ -1163,6 +1253,92 @@ class UserAPITest(APIBaseTest):
             User.objects.get(username=settings.ANONYMOUS_USER_NAME).full_name,
             "Anonymous",
         )
+
+        # User can update own profile fields via PATCH
+        en_language = Language.objects.get(code="en")
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "profile": {
+                    "theme": "light",
+                    "company": "Weblate",
+                    "secondary_languages": [en_language.code],
+                    "translate_mode": Profile.TRANSLATE_ZEN,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.theme, "light")
+        self.assertEqual(self.user.profile.company, "Weblate")
+        self.assertEqual(
+            list(self.user.profile.secondary_languages.values_list("code", flat=True)),
+            [en_language.code],
+        )
+        self.assertEqual(self.user.profile.translate_mode, Profile.TRANSLATE_ZEN)
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "profile": {
+                    "secondary_languages": None,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(
+            list(self.user.profile.secondary_languages.values_list("code", flat=True)),
+            [],
+        )
+
+        # invalid profile m2m fields update
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "full_name": "Should not update",
+                "profile": {
+                    "languages": ["unknown"],
+                },
+            },
+        )
+        # check that full_name is not updated if profile data validation fails
+        self.assertNotEqual(self.user.full_name, "Should not update")
+
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "profile": {
+                    "languages": "not-a-list",
+                }
+            },
+        )
+
+        # Read-only profile statistics are ignored on PATCH
+        original_translated = self.user.profile.translated
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={"profile": {"translated": 9999}},
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.translated, original_translated)
 
     def test_protected_bot_mutation(self) -> None:
         protected_bot = User.objects.create(
@@ -1328,6 +1504,275 @@ class UserAPITest(APIBaseTest):
         )
         self.user.refresh_from_db()
         self.assertIsNone(self.user.date_expires)
+
+    def test_patch_profile(self) -> None:
+        other_user = User.objects.create_user("other_profile", "other@example.org", "x")
+        original_translated = other_user.profile.translated
+        cs_language = Language.objects.get(code="cs")
+        en_language = Language.objects.get(code="en")
+
+        def user_details_kwargs(**kwargs):
+            return {
+                "name": "api:user-detail",
+                "kwargs": {"username": self.user.username},
+                "method": "patch",
+                "code": 200,
+                "format": "json",
+            } | kwargs
+
+        # User can update own profile fields via PATCH
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "theme": "dark",
+                    "location": "Prague",
+                    "languages": [cs_language.code],
+                    "secondary_languages": [en_language.code],
+                    "nearby_strings": 5,
+                    "special_chars": "\xa0",
+                    "wide_tables": True,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.theme, "dark")
+        self.assertEqual(self.user.profile.location, "Prague")
+        self.assertEqual(self.user.profile.nearby_strings, 5)
+        self.assertTrue(self.user.profile.wide_tables)
+        self.assertEqual(
+            list(self.user.profile.languages.values_list("code", flat=True)),
+            [cs_language.code],
+        )
+        self.assertEqual(
+            list(self.user.profile.secondary_languages.values_list("code", flat=True)),
+            [en_language.code],
+        )
+        # check special_chars is not stripped when saved
+        self.assertEqual(self.user.profile.special_chars, "\xa0")
+
+        # invalid dashboard component list update
+        self.do_request(
+            **user_details_kwargs(code=400),
+            request={
+                "profile": {
+                    "dashboard_component_list": 1,
+                }
+            },
+        )
+        self.do_request(
+            **user_details_kwargs(code=400),
+            request={
+                "profile": {
+                    "dashboard_component_list": "not-existing-component-list",
+                }
+            },
+        )
+        self.do_request(
+            **user_details_kwargs(code=400),
+            request={
+                "profile": {
+                    "dashboard_component_list": ComponentList.objects.create(
+                        name="external", slug="external-cl"
+                    ).slug,
+                }
+            },
+        )
+
+        # valid dashboard component list update
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "dashboard_component_list": None,
+                }
+            },
+        )
+        self.assertIsNone(self.user.profile.dashboard_component_list)
+
+        # all component lists view requires at least one accessible list
+        response = self.do_request(
+            **user_details_kwargs(code=400),
+            request={
+                "profile": {
+                    "dashboard_view": Profile.DASHBOARD_COMPONENT_LISTS,
+                    "dashboard_component_list": None,
+                }
+            },
+        )
+        self.assertEqual(
+            dict(response.data)["errors"][0]["detail"],
+            "No component lists are available for this dashboard view.",
+        )
+
+        clist = ComponentList.objects.create(name="Dashboard CL", slug="dashboard-cl")
+        clist.components.add(self.component)
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "dashboard_component_list": clist.slug,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.dashboard_component_list, clist)
+        self.assertEqual(
+            self.user.profile.dashboard_view, Profile.DASHBOARD_COMPONENT_LIST
+        )
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "dashboard_view": Profile.DASHBOARD_COMPONENT_LISTS,
+                    "dashboard_component_list": None,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(
+            self.user.profile.dashboard_view, Profile.DASHBOARD_COMPONENT_LISTS
+        )
+        self.assertIsNone(self.user.profile.dashboard_component_list)
+        self.do_request(
+            **user_details_kwargs(),
+            request={
+                "profile": {
+                    "dashboard_view": Profile.DASHBOARD_SUGGESTIONS,
+                    "dashboard_component_list": None,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(
+            self.user.profile.dashboard_view, Profile.DASHBOARD_SUGGESTIONS
+        )
+        self.assertIsNone(self.user.profile.dashboard_component_list)
+
+        # User cannot update read-only profile statistics
+        self.do_request(
+            **user_details_kwargs(),
+            request={"profile": {"translated": 9999}},
+        )
+        self.user.profile.refresh_from_db()
+        self.assertNotEqual(self.user.profile.translated, 9999)
+
+        # Superuser can update another user's profile
+        self.do_request(
+            **user_details_kwargs(kwargs={"username": other_user.username}),
+            superuser=True,
+            request={
+                "profile": {
+                    "theme": "dark",
+                    "location": "Berlin",
+                    "secondary_languages": [cs_language.code],
+                    "watched": [self.project.slug],
+                }
+            },
+        )
+        other_user.profile.refresh_from_db()
+        self.assertEqual(other_user.profile.theme, "dark")
+        self.assertEqual(other_user.profile.location, "Berlin")
+        self.assertEqual(
+            list(other_user.profile.secondary_languages.values_list("code", flat=True)),
+            [cs_language.code],
+        )
+        self.assertEqual(
+            list(other_user.profile.watched.values_list("slug", flat=True)),
+            [self.project.slug],
+        )
+        self.assertEqual(other_user.profile.translated, original_translated)
+
+        # Watched projects are validated against the profile owner, not the actor.
+        private_project = Project.objects.create(
+            name="Owner-only project",
+            slug="owner-only-project",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_project.add_user(other_user)
+        self.grant_perm_to_user("user.edit")
+        self.do_request(
+            **user_details_kwargs(
+                kwargs={"username": other_user.username}, superuser=False
+            ),
+            request={"profile": {"watched": [private_project.slug]}},
+        )
+        self.assertEqual(
+            list(other_user.profile.watched.values_list("slug", flat=True)),
+            [private_project.slug],
+        )
+        self.user.groups.remove(Group.objects.get(name="Permission group"))
+        self.user.clear_permissions_cache()
+
+        # Regular user cannot update another user's profile
+        self.do_request(
+            **user_details_kwargs(kwargs={"username": other_user.username}, code=403),
+            request={"profile": {"theme": "light"}},
+        )
+        other_user.profile.refresh_from_db()
+        self.assertEqual(other_user.profile.theme, "dark")
+
+    def test_patch_profile_emails(self) -> None:
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            format="json",
+            request={
+                "profile": {
+                    "commit_email": "unverified@email.com",
+                    "public_email": "unverified@email.com",
+                }
+            },
+        )
+
+        verified_email = "verified@example.org"
+        social = self.user.social_auth.create(provider="email", uid=verified_email)
+        VerifiedEmail.objects.create(social=social, email=verified_email)
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={
+                "profile": {
+                    "commit_email": verified_email,
+                    "public_email": verified_email,
+                }
+            },
+        )
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.commit_email, verified_email)
+        self.assertEqual(self.user.profile.public_email, verified_email)
+
+        # sending an empty string clears email preferences
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=200,
+            format="json",
+            request={"profile": {"commit_email": "", "public_email": ""}},
+        )
+
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.commit_email, "")
+        self.assertEqual(self.user.profile.public_email, "")
+
+    @override_settings(
+        PRIVATE_COMMIT_NAME_TEMPLATE="", PRIVATE_COMMIT_NAME_OPT_IN=False
+    )
+    def test_invalid_patch_profile_commit_name(self) -> None:
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": self.user.username},
+            method="patch",
+            code=400,
+            format="json",
+            request={"profile": {"commit_name": Profile.CommitNameChoices.PRIVATE}},
+        )
 
 
 class GroupAPITest(APIBaseTest):
@@ -3050,6 +3495,10 @@ class ProjectAPITest(APIBaseTest):
             reverse("api:project-detail", kwargs=self.project_kwargs)
         )
         self.assertEqual(response.data["slug"], "test")
+        self.assertEqual(
+            response.data["metrics_url"],
+            "http://example.com/api/projects/test/metrics/",
+        )
 
     def test_repo_ops(self) -> None:
         for operation in RepoOperations.values:
@@ -3206,6 +3655,265 @@ class ProjectAPITest(APIBaseTest):
     def test_statistics(self) -> None:
         request = self.do_request("api:project-statistics", self.project_kwargs)
         self.assertEqual(request.data["total"], 16)
+
+    def test_metrics(self) -> None:
+        response = self.do_request("api:project-metrics", self.project_kwargs)
+
+        translation = self.component.translation_set.select_related("language").get(
+            language__code="cs"
+        )
+        metrics = response.data["test"]["cs"]
+        self.assertEqual(metrics["name"], translation.language.name)
+        self.assertEqual(metrics["total"], translation.stats.all)
+        self.assertEqual(metrics["translated"], translation.stats.translated)
+        self.assertEqual(metrics["failing_words"], translation.stats.allchecks_words)
+        self.assertEqual(
+            metrics["translated_percent"], translation.stats.translated_percent
+        )
+        self.assertEqual(
+            set(metrics),
+            {
+                "name",
+                "translated",
+                "translated_words",
+                "translated_chars",
+                "total",
+                "total_words",
+                "total_chars",
+                "fuzzy",
+                "fuzzy_words",
+                "fuzzy_chars",
+                "failing",
+                "failing_words",
+                "failing_chars",
+                "approved",
+                "approved_words",
+                "approved_chars",
+                "suggestions",
+                "comments",
+                "translated_percent",
+                "translated_words_percent",
+                "translated_chars_percent",
+                "approved_percent",
+                "approved_words_percent",
+                "approved_chars_percent",
+            },
+        )
+
+    def test_metrics_anonymous(self) -> None:
+        response = self.do_request(
+            "api:project-metrics", self.project_kwargs, authenticated=False
+        )
+
+        self.assertIn("test", response.data)
+
+    def test_metrics_component_path(self) -> None:
+        category = self.create_category(self.project)
+        Component.objects.filter(pk=self.component.pk).update(category=category)
+
+        response = self.do_request("api:project-metrics", self.project_kwargs)
+
+        self.assertIn("test-category/test", response.data)
+        self.assertNotIn("test", response.data)
+
+    def test_metrics_shared_component_path(self) -> None:
+        source_category = self.create_category(self.project)
+        Component.objects.filter(pk=self.component.pk).update(category=source_category)
+        project = self.create_project(name="Shared", slug="shared")
+        category = Category.objects.create(
+            name="Target category", slug="target-category", project=project
+        )
+        ComponentLink.objects.create(
+            component=self.component, project=project, category=category
+        )
+
+        response = self.do_request("api:project-metrics", {"slug": project.slug})
+
+        self.assertIn("target-category/test", response.data)
+        self.assertNotIn("test-category/test", response.data)
+        self.assertNotIn("test", response.data)
+        self.assertIn("cs", response.data["target-category/test"])
+
+    def test_metrics_disambiguates_component_path(self) -> None:
+        project = self.create_project(name="Collision", slug="collision")
+        with self.captureOnCommitCallbacks(execute=True):
+            owned_component = self.create_po(project=project)
+        ComponentLink.objects.create(component=self.component, project=project)
+
+        response = self.do_request("api:project-metrics", {"slug": project.slug})
+
+        own_path = f"test@{owned_component.pk}"
+        shared_path = f"test@{self.component.pk}"
+        self.assertNotIn("test", response.data)
+        self.assertTrue({own_path, shared_path} <= set(response.data))
+        self.assertIn("cs", response.data[own_path])
+        self.assertIn("cs", response.data[shared_path])
+
+        response = self.do_request(
+            "api:project-metrics",
+            {"slug": project.slug},
+            request={"format": "csv"},
+        )
+        csv_components = {
+            row["component"]
+            for row in csv.DictReader(StringIO(response.content.decode()))
+        }
+        self.assertTrue({own_path, shared_path} <= csv_components)
+
+        response = self.do_request(
+            "api:project-metrics",
+            {"slug": project.slug},
+            request={"format": "openmetrics"},
+        )
+        self.assertContains(response, f'component="{own_path}",language="cs"')
+        self.assertContains(response, f'component="{shared_path}",language="cs"')
+
+    def test_metrics_csv(self) -> None:
+        response = self.do_request(
+            "api:project-metrics",
+            self.project_kwargs,
+            request={"format": "csv"},
+        )
+
+        rows = list(csv.DictReader(StringIO(response.content.decode())))
+        translation_rows = [
+            row
+            for row in rows
+            if row["component"] == "test" and row["language"] == "cs"
+        ]
+        self.assertEqual(len(translation_rows), 23)
+        translated = next(
+            row for row in translation_rows if row["metric"] == "translated"
+        )
+        self.assertEqual(translated["name"], "Czech")
+        self.assertEqual(
+            translated["value"],
+            str(
+                self.component.translation_set.get(language__code="cs").stats.translated
+            ),
+        )
+
+    def test_metrics_openmetrics(self) -> None:
+        translation = self.component.translation_set.get(language__code="cs")
+        _ = translation.stats.all
+        translation.stats.store("stats_timestamp", 1234.5)
+        translation.stats.save(update_parents=False)
+
+        response = self.do_request(
+            "api:project-metrics",
+            self.project_kwargs,
+            request={"format": "openmetrics"},
+        )
+
+        self.assertEqual(
+            response["Content-Type"],
+            "application/openmetrics-text; version=1.0.0; charset=utf-8",
+        )
+        self.assertContains(
+            response,
+            "# HELP weblate_translated Number of translated strings.\n"
+            "# TYPE weblate_translated gauge\n",
+        )
+        self.assertContains(
+            response,
+            'weblate_translation_info{component="test",language="cs",name="Czech"} 1',
+        )
+        self.assertContains(
+            response,
+            'weblate_translated{component="test",language="cs"} ',
+        )
+        self.assertContains(
+            response,
+            "# HELP weblate_failing Number of strings with failing checks.",
+        )
+        self.assertContains(
+            response,
+            "# HELP weblate_strings_with_suggestions "
+            "Number of strings with suggestions.",
+        )
+        self.assertNotContains(response, "# HELP weblate_suggestions ")
+        self.assertContains(
+            response,
+            "# HELP weblate_comments Number of strings with unresolved comments.",
+        )
+        self.assertContains(
+            response,
+            "# HELP weblate_last_update_timestamp "
+            "Unix timestamp of last statistics update.",
+        )
+        self.assertContains(
+            response,
+            'weblate_last_update_timestamp{component="test",language="cs"} 1234.5',
+        )
+        self.assertTrue(response.content.endswith(b"# EOF\n"))
+
+    def test_metrics_openmetrics_accept_header(self) -> None:
+        response = self.do_request(
+            "api:project-metrics",
+            self.project_kwargs,
+            headers={"accept": "application/openmetrics-text"},
+        )
+
+        self.assertEqual(
+            response["Content-Type"],
+            "application/openmetrics-text; version=1.0.0; charset=utf-8",
+        )
+        self.assertContains(response, "# TYPE weblate_total gauge")
+
+    def test_metrics_openmetrics_escapes_language_name(self) -> None:
+        language = Language.objects.get(code="cs")
+        language.name = 'Czech"\\\n'
+        language.save(update_fields=["name"])
+
+        response = self.do_request(
+            "api:project-metrics",
+            self.project_kwargs,
+            request={"format": "openmetrics"},
+        )
+
+        self.assertContains(response, r'name="Czech\"\\\n"')
+
+    def test_metrics_restricted_component(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.user.clear_permissions_cache()
+
+        response = self.do_request("api:project-metrics", self.project_kwargs)
+        self.assertNotIn("test", response.data)
+
+        response = self.do_request(
+            "api:project-metrics", self.project_kwargs, superuser=True
+        )
+        self.assertIn("test", response.data)
+
+    def test_metrics_private_project(self) -> None:
+        private_component = self.create_acl()
+
+        self.do_request(
+            "api:project-metrics",
+            {"slug": private_component.project.slug},
+            code=404,
+            authenticated=False,
+        )
+
+    def test_metrics_empty_project(self) -> None:
+        project = self.create_project(name="Empty", slug="empty")
+        kwargs = {"slug": project.slug}
+
+        response = self.do_request("api:project-metrics", kwargs)
+        self.assertEqual(response.data, {})
+
+        response = self.do_request(
+            "api:project-metrics", kwargs, request={"format": "csv"}
+        )
+        self.assertEqual(response.content, b"")
+
+        response = self.do_request(
+            "api:project-metrics", kwargs, request={"format": "openmetrics"}
+        )
+        self.assertContains(response, "# TYPE weblate_translation_info gauge")
+        self.assertContains(response, "# TYPE weblate_last_update_timestamp gauge")
+        self.assertTrue(response.content.endswith(b"# EOF\n"))
 
     def test_languages(self) -> None:
         request = self.do_request("api:project-languages", self.project_kwargs)
@@ -5331,7 +6039,7 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(len(response.data["results"]), 1)
 
-    @responses.activate
+    @http_mock.activate
     @patch("weblate.utils.requests._get_response_peer_ip", return_value="93.184.216.34")
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
@@ -7766,6 +8474,79 @@ class ComponentAPITest(APIBaseTest):
                 "from_component": [source.full_slug],
             },
         )
+
+    def test_create_translation_from_component_restrict_direct_editing(self) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        source = self.create_po_new_base(name="source", project=self.component.project)
+        language = Language.objects.get(code="fa")
+        source_translation = source.add_new_language(language, None)
+        self.assertIsNotNone(source_translation)
+        WorkflowSetting.objects.create(
+            project=target.project,
+            language=language,
+            restrict_direct_editing=True,
+        )
+        self.grant_perm_to_user(
+            "translation.auto",
+            group_name="Target automatic translation",
+            component=target,
+        )
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Target component editing",
+            component=target,
+        )
+        self.grant_perm_to_user(
+            "component.edit",
+            group_name="Source component editing",
+            component=source,
+        )
+        self.user.clear_permissions_cache()
+
+        self.assertTrue(self.user.has_perm("translation.auto", target))
+        with patch.object(AutoTranslate, "perform") as perform:
+            response = self.do_request(
+                "api:component-translations",
+                {"project__slug": target.project.slug, "slug": target.slug},
+                method="post",
+                code=403,
+                format="json",
+                request={
+                    "language_code": "fa",
+                    "from_component": [source.full_slug],
+                },
+            )
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Direct editing is restricted for this language. Add a suggestion instead.",
+        )
+        perform.assert_not_called()
+        self.assertFalse(target.translation_set.filter(language_code="fa").exists())
+
+        self.grant_perm_to_user(
+            "unit.override",
+            group_name="Target workflow override",
+            component=target,
+        )
+        self.user.clear_permissions_cache()
+        with patch.object(
+            AutoTranslate, "perform", return_value="Automatic translation completed"
+        ) as perform:
+            self.do_request(
+                "api:component-translations",
+                {"project__slug": target.project.slug, "slug": target.slug},
+                method="post",
+                code=201,
+                format="json",
+                request={
+                    "language_code": "fa",
+                    "from_component": [source.full_slug],
+                },
+            )
+
+        perform.assert_called_once()
+        self.assertTrue(target.translation_set.filter(language_code="fa").exists())
 
     def test_create_translation_from_component_allows_shared_tm_source_without_edit(
         self,
@@ -10492,6 +11273,55 @@ class TranslationAPITest(APIBaseTest):
     def test_autotranslate_json(self) -> None:
         self.test_autotranslate("json")
 
+    def test_autotranslate_restrict_direct_editing(self) -> None:
+        translation = Translation.objects.get(**self.translation_kwargs)
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=translation.language,
+            restrict_direct_editing=True,
+        )
+        self.user.groups.clear()
+        group = Group.objects.create(
+            name="Restricted automatic translation",
+            language_selection=SELECTION_ALL,
+        )
+        group.components.add(self.component)
+        group.roles.add(
+            Role.objects.get(name="Translate"),
+            Role.objects.get(name="Automatic translation"),
+        )
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        translation = Translation.objects.get(pk=translation.pk)
+        self.assertTrue(self.user.has_perm("translation.auto", translation))
+        self.assertFalse(self.user.has_perm("meta:unit.direct_edit", translation))
+        self.assertTrue(self.user.has_perm("suggestion.add", translation))
+
+        request = {
+            "q": "state:<translated",
+            "auto_source": "others",
+            "threshold": "100",
+        }
+        with patch.object(
+            AutoTranslate, "perform", return_value="Automatic translation completed"
+        ) as perform:
+            self.do_request(
+                "api:translation-autotranslate",
+                self.translation_kwargs,
+                method="post",
+                request={"mode": "translate", **request},
+                code=403,
+            )
+            self.do_request(
+                "api:translation-autotranslate",
+                self.translation_kwargs,
+                method="post",
+                request={"mode": "suggest", **request},
+                code=200,
+            )
+        perform.assert_called_once()
+
     def test_add_monolingual(self) -> None:
         component = self.create_acl()
         self.assertEqual(component.source_translation.unit_set.count(), 4)
@@ -12778,8 +13608,51 @@ class MetricsAPITest(APIBaseTest):
     def test_metrics_openmetrics(self) -> None:
         self.authenticate()
         response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        self.assertEqual(
+            response["Content-Type"],
+            "application/openmetrics-text; version=1.0.0; charset=utf-8",
+        )
+        self.assertContains(
+            response,
+            "# HELP units Number of translation units.\n# TYPE units gauge\nunits ",
+        )
+        self.assertContains(
+            response,
+            "# HELP celery_queues Number of tasks in each Celery queue.\n"
+            "# TYPE celery_queues gauge",
+        )
+        self.assertContains(
+            response,
+            "# HELP weblate_info Weblate build information.\n# TYPE weblate_info gauge",
+        )
         self.assertContains(response, f'weblate_info{{version="{GIT_VERSION}"}} 1')
-        self.assertContains(response, "# EOF")
+        self.assertTrue(response.content.endswith(b"# EOF\n"))
+
+    @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_SOFT, HIDE_VERSION=False)
+    def test_metrics_openmetrics_accept_header(self) -> None:
+        self.authenticate()
+        response = self.client.get(
+            reverse("api:metrics"),
+            headers={"accept": "application/openmetrics-text"},
+        )
+        self.assertEqual(
+            response["Content-Type"],
+            "application/openmetrics-text; version=1.0.0; charset=utf-8",
+        )
+        self.assertContains(response, "# TYPE projects gauge")
+
+    @patch(
+        "weblate.utils.celery.get_queue_stats",
+        return_value={'queue"\\\n': 7},
+    )
+    def test_metrics_openmetrics_escapes_labels(self, mock_queues) -> None:
+        self.authenticate()
+        response = self.client.get(reverse("api:metrics"), {"format": "openmetrics"})
+        mock_queues.assert_called_once_with()
+        self.assertContains(
+            response,
+            r'celery_queues{queue="queue\"\\\n"} 7',
+        )
 
     def test_metrics_csv(self) -> None:
         self.authenticate()
@@ -15644,7 +16517,7 @@ class OpenAPITest(APIBaseTest):
                 if method not in {"delete", "get", "patch", "post", "put"}:
                     continue
 
-                if path != "/api/metrics/":
+                if path not in METRICS_PATHS:
                     self.assertFalse(
                         any(
                             parameter["name"] == "format" and parameter["in"] == "query"
@@ -15663,7 +16536,7 @@ class OpenAPITest(APIBaseTest):
                 for status_code, response in operation.get("responses", {}).items():
                     content = response.get("content", {})
                     if (
-                        path == "/api/metrics/"
+                        path in METRICS_PATHS
                         and method == "get"
                         and status_code == "200"
                     ):

@@ -8,6 +8,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
 
+from weblate.auth.results import Denied
 from weblate.trans.models import Suggestion, WorkflowSetting
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -214,6 +215,75 @@ class SuggestionsTest(ViewTestCase):
             project=self.project,
             language=self.translation.language,
             enable_suggestions=True,
+            suggestion_voting=True,
+            suggestion_autoaccept=0,
+        )
+
+        self.assert_vote()
+
+    def test_restrict_direct_editing(self) -> None:
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            enable_suggestions=True,
+            restrict_direct_editing=True,
+        )
+        unit = self.get_unit()
+
+        permission = self.user.has_perm("unit.edit", unit)
+        self.assertIsInstance(permission, Denied)
+        self.assertEqual(
+            permission.reason,
+            "Direct editing is restricted for this language. Add a suggestion instead.",
+        )
+        self.assertTrue(self.user.has_perm("suggestion.add", unit))
+
+        response = self.client.get(self.translation_url)
+        self.assertContains(
+            response,
+            "Direct translation editing is restricted to privileged users.",
+        )
+        self.assertContains(response, "Translation suggestions can be made.")
+        self.assertNotContains(response, "Translations can be made directly.")
+
+        self.add_suggestion_1()
+        self.assertEqual(unit.suggestion_set.count(), 1)
+        self.assertFalse(self.get_unit().translated)
+
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.edit", unit))
+
+    def test_restrict_direct_editing_without_suggestions(self) -> None:
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            enable_suggestions=False,
+            restrict_direct_editing=True,
+        )
+        unit = self.get_unit()
+
+        permission = self.user.has_perm("unit.edit", unit)
+        self.assertIsInstance(permission, Denied)
+        self.assertEqual(
+            permission.reason, "Direct editing is restricted for this language."
+        )
+        self.assertFalse(self.user.has_perm("suggestion.add", unit))
+
+        response = self.client.get(self.translation_url)
+        self.assertContains(
+            response,
+            "Direct translation editing is restricted to privileged users.",
+        )
+        self.assertContains(response, "Translation suggestions are turned off.")
+        self.assertNotContains(response, "Translations can be made directly.")
+
+    def test_restrict_direct_editing_allows_voting(self) -> None:
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            enable_suggestions=True,
+            restrict_direct_editing=True,
             suggestion_voting=True,
             suggestion_autoaccept=0,
         )

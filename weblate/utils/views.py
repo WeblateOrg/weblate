@@ -17,6 +17,7 @@ from uuid import UUID
 from zipfile import ZipFile
 
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import EmptyPage, Paginator
 from django.http import (
     FileResponse,
@@ -24,7 +25,7 @@ from django.http import (
     HttpResponse,
     HttpResponseRedirect,
 )
-from django.shortcuts import get_object_or_404
+from django.shortcuts import aget_object_or_404, get_object_or_404
 from django.utils.cache import get_conditional_response
 from django.utils.http import http_date
 from django.utils.translation import activate, gettext, gettext_lazy, pgettext_lazy
@@ -403,6 +404,177 @@ def parse_path(
 
     check_type(Unit)
     return get_object_or_404(translation.unit_set, pk=int(unitid))
+
+
+async def _workspace_can_view(
+    request: AuthenticatedHttpRequest, workspace: Workspace
+) -> bool:
+    user = request.user
+    if await user.allowed_projects.filter(workspace=workspace).aexists():
+        return True
+    if any(
+        user.has_perm(permission, workspace)
+        for permission in (
+            "workspace.edit",
+            "workspace.add_project",
+            "workspace.edit_members",
+        )
+    ):
+        return True
+    if user.has_perm("management.use"):
+        return True
+    if "weblate.billing" in settings.INSTALLED_APPS:
+        with suppress(AttributeError, ObjectDoesNotExist):
+            return bool(user.has_perm("meta:billing.view", workspace.billing))
+    return False
+
+
+# ruff: ignore[complex-structure]
+async def aparse_path(
+    request: AuthenticatedHttpRequest | None,
+    path: list[str] | tuple[str, ...] | None,
+    types: tuple[type[Model | BaseURLMixin] | None, ...],
+):
+    if None in types and not path:
+        return None
+
+    allowed_types = {x for x in types if x is not None}
+    acting_user = request.user if request else None
+    if request is not None:
+        await request.user.aprepare_permissions()
+
+    def check_type(cls) -> None:
+        if cls not in allowed_types:
+            msg = f"Not supported object type: {cls}"
+            raise UnsupportedPathObjectError(msg)
+
+    if path is None:
+        msg = "Missing path"
+        raise UnsupportedPathObjectError(msg)
+
+    path = list(path)
+
+    # Workspace URL
+    if path[:2] == ["-", "workspace"]:
+        check_type(Workspace)
+        if len(path) != 3:
+            msg = "Invalid workspace path"
+            raise UnsupportedPathObjectError(msg)
+        try:
+            workspace_id = UUID(path[2])
+        except ValueError as error:
+            msg = "Invalid workspace id"
+            raise Http404(msg) from error
+        workspaces = (
+            Workspace.objects.select_related("billing")
+            if "weblate.billing" in settings.INSTALLED_APPS
+            else Workspace.objects.all()
+        )
+        workspace = await aget_object_or_404(workspaces, pk=workspace_id)
+        if request is not None and not await _workspace_can_view(request, workspace):
+            msg = "Access denied"
+            raise Http404(msg)
+        workspace.acting_user = acting_user
+        return workspace
+
+    # Language URL
+    if path[:2] == ["-", "-"] and len(path) == 3:
+        if path[2] == "-" and None in types:
+            return None
+        check_type(Language)
+        return await aget_object_or_404(Language, code=path[2])
+
+    # First level is always project
+    project = await aget_object_or_404(
+        Project.objects.select_related("workspace"), slug=path.pop(0)
+    )
+    if request is not None:
+        request.user.check_access(project)
+    project.acting_user = acting_user
+    if not path:
+        check_type(Project)
+        return project
+
+    # Project/language special case
+    if path[0] == "-" and len(path) == 2:
+        check_type(ProjectLanguage)
+        language = await aget_object_or_404(Language, code=path[1])
+        return ProjectLanguage(project, language)
+
+    if not allowed_types & {Component, Category, Translation, Unit}:
+        msg = "No remaining supported object type"
+        raise UnsupportedPathObjectError(msg)
+
+    # Component/category structure
+    current: Project | Category | Component = project
+    category_args = {"category": None}
+    while path:
+        slug = path.pop(0)
+
+        # Category/language special case
+        if slug == "-" and len(path) == 1:
+            language = await aget_object_or_404(Language, code=path[0])
+            check_type(CategoryLanguage)
+            if not isinstance(current, Category):
+                raise TypeError
+            return CategoryLanguage(current, language)
+
+        # Try component first
+        with suppress(Component.DoesNotExist):
+            current = await current.component_set.select_related("project").aget(
+                slug=slug, **category_args
+            )
+            if request is not None:
+                request.user.check_access_component(current)
+            current.acting_user = acting_user
+            break
+
+        # Try category
+        with suppress(Category.DoesNotExist):
+            current = (
+                await cast("Project | Category", current)
+                .category_set.select_related("project", "category")
+                .aget(slug=slug, **category_args)
+            )
+            current.acting_user = acting_user
+            category_args = {}
+            continue
+
+        # Nothing more to try
+        msg = f"Object {slug} not found in {current}"
+        raise Http404(msg)
+
+    # Nothing left, return current object
+    if not path:
+        if not isinstance(current, tuple(allowed_types)):
+            msg = f"Not supported object type: {current.__class__}"
+            raise UnsupportedPathObjectError(msg)
+        return current
+
+    if not allowed_types & {Translation, Unit}:
+        msg = "No remaining supported object type"
+        raise UnsupportedPathObjectError(msg)
+
+    translation = await aget_object_or_404(
+        cast("Component", current).translation_set.select_related("language", "plural"),
+        language__code=path.pop(0),
+    )
+    if not path:
+        check_type(Translation)
+        return translation
+
+    if len(path) > 1:
+        msg = f"Invalid path left: {'/'.join(path)}"
+        raise UnsupportedPathObjectError(msg)
+
+    unitid = path.pop(0)
+
+    if not unitid.isdigit():
+        msg = f"Invalid unit id: {unitid}"
+        raise Http404(msg)
+
+    check_type(Unit)
+    return await aget_object_or_404(translation.unit_set, pk=int(unitid))
 
 
 def parse_path_units(

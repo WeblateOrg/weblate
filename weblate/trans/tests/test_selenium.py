@@ -651,6 +651,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.get_screenshot_as_png()
         )
 
+    def screenshot_viewport(self, name: str, width: int, height: int = 1024) -> None:
+        """
+        Capture screenshot of a fixed size viewport.
+
+        Unlike screenshot(), the window is not grown to fit the whole document,
+        so that responsive layout and scrollbars are captured as the user sees
+        them at the given width.
+        """
+        self.driver.set_window_size(width, height)
+        self.scroll_top()
+        self.wait_for_screenshot_ready()
+        Path(os.path.join(self.image_path, name)).write_bytes(
+            self.driver.get_screenshot_as_png()
+        )
+
     def use_live_server_widget_preview(self) -> None:
         """Load widget preview from the live server while displaying public URLs."""
         protocol = "https" if settings.ENABLE_HTTPS else "http"
@@ -911,6 +926,39 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
 
+    def test_search_preview_scopes_boolean_query(self) -> None:
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        self.do_login(superuser=True)
+        self.open_component(component, project)
+        self.click("Operations")
+        self.click("Bulk edit")
+
+        self.driver.execute_script(
+            """
+            window.previewRequestUrl = null;
+            window.fetch = (url) => {
+                window.previewRequestUrl = url;
+                return Promise.resolve({ok: false});
+            };
+            """
+        )
+        self.driver.find_element(By.ID, "id_bulk_q").send_keys('"a" OR ""')
+
+        preview_url = WebDriverWait(self.driver, 5).until(
+            lambda driver: driver.execute_script("return window.previewRequestUrl;")
+        )
+        preview_query = self.driver.execute_script(
+            """
+            return new URL(arguments[0], document.baseURI).searchParams.get("q");
+            """,
+            preview_url,
+        )
+        self.assertEqual(
+            preview_query,
+            f'path:{component.full_slug} AND ("a" OR "")',
+        )
+
     def test_js_unit_tests(self) -> None:
         self.assertEqual(self.driver.execute_script("return getNumber('1,23');"), 1.23)
         self.assertEqual(self.driver.execute_script("return getNumber('1.23');"), 1.23)
@@ -946,6 +994,46 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ),
             "inner",
         )
+
+    def test_table_sorting(self) -> None:
+        """Clicking sortable table headers reorders the rows client-side."""
+        # Load a page so that loader-bootstrap.js is loaded
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+
+        result = self.driver.execute_script(
+            r"""
+            const table = document.createElement("table");
+            table.className = "sort";
+            table.innerHTML = `
+              <thead><tr>
+                <th class="sort-skip"></th>
+                <th class="sort-cell">Name</th>
+                <th class="number sort-cell"><span class="sort-icon"> </span>Count</th>
+              </tr></thead>
+              <tbody>
+                <tr id="9row-1"><td></td><th class="object-link">Beta</th><td class="number" data-value="30">30</td></tr>
+                <tr data-parent="9row-1"><td colspan="3">progress</td></tr>
+                <tr id="9row-2"><td></td><th class="object-link">Alpha</th><td class="number" data-value="10">10</td></tr>
+                <tr data-parent="9row-2"><td colspan="3">progress</td></tr>
+                <tr id="9row-3"><td></td><th class="object-link">Gamma</th><td class="number" data-value="20">20</td></tr>
+                <tr data-parent="9row-3"><td colspan="3">progress</td></tr>
+              </tbody>`;
+            document.body.appendChild(table);
+            loadTableSorting();
+            const header = table.querySelectorAll("thead th")[2];
+            const readNames = () => Array.from(
+                table.querySelectorAll("tbody tr[id] th.object-link")
+            ).map((el) => el.textContent.trim());
+            header.click();
+            const ascending = readNames();
+            header.click();
+            const descending = readNames();
+            return {ascending: ascending, descending: descending};
+            """
+        )
+        self.assertEqual(result["ascending"], ["Alpha", "Gamma", "Beta"])
+        self.assertEqual(result["descending"], ["Beta", "Gamma", "Alpha"])
 
     def test_hotkeys(self) -> None:
         """Test hotkeys functionality."""
@@ -2090,6 +2178,108 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Dashboard")
         time.sleep(0.2)
         self.screenshot("your-translations.png")
+
+    def get_dashboard_listing_scroll(self) -> dict:
+        """Measure horizontal scrolling of the watched translations listing."""
+        return self.driver.execute_script(
+            """
+            const wrapper = document.querySelector(
+                "#your-subscriptions .table-listing-wrapper"
+            );
+            if (wrapper === null) {
+                return null;
+            }
+            const header = wrapper.querySelector(".sticky-header");
+            const hidden = Array.from(
+                wrapper.querySelectorAll("thead th[class*='zero-width-']")
+            ).filter((cell) => getComputedStyle(cell).display === "none");
+            // Scroll to the end to see how far the listing actually scrolls
+            wrapper.scrollLeft = wrapper.scrollWidth;
+            const scrollLeft = wrapper.scrollLeft;
+            wrapper.scrollLeft = 0;
+            const doc = document.documentElement;
+            return {
+                scrollable: wrapper.classList.contains("table-scroll"),
+                overflow: wrapper.scrollWidth - wrapper.clientWidth,
+                hiddenColumns: hidden.length,
+                scrollLeft: scrollLeft,
+                headerPosition: header === null ? "" : getComputedStyle(header).position,
+                documentOverflow: doc.scrollWidth - doc.clientWidth,
+                tabindex: wrapper.getAttribute("tabindex"),
+            };
+            """
+        )
+
+    def test_dashboard_wide_tables(self) -> None:
+        """Test horizontal scrolling of the dashboard listing."""
+        # Window narrow enough for the responsive rules to hide some columns
+        narrow_width = 900
+
+        project = self.create_component()
+        user = self.do_login()
+        user.profile.watched.add(project)
+
+        self.driver.set_window_size(narrow_width, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
+
+        # Columns are hidden and the listing does not scroll by default
+        before = self.get_dashboard_listing_scroll()
+        self.assertIsNotNone(before)
+        self.assertFalse(before["scrollable"])
+        self.assertGreater(before["hiddenColumns"], 0)
+        self.assertEqual(before["scrollLeft"], 0)
+        self.assertEqual(before["documentOverflow"], 0)
+        self.assertIsNone(before["tabindex"])
+        self.assertEqual(before["headerPosition"], "sticky")
+        self.screenshot_viewport("dashboard-narrow-columns.png", narrow_width)
+
+        # Turn the preference on in the settings
+        self.driver.set_window_size(1200, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('profile')}")
+        self.click("Preferences")
+        wide_tables = self.driver.find_element(By.ID, "id_wide_tables")
+        self.assertFalse(wide_tables.is_selected())
+        self.click(wide_tables)
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, "#preferences input[type='submit']"
+                )
+            )
+        user.profile.refresh_from_db()
+        self.assertTrue(user.profile.wide_tables)
+
+        self.driver.set_window_size(narrow_width, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
+
+        # All columns are shown and the listing scrolls horizontally instead
+        after = self.get_dashboard_listing_scroll()
+        self.assertIsNotNone(after)
+        self.assertTrue(after["scrollable"])
+        self.assertEqual(after["hiddenColumns"], 0)
+        self.assertGreater(after["overflow"], 0)
+        self.assertGreater(after["scrollLeft"], 0)
+        # Only the listing scrolls, the page itself must not overflow
+        self.assertEqual(after["documentOverflow"], 0)
+        # Sticky header does not work inside a scrolling container
+        self.assertEqual(after["headerPosition"], "static")
+        self.screenshot_viewport("dashboard-wide-tables.png", narrow_width)
+
+        # The listing is keyboard focusable and scrollable
+        self.assertEqual(after["tabindex"], "0")
+        wrapper = self.driver.find_element(
+            By.CSS_SELECTOR, "#your-subscriptions .table-listing-wrapper"
+        )
+        self.driver.execute_script("arguments[0].focus();", wrapper)
+        for _ in range(3):
+            wrapper.send_keys(Keys.ARROW_RIGHT)
+        time.sleep(0.2)
+        self.assertGreater(
+            self.driver.execute_script("return arguments[0].scrollLeft;", wrapper), 0
+        )
 
     def test_team_management(self) -> None:
         """Test team management screenshots."""

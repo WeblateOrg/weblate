@@ -794,7 +794,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
                 parameters.host,
                 FedoraMessagingAddon._get_socket_peer_ip(connection),
                 allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-                allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+                private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
             )
             FedoraMessagingAddon._perform_broker_tls_handshake(
                 connection, tls_context_factory, timeout

@@ -384,7 +384,6 @@ class CSPBuilder:
             elif domain.endswith(".sentry.io"):
                 self.directives["script-src"].add("sentry.io")
                 self.directives["connect-src"].add("sentry.io")
-            self.directives["script-src"].add("'unsafe-inline'")
             self.directives["img-src"].add("data:")
 
     def build_csp_piwik(self) -> None:
@@ -397,7 +396,6 @@ class CSPBuilder:
     def build_csp_google_analytics(self) -> None:
         # Google Analytics
         if settings.GOOGLE_ANALYTICS_ID:
-            self.directives["script-src"].add("'unsafe-inline'")
             self.directives["script-src"].add("www.google-analytics.com")
             self.directives["img-src"].add("www.google-analytics.com")
 

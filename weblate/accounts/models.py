@@ -256,8 +256,8 @@ class Subscription(models.Model):
         return self.sign_id(self.pk)
 
     @classmethod
-    def get_by_signed_id(cls, signed_id: str) -> Subscription:
-        return cls.objects.get(
+    async def aget_by_signed_id(cls, signed_id: str) -> Subscription:
+        return await cls.objects.aget(
             pk=int(TimestampSigner().unsign(signed_id, max_age=cls.SIGNATURE_MAX_AGE))
         )
 
@@ -277,6 +277,8 @@ EXTERNAL_CREATE_ACTIVITY = "external-create"
 ACCOUNT_ACTIVITY = {
     # Translators: Audit log entry
     "password": gettext_lazy("Password changed."),
+    # Translators: Audit log entry
+    "rate-limit": gettext_lazy("Rate limit exceeded for {scope} at {path}."),
     # Translators: Audit log entry
     "username": gettext_lazy("Username changed from {old} to {new}."),
     # Translators: Audit log entry
@@ -602,7 +604,15 @@ class AuditLog(models.Model):
         for name, value in self.params.items():
             if value is None:
                 value = format_html("<em>{}</em>", value)
-            elif name in {"old", "new", "name", "email", "username"}:
+            elif name in {
+                "old",
+                "new",
+                "name",
+                "email",
+                "username",
+                "scope",
+                "path",
+            }:
                 value = format_html("<code>{}</code>", mail_quote_value(value))
             elif name == "method":
                 value = format_html("<strong>{}</strong>", get_auth_name(value))
@@ -671,7 +681,7 @@ class AuditLog(models.Model):
         ):
             failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
-                lock_user(self.user, "locked", request)
+                lock_user(self.user, "locked", request, regenerate_api_key=False)
                 return True
 
         elif (
@@ -683,7 +693,7 @@ class AuditLog(models.Model):
                 self.user, "twofactor-login", "twofactor-failed"
             )
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
-                lock_user(self.user, "locked", request)
+                lock_user(self.user, "locked", request, regenerate_api_key=False)
                 return True
 
         elif self.activity == "reset-request":
@@ -785,6 +795,16 @@ class Profile(models.Model):
     hide_source_secondary = models.BooleanField(
         verbose_name=gettext_lazy("Hide source if a secondary translation exists"),
         default=False,
+    )
+    wide_tables = models.BooleanField(
+        verbose_name=gettext_lazy(
+            "Show all columns in lists using horizontal scrolling"
+        ),
+        default=False,
+        help_text=gettext_lazy(
+            "Instead of hiding columns on narrow screens, keep all columns and "
+            "scroll the table horizontally."
+        ),
     )
     editor_link = models.CharField(
         default="",
@@ -1107,6 +1127,7 @@ class Profile(models.Model):
                 "theme",
                 "secondary_in_zen",
                 "hide_source_secondary",
+                "wide_tables",
                 "editor_link",
                 "translate_mode",
                 "zen_mode",
@@ -1298,6 +1319,51 @@ class Profile(models.Model):
         ):
             return visible_name
         return self.get_site_commit_name() or visible_name
+
+    def get_commit_name_choices(
+        self,
+    ) -> list[tuple[Profile.CommitNameChoices, StrOrPromise]]:
+        site_name = self.get_site_commit_name()
+        if not settings.PRIVATE_COMMIT_NAME_OPT_IN and site_name:
+            default_label = gettext_lazy("Use anonymous account name")
+        else:
+            default_label = gettext_lazy("Use account name")
+        name_choices = [
+            (Profile.CommitNameChoices.DEFAULT, default_label),
+            (Profile.CommitNameChoices.PUBLIC, self.user.get_visible_name()),
+        ]
+        if site_name:
+            name_choices.append((Profile.CommitNameChoices.PRIVATE, site_name))
+        return name_choices
+
+    def get_commit_email_choices(self) -> list[tuple[str, StrOrPromise]]:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.utils import get_all_user_mails
+
+        commit_emails = get_all_user_mails(self.user, filter_deliverable=False)
+        choices = [("", gettext_lazy("Use account e-mail address"))]
+
+        if site_commit_email := self.get_site_commit_email():
+            if not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
+                choices = [("", site_commit_email)]
+            else:
+                commit_emails.add(site_commit_email)
+
+        choices.extend((x, x) for x in sorted(commit_emails))
+        return choices
+
+    def get_public_email_choices(self) -> list[tuple[str, StrOrPromise]]:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.utils import get_all_user_mails
+
+        choices = [
+            ("", gettext_lazy("Hide e-mail address from public view")),
+        ]
+        choices.extend(
+            (x, x)
+            for x in sorted(get_all_user_mails(self.user, filter_deliverable=True))
+        )
+        return choices
 
     def get_site_commit_name(self) -> str:
         """Return the generated private commit name from the site template."""

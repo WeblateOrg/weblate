@@ -155,7 +155,7 @@ if TYPE_CHECKING:
     from weblate.auth.results import PermissionResult
     from weblate.lang.models import LanguageQuerySet
     from weblate.trans.file_format_params import FileFormatParams
-    from weblate.trans.mixins import URLMixin
+    from weblate.trans.mixins import URLPathObject
     from weblate.trans.models import (
         Translation,
     )
@@ -3914,7 +3914,7 @@ class ReplaceForm(forms.Form):
         strip=False,
     )
 
-    def __init__(self, obj: URLMixin, data: dict | None = None) -> None:
+    def __init__(self, obj: URLPathObject, data: dict | None = None) -> None:
         path = getattr(obj, "full_slug", "/".join(obj.get_url_path()))
         super().__init__(data=data, auto_id="id_replace_%s", initial={"path": path})
         self.helper = FormHelper(self)
@@ -4648,6 +4648,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         # ruff: ignore[mutable-class-default]
         fields = [
             "translation_review",
+            "restrict_direct_editing",
             "enable_suggestions",
             "suggestion_voting",
             "suggestion_autoaccept",
@@ -4699,6 +4700,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
             ),
             Div(
                 Field("translation_review"),
+                Field("restrict_direct_editing"),
                 Field("enable_suggestions"),
                 Field("suggestion_voting"),
                 Field("suggestion_autoaccept"),

@@ -528,11 +528,17 @@ class WebsiteTest(SimpleTestCase):
         validator("http://1.1.1.1")
         validator("https://[2606:4700:4700::1111]")
         validator("https://domain.tld:5000")
+        validator("https://user:password@domain.tld/path")
+        validator("https://user%5C@domain.tld/path")
         with self.assertRaises(ValidationError):
             validator("ftp://domain.tld")
         with self.assertRaises(ValidationError):
             # The first "e" is replaced with a Cyrillic character
             validator("https://wеblate.org")
+        with self.assertRaisesMessage(ValidationError, "Enter a valid URL."):
+            validator(r"https://127.0.0.1:8080\@domain.tld/path")
+        with self.assertRaisesMessage(ValidationError, "Enter a valid URL."):
+            validator(r"https://domain.tld/path\file")
 
     def test_url_validator(self) -> None:
         validator = WeblateURLValidator()
@@ -904,7 +910,6 @@ class RepoURLValidationTestCase(SimpleTestCase):
         self.assertIsNotNone(target)
         assert target is not None
         self.assertEqual(target.hostname, "example.com")
-        self.assertEqual(target.connection_hostname, "example.com")
         self.assertEqual(target.port, 443)
         self.assertEqual(target.addresses, ("93.184.216.34", "2001:4860:4860::8888"))
         self.assertTrue(target.requires_pinning)
@@ -1093,6 +1098,38 @@ class RepoURLValidationTestCase(SimpleTestCase):
 
         self.assertIn("Could not resolve the URL domain", str(error.exception))
         mocked_getaddrinfo.assert_called_once_with("unresolved.example", None, type=1)
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        side_effect=OSError("Name or service not known"),
+    )
+    def test_proxy_resolves_repository_hostname(self, mocked_getaddrinfo) -> None:
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            patch.dict(
+                os.environ,
+                {"https_proxy": "http://proxy.example:8080"},
+                clear=True,
+            ),
+        ):
+            validate_repo_url("https://unresolved.example/repo.git")
+
+        mocked_getaddrinfo.assert_not_called()
+
+    def test_proxy_rejects_private_repository_address(self) -> None:
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            patch.dict(
+                os.environ,
+                {"https_proxy": "http://proxy.example:8080"},
+                clear=True,
+            ),
+            self.assertRaisesMessage(
+                ValidationError,
+                "internal or non-public address",
+            ),
+        ):
+            validate_repo_url("https://127.0.0.1/repo.git")
 
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",

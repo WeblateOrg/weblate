@@ -45,6 +45,8 @@ WILDCARD_MEDIA_TYPE = "*/*"
 CSV_MEDIA_TYPE = "text/csv"
 OPENMETRICS_MEDIA_TYPE = "application/openmetrics-text"
 METRICS_PATH = "/api/metrics/"
+PROJECT_METRICS_PATH = "/api/projects/{slug}/metrics/"
+METRICS_PATHS = {METRICS_PATH, PROJECT_METRICS_PATH}
 USER_GROUPS_PATH = "/api/users/{username}/groups/"
 CHANGES_PATH = "/api/changes/"
 UNSUPPORTED_MEDIA_TYPE_RESPONSE_CODE = "415"
@@ -277,7 +279,7 @@ def _simplify_response_media_types(path: str, method: str, operation: dict) -> N
         if not isinstance(content, dict):
             continue
 
-        if path == METRICS_PATH and method == "get" and status_code == "200":
+        if path in METRICS_PATHS and method == "get" and status_code == "200":
             if CSV_MEDIA_TYPE in content:
                 content[CSV_MEDIA_TYPE]["schema"] = {"type": "string"}
             if OPENMETRICS_MEDIA_TYPE in content:
@@ -289,7 +291,7 @@ def _simplify_response_media_types(path: str, method: str, operation: dict) -> N
 
 
 def _simplify_format_parameter(path: str, method: str, operation: dict) -> None:
-    if path == METRICS_PATH and method == "get":
+    if path in METRICS_PATHS and method == "get":
         return
 
     parameters = operation.get("parameters")

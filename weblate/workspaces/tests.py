@@ -93,6 +93,69 @@ class WorkspaceViewTest(BaseTestCase):
         self.assertContains(response, visible.name)
         self.assertNotContains(response, hidden.name, status_code=200)
 
+    def test_my_workspaces_lists_only_explicit_assignments(self) -> None:
+        user = create_test_user()
+        assigned = Workspace.objects.create(name="Assigned workspace")
+        unassigned = Workspace.objects.create(name="Unassigned workspace")
+        assigned.add_owner(user)
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(reverse("workspaces"))
+
+        self.assertContains(response, assigned.name)
+        self.assertNotContains(response, unassigned.name, status_code=200)
+
+    def test_my_workspaces_does_not_expand_superuser_access(self) -> None:
+        user = create_test_user()
+        user.is_superuser = True
+        user.save(update_fields=["is_superuser"])
+        assigned = Workspace.objects.create(name="Assigned admin workspace")
+        unassigned = Workspace.objects.create(name="Unassigned admin workspace")
+        assigned.add_owner(user)
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(reverse("workspaces"))
+
+        self.assertContains(response, assigned.name)
+        self.assertNotContains(response, unassigned.name, status_code=200)
+
+    def test_workspace_operations_always_offer_project_creation(self) -> None:
+        user = create_test_user()
+        workspace = Workspace.objects.create(name="Project creation workspace")
+        workspace.add_owner(user)
+        self.create_project(
+            workspace,
+            name="Existing project",
+            slug="existing-project",
+        )
+
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(workspace.get_absolute_url())
+
+        create_url = f"{reverse('create-project')}?workspace={workspace.pk}"
+        self.assertContains(response, create_url)
+
+    def test_workspace_always_shows_upload_placeholder(self) -> None:
+        workspace = Workspace.objects.create(name="Upload workspace")
+        self.create_project(
+            workspace,
+            name="Empty project",
+            slug="empty-project",
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, "Upload translation")
+        self.assertContains(
+            response, "Uploading translations at this level is not supported."
+        )
+        self.assertContains(response, 'data-bs-target="#projects"')
+        self.assertNotContains(
+            response,
+            "Download translation files as ZIP file",
+            status_code=200,
+        )
+
     def test_workspace_project_sort_does_not_affect_search_sort(self) -> None:
         workspace = Workspace.objects.create(name="Test workspace")
         self.create_project(

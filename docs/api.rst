@@ -277,6 +277,7 @@ API Entry Point
             "languages":"http://example.com/api/languages/"
         }
 
+.. _api-users:
 
 Users
 +++++
@@ -331,7 +332,7 @@ Users
     :>json string date_joined: date the user is created
     :>json string last_login: date the user last signed in
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
-    :>json array languages: link to translated languages; see :http:get:`/api/languages/(string:language)/`
+    :>json object profile: user profile preferences; see :ref:`api-user-profile`. Returned only with the ``user.view`` or ``user.edit`` permission.
 
     **Example JSON data:**
 
@@ -345,15 +346,52 @@ Users
                 "http://example.com/api/groups/2/",
                 "http://example.com/api/groups/3/"
             ],
-            "languages": [
-                "http://example.com/api/languages/cs/",
-            ],
+            "profile": {
+                "language": "en",
+                "languages": [
+                    "http://example.com/api/languages/cs/"
+                ],
+                "secondary_languages": [],
+                "translated": 42,
+                "suggested": 3,
+                "uploaded": 1,
+                "commented": 5,
+                "theme": "auto",
+                "hide_completed": false,
+                "secondary_in_zen": true,
+                "hide_source_secondary": false,
+                "wide_tables": false,
+                "editor_link": "",
+                "translate_mode": 0,
+                "zen_mode": 0,
+                "special_chars": "",
+                "nearby_strings": 10,
+                "auto_watch": true,
+                "contribute_personal_tm": true,
+                "dashboard_view": 1,
+                "dashboard_component_list": null,
+                "watched": [],
+                "website": "https://example.com/",
+                "contact": "",
+                "liberapay": "",
+                "fediverse": "",
+                "codesite": "",
+                "github": "",
+                "twitter": "",
+                "linkedin": "",
+                "location": "",
+                "company": "",
+                "public_email": "",
+                "commit_email": "",
+                "commit_name": 0,
+                "last_2fa": ""
+            },
             "is_superuser": true,
             "is_active": true,
             "is_bot": false,
             "date_joined": "2020-03-29T18:42:42.617681Z",
             "url": "http://example.com/api/users/exampleusername/",
-            "contributions_url": "http://example.com/api/users/exampleusername/contributions/"
+            "contributions_url": "http://example.com/api/users/exampleusername/contributions/",
             "statistics_url": "http://example.com/api/users/exampleusername/statistics/"
         }
 
@@ -362,7 +400,7 @@ Users
     Changes the user parameters.
 
     Requires the global ``user.edit`` permission unless a user is updating
-    their own basic profile fields. See :ref:`access-control` for the user
+    their own account or profile fields. See :ref:`access-control` for the user
     management permission model.
 
     :param username: User's username
@@ -374,13 +412,14 @@ Users
     :>json boolean is_active: whether the user is active
     :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
+    :>json object profile: updated profile preferences when included in the request; see :ref:`api-user-profile`
 
 .. http:patch:: /api/users/(str:username)/
 
     Changes the user parameters.
 
     Requires the global ``user.edit`` permission unless a user is updating
-    their own basic profile fields. See :ref:`access-control` for the user
+    their own account or profile fields. See :ref:`access-control` for the user
     management permission model.
 
     :param username: User's username
@@ -392,6 +431,7 @@ Users
     :>json boolean is_active: whether the user is active
     :>json boolean is_bot: whether the user is bot (used for project scoped tokens)
     :>json string date_joined: date the user is created
+    :>json object profile: updated profile preferences when included in the request; see :ref:`api-user-profile`
 
 .. http:delete:: /api/users/(str:username)/
 
@@ -505,6 +545,22 @@ Users
     :type username: string
     :param subscription_id: Name of notification registered
     :param subscription_id: int
+
+.. _api-user-profile:
+
+User profile
+++++++++++++
+
+.. versionadded:: 2026.8
+
+The user API exposes profile preferences in a nested ``profile`` object. The
+object is returned on :http:get:`/api/users/(str:username)/` only for callers
+with the ``user.view`` or ``user.edit`` permission. Users without those
+permissions can still update their own profile through
+:http:patch:`/api/users/(str:username)/`; the response then includes the updated
+``profile`` object.
+
+Profile fields mirror the settings described in :ref:`user-profile`.
 
 
 Groups
@@ -1310,6 +1366,29 @@ Projects
     .. seealso::
 
        Returned attributes are described in :ref:`api-statistics`.
+
+.. http:get:: /api/projects/(string:project)/metrics/
+
+    .. versionadded:: 2026.8
+
+    Returns translation metrics for the project components visible to the
+    caller. Components are identified by their project-relative path and the
+    result is grouped by component and language. When multiple components have
+    the same project-relative path, ``@`` and the component ID are appended to
+    each colliding path.
+
+    The OpenMetrics representation exposes ``weblate_translation_info`` and
+    ``weblate_*`` gauges compatible with the project translation statistics.
+    Strings containing suggestions use
+    ``weblate_strings_with_suggestions`` to distinguish them from the
+    server-wide ``weblate_suggestions`` object count.
+    The CSV representation contains one row for each component, language, and
+    numeric metric.
+
+    :param project: Project URL slug
+    :type project: string
+    :query string format: Response format; use ``openmetrics`` or ``csv`` for
+       monitoring and tabular output.
 
 .. http:get:: /api/projects/(string:project)/categories/
 
@@ -3276,6 +3355,11 @@ Metrics
 
        Metrics can now be exposed in OpenMetrics compatible format with ``?format=openmetrics``.
 
+    .. versionchanged:: 2026.8
+
+       OpenMetrics responses now include ``HELP`` and ``TYPE`` metadata and use
+       the versioned OpenMetrics content type.
+
     :>json int units: Number of units
     :>json int units_translated: Number of translated units
     :>json int users: Number of users
@@ -3292,7 +3376,14 @@ Metrics
     :>json string version: Running Weblate version, included when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``
 
     In OpenMetrics format, the version is exposed as ``weblate_info{version="..."} 1``
-    when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``.
+    when :setting:`VERSION_DISPLAY` is ``show`` or ``soft``. All metrics are
+    exposed as gauges.
+
+Project metrics expose translation statistics for each visible component and
+language at :http:get:`/api/projects/(string:project)/metrics/`. They include
+translated, total, fuzzy, failing-check, and approved string, word, and
+character counts; suggestions; comments; and translated and approved
+percentages.
 
 Search
 +++++++
@@ -3554,7 +3645,7 @@ update individual repositories; see
 
         :ref:`Gitea notifications <code-hosting-gitea-notifications>`
             For instruction on setting up Gitea integration
-        https://docs.gitea.io/en-us/webhooks/
+        https://docs.gitea.com/usage/repository/webhooks
             Generic information about Gitea Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

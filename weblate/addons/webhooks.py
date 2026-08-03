@@ -83,7 +83,7 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
                 timeout=15,
                 raise_for_status=False,
                 allow_private_targets=not settings.WEBHOOK_RESTRICT_PRIVATE,
-                allowed_domains=settings.WEBHOOK_PRIVATE_ALLOWLIST,
+                private_allowlist=settings.WEBHOOK_PRIVATE_ALLOWLIST,
             )
         except ValidationError as error:
             raise MessageNotDeliveredError("; ".join(error.messages)) from error
@@ -144,6 +144,7 @@ class WebhookAddon(JSONWebhookBaseAddon):
             data["old"] = split_plural(change.old)
         if change.unit:
             data["source"] = split_plural(change.unit.source)
+            data["context"] = change.unit.context
         if url := change.get_absolute_url():
             data["url"] = url
         if change.author:

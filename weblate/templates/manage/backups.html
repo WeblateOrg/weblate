@@ -73,12 +73,7 @@
               <div class="accordion-item">
                 <h5 class="accordion-header"
                     id="backup-service-{{ service.pk }}-log-heading-{{ log.pk }}">
-                  <button type="button"
-                          class="accordion-button{% if service.current_error %}{% if log.pk != service.current_error.pk %} collapsed{% endif %}{% elif service.current_warning %}{% if log.pk != service.current_warning.pk %} collapsed{% endif %}{% else %} collapsed{% endif %}"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#backup-service-{{ service.pk }}-log-{{ log.pk }}"
-                          aria-expanded="{% if service.current_error and log.pk == service.current_error.pk or not service.current_error and service.current_warning and log.pk == service.current_warning.pk %}true{% else %}false{% endif %}"
-                          aria-controls="backup-service-{{ service.pk }}-log-{{ log.pk }}">
+                  <button type="button" class="accordion-button{% if service.current_error %}{% if log.pk != service.current_error.pk %} collapsed{% endif %}{% elif service.current_warning %}{% if log.pk != service.current_warning.pk %} collapsed{% endif %}{% else %} collapsed{% endif %}" data-bs-toggle="collapse" data-bs-target="#backup-service-{{ service.pk }}-log-{{ log.pk }}" aria-expanded="{% if service.current_error and log.pk == service.current_error.pk or not service.current_error and service.current_warning and log.pk == service.current_warning.pk %}true{% else %}false{% endif %}" aria-controls="backup-service-{{ service.pk }}-log-{{ log.pk }}">
                     <span class="d-flex flex-wrap align-items-center gap-2 w-100 me-3">
                       <span class="fw-semibold">{{ log.get_event_display }}</span>
                       {% if log.event == "error" %}

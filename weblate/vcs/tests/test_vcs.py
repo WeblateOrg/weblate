@@ -29,14 +29,15 @@ from django.core.cache import cache
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
+from django.utils.translation import gettext
+from django.utils.translation import override as translation_override
 
 from weblate.trans import defaults
 from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin
 from weblate.utils.files import REPO_TEMP_DIRNAME
 from weblate.utils.render import render_template
-from weblate.utils.tests import http_mock as responses
-from weblate.utils.tests.http_mock import matchers
+from weblate.utils.tests import http_mock
 from weblate.utils.zip import ZipSafetyLimits
 from weblate.vcs import git as git_module
 from weblate.vcs.base import (
@@ -47,6 +48,7 @@ from weblate.vcs.base import (
     RepositorySymlinkError,
     RepositoryValidationError,
     get_config_check_cache_key,
+    get_repository_error_diagnoses,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
     parse_commit_date,
@@ -276,6 +278,117 @@ class RepositoryTest(SimpleTestCase):
         error = RepositoryError(-1, "Can not switch subversion URL")
 
         self.assertEqual(str(error), "Can not switch subversion URL (-1)")
+
+    def test_repository_error_diagnoses(self) -> None:
+        cases = (
+            ("The requested URL returned error: 301", "repository_redirect"),
+            ("fatal: terminal prompts disabled", "missing_credentials"),
+            ("rejected: fetch first", "branch_behind"),
+            ("Repository not found.", "repository_not_found"),
+            ("push denied to user", "repository_permission"),
+            ("push prohibited by Gerrit", "gerrit_permission"),
+            ("Connection timed out", "temporary_failure"),
+            ("Host key verification failed", "ssh_host_key_unverified"),
+            (
+                (
+                    "REMOTE HOST IDENTIFICATION HAS CHANGED!\n"
+                    "Host key verification failed."
+                ),
+                "ssh_host_key_mismatch",
+            ),
+        )
+        for message, expected in cases:
+            with self.subTest(message=message):
+                self.assertIn(
+                    expected,
+                    {
+                        diagnosis["code"]
+                        for diagnosis in get_repository_error_diagnoses(message)
+                    },
+                )
+
+    def test_repository_redirect_error_is_not_localized(self) -> None:
+        with translation_override("fr"):
+            error = RepositoryRedirectError(
+                "https://example.com/old",
+                "https://example.com/new",
+                301,
+            )
+
+        self.assertEqual(
+            error.get_message(),
+            "The repository URL permanently redirects to a canonical URL.",
+        )
+        self.assertEqual(error.diagnoses, [{"code": "repository_redirect"}])
+
+    def test_repository_validation_error_is_structured(self) -> None:
+        with (
+            translation_override("fr"),
+            self.assertRaises(RepositoryValidationError) as raised,
+        ):
+            GitRepository.validate_remote_url("https://exa mple.com")
+
+        self.assertEqual(raised.exception.code, "repository_url_invalid")
+        self.assertEqual(raised.exception.params, {})
+        self.assertEqual(raised.exception.get_message(), "Enter a valid URL.")
+        with translation_override("fr"):
+            # spellchecker:off
+            self.assertEqual(
+                raised.exception.get_message(gettext),
+                "Saisissez une URL valide.",  # codespell:ignore valide
+            )
+            # spellchecker:on
+
+    @override_settings(VCS_ALLOW_SCHEMES={"https"})
+    def test_eager_repository_validation_error_is_structured(self) -> None:
+        with (
+            translation_override("fr"),
+            self.assertRaises(RepositoryValidationError) as raised,
+        ):
+            GitRepository.validate_remote_url("ftp://example.com/repository")
+
+        self.assertEqual(raised.exception.code, "repository_url_scheme_not_allowed")
+        self.assertEqual(raised.exception.params, {"scheme": "ftp"})
+        self.assertEqual(
+            raised.exception.get_message(),
+            "Fetching VCS repository using ftp is not allowed.",
+        )
+        self.assertEqual(
+            raised.exception.get_message(lambda message: f"Translated: {message}"),
+            "Translated: Fetching VCS repository using ftp is not allowed.",
+        )
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"ssh"},
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_ssh_destination_validation_error_is_structured(self) -> None:
+        process_error = subprocess.CalledProcessError(
+            255,
+            ["ssh", "-G"],
+            stderr="Invalid SSH configuration",
+        )
+        with (
+            translation_override("fr"),
+            patch.object(SSH_WRAPPER, "create"),
+            patch("weblate.vcs.ssh.subprocess.run", side_effect=process_error),
+            self.assertRaises(RepositoryValidationError) as raised,
+        ):
+            GitRepository.validate_remote_url("ssh://git@git.example/repository")
+
+        self.assertEqual(
+            raised.exception.code,
+            "repository_ssh_destination_unresolved_with_error",
+        )
+        self.assertEqual(
+            raised.exception.params,
+            {"error": "Invalid SSH configuration"},
+        )
+        self.assertEqual(
+            raised.exception.get_message(),
+            "Could not determine the effective SSH destination: Invalid SSH configuration",
+        )
 
     def test_popen_retry_does_not_duplicate_command(self) -> None:
         failed_process = subprocess.CompletedProcess(
@@ -1279,16 +1392,16 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         self.assertEqual(environment["GIT_LFS_SKIP_PUSH"], "1")
         self.assertEqual(environment["GIT_LFS_SKIP_SMUDGE"], "1")
 
-    @responses.activate
+    @http_mock.activate
     def test_git_redirect_probe_uses_smart_http_and_validated_address(self) -> None:
         probe_url = (
             "https://user:secret@git.example/owner/repo/"
             "info/refs?service=git-upload-pack"
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             probe_url,
-            status=301,
+            status_code=301,
             headers={
                 "Location": "/owner/repo.git/info/refs?service=git-upload-pack",
             },
@@ -1300,7 +1413,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
 
         with (
             patch(
-                "weblate.utils.requests._get_proxy",
+                "weblate.utils.requests.get_environment_proxy",
                 return_value=None,
             ),
             patch("weblate.utils.version.USER_AGENT", "Weblate/test"),
@@ -1319,10 +1432,10 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 "",
             ),
         )
-        self.assertEqual(len(responses.calls), 1)
-        request = responses.calls[0].request
+        self.assertEqual(len(http_mock.calls), 1)
+        request = http_mock.calls[0].request
         self.assertEqual(
-            request.transport_url,
+            str(http_mock.get_transport_url(request)),
             "https://user:secret@93.184.216.34/owner/repo/"
             "info/refs?service=git-upload-pack",
         )
@@ -1503,7 +1616,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                     (0, 0, 0, "", ("2001:4860:4860::8888", 443, 0, 0)),
                 ],
             ),
-            patch("weblate.vcs.git._get_proxy", return_value=None),
+            patch("weblate.vcs.base.get_environment_proxy", return_value=None),
             patch.object(
                 GitRepository,
                 "_popen",
@@ -1515,8 +1628,10 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         self.assertEqual(branch, "main")
         args = popen.call_args.args[0]
         self.assertEqual(
-            args[:4],
+            args[:6],
             [
+                "-c",
+                "http.proxy=",
                 "-c",
                 "http.curloptResolve=git.example:443:93.184.216.34,[2001:4860:4860::8888]",
                 "-c",
@@ -1533,13 +1648,13 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         with (
             patch.dict(
                 os.environ,
-                {"ALL_PROXY": "http://proxy.example:8080"},
+                {"https_proxy": "http://proxy.example:8080"},
                 clear=True,
             ),
             patch(
                 "weblate.utils.outbound.socket.getaddrinfo",
-                return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
-            ),
+                side_effect=OSError("Name or service not known"),
+            ) as getaddrinfo,
             patch.object(
                 GitRepository,
                 "_popen",
@@ -1549,6 +1664,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
             branch = GitRepository.get_remote_branch("https://git.example/repo.git")
 
         self.assertEqual(branch, "main")
+        getaddrinfo.assert_not_called()
         args = popen.call_args.args[0]
         self.assertNotIn(
             "http.curloptResolve=git.example:443:93.184.216.34",
@@ -1559,11 +1675,44 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         environment = popen.call_args.kwargs["environment"]
         self.assertEqual(
             environment,
-            {"https_proxy": "http://proxy.example:8080"},
+            {
+                "GIT_CONFIG_COUNT": "1",
+                "GIT_CONFIG_KEY_0": "http.proxy",
+                "GIT_CONFIG_VALUE_0": "http://proxy.example:8080",
+            },
         )
         self.assertEqual(
-            GitRepository._getenv(environment)["https_proxy"],  # ruff: ignore[private-member-access]
+            GitRepository._getenv(environment)[  # ruff: ignore[private-member-access]
+                "GIT_CONFIG_VALUE_0"
+            ],
             "http://proxy.example:8080",
+        )
+
+    def test_https_proxy_preserves_command_authentication(self) -> None:
+        authentication = {
+            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_KEY_0": "http.extraHeader",
+            "GIT_CONFIG_VALUE_0": "Authorization: Basic secret",
+        }
+        target = SimpleNamespace(
+            scheme="https",
+            proxy_url="http://proxy.example:8080",
+        )
+
+        _args, environment = GitRepository.prepare_remote_command(
+            ["fetch"],
+            authentication,
+            target,  # type: ignore[arg-type]
+        )
+
+        self.assertEqual(
+            environment,
+            {
+                **authentication,
+                "GIT_CONFIG_COUNT": "2",
+                "GIT_CONFIG_KEY_1": "http.proxy",
+                "GIT_CONFIG_VALUE_1": "http://proxy.example:8080",
+            },
         )
 
     @override_settings(
@@ -1577,7 +1726,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
             ) as getaddrinfo,
-            patch("weblate.vcs.git._get_proxy", return_value=None),
+            patch("weblate.vcs.base.get_environment_proxy", return_value=None),
             patch.object(
                 GitRepository,
                 "_popen",
@@ -1604,7 +1753,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
         ):
             with (
                 self.subTest(url=url),
-                patch("weblate.vcs.git._get_proxy", return_value=None),
+                patch("weblate.vcs.base.get_environment_proxy", return_value=None),
                 patch.object(
                     GitRepository,
                     "_popen",
@@ -1618,7 +1767,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 any(arg.startswith("http.curloptResolve=") for arg in args)
             )
             self.assertIn("http.followRedirects=false", args)
-            self.assertNotIn("http.proxy=", args)
+            self.assertIn("http.proxy=", args)
 
     @override_settings(
         VCS_ALLOW_HOSTS=set(),
@@ -1632,7 +1781,7 @@ class RepositoryRemotePinningTest(SimpleTestCase):
                 "weblate.utils.outbound.socket.getaddrinfo",
                 return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
             ) as getaddrinfo,
-            patch("weblate.vcs.git._get_proxy", return_value=None),
+            patch("weblate.vcs.base.get_environment_proxy", return_value=None),
             patch.object(GitRepository, "validate_branch_name", return_value="main"),
             patch.object(GitRepository, "_popen", return_value="") as popen,
         ):
@@ -2261,12 +2410,20 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with tempfile.TemporaryDirectory() as tempdir:
             self.create_unrelated_git_repository(tempdir)
 
-            with self.assertRaisesRegex(
-                RepositoryError, "does not share common history"
-            ):
+            with self.assertRaises(RepositoryValidationError) as raised:
                 self.repo.validate_remote_compatibility(
                     self.format_local_path(tempdir), self._remote_branch
                 )
+
+        self.assertEqual(raised.exception.code, "repository_remote_branch_unrelated")
+        self.assertEqual(
+            raised.exception.get_message(),
+            "Remote branch does not share common history with the existing repository.",
+        )
+        with translation_override("cs"):
+            self.assertNotEqual(
+                raised.exception.get_message(gettext), raised.exception.get_message()
+            )
 
     def test_validate_remote_compatibility_rejects_inconclusive_shallow_history(
         self,
@@ -2279,12 +2436,21 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with tempfile.TemporaryDirectory() as tempdir:
             self.create_unrelated_git_repository(tempdir)
 
-            with self.assertRaisesRegex(
-                RepositoryError, "could not be verified against the shallow"
-            ):
+            with self.assertRaises(RepositoryValidationError) as raised:
                 self.repo.validate_remote_compatibility(
                     self.format_local_path(tempdir), self._remote_branch
                 )
+
+        self.assertEqual(raised.exception.code, "repository_remote_branch_shallow")
+        self.assertEqual(
+            raised.exception.get_message(),
+            "Remote branch could not be verified against the shallow existing "
+            "repository.",
+        )
+        with translation_override("cs"):
+            self.assertNotEqual(
+                raised.exception.get_message(gettext), raised.exception.get_message()
+            )
 
     def test_validate_remote_compatibility_allows_shallow_fork(self) -> None:
         if self._class is not GitRepository:
@@ -2620,41 +2786,41 @@ class VCSGiteaTest(VCSGitUpstreamTest):
 
         This function will mock request responses for both fork and PRs
         """
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
             json={
                 "ssh_url": "git@gitea.io:test/test.git",
                 "clone_url": "https://gitea.io/test/test.git",
             },
-            match=[matchers.header_matcher({"Content-Type": "application/json"})],
+            match=[http_mock.header_matcher({"Content-Type": "application/json"})],
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls",
             json=pr_response,
-            status=pr_status,
-            match=[matchers.header_matcher({"Content-Type": "application/json"})],
+            status_code=pr_status,
+            match=[http_mock.header_matcher({"Content-Type": "application/json"})],
         )
 
     def mock_pull_request_response(self, pr_response, pr_status=200) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls",
             json=pr_response,
-            status=pr_status,
-            match=[matchers.header_matcher({"Content-Type": "application/json"})],
+            status_code=pr_status,
+            match=[http_mock.header_matcher({"Content-Type": "application/json"})],
         )
 
     def assert_pr_head(self, head: str) -> None:
         pr_calls = [
             call
-            for call in responses.calls
+            for call in http_mock.calls
             if call.request.url
             == "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls"
         ]
         self.assertEqual(len(pr_calls), 1)
-        request = json.loads(pr_calls[0].request.body or "{}")
+        request = json.loads(pr_calls[0].request.content or b"{}")
         self.assertEqual(request["head"], head)
         self.assertEqual(request["base"], self._remote_branch)
 
@@ -2738,7 +2904,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
                 "https://try.gitea.io/api/v1/repos/WeblateOrg/test",
             )
 
-    @responses.activate
+    @http_mock.activate
     def test_push(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -2754,7 +2920,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_push_reconfigures_stale_fork_remote(self) -> None:
         self.repo.config_update(
             ('remote "test"', "pushurl", "git@github.com:test/test.git")
@@ -2768,24 +2934,24 @@ class VCSGiteaTest(VCSGitUpstreamTest):
 
             super().test_push("")
 
-        responses.assert_call_count(
+        http_mock.assert_call_count(
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 1
         )
         self.assertEqual(
             self.repo.get_config("remote.test.pushURL"), "git@gitea.io:test/test.git"
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_push_with_existing_fork_configures_fork_remote(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
             json={"message": "repository is already forked by user"},
-            status=409,
-            match=[matchers.header_matcher({"Content-Type": "application/json"})],
+            status_code=409,
+            match=[http_mock.header_matcher({"Content-Type": "application/json"})],
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://try.gitea.io/api/v1/repos/test/test",
             json={
                 "fork": True,
@@ -2805,25 +2971,25 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         mocked_push.assert_called_once_with(
             self.repo.get_credentials(), self._remote_branch, "weblate-test-test"
         )
-        responses.assert_call_count(
+        http_mock.assert_call_count(
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 1
         )
-        responses.assert_call_count("https://try.gitea.io/api/v1/repos/test/test", 1)
+        http_mock.assert_call_count("https://try.gitea.io/api/v1/repos/test/test", 1)
         self.assertEqual(
             self.repo.get_config("remote.test.pushURL"), "git@gitea.io:test/test.git"
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_push_with_same_name_non_fork_rejected(self) -> None:
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks",
             json={"message": "repository is already forked by user"},
-            status=409,
-            match=[matchers.header_matcher({"Content-Type": "application/json"})],
+            status_code=409,
+            match=[http_mock.header_matcher({"Content-Type": "application/json"})],
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://try.gitea.io/api/v1/repos/test/test",
             json={
                 "fork": False,
@@ -2842,15 +3008,15 @@ class VCSGiteaTest(VCSGitUpstreamTest):
             super().test_push("")
 
         mocked_push.assert_not_called()
-        responses.assert_call_count(
+        http_mock.assert_call_count(
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 1
         )
-        responses.assert_call_count("https://try.gitea.io/api/v1/repos/test/test", 1)
-        responses.assert_call_count(
+        http_mock.assert_call_count("https://try.gitea.io/api/v1/repos/test/test", 1)
+        http_mock.assert_call_count(
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/pulls", 0
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_empty_push_url_with_push_branch_uses_upstream_branch(self) -> None:
         self.repo.component.push = ""
         self.repo.component.push_branch = "upstream-branch"
@@ -2860,12 +3026,12 @@ class VCSGiteaTest(VCSGitUpstreamTest):
 
         super().test_push(self.repo.component.push_branch)
 
-        responses.assert_call_count(
+        http_mock.assert_call_count(
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 0
         )
         self.assert_pr_head("upstream-branch")
 
-    @responses.activate
+    @http_mock.activate
     def test_push_url_with_push_branch_uses_upstream_branch(self) -> None:
         self.repo.component.push = "https://try.gitea.io/WeblateOrg/test.git"
         self.repo.component.push_branch = "upstream-branch"
@@ -2875,12 +3041,12 @@ class VCSGiteaTest(VCSGitUpstreamTest):
 
         super().test_push(self.repo.component.push_branch)
 
-        responses.assert_call_count(
+        http_mock.assert_call_count(
             "https://try.gitea.io/api/v1/repos/WeblateOrg/test/forks", 0
         )
         self.assert_pr_head("upstream-branch")
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_error(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -2897,7 +3063,7 @@ class VCSGiteaTest(VCSGitUpstreamTest):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_exists(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -2959,32 +3125,32 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
 
         This function will mock request responses for PRs
         """
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullrequests",
             json=pr_response,
-            status=pr_status,
+            status_code=pr_status,
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories",
             json={
                 "sshUrl": "git@ssh.dev.azure.com:v3/organization/WeblateOrg/test",
                 "remoteUrl": "https://dev.azure.com/v3/organization/WeblateOrg/test.git",
             },
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
             json={"id": "repo-id", "project": {"id": "org-id"}},
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://dev.azure.com/organization/_apis/projects/WeblateOrg",
             json={"id": "proj-id"},
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://dev.azure.com/organization/_apis/Contribution/HierarchyQuery?api-version=5.0-preview.1",
             json={
                 "dataProviders": {
@@ -2994,8 +3160,8 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
                 }
             },
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/forks/org-id",
             json={"value": []},
         )
@@ -3074,7 +3240,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
             "https://summanv.visualstudio.com/Lancelot/_apis/git/repositories/GoSuite",
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_error(self, branch: str = "") -> None:
         # Mock PR to return error
         self.mock_responses(pr_status=403, pr_response={"message": "Some error"})
@@ -3082,7 +3248,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         with self.assertRaises(RepositoryError):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_exists(self, branch: str = "") -> None:
         # Check that it doesn't raise error when pull request already exists
         self.mock_responses(
@@ -3104,30 +3270,31 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
             }
         }
     )
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_work_item_refs(self, branch: str = "") -> None:
         # Mock PR to return success
         response = {"url": "https://example.com"}
         self.mock_responses(response)
-        responses.remove(
-            responses.POST,
+        http_mock.unregister(
+            "POST",
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullrequests",
         )
-        responses.post(
+        http_mock.register(
+            "POST",
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/pullrequests",
             match=[
-                matchers.json_params_matcher(
+                http_mock.json_params_matcher(
                     {"workItemRefs": [{"id": "1111"}, {"id": "2222"}]},
                     strict_match=False,
                 )
             ],
             json=response,
-            status=201,
+            status_code=201,
         )
 
         super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_push(self, branch: str = "") -> None:
         self.mock_responses(
             pr_response={
@@ -3136,27 +3303,27 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         )
         super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_fork_repository_already_exists(self, branch: str = "") -> None:
         # Mock PR to return success
         repositories_url = (
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories"
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             repositories_url,
             json={
                 "message": "TF400948: A Git repository with the name already exists."
             },
-            status=409,
+            status_code=409,
         )
         self.mock_responses({"url": f"{repositories_url}/test/pullRequests/1"})
 
         super().test_push(branch)
 
-        responses.assert_call_count(repositories_url, 2)
+        http_mock.assert_call_count(repositories_url, 2)
 
-    @responses.activate
+    @http_mock.activate
     def test_push_where_finds_existing_fork(self, branch: str = "") -> None:
         repositories_url = (
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories"
@@ -3167,8 +3334,8 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
 
         fork_url = f"{repositories_url}/test/forks/org-id"
 
-        responses.replace(
-            responses.GET,
+        http_mock.replace(
+            "GET",
             fork_url,
             json={
                 "value": [
@@ -3183,9 +3350,9 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
 
         super().test_push(branch)
 
-        responses.assert_call_count(repositories_url, 0)
+        http_mock.assert_call_count(repositories_url, 0)
 
-    @responses.activate
+    @http_mock.activate
     def test_push_when_remote_fork_is_deleted(self, branch: str = "") -> None:
         self.mock_responses(
             pr_response={
@@ -3204,20 +3371,21 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
                 remote_op="none",
             )
 
-        responses.post(
+        http_mock.register(
+            "POST",
             "https://this.does.not.exist/org/proj/_apis/git/repositories/repo",
             json={"message": "Not found"},
-            status=404,
+            status_code=404,
         )
 
         super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_fork_parent_repo_not_found(self, branch: str = "") -> None:
         self.mock_responses(pr_response={})
 
-        responses.replace(
-            responses.GET,
+        http_mock.replace(
+            "GET",
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test",
             json={"message": "Not found"},
         )
@@ -3225,12 +3393,12 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         with self.assertRaises(RepositoryError):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_creating_fork_fails(self, branch: str = "") -> None:
         self.mock_responses(pr_response={})
 
-        responses.replace(
-            responses.POST,
+        http_mock.replace(
+            "POST",
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories",
             json={"message": "Some error"},
         )
@@ -3238,7 +3406,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         with self.assertRaises(RepositoryError):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_getting_organization_id_fails(self, branch: str = "") -> None:
         self.mock_responses(
             pr_response={
@@ -3246,8 +3414,8 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
             }
         )
 
-        responses.replace(
-            responses.POST,
+        http_mock.replace(
+            "POST",
             "https://dev.azure.com/organization/_apis/Contribution/HierarchyQuery?api-version=5.0-preview.1",
             json={"message": "Some error"},
         )
@@ -3255,7 +3423,7 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
         with self.assertRaises(RepositoryError):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_getting_existing_forks_fails(self, branch: str = "") -> None:
         self.mock_responses(
             pr_response={
@@ -3263,23 +3431,23 @@ class VCSAzureDevOpsTest(VCSGitUpstreamTest):
             }
         )
 
-        responses.replace(
-            responses.GET,
+        http_mock.replace(
+            "GET",
             "https://dev.azure.com/organization/WeblateOrg/_apis/git/repositories/test/forks/org-id",
             json={"message": "Some error"},
-            status=418,
+            status_code=418,
         )
 
         with self.assertRaises(RepositoryError):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_fails_when_token_is_considered_invalid(self, branch: str = "") -> None:
-        responses.add(
-            method=responses.GET,
+        http_mock.register(
+            method="GET",
             url=re.compile(r".*"),
-            body="<html><head>Sign in please</head><body></body></html>",
-            status=203,
+            text="<html><head>Sign in please</head><body></body></html>",
+            status_code=203,
         )
 
         with self.assertRaises(RepositoryError) as cm:
@@ -3303,14 +3471,15 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         pr_status: int = 200,
         pr_body: str | None = None,
         pr_content_type: str | None = None,
+        pull_request_creation_policy: str = "all",
     ) -> None:
         """
         Mock response helper function.
 
         This function will mock request responses for both fork and PRs
         """
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.github.com/repos/WeblateOrg/test/forks",
             json={
                 "ssh_url": "git@github.com:test/test.git",
@@ -3318,23 +3487,38 @@ class VCSGitHubTest(VCSGitUpstreamTest):
                 "url": "https://api.github.com/repos/test/test",
             },
         )
-        responses.add(
-            responses.PUT,
+        http_mock.register(
+            "PUT",
             "https://api.github.com/repos/test/test/actions/permissions",
-            status=204,
+            status_code=204,
         )
-        kwargs: dict[str, object] = {"status": pr_status}
+        http_mock.register(
+            "GET",
+            "https://api.github.com/repos/WeblateOrg/test",
+            json={
+                "pull_request_creation_policy": pull_request_creation_policy,
+            },
+        )
         if pr_body is None:
-            kwargs["json"] = pr_response or {}
+            http_mock.register(
+                "POST",
+                "https://api.github.com/repos/WeblateOrg/test/pulls",
+                status_code=pr_status,
+                json=pr_response or {},
+            )
         else:
-            kwargs["body"] = pr_body
-            if pr_content_type is not None:
-                kwargs["content_type"] = pr_content_type
-        responses.add(
-            responses.POST,
-            "https://api.github.com/repos/WeblateOrg/test/pulls",
-            **kwargs,
-        )
+            headers = (
+                {"Content-Type": pr_content_type}
+                if pr_content_type is not None
+                else None
+            )
+            http_mock.register(
+                "POST",
+                "https://api.github.com/repos/WeblateOrg/test/pulls",
+                status_code=pr_status,
+                text=pr_body,
+                headers=headers,
+            )
 
     def test_api_url_github_com(self) -> None:
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
@@ -3413,7 +3597,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test.github.io",
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_push(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -3429,7 +3613,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_error(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -3446,7 +3630,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_empty_server_error(self) -> None:
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
             mocked_push.return_value = ""
@@ -3463,7 +3647,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.assertIn("Please retry later.", message)
         self.assertNotIn("JSONDecodeError", message)
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_html_server_error(self) -> None:
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
             mocked_push.return_value = ""
@@ -3484,11 +3668,11 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.assertIn("Please retry later.", message)
         self.assertNotIn("<html>", message)
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_client_errors_do_not_suggest_retry(self) -> None:
         for status in (401, 403, 404, 422):
             with self.subTest(status=status):
-                responses.reset()
+                http_mock.reset()
                 with patch(
                     "weblate.vcs.git.GitMergeRequestBase.push_to_fork"
                 ) as mocked_push:
@@ -3508,8 +3692,87 @@ class VCSGitHubTest(VCSGitUpstreamTest):
                 self.assertIn(str(status), message)
                 self.assertIn("Some error", message)
                 self.assertNotIn("Please retry later.", message)
+                self.assertEqual(error.exception.diagnoses, [])
 
-    @responses.activate
+    @http_mock.activate
+    def test_pull_request_creation_restricted(self) -> None:
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            self.mock_responses(
+                pr_status=404,
+                pr_response={"message": "Not Found"},
+                pull_request_creation_policy="collaborators_only",
+            )
+
+            with self.assertRaises(RepositoryError) as error:
+                super().test_push("")
+
+        message = error.exception.get_message()
+        self.assertIn("404 Not Found", message)
+        self.assertEqual(
+            error.exception.diagnoses,
+            [
+                {
+                    "code": "github_pull_request_creation_restricted",
+                    "params": {"username": "test"},
+                }
+            ],
+        )
+        http_mock.assert_call_count("https://api.github.com/repos/WeblateOrg/test", 1)
+
+    @http_mock.activate
+    def test_pull_request_creation_policy_not_queried_for_other_errors(self) -> None:
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            self.mock_responses(
+                pr_status=403,
+                pr_response={"message": "Forbidden"},
+                pull_request_creation_policy="collaborators_only",
+            )
+
+            with self.assertRaises(RepositoryError) as error:
+                super().test_push("")
+
+        self.assertEqual(error.exception.diagnoses, [])
+        http_mock.assert_call_count("https://api.github.com/repos/WeblateOrg/test", 0)
+
+    def test_pull_request_creation_policy_lookup_failure(self) -> None:
+        repository = SimpleNamespace(
+            request=MagicMock(side_effect=RepositoryError(0, "API failed"))
+        )
+
+        diagnoses = GithubRepository.get_pull_request_failure_diagnoses(
+            repository,  # type: ignore[arg-type]
+            {"url": "https://api.github.com/repos/WeblateOrg/test"},
+            SimpleNamespace(status_code=404),  # type: ignore[arg-type]
+        )
+
+        self.assertEqual(diagnoses, [])
+
+    def test_pull_request_creation_restricted_for_github_app(self) -> None:
+        credentials = self.repo.get_credentials()
+        credentials["github_app"] = True
+        credentials["username"] = "x-access-token"
+        with patch.object(
+            self.repo,
+            "request",
+            return_value=(
+                {"pull_request_creation_policy": "collaborators_only"},
+                SimpleNamespace(is_success=True),
+                "",
+            ),
+        ):
+            diagnoses = self.repo.get_pull_request_failure_diagnoses(
+                credentials,
+                SimpleNamespace(status_code=404),  # type: ignore[arg-type]
+            )
+
+        self.assertEqual(
+            diagnoses,
+            [{"code": "github_pull_request_creation_restricted"}],
+        )
+
+    @http_mock.activate
     def test_pull_request_exists(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -3558,8 +3821,8 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         if repo_state == 409:
             # Response to mock existing of repo with duplicate name
             # In case repo name already taken, append number at the end
-            responses.add(
-                responses.POST,
+            http_mock.register(
+                "POST",
                 "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
                 json={
                     "message": {
@@ -3567,10 +3830,10 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                         "path": ["has already been taken"],
                     }
                 },
-                status=409,
+                status_code=409,
             )
-            responses.add(
-                responses.POST,
+            http_mock.register(
+                "POST",
                 "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
                 json={
                     "ssh_url_to_repo": "git@gitlab.com:test/test-6184.git",
@@ -3579,17 +3842,17 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 },
             )
         elif repo_state == 403:
-            responses.add(
-                responses.POST,
+            http_mock.register(
+                "POST",
                 "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
                 json={
                     "message": "error",
                 },
-                status=403,
+                status_code=403,
             )
         else:
-            responses.add(
-                responses.POST,
+            http_mock.register(
+                "POST",
                 "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork",
                 json={
                     "ssh_url_to_repo": "git@gitlab.com:test/test.git",
@@ -3598,8 +3861,8 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 },
             )
         # Mock GET responses to get forks for the repo
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True",
             json=get_forks or [],
         )
@@ -3607,39 +3870,39 @@ class VCSGitLabTest(VCSGitUpstreamTest):
     def mock_pr_responses(self, pr_response, pr_status) -> None:
         # PR response in case fork is create with a suffix due to duplicate
         # repo name
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://gitlab.com/api/v4/projects/test%2Ftest-6184/merge_requests",
             json=pr_response,
-            status=pr_status,
+            status_code=pr_status,
         )
 
         # In case the remote is origin, we send the PR to itself
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/merge_requests",
             json=pr_response,
-            status=pr_status,
+            status_code=pr_status,
         )
 
         # General PR response
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://gitlab.com/api/v4/projects/test%2Ftest/merge_requests",
             json=pr_response,
-            status=pr_status,
+            status_code=pr_status,
         )
 
     def mock_configure_fork_features(self) -> None:
-        responses.add(
-            responses.PUT,
+        http_mock.register(
+            "PUT",
             "https://gitlab.com/api/v4/projects/20227391",
             json={"web_url": "https://gitlab.com/test/test"},
         )
 
     def mock_get_project_id(self) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
             json={"id": 20227391},
         )
@@ -3721,6 +3984,50 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             ("https", "bot", "glpat", "gitlab.com", "path", "group/repo"),
         )
 
+    def test_pull_request_target_project_form_value(self) -> None:
+        credentials = self.repo.get_credentials()
+        response = MagicMock(status_code=201)
+        request_result = (
+            {"web_url": "https://gitlab.com/WeblateOrg/test/-/merge_requests/1"},
+            response,
+            "",
+        )
+
+        with patch.object(
+            self.repo, "request", return_value=request_result
+        ) as mocked_request:
+            self.repo.create_pull_request(
+                credentials,
+                "main",
+                "origin",
+                "weblate",
+            )
+
+        self.assertNotIn("target_project_id", mocked_request.call_args.kwargs["data"])
+
+        with (
+            patch.object(self.repo, "get_target_project_id", return_value=20227391),
+            patch.object(
+                self.repo,
+                "get_forked_url",
+                return_value="https://gitlab.com/api/v4/projects/test%2Ftest",
+            ),
+            patch.object(
+                self.repo, "request", return_value=request_result
+            ) as mocked_request,
+        ):
+            self.repo.create_pull_request(
+                credentials,
+                "main",
+                "test",
+                "weblate",
+            )
+
+        self.assertEqual(
+            mocked_request.call_args.kwargs["data"]["target_project_id"],
+            20227391,
+        )
+
     @override_settings(
         GITLAB_CREDENTIALS={
             "gitlab.example.com": {"username": "test", "token": "token"}
@@ -3775,7 +4082,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             },
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_push(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -3794,7 +4101,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_push_with_existing_fork(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -3823,11 +4130,11 @@ class VCSGitLabTest(VCSGitUpstreamTest):
 
         # Test that the POST request to create a new fork was not called
         call_count = len(
-            [1 for call in responses.calls if call.request.method == "POST"]
+            [1 for call in http_mock.calls if call.request.method == "POST"]
         )
         self.assertEqual(call_count, 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_fork_listing_non_json_server_error(self, branch: str = "") -> None:
         """Test fork discovery with non-JSON server errors."""
         fork_list_url = (
@@ -3841,16 +4148,28 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             (b"\xff", "application/json"),
         ):
             with self.subTest(body=body):
-                responses.reset()
-                response_kwargs: dict[str, object] = {
-                    "body": body,
-                    "status": 502,
-                }
-                if content_type is not None:
-                    response_kwargs["content_type"] = content_type
-                responses.add(responses.GET, fork_list_url, **response_kwargs)
-                responses.add(
-                    responses.POST,
+                http_mock.reset()
+                headers = (
+                    {"Content-Type": content_type} if content_type is not None else None
+                )
+                if isinstance(body, bytes):
+                    http_mock.register(
+                        "GET",
+                        fork_list_url,
+                        status_code=502,
+                        content=body,
+                        headers=headers,
+                    )
+                else:
+                    http_mock.register(
+                        "GET",
+                        fork_list_url,
+                        status_code=502,
+                        text=body,
+                        headers=headers,
+                    )
+                http_mock.register(
+                    "POST",
                     fork_create_url,
                     json={
                         "ssh_url_to_repo": "git@gitlab.com:test/test.git",
@@ -3877,13 +4196,13 @@ class VCSGitLabTest(VCSGitUpstreamTest):
                 self.assertNotIn("<html>", message)
                 fork_create_calls = [
                     call
-                    for call in responses.calls
+                    for call in http_mock.calls
                     if call.request.method == "POST"
                     and call.request.url == fork_create_url
                 ]
                 self.assertEqual(fork_create_calls, [])
 
-    @responses.activate
+    @http_mock.activate
     def test_push_duplicate_repo_name(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -3906,11 +4225,11 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         # Test that the POST request to create a new fork was called again to
         # create different repo name
         call_count = len(
-            [1 for call in responses.calls if call.request.method == "POST"]
+            [1 for call in http_mock.calls if call.request.method == "POST"]
         )
         self.assertEqual(call_count, 3)
 
-    @responses.activate
+    @http_mock.activate
     def test_push_rejected(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -3934,20 +4253,20 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         # Test that the POST request to create a new fork was called again to
         # create different repo name
         call_count = len(
-            [1 for call in responses.calls if call.request.method == "POST"]
+            [1 for call in http_mock.calls if call.request.method == "POST"]
         )
         self.assertEqual(call_count, 1)
 
-    @responses.activate
+    @http_mock.activate
     def test_get_target_project_id_auth_error(self) -> None:
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
             json={
                 "error": "invalid_token",
                 "error_description": "Token is expired.",
             },
-            status=401,
+            status_code=401,
         )
 
         with (
@@ -3965,7 +4284,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             extra_log="401: invalid_token, Token is expired.",
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_error(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -3981,7 +4300,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_exists(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4089,32 +4408,32 @@ class VCSPagureTest(VCSGitUpstreamTest):
 
     def mock_responses(self, pr_response: dict, existing_response: dict) -> None:
         """Mock response helper function."""
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://pagure.io/api/0/fork",
             json=pr_response,
-            status=200,
+            status_code=200,
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://pagure.io/api/0/fork/test/testrepo/pull-request/new",
             json={"id": 1},
-            status=200,
+            status_code=200,
         )
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://pagure.io/api/0/testrepo/pull-requests",
             json=existing_response,
-            status=200,
+            status_code=200,
         )
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://pagure.io/api/0/testrepo/pull-request/new",
             json={"id": 1},
-            status=200,
+            status_code=200,
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_push(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4132,7 +4451,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
         super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_push_with_existing_fork(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4155,11 +4474,11 @@ class VCSPagureTest(VCSGitUpstreamTest):
 
         # Test that the POST request to create a new fork was not called
         call_count = len(
-            [1 for call in responses.calls if call.request.method == "POST"]
+            [1 for call in http_mock.calls if call.request.method == "POST"]
         )
         self.assertEqual(call_count, 2)
 
-    @responses.activate
+    @http_mock.activate
     def test_push_with_existing_request(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4183,7 +4502,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
         # Test that the POST request to create a new fork and pull request were
         # not called
         call_count = len(
-            [1 for call in responses.calls if call.request.method == "POST"]
+            [1 for call in http_mock.calls if call.request.method == "POST"]
         )
         self.assertEqual(call_count, 1)
 
@@ -4747,21 +5066,21 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         else:
             body = self._bb_api_error_stub
 
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
             json=body,
-            status=status,
+            status_code=status,
         )
 
     def mock_repo_response(self, status: int) -> None:
         body = {"id": 111} if status == 200 else self._bb_api_error_stub
 
-        responses.add(  # get remote repo id
-            responses.GET,
+        http_mock.register(  # get remote repo id
+            "GET",
             f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo",
             json=body,
-            status=status,
+            status_code=status,
         )
 
     def mock_repo_forks_response(self, status: int, pages: int = 0) -> None:
@@ -4786,20 +5105,20 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
                 page_body = {"values": [{"origin": fork_stub}], "isLastPage": False}
 
                 params = f"limit=1000&start={pages}"
-                responses.add(  # get remote repo id
-                    responses.GET,
+                http_mock.register(  # get remote repo id
+                    "GET",
                     f"{self._bbhost}/{path}?{params}",
                     json=page_body,
-                    status=status,
+                    status_code=status,
                 )
                 pages -= 1
 
         params = f"limit=1000&start={pages}"
-        responses.add(  # add actual relevant response
-            responses.GET,
+        http_mock.register(  # add actual relevant response
+            "GET",
             f"{self._bbhost}/{path}?{params}",
             json=body,
-            status=status,
+            status_code=status,
         )
 
     def mock_reviewer_response(self, status, branch: str = "") -> None:
@@ -4814,11 +5133,11 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
             branch = "weblate-test-test"
         params = "targetRepoId=111&sourceRepoId=222"
         params += f"&targetRefId=main&sourceRefId={branch}"
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             f"{self._bbhost}/{path}?{params}",
             json=body,
-            status=status,
+            status_code=status,
         )
 
     def mock_pr_response(self, status) -> None:
@@ -4833,11 +5152,11 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         else:
             body = self._bb_api_error_stub
 
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             f"{self._bbhost}/rest/api/1.0/projects/bb_pk/repos/bb_repo/pull-requests",
             json=body,
-            status=status,
+            status_code=status,
         )
 
     def test_api_url(self) -> None:
@@ -4878,7 +5197,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
             self.repo.get_headers(stub_credentials)["Authorization"], "Bearer bbs_token"
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_default_reviewers_repo_error(self) -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4898,7 +5217,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         )
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_default_reviewers_error(self) -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4920,7 +5239,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         )
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_push(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4937,7 +5256,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_push_with_existing_pr(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4954,7 +5273,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_push_pr_error_response(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4972,7 +5291,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_push_with_existing_fork(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -4990,7 +5309,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
         super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_create_fork_unexpected_fail(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -5005,7 +5324,7 @@ class VCSBitbucketServerTest(VCSGitUpstreamTest):
             super().test_push(branch)
         mock_push_to_fork.stop()
 
-    @responses.activate
+    @http_mock.activate
     def test_existing_fork_not_found(self, branch: str = "") -> None:
         # Patch push_to_fork() function because we don't want to actually
         # make a git push request
@@ -5048,19 +5367,19 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
             - list default reviewers
             - create a pull request
         """
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
             json={
                 "values": [],
                 "pagelen": 10,
                 "page": 1,
             },
-            status=200,
+            status_code=200,
         )
 
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
             json={
                 "type": "repository",
@@ -5086,11 +5405,11 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                 },
                 "owner": {"username": "test-workspace"},
             },
-            status=200,
+            status_code=200,
         )
 
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers",
             json={
                 "values": [
@@ -5106,11 +5425,11 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                 "pagelen": 10,
                 "page": 1,
             },
-            status=200,
+            status_code=200,
         )
 
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/pullrequests",
             json={
                 "type": "pullrequest",
@@ -5120,29 +5439,29 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                 "state": "OPEN",
                 "destination": {"branch": {"name": "main"}},
             },
-            status=200,
+            status_code=200,
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_push(self, branch: str = "") -> None:
         """Test push to bitbucket cloud."""
         self.mock_responses()
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_push_with_http(self, branch: str = "") -> None:
         """Test push to bitbucket cloud with HTTP repo link."""
         self.mock_responses()
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_push_with_missing_permission(self, branch: str = "") -> None:
         """Test push with missing permission for App Password."""
         self.mock_responses()
-        responses.replace(
-            responses.POST,
+        http_mock.replace(
+            "POST",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/pullrequests",
             json={
                 "type": "error",
@@ -5162,7 +5481,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
         ):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_pull_request_non_json_server_error(self, branch: str = "") -> None:
         """Test pull request creation with non-JSON server errors."""
         for body, content_type in (
@@ -5171,19 +5490,31 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
             (b"\xff", "application/json"),
         ):
             with self.subTest(body=body):
-                responses.reset()
+                http_mock.reset()
                 self.mock_responses()
-                response_kwargs: dict[str, object] = {
-                    "body": body,
-                    "status": 502,
-                }
-                if content_type is not None:
-                    response_kwargs["content_type"] = content_type
-                responses.replace(
-                    responses.POST,
-                    "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/pullrequests",
-                    **response_kwargs,
+                headers = (
+                    {"Content-Type": content_type} if content_type is not None else None
                 )
+                pull_request_url = (
+                    "https://api.bitbucket.org/2.0/repositories/"
+                    "WeblateOrg/test/pullrequests"
+                )
+                if isinstance(body, bytes):
+                    http_mock.replace(
+                        "POST",
+                        pull_request_url,
+                        status_code=502,
+                        content=body,
+                        headers=headers,
+                    )
+                else:
+                    http_mock.replace(
+                        "POST",
+                        pull_request_url,
+                        status_code=502,
+                        text=body,
+                        headers=headers,
+                    )
 
                 with (
                     self.assertRaises(RepositoryError) as error,
@@ -5203,15 +5534,15 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                 self.assertIn("Please retry later.", message)
                 self.assertNotIn("<html>", message)
 
-    @responses.activate
+    @http_mock.activate
     def test_fork_non_json_server_error(self, branch: str = "") -> None:
         """Test fork creation with a non-JSON server error."""
         self.mock_responses()
-        responses.replace(
-            responses.POST,
+        http_mock.replace(
+            "POST",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
-            body="",
-            status=502,
+            text="",
+            status_code=502,
         )
 
         with (
@@ -5225,13 +5556,13 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
         self.assertIn("502 Bad Gateway", message)
         self.assertIn("Please retry later.", message)
 
-    @responses.activate
+    @http_mock.activate
     def test_default_reviewers_error(self, branch: str = "") -> None:
         """Test default reviewers error, push expected to be successful."""
         self.mock_responses()
 
-        responses.replace(
-            responses.GET,
+        http_mock.replace(
+            "GET",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers",
             json={
                 "type": "error",
@@ -5239,7 +5570,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                     "message": "Some unexpected error.",
                 },
             },
-            status=400,
+            status_code=400,
         )
         credentials = {
             "url": "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test",
@@ -5248,13 +5579,13 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
         }
         self.assertEqual(self.repo.get_default_reviewers_uuids(credentials), [])
 
-    @responses.activate
+    @http_mock.activate
     def test_paginated_reviewers_list(self, branch: str = "") -> None:
         """Test the 'build_full_paginated_result' with default reviewers list."""
         self.mock_responses()
 
-        responses.replace(
-            responses.GET,
+        http_mock.replace(
+            "GET",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers",
             json={
                 "values": [
@@ -5271,11 +5602,11 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                 "page": 1,
                 "next": "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers?page=2",
             },
-            status=200,
+            status_code=200,
         )
 
-        responses.add(
-            responses.GET,
+        http_mock.register(
+            "GET",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers?page=2",
             json={
                 "values": [
@@ -5291,7 +5622,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                 "pagelen": 1,
                 "page": 2,
             },
-            status=200,
+            status_code=200,
         )
 
         credentials = {
@@ -5304,31 +5635,31 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
             ["reviewer-uuid-1", "reviewer-uuid-2"],
         )
 
-    @responses.activate
+    @http_mock.activate
     def test_push_nothing_to_merge(self, branch: str = "") -> None:
         """Test push to bitbucket cloud with no changes to be merged."""
         self.mock_responses()
 
-        responses.replace(
-            responses.POST,
+        http_mock.replace(
+            "POST",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/pullrequests",
             json={
                 "type": "error",
                 "error": {"message": "There are no changes to be pulled"},
             },
-            status=400,
+            status_code=400,
         )
 
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_fork_already_exists(self, branch: str = "") -> None:
         """Test push to bitbucket cloud with HTTP repo link."""
         self.mock_responses()
 
-        responses.replace(
-            responses.GET,
+        http_mock.replace(
+            "GET",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
             json={
                 "values": [
@@ -5353,17 +5684,17 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                 "pagelen": 10,
                 "page": 1,
             },
-            status=200,
+            status_code=200,
         )
 
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_fork_name_already_taken(self, branch: str = "") -> None:
         """Test push to bitbucket cloud with HTTP repo link."""
-        responses.add(
-            responses.POST,
+        http_mock.register(
+            "POST",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
             json={
                 "type": "error",
@@ -5374,18 +5705,18 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                     },
                 },
             },
-            status=400,
+            status_code=400,
         )
         self.mock_responses()
         with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork", return_value=""):
             super().test_push(branch)
 
-    @responses.activate
+    @http_mock.activate
     def test_fork_error(self, branch: str = "") -> None:
         """Test push to bitbucket cloud with HTTP repo link."""
         self.mock_responses()
-        responses.replace(
-            responses.POST,
+        http_mock.replace(
+            "POST",
             "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/forks",
             json={
                 "type": "error",
@@ -5394,7 +5725,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
                     "fields": {"name": ["Unknown error not related to name."]},
                 },
             },
-            status=400,
+            status_code=400,
         )
         with (
             self.assertRaises(RepositoryError),

@@ -2,7 +2,7 @@
 build-backend = "setuptools.build_meta"
 requires = [
   "setuptools==83.0.0",
-  "translate-toolkit==3.19.15"
+  "translate-toolkit==3.19.17"
 ]
 
 [dependency-groups]
@@ -39,7 +39,7 @@ lint = [
 ]
 package-build = [
   "setuptools==83.0.0",
-  "translate-toolkit==3.19.15"
+  "translate-toolkit==3.19.17"
 ]
 package-lint = [
   "check-manifest==0.51",
@@ -58,7 +58,7 @@ sbom = [
   "packaging==26.2"
 ]
 schemas = [
-  "weblate_schemas==2026.5"
+  "weblate-schemas==2026.6"
 ]
 scripts = [
   "django-debug-toolbar==7.0.0",
@@ -79,11 +79,11 @@ test = [
   "standardwebhooks==1.1.0"
 ]
 types = [
-  "boto3-stubs==1.43.55",
+  "boto3-stubs==1.43.62",
   "celery-types==0.26.0",
   "django-stubs-ext==6.0.7",
   "django-stubs[compatible-mypy]==6.0.7",
-  "djangorestframework-stubs==3.17.0",
+  "djangorestframework-stubs==3.17.1",
   "mypy==2.3.0",
   "types-dateparser==1.4.1.20260617",
   "types-docutils==0.22.3.20260724",
@@ -133,16 +133,16 @@ dependencies = [
   "charset-normalizer==3.4.9",
   "confusable-homoglyphs==3.3.1",
   "crispy-bootstrap5==2026.3",
-  "cryptography==49.0.0",
+  "cryptography==50.0.0",
   "cssselect==1.5.0",
   "cyrtranslit==1.2.0",
   "dateparser==1.4.1",
   "diff-match-patch==20241021",
-  "disposable-email-domains==0.0.230",
+  "disposable-email-domains==0.0.235",
   "django-appconf==1.2.0",
   "django-celery-beat==2.9.0",
   "django-cors-headers==4.9.0",
-  "django-crispy-forms==2.6",
+  "django-crispy-forms==2.7",
   "django-filter[drf]==26.1",
   "django-otp-webauthn==0.10.0",
   "django-otp==1.7.0",
@@ -154,7 +154,7 @@ dependencies = [
   "drf-spectacular[sidecar]==0.30.0",
   "drf-standardized-errors[openapi]==0.16.0",
   "fedora-messaging==3.9.1",
-  "filelock==3.32.0",
+  "filelock==3.32.2",
   # Pin for translate-toolkit extra
   "fluent.syntax==0.19.0",
   "GitPython==3.1.57",
@@ -186,7 +186,7 @@ dependencies = [
   "Pygments==2.20.0",
   "pyicumessageformat==1.0.0",
   "PyJWT==2.13.0",
-  "pyOpenSSL==26.3.0",
+  "pyOpenSSL==26.4.0",
   "pyparsing==3.3.2",
   "python-dateutil==2.9.0.post0",
   "qrcode==8.2",
@@ -202,16 +202,17 @@ dependencies = [
   "tesserocr==2.10.0",
   # Pin for translate-toolkit extra
   "tomlkit==0.15.1",
-  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.15",
-  "translation-finder==3.3.0",
+  "translate-toolkit[chardet,fluent,ini,markdown,toml,php,rc,subtitles,yaml]==3.19.17",
+  "translation-finder==3.3.1",
   "twisted==26.4.0",
-  "unicode-segmentation-rs==0.3.0",
+  "unicode-segmentation-rs==0.3.1",
   "unidecode==1.4.0",
   "urllib3[brotli,zstd]==2.7.0",
   "user-agents==2.2.0",
+  "webauthn==3.0.0",
   "weblate-fonts==2026.1",
-  "weblate-language-data==2026.8",
-  "weblate_schemas==2026.5"
+  "weblate-language-data==2026.10",
+  "weblate-schemas==2026.6"
 ]
 description = "A web-based continuous localization system with tight version control integration"
 keywords = [
@@ -233,7 +234,7 @@ all = [
   "weblate[amazon,gelf,gerrit,google,google-errors,ldap,mercurial,postgres,rollbar,sphinx,zxcvbn]"
 ]
 amazon = [
-  "boto3==1.43.55"
+  "boto3==1.43.62"
 ]
 asgi = [
   "granian==2.7.9"

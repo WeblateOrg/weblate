@@ -173,11 +173,16 @@ from weblate.utils.validators import (
     validate_slug,
 )
 from weblate.vcs.base import (
+    RepositoryAlertDetails,
+    RepositoryDiagnosis,
     RepositoryError,
+    RepositoryInternalError,
     RepositoryRecoveryEvent,
     RepositoryRedirectError,
     RepositoryRestrictedPathError,
+    RepositoryStructuredError,
     RepositorySymlinkError,
+    get_repository_error_diagnoses,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
     should_auto_add_ssh_host_key,
@@ -774,9 +779,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     suggestion_voting = models.BooleanField(
         verbose_name=gettext_lazy("Suggestion voting"),
         default=False,
-        help_text=gettext_lazy(
-            "Users can only vote for suggestions and can’t make direct translations."
-        ),
+        help_text=gettext_lazy("Allows users to vote on suggestions."),
     )
     # This should match definition in WorkflowSetting
     suggestion_autoaccept = models.PositiveSmallIntegerField(
@@ -2529,10 +2532,62 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def error_text(self, error: RepositoryError) -> str:
         """Return text message for a RepositoryError."""
         return sanitize_backend_error_message(
-            error.get_message(),
+            error.get_message(gettext),
             repo_urls=(self.repo, self.push),
             extra_paths=(self.full_path,),
         )
+
+    def get_repository_alert_details(
+        self, error: RepositoryError
+    ) -> RepositoryAlertDetails:
+        """Build persistent, locale-independent repository alert details."""
+        error_text = sanitize_backend_error_message(
+            error.get_message(),
+            repo_urls=(self.repo, self.push),
+            extra_paths=(self.full_path,),
+            url_placeholder="...",
+        )
+        stored_error: str | RepositoryStructuredError
+        if isinstance(error, RepositoryInternalError):
+            stored_error = error.get_stored_error()
+            if params := stored_error.get("params"):
+                stored_error["params"] = {
+                    key: sanitize_backend_error_message(
+                        value,
+                        repo_urls=(self.repo, self.push),
+                        extra_paths=(self.full_path,),
+                        url_placeholder="...",
+                    )
+                    for key, value in params.items()
+                }
+        else:
+            stored_error = error_text
+        diagnoses: list[RepositoryDiagnosis] = []
+        seen: set[tuple[str, tuple[tuple[str, str], ...]]] = set()
+        for diagnosis in [
+            *error.diagnoses,
+            *get_repository_error_diagnoses(error_text),
+        ]:
+            params = diagnosis.get("params", {})
+            key = (diagnosis["code"], tuple(sorted(params.items())))
+            if key in seen:
+                continue
+            seen.add(key)
+            if params:
+                diagnosis = {
+                    "code": diagnosis["code"],
+                    "params": {
+                        key: sanitize_backend_error_message(
+                            value,
+                            repo_urls=(self.repo, self.push),
+                            extra_paths=(self.full_path,),
+                            url_placeholder="...",
+                        )
+                        for key, value in params.items()
+                    },
+                }
+            diagnoses.append(diagnosis)
+        return {"error": stored_error, "diagnoses": diagnoses}
 
     @staticmethod
     def get_ssh_host_key_error_message() -> str:
@@ -2672,7 +2727,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.handle_update_error(error_text, retry)
                 return self.update_remote_branch(True, False, user=user)
             if self.id:
-                self.add_alert("UpdateFailure", error=error_text)
+                self.add_alert(
+                    "UpdateFailure", **self.get_repository_alert_details(error)
+                )
             return False
 
         for line in self.repository.last_output.splitlines():
@@ -2983,7 +3040,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         "error_text": error_text,
                     },
                 )
-                self.add_alert("PushFailure", error=error_text)
+                self.add_alert(
+                    "PushFailure", **self.get_repository_alert_details(error)
+                )
                 return False
             self.delete_alert("RepositoryChanges")
             self.delete_alert("PushFailure")
@@ -3894,11 +3953,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Surface failed recovery from interrupted repository operations."""
         if self._state.adding:
             return
+        details: RepositoryAlertDetails
         if isinstance(error, RepositoryError):
-            error_text = self.error_text(error)
+            details = self.get_repository_alert_details(error)
         else:
-            error_text = str(error)
-        self.add_alert("RepositoryOperationFailure", error=error_text)
+            details = {"error": str(error), "diagnoses": []}
+        self.add_alert("RepositoryOperationFailure", **details)
 
     @perform_on_link
     @contextmanager
@@ -4006,7 +4066,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         author=user,
                         details=details,
                     )
-                    self.add_alert("MergeFailure", error=error_text)
+                    self.add_alert(
+                        "MergeFailure", **self.get_repository_alert_details(error)
+                    )
 
                 # Reset repo back
                 method_func(abort=True)
@@ -5784,7 +5846,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 project=self.project,
                 skip_error_reporting=not settings.DEBUG,
             )
-            self.add_alert("MergeFailure", error=self.error_text(error))
+            self.add_alert("MergeFailure", **self.get_repository_alert_details(error))
             return 0
 
     def _get_count_repo_outgoing(self, retry: bool = True):
@@ -5800,7 +5862,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 project=self.project,
                 skip_error_reporting=not settings.DEBUG,
             )
-            self.add_alert("PushFailure", error=error_text)
+            self.add_alert("PushFailure", **self.get_repository_alert_details(error))
             return 0
 
     @property
@@ -5838,7 +5900,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 project=self.project,
                 skip_error_reporting=not settings.DEBUG,
             )
-            self.add_alert("PushFailure", error=error_text)
+            self.add_alert("PushFailure", **self.get_repository_alert_details(error))
             return False
 
     @property

@@ -17,7 +17,7 @@ from urllib.parse import quote, urlencode, urlparse
 
 import httpx2
 import jwt
-from asgiref.sync import async_to_sync, sync_to_async
+from asgiref.sync import async_to_sync
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -26,7 +26,7 @@ from django.utils import timezone
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.utils.requests import async_fetch_url
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryInternalError
 from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
 
@@ -128,9 +128,32 @@ def get_github_app_configurations() -> dict[str, GitHubAppCredentials]:
     return {row.hostname: row for row in rows}
 
 
+async def aget_github_app_configurations() -> dict[str, GitHubAppCredentials]:
+    """Asynchronously return configured GitHub apps keyed by hostname."""
+    try:
+        rows = [row async for row in GitHubAppCredentials.objects.all()]
+    except Exception:
+        # Database may not be migrated yet (e.g. during initial setup or
+        # when this is called outside a request).
+        return {}
+    return {row.hostname: row for row in rows}
+
+
 def get_github_app_settings(hostname: str | None = None) -> GitHubAppCredentials | None:
     """Return the configured Weblate GitHub app credentials for one host, if any."""
     configs = get_github_app_configurations()
+    if hostname is not None:
+        return configs.get(normalize_github_app_hostname(hostname))
+    if len(configs) == 1:
+        return next(iter(configs.values()))
+    return None
+
+
+async def aget_github_app_settings(
+    hostname: str | None = None,
+) -> GitHubAppCredentials | None:
+    """Asynchronously return GitHub app credentials for a host."""
+    configs = await aget_github_app_configurations()
     if hostname is not None:
         return configs.get(normalize_github_app_hostname(hostname))
     if len(configs) == 1:
@@ -660,6 +683,19 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             queryset = queryset.filter(workspace=workspace)
         return queryset.order_by("workspace_id", "-created").first()
 
+    async def aget_for_installation(
+        self,
+        hostname: str,
+        installation_id: str | int,
+        *,
+        workspace: Workspace | None = None,
+    ) -> GitHubInstallation | None:
+        """Asynchronously return one installation by host and installation ID."""
+        queryset = self.filter_for_installation(hostname, installation_id)
+        if workspace is not None:
+            queryset = queryset.filter(workspace=workspace)
+        return await queryset.order_by("workspace_id", "-created").afirst()
+
     def get_for_repo(
         self,
         hostname: str,
@@ -712,7 +748,42 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
         installation.save()
         return installation
 
-    def upsert_pending_from_data(
+    async def aupsert_from_data(
+        self,
+        hostname: str,
+        installation_id: str | int,
+        data: dict,
+        *,
+        workspace: Workspace,
+        enabled: bool = True,
+    ) -> GitHubInstallation:
+        """Asynchronously create or update trusted installation metadata."""
+        hostname = normalize_github_app_hostname(hostname)
+        installation_id = normalize_github_installation_id(installation_id)
+        account = data.get("account") or {}
+        defaults: dict[str, object] = {"enabled": enabled}
+        if login := account.get("login"):
+            defaults["target_login"] = login
+        if target_type := account.get("type"):
+            defaults["target_type"] = target_type
+
+        installation = await self.filter(
+            hostname=hostname,
+            installation_id=installation_id,
+            workspace=workspace,
+        ).afirst()
+        if installation is None:
+            installation = self.model(
+                hostname=hostname,
+                installation_id=installation_id,
+                workspace=workspace,
+            )
+        for name, value in defaults.items():
+            setattr(installation, name, value)
+        await installation.asave()
+        return installation
+
+    async def aupsert_pending_from_data(
         self,
         hostname: str,
         installation_id: str | int,
@@ -721,15 +792,15 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
         workspace: Workspace,
         enabled: bool = True,
     ) -> tuple[GitHubInstallation, bool]:
-        """Create or update a workspace-scoped row before App API sync succeeds."""
+        """Asynchronously persist a row before App API sync succeeds."""
         hostname = normalize_github_app_hostname(hostname)
         installation_id = normalize_github_installation_id(installation_id)
         account = data.get("account") or {}
-        installation = self.filter(
+        installation = await self.filter(
             hostname=hostname,
             installation_id=installation_id,
             workspace=workspace,
-        ).first()
+        ).afirst()
         created = installation is None
         if installation is None:
             installation = self.model(
@@ -742,7 +813,7 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             installation.target_login = login
         if target_type := account.get("type"):
             installation.target_type = target_type
-        installation.save()
+        await installation.asave()
         return installation, created
 
     async def sync_from_api(
@@ -755,7 +826,7 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
     ) -> GitHubInstallation:
         """Fetch installation metadata from GitHub and persist it."""
         hostname = normalize_github_app_hostname(hostname)
-        config = await sync_to_async(get_github_app_settings)(hostname)
+        config = await aget_github_app_settings(hostname)
         if config is None:
             msg = f"Weblate GitHub app is not configured for {hostname}"
             raise GitHubAppNotConfiguredError(msg)
@@ -766,7 +837,7 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             installation_id,
             hostname,
         )
-        return await sync_to_async(self.upsert_from_data)(
+        return await self.aupsert_from_data(
             hostname,
             installation_id,
             data,
@@ -780,7 +851,7 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
         """Connect an existing GitHub installation to a Weblate workspace."""
         hostname = normalize_github_app_hostname(hostname)
 
-        installation = await sync_to_async(self.get_for_installation)(
+        installation = await self.aget_for_installation(
             hostname, installation_id, workspace=workspace
         )
         if installation is not None:
@@ -847,7 +918,10 @@ class GitHubInstallation(Installation):
         )
 
     async def refresh_repositories(self) -> list[dict]:
-        config = await sync_to_async(self._require_app_settings)()
+        config = await aget_github_app_settings(self.hostname)
+        if config is None:
+            msg = f"Weblate GitHub app is not configured for {self.hostname}"
+            raise GitHubAppNotConfiguredError(msg)
         repos = await get_app_repositories(
             config.app_id,
             config.private_key,
@@ -856,9 +930,7 @@ class GitHubInstallation(Installation):
         )
         self.repositories = repos
         self.repositories_updated = timezone.now()
-        await sync_to_async(self.save)(
-            update_fields=["repositories", "repositories_updated"]
-        )
+        await self.asave(update_fields=["repositories", "repositories_updated"])
         logger.info(
             "Refreshed %d repositories for connected GitHub account %s/%s",
             len(repos),
@@ -972,9 +1044,7 @@ class GithubAppRepository(GithubRepository):
             or self.component.project_id is None
             or self.component.project.workspace_id is None
         ):
-            raise RepositoryError(
-                0, gettext("GitHub App components require a project with a workspace.")
-            )
+            raise RepositoryInternalError(0, "github_app_workspace_required")
         return self.component.project.workspace
 
     def push(self, branch: str) -> None:
@@ -1012,11 +1082,15 @@ class GithubAppRepository(GithubRepository):
         except GitHubAppNotConfiguredError:
             return None
         except ValueError as error:
-            msg = gettext("Invalid GitHub App installation ID.")
-            raise RepositoryError(0, msg) from error
+            raise RepositoryInternalError(
+                0, "github_app_installation_invalid"
+            ) from error
         except httpx2.HTTPError as error:
-            msg = gettext("Could not obtain GitHub App access token: %s") % error
-            raise RepositoryError(0, msg) from error
+            raise RepositoryInternalError(
+                0,
+                "github_app_token_failed",
+                params={"error": str(error)},
+            ) from error
 
         return {
             "username": "x-access-token",
@@ -1030,9 +1104,7 @@ class GithubAppRepository(GithubRepository):
             repo, workspace=workspace
         )
         if app_creds is None:
-            raise RepositoryError(
-                0, gettext("No Weblate GitHub app installation available.")
-            )
+            raise RepositoryInternalError(0, "github_app_installation_missing")
 
         environment = super()._get_auth_environment(repo)
         environment.update(
@@ -1042,23 +1114,17 @@ class GithubAppRepository(GithubRepository):
 
     def get_auth_environment(self) -> dict[str, str]:
         if self.component is None:
-            raise RepositoryError(
-                0, gettext("GitHub App components require a project with a workspace.")
-            )
+            raise RepositoryInternalError(0, "github_app_workspace_required")
         return self._get_auth_environment(self.component.repo)
 
     @classmethod
     def get_remote_branch(cls, _repo: str) -> str:
-        raise RepositoryError(
-            0, gettext("GitHub App repositories must be imported with a branch.")
-        )
+        raise RepositoryInternalError(0, "github_app_branch_required")
 
     def _resolve_github_app_token(self, _hostname: str) -> dict[str, str] | None:
         """Resolve an installation access token for the parsed repository."""
         if self.component is None:
-            raise RepositoryError(
-                0, gettext("GitHub App components require a project with a workspace.")
-            )
+            raise RepositoryInternalError(0, "github_app_workspace_required")
         workspace = self._get_component_workspace()
         return GithubAppRepository._resolve_github_app_credentials_for_repo(
             self.component.repo, workspace=workspace
@@ -1067,7 +1133,9 @@ class GithubAppRepository(GithubRepository):
     def get_credentials_by_hostname(self, hostname: str) -> dict[str, str]:
         app_creds = self._resolve_github_app_token(hostname)
         if app_creds is None:
-            raise RepositoryError(
-                0, f"No Weblate GitHub app installation available for {hostname}"
+            raise RepositoryInternalError(
+                0,
+                "github_app_installation_missing_for_host",
+                params={"hostname": hostname},
             )
         return app_creds
