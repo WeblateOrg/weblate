@@ -1772,6 +1772,91 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             validated_data[inherit_field] = has_workspace and field not in initial_data
         return super().create(validated_data)
 
+    def get_billing_forced_access_control(
+        self, workspace: Workspace | None
+    ) -> int | None:
+        if workspace is None or "weblate.billing" not in settings.INSTALLED_APPS:
+            return None
+        try:
+            billing = workspace.billing
+        except AttributeError:
+            return None
+        if billing.plan.change_access_control:
+            return Project.ACCESS_PRIVATE
+        return Project.ACCESS_PUBLIC
+
+    def validate_access_control_change(
+        self,
+        *,
+        access_control: int,
+        user: User | None,
+        license_value: str | None = None,
+        inherit_license: bool | None = None,
+        workspace: Workspace | None = None,
+    ) -> None:
+        instance = self.instance
+        if instance is not None and access_control == instance.access_control:
+            return
+
+        if settings.OFFER_HOSTING and access_control == Project.ACCESS_CUSTOM:
+            raise serializers.ValidationError(
+                {"access_control": "Custom access control is not available."}
+            )
+
+        if instance is not None:
+            if user is None or not user.has_perm(
+                "billing:project.permissions", instance
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "access_control": (
+                            "You do not have permission to change project "
+                            "access control."
+                        )
+                    }
+                )
+            unlicensed = instance.get_unlicensed_components_for_access(
+                access_control,
+                license_value=license_value,
+                inherit_license=inherit_license,
+            )
+            if unlicensed:
+                names = ", ".join(component.name for component in unlicensed)
+                raise serializers.ValidationError(
+                    {
+                        "access_control": (
+                            "You must specify a license for these components "
+                            "to make them publicly accessible: "
+                            f"{names}"
+                        )
+                    }
+                )
+            return
+
+        forced = self.get_billing_forced_access_control(workspace)
+        if forced is not None:
+            if access_control != forced:
+                raise serializers.ValidationError(
+                    {
+                        "access_control": (
+                            "Access control is determined by the billing plan "
+                            "when creating a project."
+                        )
+                    }
+                )
+            return
+
+        if access_control != settings.DEFAULT_ACCESS_CONTROL and (
+            user is None or not user.is_superuser
+        ):
+            raise serializers.ValidationError(
+                {
+                    "access_control": (
+                        "You do not have permission to change project access control."
+                    )
+                }
+            )
+
     def validate(self, attrs):
         if self.instance is not None and "workspace" in attrs:
             workspace = attrs["workspace"]
@@ -1787,51 +1872,37 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                 if error := get_project_move_billing_error(workspace):
                     raise serializers.ValidationError({"workspace": error})
 
-        if settings.OFFER_HOSTING:
-            use_shared_tm = attrs.get(
-                "use_shared_tm",
-                (
-                    self.instance.use_shared_tm
-                    if self.instance
-                    else settings.DEFAULT_SHARED_TM
-                ),
-            )
-            use_workspace_tm = attrs.get(
-                "use_workspace_tm",
-                self.instance.use_workspace_tm if self.instance else False,
-            )
-            attrs["contribute_shared_tm"] = use_shared_tm
-            attrs["contribute_workspace_tm"] = use_workspace_tm
+        Project.apply_hosted_tm_contribution(attrs, defaults=self.instance)
 
-        if self.instance is not None and "access_control" in attrs:
-            access = attrs["access_control"]
-            if access != self.instance.access_control:
-                request = self.context.get("request")
-                if request is None or not request.user.has_perm(
-                    "billing:project.permissions", self.instance
-                ):
-                    raise serializers.ValidationError(
-                        {
-                            "access_control": "You do not have permission to change project access control."
-                        }
-                    )
-                if self.instance.needs_license(access):
-                    project_license = attrs.get("license", self.instance.license)
-                    inherit_license = attrs.get(
-                        "inherit_license", self.instance.inherit_license
-                    )
-                    if inherit_license and self.instance.workspace_id:
-                        project_license = self.instance.workspace.license
-                    unlicensed = self.instance.get_unlicensed_components(
-                        project_license
-                    )
-                    if unlicensed:
-                        names = ", ".join(component.name for component in unlicensed)
-                        raise serializers.ValidationError(
-                            {
-                                "access_control": f"You must specify a license for these components to make them publicly accessible: {names}"
-                            }
-                        )
+        if self.instance is not None:
+            access_control_provided = "access_control" in attrs
+        else:
+            # Use initial_data so model defaults are not treated as explicit.
+            access_control_provided = "access_control" in getattr(
+                self, "initial_data", {}
+            )
+        if access_control_provided:
+            request = self.context.get("request")
+            user = request.user if request is not None else None
+            if self.instance is not None:
+                access = attrs["access_control"]
+                workspace = attrs.get("workspace", self.instance.workspace)
+                license_value = attrs.get("license", self.instance.license)
+                inherit_license = attrs.get(
+                    "inherit_license", self.instance.inherit_license
+                )
+            else:
+                access = attrs["access_control"]
+                workspace = attrs.get("workspace")
+                license_value = attrs.get("license")
+                inherit_license = attrs.get("inherit_license")
+            self.validate_access_control_change(
+                access_control=access,
+                user=user,
+                license_value=license_value,
+                inherit_license=inherit_license,
+                workspace=workspace,
+            )
 
         # Call model validation here, DRF does not do that
         if self.instance:

@@ -3484,9 +3484,7 @@ class ProjectSettingsForm(
 
     def clean(self) -> None:
         data = self.cleaned_data
-        if settings.OFFER_HOSTING:
-            data["contribute_shared_tm"] = data["use_shared_tm"]
-            data["contribute_workspace_tm"] = data["use_workspace_tm"]
+        Project.apply_hosted_tm_contribution(data, defaults=self.instance)
 
         # ACCESS_PUBLIC = 0, so the condition can not be simplified to not data["access_control"]
         if (
@@ -3508,14 +3506,14 @@ class ProjectSettingsForm(
                     )
                 }
             )
-        if self.changed_access and self.instance.needs_license(access):
-            project_license = data.get("license", self.instance.license)
-            if (
-                data.get("inherit_license", self.instance.inherit_license)
-                and self.instance.workspace_id
-            ):
-                project_license = self.instance.workspace.license
-            unlicensed = self.instance.get_unlicensed_components(project_license)
+        if self.changed_access:
+            unlicensed = self.instance.get_unlicensed_components_for_access(
+                access,
+                license_value=data.get("license", self.instance.license),
+                inherit_license=data.get(
+                    "inherit_license", self.instance.inherit_license
+                ),
+            )
             if unlicensed:
                 raise ValidationError(
                     {

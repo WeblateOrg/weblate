@@ -5012,11 +5012,13 @@ class ProjectAPITest(APIBaseTest):
         self.assertTrue(response.data["use_workspace_tm"])
         self.assertTrue(response.data["contribute_workspace_tm"])
         self.assertEqual(response.data["autoclean_tm"], not self.project.autoclean_tm)
+        expected_autoclean_tm = response.data["autoclean_tm"]
         self.project.refresh_from_db()
         self.assertFalse(self.project.use_shared_tm)
         self.assertFalse(self.project.contribute_shared_tm)
         self.assertTrue(self.project.use_workspace_tm)
         self.assertTrue(self.project.contribute_workspace_tm)
+        self.assertEqual(self.project.autoclean_tm, expected_autoclean_tm)
 
     @override_settings(OFFER_HOSTING=True)
     def test_patch_translation_memory_settings_offer_hosting(self) -> None:
@@ -5210,6 +5212,127 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["access_control"], Project.ACCESS_PROTECTED)
         self.project.refresh_from_db()
         self.assertEqual(self.project.access_control, Project.ACCESS_PROTECTED)
+
+    def test_create_access_control_omitted(self) -> None:
+        self.grant_perm_to_user("project.add")
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            format="json",
+            request={
+                "name": "Default ACL project",
+                "slug": "default-acl-project",
+                "web": "https://weblate.org/",
+            },
+        )
+        project = Project.objects.get(pk=response.data["id"])
+        self.assertEqual(project.access_control, settings.DEFAULT_ACCESS_CONTROL)
+        self.assertEqual(
+            response.data["access_control"], settings.DEFAULT_ACCESS_CONTROL
+        )
+
+    def test_create_access_control_requires_superuser(self) -> None:
+        self.grant_perm_to_user("project.add")
+        self.do_request(
+            "api:project-list",
+            method="post",
+            code=400,
+            format="json",
+            request={
+                "name": "Private ACL project",
+                "slug": "private-acl-project",
+                "web": "https://weblate.org/",
+                "access_control": Project.ACCESS_PRIVATE,
+            },
+        )
+        self.assertFalse(Project.objects.filter(slug="private-acl-project").exists())
+
+    def test_create_access_control_superuser(self) -> None:
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Private ACL project",
+                "slug": "private-acl-project",
+                "web": "https://weblate.org/",
+                "access_control": Project.ACCESS_PRIVATE,
+            },
+        )
+        project = Project.objects.get(pk=response.data["id"])
+        self.assertEqual(project.access_control, Project.ACCESS_PRIVATE)
+        self.assertEqual(response.data["access_control"], Project.ACCESS_PRIVATE)
+
+    def test_create_access_control_billing_conflict(self) -> None:
+        with modify_settings(INSTALLED_APPS={"prepend": "weblate.billing"}):
+            billing = create_test_billing(self.user, invoice=False)
+            self.assertTrue(billing.plan.change_access_control)
+            self.do_request(
+                "api:project-list",
+                method="post",
+                code=400,
+                format="json",
+                request={
+                    "name": "Billing ACL conflict",
+                    "slug": "billing-acl-conflict",
+                    "web": "https://weblate.org/",
+                    "workspace": str(billing.workspace.pk),
+                    "access_control": Project.ACCESS_PUBLIC,
+                },
+            )
+            self.assertFalse(
+                Project.objects.filter(slug="billing-acl-conflict").exists()
+            )
+
+    def test_create_access_control_billing_omitted(self) -> None:
+        with modify_settings(INSTALLED_APPS={"prepend": "weblate.billing"}):
+            billing = create_test_billing(self.user, invoice=False)
+            response = self.do_request(
+                "api:project-list",
+                method="post",
+                code=201,
+                format="json",
+                request={
+                    "name": "Billing ACL project",
+                    "slug": "billing-acl-project",
+                    "web": "https://weblate.org/",
+                    "workspace": str(billing.workspace.pk),
+                },
+            )
+            project = Project.objects.get(pk=response.data["id"])
+            self.assertEqual(project.access_control, Project.ACCESS_PRIVATE)
+            self.assertEqual(response.data["access_control"], Project.ACCESS_PRIVATE)
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_patch_access_control_custom_offer_hosting(self) -> None:
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"access_control": Project.ACCESS_CUSTOM},
+        )
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_PUBLIC)
+
+    def test_patch_access_control_custom(self) -> None:
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"access_control": Project.ACCESS_CUSTOM},
+        )
+        self.assertEqual(response.data["access_control"], Project.ACCESS_CUSTOM)
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.access_control, Project.ACCESS_CUSTOM)
 
     def test_patch_inherited_setting_disables_inheritance(self) -> None:
         workspace = Workspace.objects.create(

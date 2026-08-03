@@ -59,7 +59,8 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Collection, Iterable
+    from collections.abc import Callable, Collection, Iterable, MutableMapping
+    from typing import Any
     from uuid import UUID
 
     from ahocorasick_rs import AhoCorasick
@@ -1411,6 +1412,71 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             and settings.LICENSE_REQUIRED
             and not settings.REQUIRE_LOGIN
             and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
+        )
+
+    @staticmethod
+    def apply_hosted_tm_contribution(
+        data: MutableMapping[str, Any],
+        *,
+        defaults: Project | None = None,
+    ) -> None:
+        if not settings.OFFER_HOSTING:
+            return
+        use_shared_tm = data.get(
+            "use_shared_tm",
+            (
+                defaults.use_shared_tm
+                if defaults is not None
+                else settings.DEFAULT_SHARED_TM
+            ),
+        )
+        use_workspace_tm = data.get(
+            "use_workspace_tm",
+            defaults.use_workspace_tm if defaults is not None else False,
+        )
+        data["contribute_shared_tm"] = use_shared_tm
+        data["contribute_workspace_tm"] = use_workspace_tm
+
+    def get_access_control_license(
+        self,
+        *,
+        license_value: str | None = None,
+        inherit_license: bool | None = None,
+    ) -> str:
+        """
+        Return the project license to evaluate when changing access control.
+
+        When inheritance is enabled and the project belongs to a workspace,
+        the workspace license is used.
+        """
+        if license_value is None:
+            license_value = self.license
+        if inherit_license is None:
+            inherit_license = self.inherit_license
+        if inherit_license and self.workspace_id:
+            return self.workspace.license
+        return license_value
+
+    def get_unlicensed_components_for_access(
+        self,
+        access_control: int,
+        *,
+        license_value: str | None = None,
+        inherit_license: bool | None = None,
+    ) -> list[Component]:
+        """
+        Return components that would block making the project publicly accessible.
+
+        Returns an empty list when a license is not required for the given access
+        control value.
+        """
+        if not self.needs_license(access_control):
+            return []
+        return self.get_unlicensed_components(
+            self.get_access_control_license(
+                license_value=license_value,
+                inherit_license=inherit_license,
+            )
         )
 
     def get_unlicensed_components(self, project_license: str) -> list[Component]:
