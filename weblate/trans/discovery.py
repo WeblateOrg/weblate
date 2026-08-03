@@ -593,6 +593,11 @@ class ComponentDiscovery:
                     continue
                 yield path_separator(os.path.relpath(fullname, self.path))
 
+    @cached_property
+    def repository_paths(self) -> list[str]:
+        """Return relative repository paths under the discovery root."""
+        return list(self._iter_repository_paths())
+
     def _match_language(self, language_part: str | None) -> bool:
         if language_part is None:
             return False
@@ -685,46 +690,57 @@ class ComponentDiscovery:
             return path, groups, mask
         return None
 
-    def _collect_mask_translations(
-        self, mask: str, paths: list[str]
-    ) -> list[tuple[str, str]]:
-        """Return translation files matching a rendered file mask."""
-        mask_match = self.compile_mask_match(mask)
-        result: list[tuple[str, str]] = []
-        for path in paths:
-            try:
-                matches = regex_match(mask_match, path)
-            except TimeoutError:
-                report_error(
-                    "Component discovery mask regex timed out",
-                    project=self.component.project if self.component else None,
-                )
-                self.add_error(
-                    gettext(
-                        "The translation file mask used for discovery is too complex and took too long to evaluate."
-                    ),
-                    mask=mask,
-                )
-                LOGGER.warning(
-                    "Regex matching timed out for discovery file mask: %s", path
-                )
-                break
-            if not matches:
-                continue
-            language_part = matches.group("language")
-            try:
-                if not self._match_language(language_part):
+    def _collect_translations_by_mask(
+        self, masks: set[str]
+    ) -> dict[str, list[tuple[str, str]]]:
+        """Return translation files for each mask in a single path scan."""
+        if not masks:
+            return {}
+
+        compiled = {mask: self.compile_mask_match(mask) for mask in masks}
+        result: dict[str, list[tuple[str, str]]] = {mask: [] for mask in masks}
+        timed_out_masks: set[str] = set()
+
+        for path in self.repository_paths:
+            for mask, mask_match in compiled.items():
+                if mask in timed_out_masks:
                     continue
-            except TimeoutError:
+                try:
+                    matches = regex_match(mask_match, path)
+                except TimeoutError:
+                    report_error(
+                        "Component discovery mask regex timed out",
+                        project=self.component.project if self.component else None,
+                    )
+                    self.add_error(
+                        gettext(
+                            "The translation file mask used for discovery is too complex and took too long to evaluate."
+                        ),
+                        mask=mask,
+                    )
+                    LOGGER.warning(
+                        "Regex matching timed out for discovery file mask: %s", path
+                    )
+                    timed_out_masks.add(mask)
+                    continue
+                if not matches:
+                    continue
+                language_part = matches.group("language")
+                try:
+                    if not self._match_language(language_part):
+                        continue
+                except TimeoutError:
+                    return result
+                result[mask].append((path, language_part))
+                # A path normally matches a single component mask.
                 break
-            result.append((path, language_part))
         return result
 
     @cached_property
     def matches(self) -> list[tuple[str, dict[str, str], str]]:
         """Return matched files together with match groups and mask."""
         result: list[tuple[str, dict[str, str], str]] = []
-        for path in self._iter_repository_paths():
+        for path in self.repository_paths:
             try:
                 if self.create_from_template:
                     match = self._get_base_mode_match(path)
@@ -745,9 +761,6 @@ class ComponentDiscovery:
     def matched_components(self) -> dict[str, DiscoveryMatch]:
         """Return list of matched components."""
         result: dict[str, MutableDiscoveryMatch] = {}
-        repository_paths = (
-            list(self._iter_repository_paths()) if self.create_from_template else []
-        )
 
         for path, groups, mask in self.matches:
             if mask not in result:
@@ -760,16 +773,19 @@ class ComponentDiscovery:
                     result[mask]["files"] = set()
                     result[mask]["languages"] = set()
                     result[mask]["files_langs"] = set()
-                    for translation_path, language in self._collect_mask_translations(
-                        mask, repository_paths
-                    ):
-                        result[mask]["files"].add(translation_path)
-                        result[mask]["languages"].add(language)
-                        result[mask]["files_langs"].add((translation_path, language))
             elif not self.create_from_template:
                 result[mask]["files"].add(path)
                 result[mask]["languages"].add(groups["language"])
                 result[mask]["files_langs"].add((path, groups["language"]))
+
+        if self.create_from_template and result:
+            for mask, translations in self._collect_translations_by_mask(
+                set(result)
+            ).items():
+                for translation_path, language in translations:
+                    result[mask]["files"].add(translation_path)
+                    result[mask]["languages"].add(language)
+                    result[mask]["files_langs"].add((translation_path, language))
 
         return {
             mask: {

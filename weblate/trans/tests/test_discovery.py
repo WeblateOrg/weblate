@@ -461,6 +461,41 @@ class ComponentDiscoveryTest(RepoTestCase):
             "docs/guide.md",
         )
 
+    def test_create_from_template_walks_repository_once(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        (docs / "news.md").write_text("# News\n\nContent\n", encoding="utf-8")
+        (docs / "news_cs.md").write_text("# News\n\nObsah\n", encoding="utf-8")
+        (docs / "guide.md").write_text("# Guide\n\nContent\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>[^/_]+)\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}.md",
+            filemask_template="docs/{{ component }}_*.md",
+            create_from_template=True,
+        )
+
+        with patch.object(
+            discovery,
+            "_iter_repository_paths",
+            # ruff: ignore[private-member-access]
+            wraps=discovery._iter_repository_paths,
+        ) as walk:
+            matched = discovery.matched_components
+
+        self.assertEqual(walk.call_count, 1)
+        self.assertEqual(
+            set(matched),
+            {"docs/news_*.md", "docs/guide_*.md"},
+        )
+        self.assertEqual(
+            matched["docs/news_*.md"]["files_langs"],
+            (("docs/news_cs.md", "cs"),),
+        )
+
     def test_create_component_preview_applies_inheritance_defaults(self) -> None:
         self.component.project.license = "GPL-3.0-or-later"
         self.component.project.new_lang = "none"
