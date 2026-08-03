@@ -72,7 +72,7 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.tests.test_views import ComponentTestCase, ViewTestCase
-from weblate.trans.tests.utils import get_optional_path
+from weblate.trans.tests.utils import TEST_DATA, get_optional_path
 from weblate.utils.celery import handle_task_failure
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -6154,6 +6154,124 @@ class DiscoveryTest(ViewTestCase):
         self.assertEqual(
             form.errors["name_template"],
             ["This template must include {{ component }}."],
+        )
+
+    def test_form_create_from_template_requires_new_base_and_filemask(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "create_from_template": True,
+                "filemask_template": "",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["new_base_template"],
+            [
+                "Define the base file for new translations when creating components from a template."
+            ],
+        )
+        self.assertEqual(
+            form.errors["filemask_template"],
+            [
+                "Define the translation file mask when creating components from a template."
+            ],
+        )
+
+    def test_form_create_from_template_requires_wildcard(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "create_from_template": True,
+                "filemask_template": "locale/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["filemask_template"],
+            ["The translation file mask must include a language wildcard (*)."],
+        )
+
+    def test_form_create_from_template_rejects_unknown_match_groups(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}.{{ extension }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "create_from_template": True,
+                "filemask_template": "locale/*/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.errors["name_template"])
+
+    def test_form_create_from_template_accepts_valid_configuration(self) -> None:
+        pot_dir = Path(self.component.full_path) / "locale"
+        pot_dir.mkdir(exist_ok=True)
+        shutil.copy(
+            os.path.join(TEST_DATA, "hello.pot"),
+            pot_dir / "hello.pot",
+        )
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "locale/{{ component }}.pot",
+                "intermediate_template": "",
+                "create_from_template": True,
+                "filemask_template": "locale/*/{{ component }}.po",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        if form is None:
+            self.fail("Expected discovery form to be created")
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertTrue(form.cleaned_data["create_from_template"])
+        self.assertEqual(
+            form.cleaned_data["filemask_template"],
+            "locale/*/{{ component }}.po",
         )
 
     def test_ui_presets_are_not_part_of_form_configuration(self) -> None:
