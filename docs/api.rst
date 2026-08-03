@@ -977,6 +977,26 @@ Projects
                        :guilabel:`Add new projects` permission. See
                        :ref:`workspace-project-creation`.
     :type workspace: string
+    :param access_control: :ref:`project-access_control`
+    :type access_control: int
+    :param use_shared_tm: :ref:`project-use_shared_tm`
+    :type use_shared_tm: boolean
+    :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :type contribute_shared_tm: boolean
+    :param use_workspace_tm: :ref:`project-use-workspace-tm`
+    :type use_workspace_tm: boolean
+    :param contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :type contribute_workspace_tm: boolean
+    :param autoclean_tm: :ref:`project-autoclean_tm`
+    :type autoclean_tm: boolean
+
+    Omit ``access_control`` unless you need a non-default value. Setting a
+    non-default value requires a superuser when billing does not determine
+    access control. When the project is created under a billing plan, access
+    control is set by the plan; sending a conflicting value returns a
+    validation error. On Hosted Weblate, Custom access control is rejected, and
+    ``contribute_shared_tm`` / ``contribute_workspace_tm`` are forced to match
+    ``use_shared_tm`` / ``use_workspace_tm``.
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -999,6 +1019,12 @@ Projects
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string license: :ref:`project-license`
+    :>json int access_control: :ref:`project-access_control`
+    :>json boolean use_shared_tm: :ref:`project-use_shared_tm`
+    :>json boolean contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :>json boolean use_workspace_tm: :ref:`project-use-workspace-tm`
+    :>json boolean contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :>json boolean autoclean_tm: :ref:`project-autoclean_tm`
     :>json string announcements_url: URL to announcements; see :http:get:`/api/projects/(string:project)/announcements/`
 
     **Example JSON data:**
@@ -1023,8 +1049,8 @@ Projects
     identifier, use the project ``url`` returned by :http:get:`/api/projects/`
     or :http:get:`/api/projects/(string:project)/`.
 
-    The request body accepts project fields such as ``instructions`` and
-    ``license``.
+    The request body accepts project fields such as ``instructions``,
+    ``license``, ``access_control``, and translation memory settings.
 
     **Example JSON data:**
 
@@ -1032,8 +1058,18 @@ Projects
 
         {
             "instructions": "Translate consistently.",
-            "license": "MIT"
+            "license": "MIT",
+            "use_shared_tm": true,
+            "access_control": 100
         }
+
+    Changing ``access_control`` requires permission to manage project access
+    (and a billing plan that allows it when billing is enabled). Making a
+    project publicly accessible may require licenses on its components when
+    :setting:`LICENSE_REQUIRED` is enabled. On Hosted Weblate, Custom access
+    control is not available, and ``contribute_shared_tm`` and
+    ``contribute_workspace_tm`` are forced to match ``use_shared_tm`` and
+    ``use_workspace_tm``.
 
     Changing ``workspace`` moves the project. Moving a project requires
     permission to edit the project and the :guilabel:`Edit workspace settings`
@@ -1048,6 +1084,18 @@ Projects
     :type instructions: string
     :param license: :ref:`project-license`
     :type license: string
+    :param access_control: :ref:`project-access_control`
+    :type access_control: int
+    :param use_shared_tm: :ref:`project-use_shared_tm`
+    :type use_shared_tm: boolean
+    :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :type contribute_shared_tm: boolean
+    :param use_workspace_tm: :ref:`project-use-workspace-tm`
+    :type use_workspace_tm: boolean
+    :param contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :type contribute_workspace_tm: boolean
+    :param autoclean_tm: :ref:`project-autoclean_tm`
+    :type autoclean_tm: boolean
     :param workspace: Optional workspace UUID, or ``null`` to move the project
                        out of a workspace
     :type workspace: string

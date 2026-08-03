@@ -31522,6 +31522,18 @@ components:
       description: Number of seconds until the rate-limit window resets
       required: true
   schemas:
+    AccessControlEnum:
+      enum:
+      - 0
+      - 1
+      - 100
+      - 200
+      type: integer
+      description: |-
+        * `0` - Public
+        * `1` - Protected
+        * `100` - Private
+        * `200` - Custom
     ActionEnum:
       enum:
       - 0
@@ -35884,6 +35896,35 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        access_control:
+          allOf:
+          - $ref: '#/components/schemas/AccessControlEnum'
+          description: How to restrict access to this project is detailed in the documentation.
+          minimum: -2147483648
+          maximum: 2147483647
+        use_shared_tm:
+          type: boolean
+          title: Use shared translation memory
+          description: Uses the pool of shared translations between projects.
+        contribute_shared_tm:
+          type: boolean
+          title: Contribute to shared translation memory
+          description: Contributes to the pool of shared translations between projects.
+        use_workspace_tm:
+          type: boolean
+          title: Use workspace translation memory
+          description: Uses the pool of shared translations between projects in the
+            workspace.
+        contribute_workspace_tm:
+          type: boolean
+          title: Contribute to workspace translation memory
+          description: Contributes translations to the pool shared between projects
+            in the workspace.
+        autoclean_tm:
+          type: boolean
+          title: Autoclean translation memory
+          description: Automatically removes outdated and obsolete entries from translation
+            memory.
         license:
           title: Translation license
           type: string
@@ -36762,6 +36803,35 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        access_control:
+          allOf:
+          - $ref: '#/components/schemas/AccessControlEnum'
+          description: How to restrict access to this project is detailed in the documentation.
+          minimum: -2147483648
+          maximum: 2147483647
+        use_shared_tm:
+          type: boolean
+          title: Use shared translation memory
+          description: Uses the pool of shared translations between projects.
+        contribute_shared_tm:
+          type: boolean
+          title: Contribute to shared translation memory
+          description: Contributes to the pool of shared translations between projects.
+        use_workspace_tm:
+          type: boolean
+          title: Use workspace translation memory
+          description: Uses the pool of shared translations between projects in the
+            workspace.
+        contribute_workspace_tm:
+          type: boolean
+          title: Contribute to workspace translation memory
+          description: Contributes translations to the pool shared between projects
+            in the workspace.
+        autoclean_tm:
+          type: boolean
+          title: Autoclean translation memory
+          description: Automatically removes outdated and obsolete entries from translation
+            memory.
         license:
           title: Translation license
           type: string

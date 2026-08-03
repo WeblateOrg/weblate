@@ -5,6 +5,8 @@ Weblate 2026.8.1
 
 .. rubric:: New features
 
+* Project API now exposes :ref:`access control <project-access_control>` and translation memory settings (:ref:`project-use_shared_tm`, :ref:`project-contribute_shared_tm`, :ref:`project-use-workspace-tm`, :ref:`project-contribute-workspace-tm`, :ref:`project-autoclean_tm`). See :http:get:`/api/projects/(string:project)/`.
+
 .. rubric:: Improvements
 
 .. rubric:: Bug fixes
