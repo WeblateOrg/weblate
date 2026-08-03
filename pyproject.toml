@@ -677,6 +677,7 @@ max-complexity = 16  # TODO: should be lower
 [tool.ruff.lint.per-file-ignores]
 "ci/migrate-scripts/*.py" = ["INP001", "S101"]
 "docs/_ext/*.py" = ["INP001"]
+"docs/_ext/test_*.py" = ["S101"]
 "docs/conf.py" = ["ERA001", "INP001"]
 "fuzzing/targets.py" = ["PLC0415"]
 "scripts/*" = ["T201", "T203"]
