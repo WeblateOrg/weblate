@@ -604,7 +604,9 @@ Security properties Weblate provides
        :doc:`/admin/auth`)
      - Permission assignments match the intended trust relationship.
        Team-level enforced 2FA is satisfied by human users before
-       team-derived permissions apply.
+       team-derived permissions apply. Permissions for VCS actions cover every
+       component sharing an affected repository, including linked components
+       in other projects.
      - User or token can read or mutate data outside assigned scope.
      - Security-critical when private data or privileged mutation is exposed.
    * - Project-scoped API tokens are limited by assigned project/team
