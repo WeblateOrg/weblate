@@ -9,6 +9,8 @@ Weblate 2026.8.1
 
 .. rubric:: Bug fixes
 
+* Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
@@ -77,7 +79,6 @@ Weblate 2026.8
 * Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.
 * :ref:`RSS feeds <rss>` no longer disclose change history from inaccessible projects or restricted components (:ghsa:`vvc6-wvqm-w5gc`).
 * Authenticated legacy GitHub App webhooks can again trigger repository updates through the :ref:`generic GitHub webhook endpoint <code-hosting-github-notifications>`.
-* Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
 
 .. rubric:: Compatibility
 
