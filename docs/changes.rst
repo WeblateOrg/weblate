@@ -1,5 +1,6 @@
 Weblate 2026.8.1
 ----------------
+--------------
 
 *Not yet released.*
 
@@ -22,6 +23,8 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 .. include:: /changes/contributors/2026.8.1.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?closed=1>`__.
+* :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
+
 
 Weblate 2026.8
 --------------
@@ -43,7 +46,6 @@ Weblate 2026.8
 * Added :ref:`workflow-language-restrictions`, including per-language control for restricting direct translation editing to privileged users.
 * Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`.
 * Weblate is now available in Lao language.
-* :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
 
 .. rubric:: Improvements
 
