@@ -925,7 +925,7 @@ Generic settings
 
     Supported values are:
 
-    * ``tos-confirm`` to enable the legal module and enforce terms of service
+    * ``tos-confirm`` to enable the legal module and enforce legal document
       confirmation during social authentication and for signed-in users.
     * ``wllegal`` to enable the same integration and additionally load the
       hosted legal document templates from ``wllegal``. These templates are
@@ -974,12 +974,19 @@ Generic settings
 
     Provide a comma-separated list of legal document page identifiers.
 
+    External legal documents are used as fallbacks for hidden internal pages.
+    The following configuration links both documents externally and requires
+    one agreement covering the terms of service and privacy policy:
+
     **Example:**
 
     .. code-block:: yaml
 
         environment:
-          WEBLATE_LEGAL_HIDDEN_DOCUMENTS: contracts
+          WEBLATE_LEGAL_INTEGRATION: tos-confirm
+          WEBLATE_LEGAL_HIDDEN_DOCUMENTS: terms,privacy
+          WEBLATE_LEGAL_URL: https://example.com/terms/
+          WEBLATE_PRIVACY_URL: https://example.com/privacy/
 
 .. envvar:: WEBLATE_PUBLIC_ENGAGE
 
