@@ -101,6 +101,7 @@ from weblate.utils.state import (
     STATE_EMPTY,
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 from weblate.utils.tests import http_mock
@@ -8519,7 +8520,8 @@ class ComponentAPITest(APIBaseTest):
 
         self.assertEqual(
             response.data["errors"][0]["detail"],
-            "Direct editing is restricted for this language. Add a suggestion instead.",
+            "Only privileged users can edit strings directly in this language because "
+            "of its translation workflow. Add a suggestion instead.",
         )
         perform.assert_not_called()
         self.assertFalse(target.translation_set.filter(language_code="fa").exists())
@@ -12820,6 +12822,46 @@ class SuggestionAPITest(APIBaseTest):
             code=404,
         )
 
+    def test_add_suggestion_disabled_by_workflow(self) -> None:
+        unit = self._get_unit()
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            enable_suggestions=False,
+        )
+
+        response = self._add_suggestion(unit, "Navrh", code=403)
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Suggestions are turned off for this language. Ask a project administrator "
+            "to enable them.",
+        )
+        self.assertFalse(unit.suggestion_set.exists())
+
+    def test_add_suggestion_readonly(self) -> None:
+        unit = self._get_unit()
+        original_state = unit.state
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_READONLY)
+
+        response = self._add_suggestion(unit, "Navrh", code=403)
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "The string is read-only."
+        )
+        self.assertFalse(unit.suggestion_set.exists())
+
+        Unit.objects.filter(pk=unit.pk).update(state=original_state)
+        unit.translation.check_flags = "read-only"
+        unit.translation.save(update_fields=["check_flags"])
+
+        response = self._add_suggestion(unit, "Navrh", code=403)
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "The translation is read-only."
+        )
+        self.assertFalse(unit.suggestion_set.exists())
+
     def test_list_unit_suggestions(self) -> None:
         unit = self._get_unit()
         self._add_suggestion(unit, "Navrh 1")
@@ -12950,12 +12992,16 @@ class SuggestionAPITest(APIBaseTest):
         response = self._add_suggestion(unit, "Navrh")
         suggestion_id = response.data["id"]
         # missing unit.review permission
-        self.do_request(
+        response = self.do_request(
             "api:suggestion-accept",
             kwargs={"pk": suggestion_id},
             method="post",
             request={"approve": True},
             code=403,
+        )
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Translation reviews are turned off.",
         )
 
         # missing suggestion.accept permission
@@ -12968,6 +13014,30 @@ class SuggestionAPITest(APIBaseTest):
             code=403,
             authenticated=False,
         )
+
+    def test_accept_suggestion_restricted_by_workflow(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            restrict_direct_editing=True,
+        )
+
+        response = self.do_request(
+            "api:suggestion-accept",
+            kwargs={"pk": suggestion_id},
+            method="post",
+            code=403,
+        )
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Only privileged users can edit strings directly in this language because "
+            "of its translation workflow. Add a suggestion instead.",
+        )
+        self.assertTrue(Suggestion.objects.filter(pk=suggestion_id).exists())
 
     def test_accept_suggestion_approve(self) -> None:
         unit = self._get_unit()
@@ -13033,12 +13103,15 @@ class SuggestionAPITest(APIBaseTest):
         )
 
         # Voting disabled on translation.
-        self.do_request(
+        response = self.do_request(
             "api:suggestion-vote",
             kwargs={"pk": suggestion.pk},
             method="post",
             request={"value": 1},
             code=403,
+        )
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Suggestion voting is disabled."
         )
 
         self.component.suggestion_voting = True

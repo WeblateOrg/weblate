@@ -236,10 +236,17 @@ def check_direct_editing(
     if obj.enable_suggestions:
         return Denied(
             gettext(
-                "Direct editing is restricted for this language. Add a suggestion instead."
+                "Only privileged users can edit strings directly in this language "
+                "because of its translation workflow. Add a suggestion instead."
             )
         )
-    return Denied(gettext("Direct editing is restricted for this language."))
+    return Denied(
+        gettext(
+            "Only privileged users can edit strings directly in this language "
+            "because of its translation workflow. Ask a project administrator for "
+            "access."
+        )
+    )
 
 
 def check_permission(
@@ -741,9 +748,18 @@ def check_suggestion_add(
     obj: Unit | Translation | ProjectLanguage | CategoryLanguage,
 ) -> bool | PermissionResult:
     if isinstance(obj, Unit):
+        if obj.readonly:
+            return Denied(gettext("The string is read-only."))
         obj = obj.translation
-    if not obj.enable_suggestions or obj.is_readonly:
-        return False
+    if obj.is_readonly:
+        return Denied(gettext("The translation is read-only."))
+    if not obj.enable_suggestions:
+        return Denied(
+            gettext(
+                "Suggestions are turned off for this language. Ask a project "
+                "administrator to enable them."
+            )
+        )
     # Check contributor license agreement
     if (
         not user.is_bot
