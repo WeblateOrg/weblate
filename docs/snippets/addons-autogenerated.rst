@@ -234,25 +234,29 @@ Component discovery
 -------------------
 
 :Add-on ID: ``weblate.discovery.discovery``
-:Configuration: +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``match``                 | Regular expression to match translation files against           | The regular expression must define named groups for component and language.                                                                                                                             |
-                +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``file_format``           | File format                                                     | :ref:`addon-choice-file_format`                                                                                                                                                                         |
-                +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``name_template``         | Customize the component name                                    | Use Django template syntax. This template must include {{ component }}.                                                                                                                                 |
-                +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``base_file_template``    | Define the monolingual base filename                            | Leave empty for bilingual translation files. When set, this template must include {{ component }}.                                                                                                      |
-                +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``new_base_template``     | Define the base file for new translations                       | Filename of file used for creating new translations. For gettext choose .pot file. This template must include {{ component }}.                                                                          |
-                +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``intermediate_template`` | Intermediate language file                                      | Filename of intermediate translation file. In most cases this is a translation file provided by developers and is used when creating actual source strings. This template must include {{ component }}. |
-                +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``language_regex``        | Language filter                                                 | Regular expression to filter translation files against when scanning for file mask.                                                                                                                     |
-                +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``copy_addons``           | Clone add-ons from the main component to the newly created ones |                                                                                                                                                                                                         |
-                +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-                | ``remove``                | Remove components for inexistent files                          |                                                                                                                                                                                                         |
-                +---------------------------+-----------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+:Configuration: +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``match``                 | Regular expression to match translation files against           | Define a named group for component. Also define language when matching translation files. When creating components from a monolingual base or new base file, omit language and match that source file instead.  |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``file_format``           | File format                                                     | :ref:`addon-choice-file_format`                                                                                                                                                                                 |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``name_template``         | Customize the component name                                    | Use Django template syntax. This template must include {{ component }}.                                                                                                                                         |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``base_file_template``    | Define the monolingual base filename                            | Leave empty for bilingual translation files. When set, this template must include {{ component }}.                                                                                                              |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``new_base_template``     | Define the base file for new translations                       | Filename of file used for creating new translations. For gettext choose .pot file. This template must include {{ component }}.                                                                                  |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``intermediate_template`` | Intermediate language file                                      | Filename of intermediate translation file. In most cases this is a translation file provided by developers and is used when creating actual source strings. This template must include {{ component }}.         |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``create_from_template``  | Create components from monolingual base or new base files       | When enabled, match the monolingual base or new base file (without a language group) and define the translation file mask template. Discovery then creates components even when no translation files exist yet. |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``filemask_template``     | Define the translation file mask                                | Used when creating components from a monolingual base or new base file. Include a language wildcard and {{ component }}, for example locale/*/{{ component }}.po or docs/{{ component }}_*.md.                  |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``language_regex``        | Language filter                                                 | Regular expression to filter translation files against when scanning for file mask.                                                                                                                             |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``copy_addons``           | Clone add-ons from the main component to the newly created ones |                                                                                                                                                                                                                 |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``remove``                | Remove components for inexistent files                          |                                                                                                                                                                                                                 |
+                +---------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 :Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
 
@@ -263,21 +267,42 @@ version control system.
 
 The matching is done using regular expressions
 enabling complex configuration, but some knowledge is required to do so.
-The regular expression to match translation files has to contain two named
-groups to match component and language. All named groups in the regular
-expression can be used as variables in the template fields.
+Usually the regular expression to match translation files has to contain two named
+groups to match component and language. When creating components from a monolingual
+base or new base file, omit the language group and match that source file instead.
+All named groups in the regular expression can be used as variables in the template
+fields.
 
 Discovery requirements
 ~~~~~~~~~~~~~~~~~~~~~~
 
 To discover a component successfully, the configuration has to do all of the following:
 
-* The regular expression must define ``component`` and ``language`` named groups.
+* The regular expression must define a ``component`` named group. Matching
+  translation files also requires a ``language`` named group.
 * Template fields used to name or locate per-component files must include
   ``{{ component }}``, so the rendered value actually changes for each discovered
   component.
 * For monolingual formats, the component must contain a file matching
-  ``base_file_template`` and at least one translation file matching ``match``.
+  ``base_file_template`` and at least one translation file matching ``match``,
+  unless you enable creation from the base file alone (see below).
+
+Discovering components without translation files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Enable :guilabel:`Create components from monolingual base or new base files`
+to discover components from a monolingual base or new base file alone, even when
+no translation files exist yet. In that mode:
+
+* Configure :guilabel:`Regular expression to match translation files against` to
+  match the monolingual base or new base file, and omit the ``language`` group.
+  Keep full control over the ``component`` capture, for example
+  ``locale/(?P<component>[^/]+)\.pot`` or ``docs/(?P<component>[^/_]+)\.md``.
+* Set :guilabel:`Define the translation file mask` to a path that includes both a
+  language wildcard and ``{{ component }}``, for example
+  ``locale/*/{{ component }}.po`` or ``docs/{{ component }}_*.md``.
+* Keep using the other filename templates with any named groups from the match
+  expression.
 
 Worked example: ``news_<lang>.md``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
