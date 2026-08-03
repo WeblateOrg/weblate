@@ -1,7 +1,7 @@
 Weblate 2026.8
 --------------
 
-*Not yet released.*
+*Released on August 3rd 2026.*
 
 .. rubric:: New features
 
