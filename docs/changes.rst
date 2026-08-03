@@ -43,6 +43,7 @@ Weblate 2026.8
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
 * URLs containing backslashes are now rejected as invalid.
+* The OpenAPI schema now documents the request body actually accepted by the automatic translation endpoint instead of the translation resource. See :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/autotranslate/`.
 * Protected outbound HTTP and Git connections now bind to validated public addresses; protected Git operations fail closed when clients cannot enforce that binding.
 * Permanent same-host Git HTTP redirects are now validated and stored as canonical component repository URLs.
 * Self-service REST API e-mail changes are now restricted to verified addresses.

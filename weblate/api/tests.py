@@ -16428,6 +16428,54 @@ class OpenAPITest(APIBaseTest):
             request_schema, {"$ref": "#/components/schemas/Translation"}
         )
 
+    def test_autotranslate_schema_matches_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+        operation = schema["paths"][
+            "/api/translations/{component__project__slug}/{component__slug}/{language__code}/autotranslate/"
+        ]["post"]
+
+        request_schema = operation["requestBody"]["content"]["application/json"][
+            "schema"
+        ]
+        self.assertEqual(
+            request_schema,
+            {"$ref": "#/components/schemas/AutoTranslateRequest"},
+        )
+
+        auto_translate_request = schema["components"]["schemas"]["AutoTranslateRequest"]
+        self.assertEqual(
+            set(auto_translate_request["properties"]),
+            {"mode", "q", "auto_source", "component", "engines", "threshold"},
+        )
+        self.assertEqual(
+            set(auto_translate_request["required"]),
+            {"mode", "q", "auto_source", "threshold"},
+        )
+        properties = auto_translate_request["properties"]
+        self.assertEqual(properties["q"]["type"], "string")
+        self.assertEqual(properties["component"]["type"], "string")
+        self.assertEqual(properties["engines"]["type"], "array")
+        self.assertEqual(properties["engines"]["items"], {"type": "string"})
+        self.assertEqual(properties["threshold"]["type"], "integer")
+        self.assertEqual(properties["threshold"]["minimum"], 1)
+        self.assertEqual(properties["threshold"]["maximum"], 100)
+        self.assertEqual(
+            properties["mode"]["allOf"],
+            [{"$ref": "#/components/schemas/ModeEnum"}],
+        )
+        self.assertEqual(
+            properties["auto_source"]["allOf"],
+            [{"$ref": "#/components/schemas/AutoSourceEnum"}],
+        )
+        self.assertEqual(
+            schema["components"]["schemas"]["ModeEnum"]["enum"],
+            ["suggest", "translate", "fuzzy", "approved"],
+        )
+        self.assertEqual(
+            schema["components"]["schemas"]["AutoSourceEnum"]["enum"],
+            ["others", "mt"],
+        )
+
     def test_string_state_enum_schema_names_are_stable(self) -> None:
         schema = self.get_schema()
         schemas = schema["components"]["schemas"]

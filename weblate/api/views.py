@@ -425,6 +425,42 @@ USER_GROUP_REQUEST_SERIALIZER = inline_serializer(
     },
 )
 
+AUTOTRANSLATE_REQUEST_SERIALIZER = inline_serializer(
+    "AutoTranslateRequest",
+    fields={
+        "mode": serializers.ChoiceField(
+            choices=("suggest", "translate", "fuzzy", "approved"),
+            help_text="Automatic translation mode. Using `approved` requires "
+            "reviews to be enabled and the permission to approve translations.",
+        ),
+        "q": serializers.CharField(help_text="Search filter for strings to translate."),
+        "auto_source": serializers.ChoiceField(
+            choices=("others", "mt"),
+            help_text="Source of the translations, either other components or "
+            "machine translation.",
+        ),
+        "component": serializers.CharField(
+            required=False,
+            allow_blank=True,
+            help_text="Source component, given as its numeric ID, or as a "
+            "`project/component` path on instances offering many components. "
+            "Leave blank to use all components sharing translation memory. "
+            "Only used when `auto_source` is `others`.",
+        ),
+        "engines": serializers.ListField(
+            child=serializers.CharField(),
+            required=False,
+            help_text="Machine translation engines to use. Only used when "
+            "`auto_source` is `mt`.",
+        ),
+        "threshold": serializers.IntegerField(
+            min_value=1,
+            max_value=100,
+            help_text="Score threshold for machine translation results.",
+        ),
+    },
+)
+
 
 def parse_limit_language_codes(data: Mapping[str, object]) -> list[Language] | None:
     language_field_name = "limit_language_codes"
@@ -3606,7 +3642,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Trigger automatic translation.", methods=["post"])
+    @extend_schema(
+        description="Trigger automatic translation.",
+        methods=["post"],
+        request=AUTOTRANSLATE_REQUEST_SERIALIZER,
+    )
     @action(detail=True, methods=["post"])
     def autotranslate(self, request: Request, **kwargs):
         translation = self.get_object()

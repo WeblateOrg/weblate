@@ -25523,7 +25523,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/AutoTranslateRequest'
         required: true
       security:
       - tokenAuth: []
@@ -31867,6 +31867,51 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    AutoSourceEnum:
+      enum:
+      - others
+      - mt
+      type: string
+      description: |-
+        * `others` - others
+        * `mt` - mt
+    AutoTranslateRequest:
+      type: object
+      properties:
+        mode:
+          allOf:
+          - $ref: '#/components/schemas/ModeEnum'
+          description: Automatic translation mode. Using `approved` requires reviews
+            to be enabled and the permission to approve translations.
+        q:
+          type: string
+          description: Search filter for strings to translate.
+        auto_source:
+          allOf:
+          - $ref: '#/components/schemas/AutoSourceEnum'
+          description: Source of the translations, either other components or machine
+            translation.
+        component:
+          type: string
+          description: Source component, given as its numeric ID, or as a `project/component`
+            path on instances offering many components. Leave blank to use all components
+            sharing translation memory. Only used when `auto_source` is `others`.
+        engines:
+          type: array
+          items:
+            type: string
+          description: Machine translation engines to use. Only used when `auto_source`
+            is `mt`.
+        threshold:
+          type: integer
+          maximum: 100
+          minimum: 1
+          description: Score threshold for machine translation results.
+      required:
+      - auto_source
+      - mode
+      - q
+      - threshold
     Backup:
       type: object
       properties:
@@ -34283,6 +34328,18 @@ components:
       - units
       - units_translated
       - users
+    ModeEnum:
+      enum:
+      - suggest
+      - translate
+      - fuzzy
+      - approved
+      type: string
+      description: |-
+        * `suggest` - suggest
+        * `translate` - translate
+        * `fuzzy` - fuzzy
+        * `approved` - approved
     MonolingualUnit:
       type: object
       properties:
