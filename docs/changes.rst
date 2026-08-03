@@ -71,6 +71,8 @@ Weblate 2026.8
 * Self-service REST API e-mail changes are now restricted to verified addresses (:ghsa:`x84p-6892-473c`).
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state, skip repository-linked components the importer cannot access, and no longer load archive-supplied Mercurial configuration or shared-repository indirection (:ghsa:`f66g-8pcg-jm8r`, :ghsa:`327h-qqgm-qv55`).
+* Add-on change history now retains only explicitly public configuration values and marks changed credential fields as redacted.
+* :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state, skip repository-linked components the importer cannot access, and no longer load archive-supplied Mercurial configuration or shared-repository indirection.
 * Rebuilding project translation memory no longer removes entries imported from files.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
