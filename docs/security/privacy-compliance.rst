@@ -51,8 +51,9 @@ User consent and transparency
 - Administrators can publish privacy policy, terms, cookie information, and
   subcontractor information using :ref:`legal`, or link externally using
   :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`.
-- Terms of service confirmation can be enforced using the legal app, and
-  :setting:`LEGAL_TOS_DATE` can require users to accept updated terms.
+- Legal document confirmation can be enforced using the legal app, and
+  :setting:`LEGAL_TOS_DATE` can require users to accept updated terms and, when
+  linked, the privacy policy.
 - Data processing depends on user interaction and on integrations enabled by
   the site operator.
 
@@ -155,7 +156,7 @@ Recommendations for compliance
 
 - **Notices and consent:** Provide privacy, cookie, subcontractor, and terms
   information through :ref:`legal`, and update :setting:`LEGAL_TOS_DATE` when
-  users must accept changed terms.
+  users must accept changed terms or privacy policy.
 - **Policy links:** Link external privacy and legal documents with
   :setting:`PRIVACY_URL` and :setting:`LEGAL_URL` when the documents are hosted
   outside Weblate.
