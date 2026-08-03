@@ -32,8 +32,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-08-03 08:02+0000\n"
-"Last-Translator: peterxy <peterxy99@outlook.com>\n"
+"PO-Revision-Date: 2026-08-03 16:37+0000\n"
+"Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -424,7 +424,7 @@ msgstr "密碼已變更。"
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "在 {path} 的 {scope} 已超過速率限制。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -2928,8 +2928,6 @@ msgid "site-wide add-ons"
 msgstr "全站附加元件"
 
 #: weblate/addons/views.py:118 weblate/templates/addons/addon_head.html:12
-#, fuzzy
-#| msgid "Repository"
 msgctxt "Add-on scope"
 msgid "Repository"
 msgstr "儲存庫"
@@ -2940,11 +2938,9 @@ msgid "Component"
 msgstr "組件"
 
 #: weblate/addons/views.py:122 weblate/addons/views.py:127
-#, fuzzy
-#| msgid "parent category"
 msgctxt "Add-on scope"
 msgid "Parent category"
-msgstr "上層類別"
+msgstr "上層分類"
 
 #: weblate/addons/views.py:128
 msgctxt "Add-on scope"
@@ -2959,7 +2955,7 @@ msgstr "專案"
 #: weblate/addons/views.py:131
 msgctxt "Add-on scope"
 msgid "Site"
-msgstr ""
+msgstr "網站"
 
 #: weblate/addons/views.py:305 weblate/addons/views.py:308
 #: weblate/addons/views.py:435
@@ -4879,16 +4875,12 @@ msgid "Translation should not exceed given length."
 msgstr "翻譯不該超過指定長度。"
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "翻譯的最大長度"
+msgstr "最大行數"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "翻譯不該超過指定長度。"
+msgstr "翻譯不應超過指定行數。"
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -5868,28 +5860,20 @@ msgid "The translation should not start with a list marker."
 msgstr "翻譯開頭不應該以清單符號開頭。"
 
 #: weblate/checks/markup.py:1101
-#, fuzzy
-#| msgid "AsciiDoc file"
 msgid "AsciiDoc markup"
-msgstr "AsciiDoc 檔案"
+msgstr "AsciiDoc 標記"
 
 #: weblate/checks/markup.py:1102
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "C 格式字串與來源不符。"
+msgstr "AsciiDoc 標記與來源不符。"
 
 #: weblate/checks/markup.py:1112
-#, fuzzy
-#| msgid "The following reStructuredText markup is missing: {}"
 msgid "The following AsciiDoc markup is missing: {}"
-msgstr "缺少下列 reStructuredText 標記：{}"
+msgstr "缺少下列 AsciiDoc 標記：{}"
 
 #: weblate/checks/markup.py:1117
-#, fuzzy
-#| msgid "The following reStructuredText markup is extra: {}"
 msgid "The following AsciiDoc markup is extra: {}"
-msgstr "多出下列 reStructuredText 標記：{}"
+msgstr "下列 AsciiDoc 標記為多餘：{}"
 
 #: weblate/checks/mdx.py:301
 msgid "Safe MDX"
@@ -5987,12 +5971,10 @@ msgid "Source string length"
 msgstr "來源字串長度"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
-msgstr "來源字串過長，超過設定的長度上限。"
+msgstr "來源字串接近或超過設定的翻譯最大長度。"
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -6291,17 +6273,13 @@ msgstr "gettext PO 檔案（單語言）"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1981
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 1)"
-msgstr "Qt Linguist 翻譯檔案"
+msgstr "Qt Linguist 翻譯檔（版本 1）"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2091
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)"
-msgstr "Qt Linguist 翻譯檔案"
+msgstr "Qt Linguist 翻譯檔（版本 2）"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2108
@@ -7826,24 +7804,19 @@ msgstr "條目已刪除。"
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
-msgstr ""
+msgstr "已刪除由目前翻譯建立的翻譯記憶條目，並將在背景重新建立。已保留上傳的條目。"
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
-msgstr "條目已刪除，將在背景重建翻譯記憶。"
+msgstr "已刪除由目前翻譯建立的翻譯記憶條目，並將在背景重新建立。"
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "移除選取的翻譯記憶項目"
+msgstr[0] "已處理 %(count)d 個作用中的翻譯記憶條目。"
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -9526,7 +9499,7 @@ msgstr "停用這名使用者的密碼認證機制。"
 
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
-msgstr ""
+msgstr "保持啟用以撤銷目前的 API 金鑰並產生新的金鑰。"
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -9672,10 +9645,8 @@ msgid "Configuration"
 msgstr "設定"
 
 #: weblate/templates/addons/addon_base.html:16
-#, fuzzy
-#| msgid "View Logs"
 msgid "Logs"
-msgstr "查閱紀錄"
+msgstr "日誌"
 
 #: weblate/templates/addons/addon_base.html:33
 #: weblate/templates/addons/addon_base.html:40
@@ -9740,14 +9711,12 @@ msgid "This add-on has no settings."
 msgstr "這個附加元件沒有設定。"
 
 #: weblate/templates/addons/addon_detail.html:38
-#, fuzzy
-#| msgid "Enable add-on:"
 msgid "Run add-on"
-msgstr "啟用附加元件："
+msgstr "執行附加元件"
 
 #: weblate/templates/addons/addon_detail.html:42
 msgid "Schedule this add-on to run as soon as possible."
-msgstr ""
+msgstr "將此附加元件排程為儘快執行。"
 
 #: weblate/templates/addons/addon_detail.html:45
 msgid "Run now"
@@ -9761,7 +9730,7 @@ msgstr "危險區域"
 #: weblate/templates/addons/addon_detail.html:59
 msgid ""
 "Uninstalling the add-on stops it from running and removes its configuration."
-msgstr ""
+msgstr "解除安裝附加元件會停止其執行並移除其設定。"
 
 #: weblate/templates/addons/addon_detail.html:62
 msgid "Uninstall"
@@ -10293,10 +10262,8 @@ msgstr "管理關注專案"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "Workspace"
 msgid "My workspaces"
-msgstr "工作空間"
+msgstr "我的工作空間"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11243,19 +11210,19 @@ msgstr "指標"
 msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
-msgstr ""
+msgstr "專案翻譯指標會在單一請求中提供所有可見組件及語言的統計資料。"
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "JSON 指標"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "CSV 指標"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "OpenMetrics 指標"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -13359,10 +13326,9 @@ msgid "Translation memory status"
 msgstr "翻譯記憶狀態"
 
 #: weblate/templates/memory/index.html:50
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "%(project)s 的條目數"
+msgstr "%(workspace)s 的條目數"
 
 #: weblate/templates/memory/index.html:52
 #, python-format
@@ -13418,7 +13384,7 @@ msgid ""
 msgid_plural ""
 "Rebuilding in the background will replace %(count)s translation memory "
 "entries created from current translations."
-msgstr[0] ""
+msgstr[0] "在背景重新建立會取代由目前翻譯建立的 %(count)s 個翻譯記憶條目。"
 
 #: weblate/templates/memory/index.html:118
 #: weblate/templates/memory/index.html:223
@@ -13432,18 +13398,16 @@ msgid_plural ""
 "entries created from current translations. Uploaded translation memory "
 "entries will be preserved."
 msgstr[0] ""
+"在背景重新建立會取代由目前翻譯建立的 %(count)s 個翻譯記憶條目。已保留上傳的翻"
+"譯記憶條目。"
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Active: %(count)s"
 msgid "Active entries"
-msgstr "作用中: %(count)s"
+msgstr "作用中的條目"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "未決的字串"
+msgstr "待處理的條目"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -15273,6 +15237,8 @@ msgid ""
 "accepts only verified redirects on the same host. Update the component to "
 "use the canonical repository URL if the redirect points elsewhere."
 msgstr ""
+"儲存庫 URL 回傳永久 HTTP 重新導向。Weblate 僅會自動接受同一主機上已驗證的重新"
+"導向。若重新導向指向其他位置，請更新組件以使用標準儲存庫 URL。"
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
@@ -15546,32 +15512,24 @@ msgid ""
 msgstr "任何公開可見的專案皆應定義其授權方式以指明貢獻適用的條款。"
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:5
-#, fuzzy
-#| msgid "Please read the following legal documents:"
 msgid "Include the following recommended topics:"
-msgstr "請閱讀下列法律文件："
+msgstr "請包含下列建議主題："
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:8
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "How contributors should submit translations."
-msgstr "%(translation)s 的新貢獻者"
+msgstr "貢獻者應如何提交翻譯。"
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:9
 msgid "What review translators should expect."
-msgstr ""
+msgstr "校閱翻譯者應預期哪些情況。"
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:10
-#, fuzzy
-#| msgid "Report issue with the source string"
 msgid "How to report problems with source strings."
-msgstr "報告來源字串的問題"
+msgstr "如何回報來源字串的問題。"
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:11
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Where translations can be tested or when they are released."
-msgstr "翻譯已還原為較早的值。"
+msgstr "可在哪裡測試翻譯，以及何時發行。"
 
 #: weblate/templates/trans/alert/monolingualglossary.html:4
 msgid ""
@@ -15732,11 +15690,10 @@ msgstr ""
 "翻譯。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
-#, fuzzy, python-format
-#| msgid "At least one screenshot has no string assigned to it."
+#, python-format
 msgid "One screenshot has no string assigned to it."
 msgid_plural "%(count)s screenshots have no string assigned to them."
-msgstr[0] "至少有一個螢幕擷圖沒有指派至任何字串。"
+msgstr[0] "%(count)s 張螢幕截圖未指派字串。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:8
 #: weblate/templates/translate.html:839
@@ -18050,28 +18007,24 @@ msgid "Warning"
 msgstr "警告"
 
 #: weblate/trans/alerts/community.py:155
-#, fuzzy
-#| msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgid ""
 "Repository updates are pulled manually. Configure repository hooks to "
 "automate pulling changes into Weblate."
-msgstr "為自動化更新至 Weblate 的流程設定儲存庫掛鉤。"
+msgstr "儲存庫更新需要手動擷取。請設定儲存庫掛鉤，自動將變更擷取至 Weblate。"
 
 #: weblate/trans/alerts/community.py:185
 msgid ""
 "Outbound translation delivery is manual. Configure a push URL or a pull or "
 "merge request integration to automate it."
-msgstr ""
+msgstr "外送翻譯需要手動交付。請設定推送 URL 或提取／合併請求整合以自動化此作業。"
 
 #: weblate/trans/alerts/community.py:206
 msgid "Define translation instructions to help translators."
 msgstr "設定翻譯指引以協助翻譯者。"
 
 #: weblate/trans/alerts/community.py:243
-#, fuzzy
-#| msgid "Source strings with screenshots"
 msgid "Improve source string screenshot coverage."
-msgstr "有螢幕擷圖的來源字串"
+msgstr "改善來源字串的螢幕截圖涵蓋範圍。"
 
 #: weblate/trans/alerts/community.py:306
 msgid "Use flags to indicate special strings in your translation."
@@ -18290,126 +18243,92 @@ msgstr "自動翻譯略過部分翻譯，因為沒有其他可用的來源組件
 
 #: weblate/trans/backups.py:293
 msgid "The checksum has to be exactly 16 hexadecimal characters."
-msgstr ""
+msgstr "檢查碼必須正好是 16 個十六進位字元。"
 
 #: weblate/trans/backups.py:302
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "The checksum is invalid."
-msgstr "上傳的圖片無效。"
+msgstr "檢查碼無效。"
 
 #: weblate/trans/backups.py:338 weblate/trans/models/category.py:422
 msgid "Too deep nesting of categories!"
 msgstr "類別巢狀層級過深！"
 
 #: weblate/trans/backups.py:353 weblate/trans/backups.py:1109
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate category or component slug."
-msgstr "再製此組件"
+msgstr "分類或組件代稱重複。"
 
 #: weblate/trans/backups.py:359 weblate/trans/backups.py:1119
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate category or component name."
-msgstr "再製此組件"
+msgstr "分類或組件名稱重複。"
 
 #: weblate/trans/backups.py:365
-#, fuzzy
-#| msgid "Duplicate candidate scan"
 msgid "Duplicate category slug."
-msgstr "重複候選項掃描"
+msgstr "分類代稱重複。"
 
 #: weblate/trans/backups.py:417
-#, fuzzy
-#| msgid "Duplicated file mask."
 msgid "Duplicate label name."
-msgstr "檔案遮罩重複。"
+msgstr "標籤名稱重複。"
 
 #: weblate/trans/backups.py:446
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate team name."
-msgstr "重複翻譯。"
+msgstr "團隊名稱重複。"
 
 #: weblate/trans/backups.py:832
 msgid "Screenshot image is missing."
 msgstr "缺少螢幕擷圖。"
 
 #: weblate/trans/backups.py:1089 weblate/trans/backups.py:1269
-#, fuzzy
-#| msgid "Duplicated file mask."
 msgid "Duplicate check name."
-msgstr "檔案遮罩重複。"
+msgstr "檢查名稱重複。"
 
 #: weblate/trans/backups.py:1100
-#, fuzzy
-#| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced category does not exist."
-msgstr "{filename}（{parameter}）不存在。"
+msgstr "參照的分類不存在。"
 
 #: weblate/trans/backups.py:1131
 msgid "Component filename does not match its category and slug."
-msgstr ""
+msgstr "組件檔案名稱與其分類及代稱不符。"
 
 #: weblate/trans/backups.py:1137
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate component slug."
-msgstr "再製此組件"
+msgstr "組件代稱重複。"
 
 #: weblate/trans/backups.py:1168
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate translation identifier."
-msgstr "重複翻譯。"
+msgstr "翻譯識別碼重複。"
 
 #: weblate/trans/backups.py:1187
-#, fuzzy
-#| msgid "The component has to define a gettext template for new translations."
 msgid "Component has to contain exactly one source translation."
-msgstr "組件必須為新翻譯定義 gettext 範本。"
+msgstr "組件必須恰好包含一筆來源翻譯。"
 
 #: weblate/trans/backups.py:1220 weblate/trans/backups.py:1305
 #: weblate/trans/backups.py:1331
-#, fuzzy
-#| msgid "This translation does not yet exist."
 msgid "Referenced translation does not exist."
-msgstr "此翻譯已不存在。"
+msgstr "參照的翻譯不存在。"
 
 #: weblate/trans/backups.py:1226
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Duplicate unit checksum."
-msgstr "更新品質檢查"
+msgstr "單位檢查碼重複。"
 
 #: weblate/trans/backups.py:1234
-#, fuzzy
-#| msgid "File does not exist."
 msgid "Referenced label does not exist."
-msgstr "檔案不存在。"
+msgstr "參照的標籤不存在。"
 
 #: weblate/trans/backups.py:1285
 msgid "A translated unit references a missing source unit."
-msgstr ""
+msgstr "已翻譯的單位參照不存在的來源單位。"
 
 #: weblate/trans/backups.py:1313 weblate/trans/backups.py:1384
-#, fuzzy
-#| msgid "File does not exist."
 msgid "Referenced unit does not exist."
-msgstr "檔案不存在。"
+msgstr "參照的單位不存在。"
 
 #: weblate/trans/backups.py:1343
-#, fuzzy
-#| msgid "Screenshot image is missing."
 msgid "Screenshot filename is invalid."
-msgstr "缺少螢幕擷圖。"
+msgstr "螢幕截圖檔案名稱無效。"
 
 #: weblate/trans/backups.py:1352
-#, fuzzy
-#| msgid "A screenshot image was uploaded."
 msgid "Referenced screenshot image does not exist."
-msgstr "已上傳螢幕擷圖。"
+msgstr "參照的螢幕截圖影像不存在。"
 
 #: weblate/trans/backups.py:1358 weblate/trans/backups.py:1364
 #: weblate/utils/files.py:198 weblate/utils/files.py:208
@@ -18418,38 +18337,29 @@ msgid "Uploaded file is too big."
 msgstr "上傳的檔案過大。"
 
 #: weblate/trans/backups.py:1373
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not validate screenshot: %(error)s"
-msgstr "無法復原螢幕擷圖 %(name)s：%(error)s"
+msgstr "無法驗證螢幕截圖：%(error)s"
 
 #: weblate/trans/backups.py:1398
-#, fuzzy
-#| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced component does not exist."
-msgstr "{filename}（{parameter}）不存在。"
+msgstr "參照的組件不存在。"
 
 #: weblate/trans/backups.py:1408
-#, fuzzy
-#| msgid "File does not exist."
 msgid "Referenced role does not exist."
-msgstr "檔案不存在。"
+msgstr "參照的角色不存在。"
 
 #: weblate/trans/backups.py:1433
-#, fuzzy
-#| msgid "The category does not belong to the selected project."
 msgid "Repository data does not belong to a restored component."
-msgstr "這個類別不屬於選擇的專案。"
+msgstr "儲存庫資料不屬於已還原的組件。"
 
 #: weblate/trans/backups.py:1443
 msgid "Repository-linked components can not contain repository data."
-msgstr ""
+msgstr "與儲存庫連結的組件不得包含儲存庫資料。"
 
 #: weblate/trans/backups.py:2262
-#, fuzzy
-#| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
-msgstr "本地儲存庫已是最新狀態。"
+msgstr "專案儲存庫目錄已存在。"
 
 #: weblate/trans/change_display.py:40 weblate/trans/models/change.py:576
 msgid "The component was automatically locked because of an alert."
@@ -18545,10 +18455,8 @@ msgid "Backup domain"
 msgstr "備份網域"
 
 #: weblate/trans/change_display.py:614
-#, fuzzy
-#| msgid "View components"
 msgid "Skipped components"
-msgstr "檢視組件"
+msgstr "已略過的組件"
 
 #: weblate/trans/change_display.py:625
 msgid "Original component"
@@ -19802,7 +19710,7 @@ msgstr "Linux 樣式，小寫"
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
-msgstr ""
+msgstr "因連結的儲存庫無法使用，已略過組件 %(component)s。"
 
 #: weblate/trans/mixins.py:212
 msgid ""
@@ -21381,10 +21289,8 @@ msgid "Report generated."
 msgstr "報告已產生。"
 
 #: weblate/trans/tasks.py:1356
-#, fuzzy
-#| msgid "Project backup import completed."
 msgid "Project backup import completed with skipped components."
-msgstr "專案備份匯入完成。"
+msgstr "專案備份匯入已完成，但略過部分組件。"
 
 #: weblate/trans/tasks.py:1368
 msgid "Project backup import completed."
@@ -22505,10 +22411,8 @@ msgid "Could not resolve the URL domain: {}"
 msgstr "無法解析 URL 網域：{}"
 
 #: weblate/utils/outbound.py:369
-#, fuzzy
-#| msgid "Could not resolve the URL domain: {}"
 msgid "Could not resolve the URL domain."
-msgstr "無法解析 URL 網域：{}"
+msgstr "無法解析 URL 網域。"
 
 #: weblate/utils/render.py:27
 #, python-format
@@ -22861,10 +22765,8 @@ msgid "Component and priority"
 msgstr "組件與優先度"
 
 #: weblate/utils/zammad.py:19
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Customer care is currently unavailable."
-msgstr "服務目前無法使用。"
+msgstr "客戶服務目前無法使用。"
 
 #: weblate/utils/zip.py:55 weblate/utils/zip.py:149
 #, python-brace-format
@@ -22903,7 +22805,7 @@ msgstr "ZIP 檔案包含一個壓縮項目，其解壓縮後的大小過大。"
 
 #: weblate/vcs/base.py:286
 msgid "The repository URL permanently redirects to a canonical URL."
-msgstr ""
+msgstr "儲存庫 URL 已永久重新導向至標準 URL。"
 
 #: weblate/vcs/base.py:344
 msgid "This will push changes to the upstream repository."
@@ -22913,7 +22815,7 @@ msgstr "這會將變更推送至上游儲存庫。"
 msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
-msgstr ""
+msgstr "啟用私有位址限制時，此 VCS 後端無法安全連線至此 URL。"
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1198
 msgid "Enter a valid GitHub host."
@@ -22964,54 +22866,51 @@ msgstr ""
 "限於其擁有者；並不會在 GitHub Marketplace 上列出 App。"
 
 #: weblate/vcs/git.py:128
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository redirect target has no validated address."
-msgstr "已清理儲存庫工作目錄。"
+msgstr "儲存庫重新導向目標沒有已驗證的位址。"
 
 #: weblate/vcs/git.py:145
 msgid "The repository returned an HTTP redirect with an invalid hostname."
-msgstr ""
+msgstr "儲存庫回傳含有無效主機名稱的 HTTP 重新導向。"
 
 #: weblate/vcs/git.py:194 weblate/vcs/git.py:210
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "儲存庫回傳無效的 HTTP 重新導向。"
 
 #: weblate/vcs/git.py:200
 msgid "The repository HTTP redirect contains credentials and was rejected."
-msgstr ""
+msgstr "儲存庫 HTTP 重新導向包含認證資訊，已遭拒絕。"
 
 #: weblate/vcs/git.py:216
-#, fuzzy
-#| msgid "The category does not belong to the selected project."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "這個類別不屬於選擇的專案。"
+msgstr "儲存庫 HTTP 重新導向未指向 Git smart HTTP 端點。"
 
 #: weblate/vcs/git.py:227
 msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"儲存庫 URL 重新導向至不同主機。為維護安全性，已停用自動跨主機重新導向；請手動"
+"更新儲存庫 URL。"
 
 #: weblate/vcs/git.py:234
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
-msgstr ""
+msgstr "儲存庫 URL 從 HTTPS 重新導向至不安全 URL，已遭拒絕。"
 
 #: weblate/vcs/git.py:239
 msgid "The repository URL redirects to an unsupported URL scheme."
-msgstr ""
+msgstr "儲存庫 URL 重新導向至不支援的 URL 架構。"
 
 #: weblate/vcs/git.py:255
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
-msgstr ""
+msgstr "儲存庫 HTTP 重新導向意外變更了 URL 查詢字串。"
 
 #: weblate/vcs/git.py:328
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %s"
-msgstr "無法取得儲存庫：%s"
+msgstr "無法探查儲存庫 HTTP 重新導向：%s"
 
 #: weblate/vcs/git.py:384 weblate/vcs/git.py:2309
 #, python-format
@@ -23024,31 +22923,25 @@ msgstr "這將把變更推送到上游 Git 儲存庫。"
 
 #: weblate/vcs/git.py:611
 msgid "The repository returned a permanent HTTP redirect without a target URL."
-msgstr ""
+msgstr "儲存庫回傳沒有目標 URL 的永久 HTTP 重新導向。"
 
 #: weblate/vcs/git.py:622
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "已清理儲存庫工作目錄。"
+msgstr "儲存庫 HTTP 重新導向包含迴圈。"
 
 #: weblate/vcs/git.py:630
 msgid "The repository HTTP redirect target could not be validated."
-msgstr ""
+msgstr "無法驗證儲存庫 HTTP 重新導向目標。"
 
 #: weblate/vcs/git.py:657
-#, fuzzy
-#| msgid ""
-#| "Remote branch could not be verified against the shallow existing "
-#| "repository."
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
-msgstr "無法根據現有的淺層儲存庫驗證遠端分支。"
+msgstr "無法驗證儲存庫 HTTP 重新導向目標是否為 Git 儲存庫。"
 
 #: weblate/vcs/git.py:662
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "儲存庫回傳過多 HTTP 重新導向。"
 
 #: weblate/vcs/git.py:801
 #, python-format
@@ -23368,10 +23261,8 @@ msgstr ""
 "否正確。"
 
 #: weblate/vcs/ssh.py:388
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "沒有可用的團隊。"
+msgstr "沒有可用的已驗證 SSH 位址。"
 
 #: weblate/vcs/ssh.py:434
 msgid "Could not read stored host keys."
@@ -23394,16 +23285,13 @@ msgstr ""
 
 #: weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:632 weblate/vcs/ssh.py:638
 #: weblate/vcs/ssh.py:642
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "無法判斷 Sphinx 來源目錄。"
+msgstr "無法判定有效的 SSH 目的地。"
 
 #: weblate/vcs/ssh.py:613 weblate/vcs/ssh.py:618
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "無法移除字串：%s"
+msgstr "無法判定有效的 SSH 目的地：%s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
 msgid ""
