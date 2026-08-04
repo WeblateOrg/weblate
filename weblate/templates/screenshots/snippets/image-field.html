@@ -1,0 +1,48 @@
+{% load crispy_forms_field %}
+
+<div id="div_{{ field.auto_id }}"
+     class="mb-3{% if 'form-horizontal' in form_class %} row{% endif %}{% if wrapper_class %} {{ wrapper_class }}{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+  {% if field.label and form_show_labels %}
+    <label for="{{ field.id_for_label }}"
+           class="{% if 'form-horizontal' in form_class %}col-form-label {% else %}form-label{% endif %}{% if label_class %} {{ label_class }}{% endif %}{% if field.field.required %} requiredField{% endif %}">
+      {{ field.label }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+    </label>
+  {% endif %}
+  {% if field_class %}<div class="{{ field_class }}">{% endif %}
+  {% for widget in field.subwidgets %}
+    {% if widget.data.is_initial %}
+      <div class="input-group mb-2">
+        <span class="input-group-text">{{ widget.data.initial_text }}</span>
+        <div class="form-control d-flex h-auto">
+          <span class="text-break flex-grow-1">
+            <a href="{{ field.value.url }}">{{ field.value.name }}</a>
+          </span>
+          {% if not widget.data.required %}
+            <span class="align-self-center ms-2">
+              <span class="form-check">
+                <input type="checkbox"
+                       name="{{ widget.data.checkbox_name }}"
+                       id="{{ widget.data.checkbox_id }}"
+                       class="form-check-input"
+                       {% if field.field.disabled %}disabled{% endif %} />
+                <label class="form-check-label mb-0" for="{{ widget.data.checkbox_id }}">{{ widget.data.clear_checkbox_label }}</label>
+              </span>
+            </span>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+    <div {% if field.errors %}class="is-invalid"{% endif %}>
+      <div class="input-group">
+        <input type="{{ widget.data.type }}" name="{{ widget.data.name }}" class="form-control{% if widget.data.attrs.class %} {{ widget.data.attrs.class }}{% endif %}{% if field.errors %} is-invalid{% endif %}" {% if field.field.disabled %}disabled{% endif %} {% for name, value in widget.data.attrs.items %} {% if value is not False and name != "class" %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %} {% endif %} {% endfor %} />
+        {% include "screenshots/snippets/paste-button.html" %}
+      </div>
+      <div id="paste-screenshot-info-label"
+           class="form-text"
+           role="status"
+           aria-live="polite"></div>
+      {% include "bootstrap5/layout/help_text_and_errors.html" %}
+    </div>
+  {% endfor %}
+  {% if field_class %}</div>{% endif %}
+</div>
