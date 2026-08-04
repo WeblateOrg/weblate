@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-30 03:46+0200\n"
-"PO-Revision-Date: 2026-08-03 16:37+0000\n"
+"PO-Revision-Date: 2026-08-04 18:03+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.8.1.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:266
@@ -180,6 +180,12 @@ msgid ""
 "filtered, so these aggregates do not grant access to the underlying projects "
 "or components."
 msgstr ""
+"Die aggregierten Statistiken umfassen `Privat`-Projekte und "
+":ref:`eingeschränkte Komponenten <component-restricted>`, einschließlich der "
+"Zusammenfassungen für die gesamte Website, für Sprachen und für "
+"Arbeitsbereiche. Objektlisten, Namen und Aktionen unterliegen weiterhin "
+"einer Berechtigungsfilterung, sodass diese aggregierten Daten keinen Zugriff "
+"auf die zugrunde liegenden Projekte oder Komponenten gewähren."
 
 #: admin/access.rst:82
 msgid ""
@@ -442,6 +448,11 @@ msgid ""
 "current personal API key stops working. Clear it only when the current API "
 "key should remain active."
 msgstr ""
+"Website-Administratoren können die Passwortauthentifizierung für einen "
+"Benutzer auch deaktivieren. Die Option :guilabel:`API-Schlüssel neu "
+"generieren` ist standardmäßig aktiviert, sodass der aktuelle persönliche API-"
+"Schlüssel nicht mehr funktioniert. Deaktivieren Sie diese Option nur, wenn "
+"der aktuelle API-Schlüssel weiterhin aktiv bleiben soll."
 
 #: admin/access.rst:210
 msgid ""
@@ -3007,6 +3018,10 @@ msgid ""
 "screenshot files cause the import to be rejected without creating a partial "
 "project."
 msgstr ""
+"Die vollständige Sicherung wird vor dem Wiederherstellen von Daten "
+"validiert. Ungültige Objektfelder, Verweise, Repository-Pfade, URLs, "
+"reguläre Ausdrücke oder Bildschirmfotos führen dazu, dass der Import "
+"abgelehnt wird, ohne dass ein Teilprojekt erstellt wird."
 
 #: admin/backup.rst:47
 msgid ""
@@ -4707,11 +4722,6 @@ msgstr ""
 "Hosted-Weblate-GitHub-Benutzer :guilabel:`weblate` einzuladen."
 
 #: admin/code-hosting.rst:267
-#, fuzzy
-#| msgid ""
-#| "The `Hosted Weblate legacy app`_ is kept for existing webhook-only "
-#| "setups. Use it only when you need the legacy app to deliver GitHub "
-#| "notifications to Hosted Weblate."
 msgid ""
 "The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. "
 "Its deliveries use the generic GitHub webhook URL and are authenticated "
@@ -4720,8 +4730,11 @@ msgid ""
 "Hosted Weblate."
 msgstr ""
 "Die `Hosted-Weblate-Legacy-App`_ wird für bestehende Setups beibehalten, die "
-"ausschließlich Webhooks nutzen. Verwenden Sie sie nur, wenn Sie die Legacy-"
-"App benötigen, um GitHub-Benachrichtigungen an Hosted Weblate weiterzuleiten."
+"ausschließlich Webhooks nutzen. Ihre Übermittlungen erfolgen über die "
+"generische GitHub-Webhook-URL und werden mithilfe eines separaten Webhook-"
+"Schlüssels authentifiziert, der vom Hosted Weblate-Betreiber konfiguriert "
+"wird. Verwenden Sie sie nur, wenn Sie die Legacy-App benötigen, um GitHub-"
+"Benachrichtigungen an Hosted Weblate weiterzuleiten."
 
 #: admin/code-hosting.rst:274
 msgid ""
@@ -5159,12 +5172,12 @@ msgstr ""
 "Repository :guilabel:`Settings` erfolgen."
 
 #: admin/code-hosting.rst:510
-#, fuzzy
-#| msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.com/usage/repository/"
 "webhooks>`_"
-msgstr "`Webhooks im Gitea-Handbuch <https://docs.gitea.io/en-us/webhooks/>`_"
+msgstr ""
+"`Webhooks im Gitea-Handbuch <https://docs.gitea.com/usage/repository/"
+"webhooks>`_"
 
 #: admin/code-hosting.rst:511
 msgid ":http:post:`/hooks/gitea/`"
@@ -5756,8 +5769,8 @@ msgid ""
 "target before Weblate follows it. Redirects to hosts outside of this "
 "allowlist are rejected."
 msgstr ""
-"Die Positivliste wird auf die ursprüngliche URL und auf jedes Ziel einer "
-"HTTP-Weiterleitung angewendet, bevor Weblate dieser folgt. Weiterleitungen "
+"Die Positivliste wird auf die ursprüngliche URL und auf jedes HTTP-"
+"Weiterleitungsziel angewendet, bevor Weblate dieser folgt. Weiterleitungen "
 "zu Hosts außerhalb dieser Liste werden abgelehnt."
 
 #: admin/config.rst:58
@@ -5824,16 +5837,6 @@ msgid "Defaults to ``[]``."
 msgstr "Der Standardwert ist ``[]``."
 
 #: admin/config.rst:102
-#, fuzzy
-#| msgid ""
-#| "The allowlist affects project-managed machinery in two ways: it permits "
-#| "the configured endpoint during outbound validation, and it marks matching "
-#| "hosts as trusted when deciding whether remote provider error details or "
-#| "response bodies can be shown to the user. For direct connections, runtime "
-#| "checks still reject destinations that resolve to private or otherwise non-"
-#| "public addresses. When an HTTP(S) proxy is used, runtime validation falls "
-#| "back to hostname validation and does not perform the same local DNS or "
-#| "peer-IP checks."
 msgid ""
 "The allowlist affects project-managed machinery in two ways: it permits the "
 "configured endpoint during outbound validation, and it marks matching hosts "
@@ -5844,16 +5847,17 @@ msgid ""
 "whose network destinations are trusted. When a configured :ref:`http-proxy` "
 "is used, the proxy is trusted to resolve the destination hostname."
 msgstr ""
-"Die Positivliste wirkt sich auf zwei Arten auf projektverwaltete "
+"Die Positivliste wirkt sich in zweierlei Hinsicht auf projektverwaltete "
 "Maschinendienste aus: Sie lässt den konfigurierten Endpunkt während der "
 "Validierung ausgehender Verbindungen zu und markiert übereinstimmende Hosts "
-"als vertrauenswürdig, wenn es darum geht zu entscheiden, ob dem Benutzer "
-"Fehlerdetails oder Antwortinhalte von Remote-Anbietern angezeigt werden "
-"können. Bei direkten Verbindungen lehnen die Laufzeitprüfungen weiterhin "
-"Ziele ab, die auf private oder anderweitig nicht-öffentliche Adressen "
-"verweisen. Wenn ein HTTP(S)-Proxy verwendet wird, greift die "
-"Laufzeitvalidierung auf die Validierung des Rechnernamens zurück und führt "
-"nicht die gleichen lokalen DNS- oder Peer-IP-Prüfungen durch."
+"als vertrauenswürdig, wenn entschieden wird, ob Fehlerdetails oder "
+"Antwortinhalte von Remote-Anbietern dem Benutzer angezeigt werden dürfen. "
+"Übereinstimmende Hosts sind zudem von Einschränkungen für private Ziele "
+"ausgenommen. Bei direkten Verbindungen löst Weblate die Peer-Adresse "
+"übereinstimmender Hosts nicht auf, bindet sie nicht fest und überprüft sie "
+"auch nicht. Fügen Sie nur Hosts oder Domains hinzu, deren Netzwerkziele "
+"vertrauenswürdig sind. Wenn ein konfigurierter :ref:`http-proxy` verwendet "
+"wird, wird dem Proxy die Auflösung des Ziel-Hostnamens anvertraut."
 
 #: admin/config.rst:118
 msgid ""
@@ -6793,6 +6797,8 @@ msgid ""
 "Webhook secret for a legacy GitHub App which delivers events to the generic "
 "GitHub webhook URL, ``/hooks/github/``."
 msgstr ""
+"Webhook-Geheimnis für eine ältere GitHub-App, die Ereignisse an die "
+"generische GitHub-Webhook-URL ``/hooks/github/`` übermittelt."
 
 #: admin/config.rst:1085
 msgid ""
@@ -6801,6 +6807,11 @@ msgid ""
 "webhooks are unaffected. GitHub Apps registered through Weblate use their "
 "per-App webhook URLs and do not use this setting."
 msgstr ""
+"Webhook-Übermittlungen von Apps an die generische URL werden abgelehnt, wenn "
+"diese Einstellung leer ist oder die ``X-Hub-Signature-256``` nicht "
+"übereinstimmt. Normale Repository-Webhooks sind davon nicht betroffen. Über "
+"Weblate registrierte GitHub-Apps verwenden ihre app-spezifischen Webhook-"
+"URLs und nutzen diese Einstellung nicht."
 
 #: admin/config.rst:1106
 msgid "List for credentials for Bitbucket Data Center."
@@ -8312,6 +8323,12 @@ msgid ""
 "provided by :setting:`VCS_RESTRICT_PRIVATE`. Administrators are responsible "
 "for the security and compatibility impact of all configured arguments."
 msgstr ""
+"Hierbei handelt es sich um eine vertrauenswürdige Administrator-gesteuerte "
+"Konfiguration. Beliebige SSH-Optionen können das Verbindungsrouting "
+"verändern und die durch :setting:`VCS_RESTRICT_PRIVATE` festgelegte "
+"Adressbindung außer Kraft setzen. Die Administratoren sind für die "
+"Auswirkungen aller konfigurierten Argumente auf die Sicherheit und "
+"Kompatibilität verantwortlich."
 
 #: admin/config.rst:2633
 msgid "`OpenSSH Legacy Options <https://www.openssh.org/legacy.html>`_"
@@ -8431,6 +8448,11 @@ msgid ""
 "for VCS backends which cannot bind the client connection to the address "
 "validated by Weblate, such as Mercurial and Subversion."
 msgstr ""
+"Wenn :setting:`VCS_RESTRICT_PRIVATE` aktiviert ist, sind übereinstimmende "
+"Hosts ebenfalls von der Einschränkung für private Ziele ausgenommen. Diese "
+"Ausnahme ist auch für VCS-Backends erforderlich, welche die Clientverbindung "
+"nicht an die von Weblate validierte Adresse binden können, wie "
+"beispielsweise Mercurial und Subversion."
 
 #: admin/config.rst:2751
 msgid ""
@@ -8471,6 +8493,18 @@ msgid ""
 "Subversion, custom VCS backends, and additional URL schemes are rejected "
 "unless the target host is explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Bei Git-Repositorys, auf die über HTTPS oder SSH zugegriffen wird, ordnet "
+"Weblate jeden VCS-Befehl den Adressen zu, die bei der Laufzeitvalidierung "
+"für direkte Verbindungen zugelassen wurden. Konfigurierte HTTP-Proxys gelten "
+"als vertrauenswürdige Infrastruktur und lösen stattdessen die Hostnamen der "
+"Repositorys auf. Die automatische Weiterverfolgung von Umleitungen bleibt "
+"deaktiviert. Permanente HTTP-Weiterleitungen innerhalb desselben Hosts "
+"werden separat über dieselbe ausgehende Route geprüft, validiert und als "
+"kanonische Repository-URL gespeichert. Hostübergreifende Weiterleitungen "
+"müssen manuell konfiguriert werden. Mercurial, Subversion, "
+"benutzerdefinierte VCS-Backends und zusätzliche URL-Schemas werden "
+"abgelehnt, es sei denn, der Zielhost ist explizit in "
+":setting:`VCS_ALLOW_HOSTS` aufgeführt."
 
 #: admin/config.rst:2777
 msgid ""
@@ -10065,12 +10099,6 @@ msgid "Weblate Cloudron Package"
 msgstr "Weblate-Cloudron-Paket"
 
 #: admin/deployments.rst:23
-#, fuzzy
-#| msgid ""
-#| "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
-#| "applications. Weblate installed with Cloudron will be automatically kept "
-#| "up-to-date. The package is maintained by the Cloudron team at their "
-#| "`Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgid ""
 "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
 "applications. Weblate installed with Cloudron will be automatically kept up-"
@@ -10080,8 +10108,8 @@ msgstr ""
 "`Cloudron <https://www.cloudron.io/>`_ ist eine Plattform für das Self-"
 "Hosting von Webanwendungen. Weblate, das mit Cloudron installiert wird, wird "
 "automatisch auf dem neuesten Stand gehalten. Das Paket wird vom Cloudron-"
-"Team in seinem `Weblate-Paket-Repository <https://git.cloudron.io/cloudron/"
-"weblate-app>`_ gepflegt."
+"Team gepflegt; siehe die `Weblate-Paket-Dokumentation <https://"
+"docs.cloudron.io/packages/weblate/>`_."
 
 #: admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
@@ -10188,16 +10216,12 @@ msgstr ""
 "skalieren."
 
 #: admin/install.rst:138
-#, fuzzy
-#| msgid "Application region"
 msgid "Application server"
-msgstr "Anwendungsgebiet"
+msgstr "Anwendungsserver"
 
 #: admin/install.rst:139
-#, fuzzy
-#| msgid "A WSGI server serving web pages to users."
 msgid "A WSGI or ASGI server serving web pages to users."
-msgstr "Ein WSGI-Server, der Benutzern Webseiten bereitstellt."
+msgstr "Ein WSGI- oder ASGI-Server, der Benutzern Webseiten bereitstellt."
 
 #: admin/install.rst:143
 msgid ""
@@ -10373,10 +10397,8 @@ msgid "Weblate feature"
 msgstr "Weblate-Funktion"
 
 #: admin/install.rst:218
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "ASGI server for Weblate"
-msgstr "WSGI-Server für Weblate"
+msgstr "ASGI-Server für Weblate"
 
 #: admin/install.rst:231
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
@@ -10403,8 +10425,6 @@ msgid "Hosted Weblate integration"
 msgstr "Hosted-Weblate-Integration"
 
 #: admin/install.rst:271
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "WSGI server for Weblate"
 msgstr "WSGI-Server für Weblate"
 
@@ -10977,10 +10997,6 @@ msgid ""
 msgstr ""
 
 #: admin/install.rst:664
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies/env.html>`_"
 msgid ""
 "`Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
@@ -11965,10 +11981,8 @@ msgstr ""
 "Anzahl der blockierenden Threads sein."
 
 #: admin/install.rst:1457
-#, fuzzy
-#| msgid "Sample configuration to start Granian"
 msgid "Sample configuration to start Granian with ASGI"
-msgstr "Beispielkonfiguration zum Starten von Granian"
+msgstr "Beispielkonfiguration zum Starten von Granian mit ASGI"
 
 #: admin/install.rst:1461
 msgid ""
@@ -13087,22 +13101,16 @@ msgid "Number of processes and memory consumption"
 msgstr "Anzahl der Prozesse und Speicherverbrauch"
 
 #: admin/install/docker.rst:384
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both WSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both the web application and Celery is "
 "determined automatically based on number of CPUs. This works well for most "
 "cloud virtual machines as these typically have few CPUs and good amount of "
 "memory."
 msgstr ""
-"Die Anzahl der Worker-Prozesse wird sowohl für WSGI als auch Celery "
-"automatisch anhand der Anzahl der CPUs bestimmt. Dies funktioniert gut für "
-"die meisten virtuellen Maschinen in der Cloud, da diese normalerweise über "
-"wenige CPUs und viel Arbeitsspeicher verfügen."
+"Die Anzahl der Worker-Prozesse wird sowohl für die Webanwendung als auch "
+"Celery automatisch anhand der Anzahl der CPUs bestimmt. Dies funktioniert "
+"gut für die meisten virtuellen Maschinen in der Cloud, da diese "
+"normalerweise über wenige CPUs und viel Arbeitsspeicher verfügen."
 
 #: admin/install/docker.rst:389
 msgid ""
@@ -14087,19 +14095,14 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:1463
-#, fuzzy
-#| msgid ""
-#| "GitHub Apps are registered through the in-app manifest flow and stored in "
-#| "the database, so there are no GitHub App environment variables to "
-#| "configure. See :ref:`code-hosting-github-notifications`."
 msgid ""
 "GitHub Apps registered through the in-app manifest flow are stored in the "
 "database and do not need environment variables. See :ref:`code-hosting-"
 "github-notifications`."
 msgstr ""
-"GitHub-Apps werden über den In-App-Manifest-Ablauf registriert und in der "
-"Datenbank gespeichert, sodass keine GitHub-App-Umgebungsvariablen "
-"konfiguriert werden müssen. Siehe :ref:`code-hosting-github-notifications`."
+"GitHub-Apps, die über den In-App-Manifest-Ablauf registriert wurden, werden "
+"in der Datenbank gespeichert und benötigen keine Umgebungsvariablen. Siehe "
+":ref:`code-hosting-github-notifications`."
 
 #: admin/install/docker.rst:1472
 msgid ""
@@ -14917,10 +14920,8 @@ msgid ""
 msgstr ""
 
 #: admin/install/docker.rst:2435
-#, fuzzy
-#| msgid "Configure how many WSGI workers should be executed."
 msgid "Configure how many web application workers should be executed."
-msgstr "Konfiguriert, wie viele WSGI-Worker ausgeführt werden sollen."
+msgstr "Konfiguriert, wie viele Webanwendungs-Worker ausgeführt werden sollen."
 
 #: admin/install/docker.rst:2437
 msgid ""
@@ -14938,18 +14939,15 @@ msgstr ""
 "von :program:`granian` verwendet werden."
 
 #: admin/install/docker.rst:2452
-#, fuzzy
-#| msgid ""
-#| "Configure how many blocking WSGI threads each :program:`granian` worker "
-#| "can use. It defaults to twice :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "Configure how many blocking WSGI threads each :program:`granian` worker can "
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS` and is ignored "
 "when :envvar:`WEBLATE_ASGI` is enabled."
 msgstr ""
 "Legt fest, wie viele blockierende WSGI-Threads jeder :program:`granian`-"
-"Worker verwenden darf. Der Standardwert beträgt das Doppelte "
-"von :envvar:`WEBLATE_WORKERS`."
+"Worker verwenden darf. Der Standardwert beträgt das Doppelte von "
+":envvar:`WEBLATE_WORKERS` und wird ignoriert, wenn :envvar:`WEBLATE_ASGI` "
+"aktiviert ist."
 
 #: admin/install/docker.rst:2456
 msgid ""
@@ -22328,9 +22326,9 @@ msgid ""
 "fill in :guilabel:`Repository path to screenshot` with the path tracked in "
 "the repository."
 msgstr ""
-"Um ein manuell hochgeladenes Bildschirmfoto mit späteren Repository-Updates "
-"zu verbinden, geben Sie in :guilabel:`Repository-Pfad zum Bildschirmfoto` "
-"den im Repository nachverfolgten Pfad ein."
+"Um ein manuell hochgeladenes Bildschirmfoto mit späteren Repository-"
+"Aktualisierungen zu verbinden, geben Sie in :guilabel:`Repository-Pfad zum "
+"Bildschirmfoto` den im Repository nachverfolgten Pfad ein."
 
 #: admin/translating.rst:193
 msgid ""
@@ -22805,16 +22803,12 @@ msgid ""
 msgstr ""
 
 #: admin/workspaces.rst:26
-#, fuzzy
-#| msgid ""
-#| "You can list all workspaces in the management interface "
-#| "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgid ""
 "Site managers can list all workspaces in the management interface "
 "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgstr ""
-"Sie können alle Arbeitsbereiche in der Verwaltungsoberfläche "
-"unter :guilabel:`Verwalten` ↓ :guilabel:`Arbeitsbereiche` auflisten."
+"Sie können alle Arbeitsbereiche in der Verwaltungsoberfläche unter "
+":guilabel:`Verwalten` ↓ :guilabel:`Arbeitsbereiche` auflisten."
 
 #: admin/workspaces.rst:31
 msgid ""
@@ -23705,10 +23699,8 @@ msgstr ""
 "siehe :ref:`saml-auth`."
 
 #: changes.rst:17
-#, fuzzy
-#| msgid "Weblate is now available in Bashkir language."
 msgid "Weblate is now available in Lao language."
-msgstr "Weblate ist jetzt in Baschkirisch verfügbar."
+msgstr "Weblate ist jetzt in Laotisch verfügbar."
 
 #: changes.rst:20 changes.rst:101 changes.rst:165 changes.rst:276
 #: changes.rst:333 changes/v5.rst:18 changes/v5.rst:104 changes/v5.rst:208
@@ -46496,10 +46488,8 @@ msgid ""
 msgstr ""
 
 #: devel/integration.rst:81
-#, fuzzy
-#| msgid ":http:get:`/api/projects/(string:project)/statistics/`"
 msgid ":http:get:`/api/projects/(string:project)/metrics/`"
-msgstr ":http:get:`/api/projects/(string:project)/statistics/`"
+msgstr ":http:get:`/api/projects/(string:project)/metrics/`"
 
 #: devel/integration.rst:87 devel/translations.rst:7
 msgid "Adding new strings"
@@ -58465,7 +58455,7 @@ msgstr "Repository post-update"
 #: snippets/addon-events-autogenerated.rst:79
 msgid "Triggered whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Wird ausgelöst, wenn neue Änderungen aus dem Upstream-Repository gezogen "
+"Wird ausgelöst, wenn neue Änderungen aus dem Upstream-Repository abgerufen "
 "werden."
 
 #: snippets/addon-events-autogenerated.rst:84
@@ -62619,10 +62609,8 @@ msgid "Enables the :ref:`check-max-length` quality check."
 msgstr "Aktiviert die Qualitätsprüfung :ref:`check-max-length`."
 
 #: snippets/check-flags-autogenerated.rst:133
-#, fuzzy
-#| msgid "Enables the :ref:`check-max-size` quality check."
 msgid "Enables the :ref:`check-max-lines` quality check."
-msgstr "Aktiviert die Qualitätsprüfung :ref:`check-max-size`."
+msgstr "Aktiviert die Qualitätsprüfung :ref:`check-max-lines`."
 
 #: snippets/check-flags-autogenerated.rst:135
 msgid "Enables the :ref:`check-max-size` quality check."
@@ -62678,10 +62666,8 @@ msgid "Skip the :ref:`check-accelerator` quality check."
 msgstr "Überspringt die Qualitätsprüfung :ref:`check-accelerator`."
 
 #: snippets/check-flags-autogenerated.rst:166
-#, fuzzy
-#| msgid "Skip the :ref:`check-kashida` quality check."
 msgid "Skip the :ref:`check-asciidoc-markup` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-kashida`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-asciidoc-markup`."
 
 #: snippets/check-flags-autogenerated.rst:168
 msgid "Skip the :ref:`check-bbcode` quality check."
@@ -62854,10 +62840,8 @@ msgid "Skip the :ref:`check-max-length` quality check."
 msgstr "Überspringt die Qualitätsprüfung :ref:`check-max-length`."
 
 #: snippets/check-flags-autogenerated.rst:252
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-size` quality check."
 msgid "Skip the :ref:`check-max-lines` quality check."
-msgstr "Überspringt die Qualitätsprüfung :ref:`check-max-size`."
+msgstr "Überspringt die Qualitätsprüfung :ref:`check-max-lines`."
 
 #: snippets/check-flags-autogenerated.rst:254
 msgid "Skip the :ref:`check-max-size` quality check."
@@ -67334,10 +67318,8 @@ msgid "``.ad``, ``.adoc``, ``.asciidoc``"
 msgstr "``.ad``, ``.adoc``, ``.asciidoc``"
 
 #: snippets/format-features/asciidoc-features.rst:30
-#, fuzzy
-#| msgid ":ref:`check-safe-html`, ``strict-same``"
 msgid ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
-msgstr ":ref:`check-safe-html`, ``strict-same``"
+msgstr ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
