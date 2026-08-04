@@ -10,6 +10,9 @@ from django.contrib.messages import get_messages
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Permission, Role, TeamMembership
+from weblate.lang.models import Language
 from weblate.trans.models import Component, PendingUnitChange, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path
@@ -153,6 +156,80 @@ class GitNoChangeProjectTest(ViewTestCase):
         ):
             response = self.client.get(self.get_test_url("git_status"))
         self.assertContains(response, "Repository status")
+
+
+class RepositoryPermissionScopeTest(ViewTestCase):
+    def grant_permission(
+        self,
+        permission: str,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+        language: Language | None = None,
+    ) -> None:
+        group = Group.objects.create(
+            name=f"Repository scope {permission} {Group.objects.count()}",
+            language_selection=SELECTION_ALL,
+        )
+        if component is not None:
+            group.components.add(component)
+        if project is not None:
+            group.projects.add(project)
+        role = Role.objects.create(
+            name=f"Repository scope {permission} {Role.objects.count()}"
+        )
+        role.permissions.add(Permission.objects.get(codename=permission))
+        group.roles.add(role)
+        self.user.groups.add(group)
+        if language is not None:
+            TeamMembership.objects.get(user=self.user, group=group).limit_languages.add(
+                language
+            )
+        self.user.clear_permissions_cache()
+
+    def test_language_limited_reset_and_cleanup_are_denied(self) -> None:
+        self.user.groups.clear()
+        translation = self.get_translation("cs")
+        self.grant_permission(
+            "vcs.reset",
+            project=self.project,
+            language=Language.objects.get(code="cs"),
+        )
+
+        self.assertFalse(self.user.has_perm("vcs.reset", translation))
+        self.assertFalse(self.user.has_perm("meta:vcs.status", translation))
+        for view_name in (
+            "reset",
+            "cleanup",
+            "file_sync",
+            "file_scan",
+            "remove_duplicate_units",
+            "cleanup_unused",
+            "remove_obsolete_units",
+        ):
+            with self.subTest(view_name=view_name):
+                response = self.client.post(
+                    reverse(view_name, kwargs={"path": translation.get_url_path()})
+                )
+                self.assertEqual(response.status_code, 403)
+
+    def test_linked_child_reset_requires_owner_permission(self) -> None:
+        self.user.groups.clear()
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Linked repository permission",
+            slug="linked-repository-permission",
+            project=other_project,
+        )
+        self.grant_permission("vcs.reset", component=linked)
+
+        self.assertFalse(self.user.has_perm("vcs.reset", linked))
+        with patch.object(Component, "do_reset", autospec=True) as reset:
+            response = self.client.post(
+                reverse("reset", kwargs={"path": linked.get_url_path()})
+            )
+        self.assertEqual(response.status_code, 403)
+        reset.assert_not_called()
 
 
 class GitNoChangeComponentTest(GitNoChangeProjectTest):

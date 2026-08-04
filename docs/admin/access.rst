@@ -479,6 +479,12 @@ the following rules:
   those languages. Project-wide, component-wide and global permissions from that
   team are not granted for that member.
 
+- The VCS permissions to commit, push, reset, and update are evaluated for the
+  whole repository. A member needs component-wide permission on the component
+  owning the repository and every component linked to it. This also applies
+  when linked components are in other projects. A per-member language limit
+  therefore cannot grant these permissions.
+
 .. hint::
 
    Use :guilabel:`Language selection` or :guilabel:`Project selection`
