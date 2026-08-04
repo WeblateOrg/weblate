@@ -7632,10 +7632,10 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
             },
         )
 
-    def mock_response(self) -> None:
+    def mock_response(self, url: str = "https://api.anthropic.com/v1/messages") -> None:
         http_mock.register(
             "POST",
-            "https://api.anthropic.com/v1/messages",
+            url,
             status_code=200,
             json={
                 "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
@@ -7691,6 +7691,32 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
         )
 
         machine = self.MACHINE_CLS({**self.CONFIGURATION, "base_url": ""})
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_BLANK,
+            self.EXPECTED_LEN,
+            machine=machine,
+        )
+
+    @http_mock.activate
+    def test_base_url_path_is_preserved(self) -> None:
+        self.mock_response("https://gateway.example/api/v1/messages")
+        machine = self.MACHINE_CLS(
+            {**self.CONFIGURATION, "base_url": "https://gateway.example/api"}
+        )
+        self.assert_translate(
+            self.SUPPORTED,
+            self.SOURCE_BLANK,
+            self.EXPECTED_LEN,
+            machine=machine,
+        )
+
+    @http_mock.activate
+    def test_base_url_with_version(self) -> None:
+        self.mock_response("https://gateway.example/api/v1/messages")
+        machine = self.MACHINE_CLS(
+            {**self.CONFIGURATION, "base_url": "https://gateway.example/api/v1"}
+        )
         self.assert_translate(
             self.SUPPORTED,
             self.SOURCE_BLANK,
