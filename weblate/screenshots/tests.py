@@ -21,6 +21,7 @@ from django.test import SimpleTestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from lxml import html
 from PIL import Image
 from rest_framework.test import APITestCase
 
@@ -201,6 +202,26 @@ class ViewTest(FixtureTestCase):
             response, get_doc_url("user/search", "search-screenshots", user=self.user)
         )
 
+    def test_list_paste_button(self) -> None:
+        self.make_manager()
+        response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
+        self.assertContains(response, 'id="paste-screenshot-btn"')
+        document = html.fromstring(response.content)
+        container = document.get_element_by_id("screenshot-form-container")
+        form = container.xpath("ancestor::form[1]")[0]
+        self.assertEqual(
+            len(form.xpath('.//input[@name="csrfmiddlewaretoken"]')),
+            1,
+        )
+        button = document.get_element_by_id("paste-screenshot-btn")
+        self.assertEqual(button.get("class"), "btn btn-outline-secondary")
+        parent = button.getparent()
+        assert parent is not None
+        self.assertEqual(parent.get("class"), "input-group")
+        previous = button.getprevious()
+        assert previous is not None
+        self.assertEqual(previous.get("id"), "id_image")
+
     def do_upload(self, **kwargs):
         with open(TEST_SCREENSHOT, "rb") as handle:
             data = {
@@ -351,6 +372,14 @@ class ViewTest(FixtureTestCase):
             response, get_doc_url("user/search", "search-boolean", user=self.user)
         )
         self.assertContains(response, 'id="screenshots-toggle-selection"')
+        self.assertContains(response, 'id="paste-screenshot-btn"')
+        form = html.fromstring(response.content).get_element_by_id(
+            "screenshot-form-container"
+        )
+        self.assertEqual(
+            len(form.xpath('.//input[@name="csrfmiddlewaretoken"]')),
+            1,
+        )
 
     @override_settings(ALLOWED_ASSET_SIZE=1)
     def test_edit_metadata_with_existing_oversized_image(self) -> None:

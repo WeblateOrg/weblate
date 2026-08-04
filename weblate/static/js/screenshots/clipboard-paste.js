@@ -8,58 +8,66 @@ document.addEventListener("DOMContentLoaded", () => {
   if (pasteScreenshotBtn === null) {
     return;
   }
+  const screenshotForm = document.getElementById("screenshot-form-container");
   // The file input to store the screenshot file
-  const screenshotFileInput = document.querySelector(
-    "#screenshot-form-container input#id_image",
-  );
-
-  // Check if the browser supports the Clipboard API
-  if (!navigator.clipboard?.read) {
+  const screenshotFileInput = screenshotForm?.querySelector("input#id_image");
+  if (screenshotForm === null || screenshotFileInput === null) {
     pasteScreenshotBtn.remove();
     return;
   }
 
+  const setScreenshotImage = (blob, type) => {
+    const fileName = `screenshot_${Date.now()}.${type.split("/")[1]}`;
+    const imageFile = new File([blob], fileName, { type: type });
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(imageFile);
+    screenshotFileInput.files = dataTransfer.files;
+    screenshotFileInput.dispatchEvent(new Event("change", { bubbles: true }));
+    showInfo("success", gettext("Image Pasted!"));
+  };
+
+  const showPasteInstructions = () => {
+    showInfo("info", gettext("Press Ctrl+V or Command+V to paste an image."));
+  };
+
+  screenshotForm.addEventListener("paste", (event) => {
+    const clipboardItems = event.clipboardData?.items;
+    if (clipboardItems === undefined) {
+      return;
+    }
+    const imageItem = Array.from(clipboardItems).find(
+      (item) => item.kind === "file" && item.type.startsWith("image/"),
+    );
+    const imageFile = imageItem?.getAsFile();
+    if (imageFile === null || imageFile === undefined) {
+      return;
+    }
+    event.preventDefault();
+    setScreenshotImage(imageFile, imageItem.type);
+  });
+
   pasteScreenshotBtn.addEventListener("click", async (e) => {
     e.preventDefault();
+    if (!navigator.clipboard?.read) {
+      showPasteInstructions();
+      return;
+    }
     try {
       // Read clipboard content
       const clipboardItems = await navigator.clipboard.read();
-      let imageFound = false;
       for (const clipboardItem of clipboardItems) {
         // Find the image in the clipboard
-        for (const type of clipboardItem.types) {
-          if (type.startsWith("image/")) {
-            // Convert the image data to a file data
-            const blob = await clipboardItem.getType(type);
-            const reader = new FileReader();
-            reader.onload = (_event) => {
-              if (screenshotFileInput !== null) {
-                // Load the file data into the form input
-                const fileName = `screenshot_${Date.now()}.${type.split("/")[1]}`;
-                const imageFile = new File([blob], fileName, { type: type });
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(imageFile);
-                screenshotFileInput.files = dataTransfer.files;
-                // Inform paste success
-                showInfo("success", gettext("Image Pasted!"));
-              } else {
-                showInfo("danger", gettext("Something went wrong!"));
-              }
-            };
-            reader.readAsDataURL(blob);
-            imageFound = true;
-            break;
-          }
-        }
-        if (imageFound) {
-          break;
+        const type = clipboardItem.types.find((itemType) =>
+          itemType.startsWith("image/"),
+        );
+        if (type !== undefined) {
+          setScreenshotImage(await clipboardItem.getType(type), type);
+          return;
         }
       }
-      if (!imageFound) {
-        showInfo("warning", gettext("No image found in clipboard"));
-      }
+      showInfo("warning", gettext("No image found in clipboard"));
     } catch (_err) {
-      showInfo("danger", gettext("Something went wrong!"));
+      showPasteInstructions();
     }
   });
 });
