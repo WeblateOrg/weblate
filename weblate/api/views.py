@@ -662,28 +662,11 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
 
-    @staticmethod
-    def get_repository_permission_obj(
-        obj: Project | Component | Translation, *, component_scope: bool
-    ) -> Project | Component | Translation:
-        component = obj.component if isinstance(obj, Translation) else obj
-        if (
-            isinstance(component, Component)
-            and component.linked_component_id is not None
-        ):
-            linked_component = component.linked_component
-            if linked_component is None:
-                msg = "Linked component ID exists without a linked component"
-                raise RuntimeError(msg)
-            return linked_component
-        return component if component_scope else obj
-
     @transaction.atomic
     def repository_operation(self, request: Request, obj, operation: str):
         permission, method, args, kwargs, takes_request = REPO_OPERATIONS[operation]
 
-        permission_obj = self.get_repository_permission_obj(obj, component_scope=True)
-        if not request.user.has_perm(permission, permission_obj):
+        if not request.user.has_perm(permission, obj):
             raise PermissionDenied
 
         obj.acting_user = request.user
@@ -724,8 +707,7 @@ class WeblateViewSet(DownloadViewSet):
 
             return Response(data)
 
-        permission_obj = self.get_repository_permission_obj(obj, component_scope=False)
-        if not request.user.has_perm("meta:vcs.status", permission_obj):
+        if not request.user.has_perm("meta:vcs.status", obj):
             raise PermissionDenied
 
         data = {

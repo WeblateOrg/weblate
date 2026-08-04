@@ -6941,7 +6941,7 @@ class ComponentAPITest(APIBaseTest):
         self.assertTrue(response.data["result"])
         do_update.assert_called_once()
 
-    def test_linked_repo_operation_requires_source_permission(self) -> None:
+    def test_linked_repo_operation_requires_all_component_permissions(self) -> None:
         linked_component = self.create_link_existing(
             name="Linked repository operation",
             slug="linked-repository-operation",
@@ -6959,7 +6959,7 @@ class ComponentAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
-        self.assertTrue(self.user.has_perm("vcs.update", linked_component))
+        self.assertFalse(self.user.has_perm("vcs.update", linked_component))
         self.assertFalse(self.user.has_perm("vcs.update", self.component))
         self.do_request(
             "api:component-repository",
@@ -6976,14 +6976,13 @@ class ComponentAPITest(APIBaseTest):
             )
         do_update.assert_not_called()
 
-        self.user.groups.remove(Group.objects.get(name=child_group_name))
         self.grant_perm_to_user(
             "vcs.update",
             group_name="Linked source repository access",
             component=self.component,
         )
         self.user.clear_permissions_cache()
-        self.assertFalse(self.user.has_perm("vcs.update", linked_component))
+        self.assertTrue(self.user.has_perm("vcs.update", linked_component))
         self.assertTrue(self.user.has_perm("vcs.update", self.component))
         self.do_request(
             "api:component-repository",
@@ -11429,13 +11428,13 @@ class TranslationAPITest(APIBaseTest):
 
         translation = self.component.translation_set.get(language_code="cs")
         for permission in permissions:
-            self.assertTrue(self.user.has_perm(permission, translation))
+            self.assertFalse(self.user.has_perm(permission, translation))
             self.assertFalse(self.user.has_perm(permission, self.component))
 
         self.do_request(
             "api:translation-repository",
             self.translation_kwargs,
-            code=200,
+            code=403,
         )
         for operation in RepoOperations.values:
             self.do_request(

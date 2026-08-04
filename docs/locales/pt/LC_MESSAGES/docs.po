@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-30 03:46+0200\n"
-"PO-Revision-Date: 2026-08-03 08:02+0000\n"
+"PO-Revision-Date: 2026-08-03 17:02+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -47093,6 +47093,12 @@ msgid ""
 "strings using different placeholder syntaxes, such as ``Hello {name}`` and "
 "``Hello %s``, do not match."
 msgstr ""
+"Propagação de tradução apenas reutiliza cadeias de carateres "
+"correspondentes. O texto fonte e o contexto têm que ser idênticos. Para "
+"formatos monolingues, a chave também tem que corresponder. A propagação não "
+"converte sintaxe ou semântica de mensagem, e por isso cadeias de carateres a "
+"usar sintaxes de marcadores de lugar diferentes, tais como ``Hello {name}`` "
+"e ``Hello %s``, não correspondem."
 
 #: devel/mobile.rst:22
 msgid ""
@@ -47105,6 +47111,15 @@ msgid ""
 "these components, or assign distinct keys or contexts to platform-specific "
 "messages, so later edits do not overwrite intentional differences."
 msgstr ""
+"Quando clientes usam as mesmas mensagens mas requerem diferentes "
+"representações em tempo de execução, considere manter um formato de tradução "
+"canónico e gerar recursos específicos para clientes na pipeline. Isto também "
+"permite que os recursos gerados contenham apenas as cadeias de carateres e "
+"idiomas exigidos por cada cliente. Utilize componentes separados quando "
+"tradutores precisam de manter mensagens genuinamente diferentes. Desative "
+"propagação de tradução para estes componentes, o atribua teclas distintas ou "
+"contexto para mensagens específicas de plataforma, para que edições "
+"posteriores não sobrescrevam diferenças intencionais."
 
 #: devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -51339,6 +51354,10 @@ msgid ""
 "format. Select the file format matching the version produced by your "
 "application."
 msgstr ""
+"Ficheiros Qt Linguist são usados tanto para traduções bilingues e "
+"monolingues. O Weblate suporta ambos formato da versão 2 atual e o formato "
+"da versão 1 de legado. Selecione o formato de ficheiro correspondente à "
+"versão produzida pela sua aplicação."
 
 #: formats/qt.rst:19
 msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
@@ -51346,38 +51365,36 @@ msgstr ""
 "`Manual do Qt Linguist <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: formats/qt.rst:24
-#, fuzzy
-#| msgid "Version"
 msgid "Version 2"
-msgstr "Versão"
+msgstr "Versão 2"
 
 #: formats/qt.rst:26
 msgid ""
 "This is the default format for ``.ts`` files and supports the full set of Qt "
 "Linguist features available in Weblate."
 msgstr ""
+"Isto é o formato padrão para ficheiros ``.ts`` e suporta o conjunto completo "
+"de funcionalidades Qt Linguist disponíveis no Weblate."
 
 #: formats/qt.rst:37
-#, fuzzy
-#| msgid "Version"
 msgid "Version 1"
-msgstr "Versão"
+msgstr "Versão 1"
 
 #: formats/qt.rst:39
 msgid ""
 "The legacy format supports messages, contexts and the unfinished state. It "
 "does not support plurals, locations, descriptions or Weblate flags."
 msgstr ""
+"O formato de legado suporta mensagens, contexto e o estado inacabado. Não "
+"suporta plurais, localizações, descrições ou marcadores Weblate."
 
 #: formats/qt.rst:48
 msgid "Typical Weblate :ref:`component` when using as bilingual"
 msgstr ":ref:`component` típica do Weblate ao usar como bilíngue"
 
 #: formats/qt.rst:56 formats/qt.rst:69
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)`"
-msgstr "Ficheiro de tradução Qt Linguist"
+msgstr "Ficheiro de tradução Qt Linguist (version 2)`"
 
 #: formats/qt.rst:61
 msgid "Typical Weblate :ref:`component` when using as monolingual"
@@ -51388,6 +51405,9 @@ msgid ""
 "For version 1 files, use the same configuration and select :guilabel:`Qt "
 "Linguist translation file (version 1)` as the file format."
 msgstr ""
+"Para ficheiros de versão 1, utilize a mesma configuração e selecione "
+":guilabel:`Ficheiro de tradução Qt Linguist (versão 1)` como formato do "
+"ficheiro."
 
 #: formats/resjson.rst:2
 msgid "JavaScript Resource Files (RESJSON)"
@@ -54193,10 +54213,8 @@ msgstr ""
 "dentro de 7 dias."
 
 #: security/localization-threat.rst:2
-#, fuzzy
-#| msgid "Localization guide"
 msgid "Localization Threat Model"
-msgstr "Guia de tradução"
+msgstr "Modelo de Ameaças de Tradução"
 
 #: security/localization-threat.rst:4
 msgid ""
@@ -54222,27 +54240,30 @@ msgid ""
 "Translators may be contractors, volunteers, or agencies with varying levels "
 "of vetting."
 msgstr ""
+"Tradutores podem ser contratantes, voluntários, ou agências com níveis de "
+"verificação variados."
 
 #: security/localization-threat.rst:9
-#, fuzzy
-#| msgid "Loads translations from the files into Weblate."
 msgid "Translators require access to Weblate."
-msgstr "Carrega traduções dos ficheiros para o Weblate."
+msgstr "Tradutores exigem acesso ao Weblate."
 
 #: security/localization-threat.rst:10
 msgid ""
 "Translation strings may contain sensitive content such as unreleased "
 "features, legal terms, or security messages."
 msgstr ""
+"Cadeias de carateres de tradução podem conter conteúdo sensível tais como "
+"funcionalidades não lançadas, termos legais, ou mensagens de segurança."
 
 #: security/localization-threat.rst:11
 msgid ""
 "The organization has limited control over translators' local environments."
 msgstr ""
+"A organização tem controlo limitado sobre os ambientes locais dos tradutores."
 
 #: security/localization-threat.rst:14
 msgid "Threat Categories (STRIDE)"
-msgstr ""
+msgstr "Categorias de Ameaça (STRIDE)"
 
 #: security/localization-threat.rst:17
 msgid "1. Spoofing"
@@ -54251,11 +54272,14 @@ msgstr "1. Falsificação de Identidade"
 #: security/localization-threat.rst:19
 msgid "**S1. Fake translator accounts impersonating legitimate contributors.**"
 msgstr ""
+"**S1. Contas de tradutor falsas que fingem ser colaboradores legítimos.**"
 
 #: security/localization-threat.rst:21
 msgid ""
 "Risk: Unauthorized access to projects or injection of malicious strings."
 msgstr ""
+"Risco: Acesso não autorizado a projetos ou injeção de cadeias de carateres "
+"maliciosas."
 
 #: security/localization-threat.rst:22 security/localization-threat.rst:34
 #: security/localization-threat.rst:43 security/localization-threat.rst:54
@@ -54265,14 +54289,8 @@ msgid "Mitigations:"
 msgstr "Medidas mitigatórias:"
 
 #: security/localization-threat.rst:24
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid "Enforce strong authentication (2FA); see :ref:`project-enforced_2fa`."
-msgstr ""
-"Isto pode ser aplicado aos utilizadores ao nível do projeto "
-"(consulte: :ref:`project-enforced_2fa`) ou no da equipa."
+msgstr "Aplicar autenticação forte (2FA); veja :ref:`project-enforced_2fa`."
 
 #: security/localization-threat.rst:25
 msgid "Verify identities of contracted translators."
@@ -54281,6 +54299,8 @@ msgstr "Verificar a identidade dos tradutores contratados."
 #: security/localization-threat.rst:26
 msgid "Use role-based access to limit project scope; see :ref:`acl`."
 msgstr ""
+"Utilize acesso baseado em funções para limitar o âmbito do projeto; veja "
+":ref:`acl`."
 
 #: security/localization-threat.rst:29
 msgid "2. Tampering"
@@ -54288,13 +54308,15 @@ msgstr "2. Adulteração"
 
 #: security/localization-threat.rst:31
 msgid "**T1. Malicious translations embedding harmful payloads.**"
-msgstr ""
+msgstr "**T1. Traduções maliciosas que incorporam cargas úteis maliciosas.**"
 
 #: security/localization-threat.rst:33
 msgid ""
 "Risk: Injection of JavaScript, HTML, or format-string attacks if "
 "translations are not properly escaped."
 msgstr ""
+"Risco: Injeção de JavaScript, HTML, ou ataques de strings formatadas se "
+"traduções não são devidamente escapadas."
 
 #: security/localization-threat.rst:36
 msgid ""
@@ -54302,12 +54324,13 @@ msgid ""
 "like :ref:`check-safe-html` might help. See :ref:`checks` "
 "and :ref:`component-enforced_checks`."
 msgstr ""
+"Aplicar validação de entrada estrita no Weblate. Aplicar verificações de "
+"qualidade como :ref:`check-safe-html` pode ajudar. Veja :ref:`checks` e "
+":ref:`component-enforced_checks`."
 
 #: security/localization-threat.rst:37
-#, fuzzy
-#| msgid "Fixed handling of translation files ignored in Git."
 msgid "Use automated security scanning for translation files in your CI."
-msgstr "Corrigido o tratamento de ficheiros de tradução ignorados no Git."
+msgstr ""
 
 #: security/localization-threat.rst:38
 msgid ""
