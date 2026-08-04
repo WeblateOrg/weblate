@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-30 03:46+0200\n"
-"PO-Revision-Date: 2026-08-03 17:02+0000\n"
+"PO-Revision-Date: 2026-08-04 18:03+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.8.1.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:266
@@ -51154,7 +51154,7 @@ msgstr ""
 "ativa para texto simples, HTML padrão, e elementos personalizados enquanto "
 "que evita limpeza HTML em sintaxe de parêntesis retos não HTML tal como "
 "componentes MDX ou do tipo JSX. Use o sinalizador ``safe-html`` para cadeias "
-"de carateres que se sabe que contêm HTML e devem ser sempre sanitizadas, "
+"de carateres que se sabe que contêm HTML e devem ser sempre validadas, "
 "incluindo porções SVG ou MathML."
 
 #: formats/markdown.rst:45
@@ -51220,7 +51220,7 @@ msgstr ""
 "inseguro ativo para texto simples, HTML padrão, e elementos personalizados "
 "enquanto que evita limpeza HTML e sintaxe MDX e do tipo JSX. Utilize o "
 "marcador ``safe-html`` explícito para cadeias de carateres que se sabe que "
-"contêm HTML e dever ser sempre sanitizadas, incluíndo excertos SVG ou MathML."
+"contêm HTML e dever ser sempre validadas, incluíndo excertos SVG ou MathML."
 
 #: formats/mdx.rst:44
 msgid "`MDX file`"
@@ -54331,6 +54331,8 @@ msgstr ""
 #: security/localization-threat.rst:37
 msgid "Use automated security scanning for translation files in your CI."
 msgstr ""
+"Utilizar análise de segurança automatizada para ficheiros de tradução na sua "
+"CI."
 
 #: security/localization-threat.rst:38
 msgid ""
@@ -54338,6 +54340,9 @@ msgid ""
 "used localization framework, this might be implicit, opt-in, or require a "
 "third-party library."
 msgstr ""
+"Limitar a utilização de marcadores perigosos para ficheiros de tradução. "
+"Dependendo da estrutura de tradução, isto pode ser implícito, opcional, ou "
+"exigir uma biblioteca de terceiros."
 
 #: security/localization-threat.rst:40
 msgid "**T2. Insertion of misleading translations.**"
@@ -54348,16 +54353,20 @@ msgid ""
 "Risk: Users misled about application behavior (e.g., consent dialogs "
 "mistranslated)."
 msgstr ""
+"Risco: Utilizadores induzidos em erro sobre o comportamento da aplicação "
+"(p.ex., diálogos de consentimento mal traduzidos)."
 
 #: security/localization-threat.rst:45 security/localization-threat.rst:123
 msgid ""
 "Perform peer review of critical strings; see :ref:`peer-review` "
 "or :ref:`reviews`."
 msgstr ""
+"Faça revisão por pares de cadeias de carateres críticas; veja :ref:`peer-"
+"review` ou :ref:`reviews`."
 
 #: security/localization-threat.rst:46
 msgid "Maintain style guides and :ref:`glossary` to prevent manipulation."
-msgstr ""
+msgstr "Mantenha guias de estilo e :ref:`glossary` para evitar manipulação."
 
 #: security/localization-threat.rst:49
 msgid "3. Repudiation"
@@ -54365,11 +54374,11 @@ msgstr "3. Repúdio"
 
 #: security/localization-threat.rst:51
 msgid "**R1. Disputes over malicious or poor-quality translations.**"
-msgstr ""
+msgstr "**R1. Disputas sobre traduções maliciosas ou de baixa qualidade.**"
 
 #: security/localization-threat.rst:53
 msgid "Risk: Translators deny responsibility for injected issues."
-msgstr ""
+msgstr "Risco: Tradutores negam a responsabilidade por problemas injetados."
 
 #: security/localization-threat.rst:56
 msgid "All changes in Weblate are logged."
@@ -54377,79 +54386,79 @@ msgstr "Todas as alterações feitas no Weblate são registadas."
 
 #: security/localization-threat.rst:57
 msgid "Use Weblate with version control for immutable history."
-msgstr ""
+msgstr "Utilize o Weblate com controlo de versão para histórico imutável."
 
 #: security/localization-threat.rst:60
-#, fuzzy
-#| msgid "Information about project"
 msgid "4. Information Disclosure"
-msgstr "Informação do projeto"
+msgstr "4. Divulgação de Informação"
 
 #: security/localization-threat.rst:62
 msgid "**I1. Leakage of unreleased product details.**"
-msgstr ""
+msgstr "**I1. Fuga de detalhes não lançados de produto.**"
 
 #: security/localization-threat.rst:64
 msgid ""
 "Risk: Translators gain early access to unreleased features or confidential "
 "terminology."
 msgstr ""
+"Risco: Tradutores ganham acesso antecipado a funcionalidades não lançadas ou "
+"terminologia confidencial."
 
 #: security/localization-threat.rst:67
 msgid "Segment projects to limit access to sensitive strings."
 msgstr ""
+"Segmentar projetos para limitar acesso a cadeias de carateres sensíveis."
 
 #: security/localization-threat.rst:68
 msgid "Apply non-disclosure agreements with external agencies."
-msgstr ""
+msgstr "Celebrar acordos de confidencialidade com agências externas."
 
 #: security/localization-threat.rst:69
 msgid "Delay translation of highly confidential strings until public release."
 msgstr ""
+"Atrasar a tradução de cadeias de carateres altamente confidenciais até ao "
+"lançamento público."
 
 #: security/localization-threat.rst:71
 msgid "**I2. Exposure of personal data within strings.**"
-msgstr ""
+msgstr "**I2. Exposição de dados pessoais dentro de cadeias de carateres.**"
 
 #: security/localization-threat.rst:73
 msgid "Risk: Translators might access or misuse embedded user data."
 msgstr ""
+"Risco: Tradutores podem aceder o utilizar de forma errada dados de "
+"utilizador errados."
 
 #: security/localization-threat.rst:76
-#, fuzzy
-#| msgid ""
-#| "Possible discarding pending translations after editing source strings."
 msgid "Avoid exposing real user data in source strings."
-msgstr ""
-"Possível descarte de traduções pendentes após a edição das cadeias fonte."
+msgstr "Evitar expor dados reais de utilizador em cadeias de carateres fonte."
 
 #: security/localization-threat.rst:77
-#, fuzzy
-#| msgid "The placeholders check can now be case-insensitive as well."
 msgid "Use placeholders for sensitive fields."
-msgstr ""
-"A verificação de espaços reservados agora também não diferencia maiúsculas "
-"de minúsculas."
+msgstr "Utilizar cadeias de carateres para campos sensíveis."
 
 #: security/localization-threat.rst:80
-#, fuzzy
-#| msgid "Terms of Service"
 msgid "5. Denial of Service"
-msgstr "Termos do Serviço"
+msgstr "5. Ataques de Negação de Serviço"
 
 #: security/localization-threat.rst:82
 msgid "**D1. Bulk submission of junk translations.**"
-msgstr ""
+msgstr "**D1. Submissão em massa de traduções de má qualidade.**"
 
 #: security/localization-threat.rst:84
 msgid "Risk: Review queues overwhelmed; release timelines disrupted."
 msgstr ""
+"Risco: Sobrecarregar filas de revisão; cronogramas de lançamento "
+"interrompidas."
 
 #: security/localization-threat.rst:87
 msgid ""
 "Choose an appropriate workflow to match your team capacity. :ref:`workflow-"
 "customization` can allow you to tweak this on a language basis."
 msgstr ""
+"Escolha um fluxo de trabalho apropriado para corresponder à capacidade da "
+"sua equipa. :ref:`workflow-customization` pode permitir que ajuste isto para "
+"cada idioma."
 
 #: security/localization-threat.rst:88
 msgid "Configure automated translation quality checks; see :ref:`checks`."
@@ -54458,28 +54467,28 @@ msgstr ""
 "veja :ref:`checks`."
 
 #: security/localization-threat.rst:91
-#, fuzzy
-#| msgid "List of privileges"
 msgid "6. Elevation of Privilege"
-msgstr "Lista de privilégios"
+msgstr "6. Elevação de Privilégio"
 
 #: security/localization-threat.rst:93
 msgid ""
 "**E1. The translator gains unauthorized project-wide or administrative "
 "rights.**"
 msgstr ""
+"**E1. O tradutor ganha acesso ao projeto inteiro não autorizado ou direitos "
+"administrativos.**"
 
 #: security/localization-threat.rst:95
 msgid "Risk: Escalation leading to tampering or data exposure."
-msgstr ""
+msgstr "Risco: Escalar que leva a adulteração ou ao expor de dados."
 
 #: security/localization-threat.rst:98
 msgid "Apply the principle of least privilege."
-msgstr ""
+msgstr "Aplique o princípio de privilégio mínimo."
 
 #: security/localization-threat.rst:99
 msgid "Regularly review access rights and group memberships."
-msgstr ""
+msgstr "Rever regularmente direitos de acesso e adesão de grupos."
 
 #: security/localization-threat.rst:102
 msgid "Asset Inventory"
@@ -54489,19 +54498,25 @@ msgstr "Inventário de Ativos"
 msgid ""
 "**Source Strings:** May contain unreleased product features or legal text."
 msgstr ""
+"**Cadeias de Carateres Fonte:** Podem conter funcionalidades de produto não "
+"lançadas ou texto legal."
 
 #: security/localization-threat.rst:105
 msgid "**Translated Strings:** Output presented directly to end users."
 msgstr ""
+"**Cadeias de Carateres Traduzidas:** Saída apresentada diretamente aos "
+"utilizadores finais."
 
 #: security/localization-threat.rst:106
 msgid ""
 "**User Data Placeholders:** Names, emails, or IDs referenced in strings."
 msgstr ""
+"**Marcadores de Lugar de Dados de Utilizador:** Nomes, emails, ou IDs "
+"mencionados em cadeias de carateres."
 
 #: security/localization-threat.rst:107
 msgid "**Access Credentials:** Accounts for translators, agencies, or bots."
-msgstr ""
+msgstr "**Credenciais de Acesso:** Contas para tradutores, agências, ou robôs."
 
 #: security/localization-threat.rst:110
 msgid "Trust Boundaries"
@@ -54512,74 +54527,82 @@ msgid ""
 "**Organization ↔ Translators:** Authentication and role-based access must be "
 "enforced."
 msgstr ""
+"**Organização ↔ Tradutores:** Acesso baseado em autenticações ou papéis tem "
+"que ser aplicado."
 
 #: security/localization-threat.rst:113
 msgid ""
 "**Translation Platform ↔ Source Control:** Synchronization requires secured "
 "tokens/keys."
 msgstr ""
+"**Plataforma de Tradução ↔ Fonte de Controlo:** Sincronização exige tokens/"
+"chaves protegidas."
 
 #: security/localization-threat.rst:114
 msgid ""
 "**Translators ↔ Translation Platform:** All input must be sanitized before "
 "integration into builds."
 msgstr ""
+"**Tradutores ↔ Plataforma de Tradução:** Todas as entradas devem ser "
+"validadas antes de as integrar em compilações."
 
 #: security/localization-threat.rst:115
 msgid ""
 "**Platform ↔ End Users:** Translations must be validated to prevent code "
 "injection."
 msgstr ""
+"**Platforma ↔ Utilizadores Finais:** Traduções devem ser validadas para "
+"evitar injeção de código."
 
 #: security/localization-threat.rst:118
 msgid "Mitigation Summary"
 msgstr "Resumo de Mitigação"
 
 #: security/localization-threat.rst:120
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid ""
 "Enforce 2FA and RBAC for translator accounts; see :ref:`project-"
 "enforced_2fa`."
 msgstr ""
-"Isto pode ser aplicado aos utilizadores ao nível do projeto "
-"(consulte: :ref:`project-enforced_2fa`) ou no da equipa."
+"Aplicar 2FA e RBAC para contas de tradutores; veja :ref:`project-"
+"enforced_2fa`."
 
 #: security/localization-threat.rst:121
 msgid ""
 "Require non-disclosure agreements or contracts for professional translators."
 msgstr ""
+"Exigir acordos de confidencialidade ou contratos para tradutores "
+"profissionais."
 
 #: security/localization-threat.rst:122
 msgid ""
 "Use automated quality/security scanning for translations; see :ref:`checks`."
 msgstr ""
+"Utilizar análise de qualidade/segurança automatizada para traduções; veja "
+":ref:`checks`."
 
 #: security/localization-threat.rst:124
 msgid ""
 "Limit project visibility to reduce exposure of sensitive content; "
 "see :ref:`acl`."
 msgstr ""
+"Limitar visibilidade do projeto para reduzir exposição de conteúdo sensível; "
+"veja :ref:`acl`."
 
 #: security/localization-threat.rst:125
 msgid ""
 "Regularly patch and harden your Weblate server. You might also "
 "consider :doc:`/admin/support`."
 msgstr ""
+"Aplique atualizações e reforce a segurança do seu servidor Weblate "
+"regularmente. Também pode considerar :doc:`/admin/support`."
 
 #: security/localization-threat.rst:126
-#, fuzzy
-#| msgid ""
-#| "Automatically adds or removes project components based on file changes in "
-#| "the version control system."
 msgid ""
 "Retain immutable version history for all translation changes in the version "
 "control system."
 msgstr ""
-"Adiciona ou remove automaticamente componentes do projeto com base em "
-"alterações de ficheiros no sistema de controlo de versão."
+"Reter histórico de versão imutável para todas as mudanças de traduções no "
+"sistema de controlo de versão."
 
 #: security/localization-threat.rst:129
 msgid "Conclusion"
@@ -54593,12 +54616,15 @@ msgid ""
 "external translation services while maintaining product integrity and "
 "compliance."
 msgstr ""
+"Tradutores de terceiros introduzem riscos únicos comparado a colaboradores "
+"internos. Com controlos técnicos, organizacionais, e contratuais, "
+"organizações podem mitigar estes riscos e integrar serviços de tradução "
+"externos de forma segura enquanto mantêm a integridade e conformidade do "
+"produto."
 
 #: security/passwords.rst:2
-#, fuzzy
-#| msgid "Password reset"
 msgid "Password security"
-msgstr "Redefinição da palavra-passe"
+msgstr "Segurança da palavra-passe"
 
 #: security/passwords.rst:5
 msgid "How Weblate stores passwords"
@@ -54609,12 +54635,16 @@ msgid ""
 "Weblate uses a Django implementation to store hashed passwords; "
 "see :ref:`django:auth_password_storage`."
 msgstr ""
+"O Weblate utiliza uma implementação Django para implementar o armazenar de "
+"palavras passe com hash, veja :ref:`django:auth_password_storage`."
 
 #: security/passwords.rst:9
 msgid ""
 "The recommended Weblate configuration uses Argon2 with time_cost = 2, "
 "memory_cost = 102400, and parallelism = 8."
 msgstr ""
+"A configuração de Weblate recomendada utiliza Argon2 com time_cost = 2, "
+"memory_cost = 102400, e parallelism = 8."
 
 #: security/passwords.rst:13
 msgid ""
@@ -54633,41 +54663,42 @@ msgid ""
 "When a user is configuring a password, it is validated to reduce the risk of "
 "using weak passwords."
 msgstr ""
+"Quando um utilizador está a configurar uma palavra-passe, a mesma é validade "
+"para reduzir a utilização de palavras-passe fracas."
 
 #: security/passwords.rst:20
 msgid "The recommended Weblate configuration verifies:"
 msgstr "A configuração recomendada do Weblate verifica:"
 
 #: security/passwords.rst:22
-#, fuzzy
-#| msgid ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "character."
-#| msgid_plural ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "characters."
 msgid ""
 "The password has to be at least 10 characters long, and at most 72 "
 "characters long."
 msgstr ""
-"Esta palavra-passe é muito longa. Esta deve ter apenas %(max_length)d "
-"caráter."
+"A palavra-passe tem que ter pelo menos 10 carateres de comprimento, e no "
+"máximo 72 carateres."
 
 #: security/passwords.rst:23
 msgid "Password similar to username and other attributes is rejected."
 msgstr ""
+"Palavra passe semelhante ao nome de utilizador e outros atributos é "
+"rejeitada."
 
 #: security/passwords.rst:24
 msgid "A common or overly simple password is rejected."
-msgstr ""
+msgstr "Uma palavra-passe comum ou demasiado simples é rejeitada."
 
 #: security/passwords.rst:25
 msgid "Any password user used recently is rejected."
 msgstr ""
+"Qualquer palavra passe que o utilizador tenha utilizado recentemente é "
+"rejeitada."
 
 #: security/passwords.rst:26
 msgid "Password strength is optionally checked using the zxcvbn algorithm."
 msgstr ""
+"O nível da segurança da palavra-passe é verificada opcionalmente usando o "
+"algoritmo zxcvbn."
 
 #: security/passwords.rst:30
 msgid ""
@@ -54678,10 +54709,8 @@ msgstr ""
 "usando :setting:`django:AUTH_PASSWORD_VALIDATORS`."
 
 #: security/passwords.rst:33
-#, fuzzy
-#| msgid "Social authentication"
 msgid "Social or third-party authentication"
-msgstr "Autenticação social"
+msgstr "Autenticação social ou de terceiros"
 
 #: security/passwords.rst:35
 msgid ""
@@ -54689,12 +54718,13 @@ msgid ""
 "social or third-party authentication is configured. The passwords are, in "
 "such a case, fully managed externally."
 msgstr ""
+"O Weblate não guarda qualquer palavra-passe ou aplica qualquer política de "
+"palavra-passe quando autenticação social ou de terceiros está configurada. A "
+"palavra-passe é, em tal caso, gerida externamente de forma completa."
 
 #: security/privacy-compliance.rst:2
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "Privacy regulations compliance"
-msgstr "Conformidade de licenciamento"
+msgstr "Conformidade com as regulações de privacidade"
 
 #: security/privacy-compliance.rst:8
 msgid ""
@@ -54703,41 +54733,49 @@ msgid ""
 "retention, notices, and compliance responsibilities remain under the "
 "deploying organization's control."
 msgstr ""
+"O Weblate fornece funcionalidades que ajudam organizações a operar dentro de "
+"estruturas de privacidade tais como GDPR, DPDPA, PIPL, e outros. "
+"Responsabilidades de alojamento, bases legais, retenção, avisos, e "
+"conformidade continuam sob o controlo da implementação da organização."
 
 #: security/privacy-compliance.rst:13
 msgid ""
 "This document outlines Weblate features that can support compliance with:"
 msgstr ""
+"Este documento sublinha funcionalidades do Weblate que podem suportar a "
+"conformidade com:"
 
 #: security/privacy-compliance.rst:15
 msgid "EU General Data Protection Regulation (GDPR)"
-msgstr ""
+msgstr "Regulação de Proteção de Dados Geral da UE (GDPR)"
 
 #: security/privacy-compliance.rst:16
 msgid "California Consumer Privacy Act (CCPA)"
-msgstr ""
+msgstr "Lei de Privacidade do Consumidor da Califórnia (CCPA)"
 
 #: security/privacy-compliance.rst:17
 msgid "Brazilian Lei Geral de Proteção de Dados (LGPD)"
-msgstr ""
+msgstr "Lei Geral de Proteção de Dados Brasileira (LGPD)"
 
 #: security/privacy-compliance.rst:18
 msgid "Swiss Federal Act on Data Protection (nFADP)"
-msgstr ""
+msgstr "Lei Federal Suíça sobre a Proteção de Dados (nFADP)"
 
 #: security/privacy-compliance.rst:19
 msgid ""
 "Canadian Personal Information Protection and Electronic Documents Act "
 "(PIPEDA)"
 msgstr ""
+"Lei Canadiana sobre a Proteção de Dados Pessoais e Documentos Eletrónicos "
+"(PIPEDA)"
 
 #: security/privacy-compliance.rst:20
 msgid "Indian Digital Personal Data Protection Act (DPDPA)"
-msgstr ""
+msgstr "Lei Indiana de Proteção de Dados Pessoais Digitais (DPDPA)"
 
 #: security/privacy-compliance.rst:21
 msgid "China’s Personal Information Protection Law (PIPL)"
-msgstr ""
+msgstr "Lei da China sobre a Proteção de Dados Pessoais (PIPL)"
 
 #: security/privacy-compliance.rst:24
 msgid "Privacy principles"
@@ -54754,36 +54792,53 @@ msgid ""
 "Depending on enabled features, the following personal data can be stored or "
 "processed:"
 msgstr ""
+"O Weblate processa dados da conta e atividade necessários para fornecer "
+"fluxos de trabalho de tradução, autenticação, notificações, controlo de "
+"avesso, e auditabilidade. Dependendo das funcionalidades ativadas, os "
+"seguintes dados pessoais podem ser armazenados ou processados:"
 
 #: security/privacy-compliance.rst:34
 msgid ""
 "Account identifiers such as username, full name, primary e-mail address, "
 "verified e-mail addresses, and social-authentication associations."
 msgstr ""
+"Identificadores de conta tais como nome de utilizador, nome completo, "
+"endereço de email primário, endereços de email verificados, e associações de "
+"autenticação sociais."
 
 #: security/privacy-compliance.rst:36
 msgid ""
 "Optional profile fields such as public e-mail, website, profile links, "
 "location, company, language preferences, and dashboard preferences."
 msgstr ""
+"Campos de perfil opcionais tais como email público, website, links de "
+"perfil, localização, empresa, preferências de idioma, e preferências de "
+"painel."
 
 #: security/privacy-compliance.rst:38
 msgid ""
 "Translation activity, suggestions, comments, watched projects, notification "
 "settings, and contribution statistics."
 msgstr ""
+"Atividade de tradução, sugestões, comentários, projetos observados, "
+"definições de notificações, e estatísticas de contribuição."
 
 #: security/privacy-compliance.rst:40
 msgid ""
 "Operational records such as audit-log entries, IP addresses, user agents, "
 "timestamps, and security-related events."
 msgstr ""
+"Registos operacionais tais como entradas de registo de auditoria, endereços "
+"IP, agentes do utilizador, rótulos de data e hora, e eventos relativos à "
+"segurança."
 
 #: security/privacy-compliance.rst:43
 msgid ""
 "External analytics, crash reporting, remote logging, and avatar providers "
 "are optional integrations controlled by the site operator."
 msgstr ""
+"Analise externa, relatórios de falhas, registos remotos, e fornecedores de "
+"avatar são integrações opcionais controladas pelo operador do site."
 
 #: security/privacy-compliance.rst:47
 msgid "User consent and transparency"
@@ -54794,6 +54849,8 @@ msgid ""
 "Users can review and update their account and profile data in :ref:`user-"
 "profile`."
 msgstr ""
+"Utilizadores podem rever e atualizar os dados da sua conta e perfil em "
+":ref:`user-profile`."
 
 #: security/privacy-compliance.rst:51
 msgid ""
@@ -54801,18 +54858,26 @@ msgid ""
 "subcontractor information using :ref:`legal`, or link externally "
 "using :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`."
 msgstr ""
+"Administradores podem publicar a política de privacidade, termos, informação "
+"de cookie, e informação de subcontratado usando :ref:`legal`, ou um link "
+"externo usando :setting:`LEGAL_URL` e :setting:`PRIVACY_URL`."
 
 #: security/privacy-compliance.rst:54
 msgid ""
 "Terms of service confirmation can be enforced using the legal app, "
 "and :setting:`LEGAL_TOS_DATE` can require users to accept updated terms."
 msgstr ""
+"Confirmação de termos de serviço pode ser aplicada através da aplicação "
+"legal, e :setting:`LEGAL_TOS_DATE` pode exigir que os utilizadores aceitem "
+"os termos atualizados."
 
 #: security/privacy-compliance.rst:56
 msgid ""
 "Data processing depends on user interaction and on integrations enabled by "
 "the site operator."
 msgstr ""
+"Processamento de dados depende na interação do utilizador e em integrações "
+"ativadas pelo operador do site."
 
 #: security/privacy-compliance.rst:60
 msgid "Data access and portability"
@@ -54824,27 +54889,37 @@ msgid ""
 "the :guilabel:`Account` tab in :ref:`user-profile`; the export format is "
 "documented in :ref:`schema-userdata`."
 msgstr ""
+"Utilizadores podem descarregar uma exportação JSON dos seus dados de "
+"utilizador a partir do separador :guilabel:`Conta` em :ref:`user-profile`; o "
+"formato de exportação está documentado em :ref:`schema-userdata`."
 
 #: security/privacy-compliance.rst:65
 msgid ""
 "Administrators can export active non-bot user data "
 "with :wladmin:`dumpuserdata`."
 msgstr ""
+"Administradores podem exportar dados de utilizador não robôs com "
+":wladmin:`dumpuserdata`."
 
 #: security/privacy-compliance.rst:67
 msgid ""
 "Project translations and translation files can be exported separately using "
 "Weblate's project and file export features."
 msgstr ""
+"Traduções de projetos e traduções de ficheiros podem ser exportadas "
+"separadamente usando as funcionalidades do Weblate de projeto e exportação "
+"de ficheiro."
 
 #: security/privacy-compliance.rst:71
 msgid "Right to erasure and correction"
-msgstr ""
+msgstr "Direito ao apagamento e retificação"
 
 #: security/privacy-compliance.rst:73
 msgid ""
 "Users can correct account and profile information from the profile interface."
 msgstr ""
+"Utilizadores podem corrigir a informação da sua conta e perfil a partir da "
+"interface do perfil."
 
 #: security/privacy-compliance.rst:75
 msgid ""
@@ -54852,6 +54927,9 @@ msgid ""
 "removal flow requires confirmation and then deactivates and anonymizes the "
 "account."
 msgstr ""
+"Utilizadores podem pedir o eliminar da conta a partir do separador "
+":guilabel:`Conta`. O fluxo de eliminação requer confirmação e depois "
+"desativa e anonimiza a conta."
 
 #: security/privacy-compliance.rst:78
 msgid ""
@@ -54859,12 +54937,18 @@ msgid ""
 "associations, group memberships, notification subscriptions, watched "
 "projects, and user translation memory."
 msgstr ""
+"A eliminação de conta limpa os campos de perfil privados, tokens API, e "
+"associações de autenticações sociais, pertenças de grupo, subscrições de "
+"notificações, projetos observados, e memória de tradução de utilizador."
 
 #: security/privacy-compliance.rst:81
 msgid ""
 "Historical project records can remain associated with an anonymized deleted "
 "account where needed to preserve translation history and auditability."
 msgstr ""
+"Registos de histórico de projeto podem permanecer associados com uma conta "
+"eliminada anonimizada quando necessário para preservar o histórico de "
+"tradução e para motivos de auditoria."
 
 #: security/privacy-compliance.rst:85
 msgid "Data retention and deletion"
@@ -54881,6 +54965,8 @@ msgid ""
 "Backups, reverse-proxy logs, mail server logs, and database retention are "
 "controlled by the site operator."
 msgstr ""
+"Cópias de segurança, registos de proxy reverso, registos de servidor de "
+"email, e retenção de base de dados são controlados pelo operador do site."
 
 #: security/privacy-compliance.rst:90
 msgid ""
@@ -54889,34 +54975,46 @@ msgid ""
 "Matomo, Sentry, OpenTelemetry, remote logging, machine translation services, "
 "or repository integrations."
 msgstr ""
+"Serviços de terceiros recebem dados apenas quando configurado ou usado pelo "
+"operador, por exemplo fornecedores de autenticação externos, fornecedores de "
+"avatar, Matoto, Sentry, OpenTelemetry, registos remotos, serviços de "
+"tradução automática, ou integrações de repositório."
 
 #: security/privacy-compliance.rst:96
-#, fuzzy
-#| msgid "Security and privacy"
 msgid "Security and confidentiality"
-msgstr "Segurança e privacidade"
+msgstr "Segurança e confidencialidade"
 
 #: security/privacy-compliance.rst:98
 msgid ""
 "Weblate supports HTTPS deployments and secure cookie settings; operators "
 "should configure TLS and trusted proxy headers correctly."
 msgstr ""
+"O Weblate suporta implementações HTTPS e tornam definições de cookie "
+"seguras; operadores devem configurar o TLS e cabeçalhos de proxy "
+"corretamente."
 
 #: security/privacy-compliance.rst:100
 msgid ""
 "Failed sign-ins, permission changes, two-factor changes, account removal "
 "requests, and other security events are recorded in the audit log."
 msgstr ""
+"Inícios de sessões falhados, permissões alteradas, alterações de dois "
+"fatores, pedidos de eliminação de conta, e outros eventos de segurança são "
+"guardados no registo de auditoria."
 
 #: security/privacy-compliance.rst:102
 msgid "Optional GELF logging can forward logs to systems such as Graylog."
 msgstr ""
+"Registos GELF opcionais podem direcionar registos para sistemas tais como o "
+"Graylog."
 
 #: security/privacy-compliance.rst:103
 msgid ""
 "Access control is enforced through users, teams, roles, project access "
 "settings, and component permissions."
 msgstr ""
+"Controlo de acesso é aplicado através de utilizadores, funções, definições "
+"de acesso de projeto, e permissões de componente."
 
 #: security/privacy-compliance.rst:105
 msgid ""
@@ -54924,6 +55022,11 @@ msgid ""
 "with :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`, :setting:`PRIVATE_COMMIT_NAME_OPT_IN`, "
 "and :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 msgstr ""
+"A privacidade de identidade de commit pode ser melhorada com "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`, "
+":setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`, "
+":setting:`PRIVATE_COMMIT_NAME_OPT_IN`, e "
+":setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: security/privacy-compliance.rst:110
 msgid ""
@@ -54931,6 +55034,9 @@ msgid ""
 "enabled, avatars are downloaded and cached server-side as described "
 "in :ref:`avatars`."
 msgstr ""
+"O buscar do avatar pode ser desativado com :setting:`ENABLE_AVATARS`; quando "
+"ativado, avatares são descarregados e armazenados na cache do servidor "
+"conforme descrito em :ref:`avatars`."
 
 #: security/privacy-compliance.rst:114
 msgid "International transfers"
@@ -54938,7 +55044,7 @@ msgstr "Transferências internacionais"
 
 #: security/privacy-compliance.rst:116
 msgid "Weblate itself does not require a specific hosting region."
-msgstr ""
+msgstr "O Weblate em si não requer uma região de alojamento específica."
 
 #: security/privacy-compliance.rst:117
 msgid ""
@@ -54946,12 +55052,19 @@ msgid ""
 "authentication, analytics, error reporting, and machine translation services "
 "determine where data is processed."
 msgstr ""
+"A localização de alojamento, cópias de segurança, entrega de emails, "
+"alojamento de repositório, autenticação externa, analítica, relatórios de "
+"erros, e serviços de tradução automática determinam onde a informação é "
+"processada."
 
 #: security/privacy-compliance.rst:120
 msgid ""
 "Organizations can self-host Weblate in the required jurisdiction, or use a "
 "dedicated deployment with suitable infrastructure controls."
 msgstr ""
+"Organizações podem auto-alojar o Weblate na jurisdição necessária, ou "
+"utilizar uma implementação de dedicada com controlos de infraestrutura "
+"adequados."
 
 #: security/privacy-compliance.rst:124
 msgid "Regulatory mapping"
@@ -54962,10 +55075,8 @@ msgid "Framework"
 msgstr "Framework"
 
 #: security/privacy-compliance.rst:131
-#, fuzzy
-#| msgid "Supported features"
 msgid "Supporting Weblate features"
-msgstr "Recursos suportados"
+msgstr "Suportar funcionalidades do Weblate"
 
 #: security/privacy-compliance.rst:132
 msgid "GDPR (EU)"
@@ -54976,6 +55087,8 @@ msgid ""
 "Data export, correction, account removal, audit logs, privacy notices, "
 "configurable retention, self-hosting"
 msgstr ""
+"Exportação de dados, correção, eliminação de conta, auditoria de registos, "
+"avisos de privacidade, retenção configurável, auto-alojamento"
 
 #: security/privacy-compliance.rst:135
 msgid "CCPA (California)"
@@ -54986,6 +55099,8 @@ msgid ""
 "Data access, deletion workflow, user control, no built-in sale of personal "
 "data"
 msgstr ""
+"Acesso de dados, eliminar do fluxo de trabalho, controlo de utilizador, não "
+"há venda integrada de dados pessoais"
 
 #: security/privacy-compliance.rst:138
 msgid "LGPD (Brazil)"
@@ -54996,6 +55111,8 @@ msgid ""
 "Transparency, access, correction, deletion workflow, operator-defined legal "
 "basis"
 msgstr ""
+"Transparência, acesso, correção, eliminar o fluxo de trabalho, base jurídica "
+"definida pelo operador"
 
 #: security/privacy-compliance.rst:141
 msgid "nFADP (Switzerland)"
@@ -55006,6 +55123,8 @@ msgid ""
 "Transparency, purpose limitation by configuration, account controls, "
 "auditability"
 msgstr ""
+"Transparência, limitação de fins por configuração, controlos de conta, "
+"auditabilidade"
 
 #: security/privacy-compliance.rst:144
 msgid "PIPEDA (Canada)"
@@ -55013,7 +55132,7 @@ msgstr "PIPEDA (Canadá)"
 
 #: security/privacy-compliance.rst:145
 msgid "Notice, consent workflow, access, correction, deletion"
-msgstr ""
+msgstr "Aviso, consentimento de fluxo de trabalho, correção, eliminação"
 
 #: security/privacy-compliance.rst:146
 msgid "DPDPA (India)"
@@ -55024,6 +55143,8 @@ msgid ""
 "Notice, consent workflow, user rights handling, hosting locality controlled "
 "by operator"
 msgstr ""
+"Aviso, consentimento do fluxo de trabalho, gestão de direitos de utilizador, "
+"localidade de alojamento controlada pelo operador"
 
 #: security/privacy-compliance.rst:149
 msgid "PIPL (China)"
@@ -55034,12 +55155,12 @@ msgid ""
 "Purpose limitation by configuration, data minimization, self-hosted locality "
 "controls"
 msgstr ""
+"Limitação de fins por configuração, minimização de dados, controlos de "
+"localidade de auto-alojamento"
 
 #: security/privacy-compliance.rst:154
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "Recommendations for compliance"
-msgstr "Conformidade de licenciamento"
+msgstr "Recomendações para conformidade"
 
 #: security/privacy-compliance.rst:156
 msgid ""
@@ -55047,6 +55168,10 @@ msgid ""
 "information through :ref:`legal`, and update :setting:`LEGAL_TOS_DATE` when "
 "users must accept changed terms."
 msgstr ""
+"**Avisos e consentimento:** Fornece informação de privacidade, cookie, "
+"subcontratado, e termos através de :ref:`legal`, e atualiza "
+":setting:`LEGAL_TOS_DATE` quando os utilizadores têm que aceitar os termos "
+"alterados."
 
 #: security/privacy-compliance.rst:159
 msgid ""
@@ -55054,6 +55179,9 @@ msgid ""
 "with :setting:`PRIVACY_URL` and :setting:`LEGAL_URL` when the documents are "
 "hosted outside Weblate."
 msgstr ""
+"**Links de política:** Links de privacidade externa e documentos legais com "
+":setting:`PRIVACY_URL` e :setting:`LEGAL_URL` quando os documentos são "
+"alojados fora do Weblate."
 
 #: security/privacy-compliance.rst:162
 msgid ""
@@ -55061,6 +55189,9 @@ msgid ""
 "export, correction, account removal, backup handling, and historical "
 "contribution review."
 msgstr ""
+"**Pedidos de dados de sujeitos:** Define um processo operacional para "
+"exportação de dados de utilizador, eliminação de conta, gestão de cópias de "
+"segurança, e revisão de histórico de contribuições."
 
 #: security/privacy-compliance.rst:165
 msgid ""
