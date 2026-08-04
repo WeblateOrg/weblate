@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-08-03 16:37+0000\n"
+"PO-Revision-Date: 2026-08-04 18:03+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.8.1.dev0\n"
 
 #: weblate/accounts/avatar.py:91
 msgctxt "No known user"
@@ -18545,10 +18545,8 @@ msgid "Comment removed"
 msgstr "Kommentar borttagen"
 
 #: weblate/trans/actions.py:404
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgid "A string comment was marked as resolved."
-msgstr "Kommentaren har lösts."
+msgstr "En strängkommentar markerades som löst."
 
 #: weblate/trans/actions.py:405
 msgctxt "Name of event in the history"
@@ -18556,80 +18554,64 @@ msgid "Comment resolved"
 msgstr "Kommentar löst"
 
 #: weblate/trans/actions.py:410
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "The explanation for a source string was updated."
-msgstr "Det här språket används för källsträngar."
+msgstr "Förklaringen till en källsträng uppdaterades."
 
 #: weblate/trans/actions.py:411
 msgid "Explanation updated"
 msgstr "Förklaring uppdaterad"
 
 #: weblate/trans/actions.py:416
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A component category was removed."
-msgstr "Ett språk i kategorin togs bort."
+msgstr "En komponentkategori togs bort."
 
 #: weblate/trans/actions.py:417
 msgid "Category removed"
 msgstr "Kategori borttagen"
 
 #: weblate/trans/actions.py:422
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A component category was renamed."
-msgstr "Ett språk i kategorin togs bort."
+msgstr "En komponentkategori fick ett nytt namn."
 
 #: weblate/trans/actions.py:423
 msgid "Category renamed"
 msgstr "Kategori omdöpt"
 
 #: weblate/trans/actions.py:428
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A component category was moved."
-msgstr "Ett språk i kategorin togs bort."
+msgstr "En komponentkategori flyttades."
 
 #: weblate/trans/actions.py:429
 msgid "Category moved"
 msgstr "Kategori flyttad"
 
 #: weblate/trans/actions.py:434
-#, fuzzy
-#| msgid "Weblate could not execute script add-on."
 msgid "Weblate could not save a changed string."
-msgstr "Weblate kunde inte köra skript-tillägget."
+msgstr "Weblate kunde inte spara en ändrad sträng."
 
 #: weblate/trans/actions.py:435
 msgid "Saving string failed"
 msgstr "Strängsparning misslyckades"
 
 #: weblate/trans/actions.py:440
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "A new string was found while synchronizing from the repository."
-msgstr "Sträng tillagd i arkivet"
+msgstr "En ny sträng upptäcktes vid synkroniseringen från förrådet."
 
 #: weblate/trans/actions.py:441
 msgid "String added in the repository"
 msgstr "Sträng tillagd i arkivet"
 
 #: weblate/trans/actions.py:446
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "A string was changed while processing an uploaded file."
-msgstr "Inga strängar importerades från den uppladdade filen."
+msgstr "En sträng ändrades under bearbetningen av en uppladdad fil."
 
 #: weblate/trans/actions.py:447
 msgid "String updated in the upload"
 msgstr "Sträng uppdaterad i uppladdningen"
 
 #: weblate/trans/actions.py:452
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "A new string was found while processing an uploaded file."
-msgstr "Tvingar skrivning av alla strängar till översättningsfilerna."
+msgstr "En ny sträng hittades under bearbetningen av en uppladdad fil."
 
 #: weblate/trans/actions.py:453
 msgid "String added in the upload"
@@ -18637,7 +18619,7 @@ msgstr "Sträng tillagd i uppladdningen"
 
 #: weblate/trans/actions.py:458
 msgid "A translation was synchronized after uploading a source file."
-msgstr ""
+msgstr "En översättning synkroniserades efter uppladdning av en källfil."
 
 #: weblate/trans/actions.py:459
 msgid "Translation updated by source upload"
@@ -18649,106 +18631,91 @@ msgid ""
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
+"Alla språköversättningar i en komponent blev helt översatta efter en enskild "
+"redigering. Automatisk översättning, uppladdningar och massredigeringar "
+"utlöser inte denna händelse."
 
 #: weblate/trans/actions.py:469
 msgid "Component translation completed"
 msgstr "Komponentöversättning slutförd"
 
 #: weblate/trans/actions.py:475
-#, fuzzy
-#| msgid "Skip translations marked as needing editing"
 msgid "A translation was marked as needing editing by an enforced check."
-msgstr "Hoppa över översättningar som är markerade som redigeringsbehov"
+msgstr ""
+"En översättning markerades i behov av redigering vid en tvingande kontroll."
 
 #: weblate/trans/actions.py:477
 msgid "Applied enforced check"
 msgstr "Tillämpad tvångskontroll"
 
 #: weblate/trans/actions.py:482
-#, fuzzy
-#| msgid "Apply selected translation to all propagated strings"
 msgid "A translation edit was propagated to another matching string."
-msgstr "Tillämpa vald översättning på alla fortplantade strängar"
+msgstr ""
+"En översättningsredigering fortplantades till en annan matchande sträng."
 
 #: weblate/trans/actions.py:483
 msgid "Propagated change"
 msgstr "Propagerad ändring"
 
 #: weblate/trans/actions.py:488
-#, fuzzy
-#| msgid "Define author of uploaded translation"
 msgid "A file was uploaded to a translation."
-msgstr "Definiera författaren för uppladdning av översättning"
+msgstr "En fil laddades upp till en översättning."
 
 #: weblate/trans/actions.py:489
 msgid "File uploaded"
 msgstr "Fil uppladdad"
 
 #: weblate/trans/actions.py:494
-#, fuzzy
-#| msgid "All repositories were updated."
 msgid "Additional source-string flags were updated."
-msgstr "Alla arkiv uppdaterades."
+msgstr "Ytterligare källsträngsflaggor uppdaterades."
 
 #: weblate/trans/actions.py:495
 msgid "Extra flags updated"
 msgstr "Extra flaggor uppdaterade"
 
 #: weblate/trans/actions.py:500
-#, fuzzy
-#| msgid "Font uploaded"
 msgid "A font was uploaded."
-msgstr "Teckensnitt uppladdat"
+msgstr "Ett typsnitt laddades upp."
 
 #: weblate/trans/actions.py:501
 msgid "Font uploaded"
 msgstr "Teckensnitt uppladdat"
 
 #: weblate/trans/actions.py:506
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "An uploaded font was changed."
-msgstr "Den uppladdade bilden var ogiltig."
+msgstr "Ett uppladdat typsnitt ändrades."
 
 #: weblate/trans/actions.py:507
 msgid "Font changed"
 msgstr "Teckensnitt ändrat"
 
 #: weblate/trans/actions.py:512
-#, fuzzy
-#| msgid "A language in the project was removed."
 msgid "An uploaded font was removed."
-msgstr "Ett språk i projektet togs bort."
+msgstr "Ett uppladdat typsnitt togs bort."
 
 #: weblate/trans/actions.py:513
 msgid "Font removed"
 msgstr "Teckensnitt borttaget"
 
 #: weblate/trans/actions.py:519
-#, fuzzy
-#| msgid "Translation files have been synchronized."
 msgid "Translation files were forcibly synchronized with the repository."
-msgstr "Översättningsfiler har synkroniserats."
+msgstr "Översättningsfilerna tvångssynkroniserades med förrådet."
 
 #: weblate/trans/actions.py:521
 msgid "Forced synchronization of translations"
 msgstr "Tvingad synkronisering av översättningar"
 
 #: weblate/trans/actions.py:526
-#, fuzzy
-#| msgid "Translation is now locked for you."
 msgid "Translation files were forcibly rescanned for changes."
-msgstr "Översättning är låst för dig nu."
+msgstr "översättningsfilerna skannades tvingande om för ändringar."
 
 #: weblate/trans/actions.py:527
 msgid "Forced rescan of translations"
 msgstr "Tvingad omskanning av översättningar"
 
 #: weblate/trans/actions.py:532
-#, fuzzy
-#| msgid "Screenshot removed"
 msgid "A screenshot was removed."
-msgstr "Skärmdump togs bort"
+msgstr "En skärmdump togs bort."
 
 #: weblate/trans/actions.py:533
 msgid "Screenshot removed"
@@ -18756,7 +18723,7 @@ msgstr "Skärmdump togs bort"
 
 #: weblate/trans/actions.py:538
 msgid "A label was added to a string."
-msgstr ""
+msgstr "En etikett lades till till en sträng."
 
 #: weblate/trans/actions.py:539
 msgid "Label added"
@@ -18764,113 +18731,83 @@ msgstr "Etikett tillagd"
 
 #: weblate/trans/actions.py:544
 msgid "A label was removed from a string."
-msgstr ""
+msgstr "En etikett togs bort från en sträng."
 
 #: weblate/trans/actions.py:545
 msgid "Label removed"
 msgstr "Etikett togs bort"
 
 #: weblate/trans/actions.py:550
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
 msgid "The repository working tree was cleaned up."
-msgstr "Alla arkiv har rensats upp."
+msgstr "Förrådets arbetskatalog rensades upp."
 
 #: weblate/trans/actions.py:551
 msgid "Repository cleanup"
 msgstr "Arkivrensning"
 
 #: weblate/trans/actions.py:556
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "A source string was added while processing an uploaded file."
-msgstr "Sträng tillagd i uppladdningen"
+msgstr "En källsträng lades till vid bearbetning av en uppladdad fil."
 
 #: weblate/trans/actions.py:557
-#, fuzzy
-#| msgid "String added in the upload"
 msgid "Source string added in the upload"
-msgstr "Sträng tillagd i uppladdningen"
+msgstr "En källsträng lades till i uppladdningen"
 
 #: weblate/trans/actions.py:563
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "A source string was added while synchronizing from the repository."
-msgstr "Sträng tillagd i arkivet"
+msgstr "En källasträng lades till under synkroniseringen från förrådet."
 
 #: weblate/trans/actions.py:565
-#, fuzzy
-#| msgid "String added in the repository"
 msgid "Source string added in the repository"
-msgstr "Sträng tillagd i arkivet"
+msgstr "Källsträng lades till i förrådet"
 
 #: weblate/trans/actions.py:570
-#, fuzzy
-#| msgid "Projects without components"
 msgid "A project backup was created."
-msgstr "Projekt utan komponenter"
+msgstr "En säkerhetskopia av ett projekt skapades."
 
 #: weblate/trans/actions.py:571
-#, fuzzy
-#| msgid "Project name"
 msgid "Project backed up"
-msgstr "Projektnamn"
+msgstr "Projektet säkerhetskopierades"
 
 #: weblate/trans/actions.py:576
 msgid "A project was restored from a backup."
-msgstr ""
+msgstr "Ett projekt återställdes från en säkerhetskopia."
 
 #: weblate/trans/actions.py:577
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project restored"
-msgstr "Projektet borttaget"
+msgstr "Projektet återställt"
 
 #: weblate/trans/actions.py:582
-#, fuzzy
-#| msgid "Component created from scratch"
 msgid "A component was restored from a backup."
-msgstr "Komponent skapad från grunden"
+msgstr "En komponent återställdes från en säkerhetskopia."
 
 #: weblate/trans/actions.py:583
-#, fuzzy
-#| msgid "Component removed"
 msgid "Component restored"
-msgstr "Komponent borttagen"
+msgstr "Komponent återställd"
 
 #: weblate/trans/actions.py:588
 msgid "All selected edits by a user were reverted."
-msgstr ""
+msgstr "Alla valda redigeringar av en användare återställdes."
 
 #: weblate/trans/actions.py:589
-#, fuzzy
-#| msgid "User removed"
 msgid "User edit reverted"
-msgstr "Användare borttagen"
+msgstr "Användarredigering återställd"
 
 #: weblate/trans/actions.py:594
-#, fuzzy
-#| msgid "Source string changed"
 msgid "A project setting was changed."
-msgstr "Källsträngen ändrad"
+msgstr "En projektinställning ändrades."
 
 #: weblate/trans/actions.py:595
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Project setting changed"
-msgstr "Källsträngen ändrad"
+msgstr "Projektinställning ändrad"
 
 #: weblate/trans/actions.py:600
-#, fuzzy
-#| msgid "Component renamed"
 msgid "A component setting was changed."
-msgstr "Komponent bytte namn"
+msgstr "En komponentinställning ändrades."
 
 #: weblate/trans/actions.py:601
-#, fuzzy
-#| msgid "Component renamed"
 msgid "Component setting changed"
-msgstr "Komponent bytte namn"
+msgstr "Komponentinställning ändrad"
 
 #: weblate/trans/actions.py:606
 #, fuzzy
