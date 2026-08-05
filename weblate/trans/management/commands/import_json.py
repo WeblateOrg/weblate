@@ -46,6 +46,9 @@ def format_serializer_error(error: ValidationError) -> str:
 def get_component_serializer(
     project: Project, data: dict[str, Any], component: Component | None = None
 ) -> ComponentSerializer:
+    if component is not None and "source_language" in data:
+        data = data.copy()
+        del data["source_language"]
     kwargs: dict[str, Any] = {
         "context": {"request": ImportRequest(), "project": project},
         "data": data,
