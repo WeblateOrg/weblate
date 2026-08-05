@@ -172,8 +172,6 @@ class ListMachineryView(TemplateView):
         result = super().get_context_data(**kwargs)
         result["configured_services"] = self.configured_services
         result["available_services"] = self.available_services
-        errors_qs = MachineryError.objects.filter(project=self.project)
-        result["machinery_errors"] = errors_qs[:50]
         if not self.project:
             result["menu_items"] = MANAGE_MENU
             result["menu_page"] = "machinery"
@@ -259,6 +257,10 @@ class EditMachineryView(FormView):
         result["machinery_sends_data_to_third_party"] = (
             self.machinery.sends_data_to_third_party
         )
+        errors_qs = MachineryError.objects.filter(engine=self.machinery_id)
+        if self.project:
+            errors_qs = errors_qs.filter(project=self.project)
+        result["machinery_errors"] = errors_qs[:50]
         return result
 
     def install_service(self) -> None:

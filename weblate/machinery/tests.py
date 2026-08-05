@@ -95,7 +95,7 @@ from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
 from weblate.machinery.tasks import cleanup_machinery_errors
 from weblate.machinery.tmserver import TMServerTranslation
-from weblate.machinery.views import ListMachineryView
+from weblate.machinery.views import EditMachineryView, ListMachineryView
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
@@ -9048,29 +9048,40 @@ class MachineryErrorTest(TestCase):
         cleanup_machinery_errors()
         self.assertEqual(MachineryError.objects.count(), 3)
 
-    def test_list_view_context_includes_machinery_errors(self) -> None:
-        """ListMachineryView exposes machinery_errors in template context."""
-        error = MachineryError.objects.create(engine="Dummy", error="test error")
-        view = ListMachineryView()
+    def test_edit_view_context_includes_machinery_errors(self) -> None:
+        """EditMachineryView exposes machinery_errors filtered to the current backend."""
+        from weblate.machinery.dummy import DummyTranslation
+
+        engine_id = DummyTranslation.get_identifier()
+        own_error = MachineryError.objects.create(engine=engine_id, error="own")
+        other_error = MachineryError.objects.create(engine="other-service", error="other")
+        view = EditMachineryView()
+        view.machinery_id = engine_id
+        view.machinery = DummyTranslation
         view.project = None
-        view.configured_services = []
-        view.available_services = []
         context = view.get_context_data()
         self.assertIn("machinery_errors", context)
-        self.assertIn(error, context["machinery_errors"])
-
-    def test_list_view_filters_errors_by_project(self) -> None:
-        """ListMachineryView shows only the project's errors in project scope."""
-        project = Project.objects.create(name="Test", slug="test")
-        global_error = MachineryError.objects.create(engine="Dummy", error="global")
-        project_error = MachineryError.objects.create(
-            engine="Dummy", error="project", project=project
-        )
-        view = ListMachineryView()
-        view.project = project
-        view.configured_services = []
-        view.available_services = []
-        context = view.get_context_data()
         errors = list(context["machinery_errors"])
+        self.assertIn(own_error, errors)
+        self.assertNotIn(other_error, errors)
+
+    def test_edit_view_filters_errors_by_project(self) -> None:
+        """EditMachineryView on a project page shows only that project's errors."""
+        from weblate.machinery.dummy import DummyTranslation
+
+        engine_id = DummyTranslation.get_identifier()
+        project = Project.objects.create(name="Test", slug="test")
+        other_project = Project.objects.create(name="Other", slug="other")
+        project_error = MachineryError.objects.create(
+            engine=engine_id, error="project", project=project
+        )
+        other_error = MachineryError.objects.create(
+            engine=engine_id, error="other", project=other_project
+        )
+        view = EditMachineryView()
+        view.machinery_id = engine_id
+        view.machinery = DummyTranslation
+        view.project = project
+        errors = list(view.get_context_data()["machinery_errors"])
         self.assertIn(project_error, errors)
-        self.assertNotIn(global_error, errors)
+        self.assertNotIn(other_error, errors)
