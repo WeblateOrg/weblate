@@ -9,6 +9,7 @@ Weblate 2026.8.1
 
 .. rubric:: Bug fixes
 
+* Docker Celery worker logging no longer emits duplicate records through both Celery and Weblate log handlers.
 * Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
 * Repository actions now require permission on every component sharing the affected repository, including linked components in other projects.
 
