@@ -95,7 +95,6 @@ from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
 from weblate.machinery.tasks import cleanup_machinery_errors
 from weblate.machinery.tmserver import TMServerTranslation
-from weblate.machinery.views import ListMachineryView
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
@@ -9215,7 +9214,9 @@ class MachineryErrorTest(TestCase):
         """Edit view context filters machinery_errors to the current backend."""
         engine_id = DummyTranslation.get_identifier()
         own_error = MachineryError.objects.create(engine=engine_id, error="own")
-        other_error = MachineryError.objects.create(engine="other-service", error="other")
+        other_error = MachineryError.objects.create(
+            engine="other-service", error="other"
+        )
         # Mirror what EditMachineryView.get_context_data builds (no project filter)
         errors = list(MachineryError.objects.filter(engine=engine_id)[:50])
         self.assertIn(own_error, errors)
