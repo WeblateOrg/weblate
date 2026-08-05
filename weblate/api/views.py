@@ -662,28 +662,11 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
 
-    @staticmethod
-    def get_repository_permission_obj(
-        obj: Project | Component | Translation, *, component_scope: bool
-    ) -> Project | Component | Translation:
-        component = obj.component if isinstance(obj, Translation) else obj
-        if (
-            isinstance(component, Component)
-            and component.linked_component_id is not None
-        ):
-            linked_component = component.linked_component
-            if linked_component is None:
-                msg = "Linked component ID exists without a linked component"
-                raise RuntimeError(msg)
-            return linked_component
-        return component if component_scope else obj
-
     @transaction.atomic
     def repository_operation(self, request: Request, obj, operation: str):
         permission, method, args, kwargs, takes_request = REPO_OPERATIONS[operation]
 
-        permission_obj = self.get_repository_permission_obj(obj, component_scope=True)
-        if not request.user.has_perm(permission, permission_obj):
+        if not request.user.has_perm(permission, obj):
             raise PermissionDenied
 
         obj.acting_user = request.user
@@ -724,8 +707,7 @@ class WeblateViewSet(DownloadViewSet):
 
             return Response(data)
 
-        permission_obj = self.get_repository_permission_obj(obj, component_scope=False)
-        if not request.user.has_perm("meta:vcs.status", permission_obj):
+        if not request.user.has_perm("meta:vcs.status", obj):
             raise PermissionDenied
 
         data = {
@@ -3964,8 +3946,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         user = request.user
 
         if request.method == "POST":
-            if not user.has_perm("suggestion.add", unit):
-                self.permission_denied(request)
+            suggestion_permission = user.has_perm("suggestion.add", unit)
+            if not suggestion_permission:
+                self.permission_denied(
+                    request, getattr(suggestion_permission, "reason", None)
+                )
 
             serializer = SuggestionSerializer(
                 data=request.data,
@@ -4057,11 +4042,16 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         serializer.is_valid(raise_exception=True)
         approve = serializer.validated_data["approve"]
 
-        if not user.has_perm("suggestion.accept", unit):
-            self.permission_denied(request)
+        accept_permission = user.has_perm("suggestion.accept", unit)
+        if not accept_permission:
+            self.permission_denied(request, getattr(accept_permission, "reason", None))
 
-        if approve and not user.has_perm("unit.review", unit):
-            self.permission_denied(request)
+        if approve:
+            review_permission = user.has_perm("unit.review", unit)
+            if not review_permission:
+                self.permission_denied(
+                    request, getattr(review_permission, "reason", None)
+                )
 
         suggestion.accept(
             request,
@@ -4081,8 +4071,9 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         unit = suggestion.unit
         user = request.user
 
-        if not user.has_perm("suggestion.vote", unit):
-            self.permission_denied(request)
+        vote_permission = user.has_perm("suggestion.vote", unit)
+        if not vote_permission:
+            self.permission_denied(request, getattr(vote_permission, "reason", None))
 
         serializer = SuggestionVoteRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

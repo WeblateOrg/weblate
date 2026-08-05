@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import base64
 import logging
 import math
 import os
@@ -12,6 +13,7 @@ import warnings
 from contextlib import contextmanager, suppress
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Literal, cast, overload
 from unittest.mock import patch
@@ -21,12 +23,14 @@ from django.conf import settings
 from django.core import mail
 from django.core.cache import cache
 from django.core.files import File
+from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpRequest
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
+from PIL import Image
 from selenium import webdriver
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
@@ -824,6 +828,24 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             raise ValueError(msg)
         element.send_keys(name)
 
+    def set_image_clipboard(self, filename: str | Path) -> None:
+        image = base64.b64encode(Path(filename).read_bytes()).decode("ascii")
+        error = self.driver.execute_async_script(
+            """
+            const image = Uint8Array.from(atob(arguments[0]), (byte) =>
+                byte.charCodeAt(0),
+            );
+            const done = arguments[arguments.length - 1];
+            navigator.clipboard.write([
+                new ClipboardItem({
+                    "image/png": new Blob([image], {type: "image/png"}),
+                }),
+            ]).then(() => done(null), (exception) => done(String(exception)));
+            """,
+            image,
+        )
+        self.assertIsNone(error, error)
+
     @overload
     def do_login(self, *, create: Literal[False], superuser: bool = False) -> None: ...
     @overload
@@ -1553,6 +1575,66 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains("#screenshots-add", "Repository path to screenshot")
         self.screenshot("screenshot-filemask-repository-filename.png")
 
+    def test_screenshot_clipboard_paste(self) -> None:
+        """Test uploading a screenshot pasted from the clipboard."""
+        project = self.create_component()
+        self.do_login(superuser=True)
+        unit = Unit.objects.filter(
+            translation__component__project=project,
+            translation__component__slug="django",
+            translation__language__code="cs",
+        ).first()
+        assert unit is not None
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        self.click("Add screenshot")
+        modal = WebDriverWait(self.driver, 5).until(
+            element_to_be_clickable((By.ID, "add-screenshot-form"))
+        )
+        modal.find_element(By.ID, "id_name").send_keys("Clipboard screenshot")
+
+        origin = self.driver.execute_script("return window.location.origin;")
+        self.driver.execute_cdp_cmd(
+            "Browser.grantPermissions",
+            {
+                "origin": origin,
+                "permissions": ["clipboardReadWrite", "clipboardSanitizedWrite"],
+            },
+        )
+        try:
+            expected_image_path = get_test_file("screenshot.png")
+            self.set_image_clipboard(expected_image_path)
+            self.click(htmlid="paste-screenshot-btn")
+            image_input = modal.find_element(By.ID, "id_image")
+            WebDriverWait(self.driver, 5).until(
+                lambda driver: driver.execute_script(
+                    "return arguments[0].files.length === 1;", image_input
+                )
+            )
+            self.assert_text_contains("#paste-screenshot-info-label", "Image Pasted!")
+            with self.wait_for_page_load():
+                self.click(modal.find_element(By.CSS_SELECTOR, 'input[type="submit"]'))
+        finally:
+            self.driver.execute_cdp_cmd("Browser.resetPermissions", {})
+
+        screenshot = Screenshot.objects.get(name="Clipboard screenshot")
+        self.assertTrue(screenshot.units.filter(pk=unit.pk).exists())
+        screenshot.image.open("rb")
+        try:
+            with (
+                Image.open(expected_image_path) as expected_image,
+                Image.open(screenshot.image) as uploaded_image,
+            ):
+                self.assertEqual(uploaded_image.format, "PNG")
+                self.assertEqual(uploaded_image.size, expected_image.size)
+                self.assertEqual(
+                    uploaded_image.convert("RGBA").tobytes(),
+                    expected_image.convert("RGBA").tobytes(),
+                )
+        finally:
+            screenshot.image.close()
+
     def test_screenshots(self) -> None:
         """Screenshot tests."""
         # Make sure tesseract data is present and not downloaded at request time
@@ -1626,19 +1708,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Screenshots")
 
         # Upload screenshot
+        upload_filename = "automatic-translation.png"
+        default_storage.delete(f"screenshots/{upload_filename}")
         self.click("Add screenshot")
         self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
         element = self.driver.find_element(By.ID, "id_image")
-        self.upload_file(element, get_test_file("screenshot.png"))
-        with self.wait_for_page_load():
-            element.submit()
+        with TemporaryDirectory(prefix="weblate-selenium-upload-") as upload_dir:
+            upload_path = Path(upload_dir) / upload_filename
+            upload_path.write_bytes(Path(get_test_file("screenshot.png")).read_bytes())
+            self.upload_file(element, upload_path)
+            with self.wait_for_page_load():
+                element.submit()
         uploaded_screenshot = Screenshot.objects.get(name="Automatic translation")
 
+        listing_filename = "main-menu.png"
+        default_storage.delete(f"screenshots/{listing_filename}")
         with open(get_test_file("screenshot.png"), "rb") as handle:
             listing_screenshot = Screenshot.objects.create(
                 name="Main menu",
                 repository_filename="fastlane/metadata/android/en-US/images/menu.png",
-                image=File(handle, name="main-menu.png"),
+                image=File(handle, name=listing_filename),
                 translation=component.source_translation,
                 user=user,
             )

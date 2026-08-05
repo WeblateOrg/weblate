@@ -34,14 +34,15 @@
 # Lee Vincent <vincentlee986@gmail.com>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
+# peterxy <peterxy99@outlook.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-30 03:46+0200\n"
-"PO-Revision-Date: 2026-07-29 18:03+0000\n"
-"Last-Translator: 為什麼不加空格 <c++23@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-08-03 17:02+0000\n"
+"Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -184,6 +185,9 @@ msgid ""
 "filtered, so these aggregates do not grant access to the underlying projects "
 "or components."
 msgstr ""
+"彙總統計包含 `Private` 專案和 :ref:`受限組件 <component-restricted>`，也會納"
+"入全站、語言及工作空間摘要。物件清單、名稱和動作仍會依權限篩選，因此這些彙總"
+"不會授予對底層專案或組件的存取權。"
 
 #: admin/access.rst:82
 msgid ""
@@ -420,6 +424,9 @@ msgid ""
 "current personal API key stops working. Clear it only when the current API "
 "key should remain active."
 msgstr ""
+"網站管理員也可以停用使用者的密碼驗證。:guilabel:`重新產生 API 金鑰` 選項預設"
+"為啟用，因此目前的個人 API 金鑰會停止運作。只有在目前的 API 金鑰應保持作用中"
+"時，才清除此選項。"
 
 #: admin/access.rst:210
 msgid ""
@@ -511,8 +518,8 @@ msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"您可以將專案設為 :guilabel:`受保護` 或 :guilabel:`私密`（請參"
-"閱 :ref:`acl`），並針對個別專案 :ref:`管理使用者存取權 <manage-acl>`。"
+"您可以將專案設為 :guilabel:`受保護` 或 :guilabel:`私密`（請參閱 :ref:`acl`）"
+"，並為個別專案 :ref:`管理使用者存取權 <manage-acl>`。"
 
 #: admin/access.rst:260
 msgid ""
@@ -2235,15 +2242,13 @@ msgid "SAML authentication"
 msgstr "SAML 身分驗證"
 
 #: admin/auth.rst:492
-#, fuzzy
 msgid ""
 "The dependencies for SAML authentication are no longer included in the "
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
-"SAML 身分驗證所需的相依套件已不再包含在預設的 ``all`` 額外依賴項中。使用 pip "
-"安裝 Weblate 套件時，必須加入 ``saml``（``uv pip install "
-"Weblate[all,saml]``）。"
+"預設 ``all`` extras 不再包含 SAML 驗證相依項目。使用 pip 安裝 Weblate 套件"
+"（``uv pip install Weblate[all,saml]``）時，您需要加入 ``saml``。"
 
 #: admin/auth.rst:496
 msgid ""
@@ -2270,7 +2275,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "The sign-in URL is ``/accounts/complete/saml/`` (also known as ACS URL)."
-msgstr "登入 URL 為 ``/accounts/complete/saml/``（也稱為 ACS URL）。"
+msgstr "登入 URL 為 ``/accounts/complete/saml/``（亦稱為 ACS URL）。"
 
 #: admin/auth.rst:502
 msgid ""
@@ -2692,6 +2697,8 @@ msgid ""
 "screenshot files cause the import to be rejected without creating a partial "
 "project."
 msgstr ""
+"還原任何資料前會驗證完整備份。無效的物件欄位、參照、存放庫路徑、URL、正規表示"
+"式或螢幕截圖檔案會使匯入遭拒，且不會建立部分專案。"
 
 #: admin/backup.rst:47
 msgid ""
@@ -3612,8 +3619,8 @@ msgid ""
 "editing` (see :ref:`states`). This prevents translators from hiding such "
 "checks."
 msgstr ""
-"強制檢查無法略過，並會將字串標示為 :guilabel:`需要編輯`（請參"
-"閱 :ref:`states`）。這可防止譯者隱藏此類檢查。"
+"強制檢查無法略過，並會將字串標示為 :guilabel:`需要編輯`（請參閱 "
+":ref:`states`）。這可防止翻譯者隱藏此類檢查。"
 
 #: admin/checks.rst:112
 msgid ""
@@ -4200,11 +4207,6 @@ msgstr ""
 "用者。"
 
 #: admin/code-hosting.rst:267
-#, fuzzy
-#| msgid ""
-#| "The `Hosted Weblate legacy app`_ is kept for existing webhook-only "
-#| "setups. Use it only when you need the legacy app to deliver GitHub "
-#| "notifications to Hosted Weblate."
 msgid ""
 "The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. "
 "Its deliveries use the generic GitHub webhook URL and are authenticated "
@@ -4212,8 +4214,9 @@ msgid ""
 "Use it only when you need the legacy app to deliver GitHub notifications to "
 "Hosted Weblate."
 msgstr ""
-"`Hosted Weblate legacy app`_ 是為既有且僅使用 Webhook 的設定而保留。只有在需"
-"要舊版 App 將 GitHub 通知傳送至 Hosted Weblate 時才使用。"
+"`Hosted Weblate 舊版應用程式`_ 會保留給既有的僅 webhook 設定。其傳遞使用通用 "
+"GitHub webhook URL，並以 Hosted Weblate 營運者設定的獨立 webhook 祕密值進行驗"
+"證。只有在您需要舊版應用程式將 GitHub 通知傳送至 Hosted Weblate 時才使用它。"
 
 #: admin/code-hosting.rst:274
 msgid ""
@@ -4602,12 +4605,11 @@ msgstr ""
 "在 :guilabel:`Settings` 之下的 :guilabel:`Webhooks` 中完成。"
 
 #: admin/code-hosting.rst:510
-#, fuzzy
-#| msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.com/usage/repository/"
 "webhooks>`_"
-msgstr "`Gitea 手冊中的 Webhooks <https://docs.gitea.io/en-us/webhooks/>`_"
+msgstr ""
+"`Gitea 手冊中的 Webhook <https://docs.gitea.com/usage/repository/webhooks>`_"
 
 #: admin/code-hosting.rst:511
 msgid ":http:post:`/hooks/gitea/`"
@@ -5202,16 +5204,6 @@ msgid "Defaults to ``[]``."
 msgstr "預設為 ``[]``。"
 
 #: admin/config.rst:102
-#, fuzzy
-#| msgid ""
-#| "The allowlist affects project-managed machinery in two ways: it permits "
-#| "the configured endpoint during outbound validation, and it marks matching "
-#| "hosts as trusted when deciding whether remote provider error details or "
-#| "response bodies can be shown to the user. For direct connections, runtime "
-#| "checks still reject destinations that resolve to private or otherwise non-"
-#| "public addresses. When an HTTP(S) proxy is used, runtime validation falls "
-#| "back to hostname validation and does not perform the same local DNS or "
-#| "peer-IP checks."
 msgid ""
 "The allowlist affects project-managed machinery in two ways: it permits the "
 "configured endpoint during outbound validation, and it marks matching hosts "
@@ -5222,11 +5214,11 @@ msgid ""
 "whose network destinations are trusted. When a configured :ref:`http-proxy` "
 "is used, the proxy is trusted to resolve the destination hostname."
 msgstr ""
-"允許清單對專案管理的機器翻譯服務的影響體現在兩個方面：一是在出站驗證期間允許"
-"設定的端點，二是在決定是否可以向使用者顯示遠端服務提供者錯誤詳情或回應內容時"
-"將相符主機標記為可信。對於直接連線，執行時檢查仍會拒絕解析為私有或非公開地址"
-"的目標。使用 HTTP(S) 代理時，執行時驗證將回退到主機名稱驗證，並且不會執行相同"
-"的本機 DNS 或對等 IP 檢查。"
+"allowlist 會以兩種方式影響專案管理機制：允許設定端點通過對外驗證，並在決定是"
+"否可向使用者顯示遠端提供者錯誤細節或回應內容時，將相符主機標示為受信任。相符"
+"主機也豁免私有目標限制。對直接連線而言，Weblate 不會解析、繫結或驗證相符主機"
+"的對等端位址。僅加入網路目的地受信任的主機或網域。使用設定的 :ref:`http-"
+"proxy` 時，會信任 Proxy 解析目的地主機名稱。"
 
 #: admin/config.rst:118
 msgid ""
@@ -5479,7 +5471,7 @@ msgstr "可能的選項："
 #: admin/config.rst:366
 #, fuzzy
 msgid "``monthly`` (this is the default)"
-msgstr "``monthly``（這是預設值）"
+msgstr "``monthly``（此為預設值）"
 
 #: admin/config.rst:373
 msgid ""
@@ -6051,6 +6043,8 @@ msgid ""
 "Webhook secret for a legacy GitHub App which delivers events to the generic "
 "GitHub webhook URL, ``/hooks/github/``."
 msgstr ""
+"用於將事件傳遞至通用 GitHub webhook URL ``/hooks/github/`` 的舊版 GitHub App "
+"webhook 祕密值。"
 
 #: admin/config.rst:1085
 msgid ""
@@ -6059,6 +6053,9 @@ msgid ""
 "webhooks are unaffected. GitHub Apps registered through Weblate use their "
 "per-App webhook URLs and do not use this setting."
 msgstr ""
+"此設定為空或其 ``X-Hub-Signature-256`` 不相符時，傳送至通用 URL 的應用程式 "
+"webhook 會遭拒絕。一般存放庫 webhook 不受影響。透過 Weblate 註冊的 GitHub "
+"Apps 使用各應用程式的 webhook URL，不使用此設定。"
 
 #: admin/config.rst:1106
 msgid "List for credentials for Bitbucket Data Center."
@@ -6355,18 +6352,13 @@ msgid "CSS class added to the wrappers around legal document templates."
 msgstr "新增至法律文件範本外層包裝元素的 CSS 類別。"
 
 #: admin/config.rst:1382
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``\"tos\"``, which enables the built-in legal document "
-#| "numbering and spacing rules. Set this to an empty string to render legal "
-#| "documents without the built-in numbering."
 msgid ""
 "Defaults to ``\"tos\"``. Weblate does not attach styling to this class; "
 "custom legal styles can use it to target document wrappers. Set this to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
-"預設為 ``\"tos\"``，這會啟用內建的法律文件編號與間距規則。將此值設為空白字"
-"串，即可在沒有內建編號的情況下轉譯法律文件。"
+"預設為 ``\"tos\"``。Weblate 不會為此 class 套用樣式；自訂法律樣式可用它指定文"
+"件包裝器。若要在沒有 wrapper class 的情況下呈現法律文件，請設為空字串。"
 
 #: admin/config.rst:1402
 msgid "List of legal document page identifiers to hide from the legal module."
@@ -7141,14 +7133,13 @@ msgstr ""
 "的字典。"
 
 #: admin/config.rst:2363
-#, fuzzy
 msgid ""
 "Weblate automatically supplies ``service`` as ``weblate`` and ``version`` as "
 "the current Weblate version or Git revision. Explicit values in the "
 "dictionary override these defaults."
 msgstr ""
-"Weblate 會自動提供 ``service``（值為 ``weblate``）和 ``version``（值為目前的 "
-"Weblate 版本或 Git 修訂版本）。字典中的明確值會覆寫這些預設值。"
+"Weblate 會自動將 ``service`` 設為 ``weblate``，並將 ``version`` 設為目前的 "
+"Weblate version 或 Git revision。字典中的明確值會覆寫這些預設值。"
 
 #: admin/config.rst:2374
 msgid "Enable backend tracing using OpenTelemetry. Disabled by default."
@@ -7392,6 +7383,9 @@ msgid ""
 "provided by :setting:`VCS_RESTRICT_PRIVATE`. Administrators are responsible "
 "for the security and compatibility impact of all configured arguments."
 msgstr ""
+"這是受信任、由管理員控制的設定。任意 SSH options 可變更連線路由，並覆寫 "
+":setting:`VCS_RESTRICT_PRIVATE` 提供的位址繫結。管理員應對所有設定引數的安全"
+"性及相容性影響負責。"
 
 #: admin/config.rst:2633
 msgid "`OpenSSH Legacy Options <https://www.openssh.org/legacy.html>`_"
@@ -7496,6 +7490,9 @@ msgid ""
 "for VCS backends which cannot bind the client connection to the address "
 "validated by Weblate, such as Mercurial and Subversion."
 msgstr ""
+"啟用 :setting:`VCS_RESTRICT_PRIVATE` 時，相符主機也豁免私有目標限制。對無法將"
+"用戶端連線繫結至 Weblate 驗證位址的 VCS 後端（如 Mercurial 與 Subversion），"
+"也需要此豁免。"
 
 #: admin/config.rst:2751
 msgid ""
@@ -7533,6 +7530,12 @@ msgid ""
 "Subversion, custom VCS backends, and additional URL schemes are rejected "
 "unless the target host is explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"對透過 HTTPS 或 SSH 存取的 Git 存放庫，Weblate 會將每個 VCS command 繫結至直"
+"接連線期間通過執行階段驗證的位址。設定的 HTTP Proxies 是受信任基礎架構，改由"
+"它們解析存放庫 hostname。自動跟隨 redirects 仍停用。永久同主機 HTTP "
+"redirects 會透過相同對外路徑另行探測、驗證並儲存為標準組件存放庫 URL。跨主機 "
+"redirects 必須手動設定。除非在 :setting:`VCS_ALLOW_HOSTS` 明確加入目標主機，"
+"否則 Mercurial、Subversion、自訂 VCS backends 及其他 URL schemes 都會遭拒絕。"
 
 #: admin/config.rst:2777
 msgid ""
@@ -7541,6 +7544,8 @@ msgid ""
 "depth, especially for custom integrations and administrator-installed "
 "extensions."
 msgstr ""
+"建議採用封鎖內部、loopback、link-local、保留及 cloud metadata 位址範圍的網路"
+"層 egress filtering 作為深度防禦，尤其適用於自訂整合與管理員安裝的擴充功能。"
 
 #: admin/config.rst:2788
 msgid ""
@@ -8900,21 +8905,15 @@ msgid "Weblate Cloudron Package"
 msgstr "Weblate Cloudron 套件"
 
 #: admin/deployments.rst:23
-#, fuzzy
-#| msgid ""
-#| "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
-#| "applications. Weblate installed with Cloudron will be automatically kept "
-#| "up-to-date. The package is maintained by the Cloudron team at their "
-#| "`Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgid ""
 "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
 "applications. Weblate installed with Cloudron will be automatically kept up-"
 "to-date. The package is maintained by the Cloudron team; see the `Weblate "
 "package documentation <https://docs.cloudron.io/packages/weblate/>`_."
 msgstr ""
-"`Cloudron <https://www.cloudron.io/>`_ 是自託管 web 應用的平台。安裝有 "
-"Cloudron 的 Weblate 會自動更新。軟體套件由 Cloudron 團隊在它們的 `Weblate "
-"package repo <https://git.cloudron.io/cloudron/weblate-app>`_ 上維護。"
+"`Cloudron <https://www.cloudron.io/>`_ 是用於自行託管網頁應用程式的平台。以 "
+"Cloudron 安裝的 Weblate 會自動保持最新。此套件由 Cloudron 團隊維護；請參閱 "
+"`Weblate 套件文件 <https://docs.cloudron.io/packages/weblate/>`_。"
 
 #: admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
@@ -9011,16 +9010,12 @@ msgid "Use dedicated node when scaling Weblate horizontally."
 msgstr "垂直縮放 Weblate 時使用專門節點。"
 
 #: admin/install.rst:138
-#, fuzzy
-#| msgid "Application region"
 msgid "Application server"
-msgstr "應用程式區域"
+msgstr "應用程式伺服器"
 
 #: admin/install.rst:139
-#, fuzzy
-#| msgid "A WSGI server serving web pages to users."
 msgid "A WSGI or ASGI server serving web pages to users."
-msgstr "提供網頁給使用者的 WSGI 伺服器。"
+msgstr "為使用者提供網頁的 WSGI 或 ASGI server。"
 
 #: admin/install.rst:143
 msgid ""
@@ -9184,10 +9179,8 @@ msgid "Weblate feature"
 msgstr "Weblate 功能"
 
 #: admin/install.rst:218
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "ASGI server for Weblate"
-msgstr "Weblate wsgi 伺服器"
+msgstr "Weblate 的 ASGI server"
 
 #: admin/install.rst:231
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
@@ -9214,10 +9207,8 @@ msgid "Hosted Weblate integration"
 msgstr "Hosted Weblate 整合"
 
 #: admin/install.rst:271
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "WSGI server for Weblate"
-msgstr "Weblate wsgi 伺服器"
+msgstr "Weblate 的 WSGI server"
 
 #: admin/install.rst:277
 msgid ""
@@ -9720,6 +9711,8 @@ msgid ""
 "requests and Git repositories. Define the proxy environment variables "
 "in :file:`settings.py`:"
 msgstr ""
+"Weblate 支援對外 HTTP 請求及 Git 存放庫的各通訊協定 HTTP Proxy 設定。請在 "
+":file:`settings.py` 定義 Proxy 環境變數："
 
 #: admin/install.rst:658
 msgid ""
@@ -9727,17 +9720,14 @@ msgid ""
 "variables such as ``all_proxy`` and ``no_proxy``, operating-system proxy "
 "configuration, and VCS-specific proxy configuration are not supported."
 msgstr ""
+"僅支援 ``http_proxy`` 和 ``https_proxy``。不支援 ``all_proxy``、``no_proxy`` "
+"等通用及略過變數、作業系統 Proxy 設定和 VCS 專屬 Proxy 設定。"
 
 #: admin/install.rst:664
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies/env.html>`_"
 msgid ""
 "`Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
-msgstr ""
-"`代理環境變數 <https://everything.curl.dev/usingcurl/proxies/env.html>`_"
+msgstr "`Proxy 環境變數 <https://everything.curl.dev/usingcurl/proxies/env.html>`_"
 
 #: admin/install.rst:669
 msgid "Adjusting configuration"
@@ -10231,34 +10221,22 @@ msgid "Using custom certificate authority"
 msgstr "使用自訂憑證授權"
 
 #: admin/install.rst:1154
-#, fuzzy
-#| msgid ""
-#| "Weblate does verify SSL certificates during HTTP requests. In case you "
-#| "are using custom certificate authority which is not trusted in default "
-#| "bundles, you will have to add its certificate as trusted."
 msgid ""
 "Weblate verifies SSL certificates during HTTP requests. Requests made using "
 "HTTPX2 use the system certificate store, so install custom certificate "
 "authorities there."
 msgstr ""
-"Weblate 在 HTTP 請求時驗證 SSL 憑證。在使用 自訂的憑證授權的情況下，這樣自訂"
-"的憑證授權在預設 bundles 的中不被信任，您必須將其憑證新增為可信任。"
+"Weblate 會在 HTTP 請求期間驗證 SSL 憑證。使用 HTTPX2 提出的請求採用系統憑證儲"
+"存區，因此請在其中安裝自訂憑證授權單位。"
 
 #: admin/install.rst:1158
-#, fuzzy
-#| msgid ""
-#| "The preferred approach is to do this at system level, please check your "
-#| "distro documentation for more details (for example on debian this can be "
-#| "done by placing the CA certificate into :file:`/usr/local/share/ca-"
-#| "certificates/` and running :command:`update-ca-certificates`)."
 msgid ""
 "Check your distribution documentation for more details. For example, on "
 "Debian this can be done by placing the CA certificate into :file:`/usr/local/"
 "share/ca-certificates/` and running :command:`update-ca-certificates`."
 msgstr ""
-"傾向使用的方法是在系統層次進行，更多細節請查看您的發佈的說明檔案（例如在"
-"debian 中，這可以透過將CA 憑證放置在 :file:`/usr/local/share/ca-certificates/"
-"`，並執行 :command:`update-ca-certificates` 來完成）。"
+"詳情請查閱您的發行版文件。例如，在 Debian 上可將 CA 憑證放入 :file:`/usr/"
+"local/share/ca-certificates/`，再執行 :command:`update-ca-certificates`。"
 
 #: admin/install.rst:1165
 msgid ""
@@ -10267,14 +10245,10 @@ msgid ""
 msgstr "Weblate 容器不將它包括在搜尋路徑內，您需要指定完整路徑來執行它。例如："
 
 #: admin/install.rst:1172
-#, fuzzy
-#| msgid ""
-#| "Once this is done, system tools will trust the certificate and this "
-#| "includes Git."
 msgid ""
 "Once this is done, Weblate HTTPX2 requests and system tools, including Git, "
 "will trust the certificate."
-msgstr "一旦完成，系統工具就會信任憑證，這包括 Git。"
+msgstr "完成後，Weblate HTTPX2 請求和系統工具（包括 Git）會信任該憑證。"
 
 #: admin/install.rst:1175
 msgid ""
@@ -10284,6 +10258,9 @@ msgid ""
 "authority, configure Requests to use the system CA bundle by adding the "
 "following to :file:`settings.py` (the path is Debian-specific):"
 msgstr ""
+"部分整合（包括 OAuth 與 OpenID Connect 驗證）使用 Requests，預設不使用系統憑"
+"證儲存區。這些整合與使用自訂憑證授權單位的服務通訊時，請將下列內容加入 "
+":file:`settings.py` 以設定 Requests 使用系統 CA bundle（路徑僅適用 Debian）："
 
 #: admin/install.rst:1191
 msgid "Running server"
@@ -10606,20 +10583,20 @@ msgstr ""
 "worker 與阻塞式執行緒的數量。backpressure 的值應等於或高於阻塞式執行緒數量。"
 
 #: admin/install.rst:1457
-#, fuzzy
-#| msgid "Sample configuration to start Granian"
 msgid "Sample configuration to start Granian with ASGI"
-msgstr "啟動 Granian 的設定範例"
+msgstr "啟動使用 ASGI 的 Granian 範例設定"
 
 #: admin/install.rst:1461
 msgid ""
 "ASGI deployment is available as an opt-in alternative to WSGI. Install the "
 "``asgi`` optional dependency:"
 msgstr ""
+"ASGI 部署可作為 WSGI 的選擇性啟用替代方案。安裝 ``asgi`` optional dependency"
+"："
 
 #: admin/install.rst:1468
 msgid "The following systemd unit runs the Django ASGI application:"
-msgstr ""
+msgstr "下列 systemd unit 執行 Django ASGI 應用程式："
 
 #: admin/install.rst:1474
 msgid ""
@@ -10630,6 +10607,11 @@ msgid ""
 "but most Weblate views remain synchronous, and CPU-intensive or long-running "
 "work should still be handled by :ref:`celery`."
 msgstr ""
+"此範例使用 Granian 的 ASGI 介面，不支援 lifespan 或 WebSocket，因為 Weblate "
+"目前僅提供 HTTP。Weblate 的 middleware 支援兩種部署模式，並在仍依賴同步 "
+"Django API 的地方使用 thread-sensitive adapters。健康狀態檢查是非同步的，但大"
+"多數 Weblate views 仍為同步；CPU 密集或長時間執行的工作仍應交由 "
+":ref:`celery` 處理。"
 
 #: admin/install.rst:1481
 msgid ""
@@ -10638,6 +10620,9 @@ msgid ""
 "backpressure to the available memory, CPU cores, and database connection "
 "limit."
 msgstr ""
+"WSGI 仍是預設部署模式。Docker images 可將 :envvar:`WEBLATE_ASGI` 設為 ``1`` "
+"以選擇性啟用 ASGI。請依可用記憶體、CPU cores 與資料庫連線上限調整 workers 數"
+"量及 backpressure。"
 
 #: admin/install.rst:1494
 msgid "Sample configuration to start Gunicorn"
@@ -11619,20 +11604,14 @@ msgid "Number of processes and memory consumption"
 msgstr "程式數量和記憶體消耗"
 
 #: admin/install/docker.rst:384
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both WSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both the web application and Celery is "
 "determined automatically based on number of CPUs. This works well for most "
 "cloud virtual machines as these typically have few CPUs and good amount of "
 "memory."
 msgstr ""
-"WSGI 和 Celery 的工作處理程序數是根據 CPU 的數量自動確定的。這適用於大多數雲"
-"虛擬機器，因為這些虛擬機器通常具有很少的CPU和大量的記憶體。"
+"網頁應用程式與 Celery 的 worker processes 數量會依 CPU 數量自動決定。這對多"
+"數 cloud virtual machines 效果良好，因為它們通常 CPU 較少且記憶體充足。"
 
 #: admin/install/docker.rst:389
 msgid ""
@@ -12117,17 +12096,12 @@ msgstr ""
 "定 :setting:`LEGAL_DOCUMENT_CSS_CLASS`。"
 
 #: admin/install/docker.rst:960
-#, fuzzy
-#| msgid ""
-#| "Defaults to ``\"tos\"``, which enables the built-in legal document "
-#| "numbering and spacing rules. Set this to an empty string to render legal "
-#| "documents without the built-in numbering."
 msgid ""
 "Set this to the class targeted by your custom legal stylesheet. Set it to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
-"預設為 ``\"tos\"``，這會啟用內建的法律文件編號與間距規則。將此值設為空白字"
-"串，即可在沒有內建編號的情況下轉譯法律文件。"
+"將此設為自訂法律樣式表指定的 class。若要在沒有 wrapper class 的情況下呈現法律"
+"文件，請設為空字串。"
 
 #: admin/install/docker.rst:972
 msgid ""
@@ -12521,20 +12495,17 @@ msgid ""
 "Configures :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. The ``_FILE`` "
 "variant can be used to load the secret from a file."
 msgstr ""
+"設定 :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`。可使用 ``_FILE`` 變體從檔案"
+"載入祕密值。"
 
 #: admin/install/docker.rst:1463
-#, fuzzy
-#| msgid ""
-#| "GitHub Apps are registered through the in-app manifest flow and stored in "
-#| "the database, so there are no GitHub App environment variables to "
-#| "configure. See :ref:`code-hosting-github-notifications`."
 msgid ""
 "GitHub Apps registered through the in-app manifest flow are stored in the "
 "database and do not need environment variables. See :ref:`code-hosting-"
 "github-notifications`."
 msgstr ""
-"GitHub App 會透過應用程式內的資訊清單流程註冊並儲存在資料庫中，因此沒有需要設"
-"定的 GitHub App 環境變數。請參閱 :ref:`code-hosting-github-notifications`。"
+"透過應用程式內 manifest 流程註冊的 GitHub Apps 會儲存在資料庫中，不需要環境變"
+"數。請參閱 :ref:`code-hosting-github-notifications`。"
 
 #: admin/install/docker.rst:1472
 msgid ""
@@ -12781,10 +12752,9 @@ msgid ""
 "``requestedAuthnContext`` (needed for some identity providers such as "
 "Microsoft Entra ID with multi-factor authentication):"
 msgstr ""
-"以 JSON 物件表示的 SAML 安全性設定，會傳遞給 "
-"``SOCIAL_AUTH_SAML_SECURITY_CONFIG``。例如，若要停用 "
-"``requestedAuthnContext``（部分身分提供者需要如此，例如啟用多重要素驗證的 "
-"Microsoft Entra ID）："
+"作為 JSON object 傳給 ``SOCIAL_AUTH_SAML_SECURITY_CONFIG`` 的 SAML security "
+"configuration。例如，若要停用 ``requestedAuthnContext``（部分 identity "
+"providers（如具有 multi-factor authentication 的 Microsoft Entra ID）需要）："
 
 #: admin/install/docker.rst:1834
 msgid ""
@@ -13276,12 +13246,13 @@ msgid ""
 "the default for now, but a future release will run ASGI only and remove this "
 "setting."
 msgstr ""
+"設為 ``1`` 時，會使用 ASGI 而非 WSGI 執行網頁應用程式。這是用於測試轉換至 "
+"ASGI 的選擇性啟用設定。WSGI 暫時仍是預設值，但未來版本將僅執行 ASGI，並移除此"
+"設定。"
 
 #: admin/install/docker.rst:2435
-#, fuzzy
-#| msgid "Configure how many WSGI workers should be executed."
 msgid "Configure how many web application workers should be executed."
-msgstr "設定應該執行多少個 WSGI workers。"
+msgstr "設定要執行多少網頁應用程式 workers。"
 
 #: admin/install/docker.rst:2437
 msgid ""
@@ -13296,17 +13267,13 @@ msgstr ""
 ":envvar:`WEB_WORKERS` 設定 :program:`granian` 要使用的 worker 處理程序數量。"
 
 #: admin/install/docker.rst:2452
-#, fuzzy
-#| msgid ""
-#| "Configure how many blocking WSGI threads each :program:`granian` worker "
-#| "can use. It defaults to twice :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "Configure how many blocking WSGI threads each :program:`granian` worker can "
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS` and is ignored "
 "when :envvar:`WEBLATE_ASGI` is enabled."
 msgstr ""
-"設定每個 :program:`granian` worker 可使用的阻塞式 WSGI 執行緒數量。預設值"
-"為 :envvar:`WEBLATE_WORKERS` 的 2 倍。"
+"設定每個 :program:`granian` worker 可使用的 blocking WSGI threads 數量。預設"
+"為 :envvar:`WEBLATE_WORKERS` 的兩倍，啟用 :envvar:`WEBLATE_ASGI` 時會忽略。"
 
 #: admin/install/docker.rst:2456
 msgid ""
@@ -13683,18 +13650,13 @@ msgstr ""
 "動 Weblate。"
 
 #: admin/install/docker.rst:2709
-#, fuzzy
-#| msgid ""
-#| "This approach can be also used to override Weblate templates. For "
-#| "example :ref:`legal` documents can be placed into :file:`/app/data/python/"
-#| "customize/templates/legal/documents`."
 msgid ""
 "This approach can be also used to override Weblate templates. For example, "
 "custom :ref:`legal` documents and styles can be provided as described "
 "in :ref:`legal-customization`."
 msgstr ""
-"這種方法也可以用來覆蓋 Weblate 的範本。例如 :ref:`legal` 檔案可以放"
-"在 :file:`/app/data/python/customize/templates/legal/documents` 裡。"
+"此方法也可用於覆寫 Weblate 範本。例如，可依 :ref:`legal-customization` 所述提"
+"供自訂 :ref:`legal` 文件與樣式。"
 
 #: admin/install/docker.rst:2713
 msgid ""
@@ -16074,9 +16036,10 @@ msgid ""
 "If :ref:`autoclean-tm` is enabled, matching pending entries are removed when "
 "a translation becomes active."
 msgstr ""
-"翻譯記憶項目有兩種狀態：**使用中** 和 **待處理**。待處理項目會納入建議，但會"
-"套用品質扣分。啟用 :ref:`autoclean-tm` 後，翻譯轉為使用中狀態時，會移除相符的"
-"待處理項目。"
+"翻譯記憶項目可有兩種不同狀態：**作用中**及**待處理**。待處理項目會納入建議，"
+"但會套用品質扣分。依設定的分數門檻而定，扣分甚至可使完全相符項目不納入建議與"
+"自動翻譯。從翻譯記憶檔案匯入的項目會儲存為作用中。若啟用 :ref:`autoclean-"
+"tm`，翻譯變成作用中時會移除相符的待處理項目。"
 
 #: admin/memory.rst:117 admin/projects.rst:247
 msgid "Autoclean translation memory"
@@ -16161,17 +16124,13 @@ msgid ""
 msgstr "開啟專案，從專案選單選擇 :guilabel:`翻譯記憶` 來管理專案的翻譯記憶。"
 
 #: admin/memory.rst:164
-#, fuzzy
-#| msgid ""
-#| "Open :guilabel:`Administration` and choose :guilabel:`Translation memory` "
-#| "to manage uploaded translation memory for the whole Weblate instance."
 msgid ""
 "Open a workspace and choose :guilabel:`Operations` ↓ :guilabel:`Translation "
 "memory` to manage automatically created translation memory for that "
 "workspace. Editing the workspace is required."
 msgstr ""
-"開啟 :guilabel:`管理`，選擇 :guilabel:`翻譯記憶` 管理整個 Weblate 執行個體的"
-"已上傳的翻譯記憶。"
+"開啟工作空間，選擇 :guilabel:`操作` ↓ :guilabel:`翻譯記憶`，即可管理自動建立"
+"的該工作空間翻譯記憶。需要具備編輯工作空間權限。"
 
 #: admin/memory.rst:167
 msgid ""
@@ -16210,17 +16169,17 @@ msgid ""
 "entries only. Translation-memory files cannot be uploaded into a workspace "
 "scope."
 msgstr ""
+"工作空間檢視可重建目前所有參與的專案，或個別參與的組件。僅管理工作空間範圍的"
+"自動項目。無法將翻譯記憶檔案上傳至工作空間範圍。"
 
 #: admin/memory.rst:186
-#, fuzzy
-#| msgid ""
-#| "Translation memory files can be imported on the same page. Uploaded files "
-#| "are stored in the selected scope:"
 msgid ""
 "Translation memory files can be imported on the same page. Uploaded files "
 "are processed during the request, stored as active, and added to the "
 "selected scope:"
-msgstr "可以在相同頁面上匯入翻譯記憶。上傳的檔案儲存在所選範圍中："
+msgstr ""
+"可在同一頁面匯入翻譯記憶檔案。上傳的檔案會在請求期間處理、以作用中狀態儲存，"
+"並加入選取的範圍："
 
 #: admin/memory.rst:189
 msgid "Personal uploads are available in your personal translation memory."
@@ -16280,12 +16239,6 @@ msgstr ""
 "者所有條目為 JSON 或 TMX 檔案。"
 
 #: admin/memory.rst:222
-#, fuzzy
-#| msgid ""
-#| "The project translation memory view also allows rebuilding parts of or "
-#| "the entire project translation memory. Existing entries for the selected "
-#| "component or project are deleted, and the memory is populated again from "
-#| "the current translations in the background."
 msgid ""
 "The project translation memory view also allows rebuilding parts of or the "
 "entire project translation memory. Automatically generated entries for the "
@@ -16293,8 +16246,8 @@ msgid ""
 "from the current translations in the background. Entries imported from files "
 "are preserved."
 msgstr ""
-"專案翻譯記憶檢視也允許重建部分或完整的專案翻譯記憶。所選組件或專案的現有條目"
-"被刪除，記憶庫在後臺從目前翻譯再次被填充。"
+"專案翻譯記憶檢視也可重建部分或整個專案翻譯記憶。會刪除選取組件或專案自動產生"
+"的項目，並在背景依目前翻譯重新填入記憶。從檔案匯入的項目會保留。"
 
 #: admin/memory.rst:231
 msgid ""
@@ -16568,19 +16521,14 @@ msgstr ""
 "Weblate 的法律檔案。"
 
 #: admin/optionals.rst:161
-#, fuzzy
-#| msgid ""
-#| "The bundled terms of service and related legal documents are specific to "
-#| "that service and are not intended for general use. They might still come "
-#| "in handy as a starting point if adjusted to meet your needs."
 msgid ""
 "The bundled terms of service and related legal documents are specific to "
 "services operated by Weblate s.r.o. They can serve as an implementation "
 "example, but should not be used as a basis for legal documents of other "
 "services."
 msgstr ""
-"捆綁的服務條款和相關法律文件僅針對該服務，不用於一般用途。但如果進行調整來滿"
-"足您的需求，它們作為起點仍然可能派得上用處。"
+"隨附的服務條款及相關法律文件僅適用於 Weblate s.r.o. 營運的服務。可作為實作範"
+"例，但不應作為其他服務法律文件的依據。"
 
 #: admin/optionals.rst:169
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -16591,7 +16539,7 @@ msgstr ""
 msgid ""
 "Provide legal document templates matching your service, as described "
 "in :ref:`legal-customization`."
-msgstr ""
+msgstr "依 :ref:`legal-customization` 所述，提供符合您服務的法律文件範本。"
 
 #: admin/optionals.rst:197
 msgid ""
@@ -16622,14 +16570,10 @@ msgstr ""
 "-d`。重新啟動既有容器不會套用已變更的環境值。"
 
 #: admin/optionals.rst:214
-#, fuzzy
-#| msgid ""
-#| "After installation and editing, the legal documents are shown in the "
-#| "Weblate UI."
 msgid ""
 "After installation and customization, the legal documents are shown in the "
 "Weblate UI."
-msgstr "安裝並編輯後，法律檔案顯示在 Weblate 介面中。"
+msgstr "安裝與自訂後，法律文件會顯示於 Weblate UI。"
 
 #: admin/optionals.rst:216
 msgid ""
@@ -16651,16 +16595,14 @@ msgstr ""
 "結至服務條款和隱私權政策文件。"
 
 #: admin/optionals.rst:227
-#, fuzzy
-#| msgid "Customizing behavior using flags"
 msgid "Customizing legal documents and styles"
-msgstr "使用旗標自訂行為"
+msgstr "自訂法律文件與樣式"
 
 #: admin/optionals.rst:229
 msgid ""
 "Provide your own legal documents by overriding these templates in "
 "a :ref:`custom-module`:"
-msgstr ""
+msgstr "在 :ref:`custom-module` 中覆寫這些範本，以提供自己的法律文件："
 
 #: admin/optionals.rst:239
 msgid ""
@@ -16670,23 +16612,23 @@ msgid ""
 "overridden; the remaining legal templates continue to use the defaults from "
 "later apps."
 msgstr ""
+"請將自訂應用程式放在 ``weblate.legal`` 及其他提供法律範本覆寫應用程式之前的 "
+":setting:`django:INSTALLED_APPS`，讓 Django 選取其範本。只會覆寫您提供的範本"
+"；其餘法律範本會繼續使用後續應用程式的預設值。"
 
 #: admin/optionals.rst:244
 msgid ""
 "The :file:`legal/styles.html` template is included in the HTML head of every "
 "legal page. Use it to load a stylesheet from your customization app:"
 msgstr ""
+":file:`legal/styles.html` 範本會包含在每個法律頁面的 HTML head 中。使用它從自"
+"訂應用程式載入樣式表："
 
 #: admin/optionals.rst:253
-#, fuzzy
-#| msgid ""
-#| "Run :samp:`weblate collectstatic --noinput`, to collect static files "
-#| "served to clients."
 msgid ""
 "Run :samp:`weblate collectstatic --noinput` after adding or changing the "
 "static file."
-msgstr ""
-"執行 :samp:`weblate collectstatic --noinput`，來收集提供給用戶端的靜態檔案。"
+msgstr "新增或變更靜態檔案後，執行 :samp:`weblate collectstatic --noinput`。"
 
 #: admin/optionals.rst:256
 msgid ""
@@ -16697,6 +16639,12 @@ msgid ""
 "template then uses ``{% static 'legal.css' %}``. Restart the container to "
 "apply the changes, see :ref:`docker-static-override`."
 msgstr ""
+"在 Docker 部署中，請將文件範本置於 :file:`/app/data/python/customize/"
+"templates/legal/documents`、將 :file:`styles.html` 置於 :file:`/app/data/"
+"python/customize/templates/legal/styles.html`，並將樣式表置於 :file:`/app/"
+"data/python/customize/static/legal.css`。樣式表範本接著使用 ``{% static "
+"'legal.css' %}``。重新啟動 container 套用變更；請參閱 :ref:`docker-static-"
+"override`。"
 
 #: admin/optionals.rst:264
 msgid ""
@@ -16706,6 +16654,9 @@ msgid ""
 "document markup. Set the setting to an empty string if no wrapper class is "
 "needed."
 msgstr ""
+"法律文件包裝器預設使用 ``tos`` CSS class。Weblate 不會為此 class 套用任何樣式"
+"；請在自訂樣式表中指定它，或將 :setting:`LEGAL_DOCUMENT_CSS_CLASS` 設為與您文"
+"件標記相符的其他 class。若不需要包裝器 class，請將此設定設為空字串。"
 
 #: admin/optionals.rst:269
 msgid ""
@@ -17026,6 +16977,9 @@ msgid ""
 "request path. Repeated rejections during the same lockout do not create "
 "additional audit-log entries."
 msgstr ""
+"對於已登入使用者，Weblate 會在每個有效範圍 lockout 期間，於 :ref:`audit-log` "
+"記錄第一個遭拒的請求，包括範圍與請求路徑。同一 lockout 期間重複拒絕不會建立額"
+"外 audit-log 項目。"
 
 #: admin/optionals.rst:447
 msgid ""
@@ -17329,6 +17283,8 @@ msgid ""
 "with source strings, and where translations can be tested or when they are "
 "released."
 msgstr ""
+"良好的翻譯指示會說明貢獻者應如何提交翻譯、預期的校閱方式、如何回報來源字串問"
+"題，以及可在哪裡測試翻譯或翻譯何時釋出。"
 
 #: admin/projects.rst:176 admin/projects.rst:881 admin/workspaces.rst:113
 msgid "Translation license"
@@ -20138,18 +20094,17 @@ msgid ""
 "list does not include workspaces merely because the user has site-wide "
 "management access."
 msgstr ""
+"已登入使用者可開啟 :guilabel:`專案` ↓ :guilabel:`我的工作空間`，列出其有明確"
+"工作空間團隊指派的工作空間。此清單不會只因使用者具有全站管理存取權而納入工作"
+"空間。"
 
 #: admin/workspaces.rst:26
-#, fuzzy
-#| msgid ""
-#| "You can list all workspaces in the management interface "
-#| "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgid ""
 "Site managers can list all workspaces in the management interface "
 "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgstr ""
-"您可以在管理介面的 :guilabel:`管理` ↓ :guilabel:`工作空間` 中列出所有工作空"
-"間。"
+"網站管理者可在 :guilabel:`管理` ↓ :guilabel:`工作空間` 的管理介面列出所有工作"
+"空間。"
 
 #: admin/workspaces.rst:31
 msgid ""
@@ -20158,6 +20113,9 @@ msgid ""
 "and actions remain permission-filtered. See :ref:`statistics access "
 "filtering <statistics-access-filtering>`."
 msgstr ""
+"工作空間統計會彙總所有所屬與共享內容，包括您無法存取的專案及受限組件。專案清"
+"單和動作仍會依權限篩選。請參閱 :ref:`statistics access filtering <statistics-"
+"access-filtering>`。"
 
 #: admin/workspaces.rst:36
 msgid ""
@@ -20165,31 +20123,28 @@ msgid ""
 "components that you can access and have permission to download. Workspace "
 "membership does not bypass project access control or component restrictions."
 msgstr ""
+"工作空間 :guilabel:`檔案` 選單會下載您可存取且有下載權限的所屬組件 ZIP 封存檔"
+"。工作空間成員資格不會略過專案存取控制或組件限制。"
 
 #: admin/workspaces.rst:43
-#, fuzzy
-#| msgid "Workspace created"
 msgid "Workspace removal"
-msgstr "工作空間已建立"
+msgstr "移除工作空間"
 
 #: admin/workspaces.rst:45
-#, fuzzy
-#| msgid ""
-#| "Users with :guilabel:`Edit workspace settings` permission can view and "
-#| "pay the billing plan. Billing notification e-mails are sent to these "
-#| "users."
 msgid ""
 "Users with the :guilabel:`Edit workspace settings` permission can remove a "
 "workspace from :guilabel:`Operations` ↓ :guilabel:`Organize or remove`."
 msgstr ""
-"具備 :guilabel:`編輯工作空間設定` 權限的使用者可以檢視及支付計費方案。計費通"
-"知電子郵件會寄給這些使用者。"
+"具有 :guilabel:`編輯工作空間設定` 權限的使用者可從 :guilabel:`操作` ↓ "
+":guilabel:`整理或移除` 移除工作空間。"
 
 #: admin/workspaces.rst:48
 msgid ""
 "Only empty workspaces can be removed. Move or remove all projects in the "
 "workspace first. Workspaces associated with billing cannot be removed."
 msgstr ""
+"僅可移除空白工作空間。請先移動或移除工作空間中的所有專案。與帳務關聯的工作空"
+"間無法移除。"
 
 #: admin/workspaces.rst:54
 msgid "Project creation and moves"
@@ -20281,6 +20236,9 @@ msgid ""
 "automatically created workspace translation-memory entries. See :ref:`memory-"
 "user`."
 msgstr ""
+"具有編輯工作空間權限的使用者可開啟 :guilabel:`操作` ↓ :guilabel:`翻譯記憶`，"
+"瀏覽、下載、刪除或重建自動建立的工作空間翻譯記憶項目。請參閱 :ref:`memory-"
+"user`。"
 
 #: admin/workspaces.rst:115
 msgid ""
@@ -20805,6 +20763,9 @@ msgid ""
 "and character counts; suggestions; comments; and translated and approved "
 "percentages."
 msgstr ""
+"專案指標會在 :http:get:`/api/projects/(string:project)/metrics/` 提供每個可見"
+"組件和語言的翻譯統計。包含已翻譯、總計、fuzzy、檢查失敗及已核准的字串、字詞和"
+"字元計數；建議；留言；以及已翻譯和已核准百分比。"
 
 #: api.rst:3333
 msgid "Search"
@@ -20884,13 +20845,15 @@ msgstr "新功能"
 msgid ""
 "Workspaces now provide aggregate translation statistics and historical "
 "metrics."
-msgstr ""
+msgstr "工作空間現在提供彙總翻譯統計和歷程指標。"
 
 #: changes.rst:9
 msgid ""
 "Added :ref:`project-level translation metrics <monitoring-translation-"
 "progress>` in JSON, CSV, and OpenMetrics formats."
 msgstr ""
+"新增 JSON、CSV 與 OpenMetrics 格式的 :ref:`專案層級翻譯指標 <monitoring-"
+"translation-progress>`。"
 
 #: changes.rst:10
 msgid ""
@@ -20898,6 +20861,8 @@ msgid ""
 "filtered :guilabel:`My workspaces` list, archive downloads, and management "
 "of workspace translation memory."
 msgstr ""
+":ref:`工作空間 <workspaces>` 現在提供依權限篩選的 :guilabel:`我的工作空間` 清"
+"單、封存檔下載，以及工作空間翻譯記憶的管理功能。"
 
 #: changes.rst:11
 msgid ""
@@ -20928,26 +20893,21 @@ msgid ""
 "Added :ref:`check-max-lines` quality check for limiting the number of lines "
 "in translations, useful for fixed-height UI elements."
 msgstr ""
+"新增 :ref:`check-max-lines` 品質檢查以限制翻譯行數，適用於固定高度 UI "
+"elements。"
 
 #: changes.rst:15
-#, fuzzy
-#| msgid "Added :ref:`check-laravel-format` quality check."
 msgid "Added :ref:`check-asciidoc-markup` quality check for AsciiDoc strings."
-msgstr "新增了 :ref:`check-laravel-format` 品質檢查。"
+msgstr "新增適用於 AsciiDoc 字串的 :ref:`check-asciidoc-markup` 品質檢查。"
 
 #: changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "Added support for acting as SAML Service Provider, see :ref:`saml-auth`."
 msgid ""
 "Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`."
-msgstr "新增作為 SAML 服務提供者的支援，請參閱 :ref:`saml-auth`。"
+msgstr "新增對舊版 Qt Linguist TS version 1 檔案的支援。請參閱 :ref:`qtling`。"
 
 #: changes.rst:17
-#, fuzzy
-#| msgid "Weblate is now available in Bashkir language."
 msgid "Weblate is now available in Lao language."
-msgstr "Weblate 現在可用巴什基爾語顯示。"
+msgstr "Weblate 現已提供寮語。"
 
 #: changes.rst:20 changes.rst:101 changes.rst:165 changes.rst:276
 #: changes.rst:333 changes/v5.rst:18 changes/v5.rst:104 changes/v5.rst:208
@@ -20973,12 +20933,14 @@ msgid ""
 "Authenticated web-action rate-limit lockouts are now recorded in "
 "the :ref:`audit-log` with the affected scope and request path."
 msgstr ""
+"已驗證網頁動作 rate-limit lockouts 現在會在 :ref:`audit-log` 記錄受影響範圍與"
+"請求路徑。"
 
 #: changes.rst:22
 msgid ""
 "OpenMetrics API responses now include metric metadata and a versioned "
 "content type."
-msgstr ""
+msgstr "OpenMetrics API 回應現在包含 metric metadata 與已版本化 content type。"
 
 #: changes.rst:23
 msgid ""
@@ -21009,7 +20971,7 @@ msgstr ""
 #: changes.rst:26
 msgid ""
 "Add-on management now uses separate configuration, logs, and components tabs."
-msgstr ""
+msgstr "附加元件管理現在使用獨立的設定、記錄及組件分頁。"
 
 #: changes.rst:27
 msgid ""
@@ -21034,7 +20996,7 @@ msgstr "翻譯記憶管理頁面現在僅需一次資料庫彙總，即可載入
 msgid ""
 "Translation memory management shows active and pending entry counts and "
 "reports the number of entries processed during import."
-msgstr ""
+msgstr "翻譯記憶管理會顯示作用中與待處理項目計數，並回報匯入期間處理的項目數。"
 
 #: changes.rst:31
 msgid ""
@@ -21046,7 +21008,7 @@ msgstr "控制台組件清單的分頁現在無須處理不相關的組件清單
 msgid ""
 "Category pages now load recent history and shared component listings more "
 "efficiently."
-msgstr ""
+msgstr "分類頁面現在能更有效率地載入近期歷程記錄與共享組件清單。"
 
 #: changes.rst:33
 msgid ""
@@ -21060,6 +21022,8 @@ msgid ""
 ":ref:`Empty workspaces <workspace-removal>` not associated with billing can "
 "now be removed from the workspace :guilabel:`Operations` menu."
 msgstr ""
+":ref:`未與帳務關聯的空白工作空間 <workspace-removal>` 現在可從工作空間 "
+":guilabel:`操作` 選單移除。"
 
 #: changes.rst:35
 msgid ""
@@ -21077,7 +21041,7 @@ msgstr "改善 :ref:`screenshots` OCR 的可靠性，以及下載辨識資料時
 msgid ""
 "Repository failure alerts now link directly to component version control "
 "settings for users who can edit them."
-msgstr ""
+msgstr "存放庫失敗警示現在會直接連結至可編輯使用者的組件版本控制設定。"
 
 #: changes.rst:38
 msgid ""
@@ -21099,10 +21063,12 @@ msgid ""
 "Added opt-in :ref:`running-granian-asgi` deployment support, "
 "including :envvar:`WEBLATE_ASGI` for Docker containers."
 msgstr ""
+"新增選擇性啟用的 :ref:`running-granian-asgi` 部署支援，包括 Docker "
+"containers 的 :envvar:`WEBLATE_ASGI`。"
 
 #: changes.rst:41
 msgid "Added opt-in :ref:`running-granian-asgi` deployment support."
-msgstr ""
+msgstr "新增選擇性啟用的 :ref:`running-granian-asgi` 部署支援。"
 
 #: changes.rst:42
 msgid ""
@@ -21110,12 +21076,14 @@ msgid ""
 "LibreTranslate, ModernMT, OpenAI-compatible, Anthropic, and Ollama services "
 "on ASGI deployments."
 msgstr ""
+"ASGI 部署上的 DeepL、LibreTranslate、ModernMT、OpenAI-compatible、Anthropic "
+"及 Ollama 服務，機器翻譯編輯器請求現在使用非同步 HTTP。"
 
 #: changes.rst:43
 msgid ""
 "GitHub App connection and repository refresh requests now use asynchronous "
 "HTTP on ASGI deployments."
-msgstr ""
+msgstr "ASGI 部署上的 GitHub App 連線及存放庫重新整理請求現在使用非同步 HTTP。"
 
 #: changes.rst:44
 msgid "Deployment checks now detect corrupted PostgreSQL relation statistics."
@@ -21127,12 +21095,16 @@ msgid ""
 "coverage, recommend key translation-instruction topics, and distinguish "
 "inbound from outbound repository automation."
 msgstr ""
+":ref:`社群診斷 <alerts>` 現在會顯示來源字串的螢幕截圖涵蓋率、建議翻譯指示的重"
+"點主題，並區分輸入與輸出的存放庫自動化。"
 
 #: changes.rst:46
 msgid ""
 "User-provided links, such as those in comments, announcements, and profiles, "
 "are now underlined and use a higher contrast color."
 msgstr ""
+"使用者提供的連結（例如留言、公告及個人資料中的連結）現在會有底線，並使用較高"
+"對比色。"
 
 #: changes.rst:49 changes.rst:118 changes.rst:192 changes.rst:249
 #: changes.rst:287 changes.rst:350 changes/v5.rst:36 changes/v5.rst:144
@@ -21164,6 +21136,8 @@ msgid ""
 "site-wide user management now regenerates the user's personal API key by "
 "default."
 msgstr ""
+"從全站使用者管理 :ref:`停用密碼驗證 <site-wide-user-management>` 時，現在預設"
+"會重新產生使用者的個人 API 金鑰。"
 
 #: changes.rst:51
 msgid ""
@@ -21171,33 +21145,37 @@ msgid ""
 "component topology and comment changes, and category metrics are collected "
 "correctly."
 msgstr ""
+"分類、專案及留言統計現在會在組件拓撲與留言變更後保持一致，並會正確收集分類指"
+"標。"
 
 #: changes.rst:52
 msgid ""
 "Mercurial repository filenames beginning with a dash are now handled safely."
-msgstr ""
+msgstr "以連字號開頭的 Mercurial 存放庫檔案名稱現在能安全處理。"
 
 #: changes.rst:53
 msgid "URLs containing backslashes are now rejected as invalid."
-msgstr ""
+msgstr "含有反斜線的 URL 現在會被視為無效而遭拒絕。"
 
 #: changes.rst:54
 msgid ""
 "Protected outbound HTTP requests now bind connections to validated public "
 "addresses."
-msgstr ""
+msgstr "受保護的對外 HTTP 請求現在會將連線繫結至已驗證公開位址。"
 
 #: changes.rst:55
 msgid ""
 "Permanent same-host Git HTTP redirects are now validated and stored as "
 "canonical component repository URLs."
-msgstr ""
+msgstr "永久的同主機 Git HTTP redirects 現在會驗證並儲存為標準組件存放庫 URL。"
 
 #: changes.rst:56
 msgid ""
 "VCS operations now bind protected Git connections to validated public "
 "addresses and fail closed for clients which cannot enforce that binding."
 msgstr ""
+"VCS 操作現在會將受保護 Git 連線繫結至已驗證的公開位址，並對無法強制該繫結的用"
+"戶端採取 fail closed。"
 
 #: changes.rst:57
 msgid ""
@@ -21220,26 +21198,28 @@ msgid ""
 "before creating project state and skip repository-linked components when the "
 "importer cannot access the target component."
 msgstr ""
+":ref:`專案備份匯入 <projectbackup>` 現在會在建立專案狀態前驗證還原資料，且匯"
+"入者無法存取目標組件時會略過與存放庫連結的組件。"
 
 #: changes.rst:60
-#, fuzzy
-#| msgid "Fixed rebuilding project translation-memory for some components."
 msgid ""
 "Rebuilding project translation memory no longer removes entries imported "
 "from files."
-msgstr "修復了重建某些組件的專案翻譯記憶的問題。"
+msgstr "重建專案翻譯記憶不再移除從檔案匯入的項目。"
 
 #: changes.rst:61
 msgid ""
 "Project backup restores no longer load Mercurial repository configuration or "
 "shared-repository indirection supplied by archives."
 msgstr ""
+"專案備份還原不再載入封存檔提供的 Mercurial 存放庫設定或 shared-repository "
+"indirection。"
 
 #: changes.rst:62
 msgid ""
 "Suggestion submission and rejection now reject excessively long suggestion "
 "text and rejection reasons."
-msgstr ""
+msgstr "提交及拒絕建議現在會拒絕過長的建議文字和拒絕原因。"
 
 #: changes.rst:63
 msgid ""
@@ -21266,6 +21246,8 @@ msgid ""
 "updates through the :ref:`generic GitHub webhook endpoint <code-hosting-"
 "github-notifications>`."
 msgstr ""
+"已驗證的舊版 GitHub App webhooks 現在可再次透過 :ref:`通用 GitHub webhook "
+"endpoint <code-hosting-github-notifications>` 觸發存放庫更新。"
 
 #: changes.rst:69 changes.rst:226 changes.rst:366 changes/v5.rst:66
 #: changes/v5.rst:176 changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451
@@ -21289,6 +21271,8 @@ msgid ""
 "Legal document styling is now provided through an overridable template "
 "instead of Weblate's global stylesheet. See :ref:`legal-customization`."
 msgstr ""
+"法律文件樣式現在透過可覆寫範本提供，而非 Weblate 的全域樣式表。請參閱 "
+":ref:`legal-customization`。"
 
 #: changes.rst:72
 msgid ""
@@ -21297,12 +21281,15 @@ msgid ""
 "Git over HTTPS and SSH enforces connection address pinning without an "
 "allowlist entry."
 msgstr ""
+"啟用 :setting:`VCS_RESTRICT_PRIVATE` 時，必須在 :setting:`VCS_ALLOW_HOSTS` 明"
+"確加入 Mercurial 與 Subversion 存放庫主機；透過 HTTPS 和 SSH 的 Git 不需要 "
+"allowlist 項目，會強制執行連線位址繫結。"
 
 #: changes.rst:73
 msgid ""
 "Outbound HTTP proxy configuration is limited to the per-protocol environment "
 "variables documented in :ref:`http-proxy`."
-msgstr ""
+msgstr "對外 HTTP Proxy 設定僅限於 :ref:`http-proxy` 文件記載的各通訊協定環境變數。"
 
 #: changes.rst:74
 msgid ""
@@ -21311,17 +21298,16 @@ msgid ""
 "and :setting:`SSH_EXTRA_ARGS` can override connection routing and address "
 "pinning."
 msgstr ""
+"Git SSH 會在連線前驗證設定的 ``HostName`` 和 ``Port`` 目的地；管理員 SSH 設定"
+"仍受信任，:setting:`SSH_EXTRA_ARGS` 可覆寫連線路由及位址繫結。"
 
 #: changes.rst:75
-#, fuzzy
-#| msgid ""
-#| "Git auto-maintenance is now disabled for Weblate-managed repositories to "
-#| "avoid concurrent detached maintenance jobs."
 msgid ""
 "Git LFS object transfers are unsupported and disabled for Weblate-managed "
 "repositories; LFS-tracked files remain pointer files."
 msgstr ""
-"Weblate 管理的儲存庫現在會停用 Git 自動維護，以避免同時執行獨立的維護工作。"
+"Weblate 管理的存放庫不支援且停用 Git LFS 物件傳輸；受 LFS 追蹤的檔案會保持 "
+"pointer files。"
 
 #: changes.rst:76
 msgid ""
@@ -22073,6 +22059,8 @@ msgid ""
 "Bitmap widgets and :ref:`check-max-size` previews now use Matplotlib and no "
 "longer require Pango, Cairo, librsvg, or GObject Introspection."
 msgstr ""
+"Bitmap widgets 及 :ref:`check-max-size` previews 現在使用 Matplotlib，不再需"
+"要 Pango、Cairo、librsvg 或 GObject Introspection。"
 
 #: changes.rst:213
 msgid ""
@@ -30895,14 +30883,6 @@ msgid ""
 msgstr "在使用 MySQL 或 MariaDB 的情況下，需要的最低版本提高了。"
 
 #: changes/v4.rst:945
-#, fuzzy
-#| msgid ""
-#| ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
-#| "This will change identification of translation strings in such files "
-#| "breaking links to Weblate extended data such as screenshots or review "
-#| "states. Please ensure you commit pending changes in such files prior "
-#| "upgrading and it is recommeded to force loading of affected component "
-#| "using :djadmin:`loadpo`."
 msgid ""
 ":ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. "
 "This will change identification of translation strings in such files "
@@ -30911,10 +30891,10 @@ msgid ""
 "upgrading and it is recommended to force loading of affected component "
 "using :wladmin:`loadpo`."
 msgstr ""
-":ref:`mono_gettext` 現在會同時使用 ``msgid`` 與 ``msgctxt``（若存在）。這會改"
-"變此類檔案中翻譯字串的識別方式，導致螢幕擷圖或審閱狀態等 Weblate 擴充資料的連"
-"結失效。升級前請務必提交此類檔案中尚未提交的變更，並建議使"
-"用 :wladmin:`loadpo` 強制載入受影響的組件。"
+":ref:`mono_gettext` 現在同時使用 ``msgid`` 及存在時的 ``msgctxt``。這會變更此"
+"類檔案中翻譯字串的識別方式，導致與 Weblate extended data（如螢幕截圖或校閱狀"
+"態）的連結中斷。請確保在升級前提交這類檔案的待處理變更，且建議使用 "
+":wladmin:`loadpo` 強制載入受影響組件。"
 
 #: changes/v4.rst:946
 msgid ""
@@ -32273,13 +32253,12 @@ msgstr ""
 ":ref:`mt-weblate-translation-memory` 在更嚴格的查詢後不再缺失邊界相似性相符。"
 
 #: changes/v5.rst:58
-#, fuzzy
 msgid ""
 "The missing file-mask matches :ref:`alert <alerts>` is now restored after "
 "rescans that leave only the source translation."
 msgstr ""
-"在重新掃描後僅留下來源翻譯時，現在會還原「找不到符合檔案遮罩的項目」:ref:`警"
-"示 <alerts>`。"
+"僅保留來源翻譯的重新掃描後，遺漏 file-mask 符合 :ref:`警示 <alerts>` 現在會還"
+"原。"
 
 #: changes/v5.rst:59
 msgid ""
@@ -38258,9 +38237,9 @@ msgid ""
 "either in :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on "
 "your syslog daemon configuration)."
 msgstr ""
-"Weblate 可針對背景執行情形產生詳細記錄。預設設定使用 syslog，因此記錄會顯示"
-"在 :file:`/var/log/messages` 或 :file:`/var/log/syslog`（取決於您的 syslog 常"
-"駐程式設定）。"
+"Weblate 可以產生背景作業詳細記錄。在預設設定中使用 syslog，因此記錄會顯示於 "
+":file:`/var/log/messages` 或 :file:`/var/log/syslog`（視 syslog daemon 設定而"
+"定）。"
 
 #: contributing/debugging.rst:34
 msgid ""
@@ -41708,10 +41687,8 @@ msgstr ""
 "一致。"
 
 #: devel/integration.rst:69
-#, fuzzy
-#| msgid "Joining a translation project"
 msgid "Monitoring translation progress"
-msgstr "加入翻譯專案"
+msgstr "監控翻譯進度"
 
 #: devel/integration.rst:71
 msgid ""
@@ -41719,6 +41696,8 @@ msgid ""
 "integrations. It returns statistics for all visible components and languages "
 "in a single request and supports JSON, CSV, and OpenMetrics formats."
 msgstr ""
+"使用專案指標端點，從外部整合追蹤翻譯進度。它會以單一請求傳回所有可見組件及語"
+"言的統計，並支援 JSON、CSV 和 OpenMetrics 格式。"
 
 #: devel/integration.rst:75
 msgid ""
@@ -41726,15 +41705,12 @@ msgid ""
 "monitoring systems without polling the statistics endpoint for each "
 "translation."
 msgstr ""
+"OpenMetrics 表示法可由相容於 Prometheus 的監控系統擷取，不必為每個翻譯輪詢統"
+"計端點。"
 
 #: devel/integration.rst:81
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid ":http:get:`/api/projects/(string:project)/metrics/`"
-msgstr ""
-"變更清單的 URL；請參見 :http:get:`/api/projects/(string:project)/repository/`"
+msgstr ":http:get:`/api/projects/(string:project)/metrics/`"
 
 #: devel/integration.rst:87 devel/translations.rst:7
 msgid "Adding new strings"
@@ -41778,15 +41754,14 @@ msgstr ""
 "(string:component)/(string:language)/units/`."
 
 #: devel/integration.rst:102
-#, fuzzy
 msgid ""
 "By uploading source file as :guilabel:`Replace existing translation file` "
 "(this overwrites existing strings, so please ensure the file includes both "
 "old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
-"上傳來源檔案時，選擇 :guilabel:`取代現有翻譯檔案`（這會覆寫現有字串，因此請確"
-"保檔案同時包含舊字串及新字串）或 :guilabel:`新增字串`；請參閱 :ref:`upload-"
+"以 :guilabel:`取代既有翻譯檔案` 上傳來源檔案（這會覆寫現有字串，請確認檔案同"
+"時包含舊字串和新字串），或使用 :guilabel:`新增字串`；請參閱 :ref:`upload-"
 "method`。"
 
 #: devel/integration.rst:108
@@ -41829,9 +41804,9 @@ msgid ""
 "automatically runs :program:`msgmerge` to update all PO files whenever the "
 "POT file changes."
 msgstr ""
-"**透過附加元件自動更新**（建議用於持續更新）：安裝 :ref:`addon-"
-"weblate.gettext.msgmerge` 附加元件；每當 POT 檔案變更時，該附加元件便會自動執"
-"行 :program:`msgmerge`，以更新所有 PO 檔案。"
+"**自動使用附加元件**（建議用於持續更新）：安裝 :ref:`addon-"
+"weblate.gettext.msgmerge` 附加元件，它會在 POT 檔案變更時自動執行 "
+":program:`msgmerge` 更新所有 PO 檔案。"
 
 #: devel/integration.rst:128
 msgid ""
@@ -42600,6 +42575,9 @@ msgid ""
 "strings using different placeholder syntaxes, such as ``Hello {name}`` and "
 "``Hello %s``, do not match."
 msgstr ""
+"翻譯傳播僅會重複使用相符字串。來源文字和情境必須完全相同。對單語格式而言，索"
+"引鍵也必須相符。傳播不會轉換訊息語法或語意，因此使用不同預留位置語法的字串（"
+"例如 ``Hello {name}`` 與 ``Hello %s``）不會相符。"
 
 #: devel/mobile.rst:22
 msgid ""
@@ -42612,6 +42590,11 @@ msgid ""
 "these components, or assign distinct keys or contexts to platform-specific "
 "messages, so later edits do not overwrite intentional differences."
 msgstr ""
+"當使用者使用相同訊息但需要不同 runtime 表示法時，請考慮保留一種標準 "
+"localization format，並在建置管線中產生消費者專屬資源。如此也可讓產生的資源只"
+"包含每個使用者所需的字串和語言。若翻譯者需要維護確實不同的訊息，請使用不同組"
+"件。請停用這些組件的翻譯傳播，或為平台專屬訊息指派不同索引鍵或情境，避免後續"
+"編輯覆寫有意保留的差異。"
 
 #: devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -44645,9 +44628,9 @@ msgid ""
 "and :ref:`vcs-mercurial`, but it is possible to write backends for other "
 "VCSes."
 msgstr ""
-"Weblate 目前僅原生支援 :ref:`vcs-git`（另擴充支援 :ref:`code-hosting-github-"
-"pull-requests`、:ref:`code-hosting-gerrit` 及 :ref:`vcs-git-svn`）"
-"及 :ref:`vcs-mercurial`，但可以為其他 VCS 撰寫後端。"
+"Weblate 目前原生僅支援 :ref:`vcs-git`（並延伸支援 :ref:`code-hosting-github-"
+"pull-requests`、:ref:`code-hosting-gerrit` 和 :ref:`vcs-git-svn`）及 "
+":ref:`vcs-mercurial`，但仍可為其他 VCS 撰寫後端。"
 
 #: faq.rst:559
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
@@ -46421,44 +46404,42 @@ msgid ""
 "format. Select the file format matching the version produced by your "
 "application."
 msgstr ""
+"Qt Linguist 檔案同時用於雙語及單語翻譯。Weblate 支援目前的 version 2 格式與舊"
+"版 version 1 格式。請選擇與應用程式產生版本相符的檔案格式。"
 
 #: formats/qt.rst:19
 msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 msgstr "`Qt Linguist 使用手冊 <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: formats/qt.rst:24
-#, fuzzy
-#| msgid "Version"
 msgid "Version 2"
-msgstr "版本"
+msgstr "Version 2"
 
 #: formats/qt.rst:26
 msgid ""
 "This is the default format for ``.ts`` files and supports the full set of Qt "
 "Linguist features available in Weblate."
-msgstr ""
+msgstr "這是 ``.ts`` 檔案的預設格式，支援 Weblate 可用的完整 Qt Linguist 功能集。"
 
 #: formats/qt.rst:37
-#, fuzzy
-#| msgid "Version"
 msgid "Version 1"
-msgstr "版本"
+msgstr "Version 1"
 
 #: formats/qt.rst:39
 msgid ""
 "The legacy format supports messages, contexts and the unfinished state. It "
 "does not support plurals, locations, descriptions or Weblate flags."
 msgstr ""
+"舊版格式支援訊息、情境及未完成狀態，但不支援複數、位置、描述或 Weblate flags"
+"。"
 
 #: formats/qt.rst:48
 msgid "Typical Weblate :ref:`component` when using as bilingual"
 msgstr "用作雙語言時典型的 Weblate :ref:`component`"
 
 #: formats/qt.rst:56 formats/qt.rst:69
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)`"
-msgstr "Qt Linguist 翻譯檔案"
+msgstr "Qt Linguist 翻譯檔（version 2）"
 
 #: formats/qt.rst:61
 msgid "Typical Weblate :ref:`component` when using as monolingual"
@@ -46469,6 +46450,8 @@ msgid ""
 "For version 1 files, use the same configuration and select :guilabel:`Qt "
 "Linguist translation file (version 1)` as the file format."
 msgstr ""
+"對 version 1 檔案，使用相同設定並選擇 :guilabel:`Qt Linguist 翻譯檔（version "
+"1）` 作為檔案格式。"
 
 #: formats/resjson.rst:2
 msgid "JavaScript Resource Files (RESJSON)"
@@ -50571,11 +50554,11 @@ msgid ""
 "be closed by citing this document unless this model routes them to ``VALID-"
 "HARDENING``. *(documented)* (source: :doc:`/security/issues`)"
 msgstr ""
-"回報交叉參照：凡違反 Weblate 在 `Security properties Weblate provides`_ 中聲"
-"明之安全屬性的回報，均應透過 :file:`SECURITY.md` 及 :doc:`/security/issues` "
-"提交。屬於 `Out of scope`_ 或 `Security properties Weblate does not "
-"provide`_ 的回報，可引用本文件予以結案，除非此模型將其歸類為 ``VALID-"
-"HARDENING``。 *(文件記載)*（來源：:doc:`/security/issues`）"
+"回報交叉參照：違反 `Weblate 提供的安全性屬性`_ 中 Weblate 聲稱屬性的報告，透"
+"過 :file:`SECURITY.md` 和 :doc:`/security/issues` 回報。屬於 `不在範圍內`_ "
+"或 `Weblate 不提供的安全性屬性`_ 的報告，除非此模型將其路由至 ``VALID-"
+"HARDENING``，否則可引用本文件結案。*(已記錄)*（來源：:doc:`/security/"
+"issues`）"
 
 #: security/threat-model.rst:23
 msgid ""
@@ -50603,10 +50586,10 @@ msgid ""
 "hosting systems. *(documented)* (source: :doc:`/index`, :doc:`/api`, :doc:`/"
 "admin/continuous`)"
 msgstr ""
-"Weblate 是以 Django 為基礎的網頁在地化平台。它接收來自瀏覽器使用者、API 用戶"
-"端、專案範圍權杖、儲存庫 Webhook、VCS 儲存庫、備份封存檔、背景工作程式及已設"
-"定外部服務的作業，再透過資料庫、資料存放區、本機檔案系統儲存庫及外部程式碼託"
-"管系統，儲存並同步翻譯專案。 *(文件記載)*（來源：:doc:`/index`、:doc:`/"
+"Weblate 是以 Django 為基礎的網頁在地化平台。它接受瀏覽器使用者、API clients、"
+"專案範圍 Token、存放庫 webhooks、VCS 存放庫、備份封存檔、背景 workers 與設定"
+"的外部服務所提供的工作，接著透過資料庫、資料儲存、本機檔案系統存放庫與外部程"
+"式碼託管系統儲存及同步翻譯專案。*(已記錄)*（來源：:doc:`/index`、:doc:`/"
 "api`、:doc:`/admin/continuous`）"
 
 #: security/threat-model.rst:38
@@ -50644,29 +50627,24 @@ msgstr "資料庫、資料存放區、電子郵件、記錄、上傳的檔案"
 #: security/threat-model.rst:50
 #, fuzzy
 msgid "In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)"
-msgstr "納入範圍。 *(文件記載)*（來源：:doc:`/api`、:doc:`/admin/install`）"
+msgstr "屬於範圍。*(已記錄)*（來源：:doc:`/api`、:doc:`/admin/install`）"
 
 #: security/threat-model.rst:51
-#, fuzzy
-#| msgid "Per-project translation memory"
 msgid "Project translation metrics"
-msgstr "每個專案的翻譯記憶"
+msgstr "專案翻譯指標"
 
 #: security/threat-model.rst:52
-#, fuzzy
-#| msgid ""
-#| "URL to changes list; see :http:get:`/api/projects/(string:project)/"
-#| "changes/`"
 msgid ""
 ":http:get:`/api/projects/(string:project)/metrics/` in JSON, CSV, and "
 "OpenMetrics formats"
 msgstr ""
-"變更清單的 URL；請參見 :http:get:`/api/projects/(string:project)/repository/`"
+":http:get:`/api/projects/(string:project)/metrics/`，提供 JSON、CSV 與 "
+"OpenMetrics 格式"
 
 #: security/threat-model.rst:54
 msgid ""
 "Database and statistics-cache reads, including possible lazy cache population"
-msgstr ""
+msgstr "資料庫與統計快取讀取，包括可能的延遲快取填入"
 
 #: security/threat-model.rst:56
 #, fuzzy
@@ -50675,8 +50653,8 @@ msgid ""
 "projects; private projects and restricted components remain permission-"
 "filtered. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
-"作為經身分驗證且獲委派專案範圍的行為者，納入範圍。 *(文件記載)*（來"
-"源：:doc:`/api`、:doc:`/admin/access`）"
+"屬於唯讀公開 API 範圍。未驗證呼叫者可查詢公開專案；私有專案與受限組件仍會依權"
+"限篩選。*(已記錄)*（來源：:doc:`/api`、:doc:`/admin/access`）"
 
 #: security/threat-model.rst:60
 msgid "Stored translation reports"
@@ -50697,8 +50675,8 @@ msgid ""
 "configured retention. *(documented)* (source: :doc:`/devel/"
 "reporting`, :doc:`/api`)"
 msgstr ""
-"作為經過身分驗證與權限檢查，且保留期限由營運者設定的貢獻者資料，納入範圍。 "
-"*(文件記載)*（來源：:doc:`/devel/reporting`、:doc:`/api`）"
+"屬於經驗證且受權限檢查的貢獻者資料範圍，保留期限由營運者設定。*(已記錄)*（來"
+"源：:doc:`/devel/reporting`、:doc:`/api`）"
 
 #: security/threat-model.rst:66
 msgid "Authentication, sessions, and authorization"
@@ -50716,8 +50694,7 @@ msgstr "資料庫、身分識別服務提供者、瀏覽器 Cookie"
 #, fuzzy
 msgid ""
 "In scope. *(documented)* (source: :doc:`/admin/auth`, :doc:`/admin/access`)"
-msgstr ""
-"納入範圍。 *(文件記載)*（來源：:doc:`/admin/auth`、:doc:`/admin/access`）"
+msgstr "屬於範圍。*(已記錄)*（來源：:doc:`/admin/auth`、:doc:`/admin/access`）"
 
 #: security/threat-model.rst:70
 msgid "Project-scoped API tokens"
@@ -50737,8 +50714,8 @@ msgid ""
 "In scope as authenticated actors with delegated project scope. "
 "*(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
-"作為經身分驗證且獲委派專案範圍的行為者，納入範圍。 *(文件記載)*（來"
-"源：:doc:`/api`、:doc:`/admin/access`）"
+"屬於具委派專案範圍的已驗證行為者範圍。*(已記錄)*（來源：:doc:`/api`、:doc:`/"
+"admin/access`）"
 
 #: security/threat-model.rst:75
 msgid "Webhooks"
@@ -50763,8 +50740,8 @@ msgid ""
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-"
 "github-app-webhook`)"
 msgstr ""
-"作為公開並經部署強化的介面，納入範圍。 *(文件記載)*（來"
-"源：:ref:`hooks`、:ref:`project-enable_hooks`、:ref:`code-hosting-github-app-"
+"屬於公開、經部署強化的介面範圍。*(已記錄)*（來源"
+"：:ref:`hooks`、:ref:`project-enable_hooks`、:ref:`code-hosting-github-app-"
 "webhook`）"
 
 #: security/threat-model.rst:80
@@ -50785,7 +50762,7 @@ msgid ""
 "In scope when reachable through Weblate configuration or project content. "
 "*(documented)* (source: :doc:`/admin/continuous`, :doc:`/admin/code-hosting`)"
 msgstr ""
-"若可經由 Weblate 設定或專案內容觸及，則納入範圍。 *(文件記載)*（來源：:doc:`/"
+"可透過 Weblate 設定或專案內容存取時，屬於範圍。*(已記錄)*（來源：:doc:`/"
 "admin/continuous`、:doc:`/admin/code-hosting`）"
 
 #: security/threat-model.rst:86
@@ -50808,8 +50785,8 @@ msgid ""
 "In scope as Weblate-controlled execution of user or operator actions. "
 "*(documented)* (source: :doc:`/admin/install`)"
 msgstr ""
-"使用者或營運者的動作由 Weblate 控制執行時，納入範圍。 *(文件記載)*（來"
-"源：:doc:`/admin/install`）"
+"屬於 Weblate 控制下執行使用者或營運者動作的範圍。*(已記錄)*（來源：:doc:`/"
+"admin/install`）"
 
 #: security/threat-model.rst:92
 msgid "Project backup import/export"
@@ -50835,8 +50812,8 @@ msgid ""
 "In scope. *(documented)* (source: :doc:`/admin/backup`, :doc:`/api`, :doc:`/"
 "admin/management`)"
 msgstr ""
-"納入範圍。 *(文件記載)*（來源：:doc:`/admin/backup`、:doc:`/api`、:doc:`/"
-"admin/management`）"
+"屬於範圍。*(已記錄)*（來源：:doc:`/admin/backup`、:doc:`/api`、:doc:`/admin/"
+"management`）"
 
 #: security/threat-model.rst:99
 msgid "Service backup"
@@ -50857,8 +50834,8 @@ msgid ""
 "out of scope. *(documented)* (source: :doc:`/admin/backup`, :doc:`/admin/"
 "management`)"
 msgstr ""
-"Weblate 對已設定備份工作的處理納入範圍；Borg 本身不在範圍內。 *(文件記載)*"
-"（來源：:doc:`/admin/backup`、:doc:`/admin/management`）"
+"屬於 Weblate 處理設定備份工作的範圍；Borg 本身不在範圍內。*(已記錄)*（來源"
+"：:doc:`/admin/backup`、:doc:`/admin/management`）"
 
 #: security/threat-model.rst:105
 msgid "Machine translation and outbound integrations"
@@ -50884,9 +50861,9 @@ msgid ""
 "(source: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/"
 "addons`)"
 msgstr ""
-"Weblate 對已設定存取及網路限制的強制執行納入範圍。服務提供者的行為不在範圍"
-"內。 *(文件記載)*（來源：:doc:`/admin/config`、:doc:`/admin/code-"
-"hosting`、:doc:`/admin/addons`）"
+"屬於 Weblate 強制執行已設定存取與網路限制的範圍。提供者行為不在範圍內。*(已記"
+"錄)*（來源：:doc:`/admin/config`、:doc:`/admin/code-hosting`、:doc:`/admin/"
+"addons`）"
 
 #: security/threat-model.rst:113
 msgid "Built-in add-ons and administrator-configured add-on execution"
@@ -50945,18 +50922,22 @@ msgid ""
 "outbound VCS, backup, identity-provider, and machine-translation "
 "integrations. *(documented)* (source: :doc:`/admin/install`)"
 msgstr ""
-"預期部署方式是在網頁伺服器或反向 Proxy 後方安裝伺服器端 Weblate，並搭配 WSGI "
-"應用程式伺服器、PostgreSQL 資料庫、資料存放區、Celery 工作程式、可寫入的資料"
-"目錄，以及選用的對外 VCS、備份、身分識別服務提供者及機器翻譯整合。 *(文件記"
-"載)*（來源：:doc:`/admin/install`）"
+"預期部署是在網頁伺服器或反向 Proxy 後方的伺服器端 Weblate 安裝，搭配 WSGI 或 "
+"ASGI 應用程式伺服器、PostgreSQL 資料庫、資料儲存、Celery workers、可寫入資料"
+"目錄，以及選用的對外 VCS、備份、識別提供者與機器翻譯整合。*(已記錄)*（來源"
+"：:doc:`/admin/install`）"
 
 #: security/threat-model.rst:134
+#, fuzzy
 msgid ""
 "The WSGI and ASGI deployment modes expose the same Django HTTP request "
 "surface and rely on the same reverse-proxy controls. ASGI deployment does "
 "not add a WebSocket interface. *(documented)* (source: :ref:`running-granian-"
 "asgi`)"
 msgstr ""
+"WSGI 與 ASGI 部署模式公開相同 Django HTTP 請求介面，並依賴相同的反向 Proxy 控"
+"制項。ASGI 部署不會增加 WebSocket 介面。*(已記錄)*（來源：:ref:`running-"
+"granian-asgi`）"
 
 #: security/threat-model.rst:138
 #, fuzzy
@@ -50967,10 +50948,9 @@ msgid ""
 "external services, and local operators. *(documented)* (source: :doc:`/admin/"
 "access`, :doc:`/api`)"
 msgstr ""
-"相關行為者依信任等級分為：未經身分驗證的用戶端、已通過身分驗證的使用者、審閱"
-"者、專案管理員、管理員、專案範圍 API 權杖、Webhook 傳送者、外部 VCS 服務提供"
-"者、已設定的外部服務及本機營運者。 *(文件記載)*（來源：:doc:`/admin/"
-"access`、:doc:`/api`）"
+"相關行為者依信任層級分為：未驗證 clients、已驗證使用者、校閱者、專案管理者、"
+"管理員、專案範圍 API tokens、webhook 傳送者、外部 VCS 提供者、設定的外部服務"
+"及本機營運者。*(已記錄)*（來源：:doc:`/admin/access`、:doc:`/api`）"
 
 #: security/threat-model.rst:144
 msgid ""
@@ -51018,10 +50998,9 @@ msgid ""
 "issue is in Weblate's use of them. *(documented)* (source: :doc:`/security/"
 "issues`)"
 msgstr ""
-"第三方相依套件本身作為獨立專案時的弱點。一般 Django、Django REST framework、"
-"Python Social Auth、BorgBackup、VCS、資料庫及服務提供者的弱點，均應回報至上"
-"游；除非問題出在 Weblate 使用這些項目的方式。 *(文件記載)*（來源：:doc:`/"
-"security/issues`）"
+"第三方相依項目的弱點視為獨立專案。一般 Django、Django REST framework、Python "
+"Social Auth、BorgBackup、VCS、資料庫與提供者弱點應向上游回報，除非問題在於 "
+"Weblate 對其使用方式。*(已記錄)*（來源：:doc:`/security/issues`）"
 
 #: security/threat-model.rst:164
 msgid ""
@@ -51053,9 +51032,9 @@ msgid ""
 "in :doc:`/security/localization-threat`. *(documented)* (source: :doc:`/"
 "security/localization-threat`)"
 msgstr ""
-"使用者所屬組織在 Weblate 外部所做的翻譯供應鏈選擇。外包譯者或群眾外包譯者的風"
-"險另於 :doc:`/security/localization-threat` 說明。 *（已有文件說明）*（來"
-"源：:doc:`/security/localization-threat`）"
+"使用者組織在 Weblate 之外的翻譯供應鏈選擇。外包或群眾外包翻譯者風險會在 "
+":doc:`/security/localization-threat` 另行說明。*(已記錄)*（來源：:doc:`/"
+"security/localization-threat`）"
 
 #: security/threat-model.rst:175
 msgid ""
@@ -51101,8 +51080,8 @@ msgid ""
 "Untrusted or authenticated requests become permission-checked application "
 "actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
-"未受信任或已驗證身分的要求，會經權限檢查後轉為應用程式動作。 *（已有文件說"
-"明）*（來源：:doc:`/api`、:doc:`/admin/access`）"
+"不受信任或已驗證的請求會成為受權限檢查的應用程式動作。*(已記錄)*（來源"
+"：:doc:`/api`、:doc:`/admin/access`）"
 
 #: security/threat-model.rst:196
 msgid "Webhook sender to Weblate"
@@ -51119,10 +51098,11 @@ msgid ""
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-"
 "github-app-webhook`, :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)"
 msgstr ""
-"啟用 hook 時，公開程式碼託管平台的通知可以排定儲存庫同步。GitHub App webhook "
-"在處理前，還會以各 App 專屬的 URL 權杖進行驗證，並驗證 GitHub 簽章。 *（已有"
-"文件說明）*（來源：:ref:`hooks`、:ref:`project-enable_hooks`、:ref:`code-"
-"hosting-github-app-webhook`）"
+"啟用 hooks 時，公開 forge 通知可排程存放庫同步。已註冊 GitHub App webhooks 另"
+"外以每個應用程式 URL Token 及 GitHub signature verification 驗證。選擇性啟用"
+"、傳遞至通用 GitHub webhook URL 的舊版 GitHub App 會以獨立設定的祕密值驗證。*"
+"(已記錄)*（來源：:ref:`hooks`、:ref:`project-enable_hooks`、:ref:`code-"
+"hosting-github-app-webhook`、:setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`）"
 
 #: security/threat-model.rst:205
 msgid "Weblate to database/datastore"
@@ -51134,8 +51114,8 @@ msgid ""
 "Permission-checked application state becomes persistent data and queued "
 "work. *(documented)* (source: :doc:`/admin/install`)"
 msgstr ""
-"經權限檢查的應用程式狀態會轉為持久性資料與排入佇列的工作。 *（已有文件說明）*"
-"（來源：:doc:`/admin/install`）"
+"受權限檢查的應用程式狀態會成為持久資料和已排入佇列的工作。*(已記錄)*（來源"
+"：:doc:`/admin/install`）"
 
 #: security/threat-model.rst:208
 msgid "Weblate to local VCS repositories"
@@ -51147,8 +51127,8 @@ msgid ""
 "Project configuration and repository content drive filesystem and VCS "
 "operations. *(documented)* (source: :doc:`/admin/continuous`)"
 msgstr ""
-"專案設定與儲存庫內容會驅動檔案系統及 VCS 操作。 *（已有文件說明）*（來"
-"源：:doc:`/admin/continuous`）"
+"專案設定與存放庫內容會驅動檔案系統及 VCS 操作。*(已記錄)*（來源：:doc:`/"
+"admin/continuous`）"
 
 #: security/threat-model.rst:211
 msgid "Weblate to external services"
@@ -51161,8 +51141,8 @@ msgid ""
 "connections. *(documented)* (source: :doc:`/admin/code-hosting`, :doc:`/"
 "admin/config`)"
 msgstr ""
-"已設定的 URL、認證資訊與服務提供者設定會驅動對外網路連線。 *（已有文件說明）*"
-"（來源：:doc:`/admin/code-hosting`、:doc:`/admin/config`）"
+"設定的 URL、認證與提供者設定會驅動對外網路連線。*(已記錄)*（來源：:doc:`/"
+"admin/code-hosting`、:doc:`/admin/config`）"
 
 #: security/threat-model.rst:215
 msgid "Project backup archives and Weblate filesystem"
@@ -51176,9 +51156,9 @@ msgid ""
 "*(documented)* (source: :doc:`/admin/backup`, :doc:`/"
 "api`, :ref:`projectbackup`)"
 msgstr ""
-"上傳 ZIP 中的項目與中繼資料會成為還原後的專案狀態；產生的專案備份會寫入本機備"
-"份儲存空間，並從中讀取。 *（已有文件說明）*（來源：:doc:`/admin/"
-"backup`、:doc:`/api`、:ref:`projectbackup`）"
+"上傳的 ZIP 成員與中繼資料會成為還原後的專案狀態；產生的專案備份會寫入本機備份"
+"儲存空間並從中讀取。*(已記錄)*（來源：:doc:`/admin/backup`、:doc:`/"
+"api`、:ref:`projectbackup`）"
 
 #: security/threat-model.rst:221
 msgid "Reachability preconditions:"
@@ -51195,6 +51175,7 @@ msgstr ""
 "護者說明)*"
 
 #: security/threat-model.rst:226
+#, fuzzy
 msgid ""
 "A project-metrics finding is in model when the response includes a project "
 "or component the caller cannot access, or exposes data beyond the documented "
@@ -51203,6 +51184,10 @@ msgid ""
 "public projects is intentional. *(documented)* (source: :doc:`/api`, :doc:`/"
 "admin/access`)"
 msgstr ""
+"project-metrics 發現僅在回應包含呼叫者無法存取的專案或組件，或公開超出文件記"
+"載之組件與語言識別碼、彙總翻譯統計及統計更新時間戳記的資料時，才屬於模型範圍"
+"。公開專案可未經驗證存取這些彙總是刻意設計。*(已記錄)*（來源：:doc:`/"
+"api`、:doc:`/admin/access`）"
 
 #: security/threat-model.rst:232
 #, fuzzy
@@ -51211,8 +51196,8 @@ msgid ""
 "permission, team, project, component, language, glossary, token, or site-"
 "wide boundary. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"只有在跨越文件所述的權限、團隊、專案、組件、語言、詞彙表、權杖或全站界線時，"
-"授權相關發現才會納入模型。 *（已有文件說明）*（來源：:doc:`/admin/access`）"
+"只有在授權發現跨越已記錄的權限、團隊、專案、組件、語言、詞彙表、Token 或全站"
+"界線時，才屬於模型範圍。*(已記錄)*（來源：:doc:`/admin/access`）"
 
 #: security/threat-model.rst:235
 #, fuzzy
@@ -51222,9 +51207,9 @@ msgid ""
 "information returned to the caller. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
-"只有在要求可抵達已啟用的 hook 端點，並影響儲存庫更新排程、工作量或傳回呼叫端"
-"的資訊時，webhook 相關發現才會納入模型。 *（已有文件說明）*（來"
-"源：:ref:`hooks`、:ref:`project-enable_hooks`）"
+"只有在請求可到達已啟用 hook endpoint，並影響存放庫更新排程、工作量或回傳給呼"
+"叫者的資訊時，webhook 發現才屬於模型範圍。*(已記錄)*（來源"
+"：:ref:`hooks`、:ref:`project-enable_hooks`）"
 
 #: security/threat-model.rst:239
 msgid ""
@@ -51243,9 +51228,9 @@ msgid ""
 "to :wladmin:`import_projectbackup`. *(documented)* "
 "(source: :ref:`projectbackup`, :wladmin:`import_projectbackup`)"
 msgstr ""
-"只有當備份匯入相關發現可由透過 Weblate 上傳或提供"
-"給 :wladmin:`import_projectbackup` 的專案備份觸發時，才會納入模型。 *（已有文"
-"件說明）*（來源：:ref:`projectbackup`、:wladmin:`import_projectbackup`）"
+"只有可從透過 Weblate 上傳的專案備份或提供給 :wladmin:`import_projectbackup` "
+"的備份存取時，備份匯入發現才屬於模型範圍。*(已記錄)*（來源"
+"：:ref:`projectbackup`、:wladmin:`import_projectbackup`）"
 
 #: security/threat-model.rst:245
 #, fuzzy
@@ -51255,10 +51240,9 @@ msgid ""
 "or project-scoped tokens with project edit permission. *(documented)* "
 "(source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/access`)"
 msgstr ""
-"只有當備份匯出相關發現可由文件記載的專案備份建立或下載路徑觸發時，才會納入模"
-"型；這些路徑包括供使用者或具專案編輯權限之專案範圍權杖使用的 REST API。 *（已"
-"有文件說明）*（來源：:doc:`/api`、:ref:`projectbackup`、:doc:`/admin/"
-"access`）"
+"只有可從文件記載的專案備份建立或下載路徑存取（包括具有專案編輯權限的使用者或"
+"專案範圍 Token 使用的 REST API）時，備份匯出發現才屬於模型範圍。*(已記錄)*（"
+"來源：:doc:`/api`、:ref:`projectbackup`、:doc:`/admin/access`）"
 
 #: security/threat-model.rst:249
 #, fuzzy
@@ -51267,9 +51251,8 @@ msgid ""
 "an in-scope Weblate surface or scheduled Weblate maintenance path. "
 "*(documented)* (source: :doc:`/admin/install`)"
 msgstr ""
-"只有當背景工作可從納入範圍的 Weblate 介面排入佇列，或可由 Weblate 的排程維護"
-"路徑排定時，背景工作相關發現才會納入模型。 *（已有文件說明）*（來源：:doc:`/"
-"admin/install`）"
+"只有在可從範圍內 Weblate 介面或排定的 Weblate 維護路徑將工作排入佇列時，背景"
+"工作發現才屬於模型範圍。*(已記錄)*（來源：:doc:`/admin/install`）"
 
 #: security/threat-model.rst:252
 #, fuzzy
@@ -51279,9 +51262,9 @@ msgid ""
 "``reports.view`` scope. *(documented)* (source: :doc:`/devel/"
 "reporting`, :doc:`/api`)"
 msgstr ""
-"當已驗證身分的使用者能產生、列出或呈現超出建立者或目前 ``reports.view`` 權限"
-"範圍的貢獻者資料時，儲存報告相關發現便會納入模型。 *（已有文件說明）*（來"
-"源：:doc:`/devel/reporting`、:doc:`/api`）"
+"已驗證使用者可在建立者或目前 ``reports.view`` 範圍之外產生、列出或呈現貢獻者"
+"資料時，已儲存報告發現屬於模型範圍。*(已記錄)*（來源：:doc:`/devel/"
+"reporting`、:doc:`/api`）"
 
 #: security/threat-model.rst:256
 msgid ""
@@ -51304,9 +51287,9 @@ msgid ""
 "workers for features that require background processing. *(documented)* "
 "(source: :doc:`/admin/install`)"
 msgstr ""
-"Weblate 假設執行環境採用受支援的 Python 與 Django 版本、已正確設定的資料庫、"
-"資料儲存區、可寫入的資料目錄，以及針對需要背景處理之功能正常執行的 worker。 *"
-"（已有文件說明）*（來源：:doc:`/admin/install`）"
+"Weblate 假設使用受支援的 Python 與 Django runtime、正確設定的資料庫、資料儲存"
+"、可寫入資料目錄，以及為需背景處理功能執行的 workers。*(已記錄)*（來源"
+"：:doc:`/admin/install`）"
 
 #: security/threat-model.rst:267
 #, fuzzy
@@ -51316,10 +51299,9 @@ msgid ""
 "proxy-header settings. *(documented)* (source: :doc:`/admin/"
 "install`, :setting:`ENABLE_HTTPS`, :setting:`ALLOWED_HOSTS`)"
 msgstr ""
-"正式環境部署應將外部 Web 伺服器或反向 Proxy 的設定，與 Weblate 的 HTTPS、"
-"Host 標頭、要求主體大小及 Proxy 標頭設定保持一致。 *（已有文件說明）*（來"
-"源：:doc:`/admin/"
-"install`、:setting:`ENABLE_HTTPS`、:setting:`ALLOWED_HOSTS`）"
+"正式環境部署預期會依 Weblate 的 HTTPS、host header、body-size 及 proxy-"
+"header 設定，一致地設定外部網頁伺服器或反向 Proxy。*(已記錄)*（來源：:doc:`/"
+"admin/install`、:setting:`ENABLE_HTTPS`、:setting:`ALLOWED_HOSTS`）"
 
 #: security/threat-model.rst:272
 msgid ""
@@ -51337,9 +51319,9 @@ msgid ""
 "generated SSH wrappers, backups, and secret material. *(documented)* "
 "(source: :doc:`/admin/backup`, :doc:`/admin/install`)"
 msgstr ""
-"假設檔案系統權限可防止無關的本機使用者修改 Weblate 的資料目錄、設定、VCS 儲存"
-"庫、產生的 SSH 包裝程式、備份及機密資料。 *（已有文件說明）*（來源：:doc:`/"
-"admin/backup`、:doc:`/admin/install`）"
+"檔案系統權限預期會防止無關本機使用者修改 Weblate 的資料目錄、設定、VCS 存放庫"
+"、產生的 SSH wrappers、備份和祕密值資料。*(已記錄)*（來源：:doc:`/admin/"
+"backup`、:doc:`/admin/install`）"
 
 #: security/threat-model.rst:280
 msgid ""
@@ -51360,10 +51342,10 @@ msgid ""
 "*(documented)* (source: :doc:`/admin/code-"
 "hosting`, :setting:`SSH_EXTRA_ARGS`)"
 msgstr ""
-"假設 VCS 命令執行、SSH 與 HTTPS 用戶端會以 Weblate 服務使用者的身分執行，並使"
-"用為相關專案或整合設定的認證資訊；其中包括儲存在資料庫中的 GitHub App 認證資"
-"訊，這些資訊用於安裝權杖及 webhook 簽章驗證。 *（已有文件說明）*（來"
-"源：:doc:`/admin/code-hosting`、:setting:`SSH_EXTRA_ARGS`）"
+"VCS command execution、SSH 與 HTTPS clients 預期會以 Weblate service user 執"
+"行，使用相關專案或整合設定的認證，包括資料庫儲存、用於 installation tokens "
+"與 webhook signature verification 的 GitHub App 認證。*(已記錄)*（來源"
+"：:doc:`/admin/code-hosting`、:setting:`SSH_EXTRA_ARGS`）"
 
 #: security/threat-model.rst:290
 msgid "What Weblate does to its host:"
@@ -51378,10 +51360,10 @@ msgid ""
 "Messaging AMQP delivery. *(documented)* (source: :doc:`/admin/"
 "config`, :doc:`/admin/code-hosting`, :doc:`/admin/backup`)"
 msgstr ""
-"Weblate 會針對已設定的 VCS、身分識別提供者、大頭貼、機器翻譯、備份、狀態報"
-"告、遙測、錯誤報告，以及對外 webhook 與 Fedora Messaging AMQP 傳遞等附加元件"
-"功能建立對外網路連線。 *（已有文件說明）*（來源：:doc:`/admin/"
-"config`、:doc:`/admin/code-hosting`、:doc:`/admin/backup`）"
+"它會為設定的 VCS、識別提供者、頭像、機器翻譯、備份、狀態報告、telemetry、錯誤"
+"報告及附加元件功能開啟對外網路連線，例如對外 webhooks 與 Fedora Messaging "
+"AMQP 傳遞。*(已記錄)*（來源：:doc:`/admin/config`、:doc:`/admin/code-"
+"hosting`、:doc:`/admin/backup`）"
 
 #: security/threat-model.rst:298
 #, fuzzy
@@ -51390,8 +51372,8 @@ msgid ""
 "backup workflows. *(documented)* (source: :doc:`/admin/continuous`, :doc:`/"
 "admin/backup`)"
 msgstr ""
-"Weblate 會在儲存庫與備份工作流程中執行 VCS 及備份相關的輔助命令。 *（已有文件"
-"說明）*（來源：:doc:`/admin/continuous`、:doc:`/admin/backup`）"
+"會在存放庫和備份工作流程中執行 VCS 及備份相關 helper commands。*(已記錄)*（來"
+"源：:doc:`/admin/continuous`、:doc:`/admin/backup`）"
 
 #: security/threat-model.rst:301
 msgid ""
@@ -51455,8 +51437,8 @@ msgid ""
 "depends on deployment controls. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
-"將 webhook 端點公開作為排程介面。抵抗濫用的能力取決於部署控制措施。 *（已有文"
-"件說明）*（來源：:ref:`hooks`、:ref:`project-enable_hooks`）"
+"公開 webhook endpoints 作為排程介面。抵抗濫用取決於部署控制項。*(已記錄)*（來"
+"源：:ref:`hooks`、:ref:`project-enable_hooks`）"
 
 #: security/threat-model.rst:323
 msgid ""
@@ -51500,9 +51482,7 @@ msgstr ""
 msgid ""
 "Configures accepted HTTP hostnames. *(documented)* "
 "(source: :setting:`ALLOWED_HOSTS`)"
-msgstr ""
-"設定可接受的 HTTP 主機名稱。 *（已有文件說明）*（來"
-"源：:setting:`ALLOWED_HOSTS`）"
+msgstr "設定接受的 HTTP hostnames。*(已記錄)*（來源：:setting:`ALLOWED_HOSTS`）"
 
 #: security/threat-model.rst:334
 msgid ""
@@ -51560,8 +51540,9 @@ msgid ""
 "(source: :doc:`/admin/config`) The default script policy permits inline "
 "execution only on explicitly scoped compatibility paths. *(maintainer)*"
 msgstr ""
-"內容安全性原則 (CSP) 來源可進行設定。*(文件記載)* (來源：:doc:`/admin/"
-"config`)"
+"Content Security Policy sources 可設定。*(已記錄)*（來源：:doc:`/admin/"
+"config`）預設 script policy 僅允許在明確界定的相容性路徑進行 inline execution"
+"。*(維護者)*"
 
 #: security/threat-model.rst:353
 msgid ""
@@ -51608,6 +51589,7 @@ msgid "Private-target restrictions and allowlists for outbound URLs"
 msgstr "對外 URL 的私有目標限制及允許清單"
 
 #: security/threat-model.rst:370
+#, fuzzy
 msgid ""
 "User-configurable outbound URL surfaces documented with private-target "
 "restriction settings reject internal or non-public targets by default. "
@@ -51627,6 +51609,17 @@ msgid ""
 "supported VCS integration surface. VCS clients without connection binding "
 "require an explicit trusted-host exemption. *(maintainer)*"
 msgstr ""
+"文件化的可由使用者設定對外 URL 介面，搭配私有目標限制設定時，預設會拒絕內部或"
+"非公開目標。*(已記錄)*（來源"
+"：:setting:`ASSET_RESTRICT_PRIVATE`、:setting:`PROJECT_WEB_RESTRICT_PRIVATE`、:setting:`WEBHOOK_RESTRICT_PRIVATE`、:setting:`VCS_RESTRICT_PRIVATE`）"
+"受保護的直接 HTTP 請求會繫結至經執行階段驗證核准的位址；設定的各通訊協定 "
+"HTTP Proxy 是受信任基礎架構，並解析其目的地主機。受保護的 Git HTTPS 與 SSH 操"
+"作會繫結至經執行階段驗證核准的位址。受保護的 SSH 操作會驗證實際 ``HostName`` "
+"與 ``Port``。受信任的管理員 SSH 設定可變更路由，:setting:`SSH_EXTRA_ARGS` 可"
+"覆寫連線繫結。永久的同主機 Git HTTP redirects 會探測，但不會自動跟隨 redirect"
+"。每個直接目的地都會在使用前個別驗證並繫結；設定的各通訊協定 HTTP Proxy 使用"
+"共享的受信任對外路由。Git LFS object transfers 已停用，且不屬於支援的 VCS 整"
+"合介面。沒有連線繫結的 VCS clients 需要明確的受信任主機豁免。*(維護者)*"
 
 #: security/threat-model.rst:390
 #, fuzzy
@@ -51640,8 +51633,9 @@ msgid ""
 "configuration and are trusted by this model. *(documented)* "
 "(source: :setting:`ASSET_PRIVATE_ALLOWLIST`, :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)"
 msgstr ""
-"允許清單設定及高權限設定可刻意擴大可連線範圍。*(文件記載)* (來"
-"源：:setting:`ASSET_PRIVATE_ALLOWLIST`、:setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`、:setting:`WEBHOOK_PRIVATE_ALLOWLIST`、:setting:`VCS_ALLOW_HOSTS`)"
+"allowlist 設定與特權設定可刻意擴展可及性。Fedora Messaging broker URLs 是網站"
+"管理員設定，且此模型信任該設定。*(已記錄)*（來源"
+"：:setting:`ASSET_PRIVATE_ALLOWLIST`、:setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`、:setting:`WEBHOOK_PRIVATE_ALLOWLIST`、:setting:`VCS_ALLOW_HOSTS`）"
 
 #: security/threat-model.rst:396
 msgid ""
@@ -51658,15 +51652,13 @@ msgstr ""
 "允許自訂 SSH 選項。\\ *(文件中有資訊)* (來源：:setting:`SSH_EXTRA_ARGS`)"
 
 #: security/threat-model.rst:401
-#, fuzzy
-#| msgid ""
-#| "Weakening SSH algorithms or host verification changes VCS transport "
-#| "assumptions. *(maintainer)*"
 msgid ""
 "Weakening SSH algorithms or host verification changes VCS transport "
 "assumptions. Routing options can override protected repository address "
 "pinning. *(maintainer)*"
-msgstr "弱化 SSH 演算法或主機驗證，會改變 VCS 傳輸的安全假設。*(維護者說明)*"
+msgstr ""
+"弱化 SSH algorithms 或 host verification 會改變 VCS transport assumptions。路"
+"由選項可覆寫受保護存放庫的位址繫結。*(維護者)*"
 
 #: security/threat-model.rst:404
 msgid "Operators own the security impact of custom SSH options. *(maintainer)*"
@@ -51804,9 +51796,8 @@ msgid ""
 "check to be satisfied. *(documented)* (source: :doc:`/workflows`, :doc:`/"
 "api`)"
 msgstr ""
-"用於維護專案特定內容完整性的審閱工作流程；透過 API 核准建議時，還必須通過 "
-"``unit.review`` 權限檢查。 *（已有文件說明）*（來源：:doc:`/"
-"workflows`、:doc:`/api`）"
+"校閱專案特定內容完整性的工作流程；透過 API 核准建議還需要滿足 "
+"``unit.review`` 權限檢查。*(已記錄)*（來源：:doc:`/workflows`、:doc:`/api`）"
 
 #: security/threat-model.rst:446
 msgid "Webhook endpoints"
@@ -51947,8 +51938,8 @@ msgid ""
 "Grant project edit permission only to trusted project administrators. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"僅將專案編輯權限授予受信任的專案管理員。 *（已有文件說明）*（來源：:doc:`/"
-"admin/access`）"
+"僅將專案編輯權限授予受信任的專案管理員。*(已記錄)*（來源：:doc:`/admin/"
+"access`）"
 
 #: security/threat-model.rst:482
 msgid "Machine translation and external service configuration"
@@ -52011,12 +52002,16 @@ msgstr ""
 "定的限制。*(文件記載)* (來源：:doc:`/admin/config`)"
 
 #: security/threat-model.rst:501
+#, fuzzy
 msgid ""
 "Project backup metadata, object references, repository paths, outbound URLs, "
 "regular expressions, and screenshot content are validated before restore "
 "writes project state. Failed restores remove repository and media objects "
 "created by that attempt. *(documented)* (source: :ref:`projectbackup`)"
 msgstr ""
+"還原寫入專案狀態前，會驗證專案備份中繼資料、物件參照、存放庫路徑、對外 URL、"
+"正規表示式及螢幕截圖內容。還原失敗時，會移除該次嘗試建立的存放庫及媒體物件。*"
+"(已記錄)*（來源：:ref:`projectbackup`）"
 
 #: security/threat-model.rst:505
 msgid ""
@@ -52027,6 +52022,7 @@ msgstr ""
 "api`、:doc:`/admin/config`)"
 
 #: security/threat-model.rst:507
+#, fuzzy
 msgid ""
 "Project metrics response size and request work scale with the number of "
 "visible components and translations and with statistics-cache state. Cache "
@@ -52035,6 +52031,10 @@ msgid ""
 "fixed project-size limit. *(documented)* (source: :doc:`/api`, :doc:`/admin/"
 "config`)"
 msgstr ""
+"專案指標的回應大小和請求工作量會隨可見組件與翻譯數量，以及統計快取狀態而變動"
+"。快取未命中時可計算並儲存翻譯統計。端點依賴標準 API rate limits 與部署規模，"
+"而非獨立固定的專案大小上限。*(已記錄)*（來源：:doc:`/api`、:doc:`/admin/"
+"config`）"
 
 #: security/threat-model.rst:513
 msgid ""
@@ -52098,8 +52098,8 @@ msgid ""
 "Act outside assigned permissions without exploiting a Weblate flaw. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
-"在不利用 Weblate 瑕疵的情況下，執行超出所指派權限的動作。 *（已有文件說明）*"
-"（來源：:doc:`/admin/access`）"
+"未利用 Weblate 缺陷而在指派權限之外行動。*(已記錄)*（來源：:doc:`/admin/"
+"access`）"
 
 #: security/threat-model.rst:536
 msgid "Reviewer or project manager"
@@ -52112,8 +52112,8 @@ msgid ""
 "memory, screenshot, or access-management permissions. *(documented)* "
 "(source: :doc:`/admin/access`)"
 msgstr ""
-"行使已委派的專案、組件、語言、審閱、VCS、翻譯記憶庫、螢幕擷取畫面或存取管理權"
-"限。 *（已有文件說明）*（來源：:doc:`/admin/access`）"
+"行使委派的專案、組件、語言、校閱、VCS、翻譯記憶、螢幕截圖或存取管理權限。*(已"
+"記錄)*（來源：:doc:`/admin/access`）"
 
 #: security/threat-model.rst:540
 msgid ""
@@ -52257,9 +52257,8 @@ msgid ""
 "permissions. *(documented)* (source: :doc:`/admin/access`, :doc:`/admin/"
 "auth`)"
 msgstr ""
-"Web 授權機制會分隔網站、專案、組件、語言、詞彙表、VCS、翻譯記憶庫、螢幕擷取畫"
-"面、審閱與存取管理權限。 *（已有文件說明）*（來源：:doc:`/admin/"
-"access`、:doc:`/admin/auth`）"
+"網頁授權區分全站、專案、組件、語言、詞彙表、VCS、翻譯記憶、螢幕截圖、校閱及存"
+"取管理權限。*(已記錄)*（來源：:doc:`/admin/access`、:doc:`/admin/auth`）"
 
 #: security/threat-model.rst:589
 msgid ""
@@ -52349,6 +52348,9 @@ msgid ""
 "repository-local Git and Mercurial configuration, Git hooks, and Mercurial "
 "shared-repository indirection."
 msgstr ""
+"VCS 操作會透過 Weblate 支援的存放庫工作流程及設定的認證呼叫。專案備份還原會捨"
+"棄封存檔提供的存放庫本機 Git 與 Mercurial 設定、Git hooks 及 Mercurial "
+"shared-repository indirection。"
 
 #: security/threat-model.rst:616
 msgid "Command injection or arbitrary code execution as the Weblate user."
@@ -52412,22 +52414,19 @@ msgid ""
 "without binding use only explicitly trusted hosts. Configured per-protocol "
 "HTTP proxies remain trusted routing infrastructure."
 msgstr ""
+"預設的私有目標檢查已啟用，且不適用受信任 allowlist 豁免。直接受保護的 HTTP 請"
+"求，以及 Git HTTPS 與 SSH 操作會保留位址繫結；VCS 限制會保持啟用，沒有繫結的 "
+"VCS 後端僅使用明確受信任的主機。各通訊協定設定的 HTTP Proxy 仍屬受信任的路由"
+"基礎架構。"
 
 #: security/threat-model.rst:640
-#, fuzzy
-#| msgid ""
-#| "A user-configurable screenshot URL, remote HTML URL, project website or "
-#| "repository browser URL, outbound webhook URL, Fedora Messaging AMQP "
-#| "broker URL, or VCS URL reaches an internal or non-public target despite "
-#| "default controls."
 msgid ""
 "A user-configurable screenshot URL, remote HTML URL, project website or "
 "repository browser URL, outbound webhook URL, or VCS URL reaches an internal "
 "or non-public target despite default controls."
 msgstr ""
-"可由使用者設定的螢幕擷取畫面 URL、遠端 HTML URL、專案網站或儲存庫瀏覽器 URL、"
-"外連 webhook URL、Fedora Messaging AMQP Broker URL 或 VCS URL，儘管有預設控制"
-"措施，仍可連線至內部或非公開目標。"
+"可由使用者設定的螢幕截圖 URL、遠端 HTML URL、專案網站或存放庫瀏覽器 URL、對"
+"外 webhook URL 或 VCS URL，在預設控制項下仍到達內部或非公開目標。"
 
 #: security/threat-model.rst:643
 msgid "Security-critical when it exposes internal services or metadata."
@@ -52445,9 +52444,9 @@ msgid ""
 "audit logs or history. *(documented)* (source: :doc:`/security/privacy-"
 "compliance`, :ref:`rate-limit`, :doc:`/changes`)"
 msgstr ""
-"Weblate 會在稽核記錄或歷程記錄中，記下與安全性相關的帳號、權限及專案或組件設"
-"定變更。*(文件記載)* (來源：:doc:`/security/privacy-compliance`、:doc:`/"
-"changes`)"
+"Weblate 會在 audit logs 或歷程中記錄與安全相關的帳戶、權限、已驗證網頁動作 "
+"rate-limit lockouts，以及專案或組件設定變更。*(已記錄)*（來源：:doc:`/"
+"security/privacy-compliance`、:ref:`rate-limit`、:doc:`/changes`）"
 
 #: security/threat-model.rst:648
 msgid "Logging is configured and storage is available."
@@ -52680,9 +52679,8 @@ msgid ""
 "*(documented)* (source: :doc:`/admin/"
 "install`, :setting:`ENABLE_HTTPS`, :setting:`ALLOWED_HOSTS`)"
 msgstr ""
-"營運人員必須將 Weblate 部署於符合正式環境標準的 HTTPS 服務後方，並正確設定 "
-"Proxy 標頭、主機名稱、要求大小限制及安全 Cookie 行為。 *（已有文件說明）*（來"
-"源：:doc:`/admin/"
+"營運者必須在具備正確 Proxy headers、hostnames、request-size limits 及 secure-"
+"cookie 行為的正式 HTTPS 後方部署 Weblate。*(已記錄)*（來源：:doc:`/admin/"
 "install`、:setting:`ENABLE_HTTPS`、:setting:`ALLOWED_HOSTS`）"
 
 #: security/threat-model.rst:741
@@ -52692,9 +52690,8 @@ msgid ""
 "and project management permissions according to least privilege for their "
 "organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)"
 msgstr ""
-"營運人員必須依其組織的最低權限原則，指派團隊、角色、專案範圍權杖、VCS 認證資"
-"訊與專案管理權限。 *（已有文件說明）*（來源：:doc:`/admin/access`、:doc:`/"
-"api`）"
+"營運者必須依組織的最小權限原則指派團隊、角色、專案範圍 Token、VCS 認證及專案"
+"管理權限。*(已記錄)*（來源：:doc:`/admin/access`、:doc:`/api`）"
 
 #: security/threat-model.rst:745
 msgid ""
@@ -52721,8 +52718,8 @@ msgid ""
 "limits at values that match instance capacity and exposure. *(documented)* "
 "(source: :doc:`/admin/config`)"
 msgstr ""
-"營運人員必須將備份匯入限制、API 速率限制與 Web 速率限制維持在符合執行個體容量"
-"及對外曝露程度的數值。 *（已有文件說明）*（來源：:doc:`/admin/config`）"
+"營運者必須將備份匯入限制、API rate limits 及網頁 rate limits 設為符合執行個體"
+"容量與暴露程度的值。*(已記錄)*（來源：:doc:`/admin/config`）"
 
 #: security/threat-model.rst:756
 #, fuzzy
@@ -52732,9 +52729,9 @@ msgid ""
 "trusted infrastructure. *(documented)* (source: :doc:`/admin/backup`, :doc:`/"
 "admin/install`)"
 msgstr ""
-"營運人員必須將 Weblate 資料目錄、設定、備份認證資訊、產生的金鑰、資料庫、資料"
-"儲存區與本機 Shell 存取權視為受信任的基礎架構並加以保護。 *（已有文件說明）*"
-"（來源：:doc:`/admin/backup`、:doc:`/admin/install`）"
+"營運者必須將 Weblate 資料目錄、設定、備份認證、產生的金鑰、資料庫、資料儲存及"
+"本機 shell 存取視為受信任基礎架構並加以保護。*(已記錄)*（來源：:doc:`/admin/"
+"backup`、:doc:`/admin/install`）"
 
 #: security/threat-model.rst:761
 msgid ""
@@ -53743,16 +53740,12 @@ msgid "TOML file"
 msgstr "TOML 檔案"
 
 #: snippets/addon-parameters-autogenerated.rst:194
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)"
-msgstr "Qt Linguist 翻譯檔案"
+msgstr "Qt Linguist 翻譯檔（版本 2）"
 
 #: snippets/addon-parameters-autogenerated.rst:196
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 1)"
-msgstr "Qt Linguist 翻譯檔案"
+msgstr "Qt Linguist 翻譯檔（版本 1）"
 
 #: snippets/addon-parameters-autogenerated.rst:200
 msgid "WebExtension JSON file"
@@ -57080,16 +57073,12 @@ msgstr ""
 "``accelerator:~``。啟用 :ref:`check-accelerator` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:54
-#, fuzzy
-#| msgid ""
-#| "Treat a text as an Bulletin Board Code (BBCode) document, "
-#| "affects :ref:`check-same`. Enables the :ref:`check-bbcode` quality check."
 msgid ""
 "Treat a text as an AsciiDoc document, affects :ref:`check-same`. Enables "
 "the :ref:`check-asciidoc-markup` quality check."
 msgstr ""
-"將文字視為 Bulletin Board Code (BBCode) 文件，會影響 :ref:`check-same`，並啟"
-"用 :ref:`check-bbcode` 品質檢查。"
+"將文字視為 AsciiDoc 文件，會影響 :ref:`check-same`。啟用 :ref:`check-"
+"asciidoc-markup` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:57
 msgid ""
@@ -57258,10 +57247,8 @@ msgid "Enables the :ref:`check-max-length` quality check."
 msgstr "啟用 :ref:`check-max-length` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:133
-#, fuzzy
-#| msgid "Enables the :ref:`check-max-size` quality check."
 msgid "Enables the :ref:`check-max-lines` quality check."
-msgstr "啟用 :ref:`check-max-size` 品質檢查。"
+msgstr "啟用 :ref:`check-max-lines` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:135
 msgid "Enables the :ref:`check-max-size` quality check."
@@ -57318,10 +57305,8 @@ msgid "Skip the :ref:`check-accelerator` quality check."
 msgstr "跳過 :ref:`check-accelerator` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:166
-#, fuzzy
-#| msgid "Skip the :ref:`check-kashida` quality check."
 msgid "Skip the :ref:`check-asciidoc-markup` quality check."
-msgstr "略過 :ref:`check-kashida` 品質檢查。"
+msgstr "略過 :ref:`check-asciidoc-markup` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:168
 msgid "Skip the :ref:`check-bbcode` quality check."
@@ -57492,10 +57477,8 @@ msgid "Skip the :ref:`check-max-length` quality check."
 msgstr "略過 :ref:`check-max-length` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:252
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-size` quality check."
 msgid "Skip the :ref:`check-max-lines` quality check."
-msgstr "略過 :ref:`check-max-size` 品質檢查。"
+msgstr "略過 :ref:`check-max-lines` 品質檢查。"
 
 #: snippets/check-flags-autogenerated.rst:254
 msgid "Skip the :ref:`check-max-size` quality check."
@@ -57833,16 +57816,12 @@ msgstr ""
 "``ignore-accelerator`` 旗標略過該字串的檢查。"
 
 #: snippets/checks-autogenerated.rst:49
-#, fuzzy
-#| msgid "AsciiDoc file"
 msgid "AsciiDoc markup"
-msgstr "AsciiDoc 檔案"
+msgstr "AsciiDoc 標記"
 
 #: snippets/checks-autogenerated.rst:53
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "C 格式字串與來源不符。"
+msgstr "AsciiDoc 標記與來源不符。"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "File formats automatically enabling this check"
@@ -57852,21 +57831,19 @@ msgstr "會自動啟用此檢查的檔案格式"
 msgid ""
 "This check compares the markups found in the source with the markups found "
 "in the translation. It includes:"
-msgstr ""
+msgstr "此檢查會比較來源中找到的標記與翻譯中找到的標記，包含："
 
 #: snippets/checks-autogenerated.rst:67
 msgid "inline and block macros (e.g. ``link:`` and ``image::``)"
-msgstr ""
+msgstr "inline 與 block macros（例如 ``link:`` 和 ``image::``）"
 
 #: snippets/checks-autogenerated.rst:68
-#, fuzzy
-#| msgid "``rst-references``"
 msgid "cross-references (``<<id>>``)"
-msgstr "``rst-references``"
+msgstr "cross-references（``<<id>>``）"
 
 #: snippets/checks-autogenerated.rst:69
 msgid "passthroughs (e.g. ``+++...+++``, ``$$...$$``)"
-msgstr ""
+msgstr "passthroughs（例如 ``+++...+++``、``$$...$$``）"
 
 #: snippets/checks-autogenerated.rst:71
 msgid ""
@@ -57874,6 +57851,8 @@ msgid ""
 "name, target, and reference identifier must stay the same in both the source "
 "and the translation."
 msgstr ""
+"可翻譯 Macro attribute text 與 cross-reference labels；但 Macro 名稱、目標及"
+"參照識別碼在來源與翻譯中都必須保持相同。"
 
 #: snippets/checks-autogenerated.rst:80
 msgid "BBCode markup"
@@ -59215,16 +59194,12 @@ msgid ""
 msgstr "當同時使用 ``xml-text`` 標誌時，長度計算會忽略 XML 標記。"
 
 #: snippets/checks-autogenerated.rst:1457
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "翻譯的最大長度"
+msgstr "最大行數"
 
 #: snippets/checks-autogenerated.rst:1459
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "翻譯不該超過指定長度。"
+msgstr "翻譯不應超過指定行數。"
 
 #: snippets/checks-autogenerated.rst:1469
 msgid ""
@@ -59233,29 +59208,28 @@ msgid ""
 "such as displays, terminals, or constrained containers where a specific "
 "number of visible lines is required."
 msgstr ""
+"檢查翻譯是否超過設定的最大行數。這對目標為固定高度 UI 元素的翻譯很有用，例如"
+"需要特定可見行數的 displays、terminals 或受限 containers。"
 
 #: snippets/checks-autogenerated.rst:1474
-#, fuzzy
-#| msgid ""
-#| "Unlike the other checks, the flag should be set as a ``key:value`` pair "
-#| "like ``max-length:100``."
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-lines:3``."
-msgstr ""
-"與其他檢查不同，此旗標應設為 ``key:value`` 配對，例如 ``max-length:100``。"
+msgstr "不同於其他檢查，flag 應設為 ``key:value`` 組合，例如 ``max-lines:3``。"
 
 #: snippets/checks-autogenerated.rst:1477
 msgid ""
 "A translation with more lines than the configured value triggers a warning. "
 "Lines are counted by the number of newline characters plus one."
-msgstr ""
+msgstr "行數多於設定值的翻譯會觸發警告。行數依換行字元數量加一計算。"
 
 #: snippets/checks-autogenerated.rst:1482
 msgid ""
 "This check counts display lines (separated by ``\\\\n``), not wrapped lines. "
 "If your UI wraps text automatically, use :ref:`check-max-size` instead."
 msgstr ""
+"此檢查計算顯示行（以 ``\\n`` 分隔），不計算換行行數。若您的 UI 會自動換行，請"
+"改用 :ref:`check-max-size`。"
 
 #: snippets/checks-autogenerated.rst:1491
 msgid "Maximum size of translation"
@@ -60038,8 +60012,9 @@ msgid ""
 "meant to be used directly as ``.innerHTML`` (rather than ``.textContent``) "
 "for some HTML element. For example, when using the Fluent DOM package."
 msgstr ""
-"Fluent 常用於以下情境：某個 Message（或 Term）的值是要直接用作某個 HTML 元素"
-"的 ``.innerHTML``（而非 ``.textContent``）。例如使用 Fluent DOM 套件時。"
+"Fluent 常用於 Message（或 Term）的值預期直接作為某個 HTML element 的 "
+"``.innerHTML``（而非 ``.textContent``）使用的情境，例如使用 Fluent DOM "
+"package 時。"
 
 #: snippets/checks-autogenerated.rst:2398
 msgid ""
@@ -60298,12 +60273,10 @@ msgid "Source string length"
 msgstr "來源字串長度"
 
 #: snippets/checks-autogenerated.rst:2649
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
-msgstr "來源字串過長，超過設定的長度上限。"
+msgstr "來源字串接近或超過設定的翻譯最大長度。"
 
 #: snippets/checks-autogenerated.rst:2658
 msgid ""
@@ -61685,10 +61658,8 @@ msgid "``.ad``, ``.adoc``, ``.asciidoc``"
 msgstr "``.ad``, ``.adoc``, ``.asciidoc``"
 
 #: snippets/format-features/asciidoc-features.rst:30
-#, fuzzy
-#| msgid ":ref:`check-safe-html`, ``strict-same``"
 msgid ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
-msgstr ":ref:`check-safe-html` 、 ``strict-same``"
+msgstr ":ref:`check-safe-html`、``strict-same``、``asciidoc-text``"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -64093,21 +64064,13 @@ msgstr ""
 "任何掛起變更都會被提交，最新檔案是不帶任何轉換的產量。"
 
 #: user/files.rst:25
-#, fuzzy
-#| msgid ""
-#| "You can also download the translation converted into one of the widely "
-#| "used localization formats. The converted files will be enriched with data "
-#| "provided in Weblate; such as additional context, comments or flags. "
-#| "Several file formats are available via the :guilabel:`Files` "
-#| "↓ :guilabel:`Customize download` menu:"
 msgid ""
 "You can also download the translation converted into one of the widely used "
 "localization formats. The converted files will be enriched with data "
 "provided in Weblate; such as additional context, comments or flags."
 msgstr ""
-"您還可以下載轉換為一種廣泛使用的在地化格式的翻譯。轉換後的檔案將使用 Weblate "
-"中提供的資料進行豐富；例如附加情境、評論或標記。以下各種檔案格式可透"
-"過 :guilabel:`檔案` ↓ :guilabel:`自訂下載` 選單獲得："
+"您也可下載轉換為常用 localization formats 之一的翻譯。轉換檔案會加入 Weblate "
+"提供的資料，例如額外情境、留言或 flags。"
 
 #: user/files.rst:31
 msgid ""
@@ -64117,12 +64080,16 @@ msgid ""
 "different placeholder syntaxes or a compiled resource format not offered by "
 "Weblate."
 msgstr ""
+"格式轉換會改變 localization file representation，但不會在 ICU MessageFormat "
+"和 C ``printf`` formatting 等 runtime message syntaxes 之間翻譯。當使用者需要"
+"不同預留位置語法，或 Weblate 未提供的 compiled resource format 時，請使用應用"
+"程式專屬 tooling。"
 
 #: user/files.rst:37
 msgid ""
 "Several file formats are available via the :guilabel:`Files` "
 "↓ :guilabel:`Customize download` menu:"
-msgstr ""
+msgstr "可透過 :guilabel:`檔案` ↓ :guilabel:`自訂下載` 選單取得多種檔案格式："
 
 #: user/files.rst:40
 msgid "gettext PO (``po``)"
@@ -67390,6 +67357,9 @@ msgid ""
 "keyscan`` only to the approved addresses. The stored key remains associated "
 "with the original hostname."
 msgstr ""
+"啟用 :setting:`VCS_RESTRICT_PRIVATE` 時，Weblate 會在掃描 key 前解析並驗證存"
+"放庫主機，且 ``ssh-keyscan`` 僅連線至核准位址。儲存的 key 仍與原始 hostname "
+"關聯。"
 
 #: vcs.rst:151
 msgid ""
@@ -67400,6 +67370,10 @@ msgid ""
 "and :setting:`SSH_EXTRA_ARGS` can override Weblate's address pinning; "
 "administrators are responsible for their effects."
 msgstr ""
+"對 Git 連線，Weblate 也會在驗證及繫結實際目的地前，套用 :file:`DATA_DIR/ssh/"
+"config` 中的 ``HostName`` 與 ``Port``。SSH 設定和 :setting:`SSH_EXTRA_ARGS` "
+"是受信任、由管理員控制的輸入，可變更連線路由，而 :setting:`SSH_EXTRA_ARGS` 可"
+"覆寫 Weblate 位址繫結；管理員應對其影響負責。"
 
 #: vcs.rst:158
 msgid ""
@@ -67602,26 +67576,21 @@ msgid "Using proxy"
 msgstr "使用代理"
 
 #: vcs.rst:285
-#, fuzzy
-#| msgid ""
-#| "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
-#| "configure the VCS to use it."
 msgid ""
 "If you need to access Git repositories over HTTPS using a proxy server, "
 "configure the per-protocol environment variables described in :ref:`http-"
 "proxy`."
 msgstr ""
-"如果您需要使用代理伺服器存取 HTTP/HTTPS VCS 儲存庫，請設定 VCS 以使用它。"
+"若需要透過 Proxy server 存取 Git HTTPS 存放庫，請設定 :ref:`http-proxy` 所述"
+"的各通訊協定環境變數。"
 
 #: vcs.rst:291
 msgid "Git"
 msgstr "Git"
 
 #: vcs.rst:295
-#, fuzzy
-#| msgid "Weblate needs Git 2.28 or newer."
 msgid "Weblate needs Git 2.46 or newer."
-msgstr "Weblate 需要 Git 2.28 或更新版本。"
+msgstr "Weblate 需要 Git 2.46 或更新版本。"
 
 #: vcs.rst:299
 msgid ""
@@ -67629,6 +67598,9 @@ msgid ""
 "pre-push uploads are disabled for Weblate-managed repositories, so LFS "
 "tracked files remain pointer files and cannot be used as translation files."
 msgstr ""
+"Weblate 不會設定或傳輸 Git LFS 物件。Weblate 管理的存放庫已停用 Git LFS "
+"smudging 與 pre-push uploads，因此 LFS tracked files 會保持 pointer files，且"
+"無法用作翻譯檔案。"
 
 #: vcs.rst:305
 msgid ""
@@ -67637,6 +67609,9 @@ msgid ""
 "is recorded in the component history as repository maintenance. Redirects to "
 "another hostname have to be configured manually."
 msgstr ""
+"Weblate 會驗證停留在存放庫 hostname 的永久 HTTP redirects，並自動儲存標準存放"
+"庫 URL。此變更會以存放庫維護記錄在組件歷程中。重新導向至其他 hostname 時，必"
+"須手動設定。"
 
 #: vcs.rst:312 vcs.rst:422
 msgid ""

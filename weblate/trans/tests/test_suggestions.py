@@ -11,6 +11,7 @@ from django.urls import reverse
 from weblate.auth.results import Denied
 from weblate.trans.models import Suggestion, WorkflowSetting
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.state import STATE_READONLY
 
 
 class SuggestionsTest(ViewTestCase):
@@ -234,7 +235,8 @@ class SuggestionsTest(ViewTestCase):
         self.assertIsInstance(permission, Denied)
         self.assertEqual(
             permission.reason,
-            "Direct editing is restricted for this language. Add a suggestion instead.",
+            "Only privileged users can edit strings directly in this language because "
+            "of its translation workflow. Add a suggestion instead.",
         )
         self.assertTrue(self.user.has_perm("suggestion.add", unit))
 
@@ -245,6 +247,7 @@ class SuggestionsTest(ViewTestCase):
         )
         self.assertContains(response, "Translation suggestions can be made.")
         self.assertNotContains(response, "Translations can be made directly.")
+        self.assertContains(self.client.get(unit.get_absolute_url()), permission.reason)
 
         self.add_suggestion_1()
         self.assertEqual(unit.suggestion_set.count(), 1)
@@ -266,9 +269,17 @@ class SuggestionsTest(ViewTestCase):
         permission = self.user.has_perm("unit.edit", unit)
         self.assertIsInstance(permission, Denied)
         self.assertEqual(
-            permission.reason, "Direct editing is restricted for this language."
+            permission.reason,
+            "Only privileged users can edit strings directly in this language because "
+            "of its translation workflow. Ask a project administrator for access.",
         )
-        self.assertFalse(self.user.has_perm("suggestion.add", unit))
+        suggestion_permission = self.user.has_perm("suggestion.add", unit)
+        self.assertIsInstance(suggestion_permission, Denied)
+        self.assertEqual(
+            suggestion_permission.reason,
+            "Suggestions are turned off for this language. Ask a project administrator "
+            "to enable them.",
+        )
 
         response = self.client.get(self.translation_url)
         self.assertContains(
@@ -277,6 +288,37 @@ class SuggestionsTest(ViewTestCase):
         )
         self.assertContains(response, "Translation suggestions are turned off.")
         self.assertNotContains(response, "Translations can be made directly.")
+        self.assertContains(self.client.get(unit.get_absolute_url()), permission.reason)
+
+        response = self.edit_unit(
+            "Hello, world!\n", "Nazdar svete!\n", suggest="yes", follow=True
+        )
+        self.assertContains(response, suggestion_permission.reason)
+        self.assertEqual(unit.suggestion_set.count(), 0)
+
+    def test_suggestion_readonly_denials(self) -> None:
+        unit = self.get_unit()
+        original_state = unit.state
+        unit.state = STATE_READONLY
+        unit.save(update_fields=["state"])
+
+        permission = self.user.has_perm("suggestion.add", unit)
+        self.assertIsInstance(permission, Denied)
+        self.assertEqual(permission.reason, "The string is read-only.")
+
+        response = self.client.get(unit.get_absolute_url())
+        self.assertContains(response, 'title="The string is read-only."')
+
+        unit.state = original_state
+        unit.save(update_fields=["state"])
+        translation = unit.translation
+        translation.check_flags = "read-only"
+        translation.save(update_fields=["check_flags"])
+        unit = self.get_unit()
+
+        permission = self.user.has_perm("suggestion.add", unit)
+        self.assertIsInstance(permission, Denied)
+        self.assertEqual(permission.reason, "The translation is read-only.")
 
     def test_restrict_direct_editing_allows_voting(self) -> None:
         WorkflowSetting.objects.create(

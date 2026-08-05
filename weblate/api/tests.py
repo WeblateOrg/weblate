@@ -101,6 +101,7 @@ from weblate.utils.state import (
     STATE_EMPTY,
     STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 from weblate.utils.tests import http_mock
@@ -6588,7 +6589,7 @@ class ComponentAPITest(APIBaseTest):
         self.assertTrue(response.data["result"])
         do_update.assert_called_once()
 
-    def test_linked_repo_operation_requires_source_permission(self) -> None:
+    def test_linked_repo_operation_requires_all_component_permissions(self) -> None:
         linked_component = self.create_link_existing(
             name="Linked repository operation",
             slug="linked-repository-operation",
@@ -6606,7 +6607,7 @@ class ComponentAPITest(APIBaseTest):
         )
         self.user.clear_permissions_cache()
 
-        self.assertTrue(self.user.has_perm("vcs.update", linked_component))
+        self.assertFalse(self.user.has_perm("vcs.update", linked_component))
         self.assertFalse(self.user.has_perm("vcs.update", self.component))
         self.do_request(
             "api:component-repository",
@@ -6623,14 +6624,13 @@ class ComponentAPITest(APIBaseTest):
             )
         do_update.assert_not_called()
 
-        self.user.groups.remove(Group.objects.get(name=child_group_name))
         self.grant_perm_to_user(
             "vcs.update",
             group_name="Linked source repository access",
             component=self.component,
         )
         self.user.clear_permissions_cache()
-        self.assertFalse(self.user.has_perm("vcs.update", linked_component))
+        self.assertTrue(self.user.has_perm("vcs.update", linked_component))
         self.assertTrue(self.user.has_perm("vcs.update", self.component))
         self.do_request(
             "api:component-repository",
@@ -8523,7 +8523,8 @@ class ComponentAPITest(APIBaseTest):
 
         self.assertEqual(
             response.data["errors"][0]["detail"],
-            "Direct editing is restricted for this language. Add a suggestion instead.",
+            "Only privileged users can edit strings directly in this language because "
+            "of its translation workflow. Add a suggestion instead.",
         )
         perform.assert_not_called()
         self.assertFalse(target.translation_set.filter(language_code="fa").exists())
@@ -11075,13 +11076,13 @@ class TranslationAPITest(APIBaseTest):
 
         translation = self.component.translation_set.get(language_code="cs")
         for permission in permissions:
-            self.assertTrue(self.user.has_perm(permission, translation))
+            self.assertFalse(self.user.has_perm(permission, translation))
             self.assertFalse(self.user.has_perm(permission, self.component))
 
         self.do_request(
             "api:translation-repository",
             self.translation_kwargs,
-            code=200,
+            code=403,
         )
         for operation in RepoOperations.values:
             self.do_request(
@@ -12824,6 +12825,46 @@ class SuggestionAPITest(APIBaseTest):
             code=404,
         )
 
+    def test_add_suggestion_disabled_by_workflow(self) -> None:
+        unit = self._get_unit()
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            enable_suggestions=False,
+        )
+
+        response = self._add_suggestion(unit, "Navrh", code=403)
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Suggestions are turned off for this language. Ask a project administrator "
+            "to enable them.",
+        )
+        self.assertFalse(unit.suggestion_set.exists())
+
+    def test_add_suggestion_readonly(self) -> None:
+        unit = self._get_unit()
+        original_state = unit.state
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_READONLY)
+
+        response = self._add_suggestion(unit, "Navrh", code=403)
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "The string is read-only."
+        )
+        self.assertFalse(unit.suggestion_set.exists())
+
+        Unit.objects.filter(pk=unit.pk).update(state=original_state)
+        unit.translation.check_flags = "read-only"
+        unit.translation.save(update_fields=["check_flags"])
+
+        response = self._add_suggestion(unit, "Navrh", code=403)
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "The translation is read-only."
+        )
+        self.assertFalse(unit.suggestion_set.exists())
+
     def test_list_unit_suggestions(self) -> None:
         unit = self._get_unit()
         self._add_suggestion(unit, "Navrh 1")
@@ -12954,12 +12995,16 @@ class SuggestionAPITest(APIBaseTest):
         response = self._add_suggestion(unit, "Navrh")
         suggestion_id = response.data["id"]
         # missing unit.review permission
-        self.do_request(
+        response = self.do_request(
             "api:suggestion-accept",
             kwargs={"pk": suggestion_id},
             method="post",
             request={"approve": True},
             code=403,
+        )
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Translation reviews are turned off.",
         )
 
         # missing suggestion.accept permission
@@ -12972,6 +13017,30 @@ class SuggestionAPITest(APIBaseTest):
             code=403,
             authenticated=False,
         )
+
+    def test_accept_suggestion_restricted_by_workflow(self) -> None:
+        unit = self._get_unit()
+        response = self._add_suggestion(unit, "Navrh")
+        suggestion_id = response.data["id"]
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=unit.translation.language,
+            restrict_direct_editing=True,
+        )
+
+        response = self.do_request(
+            "api:suggestion-accept",
+            kwargs={"pk": suggestion_id},
+            method="post",
+            code=403,
+        )
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"],
+            "Only privileged users can edit strings directly in this language because "
+            "of its translation workflow. Add a suggestion instead.",
+        )
+        self.assertTrue(Suggestion.objects.filter(pk=suggestion_id).exists())
 
     def test_accept_suggestion_approve(self) -> None:
         unit = self._get_unit()
@@ -13037,12 +13106,15 @@ class SuggestionAPITest(APIBaseTest):
         )
 
         # Voting disabled on translation.
-        self.do_request(
+        response = self.do_request(
             "api:suggestion-vote",
             kwargs={"pk": suggestion.pk},
             method="post",
             request={"value": 1},
             code=403,
+        )
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Suggestion voting is disabled."
         )
 
         self.component.suggestion_voting = True

@@ -1103,6 +1103,10 @@ Projects
     only an overall summary for all repositories for the project. To get more detailed
     status use :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
+    Repository status requires component-wide permission on every component
+    sharing the affected repositories. This includes linked components in other
+    projects.
+
     :param project: Project URL slug
     :type project: string
     :>json boolean needs_commit: whether there are any pending changes to commit
@@ -1124,6 +1128,9 @@ Projects
 
     Performs given operation on the VCS repository.
 
+    Repository operations require component-wide permission on every component
+    sharing the affected repositories. This includes linked components in other
+    projects.
 
     :param project: Project URL slug
     :type project: string
@@ -1966,8 +1973,9 @@ Components
 
     The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
 
-    For a linked repository, permission is checked on the source component that
-    owns the repository.
+    Repository status requires component-wide permission on the component that
+    owns the repository and every component linked to it, including components
+    in other projects.
 
     :param project: Project URL slug
     :type project: string
@@ -1986,8 +1994,9 @@ Components
 
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
-    For a linked repository, permission is checked on the source component that
-    owns the repository.
+    Repository operations require component-wide permission on the component
+    that owns the repository and every component linked to it, including
+    components in other projects.
 
     :param project: Project URL slug
     :type project: string
@@ -2524,9 +2533,10 @@ Translations
 
     The response is same as for :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
-    For a linked repository, permission is checked on the source component that
-    owns the repository. For an unlinked repository, permission can be limited
-    to the requested language.
+    Repository status requires component-wide permission on the component that
+    owns the repository and every component linked to it, including components
+    in other projects. A permission limited to the requested language is not
+    sufficient.
 
     :param project: Project URL slug
     :type project: string
@@ -2541,10 +2551,10 @@ Translations
 
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
-    Repository operations affect the entire component and therefore require
-    component-wide permission on the component that owns the repository. A
-    permission limited to the requested language is sufficient for viewing
-    unlinked repository status, but not for performing an operation.
+    Repository operations require component-wide permission on the component
+    that owns the repository and every component linked to it, including
+    components in other projects. A permission limited to the requested
+    language is not sufficient.
 
     :param project: Project URL slug
     :type project: string
