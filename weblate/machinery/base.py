@@ -445,7 +445,9 @@ class BatchMachineTranslation(DocVersionsMixin):
         except Exception as exc:
             self.supported_languages_error = exc
             self.supported_languages_error_age = time.time()
-            self.report_error("Could not fetch languages, using defaults", exception=exc)
+            self.report_error(
+                "Could not fetch languages, using defaults", exception=exc
+            )
             return set()
 
         # Update cache
