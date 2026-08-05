@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-08-05 17:39+0000\n"
+"PO-Revision-Date: 2026-08-05 19:14+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -21320,15 +21320,15 @@ msgstr "Повідомлення запиту щодо об'єднання"
 
 #: weblate/trans/models/category.py:295 weblate/trans/models/component.py:984
 #: weblate/trans/models/project.py:546
-#, fuzzy
-#| msgid "Merge request message"
 msgid "Inherit merge request message"
-msgstr "Повідомлення запиту щодо об'єднання"
+msgstr "Успадкувати повідомлення про запит щодо об'єднання"
 
 #: weblate/trans/models/category.py:298
 msgid ""
 "Use the merge request message configured in the parent category or project."
 msgstr ""
+"Використати повідомлення про запит щодо об'єднання, яке визначено у "
+"батьківській категорії або у батьківському проєкті."
 
 #: weblate/trans/models/category.py:427
 msgid "Parent category has to be in the same project!"
@@ -21406,6 +21406,8 @@ msgstr ""
 msgid ""
 "This field is managed by the repository integration and can not be changed."
 msgstr ""
+"Вміст цього поля визначається засобами інтеграції з репозиторієм — його не "
+"можна міняти."
 
 #: weblate/trans/models/component.py:586
 msgid ""
@@ -21628,12 +21630,9 @@ msgid "List of checks which can not be dismissed."
 msgstr "Перелік чеків, які не можна відхилити."
 
 #: weblate/trans/models/component.py:819
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid "Use the translation license configured in the category or project."
 msgstr ""
-"Скасувати останні зміни в перекладі, внесені цим користувачем у поточному "
+"Використати умови ліцензування перекладу, які визначено у категорії або у "
 "проєкті."
 
 #: weblate/trans/models/component.py:827
@@ -21645,26 +21644,24 @@ msgstr ""
 "перекладати цей компонент."
 
 #: weblate/trans/models/component.py:835
-#, fuzzy
-#| msgid "There was no contributor license agreement before."
 msgid ""
 "Use the contributor license agreement configured in the category or project."
-msgstr "Раніше не було ліцензійної угоди співавтора."
+msgstr ""
+"Використати ліцензійну угоду співавтора, яку визначено у категорії або у "
+"проєкті."
 
 #: weblate/trans/models/component.py:851
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid ""
 "Use the adding new translations setting configured in the category or "
 "project."
 msgstr ""
-"Скасувати останні зміни в перекладі, внесені цим користувачем у поточному "
-"проєкті."
+"Використати параметри додавання нового перекладу, які визначено у категорії "
+"або у проєкті."
 
 #: weblate/trans/models/component.py:869
 msgid "Use the language code style configured in the category or project."
 msgstr ""
+"Використати стиль кодування мови, який визначено у категорії або у проєкті."
 
 #: weblate/trans/models/component.py:873
 msgid "Manage strings"
@@ -21697,42 +21694,46 @@ msgid ""
 "Use the commit message when translating configured in the category or "
 "project."
 msgstr ""
+"Використати повідомлення про внесок при перекладі, яке визначено у категорії "
+"або у проєкті."
 
 #: weblate/trans/models/component.py:922
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid ""
 "Use the commit message when adding translation configured in the category or "
 "project."
-msgstr "Повідомлення подання при додаванні перекладу"
+msgstr ""
+"Використати повідомлення про внесок при додаванні перекладу, яке визначено у "
+"категорії або у проєкті."
 
 #: weblate/trans/models/component.py:938
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid ""
 "Use the commit message when removing translation configured in the category "
 "or project."
-msgstr "Повідомлення подання при видаленні перекладу"
+msgstr ""
+"Використати повідомлення про внесок при вилученні перекладу, яке визначено у "
+"категорії або у проєкті."
 
 #: weblate/trans/models/component.py:955
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid ""
 "Use the commit message when merging translation configured in the category "
 "or project."
-msgstr "Повідомлення подання під час обʼєднання перекладу"
+msgstr ""
+"Використати повідомлення про внесок при обʼєднанні перекладу, яке визначено "
+"у категорії або у проєкті."
 
 #: weblate/trans/models/component.py:971
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid ""
 "Use the commit message when add-on makes a change configured in the category "
 "or project."
-msgstr "Повідомлення подання, коли додаток робить зміну"
+msgstr ""
+"Використати повідомлення про внесок при внесенні змін додатком, яке "
+"визначено у категорії або у проєкті."
 
 #: weblate/trans/models/component.py:987
 msgid "Use the merge request message configured in the category or project."
 msgstr ""
+"Використати повідомлення про запит щодо об'єднання, яке визначено у "
+"категорії або у проєкті."
 
 #: weblate/trans/models/component.py:991
 msgid "Push on commit"
@@ -21831,11 +21832,8 @@ msgid "This setting is inherited from the project if left empty."
 msgstr "Цей параметр успадковується з проекту, якщо залишити порожнім."
 
 #: weblate/trans/models/component.py:1121
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the category or project."
-msgstr "Додаткова мова, визначена в проекті чи компоненті"
+msgstr "Використати вторинну мову, яку визначено у категорії або у проєкті."
 
 #: weblate/trans/models/component.py:2540
 msgid ""
@@ -22172,10 +22170,9 @@ msgid "Push URL is not used without a remote repository."
 msgstr "Адресу записування не буде використано без віддаленого сховища."
 
 #: weblate/trans/models/component.py:5154
-#, fuzzy, python-format
-#| msgid "Could not update repository: %s"
+#, python-format
 msgid "Could not validate push URL: %s"
-msgstr "Не вдалося оновити репозиторій: %s"
+msgstr "Не вдалося перевірити адресу записування: %s"
 
 #: weblate/trans/models/component.py:5162
 msgid ""
@@ -22319,10 +22316,8 @@ msgid "Could not get repository status!"
 msgstr "Не вдалося отримати статус сховища!"
 
 #: weblate/trans/models/component.py:6620
-#, fuzzy
-#| msgid "File in original format as translated in the repository"
 msgid "File path is in a restricted location in the repository."
-msgstr "Файл у початковому форматі, перекладено у репозиторії"
+msgstr "Шлях до файла у репозиторії є місцем з обмеженнями."
 
 #: weblate/trans/models/componentlist.py:48
 msgid "Component list name"
@@ -22397,6 +22392,8 @@ msgstr "Вказівки щодо перекладу"
 #: weblate/trans/models/project.py:270
 msgid "Workspace this project belongs to. Standalone projects do not need one."
 msgstr ""
+"Робочий простір, до якого належить проєкт. Незалежні проєкти не потребують "
+"робочого простору."
 
 #: weblate/trans/models/project.py:275
 msgid "Use shared translation memory"
@@ -22415,18 +22412,17 @@ msgid "Contributes to the pool of shared translations between projects."
 msgstr "Здійснює внесок у спільний переклад між проєктами."
 
 #: weblate/trans/models/project.py:292
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid "Uses the pool of shared translations between projects in the workspace."
-msgstr "Використовує котел спільних перекладів між проєктами."
+msgstr ""
+"Використовує буфер спільних перекладів між проєктами у робочому просторі."
 
 #: weblate/trans/models/project.py:299
-#, fuzzy
-#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
 "Contributes translations to the pool shared between projects in the "
 "workspace."
-msgstr "Здійснює внесок у спільний переклад між проєктами."
+msgstr ""
+"Здійснює внесок у буфер спільного перекладу між проєктами у робочому "
+"просторі."
 
 #: weblate/trans/models/project.py:306
 msgid ""
