@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-08-04 18:02+0000\n"
+"PO-Revision-Date: 2026-08-05 17:39+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -19754,7 +19754,7 @@ msgstr "Серйозність"
 
 #: weblate/trans/diagnostics.py:72
 msgid "Actionable by me"
-msgstr ""
+msgstr "Доступна для ваших дій"
 
 #: weblate/trans/discovery.py:497
 msgid "Discovery configuration"
@@ -19871,19 +19871,19 @@ msgstr "Зберігати попередні msgid перекладених р�
 
 #: weblate/trans/file_format_params.py:371
 msgid "Controls previous msgid comments for fuzzy strings."
-msgstr ""
+msgstr "Керує попередніми коментарями msgid для рядків з нечіткими перекладами."
 
 #: weblate/trans/file_format_params.py:378
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove obsolete strings"
-msgstr "Вилучити порожні рядки"
+msgstr "Вилучити застарілі рядки"
 
 #: weblate/trans/file_format_params.py:382
 msgid ""
 "Remove obsolete entries from PO files when saving translation changes or "
 "updating from a POT file."
 msgstr ""
+"Вилучити застарілі засоби з файлів PO при збереженні змін у перекладах або "
+"оновлень з файла POT."
 
 #: weblate/trans/file_format_params.py:390
 msgid "Do not include location information in the file"
@@ -20045,13 +20045,15 @@ msgstr "Кодування, що використовується для про�
 
 #: weblate/trans/file_format_params.py:660
 msgid "Escape spreadsheet formulas"
-msgstr ""
+msgstr "Екранувати формули електронних таблиць"
 
 #: weblate/trans/file_format_params.py:664
 msgid ""
 "Prefix values that look like spreadsheet formulas with an apostrophe when "
 "saving CSV files."
 msgstr ""
+"Додавати префікси-апострофи до значень, які виглядають як формули "
+"електронних таблиць, при збереженні файлів CSV."
 
 #: weblate/trans/file_format_params.py:685
 msgid "Encoding used for GWT Properties files"
@@ -20098,16 +20100,17 @@ msgid ""
 msgstr "Чи витягувати та перекладати блоки YAML у файлах Markdown та MDX."
 
 #: weblate/trans/file_format_params.py:741
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translate front matter values"
-msgstr "Стан памʼяті перекладу"
+msgstr "Перекладати значення титульної сторінки"
 
 #: weblate/trans/file_format_params.py:745
 msgid ""
 "Parse YAML front matter and translate only scalar string values. Keys, "
 "structure, comments, and formatting are preserved when possible."
 msgstr ""
+"Обробляти титульну сторінку YAML і перекладати лише скалярні значення "
+"рядків. Ключі, структури, коментарі та форматування, якщо можливо, буде "
+"збережено."
 
 #: weblate/trans/file_format_params.py:754
 msgid "Disable placeholders"
@@ -20155,10 +20158,8 @@ msgid "Unfinished strings without suggestions"
 msgstr "Незавершені рядки без пропозицій"
 
 #: weblate/trans/filter.py:42 weblate/trans/filter.py:134
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with source comments"
-msgstr "Рядки з коментарями"
+msgstr "Рядки з початковими коментарями"
 
 #: weblate/trans/filter.py:48
 msgid "Translated strings with any failing checks"
@@ -20202,7 +20203,7 @@ msgstr "Позначено: {}"
 
 #: weblate/trans/forms.py:251 weblate/trans/models/component.py:5203
 msgid "Repository branch is required for this integration."
-msgstr ""
+msgstr "Для цієї інтеграції потрібна гілка у репозиторії."
 
 #: weblate/trans/forms.py:321
 msgid "Invalid date!"
@@ -20413,6 +20414,7 @@ msgstr "Складник не знайдено!"
 #: weblate/trans/forms.py:1355
 msgid "Enter component ID or project/component slug."
 msgstr ""
+"Введіть ідентифікатор коментаря або ідентифікатор проєкту або складника."
 
 #: weblate/trans/forms.py:1372
 msgid "Source component needs to have same source language as target one."
@@ -20510,85 +20512,67 @@ msgid "Search filter"
 msgstr "Фільтр пошуку"
 
 #: weblate/trans/forms.py:1855
-#, fuzzy
-#| msgid "Date range"
 msgid "Base rate"
-msgstr "Діапазон дат"
+msgstr "Базова частота"
 
 #: weblate/trans/forms.py:1856
-#, fuzzy
-#| msgid "Number of source words"
 msgid "Price per source word."
-msgstr "Число слів джерела"
+msgstr "Ціна за слово початкового тексту."
 
 #: weblate/trans/forms.py:1863
-#, fuzzy
-#| msgid "Translation threshold"
 msgid "Translation memory threshold"
-msgstr "Порогове значення перекладу"
+msgstr "Порогове значення пам'яті перекладу"
 
 #: weblate/trans/forms.py:1869
-#, fuzzy
-#| msgid "New string added"
 msgid "New strings rate"
-msgstr "Додано новий рядок"
+msgstr "Частота нових рядків"
 
 #: weblate/trans/forms.py:1876
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs editing rate"
-msgstr "Потребує редагування"
+msgstr "Частота рядків, які потребують редагування"
 
 #: weblate/trans/forms.py:1883
-#, fuzzy
-#| msgid "Extract front matter"
 msgid "Exact match rate"
-msgstr "Витяг з передмови"
+msgstr "Частота точних відповідників"
 
 #: weblate/trans/forms.py:1890
 msgid "Fuzzy match rate"
-msgstr ""
+msgstr "Частота неточних відповідників"
 
 #: weblate/trans/forms.py:1897
-#, fuzzy
-#| msgid "Rejection reason"
 msgid "Repetition rate"
-msgstr "Причина відмови"
+msgstr "Частота повторень"
 
 #: weblate/trans/forms.py:1920
 msgid "Minimum changes per day"
-msgstr ""
+msgstr "Мінімальна кількість змін на день"
 
 #: weblate/trans/forms.py:1923
 msgid "Maximum changes per day"
-msgstr ""
+msgstr "Максимальна кількість змін на день"
 
 #: weblate/trans/forms.py:1926
 msgid "Maximum source words per day"
-msgstr ""
+msgstr "Максимальна кількість рядків початкового тексту на день"
 
 #: weblate/trans/forms.py:1985
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Inherit from workspace"
-msgstr "Успадковані прапорці"
+msgstr "Успадкувати з робочого простору"
 
 #: weblate/trans/forms.py:1987
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Inherit from project"
-msgstr "Успадковані прапорці"
+msgstr "Успадкувати з проєкту"
 
 #: weblate/trans/forms.py:1988
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Inherit from category"
-msgstr "Успадковані прапорці"
+msgstr "Успадкувати з категорії"
 
 #: weblate/trans/forms.py:2061
 msgid ""
 "Inherited value is shown. Disable inheritance to edit the stored override."
 msgstr ""
+"Показано успадковане значення. Вимкніть успадкування, щоб змінити збережене "
+"перевизначення."
 
 #: weblate/trans/forms.py:2240
 msgid "This submission has been identified as spam!"
@@ -20698,31 +20682,33 @@ msgid ""
 msgstr "Використовує та додає у базу спільних перекладів для різних проєктів."
 
 #: weblate/trans/forms.py:3715
-#, fuzzy
-#| msgid ""
-#| "Uses and contributes to the pool of shared translations between projects."
 msgid ""
 "Uses and contributes to the pool of shared translations between projects in "
 "the workspace."
-msgstr "Використовує та додає у базу спільних перекладів для різних проєктів."
+msgstr ""
+"Використовує та додає у базу спільних перекладів для різних проєктів у "
+"робочому просторі."
 
 #: weblate/trans/forms.py:3759
 msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects."
 msgstr ""
+"Введіть UUID у робочому просторі, у якому ви маєте права доступу до "
+"редагування параметрів та додавання проєктів."
 
 #: weblate/trans/forms.py:3764
 msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects, or leave empty to move the project out of a workspace."
 msgstr ""
+"Введіть UUID робочого простору, у якому ви маєте права на зміну параметрів "
+"та додавання проєктів, або залиште поле порожнім, щоб перемістити проєкт за "
+"межі робочого простору."
 
 #: weblate/trans/forms.py:3787
-#, fuzzy
-#| msgid "No matching strings found."
 msgid "No matching workspace found."
-msgstr "Жодного збігу серед рядків не виявлено."
+msgstr "Відповідного робочого простору не виявлено."
 
 #: weblate/trans/forms.py:3855
 msgid "ZIP file containing project backup"
@@ -20937,7 +20923,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:4697
 msgid "Turn on customization above to change these settings."
-msgstr ""
+msgstr "Увімкніть налаштовування вище, щоб змінити ці параметри."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/inherited_settings.py:17
@@ -21026,6 +21012,8 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+"Складник %(component)s, було пропущено, оскільки пов'язаний з ним "
+"репозиторій недоступний."
 
 #: weblate/trans/mixins.py:212
 msgid ""
@@ -21109,48 +21097,36 @@ msgstr "Додаткові прапорці, розділені комами, в
 
 #: weblate/trans/models/category.py:131 weblate/trans/models/component.py:816
 #: weblate/trans/models/project.py:394
-#, fuzzy
-#| msgid "Translation license"
 msgid "Inherit translation license"
-msgstr "Ліцензія перекладу"
+msgstr "Успадкувати ліцензування перекладу"
 
 #: weblate/trans/models/category.py:134
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid ""
 "Use the translation license configured in the parent category or project."
 msgstr ""
-"Скасувати останні зміни в перекладі, внесені цим користувачем у поточному "
-"проєкті."
+"Використати ліцензування перекладу, яке визначено у батьківській категорії "
+"або у батьківському проєкті."
 
 #: weblate/trans/models/category.py:142
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this category."
 msgstr ""
 "Ліцензійна угода учасника, яку потрібно схвалити, перш ніж користувач зможе "
-"перекладати цей компонент."
+"перекладати складник у цій категорії."
 
 #: weblate/trans/models/category.py:147 weblate/trans/models/component.py:832
 #: weblate/trans/models/project.py:410
-#, fuzzy
-#| msgid "View contributor license agreement"
 msgid "Inherit contributor license agreement"
-msgstr "Переглянути ліцензійну угоду співавтора"
+msgstr "Успадкувати ліцензійну угоду співавтора"
 
 #: weblate/trans/models/category.py:150
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement for component %(component)s was changed."
 msgid ""
 "Use the contributor license agreement configured in the parent category or "
 "project."
-msgstr "Ліцензійну угоду учасника для компонента %(component)s змінено."
+msgstr ""
+"Використати ліцензійну угоду співавтора, яку використано у батьківській "
+"категорії або батьківському проєкті."
 
 #: weblate/trans/models/category.py:154 weblate/trans/models/component.py:841
 #: weblate/trans/models/project.py:417 weblate/workspaces/models.py:135
@@ -21164,21 +21140,16 @@ msgstr "Обробка запитів на створення нових пер�
 
 #: weblate/trans/models/category.py:161 weblate/trans/models/component.py:848
 #: weblate/trans/models/project.py:424
-#, fuzzy
-#| msgid "Disable adding new translations"
 msgid "Inherit adding new translations"
-msgstr "Вимкнути додавання нових перекладів"
+msgstr "Успадкувати додавання нових перекладів"
 
 #: weblate/trans/models/category.py:164
-#, fuzzy
-#| msgid ""
-#| "Revert the latest translation edits from this user in the current project."
 msgid ""
 "Use the adding new translations setting configured in the parent category or "
 "project."
 msgstr ""
-"Скасувати останні зміни в перекладі, внесені цим користувачем у поточному "
-"проєкті."
+"Використати параметр додавання нових перекладів, який використано у "
+"батьківській категорії або батьківському проєкті."
 
 #: weblate/trans/models/category.py:168 weblate/trans/models/component.py:855
 #: weblate/trans/models/project.py:431 weblate/workspaces/models.py:142
@@ -21196,15 +21167,15 @@ msgstr ""
 
 #: weblate/trans/models/category.py:179 weblate/trans/models/component.py:866
 #: weblate/trans/models/project.py:442
-#, fuzzy
-#| msgid "Language code style"
 msgid "Inherit language code style"
-msgstr "Стиль коду мови"
+msgstr "Успадкувати стиль коду мови"
 
 #: weblate/trans/models/category.py:182
 msgid ""
 "Use the language code style configured in the parent category or project."
 msgstr ""
+"Використовуйте стиль кодування мови, використаний у батьківській категорії "
+"або батьківському проєкті."
 
 #: weblate/trans/models/category.py:187 weblate/trans/models/component.py:1103
 #: weblate/trans/models/project.py:367 weblate/workspaces/models.py:154
@@ -21222,18 +21193,15 @@ msgstr ""
 
 #: weblate/trans/models/category.py:198 weblate/trans/models/component.py:1118
 #: weblate/trans/models/project.py:449
-#, fuzzy
-#| msgid "Secondary language"
 msgid "Inherit secondary language"
-msgstr "Вторинна мова"
+msgstr "Успадкувати вторинну мову"
 
 #: weblate/trans/models/category.py:201
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid ""
 "Use the secondary language configured in the parent category or project."
-msgstr "Додаткова мова, визначена в проекті чи компоненті"
+msgstr ""
+"Використати вторинну мову, яку визначено у батьківській категорії або у "
+"батьківському проєкті."
 
 #: weblate/trans/models/category.py:205 weblate/trans/models/component.py:894
 #: weblate/trans/models/project.py:456 weblate/workspaces/models.py:174
@@ -21261,16 +21229,16 @@ msgstr ""
 
 #: weblate/trans/models/category.py:214 weblate/trans/models/component.py:903
 #: weblate/trans/models/project.py:465
-#, fuzzy
-#| msgid "Commit message when translating"
 msgid "Inherit commit message when translating"
-msgstr "Повідомлення подання під час перекладу"
+msgstr "Успадкувати повідомлення про внесок при перекладі"
 
 #: weblate/trans/models/category.py:217
 msgid ""
 "Use the commit message when translating configured in the parent category or "
 "project."
 msgstr ""
+"Використати повідомлення про внесок при перекладі, яке визначено у "
+"батьківській категорії або у батьківському проєкті."
 
 #: weblate/trans/models/category.py:221 weblate/trans/models/component.py:910
 #: weblate/trans/models/project.py:472 weblate/workspaces/models.py:183
@@ -21279,16 +21247,16 @@ msgstr "Повідомлення подання при додаванні пер
 
 #: weblate/trans/models/category.py:230 weblate/trans/models/component.py:919
 #: weblate/trans/models/project.py:481
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Inherit commit message when adding translation"
-msgstr "Повідомлення подання при додаванні перекладу"
+msgstr "Успадкувати повідомлення про внесок при додаванні перекладу"
 
 #: weblate/trans/models/category.py:233
 msgid ""
 "Use the commit message when adding translation configured in the parent "
 "category or project."
 msgstr ""
+"Використати повідомлення про внесок при додаванні перекладу, яке визначено у "
+"батьківській категорії або у батьківському проєкті."
 
 #: weblate/trans/models/category.py:237 weblate/trans/models/component.py:926
 #: weblate/trans/models/project.py:488 weblate/workspaces/models.py:192
@@ -21297,16 +21265,16 @@ msgstr "Повідомлення подання при видаленні пер
 
 #: weblate/trans/models/category.py:246 weblate/trans/models/component.py:935
 #: weblate/trans/models/project.py:497
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Inherit commit message when removing translation"
-msgstr "Повідомлення подання при видаленні перекладу"
+msgstr "Успадкувати повідомлення про внесок при вилученні перекладу"
 
 #: weblate/trans/models/category.py:249
 msgid ""
 "Use the commit message when removing translation configured in the parent "
 "category or project."
 msgstr ""
+"Використати повідомлення про внесок при вилученні перекладу, яке визначено у "
+"батьківській категорії або у батьківському проєкті."
 
 #. Translators: The commit message, for when merging the translation
 #: weblate/trans/models/category.py:254 weblate/trans/models/component.py:943
@@ -21316,16 +21284,16 @@ msgstr "Повідомлення подання під час обʼєднанн
 
 #: weblate/trans/models/category.py:263 weblate/trans/models/component.py:952
 #: weblate/trans/models/project.py:514
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid "Inherit commit message when merging translation"
-msgstr "Повідомлення подання під час обʼєднання перекладу"
+msgstr "Успадкувати повідомлення про внесок при об'єднанні перекладу"
 
 #: weblate/trans/models/category.py:266
 msgid ""
 "Use the commit message when merging translation configured in the parent "
 "category or project."
 msgstr ""
+"Використати повідомлення про внесок при об'єднанні перекладу, яке визначено "
+"у батьківській категорії або у батьківському проєкті."
 
 #: weblate/trans/models/category.py:270 weblate/trans/models/component.py:959
 #: weblate/trans/models/project.py:521 weblate/workspaces/models.py:211
@@ -21334,16 +21302,16 @@ msgstr "Повідомлення подання, коли додаток роб�
 
 #: weblate/trans/models/category.py:279 weblate/trans/models/component.py:968
 #: weblate/trans/models/project.py:530
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid "Inherit commit message when add-on makes a change"
-msgstr "Повідомлення подання, коли додаток робить зміну"
+msgstr "Успадкувати повідомлення про внесок, коли зміну вносить додаток"
 
 #: weblate/trans/models/category.py:282
 msgid ""
 "Use the commit message when add-on makes a change configured in the parent "
 "category or project."
 msgstr ""
+"Використати повідомлення про внесок при внесенні зміни додатком, яке "
+"визначено у батьківській категорії або у батьківському проєкті."
 
 #: weblate/trans/models/category.py:286 weblate/trans/models/component.py:975
 #: weblate/trans/models/project.py:537 weblate/workspaces/models.py:220
