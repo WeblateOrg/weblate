@@ -13,6 +13,7 @@ import warnings
 from contextlib import contextmanager, suppress
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Literal, cast, overload
 from unittest.mock import patch
@@ -1712,11 +1713,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Add screenshot")
         self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
         element = self.driver.find_element(By.ID, "id_image")
-        upload_path = Path(self.tempdir) / upload_filename
-        upload_path.write_bytes(Path(get_test_file("screenshot.png")).read_bytes())
-        self.upload_file(element, upload_path)
-        with self.wait_for_page_load():
-            element.submit()
+        with TemporaryDirectory(prefix="weblate-selenium-upload-") as upload_dir:
+            upload_path = Path(upload_dir) / upload_filename
+            upload_path.write_bytes(Path(get_test_file("screenshot.png")).read_bytes())
+            self.upload_file(element, upload_path)
+            with self.wait_for_page_load():
+                element.submit()
         uploaded_screenshot = Screenshot.objects.get(name="Automatic translation")
 
         listing_filename = "main-menu.png"
