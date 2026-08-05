@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, TypedDict
 
 from celery.schedules import crontab
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives, get_connection
+from django.core.mail import EmailMultiAlternatives, mailers
 from django.core.mail.backends.smtp import EmailBackend as DjangoSMTPEmailBackend
 from django.db import transaction
 from django.urls import reverse
@@ -262,7 +262,7 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
             images.append(image)
 
     with start_span(op="email.connect"):
-        connection = get_connection()
+        connection = mailers.default
         try:
             connection.open()
         except Exception:
