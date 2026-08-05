@@ -12,9 +12,12 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
+* Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.
+
 .. rubric:: Compatibility
 
 * Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
+* Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
 
 .. rubric:: Upgrading
 

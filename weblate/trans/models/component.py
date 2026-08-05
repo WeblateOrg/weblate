@@ -530,10 +530,6 @@ OldComponentSetting = TypeVar("OldComponentSetting")
 class Component(  # ruff: ignore[too-many-public-methods]
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
-    # Transient values captured before deletion so post_delete can clean up
-    # automatic translation-memory scopes after related project data is gone.
-    memory_full_slug: str | None = None
-    memory_workspace_id: UUID | None = None
     repository_redirect_changes: list[tuple[str, str, str]] | None = None
 
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
@@ -1184,7 +1180,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self._glossary_sync_scheduled = False
         self.new_lang_error_message: str | None = None
 
-    def save(self, *args, **kwargs) -> None:  # ruff: ignore[complex-structure]
+    def save(  # ruff: ignore[complex-structure, too-many-locals]
+        self, *args, **kwargs
+    ) -> None:
         """
         Save wrapper.
 
@@ -1229,6 +1227,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # loop. A full component TM import is only needed when contribution is
         # enabled later for units that already exist.
         update_tm = False
+        restricted_changed = False
         old_full_slug = None
         old_source_project_id = None
         old_workspace_id = None
@@ -1247,6 +1246,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             old_full_slug = old.full_slug
             old_source_project_id = old.project_id
             old_workspace_id = old.project.workspace_id
+            restricted_changed = old.restricted != self.restricted
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
@@ -1276,6 +1276,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if update_fields_set is not None:
                 kwargs["update_fields"] = update_fields_set
                 update_fields = update_fields_set
+            restricted_changed = restricted_changed and (
+                update_fields is None or "restricted" in update_fields
+            )
 
             changed_variant = old.variant_regex != self.variant_regex
             # Generate change entries for changes
@@ -1300,6 +1303,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
             # Detect if the component had TM contribution disabled but changed to enabled.
             update_tm = self.contribute_project_tm and not old.contribute_project_tm
+            if restricted_changed and not self.restricted:
+                update_tm = update_tm or self.project.contribute_shared_tm
         elif self.is_glossary:
             # Creating new glossary
 
@@ -1327,6 +1332,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # Save/Create object
         super().save(*args, **kwargs)
+        if restricted_changed and self.restricted:
+            # TODO(2028.1): Legacy unattributed shared scopes keep their
+            # pre-upgrade behavior until the component backfill processes them.
+            # Remove this migration caveat once Weblate no longer supports
+            # direct upgrades from 2026 releases.
+            self.delete_shared_memory_scope()
         if repository_redirect_changes:
             self.repository_redirect_changes = None
             for field, old_url, canonical_url in repository_redirect_changes:
@@ -1520,6 +1531,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
         Memory.objects.filter(origin=origin).delete_scope(
             scope_query, delete_legacy=False
+        )
+
+    def delete_shared_memory_scope(self) -> None:
+        """Remove shared TM scopes contributed by this component."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        Memory.objects.delete_scope(
+            Q(scope=MemoryScope.SCOPE_SHARED, source_component=self),
+            delete_legacy=False,
         )
 
     def disable_inheritance_for_changed_settings(
@@ -5412,6 +5433,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.drop_file_format_cache()
         if self.project_id is None:
             return
+        if settings.OFFER_HOSTING and self.project.use_shared_tm and self.restricted:
+            raise ValidationError(
+                {
+                    "restricted": gettext(
+                        "A component can not be restricted while its project uses shared translation memory."
+                    )
+                }
+            )
         if self.effective_new_lang == "url" and not self.project.instructions:
             msg = gettext(
                 "Please either fill in an instruction URL "

@@ -142,7 +142,7 @@ from weblate.lang.forms import validate_language_code
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import validate_service_configuration
-from weblate.memory.models import Memory, MemoryScope
+from weblate.memory.models import Memory, MemoryQuerySet, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate, check_auto_translate_permission
@@ -893,6 +893,30 @@ class MemoryLookupMatchData(TypedDict):
 class MemoryLookupResultData(TypedDict):
     query: str
     match: MemoryLookupMatchData | None
+
+
+def get_delete_memory_option(request: Request) -> bool:
+    """Parse the optional translation-memory cleanup flag for delete requests."""
+    boolean_field = serializers.BooleanField()
+    body_value = query_value = None
+    request_data = request.data
+    if not isinstance(request_data, Mapping):
+        raise ValidationError({"delete_memory": "Expected an object."})
+    if "delete_memory" in request_data:
+        body_value = boolean_field.run_validation(request_data["delete_memory"])
+    if "delete_memory" in request.query_params:
+        query_value = boolean_field.run_validation(
+            request.query_params["delete_memory"]
+        )
+    if body_value is not None and query_value is not None and body_value != query_value:
+        raise ValidationError(
+            {
+                "delete_memory": (
+                    "Conflicting values were supplied in the request body and query."
+                )
+            }
+        )
+    return body_value if body_value is not None else query_value or False
 
 
 @extend_schema_view(
@@ -2612,6 +2636,24 @@ class ProjectViewSet(
         description="Return information about translation component."
     ),
     partial_update=extend_schema(description="Edit a component by a PATCH request."),
+    destroy=extend_schema(
+        description="Delete a component.",
+        parameters=[
+            OpenApiParameter(
+                "delete_memory",
+                type=OpenApiTypes.BOOL,
+                location=OpenApiParameter.QUERY,
+                description=(
+                    "Also delete project, workspace, and shared translation memory "
+                    "created from the component."
+                ),
+            )
+        ],
+        request=inline_serializer(
+            name="ComponentDeleteRequest",
+            fields={"delete_memory": serializers.BooleanField(required=False)},
+        ),
+    ),
 )
 class ComponentViewSet(
     MultipleFieldViewSet,
@@ -2935,7 +2977,9 @@ class ComponentViewSet(
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
         instance.acting_user = request.user
-        component_removal.delay(instance.pk, request.user.pk)
+        component_removal.delay(
+            instance.pk, request.user.pk, get_delete_memory_option(request)
+        )
         return Response(status=HTTP_204_NO_CONTENT)
 
     def add_link(self, request: Request, instance: Component):
@@ -3080,8 +3124,23 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         if user.is_superuser or user.has_perm("memory.manage"):
             return [scope.id for scope in scopes]
 
+        component_scoped_ids = {
+            scope.id
+            for scope in scopes
+            if scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_WORKSPACE}
+        }
+        accessible_component_scoped_ids = set(
+            MemoryScope.objects.filter(id__in=component_scoped_ids)
+            .filter(MemoryQuerySet.get_component_access_query(user))
+            .values_list("id", flat=True)
+        )
         result = []
         for scope in scopes:
+            if (
+                scope.id in component_scoped_ids
+                and scope.id not in accessible_component_scoped_ids
+            ):
+                continue
             if scope.user_id == user.id:
                 result.append(scope.id)
             elif scope.project_id:
@@ -3143,6 +3202,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             project = get_object_or_404(project_queryset, slug=project_slug)
             return Memory.objects.filter_type(
                 user=user,
+                access_user=user,
                 project=project,
                 use_shared=project.use_shared_tm,
                 from_file=True,
@@ -4394,7 +4454,27 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
-@extend_schema_view(list=extend_schema(description="List available categories."))
+@extend_schema_view(
+    list=extend_schema(description="List available categories."),
+    destroy=extend_schema(
+        description="Delete a category.",
+        parameters=[
+            OpenApiParameter(
+                "delete_memory",
+                type=OpenApiTypes.BOOL,
+                location=OpenApiParameter.QUERY,
+                description=(
+                    "Also delete project, workspace, and shared translation memory "
+                    "created from components in the category."
+                ),
+            )
+        ],
+        request=inline_serializer(
+            name="CategoryDeleteRequest",
+            fields={"delete_memory": serializers.BooleanField(required=False)},
+        ),
+    ),
+)
 class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
     """Category API."""
 
@@ -4423,7 +4503,9 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         """Delete category."""
         instance = self.get_object()
         self.perm_check(request, instance)
-        category_removal.delay(instance.pk, request.user.pk)
+        category_removal.delay(
+            instance.pk, request.user.pk, get_delete_memory_option(request)
+        )
         return Response(status=HTTP_204_NO_CONTENT)
 
     def perform_create(self, serializer) -> None:
