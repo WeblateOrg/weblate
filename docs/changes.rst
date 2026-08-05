@@ -10,6 +10,7 @@ Weblate 2026.8.1
 .. rubric:: Bug fixes
 
 * Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
+* :wladmin:`import_json` now preserves the component source language from JSON exports.
 * Repository actions now require permission on every component sharing the affected repository, including linked components in other projects.
 
 .. rubric:: Compatibility
