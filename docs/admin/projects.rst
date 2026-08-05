@@ -800,6 +800,18 @@ panel (including its “Add term to glossary” action) is hidden in the editor.
    * :ref:`glossary`
    * :ref:`component-is_glossary`
 
+.. _component-contribute_project_tm:
+
+Contribute to project translation memory
+++++++++++++++++++++++++++++++++++++++++
+
+Controls whether translations from this component are added to the project
+translation memory.
+
+.. seealso::
+
+   :doc:`memory`
+
 .. _component-allow_translation_propagation:
 
 Allow translation propagation

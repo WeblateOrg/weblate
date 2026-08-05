@@ -82,13 +82,21 @@ def tos_confirm(request: AuthenticatedHttpRequest):
     if agreement.is_current():
         return redirect_next(request.GET.get("next"), "home")
 
+    document_context = get_document_context()
+    include_privacy_policy = bool(document_context["privacy_url"])
     if request.method == "POST":
-        form = TOSForm(request.POST)
+        form = TOSForm(
+            request.POST,
+            include_privacy_policy=include_privacy_policy,
+        )
         if form.is_valid():
             agreement.make_current(request)
             return redirect_next(form.cleaned_data["next"], "home")
     else:
-        form = TOSForm(initial={"next": request.GET.get("next")})
+        form = TOSForm(
+            initial={"next": request.GET.get("next")},
+            include_privacy_policy=include_privacy_policy,
+        )
 
     return render(
         request,
@@ -96,6 +104,6 @@ def tos_confirm(request: AuthenticatedHttpRequest):
         {
             "form": form,
             "legal_document_css_class": settings.LEGAL_DOCUMENT_CSS_CLASS,
-            **get_document_context(),
+            **document_context,
         },
     )

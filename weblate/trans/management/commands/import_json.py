@@ -5,18 +5,55 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
-from django.core.exceptions import ValidationError
 from django.core.management.base import CommandError
 from django.utils.text import slugify
+from rest_framework.exceptions import ValidationError
 
-from weblate.trans.inherited_settings import apply_create_inheritance_defaults
+from weblate.api.serializers import ComponentSerializer
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
 
 if TYPE_CHECKING:
     from django.core.management.base import CommandParser
+
+
+class ImportUser:
+    """User object granting permissions for serializer validation."""
+
+    needs_component_restrictions_filter = False
+    needs_project_filter = False
+    component_permissions: tuple[int, ...] = ()
+
+    def has_perm(self, perm, obj=None) -> bool:
+        return True
+
+    def get_author_name(self) -> str:
+        return "Weblate import"
+
+
+class ImportRequest:
+    """Request object for serializer context."""
+
+    user = ImportUser()
+
+
+def format_serializer_error(error: ValidationError) -> str:
+    return str(error.detail)
+
+
+def get_component_serializer(
+    project: Project, data: dict[str, Any], component: Component | None = None
+) -> ComponentSerializer:
+    kwargs: dict[str, Any] = {
+        "context": {"request": ImportRequest(), "project": project},
+        "data": data,
+    }
+    if component is not None:
+        kwargs["instance"] = component
+        kwargs["partial"] = True
+    return ComponentSerializer(**kwargs)
 
 
 class Command(BaseCommand):
@@ -84,13 +121,6 @@ class Command(BaseCommand):
                 msg = "Could not parse JSON file!"
                 raise CommandError(msg) from error
 
-        allfields = {
-            field.name
-            # ruff: ignore[private-member-access]
-            for field in Component._meta.get_fields()
-            if field.editable and not field.is_relation
-        }
-
         # Handle dumps from API
         if "results" in data:
             data = data["results"]
@@ -112,17 +142,14 @@ class Command(BaseCommand):
             try:
                 component = Component.objects.get(slug=item["slug"], project=project)
             except Component.DoesNotExist:
-                params = {key: item[key] for key in allfields if key in item}
-                apply_create_inheritance_defaults(params, item)
-                component = Component(project=project, **params)
+                serializer = get_component_serializer(project, item)
                 try:
-                    component.full_clean()
+                    serializer.is_valid(raise_exception=True)
+                    component = serializer.save()
                 except ValidationError as error:
-                    for key, value in error.message_dict.items():
-                        self.stderr.write(f"Error in {key}: {', '.join(value)}")
+                    self.stderr.write(format_serializer_error(error))
                     msg = "Component failed validation!"
                     raise CommandError(msg) from error
-                component.save(force_insert=True)
                 self.stdout.write(
                     f"Imported {component} with {component.translation_set.count()} translations"
                 )
@@ -131,11 +158,14 @@ class Command(BaseCommand):
                 if options["ignore"]:
                     continue
                 if options["update"]:
-                    for key in item:
-                        if key not in allfields or key == "slug":
-                            continue
-                        setattr(component, key, item[key])
-                    component.save()
+                    serializer = get_component_serializer(project, item, component)
+                    try:
+                        serializer.is_valid(raise_exception=True)
+                        serializer.save()
+                    except ValidationError as error:
+                        self.stderr.write(format_serializer_error(error))
+                        msg = "Component failed validation!"
+                        raise CommandError(msg) from error
                     continue
                 msg = "Component already exists, use --ignore or --update!"
                 raise CommandError(msg)

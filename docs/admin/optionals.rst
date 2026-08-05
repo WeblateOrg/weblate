@@ -141,15 +141,17 @@ following templates in the documents:
 :file:`legal/documents/contracts.html`
    Subcontractor information
 
-The legal module embeds these templates inside Weblate and uses
-:file:`legal/documents/tos.html` for terms of service confirmation. This is
-separate from :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`, which are meant
-for linking to externally hosted legal documents from the footer when the
-legal module is not enabled. When the legal module is enabled, Weblate links to
+The legal module embeds these templates inside Weblate. Its confirmation page
+uses :file:`legal/documents/tos.html` and, when a privacy policy link is
+available, requires one agreement covering both the terms of service and the
+privacy policy. This is separate from :setting:`LEGAL_URL` and
+:setting:`PRIVACY_URL`, which are meant for linking to externally hosted legal
+documents from the footer when the legal module is not enabled or as fallbacks
+for hidden internal pages. When the legal module is enabled, Weblate links to
 the internal legal pages by default.
 
-On changing the terms of service documents, please adjust
-:setting:`LEGAL_TOS_DATE` so that users are forced to agree with the updated
+On changing the terms of service or privacy policy, adjust
+:setting:`LEGAL_TOS_DATE` when users should be forced to agree with the updated
 documents.
 
 .. note::
@@ -197,7 +199,7 @@ Installation
    In Docker deployments, enable the legal module using
    :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of editing
    :file:`settings.py`. Use ``tos-confirm`` to enable the legal module and
-   terms of service confirmation enforcement, or ``wllegal`` to additionally
+   legal document confirmation enforcement, or ``wllegal`` to additionally
    load the hosted legal document templates used by services operated by
    Weblate s.r.o. These templates are not intended for general use. To provide
    your own templates in Docker, place them in
@@ -272,11 +274,13 @@ requested directly. If ``terms`` or ``privacy`` is hidden, links using
 ``terms_url`` or ``privacy_url`` fall back to :setting:`LEGAL_URL` or
 :setting:`PRIVACY_URL` when configured, otherwise the link is omitted.
 
-To use externally hosted legal documents with terms confirmation, configure
+To use externally hosted legal documents with legal confirmation, configure
 :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide ``terms`` and ``privacy`` and set
 :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`. The confirmation page then
-links to those external documents without requiring a
-:file:`legal/documents/tos.html` template override.
+links to those external documents and requires one agreement covering both
+without needing a :file:`legal/documents/tos.html` template override. If no
+privacy policy link is available, the confirmation covers only the terms of
+service.
 
 .. _avatars:
 

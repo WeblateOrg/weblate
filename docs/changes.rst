@@ -5,13 +5,18 @@ Weblate 2026.8.1
 
 .. rubric:: New features
 
+* Project and component APIs now expose all user-configurable settings, including access control and translation-memory settings. See :doc:`api`.
+
 .. rubric:: Improvements
 
 .. rubric:: Bug fixes
 
 * Docker Celery worker logging no longer emits duplicate records through both Celery and Weblate log handlers.
+* Component creation through the REST API now returns the background task URL in the response when creation work is queued.
 * Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
+* :wladmin:`import_json` now preserves the component source language from JSON exports.
 * Repository actions now require permission on every component sharing the affected repository, including linked components in other projects.
+* Legal document confirmation now explicitly covers the linked privacy policy. See :ref:`legal`.
 
 .. rubric:: Compatibility
 
