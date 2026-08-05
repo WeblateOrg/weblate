@@ -1718,8 +1718,14 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_categories_destroy
-      description: Delete category.
+      description: Delete a category.
       parameters:
+      - in: query
+        name: delete_memory
+        schema:
+          type: boolean
+        description: Also delete project, workspace, and shared translation memory
+          created from components in the category.
       - in: path
         name: id
         schema:
@@ -1816,6 +1822,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
@@ -1852,6 +1872,11 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryDeleteRequest'
   /api/categories/{id}/announcements/:
     get:
       operationId: api_categories_announcements_list
@@ -5141,6 +5166,12 @@ paths:
       operationId: api_components_destroy
       description: Delete a component.
       parameters:
+      - in: query
+        name: delete_memory
+        schema:
+          type: boolean
+        description: Also delete project, workspace, and shared translation memory
+          created from the component.
       - in: path
         name: project__slug
         schema:
@@ -5245,6 +5276,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
@@ -5281,6 +5326,11 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComponentDeleteRequest'
   /api/components/{project__slug}/{slug}/addons/:
     post:
       operationId: api_components_addons_create
@@ -38943,6 +38993,16 @@ components:
           type: integer
       required:
       - group_id
+    ComponentDeleteRequest:
+      type: object
+      properties:
+        delete_memory:
+          type: boolean
+    CategoryDeleteRequest:
+      type: object
+      properties:
+        delete_memory:
+          type: boolean
   securitySchemes:
     bearerAuth:
       type: apiKey

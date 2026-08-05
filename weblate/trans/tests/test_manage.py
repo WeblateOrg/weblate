@@ -94,6 +94,67 @@ class RemovalTest(ViewTestCase):
             response, "The translation component was scheduled for removal."
         )
 
+    def test_component_with_memory(self) -> None:
+        self.make_manager()
+        url = reverse("remove", kwargs=self.kw_component)
+
+        with patch(
+            "weblate.trans.views.settings.component_removal.delay"
+        ) as mocked_removal:
+            response = self.client.post(
+                url,
+                {"confirm": "test/test", "delete_memory": "on"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response, "The translation component was scheduled for removal."
+        )
+        mocked_removal.assert_called_once_with(self.component.pk, self.user.pk, True)
+
+    def test_component_memory_warning(self) -> None:
+        self.make_manager()
+
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertContains(
+            response,
+            "If this action removes restricted components, retained translation memory",
+        )
+
+    def test_category_with_memory(self) -> None:
+        self.make_manager()
+        category = Category.objects.create(
+            name="Removal category",
+            slug="removal-category",
+            project=self.project,
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        url = reverse("remove", kwargs={"path": category.get_url_path()})
+
+        response = self.client.get(category.get_absolute_url())
+        self.assertContains(
+            response,
+            "If this action removes restricted components, retained translation memory",
+        )
+        self.assertContains(
+            response,
+            "Delete translation memory created from components in this category",
+        )
+
+        with patch(
+            "weblate.trans.views.settings.category_removal.delay"
+        ) as mocked_removal:
+            response = self.client.post(
+                url,
+                {"confirm": category.full_slug, "delete_memory": "on"},
+                follow=True,
+            )
+
+        self.assertContains(response, "The category was scheduled for removal.")
+        mocked_removal.assert_called_once_with(category.pk, self.user.pk, True)
+
     def test_project(self) -> None:
         self.make_manager()
         url = reverse("remove", kwargs={"path": self.project.get_url_path()})

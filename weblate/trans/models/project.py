@@ -777,6 +777,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def clean(self) -> None:
         super().clean()
+        if (
+            settings.OFFER_HOSTING
+            and self.use_shared_tm
+            and self.pk
+            and self.component_set.filter(restricted=True).exists()
+        ):
+            raise ValidationError(
+                {
+                    "use_shared_tm": gettext(
+                        "Shared translation memory can not be enabled while the project has restricted components."
+                    )
+                }
+            )
         if self.web:
             try:
                 validate_project_web(self.web, project_slug=self.slug or None)
