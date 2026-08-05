@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-08-04 18:03+0000\n"
+"PO-Revision-Date: 2026-08-05 07:04+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -2756,7 +2756,8 @@ msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
-"Lặp lại văn bản biến đổi bao nhiêu lần tùy thuộc vào độ dài của chuỗi nguồn."
+"Số lần lặp lại văn bản biến đổi bao nhiêu lần tùy thuộc vào độ dài của chuỗi "
+"nguồn."
 
 #: weblate/addons/forms.py:1497
 msgid "Include read-only strings"
@@ -6058,7 +6059,7 @@ msgstr "Bản dịch sử dụng mã HTML không an toàn."
 
 #: weblate/checks/markup.py:904
 msgid "Inconsistent reStructuredText"
-msgstr "Văn bản được cấu trúc lại không nhất quán"
+msgstr "reStructuredText không nhất quán"
 
 #: weblate/checks/markup.py:906
 msgid "Inconsistent reStructuredText markup in the translated message."
@@ -10655,10 +10656,8 @@ msgstr "Quản lý các dự án đã theo dõi"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "workspace"
 msgid "My workspaces"
-msgstr "không gian làm việc"
+msgstr "Không gian làm việc của tôi"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11239,10 +11238,8 @@ msgstr "Áp dụng"
 
 #: weblate/templates/category-language.html:162
 #: weblate/templates/language-project.html:230
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Browse components"
-msgstr "Xem tất cả thành phần"
+msgstr "Duyệt xem các thành phần"
 
 #: weblate/templates/category.html:39
 #: weblate/templates/language-project.html:39 weblate/templates/project.html:50
@@ -14261,7 +14258,7 @@ msgstr ""
 
 #: weblate/templates/ratelimit.html:6
 msgid "You have been signed out, please sign in and try again later."
-msgstr ""
+msgstr "Bạn đã đăng xuất, vui lòng đăng nhập lại và thử lại sau."
 
 #: weblate/templates/ratelimit.html:8 weblate/trans/models/translation.py:1878
 #: weblate/trans/models/translation.py:1945
@@ -15335,10 +15332,8 @@ msgstr "Trạng thái chuỗi"
 
 #. Translators: String pending for flushing to VCS.
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Pending string"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Chuỗi đang chờ xử lý"
 
 #: weblate/templates/snippets/query-builder.html:42
 msgid "String target language"
@@ -15993,7 +15988,7 @@ msgstr ""
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
-msgstr ""
+msgstr "Tạm thời không thể truy cập kho lưu trữ nguồn. Vui lòng thử lại sau."
 
 #: weblate/templates/trans/alert/common-repo.html:35
 msgid ""
@@ -18165,10 +18160,8 @@ msgid "Repository changes were pushed upstream."
 msgstr "Các thay đổi trong kho lưu trữ đã được đẩy lên kho lưu trữ chính."
 
 #: weblate/trans/actions.py:128
-#, fuzzy
-#| msgid "Change password"
 msgid "Changes pushed"
-msgstr "Thay đổi mật khẩu"
+msgstr "Các thay đổi đã được đẩy lên"
 
 #: weblate/trans/actions.py:133
 msgid "A repository was reset to its upstream state."
@@ -19574,10 +19567,9 @@ msgstr "{filename} ({parameter}) không tồn tại."
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:67 weblate/trans/views/changes.py:279
-#, fuzzy, python-format
-#| msgid "Recent changes in %s"
+#, python-format
 msgid "Recent changes on %s"
-msgstr "Các thay đổi gần đây trong %s"
+msgstr "Những thay đổi gần đây về %s"
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:71 weblate/trans/views/changes.py:286
@@ -23035,18 +23027,16 @@ msgid "Changes in %s"
 msgstr "Các thay đổi trong %s"
 
 #: weblate/trans/views/changes.py:81 weblate/trans/views/changes.py:85
-#, fuzzy, python-format
-#| msgid "Recent changes in %s"
+#, python-format
 msgctxt "Changes in project"
 msgid "Changes in %s"
-msgstr "Các thay đổi gần đây trong %s"
+msgstr "Các thay đổi trong %s"
 
 #: weblate/trans/views/changes.py:83
-#, fuzzy, python-format
-#| msgid "Recent changes in %s"
+#, python-format
 msgctxt "Changes in language"
 msgid "Changes in %s"
-msgstr "Các thay đổi gần đây trong %s"
+msgstr "Các thay đổi trong %s"
 
 #: weblate/trans/views/changes.py:87
 #, python-format
@@ -23239,16 +23229,12 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
 #: weblate/trans/views/git.py:67
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
-"Không thể xóa chuỗi ký tự vì một thao tác nền khác đang diễn ra. Vui lòng "
-"thử lại sau."
+"Có vẻ như đang có một thao tác đang diễn ra trên kho lưu trữ. Vui lòng thử "
+"lại sau."
 
 #: weblate/trans/views/git.py:106
 msgid ""
@@ -23408,7 +23394,7 @@ msgstr ""
 
 #: weblate/trans/views/search.py:227
 msgid "Too many search queries, please try again later."
-msgstr ""
+msgstr "Quá nhiều truy vấn tìm kiếm, vui lòng thử lại sau."
 
 #: weblate/trans/views/search.py:230
 msgid "Invalid search query!"
@@ -24838,6 +24824,9 @@ msgid ""
 "Too many GitHub account connection attempts. The GitHub installation was not "
 "connected and might still be pending. Try connecting the account again later."
 msgstr ""
+"Quá nhiều lần đăng nhập không thành công vào tài khoản GitHub. Quá trình kết "
+"nối GitHub chưa hoàn tất và có thể vẫn đang chờ xử lý. Vui lòng thử kết nối "
+"lại tài khoản sau."
 
 #: weblate/vcs/views.py:851
 msgid ""
@@ -24855,6 +24844,9 @@ msgid ""
 "pending and repositories might not appear yet. Try connecting the account "
 "again later if they do not show up."
 msgstr ""
+"GitHub vẫn đang đồng bộ hóa tài khoản GitHub đã kết nối. Quá trình kết nối "
+"đang chờ xử lý và các kho lưu trữ có thể chưa hiển thị. Hãy thử kết nối lại "
+"tài khoản sau nếu chúng vẫn không xuất hiện."
 
 #: weblate/vcs/views.py:901
 msgid ""
