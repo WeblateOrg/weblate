@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-30 03:46+0200\n"
-"PO-Revision-Date: 2026-08-04 18:03+0000\n"
+"PO-Revision-Date: 2026-08-05 07:04+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -775,6 +775,10 @@ msgid ""
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
+"Người dùng phải là thành viên của một nhóm được liên kết với dự án, hoặc bất "
+"kỳ thành phần nào bên trong dự án đó. Chỉ cần là thành viên là đủ, không cần "
+"quyền cụ thể nào để duyệt dự án (điều này được sử dụng trong nhóm `Người "
+"xem` mặc định, xem :ref:`default-teams`)."
 
 #: admin/access.rst:434
 #, fuzzy
@@ -2345,6 +2349,11 @@ msgid ""
 "based one-time passwords that are used as a second factor to verify your "
 "identity when prompted during sign-in."
 msgstr ""
+"Các ứng dụng xác thực và tiện ích mở rộng trình duyệt như Aegis, Bitwarden, "
+"Google Authenticator, 1Password, Authy, Microsoft Authenticator, v.v. tạo ra "
+"mật khẩu dùng một lần dựa trên thời gian, được sử dụng như yếu tố xác thực "
+"thứ hai để xác minh danh tính của bạn khi được yêu cầu trong quá trình đăng "
+"nhập."
 
 #: admin/auth.rst:848
 msgid "Recovery codes"
@@ -3232,12 +3241,17 @@ msgid ""
 "means that certain checks will be automatically enabled depending on where "
 "the string is used."
 msgstr ""
+"Một số cờ được thêm vào chuỗi theo mặc định, dựa trên vị trí của chúng. Điều "
+"này có nghĩa là một số kiểm tra nhất định sẽ được tự động kích hoạt tùy "
+"thuộc vào nơi chuỗi được sử dụng."
 
 #: admin/checks.rst:98
 msgid ""
 "``rst-text``: This flag is automatically added to strings in "
 "reStructuredText files, if location extension is ``.rst``."
 msgstr ""
+"``rst-text``: Cờ này được tự động thêm vào các chuỗi trong tệp "
+"reStructuredText nếu phần mở rộng vị trí là ``.rst``."
 
 #: admin/checks.rst:99
 msgid ""
@@ -4662,6 +4676,8 @@ msgstr ""
 msgid ""
 "Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``."
 msgstr ""
+"Chi phí thời gian Argon2id cho thử thách bằng chứng công việc ALTCHA. Mặc "
+"định là ``3``."
 
 #: admin/config.rst:184
 msgid ""
@@ -4681,6 +4697,8 @@ msgstr ""
 msgid ""
 "`ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_"
 msgstr ""
+"`Cơ chế chứng minh công việc ALTCHA <https://altcha.org/docs/proof-of-work/>"
+"`_"
 
 #: admin/config.rst:213
 msgid "Username of users that are not signed in."
@@ -5402,6 +5420,9 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
+"Từ điển cấu hình bao gồm thông tin xác thực được định nghĩa cho mỗi máy chủ "
+"API. Máy chủ API có thể khác với máy chủ bạn sử dụng trên trình duyệt web, "
+"ví dụ: API của GitHub được truy cập thông qua ``api.github.com``."
 
 #: admin/config.rst:1147 admin/config.rst:1187 admin/config.rst:3039
 #, fuzzy
@@ -6096,6 +6117,8 @@ msgid ""
 "Reject using project website and repository browser URLs pointing to "
 "internal or non-public addresses. On by default."
 msgstr ""
+"Từ chối sử dụng URL trình duyệt trang web dự án và kho lưu trữ trỏ đến các "
+"địa chỉ nội bộ hoặc không công khai. Chức năng này được bật theo mặc định."
 
 #: admin/config.rst:2061
 msgid ""
@@ -6229,6 +6252,9 @@ msgid ""
 "adjusted using :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, "
 "and :setting:`ALTCHA_PARALLELISM`."
 msgstr ""
+"Thử thách xác minh công việc được tính toán bởi trình duyệt. Độ khó có thể "
+"được điều chỉnh bằng cách sử dụng các tham số :setting:`ALTCHA_COST`, "
+":setting:`ALTCHA_MEMORY_COST` và :setting:`ALTCHA_PARALLELISM`."
 
 #: admin/config.rst:2256
 msgid "Allows you to filter which e-mail addresses can register."
@@ -7355,6 +7381,9 @@ msgid ""
 "its database and reports a recovery error instead of failing later with a "
 "generic parse error."
 msgstr ""
+"Nếu không đáp ứng được cả hai điều kiện này, Weblate sẽ giữ lại các thay đổi "
+"đang chờ xử lý trong cơ sở dữ liệu và báo cáo lỗi khôi phục thay vì báo lỗi "
+"phân tích cú pháp chung sau đó."
 
 #: admin/continuous.rst:287
 msgid "Avoiding merge conflicts by focusing on Git operations"
@@ -7511,6 +7540,9 @@ msgid ""
 "performance when merging changes later. You can optionally turn this into "
 "doing nightly merges as well, by enabling :setting:`AUTO_UPDATE`."
 msgstr ""
+"Weblate tự động tải các kho lưu trữ từ xa hàng đêm để cải thiện hiệu suất "
+"khi hợp nhất các thay đổi sau này. Bạn cũng có thể tùy chọn bật tính năng "
+"hợp nhất hàng đêm bằng cách bật :setting:`AUTO_UPDATE`."
 
 #: admin/continuous.rst:380
 msgid ""
@@ -7826,16 +7858,20 @@ msgstr ""
 #: admin/customize.rst:98
 msgid "Web icons depending on screen resolution and web-browser."
 msgstr ""
+"Các biểu tượng trên web tùy thuộc vào độ phân giải màn hình và trình duyệt "
+"web."
 
 #: admin/customize.rst:100
 msgid "Web icon used by legacy browsers."
-msgstr ""
+msgstr "Biểu tượng web được các trình duyệt cũ sử dụng."
 
 #: admin/customize.rst:102
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
 msgstr ""
+"Ảnh đại diện cho bot hoặc người dùng ẩn danh. Một số trình duyệt web sử dụng "
+"chúng làm biểu tượng lối tắt."
 
 #: admin/customize.rst:104
 msgid "Used in notifications e-mails."
@@ -8608,6 +8644,9 @@ msgid ""
 "most likely caused by mismatch between the actual protocol (HTTPS) and what "
 "is observed by Weblate."
 msgstr ""
+"Nếu bạn nhận được lỗi \"Quá nhiều chuyển hướng\" từ trình duyệt, rất có thể "
+"nguyên nhân là do sự không khớp giữa giao thức thực tế (HTTPS) và những gì "
+"Weblate ghi nhận được."
 
 #: admin/install.rst:617
 msgid ""
@@ -9226,6 +9265,13 @@ msgid ""
 "collected filenames so that updated assets do not reuse stale browser or "
 "proxy caches."
 msgstr ""
+"Django cần thu thập các tệp tĩnh của nó vào một thư mục duy nhất. Để làm "
+"điều đó, hãy thực hiện lệnh :samp:`weblate collectstatic --noinput`. Lệnh "
+"này sẽ sao chép các tệp tĩnh vào một thư mục được chỉ định bởi thiết lập "
+":setting:`django:STATIC_ROOT` (mặc định là thư mục ``static`` bên trong "
+":setting:`CACHE_DIR`). Các cài đặt sản xuất sử dụng mã băm nội dung trong "
+"tên tệp được thu thập để các tài sản được cập nhật không sử dụng lại bộ nhớ "
+"cache cũ của trình duyệt hoặc proxy."
 
 #: admin/install.rst:1278
 msgid ""
@@ -11838,6 +11884,10 @@ msgid ""
 "crawlers. You need to configure `Anubis for Subrequest Authentication`_ to "
 "make it work."
 msgstr ""
+"URL của máy chủ `Anubis`_ dùng để xử lý xác thực yêu cầu con. Điều này có "
+"thể hữu ích để lọc các yêu cầu HTTP đến bằng cách sử dụng bằng chứng công "
+"việc nhằm ngăn chặn các trình thu thập thông tin AI. Bạn cần cấu hình "
+"`Anubis để xác thực yêu cầu con`_ để nó hoạt động."
 
 #: admin/install/docker.rst:2508
 msgid "`Anubis`_"
@@ -12835,6 +12885,8 @@ msgid ""
 "Create an administrator user account ``admin``, generate its password, and "
 "copy it to the clipboard; remember to save it for later use:"
 msgstr ""
+"Tạo tài khoản người dùng quản trị viên ``admin``, tạo mật khẩu cho tài khoản "
+"đó và sao chép vào clipboard; nhớ lưu lại mật khẩu để sử dụng sau này:"
 
 #: admin/install/steps/install-configure.rst:36
 msgid ""
@@ -13044,6 +13096,13 @@ msgid ""
 "(see :ref:`contributing`), so that the proper definition can be added to the "
 "upcoming Weblate release."
 msgstr ""
+"Nếu cách đó cũng không thành công, một định nghĩa ngôn ngữ mới sẽ được tạo "
+"bằng cách sử dụng các thiết lập mặc định (hướng văn bản từ trái sang phải, "
+"dạng số nhiều). Ngôn ngữ được tạo tự động với mã ``xx_XX`` sẽ được đặt tên "
+"là :guilabel:`xx_XX (generated)`. Bạn có thể muốn thay đổi điều này trong "
+"giao diện quản trị sau này (xem :ref:`changing-languages`) và báo cáo lại "
+"cho trình theo dõi sự cố (xem :ref:`contributing`), để định nghĩa phù hợp có "
+"thể được thêm vào bản phát hành Weblate sắp tới."
 
 #: admin/languages.rst:59
 msgid ""
@@ -13661,7 +13720,7 @@ msgstr ""
 
 #: admin/management.rst:451
 msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
-msgstr ""
+msgstr "Ghi dữ liệu người dùng vào tệp để dùng sau :wladmin:`importuserdata`."
 
 #: admin/management.rst:455
 msgid "This comes in handy when migrating or merging Weblate instances."
@@ -13852,17 +13911,23 @@ msgstr ""
 msgid ""
 "Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`."
 msgstr ""
+"Liệt kê các tiện ích bổ sung trong reStructuredText dưới dạng mẫu cho :doc:`/"
+"admin/addons`."
 
 #: admin/management.rst:836
 msgid ""
 "Lists permissions in reStructuredText as a template for :doc:`/admin/access`."
 msgstr ""
+"Liệt kê các quyền trong reStructuredText dưới dạng mẫu cho :doc:`/admin/"
+"access`."
 
 #: admin/management.rst:847
 msgid ""
 "Lists quality checks in reStructuredText as a template for :doc:`/admin/"
 "checks` and :doc:`/user/checks`."
 msgstr ""
+"Liệt kê các kiểm tra chất lượng trong reStructuredText dưới dạng mẫu cho "
+":doc:`/admin/checks` và :doc:`/user/checks`."
 
 #: admin/management.rst:856
 msgid ""
@@ -13891,6 +13956,8 @@ msgid ""
 "Lists automatic suggestions services in reStructuredText as a template "
 "for :doc:`/admin/machine`."
 msgstr ""
+"Liệt kê các dịch vụ gợi ý tự động trong reStructuredText dưới dạng mẫu cho "
+":doc:`/admin/machine`."
 
 #: admin/management.rst:892
 msgid "Lists translators by contributed language for the given project:"
@@ -14738,6 +14805,11 @@ msgid ""
 "overridden; the remaining legal templates continue to use the defaults from "
 "later apps."
 msgstr ""
+"Hãy đặt ứng dụng tùy chỉnh trước ``weblate.legal`` và bất kỳ ứng dụng nào "
+"khác cung cấp các mẫu ghi đè pháp lý trong :setting:`django:INSTALLED_APPS` "
+"để Django chọn các mẫu của nó. Chỉ những mẫu do bạn cung cấp mới bị ghi đè; "
+"các mẫu pháp lý còn lại tiếp tục sử dụng các mẫu mặc định từ các ứng dụng "
+"sau này."
 
 #: admin/optionals.rst:244
 msgid ""
@@ -14844,6 +14916,12 @@ msgid ""
 "Weblate and from the application consuming the translations. Do not share "
 "authentication cookies with the CDN domain."
 msgstr ""
+"Tiện ích bổ sung :ref:`addon-weblate.cdn.files` xuất bản các tệp dịch thô ở "
+"các định dạng được Weblate hỗ trợ. Một số định dạng có thể được trình duyệt "
+"hoặc các ứng dụng khác hiểu là HTML, SVG, XML, JavaScript, YAML hoặc cấu "
+"hình dành riêng cho ứng dụng. Hãy phục vụ CDN từ một tên miền chuyên dụng, "
+"tách biệt với Weblate và ứng dụng sử dụng bản dịch. Không chia sẻ cookie xác "
+"thực với tên miền CDN."
 
 #: admin/optionals.rst:324
 msgid "Recommended server configuration:"
@@ -14881,12 +14959,17 @@ msgid ""
 "browser, consider adding :http:header:`Content-Disposition` with "
 "``attachment``."
 msgstr ""
+"Đối với các định dạng phiên dịch ở dạng thô không được thiết kế để hiển thị "
+"trên trình duyệt, hãy thêm :http:header:`Content-Disposition` với "
+"``attachment``."
 
 #: admin/optionals.rst:338
 msgid ""
 "Configure ``Access-Control-Allow-Origin`` only for sites that need browser "
 "access to the files."
 msgstr ""
+"Chỉ cấu hình ``Access-Control-Allow-Origin`` cho các trang web cần truy cập "
+"tệp thông qua trình duyệt."
 
 #: admin/optionals.rst:340
 msgid ""
@@ -15216,6 +15299,9 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"Tải lên các tệp dịch sang Weblate trong trường hợp bạn không có kiểm soát "
+"phiên bản hoặc không muốn tích hợp với Weblate. Bạn có thể cập nhật nội dung "
+"sau này bằng giao diện web hoặc :ref:`api`."
 
 #: admin/projects.rst:83
 msgid "Translate document"
@@ -15748,6 +15834,9 @@ msgid ""
 "messages). When empty, no such links will be generated. You can "
 "use :ref:`markup`."
 msgstr ""
+"URL của trình duyệt kho lưu trữ được sử dụng để hiển thị các tệp nguồn (vị "
+"trí của các thông báo được sử dụng). Nếu để trống, sẽ không có liên kết nào "
+"như vậy được tạo. Bạn có thể sử dụng :ref:`markup`."
 
 #: admin/projects.rst:562
 msgid ""
@@ -16761,6 +16850,9 @@ msgid ""
 "visible when browsing other projects. Users still need access to the actual "
 "component to browse or translate it."
 msgstr ""
+"Việc chia sẻ một thành phần không làm thay đổi quyền truy cập của nó. Nó chỉ "
+"làm cho thành phần đó hiển thị khi duyệt các dự án khác. Người dùng vẫn cần "
+"quyền truy cập vào thành phần đó để duyệt hoặc dịch nó."
 
 #: admin/projects.rst:1298
 msgid "Use as a glossary"
@@ -17577,6 +17669,9 @@ msgid ""
 "fill in :guilabel:`Repository path to screenshot` with the path tracked in "
 "the repository."
 msgstr ""
+"Để liên kết ảnh chụp màn hình được tải lên thủ công với các bản cập nhật kho "
+"lưu trữ sau này, hãy điền vào :guilabel:`Đường dẫn kho lưu trữ đến ảnh chụp "
+"màn hình` với đường dẫn được theo dõi trong kho lưu trữ."
 
 #: admin/translating.rst:193
 msgid ""
@@ -18166,6 +18261,10 @@ msgid ""
 "installation defaults. Later changes to installation defaults do not update "
 "existing workspaces."
 msgstr ""
+"Khi tạo một không gian làm việc, các thiết lập mặc định này sẽ được sao chép "
+"từ các thiết lập mặc định hiện tại của bản cài đặt. Những thay đổi sau này "
+"đối với các thiết lập mặc định của bản cài đặt sẽ không cập nhật các không "
+"gian làm việc hiện có."
 
 #: admin/workspaces.rst:245
 msgid ""
@@ -18575,6 +18674,9 @@ msgid ""
 "same filters as the changes page, for example ``action``, ``user``, "
 "``exclude_user``, and ``period``."
 msgstr ""
+"Bạn có thể xem các nguồn cấp dữ liệu RSS đã được lọc từ trình duyệt thay "
+"đổi. Chúng chấp nhận các bộ lọc tương tự như trang thay đổi, ví dụ: "
+"``action``, ``user``, ``exclude_user`` và ``period``."
 
 #: api.rst:3685
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
@@ -18640,6 +18742,9 @@ msgid ""
 "background, stored for later download, available at workspace scope, and "
 "include translator work analysis."
 msgstr ""
+":doc:`Báo cáo dịch thuật </devel/reporting>` hiện được tạo ngầm, lưu trữ để "
+"tải xuống sau, có sẵn ở phạm vi không gian làm việc và bao gồm phân tích "
+"công việc của người dịch."
 
 #: changes.rst:13
 msgid ""
@@ -19173,10 +19278,10 @@ msgstr ""
 "nội bộ của bot."
 
 #: changes.rst:102
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Restricted components now show a status icon in component listings."
-msgstr "Đã tạo mới khóa SSH."
+msgstr ""
+"Các thành phần bị hạn chế giờ đây sẽ hiển thị biểu tượng trạng thái trong "
+"danh sách thành phần."
 
 #: changes.rst:103
 msgid ""
@@ -19549,6 +19654,9 @@ msgid ""
 "Committing large numbers of pending translations now queues browser requests "
 "in the background and avoids duplicate repository commit tasks."
 msgstr ""
+"Việc ghi nhận một lượng lớn bản dịch đang chờ xử lý hiện nay sẽ xếp các yêu "
+"cầu trình duyệt vào hàng đợi trong nền và tránh các tác vụ cam kết kho lưu "
+"trữ trùng lặp."
 
 #: changes.rst:184
 msgid ""
@@ -19646,12 +19754,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:202
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid ""
 "Duplicate string alerts now offer a cleanup action to remove repeated "
 "strings from translation files."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr ""
+"Cảnh báo chuỗi trùng lặp hiện cung cấp thêm chức năng dọn dẹp để loại bỏ các "
+"chuỗi lặp lại khỏi tệp dịch."
 
 #: changes.rst:203
 msgid ""
@@ -19779,6 +19887,9 @@ msgid ""
 "Component API responses no longer expose repository export, push branch, or "
 "repository browser links to users without repository access."
 msgstr ""
+"Các phản hồi API của thành phần không còn hiển thị các liên kết xuất kho lưu "
+"trữ, đẩy nhánh hoặc trình duyệt kho lưu trữ cho người dùng không có quyền "
+"truy cập kho lưu trữ nữa."
 
 #: changes.rst:227
 msgid ""
@@ -19882,12 +19993,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:278
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "Improved performance of the :ref:`check-inconsistent` check on large "
 "projects."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Cải thiện hiệu suất của kiểm tra :ref:`check-inconsistent` trên các dự án "
+"lớn."
 
 #: changes.rst:279
 msgid ""
@@ -20101,11 +20212,11 @@ msgid ""
 msgstr ""
 
 #: changes.rst:336
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid ""
 "Audited project and component setting changes are now recorded in history."
-msgstr "Nhận thông báo khi phần dịch bổ sung các chuỗi mới"
+msgstr ""
+"Các thay đổi về cài đặt dự án và thành phần đã được kiểm toán hiện được ghi "
+"lại trong lịch sử."
 
 #: changes.rst:337
 msgid ""
@@ -20265,6 +20376,8 @@ msgid ""
 "The registration CAPTCHA now uses the ALTCHA widget v3 protocol with "
 "Argon2id proof-of-work."
 msgstr ""
+"Mã CAPTCHA đăng ký hiện sử dụng giao thức ALTCHA widget v3 với bằng chứng "
+"công việc Argon2id."
 
 #: changes.rst:369
 msgid ""
@@ -20336,10 +20449,8 @@ msgstr ""
 #: changes/contributors/5.8.4.rst:2 changes/contributors/5.8.rst:2
 #: changes/contributors/5.9.1.rst:2 changes/contributors/5.9.2.rst:2
 #: changes/contributors/5.9.rst:1
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Code contributions"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đóng góp mã nguồn"
 
 #: changes/contributors/2026.5.rst:5
 #, fuzzy
@@ -20365,10 +20476,8 @@ msgstr "Michal Čihař, Gersona"
 #: changes/contributors/5.7.rst:7 changes/contributors/5.8.2.rst:7
 #: changes/contributors/5.8.rst:7 changes/contributors/5.9.2.rst:7
 #: changes/contributors/5.9.rst:6
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Translations contributions"
-msgstr "PHP strings"
+msgstr "Đóng góp dịch thuật"
 
 #: changes/contributors/2026.5.rst:10
 msgid ""
@@ -21780,10 +21889,8 @@ msgid "Changes in dictionary are now logged in history."
 msgstr ""
 
 #: changes/v1.rst:53
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Performance improvements for translation view."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Cải thiện hiệu suất cho chế độ xem bản dịch."
 
 #: changes/v1.rst:56
 msgid "Weblate 1.6"
@@ -21799,7 +21906,7 @@ msgstr ""
 
 #: changes/v1.rst:61
 msgid "Browsing of changes."
-msgstr ""
+msgstr "Xem các thay đổi."
 
 #: changes/v1.rst:62
 msgid "Fixed sorting of machine translation suggestions."
@@ -22093,7 +22200,7 @@ msgstr ""
 
 #: changes/v1.rst:147
 msgid "Better changes log tracking."
-msgstr ""
+msgstr "Cải thiện khả năng theo dõi nhật ký thay đổi."
 
 #: changes/v1.rst:148
 msgid "Changes can now be monitored using RSS."
@@ -22192,10 +22299,8 @@ msgid "Supports (and requires) django-registration 0.8."
 msgstr ""
 
 #: changes/v1.rst:175
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Caching counts of strings with failing checks."
-msgstr "Ngôn ngữ thứ hai"
+msgstr "Lưu trữ số lượng chuỗi có kiểm tra không thành công."
 
 #: changes/v1.rst:176
 msgid "Checking of requirements during setup."
@@ -22315,10 +22420,8 @@ msgid ""
 msgstr ""
 
 #: changes/v2.rst:20
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Added built-in translation memory."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đã thêm bộ nhớ dịch tích hợp."
 
 #: changes/v2.rst:21
 msgid ""
@@ -22369,6 +22472,8 @@ msgstr ""
 #: changes/v2.rst:40
 msgid "Display human friendly browser information in audit log."
 msgstr ""
+"Hiển thị thông tin trình duyệt dễ hiểu cho người dùng trong nhật ký kiểm "
+"toán."
 
 #: changes/v2.rst:41
 msgid "Added TMX exporter for files."
@@ -22404,10 +22509,8 @@ msgid "Improved compatibility with some Subversion setups."
 msgstr ""
 
 #: changes/v2.rst:49
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved built-in machine translation service."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Dịch vụ dịch máy tích hợp được cải tiến."
 
 #: changes/v2.rst:50
 msgid "Added support for SAP Translation Hub service."
@@ -22434,10 +22537,8 @@ msgid "Added support for Subversion repositories not using stdlayout."
 msgstr ""
 
 #: changes/v2.rst:56
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Added add-ons to customize translation workflows."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đã thêm các tiện ích bổ sung để tùy chỉnh quy trình dịch thuật."
 
 #: changes/v2.rst:59
 msgid "Weblate 2.18"
@@ -22463,6 +22564,8 @@ msgstr ""
 msgid ""
 "Changed keyboard shortcuts to less likely collide with browser/system ones."
 msgstr ""
+"Đã thay đổi các phím tắt bàn phím để giảm xung đột với các phím của trình "
+"duyệt/hệ thống."
 
 #: changes/v2.rst:67
 msgid "Improved support for approved flag in XLIFF files."
@@ -23904,7 +24007,7 @@ msgstr ""
 
 #: changes/v3.rst:41
 msgid "Documented Celery setup changes."
-msgstr ""
+msgstr "Ghi lại các thay đổi trong thiết lập Celery."
 
 #: changes/v3.rst:42
 msgid "Improved filename validation on component creation."
@@ -24008,10 +24111,8 @@ msgid "Added support for :ref:`labels`."
 msgstr ""
 
 #: changes/v3.rst:71
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Added bulk edit add-on."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đã thêm tiện ích chỉnh sửa hàng loạt."
 
 #: changes/v3.rst:72
 msgid "Added option for :ref:`enforcing-checks`."
@@ -24060,6 +24161,7 @@ msgstr ""
 #: changes/v3.rst:92
 msgid "Fixed CSS bug causing flickering in some web browsers."
 msgstr ""
+"Đã khắc phục lỗi CSS gây ra hiện tượng nhấp nháy trên một số trình duyệt web."
 
 #: changes/v3.rst:93
 msgid "Fixed searching on systems with non-English locales."
@@ -24084,6 +24186,8 @@ msgstr ""
 #: changes/v3.rst:98
 msgid "Fixed broken form submission when navigating back in web browser."
 msgstr ""
+"Đã khắc phục lỗi gửi biểu mẫu bị hỏng khi quay lại trang trước trong trình "
+"duyệt web."
 
 #: changes/v3.rst:99
 msgid "New add-on to configure YAML formatting."
@@ -24118,10 +24222,8 @@ msgid "Compatibility with Django 3.0."
 msgstr ""
 
 #: changes/v3.rst:111
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved data clean-up performance."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Hiệu suất làm sạch dữ liệu được cải thiện."
 
 #: changes/v3.rst:112
 msgid "Added support for customizable security.txt."
@@ -24379,10 +24481,8 @@ msgid "Add component alert on unsupported configuration."
 msgstr ""
 
 #: changes/v3.rst:188
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added automatic translation add-on to bootstrap translations."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm tiện ích dịch tự động vào hệ thống dịch Bootstrap."
 
 #: changes/v3.rst:189
 msgid "Extend automatic translation to add suggestions."
@@ -24454,10 +24554,9 @@ msgid "Log exceptions into Celery log."
 msgstr ""
 
 #: changes/v3.rst:210
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improve performance of repository scoped add-ons."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Cải thiện hiệu suất của các tiện ích bổ sung có phạm vi trong kho lưu trữ."
 
 #: changes/v3.rst:212
 msgid "Fixed password reset behavior."
@@ -24472,10 +24571,10 @@ msgid "Fixed listing of languages not known to Weblate."
 msgstr ""
 
 #: changes/v3.rst:215
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add support for cloning add-ons to discovered components."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Thêm hỗ trợ sao chép các tiện ích bổ sung vào các thành phần đã được phát "
+"hiện."
 
 #: changes/v3.rst:216
 msgid "Add support for replacing file content with uploaded."
@@ -24517,6 +24616,8 @@ msgstr ""
 msgid ""
 "New opt-in notifications on pending suggestions or untranslated strings."
 msgstr ""
+"Thông báo tùy chọn mới về các đề xuất đang chờ xử lý hoặc các chuỗi văn bản "
+"chưa được dịch."
 
 #: changes/v3.rst:226
 msgid "Add one click unsubscribe link to notification e-mails."
@@ -24638,10 +24739,8 @@ msgid "Refreshed landing page for new contributors."
 msgstr ""
 
 #: changes/v3.rst:264
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add support for configuring msgmerge add-on."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm hỗ trợ cấu hình tiện ích bổ sung msgmerge."
 
 #: changes/v3.rst:265
 msgid "Delay opening SMTP connection when sending notifications."
@@ -25213,10 +25312,8 @@ msgid "Added support for creating projects and components by users."
 msgstr ""
 
 #: changes/v3.rst:443
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Built-in translation memory now automatically stores translations done."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bộ nhớ dịch tích hợp giờ đây tự động lưu trữ các bản dịch đã thực hiện."
 
 #: changes/v3.rst:444
 msgid "Users and projects can import their existing translation memories."
@@ -25282,10 +25379,10 @@ msgid "Removed support for soon shutdown libravatar service."
 msgstr ""
 
 #: changes/v3.rst:470
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "New add-on to mark unchanged translations as needing edit."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Tiện ích bổ sung mới giúp đánh dấu các bản dịch không thay đổi là cần chỉnh "
+"sửa."
 
 #: changes/v3.rst:471
 msgid "Add support for jumping to specific location while translating."
@@ -25403,10 +25500,8 @@ msgid "*Released on June 30th 2023.*"
 msgstr ""
 
 #: changes/v4.rst:9
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Fixed parsing notes from TBX."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã sửa các ghi chú phân tích cú pháp từ TBX."
 
 #: changes/v4.rst:10
 msgid "Fixed query parsing in navigation bar search."
@@ -25417,10 +25512,8 @@ msgid "Fixed language filtering in reports."
 msgstr "Đã sửa lỗi lọc ngôn ngữ trong báo cáo."
 
 #: changes/v4.rst:12
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved ModernMT languages mapping."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Cải thiện khả năng ánh xạ ngôn ngữ của ModernMT."
 
 #: changes/v4.rst:13
 msgid "Disabled reused checks on languages with a single plural form."
@@ -28321,7 +28414,7 @@ msgstr ""
 
 #: changes/v4.rst:885
 msgid "Fixed reverting plural changes."
-msgstr ""
+msgstr "Đã sửa lỗi khi hoàn tác các thay đổi về số nhiều."
 
 #: changes/v4.rst:886
 msgid "Fixed displaying help for project settings."
@@ -28377,6 +28470,8 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 #: changes/v4.rst:896
 msgid "Reimplemented translation editor to use native browser textarea."
 msgstr ""
+"Đã tái triển khai trình chỉnh sửa phiên dịch để sử dụng textarea gốc của "
+"trình duyệt."
 
 #: changes/v4.rst:897
 #, fuzzy
@@ -28447,6 +28542,8 @@ msgid ""
 "Syntax highlighting in translation editor for XML, HTML, Markdown and "
 "reStructuredText."
 msgstr ""
+"Tính năng tô sáng cú pháp trong trình soạn thảo dịch thuật dành cho XML, "
+"HTML, Markdown và reStructuredText."
 
 #: changes/v4.rst:915
 #, fuzzy
@@ -28557,6 +28654,12 @@ msgid ""
 "upgrading and it is recommended to force loading of affected component "
 "using :wladmin:`loadpo`."
 msgstr ""
+":ref:`mono_gettext` hiện sử dụng cả ``msgid`` và ``msgctxt`` khi có mặt. "
+"Điều này sẽ thay đổi cách nhận dạng chuỗi dịch trong các tệp đó, làm hỏng "
+"các liên kết đến dữ liệu mở rộng của Weblate như ảnh chụp màn hình hoặc "
+"trạng thái đánh giá. Vui lòng đảm bảo bạn cam kết các thay đổi đang chờ xử "
+"lý trong các tệp đó trước khi nâng cấp và nên buộc tải thành phần bị ảnh "
+"hưởng bằng cách sử dụng :wladmin:`loadpo`."
 
 #: changes/v4.rst:946
 msgid ""
@@ -28609,6 +28712,8 @@ msgid ""
 "Reduced false positives rate of unchanged translation while translating "
 "reStructuredText."
 msgstr ""
+"Giảm tỷ lệ dương tính giả của bản dịch không thay đổi trong quá trình dịch "
+"reStructuredText."
 
 #: changes/v4.rst:961
 msgid "Fixed CodeMirror display issues in some situations."
@@ -28847,6 +28952,9 @@ msgid ""
 "you are translating (expect around one hour of migration time per 100,000 "
 "source strings)."
 msgstr ""
+"Quá trình chuyển đổi cơ sở dữ liệu sang phiên bản 4.3 có thể mất nhiều thời "
+"gian tùy thuộc vào số lượng chuỗi bạn đang dịch (dự kiến khoảng một giờ cho "
+"mỗi 100.000 chuỗi nguồn)."
 
 #: changes/v4.rst:1028 changes/v4.rst:1178
 msgid "There is a change in :setting:`django:INSTALLED_APPS`."
@@ -29521,7 +29629,7 @@ msgstr ""
 
 #: changes/v4.rst:1244
 msgid "Added component alert for broken repository browser URLs."
-msgstr ""
+msgstr "Đã thêm cảnh báo thành phần cho các URL trình duyệt kho lưu trữ bị lỗi."
 
 #: changes/v4.rst:1245
 msgid "Improved sign in and registration pages."
@@ -29717,6 +29825,10 @@ msgid ""
 "better explains private or local endpoint restrictions on hosted and self-"
 "managed sites."
 msgstr ""
+"Các cảnh báo xác thực URL hiện hiển thị lỗi rõ ràng hơn cho URL trình duyệt "
+"của trang web dự án và kho lưu trữ, đồng thời việc xác thực dịch máy ở cấp "
+"độ dự án giải thích rõ hơn các hạn chế về điểm cuối riêng tư hoặc cục bộ "
+"trên các trang web được lưu trữ và tự quản lý."
 
 #: changes/v5.rst:28
 msgid ""
@@ -30150,6 +30262,16 @@ msgid ""
 "as :envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, :envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE`, "
 "and :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 msgstr ""
+"Đã thêm :setting:`PROJECT_WEB_RESTRICT_PRIVATE` để từ chối các URL trình "
+"duyệt của trang web dự án và kho lưu trữ nhắm mục tiêu đến các địa chỉ nội "
+"bộ hoặc không công khai, :setting:`WEBHOOK_RESTRICT_PRIVATE` để từ chối các "
+"URL webhook nhắm mục tiêu đến các địa chỉ nội bộ hoặc không công khai, và "
+":setting:`VCS_RESTRICT_PRIVATE` để từ chối các URL kho lưu trữ và push nhắm "
+"mục tiêu đến các địa chỉ nội bộ hoặc không công khai. Các thiết lập này được "
+"hiển thị trong Docker dưới dạng "
+":envvar:`WEBLATE_PROJECT_WEB_RESTRICT_PRIVATE`, "
+":envvar:`WEBLATE_WEBHOOK_RESTRICT_PRIVATE` và "
+":envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 
 #: changes/v5.rst:118
 #, fuzzy
@@ -30459,6 +30581,8 @@ msgid ""
 ":ref:`machine-translation` no longer treats translatable reStructuredText "
 "role content as :ref:`placeables-mt`."
 msgstr ""
+":ref:`machine-translation` không còn coi nội dung thuộc vai trò "
+"reStructuredText có thể dịch được là :ref:`placeables-mt` nữa."
 
 #: changes/v5.rst:173
 msgid ""
@@ -32740,10 +32864,12 @@ msgstr ""
 msgid ""
 ":ref:`check-rst-references` check to validate reStructuredText references."
 msgstr ""
+":ref:`check-rst-references` kiểm tra tính hợp lệ của các tham chiếu "
+"reStructuredText."
 
 #: changes/v5.rst:1150
 msgid ":ref:`check-rst-syntax` check to validate reStructuredText syntax."
-msgstr ""
+msgstr ":ref:`check-rst-syntax` kiểm tra đúng cú pháp của reStructuredText."
 
 #: changes/v5.rst:1151
 msgid "API can now produce CSV output."
@@ -32777,11 +32903,15 @@ msgid ""
 ":ref:`check-punctuation-spacing` ignores markup such as Markdown or "
 "reStructuredText."
 msgstr ""
+":ref:`check-punctuation-spacing` bỏ qua các định dạng đánh dấu như Markdown "
+"hoặc reStructuredText."
 
 #: changes/v5.rst:1160
 msgid ""
 ":ref:`autofix-punctuation-spacing` does not alter reStructuredText markup."
 msgstr ""
+":ref:`autofix-punctuation-spacing` không làm thay đổi mã đánh dấu "
+"reStructuredText."
 
 #: changes/v5.rst:1161
 msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
@@ -32805,6 +32935,8 @@ msgid ""
 ":ref:`check-duplicate` better works with markup such as Markdown or "
 "reStructuredText."
 msgstr ""
+":ref:`check-duplicate` hoạt động tốt hơn với các định dạng đánh dấu như "
+"Markdown hoặc reStructuredText."
 
 #: changes/v5.rst:1165
 msgid ""
@@ -33043,6 +33175,7 @@ msgstr ""
 #: changes/v5.rst:1266
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
 msgstr ""
+"Mã CAPTCHA khi đăng ký hiện đã bao gồm cơ chế chứng minh công việc ALTCHA."
 
 #: changes/v5.rst:1267
 msgid ""
@@ -33692,10 +33825,8 @@ msgid "Rendering of :ref:`labels` color selection widget."
 msgstr ""
 
 #: changes/v5.rst:1563
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Detection of pending outgoing commits."
-msgstr "PHP strings"
+msgstr "Phát hiện các bản ghi nhận gửi ra ngoài đang chờ xử lý."
 
 #: changes/v5.rst:1564
 msgid ":ref:`addons` button layout."
@@ -34612,10 +34743,10 @@ msgstr ""
 "lần nữa."
 
 #: changes/v5.rst:1970
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Possible discarding pending translations after editing source strings."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr ""
+"Có thể xảy ra trường hợp loại bỏ các bản dịch đang chờ xử lý sau khi chỉnh "
+"sửa chuỗi nguồn."
 
 #: changes/v5.rst:1976
 msgid ""
@@ -35808,6 +35939,10 @@ msgid ""
 "production environment because it has performance consequences and might "
 "leak private data."
 msgstr ""
+"Việc bật chế độ gỡ lỗi sẽ khiến các ngoại lệ hiển thị trong trình duyệt web. "
+"Điều này hữu ích để gỡ lỗi các sự cố trong giao diện web, nhưng không phù "
+"hợp với môi trường sản xuất vì nó có ảnh hưởng đến hiệu năng và có thể làm "
+"rò rỉ dữ liệu riêng tư."
 
 #: contributing/debugging.rst:15
 msgid ""
@@ -36119,16 +36254,16 @@ msgid ""
 msgstr ""
 
 #: contributing/frontend.rst:7
-#, fuzzy
-#| msgid "Status"
 msgid "Supported browsers"
-msgstr "Tình trạng"
+msgstr "Các trình duyệt được hỗ trợ"
 
 #: contributing/frontend.rst:9
 msgid ""
 "Weblate supports the latest, stable releases of all major browsers and "
 "platforms."
 msgstr ""
+"Weblate hỗ trợ các phiên bản ổn định mới nhất của tất cả các trình duyệt và "
+"nền tảng lớn."
 
 #: contributing/frontend.rst:12
 msgid ""
@@ -36137,10 +36272,16 @@ msgid ""
 "explicitly supported. However, Weblate should (in most cases) display and "
 "function correctly in these browsers as well."
 msgstr ""
+"Các trình duyệt thay thế sử dụng phiên bản mới nhất của WebKit, Blink hoặc "
+"Gecko, dù trực tiếp hay thông qua API web view của nền tảng, đều không được "
+"hỗ trợ rõ ràng. Tuy nhiên, Weblate (trong hầu hết các trường hợp) vẫn hiển "
+"thị và hoạt động chính xác trên các trình duyệt này."
 
 #: contributing/frontend.rst:17
 msgid "Older browsers might work, but some features might be limited."
 msgstr ""
+"Các trình duyệt cũ hơn có thể vẫn hoạt động, nhưng một số tính năng có thể "
+"bị hạn chế."
 
 #: contributing/frontend.rst:20
 msgid "Accessibility"
@@ -36695,6 +36836,11 @@ msgid ""
 "and actual behavior, browser and operating system, assistive technology in "
 "use, and whether the problem occurs with keyboard-only navigation."
 msgstr ""
+"Các vấn đề về khả năng truy cập nên sử dụng mẫu báo cáo sự cố về khả năng "
+"truy cập. Một báo cáo tốt cần bao gồm trang hoặc quy trình làm việc bị ảnh "
+"hưởng, các bước tái hiện sự cố, hành vi dự kiến và thực tế, trình duyệt và "
+"hệ điều hành, công nghệ hỗ trợ đang được sử dụng và liệu sự cố có xảy ra khi "
+"chỉ sử dụng bàn phím để điều hướng hay không."
 
 #: contributing/issues.rst:25
 msgid ""
@@ -37059,10 +37205,8 @@ msgid "Writing a good patch"
 msgstr ""
 
 #: contributing/snippets/code-guide.rst:22
-#, fuzzy
-#| msgid "Recent changes in %s"
 msgid "Write separate changes"
-msgstr "Các thay đổi gần đây trong %s"
+msgstr "Viết các thay đổi riêng biệt"
 
 #: contributing/snippets/code-guide.rst:24
 msgid ""
@@ -38232,6 +38376,14 @@ msgid ""
 "definitions. In most cases the `browser-plugin of languageTool <https://"
 "languagetool.org/#firefox_chrome>`_ is useful as a proof-reading tool."
 msgstr ""
+"Việc tuân theo các khuyến nghị này hỗ trợ việc tạo ra một công cụ hiệu đính "
+"sau dịch thuật đa ngôn ngữ hoàn chỉnh. Bản dịch tốt được định nghĩa thông "
+"qua mô hình chức năng hệ thống của House, hướng đến bản dịch chính xác theo "
+"ngữ cảnh. Viết `hướng dẫn biên tập sau <https://en.wikipedia.org/wiki/"
+"Postediting>`_ của bạn và điều chỉnh các khuyến nghị này cho phù hợp với "
+"định nghĩa của riêng bạn. Trong hầu hết các trường hợp, `plugin trình duyệt "
+"của languageTool <https://languagetool.org/#firefox_chrome>`_ rất hữu ích "
+"như một công cụ đọc rà soát."
 
 #: devel/community.rst:6
 msgid ""
@@ -38765,6 +38917,8 @@ msgid ""
 "The user language is detected from the configured cookie and falls back to "
 "user preferred languages configured in the browser."
 msgstr ""
+"Ngôn ngữ của người dùng được phát hiện từ cookie đã cấu hình và sẽ sử dụng "
+"ngôn ngữ ưu tiên mà người dùng đã cấu hình trong trình duyệt."
 
 #: devel/html.rst:119
 msgid ""
@@ -39804,6 +39958,15 @@ msgid ""
 "these components, or assign distinct keys or contexts to platform-specific "
 "messages, so later edits do not overwrite intentional differences."
 msgstr ""
+"Khi người dùng sử dụng cùng một thông điệp nhưng yêu cầu các định dạng hiển "
+"thị khác nhau trong quá trình thực thi, hãy cân nhắc việc duy trì một định "
+"dạng bản địa hóa chuẩn và tạo ra các tài nguyên dành riêng cho từng người "
+"dùng trong quy trình xây dựng. Điều này cũng cho phép các tài nguyên được "
+"tạo ra chỉ chứa các chuỗi ký tự và ngôn ngữ mà mỗi người dùng cần. Sử dụng "
+"các thành phần riêng biệt khi người dịch cần duy trì các thông điệp thực sự "
+"khác nhau. Vô hiệu hóa việc lan truyền bản dịch cho các thành phần này, hoặc "
+"gán các khóa hoặc ngữ cảnh riêng biệt cho các thông điệp dành riêng cho từng "
+"nền tảng, để các chỉnh sửa sau này không ghi đè lên những khác biệt có chủ ý."
 
 #: devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -39832,6 +39995,10 @@ msgid ""
 "for embedding statistics into existing documentation, while JSON is useful "
 "for further processing of the data."
 msgstr ""
+"Trang này cung cấp một số công cụ báo cáo, tất cả đều có thể tạo ra dữ liệu "
+"ở định dạng HTML, reStructuredText hoặc JSON. Hai định dạng đầu tiên phù hợp "
+"để nhúng số liệu thống kê vào tài liệu hiện có, trong khi JSON hữu ích cho "
+"việc xử lý dữ liệu tiếp theo."
 
 #: devel/reporting.rst:22
 msgid ""
@@ -40371,6 +40538,11 @@ msgid ""
 "useful companion for using Sphinx is the `Read the Docs`_ service, which "
 "will build and publish your documentation for free."
 msgstr ""
+"`Sphinx`_ là một công cụ để tạo ra tài liệu đẹp mắt. Nó sử dụng cú pháp "
+"reStructuredText đơn giản và có thể tạo ra đầu ra ở nhiều định dạng. Nếu bạn "
+"đang tìm kiếm một ví dụ, tài liệu này cũng được xây dựng bằng công cụ này. "
+"Một công cụ hỗ trợ rất hữu ích khi sử dụng Sphinx là dịch vụ `Read the "
+"Docs`_, dịch vụ này sẽ xây dựng và xuất bản tài liệu của bạn miễn phí."
 
 #: devel/sphinx.rst:10
 msgid ""
@@ -47316,6 +47488,13 @@ msgid ""
 "hosting systems. *(documented)* (source: :doc:`/index`, :doc:`/api`, :doc:`/"
 "admin/continuous`)"
 msgstr ""
+"Weblate là một nền tảng bản địa hóa web dựa trên Django. Nó chấp nhận công "
+"việc từ người dùng trình duyệt, máy khách API, mã thông báo phạm vi dự án, "
+"webhook kho lưu trữ, kho lưu trữ VCS, kho lưu trữ sao lưu, trình xử lý nền "
+"và các dịch vụ bên ngoài được cấu hình, sau đó lưu trữ và đồng bộ hóa các dự "
+"án dịch thuật thông qua cơ sở dữ liệu, kho dữ liệu, kho lưu trữ hệ thống tệp "
+"cục bộ và các hệ thống lưu trữ mã bên ngoài. *(đã được ghi chép)* (nguồn: "
+":doc:`/index`, :doc:`/api`, :doc:`/admin/continuous`)"
 
 #: security/threat-model.rst:38
 msgid "Scope and intended use"
@@ -47347,7 +47526,7 @@ msgstr "REST API của Weblate"
 
 #: security/threat-model.rst:48
 msgid "Browser views, forms, session endpoints, :doc:`/api`"
-msgstr ""
+msgstr "Các chế độ xem trình duyệt, biểu mẫu, điểm cuối phiên, :doc:`/api`"
 
 #: security/threat-model.rst:49
 msgid "Database, datastore, e-mail, logs, uploaded files"
@@ -47414,7 +47593,7 @@ msgstr ""
 
 #: security/threat-model.rst:68
 msgid "Database, identity providers, browser cookies"
-msgstr ""
+msgstr "Cơ sở dữ liệu, nhà cung cấp dịch vụ danh tính, Cookies trình duyệt"
 
 #: security/threat-model.rst:69
 msgid ""
@@ -47731,6 +47910,12 @@ msgid ""
 "repository state, background tasks, outbound requests, and rendered UI. "
 "*(maintainer)*"
 msgstr ""
+"Ranh giới tin cậy chính của Weblate là bề mặt ứng dụng hướng ra mạng: các "
+"khung nhìn trình duyệt, điểm cuối API, điểm cuối webhook và điểm cuối tải "
+"lên chấp nhận dữ liệu từ các tác nhân kém tin cậy hơn và chuyển đổi dữ liệu "
+"đó thành các hàng trong cơ sở dữ liệu, trạng thái kho lưu trữ cục bộ, các "
+"tác vụ nền, các yêu cầu gửi đi và giao diện người dùng được hiển thị. *"
+"(người duy trì)*"
 
 #: security/threat-model.rst:191
 msgid "Boundary"
@@ -47744,7 +47929,7 @@ msgstr "Bản dịch mục tiêu"
 
 #: security/threat-model.rst:193
 msgid "Client browser/API client to Weblate"
-msgstr ""
+msgstr "Trình duyệt của khách hàng/Ứng dụng khách API kết nối với Weblate"
 
 #: security/threat-model.rst:194
 msgid ""
@@ -48064,6 +48249,9 @@ msgid ""
 "that Weblate relies on for browser security. *(documented)* "
 "(source: :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"Việc vô hiệu hóa hoặc cấu hình sai HTTPS sẽ loại bỏ các biện pháp bảo vệ về "
+"truyền tải và cookie mà Weblate dựa vào để đảm bảo an ninh trình duyệt. *(đã "
+"được ghi lại)* (nguồn: :setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:330
 msgid ""
@@ -48128,12 +48316,16 @@ msgid ""
 "Broadening sources can reduce browser-side containment for XSS or third-"
 "party content. *(maintainer)*"
 msgstr ""
+"Việc mở rộng nguồn có thể giảm thiểu sự xâm nhập từ phía trình duyệt đối với "
+"các lỗ hổng XSS hoặc nội dung của bên thứ ba. *(người duy trì)*"
 
 #: security/threat-model.rst:355
 msgid ""
 "Deployments adding third-party sources accept that expanded browser trust. "
 "*(maintainer)*"
 msgstr ""
+"Các bản triển khai bổ sung nguồn bên thứ ba chấp nhận mức độ tin cậy trình "
+"duyệt được mở rộng đó. *(người bảo trì)*"
 
 #: security/threat-model.rst:357
 msgid ":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`"
@@ -48256,7 +48448,7 @@ msgstr ""
 
 #: security/threat-model.rst:421
 msgid "Browser forms and REST API"
-msgstr ""
+msgstr "Biểu mẫu trình duyệt và API REST"
 
 #: security/threat-model.rst:422
 msgid "Request bodies, query strings, uploaded files, headers, cookies"
@@ -48804,6 +48996,9 @@ msgid ""
 "proxy settings are correct. *(documented)* (source: :doc:`/admin/"
 "auth`, :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"Xác thực và kiểm soát phiên bảo vệ các phiên trình duyệt khi cài đặt HTTPS "
+"và proxy chính xác. *(đã được ghi lại)* (nguồn: :doc:`/admin/auth`, "
+":setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:602
 msgid "Production HTTPS and secure-cookie settings are enabled."
@@ -48818,6 +49013,8 @@ msgid ""
 "User-supplied content rendered by Weblate is expected not to execute script "
 "in other users' browsers. *(maintainer)*"
 msgstr ""
+"Nội dung do người dùng cung cấp được Weblate hiển thị không được phép thực "
+"thi mã lệnh trong trình duyệt của người dùng khác. *(người bảo trì)*"
 
 #: security/threat-model.rst:607
 msgid ""
@@ -48903,6 +49100,10 @@ msgid ""
 "repository browser URL, outbound webhook URL, or VCS URL reaches an internal "
 "or non-public target despite default controls."
 msgstr ""
+"URL ảnh chụp màn hình do người dùng cấu hình, URL HTML từ xa, URL trang web "
+"dự án hoặc URL trình duyệt kho lưu trữ, URL webhook gửi đi hoặc URL VCS truy "
+"cập được vào mục tiêu nội bộ hoặc không công khai bất chấp các thiết lập mặc "
+"định."
 
 #: security/threat-model.rst:643
 msgid "Security-critical when it exposes internal services or metadata."
@@ -49038,6 +49239,9 @@ msgid ""
 "the legitimate forge when the integration does not authenticate the "
 "delivery. *(maintainer)*"
 msgstr ""
+"Việc khớp dự án Webhook và phân tích sự kiện không phải là bằng chứng cho "
+"thấy người gửi là fork hợp pháp khi quá trình tích hợp không xác thực việc "
+"gửi hàng. *(người bảo trì)*"
 
 #: security/threat-model.rst:707
 msgid ""
@@ -49200,6 +49404,11 @@ msgid ""
 "translations in the consuming application. *(documented)* (source: :doc:`/"
 "security/localization-threat`)"
 msgstr ""
+"Việc coi các kiểm tra dịch thuật của Weblate như bằng chứng cho thấy các ứng "
+"dụng đích không thể bị tấn công thông qua các chuỗi đã dịch là không an toàn "
+"vì trình kết xuất đích xác định ngữ cảnh thực thi cuối cùng. Cần xem xét và "
+"loại bỏ các bản dịch không chính xác trong ứng dụng sử dụng chúng. *(đã được "
+"ghi nhận)* (nguồn: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:791
 msgid "Known non-findings"
@@ -50363,10 +50572,8 @@ msgid "Pending component changes were committed."
 msgstr "Các thay đổi thành phần đang chờ xử lý đã được ghi nhận."
 
 #: snippets/addon-parameters-autogenerated.rst:309
-#, fuzzy
-#| msgid "Change password"
 msgid "Changes pushed"
-msgstr "Thay đổi mật khẩu"
+msgstr "Các thay đổi đã được đẩy lên"
 
 #: snippets/addon-parameters-autogenerated.rst:310
 msgid "Repository changes were pushed upstream."
@@ -52262,7 +52469,8 @@ msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
-"Lặp lại văn bản biến đổi bao nhiêu lần tùy thuộc vào độ dài của chuỗi nguồn."
+"Số lần lặp lại văn bản biến đổi bao nhiêu lần tùy thuộc vào độ dài của chuỗi "
+"nguồn."
 
 #: snippets/addons-autogenerated.rst:926
 msgid "Include read-only strings"
@@ -55596,7 +55804,7 @@ msgstr ""
 
 #: snippets/checks-autogenerated.rst:1283
 msgid "Inconsistent reStructuredText"
-msgstr "Văn bản được cấu trúc lại không nhất quán"
+msgstr "reStructuredText không nhất quán"
 
 #: snippets/checks-autogenerated.rst:1287
 msgid "Inconsistent reStructuredText markup in the translated message."
@@ -55622,6 +55830,9 @@ msgid ""
 "Missing spaces or interpunction around the reference. The reStructuredText "
 "inline blocks need to be separated by non-word characters."
 msgstr ""
+"Thiếu khoảng trắng hoặc dấu chấm câu xung quanh phần tham chiếu. Các khối "
+"văn bản nội tuyến reStructuredText cần được phân tách bằng các ký tự không "
+"phải là từ."
 
 #: snippets/checks-autogenerated.rst:1301
 msgid "Space between inline tag and backticks."
@@ -55645,7 +55856,7 @@ msgstr ""
 #: snippets/checks-autogenerated.rst:1308
 #: snippets/checks-autogenerated.rst:2001
 msgid "`reStructuredText Primer`_"
-msgstr ""
+msgstr "`Nhập môn reStructuredText`_"
 
 #: snippets/checks-autogenerated.rst:1317
 msgid "Kashida letter used"
@@ -61827,6 +62038,8 @@ msgid ""
 "A source code link is shown in the web-browser configured in "
 "the :ref:`component` by default."
 msgstr ""
+"Liên kết mã nguồn được hiển thị trong trình duyệt web được cấu hình trong "
+":ref:`component` theo mặc định."
 
 #: user/profile.rst:142
 msgid ""
@@ -62284,7 +62497,7 @@ msgstr ""
 
 #: user/search.rst:156
 msgid "String pending for flushing to VCS."
-msgstr ""
+msgstr "Chuỗi ký tự đang chờ được ghi vào VCS."
 
 #: user/search.rst:158
 msgid ""
@@ -62329,10 +62542,9 @@ msgid "Untranslated strings, same as ``state:<translated``."
 msgstr "Các chuỗi chưa được dịch, giống như ``state:<translated``."
 
 #: user/search.rst:173
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr ""
+"Các chuỗi đang chờ xử lý chưa được ghi vào tệp (xem :ref:`lazy-commit`)."
 
 #: user/search.rst:175
 msgid ""
@@ -62495,10 +62707,8 @@ msgid "Filter by count of labels"
 msgstr ""
 
 #: user/search.rst:242
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Searching for changes"
-msgstr "Ngôn ngữ thứ hai"
+msgstr "Tìm kiếm các thay đổi"
 
 #: user/search.rst:246
 msgid ""
@@ -62911,6 +63121,9 @@ msgid ""
 "frontend of your project can then utilize different strings depending on the "
 "size of a screen or window."
 msgstr ""
+"Các biến thể được sử dụng để nhóm các biến thể có độ dài khác nhau của một "
+"chuỗi. Giao diện người dùng của dự án sau đó có thể sử dụng các chuỗi khác "
+"nhau tùy thuộc vào kích thước màn hình hoặc cửa sổ."
 
 #: user/translating.rst:119
 msgid "Labels"
@@ -64309,10 +64522,10 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
-"Weblate sẽ tự động tạo một kho lưu trữ Git cho bạn và theo dõi tất cả các "
-"thay đổi. Trong trường hợp sau này bạn quyết định sử dụng hệ thống kiểm soát "
-"phiên bản (VCS) để lưu trữ các bản dịch, bạn đã có sẵn một kho lưu trữ trong "
-"Weblate để làm cơ sở cho việc tích hợp."
+"Ở nền, Weblate tạo một kho Git cho bạn và tất cả các thay đổi đều được theo "
+"dõi. Trong trường hợp sau này bạn quyết định sử dụng VCS để lưu trữ các bản "
+"dịch, bạn đã có một kho lưu trữ trong Weblate để làm nền tảng cho việc tích "
+"hợp."
 
 #: wlc.rst:8
 msgid "Weblate Client"
