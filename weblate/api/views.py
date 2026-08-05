@@ -3845,7 +3845,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
         # Handle translate
         if do_translate:
-            unit.translate(user, new_target, new_state)
+            try:
+                unit.translate(user, new_target, new_state)
+            except Unit.DoesNotExist as error:
+                # The unit can be removed by a concurrent component update between
+                # the initial lookup and the locking re-fetch in Unit.translate()
+                msg = "Unit was removed while processing the request"
+                raise Http404(msg) from error
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a translation unit."""

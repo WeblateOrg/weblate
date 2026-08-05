@@ -12221,6 +12221,28 @@ class UnitAPITest(APIBaseTest):
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.target, "Test translation\n")
 
+    def test_translate_unit_deleted_mid_request(self) -> None:
+        """Unit removed between get_object() and the locking re-fetch."""
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+
+        def delete_unit(self) -> None:
+            Unit.objects.filter(pk=unit.pk).delete()
+
+        # invalidate_checks_cache() runs at the top of Unit.translate(),
+        # before the select_for_update() re-fetch
+        with patch.object(
+            Unit, "invalidate_checks_cache", autospec=True, side_effect=delete_unit
+        ):
+            self.do_request(
+                "api:unit-detail",
+                kwargs={"pk": unit.pk},
+                method="patch",
+                code=404,
+                request={"state": "20", "target": "Test translation"},
+            )
+
     def test_translate_unit_whitespace(self) -> None:
         unit = Unit.objects.get(
             translation__language_code="cs", source="Hello, world!\n"
