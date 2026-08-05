@@ -13622,18 +13622,18 @@ class ChangeAPITest(APIBaseTest):
         self.assertIn("translation", response.data)
 
     def test_alert_metadata(self) -> None:
-        self.component.add_alert("InexactHookMatch", repo_url="first")
-        alert = self.component.alert_set.get(name="InexactHookMatch")
+        self.component.add_alert("BrokenBrowserURL", link="http://a", error="first")
+        alert = self.component.alert_set.get(name="BrokenBrowserURL")
         alert.dismiss(self.user, "Handled elsewhere")
         change = self.component.change_set.get(
             action=ActionEvents.ALERT_DISMISSED, alert=alert
         )
 
         other_user = User.objects.create_user("other_user", "other@example.com")
-        self.component.add_alert("InexactHookMatch", repo_url="second")
+        self.component.add_alert("BrokenBrowserURL", link="http://b", error="second")
         alert.refresh_from_db()
         alert.dismiss(other_user, "New dismissal")
-        self.component.delete_alert("InexactHookMatch")
+        self.component.delete_alert("BrokenBrowserURL")
 
         response = self.client.get(
             reverse("api:change-detail", kwargs={"pk": change.pk})
@@ -13651,12 +13651,13 @@ class ChangeAPITest(APIBaseTest):
             reverse("api:change-detail", kwargs={"pk": change.pk})
         )
 
-        self.assertEqual(response.data["alert"]["category"], "vcs")
-        self.assertEqual(response.data["alert"]["severity"], 50)
-        self.assertEqual(response.data["alert"]["details"]["repo_url"], "first")
+        self.assertEqual(response.data["alert"]["category"], "configuration")
+        self.assertEqual(response.data["alert"]["severity"], 100)
+        self.assertEqual(response.data["alert"]["details"]["link"], "http://a")
+        self.assertEqual(response.data["alert"]["details"]["error"], "first")
         self.assertEqual(
-            response.data["details"]["alert_snapshot"]["details"]["repo_url"],
-            "first",
+            response.data["details"]["alert_snapshot"]["details"]["link"],
+            "http://a",
         )
         self.assertEqual(
             datetime.fromisoformat(response.data["alert"]["dismissed_at"]),
