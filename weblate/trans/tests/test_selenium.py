@@ -22,6 +22,7 @@ from django.conf import settings
 from django.core import mail
 from django.core.cache import cache
 from django.core.files import File
+from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpRequest
 from django.test.utils import modify_settings, override_settings
@@ -1706,19 +1707,25 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Screenshots")
 
         # Upload screenshot
+        upload_filename = "automatic-translation.png"
+        default_storage.delete(f"screenshots/{upload_filename}")
         self.click("Add screenshot")
         self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
         element = self.driver.find_element(By.ID, "id_image")
-        self.upload_file(element, get_test_file("screenshot.png"))
+        upload_path = Path(self.tempdir) / upload_filename
+        upload_path.write_bytes(Path(get_test_file("screenshot.png")).read_bytes())
+        self.upload_file(element, upload_path)
         with self.wait_for_page_load():
             element.submit()
         uploaded_screenshot = Screenshot.objects.get(name="Automatic translation")
 
+        listing_filename = "main-menu.png"
+        default_storage.delete(f"screenshots/{listing_filename}")
         with open(get_test_file("screenshot.png"), "rb") as handle:
             listing_screenshot = Screenshot.objects.create(
                 name="Main menu",
                 repository_filename="fastlane/metadata/android/en-US/images/menu.png",
-                image=File(handle, name="main-menu.png"),
+                image=File(handle, name=listing_filename),
                 translation=component.source_translation,
                 user=user,
             )
