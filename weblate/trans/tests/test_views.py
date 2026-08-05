@@ -900,6 +900,19 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "test/test")
         self.assertNotContains(response, "Spanish")
 
+    def test_view_project_listing_columns(self) -> None:
+        # Default columns
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertContains(response, "Unfinished words")
+        self.assertNotContains(response, "Total strings")
+
+        # Customized columns
+        self.user.profile.listing_columns = ["total", "checks"]
+        self.user.profile.save(update_fields=["listing_columns"])
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertContains(response, "Total strings")
+        self.assertNotContains(response, "Unfinished words")
+
     def test_view_project_upload_placeholder(self) -> None:
         response = self.client.get(self.project.get_absolute_url())
 

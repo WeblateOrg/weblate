@@ -34106,6 +34106,26 @@ components:
         * `` - None
         * `totp` - TOTP
         * `webauthn` - WebAuthn
+    ListingColumnsEnum:
+      enum:
+      - total
+      - untranslated
+      - untranslated_words
+      - untranslated_chars
+      - nottranslated
+      - checks
+      - suggestions
+      - comments
+      type: string
+      description: |-
+        * `total` - Total strings
+        * `untranslated` - Unfinished strings
+        * `untranslated_words` - Unfinished words
+        * `untranslated_chars` - Unfinished characters
+        * `nottranslated` - Untranslated strings
+        * `checks` - Checks
+        * `suggestions` - Suggestions
+        * `comments` - Comments
     Lock:
       type: object
       properties:
@@ -36288,6 +36308,13 @@ components:
           title: Show all columns in lists using horizontal scrolling
           description: Instead of hiding columns on narrow screens, keep all columns
             and scroll the table horizontally.
+        listing_columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListingColumnsEnum'
+          title: Visible columns in lists
+          description: Choose which statistics columns are shown in project, component,
+            and language lists.
         editor_link:
           type: string
           description: Enter a custom URL to be used as link to the source code. You
@@ -36498,6 +36525,13 @@ components:
           title: Show all columns in lists using horizontal scrolling
           description: Instead of hiding columns on narrow screens, keep all columns
             and scroll the table horizontally.
+        listing_columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListingColumnsEnum'
+          title: Visible columns in lists
+          description: Choose which statistics columns are shown in project, component,
+            and language lists.
         editor_link:
           type: string
           description: Enter a custom URL to be used as link to the source code. You
