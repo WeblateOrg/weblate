@@ -95,11 +95,7 @@ from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
 from weblate.machinery.tasks import cleanup_machinery_errors
 from weblate.machinery.tmserver import TMServerTranslation
-<<<<<<< HEAD
-from weblate.machinery.views import EditMachineryView
-=======
 from weblate.machinery.views import ListMachineryView
->>>>>>> 519f54a375 (fix tests)
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.yandexv2 import YandexV2Translation
