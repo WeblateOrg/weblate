@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-07-30 03:46+0200\n"
-"PO-Revision-Date: 2026-08-02 03:03+0000\n"
+"PO-Revision-Date: 2026-08-03 17:02+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -8342,6 +8342,18 @@ msgid ""
 "Subversion, custom VCS backends, and additional URL schemes are rejected "
 "unless the target host is explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Para acesso de repositórios Git através de HTTPS ou SSH, o Weblate vincula "
+"cada comando VCS ao endereço aprovado durante a validação em tempo de "
+"execução para conexões diretas. Proxies HTTP configurados são infraestrutura "
+"confiada e, em vez disso, resolvem os nomes de host do repositório. "
+"Seguimento de redirecionamento automático permanece desativado. "
+"Redirecionamentos HTTP para o mesmo anfitrião permanentes são examinados "
+"separadamente através da mesma rota de saída, validados, e armazenados "
+"enquanto o URL canónico de repositório do componente. Redirecionamentos "
+"entre anfitriões têm que ser configurados manualmente. Backends Mercurial, "
+"Subversion, VCS personalizado, e esquemas de URL adicionais são rejeitados a "
+"não ser que o anfitrião alvo esteja explicitamente incluído em "
+":setting:`VCS_ALLOW_HOSTS`."
 
 #: admin/config.rst:2777
 msgid ""
@@ -8350,6 +8362,10 @@ msgid ""
 "depth, especially for custom integrations and administrator-installed "
 "extensions."
 msgstr ""
+"Filtragem de saída ao nível da rede que bloqueia intervalos de endereços "
+"internos, de loopback, links locais, reservados e de metadados na nuvem é "
+"recomendado para uma defensa em profundidade, especialmente para integrações "
+"personalizadas e extensões instaladas por um administrador."
 
 #: admin/config.rst:2788
 msgid ""
@@ -9898,12 +9914,6 @@ msgid "Weblate Cloudron Package"
 msgstr "Pacote de Weblate para Cloudron"
 
 #: admin/deployments.rst:23
-#, fuzzy
-#| msgid ""
-#| "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
-#| "applications. Weblate installed with Cloudron will be automatically kept "
-#| "up-to-date. The package is maintained by the Cloudron team at their "
-#| "`Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgid ""
 "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
 "applications. Weblate installed with Cloudron will be automatically kept up-"
@@ -9912,8 +9922,9 @@ msgid ""
 msgstr ""
 "`Cloudron <https://www.cloudron.io/>`_ é uma plataforma para auto hospedagem "
 "de aplicações da Web. O Weblate instalado com Cloudron será atualizado "
-"automaticamente. O pacote é mantido pela equipa Cloudron no seu `repositório "
-"de pacotes do Weblate <https://git.cloudron.io/cloudron/weblate-app>`_."
+"automaticamente. O pacote é mantido pela equipa Cloudron; veja a "
+"`Documentação de pacote Weblate <https://docs.cloudron.io/packages/weblate/>"
+"`_."
 
 #: admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
@@ -10018,16 +10029,12 @@ msgid "Use dedicated node when scaling Weblate horizontally."
 msgstr "Use um nó dedicado ao escalar o Weblate horizontalmente."
 
 #: admin/install.rst:138
-#, fuzzy
-#| msgid "Application region"
 msgid "Application server"
-msgstr "Região da aplicação"
+msgstr "Servidor da aplicação"
 
 #: admin/install.rst:139
-#, fuzzy
-#| msgid "A WSGI server serving web pages to users."
 msgid "A WSGI or ASGI server serving web pages to users."
-msgstr "Um servidor WSGI servindo páginas web para utilizadores."
+msgstr "Um servidor WSGI ou ASGI servindo páginas web para utilizadores."
 
 #: admin/install.rst:143
 msgid ""
@@ -10201,10 +10208,8 @@ msgid "Weblate feature"
 msgstr "Recurso Weblate"
 
 #: admin/install.rst:218
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "ASGI server for Weblate"
-msgstr "Servidor wsgi para o Weblate"
+msgstr "Servidor ASGI para o Weblate"
 
 #: admin/install.rst:231
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
@@ -10231,10 +10236,8 @@ msgid "Hosted Weblate integration"
 msgstr "Integração do Weblate Hospedado"
 
 #: admin/install.rst:271
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "WSGI server for Weblate"
-msgstr "Servidor wsgi para o Weblate"
+msgstr "Servidor WSGI para o Weblate"
 
 #: admin/install.rst:277
 msgid ""
@@ -10785,6 +10788,9 @@ msgid ""
 "requests and Git repositories. Define the proxy environment variables "
 "in :file:`settings.py`:"
 msgstr ""
+"O Weblate suporta configuração de proxy HTTP por protocolo individual para "
+"pedidos de saída HTTP e repositórios Git. Defina as variáveis de ambiente "
+"proxy em :file:`settings.py`:"
 
 #: admin/install.rst:658
 msgid ""
@@ -10792,17 +10798,17 @@ msgid ""
 "variables such as ``all_proxy`` and ``no_proxy``, operating-system proxy "
 "configuration, and VCS-specific proxy configuration are not supported."
 msgstr ""
+"Apenas ``http_proxy`` e ``https_proxy`` são suportados. Variáveis genéricas "
+"e de contorno tais como ``all_proxy`` e ``no_proxy``, configuração de proxy "
+"do sistema operativo, e configuração de proxy específica do VCS não são "
+"suportados."
 
 #: admin/install.rst:664
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies/env.html>`_"
 msgid ""
 "`Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
 msgstr ""
-"`Variáveis de Ambiente de Proxy <https://everything.curl.dev/usingcurl/"
+"`Variáveis de ambiente de proxy <https://everything.curl.dev/usingcurl/"
 "proxies/env.html>`_"
 
 #: admin/install.rst:669
@@ -11351,37 +11357,25 @@ msgid "Using custom certificate authority"
 msgstr "Usar uma autoridade certificadora personalizada"
 
 #: admin/install.rst:1154
-#, fuzzy
-#| msgid ""
-#| "Weblate does verify SSL certificates during HTTP requests. In case you "
-#| "are using custom certificate authority which is not trusted in default "
-#| "bundles, you will have to add its certificate as trusted."
 msgid ""
 "Weblate verifies SSL certificates during HTTP requests. Requests made using "
 "HTTPX2 use the system certificate store, so install custom certificate "
 "authorities there."
 msgstr ""
-"O Weblate verifica os certificados SSL durante as solicitações HTTP. Caso "
-"esteja a usar uma autoridade de certificação personalizada que não seja "
-"confiável em maços predefinidos, terá que adicionar o seu certificado como "
-"confiável."
+"O Weblate verifica os certificados SSL durante as solicitações HTTP. Pedidos "
+"feitos através de HTTPX2 utilizam o sistema de armazenamento de "
+"certificados, por isso instale autoridades de certificado personalizados "
+"aqui."
 
 #: admin/install.rst:1158
-#, fuzzy
-#| msgid ""
-#| "The preferred approach is to do this at system level, please check your "
-#| "distro documentation for more details (for example on debian this can be "
-#| "done by placing the CA certificate into :file:`/usr/local/share/ca-"
-#| "certificates/` and running :command:`update-ca-certificates`)."
 msgid ""
 "Check your distribution documentation for more details. For example, on "
 "Debian this can be done by placing the CA certificate into :file:`/usr/local/"
 "share/ca-certificates/` and running :command:`update-ca-certificates`."
 msgstr ""
-"A abordagem preferida é fazer isso no nível do sistema. Consulte a "
-"documentação da sua distro para mais detalhes (por exemplo, no Debian isso "
-"pode ser feito a por o certificado da AC em :file:`/usr/local/share/ca-"
-"certificates/` e executando :command:`update-ca-certificates`)."
+"Consulte a documentação da sua distribuição para mais detalhes. Por exemplo, "
+"no Debian isso pode ser feito a por o certificado da AC em :file:`/usr/local/"
+"share/ca-certificates/` e executando :command:`update-ca-certificates`."
 
 #: admin/install.rst:1165
 msgid ""
@@ -11392,16 +11386,12 @@ msgstr ""
 "especificar o caminho completo para executá-lo. Por exemplo:"
 
 #: admin/install.rst:1172
-#, fuzzy
-#| msgid ""
-#| "Once this is done, system tools will trust the certificate and this "
-#| "includes Git."
 msgid ""
 "Once this is done, Weblate HTTPX2 requests and system tools, including Git, "
 "will trust the certificate."
 msgstr ""
-"Uma vez feito isso, as ferramentas do sistema confiarão no certificado e "
-"isso inclui o Git."
+"Uma vez feito isso, os pedidos HTTPX2 Weblate e ferramentas de sistema, "
+"incluindo o Git, confiarão o certificado."
 
 #: admin/install.rst:1175
 msgid ""
@@ -11411,6 +11401,12 @@ msgid ""
 "authority, configure Requests to use the system CA bundle by adding the "
 "following to :file:`settings.py` (the path is Debian-specific):"
 msgstr ""
+"Algumas integrações, incluindo a autenticação OAuth e OpenID Connect, "
+"utilizam Requests, que não utiliza o armazenar de certificados de sistema "
+"por predefinição. Quando estas integrações comunicam com serviços utilizam a "
+"autoridade de certificados personalizado, configure Requests para utilizar o "
+"conjunto de CA do sistema ao adicionar o seguinte a :file:`settings.py` (o "
+"caminho é específico ao Debian):"
 
 #: admin/install.rst:1191
 msgid "Running server"
@@ -11765,20 +11761,20 @@ msgstr ""
 "número de threads bloqueantes."
 
 #: admin/install.rst:1457
-#, fuzzy
-#| msgid "Sample configuration to start Granian"
 msgid "Sample configuration to start Granian with ASGI"
-msgstr "Configuração de amostra para iniciar Granian"
+msgstr "Configuração de amostra para iniciar Granian com ASGI"
 
 #: admin/install.rst:1461
 msgid ""
 "ASGI deployment is available as an opt-in alternative to WSGI. Install the "
 "``asgi`` optional dependency:"
 msgstr ""
+"Implementação de ASGI está disponível na forma de uma alternativa opcional "
+"ao WSGI. Instale a dependência opcional ``asgi``:"
 
 #: admin/install.rst:1468
 msgid "The following systemd unit runs the Django ASGI application:"
-msgstr ""
+msgstr "A seguinte unidade systemd executa a aplicação Django ASGI:"
 
 #: admin/install.rst:1474
 msgid ""
@@ -11789,6 +11785,13 @@ msgid ""
 "but most Weblate views remain synchronous, and CPU-intensive or long-running "
 "work should still be handled by :ref:`celery`."
 msgstr ""
+"A amostra utiliza a interface do Granian ASGI sem tempo de vida ou suporte "
+"WebSocket, porque o Weblate atualmente expõe apenas HTTP. O middleware do "
+"Weblate suporta ambos os modos de implementação e utiliza adaptadores "
+"sensíveis a threads onde ainda depende de APIs do Django síncronas. A "
+"verificação de integridade é assíncrona, mas a maior parte das vistas do "
+"Weblate continuam síncronas, e trabalho insensível ao CPU ou de longa "
+"duração ainda deve ser gerido pelo :ref:`celery`."
 
 #: admin/install.rst:1481
 msgid ""
@@ -11797,6 +11800,10 @@ msgid ""
 "backpressure to the available memory, CPU cores, and database connection "
 "limit."
 msgstr ""
+"O WSGI continua a ser o modo predefinido de implementação. Imagens do docker "
+"podem optar para o ASGI ao definir :envvar:`WEBLATE_ASGI` para ``1``. Ajuste "
+"a contagem de trabalhadores e contrapressão para a memória disponível, cores "
+"de CPU, e limite de conexões da base de dados."
 
 #: admin/install.rst:1494
 msgid "Sample configuration to start Gunicorn"
@@ -12858,22 +12865,16 @@ msgid "Number of processes and memory consumption"
 msgstr "Quantidade de processos e consumo de memória"
 
 #: admin/install/docker.rst:384
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both WSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both the web application and Celery is "
 "determined automatically based on number of CPUs. This works well for most "
 "cloud virtual machines as these typically have few CPUs and good amount of "
 "memory."
 msgstr ""
-"A quantidade de processos de trabalho para WSGI e Celery é determinado "
-"automaticamente com base na quantidade de CPUs. Isto funciona bem para a "
-"maioria das máquinas virtuais em Nuvem, pois normalmente têm poucas CPUs e "
-"boa quantidade de memória."
+"A quantidade de processos de trabalho para a aplicação web e Celery é "
+"determinado automaticamente com base na quantidade de CPUs. Isto funciona "
+"bem para a maioria das máquinas virtuais em Nuvem, pois normalmente têm "
+"poucas CPUs e boa quantidade de memória."
 
 #: admin/install/docker.rst:389
 msgid ""
@@ -13837,22 +13838,18 @@ msgid ""
 "Configures :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. The ``_FILE`` "
 "variant can be used to load the secret from a file."
 msgstr ""
+"Configure :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. A variante ``_FILE`` "
+"podem ser usadas para carregar o segredo a partir do ficheiro."
 
 #: admin/install/docker.rst:1463
-#, fuzzy
-#| msgid ""
-#| "GitHub Apps are registered through the in-app manifest flow and stored in "
-#| "the database, so there are no GitHub App environment variables to "
-#| "configure. See :ref:`code-hosting-github-notifications`."
 msgid ""
 "GitHub Apps registered through the in-app manifest flow are stored in the "
 "database and do not need environment variables. See :ref:`code-hosting-"
 "github-notifications`."
 msgstr ""
 "Aplicações GitHub são registadas através do fluxo do manifesto dentro da "
-"aplicação e é armazenado na base de dados, e por isso não há variáveis de "
-"ambiente na Aplicação GitHub a configurar. Veja :ref:`code-hosting-github-"
-"notifications`."
+"aplicação são armazenadas na base de dados e por isso não precisam de "
+"variáveis de ambiente. Veja :ref:`code-hosting-github-notifications`."
 
 #: admin/install/docker.rst:1472
 msgid ""
@@ -14651,12 +14648,14 @@ msgid ""
 "the default for now, but a future release will run ASGI only and remove this "
 "setting."
 msgstr ""
+"Defina para ``1`` para executar a aplicação web usado ASGI em vez de WSGI. "
+"Isto é uma configuração opcional em com a finalidade de testar a transição "
+"para ASGI. WSGI continua a ser a predefinição por enquanto, mas em um futuro "
+"lançamento irá executar apenas ASGI e removerá esta definição."
 
 #: admin/install/docker.rst:2435
-#, fuzzy
-#| msgid "Configure how many WSGI workers should be executed."
 msgid "Configure how many web application workers should be executed."
-msgstr "Configura quantos workers WSGI devem ser executados."
+msgstr "Configura quantos trabalhadores da aplicação web devem ser executados."
 
 #: admin/install/docker.rst:2437
 msgid ""
@@ -14674,18 +14673,15 @@ msgstr ""
 "usados por :program:`granian`."
 
 #: admin/install/docker.rst:2452
-#, fuzzy
-#| msgid ""
-#| "Configure how many blocking WSGI threads each :program:`granian` worker "
-#| "can use. It defaults to twice :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "Configure how many blocking WSGI threads each :program:`granian` worker can "
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS` and is ignored "
 "when :envvar:`WEBLATE_ASGI` is enabled."
 msgstr ""
-"Configura quantas threads WSGI bloqueantes cada "
-"trabalhador :program:`granian` pode utilizar. A predefinição é o dobro "
-"de :envvar:`WEBLATE_WORKERS`."
+"Configura quantas threads WSGI bloqueantes cada trabalhador "
+":program:`granian` pode utilizar. A predefinição é o dobro de "
+":envvar:`WEBLATE_WORKERS` e é ignorada quando :envvar:`WEBLATE_ASGI` está "
+"ativado."
 
 #: admin/install/docker.rst:2456
 msgid ""
@@ -17744,12 +17740,6 @@ msgid "Translation memory status"
 msgstr "Estado da memória de tradução"
 
 #: admin/memory.rst:106
-#, fuzzy
-#| msgid ""
-#| "Translation memory entries can have two different statuses: **active** "
-#| "and **pending**. Pending entries are included in suggestions, but with a "
-#| "quality penalty applied. If :ref:`autoclean-tm` is enabled, matching "
-#| "pending entries are removed when a translation becomes active."
 msgid ""
 "Translation memory entries can have two different statuses: **active** and "
 "**pending**. Pending entries are included in suggestions, but with a quality "
@@ -17761,8 +17751,12 @@ msgid ""
 msgstr ""
 "Entradas de memória de tradução podem ter dois estados diferentes: **ativo** "
 "e **pendente**. Entradas pendentes são incluídas em sugestões, mas com um "
-"penálti de qualidade aplicado. Se :ref:`autoclean-tm` está ativo, entradas "
-"correspondentes pendentes são removidas quando uma tradução torna-se ativa."
+"penálti de qualidade aplicado. Dependendo da pontuação limite configurada, o "
+"penálti pode excluir correspondências exatas a partir de sugestões e "
+"tradução automática. Entradas importadas a partir de ficheiros de memória de "
+"tradução são armazenados enquanto ativas. Se :ref:`autoclean-tm` está ativo, "
+"entradas correspondentes pendentes são removidas quando uma tradução torna-"
+"se ativa."
 
 #: admin/memory.rst:117 admin/projects.rst:247
 msgid "Autoclean translation memory"
@@ -17867,17 +17861,15 @@ msgstr ""
 "para gerir a memória de tradução para esse projeto."
 
 #: admin/memory.rst:164
-#, fuzzy
-#| msgid ""
-#| "Open :guilabel:`Administration` and choose :guilabel:`Translation memory` "
-#| "to manage uploaded translation memory for the whole Weblate instance."
 msgid ""
 "Open a workspace and choose :guilabel:`Operations` ↓ :guilabel:`Translation "
 "memory` to manage automatically created translation memory for that "
 "workspace. Editing the workspace is required."
 msgstr ""
-"Abra :guilabel:`Administração` e escolha :guilabel:`Memória de tradução` "
-"para gerir a memória de tradução enviada para a instância Weblate inteira."
+"Abra um espaço de trabalho e escolha :guilabel:`Operações` ↓ "
+":guilabel:`Memória de tradução` para gerir memória de tradução "
+"automaticamente criada para esse espaço de trabalho. Editar o espaço de "
+"trabalho é necessário."
 
 #: admin/memory.rst:167
 msgid ""
@@ -22338,18 +22330,19 @@ msgid ""
 "list does not include workspaces merely because the user has site-wide "
 "management access."
 msgstr ""
+"Utilizadores com sessão iniciada podem abrir :guilabel:`Projetos` ↓ "
+":guilabel:`Os meus espaços de trabalho` para listar espaços de trabalho onde "
+"têm uma atribuição de equipas de espaço de trabalho explícita. Esta lista "
+"não inclui espaços de trabalho meramente porque o utilizador possui acesso "
+"de gestão ao site completo."
 
 #: admin/workspaces.rst:26
-#, fuzzy
-#| msgid ""
-#| "You can list all workspaces in the management interface "
-#| "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgid ""
 "Site managers can list all workspaces in the management interface "
 "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgstr ""
-"Pode listar todos os espaços de trabalho na interface de gestão "
-"em :guilabel:`Gerir` ↓ :guilabel:`Espaços de trabalho`."
+"Gestores do site podem listar todos os espaços de trabalho na interface de "
+"gestão em :guilabel:`Gerir` ↓ :guilabel:`Espaços de trabalho`."
 
 #: admin/workspaces.rst:31
 msgid ""
@@ -22358,6 +22351,10 @@ msgid ""
 "and actions remain permission-filtered. See :ref:`statistics access "
 "filtering <statistics-access-filtering>`."
 msgstr ""
+"Estatísticas de espaços de trabalho agregam todo o conteúdo detido e "
+"partilhado, incluindo projetos e componentes restritos que não pode aceder. "
+"Listagens de projetos e ações permanecem filtrados por permissões. Veja "
+":ref:`filtragem de acesso de estatísticas <statistics-access-filtering>`."
 
 #: admin/workspaces.rst:36
 msgid ""
@@ -22365,6 +22362,10 @@ msgid ""
 "components that you can access and have permission to download. Workspace "
 "membership does not bypass project access control or component restrictions."
 msgstr ""
+"O menu do espaço de trabalho :guilabel:`Ficheiros` descarrega um arquivo ZIP "
+"de componentes que possui que pode aceder e ter permissão para transferir. "
+"Adesão ao espaço de trabalho não ignora controlo de acesso de um projeto ou "
+"restrições de componente."
 
 #: admin/workspaces.rst:43
 msgid "Workspace removal"
@@ -22490,6 +22491,10 @@ msgid ""
 "automatically created workspace translation-memory entries. See :ref:`memory-"
 "user`."
 msgstr ""
+"Utilizadores com permissão para editar o espaço de trabalho podem abrir "
+":guilabel:`Operações` ↓ :guilabel:`Memória de tradução` para navegar, "
+"descarregar, eliminar, ou reconstruir automaticamente entradas de memória de "
+"tradução de espaço de trabalho. Veja :ref:`memory-user`."
 
 #: admin/workspaces.rst:115
 msgid ""
@@ -23073,6 +23078,11 @@ msgid ""
 "and character counts; suggestions; comments; and translated and approved "
 "percentages."
 msgstr ""
+"Métricas de projeto expõem estatísticas de tradução para cada componente "
+"visível e idioma em :http:get:`/api/projects/(string:project)/metrics/`. "
+"Estas incluem contagens de traduzido, total, aproximado, verificações em "
+"falha, e cadeias de carateres aprovadas, palavras e caracteres; sugestões; "
+"comentários; e percentagens de tradução e aprovação."
 
 #: api.rst:3333
 msgid "Search"
@@ -23167,6 +23177,8 @@ msgid ""
 "Added :ref:`project-level translation metrics <monitoring-translation-"
 "progress>` in JSON, CSV, and OpenMetrics formats."
 msgstr ""
+":ref:`Métricas de tradução ao nível do projeto <monitoring-translation-"
+"progress>` adicionadas nos formatos JSON, CSV, e OpenMetrics."
 
 #: changes.rst:10
 msgid ""
@@ -23174,6 +23186,10 @@ msgid ""
 "filtered :guilabel:`My workspaces` list, archive downloads, and management "
 "of workspace translation memory."
 msgstr ""
+":ref:`Espaços de trabalho <workspaces>` agora fornecem uma lista "
+":guilabel:`Os meus espaços de trabalho` filtrada por permissões, "
+"descarregamento de arquivos, e gestão de memória de tradução do espaço de "
+"trabalho."
 
 #: changes.rst:11
 msgid ""
@@ -23209,28 +23225,25 @@ msgid ""
 "Added :ref:`check-max-lines` quality check for limiting the number of lines "
 "in translations, useful for fixed-height UI elements."
 msgstr ""
+"Verificação de qualidade :ref:`check-max-lines` adicionada para limitar o "
+"número de linhas em traduções, útil para elementos UI com altura fixa."
 
 #: changes.rst:15
-#, fuzzy
-#| msgid "Added :ref:`check-laravel-format` quality check."
 msgid "Added :ref:`check-asciidoc-markup` quality check for AsciiDoc strings."
-msgstr "Verificação de qualidade :ref:`check-laravel-format` adicionada."
+msgstr ""
+"Verificação de qualidade ::ref:`check-asciidoc-markup` adicionada para "
+"cadeias de carateres AsciiDoc."
 
 #: changes.rst:16
-#, fuzzy
-#| msgid ""
-#| "Added support for acting as SAML Service Provider, see :ref:`saml-auth`."
 msgid ""
 "Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`."
 msgstr ""
-"Adicionado suporte para atuar como Provedor de Serviço SAML, veja :ref:`saml-"
-"auth`."
+"Suporte adicionado para ficheiros de legado Qt Linguist TS versão 1. Veja "
+":ref:`qtling`."
 
 #: changes.rst:17
-#, fuzzy
-#| msgid "Weblate is now available in Bashkir language."
 msgid "Weblate is now available in Lao language."
-msgstr "O Weblate agora está disponível no idioma Bashkir."
+msgstr "O Weblate agora está disponível no idioma Laosiano."
 
 #: changes.rst:20 changes.rst:101 changes.rst:165 changes.rst:276
 #: changes.rst:333 changes/v5.rst:18 changes/v5.rst:104 changes/v5.rst:208
@@ -23256,12 +23269,16 @@ msgid ""
 "Authenticated web-action rate-limit lockouts are now recorded in "
 "the :ref:`audit-log` with the affected scope and request path."
 msgstr ""
+"Os bloqueios de limitação de taxa de ações na Web autenticadas são agora "
+"registados no :ref:`audit-log` no âmbito afetado e caminho de pedido."
 
 #: changes.rst:22
 msgid ""
 "OpenMetrics API responses now include metric metadata and a versioned "
 "content type."
 msgstr ""
+"As respostas da API da OpenMetrics agora incluem metadados e tipo de "
+"conteúdo com versão."
 
 #: changes.rst:23
 msgid ""
@@ -23327,6 +23344,8 @@ msgid ""
 "Translation memory management shows active and pending entry counts and "
 "reports the number of entries processed during import."
 msgstr ""
+"Gestão de memória de tradução agora mostra contagens de entradas ativas e "
+"pendentes e reporta o número de entradas processadas durante importação."
 
 #: changes.rst:31
 msgid ""
@@ -23341,6 +23360,8 @@ msgid ""
 "Category pages now load recent history and shared component listings more "
 "efficiently."
 msgstr ""
+"Páginas de categorias agora carregam histórico recente e listagens de "
+"componentes partilhados mais eficientemente."
 
 #: changes.rst:33
 msgid ""
@@ -23380,6 +23401,8 @@ msgid ""
 "Repository failure alerts now link directly to component version control "
 "settings for users who can edit them."
 msgstr ""
+"Alertas de falha de repositório agora dão link diretamente para definições "
+"de versão de controlo de componente para utilizadores que os podem editar."
 
 #: changes.rst:38
 msgid ""
@@ -23403,10 +23426,13 @@ msgid ""
 "Added opt-in :ref:`running-granian-asgi` deployment support, "
 "including :envvar:`WEBLATE_ASGI` for Docker containers."
 msgstr ""
+"Suporte de implementação :ref:`running-granian-asgi` opcional adicionado, "
+"incluindo :envvar:`WEBLATE_ASGI` para contentores Docker."
 
 #: changes.rst:41
 msgid "Added opt-in :ref:`running-granian-asgi` deployment support."
 msgstr ""
+"Suporte de implementação :ref:`running-granian-asgi` opcional adicionado."
 
 #: changes.rst:42
 msgid ""
@@ -23414,12 +23440,17 @@ msgid ""
 "LibreTranslate, ModernMT, OpenAI-compatible, Anthropic, and Ollama services "
 "on ASGI deployments."
 msgstr ""
+"Pedidos do editor de tradução automática agora utiliza HTTP assíncrono para "
+"os serviços DeepL, LibreTranslate, ModernMT, OpenAI-compatible, Anthropic, e "
+"Ollama em implementações ASGI."
 
 #: changes.rst:43
 msgid ""
 "GitHub App connection and repository refresh requests now use asynchronous "
 "HTTP on ASGI deployments."
 msgstr ""
+"Pedidos de conexão e atualização de repositório da GitHub APP agora utilizam "
+"HTTP assíncrono para implementações ASGI."
 
 #: changes.rst:44
 msgid "Deployment checks now detect corrupted PostgreSQL relation statistics."
@@ -23443,6 +23474,9 @@ msgid ""
 "User-provided links, such as those in comments, announcements, and profiles, "
 "are now underlined and use a higher contrast color."
 msgstr ""
+"Links fornecidos por um utilizador, tais como os que se encontram em "
+"comentários, comunicados, e perfis, agora são sublinhados e utiliza uma cor "
+"de contraste mais alta."
 
 #: changes.rst:49 changes.rst:118 changes.rst:192 changes.rst:249
 #: changes.rst:287 changes.rst:350 changes/v5.rst:36 changes/v5.rst:144
@@ -23474,6 +23508,9 @@ msgid ""
 "site-wide user management now regenerates the user's personal API key by "
 "default."
 msgstr ""
+":ref:`Desativar autenticação de palavra passe <site-wide-user-management>` a "
+"partir da gestão de utilizador do site inteiro agora regenera a chave API "
+"pessoal do utilizador por predefinição."
 
 #: changes.rst:51
 msgid ""
@@ -23494,25 +23531,32 @@ msgstr ""
 
 #: changes.rst:53
 msgid "URLs containing backslashes are now rejected as invalid."
-msgstr ""
+msgstr "URLs que contêm barras invertidas agora são rejeitados como inválidos."
 
 #: changes.rst:54
 msgid ""
 "Protected outbound HTTP requests now bind connections to validated public "
 "addresses."
 msgstr ""
+"Pedidos HTTP de saída protegidos agora vinculam ligações a endereços "
+"públicos validados."
 
 #: changes.rst:55
 msgid ""
 "Permanent same-host Git HTTP redirects are now validated and stored as "
 "canonical component repository URLs."
 msgstr ""
+"Redirecionamentos HTTP Git permanentes para o mesmo anfitrião agora são "
+"validados e armazenados enquanto URLs canónicos de repositório de componente."
 
 #: changes.rst:56
 msgid ""
 "VCS operations now bind protected Git connections to validated public "
 "addresses and fail closed for clients which cannot enforce that binding."
 msgstr ""
+"Operações VCS agora vinculam conexões Git protegidas a endereços públicos "
+"validados e falham de forma fechada para cliente os quais não se pode "
+"aplicar este vincular."
 
 #: changes.rst:57
 msgid ""
@@ -23533,34 +23577,31 @@ msgstr ""
 "links de repositório, e estados de revisão."
 
 #: changes.rst:59
-#, fuzzy
-#| msgid ""
-#| "Project backup imports now skip repository-linked components when the "
-#| "importer cannot access the target component."
 msgid ""
 ":ref:`Project backup imports <projectbackup>` now validate restored data "
 "before creating project state and skip repository-linked components when the "
 "importer cannot access the target component."
 msgstr ""
-"Importações de cópias de segurança do projeto agora ignoram componentes com "
-"links de repositório quando o importador não consegue aceder ao componente "
+":ref:`Importações de cópias de segurança <projectbackup>` agora validam "
+"dados restaurados antes de criar o estado do projeto e ignora componentes "
+"com links do repositório quando o importados não pode aceder o componente "
 "alvo."
 
 #: changes.rst:60
-#, fuzzy
-#| msgid "Fixed rebuilding project translation-memory for some components."
 msgid ""
 "Rebuilding project translation memory no longer removes entries imported "
 "from files."
 msgstr ""
-"Corrigida a reconstrução da memória de tradução do projeto para alguns "
-"componentes."
+"Reconstrução de memória de tradução de projeto já não remove entradas "
+"importadas a partir de ficheiros."
 
 #: changes.rst:61
 msgid ""
 "Project backup restores no longer load Mercurial repository configuration or "
 "shared-repository indirection supplied by archives."
 msgstr ""
+"Cópias de segurança de projeto já não carregam configuração de repositório "
+"Mercurial ou indireção de repositório partilhado fornecido por arquivos."
 
 #: changes.rst:62
 msgid ""
@@ -23600,6 +23641,9 @@ msgid ""
 "updates through the :ref:`generic GitHub webhook endpoint <code-hosting-"
 "github-notifications>`."
 msgstr ""
+"Webhooks de GitHub App de legado autenticados podem ativar novamente "
+"atualizações de repositório através do :ref:`endpoint do webhook genérico do "
+"GitHub <code-hosting-github-notifications>`."
 
 #: changes.rst:69 changes.rst:226 changes.rst:366 changes/v5.rst:66
 #: changes/v5.rst:176 changes/v5.rst:311 changes/v5.rst:354 changes/v5.rst:451
@@ -23636,12 +23680,18 @@ msgid ""
 "Git over HTTPS and SSH enforces connection address pinning without an "
 "allowlist entry."
 msgstr ""
+"Quando :setting:`VCS_RESTRICT_PRIVATE` está ativo, anfitriões de repositório "
+"Mercurial e Subversão têm que ser explicitamente incluídos em "
+":setting:`VCS_ALLOW_HOSTS`; Git através de HTTPS e SSH exige o afixar de "
+"endereços de conexão sem uma entra de lista de permissões."
 
 #: changes.rst:73
 msgid ""
 "Outbound HTTP proxy configuration is limited to the per-protocol environment "
 "variables documented in :ref:`http-proxy`."
 msgstr ""
+"Configuração de proxy de HTTP de saída é limitado às variáveis de ambiente "
+"por protocolo documentadas em :ref:`http-proxy`."
 
 #: changes.rst:74
 msgid ""
@@ -23650,19 +23700,19 @@ msgid ""
 "and :setting:`SSH_EXTRA_ARGS` can override connection routing and address "
 "pinning."
 msgstr ""
+"O Git SSH valida destinos ``HostName`` e ``Port`` configurados antes de "
+"conectar; configuração de administrador SSH continua confiada, e "
+":setting:`SSH_EXTRA_ARGS` pode sobrescrever roteamento de conexão e afixar "
+"de endereço."
 
 #: changes.rst:75
-#, fuzzy
-#| msgid ""
-#| "Git auto-maintenance is now disabled for Weblate-managed repositories to "
-#| "avoid concurrent detached maintenance jobs."
 msgid ""
 "Git LFS object transfers are unsupported and disabled for Weblate-managed "
 "repositories; LFS-tracked files remain pointer files."
 msgstr ""
-"A manutenção automática Git agora está desativada para repositórios geridos "
-"pelo Weblate para evitar tarefas de manutenção independentes em execução "
-"simultânea."
+"Transferências de objetos LFS Git não são suportadas e desativadas para "
+"repositórios geridos pelo Weblate; ficheiros rastreados através de LFS "
+"continuam a ser ficheiros ponteiro."
 
 #: changes.rst:76
 msgid ""
@@ -46050,10 +46100,8 @@ msgstr ""
 "atualizar as traduções de forma que elas correspondam à sua base de código."
 
 #: devel/integration.rst:69
-#, fuzzy
-#| msgid "Joining a translation project"
 msgid "Monitoring translation progress"
-msgstr "Aderir a um projeto de tradução"
+msgstr "Monitorizar progresso de tradução"
 
 #: devel/integration.rst:71
 msgid ""
@@ -46061,6 +46109,10 @@ msgid ""
 "integrations. It returns statistics for all visible components and languages "
 "in a single request and supports JSON, CSV, and OpenMetrics formats."
 msgstr ""
+"Utilize o endpoints de métricas de projeto para rastrear o progresso de "
+"tradução a partir de integrações externas. Devolve estatísticas para todos "
+"os componente e idiomas visíveis em um único pedido e suporta os formatos "
+"JSON, CSV e OpenMetrics."
 
 #: devel/integration.rst:75
 msgid ""
@@ -46068,12 +46120,13 @@ msgid ""
 "monitoring systems without polling the statistics endpoint for each "
 "translation."
 msgstr ""
+"A representação OpenMetrics pode ser obtida por sistemas de monitorização "
+"compatíveis com Prometheus sem pedir ao endpoint de estatísticas para cada "
+"tradução."
 
 #: devel/integration.rst:81
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid ":http:get:`/api/projects/(string:project)/metrics/`"
-msgstr "Adicionado :http:get:`/api/projects/(string:project)/file/`."
+msgstr ":http:get:`/api/projects/(string:project)/metrics/`"
 
 #: devel/integration.rst:87 devel/translations.rst:7
 msgid "Adding new strings"
@@ -47040,6 +47093,12 @@ msgid ""
 "strings using different placeholder syntaxes, such as ``Hello {name}`` and "
 "``Hello %s``, do not match."
 msgstr ""
+"Propagação de tradução apenas reutiliza cadeias de carateres "
+"correspondentes. O texto fonte e o contexto têm que ser idênticos. Para "
+"formatos monolingues, a chave também tem que corresponder. A propagação não "
+"converte sintaxe ou semântica de mensagem, e por isso cadeias de carateres a "
+"usar sintaxes de marcadores de lugar diferentes, tais como ``Hello {name}`` "
+"e ``Hello %s``, não correspondem."
 
 #: devel/mobile.rst:22
 msgid ""
@@ -47052,6 +47111,15 @@ msgid ""
 "these components, or assign distinct keys or contexts to platform-specific "
 "messages, so later edits do not overwrite intentional differences."
 msgstr ""
+"Quando clientes usam as mesmas mensagens mas requerem diferentes "
+"representações em tempo de execução, considere manter um formato de tradução "
+"canónico e gerar recursos específicos para clientes na pipeline. Isto também "
+"permite que os recursos gerados contenham apenas as cadeias de carateres e "
+"idiomas exigidos por cada cliente. Utilize componentes separados quando "
+"tradutores precisam de manter mensagens genuinamente diferentes. Desative "
+"propagação de tradução para estes componentes, o atribua teclas distintas ou "
+"contexto para mensagens específicas de plataforma, para que edições "
+"posteriores não sobrescrevam diferenças intencionais."
 
 #: devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -51286,6 +51354,10 @@ msgid ""
 "format. Select the file format matching the version produced by your "
 "application."
 msgstr ""
+"Ficheiros Qt Linguist são usados tanto para traduções bilingues e "
+"monolingues. O Weblate suporta ambos formato da versão 2 atual e o formato "
+"da versão 1 de legado. Selecione o formato de ficheiro correspondente à "
+"versão produzida pela sua aplicação."
 
 #: formats/qt.rst:19
 msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
@@ -51293,38 +51365,36 @@ msgstr ""
 "`Manual do Qt Linguist <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: formats/qt.rst:24
-#, fuzzy
-#| msgid "Version"
 msgid "Version 2"
-msgstr "Versão"
+msgstr "Versão 2"
 
 #: formats/qt.rst:26
 msgid ""
 "This is the default format for ``.ts`` files and supports the full set of Qt "
 "Linguist features available in Weblate."
 msgstr ""
+"Isto é o formato padrão para ficheiros ``.ts`` e suporta o conjunto completo "
+"de funcionalidades Qt Linguist disponíveis no Weblate."
 
 #: formats/qt.rst:37
-#, fuzzy
-#| msgid "Version"
 msgid "Version 1"
-msgstr "Versão"
+msgstr "Versão 1"
 
 #: formats/qt.rst:39
 msgid ""
 "The legacy format supports messages, contexts and the unfinished state. It "
 "does not support plurals, locations, descriptions or Weblate flags."
 msgstr ""
+"O formato de legado suporta mensagens, contexto e o estado inacabado. Não "
+"suporta plurais, localizações, descrições ou marcadores Weblate."
 
 #: formats/qt.rst:48
 msgid "Typical Weblate :ref:`component` when using as bilingual"
 msgstr ":ref:`component` típica do Weblate ao usar como bilíngue"
 
 #: formats/qt.rst:56 formats/qt.rst:69
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)`"
-msgstr "Ficheiro de tradução Qt Linguist"
+msgstr "Ficheiro de tradução Qt Linguist (version 2)`"
 
 #: formats/qt.rst:61
 msgid "Typical Weblate :ref:`component` when using as monolingual"
@@ -51335,6 +51405,9 @@ msgid ""
 "For version 1 files, use the same configuration and select :guilabel:`Qt "
 "Linguist translation file (version 1)` as the file format."
 msgstr ""
+"Para ficheiros de versão 1, utilize a mesma configuração e selecione "
+":guilabel:`Ficheiro de tradução Qt Linguist (versão 1)` como formato do "
+"ficheiro."
 
 #: formats/resjson.rst:2
 msgid "JavaScript Resource Files (RESJSON)"
@@ -54140,10 +54213,8 @@ msgstr ""
 "dentro de 7 dias."
 
 #: security/localization-threat.rst:2
-#, fuzzy
-#| msgid "Localization guide"
 msgid "Localization Threat Model"
-msgstr "Guia de tradução"
+msgstr "Modelo de Ameaças de Tradução"
 
 #: security/localization-threat.rst:4
 msgid ""
@@ -54169,27 +54240,30 @@ msgid ""
 "Translators may be contractors, volunteers, or agencies with varying levels "
 "of vetting."
 msgstr ""
+"Tradutores podem ser contratantes, voluntários, ou agências com níveis de "
+"verificação variados."
 
 #: security/localization-threat.rst:9
-#, fuzzy
-#| msgid "Loads translations from the files into Weblate."
 msgid "Translators require access to Weblate."
-msgstr "Carrega traduções dos ficheiros para o Weblate."
+msgstr "Tradutores exigem acesso ao Weblate."
 
 #: security/localization-threat.rst:10
 msgid ""
 "Translation strings may contain sensitive content such as unreleased "
 "features, legal terms, or security messages."
 msgstr ""
+"Cadeias de carateres de tradução podem conter conteúdo sensível tais como "
+"funcionalidades não lançadas, termos legais, ou mensagens de segurança."
 
 #: security/localization-threat.rst:11
 msgid ""
 "The organization has limited control over translators' local environments."
 msgstr ""
+"A organização tem controlo limitado sobre os ambientes locais dos tradutores."
 
 #: security/localization-threat.rst:14
 msgid "Threat Categories (STRIDE)"
-msgstr ""
+msgstr "Categorias de Ameaça (STRIDE)"
 
 #: security/localization-threat.rst:17
 msgid "1. Spoofing"
@@ -54198,11 +54272,14 @@ msgstr "1. Falsificação de Identidade"
 #: security/localization-threat.rst:19
 msgid "**S1. Fake translator accounts impersonating legitimate contributors.**"
 msgstr ""
+"**S1. Contas de tradutor falsas que fingem ser colaboradores legítimos.**"
 
 #: security/localization-threat.rst:21
 msgid ""
 "Risk: Unauthorized access to projects or injection of malicious strings."
 msgstr ""
+"Risco: Acesso não autorizado a projetos ou injeção de cadeias de carateres "
+"maliciosas."
 
 #: security/localization-threat.rst:22 security/localization-threat.rst:34
 #: security/localization-threat.rst:43 security/localization-threat.rst:54
@@ -54212,14 +54289,8 @@ msgid "Mitigations:"
 msgstr "Medidas mitigatórias:"
 
 #: security/localization-threat.rst:24
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid "Enforce strong authentication (2FA); see :ref:`project-enforced_2fa`."
-msgstr ""
-"Isto pode ser aplicado aos utilizadores ao nível do projeto "
-"(consulte: :ref:`project-enforced_2fa`) ou no da equipa."
+msgstr "Aplicar autenticação forte (2FA); veja :ref:`project-enforced_2fa`."
 
 #: security/localization-threat.rst:25
 msgid "Verify identities of contracted translators."
@@ -54228,6 +54299,8 @@ msgstr "Verificar a identidade dos tradutores contratados."
 #: security/localization-threat.rst:26
 msgid "Use role-based access to limit project scope; see :ref:`acl`."
 msgstr ""
+"Utilize acesso baseado em funções para limitar o âmbito do projeto; veja "
+":ref:`acl`."
 
 #: security/localization-threat.rst:29
 msgid "2. Tampering"
@@ -54235,13 +54308,15 @@ msgstr "2. Adulteração"
 
 #: security/localization-threat.rst:31
 msgid "**T1. Malicious translations embedding harmful payloads.**"
-msgstr ""
+msgstr "**T1. Traduções maliciosas que incorporam cargas úteis maliciosas.**"
 
 #: security/localization-threat.rst:33
 msgid ""
 "Risk: Injection of JavaScript, HTML, or format-string attacks if "
 "translations are not properly escaped."
 msgstr ""
+"Risco: Injeção de JavaScript, HTML, ou ataques de strings formatadas se "
+"traduções não são devidamente escapadas."
 
 #: security/localization-threat.rst:36
 msgid ""
@@ -54249,12 +54324,13 @@ msgid ""
 "like :ref:`check-safe-html` might help. See :ref:`checks` "
 "and :ref:`component-enforced_checks`."
 msgstr ""
+"Aplicar validação de entrada estrita no Weblate. Aplicar verificações de "
+"qualidade como :ref:`check-safe-html` pode ajudar. Veja :ref:`checks` e "
+":ref:`component-enforced_checks`."
 
 #: security/localization-threat.rst:37
-#, fuzzy
-#| msgid "Fixed handling of translation files ignored in Git."
 msgid "Use automated security scanning for translation files in your CI."
-msgstr "Corrigido o tratamento de ficheiros de tradução ignorados no Git."
+msgstr ""
 
 #: security/localization-threat.rst:38
 msgid ""
@@ -55802,12 +55878,12 @@ msgid "Project translation metrics"
 msgstr "Memória de tradução por projeto"
 
 #: security/threat-model.rst:52
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid ""
 ":http:get:`/api/projects/(string:project)/metrics/` in JSON, CSV, and "
 "OpenMetrics formats"
-msgstr "Adicionado :http:get:`/api/projects/(string:project)/file/`."
+msgstr ""
+":http:get:`/api/projects/(string:project)/metrics/` em formatos JSON, CSV, e "
+"OpenMetrics"
 
 #: security/threat-model.rst:54
 msgid ""
@@ -62129,17 +62205,12 @@ msgid ""
 msgstr ""
 
 #: snippets/check-flags-autogenerated.rst:54
-#, fuzzy
-#| msgid ""
-#| "Treat a text as an Bulletin Board Code (BBCode) document, "
-#| "affects :ref:`check-same`. Enables the :ref:`check-bbcode` quality check."
 msgid ""
 "Treat a text as an AsciiDoc document, affects :ref:`check-same`. Enables "
 "the :ref:`check-asciidoc-markup` quality check."
 msgstr ""
-"Trata um texto como um documento Bulletin Board Code (BBCode), "
-"afeta :ref:`check-same`. Ativa a verificação de qualidade :ref:`check-"
-"bbcode`."
+"Trata um texto como um documento AsciiDoc, afeta :ref:`check-same`. Ativa a "
+"verificação de qualidade :ref:`check-asciidoc-markup`."
 
 #: snippets/check-flags-autogenerated.rst:57
 msgid ""
@@ -62370,10 +62441,8 @@ msgid "Enables the :ref:`check-max-length` quality check."
 msgstr "Ignora a verificação de qualidade :ref:`check-max-length`."
 
 #: snippets/check-flags-autogenerated.rst:133
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-size` quality check."
 msgid "Enables the :ref:`check-max-lines` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-max-size`."
+msgstr "Ativa a verificação de qualidade :ref:`check-max-lines`."
 
 #: snippets/check-flags-autogenerated.rst:135
 #, fuzzy
@@ -62449,10 +62518,8 @@ msgid "Skip the :ref:`check-accelerator` quality check."
 msgstr "Ignora a verificação de qualidade :ref:`check-accelerator`."
 
 #: snippets/check-flags-autogenerated.rst:166
-#, fuzzy
-#| msgid "Skip the :ref:`check-kashida` quality check."
 msgid "Skip the :ref:`check-asciidoc-markup` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-kashida`."
+msgstr "Ignora a verificação de qualidade :ref:`check-asciidoc-markup`."
 
 #: snippets/check-flags-autogenerated.rst:168
 msgid "Skip the :ref:`check-bbcode` quality check."
@@ -62625,10 +62692,8 @@ msgid "Skip the :ref:`check-max-length` quality check."
 msgstr "Ignora a verificação de qualidade :ref:`check-max-length`."
 
 #: snippets/check-flags-autogenerated.rst:252
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-size` quality check."
 msgid "Skip the :ref:`check-max-lines` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-max-size`."
+msgstr "Ignora a verificação de qualidade :ref:`check-max-lines`."
 
 #: snippets/check-flags-autogenerated.rst:254
 msgid "Skip the :ref:`check-max-size` quality check."
@@ -67084,10 +67149,8 @@ msgid "``.ad``, ``.adoc``, ``.asciidoc``"
 msgstr ""
 
 #: snippets/format-features/asciidoc-features.rst:30
-#, fuzzy
-#| msgid ":ref:`check-safe-html`, ``strict-same``"
 msgid ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
-msgstr ":ref:`check-safe-html`, ``strict-same``"
+msgstr ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -69663,13 +69726,6 @@ msgstr ""
 "produzido sem nenhuma conversão."
 
 #: user/files.rst:25
-#, fuzzy
-#| msgid ""
-#| "You can also download the translation converted into one of the widely "
-#| "used localization formats. The converted files will be enriched with data "
-#| "provided in Weblate; such as additional context, comments or flags. "
-#| "Several file formats are available via the :guilabel:`Files` "
-#| "↓ :guilabel:`Customize download` menu:"
 msgid ""
 "You can also download the translation converted into one of the widely used "
 "localization formats. The converted files will be enriched with data "
@@ -69677,9 +69733,7 @@ msgid ""
 msgstr ""
 "Pode também transferir a tradução convertida num dos formatos de localização "
 "amplamente utilizados. Os ficheiros convertidos serão enriquecidos com dados "
-"fornecidos no Weblate, como contexto adicional, comentários ou marcadores. "
-"Vários formatos de ficheiro estão disponíveis através do "
-"menu :guilabel:`Ficheiros` ↓ :guilabel:`Personalizar a transferência`:"
+"fornecidos no Weblate, como contexto adicional, comentários ou marcadores."
 
 #: user/files.rst:31
 msgid ""
@@ -73603,17 +73657,14 @@ msgid "Using proxy"
 msgstr "Usando proxy"
 
 #: vcs.rst:285
-#, fuzzy
-#| msgid ""
-#| "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
-#| "configure the VCS to use it."
 msgid ""
 "If you need to access Git repositories over HTTPS using a proxy server, "
 "configure the per-protocol environment variables described in :ref:`http-"
 "proxy`."
 msgstr ""
-"Se precisar aceder a repositórios VCS por HTTP/HTTPS a usar um servidor "
-"proxy, configure o VCS para o usar."
+"Se precisa de aceder a repositórios Git através de HTTPS usando um servidor "
+"proxy, configure as variáveis de ambiente por protocolo descritas em "
+":ref:`http-proxy`."
 
 #: vcs.rst:291
 msgid "Git"

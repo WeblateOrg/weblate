@@ -121,7 +121,7 @@
         <div class="card-header">
           <h4 class="card-title">{% translate "Edit screenshot" %}</h4>
         </div>
-        <div class="card-body">{{ edit_form|crispy }}</div>
+        <div class="card-body">{% crispy edit_form %}</div>
         <div class="card-footer">
           <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
         </div>

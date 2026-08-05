@@ -1406,16 +1406,17 @@ The ``index`` page is always visible. Supported document identifiers are
 
 Hidden pages are removed from the legal menu and return a 404 response when
 requested directly. Hiding ``terms`` or ``privacy`` is not recommended when
-terms of service confirmation is enabled.
+legal document confirmation is enabled.
 
 When ``terms`` or ``privacy`` is hidden, links exposed through the
 ``terms_url`` and ``privacy_url`` template variables use :setting:`LEGAL_URL`
 and :setting:`PRIVACY_URL` as fallbacks when configured. If no fallback URL is
 configured, the related link is omitted.
 
-With terms of service confirmation enabled, hiding ``terms`` and setting
+With legal document confirmation enabled, hiding ``terms`` and setting
 :setting:`LEGAL_URL` makes the confirmation page link to the external terms
-document instead of embedding :file:`legal/documents/tos.html`.
+document instead of embedding :file:`legal/documents/tos.html`. When a privacy
+policy link is available, the confirmation covers both documents.
 
 In non-Docker deployments, define :setting:`LEGAL_HIDDEN_DOCUMENTS` and
 :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the API
@@ -1440,8 +1441,9 @@ LEGAL_TOS_DATE
 
    You need :ref:`legal` installed to make this work.
 
-Date of last update of terms of service documents. Whenever the date changes,
-users are required to agree with the updated terms of service.
+Date of the legal documents users last agreed to. Whenever the date changes,
+users are required to agree with the current terms of service and, when a
+privacy policy link is available, the privacy policy.
 
 .. code-block:: python
 

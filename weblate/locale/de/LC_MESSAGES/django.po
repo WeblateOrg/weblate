@@ -25,9 +25,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-07-31 02:40-0500\n"
-"PO-Revision-Date: 2026-07-31 08:23+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-08-03 17:02+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -455,7 +454,7 @@ msgstr "Passwort geändert."
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Ratenbegrenzung für {scope} unter {path} wurde überschritten."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -5246,16 +5245,12 @@ msgid "Translation should not exceed given length."
 msgstr "Übersetzung sollte die angegebene Länge nicht überschreiten."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Maximaler Umfang der Übersetzung"
+msgstr "Maximale Anzahl der Zeilen"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "Übersetzung sollte die angegebene Länge nicht überschreiten."
+msgstr "Übersetzung sollte die angegebene Zeilenanzahl nicht überschreiten."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -6406,14 +6401,12 @@ msgid "Source string length"
 msgstr "Länge der Ausgangszeichenkette"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"Die Ausgangszeichenkette ist zu lang, um die konfigurierte maximale Länge "
-"einzuhalten."
+"Die Ausgangszeichenkette liegt nahe an der konfigurierten maximalen Länge "
+"für Übersetzungen oder überschreitet diese."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -8319,18 +8312,17 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Aus aktuellen Übersetzungen erstellte Übersetzungsspeichereinträge wurden "
+"gelöscht und werden im Hintergrund neu erstellt. Hochgeladene Einträge "
+"blieben erhalten."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
-"Einträge wurden gelöscht und der Übersetzungsspeicher wird im Hintergrund "
-"neu aufgebaut."
+"Aus aktuellen Übersetzungen erstellte Übersetzungsspeichereinträge wurden "
+"gelöscht und werden im Hintergrund neu erstellt."
 
 #: weblate/memory/views.py:269
 #, fuzzy, python-format
@@ -10987,10 +10979,8 @@ msgstr "Beobachtete Projekte verwalten"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "workspace"
 msgid "My workspaces"
-msgstr "Arbeitsbereich"
+msgstr "Meine Arbeitsbereiche"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11968,15 +11958,15 @@ msgstr ""
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "JSON-Metriken"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "CSV-Metriken"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "OpenMetrics-Metriken"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -14252,10 +14242,9 @@ msgid "Translation memory status"
 msgstr "Übersetzungsspeicherstatus"
 
 #: weblate/templates/memory/index.html:50
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "Anzahl der Einträge für %(project)s"
+msgstr "Anzahl der Einträge für %(workspace)s"
 
 #: weblate/templates/memory/index.html:52
 #, python-format
@@ -14332,16 +14321,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Active: %(count)s"
 msgid "Active entries"
-msgstr "Aktiv:(%(count)s)"
+msgstr "Aktive Einträge"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "Ausstehende Zeichenkette"
+msgstr "Ausstehende Einträge"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -24258,10 +24243,8 @@ msgid "Could not resolve the URL domain: {}"
 msgstr "Die URL-Domain konnte nicht aufgelöst werden: {}"
 
 #: weblate/utils/outbound.py:369
-#, fuzzy
-#| msgid "Could not resolve the URL domain: {}"
 msgid "Could not resolve the URL domain."
-msgstr "Die URL-Domain konnte nicht aufgelöst werden: {}"
+msgstr "Die URL-Domain konnte nicht aufgelöst werden."
 
 #: weblate/utils/render.py:27
 #, python-format
