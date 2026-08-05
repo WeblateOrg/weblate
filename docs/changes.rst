@@ -5,6 +5,8 @@ Weblate 2026.8.1
 
 .. rubric:: New features
 
+* Project and component APIs now expose all user-configurable settings, including access control and translation-memory settings. See :doc:`api`.
+
 .. rubric:: Improvements
 
 .. rubric:: Bug fixes
