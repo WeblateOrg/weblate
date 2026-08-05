@@ -1987,13 +1987,13 @@ class ProjectViewSet(
                     msg = "Component serializer did not produce an instance"
                     raise RuntimeError(msg)
                 component.post_create(self.request.user, origin="api")
-                return Response(
-                    serializer.data,
-                    status=HTTP_201_CREATED,
-                    headers={
-                        "Location": str(serializer.data[api_settings.URL_FIELD_NAME])
-                    },
-                )
+
+            data = serializer.data
+            return Response(
+                data,
+                status=HTTP_201_CREATED,
+                headers={"Location": str(data[api_settings.URL_FIELD_NAME])},
+            )
 
         queryset = (
             obj.component_set.filter_access(self.request.user)
