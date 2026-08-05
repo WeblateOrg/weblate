@@ -141,6 +141,34 @@ class RunBorgTest(SimpleTestCase):
         )
 
 
+class InitializeBackupTest(SimpleTestCase):
+    def test_initialize_rejects_option_as_ssh_hostname(self) -> None:
+        with (
+            patch("weblate.utils.backup.add_host_key") as add_host_key,
+            patch("weblate.utils.backup.run_borg") as mock_run_borg,
+            self.assertRaisesMessage(BackupError, "Invalid host name given!"),
+        ):
+            initialize("ssh://-f/etc/passwd:22/path", "key")
+
+        add_host_key.assert_not_called()
+        mock_run_borg.assert_not_called()
+
+    def test_initialize_accepts_single_label_ssh_hostname(self) -> None:
+        with (
+            patch("weblate.utils.backup.add_host_key") as add_host_key,
+            patch(
+                "weblate.utils.backup.run_borg", return_value=BorgResult(output="")
+            ) as mock_run_borg,
+        ):
+            initialize("ssh://backup/path", "key")
+
+        add_host_key.assert_called_once_with(None, "backup", None)
+        mock_run_borg.assert_called_once_with(
+            ["init", "--encryption", "repokey-blake2", "ssh://backup/path"],
+            {"BORG_NEW_PASSPHRASE": "key"},
+        )
+
+
 class BackupCommandTest(SimpleTestCase):
     @override_settings(BORG_EXTRA_ARGS=())
     def test_backup_includes_changed_files_in_filter(self) -> None:

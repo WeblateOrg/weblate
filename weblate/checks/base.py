@@ -446,6 +446,44 @@ class TargetCheck(BaseCheck):
             yield self.get_errors_text(set(errors))
 
 
+class PluralResultDescriptionMixin(TargetCheck):
+    """
+    Build check descriptions by merging MissingExtraDict results across plurals.
+
+    For checks whose ``check_single`` returns a ``MissingExtraDict`` (missing,
+    extra, and/or errors), this merges those results from every plural form and
+    formats them into the check description.
+    """
+
+    def get_description(self, check_obj: Check) -> StrOrPromise:
+        unit = check_obj.unit
+
+        errors: list[StrOrPromise] = []
+
+        # Merge plurals
+        results: MissingExtraDict = {}
+        for result in self.check_target_generator(
+            unit.get_source_plurals(), unit.get_target_plurals(), unit
+        ):
+            if not isinstance(result, dict):
+                continue
+            if missing := result.get("missing"):
+                results.setdefault("missing", []).extend(missing)
+            if extra := result.get("extra"):
+                results.setdefault("extra", []).extend(extra)
+            if result_errors := result.get("errors"):
+                results.setdefault("errors", []).extend(result_errors)
+        if any(results.values()):
+            errors.extend(self.format_result(results))
+        if errors:
+            return format_html_join(
+                mark_safe("<br />"),
+                "{}",
+                ((error,) for error in errors),
+            )
+        return super().get_description(check_obj)
+
+
 class SourceCheck(BaseCheck):
     """Basic class for source checks."""
 

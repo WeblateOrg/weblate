@@ -40,6 +40,10 @@ Import validation of uploaded project backups can be tuned using
 :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, and
 :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`.
 
+The complete backup is validated before restoring any data. Invalid object
+fields, references, repository paths, URLs, regular expressions, or screenshot
+files cause the import to be rejected without creating a partial project.
+
 Use the generated file to import project when :ref:`adding-projects` or in :wladmin:`import_projectbackup`.
 
 .. note::

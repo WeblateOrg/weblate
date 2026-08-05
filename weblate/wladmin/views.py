@@ -11,13 +11,14 @@ from shutil import disk_usage
 from typing import TYPE_CHECKING, Any, Literal, cast, get_args
 from urllib.parse import quote, urlencode
 
+import httpx2
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.models import Count, Max, Q
+from django.db.models import Count, Max
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -28,7 +29,6 @@ from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, FormMixin
-from requests.exceptions import HTTPError, Timeout
 
 from weblate.accounts.forms import AdminUserSearchForm, ContactForm
 from weblate.accounts.views import UserList, get_initial_contact
@@ -53,7 +53,13 @@ from weblate.memory.tasks import MEMORY_SCOPE_COMPACTION_STATE
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.base import AlertSeverity
 from weblate.trans.forms import AnnouncementForm
-from weblate.trans.models import Alert, Announcement, Change, Component, Project
+from weblate.trans.models import (
+    Alert,
+    Announcement,
+    Change,
+    Component,
+    Project,
+)
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.cache import measure_cache_latency
@@ -92,7 +98,6 @@ from weblate.wladmin.forms import (
     SSHAddForm,
     TestMailForm,
     WorkspaceCreateForm,
-    WorkspaceSearchForm,
 )
 from weblate.wladmin.middleware import (
     claim_configuration_health_check,
@@ -106,6 +111,7 @@ from weblate.wladmin.models import (
 )
 from weblate.wladmin.tasks import backup_service, support_status_update
 from weblate.workspaces.models import Workspace
+from weblate.workspaces.views import WorkspaceListBase
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -404,7 +410,7 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
         support.refresh(
             site_url=get_discovery_site_url(reverse("manage-discovery-callback"))
         )
-    except Timeout:
+    except httpx2.TimeoutException:
         report_error("Activation timeout")
         messages.error(
             request,
@@ -469,12 +475,12 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
         activation_error = ""
         try:
             support.refresh()
-        except Timeout:
+        except httpx2.TimeoutException:
             report_error("Activation timeout")
             activation_error = gettext(
                 "Could not activate your installation. Please try again later."
             )
-        except HTTPError as error:
+        except httpx2.HTTPStatusError as error:
             report_error("Activation error")
             if error.response is not None and error.response.status_code == 404:
                 activation_error = gettext(
@@ -751,6 +757,7 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
                 form.cleaned_data["host"],
                 form.cleaned_data["port"],
                 accept_fingerprint=form.cleaned_data["fingerprint"],
+                restrict_private=True,
             )
     elif action == "remove-host":
         remove_host_key(request, request.POST.get("host_key", ""))
@@ -1034,43 +1041,16 @@ class TeamListView(FormMixin, ListView):
 
 
 @method_decorator(management_access, name="dispatch")
-class WorkspaceListView(ListView):
+class WorkspaceListView(WorkspaceListBase):
     template_name = "manage/workspaces.html"
-    paginate_by = 50
-    model = Workspace
 
-    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
-        super().setup(request, *args, **kwargs)
-        self.search_form = WorkspaceSearchForm(request.GET)
-
-    def get_queryset(self) -> QuerySet[Workspace]:
-        queryset = Workspace.objects.annotate(Count("projects")).order()
-        billing_enabled = "weblate.billing" in settings.INSTALLED_APPS
-        if self.search_form.is_valid() and (
-            query := self.search_form.cleaned_data["q"].strip()
-        ):
-            filters = Q(name__icontains=query)
-            if billing_enabled:
-                filters |= Q(billing__customer_name__icontains=query)
-            queryset = queryset.filter(filters)
-        if billing_enabled:
-            queryset = queryset.select_related("billing")
-        return queryset
+    def include_billing(self) -> bool:
+        return "weblate.billing" in settings.INSTALLED_APPS
 
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         result = super().get_context_data(**kwargs)
-        search_query = ""
-        if self.search_form.is_valid():
-            search_query = self.search_form.cleaned_data["q"].strip()
-        search_items = (("q", search_query),) if search_query else ()
         result["menu_items"] = MENU
         result["menu_page"] = "workspaces"
-        result["billing_enabled"] = "weblate.billing" in settings.INSTALLED_APPS
-        result["can_add_workspace"] = self.request.user.has_perm("workspace.add")
-        result["search_form"] = self.search_form
-        result["search_query"] = search_query
-        result["search_items"] = search_items
-        result["query_string"] = urlencode(search_items)
         return result
 
 

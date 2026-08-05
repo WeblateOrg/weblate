@@ -116,6 +116,20 @@ def update_project_stats_link(pk: int) -> None:
 
 
 @app.task(trail=False)
+def update_workspace_stats(workspace_ids: list[str]) -> None:
+    """Refresh workspace aggregates after projects move between workspaces."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.utils.stats import update_stats_objects
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.workspaces.models import Workspace
+
+    update_stats_objects(
+        workspace.stats for workspace in Workspace.objects.filter(pk__in=workspace_ids)
+    )
+
+
+@app.task(trail=False)
 def update_component_topology_stats(
     component_ids: list[int], project_ids: list[int], category_ids: list[int]
 ) -> None:
@@ -140,7 +154,9 @@ def update_component_topology_stats(
             affected_project_ids.add(category.project_id)
             category = category.category
 
-    projects = list(Project.objects.filter(pk__in=affected_project_ids))
+    projects = list(
+        Project.objects.filter(pk__in=affected_project_ids).select_related("workspace")
+    )
     languages = Language.objects.filter(
         pk__in=Translation.objects.filter(component_id__in=component_ids).values_list(
             "language_id", flat=True
@@ -158,6 +174,10 @@ def update_component_topology_stats(
         )
     stats_objects.extend(category.stats for category in categories.values())
     stats_objects.extend(project.stats for project in projects)
+    for project in projects:
+        workspace = project.workspace
+        if workspace is not None:
+            stats_objects.append(workspace.stats)
     stats_objects.append(GlobalStats())
     update_stats_objects(stats_objects)
 

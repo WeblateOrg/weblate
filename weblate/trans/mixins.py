@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, Protocol
 
 from django.core.exceptions import ValidationError
@@ -18,6 +19,8 @@ from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
 
 if TYPE_CHECKING:
+    from uuid import UUID
+
     from weblate.auth.models import User
     from weblate.trans.models import Category, Project
 
@@ -29,7 +32,7 @@ class _HasUser(Protocol):
 
 class _HasOptionalId(Protocol):
     @property
-    def id(self) -> int | None: ...
+    def id(self) -> int | UUID | None: ...
 
 
 class _HasComponentCategoryAttrs(Protocol):
@@ -49,6 +52,10 @@ class _HasComponentCategoryAttrs(Protocol):
     def name(self) -> str: ...
 
     def _clean_unique_together(self, field: str, msg: str, lookup: str) -> None: ...
+
+
+class URLPathObject(Protocol):
+    def get_url_path(self) -> tuple[str, ...]: ...
 
 
 class BaseURLMixin:
@@ -95,7 +102,14 @@ class PathMixin(LoggerMixin, URLMixin):
 
     def _get_path(self) -> str:
         """Actual calculation of path."""
-        return os.path.join(data_dir("vcs"), *self.get_url_path())
+        root = Path(data_dir("vcs")).resolve()
+        path = root.joinpath(*self.get_url_path()).resolve()
+        try:
+            path.relative_to(root)
+        except ValueError as error:
+            msg = f"Object path escapes the VCS directory: {path}"
+            raise ValueError(msg) from error
+        return path.as_posix()
 
     @cached_property
     def full_path(self) -> str:

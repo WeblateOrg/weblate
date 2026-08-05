@@ -31,3 +31,9 @@ class ExportsViewTest(FixtureTestCase):
     def test_data(self) -> None:
         response = self.client.get(reverse("data_project", kwargs=self.kw_project))
         self.assertContains(response, "Test")
+        metrics_url = reverse(
+            "api:project-metrics", kwargs={"slug": self.kw_project["project"]}
+        )
+        self.assertContains(response, f'href="{metrics_url}"')
+        self.assertContains(response, f'href="{metrics_url}?format=csv"')
+        self.assertContains(response, f'href="{metrics_url}?format=openmetrics"')

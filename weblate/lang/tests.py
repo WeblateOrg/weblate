@@ -512,6 +512,11 @@ class LanguagesViewTest(FixtureTestCase):
         response = self.client.get(reverse("languages"))
         self.assertContains(response, "Czech")
 
+    def test_languages_sortable(self) -> None:
+        """Client-side sorting must stay enabled for non-paginated listings."""
+        response = self.client.get(reverse("languages"))
+        self.assertContains(response, "sort table progress-table autocolspan")
+
     def test_language(self) -> None:
         response = self.client.get(reverse("show_language", kwargs={"lang": "cs"}))
         self.assertContains(response, "Czech")
@@ -608,12 +613,14 @@ class LanguagesViewTest(FixtureTestCase):
                 "direction": "ltr",
                 "population": 10,
                 "workflow-enable": 1,
+                "workflow-restrict_direct_editing": 1,
                 "workflow-translation_review": 1,
                 "workflow-suggestion_autoaccept": 0,
             },
         )
         self.assertRedirects(response, reverse("show_language", kwargs={"lang": "xx"}))
-        self.assertTrue(language.workflowsetting_set.exists())
+        workflow_settings = language.workflowsetting_set.get()
+        self.assertTrue(workflow_settings.restrict_direct_editing)
         response = self.client.post(
             reverse("edit-language", kwargs={"pk": language.pk}),
             {

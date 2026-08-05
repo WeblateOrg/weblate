@@ -1217,6 +1217,7 @@ def get_alerts(
     | Component
     | ProjectLanguage
     | Project
+    | Workspace
     | GhostProjectLanguageStats
     | GhostCategoryLanguageStats,
     translation: Translation | GhostTranslation | None,
@@ -1296,6 +1297,7 @@ def indicate_alerts(
     | Component
     | ProjectLanguage
     | Project
+    | Workspace
     | GhostProjectLanguageStats
     | GhostCategoryLanguageStats,
 ) -> str:
@@ -1587,12 +1589,14 @@ def get_workflow_flags(translation: Translation | None, component: Component):
             "suggestion_voting": translation.suggestion_voting,
             "suggestion_autoaccept": translation.suggestion_autoaccept,
             "enable_suggestions": translation.enable_suggestions,
+            "restrict_direct_editing": translation.restrict_direct_editing,
             "translation_review": translation.enable_review,
         }
     return {
         "suggestion_voting": component.suggestion_voting,
         "suggestion_autoaccept": component.suggestion_autoaccept,
         "enable_suggestions": component.enable_suggestions,
+        "restrict_direct_editing": False,
         "translation_review": component.project.translation_review,
     }
 
@@ -1704,6 +1708,7 @@ def list_objects_percent(
 def show_info(  # ruff: ignore[too-many-arguments]
     context: Context,
     *,
+    workspace: Workspace | None = None,
     project: Project | None = None,
     component: Component | None = None,
     translation: Translation | None = None,
@@ -1724,6 +1729,7 @@ def show_info(  # ruff: ignore[too-many-arguments]
     """
     return {
         "user": context["user"],
+        "workspace": workspace,
         "project": project,
         "component": component,
         "translation": translation,

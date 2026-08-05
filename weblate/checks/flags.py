@@ -157,6 +157,8 @@ TYPED_FLAGS["fluent-type"] = gettext_lazy("Fluent type")
 TYPED_FLAGS_ARGS["fluent-type"] = single_value_flag(str)
 TYPED_FLAGS[DISCARD_FLAG] = gettext_lazy("Discard flag")
 TYPED_FLAGS_ARGS[DISCARD_FLAG] = single_value_flag(str, discard_flag_validation)
+TYPED_FLAGS["max-lines"] = gettext_lazy("Maximum number of lines")
+TYPED_FLAGS_ARGS["max-lines"] = single_value_flag(int)
 
 
 IGNORE_CHECK_FLAGS = {check.ignore_string for check in CHECKS.values()} | set(

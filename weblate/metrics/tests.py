@@ -15,6 +15,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, ComponentLink, Project
 from weblate.trans.models.change import Change
 from weblate.trans.tests.test_views import FixtureComponentTestCase
+from weblate.workspaces.models import Workspace
 
 
 class MetricTestCase(FixtureComponentTestCase):
@@ -111,6 +112,43 @@ class MetricTestCase(FixtureComponentTestCase):
     def test_collect_global(self) -> None:
         Metric.objects.collect_global()
         self.assertNotEqual(Metric.objects.count(), 0)
+
+    def test_collect_workspace(self) -> None:
+        workspace = Workspace.objects.create(name="Metrics workspace")
+        self.project.workspace = workspace
+        self.project.save(update_fields=["workspace"])
+
+        metric = Metric.objects.collect_workspace(workspace)
+
+        self.assertEqual(metric.scope, Metric.SCOPE_WORKSPACE)
+        self.assertEqual(metric.relation, workspace.metric_id)
+        self.assertEqual(metric.dict_data["projects"], 1)
+        self.assertEqual(metric.dict_data["components"], 1)
+        self.assertEqual(
+            metric.dict_data["translations"],
+            self.component.translation_set.count(),
+        )
+        self.assertEqual(metric.dict_data["all"], self.project.stats.all)
+
+    def test_workspace_metric_lifecycle(self) -> None:
+        workspace = Workspace.objects.create(name="Metric lifecycle workspace")
+        relation = workspace.metric_id
+
+        self.assertTrue(
+            Metric.objects.filter(
+                scope=Metric.SCOPE_WORKSPACE,
+                relation=relation,
+            ).exists()
+        )
+
+        workspace.delete()
+
+        self.assertFalse(
+            Metric.objects.filter(
+                scope=Metric.SCOPE_WORKSPACE,
+                relation=relation,
+            ).exists()
+        )
 
     def test_wrapper_prefers_today_metric(self) -> None:
         today = timezone.now().date()

@@ -1,7 +1,7 @@
 # Copyright © Weblate contributors
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-FROM ghcr.io/weblateorg/dev:2026.30.0@sha256:2b076ba94e91559101dddb447d443aea7e2a2c589234c05060ec7b854fb1bc56
+FROM ghcr.io/weblateorg/dev:2026.32.0@sha256:c05527249861fb3f105c6fb9c2c786debde88bdb1e8a393e3d67eafc15d64e49
 
 ENV UV_CACHE_DIR=/tmp/uv-cache
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv-python
@@ -48,7 +48,7 @@ RUN ./ci/pip-install latest
 # Reinstall selected native wheels for the oldest runtime ABI used by
 # ClusterFuzzLite. Keep the platform override scoped to these packages; using it
 # with uv sync makes uv validate unrelated build-only packages for that target.
-RUN python3 - <<'PY' > /tmp/cflite-native-wheels.txt
+RUN .venv/bin/python - <<'PY' > /tmp/cflite-native-wheels.txt
 import tomllib
 
 with open("uv.lock", "rb") as handle:

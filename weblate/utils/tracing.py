@@ -55,6 +55,11 @@ def configure_opentelemetry_tracer(tracer: Tracer | None) -> None:
     _STATE["opentelemetry_tracer"] = tracer
 
 
+def get_opentelemetry_tracer() -> Tracer | None:
+    """Return the OpenTelemetry tracer configured by Weblate."""
+    return cast("Tracer | None", _STATE["opentelemetry_tracer"])
+
+
 def _set_opentelemetry_attribute(span: AttributeSpan, name: str, value: object) -> None:
     if value is None:
         return
@@ -123,7 +128,7 @@ def _record_error(
     attributes: dict[str, object | None] | None = None,
 ) -> None:
     """Record a handled error in OpenTelemetry tracing."""
-    tracer = cast("Tracer | None", _STATE["opentelemetry_tracer"])
+    tracer = get_opentelemetry_tracer()
     if tracer is None:
         return
 
@@ -152,7 +157,7 @@ def start_span(
             sentry_sdk = get_sentry_sdk()
             stack.enter_context(sentry_sdk.start_span(op=op, name=name))
 
-        tracer = cast("Tracer | None", _STATE["opentelemetry_tracer"])
+        tracer = get_opentelemetry_tracer()
         if tracer is not None:
             span = stack.enter_context(tracer.start_as_current_span(op))
             _set_opentelemetry_attribute(span, "weblate.operation", op)

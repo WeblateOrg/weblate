@@ -150,9 +150,13 @@ def lock_user(
     user: User,
     reason: Literal["locked", "admin-locked"],
     request: AuthenticatedHttpRequest | None = None,
+    *,
+    regenerate_api_key: bool = True,
 ) -> None:
     user.set_unusable_password()
     user.save(update_fields=["password"])
+    if regenerate_api_key:
+        reset_api_token(user)
     AuditLog.objects.create(user, request, reason)
 
 

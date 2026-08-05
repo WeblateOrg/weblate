@@ -111,6 +111,7 @@ LANGUAGES = (
     ("kab", "Taqbaylit"),
     ("kk", "Қазақ тілі"),
     ("ko", "한국어"),
+    ("lo", "ລາວ"),
     ("nb", "Norsk bokmål"),
     ("nl", "Nederlands"),
     ("pl", "Polski"),
@@ -210,6 +211,9 @@ TEMPLATES = [
 # GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
 GITHUB_CREDENTIALS = {}
+
+# Webhook secret for a legacy GitHub App delivering to /hooks/github/.
+GITHUB_LEGACY_APP_WEBHOOK_SECRET = ""
 
 # Azure DevOps username and token for sending pull requests.
 # Please see the documentation for more details.

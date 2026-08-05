@@ -264,9 +264,10 @@ GitHub. Components imported from the connected GitHub account also use the App
 for repository access and pull requests, without inviting the Hosted Weblate
 :guilabel:`weblate` GitHub user.
 
-The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. Use
-it only when you need the legacy app to deliver GitHub notifications to Hosted
-Weblate.
+The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. Its
+deliveries use the generic GitHub webhook URL and are authenticated using a
+separate webhook secret configured by the Hosted Weblate operator. Use it only
+when you need the legacy app to deliver GitHub notifications to Hosted Weblate.
 
 .. _Hosted Weblate legacy app: https://github.com/apps/hosted-weblate-legacy
 
@@ -506,7 +507,7 @@ This can be done in :guilabel:`Webhooks` under repository :guilabel:`Settings`.
 
 .. seealso::
 
-   * `Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_
+   * `Webhooks in Gitea manual <https://docs.gitea.com/usage/repository/webhooks>`_
    * :http:post:`/hooks/gitea/`
    * :ref:`hosted-push`
 
@@ -546,7 +547,7 @@ repository, while the :guilabel:`Gitea` backend creates pull requests.
 To create pull requests, select :guilabel:`Gitea` as
 :ref:`component-vcs` and configure :setting:`GITEA_CREDENTIALS`.
 
-.. _Gitea API: https://docs.gitea.io/en-us/api-usage/
+.. _Gitea API: https://docs.gitea.com/development/api-usage
 
 .. _code-hosting-bitbucket:
 

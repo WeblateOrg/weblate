@@ -12,9 +12,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "javascript/\n"
-"POT-Creation-Date: 2026-07-15 20:17-0500\n"
-"PO-Revision-Date: 2026-06-18 13:36+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"POT-Creation-Date: 2026-07-29 20:46-0500\n"
+"PO-Revision-Date: 2026-07-25 05:39+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "javascript/ja/>\n"
 "Language: ja\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.7.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 
 #: weblate/static/editor/base.js:112
 msgid "Unsaved changes!"
@@ -79,19 +79,19 @@ msgstr "Cmd+I のあと %s を押すと、この検査を除外します。"
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "Ctrl+I のあと %s を押すと、この検査を除外します。"
 
-#: weblate/static/editor/full.js:815
+#: weblate/static/editor/full.js:817
 msgid "Clone to translation"
 msgstr "翻訳にコピー"
 
-#: weblate/static/editor/full.js:817
+#: weblate/static/editor/full.js:819
 msgid "Accept"
 msgstr "採用"
 
-#: weblate/static/editor/full.js:825
+#: weblate/static/editor/full.js:827
 msgid "Accept and approve"
 msgstr "受け入れて承認"
 
-#: weblate/static/editor/full.js:836
+#: weblate/static/editor/full.js:838
 msgid "Delete entry"
 msgstr "項目の削除"
 
@@ -116,15 +116,14 @@ msgstr "セキュリティ トークンがありません。ページを再読�
 #: weblate/static/js/bulk-accept-suggestions.js:37
 #, javascript-format
 msgid "Loading suggestion count for %s"
-msgstr ""
+msgstr "%s 件目の提案を読み込み中"
 
 #: weblate/static/js/bulk-accept-suggestions.js:55
 msgid "Bulk accept cancelled."
-msgstr ""
+msgstr "一括承認はキャンセルされました。"
 
 #: weblate/static/js/bulk-accept-suggestions.js:60
-#, fuzzy, javascript-format
-#| msgid "Processing bulk accept for %s"
+#, javascript-format
 msgid "Scheduling bulk accept for %s"
 msgstr "%s の一括採用の処理中"
 
@@ -149,20 +148,20 @@ msgstr "サーバーエラー（%s）"
 #: weblate/static/js/bulk-accept-suggestions.js:140
 #, javascript-format
 msgid "There are no pending suggestions from %s in this translation."
-msgstr ""
+msgstr "この翻訳には、%s からの保留中の提案はありません。"
 
 #: weblate/static/js/bulk-accept-suggestions.js:149
 #, javascript-format
 msgid "This will accept %s suggestion from %s in this translation."
 msgid_plural "This will accept %s suggestions from %s in this translation."
-msgstr[0] ""
+msgstr[0] "この翻訳では、%s からの %s の提案を採用します。"
 
 #: weblate/static/js/bulk-accept-suggestions.js:212
 msgid "Accept all suggestions?"
-msgstr ""
+msgstr "すべての提案を採用しますか？"
 
 #: weblate/static/js/bulk-accept-suggestions.js:218
-#: weblate/static/loader-bootstrap.js:111
+#: weblate/static/loader-bootstrap.js:101
 msgid "Close"
 msgstr "閉じる"
 
@@ -172,13 +171,11 @@ msgstr "キャンセル"
 
 #: weblate/static/js/bulk-accept-suggestions.js:235
 msgid "Accept suggestions"
-msgstr ""
+msgstr "提案を採用する"
 
 #: weblate/static/js/bulk-accept-suggestions.js:240
-#, fuzzy
-#| msgid "Accept and approve"
 msgid "Accept and approve suggestions"
-msgstr "受け入れて承認"
+msgstr "提案を受け入れて採用する"
 
 #: weblate/static/js/bulk-accept-suggestions.js:258
 #, javascript-format
@@ -338,13 +335,15 @@ msgstr "カスタム"
 
 #: weblate/static/js/flag-editor.js:130
 msgid "Add a flag…"
-msgstr ""
+msgstr "フラグの追加…"
 
 #: weblate/static/js/flag-editor.js:149
 #, javascript-format
 msgid ""
 "No matching flag found for \"%s\"; press Enter to add it as a custom flag."
 msgstr ""
+"「%s 」に一致するフラグが見つかりませんでした。Enter キーを押して、カスタムフ"
+"ラグとして追加してください。"
 
 #: weblate/static/js/screenshots/clipboard-paste.js:44
 msgid "Image Pasted!"
@@ -363,22 +362,30 @@ msgstr "クリップボードに画像が見つかりません"
 msgid ""
 "A pull or merge request will be created from a branch in the repository."
 msgstr ""
+"リポジトリ内のブランチを基に、プルリクエストまたはマージリクエストが作成され"
+"ます。"
 
 #: weblate/static/js/vcs-push-help.js:41
 msgid ""
 "A push URL is set but no push branch is given. Set a push branch that "
 "differs from the translated branch."
 msgstr ""
+"push 用の URL は設定されていますが、push するブランチが指定されていません。翻"
+"訳済みのブランチとは異なる push ブランチを設定してください。"
 
 #: weblate/static/js/vcs-push-help.js:51
 msgid ""
 "The push branch must differ from the translated branch when creating a pull "
 "or merge request."
 msgstr ""
+"プルリクエストまたはマージリクエスト作成時、push ブランチは変換後ブランチと同"
+"一にはできません。"
 
 #: weblate/static/js/vcs-push-help.js:58
 msgid "A pull or merge request will be created from a fork of the repository."
 msgstr ""
+"リポジトリのフォークから、プルリクエストまたはマージリクエストが作成されま"
+"す。"
 
 #: weblate/static/js/vcs-push-help.js:65
 #, javascript-format
@@ -386,22 +393,28 @@ msgid ""
 "A pull or merge request will be created from the “%s” branch in the "
 "repository."
 msgstr ""
+"リポジトリ内の “%s” ブランチから、プルリクエストまたはマージリクエストが作成"
+"されます。"
 
 #: weblate/static/js/vcs-push-help.js:77
 #, javascript-format
 msgid ""
 "Changes will be sent as a Gerrit review request targeting the “%s” branch."
 msgstr ""
+"変更内容は、“%s” ブランチを対象とした Gerrit の査読リクエストとして送信されま"
+"す。"
 
 #: weblate/static/js/vcs-push-help.js:84
 msgid "Changes will be sent as a Gerrit review request."
-msgstr ""
+msgstr "変更内容は、Gerrit の査読リクエストとして送信されます。"
 
 #: weblate/static/js/vcs-push-help.js:92
 msgid ""
 "Changes will not be pushed automatically. You can still push them manually "
 "from the repository maintenance."
 msgstr ""
+"変更内容は自動的には push されません。ただし、リポジトリのメンテナンス画面か"
+"ら手動で push することは可能です。"
 
 #: weblate/static/js/vcs-push-help.js:100
 #: weblate/static/js/vcs-push-help.js:110
@@ -409,75 +422,76 @@ msgstr ""
 msgid ""
 "Changes will be pushed directly to the “%s” branch in the push repository."
 msgstr ""
+"変更内容は、プッシュリポジトリ内の「%s」ブランチに直接プッシュされます。"
 
 #: weblate/static/js/vcs-push-help.js:118
 msgid ""
 "Changes will be pushed directly to the default branch of the push repository."
 msgstr ""
+"変更内容は、プッシュ先のリポジトリのデフォルト ブランチに直接プッシュされま"
+"す。"
 
-#: weblate/static/loader-bootstrap.js:327
+#: weblate/static/loader-bootstrap.js:317
 msgid "Some source strings could not be assigned."
 msgstr "一部の原文を割り当てられませんでした。"
 
-#: weblate/static/loader-bootstrap.js:369
+#: weblate/static/loader-bootstrap.js:359
 msgid "Error loading search results!"
 msgstr "検索結果の読み込み時にエラーが発生しました！"
 
-#: weblate/static/loader-bootstrap.js:374
+#: weblate/static/loader-bootstrap.js:364
 msgid "No new matching source strings found."
 msgstr "該当する新しい原文が見つかりませんでした。"
 
-#: weblate/static/loader-bootstrap.js:458
+#: weblate/static/loader-bootstrap.js:448
 msgid "Sort this column"
 msgstr "この列でソート"
 
-#: weblate/static/loader-bootstrap.js:849
+#: weblate/static/loader-bootstrap.js:839
 msgid "Error while loading page:"
 msgstr "ページ読み込み中にエラーが発生しました:"
 
-#: weblate/static/loader-bootstrap.js:1265
+#: weblate/static/loader-bootstrap.js:1255
 msgid "Text copied to clipboard."
 msgstr "テキストをクリップボードにコピーしました。"
 
-#: weblate/static/loader-bootstrap.js:1269
+#: weblate/static/loader-bootstrap.js:1259
 msgid "Please press Ctrl+C to copy."
 msgstr "Ctrl+C を押してコピーしてください。"
 
-#: weblate/static/loader-bootstrap.js:1273
+#: weblate/static/loader-bootstrap.js:1263
 msgid "Error copying to clipboard."
 msgstr "クリップボードへのコピーエラー。"
 
-#: weblate/static/loader-bootstrap.js:1317
-#: weblate/static/loader-bootstrap.js:1362
+#: weblate/static/loader-bootstrap.js:1307
+#: weblate/static/loader-bootstrap.js:1352
 msgid "Search…"
 msgstr "検索…"
 
-#: weblate/static/loader-bootstrap.js:1486
+#: weblate/static/loader-bootstrap.js:1476
 msgid "Loading…"
 msgstr "読み込み中…"
 
-#: weblate/static/loader-bootstrap.js:1512
-#, fuzzy
-#| msgid "Error while loading page:"
+#: weblate/static/loader-bootstrap.js:1502
 msgid "Error while loading form:"
-msgstr "ページ読み込み中にエラーが発生しました:"
+msgstr "フォームの読み込み中にエラーが発生しました："
 
-#: weblate/static/loader-bootstrap.js:1997
+#: weblate/static/loader-bootstrap.js:1989
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr ""
 "現在、Weblate はリポジトリをスキャンしています。しばらくお待ちください。"
 
-#: weblate/static/loader-bootstrap.js:2184
+#: weblate/static/loader-bootstrap.js:2176
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr "通知設定が削除されました。忘れずに変更を保存してください。"
 
-#: weblate/static/loader-bootstrap.js:2456
+#: weblate/static/loader-bootstrap.js:2448
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr "ストップ！"
 
-#: weblate/static/loader-bootstrap.js:2462
+#: weblate/static/loader-bootstrap.js:2454
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
@@ -487,36 +501,36 @@ msgstr ""
 "ストするように言った場合、あなたの Weblate アカウントを侵害しようとしているか"
 "もしれません。"
 
-#: weblate/static/loader-bootstrap.js:2468
+#: weblate/static/loader-bootstrap.js:2460
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr ""
 "詳細については、https://en.wikipedia.org/wiki/Self-XSS を確認してください。"
 
-#: weblate/static/loader-bootstrap.js:2551
+#: weblate/static/loader-bootstrap.js:2543
 msgid "just now"
 msgstr "たった今"
 
-#: weblate/static/loader-bootstrap.js:2556
+#: weblate/static/loader-bootstrap.js:2548
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "%s 秒前"
 
-#: weblate/static/loader-bootstrap.js:2562
+#: weblate/static/loader-bootstrap.js:2554
 msgid "a minute ago"
 msgstr "1 分前"
 
-#: weblate/static/loader-bootstrap.js:2565
+#: weblate/static/loader-bootstrap.js:2557
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s 分前"
 
-#: weblate/static/loader-bootstrap.js:2572
+#: weblate/static/loader-bootstrap.js:2564
 msgid "an hour ago"
 msgstr "1 時間前"
 
-#: weblate/static/loader-bootstrap.js:2574
+#: weblate/static/loader-bootstrap.js:2566
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"

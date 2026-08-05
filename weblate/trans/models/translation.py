@@ -1579,7 +1579,12 @@ class Translation(
         store.update_header(self.component.file_format_params, **headers)
 
         # save translation changes
-        store.save()
+        try:
+            store.save()
+        except Exception as error:
+            raise FailedCommitError(
+                self.component.get_parse_error_message(error)
+            ) from error
 
         return changes_status
 
@@ -1604,6 +1609,12 @@ class Translation(
         if self.workflow_settings is not None:
             return self.workflow_settings.enable_suggestions
         return self.component.enable_suggestions
+
+    @property
+    def restrict_direct_editing(self) -> bool:
+        if self.workflow_settings is not None:
+            return self.workflow_settings.restrict_direct_editing
+        return False
 
     @property
     def suggestion_voting(self):

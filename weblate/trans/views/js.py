@@ -224,13 +224,6 @@ def git_status(request: AuthenticatedHttpRequest, path):
     )
 
 
-@cache_control(max_age=3600)
-def matomo(request: AuthenticatedHttpRequest):
-    return render(
-        request, "js/matomo.js", content_type='text/javascript; charset="utf-8"'
-    )
-
-
 @cache_control(max_age=3600, private=True)
 def flag_choices(request: AuthenticatedHttpRequest):
     """Return the catalog of known translation flags as JSON."""

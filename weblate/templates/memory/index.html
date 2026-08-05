@@ -3,7 +3,14 @@
 {% load crispy_forms_tags humanize i18n icons permissions translations %}
 
 {% block breadcrumbs %}
-  {% if project %}
+  {% if workspace %}
+    <li class="breadcrumb-item">
+      <a href="{{ workspace.get_absolute_url }}">{{ workspace }}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'memory' workspace=workspace.pk %}">{% translate "Translation memory" %}</a>
+    </li>
+  {% elif project %}
     <li class="breadcrumb-item">
       <a href="{{ project.get_absolute_url }}">{{ project }}</a>
     </li>
@@ -39,7 +46,9 @@
     <table class="table table-sm table-striped">
       <tr>
         <th>
-          {% if project %}
+          {% if workspace %}
+            {% blocktranslate %}Number of entries for {{ workspace }}{% endblocktranslate %}
+          {% elif project %}
             {% blocktranslate %}Number of entries for {{ project }}{% endblocktranslate %}
           {% elif from_file %}
             {% translate "Number of uploaded shared entries" %}
@@ -103,8 +112,11 @@
                               aria-label="{% translate "Close" %}"></button>
                     </div>
                     <div class="modal-body">
-                      {% blocktranslate count count=num_entries %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
-                      {% translate "Memory will be then populated with the current translations." %}
+                      {% if workspace %}
+                        {% blocktranslate count count=rebuild_entries_count %}Rebuilding in the background will replace {{ count }} translation memory entry created from current translations.{% plural %}Rebuilding in the background will replace {{ count }} translation memory entries created from current translations.{% endblocktranslate %}
+                      {% else %}
+                        {% blocktranslate count count=rebuild_entries_count %}Rebuilding in the background will replace {{ count }} translation memory entry created from current translations. Uploaded translation memory entries will be preserved.{% plural %}Rebuilding in the background will replace {{ count }} translation memory entries created from current translations. Uploaded translation memory entries will be preserved.{% endblocktranslate %}
+                      {% endif %}
                     </div>
                     <div class="modal-footer">
                       <input type="submit" class="btn btn-warning" value="{% translate "Rebuild" %}" />
@@ -118,6 +130,18 @@
             </form>
           {% endif %}
         </td>
+      </tr>
+      <tr>
+        <th>{% translate "Active entries" %}</th>
+        <td></td>
+        <td class="number">{{ active_entries|intcomma }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>{% translate "Pending entries" %}</th>
+        <td></td>
+        <td class="number">{{ pending_entries|intcomma }}</td>
+        <td></td>
       </tr>
       {% for item in entries_origin %}
         <tr>
@@ -193,8 +217,11 @@
                                 aria-label="{% translate "Close" %}"></button>
                       </div>
                       <div class="modal-body">
-                        {% blocktranslate count count=item.id__count %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktranslate %}
-                        {% translate "Memory will be then populated with the current translations." %}
+                        {% if workspace %}
+                          {% blocktranslate count count=item.rebuild_count %}Rebuilding in the background will replace {{ count }} translation memory entry created from current translations.{% plural %}Rebuilding in the background will replace {{ count }} translation memory entries created from current translations.{% endblocktranslate %}
+                        {% else %}
+                          {% blocktranslate count count=item.rebuild_count %}Rebuilding in the background will replace {{ count }} translation memory entry created from current translations. Uploaded translation memory entries will be preserved.{% plural %}Rebuilding in the background will replace {{ count }} translation memory entries created from current translations. Uploaded translation memory entries will be preserved.{% endblocktranslate %}
+                        {% endif %}
                       </div>
                       <div class="modal-footer">
                         <input type="submit" class="btn btn-warning" value="{% translate "Rebuild" %}" />
@@ -265,6 +292,36 @@
                  class="btn btn-primary">{% translate "Configure" %}</a>
             {% endif %}
 
+          </td>
+        </tr>
+      {% endif %}
+      {% if workspace %}
+        <tr>
+          <th>{% translate "Use workspace translation memory" %}</th>
+          <td></td>
+          <td class="number">
+            {% if workspace.use_workspace_tm %}
+              {% translate "on" %}
+            {% else %}
+              {% translate "off" %}
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'settings' path=workspace.get_url_path %}" class="btn btn-primary">{% translate "Configure" %}</a>
+          </td>
+        </tr>
+        <tr>
+          <th>{% translate "Contribute to workspace translation memory" %}</th>
+          <td></td>
+          <td class="number">
+            {% if workspace.contribute_workspace_tm %}
+              {% translate "on" %}
+            {% else %}
+              {% translate "off" %}
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'settings' path=workspace.get_url_path %}" class="btn btn-primary">{% translate "Configure" %}</a>
           </td>
         </tr>
       {% endif %}

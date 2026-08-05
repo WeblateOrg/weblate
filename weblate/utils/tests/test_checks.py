@@ -9,6 +9,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 from weakref import WeakSet
 
+import httpx2
 from django.conf import settings
 from django.core.cache import cache
 from django.db import DatabaseError
@@ -24,6 +25,7 @@ from weblate.utils.apps import (
     check_database_size,
     check_errors,
     check_settings,
+    check_version,
 )
 from weblate.utils.celery import is_celery_queue_long
 from weblate.utils.classloader import ClassLoader
@@ -271,3 +273,15 @@ class ErrorCollectionCheckTestCase(SimpleTestCase):
         errors = list(check_errors(app_configs=None, databases=None))
 
         self.assertFalse(any(error.id == "weblate.I021" for error in errors))
+
+
+class VersionCheckTestCase(SimpleTestCase):
+    @patch(
+        "weblate.utils.apps.get_latest_version",
+        side_effect=httpx2.ConnectError("PyPI unavailable"),
+    )
+    def test_http_error_is_ignored(self, get_latest_version) -> None:
+        errors = list(check_version(app_configs=None, databases=None))
+
+        self.assertEqual(errors, [])
+        get_latest_version.assert_called_once_with()

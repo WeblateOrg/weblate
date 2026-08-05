@@ -6,15 +6,16 @@ from __future__ import annotations
 import difflib
 import os
 import tempfile
-import time
 from contextlib import contextmanager, suppress
+from time import sleep
 from typing import TYPE_CHECKING, ClassVar, cast
 
+import httpx2
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.http import FileResponse, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.http import urlencode
@@ -22,8 +23,6 @@ from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
-from requests import ConnectionError as RequestsConnectionError
-from requests import HTTPError, RequestException, Timeout
 from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
 from weblate.logger import LOGGER
@@ -165,10 +164,18 @@ TESSERACT_DOWNLOAD_ATTEMPTS = 3
 TESSERACT_DOWNLOAD_TIMEOUT = 30
 
 
-def is_retryable_tesseract_download_error(error: RequestException) -> bool:
-    if isinstance(error, (RequestsConnectionError, Timeout)):
+def is_retryable_tesseract_download_error(error: httpx2.HTTPError) -> bool:
+    if isinstance(
+        error,
+        (
+            httpx2.NetworkError,
+            httpx2.ProxyError,
+            httpx2.RemoteProtocolError,
+            httpx2.TimeoutException,
+        ),
+    ):
         return True
-    if not isinstance(error, HTTPError) or error.response is None:
+    if not isinstance(error, httpx2.HTTPStatusError):
         return False
     return error.response.status_code == 429 or error.response.status_code >= 500
 
@@ -182,10 +189,10 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                     response = fetch_url(
                         "GET",
                         url,
-                        allow_redirects=True,
+                        follow_redirects=True,
                         timeout=TESSERACT_DOWNLOAD_TIMEOUT,
                     )
-            except RequestException as error:
+            except httpx2.HTTPError as error:
                 if (
                     attempt == TESSERACT_DOWNLOAD_ATTEMPTS
                     or not is_retryable_tesseract_download_error(error)
@@ -197,7 +204,7 @@ def download_tesseract_data(url: str, full_name: str) -> None:
                     TESSERACT_DOWNLOAD_ATTEMPTS,
                     error,
                 )
-                time.sleep(2 ** (attempt - 1))
+                sleep(2 ** (attempt - 1))
                 continue
 
             with tempfile.NamedTemporaryFile(
@@ -285,6 +292,57 @@ def add_sources(request: AuthenticatedHttpRequest, obj) -> dict[str, int | bool]
         existing.add(source_id)
 
     obj.add_units(units_to_add, user=request.user)
+    added = len(units_to_add)
+
+    return {
+        "status": added > 0,
+        "added": added,
+        "skipped": skipped,
+        "invalid": invalid,
+    }
+
+
+async def add_sources_async(
+    request: AuthenticatedHttpRequest, obj
+) -> dict[str, int | bool]:
+    sources = request.POST.getlist("source")
+    if not sources:
+        return {"status": False, "added": 0, "skipped": 0, "invalid": 0}
+
+    source_ids: list[int] = []
+    seen: set[int] = set()
+    skipped = 0
+    invalid = 0
+    for source in sources:
+        try:
+            source_id = int(source)
+        except ValueError:
+            invalid += 1
+            continue
+        if source_id in seen:
+            skipped += 1
+            continue
+        seen.add(source_id)
+        source_ids.append(source_id)
+
+    existing = {
+        pk
+        async for pk in obj.units.filter(pk__in=source_ids).values_list("pk", flat=True)
+    }
+    units = await obj.translation.unit_set.ain_bulk(source_ids)
+    units_to_add: list[Unit] = []
+    for source_id in source_ids:
+        unit = units.get(source_id)
+        if unit is None:
+            invalid += 1
+            continue
+        if source_id in existing:
+            skipped += 1
+            continue
+        units_to_add.append(unit)
+        existing.add(source_id)
+
+    await obj.add_units_async(units_to_add, user=request.user)
     added = len(units_to_add)
 
     return {
@@ -486,11 +544,13 @@ class ScreenshotBaseView(DetailView):
 class ScreenshotView(ScreenshotBaseView):
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> FileResponse:  # type: ignore[override]
         obj = self.get_object()
-        # Django will automatically set Content-Type based on the filename
+        with Image.open(obj.image.open(), formats=PIL_FORMATS) as image:
+            content_type = Image.MIME[cast("str", image.format)]
         return FileResponse(
             obj.image.open(),
             as_attachment=False,
             filename=os.path.basename(obj.image.name),
+            content_type=content_type,
         )
 
 
@@ -556,18 +616,31 @@ def get_screenshot(request: AuthenticatedHttpRequest, pk):
     return obj
 
 
+async def aget_screenshot(request: AuthenticatedHttpRequest, pk):
+    await request.user.aprepare_permissions()
+    obj = await aget_object_or_404(
+        Screenshot.objects.filter_access(request.user).select_related(
+            "translation__component__project"
+        ),
+        pk=pk,
+    )
+    if not request.user.has_perm("screenshot.edit", obj.translation.component):
+        raise PermissionDenied
+    return obj
+
+
 @require_POST
 @login_required
-def remove_source(request: AuthenticatedHttpRequest, pk):
-    obj = get_screenshot(request, pk)
+async def remove_source(request: AuthenticatedHttpRequest, pk):
+    obj = await aget_screenshot(request, pk)
 
     try:
-        unit = obj.translation.unit_set.get(pk=int(request.POST["source"]))
+        unit = await obj.translation.unit_set.aget(pk=int(request.POST["source"]))
     except (Unit.DoesNotExist, ValueError):
         messages.error(request, gettext("Invalid unit."))
         return redirect(obj)
 
-    obj.remove_unit(unit, user=request.user)
+    await obj.aremove_unit(unit, user=request.user)
 
     messages.success(request, gettext("Source has been removed."))
 
@@ -739,7 +812,7 @@ def ocr_search(request: AuthenticatedHttpRequest, pk):
                     resolution=resolution,
                 )
             }
-    except RequestException as error:
+    except httpx2.HTTPError as error:
         LOGGER.warning("Could not download Tesseract data: %s", error)
         return search_results(
             request,
@@ -757,9 +830,11 @@ def ocr_search(request: AuthenticatedHttpRequest, pk):
 
 @login_required
 @require_POST
-def add_source(request: AuthenticatedHttpRequest, pk):
-    obj = get_screenshot(request, pk)
-    return JsonResponse(data={"responseCode": 200, **add_sources(request, obj)})
+async def add_source(request: AuthenticatedHttpRequest, pk):
+    obj = await aget_screenshot(request, pk)
+    return JsonResponse(
+        data={"responseCode": 200, **await add_sources_async(request, obj)}
+    )
 
 
 @login_required

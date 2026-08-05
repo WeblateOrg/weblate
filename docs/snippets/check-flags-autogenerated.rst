@@ -50,6 +50,9 @@
 ``accelerator``
     Specify the single punctuation accelerator marker, for example ``accelerator:&``, ``accelerator:_``, or ``accelerator:~``.
     Enables the :ref:`check-accelerator` quality check.
+``asciidoc-text``
+    Treat a text as an AsciiDoc document, affects :ref:`check-same`.
+    Enables the :ref:`check-asciidoc-markup` quality check.
 ``bbcode-text``
     Treat a text as an Bulletin Board Code (BBCode) document, affects :ref:`check-same`.
     Enables the :ref:`check-bbcode` quality check.
@@ -126,6 +129,8 @@
     Enables the :ref:`check-md-link`, :ref:`check-md-reflink` and :ref:`check-md-syntax` quality checks.
 ``max-length``
     Enables the :ref:`check-max-length` quality check.
+``max-lines``
+    Enables the :ref:`check-max-lines` quality check.
 ``max-size``
     Enables the :ref:`check-max-size` quality check.
 ``placeholders``
@@ -157,6 +162,8 @@
 
 ``ignore-accelerator``
     Skip the :ref:`check-accelerator` quality check.
+``ignore-asciidoc-markup``
+    Skip the :ref:`check-asciidoc-markup` quality check.
 ``ignore-bbcode``
     Skip the :ref:`check-bbcode` quality check.
 ``ignore-xml-chars-around-tags``
@@ -241,6 +248,8 @@
     Skip the :ref:`check-md-syntax` quality check.
 ``ignore-max-length``
     Skip the :ref:`check-max-length` quality check.
+``ignore-max-lines``
+    Skip the :ref:`check-max-lines` quality check.
 ``ignore-max-size``
     Skip the :ref:`check-max-size` quality check.
 ``ignore-escaped-newline``

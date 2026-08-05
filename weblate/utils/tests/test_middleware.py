@@ -4,25 +4,27 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
 from unittest import TestCase
 from unittest.mock import patch
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBase
 from django.http.request import HttpRequest
 from django.test import RequestFactory
 from django.test.utils import override_settings
 
 from weblate.middleware import CSPBuilder, ProxyMiddleware
 
-if TYPE_CHECKING:
-    from weblate.auth.models import AuthenticatedHttpRequest
+MOCK_RESPONSE_TEXT = "mock response text"
 
 
 class ProxyTest(TestCase):
-    def get_response(self, request: AuthenticatedHttpRequest) -> str:
+    def get_response(self, request: HttpRequest) -> HttpResponseBase:
         self.assertEqual(request.META["REMOTE_ADDR"], "1.2.3.4")
-        return "response"
+        return HttpResponse(MOCK_RESPONSE_TEXT)
+
+    def assert_response(self, response):
+        assert isinstance(response, HttpResponse)
+        self.assertEqual(response.text, MOCK_RESPONSE_TEXT)
 
     @override_settings(
         IP_BEHIND_REVERSE_PROXY=False,
@@ -33,7 +35,7 @@ class ProxyTest(TestCase):
         request = HttpRequest()
         request.META["REMOTE_ADDR"] = "1.2.3.4"
         middleware = ProxyMiddleware(self.get_response)
-        self.assertEqual(middleware(request), "response")
+        self.assert_response(middleware(request))
 
     @override_settings(
         IP_BEHIND_REVERSE_PROXY=True,
@@ -45,7 +47,7 @@ class ProxyTest(TestCase):
         request.META["REMOTE_ADDR"] = "7.8.9.0"
         request.META["HTTP_X_FORWARDED_FOR"] = "1.2.3.4"
         middleware = ProxyMiddleware(self.get_response)
-        self.assertEqual(middleware(request), "response")
+        self.assert_response(middleware(request))
 
     @override_settings(
         IP_BEHIND_REVERSE_PROXY=True,
@@ -57,7 +59,7 @@ class ProxyTest(TestCase):
         request.META["REMOTE_ADDR"] = "7.8.9.0"
         request.META["HTTP_X_FORWARDED_FOR"] = "2.3.4.5, 1.2.3.4"
         middleware = ProxyMiddleware(self.get_response)
-        self.assertEqual(middleware(request), "response")
+        self.assert_response(middleware(request))
 
     @override_settings(
         IP_BEHIND_REVERSE_PROXY=True,
@@ -69,7 +71,7 @@ class ProxyTest(TestCase):
         request.META["REMOTE_ADDR"] = "1.2.3.4"
         request.META["HTTP_X_FORWARDED_FOR"] = "2.3.4"
         middleware = ProxyMiddleware(self.get_response)
-        self.assertEqual(middleware(request), "response")
+        self.assert_response(middleware(request))
 
     @override_settings(
         IP_BEHIND_REVERSE_PROXY=True,
@@ -82,13 +84,28 @@ class ProxyTest(TestCase):
             request.META["REMOTE_ADDR"] = "1.2.3.4"
             request.META["HTTP_X_FORWARDED_FOR"] = "2.3.4, 1.2.3.4"
             middleware = ProxyMiddleware(self.get_response)
-            self.assertEqual(middleware(request), "response")
+            self.assert_response(middleware(request))
             mock_report_error.assert_not_called()
 
 
 class CSPBuilderTest(TestCase):
     def setUp(self) -> None:
         self.factory = RequestFactory()
+
+    @override_settings(
+        SENTRY_DSN="https://public@o123.ingest.sentry.io/456",
+    )
+    def test_sentry_error_does_not_allow_inline_scripts(self) -> None:
+        request = self.factory.get("/")
+        request.resolver_match = None
+
+        builder = CSPBuilder(request, HttpResponse(status=500))
+
+        self.assertIn("o123.ingest.sentry.io", builder.directives["script-src"])
+        self.assertIn("sentry.io", builder.directives["script-src"])
+        self.assertIn("o123.ingest.sentry.io", builder.directives["connect-src"])
+        self.assertIn("sentry.io", builder.directives["connect-src"])
+        self.assertNotIn("'unsafe-inline'", builder.directives["script-src"])
 
     @override_settings(STATIC_URL="https://cdn.example.test/static/")
     def test_external_static_url_added_to_worker_src(self) -> None:

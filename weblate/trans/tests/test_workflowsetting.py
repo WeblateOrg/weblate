@@ -4,6 +4,8 @@
 
 """Test for categories."""
 
+from weblate.auth.data import SELECTION_ALL
+from weblate.auth.models import Group, Role
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Category,
@@ -20,25 +22,33 @@ class WorkflowSettingsTestCase(FixtureComponentTestCase):
     def assert_workflow(self, **kwargs) -> None:
         self.assertFalse(self.translation.enable_review)
         self.assertTrue(self.translation.enable_suggestions)
+        self.assertFalse(self.translation.restrict_direct_editing)
 
         workflowsetting = WorkflowSetting.objects.create(
-            translation_review=True, enable_suggestions=False, **kwargs
+            translation_review=True,
+            enable_suggestions=False,
+            restrict_direct_editing=True,
+            **kwargs,
         )
         translation = Translation.objects.get(pk=self.translation.pk)
         self.assertFalse(translation.enable_review)
         self.assertFalse(translation.enable_suggestions)
+        self.assertTrue(translation.restrict_direct_editing)
 
         self.project.translation_review = True
         self.project.save()
         translation = Translation.objects.get(pk=translation.pk)
         self.assertTrue(translation.enable_review)
         self.assertFalse(translation.enable_suggestions)
+        self.assertTrue(translation.restrict_direct_editing)
 
         workflowsetting.translation_review = False
+        workflowsetting.restrict_direct_editing = False
         workflowsetting.save()
         translation = Translation.objects.get(pk=translation.pk)
         self.assertFalse(translation.enable_review)
         self.assertFalse(translation.enable_suggestions)
+        self.assertFalse(translation.restrict_direct_editing)
 
     def test_project(self) -> None:
         self.assert_workflow(project=self.project, language=self.translation.language)
@@ -105,6 +115,82 @@ class WorkflowSettingsTestCase(FixtureComponentTestCase):
                         self.assertEqual(project_language.enable_review, expected)
                         self.assertEqual(category_language.enable_review, expected)
                         self.assertEqual(category_language.stats.has_review, expected)
+
+    def test_language_wrappers_restrict_direct_editing(self) -> None:
+        category = Category.objects.create(
+            project=self.project,
+            name="Restricted workflow wrappers",
+            slug="restricted-workflow-wrappers",
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+
+        project_language = ProjectLanguage(self.project, self.translation.language)
+        category_language = CategoryLanguage(category, self.translation.language)
+        self.assertFalse(project_language.restrict_direct_editing)
+        self.assertFalse(category_language.restrict_direct_editing)
+
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            restrict_direct_editing=True,
+        )
+
+        project_language = ProjectLanguage(self.project, self.translation.language)
+        category_language = CategoryLanguage(category, self.translation.language)
+        self.assertTrue(project_language.restrict_direct_editing)
+        self.assertTrue(category_language.restrict_direct_editing)
+
+    def test_restrict_direct_editing_permissions(self) -> None:
+        category = Category.objects.create(
+            project=self.project,
+            name="Restricted workflow permissions",
+            slug="restricted-workflow-permissions",
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+
+        group = Group.objects.create(
+            name="Workflow actions", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.roles.add(
+            Role.objects.get(name="Automatic translation"),
+            Role.objects.get(name="Bulk editing"),
+        )
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        project_language = ProjectLanguage(self.project, self.translation.language)
+        category_language = CategoryLanguage(category, self.translation.language)
+        for obj in (self.translation, project_language, category_language):
+            with self.subTest(obj=obj):
+                self.assertTrue(self.user.has_perm("unit.edit", obj))
+                self.assertTrue(self.user.has_perm("translation.auto", obj))
+                self.assertTrue(self.user.has_perm("unit.bulk_edit", obj))
+
+        WorkflowSetting.objects.create(
+            project=self.project,
+            language=self.translation.language,
+            restrict_direct_editing=True,
+        )
+
+        translation = Translation.objects.get(pk=self.translation.pk)
+        project_language = ProjectLanguage(self.project, translation.language)
+        category_language = CategoryLanguage(category, translation.language)
+        for obj in (translation, project_language, category_language):
+            with self.subTest(obj=obj):
+                self.assertFalse(self.user.has_perm("unit.edit", obj))
+                self.assertTrue(self.user.has_perm("translation.auto", obj))
+                self.assertFalse(self.user.has_perm("unit.bulk_edit", obj))
+
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        for obj in (translation, project_language, category_language):
+            with self.subTest(obj=obj):
+                self.assertTrue(self.user.has_perm("unit.edit", obj))
+                self.assertTrue(self.user.has_perm("translation.auto", obj))
+                self.assertTrue(self.user.has_perm("unit.bulk_edit", obj))
 
     def test_shared_category_source_language_review(self) -> None:
         project = Project.objects.create(

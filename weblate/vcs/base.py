@@ -32,7 +32,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy, gettext_noop
 from packaging.version import Version
 
 from weblate.trans.util import path_separator
@@ -47,15 +47,17 @@ from weblate.utils.files import (
     remove_tree,
 )
 from weblate.utils.lock import WeblateLock
+from weblate.utils.outbound import get_environment_proxy
 from weblate.vcs.ssh import SSH_WRAPPER
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterator
+    from collections.abc import Callable, Generator, Iterable, Iterator
 
-    import requests
+    import httpx2
     from django_stubs_ext import StrOrPromise
 
     from weblate.trans.models import Component
+    from weblate.utils.validators import ResolvedRepositoryURL
 
 LOGGER = logging.getLogger("weblate.vcs")
 
@@ -125,6 +127,281 @@ class CommitInfo(TypedDict):
 
 
 type RemoteOperation = Literal["none", "pull", "push"]
+type RepositoryDiagnosisCode = Literal[
+    "branch_behind",
+    "gerrit_permission",
+    "github_pull_request_creation_restricted",
+    "missing_credentials",
+    "repository_not_found",
+    "repository_permission",
+    "repository_redirect",
+    "ssh_host_key_mismatch",
+    "ssh_host_key_unverified",
+    "temporary_failure",
+]
+type RepositoryErrorCode = Literal[
+    "api_error",
+    "api_error_retry",
+    "api_request_failed",
+    "api_request_failed_retry",
+    "api_request_failed_with_error",
+    "api_request_failed_with_error_retry",
+    "github_app_branch_required",
+    "github_app_installation_invalid",
+    "github_app_installation_missing",
+    "github_app_installation_missing_for_host",
+    "github_app_token_failed",
+    "github_app_workspace_required",
+    "gitlab_project_failed",
+    "gitlab_project_failed_unknown",
+    "pull_request_listing_failed",
+    "pull_request_listing_failed_retry",
+    "repository_fork_failed",
+    "repository_fork_not_found",
+    "repository_fork_failed_retry",
+    "repository_fork_failed_with_error",
+    "repository_fork_failed_with_error_retry",
+    "repository_interrupted_operation",
+    "repository_recovery_failed",
+    "repository_redirect",
+    "repository_redirect_credentials",
+    "repository_redirect_cross_host",
+    "repository_redirect_insecure",
+    "repository_redirect_invalid",
+    "repository_redirect_invalid_hostname",
+    "repository_redirect_loop",
+    "repository_redirect_missing_address",
+    "repository_redirect_missing_target",
+    "repository_redirect_not_smart_http",
+    "repository_redirect_probe_failed",
+    "repository_redirect_query_changed",
+    "repository_redirect_target_invalid",
+    "repository_redirect_target_unverified",
+    "repository_redirect_too_many",
+    "repository_redirect_unsupported_scheme",
+    "repository_remote_branch_shallow",
+    "repository_remote_branch_unrelated",
+    "repository_ssh_destination_unresolved",
+    "repository_ssh_destination_unresolved_with_error",
+    "repository_unsupported_interrupted_operation",
+    "repository_url_backend_unsupported",
+    "repository_url_host_not_allowed",
+    "repository_url_invalid",
+    "repository_url_parse_invalid",
+    "repository_url_parse_failed",
+    "repository_url_private_target",
+    "repository_url_scheme_not_allowed",
+    "repository_url_unresolved",
+    "repository_url_unresolved_with_error",
+]
+
+
+class RepositoryDiagnosis(TypedDict):
+    """Machine-readable diagnosis for a repository error."""
+
+    code: RepositoryDiagnosisCode
+    params: NotRequired[dict[str, str]]
+
+
+class RepositoryStructuredError(TypedDict):
+    """Machine-readable repository error stored in an alert."""
+
+    code: RepositoryErrorCode
+    retcode: int
+    params: NotRequired[dict[str, str]]
+
+
+class RepositoryAlertDetails(TypedDict):
+    """Persistent details for a repository failure alert."""
+
+    error: str | RepositoryStructuredError
+    diagnoses: list[RepositoryDiagnosis]
+
+
+REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
+    "api_error": gettext_noop("%(detail)s"),
+    "api_error_retry": gettext_noop("%(detail)s Please retry later."),
+    "api_request_failed": gettext_noop(
+        "%(service)s API request failed while creating a pull request: %(status)s"
+    ),
+    "api_request_failed_retry": gettext_noop(
+        "%(service)s API request failed while creating a pull request: %(status)s Please retry later."
+    ),
+    "api_request_failed_with_error": gettext_noop(
+        "%(service)s API request failed while creating a pull request (%(status)s): %(error)s"
+    ),
+    "api_request_failed_with_error_retry": gettext_noop(
+        "%(service)s API request failed while creating a pull request (%(status)s): %(error)s Please retry later."
+    ),
+    "github_app_branch_required": gettext_noop(
+        "GitHub App repositories must be imported with a branch."
+    ),
+    "github_app_installation_invalid": gettext_noop(
+        "Invalid GitHub App installation ID."
+    ),
+    "github_app_installation_missing": gettext_noop(
+        "No Weblate GitHub app installation available."
+    ),
+    "github_app_installation_missing_for_host": gettext_noop(
+        "No Weblate GitHub app installation available for %(hostname)s"
+    ),
+    "github_app_token_failed": gettext_noop(
+        "Could not obtain GitHub App access token: %(error)s"
+    ),
+    "github_app_workspace_required": gettext_noop(
+        "GitHub App components require a project with a workspace."
+    ),
+    "gitlab_project_failed": gettext_noop(
+        "Could not get GitLab project (%(status)s): %(error)s"
+    ),
+    "gitlab_project_failed_unknown": gettext_noop(
+        "Could not get GitLab project (%(status)s): Unknown error"
+    ),
+    "pull_request_listing_failed": gettext_noop(
+        "Pull request listing failed: %(error)s"
+    ),
+    "pull_request_listing_failed_retry": gettext_noop(
+        "Pull request listing failed: %(error)s Please retry later."
+    ),
+    "repository_fork_failed": gettext_noop("Could not fork repository at %(hostname)s"),
+    "repository_fork_failed_retry": gettext_noop(
+        "Could not fork repository at %(hostname)s. Please retry later."
+    ),
+    "repository_fork_failed_with_error": gettext_noop(
+        "Could not fork repository at %(hostname)s: %(error)s"
+    ),
+    "repository_fork_failed_with_error_retry": gettext_noop(
+        "Could not fork repository at %(hostname)s: %(error)s Please retry later."
+    ),
+    "repository_fork_not_found": gettext_noop(
+        "Could not fork repository at %(hostname)s: Repository not found. "
+        "Check whether exists and user '%(username)s' has access to it."
+    ),
+    "repository_interrupted_operation": gettext_noop(
+        "Repository has an interrupted Git %(operation)s operation."
+    ),
+    "repository_recovery_failed": gettext_noop(
+        "Could not recover interrupted Git %(operation)s operation."
+    ),
+    "repository_redirect": gettext_noop(
+        "The repository URL permanently redirects to a canonical URL."
+    ),
+    "repository_redirect_credentials": gettext_noop(
+        "The repository HTTP redirect contains credentials and was rejected."
+    ),
+    "repository_redirect_cross_host": gettext_noop(
+        "The repository URL redirects to a different host. Automatic cross-host redirects are disabled for security; update the repository URL manually."
+    ),
+    "repository_redirect_insecure": gettext_noop(
+        "The repository URL redirects from HTTPS to an insecure URL and was rejected."
+    ),
+    "repository_redirect_invalid": gettext_noop(
+        "The repository returned an invalid HTTP redirect."
+    ),
+    "repository_redirect_invalid_hostname": gettext_noop(
+        "The repository returned an HTTP redirect with an invalid hostname."
+    ),
+    "repository_redirect_loop": gettext_noop(
+        "The repository HTTP redirect contains a loop."
+    ),
+    "repository_redirect_missing_address": gettext_noop(
+        "The repository redirect target has no validated address."
+    ),
+    "repository_redirect_missing_target": gettext_noop(
+        "The repository returned a permanent HTTP redirect without a target URL."
+    ),
+    "repository_redirect_not_smart_http": gettext_noop(
+        "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
+    ),
+    "repository_redirect_probe_failed": gettext_noop(
+        "Could not probe the repository HTTP redirect: %(error)s"
+    ),
+    "repository_redirect_query_changed": gettext_noop(
+        "The repository HTTP redirect unexpectedly changed the URL query."
+    ),
+    "repository_redirect_target_invalid": gettext_noop(
+        "The repository HTTP redirect target could not be validated."
+    ),
+    "repository_redirect_target_unverified": gettext_noop(
+        "The repository HTTP redirect target could not be verified as a Git repository."
+    ),
+    "repository_redirect_too_many": gettext_noop(
+        "The repository returned too many HTTP redirects."
+    ),
+    "repository_redirect_unsupported_scheme": gettext_noop(
+        "The repository URL redirects to an unsupported URL scheme."
+    ),
+    "repository_remote_branch_shallow": gettext_noop(
+        "Remote branch could not be verified against the shallow existing repository."
+    ),
+    "repository_remote_branch_unrelated": gettext_noop(
+        "Remote branch does not share common history with the existing repository."
+    ),
+    "repository_ssh_destination_unresolved": gettext_noop(
+        "Could not determine the effective SSH destination."
+    ),
+    "repository_ssh_destination_unresolved_with_error": gettext_noop(
+        "Could not determine the effective SSH destination: %(error)s"
+    ),
+    "repository_unsupported_interrupted_operation": gettext_noop(
+        "Unsupported interrupted Git operation: %(operation)s"
+    ),
+    "repository_url_backend_unsupported": gettext_noop(
+        "This VCS backend cannot safely connect to this URL while private address restrictions are enabled."
+    ),
+    "repository_url_host_not_allowed": gettext_noop(
+        "Fetching VCS repository from %(hostname)s is not allowed."
+    ),
+    "repository_url_invalid": gettext_noop("Enter a valid URL."),
+    "repository_url_parse_invalid": gettext_noop("Could not parse URL."),
+    "repository_url_parse_failed": gettext_noop("Could not parse URL: %(error)s"),
+    "repository_url_private_target": gettext_noop(
+        "This URL is prohibited because it points to an internal or non-public address."
+    ),
+    "repository_url_scheme_not_allowed": gettext_noop(
+        "Fetching VCS repository using %(scheme)s is not allowed."
+    ),
+    "repository_url_unresolved": gettext_noop("Could not resolve the URL domain."),
+    "repository_url_unresolved_with_error": gettext_noop(
+        "Could not resolve the URL domain: %(error)s"
+    ),
+}
+
+
+REPOSITORY_REDIRECT_MESSAGES = (
+    "returned error: 301",
+    "returned error: 308",
+    "http redirect",
+    "permanently redirects",
+    "repository url redirects",
+)
+REPOSITORY_BEHIND_MESSAGES = (
+    "The tip of your current branch is behind its remote counterpart",
+    "fetch first",
+)
+REPOSITORY_NOT_FOUND_MESSAGES = (
+    "Repository not found.",
+    "HTTP Error 404: Not Found",
+    "Repository was archived so is read-only",
+    "does not appear to be a git repository",
+)
+REPOSITORY_TEMPORARY_MESSAGES = (
+    "Empty reply from server",
+    "no suitable response from remote hg",
+    "cannot lock ref",
+    "Too many retries",
+    "Connection timed out",
+)
+REPOSITORY_PERMISSION_MESSAGES = (
+    "denied to",
+    "The repository exists, but forking is disabled.",
+    "protected branch hook declined",
+    "GH006:",
+)
+REPOSITORY_GERRIT_PERMISSION_MESSAGES = (
+    "is not registered in your account, and you lack 'forge",
+    "prohibited by Gerrit",
+)
 
 
 @dataclass(slots=True)
@@ -227,11 +504,18 @@ class RepositoryLock:
 class RepositoryError(Exception):
     """Error while working with a repository."""
 
-    def __init__(self, retcode: int, message: str) -> None:
+    def __init__(
+        self,
+        retcode: int,
+        message: str,
+        *,
+        diagnoses: Iterable[RepositoryDiagnosis] = (),
+    ) -> None:
         super().__init__(message)
         self.retcode = retcode
+        self.diagnoses = list(diagnoses)
 
-    def get_message(self):
+    def get_message(self, translator: Callable[[str], str] | None = None) -> str:
         if self.retcode != 0:
             return f"{self.args[0]} ({self.retcode})"
         return self.args[0]
@@ -240,10 +524,60 @@ class RepositoryError(Exception):
         return self.get_message()
 
 
+class RepositoryInternalError(RepositoryError):
+    """Structured error for failures generated by Weblate itself."""
+
+    def __init__(
+        self,
+        retcode: int,
+        code: RepositoryErrorCode,
+        *,
+        params: dict[str, str] | None = None,
+        diagnoses: Iterable[RepositoryDiagnosis] = (),
+    ) -> None:
+        self.code = code
+        self.params = params or {}
+        super().__init__(retcode, code, diagnoses=diagnoses)
+
+    def get_message(self, translator: Callable[[str], str] | None = None) -> str:
+        template = REPOSITORY_ERROR_MESSAGES[self.code]
+        if translator is not None:
+            template = translator(template)
+        message = template % self.params
+        if self.retcode != 0:
+            return f"{message} ({self.retcode})"
+        return message
+
+    def get_stored_error(self) -> RepositoryStructuredError:
+        """Return a JSON-safe structured representation for persistent storage."""
+        result: RepositoryStructuredError = {
+            "code": self.code,
+            "retcode": self.retcode,
+        }
+        if self.params:
+            result["params"] = self.params
+        return result
+
+
+def format_stored_repository_error(
+    error: str | RepositoryStructuredError,
+    translator: Callable[[str], str] | None = None,
+) -> str:
+    """Format a raw or structured repository error for a consumer."""
+    if isinstance(error, str):
+        return error
+    structured = RepositoryInternalError(
+        error["retcode"],
+        error["code"],
+        params=error.get("params"),
+    )
+    return structured.get_message(translator)
+
+
 class RepositoryCommandError(RepositoryError):
     """Error raised by the underlying VCS command."""
 
-    def get_message(self):
+    def get_message(self, translator: Callable[[str], str] | None = None) -> str:
         if self.retcode < 0:
             signum = -self.retcode
             with suppress(ValueError):
@@ -263,11 +597,30 @@ class RepositoryCommandError(RepositoryError):
                 if message:
                     return f"{message}\n\n{hint} ({self.retcode})"
                 return f"{hint} ({self.retcode})"
-        return super().get_message()
+        return super().get_message(translator)
 
 
-class RepositoryValidationError(RepositoryError):
+class RepositoryValidationError(RepositoryInternalError):
     """Error raised when repository configuration violates runtime policy."""
+
+
+class RepositoryRedirectError(RepositoryInternalError):
+    """A repository URL permanently redirects to a validated canonical URL."""
+
+    def __init__(
+        self,
+        original_url: str,
+        canonical_url: str,
+        status_code: int,
+    ) -> None:
+        super().__init__(
+            0,
+            "repository_redirect",
+            diagnoses=({"code": "repository_redirect"},),
+        )
+        self.original_url = original_url
+        self.canonical_url = canonical_url
+        self.status_code = status_code
 
 
 class RepositorySymlinkError(ValueError):
@@ -291,6 +644,33 @@ def is_ssh_host_key_mismatch_error(errormessage: str) -> bool:
         or "possible dns spoofing detected" in normalized
         or ("host key for" in normalized and "has changed" in normalized)
     )
+
+
+def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
+    """Classify a repository error into stable machine-readable diagnoses."""
+    diagnoses: list[RepositoryDiagnosis] = []
+    normalized = error.lower()
+
+    if any(message in normalized for message in REPOSITORY_REDIRECT_MESSAGES):
+        diagnoses.append({"code": "repository_redirect"})
+    if "terminal prompts disabled" in error:
+        diagnoses.append({"code": "missing_credentials"})
+    if any(message in error for message in REPOSITORY_BEHIND_MESSAGES):
+        diagnoses.append({"code": "branch_behind"})
+    if is_ssh_host_key_mismatch_error(error):
+        diagnoses.append({"code": "ssh_host_key_mismatch"})
+    elif is_ssh_host_key_verification_error(error):
+        diagnoses.append({"code": "ssh_host_key_unverified"})
+    if any(message in error for message in REPOSITORY_NOT_FOUND_MESSAGES):
+        diagnoses.append({"code": "repository_not_found"})
+    if any(message in error for message in REPOSITORY_PERMISSION_MESSAGES):
+        diagnoses.append({"code": "repository_permission"})
+    if any(message in error for message in REPOSITORY_GERRIT_PERMISSION_MESSAGES):
+        diagnoses.append({"code": "gerrit_permission"})
+    if any(message in error for message in REPOSITORY_TEMPORARY_MESSAGES):
+        diagnoses.append({"code": "temporary_failure"})
+
+    return diagnoses
 
 
 def should_auto_add_ssh_host_key(errormessage: str) -> bool:
@@ -327,6 +707,7 @@ class Repository:
     ref_from_remote: ClassVar[str]
     metadata_dir_name: ClassVar[str | None] = None
     supports_remote_compatibility_validation: ClassVar[bool] = False
+    pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
     _version: ClassVar[str | None] = None
     _version_error: ClassVar[Exception | None] = None
 
@@ -382,7 +763,7 @@ class Repository:
         add_breadcrumb(category="vcs", message=message, **data)
 
     @classmethod
-    def add_response_breadcrumb(cls, response: requests.Response) -> None:
+    def add_response_breadcrumb(cls, response: httpx2.Response) -> None:
         cls.add_breadcrumb(
             "http.response",
             status_code=response.status_code,
@@ -624,6 +1005,7 @@ class Repository:
         merge_err: bool = True,
         stdin: str | None = None,
         environment: dict[str, str] | None = None,
+        remote_url: str | None = None,
     ):
         """Execute command and caches its output."""
         self.ensure_lock_session_recovered()
@@ -633,10 +1015,21 @@ class Repository:
                 raise RuntimeError(msg)
             if self.component:
                 self.ensure_config_updated()
-        if remote_op == "pull":
-            self.validate_pull_url()
+        remote_target = None
+        effective_remote_url = remote_url
+        if remote_url:
+            remote_target = self.validate_remote_url(remote_url)
+        elif remote_op == "pull":
+            remote_target = self.validate_pull_url()
+            if self.component is not None:
+                effective_remote_url = self.component.repo
         elif remote_op == "push":
-            self.validate_push_url()
+            remote_target = self.validate_push_url()
+            if self.component is not None:
+                effective_remote_url = self.component.push or self.component.repo
+        args, environment = self.prepare_remote_command(
+            args, environment, remote_target
+        )
         is_status = args[0] == self._cmd_status[0]
         try:
             self.last_output = self._popen(
@@ -651,6 +1044,13 @@ class Repository:
         except RepositoryCommandError as error:
             if not is_status and not self.local:
                 self.log_status(error)
+            if effective_remote_url and remote_target is not None:
+                self.handle_remote_command_error(
+                    error,
+                    effective_remote_url,
+                    remote_target,
+                    environment,
+                )
             raise
         return self.last_output
 
@@ -692,31 +1092,129 @@ class Repository:
         """Clone repository."""
         raise NotImplementedError
 
-    @staticmethod
-    def validate_remote_url(url: str) -> None:
+    def _clone_resolved(
+        self,
+        source: str,
+        target: str,
+        branch: str,
+        remote_target: ResolvedRepositoryURL | None,
+    ) -> None:
+        """Clone with the resolved target available to capable backends."""
+        self._clone(source, target, branch)
+
+    @classmethod
+    def validate_remote_url(cls, url: str) -> ResolvedRepositoryURL | None:
         """Revalidate a remote URL before using it."""
         from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level, unsorted-imports]
 
-        from weblate.utils.validators import validate_repo_url  # ruff: ignore[import-outside-top-level]
+        from weblate.utils.validators import resolve_repo_url  # ruff: ignore[import-outside-top-level]
 
         try:
-            validate_repo_url(url)
+            target = resolve_repo_url(
+                url,
+                ssh_destination_resolver=cls.get_ssh_destination_resolver(),
+                proxy_url=get_environment_proxy(url),
+            )
         except ValidationError as error:
-            raise RepositoryValidationError(0, "; ".join(error.messages)) from error
+            validation_error = error.error_list[0]
+            error_codes: dict[
+                str | None, tuple[RepositoryErrorCode, tuple[str, ...]]
+            ] = {
+                "invalid": ("repository_url_invalid", ()),
+                "private_target": ("repository_url_private_target", ()),
+                "repository_host_not_allowed": (
+                    "repository_url_host_not_allowed",
+                    ("hostname",),
+                ),
+                "repository_scheme_not_allowed": (
+                    "repository_url_scheme_not_allowed",
+                    ("scheme",),
+                ),
+                "ssh_destination_unresolved": (
+                    "repository_ssh_destination_unresolved",
+                    (),
+                ),
+                "ssh_destination_unresolved_with_error": (
+                    "repository_ssh_destination_unresolved_with_error",
+                    ("error",),
+                ),
+                "url_parse_failed": ("repository_url_parse_failed", ("error",)),
+                "url_parse_invalid": ("repository_url_parse_invalid", ()),
+                "url_unresolved": ("repository_url_unresolved", ()),
+                "url_unresolved_with_error": (
+                    "repository_url_unresolved_with_error",
+                    ("error",),
+                ),
+            }
+            code, param_names = error_codes.get(
+                validation_error.code, ("repository_url_invalid", ())
+            )
+            validation_params = validation_error.params or {}
+            params = {
+                name: str(validation_params[name])
+                for name in param_names
+                if name in validation_params
+            }
+            raise RepositoryValidationError(
+                0,
+                code,
+                params=params,
+            ) from error
+        if (
+            target is not None
+            and target.requires_pinning
+            and target.scheme not in cls.pinned_remote_schemes
+        ):
+            raise RepositoryValidationError(
+                0,
+                "repository_url_backend_unsupported",
+            )
+        return target
 
-    def validate_pull_url(self, url: str | None = None) -> None:
+    @classmethod
+    def get_ssh_destination_resolver(
+        cls,
+    ) -> Callable[[str, str | None, int | None], tuple[str, int]] | None:
+        """Return an effective SSH destination resolver when supported."""
+        return None
+
+    def validate_pull_url(self, url: str | None = None) -> ResolvedRepositoryURL | None:
         """Validate the pull URL in the current runtime context."""
         if url is None and self.component is not None:
             url = self.component.repo
         if url:
-            self.validate_remote_url(url)
+            return self.validate_remote_url(url)
+        return None
 
-    def validate_push_url(self, url: str | None = None) -> None:
+    def validate_push_url(self, url: str | None = None) -> ResolvedRepositoryURL | None:
         """Validate the push URL in the current runtime context."""
         if url is None and self.component is not None:
             url = self.component.push or self.component.repo
         if url:
-            self.validate_remote_url(url)
+            return self.validate_remote_url(url)
+        return None
+
+    @classmethod
+    # ruff: ignore[unused-class-method-argument]
+    def prepare_remote_command(
+        cls,
+        args: list[str],
+        environment: dict[str, str] | None,
+        target: ResolvedRepositoryURL | None,
+    ) -> tuple[list[str], dict[str, str] | None]:
+        """Bind a remote command to the addresses approved during validation."""
+        return args, environment
+
+    @classmethod
+    def handle_remote_command_error(
+        cls,
+        _error: RepositoryCommandError,
+        _remote_url: str,
+        _target: ResolvedRepositoryURL,
+        _environment: dict[str, str] | None,
+    ) -> None:
+        """Convert backend-specific failures into structured repository errors."""
+        return
 
     def validate_remote_compatibility(self, pull_url: str, branch: str) -> None:
         """Validate that a remote branch is compatible with this checkout."""
@@ -724,8 +1222,8 @@ class Repository:
 
     def clone_from(self, source: str) -> None:
         """Clone repository into current one."""
-        self.validate_pull_url(source)
-        self._clone(source, self.path, self.branch)
+        target = self.validate_pull_url(source)
+        self._clone_resolved(source, self.path, self.branch, target)
 
     @classmethod
     def clone(

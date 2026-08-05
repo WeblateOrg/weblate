@@ -26,6 +26,7 @@ from crispy_forms.layout import (
 )
 from django import forms
 from django.conf import settings
+from django.core import signing
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db.models import Count, Q
@@ -142,6 +143,9 @@ from weblate.vcs.git import GitMergeRequestBase
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
+REPOSITORY_REDIRECT_PROOF_SALT = "weblate.component.repository-redirect"
+REPOSITORY_REDIRECT_PROOF_MAX_AGE = 86400
+
 if TYPE_CHECKING:
     from django.db.models import QuerySet
     from django.http import QueryDict
@@ -151,7 +155,7 @@ if TYPE_CHECKING:
     from weblate.auth.results import PermissionResult
     from weblate.lang.models import LanguageQuerySet
     from weblate.trans.file_format_params import FileFormatParams
-    from weblate.trans.mixins import URLMixin
+    from weblate.trans.mixins import URLPathObject
     from weblate.trans.models import (
         Translation,
     )
@@ -167,6 +171,62 @@ def copy_form_data(
     if isinstance(result, MutableMapping):
         return result
     return dict(result)
+
+
+def create_repository_redirect_proof(
+    request: AuthenticatedHttpRequest,
+    data: Mapping[str, Any],
+    original_url: str,
+    canonical_url: str,
+) -> str:
+    """Sign repository redirect provenance for the component creation wizard."""
+    project = data.get("project")
+    return signing.dumps(
+        {
+            "user": request.user.pk,
+            "project": getattr(project, "pk", project),
+            "vcs": data.get("vcs"),
+            "original": original_url,
+            "canonical": canonical_url,
+        },
+        salt=REPOSITORY_REDIRECT_PROOF_SALT,
+        compress=True,
+    )
+
+
+def get_repository_redirect_change(
+    request: AuthenticatedHttpRequest,
+    data: Mapping[str, Any],
+) -> tuple[str, str, str] | None:
+    """Verify redirect provenance carried between component creation steps."""
+    proof = data.get("repository_redirect_proof")
+    if not isinstance(proof, str) or not proof:
+        return None
+    try:
+        details = signing.loads(
+            proof,
+            salt=REPOSITORY_REDIRECT_PROOF_SALT,
+            max_age=REPOSITORY_REDIRECT_PROOF_MAX_AGE,
+        )
+    except signing.BadSignature:
+        return None
+    if not isinstance(details, dict):
+        return None
+
+    project = data.get("project")
+    original_url = details.get("original")
+    canonical_url = data.get("repo")
+    if (
+        details.get("user") != request.user.pk
+        or details.get("project") != getattr(project, "pk", project)
+        or details.get("vcs") != data.get("vcs")
+        or details.get("canonical") != canonical_url
+        or not isinstance(original_url, str)
+        or not isinstance(canonical_url, str)
+        or original_url == canonical_url
+    ):
+        return None
+    return ("repo", original_url, canonical_url)
 
 
 def clean_integration_component_data(
@@ -2532,6 +2592,10 @@ class ComponentCreateForm(
     )
 
     detected_license = forms.CharField(required=False, widget=forms.HiddenInput)
+    repository_redirect_proof = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput,
+    )
     source_component = forms.ModelChoiceField(
         queryset=Component.objects.none(),
         required=False,
@@ -2651,6 +2715,7 @@ class ComponentCreateForm(
             "source_language",
             "is_glossary",
             "detected_license",
+            "repository_redirect_proof",
             "source_component",
         )
 
@@ -2741,6 +2806,12 @@ class ComponentCreateForm(
                 data["file_format"], data["file_format_params"]
             )
         self.preserve_inherited_values()
+        repository_redirect_change = get_repository_redirect_change(
+            self.request,
+            data,
+        )
+        if repository_redirect_change is not None:
+            self.instance.repository_redirect_changes = [repository_redirect_change]
         for field in ("license", "new_lang", "language_code_style"):
             if self.disables_inheritance_for_explicit_setting(field):
                 setattr(self.instance, get_inherit_field_name(field), False)
@@ -2958,6 +3029,10 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         help_text=Component.branch.field.help_text,
         required=False,
     )
+    repository_redirect_proof = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput,
+    )
     instance: Component  # type: ignore[assignment]
 
     def __init__(self, *args, **kwargs) -> None:
@@ -2972,9 +3047,15 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
 
     def clean_instance(self, data) -> None:
         params = copy.copy(data)
-        for field in ("detected_license", "discovery", "source_component"):
+        for field in (
+            "detected_license",
+            "discovery",
+            "repository_redirect_proof",
+            "source_component",
+        ):
             params.pop(field, None)
 
+        original_repo = params.get("repo")
         instance = Component(**params)
         instance.clean_fields(
             exclude=(
@@ -2988,6 +3069,14 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         instance.validate_unique()
         instance.clean_unique_together()
         instance.clean_repo()
+        if original_repo != instance.repo:
+            data["repository_redirect_proof"] = create_repository_redirect_proof(
+                self.request,
+                data,
+                original_repo,
+                instance.repo,
+            )
+            data["repo"] = instance.repo
         instance.clean_category()
         self.instance = instance
 
@@ -3825,7 +3914,7 @@ class ReplaceForm(forms.Form):
         strip=False,
     )
 
-    def __init__(self, obj: URLMixin, data: dict | None = None) -> None:
+    def __init__(self, obj: URLPathObject, data: dict | None = None) -> None:
         path = getattr(obj, "full_slug", "/".join(obj.get_url_path()))
         super().__init__(data=data, auto_id="id_replace_%s", initial={"path": path})
         self.helper = FormHelper(self)
@@ -4559,6 +4648,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
         # ruff: ignore[mutable-class-default]
         fields = [
             "translation_review",
+            "restrict_direct_editing",
             "enable_suggestions",
             "suggestion_voting",
             "suggestion_autoaccept",
@@ -4610,6 +4700,7 @@ class WorkflowSettingForm(FieldDocsMixin, forms.ModelForm):
             ),
             Div(
                 Field("translation_review"),
+                Field("restrict_direct_editing"),
                 Field("enable_suggestions"),
                 Field("suggestion_voting"),
                 Field("suggestion_autoaccept"),

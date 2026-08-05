@@ -1,51 +1,97 @@
-Weblate 2026.8
---------------
+Weblate 2026.8.1
+----------------
 
 *Not yet released.*
 
 .. rubric:: New features
 
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+* Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
+* Repository actions now require permission on every component sharing the affected repository, including linked components in other projects.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.8.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?closed=1>`__.
+
+Weblate 2026.8
+--------------
+
+*Released on August 3rd 2026.*
+
+.. rubric:: New features
+
+* Added a :guilabel:`Show all columns in lists using horizontal scrolling` preference to keep all listing columns visible on narrow screens instead of hiding them.
+* :ref:`Workspaces <workspaces>` now provide aggregate translation statistics and historical metrics, a permission-filtered :guilabel:`My workspaces` list, archive downloads, search and replace, upload guidance, workspace translation memory management, and :ref:`removal of empty workspaces <workspace-removal>` not associated with billing.
+* Added :ref:`project-level translation metrics <monitoring-translation-progress>` in JSON, CSV, and OpenMetrics formats.
+* Added opt-in :ref:`running-granian-asgi` deployment support, including :envvar:`WEBLATE_ASGI` for Docker containers and asynchronous machine translation editor, GitHub App connection, and repository refresh requests.
+* Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters. Component diagnostics now track dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors.
 * Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions.
 * :doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis.
 * Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword.
+* Added API support for reading and updating :ref:`user-profile` preferences. See :ref:`api-users` endpoint.
+* Added :ref:`check-max-lines` and :ref:`check-asciidoc-markup` quality checks for limiting the number of translation lines and validating AsciiDoc strings.
+* Added :ref:`workflow-language-restrictions`, including per-language control for restricting direct translation editing to privileged users.
+* Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`.
+* Weblate is now available in Lao language.
 
 .. rubric:: Improvements
 
-* Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters.
-* Component diagnostics now record dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors.
-* :ref:`Add-on activity logs <addon-activity-logging>` now distinguish pending, successful, failed, and skipped executions and explain why an add-on was skipped.
-* Add-on management now uses separate configuration, logs, and components tabs.
+* Authenticated web-action rate-limit lockouts are now recorded in the :ref:`audit-log` with the affected scope and request path.
+* OpenMetrics API responses now include metric metadata and a versioned content type.
+* Add-on management now uses separate configuration, logs, and components tabs, while :ref:`activity logs <addon-activity-logging>` distinguish pending, successful, failed, and skipped executions and explain skipped executions.
 * Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
-* Improved matrix view loading performance when displaying multiple languages.
-* Translation memory management pages now load origin summaries with a single database aggregation.
-* Dashboard component list tabs now load without processing unrelated component lists.
+* Improved loading performance for multi-language matrix views, dashboard component lists, category histories, and shared component listings.
+* Translation memory management now loads origin summaries more efficiently, shows active and pending entry counts, and reports the number of entries processed during import.
 * Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed.
-* :ref:`Empty workspaces <workspace-removal>` not associated with billing can now be removed from the workspace :guilabel:`Operations` menu.
 * :ref:`mt-aws` machine translation now supports configuring formality, brevity, and profanity masking.
 * Improved :ref:`screenshots` OCR reliability and error reporting when downloading recognition data.
+* Repository failure alerts now link directly to component version control settings for users who can edit them, keep technical errors in English, and localize actionable diagnoses for each viewer, including GitHub pull request restrictions.
 * Celery workers now prefetch fewer tasks by default to reduce memory usage and improve task distribution.
 * Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
 * Errors from automatic suggestion backends (such as rate limiting) are now collected and displayed on the :guilabel:`Automatic suggestions` management page.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
+* User-provided links, such as those in comments, announcements, and profiles, are now underlined and use a higher contrast color.
 
 .. rubric:: Bug fixes
 
+* :ref:`Disabling password authentication <site-wide-user-management>` from site-wide user management now regenerates the user's personal API key by default.
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.
-* Self-service REST API e-mail changes are now restricted to verified addresses.
+* URLs containing backslashes are now rejected as invalid.
+* Protected outbound HTTP and Git connections now bind to validated public addresses; protected Git operations fail closed when clients cannot enforce that binding (:ghsa:`45m9-pf98-8jmq`).
+* Permanent same-host Git HTTP redirects are now validated and stored as canonical component repository URLs.
+* Self-service REST API e-mail changes are now restricted to verified addresses (:ghsa:`x84p-6892-473c`).
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
-* Project backup imports now skip repository-linked components when the importer cannot access the target component.
+* :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state, skip repository-linked components the importer cannot access, and no longer load archive-supplied Mercurial configuration or shared-repository indirection (:ghsa:`f66g-8pcg-jm8r`, :ghsa:`327h-qqgm-qv55`).
+* Rebuilding project translation memory no longer removes entries imported from files.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
 * Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.
-* :ref:`RSS feeds <rss>` no longer disclose change history from inaccessible projects or restricted components.
+* :ref:`RSS feeds <rss>` no longer disclose change history from inaccessible projects or restricted components (:ghsa:`vvc6-wvqm-w5gc`).
+* Authenticated legacy GitHub App webhooks can again trigger repository updates through the :ref:`generic GitHub webhook endpoint <code-hosting-github-notifications>`.
 
 .. rubric:: Compatibility
 
 * django-compressor is no longer used, and the ``COMPRESS_*`` settings have been removed.
 * Legal document styling is now provided through an overridable template instead of Weblate's global stylesheet. See :ref:`legal-customization`.
+* When :setting:`VCS_RESTRICT_PRIVATE` is enabled, Mercurial and Subversion repository hosts must be explicitly included in :setting:`VCS_ALLOW_HOSTS`; Git over HTTPS and SSH enforces connection address pinning without an allowlist entry.
+* Outbound HTTP proxy configuration is limited to the per-protocol environment variables documented in :ref:`http-proxy`.
+* Git SSH validates configured ``HostName`` and ``Port`` destinations before connecting; administrator SSH configuration remains trusted, and :setting:`SSH_EXTRA_ARGS` can override connection routing and address pinning.
+* Git LFS object transfers are unsupported and disabled for Weblate-managed repositories; LFS-tracked files remain pointer files.
 * The project and component ``credits`` REST API endpoints and their ``credits_url`` response fields have been replaced by scoped ``reports`` endpoints and ``reports_url``. Credits report generation is now asynchronous; clients need to submit a ``credits`` report, follow the returned task URL, and fetch the completed report. See :http:post:`/api/reports/`.
+* The top-level ``languages`` field on user REST API responses has been removed; use ``profile.languages`` instead. See :ref:`api-user-profile`.
 
 .. rubric:: Upgrading
 

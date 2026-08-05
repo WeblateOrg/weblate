@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-import re
 import uuid
 from collections import defaultdict
 from contextvars import ContextVar
@@ -13,7 +12,9 @@ from datetime import timedelta
 from functools import cache as functools_cache
 from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
 
+import regex
 from appconf import AppConf
+from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
@@ -57,11 +58,13 @@ from weblate.auth.utils import (
     migrate_permissions,
     migrate_roles,
 )
+from weblate.logger import LOGGER
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
+from weblate.utils.regex import regex_match
 from weblate.utils.search import parse_query
 from weblate.utils.tracing import start_span
 from weblate.utils.validators import (
@@ -1048,6 +1051,19 @@ class User(AbstractBaseUser):
         # Generic permission
         return check_permission(self, perm, obj)
 
+    async def aprepare_permissions(self) -> None:
+        """Populate synchronous permission caches for async callers."""
+        if self.is_superuser:
+            return
+
+        def prepare() -> None:
+            _ = self._permissions
+            _ = self.global_permissions
+            _ = self.needs_project_filter
+            _ = self.needs_component_restrictions_filter
+
+        await sync_to_async(prepare, thread_sensitive=True)()
+
     def can_access_project(self, project):
         """Check access to given project."""
         if self.is_superuser:
@@ -1781,8 +1797,11 @@ def auto_assign_group(user: User) -> None:
         return
     # Add user to automatic groups
     for auto in AutoGroup.objects.prefetch_related("group"):
-        if re.match(auto.match, user.email or ""):
-            user.add_team(None, auto.group)
+        try:
+            if regex_match(auto.match, user.email or ""):
+                user.add_team(None, auto.group)
+        except (regex.error, TimeoutError):
+            LOGGER.error("Invalid automatic group rule %s", auto.pk)
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)

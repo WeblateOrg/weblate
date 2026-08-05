@@ -324,6 +324,11 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(change.details["error"], "fetch failed (1)")
         self.assertEqual(change.details["previous_remote_revision"], "old-remote")
         self.assertIn("fetch failed", change.get_details_display())
+        alert = self.component2.alert_set.get(name="UpdateFailure")
+        self.assertEqual(
+            alert.details,
+            {"error": "fetch failed (1)", "diagnoses": []},
+        )
 
     def test_remote_update_history_failure_skips_validation(self) -> None:
         """Test repository validation does not record failed update history."""

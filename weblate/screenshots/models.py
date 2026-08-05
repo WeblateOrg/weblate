@@ -29,7 +29,6 @@ from weblate.trans.models import Translation, Unit
 from weblate.trans.signals import component_post_update, vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
-from weblate.utils.validators import validate_bitmap
 from weblate.vcs.base import RepositorySymlinkError
 
 if TYPE_CHECKING:
@@ -102,6 +101,15 @@ class Screenshot(models.Model, UserDisplayMixin):
     def get_view_url(self) -> str:
         return reverse("screenshot-view", kwargs={"pk": self.pk})
 
+    @classmethod
+    def validate_image_file(cls, image: File) -> None:
+        """Validate screenshot uploads using the model field policy."""
+        field = cls._meta.get_field("image")
+        if not isinstance(field, ScreenshotField):
+            msg = "Screenshot.image is not a ScreenshotField."
+            raise TypeError(msg)
+        field.run_validators(image)
+
     @property
     def filter_name(self) -> str:
         return f"screenshot:{Flags.format_value(self.name)}"
@@ -123,12 +131,39 @@ class Screenshot(models.Model, UserDisplayMixin):
                 unit=unit,
             )
 
+    async def add_units_async(
+        self, units: Sequence[Unit], user: User | None = None
+    ) -> None:
+        """Asynchronously add units and create change events."""
+        if not units:
+            return
+        user_id = user.pk if user is not None else self.user_id
+        await self.units.aadd(*units)  # codespell:ignore aadd
+        for unit in units:
+            await self.change_set.acreate(
+                action=ActionEvents.SCREENSHOT_ADDED,
+                user_id=user_id,
+                target=self.name,
+                unit=unit,
+            )
+
     def remove_unit(self, unit: Unit, user: User | None = None) -> None:
         """Remove a unit from this screenshot and create a change event."""
         self.units.remove(unit)
         self.change_set.create(
             action=ActionEvents.SCREENSHOT_REMOVED,
             user=user or self.user,
+            target=self.name,
+            unit=unit,
+        )
+
+    async def aremove_unit(self, unit: Unit, user: User | None = None) -> None:
+        """Asynchronously remove a unit and create a change event."""
+        user_id = user.pk if user is not None else self.user_id
+        await self.units.aremove(unit)
+        await self.change_set.acreate(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            user_id=user_id,
             target=self.name,
             unit=unit,
         )
@@ -188,7 +223,7 @@ def validate_screenshot_image(component: Component, filename: str) -> str | None
     try:
         with open(full_name, "rb") as f:
             image_file = File(f, name=os.path.basename(filename))
-            validate_bitmap(image_file)
+            Screenshot.validate_image_file(image_file)
     except OSError as error:
         component.log_info(
             "ignoring screenshot %s, could not open: %s", filename, error

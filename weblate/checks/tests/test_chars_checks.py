@@ -24,6 +24,7 @@ from weblate.checks.chars import (
     KabyleCharactersCheck,
     KashidaCheck,
     MaxLengthCheck,
+    MaxLinesCheck,
     MultipleCapitalCheck,
     NewLineCountCheck,
     PunctuationSpacingCheck,
@@ -481,6 +482,74 @@ class MaxLengthCheckTest(SimpleTestCase):
         )
 
 
+class MaxLinesCheckTest(SimpleTestCase):
+    def setUp(self) -> None:
+        self.check = MaxLinesCheck()
+
+    def test_single_line_within_limit(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["source"],
+                ["translation"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_single_line_exceeds_limit(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2"],
+                make_unit(flags="max-lines:1"),
+            )
+        )
+
+    def test_multi_line_within_limit(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_multi_line_exceeds_limit(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2\nline3\nline4"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_exact_boundary(self) -> None:
+        self.assertFalse(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2\nline3"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_one_over_boundary(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["line1\nline2\nline3\nline4"],
+                make_unit(flags="max-lines:3"),
+            )
+        )
+
+    def test_invalid_flag(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                ["source"],
+                ["translation"],
+                make_unit(flags="max-lines:*"),
+            )
+        )
+
+
 class EndSemicolonCheckTest(CheckTestCase):
     check = EndSemicolonCheck()
 
@@ -503,11 +572,20 @@ class KashidaCheckTest(CheckTestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_good_matching = ("string", "string", "")
+        self.test_good_matching = ("string", "مـ", "")
         self.test_good_ignore = ("string", "بـ:", "")
-        self.test_failure_1 = ("string", "string\u0640", "")
-        self.test_failure_2 = ("string", "string\ufe79", "")
-        self.test_failure_3 = ("string", "string\ufe7f", "")
+        self.test_failure_1 = ("string", "صـــفــــحـــــے", "")
+        self.test_failure_2 = ("string", "صـف", "")
+        self.test_failure_3 = ("string", "بـالبيت", "")
+
+    def test_kashida_abbreviation(self) -> None:
+        # Single and multiple kashidas at end of abbreviation/word should be allowed
+        self.do_test(False, ("string", "اتـ", ""))
+        self.do_test(False, ("string", "مــ", ""))
+
+    def test_kashida_combining_mark(self) -> None:
+        # Kashidas holding combining marks should be allowed
+        self.do_test(False, ("string", "ــ٘ـ", ""))
 
 
 class PunctuationSpacingCheckTest(CheckTestCase):

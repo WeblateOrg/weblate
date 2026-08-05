@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import base64
 import logging
 import math
 import os
@@ -12,6 +13,7 @@ import warnings
 from contextlib import contextmanager, suppress
 from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, Literal, cast, overload
 from unittest.mock import patch
@@ -21,12 +23,14 @@ from django.conf import settings
 from django.core import mail
 from django.core.cache import cache
 from django.core.files import File
+from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpRequest
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
+from PIL import Image
 from selenium import webdriver
 from selenium.common.exceptions import (
     ElementClickInterceptedException,
@@ -651,6 +655,21 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.get_screenshot_as_png()
         )
 
+    def screenshot_viewport(self, name: str, width: int, height: int = 1024) -> None:
+        """
+        Capture screenshot of a fixed size viewport.
+
+        Unlike screenshot(), the window is not grown to fit the whole document,
+        so that responsive layout and scrollbars are captured as the user sees
+        them at the given width.
+        """
+        self.driver.set_window_size(width, height)
+        self.scroll_top()
+        self.wait_for_screenshot_ready()
+        Path(os.path.join(self.image_path, name)).write_bytes(
+            self.driver.get_screenshot_as_png()
+        )
+
     def use_live_server_widget_preview(self) -> None:
         """Load widget preview from the live server while displaying public URLs."""
         protocol = "https" if settings.ENABLE_HTTPS else "http"
@@ -809,6 +828,24 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             raise ValueError(msg)
         element.send_keys(name)
 
+    def set_image_clipboard(self, filename: str | Path) -> None:
+        image = base64.b64encode(Path(filename).read_bytes()).decode("ascii")
+        error = self.driver.execute_async_script(
+            """
+            const image = Uint8Array.from(atob(arguments[0]), (byte) =>
+                byte.charCodeAt(0),
+            );
+            const done = arguments[arguments.length - 1];
+            navigator.clipboard.write([
+                new ClipboardItem({
+                    "image/png": new Blob([image], {type: "image/png"}),
+                }),
+            ]).then(() => done(null), (exception) => done(String(exception)));
+            """,
+            image,
+        )
+        self.assertIsNone(error, error)
+
     @overload
     def do_login(self, *, create: Literal[False], superuser: bool = False) -> None: ...
     @overload
@@ -911,6 +948,39 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
 
+    def test_search_preview_scopes_boolean_query(self) -> None:
+        project = self.create_component()
+        component = Component.objects.get(project=project, slug="language-names")
+        self.do_login(superuser=True)
+        self.open_component(component, project)
+        self.click("Operations")
+        self.click("Bulk edit")
+
+        self.driver.execute_script(
+            """
+            window.previewRequestUrl = null;
+            window.fetch = (url) => {
+                window.previewRequestUrl = url;
+                return Promise.resolve({ok: false});
+            };
+            """
+        )
+        self.driver.find_element(By.ID, "id_bulk_q").send_keys('"a" OR ""')
+
+        preview_url = WebDriverWait(self.driver, 5).until(
+            lambda driver: driver.execute_script("return window.previewRequestUrl;")
+        )
+        preview_query = self.driver.execute_script(
+            """
+            return new URL(arguments[0], document.baseURI).searchParams.get("q");
+            """,
+            preview_url,
+        )
+        self.assertEqual(
+            preview_query,
+            f'path:{component.full_slug} AND ("a" OR "")',
+        )
+
     def test_js_unit_tests(self) -> None:
         self.assertEqual(self.driver.execute_script("return getNumber('1,23');"), 1.23)
         self.assertEqual(self.driver.execute_script("return getNumber('1.23');"), 1.23)
@@ -946,6 +1016,46 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             ),
             "inner",
         )
+
+    def test_table_sorting(self) -> None:
+        """Clicking sortable table headers reorders the rows client-side."""
+        # Load a page so that loader-bootstrap.js is loaded
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+
+        result = self.driver.execute_script(
+            r"""
+            const table = document.createElement("table");
+            table.className = "sort";
+            table.innerHTML = `
+              <thead><tr>
+                <th class="sort-skip"></th>
+                <th class="sort-cell">Name</th>
+                <th class="number sort-cell"><span class="sort-icon"> </span>Count</th>
+              </tr></thead>
+              <tbody>
+                <tr id="9row-1"><td></td><th class="object-link">Beta</th><td class="number" data-value="30">30</td></tr>
+                <tr data-parent="9row-1"><td colspan="3">progress</td></tr>
+                <tr id="9row-2"><td></td><th class="object-link">Alpha</th><td class="number" data-value="10">10</td></tr>
+                <tr data-parent="9row-2"><td colspan="3">progress</td></tr>
+                <tr id="9row-3"><td></td><th class="object-link">Gamma</th><td class="number" data-value="20">20</td></tr>
+                <tr data-parent="9row-3"><td colspan="3">progress</td></tr>
+              </tbody>`;
+            document.body.appendChild(table);
+            loadTableSorting();
+            const header = table.querySelectorAll("thead th")[2];
+            const readNames = () => Array.from(
+                table.querySelectorAll("tbody tr[id] th.object-link")
+            ).map((el) => el.textContent.trim());
+            header.click();
+            const ascending = readNames();
+            header.click();
+            const descending = readNames();
+            return {ascending: ascending, descending: descending};
+            """
+        )
+        self.assertEqual(result["ascending"], ["Alpha", "Gamma", "Beta"])
+        self.assertEqual(result["descending"], ["Beta", "Gamma", "Alpha"])
 
     def test_hotkeys(self) -> None:
         """Test hotkeys functionality."""
@@ -1304,7 +1414,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.get(f"{self.live_server_url}{reverse('manage-ssh')}")
 
         # Add SSH host key
-        self.driver.find_element(By.ID, "id_host").send_keys("example.com")
+        self.driver.find_element(By.ID, "id_host").send_keys("github.com")
         with (
             patch.dict(
                 os.environ,
@@ -1465,6 +1575,66 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.assert_text_contains("#screenshots-add", "Repository path to screenshot")
         self.screenshot("screenshot-filemask-repository-filename.png")
 
+    def test_screenshot_clipboard_paste(self) -> None:
+        """Test uploading a screenshot pasted from the clipboard."""
+        project = self.create_component()
+        self.do_login(superuser=True)
+        unit = Unit.objects.filter(
+            translation__component__project=project,
+            translation__component__slug="django",
+            translation__language__code="cs",
+        ).first()
+        assert unit is not None
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+        self.click("Add screenshot")
+        modal = WebDriverWait(self.driver, 5).until(
+            element_to_be_clickable((By.ID, "add-screenshot-form"))
+        )
+        modal.find_element(By.ID, "id_name").send_keys("Clipboard screenshot")
+
+        origin = self.driver.execute_script("return window.location.origin;")
+        self.driver.execute_cdp_cmd(
+            "Browser.grantPermissions",
+            {
+                "origin": origin,
+                "permissions": ["clipboardReadWrite", "clipboardSanitizedWrite"],
+            },
+        )
+        try:
+            expected_image_path = get_test_file("screenshot.png")
+            self.set_image_clipboard(expected_image_path)
+            self.click(htmlid="paste-screenshot-btn")
+            image_input = modal.find_element(By.ID, "id_image")
+            WebDriverWait(self.driver, 5).until(
+                lambda driver: driver.execute_script(
+                    "return arguments[0].files.length === 1;", image_input
+                )
+            )
+            self.assert_text_contains("#paste-screenshot-info-label", "Image Pasted!")
+            with self.wait_for_page_load():
+                self.click(modal.find_element(By.CSS_SELECTOR, 'input[type="submit"]'))
+        finally:
+            self.driver.execute_cdp_cmd("Browser.resetPermissions", {})
+
+        screenshot = Screenshot.objects.get(name="Clipboard screenshot")
+        self.assertTrue(screenshot.units.filter(pk=unit.pk).exists())
+        screenshot.image.open("rb")
+        try:
+            with (
+                Image.open(expected_image_path) as expected_image,
+                Image.open(screenshot.image) as uploaded_image,
+            ):
+                self.assertEqual(uploaded_image.format, "PNG")
+                self.assertEqual(uploaded_image.size, expected_image.size)
+                self.assertEqual(
+                    uploaded_image.convert("RGBA").tobytes(),
+                    expected_image.convert("RGBA").tobytes(),
+                )
+        finally:
+            screenshot.image.close()
+
     def test_screenshots(self) -> None:
         """Screenshot tests."""
         # Make sure tesseract data is present and not downloaded at request time
@@ -1538,19 +1708,26 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Screenshots")
 
         # Upload screenshot
+        upload_filename = "automatic-translation.png"
+        default_storage.delete(f"screenshots/{upload_filename}")
         self.click("Add screenshot")
         self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
         element = self.driver.find_element(By.ID, "id_image")
-        self.upload_file(element, get_test_file("screenshot.png"))
-        with self.wait_for_page_load():
-            element.submit()
+        with TemporaryDirectory(prefix="weblate-selenium-upload-") as upload_dir:
+            upload_path = Path(upload_dir) / upload_filename
+            upload_path.write_bytes(Path(get_test_file("screenshot.png")).read_bytes())
+            self.upload_file(element, upload_path)
+            with self.wait_for_page_load():
+                element.submit()
         uploaded_screenshot = Screenshot.objects.get(name="Automatic translation")
 
+        listing_filename = "main-menu.png"
+        default_storage.delete(f"screenshots/{listing_filename}")
         with open(get_test_file("screenshot.png"), "rb") as handle:
             listing_screenshot = Screenshot.objects.create(
                 name="Main menu",
                 repository_filename="fastlane/metadata/android/en-US/images/menu.png",
-                image=File(handle, name="main-menu.png"),
+                image=File(handle, name=listing_filename),
                 translation=component.source_translation,
                 user=user,
             )
@@ -2090,6 +2267,108 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Dashboard")
         time.sleep(0.2)
         self.screenshot("your-translations.png")
+
+    def get_dashboard_listing_scroll(self) -> dict:
+        """Measure horizontal scrolling of the watched translations listing."""
+        return self.driver.execute_script(
+            """
+            const wrapper = document.querySelector(
+                "#your-subscriptions .table-listing-wrapper"
+            );
+            if (wrapper === null) {
+                return null;
+            }
+            const header = wrapper.querySelector(".sticky-header");
+            const hidden = Array.from(
+                wrapper.querySelectorAll("thead th[class*='zero-width-']")
+            ).filter((cell) => getComputedStyle(cell).display === "none");
+            // Scroll to the end to see how far the listing actually scrolls
+            wrapper.scrollLeft = wrapper.scrollWidth;
+            const scrollLeft = wrapper.scrollLeft;
+            wrapper.scrollLeft = 0;
+            const doc = document.documentElement;
+            return {
+                scrollable: wrapper.classList.contains("table-scroll"),
+                overflow: wrapper.scrollWidth - wrapper.clientWidth,
+                hiddenColumns: hidden.length,
+                scrollLeft: scrollLeft,
+                headerPosition: header === null ? "" : getComputedStyle(header).position,
+                documentOverflow: doc.scrollWidth - doc.clientWidth,
+                tabindex: wrapper.getAttribute("tabindex"),
+            };
+            """
+        )
+
+    def test_dashboard_wide_tables(self) -> None:
+        """Test horizontal scrolling of the dashboard listing."""
+        # Window narrow enough for the responsive rules to hide some columns
+        narrow_width = 900
+
+        project = self.create_component()
+        user = self.do_login()
+        user.profile.watched.add(project)
+
+        self.driver.set_window_size(narrow_width, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
+
+        # Columns are hidden and the listing does not scroll by default
+        before = self.get_dashboard_listing_scroll()
+        self.assertIsNotNone(before)
+        self.assertFalse(before["scrollable"])
+        self.assertGreater(before["hiddenColumns"], 0)
+        self.assertEqual(before["scrollLeft"], 0)
+        self.assertEqual(before["documentOverflow"], 0)
+        self.assertIsNone(before["tabindex"])
+        self.assertEqual(before["headerPosition"], "sticky")
+        self.screenshot_viewport("dashboard-narrow-columns.png", narrow_width)
+
+        # Turn the preference on in the settings
+        self.driver.set_window_size(1200, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('profile')}")
+        self.click("Preferences")
+        wide_tables = self.driver.find_element(By.ID, "id_wide_tables")
+        self.assertFalse(wide_tables.is_selected())
+        self.click(wide_tables)
+        with self.wait_for_page_load():
+            self.click(
+                self.driver.find_element(
+                    By.CSS_SELECTOR, "#preferences input[type='submit']"
+                )
+            )
+        user.profile.refresh_from_db()
+        self.assertTrue(user.profile.wide_tables)
+
+        self.driver.set_window_size(narrow_width, 1024)
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('home')}")
+
+        # All columns are shown and the listing scrolls horizontally instead
+        after = self.get_dashboard_listing_scroll()
+        self.assertIsNotNone(after)
+        self.assertTrue(after["scrollable"])
+        self.assertEqual(after["hiddenColumns"], 0)
+        self.assertGreater(after["overflow"], 0)
+        self.assertGreater(after["scrollLeft"], 0)
+        # Only the listing scrolls, the page itself must not overflow
+        self.assertEqual(after["documentOverflow"], 0)
+        # Sticky header does not work inside a scrolling container
+        self.assertEqual(after["headerPosition"], "static")
+        self.screenshot_viewport("dashboard-wide-tables.png", narrow_width)
+
+        # The listing is keyboard focusable and scrollable
+        self.assertEqual(after["tabindex"], "0")
+        wrapper = self.driver.find_element(
+            By.CSS_SELECTOR, "#your-subscriptions .table-listing-wrapper"
+        )
+        self.driver.execute_script("arguments[0].focus();", wrapper)
+        for _ in range(3):
+            wrapper.send_keys(Keys.ARROW_RIGHT)
+        time.sleep(0.2)
+        self.assertGreater(
+            self.driver.execute_script("return arguments[0].scrollLeft;", wrapper), 0
+        )
 
     def test_team_management(self) -> None:
         """Test team management screenshots."""

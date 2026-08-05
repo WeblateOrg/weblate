@@ -11,6 +11,7 @@ from datetime import timedelta
 from types import SimpleNamespace
 from unittest.mock import patch
 
+from asgiref.sync import async_to_sync
 from django.apps import apps
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.cache import cache
@@ -33,6 +34,7 @@ from weblate.glossary.models import (
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import (
+    FailedCommitError,
     FileParseError,
     SuggestionSimilarToTranslationError,
     SuggestionTooLongError,
@@ -54,6 +56,8 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
+from weblate.trans.models.change import ChangeQuerySet
+from weblate.trans.models.component import ComponentLink
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.removal import RemovalBatch
 from weblate.trans.tasks import actual_project_removal
@@ -1054,6 +1058,34 @@ class TranslationTest(RepoTestCase):
             .target,
         )
 
+    def test_commit_serialization_error(self) -> None:
+        """Serialization errors should be exposed as commit errors."""
+        user = create_test_user()
+        component = self._create_component(
+            "i18next", "i18next/*.json", "i18next/en.json"
+        )
+        translation = component.source_translation
+        filename = get_optional_path(translation.get_filename())
+        original_content = filename.read_bytes()
+        unit = translation.unit_set.get(source="Hello")
+        unit.translate(user, "Updated hello", STATE_TRANSLATED)
+
+        pending_count = PendingUnitChange.objects.count()
+        serialization_error = TypeError("'str' object does not support item assignment")
+        with (
+            patch(
+                "weblate.formats.ttkit.I18NextFormat.save",
+                side_effect=serialization_error,
+            ),
+            self.assertRaises(FailedCommitError) as context,
+        ):
+            component.commit_pending("test", None)
+
+        self.assertIs(context.exception.__cause__, serialization_error)
+        self.assertEqual(str(context.exception), str(serialization_error))
+        self.assertEqual(PendingUnitChange.objects.count(), pending_count)
+        self.assertEqual(filename.read_bytes(), original_content)
+
     def test_commit_successful_deletes_failed_changes(self) -> None:
         """Test that failed changes are deleted when a subsequent successful change to the unit is applied."""
         user = create_test_user()
@@ -1454,6 +1486,38 @@ class AnnouncementTest(ModelTestCase):
         )
         Announcement.objects.create(message="test global")
 
+    def test_async_create_with_foreign_key_ids(self) -> None:
+        category = self.create_category(self.component.project)
+
+        async def create_announcements():
+            category_announcement = await Announcement.objects.acreate(
+                category_id=category.pk,
+                language_id=self.czech.pk,
+                message="async category",
+            )
+            component_announcement = await Announcement.objects.acreate(
+                project_id=self.component.project_id,
+                component_id=self.component.pk,
+                language_id=self.czech.pk,
+                message="async component",
+            )
+            return category_announcement, component_announcement
+
+        category_announcement, component_announcement = async_to_sync(
+            create_announcements
+        )()
+
+        self.assertIsNone(category_announcement.project_id)
+        category_change = Change.objects.get(announcement=category_announcement)
+        self.assertEqual(category_change.project_id, category.project_id)
+        self.assertEqual(category_change.category_id, category.pk)
+        self.assertEqual(category_change.language_id, self.czech.pk)
+
+        component_change = Change.objects.get(announcement=component_announcement)
+        self.assertEqual(component_change.project_id, self.component.project_id)
+        self.assertEqual(component_change.component_id, self.component.pk)
+        self.assertEqual(component_change.language_id, self.czech.pk)
+
     def verify_filter(self, messages, count, message=None) -> None:
         """Verify whether messages have given count and first contains string."""
         self.assertEqual(len(messages), count)
@@ -1629,6 +1693,93 @@ class AnnouncementTest(ModelTestCase):
 
 class ChangeTest(ModelTestCase):
     """Test(s) for Change model."""
+
+    def test_recent_uses_limited_identifier_query(self) -> None:
+        Change.objects.all().delete()
+        changes = [
+            self.component.change_set.create(action=ActionEvents.LOCK) for _ in range(3)
+        ]
+        queryset = self.component.change_set.prefetch_for_render()
+
+        with CaptureQueriesContext(connection) as queries:
+            recent = queryset.recent(count=2)
+
+        self.assertEqual(
+            [change.pk for change in recent], [changes[2].pk, changes[1].pk]
+        )
+        candidate_sql = queries[0]["sql"]
+        self.assertIn("LIMIT 2", candidate_sql)
+        self.assertNotIn("trans_comment", candidate_sql)
+        self.assertNotIn("trans_suggestion", candidate_sql)
+
+    def test_recent_skips_changes_deleted_before_hydration(self) -> None:
+        Change.objects.all().delete()
+        changes = [
+            self.component.change_set.create(action=ActionEvents.LOCK) for _ in range(3)
+        ]
+        original_prefetch = ChangeQuerySet.prefetch_for_render
+
+        def delete_change_before_prefetch(
+            queryset: ChangeQuerySet,
+        ) -> ChangeQuerySet:
+            Change.objects.filter(pk=changes[1].pk).delete()
+            return original_prefetch(queryset)
+
+        with patch.object(
+            ChangeQuerySet,
+            "prefetch_for_render",
+            delete_change_before_prefetch,
+        ):
+            recent = self.component.change_set.recent(count=2)
+
+        self.assertEqual([change.pk for change in recent], [changes[2].pk])
+
+    def test_category_changes_exclude_inaccessible_linked_project(self) -> None:
+        source_project = self.component.project
+        source_project.access_control = Project.ACCESS_PRIVATE
+        source_project.save(update_fields=["access_control"])
+        target_project = Project.objects.create(
+            name="Category history target",
+            slug="category-history-target",
+        )
+        category = Category.objects.create(
+            name="Category history",
+            slug="category-history",
+            project=target_project,
+        )
+        ComponentLink.objects.create(
+            component=self.component,
+            project=target_project,
+            category=category,
+        )
+        user = User.objects.create_user(
+            "category-history",
+            "category-history@example.com",
+            "category-history",
+        )
+        language = self.component.translation_set.get(language_code="cs").language
+        visible_change = Change.objects.create(
+            action=ActionEvents.RENAME_CATEGORY,
+            project=target_project,
+            category=category,
+            language=language,
+        )
+        hidden_change = self.component.change_set.create(
+            action=ActionEvents.LOCK,
+            language=language,
+        )
+
+        self.assertTrue(user.can_access_project(target_project))
+        self.assertFalse(user.can_access_project(source_project))
+
+        changes = Change.objects.last_changes(
+            user,
+            category=category,
+            language=language,
+        )
+
+        self.assertIn(visible_change, changes)
+        self.assertNotIn(hidden_change, changes)
 
     def test_fixup_references_inherits_project_workspace(self) -> None:
         workspace = Workspace.objects.create(name="Change workspace")

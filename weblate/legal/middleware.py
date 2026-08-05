@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING
 
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.deprecation import MiddlewareMixin
 from django.utils.http import urlencode
 from django.utils.translation import gettext
 
@@ -19,11 +20,11 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
-class RequireTOSMiddleware:
+class RequireTOSMiddleware(MiddlewareMixin):
     """Middleware to enforce TOS confirmation on certain requests."""
 
-    def __init__(self, get_response=None) -> None:
-        self.get_response = get_response
+    def __init__(self, get_response) -> None:
+        super().__init__(get_response)
         # Ignored paths regexp, mostly covers API and legal pages
         self.matcher = re.compile(
             r"^/(legal|about|contact|api|static|widget|data|hooks|avatar|healthz|js|css)/"
@@ -57,6 +58,3 @@ class RequireTOSMiddleware:
 
         # Explicitly return None for all non-matching requests
         return None
-
-    def __call__(self, request: AuthenticatedHttpRequest):
-        return self.get_response(request)

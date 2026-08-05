@@ -307,7 +307,15 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         if "all" in billing.payment:
             other.payment.setdefault("all", []).extend(billing.payment["all"])
         other.save()
-        billing.get_projects_queryset().update(workspace=other.workspace)
+        moved_projects = billing.get_projects_queryset()
+        projects_moved = moved_projects.update(workspace=other.workspace)
+        if projects_moved:
+            # ruff: ignore[import-outside-top-level]
+            from weblate.utils.tasks import update_workspace_stats
+
+            update_workspace_stats.delay_on_commit(
+                [str(billing.workspace_id), str(other.workspace_id)]
+            )
         other.update_workspace_name()
         merge_workspace_access(billing, other)
         billing.invoice_set.update(billing=other)

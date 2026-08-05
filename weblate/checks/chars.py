@@ -553,6 +553,35 @@ class MaxLengthCheck(TargetCheckParametrized):
         return any(len(replace(target)) > value for target in targets)
 
 
+class MaxLinesCheck(TargetCheckParametrized):
+    """
+    Check for maximum number of lines in translation.
+
+    This check flags translations that exceed a configured maximum number of
+    lines. It is useful for translations targeting fixed-height UI elements
+    such as displays, terminals, or constrained containers where a specific
+    number of visible lines is required.
+
+    The flag ``max-lines:<value>`` sets the upper bound. A translation with
+    more than ``<value>`` lines (counted by newlines + 1) triggers a warning.
+
+    Example flag: ``max-lines:3``
+    """
+
+    check_id = "max-lines"
+    name = gettext_lazy("Maximum number of lines")
+    description = gettext_lazy("Translation should not exceed given number of lines.")
+    default_disabled = True
+
+    param_type = single_value_flag(int)
+
+    def check_target_params(
+        self, sources: list[str], targets: list[str], unit: Unit, value
+    ):
+        replace = self.get_replacement_function(unit)
+        return any(replace(target).count("\n") + 1 > value for target in targets)
+
+
 class EndSemicolonCheck(TargetCheck):
     """Check for semicolon at end."""
 
@@ -577,12 +606,13 @@ class KashidaCheck(TargetCheck):
     description = gettext_lazy("The decorative kashida letters should not be used.")
 
     kashida_regex = (
-        # Allow kashida after certain letters
-        "(?<![\u0628\u0643\u0644])"
+        # Allow kashida after certain letters, only if sandwiched between actual letters
+        r"(?<=\p{sc=Arab})(?<![\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f])"
         # List of kashida letters to check
-        "[\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f]"
+        r"[\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f]+"
+        r"(?=\p{sc=Arab})(?![\u0640\ufcf2\ufcf3\ufcf4\ufe71\ufe77\ufe79\ufe7b\ufe7d\ufe7f])"
     )
-    kashida_re = re.compile(kashida_regex)
+    kashida_re = regex.compile(kashida_regex)
 
     def check_single(self, source: str, target: str, unit: Unit):
         return self.kashida_re.search(target)

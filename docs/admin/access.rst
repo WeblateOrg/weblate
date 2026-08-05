@@ -67,11 +67,15 @@ project.
 
 The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. _statistics-access-filtering:
+
 .. note::
 
-    Even `Private` project statistics are counted into
-    the site-wide statistics and language summary.
-    This does not reveal project names or any other info.
+    Aggregate statistics include `Private` projects and
+    :ref:`restricted components <component-restricted>`, including in
+    site-wide, language, and workspace summaries. Object listings, names, and
+    actions remain permission-filtered, so these aggregates do not grant access
+    to the underlying projects or components.
 
 .. note::
 
@@ -190,11 +194,18 @@ users at once by pasting whitespace-separated e-mail addresses. All
 invitations created in one bulk action use the selected team, and site-wide
 bulk invites also apply the selected superuser flag.
 
+.. _site-wide-user-management:
+
 Site-wide user management is controlled by the global ``user.edit``
 permission. Unlike project access management, this is a trusted administrative
 permission which allows editing user accounts across the whole instance,
 including assigning site-wide teams and granting superuser status to the
 managed account, even the caller's own account.
+
+Site administrators can also disable password authentication for a user. The
+:guilabel:`Regenerate API key` option is enabled by default so that the current
+personal API key stops working. Clear it only when the current API key should
+remain active.
 
 Bulk invitations are processed individually. Invalid addresses and addresses
 with an already pending invitation are skipped while valid invitations are
@@ -467,6 +478,12 @@ the following rules:
   set, the membership grants only permissions that can be evaluated for one of
   those languages. Project-wide, component-wide and global permissions from that
   team are not granted for that member.
+
+- The VCS permissions to commit, push, reset, and update are evaluated for the
+  whole repository. A member needs component-wide permission on the component
+  owning the repository and every component linked to it. This also applies
+  when linked components are in other projects. A per-member language limit
+  therefore cannot grant these permissions.
 
 .. hint::
 
