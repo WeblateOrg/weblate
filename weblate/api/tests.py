@@ -7457,6 +7457,9 @@ class ComponentAPITest(APIBaseTest):
 
         billing = create_test_billing(self.user)
         billing.add_project(self.project)
+        self.project.use_shared_tm = False
+        self.project.contribute_shared_tm = False
+        self.project.save(update_fields=["use_shared_tm", "contribute_shared_tm"])
         self.do_request(
             "api:component-detail",
             self.component_kwargs,
@@ -8012,6 +8015,52 @@ class ComponentAPITest(APIBaseTest):
             code=204,
         )
         self.assertEqual(Component.objects.count(), 1)
+
+    def test_delete_component_memory_option_in_body(self) -> None:
+        with patch("weblate.api.views.component_removal.delay") as mocked_removal:
+            self.do_request(
+                "api:component-detail",
+                self.component_kwargs,
+                method="delete",
+                superuser=True,
+                code=204,
+                format="json",
+                request={"delete_memory": True},
+            )
+
+        mocked_removal.assert_called_once_with(self.component.pk, self.user.pk, True)
+
+    def test_delete_component_memory_option_in_query(self) -> None:
+        url = (
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+            + "?delete_memory=true"
+        )
+        with patch("weblate.api.views.component_removal.delay") as mocked_removal:
+            self.do_request(
+                url,
+                method="delete",
+                superuser=True,
+                code=204,
+            )
+
+        mocked_removal.assert_called_once_with(self.component.pk, self.user.pk, True)
+
+    def test_delete_component_memory_option_conflict(self) -> None:
+        url = (
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+            + "?delete_memory=true"
+        )
+        with patch("weblate.api.views.component_removal.delay") as mocked_removal:
+            self.do_request(
+                url,
+                method="delete",
+                superuser=True,
+                code=400,
+                format="json",
+                request={"delete_memory": False},
+            )
+
+        mocked_removal.assert_not_called()
 
     def test_create_component_from_component_id(self) -> None:
         translation = self.component.translation_set.get(language_code="cs")
@@ -9988,6 +10037,21 @@ class MemoryAPITest(APIBaseTest):
         if source_project is not None:
             memory.scope_source_project_id = source_project.id
         memory.save()
+        try:
+            component = Component.objects.get_by_path(origin)
+        except Component.DoesNotExist:
+            component = None
+        if component is not None:
+            memory.scopes.filter(
+                scope__in=(
+                    MemoryScope.SCOPE_PROJECT,
+                    MemoryScope.SCOPE_SHARED,
+                    MemoryScope.SCOPE_USER,
+                    MemoryScope.SCOPE_WORKSPACE,
+                )
+            ).update(
+                source_component=component,
+            )
         return memory
 
     def test_memory_lookup_request_serializer_preserves_whitespace(self) -> None:
@@ -10269,6 +10333,64 @@ class MemoryAPITest(APIBaseTest):
             compacted.scopes.filter(scope=MemoryScope.SCOPE_PROJECT).exists()
         )
         self.assertTrue(MemoryScope.objects.filter(pk=shared_scope.pk).exists())
+
+    def test_delete_unattributed_project_memory(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        self.authenticate()
+        memory = self.create_memory(
+            source="Delete unattributed project memory",
+            target="Smazat neprirazeny zaznam projektu",
+            project=self.component.project,
+            origin="old-project/removed-component",
+        )
+        self.assertIsNone(memory.scopes.get().source_component_id)
+
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": memory.pk},
+            method="delete",
+            code=204,
+        )
+
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+
+    def test_delete_preserves_hidden_restricted_scope_from_compacted_entry(
+        self,
+    ) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        self.user.clear_permissions_cache()
+        self.authenticate()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="API compacted hidden automatic scope",
+            target="API skryty automaticky rozsah",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        hidden_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.component.project,
+            source_component=self.component,
+        )
+        visible_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT_FILE,
+            project=self.component.project,
+        )
+
+        self.do_request(
+            "api:memory-detail",
+            kwargs={"pk": memory.pk},
+            method="delete",
+            code=204,
+        )
+
+        self.assertTrue(MemoryScope.objects.filter(pk=hidden_scope.pk).exists())
+        self.assertFalse(MemoryScope.objects.filter(pk=visible_scope.pk).exists())
 
     def test_delete_workspace_scope_requires_source_project_permission(self) -> None:
         workspace = Workspace.objects.create(
@@ -15261,6 +15383,43 @@ class CategoryAPITest(APIBaseTest):
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
 
+    def test_delete_memory_option_in_body(self) -> None:
+        response = self.api_create_category()
+        with patch("weblate.api.views.category_removal.delay") as mocked_removal:
+            self.do_request(
+                response.data["url"],
+                method="delete",
+                superuser=True,
+                code=204,
+                format="json",
+                request={"delete_memory": True},
+            )
+
+        mocked_removal.assert_called_once_with(response.data["id"], self.user.pk, True)
+
+    def test_delete_memory_option_in_query(self) -> None:
+        response = self.api_create_category()
+        url = f"{response.data['url']}?delete_memory=true"
+        with patch("weblate.api.views.category_removal.delay") as mocked_removal:
+            self.do_request(url, method="delete", superuser=True, code=204)
+
+        mocked_removal.assert_called_once_with(response.data["id"], self.user.pk, True)
+
+    def test_delete_memory_option_conflict(self) -> None:
+        response = self.api_create_category()
+        url = f"{response.data['url']}?delete_memory=true"
+        with patch("weblate.api.views.category_removal.delay") as mocked_removal:
+            self.do_request(
+                url,
+                method="delete",
+                superuser=True,
+                code=400,
+                format="json",
+                request={"delete_memory": False},
+            )
+
+        mocked_removal.assert_not_called()
+
     def test_rename(self) -> None:
         response = self.api_create_category()
         category_url = response.data["url"]
@@ -16850,6 +17009,36 @@ class OpenAPITest(APIBaseTest):
             delete_request_schema,
             {"$ref": "#/components/schemas/UserGroupDeleteRequest"},
         )
+
+    def test_component_and_category_delete_memory_schema(self) -> None:
+        schema = self.get_schema()
+
+        for path, schema_name in (
+            (
+                "/api/components/{project__slug}/{slug}/",
+                "ComponentDeleteRequest",
+            ),
+            ("/api/categories/{id}/", "CategoryDeleteRequest"),
+        ):
+            with self.subTest(path=path):
+                operation = schema["paths"][path]["delete"]
+                query_parameter = next(
+                    parameter
+                    for parameter in operation["parameters"]
+                    if parameter["name"] == "delete_memory"
+                )
+                self.assertEqual(query_parameter["schema"]["type"], "boolean")
+                self.assertEqual(
+                    operation["requestBody"]["content"]["application/json"]["schema"],
+                    {"$ref": f"#/components/schemas/{schema_name}"},
+                )
+                self.assertNotIn("required", operation["requestBody"])
+                request_schema = schema["components"]["schemas"][schema_name]
+                self.assertEqual(
+                    request_schema["properties"]["delete_memory"],
+                    {"type": "boolean"},
+                )
+                self.assertNotIn("required", request_schema)
 
     def test_addon_trigger_schema_matches_runtime_behavior(self) -> None:
         schema = self.get_schema()

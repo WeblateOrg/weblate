@@ -601,12 +601,16 @@ Security properties Weblate provides
    * - Web authorization separates site, project, component, language,
        glossary, VCS, translation memory, screenshot, review, and access
        management permissions. *(documented)* (source: :doc:`/admin/access`,
-       :doc:`/admin/auth`)
+       :doc:`/admin/auth`, :doc:`/admin/memory`)
      - Permission assignments match the intended trust relationship.
        Team-level enforced 2FA is satisfied by human users before
        team-derived permissions apply. Permissions for VCS actions cover every
        component sharing an affected repository, including linked components
-       in other projects.
+       in other projects. Translation memory attributed to an existing
+       restricted component follows that component's access rules.
+       Unattributed automatic memory, including unmatched legacy entries and
+       memory retained after component removal, follows its remaining
+       translation-memory scope.
      - User or token can read or mutate data outside assigned scope.
      - Security-critical when private data or privileged mutation is exposed.
    * - Project-scoped API tokens are limited by assigned project/team
