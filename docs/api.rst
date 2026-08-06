@@ -3352,6 +3352,8 @@ Tasks
 
     Returns information about a task.
 
+    Authentication is required.
+
     :param uuid: Task UUID
     :type uuid: string
     :>json boolean completed: Whether the task has completed

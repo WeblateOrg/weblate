@@ -24251,7 +24251,6 @@ paths:
       - tokenAuth: []
       - bearerAuth: []
       - cookieAuth: []
-      - {}
       responses:
         '400':
           content:
@@ -24280,20 +24279,6 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -24427,20 +24412,6 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -24519,6 +24490,20 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: The authenticated user does not have permission for this operation.
   /api/translations/:
     get:
       operationId: api_translations_list

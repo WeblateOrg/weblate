@@ -11,6 +11,7 @@ Weblate 2026.8.1
 
 .. rubric:: Bug fixes
 
+* Task progress now requires authentication and works for aggregate automatic translation operations.
 * Docker Celery worker logging no longer emits duplicate records through both Celery and Weblate log handlers.
 * Component creation through the REST API now returns the background task URL in the response when creation work is queued.
 * Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.

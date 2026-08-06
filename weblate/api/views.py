@@ -41,6 +41,7 @@ from drf_spectacular.utils import (
     inline_serializer,
 )
 from drf_standardized_errors.handler import ExceptionHandler
+from drf_standardized_errors.openapi_serializers import ErrorResponse403Serializer
 from rest_framework import parsers, serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import APIException, ValidationError
@@ -55,6 +56,7 @@ from rest_framework.status import (
     HTTP_202_ACCEPTED,
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
+    HTTP_403_FORBIDDEN,
     HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
@@ -4846,6 +4848,7 @@ class ReportViewSet(viewsets.ModelViewSet):
 class TasksViewSet(ViewSet):
     # Task-related data is handled and queried to Celery.
     # There is no Django model associated with tasks.
+    permission_classes = (IsAuthenticated,)
     serializer_class = TaskSerializer
 
     def get_task(
@@ -4935,7 +4938,17 @@ class TasksViewSet(ViewSet):
         )
         return Response(serializer.data)
 
-    @extend_schema(description="Cancel a running task.", methods=["delete"])
+    @extend_schema(
+        description="Cancel a running task.",
+        methods=["delete"],
+        responses={
+            HTTP_204_NO_CONTENT: None,
+            HTTP_403_FORBIDDEN: OpenApiResponse(
+                response=ErrorResponse403Serializer,
+                description="The authenticated user does not have permission for this operation.",
+            ),
+        },
+    )
     def destroy(self, request: Request, pk=None):
         task, component = self.get_task(request, pk, "component.edit")
         if not task.ready() and component is not None:
