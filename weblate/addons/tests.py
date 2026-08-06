@@ -7334,14 +7334,20 @@ class FedoraMessagingAMQPUrlMigrationTest(TestCase):
 
 
 class AddonChangeDetailsMigrationTest(TestCase):
-    def test_addon_details_are_scrubbed(self) -> None:
+    def test_sensitive_addon_details_are_scrubbed(self) -> None:
         migration = importlib.import_module(
             "weblate.trans.migrations.0098_scrub_addon_change_details"
         )
-        addon_changes = [
+        webhook_changes = [
             Change.objects.create(
                 action=action,
-                details={"secret": "private-secret"},
+                target=WebhookAddon.name,
+                details={
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [str(ActionEvents.NEW)],
+                    "secret": "private-secret",
+                    "webhook_url": "https://example.com/private-hook",
+                },
             )
             for action in (
                 ActionEvents.ADDON_CREATE,
@@ -7349,19 +7355,82 @@ class AddonChangeDetailsMigrationTest(TestCase):
                 ActionEvents.ADDON_REMOVE,
             )
         ]
+        slack_change = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target=SlackWebhookAddon.name,
+            details={
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "webhook_url": "https://example.com/private-hook",
+            },
+        )
+        fedora_change = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target=FedoraMessagingAddon.name,
+            details={
+                "amqp_url": "amqps://user:password@example.com/%2F",
+                "ca_cert": "private-ca",
+                "client_cert": "private-certificate",
+                "client_key": "private-key",
+                "topic_prefix": "weblate",
+            },
+        )
         other_change = Change.objects.create(
             action=ActionEvents.CHANGE,
+            target=WebhookAddon.name,
             details={"key": "value"},
         )
         schema_editor = SimpleNamespace(connection=SimpleNamespace(alias="default"))
 
         migration.scrub_addon_change_details(apps, schema_editor)
 
-        for stored_change in addon_changes:
+        for stored_change in webhook_changes:
             stored_change.refresh_from_db()
-            self.assertEqual(stored_change.details, {})
+            self.assertEqual(
+                stored_change.details,
+                {
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [str(ActionEvents.NEW)],
+                    "secret": None,
+                    "webhook_url": None,
+                },
+            )
+        slack_change.refresh_from_db()
+        self.assertEqual(
+            slack_change.details,
+            {
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "webhook_url": None,
+            },
+        )
+        fedora_change.refresh_from_db()
+        self.assertEqual(
+            fedora_change.details,
+            {
+                "amqp_url": None,
+                "ca_cert": None,
+                "client_cert": None,
+                "client_key": None,
+                "topic_prefix": "weblate",
+            },
+        )
         other_change.refresh_from_db()
         self.assertEqual(other_change.details, {"key": "value"})
+
+    def test_unknown_addon_details_are_unchanged(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0098_scrub_addon_change_details"
+        )
+        addon_change = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target="example.unknown.addon",
+            details={"path": "private-path"},
+        )
+        schema_editor = SimpleNamespace(connection=SimpleNamespace(alias="default"))
+
+        migration.scrub_addon_change_details(apps, schema_editor)
+
+        addon_change.refresh_from_db()
+        self.assertEqual(addon_change.details, {"path": "private-path"})
 
 
 class TestRemoval(ComponentTestCase):
