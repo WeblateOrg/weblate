@@ -21,6 +21,7 @@ Weblate 2026.8.1
 * Legal document confirmation now explicitly covers the linked privacy policy. See :ref:`legal`.
 * Add-on change history now retains only explicitly public configuration values and marks changed credential fields as redacted.
 * Translator work reports with metrics can now be displayed and downloaded as HTML.
+* Repository credentials are now consistently hidden from web and API output.
 
 .. rubric:: Compatibility
 
