@@ -15,9 +15,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-06 03:04+0000\n"
-"PO-Revision-Date: 2026-08-06 06:17+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-08-06 16:45+0000\n"
+"Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
 "Language: ga\n"
@@ -1039,6 +1038,12 @@ msgid ""
 "when linked components are in other projects. A per-member language limit "
 "therefore cannot grant these permissions."
 msgstr ""
+"Déantar na ceadanna VCS chun tiomnú, brú, athshocrú agus nuashonrú a "
+"mheasúnú don stórlann iomlán. Caithfidh cead ar fud na comhpháirte a bheith "
+"ag ball ar an gcomhpháirt ar leis an stórlann agus ar gach comhpháirt atá "
+"nasctha leis. Baineann sé seo freisin nuair atá comhpháirteanna nasctha i "
+"dtionscadail eile. Dá bhrí sin, ní féidir le teorainn teanga in aghaidh an "
+"bhaill na ceadanna seo a dheonú."
 
 #: admin/access.rst:490
 msgid ""
@@ -7127,11 +7132,6 @@ msgstr ""
 "a dtacaítear leo."
 
 #: admin/config.rst:1407
-#, fuzzy
-#| msgid ""
-#| "Hidden pages are removed from the legal menu and return a 404 response "
-#| "when requested directly. Hiding ``terms`` or ``privacy`` is not "
-#| "recommended when terms of service confirmation is enabled."
 msgid ""
 "Hidden pages are removed from the legal menu and return a 404 response when "
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
@@ -7139,7 +7139,7 @@ msgid ""
 msgstr ""
 "Baintear leathanaigh fholaithe den roghchlár dlí agus tugann siad freagra "
 "404 ar ais nuair a iarrtar go díreach iad. Ní mholtar ``téarmaí`` nó "
-"``príobháideacht`` a cheilt nuair a bhíonn deimhniú téarmaí seirbhíse "
+"``príobháideacht`` a cheilt nuair a bhíonn deimhniú doiciméad dlíthiúil "
 "cumasaithe."
 
 #: admin/config.rst:1411
@@ -7156,12 +7156,6 @@ msgstr ""
 "cumraithe, fágtar an nasc gaolmhar ar lár."
 
 #: admin/config.rst:1416
-#, fuzzy
-#| msgid ""
-#| "With terms of service confirmation enabled, hiding ``terms`` and "
-#| "setting :setting:`LEGAL_URL` makes the confirmation page link to the "
-#| "external terms document instead of embedding :file:`legal/documents/"
-#| "tos.html`."
 msgid ""
 "With legal document confirmation enabled, hiding ``terms`` and "
 "setting :setting:`LEGAL_URL` makes the confirmation page link to the "
@@ -7169,10 +7163,11 @@ msgid ""
 "tos.html`. When a privacy policy link is available, the confirmation covers "
 "both documents."
 msgstr ""
-"Agus dearbhú téarmaí seirbhíse cumasaithe, má chuirtear ``terms`` i bhfolach "
-"agus má shocraítear :setting:`LEGAL_URL` nascfar an leathanach dearbhaithe "
-"leis an doiciméad téarmaí seachtrach in ionad :file:`legal/documents/"
-"tos.html` a leabú isteach ann."
+"Agus dearbhú doiciméad dlíthiúil cumasaithe, má chuirtear ``terms`` i "
+"bhfolach agus má shocraítear :setting:`LEGAL_URL`, nascfar an leathanach "
+"dearbhaithe chuig an doiciméad téarmaí seachtrach in ionad :file:`legal/"
+"documents/tos.html` a leabú isteach. Nuair a bhíonn nasc chuig polasaí "
+"príobháideachta ar fáil, clúdaíonn an dearbhú an dá dhoiciméad."
 
 #: admin/config.rst:1421
 msgid ""
@@ -7190,18 +7185,15 @@ msgid "You need :ref:`legal` installed to make this work."
 msgstr "Ní mór duit :ref:`legal` a shuiteáil chun an obair seo a dhéanamh."
 
 #: admin/config.rst:1444
-#, fuzzy
-#| msgid ""
-#| "Date of last update of terms of service documents. Whenever the date "
-#| "changes, users are required to agree with the updated terms of service."
 msgid ""
 "Date of the legal documents users last agreed to. Whenever the date changes, "
 "users are required to agree with the current terms of service and, when a "
 "privacy policy link is available, the privacy policy."
 msgstr ""
-"Dáta an nuashonraithe deiridh ar dhoiciméid na dtéarmaí seirbhíse. Aon uair "
-"a athraíonn an dáta, ceanglaítear ar úsáideoirí aontú leis na téarmaí "
-"seirbhíse nuashonraithe."
+"Dáta na ndoiciméad dlíthiúil ar aontaigh úsáideoirí leo go deireanach. Aon "
+"uair a athraíonn an dáta, ní mór d’úsáideoirí aontú leis na téarmaí "
+"seirbhíse reatha agus, nuair a bhíonn nasc chuig an mbeartas "
+"príobháideachais ar fáil, leis an mbeartas príobháideachais."
 
 #: admin/config.rst:1459
 msgid "URL where your Weblate instance shows its legal documents."
@@ -13578,16 +13570,12 @@ msgstr ""
 "nó fág folamh í chun í a dhíchumasú."
 
 #: admin/install/docker.rst:928
-#, fuzzy
-#| msgid ""
-#| "``tos-confirm`` to enable the legal module and enforce terms of service "
-#| "confirmation during social authentication and for signed-in users."
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce legal document "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
-"``tos-confirm`` chun an modúl dlíthiúil a chumasú agus deimhniú téarmaí "
-"seirbhíse a fhorfheidhmiú le linn fíordheimhniú sóisialta agus d'úsáideoirí "
+"``tos-confirm`` chun an modúl dlíthiúil a chumasú agus dearbhú doiciméad "
+"dlíthiúil a fhorfheidhmiú le linn fíordheimhniú sóisialta agus d'úsáideoirí "
 "atá sínithe isteach."
 
 #: admin/install/docker.rst:930
@@ -13659,6 +13647,10 @@ msgid ""
 "The following configuration links both documents externally and requires one "
 "agreement covering the terms of service and privacy policy:"
 msgstr ""
+"Úsáidtear doiciméid dhlíthiúla seachtracha mar chúltaca do leathanaigh "
+"inmheánacha i bhfolach. Nascann an chumraíocht seo a leanas an dá dhoiciméad "
+"go seachtrach agus teastaíonn comhaontú amháin a chlúdaíonn na téarmaí "
+"seirbhíse agus an polasaí príobháideachta:"
 
 #: admin/install/docker.rst:993
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -18583,14 +18575,6 @@ msgid "Subcontractor information"
 msgstr "Faisnéis faoin bhfochonraitheoir"
 
 #: admin/optionals.rst:144
-#, fuzzy
-#| msgid ""
-#| "The legal module embeds these templates inside Weblate and "
-#| "uses :file:`legal/documents/tos.html` for terms of service confirmation. "
-#| "This is separate from :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`, "
-#| "which are meant for linking to externally hosted legal documents from the "
-#| "footer when the legal module is not enabled. When the legal module is "
-#| "enabled, Weblate links to the internal legal pages by default."
 msgid ""
 "The legal module embeds these templates inside Weblate. Its confirmation "
 "page uses :file:`legal/documents/tos.html` and, when a privacy policy link "
@@ -18601,29 +18585,26 @@ msgid ""
 "fallbacks for hidden internal pages. When the legal module is enabled, "
 "Weblate links to the internal legal pages by default."
 msgstr ""
-"Leabaíonn an modúl dlí na teimpléid seo taobh istigh de Weblate agus "
-"úsáideann sé :file:`legal/documents/tos.html` chun téarmaí seirbhíse a "
-"dhearbhú. Tá sé seo ar leithligh ó :setting:`LEGAL_URL` "
-"agus :setting:`PRIVACY_URL`, atá ceaptha chun nascadh le doiciméid "
-"dhlíthiúla atá á óstáil go seachtrach ón mbunleathanach nuair nach bhfuil an "
-"modúl dlíthiúil cumasaithe. Nuair a bhíonn an modúl dlíthiúil cumasaithe, "
-"nascann Weblate leis na leathanaigh dhlíthiúla inmheánacha de réir "
+"Leabaíonn an modúl dlí na teimpléid seo taobh istigh de Weblate. Úsáideann a "
+"leathanach deimhnithe :file:`legal/documents/tos.html` agus, nuair a bhíonn "
+"nasc chuig polasaí príobháideachta ar fáil, teastaíonn comhaontú amháin a "
+"chlúdaíonn na téarmaí seirbhíse agus an polasaí príobháideachta araon. Tá sé "
+"seo ar leithligh ó :setting:`LEGAL_URL` agus :setting:`PRIVACY_URL`, atá "
+"beartaithe chun nascadh le doiciméid dlí atá á óstáil go seachtrach ón "
+"mbunleathanach nuair nach bhfuil an modúl dlí cumasaithe nó mar roghanna "
+"eile le haghaidh leathanaigh inmheánacha i bhfolach. Nuair a bhíonn an modúl "
+"dlí cumasaithe, nascann Weblate leis na leathanaigh dlí inmheánacha de réir "
 "réamhshocraithe."
 
 #: admin/optionals.rst:153
-#, fuzzy
-#| msgid ""
-#| "On changing the terms of service documents, please "
-#| "adjust :setting:`LEGAL_TOS_DATE` so that users are forced to agree with "
-#| "the updated documents."
 msgid ""
 "On changing the terms of service or privacy policy, "
 "adjust :setting:`LEGAL_TOS_DATE` when users should be forced to agree with "
 "the updated documents."
 msgstr ""
-"Nuair a athraítear téarmaí na ndoiciméad seirbhíse, "
-"coigeartaigh :setting:`LEGAL_TOS_DATE` le do thoil ionas go mbeidh iallach "
-"ar úsáideoirí aontú leis na doiciméid nuashonraithe."
+"Agus na téarmaí seirbhíse nó an polasaí príobháideachais á athrú, "
+"coigeartaigh :setting:`LEGAL_TOS_DATE` nuair ba chóir d’úsáideoirí a bheith "
+"iallach orthu aontú leis na doiciméid nuashonraithe."
 
 #: admin/optionals.rst:159
 msgid ""
@@ -18661,17 +18642,6 @@ msgstr ""
 "a thuairiscítear i :ref:`legal-customization`."
 
 #: admin/optionals.rst:199
-#, fuzzy
-#| msgid ""
-#| "In Docker deployments, enable the legal module "
-#| "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
-#| "editing :file:`settings.py`. Use ``tos-confirm`` to enable the legal "
-#| "module and terms of service confirmation enforcement, or ``wllegal`` to "
-#| "additionally load the hosted legal document templates used by services "
-#| "operated by Weblate s.r.o. These templates are not intended for general "
-#| "use. To provide your own templates in Docker, place them in :file:`/app/"
-#| "data/python/customize/templates/legal/documents`, see :ref:`docker-static-"
-#| "override`."
 msgid ""
 "In Docker deployments, enable the legal module "
 "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
@@ -18682,15 +18652,15 @@ msgid ""
 "your own templates in Docker, place them in :file:`/app/data/python/"
 "customize/templates/legal/documents`, see :ref:`docker-static-override`."
 msgstr ""
-"I gcás imscaradh Docker, cumasaigh an modúl dlíthiúil ag baint úsáide "
-"as :envvar:`WEBLATE_LEGAL_INTEGRATION` in ionad :file:`settings.py` a chur "
-"in eagar. Bain úsáid as ``tos-confirm`` chun an modúl dlíthiúil agus "
-"forfheidhmiú dearbhaithe téarmaí seirbhíse a chumasú, nó ``wllegal`` chun na "
-"teimpléid doiciméad dlíthiúil óstáilte a úsáideann seirbhísí arna n-oibriú "
-"ag Weblate s.r.o. a luchtú freisin. Níl na teimpléid seo beartaithe le "
-"haghaidh úsáide ginearálta. Chun do theimpléid féin a sholáthar i Docker, "
-"cuir iad i :file:`/app/data/python/customize/templates/legal/documents`, "
-"féach :ref:`docker-static-override`."
+"I gcás imscaradh Docker, cumasaigh an modúl dlíthiúil ag baint úsáide as "
+":envvar:`WEBLATE_LEGAL_INTEGRATION` in ionad :file:`settings.py` a chur in "
+"eagar. Bain úsáid as ``tos-confirm`` chun an modúl dlíthiúil agus "
+"forfheidhmiú dearbhaithe doiciméad dlíthiúil a chumasú, nó ``wllegal`` chun "
+"na teimpléid doiciméad dlíthiúil óstáilte a úsáideann seirbhísí a oibríonn "
+"Weblate s.r.o. a luchtú freisin. Níl na teimpléid seo beartaithe le haghaidh "
+"úsáide ginearálta. Chun do theimpléid féin a sholáthar i Docker, cuir iad i "
+":file:`/app/data/python/customize/templates/legal/documents`, féach "
+":ref:`docker-static-override`."
 
 #: admin/optionals.rst:209
 msgid ""
@@ -18823,13 +18793,6 @@ msgstr ""
 "ar lár."
 
 #: admin/optionals.rst:277
-#, fuzzy
-#| msgid ""
-#| "To use externally hosted legal documents with terms confirmation, "
-#| "configure :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide ``terms`` and "
-#| "``privacy`` and set :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`. The "
-#| "confirmation page then links to those external documents without "
-#| "requiring a :file:`legal/documents/tos.html` template override."
 msgid ""
 "To use externally hosted legal documents with legal confirmation, "
 "configure :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide ``terms`` and "
@@ -18839,12 +18802,14 @@ msgid ""
 "template override. If no privacy policy link is available, the confirmation "
 "covers only the terms of service."
 msgstr ""
-"Chun doiciméid dhlíthiúla atá á n-óstáil go seachtrach a úsáid le deimhniú "
-"téarmaí, cumraigh :setting:`LEGAL_HIDDEN_DOCUMENTS` chun ``terms`` agus "
-"``privacy`` a cheilt agus socraigh :setting:`LEGAL_URL` "
-"agus :setting:`PRIVACY_URL`. Ansin, nascann an leathanach deimhnithe leis na "
-"doiciméid sheachtracha sin gan gá le sárú teimpléid :file:`legal/documents/"
-"tos.html`."
+"Chun doiciméid dhlíthiúla seachtracha a úsáid le deimhniú dlíthiúil, "
+"cumraigh :setting:`LEGAL_HIDDEN_DOCUMENTS` chun ``terms`` agus ``privacy`` a "
+"cheilt agus socraigh :setting:`LEGAL_URL` agus :setting:`PRIVACY_URL`. "
+"Ansin, nascann an leathanach deimhnithe leis na doiciméid sheachtracha sin "
+"agus teastaíonn comhaontú amháin a chlúdaíonn an dá cheann gan gá le sárú "
+"teimpléid :file:`legal/documents/tos.html`. Mura bhfuil nasc chuig an "
+"mbeartas príobháideachta ar fáil, ní chlúdaíonn an deimhniú ach na téarmaí "
+"seirbhíse."
 
 #: admin/optionals.rst:288
 msgid "Avatars"
@@ -20504,16 +20469,12 @@ msgid "Contribute to project translation memory"
 msgstr "Rannchuidiú le cuimhne aistriúcháin tionscadail"
 
 #: admin/projects.rst:808
-#, fuzzy
-#| msgid ""
-#| "All translations within Weblate can be used thanks to shared translation "
-#| "memory."
 msgid ""
 "Controls whether translations from this component are added to the project "
 "translation memory."
 msgstr ""
-"Is féidir gach aistriúchán laistigh de Weblate a úsáid a bhuí le cuimhne "
-"aistriúcháin roinnte."
+"Rialaíonn sé seo an gcuirtear aistriúcháin ón gcomhpháirt seo le cuimhne "
+"aistriúcháin an tionscadail."
 
 #: admin/projects.rst:818
 msgid "Allow translation propagation"
@@ -22786,12 +22747,6 @@ msgstr ""
 "Féach :ref:`statistics access filtering <statistics-access-filtering>`."
 
 #: admin/workspaces.rst:36
-#, fuzzy
-#| msgid ""
-#| "The workspace :guilabel:`Files` menu downloads a ZIP archive of owned "
-#| "components that you can access and have permission to download. Workspace "
-#| "membership does not bypass project access control or component "
-#| "restrictions."
 msgid ""
 "The workspace :guilabel:`Files` menu downloads a ZIP archive of owned "
 "components that you can access and have permission to download. Workspace "
@@ -22800,10 +22755,13 @@ msgid ""
 "workspace level is not supported; select a project and open an individual "
 "translation to upload a file."
 msgstr ""
-"Íoslódálann an roghchlár spás oibre :guilabel:`Files` cartlann ZIP de "
-"chomhpháirteanna atá faoi úinéireacht agat ar féidir leat rochtain a fháil "
-"orthu agus a bhfuil cead agat iad a íoslódáil. Ní sheachnaíonn ballraíocht "
-"sa spás oibre rialú rochtana tionscadail ná srianta ar chomhpháirteanna."
+"Íoslódálann an roghchlár spás oibre :guilabel:`Comhad` cartlann ZIP de "
+"chomhpháirteanna atá i do sheilbh ar féidir leat rochtain a fháil orthu agus "
+"a bhfuil cead agat iad a íoslódáil. Ní sheachnaíonn ballraíocht sa spás "
+"oibre rialú rochtana tionscadail ná srianta ar chomhpháirteanna. "
+"Soláthraíonn an roghchlár treoir :guilabel:`Uaslódáil aistriúcháin` freisin. "
+"Ní thacaítear le huaslódáil ag leibhéal an spás oibre; roghnaigh tionscadal "
+"agus oscail aistriúchán aonair chun comhad a uaslódáil."
 
 #: admin/workspaces.rst:43
 msgid ""
@@ -22812,6 +22770,11 @@ msgid ""
 "text across permission-filtered owned project content in the workspace. The "
 "existing :ref:`search-replace` preview and confirmation workflow applies."
 msgstr ""
+"Is féidir le húsáideoirí ar féidir leo aistriúcháin a chur in eagar i "
+"dtionscadal inrochtana :guilabel:`Oibríochtaí` ↓ :guilabel:`Cuardaigh agus "
+"athsholáthair` a roghnú chun téacs a athsholáthar ar fud ábhar tionscadail "
+"atá scagtha de réir ceadanna sa spás oibre. Tá feidhm ag an sreabhadh oibre "
+"réamhamhairc agus deimhnithe :ref:`search-replace` atá ann cheana."
 
 #: admin/workspaces.rst:51
 msgid "Workspace removal"
@@ -23444,12 +23407,18 @@ msgid ""
 "api/users/(str:username)/`; the response then includes the updated "
 "``profile`` object."
 msgstr ""
+"Nochtann an API úsáideora roghanna próifíle i réad neadaithe ``profile``. "
+"Cuirtear an réad ar ais ar :http:get:`/api/users/(str:username)/` do "
+"ghlaoiteoirí a bhfuil cead ``user.view`` nó ``user.edit`` acu amháin. Is "
+"féidir le húsáideoirí gan na ceadanna sin a bpróifíl féin a nuashonrú trí "
+":http:patch:`/api/users/(str:username)/`; ansin áirítear an réad "
+"nuashonraithe ``profile`` sa fhreagra."
 
 #: api.rst:563
-#, fuzzy
-#| msgid "Available fixes are described at :ref:`autofix`."
 msgid "Profile fields mirror the settings described in :ref:`user-profile`."
-msgstr "Déantar cur síos ar na réitigh atá ar fáil ag :ref:`autofix`."
+msgstr ""
+"Léiríonn réimsí próifíle na socruithe a bhfuil cur síos orthu i :ref:`user-"
+"profile`."
 
 #: api.rst:567
 msgid "Groups"
@@ -23615,10 +23584,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS ar Vicipéid <https://ga.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.7.1"
 msgid "Weblate 2026.8.1"
-msgstr "Weblate 2026.7.1"
+msgstr "Weblate 2026.8.1"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -23641,6 +23608,9 @@ msgid ""
 "Project and component APIs now expose all user-configurable settings, "
 "including access control and translation-memory settings. See :doc:`api`."
 msgstr ""
+"Nochtann APIanna tionscadail agus comhpháirteanna anois gach socrú is féidir "
+"a chumrú ag an úsáideoir, lena n-áirítear socruithe rialaithe rochtana agus "
+"cuimhne aistriúcháin. Féach :doc:`api`."
 
 #: changes.rst:11 changes.rst:55 changes.rst:124 changes.rst:188
 #: changes.rst:299 changes.rst:356 changes/v5.rst:18 changes/v5.rst:104
@@ -23690,12 +23660,17 @@ msgid ""
 "Docker Celery worker logging no longer emits duplicate records through both "
 "Celery and Weblate log handlers."
 msgstr ""
+"Ní scaoileann logáil oibrithe Docker Celery taifid dhúblacha a thuilleadh "
+"trí láimhseálaithe loga Celery agus Weblate araon."
 
 #: changes.rst:15
 msgid ""
 "Component creation through the REST API now returns the background task URL "
 "in the response when creation work is queued."
 msgstr ""
+"Nuair a chuirtear obair chruthaithe i scuaine anois, nuair a chruthaítear "
+"comhpháirteanna tríd an REST API, cuirtear URL an tasc chúlra ar ais sa "
+"fhreagra."
 
 #: changes.rst:16
 msgid ""
@@ -23703,24 +23678,35 @@ msgid ""
 "optional persona and style settings are absent from the stored "
 "configuration, as happens when the service is installed through the REST API."
 msgstr ""
+"Ní theipeann ar sheirbhísí aistriúcháin meaisín mhúnla teanga móra a "
+"thuilleadh nuair a bhíonn na socruithe roghnacha pearsana agus stíle as "
+"láthair ón gcumraíocht stóráilte, mar a tharlaíonn nuair a shuiteáiltear an "
+"tseirbhís tríd an REST API."
 
 #: changes.rst:17
 msgid ""
 ":wladmin:`import_json` now preserves the component source language for newly "
 "imported components from JSON exports."
 msgstr ""
+"Coinníonn :wladmin:`import_json` teanga foinse na gcomhpháirte anois do "
+"chomhpháirteanna a allmhairíodh le déanaí ó easpórtálacha JSON."
 
 #: changes.rst:18
 msgid ""
 "Repository actions now require permission on every component sharing the "
 "affected repository, including linked components in other projects."
 msgstr ""
+"Éilíonn gníomhartha stórtha cead anois ar gach comhpháirt a roinneann an "
+"stór lena mbaineann, lena n-áirítear comhpháirteanna nasctha i dtionscadail "
+"eile."
 
 #: changes.rst:19
 msgid ""
 "Legal document confirmation now explicitly covers the linked privacy policy. "
 "See :ref:`legal`."
 msgstr ""
+"Clúdaíonn deimhniú doiciméad dlíthiúil an polasaí príobháideachais nasctha "
+"go sainráite anois. Féach :ref:`legal`."
 
 #: changes.rst:22 changes.rst:91 changes.rst:249 changes.rst:389
 #: changes/v5.rst:66 changes/v5.rst:176 changes/v5.rst:311 changes/v5.rst:354
@@ -23812,26 +23798,20 @@ msgid "Contributors"
 msgstr "Rannpháirtithe"
 
 #: changes.rst:31
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "71?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/71?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"171?closed=1>`__."
 
 #: changes.rst:34
 msgid "Weblate 2026.8"
 msgstr "Weblate 2026.8"
 
 #: changes.rst:36
-#, fuzzy
-#| msgid "*Released on August 22nd 2022.*"
 msgid "*Released on August 3rd 2026.*"
-msgstr "*Eisithe ar 22 Lúnasa 2022.*"
+msgstr "*Scaoilte ar an 3 Lúnasa 2026.*"
 
 #: changes.rst:40
 msgid ""
@@ -23839,13 +23819,11 @@ msgid ""
 "preference to keep all listing columns visible on narrow screens instead of "
 "hiding them."
 msgstr ""
+"Cuireadh rogha :guilabel:`Taispeáin gach colún i liostaí ag baint úsáide as "
+"scrollú cothrománach` leis chun gach colún liostála a choinneáil le feiceáil "
+"ar scáileáin chúng in ionad iad a cheilt."
 
 #: changes.rst:41
-#, fuzzy
-#| msgid ""
-#| ":ref:`Workspaces <workspaces>` now provide a permission-"
-#| "filtered :guilabel:`My workspaces` list, archive downloads, and "
-#| "management of workspace translation memory."
 msgid ""
 ":ref:`Workspaces <workspaces>` now provide aggregate translation statistics "
 "and historical metrics, a permission-filtered :guilabel:`My workspaces` "
@@ -23853,9 +23831,12 @@ msgid ""
 "translation memory management, and :ref:`removal of empty workspaces "
 "<workspace-removal>` not associated with billing."
 msgstr ""
-"Cuireann :ref:`Workspaces <workspaces>` liosta :guilabel:`Mo spásanna oibre` "
-"scagtha de réir ceadanna, íoslódálacha cartlainne, agus bainistíocht ar "
-"chuimhne aistriúcháin spás oibre ar fáil anois."
+"Soláthraíonn :ref:`Spásanna Oibre <workspaces>` staitisticí aistriúcháin "
+"comhiomlána agus méadrachtaí stairiúla anois, liosta :guilabel:`Mo spásanna "
+"oibre` atá scagtha de réir ceadanna, íoslódálacha cartlainne, cuardach agus "
+"athsholáthar, treoir uaslódála, bainistíocht cuimhne aistriúcháin spás "
+"oibre, agus :ref:`baineadh spásanna oibre folamh <workspace-removal>` nach "
+"bhfuil bainteach le billeáil."
 
 #: changes.rst:42
 msgid ""
@@ -23867,10 +23848,6 @@ msgstr ""
 "OpenMetrics."
 
 #: changes.rst:43
-#, fuzzy
-#| msgid ""
-#| "Added opt-in :ref:`running-granian-asgi` deployment support, "
-#| "including :envvar:`WEBLATE_ASGI` for Docker containers."
 msgid ""
 "Added opt-in :ref:`running-granian-asgi` deployment support, "
 "including :envvar:`WEBLATE_ASGI` for Docker containers and asynchronous "
@@ -23878,24 +23855,23 @@ msgid ""
 "requests."
 msgstr ""
 "Cuireadh tacaíocht imscartha rogha isteach :ref:`running-granian-asgi` leis, "
-"lena n-áirítear :envvar:`WEBLATE_ASGI` do choimeádáin Docker."
+"lena n-áirítear :envvar:`WEBLATE_ASGI` do choimeádáin Docker agus eagarthóir "
+"aistriúcháin meaisín asinchronach, nasc Aip GitHub, agus iarratais "
+"athnuachana stórtha."
 
 #: changes.rst:44
-#, fuzzy
-#| msgid ""
-#| "Component diagnostics now record dismissal ownership, reopen after "
-#| "relevant changes, and notify only project maintainers who can act on "
-#| "warnings and errors."
 msgid ""
 "Added grouped project and workspace :guilabel:`Diagnostics` views with "
 "state, severity, category, and actionable-by-user filters. Component "
 "diagnostics now track dismissal ownership, reopen after relevant changes, "
 "and notify only project maintainers who can act on warnings and errors."
 msgstr ""
-"Déanann diagnóisic comhpháirteanna úinéireacht an díbhe a thaifeadadh anois, "
-"athoscailt tar éis athruithe ábhartha, agus ní chuirtear ar an eolas ach "
-"amháin cothabhálaithe tionscadail ar féidir leo gníomhú ar rabhaidh agus ar "
-"earráidí."
+"Cuireadh radhairc :guilabel:`Diagnóisic` grúpáilte leis an tionscadal agus "
+"an spás oibre le scagairí stáit, déine, catagóire, agus inghníomhaithe ag an "
+"úsáideoir. Déanann diagnóisic comhpháirteanna rianú anois ar úinéireacht an "
+"diúltaithe, athosclaítear iad tar éis athruithe ábhartha, agus ní chuirtear "
+"ar an eolas ach amháin faoi chothaitheoirí tionscadail ar féidir leo gníomhú "
+"ar rabhaidh agus ar earráidí."
 
 #: changes.rst:45
 msgid ""
@@ -23931,24 +23907,26 @@ msgid ""
 "Added API support for reading and updating :ref:`user-profile` preferences. "
 "See :ref:`api-users` endpoint."
 msgstr ""
+"Cuireadh tacaíocht API leis chun roghanna :ref:`user-profile` a léamh agus a "
+"nuashonrú. Féach críochphointe :ref:`api-users`."
 
 #: changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`check-max-lines` quality check for limiting the number of "
-#| "lines in translations, useful for fixed-height UI elements."
 msgid ""
 "Added :ref:`check-max-lines` and :ref:`check-asciidoc-markup` quality checks "
 "for limiting the number of translation lines and validating AsciiDoc strings."
 msgstr ""
-"Cuireadh seiceáil cáilíochta :ref:`check-max-lines` leis chun líon na línte "
-"in aistriúcháin a theorannú, rud atá úsáideach d’eilimintí UI airde sheasta."
+"Cuireadh seiceálacha cáilíochta :ref:`check-max-lines` agus :ref:`check-"
+"asciidoc-markup` leis chun líon na línte aistriúcháin a theorannú agus "
+"teaghráin AsciiDoc a bhailíochtú."
 
 #: changes.rst:50
 msgid ""
 "Added :ref:`workflow-language-restrictions`, including per-language control "
 "for restricting direct translation editing to privileged users."
 msgstr ""
+"Cuireadh :ref:`workflow-language-restrictions` leis, lena n-áirítear rialú "
+"in aghaidh na teanga chun eagarthóireacht aistriúcháin dhírigh a shrianadh "
+"d'úsáideoirí pribhléideacha."
 
 #: changes.rst:51
 msgid ""
@@ -23979,20 +23957,16 @@ msgstr ""
 "bhfreagairtí OpenMetrics API anois."
 
 #: changes.rst:58
-#, fuzzy
-#| msgid ""
-#| ":ref:`Add-on activity logs <addon-activity-logging>` now distinguish "
-#| "pending, successful, failed, and skipped executions and explain why an "
-#| "add-on was skipped."
 msgid ""
 "Add-on management now uses separate configuration, logs, and components "
 "tabs, while :ref:`activity logs <addon-activity-logging>` distinguish "
 "pending, successful, failed, and skipped executions and explain skipped "
 "executions."
 msgstr ""
-":ref:`Déanann logaí gníomhaíochta breiseán <addon-activity-logging>` "
-"idirdhealú anois idir fhorghníomhaithe ar feitheamh, rathúla, teipthe, agus "
-"scipeáilte agus míníonn siad cén fáth ar scipeáladh breiseán."
+"Úsáideann bainistíocht breiseán cluaisíní cumraíochta, logaí agus "
+"comhpháirteanna ar leithligh anois, agus déanann :ref:`activity logs <addon-"
+"activity-logging>` idirdhealú idir forghníomhaithe ar feitheamh, rathúla, "
+"teipthe agus scipeáilte agus míníonn siad forghníomhaithe scipeáilte."
 
 #: changes.rst:59
 msgid ""
@@ -24007,19 +23981,19 @@ msgid ""
 "Improved loading performance for multi-language matrix views, dashboard "
 "component lists, category histories, and shared component listings."
 msgstr ""
+"Feidhmíocht lódála feabhsaithe do radhairc maitrís ilteangacha, liostaí "
+"comhpháirteanna painéil rialaithe, stair chatagóirí, agus liostaí "
+"comhpháirteanna comhroinnte."
 
 #: changes.rst:61
-#, fuzzy
-#| msgid ""
-#| "Translation memory management shows active and pending entry counts and "
-#| "reports the number of entries processed during import."
 msgid ""
 "Translation memory management now loads origin summaries more efficiently, "
 "shows active and pending entry counts, and reports the number of entries "
 "processed during import."
 msgstr ""
-"Taispeánann bainistíocht cuimhne aistriúcháin comhaireamh na n-iontrálacha "
-"gníomhacha agus ar feitheamh agus tuairiscíonn sé líon na n-iontrálacha a "
+"Luchtóidh bainistíocht cuimhne aistriúcháin achoimrí tionscnaimh ar bhealach "
+"níos éifeachtaí anois, taispeánann sé comhaireamh na n-iontrálacha "
+"gníomhacha agus ar feitheamh, agus tuairiscíonn sé líon na n-iontrálacha a "
 "próiseáladh le linn na hiompórtála."
 
 #: changes.rst:62
@@ -24047,10 +24021,6 @@ msgstr ""
 "sonraí aitheantais á n-íoslódáil."
 
 #: changes.rst:65
-#, fuzzy
-#| msgid ""
-#| "Repository failure alerts now link directly to component version control "
-#| "settings for users who can edit them."
 msgid ""
 "Repository failure alerts now link directly to component version control "
 "settings for users who can edit them, keep technical errors in English, and "
@@ -24058,7 +24028,10 @@ msgid ""
 "restrictions."
 msgstr ""
 "Tá foláirimh teipe stórtha nasctha go díreach anois le socruithe rialaithe "
-"leaganacha comhpháirte d’úsáideoirí ar féidir leo iad a chur in eagar."
+"leaganacha comhpháirteanna d’úsáideoirí ar féidir leo iad a chur in eagar, "
+"earráidí teicniúla a choinneáil i mBéarla, agus diagnóisí inghníomhaithe a "
+"logánú do gach breathnóir, lena n-áirítear srianta ar iarratais tarraingthe "
+"GitHub."
 
 #: changes.rst:66
 msgid ""
@@ -24136,18 +24109,15 @@ msgstr ""
 "neamhbhailí."
 
 #: changes.rst:78
-#, fuzzy
-#| msgid ""
-#| "VCS operations now bind protected Git connections to validated public "
-#| "addresses and fail closed for clients which cannot enforce that binding."
 msgid ""
 "Protected outbound HTTP and Git connections now bind to validated public "
 "addresses; protected Git operations fail closed when clients cannot enforce "
 "that binding (:ghsa:`45m9-pf98-8jmq`)."
 msgstr ""
-"Ceanglaíonn oibríochtaí VCS naisc Git faoi chosaint le seoltaí poiblí "
-"bailíochtaithe anois agus teipeann orthu dúnadh i gcás cliant nach féidir "
-"leo an ceangal sin a fhorfheidhmiú."
+"Ceanglaíonn naisc HTTP agus Git amach faoi chosaint le seoltaí poiblí "
+"bailíochtaithe anois; teipeann ar oibríochtaí Git faoi chosaint a dhúnadh "
+"nuair nach féidir le cliaint an ceangal sin a fhorfheidhmiú (:ghsa:`45m9-"
+"pf98-8jmq`)."
 
 #: changes.rst:79
 msgid ""
@@ -24158,16 +24128,12 @@ msgstr ""
 "stóráil anois mar URLanna stórtha comhpháirteanna canónacha."
 
 #: changes.rst:80
-#, fuzzy
-#| msgid ""
-#| "Self-service REST API e-mail changes are now restricted to verified "
-#| "addresses."
 msgid ""
 "Self-service REST API e-mail changes are now restricted to verified "
 "addresses (:ghsa:`x84p-6892-473c`)."
 msgstr ""
 "Tá athruithe ríomhphoist féinseirbhíse REST API teoranta anois do sheoltaí "
-"fíoraithe."
+"fíoraithe (:ghsa:`x84p-6892-473c`)."
 
 #: changes.rst:81
 msgid ""
@@ -24180,11 +24146,6 @@ msgstr ""
 "athbhreithnithe go comhsheasmhach anois."
 
 #: changes.rst:82
-#, fuzzy
-#| msgid ""
-#| ":ref:`Project backup imports <projectbackup>` now validate restored data "
-#| "before creating project state and skip repository-linked components when "
-#| "the importer cannot access the target component."
 msgid ""
 ":ref:`Project backup imports <projectbackup>` now validate restored data "
 "before creating project state, skip repository-linked components the "
@@ -24192,10 +24153,12 @@ msgid ""
 "configuration or shared-repository indirection (:ghsa:`f66g-8pcg-"
 "jm8r`, :ghsa:`327h-qqgm-qv55`)."
 msgstr ""
-":ref:`Déanann allmhairí cúltaca tionscadail <projectbackup>` bailíochtú "
-"anois ar shonraí athchóirithe sula gcruthaítear staid an tionscadail agus "
-"scipeálann siad comhpháirteanna atá nasctha leis an stór nuair nach féidir "
-"leis an allmhaireoir rochtain a fháil ar an gcomhpháirt sprice."
+"Déanann :ref:`Allmhairí cúltaca tionscadail <projectbackup>` bailíochtú "
+"anois ar shonraí athchóirithe sula gcruthaítear staid an tionscadail, "
+"scipeálann siad comhpháirteanna atá nasctha le stór nach féidir leis an "
+"allmhaireoir rochtain a fháil orthu, agus ní luchtaíonn siad cumraíocht "
+"Mercurial arna soláthar ag an gcartlann ná indíreach stór comhroinnte a "
+"thuilleadh (:ghsa:`f66g-8pcg-jm8r`, :ghsa:`327h-qqgm-qv55`)."
 
 #: changes.rst:83
 msgid ""
@@ -24231,16 +24194,12 @@ msgstr ""
 "thuilleadh."
 
 #: changes.rst:87
-#, fuzzy
-#| msgid ""
-#| ":ref:`RSS feeds <rss>` no longer disclose change history from "
-#| "inaccessible projects or restricted components."
 msgid ""
 ":ref:`RSS feeds <rss>` no longer disclose change history from inaccessible "
 "projects or restricted components (:ghsa:`vvc6-wvqm-w5gc`)."
 msgstr ""
-":ref:`Ní nochtann fothaí RSS <rss>` stair athruithe ó thionscadail do-"
-"rochtana nó ó chomhpháirteanna srianta a thuilleadh."
+":ref:`Ní nochtann fothaí RSS <rss>` stair athruithe ó thionscadail neamh-"
+"inrochtana nó comhpháirteanna srianta a thuilleadh (:ghsa:`vvc6-wvqm-w5gc`)."
 
 #: changes.rst:88
 msgid ""
@@ -24330,6 +24289,9 @@ msgid ""
 "The top-level ``languages`` field on user REST API responses has been "
 "removed; use ``profile.languages`` instead. See :ref:`api-user-profile`."
 msgstr ""
+"Baineadh an réimse ``teangacha`` barrleibhéil ar fhreagraí REST API "
+"úsáideoirí; bain úsáid as ``profile.languages`` ina ionad. Féach :ref:`api-"
+"user-profile`."
 
 #: changes.rst:105
 msgid ""
@@ -26168,6 +26130,10 @@ msgid ""
 "\"Emmanuelle Bonnemay\", Nicolas Lepage, \"Guillaume Lagorce\", \"Jérémie "
 "Jadé\", \"Matthias le Coach\", Любомир Василев, Spyder"
 msgstr ""
+"Michal Čihař, Karen Konou, Nikunj Tyagi, Weblate CI, Shweta Singh, Gersona, "
+"Giacomo La Serra, Kartik Ohri, mmustafasenoglu, Mustafa Senoğlu, "
+"\"Emmanuelle Bonnemay\", Nicolas Lepage, \"Guillaume Lagorce\", \"Jérémie "
+"Jadé\", \"Matthias le Coach\", Любомир Василев, Spyder"
 
 #: changes/contributors/2026.8.rst:10
 msgid ""
@@ -26183,12 +26149,25 @@ msgid ""
 "Gabilondo, mbutsk, Oğuz Ersen, nautilusx, Yago Raña Gayoso, Blueberry, "
 "Yoshihoko, suyeon kim, Azharul Haque, win7guru, Matt P, Miguel A. Bouzada"
 msgstr ""
+"António Oliveira, hoanghuy309, reducedradius, Michal Čihař, Andrei Stepanov, "
+"為什麼不加空格, BoneNI, Любомир Василев, Adam Havránek, Libre, Horus68, "
+"Peter Vančo, Aindriú Mac Giolla Eoin, Matthaiks, VfBFan, Ldm Public, Mickaël "
+"Binos, Lee Vincent, Dick Groskamp, Rafael Fontenelle, Justin Parrot, Valeria "
+"Sofia Azañero, Priit Jõerüüt, Frank Paul Silye, goeran, Abduqadir Abliz, "
+"Arif Budiman, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Aniwene Madolomani, Pierfrancesco "
+"Passerini, Andi Chandler, Thunderstrike116, Giacomo La Serra, Ulrik, "
+"Cyborus, PPNplus, justcontributor, AlexYang, Kyotaro Iijima, Rajkumar "
+"Ramadoss, Yuri Chornoivan, DocNoc, Anucha Hlownonkor, Milo Ivir, Alexander "
+"Gabilondo, mbutsk, Oğuz Ersen, nautilusx, Yago Raña Gayoso, Blueberry, "
+"Yoshihoko, suyeon kim, Azharul Haque, win7guru, Matt P, Miguel A. Bouzada"
 
 #: changes/contributors/2026.8.rst:15
 msgid ""
 "Michal Čihař, Nikunj Tyagi, Shweta Singh, Gersona, Giacomo La Serra, Weblate "
 "CI, Kartik Ohri, Karen Konou, mmustafasenoglu, Mustafa Senoğlu, Robert Wolff"
 msgstr ""
+"Michal Čihař, Nikunj Tyagi, Shweta Singh, Gersona, Giacomo La Serra, Weblate "
+"CI, Kartik Ohri, Karen Konou, mmustafasenoglu, Mustafa Senoğlu, Robert Wolff"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -55597,18 +55576,15 @@ msgstr ""
 "agus :setting:`PRIVACY_URL`."
 
 #: security/privacy-compliance.rst:54
-#, fuzzy
-#| msgid ""
-#| "Terms of service confirmation can be enforced using the legal app, "
-#| "and :setting:`LEGAL_TOS_DATE` can require users to accept updated terms."
 msgid ""
 "Legal document confirmation can be enforced using the legal app, "
 "and :setting:`LEGAL_TOS_DATE` can require users to accept updated terms and, "
 "when linked, the privacy policy."
 msgstr ""
-"Is féidir dearbhú téarmaí seirbhíse a fhorfheidhmiú ag baint úsáide as an "
+"Is féidir dearbhú doiciméad dlíthiúil a fhorfheidhmiú ag baint úsáide as an "
 "aip dlí, agus is féidir le :setting:`LEGAL_TOS_DATE` a cheangal ar "
-"úsáideoirí glacadh le téarmaí nuashonraithe."
+"úsáideoirí glacadh le téarmaí nuashonraithe agus, nuair a bhíonn siad "
+"nasctha, leis an mbeartas príobháideachais."
 
 #: security/privacy-compliance.rst:57
 msgid ""
@@ -55897,20 +55873,15 @@ msgid "Recommendations for compliance"
 msgstr "Moltaí maidir le comhlíonadh"
 
 #: security/privacy-compliance.rst:157
-#, fuzzy
-#| msgid ""
-#| "**Notices and consent:** Provide privacy, cookie, subcontractor, and "
-#| "terms information through :ref:`legal`, and "
-#| "update :setting:`LEGAL_TOS_DATE` when users must accept changed terms."
 msgid ""
 "**Notices and consent:** Provide privacy, cookie, subcontractor, and terms "
 "information through :ref:`legal`, and update :setting:`LEGAL_TOS_DATE` when "
 "users must accept changed terms or privacy policy."
 msgstr ""
-"**Fógraí agus toiliú:** Cuir faisnéis faoi phríobháideachas, fianáin, "
-"fochonraitheoirí agus téarmaí ar fáil trí :ref:`legal`, agus "
-"nuashonraigh :setting:`LEGAL_TOS_DATE` nuair a chaithfidh úsáideoirí glacadh "
-"le téarmaí athraithe."
+"**Fógraí agus toiliú:** Cuir faisnéis phríobháideachais, fianán, "
+"fochonraitheoirí agus téarmaí ar fáil trí :ref:`legal`, agus nuashonraigh "
+":setting:`LEGAL_TOS_DATE` nuair a chaithfidh úsáideoirí téarmaí nó beartas "
+"príobháideachais athraithe a ghlacadh."
 
 #: security/privacy-compliance.rst:160
 msgid ""
@@ -57514,22 +57485,17 @@ msgstr ""
 "*(doiciméadaithe)* (foinse: :doc:`/devel/reporting`, :doc:`/api`)"
 
 #: security/threat-model.rst:256
-#, fuzzy
-#| msgid ""
-#| "A stored-report finding is in model when an authenticated user can "
-#| "generate, list, or render contributor data outside the creator or current "
-#| "``reports.view`` scope. *(documented)* (source: :doc:`/devel/"
-#| "reporting`, :doc:`/api`)"
 msgid ""
 "A user-profile API finding is in model when an authenticated user can read "
 "or mutate another user's profile preferences outside the documented "
 "``user.view``, ``user.edit``, or self-service boundaries. *(documented)* "
 "(source: :doc:`/api`, :ref:`user-profile`)"
 msgstr ""
-"Bíonn toradh tuarascála stóráilte i samhail nuair is féidir le húsáideoir "
-"fíordheimhnithe sonraí ranníocóra a ghiniúint, a liostáil nó a rindreáil "
-"lasmuigh den chruthaitheoir nó de raon feidhme reatha ``reports.view``. "
-"*(doiciméadaithe)* (foinse: :doc:`/devel/reporting`, :doc:`/api`)"
+"Bíonn fionnachtain API próifíle úsáideora i samhail nuair is féidir le "
+"húsáideoir fíordheimhnithe roghanna próifíle úsáideora eile a léamh nó a "
+"athrú lasmuigh de theorainneacha ``user.view``, ``user.edit``, nó "
+"féinseirbhíse atá doiciméadaithe. *(doiciméadaithe)* (foinse: :doc:`/api`, "
+":ref:`user-profile`)"
 
 #: security/threat-model.rst:260
 msgid ""
@@ -58112,10 +58078,8 @@ msgstr ""
 "workflows`, :doc:`/api`)"
 
 #: security/threat-model.rst:450
-#, fuzzy
-#| msgid "User profile"
 msgid "User profile API"
-msgstr "Próifíl an úsáideora"
+msgstr "API próifíl úsáideora"
 
 #: security/threat-model.rst:451
 msgid ""
@@ -58124,20 +58088,20 @@ msgid ""
 "(str:username)/`, including language and project watch preferences, "
 "dashboard component list selection, and commit or public e-mail choices"
 msgstr ""
+"Réad ``profile`` neadaithe ar :http:get:`/api/users/(str:username)/`, "
+":http:put:`/api/users/(str:username)/`, agus :http:patch:`/api/users/"
+"(str:username)/`, lena n-áirítear roghanna teanga agus faire tionscadail, "
+"rogha liosta comhpháirteanna painéil, agus roghanna ríomhphoist phoiblí nó "
+"tiomantais"
 
 #: security/threat-model.rst:456
-#, fuzzy
-#| msgid ""
-#| "Yes, for users or project-scoped tokens with project edit permission. "
-#| "*(documented)* (source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/"
-#| "access`)"
 msgid ""
 "Yes, for authenticated users updating their own profile or actors with "
 "``user.edit``. *(documented)* (source: :doc:`/api`, :ref:`user-profile`)"
 msgstr ""
-"Sea, d'úsáideoirí nó comharthaí atá faoi raon feidhme tionscadail agus a "
-"bhfuil cead eagarthóireachta tionscadail acu. *(doiciméadaithe)* "
-"(foinse: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/access`)"
+"Sea, d'úsáideoirí fíordheimhnithe atá ag nuashonrú a bpróifíle féin nó "
+"d'aisteoirí le ``user.edit``. *(doiciméadaithe)* (foinse: :doc:`/api`, "
+":ref:`user-profile`)"
 
 #: security/threat-model.rst:458
 msgid ""
@@ -58146,6 +58110,11 @@ msgid ""
 "accessible projects, and dashboard component lists are limited to lists the "
 "user is allowed to use. *(documented)* (source: :doc:`/api`)"
 msgstr ""
+"Sannadh ``user.edit`` do riarthóirí iontaofa amháin; glacann réimsí "
+"ríomhphoist próifíle féinseirbhíse le seoltaí fíoraithe amháin, tá "
+"tionscadail faire teoranta do thionscadail inrochtana, agus tá liostaí "
+"comhpháirteanna painéil teoranta do liostaí a bhfuil cead ag an úsáideoir a "
+"úsáid. *(doiciméadaithe)* (foinse: :doc:`/api`)"
 
 #: security/threat-model.rst:462
 msgid "Webhook endpoints"
@@ -58655,20 +58624,17 @@ msgstr ""
 "access`, :doc:`/admin/auth`)"
 
 #: security/threat-model.rst:605
-#, fuzzy
-#| msgid ""
-#| "Permission assignments match the intended trust relationship. Team-level "
-#| "enforced 2FA is satisfied by human users before team-derived permissions "
-#| "apply."
 msgid ""
 "Permission assignments match the intended trust relationship. Team-level "
 "enforced 2FA is satisfied by human users before team-derived permissions "
 "apply. Permissions for VCS actions cover every component sharing an affected "
 "repository, including linked components in other projects."
 msgstr ""
-"Comhlíonann sannadh ceadanna an caidreamh muiníne atá beartaithe. "
+"Meaitseálann sannadh ceadanna an caidreamh muiníne atá beartaithe. "
 "Comhlíonann úsáideoirí daonna 2FA atá forfheidhmithe ar leibhéal na foirne "
-"sula gcuirtear ceadanna díorthaithe ón bhfoireann i bhfeidhm."
+"sula gcuirtear ceadanna díorthaithe ón bhfoireann i bhfeidhm. Clúdaíonn "
+"ceadanna le haghaidh gníomhartha VCS gach comhpháirt a roinneann stór atá "
+"buailte, lena n-áirítear comhpháirteanna nasctha i dtionscadail eile."
 
 #: security/threat-model.rst:610
 msgid "User or token can read or mutate data outside assigned scope."
@@ -72578,7 +72544,7 @@ msgstr ""
 
 #: user/profile.rst:123
 msgid "Table columns"
-msgstr ""
+msgstr "Colúin tábla"
 
 #: user/profile.rst:125
 msgid ""
@@ -72587,6 +72553,12 @@ msgid ""
 "Enable :guilabel:`Show all columns in lists using horizontal scrolling` to "
 "keep all columns instead and scroll the table horizontally when needed."
 msgstr ""
+"De réir réamhshocraithe, cuireann Weblate roinnt colún i bhfolach i liostaí "
+"(teangacha, comhpháirteanna, tionscadail, ...) nuair a bhíonn fuinneog an "
+"bhrabhsálaí róchúng chun iad a fheistiú. Cumasaigh :guilabel:`Taispeáin gach "
+"colún i liostaí ag baint úsáide as scrollú cothrománach` chun na colúin go "
+"léir a choinneáil ina ionad agus an tábla a scrollú go cothrománach nuair is "
+"gá."
 
 #: user/profile.rst:131
 msgid "Default dashboard view"
@@ -76451,20 +76423,21 @@ msgstr ""
 "theanga ar leith)."
 
 #: workflows.rst:46
-#, fuzzy
-#| msgid "Specifying translation flags"
 msgid "Limiting translation languages"
-msgstr "Ag sonrú bratacha aistriúcháin"
+msgstr "Teorainn a chur le teangacha aistriúcháin"
 
 #: workflows.rst:48
 msgid ""
 "Several settings can limit translation languages. They address different "
 "stages of the translation lifecycle and can be combined:"
 msgstr ""
+"Is féidir le roinnt socruithe teangacha aistriúcháin a theorannú. Pléann "
+"siad céimeanna éagsúla de shaolré an aistriúcháin agus is féidir iad a "
+"chomhcheangal:"
 
 #: workflows.rst:51
 msgid "Control requests for languages that do not exist yet"
-msgstr ""
+msgstr "Iarratais rialaithe do theangacha nach bhfuil ann fós"
 
 #: workflows.rst:52
 msgid ""
@@ -76473,6 +76446,11 @@ msgid ""
 "point them to translation instructions, create the language file "
 "automatically, or disable adding new translations."
 msgstr ""
+"Cumraigh :ref:`project-new-lang` ag leibhéal an spáis oibre, an tionscadail, "
+"nó an chomhpháirte. Is féidir le comhpháirteanna an socrú seo a oidhreachtú. "
+"Is féidir leat ligean d'úsáideoirí teagmháil a dhéanamh le cothabhálaithe, "
+"iad a threorú chuig treoracha aistriúcháin, an comhad teanga a chruthú go "
+"huathoibríoch, nó aistriúcháin nua a dhíchumasú."
 
 #: workflows.rst:57
 msgid ""
@@ -76481,12 +76459,15 @@ msgid ""
 "change :ref:`component-new_lang` individually or automate the changes "
 "using :http:patch:`/api/components/(string:project)/(string:component)/`."
 msgstr ""
+"Is féidir le riarthóirí tionscadail aistriúchán a chur leis fós nuair is "
+"féidir le Weblate a chomhad a chruthú. I gcás comhpháirteanna nach "
+"bhfaigheann oidhreacht an socrú tionscadail, athraigh :ref:`component-"
+"new_lang` ina n-aonar nó uathoibrigh na hathruithe ag baint úsáide as "
+":http:patch:`/api/components/(string:project)/(string:component)/`."
 
 #: workflows.rst:62
-#, fuzzy
-#| msgid "Lists translations in Weblate."
 msgid "Limit which translation files Weblate discovers"
-msgstr "Liostaíonn sé aistriúcháin i Weblate."
+msgstr "Teorainn a chur ar na comhaid aistriúcháin a aimsíonn Weblate"
 
 #: workflows.rst:63
 msgid ""
@@ -76496,12 +76477,15 @@ msgid ""
 "component file mask; it does not change permissions for translations that "
 "are already present."
 msgstr ""
+"Cumraigh :ref:`component-language_regex` ar gach comhpháirt. Mar shampla, "
+"cuireann ``^(de|en|fr)$`` teorainn leis an gcomhpháirt do chomhaid "
+"aistriúcháin a bhfuil a gcód teanga mar ``de``, ``en``, nó ``fr``. Cuirtear "
+"an scagaire i bhfeidhm agus masc comhaid an chomhpháirte á scanadh; ní "
+"athraíonn sé ceadanna d'aistriúcháin atá ann cheana féin."
 
 #: workflows.rst:69
-#, fuzzy
-#| msgid "Starting translation into a new language"
 msgid "Grant translation access only for selected languages"
-msgstr "Tús á chur le haistriúchán go teanga nua"
+msgstr "Deonaigh rochtain aistriúcháin do theangacha roghnaithe amháin"
 
 #: workflows.rst:70
 msgid ""
@@ -76510,12 +76494,14 @@ msgid ""
 "remove any broader translation permission that would otherwise apply to the "
 "same users."
 msgstr ""
+"Úsáid :ref:`language-scoped teams <custom-acl>` nuair is ceart go mbeadh "
+"úsáideoirí difriúla in ann teangacha difriúla a aistriú. Ní féidir le "
+"foireann ach ceadanna a dheonú, mar sin bain aon chead aistriúcháin níos "
+"leithne a mbeadh feidhm aige maidir leis na húsáideoirí céanna murach sin."
 
 #: workflows.rst:75
-#, fuzzy
-#| msgid "Limit processing to a single language."
 msgid "Restrict direct editing of an existing language"
-msgstr "Teorainn a chur le próiseáil go teanga amháin."
+msgstr "Srian a chur ar eagarthóireacht dhíreach teanga atá ann cheana féin"
 
 #: workflows.rst:76
 msgid ""
@@ -76523,6 +76509,9 @@ msgid ""
 "translation workflow for this language in this project`, and turn "
 "on :guilabel:`Restrict direct editing`."
 msgstr ""
+"Oscail na socruithe teanga sa tionscadal, cumasaigh :guilabel:`Saincheap "
+"sreabhadh oibre aistriúcháin don teanga seo sa tionscadal seo`, agus cas air "
+":guilabel:`Srian a chur le heagarthóireacht dhíreach`."
 
 #: workflows.rst:80
 msgid ""
@@ -76531,6 +76520,12 @@ msgid ""
 "when :guilabel:`Turn on suggestions` is enabled. Turn off suggestions as "
 "well to make the language editable only by privileged users."
 msgstr ""
+"Is féidir le húsáideoirí a bhfuil an cead :guilabel:`Cuir an teaghrán in "
+"eagar nuair a chuirtear moltaí i bhfeidhm` acu leanúint ar aghaidh ag "
+"eagarthóireacht go díreach. Is féidir le húsáideoirí eile moltaí a chur leis "
+"nuair a bhíonn :guilabel:`Cuir moltaí ar siúl` cumasaithe. Múch moltaí chomh "
+"maith le go mbeidh an teanga in-eagarthóireachta ag úsáideoirí "
+"pribhléideacha amháin."
 
 #: workflows.rst:85
 msgid ""
@@ -76538,12 +76533,13 @@ msgid ""
 "languages`. A project-language customization takes precedence over the site-"
 "wide language setting."
 msgstr ""
+"Is féidir an srian a chumrú ar fud an tsuímh freisin agus :ref:`changing-"
+"languages` i bhfeidhm. Tá tosaíocht ag saincheapadh teanga tionscadail thar "
+"an socrú teanga ar fud an tsuímh."
 
 #: workflows.rst:89
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Use suggestion voting"
-msgstr "Vótáil moltaí"
+msgstr "Bain úsáid as vótáil moltaí"
 
 #: workflows.rst:90
 msgid ""
@@ -76554,6 +76550,13 @@ msgid ""
 "enforced` permission to submit suggestions. Use :guilabel:`Restrict direct "
 "editing` when this restriction should not depend on automatic acceptance."
 msgstr ""
+"Cas air :guilabel:`Vótáil moltaí` chun ligean d'úsáideoirí vótáil ar "
+"mholtaí. Ní chuireann vótáil ina haonar srian ar eagarthóireacht dhíreach. "
+"Éilíonn tairseach dhearfach :guilabel:`Glactar le moltaí go huathoibríoch` "
+"ar úsáideoirí gan an cead :guilabel:`Cuir in eagar nuair a chuirtear moltaí "
+"i bhfeidhm` moltaí a chur isteach. Bain úsáid as :guilabel:`Srian ar "
+"eagarthóireacht dhíreach` nuair nach ceart go mbeadh an srian seo ag brath "
+"ar ghlacadh uathoibríoch."
 
 #: workflows.rst:104
 msgid "Translation access"
