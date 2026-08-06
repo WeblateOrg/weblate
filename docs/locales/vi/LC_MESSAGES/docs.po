@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-06 03:04+0000\n"
-"PO-Revision-Date: 2026-08-05 15:02+0000\n"
+"PO-Revision-Date: 2026-08-06 06:17+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -548,6 +548,10 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`manage-acl` "
 "section."
 msgstr ""
+"Nếu bạn không quan tâm đến chi tiết triển khai và chỉ muốn tạo một cấu hình "
+"đủ đơn giản dựa trên các thiết lập mặc định, hoặc không có quyền truy cập "
+"toàn bộ vào hệ thống Weblate (như trên `Lưu Trữ Weblate <https://"
+"hosted.weblate.org/>`_), vui lòng tham khảo phần :ref:`manage-acl`."
 
 #: admin/access.rst:318
 #, fuzzy
@@ -1898,6 +1902,8 @@ msgid ""
 "For using GitLab OAuth 2, you need to register an application at <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
+"Để sử dụng GitLab OAuth 2, bạn cần đăng ký một ứng dụng tại <https://"
+"gitlab.com/profile/applications>."
 
 #: admin/auth.rst:262
 msgid ""
@@ -1916,6 +1922,8 @@ msgid ""
 "For using Gitea OAuth 2, you need to register an application at ``https://"
 "GITEA SERVER/user/settings/applications``."
 msgstr ""
+"Để sử dụng Gitea OAuth 2, bạn cần đăng ký một ứng dụng tại ``https://GITEA "
+"SERVER/user/settings/applications``."
 
 #: admin/auth.rst:296
 msgid ""
@@ -1929,6 +1937,9 @@ msgid ""
 "production deployment with Forgejo, see `Codeberg Translate <https://"
 "translate.codeberg.org>`_."
 msgstr ""
+"Cấu hình trên cũng hoạt động với Forgejo; để xem ví dụ về việc triển khai "
+"vào môi trường sản xuất bằng Forgejo, hãy truy cập `Codeberg Translate "
+"<https://translate.codeberg.org>`_."
 
 #: admin/auth.rst:330 admin/install/docker.rst:1705
 msgid "Microsoft Entra ID"
@@ -1989,6 +2000,8 @@ msgid ""
 "For using Slack OAuth 2, you need to register an application at <https://"
 "api.slack.com/apps>."
 msgstr ""
+"Để sử dụng Slack OAuth 2, bạn cần đăng ký một ứng dụng tại <https://"
+"api.slack.com/apps>."
 
 #: admin/auth.rst:398
 msgid ""
@@ -2506,6 +2519,10 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
+"Weblate tích hợp sẵn chức năng tạo bản sao lưu dịch vụ bằng cách sử dụng "
+"`BorgBackup`_. Borg tạo ra các bản sao lưu được mã hóa tiết kiệm dung lượng, "
+"có thể được lưu trữ an toàn trên đám mây. Bạn có thể quản lý các bản sao lưu "
+"này trong giao diện quản trị từ tab :guilabel:`Sao lưu`."
 
 #: admin/backup.rst:69
 msgid "PostgreSQL databases are included in the automated backups."
@@ -2546,6 +2563,8 @@ msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
+"Nếu bạn đang sử dụng :ref:`cloudbackup`, vui lòng sao lưu cả khóa SSH riêng "
+"tư của bạn, vì nó được sử dụng để truy cập vào các bản sao lưu của bạn."
 
 #: admin/backup.rst:96
 msgid "Customizing backup"
@@ -2585,6 +2604,8 @@ msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr ""
+"Weblate kết nối với dịch vụ đám mây và lấy thông tin truy cập cho các bản "
+"sao lưu."
 
 #: admin/backup.rst:113
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
@@ -2721,6 +2742,8 @@ msgstr ""
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
 msgstr ""
+":ref:`cloudbackup` cung cấp cho bạn khả năng sao lưu từ xa tự động mà không "
+"cần bất kỳ thao tác nào."
 
 #: admin/backup.rst:194
 msgid "Restoring from BorgBackup"
@@ -3551,6 +3574,9 @@ msgid ""
 "GitLab, Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center and "
 "Bitbucket Cloud:"
 msgstr ""
+"Nhìn chung, các tùy chọn sau đây có sẵn với Git, Mercurial, GitHub, GitLab, "
+"Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center và Bitbucket "
+"Cloud:"
 
 #: admin/code-hosting.rst:80
 msgid "Desired setup"
@@ -4220,7 +4246,7 @@ msgstr ""
 
 #: admin/code-hosting.rst:608
 msgid "This does not support Bitbucket Cloud API."
-msgstr ""
+msgstr "Tính năng này không hỗ trợ API của Bitbucket Cloud."
 
 #: admin/code-hosting.rst:610
 msgid ""
@@ -4246,6 +4272,9 @@ msgid ""
 "to allow pushing translation changes as pull requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Điều này bổ sung một lớp mỏng lên trên :ref:`vcs-git` bằng cách sử dụng "
+"`Bitbucket Cloud API`_ để cho phép đẩy các thay đổi dịch thuật dưới dạng yêu "
+"cầu kéo thay vì đẩy trực tiếp vào kho lưu trữ."
 
 #: admin/code-hosting.rst:634
 msgid "This is different from Bitbucket Data Center API."
@@ -4258,12 +4287,19 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`Bitbucket Cloud` backend creates a pull request."
 msgstr ""
+"Không cần thiết phải sử dụng cái này để truy cập kho lưu trữ Git, lệnh "
+":ref:`vcs-git` thông thường hoạt động tương tự, điểm khác biệt duy nhất là "
+"cách xử lý việc đẩy lên kho lưu trữ. Với :ref:`vcs-git`, các thay đổi được "
+"đẩy trực tiếp lên kho lưu trữ, trong khi hệ thống phụ trợ :guilabel:`Đám mây "
+"Bitbucket` tạo ra một yêu cầu kéo."
 
 #: admin/code-hosting.rst:642
 msgid ""
 "To create pull requests, select :guilabel:`Bitbucket Cloud` "
 "as :ref:`component-vcs` and configure :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
+"Để tạo yêu cầu kéo, hãy chọn :guilabel:`Đám mây Bitbucket` làm "
+":ref:`component-vcs` và cấu hình :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: admin/code-hosting.rst:650
 #, fuzzy
@@ -5421,7 +5457,7 @@ msgstr ""
 
 #: admin/config.rst:1131
 msgid "List for credentials for Bitbucket Cloud servers."
-msgstr ""
+msgstr "Danh sách thông tin đăng nhập cho các máy chủ Đám Mây Bitbucket."
 
 #: admin/config.rst:1143 admin/config.rst:1183 admin/config.rst:3033
 msgid ""
@@ -5462,12 +5498,16 @@ msgid ""
 "`Create an API token <https://support.atlassian.com/bitbucket-cloud/docs/"
 "create-an-api-token/>`_"
 msgstr ""
+"`Tạo một token API <https://support.atlassian.com/bitbucket-cloud/docs/"
+"create-an-api-token/>`_"
 
 #: admin/config.rst:1162
 msgid ""
 "`API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
 "api-token-permissions/>`_"
 msgstr ""
+"`Quyền hạn token API <https://support.atlassian.com/bitbucket-cloud/docs/api-"
+"token-permissions/>`_"
 
 #: admin/config.rst:1171
 msgid "List for credentials for Azure DevOps servers."
@@ -6905,7 +6945,7 @@ msgstr ""
 
 #: admin/continuous.rst:4
 msgid "Continuous localization"
-msgstr ""
+msgstr "Bản địa hóa liên tục"
 
 #: admin/continuous.rst:6
 msgid ""
@@ -11451,6 +11491,9 @@ msgid ""
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/docs/"
 "11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 msgstr ""
+"Cấu hình cách PostgreSQL xử lý SSL khi kết nối với máy chủ; để xem các tùy "
+"chọn có thể, hãy truy cập `và phần Mô tả các chế độ SSL tại <https://"
+"www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_."
 
 #: admin/install/docker.rst:1917
 msgid ""
@@ -12813,7 +12856,7 @@ msgstr ""
 
 #: admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
-msgstr ""
+msgstr "Giờ đây, bạn có thể truy cập Weblate tại ``http://localhost:8000/``."
 
 #: admin/install/steps/install-after.rst:7
 msgid ""
@@ -12850,6 +12893,8 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
+"Mở giao diện quản trị (``http://localhost:8000/create/project/``) và tạo dự "
+"án mà bạn muốn dịch. Xem :ref:`project` để biết thêm chi tiết."
 
 #: admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
@@ -26042,10 +26087,8 @@ msgid "Celery beat is now storing the tasks schedule in the database."
 msgstr ""
 
 #: changes/v4.rst:158
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for IBM Watson Language Translator."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho Dịch Ngôn Ngữ IBM Watson."
 
 #: changes/v4.rst:159
 msgid "Dropped support for VCS integration settings deprecated in 4.14."
@@ -26053,34 +26096,24 @@ msgstr ""
 "Đã ngừng hỗ trợ các cài đặt tích hợp VCS đã bị loại bỏ trong phiên bản 4.14."
 
 #: changes/v4.rst:160
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for Bitbucket Server pull requests."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho các yêu cầu kéo trên máy chủ Bitbucket."
 
 #: changes/v4.rst:161
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Improved conflicts handling in gettext PO files."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Cải thiện khả năng xử lý xung đột trong các tệp PO của gettext."
 
 #: changes/v4.rst:162
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for defining strings state when adding via API."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ định nghĩa trạng thái chuỗi khi thêm thông qua API."
 
 #: changes/v4.rst:163
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for configuring CORS allowed origins."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cấu hình các nguồn gốc được phép sử dụng CORS."
 
 #: changes/v4.rst:164
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added plurals support to automatic suggestions."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ số nhiều cho các gợi ý tự động."
 
 #: changes/v4.rst:166
 msgid ""
@@ -26136,10 +26169,8 @@ msgid ""
 msgstr ""
 
 #: changes/v4.rst:186
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Fixed crash on uploading corrupted files."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã khắc phục lỗi gây sập ứng dụng khi tải lên các tập tin bị hỏng."
 
 #: changes/v4.rst:187
 msgid "Show stale directories in Git repository status."
@@ -26162,20 +26193,18 @@ msgid "*Released on January 19th 2023.*"
 msgstr ""
 
 #: changes/v4.rst:196
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Fixed suggestions from automatic translation."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã sửa các đề xuất từ bản dịch tự động."
 
 #: changes/v4.rst:197
 msgid "Fixed add-on page crash in some corner cases."
 msgstr ""
 
 #: changes/v4.rst:198
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Fixed untranslating template for new translations in some cases."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Đã sửa lỗi mẫu không dịch được đối với các bản dịch mới trong một số trường "
+"hợp."
 
 #: changes/v4.rst:199
 msgid "Documented licensing using `REUSE 3.0 <https://reuse.software/>`_."
@@ -26186,22 +26215,16 @@ msgid "Fixed users pagination on team management."
 msgstr ""
 
 #: changes/v4.rst:201
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of project creation and saving."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Cải thiện hiệu suất tạo và lưu dự án."
 
 #: changes/v4.rst:202
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for gotext JSON files."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho các tệp JSON của gotext."
 
 #: changes/v4.rst:203
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for i18next v4 files."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho các tệp i18next v4."
 
 #: changes/v4.rst:204
 msgid "Pagination in the API is now customizable."
@@ -26224,32 +26247,26 @@ msgid "*Released on December 16th 2022.*"
 msgstr ""
 
 #: changes/v4.rst:213
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for browsing all changes for an individual string."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ xem tất cả các thay đổi cho một chuỗi ký tự riêng lẻ."
 
 #: changes/v4.rst:214
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Fixed plurals handling in automatic translation from other components."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Khắc phục lỗi xử lý số nhiều trong quá trình dịch tự động từ các thành phần "
+"khác."
 
 #: changes/v4.rst:215
 msgid "Added keyboard shortcut Alt+Enter to submit string as a suggestion."
 msgstr ""
 
 #: changes/v4.rst:216
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for placeables in the Fluent format."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho các đối tượng có thể đặt được ở định dạng Fluent."
 
 #: changes/v4.rst:217
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of translation memory."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Cải thiện hiệu suất của bộ nhớ dịch."
 
 #: changes/v4.rst:218
 msgid ""
@@ -26257,53 +26274,40 @@ msgid ""
 msgstr ""
 
 #: changes/v4.rst:219
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of several views."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất của một số chế độ xem."
 
 #: changes/v4.rst:220
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved listing of strings with plurals."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện việc liệt kê các chuỗi có dạng số nhiều."
 
 #: changes/v4.rst:221
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for adding custom markup to HTML head."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Đã thêm hỗ trợ cho việc thêm mã đánh dấu tùy chỉnh vào phần head của HTML."
 
 #: changes/v4.rst:222
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "Fixed generation of MO files in the add-on to include only translated files."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Đã sửa lỗi tạo file MO trong tiện ích bổ sung để chỉ bao gồm các file đã "
+"được dịch."
 
 #: changes/v4.rst:223
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Fixed rendering of regular expression flags."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đã sửa lỗi hiển thị cờ biểu thức chính quy."
 
 #: changes/v4.rst:224
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved placeholders check behavior with plurals."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Các trình giữ chỗ được cải tiến kiểm tra hành vi với số nhiều."
 
 #: changes/v4.rst:225
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for translation files naming suitable for Google Play."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ đặt tên tệp dịch thuật phù hợp với Google Play."
 
 #: changes/v4.rst:226
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for labels in API."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho nhãn trong API."
 
 #: changes/v4.rst:227
 #, fuzzy
@@ -32089,10 +32093,8 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:722
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`search-strings` supports ``labels_count:NUMBER`` lookup."
-msgstr "Vị trí xâu nguồn"
+msgstr ":ref:`search-strings` hỗ trợ tra cứu ``labels_count:NUMBER``."
 
 #: changes/v5.rst:723
 msgid ""
@@ -32150,11 +32152,9 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:733
-#, fuzzy
-#| msgid "Source string location"
 msgid ""
 ":ref:`xliff` now supports starting from scratch when :ref:`adding-projects`."
-msgstr "Vị trí xâu nguồn"
+msgstr ":ref:`xliff` hiện hỗ trợ bắt đầu từ đầu khi :ref:`adding-projects`."
 
 #: changes/v5.rst:734
 #, fuzzy
@@ -32169,12 +32169,12 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:739
-#, fuzzy
-#| msgid "Source string location"
 msgid ""
 ":ref:`mt-deepl` integration now correctly handles all supported source "
 "languages."
-msgstr "Vị trí xâu nguồn"
+msgstr ""
+"Việc tích hợp :ref:`mt-deepl` hiện đã xử lý chính xác tất cả các ngôn ngữ "
+"nguồn được hỗ trợ."
 
 #: changes/v5.rst:740
 msgid "Possible crash on macOS 15 in :samp:`strxfrm`."
@@ -32235,10 +32235,10 @@ msgid "*Released on June 20th 2025.*"
 msgstr ""
 
 #: changes/v5.rst:781
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
-msgstr "Vị trí xâu nguồn"
+msgstr ""
+"Việc tích hợp :ref:`mt-deepl` hiện hỗ trợ sử dụng mô hình LLM thế hệ tiếp "
+"theo."
 
 #: changes/v5.rst:785
 #, fuzzy
@@ -32936,21 +32936,17 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:1124
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`search-strings` supports searching by source string state."
-msgstr "Vị trí xâu nguồn"
+msgstr ":ref:`search-strings` hỗ trợ tìm kiếm theo trạng thái chuỗi nguồn."
 
 #: changes/v5.rst:1128
 msgid ":ref:`download` performs faster on project and language scopes."
 msgstr ""
 
 #: changes/v5.rst:1129
-#, fuzzy
-#| msgid "Source string location"
 msgid ""
 ":ref:`zen-mode` does not display the source string twice when editing it."
-msgstr "Vị trí xâu nguồn"
+msgstr ":ref:`zen-mode` không hiển thị chuỗi nguồn hai lần khi chỉnh sửa."
 
 #: changes/v5.rst:1130
 msgid "Fixed :ref:`glossary` terms highlighting."
@@ -33569,10 +33565,8 @@ msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-terminology`"
 
 #: changes/v5.rst:1410
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`mt-deepl` now supports specifying translation context."
-msgstr "Vị trí xâu nguồn"
+msgstr ":ref:`mt-deepl` hiện hỗ trợ chỉ định ngữ cảnh dịch."
 
 #: changes/v5.rst:1411
 #, fuzzy
@@ -34067,10 +34061,8 @@ msgid "Loading of strings with many glossary matches."
 msgstr "Ngôn ngữ thứ hai"
 
 #: changes/v5.rst:1618
-#, fuzzy
-#| msgid "Source string location"
 msgid "Fixed behavior of some site-wide :ref:`addons`."
-msgstr "Vị trí xâu nguồn"
+msgstr "Đã sửa lỗi hành vi của một số tiện ích bổ sung :ref:`addons`."
 
 #: changes/v5.rst:1619
 #, fuzzy
@@ -35537,6 +35529,9 @@ msgid ""
 "wide range of :ref:`file formats <formats>`, making it easy for translators "
 "to contribute."
 msgstr ""
+"Công cụ bản địa hóa liên tục dựa trên web với độ chính xác cao :ref:`vcs` hỗ "
+"trợ nhiều loại :ref:`định dạng tệp <formats>`, giúp người dịch dễ dàng đóng "
+"góp."
 
 #: contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
@@ -37584,12 +37579,19 @@ msgid ""
 "``admin`` as the password. The new installation is empty, so you might want "
 "to continue with :ref:`adding-projects`."
 msgstr ""
+"Quá trình này sẽ tạo ra một hình ảnh Docker dành cho phát triển và khởi động "
+"nó. Weblate đang chạy tại <http://127.0.0.1:8080/> và bạn có thể đăng nhập "
+"với tài khoản ``admin``, sử dụng mật khẩu ``admin``. Hệ thống cài đặt mới "
+"này hiện đang trống, vì vậy bạn có thể muốn tiếp tục với :ref:`adding-"
+"projects`."
 
 #: contributing/start.rst:77
 msgid ""
 "Weblate is configured to use :program:`maildev` container as an e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgstr ""
+"Weblate được cấu hình để sử dụng vùng chứa ảo :program:`maildev` làm máy chủ "
+"email. Các email đã được gửi có thể được xem tại <http://127.0.0.1:1080/>."
 
 #: contributing/start.rst:80
 msgid ""
@@ -39323,6 +39325,10 @@ msgid ""
 "typically involves executing untrusted code what makes it more suitable for "
 "a generic continuous integration than localization-specific platform."
 msgstr ""
+"Việc tự động trích xuất chuỗi hiện nằm ngoài phạm vi của Weblate. Quá trình "
+"này thường liên quan đến việc thực thi mã không đáng tin cậy, do đó nó phù "
+"hợp hơn với một nền tảng tích hợp liên tục tổng quát hơn là một nền tảng "
+"chuyên biệt cho việc bản địa hóa."
 
 #: devel/integration.rst:170
 msgid ""
@@ -39370,6 +39376,9 @@ msgid ""
 "its core, making it ideal for teams that want to keep translations close to "
 "their development workflow."
 msgstr ""
+"Weblate được thiết kế dựa trên quy trình bản địa hóa liên tục với tích hợp "
+"Git làm cốt lõi, lý tưởng cho các nhóm muốn giữ cho quá trình dịch thuật sát "
+"với quy trình phát triển của họ."
 
 #: devel/migration.rst:13
 msgid ":doc:`starting` for choosing the right internationalization framework"
@@ -39690,7 +39699,7 @@ msgstr ""
 
 #: devel/migration.rst:172
 msgid "Set up continuous localization"
-msgstr ""
+msgstr "Thiết lập bản địa hóa liên tục"
 
 #: devel/migration.rst:174
 msgid "Enable automatic updates and commits:"
@@ -39999,7 +40008,7 @@ msgstr ""
 
 #: devel/migration.rst:291
 msgid ":doc:`/admin/continuous` - Automated continuous localization"
-msgstr ""
+msgstr ":doc:`/admin/continuous` - Bản địa hóa liên tục tự động"
 
 #: devel/migration.rst:292
 msgid ":doc:`/api` - API for automation and integrations"
@@ -46956,6 +46965,8 @@ msgid ""
 "Weblate is a web-based continuous localization system with tight version "
 "control integration."
 msgstr ""
+"Weblate là một hệ thống bản địa hóa liên tục dựa trên nền tảng web với khả "
+"năng tích hợp kiểm soát phiên bản chặt chẽ."
 
 #: security/product-information.rst:14
 msgid "Website: https://weblate.org/"
@@ -47073,10 +47084,8 @@ msgid "Artifact or channel"
 msgstr ""
 
 #: security/release-artifacts.rst:25
-#, fuzzy
-#| msgid "View upstream repository location"
 msgid "Owning repository or location"
-msgstr "Xem vị trí kho lưu trữ thượng nguồn"
+msgstr "Kho lưu trữ hoặc vị trí sở hữu"
 
 #: security/release-artifacts.rst:26
 #, fuzzy
@@ -65135,7 +65144,7 @@ msgstr ""
 
 #: wlc.rst:367
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
-msgstr ""
+msgstr "URL máy chủ API, mặc định là ``http://127.0.0.1:8000/api/``."
 
 #: wlc.rst:371
 msgid "Path to the default translation - component or project."
