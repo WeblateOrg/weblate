@@ -118,7 +118,7 @@ def is_public_addon_change_details(
     details: object,
 ) -> TypeGuard[AddonChangeDetails]:
     """Return whether details use the public add-on configuration schema."""
-    if type(details) is not dict:
+    if not isinstance(details, dict):
         return False
     if details.get("schema") != ADDON_CHANGE_DETAILS_SCHEMA:
         return False
@@ -126,11 +126,11 @@ def is_public_addon_change_details(
     changed_fields = details.get("changed_fields")
     redacted_fields = details.get("redacted_fields")
     if (
-        type(configuration) is not dict
-        or type(changed_fields) is not list
-        or type(redacted_fields) is not list
-        or not all(type(key) is str for key in changed_fields)
-        or not all(type(key) is str for key in redacted_fields)
+        not isinstance(configuration, dict)
+        or not isinstance(changed_fields, list)
+        or not isinstance(redacted_fields, list)
+        or not all(isinstance(key, str) for key in changed_fields)
+        or not all(isinstance(key, str) for key in redacted_fields)
     ):
         return False
     return all(
