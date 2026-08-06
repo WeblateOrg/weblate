@@ -9650,6 +9650,21 @@ class TasksAPITest(APIBaseTest):
             {"completed": False, "progress": 0, "result": None, "log": ""},
         )
 
+    def test_retrieve_requires_authentication(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.id, "translation_id": None},
+            3600,
+        )
+
+        self.do_request(
+            "api:task-detail",
+            kwargs={"pk": self.task_id},
+            method="get",
+            authenticated=False,
+            code=401,
+        )
+
     def test_retrieve_uses_cached_user_metadata(self) -> None:
         cache.set(get_task_metadata_key(self.task_id), {"user_id": self.user.id}, 3600)
 
@@ -9673,6 +9688,20 @@ class TasksAPITest(APIBaseTest):
         self.assertEqual(
             response.data,
             {"completed": False, "progress": 0, "result": None, "log": ""},
+        )
+
+    def test_retrieve_rejects_other_user_metadata(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"user_id": self.user.id + 1},
+            3600,
+        )
+
+        self.do_request(
+            "api:task-detail",
+            kwargs={"pk": self.task_id},
+            method="get",
+            code=404,
         )
 
     def test_retrieve_stores_opt_in_completion_message(self) -> None:
@@ -16692,6 +16721,14 @@ class OpenAPITest(APIBaseTest):
         )
         self.assertEqual(task_parameter["schema"]["type"], "string")
         self.assertEqual(task["delete"]["description"], "Cancel a running task.")
+        self.assertEqual(
+            task["delete"]["responses"]["403"]["content"]["application/json"]["schema"],
+            {"$ref": "#/components/schemas/ErrorResponse403"},
+        )
+        self.assertEqual(
+            task["delete"]["responses"]["403"]["description"],
+            "The authenticated user does not have permission for this operation.",
+        )
         self.assertEqual(
             schema["paths"]["/api/changes/"]["get"]["responses"]["400"]["description"],
             "The request was invalid or could not be parsed.",

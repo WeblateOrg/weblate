@@ -7,6 +7,7 @@
 from unittest.mock import patch
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test.utils import override_settings
@@ -34,6 +35,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.tasks import auto_translate, auto_translate_component
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.celery import get_task_metadata, get_task_metadata_key
 from weblate.utils.state import STATE_APPROVED, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
 from weblate.workspaces.models import Workspace
@@ -97,6 +99,56 @@ class AutoTranslationTest(ViewTestCase):
             reverse("auto_translation", kwargs=self.kw_translation)
         )
         self.assertRedirects(response, self.translation_url)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_task_metadata(self) -> None:
+        category = self.create_category(project=self.component2.project)
+        self.component2.category = category
+        self.component2.save(update_fields=["category"])
+        workspace = Workspace.objects.create(name="Automatic translation workspace")
+        self.component2.project.workspace = workspace
+        self.component2.project.save(update_fields=["workspace"])
+        translation = self.component2.translation_set.get(language_code="cs")
+        project_language = ProjectLanguage(
+            self.component2.project, language=translation.language
+        )
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        task_metadata_key = get_task_metadata_key(task_id)
+        self.addCleanup(cache.delete, task_metadata_key)
+
+        targets = (
+            (translation, None, translation.id),
+            (self.component2, self.component2.id, None),
+            (category, None, None),
+            (project_language, None, None),
+            (workspace, None, None),
+        )
+        for obj, component_id, translation_id in targets:
+            with (
+                self.subTest(obj=obj),
+                patch("weblate.trans.views.edit.auto_translate.delay") as delay,
+            ):
+                cache.delete(task_metadata_key)
+                delay.return_value.id = task_id
+                response = self.client.post(
+                    reverse("auto_translation", kwargs={"path": obj.get_url_path()}),
+                    {
+                        "auto_source": "others",
+                        "threshold": "100",
+                        "q": "state:<translated",
+                        "mode": "translate",
+                    },
+                )
+
+                self.assertEqual(response.status_code, 302)
+                self.assertEqual(
+                    get_task_metadata(task_id),
+                    {
+                        "component_id": component_id,
+                        "translation_id": translation_id,
+                        "user_id": self.user.id,
+                    },
+                )
 
     def make_different(self, language: str = "cs") -> None:
         with self.captureOnCommitCallbacks(execute=True):

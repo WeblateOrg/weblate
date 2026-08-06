@@ -72,6 +72,7 @@ from weblate.trans.util import redirect_next, render
 from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
+from weblate.utils.celery import store_task_metadata
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -1527,6 +1528,12 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             source_component_id=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
+        )
+        store_task_metadata(
+            task.id,
+            component_id=component_id,
+            translation_id=translation_id,
+            user_id=request.user.id,
         )
         messages.success(
             request, gettext("Automatic translation in progress"), f"task:{task.id}"
