@@ -7420,7 +7420,7 @@ class AddonChangeDetailsMigrationTest(TestCase):
         migration = importlib.import_module(
             "weblate.trans.migrations.0098_scrub_addon_change_details"
         )
-        addon_change = Change.objects.create(
+        change_object = Change.objects.create(
             action=ActionEvents.ADDON_CHANGE,
             target="example.unknown.addon",
             details={"path": "private-path"},
@@ -7429,8 +7429,8 @@ class AddonChangeDetailsMigrationTest(TestCase):
 
         migration.scrub_addon_change_details(apps, schema_editor)
 
-        addon_change.refresh_from_db()
-        self.assertEqual(addon_change.details, {"path": "private-path"})
+        change_object.refresh_from_db()
+        self.assertEqual(change_object.details, {"path": "private-path"})
 
 
 class TestRemoval(ComponentTestCase):
