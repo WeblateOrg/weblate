@@ -36,6 +36,7 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.addons.base import build_addon_change_details
 from weblate.addons.consistency import LanguageConsistencyAddon
 from weblate.addons.gettext import XgettextAddon
 from weblate.addons.git import GitSquashAddon
@@ -13992,6 +13993,55 @@ class ChangeAPITest(APIBaseTest):
             reverse("api:change-detail", kwargs={"pk": Change.objects.all()[0].pk})
         )
         self.assertIn("translation", response.data)
+
+    def test_addon_configuration_details(self) -> None:
+        details = build_addon_change_details(
+            {
+                "events": [ActionEvents.NEW],
+                "secret": "rotated-secret",
+                "webhook_url": "https://example.com/private-hook",
+            },
+            {
+                "events": [ActionEvents.NEW],
+                "secret": "previous-secret",
+                "webhook_url": "https://example.com/private-hook",
+            },
+            frozenset({"events"}),
+        )
+        change = self.component.change_set.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target="weblate.webhook.webhook",
+            details=details,
+        )
+
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+
+        self.assertEqual(response.data["details"], details)
+        self.assertEqual(response.data["details"]["changed_fields"], ["secret"])
+        self.assertIsNone(response.data["details"]["configuration"]["secret"])
+
+    def test_legacy_addon_configuration_details_are_hidden(self) -> None:
+        change = self.component.change_set.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target="weblate.webhook.webhook",
+            details={
+                "secret": "private-secret",
+                "webhook_url": "https://example.com/private-hook",
+            },
+        )
+
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+        self.assertEqual(response.data["details"], {})
+
+        self.authenticate()
+        response = self.client.get(
+            reverse("api:change-detail", kwargs={"pk": change.pk})
+        )
+        self.assertEqual(response.data["details"], {})
 
     def test_alert_metadata(self) -> None:
         self.component.add_alert("InexactHookMatch", repo_url="first")

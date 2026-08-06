@@ -635,7 +635,9 @@ Security properties Weblate provides
      - Security-critical.
    * - Private project data, user data, credentials, tokens, SSH keys, and 2FA
        secrets are not disclosed to actors lacking permission. *(documented)* (source: :doc:`/admin/access`, :doc:`/security/privacy-compliance`)
-     - Host, database, and storage permissions are intact.
+     - Host, database, and storage permissions are intact. Custom add-ons list
+       only non-sensitive fields as public configuration; unlisted values are
+       redacted from public change history.
      - Cross-project data leak, credential exposure, or unauthorized export.
      - Security-critical.
    * - Backup import rejects archives exceeding documented upload, member,

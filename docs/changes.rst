@@ -18,6 +18,7 @@ Weblate 2026.8.1
 * :wladmin:`import_json` now preserves the component source language for newly imported components from JSON exports.
 * Repository actions now require permission on every component sharing the affected repository, including linked components in other projects.
 * Legal document confirmation now explicitly covers the linked privacy policy. See :ref:`legal`.
+* Add-on change history now retains only explicitly public configuration values and marks changed credential fields as redacted.
 
 .. rubric:: Compatibility
 

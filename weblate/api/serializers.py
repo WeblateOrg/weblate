@@ -34,6 +34,7 @@ from rest_framework.reverse import reverse
 
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.utils import get_all_user_mails
+from weblate.addons.base import is_public_addon_change_details
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
@@ -4007,6 +4008,10 @@ class ChangeSerializer(RemovableSerializer[Change]):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        if instance.action in Change.ACTIONS_ADDON:
+            if not is_public_addon_change_details(instance.details):
+                data["details"] = {}
+            return data
         if self.can_view_alert_details():
             return data
         details = data.get("details")
