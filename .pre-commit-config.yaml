@@ -45,6 +45,7 @@ repos:
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
     - ruff==0.16.1
+    language: python
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -79,6 +80,7 @@ repos:
     args: [--error-on-warnings]
     additional_dependencies:
     - '@biomejs/biome@2.5.7'
+    language: node
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.25
   hooks:
