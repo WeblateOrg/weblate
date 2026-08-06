@@ -1883,6 +1883,75 @@ class ChangeTest(ModelTestCase):
         self.assertIsNone(standalone.workspace_id)
         self.assertIsNone(standalone_project_change.workspace_id)
 
+    def test_repository_redirect_credentials_migration(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0099_sanitize_repository_redirect_credentials"
+        )
+        affected = Change.objects.create(
+            component=self.component,
+            action=ActionEvents.COMPONENT_SETTING_CHANGE,
+            target="repo",
+            details={
+                "field": "repo",
+                "old": "https://old-secret:@git.example/owner/repo",
+                "target": "https://new-secret:@git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+        affected_push = Change.objects.create(
+            component=self.component,
+            action=ActionEvents.COMPONENT_SETTING_CHANGE,
+            target="push",
+            details={
+                "field": "push",
+                "old": "https://old-push-secret:@git.example/owner/repo",
+                "target": "https://new-push-secret:@git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+        unaffected = Change.objects.create(
+            component=self.component,
+            action=ActionEvents.COMPONENT_SETTING_CHANGE,
+            target="repo",
+            details={
+                "field": "repo",
+                "old": "https://kept-secret:@git.example/owner/repo",
+                "target": "https://kept-secret:@git.example/owner/repo.git",
+                "reason": "manual",
+            },
+        )
+
+        migration.sanitize_repository_redirect_credentials(
+            apps, SimpleNamespace(connection=connection)
+        )
+
+        affected.refresh_from_db()
+        affected_push.refresh_from_db()
+        unaffected.refresh_from_db()
+        self.assertEqual(
+            affected.details,
+            {
+                "field": "repo",
+                "old": "https://git.example/owner/repo",
+                "target": "https://git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+        self.assertEqual(
+            affected_push.details,
+            {
+                "field": "push",
+                "old": "https://git.example/owner/repo",
+                "target": "https://git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+        self.assertIn("kept-secret", unaffected.details["old"])
+
     def test_day_filtering(self) -> None:
         Change.objects.all().delete()
         for days_since in range(3):

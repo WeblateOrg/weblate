@@ -6796,6 +6796,26 @@ class ComponentAPITest(APIBaseTest):
             response.data["repoweb"], "https://example.com/src/{{filename}}#L{{line}}"
         )
 
+    def test_anonymous_component_hides_empty_password_credentials(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="https://repo-secret:@git.example/owner/repo",
+            push="https://push-secret:@git.example/owner/repo",
+        )
+
+        detail = self.client.get(
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+        )
+        listing = self.client.get(reverse("api:component-list"))
+        listed = next(
+            item for item in listing.data["results"] if item["slug"] == "test"
+        )
+
+        for data in (detail.data, listed):
+            self.assertEqual(data["repo"], "https://git.example/owner/repo")
+            self.assertEqual(data["push"], "https://git.example/owner/repo")
+            self.assertNotIn("repo-secret", str(data))
+            self.assertNotIn("push-secret", str(data))
+
     def test_get_component_hides_vcs_view_fields_without_permission(self) -> None:
         private_component = self.create_acl()
         Component.objects.filter(pk=self.component.pk).update(

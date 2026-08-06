@@ -98,8 +98,8 @@ class ComponentTest(RepoTestCase):
 
     def test_persist_repository_redirect_uses_repository_bot(self) -> None:
         component = self.create_component()
-        old_url = "https://user:secret@git.example/owner/repo"
-        canonical_url = "https://user:secret@git.example/owner/repo.git"
+        old_url = "https://redirect-secret:@git.example/owner/repo"
+        canonical_url = "https://redirect-secret:@git.example/owner/repo.git"
         Component.objects.filter(pk=component.pk).update(repo=old_url)
         component.repo = old_url
         repository = component.repository
