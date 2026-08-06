@@ -20,9 +20,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-06 03:04+0000\n"
-"PO-Revision-Date: 2026-08-06 16:44+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-08-06 16:45+0000\n"
+"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
 "Language: vi\n"
@@ -2090,6 +2089,9 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
+"Các phần phụ thuộc cho xác thực SAML không còn được bao gồm trong các phần "
+"bổ sung mặc định của gói ``all`` nữa. Bạn cần phải thêm ``saml`` khi cài đặt "
+"gói Weblate bằng pip (``uv pip install Weblate[all,saml]``)."
 
 #: admin/auth.rst:496
 msgid ""
@@ -2325,6 +2327,9 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"Thông thường, quá trình cài đặt sẽ bao gồm việc thêm một backend xác thực "
+"vào :setting:`django:AUTHENTICATION_BACKENDS` và cài đặt một ứng dụng xác "
+"thực (nếu có) vào :setting:`django:INSTALLED_APPS`:"
 
 #: admin/auth.rst:825
 msgid "Two-factor authentication"
@@ -2549,7 +2554,7 @@ msgstr ""
 
 #: admin/backup.rst:75
 msgid "Monthly backups for 6 months back"
-msgstr ""
+msgstr "Sao lưu dữ liệu hàng tháng trong 6 tháng trở lại"
 
 #: admin/backup.rst:82
 msgid "Borg encryption key"
@@ -2960,6 +2965,11 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :wladmin:`migrate`."
 msgstr ""
+"Trước khi khôi phục cơ sở dữ liệu, bạn cần phải sử dụng chính xác phiên bản "
+"Weblate mà bản sao lưu đã được tạo ra. Điều này là cần thiết vì cấu trúc cơ "
+"sở dữ liệu có thể thay đổi giữa các phiên bản và nếu không, bạn có thể làm "
+"hỏng dữ liệu theo một cách nào đó. Sau khi cài đặt cùng phiên bản, hãy chạy "
+"tất cả các bản di chuyển cơ sở dữ liệu bằng lệnh :wladmin:`migrate`."
 
 #: admin/backup.rst:367
 msgid ""
@@ -3773,10 +3783,8 @@ msgstr ""
 #: admin/code-hosting.rst:490 admin/code-hosting.rst:568
 #: admin/code-hosting.rst:665 admin/code-hosting.rst:722
 #: admin/code-hosting.rst:778
-#, fuzzy
-#| msgid "Authentication"
 msgid "SSH with a dedicated user"
-msgstr "Xác thực"
+msgstr "SSH với người dùng chuyên dụng"
 
 #: admin/code-hosting.rst:237
 msgid ""
@@ -4920,7 +4928,7 @@ msgstr ""
 
 #: admin/config.rst:366
 msgid "``monthly`` (this is the default)"
-msgstr ""
+msgstr "``hàng tháng`` (đây là mặc định)"
 
 #: admin/config.rst:373
 msgid ""
@@ -7401,7 +7409,7 @@ msgstr ""
 
 #: admin/continuous.rst:262
 msgid "Run a one-time cleanup without installing the add-on."
-msgstr ""
+msgstr "Chạy dọn dẹp một lần mà không cài đặt tiện ích bổ sung."
 
 #: admin/continuous.rst:264
 msgid ":guilabel:`Remove obsolete`"
@@ -8122,6 +8130,8 @@ msgid ""
 "Use dedicated database node for sites with hundreds of millions of hosted "
 "words."
 msgstr ""
+"Nên sử dụng nút cơ sở dữ liệu chuyên dụng cho các trang web có hàng trăm "
+"triệu từ được lưu trữ."
 
 #: admin/install.rst:146
 msgid "Datastore"
@@ -8391,6 +8401,11 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
+"Để xây dựng một số gói :ref:`python-deps`, bạn có thể cần cài đặt các gói "
+"phụ thuộc của chúng. Điều này phụ thuộc vào cách bạn cài đặt, vì vậy vui "
+"lòng tham khảo tài liệu của từng gói để biết thêm chi tiết. Bạn sẽ không cần "
+"những gói này nếu sử dụng các gói ``Wheels`` được biên dịch sẵn khi cài đặt "
+"bằng ``pip`` hoặc khi bạn sử dụng các gói phân phối."
 
 #: admin/install.rst:346 security/release-artifacts.rst:121
 msgid "Verifying release artifacts"
@@ -9291,6 +9306,12 @@ msgid ""
 "runtime files. When installing Weblate from PyPI, get the matching source "
 "distribution or source checkout before copying these examples."
 msgstr ""
+"Các tệp cấu hình mẫu được hiển thị bên dưới được lưu trữ trong cây mã nguồn "
+"Weblate tại thư mục :file:`weblate/examples/`. Chúng được bao gồm trong các "
+"bản phân phối mã nguồn và trong tài liệu này, nhưng các gói Python (wheels) "
+"chỉ cài đặt các tệp thời gian chạy. Khi cài đặt Weblate từ PyPI, hãy tải bản "
+"phân phối mã nguồn hoặc bản sao mã nguồn phù hợp trước khi sao chép các ví "
+"dụ này."
 
 #: admin/install.rst:1238
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -9472,6 +9493,9 @@ msgid ""
 "install everything you need to run Granian. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate có một phụ thuộc tùy chọn là `wsgi` (xem :ref:`python-deps`) sẽ cài "
+"đặt mọi thứ bạn cần để chạy Granian. Khi cài đặt Weblate, bạn có thể chỉ "
+"định nó như sau:"
 
 #: admin/install.rst:1433
 msgid ""
@@ -10065,6 +10089,7 @@ msgstr ""
 #: admin/install/docker.rst:91
 msgid "Rolling updates within a monthly release in a production environment"
 msgstr ""
+"Cập nhật cuốn chiếu trong bản phát hành hàng tháng trên môi trường sản xuất"
 
 #: admin/install/docker.rst:93
 msgid "Well defined deploy in a production environment"
@@ -12512,7 +12537,7 @@ msgstr ""
 
 #: admin/install/kubernetes.rst:2
 msgid "Installing on Kubernetes"
-msgstr ""
+msgstr "Cài đặt trên Kubernetes"
 
 #: admin/install/kubernetes.rst:6
 msgid ""
@@ -12542,7 +12567,7 @@ msgstr ""
 
 #: admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
-msgstr ""
+msgstr "Cài đặt trên OpenShift"
 
 #: admin/install/openshift.rst:4
 msgid ""
@@ -12665,6 +12690,8 @@ msgid ""
 "Please follow the installation instructions for your system first up to "
 "installing Weblate:"
 msgstr ""
+"Vui lòng làm theo hướng dẫn cài đặt dành cho hệ thống của bạn trước khi cài "
+"đặt Weblate:"
 
 #: admin/install/source.rst:11
 msgid ""
@@ -12994,7 +13021,7 @@ msgstr ""
 
 #: admin/install/steps/install-python.rst:6
 msgid "We're installing Weblate in a separate Python environment."
-msgstr ""
+msgstr "Chúng tôi đang cài đặt Weblate trong một môi trường Python riêng biệt."
 
 #: admin/install/steps/install-python.rst:9
 msgid "Create the Python environment for Weblate:"
@@ -13061,19 +13088,19 @@ msgstr ""
 
 #: admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
-msgstr ""
+msgstr "Cài đặt trên Debian và Ubuntu"
 
 #: admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
-msgstr ""
+msgstr "Cài đặt trên macOS"
 
 #: admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
-msgstr ""
+msgstr "Cài đặt trên RedHat, Fedora và CentOS"
 
 #: admin/install/venv-suse.rst:2
 msgid "Installing on SUSE and openSUSE"
-msgstr ""
+msgstr "Cài đặt trên SUSE và openSUSE"
 
 #: admin/languages.rst:4 admin/languages.rst:103
 msgid "Language definitions"
@@ -17266,6 +17293,11 @@ msgid ""
 "using :wladmin:`import_project` or :wladmin:`import_json`, or by installing "
 "the :ref:`addon-weblate.discovery.discovery` add-on."
 msgstr ""
+"Trong trường hợp dự án của bạn có hàng tá tệp dịch thuật (ví dụ: cho các tên "
+"miền gettext khác nhau hoặc các phần của ứng dụng Android), bạn có thể muốn "
+"nhập chúng tự động. Điều này có thể được thực hiện từ dòng lệnh bằng cách sử "
+"dụng :wladmin:`import_project` hoặc :wladmin:`import_json`, hoặc bằng cách "
+"cài đặt tiện ích bổ sung :ref:`addon-weblate.discovery.discovery`."
 
 #: admin/projects.rst:1529
 msgid ""
@@ -29628,7 +29660,7 @@ msgstr ""
 
 #: changes/v4.rst:1192
 msgid "Fixed monthly digest notifications."
-msgstr ""
+msgstr "Đã khắc phục thông báo tóm tắt hàng tháng."
 
 #: changes/v4.rst:1193
 msgid ""
@@ -30049,6 +30081,8 @@ msgid ""
 "The :ref:`addons-api` now validates required add-on configuration when "
 "installing add-ons."
 msgstr ""
+":ref:`addons-api` hiện đã xác thực cấu hình tiện ích bổ sung cần thiết khi "
+"cài đặt tiện ích bổ sung."
 
 #: changes/v5.rst:44
 msgid ""
@@ -33954,10 +33988,10 @@ msgid ":ref:`addons` button layout."
 msgstr ""
 
 #: changes/v5.rst:1565
-#, fuzzy
-#| msgid ":ref:`addon-weblate.discovery.discovery`"
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
-msgstr ":ref:`addon-weblate.discovery.discovery`"
+msgstr ""
+"Lỗi xảy ra khi cài đặt tiện ích bổ sung :ref:`addon-"
+"weblate.discovery.discovery`."
 
 #: changes/v5.rst:1566
 #, fuzzy
@@ -34496,7 +34530,7 @@ msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #: changes/v5.rst:1810
 msgid "Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`."
-msgstr ""
+msgstr "Tránh lỗi khi cài đặt :ref:`addon-weblate.generate.pseudolocale`."
 
 #: changes/v5.rst:1811
 msgid ""
@@ -35060,6 +35094,8 @@ msgid ""
 ":ref:`addons` changes to strings are now stored with a dedicated user as an "
 "author."
 msgstr ""
+":ref:`addons` các thay đổi trong chuỗi giờ được lưu trữ với một người dùng "
+"chuyên trách với vai trò tác giả."
 
 #: changes/v5.rst:2052
 msgid ":ref:`download-multi` can now convert file formats."
@@ -36491,6 +36527,10 @@ msgid ""
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
+"Việc cài đặt và quản lý các thư viện `bên thứ ba` ở phía `máy khách` của một "
+"dự án Django có thể khá phức tạp. Phần này cung cấp hướng dẫn từng bước về "
+"cách cài đặt và quản lý các thư viện bên thứ ba được sử dụng bởi phía máy "
+"khách của Weblate bằng cách sử dụng `Webpack`."
 
 #: contributing/frontend.rst:62 devel/migration.rst:18
 msgid "Prerequisites"
@@ -37449,6 +37489,11 @@ msgid ""
 "in :file:`pyproject.toml`, so installing those dependencies "
 "makes :program:`prek` available."
 msgstr ""
+"Cách dễ nhất để thực thi tất cả điều này là cài đặt :program:`prek`. Đây là "
+"một công cụ bên thứ ba được viết lại từ công cụ `pre-commit`_ được Weblate "
+"sử dụng. Nó được bao gồm trong các phụ thuộc phát triển được khai báo trong "
+":file:`pyproject.toml`, vì vậy việc cài đặt các phụ thuộc đó sẽ giúp "
+":program:`prek` khả dụng."
 
 #: contributing/snippets/code-guide.rst:104
 msgid "To check all files manually, run:"
@@ -38018,6 +38063,12 @@ msgid ""
 "way of using the Weblate trademark. However, in all cases it is not "
 "necessary to receive permission directly from Weblate (or its affiliates) to:"
 msgstr ""
+"Vì Weblate là nhà cung cấp phần mềm có thể được sử dụng ở nhiều phiên bản – "
+"được lưu trữ trên máy chủ, trên đám mây chuyên dụng và tự lưu trữ (cả trả "
+"phí và miễn phí), nên việc phân biệt giữa các trường hợp này là rất quan "
+"trọng. Mỗi phiên bản có cách sử dụng nhãn hiệu Weblate riêng. Tuy nhiên, "
+"trong mọi trường hợp, không cần phải xin phép trực tiếp từ Weblate (hoặc các "
+"công ty liên kết của nó) để:"
 
 #: contributing/trademark.rst:17
 msgid ""
@@ -45165,6 +45216,11 @@ msgid ""
 "policy ensures that recent backups are available daily and keeps six months "
 "of backups."
 msgstr ""
+":ref:`automated-backup` quy trình đảm bảo tất cả các thành phần thiết yếu "
+"(cơ sở dữ liệu, dữ liệu và cấu hình) được sao lưu hàng ngày. Các bản sao lưu "
+"được lưu trữ ở hai vị trí địa lý khác nhau. Chính sách lưu giữ bản sao lưu "
+"đảm bảo các bản sao lưu gần đây nhất luôn có sẵn hàng ngày và lưu giữ dữ "
+"liệu sao lưu trong sáu tháng."
 
 #: security/disaster-recovery-plan.rst:36
 msgid "Recovery Procedures"
@@ -45236,6 +45292,7 @@ msgstr "Xác nhận thất bại, vui lòng thử lại."
 #: security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
 msgstr ""
+"**Xác minh sao lưu:** Kiểm tra khôi phục hàng tháng các bản sao lưu Weblate."
 
 #: security/disaster-recovery-plan.rst:67
 msgid ""
@@ -47456,6 +47513,11 @@ msgid ""
 "be ``0``, for example ``2026.5``. Patch releases use the full version "
 "number, for example ``2026.5.1``."
 msgstr ""
+"Weblate sử dụng hệ thống đánh số phiên bản theo lịch với các bản phát hành "
+"hàng tháng. Định dạng phiên bản là ``<NĂM>.<THÁNG>.<BẢN VÁ>`` với tháng là "
+"số, không có số 0 ở đầu. Phần ``<BẢN VÁ>`` được bỏ qua đối với bản phát hành "
+"đầu tiên trong tháng khi nó sẽ là ``0``, ví dụ: ``2026.5``. Các bản vá lỗi "
+"sử dụng số phiên bản đầy đủ, ví dụ: ``2026.5.1``."
 
 #: security/releases.rst:21
 msgid ""
@@ -47463,6 +47525,9 @@ msgid ""
 "releases include bug fixes, security fixes, and dependency updates which "
 "should not wait for the next monthly release."
 msgstr ""
+"Các bản phát hành hàng tháng thường được xuất bản vào đầu tháng. Các bản vá "
+"bao gồm sửa lỗi, sửa lỗi bảo mật và cập nhật phụ thuộc, không nên chờ đến "
+"bản phát hành hàng tháng tiếp theo."
 
 #: security/releases.rst:25
 msgid ""
@@ -47520,6 +47585,8 @@ msgstr ""
 msgid ""
 "When the next Weblate release is published, normally the following month."
 msgstr ""
+"Khi bản phát hành Weblate tiếp theo được xuất bản, thường là vào tháng tiếp "
+"theo."
 
 #: security/releases.rst:54
 #, fuzzy
@@ -51789,6 +51856,9 @@ msgid ""
 "unused` in :ref:`repository-maintenance` on that translation instead of "
 "installing the add-on."
 msgstr ""
+"Để dọn dẹp một tệp dịch duy nhất chỉ một lần, hãy sử dụng lệnh "
+":guilabel:`Dọn dẹp không sử dụng` trong :ref:`repository-maintenance` trên "
+"bản dịch đó thay vì cài đặt tiện ích bổ sung."
 
 #: snippets/addons-autogenerated.rst:203
 msgid "Add missing languages"
@@ -53689,6 +53759,11 @@ msgid ""
 "schedule. After a successful update, Weblate commits the changed template "
 "and reloads source strings."
 msgstr ""
+"Tần suất cập nhật đã chọn áp dụng cho các lần chạy tự động sau khi làm mới "
+"kho lưu trữ. Việc cài đặt hoặc cấu hình lại tiện ích bổ sung sẽ chạy nó ngay "
+"lập tức, và các lần chạy thủ công từ trình quản lý tiện ích bổ sung hoặc API "
+"cũng bỏ qua lịch trình cập nhật. Sau khi cập nhật thành công, Weblate sẽ lưu "
+"mẫu đã thay đổi và tải lại chuỗi nguồn."
 
 #: snippets/addons/gettext-pot-common.rst:11
 msgid ""
@@ -62493,6 +62568,8 @@ msgid ""
 "English adverbs of time like :samp:`yesterday`, :samp:`last month`, "
 "and :samp:`2 days ago`."
 msgstr ""
+"Các trạng từ chỉ thời gian trong tiếng Anh như :samp:`hôm qua`, :samp:`tháng "
+"trước`, và :samp:`2 ngày trước`."
 
 #: user/search.rst:63
 msgid ""
