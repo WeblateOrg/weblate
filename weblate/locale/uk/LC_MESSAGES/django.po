@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 02:52-0500\n"
-"PO-Revision-Date: 2026-08-06 16:44+0000\n"
+"PO-Revision-Date: 2026-08-07 10:06+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -37,8 +37,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
+"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.8.1.dev0\n"
 
 #: weblate/accounts/avatar.py:91
@@ -24655,19 +24655,15 @@ msgstr ""
 
 #: weblate/vcs/base.py:237
 msgid "GitHub App repositories must be imported with a branch."
-msgstr ""
+msgstr "Репозиторії програми GitHub має бути імпортовано з гілкою."
 
 #: weblate/vcs/base.py:240
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "Invalid GitHub App installation ID."
-msgstr "Зірка GitHub"
+msgstr "Некоректний ідентифікатор встановлення програми GitHub."
 
 #: weblate/vcs/base.py:243
 msgid "No Weblate GitHub app installation available."
-msgstr ""
+msgstr "Немає доступу до встановленої програми GitHub Weblate."
 
 #: weblate/vcs/base.py:246
 #, python-format
@@ -24681,10 +24677,8 @@ msgid "Could not obtain GitHub App access token: %(error)s"
 msgstr "Не вдалося отримати проект GitLab (%(status)s): %(error)s"
 
 #: weblate/vcs/base.py:252 weblate/vcs/github.py:998
-#, fuzzy
-#| msgid "Choose either a project or a workspace."
 msgid "GitHub App components require a project with a workspace."
-msgstr "Виберіть проєкт або робочу область."
+msgstr "Для складників програми GitHub потрібен проєкт з робочим простором."
 
 #: weblate/vcs/base.py:255
 #, python-format
@@ -24743,13 +24737,12 @@ msgstr ""
 #: weblate/vcs/base.py:281
 #, python-format
 msgid "Repository has an interrupted Git %(operation)s operation."
-msgstr ""
+msgstr "У репозиторії є перервана операція Git %(operation)s."
 
 #: weblate/vcs/base.py:284
-#, fuzzy, python-format
-#| msgid "Could not obtain the lock to perform the operation."
+#, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
-msgstr "Не вдалося отримати блокування для виконання операції."
+msgstr "Не вдалося відновити виконання перерваної дії git %(operation)s."
 
 #: weblate/vcs/base.py:287
 msgid "The repository URL permanently redirects to a canonical URL."
@@ -24766,11 +24759,15 @@ msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"Адреса репозиторія переспрямовує на інший вузол. Автоматичні переспрямування "
+"між вузлами вимкнено з міркувань безпеки; оновіть адресу репозиторія вручну."
 
 #: weblate/vcs/base.py:296
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
 msgstr ""
+"Адреса репозиторія переспрямовує з HTTPS на незахищену адресу — її було "
+"відкинуто."
 
 #: weblate/vcs/base.py:299
 msgid "The repository returned an invalid HTTP redirect."
@@ -24791,13 +24788,14 @@ msgstr "Переспрямування репозиторія не має пер
 #: weblate/vcs/base.py:311
 msgid "The repository returned a permanent HTTP redirect without a target URL."
 msgstr ""
+"Репозиторієм повернуто жорстке переспрямування HTTP без адреси призначення."
 
 #: weblate/vcs/base.py:314
-#, fuzzy
-#| msgid "The category does not belong to the selected project."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "Ця категорія не належить до вибраного проєкту."
+msgstr ""
+"Переспрямування HTTP репозиторія не вказує на інтелектуальну кінцеву точку "
+"HTTP git."
 
 #: weblate/vcs/base.py:317
 #, fuzzy, python-format
@@ -24807,17 +24805,19 @@ msgstr "Не вдалося виконати зондування переспр
 
 #: weblate/vcs/base.py:320
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
-msgstr ""
+msgstr "Переспрямування HTTP репозиторія неочікувано змінює запит щодо адреси."
 
 #: weblate/vcs/base.py:323
 msgid "The repository HTTP redirect target could not be validated."
-msgstr ""
+msgstr "Не вдалося перевірити ціль переспрямування HTTP репозиторія."
 
 #: weblate/vcs/base.py:326
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
 msgstr ""
+"Не вдалося перевірити ціль переспрямування HTTP репозиторія як репозиторій "
+"git."
 
 #: weblate/vcs/base.py:329
 msgid "The repository returned too many HTTP redirects."
@@ -24825,24 +24825,24 @@ msgstr "Репозиторієм повернуто надто багато пе
 
 #: weblate/vcs/base.py:332
 msgid "The repository URL redirects to an unsupported URL scheme."
-msgstr ""
+msgstr "Адреса репозиторія переспрямовує на непідтримувану схему адреси."
 
 #: weblate/vcs/base.py:335
 msgid ""
 "Remote branch could not be verified against the shallow existing repository."
 msgstr ""
+"Не вдалося перевірити віддалену гілку за наявною неглибокою копією "
+"репозиторія."
 
 #: weblate/vcs/base.py:338
 msgid ""
 "Remote branch does not share common history with the existing repository."
-msgstr ""
+msgstr "Віддалена гілка не має спільного журналу з наявним репозиторієм."
 
 #: weblate/vcs/base.py:341 weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:637
 #: weblate/vcs/ssh.py:644 weblate/vcs/ssh.py:649
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "Не вдалося визначити каталог джерел Sphinx."
+msgstr "Не вдалося визначити ефективне призначення SSH."
 
 #: weblate/vcs/base.py:344
 #, fuzzy, python-format
@@ -24853,7 +24853,7 @@ msgstr "Не вдалося вилучити рядок: %s"
 #: weblate/vcs/base.py:347
 #, python-format
 msgid "Unsupported interrupted Git operation: %(operation)s"
-msgstr ""
+msgstr "Непідтримувана перервана дія git: %(operation)s"
 
 #: weblate/vcs/base.py:350
 msgid ""
@@ -25037,84 +25037,69 @@ msgid "Bitbucket Cloud merge request"
 msgstr "Запит щодо об'єднання Bitbucket Cloud"
 
 #: weblate/vcs/github.py:476
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub hostname"
-msgstr "Імʼя користувача GitHub"
+msgstr "Назва вузла GitHub"
 
 #: weblate/vcs/github.py:479
-#, fuzzy
-#| msgid "URL slug"
 msgid "App slug"
-msgstr "Ідентифікатор адреси"
+msgstr "Ідеднтифікатор програми"
 
 #: weblate/vcs/github.py:480
 msgid "Private key (PEM)"
-msgstr ""
+msgstr "Закритий ключ (PEM)"
 
 #: weblate/vcs/github.py:482
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "OAuth client ID"
-msgstr "Ідентифікатор клієнта"
+msgstr "Ідентифікатор клієнта OAuth"
 
 #: weblate/vcs/github.py:485
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client secret"
 msgid "OAuth client secret"
-msgstr "Пароль клієнта"
+msgstr "Ключ клієнта OAuth"
 
 #: weblate/vcs/github.py:498
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook token"
-msgstr "Дієскрипт"
+msgstr "Жетор вебскрипту"
 
 #: weblate/vcs/github.py:500
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "API URL"
 msgid "App URL"
-msgstr "Адреса API"
+msgstr "Адреса програми"
 
 #: weblate/vcs/github.py:506 weblate/vcs/github.py:507
 msgid "Weblate GitHub App credentials"
-msgstr ""
+msgstr "Реєстраційні дані програми GitHub Weblate"
 
 #: weblate/vcs/github.py:887
-#, fuzzy
-#| msgid "Delete this account"
 msgid "connected GitHub account"
-msgstr "Видалити цей обліковий запис"
+msgstr "з'єднаний обліковий запис GitHub"
 
 #: weblate/vcs/github.py:888
 msgid "connected GitHub accounts"
-msgstr ""
+msgstr "з'єднані облікові записи GitHub"
 
 #: weblate/vcs/github.py:962
 msgid "GitHub (via Weblate GitHub app)"
-msgstr ""
+msgstr "GitHub (через програму GitHub Weblate)"
 
 #: weblate/vcs/github.py:973
-#, fuzzy
-#| msgid "This will push changes and create a GitHub pull request."
 msgid ""
 "This will push changes and create a GitHub pull request via the Weblate "
 "GitHub app."
 msgstr ""
-"У результаті зміни буде записано і створено запит щодо об'єднання на GitHub."
+"У результаті зміни буде записано і створено запит щодо об'єднання на GitHub "
+"за допомогою програми GitHub Weblate."
 
 #: weblate/vcs/github.py:1014
 msgid "GitHub App components require a GitHub HTTPS repository URL."
 msgstr ""
+"Складники програми GitHub потребують адреси репозиторія GitHub за HTTPS."
 
 #: weblate/vcs/github.py:1030
 msgid ""
 "Repository is not available from a connected GitHub account for this "
 "workspace."
 msgstr ""
+"Репозиторій недоступний зі з'єднаного облікового запису GitHub для цього "
+"робочого простору."
 
 #: weblate/vcs/mercurial.py:61
 msgid "This will push changes to the upstream Mercurial repository."
@@ -25129,70 +25114,48 @@ msgid "Provider"
 msgstr "Постачальник"
 
 #: weblate/vcs/models.py:63 weblate/vcs/models.py:126
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Installation ID"
-msgstr "Відомості про переклад"
+msgstr "Ідентифікатор встановлення"
 
 #: weblate/vcs/models.py:67
-#, fuzzy
-#| msgid "Target string"
 msgid "Target type"
-msgstr "Цільовий рядок"
+msgstr "Тип цілі"
 
 #: weblate/vcs/models.py:68
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organization or User"
-msgstr "Упорядкувати або вилучити"
+msgstr "Організація або користувач"
 
 #: weblate/vcs/models.py:72
-#, fuzzy
-#| msgid "Target string"
 msgid "Target login"
-msgstr "Цільовий рядок"
+msgstr "Цільовий вхід"
 
 #: weblate/vcs/models.py:73
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Hosting organization or user login"
-msgstr "Хостинг перекладів"
+msgstr "Запис базової організації або користувача"
 
 #: weblate/vcs/models.py:91
-#, fuzzy
-#| msgid "VCS repositories"
 msgid "Available repositories"
-msgstr "Репозиторії VCS"
+msgstr "Доступні репозиторії"
 
 #: weblate/vcs/models.py:97
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installation"
-msgstr "Хостинг перекладів"
+msgstr "встановлення для розміщення коду"
 
 #: weblate/vcs/models.py:98
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installations"
-msgstr "Хостинг перекладів"
+msgstr "встановлення для розміщення коду"
 
 #: weblate/vcs/models.py:131
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook payload"
-msgstr "Дієскрипт"
+msgstr "Вміст дієскрипту"
 
 #: weblate/vcs/models.py:138
-#, fuzzy
-#| msgid "Pending invitation"
 msgid "pending code-hosting installation"
-msgstr "Запрошення у черзі обробки"
+msgstr "встановлення для розміщення коду у черзі"
 
 #: weblate/vcs/models.py:139
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "pending code-hosting installations"
-msgstr "Запрошення у черзі"
+msgstr "встановлення для розміщення коду у черзі"
 
 #: weblate/vcs/ssh.py:73
 msgctxt "SSH key type"
@@ -25251,10 +25214,8 @@ msgstr ""
 "Будь ласка, перевірте, чи все правильно."
 
 #: weblate/vcs/ssh.py:388
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "Команд немає."
+msgstr "Немає перевірених адрес SSH."
 
 #: weblate/vcs/ssh.py:434
 msgid "Could not read stored host keys."
@@ -25276,21 +25237,22 @@ msgstr ""
 "Вилучено ключ хоста для %(host)s з відбитком %(fingerprint)s (%(keytype)s)."
 
 #: weblate/vcs/ssh.py:615 weblate/vcs/ssh.py:622
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "Не вдалося вилучити рядок: %s"
+msgstr "Не вдалося визначити ефективне призначення SSH: %s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
 msgid ""
 "Create a workspace before connecting a GitHub account. GitHub App "
 "connections are linked to workspaces."
 msgstr ""
+"Створіть робочий простір до встановлення з'єднання із обліковим записом "
+"GitHub. З'єднання програми GitHub пов'язано із робочими просторами."
 
 #: weblate/vcs/views.py:555
 #, python-format
 msgid "Removed connected GitHub account %(target)s."
-msgstr ""
+msgstr "Вилучено з'єднаний обліковий запис GitHub %(target)s."
 
 #: weblate/vcs/views.py:571
 #, python-format
@@ -25298,62 +25260,67 @@ msgid ""
 "Remove connected GitHub accounts on %(hostname)s before removing the app "
 "credentials."
 msgstr ""
+"Вилучіть з'єднані облікові записи GitHub на %(hostname)s до вилучення "
+"реєстраційних даних програми."
 
 #: weblate/vcs/views.py:579
 #, python-format
 msgid "Removed Weblate GitHub App credentials for %(hostname)s."
-msgstr ""
+msgstr "Вилучено реєстраційні дані програми GitHub Weblate для %(hostname)s."
 
 #: weblate/vcs/views.py:603
 msgid "Failed to refresh repositories from GitHub."
-msgstr ""
+msgstr "Не вдалося освіжити репозиторії з GitHub."
 
 #: weblate/vcs/views.py:608
 #, python-format
 msgid "Refreshed %(count)d repositories from GitHub."
-msgstr ""
+msgstr "Освіжено %(count)d репозиторіїв з GitHub."
 
 #: weblate/vcs/views.py:625 weblate/vcs/views.py:668 weblate/vcs/views.py:821
-#, fuzzy
-#| msgid "Total number of entries in this Weblate instance"
 msgid "Weblate GitHub app is not configured on this Weblate instance."
-msgstr "Загальна кількість записів на цьому сервері Weblate"
+msgstr "На цьому екземплярі Weblate не налаштовано програми GitHub."
 
 #: weblate/vcs/views.py:633
 msgid "Select a workspace before connecting a GitHub account."
 msgstr ""
+"Виберіть робочий простір до встановлення з'єднання з обліковим записом "
+"GitHub."
 
 #: weblate/vcs/views.py:643
 msgid "Weblate GitHub app is not configured for the selected host."
-msgstr ""
+msgstr "Для вибраного вузла не налаштовано програми GitHub Weblate."
 
 #: weblate/vcs/views.py:763 weblate/vcs/views.py:914
 msgid "Connected GitHub account updated."
-msgstr ""
+msgstr "Оновлено з'єднаний обліковий запис GitHub."
 
 #: weblate/vcs/views.py:769 weblate/vcs/views.py:796
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
 "installation again."
 msgstr ""
+"Посилання для встановлення програми GitHub Weblate втратило чинність. "
+"Розпочніть встановлення з початку."
 
 #: weblate/vcs/views.py:804 weblate/vcs/views.py:828
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "Ви не маєте дозволу приймати пропозиції."
+msgstr ""
+"У вас немає прав доступу на встановлення з'єднання GitHub з цим робочим "
+"простором."
 
 #: weblate/vcs/views.py:812
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "GitHub did not return a valid installation ID."
-msgstr "Не вдалося завершити реєстрацію."
+msgstr "GitHub не повернув коректного ідентифікатора встановлення."
 
 #: weblate/vcs/views.py:836
 msgid ""
 "Too many GitHub account connection attempts. The GitHub installation was not "
 "connected and might still be pending. Try connecting the account again later."
 msgstr ""
+"Забагато спроб встановлення з'єднання з обліковим записом GitHub. "
+"Встановлену програму GitHub не було з'єднано, можливо, її обробку ще не "
+"завершено. Спробуйте встановити з'єднання з обліковим записом пізніше."
 
 #: weblate/vcs/views.py:851
 msgid ""
