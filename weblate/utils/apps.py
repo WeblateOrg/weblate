@@ -22,6 +22,7 @@ from django.apps import AppConfig
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import Error, Info, register
+from django.core.checks import Warning as DjangoWarning
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import get_connection
 from django.db import DatabaseError, connections
@@ -47,6 +48,11 @@ from .db import (
 )
 from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
 from .errors import init_error_collection
+from .filesystem import (
+    FILESYSTEM_LATENCY_WARNING,
+    get_filesystem_latencies,
+    get_filesystem_latency_paths,
+)
 from .site import check_domain, get_site_domain
 from .version import VERSION_BASE, get_latest_version
 
@@ -581,6 +587,30 @@ def check_diskspace(
             message = f"The disk space in {settings.DATA_DIR} is running low"
             return [weblate_check("weblate.E043", message, Error)]
     return []
+
+
+@register(deploy=True)
+def check_filesystem_latency(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
+    """Check filesystem metadata lookup latency."""
+    errors: list[CheckMessage] = []
+    paths = get_filesystem_latency_paths()
+    for name, latency in get_filesystem_latencies().items():
+        if latency is None or latency <= FILESYSTEM_LATENCY_WARNING:
+            continue
+        errors.append(
+            weblate_check(
+                "weblate.W048",
+                f"The filesystem at {paths[name]} seems slow; metadata lookups "
+                f"took {latency:g} milliseconds (configured by {name}).",
+                DjangoWarning,
+            )
+        )
+    return errors
 
 
 @register(deploy=True)
