@@ -8,6 +8,7 @@ Weblate 2026.9
 .. rubric:: Improvements
 
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
+* Improved translation file loading performance for metadata-only string changes.
 
 .. rubric:: Bug fixes
 
