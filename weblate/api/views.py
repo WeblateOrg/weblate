@@ -67,6 +67,7 @@ from rest_framework.viewsets import ViewSet
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
+from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_data
 from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
@@ -198,13 +199,10 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import (
-    GlobalStats,
     ProjectLanguage,
     iter_prefetch_stats,
     prefetch_stats,
 )
-from weblate.utils.version import GIT_VERSION
-from weblate.utils.version_display import show_metrics_version
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.workspaces.models import Workspace
 
@@ -4468,21 +4466,6 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         return Response(serializer.data)
 
 
-OPENMETRICS_METRIC_HELP = (
-    ("units", "Number of translation units."),
-    ("units_translated", "Number of translated translation units."),
-    ("users", "Number of users."),
-    ("changes", "Number of recorded changes."),
-    ("projects", "Number of projects."),
-    ("components", "Number of components."),
-    ("translations", "Number of translations."),
-    ("languages", "Number of configured languages."),
-    ("checks", "Number of triggered quality checks."),
-    ("configuration_errors", "Number of active configuration errors."),
-    ("suggestions", "Number of pending suggestions."),
-)
-
-
 def get_project_metrics_data(
     project: Project, user: User
 ) -> tuple[
@@ -4616,31 +4599,6 @@ def get_project_openmetrics_data(
     return result
 
 
-def get_openmetrics_data(data: Mapping[str, object]) -> list[OpenMetricsMetric]:
-    result = [
-        OpenMetricsMetric(
-            name=name,
-            help_text=help_text,
-            metric_type="gauge",
-            samples=(OpenMetricsSample(value=cast("int", data[name]), labels={}),),
-        )
-        for name, help_text in OPENMETRICS_METRIC_HELP
-    ]
-    queues = cast("Mapping[str, int]", data["celery_queues"])
-    result.append(
-        OpenMetricsMetric(
-            name="celery_queues",
-            help_text="Number of tasks in each Celery queue.",
-            metric_type="gauge",
-            samples=tuple(
-                OpenMetricsSample(value=value, labels={"queue": queue})
-                for queue, value in queues.items()
-            ),
-        )
-    )
-    return result
-
-
 class Metrics(APIView):
     """Metrics view for monitoring."""
 
@@ -4651,27 +4609,10 @@ class Metrics(APIView):
     # pylint: disable-next=redefined-builtin
     def get(self, request: Request, format=None):  # ruff: ignore[builtin-argument-shadowing]
         """Return server metrics."""
-        stats = GlobalStats()
-        serializer = self.serializer_class(stats)
-        data = dict(serializer.data)
+        data = get_server_metrics_data()
         if request.accepted_renderer.format == "openmetrics":
-            metrics = get_openmetrics_data(data)
-            if show_metrics_version(settings.VERSION_DISPLAY):
-                metrics.append(
-                    OpenMetricsMetric(
-                        name="weblate_info",
-                        help_text="Weblate build information.",
-                        metric_type="gauge",
-                        samples=(
-                            OpenMetricsSample(
-                                value=1,
-                                labels={"version": GIT_VERSION},
-                            ),
-                        ),
-                    )
-                )
             return Response(
-                metrics,
+                get_server_openmetrics_data(data),
                 content_type=OpenMetricsRenderer.response_content_type,
             )
         return Response(data)
