@@ -6,6 +6,7 @@ Weblate 2026.8.1
 .. rubric:: New features
 
 * Project and component APIs now expose all user-configurable settings, including access control and translation-memory settings. See :doc:`api`.
+* Added the :wladmin:`metrics` command for retrieving server metrics locally in JSON, CSV, or OpenMetrics format.
 
 .. rubric:: Improvements
 
