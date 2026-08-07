@@ -38,7 +38,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 02:52-0500\n"
-"PO-Revision-Date: 2026-08-07 10:07+0000\n"
+"PO-Revision-Date: 2026-08-07 12:21+0000\n"
 "Last-Translator: Steve <steve-contrib@murena.io>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -872,6 +872,8 @@ msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr ""
+"Au lieu de masquer les colonnes sur les écrans étroits, conservez toutes les "
+"colonnes et faites défiler le tableau horizontalement."
 
 #: weblate/accounts/models.py:813
 msgid "Editor link"
@@ -2029,8 +2031,8 @@ msgid ""
 "Fedora Messaging publish timed out; the broker connection or delivery "
 "confirmation did not complete: %(error)s"
 msgstr ""
-"Délai d'attente dépassé pour la publication Fedora Messaging ; la connexion "
-"au broker ou la confirmation de distribution n'a pas abouti : %(error)s"
+"Délai d’attente dépassé pour la publication Fedora Messaging ; la connexion "
+"au broker ou la confirmation de distribution n’a pas abouti : %(error)s"
 
 #: weblate/addons/fedora_messaging.py:460
 #, python-format
@@ -2062,7 +2064,7 @@ msgstr "configuré"
 
 #: weblate/addons/fedora_messaging.py:611
 msgid "Could not reset Fedora Messaging publisher service."
-msgstr "Impossible de réinitialiser le service « Fedora Messaging publisher »."
+msgstr "Impossible de réinitialiser le service de publication Fedora Messaging."
 
 #: weblate/addons/fedora_messaging.py:701
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
@@ -2091,6 +2093,8 @@ msgstr "L'URL du broker Fedora Messaging est invalide : %(error)s"
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
 msgstr ""
+"Impossible de vérifier la connexion TLS au broker Fedora Messaging : %(error)"
+"s"
 
 #: weblate/addons/flags.py:60
 msgid "Flag new source strings as \"Needs checking\""
@@ -2243,28 +2247,25 @@ msgid "Source locations"
 msgstr "Emplacements de la chaîne source"
 
 #: weblate/addons/forms.py:207
-#, fuzzy
-#| msgid "Use default setting"
 msgid "Use file format settings"
-msgstr "Utiliser les paramètres par défaut"
+msgstr "Utiliser les paramètres du format de fichier"
 
 #: weblate/addons/forms.py:208
-#, fuzzy
-#| msgid "Extract strings from HTML files"
 msgid "Extract locations to the POT file"
-msgstr "Extraire des chaînes de caractères depuis des fichiers HTML"
+msgstr "Extraire les emplacements dans le fichier POT"
 
 #: weblate/addons/forms.py:209
-#, fuzzy
-#| msgid "Do not extract comments"
 msgid "Do not extract locations"
-msgstr "Ne pas extraire les commentaires"
+msgstr "Ne pas extraire les emplacements"
 
 #: weblate/addons/forms.py:214
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Choisir comment l’extraction écrit les emplacements sources dans le fichier "
+"POT. À utiliser pour conserver les emplacements dans le modèle tout en les "
+"omettant des fichiers PO traduits."
 
 #: weblate/addons/forms.py:267
 msgid "Do not extract comments"
@@ -2323,7 +2324,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:312
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "Utiliser exclusivement des mots-clés"
 
 #: weblate/addons/forms.py:315
 msgid ""
@@ -2331,6 +2332,9 @@ msgid ""
 "additional keyword, disabling all default keywords so that only the keyword "
 "specified above is recognized."
 msgstr ""
+"Lorsqu’elle est activée, passe --keyword sans valeur à xgettext avant le mot-"
+"clé supplémentaire, désactivant tous les mots-clés par défaut de sorte que "
+"seul le mot-clé spécifié ci-dessus soit reconnu."
 
 #: weblate/addons/forms.py:334 weblate/addons/forms.py:443
 #: weblate/addons/forms.py:450
@@ -2340,6 +2344,8 @@ msgstr "Ce champ est obligatoire."
 #: weblate/addons/forms.py:344
 msgid "An additional keyword is required when using keywords exclusively."
 msgstr ""
+"Un mot-clé supplémentaire est requis lors de l’utilisation exclusive de mots-"
+"clés."
 
 #: weblate/addons/forms.py:359
 msgid "Input source"
@@ -2366,12 +2372,13 @@ msgid "xgettext language"
 msgstr "langage xgettext"
 
 #: weblate/addons/forms.py:376
-#, fuzzy
-#| msgid "Programming language passed to xgettext, for example Python or C."
 msgid ""
 "Programming language passed to xgettext, for example Python or C. Leave "
 "blank to let xgettext guess the language from file extensions."
-msgstr "Langage de programmation transmis à xgettext, par exemple Python ou C."
+msgstr ""
+"Langage de programmation transmis à xgettext, par exemple Python ou C. "
+"Laisser vide pour que xgettext devine le langage d’après les extensions de "
+"fichiers."
 
 #: weblate/addons/forms.py:385
 msgid ""
@@ -2880,29 +2887,20 @@ msgid "Enable case-sensitive key sorting"
 msgstr "Activer le tri en fonction de la casse de la clé"
 
 #: weblate/addons/forms.py:1646
-#, fuzzy
-#| msgid "Change events"
 msgid "Change events to trigger"
-msgstr "Évènements de modification"
+msgstr "Événements de modification à déclencher"
 
 #: weblate/addons/forms.py:1652
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translation context"
 msgid "Translation content events"
-msgstr "Contexte de traduction"
+msgstr "Événements du contenu de traduction"
 
 #: weblate/addons/forms.py:1656
-#, fuzzy
-#| msgid "Change events"
 msgid "All change events"
-msgstr "Évènements de modification"
+msgstr "Tous les événements de modification"
 
 #: weblate/addons/forms.py:1660 weblate/addons/forms.py:1674
-#, fuzzy
-#| msgid "Change events"
 msgid "Selected change events"
-msgstr "Évènements de modification"
+msgstr "Événements de modification sélectionnés"
 
 #: weblate/addons/forms.py:1664
 msgid "Choose which change events should trigger this add-on."
@@ -2922,10 +2920,8 @@ msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr "Le secret standard des Webhooks est une chaîne encodée en base64."
 
 #: weblate/addons/forms.py:1782
-#, fuzzy
-#| msgid "AMQP broker host"
 msgid "AMQP broker URL"
-msgstr "Hôte de courtier AMQP"
+msgstr "URL du broker AMQP"
 
 #: weblate/addons/forms.py:1783
 msgid "The AMQP broker URL to connect to."
@@ -4671,12 +4667,18 @@ msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
+"Seuls les utilisateurs privilégiés peuvent modifier directement les chaînes "
+"dans cette langue en raison de son processus de traduction. Ajoutez une "
+"suggestion à la place."
 
 #: weblate/auth/permissions.py:257
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"Seuls les utilisateurs privilégiés peuvent modifier directement les chaînes "
+"dans cette langue en raison de son processus de traduction. Demandez l’accès "
+"à un administrateur du projet."
 
 #: weblate/auth/permissions.py:485
 msgid "Can not perform this operation without an e-mail address."
@@ -4820,6 +4822,8 @@ msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
 msgstr ""
+"Les suggestions sont désactivées pour cette langue. Demandez à un "
+"administrateur du projet de les activer."
 
 #: weblate/auth/permissions.py:1064
 msgid "The file format does not support updating source strings."
@@ -5292,16 +5296,12 @@ msgid "Translation should not exceed given length."
 msgstr "La traduction ne doit pas dépasser la taille indiquée."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Taille maximale de la traduction"
+msgstr "Nombre maximum de lignes"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "La traduction ne doit pas dépasser la taille indiquée."
+msgstr "La traduction ne doit pas dépasser le nombre de lignes indiqué."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -6464,14 +6464,12 @@ msgid "Source string length"
 msgstr "Longueur de chaîne source"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"La chaîne source est trop longue et ne respecte pas la longueur maximale "
-"définie."
+"La chaîne source approche ou dépasse la longueur maximale configurée pour "
+"les traductions."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -7467,23 +7465,16 @@ msgstr ""
 "J’accepte le document des termes généraux et des conditions d’utilisation"
 
 #: weblate/legal/forms.py:22
-#, fuzzy
-#| msgid "I agree with the General Terms and Conditions document"
 msgid "I agree with the General Terms and Conditions and the Privacy Policy"
-msgstr ""
-"J’accepte le document des termes généraux et des conditions d’utilisation"
+msgstr "J'accepte les conditions générales et la politique de confidentialité"
 
 #: weblate/legal/middleware.py:51
-#, fuzzy
-#| msgid ""
-#| "We have an updated version of the General Terms and Conditions document, "
-#| "please read it and confirm that you agree with it."
 msgid ""
 "We have updated our legal documents; please read them and confirm that you "
 "agree with them."
 msgstr ""
-"Les termes et conditions générales d’utilisation ont été mis à jour, "
-"veuillez les lire et confirmer que vous les acceptez."
+"Nous avons mis à jour nos documents juridiques ; veuillez les lire et "
+"confirmer que vous les acceptez."
 
 #: weblate/legal/templates/legal/confirm.html:7
 #: weblate/legal/templates/legal/contracts.html:7
@@ -7495,11 +7486,11 @@ msgid "Legal"
 msgstr "Mentions légales"
 
 #: weblate/legal/templates/legal/confirm.html:18
-#, fuzzy
-#| msgid "You have to agree to the General Terms and Conditions"
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "Vous devez accepter les termes et conditions générales d’utilisation"
+msgstr ""
+"Vous devez accepter les conditions générales et la politique de "
+"confidentialité"
 
 #: weblate/legal/templates/legal/confirm.html:20
 msgid "You have to agree to the General Terms and Conditions"
@@ -7533,7 +7524,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:44
 msgid "Please also read the Privacy Policy:"
-msgstr ""
+msgstr "Veuillez également lire la politique de confidentialité :"
 
 #: weblate/legal/templates/legal/confirm.html:53
 #: weblate/templates/contributor-agreement.html:33
@@ -8157,28 +8148,19 @@ msgid "Claude Haiku 4.5"
 msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:736
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Sonnet 4.5 (Recommended)"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
-msgstr "Claude Sonnet 4.5 (Recommandé)"
+msgstr "Claude Sonnet 5"
 
 #: weblate/machinery/forms.py:740
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
-msgstr "Claude Opus 4.5"
+msgstr "Claude Opus 4.8"
 
 #: weblate/machinery/forms.py:744
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5"
-msgstr "Claude Haiku 4.5"
+msgstr "Claude Fable 5"
 
 #: weblate/machinery/forms.py:746
 msgctxt "Anthropic model selection"
@@ -8226,12 +8208,9 @@ msgid "Click <a href=\"/x\">Save</a>."
 msgstr "Cliquez sur <a href=\"/x\">Enregistrer</a>."
 
 #: weblate/machinery/llm.py:181
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Failed checks"
 msgctxt "LLM translation example"
 msgid "@@PH1@@ failed checks"
-msgstr "Erreurs de validation"
+msgstr "@@PH1@@ échecs de vérification"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -8316,12 +8295,9 @@ msgstr "Partager"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1270
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Personal: {}"
 msgctxt "Translation memory scope"
 msgid "Personal"
-msgstr "Personnel : {}"
+msgstr "Personnel"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1271
@@ -8333,19 +8309,15 @@ msgstr "Fichier"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:140
 #: weblate/memory/models.py:1272
-#, fuzzy
-#| msgid "Project name"
 msgctxt "Translation memory scope"
 msgid "Project file"
-msgstr "Nom du projet"
+msgstr "Fichier de projet"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:146
 #: weblate/memory/models.py:1273
-#, fuzzy
-#| msgid "Personal info"
 msgctxt "Translation memory scope"
 msgid "Personal file"
-msgstr "Infos personnelles"
+msgstr "Fichier personnel"
 
 #: weblate/memory/models.py:548
 #, python-format
@@ -8413,17 +8385,13 @@ msgid "File: {}"
 msgstr "Fichier : {}"
 
 #: weblate/memory/models.py:1051 weblate/memory/models.py:1079
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory category"
 msgid "Workspace: {}"
-msgstr "Espace de travail"
+msgstr "Espace de travail : {}"
 
 #: weblate/memory/views.py:109
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Invalid language identifier."
-msgstr "Entrez un code de langue valide."
+msgstr "Identifiant de langue invalide."
 
 #: weblate/memory/views.py:150
 msgid "Entries were deleted."
@@ -8434,26 +8402,24 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Les unités de traduction créées à partir des traductions actuelles ont été "
+"supprimées et seront reconstruites en arrière-plan. Les unités importées ont "
+"été conservées."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
-"Les éléments ont étés supprimés et le mémoire de traduction va être "
-"reconstruit en arrière-plan."
+"Les unités de traduction créées à partir des traductions actuelles ont été "
+"supprimées et seront reconstruites en arrière-plan."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Supprimer les éléments sélectionnés de la mémoire de traduction"
-msgstr[1] "Supprimer les éléments sélectionnés de la mémoire de traduction"
+msgstr[0] "%(count)d unité de traduction active traitée"
+msgstr[1] "%(count)d unités de traduction actives traitées"
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -8682,10 +8648,9 @@ msgid "No new matching source strings found."
 msgstr "Aucune nouvelle chaîne source correspondante."
 
 #: weblate/screenshots/views.py:821
-#, fuzzy
-#| msgid "Could not open a ticket, please try again later."
 msgid "OCR data could not be downloaded. Please try again later."
-msgstr "Impossible d’ouvrir un ticket, veuillez réessayer plus tard."
+msgstr ""
+"Impossible de télécharger les données OCR. Veuillez réessayer plus tard."
 
 #: weblate/templates/400.html:7 weblate/templates/400.html:13
 msgid "Bad request"
@@ -9270,12 +9235,11 @@ msgid "Your trial"
 msgstr "Votre offre d’essai"
 
 #: weblate/templates/accounts/hosting.html:37
-#, fuzzy, python-format
-#| msgid "You will have 14 days to set up your project."
+#, python-format
 msgid "You will have %(days)s day to set up your project."
 msgid_plural "You will have %(days)s days to set up your project."
-msgstr[0] "Vous aurez 14 jours pour paramétrer votre projet."
-msgstr[1] "Vous aurez 14 jours pour paramétrer votre projet."
+msgstr[0] "Vous aurez %(days)s jour pour configurer votre projet."
+msgstr[1] "Vous aurez %(days)s jours pour configurer votre projet."
 
 #: weblate/templates/accounts/hosting.html:38
 msgid "Please request project approval once you finish the setup."
@@ -9498,20 +9462,18 @@ msgstr "Ajouter une nouvelle identité utilisateur"
 #: weblate/templates/vcs/github_installation_detail.html:10
 #: weblate/templates/vcs/github_installation_list.html:10
 #: weblate/templates/workspace.html:118 weblate/wladmin/views.py:138
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Code-hosting connections"
-msgstr "Hébergement de traductions"
+msgstr "Connexions aux services d'hébergement de code"
 
 #: weblate/templates/accounts/profile.html:260
 msgid "Manage code-hosting accounts connected to workspaces you administer."
 msgstr ""
+"Gérer les comptes des services d'hébergement de code connectés aux espaces "
+"de travail que vous administrez."
 
 #: weblate/templates/accounts/profile.html:263
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "Manage code-hosting connections"
-msgstr "Invitations en attente"
+msgstr "Gérer les connexions aux services d'hébergement de code"
 
 #: weblate/templates/accounts/profile.html:271
 #: weblate/templates/accounts/user.html:425
@@ -10049,12 +10011,11 @@ msgid "Your trial offer"
 msgstr "Votre offre d’essai"
 
 #: weblate/templates/accounts/trial.html:26
-#, fuzzy, python-format
-#| msgid "Your trial will last 14 days."
+#, python-format
 msgid "Your trial will last %(days)s day."
 msgid_plural "Your trial will last %(days)s days."
-msgstr[0] "Votre essai durera 14 jours."
-msgstr[1] "Votre essai durera 14 jours."
+msgstr[0] "Votre essai durera %(days)s jour."
+msgstr[1] "Votre essai durera %(days)s jours."
 
 #: weblate/templates/accounts/trial.html:27
 msgid "Your trial will run the 640k plan, but you can choose any plan later."
@@ -10277,6 +10238,7 @@ msgstr "Désactive l’authentification par mot de passe pour l’utilisateur."
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
 msgstr ""
+"Laisser activé pour révoquer la clé API actuelle et en générer une nouvelle."
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -10299,10 +10261,8 @@ msgstr ""
 #: weblate/templates/accounts/user.html:494
 #: weblate/templates/trans/project-access.html:103
 #: weblate/templates/trans/project-access.html:125
-#, fuzzy
-#| msgid "No cleanup action was selected."
 msgid "Choose cleanup actions"
-msgstr "Aucune action de nettoyage n'a été sélectionnée."
+msgstr "Choisir les actions de nettoyage"
 
 #: weblate/templates/accounts/user.html:498
 #: weblate/templates/accounts/user.html:538
@@ -10340,10 +10300,8 @@ msgstr ""
 
 #: weblate/templates/accounts/user.html:507
 #: weblate/templates/trans/project-access.html:139
-#, fuzzy
-#| msgid "Clean up user contributions"
 msgid "Clean up selected contributions"
-msgstr "Nettoyer les contributions des utilisateurs"
+msgstr "Nettoyer les contributions sélectionnées"
 
 #: weblate/templates/accounts/user.html:517
 msgid "Account removal deletes all user private data."
@@ -10432,10 +10390,8 @@ msgid "Configuration"
 msgstr "Configuration"
 
 #: weblate/templates/addons/addon_base.html:16
-#, fuzzy
-#| msgid "View Logs"
 msgid "Logs"
-msgstr "Consulter les journaux"
+msgstr "Journaux"
 
 #: weblate/templates/addons/addon_base.html:33
 #: weblate/templates/addons/addon_base.html:40
@@ -10505,7 +10461,7 @@ msgstr "Lancer le module complémentaire"
 
 #: weblate/templates/addons/addon_detail.html:42
 msgid "Schedule this add-on to run as soon as possible."
-msgstr ""
+msgstr "Planifier cette extension pour qu'elle s'exécute dès que possible."
 
 #: weblate/templates/addons/addon_detail.html:45
 msgid "Run now"
@@ -10520,6 +10476,8 @@ msgstr "Zone de danger"
 msgid ""
 "Uninstalling the add-on stops it from running and removes its configuration."
 msgstr ""
+"La désinstallation de l'extension arrête son exécution et supprime sa "
+"configuration."
 
 #: weblate/templates/addons/addon_detail.html:62
 msgid "Uninstall"
