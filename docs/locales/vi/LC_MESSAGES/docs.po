@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-06 03:04+0000\n"
-"PO-Revision-Date: 2026-08-07 10:07+0000\n"
+"PO-Revision-Date: 2026-08-07 12:21+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -3925,6 +3925,13 @@ msgid ""
 "accounts, Weblate verifies that the install-time GitHub user can administer "
 "the organization installation."
 msgstr ""
+"Các tài khoản GitHub được kết nối sẽ được liên kết với một Weblate "
+":ref:`không gian làm việc <workspaces>`. Người dùng có quyền quản trị dự án "
+"cho bất kỳ dự án nào trong không gian làm việc có thể kết nối tài khoản "
+"GitHub trên không gian làm việc đó. Sau khi kết nối, mọi dự án trong không "
+"gian làm việc đều có thể nhập các thành phần từ các kho lưu trữ mà cài đặt "
+"ứng dụng GitHub có quyền truy cập. Đối với các tài khoản tổ chức, Weblate sẽ "
+"xác minh rằng người dùng GitHub khi cài đặt có thể quản trị cài đặt tổ chức."
 
 #: admin/code-hosting.rst:325
 msgid ""
@@ -4342,10 +4349,8 @@ msgid "Use the SSH URL shown by Azure Repos for the repository."
 msgstr ""
 
 #: admin/code-hosting.rst:674
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "Azure Repos notifications"
-msgstr "Các nội dung thông báo"
+msgstr "Thông báo Azure Repos"
 
 #: admin/code-hosting.rst:676
 msgid ""
@@ -4452,10 +4457,8 @@ msgid "Gitee repository access"
 msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #: admin/code-hosting.rst:785
-#, fuzzy
-#| msgid "Notification on new comment"
 msgid "Gitee notifications"
-msgstr "Nhận thông báo khi có bình luận mới"
+msgstr "Thông báo Gitee"
 
 #: admin/code-hosting.rst:787
 msgid ""
@@ -7549,10 +7552,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:336
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "Code-hosting notifications"
-msgstr "Các nội dung thông báo"
+msgstr "Thông báo lưu trữ mã nguồn"
 
 #: admin/continuous.rst:338
 msgid ""
@@ -7562,10 +7563,8 @@ msgid ""
 msgstr ""
 
 #: admin/continuous.rst:352
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Provider-specific notifications"
-msgstr "Thông báo bản dịch"
+msgstr "Thông báo riêng cho nhà cung cấp"
 
 #: admin/continuous.rst:354
 msgid ""
@@ -7575,36 +7574,36 @@ msgstr ""
 
 #: admin/continuous.rst:359
 msgid ":ref:`GitHub notifications <code-hosting-github-notifications>`"
-msgstr ""
+msgstr ":ref:`Thông báo GitHub <code-hosting-github-notifications>`"
 
 #: admin/continuous.rst:360
 msgid ":ref:`GitLab notifications <code-hosting-gitlab-notifications>`"
-msgstr ""
+msgstr ":ref:`Thông báo GitLab <code-hosting-gitlab-notifications>`"
 
 #: admin/continuous.rst:361
 msgid ":ref:`Bitbucket notifications <code-hosting-bitbucket-notifications>`"
-msgstr ""
+msgstr ":ref:`Thông báo Bitbucket <code-hosting-bitbucket-notifications>`"
 
 #: admin/continuous.rst:362
 msgid ":ref:`Pagure notifications <code-hosting-pagure-notifications>`"
-msgstr ""
+msgstr ":ref:`Thông báo Pagure <code-hosting-pagure-notifications>`"
 
 #: admin/continuous.rst:363
 msgid ""
 ":ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>`"
-msgstr ""
+msgstr ":ref:`Thông báo Azure Repos <code-hosting-azure-repos-notifications>`"
 
 #: admin/continuous.rst:364
 msgid ":ref:`Gitea notifications <code-hosting-gitea-notifications>`"
-msgstr ""
+msgstr ":ref:`Thông báo Gitea <code-hosting-gitea-notifications>`"
 
 #: admin/continuous.rst:365
 msgid ":ref:`Forgejo notifications <code-hosting-forgejo-notifications>`"
-msgstr ""
+msgstr ":ref:`Thông báo từ Forgejo <code-hosting-forgejo-notifications>`"
 
 #: admin/continuous.rst:366
 msgid ":ref:`Gitee notifications <code-hosting-gitee-notifications>`"
-msgstr ""
+msgstr ":ref:`Thông báo Gitee <code-hosting-gitee-notifications>`"
 
 #: admin/continuous.rst:369
 msgid "Automatically updating repositories nightly"
@@ -7951,7 +7950,7 @@ msgstr ""
 
 #: admin/customize.rst:104
 msgid "Used in notifications e-mails."
-msgstr ""
+msgstr "Được sử dụng trong các email thông báo."
 
 #: admin/customize.rst:106
 msgid "Add it to :setting:`django:INSTALLED_APPS`:"
@@ -9335,6 +9334,9 @@ msgid ""
 "enabled as it is intended for development only. For production use, please "
 "see WSGI setups:"
 msgstr ""
+"Máy chủ tích hợp sẵn Django chỉ phục vụ các tập tin tĩnh khi bật "
+":setting:`DEBUG` vì nó chỉ dành cho mục đích phát triển. Để sử dụng trong "
+"môi trường sản xuất, vui lòng xem các thiết lập WSGI:"
 
 #: admin/install.rst:1266
 msgid "Serving static files"
@@ -10175,6 +10177,8 @@ msgid ""
 "In case you have own SSL certificate you want to use, simply place the files "
 "into the Weblate data volume (see :ref:`docker-volume`):"
 msgstr ""
+"Trong trường hợp bạn có chứng chỉ SSL riêng muốn sử dụng, chỉ cần đặt các "
+"tệp vào thư mục dữ liệu Weblate (xem :ref:`docker-volume`):"
 
 #: admin/install/docker.rst:154
 msgid ""
@@ -13237,6 +13241,9 @@ msgid ""
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
 msgstr ""
+"Trong quá trình chỉnh sửa, hãy đảm bảo tất cả các trường đều chính xác (đặc "
+"biệt là dạng số nhiều và hướng văn bản), nếu không người dịch sẽ không thể "
+"chỉnh sửa bản dịch một cách chính xác."
 
 #: admin/languages.rst:83
 msgid ""
@@ -15904,7 +15911,7 @@ msgstr ""
 
 #: admin/projects.rst:514
 msgid "VCS to use, see :ref:`vcs` for details."
-msgstr ""
+msgstr "Để sử dụng VCS, xem :ref:`vcs` để biết chi tiết."
 
 #: admin/projects.rst:523 devel/gettext.rst:231
 msgid "Source code repository"
@@ -18812,7 +18819,7 @@ msgstr "Tên của bạn"
 
 #: api.rst:3603
 msgid "Notification hooks"
-msgstr "Các hook thông báo"
+msgstr "Các móc nối thông báo"
 
 #: api.rst:3605
 msgid ""
@@ -20376,6 +20383,8 @@ msgid ""
 "Added a digest-only translation activity summary notification, "
 "see :ref:`notifications`."
 msgstr ""
+"Đã thêm thông báo tóm tắt hoạt động dịch chỉ ở dạng bản ghi, xem "
+":ref:`notifications`."
 
 #: changes.rst:349
 msgid ""
@@ -21814,7 +21823,7 @@ msgstr ""
 
 #: changes/v0.rst:52
 msgid "Direct support for GitHub notifications."
-msgstr ""
+msgstr "Hỗ trợ trực tiếp cho thông báo GitHub."
 
 #: changes/v0.rst:53
 msgid "Added support for cleaning up orphaned checks and translations."
@@ -22224,7 +22233,7 @@ msgstr ""
 
 #: changes/v1.rst:86
 msgid "Added support for Bitbucket notifications."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho thông báo Bitbucket."
 
 #: changes/v1.rst:87
 msgid ""
@@ -22510,7 +22519,7 @@ msgstr ""
 
 #: changes/v1.rst:168
 msgid "Support for e-mail notifications of translators."
-msgstr ""
+msgstr "Hỗ trợ thông báo qua email cho người dịch."
 
 #: changes/v1.rst:169
 msgid "List only used languages in preferences."
@@ -24094,7 +24103,7 @@ msgstr ""
 
 #: changes/v2.rst:481
 msgid "Added support for GitLab notifications."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho thông báo GitLab."
 
 #: changes/v2.rst:482
 msgid "Added support for disabling translation suggestions."
@@ -24420,7 +24429,7 @@ msgstr ""
 
 #: changes/v3.rst:97
 msgid "Improved background notification processing."
-msgstr ""
+msgstr "Cải thiện quá trình xử lý thông báo nền."
 
 #: changes/v3.rst:98
 msgid "Fixed broken form submission when navigating back in web browser."
@@ -24546,7 +24555,7 @@ msgstr "Hiển thị ngữ cảnh cho các chuỗi ký tự lân cận."
 
 #: changes/v3.rst:136
 msgid "Added support for notifications on repository operations."
-msgstr ""
+msgstr "Đã thêm hỗ trợ thông báo về các thao tác trên kho lưu trữ."
 
 #: changes/v3.rst:137
 msgid "Improved translation listings."
@@ -24937,7 +24946,7 @@ msgstr ""
 
 #: changes/v3.rst:254
 msgid "Added separate Celery queue for notifications."
-msgstr ""
+msgstr "Đã thêm một hàng đợi Celery riêng biệt dành cho các thông báo."
 
 #: changes/v3.rst:255
 msgid "Use consistent look with application for API browsing."
@@ -25147,11 +25156,11 @@ msgstr ""
 
 #: changes/v3.rst:315
 msgid "Added digest notifications."
-msgstr ""
+msgstr "Đã thêm thông báo tóm tắt."
 
 #: changes/v3.rst:316
 msgid "Added support for muting component notifications."
-msgstr ""
+msgstr "Đã thêm hỗ trợ tắt thông báo cho các thành phần."
 
 #: changes/v3.rst:317
 msgid "Added notifications for new alerts, whiteboard messages or components."
@@ -26564,10 +26573,8 @@ msgid "Avoid matching glossary terms on context or keys."
 msgstr ""
 
 #: changes/v4.rst:282
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added notifications for string removals."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm thông báo cho việc xóa chuỗi."
 
 #: changes/v4.rst:283
 #, fuzzy
@@ -32876,10 +32883,8 @@ msgid "Optimized fetching other translations while translating."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v5.rst:1067
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Reduced notifications overhead."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Giảm thiểu gánh nặng thông báo."
 
 #: changes/v5.rst:1068
 #, fuzzy
@@ -33737,10 +33742,8 @@ msgid "Updating of translations from the repository in linked components."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v5.rst:1459
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "Improved rendering of digest notification e-mails."
-msgstr "Các nội dung thông báo"
+msgstr "Cải thiện khả năng hiển thị email thông báo tóm tắt."
 
 #: changes/v5.rst:1469
 msgid ""
@@ -34540,6 +34543,8 @@ msgid ""
 ":ref:`Azure Repos notifications <code-hosting-azure-repos-notifications>` "
 "gracefully handles repositories with spaces in URL."
 msgstr ""
+":ref:`Thông báo Azure Repos <code-hosting-azure-repos-notifications>` xử lý "
+"một cách trơn tru các kho lưu trữ có chứa khoảng trắng trong URL."
 
 #: changes/v5.rst:1812
 msgid ":ref:`mt-deepl` gracefully handles glossaries for language variants."
@@ -39909,10 +39914,8 @@ msgid "**Configure notifications**:"
 msgstr "**Cấu hình thông báo**:"
 
 #: devel/migration.rst:231
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Set up :ref:`notifications` for translation events"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thiết lập :ref:`notifications` cho các sự kiện dịch thuật"
 
 #: devel/migration.rst:232
 msgid "Configure repository :ref:`hooks` for your Git hosting service"
@@ -46404,7 +46407,7 @@ msgstr ""
 
 #: security/localization-threat.rst:99
 msgid "Regularly review access rights and group memberships."
-msgstr ""
+msgstr "Thường xuyên xem xét lại quyền truy cập và tư cách thành viên nhóm."
 
 #: security/localization-threat.rst:102
 msgid "Asset Inventory"
@@ -46934,7 +46937,7 @@ msgstr ""
 
 #: security/privacy-compliance.rst:146
 msgid "Notice, consent workflow, access, correction, deletion"
-msgstr ""
+msgstr "Thông báo, quy trình đồng ý, quyền truy cập, chỉnh sửa, xóa"
 
 #: security/privacy-compliance.rst:147
 msgid "DPDPA (India)"
@@ -51121,10 +51124,8 @@ msgid "A user was invited to a project."
 msgstr "Một người dùng đã được mời vào dự án."
 
 #: snippets/addon-parameters-autogenerated.rst:441
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Repository notification received"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã nhận được thông báo từ kho lưu trữ"
 
 #: snippets/addon-parameters-autogenerated.rst:442
 msgid "Weblate received a repository notification from a code host."
@@ -64974,6 +64975,8 @@ msgstr ""
 #: wlc.rst:195
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
+"Ghi đè lên phần cấu hình đang sử dụng trong tệp cấu hình, xem :ref:`wlc-"
+"config`."
 
 #: wlc.rst:198
 #, fuzzy
@@ -65101,7 +65104,7 @@ msgstr ""
 
 #: wlc.rst:301
 msgid "Upload method to use, see :ref:`upload-method`."
-msgstr ""
+msgstr "Phương thức tải lên cần sử dụng, xem :ref:`upload-method`."
 
 #: wlc.rst:305
 msgid ""
