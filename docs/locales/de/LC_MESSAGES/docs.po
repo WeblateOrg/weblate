@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-06 03:04+0000\n"
-"PO-Revision-Date: 2026-08-07 10:07+0000\n"
+"PO-Revision-Date: 2026-08-07 12:21+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -23994,12 +23994,20 @@ msgid ""
 "translation memory management, and :ref:`removal of empty workspaces "
 "<workspace-removal>` not associated with billing."
 msgstr ""
+":ref:`Arbeitsbereiche <workspaces>` bieten nun aggregierte "
+"Übersetzungsstatistiken und historische Metriken, eine nach Berechtigungen "
+"gefilterte :guilabel:`Meine Arbeitsbereiche`-Liste, Herunterladen von "
+"Archiven, Suchen und Ersetzen, Anleitungen zum Hochladen, Verwalten von "
+"Arbeitsbereich-Übersetzungsspeicher sowie :ref:`Löschen leerer "
+"Arbeitsbereiche <workspace-removal>`, die keiner Abrechnung zugeordnet sind."
 
 #: changes.rst:42
 msgid ""
 "Added :ref:`project-level translation metrics <monitoring-translation-"
 "progress>` in JSON, CSV, and OpenMetrics formats."
 msgstr ""
+":ref:`Übersetzungsmetriken auf Projektebene <monitoring-translation-progress>"
+"` in den Formaten JSON, CSV und OpenMetrics hinzugefügt."
 
 #: changes.rst:43
 msgid ""
@@ -24008,23 +24016,24 @@ msgid ""
 "machine translation editor, GitHub App connection, and repository refresh "
 "requests."
 msgstr ""
+"Optionale Unterstützung für die Bereitstellung von :ref:`running-granian-"
+"asgi` hinzugefügt, einschließlich :envvar:`WEBLATE_ASGI` für Docker-"
+"Container sowie für den Editor für asynchrone maschinelle Übersetzung, "
+"GitHub-App-Verbindung und Anfragen zum Aktualisieren des Repositorys."
 
 #: changes.rst:44
-#, fuzzy
-#| msgid ""
-#| "Component diagnostics now record dismissal ownership, reopen after "
-#| "relevant changes, and notify only project maintainers who can act on "
-#| "warnings and errors."
 msgid ""
 "Added grouped project and workspace :guilabel:`Diagnostics` views with "
 "state, severity, category, and actionable-by-user filters. Component "
 "diagnostics now track dismissal ownership, reopen after relevant changes, "
 "and notify only project maintainers who can act on warnings and errors."
 msgstr ""
-"Die Komponentendiagnose erfasst nun, wer eine Warnung oder einen Fehler "
-"verworfen hat, aktiviert diese nach entsprechenden Änderungen erneut und "
-"benachrichtigt ausschließlich Projektbetreuer, die auf Warnungen und Fehler "
-"reagieren können."
+"Gruppierte Projekt- und Arbeitsbereichs-:guilabel:`Diagnose`-Ansichten mit "
+"Filtern für Status, Schweregrad, Kategorie und für den Benutzer umsetzbare "
+"Maßnahmen hinzugefügt. Die Komponentendiagnose verfolgt nun, wer eine "
+"Warnung oder einen Fehler verworfen hat, aktiviert diese nach entsprechenden "
+"Änderungen erneut und benachrichtigt ausschließlich Projektbetreuer, die auf "
+"Warnungen und Fehler reagieren können."
 
 #: changes.rst:45
 msgid ""
@@ -24060,34 +24069,33 @@ msgid ""
 "Added API support for reading and updating :ref:`user-profile` preferences. "
 "See :ref:`api-users` endpoint."
 msgstr ""
+"API-Unterstützung für das Auslesen und Aktualisieren von :ref:`user-profile`-"
+"Einstellungen hinzugefügt. Siehe :ref:`api-users`-Endpunkt."
 
 #: changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`check-source-max-length` check for source strings near ``max-"
-#| "length``."
 msgid ""
 "Added :ref:`check-max-lines` and :ref:`check-asciidoc-markup` quality checks "
 "for limiting the number of translation lines and validating AsciiDoc strings."
 msgstr ""
-"Prüfung auf :ref:`check-source-max-length` für Ausgangszeichenketten, die "
-"nahe ``max-length`` liegen, hinzugefügt."
+"Qualitätsprüfungen :ref:`check-max-lines` und :ref:`check-asciidoc-markup` "
+"hinzugefügt, um die Anzahl der Übersetzungszeilen zu begrenzen und AsciiDoc-"
+"Zeichenketten zu validieren."
 
 #: changes.rst:50
 msgid ""
 "Added :ref:`workflow-language-restrictions`, including per-language control "
 "for restricting direct translation editing to privileged users."
 msgstr ""
+":ref:`workflow-language-restrictions` hinzugefügt, einschließlich einer "
+"sprachbezogenen Steuerung, mit der das direkte Bearbeiten von Übersetzungen "
+"auf berechtigte Benutzer beschränkt werden kann."
 
 #: changes.rst:51
-#, fuzzy
-#| msgid ""
-#| "Added support for acting as SAML Service Provider, see :ref:`saml-auth`."
 msgid ""
 "Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`."
 msgstr ""
-"Unterstützung für das Handeln als SAML-Dienstanbieter hinzugefügt, "
-"siehe :ref:`saml-auth`."
+"Unterstützung für ältere Qt-Linguist-TS-Dateien der Version 1 hinzugefügt. "
+"Siehe :ref:`qtling`."
 
 #: changes.rst:52
 msgid "Weblate is now available in Lao language."
@@ -24098,12 +24106,17 @@ msgid ""
 "Authenticated web-action rate-limit lockouts are now recorded in "
 "the :ref:`audit-log` with the affected scope and request path."
 msgstr ""
+"Sperrungen aufgrund von Ratenbegrenzungen bei authentifizierten Web-Aktionen "
+"werden nun im :ref:`audit-log` einschließlich des Bereichs und des "
+"Anfragepfads protokolliert."
 
 #: changes.rst:57
 msgid ""
 "OpenMetrics API responses now include metric metadata and a versioned "
 "content type."
 msgstr ""
+"OpenMetrics-API-Antworten enthalten nun Metadaten zu den Metriken sowie "
+"einen versionierten Inhaltstyp."
 
 #: changes.rst:58
 #, fuzzy
@@ -24195,6 +24208,8 @@ msgstr ""
 #: changes.rst:68
 msgid "Deployment checks now detect corrupted PostgreSQL relation statistics."
 msgstr ""
+"Bereitstellungsprüfungen erkennen nun beschädigte PostgreSQL-"
+"Relationsstatistiken."
 
 #: changes.rst:69
 msgid ""
@@ -24268,14 +24283,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:83
-#, fuzzy
-#| msgid "Fixed rebuilding project translation-memory for some components."
 msgid ""
 "Rebuilding project translation memory no longer removes entries imported "
 "from files."
 msgstr ""
-"Den Neuaufbau des Projektübersetzungsspeichers für einige Komponenten "
-"korrigiert."
+"Beim Neuaufbau des Projektübersetzungsspeichers werden Einträge, die aus "
+"Dateien importiert wurden, nicht mehr entfernt."
 
 #: changes.rst:84
 msgid ""
@@ -24300,6 +24313,9 @@ msgid ""
 ":ref:`RSS feeds <rss>` no longer disclose change history from inaccessible "
 "projects or restricted components (:ghsa:`vvc6-wvqm-w5gc`)."
 msgstr ""
+":ref:`RSS-Feeds <rss>` zeigen keinen Änderungsverlauf mehr über nicht "
+"zugängliche Projekte oder eingeschränkte Komponenten an (:ghsa:`vvc6-wvqm-"
+"w5gc`)."
 
 #: changes.rst:88
 msgid ""
@@ -24313,12 +24329,17 @@ msgid ""
 "django-compressor is no longer used, and the ``COMPRESS_*`` settings have "
 "been removed."
 msgstr ""
+"django-compressor wird nicht mehr verwendet, und die ``COMPRESS_*``-"
+"Einstellungen wurden entfernt."
 
 #: changes.rst:93
 msgid ""
 "Legal document styling is now provided through an overridable template "
 "instead of Weblate's global stylesheet. See :ref:`legal-customization`."
 msgstr ""
+"Die Formatierung von Rechtsdokumenten erfolgt nun über eine überschreibbare "
+"Vorlage anstelle der globalen Formatvorlage von Weblate. Siehe :ref:`legal-"
+"customization`."
 
 #: changes.rst:94
 msgid ""
@@ -24514,16 +24535,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:145
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.fedora_messaging.publish` integration is now "
-#| "available as add-on."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` received several reliability "
 "fixes."
 msgstr ""
-"Integration von :ref:`addon-weblate.fedora_messaging.publish` ist jetzt als "
-"Erweiterung verfügbar."
+":ref:`addon-weblate.fedora_messaging.publish` erhielt mehrere "
+"Zuverlässigkeitsverbesserungen."
 
 #: changes.rst:146
 msgid ""
@@ -24626,6 +24643,9 @@ msgid ""
 "accelerator` quality checks for :ref:`mdx` JSX expressions, source length "
 "limits, and accelerator key consistency."
 msgstr ""
+"Qualitätsprüfungen :ref:`check-safe-mdx`, :ref:`check-source-max-length` und "
+":ref:`check-accelerator` für JSX-Ausdrücke der :ref:`mdx`, Begrenzungen der "
+"Ausgangszeichenkette und die Konsistenz der Schnelltasten hinzugefügt."
 
 #: changes.rst:179
 msgid ""
@@ -24640,6 +24660,8 @@ msgid ""
 "Added :ref:`code-hosting-github-app-register` for connecting GitHub "
 "repositories through a Weblate GitHub App."
 msgstr ""
+":ref:`code-hosting-github-app-register` hinzugefügt, um GitHub-Repositorys "
+"über eine Weblate-GitHub-App zu verbinden."
 
 #: changes.rst:181
 msgid ""
@@ -24662,6 +24684,8 @@ msgstr ""
 #: changes.rst:183
 msgid "Added an option to capitalize the text in status badge widgets."
 msgstr ""
+"Eine Option hinzugefügt, mit welcher der Text in Statussymbol-Widgets "
+"großgeschrieben werden kann."
 
 #: changes.rst:184
 msgid ""
@@ -25017,22 +25041,20 @@ msgid ""
 msgstr ""
 
 #: changes.rst:238
-#, fuzzy
-#| msgid ""
-#| "Use machine translation instead of other components as machine "
-#| "translations."
 msgid ""
 ":ref:`auto-translation` no longer validates hidden component fields when "
 "using machine translation."
 msgstr ""
-"Verwendet maschinelle Übersetzung anstelle anderer Komponenten als "
-"maschinelle Übersetzungen."
+":ref:`auto-translation` überprüft beim Verwenden der maschinellen "
+"Übersetzung keine versteckten Komponentenfelder mehr."
 
 #: changes.rst:239
 msgid ""
 ":guilabel:`Strings marked for edit` links now include all strings needing "
 "editing, checking, or rewriting."
 msgstr ""
+":guilabel:`Zur Bearbeitung markierte Zeichenketten` -Links umfassen nun alle "
+"Zeichenketten, die bearbeitet, überprüft oder umgeschrieben werden müssen."
 
 #: changes.rst:240
 msgid ""
@@ -25087,6 +25109,9 @@ msgid ""
 "glossary management and language discovery, and no longer supports DeepL API "
 "v1."
 msgstr ""
+":ref:`mt-deepl` verwaltet nun intern die verschiedenen Versionen der DeepL-"
+"API, nutzt v3 für die Glossarverwaltung und die Spracherkennung und "
+"unterstützt DeepL-API v1 nicht mehr."
 
 #: changes.rst:251
 msgid ""
@@ -25248,12 +25273,16 @@ msgstr ""
 msgid ""
 ":ref:`sbom` release artifacts now include CISA 2025 document-level metadata."
 msgstr ""
+":ref:`sbom`-Release-Artefakte enthalten nun Metadaten auf Dokumentebene "
+"gemäß CISA 2025."
 
 #: changes.rst:311
 msgid ""
 "Outbound URL validation now rejects additional non-public targets "
 "(:cve:`2026-50127`, :ghsa:`vmfc-9982-2m45`)."
 msgstr ""
+"Die Validierung ausgehender URLs lehnt nun weitere nicht-öffentliche Ziele "
+"ab (:cve:`2026-50127`, :ghsa:`vmfc-9982-2m45`)."
 
 #: changes.rst:312
 msgid ""
@@ -25307,6 +25336,8 @@ msgid ""
 "Engage page task links now stay centered and show the target translation "
 "language."
 msgstr ""
+"Die Links zu den Aufgaben auf der Beteiligungsseite bleiben nun zentriert "
+"und zeigen die Zielsprache der Übersetzung an."
 
 #: changes.rst:320
 msgid ""
@@ -25442,6 +25473,8 @@ msgid ""
 ":ref:`mt-openai` and :ref:`mt-alibaba` no longer require their vendor Python "
 "SDKs."
 msgstr ""
+":ref:`mt-openai` und :ref:`mt-alibaba` benötigen die Python-SDKs der "
+"jeweiligen Anbieter nicht mehr."
 
 #: changes.rst:359
 #, fuzzy
@@ -25502,12 +25535,16 @@ msgid ""
 "The engage page now highlights actionable translation task buckets for "
 "newcomers."
 msgstr ""
+"Auf der Beteiligungsseite werden nun für Neulinge konkrete "
+"Übersetzungsaufgaben hervorgehoben."
 
 #: changes.rst:368
 msgid ""
 ":ref:`RSS feeds <rss>` can now use the same filters as the changes browsing "
 "page."
 msgstr ""
+":ref:`RSS-Feeds <rss>` können nun dieselben Filter verwenden wie die Seite "
+"zum Durchsuchen der Änderungen."
 
 #: changes.rst:369
 msgid ""
@@ -25518,6 +25555,7 @@ msgstr ""
 #: changes.rst:370
 msgid "Reworked :doc:`/security/threat-model` into a contract-style document."
 msgstr ""
+":doc:`/security/threat-model` zu einem Dokument im Vertragsstil überarbeitet."
 
 #: changes.rst:374
 msgid ""
@@ -25642,6 +25680,8 @@ msgid ""
 "Weblate now uses stricter dependency version constraints to better control "
 "runtime environment."
 msgstr ""
+"Weblate wendet nun strengere Versionsbeschränkungen für Abhängigkeiten an, "
+"um die Einsatzumgebung besser zu kontrollieren."
 
 #: changes.rst:400
 msgid ""
@@ -25649,6 +25689,9 @@ msgid ""
 "by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, "
 "and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly."
 msgstr ""
+"Die Einstellung ``ALTCHA_MAX_NUMBER`` wurde durch :setting:`ALTCHA_COST`, "
+":setting:`ALTCHA_MEMORY_COST` und :setting:`ALTCHA_PARALLELISM` ersetzt; "
+"bitte passen Sie Ihre Einstellungen entsprechend an."
 
 #: changes.rst:401
 msgid ""
@@ -25910,6 +25953,10 @@ msgid ""
 "\"Emmanuelle Bonnemay\", Nicolas Lepage, \"Guillaume Lagorce\", \"Jérémie "
 "Jadé\", \"Matthias le Coach\", Любомир Василев, Spyder"
 msgstr ""
+"Michal Čihař, Karen Konou, Nikunj Tyagi, Weblate CI, Shweta Singh, Gersona, "
+"Giacomo La Serra, Kartik Ohri, mmustafasenoglu, Mustafa Senoğlu, "
+"\"Emmanuelle Bonnemay\", Nicolas Lepage, \"Guillaume Lagorce\", \"Jérémie "
+"Jadé\", \"Matthias le Coach\", Любомир Василев, Spyder"
 
 #: changes/contributors/2026.8.rst:10
 msgid ""
@@ -25925,12 +25972,25 @@ msgid ""
 "Gabilondo, mbutsk, Oğuz Ersen, nautilusx, Yago Raña Gayoso, Blueberry, "
 "Yoshihoko, suyeon kim, Azharul Haque, win7guru, Matt P, Miguel A. Bouzada"
 msgstr ""
+"António Oliveira, hoanghuy309, reducedradius, Michal Čihař, Andrei Stepanov, "
+"為什麼不加空格, BoneNI, Любомир Василев, Adam Havránek, Libre, Horus68, "
+"Peter Vančo, Aindriú Mac Giolla Eoin, Matthaiks, VfBFan, Ldm Public, Mickaël "
+"Binos, Lee Vincent, Dick Groskamp, Rafael Fontenelle, Justin Parrot, Valeria "
+"Sofia Azañero, Priit Jõerüüt, Frank Paul Silye, goeran, Abduqadir Abliz, "
+"Arif Budiman, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Aniwene Madolomani, Pierfrancesco "
+"Passerini, Andi Chandler, Thunderstrike116, Giacomo La Serra, Ulrik, "
+"Cyborus, PPNplus, justcontributor, AlexYang, Kyotaro Iijima, Rajkumar "
+"Ramadoss, Yuri Chornoivan, DocNoc, Anucha Hlownonkor, Milo Ivir, Alexander "
+"Gabilondo, mbutsk, Oğuz Ersen, nautilusx, Yago Raña Gayoso, Blueberry, "
+"Yoshihoko, suyeon kim, Azharul Haque, win7guru, Matt P, Miguel A. Bouzada"
 
 #: changes/contributors/2026.8.rst:15
 msgid ""
 "Michal Čihař, Nikunj Tyagi, Shweta Singh, Gersona, Giacomo La Serra, Weblate "
 "CI, Kartik Ohri, Karen Konou, mmustafasenoglu, Mustafa Senoğlu, Robert Wolff"
 msgstr ""
+"Michal Čihař, Nikunj Tyagi, Shweta Singh, Gersona, Giacomo La Serra, Weblate "
+"CI, Kartik Ohri, Karen Konou, mmustafasenoglu, Mustafa Senoğlu, Robert Wolff"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -42280,10 +42340,8 @@ msgid "Here is an example add-on:"
 msgstr "Hier ein Beispiel für eine Erweiterung:"
 
 #: contributing/addons.rst:23
-#, fuzzy
-#| msgid "Optional add-on configuration"
 msgid "Typing add-on configuration"
-msgstr "Optionale Konfiguration der Erweiterung"
+msgstr "Konfiguration der Erweiterung schreiben"
 
 #: contributing/addons.rst:25
 msgid ""
@@ -42292,6 +42350,10 @@ msgid ""
 "type their own configuration by parameterizing ``BaseAddon`` and "
 "``BaseAddonForm``."
 msgstr ""
+"Die Konfiguration der Erweiterung wird im JSON-Feld ``Addon.configuration`` "
+"gespeichert, sodass das Modell die dauerhaften Daten als rohes JSON "
+"beibehält. Erweiterungsimplementierungen können ihre eigene Konfiguration "
+"festlegen, indem sie ``BaseAddon`` und ``BaseAddonForm`` parametrisieren."
 
 #: contributing/addons.rst:29
 msgid ""
@@ -42302,6 +42364,14 @@ msgid ""
 "``self.configuration`` or ``self.get_configuration()`` so it sees normalized "
 "defaults instead of raw persisted JSON."
 msgstr ""
+"Verwenden Sie zwei ``TypedDict``-Klassen, wenn sich das gespeicherte JSON "
+"von der Laufzeitform unterscheiden kann: eine tolerante, üblicherweise "
+"``total=False``, gespeicherte Konfiguration für veraltete oder fehlende "
+"Werte, und eine vollständige Laufzeitkonfiguration, die von "
+"``normalize_configuration()`` zurückgegeben wird. Der Runtime-"
+"Erweiterungscode sollte ``self.configuration`` oder ``self.get_configuration"
+"()`` auslesen, damit er normalisierte Standardwerte anstelle rohem "
+"dauerhaften JSON erhält."
 
 #: contributing/addons.rst:36
 msgid ""
@@ -42310,6 +42380,11 @@ msgid ""
 "Keep the form's ``serialize_form()`` return type aligned with the stored "
 "configuration type."
 msgstr ""
+"Bei einfachen Erweiterungen, bei denen die gespeicherte und die Laufzeitform "
+"identisch sind, definieren Sie ein einziges ``TypedDict`` und verwenden Sie "
+"dieses für beide ``BaseAddon``-Typenparameter. Achten Sie darauf, dass der "
+"``serialize_form()``-Rückgabetyp des Formulars mit dem gespeicherten "
+"Konfigurationstyp übereinstimmt."
 
 #: contributing/code.rst:2
 msgid "Weblate source code"
@@ -43170,6 +43245,8 @@ msgid ""
 "The :program:`ci/run-docs` wrapper builds the documentation with warnings "
 "treated as errors."
 msgstr ""
+"Der Wrapper :program:`ci/run-docs` erstellt die Dokumentation, wobei "
+"Warnungen als Fehler behandelt werden."
 
 #: contributing/documentation.rst:45
 msgid ""
@@ -43207,10 +43284,14 @@ msgid ""
 "This target regenerates the snippets currently used by the documentation, "
 "including:"
 msgstr ""
+"Dieses Ziel generiert die derzeit in der Dokumentation verwendeten "
+"Ausschnitte neu, darunter:"
 
 #: contributing/documentation.rst:65
 msgid "add-on events, built-in add-ons, and common add-on parameters"
 msgstr ""
+"Erweiterungsereignisse, integrierte Erweiterungen und allgemeine "
+"Erweiterungsparameter"
 
 #: contributing/documentation.rst:66
 msgid "machine translation services"
@@ -43236,6 +43317,11 @@ msgid ""
 "includes three generated files for events, built-in add-ons, and common add-"
 "on parameters, while obsolete add-ons are maintained directly in the page."
 msgstr ""
+"Manuell gepflegter Text sollte auf der übergeordneten Dokumentationsseite "
+"verbleiben und nicht in automatisch generierte Ausschnitte eingefügt werden. "
+"Beispielsweise enthält :doc:`/admin/addons` drei generierte Dateien für "
+"Ereignisse, integrierte Erweiterungen und allgemeine Erweiterungsparameter, "
+"während veraltete Erweiterungen direkt auf der Seite gepflegt werden."
 
 #: contributing/documentation.rst:76
 msgid ""
@@ -43243,6 +43329,10 @@ msgid ""
 "are documented in :doc:`/admin/management`, and the exact commands used by "
 "``update-docs`` are listed in :file:`docs/Makefile`."
 msgstr ""
+"Wenn Sie nur einen Teil neu generieren möchten, finden Sie die einzelnen "
+"Verwaltungsbefehle unter :doc:`/admin/management`, und die genauen Befehle, "
+"die von ``update-docs`` verwendet werden, sind in :file:`docs/Makefile` "
+"aufgeführt."
 
 #: contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -43276,7 +43366,7 @@ msgid ""
 "function correctly in these browsers as well."
 msgstr ""
 "Alternative Browser, welche die neueste Version von WebKit, Blink oder Gecko "
-"verwenden, ob direkt oder über die Web View API der Plattform, werden nicht "
+"verwenden, ob direkt oder über die WebView-API der Plattform, werden nicht "
 "explizit unterstützt. Weblate sollte jedoch (in den meisten Fällen) auch in "
 "diesen Browsern korrekt angezeigt werden und funktionieren."
 
@@ -56125,11 +56215,6 @@ msgstr ""
 "Veröffentlichung warten sollten."
 
 #: security/releases.rst:25
-#, fuzzy
-#| msgid ""
-#| "The Docker container includes additional digit in versioning to track "
-#| "changes in the container itself like dependencies. These updates may "
-#| "include security updates."
 msgid ""
 "The Docker container includes an additional version component to track "
 "changes in the container itself, such as dependencies. Fixed Docker image "
@@ -56137,22 +56222,18 @@ msgid ""
 "when the Weblate version omits a ``0`` patch component. These updates may "
 "include security updates."
 msgstr ""
-"Der Docker-Container enthält eine zusätzliche Stelle in der Versionierung, "
-"um Änderungen im Container selbst wie Abhängigkeiten zu verfolgen. Diese "
-"Aktualisierungen können Sicherheitsaktualisierungen beinhalten."
+"Der Docker-Container enthält eine zusätzliche Versionskomponente, um "
+"Änderungen am Container selbst, wie beispielsweise Abhängigkeiten, "
+"nachzuverfolgen. Feste Docker-Image-Tags enthalten neben dieser Build-"
+"Komponente auch die Patch-Komponente, selbst wenn die Weblate-Version auf "
+"eine ``0``-Patch-Komponente verzichtet. Diese Aktualisierungen können "
+"Sicherheitsupdates umfassen."
 
 #: security/releases.rst:34
 msgid "Security updates"
 msgstr "Sicherheitsupdates"
 
 #: security/releases.rst:36
-#, fuzzy
-#| msgid ""
-#| "Weblate provides security updates to address vulnerabilities and enhance "
-#| "the application’s security posture. Only the latest release is guaranteed "
-#| "to receive security updates. Users are encouraged to keep Weblate up to "
-#| "date to benefit from the latest security improvements. Learn more "
-#| "about :ref:`Weblate releases and the release life cycle <release-cycle>`."
 msgid ""
 "Weblate provides security updates to address vulnerabilities and enhance the "
 "application's security posture. Only the latest release is guaranteed to "
@@ -56160,16 +56241,17 @@ msgid ""
 "benefit from the latest security improvements."
 msgstr ""
 "Weblate stellt Sicherheitsupdates bereit, um Schwachstellen zu beheben und "
-"die Sicherheit der Anwendung zu verbessern. Nur bei der neuesten Version ist "
-"sichergestellt, dass sie Sicherheitsupdates erhält. Benutzern wird "
-"empfohlen, Weblate auf dem neuesten Stand zu halten, um von den neuesten "
-"Sicherheitsverbesserungen zu profitieren. Erfahren Sie mehr "
-"über :ref:`Weblate releases and the release life cycle <release-cycle>`."
+"die Sicherheit der Anwendung zu verbessern. Sicherheitsupdates werden nur "
+"für die aktuellste Version garantiert. Benutzern wird empfohlen, Weblate auf "
+"dem neuesten Stand zu halten, um von den neuesten Sicherheitsverbesserungen "
+"zu profitieren."
 
 #: security/releases.rst:41
 msgid ""
 "Security update coverage and direct upgrade support are separate policies."
 msgstr ""
+"Die Abdeckung durch Sicherheitsupdates und die Unterstützung bei direkten "
+"Upgrades sind zwei getrennte Richtlinien."
 
 #: security/releases.rst:46
 msgid "Version"
