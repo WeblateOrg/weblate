@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 02:52-0500\n"
-"PO-Revision-Date: 2026-08-07 10:06+0000\n"
+"PO-Revision-Date: 2026-08-07 12:21+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -833,12 +833,15 @@ msgstr ""
 #: weblate/accounts/models.py:801
 msgid "Show all columns in lists using horizontal scrolling"
 msgstr ""
+"Показувати усі стовпчики у списках з використанням горизонтального гортання"
 
 #: weblate/accounts/models.py:805
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr ""
+"Замість приховування стовпчиків на вузьких екранах, показувати усі стовпчики "
+"і гортати таблицю горизонтально."
 
 #: weblate/accounts/models.py:813
 msgid "Editor link"
@@ -4576,12 +4579,18 @@ msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
+"Через робочу процедуру перекладу редагувати рядки перекладу цією мовою "
+"безпосередньо можуть лише привілейовані користувачі. Замість редагування "
+"перекладу додайте пропозицію."
 
 #: weblate/auth/permissions.py:257
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"Через робочу процедуру перекладу редагувати рядки перекладу цією мовою "
+"безпосередньо можуть лише привілейовані користувачі. Попросіть "
+"адміністратора проєкту надати вам доступ."
 
 #: weblate/auth/permissions.py:485
 msgid "Can not perform this operation without an e-mail address."
@@ -4721,6 +4730,8 @@ msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
 msgstr ""
+"Для цієї мови пропозиції вимкнено. Попросіть адміністратора проєкту "
+"увімкнути пропозиції."
 
 #: weblate/auth/permissions.py:1064
 msgid "The file format does not support updating source strings."
@@ -7311,22 +7322,18 @@ msgid "I agree with the General Terms and Conditions document"
 msgstr "Я погоджуюся з Загальними умовами надання послуг"
 
 #: weblate/legal/forms.py:22
-#, fuzzy
-#| msgid "I agree with the General Terms and Conditions document"
 msgid "I agree with the General Terms and Conditions and the Privacy Policy"
-msgstr "Я погоджуюся з Загальними умовами надання послуг"
+msgstr ""
+"Я погоджуюся з Загальними умовами надання послуг та Правилами "
+"конфіденційності"
 
 #: weblate/legal/middleware.py:51
-#, fuzzy
-#| msgid ""
-#| "We have an updated version of the General Terms and Conditions document, "
-#| "please read it and confirm that you agree with it."
 msgid ""
 "We have updated our legal documents; please read them and confirm that you "
 "agree with them."
 msgstr ""
-"У нас нова версія Загальних умов надання послуг. Будь ласка, прочитайте їх "
-"та підтвердіть свою згоду з ними."
+"Нами оновлено юридичну документацію; будь ласка, ознайомтеся з нею і "
+"підтвердьте вашу згоду з умовами."
 
 #: weblate/legal/templates/legal/confirm.html:7
 #: weblate/legal/templates/legal/contracts.html:7
@@ -7338,11 +7345,11 @@ msgid "Legal"
 msgstr "Правові відомості"
 
 #: weblate/legal/templates/legal/confirm.html:18
-#, fuzzy
-#| msgid "You have to agree to the General Terms and Conditions"
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "Ви повинні погодитися із Загальними умовами надання послуг"
+msgstr ""
+"Ви повинні погодитися із Загальними умовами надання послуг та Правилами "
+"конфіденційності"
 
 #: weblate/legal/templates/legal/confirm.html:20
 msgid "You have to agree to the General Terms and Conditions"
@@ -7375,7 +7382,7 @@ msgstr "Будь ласка, прочитайте наступні Загаль�
 
 #: weblate/legal/templates/legal/confirm.html:44
 msgid "Please also read the Privacy Policy:"
-msgstr ""
+msgstr "Будь ласка, також онайомтеся із Правилами конфіденційності:"
 
 #: weblate/legal/templates/legal/confirm.html:53
 #: weblate/templates/contributor-agreement.html:33
@@ -15116,10 +15123,10 @@ msgid "Translation process"
 msgstr "Процес перекладу"
 
 #: weblate/templates/snippets/info.html:97
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Direct translation editing is restricted to privileged users."
-msgstr "Переклад було відновлено до ранішого значення."
+msgstr ""
+"Безпосереднє редагування перекладів можуть виконувати лише привілейовані "
+"користувачі."
 
 #: weblate/templates/snippets/info.html:99
 #: weblate/templates/snippets/info.html:116
@@ -15465,7 +15472,7 @@ msgstr "Сховище"
 
 #: weblate/templates/snippets/list-objects.html:8
 msgid "Scrollable table"
-msgstr ""
+msgstr "Таблиця з гортанням"
 
 #: weblate/templates/snippets/list-objects.html:50
 msgid "Add project"
@@ -16333,12 +16340,19 @@ msgid ""
 "a repository maintainer to allow pull requests from all users or add "
 "<code>%(username)s</code> as a collaborator."
 msgstr ""
+"Репозиторій GitHub надає змогу створювати запити щодо об'єднання лише "
+"учасникам команди перекладу. Попросіть супровідників репозиторія уможливити "
+"створення запитів щодо об'єднання усім користувачам або додайте <code>%"
+"(username)s</code> до учасників перекладу."
 
 #: weblate/templates/trans/alert/common-repo.html:32
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
 msgstr ""
+"Репозиторій GitHub надає змогу створювати запити щодо об'єднання лише "
+"учасникам команди перекладу. Попросіть супровідників репозиторія уможливити "
+"створення запитів щодо об'єднання усім користувачам."
 
 #: weblate/templates/trans/alert/common-repo.html:38
 msgid ""
@@ -17473,10 +17487,8 @@ msgid "Save and stay"
 msgstr "Зберегти та лишитися тут"
 
 #: weblate/templates/translate.html:259 weblate/trans/views/edit.py:814
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to add suggestions."
-msgstr "Ви не маєте дозволу приймати пропозиції."
+msgstr "Ви не маєте дозволу додавати пропозиції."
 
 #: weblate/templates/translate.html:260
 msgid "Suggest"
@@ -19689,16 +19701,12 @@ msgid "File upload mode:"
 msgstr "Режим завантаження файлу:"
 
 #: weblate/trans/change_display.py:169
-#, fuzzy
-#| msgid "Protected"
 msgid "redacted"
-msgstr "Захищений"
+msgstr "редаговано"
 
 #: weblate/trans/change_display.py:177
-#, fuzzy
-#| msgid "Changed string"
 msgid "Changed settings"
-msgstr "Змінено рядок"
+msgstr "Змінено параметри"
 
 #: weblate/trans/change_display.py:199
 msgid "The “{}” file was changed."
@@ -21701,10 +21709,8 @@ msgid "Suggestion voting"
 msgstr "Голосування за пропозицію"
 
 #: weblate/trans/models/component.py:782 weblate/trans/models/workflow.py:46
-#, fuzzy
-#| msgid "Whether users can vote for suggestions."
 msgid "Allows users to vote on suggestions."
-msgstr "Чи можуть користувачі голосувати за пропозицію."
+msgstr "Дозволяє користувачам голосувати за пропозиції."
 
 #: weblate/trans/models/component.py:786 weblate/trans/models/workflow.py:50
 msgid "Automatically accept suggestions"
@@ -22852,13 +22858,15 @@ msgstr "Позначити термінологією"
 
 #: weblate/trans/models/workflow.py:35
 msgid "Restrict direct editing"
-msgstr ""
+msgstr "Обмежити безпосереднє редагування"
 
 #: weblate/trans/models/workflow.py:38
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+"Вносити безпосередні зміни можуть лише користувачі з правами доступу «"
+"Редагувати рядок, якщо пропозиції було додано примусово»."
 
 #: weblate/trans/specialchars.py:14
 msgid "Insert tab character"
@@ -24615,22 +24623,22 @@ msgid "The ZIP file contains a compressed entry that is too large."
 msgstr "ZIP-файл містить занадто великий стислий запис."
 
 #: weblate/vcs/base.py:222
-#, fuzzy, python-format
-#| msgid "Details"
+#, python-format
 msgid "%(detail)s"
-msgstr "Подробиці"
+msgstr "%(detail)s"
 
 #: weblate/vcs/base.py:223
-#, fuzzy, python-format
-#| msgid "%(message)s Please retry later."
+#, python-format
 msgid "%(detail)s Please retry later."
-msgstr "%(message)s Будь ласка, повторіть спробу пізніше."
+msgstr "%(detail)s Будь ласка, повторіть спробу пізніше."
 
 #: weblate/vcs/base.py:225
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s"
 msgstr ""
+"Помилка запиту до програмного інтерфейсу %(service)s під час створення "
+"запиту щодо об'єднання: %(status)s"
 
 #: weblate/vcs/base.py:228
 #, python-format
@@ -24638,6 +24646,8 @@ msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s "
 "Please retry later."
 msgstr ""
+"Помилка запиту до програмного інтерфейсу %(service)s під час створення "
+"запиту щодо об'єднання: %(status)s Будь ласка, повторіть спробу пізніше."
 
 #: weblate/vcs/base.py:231
 #, python-format
@@ -24645,6 +24655,8 @@ msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
+"Помилка запиту до програмного інтерфейсу %(service)s під час створення "
+"запиту щодо об'єднання (%(status)s): %(error)s"
 
 #: weblate/vcs/base.py:234
 #, python-format
@@ -24652,6 +24664,9 @@ msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
+"Помилка запиту до програмного інтерфейсу %(service)s під час створення "
+"запиту щодо об'єднання (%(status)s): %(error)s Будь ласка, повторіть спробу "
+"пізніше."
 
 #: weblate/vcs/base.py:237
 msgid "GitHub App repositories must be imported with a branch."
@@ -24668,13 +24683,12 @@ msgstr "Немає доступу до встановленої програми
 #: weblate/vcs/base.py:246
 #, python-format
 msgid "No Weblate GitHub app installation available for %(hostname)s"
-msgstr ""
+msgstr "Немає доступних встановлень програми GitHub Weblate для %(hostname)s"
 
 #: weblate/vcs/base.py:249
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not obtain GitHub App access token: %(error)s"
-msgstr "Не вдалося отримати проект GitLab (%(status)s): %(error)s"
+msgstr "Не вдалося отримати жетон доступу до програми GitHub: %(error)s"
 
 #: weblate/vcs/base.py:252 weblate/vcs/github.py:998
 msgid "GitHub App components require a project with a workspace."
@@ -24686,46 +24700,46 @@ msgid "Could not get GitLab project (%(status)s): %(error)s"
 msgstr "Не вдалося отримати проект GitLab (%(status)s): %(error)s"
 
 #: weblate/vcs/base.py:258
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): Unknown error"
-msgstr "Не вдалося отримати проект GitLab (%(status)s): %(error)s"
+msgstr "Не вдалося отримати проєкт GitLab (%(status)s): невідома помилка"
 
 #: weblate/vcs/base.py:261
-#, fuzzy, python-format
-#| msgid "Fedora Messaging publish failed: %(error)s"
+#, python-format
 msgid "Pull request listing failed: %(error)s"
-msgstr "Помилка оприлюднення Fedora Messaging: %(error)s"
+msgstr "Помилка отримання списку запитів щодо об'єднання: %(error)s"
 
 #: weblate/vcs/base.py:264
-#, fuzzy, python-format
-#| msgid "%(message)s Please retry later."
+#, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
-msgstr "%(message)s Будь ласка, повторіть спробу пізніше."
+msgstr ""
+"Помилка отримання списку запитів щодо об'єднання: %(error)s Будь ласка, "
+"повторіть спробу пізніше."
 
 #: weblate/vcs/base.py:266
-#, fuzzy, python-format
-#| msgid "Could not get repository status!"
+#, python-format
 msgid "Could not fork repository at %(hostname)s"
-msgstr "Не вдалося отримати статус сховища!"
+msgstr "Не вдалося відгалузити репозиторій у %(hostname)s"
 
 #: weblate/vcs/base.py:268
-#, fuzzy, python-format
-#| msgid "Could not open a ticket, please try again later."
+#, python-format
 msgid "Could not fork repository at %(hostname)s. Please retry later."
-msgstr "Не вдалося відкрити квиток, спробуйте пізніше."
+msgstr ""
+"Не вдалося створити відгалуження репозиторія у %(hostname)s. Будь ласка, "
+"повторіть спробу пізніше."
 
 #: weblate/vcs/base.py:271
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not fork repository at %(hostname)s: %(error)s"
-msgstr "Не вдалося отримати проект GitLab (%(status)s): %(error)s"
+msgstr "Не вдалося створити відгалуження репозиторія у %(hostname)s: %(error)s"
 
 #: weblate/vcs/base.py:274
 #, python-format
 msgid ""
 "Could not fork repository at %(hostname)s: %(error)s Please retry later."
 msgstr ""
+"Не вдалося створити відгалуження репозиторія у %(hostname)s: %(error)s Будь "
+"ласка, повторіть спробу пізніше."
 
 #: weblate/vcs/base.py:277
 #, python-format
