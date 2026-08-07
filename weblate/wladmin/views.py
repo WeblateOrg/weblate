@@ -72,6 +72,7 @@ from weblate.utils.db import (
 )
 from weblate.utils.encoding import get_encoding_list
 from weblate.utils.errors import report_error
+from weblate.utils.filesystem import filesystem_latency_snapshot
 from weblate.utils.requests import fetch_url
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import prefetch_stats
@@ -667,7 +668,8 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         if not request.user.has_perm("management.configure"):
             raise PermissionDenied
         return handle_dismiss(request)
-    all_checks = run_checks(include_deployment_checks=True)
+    with filesystem_latency_snapshot() as filesystem_latencies:
+        all_checks = run_checks(include_deployment_checks=True)
     if settings.BACKGROUND_ADMIN_CHECKS and claim_configuration_health_check():
         perform_configuration_health_check(all_checks)
     checks = sorted(
@@ -699,6 +701,8 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "celery_latency": cache.get("celery_latency"),
         "database_latency": measure_database_latency(),
         "cache_latency": measure_cache_latency(),
+        "data_dir_latency": filesystem_latencies.get("DATA_DIR"),
+        "cache_dir_latency": filesystem_latencies.get("CACHE_DIR"),
         "disk_usage": disk_usage_bytes,
         "disk_usage_percent": disk_usage_percent,
         "database_size": database_size,

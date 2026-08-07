@@ -1263,6 +1263,31 @@ class AdminTest(ViewTestCase):
         self.assertEqual(response.context["database_disk_usage"].free, 876543210)
         self.assertIn("total", response.context["memory_migration_status"])
 
+    @patch(
+        "weblate.utils.filesystem.measure_filesystem_latencies",
+        return_value={"DATA_DIR": 1.5, "CACHE_DIR": 0.0},
+    )
+    def test_performance_filesystem_latency(self, measure_mock) -> None:
+        response = self.client.get(reverse("manage-performance"))
+
+        self.assertContains(response, "Data directory latency")
+        self.assertContains(response, "Cache directory latency")
+        self.assertContains(response, "1.5 ms")
+        self.assertContains(response, "0.0 ms")
+        self.assertEqual(response.context["data_dir_latency"], 1.5)
+        self.assertEqual(response.context["cache_dir_latency"], 0.0)
+        measure_mock.assert_called_once_with()
+
+    @patch(
+        "weblate.utils.filesystem.measure_filesystem_latencies",
+        return_value={"DATA_DIR": None, "CACHE_DIR": None},
+    )
+    def test_performance_filesystem_latency_unavailable(self, measure_mock) -> None:
+        response = self.client.get(reverse("manage-performance"))
+
+        self.assertContains(response, "Not measured", count=2)
+        measure_mock.assert_called_once_with()
+
     def test_performance_memory_migration_status(self) -> None:
         Memory.objects.all().delete()
         MemoryScopeMigrationState.objects.all().delete()
