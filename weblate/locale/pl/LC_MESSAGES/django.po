@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 02:52-0500\n"
-"PO-Revision-Date: 2026-07-31 10:28+0000\n"
+"PO-Revision-Date: 2026-08-07 12:21+0000\n"
 "Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.8.1.dev0\n"
 
 #: weblate/accounts/avatar.py:91
 msgctxt "No known user"
@@ -828,12 +828,15 @@ msgstr "Ukryj źródło, jeśli istnieje dodatkowe tłumaczenie"
 #: weblate/accounts/models.py:801
 msgid "Show all columns in lists using horizontal scrolling"
 msgstr ""
+"Wyświetl wszystkie kolumny na listach, korzystając z przewijania poziomego"
 
 #: weblate/accounts/models.py:805
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr ""
+"Zamiast ukrywać kolumny na wąskich ekranach, zachowaj wszystkie kolumny i "
+"przewijaj tabelę w poziomie."
 
 #: weblate/accounts/models.py:813
 msgid "Editor link"
@@ -4561,12 +4564,18 @@ msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
+"Tylko użytkownicy z odpowiednimi uprawnieniami mogą edytować ciągi "
+"bezpośrednio w tym języku ze względu na jego proces tłumaczenia. Zamiast "
+"tego dodaj sugestię."
 
 #: weblate/auth/permissions.py:257
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"Tylko użytkownicy z odpowiednimi uprawnieniami mogą edytować ciągi "
+"bezpośrednio w tym języku ze względu na jego proces tłumaczenia. Poproś "
+"administratora projektu o dostęp."
 
 #: weblate/auth/permissions.py:485
 msgid "Can not perform this operation without an e-mail address."
@@ -4705,6 +4714,8 @@ msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
 msgstr ""
+"Sugestie są wyłączone dla tego języka. Poproś administratora projektu o ich "
+"włączenie."
 
 #: weblate/auth/permissions.py:1064
 msgid "The file format does not support updating source strings."
@@ -7291,22 +7302,16 @@ msgid "I agree with the General Terms and Conditions document"
 msgstr "Zgadzam się z dokumentem Warunków korzystania z usługi"
 
 #: weblate/legal/forms.py:22
-#, fuzzy
-#| msgid "I agree with the General Terms and Conditions document"
 msgid "I agree with the General Terms and Conditions and the Privacy Policy"
-msgstr "Zgadzam się z dokumentem Warunków korzystania z usługi"
+msgstr "Zgadzam się z ogólnymi warunkami handlowymi i polityką prywatności"
 
 #: weblate/legal/middleware.py:51
-#, fuzzy
-#| msgid ""
-#| "We have an updated version of the General Terms and Conditions document, "
-#| "please read it and confirm that you agree with it."
 msgid ""
 "We have updated our legal documents; please read them and confirm that you "
 "agree with them."
 msgstr ""
-"Mamy zaktualizowaną wersję dokumentu Warunków korzystania z usługi, prosimy "
-"o zapoznanie się z nim i potwierdzenie, że się z nim zgadzasz."
+"Zaktualizowaliśmy nasze dokumenty prawne. Prosimy o ich przeczytanie i "
+"potwierdzenie, że się z nimi zgadzasz."
 
 #: weblate/legal/templates/legal/confirm.html:7
 #: weblate/legal/templates/legal/contracts.html:7
@@ -7318,11 +7323,9 @@ msgid "Legal"
 msgstr "Informacje prawne"
 
 #: weblate/legal/templates/legal/confirm.html:18
-#, fuzzy
-#| msgid "You have to agree to the General Terms and Conditions"
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "Musisz zaakceptować Warunki korzystania z usługi"
+msgstr "Musisz zaakceptować ogólne warunki umowy i politykę prywatności"
 
 #: weblate/legal/templates/legal/confirm.html:20
 msgid "You have to agree to the General Terms and Conditions"
@@ -7355,7 +7358,7 @@ msgstr "Przeczytaj następujący dokument Warunków korzystania z usługi:"
 
 #: weblate/legal/templates/legal/confirm.html:44
 msgid "Please also read the Privacy Policy:"
-msgstr ""
+msgstr "Prosimy również o zapoznanie się z polityką prywatności:"
 
 #: weblate/legal/templates/legal/confirm.html:53
 #: weblate/templates/contributor-agreement.html:33
@@ -15026,10 +15029,10 @@ msgid "Translation process"
 msgstr "Proces tłumaczenia"
 
 #: weblate/templates/snippets/info.html:97
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Direct translation editing is restricted to privileged users."
-msgstr "Tłumaczenie zostało przywrócone do poprzedniej wartości."
+msgstr ""
+"Bezpośrednia edycja tłumaczeń jest dostępna wyłącznie dla użytkowników "
+"uprzywilejowanych."
 
 #: weblate/templates/snippets/info.html:99
 #: weblate/templates/snippets/info.html:116
@@ -15372,7 +15375,7 @@ msgstr "Repozytorium"
 
 #: weblate/templates/snippets/list-objects.html:8
 msgid "Scrollable table"
-msgstr ""
+msgstr "Tabela z możliwością przewijania"
 
 #: weblate/templates/snippets/list-objects.html:50
 msgid "Add project"
@@ -16238,12 +16241,19 @@ msgid ""
 "a repository maintainer to allow pull requests from all users or add "
 "<code>%(username)s</code> as a collaborator."
 msgstr ""
+"Repozytorium GitHub pozwala na tworzenie żądań ściągnięcia tylko "
+"współpracownikom. Poproś administratora repozytorium o zezwolenie na żądania "
+"ściągnięcia od wszystkich użytkowników lub dodaj <code>%(username)s</code> "
+"jako współpracownika."
 
 #: weblate/templates/trans/alert/common-repo.html:32
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
 msgstr ""
+"Repozytorium GitHub pozwala na tworzenie żądań ściągnięcia tylko "
+"współpracownikom. Poproś administratora repozytorium o zezwolenie na "
+"tworzenie żądań ściągnięcia od wszystkich użytkowników."
 
 #: weblate/templates/trans/alert/common-repo.html:38
 msgid ""
@@ -17373,10 +17383,8 @@ msgid "Save and stay"
 msgstr "Zapisz i zostań"
 
 #: weblate/templates/translate.html:259 weblate/trans/views/edit.py:814
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to add suggestions."
-msgstr "Nie masz uprawnień do akceptowania sugestii."
+msgstr "Nie masz uprawnień do dodawania sugestii."
 
 #: weblate/templates/translate.html:260
 msgid "Suggest"
@@ -19587,16 +19595,12 @@ msgid "File upload mode:"
 msgstr "Tryb przesyłania pliku:"
 
 #: weblate/trans/change_display.py:169
-#, fuzzy
-#| msgid "Protected"
 msgid "redacted"
-msgstr "Chroniony"
+msgstr "ocenzurowany"
 
 #: weblate/trans/change_display.py:177
-#, fuzzy
-#| msgid "Changed string"
 msgid "Changed settings"
-msgstr "Zmieniony ciąg"
+msgstr "Zmienione ustawienia"
 
 #: weblate/trans/change_display.py:199
 msgid "The “{}” file was changed."
@@ -21600,10 +21604,8 @@ msgid "Suggestion voting"
 msgstr "Głosowanie na sugestie"
 
 #: weblate/trans/models/component.py:782 weblate/trans/models/workflow.py:46
-#, fuzzy
-#| msgid "Whether users can vote for suggestions."
 msgid "Allows users to vote on suggestions."
-msgstr "Czy użytkownicy mogą głosować na sugestie."
+msgstr "Umożliwia użytkownikom głosowanie na sugestie."
 
 #: weblate/trans/models/component.py:786 weblate/trans/models/workflow.py:50
 msgid "Automatically accept suggestions"
@@ -22723,13 +22725,15 @@ msgstr "Oznacz jako terminologię"
 
 #: weblate/trans/models/workflow.py:35
 msgid "Restrict direct editing"
-msgstr ""
+msgstr "Ogranicz bezpośrednią edycję"
 
 #: weblate/trans/models/workflow.py:38
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+"Tylko użytkownicy z uprawnieniem „Edytuj ciąg po wymuszeniu sugestii” mogą "
+"wprowadzać bezpośrednie zmiany."
 
 #: weblate/trans/specialchars.py:14
 msgid "Insert tab character"
@@ -24452,55 +24456,49 @@ msgid "The ZIP file contains a compressed entry that is too large."
 msgstr "Plik ZIP zawiera skompresowany wpis, który jest za duży."
 
 #: weblate/vcs/base.py:222
-#, fuzzy, python-format
-#| msgid "Details"
+#, python-format
 msgid "%(detail)s"
-msgstr "Szczegóły"
+msgstr "%(detail)s"
 
 #: weblate/vcs/base.py:223
-#, fuzzy, python-format
-#| msgid "%(message)s Please retry later."
+#, python-format
 msgid "%(detail)s Please retry later."
-msgstr "%(message)s Spróbuj ponownie później."
+msgstr "%(detail)s Spróbuj ponownie później."
 
 #: weblate/vcs/base.py:225
-#, fuzzy, python-format
-#| msgid "%(service)s API request failed while %(action)s: %(status)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s"
 msgstr ""
-"Żądanie API %(service)s nie powiodło się, podczas gdy %(action)s: %(status)s"
+"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
+"ściągnięcia: %(status)s"
 
 #: weblate/vcs/base.py:228
-#, fuzzy, python-format
-#| msgid "%(service)s API request failed while %(action)s: %(status)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Żądanie API %(service)s nie powiodło się, podczas gdy %(action)s: %(status)s"
+"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
+"ściągnięcia: %(status)s. Spróbuj ponownie później."
 
 #: weblate/vcs/base.py:231
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Żądanie API %(service)s nie powiodło się, podczas gdy %(action)s "
-"(%(status)s): %(error)s"
+"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
+"ściągnięcia (%(status)s): %(error)s"
 
 #: weblate/vcs/base.py:234
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Żądanie API %(service)s nie powiodło się, podczas gdy %(action)s "
-"(%(status)s): %(error)s"
+"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
+"ściągnięcia (%(status)s): %(error)s Spróbuj ponownie później."
 
 #: weblate/vcs/base.py:237
 msgid "GitHub App repositories must be imported with a branch."
@@ -24516,16 +24514,14 @@ msgid "No Weblate GitHub app installation available."
 msgstr "Instalacja aplikacji Weblate GitHub jest niedostępna."
 
 #: weblate/vcs/base.py:246
-#, fuzzy, python-format
-#| msgid "No Weblate GitHub app installation available."
+#, python-format
 msgid "No Weblate GitHub app installation available for %(hostname)s"
-msgstr "Instalacja aplikacji Weblate GitHub jest niedostępna."
+msgstr "Brak dostępnej instalacji aplikacji Weblate GitHub dla %(hostname)s"
 
 #: weblate/vcs/base.py:249
-#, fuzzy, python-format
-#| msgid "Could not obtain GitHub App access token: %s"
+#, python-format
 msgid "Could not obtain GitHub App access token: %(error)s"
-msgstr "Nie można uzyskać tokenu dostępu do aplikacji GitHub: %s"
+msgstr "Nie można uzyskać tokenu dostępu do aplikacji GitHub: %(error)s"
 
 #: weblate/vcs/base.py:252 weblate/vcs/github.py:998
 msgid "GitHub App components require a project with a workspace."
@@ -24537,46 +24533,46 @@ msgid "Could not get GitLab project (%(status)s): %(error)s"
 msgstr "Nie udało się pobrać projektu GitLab (%(status)s): %(error)s"
 
 #: weblate/vcs/base.py:258
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): Unknown error"
-msgstr "Nie udało się pobrać projektu GitLab (%(status)s): %(error)s"
+msgstr "Nie udało się pobrać projektu GitLab (%(status)s): nieznany błąd"
 
 #: weblate/vcs/base.py:261
-#, fuzzy, python-format
-#| msgid "Fedora Messaging publish failed: %(error)s"
+#, python-format
 msgid "Pull request listing failed: %(error)s"
-msgstr "Publikacja Fedora Messaging nie powiodła się: %(error)s"
+msgstr "Nie udało się utworzyć listy żądań ściągnięcia: %(error)s"
 
 #: weblate/vcs/base.py:264
-#, fuzzy, python-format
-#| msgid "%(message)s Please retry later."
+#, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
-msgstr "%(message)s Spróbuj ponownie później."
+msgstr ""
+"Nie udało się utworzyć listy żądań ściągnięcia: %(error)s. Spróbuj ponownie "
+"później."
 
 #: weblate/vcs/base.py:266
-#, fuzzy, python-format
-#| msgid "Could not get repository status!"
+#, python-format
 msgid "Could not fork repository at %(hostname)s"
-msgstr "Nie udało się uzyskać statusu repozytorium!"
+msgstr "Nie można utworzyć forka repozytorium w %(hostname)s"
 
 #: weblate/vcs/base.py:268
-#, fuzzy, python-format
-#| msgid "Could not open a ticket, please try again later."
+#, python-format
 msgid "Could not fork repository at %(hostname)s. Please retry later."
-msgstr "Nie udało się utworzyć zgłoszenia. Spróbuj ponownie później."
+msgstr ""
+"Nie udało się utworzyć forka repozytorium w %(hostname)s. Spróbuj ponownie "
+"później."
 
 #: weblate/vcs/base.py:271
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not fork repository at %(hostname)s: %(error)s"
-msgstr "Nie udało się pobrać projektu GitLab (%(status)s): %(error)s"
+msgstr "Nie można utworzyć forka repozytorium w %(hostname)s: %(error)s"
 
 #: weblate/vcs/base.py:274
 #, python-format
 msgid ""
 "Could not fork repository at %(hostname)s: %(error)s Please retry later."
 msgstr ""
+"Nie można utworzyć forka repozytorium w %(hostname)s: %(error)s. Spróbuj "
+"ponownie później."
 
 #: weblate/vcs/base.py:277
 #, python-format
@@ -24584,6 +24580,9 @@ msgid ""
 "Could not fork repository at %(hostname)s: Repository not found. Check "
 "whether exists and user '%(username)s' has access to it."
 msgstr ""
+"Nie można utworzyć forka repozytorium w %(hostname)s: Repozytorium nie "
+"zostało znalezione. Sprawdź, czy istnieje i czy użytkownik „%(username)s” ma "
+"do niego dostęp."
 
 #: weblate/vcs/base.py:281
 #, python-format
@@ -24651,10 +24650,9 @@ msgstr ""
 "HTTP Git."
 
 #: weblate/vcs/base.py:317
-#, fuzzy, python-format
-#| msgid "Could not probe the repository HTTP redirect: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %(error)s"
-msgstr "Nie można zbadać przekierowania HTTP repozytorium: %s"
+msgstr "Nie można zbadać przekierowania HTTP repozytorium: %(error)s"
 
 #: weblate/vcs/base.py:320
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
@@ -24700,10 +24698,9 @@ msgid "Could not determine the effective SSH destination."
 msgstr "Nie można ustalić efektywnego miejsca docelowego protokołu SSH."
 
 #: weblate/vcs/base.py:344
-#, fuzzy, python-format
-#| msgid "Could not determine the effective SSH destination: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %(error)s"
-msgstr "Nie można określić efektywnego miejsca docelowego SSH: %s"
+msgstr "Nie można określić efektywnego miejsca docelowego SSH: %(error)s"
 
 #: weblate/vcs/base.py:347
 #, python-format
@@ -24719,34 +24716,28 @@ msgstr ""
 "gdy włączone są ograniczenia adresów prywatnych."
 
 #: weblate/vcs/base.py:353
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository from %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository from %(hostname)s is not allowed."
-msgstr "Pobieranie repozytorium VCS z %s jest niedozwolone."
+msgstr "Pobieranie repozytorium VCS z %(hostname)s jest niedozwolone."
 
 #: weblate/vcs/base.py:355
-#, fuzzy
-#| msgid "Enter a valid GitHub host."
 msgid "Enter a valid URL."
-msgstr "Wpisz prawidłowy host serwisu GitHub."
+msgstr "Wpisz prawidłowy adres URL."
 
 #: weblate/vcs/base.py:357
-#, fuzzy, python-format
-#| msgid "Could not parse URL: {}"
+#, python-format
 msgid "Could not parse URL: %(error)s"
-msgstr "Nie udało się przeanalizować adresu URL: {}"
+msgstr "Nie udało się przeanalizować adresu URL: %(error)s"
 
 #: weblate/vcs/base.py:362
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository using %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository using %(scheme)s is not allowed."
-msgstr "Pobieranie repozytorium VCS przy użyciu %s jest niedozwolone."
+msgstr "Pobieranie repozytorium VCS przy użyciu %(scheme)s jest niedozwolone."
 
 #: weblate/vcs/base.py:366
-#, fuzzy, python-format
-#| msgid "Could not resolve the URL domain: {}"
+#, python-format
 msgid "Could not resolve the URL domain: %(error)s"
-msgstr "Nie udało się rozwiązać domeny adresu URL: {}"
+msgstr "Nie udało się rozwiązać domeny adresu URL: %(error)s"
 
 #: weblate/vcs/base.py:704
 msgid "This will push changes to the upstream repository."
