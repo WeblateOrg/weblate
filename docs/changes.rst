@@ -84,6 +84,7 @@ Weblate 2026.8
 * REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states.
 * :ref:`Project backup imports <projectbackup>` now validate restored data before creating project state, skip repository-linked components the importer cannot access, and no longer load archive-supplied Mercurial configuration or shared-repository indirection (:ghsa:`f66g-8pcg-jm8r`, :ghsa:`327h-qqgm-qv55`).
 * Rebuilding project translation memory no longer removes entries imported from files.
+* Literal HTML character references in source strings are now preserved by :ref:`mt-deepl`, :ref:`mt-google-translate-api-v3` and :ref:`mt-microsoft-translator` machine translation instead of being decoded into live markup.
 * Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons.
 * Restricted components are now available on Hosted Weblate when the billing plan permits private projects.
 * Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist.

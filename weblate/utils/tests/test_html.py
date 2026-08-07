@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from html import unescape
+
 from django.test import SimpleTestCase
 
 from weblate.checks.flags import Flags
@@ -14,6 +16,7 @@ from weblate.utils.html import (
     extract_html_attributes,
     extract_html_tags,
     is_auto_safe_html_source,
+    iter_html_entities,
     list_to_tuples,
     mail_quote_value,
 )
@@ -216,3 +219,52 @@ class TypeConversionTestCase(SimpleTestCase):
 
     def test_single_element_list(self) -> None:
         self.assertEqual(list(list_to_tuples(["only_one"])), [("only_one",)])
+
+
+class IterHTMLEntitiesTestCase(SimpleTestCase):
+    def test_named(self) -> None:
+        self.assertEqual(
+            list(iter_html_entities("a &lt; b &amp; c")),
+            [(2, 6, "&lt;"), (9, 14, "&amp;")],
+        )
+
+    def test_numeric(self) -> None:
+        self.assertEqual(
+            list(iter_html_entities("&#60; &#x3C; &#X3C;")),
+            [(0, 5, "&#60;"), (6, 12, "&#x3C;"), (13, 19, "&#X3C;")],
+        )
+
+    def test_missing_semicolon(self) -> None:
+        # Legacy references are decoded without the trailing semicolon
+        self.assertEqual(list(iter_html_entities("&copy 2026")), [(0, 5, "&copy")])
+
+    def test_longest_prefix(self) -> None:
+        # Only the recognized prefix is a reference, the rest is plain text
+        self.assertEqual(list(iter_html_entities("a&notb")), [(1, 5, "&not")])
+
+    def test_unknown(self) -> None:
+        for text in ("&unknown;", "R&D", "Tom & Jerry", "&", "&;", "&#", "&#x"):
+            with self.subTest(text=text):
+                self.assertEqual(list(iter_html_entities(text)), [])
+
+    def test_long_name(self) -> None:
+        # The longest name is 32 characters including the semicolon
+        longest = "&CounterClockwiseContourIntegral;"
+        self.assertEqual(list(iter_html_entities(longest)), [(0, 33, longest)])
+
+    def test_matches_unescape(self) -> None:
+        """Yielded spans are exactly what unescaping consumes."""
+        for text in (
+            "a &lt; b",
+            "&copy 2026",
+            "a&notb",
+            "&unknown;",
+            "R&D",
+            "&#60;&#x3C;",
+            "&amp;lt;",
+            "?a=1&notify=2",
+        ):
+            with self.subTest(text=text):
+                for start, end, entity in iter_html_entities(text):
+                    self.assertEqual(entity, text[start:end])
+                    self.assertNotEqual(unescape(entity), entity)

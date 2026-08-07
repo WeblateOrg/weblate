@@ -7,6 +7,7 @@ from __future__ import annotations
 import re
 import threading
 from collections import defaultdict
+from html.entities import html5
 from html.parser import HTMLParser as StdHTMLParser
 from typing import TYPE_CHECKING, Any, NamedTuple
 
@@ -71,6 +72,31 @@ MD_SYNTAX = re.compile(
     re.VERBOSE,
 )
 MD_SYNTAX_GROUPS = 8
+
+HTML_ENTITY_CANDIDATE = re.compile(
+    r"&(?:#[0-9]+;?|#[xX][0-9a-fA-F]+;?|[^\t\n\f <&#;]{1,32};?)"
+)
+
+
+def iter_html_entities(text: str) -> Iterable[tuple[int, int, str]]:
+    """Yield character-reference spans consumed by html.unescape."""
+    for match in HTML_ENTITY_CANDIDATE.finditer(text):
+        entity = match.group()
+        if entity[1] == "#":
+            yield match.start(), match.end(), entity
+            continue
+
+        name = entity[1:]
+        if name in html5:
+            yield match.start(), match.end(), entity
+            continue
+
+        for length in range(len(name) - 1, 1, -1):
+            if name[:length] in html5:
+                end = match.start() + length + 1
+                yield match.start(), end, text[match.start() : end]
+                break
+
 
 AUTO_SAFE_HTML_START = re.compile(r"<(?=[!/?A-Za-z])")
 AUTO_SAFE_HTML_SEGMENT = re.compile(

@@ -33,6 +33,7 @@ from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import log_handled_exception, report_error
 from weblate.utils.forms import WeblateServiceURLField
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
+from weblate.utils.html import iter_html_entities
 from weblate.utils.outbound import is_allowlisted_hostname
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
@@ -1547,6 +1548,42 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
 class XMLMachineTranslationMixin(BatchMachineTranslation):
     highlight_syntax = True
     force_uncleanup = True
+
+    def get_highlights(
+        self, text: str, unit: Unit
+    ) -> Iterable[tuple[int, int, str, Highlight | Unit | None]]:
+        highlights = list(super().get_highlights(text, unit))
+
+        for entity_start, entity_end, entity_text in iter_html_entities(text):
+            entity = (entity_start, entity_end, entity_text, None)
+            overlapping = [
+                index
+                for index, (start, end, _highlight_text, _kind) in enumerate(highlights)
+                if entity_start < end and entity_end > start
+            ]
+            if overlapping:
+                first = overlapping[0]
+                last = overlapping[-1]
+                if any(
+                    start <= entity_start and end >= entity_end
+                    for start, end, _highlight_text, _kind in highlights[
+                        first : last + 1
+                    ]
+                ):
+                    continue
+                start = min(entity_start, highlights[first][0])
+                end = max(entity_end, highlights[last][1])
+                highlights[first : last + 1] = [(start, end, text[start:end], None)]
+                continue
+
+            for index, (start, _end, _highlight_text, _kind) in enumerate(highlights):
+                if entity_end <= start:
+                    highlights.insert(index, entity)
+                    break
+            else:
+                highlights.append(entity)
+
+        yield from highlights
 
     def unescape_text(self, text: str) -> str:
         """Unescaping of the text with replacements."""
