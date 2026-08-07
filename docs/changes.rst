@@ -1,14 +1,12 @@
 Weblate 2026.8.1
 ----------------
 
-*Not yet released.*
+*Released on August 7th 2026.*
 
 .. rubric:: New features
 
 * Project and component APIs now expose all user-configurable settings, including access control and translation-memory settings. See :doc:`api`.
 * Added the :wladmin:`metrics` command for retrieving server metrics locally in JSON, CSV, or OpenMetrics format.
-
-.. rubric:: Improvements
 
 .. rubric:: Bug fixes
 
@@ -22,8 +20,6 @@ Weblate 2026.8.1
 * Add-on change history now retains only explicitly public configuration values and marks changed credential fields as redacted.
 * Translator work reports with metrics can now be displayed and downloaded as HTML.
 * Repository credentials are now consistently hidden from web and API output.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
