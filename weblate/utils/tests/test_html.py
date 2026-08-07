@@ -20,9 +20,9 @@ from weblate.utils.html import (
 
 
 class HTMLSanitizerTestCase(SimpleTestCase):
-    def sanitize(self, source: str, translation: str, flags: str = "") -> str:
+    def sanitize(self, translation: str, source: str, flags: str = "") -> str:
         sanitizer = HTMLSanitizer()
-        return sanitizer.clean(source, translation, Flags(flags))
+        return sanitizer.clean(translation, source, Flags(flags))
 
     def test_clean(self) -> None:
         self.assertEqual(self.sanitize("<b>translation</b>", "text"), "translation")
@@ -31,6 +31,66 @@ class HTMLSanitizerTestCase(SimpleTestCase):
         self.assertEqual(
             self.sanitize("<style>translation</style>", "<style>text</style>"),
             "<style>translation</style>",
+        )
+
+    def test_clean_source_event_handler(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                "<a onclick=\"alert('translated')\">translation</a>",
+                "<a onclick=\"alert('source')\">text</a>",
+            ),
+            "<a>translation</a>",
+        )
+
+    def test_clean_markdown_inline_code_event_handler(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                "Use `<button onclick=\"alert('translated')\">code</button>` "
+                "and <b>translated</b>. <button>extra</button>",
+                "Use `<button onclick=\"alert('source')\">code</button>` "
+                "and <b>source</b>.",
+                "md-text",
+            ),
+            "Use `<button onclick=\"alert('translated')\">code</button>` "
+            "and <b>translated</b>. extra",
+        )
+
+    def test_clean_markdown_inline_code_in_link(self) -> None:
+        for value in (
+            "[the `foo` docs](https://example.com)",
+            "![the `foo` diagram](https://example.com/image.png)",
+        ):
+            with self.subTest(value=value):
+                self.assertEqual(self.sanitize(value, value, "md-text"), value)
+
+    def test_clean_markdown_backtick_in_link_destination(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                "[x](foo`)<script>alert(1)</script>`",
+                "Plain text",
+                "md-text",
+            ),
+            "[x](foo`)`",
+        )
+
+    def test_clean_markdown_escaped_code_event_handler(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                "Use \\`<button onclick=\"alert('translated')\">code</button>`.",
+                "Use \\`<button>code</button>`.",
+                "md-text",
+            ),
+            "Use \\`<button>code</button>`.",
+        )
+
+    def test_clean_markdown_backticks_in_html_attribute(self) -> None:
+        self.assertEqual(
+            self.sanitize(
+                '<a title="foo`" onclick="alert(1)" data-x="`bar">link</a>',
+                '<a title="safe">link</a>',
+                "md-text",
+            ),
+            '<a title="foo`">link</a>',
         )
 
 
@@ -97,6 +157,22 @@ class HtmlTestCase(SimpleTestCase):
         self.assertFalse(
             is_auto_safe_html_source(
                 "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+                Flags("md-text"),
+            )
+        )
+
+    def test_auto_safe_html_event_handler_with_braces(self) -> None:
+        self.assertTrue(
+            is_auto_safe_html_source(
+                '<button onclick="if (x) { alert(1); }">link</button>',
+                Flags("md-text"),
+            )
+        )
+
+    def test_auto_safe_html_jsx_event_property(self) -> None:
+        self.assertFalse(
+            is_auto_safe_html_source(
+                "<Component onClick={handler}>Text</Component>",
                 Flags("md-text"),
             )
         )

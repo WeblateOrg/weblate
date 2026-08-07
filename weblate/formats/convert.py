@@ -406,12 +406,20 @@ class HTMLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T])
         return "html"
 
 
+class MarkdownPoUnit(ConvertPoUnit):
+    def get_extra_flags(self):
+        yield from super().get_extra_flags()
+        if self.is_code_block():
+            yield "ignore-safe-html"
+
+
 class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("Markdown file")
     autoload: tuple[str, ...] = ("*.md", "*.markdown")
     format_id = "markdown"
     check_flags: tuple[str, ...] = ("auto-safe-html", "strict-same", "md-text")
+    unit_class = MarkdownPoUnit
 
     @staticmethod
     def get_parser_class() -> type[Any]:
@@ -548,7 +556,7 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
         return "md"
 
 
-class MDXPoUnit(ConvertPoUnit):
+class MDXPoUnit(MarkdownPoUnit):
     def get_extra_flags(self):
         yield from super().get_extra_flags()
         if self.is_code_block():

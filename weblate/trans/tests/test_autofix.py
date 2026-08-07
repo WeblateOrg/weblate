@@ -74,6 +74,38 @@ class AutoFixTest(TestCase):
             (["%(percent)s %%"], False),
         )
 
+    def test_html_source_event_handler(self) -> None:
+        fix = BleachHTML()
+        for source, target, expected, flags in (
+            (
+                "<a onclick=\"alert('source')\">link</a>",
+                "<a onclick=\"alert('translated')\">link</a>",
+                "<a>link</a>",
+                "safe-html",
+            ),
+            (
+                '<button onclick="if (x) { alert(1); }">link</button>',
+                "<button onclick=\"alert('translated')\">link</button>",
+                "<button>link</button>",
+                "auto-safe-html",
+            ),
+        ):
+            with self.subTest(source=source):
+                unit = make_unit(source=source, flags=flags)
+                self.assertEqual(
+                    fix.fix_target([target], unit),
+                    ([expected], True),
+                )
+
+    def test_html_markdown_code_block_event_handler(self) -> None:
+        fix = BleachHTML()
+        value = "<button onclick=\"alert('source')\">link</button>"
+        unit = make_unit(
+            source=value,
+            flags="auto-safe-html,md-text,ignore-safe-html",
+        )
+        self.assertEqual(fix.fix_target([value], unit), ([value], False))
+
     def test_html_ignored(self) -> None:
         fix = BleachHTML()
         unit = make_unit(
@@ -147,9 +179,13 @@ class AutoFixTest(TestCase):
 
     def test_auto_safe_html_markdown_component(self) -> None:
         fix = BleachHTML()
-        value = "<TOCInline toc={toc.filter((node)) => node.level === 2)} />"
-        unit = make_unit(source=value, flags="auto-safe-html,md-text")
-        self.assertEqual(fix.fix_target([value], unit), ([value], False))
+        for value in (
+            "<TOCInline toc={toc.filter((node)) => node.level === 2)} />",
+            "<Component onClick={handler}>Text</Component>",
+        ):
+            with self.subTest(value=value):
+                unit = make_unit(source=value, flags="auto-safe-html,md-text")
+                self.assertEqual(fix.fix_target([value], unit), ([value], False))
 
     def test_auto_safe_html_safe_html_wins(self) -> None:
         fix = BleachHTML()

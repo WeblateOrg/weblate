@@ -17,8 +17,10 @@ from html2text import HTML2Text as _HTML2Text
 from lxml.etree import HTMLParser
 from lxml.html.defs import tags as lxml_html_tags
 
+from weblate.utils.concurrency import MARKDOWN_LOCK
+
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
 
     from django.utils.safestring import SafeString
     from lxml.etree import ParserTarget
@@ -181,6 +183,66 @@ def extract_html_tags(text: str) -> tuple[set[str], dict[str, set[str]]]:
     return (extractor.found_tags, extractor.found_attributes)
 
 
+def replace_markdown_code_spans(text: str, replacement: Callable[[str], str]) -> str:
+    """Replace inline code spans recognized in Markdown context."""
+    # Avoid loading the Markdown renderer on non-Markdown sanitizer paths.
+    # ruff: ignore[import-outside-top-level]
+    from mistletoe import span_token, span_tokenizer
+
+    code_spans: set[tuple[int, int]] = set()
+
+    class ContextInlineCode(span_token.InlineCode):
+        def __init__(self, match: re.Match) -> None:
+            code_spans.add(match.span())
+            super().__init__(match)
+
+    # Mirror Mistletoe's HTML span-token order, replacing InlineCode with a
+    # tracker so links and raw HTML resolve before code spans are selected.
+    with MARKDOWN_LOCK:
+        span_tokenizer.tokenize(
+            text,
+            (
+                span_token.EscapeSequence,
+                span_token.HtmlSpan,
+                span_token.Strikethrough,
+                span_token.AutoLink,
+                span_token.CoreTokens,
+                ContextInlineCode,
+                span_token.LineBreak,
+                span_token.RawText,
+            ),
+        )
+
+    def replace(match: re.Match) -> str:
+        if match.span() in code_spans:
+            return replacement(match.group())
+        return match.group()
+
+    return span_token.InlineCode.pattern.sub(replace, text)
+
+
+def strip_markdown_code_spans(text: str) -> str:
+    """Remove Markdown inline code spans from HTML policy inspection."""
+    return replace_markdown_code_spans(text, lambda _span: "")
+
+
+def is_html_event_attribute(name: str) -> bool:
+    """Return whether an attribute name can register an HTML event handler."""
+    return name.casefold().startswith("on")
+
+
+def has_html_event_attributes(text: str, flags: Flags | None = None) -> bool:
+    """Return whether HTML contains an event-handler attribute."""
+    if flags is not None and "md-text" in flags:
+        text = strip_markdown_code_spans(text)
+    _tags, attributes = extract_html_tags(text)
+    return any(
+        is_html_event_attribute(name)
+        for attribute_names in attributes.values()
+        for name in attribute_names
+    )
+
+
 def extract_html_attributes(text: str) -> list[HTMLAttribute]:
     """Extract ordered HTML attributes from a text fragment."""
     extractor = HTMLAttributeExtractor()
@@ -216,6 +278,14 @@ def is_auto_safe_html_source(source: str, flags: Flags) -> bool:
     ):
         return False
 
+    if not all(
+        is_auto_safe_html_segment_type(segment.group(0)) for segment in segments
+    ):
+        return False
+
+    if has_html_event_attributes(source, flags):
+        return True
+
     if not all(is_auto_safe_html_segment(segment.group(0)) for segment in segments):
         return False
 
@@ -230,6 +300,11 @@ def is_auto_safe_html_segment(segment: str) -> bool:
     if "{" in segment or "}" in segment:
         return False
 
+    return is_auto_safe_html_segment_type(segment)
+
+
+def is_auto_safe_html_segment_type(segment: str) -> bool:
+    """Validate the HTML tag or declaration type of a tag-like segment."""
     lower_segment = segment.lower()
     if lower_segment.startswith(("<!--", "<!doctype")):
         return True
@@ -348,33 +423,45 @@ class HTMLSanitizer:
 
         text = self.remove_special(text, flags)
 
-        tags, attributes = extract_html_tags(source)
+        policy_source = (
+            strip_markdown_code_spans(source) if "md-text" in flags else source
+        )
+        tags, attributes = extract_html_tags(policy_source)
+        safe_attributes = {
+            tag: {name for name in names if not is_html_event_attribute(name)}
+            for tag, names in attributes.items()
+        }
 
         with NH3_LOCK:
             text = nh3.clean(
                 text,
                 link_rel=None,
                 tags=tags,
-                attributes=attributes,
+                attributes=safe_attributes,
                 clean_content_tags=CLEAN_CONTENT_TAGS - tags,
             )
 
         return self.add_back_special(text)
 
     def handle_replace(self, match: re.Match) -> str:
+        return self.handle_replace_text(match.group(0))
+
+    def handle_replace_text(self, text: str) -> str:
         self.current += 1
         replacement = f"@@@@@weblate:{self.current}@@@@@"
-        self.replacements[replacement] = match.group(0)
+        self.replacements[replacement] = text
         return replacement
 
     def remove_special(self, text: str, flags: Flags) -> str:
         if "md-text" in flags:
+            text = replace_markdown_code_spans(text, self.handle_replace_text)
             text = MD_LINK.sub(self.handle_replace, text)
 
         return SANE_CHARS.sub(self.handle_replace, text)
 
     def add_back_special(self, text: str) -> str:
-        for replacement, original in self.replacements.items():
+        # Enclosing placeholders can contain placeholders created earlier.
+        for replacement, original in reversed(self.replacements.items()):
             text = text.replace(replacement, original)
         return text
 
