@@ -70,6 +70,10 @@
   --wl-navi-text-color: #ffffff;
   --wl-focus-color: #2eccaa;
   --wl-hover-color: #144d3f;
+  --wl-primary-button-color: #2a3744;
+  --wl-progress-color: #107a6299;
+  --wl-progress-approved-color: #124437;
+  --wl-progress-bg: #e9ecef;
 
   --border: 1px solid var(--wl-color-border);
   --background-color: var(--wl-color-bg);
@@ -151,7 +155,7 @@
 
 .btn-primary {
   --bs-btn-color: #ffffff;
-  --bs-btn-bg: #2a3744;
+  --bs-btn-bg: var(--wl-primary-button-color);
   --bs-btn-disabled-color: #ffffff;
   --bs-btn-disabled-bg: #2a3744a6;
 }
@@ -199,12 +203,14 @@
 
 .progress-stacked {
   --bs-progress-height: 8px !important;
+  --bs-progress-bg: var(--wl-progress-bg);
   --bs-progress-border-radius: 4px;
 }
 
 .progress {
   --bs-progress-height: 8px !important;
-  --bs-progress-bar-bg: #124437;
+  --bs-progress-bar-bg: var(--wl-progress-approved-color);
+  --bs-progress-bg: var(--wl-progress-bg);
   --bs-progress-border-radius: 4px;
 }
 
