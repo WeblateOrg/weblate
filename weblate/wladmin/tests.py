@@ -671,6 +671,48 @@ class ManagementAccessControlTest(ViewTestCase):
         error.refresh_from_db()
         self.assertTrue(error.ignored)
 
+    def test_appearance_color_customization(self) -> None:
+        self.grant_global_permissions("management.use", "management.configure")
+
+        payload = {
+            "header_color_0": "#2a3744",
+            "header_color_1": "#1a2634",
+            "header_text_color_0": "#bfc3c7",
+            "header_text_color_1": "#e0e3e7",
+            "navi_color_0": "#107a62",
+            "navi_color_1": "#0f9375",
+            "focus_color_0": "#158068",
+            "focus_color_1": "#25303b",
+            "hover_color_0": "#144d3f",
+            "hover_color_1": "#0a3d2f",
+            "link_color_0": "#123456",
+            "link_color_1": "#654321",
+            "progress_color_0": "#abcdef",
+            "progress_color_1": "#fedcba",
+            "progress_background_color_0": "#010203",
+            "progress_background_color_1": "#040506",
+        }
+        response = self.client.post(reverse("manage-appearance"), payload)
+        self.assertEqual(response.status_code, 302)
+
+        css = self.client.get(reverse("css-custom")).content.decode()
+        for value in (
+            "--bs-link-color: #123456",
+            "--bs-link-color: #654321",
+            "--bs-link-color-rgb: 18, 52, 86",
+            "--wl-primary-button-color: #123456",
+            "--wl-primary-button-color: #654321",
+            "--bs-link-hover-color: #0b1f34",
+            "--bs-link-hover-color: #a38e7a",
+            "--wl-progress-color: #abcdef",
+            "--wl-progress-color: #fedcba",
+            "--wl-progress-approved-color: #677b8f",
+            "--wl-progress-approved-color: #988470",
+            "--wl-progress-bg: #010203",
+            "--wl-progress-bg: #040506",
+        ):
+            self.assertIn(value, css)
+
     def test_tools_without_announcement_permission(self) -> None:
         self.grant_global_permissions("management.use")
 

@@ -1,5 +1,5 @@
 {% load colors %}{% autoescape off %}
-{% if header_color_light or header_text_color_light or navi_color_light or navi_text_color_light or focus_color_light or hover_color_light %}
+{% if header_color_light or header_text_color_light or navi_color_light or navi_text_color_light or focus_color_light or hover_color_light or link_color_light or progress_color_light or progress_background_color_light %}
 @media (prefers-color-scheme: light) {
   :root {
     {% if header_color_light %}--wl-header-bg: {{ header_color_light }};
@@ -10,6 +10,16 @@
     {% if navi_text_color_light %}--wl-navi-text-color: {{ navi_text_color_light }};{% endif %}
     {% if focus_color_light %}--wl-focus-color: {{ focus_color_light }};{% endif %}
     {% if hover_color_light %}--wl-hover-color: {{ hover_color_light }};{% endif %}
+    {% if link_color_light %}--wl-color-link: {{ link_color_light }};
+    --bs-link-color: {{ link_color_light }};
+    --bs-link-color-rgb: {{ link_color_light|hex_to_rgb }};
+    --wl-color-link-hover: {{ link_color_light|darken }};
+    --bs-link-hover-color: {{ link_color_light|darken }};
+    --bs-link-hover-color-rgb: {{ link_color_light|darken|hex_to_rgb }};
+    --wl-primary-button-color: {{ link_color_light }};{% endif %}
+    {% if progress_color_light %}--wl-progress-color: {{ progress_color_light }};
+    --wl-progress-approved-color: {{ progress_color_light|darken }};{% endif %}
+    {% if progress_background_color_light %}--wl-progress-bg: {{ progress_background_color_light }};{% endif %}
   }
 {% if header_text_color_light or focus_color_light or hover_color_light %}
   .navbar {
@@ -35,6 +45,16 @@
   {% if navi_text_color_light %}--wl-navi-text-color: {{ navi_text_color_light }} !important;{% endif %}
   {% if focus_color_light %}--wl-focus-color: {{ focus_color_light }} !important;{% endif %}
   {% if hover_color_light %}--wl-hover-color: {{ hover_color_light }} !important;{% endif %}
+  {% if link_color_light %}--wl-color-link: {{ link_color_light }} !important;
+  --bs-link-color: {{ link_color_light }} !important;
+  --bs-link-color-rgb: {{ link_color_light|hex_to_rgb }} !important;
+  --wl-color-link-hover: {{ link_color_light|darken }} !important;
+  --bs-link-hover-color: {{ link_color_light|darken }} !important;
+  --bs-link-hover-color-rgb: {{ link_color_light|darken|hex_to_rgb }} !important;
+  --wl-primary-button-color: {{ link_color_light }} !important;{% endif %}
+  {% if progress_color_light %}--wl-progress-color: {{ progress_color_light }} !important;
+  --wl-progress-approved-color: {{ progress_color_light|darken }} !important;{% endif %}
+  {% if progress_background_color_light %}--wl-progress-bg: {{ progress_background_color_light }} !important;{% endif %}
 }
 {% if header_text_color_light or focus_color_light or hover_color_light %}
 [data-bs-theme="light"] .navbar {
@@ -50,7 +70,7 @@
 }
 {% endif %}
 {% endif %}
-{% if header_color_dark or header_text_color_dark or navi_color_dark or navi_text_color_dark or focus_color_dark or hover_color_dark %}
+{% if header_color_dark or header_text_color_dark or navi_color_dark or navi_text_color_dark or focus_color_dark or hover_color_dark or link_color_dark or progress_color_dark or progress_background_color_dark %}
 @media (prefers-color-scheme: dark) {
   :root {
     {% if header_color_dark %}--wl-header-bg: {{ header_color_dark }};
@@ -61,6 +81,16 @@
     {% if navi_text_color_dark %}--wl-navi-text-color: {{ navi_text_color_dark }};{% endif %}
     {% if focus_color_dark %}--wl-focus-color: {{ focus_color_dark }};{% endif %}
     {% if hover_color_dark %}--wl-hover-color: {{ hover_color_dark }};{% endif %}
+    {% if link_color_dark %}--wl-color-link: {{ link_color_dark }};
+    --bs-link-color: {{ link_color_dark }};
+    --bs-link-color-rgb: {{ link_color_dark|hex_to_rgb }};
+    --wl-color-link-hover: {{ link_color_dark|lighten }};
+    --bs-link-hover-color: {{ link_color_dark|lighten }};
+    --bs-link-hover-color-rgb: {{ link_color_dark|lighten|hex_to_rgb }};
+    --wl-primary-button-color: {{ link_color_dark }};{% endif %}
+    {% if progress_color_dark %}--wl-progress-color: {{ progress_color_dark }};
+    --wl-progress-approved-color: {{ progress_color_dark|darken }};{% endif %}
+    {% if progress_background_color_dark %}--wl-progress-bg: {{ progress_background_color_dark }};{% endif %}
   }
 {% if header_text_color_dark or focus_color_dark or hover_color_dark %}
   .navbar {
@@ -86,6 +116,16 @@
   {% if navi_text_color_dark %}--wl-navi-text-color: {{ navi_text_color_dark }} !important;{% endif %}
   {% if focus_color_dark %}--wl-focus-color: {{ focus_color_dark }} !important;{% endif %}
   {% if hover_color_dark %}--wl-hover-color: {{ hover_color_dark }} !important;{% endif %}
+  {% if link_color_dark %}--wl-color-link: {{ link_color_dark }} !important;
+  --bs-link-color: {{ link_color_dark }} !important;
+  --bs-link-color-rgb: {{ link_color_dark|hex_to_rgb }} !important;
+  --wl-color-link-hover: {{ link_color_dark|lighten }} !important;
+  --bs-link-hover-color: {{ link_color_dark|lighten }} !important;
+  --bs-link-hover-color-rgb: {{ link_color_dark|lighten|hex_to_rgb }} !important;
+  --wl-primary-button-color: {{ link_color_dark }} !important;{% endif %}
+  {% if progress_color_dark %}--wl-progress-color: {{ progress_color_dark }} !important;
+  --wl-progress-approved-color: {{ progress_color_dark|darken }} !important;{% endif %}
+  {% if progress_background_color_dark %}--wl-progress-bg: {{ progress_background_color_dark }} !important;{% endif %}
 }
 {% if header_text_color_dark or focus_color_dark or hover_color_dark %}
 [data-bs-theme="dark"] .navbar {
