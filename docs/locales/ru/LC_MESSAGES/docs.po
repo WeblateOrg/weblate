@@ -53,9 +53,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-06 03:04+0000\n"
-"PO-Revision-Date: 2026-08-06 16:44+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-08-07 10:07+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -1071,6 +1070,12 @@ msgid ""
 "when linked components are in other projects. A per-member language limit "
 "therefore cannot grant these permissions."
 msgstr ""
+"Разрешения СКВ на фиксацию, отправку, сброс и обновление оцениваются для "
+"всего репозитория. Участнику требуется разрешение уровня компонента на "
+"компонент, владеющий репозиторием, и на каждый компонент, связанный с ним. "
+"Это также применяется, когда связанные компоненты находятся в других "
+"проектах. Поэтому ограничение по языку для отдельного участника не может "
+"предоставить эти разрешения."
 
 #: admin/access.rst:490
 msgid ""
@@ -7123,11 +7128,6 @@ msgstr ""
 "``terms``, ``cookies``, ``privacy`` и ``contracts``."
 
 #: admin/config.rst:1407
-#, fuzzy
-#| msgid ""
-#| "Hidden pages are removed from the legal menu and return a 404 response "
-#| "when requested directly. Hiding ``terms`` or ``privacy`` is not "
-#| "recommended when terms of service confirmation is enabled."
 msgid ""
 "Hidden pages are removed from the legal menu and return a 404 response when "
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
@@ -7135,7 +7135,7 @@ msgid ""
 msgstr ""
 "Скрытые страницы удаляются из юридического меню и возвращают ответ 404 при "
 "прямом запросе. Скрытие ``terms`` или ``privacy`` не рекомендуется, если "
-"включено подтверждение условий обслуживания."
+"включено подтверждение юридических документов."
 
 #: admin/config.rst:1411
 msgid ""
@@ -7150,12 +7150,6 @@ msgstr ""
 "Если запасной URL-адрес не настроен, соответствующая ссылка опускается."
 
 #: admin/config.rst:1416
-#, fuzzy
-#| msgid ""
-#| "With terms of service confirmation enabled, hiding ``terms`` and "
-#| "setting :setting:`LEGAL_URL` makes the confirmation page link to the "
-#| "external terms document instead of embedding :file:`legal/documents/"
-#| "tos.html`."
 msgid ""
 "With legal document confirmation enabled, hiding ``terms`` and "
 "setting :setting:`LEGAL_URL` makes the confirmation page link to the "
@@ -7163,10 +7157,11 @@ msgid ""
 "tos.html`. When a privacy policy link is available, the confirmation covers "
 "both documents."
 msgstr ""
-"При включённом подтверждении условий обслуживания скрытие ``terms`` и "
-"установка :setting:`LEGAL_URL` заставляет страницу подтверждения ссылаться "
+"При включённом подтверждении юридических документов скрытие ``terms`` и "
+"установка :setting:`LEGAL_URL` заставляют страницу подтверждения ссылаться "
 "на внешний документ с условиями вместо встраивания :file:`legal/documents/"
-"tos.html`."
+"tos.html`. Когда доступна ссылка на политику конфиденциальности, "
+"подтверждение охватывает оба документа."
 
 #: admin/config.rst:1421
 msgid ""
@@ -7183,17 +7178,15 @@ msgid "You need :ref:`legal` installed to make this work."
 msgstr "Чтобы это работало, необходимо установить :ref:`legal`."
 
 #: admin/config.rst:1444
-#, fuzzy
-#| msgid ""
-#| "Date of last update of terms of service documents. Whenever the date "
-#| "changes, users are required to agree with the updated terms of service."
 msgid ""
 "Date of the legal documents users last agreed to. Whenever the date changes, "
 "users are required to agree with the current terms of service and, when a "
 "privacy policy link is available, the privacy policy."
 msgstr ""
-"Дата последнего обновления условий предоставления услуг. При изменении даты "
-"пользователи должны согласиться с обновлёнными условиями обслуживания."
+"Дата юридических документов, с которыми пользователи последний раз "
+"согласились. При изменении этой даты пользователи должны согласиться с "
+"текущими условиями обслуживания, а также, если доступна ссылка на политику "
+"конфиденциальности, с политикой конфиденциальности."
 
 #: admin/config.rst:1459
 msgid "URL where your Weblate instance shows its legal documents."
@@ -13544,16 +13537,12 @@ msgstr ""
 "чтобы отключить её."
 
 #: admin/install/docker.rst:928
-#, fuzzy
-#| msgid ""
-#| "``tos-confirm`` to enable the legal module and enforce terms of service "
-#| "confirmation during social authentication and for signed-in users."
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce legal document "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
 "``tos-confirm`` — включить юридический модуль и требовать подтверждения "
-"условий обслуживания при аутентификации через соцсети и для вошедших в "
+"юридических документов при аутентификации через соцсети и для вошедших в "
 "систему пользователей."
 
 #: admin/install/docker.rst:930
@@ -13624,6 +13613,10 @@ msgid ""
 "The following configuration links both documents externally and requires one "
 "agreement covering the terms of service and privacy policy:"
 msgstr ""
+"Внешние юридические документы используются в качестве запасного варианта для "
+"скрытых внутренних страниц. Следующая конфигурация связывает оба документа "
+"внешне и требует одного согласия, охватывающего условия обслуживания и "
+"политику конфиденциальности:"
 
 #: admin/install/docker.rst:993
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -18497,14 +18490,6 @@ msgid "Subcontractor information"
 msgstr "Информация о субподрядчиках"
 
 #: admin/optionals.rst:144
-#, fuzzy
-#| msgid ""
-#| "The legal module embeds these templates inside Weblate and "
-#| "uses :file:`legal/documents/tos.html` for terms of service confirmation. "
-#| "This is separate from :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`, "
-#| "which are meant for linking to externally hosted legal documents from the "
-#| "footer when the legal module is not enabled. When the legal module is "
-#| "enabled, Weblate links to the internal legal pages by default."
 msgid ""
 "The legal module embeds these templates inside Weblate. Its confirmation "
 "page uses :file:`legal/documents/tos.html` and, when a privacy policy link "
@@ -18515,27 +18500,25 @@ msgid ""
 "fallbacks for hidden internal pages. When the legal module is enabled, "
 "Weblate links to the internal legal pages by default."
 msgstr ""
-"Юридический модуль встраивает эти шаблоны в Weblate и "
-"использует :file:`legal/documents/tos.html` для подтверждения условий "
-"обслуживания. Это отдельно от :setting:`LEGAL_URL` и :setting:`PRIVACY_URL`, "
-"которые предназначены для ссылок на внешние юридические документы из нижнего "
-"колонтитула, когда юридический модуль не включён. Когда юридический модуль "
-"включён, Weblate по умолчанию ссылается на внутренние юридические страницы."
+"Юридический модуль встраивает эти шаблоны в Weblate. Его страница "
+"подтверждения использует :file:`legal/documents/tos.html` и, если доступна "
+"ссылка на политику конфиденциальности, требует одного согласия, "
+"охватывающего как условия обслуживания, так и политику конфиденциальности. "
+"Это отдельно от :setting:`LEGAL_URL` и :setting:`PRIVACY_URL`, которые "
+"предназначены для ссылок на внешние юридические документы из нижнего "
+"колонтитула, когда юридический модуль не включён, или в качестве запасного "
+"варианта для скрытых внутренних страниц. Когда юридический модуль включён, "
+"Weblate по умолчанию ссылается на внутренние юридические страницы."
 
 #: admin/optionals.rst:153
-#, fuzzy
-#| msgid ""
-#| "On changing the terms of service documents, please "
-#| "adjust :setting:`LEGAL_TOS_DATE` so that users are forced to agree with "
-#| "the updated documents."
 msgid ""
 "On changing the terms of service or privacy policy, "
 "adjust :setting:`LEGAL_TOS_DATE` when users should be forced to agree with "
 "the updated documents."
 msgstr ""
-"При изменении документов с условиями обслуживания "
-"измените :setting:`LEGAL_TOS_DATE` так, чтобы пользователи были вынуждены "
-"согласиться с обновлёнными документами."
+"При изменении условий обслуживания или политики конфиденциальности измените "
+":setting:`LEGAL_TOS_DATE`, чтобы пользователи были вынуждены согласиться с "
+"обновлёнными документами."
 
 #: admin/optionals.rst:159
 msgid ""
@@ -18574,17 +18557,6 @@ msgstr ""
 "как описано в :ref:`legal-customization`."
 
 #: admin/optionals.rst:199
-#, fuzzy
-#| msgid ""
-#| "In Docker deployments, enable the legal module "
-#| "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
-#| "editing :file:`settings.py`. Use ``tos-confirm`` to enable the legal "
-#| "module and terms of service confirmation enforcement, or ``wllegal`` to "
-#| "additionally load the hosted legal document templates used by services "
-#| "operated by Weblate s.r.o. These templates are not intended for general "
-#| "use. To provide your own templates in Docker, place them in :file:`/app/"
-#| "data/python/customize/templates/legal/documents`, see :ref:`docker-static-"
-#| "override`."
 msgid ""
 "In Docker deployments, enable the legal module "
 "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
@@ -18595,10 +18567,10 @@ msgid ""
 "your own templates in Docker, place them in :file:`/app/data/python/"
 "customize/templates/legal/documents`, see :ref:`docker-static-override`."
 msgstr ""
-"В развёртываниях Docker включите юридический модуль с "
-"помощью :envvar:`WEBLATE_LEGAL_INTEGRATION` вместо "
-"редактирования :file:`settings.py`. Используйте ``tos-confirm``, чтобы "
-"включить юридический модуль и подтверждение условий обслуживания, или "
+"В развёртываниях Docker включите юридический модуль с помощью "
+":envvar:`WEBLATE_LEGAL_INTEGRATION` вместо редактирования "
+":file:`settings.py`. Используйте ``tos-confirm``, чтобы включить юридический "
+"модуль и принудительное подтверждение юридических документов, или "
 "``wllegal``, чтобы дополнительно загрузить размещённые шаблоны юридических "
 "документов, используемые сервисами, управляемыми Weblate s.r.o. Эти шаблоны "
 "не предназначены для общего использования. Чтобы предоставить свои "
@@ -18736,13 +18708,6 @@ msgstr ""
 "опускается."
 
 #: admin/optionals.rst:277
-#, fuzzy
-#| msgid ""
-#| "To use externally hosted legal documents with terms confirmation, "
-#| "configure :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide ``terms`` and "
-#| "``privacy`` and set :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`. The "
-#| "confirmation page then links to those external documents without "
-#| "requiring a :file:`legal/documents/tos.html` template override."
 msgid ""
 "To use externally hosted legal documents with legal confirmation, "
 "configure :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide ``terms`` and "
@@ -18752,11 +18717,14 @@ msgid ""
 "template override. If no privacy policy link is available, the confirmation "
 "covers only the terms of service."
 msgstr ""
-"Чтобы использовать внешние юридические документы с подтверждением условий, "
-"настройте :setting:`LEGAL_HIDDEN_DOCUMENTS` для скрытия ``terms`` и "
-"``privacy`` и установите :setting:`LEGAL_URL` и :setting:`PRIVACY_URL`. "
-"Затем страница подтверждения будет ссылаться на эти внешние документы без "
-"необходимости переопределения шаблона :file:`legal/documents/tos.html`."
+"Чтобы использовать внешние юридические документы с подтверждением, настройте "
+":setting:`LEGAL_HIDDEN_DOCUMENTS` для скрытия ``terms`` и ``privacy`` и "
+"установите :setting:`LEGAL_URL` и :setting:`PRIVACY_URL`. Затем страница "
+"подтверждения будет ссылаться на эти внешние документы и требовать одного "
+"согласия, охватывающего оба документа, без необходимости переопределения "
+"шаблона :file:`legal/documents/tos.html`. Если ссылка на политику "
+"конфиденциальности недоступна, подтверждение охватывает только условия "
+"обслуживания."
 
 #: admin/optionals.rst:288
 msgid "Avatars"
@@ -20406,16 +20374,12 @@ msgid "Contribute to project translation memory"
 msgstr "Вносить вклад в проект памяти переводов"
 
 #: admin/projects.rst:808
-#, fuzzy
-#| msgid ""
-#| "All translations within Weblate can be used thanks to shared translation "
-#| "memory."
 msgid ""
 "Controls whether translations from this component are added to the project "
 "translation memory."
 msgstr ""
-"Благодаря разделяемой памяти переводов могут быть использованы все переводы, "
-"загруженные в Weblate."
+"Определяет, добавляются ли переводы из этого компонента в память переводов "
+"проекта."
 
 #: admin/projects.rst:818
 msgid "Allow translation propagation"
@@ -22655,12 +22619,6 @@ msgstr ""
 "filtering>`."
 
 #: admin/workspaces.rst:36
-#, fuzzy
-#| msgid ""
-#| "The workspace :guilabel:`Files` menu downloads a ZIP archive of owned "
-#| "components that you can access and have permission to download. Workspace "
-#| "membership does not bypass project access control or component "
-#| "restrictions."
 msgid ""
 "The workspace :guilabel:`Files` menu downloads a ZIP archive of owned "
 "components that you can access and have permission to download. Workspace "
@@ -22672,7 +22630,10 @@ msgstr ""
 "Меню :guilabel:`Файлы` рабочего пространства загружает ZIP-архив "
 "принадлежащих компонентов, к которым у вас есть доступ и разрешение на "
 "загрузку. Членство в рабочем пространстве не обходит контроль доступа к "
-"проекту или ограничения компонентов."
+"проекту или ограничения компонентов. Меню также предоставляет рекомендации "
+"по :guilabel:`Загрузке перевода`. Загрузка на уровне рабочего пространства "
+"не поддерживается; выберите проект и откройте отдельный перевод, чтобы "
+"загрузить файл."
 
 #: admin/workspaces.rst:43
 msgid ""
@@ -22681,6 +22642,11 @@ msgid ""
 "text across permission-filtered owned project content in the workspace. The "
 "existing :ref:`search-replace` preview and confirmation workflow applies."
 msgstr ""
+"Пользователи, которые могут редактировать переводы в доступном проекте, "
+"могут выбрать :guilabel:`Действия` ↓ :guilabel:`Поиск и замена`, чтобы "
+"заменить текст в содержимом принадлежащих проектов в рабочем пространстве с "
+"учётом разрешений. Применяется существующий рабочий процесс :ref:`search-"
+"replace` с предварительным просмотром и подтверждением."
 
 #: admin/workspaces.rst:51
 msgid "Workspace removal"
@@ -23315,12 +23281,16 @@ msgid ""
 "api/users/(str:username)/`; the response then includes the updated "
 "``profile`` object."
 msgstr ""
+"API пользователей предоставляет настройки профиля во вложенном объекте "
+"``profile``. Этот объект возвращается при :http:get:`/api/users/"
+"(str:username)/` только для вызывающих сторон с разрешением ``user.view`` "
+"или ``user.edit``. Пользователи без этих разрешений всё равно могут "
+"обновлять свой собственный профиль через :http:patch:`/api/users/"
+"(str:username)/`; ответ тогда включает обновлённый объект ``profile``."
 
 #: api.rst:563
-#, fuzzy
-#| msgid "Available fixes are described at :ref:`autofix`."
 msgid "Profile fields mirror the settings described in :ref:`user-profile`."
-msgstr "Доступные исправления описаны в :ref:`autofix`."
+msgstr "Поля профиля соответствуют настройкам, описанным в :ref:`user-profile`."
 
 #: api.rst:567
 msgid "Groups"
@@ -23485,10 +23455,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.7.1"
 msgid "Weblate 2026.8.1"
-msgstr "Weblate 2026.7.1"
+msgstr "Weblate 2026.8.1"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -23511,6 +23479,9 @@ msgid ""
 "Project and component APIs now expose all user-configurable settings, "
 "including access control and translation-memory settings. See :doc:`api`."
 msgstr ""
+"API проектов и компонентов теперь предоставляют все настраиваемые "
+"пользователем параметры, включая контроль доступа и настройки памяти "
+"переводов. См. :doc:`api`."
 
 #: changes.rst:11 changes.rst:55 changes.rst:124 changes.rst:188
 #: changes.rst:299 changes.rst:356 changes/v5.rst:18 changes/v5.rst:104
@@ -23560,12 +23531,16 @@ msgid ""
 "Docker Celery worker logging no longer emits duplicate records through both "
 "Celery and Weblate log handlers."
 msgstr ""
+"Журналирование Celery-воркеров в Docker больше не выдаёт дублирующиеся "
+"записи через обработчики журналов Celery и Weblate."
 
 #: changes.rst:15
 msgid ""
 "Component creation through the REST API now returns the background task URL "
 "in the response when creation work is queued."
 msgstr ""
+"Создание компонента через REST API теперь возвращает URL фоновой задачи в "
+"ответе, когда работа по созданию поставлена в очередь."
 
 #: changes.rst:16
 msgid ""
@@ -23573,24 +23548,35 @@ msgid ""
 "optional persona and style settings are absent from the stored "
 "configuration, as happens when the service is installed through the REST API."
 msgstr ""
+"Службы машинного перевода на основе больших языковых моделей больше не "
+"завершаются ошибкой, когда в сохранённой конфигурации отсутствуют "
+"необязательные настройки личности и стиля, как это бывает при установке "
+"службы через REST API."
 
 #: changes.rst:17
 msgid ""
 ":wladmin:`import_json` now preserves the component source language for newly "
 "imported components from JSON exports."
 msgstr ""
+":wladmin:`import_json` теперь сохраняет исходный язык компонента для вновь "
+"импортированных компонентов из JSON-экспортов."
 
 #: changes.rst:18
 msgid ""
 "Repository actions now require permission on every component sharing the "
 "affected repository, including linked components in other projects."
 msgstr ""
+"Действия с репозиторием теперь требуют разрешения на каждый компонент, "
+"использующий общий репозиторий, включая связанные компоненты в других "
+"проектах."
 
 #: changes.rst:19
 msgid ""
 "Legal document confirmation now explicitly covers the linked privacy policy. "
 "See :ref:`legal`."
 msgstr ""
+"Подтверждение юридических документов теперь явно охватывает связанную "
+"политику конфиденциальности. См. :ref:`legal`."
 
 #: changes.rst:22 changes.rst:91 changes.rst:249 changes.rst:389
 #: changes/v5.rst:66 changes/v5.rst:176 changes/v5.rst:311 changes/v5.rst:354
@@ -23682,26 +23668,20 @@ msgid "Contributors"
 msgstr "Участники"
 
 #: changes.rst:31
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "71?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/71?"
-"closed=1>`__."
+"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/"
+"171?closed=1>`__."
 
 #: changes.rst:34
 msgid "Weblate 2026.8"
 msgstr "Weblate 2026.8"
 
 #: changes.rst:36
-#, fuzzy
-#| msgid "*Released on August 22nd 2022.*"
 msgid "*Released on August 3rd 2026.*"
-msgstr "*Выпущено 22 августа 2022 года.*"
+msgstr "*Выпущено 3 августа 2026 года.*"
 
 #: changes.rst:40
 msgid ""
@@ -23709,13 +23689,11 @@ msgid ""
 "preference to keep all listing columns visible on narrow screens instead of "
 "hiding them."
 msgstr ""
+"Добавлена настройка :guilabel:`Показывать все столбцы в списках с помощью "
+"горизонтальной прокрутки`, чтобы сохранять видимость всех столбцов на узких "
+"экранах вместо их скрытия."
 
 #: changes.rst:41
-#, fuzzy
-#| msgid ""
-#| ":ref:`Workspaces <workspaces>` now provide a permission-"
-#| "filtered :guilabel:`My workspaces` list, archive downloads, and "
-#| "management of workspace translation memory."
 msgid ""
 ":ref:`Workspaces <workspaces>` now provide aggregate translation statistics "
 "and historical metrics, a permission-filtered :guilabel:`My workspaces` "
@@ -23723,9 +23701,12 @@ msgid ""
 "translation memory management, and :ref:`removal of empty workspaces "
 "<workspace-removal>` not associated with billing."
 msgstr ""
-":ref:`Рабочие пространства <workspaces>` теперь предоставляют "
-"отфильтрованный по разрешениям список :guilabel:`Мои рабочие пространства`, "
-"загрузку архивов и управление памятью переводов рабочего пространства."
+":ref:`Рабочие пространства <workspaces>` теперь предоставляют сводную "
+"статистику переводов и исторические метрики, отфильтрованный по разрешениям "
+"список :guilabel:`Мои рабочие пространства`, загрузку архивов, поиск и "
+"замену, рекомендации по загрузке, управление памятью переводов рабочего "
+"пространства и :ref:`удаление пустых рабочих пространств <workspace-removal>"
+"`, не связанных с биллингом."
 
 #: changes.rst:42
 msgid ""
@@ -23736,10 +23717,6 @@ msgstr ""
 "progress>` в форматах JSON, CSV и OpenMetrics."
 
 #: changes.rst:43
-#, fuzzy
-#| msgid ""
-#| "Added opt-in :ref:`running-granian-asgi` deployment support, "
-#| "including :envvar:`WEBLATE_ASGI` for Docker containers."
 msgid ""
 "Added opt-in :ref:`running-granian-asgi` deployment support, "
 "including :envvar:`WEBLATE_ASGI` for Docker containers and asynchronous "
@@ -23747,23 +23724,23 @@ msgid ""
 "requests."
 msgstr ""
 "Добавлена опциональная поддержка развёртывания :ref:`running-granian-asgi`, "
-"включая :envvar:`WEBLATE_ASGI` для контейнеров Docker."
+"включая :envvar:`WEBLATE_ASGI` для контейнеров Docker, а также асинхронный "
+"редактор машинного перевода, подключение GitHub App и запросы на обновление "
+"репозитория."
 
 #: changes.rst:44
-#, fuzzy
-#| msgid ""
-#| "Component diagnostics now record dismissal ownership, reopen after "
-#| "relevant changes, and notify only project maintainers who can act on "
-#| "warnings and errors."
 msgid ""
 "Added grouped project and workspace :guilabel:`Diagnostics` views with "
 "state, severity, category, and actionable-by-user filters. Component "
 "diagnostics now track dismissal ownership, reopen after relevant changes, "
 "and notify only project maintainers who can act on warnings and errors."
 msgstr ""
-"Диагностика компонентов теперь записывает, кто отклонил предупреждение, "
-"открывает заново после соответствующих изменений и уведомляет только "
-"сопровождающих проекта, которые могут реагировать на предупреждения и ошибки."
+"Добавлены сгруппированные представления :guilabel:`Диагностика` для проектов "
+"и рабочих пространств с фильтрами по состоянию, серьёзности, категории и "
+"возможности действия пользователем. Диагностика компонентов теперь "
+"отслеживает, кто отклонил предупреждение, открывает заново после "
+"соответствующих изменений и уведомляет только сопровождающих проекта, "
+"которые могут реагировать на предупреждения и ошибки."
 
 #: changes.rst:45
 msgid ""
@@ -23799,25 +23776,26 @@ msgid ""
 "Added API support for reading and updating :ref:`user-profile` preferences. "
 "See :ref:`api-users` endpoint."
 msgstr ""
+"Добавлена поддержка API для чтения и обновления настроек :ref:`user-"
+"profile`. См. конечную точку :ref:`api-users`."
 
 #: changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`check-max-lines` quality check for limiting the number of "
-#| "lines in translations, useful for fixed-height UI elements."
 msgid ""
 "Added :ref:`check-max-lines` and :ref:`check-asciidoc-markup` quality checks "
 "for limiting the number of translation lines and validating AsciiDoc strings."
 msgstr ""
-"Добавлена проверка качества :ref:`check-max-lines` для ограничения "
-"количества строк в переводах, полезная для элементов пользовательского "
-"интерфейса с фиксированной высотой."
+"Добавлены проверки качества :ref:`check-max-lines` и :ref:`check-asciidoc-"
+"markup` для ограничения количества строк в переводах и проверки строк "
+"AsciiDoc."
 
 #: changes.rst:50
 msgid ""
 "Added :ref:`workflow-language-restrictions`, including per-language control "
 "for restricting direct translation editing to privileged users."
 msgstr ""
+"Добавлены :ref:`workflow-language-restrictions`, включая контроль для "
+"каждого языка, позволяющий ограничить прямое редактирование переводов только "
+"для привилегированных пользователей."
 
 #: changes.rst:51
 msgid ""
@@ -23848,20 +23826,16 @@ msgstr ""
 "тип содержимого."
 
 #: changes.rst:58
-#, fuzzy
-#| msgid ""
-#| ":ref:`Add-on activity logs <addon-activity-logging>` now distinguish "
-#| "pending, successful, failed, and skipped executions and explain why an "
-#| "add-on was skipped."
 msgid ""
 "Add-on management now uses separate configuration, logs, and components "
 "tabs, while :ref:`activity logs <addon-activity-logging>` distinguish "
 "pending, successful, failed, and skipped executions and explain skipped "
 "executions."
 msgstr ""
-":ref:`Журналы активности дополнений <addon-activity-logging>` теперь "
+"Управление дополнениями теперь использует отдельные вкладки конфигурации, "
+"журналов и компонентов, а :ref:`журналы активности <addon-activity-logging>` "
 "различают ожидающие, успешные, завершившиеся ошибкой и пропущенные "
-"выполнения и объясняют, почему дополнение было пропущено."
+"выполнения и объясняют, почему выполнение было пропущено."
 
 #: changes.rst:59
 msgid ""
@@ -23876,19 +23850,19 @@ msgid ""
 "Improved loading performance for multi-language matrix views, dashboard "
 "component lists, category histories, and shared component listings."
 msgstr ""
+"Улучшена производительность загрузки для многоязычных матричных "
+"представлений, списков компонентов на панели управления, истории категорий и "
+"списков общих компонентов."
 
 #: changes.rst:61
-#, fuzzy
-#| msgid ""
-#| "Translation memory management shows active and pending entry counts and "
-#| "reports the number of entries processed during import."
 msgid ""
 "Translation memory management now loads origin summaries more efficiently, "
 "shows active and pending entry counts, and reports the number of entries "
 "processed during import."
 msgstr ""
-"Управление памятью переводов показывает количество активных и ожидающих "
-"записей и сообщает количество записей, обработанных во время импорта."
+"Управление памятью переводов теперь более эффективно загружает сводки о "
+"происхождении, показывает количество активных и ожидающих записей и сообщает "
+"количество записей, обработанных во время импорта."
 
 #: changes.rst:62
 msgid ""
@@ -23915,10 +23889,6 @@ msgstr ""
 "загрузке данных распознавания."
 
 #: changes.rst:65
-#, fuzzy
-#| msgid ""
-#| "Repository failure alerts now link directly to component version control "
-#| "settings for users who can edit them."
 msgid ""
 "Repository failure alerts now link directly to component version control "
 "settings for users who can edit them, keep technical errors in English, and "
@@ -23927,7 +23897,9 @@ msgid ""
 msgstr ""
 "Предупреждения об ошибках репозитория теперь ведут непосредственно к "
 "настройкам системы контроля версий компонента для пользователей, которые "
-"могут их редактировать."
+"могут их редактировать, оставляют технические ошибки на английском языке и "
+"локализуют диагностику, доступную для действий, для каждого зрителя, включая "
+"ограничения запросов на извлечение GitHub."
 
 #: changes.rst:66
 msgid ""
@@ -24004,18 +23976,14 @@ msgstr ""
 "недействительные."
 
 #: changes.rst:78
-#, fuzzy
-#| msgid ""
-#| "VCS operations now bind protected Git connections to validated public "
-#| "addresses and fail closed for clients which cannot enforce that binding."
 msgid ""
 "Protected outbound HTTP and Git connections now bind to validated public "
 "addresses; protected Git operations fail closed when clients cannot enforce "
 "that binding (:ghsa:`45m9-pf98-8jmq`)."
 msgstr ""
-"Операции СКВ теперь привязывают защищённые Git-соединения к проверенным "
-"публичным адресам и завершаются ошибкой для клиентов, которые не могут "
-"обеспечить эту привязку."
+"Защищённые исходящие HTTP- и Git-соединения теперь привязываются к "
+"проверенным публичным адресам; защищённые операции Git завершаются ошибкой, "
+"если клиенты не могут обеспечить эту привязку (:ghsa:`45m9-pf98-8jmq`)."
 
 #: changes.rst:79
 msgid ""
@@ -24026,16 +23994,12 @@ msgstr ""
 "сохраняются как канонические URL-адреса репозиториев компонентов."
 
 #: changes.rst:80
-#, fuzzy
-#| msgid ""
-#| "Self-service REST API e-mail changes are now restricted to verified "
-#| "addresses."
 msgid ""
 "Self-service REST API e-mail changes are now restricted to verified "
 "addresses (:ghsa:`x84p-6892-473c`)."
 msgstr ""
-"Изменения адреса электронной почты через REST API теперь ограничены "
-"подтверждёнными адресами."
+"Изменения адреса электронной почты через REST API по самообслуживанию теперь "
+"ограничены подтверждёнными адресами (:ghsa:`x84p-6892-473c`)."
 
 #: changes.rst:81
 msgid ""
@@ -24048,11 +24012,6 @@ msgstr ""
 "доступ к компонентам, ссылки на репозитории и состояния рецензирования."
 
 #: changes.rst:82
-#, fuzzy
-#| msgid ""
-#| ":ref:`Project backup imports <projectbackup>` now validate restored data "
-#| "before creating project state and skip repository-linked components when "
-#| "the importer cannot access the target component."
 msgid ""
 ":ref:`Project backup imports <projectbackup>` now validate restored data "
 "before creating project state, skip repository-linked components the "
@@ -24061,9 +24020,11 @@ msgid ""
 "jm8r`, :ghsa:`327h-qqgm-qv55`)."
 msgstr ""
 ":ref:`Импорт резервных копий проектов <projectbackup>` теперь проверяет "
-"восстановленные данные перед созданием состояния проекта и пропускает "
-"компоненты, связанные с репозиторием, когда импортёр не может получить "
-"доступ к целевому компоненту."
+"восстановленные данные перед созданием состояния проекта, пропускает "
+"компоненты, связанные с репозиторием, к которым импортёр не может получить "
+"доступ, и больше не загружает конфигурацию Mercurial из архива или "
+"перенаправление общего репозитория (:ghsa:`f66g-8pcg-jm8r`, :ghsa:`327h-qqgm-"
+"qv55`)."
 
 #: changes.rst:83
 msgid ""
@@ -24098,16 +24059,12 @@ msgstr ""
 "существуют ли недоступные идентификаторы единиц."
 
 #: changes.rst:87
-#, fuzzy
-#| msgid ""
-#| ":ref:`RSS feeds <rss>` no longer disclose change history from "
-#| "inaccessible projects or restricted components."
 msgid ""
 ":ref:`RSS feeds <rss>` no longer disclose change history from inaccessible "
 "projects or restricted components (:ghsa:`vvc6-wvqm-w5gc`)."
 msgstr ""
 ":ref:`RSS-ленты <rss>` больше не раскрывают историю изменений из недоступных "
-"проектов или компонентов с ограниченным доступом."
+"проектов или компонентов с ограниченным доступом (:ghsa:`vvc6-wvqm-w5gc`)."
 
 #: changes.rst:88
 msgid ""
@@ -24195,6 +24152,9 @@ msgid ""
 "The top-level ``languages`` field on user REST API responses has been "
 "removed; use ``profile.languages`` instead. See :ref:`api-user-profile`."
 msgstr ""
+"Поле верхнего уровня ``languages`` в ответах REST API пользователей было "
+"удалено; используйте вместо него ``profile.languages``. См. :ref:`api-user-"
+"profile`."
 
 #: changes.rst:105
 msgid ""
@@ -26023,6 +25983,10 @@ msgid ""
 "\"Emmanuelle Bonnemay\", Nicolas Lepage, \"Guillaume Lagorce\", \"Jérémie "
 "Jadé\", \"Matthias le Coach\", Любомир Василев, Spyder"
 msgstr ""
+"Михал Чигарж, Karen Konou, Nikunj Tyagi, Weblate CI, Shweta Singh, Gersona, "
+"Giacomo La Serra, Kartik Ohri, mmustafasenoglu, Mustafa Senoğlu, "
+"\"Emmanuelle Bonnemay\", Nicolas Lepage, \"Guillaume Lagorce\", \"Jérémie "
+"Jadé\", \"Matthias le Coach\", Любомир Василев, Spyder"
 
 #: changes/contributors/2026.8.rst:10
 msgid ""
@@ -26038,12 +26002,25 @@ msgid ""
 "Gabilondo, mbutsk, Oğuz Ersen, nautilusx, Yago Raña Gayoso, Blueberry, "
 "Yoshihoko, suyeon kim, Azharul Haque, win7guru, Matt P, Miguel A. Bouzada"
 msgstr ""
+"António Oliveira, hoanghuy309, reducedradius, Michal Čihař, Andrei Stepanov, "
+"為什麼不加空格, BoneNI, Любомир Василев, Adam Havránek, Libre, Horus68, "
+"Peter Vančo, Aindriú Mac Giolla Eoin, Matthaiks, VfBFan, Ldm Public, Mickaël "
+"Binos, Lee Vincent, Dick Groskamp, Rafael Fontenelle, Justin Parrot, Valeria "
+"Sofia Azañero, Priit Jõerüüt, Frank Paul Silye, goeran, Abduqadir Abliz, "
+"Arif Budiman, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Aniwene Madolomani, Pierfrancesco "
+"Passerini, Andi Chandler, Thunderstrike116, Giacomo La Serra, Ulrik, "
+"Cyborus, PPNplus, justcontributor, AlexYang, Kyotaro Iijima, Rajkumar "
+"Ramadoss, Yuri Chornoivan, DocNoc, Anucha Hlownonkor, Milo Ivir, Alexander "
+"Gabilondo, mbutsk, Oğuz Ersen, nautilusx, Yago Raña Gayoso, Blueberry, "
+"Yoshihoko, suyeon kim, Azharul Haque, win7guru, Matt P, Miguel A. Bouzada"
 
 #: changes/contributors/2026.8.rst:15
 msgid ""
 "Michal Čihař, Nikunj Tyagi, Shweta Singh, Gersona, Giacomo La Serra, Weblate "
 "CI, Kartik Ohri, Karen Konou, mmustafasenoglu, Mustafa Senoğlu, Robert Wolff"
 msgstr ""
+"Михал Чигарж, Nikunj Tyagi, Shweta Singh, Gersona, Giacomo La Serra, Weblate "
+"CI, Kartik Ohri, Karen Konou, mmustafasenoglu, Mustafa Senoğlu, Robert Wolff"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -55333,18 +55310,15 @@ msgstr ""
 "ссылаться внешне с помощью :setting:`LEGAL_URL` и :setting:`PRIVACY_URL`."
 
 #: security/privacy-compliance.rst:54
-#, fuzzy
-#| msgid ""
-#| "Terms of service confirmation can be enforced using the legal app, "
-#| "and :setting:`LEGAL_TOS_DATE` can require users to accept updated terms."
 msgid ""
 "Legal document confirmation can be enforced using the legal app, "
 "and :setting:`LEGAL_TOS_DATE` can require users to accept updated terms and, "
 "when linked, the privacy policy."
 msgstr ""
-"Подтверждение условий обслуживания может быть обеспечено с помощью "
+"Подтверждение юридических документов может быть обеспечено с помощью "
 "приложения legal, а :setting:`LEGAL_TOS_DATE` может требовать от "
-"пользователей принятия обновлённых условий."
+"пользователей принятия обновлённых условий и, если она связана, политики "
+"конфиденциальности."
 
 #: security/privacy-compliance.rst:57
 msgid ""
@@ -55634,20 +55608,15 @@ msgid "Recommendations for compliance"
 msgstr "Рекомендации по обеспечению соответствия"
 
 #: security/privacy-compliance.rst:157
-#, fuzzy
-#| msgid ""
-#| "**Notices and consent:** Provide privacy, cookie, subcontractor, and "
-#| "terms information through :ref:`legal`, and "
-#| "update :setting:`LEGAL_TOS_DATE` when users must accept changed terms."
 msgid ""
 "**Notices and consent:** Provide privacy, cookie, subcontractor, and terms "
 "information through :ref:`legal`, and update :setting:`LEGAL_TOS_DATE` when "
 "users must accept changed terms or privacy policy."
 msgstr ""
 "**Уведомления и согласие:** Предоставьте информацию о конфиденциальности, "
-"куки, субподрядчиках и условиях через :ref:`legal` и "
-"обновите :setting:`LEGAL_TOS_DATE`, когда пользователи должны принять "
-"изменённые условия."
+"куки, субподрядчиках и условиях через :ref:`legal` и обновите "
+":setting:`LEGAL_TOS_DATE`, когда пользователи должны принять изменённые "
+"условия или политику конфиденциальности."
 
 #: security/privacy-compliance.rst:160
 msgid ""
@@ -57244,22 +57213,17 @@ msgstr ""
 "*(документировано)* (источник: :doc:`/devel/reporting`, :doc:`/api`)"
 
 #: security/threat-model.rst:256
-#, fuzzy
-#| msgid ""
-#| "A stored-report finding is in model when an authenticated user can "
-#| "generate, list, or render contributor data outside the creator or current "
-#| "``reports.view`` scope. *(documented)* (source: :doc:`/devel/"
-#| "reporting`, :doc:`/api`)"
 msgid ""
 "A user-profile API finding is in model when an authenticated user can read "
 "or mutate another user's profile preferences outside the documented "
 "``user.view``, ``user.edit``, or self-service boundaries. *(documented)* "
 "(source: :doc:`/api`, :ref:`user-profile`)"
 msgstr ""
-"Результат сохранённого отчёта в модели, когда аутентифицированный "
-"пользователь может генерировать, перечислять или отображать данные "
-"участников за пределами области создателя или текущего ``reports.view``. "
-"*(документировано)* (источник: :doc:`/devel/reporting`, :doc:`/api`)"
+"Нарушение API профиля пользователя имеет место, когда аутентифицированный "
+"пользователь может читать или изменять настройки профиля другого "
+"пользователя за пределами документированных границ ``user.view``, "
+"``user.edit`` или самообслуживания. *(документировано)* (источник: :doc:`/"
+"api`, :ref:`user-profile`)"
 
 #: security/threat-model.rst:260
 msgid ""
@@ -57840,10 +57804,8 @@ msgstr ""
 "(источник: :doc:`/workflows`, :doc:`/api`)"
 
 #: security/threat-model.rst:450
-#, fuzzy
-#| msgid "User profile"
 msgid "User profile API"
-msgstr "Профиль пользователя"
+msgstr "API профиля пользователя"
 
 #: security/threat-model.rst:451
 msgid ""
@@ -57852,20 +57814,20 @@ msgid ""
 "(str:username)/`, including language and project watch preferences, "
 "dashboard component list selection, and commit or public e-mail choices"
 msgstr ""
+"Вложенный объект ``profile`` при :http:get:`/api/users/(str:username)/`, "
+":http:put:`/api/users/(str:username)/` и :http:patch:`/api/users/"
+"(str:username)/`, включая настройки языка и отслеживания проектов, выбор "
+"списка компонентов на панели управления, а также выбор адреса электронной "
+"почты для фиксации или публичного адреса"
 
 #: security/threat-model.rst:456
-#, fuzzy
-#| msgid ""
-#| "Yes, for users or project-scoped tokens with project edit permission. "
-#| "*(documented)* (source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/"
-#| "access`)"
 msgid ""
 "Yes, for authenticated users updating their own profile or actors with "
 "``user.edit``. *(documented)* (source: :doc:`/api`, :ref:`user-profile`)"
 msgstr ""
-"Да, для пользователей или токенов с областью действия проекта, имеющих "
-"разрешение на редактирование проекта. *(документировано)* (источник: :doc:`/"
-"api`, :ref:`projectbackup`, :doc:`/admin/access`)"
+"Да, для аутентифицированных пользователей, обновляющих свой собственный "
+"профиль, или участников с разрешением ``user.edit``. *(документировано)* "
+"(источник: :doc:`/api`, :ref:`user-profile`)"
 
 #: security/threat-model.rst:458
 msgid ""
@@ -57874,6 +57836,12 @@ msgid ""
 "accessible projects, and dashboard component lists are limited to lists the "
 "user is allowed to use. *(documented)* (source: :doc:`/api`)"
 msgstr ""
+"Назначайте ``user.edit`` только доверенным администраторам; поля адреса "
+"электронной почты профиля при самообслуживании принимают только "
+"подтверждённые адреса, отслеживаемые проекты ограничены доступными "
+"проектами, а списки компонентов на панели управления ограничены списками, "
+"которые пользователь может использовать. *(документировано)* (источник: "
+":doc:`/api`)"
 
 #: security/threat-model.rst:462
 msgid "Webhook endpoints"
@@ -58388,11 +58356,6 @@ msgstr ""
 "admin/access`, :doc:`/admin/auth`)"
 
 #: security/threat-model.rst:605
-#, fuzzy
-#| msgid ""
-#| "Permission assignments match the intended trust relationship. Team-level "
-#| "enforced 2FA is satisfied by human users before team-derived permissions "
-#| "apply."
 msgid ""
 "Permission assignments match the intended trust relationship. Team-level "
 "enforced 2FA is satisfied by human users before team-derived permissions "
@@ -58400,8 +58363,11 @@ msgid ""
 "repository, including linked components in other projects."
 msgstr ""
 "Назначения разрешений соответствуют предполагаемым доверительным отношениям. "
-"Принудительная 2FA на уровне команды должна быть выполнена пользователями-"
-"людьми перед применением разрешений, полученных от команды."
+"Принудительная двухфакторная аутентификация на уровне команды должна быть "
+"выполнена пользователями-людьми перед применением разрешений, полученных от "
+"команды. Разрешения на действия СКВ охватывают каждый компонент, "
+"использующий общий репозиторий, включая связанные компоненты в других "
+"проектах."
 
 #: security/threat-model.rst:610
 msgid "User or token can read or mutate data outside assigned scope."
@@ -72185,7 +72151,7 @@ msgstr ""
 
 #: user/profile.rst:123
 msgid "Table columns"
-msgstr ""
+msgstr "Столбцы таблиц"
 
 #: user/profile.rst:125
 msgid ""
@@ -72194,6 +72160,11 @@ msgid ""
 "Enable :guilabel:`Show all columns in lists using horizontal scrolling` to "
 "keep all columns instead and scroll the table horizontally when needed."
 msgstr ""
+"По умолчанию Weblate скрывает некоторые столбцы в списках (языки, "
+"компоненты, проекты, …), когда окно браузера слишком узкое, чтобы они "
+"поместились. Включите :guilabel:`Показывать все столбцы в списках с помощью "
+"горизонтальной прокрутки`, чтобы вместо этого сохранить все столбцы и "
+"прокручивать таблицу горизонтально при необходимости."
 
 #: user/profile.rst:131
 msgid "Default dashboard view"
@@ -76009,20 +75980,20 @@ msgstr ""
 "переопределений для данного языка)."
 
 #: workflows.rst:46
-#, fuzzy
-#| msgid "Specifying translation flags"
 msgid "Limiting translation languages"
-msgstr "Указание флагов перевода"
+msgstr "Ограничение языков перевода"
 
 #: workflows.rst:48
 msgid ""
 "Several settings can limit translation languages. They address different "
 "stages of the translation lifecycle and can be combined:"
 msgstr ""
+"Несколько настроек могут ограничивать языки перевода. Они охватывают "
+"различные этапы жизненного цикла перевода и могут комбинироваться:"
 
 #: workflows.rst:51
 msgid "Control requests for languages that do not exist yet"
-msgstr ""
+msgstr "Управление запросами на языки, которых ещё нет"
 
 #: workflows.rst:52
 msgid ""
@@ -76031,6 +76002,11 @@ msgid ""
 "point them to translation instructions, create the language file "
 "automatically, or disable adding new translations."
 msgstr ""
+"Настройте :ref:`project-new-lang` на уровне рабочего пространства, проекта "
+"или компонента. Компоненты могут наследовать этот параметр. Вы можете "
+"разрешить пользователям связываться с сопровождающими, направлять их к "
+"инструкциям по переводу, автоматически создавать языковой файл или отключить "
+"добавление новых переводов."
 
 #: workflows.rst:57
 msgid ""
@@ -76039,12 +76015,15 @@ msgid ""
 "change :ref:`component-new_lang` individually or automate the changes "
 "using :http:patch:`/api/components/(string:project)/(string:component)/`."
 msgstr ""
+"Администраторы проекта всё ещё могут добавить перевод, когда Weblate может "
+"создать его файл. Для компонентов, которые не наследуют настройку проекта, "
+"измените :ref:`component-new_lang` индивидуально или автоматизируйте "
+"изменения с помощью :http:patch:`/api/components/(string:project)/"
+"(string:component)/`."
 
 #: workflows.rst:62
-#, fuzzy
-#| msgid "Lists translations in Weblate."
 msgid "Limit which translation files Weblate discovers"
-msgstr "Вывести список существующих в Weblate переводов."
+msgstr "Ограничьте, какие файлы переводов обнаруживает Weblate"
 
 #: workflows.rst:63
 msgid ""
@@ -76054,12 +76033,14 @@ msgid ""
 "component file mask; it does not change permissions for translations that "
 "are already present."
 msgstr ""
+"Настройте :ref:`component-language_regex` для каждого компонента. Например, "
+"``^(de|en|fr)$`` ограничивает компонент файлами переводов, код языка которых "
+"равен ``de``, ``en`` или ``fr``. Фильтр применяется при сканировании маски "
+"файлов компонента; он не изменяет разрешения для уже существующих переводов."
 
 #: workflows.rst:69
-#, fuzzy
-#| msgid "Visible and translatable only for selected users."
 msgid "Grant translation access only for selected languages"
-msgstr "Видеть и переводить проект могут только отдельные пользователи."
+msgstr "Предоставьте доступ к переводу только для выбранных языков"
 
 #: workflows.rst:70
 msgid ""
@@ -76068,12 +76049,15 @@ msgid ""
 "remove any broader translation permission that would otherwise apply to the "
 "same users."
 msgstr ""
+"Используйте :ref:`команды с областью действия языка <custom-acl>`, когда "
+"разные пользователи должны иметь возможность переводить разные языки. "
+"Команда может только предоставлять разрешения, поэтому удалите любые более "
+"широкие разрешения на перевод, которые в противном случае применялись бы к "
+"тем же пользователям."
 
 #: workflows.rst:75
-#, fuzzy
-#| msgid "Limit processing to a single language."
 msgid "Restrict direct editing of an existing language"
-msgstr "Ограничится обработкой только заданного языка."
+msgstr "Ограничьте прямое редактирование существующего языка"
 
 #: workflows.rst:76
 msgid ""
@@ -76081,6 +76065,9 @@ msgid ""
 "translation workflow for this language in this project`, and turn "
 "on :guilabel:`Restrict direct editing`."
 msgstr ""
+"Откройте настройки языка в проекте, включите :guilabel:`Настроить рабочий "
+"процесс перевода для этого языка в этом проекте` и включите "
+":guilabel:`Ограничить прямое редактирование`."
 
 #: workflows.rst:80
 msgid ""
@@ -76089,6 +76076,11 @@ msgid ""
 "when :guilabel:`Turn on suggestions` is enabled. Turn off suggestions as "
 "well to make the language editable only by privileged users."
 msgstr ""
+"Пользователи с разрешением :guilabel:`Редактировать строку, когда "
+"предложения обязательны` могут продолжать редактировать напрямую. Другие "
+"пользователи могут добавлять предложения, когда включено :guilabel:`Включить "
+"предложения`. Отключите также предложения, чтобы сделать язык доступным для "
+"редактирования только привилегированным пользователям."
 
 #: workflows.rst:85
 msgid ""
@@ -76096,12 +76088,13 @@ msgid ""
 "languages`. A project-language customization takes precedence over the site-"
 "wide language setting."
 msgstr ""
+"Ограничение также может быть настроено для всего сайта при :ref:`changing-"
+"languages`. Настройка для конкретного языка проекта имеет приоритет над "
+"общесайтовой настройкой языка."
 
 #: workflows.rst:89
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Use suggestion voting"
-msgstr "Голосование по предложению"
+msgstr "Используйте голосование за предложения"
 
 #: workflows.rst:90
 msgid ""
@@ -76112,6 +76105,14 @@ msgid ""
 "enforced` permission to submit suggestions. Use :guilabel:`Restrict direct "
 "editing` when this restriction should not depend on automatic acceptance."
 msgstr ""
+"Включите :guilabel:`Голосование за предложения`, чтобы позволить "
+"пользователям голосовать за предложения. Голосование само по себе не "
+"ограничивает прямое редактирование. Положительный порог "
+":guilabel:`Автоматически принимать предложения` также требует, чтобы "
+"пользователи без разрешения :guilabel:`Редактировать строку, когда "
+"предложения обязательны` отправляли предложения. Используйте "
+":guilabel:`Ограничить прямое редактирование`, когда это ограничение не "
+"должно зависеть от автоматического принятия."
 
 #: workflows.rst:104
 msgid "Translation access"
