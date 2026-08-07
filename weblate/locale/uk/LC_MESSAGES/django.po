@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-07 12:21+0000\n"
+"PO-Revision-Date: 2026-08-07 13:46+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -37,8 +37,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
+"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2026.8.1.dev0\n"
 
 #: weblate/accounts/avatar.py:91
@@ -24747,6 +24747,9 @@ msgid ""
 "Could not fork repository at %(hostname)s: Repository not found. Check "
 "whether exists and user '%(username)s' has access to it."
 msgstr ""
+"Не вдалося створити відгалуження репозиторія у %(hostname)s: репозиторій не "
+"знайдено. Перевірте, чи існує репозиторій і чи має користувач «%(username)s» "
+"має до нього доступ."
 
 #: weblate/vcs/base.py:281
 #, python-format
@@ -24812,10 +24815,10 @@ msgstr ""
 "HTTP git."
 
 #: weblate/vcs/base.py:317
-#, fuzzy, python-format
-#| msgid "Could not probe the repository HTTP redirect: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %(error)s"
-msgstr "Не вдалося виконати зондування переспрямування HTTP репозиторія: %s"
+msgstr ""
+"Не вдалося виконати зондування переспрямування репозиторія HTTP: %(error)s"
 
 #: weblate/vcs/base.py:320
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
@@ -24859,10 +24862,9 @@ msgid "Could not determine the effective SSH destination."
 msgstr "Не вдалося визначити ефективне призначення SSH."
 
 #: weblate/vcs/base.py:344
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %(error)s"
-msgstr "Не вдалося вилучити рядок: %s"
+msgstr "Не вдалося визначити ефективне призначення SSH: %(error)s"
 
 #: weblate/vcs/base.py:347
 #, python-format
@@ -24878,34 +24880,32 @@ msgstr ""
 "з цієї адресою, якщо увімкнено обмеження на конфіденційність адрес."
 
 #: weblate/vcs/base.py:353
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository from %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository from %(hostname)s is not allowed."
-msgstr "Отримання даних з репозиторію VCS з %s заборонено."
+msgstr ""
+"Отримання даних з репозиторія системи керування версіями з %(hostname)s "
+"заборонено."
 
 #: weblate/vcs/base.py:355
-#, fuzzy
-#| msgid "Enter a valid GitHub host."
 msgid "Enter a valid URL."
-msgstr "Вкажіть коректний вузол GitHub."
+msgstr "Вкажіть коректну адресу."
 
 #: weblate/vcs/base.py:357
-#, fuzzy, python-format
-#| msgid "Could not parse URL: {}"
+#, python-format
 msgid "Could not parse URL: %(error)s"
-msgstr "Не вдалося проаналізувати URL-адресу: {}"
+msgstr "Не вдалося обробити адресу: %(error)s"
 
 #: weblate/vcs/base.py:362
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository using %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository using %(scheme)s is not allowed."
-msgstr "Отримання даних з репозиторію VCS за допомогою %s заборонено."
+msgstr ""
+"Отримання даних з репозиторія системи керування версіями за допомогою %"
+"(scheme)s заборонено."
 
 #: weblate/vcs/base.py:366
-#, fuzzy, python-format
-#| msgid "Could not resolve the URL domain: {}"
+#, python-format
 msgid "Could not resolve the URL domain: %(error)s"
-msgstr "Не вдалося визначити домен URL: {}"
+msgstr "Не вдалося визначити домен адреси: %(error)s"
 
 #: weblate/vcs/base.py:704
 msgid "This will push changes to the upstream repository."
@@ -25342,6 +25342,9 @@ msgid ""
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
 msgstr ""
+"Weblate не вдалося підтвердити те, що ви можете адмініструвати цей екземпляр "
+"GitHub. Розпочніть встановлення з початку з визначенням користувача GitHub, "
+"який є власником облікового запису або може адмініструвати організацію."
 
 #: weblate/vcs/views.py:885
 msgid ""
@@ -25349,24 +25352,26 @@ msgid ""
 "pending and repositories might not appear yet. Try connecting the account "
 "again later if they do not show up."
 msgstr ""
+"GitHub ще не завершив синхронізацію з'єднаного облікового запису GitHub. "
+"Завдання зі з'єднання усе ще перебуває у черзі обробки, і записи "
+"репозиторіїв могли ще не з'явитися. Спробуйте встановити з'єднання з "
+"обліковим записом пізніше, якщо записи репозиторіїв не буде показано."
 
 #: weblate/vcs/views.py:901
 msgid ""
 "The connected GitHub account was saved, but refreshing the repository list "
 "failed. Try again in a moment."
 msgstr ""
+"З'єднаний обліковий запис GitHub було збережено, але не вдалося освіжити "
+"список репозиторіїв. Повторіть спробу дещо пізніше."
 
 #: weblate/vcs/views.py:909
-#, fuzzy
-#| msgid "Created user account {}."
 msgid "Connected GitHub account added."
-msgstr "Створено обліковий запис користувача {}."
+msgstr "Додано з'єднаний обліковий запис GitHub."
 
 #: weblate/vcs/views.py:1229
-#, fuzzy
-#| msgid "Enter a valid domain name or IP address."
 msgid "Enter a valid GitHub App name and host."
-msgstr "Введіть дійсне доменне ім'я або IP-адресу."
+msgstr "Введіть чинну назву програми GitHub і вузол."
 
 #: weblate/vcs/views.py:1240
 #, python-format
@@ -25374,40 +25379,38 @@ msgid ""
 "A Weblate GitHub App is already registered for %(hostname)s. Remove it "
 "before registering another one."
 msgstr ""
+"Програму GitHub Weblate вже зареєстровано для %(hostname)s. Вилучіть її до "
+"реєстрації іншої."
 
 #: weblate/vcs/views.py:1290
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "GitHub did not return a valid registration code."
-msgstr "Не вдалося завершити реєстрацію."
+msgstr "GitHub не повернув коректного коду реєстрації."
 
 #: weblate/vcs/views.py:1303
-#, fuzzy
-#| msgid "The invitation link is no longer valid."
 msgid ""
 "The GitHub App registration link is no longer valid. Start the registration "
 "again."
-msgstr "Посилання на запрошення більше не діє."
+msgstr ""
+"Посилання на реєстрацію програми GitHub втратило чинність. Розпочніть "
+"реєстрацію з початку."
 
 #: weblate/vcs/views.py:1316
-#, fuzzy
-#| msgid "Please complete the registration to accept the invitation."
 msgid "GitHub rejected the registration code. Start the registration again."
-msgstr "Будь ласка, завершіть реєстрацію, щоб прийняти запрошення."
+msgstr "GitHub відмовив у коді реєстрації. Розпочніть реєстрацію з початку."
 
 #: weblate/vcs/views.py:1339
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "GitHub returned an incomplete App registration response."
-msgstr "Ви не можете завершити реєстрацію під час входу."
+msgstr "GitHub повернув неповну відповідь щодо реєстрації програми."
 
 #: weblate/vcs/views.py:1368
 msgid "Weblate GitHub App registered. You can now connect a GitHub account."
 msgstr ""
+"Зареєстровано програму GitHub Weblate. Тепер ви можете встановити з'єднання "
+"з обліковим записом GitHub."
 
 #: weblate/vcs/views.py:1374
 msgid "Weblate GitHub App credentials updated."
-msgstr ""
+msgstr "Оновлено реєстраційні дані програми GitHub Weblate."
 
 #: weblate/wladmin/forms.py:18
 msgid "Activation token"
@@ -25586,16 +25589,12 @@ msgid "Weblate status"
 msgstr "Стан Weblate"
 
 #: weblate/wladmin/views.py:188
-#, fuzzy
-#| msgid ""
-#| "Please change SITE_TITLE in settings to make your Weblate easy to "
-#| "recognize in discover."
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in Discover Weblate."
 msgstr ""
 "Будь ласка, змініть SITE_TITLE у параметрах, щоб ваш Weblate було просто "
-"розпізнавати при пошуку."
+"розпізнавати Discover Weblate."
 
 #: weblate/wladmin/views.py:258
 msgid "Customer care ticket created:"
@@ -25615,6 +25614,8 @@ msgid ""
 "This installation is already linked to weblate.org. Use discovery settings "
 "to manage its listing."
 msgstr ""
+"Цей встановлений екземпляр вже пов'язано з weblate.org. Скористайтеся "
+"параметрами виявлення для керування списком."
 
 #: weblate/wladmin/views.py:385
 #, fuzzy
