@@ -40,9 +40,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-06 03:04+0000\n"
-"PO-Revision-Date: 2026-08-06 16:45+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-08-07 10:07+0000\n"
+"Last-Translator: Hosted Weblate user 54392 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -6360,18 +6360,13 @@ msgstr ""
 "和 ``contracts``。"
 
 #: admin/config.rst:1407
-#, fuzzy
-#| msgid ""
-#| "Hidden pages are removed from the legal menu and return a 404 response "
-#| "when requested directly. Hiding ``terms`` or ``privacy`` is not "
-#| "recommended when terms of service confirmation is enabled."
 msgid ""
 "Hidden pages are removed from the legal menu and return a 404 response when "
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "legal document confirmation is enabled."
 msgstr ""
-"隐藏的页面将从法律菜单中移除，且直接请求时会返回 404 响应。当启用了服务条款确"
-"认功能时，不建议隐藏 ``terms`` 或 ``privacy``。"
+"隐藏的页面将从法律菜单中移除，且直接请求时会返回 404 响应。启用法律文档时，不"
+"建议隐藏 ``terms`` 或 ``privacy`` 。"
 
 #: admin/config.rst:1411
 msgid ""
@@ -6386,12 +6381,6 @@ msgstr ""
 "个链接。"
 
 #: admin/config.rst:1416
-#, fuzzy
-#| msgid ""
-#| "With terms of service confirmation enabled, hiding ``terms`` and "
-#| "setting :setting:`LEGAL_URL` makes the confirmation page link to the "
-#| "external terms document instead of embedding :file:`legal/documents/"
-#| "tos.html`."
 msgid ""
 "With legal document confirmation enabled, hiding ``terms`` and "
 "setting :setting:`LEGAL_URL` makes the confirmation page link to the "
@@ -6399,9 +6388,9 @@ msgid ""
 "tos.html`. When a privacy policy link is available, the confirmation covers "
 "both documents."
 msgstr ""
-"当启用了服务条款确认功能时，隐藏 ``terms`` 并配置 :setting:`LEGAL_URL`，会让"
-"确认页面直接跳转至外部条款文档，而不是内置的 :file:`legal/documents/"
-"tos.html`。"
+"启用法律文档确认功能时，隐藏 ``terms`` 并配置 :setting:`LEGAL_URL`，会让确认"
+"页面直接跳转至外部条款文档，而不是内嵌的 :file:`legal/documents/tos.html`。隐"
+"私政策链接可用时，确认涵盖两份文档。"
 
 #: admin/config.rst:1421
 msgid ""
@@ -6418,16 +6407,13 @@ msgid "You need :ref:`legal` installed to make this work."
 msgstr "你需要安装 :ref:`legal` 才能让其生效。"
 
 #: admin/config.rst:1444
-#, fuzzy
-#| msgid ""
-#| "Date of last update of terms of service documents. Whenever the date "
-#| "changes, users are required to agree with the updated terms of service."
 msgid ""
 "Date of the legal documents users last agreed to. Whenever the date changes, "
 "users are required to agree with the current terms of service and, when a "
 "privacy policy link is available, the privacy policy."
 msgstr ""
-"服务条款文件的最后更新日期。每当日期更改时，用户都需要同意更新的服务条款。"
+"用户上次同意的法律文档的日期。每当该日期更改时，用户都需要同意当前的服务条款"
+"以及隐私政策（当隐私政策链接可用时）。"
 
 #: admin/config.rst:1459
 msgid "URL where your Weblate instance shows its legal documents."
@@ -12031,16 +12017,12 @@ msgstr ""
 "禁用它。"
 
 #: admin/install/docker.rst:928
-#, fuzzy
-#| msgid ""
-#| "``tos-confirm`` to enable the legal module and enforce terms of service "
-#| "confirmation during social authentication and for signed-in users."
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce legal document "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
-"``tos-confirm`` 以启用法律模块并在社媒身份认证期间和对已登录用户强制确认服务"
-"条款。"
+"``tos-confirm`` 以启用法律模块并在社媒身份认证期间和对已登录用户强制确认法律"
+"文档。"
 
 #: admin/install/docker.rst:930
 msgid ""
@@ -16461,17 +16443,13 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:153
-#, fuzzy
-#| msgid ""
-#| "On changing the terms of service documents, please "
-#| "adjust :setting:`LEGAL_TOS_DATE` so that users are forced to agree with "
-#| "the updated documents."
 msgid ""
 "On changing the terms of service or privacy policy, "
 "adjust :setting:`LEGAL_TOS_DATE` when users should be forced to agree with "
 "the updated documents."
 msgstr ""
-"更改服务条款文档时，请调整 :setting:`LEGAL_TOS_DATE` 迫使用户接受更新的文档。"
+"更改服务条款或隐私政策时，如果应强制用户同意更新后的文档，请调整 "
+":setting:`LEGAL_TOS_DATE` 。"
 
 #: admin/optionals.rst:159
 msgid ""
@@ -16504,17 +16482,6 @@ msgid ""
 msgstr ""
 
 #: admin/optionals.rst:199
-#, fuzzy
-#| msgid ""
-#| "In Docker deployments, enable the legal module "
-#| "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
-#| "editing :file:`settings.py`. Use ``tos-confirm`` to enable the legal "
-#| "module and terms of service confirmation enforcement, or ``wllegal`` to "
-#| "additionally load the hosted legal document templates used by services "
-#| "operated by Weblate s.r.o. These templates are not intended for general "
-#| "use. To provide your own templates in Docker, place them in :file:`/app/"
-#| "data/python/customize/templates/legal/documents`, see :ref:`docker-static-"
-#| "override`."
 msgid ""
 "In Docker deployments, enable the legal module "
 "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
@@ -16525,12 +16492,12 @@ msgid ""
 "your own templates in Docker, place them in :file:`/app/data/python/"
 "customize/templates/legal/documents`, see :ref:`docker-static-override`."
 msgstr ""
-"在 Docker 部署中，用 :envvar:`WEBLATE_LEGAL_INTEGRATION` 开启法律模块而不是编"
-"辑 :file:`settings.py`。用 ``tos-confirm`` 启用法律模块和服务条款确认强制，或"
-"者用 ``wllegal`` 额外加载Weblate s.r.o. 运营服务使用的托管的法律文档模板。这"
-"些模板不用于一般用途。要在 Docker 中提供自己的模板，请将它们放在 :file:`/app/"
-"data/python/customize/templates/legal/documents` 中, 见 :ref:`docker-static-"
-"override`。"
+"在 Docker 部署中，用 :envvar:`WEBLATE_LEGAL_INTEGRATION` 开启法律模块，而不是"
+"编辑 :file:`settings.py`。用 ``tos-confirm`` 启用法律模块和服务法律文档确认强"
+"制，或者用 ``wllegal`` 额外加载 Weblate s.r.o. 运营服务使用的托管的法律文档模"
+"板。这些模板不用于一般用途。要在 Docker 中提供自己的模板，请将它们放在 "
+":file:`/app/data/python/customize/templates/legal/documents` 中, 见 "
+":ref:`docker-static-override`。"
 
 #: admin/optionals.rst:209
 msgid ""
@@ -18053,14 +18020,10 @@ msgid "Contribute to project translation memory"
 msgstr "贡献到项目翻译记忆库"
 
 #: admin/projects.rst:808
-#, fuzzy
-#| msgid ""
-#| "All translations within Weblate can be used thanks to shared translation "
-#| "memory."
 msgid ""
 "Controls whether translations from this component are added to the project "
 "translation memory."
-msgstr "得益于共享的翻译记忆库，Weblate 中的所有翻译都可以使用。"
+msgstr "控制是否添加此部件的译文到项目的翻译记忆库。"
 
 #: admin/projects.rst:818
 msgid "Allow translation propagation"
@@ -20516,10 +20479,8 @@ msgid ""
 msgstr ""
 
 #: api.rst:563
-#, fuzzy
-#| msgid "Available fixes are described at :ref:`autofix`."
 msgid "Profile fields mirror the settings described in :ref:`user-profile`."
-msgstr ":ref:`autofix` 描述了可用的修复。"
+msgstr "个人资料字段内容和 :ref:`user-profile` 中描述的设置一样。"
 
 #: api.rst:567
 msgid "Groups"
@@ -20666,10 +20627,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.7.1"
 msgid "Weblate 2026.8.1"
-msgstr "Weblate 2026.7.1"
+msgstr "Weblate 2026.8.1"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -20861,26 +20820,20 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: changes.rst:31
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "71?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/71?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/171?closed=1>"
+"`__。"
 
 #: changes.rst:34
 msgid "Weblate 2026.8"
 msgstr "Weblate 2026.8"
 
 #: changes.rst:36
-#, fuzzy
-#| msgid "*Released on August 22nd 2022.*"
 msgid "*Released on August 3rd 2026.*"
-msgstr "*发布于 2022 年 8 月 22 日。*"
+msgstr "*发布于 2026 年 8 月 3 日。*"
 
 #: changes.rst:40
 msgid ""
@@ -20947,13 +20900,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:49
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`check-asciidoc-markup` quality check for AsciiDoc strings."
 msgid ""
 "Added :ref:`check-max-lines` and :ref:`check-asciidoc-markup` quality checks "
 "for limiting the number of translation lines and validating AsciiDoc strings."
-msgstr "新增 AsciiDoc 字符串 :ref:`check-asciidoc-markup` 质量检查。"
+msgstr ""
+"新增 :ref:`check-max-lines` 和 :ref:`check-asciidoc-markup` 质量检查，限制翻"
+"译行数并验证 AsciiDoc 字符串。"
 
 #: changes.rst:50
 msgid ""
@@ -50761,10 +50713,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:450
-#, fuzzy
-#| msgid "User profile"
 msgid "User profile API"
-msgstr "用户个人资料"
+msgstr "用户个人资料 API"
 
 #: security/threat-model.rst:451
 msgid ""
@@ -67008,10 +66958,8 @@ msgstr ""
 "盖）。"
 
 #: workflows.rst:46
-#, fuzzy
-#| msgid "Specifying translation flags"
 msgid "Limiting translation languages"
-msgstr "指定翻译标记"
+msgstr "限制翻译语言"
 
 #: workflows.rst:48
 msgid ""
@@ -67040,10 +66988,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:62
-#, fuzzy
-#| msgid "Lists translations in Weblate."
 msgid "Limit which translation files Weblate discovers"
-msgstr "列出 Weblate 中的翻译。"
+msgstr "限制 Weblate 发现哪些翻译文件"
 
 #: workflows.rst:63
 msgid ""
@@ -67055,10 +67001,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:69
-#, fuzzy
-#| msgid "Visible and translatable only for selected users."
 msgid "Grant translation access only for selected languages"
-msgstr "仅选定的用户可见和可进行翻译。"
+msgstr "仅授予所选语言的翻译权限"
 
 #: workflows.rst:70
 msgid ""
@@ -67069,10 +67013,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:75
-#, fuzzy
-#| msgid "Limit processing to a single language."
 msgid "Restrict direct editing of an existing language"
-msgstr "将处理限制为单一语言。"
+msgstr "限制直接编辑现有语言"
 
 #: workflows.rst:76
 msgid ""
@@ -67097,10 +67039,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:89
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Use suggestion voting"
-msgstr "建议投票"
+msgstr "使用建议投票"
 
 #: workflows.rst:90
 msgid ""
