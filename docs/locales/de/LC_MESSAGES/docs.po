@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-06 03:04+0000\n"
-"PO-Revision-Date: 2026-08-06 16:44+0000\n"
+"PO-Revision-Date: 2026-08-07 10:07+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -23770,6 +23770,9 @@ msgid ""
 "Project and component APIs now expose all user-configurable settings, "
 "including access control and translation-memory settings. See :doc:`api`."
 msgstr ""
+"Die Projekt- und Komponenten-APIs stellen nun alle vom Benutzer "
+"konfigurierbaren Einstellungen bereit, einschließlich der Einstellungen für "
+"die Zugriffssteuerung und den Übersetzungsspeicher. Siehe :doc:`api`."
 
 #: changes.rst:11 changes.rst:55 changes.rst:124 changes.rst:188
 #: changes.rst:299 changes.rst:356 changes/v5.rst:18 changes/v5.rst:104
@@ -23819,12 +23822,18 @@ msgid ""
 "Docker Celery worker logging no longer emits duplicate records through both "
 "Celery and Weblate log handlers."
 msgstr ""
+"Die Protokollierung des Docker-Celery-Workers führt nicht mehr dazu, dass "
+"doppelte Einträge sowohl über den Celery- als auch über den Weblate-"
+"Protokollhandler ausgegeben werden."
 
 #: changes.rst:15
 msgid ""
 "Component creation through the REST API now returns the background task URL "
 "in the response when creation work is queued."
 msgstr ""
+"Bei der Komponentenerstellung über die REST-API wird nun die URL der "
+"Hintergrundaufgabe in der Antwort zurückgegeben, wenn der Erstellungsvorgang "
+"in die Warteschlange gestellt wird."
 
 #: changes.rst:16
 msgid ""
@@ -23832,24 +23841,35 @@ msgid ""
 "optional persona and style settings are absent from the stored "
 "configuration, as happens when the service is installed through the REST API."
 msgstr ""
+"Maschinelle Übersetzungsdienste auf Basis großer Sprachmodelle schlagen "
+"nicht mehr fehl, wenn die optionalen Einstellungen für Rolle und Stil in der "
+"gespeicherten Konfiguration fehlen, wie dies bei der Installation des "
+"Dienstes über die REST-API der Fall ist."
 
 #: changes.rst:17
 msgid ""
 ":wladmin:`import_json` now preserves the component source language for newly "
 "imported components from JSON exports."
 msgstr ""
+":wladmin:`import_json` behält nun die Ausgangssprache der Komponenten für "
+"neu importierte Komponenten aus JSON-Exporten bei."
 
 #: changes.rst:18
 msgid ""
 "Repository actions now require permission on every component sharing the "
 "affected repository, including linked components in other projects."
 msgstr ""
+"Für Repository-Aktionen ist nun eine Berechtigung für jede Komponente "
+"erforderlich, die das betroffene Repository nutzt, einschließlich verlinkter "
+"Komponenten in anderen Projekten."
 
 #: changes.rst:19
 msgid ""
 "Legal document confirmation now explicitly covers the linked privacy policy. "
 "See :ref:`legal`."
 msgstr ""
+"Die Bestätigung der Rechtsdokumente umfasst nun ausdrücklich auch die "
+"verlinkte Datenschutzerklärung. Siehe :ref:`legal`."
 
 #: changes.rst:22 changes.rst:91 changes.rst:249 changes.rst:389
 #: changes/v5.rst:66 changes/v5.rst:176 changes/v5.rst:311 changes/v5.rst:354
@@ -23962,6 +23982,9 @@ msgid ""
 "preference to keep all listing columns visible on narrow screens instead of "
 "hiding them."
 msgstr ""
+":guilabel:`Alle Spalten in Listen mit horizontalem Bildlauf anzeigen` "
+"hinzugefügt, damit auf schmalen Bildschirmen alle Spalten der Liste sichtbar "
+"bleiben und nicht ausgeblendet werden."
 
 #: changes.rst:41
 msgid ""
@@ -71215,6 +71238,11 @@ msgid ""
 "Enable :guilabel:`Show all columns in lists using horizontal scrolling` to "
 "keep all columns instead and scroll the table horizontally when needed."
 msgstr ""
+"Standardmäßig blendet Weblate einige Spalten in Listen (Sprachen, "
+"Komponenten, Projekte usw.) aus, wenn das Browserfenster zu schmal ist, um "
+"sie alle anzuzeigen. Aktivieren Sie :guilabel:`Alle Spalten in Listen mit "
+"horizontalem Bildlauf anzeigen`, um stattdessen alle Spalten beizubehalten "
+"und bei Bedarf horizontal durch die Tabelle zu scrollen."
 
 #: user/profile.rst:131
 msgid "Default dashboard view"
@@ -75035,10 +75063,8 @@ msgstr ""
 "Überschreibungen für eine bestimmte Sprache)."
 
 #: workflows.rst:46
-#, fuzzy
-#| msgid "Specifying translation flags"
 msgid "Limiting translation languages"
-msgstr "Angabe von Übersetzungsmarkierungen"
+msgstr "Übersetzungssprachen begrenzen"
 
 #: workflows.rst:48
 msgid ""
@@ -75067,10 +75093,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:62
-#, fuzzy
-#| msgid "Lists translations in Weblate."
 msgid "Limit which translation files Weblate discovers"
-msgstr "Listet die Übersetzungen in Weblate auf."
+msgstr "Von Weblate erkannte Übersetzungsdateien begrenzen"
 
 #: workflows.rst:63
 msgid ""
@@ -75082,10 +75106,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:69
-#, fuzzy
-#| msgid "Visible and translatable only for selected users."
 msgid "Grant translation access only for selected languages"
-msgstr "Nur ausgewählte Benutzer können es sehen und übersetzen."
+msgstr "Zugriff auf Übersetzungen nur für ausgewählte Sprachen gewähren"
 
 #: workflows.rst:70
 msgid ""
@@ -75096,10 +75118,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:75
-#, fuzzy
-#| msgid "Limit processing to a single language."
 msgid "Restrict direct editing of an existing language"
-msgstr "Beschränkt die Verarbeitung auf eine einzige Sprache."
+msgstr "Direktes Bearbeiten einer bestehenden Sprache einschränken"
 
 #: workflows.rst:76
 msgid ""
@@ -75124,10 +75144,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:89
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Use suggestion voting"
-msgstr "Über Vorschläge abstimmen"
+msgstr "Über Vorschläge abstimmen verwenden"
 
 #: workflows.rst:90
 msgid ""
