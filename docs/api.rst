@@ -3605,7 +3605,8 @@ Notification hooks
 ++++++++++++++++++
 
 Notification hooks allow external applications to notify Weblate that the VCS
-repository has been updated.
+repository has been updated. Weblate matches the delivery to components by
+repository URL; see :ref:`hooks-target-matching`.
 
 You can use repository endpoints for projects, components and translations to
 update individual repositories; see

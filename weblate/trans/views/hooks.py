@@ -32,15 +32,13 @@ from weblate.api.serializers import MultiFieldHyperlinkedIdentityField
 from weblate.auth.models import User
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
-from weblate.trans.hooks.fallback import (
-    get_fallback_components,
+from weblate.trans.hooks.repository import (
     normalize_full_name,
     repo_connection,
     repo_is_scp_like,
     repo_path,
     validate_full_name,
 )
-from weblate.trans.hooks.matching import HOOK_MATCH_EXACT, HOOK_MATCH_FALLBACK
 from weblate.trans.models import Component
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
@@ -148,26 +146,15 @@ def exact_repositories_filter(repos: list[str], *, include_variants: bool = True
     return spfilter
 
 
-def inexact_hook_alert_details(details: Mapping[str, object]) -> dict[str, str]:
-    """Extract details stored with inexact hook match alerts."""
-    return {
-        "service_long_name": str(details.get("service_long_name") or ""),
-        "repo_url": str(details.get("repo_url") or ""),
-        "branch": str(details.get("branch") or ""),
-        "full_name": str(details.get("full_name") or ""),
-    }
-
-
 def get_hook_components(
     repos: list[str],
-    full_name: str | None,
     *,
     exact_match: bool = False,
     project_ids: list[int] | None = None,
     component_vcs: str | None = None,
     exclude_component_vcs: list[str] | None = None,
-) -> tuple[QuerySet[Component], str]:
-    """Return hook target components and repository match method."""
+) -> QuerySet[Component]:
+    """Return hook target components matched by repository URL."""
     components = Component.objects.all()
     if project_ids is not None:
         components = components.filter(project_id__in=project_ids)
@@ -176,19 +163,9 @@ def get_hook_components(
     if exclude_component_vcs is not None:
         components = components.exclude(vcs__in=exclude_component_vcs)
 
-    repo_components = components.filter(
+    return components.filter(
         exact_repositories_filter(repos, include_variants=not exact_match)
     )
-    if exact_match:
-        return repo_components, HOOK_MATCH_EXACT
-    if repo_components.exists():
-        return repo_components, HOOK_MATCH_EXACT
-
-    fallback_components = get_fallback_components(components, repos, full_name)
-    if fallback_components is None:
-        return repo_components, HOOK_MATCH_EXACT
-
-    return fallback_components, HOOK_MATCH_FALLBACK
 
 
 def url_host(hostname: str) -> str:
@@ -1248,9 +1225,8 @@ class BaseHookView(APIView):
             verbose=f"{service_data['service_long_name']} webhook",
         )
 
-        repo_components, match_method = get_hook_components(
+        repo_components = get_hook_components(
             service_data["repos"],
-            full_name,
             exact_match=service_data.get("exact_match", False),
             project_ids=service_data.get("project_ids"),
             component_vcs=service_data.get("component_vcs"),
@@ -1281,18 +1257,11 @@ class BaseHookView(APIView):
         # Trigger updates
         updated_components: list[Component] = []
         for obj in enabled_components:
-            hook_details = service_data | {"match_method": match_method}
             updated_components.append(obj)
             LOGGER.info("%s notification will update %s", service_long_name, obj)
             obj.change_set.create(
-                action=ActionEvents.HOOK, details=hook_details, user=user
+                action=ActionEvents.HOOK, details=service_data, user=user
             )
-            if match_method == HOOK_MATCH_FALLBACK:
-                obj.add_alert(
-                    "InexactHookMatch", **inexact_hook_alert_details(hook_details)
-                )
-            else:
-                obj.delete_alert("InexactHookMatch")
             perform_update.delay("Component", obj.pk, user_id=user.id)
 
         match_status = HookMatchDict(
