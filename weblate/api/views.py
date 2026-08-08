@@ -2258,14 +2258,32 @@ class ProjectViewSet(
         instance.acting_user = request.user
         return super().update(request, *args, **kwargs)
 
+    @extend_schema(
+        responses={
+            HTTP_202_ACCEPTED: inline_serializer(
+                "ProjectDeleteResponseSerializer",
+                fields={
+                    "detail": serializers.CharField(),
+                    "task_url": serializers.URLField(),
+                },
+            )
+        }
+    )
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a project."""
         instance = self.get_object()
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
         instance.acting_user = request.user
-        project_removal.delay(instance.pk, request.user.pk)
-        return Response(status=HTTP_204_NO_CONTENT)
+        task = project_removal.delay(instance.pk, request.user.pk)
+        store_task_metadata(task.id, user_id=request.user.id)
+        return Response(
+            {
+                "detail": gettext("Project deletion scheduled."),
+                "task_url": reverse("api:task-detail", kwargs={"pk": task.id}),
+            },
+            status=HTTP_202_ACCEPTED,
+        )
 
     @extend_schema(
         description="Download all translation files in the project.",
