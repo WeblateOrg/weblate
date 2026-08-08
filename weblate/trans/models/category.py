@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, ClassVar, overload
+from typing import TYPE_CHECKING, ClassVar, cast, overload
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -396,7 +396,7 @@ class Category(
     @property
     def effective_enforced_checks(self) -> list[str]:
         """Return effective enforced checks for the category."""
-        return self.get_effective_setting("enforced_checks")
+        return cast(list[str], self.get_effective_setting("enforced_checks"))
 
     def schedule_component_enforced_checks_updates(self) -> None:
         """Trigger enforced checks updates on all components in this category."""

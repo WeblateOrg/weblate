@@ -215,19 +215,12 @@ class ProjectBackup:
         This allows backup/restore to work with the new fields without waiting for
         an external schema update.
         """
-        # Project schema: add fields to project properties and required
+        # Project schema: add fields to project properties
         project_props = self.project_schema["properties"]["project"]["properties"]
         project_props.setdefault(
             "enforced_checks", {"type": "array", "items": {"type": "string"}}
         )
         project_props.setdefault("inherit_enforced_checks", {"type": "boolean"})
-        # Also add to required if not already present
-        required = self.project_schema["properties"]["project"].setdefault(
-            "required", []
-        )
-        for field in ("enforced_checks", "inherit_enforced_checks"):
-            if field not in required:
-                required.append(field)
 
         # Category schema (nested in definitions)
         if (
@@ -239,21 +232,10 @@ class ProjectBackup:
                 "enforced_checks", {"type": "array", "items": {"type": "string"}}
             )
             cat_props.setdefault("inherit_enforced_checks", {"type": "boolean"})
-            cat_required = self.project_schema["definitions"]["category"].setdefault(
-                "required", []
-            )
-            for field in ("enforced_checks", "inherit_enforced_checks"):
-                if field not in cat_required:
-                    cat_required.append(field)
 
         # Component schema: add inherit_enforced_checks to component properties
         comp_props = self.component_schema["properties"]["component"]["properties"]
         comp_props.setdefault("inherit_enforced_checks", {"type": "boolean"})
-        comp_required = self.component_schema["properties"]["component"].setdefault(
-            "required", []
-        )
-        if "inherit_enforced_checks" not in comp_required:
-            comp_required.append("inherit_enforced_checks")
 
         # Also add to component's enforced_checks (already present) - ensure it's there
         comp_props.setdefault(

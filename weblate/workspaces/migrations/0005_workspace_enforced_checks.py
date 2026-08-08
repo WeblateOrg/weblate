@@ -25,8 +25,8 @@ class Migration(migrations.Migration):
             model_name="workspace",
             name="inherit_enforced_checks",
             field=models.BooleanField(
-                default=False,
-                help_text="Not applicable for workspaces.",
+                default=True,
+                help_text="Use enforced checks from the workspace.",
                 verbose_name="Inherit enforced checks",
             ),
         ),

@@ -75,6 +75,8 @@ class Workspace(models.Model, CacheKeyMixin):
         "language_code_style",
         "secondary_language",
         "check_flags",
+        "enforced_checks",
+        "inherit_enforced_checks",
         *COMPONENT_MESSAGE_SETTINGS,
     )
 
@@ -169,6 +171,17 @@ class Workspace(models.Model, CacheKeyMixin):
         ),
         validators=[validate_check_flags],
         blank=True,
+    )
+    enforced_checks = models.JSONField(
+        verbose_name=gettext_lazy("Enforced checks"),
+        help_text=gettext_lazy("List of checks which can not be dismissed."),
+        default=list,
+        blank=True,
+    )
+    inherit_enforced_checks = models.BooleanField(
+        default=True,
+        verbose_name=gettext_lazy("Inherit enforced checks"),
+        help_text=gettext_lazy("Use enforced checks from the workspace."),
     )
     commit_message = models.TextField(
         verbose_name=gettext_lazy("Commit message when translating"),
@@ -285,6 +298,14 @@ class Workspace(models.Model, CacheKeyMixin):
             transaction.on_commit(self.schedule_component_check_updates)
         if (
             old is not None
+            and (
+                old.enforced_checks != self.enforced_checks
+                or old.inherit_enforced_checks != self.inherit_enforced_checks
+            )
+        ):
+            transaction.on_commit(self.schedule_component_enforced_checks_updates)
+        if (
+            old is not None
             and old.contribute_workspace_tm
             and not self.contribute_workspace_tm
         ):
@@ -340,6 +361,17 @@ class Workspace(models.Model, CacheKeyMixin):
 
         for component in Component.objects.filter(project__workspace=self).iterator():
             component.schedule_update_checks(update_state=True)
+
+    def schedule_component_enforced_checks_updates(self) -> None:
+        """Trigger enforced checks updates on all components in this workspace."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
+        from weblate.trans.tasks import update_enforced_checks
+
+        for component in Component.objects.filter(
+            project__workspace=self
+        ).iterator():
+            update_enforced_checks.delay_on_commit(component.pk)
 
     def schedule_workspace_memory_updates(self) -> None:
         # ruff: ignore[import-outside-top-level]

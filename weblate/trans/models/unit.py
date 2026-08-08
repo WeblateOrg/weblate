@@ -728,7 +728,7 @@ class Unit(models.Model, LoggerMixin):
             # Avoid storing if .only() was used to fetch the query (eg. in stats)
             self.store_old_unit(self)
 
-    # pylint: disable-next=arguments-diff
+    # pylint: disable-next=arguments-differ
     def save(  # type: ignore[override]
         self,
         *,
