@@ -58,102 +58,102 @@
               <td>{{ limit.name }}</td>
               {% include "billing/used.html" with max=limit.limit total=limit.limit used=limit.current %}
               </tr>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
-      <tr>
-        <th>{% translate "Support expiry" %}</th>
-        <td colspan="3">{{ support.expiry|naturaltime }}</td>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <tr>
+          <th>{% translate "Support expiry" %}</th>
+          <td colspan="3">{{ support.expiry|naturaltime }}</td>
         </tr>
-    {% endif %}
-  </table>
-  <div class="card-footer">
-    {% if support.secret %}
-      <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage support package" %}</a>
-      <a href=""
-         class="btn btn-danger link-post float-end"
-         data-href="{% url 'manage-activate' %}"
-         data-params='{"unlink":1}'>
-        {% if support.discoverable %}
-          {% translate "Unlink support package and disable Discover Weblate" %}
-        {% else %}
-          {% translate "Unlink support package" %}
-        {% endif %}
-      </a>
-    {% endif %}
-    {% if support.name == 'community' %}
-      <a href="{{ support_url }}" class="btn btn-primary">{% translate "Purchase support package" %}</a>
-      <a href="{{ donate_url }}" class="btn btn-primary">{% translate "Give to Weblate" %}</a>
-    {% endif %}
-  </div>
-  </div>
-
-{% if support.name != 'community' %}
-  <form method="post" action="{% url 'manage-support' %}">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">{% translate "Contact customer care" %}</h4>
-      </div>
-      <div class="card-body">
-        {% csrf_token %}
-        {{ support_form|crispy }}
-      </div>
-      <div class="card-footer">
-        <input type="submit" value="{% translate "Get help" %}" class="btn btn-primary" />
-        <a href="mailto:support@weblate.org?subject=Weblate support for {{ site_domain }}"
-           class="btn btn-link">{% translate "Contact us via e-mail" %}</a>
-      </div>
-    </div>
-  </form>
-{% endif %}
-
-<div class="card">
-  <div class="card-header">
-    <h4 class="card-title">
-      {% documentation_icon 'admin/support' right=True %}
-      {% translate "Discover Weblate" %}
-    </h4>
-  </div>
-  <div class="card-body">
-    <p>{% translate "Discover Weblate helps translators find Weblate sites and projects to contribute to." %}</p>
-    <p>{% translate "When enabled, weblate.org lists your site details and public or protected projects." %}</p>
-    {% if support.secret %}
-      <p>
-        {% if support.discoverable %}
-          {% translate "Your Weblate is listed on weblate.org" %}
-        {% else %}
-          {% translate "Your Weblate is not listed on weblate.org" %}
-        {% endif %}
-      </p>
-    {% endif %}
-    {% if not support.discoverable and discovery_unavailable_reason %}
-      <div class="alert alert-warning" role="alert">{{ discovery_unavailable_reason }}</div>
-    {% endif %}
-  </div>
-  <div class="card-footer">
-    {% if support.secret %}
-      {% if support.discoverable %}
-        <a href=""
-           class="btn btn-primary link-post"
-           data-href="{% url 'manage-discovery' %}">{% translate "Disable discovery" %}</a>
-      {% elif not discovery_unavailable_reason %}
-        <a href=""
-           class="btn btn-primary link-post"
-           data-href="{% url 'manage-discovery' %}">{% translate "Enable discovery" %}</a>
       {% endif %}
-      <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage your listing" %}</a>
-    {% elif not discovery_unavailable_reason %}
-      <form method="post" action="{% url 'manage-discovery-register' %}" class="d-inline">
-        {% csrf_token %}
-        <input type="submit"
-               class="btn btn-primary"
-               value="{% translate "Enable Discover Weblate" %}" />
-      </form>
-    {% endif %}
-    <a href="https://weblate.org/discover/" class="btn btn-link">{% translate "Browse discovery" %}</a>
-  </div>
+    </table>
+    <div class="card-footer">
+      {% if support.secret %}
+        <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage support package" %}</a>
+        <a href=""
+           class="btn btn-danger link-post float-end"
+           data-href="{% url 'manage-activate' %}"
+           data-params='{"unlink":1}'>
+          {% if support.discoverable %}
+            {% translate "Unlink support package and disable Discover Weblate" %}
+          {% else %}
+            {% translate "Unlink support package" %}
+          {% endif %}
+        </a>
+      {% endif %}
+      {% if support.name == 'community' %}
+        <a href="{{ support_url }}" class="btn btn-primary">{% translate "Purchase support package" %}</a>
+        <a href="{{ donate_url }}" class="btn btn-primary">{% translate "Give to Weblate" %}</a>
+      {% endif %}
+    </div>
   </div>
 
-{% include "manage/snippets/activation-form.html" %}
+  {% if support.name != 'community' %}
+    <form method="post" action="{% url 'manage-support' %}">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Contact customer care" %}</h4>
+        </div>
+        <div class="card-body">
+          {% csrf_token %}
+          {{ support_form|crispy }}
+        </div>
+        <div class="card-footer">
+          <input type="submit" value="{% translate "Get help" %}" class="btn btn-primary" />
+          <a href="mailto:support@weblate.org?subject=Weblate support for {{ site_domain }}"
+             class="btn btn-link">{% translate "Contact us via e-mail" %}</a>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'admin/support' right=True %}
+        {% translate "Discover Weblate" %}
+      </h4>
+    </div>
+    <div class="card-body">
+      <p>{% translate "Discover Weblate helps translators find Weblate sites and projects to contribute to." %}</p>
+      <p>{% translate "When enabled, weblate.org lists your site details and public or protected projects." %}</p>
+      {% if support.secret %}
+        <p>
+          {% if support.discoverable %}
+            {% translate "Your Weblate is listed on weblate.org" %}
+          {% else %}
+            {% translate "Your Weblate is not listed on weblate.org" %}
+          {% endif %}
+        </p>
+      {% endif %}
+      {% if not support.discoverable and discovery_unavailable_reason %}
+        <div class="alert alert-warning" role="alert">{{ discovery_unavailable_reason }}</div>
+      {% endif %}
+    </div>
+    <div class="card-footer">
+      {% if support.secret %}
+        {% if support.discoverable %}
+          <a href=""
+             class="btn btn-primary link-post"
+             data-href="{% url 'manage-discovery' %}">{% translate "Disable discovery" %}</a>
+        {% elif not discovery_unavailable_reason %}
+          <a href=""
+             class="btn btn-primary link-post"
+             data-href="{% url 'manage-discovery' %}">{% translate "Enable discovery" %}</a>
+        {% endif %}
+        <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage your listing" %}</a>
+      {% elif not discovery_unavailable_reason %}
+        <form method="post" action="{% url 'manage-discovery-register' %}" class="d-inline">
+          {% csrf_token %}
+          <input type="submit"
+                 class="btn btn-primary"
+                 value="{% translate "Enable Discover Weblate" %}" />
+        </form>
+      {% endif %}
+      <a href="https://weblate.org/discover/" class="btn btn-link">{% translate "Browse discovery" %}</a>
+    </div>
+  </div>
+
+  {% include "manage/snippets/activation-form.html" %}
 
 {% endblock content %}
