@@ -5189,8 +5189,11 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
             return json.dumps([f"Bonjour {placeholder.group()}! <<foo>>"])
 
-        with patch.object(
-            machine, "fetch_llm_translations", side_effect=request_callback
+        with (
+            patch.object(machine, "_get_curated_previous_examples", return_value=[]),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
         ):
             translation = self.assert_translate(
                 "fr",
