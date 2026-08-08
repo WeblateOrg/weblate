@@ -53,7 +53,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-07 10:07+0000\n"
+"PO-Revision-Date: 2026-08-08 04:48+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -63,7 +63,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.8.1.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: admin/access.rst:4 admin/projects.rst:266
@@ -12220,17 +12220,14 @@ msgstr ""
 "помощью этого URL-адреса."
 
 #: admin/install.rst:1688
-#, fuzzy
-#| msgid ""
-#| "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` "
-#| "API endpoint."
 msgid ""
 "For monitoring metrics of Weblate you can use the :http:get:`/api/metrics/` "
 "API endpoint. Monitoring tools running locally can retrieve the same metrics "
 "using the :wladmin:`metrics` command."
 msgstr ""
-"Для мониторинга метрик Weblate вы можете использовать конечную точку "
-"API :http:get:`/api/metrics/`."
+"Для мониторинга метрик Weblate вы можете использовать конечную точку API "
+":http:get:`/api/metrics/`. Инструменты мониторинга, работающие локально, "
+"могут получать те же метрики с помощью команды :wladmin:`metrics`."
 
 #: admin/install.rst:1696
 msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
@@ -17653,10 +17650,8 @@ msgstr ""
 "обслуживание нижележащего репозитория."
 
 #: admin/management.rst:996
-#, fuzzy
-#| msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgid "Outputs the server metrics exposed by :http:get:`/api/metrics/`."
-msgstr "Добавлена совместимость с OpenMetrics для :http:get:`/api/metrics/`."
+msgstr "Выводит метрики сервера, доступные по :http:get:`/api/metrics/`."
 
 #: admin/management.rst:1008
 msgid ""
@@ -23468,10 +23463,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.8"
 msgid "Weblate 2026.9"
-msgstr "Weblate 2026.8"
+msgstr "Weblate 2026.9"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -23622,26 +23615,20 @@ msgid "Contributors"
 msgstr "Участники"
 
 #: changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "68?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/168?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/68?"
-"closed=1>`__."
+"`Все изменения подробно <https://github.com/WeblateOrg/weblate/milestone/"
+"168?closed=1>`__."
 
 #: changes.rst:25
 msgid "Weblate 2026.8.1"
 msgstr "Weblate 2026.8.1"
 
 #: changes.rst:27
-#, fuzzy
-#| msgid "*Released on August 21th 2021.*"
 msgid "*Released on August 7th 2026.*"
-msgstr "*Выпущено 21 августа 2021 года.*"
+msgstr "*Выпущено 7 августа 2026 года.*"
 
 #: changes.rst:31
 msgid ""
@@ -23657,12 +23644,16 @@ msgid ""
 "Added the :wladmin:`metrics` command for retrieving server metrics locally "
 "in JSON, CSV, or OpenMetrics format."
 msgstr ""
+"Добавлена команда :wladmin:`metrics` для локального получения метрик сервера "
+"в формате JSON, CSV или OpenMetrics."
 
 #: changes.rst:36
 msgid ""
 "Task progress now requires authentication and works for aggregate automatic "
 "translation operations."
 msgstr ""
+"Прогресс выполнения задач теперь требует аутентификации и работает для "
+"агрегированных операций автоматического перевода."
 
 #: changes.rst:37
 msgid ""
@@ -23721,17 +23712,23 @@ msgid ""
 "Add-on change history now retains only explicitly public configuration "
 "values and marks changed credential fields as redacted."
 msgstr ""
+"История изменений дополнений теперь сохраняет только явно публичные значения "
+"конфигурации и помечает изменённые поля учётных данных как скрытые."
 
 #: changes.rst:44
 msgid ""
 "Translator work reports with metrics can now be displayed and downloaded as "
 "HTML."
 msgstr ""
+"Отчёты о работе переводчиков с метриками теперь можно отображать и загружать "
+"в формате HTML."
 
 #: changes.rst:45
 msgid ""
 "Repository credentials are now consistently hidden from web and API output."
 msgstr ""
+"Учётные данные репозитория теперь последовательно скрываются в веб-"
+"интерфейсе и выводе API."
 
 #: changes.rst:55
 msgid ""
@@ -26092,10 +26089,8 @@ msgstr ""
 "CI, Kartik Ohri, Karen Konou, mmustafasenoglu, Mustafa Senoğlu, Robert Wolff"
 
 #: changes/contributors/2026.8.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, i4i, Alafi, Kartik Ohri"
-msgstr "Михал Чихарж, Карен Кону, Картик Охри"
+msgstr "Михал Чигарж, i4i, Алафи, Картик Охри"
 
 #: changes/contributors/2026.8.1.rst:10
 msgid ""
@@ -26106,12 +26101,15 @@ msgid ""
 "reducedradius, Peter Vančo, Steve, Anmoll Gupta, justcontributor, Besnik "
 "Bleta"
 msgstr ""
+"Юрий Чорноиван, hoanghuy309, goeran, peterxy, Ldm Public, Антониу Оливейра, "
+"CYAXXX, Айндриу Мак Джиолла Эоин, Валерия София Асаньеро, DocNoc, Libre, "
+"MrLeaves, Мэтт П., Ярон Шахрабани, VfBFan, Ли Винсент, Михал Чигарж, Андрей "
+"Степанов, cat, Любомир Василев, Артём Рыбаков, Matthaiks, reducedradius, "
+"Петер Ванчо, Стив, Анмолл Гупта, justcontributor, Бесник Блета"
 
 #: changes/contributors/2026.8.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, i4i, Kartik Ohri"
-msgstr "Михал Чихарж, Карен Кону, Картик Охри"
+msgstr "Михал Чигарж, i4i, Картик Охри"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -42167,10 +42165,8 @@ msgstr ""
 "согласованным с типом сохранённой конфигурации."
 
 #: contributing/addons.rst:43
-#, fuzzy
-#| msgid "Typing add-on configuration"
 msgid "Publishing add-on configuration"
-msgstr "Ввод конфигурации дополнения"
+msgstr "Публикация конфигурации дополнения"
 
 #: contributing/addons.rst:45
 msgid ""
@@ -42181,6 +42177,12 @@ msgid ""
 "default is an empty set so that newly added settings are not published "
 "accidentally."
 msgstr ""
+"История изменений дополнений может быть видна без разрешения на управление "
+"дополнениями. Перечислите поля конфигурации, которые безопасно публиковать, "
+"в атрибуте формы ``public_configuration_fields``. Поля, явно не "
+"перечисленные, сохраняются в снимке со значением null и помечаются как "
+"скрытые. По умолчанию используется пустой набор, чтобы новые настройки не "
+"публиковались случайно."
 
 #: contributing/addons.rst:51
 msgid ""
@@ -42189,6 +42191,10 @@ msgid ""
 "intentionally clone a working add-on can continue to use the stored "
 "configuration."
 msgstr ""
+"Используйте ``BaseAddon.get_public_configuration()`` всякий раз, когда "
+"конфигурация раскрывается за пределами доверенного кода управления "
+"дополнениями. Внутренние операции, которые намеренно клонируют работающее "
+"дополнение, могут продолжать использовать сохранённую конфигурацию."
 
 #: contributing/code.rst:2
 msgid "Weblate source code"
@@ -58603,6 +58609,10 @@ msgid ""
 "non-sensitive fields as public configuration; unlisted values are redacted "
 "from public change history."
 msgstr ""
+"Разрешения хоста, базы данных и хранилища не нарушены. Пользовательские "
+"дополнения перечисляют только нечувствительные поля как публичную "
+"конфигурацию; не перечисленные значения скрываются из публичной истории "
+"изменений."
 
 #: security/threat-model.rst:641
 msgid "Cross-project data leak, credential exposure, or unauthorized export."
