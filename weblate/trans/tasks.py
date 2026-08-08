@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 import time
 from contextlib import suppress
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from glob import glob
 from operator import itemgetter
@@ -19,7 +20,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import Exists, F, OuterRef
+from django.db.models import Exists, F, OuterRef, Q
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext, ngettext, override
@@ -726,19 +727,28 @@ def update_enforced_checks(component: int | Component) -> None:
 
 @app.task(trail=False)
 @transaction.atomic
-def component_removal(pk: int, uid: int) -> None:
+def component_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
     user = User.objects.get(pk=uid)
     try:
         component = Component.objects.get(pk=pk)
     except Component.DoesNotExist:
         return
 
-    _component_removal(component, user)
+    _component_removal(component, user, delete_memory=delete_memory)
 
 
 def _component_removal(
-    component: Component, user: User, batch: RemovalBatch | None = None
+    component: Component,
+    user: User,
+    batch: RemovalBatch | None = None,
+    *,
+    delete_memory: bool = False,
 ) -> None:
+    memory_cleanup = None
+    if delete_memory:
+        cleanup_batch = RemovalBatch()
+        _collect_linked_removal_targets([component.pk], cleanup_batch)
+        memory_cleanup = collect_component_memory_cleanup(cleanup_batch)
     if batch is not None:
         component.removal_batch = batch
     with component.repository.lock:
@@ -758,6 +768,76 @@ def _component_removal(
                 components = components.exclude(pk__in=batch.removed_component_ids)
             for current in components.iterator():
                 current.schedule_update_checks()
+    if memory_cleanup is not None:
+        delete_collected_component_memory(memory_cleanup)
+
+
+@dataclass(frozen=True)
+class ComponentMemoryCleanup:
+    """Memory scope identifiers retained across component deletion."""
+
+    scope_ids: frozenset[int]
+    origins: frozenset[str]
+
+
+def delete_component_memory(component: Component) -> None:
+    """Delete non-personal automatic memory for a component and linked children."""
+    batch = RemovalBatch()
+    _collect_linked_removal_targets([component.pk], batch)
+    delete_collected_component_memory(collect_component_memory_cleanup(batch))
+
+
+def collect_component_memory_cleanup(batch: RemovalBatch) -> ComponentMemoryCleanup:
+    """Collect automatic memory identifiers before removing components."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.memory.models import MemoryScope
+
+    components = list(
+        Component.objects.filter(pk__in=batch.removed_component_ids).prefetch()
+    )
+    scope_ids = frozenset(
+        MemoryScope.objects.using("default")
+        .filter(
+            scope__in=(
+                MemoryScope.SCOPE_PROJECT,
+                MemoryScope.SCOPE_SHARED,
+                MemoryScope.SCOPE_WORKSPACE,
+            ),
+            source_component_id__in=batch.removed_component_ids,
+        )
+        .values_list("id", flat=True)
+    )
+    return ComponentMemoryCleanup(
+        scope_ids=scope_ids,
+        origins=frozenset(component.full_slug for component in components),
+    )
+
+
+def delete_collected_component_memory(cleanup: ComponentMemoryCleanup) -> None:
+    """Delete automatic memory collected for removed components."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.memory.models import Memory, MemoryScope
+
+    automatic_scopes = Q(
+        scope__in=(
+            MemoryScope.SCOPE_PROJECT,
+            MemoryScope.SCOPE_SHARED,
+            MemoryScope.SCOPE_WORKSPACE,
+        ),
+    )
+    Memory.objects.delete_scope(
+        automatic_scopes
+        & (Q(id__in=cleanup.scope_ids) | Q(memory__origin__in=cleanup.origins)),
+        delete_legacy=False,
+    )
+    # TODO(2028.1): Remove legacy unscoped cleanup once Weblate no longer
+    # supports direct upgrades from 2026 releases.
+    Memory.objects.filter(
+        scopes__isnull=True,
+        origin__in=cleanup.origins,
+        legacy_user__isnull=True,
+        legacy_from_file=False,
+    ).delete()
 
 
 def _collect_removal_targets(category: Category, batch: RemovalBatch) -> None:
@@ -809,7 +889,7 @@ def _category_removal(
 
 @app.task(trail=False)
 @transaction.atomic
-def category_removal(pk: int, uid: int) -> None:
+def category_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
     user = User.objects.get(pk=uid)
     try:
         category = Category.objects.get(pk=pk)
@@ -817,8 +897,11 @@ def category_removal(pk: int, uid: int) -> None:
         return
     batch = RemovalBatch()
     _collect_removal_targets(category, batch)
+    memory_cleanup = collect_component_memory_cleanup(batch) if delete_memory else None
     with removal_batch_context(batch):
         _category_removal(category, user, batch)
+    if memory_cleanup is not None:
+        delete_collected_component_memory(memory_cleanup)
     transaction.on_commit(batch.flush)
 
 

@@ -18,7 +18,7 @@ from django.views.generic.base import TemplateView
 
 from weblate.lang.models import Language
 from weblate.memory.forms import DeleteForm, UploadForm
-from weblate.memory.models import Memory, MemoryImportError, MemoryScope
+from weblate.memory.models import Memory, MemoryImportError, MemoryQuerySet, MemoryScope
 from weblate.memory.tasks import import_memory
 from weblate.memory.utils import (
     CATEGORY_FILE,
@@ -79,16 +79,27 @@ def check_perm(user: User, permission: str, objects: ObjectsDict):
     return False
 
 
-def get_scope_delete_query(objects: ObjectsDict) -> Q:
+def get_scope_delete_query(
+    objects: ObjectsDict, *, access_user: User | None = None
+) -> Q:
     if "workspace" in objects:
-        return Q(
+        query = Q(
             scope=MemoryScope.SCOPE_WORKSPACE,
             workspace=objects["workspace"],
         )
+        if access_user is not None:
+            query &= MemoryQuerySet.get_component_access_query(access_user)
+        return query
     if "project" in objects:
         project = objects["project"]
-        return Q(
-            scope__in=(MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE),
+        automatic_query = Q(
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=project,
+        )
+        if access_user is not None:
+            automatic_query &= MemoryQuerySet.get_component_access_query(access_user)
+        return automatic_query | Q(
+            scope=MemoryScope.SCOPE_PROJECT_FILE,
             project=project,
         )
     if "user" in objects:
@@ -143,10 +154,14 @@ class DeleteView(MemoryFormView):
     def form_valid(self, form):
         if not check_perm(self.request.user, "memory.delete", self.objects):
             raise PermissionDenied
-        entries = Memory.objects.filter_type(**self.objects)
+        entries = Memory.objects.filter_type(
+            access_user=self.request.user, **self.objects
+        )
         if "origin" in self.request.POST:
             entries = entries.filter(origin=self.request.POST["origin"])
-        entries.using("default").delete_scope(get_scope_delete_query(self.objects))
+        entries.using("default").delete_scope(
+            get_scope_delete_query(self.objects, access_user=self.request.user)
+        )
         messages.success(self.request, gettext("Entries were deleted."))
         return super().form_valid(form)
 
@@ -165,37 +180,45 @@ class RebuildView(MemoryFormView):
             return self.rebuild_workspace(origin, form)
 
         project = self.objects["project"]
-        component_id = None
+        component_queryset = project.component_set.all()
+        if not (
+            self.request.user.is_superuser
+            or self.request.user.has_perm("memory.manage")
+        ):
+            component_queryset = component_queryset.filter_access(self.request.user)
         if origin:
             try:
-                component_id = project.component_set.get_by_path(origin).id
+                component = component_queryset.get_by_path(origin)
             except ObjectDoesNotExist as error:
                 raise PermissionDenied from error
+            components = [component]
+        else:
+            components = list(component_queryset.prefetch())
+        component_ids = [component.id for component in components]
+        # TODO(2028.1): Remove this migration caveat once Weblate no longer
+        # supports direct upgrades from 2026 releases. Legacy unattributed
+        # scopes are intentionally left for the background backfill.
+        component_selection = Q(source_component_id__in=component_ids)
         # Delete private entries
-        entries = Memory.objects.filter_type(**self.objects).exclude(
-            legacy_from_file=True
-        )
-        if origin:
-            entries = entries.filter(origin=origin)
+        entries = Memory.objects.filter_scope(Q())
+        entries = entries.exclude(legacy_from_file=True)
         entries.using("default").delete_scope(
-            Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
+            Q(scope=MemoryScope.SCOPE_PROJECT, project=project) & component_selection
         )
         # Delete possible shared entries
-        if origin:
-            slugs = [origin]
-        else:
-            slugs = [
-                component.full_slug for component in project.component_set.prefetch()
-            ]
-        Memory.objects.filter(origin__in=slugs).using("default").delete_scope(
+        Memory.objects.using("default").delete_scope(
             Q(
                 scope__in=(MemoryScope.SCOPE_SHARED, MemoryScope.SCOPE_WORKSPACE),
                 source_project=project,
-            ),
+            )
+            & component_selection,
             delete_legacy=False,
         )
         # Rebuild memory in background
-        import_memory.delay(project_id=project.id, component_id=component_id)
+        for component in components:
+            import_memory.delay(
+                project_id=component.project_id, component_id=component.id
+            )
         messages.success(
             self.request,
             gettext(
@@ -208,33 +231,41 @@ class RebuildView(MemoryFormView):
 
     def rebuild_workspace(self, origin: str | None, form):
         workspace = self.objects["workspace"]
-        component = None
         projects = workspace.projects.filter(contribute_workspace_tm=True)
         if not workspace.contribute_workspace_tm:
             projects = projects.none()
+        components = Component.objects.filter(project__in=projects)
+        if not (
+            self.request.user.is_superuser
+            or self.request.user.has_perm("memory.manage")
+        ):
+            components = components.filter_access(self.request.user)
         if origin:
             try:
-                component = Component.objects.filter(project__in=projects).get_by_path(
-                    origin
-                )
+                component = components.get_by_path(origin)
             except ObjectDoesNotExist as error:
                 raise PermissionDenied from error
+            rebuild_components = [component]
+        else:
+            rebuild_components = list(components.prefetch(alerts=False))
 
-        entries = Memory.objects.filter_type(workspace=workspace)
-        if origin:
-            entries = entries.filter(origin=origin)
+        component_ids = [component.id for component in rebuild_components]
+        # TODO(2028.1): Remove this migration caveat once Weblate no longer
+        # supports direct upgrades from 2026 releases. Legacy unattributed
+        # scopes are intentionally left for the background backfill.
+        component_selection = Q(source_component_id__in=component_ids)
+
+        entries = Memory.objects.filter_scope(Q())
         entries.using("default").delete_scope(
-            Q(scope=MemoryScope.SCOPE_WORKSPACE, workspace=workspace),
+            Q(scope=MemoryScope.SCOPE_WORKSPACE, workspace=workspace)
+            & component_selection,
             delete_legacy=False,
         )
 
-        if component is not None:
+        for component in rebuild_components:
             import_memory.delay(
                 project_id=component.project_id, component_id=component.id
             )
-        else:
-            for project_id in projects.values_list("id", flat=True):
-                import_memory.delay(project_id=project_id, component_id=None)
         messages.success(
             self.request,
             gettext(
@@ -294,27 +325,57 @@ class MemoryView(TemplateView):
 
     @cached_property
     def entries(self):
-        return Memory.objects.filter_type(**self.objects)
+        request = getattr(self, "request", None)
+        access_user = request.user if request is not None else self.objects.get("user")
+        return Memory.objects.filter_type(access_user=access_user, **self.objects)
 
     @cached_property
-    def component_slugs(self) -> set[str]:
+    def components(self):
         if "workspace" in self.objects:
             workspace = self.objects["workspace"]
             if not workspace.contribute_workspace_tm:
-                return set()
+                return Component.objects.none()
             components = Component.objects.filter(
                 project__workspace=workspace,
                 project__contribute_workspace_tm=True,
-            ).prefetch()
+            )
+        elif "project" in self.objects:
+            components = self.objects["project"].component_set.all()
         else:
-            components = self.objects["project"].component_set.prefetch()
-        return {component.full_slug for component in components}
+            components = Component.objects.all()
+        request = getattr(self, "request", None)
+        access_user = request.user if request is not None else self.objects.get("user")
+        if access_user is None:
+            return components.none()
+        return components.filter_access(access_user).prefetch()
+
+    @cached_property
+    def components_by_origin(self) -> dict[str, Component]:
+        component_ids = list(
+            MemoryScope.objects.using(self.entries.db)
+            .filter(
+                memory_id__in=self.entries.values("id"),
+                source_component_id__isnull=False,
+            )
+            .values_list("source_component_id", flat=True)
+            .distinct()
+        )
+        return {
+            component.full_slug: component
+            for component in self.components.filter(id__in=component_ids)
+        }
+
+    @cached_property
+    def component_slugs(self) -> set[str]:
+        return {component.full_slug for component in self.components}
 
     def get_rebuild_entries(self):
         if "workspace" in self.objects:
             workspace = self.objects["workspace"]
-            return Memory.objects.using(self.entries.db).filter_scope(
-                Q(scope=MemoryScope.SCOPE_WORKSPACE, workspace=workspace)
+            return (
+                Memory.objects.using(self.entries.db)
+                .filter_scope(Q(scope=MemoryScope.SCOPE_WORKSPACE, workspace=workspace))
+                .filter(origin__in=self.component_slugs)
             )
         project = self.objects["project"]
         scope_query = Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
@@ -324,7 +385,11 @@ class MemoryView(TemplateView):
                 source_project=project,
                 memory__origin__in=self.component_slugs,
             )
-        return Memory.objects.using(self.entries.db).filter_scope(scope_query)
+        return (
+            Memory.objects.using(self.entries.db)
+            .filter_scope(scope_query)
+            .filter(origin__in=self.component_slugs)
+        )
 
     @cached_property
     def rebuild_counts(self) -> dict[str, int]:
@@ -337,10 +402,18 @@ class MemoryView(TemplateView):
         }
 
     def get_origins(self):
-        def get_url(slug: str) -> str:
-            if "/" not in slug:
-                return ""
-            return reverse("show", kwargs={"path": slug.split("/")})
+        def get_url(slug: str, *, allow_unassociated: bool = False) -> str:
+            component = self.components_by_origin.get(slug)
+            if component is None and allow_unassociated:
+                component = next(
+                    (
+                        candidate
+                        for candidate in self.components
+                        if candidate.full_slug == slug
+                    ),
+                    None,
+                )
+            return component.get_absolute_url() if component is not None else ""
 
         file_scopes = (
             MemoryScope.SCOPE_GLOBAL_FILE,
@@ -379,7 +452,7 @@ class MemoryView(TemplateView):
                     "id__count": 0,
                     "can_rebuild": True,
                     "rebuild_count": self.rebuild_counts.get(missing, 0),
-                    "url": get_url(missing),
+                    "url": get_url(missing, allow_unassociated=True),
                 }
                 for missing in self.component_slugs - existing
             )
@@ -457,7 +530,9 @@ class DownloadView(MemoryView):
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         fmt = request.GET.get("format", "json")
         data = (
-            Memory.objects.filter_type(**self.objects).prefetch_scopes().prefetch_lang()
+            Memory.objects.filter_type(access_user=request.user, **self.objects)
+            .prefetch_scopes()
+            .prefetch_lang()
         )
         category = get_export_category(self.objects)
         if "origin" in request.GET:
@@ -471,7 +546,9 @@ class DownloadView(MemoryView):
         if "from_file" in self.objects and "kind" in request.GET:
             if request.GET["kind"] == "shared":
                 data = (
-                    Memory.objects.filter_type(use_shared=True)
+                    Memory.objects.filter_type(
+                        use_shared=True, access_user=request.user
+                    )
                     .prefetch_scopes()
                     .prefetch_lang()
                 )

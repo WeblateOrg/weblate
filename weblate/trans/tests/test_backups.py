@@ -29,7 +29,7 @@ from weblate.auth.models import AutoGroup, Group, Role, TeamMembership
 from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
-from weblate.memory.utils import CATEGORY_PRIVATE_OFFSET
+from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import (
@@ -285,6 +285,113 @@ class BackupsTest(ViewTestCase):
 
         self.assertTrue(restored.use_workspace_tm)
         self.assertTrue(restored.contribute_workspace_tm)
+
+    def test_restore_attributes_memory_scopes(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        attributed_memory = Memory.objects.create(
+            source="Restored attributed memory",
+            context="",
+            target="Obnovena prirazena pamet",
+            origin=self.component.full_slug,
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=attributed_memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+            source_component=self.component,
+        )
+        unresolved_memory = Memory.objects.create(
+            source="Restored unresolved memory",
+            context="",
+            target="Obnovena nerozpoznana pamet",
+            origin=f"{self.project.slug}/missing-component",
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=unresolved_memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        uploaded_memory = Memory.objects.create(
+            source="Restored uploaded memory",
+            context="",
+            target="Obnovena nahrana pamet",
+            origin="uploaded-memory.tmx",
+            source_language=self.component.source_language,
+            target_language=self.translation.language,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=uploaded_memory,
+            scope=MemoryScope.SCOPE_PROJECT_FILE,
+            project=self.project,
+        )
+        MemoryScope.objects.create(
+            memory=uploaded_memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            memory_data = json.loads(zipfile.read("weblate-memory.json"))
+        uploaded_entries = [
+            entry for entry in memory_data if entry["source"] == uploaded_memory.source
+        ]
+        self.assertEqual(
+            {entry["category"] for entry in uploaded_entries},
+            {CATEGORY_PRIVATE_OFFSET + self.project.pk, CATEGORY_FILE},
+        )
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored memory attribution",
+            project_slug="restored-memory-attribution",
+            user=self.user,
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        attributed_scope = MemoryScope.objects.get(
+            memory__source=attributed_memory.source,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=restored,
+        )
+        self.assertTrue(restored_component.restricted)
+        self.assertEqual(attributed_scope.source_component_id, restored_component.id)
+        unresolved_scope = MemoryScope.objects.get(
+            memory__source=unresolved_memory.source,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=restored,
+        )
+        self.assertIsNone(unresolved_scope.source_component_id)
+        restored_uploaded_memory = (
+            Memory.objects.filter(
+                source=uploaded_memory.source, scopes__project=restored
+            )
+            .distinct()
+            .get()
+        )
+        self.assertEqual(
+            set(
+                restored_uploaded_memory.scopes.filter(project=restored).values_list(
+                    "scope", flat=True
+                )
+            ),
+            {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_PROJECT_FILE},
+        )
+        self.assertFalse(
+            restored_uploaded_memory.scopes.exclude(
+                source_component__isnull=True
+            ).exists()
+        )
 
     def test_restore_creates_history_entries(self) -> None:
         backup = ProjectBackup()

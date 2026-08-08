@@ -31,8 +31,10 @@ from weblate.trans.forms import (
     AddCategoryForm,
     AnnouncementForm,
     BaseDeleteForm,
+    CategoryDeleteForm,
     CategoryRenameForm,
     CategorySettingsForm,
+    ComponentDeleteForm,
     ComponentLinkAddForm,
     ComponentLinkCategoryForm,
     ComponentRenameForm,
@@ -257,7 +259,13 @@ def remove(request: AuthenticatedHttpRequest, path):
     if not request.user.has_perm(obj.remove_permission, obj):
         raise PermissionDenied
 
-    form = BaseDeleteForm(obj, request.POST)
+    if isinstance(obj, Component):
+        form_class = ComponentDeleteForm
+    elif isinstance(obj, Category):
+        form_class = CategoryDeleteForm
+    else:
+        form_class = BaseDeleteForm
+    form = form_class(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect_param(obj, "#organize")
@@ -269,13 +277,17 @@ def remove(request: AuthenticatedHttpRequest, path):
         messages.success(request, gettext("The translation has been removed."))
     elif isinstance(obj, Component):
         parent = obj.category or obj.project
-        component_removal.delay(obj.pk, request.user.pk)
+        component_removal.delay(
+            obj.pk, request.user.pk, form.cleaned_data["delete_memory"]
+        )
         messages.success(
             request, gettext("The translation component was scheduled for removal.")
         )
     elif isinstance(obj, Category):
         parent = obj.category or obj.project
-        category_removal.delay(obj.pk, request.user.pk)
+        category_removal.delay(
+            obj.pk, request.user.pk, form.cleaned_data["delete_memory"]
+        )
         messages.success(request, gettext("The category was scheduled for removal."))
     elif isinstance(obj, Project):
         parent = reverse("home")

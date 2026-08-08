@@ -9,6 +9,7 @@ from typing import cast
 from unittest.mock import patch
 
 from django.apps import apps
+from django.core.exceptions import ValidationError
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from filelock import FileLock
@@ -49,6 +50,36 @@ from weblate.workspaces.models import Workspace
 
 
 class SettingsTest(ViewTestCase):
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_restricted_component_rejects_shared_memory(self) -> None:
+        self.component.restricted = True
+        self.project.use_shared_tm = True
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "A component can not be restricted while its project uses shared translation memory.",
+        ):
+            self.component.clean_model_settings()
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_shared_memory_rejects_restricted_component(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.project.use_shared_tm = True
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "Shared translation memory can not be enabled while the project has restricted components.",
+        ):
+            self.project.clean()
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_shared_memory_allows_unrestricted_component_edit(self) -> None:
+        self.create_link_existing(restricted=True)
+        Project.objects.filter(pk=self.project.pk).update(use_shared_tm=True)
+        component = Component.objects.get(pk=self.component.pk)
+
+        component.clean_model_settings()
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_restricted_component_permission_denial(self) -> None:
         self.project.add_user(self.user, "Administration")
