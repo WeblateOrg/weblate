@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-08 11:49+0000\n"
+"PO-Revision-Date: 2026-08-09 07:00+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -730,7 +730,7 @@ msgstr ""
 
 #: admin/access.rst:395
 msgid "`Permission`"
-msgstr ""
+msgstr "`Cấp quyền`"
 
 #: admin/access.rst:396
 msgid ""
@@ -740,7 +740,7 @@ msgstr ""
 
 #: admin/access.rst:398
 msgid "`Role`"
-msgstr ""
+msgstr "`Vai trò`"
 
 #: admin/access.rst:399
 msgid ""
@@ -749,7 +749,7 @@ msgstr ""
 
 #: admin/access.rst:401
 msgid "`User`"
-msgstr ""
+msgstr "`Người dùng`"
 
 #: admin/access.rst:402
 msgid "A user can belong to several teams."
@@ -757,7 +757,7 @@ msgstr "Một người dùng có thể thuộc nhiều nhóm khác nhau."
 
 #: admin/access.rst:403
 msgid "`Group`"
-msgstr ""
+msgstr "`Nhóm`"
 
 #: admin/access.rst:404
 msgid ""
@@ -999,6 +999,10 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
+"Các vai trò và nhóm này được tạo ra khi cài đặt. Các vai trò tích hợp sẵn "
+"luôn được cập nhật thông qua quá trình di chuyển cơ sở dữ liệu khi nâng cấp. "
+"Bạn không thể thay đổi chúng, vui lòng định nghĩa một vai trò mới nếu bạn "
+"muốn xác định bộ quyền hạn riêng của mình."
 
 #: admin/access.rst:568
 msgid ""
@@ -1772,7 +1776,7 @@ msgstr ""
 
 #: admin/auth.rst:70
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ""
+msgstr ":doc:`Backend xác thực xã hội Python <psa:backends/index>`"
 
 #: admin/auth.rst:73
 msgid "OpenID authentication"
@@ -6475,6 +6479,8 @@ msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "integrations/django/>`_"
 msgstr ""
+"`Tích hợp Django với Sentry <https://docs.sentry.io/platforms/python/"
+"integrations/django/>`_"
 
 #: admin/config.rst:2435
 msgid "Configures environment for Sentry. Defaults to ``devel``."
@@ -7842,7 +7848,7 @@ msgstr ""
 
 #: admin/customize.rst:27
 msgid "Creating a Python module"
-msgstr ""
+msgstr "Tạo một mô-đun Python"
 
 #: admin/customize.rst:29
 msgid ""
@@ -8212,7 +8218,7 @@ msgstr ""
 
 #: admin/install.rst:182 contributing/submodules.rst:29
 msgid "Python dependencies"
-msgstr ""
+msgstr "Các thư viện phụ thuộc của Python"
 
 #: admin/install.rst:184
 msgid ""
@@ -8251,7 +8257,7 @@ msgstr "https://github.com/WeblateOrg/translation-finder"
 
 #: admin/install.rst:198
 msgid "Python Social Auth"
-msgstr ""
+msgstr "Xác Thực Mạng Xã Hội bằng Python"
 
 #: admin/install.rst:199
 msgid "https://python-social-auth.readthedocs.io/"
@@ -8275,7 +8281,7 @@ msgstr ""
 
 #: admin/install.rst:209
 msgid "Python packages"
-msgstr ""
+msgstr "Các gói Python"
 
 #: admin/install.rst:210
 msgid "Weblate feature"
@@ -9766,17 +9772,14 @@ msgid ""
 msgstr ""
 
 #: admin/install.rst:1688
-#, fuzzy
-#| msgid ""
-#| "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` "
-#| "API endpoint."
 msgid ""
 "For monitoring metrics of Weblate you can use the :http:get:`/api/metrics/` "
 "API endpoint. Monitoring tools running locally can retrieve the same metrics "
 "using the :wladmin:`metrics` command."
 msgstr ""
-"Để theo dõi số liệu của Weblate, bạn có thể sử dụng điểm cuối "
-"API :http:get:`/api/metrics/`."
+"Để theo dõi các chỉ số của Weblate, bạn có thể sử dụng điểm cuối API "
+":http:get:`/api/metrics/`. Các công cụ giám sát chạy cục bộ có thể truy xuất "
+"các chỉ số tương tự bằng lệnh :wladmin:`metrics`."
 
 #: admin/install.rst:1696
 msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
@@ -10293,6 +10296,11 @@ msgid ""
 "maintained as part of your deployment. See :ref:`docker-postgres-upgrade` "
 "for upgrading the PostgreSQL server."
 msgstr ""
+"Nếu bạn sử dụng các tệp Compose mẫu mà không có thay đổi cục bộ, bạn cũng có "
+"thể xem lại các bản cập nhật trong kho lưu trữ ``docker-compose``, mặc dù "
+"điều này không cần thiết đối với hầu hết các bản nâng cấp Weblate. Các tệp "
+"Compose tùy chỉnh cần được duy trì như một phần của quá trình triển khai. "
+"Xem :ref:`docker-postgres-upgrade` để nâng cấp máy chủ PostgreSQL."
 
 #: admin/install/docker.rst:272
 msgid "Upgrading PostgreSQL container"
@@ -11329,7 +11337,7 @@ msgstr ""
 
 #: admin/install/docker.rst:1567
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 #: admin/install/docker.rst:1580
 msgid "LDAP authentication configuration."
@@ -11495,6 +11503,8 @@ msgid ""
 "`python3-saml security settings <https://github.com/SAML-Toolkits/python3-"
 "saml#settings>`_"
 msgstr ""
+"`Cài đặt bảo mật python3-saml <https://github.com/SAML-Toolkits/python3-"
+"saml#settings>`_"
 
 #: admin/install/docker.rst:1852
 msgid "SAML attributes mapping."
@@ -13053,7 +13063,7 @@ msgstr ""
 
 #: admin/install/steps/install-python.rst:2
 msgid "Python modules"
-msgstr ""
+msgstr "Các mô-đun Python"
 
 #: admin/install/steps/install-python.rst:6
 msgid "We're installing Weblate in a separate Python environment."
@@ -13078,7 +13088,7 @@ msgstr ""
 
 #: admin/install/steps/install-python.rst:32
 msgid "`Using Python environments`_"
-msgstr ""
+msgstr "`Sử dụng các môi trường Python`_"
 
 #: admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
@@ -13162,6 +13172,11 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
+"Weblate bao gồm định nghĩa cho khoảng 800 ngôn ngữ và danh sách này được mở "
+"rộng trong mỗi bản phát hành. Bất cứ khi nào Weblate được nâng cấp (chính "
+"xác hơn là bất cứ khi nào lệnh :wladmin:`migrate` được thực thi, xem "
+":ref:`generic-upgrade-instructions`), cơ sở dữ liệu ngôn ngữ sẽ được cập "
+"nhật để bao gồm tất cả các định nghĩa ngôn ngữ được cung cấp trong Weblate."
 
 #: admin/languages.rst:20
 msgid ""
@@ -16380,12 +16395,12 @@ msgid "Contribute to project translation memory"
 msgstr "Đóng góp vào bộ nhớ dịch thuật của dự án"
 
 #: admin/projects.rst:808
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "Controls whether translations from this component are added to the project "
 "translation memory."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Kiểm soát việc các bản dịch từ thành phần này có được thêm vào bộ nhớ dịch "
+"của dự án hay không."
 
 #: admin/projects.rst:818
 msgid "Allow translation propagation"
@@ -17920,7 +17935,7 @@ msgstr "Nâng cấp Weblate"
 
 #: admin/upgrade.rst:5
 msgid "Docker image upgrades"
-msgstr ""
+msgstr "Nâng cấp ảnh Docker"
 
 #: admin/upgrade.rst:7
 msgid ""
@@ -17931,7 +17946,7 @@ msgstr ""
 
 #: admin/upgrade.rst:18
 msgid "Generic upgrade instructions"
-msgstr ""
+msgstr "Hướng dẫn nâng cấp chung"
 
 #: admin/upgrade.rst:20
 msgid ""
@@ -17950,6 +17965,12 @@ msgid ""
 "across multiple releases should work, but is not as well tested as single "
 "version upgrades!"
 msgstr ""
+"Luôn kiểm tra :ref:`version-specific-instructions` trước khi nâng cấp. Nếu "
+"bạn bỏ qua bất kỳ phiên bản nào, hãy chắc chắn làm theo hướng dẫn cho tất cả "
+"các phiên bản bạn bỏ qua trong quá trình nâng cấp đó. Đôi khi, việc nâng cấp "
+"dần lên một phiên bản trung gian sẽ tốt hơn để đảm bảo quá trình chuyển đổi "
+"diễn ra suôn sẻ. Việc nâng cấp qua nhiều phiên bản khác nhau có thể hoạt "
+"động, nhưng chưa được kiểm tra kỹ lưỡng như nâng cấp một phiên bản duy nhất!"
 
 #: admin/upgrade.rst:33
 msgid ""
@@ -18060,6 +18081,10 @@ msgid ""
 "an intermediate version as listed below. Upgrades skipping this step are not "
 "supported and will break."
 msgstr ""
+"Việc nâng cấp trực tiếp chỉ được hỗ trợ cho các phiên bản phát hành trong "
+"năm dương lịch hiện tại hoặc năm trước đó. Nếu bạn cần nâng cấp vượt qua "
+"ranh giới này, hãy nâng cấp lên phiên bản trung gian như được liệt kê bên "
+"dưới trước. Việc nâng cấp bỏ qua bước này sẽ không được hỗ trợ và sẽ gây lỗi."
 
 #: admin/upgrade.rst:134
 msgid ""
@@ -18477,6 +18502,13 @@ msgid ""
 "overrides can be consolidated to the category. Differing values remain "
 "configured directly on the lower scope."
 msgstr ""
+"Khi nâng cấp các cài đặt hiện có, Weblate sẽ hợp nhất các cài đặt trùng "
+"khớp: nếu tất cả các thành phần trong một dự án sử dụng cùng một giá trị, "
+"giá trị đó sẽ được chuyển đến dự án và các thành phần đó sẽ kế thừa giá trị "
+"đó. Quá trình hợp nhất tương tự sau đó được áp dụng từ dự án đến không gian "
+"làm việc. Cài đặt danh mục được khởi tạo để kế thừa từ danh mục cha và các "
+"ghi đè rõ ràng phù hợp của danh mục con có thể được hợp nhất vào danh mục. "
+"Các giá trị khác nhau vẫn được cấu hình trực tiếp ở phạm vi thấp hơn."
 
 #: admin/workspaces.rst:274
 msgid ""
@@ -19003,10 +19035,8 @@ msgstr "Khả năng tương thích"
 #: changes/v5.rst:1973 changes/v5.rst:2014 changes/v5.rst:2037
 #: changes/v5.rst:2084 changes/v5.rst:2111 changes/v5.rst:2152
 #: changes/v5.rst:2207
-#, fuzzy
-#| msgid "pending"
 msgid "Upgrading"
-msgstr "đang chờ"
+msgstr "Nâng cấp"
 
 #: changes.rst:16 changes.rst:49 changes.rst:127 changes.rst:185
 #: changes.rst:279 changes.rst:301 changes.rst:352 changes.rst:422
@@ -19037,6 +19067,7 @@ msgstr "đang chờ"
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr ""
+"Vui lòng làm theo :ref:`generic-upgrade-instructions` để thực hiện cập nhật."
 
 #: changes.rst:19 changes.rst:52 changes.rst:133 changes.rst:190
 #: changes.rst:285 changes.rst:304 changes.rst:358 changes.rst:429
@@ -19177,11 +19208,6 @@ msgid ""
 msgstr ""
 
 #: changes.rst:65
-#, fuzzy
-#| msgid ""
-#| ":ref:`Workspaces <workspaces>` now provide a permission-"
-#| "filtered :guilabel:`My workspaces` list, archive downloads, and "
-#| "management of workspace translation memory."
 msgid ""
 ":ref:`Workspaces <workspaces>` now provide aggregate translation statistics "
 "and historical metrics, a permission-filtered :guilabel:`My workspaces` "
@@ -19189,9 +19215,12 @@ msgid ""
 "translation memory management, and :ref:`removal of empty workspaces "
 "<workspace-removal>` not associated with billing."
 msgstr ""
-":ref:`Không gian làm việc <workspaces>` hiện cung cấp danh "
-"sách :guilabel:`Không gian làm việc của tôi` được lọc theo quyền, tải xuống "
-"kho lưu trữ và quản lý bộ nhớ dịch không gian làm việc."
+":ref:`Không gian làm việc <workspaces>` hiện cung cấp số liệu thống kê dịch "
+"thuật tổng hợp và số liệu lịch sử, danh sách :guilabel:`Không gian làm việc "
+"của tôi` được lọc theo quyền, tải xuống kho lưu trữ, tìm kiếm và thay thế, "
+"hướng dẫn tải lên, quản lý bộ nhớ dịch thuật không gian làm việc và "
+":ref:`xóa các không gian làm việc trống <workspace-removal>` không liên quan "
+"đến thanh toán."
 
 #: changes.rst:66
 msgid ""
@@ -19247,14 +19276,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:73
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`check-asciidoc-markup` quality check for AsciiDoc strings."
 msgid ""
 "Added :ref:`check-max-lines` and :ref:`check-asciidoc-markup` quality checks "
 "for limiting the number of translation lines and validating AsciiDoc strings."
 msgstr ""
-"Đã thêm kiểm tra chất lượng :ref:`check-asciidoc-markup` cho chuỗi AsciiDoc."
+"Đã thêm các kiểm tra chất lượng :ref:`check-max-lines` và :ref:`check-"
+"asciidoc-markup` để giới hạn số dòng dịch và xác thực chuỗi AsciiDoc."
 
 #: changes.rst:74
 msgid ""
@@ -19266,6 +19293,7 @@ msgstr ""
 msgid ""
 "Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`."
 msgstr ""
+"Đã thêm hỗ trợ cho các tệp Qt Linguist TS phiên bản 1 cũ. Xem :ref:`qtling`."
 
 #: changes.rst:76
 #, fuzzy
@@ -19418,16 +19446,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:104
-#, fuzzy
-#| msgid ""
-#| "Self-service REST API e-mail changes are now restricted to verified "
-#| "addresses."
 msgid ""
 "Self-service REST API e-mail changes are now restricted to verified "
 "addresses (:ghsa:`x84p-6892-473c`)."
 msgstr ""
-"Việc thay đổi email thông qua API REST tự phục vụ hiện chỉ áp dụng cho các "
-"địa chỉ đã được xác minh."
+"Việc thay đổi email qua API REST tự phục vụ hiện chỉ giới hạn cho các địa "
+"chỉ đã được xác minh (:ghsa:`x84p-6892-473c`)."
 
 #: changes.rst:105
 msgid ""
@@ -20897,6 +20921,22 @@ msgid ""
 "work, Kristoffer Grundström, ssantos, Andi Chandler, Ldm Public, Alc4Traz45, "
 "Szafranek13, hms5232, Victor K, 大学没毕业"
 msgstr ""
+"Dick Groskamp, Michal Čihař, 為什麼不加空格, VfBFan, Любомир Василев, "
+"이정희, Aindriú Mac Giolla Eoin, Yaron Shahrabani, jiahaisheng, Horus68, "
+"Andrei Stepanov, Martin Srebotnjak, Peter Vančo, Hotripak, 大王叫我来巡山, "
+"Milo Ivir, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Mickaël Binos, Besnik Bleta, Frank Paul "
+"Silye, Matthaiks, abd sak, Hoseok Seo, Fulup Jakez, Gaël TISSERAND "
+"(Gtisseran), Azamat Аituganov, Mahirə Həsənova, Pierfrancesco Passerini, "
+"Libre, Mohamed Aymane Farhi, Júlia Rosell Saldaña, پرویز قادر, Jim Kats, "
+"Miguel A. Bouzada, Manuela Silva, reducedradius, Hanssium, Uh idk, Arif "
+"Budiman, Feike Donia, Zahid Rizky Fakhri, Emin Tufan Çetin, ojppe, தமிழ்நேரம், "
+"António Oliveira, Rumuz AGO, justcontributor, Flynn, Ștefan Zaharia, Nozomu "
+"Matsui, H-Media, Ecron, Weblate CI, Balázs Meskó, Fjuro, goeran, Adam "
+"Havránek, Priit Jõerüüt, Astrid Høie Silden, Alan S. Muhammed (Alan Kurdish)"
+", hoanghuy309, Yamin Siahmargooei, MeahNunh, Kartik Ohri, Valeria Sofia "
+"Azañero, Tuomas Hietala, Rafael Fontenelle, Yuri Chornoivan, AWwue-work, "
+"Kristoffer Grundström, ssantos, Andi Chandler, Ldm Public, Alc4Traz45, "
+"Szafranek13, hms5232, Victor K, 大学没毕业"
 
 #: changes/contributors/2026.7.rst:15
 msgid ""
@@ -20946,6 +20986,17 @@ msgid ""
 "Gabilondo, mbutsk, Oğuz Ersen, nautilusx, Yago Raña Gayoso, Blueberry, "
 "Yoshihoko, suyeon kim, Azharul Haque, win7guru, Matt P, Miguel A. Bouzada"
 msgstr ""
+"António Oliveira, hoanghuy309, reducedradius, Michal Čihař, Andrei Stepanov, "
+"為什麼不加空格, BoneNI, Любомир Василев, Adam Havránek, Libre, Horus68, "
+"Peter Vančo, Aindriú Mac Giolla Eoin, Matthaiks, VfBFan, Ldm Public, Mickaël "
+"Binos, Lee Vincent, Dick Groskamp, Rafael Fontenelle, Justin Parrot, Valeria "
+"Sofia Azañero, Priit Jõerüüt, Frank Paul Silye, goeran, Abduqadir Abliz, "
+"Arif Budiman, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Aniwene Madolomani, Pierfrancesco "
+"Passerini, Andi Chandler, Thunderstrike116, Giacomo La Serra, Ulrik, "
+"Cyborus, PPNplus, justcontributor, AlexYang, Kyotaro Iijima, Rajkumar "
+"Ramadoss, Yuri Chornoivan, DocNoc, Anucha Hlownonkor, Milo Ivir, Alexander "
+"Gabilondo, mbutsk, Oğuz Ersen, nautilusx, Yago Raña Gayoso, Blueberry, "
+"Yoshihoko, suyeon kim, Azharul Haque, win7guru, Matt P, Miguel A. Bouzada"
 
 #: changes/contributors/2026.8.rst:15
 msgid ""
@@ -21001,6 +21052,22 @@ msgid ""
 "qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
 "leyakid803, 김인수, bovirus"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus"
 
 #: changes/contributors/5.10.1.rst:15 changes/contributors/5.10.2.rst:15
 #: changes/contributors/5.10.3.rst:15 changes/contributors/5.10.rst:15
@@ -21032,6 +21099,24 @@ msgid ""
 "Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin"
 
 #: changes/contributors/5.10.2.rst:10
 msgid ""
@@ -21054,6 +21139,24 @@ msgid ""
 "Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor"
 
 #: changes/contributors/5.10.3.rst:10
 msgid ""
@@ -21077,6 +21180,25 @@ msgid ""
 "Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor, Sveinn "
 "í Felli, Basheer Radman, dedakir923, xuars"
 msgstr ""
+"Dick Groskamp, VfBFan, Rafael Fontenelle, Besnik Bleta, 大学没毕业, 大王叫我"
+"来巡山, Xzonn, Agnieszka C, Linerly, Peter Vančo, Aindriú Mac Giolla Eoin, "
+"Uijong Wei, BouenMarsh, Sagiri, qtm, Martin Srebotnjak, Blueberry, Horus68, "
+"Aksel Azwaw, Yaron Shahrabani, Петро Узбек, Meta Sonic, Ldm Public, Michal "
+"Čihař, Lang Q, தமிழ்நேரம், amano, MERCRED, Milo Ivir, dsa-t, JY3, Balázs "
+"Meskó, Christian Wia, Szymon Ignaczak, Nichathip Polaueng, Chang-Chia Tseng, "
+"Emil Schildknecht Nielsen, Turkish Wold, Yılmaz Durmaz, Gadzio742, Nahil4, "
+"Yi Chi Fauzi, Максим Горпиніч, Fjuro, Sketch6580, Любомир Василев, Massimo "
+"Pissarello, Julien Humbert, Ricky Tigg, Ihor Hordiichuk, Kaya Zeren, Reno "
+"Tx, Miguel A. Bouzada, n1ck, Andi Chandler, Tuomas Hietala, Priit Jõerüüt, "
+"Trond Kjetil Bremnes, Pierfrancesco Passerini, Jesper Hertel, VisionR1, "
+"pan93412, Miguel, Lynilia, Mohammed Al Otaibi, Dwi Cahyono, awadhiworld, "
+"Kyotaro Iijima, Prachi Joshi, 이정희, Carlos Manuel Picos, Vaclovas Intas, "
+"Yuri, StoyanDimitrov, Mehdi El Oualy, Vlăduț Ilie, Ettore Atalan, qywter11 "
+"qywter11, Yuri Chornoivan, Temuri Doghonadze, hugoalh, Burak Hüseyin Ekseli, "
+"leyakid803, 김인수, bovirus, WaldiS, Filipe Mota (BlackSpirits), Alyaksandr "
+"Koshal, Мирослав Николић, پرویز قادر, cat, Ilyes Kouachi, ButterflyOfFire, "
+"Eduard Ereza Martínez, nautilusx, Matthaiks, Vin, Rostyslav, RViktor, Sveinn "
+"í Felli, Basheer Radman, dedakir923, xuars"
 
 #: changes/contributors/5.10.4.rst:10
 msgid ""
@@ -21104,6 +21226,17 @@ msgid ""
 "Любомир Василев, Marc Riera, adiee5, 大王叫我来巡山, JY3, amano, Сергей, "
 "Ricky Tigg, Martin Srebotnjak, Gideon Wentink, Yuri Chornoivan"
 msgstr ""
+"Michal Čihař, Vinko Kastelic, Dick Groskamp, ButterflyOfFire, Amalia "
+"Nostalgia, VfBFan, Balázs Úr, william chen, Alexander Gabilondo, cat, Fjuro, "
+"Ritwik, Rafael Fontenelle, Bee Crankson, Ldm Public, Christian Wia, ℂ𝕠𝕠𝕠𝕝 "
+"(𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), தமிழ்நேரம், Emilia Meza, elid, xuars, Andi Chandler, "
+"RViktor, Tuukka Salminen, Yaron Shahrabani, Chang-Chia Tseng, Manuela Silva, "
+"Espea Tiviq, dedakir923, Besnik Bleta, ប៉ុកណូ រ៉ូយ៉ាល់, Dag Høidahl, Priit Jõerüüt, "
+"pan93412, Miguel A. Bouzada, Vũ Minh Nguyên, CyrTranslit, Avi Markovitz, "
+"Temuri Doghonadze, Matthaiks, Champ0999, Yauhen, Massimo Pissarello, "
+"Sketch6580, Максим Горпиніч, Emin Tufan Çetin, Agnieszka C, Ettore Atalan, "
+"Любомир Василев, Marc Riera, adiee5, 大王叫我来巡山, JY3, amano, Сергей, "
+"Ricky Tigg, Martin Srebotnjak, Gideon Wentink, Yuri Chornoivan"
 
 #: changes/contributors/5.11.rst:15
 msgid "Michal Čihař, Gersona, Kartik Ohri, Yash Kumar, AliceVisek, gpatel-fr"
@@ -21166,6 +21299,23 @@ msgid ""
 "hugoalh, Linerly, Murun Battulga, Teitei, Wael Ibrahim, Burak Hüseyin "
 "Ekseli, Eduard Ereza Martínez, Tuomas Hietala, Taiki Ohno"
 msgstr ""
+"Michal Čihař, Yauhen, Romeostar, RViktor, Francisco Serrador, ابْنُ السَدِيمِ, "
+"Alejandra Wheeler, xuars, پرویز قادر, amano, Andrei Stepanov, Jim Kats, "
+"dedakir923, Amalia Nostalgia, Aindriú Mac Giolla Eoin, elid, abdelbasset "
+"jabrane, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Rafael Fontenelle, Zahid Rizky Fakhri, "
+"Miguel A. Bouzada, Yaron Shahrabani, Fjuro, Jose Delvani, Jim Spentzos, "
+"Michał Korczak, Taufik Adi Wicaksono, joel MKO, Ldm Public, Carmelo "
+"Serraino, Yu Ting, Alex, Yago Raña Gayoso, Boonsita Noijad, Massimo "
+"Pissarello, 大王叫我来巡山, rimasx, Abhinav Ohri, Любомир Василев, Manuela "
+"Silva, Juzé, Licaon Kter, Anon, Ecron, ButterflyOfFire, Milo Ivir, Yuliia "
+"Ozkan, Christian Wia, Nat A, Drugi Sapog, Martin Srebotnjak, "
+"searinminecraft, Chou Chamnan, Priit Jõerüüt, Matthaiks, Sketch6580, Максим "
+"Горпиніч, Сергей, cat, Roland Reck, Agnieszka C, VfBFan, Besnik Bleta, Dick "
+"Groskamp, Pierfrancesco Passerini, PriitUring, Ding User, 大学没毕业, Peter "
+"Vančo, pan93412, Κyriaki L, Marijn Scholtus, Emin Tufan Çetin, Zulfar, Oasis "
+"Tri, zenobit, Abduqadir Abliz, ssantos, தமிழ்நேரம், lm, gogu, Andi Chandler, "
+"hugoalh, Linerly, Murun Battulga, Teitei, Wael Ibrahim, Burak Hüseyin "
+"Ekseli, Eduard Ereza Martínez, Tuomas Hietala, Taiki Ohno"
 
 #: changes/contributors/5.12.rst:15
 msgid ""
@@ -21214,6 +21364,23 @@ msgid ""
 "Deniil, Tuomas Hietala, Λευθέρης Τρόμπακας, M. D. Kulkarni (MDK), Golubev "
 "Alexander"
 msgstr ""
+"Emin Tufan Çetin, VfBFan, 大王叫我来巡山, Horus68, Aindriú Mac Giolla Eoin, "
+"Zulfar, Сергей, Besnik Bleta, Andi Chandler, Drugi Sapog, Eisuke Kawashima, "
+"wang, தமிழ்நேரம், Abduqadir Abliz, Yago Raña Gayoso, Manuela Silva, Arantxa, "
+"Linerly, Dick Groskamp, John, Peter Vančo, Jim Kats, WaldiS, caendeith, "
+"Michal Čihař, Florent, RViktor, hugoalh, Arun K Varghese, Wael Ibrahim, Juno "
+"Takano, Chang-Chia Tseng, eulalio, Fjuro, jonnysemon, Michael Neuendorf, "
+"Shizeeg Unadequatov, oxisol, Pierfrancesco Passerini, 大学没毕业, Любомир "
+"Василев, Ильсур Фаритович Ирназаров, Rafael Fontenelle, Yu Ting, J. Lavoie, "
+"Ilsur Irnazarov, Poesty Li, Xentrox Aero, amano, ButterflyOfFire, gfbdrgn, "
+"Zahid Rizky Fakhri, searinminecraft, Miguel A. Bouzada, pan93412, Mohammed "
+"Al Otaibi, Pexauteau Santander, Avi Markovitz, Helder Santana, qtm, "
+"Christian Wia, Ricky Tigg, Priit Jõerüüt, LucasMZ, VisionR1, ssantos, "
+"Yauhen, Clément Lyonnet, yangyangdaji, Максим Горпиніч, Matthaiks, Agnieszka "
+"C, Aleš Hakl, Yaron Shahrabani, Massimo Pissarello, 이정희, Dinh Nguyen, "
+"Martin Srebotnjak, Thunderstrike116, sletego, Sketch6580, 안정언, AlaxLima, "
+"Deniil, Tuomas Hietala, Λευθέρης Τρόμπακας, M. D. Kulkarni (MDK), Golubev "
+"Alexander"
 
 #: changes/contributors/5.13.rst:15
 msgid ""
@@ -21249,6 +21416,24 @@ msgid ""
 "Chiang, Haowei Hsu, Chang-Chia Tseng, notlin4, Supaplex, n1ck, Changseop "
 "Yeom, Ldm Public, Vitalii, Yago Raña Gayoso, Agnieszka C, Nguyễn Ngọc Khánh"
 msgstr ""
+"pan93412, eulalio, Zahid Rizky Fakhri, Maciej Olko, Aindriú Mac Giolla Eoin, "
+"Christian Wia, Fjuro, Brian Njoroge, ssantos, Junghyuk Kwon, hugoalh, Alexis "
+"Launay, Wolf, ℂ𝕠𝕠𝕠𝕝 (𝕘𝕚𝕥𝕙𝕦𝕓.𝕔𝕠𝕞/ℂ𝕠𝕠𝕠𝕝), Yaron Shahrabani, Marija "
+"Grineviciute, Milo Ivir, Данил Костенков, Dick Groskamp, abdelbasset "
+"jabrane, CyrTranslit, cat, Michal Čihař, VfBFan, Wuzzy, Michalis, Deleted "
+"User, Francisco Serrador, Adolfo Jayme Barrientos, Ricky Tigg, Nicolas Van "
+"Aarsen, Julien Humbert, Jérôme, Nifou, Miguel A. Bouzada, elid, RViktor, "
+"Taufik Adi Wicaksono, Reza Almanda, Sveinn í Felli, Massimo Pissarello, "
+"Kyotaro Iijima, amano, 이정희, WaldiS, tomkolp, Piotr Kołtun, Horus68, "
+"Manuela Silva, Alan Marques, Rafael Fontenelle, Alefsander Ribeiro "
+"Nascimento, Simona Iacob, Nicoara Alex, Golubev Alexander, Сергей, "
+"Blueberry, Mingun, xXx, Vin, BouenMarsh, gfbdrgn, Igor Polyakov, qtm, Alexey "
+"Napalkov, Julija Juli, Reno Tx, தமிழ்நேரம், Kaya Zeren, Yuri Chornoivan, Ihor "
+"Hordiichuk, Mirka Danylenko, Tymofii Lytvynenko, Andrij Mizyk, Максим "
+"Горпиніч, 大王叫我来巡山, Sketch6580, JY3, 大学没毕业, Xiang Heng Wei, "
+"yangyangdaji, Xzonn, Peter Dave Hello, 峡州仙士, Winston Sung, Toomore "
+"Chiang, Haowei Hsu, Chang-Chia Tseng, notlin4, Supaplex, n1ck, Changseop "
+"Yeom, Ldm Public, Vitalii, Yago Raña Gayoso, Agnieszka C, Nguyễn Ngọc Khánh"
 
 #: changes/contributors/5.13.1.rst:15
 msgid "Michal Čihař, nijel, Kartik Ohri, Paul Harriet Asiñero"
@@ -21302,6 +21487,18 @@ msgid ""
 "webhook, Agnieszka C, Arif Budiman, Yaron Shahrabani, Karen Konou, Kartik "
 "Ohri, Juhari Yusuf Fatahillah, Дмитрий Михирев, Fjuro, Yago Raña Gayoso"
 msgstr ""
+"Michal Čihař, eulalio, Zahid Rizky Fakhri, Divarrek, Sam Plimmer, amano, "
+"Sketch6580, Manuela Silva, Aindriú Mac Giolla Eoin, Максим Горпиніч, Milo "
+"Ivir, qywter11 qywter11, 大学没毕业, Changseop Yeom, Marija Grineviciute, "
+"Peter Vančo, Laurent FAVOLE, Сергей, Royston Shufflebotham, Massimo "
+"Pissarello, Emin Tufan Çetin, Juno Takano, Horus68, Martin Srebotnjak, "
+"Altos, ovl-1, 이정희, Yauhen, cat, Jessica Patricio, Alejandro Moctezuma, "
+"Kristijan \\\"Fremen\\\" Velkovski, Liviu Roman, Sveinn í Felli, Yamin "
+"Siahmargooei, Besnik Bleta, Øjvind Fritjof Arnfred, Danial Behzadi, Miguel "
+"A. Bouzada, CRISTIAN ANDREI, Denis96, Ldm Public, ROSPL-GR2-2025, Dick "
+"Groskamp, Jim Kats, Graaati, coronabond, VfBFan, Любомир Василев, GitHub "
+"webhook, Agnieszka C, Arif Budiman, Yaron Shahrabani, Karen Konou, Kartik "
+"Ohri, Juhari Yusuf Fatahillah, Дмитрий Михирев, Fjuro, Yago Raña Gayoso"
 
 #: changes/contributors/5.14.rst:15
 msgid ""
@@ -21358,6 +21555,20 @@ msgid ""
 "Pierfrancesco Passerini, Mikenu Takeru, Marazm Mamazm, Takeru Mikenu, Emin "
 "Tufan Çetin, Zahid Rizky Fakhri, Serhii Horichenko, Agnieszka C, WaldiS"
 msgstr ""
+"Miguel A. Bouzada, Turkish Language Team 🇹🇷, Francisco Serrador, "
+"hoanghuy309, Priit Jõerüüt, Ldm Public, eulalio, ssantos, Christian Wia, "
+"Andi Chandler, Joel A, Peter Vančo, Dick Groskamp, Besnik Bleta, Dũng Vũ, "
+"Nicola Bortoletto, Ricky Tigg, Chang-Chia Tseng, 大学没毕业, Yaron "
+"Shahrabani, Karen Konou, Michal Čihař, Minh Tâm Nguyễn, VfBFan, Miniontoby, "
+"pan93412, ButterflyOfFire, 이정희, Wirjadisastra Wiki, Sketch6580, liilliil, "
+"dreigiau, Blueberry, Jim Kats, Arif Budiman, marvel at flowers, 大王叫我来巡"
+"山, Golubev Alexander, Alyaksandr Koshal, Yauhen, 109247019824, Сергей, "
+"Manuela Silva, ابْنُ السَدِيمِ, Changseop Yeom, Daniel Nylander, Kristoffer "
+"Grundström, Annamurat Ovezov, gattyan61, Fulup Jakez, Milo Ivir, پرویز قادر, "
+"Xusi Fons, Anusuk Sangubon, Matthaiks, Gašper Pintar, Максим Горпиніч, "
+"Aindriú Mac Giolla Eoin, Fjuro, Любомир Василев, Massimo Pissarello, "
+"Pierfrancesco Passerini, Mikenu Takeru, Marazm Mamazm, Takeru Mikenu, Emin "
+"Tufan Çetin, Zahid Rizky Fakhri, Serhii Horichenko, Agnieszka C, WaldiS"
 
 #: changes/contributors/5.15.rst:15
 msgid ""
@@ -21437,6 +21648,20 @@ msgid ""
 "Alexander Gabilondo, Любомир Василев, Francisco Serrador, devimarj, Cyrille "
 "Duverne, 大学没毕业, Hotripak, delvani, A J."
 msgstr ""
+"தமிழ்நேரம், Andi Chandler, Daniel Nylander, Michal Čihař, VfBFan, "
+"ButterflyOfFire, Emin Tufan Çetin, eulalio, Milo Ivir, Yuri Chornoivan, 大王"
+"叫我来巡山, Zahid Rizky Fakhri, Peter Vančo, Kyotaro Iijima, amano, "
+"Hyeonjeong Lee, Yaron Shahrabani, Massimo Pissarello, Blueberry, Aindriú Mac "
+"Giolla Eoin, CRISTIAN ANDREI, Максим Горпиніч, Shah Zaman Pathan, Eduard "
+"Ereza Martínez, Alexis Launay, Luis Carlos González Morales, AlaxLima, "
+"Andrei Stepanov, Pierfrancesco Passerini, Valentin Ljuba, Anusuk Sangubon, "
+"Supaplex, Besnik Bleta, Matthaiks, Agnieszka C, Sketch6580, Mickaël Binos, U "
+"G, Kristoffer Grundström, Fjuro, 109247019824, Miguel A. Bouzada, Jim "
+"Spentzos, Fulup Jakez, Jim Kats, Omer I.S., nautilusx, jonnysemon, Martin "
+"Srebotnjak, Umida Hikmatilla, Arif Budiman, Ldm Public, pan93412, Heimen "
+"Stoffels, Romhányi-Kakucska Viktor, Pedro Leite, RViktor, Dick Groskamp, "
+"Alexander Gabilondo, Любомир Василев, Francisco Serrador, devimarj, Cyrille "
+"Duverne, 大学没毕业, Hotripak, delvani, A J."
 
 #: changes/contributors/5.16.rst:15
 msgid ""
@@ -21500,6 +21725,23 @@ msgid ""
 "jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
 "Gayoso, anas agha, Ettore Atalan"
 msgstr ""
+"PICOPress, Blueberry, Deleted User, Francisco Serrador, eulalio, Pavel "
+"Miniutka, Amir E. Aharoni, hoanghuy309, nKsyn, Jim Kats, Martin Srebotnjak, "
+"Zahid Rizky Fakhri, symegac, Francesco Marinucci, Michal Čihař, Hyeonjeong "
+"Lee, ovl-1, Tarás Lavrentiev, Edson Wolf, Yuri Chornoivan, Omer I.S., "
+"Arantxa, Tuomas Hietala, Milo Ivir, justcontributor, Kristoffer Grundström, "
+"Andi Chandler, Andrei Stepanov, ButterflyOfFire, Átila França, Мария "
+"Рангелова, EESF-2, CzaroGame, Agnieszka C, Manuela Silva, پرویز قادر, "
+"JiZPaper, Fjuro, Alexis Launay, tfr tint, Candied-Ecard, Kyotaro Iijima, "
+"Priit Jõerüüt, Matthaiks, Besnik Bleta, delvani, Mickaël Binos, VfBFan, UDP, "
+"Aindriú Mac Giolla Eoin, Adam Havránek, mohammadA, 大王叫我来巡山, "
+"Sketch6580, Dick Groskamp, Heimen Stoffels, Yaron Shahrabani, Любомир "
+"Василев, Максим Горпиніч, Emin Tufan Çetin, Horus68, Sjur N Moshagen, Peter "
+"Vančo, Romhányi-Kakucska Viktor, ZayedRashid, Julien Lepiller, Massimo "
+"Pissarello, Jeff Huang, ojppe, தமிழ்நேரம், ibragimov, Sylvestre Ledru, Ldm "
+"Public, pan93412, Jernej Pangerc, Luciana Waldbaur, username-generic, "
+"jonnysemon, syl, Arif Budiman, Max Kleinehelleforth, Carp300, Yago Raña "
+"Gayoso, anas agha, Ettore Atalan"
 
 #: changes/contributors/5.17.rst:15
 msgid ""
@@ -21936,7 +22178,7 @@ msgstr "Hỗ trợ trực tiếp cho thông báo GitHub."
 
 #: changes/v0.rst:53
 msgid "Added support for cleaning up orphaned checks and translations."
-msgstr ""
+msgstr "Đã thêm hỗ trợ dọn dẹp các kiểm tra và bản dịch bị bỏ rơi."
 
 #: changes/v0.rst:54
 msgid "Displays nearby strings while translating."
@@ -22140,7 +22382,7 @@ msgstr ""
 
 #: changes/v1.rst:17
 msgid "Added support for shields.io badge."
-msgstr ""
+msgstr "Đã thêm hỗ trợ huy hiệu shields.io."
 
 #: changes/v1.rst:20
 msgid "Weblate 1.8"
@@ -22274,7 +22516,7 @@ msgstr "Đã cải thiện khả năng hỗ trợ dịch máy cho MyMemory."
 
 #: changes/v1.rst:64
 msgid "Added support for Amagama machine translation."
-msgstr ""
+msgstr "Đã thêm hỗ trợ dịch máy Amagama."
 
 #: changes/v1.rst:65
 msgid "Various optimizations on frequently used pages."
@@ -22294,11 +22536,11 @@ msgstr ""
 
 #: changes/v1.rst:69
 msgid "Added support for Google Translate API."
-msgstr ""
+msgstr "Đã thêm hỗ trợ API Google Dịch."
 
 #: changes/v1.rst:70
 msgid "Added support for managing SSH host keys."
-msgstr ""
+msgstr "Đã thêm hỗ trợ quản lý khóa máy chủ SSH."
 
 #: changes/v1.rst:71
 msgid "Various form validation improvements."
@@ -22314,7 +22556,7 @@ msgstr ""
 
 #: changes/v1.rst:74
 msgid "Added support for voting on suggestions."
-msgstr ""
+msgstr "Đã thêm hỗ trợ bỏ phiếu cho các đề xuất."
 
 #: changes/v1.rst:75
 msgid "Cleanup of admin interface."
@@ -22338,7 +22580,7 @@ msgstr ""
 
 #: changes/v1.rst:85
 msgid "Added support for TBX export of glossary."
-msgstr ""
+msgstr "Đã bổ sung hỗ trợ cho xuất TBX của bảng thuật ngữ."
 
 #: changes/v1.rst:86
 msgid "Added support for Bitbucket notifications."
@@ -22379,6 +22621,8 @@ msgstr ""
 msgid ""
 "Added support for custom pre-commit hooks and committing additional files."
 msgstr ""
+"Đã thêm hỗ trợ các móc nối trước ghi nhận tùy chỉnh và các tệp ghi nhận bổ "
+"sung."
 
 #: changes/v1.rst:95
 msgid "Rewritten search for better performance and user experience."
@@ -22391,7 +22635,7 @@ msgstr ""
 
 #: changes/v1.rst:97
 msgid "Added support for monolingual po files."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các tệp po đơn ngữ."
 
 #: changes/v1.rst:98
 msgid "Extend amount of cached metadata to improve speed of various searches."
@@ -22475,7 +22719,7 @@ msgstr ""
 
 #: changes/v1.rst:122
 msgid "Added support for substring search."
-msgstr ""
+msgstr "Đã thêm hỗ trợ tìm kiếm chuỗi con."
 
 #: changes/v1.rst:124
 msgid "Support for per project ACL."
@@ -22676,7 +22920,7 @@ msgstr ""
 
 #: changes/v1.rst:186
 msgid "Added support for shared git repositories across components."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các kho Git được chia sẻ giữa các thành phần."
 
 #: changes/v1.rst:187
 msgid "Do not necessary commit on every attempt to pull remote repo."
@@ -22684,7 +22928,7 @@ msgstr ""
 
 #: changes/v1.rst:188
 msgid "Added support for offloading indexing."
-msgstr ""
+msgstr "Đã thêm hỗ trợ lập chỉ mục ngoài luồng."
 
 #: changes/v1.rst:191
 msgid "Weblate 1.0"
@@ -22736,11 +22980,11 @@ msgstr ""
 
 #: changes/v2.rst:11
 msgid "Added support for downloading only strings needing action."
-msgstr ""
+msgstr "Đã thêm hỗ trợ tải xuống chỉ các chuỗi cần thao tác."
 
 #: changes/v2.rst:12
 msgid "Added support for searching in several languages at once."
-msgstr ""
+msgstr "Đã thêm hỗ trợ tìm kiếm trên nhiều ngôn ngữ cùng lúc."
 
 #: changes/v2.rst:13
 msgid "New add-on to configure gettext output wrapping."
@@ -22754,20 +22998,20 @@ msgstr ""
 msgid ""
 "Added support for authentication in API using RFC 6750 compatible Bearer "
 "authentication."
-msgstr ""
+msgstr "Đã thêm hỗ trợ xác thực API bằng Bearer tương thích RFC 6750."
 
 #: changes/v2.rst:16
 msgid ""
 "Added support for automatic translation using machine translation services."
-msgstr ""
+msgstr "Đã thêm hỗ trợ dịch tự động bằng các dịch vụ dịch máy."
 
 #: changes/v2.rst:17
 msgid "Added support for HTML markup in whiteboard messages."
-msgstr ""
+msgstr "Đã thêm hỗ trợ đánh dấu HTML trong các thông điệp bảng trắng."
 
 #: changes/v2.rst:18
 msgid "Added support for mass changing state of strings."
-msgstr ""
+msgstr "Đã thêm hỗ trợ thay đổi trạng thái của chuỗi hàng loạt."
 
 #: changes/v2.rst:19
 msgid ""
@@ -22787,7 +23031,7 @@ msgstr ""
 
 #: changes/v2.rst:22
 msgid "Added support for DeepL machine translation service."
-msgstr ""
+msgstr "Thêm hỗ trợ dịch vụ dịch máy DeepL."
 
 #: changes/v2.rst:23
 msgid "Machine translation results are now cached inside Weblate."
@@ -22795,7 +23039,7 @@ msgstr ""
 
 #: changes/v2.rst:24
 msgid "Added support for reordering committed changes."
-msgstr ""
+msgstr "Thêm hỗ trợ sắp xếp lại các thay đổi đã được ghi nhận."
 
 #: changes/v2.rst:27
 msgid "Weblate 2.19.1"
@@ -22870,11 +23114,11 @@ msgstr "Dịch vụ dịch máy tích hợp được cải tiến."
 
 #: changes/v2.rst:50
 msgid "Added support for SAP Translation Hub service."
-msgstr ""
+msgstr "Thêm hỗ trợ dịch vụ SAP Translation Hub."
 
 #: changes/v2.rst:51
 msgid "Added support for Microsoft Terminology service."
-msgstr ""
+msgstr "Thêm hỗ trợ dịch vụ Thuật ngữ Microsoft."
 
 #: changes/v2.rst:52
 msgid "Removed support for advertisement in notification e-mails."
@@ -22890,7 +23134,7 @@ msgstr ""
 
 #: changes/v2.rst:55
 msgid "Added support for Subversion repositories not using stdlayout."
-msgstr ""
+msgstr "Đã thêm hỗ trợ các kho lưu trữ Subversion không sử dụng stdlayout."
 
 #: changes/v2.rst:56
 msgid "Added add-ons to customize translation workflows."
@@ -22914,7 +23158,7 @@ msgstr ""
 
 #: changes/v2.rst:65
 msgid "Added support for DTD file format."
-msgstr ""
+msgstr "Đã thêm hỗ trợ định dạng tệp DTD."
 
 #: changes/v2.rst:66
 msgid ""
@@ -22929,7 +23173,7 @@ msgstr ""
 
 #: changes/v2.rst:68
 msgid "Added support for not wrapping long strings in gettext PO files."
-msgstr ""
+msgstr "Đã thêm hỗ trợ việc không bọc chuỗi dài trong các tệp PO của gettext."
 
 #: changes/v2.rst:69
 msgid "Added button to copy permalink for current translation."
@@ -22945,11 +23189,11 @@ msgstr ""
 
 #: changes/v2.rst:72
 msgid "Added support for adding new strings to monolingual translations."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho việc thêm chuỗi mới vào các bản dịch đơn ngữ."
 
 #: changes/v2.rst:73
 msgid "Added support for translation workflows with dedicated reviewers."
-msgstr ""
+msgstr "Đã thêm hỗ trợ quy trình dịch thuật với người đánh giá chuyên nghiệp."
 
 #: changes/v2.rst:76
 msgid "Weblate 2.17.1"
@@ -22981,7 +23225,7 @@ msgstr "Cải thiện hiệu suất khi cập nhật các tệp dịch thuật l
 
 #: changes/v2.rst:90
 msgid "Added support for blocking certain e-mails from registration."
-msgstr ""
+msgstr "Đã thêm hỗ trợ chặn một số email khỏi quá trình đăng ký."
 
 #: changes/v2.rst:91
 msgid "Users can now delete their own comments."
@@ -23029,11 +23273,11 @@ msgstr ""
 
 #: changes/v2.rst:107
 msgid "Added support for nested JSON format."
-msgstr ""
+msgstr "Đã thêm hỗ trợ định dạng JSON lồng nhau."
 
 #: changes/v2.rst:108
 msgid "Added support for WebExtension JSON format."
-msgstr ""
+msgstr "Đã thêm hỗ trợ định dạng JSON WebExtension."
 
 #: changes/v2.rst:109
 msgid "Fixed git exporter authentication."
@@ -23105,7 +23349,7 @@ msgstr ""
 
 #: changes/v2.rst:130
 msgid "Added support for rejecting reused passwords."
-msgstr ""
+msgstr "Đã thêm hỗ trợ từ chối mật khẩu đã được sử dụng lại."
 
 #: changes/v2.rst:131
 msgid "Extended toolbar for editing RTL languages."
@@ -23320,7 +23564,7 @@ msgstr ""
 
 #: changes/v2.rst:203
 msgid "Added support for Yandex Translate API."
-msgstr ""
+msgstr "Đã thêm hỗ trợ API Dịch Yandex."
 
 #: changes/v2.rst:204
 msgid "Improved speed of site wide search."
@@ -23344,7 +23588,7 @@ msgstr "Đã thêm hỗ trợ mở các tập tin nguồn trong trình chỉnh s
 
 #: changes/v2.rst:209
 msgid "Added support for configuring visual keyboard with special characters."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cấu hình bàn phím trực quan với các ký tự đặc biệt."
 
 #: changes/v2.rst:210
 msgid ""
@@ -23359,7 +23603,7 @@ msgstr ""
 
 #: changes/v2.rst:212
 msgid "Added support for Joomla translation format."
-msgstr ""
+msgstr "Đã thêm hỗ trợ định dạng dịch Joomla."
 
 #: changes/v2.rst:213
 msgid "Improved reliability of import across file formats."
@@ -23476,7 +23720,7 @@ msgstr ""
 
 #: changes/v2.rst:253
 msgid "Added support for CSV export."
-msgstr ""
+msgstr "Đã thêm hỗ trợ xuất ra CSV."
 
 #: changes/v2.rst:254
 msgid "Added CSV download for stats."
@@ -23492,7 +23736,7 @@ msgstr ""
 
 #: changes/v2.rst:257
 msgid "Added support for Apertium APy server for machine translations."
-msgstr ""
+msgstr "Đã thêm hỗ trợ máy chủ Apertium APy cho dịch máy."
 
 #: changes/v2.rst:260
 msgid "Weblate 2.9"
@@ -23512,7 +23756,7 @@ msgstr ""
 
 #: changes/v2.rst:266
 msgid "Added support for YAML files."
-msgstr ""
+msgstr "Đã thêm hỗ trợ các tệp YAML."
 
 #: changes/v2.rst:267
 msgid ""
@@ -23567,6 +23811,8 @@ msgstr "Thêm chức năng tìm và thay thế."
 msgid ""
 "Added support for uploading visual context (screenshots) for translations."
 msgstr ""
+"Đã thêm hỗ trợ tải lên bối cảnh trực quan (ảnh chụp màn hình) cho các bản "
+"dịch."
 
 #: changes/v2.rst:282
 msgid "Weblate 2.8"
@@ -23734,11 +23980,11 @@ msgstr ""
 
 #: changes/v2.rst:338
 msgid "Added support for merging comments on file upload."
-msgstr ""
+msgstr "Đã thêm hỗ trợ gộp bình luận khi tải lên tệp."
 
 #: changes/v2.rst:339
 msgid "Added support for some GNU extensions to C printf format."
-msgstr ""
+msgstr "Đã thêm hỗ trợ phần mở rộng GNU cho định dạng printf của C."
 
 #: changes/v2.rst:341
 msgid "Added support for generating translator credits."
@@ -23746,7 +23992,7 @@ msgstr "Đã thêm hỗ trợ tạo thông tin người dịch."
 
 #: changes/v2.rst:342
 msgid "Added support for generating contributor stats."
-msgstr ""
+msgstr "Đã thêm hỗ trợ tạo thống kê về người đóng góp."
 
 #: changes/v2.rst:343
 msgid "Site wide search can search only in one language."
@@ -23833,7 +24079,7 @@ msgstr ""
 
 #: changes/v2.rst:364
 msgid "Support for Python 3."
-msgstr ""
+msgstr "Hỗ trợ Python 3."
 
 #: changes/v2.rst:365
 msgid "Dropped support for Django 1.7."
@@ -23866,7 +24112,7 @@ msgstr ""
 
 #: changes/v2.rst:374
 msgid "Added support for configurable automatic group assignments."
-msgstr ""
+msgstr "Thêm hỗ trợ phân công nhóm tự động có thể cấu hình."
 
 #: changes/v2.rst:375
 msgid "Improved adding of new translations."
@@ -23902,7 +24148,7 @@ msgstr "Tránh lỗi sao chép/dán ký tự khoảng trắng."
 
 #: changes/v2.rst:387
 msgid "Added support for Bitbucket webhooks."
-msgstr ""
+msgstr "Đã thêm hỗ trợ Bitbucket webhooks."
 
 #: changes/v2.rst:388
 msgid "Tighter control on fuzzy strings on translation upload."
@@ -23928,7 +24174,7 @@ msgstr ""
 
 #: changes/v2.rst:393
 msgid "Added support for error reporting to Rollbar."
-msgstr ""
+msgstr "Đã thêm hỗ trợ báo cáo lỗi cho Rollbar."
 
 #: changes/v2.rst:394
 msgid "Projects now can have multiple owners."
@@ -23940,7 +24186,7 @@ msgstr ""
 
 #: changes/v2.rst:396
 msgid "Added support for ``javascript-format`` used in gettext PO."
-msgstr ""
+msgstr "Đã thêm hỗ trợ ``javascript-format`` dùng trong gettext PO."
 
 #: changes/v2.rst:397
 msgid "Support for adding new translations in XLIFF."
@@ -23968,11 +24214,11 @@ msgstr ""
 
 #: changes/v2.rst:403
 msgid "Added support for filtering languages to be managed by Weblate."
-msgstr ""
+msgstr "Đã thêm hỗ trợ lọc các ngôn ngữ được Weblate quản lý."
 
 #: changes/v2.rst:404
 msgid "Added support for translating and importing CSV files."
-msgstr ""
+msgstr "Đã thêm hỗ trợ dịch và nhập tệp CSV."
 
 #: changes/v2.rst:405
 msgid "Rewritten handling of static files."
@@ -24031,7 +24277,7 @@ msgstr ""
 
 #: changes/v2.rst:422
 msgid "Added support for Microsoft .resx files."
-msgstr ""
+msgstr "Đã thêm hỗ trợ các tệp .resx của Microsoft."
 
 #: changes/v2.rst:423
 msgid "Tuned default robots.txt to disallow big crawling of translations."
@@ -24103,7 +24349,7 @@ msgstr ""
 
 #: changes/v2.rst:444
 msgid "Added support for Google Analytics."
-msgstr ""
+msgstr "Đã thêm hỗ trợ Google Analytics."
 
 #: changes/v2.rst:445
 msgid "Improved handling of translation filenames."
@@ -24111,7 +24357,7 @@ msgstr ""
 
 #: changes/v2.rst:446
 msgid "Added support for monolingual JSON translations."
-msgstr ""
+msgstr "Đã thêm hỗ trợ dịch JSON đơn ngữ."
 
 #: changes/v2.rst:447
 msgid "Record component locking in a history."
@@ -24124,7 +24370,7 @@ msgstr ""
 
 #: changes/v2.rst:449
 msgid "Added basic support for Gerrit."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cơ bản cho Gerrit."
 
 #: changes/v2.rst:452
 msgid "Weblate 2.1"
@@ -24136,7 +24382,7 @@ msgstr ""
 
 #: changes/v2.rst:456
 msgid "Added support for Mercurial repositories."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các kho lưu trữ Mercurial."
 
 #: changes/v2.rst:457
 msgid "Replaced Glyphicon font by Awesome."
@@ -24204,7 +24450,7 @@ msgstr ""
 
 #: changes/v2.rst:479
 msgid "Added support for JSON file format."
-msgstr ""
+msgstr "Đã thêm hỗ trợ định dạng tệp JSON."
 
 #: changes/v2.rst:480
 msgid "Fixed generating mo files in certain cases."
@@ -24216,7 +24462,7 @@ msgstr "Đã thêm hỗ trợ cho thông báo GitLab."
 
 #: changes/v2.rst:482
 msgid "Added support for disabling translation suggestions."
-msgstr ""
+msgstr "Đã thêm hỗ trợ vô hiệu hóa các đề xuất phiên dịch."
 
 #: changes/v2.rst:483
 msgid "Django 1.7 support."
@@ -24296,7 +24542,7 @@ msgstr "Địa chỉ email xác nhận xóa tài khoản đã được sửa."
 
 #: changes/v3.rst:16
 msgid "Added support for Slack authentication in Docker container."
-msgstr ""
+msgstr "Đã thêm hỗ trợ xác thực Slack trong vùng chứa ảo Docker."
 
 #: changes/v3.rst:17
 msgid "Avoid sending notifications for not subscribed languages."
@@ -24420,7 +24666,7 @@ msgstr ""
 
 #: changes/v3.rst:59
 msgid "Added support for grouping string shapings."
-msgstr ""
+msgstr "Đã thêm hỗ trợ nhóm các kiểu định dạng chuỗi."
 
 #: changes/v3.rst:60
 msgid "Recommend upgrade to new Weblate versions in the system checks."
@@ -24465,7 +24711,7 @@ msgstr ""
 
 #: changes/v3.rst:70
 msgid "Added support for :ref:`labels`."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho :ref:`labels`."
 
 #: changes/v3.rst:71
 msgid "Added bulk edit add-on."
@@ -24584,7 +24830,7 @@ msgstr "Hiệu suất làm sạch dữ liệu được cải thiện."
 
 #: changes/v3.rst:112
 msgid "Added support for customizable security.txt."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho security.txt có thể tùy biến."
 
 #: changes/v3.rst:113
 msgid "Improved breadcrumbs in changelog."
@@ -24600,7 +24846,7 @@ msgstr ""
 
 #: changes/v3.rst:116
 msgid "Added support for GitLab merge requests in Docker container."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các yêu cầu gộp của GitLab trong vùng chứa Docker."
 
 #: changes/v3.rst:119
 msgid "Weblate 3.10"
@@ -24632,7 +24878,7 @@ msgstr "Đã thêm hỗ trợ cho chuỗi ký tự chỉ đọc."
 
 #: changes/v3.rst:128
 msgid "Added support for Markdown in comments."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho Markdown trong các bình luận."
 
 #: changes/v3.rst:129
 msgid "Allow placing translation instruction text in project info."
@@ -24672,7 +24918,7 @@ msgstr ""
 
 #: changes/v3.rst:139
 msgid "Added support for automatic translation strings marked for editing."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các chuỗi dịch tự động được đánh dấu để chỉnh sửa."
 
 #: changes/v3.rst:140
 msgid "Avoid sending duplicate notifications for linked component alerts."
@@ -24688,7 +24934,7 @@ msgstr "Hiển thị trạng thái chuỗi tốt hơn ở chế độ Zen."
 
 #: changes/v3.rst:143
 msgid "Added support for more languages in Yandex Translate."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho nhiều ngôn ngữ trong Dịch Yandex."
 
 #: changes/v3.rst:144 changes/v3.rst:211
 msgid "Improved look of notification e-mails."
@@ -24720,7 +24966,7 @@ msgstr ""
 
 #: changes/v3.rst:155
 msgid "Added support for force pushing Git repositories."
-msgstr ""
+msgstr "Đã thêm hỗ trợ đẩy bắt buộc các kho lưu trữ Git."
 
 #: changes/v3.rst:156
 msgid "Reduced risk of registration token invalidation."
@@ -24796,11 +25042,11 @@ msgstr ""
 
 #: changes/v3.rst:178
 msgid "Added support for WebExtension JSON placeholders."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho giữ chỗ JSON của WebExtension."
 
 #: changes/v3.rst:179
 msgid "Added support for flat XML format."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho định dạng XML phẳng."
 
 #: changes/v3.rst:180
 msgid ""
@@ -24809,7 +25055,7 @@ msgstr ""
 
 #: changes/v3.rst:181
 msgid "Added support for Gitea and Gitee webhooks."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các webhook của Gitea và Gitee."
 
 #: changes/v3.rst:182
 msgid "Added new custom regex based check."
@@ -24879,7 +25125,7 @@ msgstr ""
 
 #: changes/v3.rst:198
 msgid "Added support for GitLab merge requests."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các yêu cầu hợp nhất của GitLab."
 
 #: changes/v3.rst:199
 msgid "Improved display of repository status."
@@ -24899,12 +25145,13 @@ msgstr ""
 
 #: changes/v3.rst:207
 msgid "Added support for simplified creating of similar components."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho việc tạo các thành phần tương tự một cách đơn giản."
 
 #: changes/v3.rst:208
 msgid ""
 "Added support for parsing translation flags from the XML based file formats."
 msgstr ""
+"Đã thêm hỗ trợ phân tích cờ phiên dịch từ các định dạng tệp dựa trên XML."
 
 #: changes/v3.rst:209
 msgid "Log exceptions into Celery log."
@@ -24947,7 +25194,7 @@ msgstr ""
 
 #: changes/v3.rst:219
 msgid "Added support for animated screenshots."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho ảnh chụp màn hình động."
 
 #: changes/v3.rst:220 changes/v3.rst:289
 msgid "Improved handling of monolingual XLIFF files."
@@ -24967,7 +25214,7 @@ msgstr ""
 
 #: changes/v3.rst:224
 msgid "Added webhook support for Azure Repos."
-msgstr ""
+msgstr "Đã thêm hỗ trợ webhook cho Azure Repos."
 
 #: changes/v3.rst:225
 msgid ""
@@ -25149,7 +25396,7 @@ msgstr ""
 
 #: changes/v3.rst:277
 msgid "Added support for subtitle formats."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các định dạng phụ đề."
 
 #: changes/v3.rst:278
 msgid "Include overall completion stats for languages."
@@ -25375,11 +25622,11 @@ msgstr ""
 
 #: changes/v3.rst:351
 msgid "Added support for app store metadata files."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các tệp dữ liệu mô tả của cửa hàng ứng dụng."
 
 #: changes/v3.rst:352
 msgid "Added support for toggling GitHub or Gerrit integration."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho việc bật/tắt tích hợp GitHub hoặc Gerrit."
 
 #: changes/v3.rst:353
 msgid "Added check for Kashida letters."
@@ -25413,7 +25660,7 @@ msgstr ""
 
 #: changes/v3.rst:364
 msgid "Added support for XLIFF placeholders."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho các giữ chỗ XLIFF."
 
 #: changes/v3.rst:365
 msgid "Celery can now utilize multiple task queues."
@@ -25421,7 +25668,7 @@ msgstr ""
 
 #: changes/v3.rst:366
 msgid "Added support for renaming and moving projects and components."
-msgstr ""
+msgstr "Đã thêm hỗ trợ đổi tên và di chuyển các dự án và các thành phần."
 
 #: changes/v3.rst:367
 msgid "Include characters counts in reports."
@@ -25479,7 +25726,7 @@ msgstr ""
 
 #: changes/v3.rst:384
 msgid "Added support for component and project removal."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho việc loại bỏ thành phần và dự án."
 
 #: changes/v3.rst:385
 msgid "Improved performance for some monolingual translations."
@@ -25588,7 +25835,7 @@ msgstr ""
 
 #: changes/v3.rst:419
 msgid "Added support for cleanup of old suggestions."
-msgstr ""
+msgstr "Đã thêm hỗ trợ dọn dẹp các gợi ý cũ."
 
 #: changes/v3.rst:422
 msgid "Weblate 3.2"
@@ -25608,7 +25855,7 @@ msgstr ""
 
 #: changes/v3.rst:428
 msgid "Added support for export and import of Excel files."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho xuất và nhập tệp Excel."
 
 #: changes/v3.rst:429
 msgid ""
@@ -25630,11 +25877,11 @@ msgstr ""
 
 #: changes/v3.rst:433
 msgid "Added support for Youdao Zhiyun API machine translation."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho API dịch máy Youdao Zhiyun."
 
 #: changes/v3.rst:434
 msgid "Added support for Baidu API machine translation."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho API dịch máy Baidu."
 
 #: changes/v3.rst:435
 msgid "Integrated maintenance and cleanup tasks using Celery."
@@ -25658,15 +25905,15 @@ msgstr ""
 
 #: changes/v3.rst:440
 msgid "Added support for error reporting to Sentry."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho báo cáo lỗi tới Sentry."
 
 #: changes/v3.rst:441
 msgid "Added support for automated daily update of repositories."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho cập nhật tự động hàng ngày cho các kho lưu trữ."
 
 #: changes/v3.rst:442
 msgid "Added support for creating projects and components by users."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho việc tạo các dự án và thành phần do người dùng."
 
 #: changes/v3.rst:443
 msgid "Built-in translation memory now automatically stores translations done."
@@ -25683,7 +25930,7 @@ msgstr "Quản lý tốt hơn các chuỗi ký tự liên quan đến ảnh ch�
 
 #: changes/v3.rst:446
 msgid "Added support for checking Java MessageFormat."
-msgstr ""
+msgstr "Đã thêm hỗ trợ kiểm tra Java MessageFormat."
 
 #: changes/v3.rst:448
 msgid ""
@@ -25721,7 +25968,7 @@ msgstr "Cải thiện khả năng tương thích của webhook với môi trư�
 
 #: changes/v3.rst:466
 msgid "Added support for Amazon Translate."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho Amazon Dịch."
 
 #: changes/v3.rst:467
 msgid "Compatibility with Django 2.1."
@@ -25814,7 +26061,7 @@ msgstr ""
 
 #: changes/v3.rst:497
 msgid "Added basic support for Windows RC files."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cơ bản cho các tệp RC của Windows."
 
 #: changes/v3.rst:498
 msgid "New add-on to store contributor names in PO file headers."
@@ -26010,11 +26257,11 @@ msgstr ""
 #: changes/v4.rst:57
 msgid ""
 "Dropped support for PostgreSQL 10, 11, MySQL 5.7 and MariaDB 10.2, 10.3."
-msgstr "Ngừng hỗ trợ PostgreSQL 10, 11, MySQL 5.7 và MariaDB 10.2, 10.3."
+msgstr "Đã ngừng hỗ trợ PostgreSQL 10, 11, MySQL 5.7 và MariaDB 10.2, 10.3."
 
 #: changes/v4.rst:58
 msgid "Dropped support for Python 3.7."
-msgstr "Ngừng hỗ trợ Python 3.7."
+msgstr "Đã ngừng hỗ trợ Python 3.7."
 
 #: changes/v4.rst:59
 msgid ""
@@ -26213,7 +26460,7 @@ msgstr ""
 
 #: changes/v4.rst:137
 msgid "Added support for go-i18n v2 JSON files."
-msgstr "Thêm hỗ trợ cho tệp JSON go-i18n v2."
+msgstr "Đã thêm hỗ trợ các tệp JSON go-i18n v2."
 
 #: changes/v4.rst:139
 msgid ""
@@ -26496,10 +26743,10 @@ msgid "The Docker image no longer enables debug mode by default."
 msgstr "Ảnh Docker hiện không còn bật chế độ gỡ lỗi theo mặc định nữa."
 
 #: changes/v4.rst:229
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Order glossary terms based on the glossary component priority."
-msgstr "Đã tạo mới khóa SSH."
+msgstr ""
+"Sắp xếp các thuật ngữ trong bảng thuật ngữ dựa trên mức ưu tiên của thành "
+"phần bảng thuật ngữ."
 
 #: changes/v4.rst:230
 msgid "Added team administrators who can add or remove members of the team."
@@ -26510,10 +26757,8 @@ msgid "Added a popup confirmation before deleting users."
 msgstr "Đã thêm cửa sổ xác nhận bật lên trước khi xóa người dùng."
 
 #: changes/v4.rst:232
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Added add-on to customize XML output."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đã thêm tiện ích bổ sung để tùy chỉnh đầu ra XML."
 
 #: changes/v4.rst:234
 msgid ""
@@ -26560,34 +26805,25 @@ msgid "*Released on November 5th 2022.*"
 msgstr ""
 
 #: changes/v4.rst:255
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Added support for removing entries from translation memory."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đã thêm hỗ trợ xóa các mục khỏi bộ nhớ dịch."
 
 #: changes/v4.rst:256
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved analysis on the duplicate language alert."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Phân tích được cải thiện về cảnh báo ngôn ngữ trùng lặp."
 
 #: changes/v4.rst:257 changes/v4.rst:954
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Improved accuracy of the consecutive duplicated-words check."
-msgstr "PHP strings"
+msgstr ""
+"Độ chính xác của việc kiểm tra các từ trùng lặp liên tiếp đã được cải thiện."
 
 #: changes/v4.rst:258
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved scaling of sending many notifications."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Cải thiện khả năng mở rộng khi gửi nhiều thông báo."
 
 #: changes/v4.rst:259
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved string-state handling for subtitle translation."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Cải thiện khả năng xử lý trạng thái chuỗi cho việc dịch phụ đề."
 
 #: changes/v4.rst:260
 msgid ""
@@ -26598,54 +26834,41 @@ msgstr ""
 "hình _TOKEN/_USERNAME thay vì danh sách _CREDENTIALS."
 
 #: changes/v4.rst:261
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Fixed processing of some uploaded CSV files."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Khắc phục sự cố xử lý một số tệp CSV đã tải lên."
 
 #: changes/v4.rst:262
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved whitespace changes handling in diff display."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Cải thiện khả năng xử lý thay đổi khoảng trắng trong hiển thị so sánh."
 
 #: changes/v4.rst:263
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added link for managing automatic suggestions to the management pages."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm liên kết để quản lý các đề xuất tự động vào trang quản trị."
 
 #: changes/v4.rst:264
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Track comment removal/resolving in history."
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Theo dõi quá trình xóa/giải quyết bình luận trong lịch sử."
 
 #: changes/v4.rst:265
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Fixed restoring project backups with linked components."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Khắc phục sự cố khôi phục bản sao lưu dự án có các thành phần được liên kết."
 
 #: changes/v4.rst:266
 msgid "Fixed CAPTCHA entering on unsuccessful registration."
 msgstr ""
 
 #: changes/v4.rst:267
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved languages support in DeepL."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "DeepL đã được cải thiện khả năng hỗ trợ nhiều ngôn ngữ."
 
 #: changes/v4.rst:268
 msgid "Improved webhooks compatibility with authenticated repositories."
 msgstr ""
 
 #: changes/v4.rst:269
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for Python 3.11."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho Python 3.11."
 
 #: changes/v4.rst:271
 msgid ""
@@ -26968,10 +27191,8 @@ msgid "Compatibility with Django 4.1."
 msgstr ""
 
 #: changes/v4.rst:363
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for storing escaped XML elements in XLIFF."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ lưu trữ các phần tử XML được mã hóa trong XLIFF."
 
 #: changes/v4.rst:364
 #, fuzzy
@@ -27152,10 +27373,8 @@ msgid ""
 msgstr ""
 
 #: changes/v4.rst:421
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for :ref:`code-hosting-gitea-pull-requests`."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho :ref:`code-hosting-gitea-pull-requests`."
 
 #: changes/v4.rst:422
 #, fuzzy
@@ -27402,10 +27621,8 @@ msgid "Added support for searching for resolved comments."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:489
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for borgbackup 1.2."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho borgbackup 1.2."
 
 #: changes/v4.rst:490
 msgid "Fixed applying of :guilabel:`Automatically translated` label."
@@ -27739,10 +27956,8 @@ msgstr ""
 "ZIP."
 
 #: changes/v4.rst:590
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for Python 3.10."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho Python 3.10."
 
 #: changes/v4.rst:591
 #, fuzzy
@@ -27890,10 +28105,8 @@ msgid "Added support for the Fluent format."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:638
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for using tabs to indent JSON formats."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ dùng tab để thụt lề các định dạng JSON."
 
 #: changes/v4.rst:640
 msgid ""
@@ -28202,10 +28415,9 @@ msgid "Fixed triggering automatically installed add-ons."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:735
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Fixed possible caching issues on upgrade."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Đã khắc phục các sự cố có thể xảy ra với bộ nhớ đệm trong quá trình nâng cấp."
 
 #: changes/v4.rst:736
 msgid "Fixed adding new units to monolingual translations using upload."
@@ -29204,10 +29416,8 @@ msgid "Added support for localized screenshots."
 msgstr "Đã thêm hỗ trợ cho ảnh chụp màn hình được bản địa hóa."
 
 #: changes/v4.rst:1014
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Added support for Python 3.9."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã thêm hỗ trợ cho Python 3.9."
 
 #: changes/v4.rst:1015
 msgid "Fixed translating HTML files under certain conditions."
@@ -29396,7 +29606,7 @@ msgstr ""
 
 #: changes/v4.rst:1080
 msgid "Added support for ModernMT."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho ModernMT."
 
 #: changes/v4.rst:1081
 msgid "Allow to avoid overwriting approved translations on file upload."
@@ -29640,6 +29850,9 @@ msgid ""
 "php`, :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, :ref:`go-"
 "i18n-json`, :ref:`arb`."
 msgstr ""
+"Đã thêm hỗ trợ cho các định dạng tệp mới: :ref:`laravel-php`, :ref:`html`, "
+":ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, "
+":ref:`go-i18n-json`, :ref:`arb`."
 
 #: changes/v4.rst:1147
 msgid "Consistently use dismissed as state of dismissed checks."
@@ -30011,7 +30224,7 @@ msgstr ""
 
 #: changes/v4.rst:1264
 msgid "Added support for source strings review."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho việc đánh giá các chuỗi nguồn."
 
 #: changes/v4.rst:1265
 msgid "Extended download options for platform wide translation memory."
@@ -30905,7 +31118,7 @@ msgstr ""
 
 #: changes/v5.rst:179
 msgid "Dropped support for MySQL and MariaDB as the database engine."
-msgstr "Ngừng hỗ trợ MySQL và MariaDB làm công cụ cơ sở dữ liệu."
+msgstr "Đã ngừng hỗ trợ MySQL và MariaDB làm công cụ cơ sở dữ liệu."
 
 #: changes/v5.rst:180
 msgid "Weblate now requires Django 6.0."
@@ -31171,12 +31384,12 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:286
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "Added support for anonymous commit names "
 "via :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Đã thêm hỗ trợ cho tên ghi nhận ẩn danh thông qua "
+":setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: changes/v5.rst:287
 msgid ""
@@ -32501,7 +32714,7 @@ msgstr "Tài liệu :doc:`/security/index`."
 
 #: changes/v5.rst:834
 msgid "Added support for :doc:`/formats/compose-multiplatform-resources`."
-msgstr ""
+msgstr "Đã thêm hỗ trợ cho :doc:`/formats/compose-multiplatform-resources`."
 
 #: changes/v5.rst:835
 #, fuzzy
@@ -32518,6 +32731,8 @@ msgid ""
 "Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a "
 "list of all translations contributed by the user."
 msgstr ""
+"Đã thêm :http:get:`/api/users/(str:username)/contributions/` để truy xuất "
+"danh sách tất cả các bản dịch do người dùng đóng góp."
 
 #: changes/v5.rst:841
 msgid ":ref:`check-same` is now skipped for Toki Pona."
@@ -41342,6 +41557,8 @@ msgid ""
 "When :ref:`component-new_base` is empty and the file format supports it, an "
 "empty file is created where new strings are added once they are translated."
 msgstr ""
+"Khi :ref:`component-new_base` rỗng và định dạng tệp hỗ trợ điều này, một tập "
+"tin rỗng được tạo ra nơi các chuỗi mới được thêm khi chúng được dịch."
 
 #: devel/translations.rst:50
 msgid ""
@@ -47341,10 +47558,8 @@ msgid ""
 msgstr ""
 
 #: security/release-artifacts.rst:36
-#, fuzzy
-#| msgid "Python brace format"
 msgid "Python package"
-msgstr "Định dạng dấu ngoặc nhọn Python"
+msgstr "Gói Python"
 
 #: security/release-artifacts.rst:37
 msgid ":file:`pyproject.toml`, :file:`setup.py`, and :file:`MANIFEST.in`"
@@ -47650,6 +47865,11 @@ msgid ""
 "published release artifacts, SBOMs, signatures, and provenance attestations, "
 "see :doc:`release-artifacts`."
 msgstr ""
+"Trang này tóm tắt các chính sách hỗ trợ phát hành công khai, cập nhật bảo "
+"mật và nâng cấp cho Weblate. Để biết các bước phát hành dành cho người bảo "
+"trì, hãy xem :doc:`/contributing/release`. Để biết các lệnh nâng cấp, hãy "
+"xem :doc:`/admin/upgrade`. Để biết các thành phần phát hành đã được công bố, "
+"SBOM, chữ ký và chứng thực nguồn gốc, hãy xem :doc:`release-artifacts`."
 
 #: security/releases.rst:15
 msgid ""
@@ -53989,6 +54209,11 @@ msgid ""
 "allows services like GitHub to associate your contributions done in Weblate "
 "with your GitHub profile."
 msgstr ""
+"Weblate lưu giữ các bản dịch do chính người dịch thực hiện trong kho lưu trữ "
+"kiểm soát phiên bản bằng cách sử dụng tên và email. Việc đính kèm email thật "
+"vào commit tuân theo tinh thần kiểm soát phiên bản phân tán và cho phép các "
+"dịch vụ như GitHub liên kết các đóng góp của bạn trên Weblate với hồ sơ "
+"GitHub của bạn."
 
 #: snippets/basics.rst:43
 msgid ""
@@ -54384,10 +54609,8 @@ msgid "Skip the :ref:`check-asciidoc-markup` quality check."
 msgstr "PHP strings"
 
 #: snippets/check-flags-autogenerated.rst:168
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-bbcode` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-bbcode`."
 
 #: snippets/check-flags-autogenerated.rst:170
 #, fuzzy
@@ -54396,22 +54619,16 @@ msgid "Skip the :ref:`check-xml-chars-around-tags` quality check."
 msgstr "PHP strings"
 
 #: snippets/check-flags-autogenerated.rst:172
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-duplicate` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-duplicate`."
 
 #: snippets/check-flags-autogenerated.rst:174
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-check-glossary` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-check-glossary`."
 
 #: snippets/check-flags-autogenerated.rst:176
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-double-space` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-double-space`."
 
 #: snippets/check-flags-autogenerated.rst:178
 #, fuzzy
@@ -54448,28 +54665,20 @@ msgid "Skip the :ref:`check-automattic-components-format` quality check."
 msgstr "PHP strings"
 
 #: snippets/check-flags-autogenerated.rst:190
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-c-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-c-format`."
 
 #: snippets/check-flags-autogenerated.rst:192
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-c-sharp-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-c-sharp-format`."
 
 #: snippets/check-flags-autogenerated.rst:194
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-es-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-es-format`."
 
 #: snippets/check-flags-autogenerated.rst:196
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-i18next-interpolation` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-i18next-interpolation`."
 
 #: snippets/check-flags-autogenerated.rst:198
 #, fuzzy
@@ -54484,16 +54693,12 @@ msgid "Skip the :ref:`check-java-printf-format` quality check."
 msgstr "PHP strings"
 
 #: snippets/check-flags-autogenerated.rst:202
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-java-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-java-format`."
 
 #: snippets/check-flags-autogenerated.rst:204
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-javascript-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-javascript-format`."
 
 #: snippets/check-flags-autogenerated.rst:206
 #, fuzzy
@@ -54502,16 +54707,12 @@ msgid "Skip the :ref:`check-laravel-format` quality check."
 msgstr "PHP strings"
 
 #: snippets/check-flags-autogenerated.rst:208
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-lua-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-lua-format`."
 
 #: snippets/check-flags-autogenerated.rst:210
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-object-pascal-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-object-pascal-format`."
 
 #: snippets/check-flags-autogenerated.rst:212
 #, fuzzy
@@ -54520,10 +54721,8 @@ msgid "Skip the :ref:`check-objc-format` quality check."
 msgstr "PHP strings"
 
 #: snippets/check-flags-autogenerated.rst:214
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-percent-placeholders` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-percent-placeholders`."
 
 #: snippets/check-flags-autogenerated.rst:216
 #, fuzzy
@@ -54532,70 +54731,48 @@ msgid "Skip the :ref:`check-perl-brace-format` quality check."
 msgstr "PHP strings"
 
 #: snippets/check-flags-autogenerated.rst:218
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-perl-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-perl-format`."
 
 #: snippets/check-flags-autogenerated.rst:220
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-php-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-php-format`."
 
 #: snippets/check-flags-autogenerated.rst:222
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-python-brace-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-python-brace-format`."
 
 #: snippets/check-flags-autogenerated.rst:224
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-python-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-python-format`."
 
 #: snippets/check-flags-autogenerated.rst:226
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-qt-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-qt-format`."
 
 #: snippets/check-flags-autogenerated.rst:228
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-qt-plural-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-qt-plural-format`."
 
 #: snippets/check-flags-autogenerated.rst:230
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-ruby-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-ruby-format`."
 
 #: snippets/check-flags-autogenerated.rst:232
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-scheme-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-scheme-format`."
 
 #: snippets/check-flags-autogenerated.rst:234
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-vue-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-vue-format`."
 
 #: snippets/check-flags-autogenerated.rst:236
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-translated` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-translated`."
 
 #: snippets/check-flags-autogenerated.rst:238
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-inconsistent` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-inconsistent`."
 
 #: snippets/check-flags-autogenerated.rst:240
 #, fuzzy
@@ -55988,7 +56165,7 @@ msgstr ""
 
 #: snippets/checks-autogenerated.rst:1046
 msgid ":ref:`Python brace format <python:formatstrings>`"
-msgstr ""
+msgstr ":ref:`Định dạng dấu ngoặc nhọn trong Python <python:formatstrings>`"
 
 #: snippets/checks-autogenerated.rst:1047
 #: snippets/checks-autogenerated.rst:1074
@@ -55996,6 +56173,8 @@ msgid ""
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
+"`Các chuỗi Định dạng Python <https://www.gnu.org/software/gettext/manual/"
+"html_node/python_002dformat.html>`_"
 
 #: snippets/checks-autogenerated.rst:1055
 msgid "Python format"
@@ -56007,7 +56186,7 @@ msgstr "Chuỗi định dạng Python không khớp với nguồn."
 
 #: snippets/checks-autogenerated.rst:1073
 msgid ":ref:`Python string formatting <python:old-string-formatting>`"
-msgstr ""
+msgstr ":ref:`Định dạng chuỗi Python <python:old-string-formatting>`"
 
 #: snippets/checks-autogenerated.rst:1082
 msgid "Qt format"
@@ -57568,7 +57747,7 @@ msgstr "UTF-8"
 
 #: snippets/file-format-parameters.rst:17
 msgid "csv_escape_formulas"
-msgstr ""
+msgstr "csv_escape_formulas"
 
 #: snippets/file-format-parameters.rst:17
 msgid "Escape spreadsheet formulas"
@@ -60704,7 +60883,7 @@ msgstr "Thêm nhiều ngôn ngữ để dịch"
 
 #: snippets/permissions.rst:259
 msgid "Uploads"
-msgstr ""
+msgstr "Tải lên"
 
 #: snippets/permissions.rst:259
 msgid "Define author of uploaded translation"
@@ -63610,10 +63789,8 @@ msgid ""
 msgstr ""
 
 #: user/translating.rst:173
-#, fuzzy
-#| msgid "XML markup"
 msgid "Markup"
-msgstr "Đánh dấu XML"
+msgstr "Đánh dấu"
 
 #: user/translating.rst:174
 msgid ""
