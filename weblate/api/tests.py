@@ -17083,6 +17083,24 @@ class OpenAPITest(APIBaseTest):
             ["detail", "logs_url", "url"],
         )
 
+    def test_project_delete_schema_matches_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+        operation = schema["paths"]["/api/projects/{slug}/"]["delete"]
+
+        self.assertNotIn("204", operation["responses"])
+        self.assertIn("202", operation["responses"])
+
+        response_schema = operation["responses"]["202"]["content"]["application/json"][
+            "schema"
+        ]
+        self.assertEqual(
+            response_schema, {"$ref": "#/components/schemas/ProjectDeleteResponse"}
+        )
+        self.assertEqual(
+            schema["components"]["schemas"]["ProjectDeleteResponse"]["required"],
+            ["detail", "task_url"],
+        )
+
     @patch("weblate.utils.version.VERSION", "5.17.1")
     def test_view_uses_latest_docs_links(self) -> None:
         response = self.do_request("api-schema")

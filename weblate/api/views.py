@@ -1912,6 +1912,18 @@ class AnnouncementsMixin(APIViewSetMixin):
     retrieve=extend_schema(description="Return information about a project."),
     partial_update=extend_schema(description="Edit a project by a PATCH request."),
     reports=extend_schema(description="List or create reports scoped to a project."),
+    destroy=extend_schema(
+        description="Delete a project.",
+        responses={
+            HTTP_202_ACCEPTED: inline_serializer(
+                "ProjectDeleteResponseSerializer",
+                fields={
+                    "detail": serializers.CharField(),
+                    "task_url": serializers.URLField(),
+                },
+            )
+        },
+    ),
 )
 class ProjectViewSet(
     WeblateViewSet,
@@ -2282,17 +2294,6 @@ class ProjectViewSet(
         instance.acting_user = request.user
         return super().update(request, *args, **kwargs)
 
-    @extend_schema(
-        responses={
-            HTTP_202_ACCEPTED: inline_serializer(
-                "ProjectDeleteResponseSerializer",
-                fields={
-                    "detail": serializers.CharField(),
-                    "task_url": serializers.URLField(),
-                },
-            )
-        }
-    )
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a project."""
         instance = self.get_object()
