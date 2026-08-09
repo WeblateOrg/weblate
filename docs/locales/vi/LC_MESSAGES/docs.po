@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-09 07:00+0000\n"
+"PO-Revision-Date: 2026-08-09 09:28+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -1379,6 +1379,12 @@ msgid ""
 "that is not due yet. A successful entry can still mean that the add-on "
 "checked its inputs but found nothing to change."
 msgstr ""
+"Mỗi mục ghi lại trạng thái xử lý: đang chờ xử lý, thành công, thất bại hoặc "
+"bị bỏ qua. Các mục bị bỏ qua bao gồm lý do tiện ích bổ sung không chạy, "
+"chẳng hạn như thành phần không tương thích, không có thay đổi liên quan hoặc "
+"lịch trình đã cấu hình chưa đến hạn. Một mục thành công vẫn có thể có nghĩa "
+"là tiện ích bổ sung đã kiểm tra các đầu vào nhưng không tìm thấy gì cần thay "
+"đổi."
 
 #: admin/addons.rst:197
 msgid ""
@@ -2439,7 +2445,7 @@ msgstr ""
 
 #: admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr ""
+msgstr "Sao lưu và di chuyển Weblate"
 
 #: admin/backup.rst:9
 #, fuzzy
@@ -2994,6 +3000,10 @@ msgid ""
 "you don't want. The following sections describe what you should back up and "
 "what you can skip in detail."
 msgstr ""
+"Nếu bạn có đủ dung lượng sao lưu, hãy sao lưu toàn bộ thư mục "
+":setting:`DATA_DIR`. Đây là một lựa chọn an toàn ngay cả khi nó bao gồm một "
+"số tệp bạn không muốn giữ lại. Các phần sau đây mô tả chi tiết những gì bạn "
+"nên sao lưu và những gì bạn có thể bỏ qua."
 
 #: admin/backup.rst:388
 msgid "Dumped data for backups"
@@ -3035,6 +3045,9 @@ msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
+"Mặc định, các bản sao lưu cơ sở dữ liệu được lưu dưới dạng văn bản thuần, "
+"nhưng chúng cũng có thể được nén hoặc bỏ qua hoàn toàn bằng cách sử dụng "
+":setting:`DATABASE_BACKUP`."
 
 #: admin/backup.rst:408
 msgid ""
@@ -3264,6 +3277,10 @@ msgid ""
 "html``, you can add ``discard:safe-html`` to the string flags to skip it for "
 "this particular string."
 msgstr ""
+"Các cờ được định nghĩa ở cấp cao hơn có thể bị loại bỏ bằng cú pháp "
+"``discard:NAME``. Ví dụ, nếu một thành phần được cấu hình là ``safe-html``, "
+"bạn có thể thêm ``discard:safe-html`` vào các cờ chuỗi để bỏ qua nó đối với "
+"chuỗi cụ thể này."
 
 #: admin/checks.rst:78
 msgid "Here is a list of flags currently accepted:"
@@ -4929,7 +4946,7 @@ msgstr ""
 
 #: admin/config.rst:361
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate` tiện ích bổ sung"
+msgstr ":ref:`addon-weblate.autotranslate.autotranslate` cài thêm"
 
 #: admin/config.rst:362
 msgid ":doc:`checks` recalculation"
@@ -5199,6 +5216,8 @@ msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
+"Liệu các bản sao lưu cơ sở dữ liệu nên được lưu trữ dưới dạng văn bản thuần, "
+"nén hay bỏ qua. Các giá trị được cho phép là:"
 
 #: admin/config.rst:655
 msgid "The default access-control setting for new projects:"
@@ -8052,7 +8071,7 @@ msgstr ""
 
 #: admin/deployments.rst:42
 msgid "Install Weblate with YunoHost"
-msgstr ""
+msgstr "Cài đặt Weblate với YunoHost"
 
 #: admin/deployments.rst:46
 msgid "It also is possible to use the command-line interface:"
@@ -8288,10 +8307,8 @@ msgid "Weblate feature"
 msgstr "Tính năng của Weblate"
 
 #: admin/install.rst:218
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "ASGI server for Weblate"
-msgstr "Quay lại Weblate"
+msgstr "Máy chủ ASGI cho Weblate"
 
 #: admin/install.rst:231
 #, fuzzy
@@ -8322,10 +8339,8 @@ msgid "Hosted Weblate integration"
 msgstr "Tích hợp Lưu Trữ Weblate"
 
 #: admin/install.rst:271
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "WSGI server for Weblate"
-msgstr "Quay lại Weblate"
+msgstr "Máy chủ WSGI cho Weblate"
 
 #: admin/install.rst:277
 msgid ""
@@ -9614,7 +9629,7 @@ msgstr ""
 
 #: admin/install.rst:1548
 msgid "Running :ref:`auto-translation`."
-msgstr ""
+msgstr "Đang chạy :ref:`auto-translation`."
 
 #: admin/install.rst:1549
 msgid "Sending digest notifications."
@@ -9929,7 +9944,7 @@ msgstr ""
 
 #: admin/install.rst:1828
 msgid "Migrating Weblate to another server"
-msgstr ""
+msgstr "Di chuyển Weblate sang máy chủ khác"
 
 #: admin/install.rst:1830
 msgid ""
@@ -12784,7 +12799,7 @@ msgstr ""
 
 #: admin/install/source.rst:53
 msgid "Packaging Weblate for distributions"
-msgstr ""
+msgstr "Đóng gói Weblate để phân phối"
 
 #: admin/install/source.rst:55
 msgid ""
@@ -13734,6 +13749,8 @@ msgid ""
 "Imports a translation from the file to use as a suggestion for the given "
 "translation. It skips duplicated translations; only different ones are added."
 msgstr ""
+"Nhập bản dịch từ tệp để sử dụng làm gợi ý cho bản dịch đã cho. Nó bỏ qua các "
+"bản dịch trùng lặp; chỉ những bản dịch khác nhau mới được thêm vào."
 
 #: admin/management.rst:104
 msgid ""
@@ -13743,6 +13760,11 @@ msgid ""
 "skip obvious outliers, bots, bulk imports, uploads, and other events that "
 "would pollute the result."
 msgstr ""
+"Phân tích lịch sử thay đổi để ước tính năng suất dịch thực tế mỗi ngày. Lệnh "
+"này chỉ bao gồm người dùng đang hoạt động và các thay đổi dịch thủ công được "
+"hỗ trợ bởi đơn vị, đồng thời áp dụng ngưỡng tối thiểu và tối đa hàng ngày để "
+"bỏ qua các trường hợp ngoại lệ rõ ràng, bot, nhập khẩu hàng loạt, tải lên và "
+"các sự kiện khác có thể làm sai lệch kết quả."
 
 #: admin/management.rst:159
 msgid "Added parameter for translation mode."
@@ -14064,7 +14086,7 @@ msgstr "Cài đặt dịch vụ gợi ý tự động trên toàn trang web."
 
 #: admin/management.rst:804
 msgid "To install :ref:`mt-deepl`:"
-msgstr ""
+msgstr "Để cài đặt :ref:`mt-deepl`:"
 
 #: admin/management.rst:819
 msgid ""
@@ -15745,6 +15767,9 @@ msgid ""
 "don't have the \"needs editing\", \"needs rewriting\" or \"needs checking\" "
 "state will be committed."
 msgstr ""
+"**Bỏ qua các bản dịch được đánh dấu cần chỉnh sửa**: Chỉ những bản dịch "
+"không có trạng thái \"cần chỉnh sửa\", \"cần viết lại\" hoặc \"cần kiểm "
+"tra\" mới được chấp nhận."
 
 #: admin/projects.rst:322
 msgid ""
@@ -16428,7 +16453,7 @@ msgstr ""
 
 #: admin/projects.rst:836 workflows.rst:182 workflows.rst:214 workflows.rst:247
 msgid "Enable suggestions"
-msgstr ""
+msgstr "Bật đề xuất"
 
 #: admin/projects.rst:838
 msgid "Whether translation suggestions are accepted for this component."
@@ -17419,10 +17444,8 @@ msgid "Info sent to the Weblate"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: admin/support.rst:26
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Your Weblate instance URL"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "URL bản cài đặt Weblate của bạn"
 
 #: admin/support.rst:27
 #, fuzzy
@@ -17491,7 +17514,7 @@ msgstr ""
 
 #: admin/support.rst:65
 msgid "Email support at care@weblate.org."
-msgstr ""
+msgstr "Gửi email hỗ trợ tại care@weblate.org."
 
 #: admin/support.rst:66
 msgid "The `customer care portal <https://care.weblate.org/>`_"
@@ -18928,10 +18951,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS trên Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.8"
 msgid "Weblate 2026.9"
-msgstr "Weblate 2026.8"
+msgstr "Weblate 2026.9"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -19099,10 +19120,8 @@ msgstr ""
 "milestone/68?closed=1>`__."
 
 #: changes.rst:25
-#, fuzzy
-#| msgid "Weblate 2026.7.1"
 msgid "Weblate 2026.8.1"
-msgstr "Weblate 2026.7.1"
+msgstr "Weblate 2026.8.1"
 
 #: changes.rst:27
 msgid "*Released on August 7th 2026.*"
@@ -19334,6 +19353,9 @@ msgid ""
 "Improved loading performance for multi-language matrix views, dashboard "
 "component lists, category histories, and shared component listings."
 msgstr ""
+"Đã cải thiện hiệu suất tải cho các chế độ xem ma trận đa ngôn ngữ, danh sách "
+"thành phần bảng điều khiển, lịch sử danh mục và danh sách thành phần được "
+"dùng chung."
 
 #: changes.rst:85
 #, fuzzy
@@ -19365,6 +19387,8 @@ msgid ""
 "Improved :ref:`screenshots` OCR reliability and error reporting when "
 "downloading recognition data."
 msgstr ""
+"Đã cải thiện độ tin cậy và khả năng báo lỗi khi tải dữ liệu nhận dạng OCR "
+":ref:`screenshots`."
 
 #: changes.rst:89
 msgid ""
@@ -19468,6 +19492,11 @@ msgid ""
 "configuration or shared-repository indirection (:ghsa:`f66g-8pcg-"
 "jm8r`, :ghsa:`327h-qqgm-qv55`)."
 msgstr ""
+":ref:`Việc nhập bản sao lưu dự án <projectbackup>` hiện xác thực dữ liệu đã "
+"khôi phục trước khi tạo trạng thái dự án, bỏ qua các thành phần được liên "
+"kết với kho lưu trữ mà trình nhập không thể truy cập và không còn tải cấu "
+"hình Mercurial do kho lưu trữ cung cấp hoặc gián tiếp kho lưu trữ dùng chung "
+"(:ghsa:`f66g-8pcg-jm8r`, :ghsa:`327h-qqgm-qv55`)."
 
 #: changes.rst:107
 msgid ""
@@ -20321,8 +20350,7 @@ msgid ""
 "Improved performance of the :ref:`check-inconsistent` check on large "
 "projects."
 msgstr ""
-"Cải thiện hiệu suất của kiểm tra :ref:`check-inconsistent` trên các dự án "
-"lớn."
+"Đã cải thiện hiệu suất kiểm tra :ref:`check-inconsistent` trên các dự án lớn."
 
 #: changes.rst:326
 msgid ""
@@ -20518,6 +20546,8 @@ msgid ""
 "The translation memory lookup API can now skip fuzzy matching with the "
 "``exact`` query parameter."
 msgstr ""
+"API tra cứu bộ nhớ dịch giờ đây có thể bỏ qua việc khớp gần đúng với tham số "
+"truy vấn ``exact``."
 
 #: changes.rst:377
 msgid ""
@@ -22290,7 +22320,7 @@ msgstr ""
 
 #: changes/v0.rst:101
 msgid "Improved error page to give list of existing projects."
-msgstr ""
+msgstr "Đã cải thiện trang báo lỗi để hiển thị danh sách các dự án hiện có."
 
 #: changes/v0.rst:102
 msgid "New per language stats."
@@ -23221,7 +23251,7 @@ msgstr ""
 
 #: changes/v2.rst:89
 msgid "Improved performance when updating large translation files."
-msgstr "Cải thiện hiệu suất khi cập nhật các tệp dịch thuật lớn."
+msgstr "Đã cải thiện hiệu suất khi cập nhật các tệp dịch thuật lớn."
 
 #: changes/v2.rst:90
 msgid "Added support for blocking certain e-mails from registration."
@@ -23333,7 +23363,7 @@ msgstr ""
 
 #: changes/v2.rst:126
 msgid "Improved error messages on failed authentication."
-msgstr ""
+msgstr "Đã cải thiện thông báo lỗi khi xác thực không thành công."
 
 #: changes/v2.rst:127
 msgid "Keep page state when removing word from glossary."
@@ -23666,7 +23696,7 @@ msgstr ""
 
 #: changes/v2.rst:231
 msgid "Improved error handling in import_project."
-msgstr ""
+msgstr "Đã cải thiện khả năng xử lý lỗi trong import_project."
 
 #: changes/v2.rst:235
 msgid "Weblate 2.10.1"
@@ -23972,7 +24002,7 @@ msgstr ""
 
 #: changes/v2.rst:336
 msgid "Improved performance of commit and push operations."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất của các thao tác ghi nhận và đẩy."
 
 #: changes/v2.rst:337
 msgid "New management command to add suggestions from command-line."
@@ -24095,7 +24125,7 @@ msgstr ""
 
 #: changes/v2.rst:368
 msgid "Improved notifications on parse errors."
-msgstr ""
+msgstr "Đã cải thiện thông báo khi xảy ra lỗi phân tích cú pháp."
 
 #: changes/v2.rst:369
 msgid ""
@@ -24630,7 +24660,7 @@ msgstr ""
 
 #: changes/v3.rst:46
 msgid "Improved glossary matching."
-msgstr ""
+msgstr "Đã cải thiện khả năng đối khớp thuật ngữ."
 
 #: changes/v3.rst:49
 msgid "Weblate 3.11"
@@ -24727,7 +24757,7 @@ msgstr ""
 
 #: changes/v3.rst:74
 msgid "Improved Matomo integration."
-msgstr ""
+msgstr "Đã cải thiện khả năng tích hợp Matomo."
 
 #: changes/v3.rst:75
 msgid "Fixed :ref:`check-translated` to correctly handle source string change."
@@ -24826,7 +24856,7 @@ msgstr ""
 
 #: changes/v3.rst:111
 msgid "Improved data clean-up performance."
-msgstr "Hiệu suất làm sạch dữ liệu được cải thiện."
+msgstr "Đã cải thiện hiệu suất làm sạch dữ liệu."
 
 #: changes/v3.rst:112
 msgid "Added support for customizable security.txt."
@@ -24894,7 +24924,7 @@ msgstr ""
 
 #: changes/v3.rst:132
 msgid "Improved Git repository fetching performance."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất truy xuất kho lưu trữ Git."
 
 #: changes/v3.rst:133
 msgid "Add search lookup for age of string."
@@ -24914,7 +24944,7 @@ msgstr "Đã thêm hỗ trợ thông báo về các thao tác trên kho lưu tr�
 
 #: changes/v3.rst:137
 msgid "Improved translation listings."
-msgstr ""
+msgstr "Đã cải thiện danh sách bản dịch."
 
 #: changes/v3.rst:139
 msgid "Added support for automatic translation strings marked for editing."
@@ -25168,7 +25198,7 @@ msgstr ""
 
 #: changes/v3.rst:213
 msgid "Improved performance on most of translation pages."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất trên hầu hết các trang dịch thuật."
 
 #: changes/v3.rst:214
 msgid "Fixed listing of languages not known to Weblate."
@@ -25352,7 +25382,7 @@ msgstr ""
 
 #: changes/v3.rst:266
 msgid "Improved error logging."
-msgstr ""
+msgstr "Đã cải thiện ghi nhật ký lỗi."
 
 #: changes/v3.rst:267
 msgid "Allow custom location in MO generating add-on."
@@ -25368,7 +25398,7 @@ msgstr ""
 
 #: changes/v3.rst:270
 msgid "Improved import performance with many linked components."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất nhập vào với nhiều thành phần được liên kết."
 
 #: changes/v3.rst:271
 msgid "Fixed examples installation in some cases."
@@ -25586,7 +25616,7 @@ msgstr ""
 
 #: changes/v3.rst:342
 msgid "Improved performance of built-in translation memory."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất của bộ nhớ dịch tích hợp."
 
 #: changes/v3.rst:343
 msgid "Added interface to manage global translation memory."
@@ -25690,7 +25720,7 @@ msgstr ""
 
 #: changes/v3.rst:371
 msgid "Improved performance of loading translation files."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất tải các tệp dịch thuật."
 
 #: changes/v3.rst:372
 msgid "New add-on to squash commits prior to push."
@@ -25710,7 +25740,7 @@ msgstr ""
 
 #: changes/v3.rst:376
 msgid "Improved performance of fulltext index updates."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất cập nhật chỉ mục toàn văn."
 
 #: changes/v3.rst:377
 msgid "Extended file upload API to support more parameters."
@@ -25730,7 +25760,7 @@ msgstr "Đã thêm hỗ trợ cho việc loại bỏ thành phần và dự án.
 
 #: changes/v3.rst:385
 msgid "Improved performance for some monolingual translations."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất đối với một số bản dịch đơn ngữ."
 
 #: changes/v3.rst:386
 msgid ""
@@ -25783,7 +25813,7 @@ msgstr ""
 
 #: changes/v3.rst:402
 msgid "Improved plurals handling."
-msgstr ""
+msgstr "Đã cải thiện khả năng xử lý số nhiều."
 
 #: changes/v3.rst:403
 msgid "Fixed translation upload API failure in some corner cases."
@@ -25811,7 +25841,7 @@ msgstr ""
 
 #: changes/v3.rst:413
 msgid "Improved error handling in gitexport module."
-msgstr ""
+msgstr "Đã cải thiện khả năng xử lý lỗi trong mô-đun gitexport."
 
 #: changes/v3.rst:414
 msgid "Fixed progress reporting for newly added languages."
@@ -25889,7 +25919,7 @@ msgstr ""
 
 #: changes/v3.rst:436
 msgid "Improved performance of loading translations by almost 25%."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất tải bản dịch lên đến 25%."
 
 #: changes/v3.rst:437
 msgid "Removed support for merging headers on upload."
@@ -26166,7 +26196,7 @@ msgstr ""
 
 #: changes/v4.rst:32
 msgid "Improved API error messages on permission denied."
-msgstr "Cải thiện thông báo lỗi API khi bị từ chối quyền truy cập."
+msgstr "Đã cải thiện thông báo lỗi API khi bị từ chối quyền truy cập."
 
 #: changes/v4.rst:33
 msgid "Reduced false positives of the XML checks."
@@ -26204,7 +26234,7 @@ msgstr ""
 
 #: changes/v4.rst:41 changes/v4.rst:1214
 msgid "Improved translation memory performance."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất bộ nhớ dịch."
 
 #: changes/v4.rst:42
 msgid ""
@@ -26307,11 +26337,11 @@ msgstr ""
 
 #: changes/v4.rst:72
 msgid "Improved performance of public user profiles."
-msgstr "Cải thiện hiệu suất của các hồ sơ người dùng công khai."
+msgstr "Đã cải thiện hiệu suất của các hồ sơ người dùng công khai."
 
 #: changes/v4.rst:73
 msgid "Improved Sentry performance monitoring integration."
-msgstr "Tích hợp giám sát hiệu suất Sentry đã được cải thiện."
+msgstr "Đã cải thiện tích hợp giám sát hiệu suất Sentry."
 
 #: changes/v4.rst:74
 msgid "Added support for Ed25519 SSH key."
@@ -26501,7 +26531,7 @@ msgstr ""
 #: changes/v4.rst:156
 msgid "Improved search performance for some specially formatted strings."
 msgstr ""
-"Cải thiện hiệu suất tìm kiếm đối với một số chuỗi có định dạng đặc biệt."
+"Đã cải thiện hiệu suất tìm kiếm đối với một số chuỗi có định dạng đặc biệt."
 
 #: changes/v4.rst:157
 msgid "Celery beat is now storing the tasks schedule in the database."
@@ -26637,7 +26667,7 @@ msgstr ""
 
 #: changes/v4.rst:201
 msgid "Improved performance of project creation and saving."
-msgstr "Cải thiện hiệu suất tạo và lưu dự án."
+msgstr "Đã cải thiện hiệu suất tạo và lưu dự án."
 
 #: changes/v4.rst:202
 msgid "Added support for gotext JSON files."
@@ -26687,7 +26717,7 @@ msgstr "Đã thêm hỗ trợ cho các đối tượng có thể đặt được
 
 #: changes/v4.rst:217
 msgid "Improved performance of translation memory."
-msgstr "Cải thiện hiệu suất của bộ nhớ dịch."
+msgstr "Đã cải thiện hiệu suất của bộ nhớ dịch."
 
 #: changes/v4.rst:218
 msgid ""
@@ -26894,7 +26924,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:279
 msgid "Improved error reporting when uploading files."
-msgstr "Cải thiện khả năng báo lỗi khi tải lên tập tin."
+msgstr "Đã cải thiện khả năng báo lỗi khi tải lên tập tin."
 
 #: changes/v4.rst:280
 msgid "Fetch all user verified e-mails from GitHub during authentication."
@@ -27031,10 +27061,9 @@ msgid "Added support for project level backups."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:313
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance and memory usage of translation memory lookups."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Đã cải thiện hiệu suất và mức sử dụng bộ nhớ của các truy vấn bộ nhớ dịch."
 
 #: changes/v4.rst:315
 msgid ""
@@ -27195,10 +27224,8 @@ msgid "Added support for storing escaped XML elements in XLIFF."
 msgstr "Đã thêm hỗ trợ lưu trữ các phần tử XML được mã hóa trong XLIFF."
 
 #: changes/v4.rst:364
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved formatting of placeholder-check errors."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện định dạng lỗi kiểm tra chỗ giữ chỗ."
 
 #: changes/v4.rst:365
 msgid "Redirect /.well-known/change-password to /accounts/password/."
@@ -27307,10 +27334,8 @@ msgid "Fixed pull request message title."
 msgstr ""
 
 #: changes/v4.rst:404
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved syntax error handling in Fluent format."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện khả năng xử lý lỗi cú pháp trong định dạng Fluent."
 
 #: changes/v4.rst:405
 msgid "Fixed avatar display in notification e-mails."
@@ -27448,10 +27473,8 @@ msgstr ""
 "milestone/80?closed=1>`__."
 
 #: changes/v4.rst:448
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate 4.11.1"
-msgstr "PHP strings"
+msgstr "Weblate 4.11.1"
 
 #: changes/v4.rst:452
 msgid ""
@@ -27490,10 +27513,8 @@ msgstr ""
 "milestone/78?closed=1>`__."
 
 #: changes/v4.rst:461
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate 4.11"
-msgstr "PHP strings"
+msgstr "Weblate 4.11"
 
 #: changes/v4.rst:463
 msgid "*Released on February 25th 2022.*"
@@ -27541,10 +27562,8 @@ msgid ""
 msgstr ""
 
 #: changes/v4.rst:473
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved error handling on string removal."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện khả năng xử lý lỗi khi xóa chuỗi."
 
 #: changes/v4.rst:474 changes/v4.rst:499
 msgid "Weblate now requires Python 3.7 or newer."
@@ -27655,10 +27674,8 @@ msgid ""
 msgstr ""
 
 #: changes/v4.rst:506
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate 4.10.1"
-msgstr "PHP strings"
+msgstr "Weblate 4.10.1"
 
 #: changes/v4.rst:508
 msgid "*Released on December 22nd 2021.*"
@@ -27705,10 +27722,8 @@ msgstr ""
 "milestone/76?closed=1>`__."
 
 #: changes/v4.rst:521
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate 4.10"
-msgstr "PHP strings"
+msgstr "Weblate 4.10"
 
 #: changes/v4.rst:523
 msgid "*Released on December 16th 2021.*"
@@ -27815,10 +27830,8 @@ msgid "The Docker container now uses Django 4.0, see above for changes."
 msgstr ""
 
 #: changes/v4.rst:557
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate 4.9.1"
-msgstr "PHP strings"
+msgstr "Weblate 4.9.1"
 
 #: changes/v4.rst:559
 msgid "*Released on November 19th 2021.*"
@@ -27859,10 +27872,8 @@ msgstr ""
 "milestone/73?closed=1>`__."
 
 #: changes/v4.rst:570
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate 4.9"
-msgstr "PHP strings"
+msgstr "Weblate 4.9"
 
 #: changes/v4.rst:572
 msgid "*Released on November 10th 2021.*"
@@ -27879,10 +27890,8 @@ msgid "Improved rendering of history."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:576
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of the translation pages."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất của các trang dịch thuật."
 
 #: changes/v4.rst:577
 msgid "Added support for restricting translation file downloads."
@@ -27922,10 +27931,8 @@ msgid "Added checks for ICU MessageFormat."
 msgstr "Dạng số nhiều %d"
 
 #: changes/v4.rst:584
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved error condition handling in machine translation backends."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện khả năng xử lý lỗi trong các hệ thống dịch máy."
 
 #: changes/v4.rst:585
 msgid "Highlight unusual whitespace characters in the strings."
@@ -27983,10 +27990,8 @@ msgstr ""
 "thời gian đối với các trang web lớn."
 
 #: changes/v4.rst:603
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate 4.8.1"
-msgstr "PHP strings"
+msgstr "Weblate 4.8.1"
 
 #: changes/v4.rst:605
 msgid "*Released on September 10th 2021.*"
@@ -28085,10 +28090,8 @@ msgid "Fixed adding strings to monolingual glossary components."
 msgstr ""
 
 #: changes/v4.rst:634
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance in handling variants."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất trong việc xử lý các biến thể."
 
 #: changes/v4.rst:635
 msgid "Fixed squash add-on sometimes skipping parsing upstream changes."
@@ -28187,10 +28190,8 @@ msgid "Added rate limiting on creating new projects."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:669
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of file updates."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất cập nhật tập tin."
 
 #: changes/v4.rst:671
 msgid ""
@@ -28249,7 +28250,7 @@ msgstr "Ngôn ngữ thứ hai"
 
 #: changes/v4.rst:684
 msgid "Weblate now requires Django 3.2."
-msgstr ""
+msgstr "Weblate hiện yêu cầu Django 3.2."
 
 #: changes/v4.rst:685
 #, fuzzy
@@ -28357,7 +28358,7 @@ msgstr ""
 
 #: changes/v4.rst:718
 msgid "Improved metrics performance."
-msgstr "Hiệu suất của các chỉ số được cải thiện."
+msgstr "Đã cải thiện hiệu suất của các chỉ số."
 
 #: changes/v4.rst:719
 #, fuzzy
@@ -28399,10 +28400,8 @@ msgid "Update list of user interface languages in Docker."
 msgstr ""
 
 #: changes/v4.rst:732
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Improved error messages when creating pull requests."
-msgstr "PHP strings"
+msgstr "Đã cải thiện thông báo lỗi khi tạo yêu cầu kéo."
 
 #: changes/v4.rst:733
 msgid "Fixed creating pull requests on Pagure."
@@ -28467,7 +28466,7 @@ msgstr ""
 
 #: changes/v4.rst:750 changes/v4.rst:1069
 msgid "Improved activity charts."
-msgstr ""
+msgstr "Đã cải thiện biểu đồ hoạt động."
 
 #: changes/v4.rst:751
 msgid "Sender for contact form e-mails can now be configured."
@@ -28484,10 +28483,8 @@ msgid "The rate limiting no longer applies to superusers."
 msgstr ""
 
 #: changes/v4.rst:754
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved automatic translation add-on performance and reliability."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất và độ tin cậy của gói dịch tự động cài thêm."
 
 #: changes/v4.rst:755
 msgid "The rate limiting now can be customized in the Docker container."
@@ -28622,10 +28619,8 @@ msgid "Fixed automatic suggestions for languages with a longer code."
 msgstr ""
 
 #: changes/v4.rst:798
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance when adding new strings."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất khi thêm chuỗi mới."
 
 #: changes/v4.rst:799
 msgid "Several bug fixes in quality checks."
@@ -28700,14 +28695,13 @@ msgid "Paginated component listing of huge projects."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:819
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of translation, component or project removal."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Đã cải thiện hiệu suất của việc loại bỏ bản dịch, thành phần hoặc dự án."
 
 #: changes/v4.rst:820 changes/v4.rst:1213
 msgid "Improved bulk edit performance."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất chỉnh sửa hàng loạt."
 
 #: changes/v4.rst:821
 msgid ""
@@ -28774,16 +28768,12 @@ msgid "Added support for manually defining string variants using a flag."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:838
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of consistency checks."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất kiểm tra tính nhất quán."
 
 #: changes/v4.rst:839
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of translation memory for long strings."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất bộ nhớ dịch cho các chuỗi ký tự dài."
 
 #: changes/v4.rst:840
 #, fuzzy
@@ -28962,10 +28952,8 @@ msgid "Avoid duplicate pull requests on Pagure."
 msgstr ""
 
 #: changes/v4.rst:895
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance when displaying ghost translations."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất khi hiển thị các bản dịch ma."
 
 #: changes/v4.rst:896
 msgid "Reimplemented translation editor to use native browser textarea."
@@ -29007,7 +28995,7 @@ msgstr "Đã tạo mới khóa SSH."
 
 #: changes/v4.rst:908
 msgid "Weblate now requires Django 3.1."
-msgstr ""
+msgstr "Weblate hiện yêu cầu Django 3.1."
 
 #: changes/v4.rst:909
 #, fuzzy
@@ -29092,20 +29080,16 @@ msgid "Added tasks API."
 msgstr ""
 
 #: changes/v4.rst:924
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of file upload."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất tải lên tập tin."
 
 #: changes/v4.rst:925
 msgid "Improved display of user defined special characters."
 msgstr ""
 
 #: changes/v4.rst:926
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of auto-translation."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất dịch tự động."
 
 #: changes/v4.rst:927
 msgid "Several minor improvements in the user interface."
@@ -29188,10 +29172,8 @@ msgid "Added support for Pagure pull requests."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:956
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Improved error messages for failed registrations."
-msgstr "PHP strings"
+msgstr "Đã cải thiện thông báo lỗi cho các lần đăng ký không thành công."
 
 #: changes/v4.rst:957
 msgid "Reverted rendering developer comments as Markdown."
@@ -29244,10 +29226,8 @@ msgid "*Released on October 21st 2020.*"
 msgstr ""
 
 #: changes/v4.rst:972
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved auto-translation performance."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất dịch tự động."
 
 #: changes/v4.rst:973
 msgid "Fixed session expiry for authenticated users."
@@ -29264,20 +29244,16 @@ msgid "Improve hooks compatibility with Bitbucket Server."
 msgstr ""
 
 #: changes/v4.rst:976
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of translation memory updates."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất cập nhật bộ nhớ dịch."
 
 #: changes/v4.rst:977 changes/v5.rst:1725
 msgid "Reduced memory usage."
 msgstr ""
 
 #: changes/v4.rst:978
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of Matrix view."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất của chế độ xem ma trận."
 
 #: changes/v4.rst:979
 msgid "Added confirmation before removing a user from a project."
@@ -29401,7 +29377,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v4.rst:1010
 msgid "Improved performance of file downloads."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất tải xuống tập tin."
 
 #: changes/v4.rst:1011
 msgid "Improved repository management view."
@@ -29409,7 +29385,7 @@ msgstr ""
 
 #: changes/v4.rst:1012
 msgid "Automatically enable java-format for Android."
-msgstr ""
+msgstr "Tự động bật định dạng Java cho Android."
 
 #: changes/v4.rst:1013
 msgid "Added support for localized screenshots."
@@ -29482,6 +29458,8 @@ msgid ""
 "The ``post_update`` method of add-ons now takes extra ``skip_push`` "
 "parameter."
 msgstr ""
+"Phương thức ``post_update`` của các gói bổ sung hiện có thêm tham số "
+"``skip_push``."
 
 #: changes/v4.rst:1041
 msgid "Weblate 4.2.2"
@@ -29592,7 +29570,7 @@ msgstr ""
 
 #: changes/v4.rst:1077
 msgid "Improved performance of bulk state changes."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất của các thay đổi trạng thái hàng loạt."
 
 #: changes/v4.rst:1078
 msgid "Added compatibility redirects after project or component renaming."
@@ -30047,11 +30025,11 @@ msgstr ""
 
 #: changes/v4.rst:1211
 msgid "Improved performance of translation stats."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất thống kê dịch thuật."
 
 #: changes/v4.rst:1212
 msgid "Improved performance of changing labels."
-msgstr ""
+msgstr "Đã cải thiện hiệu suất thay đổi nhãn."
 
 #: changes/v4.rst:1215
 msgid "Fixed possible crash on component deletion."
@@ -30091,7 +30069,7 @@ msgstr ""
 
 #: changes/v4.rst:1224
 msgid "Improved reporting of configuration errors."
-msgstr ""
+msgstr "Đã cải thiện khả năng báo cáo lỗi cấu hình."
 
 #: changes/v4.rst:1225
 msgid "Fixed bilingual source upload."
@@ -30492,6 +30470,8 @@ msgid ""
 "Screenshot OCR now skips corrupted or truncated image files instead of "
 "failing the request."
 msgstr ""
+"Ảnh chụp màn hình OCR giờ đây bỏ qua các tệp hình ảnh bị hỏng hoặc bị cắt "
+"thay vì thất bại trong yêu cầu."
 
 #: changes/v5.rst:55
 msgid ""
@@ -30642,10 +30622,8 @@ msgid "Added :ref:`bulk user invitations <invite-user>`."
 msgstr ""
 
 #: changes/v5.rst:96
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Added :ref:`check-objc-format`."
-msgstr "Dạng số nhiều %d"
+msgstr "Đã thêm :ref:`check-objc-format`."
 
 #: changes/v5.rst:97
 msgid ""
@@ -30717,10 +30695,8 @@ msgid "Improved plural handling in :ref:`auto-translation`."
 msgstr ":ref:`machine-translation`"
 
 #: changes/v5.rst:111
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved error messages in some :ref:`api` endpoints."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện thông báo lỗi trong một số điểm cuối :ref:`api`."
 
 #: changes/v5.rst:112
 msgid ""
@@ -30730,12 +30706,12 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:113
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "Improved performance of project and category search result pages with very "
 "large match sets."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Đã cải thiện hiệu suất của các trang kết quả tìm kiếm dự án và danh mục với "
+"tập hợp kết quả phù hợp rất lớn."
 
 #: changes/v5.rst:114
 msgid ""
@@ -30782,10 +30758,8 @@ msgstr ""
 "và :envvar:`WEBLATE_VCS_RESTRICT_PRIVATE`."
 
 #: changes/v5.rst:118
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of :ref:`mt-weblate` lookups."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất tra cứu :ref:`mt-weblate`."
 
 #: changes/v5.rst:119
 msgid ""
@@ -30830,12 +30804,12 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:125
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "Faster category and project removals, and improved performance of project "
 "language counting and API listing on projects with shared components."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Xóa danh mục và dự án nhanh hơn, đồng thời cải thiện hiệu suất đếm ngôn ngữ "
+"dự án và liệt kê API trên các dự án có các thành phần dùng chung."
 
 #: changes/v5.rst:126
 msgid "Clarified Git LFS limits of :ref:`git-exporter` in the UI and docs."
@@ -31035,10 +31009,8 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:164
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved repository lock error handling when deleting units."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện khả năng xử lý lỗi khóa kho lưu trữ khi xóa các đơn vị."
 
 #: changes/v5.rst:165
 msgid ""
@@ -32085,10 +32057,8 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:560
-#, fuzzy
-#| msgid ":ref:`database-setup`"
 msgid ":ref:`date-search`."
-msgstr ":ref:`database-setup`"
+msgstr ":ref:`date-search`."
 
 #: changes/v5.rst:561
 msgid "Last changed lookup in :ref:`search-strings`."
@@ -32111,10 +32081,8 @@ msgid "Screenshots now can be uploaded from a URL, see :ref:`screenshots`."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v5.rst:568
-#, fuzzy
-#| msgid ":ref:`hooks`"
 msgid ":ref:`hooks` improvements."
-msgstr ":ref:`hooks`"
+msgstr "Cải tiến :ref:`hooks`."
 
 #: changes/v5.rst:570
 msgid "Now follows :ref:`api-errors`."
@@ -32147,6 +32115,8 @@ msgid ""
 "Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-"
 "untranslated` checks with batch operations."
 msgstr ""
+"Đã cải thiện hiệu suất kiểm tra :ref:`check-multiple-failures` và "
+":ref:`check-long-untranslated` với xử lý hàng loạt."
 
 #: changes/v5.rst:577
 msgid ":ref:`file_format_params` can now be configured via the :ref:`api`."
@@ -32634,10 +32604,8 @@ msgid "Restoring :ref:`projectbackup` with votes."
 msgstr ":ref:`projectbackup`"
 
 #: changes/v5.rst:786
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved error handling in :ref:`mt-apertium-apy`."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện khả năng xử lý lỗi trong :ref:`mt-apertium-apy`."
 
 #: changes/v5.rst:796
 msgid ""
@@ -32916,10 +32884,8 @@ msgid "XML export no longer crashes on locations with special characters."
 msgstr ""
 
 #: changes/v5.rst:936
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved error handling on ZIP upload."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện khả năng xử lý lỗi khi tải lên tệp ZIP."
 
 #: changes/v5.rst:937
 #, fuzzy
@@ -32965,7 +32931,7 @@ msgstr ""
 
 #: changes/v5.rst:963
 msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
-msgstr ""
+msgstr ":ref:`addon-weblate.webhook.webhook` hiện đã được bật trong Docker."
 
 #: changes/v5.rst:964
 #, fuzzy
@@ -33112,7 +33078,7 @@ msgstr ""
 
 #: changes/v5.rst:1011
 msgid "Improved translation propagation performance."
-msgstr "Cải thiện hiệu suất truyền bá dịch thuật."
+msgstr "Đã cải thiện hiệu suất lan truyền bản dịch."
 
 #: changes/v5.rst:1012
 msgid ""
@@ -33167,10 +33133,8 @@ msgid "Reduced overhead of rendering other strings while translating."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v5.rst:1040
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of some :ref:`api` endpoints."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất của một số điểm cuối :ref:`api`."
 
 #: changes/v5.rst:1041
 #, fuzzy
@@ -33203,10 +33167,8 @@ msgid "Captcha is not shown for registrations via :ref:`invite-user`."
 msgstr ""
 
 #: changes/v5.rst:1065
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of API download endpoints."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất của các điểm cuối tải xuống API."
 
 #: changes/v5.rst:1066
 #, fuzzy
@@ -33257,10 +33219,8 @@ msgid "Visual diff now better highlights whitespace additions."
 msgstr ""
 
 #: changes/v5.rst:1090
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance on large projects."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất trên các dự án lớn."
 
 #: changes/v5.rst:1094
 msgid "Consistency of :ref:`search-boolean` in :doc:`/user/search`."
@@ -33377,10 +33337,8 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:1156
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Improved error handling in :ref:`machine-translation-setup`."
-msgstr ":ref:`machine-translation`"
+msgstr "Đã cải thiện khả năng xử lý lỗi trong :ref:`machine-translation-setup`."
 
 #: changes/v5.rst:1157
 msgid ""
@@ -33410,7 +33368,7 @@ msgstr ""
 
 #: changes/v5.rst:1161
 msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
-msgstr ""
+msgstr "Đã cải thiện lỗi xác thực trong :doc:`/api`, xem :ref:`api-errors`."
 
 #: changes/v5.rst:1162
 msgid ""
@@ -33724,10 +33682,8 @@ msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
 msgstr ""
 
 #: changes/v5.rst:1280
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`translation-propagation` performance."
-msgstr ":ref:`workflow-customization`"
+msgstr "Đã cải thiện hiệu suất :ref:`translation-propagation`."
 
 #: changes/v5.rst:1281
 msgid ""
@@ -33878,10 +33834,8 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:1363
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved :ref:`workflow-customization` performance."
-msgstr ":ref:`workflow-customization`"
+msgstr "Đã cải thiện hiệu suất :ref:`workflow-customization`."
 
 #: changes/v5.rst:1373
 msgid ""
@@ -33940,16 +33894,12 @@ msgid ":ref:`mt-azure-openai` automatic suggestion service."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: changes/v5.rst:1405
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid ":ref:`code-hosting-bitbucket-cloud-pull-requests`."
-msgstr ":ref:`vcs-bitbucket-data-center`"
+msgstr ":ref:`code-hosting-bitbucket-cloud-pull-requests`."
 
 #: changes/v5.rst:1409
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-terminology`"
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
-msgstr ":ref:`mt-microsoft-terminology`"
+msgstr ":ref:`mt-modernmt` hỗ trợ :ref:`glossary-mt`."
 
 #: changes/v5.rst:1410
 msgid ":ref:`mt-deepl` now supports specifying translation context."
@@ -34322,7 +34272,7 @@ msgstr "Phát hiện các bản ghi nhận gửi ra ngoài đang chờ xử lý.
 
 #: changes/v5.rst:1564
 msgid ":ref:`addons` button layout."
-msgstr ""
+msgstr "Bố cục nút :ref:`addons`."
 
 #: changes/v5.rst:1565
 msgid "Crash when installing :ref:`addon-weblate.discovery.discovery` add-on."
@@ -34548,10 +34498,8 @@ msgid "*Released on May 3rd 2024.*"
 msgstr ""
 
 #: changes/v5.rst:1678
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved performance of rendering large lists of objects."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện hiệu suất hiển thị danh sách đối tượng lớn."
 
 #: changes/v5.rst:1679
 msgid ""
@@ -34621,10 +34569,8 @@ msgid ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgstr ":ref:`mt-microsoft-terminology`"
 
 #: changes/v5.rst:1721
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved error handling in :ref:`invite-user`."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện khả năng xử lý lỗi trong :ref:`invite-user`."
 
 #: changes/v5.rst:1722
 #, fuzzy
@@ -34734,7 +34680,8 @@ msgstr ""
 
 #: changes/v5.rst:1766
 msgid "Improved error reporting in :ref:`machine-translation-setup`."
-msgstr "Cải thiện khả năng báo cáo lỗi trong :ref:`machine-translation-setup`."
+msgstr ""
+"Đã cải thiện khả năng báo cáo lỗi trong :ref:`machine-translation-setup`."
 
 #: changes/v5.rst:1767
 msgid ":ref:`check-max-size` better displays rendered text."
@@ -34745,10 +34692,8 @@ msgid "Admins can now specify username and full name when :ref:`invite-user`."
 msgstr ""
 
 #: changes/v5.rst:1769
-#, fuzzy
-#| msgid ":ref:`check-end-newline`"
 msgid "Added :ref:`check-end-interrobang`."
-msgstr ":ref:`check-end-newline`"
+msgstr "Đã thêm :ref:`check-end-interrobang`."
 
 #: changes/v5.rst:1770
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
@@ -34960,10 +34905,8 @@ msgid "*Released on February 15th 2024.*"
 msgstr ""
 
 #: changes/v5.rst:1861
-#, fuzzy
-#| msgid "PHP strings"
 msgid ":ref:`check-perl-brace-format` quality check."
-msgstr "PHP strings"
+msgstr "Kiểm tra chất lượng :ref:`check-perl-brace-format`."
 
 #: changes/v5.rst:1862
 msgid ":doc:`/formats/moko-resources`."
@@ -35022,6 +34965,7 @@ msgstr ""
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` now preserves :ref:`componentlists`."
 msgstr ""
+":ref:`addon-weblate.discovery.discovery` hiện bảo toàn :ref:`componentlists`."
 
 #: changes/v5.rst:1878
 msgid "Nicer formatting of :ref:`glossary` tooltips."
@@ -35127,10 +35071,8 @@ msgid ""
 msgstr ""
 
 #: changes/v5.rst:1926
-#, fuzzy
-#| msgid ":ref:`glossary`"
 msgid ":ref:`glossary-mt`."
-msgstr ":ref:`glossary`"
+msgstr ":ref:`glossary-mt`."
 
 #: changes/v5.rst:1927
 msgid "New automatic fixer for :ref:`autofix-punctuation-spacing`."
@@ -35167,10 +35109,9 @@ msgid "Added nested JSON exporter in :ref:`download`."
 msgstr ""
 
 #: changes/v5.rst:1937
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved :ref:`git-exporter` performance on huge repositories."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Đã cải thiện hiệu suất :ref:`git-exporter` trên các kho lưu trữ khổng lồ."
 
 #: changes/v5.rst:1941
 msgid "Removing stale VCS directories."
@@ -35255,10 +35196,8 @@ msgid "*Released on November 16th 2023.*"
 msgstr ""
 
 #: changes/v5.rst:1985
-#, fuzzy
-#| msgid ":ref:`vcs-azure-devops`"
 msgid ":ref:`code-hosting-azure-devops-pull-requests`."
-msgstr ":ref:`vcs-azure-devops`"
+msgstr ":ref:`code-hosting-azure-devops-pull-requests`."
 
 #: changes/v5.rst:1989
 #, fuzzy
@@ -35507,10 +35446,8 @@ msgid "New string notification can now be triggered for each string."
 msgstr ""
 
 #: changes/v5.rst:2072
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Improved OCR error handling in :ref:`screenshots`."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đã cải thiện khả năng xử lý lỗi OCR trong :ref:`screenshots`."
 
 #: changes/v5.rst:2073
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
@@ -36253,6 +36190,11 @@ msgid ""
 "individuals involved and the community as a whole. Depending on the severity "
 "of a violation, lower rungs on the ladder may be skipped."
 msgstr ""
+"Nếu cuộc điều tra của Ban Kiểm duyệt Cộng đồng phát hiện ra rằng Quy tắc Ứng "
+"xử này đã bị vi phạm, các bước xử lý sau đây có thể được sử dụng để xác định "
+"cách tốt nhất để khắc phục thiệt hại, dựa trên tác động của sự việc đối với "
+"các cá nhân liên quan và cộng đồng nói chung. Tùy thuộc vào mức độ nghiêm "
+"trọng của vi phạm, các bước xử lý thấp hơn có thể được bỏ qua."
 
 #: contributing/code_of_conduct.rst:64
 msgid "Warning"
@@ -36392,7 +36334,7 @@ msgstr ""
 
 #: contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
-msgstr ""
+msgstr "Hướng Dẫn Giao Tiếp Dành Cho Người Đóng Góp Weblate"
 
 #: contributing/communication.rst:5
 #, fuzzy
@@ -36530,7 +36472,7 @@ msgstr ""
 
 #: contributing/debugging.rst:63
 msgid "Not receiving e-mails from Weblate"
-msgstr ""
+msgstr "Không nhận được email từ Weblate"
 
 #: contributing/debugging.rst:65
 msgid ""
@@ -37510,10 +37452,8 @@ msgid ""
 msgstr ""
 
 #: contributing/modules.rst:2
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Contributing to Weblate modules"
-msgstr "Đóng góp vào Weblate"
+msgstr "Đóng góp vào các mô-đun Weblate"
 
 #: contributing/modules.rst:4
 msgid ""
@@ -37917,7 +37857,7 @@ msgstr ""
 
 #: contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
-msgstr ""
+msgstr "Bắt đầu đóng góp mã nguồn cho Weblate"
 
 #: contributing/start.rst:4
 msgid ""
@@ -37979,7 +37919,7 @@ msgstr ""
 
 #: contributing/start.rst:62
 msgid "Running Weblate locally in Docker"
-msgstr ""
+msgstr "Chạy Weblate cục bộ trong Docker"
 
 #: contributing/start.rst:64
 msgid ""
@@ -38184,7 +38124,7 @@ msgstr ""
 
 #: contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr ""
+msgstr "Bộ kiểm thử Weblate và tích hợp liên tục"
 
 #: contributing/tests.rst:4
 msgid ""
@@ -38281,10 +38221,8 @@ msgid "The simple execution can look like:"
 msgstr ""
 
 #: contributing/tests.rst:62
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Local testing of Weblate"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thử nghiệm Weblate cục bộ"
 
 #: contributing/tests.rst:64
 msgid ""
@@ -39347,10 +39285,8 @@ msgid ""
 msgstr ""
 
 #: devel/html.rst:47
-#, fuzzy
-#| msgid "Change password"
 msgid "Configuring Weblate CDN add-on"
-msgstr "Thay đổi mật khẩu"
+msgstr "Cấu hình Weblate CDN cài thêm"
 
 #: devel/html.rst:49
 msgid ""
@@ -39398,10 +39334,8 @@ msgid ""
 msgstr ""
 
 #: devel/html.rst:67
-#, fuzzy
-#| msgid "Status"
 msgid "String extraction for Weblate CDN"
-msgstr "Tình trạng"
+msgstr "Trích xuất chuỗi cho Weblate CDN"
 
 #: devel/html.rst:69
 msgid ""
@@ -39434,10 +39368,8 @@ msgid ""
 msgstr ""
 
 #: devel/html.rst:104
-#, fuzzy
-#| msgid "Action"
 msgid "HTML localization using Weblate CDN"
-msgstr "Hành động"
+msgstr "Bản địa hóa HTML bằng cách sử dụng CDN Weblate"
 
 #: devel/html.rst:106
 msgid ""
@@ -39526,10 +39458,8 @@ msgid ""
 msgstr ""
 
 #: devel/integration.rst:23
-#, fuzzy
-#| msgid "Status"
 msgid "Fetching updated translations from Weblate"
-msgstr "Tình trạng"
+msgstr "Đang tải bản dịch cập nhật từ Weblate"
 
 #: devel/integration.rst:25
 msgid ""
@@ -39562,7 +39492,7 @@ msgstr ""
 
 #: devel/integration.rst:48
 msgid "Fetching remote changes into Weblate"
-msgstr ""
+msgstr "Tải các thay đổi từ xa vào Weblate"
 
 #: devel/integration.rst:50
 msgid ""
@@ -39907,6 +39837,9 @@ msgid ""
 "you can skip this step and use the :guilabel:`Upload translation files` "
 "option when creating a component."
 msgstr ""
+"Nếu bạn không muốn lưu trữ bản dịch trong kho lưu trữ Git bên ngoài, bạn có "
+"thể bỏ qua bước này và sử dụng tùy chọn :guilabel:`Tải lên tệp dịch` khi tạo "
+"thành phần."
 
 #: devel/migration.rst:61
 msgid "If your translations aren't already in Git:"
@@ -40013,7 +39946,7 @@ msgstr ""
 
 #: devel/migration.rst:109
 msgid "Weblate will automatically detect:"
-msgstr ""
+msgstr "Weblate sẽ tự động phát hiện:"
 
 #: devel/migration.rst:111
 msgid "Translation file format"
@@ -40122,7 +40055,7 @@ msgstr "Thiết lập bản địa hóa liên tục"
 
 #: devel/migration.rst:174
 msgid "Enable automatic updates and commits:"
-msgstr ""
+msgstr "Bật tính năng cập nhật và ghi nhận tự động:"
 
 #: devel/migration.rst:176
 msgid "Configure repository integration:"
@@ -40188,7 +40121,7 @@ msgstr ""
 
 #: devel/migration.rst:200
 msgid "Optional: Enable add-ons"
-msgstr ""
+msgstr "Tùy chọn: Kích hoạt gói bổ sung"
 
 #: devel/migration.rst:202
 msgid "Weblate offers :ref:`addons` to automate common tasks:"
@@ -41246,7 +41179,7 @@ msgstr "PHP"
 
 #: devel/starting.rst:46
 msgid ":ref:`gettext` [#php]_"
-msgstr ""
+msgstr ":ref:`gettext` [#php]_"
 
 #: devel/starting.rst:48
 msgid "C/C++"
@@ -41274,7 +41207,7 @@ msgstr "Java"
 
 #: devel/starting.rst:58
 msgid ":ref:`xliff` [#java]_"
-msgstr ""
+msgstr ":ref:`xliff` [#java]_"
 
 #: devel/starting.rst:60
 msgid "JavaScript"
@@ -41282,7 +41215,7 @@ msgstr "JavaScript"
 
 #: devel/starting.rst:60
 msgid ":ref:`js-i18next` [#js]_"
-msgstr ""
+msgstr ":ref:`js-i18next` [#js]_"
 
 #: devel/starting.rst:65
 msgid ""
@@ -46884,10 +46817,8 @@ msgid "Password security"
 msgstr "Đặt lại mật khẩu"
 
 #: security/passwords.rst:5
-#, fuzzy
-#| msgid "Change password"
 msgid "How Weblate stores passwords"
-msgstr "Thay đổi mật khẩu"
+msgstr "Cách Weblate lưu trữ mật khẩu"
 
 #: security/passwords.rst:7
 msgid ""
@@ -47205,6 +47136,11 @@ msgid ""
 "with :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`, :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`, :setting:`PRIVATE_COMMIT_NAME_OPT_IN`, "
 "and :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 msgstr ""
+"Bảo mật danh tính trong bản ghi nhận có thể được cải thiện với "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`, "
+":setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`, "
+":setting:`PRIVATE_COMMIT_NAME_OPT_IN`, và "
+":setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: security/privacy-compliance.rst:111
 msgid ""
@@ -47677,10 +47613,8 @@ msgid ""
 msgstr ""
 
 #: security/release-artifacts.rst:77
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate Client Docker image"
-msgstr "PHP strings"
+msgstr "Ảnh Docker của Weblate Client"
 
 #: security/release-artifacts.rst:79
 msgid "`Weblate Client Docker image`_ and `Weblate Client GHCR registry`_"
@@ -48195,12 +48129,12 @@ msgid "Webhooks"
 msgstr "Webhook"
 
 #: security/threat-model.rst:76
-#, fuzzy
-#| msgid ":ref:`project-enable_hooks`"
 msgid ""
 ":ref:`hooks`, project :ref:`project-enable_hooks`, :ref:`code-hosting-github-"
 "app-webhook`"
-msgstr ":ref:`project-enable_hooks`"
+msgstr ""
+":ref:`hooks`, dự án :ref:`project-enable_hooks`, :ref:`code-hosting-github-"
+"app-webhook`"
 
 #: security/threat-model.rst:78
 msgid "Background task scheduling and VCS repository updates"
@@ -48510,10 +48444,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:196
-#, fuzzy
-#| msgid "Webhook secret"
 msgid "Webhook sender to Weblate"
-msgstr "Webhook bí mật"
+msgstr "Trình gửi Webhook đến Weblate"
 
 #: security/threat-model.rst:197
 msgid ""
@@ -48549,10 +48481,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:211
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate to external services"
-msgstr "PHP strings"
+msgstr "Weblate kết nối với các dịch vụ bên ngoài"
 
 #: security/threat-model.rst:212
 msgid ""
@@ -48777,10 +48707,8 @@ msgid "Default or documented posture"
 msgstr "Ngôn ngữ thứ hai"
 
 #: security/threat-model.rst:320
-#, fuzzy
-#| msgid "Weblate status"
 msgid "Effect on the model"
-msgstr "Tình trạng Weblate"
+msgstr "Ảnh hưởng đến mô hình"
 
 #: security/threat-model.rst:321
 #, fuzzy
@@ -48789,10 +48717,8 @@ msgid "Maintainer stance"
 msgstr "Hành động"
 
 #: security/threat-model.rst:322
-#, fuzzy
-#| msgid ":ref:`project-enable_hooks`"
 msgid ":setting:`ENABLE_HOOKS` and :ref:`project-enable_hooks`"
-msgstr ":ref:`project-enable_hooks`"
+msgstr ":setting:`ENABLE_HOOKS` và :ref:`project-enable_hooks`"
 
 #: security/threat-model.rst:323
 msgid ""
@@ -49530,10 +49456,8 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:592
-#, fuzzy
-#| msgid "Status"
 msgid "Security properties Weblate provides"
-msgstr "Tình trạng"
+msgstr "Các đặc tính bảo mật mà Weblate cung cấp"
 
 #: security/threat-model.rst:597
 #, fuzzy
@@ -53339,6 +53263,11 @@ msgid ""
 "and :file:`djangojs.po`. Weblate infers the source directory from the "
 "template path and skips repository locale directories while extracting."
 msgstr ""
+"Mẫu cho các bản dịch mới phải sử dụng tên miền ``django`` hoặc ``djangojs``. "
+"Các tên mẫu được hỗ trợ là :file:`django.pot`, :file:`djangojs.pot`, "
+":file:`django.po` và :file:`djangojs.po`. Weblate suy ra thư mục nguồn từ "
+"đường dẫn mẫu và bỏ qua các thư mục ngôn ngữ của kho lưu trữ trong quá trình "
+"giải nén."
 
 #: snippets/addons-autogenerated.rst:1095
 msgid "Update LINGUAS file"
@@ -53499,6 +53428,13 @@ msgid ""
 "exist, :file:`POTFILES` is used. An adjacent :file:`POTFILES.skip` excludes "
 "listed source files from extraction."
 msgstr ""
+"Thư mục gettext là thư mục chứa mẫu được cấu hình trong :ref:`component-"
+"new_base`. Nó phải chứa :file:`meson.build` và :file:`POTFILES` hoặc "
+":file:`POTFILES.in`. Một dự án Meson :file:`meson.build` phải có mặt trong "
+"thư mục đó hoặc một trong các thư mục cha của nó. Nếu cả :file:`POTFILES` và "
+":file:`POTFILES.in` đều tồn tại, :file:`POTFILES` sẽ được sử dụng. Một "
+":file:`POTFILES.skip` liền kề sẽ loại trừ các tệp nguồn được liệt kê khỏi "
+"quá trình giải nén."
 
 #: snippets/addons-autogenerated.rst:1206
 msgid ""
@@ -53742,6 +53678,11 @@ msgid ""
 "``#`` are ignored. If a :file:`POTFILES.skip` file exists next to the "
 "manifest, its entries are excluded from extraction."
 msgstr ""
+"Các mục trong :file:`POTFILES` hoặc :file:`POTFILES.in` được giải quyết "
+"tương đối so với thư mục gốc của kho lưu trữ. Chúng phải là đường dẫn tương "
+"đối, nằm trong kho lưu trữ và trỏ đến các tệp hiện có. Các dòng trống và "
+"dòng bắt đầu bằng ``#`` sẽ bị bỏ qua. Nếu tệp :file:`POTFILES.skip` tồn tại "
+"bên cạnh tệp kê khai, các mục của nó sẽ bị loại trừ khỏi quá trình giải nén."
 
 #: snippets/addons-autogenerated.rst:1470
 msgid ""
@@ -53749,6 +53690,10 @@ msgid ""
 "the configured source patterns, match files listed in the manifest, change a "
 "watched manifest, or change the add-on configuration."
 msgstr ""
+"Quá trình làm mới kho lưu trữ tự động sẽ bị bỏ qua trừ khi các tệp đã thay "
+"đổi khớp với các mẫu nguồn đã cấu hình, khớp với các tệp được liệt kê trong "
+"tệp kê khai, thay đổi tệp kê khai được theo dõi hoặc thay đổi cấu hình tiện "
+"ích bổ sung."
 
 #: snippets/addons-autogenerated.rst:1474
 msgid ""
@@ -54597,26 +54542,20 @@ msgid "Ignore all quality checks."
 msgstr "Ngôn ngữ thứ hai"
 
 #: snippets/check-flags-autogenerated.rst:164
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-accelerator` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-accelerator`."
 
 #: snippets/check-flags-autogenerated.rst:166
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-asciidoc-markup` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-asciidoc-markup`."
 
 #: snippets/check-flags-autogenerated.rst:168
 msgid "Skip the :ref:`check-bbcode` quality check."
 msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-bbcode`."
 
 #: snippets/check-flags-autogenerated.rst:170
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-xml-chars-around-tags` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-xml-chars-around-tags`."
 
 #: snippets/check-flags-autogenerated.rst:172
 msgid "Skip the :ref:`check-duplicate` quality check."
@@ -54631,38 +54570,28 @@ msgid "Skip the :ref:`check-double-space` quality check."
 msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-double-space`."
 
 #: snippets/check-flags-autogenerated.rst:178
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-fluent-parts` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-fluent-parts`."
 
 #: snippets/check-flags-autogenerated.rst:180
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-fluent-references` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-fluent-references`."
 
 #: snippets/check-flags-autogenerated.rst:182
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-fluent-target-inner-html` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-fluent-target-inner-html`."
 
 #: snippets/check-flags-autogenerated.rst:184
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-fluent-target-syntax` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-fluent-target-syntax`."
 
 #: snippets/check-flags-autogenerated.rst:186
 msgid "Skip the :ref:`check-angularjs-format` quality check."
 msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-angularjs-format`."
 
 #: snippets/check-flags-autogenerated.rst:188
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-automattic-components-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-automattic-components-format`."
 
 #: snippets/check-flags-autogenerated.rst:190
 msgid "Skip the :ref:`check-c-format` quality check."
@@ -54681,16 +54610,12 @@ msgid "Skip the :ref:`check-i18next-interpolation` quality check."
 msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-i18next-interpolation`."
 
 #: snippets/check-flags-autogenerated.rst:198
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-icu-message-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-icu-message-format`."
 
 #: snippets/check-flags-autogenerated.rst:200
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-java-printf-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-java-printf-format`."
 
 #: snippets/check-flags-autogenerated.rst:202
 msgid "Skip the :ref:`check-java-format` quality check."
@@ -54701,10 +54626,8 @@ msgid "Skip the :ref:`check-javascript-format` quality check."
 msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-javascript-format`."
 
 #: snippets/check-flags-autogenerated.rst:206
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-laravel-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-laravel-format`."
 
 #: snippets/check-flags-autogenerated.rst:208
 msgid "Skip the :ref:`check-lua-format` quality check."
@@ -54715,20 +54638,16 @@ msgid "Skip the :ref:`check-object-pascal-format` quality check."
 msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-object-pascal-format`."
 
 #: snippets/check-flags-autogenerated.rst:212
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-objc-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-objc-format`."
 
 #: snippets/check-flags-autogenerated.rst:214
 msgid "Skip the :ref:`check-percent-placeholders` quality check."
 msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-percent-placeholders`."
 
 #: snippets/check-flags-autogenerated.rst:216
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-perl-brace-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-perl-brace-format`."
 
 #: snippets/check-flags-autogenerated.rst:218
 msgid "Skip the :ref:`check-perl-format` quality check."
@@ -54775,286 +54694,192 @@ msgid "Skip the :ref:`check-inconsistent` quality check."
 msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-inconsistent`."
 
 #: snippets/check-flags-autogenerated.rst:240
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-rst-references` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-rst-references`."
 
 #: snippets/check-flags-autogenerated.rst:242
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-kashida` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-kashida`."
 
 #: snippets/check-flags-autogenerated.rst:244
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-md-link` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-md-link`."
 
 #: snippets/check-flags-autogenerated.rst:246
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-md-reflink` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-md-reflink`."
 
 #: snippets/check-flags-autogenerated.rst:248
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-md-syntax` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-md-syntax`."
 
 #: snippets/check-flags-autogenerated.rst:250
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-max-length` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-max-length`."
 
 #: snippets/check-flags-autogenerated.rst:252
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-max-lines` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-max-lines`."
 
 #: snippets/check-flags-autogenerated.rst:254
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-max-size` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-max-size`."
 
 #: snippets/check-flags-autogenerated.rst:256
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-escaped-newline` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-escaped-newline`."
 
 #: snippets/check-flags-autogenerated.rst:258
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-end-colon` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-end-colon`."
 
 #: snippets/check-flags-autogenerated.rst:260
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-end-ellipsis` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-end-ellipsis`."
 
 #: snippets/check-flags-autogenerated.rst:262
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Skip the :ref:`check-end-exclamation` quality check."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-end-exclamation`."
 
 #: snippets/check-flags-autogenerated.rst:264
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-end-stop` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-end-stop`."
 
 #: snippets/check-flags-autogenerated.rst:266
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-end-interrobang` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-end-interrobang`."
 
 #: snippets/check-flags-autogenerated.rst:268
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-end-question` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-end-question`."
 
 #: snippets/check-flags-autogenerated.rst:270
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-end-semicolon` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-end-semicolon`."
 
 #: snippets/check-flags-autogenerated.rst:272
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-newline-count` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-newline-count`."
 
 #: snippets/check-flags-autogenerated.rst:274
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-plurals` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-plurals`."
 
 #: snippets/check-flags-autogenerated.rst:276
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-multiple-capital` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-multiple-capital`."
 
 #: snippets/check-flags-autogenerated.rst:278
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-kabyle-characters` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-kabyle-characters`."
 
 #: snippets/check-flags-autogenerated.rst:280
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-placeholders` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-placeholders`."
 
 #: snippets/check-flags-autogenerated.rst:282
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-prohibited-initial-character` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-prohibited-initial-character`."
 
 #: snippets/check-flags-autogenerated.rst:284
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Skip the :ref:`check-punctuation-spacing` quality check."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-punctuation-spacing`."
 
 #: snippets/check-flags-autogenerated.rst:286
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-regex` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-regex`."
 
 #: snippets/check-flags-autogenerated.rst:288
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-rst-syntax` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-rst-syntax`."
 
 #: snippets/check-flags-autogenerated.rst:290
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-reused` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-reused`."
 
 #: snippets/check-flags-autogenerated.rst:292
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-safe-mdx` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-safe-mdx`."
 
 #: snippets/check-flags-autogenerated.rst:294
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-same-plurals` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-same-plurals`."
 
 #: snippets/check-flags-autogenerated.rst:296
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-begin-newline` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-begin-newline`."
 
 #: snippets/check-flags-autogenerated.rst:298
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-begin-space` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-begin-space`."
 
 #: snippets/check-flags-autogenerated.rst:300
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-end-newline` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-end-newline`."
 
 #: snippets/check-flags-autogenerated.rst:302
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-end-space` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-end-space`."
 
 #: snippets/check-flags-autogenerated.rst:304
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-same` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-same`."
 
 #: snippets/check-flags-autogenerated.rst:306
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-safe-html` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-safe-html`."
 
 #: snippets/check-flags-autogenerated.rst:308
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-url` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-url`."
 
 #: snippets/check-flags-autogenerated.rst:310
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-xml-tags` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-xml-tags`."
 
 #: snippets/check-flags-autogenerated.rst:312
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-xml-invalid` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-xml-invalid`."
 
 #: snippets/check-flags-autogenerated.rst:314
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-zero-width-space` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-zero-width-space`."
 
 #: snippets/check-flags-autogenerated.rst:316
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-ellipsis` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-ellipsis`."
 
 #: snippets/check-flags-autogenerated.rst:318
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-fluent-source-inner-html` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-fluent-source-inner-html`."
 
 #: snippets/check-flags-autogenerated.rst:320
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-fluent-source-syntax` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-fluent-source-syntax`."
 
 #: snippets/check-flags-autogenerated.rst:322
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-icu-message-format-syntax` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-icu-message-format-syntax`."
 
 #: snippets/check-flags-autogenerated.rst:324
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-long-untranslated` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-long-untranslated`."
 
 #: snippets/check-flags-autogenerated.rst:326
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-multiple-failures` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-multiple-failures`."
 
 #: snippets/check-flags-autogenerated.rst:328
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-unnamed-format` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-unnamed-format`."
 
 #: snippets/check-flags-autogenerated.rst:330
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-source-max-length` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-source-max-length`."
 
 #: snippets/check-flags-autogenerated.rst:332
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip the :ref:`check-optional-plural` quality check."
-msgstr "PHP strings"
+msgstr "Bỏ qua kiểm tra chất lượng :ref:`check-optional-plural`."
 
 #: snippets/checks-autogenerated.rst:2
 msgid "Translation checks"
@@ -55198,7 +55023,7 @@ msgstr ""
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Flag to enable"
-msgstr ""
+msgstr "Cờ để kích hoạt"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Flag to ignore"
@@ -55228,6 +55053,9 @@ msgid ""
 "and trigger a false positive. Use the ``ignore-accelerator`` flag to skip "
 "the check for such strings."
 msgstr ""
+"Một chuỗi ký tự như ``Walter & Sons`` có thể được dịch mà không có dấu và (&)"
+", dẫn đến kết quả sai. Hãy sử dụng cờ ``ignore-accelerator`` để bỏ qua việc "
+"kiểm tra các chuỗi ký tự như vậy."
 
 #: snippets/checks-autogenerated.rst:49
 msgid "AsciiDoc markup"
@@ -55813,7 +55641,7 @@ msgstr "Nội suy i18next không khớp với nguồn."
 
 #: snippets/checks-autogenerated.rst:628
 msgid ":ref:`i18next`, :ref:`i18nextv4`"
-msgstr ""
+msgstr ":ref:`i18next`, :ref:`i18nextv4`"
 
 #: snippets/checks-autogenerated.rst:0
 msgid "Nesting example"
@@ -55838,10 +55666,8 @@ msgstr ""
 "Lỗi cú pháp và/hoặc chỗ giữ chỗ không khớp trong chuỗi ICU MessageFormat."
 
 #: snippets/checks-autogenerated.rst:657 snippets/checks-autogenerated.rst:2560
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid ":ref:`arb`, :ref:`formatjs`"
-msgstr ":ref:`formats`"
+msgstr ":ref:`arb`, :ref:`formatjs`"
 
 #: snippets/checks-autogenerated.rst:665
 msgid ""
@@ -55876,25 +55702,26 @@ msgstr ""
 
 #: snippets/checks-autogenerated.rst:687
 msgid "Skip checking that sub-message selectors match the source."
-msgstr ""
+msgstr "Bỏ qua kiểm tra các bộ chọn thông báo phụ có khớp với nguồn hay không."
 
 #: snippets/checks-autogenerated.rst:689
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Skip checking that placeholder types match the source."
-msgstr "PHP strings"
+msgstr ""
+"Bỏ qua kiểm tra kiểu dữ liệu của phần giữ chỗ có khớp với nguồn hay không."
 
 #: snippets/checks-autogenerated.rst:691
 msgid ""
 "Skip checking that no placeholders are present that were not present in the "
 "source string."
 msgstr ""
+"Bỏ qua bước kiểm tra xem có ký tự giữ chỗ nào không xuất hiện trong chuỗi "
+"nguồn hay không."
 
 #: snippets/checks-autogenerated.rst:694
 msgid ""
 "Skip checking that no placeholders are missing that were present in the "
 "source string."
-msgstr ""
+msgstr "Bỏ qua kiểm tra giữ chỗ bị thiếu đã có trong chuỗi nguồn."
 
 #: snippets/checks-autogenerated.rst:698
 msgid ""
@@ -55961,10 +55788,8 @@ msgid "Java MessageFormat string does not match source."
 msgstr "Chuỗi Java MessageFormat không khớp với nguồn."
 
 #: snippets/checks-autogenerated.rst:760
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid ":ref:`properties`, :ref:`gwt`"
-msgstr ":ref:`formats`"
+msgstr ":ref:`properties`, :ref:`gwt`"
 
 #: snippets/checks-autogenerated.rst:761
 #, fuzzy
@@ -56092,10 +55917,8 @@ msgid "Objective-C format string does not match source."
 msgstr "Chuỗi định dạng Objective-C không khớp với nguồn."
 
 #: snippets/checks-autogenerated.rst:908
-#, fuzzy
-#| msgid ":ref:`stringsdict`"
 msgid ":ref:`strings`, :ref:`stringsdict`"
-msgstr ":ref:`stringsdict`"
+msgstr ":ref:`strings`, :ref:`stringsdict`"
 
 #: snippets/checks-autogenerated.rst:921
 msgid "Percent placeholders"
@@ -56464,10 +56287,8 @@ msgstr "Liên kết Markdown không khớp với nguồn."
 #: snippets/checks-autogenerated.rst:1348
 #: snippets/checks-autogenerated.rst:1373
 #: snippets/checks-autogenerated.rst:1398
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid ":ref:`markdown`, :ref:`mdx`"
-msgstr ":ref:`formats`"
+msgstr ":ref:`markdown`, :ref:`mdx`"
 
 #: snippets/checks-autogenerated.rst:1358
 #: snippets/checks-autogenerated.rst:1383
@@ -59087,10 +58908,8 @@ msgid "``.htm``, ``.html``"
 msgstr "``po/*.po``"
 
 #: snippets/format-features/html-features.rst:30
-#, fuzzy
-#| msgid ":ref:`check-safe-html`"
 msgid ":ref:`check-safe-html`, ``strict-same``"
-msgstr ":ref:`check-safe-html`"
+msgstr ":ref:`check-safe-html`, ``strict-same``"
 
 #: snippets/format-features/idml-features.rst:8
 #, fuzzy
@@ -59198,6 +59017,11 @@ msgid ""
 "can clone from Weblate with ``GIT_LFS_SKIP_SMUDGE=1`` to skip downloading "
 "Git LFS objects."
 msgstr ""
+"Weblate chỉ cung cấp kho lưu trữ Git, chứ không cung cấp các đối tượng Git "
+"LFS. Đối với các kho lưu trữ sử dụng Git LFS, hãy sao chép từ kho lưu trữ "
+"gốc và thêm Weblate làm remote khác. Nếu bạn chỉ cần các tệp được theo dõi "
+"bằng Git, bạn có thể sao chép từ Weblate với ``GIT_LFS_SKIP_SMUDGE=1`` để bỏ "
+"qua việc tải xuống các đối tượng Git LFS."
 
 #: snippets/hosted-legal-documents.rst:3
 msgid ""
@@ -59608,11 +59432,8 @@ msgid "Prefer shorter translations when supported."
 msgstr "Nên ưu tiên các bản dịch ngắn gọn hơn nếu có thể."
 
 #: snippets/machines-autogenerated.rst:188
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Translated"
 msgid "``ON`` -- Enabled"
-msgstr "Đã dịch"
+msgstr "``ON`` -- Đã bật"
 
 #: snippets/machines-autogenerated.rst:190
 msgid "Profanity"
@@ -59764,10 +59585,8 @@ msgid "DeepL API v1 is no longer supported."
 msgstr "API DeepL phiên bản 1 không còn được hỗ trợ nữa."
 
 #: snippets/machines-autogenerated.rst:378
-#, fuzzy
-#| msgid "``https://api.deepl.com/v1/``"
 msgid "``https://api.deepl.com/`` (default in Weblate)"
-msgstr "``https://api.deepl.com/v1/``"
+msgstr "``https://api.deepl.com/`` (mặc định trong Weblate)"
 
 #: snippets/machines-autogenerated.rst:379
 msgid ""
@@ -59907,10 +59726,8 @@ msgid "`Enable billing for your project.`_"
 msgstr "`Kích hoạt tính năng thanh toán cho dự án của bạn.`_"
 
 #: snippets/machines-autogenerated.rst:506
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "`Enable the Cloud Translation.`_"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "`Bật tính năng Dịch Đám Mây.`_"
 
 #: snippets/machines-autogenerated.rst:507
 #, fuzzy
@@ -60075,7 +59892,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: snippets/machines-autogenerated.rst:684
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "Weblate tích hợp API Dịch V3."
 
 #: snippets/machines-autogenerated.rst:686
 msgid ""
@@ -62376,6 +62193,9 @@ msgid ""
 "terms. LLM-based services can receive duplicates with explanations to "
 "disambiguate them."
 msgstr ""
+"Các mục nguồn trùng lặp sẽ bị bỏ qua đối với các dịch vụ yêu cầu các thuật "
+"ngữ nguồn duy nhất. Các dịch vụ dựa trên LLM có thể nhận các mục trùng lặp "
+"kèm theo giải thích để làm rõ sự khác biệt."
 
 #: user/glossary.rst:296
 msgid ""
@@ -62385,7 +62205,7 @@ msgstr ""
 
 #: user/glossary.rst:297
 msgid ":ref:`glossary-forbidden` are skipped."
-msgstr ""
+msgstr ":ref:`glossary-forbidden` bị bỏ qua."
 
 #: user/glossary.rst:301
 msgid ""
@@ -63628,6 +63448,14 @@ msgid ""
 "background. If you can review the translation, you can accept and approve "
 "the suggestions in the same step."
 msgstr ""
+"Nếu bạn có quyền :guilabel:`Chấp nhận đề xuất`, bạn có thể chấp nhận hàng "
+"loạt đề xuất từ một người dùng cụ thể bằng cách nhấp vào biểu tượng kiểm tra "
+"tài khoản bên cạnh đề xuất của họ. Điều này hữu ích để xử lý nhanh chóng các "
+"đề xuất từ những người đóng góp đáng tin cậy. Các đề xuất không đạt kiểm tra "
+"chất lượng sẽ bị bỏ qua và được giữ lại để xem xét thủ công. Weblate hiển "
+"thị số lượng đề xuất phù hợp để xác nhận và xử lý việc chấp nhận trong nền. "
+"Nếu bạn có thể xem xét bản dịch, bạn có thể chấp nhận và phê duyệt các đề "
+"xuất trong cùng một bước."
 
 #: user/translating.rst:76
 msgid "Three types of comments can be posted:"
@@ -64371,6 +64199,10 @@ msgid ""
 "plural rules, pluralized strings are skipped and Weblate shows a warning, "
 "while single-form strings are still translated."
 msgstr ""
+"Khi sử dụng các thành phần khác làm nguồn, Weblate chỉ áp dụng bản dịch khi "
+"các dạng số nhiều tương thích. Nếu thành phần nguồn sử dụng các quy tắc số "
+"nhiều khác nhau, các chuỗi ở dạng số nhiều sẽ bị bỏ qua và Weblate sẽ hiển "
+"thị cảnh báo, trong khi các chuỗi ở dạng số ít vẫn được dịch."
 
 #: user/translating.rst:467
 msgid "You can also choose which strings are to be auto-translated."
@@ -64461,7 +64293,7 @@ msgstr ""
 
 #: user/translating.rst:540
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
-msgstr ""
+msgstr ":ref:`Bộ cài thêm chỉnh sửa hàng loạt <addon-weblate.flags.bulk>`"
 
 #: user/translating.rst:543
 msgid "Matrix View"
@@ -65315,7 +65147,7 @@ msgstr ""
 
 #: wlc.rst:208
 msgid "Lists used languages in Weblate."
-msgstr ""
+msgstr "Liệt kê các ngôn ngữ được sử dụng trong Weblate."
 
 #: wlc.rst:212
 msgid "Lists projects in Weblate."
@@ -65388,7 +65220,7 @@ msgstr ""
 
 #: wlc.rst:268
 msgid "Unlocks translation of Weblate component."
-msgstr ""
+msgstr "Mở khóa tính năng dịch của thành phần Weblate."
 
 #: wlc.rst:272
 msgid "Displays changes for a given object."
