@@ -1600,13 +1600,12 @@ class GitRepository(Repository):
 
 class GitWithGerritRepository(GitRepository):
     name: ClassVar[StrOrPromise] = "Gerrit"
+    required_commands: ClassVar[tuple[str, ...]] = ("git", "git-review")
     req_version: ClassVar[str] = "1.27.0"
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to Gerrit for a review."
     )
     pushes_to_different_location: ClassVar[bool] = True
-
-    _version: ClassVar[str | None] = None
 
     @classmethod
     def _get_version(cls):
@@ -1709,14 +1708,13 @@ class GitWithGerritRepository(GitRepository):
 
 class SubversionRepository(GitRepository):
     name: ClassVar[StrOrPromise] = "Subversion"
+    required_commands: ClassVar[tuple[str, ...]] = ("git", "svn")
     default_branch: ClassVar[str] = "master"
     supports_remote_compatibility_validation: ClassVar[bool] = False
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will commit changes to the Subversion repository."
     )
-
-    _version: ClassVar[str | None] = None
 
     needs_push_url: ClassVar[bool] = False
 
@@ -2611,7 +2609,6 @@ class AzureDevOpsRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("Azure DevOps pull request")
     api_service_name: ClassVar[str] = "Azure DevOps"
     identifier: ClassVar[str] = "azure_devops"
-    _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = (
         "{scheme}://{host}/{owner}/_apis/git/repositories/{slug}"
     )
@@ -2886,7 +2883,6 @@ class GithubRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("GitHub pull request")
     api_service_name: ClassVar[str] = "GitHub"
     identifier: ClassVar[str] = "github"
-    _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = "{scheme}://{host}/{suffix}repos/{owner}/{slug}"
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes and create a GitHub pull request."
@@ -3070,7 +3066,6 @@ class GiteaRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("Gitea pull request")
     api_service_name: ClassVar[str] = "Gitea"
     identifier: ClassVar[str] = "gitea"
-    _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = "{scheme}://{host}/api/v1/repos/{owner}/{slug}"
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes and create a Gitea pull request."
@@ -3330,7 +3325,6 @@ class GitLabRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("GitLab merge request")
     api_service_name: ClassVar[str] = "GitLab"
     identifier: ClassVar[str] = "gitlab"
-    _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = (
         "{scheme}://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
     )
@@ -3513,7 +3507,6 @@ class PagureRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("Pagure merge request")
     api_service_name: ClassVar[str] = "Pagure"
     identifier: ClassVar[str] = "pagure"
-    _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = "{scheme}://{host}/api/0"
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes and create a Pagure merge request."
@@ -3641,7 +3634,6 @@ class BitbucketServerRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("Bitbucket Data Center pull request")
     api_service_name: ClassVar[str] = "Bitbucket Data Center"
     identifier: ClassVar[str] = "bitbucketserver"
-    _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = (
         "{scheme}://{host}/rest/api/1.0/projects/{owner}/repos/{slug}"
     )
@@ -3802,7 +3794,6 @@ class BitbucketCloudRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("Bitbucket Cloud merge request")
     api_service_name: ClassVar[str] = "Bitbucket Cloud"
     identifier: ClassVar[str] = "bitbucketcloud"
-    _version: ClassVar[str | None] = None
     API_TEMPLATE: ClassVar[str] = (
         "{scheme}://api.{host}/2.0/repositories/{owner}/{slug}"
     )

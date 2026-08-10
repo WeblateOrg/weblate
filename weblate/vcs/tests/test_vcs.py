@@ -82,17 +82,14 @@ if TYPE_CHECKING:
 
 class AzureDevOpsFakeRepository(AzureDevOpsRepository):
     _is_supported = None
-    _version = None
 
 
 class GithubFakeRepository(GithubRepository):
     _is_supported = None
-    _version = None
 
 
 class GitLabFakeRepository(GitLabRepository):
     _is_supported = None
-    _version = None
 
 
 class ExecuteSideEffect(Protocol):
@@ -109,50 +106,40 @@ class GitLockRecoveryMocks(NamedTuple):
 
 class GiteaFakeRepository(GiteaRepository):
     _is_supported = None
-    _version = None
 
 
 class PagureFakeRepository(PagureRepository):
     _is_supported = None
-    _version = None
 
 
 class BitbucketServerFakeRepository(BitbucketServerRepository):
     _is_supported = None
-    _version = None
 
 
 class BitbucketCloudFakeRepository(BitbucketCloudRepository):
     _is_supported = None
-    _version = None
 
 
 class GitTestRepository(GitRepository):
     _is_supported = None
-    _version = None
 
 
 class NonExistingRepository(GitRepository):
     _is_supported = None
-    _version = None
     _cmd = "nonexisting-command"
 
 
 class GitVersionRepository(GitRepository):
     _is_supported = None
-    _version = None
     req_version = "200000"
 
 
 class GitNoVersionRepository(GitRepository):
     _is_supported = None
-    _version = None
     req_version = None
 
 
 class BrokenGitRepository(GitRepository):
-    _version = None
-
     @classmethod
     def _get_version(cls):
         msg = "missing git"
@@ -160,8 +147,6 @@ class BrokenGitRepository(GitRepository):
 
 
 class BrokenGitChildRepository(BrokenGitRepository):
-    _version = None
-
     @classmethod
     def _get_version(cls):
         return "1.0"
