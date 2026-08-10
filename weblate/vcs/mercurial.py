@@ -54,8 +54,6 @@ class HgRepository(Repository):
         ".",
     ]
     _cmd_list_changed_files: ClassVar[list[str]] = ["status", "--rev"]
-    _version: ClassVar[str | None] = None
-
     name: ClassVar[StrOrPromise] = "Mercurial"
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to the upstream Mercurial repository."

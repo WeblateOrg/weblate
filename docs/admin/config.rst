@@ -2825,7 +2825,9 @@ Configuration of available VCS backends.
 
 .. note::
 
-    Weblate tries to use all supported back-ends you have the tools for.
+    Weblate offers configured backends when their required commands are
+    available. Exact command versions are validated by the deployment and
+    periodic configuration health checks.
 
 .. hint::
 
