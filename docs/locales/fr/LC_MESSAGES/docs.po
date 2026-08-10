@@ -44,7 +44,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-10 12:51+0000\n"
+"PO-Revision-Date: 2026-08-10 14:18+0000\n"
 "Last-Translator: Steve <steve-contrib@murena.io>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -3078,6 +3078,10 @@ msgid ""
 "screenshot files cause the import to be rejected without creating a partial "
 "project."
 msgstr ""
+"La sauvegarde complète est validée avant de restaurer la moindre donnée. Des "
+"champs d'objet, références, chemins de dépôt, URL, expressions rationnelles "
+"ou fichiers de capture d'écran invalides entraînent le rejet de "
+"l'importation sans créer de projet partiel."
 
 #: admin/backup.rst:47
 msgid ""
@@ -4429,10 +4433,8 @@ msgid "Setup overview"
 msgstr "Aperçu des vérifications"
 
 #: admin/code-hosting.rst:17
-#, fuzzy
-#| msgid "Rebase Weblate changes onto the remote repository"
 msgid "Grant Weblate access to the repository."
-msgstr "Refonder les modifications Weblate sur le dépôt distant"
+msgstr "Donnez à Weblate l'accès au dépôt."
 
 #: admin/code-hosting.rst:19
 msgid ""
@@ -4441,19 +4443,21 @@ msgid ""
 "GitHub account` flow. The App gives Hosted Weblate repository access without "
 "inviting the hosted :guilabel:`weblate` user."
 msgstr ""
+"Pour les dépôts GitHub sur Weblate hébergé, utilisez `l'application Weblate "
+"hébergé <https://github.com/apps/hosted-weblate>`_ via le parcours "
+":guilabel:`Connecter un compte GitHub` de Weblate. L'application donne à "
+"Weblate hébergé un accès aux dépôts sans inviter l'utilisateur hébergé "
+":guilabel:`weblate`."
 
 #: admin/code-hosting.rst:24
-#, fuzzy
-#| msgid ""
-#| "On a Hosted Weblate, this is pre-configured for most of the public sites, "
-#| "please see :ref:`hosted-push`."
 msgid ""
 "For other Hosted Weblate repositories, and for direct SSH pushes outside the "
 "GitHub App workflow, add the hosted :guilabel:`weblate` user where it is "
 "available, see :ref:`hosted-push`."
 msgstr ""
-"Sur Hosted Weblate, ceci est préconfiguré pour la plupart des sites publics, "
-"voir :ref:`hosted-push`."
+"Pour les autres dépôts de Weblate hébergé, et pour les poussées SSH directes "
+"en dehors du parcours de l'application GitHub, ajoutez l'utilisateur hébergé "
+":guilabel:`weblate` là où il est disponible, voir :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:27
 #, fuzzy
@@ -4471,10 +4475,9 @@ msgstr ""
 "Weblate ou d'un jeton HTTPS ; voir :ref:`vcs-repos-code-hosting`."
 
 #: admin/code-hosting.rst:31
-#, fuzzy
-#| msgid "Creates component from remote version control repository."
 msgid "Configure :ref:`component-repo` so Weblate can clone the repository."
-msgstr "Crée le composant à partir du dépôt distant de contrôle de version."
+msgstr ""
+"Configurez :ref:`component-repo` afin que Weblate puisse cloner le dépôt."
 
 #: admin/code-hosting.rst:33
 msgid ""
@@ -4524,6 +4527,7 @@ msgid "Pushing changes from Weblate"
 msgstr "Envoi des modifications depuis Weblate"
 
 #: admin/code-hosting.rst:53
+#, fuzzy
 msgid ""
 "Each translation component can have a push URL set up (see :ref:`component-"
 "push`), and in that case Weblate will be able to push changes to the remote "
@@ -4531,6 +4535,11 @@ msgid ""
 "every commit; this is enabled by default, see :ref:`component-"
 "push_on_commit`."
 msgstr ""
+"Chaque composant de traduction peut avoir une URL de poussée configurée "
+"(voir :ref:`component-push`), et dans ce cas, Weblate pourra pousser les "
+"modifications vers le dépôt distant. Weblate peut également être configuré "
+"pour pousser automatiquement les modifications à chaque commit ; cette "
+"option est activée par défaut, voir :ref:`component-push_on_commit`."
 
 #: admin/code-hosting.rst:59
 msgid ""
@@ -4538,6 +4547,10 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
+"Si vous ne souhaitez pas que les modifications soient poussées "
+"automatiquement, vous pouvez pousser manuellement sous "
+":guilabel:`Maintenance du dépôt` ou via l'API avec l'option :option:`wlc "
+"push`."
 
 #: admin/code-hosting.rst:63
 msgid ""
@@ -4549,6 +4562,14 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
+"Si vous ne souhaitez pas de poussées directes de la part de Weblate, il est "
+"possible d'utiliser :ref:`code-hosting-github-pull-requests`, :ref:`code-"
+"hosting-gitlab-merge-requests`, :ref:`code-hosting-gitea-pull-requests`, "
+":ref:`code-hosting-pagure-merge-requests`, :ref:`code-hosting-azure-devops-"
+"pull-requests` ou les révisions :ref:`code-hosting-gerrit`. Vous pouvez les "
+"activer en choisissant :guilabel:`GitHub`, :guilabel:`GitLab`, "
+":guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure DevOps` ou "
+":guilabel:`Pagure` comme :ref:`component-vcs` dans :ref:`component`."
 
 #: admin/code-hosting.rst:74
 msgid ""
@@ -4556,6 +4577,9 @@ msgid ""
 "GitLab, Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center and "
 "Bitbucket Cloud:"
 msgstr ""
+"Dans l'ensemble, les options suivantes sont disponibles avec Git, Mercurial, "
+"GitHub, GitLab, Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center "
+"et Bitbucket Cloud :"
 
 #: admin/code-hosting.rst:80
 msgid "Desired setup"
@@ -4611,7 +4635,7 @@ msgstr "Requête d'extraction GitHub depuis la branche"
 #: admin/code-hosting.rst:157 admin/code-hosting.rst:172
 #: admin/code-hosting.rst:182
 msgid "SSH URL [#empty]_"
-msgstr ""
+msgstr "URL SSH [#empty]_"
 
 #: admin/code-hosting.rst:120
 msgid "GitLab merge request from fork"
@@ -4619,7 +4643,7 @@ msgstr "Demande de merge GitLab à partir du fork"
 
 #: admin/code-hosting.rst:125
 msgid "GitLab merge request from branch"
-msgstr ""
+msgstr "Demande de fusion GitLab à partir de la branche"
 
 #: admin/code-hosting.rst:130
 #, fuzzy
@@ -4635,11 +4659,11 @@ msgstr "Demande de fusion GitLab"
 
 #: admin/code-hosting.rst:140
 msgid "Pagure merge request from fork"
-msgstr ""
+msgstr "Demande de fusion Pagure à partir d'un fork"
 
 #: admin/code-hosting.rst:145
 msgid "Pagure merge request from branch"
-msgstr ""
+msgstr "Demande de fusion Pagure à partir de la branche"
 
 #: admin/code-hosting.rst:150
 #, fuzzy
@@ -4692,6 +4716,8 @@ msgstr "Pull request du serveur Bitbucket"
 #: admin/code-hosting.rst:185
 msgid "Can be empty in case :ref:`component-repo` supports pushing."
 msgstr ""
+"Peut être vide dans le cas où :ref:`component-repo` prend en charge la "
+"poussée."
 
 #: admin/code-hosting.rst:190 admin/install/docker.rst:1636
 msgid "GitHub"
@@ -4718,6 +4744,13 @@ msgid ""
 "repositories, grant it access to the repositories you want to translate, and "
 "import components from the connected GitHub account."
 msgstr ""
+"Sur Weblate hébergé, la configuration recommandée consiste à connecter "
+"`l'application Weblate hébergé <https://github.com/apps/hosted-weblate>`_ "
+"depuis l'espace de travail Weblate où se trouve votre projet. Utilisez le "
+"parcours :guilabel:`Connecter un compte GitHub`, installez l'application sur "
+"l'utilisateur ou l'organisation GitHub qui possède vos dépôts, donnez-lui "
+"accès aux dépôts que vous souhaitez traduire et importez les composants "
+"depuis le compte GitHub connecté."
 
 #: admin/code-hosting.rst:207
 msgid ""
@@ -4727,55 +4760,55 @@ msgid ""
 "Weblate :guilabel:`weblate` GitHub user or configure a separate repository "
 "webhook for components imported this way."
 msgstr ""
+"Le flux de travail basé sur l'application utilise des jetons d'accès "
+"d'installation GitHub pour cloner, pousser des branches de traduction, créer "
+"des demandes de tirage et recevoir des notifications entrantes. Vous n'avez "
+"pas besoin d'inviter l'utilisateur GitHub :guilabel:`weblate` de Weblate "
+"hébergé ni de configurer un webhook de dépôt séparé pour les composants "
+"importés de cette manière."
 
 #: admin/code-hosting.rst:213
-#, fuzzy
-#| msgid ""
-#| "On a Hosted Weblate, this is pre-configured for most of the public sites, "
-#| "please see :ref:`hosted-push`."
 msgid ""
 "Use the Hosted Weblate :guilabel:`weblate` GitHub user only when you "
 "intentionally configure direct SSH pushes outside the GitHub App workflow, "
 "see :ref:`hosted-push`."
 msgstr ""
-"Sur Hosted Weblate, ceci est préconfiguré pour la plupart des sites publics, "
-"voir :ref:`hosted-push`."
+"Utilisez l'utilisateur GitHub :guilabel:`weblate` de Weblate hébergé "
+"uniquement lorsque vous configurez intentionnellement des poussées SSH "
+"directes en dehors du flux de travail de l'application GitHub, voir "
+":ref:`hosted-push`."
 
 #: admin/code-hosting.rst:218
-#, fuzzy
-#| msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 msgid "HTTPS with personal access token"
-msgstr ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
+msgstr "HTTPS avec jeton d'accès personnel"
 
 #: admin/code-hosting.rst:222
 msgid "To use this approach:"
-msgstr ""
+msgstr "Pour utiliser cette approche :"
 
 #: admin/code-hosting.rst:224
-#, fuzzy
-#| msgid ""
-#| "For smaller deployments, use HTTPS authentication with a personal access "
-#| "token and your GitHub account, see `Creating an access token for command-"
-#| "line use`_."
 msgid ""
 "Create a personal access token as described in `Creating an access token for "
 "command-line use`_."
 msgstr ""
-"Pour de plus petits déploiements, utiliser l'authentification HTTPS avec un "
-"jeton d'accès personnel et votre compte GitHub, voir `Creating an access "
-"token for command-line use`_."
+"Créez un jeton d'accès personnel comme décrit dans `Création d'un jeton "
+"d'accès pour une utilisation en ligne de commande`_."
 
 #: admin/code-hosting.rst:225
 msgid ""
 "Include the token in your repository URL: ``https://"
 "username:token@github.com/owner/repo.git``."
 msgstr ""
+"Incluez le jeton dans l'URL de votre dépôt : ``https://"
+"username:token@github.com/owner/repo.git``."
 
 #: admin/code-hosting.rst:228
 msgid ""
 "This is suitable when you are starting with Weblate or working with a single "
 "repository."
 msgstr ""
+"Cette approche convient lorsque vous débutez avec Weblate ou travaillez avec "
+"un seul dépôt."
 
 #: admin/code-hosting.rst:233 admin/code-hosting.rst:418
 #: admin/code-hosting.rst:490 admin/code-hosting.rst:568
@@ -4792,6 +4825,9 @@ msgid ""
 "GitHub SSH URLs for your repositories, for example ``git@github.com:owner/"
 "repo.git``."
 msgstr ""
+"Pour GitHub, créez un utilisateur dédié, par exemple ``weblate-bot``, et "
+"utilisez des URL SSH GitHub pour vos dépôts, par exemple "
+"``git@github.com:owner/repo.git``."
 
 #: admin/code-hosting.rst:241
 msgid ""
