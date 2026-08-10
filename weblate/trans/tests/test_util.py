@@ -59,6 +59,24 @@ class HideCredentialsTest(SimpleTestCase):
             cleanup_repo_url("http://foo@example.com"), "http://example.com"
         )
 
+    def test_http_userinfo_variants(self) -> None:
+        variants = (
+            "http://token:@example.com",
+            "http://:password@example.com",
+            "http://@example.com",
+            "http://user%40example:password%3A@example.com",
+        )
+        for url in variants:
+            with self.subTest(url=url):
+                self.assertEqual(cleanup_repo_url(url), "http://example.com")
+
+    def test_embedded_url(self) -> None:
+        url = "http://token:@example.com"
+        self.assertEqual(
+            cleanup_repo_url(url, f"Contact admin@example.com about {url}"),
+            "Contact admin@example.com about http://example.com",
+        )
+
     def test_git(self) -> None:
         self.assertEqual(
             cleanup_repo_url("git://git.weblate.org/weblate.git"),

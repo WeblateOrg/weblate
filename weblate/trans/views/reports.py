@@ -969,10 +969,10 @@ def render_translator_work(data: dict[str, Any], style: str) -> HttpResponse:
         for metric, values in data["metrics"].items():
             rows.extend(
                 format_html(
-                    "<tr><th>{}</th><td>{}</td><td>{:.0f}</td></tr>",
+                    "<tr><th>{}</th><td>{}</td><td>{}</td></tr>",
                     labels[metric],
                     labels[name],
-                    value,
+                    f"{value:.0f}",
                 )
                 for name, value in values.items()
             )

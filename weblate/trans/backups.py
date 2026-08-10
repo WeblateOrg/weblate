@@ -757,7 +757,7 @@ class ProjectBackup:
                                                 "required"
                                             ],
                                         )
-                                        for vote in obj.votes.through.objects.filter(
+                                        for vote in Vote.objects.filter(
                                             suggestion=obj
                                         ).select_related("user")
                                     ],

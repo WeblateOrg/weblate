@@ -21,6 +21,11 @@ For application-developer workflows and broader product integration guidance, us
   modules.
 - Use `TYPE_CHECKING` imports for type-only dependencies when that avoids
   runtime import cycles.
+- Add new user-configurable model fields to the existing REST serializers, API
+  documentation, schema, and tests for that model. Review write permissions and
+  validation explicitly. Keep secrets, computed state, and intentionally
+  internal fields unexposed, and document the reason when the omission is not
+  self-evident.
 - All user-facing strings must be translatable using Django i18n helpers, except
   messages used in the API or persisted storage, such as the audit log, add-on
   log, or changes; these messages should not be localized.

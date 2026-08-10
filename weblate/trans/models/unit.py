@@ -93,6 +93,14 @@ COMPONENT_ORDER_FIELDS = [
     "translation__component__is_glossary",
     "translation__component__name",
 ]
+UNIT_METADATA_UPDATE_FIELDS = (
+    "location",
+    "note",
+    "position",
+    "automatically_translated",
+    "flags",
+    "last_updated",
+)
 
 
 def orders_units_by_component(obj: object) -> bool:
@@ -1201,7 +1209,17 @@ class Unit(models.Model, LoggerMixin):
                 )
 
     def update_source_unit(
-        self, component, source, context, pos, note, location, flags: Flags, explanation
+        self,
+        component,
+        source,
+        context,
+        pos,
+        note,
+        location,
+        flags: Flags,
+        explanation,
+        *,
+        metadata_updates: dict[int, Unit] | None = None,
     ) -> None:
         source_unit = component.get_source(
             self.id_hash,
@@ -1221,6 +1239,7 @@ class Unit(models.Model, LoggerMixin):
         except ParseException:
             parsed_flags = Flags()
         same_flags = flags == parsed_flags
+        same_explanation = explanation == source_unit.explanation
         if (
             not source_unit.source_updated
             and not source_unit.translation.filename
@@ -1238,12 +1257,21 @@ class Unit(models.Model, LoggerMixin):
             source_unit.explanation = explanation
             source_unit.flags = flags.format()
             source_unit.note = note
-            source_unit.save(
-                update_fields=["position", "location", "explanation", "flags", "note"],
-                same_content=True,
-                run_checks=False,
-                only_save=same_flags,
-            )
+            if same_flags and same_explanation and metadata_updates is not None:
+                metadata_updates[source_unit.pk] = source_unit
+            else:
+                source_unit.save(
+                    update_fields=[
+                        "position",
+                        "location",
+                        "explanation",
+                        "flags",
+                        "note",
+                    ],
+                    same_content=True,
+                    run_checks=False,
+                    only_save=same_flags,
+                )
         self.source_unit = source_unit
 
     def store_unit_attributes(
@@ -1317,11 +1345,12 @@ class Unit(models.Model, LoggerMixin):
             "automatically_translated": unit.is_automatically_translated(),
         }
 
-    def update_from_unit(  # ruff: ignore[complex-structure, too-many-locals]
+    def update_from_unit(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
         self,
         *,
         user: User | None = None,
         author: User | None = None,
+        metadata_updates: dict[int, Unit] | None = None,
     ) -> None:
         """Update Unit from ttkit unit."""
         translation = self.translation
@@ -1368,6 +1397,7 @@ class Unit(models.Model, LoggerMixin):
                 location,
                 flags,
                 source_explanation,
+                metadata_updates=metadata_updates,
             )
 
         # Get comparison state (disk_state if exists, otherwise current state)
@@ -1484,19 +1514,22 @@ class Unit(models.Model, LoggerMixin):
         # Metadata update only, these do not trigger any actions in Weblate and
         # are display only
         if same_data and not same_metadata:
-            update_fields = [
-                "location",
-                "note",
-                "position",
-                "automatically_translated",
-            ]
-            if not supports_explanation:
-                update_fields.append("explanation")
-            self.save(
-                same_content=True,
-                only_save=True,
-                update_fields=update_fields,
-            )
+            if metadata_updates is not None:
+                metadata_updates[self.pk] = self
+            else:
+                update_fields = [
+                    "location",
+                    "note",
+                    "position",
+                    "automatically_translated",
+                ]
+                if not supports_explanation:
+                    update_fields.append("explanation")
+                self.save(
+                    same_content=True,
+                    only_save=True,
+                    update_fields=update_fields,
+                )
             return
 
         # Sanitize number of plurals

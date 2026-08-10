@@ -13,7 +13,13 @@
   <form method="post" action="{% url 'legal:confirm' %}">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">{% translate "You have to agree to the General Terms and Conditions" %}</h4>
+        <h4 class="card-title">
+          {% if privacy_url %}
+            {% translate "You have to agree to the General Terms and Conditions and the Privacy Policy" %}
+          {% else %}
+            {% translate "You have to agree to the General Terms and Conditions" %}
+          {% endif %}
+        </h4>
       </div>
       <div class="card-body">
         {% if terms_document_hidden and terms_url %}
@@ -33,6 +39,12 @@
           <div class="list-group-item pre-scrollable{% if legal_document_css_class %} {{ legal_document_css_class }}{% endif %}">
             {% include "legal/documents/tos.html" %}
           </div>
+          {% if privacy_url %}
+            <p>
+              {% translate "Please also read the Privacy Policy:" %}
+              <a href="{{ privacy_url }}">{% translate "Privacy Policy" %}</a>
+            </p>
+          {% endif %}
         {% endif %}
         {{ form|crispy }}
         {% csrf_token %}

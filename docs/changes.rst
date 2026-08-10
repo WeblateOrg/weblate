@@ -14,13 +14,45 @@ Weblate 2026.8.1
 
 .. rubric:: Improvements
 
+* Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
+* Improved translation file loading performance for metadata-only string changes.
+
 .. rubric:: Bug fixes
 
-* Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
-* :wladmin:`import_json` now preserves the component source language from JSON exports.
-* Repository actions now require permission on every component sharing the affected repository, including linked components in other projects.
-
 .. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.9.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/168?closed=1>`__.
+
+Weblate 2026.8.1
+----------------
+
+*Released on August 7th 2026.*
+
+.. rubric:: New features
+
+* Project and component APIs now expose all user-configurable settings, including access control and translation-memory settings. See :doc:`api`.
+* Added the :wladmin:`metrics` command for retrieving server metrics locally in JSON, CSV, or OpenMetrics format.
+
+.. rubric:: Bug fixes
+
+* Task progress now requires authentication and works for aggregate automatic translation operations.
+* Docker Celery worker logging no longer emits duplicate records through both Celery and Weblate log handlers.
+* Component creation through the REST API now returns the background task URL in the response when creation work is queued.
+* Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
+* :wladmin:`import_json` now preserves the component source language for newly imported components from JSON exports.
+* Repository actions now require permission on every component sharing the affected repository, including linked components in other projects.
+* Legal document confirmation now explicitly covers the linked privacy policy. See :ref:`legal`.
+* Add-on change history now retains only explicitly public configuration values and marks changed credential fields as redacted.
+* Translator work reports with metrics can now be displayed and downloaded as HTML.
+* Repository credentials are now consistently hidden from web and API output.
 
 .. rubric:: Upgrading
 

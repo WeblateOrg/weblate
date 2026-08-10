@@ -9,8 +9,9 @@ import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import tempfile
 from collections.abc import Mapping, Sequence
 from contextlib import suppress
+from copy import deepcopy
 from itertools import chain
-from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, Self, TypedDict, TypeGuard, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -60,6 +61,15 @@ type AddonConfigurationValue = (
 )
 type AddonConfiguration = dict[str, AddonConfigurationValue]
 
+ADDON_CHANGE_DETAILS_SCHEMA = "weblate-addon-configuration-v1"
+
+
+class AddonChangeDetails(TypedDict):
+    schema: str
+    configuration: AddonConfiguration
+    changed_fields: list[str]
+    redacted_fields: list[str]
+
 
 class CompatDict(TypedDict, total=False):
     vcs: set[str]
@@ -77,6 +87,56 @@ CHANGE_EVENT_FILTERS = frozenset(
         CHANGE_EVENT_FILTER_CUSTOM,
     )
 )
+
+
+def build_addon_change_details(
+    configuration: Mapping[str, AddonConfigurationValue],
+    compared_configuration: Mapping[str, AddonConfigurationValue],
+    public_fields: frozenset[str],
+) -> AddonChangeDetails:
+    """Build a public snapshot of an add-on configuration change."""
+    all_fields = set(configuration) | set(compared_configuration)
+    redacted_fields = all_fields - public_fields
+    public_configuration: AddonConfiguration = {
+        key: deepcopy(value) if key in public_fields else None
+        for key, value in configuration.items()
+    }
+    return {
+        "schema": ADDON_CHANGE_DETAILS_SCHEMA,
+        "configuration": public_configuration,
+        "changed_fields": sorted(
+            key
+            for key in all_fields
+            if configuration.get(key) != compared_configuration.get(key)
+            or (key in configuration) != (key in compared_configuration)
+        ),
+        "redacted_fields": sorted(redacted_fields),
+    }
+
+
+def is_public_addon_change_details(
+    details: object,
+) -> TypeGuard[AddonChangeDetails]:
+    """Return whether details use the public add-on configuration schema."""
+    if not isinstance(details, dict):
+        return False
+    if details.get("schema") != ADDON_CHANGE_DETAILS_SCHEMA:
+        return False
+    configuration = details.get("configuration")
+    changed_fields = details.get("changed_fields")
+    redacted_fields = details.get("redacted_fields")
+    if (
+        not isinstance(configuration, dict)
+        or not isinstance(changed_fields, list)
+        or not isinstance(redacted_fields, list)
+        or not all(isinstance(key, str) for key in changed_fields)
+        or not all(isinstance(key, str) for key in redacted_fields)
+    ):
+        return False
+    return all(
+        key not in configuration or configuration[key] is None
+        for key in redacted_fields
+    )
 
 
 def get_change_event_filter(
@@ -231,6 +291,32 @@ class BaseAddon[StoredConfigurationT, ConfigurationT](DocVersionsMixin):
     @property
     def configuration(self) -> ConfigurationT:
         return self.get_configuration()
+
+    @classmethod
+    def get_public_configuration_fields(cls) -> frozenset[str]:
+        """Return configuration fields which are safe for public use."""
+        if cls.settings_form is None:
+            return frozenset()
+        return cls.settings_form.public_configuration_fields
+
+    def get_public_configuration(self) -> AddonConfiguration:
+        """Return configuration with non-public values redacted."""
+        return build_addon_change_details(
+            self.get_settings_form_data(),
+            {},
+            self.get_public_configuration_fields(),
+        )["configuration"]
+
+    def get_change_details(
+        self,
+        compared_configuration: Mapping[str, AddonConfigurationValue],
+    ) -> AddonChangeDetails:
+        """Return a public configuration snapshot and changed field names."""
+        return build_addon_change_details(
+            self.get_settings_form_data(),
+            compared_configuration,
+            self.get_public_configuration_fields(),
+        )
 
     def show_setting_field(self, field: BoundField) -> bool:
         return not field.is_hidden and field.value()
