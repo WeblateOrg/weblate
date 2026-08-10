@@ -9,6 +9,7 @@ Weblate 2026.9
 
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
 * Improved translation file loading performance for metadata-only string changes.
+* Added a :guilabel:`Visible columns in lists` preference to choose which statistics columns are shown in project, component, and language lists. See :ref:`user-profile`.
 
 .. rubric:: Bug fixes
 

@@ -1172,6 +1172,7 @@ class Profile(models.Model):
                 "secondary_in_zen",
                 "hide_source_secondary",
                 "wide_tables",
+                "listing_columns",
                 "editor_link",
                 "translate_mode",
                 "zen_mode",
