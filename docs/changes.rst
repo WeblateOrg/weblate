@@ -1,9 +1,30 @@
 Weblate 2026.9
 --------------
 
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
+* Improved translation file loading performance for metadata-only string changes.
+
+.. rubric:: Bug fixes
+
 .. rubric:: Compatibility
 
 * Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.9.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/168?closed=1>`__.
 
 Weblate 2026.8.1
 ----------------
