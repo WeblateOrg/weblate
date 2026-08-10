@@ -12,7 +12,7 @@ def remove_inexact_hook_match_alerts(apps, schema_editor) -> None:
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0097_workflowsetting_restrict_direct_editing"),
+        ("trans", "0099_sanitize_repository_redirect_credentials"),
     ]
 
     operations = [
