@@ -44,7 +44,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-10 14:18+0000\n"
+"PO-Revision-Date: 2026-08-11 06:54+0000\n"
 "Last-Translator: Steve <steve-contrib@murena.io>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -13510,7 +13510,7 @@ msgstr "**Exemple de liaison directe :**"
 
 #: admin/install/docker.rst:1593
 msgid "**Example for search and bind:**"
-msgstr ""
+msgstr "**Exemple de recherche et de liaison :**"
 
 #: admin/install/docker.rst:1605
 msgid "**Example for union search and bind:**"
@@ -13518,7 +13518,7 @@ msgstr ""
 
 #: admin/install/docker.rst:1617
 msgid "**Example with search and bind against Active Directory:**"
-msgstr ""
+msgstr "**Exemple de recherche et de liaison avec Active Directory :**"
 
 #: admin/install/docker.rst:1647
 msgid "Enables :ref:`github_auth`."
@@ -13615,10 +13615,13 @@ msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
 msgstr ""
+"Vous pouvez activer l'authentification en utilisant les services "
+"d'authentification des fournisseurs Linux en définissant les variables "
+"suivantes à n'importe quelle valeur."
 
 #: admin/install/docker.rst:1773
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
-msgstr ""
+msgstr "Active l’authentification Slack, voir :ref:`slack-auth`."
 
 #: admin/install/docker.rst:1777
 msgid "OpenID Connect"
@@ -13646,10 +13649,14 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
+"Les clés SAML auto-signées sont générées automatiquement au premier "
+"démarrage du conteneur. Si vous souhaitez utiliser vos propres clés, placez "
+"le certificat et la clé privée dans :file:`/app/data/ssl/saml.crt` et "
+":file:`/app/data/ssl/saml.key`."
 
 #: admin/install/docker.rst:1823
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
-msgstr ""
+msgstr "Paramètres du fournisseur d'identité SAML, voir :ref:`saml-auth`."
 
 #: admin/install/docker.rst:1829
 msgid ""
@@ -13673,7 +13680,7 @@ msgstr ""
 
 #: admin/install/docker.rst:1856
 msgid "Other authentication settings"
-msgstr ""
+msgstr "Autres paramètres d'authentification"
 
 #: admin/install/docker.rst:1860
 msgid ""
@@ -13690,13 +13697,15 @@ msgstr ""
 
 #: admin/install/docker.rst:1877
 msgid "PostgreSQL database setup"
-msgstr ""
+msgstr "Configuration de la base de données PostgreSQL"
 
 #: admin/install/docker.rst:1879
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
+"La base de données est créée par :file:`docker-compose.yml`, donc ces "
+"paramètres affectent à la fois les conteneurs Weblate et PostgreSQL."
 
 #: admin/install/docker.rst:1888
 msgid "PostgreSQL password."
@@ -13708,15 +13717,18 @@ msgstr "Nom d’utilisateur PostgreSQL."
 
 #: admin/install/docker.rst:1900
 msgid "PostgreSQL database name."
-msgstr ""
+msgstr "Nom de la base de données PostgreSQL."
 
 #: admin/install/docker.rst:1904
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr ""
+"Nom d'hôte ou adresse IP du serveur PostgreSQL. Par défaut : ``database``."
 
 #: admin/install/docker.rst:1908
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr ""
+"Port du serveur PostgreSQL. Par défaut : aucun (utilise la valeur par défaut)"
+"."
 
 #: admin/install/docker.rst:1912
 msgid ""
@@ -13773,13 +13785,15 @@ msgstr ""
 
 #: admin/install/docker.rst:1975
 msgid "Database backup settings"
-msgstr ""
+msgstr "Paramètres de sauvegarde de la base de données"
 
 #: admin/install/docker.rst:1982
 msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr ""
+"Configure la sauvegarde quotidienne de la base de données à l'aide de "
+":setting:`DATABASE_BACKUP`. Par défaut : ``plain``."
 
 #: admin/install/docker.rst:1986
 #, fuzzy
@@ -13831,27 +13845,29 @@ msgstr ""
 
 #: admin/install/docker.rst:2032
 msgid "Email server setup"
-msgstr ""
+msgstr "Configuration du serveur de courriel"
 
 #: admin/install/docker.rst:2034
 msgid "To make outgoing e-mail work, you need to provide a mail server."
 msgstr ""
+"Pour que les courriels sortants fonctionnent, vous devez fournir un serveur "
+"de courrier."
 
 #: admin/install/docker.rst:2036
 msgid "Example TLS configuration:"
-msgstr ""
+msgstr "Exemple de configuration TLS :"
 
 #: admin/install/docker.rst:2045
 msgid "Example SSL configuration:"
-msgstr ""
+msgstr "Exemple de configuration SSL :"
 
 #: admin/install/docker.rst:2064
 msgid "Mail server hostname or IP address."
-msgstr ""
+msgstr "Nom d'hôte ou adresse IP du serveur de courrier."
 
 #: admin/install/docker.rst:2075
 msgid "Mail server port, defaults to 25."
-msgstr ""
+msgstr "Port du serveur de courrier, par défaut 25."
 
 #: admin/install/docker.rst:2083
 msgid "E-mail authentication user."
@@ -13869,6 +13885,11 @@ msgid ""
 "experiencing problems, see the explicit TLS "
 "setting :envvar:`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
+"Indique s'il faut utiliser une connexion TLS implicite (sécurisée) lors des "
+"échanges avec le serveur SMTP. Dans la plupart des documentations sur le "
+"courriel, ce type de connexion TLS est appelé SSL. Il est généralement "
+"utilisé sur le port 465. Si vous rencontrez des problèmes, consultez le "
+"paramètre TLS explicite :envvar:`WEBLATE_EMAIL_USE_TLS`."
 
 #: admin/install/docker.rst:2107 admin/install/docker.rst:2125
 msgid ""
@@ -13883,6 +13904,11 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS "
 "setting :envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
+"Indique s'il faut utiliser une connexion TLS (sécurisée) lors des échanges "
+"avec le serveur SMTP. Ceci est utilisé pour les connexions TLS explicites, "
+"généralement sur le port 587 ou 25. Si vous rencontrez des connexions qui "
+"restent bloquées, consultez le paramètre TLS implicite "
+":envvar:`WEBLATE_EMAIL_USE_SSL`."
 
 #: admin/install/docker.rst:2136
 msgid "Configures Django back-end to use for sending e-mails."
@@ -13937,22 +13963,24 @@ msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr ""
+"Il est recommandé de collecter systématiquement les erreurs de "
+"l'installation, voir :ref:`collecting-errors`."
 
 #: admin/install/docker.rst:2183
 msgid "To enable support for Rollbar, set the following:"
-msgstr ""
+msgstr "Pour activer la prise en charge de Rollbar, définissez ce qui suit :"
 
 #: admin/install/docker.rst:2187
 msgid "Your Rollbar post server access token."
-msgstr ""
+msgstr "Votre jeton d'accès au serveur d'envoi de Rollbar."
 
 #: admin/install/docker.rst:2191
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr ""
+msgstr "Votre environnement Rollbar, par défaut ``production``."
 
 #: admin/install/docker.rst:2193
 msgid "To enable support for Sentry, set following:"
-msgstr ""
+msgstr "Pour activer la prise en charge de Sentry, définissez ce qui suit :"
 
 #: admin/install/docker.rst:2197
 #, fuzzy
@@ -14233,7 +14261,7 @@ msgstr ""
 
 #: admin/install/docker.rst:2523
 msgid "Docker container volumes"
-msgstr ""
+msgstr "Volumes du conteneur Docker"
 
 #: admin/install/docker.rst:2525
 msgid ""
@@ -14469,6 +14497,10 @@ msgid ""
 "For example creating :file:`/app/data/python/customize/static/favicon.ico` "
 "will replace the favicon."
 msgstr ""
+"Les fichiers statiques fournis avec Weblate peuvent être remplacés en les "
+"plaçant dans :file:`/app/data/python/customize/static` (voir :ref:`docker-"
+"volume`). Par exemple, créer :file:`/app/data/python/customize/static/"
+"favicon.ico` remplacera le favicon."
 
 #: admin/install/docker.rst:2713
 msgid ""
@@ -14488,6 +14520,8 @@ msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
+"Vous pouvez également inclure votre propre module (voir :doc:`../customize`) "
+"et l'ajouter comme volume séparé au conteneur Docker, par exemple :"
 
 #: admin/install/docker.rst:2735
 #, fuzzy
@@ -14814,7 +14848,7 @@ msgstr ""
 
 #: admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
-msgstr ""
+msgstr "Installation sur OpenShift"
 
 #: admin/install/openshift.rst:4
 msgid ""
@@ -14945,6 +14979,8 @@ msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
 msgstr ""
+"Récupérez les dernières sources de Weblate en utilisant Git (ou téléchargez "
+"une archive et décompressez-la) :"
 
 #: admin/install/source.rst:17
 msgid ""
@@ -14952,6 +14988,10 @@ msgid ""
 "website <https://weblate.org/>. Those downloads are cryptographically "
 "signed, please see :ref:`verify`."
 msgstr ""
+"Vous pouvez également utiliser les archives publiées. Vous pouvez les "
+"télécharger depuis notre site Web <https://weblate.org/>. Ces "
+"téléchargements sont signés cryptographiquement, veuillez consulter "
+":ref:`verify`."
 
 #: admin/install/source.rst:21
 msgid "Install current Weblate code into the Python environment:"
@@ -14967,20 +15007,24 @@ msgstr ""
 msgid ""
 "Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`."
 msgstr ""
+"Copiez :file:`weblate/settings_example.py` vers :file:`weblate/settings.py`."
 
 #: admin/install/source.rst:36
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
 msgstr ""
+"Créez la base de données utilisée par Weblate, voir :ref:`database-setup`."
 
 #: admin/install/source.rst:38
 msgid ""
 "Build Django tables, static files and initial data (see :ref:`tables-setup` "
 "and :ref:`static-files`):"
 msgstr ""
+"Créez les tables Django, les fichiers statiques et les données initiales "
+"(voir :ref:`tables-setup` et :ref:`static-files`) :"
 
 #: admin/install/source.rst:48
 msgid "This step should be repeated whenever you update the repository."
-msgstr ""
+msgstr "Cette étape doit être répétée à chaque mise à jour du dépôt."
 
 #: admin/install/source.rst:53
 msgid "Packaging Weblate for distributions"
@@ -15132,6 +15176,8 @@ msgid ""
 "Congratulations, your Weblate server is now running and you can start using "
 "it."
 msgstr ""
+"Félicitations, votre serveur Weblate est maintenant opérationnel et vous "
+"pouvez commencer à l'utiliser."
 
 #: admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
@@ -15171,10 +15217,14 @@ msgid ""
 "create the project you want to translate. See :ref:`project` for more "
 "details."
 msgstr ""
+"Ouvrez l'interface d'administration (``http://localhost:8000/create/project/"
+"``) et créez le projet que vous souhaitez traduire. Voir :ref:`project` pour "
+"plus de détails."
 
 #: admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
 msgstr ""
+"Tout ce que vous devez préciser ici est le nom du projet et son site Web."
 
 #: admin/install/steps/install-after.rst:21
 msgid ""
@@ -15182,6 +15232,9 @@ msgid ""
 "the VCS repository, and selects which files to translate. "
 "See :ref:`component` for more details."
 msgstr ""
+"Créez un composant qui est l'objet réel de la traduction - il pointe vers le "
+"dépôt du système de contrôle de version, et sélectionne les fichiers à "
+"traduire. Voir :ref:`component` pour plus de détails."
 
 #: admin/install/steps/install-after.rst:25
 msgid ""
@@ -15198,6 +15251,9 @@ msgid ""
 "of your VCS repository, and number of messages to translate), you can start "
 "translating."
 msgstr ""
+"Une fois ce qui précède terminé (cela peut être un processus long selon la "
+"taille de votre dépôt du système de contrôle de version, et le nombre de "
+"messages à traduire), vous pouvez commencer à traduire."
 
 #: admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
@@ -15310,10 +15366,14 @@ msgid ""
 "of your installation you might want to run these components on dedicated "
 "servers."
 msgstr ""
+"Installez éventuellement les logiciels nécessaires au serveur de production, "
+"voir :ref:`server`, :ref:`database-setup`, :ref:`celery`. Selon la taille de "
+"votre installation, il peut être judicieux d'exécuter ces composants sur des "
+"serveurs dédiés."
 
 #: admin/install/steps/install-system-server.rst:5
 msgid "The local installation instructions:"
-msgstr ""
+msgstr "Les instructions d'installation locale :"
 
 #: admin/install/steps/install-uv.rst:2
 msgid "uv package manager"
@@ -15450,6 +15510,9 @@ msgid ""
 "adjust :ref:`component-language_regex` to ignore such file when parsing "
 "translations."
 msgstr ""
+"Si vous voyez quelque chose d'indésirable comme langue, vous pouvez ajuster "
+":ref:`component-language_regex` pour ignorer ces fichiers lors de l'analyse "
+"des traductions."
 
 #: admin/languages.rst:72
 msgid "Changing language definitions"
@@ -15460,6 +15523,8 @@ msgid ""
 "You can change language definitions in the languages interface (:file:`/"
 "languages/` URL)."
 msgstr ""
+"Vous pouvez modifier les définitions de langue dans l'interface des langues "
+"(URL :file:`/languages/`)."
 
 #: admin/languages.rst:77
 msgid ""
@@ -15498,7 +15563,7 @@ msgstr ""
 
 #: admin/languages.rst:105
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "Chaque langue se compose des champs suivants :"
 
 #: admin/languages.rst:110 admin/projects.rst:1396
 msgid "Language code"
@@ -15522,6 +15587,8 @@ msgid ""
 "Visible name of the language. The language names included in Weblate are "
 "also being localized depending on user interface language."
 msgstr ""
+"Nom visible de la langue. Les noms de langue inclus dans Weblate sont "
+"également localisés selon la langue de l'interface utilisateur."
 
 #: admin/languages.rst:135
 msgid "Text direction"
@@ -15574,7 +15641,7 @@ msgstr "Nombre pluriel"
 
 #: admin/languages.rst:171
 msgid "Number of plurals used in the language."
-msgstr ""
+msgstr "Nombre de pluriels utilisés dans la langue."
 
 #: admin/languages.rst:176
 msgid "Plural formula"
@@ -15585,6 +15652,8 @@ msgid ""
 "Gettext compatible plural formula used to determine which plural form is "
 "used for given count."
 msgstr ""
+"Formule plurielle compatible Gettext utilisée pour déterminer quelle forme "
+"plurielle est utilisée pour un nombre donné."
 
 #: admin/languages.rst:180
 msgid ""
@@ -15633,12 +15702,17 @@ msgid ""
 "especially important to do if translations are open to the public, to "
 "stipulate what they can be used for."
 msgstr ""
+"Vous pouvez préciser sous quelle licence les traductions sont publiées. "
+"C’est particulièrement important si les traductions sont ouvertes au public, "
+"afin de préciser à quelles fins elles peuvent être utilisées."
 
 #: admin/licensing.rst:7
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
+"Vous devriez préciser les informations de licence du :ref:`component`. Vous "
+"devriez éviter d’exiger un accord de contribution, même si cela est possible."
 
 #: admin/licensing.rst:11
 msgid "License info"
@@ -15649,6 +15723,9 @@ msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
+"Lorsque vous indiquez les informations de licence (nom et URL de la licence)"
+", elles sont affichées dans la section des informations de traduction du "
+":ref:`component` correspondant."
 
 #: admin/licensing.rst:16
 msgid ""
@@ -15656,6 +15733,10 @@ msgid ""
 "required. If your project or translation is not libre you most probably need "
 "prior consent."
 msgstr ""
+"En général, c’est le meilleur endroit où publier les informations de licence "
+"si aucun consentement explicite n’est requis. Si votre projet ou votre "
+"traduction n’est pas libre, vous avez très probablement besoin d’un "
+"consentement préalable."
 
 #: admin/licensing.rst:20 admin/projects.rst:188 admin/projects.rst:904
 #: admin/workspaces.rst:133
@@ -15678,6 +15759,8 @@ msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
+"Tout utilisateur peut consulter depuis son profil toutes les licences de "
+"traduction de tous les projets publics de l’instance :"
 
 #: admin/machine.rst:4 snippets/permissions.rst:77 user/translating.rst:430
 msgid "Automatic suggestions"
@@ -15868,6 +15951,10 @@ msgid ""
 "webserver can result in files getting wrong permissions, please "
 "check :ref:`file-permissions` for more details."
 msgstr ""
+"L’exécution de commandes de gestion avec un utilisateur différent de celui "
+"qui exécute votre serveur Web peut entraîner l’attribution de permissions "
+"incorrectes aux fichiers ; consultez :ref:`file-permissions` pour plus de "
+"détails."
 
 #: admin/management.rst:12
 msgid ""
@@ -15875,14 +15962,19 @@ msgid ""
 "the Django sources, or as an extended set in a script "
 "called :command:`weblate` installable atop Weblate)."
 msgstr ""
+"Vous trouverez les commandes de gestion de base (disponibles sous forme de "
+":file:`./manage.py` dans les sources Django, ou sous forme d’un ensemble "
+"étendu dans un script appelé :command:`weblate`, installable sur Weblate)."
 
 #: admin/management.rst:18
 msgid "Invoking management commands"
-msgstr ""
+msgstr "Appel des commandes de gestion"
 
 #: admin/management.rst:20
 msgid "As mentioned before, invocation depends on how you installed Weblate."
 msgstr ""
+"Comme indiqué précédemment, l’appel dépend de la manière dont vous avez "
+"installé Weblate."
 
 #: admin/management.rst:22
 msgid ""
@@ -15897,6 +15989,9 @@ msgid ""
 "checkout), the management script is :file:`./manage.py` available in the "
 "Weblate sources. To run it:"
 msgstr ""
+"Si vous utilisez directement le code source (depuis une archive tarball ou "
+"une copie Git), le script de gestion :file:`./manage.py` est disponible dans "
+"les sources Weblate. Pour l’exécuter :"
 
 #: admin/management.rst:42
 #, fuzzy
@@ -15921,6 +16016,8 @@ msgid ""
 "For the Docker image, the script is installed like above, and you can run it "
 "using :command:`docker exec`:"
 msgstr ""
+"Pour l’image Docker, le script est installé comme indiqué ci-dessus, et vous "
+"pouvez l’exécuter à l’aide de :command:`docker exec` :"
 
 #: admin/management.rst:57
 msgid ""
@@ -15931,6 +16028,8 @@ msgstr ""
 #: admin/management.rst:64
 msgid "In case you need to pass it a file, you can temporary add a volume:"
 msgstr ""
+"Si vous devez lui transmettre un fichier, vous pouvez ajouter temporairement "
+"un volume :"
 
 #: admin/management.rst:84
 msgid ""
@@ -15954,6 +16053,8 @@ msgstr "Ajouter un paramètre pour le mode de traduction."
 #: admin/management.rst:161
 msgid "Performs automatic translation based on other component translations."
 msgstr ""
+"Effectue une traduction automatique basée sur les traductions d’autres "
+"composants."
 
 #: admin/management.rst:216
 msgid ""
@@ -16012,11 +16113,12 @@ msgstr "Ceci peut être utile lors du développement de Weblate."
 
 #: admin/management.rst:311
 msgid "Displays length of Celery task queues."
-msgstr ""
+msgstr "Affiche la longueur des files d’attente de tâches Celery."
 
 #: admin/management.rst:322
+#, fuzzy
 msgid "Prints current state of the back-end Git repository."
-msgstr ""
+msgstr "Affiche l’état actuel du dépôt Git back-end."
 
 #: admin/management.rst:324 admin/management.rst:345 admin/management.rst:964
 #: admin/management.rst:984 admin/management.rst:1053 admin/management.rst:1072
@@ -16025,10 +16127,15 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
+"Vous pouvez définir soit le projet soit le composant à mettre à jour (par "
+"exemple ``weblate/application``), soit utiliser ``--all`` pour mettre à jour "
+"tous les composants existants."
 
 #: admin/management.rst:332
 msgid "Commits any possible pending changes to the back-end Git repository."
 msgstr ""
+"Valide toutes les modifications éventuellement en attente dans le dépôt Git "
+"du back-end."
 
 #: admin/management.rst:334
 msgid ""
@@ -16040,6 +16147,8 @@ msgstr ""
 #: admin/management.rst:343
 msgid "Commits pending changes older than a given age."
 msgstr ""
+"Valide les modifications en attente datant de plus longtemps qu’une durée "
+"donnée."
 
 #: admin/management.rst:355
 msgid ""
@@ -16054,6 +16163,9 @@ msgid ""
 "need to run this manually, as the cleanups happen automatically in the "
 "background."
 msgstr ""
+"Nettoie les vérifications orphelines et les suggestions de traduction. En "
+"général, il n’est pas nécessaire de l’exécuter manuellement, car les "
+"nettoyages s’effectuent automatiquement en arrière-plan."
 
 #: admin/management.rst:384
 #, fuzzy
@@ -16080,10 +16192,14 @@ msgstr ""
 msgid ""
 "Creates an ``admin`` account with a random password, unless it is specified."
 msgstr ""
+"Crée un compte ``admin`` avec un mot de passe aléatoire, sauf si celui-ci "
+"est spécifié."
 
 #: admin/management.rst:439
 msgid "Export a JSON file containing Weblate Translation Memory content."
 msgstr ""
+"Exporter un fichier JSON contenant le contenu de la mémoire de traduction "
+"Weblate."
 
 #: admin/management.rst:451
 msgid "Dumps userdata to a file for later use by :wladmin:`importuserdata`."
@@ -16154,6 +16270,8 @@ msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
 msgstr ""
+"`<project>` désigne un projet existant, dans lequel les composants doivent "
+"être importés."
 
 #: admin/management.rst:566
 msgid ""
@@ -16162,6 +16280,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
+"La balise `<gitrepo>` définit l’URL du dépôt Git à utiliser, et `<branch>` "
+"désigne la branche Git. Pour importer des composants de traduction "
+"supplémentaires depuis un composant Weblate existant, utilisez une URL "
+"`weblate://<project>/<component>` pour `<gitrepo>`."
 
 #: admin/management.rst:571
 msgid ""
@@ -16169,12 +16291,17 @@ msgid ""
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
 msgstr ""
+"`<filemask>` définit la découverte de fichiers pour le dépôt. Elle peut être "
+"simplifiée à l’aide de caractères génériques, ou utiliser toute la puissance "
+"des expressions rationnelles."
 
 #: admin/management.rst:574
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
 msgstr ""
+"La correspondance simple utilise ``**`` pour le nom du composant et ``*`` "
+"pour la langue, par exemple : ``**/*.po``"
 
 #: admin/management.rst:577
 #, fuzzy
@@ -16194,6 +16321,9 @@ msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
 msgstr ""
+"L’importation établit une correspondance entre les composants existants en "
+"fonction des fichiers et ajoute ceux qui n’existent pas. Elle ne modifie pas "
+"ceux qui existent déjà."
 
 #: admin/management.rst:629
 msgid "To give you some examples, let's try importing two projects."
@@ -16393,7 +16523,7 @@ msgstr ""
 
 #: admin/management.rst:914
 msgid "Lists all Weblate dependencies and their versions."
-msgstr ""
+msgstr "Répertorie toutes les dépendances de Weblate et leurs versions."
 
 #: admin/management.rst:921
 #, fuzzy
@@ -16429,6 +16559,8 @@ msgid ""
 "Reloads translations from disk (for example in case you have done some "
 "updates in the VCS repository)."
 msgstr ""
+"Recharge les traductions depuis le disque (par exemple si vous avez effectué "
+"des mises à jour dans le dépôt du système de contrôle des versions)."
 
 #: admin/management.rst:969
 msgid ""
@@ -16437,15 +16569,22 @@ msgid ""
 "underlying Weblate VCS repository or in some special cases following an "
 "upgrade."
 msgstr ""
+"Vous devez rarement appeler cette commande ; Weblate charge automatiquement "
+"les fichiers modifiés lors de chaque mise à jour du système de contrôle des "
+"versions. Elle est nécessaire si vous avez modifié manuellement un dépôt "
+"Weblate sous-jacent du système de contrôle des versions ou, dans certains "
+"cas particuliers, après une mise à niveau."
 
 #: admin/management.rst:978
 msgid "Prevents further translation of a component."
-msgstr ""
+msgstr "Empêche toute traduction ultérieure d’un composant."
 
 #: admin/management.rst:982 admin/management.rst:1070
 msgid ""
 "Useful in case you want to do some maintenance on the underlying repository."
 msgstr ""
+"Utile si vous souhaitez effectuer une opération de maintenance sur le dépôt "
+"sous-jacent."
 
 #: admin/management.rst:996
 msgid "Outputs the server metrics exposed by :http:get:`/api/metrics/`."
@@ -16488,6 +16627,8 @@ msgstr ""
 #: admin/management.rst:1047
 msgid "Pushes committed changes to the upstream VCS repository."
 msgstr ""
+"Pousse les modifications validées vers le dépôt amont du système de contrôle "
+"des versions."
 
 #: admin/management.rst:1058
 msgid ""
@@ -16498,6 +16639,7 @@ msgstr ""
 #: admin/management.rst:1066
 msgid "Unlocks a given component, making it available for translation."
 msgstr ""
+"Déverrouille un composant donné, le rendant disponible pour la traduction."
 
 #: admin/management.rst:1084
 msgid ""
@@ -16509,15 +16651,17 @@ msgstr ""
 
 #: admin/management.rst:1104
 msgid "Updates list of defined languages in Weblate."
-msgstr ""
+msgstr "Met à jour la liste des langues définies dans Weblate."
 
 #: admin/management.rst:1115
 msgid "Updates all checks for all strings."
-msgstr ""
+msgstr "Met à jour toutes les vérifications pour toutes les chaînes."
 
 #: admin/management.rst:1119
 msgid "Useful for upgrades which do major changes to checks."
 msgstr ""
+"Utile pour les mises à niveau qui apportent des modifications importantes "
+"aux vérifications."
 
 #: admin/management.rst:1126
 #, fuzzy
@@ -16534,6 +16678,8 @@ msgstr ""
 #: admin/management.rst:1134
 msgid "Fetches remote VCS repositories and updates the internal cache."
 msgstr ""
+"Récupère les dépôts distants du système de contrôle des versions et met à "
+"jour le cache interne."
 
 #: admin/management.rst:1141
 msgid ""
@@ -16552,17 +16698,19 @@ msgstr ""
 
 #: admin/memory.rst:9
 msgid "Manually imported translation memory (see :ref:`memory-user`)."
-msgstr ""
+msgstr "Mémoire de traduction importée manuellement (voir :ref:`memory-user`)."
 
 #: admin/memory.rst:10
 msgid ""
 "Automatically stored translations performed in Weblate (depending "
 "on :ref:`memory-scopes`)."
 msgstr ""
+"Traductions effectuées dans Weblate et stockées automatiquement (selon "
+":ref:`memory-scopes`)."
 
 #: admin/memory.rst:11
 msgid "Automatically imported past translations."
-msgstr ""
+msgstr "Traductions antérieures importées automatiquement."
 
 #: admin/memory.rst:13
 msgid ""
@@ -16634,7 +16782,7 @@ msgstr ""
 
 #: admin/memory.rst:42
 msgid "Imported translation memory"
-msgstr ""
+msgstr "Mémoire de traduction importée"
 
 #: admin/memory.rst:44
 msgid ""
@@ -16654,6 +16802,8 @@ msgid ""
 "Stores all user translations automatically in the personal translation "
 "memory of each respective user."
 msgstr ""
+"Stocke automatiquement toutes les traductions des utilisateurs dans la "
+"mémoire de traduction personnelle de chaque utilisateur concerné."
 
 #: admin/memory.rst:52
 msgid ""
@@ -16673,6 +16823,8 @@ msgid ""
 "All translations within a project are automatically stored in a project "
 "translation memory only available for this project."
 msgstr ""
+"Toutes les traductions d’un projet sont automatiquement stockées dans une "
+"mémoire de traduction de projet accessible uniquement pour ce projet."
 
 #: admin/memory.rst:63
 #, fuzzy
@@ -16714,11 +16866,11 @@ msgstr ""
 
 #: admin/memory.rst:90
 msgid "The translations can be used by anybody else."
-msgstr ""
+msgstr "Les traductions peuvent être utilisées par n’importe qui d’autre."
 
 #: admin/memory.rst:91
 msgid "This might lead to disclosing secret information."
-msgstr ""
+msgstr "Cela peut entraîner la divulgation d’informations secrètes."
 
 #: admin/memory.rst:92
 msgid "Make sure the translations you share have good quality."
@@ -17101,6 +17253,10 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in "
 "their :ref:`user-profile`."
 msgstr ""
+"Après l’installation, vous pouvez gérer la facturation dans l’interface "
+"d’administration. Les utilisateurs pour lesquels la facturation est activée "
+"disposeront d’un nouvel onglet :guilabel:`Billing` dans leur :ref:`user-"
+"profile`."
 
 #: admin/optionals.rst:110
 msgid ""
@@ -17143,6 +17299,10 @@ msgid ""
 "required legal documents. It comes provided with blank documents, and you "
 "are expected to fill out the following templates in the documents:"
 msgstr ""
+"Ce service est utilisé sur `Hosted Weblate <https://weblate.org/hosting/>`_ "
+"pour fournir les documents juridiques requis. Il est fourni avec des "
+"documents vierges, et vous devez remplir les modèles suivants dans les "
+"documents :"
 
 #: admin/optionals.rst:136
 msgid "Terms of service document"
@@ -17338,6 +17498,11 @@ msgid ""
 "from e-mails addresses configured for it can be turned off "
 "using :setting:`ENABLE_AVATARS`."
 msgstr ""
+"Les avatars sont téléchargés et mis en cache côté serveur afin de réduire "
+"les fuites d’informations vers les sites qui les fournissent par défaut. La "
+"prise en charge intégrée de la récupération des avatars à partir des "
+"adresses courriel configurées à cet effet peut être désactivée à l’aide de "
+":setting:`ENABLE_AVATARS`."
 
 #: admin/optionals.rst:294
 msgid "Weblate currently supports:"
@@ -17439,7 +17604,7 @@ msgstr ""
 
 #: admin/optionals.rst:363
 msgid "Signing Git commits with GnuPG"
-msgstr ""
+msgstr "Signature des commits Git avec GnuPG"
 
 #: admin/optionals.rst:365
 msgid "All commits can be signed by the GnuPG key of the Weblate instance."
@@ -17463,6 +17628,8 @@ msgid ""
 "You can find the key in the :setting:`DATA_DIR` and the public key is shown "
 "on the \"About\" page:"
 msgstr ""
+"Vous trouverez la clé dans :setting:`DATA_DIR` et la clé publique est "
+"affichée sur la page \"About\" :"
 
 #: admin/optionals.rst:377
 msgid ""
@@ -17509,7 +17676,7 @@ msgstr ""
 
 #: admin/optionals.rst:416
 msgid "The following operations are subject to rate limiting:"
-msgstr ""
+msgstr "Les opérations suivantes sont soumises à une limitation de débit :"
 
 #: admin/optionals.rst:419 devel/reporting-example.rst:2
 #: snippets/addon-parameters-autogenerated.rst:249
@@ -17637,6 +17804,9 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"L’objet du niveau inférieur est :ref:`project`, qui doit contenir toutes les "
+"traductions appartenant au même ensemble (par exemple la traduction d’une "
+"application dans plusieurs versions et/ou la documentation correspondante)."
 
 #: admin/projects.rst:15
 msgid ""
@@ -17650,6 +17820,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"Au niveau supérieur, dans :ref:`component`, qui est le composant à traduire, "
+"vous définissez le dépôt du système de contrôle des versions à utiliser "
+"ainsi que le masque des fichiers à traduire."
 
 #: admin/projects.rst:22
 msgid ""
@@ -17663,6 +17836,9 @@ msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"Weblate prend en charge un large éventail de formats de traduction "
+"(bilingues et monolingues) pris en charge par Translate Toolkit ; voir "
+":ref:`formats`."
 
 #: admin/projects.rst:30
 msgid ""
@@ -17670,6 +17846,11 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"Vous pouvez partager des dépôts clonés du système de contrôle des versions à "
+"l’aide de :ref:`internal-urls`. L’utilisation de cette fonctionnalité est "
+"vivement recommandée lorsque plusieurs composants partagent le même système "
+"de contrôle des versions. Elle améliore les performances et réduit l’espace "
+"disque nécessaire."
 
 #: admin/projects.rst:38
 msgid "Adding translation projects and components"
@@ -17697,6 +17878,8 @@ msgstr ""
 #: admin/projects.rst:56
 msgid "You can view your current billing plan on a separate page:"
 msgstr ""
+"Vous pouvez consulter votre plan de facturation actuel sur une page distincte"
+" :"
 
 #: admin/projects.rst:60
 msgid ""
@@ -17704,10 +17887,14 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
+"La création du projet peut être lancée depuis cette page ou à l’aide du menu "
+"de la barre de navigation, en renseignant les informations de base sur le "
+"projet de traduction pour terminer son ajout :"
 
 #: admin/projects.rst:65
 msgid "After creating the project, you are taken directly to the project page:"
 msgstr ""
+"Après avoir créé le projet, vous êtes directement redirigé vers sa page :"
 
 #: admin/projects.rst:69
 msgid ""
@@ -17716,6 +17903,10 @@ msgid ""
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"La création d’un nouveau composant de traduction peut être lancée en un seul "
+"clic depuis cette page. Le processus de création d’un composant se déroule "
+"en plusieurs étapes et détecte automatiquement la plupart des paramètres de "
+"traduction. Il existe plusieurs méthodes pour créer un composant :"
 
 #: admin/projects.rst:73
 msgid "From version control"
@@ -17733,6 +17924,8 @@ msgstr "Depuis un composant existant"
 msgid ""
 "Creates additional component to existing one by choosing different files."
 msgstr ""
+"Crée un composant supplémentaire à partir d’un composant existant en "
+"choisissant des fichiers différents."
 
 #: admin/projects.rst:77
 msgid "Additional branch"
@@ -17742,6 +17935,8 @@ msgstr "Branche supplémentaire"
 msgid ""
 "Creates additional component to existing one, just for different branch."
 msgstr ""
+"Crée un composant supplémentaire à partir d’un composant existant, "
+"uniquement pour une branche différente."
 
 #: admin/projects.rst:79
 msgid "Upload translations files"
@@ -17777,6 +17972,9 @@ msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
+"Une fois que vous disposez de composants de traduction existants, vous "
+"pouvez également en ajouter facilement de nouveaux pour des fichiers ou des "
+"branches supplémentaires en utilisant le même dépôt."
 
 #: admin/projects.rst:91
 msgid "First you need to fill in name and repository location:"
@@ -17787,12 +17985,16 @@ msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
+"Sur la page suivante, une liste des ressources traduisibles découvertes vous "
+"est présentée :"
 
 #: admin/projects.rst:99
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
+"En dernière étape, vous vérifiez les informations du composant de traduction "
+"et renseignez les détails facultatifs :"
 
 #: admin/projects.rst:112
 msgid "Project configuration"
@@ -17807,6 +18009,13 @@ msgid ""
 "single project (unless turned off in the component configuration), "
 "see :ref:`memory`."
 msgstr ""
+"Créez un projet de traduction, puis ajoutez-y un nouveau composant à "
+"traduire. Le projet est comme une étagère sur laquelle sont empilées les "
+"traductions proprement dites. Tous les composants d’un même projet partagent "
+"les suggestions et leur dictionnaire ; les traductions sont également "
+"propagées automatiquement dans tous les composants d’un même projet (sauf si "
+"cette fonction est désactivée dans la configuration du composant), voir "
+":ref:`memory`."
 
 #: admin/projects.rst:124
 msgid "These basic attributes set up and inform translators of a project:"
@@ -17819,7 +18028,7 @@ msgstr "Nom du projet"
 
 #: admin/projects.rst:131
 msgid "Verbose project name, used to display the project name."
-msgstr ""
+msgstr "Nom détaillé du projet, utilisé pour afficher le nom du projet."
 
 #: admin/projects.rst:140
 msgid "URL slug"
@@ -17912,6 +18121,8 @@ msgid ""
 "Whether to contribute to shared translation memory, see :ref:`shared-tm` for "
 "more details."
 msgstr ""
+"Indique s’il faut contribuer à la mémoire de traduction partagée, voir "
+":ref:`shared-tm` pour plus de détails."
 
 #: admin/projects.rst:214
 msgid ""
@@ -18021,6 +18232,8 @@ msgstr "Activer la révision des chaînes sources"
 #: admin/projects.rst:299
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr ""
+"Activez le flux de travail de relecture pour les chaînes sources, voir "
+":ref:`source-reviews`."
 
 #: admin/projects.rst:310
 msgid "Translation quality filter"
@@ -18061,6 +18274,8 @@ msgstr "Activer les points d’ancrage"
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
 msgstr ""
+"Indique si des :ref:`hooks` non authentifiés doivent être utilisés pour ce "
+"dépôt."
 
 #: admin/projects.rst:344
 msgid "Language aliases"
@@ -18199,11 +18414,18 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
+"Un composant est un regroupement d’éléments à traduire. Vous saisissez "
+"l’emplacement d’un dépôt du système de contrôle des versions ainsi que le "
+"masque des fichiers que vous souhaitez traduire ; Weblate récupère "
+"automatiquement les données depuis ce système de contrôle des versions et "
+"trouve tous les fichiers traduisibles correspondants."
 
 #: admin/projects.rst:469
 msgid ""
 "You can find some examples of typical configurations in the :ref:`formats`."
 msgstr ""
+"Vous trouverez quelques exemples de configurations typiques dans "
+":ref:`formats`."
 
 #: admin/projects.rst:473
 msgid ""
@@ -18218,6 +18440,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"Weblate gère facilement des dizaines de milliers de chaînes, mais il est "
+"plus difficile de répartir le travail et de coordonner les traducteurs avec "
+"des composants de traduction aussi volumineux."
 
 #: admin/projects.rst:480
 msgid ""
@@ -18226,12 +18451,18 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
+"Si la définition de langue d’une traduction est manquante, une définition "
+"vide nommée \"cs_CZ (generated)\" est créée. Vous devriez ajuster cette "
+"définition et le signaler aux auteurs de Weblate, afin que les langues "
+"manquantes puissent être incluses dans la prochaine version."
 
 #: admin/projects.rst:485
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
+"Le composant contient tous les paramètres importants pour travailler avec le "
+"système de contrôle des versions et en extraire les traductions :"
 
 #: admin/projects.rst:491 admin/projects.rst:1400
 msgid "Component name"
@@ -18239,7 +18470,7 @@ msgstr "Nom du composant"
 
 #: admin/projects.rst:493
 msgid "Verbose component name, used to display the component name."
-msgstr ""
+msgstr "Nom détaillé du composant, utilisé pour afficher le nom du composant."
 
 #: admin/projects.rst:498 admin/projects.rst:1402
 #: snippets/addons-autogenerated.rst:517 snippets/addons-autogenerated.rst:531
@@ -18248,7 +18479,7 @@ msgstr "Identifiant du composant"
 
 #: admin/projects.rst:500
 msgid "Component name suitable for URLs."
-msgstr ""
+msgstr "Nom du composant adapté aux URL."
 
 #: admin/projects.rst:505
 msgid "Component project"
@@ -18256,7 +18487,7 @@ msgstr "Projet du composant"
 
 #: admin/projects.rst:507
 msgid ":ref:`project` where the component belongs."
-msgstr ""
+msgstr ":ref:`project` auquel appartient le composant."
 
 #: admin/projects.rst:512
 msgid "Version control system"
@@ -18265,6 +18496,8 @@ msgstr "Système de contrôle de version"
 #: admin/projects.rst:514
 msgid "VCS to use, see :ref:`vcs` for details."
 msgstr ""
+"Système de contrôle des versions à utiliser, voir :ref:`vcs` pour plus de "
+"détails."
 
 #: admin/projects.rst:523 devel/gettext.rst:231
 msgid "Source code repository"
@@ -18273,10 +18506,13 @@ msgstr "Dépôt du code source"
 #: admin/projects.rst:525
 msgid "VCS repository used to pull changes."
 msgstr ""
+"Dépôt du système de contrôle des versions utilisé pour récupérer les "
+"modifications."
 
 #: admin/projects.rst:529
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
 msgstr ""
+"Voir :ref:`vcs-repos` pour plus de détails sur la spécification des URL."
 
 #: admin/projects.rst:533
 msgid ""
@@ -18284,6 +18520,9 @@ msgid ""
 "indicating that the repository should be shared with another component. "
 "See :ref:`internal-urls` for more details."
 msgstr ""
+"Il peut s’agir d’une véritable URL du système de contrôle des versions ou de "
+"``weblate://project/component``, indiquant que le dépôt doit être partagé "
+"avec un autre composant. Voir :ref:`internal-urls` pour plus de détails."
 
 #: admin/projects.rst:540
 msgid "Repository push URL"
@@ -18319,12 +18558,17 @@ msgid ""
 "messages). When empty, no such links will be generated. You can "
 "use :ref:`markup`."
 msgstr ""
+"URL du navigateur de dépôt utilisé pour afficher les fichiers sources "
+"(emplacement des messages utilisés). Lorsqu’elle est vide, aucun lien de ce "
+"type ne sera généré. Vous pouvez utiliser :ref:`markup`."
 
 #: admin/projects.rst:562
 msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
+"Par exemple, sur GitHub, utilisez quelque chose comme : ``https://github.com/"
+"WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 
 #: admin/projects.rst:565
 msgid ""
@@ -19194,6 +19438,8 @@ msgid ""
 "For monolingual translations, you can use intermediate translation in this "
 "case, see :ref:`component-intermediate`."
 msgstr ""
+"Pour les traductions monolingues, vous pouvez utiliser une traduction "
+"intermédiaire dans ce cas, voir :ref:`component-intermediate`."
 
 #: admin/projects.rst:1161 snippets/addons-autogenerated.rst:250
 msgid "Language filter"
@@ -54948,7 +55194,7 @@ msgstr "Mode Zen"
 #: snippets/addon-parameters-autogenerated.rst:57
 #: snippets/machines-autogenerated.rst:1036
 msgid "SAP Translation Hub"
-msgstr ""
+msgstr "SAP Translation Hub"
 
 #: snippets/addon-parameters-autogenerated.rst:59
 #: snippets/machines-autogenerated.rst:1092
@@ -64309,11 +64555,15 @@ msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Une plateforme de traduction automatique de logiciels libres fournissant des "
+"traductions dans un nombre limité de langues."
 
 #: snippets/machines-autogenerated.rst:139
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"La méthode recommandée pour utiliser Apertium consiste à exécuter votre "
+"propre serveur Apertium-APy."
 
 #: snippets/machines-autogenerated.rst:143
 #, fuzzy
@@ -64440,13 +64690,15 @@ msgstr "Secret client"
 
 #: snippets/machines-autogenerated.rst:290
 msgid "Machine translation service provided by Baidu."
-msgstr ""
+msgstr "Service de traduction automatique fourni par Baidu."
 
 #: snippets/machines-autogenerated.rst:292
 msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
 msgstr ""
+"Ce service utilise une API et vous devez obtenir un identifiant et une clé "
+"API auprès de Baidu pour l’utiliser."
 
 #: snippets/machines-autogenerated.rst:296
 msgid "`Baidu Translate API <https://fanyi-api.baidu.com/product/11>`_"
@@ -64563,6 +64815,8 @@ msgstr ""
 msgid ""
 "Free dictionary and translation memory for almost every living language."
 msgstr ""
+"Dictionnaire gratuit et mémoire de traduction pour presque toutes les "
+"langues vivantes."
 
 #: snippets/machines-autogenerated.rst:422
 msgid ""
@@ -64573,7 +64827,7 @@ msgstr ""
 
 #: snippets/machines-autogenerated.rst:428
 msgid "`Glosbe website <https://glosbe.com/>`_"
-msgstr ""
+msgstr "`Site Web Glosbe <https://glosbe.com/>`_"
 
 #: snippets/machines-autogenerated.rst:456
 #: snippets/machines-autogenerated.rst:498
@@ -64824,7 +65078,7 @@ msgstr "Service de traduction automatique fourni par NetEase."
 
 #: snippets/machines-autogenerated.rst:684
 msgid "Weblate implements Translator API V3."
-msgstr ""
+msgstr "Weblate implémente Translator API V3."
 
 #: snippets/machines-autogenerated.rst:686
 msgid ""
@@ -64835,15 +65089,17 @@ msgstr ""
 
 #: snippets/machines-autogenerated.rst:689
 msgid "Translator Text API V2"
-msgstr ""
+msgstr "Translator Text API V2"
 
 #: snippets/machines-autogenerated.rst:690
 msgid "The key you use with Translator API V2 can be used with API 3."
 msgstr ""
+"La clé que vous utilisez avec Translator API V2 peut être utilisée avec "
+"l’API 3."
 
 #: snippets/machines-autogenerated.rst:693
 msgid "Translator Text API V3"
-msgstr ""
+msgstr "Translator Text API V3"
 
 #: snippets/machines-autogenerated.rst:694
 msgid ""
@@ -64949,7 +65205,7 @@ msgstr "Courriel de contact"
 
 #: snippets/machines-autogenerated.rst:836
 msgid "Huge translation memory with machine translation."
-msgstr ""
+msgstr "Vaste mémoire de traduction dotée d'une traduction automatique."
 
 #: snippets/machines-autogenerated.rst:838
 msgid ""
@@ -64970,6 +65226,8 @@ msgstr "Service de traduction automatique fourni par NetEase."
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
 msgstr ""
+"Ce service utilise une API, et vous devez obtenir une clé et un secret "
+"auprès de NetEase."
 
 #: snippets/machines-autogenerated.rst:881
 msgid "`NetEase Sight Translation Platform <https://sight.youdao.com/>`_"
@@ -65246,6 +65504,8 @@ msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex."
 msgstr ""
+"Ce service utilise une API de traduction, et vous devez obtenir une clé API "
+"auprès de Yandex."
 
 #: snippets/machines-autogenerated.rst:1224
 msgid "`Yandex Translate API <https://yandex.com/dev/translate/>`_"
@@ -65265,13 +65525,15 @@ msgstr ""
 
 #: snippets/machines-autogenerated.rst:1289
 msgid "Machine translation service provided by Youdao."
-msgstr ""
+msgstr "Service de traduction automatique fourni par Youdao."
 
 #: snippets/machines-autogenerated.rst:1291
 msgid ""
 "This service uses an API, and you need to obtain an ID and an API key from "
 "Youdao."
 msgstr ""
+"Ce service utilise une API, et vous devez obtenir un identifiant et une clé "
+"API auprès de Youdao."
 
 #: snippets/machines-autogenerated.rst:1295
 msgid ""
