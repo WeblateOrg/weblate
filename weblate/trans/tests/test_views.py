@@ -1128,6 +1128,17 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "Test/Test")
         self.assertNotContains(response, "Spanish")
 
+    def test_anonymous_view_component_hides_empty_password_credentials(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="https://page-secret:@git.example/owner/repo"
+        )
+        self.client.logout()
+
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertContains(response, "https://git.example/owner/repo")
+        self.assertNotContains(response, "page-secret")
+
     def test_view_component_upload_placeholder(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
 

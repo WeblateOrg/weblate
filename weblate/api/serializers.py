@@ -34,6 +34,7 @@ from rest_framework.reverse import reverse
 
 from weblate.accounts.models import LISTING_COLUMN_CHOICES, Profile, Subscription
 from weblate.accounts.utils import get_all_user_mails
+from weblate.addons.base import is_public_addon_change_details
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Permission, Role, User
@@ -1684,6 +1685,12 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "instructions",
             "enable_hooks",
             "language_aliases",
+            "access_control",
+            "use_shared_tm",
+            "contribute_shared_tm",
+            "use_workspace_tm",
+            "contribute_workspace_tm",
+            "autoclean_tm",
             "license",
             "inherit_license",
             "effective_license",
@@ -1773,6 +1780,91 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             validated_data[inherit_field] = has_workspace and field not in initial_data
         return super().create(validated_data)
 
+    def get_billing_forced_access_control(
+        self, workspace: Workspace | None
+    ) -> int | None:
+        if workspace is None or "weblate.billing" not in settings.INSTALLED_APPS:
+            return None
+        billing = getattr(workspace, "billing", None)
+        if billing is None:
+            return None
+        if billing.plan.change_access_control:
+            return Project.ACCESS_PRIVATE
+        return Project.ACCESS_PUBLIC
+
+    def validate_access_control_change(
+        self,
+        *,
+        access_control: int,
+        user: User | None,
+        license_value: str | None,
+        inherit_license: bool | None,
+        workspace: Workspace | None,
+    ) -> None:
+        instance = self.instance
+        if instance is not None and access_control == instance.access_control:
+            return
+
+        if settings.OFFER_HOSTING and access_control == Project.ACCESS_CUSTOM:
+            raise serializers.ValidationError(
+                {"access_control": "Custom access control is not available."}
+            )
+
+        if instance is not None:
+            if user is None or not user.has_perm(
+                "billing:project.permissions", instance
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "access_control": (
+                            "You do not have permission to change project "
+                            "access control."
+                        )
+                    }
+                )
+            unlicensed = instance.get_unlicensed_components_for_access(
+                access_control,
+                license_value=license_value,
+                inherit_license=inherit_license,
+                workspace=workspace,
+            )
+            if unlicensed:
+                names = ", ".join(component.name for component in unlicensed)
+                raise serializers.ValidationError(
+                    {
+                        "access_control": (
+                            "You must specify a license for these components "
+                            "to make them publicly accessible: "
+                            f"{names}"
+                        )
+                    }
+                )
+            return
+
+        forced = self.get_billing_forced_access_control(workspace)
+        if forced is not None:
+            if access_control != forced:
+                raise serializers.ValidationError(
+                    {
+                        "access_control": (
+                            "Access control is determined by the billing plan "
+                            "when creating a project."
+                        )
+                    }
+                )
+            return
+
+        if access_control != settings.DEFAULT_ACCESS_CONTROL and (
+            user is None or not user.is_superuser
+        ):
+            raise serializers.ValidationError(
+                {
+                    "access_control": (
+                        "You do not have permission to change project access control."
+                    )
+                }
+            )
+
     def validate(self, attrs):
         if self.instance is not None and "workspace" in attrs:
             workspace = attrs["workspace"]
@@ -1787,6 +1879,35 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                     raise PermissionDenied(error)
                 if error := get_project_move_billing_error(workspace):
                     raise serializers.ValidationError({"workspace": error})
+
+        Project.apply_hosted_tm_contribution(attrs, defaults=self.instance)
+
+        access_control_provided = "access_control" in (
+            attrs if self.instance is not None else getattr(self, "initial_data", {})
+        )
+        if access_control_provided:
+            request = self.context.get("request")
+            user = request.user if request is not None else None
+            if self.instance is not None:
+                access_control = attrs["access_control"]
+                workspace = attrs.get("workspace", self.instance.workspace)
+                license_value = attrs.get("license", self.instance.license)
+                inherit_license = attrs.get(
+                    "inherit_license", self.instance.inherit_license
+                )
+            else:
+                access_control = attrs["access_control"]
+                workspace = attrs.get("workspace")
+                license_value = attrs.get("license")
+                inherit_license = attrs.get("inherit_license")
+            self.validate_access_control_change(
+                access_control=access_control,
+                user=user,
+                license_value=license_value,
+                inherit_license=inherit_license,
+                workspace=workspace,
+            )
+
         # Call model validation here, DRF does not do that
         if self.instance:
             instance = copy(self.instance)
@@ -2069,6 +2190,8 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "inherit_pull_message",
             "effective_pull_message",
             "allow_translation_propagation",
+            "hide_glossary_matches",
+            "contribute_project_tm",
             "manage_units",
             "enable_suggestions",
             "suggestion_voting",
@@ -3892,6 +4015,10 @@ class ChangeSerializer(RemovableSerializer[Change]):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        if instance.action in Change.ACTIONS_ADDON:
+            if not is_public_addon_change_details(instance.details):
+                data["details"] = {}
+            return data
         if self.can_view_alert_details():
             return data
         details = data.get("details")

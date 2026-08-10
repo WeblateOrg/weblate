@@ -53,7 +53,7 @@ from weblate.auth.models import (
 from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
 from weblate.memory.models import Memory, MemoryDict, MemoryScope
-from weblate.memory.utils import CATEGORY_PRIVATE_OFFSET
+from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
 from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
@@ -600,11 +600,19 @@ class ProjectBackup:
             .prefetch_scopes()
             .order_by("id")
         )
-        category = CATEGORY_PRIVATE_OFFSET + project.pk
-        return [
-            item.as_dict(category=category)
-            for item in memory.iterator(self.IMPORT_BATCH_SIZE)
-        ]
+        automatic_category = CATEGORY_PRIVATE_OFFSET + project.pk
+        result: list[MemoryDict] = []
+        for item in memory.iterator(self.IMPORT_BATCH_SIZE):
+            project_scope_types = {
+                scope.scope
+                for scope in item.get_scope_list()
+                if scope.project_id == project.pk
+            }
+            if MemoryScope.SCOPE_PROJECT in project_scope_types:
+                result.append(item.as_dict(category=automatic_category))
+            if MemoryScope.SCOPE_PROJECT_FILE in project_scope_types:
+                result.append(item.as_dict(category=CATEGORY_FILE))
+        return result
 
     def backup_categories(
         self, obj: Project | Category
@@ -757,7 +765,7 @@ class ProjectBackup:
                                                 "required"
                                             ],
                                         )
-                                        for vote in obj.votes.through.objects.filter(
+                                        for vote in Vote.objects.filter(
                                             suggestion=obj
                                         ).select_related("user")
                                     ],
@@ -1987,34 +1995,68 @@ class ProjectBackup:
 
     def restore_memory(self, zipfile: ZipFile, project: Project) -> None:
         memory = self.load_memory(zipfile)
-        memory_batch = []
-        for entry in memory:
-            restored = Memory(
-                origin=entry["origin"],
-                source=entry["source"],
-                context=entry.get("context", ""),
-                target=entry["target"],
-                source_language=self.import_language(entry["source_language"]),
-                target_language=self.import_language(entry["target_language"]),
-                status=entry.get("status", Memory.STATUS_ACTIVE),
-            )
-            restored.pending_scopes = [
-                MemoryScope(scope=MemoryScope.SCOPE_PROJECT, project=project)
-            ]
-            memory_batch.append(restored)
-            if len(memory_batch) >= self.IMPORT_BATCH_SIZE:
-                with transaction.atomic():
-                    Memory.objects.bulk_create(
-                        memory_batch, batch_size=self.IMPORT_BATCH_SIZE
-                    )
-                    MemoryScope.objects.bulk_create_for_memories(memory_batch)
-                memory_batch.clear()
-        if memory_batch:
+        memory_batch: list[Memory] = []
+        previous_identity: tuple[Any, ...] | None = None
+        restored: Memory | None = None
+
+        def flush_memory_batch() -> None:
             with transaction.atomic():
                 Memory.objects.bulk_create(
                     memory_batch, batch_size=self.IMPORT_BATCH_SIZE
                 )
                 MemoryScope.objects.bulk_create_for_memories(memory_batch)
+            memory_batch.clear()
+
+        # A memory row's project and project-file records are emitted next to
+        # each other by backup_memory(), while older backups contain at most one
+        # project scope per row. Keep the current row outside the write batch so
+        # both records merge even when they cross a batch boundary.
+        for entry in memory:
+            source_language = self.import_language(entry["source_language"])
+            target_language = self.import_language(entry["target_language"])
+            identity = (
+                source_language.pk,
+                target_language.pk,
+                entry["origin"],
+                entry["source"],
+                entry.get("context", ""),
+                entry["target"],
+                entry.get("status", Memory.STATUS_ACTIVE),
+            )
+            if restored is None or identity != previous_identity:
+                if restored is not None:
+                    memory_batch.append(restored)
+                    if len(memory_batch) >= self.IMPORT_BATCH_SIZE:
+                        flush_memory_batch()
+                restored = Memory(
+                    origin=entry["origin"],
+                    source=entry["source"],
+                    context=entry.get("context", ""),
+                    target=entry["target"],
+                    source_language=source_language,
+                    target_language=target_language,
+                    status=entry.get("status", Memory.STATUS_ACTIVE),
+                )
+                restored.pending_scopes = []
+                previous_identity = identity
+            pending_scopes = cast("list[MemoryScope]", restored.pending_scopes)
+            scope_type = (
+                MemoryScope.SCOPE_PROJECT_FILE
+                if entry.get("category") == CATEGORY_FILE
+                else MemoryScope.SCOPE_PROJECT
+            )
+            if not any(scope.scope == scope_type for scope in pending_scopes):
+                pending_scopes.append(
+                    MemoryScope(
+                        scope=scope_type,
+                        project=project,
+                    )
+                )
+
+        if restored is not None:
+            memory_batch.append(restored)
+        if memory_batch:
+            flush_memory_batch()
 
         memory.clear()
 
@@ -2371,6 +2413,18 @@ class ProjectBackup:
             actor=user,
             changes=restore_changes,
             progress_callback=progress_callback,
+        )
+
+        # Components have to exist before restored memory can be attributed.
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.tasks import attribute_memory_scope_queryset
+
+        attribute_memory_scope_queryset(
+            MemoryScope.objects.using("default").filter(
+                scope=MemoryScope.SCOPE_PROJECT,
+                project=project,
+                source_component__isnull=True,
+            )
         )
 
         if "teams" in self.data:

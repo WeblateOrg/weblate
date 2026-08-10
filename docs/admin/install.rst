@@ -1685,7 +1685,9 @@ Monitoring Weblate
 Weblate provides the ``/healthz/`` URL to be used in simple health checks, for example
 using Kubernetes. The Docker container has built-in health check using this URL.
 
-For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API endpoint.
+For monitoring metrics of Weblate you can use the :http:get:`/api/metrics/` API
+endpoint. Monitoring tools running locally can retrieve the same metrics using
+the :wladmin:`metrics` command.
 
 .. seealso::
 

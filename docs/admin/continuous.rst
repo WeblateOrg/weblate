@@ -86,7 +86,8 @@ source.
 
 * Use :ref:`hooks` to integrate with the majority of common code-hosting services, see
   :doc:`/admin/code-hosting`. You must also :ref:`project-enable_hooks` for
-  this to work.
+  this to work. Hook deliveries update components whose repository URL matches
+  the payload; see :ref:`hooks-target-matching`.
 
 * Manually trigger update either in the repository management or using :ref:`api` or :ref:`wlc`
 
@@ -96,6 +97,20 @@ source.
 
 Whenever Weblate updates the repository, the post-update addons will be
 triggered, see :ref:`addons`.
+
+.. _hooks-target-matching:
+
+Matching webhook targets
+++++++++++++++++++++++++
+
+Forge webhooks update components whose :ref:`component-repo` exactly matches a
+repository URL from the payload (HTTPS or SSH as reported by the forge, plus
+common variants such as a trailing slash).
+
+.. versionchanged:: 2026.9
+
+   Host and path suffix fallback matching was removed. If updates stop, align
+   :ref:`component-repo` with a URL from the forge webhook payload.
 
 .. _avoid-merge-conflicts:
 

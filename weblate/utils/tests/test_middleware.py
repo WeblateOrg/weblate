@@ -107,6 +107,21 @@ class CSPBuilderTest(TestCase):
         self.assertIn("sentry.io", builder.directives["connect-src"])
         self.assertNotIn("'unsafe-inline'", builder.directives["script-src"])
 
+    @override_settings(
+        SENTRY_DSN="https://public@o123.ingest.de.sentry.io/456",
+    )
+    def test_sentry_de_error_allows_redirected_script(self) -> None:
+        request = self.factory.get("/")
+        request.resolver_match = None
+
+        builder = CSPBuilder(request, HttpResponse(status=500))
+
+        for directive in ("script-src", "connect-src"):
+            self.assertIn("o123.ingest.de.sentry.io", builder.directives[directive])
+            self.assertIn("de.sentry.io", builder.directives[directive])
+            self.assertIn("sentry.io", builder.directives[directive])
+        self.assertNotIn("'unsafe-inline'", builder.directives["script-src"])
+
     @override_settings(STATIC_URL="https://cdn.example.test/static/")
     def test_external_static_url_added_to_worker_src(self) -> None:
         request = self.factory.get("/")

@@ -211,6 +211,116 @@ class StoredReportsTest(BaseReportsTest):
             content.index('id="report-content"'),
         )
 
+    def test_render_all_stored_report_formats(self) -> None:
+        report_cases = {
+            Report.Kind.CREDITS: (
+                [
+                    {
+                        "Czech": [
+                            {
+                                "email": "credits@example.com",
+                                "full_name": "Credits marker",
+                                "username": "credits",
+                                "change_count": 1,
+                                "date_joined": self.user.date_joined.isoformat(),
+                            }
+                        ]
+                    }
+                ],
+                "Credits marker",
+            ),
+            Report.Kind.CONTRIBUTOR_STATS: (
+                [{**self.counts_data[0], "name": "Contributor stats marker"}],
+                "Contributor stats marker",
+            ),
+            Report.Kind.COST_ESTIMATE: (
+                {
+                    "threshold": 80,
+                    "base_rate": "0.1",
+                    "buckets": [
+                        {
+                            "slug": "new",
+                            "name": "Cost estimate marker",
+                            "count": 1,
+                            "words": 2,
+                            "chars": 14,
+                            "rate": "100",
+                            "cost": "0.2",
+                        }
+                    ],
+                    "total": {
+                        "count": 1,
+                        "words": 2,
+                        "chars": 14,
+                        "cost": "0.2",
+                    },
+                },
+                "Cost estimate marker",
+            ),
+            Report.Kind.TRANSLATOR_WORK: (
+                {
+                    "period": {
+                        "start": "2026-01-01T00:00:00+00:00",
+                        "end": "2026-02-01T00:00:00+00:00",
+                    },
+                    "filters": {},
+                    "user_days": {"included": 3, "excluded": 1},
+                    "metrics": {
+                        "strings": {
+                            "median": 4.0,
+                            "average": 5.5,
+                            "p75": 7.0,
+                            "p90": 9.0,
+                        },
+                        "words": {
+                            "median": 40.0,
+                            "average": 55.5,
+                            "p75": 70.0,
+                            "p90": 90.0,
+                        },
+                    },
+                },
+                "Translated strings per day",
+            ),
+        }
+        self.assertEqual(set(report_cases), set(Report.Kind))
+        self.client.force_login(self.user)
+
+        for kind, (data, marker) in report_cases.items():
+            report = Report.objects.create(
+                creator=self.user,
+                kind=kind,
+                parameters={"own_data": False},
+                data=data,
+                component=self.component,
+            )
+            responses = {}
+            for style, content_type in (
+                ("json", "application/json"),
+                ("html", "text/html; charset=utf-8"),
+                ("rst", "text/plain; charset=utf-8"),
+            ):
+                with self.subTest(kind=kind, style=style):
+                    response = self.client.get(
+                        reverse(f"api:report-{style}", args=[report.pk])
+                    )
+                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(response.headers["Content-Type"], content_type)
+                    self.assertIn(
+                        "attachment;", response.headers["Content-Disposition"]
+                    )
+                    if style == "json":
+                        self.assertEqual(response.json(), data)
+                    else:
+                        self.assertContains(response, marker)
+                    responses[style] = response
+
+            with self.subTest(kind=kind, style="web"):
+                web = self.client.get(reverse("report", args=[report.pk]))
+                self.assertEqual(web.status_code, 200)
+                self.assertContains(web, marker)
+                self.assertContains(web, responses["html"].content.decode(), html=True)
+
     def test_web_generation_redirects_to_stored_report(self) -> None:
         self.client.force_login(self.user)
         self.add_change()
@@ -235,6 +345,7 @@ class StoredReportsTest(BaseReportsTest):
         self.assertNotContains(response, "Past reports")
 
     def test_translator_work_report(self) -> None:
+        self.add_change()
         now = timezone.now()
         generate_report(
             kind=Report.Kind.TRANSLATOR_WORK,
@@ -258,6 +369,16 @@ class StoredReportsTest(BaseReportsTest):
             report.data["filters"]["actions"],
             ["change", "new", "accept"],
         )
+
+        self.client.force_login(self.user)
+        html = self.client.get(reverse("api:report-html", args=[report.pk]))
+        self.assertEqual(html.status_code, 200)
+        self.assertContains(html, "Translated strings per day")
+        self.assertContains(html, "<td>1</td>")
+
+        web = self.client.get(reverse("report", args=[report.pk]))
+        self.assertEqual(web.status_code, 200)
+        self.assertContains(web, html.content.decode(), html=True)
 
     def test_translator_work_excludes_inaccessible_components(self) -> None:
         self.add_change()

@@ -91,7 +91,7 @@ jobs:
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.12.1
+        version: 0.12.3
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies
@@ -125,7 +125,7 @@ jobs:
     - name: Test with Django
       run: |
         source .venv/bin/activate
-        uv run --all-extras pytest --junitxml=junit.xml --cov=weblate --numprocesses=auto weblate
+        uv run --all-extras pytest --junitxml=junit.xml --cov=weblate --numprocesses=auto --maxprocesses=2 weblate
         cp .coverage .coverage.pytest
     - name: Test wsgi startup
       env:

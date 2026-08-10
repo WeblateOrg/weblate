@@ -809,6 +809,39 @@ class ImportCommandTest(RepoTestCase):
                 TEST_COMPONENTS,
             )
 
+    def test_import_update_ignores_source_language(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            filename = Path(tempdir) / "components.json"
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    TEST_COMPONENTS,
+                )
+
+            components = json.loads(Path(TEST_COMPONENTS).read_text(encoding="utf-8"))
+            components[0]["source_language"] = "ru"
+            components[0]["name"] = "Updated Gettext PO"
+            filename.write_text(json.dumps(components))
+
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    "--update",
+                    filename,
+                )
+
+        component = Component.objects.get(slug="po")
+        self.assertEqual(component.name, "Updated Gettext PO")
+        self.assertEqual(component.source_language.code, "en")
+
     def test_invalid_file(self) -> None:
         with (
             self.assertRaises(CommandError),
