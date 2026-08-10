@@ -24,7 +24,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-07 18:19+0000\n"
+"PO-Revision-Date: 2026-08-10 12:51+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -43521,43 +43521,60 @@ msgstr "Beim Ändern des Frontends:"
 #: contributing/frontend.rst:28
 msgid "Make all interactive controls reachable and usable with a keyboard."
 msgstr ""
+"Sicherstellen, dass alle interaktiven Steuerelemente über die Tastatur "
+"erreichbar und bedienbar sind."
 
 #: contributing/frontend.rst:29
 msgid "Keep focus order logical and preserve visible focus styling."
 msgstr ""
+"Die Fokusreihenfolge sollte logisch sein, und die Darstellung des sichtbaren "
+"Fokus sollte beibehalten werden."
 
 #: contributing/frontend.rst:30
 msgid ""
 "Prefer native buttons, links, inputs, selects, and tables over custom "
 "widgets."
 msgstr ""
+"Native Schaltflächen, Links, Eingabefelder, Auswahllisten und Tabellen "
+"anstatt benutzerdefinierter Widgets verwenden."
 
 #: contributing/frontend.rst:31
 msgid ""
 "Associate every form control with a label, help text, and validation errors "
 "where applicable."
 msgstr ""
+"Jedem Formularfeld sind ein Label, Hinweistext und gegebenenfalls "
+"Validierungsfehler zuzuordnen."
 
 #: contributing/frontend.rst:33
 msgid ""
 "Do not use color, icon shape, or position as the only way to convey state."
 msgstr ""
+"Farbe, Symbolform oder Position sollten nicht als einziges Mittel zum "
+"Darstellen eines Status verwendet werden."
 
 #: contributing/frontend.rst:34
 msgid ""
 "Announce dynamic status changes that are not otherwise visible to assistive "
 "technology."
 msgstr ""
+"Dynamische Statusänderungen, die für assistive Technologien ansonsten nicht "
+"sichtbar sind, melden."
 
 #: contributing/frontend.rst:36
 msgid "Respect reduced-motion preferences for animation or scrolling behavior."
 msgstr ""
+"Die Präferenzen für eine reduzierte Bewegungsintensität bei Animationen oder "
+"beim Bildlauf sind zu berücksichtigen."
 
 #: contributing/frontend.rst:37
 msgid ""
 "Test changed workflows with keyboard-only navigation and, when practical, a "
 "screen reader spot check."
 msgstr ""
+"Geänderte Arbeitsabläufe sollten mithilfe mit der Tastaturnavigation "
+"getestet und, sofern möglich, stichprobenartig mit einem Screenreader "
+"überprüft werden."
 
 #: contributing/frontend.rst:41
 msgid "User interface conventions"
@@ -43577,6 +43594,15 @@ msgid ""
 "documentation links when they are part of explanatory prose rather than a "
 "contextual action."
 msgstr ""
+"Verwenden Sie das Informationssymbol für kontextbezogene Links zur Weblate-"
+"Dokumentation anstelle einer textbasierten Schaltfläche mit der Bezeichnung "
+":guilabel:`Dokumentation`. Verwenden Sie in Django-Vorlagen das Template-Tag "
+"``documentation_icon``, damit der Link ein einheitliches Design, eine "
+"einheitliche Beschriftung und ein einheitliches Verhalten als externer Link "
+"aufweist. Dokumentationssymbole sind interaktive Links und müssen per "
+"Tastatur fokussierbar bleiben. Behalten Sie textbasierte Dokumentationslinks "
+"bei, wenn sie Teil eines erklärenden Textes sind und keine kontextbezogene "
+"Aktion darstellen."
 
 #: contributing/frontend.rst:55
 msgid "Dependency management"
@@ -44156,6 +44182,13 @@ msgid ""
 "and actual behavior, browser and operating system, assistive technology in "
 "use, and whether the problem occurs with keyboard-only navigation."
 msgstr ""
+"Bei Problemen mit der Barrierefreiheit sollte die Vorlage für "
+"Barrierefreiheitsprobleme verwendet werden. Ein aussagekräftiger Bericht "
+"enthält Angaben zur betroffenen Seite oder zum betroffenen Ablauf, Schritte "
+"zur Reproduktion des Problems, das erwartete und das tatsächliche Verhalten, "
+"den verwendeten Browser und das Betriebssystem, die verwendete assistive "
+"Technologie sowie die Angabe, ob das Problem bei der reinen "
+"Tastaturnavigation auftritt."
 
 #: contributing/issues.rst:25
 msgid ""
@@ -44163,28 +44196,39 @@ msgid ""
 "triage, use the impact on core workflows and available workarounds to choose "
 "priority:"
 msgstr ""
+"Betreuer kennzeichnen Berichte zur Barrierefreiheit mit ``accessibility``. "
+"Beim Einstufen sollten Sie die Auswirkungen auf zentrale Arbeitsabläufe und "
+"verfügbare Workarounds heranziehen, um die Priorität festzulegen:"
 
 #: contributing/issues.rst:28
 msgid "Blocker: a core workflow cannot be completed."
-msgstr ""
+msgstr "Hindernis: Ein zentraler Arbeitsablauf kann nicht abgeschlossen werden."
 
 #: contributing/issues.rst:29
 msgid "High: a core workflow is difficult, but a workaround exists."
 msgstr ""
+"Hoch: Ein zentraler Arbeitsablauf gestaltet sich schwierig, aber es gibt "
+"einen Workaround."
 
 #: contributing/issues.rst:30
 msgid "Medium: a non-core workflow is difficult or inconsistent."
 msgstr ""
+"Mittel: Ein nicht-zentraler Arbeitsablauf gestaltet sich schwierig oder ist "
+"inkonsistent."
 
 #: contributing/issues.rst:31
 msgid "Low: a minor issue or polish problem that does not block the workflow."
 msgstr ""
+"Niedrig: Ein geringfügiges Problem oder ein Detail, das den Arbeitsablauf "
+"nicht behindert."
 
 #: contributing/issues.rst:33
 msgid ""
 "See :file:`ACCESSIBILITY.md` for Weblate's accessibility target and "
 "reporting guidance."
 msgstr ""
+"Siehe :file:`ACCESSIBILITY.md` für Weblates Barrierefreiheitsziele und "
+"Berichterstattungsleitlinien."
 
 #: contributing/issues.rst:39
 msgid "Using AI to create issues"
@@ -44408,6 +44452,8 @@ msgid ""
 "Weblate's release and support lifecycle is documented in :ref:`release-"
 "cycle`."
 msgstr ""
+"Der Release- und Support-Lebenszyklus von Weblate ist unter :ref:`release-"
+"cycle` dokumentiert."
 
 #: contributing/release.rst:16
 msgid "Release planning"
@@ -44457,8 +44503,8 @@ msgid ""
 "Merge any possibly pending translations :command:`wlc push; git remote "
 "update; git merge origin/weblate`"
 msgstr ""
-"Merge aller möglicherweise ausstehenden Übersetzungen :command:`wlc push; "
-"git remote update; git merge origin/weblate`"
+"Zusammenführen aller möglicherweise ausstehenden Übersetzungen :command:`wlc "
+"push; git remote update; git merge origin/weblate`"
 
 #: contributing/release.rst:31
 msgid ""
@@ -44467,6 +44513,10 @@ msgid ""
 "`, :file:`weblate.egg-info/`, and generated :file:`weblate/locale/**/*.mo` "
 "files."
 msgstr ""
+"Wenn Sie Distributionspakete lokal erstellen, beginnen Sie mit einem leeren "
+"Checkout oder entfernen Sie ignorierte Paketierungsartefakte wie "
+":file:`build/`, :file:`dist/`, :file:`weblate.egg-info/` sowie generierte "
+":file:`weblate/locale/**/*.mo`-Dateien."
 
 #: contributing/release.rst:35
 msgid "Perform the release:"
@@ -44552,12 +44602,21 @@ msgid ""
 "files should follow the existing copyright and :abbr:`SPDX (Software Package "
 "Data Exchange)` license header style."
 msgstr ""
+"Wenn Sie Projektcode beisteuern, erklären Sie sich damit einverstanden, Ihre "
+"Änderungen und Ihren neuen Code unter die Repository-Lizenz :abbr:`GPL-3.0-"
+"or-later (GNU General Public License v3.0 oder später)` zu stellen, sofern "
+"nicht anders angegeben und vereinbart. Neue Quelldateien sollten dem "
+"bestehenden Stil für Copyright- und :abbr:`SPDX (Software Package Data "
+"Exchange)`-Lizenz-Header entsprechen."
 
 #: contributing/snippets/code-guide.rst:11
 msgid ""
 "Use a different license only when there is a deliberate reason, such as "
 "files shared with repositories using more permissive licenses."
 msgstr ""
+"Verwenden Sie eine andere Lizenz nur dann, wenn dafür ein triftiger Grund "
+"vorliegt, beispielsweise bei Dateien, die mit Repositorys geteilt werden, "
+"die unter freizügigeren Lizenzen stehen."
 
 #: contributing/snippets/code-guide.rst:16
 msgid ":doc:`/contributing/license` explains licensing in more details."
@@ -44675,6 +44734,12 @@ msgid ""
 "difficult to annotate precisely. CI therefore enforces :program:`mypy` only "
 "for selected modules and reports other findings separately."
 msgstr ""
+"Neuer und geänderter Code sollte keine neuen :program:`mypy`-Fehler "
+"verursachen, sofern dies angesichts der aktuellen Typunterstützung von "
+"Django praktikabel ist. Der Quellcode ist noch nicht vollständig durch Typ-"
+"Annotationen abgedeckt, und einige Django-Konstrukte lassen sich nur schwer "
+"präzise annotieren. Daher wendet CI :program:`mypy` nur für ausgewählte "
+"Module an und meldet andere Befunde separat."
 
 #: contributing/snippets/code-guide.rst:84
 msgid "Coding standard and linting the code"
@@ -44705,6 +44770,14 @@ msgid ""
 "scope, affect import sorting, or get between another tool's ``disable-next`` "
 "comment and the code it targets."
 msgstr ""
+"Wenn Sie eine :program:`ruff`-Diagnose unterdrücken möchten, verwenden Sie "
+"vorzugsweise ``# ruff: ignore[Regelname]`` mit dem für Menschen lesbaren "
+"Regelnamen. Fügen Sie den Kommentar in die Zeile oberhalb der logischen "
+"Anweisung oder des Blocks ein, sofern dies den Geltungsbereich der "
+"Unterdrückung nicht erweitert. Behalten Sie den Inline-Kommentar bei, wenn "
+"eine Verschiebung den Geltungsbereich verändern, die Sortierung der Importe "
+"beeinflussen oder zwischen den ``disable-next``-Kommentar eines anderen "
+"Tools und den davon betroffenen Code geraten würde."
 
 #: contributing/snippets/code-guide.rst:99
 msgid ""
@@ -45009,6 +45082,10 @@ msgid ""
 "create a Python environment for you, but the uv-managed environment is "
 "preferred:"
 msgstr ""
+"Wählen Sie die von ``uv sync --all-extras --dev`` erstellte :file:`.venv`-"
+"Einsatzumgebung aus, um sie an diejenige für die Befehlszeile anzupassen. "
+"Sie können PyCharm auch eine Python-Umgebung für Sie erstellen lassen, "
+"allerdings wird die uv-verwaltete Einsatzumgebung bevorzugt:"
 
 #: contributing/start.rst:145
 msgid ""
@@ -45834,9 +45911,8 @@ msgid "Duplicate file mask used for linked components"
 msgstr "Doppelte Dateimaske für verlinkte Komponenten"
 
 #: devel/alerts.rst:26
-#, fuzzy
 msgid "Conflicting merge request repository setup"
-msgstr "Einrichtung eines Repositories mit widersprüchlichen Merge-Requests"
+msgstr "Konflikt bei der Repository-Einrichtung für Merge Requests"
 
 #: devel/alerts.rst:27
 msgid "Component seems unused (configurable by :setting:`UNUSED_ALERT_DAYS`)"
@@ -45872,10 +45948,12 @@ msgid ""
 "Alerts are listed on each respective component page "
 "as :guilabel:`Diagnostics`."
 msgstr ""
+"Warnmeldungen werden auf der jeweiligen Komponentenseite unter "
+":guilabel:`Diagnose` aufgeführt."
 
 #: devel/alerts.rst:43
 msgid "Project and workspace diagnostics overviews"
-msgstr ""
+msgstr "Übersichten zur Projekt- und Arbeitsbereichsdiagnose"
 
 #: devel/alerts.rst:45
 msgid ""
@@ -45965,9 +46043,8 @@ msgstr ""
 "Eine Komponente mit doppelten Zeichenketten und Sprachen sieht wie folgt aus:"
 
 #: devel/alerts.rst:97
-#, fuzzy
 msgid "Conflicting repository setup"
-msgstr "Einrichtung eines widersprüchlichen Repositories"
+msgstr "Konflikt bei der Repository-Einrichtung"
 
 #: devel/alerts.rst:99
 #, fuzzy
