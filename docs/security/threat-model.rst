@@ -195,11 +195,13 @@ repository state, background tasks, outbound requests, and rendered UI.
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
-       where hooks are enabled. Registered GitHub App webhooks additionally
-       authenticate with a per-app URL token and GitHub signature verification.
-       Opt-in legacy GitHub App deliveries to the generic GitHub webhook URL
-       authenticate with a separately configured secret. *(documented)*
-       (source: :ref:`hooks`, :ref:`project-enable_hooks`,
+       where hooks are enabled, matching components by exact repository URL
+       rather than host or path suffix fallback. Registered GitHub App
+       webhooks additionally authenticate with a per-app URL token and GitHub
+       signature verification. Opt-in legacy GitHub App deliveries to the
+       generic GitHub webhook URL authenticate with a separately configured
+       secret. *(documented)* (source: :ref:`hooks`,
+       :ref:`project-enable_hooks`, :ref:`hooks-target-matching`,
        :ref:`code-hosting-github-app-webhook`,
        :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)
    * - Weblate to database/datastore
@@ -674,6 +676,15 @@ Security properties Weblate provides
      - Rate limiting is enabled and backed by a working datastore.
      - Requests exceeding configured thresholds continue to be processed.
      - Availability/security hardening depending on endpoint sensitivity.
+   * - Enabled webhooks schedule repository updates only for components whose
+       repository URL exactly matches a repository URL from the payload,
+       including documented URL variants. *(documented)* (source:
+       :ref:`hooks-target-matching`)
+     - Hooks are enabled and the delivery reaches an in-scope hook endpoint.
+     - A delivery updates a component whose repository URL does not exactly
+       match the payload, including through host or path suffix fallback.
+     - Security-critical when it causes unauthorized repository synchronization
+       across unrelated components; otherwise correctness or hardening.
    * - Weblate does not intentionally expose database, datastore, backup
        storage, or raw internal storage directly through the public web
        interface; exported VCS repositories are intentionally exposed by
@@ -814,6 +825,10 @@ Known non-findings
   and only triggers modeled update scheduling is not ``VALID`` by itself. It is
   routed to ``VALID-HARDENING`` unless it bypasses documented limits, leaks
   data, or causes effects beyond modeled scheduling. *(maintainer)*
+* A report that a webhook does not update a component whose repository URL only
+  shares a host or path suffix with the payload is not a vulnerability;
+  Weblate matches only exact repository URLs and documented variants.
+  *(documented)* (source: :ref:`hooks-target-matching`)
 * A report that a project manager can change repository settings, VCS
   credentials, or project configuration is not a vulnerability when the actor
   has the documented permission for that action. *(documented)* (source: :doc:`/admin/access`)

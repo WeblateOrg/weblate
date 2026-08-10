@@ -825,13 +825,15 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_reopened_alert(self) -> None:
         self.component.project.add_user(self.user, "Administration")
         with self.captureOnCommitCallbacks(execute=True):
-            self.component.add_alert("InexactHookMatch", repo_url="first")
+            self.component.add_alert("BrokenBrowserURL", link="http://a", error="first")
         mail.outbox.clear()
-        alert = self.component.alert_set.get(name="InexactHookMatch")
+        alert = self.component.alert_set.get(name="BrokenBrowserURL")
         alert.dismiss(self.user, "Known issue")
 
         with self.captureOnCommitCallbacks(execute=True):
-            self.component.add_alert("InexactHookMatch", repo_url="different")
+            self.component.add_alert(
+                "BrokenBrowserURL", link="http://b", error="different"
+            )
 
         self.validate_notifications(1, "[Weblate] New alert on Test/Test")
         self.assertIn("Reopened alert", mail.outbox[0].body)
@@ -934,7 +936,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertTrue(self.user.has_perm("component.edit", self.component))
 
         with self.captureOnCommitCallbacks(execute=True):
-            self.component.add_alert("InexactHookMatch", repo_url="different")
+            self.component.add_alert(
+                "BrokenBrowserURL", link="http://example.com", error="broken"
+            )
 
         self.validate_notifications(1, "[Weblate] New alert on Test/Test")
 

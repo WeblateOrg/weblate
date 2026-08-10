@@ -14,6 +14,8 @@ Weblate 2026.9
 
 .. rubric:: Compatibility
 
+* Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
