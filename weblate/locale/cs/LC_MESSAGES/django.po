@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-07-31 10:54+0000\n"
+"PO-Revision-Date: 2026-08-11 14:56+0000\n"
 "Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: weblate/accounts/avatar.py:91
 msgctxt "No known user"
@@ -810,13 +810,15 @@ msgstr "Skrýt zdroj, pokud existuje sekundární překlad"
 
 #: weblate/accounts/models.py:801
 msgid "Show all columns in lists using horizontal scrolling"
-msgstr ""
+msgstr "Zobrazit všechny sloupce v seznamech s možností vodorovného posouvání"
 
 #: weblate/accounts/models.py:805
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr ""
+"Místo toho, abyste na úzkých obrazovkách skrývali sloupce, nechte všechny "
+"sloupce zobrazené a tabulkou se posouvejte vodorovně."
 
 #: weblate/accounts/models.py:813
 msgid "Editor link"
@@ -4503,12 +4505,16 @@ msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
+"Vzhledem k postupu překladu mohou texty v tomto jazyce přímo upravovat pouze "
+"oprávnění uživatelé. Místo toho přidejte návrh."
 
 #: weblate/auth/permissions.py:257
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"Vzhledem k postupu překladu mohou texty v tomto jazyce přímo upravovat pouze "
+"oprávnění uživatelé. O přístup požádejte správce projektu."
 
 #: weblate/auth/permissions.py:485
 msgid "Can not perform this operation without an e-mail address."
@@ -4646,6 +4652,8 @@ msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
 msgstr ""
+"Pro tento jazyk jsou návrhy vypnuté. Požádejte správce projektu, aby je "
+"zapnul."
 
 #: weblate/auth/permissions.py:1064
 msgid "The file format does not support updating source strings."
@@ -7215,22 +7223,18 @@ msgid "I agree with the General Terms and Conditions document"
 msgstr "Souhlasím se Všeobecnými smluvními podmínkami"
 
 #: weblate/legal/forms.py:22
-#, fuzzy
-#| msgid "I agree with the General Terms and Conditions document"
 msgid "I agree with the General Terms and Conditions and the Privacy Policy"
-msgstr "Souhlasím se Všeobecnými smluvními podmínkami"
+msgstr ""
+"Souhlasím s Všeobecnými obchodními podmínkami a Zásadami ochrany osobních "
+"údajů"
 
 #: weblate/legal/middleware.py:51
-#, fuzzy
-#| msgid ""
-#| "We have an updated version of the General Terms and Conditions document, "
-#| "please read it and confirm that you agree with it."
 msgid ""
 "We have updated our legal documents; please read them and confirm that you "
 "agree with them."
 msgstr ""
-"Aktualizovali jsme dokument Všeobecné smluvní podmínky. Přečtěte si jej "
-"prosím a potvrďte, že s ním souhlasíte."
+"Aktualizovali jsme naše právní dokumenty; přečtěte si je prosím a potvrďte, "
+"že s nimi souhlasíte."
 
 #: weblate/legal/templates/legal/confirm.html:7
 #: weblate/legal/templates/legal/contracts.html:7
@@ -7242,11 +7246,11 @@ msgid "Legal"
 msgstr "Právní"
 
 #: weblate/legal/templates/legal/confirm.html:18
-#, fuzzy
-#| msgid "You have to agree to the General Terms and Conditions"
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "Musíte souhlasit se Všeobecnými smluvními podmínkami"
+msgstr ""
+"Musíte souhlasit s Všeobecnými obchodními podmínkami a Zásadami ochrany "
+"osobních údajů"
 
 #: weblate/legal/templates/legal/confirm.html:20
 msgid "You have to agree to the General Terms and Conditions"
@@ -7280,7 +7284,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/confirm.html:44
 msgid "Please also read the Privacy Policy:"
-msgstr ""
+msgstr "Přečtěte si prosím také zásady ochrany osobních údajů:"
 
 #: weblate/legal/templates/legal/confirm.html:53
 #: weblate/templates/contributor-agreement.html:33
@@ -14864,10 +14868,8 @@ msgid "Translation process"
 msgstr "Proces překladu"
 
 #: weblate/templates/snippets/info.html:97
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Direct translation editing is restricted to privileged users."
-msgstr "Překlad byl obnoven na původní hodnotu."
+msgstr "Úpravy přímého překladu jsou vyhrazeny pouze oprávněným uživatelům."
 
 #: weblate/templates/snippets/info.html:99
 #: weblate/templates/snippets/info.html:116
@@ -15206,7 +15208,7 @@ msgstr "Repozitář"
 
 #: weblate/templates/snippets/list-objects.html:8
 msgid "Scrollable table"
-msgstr ""
+msgstr "Tabulka s posuvníkem"
 
 #: weblate/templates/snippets/list-objects.html:50
 msgid "Add project"
@@ -16067,12 +16069,19 @@ msgid ""
 "a repository maintainer to allow pull requests from all users or add "
 "<code>%(username)s</code> as a collaborator."
 msgstr ""
+"V repozitáři GitHub mohou vytvářet žádosti o začlenění pouze "
+"spolupracovníci. Požádejte správce repozitáře, aby povolil žádosti o "
+"začlenění od všech uživatelů, nebo přidejte <code>%(username)s</code> jako "
+"spolupracovníky."
 
 #: weblate/templates/trans/alert/common-repo.html:32
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
 msgstr ""
+"V repozitáři GitHub mohou vytvářet žádosti o začlenění pouze "
+"spolupracovníci. Požádejte správce repozitáře, aby povolil žádosti o "
+"začlenění od všech uživatelů."
 
 #: weblate/templates/trans/alert/common-repo.html:38
 msgid ""
@@ -17189,10 +17198,8 @@ msgid "Save and stay"
 msgstr "Uložit a zůstat"
 
 #: weblate/templates/translate.html:259 weblate/trans/views/edit.py:814
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to add suggestions."
-msgstr "Nemáte oprávnění pro přijímání návrhů."
+msgstr "Nemáte oprávnění přidávat návrhy."
 
 #: weblate/templates/translate.html:260
 msgid "Suggest"
@@ -19391,16 +19398,12 @@ msgid "File upload mode:"
 msgstr "Způsob nahrání souboru:"
 
 #: weblate/trans/change_display.py:169
-#, fuzzy
-#| msgid "Protected"
 msgid "redacted"
-msgstr "Omezený"
+msgstr "vypuštěno"
 
 #: weblate/trans/change_display.py:177
-#, fuzzy
-#| msgid "Changed string"
 msgid "Changed settings"
-msgstr "Změna řetězce"
+msgstr "Změněná nastavení"
 
 #: weblate/trans/change_display.py:199
 msgid "The “{}” file was changed."
@@ -21373,10 +21376,8 @@ msgid "Suggestion voting"
 msgstr "Hlasování o návrzích"
 
 #: weblate/trans/models/component.py:782 weblate/trans/models/workflow.py:46
-#, fuzzy
-#| msgid "Whether users can vote for suggestions."
 msgid "Allows users to vote on suggestions."
-msgstr "Zda mohou uživatelé hlasovat o návrzích."
+msgstr "Umožňuje uživatelům hlasovat o návrzích."
 
 #: weblate/trans/models/component.py:786 weblate/trans/models/workflow.py:50
 msgid "Automatically accept suggestions"
@@ -22472,13 +22473,15 @@ msgstr "Označit jako terminologii"
 
 #: weblate/trans/models/workflow.py:35
 msgid "Restrict direct editing"
-msgstr ""
+msgstr "Omezit přímé úpravy"
 
 #: weblate/trans/models/workflow.py:38
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+"Přímé změny mohou provádět pouze uživatelé s oprávněním „Upravit řetězec při "
+"vynucení návrhů“."
 
 #: weblate/trans/specialchars.py:14
 msgid "Insert tab character"
@@ -24187,57 +24190,49 @@ msgid "The ZIP file contains a compressed entry that is too large."
 msgstr "Soubor ZIP obsahuje příliš velký komprimovaný záznam."
 
 #: weblate/vcs/base.py:222
-#, fuzzy, python-format
-#| msgid "Details"
+#, python-format
 msgid "%(detail)s"
-msgstr "Podrobnosti"
+msgstr "%(detail)s"
 
 #: weblate/vcs/base.py:223
-#, fuzzy, python-format
-#| msgid "%(message)s Please retry later."
+#, python-format
 msgid "%(detail)s Please retry later."
-msgstr "%(message)s Zkuste to prosím později."
+msgstr "%(detail)s Zkuste to prosím později."
 
 #: weblate/vcs/base.py:225
-#, fuzzy, python-format
-#| msgid "%(service)s API request failed while %(action)s: %(status)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s"
 msgstr ""
-"Při provádění akce %(action)s došlo k selhání API požadavku %(service)s: "
-"%(status)s"
+"Při vytváření žádosti o stažení došlo k selhání API požadavku %(service)s: %"
+"(status)s"
 
 #: weblate/vcs/base.py:228
-#, fuzzy, python-format
-#| msgid "%(service)s API request failed while %(action)s: %(status)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Při provádění akce %(action)s došlo k selhání API požadavku %(service)s: "
-"%(status)s"
+"%(service)s Došlo k selhání API požadavku při vytváření žádosti o stažení: %"
+"(status)s Zkuste to prosím později."
 
 #: weblate/vcs/base.py:231
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Žádost o API %(service)s selhala při provádění akce %(action)s (%(status)s): "
-"%(error)s"
+"Při vytváření žádosti o stažení došlo k selhání API požadavku (%(service)s) "
+"(%(status)s): %(error)s"
 
 #: weblate/vcs/base.py:234
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Žádost o API %(service)s selhala při provádění akce %(action)s (%(status)s): "
-"%(error)s"
+"Při vytváření žádosti o stažení došlo k selhání API požadavku služby %"
+"(service)s (%(status)s): %(error)s Zkuste to prosím později."
 
 #: weblate/vcs/base.py:237
 msgid "GitHub App repositories must be imported with a branch."
@@ -24252,16 +24247,15 @@ msgid "No Weblate GitHub app installation available."
 msgstr "Aplikace Weblate pro GitHub není k dispozici ke stažení."
 
 #: weblate/vcs/base.py:246
-#, fuzzy, python-format
-#| msgid "No Weblate GitHub app installation available."
+#, python-format
 msgid "No Weblate GitHub app installation available for %(hostname)s"
-msgstr "Aplikace Weblate pro GitHub není k dispozici ke stažení."
+msgstr ""
+"Pro %(hostname)s není k dispozici žádná instalace aplikace Weblate pro GitHub"
 
 #: weblate/vcs/base.py:249
-#, fuzzy, python-format
-#| msgid "Could not obtain GitHub App access token: %s"
+#, python-format
 msgid "Could not obtain GitHub App access token: %(error)s"
-msgstr "Nepodařilo se získat přístupový token aplikace GitHub: %s"
+msgstr "Nepodařilo se získat přístupový token aplikace GitHub: %(error)s"
 
 #: weblate/vcs/base.py:252 weblate/vcs/github.py:998
 msgid "GitHub App components require a project with a workspace."
@@ -24273,46 +24267,46 @@ msgid "Could not get GitLab project (%(status)s): %(error)s"
 msgstr "Nepodařilo se získat GitLab projekt (%(status)s): %(error)s"
 
 #: weblate/vcs/base.py:258
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): Unknown error"
-msgstr "Nepodařilo se získat GitLab projekt (%(status)s): %(error)s"
+msgstr "Nepodařilo se načíst projekt GitLab (%(status)s): Neznámá chyba"
 
 #: weblate/vcs/base.py:261
-#, fuzzy, python-format
-#| msgid "Fedora Messaging publish failed: %(error)s"
+#, python-format
 msgid "Pull request listing failed: %(error)s"
-msgstr "Zveřejnění zprávy ve Fedora Messaging se nezdařilo: %(error)s"
+msgstr "Zobrazení seznamu žádostí o začlenění se nezdařilo: %(error)s"
 
 #: weblate/vcs/base.py:264
-#, fuzzy, python-format
-#| msgid "%(message)s Please retry later."
+#, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
-msgstr "%(message)s Zkuste to prosím později."
+msgstr ""
+"Zobrazení seznamu žádostí o začlenění se nezdařilo: %(error)s Zkuste to "
+"prosím později."
 
 #: weblate/vcs/base.py:266
-#, fuzzy, python-format
-#| msgid "Could not get repository status!"
+#, python-format
 msgid "Could not fork repository at %(hostname)s"
-msgstr "Nepodařilo se získat stav repozitáře!"
+msgstr "Nepodařilo se vytvořit fork repozitáře na %(hostname)s"
 
 #: weblate/vcs/base.py:268
-#, fuzzy, python-format
-#| msgid "Could not open a ticket, please try again later."
+#, python-format
 msgid "Could not fork repository at %(hostname)s. Please retry later."
-msgstr "Nepodařilo se otevřít ticket, zkuste to prosím později."
+msgstr ""
+"Na adrese %(hostname)s se nepodařilo vytvořit fork repozitáře. Zkuste to "
+"prosím později."
 
 #: weblate/vcs/base.py:271
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not fork repository at %(hostname)s: %(error)s"
-msgstr "Nepodařilo se získat GitLab projekt (%(status)s): %(error)s"
+msgstr "Nepodařilo se vytvořit fork repozitáře na %(hostname)s: %(error)s"
 
 #: weblate/vcs/base.py:274
 #, python-format
 msgid ""
 "Could not fork repository at %(hostname)s: %(error)s Please retry later."
 msgstr ""
+"Nelze vytvořit fork repozitáře na %(hostname)s: %(error)s Zkuste to prosím "
+"později."
 
 #: weblate/vcs/base.py:277
 #, python-format
@@ -24320,6 +24314,9 @@ msgid ""
 "Could not fork repository at %(hostname)s: Repository not found. Check "
 "whether exists and user '%(username)s' has access to it."
 msgstr ""
+"Nelze vytvořit fork repozitáře na %(hostname)s: Repozitář nebyl nalezen. "
+"Zkontrolujte, zda repozitář existuje a zda k němu má uživatel „%(username)s“ "
+"přístup."
 
 #: weblate/vcs/base.py:281
 #, python-format
@@ -24382,10 +24379,9 @@ msgid ""
 msgstr "HTTP přesměrování repozitáře nesměřuje na chytrý HTTP koncový bod Git."
 
 #: weblate/vcs/base.py:317
-#, fuzzy, python-format
-#| msgid "Could not probe the repository HTTP redirect: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %(error)s"
-msgstr "Nelze prověřit přesměrování HTTP v repozitáři: %s"
+msgstr "Nelze prověřit přesměrování HTTP v repozitáři: %(error)s"
 
 #: weblate/vcs/base.py:320
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
@@ -24428,10 +24424,9 @@ msgid "Could not determine the effective SSH destination."
 msgstr "Nepodařilo se určit platný cíl SSH."
 
 #: weblate/vcs/base.py:344
-#, fuzzy, python-format
-#| msgid "Could not determine the effective SSH destination: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %(error)s"
-msgstr "Nelze určit platný cíl SSH: %s"
+msgstr "Nelze určit platný cíl SSH: %(error)s"
 
 #: weblate/vcs/base.py:347
 #, python-format
@@ -24447,34 +24442,28 @@ msgstr ""
 "aktivována omezení týkající se soukromých adres."
 
 #: weblate/vcs/base.py:353
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository from %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository from %(hostname)s is not allowed."
-msgstr "Získání repozitáře VCS z %s není povoleno."
+msgstr "Načtení repozitáře VCS z %(hostname)s není povoleno."
 
 #: weblate/vcs/base.py:355
-#, fuzzy
-#| msgid "Enter a valid GitHub host."
 msgid "Enter a valid URL."
-msgstr "Zadejte platný hostitelský název GitHubu."
+msgstr "Zadejte platnou adresu URL."
 
 #: weblate/vcs/base.py:357
-#, fuzzy, python-format
-#| msgid "Could not parse URL: {}"
+#, python-format
 msgid "Could not parse URL: %(error)s"
-msgstr "Nepodařilo ze zpracovat adresu URL: {}"
+msgstr "Nelze analyzovat adresu URL: %(error)s"
 
 #: weblate/vcs/base.py:362
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository using %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository using %(scheme)s is not allowed."
-msgstr "Získání repozitáře VCS pomocí %s není povoleno."
+msgstr "Načtení repozitáře VCS pomocí %(scheme)s není povoleno."
 
 #: weblate/vcs/base.py:366
-#, fuzzy, python-format
-#| msgid "Could not resolve the URL domain: {}"
+#, python-format
 msgid "Could not resolve the URL domain: %(error)s"
-msgstr "Nepodařilo se zjistit doménu URL: {}"
+msgstr "Nelze vyřešit doménu URL: %(error)s"
 
 #: weblate/vcs/base.py:704
 msgid "This will push changes to the upstream repository."
