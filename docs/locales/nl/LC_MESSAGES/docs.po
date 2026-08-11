@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-08 09:08+0000\n"
+"PO-Revision-Date: 2026-08-11 14:56+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -175,6 +175,11 @@ msgid ""
 "filtered, so these aggregates do not grant access to the underlying projects "
 "or components."
 msgstr ""
+"Samengevoegde statistieken bevatten projecten `Private` en :ref:`beperkte "
+"onderdelen <component-restricted>`, inclusief sitebrede samenvattingen en "
+"die voor taal en werkruimten. Objectvermeldingen, namen en acties blijven "
+"gefilterd op rechten, dus deze samenvoegingen geven geen toegang tot de "
+"onderliggende projecten of componenten."
 
 #: admin/access.rst:82
 msgid ""
@@ -433,6 +438,10 @@ msgid ""
 "current personal API key stops working. Clear it only when the current API "
 "key should remain active."
 msgstr ""
+"Sitebeheerders kunnen ook de wachtwoord-authenticatie voor een gebruiker "
+"uitschakelen. De optie :guilabel:`API-sleutel opnieuw maken` is standaard "
+"ingeschakeld, zodat de huidige persoonlijke API-sleutel niet meer werkt. "
+"Schakel het alleen uit als de huidige API-sleutel actief zou moeten blijven."
 
 #: admin/access.rst:210
 msgid ""
@@ -1024,6 +1033,12 @@ msgid ""
 "when linked components are in other projects. A per-member language limit "
 "therefore cannot grant these permissions."
 msgstr ""
+"De rechten voor VCS voor commit, push, reset en update worden voor de gehele "
+"opslagruimte geëvalueerd. Een lid moet onderdeelbrede rechten voor het "
+"onderdeel dat behoort tot de opslagruimte hebben en elk onderdeel dat "
+"daaraan gekoppeld is. Dit is ook van toepassing als gekoppelde onderdelen in "
+"ander projecten staan. Een beperking voor de taal per-lid kan daarom deze "
+"rechten niet uitgeven."
 
 #: admin/access.rst:490
 msgid ""
@@ -2992,6 +3007,10 @@ msgid ""
 "screenshot files cause the import to be rejected without creating a partial "
 "project."
 msgstr ""
+"De volledige back-up wordt gevalideerd voordat enige gegevens worden "
+"teruggezet. Ongeldige objectvelden, verwijzingen, paden voor opslagruimten, "
+"URL's, reguliere expressies of bestanden van schermafdrukken zorgen ervoor "
+"dat het importeren wordt geweigerd, zonder een gedeeltelijk project te maken."
 
 #: admin/backup.rst:47
 msgid ""
@@ -4681,11 +4700,6 @@ msgstr ""
 "gebruiker uit te nodigen."
 
 #: admin/code-hosting.rst:267
-#, fuzzy
-#| msgid ""
-#| "The `Hosted Weblate legacy app`_ is kept for existing webhook-only "
-#| "setups. Use it only when you need the legacy app to deliver GitHub "
-#| "notifications to Hosted Weblate."
 msgid ""
 "The `Hosted Weblate legacy app`_ is kept for existing webhook-only setups. "
 "Its deliveries use the generic GitHub webhook URL and are authenticated "
@@ -4694,8 +4708,11 @@ msgid ""
 "Hosted Weblate."
 msgstr ""
 "De `Hosted Weblate legacy-app`_ is behouden voor bestaande opstellingen van "
-"alleen webhaken. Gebruik het alleen als u de verouderde app nodig hebt om "
-"GitHub-notificaties af te leveren bij Hosted Weblate."
+"alleen webhaken. De afleveringen gebruiken de algemene URL voor de GitHub "
+"webhaak en worden geauthenticeerd met een afzondelrijk geheim wachtwoord "
+"voor de webhaak, geconfigureerd door de operator van Hosted Weblate. Gebruik "
+"het alleen als u de verouderde app nodig hebt om GitHub-notificaties af te "
+"leveren bij Hosted Weblate."
 
 #: admin/code-hosting.rst:274
 msgid ""
@@ -5127,13 +5144,12 @@ msgstr ""
 "opslagruimte."
 
 #: admin/code-hosting.rst:510
-#, fuzzy
-#| msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.com/usage/repository/"
 "webhooks>`_"
 msgstr ""
-"`Webhooks in Gitea handleiding <https://docs.gitea.io/en-us/webhooks/>`_"
+"`Webhooks in Gitea handleiding <https://docs.gitea.com/usage/repository/"
+"webhooks>`_"
 
 #: admin/code-hosting.rst:511
 msgid ":http:post:`/hooks/gitea/`"
@@ -5790,16 +5806,6 @@ msgid "Defaults to ``[]``."
 msgstr "Standaard is ``[]``."
 
 #: admin/config.rst:102
-#, fuzzy
-#| msgid ""
-#| "The allowlist affects project-managed machinery in two ways: it permits "
-#| "the configured endpoint during outbound validation, and it marks matching "
-#| "hosts as trusted when deciding whether remote provider error details or "
-#| "response bodies can be shown to the user. For direct connections, runtime "
-#| "checks still reject destinations that resolve to private or otherwise non-"
-#| "public addresses. When an HTTP(S) proxy is used, runtime validation falls "
-#| "back to hostname validation and does not perform the same local DNS or "
-#| "peer-IP checks."
 msgid ""
 "The allowlist affects project-managed machinery in two ways: it permits the "
 "configured endpoint during outbound validation, and it marks matching hosts "
@@ -5814,12 +5820,12 @@ msgstr ""
 "machinevertalen op twee manieren: het staat het geconfigureerde eindpunt toe "
 "gedurende uitgaand valideren, en het markeert overeenkomende hosts als "
 "vertrouwd bij het bepalen of foutdetails van de provider op afstand en "
-"antwoordblokken mogen worden weergegeven aan de gebruiker. Voor directe "
-"verbindingen, weigeren controles tijdens runtime nog steeds doelen die "
-"eindigen in private of anderszins niet-publieke adressen. Wanneer een "
-"HTTP(S)-proxy wordt gebruikt, valt valideren tijdens runtime terug op de "
-"gevalideerde hostnaam en voert niet dezelfde lokale DNS- of peer-IP "
-"controles uit."
+"antwoordblokken mogen worden weergegeven aan de gebruiker. Overeenkomende "
+"hosts zijn ook uitgesloten van beperkingen voor private doelen. Voor directe "
+"verbindingen zal Weblate het peeradres van de overeenkomende host niet "
+"oplossen, vastzetten of verifiëren.Voeg alleen hosts of domeinen toe waarvan "
+"de netwerkdoelen worden vertrouwd. Als een geconfigureerde :ref:`http-proxy` "
+"wordt de proxy vertrouwd om de hostnaam van het doel op te lossen."
 
 #: admin/config.rst:118
 msgid ""
@@ -6751,6 +6757,8 @@ msgid ""
 "Webhook secret for a legacy GitHub App which delivers events to the generic "
 "GitHub webhook URL, ``/hooks/github/``."
 msgstr ""
+"Webhaak geheime wachtwoord voor een verouderde GitHub App die gebeurtenissen "
+"aflevert op de algemene URL voor de GitHub webhaak, ``/hooks/github/``."
 
 #: admin/config.rst:1085
 msgid ""
@@ -6759,6 +6767,11 @@ msgid ""
 "webhooks are unaffected. GitHub Apps registered through Weblate use their "
 "per-App webhook URLs and do not use this setting."
 msgstr ""
+"Afleveringen van de appwebhaak op de algemene URL worden geweigerd als deze "
+"instelling leeg is of als hun ``X-Hub-Signature-256`` niet overeenkomt. "
+"Gewone webhaken voor d eopslagruimte wordne niet beïnvloed. GitHub Apps die "
+"zijn geregistreerd door Weblate gebruiken hun URL's voor per-Appwebhaak en "
+"gebruiken deze instelling niet."
 
 #: admin/config.rst:1106
 msgid "List for credentials for Bitbucket Data Center."
@@ -7104,11 +7117,6 @@ msgstr ""
 "documenten zijn ``terms``, ``cookies``, ``privacy`` en ``contracts``."
 
 #: admin/config.rst:1407
-#, fuzzy
-#| msgid ""
-#| "Hidden pages are removed from the legal menu and return a 404 response "
-#| "when requested directly. Hiding ``terms`` or ``privacy`` is not "
-#| "recommended when terms of service confirmation is enabled."
 msgid ""
 "Hidden pages are removed from the legal menu and return a 404 response when "
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
@@ -7116,8 +7124,8 @@ msgid ""
 msgstr ""
 "Verborgen pagina's worden verwijderd uit het menu legal en geven een "
 "antwoord 404 indien direct bevraagd. Verbergen van ``terms`` of ``privacy`` "
-"wordt niet aanbevolen als bevestigen van voorwaarden van service is "
-"inegschakeld."
+"wordt niet aanbevolen als bevestigen van juridische documenten is "
+"ingeschakeld."
 
 #: admin/config.rst:1411
 msgid ""
@@ -7133,12 +7141,6 @@ msgstr ""
 "geconfigureerd, wordt de gerelateerde link weggelaten."
 
 #: admin/config.rst:1416
-#, fuzzy
-#| msgid ""
-#| "With terms of service confirmation enabled, hiding ``terms`` and "
-#| "setting :setting:`LEGAL_URL` makes the confirmation page link to the "
-#| "external terms document instead of embedding :file:`legal/documents/"
-#| "tos.html`."
 msgid ""
 "With legal document confirmation enabled, hiding ``terms`` and "
 "setting :setting:`LEGAL_URL` makes the confirmation page link to the "
@@ -7146,10 +7148,11 @@ msgid ""
 "tos.html`. When a privacy policy link is available, the confirmation covers "
 "both documents."
 msgstr ""
-"Met bevestigen van voorwaarden voor service ingeschakeld, maakt het "
-"verbergen van ``terms`` en het instellen van :setting:`LEGAL_URL` de link "
-"naar de bevestigingspagina naar het externe document voor de voorwaarden, in "
-"plaats van het ingebedde :file:`legal/documents/tos.html`."
+"Met bevestigen van juridische documenten ingeschakeld, maakt het verbergen "
+"van ``terms`` en het instellen van :setting:`LEGAL_URL` de link naar de "
+"bevestigingspagina naar het externe document voor de voorwaarden, in plaats "
+"van het ingebedde :file:`legal/documents/tos.html`. Als een link voor "
+"privacybeleid beschikbaar is, dekt de bevestiging beide documenten."
 
 #: admin/config.rst:1421
 msgid ""
@@ -7167,18 +7170,15 @@ msgid "You need :ref:`legal` installed to make this work."
 msgstr "U moet :ref:`legal` hebben geïnstalleerd om dit te laten werken."
 
 #: admin/config.rst:1444
-#, fuzzy
-#| msgid ""
-#| "Date of last update of terms of service documents. Whenever the date "
-#| "changes, users are required to agree with the updated terms of service."
 msgid ""
 "Date of the legal documents users last agreed to. Whenever the date changes, "
 "users are required to agree with the current terms of service and, when a "
 "privacy policy link is available, the privacy policy."
 msgstr ""
-"Datum van laatste bijwerken van de termen van de documenten voor de service. "
-"Wanneer de datum wijzigt moeten gebruikers instemmen met de bijgewerkte "
-"termen voor de service."
+"Datum van laatste bijwerken van de juridische documenten waar de gebruikers "
+"het laatst mee hebben ingestemd. Wanneer de datum wijzigt moeten gebruikers "
+"instemmen met de huidige termen voor de service en, als een link naar het "
+"privacybeleid beschikbaar is, het privacybeleid."
 
 #: admin/config.rst:1459
 msgid "URL where your Weblate instance shows its legal documents."
@@ -8280,6 +8280,11 @@ msgid ""
 "provided by :setting:`VCS_RESTRICT_PRIVATE`. Administrators are responsible "
 "for the security and compatibility impact of all configured arguments."
 msgstr ""
+"Dit is een vertrouwde, door de beheerder beheerde, configuratie. "
+"Willekeurige opties voor SSH kunnen routeren van de verbinding wijzigen en "
+"overschrijven het vastgezette adres dat wordt verschaft door "
+":setting:`VCS_RESTRICT_PRIVATE`. Beheerders zijn verantwoordelijk voor de "
+"beveiliging en impact op compatibiliteit van alle geconfigureerde argumenten."
 
 #: admin/config.rst:2635
 msgid "`OpenSSH Legacy Options <https://www.openssh.org/legacy.html>`_"
@@ -8400,6 +8405,11 @@ msgid ""
 "for VCS backends which cannot bind the client connection to the address "
 "validated by Weblate, such as Mercurial and Subversion."
 msgstr ""
+"Wanneer :setting:`VCS_RESTRICT_PRIVATE` is ingeschakeld, worden "
+"overeenkomende hosts ook uitgesloten van de beperking voor private doelen. "
+"Deze uitzondering is ook nodig voor backends van VCS die de cliëntverbinding "
+"niet kunnen binden aan het adres dat wordt gevalideerd door Weblate, zoals "
+"Mercurial en Subversion."
 
 #: admin/config.rst:2753
 msgid ""
@@ -8440,6 +8450,18 @@ msgid ""
 "Subversion, custom VCS backends, and additional URL schemes are rejected "
 "unless the target host is explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Voor opslagruimten van Git met toegang vanuit HTTPS of SSH, bindt Weblate "
+"elke opdracht voor VCS aan de goedgekeurde adressen gedurende validatie bij "
+"runtime voor directe verbindingen. Geconfigureerde HTTP-proxy's zijn "
+"vertrouwde infrastructuur en lossen in plaats daarvan hostnamen van "
+"opslagruimten op. Volgen van automatische verwijzigen blijft uitgeschakeld. "
+"Permanente HTTP-verwijzingen naar dezelfde host wordne afzonderlijk "
+"geprobeerd vanuit dezelfde uitgaande route, gevalideerd en opgeslagen als de "
+"canonical URL voor de opslagruimte van het onderdeel. Verwijzingen aar "
+"andere hosts moeten handmatig worden geconfigureerd. Mercurial, Subversion, "
+"aangepaste backends voor VCS en aanvullende schema's voor URL's wordne "
+"geweigerd, tenzij de doelhost expliciet is opgenomen in "
+":setting:`VCS_ALLOW_HOSTS`."
 
 #: admin/config.rst:2779
 msgid ""
@@ -8448,6 +8470,10 @@ msgid ""
 "depth, especially for custom integrations and administrator-installed "
 "extensions."
 msgstr ""
+"Filteren van uittreden op netwerkniveau dat interne, loopback, link-lokale, "
+"gereserveerde en cloudmetadata adresbereiken blokkeert wordt aanbevolen als "
+"verdediging in de diepte, speciaal voor aangepaste integraties en door de "
+"beheerder geïnstalleerde uitbreidingen."
 
 #: admin/config.rst:2790
 msgid ""
@@ -10025,12 +10051,6 @@ msgid "Weblate Cloudron Package"
 msgstr "Weblate Cloudron Package"
 
 #: admin/deployments.rst:23
-#, fuzzy
-#| msgid ""
-#| "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
-#| "applications. Weblate installed with Cloudron will be automatically kept "
-#| "up-to-date. The package is maintained by the Cloudron team at their "
-#| "`Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgid ""
 "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
 "applications. Weblate installed with Cloudron will be automatically kept up-"
@@ -10040,8 +10060,8 @@ msgstr ""
 "`Cloudron <https://www.cloudron.io/>`_ is een platform voor zelf hosten van "
 "webtoepassingen. Weblate, geïnstalleerd met Cloudron, zal automatisch up-to-"
 "date worden gehouden. Het pakket wordt onderhouden door het team van "
-"Cloudron in hun `Weblate package repo <https://git.cloudron.io/cloudron/"
-"weblate-app>`_."
+"Cloudron; bekijk de `Weblate package documentation <https://docs.cloudron.io/"
+"packages/weblate/>`_."
 
 #: admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
@@ -10147,16 +10167,12 @@ msgstr ""
 "Gebruik de toegewezen node bij het horizontaal op schaal brengen van Weblate."
 
 #: admin/install.rst:138
-#, fuzzy
-#| msgid "Application region"
 msgid "Application server"
-msgstr "Appregio"
+msgstr "Applicatieserver"
 
 #: admin/install.rst:139
-#, fuzzy
-#| msgid "A WSGI server serving web pages to users."
 msgid "A WSGI or ASGI server serving web pages to users."
-msgstr "Een WSGI-server serveert webpagina's aan gebruikers."
+msgstr "Een WSGI- of ASGI-server serveert webpagina's aan gebruikers."
 
 #: admin/install.rst:143
 msgid ""
@@ -10330,10 +10346,8 @@ msgid "Weblate feature"
 msgstr "Weblate mogelijkheid"
 
 #: admin/install.rst:218
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "ASGI server for Weblate"
-msgstr "WSGI-server voor Weblate"
+msgstr "ASGI-server voor Weblate"
 
 #: admin/install.rst:231
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
@@ -10360,8 +10374,6 @@ msgid "Hosted Weblate integration"
 msgstr "Hosted Weblate integratie"
 
 #: admin/install.rst:271
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "WSGI server for Weblate"
 msgstr "WSGI-server voor Weblate"
 
@@ -10920,6 +10932,9 @@ msgid ""
 "requests and Git repositories. Define the proxy environment variables "
 "in :file:`settings.py`:"
 msgstr ""
+"Weblate ondersteunt per-protocol HTTP-proxyconfiguratie voor uitgaande HTTP-"
+"verzoeken en opslagruimten voor Git. Definieer de omgevingsvariabelen voor "
+"de proxy in :file:`settings.py`:"
 
 #: admin/install.rst:658
 msgid ""
@@ -10927,12 +10942,12 @@ msgid ""
 "variables such as ``all_proxy`` and ``no_proxy``, operating-system proxy "
 "configuration, and VCS-specific proxy configuration are not supported."
 msgstr ""
+"Alleen ``http_proxy`` en ``https_proxy`` wordne ondersteund. Algemene en "
+"variabelen als omleiding, zoals ``all_proxy`` en ``no_proxy``, "
+"proxyconfiguratie door besturingssysteem en VCS-specifieke proxyconfiguratie "
+"worden niet ondersteund."
 
 #: admin/install.rst:664
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies/env.html>`_"
 msgid ""
 "`Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
@@ -11487,38 +11502,25 @@ msgid "Using custom certificate authority"
 msgstr "Aangepaste autoriteit certificaat gebruiken"
 
 #: admin/install.rst:1154
-#, fuzzy
-#| msgid ""
-#| "Weblate does verify SSL certificates during HTTP requests. In case you "
-#| "are using custom certificate authority which is not trusted in default "
-#| "bundles, you will have to add its certificate as trusted."
 msgid ""
 "Weblate verifies SSL certificates during HTTP requests. Requests made using "
 "HTTPX2 use the system certificate store, so install custom certificate "
 "authorities there."
 msgstr ""
-"Weblate verifieert certificaten van SSL tijdens HTTP-verzoeken. Voor het "
-"geval u een aangepaste autoriteit voor certificaten gebruikt die niet als "
-"vertrouwd is aangemerkt in de standaard bundels, zult u het certificaat "
-"moeten toevoegen als vertrouwd."
+"Weblate verifieert certificaten van SSL tijdens HTTP-verzoeken. Gemaakte "
+"verzoeken die HTTPX2 gebruiken, gebruiken de opslag voor de "
+"systeemcertificaten, installeer daar dus aangepaste certificaatautoriteiten."
 
 #: admin/install.rst:1158
-#, fuzzy
-#| msgid ""
-#| "The preferred approach is to do this at system level, please check your "
-#| "distro documentation for more details (for example on debian this can be "
-#| "done by placing the CA certificate into :file:`/usr/local/share/ca-"
-#| "certificates/` and running :command:`update-ca-certificates`)."
 msgid ""
 "Check your distribution documentation for more details. For example, on "
 "Debian this can be done by placing the CA certificate into :file:`/usr/local/"
 "share/ca-certificates/` and running :command:`update-ca-certificates`."
 msgstr ""
-"De voorkeursmethode is om dat te doen op systeemniveau, controleer de "
-"documentatie van uw distributie voor meer details (bijvoorbeeld voor Debian "
-"kan dit worden gedaan door het CA-certificaat te plaatsen in :file:`/usr/"
-"local/share/ca-certificates/` en :command:`update-ca-certificates` uit te "
-"voeren)."
+"Controleer de documentatie van uw distributie voor meer details. "
+"Bijvoorbeeld voor Debian kan dit worden gedaan door het CA-certificaat te "
+"plaatsen in :file:`/usr/local/share/ca-certificates/` en :command:`update-ca-"
+"certificates` uit te voeren."
 
 #: admin/install.rst:1165
 msgid ""
@@ -11529,16 +11531,12 @@ msgstr ""
 "volledige pad specificeren om het uit te voeren. Bijvoorbeeld:"
 
 #: admin/install.rst:1172
-#, fuzzy
-#| msgid ""
-#| "Once this is done, system tools will trust the certificate and this "
-#| "includes Git."
 msgid ""
 "Once this is done, Weblate HTTPX2 requests and system tools, including Git, "
 "will trust the certificate."
 msgstr ""
-"Als dat eenmaal is gedaan, zullen de gereedschappen van het systeem het "
-"certificaat vertrouwen en dat is inclusief Git."
+"Als dat eenmaal is gedaan, zullen Weblate HTTPX2-verzoeken en de "
+"gereedschappen van het systeem, inclusief Git, het certificaat vertrouwen."
 
 #: admin/install.rst:1175
 msgid ""
@@ -11548,6 +11546,12 @@ msgid ""
 "authority, configure Requests to use the system CA bundle by adding the "
 "following to :file:`settings.py` (the path is Debian-specific):"
 msgstr ""
+"Sommige integraties, inclusief OAuth en OpenID Connect-authenticatie, "
+"gebruiken Requests, dat niet standaard de opslag voor systeemcertifcaten "
+"gebruikt. Als deze integraties communiceren met services die de aangepaste "
+"certificaatautoriteit gebruiken, configureer Requests dan om de systeem CA-"
+"bundel te gebruiken door het volgende toe te voegen aan :file:`settings.py` "
+"(het pad is specifiek voor Debian):"
 
 #: admin/install.rst:1191
 msgid "Running server"
@@ -11912,20 +11916,20 @@ msgstr ""
 "dan het aantal blokkeerthreads."
 
 #: admin/install.rst:1457
-#, fuzzy
-#| msgid "Sample configuration to start Granian"
 msgid "Sample configuration to start Granian with ASGI"
-msgstr "Voorbeeld configuratie om Granian op te starten"
+msgstr "Voorbeeldconfiguratie om Granian op te starten met ASGI"
 
 #: admin/install.rst:1461
 msgid ""
 "ASGI deployment is available as an opt-in alternative to WSGI. Install the "
 "``asgi`` optional dependency:"
 msgstr ""
+"Uitrollen van ASGI is beschikbaar als een opt-in alternatief voor WSGI. "
+"Installeer de optionele afhankelijkheid ``asgi``:"
 
 #: admin/install.rst:1468
 msgid "The following systemd unit runs the Django ASGI application:"
-msgstr ""
+msgstr "De volgende eenheid van systemd voert de Django ASGI-applicatie uit:"
 
 #: admin/install.rst:1474
 msgid ""
@@ -11936,6 +11940,13 @@ msgid ""
 "but most Weblate views remain synchronous, and CPU-intensive or long-running "
 "work should still be handled by :ref:`celery`."
 msgstr ""
+"Het voorbeeld gebruikt Granian's ASGI-interface zonder levensduur of "
+"ondersteuning voor WebSocket, omdat Weblate momenteel alleen HTTP weergeeft. "
+"Weblate's middleware ondersteunt zowel modi voor uitrollen en gebruikt "
+"thread-sensitieve adapters waar het nog steed svertrouwd op synchrone Django-"
+"API's. De gezondheidscontrole is asynchroon, maar de meeste wergave voor "
+"Weblate blijven synchroon en CPU-intensieve of langdurend werk zouden nog "
+"steeds worden afgehandeld door :ref:`celery`."
 
 #: admin/install.rst:1481
 msgid ""
@@ -11944,6 +11955,10 @@ msgid ""
 "backpressure to the available memory, CPU cores, and database connection "
 "limit."
 msgstr ""
+"WSGI blijft de standaardmodus voor uitrollen. Docker-images kunnen opt-in "
+"voor ASGI door :envvar:`WEBLATE_ASGI` in te stellen op ``1``. Pas de telling "
+"voor de werkers aan en val terug op het beschikbare geheugen, CPU-bronnen en "
+"beperking voor de databaseverbinding."
 
 #: admin/install.rst:1494
 msgid "Sample configuration to start Gunicorn"
@@ -12219,17 +12234,14 @@ msgstr ""
 "container heeft een ingebouwde controle voor de gezondheid met deze URL."
 
 #: admin/install.rst:1688
-#, fuzzy
-#| msgid ""
-#| "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` "
-#| "API endpoint."
 msgid ""
 "For monitoring metrics of Weblate you can use the :http:get:`/api/metrics/` "
 "API endpoint. Monitoring tools running locally can retrieve the same metrics "
 "using the :wladmin:`metrics` command."
 msgstr ""
-"Voor het monitoren van metrieken van Weblate kunt u het API-"
-"eindpunt :http:get:`/api/metrics/` gebruiken."
+"Voor het monitoren van metrieken van Weblate kunt u het API-eindpunt "
+":http:get:`/api/metrics/` gebruiken. Lokaal uitvoeren van programma's voor "
+"monitoren kan dezelfde metrieken ophalen met de opdracht :wladmin:`metrics`."
 
 #: admin/install.rst:1696
 msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
@@ -13032,22 +13044,16 @@ msgid "Number of processes and memory consumption"
 msgstr "Aantal processen en geheugengebruik"
 
 #: admin/install/docker.rst:384
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both WSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both the web application and Celery is "
 "determined automatically based on number of CPUs. This works well for most "
 "cloud virtual machines as these typically have few CPUs and good amount of "
 "memory."
 msgstr ""
-"Het aantal processen voor werkers voor zowel WSGI en Celery wordt "
-"automatisch bepaald, gebaseerd op het aantal CPU's. Dit werkt goed voor de "
-"meeste machines in de virtuele cloud, omdat die gewoonlijk een paar CPU's "
-"hebben en een goede hoeveelheid geheugen."
+"Het aantal processen voor werkers voor zowel de webapplicatie en Celery "
+"wordt automatisch bepaald, gebaseerd op het aantal CPU's. Dit werkt goed "
+"voor de meeste machines in de virtuele cloud, omdat die gewoonlijk een paar "
+"CPU's hebben en een goede hoeveelheid geheugen."
 
 #: admin/install/docker.rst:389
 msgid ""
@@ -13546,16 +13552,12 @@ msgstr ""
 "om het uit te schakelen."
 
 #: admin/install/docker.rst:928
-#, fuzzy
-#| msgid ""
-#| "``tos-confirm`` to enable the legal module and enforce terms of service "
-#| "confirmation during social authentication and for signed-in users."
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce legal document "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
 "``tos-confirm`` om de module Legal in te schakelen en bevestigen van "
-"gebruiksbepalingen afdwingen gedurende sociale authenticatie en voor "
+"juridische documenten af te dwingen gedurende sociale authenticatie en voor "
 "aangemelde gebruikers."
 
 #: admin/install/docker.rst:930
@@ -13626,6 +13628,10 @@ msgid ""
 "The following configuration links both documents externally and requires one "
 "agreement covering the terms of service and privacy policy:"
 msgstr ""
+"Externe juridische documenten worden gebruikt om op terug te vallen voor "
+"verborgen interne pagina's. De volgende configuratie linkt beide documenten "
+"extern en vereist dat een overeenkomst de gebruiksbepalingen, als ook het "
+"privacybeleid dekt:"
 
 #: admin/install/docker.rst:993
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -14038,21 +14044,19 @@ msgid ""
 "Configures :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. The ``_FILE`` "
 "variant can be used to load the secret from a file."
 msgstr ""
+"Configureert :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. De variant "
+"``_FILE`` mag worden gebruikt om het geheime wachtwoord uit een bestand te "
+"laden."
 
 #: admin/install/docker.rst:1470
-#, fuzzy
-#| msgid ""
-#| "GitHub Apps are registered through the in-app manifest flow and stored in "
-#| "the database, so there are no GitHub App environment variables to "
-#| "configure. See :ref:`code-hosting-github-notifications`."
 msgid ""
 "GitHub Apps registered through the in-app manifest flow are stored in the "
 "database and do not need environment variables. See :ref:`code-hosting-"
 "github-notifications`."
 msgstr ""
-"GitHub-apps worden geregistreerd door een in-app manifestwerkstroom en "
-"opgeslagen in de database, er zijn dus geen omgevingsvariabelen voor GitHub-"
-"app te configureren. Bekijk :ref:`code-hosting-github-notifications`."
+"GitHub-apps geregistreerd door een in-app manifestwerkstroom worden "
+"opgeslagen in de database, en hebben geen omgevingsvariabelen nodig. Bekijk "
+":ref:`code-hosting-github-notifications`."
 
 #: admin/install/docker.rst:1479
 msgid ""
@@ -14857,12 +14861,16 @@ msgid ""
 "the default for now, but a future release will run ASGI only and remove this "
 "setting."
 msgstr ""
+"Stel in op ``1`` om de webapplicatie uit te voeren met ASGI in plaats van "
+"met WSGI. Dit is een opt-in-instelling die is bedoeld voor het testen van de "
+"transitie naar ASGI. WSGI blijft voor nu de standaard, maar een toekomstige "
+"uitgave zal alleen ASGI uitvoeren en deze instelling verwijderen."
 
 #: admin/install/docker.rst:2442
-#, fuzzy
-#| msgid "Configure how many WSGI workers should be executed."
 msgid "Configure how many web application workers should be executed."
-msgstr "Configureer hoeveel werkers van WSGI zouden moeten worden uitgevoerd."
+msgstr ""
+"Configureer hoeveel werkers van de webapplicatie zouden moeten worden "
+"uitgevoerd."
 
 #: admin/install/docker.rst:2444
 msgid ""
@@ -14880,18 +14888,15 @@ msgstr ""
 "gebruikt door :program:`granian`."
 
 #: admin/install/docker.rst:2459
-#, fuzzy
-#| msgid ""
-#| "Configure how many blocking WSGI threads each :program:`granian` worker "
-#| "can use. It defaults to twice :envvar:`WEBLATE_WORKERS`."
 msgid ""
 "Configure how many blocking WSGI threads each :program:`granian` worker can "
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS` and is ignored "
 "when :envvar:`WEBLATE_ASGI` is enabled."
 msgstr ""
-"Configureer hoeveel blokkerende threads voor WSGI elke werker "
-"van :program:`granian` mag gebruiken. De standaard is twee "
-"keer :envvar:`WEBLATE_WORKERS`."
+"Configureer hoeveel blokkerende threads voor WSGI elke werker van "
+":program:`granian` mag gebruiken. De standaard is twee keer "
+":envvar:`WEBLATE_WORKERS` en wordt genegeerd als :envvar:`WEBLATE_ASGI` is "
+"ingeschakeld."
 
 #: admin/install/docker.rst:2463
 msgid ""
@@ -17686,11 +17691,10 @@ msgstr ""
 "opslagruimte."
 
 #: admin/management.rst:996
-#, fuzzy
-#| msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgid "Outputs the server metrics exposed by :http:get:`/api/metrics/`."
 msgstr ""
-"Toegevoegd compatibiliteit voor OpenMetrics voor :http:get:`/api/metrics/`."
+"Voert de servermetrieken uit die worden weergegeven in :http:get:`/api/"
+"metrics/`."
 
 #: admin/management.rst:1008
 msgid ""
@@ -18000,12 +18004,6 @@ msgid "Translation memory status"
 msgstr "Status van vertaalgeheugen"
 
 #: admin/memory.rst:106
-#, fuzzy
-#| msgid ""
-#| "Translation memory entries can have two different statuses: **active** "
-#| "and **pending**. Pending entries are included in suggestions, but with a "
-#| "quality penalty applied. If :ref:`autoclean-tm` is enabled, matching "
-#| "pending entries are removed when a translation becomes active."
 msgid ""
 "Translation memory entries can have two different statuses: **active** and "
 "**pending**. Pending entries are included in suggestions, but with a quality "
@@ -18017,9 +18015,12 @@ msgid ""
 msgstr ""
 "Items voor vertaalgeheugens kunnen twee verschillende statussen hebben: "
 "**actief** en **openstaand**. Openstaande items worden opgenomen in "
-"suggesties, maar met een toegepaste aftrek voor de kwaliteit. "
-"Als :ref:`autoclean-tm` is ingeschakeld, worden overeenkomende openstaande "
-"items automatisch verwijderd als een vertaling actief wordt."
+"suggesties, maar met een toegepaste aftrek voor de kwaliteit. Afhankelijk "
+"van de geconfigureerde drempel voor de score, kan de straf zelfs exacte "
+"overenekomsten van suggesties en automatisch vertalen uitsluiten. Items die "
+"zijn geïmporteerd uit bestanden van vertaalgeheugens worden als actief "
+"opgeslagen. Als :ref:`autoclean-tm` is ingeschakeld, worden overeenkomende "
+"openstaande items automatisch verwijderd als een vertaling actief wordt."
 
 #: admin/memory.rst:117 admin/projects.rst:247
 msgid "Autoclean translation memory"
@@ -18125,17 +18126,14 @@ msgstr ""
 "het vertaalgeheugen voor dat project te beheren."
 
 #: admin/memory.rst:164
-#, fuzzy
-#| msgid ""
-#| "Open :guilabel:`Administration` and choose :guilabel:`Translation memory` "
-#| "to manage uploaded translation memory for the whole Weblate instance."
 msgid ""
 "Open a workspace and choose :guilabel:`Operations` ↓ :guilabel:`Translation "
 "memory` to manage automatically created translation memory for that "
 "workspace. Editing the workspace is required."
 msgstr ""
-"Open :guilabel:`Beheer` en kies :guilabel:`Vertaalgeheugen` om geüpload "
-"vertaalgeheugen voor de gehele instantie van Weblate te beheren."
+"Open een werkruimte en kies :guilabel:`Bewerkingen` ↓ "
+":guilabel:`Vertaalgeheugen` om het automatisch gemaakte vertaalgeheugen voor "
+"die werkruimte te beheren. Bewerken van de werkruimte is vereist."
 
 #: admin/memory.rst:167
 msgid ""
@@ -18179,20 +18177,21 @@ msgid ""
 "entries only. Translation-memory files cannot be uploaded into a workspace "
 "scope."
 msgstr ""
+"De weergave van de werkruimte kan alle projecten waaraan momenteel wordt "
+"bijgedragen opnieuw bouwen of een individueel onderdeel waaraan wordt "
+"bijgedragen. Het beheert alleen automatische items in het bereik van de "
+"werkruimte. Bestanden voor vertaalgeheugens kunnen niet worden geüpload in "
+"het bereik van een werkruimte."
 
 #: admin/memory.rst:186
-#, fuzzy
-#| msgid ""
-#| "Translation memory files can be imported on the same page. Uploaded files "
-#| "are stored in the selected scope:"
 msgid ""
 "Translation memory files can be imported on the same page. Uploaded files "
 "are processed during the request, stored as active, and added to the "
 "selected scope:"
 msgstr ""
 "Bestanden voor vertaalgeheugens kunnen op dezelfde pagina worden "
-"geïmporteerd. Geüploade bestanden worden opgeslagen in het geselecteerde "
-"bereik:"
+"geïmporteerd. Geüploade bestanden worden verwerkt gedurende het verzoek, "
+"opgeslagen als actief en toegevoegd aan het geselecteerde bereik:"
 
 #: admin/memory.rst:189
 msgid "Personal uploads are available in your personal translation memory."
@@ -18262,12 +18261,6 @@ msgstr ""
 "geüploade, gedeelde of alle items worden gedownload als JSON of TMX."
 
 #: admin/memory.rst:222
-#, fuzzy
-#| msgid ""
-#| "The project translation memory view also allows rebuilding parts of or "
-#| "the entire project translation memory. Existing entries for the selected "
-#| "component or project are deleted, and the memory is populated again from "
-#| "the current translations in the background."
 msgid ""
 "The project translation memory view also allows rebuilding parts of or the "
 "entire project translation memory. Automatically generated entries for the "
@@ -18276,10 +18269,11 @@ msgid ""
 "are preserved."
 msgstr ""
 "De weergave van het vertaalgeheugen voor het project maakt het ook mogelijk "
-"delen, of het gehele van het vertaalgeheugen voor het project, opnieuw op te "
-"bouwen. Bestaande items voor het geselecteerde onderdeel of project worden "
+"delen, of het gehele vertaalgeheugen voor het project, opnieuw op te bouwen. "
+"Automatisch gemaakt items voor het geselecteerde onderdeel of project worden "
 "verwijderd en het geheugen wordt op de achtergrond opnieuw gevuld vanuit de "
-"huidige vertalingen."
+"huidige vertalingen. Items die zijn geïmporteerd uit bestanden worden "
+"behouden."
 
 #: admin/memory.rst:231
 msgid ""
@@ -18554,14 +18548,6 @@ msgid "Subcontractor information"
 msgstr "Informatie subcontracten"
 
 #: admin/optionals.rst:144
-#, fuzzy
-#| msgid ""
-#| "The legal module embeds these templates inside Weblate and "
-#| "uses :file:`legal/documents/tos.html` for terms of service confirmation. "
-#| "This is separate from :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`, "
-#| "which are meant for linking to externally hosted legal documents from the "
-#| "footer when the legal module is not enabled. When the legal module is "
-#| "enabled, Weblate links to the internal legal pages by default."
 msgid ""
 "The legal module embeds these templates inside Weblate. Its confirmation "
 "page uses :file:`legal/documents/tos.html` and, when a privacy policy link "
@@ -18572,28 +18558,25 @@ msgid ""
 "fallbacks for hidden internal pages. When the legal module is enabled, "
 "Weblate links to the internal legal pages by default."
 msgstr ""
-"De module legal bed deze sjablonen in binnen Weblate en "
-"gebruikt :file:`legal/documents/tos.html` voor bevestiging van de "
-"voorwaarden voor de service. Dat is afgescheiden van :setting:`LEGAL_URL` "
-"en :setting:`PRIVACY_URL`, die zijn bedoeld voor het koppelen naar extern "
-"gehoste wettelijke documenten vanuit de voettekst als de module legal niet "
-"is ingeschakeld. Wanneer de module legal is ingeschakeld, linkt Weblate "
-"standaard naar de interne wettelijke pagina's."
+"De module legal bed deze sjablonen in binnen Weblate. Zijn pagina voor "
+"configuratie gebruikt :file:`legal/documents/tos.html` en, als een link naar "
+"het privacybeleid beschikbaar is, vereist dat een overeenkomst zowel de "
+"voorwaarden voor de service als het privacybeleid dekt. Dat is afgescheiden "
+"van :setting:`LEGAL_URL` en :setting:`PRIVACY_URL`, die zijn bedoeld voor "
+"het koppelen naar extern gehoste wettelijke documenten vanuit de voettekst "
+"als de module legal niet is ingeschakeld, of om op terug te vallen voor "
+"verborgen interne pagina's. Wanneer de module legal is ingeschakeld, linkt "
+"Weblate standaard naar de interne wettelijke pagina's."
 
 #: admin/optionals.rst:153
-#, fuzzy
-#| msgid ""
-#| "On changing the terms of service documents, please "
-#| "adjust :setting:`LEGAL_TOS_DATE` so that users are forced to agree with "
-#| "the updated documents."
 msgid ""
 "On changing the terms of service or privacy policy, "
 "adjust :setting:`LEGAL_TOS_DATE` when users should be forced to agree with "
 "the updated documents."
 msgstr ""
-"Pas, bij het wijzigen van het document voor de algemene "
-"voorwaarden, :setting:`LEGAL_TOS_DATE` aan, zodat gebruikers verplicht "
-"worden om in te stemmen met de bijgewerkte documenten."
+"Pas, bij het wijzigen van het document voor de algemene voorwaarden of het "
+"privacybeleid, :setting:`LEGAL_TOS_DATE` aan, wanneer gebruikers verplicht "
+"zouden worden om in te stemmen met de bijgewerkte documenten."
 
 #: admin/optionals.rst:159
 msgid ""
@@ -18631,17 +18614,6 @@ msgstr ""
 "service, zoals beschreven in :ref:`legal-customization`."
 
 #: admin/optionals.rst:199
-#, fuzzy
-#| msgid ""
-#| "In Docker deployments, enable the legal module "
-#| "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
-#| "editing :file:`settings.py`. Use ``tos-confirm`` to enable the legal "
-#| "module and terms of service confirmation enforcement, or ``wllegal`` to "
-#| "additionally load the hosted legal document templates used by services "
-#| "operated by Weblate s.r.o. These templates are not intended for general "
-#| "use. To provide your own templates in Docker, place them in :file:`/app/"
-#| "data/python/customize/templates/legal/documents`, see :ref:`docker-static-"
-#| "override`."
 msgid ""
 "In Docker deployments, enable the legal module "
 "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
@@ -18652,10 +18624,10 @@ msgid ""
 "your own templates in Docker, place them in :file:`/app/data/python/"
 "customize/templates/legal/documents`, see :ref:`docker-static-override`."
 msgstr ""
-"In Docker uitrollen, schakel de module Legal in "
-"met :envvar:`WEBLATE_LEGAL_INTEGRATION` in plaats van :file:`settings.py` te "
+"In Docker uitrollen, schakel de module Legal in met "
+":envvar:`WEBLATE_LEGAL_INTEGRATION` in plaats van :file:`settings.py` te "
 "bewerken. Gebruik ``tos-confirm`` om de module Legal in te schakelen en "
-"bevestigen van de gebruiksbepalingen af te dwingen, of ``wllegal`` om "
+"bevestigen van de juridische documenten af te dwingen, of ``wllegal`` om "
 "aanvullend de gehoste sjablonen voor wettelijke documenten te laden die "
 "worden gebruikt door services van Weblate s.r.o. Die sjablonen zijn niet "
 "bedoeld voor algemeen gebruik. Uw eigen sjablonen in Docker importeren, "
@@ -18792,13 +18764,6 @@ msgstr ""
 "geconfigureerd, anders wordt de link weggelaten."
 
 #: admin/optionals.rst:277
-#, fuzzy
-#| msgid ""
-#| "To use externally hosted legal documents with terms confirmation, "
-#| "configure :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide ``terms`` and "
-#| "``privacy`` and set :setting:`LEGAL_URL` and :setting:`PRIVACY_URL`. The "
-#| "confirmation page then links to those external documents without "
-#| "requiring a :file:`legal/documents/tos.html` template override."
 msgid ""
 "To use externally hosted legal documents with legal confirmation, "
 "configure :setting:`LEGAL_HIDDEN_DOCUMENTS` to hide ``terms`` and "
@@ -18808,12 +18773,14 @@ msgid ""
 "template override. If no privacy policy link is available, the confirmation "
 "covers only the terms of service."
 msgstr ""
-"Extern gehoste wettelijke documenten gebruiken met bevestiging voor de "
-"voorwaarden, configureer :setting:`LEGAL_HIDDEN_DOCUMENTS` om ``terms`` en "
-"``privacy`` te verbergen en stel :setting:`LEGAL_URL` "
-"en :setting:`PRIVACY_URL` in. De pagina voor bevestiging linkt dan naar die "
-"externe documenten zonder het overschrijven van het sjabloon :file:`legal/"
-"documents/tos.html` te eisen."
+"Extern gehoste wettelijke documenten gebruiken met juridische bevestiging, "
+"configureer :setting:`LEGAL_HIDDEN_DOCUMENTS` om ``terms`` en ``privacy`` te "
+"verbergen en stel :setting:`LEGAL_URL` en :setting:`PRIVACY_URL` in. De "
+"pagina voor bevestiging linkt dan naar die externe documenten en vereist dat "
+"een overeenkomst beide dekt, zonder dat het overschrijven van het sjabloon "
+":file:`legal/documents/tos.html` nodig is. Als geen link naar het "
+"pirvacybeleid beschikbaar is, dekt de bevestiging alleen de "
+"gebruiksbepalingen."
 
 #: admin/optionals.rst:288
 msgid "Avatars"
@@ -19138,6 +19105,10 @@ msgid ""
 "request path. Repeated rejections during the same lockout do not create "
 "additional audit-log entries."
 msgstr ""
+"Voor aangemelde gebruikers legt Weblate het eerste geweigerde verzoek vast "
+"gedurende elke actieve uitsluiting voor het bereik in het :ref:`audit-log`, "
+"inclusief het bereik en pad van het verzoek. Herhaalde weigeringen gedurende "
+"dezelfde uitsluiting maken geen aanvullende items voor het audit-log."
 
 #: admin/optionals.rst:451
 msgid ""
@@ -20464,16 +20435,12 @@ msgid "Contribute to project translation memory"
 msgstr "Bijdragen aan vertaalgeheugen van project"
 
 #: admin/projects.rst:808
-#, fuzzy
-#| msgid ""
-#| "All translations within Weblate can be used thanks to shared translation "
-#| "memory."
 msgid ""
 "Controls whether translations from this component are added to the project "
 "translation memory."
 msgstr ""
-"Alle vertalingen binnen Weblate kunnen worden gebruikt, dankzij gedeeld "
-"vertaalgeheugen."
+"Beheert of vertalingen in dit onderdeel worden toegevoegd aan het "
+"vertaalgeheugen van het project."
 
 #: admin/projects.rst:818
 msgid "Allow translation propagation"
@@ -22701,18 +22668,19 @@ msgid ""
 "list does not include workspaces merely because the user has site-wide "
 "management access."
 msgstr ""
+"Aangemelde gebruikers kunnen :guilabel:`Projecten` ↓ :guilabel:`Mijn "
+"werkruimten` openen om de werkruimten te vermelden waarvoor ze een "
+"expliciete teamtoewijzing voor de werkruimte hebben. Deze lijst bevat niet "
+"de werkruimten vanwege het feit dat de gebruiker sitebrede beheerstoegang "
+"heeft."
 
 #: admin/workspaces.rst:26
-#, fuzzy
-#| msgid ""
-#| "You can list all workspaces in the management interface "
-#| "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgid ""
 "Site managers can list all workspaces in the management interface "
 "at :guilabel:`Manage` ↓ :guilabel:`Workspaces`."
 msgstr ""
-"U kunt alle werkruimten vermelden in de beheersinterface "
-"op :guilabel:`Beheren` ↓ :guilabel:`Werkruimten`."
+"Sitebeheerders kunnen alle werkruimten vermelden in de beheersinterface op "
+":guilabel:`Beheren` ↓ :guilabel:`Werkruimten`."
 
 #: admin/workspaces.rst:31
 msgid ""
@@ -22721,6 +22689,10 @@ msgid ""
 "and actions remain permission-filtered. See :ref:`statistics access "
 "filtering <statistics-access-filtering>`."
 msgstr ""
+"Statistieken voor werkruimten voegen alle eigen en gedeelde inhoud samen, "
+"inclusief projecten beperkte onderdelen waar u geen toegang toe heeft. "
+"Projectvermeldingen en acties blijven gefilterd op rechten. Bekijk "
+":ref:`toegang filteren tot statistieken <statistics-access-filtering>`."
 
 #: admin/workspaces.rst:36
 msgid ""
@@ -22731,6 +22703,13 @@ msgid ""
 "workspace level is not supported; select a project and open an individual "
 "translation to upload a file."
 msgstr ""
+"Het menu :guilabel:`Bestanden` van de werkruimte downloadt een ZIP-archief "
+"van eigen onderdelen waar u toegang toe heeft en het recht hebt om ze te "
+"downloaden. Lidmaatschap van een werkruimte omzeilt niet toegangsbeheer voor "
+"een project of beperkingen op onderdelen. Het menu verschaft ook richtlijnen "
+"voor :guilabel:`Vertaling uploaden`. Uploadenop he niveau van de werkruimte "
+"wordt net ondersteund; selecteer een project en open een individuele "
+"vertal;ing om een bestand te uploaden."
 
 #: admin/workspaces.rst:43
 msgid ""
@@ -22739,6 +22718,11 @@ msgid ""
 "text across permission-filtered owned project content in the workspace. The "
 "existing :ref:`search-replace` preview and confirmation workflow applies."
 msgstr ""
+"Gebruikers, die in een toegankelijk project vertalingen mogen bewerken, "
+"kunnen :guilabel:`Bewerkingen` ↓ :guilabel:`Zoeken en vervangen` kiezen om "
+"tekst te vervangen in de op rechten gefilterde eigen inhoud voor het project "
+"in de werkruimte. Het bestaande voorbeeld van :ref:`search-replace` en "
+"werkstroom voor bevestigen is van toepassing."
 
 #: admin/workspaces.rst:51
 msgid "Workspace removal"
@@ -22863,6 +22847,11 @@ msgid ""
 "automatically created workspace translation-memory entries. See :ref:`memory-"
 "user`."
 msgstr ""
+"Gebruikers met het recht om de werkruimte te bewerken kunnen "
+":guilabel:`Bewerkingen` ↓ :guilabel:`Vertaalgeheugen` openen om door "
+"automatisch gemaakte items voor het vertaalgeheugen van de werkruimte te "
+"bladeren, ze te downloaden, te verwijderen of opnieuw te bouwen. Bekijk "
+":ref:`memory-user`."
 
 #: admin/workspaces.rst:123
 msgid ""
@@ -23366,12 +23355,18 @@ msgid ""
 "api/users/(str:username)/`; the response then includes the updated "
 "``profile`` object."
 msgstr ""
+"De gebruiker-API geeft de voorkeuren voor het profiel weer in een genest "
+"object ``profile``. Het object wordt teruggegeven op :http:get:`/api/users/"
+"(str:username)/` alleen voor aanroepen met het recht ``user.view`` of "
+"``user.edit``. Gebruikers zonder die rechten kunnen nog steeds hun eigen "
+"profiel bijwerken via :http:patch:`/api/users/(str:username)/`; het antwoord "
+"bevat dan het bijgewerkte object ``profile``."
 
 #: api.rst:563
-#, fuzzy
-#| msgid "Available fixes are described at :ref:`autofix`."
 msgid "Profile fields mirror the settings described in :ref:`user-profile`."
-msgstr "Beschikbare reparaties zijn beschreven in :ref:`autofix`."
+msgstr ""
+"Profielvelden spiegelen de instellingen die zijn beschreven in :ref:`user-"
+"profile`."
 
 #: api.rst:567
 msgid "Groups"
@@ -23469,6 +23464,11 @@ msgid ""
 "and character counts; suggestions; comments; and translated and approved "
 "percentages."
 msgstr ""
+"Projectmetrieken geven statistieken weer voor de vertaling van elk zichtbaar "
+"onderdeel en taal op :http:get:`/api/projects/(string:project)/metrics/`. Ze "
+"bevatten vertaalde, totaal aantal, fuzzy, mislukte controles en goedgekeurde "
+"tekenreeks, tellingen voor woorden en tekens; suggesties; opmerkingen en "
+"percentages voor vertaald en goedgekeurd."
 
 #: api.rst:3463
 msgid "Search"
@@ -23532,10 +23532,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2026.8"
 msgid "Weblate 2026.9"
-msgstr "Weblate 2026.8"
+msgstr "Weblate 2026.9"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -23685,58 +23683,62 @@ msgid "Contributors"
 msgstr "Medewerkers"
 
 #: changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "68?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/168?"
 "closed=1>`__."
 msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
-"68?closed=1>`__."
+"168?closed=1>`__."
 
 #: changes.rst:25
-#, fuzzy
-#| msgid "Weblate 2026.7.1"
 msgid "Weblate 2026.8.1"
-msgstr "Weblate 2026.7.1"
+msgstr "Weblate 2026.8.1"
 
 #: changes.rst:27
-#, fuzzy
-#| msgid "*Released on August 21th 2021.*"
 msgid "*Released on August 7th 2026.*"
-msgstr "*Uitgegeven op 21 augustus 2021.*"
+msgstr "*Uitgegeven op 7 augustus 2026.*"
 
 #: changes.rst:31
 msgid ""
 "Project and component APIs now expose all user-configurable settings, "
 "including access control and translation-memory settings. See :doc:`api`."
 msgstr ""
+"Project- en onderdeel-API's geven nu alle door gebruikers te configureren "
+"instellingen weer, inclusief toegangsbeheer en instellingen voor "
+"vertaalgeheugen. Bekijk :doc:`api`."
 
 #: changes.rst:32
 msgid ""
 "Added the :wladmin:`metrics` command for retrieving server metrics locally "
 "in JSON, CSV, or OpenMetrics format."
 msgstr ""
+"Toegevoegd de opdracht :wladmin:`metrics` voor het lokaal ophalen van "
+"servermetrieken in de indeling JSON, CSV of OpenMetrics."
 
 #: changes.rst:36
 msgid ""
 "Task progress now requires authentication and works for aggregate automatic "
 "translation operations."
 msgstr ""
+"Voortgang van taken vereist nu authenticatie en werkt voor bewerkingen van "
+"samengevoegde automatische vertalingen."
 
 #: changes.rst:37
 msgid ""
 "Docker Celery worker logging no longer emits duplicate records through both "
 "Celery and Weblate log handlers."
 msgstr ""
+"Loggen van Docker Celery-werker geeft geen duplicate records meer via zowel "
+"logafhandeling van Celery als van Weblate."
 
 #: changes.rst:38
 msgid ""
 "Component creation through the REST API now returns the background task URL "
 "in the response when creation work is queued."
 msgstr ""
+"Maken van onderdeel via de REST API geeft nu de URL voor de taak op de "
+"achtergrond in het antwoord als het werk voor het maken in de wachtrij wordt "
+"geplaatst."
 
 #: changes.rst:39
 msgid ""
@@ -23744,63 +23746,75 @@ msgid ""
 "optional persona and style settings are absent from the stored "
 "configuration, as happens when the service is installed through the REST API."
 msgstr ""
+"Services voor Large language model-machinevertaling mislukken niet langer "
+"als de optionele persoons- en opmaakinstellingen ontbreken in de opgeslagen "
+"configuratie, zoals gebeurt wanneer de service werd geïnstalleerd via de "
+"REST API."
 
 #: changes.rst:40
 msgid ""
 ":wladmin:`import_json` now preserves the component source language for newly "
 "imported components from JSON exports."
 msgstr ""
+":wladmin:`import_json` behoudt nu de brontaal voor het onderdeel voor nieuw "
+"geïmporteerde onderdelen uit exports van JSON."
 
 #: changes.rst:41
 msgid ""
 "Repository actions now require permission on every component sharing the "
 "affected repository, including linked components in other projects."
 msgstr ""
+"Acties voor opslagruimte vereisen nu rechten voor elk onderdeel dat de "
+"betrokken opslagruimte deelt, inclusief gekoppelde onderdelen in andere "
+"projecten."
 
 #: changes.rst:42
 msgid ""
 "Legal document confirmation now explicitly covers the linked privacy policy. "
 "See :ref:`legal`."
 msgstr ""
+"Bevestigen van juridische documenten dekt nu expliciet het gekoppelde "
+"privacybeleid. Bekijk :ref:`legal`."
 
 #: changes.rst:43
 msgid ""
 "Add-on change history now retains only explicitly public configuration "
 "values and marks changed credential fields as redacted."
 msgstr ""
+"Geschiedenis van wijzigen van add-on behoudt nu alleen expliciete publieke "
+"configuratiewaarden en markeert gewijzigde velden voor inloggegevens als "
+"bewerkt."
 
 #: changes.rst:44
 msgid ""
 "Translator work reports with metrics can now be displayed and downloaded as "
 "HTML."
 msgstr ""
+"Rapporten met metrieken van het werk van vertalers kan nu worden weergegeven "
+"en gedownload als HTML."
 
 #: changes.rst:45
 msgid ""
 "Repository credentials are now consistently hidden from web and API output."
 msgstr ""
+"Inloggegevens voor opslagruimten worden nu consistent verborgen in uitvoer "
+"voor web en API."
 
 #: changes.rst:55
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "71?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?"
 "closed=1>`__."
 msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
-"71?closed=1>`__."
+"171?closed=1>`__."
 
 #: changes.rst:58
 msgid "Weblate 2026.8"
 msgstr "Weblate 2026.8"
 
 #: changes.rst:60
-#, fuzzy
-#| msgid "*Released on August 22nd 2022.*"
 msgid "*Released on August 3rd 2026.*"
-msgstr "*Uitgegeven op 22 augustus 2022.*"
+msgstr "*Uitgegeven op 3 augustus 2026.*"
 
 #: changes.rst:64
 msgid ""
@@ -23808,6 +23822,9 @@ msgid ""
 "preference to keep all listing columns visible on narrow screens instead of "
 "hiding them."
 msgstr ""
+"Toegevoegd een voorkeur :guilabel:`Alle kolommen in lijsten weergeven met "
+"horizontaal scrollen` om alle vermelde kolommen zichtbaar te houden op "
+"smalle schermen, in plaats van ze te verbergen."
 
 #: changes.rst:65
 msgid ""
@@ -23833,19 +23850,16 @@ msgid ""
 msgstr ""
 
 #: changes.rst:68
-#, fuzzy
-#| msgid ""
-#| "Component diagnostics now record dismissal ownership, reopen after "
-#| "relevant changes, and notify only project maintainers who can act on "
-#| "warnings and errors."
 msgid ""
 "Added grouped project and workspace :guilabel:`Diagnostics` views with "
 "state, severity, category, and actionable-by-user filters. Component "
 "diagnostics now track dismissal ownership, reopen after relevant changes, "
 "and notify only project maintainers who can act on warnings and errors."
 msgstr ""
-"Diagnostiek van onderdelen legt nu het afzien van eigenaarschap vast, "
-"heropenen na relevante wijzigingen en alleen notificeren van "
+"Toegevoegde gegroepeerde weergaven :guilabel:`Diagnostiek` voor project en "
+"werkruimte met status, ernst, categorie en filters voor actie-door-"
+"gebruiker. Diagnostiek van onderdelen houdt nu het afzien van eigenaarschap "
+"bij, heropenen na relevante wijzigingen en alleen notificeren van "
 "projectbeheerders die kunnen acteren op waarschuwingen en fouten."
 
 #: changes.rst:69
@@ -23885,16 +23899,13 @@ msgid ""
 msgstr ""
 
 #: changes.rst:73
-#, fuzzy
-#| msgid ""
-#| "Added :ref:`check-source-max-length` check for source strings near ``max-"
-#| "length``."
 msgid ""
 "Added :ref:`check-max-lines` and :ref:`check-asciidoc-markup` quality checks "
 "for limiting the number of translation lines and validating AsciiDoc strings."
 msgstr ""
-"Toegevoegde controle :ref:`check-source-max-length` voor brontekenreeksen in "
-"de buurt van ``max-length``."
+"Toegevoegde kwaliteitscontroles :ref:`check-max-lines` en :ref:`check-"
+"asciidoc-markup` voor het beperken van het aantal vertaalde regels en het "
+"valideren van tekenreeksen voor AsciiDoc."
 
 #: changes.rst:74
 msgid ""
@@ -23903,20 +23914,15 @@ msgid ""
 msgstr ""
 
 #: changes.rst:75
-#, fuzzy
-#| msgid ""
-#| "Added support for acting as SAML Service Provider, see :ref:`saml-auth`."
 msgid ""
 "Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`."
 msgstr ""
-"Ondersteuning toegevoegd voor optreden als SAML Service Provider, "
-"bekijk :ref:`saml-auth`."
+"Ondersteuning toegevoegd voor oude bestanden van Qt Linguist TS versie 1. "
+"Bekijk :ref:`qtling`."
 
 #: changes.rst:76
-#, fuzzy
-#| msgid "Weblate is now available in Bashkir language."
 msgid "Weblate is now available in Lao language."
-msgstr "Weblate is nu beschikbaar in de taal Bashkir."
+msgstr "Weblate is nu beschikbaar in de taal Lao."
 
 #: changes.rst:80
 msgid ""
@@ -23931,20 +23937,16 @@ msgid ""
 msgstr ""
 
 #: changes.rst:82
-#, fuzzy
-#| msgid ""
-#| ":ref:`Add-on activity logs <addon-activity-logging>` now distinguish "
-#| "pending, successful, failed, and skipped executions and explain why an "
-#| "add-on was skipped."
 msgid ""
 "Add-on management now uses separate configuration, logs, and components "
 "tabs, while :ref:`activity logs <addon-activity-logging>` distinguish "
 "pending, successful, failed, and skipped executions and explain skipped "
 "executions."
 msgstr ""
-":ref:`Add-on activiteitenlogs <addon-activity-logging>` maken nu onderscheid "
-"tussen openstaande, succesvolle, mislukte en overgeslagen uitvoeringen en "
-"leggen uit waarom een add-on werd overgeslagen."
+"Add-on-beheer gebruikt nu afzonderlijke configuratie, logs en tabs voor "
+"onderdelen, terwijl :ref:`activiteitenlogs <addon-activity-logging>` "
+"onderscheid maken tussen openstaande, succesvolle, mislukte en overgeslagen "
+"uitvoeringen en leggen overgeslagen uitvoeringen uit."
 
 #: changes.rst:83
 msgid ""
@@ -24080,16 +24082,12 @@ msgid ""
 msgstr ""
 
 #: changes.rst:104
-#, fuzzy
-#| msgid ""
-#| "Self-service REST API e-mail changes are now restricted to verified "
-#| "addresses."
 msgid ""
 "Self-service REST API e-mail changes are now restricted to verified "
 "addresses (:ghsa:`x84p-6892-473c`)."
 msgstr ""
 "Wijzigingen voor zelf-service REST API-e-mail zijn nu beperkt tot "
-"geverifieerde adressen."
+"geverifieerde adressen :ghsa:`x84p-6892-473c`."
 
 #: changes.rst:105
 msgid ""
@@ -24102,10 +24100,6 @@ msgstr ""
 "opslagruimten en statussen voor beoordelen."
 
 #: changes.rst:106
-#, fuzzy
-#| msgid ""
-#| "Project backup imports now skip repository-linked components when the "
-#| "importer cannot access the target component."
 msgid ""
 ":ref:`Project backup imports <projectbackup>` now validate restored data "
 "before creating project state, skip repository-linked components the "
@@ -24113,18 +24107,20 @@ msgid ""
 "configuration or shared-repository indirection (:ghsa:`f66g-8pcg-"
 "jm8r`, :ghsa:`327h-qqgm-qv55`)."
 msgstr ""
-"Projectback-up importeert nu overgeslagen aan opslagruimten gekoppelde "
-"onderdelen als de importer geen toegang heeft tot het doel-onderdeel."
+":ref:`Importeren van project back-ups <projectbackup>` valideert nu "
+"teruggezette gegevens voordat de status van het project wordt gemaakt, slaat "
+"aan de opslagruimte gekoppelde onderdelen, waar de importeerder geen toegang "
+"toe heeft, over en laadt niet langer door archief verstrekte configuratie "
+"voor Mercurial of gedeelde configuration of gedeelde opslagruimte via-via "
+"(:ghsa:`f66g-8pcg-jm8r`, :ghsa:`327h-qqgm-qv55`)."
 
 #: changes.rst:107
-#, fuzzy
-#| msgid "Fixed rebuilding project translation-memory for some components."
 msgid ""
 "Rebuilding project translation memory no longer removes entries imported "
 "from files."
 msgstr ""
-"Gerepareerd opnieuw bouwen van project vertaalgeheugen voor sommige "
-"onderdelen."
+"Opnieuw bouwen van project vertaalgeheugen verwijdert niet langer items die "
+"uit bestanden werden geïmporteerd."
 
 #: changes.rst:108
 msgid ""
@@ -24151,16 +24147,12 @@ msgstr ""
 "langer of niet-toegankelijke eenheid-ID's bestaan."
 
 #: changes.rst:111
-#, fuzzy
-#| msgid ""
-#| ":ref:`RSS feeds <rss>` no longer disclose change history from "
-#| "inaccessible projects or restricted components."
 msgid ""
 ":ref:`RSS feeds <rss>` no longer disclose change history from inaccessible "
 "projects or restricted components (:ghsa:`vvc6-wvqm-w5gc`)."
 msgstr ""
 ":ref:`RSS-feeds <rss>` onthullen niet langer de wijzigingsgeschiedenis van "
-"niet-toegankelijke projecten of beperkte onderdelen."
+"niet-toegankelijke projecten of beperkte onderdelen (:ghsa:`vvc6-wvqm-w5gc`)."
 
 #: changes.rst:112
 msgid ""
@@ -24209,17 +24201,13 @@ msgid ""
 msgstr ""
 
 #: changes.rst:121
-#, fuzzy
-#| msgid ""
-#| "Git auto-maintenance is now disabled for Weblate-managed repositories to "
-#| "avoid concurrent detached maintenance jobs."
 msgid ""
 "Git LFS object transfers are unsupported and disabled for Weblate-managed "
 "repositories; LFS-tracked files remain pointer files."
 msgstr ""
-"Git automatisch onderhoud is nu uitgeschakeld voor door Weblate beheerde "
-"opslagruimten om opeenvolgende niet-verbonden taken voor onderhoud te "
-"vermijden."
+"Git LFS objecttransfers worden niet ondersteund en uitgeschakeld voor door "
+"Weblate beheerde opslagruimten; door LFS gevolgd bestanden blijven "
+"pointerbestanden."
 
 #: changes.rst:122
 msgid ""
@@ -26096,10 +26084,8 @@ msgid ""
 msgstr ""
 
 #: changes/contributors/2026.8.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, i4i, Alafi, Kartik Ohri"
-msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
+msgstr "Michal Čihař, i4i, Alafi, Kartik Ohri"
 
 #: changes/contributors/2026.8.1.rst:10
 msgid ""
@@ -26112,10 +26098,8 @@ msgid ""
 msgstr ""
 
 #: changes/contributors/2026.8.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, i4i, Kartik Ohri"
-msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
+msgstr "Michal Čihař, i4i, Kartik Ohri"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -42270,10 +42254,8 @@ msgstr ""
 "formulier in lijn met het opgeslagen configuratietype."
 
 #: contributing/addons.rst:43
-#, fuzzy
-#| msgid "Typing add-on configuration"
 msgid "Publishing add-on configuration"
-msgstr "Normale configuratie add-on"
+msgstr "Add-onconfiguratie publiceren"
 
 #: contributing/addons.rst:45
 msgid ""
@@ -46792,10 +46774,8 @@ msgstr ""
 "overeenkomen met uw codebase."
 
 #: devel/integration.rst:69
-#, fuzzy
-#| msgid "Joining a translation project"
 msgid "Monitoring translation progress"
-msgstr "Deelnemen aan een vertaalproject"
+msgstr "Voortgang vertaling monitoren"
 
 #: devel/integration.rst:71
 msgid ""
@@ -46812,10 +46792,8 @@ msgid ""
 msgstr ""
 
 #: devel/integration.rst:81
-#, fuzzy
-#| msgid ":http:get:`/api/projects/(string:project)/statistics/`"
 msgid ":http:get:`/api/projects/(string:project)/metrics/`"
-msgstr ":http:get:`/api/projects/(string:project)/statistics/`"
+msgstr ":http:get:`/api/projects/(string:project)/metrics/`"
 
 #: devel/integration.rst:87 devel/translations.rst:7
 msgid "Adding new strings"
@@ -52095,10 +52073,8 @@ msgstr ""
 "`Qt Linguist handleiding <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: formats/qt.rst:24
-#, fuzzy
-#| msgid "Version"
 msgid "Version 2"
-msgstr "Versie"
+msgstr "Versie 2"
 
 #: formats/qt.rst:26
 msgid ""
@@ -52107,10 +52083,8 @@ msgid ""
 msgstr ""
 
 #: formats/qt.rst:37
-#, fuzzy
-#| msgid "Version"
 msgid "Version 1"
-msgstr "Versie"
+msgstr "Versie 1"
 
 #: formats/qt.rst:39
 msgid ""
@@ -52123,10 +52097,8 @@ msgid "Typical Weblate :ref:`component` when using as bilingual"
 msgstr "Typisch Weblate :ref:`component` bij gebruik als tweetalig"
 
 #: formats/qt.rst:56 formats/qt.rst:69
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)`"
-msgstr "Qt Linguist-vertaalbestand"
+msgstr "Qt Linguist-vertaalbestand (versie 2)`"
 
 #: formats/qt.rst:61
 msgid "Typical Weblate :ref:`component` when using as monolingual"
@@ -55625,18 +55597,14 @@ msgstr ""
 "met :setting:`LEGAL_URL` en :setting:`PRIVACY_URL`."
 
 #: security/privacy-compliance.rst:54
-#, fuzzy
-#| msgid ""
-#| "Terms of service confirmation can be enforced using the legal app, "
-#| "and :setting:`LEGAL_TOS_DATE` can require users to accept updated terms."
 msgid ""
 "Legal document confirmation can be enforced using the legal app, "
 "and :setting:`LEGAL_TOS_DATE` can require users to accept updated terms and, "
 "when linked, the privacy policy."
 msgstr ""
-"Bevestigen van bepalingen over service kunnen worden afgedwongen met de app "
-"legal en :setting:`LEGAL_TOS_DATE` kan van gebruikers vragen dat ze de "
-"bijgewerkte bepalingen accepteren."
+"Bevestigen van juridische documenten kan worden afgedwongen met de app legal "
+"en :setting:`LEGAL_TOS_DATE` kan van gebruikers vragen dat ze de bijgewerkte "
+"bepalingen accepteren en, indien gekoppeld, het privacybeleid."
 
 #: security/privacy-compliance.rst:57
 msgid ""
@@ -55929,20 +55897,15 @@ msgid "Recommendations for compliance"
 msgstr "Aanbevelingen voor conformiteit"
 
 #: security/privacy-compliance.rst:157
-#, fuzzy
-#| msgid ""
-#| "**Notices and consent:** Provide privacy, cookie, subcontractor, and "
-#| "terms information through :ref:`legal`, and "
-#| "update :setting:`LEGAL_TOS_DATE` when users must accept changed terms."
 msgid ""
 "**Notices and consent:** Provide privacy, cookie, subcontractor, and terms "
 "information through :ref:`legal`, and update :setting:`LEGAL_TOS_DATE` when "
 "users must accept changed terms or privacy policy."
 msgstr ""
 "**Notities en instemming:** Privacy verschaffen, cookie, subleverancier en "
-"informatie over bepalingen via :ref:`legal` en bijwerken "
-"van :setting:`LEGAL_TOS_DATE` wanneer gebruikers gewijzigde bepalingen "
-"moeten accepteren."
+"informatie over bepalingen via :ref:`legal` en bijwerken van "
+":setting:`LEGAL_TOS_DATE` wanneer gebruikers gewijzigde bepalingen of "
+"privacybeleid moeten accepteren."
 
 #: security/privacy-compliance.rst:160
 msgid ""
@@ -56872,18 +56835,16 @@ msgid "In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)"
 msgstr "In bereik. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)"
 
 #: security/threat-model.rst:51
-#, fuzzy
-#| msgid "Per-project translation memory"
 msgid "Project translation metrics"
-msgstr "Vertaalgeheugen per project"
+msgstr "Vertaalmetrieken per project"
 
 #: security/threat-model.rst:52
-#, fuzzy
-#| msgid ":http:get:`/api/projects/(string:project)/statistics/`"
 msgid ""
 ":http:get:`/api/projects/(string:project)/metrics/` in JSON, CSV, and "
 "OpenMetrics formats"
-msgstr ":http:get:`/api/projects/(string:project)/statistics/`"
+msgstr ""
+":http:get:`/api/projects/(string:project)/metrics/` in indelingen JSON, CSV "
+"en OpenMetrics"
 
 #: security/threat-model.rst:54
 msgid ""
@@ -56891,17 +56852,15 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:56
-#, fuzzy
-#| msgid ""
-#| "In scope as authenticated actors with delegated project scope. "
-#| "*(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgid ""
 "In scope as a read-only public API. Unauthenticated callers can query public "
 "projects; private projects and restricted components remain permission-"
 "filtered. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
-"In bereik als geauthenticeerde medewerkenden met gedelegeerd bereik project. "
-"*(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
+"In bereik als alleen-lezen publieke API. Niet-geauthenticeerde aanroepers "
+"kunnen publieke projecten bevragen; private projecten en beperkte onderdelen "
+"blijven gefilterd op rechten. *(documented)* (source: :doc:`/api`, :doc:`/"
+"admin/access`)"
 
 #: security/threat-model.rst:60
 msgid "Stored translation reports"
@@ -57168,13 +57127,6 @@ msgid "Out of scope for product security claims. *(maintainer)*"
 msgstr "Buiten bereik voor claims voor productbeveiliging. *(maintainer)*"
 
 #: security/threat-model.rst:128
-#, fuzzy
-#| msgid ""
-#| "The intended deployment is a server-side Weblate installation behind a "
-#| "web server or reverse proxy, with a WSGI application server, PostgreSQL "
-#| "database, datastore, Celery workers, a writable data directory, and "
-#| "optional outbound VCS, backup, identity-provider, and machine-translation "
-#| "integrations. *(documented)* (source: :doc:`/admin/install`)"
 msgid ""
 "The intended deployment is a server-side Weblate installation behind a web "
 "server or reverse proxy, with a WSGI or ASGI application server, PostgreSQL "
@@ -57183,9 +57135,9 @@ msgid ""
 "integrations. *(documented)* (source: :doc:`/admin/install`)"
 msgstr ""
 "De bedoelde uitrol is een Weblateinstallatie aan de zijde van de server, "
-"achter een webserver of omgekeerde proxy, met een toepassingsserver WSGI, "
-"PostgreSQL-database, gegevensopslag, Celerywerkers, een te beschrijven map "
-"en optioneel uitgaande VCS, back-up, identiteits-provider en integraties "
+"achter een webserver of omgekeerde proxy, met een toepassingsserver WSGI of "
+"ASGI, PostgreSQL-database, gegevensopslag, Celerywerkers, een te beschrijven "
+"map en optioneel uitgaande VCS, back-up, identiteits-provider en integraties "
 "voor machinevertaling. *(documented)* (source: :doc:`/admin/install`)"
 
 #: security/threat-model.rst:134
@@ -57357,13 +57309,6 @@ msgid "Webhook sender to Weblate"
 msgstr "Afzender webhaak naar Weblate"
 
 #: security/threat-model.rst:197
-#, fuzzy
-#| msgid ""
-#| "Public forge notifications can schedule repository synchronization where "
-#| "hooks are enabled. GitHub App webhooks additionally authenticate with a "
-#| "per-app URL token and GitHub signature verification before processing. "
-#| "*(documented)* (source: :ref:`hooks`, :ref:`project-"
-#| "enable_hooks`, :ref:`code-hosting-github-app-webhook`)"
 msgid ""
 "Public forge notifications can schedule repository synchronization where "
 "hooks are enabled. Registered GitHub App webhooks additionally authenticate "
@@ -57374,10 +57319,13 @@ msgid ""
 "github-app-webhook`, :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)"
 msgstr ""
 "Publieke vervalste notificaties kunnen synchroniseren van de opslagruimte "
-"plannen als hooks zijn ingeschakeld. GitHub -app-webhooks authenticeren "
-"aanvullend met een per-app URL-token en GitHub-handtekeningverificatie voor "
-"de verwerking. *(documented)* (source: :ref:`hooks`, :ref:`project-"
-"enable_hooks`, :ref:`code-hosting-github-app-webhook`)"
+"plannen als hooks zijn ingeschakeld. Geregistreerde GitHub -app-webhooks "
+"authenticeren aanvullend met een per-app URL-token en GitHub-"
+"handtekeningverificatie. Opt-in verouderde GitHub App levert authenticatie "
+"aan de algemene GitHub webhaak met een afzonderlijk geconfigureerd geheim, "
+"wachtwoord. *(documented)* (source: :ref:`hooks`, :ref:`project-"
+"enable_hooks`, :ref:`code-hosting-github-app-webhook`, "
+":setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)"
 
 #: security/threat-model.rst:205
 msgid "Weblate to database/datastore"
@@ -57541,22 +57489,17 @@ msgstr ""
 "*(documented)* (source: :doc:`/devel/reporting`, :doc:`/api`)"
 
 #: security/threat-model.rst:256
-#, fuzzy
-#| msgid ""
-#| "A stored-report finding is in model when an authenticated user can "
-#| "generate, list, or render contributor data outside the creator or current "
-#| "``reports.view`` scope. *(documented)* (source: :doc:`/devel/"
-#| "reporting`, :doc:`/api`)"
 msgid ""
 "A user-profile API finding is in model when an authenticated user can read "
 "or mutate another user's profile preferences outside the documented "
 "``user.view``, ``user.edit``, or self-service boundaries. *(documented)* "
 "(source: :doc:`/api`, :ref:`user-profile`)"
 msgstr ""
-"Een bevinding in een opgeslagen rapport staat in een model dat een "
-"geauthenticeerde gebruiker kan maken, vermelden, of bijdragegegevens "
-"renderen buiten de maker om of het huidige bereik ``reports.view``. "
-"*(documented)* (source: :doc:`/devel/reporting`, :doc:`/api`)"
+"Een bevinding over een gebruikersprofiel API staat in een model als een "
+"geauthenticeerde gebruiker de voorkeuren voor een gebrukersprofiel van een "
+"ander gebruiker kan lezen of bewerken buiten de gedocumenteerde "
+"``user.view``, ``user.edit``, of grenzen voor de zelf-service. *(documented)"
+"* (source: :doc:`/api`, :ref:`user-profile`)"
 
 #: security/threat-model.rst:260
 msgid ""
@@ -57847,17 +57790,15 @@ msgid ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_
 msgstr ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
 
 #: security/threat-model.rst:354
-#, fuzzy
-#| msgid ""
-#| "Content Security Policy sources are configurable. *(documented)* "
-#| "(source: :doc:`/admin/config`)"
 msgid ""
 "Content Security Policy sources are configurable. *(documented)* "
 "(source: :doc:`/admin/config`) The default script policy permits inline "
 "execution only on explicitly scoped compatibility paths. *(maintainer)*"
 msgstr ""
 "Bronnen voor Content Security Policy zijn te configureren. *(documented)* "
-"(source: :doc:`/admin/config`)"
+"(source: :doc:`/admin/config`) Het standaardbeleid voor scripten staat "
+"inregelige uitvoering alleen toe voor expliciete compatibiliteitspaden in "
+"het bereik. *(maintainer)*"
 
 #: security/threat-model.rst:357
 msgid ""
@@ -57930,11 +57871,6 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:394
-#, fuzzy
-#| msgid ""
-#| "Allowlist settings and privileged configuration can intentionally expand "
-#| "reachability. *(documented)* "
-#| "(source: :setting:`ASSET_PRIVATE_ALLOWLIST`, :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)"
 msgid ""
 "Allowlist settings and privileged configuration can intentionally expand "
 "reachability. Fedora Messaging broker URLs are site-administrator "
@@ -57942,8 +57878,11 @@ msgid ""
 "(source: :setting:`ASSET_PRIVATE_ALLOWLIST`, :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)"
 msgstr ""
 "Instellingen voor toegestane lijsten en geprivilegieerde configuratie kunnen "
-"opzettelijk de bereikbaarheid uitbreiden. *(documented)* "
-"(source: :setting:`ASSET_PRIVATE_ALLOWLIST`, :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)"
+"opzettelijk de bereikbaarheid uitbreiden. Fedora Messaging tussen-URL's "
+"behioren tot de configuratie van de sitebeheerder en worden door dit model "
+"vertrouwd. *(documented)* (source: :setting:`ASSET_PRIVATE_ALLOWLIST`, "
+":setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)"
 
 #: security/threat-model.rst:400
 msgid ""
@@ -57962,17 +57901,14 @@ msgstr ""
 "(source: :setting:`SSH_EXTRA_ARGS`"
 
 #: security/threat-model.rst:405
-#, fuzzy
-#| msgid ""
-#| "Weakening SSH algorithms or host verification changes VCS transport "
-#| "assumptions. *(maintainer)*"
 msgid ""
 "Weakening SSH algorithms or host verification changes VCS transport "
 "assumptions. Routing options can override protected repository address "
 "pinning. *(maintainer)*"
 msgstr ""
 "Verzwakken van SSH-algoritmes of hostverificatie wijzigt de aannames voor "
-"VCS-transport. *(maintainer)*"
+"VCS-transport. Opties voor routeren kunnen vastgezette beveiligde adressen "
+"van opslagruimten overschrijven. *(maintainer)*"
 
 #: security/threat-model.rst:408
 msgid "Operators own the security impact of custom SSH options. *(maintainer)*"
@@ -58126,10 +58062,8 @@ msgstr ""
 "(source: :doc:`/workflows`, :doc:`/api`)"
 
 #: security/threat-model.rst:450
-#, fuzzy
-#| msgid "User profile"
 msgid "User profile API"
-msgstr "Gebruikersprofiel"
+msgstr "Gebruikersprofiel API"
 
 #: security/threat-model.rst:451
 msgid ""
@@ -58140,18 +58074,13 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:456
-#, fuzzy
-#| msgid ""
-#| "Yes, for users or project-scoped tokens with project edit permission. "
-#| "*(documented)* (source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/"
-#| "access`)"
 msgid ""
 "Yes, for authenticated users updating their own profile or actors with "
 "``user.edit``. *(documented)* (source: :doc:`/api`, :ref:`user-profile`)"
 msgstr ""
-"Ja, voor gebruikers of tokens in het bereik project met rechten voor "
-"bewerken van project. *(documented)* (source: :doc:`/"
-"api`, :ref:`projectbackup`, :doc:`/admin/access`)"
+"Ja, voor geauthenticeerde gebruikers die hun eigen profiel bijwerken of "
+"acteurs met ``user.edit``. *(documented)* (source: :doc:`/api`, :ref:`user-"
+"profile`)"
 
 #: security/threat-model.rst:458
 msgid ""
@@ -58653,11 +58582,6 @@ msgstr ""
 "auth`)"
 
 #: security/threat-model.rst:605
-#, fuzzy
-#| msgid ""
-#| "Permission assignments match the intended trust relationship. Team-level "
-#| "enforced 2FA is satisfied by human users before team-derived permissions "
-#| "apply."
 msgid ""
 "Permission assignments match the intended trust relationship. Team-level "
 "enforced 2FA is satisfied by human users before team-derived permissions "
@@ -58666,7 +58590,9 @@ msgid ""
 msgstr ""
 "Toegewezen rechten komen overeen met de bedoelde vertrouwensrelatie. Op "
 "teamniveau afgedwongen 2FA wordt bevestigd door menselijke gebruikers, "
-"voordat van het team afgeleide rechten worden toegepast."
+"voordat van het team afgeleide rechten worden toegepast. Rechten voor acties "
+"van VCS dekken elk delen van onderdelen van een betrokken opslagruimte, "
+"inclusief gekoppelde onderdelen in andere projecten."
 
 #: security/threat-model.rst:610
 msgid "User or token can read or mutate data outside assigned scope."
@@ -58835,41 +58761,31 @@ msgid ""
 msgstr ""
 
 #: security/threat-model.rst:660
-#, fuzzy
-#| msgid ""
-#| "A user-configurable screenshot URL, remote HTML URL, project website or "
-#| "repository browser URL, outbound webhook URL, Fedora Messaging AMQP "
-#| "broker URL, or VCS URL reaches an internal or non-public target despite "
-#| "default controls."
 msgid ""
 "A user-configurable screenshot URL, remote HTML URL, project website or "
 "repository browser URL, outbound webhook URL, or VCS URL reaches an internal "
 "or non-public target despite default controls."
 msgstr ""
 "Een door de gebruiker te configureren URL voor schermafdrukken, URL voor "
-"HTML op afstand, projectwebsite of browserURL voor opslagruimte, uitgaande "
-"URL voor webhaak, Fedora Messaging AMQP tussen-URL , of VCS-URL bereikt een "
-"intern of niet-publiek doel, ondanks de standaardcontroles."
+"HTML op afstand, projectwebsite of browser-URL voor opslagruimte, uitgaande "
+"URL voor webhaak, of VCS-URL bereikt een intern of niet-publiek doel, "
+"ondanks de standaardcontroles."
 
 #: security/threat-model.rst:663
 msgid "Security-critical when it exposes internal services or metadata."
 msgstr "Beveiligingskritiek als het interne services of metadata weergeeft."
 
 #: security/threat-model.rst:664
-#, fuzzy
-#| msgid ""
-#| "Weblate records security-relevant account, permission, and project or "
-#| "component setting changes in audit logs or history. *(documented)* "
-#| "(source: :doc:`/security/privacy-compliance`, :doc:`/changes`)"
 msgid ""
 "Weblate records security-relevant account, permission, authenticated web-"
 "action rate-limit lockouts, and project or component setting changes in "
 "audit logs or history. *(documented)* (source: :doc:`/security/privacy-"
 "compliance`, :ref:`rate-limit`, :doc:`/changes`)"
 msgstr ""
-"Weblate legt wijzigingen vast voor beveiligingsrelevante accounts, rechten "
-"en instellingen voor project of onderdeel in auditlogs of geschiedenis. "
-"*(documented)* (source: :doc:`/security/privacy-compliance`, :doc:`/changes`)"
+"Weblate legt wijzigingen vast voor beveiligingsrelevante accounts, rechten, "
+"geauthenticeerde uitsluitingen voor aantal web-acties en instellingen voor "
+"project of onderdeel in auditlogs of geschiedenis. *(documented)* (source: "
+":doc:`/security/privacy-compliance`, :ref:`rate-limit`, :doc:`/changes`)"
 
 #: security/threat-model.rst:668
 msgid "Logging is configured and storage is available."
@@ -60275,16 +60191,12 @@ msgid "TOML file"
 msgstr "TOML-bestand"
 
 #: snippets/addon-parameters-autogenerated.rst:194
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)"
-msgstr "Qt Linguist-vertaalbestand"
+msgstr "Qt Linguist-vertaalbestand (versie 2)"
 
 #: snippets/addon-parameters-autogenerated.rst:196
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 1)"
-msgstr "Qt Linguist-vertaalbestand"
+msgstr "Qt Linguist-vertaalbestand (versie 1)"
 
 #: snippets/addon-parameters-autogenerated.rst:200
 msgid "WebExtension JSON file"
@@ -63917,17 +63829,12 @@ msgstr ""
 "Schakelt de kwaliteitscontrole :ref:`check-accelerator` in."
 
 #: snippets/check-flags-autogenerated.rst:54
-#, fuzzy
-#| msgid ""
-#| "Treat a text as an Bulletin Board Code (BBCode) document, "
-#| "affects :ref:`check-same`. Enables the :ref:`check-bbcode` quality check."
 msgid ""
 "Treat a text as an AsciiDoc document, affects :ref:`check-same`. Enables "
 "the :ref:`check-asciidoc-markup` quality check."
 msgstr ""
-"Behandelt tekst als een document met Bulletin Board Code (BBCode), heeft "
-"invloed op :ref:`check-same`. Schakelt de kwaliteitscontrole :ref:`check-"
-"bbcode` in."
+"Behandelt tekst als een document van AsciiDoc, heeft invloed op :ref:`check-"
+"same`. Schakelt de kwaliteitscontrole :ref:`check-asciidoc-markup` in."
 
 #: snippets/check-flags-autogenerated.rst:57
 msgid ""
@@ -64102,10 +64009,8 @@ msgid "Enables the :ref:`check-max-length` quality check."
 msgstr "Schakelt de kwaliteitscontrole :ref:`check-max-length` in."
 
 #: snippets/check-flags-autogenerated.rst:133
-#, fuzzy
-#| msgid "Enables the :ref:`check-max-size` quality check."
 msgid "Enables the :ref:`check-max-lines` quality check."
-msgstr "Schakelt de kwaliteitscontrole :ref:`check-max-size` in."
+msgstr "Schakelt de kwaliteitscontrole :ref:`check-max-lines` in."
 
 #: snippets/check-flags-autogenerated.rst:135
 msgid "Enables the :ref:`check-max-size` quality check."
@@ -64167,10 +64072,8 @@ msgid "Skip the :ref:`check-accelerator` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-accelerator` over."
 
 #: snippets/check-flags-autogenerated.rst:166
-#, fuzzy
-#| msgid "Skip the :ref:`check-kashida` quality check."
 msgid "Skip the :ref:`check-asciidoc-markup` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-kashida` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-asciidoc-markup` over."
 
 #: snippets/check-flags-autogenerated.rst:168
 msgid "Skip the :ref:`check-bbcode` quality check."
@@ -64342,10 +64245,8 @@ msgid "Skip the :ref:`check-max-length` quality check."
 msgstr "Sla de kwaliteitscontrole :ref:`check-max-length` over."
 
 #: snippets/check-flags-autogenerated.rst:252
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-size` quality check."
 msgid "Skip the :ref:`check-max-lines` quality check."
-msgstr "Sla de kwaliteitscontrole :ref:`check-max-size` over."
+msgstr "Sla de kwaliteitscontrole :ref:`check-max-lines` over."
 
 #: snippets/check-flags-autogenerated.rst:254
 msgid "Skip the :ref:`check-max-size` quality check."
@@ -64692,16 +64593,12 @@ msgstr ""
 "accelerator`` om de controle voor dergelijke tekenreeksen over te slaan."
 
 #: snippets/checks-autogenerated.rst:49
-#, fuzzy
-#| msgid "AsciiDoc file"
 msgid "AsciiDoc markup"
-msgstr "AsciiDoc-bestand"
+msgstr "AsciiDoc-opmaak"
 
 #: snippets/checks-autogenerated.rst:53
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "De tekenreeks voor het patroon in C komt niet overeen met de bron."
+msgstr "AsciiDoc-opmaak komt niet overeen met de bron."
 
 #: snippets/checks-autogenerated.rst:0
 msgid "File formats automatically enabling this check"
@@ -66217,16 +66114,12 @@ msgstr ""
 "lengte de tags van XML."
 
 #: snippets/checks-autogenerated.rst:1457
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Maximumomvang van de vertaling"
+msgstr "Maximale aantal regels"
 
 #: snippets/checks-autogenerated.rst:1459
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "De vertaling mag de opgegeven lengte niet overschrijden."
+msgstr "De vertaling mag het opgegeven aantal regels niet overschrijden."
 
 #: snippets/checks-autogenerated.rst:1469
 msgid ""
@@ -66237,16 +66130,12 @@ msgid ""
 msgstr ""
 
 #: snippets/checks-autogenerated.rst:1474
-#, fuzzy
-#| msgid ""
-#| "Unlike the other checks, the flag should be set as a ``key:value`` pair "
-#| "like ``max-length:100``."
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-lines:3``."
 msgstr ""
 "Anders dan de andere controles zou de vlag moeten worden ingesteld als een "
-"paar ``sleutel:waarde``, zoals ``max-length:100``."
+"paar ``sleutel:waarde``, zoals ``lines:3``."
 
 #: snippets/checks-autogenerated.rst:1477
 msgid ""
@@ -67429,14 +67318,12 @@ msgid "Source string length"
 msgstr "Lengte van brontekenreeks"
 
 #: snippets/checks-autogenerated.rst:2649
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"Brontekenreeks is te lang om te passen binnen de geconfigureerde maximale "
-"lengte."
+"Brontekenreeks is dicht bij of overschrijdt de geconfigureerde maximale "
+"lengte voor vertalingen."
 
 #: snippets/checks-autogenerated.rst:2658
 msgid ""
@@ -68861,10 +68748,8 @@ msgid "``.ad``, ``.adoc``, ``.asciidoc``"
 msgstr "``.ad``, ``.adoc``, ``.asciidoc``"
 
 #: snippets/format-features/asciidoc-features.rst:30
-#, fuzzy
-#| msgid ":ref:`check-safe-html`, ``strict-same``"
 msgid ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
-msgstr ":ref:`check-safe-html`, ``strict-same``"
+msgstr ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
 
 #: snippets/format-features/catkeys-features.rst:10
 #: snippets/format-features/nextcloud-json-features.rst:10
@@ -75369,27 +75254,22 @@ msgid "Using proxy"
 msgstr "Proxy gebruiken"
 
 #: vcs.rst:285
-#, fuzzy
-#| msgid ""
-#| "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
-#| "configure the VCS to use it."
 msgid ""
 "If you need to access Git repositories over HTTPS using a proxy server, "
 "configure the per-protocol environment variables described in :ref:`http-"
 "proxy`."
 msgstr ""
-"Als u toegang nodig hebt tot opslagruimten van het VCS met HTTP/HTTPS die "
-"een proxyserver gebruiken, configureer dan het VCS om het te gebruiken."
+"Als u toegang nodig hebt tot opslagruimten van GIT met HTTPS die een "
+"proxyserver gebruiken, configureer dan de per-protocol-omgevingsvariabelen "
+"die worden beschreven in :ref:`http-proxy`."
 
 #: vcs.rst:291
 msgid "Git"
 msgstr "Git"
 
 #: vcs.rst:295
-#, fuzzy
-#| msgid "Weblate needs Git 2.28 or newer."
 msgid "Weblate needs Git 2.46 or newer."
-msgstr "Weblate heeft Git 2.28 of nieuwer nodig."
+msgstr "Weblate heeft Git 2.46 of nieuwer nodig."
 
 #: vcs.rst:299
 msgid ""
@@ -76430,10 +76310,8 @@ msgstr ""
 "hebben voor een bepaalde taal)."
 
 #: workflows.rst:46
-#, fuzzy
-#| msgid "Specifying translation flags"
 msgid "Limiting translation languages"
-msgstr "Vlaggen voor vertalingen specificeren"
+msgstr "Talen voor vertalingen beperken"
 
 #: workflows.rst:48
 msgid ""
@@ -76462,10 +76340,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:62
-#, fuzzy
-#| msgid "Lists translations in Weblate."
 msgid "Limit which translation files Weblate discovers"
-msgstr "Somt vertalingen in Weblate op."
+msgstr "Beperk welke vertaalbestanden Weblate ontdekt"
 
 #: workflows.rst:63
 msgid ""
@@ -76477,10 +76353,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:69
-#, fuzzy
-#| msgid "Visible and translatable only for selected users."
 msgid "Grant translation access only for selected languages"
-msgstr "Alleen zichtbaar en vertaalbaar door geselecteerde gebruikers."
+msgstr "Toegang voor vertalen alleen toestaan voor geselecteerde talen"
 
 #: workflows.rst:70
 msgid ""
@@ -76491,10 +76365,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:75
-#, fuzzy
-#| msgid "Limit processing to a single language."
 msgid "Restrict direct editing of an existing language"
-msgstr "Beperk het verwerken tot een enkele taal."
+msgstr "Beperk het direct verwerken van een bestaande taal"
 
 #: workflows.rst:76
 msgid ""
@@ -76519,10 +76391,8 @@ msgid ""
 msgstr ""
 
 #: workflows.rst:89
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Use suggestion voting"
-msgstr "Stemmen voor suggesties"
+msgstr "Stemmen voor suggesties gebruiken"
 
 #: workflows.rst:90
 msgid ""
