@@ -4299,32 +4299,73 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.alerts_trigger[name] = [kwargs]
 
     def delete_alert(self, alert: str) -> None:
-        if alert in self.all_alerts:
-            self.all_alerts[alert].delete()
-            del self.all_alerts[alert]
-            self.update_alert_caches()
-            self.clear_prefetched_alerts()
-            if (
-                self.locked
-                and self.effective_auto_lock_error
-                and alert in LOCKING_ALERTS
-                and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
-                and getattr(
-                    # The object might not exist
-                    self.change_set.filter(action=ActionEvents.LOCK)
-                    .order_by("-id")
-                    .first(),
-                    "auto_status",
-                    None,
-                )
-            ):
-                self.do_lock(user=None, lock=False, auto=True)
+        alert_class = get_alert_class(alert)
+        linked_children = list(self.linked_children) if alert_class.link_wide else []
+        alert_exists = alert in self.all_alerts
 
-        if get_alert_class(alert).link_wide:
-            for component in self.linked_children:
+        if alert not in LOCKING_ALERTS:
+            if alert_exists:
+                self._delete_alert(self.all_alerts[alert])
+            for component in linked_children:
                 component.delete_alert(alert)
+            return
+
+        if not alert_exists and not any(
+            alert in component.all_alerts for component in linked_children
+        ):
+            return
+
+        with transaction.atomic():
+            locked_component = Component.objects.get_for_update(pk=self.pk)
+            alert_obj = locked_component.alert_set.filter(name=alert).first()
+            if alert_obj is not None:
+                self._delete_alert(alert_obj, locked_component=locked_component)
+            if alert_class.link_wide:
+                for component in locked_component.linked_children:
+                    component.delete_alert(alert)
+
+    def _delete_alert(
+        self, alert_obj: Alert, *, locked_component: Component | None = None
+    ) -> None:
+        alert = alert_obj.name
+        alert_obj.delete()
+        cached_alerts = self.__dict__.get("all_alerts")
+        if cached_alerts is not None:
+            cached_alerts.pop(alert, None)
+        self.update_alert_caches()
+        self.clear_prefetched_alerts()
+        if (
+            locked_component is not None
+            and locked_component.locked
+            and locked_component.effective_auto_lock_error
+            and not locked_component.alert_set.filter(name__in=LOCKING_ALERTS).exists()
+            and getattr(
+                # The object might not exist
+                locked_component.change_set.filter(action=ActionEvents.LOCK)
+                .order_by("-id")
+                .first(),
+                "auto_status",
+                None,
+            )
+        ):
+            self.do_lock(user=None, lock=False, auto=True)
 
     def add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
+        alert_class = get_alert_class(alert)
+        if alert in LOCKING_ALERTS and alert_class.link_wide:
+            with transaction.atomic():
+                Component.objects.get_for_update(pk=self.pk)
+                self._add_alert(alert, noupdate=noupdate, **details)
+                for component in self.linked_children:
+                    component.add_alert(alert, noupdate=noupdate, **details)
+            return
+
+        self._add_alert(alert, noupdate=noupdate, **details)
+        if alert_class.link_wide:
+            for component in self.linked_children:
+                component.add_alert(alert, noupdate=noupdate, **details)
+
+    def _add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
         alert_class = get_alert_class(alert)
         severity = alert_class.severity
         if alert in self.all_alerts:
@@ -4393,10 +4434,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.update_alert_caches()
         self.clear_prefetched_alerts()
-
-        if alert_class.link_wide:
-            for component in self.linked_children:
-                component.add_alert(alert, noupdate=noupdate, **details)
 
     def update_import_alerts(self, delete: bool = True) -> None:
         self.log_info("checking triggered alerts")
