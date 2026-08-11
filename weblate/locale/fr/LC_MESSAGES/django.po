@@ -38,7 +38,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-11 14:56+0000\n"
+"PO-Revision-Date: 2026-08-12 04:49+0000\n"
 "Last-Translator: Steve <steve-contrib@murena.io>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -14397,7 +14397,13 @@ msgid_plural ""
 "entries created from current translations. Uploaded translation memory "
 "entries will be preserved."
 msgstr[0] ""
+"La reconstruction en arrière-plan remplacera %(count)s entrée de mémoire de "
+"traduction créée à partir des traductions actuelles. Les entrées de mémoire "
+"de traduction téléversées seront conservées."
 msgstr[1] ""
+"La reconstruction en arrière-plan remplacera %(count)s entrées de mémoire de "
+"traduction créées à partir des traductions actuelles. Les entrées de mémoire "
+"de traduction téléversées seront conservées."
 
 #: weblate/templates/memory/index.html:135
 msgid "Active entries"
@@ -16157,6 +16163,8 @@ msgid ""
 "Uploading translations at this level is not supported. Open an individual "
 "translation and upload the file there."
 msgstr ""
+"Le chargement des traductions n'est pas pris en charge à ce niveau. Ouvrez "
+"une traduction individuelle et téléversez-y le fichier."
 
 #: weblate/templates/snippets/user-contribution-cleanup.html:10
 #: weblate/trans/forms.py:1645
@@ -16344,12 +16352,18 @@ msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
+"Le composant semble contenir des fichiers PO gettext classiques, mais il est "
+"configuré comme un fichier PO gettext mono-langue."
 
 #: weblate/templates/trans/alert/bilingualpoconfiguredasmonolingual.html:4
+#, fuzzy
 msgid ""
 "If these are bilingual PO files, change the file format to gettext PO file, "
 "clear the monolingual base language file, and update the component."
 msgstr ""
+"S’il s’agit de fichiers PO bilingues, modifiez le format de fichier en "
+"fichier PO gettext, supprimez le fichier langue de base mono-langue et "
+"mettez à jour le composant."
 
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid ""
@@ -16400,6 +16414,10 @@ msgid ""
 "accepts only verified redirects on the same host. Update the component to "
 "use the canonical repository URL if the redirect points elsewhere."
 msgstr ""
+"L'URL du dépôt a renvoyé une redirection HTTP permanente. Weblate n'accepte "
+"automatiquement que les redirections vérifiées sur le même hôte. Mettez à "
+"jour le composant pour utiliser l'URL canonique du dépôt si la redirection "
+"pointe ailleurs."
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
@@ -16428,18 +16446,26 @@ msgstr ""
 "devoir utiliser l’extension squash sur ce composant dans Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:30
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users or add "
 "<code>%(username)s</code> as a collaborator."
 msgstr ""
+"Le dépôt GitHub n'autorise que les collaborateurs à créer des demandes de "
+"tirage. Demandez à un mainteneur du dépôt d'autoriser les demandes de tirage "
+"pour tous les utilisateurs ou ajoutez <code>%(username)s</code> comme "
+"collaborateur."
 
 #: weblate/templates/trans/alert/common-repo.html:32
+#, fuzzy
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
 msgstr ""
+"Le dépôt GitHub n'autorise que les collaborateurs à créer des demandes de "
+"tirage. Veuillez demander à un mainteneur du dépôt d'autoriser les demandes "
+"de tirage pour tous les utilisateurs."
 
 #: weblate/templates/trans/alert/common-repo.html:38
 msgid ""
@@ -16743,8 +16769,9 @@ msgid "How contributors should submit translations."
 msgstr "Nouveau contributeur pour %(translation)s"
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:9
+#, fuzzy
 msgid "What review translators should expect."
-msgstr ""
+msgstr "À quoi doivent s'attendre les traducteurs de révision."
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:10
 #, fuzzy
