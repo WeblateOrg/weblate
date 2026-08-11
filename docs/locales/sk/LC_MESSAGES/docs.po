@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-11 16:06+0000\n"
+"PO-Revision-Date: 2026-08-11 16:49+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -4136,10 +4136,8 @@ msgstr ""
 "čísla v češtine nie sú rovnaké."
 
 #: admin/code-hosting.rst:4
-#, fuzzy
-#| msgid "Continuous integration"
 msgid "Code-hosting integrations"
-msgstr "Kontinuálna integrácia"
+msgstr "Integrácie s platformami na hosťovanie kódu"
 
 #: admin/code-hosting.rst:6
 msgid ""
@@ -5001,12 +4999,12 @@ msgstr ""
 ":guilabel:`Nastavenia` repozitára."
 
 #: admin/code-hosting.rst:510
-#, fuzzy
-#| msgid "`Webhooks in Gitea manual <https://docs.gitea.io/en-us/webhooks/>`_"
 msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.com/usage/repository/"
 "webhooks>`_"
-msgstr "`Webhooks v manuáli Gitea <https://docs.gitea.io/en-us/webhooks/>`_"
+msgstr ""
+"`Webhooky v manuáli Gitea <https://docs.gitea.com/usage/repository/webhooks>"
+"`_"
 
 #: admin/code-hosting.rst:511
 msgid ":http:post:`/hooks/gitea/`"
@@ -5419,16 +5417,13 @@ msgid "Docker credentials"
 msgstr "Poverenia Docker"
 
 #: admin/code-hosting.rst:823
-#, fuzzy
-#| msgid ""
-#| "In the Docker container, the credentials can be configured using "
-#| "environment variables, see :ref:`docker-vcs-config`."
 msgid ""
 "For Docker installations, code-hosting API credentials can also be provided "
 "through environment variables, see :ref:`docker-vcs-config`."
 msgstr ""
-"V kontajneri Docker je možné poverenia nakonfigurovať pomocou premenných "
-"prostredia, pozrite :ref:`docker-vcs-config`."
+"V prípade inštalácií v Dockeri je možné poverenia API pre hosting kódu "
+"poskytnúť aj prostredníctvom premenných prostredia, pozrite :ref:`docker-vcs-"
+"config`."
 
 #: admin/componentlists.rst:4
 msgid "Component Lists"
@@ -7842,12 +7837,8 @@ msgstr ""
 "pre sledovanie všetkých udalostí, 0 (predvolené) vypína sledovanie."
 
 #: admin/config.rst:2477 admin/install.rst:1739
-#, fuzzy
-#| msgid ""
-#| "`Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_"
 msgid "`Sentry Profiling <https://docs.sentry.io/product/profiling/>`_"
-msgstr ""
-"`Profilovanie Sentry <https://docs.sentry.io/product/explore/profiling/>`_"
+msgstr "`Profilovanie Sentry <https://docs.sentry.io/product/profiling/>`_"
 
 #: admin/config.rst:2482
 msgid "SESSION_COOKIE_AGE_2FA"
@@ -9916,10 +9907,8 @@ msgid "Weblate feature"
 msgstr "Funkcia Weblate"
 
 #: admin/install.rst:218
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "ASGI server for Weblate"
-msgstr "wsgi server pre Weblate"
+msgstr "ASGI server pre Weblate"
 
 #: admin/install.rst:231
 msgid ":ref:`mt-google-translate-api-v3` with glossary support"
@@ -9946,10 +9935,8 @@ msgid "Hosted Weblate integration"
 msgstr "Integrácia Hosted Weblate"
 
 #: admin/install.rst:271
-#, fuzzy
-#| msgid "wsgi server for Weblate"
 msgid "WSGI server for Weblate"
-msgstr "wsgi server pre Weblate"
+msgstr "WSGI server pre Weblate"
 
 #: admin/install.rst:277
 msgid ""
@@ -11052,36 +11039,24 @@ msgid "Using custom certificate authority"
 msgstr "Používanie vlastnej certifikačnej autority"
 
 #: admin/install.rst:1154
-#, fuzzy
-#| msgid ""
-#| "Weblate does verify SSL certificates during HTTP requests. In case you "
-#| "are using custom certificate authority which is not trusted in default "
-#| "bundles, you will have to add its certificate as trusted."
 msgid ""
 "Weblate verifies SSL certificates during HTTP requests. Requests made using "
 "HTTPX2 use the system certificate store, so install custom certificate "
 "authorities there."
 msgstr ""
-"Weblate overuje certifikáty SSL počas požiadaviek HTTP. V prípade, že "
-"používate vlastnú certifikačnú autoritu, ktorá nie je dôveryhodná v "
-"predvolených balíkoch, budete musieť pridať jej certifikát ako dôveryhodný."
+"Weblate overuje certifikáty SSL počas požiadaviek HTTP. Požiadavky "
+"vykonávané pomocou HTTPX2 používajú systémové úložisko certifikátov, preto "
+"tam nainštalujte vlastné certifikačné autority."
 
 #: admin/install.rst:1158
-#, fuzzy
-#| msgid ""
-#| "The preferred approach is to do this at system level, please check your "
-#| "distro documentation for more details (for example on debian this can be "
-#| "done by placing the CA certificate into :file:`/usr/local/share/ca-"
-#| "certificates/` and running :command:`update-ca-certificates`)."
 msgid ""
 "Check your distribution documentation for more details. For example, on "
 "Debian this can be done by placing the CA certificate into :file:`/usr/local/"
 "share/ca-certificates/` and running :command:`update-ca-certificates`."
 msgstr ""
-"Uprednostňovaný prístup je urobiť to na systémovej úrovni, skontrolujte "
-"dokumentáciu vašej distribúcie pre viac podrobností (napríklad na debiane to "
-"môže byť urobené umiestnením certifikátu CA do :file:`/usr/local/share/ca-"
-"certificates/` a spustením :command:`update-ca-certificates`)."
+"Podrobnejšie informácie nájdete v dokumentácii vašej distribúcie. Napríklad "
+"v systéme Debian to možno urobiť umiestnením certifikátu CA do :file:`/usr/"
+"local/share/ca-certificates/` a spustením :command:`update-ca-certificates`."
 
 #: admin/install.rst:1165
 msgid ""
@@ -11092,15 +11067,12 @@ msgstr ""
 "na jeho spustenie. Napríklad:"
 
 #: admin/install.rst:1172
-#, fuzzy
-#| msgid ""
-#| "Once this is done, system tools will trust the certificate and this "
-#| "includes Git."
 msgid ""
 "Once this is done, Weblate HTTPX2 requests and system tools, including Git, "
 "will trust the certificate."
 msgstr ""
-"Po dokončení budú systémové nástroje dôverovať certifikátu a to zahŕňa Git."
+"Po vykonaní tohto kroku budú požiadavky Weblate HTTPX2 a systémové nástroje "
+"vrátane Git dôverovať certifikátu."
 
 #: admin/install.rst:1175
 msgid ""
@@ -11245,13 +11217,6 @@ msgid ":file:`/media/` is no longer used for serving screenshots."
 msgstr ":file:`/media/` sa už nepoužíva na obsluhu snímok obrazovky."
 
 #: admin/install.rst:1271
-#, fuzzy
-#| msgid ""
-#| "Django needs to collect its static files in a single directory. To do so, "
-#| "execute :samp:`weblate collectstatic --noinput`. This will copy the "
-#| "static files into a directory specified by "
-#| "the :setting:`django:STATIC_ROOT` setting (this defaults to a ``static`` "
-#| "directory inside :setting:`CACHE_DIR`)."
 msgid ""
 "Django needs to collect its static files in a single directory. To do so, "
 "execute :samp:`weblate collectstatic --noinput`. This will copy the static "
@@ -11261,10 +11226,13 @@ msgid ""
 "collected filenames so that updated assets do not reuse stale browser or "
 "proxy caches."
 msgstr ""
-"Django potrebuje zhromaždiť svoje statické súbory v jednom adresári. Na to "
-"vykonajte :samp:`weblate collectstatic --noinput`. Toto skopíruje statické "
-"súbory do adresára špecifikovaného nastavením :setting:`django:STATIC_ROOT` "
-"(predvolene je to adresár ``static`` vo vnútri :setting:`CACHE_DIR`)."
+"Django potrebuje zhromaždiť svoje statické súbory v jednom adresári. "
+"Vykonajte to príkazom :samp:`weblate collectstatic --noinput`. Tým sa "
+"statické súbory skopírujú do adresára určeného nastavením "
+":setting:`django:STATIC_ROOT` (predvolene je to adresár ``static`` v rámci "
+":setting:`CACHE_DIR`). Produkčné inštalácie používajú v názvoch "
+"zhromaždených súborov hash obsahu, aby aktualizované prostriedky nepoužívali "
+"zastarané vyrovnávacie pamäte prehliadača alebo proxy."
 
 #: admin/install.rst:1278
 msgid ""
@@ -11283,12 +11251,8 @@ msgstr ""
 "definície :setting:`django:STATIC_ROOT`)."
 
 #: admin/install.rst:1285
-#, fuzzy
-#| msgid ""
-#| "Should be rewritten to rewrite a rule to serve :file:`/static/"
-#| "favicon.ico`."
 msgid "Should be rewritten to serve :file:`/static/favicon.ico`."
-msgstr "Malo by sa prepísať pravidlo na obsluhu :file:`/static/favicon.ico`."
+msgstr "Malo by byť prepísané tak, aby obsluhovalo :file:`/static/favicon.ico`."
 
 #: admin/install.rst:1300
 msgid "Content security policy"
@@ -11314,15 +11278,11 @@ msgid "Sample configuration for NGINX and Granian"
 msgstr "Ukážková konfigurácia pre NGINX a Granian"
 
 #: admin/install.rst:1321
-#, fuzzy
-#| msgid ""
-#| "The following configuration runs Weblate using Granian the NGINX "
-#| "webserver:"
 msgid ""
 "The following configuration runs Weblate using Granian with the NGINX "
 "webserver:"
 msgstr ""
-"Nasledujúca konfigurácia spúšťa Weblate pomocou Granian a webového servera "
+"Nasledujúca konfigurácia spúšťa Weblate pomocou Granian s webovým serverom "
 "NGINX:"
 
 #: admin/install.rst:1330 admin/install.rst:1451 admin/install.rst:1488
@@ -11339,6 +11299,9 @@ msgid ""
 "webserver (:file:`weblate/examples/weblate.nginx.gunicorn.conf` in the "
 "source tree):"
 msgstr ""
+"Nasledujúca konfigurácia spúšťa Weblate pomocou Gunicorn pod webovým "
+"serverom NGINX (:file:`weblate/examples/weblate.nginx.gunicorn.conf` v "
+"zdrojovom strome):"
 
 #: admin/install.rst:1353
 msgid "Sample configuration for NGINX and uWSGI"
@@ -11369,12 +11332,16 @@ msgid ""
 "Configuration for NGINX (:file:`weblate/examples/weblate.nginx.conf` in the "
 "source tree):"
 msgstr ""
+"Konfigurácia pre NGINX (:file:`weblate/examples/weblate.nginx.conf` v "
+"zdrojovom strome):"
 
 #: admin/install.rst:1369
 msgid ""
 "Configuration for uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` in the "
 "source tree):"
 msgstr ""
+"Konfigurácia pre uWSGI (:file:`weblate/examples/weblate.uwsgi.ini` v "
+"zdrojovom strome):"
 
 #: admin/install.rst:1381
 msgid "Sample configuration for Apache"
@@ -11389,6 +11356,8 @@ msgid ""
 "The following configuration runs Weblate as WSGI, you need to have enabled "
 "``mod_wsgi`` (:file:`weblate/examples/apache.conf` in the source tree):"
 msgstr ""
+"Nasledujúca konfigurácia spúšťa Weblate ako WSGI, musíte mať povolený "
+"``mod_wsgi`` (:file:`weblate/examples/apache.conf` v zdrojovom strome):"
 
 #: admin/install.rst:1393
 msgid ""
@@ -11413,6 +11382,8 @@ msgid ""
 "The following configuration runs Weblate in Gunicorn and Apache 2.4 "
 "(:file:`weblate/examples/apache.gunicorn.conf` in the source tree):"
 msgstr ""
+"Nasledujúca konfigurácia spúšťa Weblate v Gunicorn a Apache 2.4 "
+"(:file:`weblate/examples/apache.gunicorn.conf` v zdrojovom strome):"
 
 #: admin/install.rst:1424
 msgid "Sample configuration to start Granian"
@@ -11424,17 +11395,17 @@ msgid ""
 "install everything you need to run Granian. When installing Weblate you can "
 "specify it as:"
 msgstr ""
-"Weblate má voliteľnú závislosť `wsgi` (pozri :ref:`python-deps`), ktorá "
-"nainštaluje všetko, čo potrebujete na spustenie Granian. Pri inštalácii "
-"Weblate môžete špecifikovať ako:"
+"Weblate má voliteľnú závislosť `wsgi` (pozrite :ref:`python-deps`), ktorá "
+"nainštaluje všetko potrebné na spustenie Granian. Pri inštalácii Weblate ju "
+"môžete špecifikovať ako:"
 
 #: admin/install.rst:1433
 msgid ""
 "Once you have Granian installed, you can run it. This is usually done at the "
 "system level. The following examples show starting via systemd:"
 msgstr ""
-"Po nainštalovaní Granian ho môžete spustiť. Toto sa zvyčajne robí na "
-"systémovej úrovni. Nasledujúce príklady ukazujú spúšťanie cez systemd:"
+"Po nainštalovaní Granian ho môžete spustiť. Zvyčajne sa to robí na "
+"systémovej úrovni. Nasledujúce príklady ukazujú spustenie cez systemd:"
 
 #: admin/install.rst:1440
 msgid ""
@@ -11446,22 +11417,30 @@ msgid ""
 "memory, CPU cores, and database connection limit. Keep the backpressure "
 "equal to or higher than the number of blocking threads."
 msgstr ""
+"Granian používa pracovné procesy na paralelné vykonávanie Pythonu, blokujúce "
+"vlákna na súbežné požiadavky WSGI a runtime vlákna na sieťový vstup/výstup. "
+"Ukážka používa dvoch pracovníkov s ôsmimi blokujúcimi vláknami každý, "
+"obmedzuje každého pracovníka na 16 súbežných pripojení a ponecháva runtime "
+"vlákna na predvolenej hodnote Granian. Prispôsobte počet pracovníkov a "
+"blokujúcich vlákien dostupnej pamäti, počtu jadier CPU a limitu databázových "
+"pripojení. Ponechajte backpressure rovnaký alebo vyšší ako počet blokujúcich "
+"vlákien."
 
 #: admin/install.rst:1457
-#, fuzzy
-#| msgid "Sample configuration to start Granian"
 msgid "Sample configuration to start Granian with ASGI"
-msgstr "Ukážková konfigurácia na spustenie Granian"
+msgstr "Ukážková konfigurácia na spustenie Granian s ASGI"
 
 #: admin/install.rst:1461
 msgid ""
 "ASGI deployment is available as an opt-in alternative to WSGI. Install the "
 "``asgi`` optional dependency:"
 msgstr ""
+"Nasadenie ASGI je dostupné ako voliteľná alternatíva k WSGI. Nainštalujte "
+"voliteľnú závislosť ``asgi``:"
 
 #: admin/install.rst:1468
 msgid "The following systemd unit runs the Django ASGI application:"
-msgstr ""
+msgstr "Nasledujúca jednotka systemd spúšťa aplikáciu Django ASGI:"
 
 #: admin/install.rst:1474
 msgid ""
@@ -11472,6 +11451,12 @@ msgid ""
 "but most Weblate views remain synchronous, and CPU-intensive or long-running "
 "work should still be handled by :ref:`celery`."
 msgstr ""
+"Ukážka používa ASGI rozhranie Granian bez podpory lifespan alebo WebSocket, "
+"pretože Weblate momentálne vystavuje iba HTTP. Middleware Weblate podporuje "
+"oba režimy nasadenia a používa vlákno-citlivé adaptéry tam, kde sa stále "
+"spolieha na synchrónne Django API. Kontrola zdravia je asynchrónna, ale "
+"väčšina pohľadov Weblate zostáva synchrónna a CPU-náročné alebo dlho "
+"trvajúce úlohy by mali byť stále spracovávané pomocou :ref:`celery`."
 
 #: admin/install.rst:1481
 msgid ""
@@ -11480,6 +11465,10 @@ msgid ""
 "backpressure to the available memory, CPU cores, and database connection "
 "limit."
 msgstr ""
+"WSGI zostáva predvoleným režimom nasadenia. Docker obrazy sa môžu prihlásiť "
+"na ASGI nastavením :envvar:`WEBLATE_ASGI` na ``1``. Prispôsobte počet "
+"pracovníkov a backpressure dostupnej pamäti, počtu jadier CPU a limitu "
+"databázových pripojení."
 
 #: admin/install.rst:1494
 msgid "Sample configuration to start Gunicorn"
@@ -11507,6 +11496,9 @@ msgid ""
 "using ``mod_wsgi`` (:file:`weblate/examples/apache-path.conf` in the source "
 "tree):"
 msgstr ""
+"Ukážková konfigurácia Apache na poskytovanie Weblate pod ``/weblate``. Opäť "
+"s použitím ``mod_wsgi`` (:file:`weblate/examples/apache-path.conf` v "
+"zdrojovom strome):"
 
 #: admin/install.rst:1530
 msgid "Additionally, you will have to adjust :file:`weblate/settings.py`:"
