@@ -449,6 +449,9 @@ Users
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
+    This permission authorizes membership changes for every team, including
+    project and workspace teams; no separate permission over the target team is
+    required.
 
     :param username: User's username
     :type username: string
@@ -462,6 +465,9 @@ Users
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
+    This permission authorizes membership changes for every team, including
+    project and workspace teams; no separate permission over the target team is
+    required.
 
     :param username: User's username
     :type username: string

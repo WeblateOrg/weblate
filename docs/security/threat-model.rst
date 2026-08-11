@@ -808,6 +808,13 @@ Known misuse patterns
   who are trusted only as translators. This is unsafe because those permissions
   can affect repositories, credentials, or other users. Assign narrower roles.
   *(documented)* (source: :doc:`/admin/access`)
+* Assigning site-wide permissions to roles intended for limited project or
+  helpdesk delegation. Site-wide permissions apply across the instance and are
+  not narrowed by the team's project selection. In particular, ``user.edit``
+  permits changing team memberships and superuser status for editable accounts,
+  including the caller's own account. Delegate permissions through project or
+  workspace teams for limited scopes. *(documented)* (source:
+  :doc:`/admin/access`)
 * Sending sensitive source strings or private customer content to machine
   translation providers without treating the provider as a data recipient. This
   is unsafe because Weblate must transmit content to the configured service, and

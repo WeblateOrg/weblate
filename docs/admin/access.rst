@@ -198,9 +198,16 @@ bulk invites also apply the selected superuser flag.
 
 Site-wide user management is controlled by the global ``user.edit``
 permission. Unlike project access management, this is a trusted administrative
-permission which allows editing user accounts across the whole instance,
-including assigning site-wide teams and granting superuser status to the
-managed account, even the caller's own account.
+permission which allows editing user accounts across the whole instance. It
+includes adding or removing the managed account from any site-wide, workspace,
+or project team, and granting or revoking superuser status, even for the
+caller's own account. These actions do not require the :guilabel:`Manage teams`
+permission or separate authority over the affected team.
+
+Treat ``user.edit`` as effectively equivalent to superuser access, not as a
+limited helpdesk permission. To delegate access management within a narrower
+scope, use a project `Administration` team or a :ref:`team administrator
+<team-admins>` instead.
 
 Site administrators can also disable password authentication for a user. The
 :guilabel:`Regenerate API key` option is enabled by default so that the current
@@ -563,11 +570,19 @@ set of permissions.
 
 .. include:: /snippets/permissions.rst
 
-.. note::
+.. warning::
 
-   Site-wide privileges are not granted to any default role.
-   These are powerful and quite close to the Superuser status.
-   Most of them affect all projects in your Weblate installation.
+   Roles do not have a separate scope; the permissions in a role determine its
+   scope. A role containing a permission listed under
+   :guilabel:`Site wide privileges` grants that permission across the Weblate
+   instance when assigned through a site-wide team. The team's project
+   selection does not narrow these permissions.
+
+   Site-wide privileges are not granted to any default role. Treat custom roles
+   containing them as trusted administrative access because some are
+   effectively equivalent to superuser status. For example, ``user.edit``
+   allows users to change their own team memberships and grant themselves
+   superuser status.
 
 .. include:: /snippets/roles.rst
 
