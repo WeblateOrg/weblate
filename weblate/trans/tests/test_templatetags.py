@@ -995,6 +995,21 @@ glosář [glossary]">glossary</span>
         )
         self.assertHTMLEqual(
             format_translation(
+                ["Hello\u2007world"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-nbsp" title="FIGURE SPACE">
+                    \u2007
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
                 ["Hello\u2009world"],
                 self.component.source_language,
             )["items"][0]["content"],

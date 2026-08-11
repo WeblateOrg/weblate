@@ -595,6 +595,15 @@ function initHighlight(root) {
   if (typeof ResizeObserver === "undefined") {
     return;
   }
+  Prism.util.encode = function encode(tokens) {
+    if (tokens instanceof Prism.Token) {
+      return new Prism.Token(tokens.type, encode(tokens.content), tokens.alias);
+    }
+    if (Array.isArray(tokens)) {
+      return tokens.map(encode);
+    }
+    return tokens.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  };
   root.querySelectorAll("textarea[name='q']").forEach((input) => {
     const parent = input.parentElement;
     if (parent.classList.contains("editor-wrap")) {
@@ -776,18 +785,7 @@ function initHighlight(root) {
       languageMode = extension;
     }
     const syncContent = () => {
-      /*
-       * Prism turns non-breaking spaces into regular spaces when generating
-       * markup. Restore them.
-       */
-      highlight.innerHTML = Prism.highlight(
-        editor.value,
-        languageMode,
-        mode,
-      ).replaceAll(
-        '<span class="token nbsp"> </span>',
-        '<span class="token nbsp">\u00A0</span>',
-      );
+      highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);
     };
     syncContent();
     editor.addEventListener("input", syncContent);

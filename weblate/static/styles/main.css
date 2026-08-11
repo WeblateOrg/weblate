@@ -353,7 +353,7 @@ textarea.highlight-editor {
 
 .space-tab::before {
   content: "→";
-  position: relative;
+  position: absolute;
 }
 
 .space-nl::before,
@@ -2062,11 +2062,6 @@ input.color_edit:checked + label {
 .token.hlspace .token {
   /* Inline to keep the overlay layout identical to the textarea */
   display: inline;
-}
-
-/* Keep the tab marker out of flow in the editor overlay */
-.token.space-tab::before {
-  position: absolute;
 }
 
 /* Based on Coy theme for Prismjs */
