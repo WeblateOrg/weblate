@@ -8,6 +8,7 @@ Weblate 2026.9
 .. rubric:: Improvements
 
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
+* Clarified the instance-wide impact of roles containing site-wide permissions, including :ref:`site-wide user management <site-wide-user-management>`.
 * Improved translation file loading performance for metadata-only string changes.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 
