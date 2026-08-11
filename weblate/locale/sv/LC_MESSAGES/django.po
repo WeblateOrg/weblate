@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-07 10:07+0000\n"
+"PO-Revision-Date: 2026-08-11 14:56+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.1.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: weblate/accounts/avatar.py:91
 msgctxt "No known user"
@@ -811,13 +811,15 @@ msgstr "Dölj källan om en sekundär översättning finns"
 
 #: weblate/accounts/models.py:801
 msgid "Show all columns in lists using horizontal scrolling"
-msgstr ""
+msgstr "Visa alla kolumner i listor med hjälp av horisontell rullning"
 
 #: weblate/accounts/models.py:805
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr ""
+"Istället för att dölja kolumner på smala skärmar, behåll alla kolumner och "
+"bläddra i tabellen horisontellt."
 
 #: weblate/accounts/models.py:813
 msgid "Editor link"
@@ -4523,12 +4525,17 @@ msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
+"På grund av översättningens arbetsflöde får endast behöriga användare direkt "
+"redigera strängart på detta språk. Lägg istället till ett förslag."
 
 #: weblate/auth/permissions.py:257
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"På grund av översättningens arbetsflöde får endast behöriga användare direkt "
+"redigera strängart på detta språk. Be en projektadministratör om att få "
+"åtkomst."
 
 #: weblate/auth/permissions.py:485
 msgid "Can not perform this operation without an e-mail address."
@@ -4668,6 +4675,8 @@ msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
 msgstr ""
+"Förslag är inaktiverade för detta språk. Be en projektadministratör att "
+"aktivera dem."
 
 #: weblate/auth/permissions.py:1064
 msgid "The file format does not support updating source strings."
@@ -7238,22 +7247,16 @@ msgid "I agree with the General Terms and Conditions document"
 msgstr "Jag godkänner dokumentet Allmänna villkor"
 
 #: weblate/legal/forms.py:22
-#, fuzzy
-#| msgid "I agree with the General Terms and Conditions document"
 msgid "I agree with the General Terms and Conditions and the Privacy Policy"
-msgstr "Jag godkänner dokumentet Allmänna villkor"
+msgstr "Jag godkänner de allmänna villkoren och integritetspolicyn"
 
 #: weblate/legal/middleware.py:51
-#, fuzzy
-#| msgid ""
-#| "We have an updated version of the General Terms and Conditions document, "
-#| "please read it and confirm that you agree with it."
 msgid ""
 "We have updated our legal documents; please read them and confirm that you "
 "agree with them."
 msgstr ""
-"Vi har en uppdaterad version av dokumentet Allmänna villkor. Läs igenom det "
-"och bekräfta att du godkänner det."
+"Vi har uppdaterat våra juridiska dokument. Vänligen läs igenom dem och "
+"bekräfta att du godkänner dem."
 
 #: weblate/legal/templates/legal/confirm.html:7
 #: weblate/legal/templates/legal/contracts.html:7
@@ -7265,11 +7268,9 @@ msgid "Legal"
 msgstr "Användarvillkor"
 
 #: weblate/legal/templates/legal/confirm.html:18
-#, fuzzy
-#| msgid "You have to agree to the General Terms and Conditions"
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "Du måste godkänna de allmänna villkoren"
+msgstr "Du måste godkänna de allmänna villkoren och integritetspolicyn"
 
 #: weblate/legal/templates/legal/confirm.html:20
 msgid "You have to agree to the General Terms and Conditions"
@@ -7302,7 +7303,7 @@ msgstr "Läs följande dokument om allmänna bestämmelser och villkor:"
 
 #: weblate/legal/templates/legal/confirm.html:44
 msgid "Please also read the Privacy Policy:"
-msgstr ""
+msgstr "Läs även integritetspolicyn:"
 
 #: weblate/legal/templates/legal/confirm.html:53
 #: weblate/templates/contributor-agreement.html:33
@@ -14852,10 +14853,9 @@ msgid "Translation process"
 msgstr "Översättningsprocess"
 
 #: weblate/templates/snippets/info.html:97
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Direct translation editing is restricted to privileged users."
-msgstr "En översättning återställdes till ett tidigare värde."
+msgstr ""
+"Direkt redigering av översättningar är begränsat till behöriga användare."
 
 #: weblate/templates/snippets/info.html:99
 #: weblate/templates/snippets/info.html:116
@@ -15193,7 +15193,7 @@ msgstr "Arkiv"
 
 #: weblate/templates/snippets/list-objects.html:8
 msgid "Scrollable table"
-msgstr ""
+msgstr "Rullbar tabell"
 
 #: weblate/templates/snippets/list-objects.html:50
 msgid "Add project"
@@ -16055,12 +16055,17 @@ msgid ""
 "a repository maintainer to allow pull requests from all users or add "
 "<code>%(username)s</code> as a collaborator."
 msgstr ""
+"GitHub-förrådet tillåter endast medarbetare att skapa pull-begäranden. Be en "
+"förrådsansvarig att tillåta pull-begäranden från alla användare eller att "
+"lägga till <code>%(username)s</code> som medarbetare."
 
 #: weblate/templates/trans/alert/common-repo.html:32
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
 msgstr ""
+"GitHub-förrådet tillåter endast medarbetare att skapa pull-begäranden. Be en "
+"förrådsansvarig att tillåta pull-begäranden från alla användare."
 
 #: weblate/templates/trans/alert/common-repo.html:38
 msgid ""
@@ -17181,10 +17186,8 @@ msgid "Save and stay"
 msgstr "Spara och stanna"
 
 #: weblate/templates/translate.html:259 weblate/trans/views/edit.py:814
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to add suggestions."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att lägga till förslag."
 
 #: weblate/templates/translate.html:260
 msgid "Suggest"
@@ -19261,10 +19264,8 @@ msgid "Duplicate category or component slug."
 msgstr "Dubblerad kategori- eller komponent-slug."
 
 #: weblate/trans/backups.py:359 weblate/trans/backups.py:1119
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate category or component name."
-msgstr "Duplicera denna komponent"
+msgstr "Dubblerat kategori- eller komponentnamn."
 
 #: weblate/trans/backups.py:365
 #, fuzzy
