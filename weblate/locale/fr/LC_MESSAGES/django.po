@@ -38,7 +38,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-07 12:21+0000\n"
+"PO-Revision-Date: 2026-08-11 14:56+0000\n"
 "Last-Translator: Steve <steve-contrib@murena.io>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -47,7 +47,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.8.1.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: weblate/accounts/avatar.py:91
 msgctxt "No known user"
@@ -2650,8 +2650,8 @@ msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
-"Expression rationnelle pour filtrer les fichiers de traduction lors de la "
-"recherche d’un motif de fichier."
+"Expression rationnelle utilisée pour filtrer les fichiers de traduction lors "
+"du parcours du masque de fichier."
 
 #: weblate/addons/forms.py:951
 msgid "Clone add-ons from the main component to the newly created ones"
@@ -3566,7 +3566,7 @@ msgstr "Forcer l’écriture de toutes les traductions dans le dépôt Weblate"
 
 #: weblate/api/serializers.py:2960 weblate/templates/js/git-status.html:208
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "Réanalyser tous les fichiers de traduction dans le dépôt Weblate"
+msgstr "Parcours tous les fichiers de traduction dans le dépôt Weblate"
 
 #: weblate/api/serializers.py:3260
 msgid "Please provide a suggestion"
@@ -8280,19 +8280,15 @@ msgstr "Projet"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:123
 #: weblate/memory/models.py:1268
-#, fuzzy
-#| msgid "Workspace"
 msgctxt "Translation memory scope"
 msgid "Workspace"
 msgstr "Espace de travail"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:127
 #: weblate/memory/models.py:1269
-#, fuzzy
-#| msgid "Share"
 msgctxt "Translation memory scope"
 msgid "Shared"
-msgstr "Partager"
+msgstr "Partagé"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:131
 #: weblate/memory/models.py:1270
@@ -8302,8 +8298,6 @@ msgstr "Personnel"
 
 #: weblate/memory/migrations/0005_memory_scopes.py:135
 #: weblate/memory/models.py:1271
-#, fuzzy
-#| msgid "File"
 msgctxt "Translation memory scope"
 msgid "File"
 msgstr "Fichier"
@@ -8569,10 +8563,11 @@ msgid "Repository path to screenshot"
 msgstr "Chemin d’accès au dépôt de la capture d’écran"
 
 #: weblate/screenshots/models.py:64
+#, fuzzy
 msgid "Scan for screenshot file change on repository update."
 msgstr ""
-"Rechercher les modifications dans les captures écran en même temps que le "
-"dépôt est mis à jour."
+"Rechercher les modifications de fichiers de capture d'écran lors de la mise "
+"à jour du dépôt."
 
 #: weblate/screenshots/models.py:69
 #: weblate/templates/screenshots/screenshot_detail.html:109
@@ -10521,7 +10516,7 @@ msgstr "Hérité de"
 
 #: weblate/templates/addons/addon_list.html:81
 msgid "Managed at a scope you do not have access to."
-msgstr ""
+msgstr "Géré à un niveau auquel vous n'avez pas accès."
 
 #: weblate/templates/addons/addon_list.html:95
 msgid "Available add-ons"
@@ -11059,10 +11054,8 @@ msgstr "Gérer les Projets surveillés"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "Workspace"
 msgid "My workspaces"
-msgstr "Espace de travail"
+msgstr "Mes espaces de travail"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11249,30 +11242,24 @@ msgid "Terminate recurring payment"
 msgstr "Résilier le règlement périodique"
 
 #: weblate/templates/billing/detail-content.html:44
-#, fuzzy
-#| msgid "Open in Zen mode"
 msgid "Open in Django admin"
-msgstr "Ouvrir en mode Zen"
+msgstr "Ouvrir dans l'interface d'administration Django"
 
 #: weblate/templates/billing/detail-content.html:51
 msgid "Terminate billing plan"
 msgstr "Résilier l’abonnement"
 
 #: weblate/templates/billing/detail-content.html:63
-#, fuzzy
-#| msgid "Manage billing"
 msgid "Merge billing"
-msgstr "Gérer la facturation"
+msgstr "Fusionner la facturation"
 
 #: weblate/templates/billing/detail-content.html:67
 msgid "Review merge"
 msgstr "Fusionner la révision"
 
 #: weblate/templates/billing/detail-content.html:75
-#, fuzzy
-#| msgid "Change plan"
 msgid "Change billing plan"
-msgstr "Changer d’offre"
+msgstr "Modifier l'abonnement de facturation"
 
 #: weblate/templates/billing/detail-content.html:82
 #: weblate/templates/billing/status.html:13
@@ -11643,10 +11630,8 @@ msgstr "Appliquer"
 
 #: weblate/templates/category-language.html:162
 #: weblate/templates/language-project.html:230
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Browse components"
-msgstr "Parcourir tous les composants"
+msgstr "Parcourir les composants"
 
 #: weblate/templates/category.html:39
 #: weblate/templates/language-project.html:39 weblate/templates/project.html:50
@@ -11704,17 +11689,13 @@ msgid "Post announcement"
 msgstr "Publier une annonce"
 
 #: weblate/templates/category.html:194 weblate/templates/category.html:201
-#, fuzzy
-#| msgid "Browse all repository changes"
 msgid "Browse all category changes"
-msgstr "Parcourir toutes les modifications du dépôt"
+msgstr "Parcourir toutes les modifications de catégorie"
 
 #: weblate/templates/category.html:264 weblate/templates/component.html:340
 #: weblate/templates/project.html:345
-#, fuzzy
-#| msgid "Allow translation"
 msgid "Browse translations"
-msgstr "Autoriser la traduction"
+msgstr "Parcourir les traductions"
 
 #: weblate/templates/category.html:275 weblate/templates/project.html:382
 msgid "Add a category"
@@ -11781,10 +11762,8 @@ msgstr "Progression"
 
 #: weblate/templates/component-progress.html:19
 #: weblate/templates/multi-progress.html:16
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes are being processed…"
-msgstr "Alerte de modification du dépôt"
+msgstr "Les modifications du dépôt sont en cours de traitement…"
 
 #: weblate/templates/component-progress.html:38
 #: weblate/templates/multi-progress.html:27
@@ -11861,10 +11840,9 @@ msgstr "ignoré"
 
 #. Translators: Component alert footer, first contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:240
-#, fuzzy, python-format
-#| msgid "Appeared %(first)s, last seen %(last)s"
+#, python-format
 msgid "Appeared %(first)s"
-msgstr "Apparu %(first)s, vu pour la dernière fois %(last)s"
+msgstr "Apparu %(first)s"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:243
@@ -11873,32 +11851,27 @@ msgid "Appeared %(first)s, last seen %(last)s"
 msgstr "Apparu %(first)s, vu pour la dernière fois %(last)s"
 
 #: weblate/templates/component.html:248
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "Dismissed by %(user)s %(timestamp)s"
-msgstr "%(used)s utilisé sur %(total)s"
+msgstr "Rejeté par %(user)s %(timestamp)s"
 
 #: weblate/templates/component.html:250
-#, fuzzy, python-format
-#| msgid "Generated on %(timestamp)s."
+#, python-format
 msgid "Dismissed %(timestamp)s"
-msgstr "Généré le %(timestamp)s."
+msgstr "Rejeté le %(timestamp)s"
 
 #: weblate/templates/component.html:253
-#, fuzzy, python-format
-#| msgid "CSRF failure reason: %(reason)s"
+#, python-format
 msgid "Reason: %(reason)s"
-msgstr "Raison de l’échec CSRF : %(reason)s"
+msgstr "Raison : %(reason)s"
 
 #: weblate/templates/component.html:258
-#, fuzzy
-#| msgid "Dismissed"
 msgid "Dismissal reason"
-msgstr "Ignoré"
+msgstr "Motif de rejet"
 
 #: weblate/templates/component.html:263
 msgid "Optional dismissal reason"
-msgstr ""
+msgstr "Motif de rejet facultatif"
 
 #: weblate/templates/component.html:267
 #: weblate/templates/manage/performance.html:49
@@ -12057,18 +12030,20 @@ msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
 msgstr ""
+"Les mesures de traduction du projet fournissent des statistiques pour tous "
+"les composants et langues visibles en une seule requête."
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "Mesures JSON"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "Mesures CSV"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "Mesures OpenMetrics"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -12094,14 +12069,10 @@ msgstr ""
 "cette manière :"
 
 #: weblate/templates/data.html:170
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid ""
 "Weblate also supports direct notifications from several code-hosting sites:"
 msgstr ""
-"Weblate prend également en charge les notifications directes pour différents "
+"Weblate prend également en charge les notifications directes de différents "
 "sites d’hébergement de code :"
 
 #: weblate/templates/data.html:176
@@ -12571,8 +12542,9 @@ msgstr ""
 "Weblate quelle qu’en soit la raison."
 
 #: weblate/templates/js/git-status.html:207
+#, fuzzy
 msgid "Rescan"
-msgstr "Réanalyser"
+msgstr "Rescanner"
 
 #: weblate/templates/js/git-status.html:210
 msgid "Loads translations from the files into Weblate."
@@ -12612,87 +12584,66 @@ msgid "Remove duplicated strings from the translation file"
 msgstr "Supprimer les chaînes en double du fichier de traduction"
 
 #: weblate/templates/js/git-status.html:238
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing duplicated strings with same identifier from "
-#| "the translation files."
 msgid ""
 "Removes repeated strings with the same identifier from the translation file."
 msgstr ""
-"Veuillez corriger en supprimant les chaînes dupliquées ayant le même "
-"identifiant dans les fichiers de traduction."
+"Supprime les chaînes de caractères ayant le même identifiant dans le fichier "
+"de traduction."
 
 #: weblate/templates/js/git-status.html:239
-#, fuzzy
-#| msgid ""
-#| "This can happen if the path within the translation files contains "
-#| "references to a parent directory, or is absolute."
 msgid ""
 "Use when the translation file contains duplicate strings that are not "
 "present in Weblate."
 msgstr ""
-"Cela peut se produire si le chemin dans les fichiers de traduction contient "
-"des références à un répertoire parent ou est absolu."
+"À utiliser lorsque le fichier de traduction contient des chaînes de "
+"caractères en double qui ne sont pas présentes dans Weblate."
 
 #: weblate/templates/js/git-status.html:247
-#, fuzzy
-#| msgid "Cleanup"
 msgid "Cleanup unused"
-msgstr "Nettoyage"
+msgstr "Nettoyage des éléments inutilisés"
 
 #: weblate/templates/js/git-status.html:248
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove unused strings from the translation file"
 msgstr ""
-"Force l’écriture de toutes les chaînes dans les fichiers de traduction."
+"Supprimez les chaînes de caractères inutilisées du fichier de traduction"
 
 #: weblate/templates/js/git-status.html:250
-#, fuzzy
-#| msgid "Removes strings without a translation from translation files."
 msgid "Removes strings that are no longer present in the base file."
-msgstr "Supprime les chaînes sans traduction des fichiers de traduction."
+msgstr ""
+"Supprime les chaînes de caractères qui ne sont plus présentes dans le "
+"fichier de base."
 
 #: weblate/templates/js/git-status.html:251
-#, fuzzy
-#| msgid "The translation files CDN add-on cannot publish weblate.js."
 msgid "The cleanup translation files add-on can perform this automatically."
 msgstr ""
-"L'extension CDN pour les fichiers de traduction ne peut pas publier "
-"weblate.js."
+"L'extension de nettoyage des fichiers de traduction peut effectuer cette "
+"opération automatiquement."
 
 #: weblate/templates/js/git-status.html:259
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove obsolete"
-msgstr "Supprimer les chaînes constituées d’espaces"
+msgstr "Supprimer les éléments obsolètes"
 
 #: weblate/templates/js/git-status.html:260
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "Remove obsolete strings from the translation file"
-msgstr ""
-"Force l’écriture de toutes les chaînes dans les fichiers de traduction."
+msgstr "Supprimer les chaînes de caractères obsolètes du fichier de traduction"
 
 #: weblate/templates/js/git-status.html:262
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Removes obsolete strings from PO files."
-msgstr "Supprimer les chaînes constituées d’espaces"
+msgstr "Supprime les chaînes de caractères obsolètes des fichiers PO."
 
 #: weblate/templates/js/git-status.html:263
 msgid ""
 "Use when obsolete entries should be pruned without enabling automatic "
 "removal on save."
 msgstr ""
+"À utiliser lorsque les entrées obsolètes doivent être supprimées sans "
+"activer la suppression automatique à l'enregistrement."
 
 #: weblate/templates/js/git-status.html:269
-#, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
 msgid "Use these operations with caution, they rewrite the translation file."
 msgstr ""
-"Utilisez ces opérations avec prudence, elles peuvent entraîner une perte de "
-"données."
+"Utilisez ces opérations avec précaution, car elles réécrivent le fichier de "
+"traduction."
 
 #: weblate/templates/js/git-status.html:278
 #, python-format
@@ -13334,7 +13285,7 @@ msgstr "%(invitation_author)s vous a invité"
 #: weblate/templates/mail/new_alert.html:8
 #, python-format
 msgid "Reopened alert: %(alert)s"
-msgstr ""
+msgstr "Alerte réactivée : %(alert)s"
 
 #: weblate/templates/mail/new_alert.html:24
 msgid "View diagnostics"
@@ -13847,10 +13798,8 @@ msgid "Manage support package"
 msgstr "Gérer le service d’assistance"
 
 #: weblate/templates/manage/index.html:78
-#, fuzzy
-#| msgid "Unlink support package"
 msgid "Unlink support package and disable Discover Weblate"
-msgstr "Détacher le paquet support"
+msgstr "Dissociez le paquet de support et désactivez Découverte Weblate"
 
 #: weblate/templates/manage/index.html:80
 msgid "Unlink support package"
@@ -13871,21 +13820,23 @@ msgstr "Nous contacter par courriel"
 
 #: weblate/templates/manage/index.html:114
 msgid "Discover Weblate"
-msgstr "Découvrir Weblate"
+msgstr "Découverte Weblate"
 
 #: weblate/templates/manage/index.html:118
 msgid ""
 "Discover Weblate helps translators find Weblate sites and projects to "
 "contribute to."
 msgstr ""
-"« Discover Weblate » aide les traducteurs à trouver des instances et des "
-"projets Weblate auxquels ils peuvent contribuer."
+"Découverte Weblate aide les traducteurs à trouver des sites et des projets "
+"Weblate auxquels contribuer."
 
 #: weblate/templates/manage/index.html:119
 msgid ""
 "When enabled, weblate.org lists your site details and public or protected "
 "projects."
 msgstr ""
+"Lorsqu'il est activé, weblate.org répertorie les détails de votre site et "
+"les projets publics ou protégés."
 
 #: weblate/templates/manage/index.html:123
 msgid "Your Weblate is listed on weblate.org"
@@ -13908,10 +13859,8 @@ msgid "Manage your listing"
 msgstr "Gérez votre liste"
 
 #: weblate/templates/manage/index.html:150
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Enable Discover Weblate"
-msgstr "Découvrir Weblate"
+msgstr "Activer Découverte Weblate"
 
 #: weblate/templates/manage/index.html:153
 msgid "Browse discovery"
@@ -13949,76 +13898,64 @@ msgid "Celery queues"
 msgstr "Files d’attente Celery"
 
 #: weblate/templates/manage/performance.html:131
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory migration"
-msgstr "État du mémoire de traduction"
+msgstr "Migration de la mémoire de traduction"
 
 #: weblate/templates/manage/performance.html:137
+#, fuzzy
 msgid "Scope backfill"
-msgstr ""
+msgstr "Complétion du scope"
 
 #: weblate/templates/manage/performance.html:145
 #, fuzzy
 #| msgid "Translation memory status"
 msgid "Translation memory scope backfill"
-msgstr "État du mémoire de traduction"
+msgstr "Complétion du scope de la mémoire de traduction"
 
 #: weblate/templates/manage/performance.html:153
-#, fuzzy
-#| msgid "Entries were deleted."
 msgid "Entries processed"
-msgstr "Entrées supprimées."
+msgstr "Entrées traitées"
 
 #: weblate/templates/manage/performance.html:157
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate candidate scan"
-msgstr "Traduction en double."
+msgstr "Recherche des candidats en double"
 
 #: weblate/templates/manage/performance.html:165
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory duplicate candidate scan"
-msgstr "État du mémoire de traduction"
+msgstr "Recherche des candidats en double dans la mémoire de traduction"
 
 #: weblate/templates/manage/performance.html:173
 msgid "Candidate scan cursor"
-msgstr ""
+msgstr "Curseur de recherche des candidats"
 
 #: weblate/templates/manage/performance.html:177
-#, fuzzy
-#| msgid "Last updated"
 msgid "Last update"
-msgstr "Date de dernière mise à jour"
+msgstr "Dernière mise à jour"
 
 #: weblate/templates/manage/performance.html:182
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not needed"
-msgstr "Non encore mesuré"
+msgstr "Non nécessaire"
 
 #: weblate/templates/manage/performance.html:184
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not yet started"
-msgstr "Non encore mesuré"
+msgstr "Non encore démarré"
 
 #: weblate/templates/manage/performance.html:192
 #, fuzzy
 #| msgid "Component"
 msgid "Completed"
-msgstr "Composant"
+msgstr "Terminé"
 
 #: weblate/templates/manage/performance.html:194
+#, fuzzy
 msgid "Scanning duplicate candidates"
-msgstr ""
+msgstr "Recherche de candidats en double en cours"
 
 #: weblate/templates/manage/performance.html:196
 #, fuzzy
 #| msgid "Billing owners"
 msgid "Backfilling scopes"
-msgstr "Responsables des factures"
+msgstr "Complétion des scopes"
 
 #: weblate/templates/manage/performance.html:209
 #: weblate/templates/manage/performance.html:224
@@ -14042,10 +13979,8 @@ msgid "Disk free"
 msgstr "Espace disque libre"
 
 #: weblate/templates/manage/performance.html:236
-#, fuzzy
-#| msgid "Service"
 msgid "Server"
-msgstr "Service"
+msgstr "Serveur"
 
 #: weblate/templates/manage/performance.html:243
 msgid "PostgreSQL database"
@@ -14382,10 +14317,9 @@ msgid "Translation memory status"
 msgstr "État du mémoire de traduction"
 
 #: weblate/templates/memory/index.html:50
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "Nombre d’entrées pour %(project)s"
+msgstr "Nombre d’entrées pour %(workspace)s"
 
 #: weblate/templates/memory/index.html:52
 #, python-format
@@ -14445,7 +14379,11 @@ msgid_plural ""
 "Rebuilding in the background will replace %(count)s translation memory "
 "entries created from current translations."
 msgstr[0] ""
+"La reconstruction en arrière-plan remplacera %(count)s entrée de la mémoire "
+"de traduction créée à partir des traductions actuelles."
 msgstr[1] ""
+"La reconstruction en arrière-plan remplacera %(count)s entrées de la mémoire "
+"de traduction créée à partir des traductions actuelles."
 
 #: weblate/templates/memory/index.html:118
 #: weblate/templates/memory/index.html:223
@@ -14462,16 +14400,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Source (%(count)s)"
 msgid "Active entries"
-msgstr "Source (%(count)s)"
+msgstr "Entrées actives"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "Chaîne en attente d’envoi"
+msgstr "Entrées en attente"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -14504,17 +14438,13 @@ msgstr "Auto-nettoyage du mémoire de traduction"
 
 #: weblate/templates/memory/index.html:300 weblate/trans/models/project.py:290
 #: weblate/workspaces/models.py:105
-#, fuzzy
-#| msgid "Use shared translation memory"
 msgid "Use workspace translation memory"
-msgstr "Utiliser un mémoire de traduction partagé"
+msgstr "Utiliser la mémoire de traduction de l'espace de travail"
 
 #: weblate/templates/memory/index.html:314 weblate/trans/models/project.py:297
 #: weblate/workspaces/models.py:112
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to workspace translation memory"
-msgstr "Contribue au mémoire de traduction partagé"
+msgstr "Contribuer à la mémoire de traduction de l'espace de travail"
 
 #: weblate/templates/memory/index.html:330
 msgid "Number of shared entries in this Weblate instance"
@@ -14740,40 +14670,28 @@ msgstr ""
 "remplacement pour traiter plus d’éléments."
 
 #: weblate/templates/replace.html:23
-#, fuzzy
-#| msgid "Start review"
 msgid "Update preview"
-msgstr "Démarrer la révision"
+msgstr "Mettre à jour l'aperçu"
 
 #: weblate/templates/report.html:26
-#, fuzzy
-#| msgid "Generate"
 msgid "Generated by"
-msgstr "Générer"
+msgstr "Généré par"
 
 #: weblate/templates/report.html:30
-#, fuzzy
-#| msgid "Generate"
 msgid "Generated on"
-msgstr "Générer"
+msgstr "Généré le"
 
 #: weblate/templates/report.html:35
-#, fuzzy
-#| msgid "Download as JSON"
 msgid "Download JSON"
-msgstr "Télécharger en tant que JSON"
+msgstr "Télécharger le JSON"
 
 #: weblate/templates/report.html:36
-#, fuzzy
-#| msgid "Download as TMX"
 msgid "Download HTML"
-msgstr "Télécharger en tant que TMX"
+msgstr "Télécharger le HTML"
 
 #: weblate/templates/report.html:37
-#, fuzzy
-#| msgid "reStructuredText"
 msgid "Download reStructuredText"
-msgstr "reStructuredText"
+msgstr "Télécharger reStructuredText"
 
 #: weblate/templates/screenshots/screenshot_detail.html:35
 msgid "Assigned source strings"
@@ -14799,12 +14717,12 @@ msgid ""
 "Use query syntax; boolean operators like <code>AND</code>, <code>OR</code>, "
 "and <code>NOT</code> are case-insensitive."
 msgstr ""
+"Utilisez la syntaxe de requête ; les opérateurs booléens tels que <code>AND</"
+"code>, <code>OR</code> et <code>NOT</code> ne sont pas sensibles à la casse."
 
 #: weblate/templates/screenshots/screenshot_detail.html:83
-#, fuzzy
-#| msgid "View check documentation"
 msgid "Search query syntax documentation"
-msgstr "Voir la documentation sur les contrôles"
+msgstr "Documentation sur la syntaxe des requêtes de recherche"
 
 #: weblate/templates/screenshots/screenshot_detail.html:91
 msgid "Suggests source strings by recognizing text in this screenshot."
@@ -14840,12 +14758,13 @@ msgid ""
 "Search screenshot names. Use field-specific queries for repository paths, "
 "languages, and assigned strings."
 msgstr ""
+"Recherchez dans les noms de captures d'écran. Utilisez des requêtes "
+"spécifiques aux champs pour les chemins de dépôt, les langues et les chaînes "
+"attribuées."
 
 #: weblate/templates/screenshots/screenshot_list.html:121
-#, fuzzy
-#| msgid "Import speed documentation"
 msgid "Screenshot search documentation"
-msgstr "Documentation sur la vitesse d’importation"
+msgstr "Documentation sur la recherche par capture d'écran"
 
 #: weblate/templates/screenshots/screenshot_list.html:139
 #: weblate/templates/snippets/sort-field.html:14
@@ -15057,62 +14976,48 @@ msgstr[1] ""
 "La traduction a été verrouillée automatiquement pour les motifs suivants :"
 
 #: weblate/templates/snippets/diagnostics.html:9
-#, fuzzy
-#| msgid "Filters"
 msgid "Filter"
-msgstr "Filtres"
+msgstr "Filtre"
 
 #: weblate/templates/snippets/diagnostics.html:12
-#, fuzzy
-#| msgid "Search filter"
 msgid "Clear filters"
-msgstr "Filtre de recherche"
+msgstr "Effacer les filtres"
 
 #: weblate/templates/snippets/diagnostics.html:24
-#, fuzzy, python-format
-#| msgid "Source (%(count)s)"
+#, python-format
 msgid "Active: %(count)s"
-msgstr "Source (%(count)s)"
+msgstr "Actif : %(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:29
-#, fuzzy, python-format
-#| msgid "Dismissed checks"
+#, python-format
 msgid "Dismissed: %(count)s"
-msgstr "Ignorer les validations"
+msgstr "Rejeté : %(count)s"
 
 #: weblate/templates/snippets/diagnostics.html:35
-#, fuzzy
-#| msgid "All protected projects"
 msgid "Affected projects"
-msgstr "Tous les projets protégés"
+msgstr "Projets impactés"
 
 #: weblate/templates/snippets/diagnostics.html:50
-#, fuzzy, python-format
-#| msgid "Browse %(count)s project"
-#| msgid_plural "Browse all %(count)s projects"
+#, python-format
 msgid "%(count)s more affected project."
 msgid_plural "%(count)s more affected projects."
-msgstr[0] "Parcourir %(count)s projet"
-msgstr[1] "Parcourir %(count)s projets"
+msgstr[0] "%(count)s projet supplémentaire impacté."
+msgstr[1] "%(count)s projets supplémentaires impactés."
 
 #: weblate/templates/snippets/diagnostics.html:54
-#, fuzzy
-#| msgid "Created component"
 msgid "Affected components"
-msgstr "Composant créé"
+msgstr "Composants impactés"
 
 #: weblate/templates/snippets/diagnostics.html:70
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action in %(component)s"
-#| msgid_plural "%(count)s strings needing action in %(component)s"
+#, python-format
 msgid "%(count)s more affected component."
 msgid_plural "%(count)s more affected components."
-msgstr[0] "Il y a %(count)s chaîne nécessitant une action dans %(component)s"
-msgstr[1] "Il y a %(count)s chaînes nécessitant une action dans %(component)s"
+msgstr[0] "%(count)s composant supplémentaire impacté."
+msgstr[1] "%(count)s composants supplémentaires impactés."
 
 #: weblate/templates/snippets/diagnostics.html:77
 msgid "No diagnostics match the selected filters."
-msgstr ""
+msgstr "Aucun diagnostic ne correspond aux filtres sélectionnés."
 
 #: weblate/templates/snippets/donate.html:4
 msgid ""
@@ -15302,10 +15207,10 @@ msgid "Translation process"
 msgstr "Processus de traduction"
 
 #: weblate/templates/snippets/info.html:97
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "Direct translation editing is restricted to privileged users."
-msgstr "Vous avez atteint la fin de la traduction."
+msgstr ""
+"La modification directe des traductions est réservée aux utilisateurs "
+"privilégiés."
 
 #: weblate/templates/snippets/info.html:99
 #: weblate/templates/snippets/info.html:116
@@ -15646,8 +15551,9 @@ msgid "Repository"
 msgstr "Dépôt"
 
 #: weblate/templates/snippets/list-objects.html:8
+#, fuzzy
 msgid "Scrollable table"
-msgstr ""
+msgstr "Tableau avec défilement"
 
 #: weblate/templates/snippets/list-objects.html:50
 msgid "Add project"
@@ -15976,30 +15882,24 @@ msgid "Cost estimate"
 msgstr "Devis"
 
 #: weblate/templates/snippets/reports.html:79
-#, fuzzy
-#| msgid ""
-#| "Estimates translation costs based on source words, repetitions, needs-"
-#| "editing strings, and translation memory matches."
 msgid ""
 "Estimates translation costs from source words and translation memory matches."
 msgstr ""
-"Estime les coûts de traduction en fonction du nombre de mots de la source, "
-"des répétitions, des chaînes nécessitant une révision et des correspondances "
-"dans la mémoire de traduction."
+"Estime les coûts de traduction à partir du nombre de mots source et des "
+"correspondances de mémoire de traduction."
 
 #: weblate/templates/snippets/reports.html:101
 #: weblate/trans/models/report.py:109 weblate/trans/views/reports.py:990
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Translator persona"
 msgid "Translator work analysis"
-msgstr "Personnalité du traducteur"
+msgstr "Analyse du travail du traducteur"
 
 #: weblate/templates/snippets/reports.html:105
 msgid ""
 "Analyzes realistic daily translator throughput while filtering obvious "
 "outliers."
 msgstr ""
+"Analyse la productivité journalière réelle des traducteurs en écartant les "
+"données aberrantes évidentes."
 
 #: weblate/templates/snippets/reports.html:119
 #, fuzzy
@@ -17272,6 +17172,8 @@ msgid ""
 "Select a project with a workspace to connect an account or import "
 "repositories from an existing connection."
 msgstr ""
+"Sélectionnez un projet doté d'un espace de travail pour connecter un compte "
+"ou importer des dépôts à partir d'une connexion existante."
 
 #: weblate/templates/trans/component_form.html:38
 msgid ""
@@ -19455,14 +19357,14 @@ msgid "Forced synchronization of translations"
 msgstr "Synchronisation forcée des traductions"
 
 #: weblate/trans/actions.py:526
-#, fuzzy
-#| msgid "Translation is now locked for you."
 msgid "Translation files were forcibly rescanned for changes."
-msgstr "Cette traduction est maintenant verrouillée pour vous."
+msgstr ""
+"Les fichiers de traduction ont été reparcourus de manière forcée pour "
+"détecter les modifications."
 
 #: weblate/trans/actions.py:527
 msgid "Forced rescan of translations"
-msgstr "Analyse forcée des traductions"
+msgstr "Reparcourir de manière forcée les fichiers de traduction"
 
 #: weblate/trans/actions.py:532
 #, fuzzy
@@ -22435,7 +22337,7 @@ msgid ""
 "mask."
 msgstr ""
 "Expression rationnelle utilisée pour filtrer les fichiers de traduction lors "
-"de la recherche d’un motif de fichier."
+"de la recherche selon le masque de fichier."
 
 #: weblate/trans/models/component.py:1035
 msgid "Variants regular expression"
@@ -26250,16 +26152,12 @@ msgid "Weblate status"
 msgstr "État de Weblate"
 
 #: weblate/wladmin/views.py:188
-#, fuzzy
-#| msgid ""
-#| "Please change SITE_TITLE in settings to make your Weblate easy to "
-#| "recognize in discover."
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in Discover Weblate."
 msgstr ""
-"Pensez à modifier le SITE_TITLE dans les paramètres afin que votre Weblate "
-"soit facilement identifiable."
+"Veuillez modifier SITE_TITLE dans les paramètres pour que votre site Weblate "
+"soit facilement identifiable dans Découverte Weblate."
 
 #: weblate/wladmin/views.py:258
 msgid "Customer care ticket created:"
@@ -26326,10 +26224,14 @@ msgid "Could not activate your installation: %s"
 msgstr "Impossible d’activer votre installation : %s"
 
 #: weblate/wladmin/views.py:505
+#, fuzzy
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
 "disabled on weblate.org. The site may remain listed."
 msgstr ""
+"Le paquet de support a été dissocié localement, mais Découverte Weblate n'a "
+"pas pu être désactivé sur weblate.org. Le site peut rester affiché dans la "
+"liste."
 
 #: weblate/wladmin/views.py:563
 msgid "Backup process triggered"
