@@ -33,14 +33,15 @@
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # DocNoc <yorionicolas2023@hotmail.com>, 2026.
 # MrLeaves <mrleaves25@duck.com>, 2026.
+# Lito Parra <lito.15@proton.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-03 09:02+0000\n"
-"Last-Translator: Valeria Sofia Azañero <valeaza710@gmail.com>\n"
+"PO-Revision-Date: 2026-08-11 14:56+0000\n"
+"Last-Translator: Lito Parra <lito.15@proton.me>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -48,7 +49,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: weblate/accounts/avatar.py:91
 msgctxt "No known user"
@@ -117,11 +118,11 @@ msgstr ""
 
 #: weblate/accounts/forms.py:251 weblate/accounts/models.py:991
 msgid "Public e-mail"
-msgstr "Correo-e público"
+msgstr "Correo electrónico público"
 
 #: weblate/accounts/forms.py:252 weblate/accounts/models.py:1360
 msgid "Hide e-mail address from public view"
-msgstr "Ocultar dirección de correo-e de la vista pública"
+msgstr "No mostrar públicamente el correo electrónico"
 
 #: weblate/accounts/forms.py:368
 #, python-format
@@ -171,7 +172,7 @@ msgstr "Su nombre"
 
 #: weblate/accounts/forms.py:629
 msgid "Your e-mail"
-msgstr "Su correo-e"
+msgstr "Su correo electrónico"
 
 #: weblate/accounts/forms.py:631 weblate/templates/manage/performance.html:28
 #: weblate/templates/manage/performance.html:81
@@ -193,11 +194,11 @@ msgstr ""
 #: weblate/templates/trans/project-access.html:61 weblate/utils/fields.py:40
 #: weblate/wladmin/forms.py:58
 msgid "E-mail"
-msgstr "Correo-e"
+msgstr "Correo"
 
 #: weblate/accounts/forms.py:660
 msgid "An e-mail with a confirmation link will be sent here."
-msgstr "Un correo-e con un enlace de confirmación se enviará aquí."
+msgstr "Un correo electrónico con un enlace de confirmación se enviará aquí."
 
 #: weblate/accounts/forms.py:723
 msgid "New password"
@@ -241,7 +242,7 @@ msgstr "Ha introducido una contraseña no válida."
 
 #: weblate/accounts/forms.py:812
 msgid "Username or e-mail"
-msgstr "Identificador de usuario o correo-e"
+msgstr "Nombre de usuario o correo electrónico"
 
 #: weblate/accounts/forms.py:813 weblate/accounts/templatetags/authnames.py:33
 msgid "Password"
@@ -1407,8 +1408,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
-"Esta invitación puede ser aceptada solo por la dirección de correo-e elegida "
-"por el invitante; no puede ser utilizado por su cuenta."
+"Esta invitación solo puede ser aceptada desde la dirección de correo "
+"electrónico elegida por el anfitrión; no puede ser utilizada por su cuenta."
 
 #: weblate/accounts/pipeline.py:660
 #, python-brace-format
@@ -3398,7 +3399,7 @@ msgstr "Los cambios mínimos no pueden superar los cambios máximos."
 
 #: weblate/api/serializers.py:1185
 msgid "This e-mail address has not been verified."
-msgstr "Esta dirección de correo-e no ha sido verificada."
+msgstr "Esta dirección de correo electrónico no ha sido verificada."
 
 #: weblate/api/serializers.py:1316 weblate/templates/accounts/user.html:278
 #: weblate/trans/forms.py:1382
@@ -3444,7 +3445,7 @@ msgid ""
 "email."
 msgstr ""
 "Si eres administrador, puedes atribuir este comentario a otro usuario a "
-"través de su correo-e."
+"través de su correo electrónico."
 
 #: weblate/api/serializers.py:1511 weblate/auth/forms.py:509
 msgid "Cannot change this on a built-in team."
@@ -4265,12 +4266,13 @@ msgstr "Se envió un mensaje de invitación por correo."
 
 #: weblate/auth/forms.py:324
 msgid "E-mail addresses"
-msgstr "Direcciones de correo-e"
+msgstr "Direcciones de correo electrónico"
 
 #: weblate/auth/forms.py:327
 msgid "Enter one or more e-mail addresses separated by whitespace."
 msgstr ""
-"Introduzca una o más direcciones de correo-e separadas por espacio en blanco."
+"Introduzca una o más direcciones de correo electrónico separadas por espacio "
+"en blanco."
 
 #: weblate/auth/forms.py:365
 #, python-format
@@ -4291,8 +4293,8 @@ msgstr "%(email)s: ya existe invitación pendiente"
 #, python-format
 msgid "%(count)d invitation e-mail was sent."
 msgid_plural "%(count)d invitation e-mails were sent."
-msgstr[0] "Se envió %(count)d invitación por correo-e."
-msgstr[1] "Se enviaron %(count)d invitaciones por correo-e."
+msgstr[0] "Se envió %(count)d invitación por correo electrónico."
+msgstr[1] "Se enviaron %(count)d invitaciones por correo electrónico."
 
 #: weblate/auth/forms.py:435
 #, python-format
@@ -4494,7 +4496,8 @@ msgstr ""
 #: weblate/auth/models.py:546
 #, python-format
 msgid "Internal bot e-mail address is too long: %s"
-msgstr "Bot de dirección de correo-e interno es demasiado largo: %s"
+msgstr ""
+"La dirección de correo electrónico del bot interno es demasiado larga: %s"
 
 #: weblate/auth/models.py:812 weblate/utils/forms.py:96
 #: weblate/utils/validators.py:272
@@ -9701,7 +9704,7 @@ msgid ""
 "email."
 msgstr ""
 "Puede establecer su contraseña más tarde pulsando sobre el enlace en el "
-"correo-e de verificación."
+"correo electrónico de verificación."
 
 #: weblate/templates/accounts/register.html:24
 msgid "Please complete the registration to accept the invitation."
@@ -9758,7 +9761,7 @@ msgid ""
 "mail you will receive."
 msgstr ""
 "Tendrá que confirmar la eliminación de la cuenta pulsando en el enlace que "
-"recibirá en su correo-e."
+"recibirá en su correo electrónico."
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -9817,22 +9820,22 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
-"Adicionalmente, su nombre y correo-e puede ser utilizado en las consignas "
-"del sistema de control de versión para autorizar los cambios que haga; estos "
-"puede estar almacenado indefinidamente."
+"Además, su nombre y correo electrónico pueden ser utilizados en las "
+"confirmaciones del sistema de control de versión para firmar los cambios que "
+"haga; estos pueden ser almacenados indefinidamente."
 
 #: weblate/templates/accounts/snippets/login-info.html:40
 msgid ""
 "You can enable the use of a private commit e-mail and name in your profile."
 msgstr ""
-"Puede habilitar el uso de un correo-e privado de consigna y nombre en su "
-"perfil."
+"Puede habilitar el uso de un correo electrónico privado y nombre para firmar "
+"sus confirmaciones en su perfil."
 
 #: weblate/templates/accounts/snippets/login-info.html:42
 msgid "You can enable the use of a private commit e-mail in your profile."
 msgstr ""
-"Puede habilitar el uso de un correo-e privado de consigna dentro de su "
-"perfil."
+"Puede habilitar el uso de un correo electrónico privado para sus "
+"confirmaciones dentro de su perfil."
 
 #: weblate/templates/accounts/snippets/login-info.html:49
 msgid ""
@@ -16150,7 +16153,9 @@ msgstr "Esto es para completar un registro y crear una cuenta de Weblate."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:42
 msgid "Continue only if you opened the confirmation link from your e-mail."
-msgstr "Continúa solo si abriste el enlace de confirmación desde tu correo-e."
+msgstr ""
+"Continúa solo si abriste el enlace de confirmación desde tu correo "
+"electrónico."
 
 #: weblate/templates/social_django/partial_pipeline_external_resume.html:56
 msgid "Continue password reset"
@@ -20441,7 +20446,7 @@ msgstr "Nombre del autor"
 
 #: weblate/trans/forms.py:964
 msgid "Author e-mail"
-msgstr "Correo-e del autor"
+msgstr "Correo electrónico del autor"
 
 #: weblate/trans/forms.py:1151
 msgid "Could not find the merged string."
@@ -24381,7 +24386,7 @@ msgstr "Dirección de correo electrónico no válida: {}"
 
 #: weblate/utils/validators.py:307
 msgid "Disposable e-mail domains are disallowed."
-msgstr "No se permiten dominios de correo-e desechables."
+msgstr "No se permiten dominios de correo electrónico desechables."
 
 #: weblate/utils/validators.py:318
 msgid "Could not evaluate plural formula: {}"
