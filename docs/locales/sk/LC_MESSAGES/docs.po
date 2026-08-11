@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-11 06:54+0000\n"
+"PO-Revision-Date: 2026-08-11 14:56+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -169,6 +169,11 @@ msgid ""
 "filtered, so these aggregates do not grant access to the underlying projects "
 "or components."
 msgstr ""
+"Súhrnné štatistiky zahŕňajú `Súkromné` projekty a :ref:`obmedzené komponenty "
+"<component-restricted>`, vrátane celostránkových, jazykových a pracovných "
+"priestorových súhrnov. Zoznamy objektov, názvy a akcie zostávajú filtrované "
+"podľa oprávnení, takže tieto súhrny neposkytujú prístup k základným "
+"projektom ani komponentom."
 
 #: admin/access.rst:82
 msgid ""
@@ -182,11 +187,13 @@ msgstr ""
 
 #: admin/access.rst:90 admin/workspaces.rst:272
 msgid "Workspace access control"
-msgstr ""
+msgstr "Riadenie prístupu k pracovnému priestoru"
 
 #: admin/access.rst:92
 msgid "Workspace-scoped teams are documented in :ref:`workspace-acl`."
 msgstr ""
+"Tímy s rozsahom pracovného priestoru sú zdokumentované v :ref:`workspace-"
+"acl`."
 
 #: admin/access.rst:97
 msgid "Managing per-project access control"
@@ -425,6 +432,10 @@ msgid ""
 "current personal API key stops working. Clear it only when the current API "
 "key should remain active."
 msgstr ""
+"Administrátori stránky môžu tiež vypnúť overovanie heslom pre používateľa. "
+"Možnosť :guilabel:`Znova vygenerovať kľúč API` je predvolene zapnutá, takže "
+"aktuálny osobný kľúč API prestane fungovať. Zrušte ju len vtedy, ak má "
+"aktuálny kľúč API zostať aktívny."
 
 #: admin/access.rst:210
 msgid ""
@@ -460,7 +471,7 @@ msgstr ""
 
 #: admin/access.rst:233
 msgid "Cleaning up user contributions"
-msgstr ""
+msgstr "Čistenie príspevkov používateľov"
 
 #: admin/access.rst:235
 msgid ""
@@ -470,25 +481,36 @@ msgid ""
 "the cleanup actions in the block form. For users who are already blocked, "
 "use :guilabel:`Clean up user contributions` in the blocked users list."
 msgstr ""
+"Pri blokovaní spamových alebo urážlivých účtov môžu administrátori projektu "
+"tiež vyčistiť existujúce príspevky používateľa v danom projekte. Použite "
+":guilabel:`Operácie` ↓ :guilabel:`Používatelia`, zablokujte používateľa a "
+"vyberte akcie čistenia vo formulári blokovania. Pre používateľov, ktorí sú "
+"už zablokovaní, použite :guilabel:`Vyčistiť príspevky používateľa` v zozname "
+"zablokovaných používateľov."
 
 #: admin/access.rst:241
 msgid "The available cleanup actions are:"
-msgstr ""
+msgstr "Dostupné akcie čistenia sú:"
 
 #: admin/access.rst:243
 msgid ""
 ":guilabel:`Revert user edits` reverts the latest editable translations by "
 "the user."
 msgstr ""
+":guilabel:`Vrátiť úpravy používateľa` vráti najnovšie upraviteľné preklady "
+"od používateľa."
 
 #: admin/access.rst:245
 msgid ""
 ":guilabel:`Reject user suggestions` rejects pending suggestions by the user."
 msgstr ""
+":guilabel:`Odmietnuť návrhy používateľa` odmietne čakajúce návrhy od "
+"používateľa."
 
 #: admin/access.rst:246
 msgid ":guilabel:`Delete user comments` deletes comments by the user."
 msgstr ""
+":guilabel:`Odstrániť komentáre používateľa` vymaže komentáre od používateľa."
 
 #: admin/access.rst:248
 msgid ""
@@ -498,6 +520,11 @@ msgid ""
 "user's profile, select the :guilabel:`Edit` tab, and "
 "use :guilabel:`Contribution cleanup`."
 msgstr ""
+"Administrátori stránky s celostránkovým oprávnením ``user.edit`` môžu "
+"vykonať rovnaké hromadné čistenie vo všetkých projektoch z :ref:`rozhrania "
+"na správu <management-interface>` na karte :guilabel:`Používatelia`. Otvorte "
+"profil používateľa, vyberte kartu :guilabel:`Upraviť` a použite "
+":guilabel:`Čistenie príspevkov`."
 
 #: admin/access.rst:255
 msgid "Per-project permission management"
@@ -946,7 +973,7 @@ msgstr ""
 "V takom prípade, ak tím uvedie akékoľvek položky v :guilabel:`Projects` — či "
 "už ich vypíše priamo, alebo nastaví položku :guilabel:`Projects selection` "
 "na hodnotu ako :guilabel:`All public projects` — všetky tieto oprávnenia sa "
-"aplikujú na všetky projekty. Tým sa v praxi udelia rovnaké oprávnenia na "
+"aplikujú na všetky projekty. Tým sa v praxi udelia rovnaké oprávnenia na "
 "prístup ku všetkým projektom s :ref:`neobmedzenými komponentmi <component-"
 "restricted>`."
 
@@ -958,6 +985,10 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
+"Obmedzenia uložené :guilabel:`Jazykmi` tímu sa uplatňujú samostatne, keď sa "
+"overuje, či má používateľ prístup na vykonanie určitých akcií. Konkrétne sa "
+"uplatňujú len na akcie priamo súvisiace s procesom prekladu, ako je "
+"kontrola, ukladanie prekladov, pridávanie návrhov atď."
 
 #: admin/access.rst:474
 msgid ""
@@ -969,6 +1000,13 @@ msgid ""
 "of those languages. Project-wide, component-wide and global permissions from "
 "that team are not granted for that member."
 msgstr ""
+"Jednotlivé členstvá v tímoch môžu ďalej obmedziť tieto oprávnenia na vybrané "
+"jazyky. Ponechanie jazykového limitu pre člena prázdne neuplatňuje žiadne "
+"ďalšie obmedzenie nad rámec výberu jazyka tímu. Rovnaký jazykový limit možno "
+"nastaviť pri pozývaní nových používateľov do tímu projektu. Keď je nastavený "
+"jazykový limit pre člena, členstvo udeľuje len oprávnenia, ktoré možno "
+"vyhodnotiť pre jeden z týchto jazykov. Celoprojektové, celokomponentové a "
+"globálne oprávnenia z daného tímu sa tomuto členovi neudeľujú."
 
 #: admin/access.rst:482
 msgid ""
@@ -978,6 +1016,11 @@ msgid ""
 "when linked components are in other projects. A per-member language limit "
 "therefore cannot grant these permissions."
 msgstr ""
+"Oprávnenia VCS na zápis, odoslanie, resetovanie a aktualizáciu sa "
+"vyhodnocujú pre celý repozitár. Člen potrebuje celokomponentové oprávnenie "
+"na komponent vlastniaci repozitár a každý komponent s ním prepojený. Toto "
+"platí aj vtedy, keď sú prepojené komponenty v iných projektoch. Jazykový "
+"limit pre člena preto nemôže udeliť tieto oprávnenia."
 
 #: admin/access.rst:490
 msgid ""
@@ -1552,12 +1595,19 @@ msgid ""
 "that is not due yet. A successful entry can still mean that the add-on "
 "checked its inputs but found nothing to change."
 msgstr ""
+"Každá položka zaznamenáva, či je spracovanie čakajúce, úspešné, zlyhalo "
+"alebo bolo preskočené. Preskočené položky obsahujú dôvod, prečo sa doplnok "
+"nespustil, napríklad nekompatibilný komponent, žiadne relevantné zmeny alebo "
+"nakonfigurovaný plán, ktorý ešte nenastal. Úspešná položka môže stále "
+"znamenať, že doplnok skontroloval svoje vstupy, ale nenašiel nič na zmenu."
 
 #: admin/addons.rst:197
 msgid ""
 "For scope-wide add-ons that process components independently, the activity "
 "log contains a separate entry for each component."
 msgstr ""
+"Pre doplnky s rozsahom, ktoré spracúvajú komponenty nezávisle, denník "
+"aktivít obsahuje samostatnú položku pre každý komponent."
 
 #: admin/addons.rst:200
 msgid ""
@@ -1617,6 +1667,8 @@ msgid ""
 "Users and teams, see :ref:`custom-acl`; site administrators can "
 "also :ref:`clean up user contributions <cleanup-user-contributions>`."
 msgstr ""
+"Používatelia a tímy, pozri :ref:`custom-acl`; administrátori stránky môžu "
+"tiež :ref:`vyčistiť príspevky používateľov <cleanup-user-contributions>`."
 
 #: admin/admin.rst:22
 msgid ":ref:`manage-appearance`."
@@ -1758,10 +1810,13 @@ msgid ""
 "Use the Weblate UI or API for normal operations such as creating projects, "
 "creating components, managing users, or posting announcements."
 msgstr ""
+"Pre bežné operácie, ako je vytváranie projektov, vytváranie komponentov, "
+"správa používateľov alebo zverejňovanie oznámení, použite používateľské "
+"rozhranie alebo API Weblate."
 
 #: admin/admin.rst:98
 msgid "Project and component creation"
-msgstr ""
+msgstr "Vytváranie projektov a komponentov"
 
 #: admin/admin.rst:100
 msgid ""
@@ -1771,6 +1826,11 @@ msgid ""
 "and :ref:`component` for the available settings, and :ref:`bimono` for how "
 "bilingual and monolingual formats differ."
 msgstr ""
+"Projekty a komponenty sa vytvárajú z bežného používateľského rozhrania "
+"Weblate. Projekty slúžia ako kontajnery pre prekladové komponenty a "
+"komponenty môžu používať dvojjazyčné alebo jednojazyčné prekladové súbory. "
+"Dostupné nastavenia nájdete v :ref:`project` a :ref:`component`, a v "
+":ref:`bimono` sa dozviete, ako sa líšia dvojjazyčné a jednojazyčné formáty."
 
 #: admin/announcements.rst:2 snippets/permissions.rst:321
 msgid "Announcements"
@@ -1786,6 +1846,8 @@ msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, category, component, or language."
 msgstr ""
+"Poskytnite informácie svojim prekladateľom zverejnením oznámení, "
+"celostránkových, pre projekt, kategóriu, komponent alebo jazyk."
 
 #: admin/announcements.rst:11
 msgid ""
@@ -1848,22 +1910,25 @@ msgstr ""
 
 #: admin/announcements.rst:35
 msgid "Project and language specified"
-msgstr ""
+msgstr "Špecifikovaný projekt a jazyk"
 
 #: admin/announcements.rst:37
 msgid ""
 "Shown within the project for the specified language, including all its "
 "translations."
 msgstr ""
+"Zobrazené v rámci projektu pre špecifikovaný jazyk, vrátane všetkých jeho "
+"prekladov."
 
 #: admin/announcements.rst:40
 msgid "Category specified"
-msgstr ""
+msgstr "Špecifikovaná kategória"
 
 #: admin/announcements.rst:42
 msgid ""
 "Shown within the category, including all its components and translations."
 msgstr ""
+"Zobrazené v rámci kategórie, vrátane všetkých jej komponentov a prekladov."
 
 #: admin/announcements.rst:44
 msgid "Component specified"
@@ -2291,6 +2356,9 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"Názov zobrazenia a ikonu metódy autentifikácie môžete prepísať pomocou "
+"nastavení ako ``SOCIAL_AUTH_<NAME>_IMAGE`` a ``SOCIAL_AUTH_<NAME>_TITLE``. "
+"Napríklad prepísanie názvu pre Auth0 by vyzeralo takto:"
 
 #: admin/auth.rst:435
 msgid "Turning off password authentication"
@@ -2475,10 +2543,14 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"Niektorí poskytovatelia identity (ako napríklad Microsoft Entra ID s "
+"viacfaktorovou autentifikáciou) vyžadujú vypnutie predvoleného "
+"``requestedAuthnContext`` v bezpečnostnej konfigurácii SAML:"
 
 #: admin/auth.rst:580
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
 msgstr ""
+"V Dockeri nastavte namiesto toho :envvar:`WEBLATE_SAML_SECURITY_CONFIG`."
 
 #: admin/auth.rst:584
 msgid ""
@@ -2809,6 +2881,8 @@ msgid ""
 "Project backups can also be created, listed, and downloaded through "
 "the :ref:`api` since version 2026.7;"
 msgstr ""
+"Zálohy projektov je možné vytvárať, vypisovať a sťahovať prostredníctvom "
+":ref:`api` od verzie 2026.7;"
 
 #: admin/backup.rst:26
 msgid ""
@@ -2822,6 +2896,10 @@ msgid ""
 "did create them. Upon import it is assigned to a matching user. If there is "
 "no user with such username, it is assigned to anonymous user."
 msgstr ""
+"Komentáre a návrhy sú zálohované s používateľským menom používateľa, ktorý "
+"ich vytvoril. Pri importe sa priradia zodpovedajúcemu používateľovi. Ak "
+"neexistuje používateľ s takýmto používateľským menom, priradí sa anonymnému "
+"používateľovi."
 
 #: admin/backup.rst:32
 msgid ""
@@ -2841,6 +2919,12 @@ msgid ""
 "using :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
 "and :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"Validácia importu nahraných záloh projektov sa dá doladiť pomocou "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` a "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/backup.rst:43
 msgid ""
@@ -2849,6 +2933,10 @@ msgid ""
 "screenshot files cause the import to be rejected without creating a partial "
 "project."
 msgstr ""
+"Úplná záloha sa validuje pred obnovením akýchkoľvek údajov. Neplatné polia "
+"objektov, referencie, cesty repozitára, URL, regulárne výrazy alebo súbory "
+"snímok obrazovky spôsobia, že import bude odmietnutý bez vytvorenia "
+"čiastočného projektu."
 
 #: admin/backup.rst:47
 msgid ""
@@ -3070,6 +3158,8 @@ msgid ""
 "The directory where backups will be stored has to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
+"Adresár, kde sa budú ukladať zálohy, musí byť vo vlastníctve UID 1000, inak "
+"Weblate nebude môcť tam zapisovať zálohy."
 
 #: admin/backup.rst:167
 msgid "Remote backups"
@@ -3147,6 +3237,9 @@ msgid ""
 "also manually trigger a backup from the Weblate UI or using :ref:`backup-"
 "management-command`."
 msgstr ""
+"Po povolení sa zálohy budú spúšťať automaticky denne. Zálohu môžete spustiť "
+"aj manuálne z používateľského rozhrania Weblate alebo pomocou :ref:`backup-"
+"management-command`."
 
 #: admin/backup.rst:184
 msgid ""
@@ -3642,9 +3735,9 @@ msgid ""
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_"
 msgstr ""
-"Aktualizácia z Pythonu 2 na Python 3 v dokumentácii Weblate 3.11.1 <https://"
-"docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-"
-"python-2-to-python-3>_"
+"`Aktualizácia z Pythonu 2 na Python 3 v dokumentácii Weblate 3.11.1 <https://"
+"docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-"
+"2-to-python-3>`_"
 
 #: admin/checks.rst:2 user/checks.rst:2
 msgid "Checks and fixups"
@@ -3683,8 +3776,8 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"Ak chcete nainštalovať vlastné kontroly, uveďte úplnú cestu k triede v "
-"Pythone v :setting:`AUTOFIX_LIST`, pozri :ref:`custom-check-modules`."
+"Na inštaláciu vlastných kontrol uveďte úplnú cestu k triede v Pythone v "
+":setting:`AUTOFIX_LIST`, pozri :ref:`custom-check-modules`."
 
 #: admin/checks.rst:27
 msgid "Customizing behavior using flags"
@@ -3839,6 +3932,9 @@ msgid ""
 "``md-text``: This flag is automatically added to strings in Markdown and MDX "
 "files, if location extension is ``.md``, ``.markdown``, or ``.mdx``."
 msgstr ""
+"``md-text``: Tento príznak sa automaticky pridáva k reťazcom v súboroch "
+"Markdown a MDX, ak je prípona umiestnenia ``.md``, ``.markdown`` alebo "
+"``.mdx``."
 
 #: admin/checks.rst:104
 msgid "Enforcing checks"
@@ -3937,7 +4033,7 @@ msgstr ""
 #: admin/checks.rst:162
 msgid ""
 "Font-family and style are automatically recognized after uploading them:"
-msgstr ""
+msgstr "Rodina písiem a štýl sú automaticky rozpoznané po ich nahraní:"
 
 #: admin/checks.rst:166
 msgid "You can have a number of fonts loaded into Weblate:"
@@ -3960,6 +4056,8 @@ msgid ""
 "Defines maximal width in pixels and, optionally, the maximum number of "
 "lines. Word wrapping is applied when more than one line is configured."
 msgstr ""
+"Definuje maximálnu šírku v pixeloch a voliteľne maximálny počet riadkov. "
+"Zalamovanie slov sa aplikuje, keď je nakonfigurovaný viac ako jeden riadok."
 
 #: admin/checks.rst:176
 msgid "Defines font group to use by specifying its identifier."
@@ -4010,8 +4108,8 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"Ak chcete nainštalovať vlastné kontroly, uveďte úplnú cestu k triede v "
-"Pythone v :setting:`CHECK_LIST`, pozri :ref:`custom-check-modules`."
+"Na inštaláciu vlastných kontrol uveďte úplnú cestu k triede v Pythone v "
+":setting:`CHECK_LIST`, pozri :ref:`custom-check-modules`."
 
 #: admin/checks.rst:201
 msgid "Checking translation text does not contain \"foo\""
@@ -4051,20 +4149,28 @@ msgid ""
 "Weblate instance, and on whether Weblate should push directly or create pull "
 "or merge requests."
 msgstr ""
+"Weblate sa integruje so stránkami na hosťovanie kódu na niekoľkých "
+"samostatných miestach: prístup k repozitáru, prichádzajúce oznámenia a "
+"odosielanie prekladov späť. Presné nastavenie závisí od toho, či používate "
+"Hosted Weblate alebo prevádzkujete vlastnú inštanciu Weblate, a od toho, či "
+"má Weblate odosielať priamo alebo vytvárať pull alebo merge requesty."
 
 #: admin/code-hosting.rst:11
 msgid ""
 "Use this page as a provider-oriented checklist. The individual setting pages "
 "remain the canonical reference for setting syntax."
 msgstr ""
+"Použite túto stránku ako kontrolný zoznam orientovaný na poskytovateľa. "
+"Jednotlivé stránky nastavení zostávajú kanonickou referenciou pre syntax "
+"nastavení."
 
 #: admin/code-hosting.rst:15
 msgid "Setup overview"
-msgstr ""
+msgstr "Prehľad nastavenia"
 
 #: admin/code-hosting.rst:17
 msgid "Grant Weblate access to the repository."
-msgstr ""
+msgstr "Udeliť Weblate prístup k repozitáru."
 
 #: admin/code-hosting.rst:19
 msgid ""
@@ -4073,6 +4179,10 @@ msgid ""
 "GitHub account` flow. The App gives Hosted Weblate repository access without "
 "inviting the hosted :guilabel:`weblate` user."
 msgstr ""
+"Pre repozitáre GitHub na Hosted Weblate použite `aplikáciu Hosted Weblate "
+"<https://github.com/apps/hosted-weblate>`_ z toku Weblate "
+":guilabel:`Pripojiť účet GitHub`. Aplikácia dáva Hosted Weblate prístup k "
+"repozitáru bez pozvania hosťovaného používateľa :guilabel:`weblate`."
 
 #: admin/code-hosting.rst:24
 msgid ""
@@ -4080,6 +4190,9 @@ msgid ""
 "GitHub App workflow, add the hosted :guilabel:`weblate` user where it is "
 "available, see :ref:`hosted-push`."
 msgstr ""
+"Pre iné repozitáre Hosted Weblate a pre priame SSH odosielania mimo toku "
+"aplikácie GitHub pridajte hosťovaného používateľa :guilabel:`weblate` tam, "
+"kde je dostupný, pozri :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:27
 msgid ""
@@ -4087,10 +4200,14 @@ msgid ""
 "access using Weblate's SSH key or an HTTPS token, see :ref:`vcs-repos-code-"
 "hosting`."
 msgstr ""
+"Pre samoobslužné Weblate vytvorte špecializovaného používateľa na hosťovanie "
+"kódu a udelte prístup pomocou SSH kľúča Weblate alebo HTTPS tokenu, pozri "
+":ref:`vcs-repos-code-hosting`."
 
 #: admin/code-hosting.rst:31
 msgid "Configure :ref:`component-repo` so Weblate can clone the repository."
 msgstr ""
+"Nakonfigurujte :ref:`component-repo`, aby Weblate mohol klonovať repozitár."
 
 #: admin/code-hosting.rst:33
 msgid ""
@@ -4098,16 +4215,21 @@ msgid ""
 "The repository webhook or app must point to the matching Weblate hook URL, "
 "and the project must have :ref:`project-enable_hooks` enabled."
 msgstr ""
+"Nakonfigurujte prichádzajúce oznámenia, aby Weblate sťahoval zmeny krátko po "
+"odoslaní. Webhook alebo aplikácia repozitára musí smerovať na zodpovedajúcu "
+"URL háku Weblate a projekt musí mať povolené :ref:`project-enable_hooks`."
 
 #: admin/code-hosting.rst:37
 msgid "Decide how Weblate should push translations back:"
-msgstr ""
+msgstr "Rozhodnite, ako má Weblate odosielať preklady späť:"
 
 #: admin/code-hosting.rst:39
 msgid ""
 "Use :ref:`vcs-git` or :ref:`vcs-mercurial` and :ref:`component-push` to push "
 "directly."
 msgstr ""
+"Použite :ref:`vcs-git` alebo :ref:`vcs-mercurial` a :ref:`component-push` na "
+"priame odoslanie."
 
 #: admin/code-hosting.rst:41
 msgid ""
@@ -4115,12 +4237,17 @@ msgid ""
 "or :guilabel:`GitLab`, to create pull or merge requests. These backends need "
 "API credentials in the Weblate settings."
 msgstr ""
+"Použite VCS backend špecifický pre poskytovateľa, ako napríklad "
+":guilabel:`GitHub` alebo :guilabel:`GitLab`, na vytvorenie pull alebo merge "
+"requestov. Tieto backendy potrebujú poverenia API v nastaveniach Weblate."
 
 #: admin/code-hosting.rst:45
 msgid ""
 "Optionally set :ref:`component-push_branch` when Weblate should push to a "
 "branch in the upstream repository instead of using a fork where supported."
 msgstr ""
+"Voliteľne nastavte :ref:`component-push_branch`, keď má Weblate odosielať do "
+"vetvy v hlavnom repozitári namiesto použitia forku, kde je to podporované."
 
 #: admin/code-hosting.rst:51 admin/continuous.rst:378
 msgid "Pushing changes from Weblate"
@@ -4134,6 +4261,11 @@ msgid ""
 "every commit; this is enabled by default, see :ref:`component-"
 "push_on_commit`."
 msgstr ""
+"Každý prekladový komponent môže mať nastavenú URL odoslania (pozri "
+":ref:`component-push`) a v takom prípade bude Weblate schopný odosielať "
+"zmeny do vzdialeného repozitára. Weblate je možné nakonfigurovať aj na "
+"automatické odosielanie zmien pri každom zápise; toto je predvolene "
+"povolené, pozri :ref:`component-push_on_commit`."
 
 #: admin/code-hosting.rst:59
 msgid ""
@@ -4141,6 +4273,8 @@ msgid ""
 "under :guilabel:`Repository maintenance` or using the API via :option:`wlc "
 "push`."
 msgstr ""
+"Ak nechcete, aby sa zmeny odosielali automaticky, môžete odosielať manuálne "
+"v :guilabel:`Údržba repozitára` alebo pomocou API cez :option:`wlc push`."
 
 #: admin/code-hosting.rst:63
 msgid ""
@@ -4152,6 +4286,14 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
+"V prípade, že nechcete priame odosielania Weblate, existuje podpora pre "
+":ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-merge-"
+"requests`, :ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-"
+"pagure-merge-requests`, :ref:`code-hosting-azure-devops-pull-requests` alebo "
+":ref:`code-hosting-gerrit` recenzie. Tieto môžete aktivovať výberom "
+":guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, "
+":guilabel:`Gerrit`, :guilabel:`Azure DevOps` alebo :guilabel:`Pagure` ako "
+":ref:`component-vcs` v :ref:`component`."
 
 #: admin/code-hosting.rst:74
 msgid ""
@@ -4159,6 +4301,8 @@ msgid ""
 "GitLab, Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center and "
 "Bitbucket Cloud:"
 msgstr ""
+"Celkovo sú dostupné nasledujúce možnosti s Git, Mercurial, GitHub, GitLab, "
+"Gitea, Pagure, Azure DevOps, Gerrit, Bitbucket Data Center a Bitbucket Cloud:"
 
 #: admin/code-hosting.rst:80
 msgid "Desired setup"
@@ -4250,11 +4394,11 @@ msgstr "Azure DevOps pull request z vetvy"
 
 #: admin/code-hosting.rst:160
 msgid "Gerrit review"
-msgstr ""
+msgstr "Gerrit recenzia"
 
 #: admin/code-hosting.rst:163
 msgid "Target branch name (optional)"
-msgstr ""
+msgstr "Názov cieľovej vetvy (voliteľné)"
 
 #: admin/code-hosting.rst:165
 msgid "Bitbucket Data Center pull request from fork"
@@ -4282,11 +4426,11 @@ msgstr "GitHub"
 
 #: admin/code-hosting.rst:195
 msgid "GitHub repository access"
-msgstr ""
+msgstr "Prístup k repozitáru GitHub"
 
 #: admin/code-hosting.rst:198
 msgid "Hosted Weblate GitHub App"
-msgstr ""
+msgstr "Aplikácia GitHub Hosted Weblate"
 
 #: admin/code-hosting.rst:200
 msgid ""
@@ -4297,6 +4441,12 @@ msgid ""
 "repositories, grant it access to the repositories you want to translate, and "
 "import components from the connected GitHub account."
 msgstr ""
+"Na Hosted Weblate je odporúčané nastavenie pripojiť `aplikáciu Hosted "
+"Weblate <https://github.com/apps/hosted-weblate>`_ z pracovného priestoru "
+"Weblate, kde sa nachádza váš projekt. Použite tok :guilabel:`Pripojiť účet "
+"GitHub`, nainštalujte aplikáciu na používateľa alebo organizáciu GitHub, "
+"ktorá vlastní vaše repozitáre, udelte jej prístup k repozitárom, ktoré "
+"chcete prekladať, a importujte komponenty z pripojeného účtu GitHub."
 
 #: admin/code-hosting.rst:207
 msgid ""
@@ -4306,6 +4456,11 @@ msgid ""
 "Weblate :guilabel:`weblate` GitHub user or configure a separate repository "
 "webhook for components imported this way."
 msgstr ""
+"Tok podporovaný aplikáciou používa inštalačné prístupové tokeny GitHub na "
+"klonovanie, odosielanie prekladových vetiev, vytváranie pull requestov a "
+"prijímanie prichádzajúcich oznámení. Nemusíte pozývať používateľa GitHub "
+":guilabel:`weblate` Hosted Weblate ani konfigurovať samostatný webhook "
+"repozitára pre komponenty importované týmto spôsobom."
 
 #: admin/code-hosting.rst:213
 msgid ""
@@ -4313,10 +4468,13 @@ msgid ""
 "intentionally configure direct SSH pushes outside the GitHub App workflow, "
 "see :ref:`hosted-push`."
 msgstr ""
+"Používajte používateľa GitHub :guilabel:`weblate` Hosted Weblate iba vtedy, "
+"keď zámerne konfigurujete priame SSH odosielania mimo toku aplikácie GitHub, "
+"pozri :ref:`hosted-push`."
 
 #: admin/code-hosting.rst:218
 msgid "HTTPS with personal access token"
-msgstr ""
+msgstr "HTTPS s osobným prístupovým tokenom"
 
 #: admin/code-hosting.rst:222
 msgid "To use this approach:"
@@ -4343,13 +4501,14 @@ msgid ""
 "This is suitable when you are starting with Weblate or working with a single "
 "repository."
 msgstr ""
+"Toto je vhodné, keď začínate s Weblate alebo pracujete s jedným repozitárom."
 
 #: admin/code-hosting.rst:233 admin/code-hosting.rst:418
 #: admin/code-hosting.rst:490 admin/code-hosting.rst:568
 #: admin/code-hosting.rst:665 admin/code-hosting.rst:722
 #: admin/code-hosting.rst:778
 msgid "SSH with a dedicated user"
-msgstr ""
+msgstr "SSH so špecializovaným používateľom"
 
 #: admin/code-hosting.rst:237
 msgid ""
@@ -4357,6 +4516,9 @@ msgid ""
 "GitHub SSH URLs for your repositories, for example ``git@github.com:owner/"
 "repo.git``."
 msgstr ""
+"Pre GitHub vytvorte špecializovaného používateľa, napríklad ``weblate-bot``, "
+"a použite SSH URL GitHub pre vaše repozitáre, napríklad "
+"``git@github.com:owner/repo.git``."
 
 #: admin/code-hosting.rst:241
 msgid ""
@@ -4364,6 +4526,9 @@ msgid ""
 "outside the recommended `Hosted Weblate app <https://github.com/apps/hosted-"
 "weblate>`_ workflow."
 msgstr ""
+"Na Hosted Weblate používajte tento tok SSH-používateľa iba pre priame SSH "
+"odosielania mimo odporúčaného toku `aplikácie Hosted Weblate <https://"
+"github.com/apps/hosted-weblate>`_."
 
 #: admin/code-hosting.rst:247
 msgid ""
@@ -4372,10 +4537,14 @@ msgid ""
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
+"Pri použití :guilabel:`GitHub` pre pull requesty, konfigurácia "
+":ref:`component-push_branch` ovplyvňuje správanie: ak nie je nastavená, "
+"projekt sa forkuje a zmeny sa odosielajú cez fork. Ak je nastavená, zmeny sa "
+"odosielajú do hlavného repozitára a zvolenej vetvy."
 
 #: admin/code-hosting.rst:255
 msgid "GitHub notifications"
-msgstr ""
+msgstr "Oznámenia GitHub"
 
 #: admin/code-hosting.rst:257
 msgid "Weblate comes with native support for GitHub."
@@ -4391,6 +4560,13 @@ msgid ""
 "requests, without inviting the Hosted Weblate :guilabel:`weblate` GitHub "
 "user."
 msgstr ""
+"Ak používate Hosted Weblate, použite `aplikáciu Hosted Weblate <https://"
+"github.com/apps/hosted-weblate>`_ z toku Weblate :guilabel:`Pripojiť účet "
+"GitHub`. Používa webhooks aplikácie GitHub, takže nemusíte konfigurovať "
+"samostatný :guilabel:`Webhook` v GitHube. Komponenty importované z "
+"pripojeného účtu GitHub tiež používajú aplikáciu na prístup k repozitáru a "
+"pull requesty, bez pozvania používateľa GitHub :guilabel:`weblate` Hosted "
+"Weblate."
 
 #: admin/code-hosting.rst:267
 msgid ""
@@ -4400,6 +4576,11 @@ msgid ""
 "Use it only when you need the legacy app to deliver GitHub notifications to "
 "Hosted Weblate."
 msgstr ""
+"`Stará aplikácia Hosted Weblate`_ je zachovaná pre existujúce nastavenia iba "
+"s webhookmi. Jej doručenia používajú všeobecnú URL webhooku GitHub a sú "
+"autentifikované pomocou samostatného tajomstva webhooku nakonfigurovaného "
+"operátorom Hosted Weblate. Použite ju iba vtedy, keď potrebujete, aby stará "
+"aplikácia doručovala oznámenia GitHub do Hosted Weblate."
 
 #: admin/code-hosting.rst:274
 msgid ""
@@ -4408,10 +4589,14 @@ msgid ""
 "GitHub returns the credentials, and they are stored in the database - there "
 "is no settings-based configuration."
 msgstr ""
+"Pre samoobslužné Weblate zaregistrujte aplikáciu GitHub pomocou toku "
+"registrácie v aplikácii popísaného nižšie. Weblate vygeneruje manifest "
+"aplikácie, GitHub vráti poverenia a tie sa uložia do databázy - neexistuje "
+"žiadna konfigurácia založená na nastaveniach."
 
 #: admin/code-hosting.rst:282
 msgid "Registering the GitHub App from Weblate"
-msgstr ""
+msgstr "Registrácia aplikácie GitHub z Weblate"
 
 #: admin/code-hosting.rst:284
 msgid ""
@@ -4419,16 +4604,21 @@ msgid ""
 "App manifest with the correct permissions, events, and webhook URL pre-"
 "filled:"
 msgstr ""
+"Najrýchlejší spôsob pridania aplikácie GitHub je nechať Weblate vygenerovať "
+"manifest aplikácie GitHub s predvyplnenými správnymi oprávneniami, "
+"udalosťami a URL webhooku:"
 
 #: admin/code-hosting.rst:287
 msgid "Sign in to Weblate with an account that has management access."
-msgstr ""
+msgstr "Prihláste sa do Weblate s účtom, ktorý má prístup na správu."
 
 #: admin/code-hosting.rst:288
 msgid ""
 "Open :guilabel:`Manage → Code-hosting connections → Register Weblate GitHub "
 "App`."
 msgstr ""
+"Otvorte :guilabel:`Spravovať → Pripojenia hosťovania kódu → Zaregistrovať "
+"aplikáciu Weblate GitHub`."
 
 #: admin/code-hosting.rst:290
 msgid ""
@@ -4437,6 +4627,11 @@ msgid ""
 "Leave :guilabel:`Organization` blank to register the App under your personal "
 "account, or enter an organization slug to register it under that org."
 msgstr ""
+"Vyplňte formulár. :guilabel:`Hostiteľ GitHub` je predvolene ``github.com``; "
+"zmeňte ho na názov hostiteľa vášho GitHub Enterprise, ak je to potrebné. "
+"Nechajte :guilabel:`Organizácia` prázdne na registráciu aplikácie pod vaším "
+"osobným účtom, alebo zadajte slug organizácie na registráciu pod touto "
+"organizáciou."
 
 #: admin/code-hosting.rst:294
 msgid ""
@@ -4444,6 +4639,9 @@ msgid ""
 "GitHub's :guilabel:`Create GitHub App` page (you can still rename the App "
 "there)."
 msgstr ""
+"Kliknite na :guilabel:`Pokračovať na GitHub` a potvrďte na stránke GitHub "
+":guilabel:`Vytvoriť aplikáciu GitHub` (tam môžete aplikáciu stále premenovať)"
+"."
 
 #: admin/code-hosting.rst:296
 msgid ""
@@ -4452,6 +4650,9 @@ msgid ""
 "database. The :guilabel:`Connect GitHub account` button is available "
 "immediately afterwards."
 msgstr ""
+"GitHub presmeruje späť na Weblate, ktoré vymení dočasný kód za ID aplikácie, "
+"súkromný kľúč, tajomstvo webhooku a slug a uloží ich do databázy. Tlačidlo "
+":guilabel:`Pripojiť účet GitHub` je dostupné okamžite potom."
 
 #: admin/code-hosting.rst:301
 msgid ""
@@ -4463,6 +4664,14 @@ msgid ""
 "configuration is required. GitHub delivers the ``Installation`` and "
 "``Installation repositories`` events to all GitHub Apps by default."
 msgstr ""
+"Manifest požaduje oprávnenia a odbery udalostí, ktoré Weblate potrebuje "
+"(``Obsah`` a ``Pull requesty`` čítanie/zápis, ``Metadáta`` iba na čítanie, "
+"``Správa organizácie`` iba na čítanie, ``Toky`` čítanie/zápis a udalosti "
+"``Inštalácia``, ``Meta`` a ``Odoslanie``), a nastaví spätné volanie, "
+"nastavenie a URL webhookov pre aplikáciu automaticky, takže nie je potrebná "
+"žiadna manuálna konfigurácia aplikácie GitHub. GitHub doručuje udalosti "
+"``Inštalácia`` a ``Inštalačné repozitáre`` všetkým aplikáciám GitHub "
+"predvolene."
 
 #: admin/code-hosting.rst:309
 msgid ""
@@ -4473,10 +4682,16 @@ msgid ""
 "other accounts; private apps can only be installed on the account that owns "
 "the app."
 msgstr ""
+"GitHub ponúka iba účty, kde môže prihlásený používateľ GitHub nainštalovať "
+"alebo požiadať o aplikáciu. Ak sa organizácia nezobrazuje počas toku "
+"inštalácie, skontrolujte rolu používateľa v organizácii a obmedzenia "
+"inštalácie aplikácie GitHub organizácie. Na GitHub.com môžu byť verejné "
+"aplikácie nainštalované na iných účtoch; súkromné aplikácie môžu byť "
+"nainštalované iba na účte, ktorý vlastní aplikáciu."
 
 #: admin/code-hosting.rst:316
 msgid "Connecting a workspace"
-msgstr ""
+msgstr "Pripojenie pracovného priestoru"
 
 #: admin/code-hosting.rst:318
 msgid ""
@@ -4488,12 +4703,21 @@ msgid ""
 "accounts, Weblate verifies that the install-time GitHub user can administer "
 "the organization installation."
 msgstr ""
+"Pripojené účty GitHub sú viazané na :ref:`pracovný priestor <workspaces>` "
+"Weblate. Používateľ s právami na správu projektu pre akýkoľvek projekt v "
+"pracovnom priestore môže pripojiť účet GitHub v tomto pracovnom priestore. "
+"Po pripojení môže každý projekt v pracovnom priestore importovať komponenty "
+"z repozitárov, ku ktorým má inštalácia aplikácie GitHub prístup. Pre účty "
+"organizácií Weblate overuje, či používateľ GitHub v čase inštalácie môže "
+"spravovať inštaláciu organizácie."
 
 #: admin/code-hosting.rst:325
 msgid ""
 "Projects that are not in a workspace cannot connect a GitHub account through "
 "the GitHub App."
 msgstr ""
+"Projekty, ktoré nie sú v pracovnom priestore, nemôžu pripojiť účet GitHub "
+"prostredníctvom aplikácie GitHub."
 
 #: admin/code-hosting.rst:328
 msgid ""
@@ -4502,16 +4726,24 @@ msgid ""
 "component settings UI keeps the repository URL read-only to prevent the App-"
 "issued credentials from being redirected to an unrelated repository."
 msgstr ""
+"Komponenty importované prostredníctvom toku aplikácie GitHub používajú "
+"špecializovaný VCS backend :guilabel:`GitHub (cez aplikáciu Weblate GitHub)"
+"`. Používateľské rozhranie nastavení komponentu udržuje URL repozitára iba "
+"na čítanie, aby sa zabránilo presmerovaniu poverení vydaných aplikáciou na "
+"nesúvisiaci repozitár."
 
 #: admin/code-hosting.rst:336
 msgid "App webhook URL"
-msgstr ""
+msgstr "URL webhooku aplikácie"
 
 #: admin/code-hosting.rst:338
 msgid ""
 "Each registered Weblate GitHub App has its own webhook URL containing an "
 "opaque token that uniquely identifies a single registered App:"
 msgstr ""
+"Každá zaregistrovaná aplikácia Weblate GitHub má vlastnú URL webhooku "
+"obsahujúcu nepriehľadný token, ktorý jedinečne identifikuje jednu "
+"zaregistrovanú aplikáciu:"
 
 #: admin/code-hosting.rst:345
 msgid ""
@@ -4519,6 +4751,9 @@ msgid ""
 "settings (:guilabel:`Webhooks`) to receive notifications on every push to a "
 "GitHub repository, as shown on the image below:"
 msgstr ""
+"Ak nepoužívate aplikáciu GitHub, pridajte webhook Weblate v nastaveniach "
+"repozitára (:guilabel:`Webhooky`) na prijímanie oznámení pri každom odoslaní "
+"do repozitára GitHub, ako je znázornené na obrázku nižšie:"
 
 #: admin/code-hosting.rst:351
 msgid ""
@@ -4535,6 +4770,8 @@ msgid ""
 "You can leave other values at default settings. Weblate can handle both "
 "content types and consumes just the :guilabel:`push` event."
 msgstr ""
+"Ostatné hodnoty môžete ponechať na predvolených nastaveniach. Weblate dokáže "
+"spracovať oba typy obsahu a spotrebúva iba udalosť :guilabel:`odoslanie`."
 
 #: admin/code-hosting.rst:360
 msgid ":http:post:`/hooks/github/`"
@@ -4560,6 +4797,9 @@ msgid ""
 "the :guilabel:`GitHub` backend creates pull requests. The latter is not "
 "needed for merely accessing Git repositories."
 msgstr ""
+":ref:`vcs-git` odosiela zmeny priamo do repozitára, zatiaľ čo backend "
+":guilabel:`GitHub` vytvára pull requesty. Ten nie je potrebný na pouhý "
+"prístup k repozitárom Git."
 
 #: admin/code-hosting.rst:376
 msgid ""
@@ -4569,6 +4809,11 @@ msgid ""
 "write repository contents and create pull requests. If Weblate should fork "
 "private repositories, the token might also need administration access."
 msgstr ""
+"Na vytvorenie pull requestov vyberte :guilabel:`GitHub` ako :ref:`component-"
+"vcs` a nakonfigurujte :setting:`GITHUB_CREDENTIALS`. Pre GitHub.com použite "
+"``api.github.com`` ako hostiteľa API. Token musí umožňovať Weblate čítať a "
+"zapisovať obsah repozitára a vytvárať pull requesty. Ak má Weblate forkovať "
+"súkromné repozitáre, token môže potrebovať aj prístup na správu."
 
 #: admin/code-hosting.rst:388 admin/install/docker.rst:1687
 msgid "GitLab"
@@ -4576,11 +4821,11 @@ msgstr "GitLab"
 
 #: admin/code-hosting.rst:393
 msgid "GitLab repository access"
-msgstr ""
+msgstr "Prístup k repozitáru GitLab"
 
 #: admin/code-hosting.rst:396
 msgid "HTTPS with personal or project access token"
-msgstr ""
+msgstr "HTTPS s osobným alebo projektovým prístupovým tokenom"
 
 #: admin/code-hosting.rst:400
 msgid ""
@@ -4588,6 +4833,9 @@ msgid ""
 "push changes to the repository. The project access token "
 "requires :guilabel:`Developer` role for pushing."
 msgstr ""
+"Pre GitLab token potrebuje rozsah :guilabel:`write_repository`, aby mohol "
+"odosielať zmeny do repozitára. Projektový prístupový token vyžaduje rolu "
+":guilabel:`Developer` na odosielanie."
 
 #: admin/code-hosting.rst:404
 msgid ""
@@ -4596,6 +4844,11 @@ msgid ""
 "example.git``. For project access tokens it can be a non-blank value: "
 "``https://example:project_access_token@gitlab.com/example/example.git``."
 msgstr ""
+"URL musí obsahovať používateľské meno. Pre osobný prístupový token je to "
+"skutočné používateľské meno: ``https://user:personal_access_token@gitlab.com/"
+"example/example.git``. Pre projektové prístupové tokeny to môže byť "
+"neprázdna hodnota: ``https://example:project_access_token@gitlab.com/example/"
+"example.git``."
 
 #: admin/code-hosting.rst:412
 msgid ""
@@ -4604,12 +4857,18 @@ msgid ""
 "had different expectations (project name, bot user name). Check GitLab "
 "documentation matching your version if unsure."
 msgstr ""
+"Pravidlá pre používanie projektových prístupových tokenov sa zmenili medzi "
+"vydaniami GitLab, neprázdna hodnota je aktuálna požiadavka, ale staršie "
+"verzie mali iné očakávania (názov projektu, meno bota). Ak si nie ste istí, "
+"skontrolujte dokumentáciu GitLab zodpovedajúcu vašej verzii."
 
 #: admin/code-hosting.rst:422
 msgid ""
 "For GitLab, create a dedicated user and use GitLab SSH URLs, for example "
 "``git@gitlab.com:group/project.git``."
 msgstr ""
+"Pre GitLab vytvorte špecializovaného používateľa a použite SSH URL GitLab, "
+"napríklad ``git@gitlab.com:group/project.git``."
 
 #: admin/code-hosting.rst:425
 msgid ""
@@ -4617,10 +4876,13 @@ msgid ""
 "hosted :guilabel:`weblate` user with the required repository permissions, "
 "see :ref:`hosted-push`."
 msgstr ""
+"Pre repozitáre Hosted Weblate na GitLab pridajte hosťovaného používateľa "
+":guilabel:`weblate` s požadovanými oprávneniami repozitára, pozri "
+":ref:`hosted-push`."
 
 #: admin/code-hosting.rst:432
 msgid "GitLab notifications"
-msgstr ""
+msgstr "Oznámenia GitLab"
 
 #: admin/code-hosting.rst:434
 msgid ""
@@ -4628,6 +4890,9 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation, for example "
 "``https://hosted.weblate.org/hooks/gitlab/``."
 msgstr ""
+"Weblate má podporu pre háky GitLab. Pridajte webhook projektu s cieľom na "
+"URL ``/hooks/gitlab/`` vo vašej inštalácii Weblate, napríklad ``https://"
+"hosted.weblate.org/hooks/gitlab/``."
 
 #: admin/code-hosting.rst:438 faq.rst:481
 msgid "Troubleshooting"
@@ -4657,6 +4922,9 @@ msgid ""
 "pushing translation changes as merge requests instead of pushing directly to "
 "the repository."
 msgstr ""
+"Toto pridáva tenkú vrstvu nad :ref:`vcs-git` používajúcu `GitLab API`_, "
+"ktorá umožňuje odosielať zmeny prekladu ako merge requesty namiesto priameho "
+"odosielania do repozitára."
 
 #: admin/code-hosting.rst:459
 msgid ""
@@ -4665,12 +4933,18 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`GitLab` backend creates a merge request."
 msgstr ""
+"Nie je potrebné toto používať na prístup k repozitárom Git, bežný :ref:`vcs-"
+"git` funguje rovnako, jediný rozdiel je v tom, ako sa spracúva odosielanie "
+"do repozitára. S :ref:`vcs-git` sa zmeny odosielajú priamo do repozitára, "
+"zatiaľ čo backend :guilabel:`GitLab` vytvára merge request."
 
 #: admin/code-hosting.rst:464
 msgid ""
 "To create merge requests, select :guilabel:`GitLab` as :ref:`component-vcs` "
 "and configure :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+"Na vytvorenie merge requestov vyberte :guilabel:`GitLab` ako :ref:`component-"
+"vcs` a nakonfigurujte :setting:`GITLAB_CREDENTIALS`."
 
 #: admin/code-hosting.rst:467
 msgid ""
@@ -4679,20 +4953,24 @@ msgid ""
 "forked and changes are pushed through a fork. If it is set, changes are "
 "pushed to the upstream repository and chosen branch."
 msgstr ""
+"Konfigurácia :ref:`component-push_branch` ovplyvňuje, kam Weblate odosiela "
+"zmeny pred otvorením merge requestu. Ak nie je nastavená, projekt sa forkuje "
+"a zmeny sa odosielajú cez fork. Ak je nastavená, zmeny sa odosielajú do "
+"hlavného repozitára a zvolenej vetvy."
 
 #: admin/code-hosting.rst:477
 msgid "Gitea, Forgejo, and Codeberg"
-msgstr ""
+msgstr "Gitea, Forgejo a Codeberg"
 
 #: admin/code-hosting.rst:482
 msgid "Gitea, Forgejo, and Codeberg repository access"
-msgstr ""
+msgstr "Prístup k repozitáru Gitea, Forgejo a Codeberg"
 
 #: admin/code-hosting.rst:485 admin/code-hosting.rst:563
 #: admin/code-hosting.rst:658 admin/code-hosting.rst:717
 #: admin/code-hosting.rst:773
 msgid "HTTPS with an access token"
-msgstr ""
+msgstr "HTTPS s prístupovým tokenom"
 
 #: admin/code-hosting.rst:494
 msgid ""
@@ -4700,10 +4978,13 @@ msgid ""
 "hosted :guilabel:`weblate` user with the required repository permissions, "
 "see :ref:`hosted-push`."
 msgstr ""
+"Pre repozitáre Hosted Weblate na Codeberg pridajte hosťovaného používateľa "
+":guilabel:`weblate` s požadovanými oprávneniami repozitára, pozri "
+":ref:`hosted-push`."
 
 #: admin/code-hosting.rst:501
 msgid "Gitea notifications"
-msgstr ""
+msgstr "Oznámenia Gitea"
 
 #: admin/code-hosting.rst:503
 msgid ""
@@ -4713,6 +4994,11 @@ msgid ""
 "gitea/``. This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
+"Weblate má podporu pre webhooks Gitea. Pridajte :guilabel:`Webhook Gitea` "
+"pre udalosť :guilabel:`Udalosti odoslania` s cieľom na URL ``/hooks/gitea/`` "
+"vo vašej inštalácii Weblate, napríklad ``https://hosted.weblate.org/hooks/"
+"gitea/``. Toto je možné urobiť v :guilabel:`Webhooky` pod "
+":guilabel:`Nastavenia` repozitára."
 
 #: admin/code-hosting.rst:510
 #, fuzzy
@@ -4728,7 +5014,7 @@ msgstr ":http:post:`/hooks/gitea/`"
 
 #: admin/code-hosting.rst:517
 msgid "Forgejo notifications"
-msgstr ""
+msgstr "Oznámenia Forgejo"
 
 #: admin/code-hosting.rst:519
 msgid ""
@@ -4738,6 +5024,11 @@ msgid ""
 "hooks/forgejo/``. This can be done in :guilabel:`Webhooks` under "
 "repository :guilabel:`Settings`."
 msgstr ""
+"Weblate má podporu pre webhooks Forgejo. Pridajte :guilabel:`Webhook "
+"Forgejo` pre udalosť :guilabel:`Udalosti odoslania` s cieľom na URL ``/hooks/"
+"forgejo/`` vo vašej inštalácii Weblate, napríklad ``https://"
+"hosted.weblate.org/hooks/forgejo/``. Toto je možné urobiť v "
+":guilabel:`Webhooky` pod :guilabel:`Nastavenia` repozitára."
 
 #: admin/code-hosting.rst:527
 msgid ""
@@ -4761,6 +5052,9 @@ msgid ""
 "pushing translation changes as pull requests instead of pushing directly to "
 "the repository."
 msgstr ""
+"Toto pridáva tenkú vrstvu nad :ref:`vcs-git` používajúcu `Gitea API`_, ktorá "
+"umožňuje odosielať zmeny prekladu ako pull requesty namiesto priameho "
+"odosielania do repozitára."
 
 #: admin/code-hosting.rst:542
 msgid ""
@@ -4769,12 +5063,18 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`Gitea` backend creates pull requests."
 msgstr ""
+"Nie je potrebné toto používať na prístup k repozitárom Git, bežný :ref:`vcs-"
+"git` funguje rovnako, jediný rozdiel je v tom, ako sa spracúva odosielanie "
+"do repozitára. S :ref:`vcs-git` sa zmeny odosielajú priamo do repozitára, "
+"zatiaľ čo backend :guilabel:`Gitea` vytvára pull requesty."
 
 #: admin/code-hosting.rst:547
 msgid ""
 "To create pull requests, select :guilabel:`Gitea` as :ref:`component-vcs` "
 "and configure :setting:`GITEA_CREDENTIALS`."
 msgstr ""
+"Na vytvorenie pull requestov vyberte :guilabel:`Gitea` ako :ref:`component-"
+"vcs` a nakonfigurujte :setting:`GITEA_CREDENTIALS`."
 
 #: admin/code-hosting.rst:555 admin/install/docker.rst:1661
 msgid "Bitbucket"
@@ -4782,7 +5082,7 @@ msgstr "Bitbucket"
 
 #: admin/code-hosting.rst:560
 msgid "Bitbucket repository access"
-msgstr ""
+msgstr "Prístup k repozitáru Bitbucket"
 
 #: admin/code-hosting.rst:572
 msgid ""
@@ -4790,16 +5090,21 @@ msgid ""
 "hosted :guilabel:`weblate` user with the required repository permissions, "
 "see :ref:`hosted-push`."
 msgstr ""
+"Pre repozitáre Hosted Weblate na Bitbucket pridajte hosťovaného používateľa "
+":guilabel:`weblate` s požadovanými oprávneniami repozitára, pozri "
+":ref:`hosted-push`."
 
 #: admin/code-hosting.rst:576
 msgid ""
 "To push directly, use :ref:`vcs-git` or :ref:`vcs-mercurial` "
 "with :ref:`component-push`."
 msgstr ""
+"Na priame odoslanie použite :ref:`vcs-git` alebo :ref:`vcs-mercurial` s "
+":ref:`component-push`."
 
 #: admin/code-hosting.rst:582
 msgid "Bitbucket notifications"
-msgstr ""
+msgstr "Oznámenia Bitbucket"
 
 #: admin/code-hosting.rst:584
 msgid ""
@@ -4808,6 +5113,10 @@ msgid ""
 "Weblate installation, for example ``https://hosted.weblate.org/hooks/"
 "bitbucket/``."
 msgstr ""
+"Weblate má podporu pre webhooks Bitbucket. Pridajte webhook, ktorý sa spustí "
+"pri odoslaní repozitára, s cieľom na URL ``/hooks/bitbucket/`` vo vašej "
+"inštalácii Weblate, napríklad ``https://hosted.weblate.org/hooks/bitbucket/"
+"``."
 
 #: admin/code-hosting.rst:592
 msgid ":http:post:`/hooks/bitbucket/`"
@@ -4823,6 +5132,9 @@ msgid ""
 "API`_ to allow pushing translation changes as pull requests instead of "
 "pushing directly to the repository."
 msgstr ""
+"Toto pridáva tenkú vrstvu nad :ref:`vcs-git` používajúcu `Bitbucket Data "
+"Center API`_, ktorá umožňuje odosielať zmeny prekladu ako pull requesty "
+"namiesto priameho odosielania do repozitára."
 
 #: admin/code-hosting.rst:608
 msgid "This does not support Bitbucket Cloud API."
@@ -4835,12 +5147,18 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`Bitbucket Data Center` backend creates a pull request."
 msgstr ""
+"Nie je potrebné toto používať na prístup k repozitárom Git, bežný :ref:`vcs-"
+"git` funguje rovnako, jediný rozdiel je v tom, ako sa spracúva odosielanie "
+"do repozitára. S :ref:`vcs-git` sa zmeny odosielajú priamo do repozitára, "
+"zatiaľ čo backend :guilabel:`Bitbucket Data Center` vytvára pull request."
 
 #: admin/code-hosting.rst:616
 msgid ""
 "To create pull requests, select :guilabel:`Bitbucket Data Center` "
 "as :ref:`component-vcs` and configure :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"Na vytvorenie pull requestov vyberte :guilabel:`Bitbucket Data Center` ako "
+":ref:`component-vcs` a nakonfigurujte :setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: admin/code-hosting.rst:624 vcs.rst:376
 msgid "Bitbucket Cloud pull requests"
@@ -4852,6 +5170,9 @@ msgid ""
 "to allow pushing translation changes as pull requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Toto pridáva tenkú vrstvu nad :ref:`vcs-git` používajúcu `Bitbucket Cloud "
+"API`_, ktorá umožňuje odosielať zmeny prekladu ako pull requesty namiesto "
+"priameho odosielania do repozitára."
 
 #: admin/code-hosting.rst:634
 msgid "This is different from Bitbucket Data Center API."
@@ -4864,32 +5185,38 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`Bitbucket Cloud` backend creates a pull request."
 msgstr ""
+"Nie je potrebné toto používať na prístup k repozitárom Git, bežný :ref:`vcs-"
+"git` funguje rovnako, jediný rozdiel je v tom, ako sa spracúva odosielanie "
+"do repozitára. S :ref:`vcs-git` sa zmeny odosielajú priamo do repozitára, "
+"zatiaľ čo backend :guilabel:`Bitbucket Cloud` vytvára pull request."
 
 #: admin/code-hosting.rst:642
 msgid ""
 "To create pull requests, select :guilabel:`Bitbucket Cloud` "
 "as :ref:`component-vcs` and configure :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
+"Na vytvorenie pull requestov vyberte :guilabel:`Bitbucket Cloud` ako "
+":ref:`component-vcs` a nakonfigurujte :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: admin/code-hosting.rst:650
 msgid "Azure DevOps"
-msgstr ""
+msgstr "Azure DevOps"
 
 #: admin/code-hosting.rst:655
 msgid "Azure Repos repository access"
-msgstr ""
+msgstr "Prístup k repozitáru Azure Repos"
 
 #: admin/code-hosting.rst:662
 msgid "Use the HTTPS clone URL shown by Azure Repos for the repository."
-msgstr ""
+msgstr "Použite HTTPS URL klonovania zobrazenú Azure Repos pre repozitár."
 
 #: admin/code-hosting.rst:669
 msgid "Use the SSH URL shown by Azure Repos for the repository."
-msgstr ""
+msgstr "Použite SSH URL zobrazenú Azure Repos pre repozitár."
 
 #: admin/code-hosting.rst:674
 msgid "Azure Repos notifications"
-msgstr ""
+msgstr "Oznámenia Azure Repos"
 
 #: admin/code-hosting.rst:676
 msgid ""
@@ -4899,6 +5226,11 @@ msgid ""
 "azure/``. This can be done in :guilabel:`Service hooks` "
 "under :guilabel:`Project settings`."
 msgstr ""
+"Weblate má podporu pre webhooks Azure Repos. Pridajte webhook pre udalosť "
+":guilabel:`Kód odoslaný` s cieľom na URL ``/hooks/azure/`` vo vašej "
+"inštalácii Weblate, napríklad ``https://hosted.weblate.org/hooks/azure/``. "
+"Toto je možné urobiť v :guilabel:`Servisné háky` pod :guilabel:`Nastavenia "
+"projektu`."
 
 #: admin/code-hosting.rst:684
 msgid ""
@@ -4932,24 +5264,29 @@ msgid ""
 "the :guilabel:`Azure DevOps` backend creates pull requests. The latter is "
 "not needed for merely accessing Git repositories."
 msgstr ""
+":ref:`vcs-git` odosiela zmeny priamo do repozitára, zatiaľ čo backend "
+":guilabel:`Azure DevOps` vytvára pull requesty. Ten nie je potrebný na pouhý "
+"prístup k repozitárom Git."
 
 #: admin/code-hosting.rst:701
 msgid ""
 "To create pull requests, select :guilabel:`Azure DevOps` as :ref:`component-"
 "vcs` and configure :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
+"Na vytvorenie pull requestov vyberte :guilabel:`Azure DevOps` ako "
+":ref:`component-vcs` a nakonfigurujte :setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: admin/code-hosting.rst:709
 msgid "Pagure"
-msgstr ""
+msgstr "Pagure"
 
 #: admin/code-hosting.rst:714
 msgid "Pagure repository access"
-msgstr ""
+msgstr "Prístup k repozitáru Pagure"
 
 #: admin/code-hosting.rst:729
 msgid "Pagure notifications"
-msgstr ""
+msgstr "Oznámenia Pagure"
 
 #: admin/code-hosting.rst:731
 msgid ""
@@ -4958,6 +5295,10 @@ msgid ""
 "hosted.weblate.org/hooks/pagure/``. This can be done in :guilabel:`Activate "
 "Web-hooks` under :guilabel:`Project options`:"
 msgstr ""
+"Weblate má podporu pre háky Pagure. Pridajte webhook s cieľom na URL ``/"
+"hooks/pagure/`` vo vašej inštalácii Weblate, napríklad ``https://"
+"hosted.weblate.org/hooks/pagure/``. Toto je možné urobiť v "
+":guilabel:`Aktivovať Web-hooky` pod :guilabel:`Možnosti projektu`:"
 
 #: admin/code-hosting.rst:740
 msgid ":http:post:`/hooks/pagure/`"
@@ -4973,6 +5314,9 @@ msgid ""
 "pushing translation changes as merge requests instead of pushing directly to "
 "the repository."
 msgstr ""
+"Toto pridáva tenkú vrstvu nad :ref:`vcs-git` používajúcu `Pagure API`_, "
+"ktorá umožňuje odosielať zmeny prekladu ako merge requesty namiesto priameho "
+"odosielania do repozitára."
 
 #: admin/code-hosting.rst:754
 msgid ""
@@ -4981,24 +5325,30 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`Pagure` backend creates a merge request."
 msgstr ""
+"Nie je potrebné toto používať na prístup k repozitárom Git, bežný :ref:`vcs-"
+"git` funguje rovnako, jediný rozdiel je v tom, ako sa spracúva odosielanie "
+"do repozitára. S :ref:`vcs-git` sa zmeny odosielajú priamo do repozitára, "
+"zatiaľ čo backend :guilabel:`Pagure` vytvára merge request."
 
 #: admin/code-hosting.rst:759
 msgid ""
 "To create merge requests, select :guilabel:`Pagure` as :ref:`component-vcs` "
 "and configure :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
+"Na vytvorenie merge requestov vyberte :guilabel:`Pagure` ako :ref:`component-"
+"vcs` a nakonfigurujte :setting:`PAGURE_CREDENTIALS`."
 
 #: admin/code-hosting.rst:765
 msgid "Other workflows"
-msgstr ""
+msgstr "Iné toky"
 
 #: admin/code-hosting.rst:770
 msgid "Gitee repository access"
-msgstr ""
+msgstr "Prístup k repozitáru Gitee"
 
 #: admin/code-hosting.rst:785
 msgid "Gitee notifications"
-msgstr ""
+msgstr "Oznámenia Gitee"
 
 #: admin/code-hosting.rst:787
 msgid ""
@@ -5008,10 +5358,15 @@ msgid ""
 "``. This can be done in :guilabel:`WebHooks` under "
 "repository :guilabel:`Management`."
 msgstr ""
+"Weblate má podporu pre webhooks Gitee. Pridajte :guilabel:`WebHook` pre "
+"udalosť :guilabel:`Odoslanie` s cieľom na URL ``/hooks/gitee/`` vo vašej "
+"inštalácii Weblate, napríklad ``https://hosted.weblate.org/hooks/gitee/``. "
+"Toto je možné urobiť v :guilabel:`WebHooky` pod :guilabel:`Správa` "
+"repozitára."
 
 #: admin/code-hosting.rst:795
 msgid "`Webhooks in Gitee manual <https://help.gitee.com/webhook>`_"
-msgstr ""
+msgstr "`Webhooks v manuáli Gitee <https://help.gitee.com/webhook>`_"
 
 #: admin/code-hosting.rst:796
 msgid ":http:post:`/hooks/gitee/`"
@@ -5019,7 +5374,7 @@ msgstr ":http:post:`/hooks/gitee/`"
 
 #: admin/code-hosting.rst:802
 msgid "Gerrit review requests"
-msgstr ""
+msgstr "Gerrit recenzné požiadavky"
 
 #: admin/code-hosting.rst:804
 msgid ""
@@ -5027,6 +5382,9 @@ msgid ""
 "review` tool to allow pushing translation changes as Gerrit review requests, "
 "instead of pushing them directly to the repository."
 msgstr ""
+"Podpora Gerrit pridáva tenkú vrstvu nad :ref:`vcs-git` používajúcu nástroj "
+":pypi:`git-review`, ktorá umožňuje odosielať zmeny prekladu ako recenzné "
+"požiadavky Gerrit namiesto priameho odosielania do repozitára."
 
 #: admin/code-hosting.rst:808
 msgid ""
@@ -5038,6 +5396,13 @@ msgid ""
 "Gerrit interprets these options as the configured Weblate Gerrit account and "
 "applies its own permissions."
 msgstr ""
+"Voliteľné nastavenie :ref:`component-push_branch` vyberá cieľovú vetvu pre "
+"recenziu Gerrit. Nechajte ho prázdne na použitie :ref:`component-branch`. "
+"Použite krátky názov vetvy, ako napríklad ``main``; Weblate a ``git-review`` "
+"odosielajú recenziu na ``refs/for/<branch>`` automaticky. Možnosti odoslania "
+"Gerrit môžu byť pripojené za ``%`` v ktoromkoľvek nastavení, napríklad "
+"``main%topic=l10n``. Gerrit interpretuje tieto možnosti ako nakonfigurovaný "
+"účet Weblate Gerrit a aplikuje svoje vlastné oprávnenia."
 
 #: admin/code-hosting.rst:816
 msgid ""
@@ -5045,10 +5410,13 @@ msgid ""
 "set up such repositories. There is no separate code-hosting credential "
 "setting for this backend."
 msgstr ""
+"Dokumentácia Gerrit obsahuje podrobnosti o konfigurácii potrebnej na "
+"nastavenie takýchto repozitárov. Pre tento backend neexistuje samostatné "
+"nastavenie poverení na hosťovanie kódu."
 
 #: admin/code-hosting.rst:821
 msgid "Docker credentials"
-msgstr ""
+msgstr "Poverenia Docker"
 
 #: admin/code-hosting.rst:823
 #, fuzzy
@@ -5072,7 +5440,7 @@ msgid ""
 "dashboard, from which users can pick one as their default view. "
 "See :ref:`dashboard` to learn more."
 msgstr ""
-"Špecifikujte viacero zoznamov komponentov, ktoré sa objavia ako možnosti na "
+"Špecifikujte viacero zoznamov komponentov, ktoré sa zobrazia ako možnosti na "
 "používateľskej nástenke, z ktorých si používatelia môžu vybrať jeden ako "
 "svoj predvolený pohľad. Viac sa dozviete v :ref:`dashboard`."
 
@@ -5080,7 +5448,7 @@ msgstr ""
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
-msgstr "Pre každý zoznam komponentov prezentovaný na nástenke sa zobrazí stav."
+msgstr "Pre každý zoznam komponentov zobrazený na nástenke sa zobrazí stav."
 
 #: admin/componentlists.rst:14
 msgid ""
@@ -5089,6 +5457,10 @@ msgid ""
 "administrators can also use the low-level :ref:`admin-interface` when direct "
 "database-object management is necessary."
 msgstr ""
+"Každý zoznam komponentov má názov zobrazený používateľovi a slug použitý v "
+"URL. Zoznamy komponentov možno spravovať pomocou :ref:`api`. Administrátori "
+"inštancie môžu tiež použiť nízkoúrovňové :ref:`admin-interface`, keď je "
+"potrebná priama správa databázových objektov."
 
 #: admin/componentlists.rst:22
 msgid ""
@@ -5096,7 +5468,7 @@ msgid ""
 "altering what dashboard is presented to unauthenticated users."
 msgstr ""
 "Zmeňte nastavenia nástenky pre anonymných používateľov z administrátorského "
-"rozhrania, čím upravíte, aká nástenka sa zobrazí neautentifikovaným "
+"rozhrania, čím zmeníte, aká nástenka sa zobrazí neautentifikovaným "
 "používateľom."
 
 #: admin/componentlists.rst:26
@@ -5117,7 +5489,7 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
-"Užitočné pre udržiavanie zoznamov komponentov pre veľké inštalácie alebo v "
+"Užitočné na udržiavanie zoznamov komponentov pre veľké inštalácie alebo v "
 "prípade, že chcete mať jeden zoznam komponentov so všetkými komponentmi vo "
 "vašej inštalácii Weblate."
 
@@ -5134,6 +5506,8 @@ msgid ""
 "Define :guilabel:`Automatic component list assignment` with ``^.*$`` as "
 "regular expression in both the project and the component fields."
 msgstr ""
+"Definujte :guilabel:`Automatické priradenie zoznamu komponentov` s "
+"regulárnym výrazom ``^.*$`` v poliach projektu aj komponentu."
 
 #: admin/config.rst:4 admin/install/kubernetes.rst:26
 #: admin/install/openshift.rst:102 faq.rst:5
@@ -5145,7 +5519,7 @@ msgstr "Konfigurácia"
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
 msgstr ""
-"Všetky nastavenia sú uložené v :file:`settings.py` (ako je zvykom pre "
+"Všetky nastavenia sú uložené v súbore :file:`settings.py` (ako je zvykom pri "
 "Django)."
 
 #: admin/config.rst:10
@@ -5162,14 +5536,14 @@ msgid ""
 "configuration."
 msgstr ""
 "V prípade, že je spustený ako ``mod_wsgi``, musíte reštartovať Apache na "
-"znovunačítanie konfigurácie."
+"opätovné načítanie konfigurácie."
 
 #: admin/config.rst:18
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
-"Prosím, skontrolujte aj :doc:`Dokumentáciu Django <django:ref/settings>` pre "
+"Prosím, skontrolujte aj :doc:`dokumentáciu Django <django:ref/settings>` pre "
 "parametre konfigurujúce samotné Django."
 
 #: admin/config.rst:26
@@ -5178,7 +5552,7 @@ msgid ""
 "addresses from :setting:`ADMINS` are used."
 msgstr ""
 "Konfiguruje, kam kontaktný formulár odosiela e-maily. Ak nie je "
-"konfigurovaný, používajú sa e-mailové adresy z :setting:`ADMINS`."
+"nakonfigurovaný, použijú sa e-mailové adresy z :setting:`ADMINS`."
 
 #: admin/config.rst:29
 msgid "Configure this as a list of e-mail addresses:"
@@ -5231,7 +5605,7 @@ msgstr "**Príklad**"
 
 #: admin/config.rst:75
 msgid "This is currently used in the following places:"
-msgstr "Momentálne sa to používa na nasledujúcich miestach:"
+msgstr "Toto sa momentálne používa na nasledujúcich miestach:"
 
 #: admin/config.rst:77
 msgid "Screenshot uploads, see :ref:`screenshots`"
@@ -5281,12 +5655,24 @@ msgid ""
 "whose network destinations are trusted. When a configured :ref:`http-proxy` "
 "is used, the proxy is trusted to resolve the destination hostname."
 msgstr ""
+"Zoznam povolených ovplyvňuje strojový preklad spravovaný projektom dvoma "
+"spôsobmi: povoľuje nakonfigurovaný koncový bod počas odchádzajúcej validácie "
+"a označuje zodpovedajúcich hostiteľov ako dôveryhodných pri rozhodovaní, či "
+"sa používateľovi môžu zobraziť podrobnosti o chybách vzdialeného "
+"poskytovateľa alebo telá odpovedí. Zodpovedajúci hostitelia sú tiež "
+"oslobodení od obmedzení súkromných cieľov. Pre priame pripojenia Weblate "
+"nerieši, nepripína ani neoveruje adresu partnera zodpovedajúcich hostiteľov. "
+"Pridávajte iba hostiteľov alebo domény, ktorých sieťové ciele sú "
+"dôveryhodné. Keď sa používa nakonfigurovaný :ref:`http-proxy`, proxy server "
+"je považovaný za dôveryhodný na preklad cieľového názvu hostiteľa."
 
 #: admin/config.rst:118
 msgid ""
 "Configures size limit in bytes for fetching or uploading assets into "
 "Weblate. Defaults to 10 MB."
 msgstr ""
+"Konfiguruje limit veľkosti v bajtoch pre načítanie alebo nahrávanie assetov "
+"do Weblate. Predvolene je 10 MB."
 
 #: admin/config.rst:133
 msgid ""
@@ -5295,12 +5681,19 @@ msgid ""
 "follow Django host matching semantics, so values such as "
 "``assets.internal.example`` or ``.internal.example`` can be used."
 msgstr ""
+"Definuje názvy hostiteľov alebo domény oslobodené od "
+":setting:`ASSET_RESTRICT_PRIVATE` pre vzdialené sťahovanie assetov, ktoré "
+"vynucujú kontroly súkromných cieľov. Položky sa riadia sémantikou "
+"porovnávania hostiteľov v Djangu, takže je možné použiť hodnoty ako "
+"``assets.internal.example`` alebo ``.internal.example``."
 
 #: admin/config.rst:138
 msgid ""
 "This does not replace :setting:`ALLOWED_ASSET_DOMAINS`; remote assets must "
 "still match the asset domain allowlist."
 msgstr ""
+"Toto nenahrádza :setting:`ALLOWED_ASSET_DOMAINS`; vzdialené assenty sa stále "
+"musia zhodovať so zoznamom povolených domén assetov."
 
 #: admin/config.rst:141 admin/config.rst:1973 admin/config.rst:2007
 #: admin/config.rst:2084
@@ -5313,6 +5706,9 @@ msgid ""
 "the target host is included in :setting:`ASSET_PRIVATE_ALLOWLIST`. On by "
 "default."
 msgstr ""
+"Zamietne URL vzdialených assetov smerujúce na interné alebo neverejné "
+"adresy, pokiaľ cieľový hostiteľ nie je zahrnutý v "
+":setting:`ASSET_PRIVATE_ALLOWLIST`. Predvolene zapnuté."
 
 #: admin/config.rst:163
 msgid ""
@@ -5322,25 +5718,33 @@ msgid ""
 "URL uploads and remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` "
 "add-on."
 msgstr ""
+"Ak je povolené, názvy hostiteľov, ktoré nie je možné počas validácie "
+"rozlíšiť, sa zamietnu, pokiaľ nie sú explicitne zahrnuté v "
+":setting:`ASSET_PRIVATE_ALLOWLIST`. Toto sa momentálne vzťahuje na "
+"nahrávanie URL snímok obrazovky a vzdialené sťahovania HTML pre doplnok "
+":ref:`addon-weblate.cdn.cdnjs`."
 
 #: admin/config.rst:182
 msgid ""
 "Argon2id time cost for the ALTCHA proof-of-work challenge. Defaults to ``3``."
 msgstr ""
+"Časová náročnosť Argon2id pre výzvu proof-of-work ALTCHA. Predvolene ``3``."
 
 #: admin/config.rst:184
 msgid ""
 "Replaces ``ALTCHA_MAX_NUMBER``, which applied to the removed ALTCHA widget "
 "v2."
 msgstr ""
+"Nahrádza ``ALTCHA_MAX_NUMBER``, ktoré sa vzťahovalo na odstránený widget "
+"ALTCHA v2."
 
 #: admin/config.rst:193
 msgid "Argon2id memory cost in KiB. Defaults to ``65536``."
-msgstr ""
+msgstr "Pamäťová náročnosť Argon2id v KiB. Predvolene ``65536``."
 
 #: admin/config.rst:202
 msgid "Argon2id parallelism factor. Defaults to ``1``."
-msgstr ""
+msgstr "Faktor paralelizmu Argon2id. Predvolene ``1``."
 
 #: admin/config.rst:206
 msgid ""
@@ -5374,7 +5778,7 @@ msgstr ""
 
 #: admin/config.rst:236
 msgid "This is currently applied in the following locations:"
-msgstr "Momentálne sa to aplikuje na nasledujúcich miestach:"
+msgstr "Toto sa momentálne aplikuje na nasledujúcich miestach:"
 
 #: admin/config.rst:238
 msgid ""
@@ -5508,7 +5912,7 @@ msgstr ""
 
 #: admin/config.rst:332
 msgid "Available fixes are described at :ref:`autofix`."
-msgstr "Dostupné opravy sú opísané v :ref:`autofix`."
+msgstr "Dostupné opravy sú popísané v :ref:`autofix`."
 
 #: admin/config.rst:334
 msgid "You can select which ones to use:"
@@ -5523,7 +5927,7 @@ msgstr ""
 
 #: admin/config.rst:359
 msgid "Right now this controls:"
-msgstr "Momentálne to riadi:"
+msgstr "Momentálne toto riadi:"
 
 #: admin/config.rst:361
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
@@ -5555,7 +5959,7 @@ msgid ""
 "languages, but without country specific variants)."
 msgstr ""
 "Zoznam jazykov, ktoré sa majú ponúknuť používateľom na začatie nového "
-"prekladu. Ak nie je špecifikovaný, používa sa vstavaný zoznam (ktorý zahŕňa "
+"prekladu. Ak nie je špecifikovaný, použije sa vstavaný zoznam (ktorý zahŕňa "
 "všetky bežne používané jazyky, ale bez variantov špecifických pre krajinu)."
 
 #: admin/config.rst:387
@@ -5605,13 +6009,17 @@ msgid ""
 "so :setting:`CACHE_DIR` has to be writable and mounted on a filesystem that "
 "allows execution. Avoid using ``noexec`` mount options for this directory."
 msgstr ""
+"Weblate tu ukladá vygenerované pomocné súbory a niektoré z nich vykonáva, "
+"takže :setting:`CACHE_DIR` musí byť zapisovateľný a namontovaný na súborovom "
+"systéme, ktorý umožňuje vykonávanie. Vyhnite sa používaniu možností "
+"montovania ``noexec`` pre tento adresár."
 
 #: admin/config.rst:442 admin/config.rst:613
 msgid ""
 "The Docker container uses a separate volume for this, see :ref:`docker-"
 "volume`."
 msgstr ""
-"Kontajner Docker používa na toto samostatný zväzok, pozri :ref:`docker-"
+"Docker kontajner používa na toto samostatný zväzok, pozri :ref:`docker-"
 "volume`."
 
 #: admin/config.rst:444 admin/config.rst:596
@@ -5620,7 +6028,7 @@ msgstr "Nasledujúce podadresáre zvyčajne existujú:"
 
 #: admin/config.rst:447
 msgid "Generated helper files used for VCS access."
-msgstr ""
+msgstr "Vygenerované pomocné súbory používané pre prístup k VCS."
 
 #: admin/config.rst:449
 msgid ":program:`font-config` cache for :ref:`fonts`."
@@ -5733,7 +6141,7 @@ msgid ""
 "Defaults to 50 MB."
 msgstr ""
 "Konfiguruje maximálnu veľkosť v bajtoch pre nahrané ZIP súbory komponentov. "
-"V predvolenom nastavení je 50 MB."
+"Predvolene je 50 MB."
 
 #: admin/config.rst:556
 msgid ""
@@ -5755,12 +6163,16 @@ msgstr ""
 msgid ""
 "The sender is used as :mailheader:`Reply-To`, this is the default behaviour."
 msgstr ""
+"Odosielateľ sa používa ako :mailheader:`Reply-To`, toto je predvolené "
+"správanie."
 
 #: admin/config.rst:576
 msgid ""
 "The sender is used as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
+"Odosielateľ sa používa ako :mailheader:`From`. Váš mailový server musí "
+"povoľovať odosielanie takýchto e-mailov."
 
 #: admin/config.rst:579
 msgid "Disables the contact form entirely."
@@ -5865,8 +6277,8 @@ msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
-"Konfiguruje, či by :guilabel:`Automaticky sledovať projekty pri príspevku` "
-"malo byť zapnuté pre nových používateľov. Predvolene je ``True``."
+"Konfiguruje, či by malo byť :guilabel:`Automaticky sledovať projekty pri "
+"príspevku` zapnuté pre nových používateľov. Predvolene je ``True``."
 
 #: admin/config.rst:695
 msgid "The default value for component restriction."
@@ -5896,6 +6308,12 @@ msgid ""
 "with :guilabel:`Restore site default`. For inherited values, restoring the "
 "site default also disables inheritance for that message."
 msgstr ""
+"Vstavané predvolené hodnoty nasledujú Conventional Commits a zahŕňajú odkazy "
+"Weblate, kde sú dostupné. Zmena týchto nastavení ovplyvňuje novo vytvorené "
+"predvolené hodnoty; existujúce šablóny správ je možné resetovať vo "
+"formulároch nastavení pomocou :guilabel:`Obnoviť predvolené nastavenie "
+"stránky`. Pre zdedené hodnoty obnovenie predvoleného nastavenia stránky tiež "
+"zakáže dedenie pre danú správu."
 
 #: admin/config.rst:732
 msgid "Default add-ons to install for every created component."
@@ -5984,6 +6402,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"Vstavaná predvolená hodnota nasleduje Conventional Commits a zahŕňa odkazy "
+"Weblate a stav prekladu."
 
 #: admin/config.rst:879
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -6039,10 +6459,10 @@ msgstr ""
 "naraziť na problém s nekonečným presmerovaním v prípade, že používate "
 "reverzný proxy server vykonávajúci ukončenie SSL, ktorý správne nepredáva "
 "hlavičky protokolu Django. Prosím, upravte konfiguráciu svojho reverzného "
-"proxy servera tak, aby emitovat :http:header:`X-Forwarded-Proto` "
-"alebo :http:header:`Forwarded` hlavičky alebo "
-"nakonfigurujte :setting:`django:SECURE_PROXY_SSL_HEADER`, aby Django správne "
-"detegovalo stav SSL."
+"proxy servera tak, aby emitoval hlavičky :http:header:`X-Forwarded-Proto` "
+"alebo :http:header:`Forwarded`, alebo nakonfigurujte "
+":setting:`django:SECURE_PROXY_SSL_HEADER`, aby Django správne detegovalo "
+"stav SSL."
 
 #: admin/config.rst:924
 msgid ""
@@ -6123,10 +6543,10 @@ msgid ""
 "organization, so it won't work if you want Weblate to fork a repository "
 "outside the organization (typically to the user namespace)."
 msgstr ""
-"Je možné použiť aj jemne granularizované osobné prístupové tokeny aj "
-"klasické osobné prístupové tokeny. Jemne granularizované tokeny sú obmedzené "
-"na jednu organizáciu, takže to nebude fungovať, ak chcete, aby Weblate "
-"forkol repozitár mimo organizácie (typicky do namespace používateľa)."
+"Je možné použiť jemne granularizované osobné prístupové tokeny aj klasické "
+"osobné prístupové tokeny. Jemne granularizované tokeny sú obmedzené na jednu "
+"organizáciu, takže to nebude fungovať, ak chcete, aby Weblate forkoval "
+"repozitár mimo organizácie (typicky do menného priestoru používateľa)."
 
 #: admin/config.rst:1056
 msgid ""
@@ -6146,7 +6566,7 @@ msgstr ""
 
 #: admin/config.rst:1064
 msgid "Use ``api.github.com`` as an API host for https://github.com/."
-msgstr ""
+msgstr "Použite ``api.github.com`` ako hostiteľa API pre https://github.com/."
 
 #: admin/config.rst:1071
 msgid "`Creating a GitHub personal access token`_"
@@ -6157,6 +6577,8 @@ msgid ""
 "Webhook secret for a legacy GitHub App which delivers events to the generic "
 "GitHub webhook URL, ``/hooks/github/``."
 msgstr ""
+"Tajomstvo webhooku pre staršiu aplikáciu GitHub, ktorá doručuje udalosti na "
+"všeobecnú URL webhooku GitHub, ``/hooks/github/``."
 
 #: admin/config.rst:1085
 msgid ""
@@ -6165,6 +6587,11 @@ msgid ""
 "webhooks are unaffected. GitHub Apps registered through Weblate use their "
 "per-App webhook URLs and do not use this setting."
 msgstr ""
+"Doručenia webhooku aplikácie na všeobecnú URL sú zamietnuté, keď je toto "
+"nastavenie prázdne alebo ich ``X-Hub-Signature-256`` nezodpovedá. Bežné "
+"webhooky repozitára nie sú ovplyvnené. Aplikácie GitHub registrované cez "
+"Weblate používajú svoje URL webhookov pre každú aplikáciu a nepoužívajú toto "
+"nastavenie."
 
 #: admin/config.rst:1106
 msgid "List for credentials for Bitbucket Data Center."
@@ -6198,7 +6625,7 @@ msgstr "Nasledujúca konfigurácia je dostupná pre každého hostiteľa:"
 
 #: admin/config.rst:1150
 msgid "API user."
-msgstr "API používateľ."
+msgstr "Používateľ API."
 
 #: admin/config.rst:1152
 msgid "The user workspace slug."
@@ -6213,7 +6640,7 @@ msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
 msgstr ""
-"Dodatočné nastavenia, ktoré nie sú tu opísané, nájdete na :ref:`settings-"
+"Dodatočné nastavenia, ktoré nie sú tu popísané, nájdete na :ref:`settings-"
 "credentials`."
 
 #: admin/config.rst:1161
@@ -6254,7 +6681,7 @@ msgstr ""
 
 #: admin/config.rst:1197 admin/config.rst:3046
 msgid "API token for the API user, required."
-msgstr "API token pre API používateľa, povinný."
+msgstr "API token pre používateľa API, povinný."
 
 #: admin/config.rst:1204
 msgid ""
@@ -6370,24 +6797,32 @@ msgid ""
 "Template used to generate e-mail addresses for internal Weblate bot "
 "accounts. Defaults to ``\"noreply-{scope}-{name}@weblate.org\"``."
 msgstr ""
+"Šablóna používaná na generovanie e-mailových adries pre interné účty botov "
+"Weblate. Predvolene ``\"noreply-{scope}-{name}@weblate.org\"``."
 
 #: admin/config.rst:1288
 msgid ""
 "It can contain ``{scope}``, ``{name}``, ``{username}``, ``{site_title}``, "
 "and ``{site_domain}``."
 msgstr ""
+"Môže obsahovať ``{scope}``, ``{name}``, ``{username}``, ``{site_title}`` a ``"
+"{site_domain}``."
 
 #: admin/config.rst:1291
 msgid ""
 "Use ``{scope}`` and ``{name}`` when generating the e-mail local part. The "
 "``{username}`` value contains the internal ``scope:name`` username."
 msgstr ""
+"Použite ``{scope}`` a ``{name}`` pri generovaní lokálnej časti e-mailu. "
+"Hodnota ``{username}`` obsahuje interné používateľské meno ``scope:name``."
 
 #: admin/config.rst:1294
 msgid ""
 "Existing internal bot accounts are updated when :wladmin:`migrate` is run. "
 "Project API token accounts are not affected."
 msgstr ""
+"Existujúce interné účty botov sa aktualizujú, keď sa spustí "
+":wladmin:`migrate`. Účty API tokenov projektu nie sú ovplyvnené."
 
 #: admin/config.rst:1302
 msgid "Indicates whether Weblate is running behind a reverse proxy."
@@ -6398,8 +6833,8 @@ msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined "
 "by :setting:`IP_PROXY_HEADER`."
 msgstr ""
-"Ak je nastavené na ``True``, Weblate získava IP adresu z hlavičky "
-"definovanej :setting:`IP_PROXY_HEADER`."
+"Ak je nastavené na ``True``, Weblate získa IP adresu z hlavičky definovanej "
+"pomocou :setting:`IP_PROXY_HEADER`."
 
 #: admin/config.rst:1309
 msgid ""
@@ -6407,7 +6842,7 @@ msgid ""
 "otherwise users will be able to fake the IP address."
 msgstr ""
 "Uistite sa, že skutočne používate reverzný proxy server a že nastavuje túto "
-"hlavičku, inak budú môcť používatelia falšovať IP adresu."
+"hlavičku, inak budú používatelia môcť falšovať IP adresu."
 
 #: admin/config.rst:1314
 msgid "This is not on by default."
@@ -6418,8 +6853,8 @@ msgid ""
 "Indicates which header Weblate should obtain the IP address from "
 "when :setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
-"Indikuje, z ktorej hlavičky by mal Weblate získať IP adresu, keď "
-"je :setting:`IP_BEHIND_REVERSE_PROXY` zapnuté."
+"Indikuje, z ktorej hlavičky by mal Weblate získať IP adresu, keď je zapnuté "
+":setting:`IP_BEHIND_REVERSE_PROXY`."
 
 #: admin/config.rst:1331
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
@@ -6444,9 +6879,9 @@ msgid ""
 "configure which address from the header is used as client IP address here."
 msgstr ""
 "V závislosti od vášho nastavenia môže táto hlavička pozostávať z niekoľkých "
-"IP adries, (napríklad ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) a "
-"môžete nakonfigurovať, ktorá adresa z hlavičky sa používa ako IP adresa "
-"klienta tu."
+"IP adries (napríklad ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) a "
+"môžete nakonfigurovať, ktorá adresa z hlavičky sa tu používa ako IP adresa "
+"klienta."
 
 #: admin/config.rst:1359
 msgid ""
@@ -6467,7 +6902,7 @@ msgstr "Predvolene je -1."
 
 #: admin/config.rst:1380
 msgid "CSS class added to the wrappers around legal document templates."
-msgstr ""
+msgstr "CSS trieda pridaná k obalom okolo šablón právnych dokumentov."
 
 #: admin/config.rst:1382
 msgid ""
@@ -6475,16 +6910,23 @@ msgid ""
 "custom legal styles can use it to target document wrappers. Set this to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
+"Predvolene je ``\"tos\"``. Weblate nepriraďuje štýlovanie tejto triede; "
+"vlastné právne štýly ju môžu použiť na cielenie obalov dokumentov. Nastavte "
+"toto na prázdny reťazec na vykreslenie právnych dokumentov bez triedy obalu."
 
 #: admin/config.rst:1402
 msgid "List of legal document page identifiers to hide from the legal module."
 msgstr ""
+"Zoznam identifikátorov stránok právnych dokumentov, ktoré sa majú skryť z "
+"právneho modulu."
 
 #: admin/config.rst:1404
 msgid ""
 "The ``index`` page is always visible. Supported document identifiers are "
 "``terms``, ``cookies``, ``privacy``, and ``contracts``."
 msgstr ""
+"Stránka ``index`` je vždy viditeľná. Podporované identifikátory dokumentov "
+"sú ``terms``, ``cookies``, ``privacy`` a ``contracts``."
 
 #: admin/config.rst:1407
 msgid ""
@@ -6492,6 +6934,9 @@ msgid ""
 "requested directly. Hiding ``terms`` or ``privacy`` is not recommended when "
 "legal document confirmation is enabled."
 msgstr ""
+"Skryté stránky sú odstránené z právneho menu a vrátia odpoveď 404, keď sú "
+"priamo vyžiadané. Skrývanie ``terms`` alebo ``privacy`` sa neodporúča, keď "
+"je povolené potvrdenie právnych dokumentov."
 
 #: admin/config.rst:1411
 msgid ""
@@ -6500,6 +6945,10 @@ msgid ""
 "use :setting:`LEGAL_URL` and :setting:`PRIVACY_URL` as fallbacks when "
 "configured. If no fallback URL is configured, the related link is omitted."
 msgstr ""
+"Keď je skryté ``terms`` alebo ``privacy``, odkazy vystavené cez premenné "
+"šablóny ``terms_url`` a ``privacy_url`` používajú :setting:`LEGAL_URL` a "
+":setting:`PRIVACY_URL` ako záložné možnosti, keď sú nakonfigurované. Ak nie "
+"je nakonfigurovaná žiadna záložná URL, súvisiaci odkaz sa vynechá."
 
 #: admin/config.rst:1416
 msgid ""
@@ -6509,6 +6958,11 @@ msgid ""
 "tos.html`. When a privacy policy link is available, the confirmation covers "
 "both documents."
 msgstr ""
+"S povoleným potvrdením právnych dokumentov, skrytie ``terms`` a nastavenie "
+":setting:`LEGAL_URL` spôsobí, že stránka potvrdenia odkazuje na externý "
+"dokument podmienok namiesto vloženia :file:`legal/documents/tos.html`. Keď "
+"je dostupný odkaz na zásady ochrany osobných údajov, potvrdenie pokrýva oba "
+"dokumenty."
 
 #: admin/config.rst:1421
 msgid ""
@@ -6516,6 +6970,9 @@ msgid ""
 "and :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the "
 "API schema terms link uses the same fallback."
 msgstr ""
+"V nasadeniach bez Dockeru definujte :setting:`LEGAL_HIDDEN_DOCUMENTS` a "
+":setting:`LEGAL_URL` pred vytvorením ``SPECTACULAR_SETTINGS``, aby odkaz na "
+"podmienky v schéme API používal rovnakú záložnú možnosť."
 
 #: admin/config.rst:1442
 msgid "You need :ref:`legal` installed to make this work."
@@ -6555,6 +7012,8 @@ msgid ""
 "Each license definition should be a tuple of its short name, a long name, a "
 "URL and a boolean, indicating whether it is a libre license."
 msgstr ""
+"Každá definícia licencie by mala byť n-ticou jej krátkeho názvu, dlhého "
+"názvu, URL a booleovskej hodnoty indikujúcej, či ide o slobodnú licenciu."
 
 #: admin/config.rst:1488 admin/config.rst:1517 admin/config.rst:1612
 #: admin/projects.rst:653 formats/xliff.rst:79
@@ -6625,6 +7084,14 @@ msgid ""
 "CDN, not by Weblate; see :ref:`cdn-server-security` for secure serving "
 "guidance."
 msgstr ""
+"Tieto nastavenia konfigurujú doplnky CDN, vrátane :ref:`addon-"
+"weblate.cdn.cdnjs` a :ref:`addon-weblate.cdn.files`. "
+":setting:`LOCALIZE_CDN_URL` definuje koreňovú URL, kde je lokalizačné CDN "
+"dostupné, a :setting:`LOCALIZE_CDN_PATH` definuje cestu, kde by mal Weblate "
+"ukladať vygenerované súbory, ktoré sa budú servírovať na "
+":setting:`LOCALIZE_CDN_URL`. Súbory sú servírované vaším webovým serverom "
+"alebo CDN, nie Weblate; pozrite :ref:`cdn-server-security` pre usmernenia k "
+"bezpečnému servírovaniu."
 
 #: admin/config.rst:1576
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -64069,6 +64536,8 @@ msgid ""
 "JSON object mapping existing target language codes to extra instructions, up "
 "to 1000 characters each."
 msgstr ""
+"JSON objekt mapujúci existujúce kódy cieľového jazyka na dodatočné pokyny, "
+"až do 1000 znakov každý."
 
 #: snippets/machines-autogenerated.rst:84
 #: snippets/machines-autogenerated.rst:763
@@ -64120,7 +64589,7 @@ msgstr ""
 #: snippets/machines-autogenerated.rst:932
 #: snippets/machines-autogenerated.rst:1017
 msgid "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
-msgstr "Služba automaticky používa :ref:`glossary`, pozri :ref:`glossary-mt`."
+msgstr "Služba automaticky používa :ref:`glossary`, pozrite :ref:`glossary-mt`."
 
 #: snippets/machines-autogenerated.rst:106
 msgid ""
@@ -64339,6 +64808,8 @@ msgid ""
 "DeepL is a paid service providing good machine translation for a few "
 "languages. You need to purchase :guilabel:`DeepL API` subscription."
 msgstr ""
+"DeepL je platená služba poskytujúca dobrý strojový preklad pre niekoľko "
+"jazykov. Potrebujete zakúpiť predplatné :guilabel:`DeepL API`."
 
 #: snippets/machines-autogenerated.rst:371
 msgid ""
@@ -64412,7 +64883,7 @@ msgid ""
 msgstr ""
 "API je možné používať bezplatne, ale použitie prekladov podlieha licencii "
 "použitého zdroja dát. Existuje limit volaní, ktoré je možné vykonať z jednej "
-"IP adresy v stanovenom časovom období, aby sa zabránilo zneužívaniu."
+"IP v stanovenom časovom období, aby sa zabránilo zneužitiu."
 
 #: snippets/machines-autogenerated.rst:428
 msgid "`Glosbe website <https://glosbe.com/>`_"
@@ -64486,7 +64957,7 @@ msgid ""
 "JSON format to access it."
 msgstr ""
 "Táto služba používa Google Translation API v3 a na prístup k nej potrebujete "
-"prihlasovacie údaje vo formáte JSON."
+"poverenia vo formáte JSON."
 
 #: snippets/machines-autogenerated.rst:502
 msgid ""
@@ -64498,19 +64969,19 @@ msgstr ""
 
 #: snippets/machines-autogenerated.rst:504
 msgid "`Select or create a Cloud Platform project.`_"
-msgstr "`Vyberte alebo vytvorte projekt Cloud Platform.`_"
+msgstr "`Vybrať alebo vytvoriť projekt Cloud Platform.`_"
 
 #: snippets/machines-autogenerated.rst:505
 msgid "`Enable billing for your project.`_"
-msgstr "`Povoľte fakturáciu pre váš projekt.`_"
+msgstr "`Povoliť fakturáciu pre váš projekt.`_"
 
 #: snippets/machines-autogenerated.rst:506
 msgid "`Enable the Cloud Translation.`_"
-msgstr "`Povoľte Cloud Translation.`_"
+msgstr "`Povoliť Cloud Translation.`_"
 
 #: snippets/machines-autogenerated.rst:507
 msgid "`Setup Authentication.`_"
-msgstr "`Nastavte overovanie.`_"
+msgstr "`Nastaviť autentifikáciu.`_"
 
 #: snippets/machines-autogenerated.rst:515
 msgid ""
@@ -64522,15 +64993,15 @@ msgstr ""
 
 #: snippets/machines-autogenerated.rst:517
 msgid "`Create a Google Cloud bucket.`_"
-msgstr "`Vytvorte bucket Google Cloud.`_"
+msgstr "`Vytvoriť bucket Google Cloud.`_"
 
 #: snippets/machines-autogenerated.rst:518
 msgid "`Set bucket location to \"us-central1\".`_"
-msgstr "`Nastavte umiestnenie bucketu na \"us-central1\".`_"
+msgstr "`Nastaviť umiestnenie bucketu na \"us-central1\".`_"
 
 #: snippets/machines-autogenerated.rst:519
 msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
-msgstr "`Udeľte povolenie 'Správca úložiska' účtu služby.`_"
+msgstr "`Udeliť oprávnenie 'Storage Admin' účtu služby.`_"
 
 #: snippets/machines-autogenerated.rst:529
 msgid ""
@@ -64671,10 +65142,6 @@ msgstr ""
 "všeobecného."
 
 #: snippets/machines-autogenerated.rst:681
-#, fuzzy
-#| msgid ""
-#| "Machine translation service provided by Microsoft in Azure portal as a "
-#| "one of Cognitive Services."
 msgid ""
 "Machine translation service provided by Microsoft in Azure portal as one of "
 "Cognitive Services."
@@ -64692,9 +65159,9 @@ msgid ""
 "<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
 "dictionary>`_, see :ref:`glossary-mt`."
 msgstr ""
-"Služba automaticky používa :ref:`glossary` prostredníctvom `dynamickej "
-"slovnej zásoby <https://learn.microsoft.com/en-us/azure/ai-services/"
-"translator/dynamic-dictionary>`_, pozri :ref:`glossary-mt`."
+"Služba automaticky používa :ref:`glossary` prostredníctvom `dynamického "
+"slovníka <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
+"dynamic-dictionary>`_, pozrite :ref:`glossary-mt`."
 
 #: snippets/machines-autogenerated.rst:689
 msgid "Translator Text API V2"
@@ -64728,7 +65195,7 @@ msgstr ""
 
 #: snippets/machines-autogenerated.rst:701
 msgid "For Azure China, please use your endpoint from the Azure Portal."
-msgstr "Pre Azure China použite svoj endpoint z portálu Azure."
+msgstr "Pre Azure China, prosím, použite váš koncový bod z portálu Azure."
 
 #: snippets/machines-autogenerated.rst:705
 msgid ""
@@ -64756,8 +65223,8 @@ msgid ""
 "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
 "reference/authentication#authenticating-with-a-multi-service-resource>`_"
 msgstr ""
-"`\"Overovanie s viacslužbovým zdrojom\" <https://learn.microsoft.com/en-us/"
-"azure/ai-services/translator/text-translation/reference/"
+"`\"Autentifikácia s viacservisným zdrojom\" <https://learn.microsoft.com/en-"
+"us/azure/ai-services/translator/text-translation/reference/"
 "authentication#authenticating-with-a-multi-service-resource>`_"
 
 #: snippets/machines-autogenerated.rst:709
@@ -64766,9 +65233,9 @@ msgid ""
 "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
 "reference/authentication#authenticating-with-an-access-token>`_"
 msgstr ""
-"`Sekcia \"Overovanie prístupovým tokenom\" <https://learn.microsoft.com/en-"
-"us/azure/ai-services/translator/text-translation/reference/"
-"authentication#authenticating-with-an-access-token>`_"
+"`Sekcia \"Autentifikácia s prístupovým tokenom\" <https://"
+"learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
+"reference/authentication#authenticating-with-an-access-token>`_"
 
 #: snippets/machines-autogenerated.rst:735
 msgid "Mistral API base URL"
@@ -64898,7 +65365,7 @@ msgstr "`Modely Ollama <https://ollama.com/search>`_"
 
 #: snippets/machines-autogenerated.rst:965
 msgid "OpenAI API base URL"
-msgstr "Základné URL API OpenAI"
+msgstr "Základná URL API OpenAI"
 
 #: snippets/machines-autogenerated.rst:965
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
@@ -65016,7 +65483,7 @@ msgstr "Povoliť strojový preklad"
 
 #: snippets/machines-autogenerated.rst:1059
 msgid "Translation domain"
-msgstr "Prekladová doména"
+msgstr "Doména prekladu"
 
 #: snippets/machines-autogenerated.rst:1059
 msgid ""
@@ -65950,9 +66417,9 @@ msgid ""
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
-"Konfiguračný slovník pozostáva z prihlasovacích údajov definovaných pre "
-"každého hostiteľa API. Rozloženie je rovnaké pre takmer všetky integrácie "
-"systémov správy verzií a je popísané na :ref:`settings-credentials`."
+"Konfiguračný slovník pozostáva z poverení definovaných pre každého hostiteľa "
+"API. Rozloženie je rovnaké pre takmer všetky integrácie systémov správy "
+"verzií a je popísané na :ref:`settings-credentials`."
 
 #: user/checks.rst:4
 msgid ""
