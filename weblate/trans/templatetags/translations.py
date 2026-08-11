@@ -98,6 +98,7 @@ WHITESPACE_REGEX = (
     r"\u202F|\u205F|\u3000)"
 )
 WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
+NON_BREAKING_SPACES = {"\u00a0", "\u2007", "\u202f"}
 NEWLINE_RE = re.compile(r"(\r\n|\r|\n)", re.MULTILINE)
 MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
 ESCAPE_RE = re.compile(r"""['"&<>]""")
@@ -422,7 +423,12 @@ class Formatter:
 
         for match in WHITESPACE_RE.finditer(value):
             whitespace = match.group(0)
-            cls = "space-tab" if whitespace == "\t" else "space-space"
+            if whitespace == "\t":
+                cls = "space-tab"
+            elif whitespace in NON_BREAKING_SPACES:
+                cls = "space-nbsp"
+            else:
+                cls = "space-space"
             title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
                 format_html(

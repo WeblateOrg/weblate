@@ -971,8 +971,38 @@ glosář [glossary]">glossary</span>
             """
             Hello
             <span class="hlspace">
-                <span class="space-space" title="NO-BREAK SPACE">
+                <span class="space-nbsp" title="NO-BREAK SPACE">
                     \u00a0
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u202fworld"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-nbsp" title="NARROW NO-BREAK SPACE">
+                    \u202f
+                </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\u2009world"],
+                self.component.source_language,
+            )["items"][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-space" title="THIN SPACE">
+                    \u2009
                 </span>
             </span>
             world

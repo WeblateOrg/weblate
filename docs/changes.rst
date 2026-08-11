@@ -9,6 +9,7 @@ Weblate 2026.9
 
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
 * Improved translation file loading performance for metadata-only string changes.
+* Whitespace characters are now rendered consistently in the source string display and the translation editor, and non-breaking spaces are distinguishable from their breaking counterparts.
 
 .. rubric:: Bug fixes
 

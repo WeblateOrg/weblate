@@ -342,10 +342,13 @@ textarea.highlight-editor {
 .space-tab,
 .space-nl,
 .space-space,
+.space-nbsp,
 .token.newline {
   min-width: 0.3em;
   /* inline-block needed for proper ::before placement in Chrome */
   display: inline-block;
+  /* anchor for the absolutely positioned markers */
+  position: relative;
 }
 
 .space-tab::before {
@@ -362,8 +365,9 @@ textarea.highlight-editor {
 
 .space-space::before {
   content: "·";
-  position: relative;
-  left: 25%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 ins,
@@ -2054,8 +2058,15 @@ input.color_edit:checked + label {
   color: #009;
 }
 .token.newline,
-.token.hlspace {
+.token.hlspace,
+.token.hlspace .token {
+  /* Inline to keep the overlay layout identical to the textarea */
   display: inline;
+}
+
+/* Keep the tab marker out of flow in the editor overlay */
+.token.space-tab::before {
+  position: absolute;
 }
 
 /* Based on Coy theme for Prismjs */
