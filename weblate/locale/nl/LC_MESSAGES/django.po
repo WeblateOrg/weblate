@@ -16,9 +16,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-07-31 08:23+0000\n"
-"Last-Translator: Automatic translation add-on <noreply-addon-"
-"autotranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-08-11 14:56+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -26,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: weblate/accounts/avatar.py:91
 msgctxt "No known user"
@@ -441,7 +440,7 @@ msgstr "Het wachtwoord is gewijzigd."
 #: weblate/accounts/models.py:281
 #, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Hoeveelheid overschreden voor {scope} op {path}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:283
@@ -822,13 +821,15 @@ msgstr "Bron verbergen als er een secundaire taal beschikbaar is"
 
 #: weblate/accounts/models.py:801
 msgid "Show all columns in lists using horizontal scrolling"
-msgstr ""
+msgstr "Alle kolommen weergeven in lijsten met horizontaal scrollen"
 
 #: weblate/accounts/models.py:805
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr ""
+"In plaats van kolommen op smalle schermen te verbergen, behoudt alle "
+"kolommen en scroll de tabel horizontaal."
 
 #: weblate/accounts/models.py:813
 msgid "Editor link"
@@ -3131,8 +3132,6 @@ msgid "site-wide add-ons"
 msgstr "Sitebrede add-ons"
 
 #: weblate/addons/views.py:118 weblate/templates/addons/addon_head.html:12
-#, fuzzy
-#| msgid "Repository"
 msgctxt "Add-on scope"
 msgid "Repository"
 msgstr "Opslagruimte"
@@ -3143,11 +3142,9 @@ msgid "Component"
 msgstr "Onderdeel"
 
 #: weblate/addons/views.py:122 weblate/addons/views.py:127
-#, fuzzy
-#| msgid "parent category"
 msgctxt "Add-on scope"
 msgid "Parent category"
-msgstr "oudercategorie"
+msgstr "Oudercategorie"
 
 #: weblate/addons/views.py:128
 msgctxt "Add-on scope"
@@ -3162,7 +3159,7 @@ msgstr "Project"
 #: weblate/addons/views.py:131
 msgctxt "Add-on scope"
 msgid "Site"
-msgstr ""
+msgstr "Site"
 
 #: weblate/addons/views.py:305 weblate/addons/views.py:308
 #: weblate/addons/views.py:435
@@ -4579,12 +4576,18 @@ msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
+"Alleen gerechtigde gebruikers mogen in deze taal tekenreeksen direct "
+"bewerken, vanwege de werkstroom voor de vertaling. Voeg in plaats daarvan "
+"een suggestie toe."
 
 #: weblate/auth/permissions.py:257
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"Alleen gerechtigde gebruikers mogen in deze taal tekenreeksen direct "
+"bewerken, vanwege de werkstroom voor de vertaling. Vraag een "
+"projectbeheerder om toegang."
 
 #: weblate/auth/permissions.py:485
 msgid "Can not perform this operation without an e-mail address."
@@ -4726,6 +4729,8 @@ msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
 msgstr ""
+"Suggesties zijn voor deze taal uitgeschakeld. Vraag een projectbeheerder om "
+"ze in te schakelen."
 
 #: weblate/auth/permissions.py:1064
 msgid "The file format does not support updating source strings."
@@ -5176,16 +5181,12 @@ msgid "Translation should not exceed given length."
 msgstr "De vertaling mag de opgegeven lengte niet overschrijden."
 
 #: weblate/checks/chars.py:572 weblate/checks/flags.py:160
-#, fuzzy
-#| msgid "Maximum size of translation"
 msgid "Maximum number of lines"
-msgstr "Maximumomvang van de vertaling"
+msgstr "Maximale aantal regels"
 
 #: weblate/checks/chars.py:573
-#, fuzzy
-#| msgid "Translation should not exceed given length."
 msgid "Translation should not exceed given number of lines."
-msgstr "De vertaling mag de opgegeven lengte niet overschrijden."
+msgstr "De vertaling mag het opgegeven aantal regels niet overschrijden."
 
 #: weblate/checks/chars.py:589
 msgid "Mismatched semicolon"
@@ -6233,28 +6234,20 @@ msgid "The translation should not start with a list marker."
 msgstr "De vertaling zou moeten beginnen met een markering voor een lijst."
 
 #: weblate/checks/markup.py:1101
-#, fuzzy
-#| msgid "AsciiDoc file"
 msgid "AsciiDoc markup"
-msgstr "AsciiDoc-bestand"
+msgstr "AsciiDoc-opmaak"
 
 #: weblate/checks/markup.py:1102
-#, fuzzy
-#| msgid "C format string does not match source."
 msgid "AsciiDoc markup does not match source."
-msgstr "De tekenreeks voor het patroon in C komt niet overeen met de bron."
+msgstr "AsciiDoc-opmaak komt niet overeen met de bron."
 
 #: weblate/checks/markup.py:1112
-#, fuzzy
-#| msgid "The following reStructuredText markup is missing: {}"
 msgid "The following AsciiDoc markup is missing: {}"
-msgstr "De volgende opmaak van reStructuredText ontbreekt: {}"
+msgstr "De volgende opmaak van AsciiDoc ontbreekt: {}"
 
 #: weblate/checks/markup.py:1117
-#, fuzzy
-#| msgid "The following reStructuredText markup is extra: {}"
 msgid "The following AsciiDoc markup is extra: {}"
-msgstr "De volgende opmaak van reStructuredText zijn extra: {}"
+msgstr "De volgende opmaak van AsciiDoc is extra: {}"
 
 #: weblate/checks/mdx.py:301
 msgid "Safe MDX"
@@ -6360,14 +6353,12 @@ msgid "Source string length"
 msgstr "Lengte van brontekenreeks"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "Source string is too long to fit into the configured maximum length."
 msgid ""
 "Source string is close to or exceeds the configured maximum length for "
 "translations."
 msgstr ""
-"Brontekenreeks is te lang om te passen binnen de geconfigureerde maximale "
-"lengte."
+"Brontekenreeks is dicht bij of overschrijdt de geconfigureerde maximale "
+"lengte voor vertalingen."
 
 #: weblate/checks/source.py:88
 msgid "Multiple failing checks"
@@ -6676,17 +6667,13 @@ msgstr "gettext PO-bestand (enkeltalig)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1981
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 1)"
-msgstr "Qt Linguist-vertaalbestand"
+msgstr "Qt Linguist-vertaalbestand (versie 1)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2091
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)"
-msgstr "Qt Linguist-vertaalbestand"
+msgstr "Qt Linguist-vertaalbestand (versie 2)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2108
@@ -7360,22 +7347,16 @@ msgid "I agree with the General Terms and Conditions document"
 msgstr "Ik ga akkoord met de algemene voorwaarden"
 
 #: weblate/legal/forms.py:22
-#, fuzzy
-#| msgid "I agree with the General Terms and Conditions document"
 msgid "I agree with the General Terms and Conditions and the Privacy Policy"
-msgstr "Ik ga akkoord met de algemene voorwaarden"
+msgstr "Ik ga akkoord met de algemene voorwaarden en het privacybeleid"
 
 #: weblate/legal/middleware.py:51
-#, fuzzy
-#| msgid ""
-#| "We have an updated version of the General Terms and Conditions document, "
-#| "please read it and confirm that you agree with it."
 msgid ""
 "We have updated our legal documents; please read them and confirm that you "
 "agree with them."
 msgstr ""
-"We hebben een nieuwe versie van de algemene voorwaarden. Lees deze door en "
-"bevestig dat u ermee akkoord gaat."
+"We hebben onze juridische documenten bijgewerkt; lees ze door en bevestig "
+"dat u ermee akkoord gaat."
 
 #: weblate/legal/templates/legal/confirm.html:7
 #: weblate/legal/templates/legal/contracts.html:7
@@ -7387,11 +7368,10 @@ msgid "Legal"
 msgstr "Wettelijk"
 
 #: weblate/legal/templates/legal/confirm.html:18
-#, fuzzy
-#| msgid "You have to agree to the General Terms and Conditions"
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "U dient akkoord te gaan met de algemene voorwaarden"
+msgstr ""
+"U dient akkoord te gaan met de algemene voorwaarden en het privacybeleid"
 
 #: weblate/legal/templates/legal/confirm.html:20
 msgid "You have to agree to the General Terms and Conditions"
@@ -7424,7 +7404,7 @@ msgstr "Lees het document met de algemene voorwaarden:"
 
 #: weblate/legal/templates/legal/confirm.html:44
 msgid "Please also read the Privacy Policy:"
-msgstr ""
+msgstr "Lees ook de Privacy Policy:"
 
 #: weblate/legal/templates/legal/confirm.html:53
 #: weblate/templates/contributor-agreement.html:33
@@ -8275,26 +8255,24 @@ msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background. Uploaded entries were preserved."
 msgstr ""
+"Items voor vertaalgeheugens, die in huidige vertalingen werden gemaakt, zijn "
+"verwijderd en zullen op de achtergrond opnieuw opgebouwd worden. Geüploade "
+"items werden behouden."
 
 #: weblate/memory/views.py:241
-#, fuzzy
-#| msgid ""
-#| "Entries were deleted and the translation memory will be rebuilt in the "
-#| "background."
 msgid ""
 "Translation memory entries created from current translations were deleted "
 "and will be rebuilt in the background."
 msgstr ""
-"De items zijn verwijderd en het vertaalgeheugen wordt op de achtergrond "
-"bijgewerkt."
+"Items voor het vertaalgeheugen, die werden gemaakt uit de huidige "
+"vertalingen, werden verwijderd en worden op de achtergrond opnieuw opgebouwd."
 
 #: weblate/memory/views.py:269
-#, fuzzy, python-format
-#| msgid "Remove selected translation memory entries"
+#, python-format
 msgid "Processed %(count)d active translation memory entry."
 msgid_plural "Processed %(count)d active translation memory entries."
-msgstr[0] "Verwijder geselecteerde items van vertaalgeheugen"
-msgstr[1] "Verwijder geselecteerde items van vertaalgeheugen"
+msgstr[0] "%(count)d actief item vertaalgeheugen verwerkt."
+msgstr[1] "%(count)d actieve items vertaalgeheugen verwerkt."
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
@@ -10087,6 +10065,8 @@ msgstr "Schakel wachtwoordverificatie voor de gebruiker uit."
 #: weblate/templates/accounts/user.html:458
 msgid "Leave enabled to revoke the current API key and generate a new one."
 msgstr ""
+"Laat ingeschakeld om de huidige API-sleutel in te trekken en een nieuwe te "
+"maken."
 
 #: weblate/templates/accounts/user.html:464
 msgid "Disable password"
@@ -10239,10 +10219,8 @@ msgid "Configuration"
 msgstr "Configuratie"
 
 #: weblate/templates/addons/addon_base.html:16
-#, fuzzy
-#| msgid "View Logs"
 msgid "Logs"
-msgstr "Logs bekijken"
+msgstr "Logs"
 
 #: weblate/templates/addons/addon_base.html:33
 #: weblate/templates/addons/addon_base.html:40
@@ -10307,14 +10285,12 @@ msgid "This add-on has no settings."
 msgstr "Deze uitbreiding heeft geen instellingen."
 
 #: weblate/templates/addons/addon_detail.html:38
-#, fuzzy
-#| msgid "Enable add-on:"
 msgid "Run add-on"
-msgstr "Uitbreiding inschakelen:"
+msgstr "Add-on uitvoeren"
 
 #: weblate/templates/addons/addon_detail.html:42
 msgid "Schedule this add-on to run as soon as possible."
-msgstr ""
+msgstr "Stel deze add-on zo in om zo snel mogelijk te worden uitgevoerd."
 
 #: weblate/templates/addons/addon_detail.html:45
 msgid "Run now"
@@ -10329,6 +10305,8 @@ msgstr "Gevarenzone"
 msgid ""
 "Uninstalling the add-on stops it from running and removes its configuration."
 msgstr ""
+"Deïnstalleren van de add-on stopt het uitvoeren en verwijdert de "
+"configuratie ervan."
 
 #: weblate/templates/addons/addon_detail.html:62
 msgid "Uninstall"
@@ -10905,10 +10883,8 @@ msgstr "Gevolgde projecten beheren"
 
 #: weblate/templates/base.html:136 weblate/templates/workspaces.html:7
 #: weblate/templates/workspaces.html:18 weblate/workspaces/views.py:209
-#, fuzzy
-#| msgid "workspace"
 msgid "My workspaces"
-msgstr "werkruimte"
+msgstr "Mijn werkruimtes"
 
 #: weblate/templates/base.html:167
 msgid "Manage translated languages"
@@ -11881,18 +11857,20 @@ msgid ""
 "Project translation metrics provide statistics for all visible components "
 "and languages in a single request."
 msgstr ""
+"Metrieken voor projectvertalingen verschaffen statistieken voor alle "
+"zichtbare onderdelen en talen in een enkel verzoek."
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "JSON-metrieken"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "CSV-metrieken"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "OpenMetrics-metrieken"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -14143,10 +14121,9 @@ msgid "Translation memory status"
 msgstr "Status van vertaalgeheugen"
 
 #: weblate/templates/memory/index.html:50
-#, fuzzy, python-format
-#| msgid "Number of entries for %(project)s"
+#, python-format
 msgid "Number of entries for %(workspace)s"
-msgstr "Aantal items van %(project)s"
+msgstr "Aantal items van %(workspace)s"
 
 #: weblate/templates/memory/index.html:52
 #, python-format
@@ -14206,7 +14183,11 @@ msgid_plural ""
 "Rebuilding in the background will replace %(count)s translation memory "
 "entries created from current translations."
 msgstr[0] ""
+"Opbouwen op de achtergrond zal %(count)s item van het vertaalgeheugen, dat "
+"werd gemaakt uit de huidige vertalingen, vervangen."
 msgstr[1] ""
+"Opbouwen op de achtergrond zal %(count)s items van het vertaalgeheugen, die "
+"werden gemaakt uit de huidige vertalingen, vervangen."
 
 #: weblate/templates/memory/index.html:118
 #: weblate/templates/memory/index.html:223
@@ -14220,19 +14201,21 @@ msgid_plural ""
 "entries created from current translations. Uploaded translation memory "
 "entries will be preserved."
 msgstr[0] ""
+"Opbouwen op de achtergrond zal %(count)s item van het vertaalgeheugen, dat "
+"werd gemaakt uit de huidige vertalingen, vervangen. Geüploade items voor het "
+"vertaalgeheugen zullen worden behouden."
 msgstr[1] ""
+"Opbouwen op de achtergrond zal %(count)s items van het vertaalgeheugen, die "
+"werden gemaakt uit de huidige vertalingen, vervangen. Geüploade items voor "
+"het vertaalgeheugen zullen worden behouden."
 
 #: weblate/templates/memory/index.html:135
-#, fuzzy
-#| msgid "Active: %(count)s"
 msgid "Active entries"
-msgstr "Actief: (%(count)s)"
+msgstr "Actieve items"
 
 #: weblate/templates/memory/index.html:141
-#, fuzzy
-#| msgid "Pending string"
 msgid "Pending entries"
-msgstr "Te controleren tekenreeks"
+msgstr "Openstaande items"
 
 #: weblate/templates/memory/index.html:243
 #, python-format
@@ -15025,10 +15008,8 @@ msgid "Translation process"
 msgstr "Vertaalproces"
 
 #: weblate/templates/snippets/info.html:97
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Direct translation editing is restricted to privileged users."
-msgstr "Een vertaling werd hersteld naar een eerdere waarde."
+msgstr "Direct vertalen is beperkt tot gerechtigde gebruikers."
 
 #: weblate/templates/snippets/info.html:99
 #: weblate/templates/snippets/info.html:116
@@ -15366,7 +15347,7 @@ msgstr "Opslagruimte"
 
 #: weblate/templates/snippets/list-objects.html:8
 msgid "Scrollable table"
-msgstr ""
+msgstr "Scrollbare tabel"
 
 #: weblate/templates/snippets/list-objects.html:50
 msgid "Add project"
@@ -16195,14 +16176,18 @@ msgid ""
 "accepts only verified redirects on the same host. Update the component to "
 "use the canonical repository URL if the redirect points elsewhere."
 msgstr ""
+"De URL voor de opslagruimte gaf een permanente HTTP-redirect terug. Weblate "
+"accepteert automatisch alleen geverifieerde redirects van dezelfde host. "
+"Werk het onderdeel bij om de canonical URL voor de opslagruimte te gebruiken "
+"als de redirect ergens anders naartoe verwijst."
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
-"De bovenstroomse opslagruimte is niet aangetroffen. Controleer of deze "
-"bestaat en of Weblate toegang heeft."
+"De opslagruimte upstream is niet aangetroffen. Controleer of deze bestaat en "
+"of Weblate toegang heeft."
 
 #: weblate/templates/trans/alert/common-repo.html:17
 msgid ""
@@ -16229,12 +16214,19 @@ msgid ""
 "a repository maintainer to allow pull requests from all users or add "
 "<code>%(username)s</code> as a collaborator."
 msgstr ""
+"De opslagruimte van GitHub staat alleen deelnemers toe om pull requests te "
+"maken. Vraag een beheerder voor de opslagruimte om pull requests voor alle "
+"gebruikers toe te staan of voeg <code>%(username)s</code> toe als een "
+"deelnemer."
 
 #: weblate/templates/trans/alert/common-repo.html:32
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
 msgstr ""
+"De opslagruimte van GitHub staat alleen deelnemers toe om pull requests te "
+"maken. Vraag een beheerder voor de opslagruimte om pull requests voor alle "
+"gebruikers toe te staan."
 
 #: weblate/templates/trans/alert/common-repo.html:38
 msgid ""
@@ -16522,32 +16514,24 @@ msgstr ""
 "om aan te geven welke voorwaarden van toepassing zijn op bijdragen."
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:5
-#, fuzzy
-#| msgid "Please read the following legal documents:"
 msgid "Include the following recommended topics:"
-msgstr "Lees de volgende juridische documenten:"
+msgstr "Neem de volgende aanbevolen onderwerpen op:"
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:8
-#, fuzzy
-#| msgid "New contributor in %(translation)s"
 msgid "How contributors should submit translations."
-msgstr "Nieuwe medewerker bij %(translation)s"
+msgstr "Hoe deelnemers vertalingen zouden moeten indienen."
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:9
 msgid "What review translators should expect."
-msgstr ""
+msgstr "Wat beoordelaars voor vertalingen zouden moeten verwachten."
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:10
-#, fuzzy
-#| msgid "Report issue with the source string"
 msgid "How to report problems with source strings."
-msgstr "Meld een probleem met de brontekenreeks"
+msgstr "Hoe problemen met brontekenreeksen te melden."
 
 #: weblate/templates/trans/alert/missingtranslationinstructions.html:11
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Where translations can be tested or when they are released."
-msgstr "Een vertaling werd hersteld naar een eerdere waarde."
+msgstr "Waar vertalingen kunnen worden getest of wanneer ze worden uitgegeven."
 
 #: weblate/templates/trans/alert/monolingualglossary.html:4
 msgid ""
@@ -16741,14 +16725,11 @@ msgstr ""
 "moeten worden gebruikt."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
-#, fuzzy, python-format
-#| msgid "At least one screenshot has no string assigned to it."
+#, python-format
 msgid "One screenshot has no string assigned to it."
 msgid_plural "%(count)s screenshots have no string assigned to them."
-msgstr[0] ""
-"Er is minimaal één schermfoto die niet gekoppeld is aan een tekenreeks."
-msgstr[1] ""
-"Er is minimaal één schermfoto die niet gekoppeld is aan een tekenreeks."
+msgstr[0] "Eén schermfoto is niet gekoppeld aan een tekenreeks."
+msgstr[1] "%(count)s schermfoto's zijn niet gekoppeld aan een tekenreeks."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:8
 #: weblate/templates/translate.html:835
@@ -17384,10 +17365,8 @@ msgid "Save and stay"
 msgstr "Opslaan en blijven"
 
 #: weblate/templates/translate.html:259 weblate/trans/views/edit.py:814
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to add suggestions."
-msgstr "U bent niet bevoegd om suggesties te aanvaarden."
+msgstr "U bent niet bevoegd om suggesties toe te voegen."
 
 #: weblate/templates/translate.html:260
 msgid "Suggest"
@@ -19234,30 +19213,28 @@ msgid "Warning"
 msgstr "Waarschuwing"
 
 #: weblate/trans/alerts/community.py:155
-#, fuzzy
-#| msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgid ""
 "Repository updates are pulled manually. Configure repository hooks to "
 "automate pulling changes into Weblate."
 msgstr ""
-"Stel opslagruimtelinks in om wijzigingen automatisch door te sturen naar "
-"Weblate."
+"Bijwerkingen aan de opslagruimte worden handmatig opgenomen. Stel haken voor "
+"de opslagruimte in om wijzigingen automatisch op te nemen in Weblate."
 
 #: weblate/trans/alerts/community.py:185
 msgid ""
 "Outbound translation delivery is manual. Configure a push URL or a pull or "
 "merge request integration to automate it."
 msgstr ""
+"Uitgaand afleveren van vertalingen is handmatig. Configureer een URL voor "
+"pushen of een integratie voor pull of merge requests om het te automatiseren."
 
 #: weblate/trans/alerts/community.py:206
 msgid "Define translation instructions to help translators."
 msgstr "Geef vertaalinstructies op om vertalers te helpen."
 
 #: weblate/trans/alerts/community.py:243
-#, fuzzy
-#| msgid "Source strings with screenshots"
 msgid "Improve source string screenshot coverage."
-msgstr "Brontekenreeksen met schermafdrukken"
+msgstr "Brontekenreeks voor bedekking schermafdruk verbeterd."
 
 #: weblate/trans/alerts/community.py:306
 msgid "Use flags to indicate special strings in your translation."
@@ -19484,127 +19461,93 @@ msgstr ""
 
 #: weblate/trans/backups.py:293
 msgid "The checksum has to be exactly 16 hexadecimal characters."
-msgstr ""
+msgstr "De controlesom moet exact 16 hexadecimale tekens zijn."
 
 #: weblate/trans/backups.py:302
-#, fuzzy
-#| msgid "The uploaded image was invalid."
 msgid "The checksum is invalid."
-msgstr "De geüploade afbeelding was ongeldig."
+msgstr "De controlesom is ongeldig."
 
 #: weblate/trans/backups.py:338 weblate/trans/models/category.py:422
 msgid "Too deep nesting of categories!"
 msgstr "Te diepe inbedding van categorieën!"
 
 #: weblate/trans/backups.py:353 weblate/trans/backups.py:1109
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate category or component slug."
-msgstr "Dit onderdeel dupliceren"
+msgstr "Slug voor categorie of onderdeel dupliceren."
 
 #: weblate/trans/backups.py:359 weblate/trans/backups.py:1119
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate category or component name."
-msgstr "Dit onderdeel dupliceren"
+msgstr "Naam categorie of onderdeel dupliceren."
 
 #: weblate/trans/backups.py:365
-#, fuzzy
-#| msgid "Duplicate candidate scan"
 msgid "Duplicate category slug."
-msgstr "Scannen op duplicaatkandidaten"
+msgstr "Slug categorie dupliceren."
 
 #: weblate/trans/backups.py:417
-#, fuzzy
-#| msgid "Duplicated file mask."
 msgid "Duplicate label name."
-msgstr "Dubbel bestandsmasker."
+msgstr "Labelnaam dupliceren."
 
 #: weblate/trans/backups.py:446
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate team name."
-msgstr "Dubbele vertaling."
+msgstr "Teamnaam dupliceren."
 
 #: weblate/trans/backups.py:832
 msgid "Screenshot image is missing."
 msgstr "Schermafbeelding ontbreekt."
 
 #: weblate/trans/backups.py:1089 weblate/trans/backups.py:1269
-#, fuzzy
-#| msgid "Duplicated file mask."
 msgid "Duplicate check name."
-msgstr "Dubbel bestandsmasker."
+msgstr "Controlenaam dupliceren."
 
 #: weblate/trans/backups.py:1100
-#, fuzzy
-#| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced category does not exist."
-msgstr "{filename} ({parameter}) bestaat niet."
+msgstr "Categorie, waarnaar wordt verwezen, bestaat niet."
 
 #: weblate/trans/backups.py:1131
 msgid "Component filename does not match its category and slug."
 msgstr ""
+"Bestandsnaam voor het onderdeel komt niet overeen met zijn categorie en slug."
 
 #: weblate/trans/backups.py:1137
-#, fuzzy
-#| msgid "Duplicate this component"
 msgid "Duplicate component slug."
-msgstr "Dit onderdeel dupliceren"
+msgstr "Slug onderdeel dupliceren."
 
 #: weblate/trans/backups.py:1168
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate translation identifier."
-msgstr "Dubbele vertaling."
+msgstr "Identificatie voor vertaling dupliceren."
 
 #: weblate/trans/backups.py:1187
-#, fuzzy
-#| msgid "The component has to define a gettext template for new translations."
 msgid "Component has to contain exactly one source translation."
-msgstr ""
-"Het onderdeel moet een gettext-sjabloon definiëren voor nieuwe vertalingen."
+msgstr "Onderdeel moet exact een bronvertaling bevatten."
 
 #: weblate/trans/backups.py:1220 weblate/trans/backups.py:1305
 #: weblate/trans/backups.py:1331
-#, fuzzy
-#| msgid "This translation does not yet exist."
 msgid "Referenced translation does not exist."
-msgstr "Deze vertaling bestaat nog niet."
+msgstr "Vertaling, waarnaar wordt verwezen, bestaat niet."
 
 #: weblate/trans/backups.py:1226
-#, fuzzy
-#| msgid "Update quality checks"
 msgid "Duplicate unit checksum."
-msgstr "Kwaliteitscontrole bijwerken"
+msgstr "Controlesom eenheid dupliceren."
 
 #: weblate/trans/backups.py:1234
-#, fuzzy
-#| msgid "File does not exist."
 msgid "Referenced label does not exist."
-msgstr "Dit bestand bestaat niet."
+msgstr "Label, waarnaar wordt verwezen, bestaat niet."
 
 #: weblate/trans/backups.py:1285
 msgid "A translated unit references a missing source unit."
-msgstr ""
+msgstr "Een vertaalde eenheid verwijst naar een ontbrekende broneenheid."
 
 #: weblate/trans/backups.py:1313 weblate/trans/backups.py:1384
-#, fuzzy
-#| msgid "File does not exist."
 msgid "Referenced unit does not exist."
-msgstr "Dit bestand bestaat niet."
+msgstr "Eenheid, waarnaar wordt verwezen, bestaat niet."
 
 #: weblate/trans/backups.py:1343
-#, fuzzy
-#| msgid "Screenshot image is missing."
 msgid "Screenshot filename is invalid."
-msgstr "Schermafbeelding ontbreekt."
+msgstr "Bestandsnaam voor schermafdruk is ongeldig."
 
 #: weblate/trans/backups.py:1352
-#, fuzzy
-#| msgid "A screenshot image was uploaded."
 msgid "Referenced screenshot image does not exist."
-msgstr "Een schermafdruk werd geüpload."
+msgstr "Schermafdruk, waarnaar wordt verwezen, bestaat niet."
 
 #: weblate/trans/backups.py:1358 weblate/trans/backups.py:1364
 #: weblate/utils/files.py:198 weblate/utils/files.py:208
@@ -19613,38 +19556,32 @@ msgid "Uploaded file is too big."
 msgstr "Het geüploade bestand is te groot."
 
 #: weblate/trans/backups.py:1373
-#, fuzzy, python-format
-#| msgid "Could not restore screenshot %(name)s: %(error)s"
+#, python-format
 msgid "Could not validate screenshot: %(error)s"
-msgstr "schermafbeelding %(name)s kon niet worden hersteld: %(error)s"
+msgstr "Kon schermafdruk niet valideren: %(error)s"
 
 #: weblate/trans/backups.py:1398
-#, fuzzy
-#| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced component does not exist."
-msgstr "{filename} ({parameter}) bestaat niet."
+msgstr "Onderdeel, waarnaar wordt verwezen, bestaat niet."
 
 #: weblate/trans/backups.py:1408
-#, fuzzy
-#| msgid "File does not exist."
 msgid "Referenced role does not exist."
-msgstr "Dit bestand bestaat niet."
+msgstr "Rol, waarnaar wordt verwezen, bestaat niet."
 
 #: weblate/trans/backups.py:1433
-#, fuzzy
-#| msgid "The category does not belong to the selected project."
 msgid "Repository data does not belong to a restored component."
-msgstr "De categorie behoort niet tot het geselecteerde project."
+msgstr ""
+"De gegevens voor de opslagruimte behoren niet tot een teruggezet onderdeel."
 
 #: weblate/trans/backups.py:1443
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
+"Aan opslagruimte gekoppelde onderdelen mogen geen gegevens van de "
+"opslagruimte bevatten."
 
 #: weblate/trans/backups.py:2262
-#, fuzzy
-#| msgid "The local repository is up to date."
 msgid "The project repository directory already exists."
-msgstr "De lokale opslagruimte is bijgewerkt."
+msgstr "De map voor de opslagruimte van het project bestaat al."
 
 #: weblate/trans/change_display.py:41 weblate/trans/models/change.py:576
 msgid "The component was automatically locked because of an alert."
@@ -19661,16 +19598,12 @@ msgid "File upload mode:"
 msgstr "Modus Bestand uploaden:"
 
 #: weblate/trans/change_display.py:169
-#, fuzzy
-#| msgid "Protected"
 msgid "redacted"
-msgstr "Beschermd"
+msgstr "bewerkt"
 
 #: weblate/trans/change_display.py:177
-#, fuzzy
-#| msgid "Changed string"
 msgid "Changed settings"
-msgstr "Gewijzigde tekenreeks"
+msgstr "Gewijzigde instellingen"
 
 #: weblate/trans/change_display.py:199
 msgid "The “{}” file was changed."
@@ -19757,10 +19690,8 @@ msgid "Backup domain"
 msgstr "Back-up domein"
 
 #: weblate/trans/change_display.py:638
-#, fuzzy
-#| msgid "View components"
 msgid "Skipped components"
-msgstr "Onderdelen bekijken"
+msgstr "Overgeslagen onderdelen"
 
 #: weblate/trans/change_display.py:649
 msgid "Original component"
@@ -21084,6 +21015,8 @@ msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+"Onderdeel %(component)s werd overgeslagen omdat de daaraan gekoppelde "
+"opslagruimte niet beschikbaar is."
 
 #: weblate/trans/mixins.py:212
 msgid ""
@@ -21678,10 +21611,8 @@ msgid "Suggestion voting"
 msgstr "Stemmen voor suggesties"
 
 #: weblate/trans/models/component.py:782 weblate/trans/models/workflow.py:46
-#, fuzzy
-#| msgid "Whether users can vote for suggestions."
 msgid "Allows users to vote on suggestions."
-msgstr "Of gebruikers kunnen stemmen voor suggesties."
+msgstr "Gebruikers toestaan om te stemmen op suggesties."
 
 #: weblate/trans/models/component.py:786 weblate/trans/models/workflow.py:50
 msgid "Automatically accept suggestions"
@@ -22803,13 +22734,15 @@ msgstr "Markeren als terminologie"
 
 #: weblate/trans/models/workflow.py:35
 msgid "Restrict direct editing"
-msgstr ""
+msgstr "Direct bewerken beperken"
 
 #: weblate/trans/models/workflow.py:38
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+"Alleen gebruikers met het recht “Tekenreeks bewerken als suggesties worden "
+"afgedwongen” mogen directe wijzigingen maken."
 
 #: weblate/trans/specialchars.py:14
 msgid "Insert tab character"
@@ -22903,10 +22836,8 @@ msgid "Report generated."
 msgstr "Rapport gemaakt."
 
 #: weblate/trans/tasks.py:1362
-#, fuzzy
-#| msgid "Project backup import completed."
 msgid "Project backup import completed with skipped components."
-msgstr "Projectback-up voltooid."
+msgstr "Importeren van projectback-up voltooid met overgeslagen onderdelen."
 
 #: weblate/trans/tasks.py:1374
 msgid "Project backup import completed."
@@ -24107,10 +24038,8 @@ msgid "Could not resolve the URL domain: {}"
 msgstr "Kon de URL voor het domein niet oplossen: {}"
 
 #: weblate/utils/outbound.py:376 weblate/vcs/base.py:364
-#, fuzzy
-#| msgid "Could not resolve the URL domain: {}"
 msgid "Could not resolve the URL domain."
-msgstr "Kon de URL voor het domein niet oplossen: {}"
+msgstr "Kon de URL voor het domein niet oplossen."
 
 #: weblate/utils/render.py:27
 #, python-format
@@ -24480,10 +24409,8 @@ msgid "Component and priority"
 msgstr "Onderdeel en prioriteit"
 
 #: weblate/utils/zammad.py:19
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Customer care is currently unavailable."
-msgstr "De dienst is momenteel niet beschikbaar."
+msgstr "Klantenservice is momenteel niet beschikbaar."
 
 #: weblate/utils/zip.py:55 weblate/utils/zip.py:149
 #, python-brace-format
@@ -24524,49 +24451,48 @@ msgid "The ZIP file contains a compressed entry that is too large."
 msgstr "Het ZIP-bestand bevat een gecomprimeerd item dat te groot is."
 
 #: weblate/vcs/base.py:222
-#, fuzzy, python-format
-#| msgid "Details"
+#, python-format
 msgid "%(detail)s"
-msgstr "Details"
+msgstr "%(detail)s"
 
 #: weblate/vcs/base.py:223
-#, fuzzy, python-format
-#| msgid "%(message)s Please retry later."
+#, python-format
 msgid "%(detail)s Please retry later."
-msgstr "%(message)s Probeer het later opnieuw."
+msgstr "%(detail)s Probeer het later opnieuw."
 
 #: weblate/vcs/base.py:225
-#, fuzzy, python-format
-#| msgid "%(service)s API request failed while %(action)s: %(status)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s"
-msgstr "%(service)s API-verzoek mislukt met %(action)s: %(status)s"
+msgstr ""
+"%(service)s API-verzoek mislukt bij maken van een pull request: %(status)s"
 
 #: weblate/vcs/base.py:228
-#, fuzzy, python-format
-#| msgid "%(service)s API request failed while %(action)s: %(status)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s "
 "Please retry later."
-msgstr "%(service)s API-verzoek mislukt met %(action)s: %(status)s"
+msgstr ""
+"%(service)s API-verzoek mislukt tijdens maken van een pull request: %(status)"
+"s Probeer het later nog eens."
 
 #: weblate/vcs/base.py:231
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
-msgstr "%(service)s API-verzoek mislukt met %(action)s (%(status)s): %(error)s"
+msgstr ""
+"%(service)s API-verzoek mislukt bij maken van een pull request (%(status)s): "
+"%(error)s"
 
 #: weblate/vcs/base.py:234
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
-msgstr "%(service)s API-verzoek mislukt met %(action)s (%(status)s): %(error)s"
+msgstr ""
+"%(service)s API-verzoek mislukt tijdens maken van een pull request %(status)"
+"s: %(error)s Probeer het later nog eens."
 
 #: weblate/vcs/base.py:237
 msgid "GitHub App repositories must be imported with a branch."
@@ -24581,16 +24507,14 @@ msgid "No Weblate GitHub app installation available."
 msgstr "Geen Weblate GitHub-app installatie beschikbaar."
 
 #: weblate/vcs/base.py:246
-#, fuzzy, python-format
-#| msgid "No Weblate GitHub app installation available."
+#, python-format
 msgid "No Weblate GitHub app installation available for %(hostname)s"
-msgstr "Geen Weblate GitHub-app installatie beschikbaar."
+msgstr "Geen Weblate GitHub-app installatie beschikbaar voor %(hostname)s"
 
 #: weblate/vcs/base.py:249
-#, fuzzy, python-format
-#| msgid "Could not obtain GitHub App access token: %s"
+#, python-format
 msgid "Could not obtain GitHub App access token: %(error)s"
-msgstr "Kon geen toegangstoken voor GitHub App verkrijgen: %s"
+msgstr "Kon geen toegangstoken voor GitHub App verkrijgen: %(error)s"
 
 #: weblate/vcs/base.py:252 weblate/vcs/github.py:998
 msgid "GitHub App components require a project with a workspace."
@@ -24602,46 +24526,44 @@ msgid "Could not get GitLab project (%(status)s): %(error)s"
 msgstr "Kon niet ophalen het project van GitLab (%(status)s): %(error)s"
 
 #: weblate/vcs/base.py:258
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): Unknown error"
-msgstr "Kon niet ophalen het project van GitLab (%(status)s): %(error)s"
+msgstr "Kon het project van GitLab niet ophalen (%(status)s): Onbekende fout"
 
 #: weblate/vcs/base.py:261
-#, fuzzy, python-format
-#| msgid "Fedora Messaging publish failed: %(error)s"
+#, python-format
 msgid "Pull request listing failed: %(error)s"
-msgstr "Fedora Messaging publiceren mislukt: %(error)s"
+msgstr "Vermelden van pul requests mislukt: %(error)s"
 
 #: weblate/vcs/base.py:264
-#, fuzzy, python-format
-#| msgid "%(message)s Please retry later."
+#, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
-msgstr "%(message)s Probeer het later opnieuw."
+msgstr ""
+"Vermelden van pull request mislukt: %(error)s Probeer het later opnieuw."
 
 #: weblate/vcs/base.py:266
-#, fuzzy, python-format
-#| msgid "Could not get repository status!"
+#, python-format
 msgid "Could not fork repository at %(hostname)s"
-msgstr "Kon de status van de opslagruimte niet ophalen!"
+msgstr "Kon de opslagruimte niet forken op %(hostname)s"
 
 #: weblate/vcs/base.py:268
-#, fuzzy, python-format
-#| msgid "Could not open a ticket, please try again later."
+#, python-format
 msgid "Could not fork repository at %(hostname)s. Please retry later."
-msgstr "Kon geen ticket openen; probeer het later opnieuw."
+msgstr ""
+"Kon opslagruimte niet forken op %(hostname)s. Probeer het later opnieuw."
 
 #: weblate/vcs/base.py:271
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not fork repository at %(hostname)s: %(error)s"
-msgstr "Kon niet ophalen het project van GitLab (%(status)s): %(error)s"
+msgstr "Kon opslagruimte niet ophalen op %(hostname)s: %(error)s"
 
 #: weblate/vcs/base.py:274
 #, python-format
 msgid ""
 "Could not fork repository at %(hostname)s: %(error)s Please retry later."
 msgstr ""
+"Kon de opslagruimte niet forken op %(hostname)s: %(error)s Probeer het later "
+"nog eens."
 
 #: weblate/vcs/base.py:277
 #, python-format
@@ -24649,6 +24571,9 @@ msgid ""
 "Could not fork repository at %(hostname)s: Repository not found. Check "
 "whether exists and user '%(username)s' has access to it."
 msgstr ""
+"Kon de opslagruimte niet forken op %(hostname)s: Opslagruimte niet gevonden. "
+"Controleer of die bestaat en of gebruiker '%(username)s' daar toegang toe "
+"heeft."
 
 #: weblate/vcs/base.py:281
 #, python-format
@@ -24662,87 +24587,94 @@ msgstr "Kon onderbroken bewerking %(operation)s voor Git niet herstellen."
 
 #: weblate/vcs/base.py:287
 msgid "The repository URL permanently redirects to a canonical URL."
-msgstr ""
+msgstr "De URL van de opslagruimte verwijst permanent naar een canonical URL."
 
 #: weblate/vcs/base.py:290
 msgid "The repository HTTP redirect contains credentials and was rejected."
 msgstr ""
+"De HTTP-verwijzing voor de opslagruimte bevat inloggegevens en werd "
+"geweigerd."
 
 #: weblate/vcs/base.py:293
 msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"De URL voor de opslagruimte verwijst naar een andere host. Automatische "
+"verwijzingen naar andere hosts zijn om veiligheidsredenen uitgeschakeld; "
+"werk de URL voor de opslagruimte handmatig bij."
 
 #: weblate/vcs/base.py:296
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
 msgstr ""
+"De URL voor de opslagruimte verwijst vanuit HTTPS naar een onveilige URL en "
+"werd geweigerd."
 
 #: weblate/vcs/base.py:299
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "De opslagruimte gaf een ongeldige HTTP-verwijzing terug."
 
 #: weblate/vcs/base.py:302
 msgid "The repository returned an HTTP redirect with an invalid hostname."
 msgstr ""
+"De opslagruimte gaf een HTTP-verwijzing met een ongeldige hostnaam terug."
 
 #: weblate/vcs/base.py:305
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "De werkboom voor de opslagruimte is opgeruimd."
+msgstr "De HTTP-verwijzing voor de opslagruimte bevat een lus."
 
 #: weblate/vcs/base.py:308
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository redirect target has no validated address."
-msgstr "De werkboom voor de opslagruimte is opgeruimd."
+msgstr ""
+"Het doel voor de verwijzing van de opslagruimte heeft geen gevalideerd adres."
 
 #: weblate/vcs/base.py:311
 msgid "The repository returned a permanent HTTP redirect without a target URL."
 msgstr ""
+"De opslagruimte gaf een permanente HTTP-verwijzing terug zonder een doel-URL."
 
 #: weblate/vcs/base.py:314
-#, fuzzy
-#| msgid "The category does not belong to the selected project."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "De categorie behoort niet tot het geselecteerde project."
+msgstr ""
+"De verwijzing van de opslagruimte verwijst niet naar een Git slim HTTP-"
+"eindpunt."
 
 #: weblate/vcs/base.py:317
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %(error)s"
-msgstr "Kon de opslagruimte niet ophalen: %s"
+msgstr "Kon de HTTP-redirect voor de opslagruimte niet uitproberen: %(error)s"
 
 #: weblate/vcs/base.py:320
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
 msgstr ""
+"De HTTP-verwijzing voor de opslagruimte wijzigde onverwacht de query voor de "
+"URL."
 
 #: weblate/vcs/base.py:323
 msgid "The repository HTTP redirect target could not be validated."
 msgstr ""
+"Het doel voor de HTTP-verwijzing van de opslagruimte kon niet worden "
+"gevalideerd."
 
 #: weblate/vcs/base.py:326
-#, fuzzy
-#| msgid ""
-#| "Remote branch could not be verified against the shallow existing "
-#| "repository."
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
 msgstr ""
-"Branch op afstand kon niet worden geverifieerd tegen de bestaande "
-"oppervlakkige opslagruimte."
+"Het doel voor de verwijzing van de opslagruimte kon niet worden geverifieerd "
+"als eennopslagruimte van Git."
 
 #: weblate/vcs/base.py:329
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "De opslagruimte gaf te veel HTTP-verwijzingen terug."
 
 #: weblate/vcs/base.py:332
 msgid "The repository URL redirects to an unsupported URL scheme."
 msgstr ""
+"De URL voor de opslagruimte verwijst naar een niet-ondersteund schema voor "
+"URL."
 
 #: weblate/vcs/base.py:335
 msgid ""
@@ -24760,16 +24692,13 @@ msgstr ""
 
 #: weblate/vcs/base.py:341 weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:637
 #: weblate/vcs/ssh.py:644 weblate/vcs/ssh.py:649
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "Kon de bronmap van Sphinx niet bepalen."
+msgstr "Kon het effectieve doel voor SSH niet bepalen."
 
 #: weblate/vcs/base.py:344
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %(error)s"
-msgstr "De tekenreeks kan niet worden verwijderd: %s"
+msgstr "Kon het effectieve doel-SSH niet bepalen: %(error)s"
 
 #: weblate/vcs/base.py:347
 #, python-format
@@ -24781,36 +24710,32 @@ msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
 msgstr ""
+"Dit backend voor VCS kan niet veilig verbinden met deze URL terwijl "
+"beperkingen voor private adressen zijn ingeschakeld."
 
 #: weblate/vcs/base.py:353
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository from %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository from %(hostname)s is not allowed."
-msgstr "Ophalen van de opslagruimte VCS vanaf %s is niet toegestaan."
+msgstr "Ophalen van de opslagruimte VCS vanaf %(hostname)s is niet toegestaan."
 
 #: weblate/vcs/base.py:355
-#, fuzzy
-#| msgid "Enter a valid GitHub host."
 msgid "Enter a valid URL."
-msgstr "Voer een geldige host voor GitHub in."
+msgstr "Voer een geldige URL in."
 
 #: weblate/vcs/base.py:357
-#, fuzzy, python-format
-#| msgid "Could not parse URL: {}"
+#, python-format
 msgid "Could not parse URL: %(error)s"
-msgstr "De URL kon niet worden verwerkt: {}"
+msgstr "De URL kon niet worden geparsed: %(error)s"
 
 #: weblate/vcs/base.py:362
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository using %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository using %(scheme)s is not allowed."
-msgstr "Ophalen van de opslagruimte VCS met %s is niet toegestaan."
+msgstr "Ophalen van de opslagruimte VCS met %(scheme)s is niet toegestaan."
 
 #: weblate/vcs/base.py:366
-#, fuzzy, python-format
-#| msgid "Could not resolve the URL domain: {}"
+#, python-format
 msgid "Could not resolve the URL domain: %(error)s"
-msgstr "Kon de URL voor het domein niet oplossen: {}"
+msgstr "Kon de URL voor het domein niet oplossen: %(error)s"
 
 #: weblate/vcs/base.py:704
 msgid "This will push changes to the upstream repository."
@@ -25148,10 +25073,8 @@ msgstr ""
 "(%(keytype)s). Controleer of deze klopt."
 
 #: weblate/vcs/ssh.py:388
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "Geen teams beschikbaar."
+msgstr "Geen gevalideerde adressen voor SSH beschikbaar."
 
 #: weblate/vcs/ssh.py:434
 msgid "Could not read stored host keys."
@@ -25174,10 +25097,9 @@ msgstr ""
 "(%(keytype)s)."
 
 #: weblate/vcs/ssh.py:615 weblate/vcs/ssh.py:622
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "De tekenreeks kan niet worden verwijderd: %s"
+msgstr "Kon het effectieve doel voor SSH niet bepalen: %s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
 msgid ""
