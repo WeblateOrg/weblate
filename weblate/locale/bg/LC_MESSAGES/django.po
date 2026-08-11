@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-07 10:07+0000\n"
+"PO-Revision-Date: 2026-08-11 14:56+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.1.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: weblate/accounts/avatar.py:91
 msgctxt "No known user"
@@ -819,13 +819,15 @@ msgstr "Скриване на изходния низ, ако има прево�
 
 #: weblate/accounts/models.py:801
 msgid "Show all columns in lists using horizontal scrolling"
-msgstr ""
+msgstr "Показване на всички колони в списъци използващи хоризонтално превъртане"
 
 #: weblate/accounts/models.py:805
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr ""
+"Вместо някои колони да се крият на по-тесни екрани, всички ще бъдат видими, "
+"а таблицата ще може да се превърта хоризонтално."
 
 #: weblate/accounts/models.py:813
 msgid "Editor link"
@@ -1859,10 +1861,8 @@ msgid "Pending"
 msgstr "На изчакване"
 
 #: weblate/addons/events.py:59
-#, fuzzy
-#| msgid "Access"
 msgid "Success"
-msgstr "Достъп"
+msgstr "Успешно"
 
 #: weblate/addons/events.py:60
 #: weblate/templates/trans/alert/addonscripterror.html:11
@@ -4578,12 +4578,18 @@ msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
+"Само привилегированите потребители могат да редактират низове директно в "
+"този език, поради настройките на работния процес на превода. Вместо това "
+"можете да добавите предложение."
 
 #: weblate/auth/permissions.py:257
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"Само привилегированите потребители могат да редактират низове директно в "
+"този език, поради настройките на работния процес на превода. Помолете "
+"администратор на проекта за достъп."
 
 #: weblate/auth/permissions.py:485
 msgid "Can not perform this operation without an e-mail address."
@@ -4721,6 +4727,8 @@ msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
 msgstr ""
+"Предложенията са изключени за този език. Помолете администратор на проекта "
+"да ги включи."
 
 #: weblate/auth/permissions.py:1064
 msgid "The file format does not support updating source strings."
@@ -7315,22 +7323,18 @@ msgid "I agree with the General Terms and Conditions document"
 msgstr "Съгласен съм с документа относно „Общите условия за ползване“"
 
 #: weblate/legal/forms.py:22
-#, fuzzy
-#| msgid "I agree with the General Terms and Conditions document"
 msgid "I agree with the General Terms and Conditions and the Privacy Policy"
-msgstr "Съгласен съм с документа относно „Общите условия за ползване“"
+msgstr ""
+"Съгласен съм с документите относно „Общите условия за ползване“ и „"
+"Политиката за поверителност“"
 
 #: weblate/legal/middleware.py:51
-#, fuzzy
-#| msgid ""
-#| "We have an updated version of the General Terms and Conditions document, "
-#| "please read it and confirm that you agree with it."
 msgid ""
 "We have updated our legal documents; please read them and confirm that you "
 "agree with them."
 msgstr ""
-"Имаме нова версия на документа относно „Общите условия за ползване“. Моля, "
-"прочетете го и потвърдете, че се съгласявате."
+"Имаме нова версия на правните документи. Моля, прочетете ги и потвърдете, че "
+"се съгласявате."
 
 #: weblate/legal/templates/legal/confirm.html:7
 #: weblate/legal/templates/legal/contracts.html:7
@@ -7342,11 +7346,11 @@ msgid "Legal"
 msgstr "Правна информация"
 
 #: weblate/legal/templates/legal/confirm.html:18
-#, fuzzy
-#| msgid "You have to agree to the General Terms and Conditions"
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "Трябва да се съгласите с „Общите условия за ползване“"
+msgstr ""
+"Трябва да се съгласите с „Общите условия за ползване“ и „Политиката за "
+"поверителност“"
 
 #: weblate/legal/templates/legal/confirm.html:20
 msgid "You have to agree to the General Terms and Conditions"
@@ -7379,7 +7383,7 @@ msgstr "Моля, прочетете следния документ относ�
 
 #: weblate/legal/templates/legal/confirm.html:44
 msgid "Please also read the Privacy Policy:"
-msgstr ""
+msgstr "Моля, прочетете и „Политиката за поверителност“:"
 
 #: weblate/legal/templates/legal/confirm.html:53
 #: weblate/templates/contributor-agreement.html:33
@@ -11849,15 +11853,15 @@ msgstr ""
 
 #: weblate/templates/data.html:111
 msgid "JSON metrics"
-msgstr ""
+msgstr "Метрики във формат JSON"
 
 #: weblate/templates/data.html:114
 msgid "CSV metrics"
-msgstr ""
+msgstr "Метрики във формат CSV"
 
 #: weblate/templates/data.html:117
 msgid "OpenMetrics metrics"
-msgstr ""
+msgstr "Метрики във формат OpenMetrics"
 
 #: weblate/templates/data.html:123
 msgid "Notification hooks"
@@ -13711,16 +13715,12 @@ msgid "Entries processed"
 msgstr "Обработени записи"
 
 #: weblate/templates/manage/performance.html:157
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicate candidate scan"
-msgstr "Дублиран превод."
+msgstr "Сканиране за дублирани кандидати"
 
 #: weblate/templates/manage/performance.html:165
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory duplicate candidate scan"
-msgstr "Състояние на паметта за преводи"
+msgstr "Сканиране за дублирани кандидати в паметта за преводи"
 
 #: weblate/templates/manage/performance.html:173
 msgid "Candidate scan cursor"
@@ -13744,7 +13744,7 @@ msgstr "Завършено"
 
 #: weblate/templates/manage/performance.html:194
 msgid "Scanning duplicate candidates"
-msgstr ""
+msgstr "Сканиране за дублирани кандидати"
 
 #: weblate/templates/manage/performance.html:196
 #, fuzzy
@@ -14998,10 +14998,10 @@ msgid "Translation process"
 msgstr "Процес на превода"
 
 #: weblate/templates/snippets/info.html:97
-#, fuzzy
-#| msgid "A translation was restored to an earlier value."
 msgid "Direct translation editing is restricted to privileged users."
-msgstr "Превод беше върнат към предишната си стойност."
+msgstr ""
+"Директното редактиране на преводи е ограничено и може да се извършва само от "
+"привилегировани потребители."
 
 #: weblate/templates/snippets/info.html:99
 #: weblate/templates/snippets/info.html:116
@@ -15342,7 +15342,7 @@ msgstr "Хранилище"
 
 #: weblate/templates/snippets/list-objects.html:8
 msgid "Scrollable table"
-msgstr ""
+msgstr "Таблица с превъртане"
 
 #: weblate/templates/snippets/list-objects.html:50
 msgid "Add project"
@@ -16209,12 +16209,19 @@ msgid ""
 "a repository maintainer to allow pull requests from all users or add "
 "<code>%(username)s</code> as a collaborator."
 msgstr ""
+"Хранилището в GitHub позволява само на участващите потребители да създават "
+"заявки за изтегляне. Помолете някой от отговорниците за хранилището да "
+"разреши заявките за изтегляне от всички потребители, или да добави <code>%"
+"(username)s</code> като участник."
 
 #: weblate/templates/trans/alert/common-repo.html:32
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
 msgstr ""
+"Хранилището в GitHub позволява само на участващите потребители да създават "
+"заявки за изтегляне. Помолете някой от отговорниците за хранилището да "
+"разреши заявките за изтегляне от всички потребители."
 
 #: weblate/templates/trans/alert/common-repo.html:38
 msgid ""
@@ -17347,10 +17354,8 @@ msgid "Save and stay"
 msgstr "Запазване"
 
 #: weblate/templates/translate.html:259 weblate/trans/views/edit.py:814
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to add suggestions."
-msgstr "Нямате разрешение да приемате предложения."
+msgstr "Нямате право да добавяте предложения."
 
 #: weblate/templates/translate.html:260
 msgid "Suggest"
@@ -18664,113 +18669,89 @@ msgid "Alert triggered"
 msgstr "Активирано е предупреждение"
 
 #: weblate/trans/actions.py:302
-#, fuzzy
-#| msgid "Add language for translation"
 msgid "A language translation was added."
-msgstr "Добавяне на език за превод"
+msgstr "Беше добавен превод на нов език."
 
 #: weblate/trans/actions.py:303
 msgid "Language added"
 msgstr "Добавен е език"
 
 #: weblate/trans/actions.py:308
-#, fuzzy
-#| msgid "Requested new language"
 msgid "A user requested a new language."
-msgstr "Заявен е нов език"
+msgstr "Потребител направи заявка за нов език."
 
 #: weblate/trans/actions.py:309
 msgid "Language requested"
 msgstr "Подадена е заявка за език"
 
 #: weblate/trans/actions.py:314
-#, fuzzy
-#| msgid "Your translation project was removed"
 msgid "A translation project was created."
-msgstr "Проектът за превод е премахнат"
+msgstr "Беше създаден проект за превод."
 
 #: weblate/trans/actions.py:315
 msgid "Project created"
-msgstr "Проектът е създаден"
+msgstr "Създаден е проект"
 
 #: weblate/trans/actions.py:320
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "New translation component was created"
 msgid "A translation component was created."
-msgstr "Създаден е нов компонент за превод"
+msgstr "Компонент за превод беше създаден."
 
 #: weblate/trans/actions.py:321
 msgid "Component created"
-msgstr "Компонентът е създаден"
+msgstr "Компонент е създаден"
 
 #: weblate/trans/actions.py:326
-#, fuzzy
-#| msgid "User has been invited to this project."
 msgid "A user was invited to a project."
-msgstr "Потребителят е поканен в проекта."
+msgstr "Потребител беше поканен в проект."
 
 #: weblate/trans/actions.py:327
 msgid "User invited"
-msgstr "Потребителят е поканен"
+msgstr "Потребител е поканен"
 
 #: weblate/trans/actions.py:332
-#, fuzzy
-#| msgid ""
-#| "Weblate also supports direct notifications from several code hosting "
-#| "sites:"
 msgid "Weblate received a repository notification from a code host."
 msgstr ""
-"Weblate също така поддържа директни известия от няколко страници за "
-"съхраняване на код:"
+"Weblate получи известие от хранилище от някой сървър за съхранение на код."
 
 #: weblate/trans/actions.py:333
 msgid "Repository notification received"
-msgstr "Получено е известие от хранилището"
+msgstr "Получено е известие от хранилище"
 
 #: weblate/trans/actions.py:338
-#, fuzzy
-#| msgid "Translation replaced file by upload"
 msgid "A translation file was replaced by an uploaded file."
-msgstr "Преводът е заменен поради качване на файл"
+msgstr "Файл за превод беше заменен от качен файл."
 
 #: weblate/trans/actions.py:339
 msgid "Translation replaced file by upload"
-msgstr "Преводът е заменен поради качване на файл"
+msgstr "Превод е заменен поради качване на файл"
 
 #: weblate/trans/actions.py:344
 msgid "Project or component license information changed."
-msgstr ""
+msgstr "Информацията за лиценза на проект или компонент беше променена."
 
 #: weblate/trans/actions.py:345
 msgid "License changed"
-msgstr "Лицензът е променен"
+msgstr "Лиценз е променен"
 
 #: weblate/trans/actions.py:350
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "The contributor license agreement was changed."
-msgstr "Лицензионното споразумение за принос е променено"
+msgstr "Лицензионното споразумение за принос беше променено."
 
 #: weblate/trans/actions.py:351
 msgid "Contributor license agreement changed"
-msgstr "Лицензионното споразумение за принос е променено"
+msgstr "Лицензионно споразумение за принос е променено"
 
 #: weblate/trans/actions.py:356
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "A screenshot was associated with a string."
-msgstr "Избягвайте годините, които са свързани с Вас."
+msgstr "Екранна снимка беше свързана с низ."
 
 #: weblate/trans/actions.py:357
 msgid "Screenshot added"
 msgstr "Добавена е екранна снимка"
 
 #: weblate/trans/actions.py:362
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "A screenshot image was uploaded."
-msgstr "Качени снимки"
+msgstr "Беше качена екранна снимка."
 
 #: weblate/trans/actions.py:363
 msgid "Screenshot uploaded"
@@ -18778,148 +18759,120 @@ msgstr "Качена е екранна снимка"
 
 #: weblate/trans/actions.py:368
 msgid "A string was changed while synchronizing from the repository."
-msgstr ""
+msgstr "Низ беше променен по време на синхронизиране от хранилището."
 
 #: weblate/trans/actions.py:369
 msgid "String updated in the repository"
 msgstr "Обновен е низ в хранилището"
 
 #: weblate/trans/actions.py:374
-#, fuzzy
-#| msgid "Add-on installed"
 msgid "An add-on was installed."
-msgstr "Инсталирана е добавка"
+msgstr "Беше инсталирана добавка."
 
 #: weblate/trans/actions.py:375
 msgid "Add-on installed"
 msgstr "Инсталирана е добавка"
 
 #: weblate/trans/actions.py:380
-#, fuzzy
-#| msgid "Add-on configuration changed"
 msgid "An add-on's configuration was changed."
-msgstr "Настройката на добавка е променена"
+msgstr "Настройката на добавка беше променена."
 
 #: weblate/trans/actions.py:381
 msgid "Add-on configuration changed"
 msgstr "Настройката на добавка е променена"
 
 #: weblate/trans/actions.py:386
-#, fuzzy
-#| msgid "Add-on uninstalled"
 msgid "An add-on was uninstalled."
-msgstr "Премахната е добавка"
+msgstr "Добавка беше деинсталирана."
 
 #: weblate/trans/actions.py:387
 msgid "Add-on uninstalled"
 msgstr "Премахната е добавка"
 
 #: weblate/trans/actions.py:392
-#, fuzzy
-#| msgid "Please fix this by removing one of the translation files."
 msgid "A string was removed from a translation."
-msgstr "Поправете грешката, като премахнете един от файловете за превод."
+msgstr "Низ беше премахнат от превод."
 
 #: weblate/trans/actions.py:393
 msgid "String removed"
-msgstr "Низът е премахнат"
+msgstr "Низ е премахнат"
 
 #: weblate/trans/actions.py:398
-#, fuzzy
-#| msgid "String was removed."
 msgid "A string comment was removed."
-msgstr "Низът е премахнат."
+msgstr "Коментар към низ беше премахнат."
 
 #: weblate/trans/actions.py:399
 msgid "Comment removed"
-msgstr "Коментарът е премахнат"
+msgstr "Коментар е премахнат"
 
 #: weblate/trans/actions.py:404
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgid "A string comment was marked as resolved."
-msgstr "Проблемът в коментара е разрешен."
+msgstr "Коментар към низ беше отбелязан като разрешен."
 
 #: weblate/trans/actions.py:405
 msgctxt "Name of event in the history"
 msgid "Comment resolved"
-msgstr "Проблемът в коментара е разрешен"
+msgstr "Проблем в коментар е разрешен"
 
 #: weblate/trans/actions.py:410
-#, fuzzy
-#| msgid "This language is used for source strings."
 msgid "The explanation for a source string was updated."
-msgstr "Този език се използва за изходните низове."
+msgstr "Обяснението към изходен низ беше променено."
 
 #: weblate/trans/actions.py:411
 msgid "Explanation updated"
 msgstr "Променено е обяснение"
 
 #: weblate/trans/actions.py:416
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A component category was removed."
-msgstr "От категорията е премахнат език."
+msgstr "Категория на компонент беше премахната."
 
 #: weblate/trans/actions.py:417
 msgid "Category removed"
-msgstr "Категорията е премахната"
+msgstr "Премахната е категория"
 
 #: weblate/trans/actions.py:422
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A component category was renamed."
-msgstr "От категорията е премахнат език."
+msgstr "Категорията на компонент беше преименувана."
 
 #: weblate/trans/actions.py:423
 msgid "Category renamed"
-msgstr "Категорията е преименувана"
+msgstr "Преименувана е категория"
 
 #: weblate/trans/actions.py:428
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A component category was moved."
-msgstr "От категорията е премахнат език."
+msgstr "Категория на компонент беше преместена."
 
 #: weblate/trans/actions.py:429
 msgid "Category moved"
-msgstr "Категорията е преместена"
+msgstr "Преместена е категория"
 
 #: weblate/trans/actions.py:434
-#, fuzzy
-#| msgid "Weblate could not execute script add-on."
 msgid "Weblate could not save a changed string."
-msgstr "Weblate не може да изпълни скрипт от добавка."
+msgstr "Weblate не успя да запази променен низ."
 
 #: weblate/trans/actions.py:435
 msgid "Saving string failed"
-msgstr "Запазването на низ беше неуспешно"
+msgstr "Запазването на низ е неуспешно"
 
 #: weblate/trans/actions.py:440
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A new string was found while synchronizing from the repository."
-msgstr "Изходен низ е добавен в хранилището"
+msgstr "Беше намерен нов низ при синхронизиране от хранилището."
 
 #: weblate/trans/actions.py:441
 msgid "String added in the repository"
 msgstr "Добавен е низ в хранилището"
 
 #: weblate/trans/actions.py:446
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid "A string was changed while processing an uploaded file."
-msgstr "От качения файл не са внесени низове."
+msgstr "Низ беше променен при обработването на качен файл."
 
 #: weblate/trans/actions.py:447
 msgid "String updated in the upload"
 msgstr "Обновен е низ в качването"
 
 #: weblate/trans/actions.py:452
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "A new string was found while processing an uploaded file."
-msgstr "Записва принудително всички низове във файловете за превод."
+msgstr "Нов низ беше открит при обработването на качен файл."
 
 #: weblate/trans/actions.py:453
 msgid "String added in the upload"
@@ -18927,11 +18880,11 @@ msgstr "Добавен е низ в качването"
 
 #: weblate/trans/actions.py:458
 msgid "A translation was synchronized after uploading a source file."
-msgstr ""
+msgstr "Превод беше синхронизиран след качване на изходен файл."
 
 #: weblate/trans/actions.py:459
 msgid "Translation updated by source upload"
-msgstr "Преводът е обновен поради качване на изходен код"
+msgstr "Превод е обновен поради качване на изходен файл"
 
 #: weblate/trans/actions.py:465
 msgid ""
@@ -18939,6 +18892,9 @@ msgid ""
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
+"Всички преводи а всички езици в компонент станаха напълно завършени след "
+"една промяна. Автоматичните преводи, качванията и масовите редактирания не "
+"предизвикват това събитие."
 
 #: weblate/trans/actions.py:469
 msgid "Component translation completed"
@@ -18955,10 +18911,8 @@ msgid "Applied enforced check"
 msgstr "Приложена е задължителна проверка"
 
 #: weblate/trans/actions.py:482
-#, fuzzy
-#| msgid "Apply selected translation to all propagated strings"
 msgid "A translation edit was propagated to another matching string."
-msgstr "Прилагане на избрания превод към всички прехвърлени низове"
+msgstr "Промяна на превод беше прехвърлена към друг съответстващ низ."
 
 #: weblate/trans/actions.py:483
 msgid "Propagated change"
@@ -21025,11 +20979,11 @@ msgstr "Стил на Линукс, малки букви"
 
 #: weblate/trans/management/commands/import_projectbackup.py:49
 #: weblate/trans/tasks.py:1366
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
-msgstr ""
+msgstr "Файл за превод беше заменен от качен файл."
 
 #: weblate/trans/mixins.py:212
 msgid ""
