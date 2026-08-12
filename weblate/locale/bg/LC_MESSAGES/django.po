@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-11 14:56+0000\n"
+"PO-Revision-Date: 2026-08-12 05:26+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -22828,16 +22828,12 @@ msgid "Priority: High"
 msgstr "Приоритет"
 
 #: weblate/trans/templatetags/translations.py:117
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Low"
-msgstr "Приоритет"
+msgstr "Приоритет: Нисък"
 
 #: weblate/trans/templatetags/translations.py:118
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Very low"
-msgstr "Приоритет"
+msgstr "Приоритет: Много нисък"
 
 #. Translators: Glossary term formatting used in a tooltip
 #: weblate/trans/templatetags/translations.py:313
@@ -22902,10 +22898,8 @@ msgid "This language is used for source strings."
 msgstr "Този език се използва за изходните низове."
 
 #: weblate/trans/templatetags/translations.py:1181
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Fix this component to clear its diagnostics."
-msgstr "Оправете този компонент, за да изчистите предупрежденията в него."
+msgstr "Оправете този компонент, за да изчистите диагностиката му."
 
 #: weblate/trans/templatetags/translations.py:1187
 #: weblate/trans/templatetags/translations.py:1210
@@ -22917,10 +22911,8 @@ msgid "Updating translation component…"
 msgstr "Обновяване на компонента за преводи…"
 
 #: weblate/trans/templatetags/translations.py:1204
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some of the components within this project have diagnostics."
-msgstr "За някои от компонентите в този проект има предупреждения."
+msgstr "За някои от компонентите в този проект имат диагностика."
 
 #: weblate/trans/templatetags/translations.py:1239
 msgid "You administrate this project."
@@ -23052,31 +23044,22 @@ msgid "File upload has failed: %s"
 msgstr "Грешка при качване на файл: %s"
 
 #: weblate/trans/util.py:289
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Превежда се на <strong>%(count)s език</strong>."
-msgstr[1] "Превежда се на <strong>%(count)s езика</strong>."
+msgstr[0] "{project} се превежда на {count} език чрез Weblate."
+msgstr[1] "{project} се превежда на {count} езика чрез Weblate."
 
 #: weblate/trans/util.py:294
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
 msgstr ""
-"{0} се превежда на {1} езика чрез Weblate. Присъединете се към превода, или "
-"пък започнете превод на свой собствен проект."
+"Присъединете се към превода, или пък започнете превод на свой собствен "
+"проект."
 
 #: weblate/trans/util.py:296
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "Копиране в превода"
+msgstr "Присъединете се към превода."
 
 #: weblate/trans/util.py:415
 msgid "Source upload is only supported on the source language."
@@ -23247,29 +23230,25 @@ msgid "Invalid request."
 msgstr "Грешна заявка."
 
 #: weblate/trans/views/bulk_suggestions.py:122
-#, fuzzy
-#| msgid "This field is required."
 msgid "Confirmation is required."
-msgstr "Това поле е задължително."
+msgstr "Потвърждението е задължително."
 
 #: weblate/trans/views/bulk_suggestions.py:154
-#, fuzzy, python-format
-#| msgid "Accepted %(count)d suggestion from %(user)s."
-#| msgid_plural "Accepted %(count)d suggestions from %(user)s."
+#, python-format
 msgid "Accepting and approving %(count)d suggestion from %(user)s in progress."
 msgid_plural ""
 "Accepting and approving %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Прието е %(count)d предложение от %(user)s."
-msgstr[1] "Приети са %(count)d предложения от %(user)s."
+msgstr[0] ""
+"Изпълнява се приемане и одобряване на %(count)d предложение от %(user)s."
+msgstr[1] ""
+"Изпълнява се приемане и одобряване на %(count)d предложения от %(user)s."
 
 #: weblate/trans/views/bulk_suggestions.py:163
-#, fuzzy, python-format
-#| msgid "Accepted %(count)d suggestion from %(user)s."
-#| msgid_plural "Accepted %(count)d suggestions from %(user)s."
+#, python-format
 msgid "Accepting %(count)d suggestion from %(user)s in progress."
 msgid_plural "Accepting %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Прието е %(count)d предложение от %(user)s."
-msgstr[1] "Приети са %(count)d предложения от %(user)s."
+msgstr[0] "Изпълнява се приемане на %(count)d предложение от %(user)s."
+msgstr[1] "Изпълнява се приемане на %(count)d предложения от %(user)s."
 
 #: weblate/trans/views/changes.py:70
 #, python-format
@@ -23302,9 +23281,7 @@ msgid "Changes in %s"
 msgstr "Промени в %s"
 
 #: weblate/trans/views/changes.py:87
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Промени в %s"
@@ -23315,10 +23292,8 @@ msgstr ""
 "Предоставената конфигурация е неправилна. Моля, прегледайте грешките по-долу."
 
 #: weblate/trans/views/create.py:133
-#, fuzzy
-#| msgid "Fetching VCS repository from %s is not allowed."
 msgid "Creating a project without a workspace is not allowed."
-msgstr "Получаването на хранилището от %s не се поддържа."
+msgstr "Създаването на проект без работно пространство не е разрешено."
 
 #: weblate/trans/views/create.py:274
 msgid "Project backup import in progress"
