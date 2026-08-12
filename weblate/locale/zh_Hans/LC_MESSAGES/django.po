@@ -33,7 +33,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-12 06:11+0000\n"
+"PO-Revision-Date: 2026-08-12 06:39+0000\n"
 "Last-Translator: Hosted Weblate user 54392 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -791,13 +791,13 @@ msgstr "如果有第二语言译文则隐藏原文"
 
 #: weblate/accounts/models.py:801
 msgid "Show all columns in lists using horizontal scrolling"
-msgstr ""
+msgstr "用水平滚动显示列表中的全部列"
 
 #: weblate/accounts/models.py:805
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
-msgstr ""
+msgstr "在窄屏上不隐藏列，保留所有列并水平滚动表格。"
 
 #: weblate/accounts/models.py:813
 msgid "Editor link"
@@ -4334,13 +4334,15 @@ msgstr "你无权上传术语表条目。"
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
-msgstr ""
+msgstr "因翻译工作流程，仅特权用户可在这个语言中直接编辑字符串。请添加建议。"
 
 #: weblate/auth/permissions.py:257
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Ask a project administrator for access."
 msgstr ""
+"因翻译工作流程，仅特权用户可在这个语言中直接编辑字符串。请求项目管理员获得权"
+"限。"
 
 #: weblate/auth/permissions.py:485
 msgid "Can not perform this operation without an e-mail address."
@@ -4468,7 +4470,7 @@ msgstr "此部件当前被锁定。"
 msgid ""
 "Suggestions are turned off for this language. Ask a project administrator to "
 "enable them."
-msgstr ""
+msgstr "此语言的建议被关闭。请求项目管理员启用建议。"
 
 #: weblate/auth/permissions.py:1064
 msgid "The file format does not support updating source strings."
@@ -7021,7 +7023,7 @@ msgstr "请阅读以下一般条款文档："
 
 #: weblate/legal/templates/legal/confirm.html:44
 msgid "Please also read the Privacy Policy:"
-msgstr ""
+msgstr "另请阅读隐私政策："
 
 #: weblate/legal/templates/legal/confirm.html:53
 #: weblate/templates/contributor-agreement.html:33
@@ -14480,7 +14482,7 @@ msgstr "代码库"
 
 #: weblate/templates/snippets/list-objects.html:8
 msgid "Scrollable table"
-msgstr ""
+msgstr "可滚动的表格"
 
 #: weblate/templates/snippets/list-objects.html:50
 msgid "Add project"
@@ -15292,12 +15294,16 @@ msgid ""
 "a repository maintainer to allow pull requests from all users or add "
 "<code>%(username)s</code> as a collaborator."
 msgstr ""
+"该 GitHub 仓库仅允许协作者创建拉取请求。请求仓库维护者允许来自所有用户的拉取"
+"请求或将 <code>%(username)s</code> 添加为协作者。"
 
 #: weblate/templates/trans/alert/common-repo.html:32
 msgid ""
 "The GitHub repository allows only collaborators to create pull requests. Ask "
 "a repository maintainer to allow pull requests from all users."
 msgstr ""
+"该 GitHub 仓库只允许协作者创建拉取请求。请求仓库维护者允许来自所有用户的拉取"
+"请求。"
 
 #: weblate/templates/trans/alert/common-repo.html:38
 msgid ""
@@ -21244,13 +21250,13 @@ msgstr "标记为专业术语"
 
 #: weblate/trans/models/workflow.py:35
 msgid "Restrict direct editing"
-msgstr ""
+msgstr "限制直接编辑"
 
 #: weblate/trans/models/workflow.py:38
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
-msgstr ""
+msgstr "仅拥有 “当建议被强制时编辑字符串”权限的用户可以做出直接更改。"
 
 #: weblate/trans/specialchars.py:14
 msgid "Insert tab character"
@@ -22879,13 +22885,11 @@ msgid ""
 msgstr "创建拉取请求时 %(service)s API 请求失败 (%(status)s): %(error)s"
 
 #: weblate/vcs/base.py:234
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while %(action)s (%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
-msgstr "%(action)s (%(status)s) 时 %(service)s API 请求失败: %(error)s"
+msgstr "创建拉取请求时 %(service)s API 请求失败 (%(status)s): %(error)s 请稍后重试。"
 
 #: weblate/vcs/base.py:237
 msgid "GitHub App repositories must be imported with a branch."
@@ -22900,16 +22904,14 @@ msgid "No Weblate GitHub app installation available."
 msgstr "无 Weblate GitHub 应用安装可用。"
 
 #: weblate/vcs/base.py:246
-#, fuzzy, python-format
-#| msgid "No Weblate GitHub app installation available."
+#, python-format
 msgid "No Weblate GitHub app installation available for %(hostname)s"
-msgstr "无 Weblate GitHub 应用安装可用。"
+msgstr "%(hostname)s 无 Weblate GitHub 应用安装可用"
 
 #: weblate/vcs/base.py:249
-#, fuzzy, python-format
-#| msgid "Could not obtain GitHub App access token: %s"
+#, python-format
 msgid "Could not obtain GitHub App access token: %(error)s"
-msgstr "无法获得 GitHub 应用访问令牌：%s"
+msgstr "无法获得 GitHub 应用访问令牌：%(error)s"
 
 #: weblate/vcs/base.py:252 weblate/vcs/github.py:998
 msgid "GitHub App components require a project with a workspace."
@@ -22921,46 +22923,40 @@ msgid "Could not get GitLab project (%(status)s): %(error)s"
 msgstr "无法获得 GitLab 项目（%(status)s）：%(error)s"
 
 #: weblate/vcs/base.py:258
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): Unknown error"
-msgstr "无法获得 GitLab 项目（%(status)s）：%(error)s"
+msgstr "无法获得 GitLab 项目（%(status)s）：未知错误"
 
 #: weblate/vcs/base.py:261
-#, fuzzy, python-format
-#| msgid "Fedora Messaging publish failed: %(error)s"
+#, python-format
 msgid "Pull request listing failed: %(error)s"
-msgstr "Fedora Messaging 发布失败了：%(error)s"
+msgstr "拉取请求列举失败：%(error)s"
 
 #: weblate/vcs/base.py:264
-#, fuzzy, python-format
-#| msgid "%(message)s Please retry later."
+#, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
-msgstr "%(message)s 请稍候重试。"
+msgstr "拉取请求列举失败：%(error)s 请稍后重试。"
 
 #: weblate/vcs/base.py:266
-#, fuzzy, python-format
-#| msgid "Could not get repository status!"
+#, python-format
 msgid "Could not fork repository at %(hostname)s"
-msgstr "无法获得仓库状态！"
+msgstr "无法 fork %(hostname)s 的仓库"
 
 #: weblate/vcs/base.py:268
-#, fuzzy, python-format
-#| msgid "Could not open a ticket, please try again later."
+#, python-format
 msgid "Could not fork repository at %(hostname)s. Please retry later."
-msgstr "无法打开工单，请稍后重试。"
+msgstr "无法 fork %(hostname)s 的仓库。请稍后重试。"
 
 #: weblate/vcs/base.py:271
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not fork repository at %(hostname)s: %(error)s"
-msgstr "无法获得 GitLab 项目（%(status)s）：%(error)s"
+msgstr "无法 fork %(hostname)s 的仓库：%(error)s"
 
 #: weblate/vcs/base.py:274
 #, python-format
 msgid ""
 "Could not fork repository at %(hostname)s: %(error)s Please retry later."
-msgstr ""
+msgstr "无法 fork %(hostname)s 的仓库：%(error)s 请稍后重试。"
 
 #: weblate/vcs/base.py:277
 #, python-format
@@ -22968,6 +22964,8 @@ msgid ""
 "Could not fork repository at %(hostname)s: Repository not found. Check "
 "whether exists and user '%(username)s' has access to it."
 msgstr ""
+"无法 fork %(hostname)s 的仓库：未找到仓库。检查是否存在以及用户 “%(username)s"
+"” 是否有权访问它。"
 
 #: weblate/vcs/base.py:281
 #, python-format
@@ -23026,10 +23024,9 @@ msgid ""
 msgstr "仓库 HTTP 重定向不指向 Git 只能 HTTP 端点。"
 
 #: weblate/vcs/base.py:317
-#, fuzzy, python-format
-#| msgid "Could not probe the repository HTTP redirect: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %(error)s"
-msgstr "无法探寻仓库的 HTTP 重定向：%s"
+msgstr "无法探寻仓库的 HTTP 重定向：%(error)s"
 
 #: weblate/vcs/base.py:320
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
@@ -23069,10 +23066,9 @@ msgid "Could not determine the effective SSH destination."
 msgstr "无法确定有效的 SSH 目的地。"
 
 #: weblate/vcs/base.py:344
-#, fuzzy, python-format
-#| msgid "Could not determine the effective SSH destination: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %(error)s"
-msgstr "无法确定有效的 SSH 目的地：%s"
+msgstr "无法确定有效的 SSH 目的地：%(error)s"
 
 #: weblate/vcs/base.py:347
 #, python-format
@@ -23086,34 +23082,28 @@ msgid ""
 msgstr "启用内网地址限制时，该 VCS 后端无法安全连接到这个 URL。"
 
 #: weblate/vcs/base.py:353
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository from %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository from %(hostname)s is not allowed."
-msgstr "不允许从 %s 拉取 VCS 仓库。"
+msgstr "不允许从 %(hostname)s 获取 VCS 仓库。"
 
 #: weblate/vcs/base.py:355
-#, fuzzy
-#| msgid "Enter a valid GitHub host."
 msgid "Enter a valid URL."
-msgstr "输入有效的 GitHub 主机。"
+msgstr "输入有效的 URL。"
 
 #: weblate/vcs/base.py:357
-#, fuzzy, python-format
-#| msgid "Could not parse URL: {}"
+#, python-format
 msgid "Could not parse URL: %(error)s"
-msgstr "无法解析 URL：{}"
+msgstr "无法解析 URL：%(error)s"
 
 #: weblate/vcs/base.py:362
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository using %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository using %(scheme)s is not allowed."
-msgstr "不允许用 %s 拉取 VCS 仓库。"
+msgstr "不允许用 %(scheme)s 获取 VCS 仓库。"
 
 #: weblate/vcs/base.py:366
-#, fuzzy, python-format
-#| msgid "Could not resolve the URL domain: {}"
+#, python-format
 msgid "Could not resolve the URL domain: %(error)s"
-msgstr "无法解析 URL 域名：{}"
+msgstr "无法解析 URL 域名：%(error)s"
 
 #: weblate/vcs/base.py:704
 msgid "This will push changes to the upstream repository."
