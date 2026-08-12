@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-12 06:55+0000\n"
+"PO-Revision-Date: 2026-08-12 10:28+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -4712,7 +4712,7 @@ msgstr "Không thể gán mã thông báo dự án cho các nhóm tại đây."
 
 #: weblate/auth/views.py:168
 msgid "Cannot remove built-in team!"
-msgstr "Không thể xóa nhóm đã được tích hợp!"
+msgstr "Không thể xóa nhóm đã tích hợp sẵn!"
 
 #: weblate/auth/views.py:286
 msgid "User invitation was removed."
@@ -12122,6 +12122,8 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
+"Việc dọn dẹp sẽ xóa tất cả các tệp không được kiểm soát phiên bản theo dõi "
+"khỏi kho lưu trữ."
 
 #: weblate/templates/js/git-status.html:190
 msgid "It also removes stale branches which are not used by Weblate."
@@ -12796,7 +12798,7 @@ msgstr ""
 
 #: weblate/templates/mail/component_license.html:13
 msgid "Old agreement:"
-msgstr ""
+msgstr "Thỏa thuận cũ:"
 
 #: weblate/templates/mail/component_license.html:16
 msgid "There was no contributor license agreement before."
@@ -13355,10 +13357,8 @@ msgid "Weblate support status"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/manage/index.html:22
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Weblate version"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Phiên bản Weblate"
 
 #: weblate/templates/manage/index.html:34
 msgid "Support status"
@@ -15100,6 +15100,8 @@ msgid ""
 "All the source code has to be libre-licensed and publicly available in a "
 "supported version control system."
 msgstr ""
+"Tất cả mã nguồn phải được cấp phép tự do và có sẵn công khai trong hệ thống "
+"kiểm soát phiên bản được hỗ trợ."
 
 #: weblate/templates/snippets/libre-basic.html:16
 msgid ""
@@ -15298,6 +15300,8 @@ msgid ""
 "Version control or files to translate are configured on individual "
 "components:"
 msgstr ""
+"Kiểm soát phiên bản hoặc các tệp cần dịch được định cấu hình trên các thành "
+"phần riêng lẻ:"
 
 #: weblate/templates/snippets/project-workflow-settings.html:3
 msgid "Translation workflow can be also customized per language:"
@@ -16037,6 +16041,9 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
+"Bạn có thể muốn chọn Git với tính năng bắt buộc đẩy làm hệ thống kiểm soát "
+"phiên bản trong cấu hình thành phần để ghi đè lên kho lưu trữ từ xa sau khi "
+"khởi động lại các cam kết trong Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:61
 msgid ""
@@ -16416,7 +16423,7 @@ msgstr ""
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:10
 #: weblate/trans/models/component.py:588
 msgid "Version control system"
-msgstr ""
+msgstr "Hệ thống kiểm soát phiên bản"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:23
 msgid ""
@@ -16548,7 +16555,7 @@ msgstr "Theo dõi bằng RSS"
 #. Translators: Create a component from version control
 #: weblate/templates/trans/component_create.html:10
 msgid "From version control"
-msgstr "Từ quản lý phiên bản"
+msgstr "Từ kiểm soát phiên bản"
 
 #. Translators: Create a component from existing component
 #: weblate/templates/trans/component_create.html:16
@@ -17011,7 +17018,7 @@ msgstr "Dạng số nhiều %d"
 #: weblate/templates/trans/project_import_info.html:6
 #, python-format
 msgid "Created on %(server)s (%(domain)s) by Weblate %(version)s"
-msgstr ""
+msgstr "Được tạo trên %(server)s (%(domain)s) bởi Weblate %(version)s"
 
 #: weblate/templates/trans/projecttoken-created.html:6
 msgid "Token copied to clipboard."
@@ -17532,12 +17539,17 @@ msgid ""
 "Connect code-hosting accounts to %(workspace)s. These accounts can then be "
 "used when creating components from version control."
 msgstr ""
+"Kết nối tài khoản lưu trữ mã với %(workspace)s. Sau đó, những tài khoản này "
+"có thể được sử dụng khi tạo các thành phần từ kiểm soát phiên bản."
 
 #: weblate/templates/vcs/account_integrations.html:40
 msgid ""
 "Connect code-hosting accounts to workspaces you manage. These accounts can "
 "then be used when creating components from version control."
 msgstr ""
+"Kết nối tài khoản lưu trữ mã với không gian làm việc mà bạn quản lý. Sau đó, "
+"những tài khoản này có thể được sử dụng khi tạo các thành phần từ kiểm soát "
+"phiên bản."
 
 #: weblate/templates/vcs/account_integrations.html:56
 #, fuzzy
@@ -18972,7 +18984,7 @@ msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #: weblate/trans/admin.py:60
 msgid "Update quality checks"
-msgstr "Kiểm tra chất lượng cập nhật"
+msgstr "Cập nhật kiểm tra chất lượng"
 
 #: weblate/trans/admin.py:94
 msgid "Administrators"
@@ -19943,15 +19955,14 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/file_format_params.py:754
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Disable placeholders"
-msgstr "Phần trăm giữ chỗ"
+msgstr "Tắt phần giữ chỗ"
 
 #: weblate/trans/file_format_params.py:758
 msgid ""
 "Disables detection and processing of placeholders in Markdown and MDX files."
 msgstr ""
+"Tắt tính năng phát hiện và xử lý phần giữ chỗ trong tệp Markdown và MDX."
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:126
 msgid "All strings"
@@ -20234,7 +20245,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/trans/forms.py:1224
 msgid "Score threshold"
-msgstr ""
+msgstr "Ngưỡng điểm"
 
 #: weblate/trans/forms.py:1299
 msgid "All components in current workspace"
@@ -20584,6 +20595,8 @@ msgid ""
 "The backup is from an incompatible version (%(version)s). Please upgrade "
 "your Weblate instance."
 msgstr ""
+"Bản sao lưu đến từ một phiên bản không tương thích (%(version)s). Vui lòng "
+"nâng cấp phiên bản Weblate của bạn."
 
 #: weblate/trans/forms.py:3851 weblate/trans/forms.py:3855
 #, fuzzy, python-format
@@ -20841,7 +20854,7 @@ msgstr ""
 
 #: weblate/trans/inherited_settings.py:52
 msgid "BCP style using hyphen as a separator, legacy language codes"
-msgstr ""
+msgstr "Kiểu BCP sử dụng dấu gạch nối làm dấu phân cách, mã ngôn ngữ cũ"
 
 #: weblate/trans/inherited_settings.py:54
 msgid "BCP style using hyphen as a separator, lower cased"
@@ -22906,7 +22919,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:40
 msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "Mặt nạ tệp không chứa * làm phần giữ chỗ ngôn ngữ!"
 
 #: weblate/trans/validators.py:49
 msgid ""
@@ -24067,10 +24080,8 @@ msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
 
 #: weblate/utils/validators.py:373
-#, fuzzy
-#| msgid "This field is required."
 msgid "The filename contains a prohibited folder."
-msgstr "Trường này là bắt buộc."
+msgstr "Tên tập tin chứa một thư mục bị cấm."
 
 #: weblate/utils/validators.py:387
 msgid "No archive can be specified in backup location."
@@ -24240,6 +24251,8 @@ msgid ""
 "The zip file contains duplicate files. Please generate a new backup with a "
 "newer version of Weblate."
 msgstr ""
+"Tệp zip chứa các tệp trùng lặp. Vui lòng tạo bản sao lưu mới với phiên bản "
+"Weblate mới hơn."
 
 #: weblate/utils/zip.py:116
 #, python-format
