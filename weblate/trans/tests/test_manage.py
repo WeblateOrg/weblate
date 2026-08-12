@@ -25,6 +25,7 @@ from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_tree
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.stats import ProjectLanguage
 from weblate.vcs.base import RepositoryLock
 
@@ -179,6 +180,11 @@ class RemovalTest(ViewTestCase):
 
 
 class RenameTest(ViewTestCase):
+    lock_timeout_message = (
+        "There appears to be an ongoing operation on the repository. "
+        "Please try again later."
+    )
+
     def test_denied(self) -> None:
         self.assertNotContains(
             self.client.get(self.project.get_absolute_url()), "#organize"
@@ -268,6 +274,78 @@ class RenameTest(ViewTestCase):
         # Test rename redirect for the old name in middleware
         response = self.client.get(original_url)
         self.assertRedirects(response, component.get_absolute_url(), status_code=301)
+
+    def test_rename_component_repository_locked(self) -> None:
+        self.make_manager()
+        url = reverse("rename", kwargs=self.kw_component)
+        lock_error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+
+        with patch.object(Component, "locked_for_update", side_effect=lock_error):
+            response = self.client.post(
+                url,
+                {
+                    "project": self.project.pk,
+                    "slug": "locked-rename",
+                    "name": "Locked rename",
+                },
+                follow=True,
+            )
+
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#organize")
+        self.assertContains(response, self.lock_timeout_message)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.slug, "test")
+        self.assertEqual(self.component.name, "Test")
+
+    def test_rename_project_repository_locked(self) -> None:
+        self.make_manager()
+        url = reverse("rename", kwargs={"path": self.project.get_url_path()})
+        lock_error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+
+        with patch.object(RepositoryLock, "__enter__", side_effect=lock_error):
+            response = self.client.post(
+                url,
+                {"slug": "locked-project", "name": "Locked project"},
+                follow=True,
+            )
+
+        self.assertRedirects(response, f"{self.project.get_absolute_url()}#organize")
+        self.assertContains(response, self.lock_timeout_message)
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.slug, "test")
+        self.assertEqual(self.project.name, "Test")
+
+    def test_rename_category_repository_locked(self) -> None:
+        self.make_manager()
+        category = Category.objects.create(
+            name="Category", slug="category", project=self.project
+        )
+        Component.objects.filter(pk=self.component.pk).update(category=category)
+        url = reverse("rename", kwargs={"path": category.get_url_path()})
+        lock_error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+
+        with patch.object(RepositoryLock, "__enter__", side_effect=lock_error):
+            response = self.client.post(
+                url,
+                {
+                    "project": self.project.pk,
+                    "slug": "locked-category",
+                    "name": "Locked category",
+                },
+                follow=True,
+            )
+
+        self.assertRedirects(response, f"{category.get_absolute_url()}#organize")
+        self.assertContains(response, self.lock_timeout_message)
+        category.refresh_from_db()
+        self.assertEqual(category.slug, "category")
+        self.assertEqual(category.name, "Category")
 
     def test_rename_component_replaces_stale_target_dir(self) -> None:
         self.make_manager()
