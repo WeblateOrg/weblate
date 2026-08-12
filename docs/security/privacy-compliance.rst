@@ -86,6 +86,8 @@ Data retention and deletion
 ---------------------------
 
 - Audit-log retention is configured using :setting:`AUDITLOG_EXPIRY`.
+- To help administrators diagnose removed accounts, the account removal audit
+  entry retains the former e-mail address until that entry expires.
 - Backups, reverse-proxy logs, mail server logs, and database retention are
   controlled by the site operator.
 - Third-party services receive data only when configured or used by the
