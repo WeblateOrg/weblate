@@ -38,7 +38,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-12 10:28+0000\n"
+"PO-Revision-Date: 2026-08-12 12:27+0000\n"
 "Last-Translator: Steve <steve-contrib@murena.io>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -18192,6 +18192,9 @@ msgid ""
 "The <code>%(host)s</code> host already has stored GitHub App credentials. "
 "You can edit the form, but submitting this host again will be rejected."
 msgstr ""
+"L'hôte %(host)s a déjà des informations de connexion enregistrées pour "
+"l'application GitHub. Vous pouvez modifier le formulaire, mais tout nouvel "
+"enregistrement de cet hôte sera rejeté."
 
 #: weblate/templates/vcs/github_app_register.html:44
 msgid "GitHub hosts that already have a Weblate GitHub App registered:"
@@ -18833,6 +18836,8 @@ msgid ""
 "A translation was changed by a search-and-replace operation. This is emitted "
 "instead of Translation changed."
 msgstr ""
+"Une traduction a été modifiée par une opération de recherche et "
+"remplacement. Ceci est émis à la place de Traduction modifiée."
 
 #: weblate/trans/actions.py:185
 msgid "Translation replaced"
@@ -19135,7 +19140,7 @@ msgstr "Capture d’écran ajoutée"
 
 #: weblate/trans/actions.py:368
 msgid "A string was changed while synchronizing from the repository."
-msgstr ""
+msgstr "Une chaîne a été modifiée lors de la synchronisation depuis le dépôt."
 
 #: weblate/trans/actions.py:369
 msgid "String updated in the repository"
@@ -19286,17 +19291,22 @@ msgstr "Chaîne ajoutée dans le téléversement"
 #: weblate/trans/actions.py:458
 msgid "A translation was synchronized after uploading a source file."
 msgstr ""
+"Une traduction a été synchronisée après le téléversement d'un fichier source."
 
 #: weblate/trans/actions.py:459
 msgid "Translation updated by source upload"
 msgstr "Traduction mise à jour par la source du téléversement"
 
 #: weblate/trans/actions.py:465
+#, fuzzy
 msgid ""
 "All language translations in a component became fully translated after an "
 "individual edit. Automatic translation, uploads, and bulk edits do not emit "
 "this event."
 msgstr ""
+"Toutes les traductions d'un composant sont devenues entièrement traduites "
+"après une modification individuelle. La traduction automatique, les "
+"téléversements et les modifications en masse n'émettent pas cet événement."
 
 #: weblate/trans/actions.py:469
 msgid "Component translation completed"
@@ -19404,7 +19414,7 @@ msgstr "Capture d'écran supprimée"
 
 #: weblate/trans/actions.py:538
 msgid "A label was added to a string."
-msgstr ""
+msgstr "Un étiquette a été ajoutée à une chaîne."
 
 #: weblate/trans/actions.py:539
 msgid "Label added"
@@ -19412,7 +19422,7 @@ msgstr "Étiquette ajoutée"
 
 #: weblate/trans/actions.py:544
 msgid "A label was removed from a string."
-msgstr ""
+msgstr "Un libellé a été retiré d'une chaîne."
 
 #: weblate/trans/actions.py:545
 msgid "Label removed"
@@ -19648,10 +19658,14 @@ msgstr ""
 "Weblate."
 
 #: weblate/trans/alerts/community.py:185
+#, fuzzy
 msgid ""
 "Outbound translation delivery is manual. Configure a push URL or a pull or "
 "merge request integration to automate it."
 msgstr ""
+"La livraison des traductions s'effectue manuellement. Configurez une URL de "
+"push ou une intégration via une requête pull ou merge pour automatiser ce "
+"processus."
 
 #: weblate/trans/alerts/community.py:206
 msgid "Define translation instructions to help translators."
@@ -19900,6 +19914,7 @@ msgstr ""
 #: weblate/trans/backups.py:293
 msgid "The checksum has to be exactly 16 hexadecimal characters."
 msgstr ""
+"La somme de contrôle doit comporter exactement 16 caractères hexadécimaux."
 
 #: weblate/trans/backups.py:302
 #, fuzzy
@@ -19958,8 +19973,11 @@ msgid "Referenced category does not exist."
 msgstr "{filename} ({parameter}) n’existe pas."
 
 #: weblate/trans/backups.py:1131
+#, fuzzy
 msgid "Component filename does not match its category and slug."
 msgstr ""
+"Le nom de fichier du composant ne correspond pas à sa catégorie ni à son "
+"identifiant."
 
 #: weblate/trans/backups.py:1137
 #, fuzzy
@@ -20001,7 +20019,7 @@ msgstr "Le fichier n’existe pas."
 
 #: weblate/trans/backups.py:1285
 msgid "A translated unit references a missing source unit."
-msgstr ""
+msgstr "Une unité traduite fait référence à une unité source manquante."
 
 #: weblate/trans/backups.py:1313 weblate/trans/backups.py:1384
 #, fuzzy
@@ -20054,6 +20072,8 @@ msgstr "La catégorie n'appartient pas au projet sélectionné."
 #: weblate/trans/backups.py:1443
 msgid "Repository-linked components can not contain repository data."
 msgstr ""
+"Les composants liés au référentiel ne peuvent pas contenir de données du "
+"référentiel."
 
 #: weblate/trans/backups.py:2262
 #, fuzzy
@@ -20229,15 +20249,16 @@ msgstr "État"
 #: weblate/trans/diagnostics.py:54 weblate/trans/diagnostics.py:61
 #: weblate/trans/diagnostics.py:68
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: weblate/trans/diagnostics.py:60 weblate/trans/models/announcement.py:269
 msgid "Severity"
 msgstr "Gravité"
 
 #: weblate/trans/diagnostics.py:72
+#, fuzzy
 msgid "Actionable by me"
-msgstr ""
+msgstr "Actionnable par moi"
 
 #: weblate/trans/discovery.py:497
 msgid "Discovery configuration"
@@ -20534,14 +20555,18 @@ msgid "Encoding used for simple CSV files"
 msgstr "Codage utilisé pour les fichiers CSV simples"
 
 #: weblate/trans/file_format_params.py:660
+#, fuzzy
 msgid "Escape spreadsheet formulas"
-msgstr ""
+msgstr "Mettre des caractères d'échappement aux formules des tableurs"
 
 #: weblate/trans/file_format_params.py:664
+#, fuzzy
 msgid ""
 "Prefix values that look like spreadsheet formulas with an apostrophe when "
 "saving CSV files."
 msgstr ""
+"Préfixer d'une apostrophe les valeurs ressemblant à des formules de tableur "
+"lors de l'enregistrement de fichiers CSV."
 
 #: weblate/trans/file_format_params.py:685
 msgid "Encoding used for GWT Properties files"
@@ -20601,6 +20626,9 @@ msgid ""
 "Parse YAML front matter and translate only scalar string values. Keys, "
 "structure, comments, and formatting are preserved when possible."
 msgstr ""
+"Analyse le préambule YAML et traduit uniquement les chaînes de caractères "
+"scalaires. Les clés, la structure, les commentaires et le formatage sont "
+"conservés dans la mesure du possible."
 
 #: weblate/trans/file_format_params.py:754
 msgid "Disable placeholders"
@@ -21065,15 +21093,15 @@ msgstr "Taux de répétition"
 
 #: weblate/trans/forms.py:1920
 msgid "Minimum changes per day"
-msgstr ""
+msgstr "Nombre minimum de modifications par jour"
 
 #: weblate/trans/forms.py:1923
 msgid "Maximum changes per day"
-msgstr ""
+msgstr "Nombre maximum de modifications par jour"
 
 #: weblate/trans/forms.py:1926
 msgid "Maximum source words per day"
-msgstr ""
+msgstr "Nombre maximum de mots source par jour"
 
 #: weblate/trans/forms.py:1985
 #, fuzzy
@@ -21465,7 +21493,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:4662
 msgid "Turn on customization above to change these settings."
-msgstr ""
+msgstr "Activez la personnalisation ci-dessus pour modifier ces paramètres."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/inherited_settings.py:17
@@ -21555,11 +21583,12 @@ msgstr "Style Linux, en minuscules"
 
 #: weblate/trans/management/commands/import_projectbackup.py:49
 #: weblate/trans/tasks.py:1366
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Component %(component)s was skipped because its linked repository is "
 "unavailable."
 msgstr ""
+"Le composant %(component)s a été ignoré car son dépôt lié est indisponible."
 
 #: weblate/trans/mixins.py:212
 msgid ""
@@ -21989,9 +22018,12 @@ msgstr ""
 "composant lié seront utilisés."
 
 #: weblate/trans/models/component.py:560
+#, fuzzy
 msgid ""
 "This field is managed by the repository integration and can not be changed."
 msgstr ""
+"Ce champ est géré par le système d'intégration du dépôt et ne peut pas être "
+"modifié."
 
 #: weblate/trans/models/component.py:591
 msgid ""
@@ -23360,14 +23392,19 @@ msgid "Mark as terminology"
 msgstr "Marquer comme terminologie"
 
 #: weblate/trans/models/workflow.py:35
+#, fuzzy
 msgid "Restrict direct editing"
-msgstr ""
+msgstr "Restriction de la modification directe"
 
 #: weblate/trans/models/workflow.py:38
+#, fuzzy
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+"Seuls les utilisateurs disposant de l'autorisation « Modifier les chaînes "
+"lorsque les suggestions sont imposées » peuvent effectuer des modifications "
+"directes."
 
 #: weblate/trans/specialchars.py:14
 msgid "Insert tab character"
@@ -24314,8 +24351,9 @@ msgid "Median"
 msgstr "Moyenne"
 
 #: weblate/trans/views/reports.py:963
+#, fuzzy
 msgid "Average"
-msgstr ""
+msgstr "Moyenne"
 
 #: weblate/trans/views/reports.py:964
 #, fuzzy
@@ -25198,35 +25236,43 @@ msgid "%(detail)s Please retry later."
 msgstr "%(message)s Veuillez réessayer plus tard."
 
 #: weblate/vcs/base.py:225
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s"
 msgstr ""
+"La requête API %(service)s a échoué lors de la création d'une demande de "
+"tirage : %(status)s"
 
 #: weblate/vcs/base.py:228
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s "
 "Please retry later."
 msgstr ""
+"La requête API %(service)s a échoué lors de la création de la demande de "
+"tirage : %(status)s. Veuillez réessayer plus tard."
 
 #: weblate/vcs/base.py:231
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
+"La requête API %(service)s a échoué lors de la création de la demande de "
+"tirage (%(status)s) : %(error)s"
 
 #: weblate/vcs/base.py:234
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
+"La requête API %(service)s a échoué lors de la création de la demande de "
+"tirage (%(status)s) : %(error)s. Veuillez réessayer plus tard."
 
 #: weblate/vcs/base.py:237
 msgid "GitHub App repositories must be imported with a branch."
-msgstr ""
+msgstr "Les dépôts GitHub doivent être importés avec une branche."
 
 #: weblate/vcs/base.py:240
 #, fuzzy
@@ -25237,13 +25283,17 @@ msgid "Invalid GitHub App installation ID."
 msgstr "Étoile GitHub"
 
 #: weblate/vcs/base.py:243
+#, fuzzy
 msgid "No Weblate GitHub app installation available."
 msgstr ""
+"Aucune installation de l'application Weblate sur GitHub n'est disponible."
 
 #: weblate/vcs/base.py:246
-#, python-format
+#, fuzzy, python-format
 msgid "No Weblate GitHub app installation available for %(hostname)s"
 msgstr ""
+"Aucune installation de l'application GitHub de Weblate n'est disponible pour "
+"%(hostname)s"
 
 #: weblate/vcs/base.py:249
 #, fuzzy, python-format
@@ -25299,10 +25349,12 @@ msgid "Could not fork repository at %(hostname)s: %(error)s"
 msgstr "Impossible d’obtenir le projet GitLab (%(status)s) : %(error)s"
 
 #: weblate/vcs/base.py:274
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Could not fork repository at %(hostname)s: %(error)s Please retry later."
 msgstr ""
+"Impossible de créer un fork du dépôt sur %(hostname)s : %(error)s. Veuillez "
+"réessayer plus tard."
 
 #: weblate/vcs/base.py:277
 #, python-format
@@ -25310,6 +25362,8 @@ msgid ""
 "Could not fork repository at %(hostname)s: Repository not found. Check "
 "whether exists and user '%(username)s' has access to it."
 msgstr ""
+"Impossible de créer un fork du dépôt sur %(hostname)s : dépôt introuvable. "
+"Vérifiez s'il existe et si l'utilisateur « %(username)s » y a accès."
 
 #: weblate/vcs/base.py:281
 #, fuzzy, python-format
@@ -25325,30 +25379,40 @@ msgstr "Impossible d’obtenir le verrou pour réaliser l’opération."
 
 #: weblate/vcs/base.py:287
 msgid "The repository URL permanently redirects to a canonical URL."
-msgstr ""
+msgstr "L'URL du dépôt redirige de manière permanente vers une URL canonique."
 
 #: weblate/vcs/base.py:290
 msgid "The repository HTTP redirect contains credentials and was rejected."
 msgstr ""
+"La redirection HTTP du dépôt contient des informations de connexion et a été "
+"rejetée."
 
 #: weblate/vcs/base.py:293
 msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"L'URL du dépôt redirige vers un autre hôte. Les redirections automatiques "
+"entre hôtes sont désactivées par sécurité ; veuillez mettre à jour l'URL du "
+"dépôt manuellement."
 
 #: weblate/vcs/base.py:296
+#, fuzzy
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
 msgstr ""
+"L'URL du dépôt redirige d'une connexion HTTPS vers une URL non sécurisée et "
+"a été refusée."
 
 #: weblate/vcs/base.py:299
+#, fuzzy
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "Le dépôt a retourné une redirection HTTP invalide."
 
 #: weblate/vcs/base.py:302
+#, fuzzy
 msgid "The repository returned an HTTP redirect with an invalid hostname."
-msgstr ""
+msgstr "Le dépôt a retourné une redirection HTTP avec un nom d'hôte non valide."
 
 #: weblate/vcs/base.py:305
 #, fuzzy
@@ -25363,8 +25427,10 @@ msgid "The repository redirect target has no validated address."
 msgstr "Tous les dépôts ont été nettoyés."
 
 #: weblate/vcs/base.py:311
+#, fuzzy
 msgid "The repository returned a permanent HTTP redirect without a target URL."
 msgstr ""
+"Le dépôt a retourné une redirection HTTP permanente sans URL de destination."
 
 #: weblate/vcs/base.py:314
 #, fuzzy
@@ -25380,36 +25446,51 @@ msgid "Could not probe the repository HTTP redirect: %(error)s"
 msgstr "Impossible de récupérer le dépôt : %s"
 
 #: weblate/vcs/base.py:320
+#, fuzzy
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
 msgstr ""
+"La redirection HTTP du dépôt a modifié les paramètres de l'URL de manière "
+"inattendue."
 
 #: weblate/vcs/base.py:323
+#, fuzzy
 msgid "The repository HTTP redirect target could not be validated."
-msgstr ""
+msgstr "La cible de la redirection HTTP du dépôt n'a pas pu être validée."
 
 #: weblate/vcs/base.py:326
+#, fuzzy
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
 msgstr ""
+"La cible de la redirection HTTP du dépôt n'a pas pu être vérifiée comme "
+"étant un dépôt Git."
 
 #: weblate/vcs/base.py:329
+#, fuzzy
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "Le dépôt a retourné trop de redirections HTTP."
 
 #: weblate/vcs/base.py:332
+#, fuzzy
 msgid "The repository URL redirects to an unsupported URL scheme."
-msgstr ""
+msgstr "L'URL du dépôt redirige vers un protocole d'URL non pris en charge."
 
 #: weblate/vcs/base.py:335
+#, fuzzy
 msgid ""
 "Remote branch could not be verified against the shallow existing repository."
 msgstr ""
+"La branche distante n'a pas pu être vérifiée par rapport au dépôt "
+"superficiel existant."
 
 #: weblate/vcs/base.py:338
+#, fuzzy
 msgid ""
 "Remote branch does not share common history with the existing repository."
 msgstr ""
+"La branche distante ne partage pas d'historique commun avec le dépôt "
+"existant."
 
 #: weblate/vcs/base.py:341 weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:637
 #: weblate/vcs/ssh.py:644 weblate/vcs/ssh.py:649
@@ -25427,13 +25508,17 @@ msgstr "Impossible de supprimer la chaîne : %s"
 #: weblate/vcs/base.py:347
 #, python-format
 msgid "Unsupported interrupted Git operation: %(operation)s"
-msgstr ""
+msgstr "L'opération Git interrompue n'est pas prise en charge : %(operation)s"
 
 #: weblate/vcs/base.py:350
+#, fuzzy
 msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
 msgstr ""
+"Ce moteur de gestion de contrôle de version ne peut pas se connecter de "
+"façon sécurisée à cette URL lorsque les restrictions sur les adresses "
+"privées sont activées."
 
 #: weblate/vcs/base.py:353
 #, fuzzy, python-format
@@ -25657,7 +25742,7 @@ msgstr "URL de l’API"
 
 #: weblate/vcs/github.py:506 weblate/vcs/github.py:507
 msgid "Weblate GitHub App credentials"
-msgstr ""
+msgstr "informations de connexion de l'application GitHub Weblate"
 
 #: weblate/vcs/github.py:887
 #, fuzzy
@@ -25670,8 +25755,9 @@ msgid "connected GitHub accounts"
 msgstr "comptes GitHub connectés"
 
 #: weblate/vcs/github.py:962
+#, fuzzy
 msgid "GitHub (via Weblate GitHub app)"
-msgstr ""
+msgstr "GitHub (via l'application GitHub de Weblate)"
 
 #: weblate/vcs/github.py:973
 #, fuzzy
@@ -25683,14 +25769,20 @@ msgstr ""
 "Cela va pousser les modifications et créer une demande de tirage sur Github."
 
 #: weblate/vcs/github.py:1014
+#, fuzzy
 msgid "GitHub App components require a GitHub HTTPS repository URL."
 msgstr ""
+"Les composants de l'application GitHub nécessitent une URL de dépôt HTTPS "
+"GitHub."
 
 #: weblate/vcs/github.py:1030
+#, fuzzy
 msgid ""
 "Repository is not available from a connected GitHub account for this "
 "workspace."
 msgstr ""
+"Le dépôt n'est pas accessible depuis un compte GitHub connecté pour cet "
+"espace de travail."
 
 #: weblate/vcs/mercurial.py:61
 msgid "This will push changes to the upstream Mercurial repository."
@@ -25862,27 +25954,34 @@ msgid "Could not determine the effective SSH destination: %s"
 msgstr "Impossible de supprimer la chaîne : %s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
+#, fuzzy
 msgid ""
 "Create a workspace before connecting a GitHub account. GitHub App "
 "connections are linked to workspaces."
 msgstr ""
+"Créez un espace de travail avant de connecter un compte GitHub. Les "
+"connexions d'applications GitHub sont liées aux espaces de travail."
 
 #: weblate/vcs/views.py:555
-#, python-format
+#, fuzzy, python-format
 msgid "Removed connected GitHub account %(target)s."
-msgstr ""
+msgstr "Compte GitHub connecté %(target)s supprimé."
 
 #: weblate/vcs/views.py:571
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Remove connected GitHub accounts on %(hostname)s before removing the app "
 "credentials."
 msgstr ""
+"Supprimez les comptes GitHub connectés sur %(hostname)s avant de supprimer "
+"les informations de connexion de l'application."
 
 #: weblate/vcs/views.py:579
-#, python-format
+#, fuzzy, python-format
 msgid "Removed Weblate GitHub App credentials for %(hostname)s."
 msgstr ""
+"Informations de connexion de l'application GitHub Weblate supprimées pour %"
+"(hostname)s."
 
 #: weblate/vcs/views.py:603
 #, fuzzy
@@ -25891,9 +25990,9 @@ msgid "Failed to refresh repositories from GitHub."
 msgstr "Impossible de récupérer les modifications sur le dépôt : %s"
 
 #: weblate/vcs/views.py:608
-#, python-format
+#, fuzzy, python-format
 msgid "Refreshed %(count)d repositories from GitHub."
-msgstr ""
+msgstr "%(count)d dépôts GitHub actualisés."
 
 #: weblate/vcs/views.py:625 weblate/vcs/views.py:668 weblate/vcs/views.py:821
 #, fuzzy
@@ -25902,22 +26001,28 @@ msgid "Weblate GitHub app is not configured on this Weblate instance."
 msgstr "Nombre total d’entrées dans cette instance Weblate"
 
 #: weblate/vcs/views.py:633
+#, fuzzy
 msgid "Select a workspace before connecting a GitHub account."
-msgstr ""
+msgstr "Sélectionnez un espace de travail avant de connecter un compte GitHub."
 
 #: weblate/vcs/views.py:643
+#, fuzzy
 msgid "Weblate GitHub app is not configured for the selected host."
 msgstr ""
+"L'application GitHub de Weblate n'est pas configurée pour l'hôte sélectionné."
 
 #: weblate/vcs/views.py:763 weblate/vcs/views.py:914
 msgid "Connected GitHub account updated."
 msgstr "Le compte GitHub connecté a été mis à jour."
 
 #: weblate/vcs/views.py:769 weblate/vcs/views.py:796
+#, fuzzy
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
 "installation again."
 msgstr ""
+"Le lien d'installation de l'application GitHub de Weblate n'est plus valide. "
+"Veuillez recommencer l'installation."
 
 #: weblate/vcs/views.py:804 weblate/vcs/views.py:828
 #, fuzzy
@@ -25932,30 +26037,45 @@ msgid "GitHub did not return a valid installation ID."
 msgstr "Impossible de finaliser l’inscription."
 
 #: weblate/vcs/views.py:836
+#, fuzzy
 msgid ""
 "Too many GitHub account connection attempts. The GitHub installation was not "
 "connected and might still be pending. Try connecting the account again later."
 msgstr ""
+"Trop de tentatives de connexion au compte GitHub. L'installation de GitHub "
+"n'a pas pu être connectée et est peut-être encore en attente. Réessayez de "
+"connecter le compte plus tard."
 
 #: weblate/vcs/views.py:851
+#, fuzzy
 msgid ""
 "Weblate could not confirm that you can administer this GitHub installation. "
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
 msgstr ""
+"Weblate n'a pas pu confirmer que vous pouvez administrer cette installation "
+"GitHub. Recommencez l'installation avec un utilisateur GitHub qui possède le "
+"compte ou peut administrer l'organisation."
 
 #: weblate/vcs/views.py:885
+#, fuzzy
 msgid ""
 "GitHub is still syncing the connected GitHub account. The connection is "
 "pending and repositories might not appear yet. Try connecting the account "
 "again later if they do not show up."
 msgstr ""
+"GitHub est toujours en train de synchroniser le compte GitHub connecté. La "
+"connexion est en attente et les dépôts risquent de ne pas encore apparaître. "
+"Essayez de connecter à nouveau le compte plus tard s'ils n'apparaissent pas."
 
 #: weblate/vcs/views.py:901
+#, fuzzy
 msgid ""
 "The connected GitHub account was saved, but refreshing the repository list "
 "failed. Try again in a moment."
 msgstr ""
+"Le compte GitHub connecté a été enregistré, mais l'actualisation de la liste "
+"des dépôts a échoué. Veuillez réessayer dans un moment."
 
 #: weblate/vcs/views.py:909
 #, fuzzy
@@ -25975,6 +26095,8 @@ msgid ""
 "A Weblate GitHub App is already registered for %(hostname)s. Remove it "
 "before registering another one."
 msgstr ""
+"Une application GitHub Weblate est déjà enregistrée pour %(hostname)s. "
+"Supprimez-la avant d'en enregistrer une autre."
 
 #: weblate/vcs/views.py:1290
 #, fuzzy
