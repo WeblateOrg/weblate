@@ -83,6 +83,8 @@ def remove_user(
     user_pre_delete.send(instance=user, sender=user.__class__)
 
     # Store activity log and notify
+    if activity == "removed":
+        params["email"] = user.email
     AuditLog.objects.create(user, request, activity, **params)
 
     # Remove any email validation codes
