@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-12 05:27+0000\n"
+"PO-Revision-Date: 2026-08-12 06:05+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -7780,41 +7780,51 @@ msgstr ""
 
 #: admin/config.rst:2376
 msgid "Enable backend tracing using OpenTelemetry. Disabled by default."
-msgstr ""
+msgstr "Povoliť trasovanie backendu pomocou OpenTelemetry. Predvolene vypnuté."
 
 #: admin/config.rst:2378
 msgid ""
 "Traces are exported only when this is enabled "
 "and :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` is configured."
 msgstr ""
+"Trasy sa exportujú iba vtedy, keď je toto povolené a "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` je nakonfigurovaný."
 
 #: admin/config.rst:2386
 msgid ""
 "OTLP HTTP traces endpoint for OpenTelemetry, for example ``https://"
 "collector.example.com/v1/traces``."
 msgstr ""
+"Koncový bod OTLP HTTP pre trasy OpenTelemetry, napríklad ``https://"
+"collector.example.com/v1/traces``."
 
 #: admin/config.rst:2394
 msgid ""
 "Additional HTTP headers for the OpenTelemetry OTLP exporter. Defaults to an "
 "empty dictionary."
 msgstr ""
+"Dodatočné hlavičky HTTP pre exportér OpenTelemetry OTLP. Predvolená hodnota "
+"je prázdny slovník."
 
 #: admin/config.rst:2402
 msgid ""
 "Additional OpenTelemetry resource attributes. Defaults to an empty "
 "dictionary."
 msgstr ""
+"Dodatočné atribúty zdrojov OpenTelemetry. Predvolená hodnota je prázdny "
+"slovník."
 
 #: admin/config.rst:2409
 msgid "OpenTelemetry service name. Defaults to ``weblate``."
-msgstr ""
+msgstr "Názov služby OpenTelemetry. Predvolená hodnota je ``weblate``."
 
 #: admin/config.rst:2416
 msgid ""
 "Configure sampling rate for OpenTelemetry traces. Set to 1 to trace all "
 "events, 0 (the default) disables tracing."
 msgstr ""
+"Konfigurujte mieru vzorkovania pre trasy OpenTelemetry. Nastavte na 1 pre "
+"sledovanie všetkých udalostí, 0 (predvolené) vypína sledovanie."
 
 #: admin/config.rst:2424
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
@@ -7845,6 +7855,9 @@ msgid ""
 "Configure sampling rate for performance monitoring. Set to 1 to profile all "
 "traced events (the default), 0 disables profiling."
 msgstr ""
+"Konfigurujte mieru vzorkovania pre monitorovanie výkonu. Nastavte na 1 pre "
+"profilovanie všetkých sledovaných udalostí (predvolené), 0 vypína "
+"profilovanie."
 
 #: admin/config.rst:2455 admin/install.rst:1738
 msgid ""
@@ -8033,6 +8046,11 @@ msgid ""
 "provided by :setting:`VCS_RESTRICT_PRIVATE`. Administrators are responsible "
 "for the security and compatibility impact of all configured arguments."
 msgstr ""
+"Toto je dôveryhodná konfigurácia riadená administrátorom. Ľubovoľné možnosti "
+"SSH môžu zmeniť smerovanie pripojenia a prepísať pripnutie adresy "
+"poskytované nastavením :setting:`VCS_RESTRICT_PRIVATE`. Administrátori sú "
+"zodpovední za bezpečnostný a kompatibilný dopad všetkých nakonfigurovaných "
+"argumentov."
 
 #: admin/config.rst:2635
 msgid "`OpenSSH Legacy Options <https://www.openssh.org/legacy.html>`_"
@@ -8149,6 +8167,10 @@ msgid ""
 "for VCS backends which cannot bind the client connection to the address "
 "validated by Weblate, such as Mercurial and Subversion."
 msgstr ""
+"Keď je povolené :setting:`VCS_RESTRICT_PRIVATE`, zodpovedajúci hostitelia sú "
+"tiež oslobodení od obmedzenia privátneho cieľa. Toto oslobodenie je potrebné "
+"aj pre backendy VCS, ktoré nemôžu viazať pripojenie klienta na adresu "
+"overenú systémom Weblate, ako napríklad Mercurial a Subversion."
 
 #: admin/config.rst:2753
 msgid ""
@@ -8189,6 +8211,16 @@ msgid ""
 "Subversion, custom VCS backends, and additional URL schemes are rejected "
 "unless the target host is explicitly included in :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Pre repozitáre Git prístupné cez HTTPS alebo SSH viaže Weblate každý príkaz "
+"VCS na adresy schválené počas overovania za behu pre priame pripojenia. "
+"Nakonfigurované proxy servery HTTP sú dôveryhodnou infraštruktúrou a "
+"namiesto toho prekladajú názvy hostiteľov repozitárov. Automatické "
+"nasledovanie presmerovaní zostáva vypnuté. Trvalé presmerovania HTTP na tom "
+"istom hostiteľovi sa testujú samostatne rovnakou odchádzajúcou trasou, "
+"overujú sa a ukladajú ako kanonická URL repozitára komponentu. Presmerovania "
+"medzi rôznymi hostiteľmi sa musia nakonfigurovať manuálne. Mercurial, "
+"Subversion, vlastné backendy VCS a dodatočné schémy URL sa odmietajú, pokiaľ "
+"nie je cieľový hostiteľ explicitne zahrnutý v :setting:`VCS_ALLOW_HOSTS`."
 
 #: admin/config.rst:2779
 msgid ""
@@ -8197,6 +8229,10 @@ msgid ""
 "depth, especially for custom integrations and administrator-installed "
 "extensions."
 msgstr ""
+"Filtrovanie odchádzajúcej komunikácie na sieťovej úrovni, ktoré blokuje "
+"interné, slučkové, lokálne, rezervované a cloudové metadátové rozsahy "
+"adries, sa odporúča ako hĺbková obrana, najmä pre vlastné integrácie a "
+"rozšírenia inštalované administrátorom."
 
 #: admin/config.rst:2790
 msgid ""
@@ -8205,6 +8241,10 @@ msgid ""
 "requests`, :ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-"
 "pagure-merge-requests`, and :ref:`code-hosting-azure-devops-pull-requests`."
 msgstr ""
+"Konfiguruje minimálnu oneskorenie v sekundách medzi volaniami API tretích "
+"strán v :ref:`code-hosting-github-pull-requests`, :ref:`code-hosting-gitlab-"
+"merge-requests`, :ref:`code-hosting-gitea-pull-requests`, :ref:`code-hosting-"
+"pagure-merge-requests` a :ref:`code-hosting-azure-devops-pull-requests`."
 
 #: admin/config.rst:2797
 msgid ""
@@ -8234,6 +8274,11 @@ msgid ""
 "gitea-pull-requests`, :ref:`code-hosting-pagure-merge-requests`, "
 "and :ref:`code-hosting-azure-devops-pull-requests`."
 msgstr ""
+"Konfiguruje časový limit v sekundách pre volania API tretích strán, ako je "
+"vetvenie alebo vytváranie požiadaviek na zlúčenie v :ref:`code-hosting-"
+"github-pull-requests`, :ref:`code-hosting-gitlab-merge-requests`, :ref:`code-"
+"hosting-gitea-pull-requests`, :ref:`code-hosting-pagure-merge-requests` a "
+":ref:`code-hosting-azure-devops-pull-requests`."
 
 #: admin/config.rst:2824
 msgid "Configuration of available VCS backends."
@@ -8308,10 +8353,6 @@ msgstr ""
 "Predvolená hodnota je 180 dní."
 
 #: admin/config.rst:2933
-#, fuzzy
-#| msgid ""
-#| "List of a available exporters offering downloading translations or "
-#| "glossaries in various file formats."
 msgid ""
 "List of available exporters offering translation downloads or glossaries in "
 "various file formats."
@@ -8451,6 +8492,9 @@ msgid ""
 "with Weblate. :doc:`/admin/code-hosting` lists provider-specific setup steps "
 "for common code-hosting sites."
 msgstr ""
+":doc:`/devel/integration` popisuje základné spôsoby integrácie vášho vývoja "
+"s Weblate. :doc:`/admin/code-hosting` uvádza kroky nastavenia špecifické pre "
+"poskytovateľov bežných stránok na hosťovanie kódu."
 
 #: admin/continuous.rst:17
 msgid "This is the process:"
@@ -8496,18 +8540,16 @@ msgid ""
 "Changes are pushed back to the upstream repository (see :ref:`code-hosting-"
 "push-options`)."
 msgstr ""
+"Zmeny sa odošlú späť do upstream repozitára (pozri :ref:`code-hosting-push-"
+"options`)."
 
 #: admin/continuous.rst:76
-#, fuzzy
-#| msgid ""
-#| "Upstream code hosting is not necessary, you can use Weblate "
-#| "with :ref:`vcs-local` where there is only the repository inside Weblate."
 msgid ""
 "Upstream code-hosting site is not necessary, you can use Weblate "
 "with :ref:`vcs-local` where there is only the repository inside Weblate."
 msgstr ""
-"Hlavný hosting kódu nie je nutný, môžete používať Weblate s :ref:`vcs-"
-"local`, kde je repozitár iba vo vnútri Weblate."
+"Hlavná stránka na hosťovanie kódu nie je nevyhnutná, môžete používať Weblate "
+"s :ref:`vcs-local`, kde sa repozitár nachádza iba vo vnútri Weblate."
 
 #: admin/continuous.rst:82
 msgid "Updating repositories"
@@ -8527,6 +8569,9 @@ msgid ""
 "services, see :doc:`/admin/code-hosting`. You must also :ref:`project-"
 "enable_hooks` for this to work."
 msgstr ""
+"Použite :ref:`hooks` na integráciu s väčšinou bežných služieb na hosťovanie "
+"kódu, pozri :doc:`/admin/code-hosting`. Aby to fungovalo, musíte tiež "
+"povoliť :ref:`project-enable_hooks`."
 
 #: admin/continuous.rst:91
 msgid ""
@@ -8698,6 +8743,10 @@ msgid ""
 "actions rewrite that translation file and commit the result; they are not "
 "project-wide or component-wide operations."
 msgstr ""
+"Akcie :guilabel:`Správa súborov` sú dostupné iba z :guilabel:`Údržba "
+"repozitára` pre jednotlivý preklad. Tieto akcie prepíšu daný prekladový "
+"súbor a zapíšu výsledok; nejde o operácie v rámci celého projektu alebo "
+"komponentu."
 
 #: admin/continuous.rst:195
 msgid ""
@@ -8707,6 +8756,11 @@ msgid ""
 "language synchronization and cleanup are described in :ref:`glossary-"
 "language-sync`."
 msgstr ""
+"Operácie, ktoré čítajú obsah repozitára, ako je aktualizácia, resetovanie "
+"alebo opätovné skenovanie, tiež zosúladia prekladové súbory vo Weblate. "
+"Pridané alebo odstránené prekladové súbory sa prejavia po dokončení tohto "
+"spracovania. Synchronizácia a čistenie jazykov slovníka sú popísané v "
+":ref:`glossary-language-sync`."
 
 #: admin/continuous.rst:204
 msgid "Action"
@@ -8760,6 +8814,8 @@ msgid ""
 "Fetches upstream changes, integrates them using the component's "
 "configured :ref:`component-merge_style`, and reconciles translation files."
 msgstr ""
+"Stiahne zmeny z upstreamu, integruje ich pomocou nakonfigurovaného "
+":ref:`component-merge_style` komponentu a zosúladí prekladové súbory."
 
 #: admin/continuous.rst:218
 msgid ""
@@ -8835,6 +8891,8 @@ msgid ""
 "Resets Weblate's local repository to upstream, discards pending Weblate "
 "changes, and reconciles translation files."
 msgstr ""
+"Resetuje lokálny repozitár Weblate na upstream, zahodí čakajúce zmeny vo "
+"Weblate a zosúladí prekladové súbory."
 
 #: admin/continuous.rst:238
 msgid "Use when upstream should overwrite the local Weblate repository state."
@@ -8849,6 +8907,8 @@ msgid ""
 "Resets Weblate's local repository to upstream, reconciles translation files, "
 "and reapplies pending translations. See :ref:`manage-vcs-reset-reapply`."
 msgstr ""
+"Resetuje lokálny repozitár Weblate na upstream, zosúladí prekladové súbory a "
+"znovu aplikuje čakajúce preklady. Pozri :ref:`manage-vcs-reset-reapply`."
 
 #: admin/continuous.rst:242
 msgid ""
@@ -8903,6 +8963,8 @@ msgid ""
 "Re-reads translation files from the local repository into Weblate and "
 "removes translations whose files no longer match the component configuration."
 msgstr ""
+"Znovu načíta prekladové súbory z lokálneho repozitára do Weblate a odstráni "
+"preklady, ktorých súbory už nezodpovedajú konfigurácii komponentu."
 
 #: admin/continuous.rst:254
 msgid "Import file changes after manual repository work or file creation."
@@ -8912,22 +8974,26 @@ msgstr ""
 
 #: admin/continuous.rst:256
 msgid ":guilabel:`Remove duplicates`"
-msgstr ""
+msgstr ":guilabel:`Odstrániť duplikáty`"
 
 #: admin/continuous.rst:257
 msgid ""
 "Removes repeated strings with the same identifier from one translation file."
 msgstr ""
+"Odstráni opakované reťazce s rovnakým identifikátorom z jedného prekladového "
+"súboru."
 
 #: admin/continuous.rst:258
 msgid ""
 "Repair duplicate strings reported by Weblate when the file contains repeated "
 "units."
 msgstr ""
+"Opraviť duplicitné reťazce nahlásené systémom Weblate, keď súbor obsahuje "
+"opakované jednotky."
 
 #: admin/continuous.rst:260
 msgid ":guilabel:`Cleanup unused`"
-msgstr ""
+msgstr ":guilabel:`Vyčistiť nepoužité`"
 
 #: admin/continuous.rst:261
 msgid ""
@@ -8935,14 +9001,17 @@ msgid ""
 "file. The :ref:`addon-weblate.cleanup.generic` add-on can perform this "
 "automatically."
 msgstr ""
+"Odstráni reťazce, ktoré sa už nenachádzajú v základnom súbore, z jedného "
+"prekladového súboru. Doplnok :ref:`addon-weblate.cleanup.generic` to dokáže "
+"vykonať automaticky."
 
 #: admin/continuous.rst:262
 msgid "Run a one-time cleanup without installing the add-on."
-msgstr ""
+msgstr "Spustiť jednorazové vyčistenie bez inštalácie doplnku."
 
 #: admin/continuous.rst:264
 msgid ":guilabel:`Remove obsolete`"
-msgstr ""
+msgstr ":guilabel:`Odstrániť zastarané`"
 
 #: admin/continuous.rst:265
 msgid "Removes obsolete strings from one PO translation file."
@@ -9014,6 +9083,12 @@ msgid ""
 "upstream changes as matching the Weblate ones and refuses to perform a "
 "rebase."
 msgstr ""
+"Dôvod konfliktov pri zlúčení je v tomto prípade odlišný. Weblate môže mať "
+"nové lokálne zápisy po tom, čo zlúčite staršie zápisy Weblate do upstreamu. "
+"K tomu zvyčajne dochádza, ak zlúčenie nie je automatizované a zmeny čakajú "
+"dni alebo týždne na ľudskú kontrolu. Git potom niekedy nedokáže "
+"identifikovať zmeny v upstreame ako zhodné so zmenami vo Weblate a odmietne "
+"vykonať rebase."
 
 #: admin/continuous.rst:300
 msgid ""
@@ -9025,6 +9100,13 @@ msgid ""
 "can differ from both repositories, so Weblate can keep failing to update "
 "even after the pull request was merged upstream."
 msgstr ""
+"Squash zlúčenie zmien Weblate sťažuje obnovu z tejto situácie. Squash "
+"zlúčenie vytvára nový zápis namiesto zachovania jednotlivých zápisov Weblate "
+"v histórii upstreamu. Weblate má stále pôvodné zápisy vo svojom lokálnom "
+"repozitári a Git už nemôže dokázať, že ich upstream už obsahuje. Ak bol "
+"konflikt tiež vyriešený manuálne, obsah súboru sa môže líšiť od oboch "
+"repozitárov, takže Weblate môže pokračovať v zlyhávaní aktualizácie aj po "
+"zlúčení pull requestu do upstreamu."
 
 #: admin/continuous.rst:308
 msgid ""
@@ -9035,6 +9117,12 @@ msgid ""
 "reapply`. Use :guilabel:`Reset and discard` only when upstream should fully "
 "replace Weblate's local changes."
 msgstr ""
+"Ak upstream už neobsahuje zápisy Weblate, pretože boli squash zlúčené, "
+"aktualizácia repozitára nemusí stačiť. Použite :guilabel:`Resetovať a znovu "
+"použiť` z :guilabel:`Údržba repozitára` na resetovanie Weblate na upstream "
+"pri zachovaní čakajúcich prekladov; pozri :ref:`manage-vcs-reset-reapply`. "
+"Použite :guilabel:`Resetovať a zahodiť` iba vtedy, keď by upstream mal úplne "
+"nahradiť lokálne zmeny Weblate."
 
 #: admin/continuous.rst:315
 msgid ""
