@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-12 04:55+0000\n"
+"PO-Revision-Date: 2026-08-12 05:27+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -751,7 +751,7 @@ msgid ""
 "keeping translations to other languages public):"
 msgstr ""
 "Obmedzenie prekladu do `češtiny` na vybranú skupinu prekladateľov (pri "
-"zachovaní verejnosti prekladov do iných jazykov):"
+"zachovaní verejných prekladov do iných jazykov):"
 
 #: admin/access.rst:356
 msgid ""
@@ -814,7 +814,7 @@ msgstr "`Čeština`"
 
 #: admin/access.rst:383
 msgid "Add users you wish to give the permissions to into this team."
-msgstr "Pridajte do tohto tímu používateľov, ktorým chcete udeliť oprávnenia."
+msgstr "Pridajte používateľov, ktorým chcete udeliť oprávnenia, do tohto tímu."
 
 #: admin/access.rst:385
 msgid ""
@@ -7317,18 +7317,24 @@ msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS`` environment variable."
 msgstr ""
+"V Dockeri to nakonfigurujte pomocou premennej prostredia "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_MEMBERS``."
 
 #: admin/config.rst:1866
 msgid ""
 "Defines the maximum total uncompressed size, in bytes, for ZIP entries in an "
 "imported project backup. Defaults to 536870912 bytes (512 MiB)."
 msgstr ""
+"Definuje maximálnu celkovú dekomprimovanú veľkosť v bajtoch pre položky ZIP "
+"v importovanej zálohe projektu. Predvolene je 536870912 bajtov (512 MiB)."
 
 #: admin/config.rst:1869
 msgid ""
 "This limits archives that are small when uploaded but expand to much more "
 "data during validation or restore."
 msgstr ""
+"Toto obmedzuje archívy, ktoré sú pri nahrávaní malé, ale počas validácie "
+"alebo obnovy sa rozbalia na oveľa viac údajov."
 
 #: admin/config.rst:1872
 msgid ""
@@ -7336,6 +7342,8 @@ msgid ""
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`` environment "
 "variable."
 msgstr ""
+"V Dockeri to nakonfigurujte pomocou premennej prostredia "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE``."
 
 #: admin/config.rst:1887
 msgid ""
@@ -7363,6 +7371,8 @@ msgid ""
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`` environment "
 "variable."
 msgstr ""
+"V Dockeri to nakonfigurujte pomocou premennej prostredia "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE``."
 
 #: admin/config.rst:1910
 msgid ""
@@ -7387,6 +7397,8 @@ msgid ""
 "In Docker, configure this using the "
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`` environment variable."
 msgstr ""
+"V Dockeri to nakonfigurujte pomocou premennej prostredia "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE``."
 
 #: admin/config.rst:1931
 msgid ""
@@ -7416,6 +7428,8 @@ msgid ""
 "``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`` environment "
 "variable."
 msgstr ""
+"V Dockeri to nakonfigurujte pomocou premennej prostredia "
+"``WEBLATE_PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO``."
 
 #: admin/config.rst:1955
 msgid ""
@@ -7528,6 +7542,9 @@ msgid ""
 "to 90 days. Changing the value also changes when existing reports become "
 "eligible for removal by the daily cleanup task."
 msgstr ""
+"Definuje, koľko dní sa uchovávajú vygenerované správy o preklade. Predvolene "
+"je 90 dní. Zmena hodnoty tiež zmení, kedy sa existujúce správy stanú "
+"spôsobilými na odstránenie dennou úlohou čistenia."
 
 #: admin/config.rst:2141
 msgid "Limits how many notifications for a single user will be sent out."
@@ -7603,6 +7620,8 @@ msgid ""
 "If turned on, a CAPTCHA is added to all pages where a user enters their e-"
 "mail address:"
 msgstr ""
+"Ak je zapnuté, CAPTCHA sa pridá na všetky stránky, kde používateľ zadáva "
+"svoju e-mailovú adresu:"
 
 #: admin/config.rst:2243
 msgid "New account registration."
@@ -7634,6 +7653,9 @@ msgid ""
 "adjusted using :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, "
 "and :setting:`ALTCHA_PARALLELISM`."
 msgstr ""
+"Výzva proof-of-work vypočítaná prehliadačom. Obtiažnosť možno upraviť "
+"pomocou :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST` a "
+":setting:`ALTCHA_PARALLELISM`."
 
 #: admin/config.rst:2258
 msgid "Allows you to filter which e-mail addresses can register."
@@ -7742,6 +7764,9 @@ msgid ""
 "Reporting. Set to ``None`` to disable the integration, or set to a "
 "dictionary of keyword arguments for the Google Cloud Error Reporting client."
 msgstr ""
+"Konfigurácia pre :ref:`collecting-errors` pomocou Google Cloud Error "
+"Reporting. Nastavte na ``None`` pre vypnutie integrácie alebo nastavte na "
+"slovník kľúčových argumentov pre klienta Google Cloud Error Reporting."
 
 #: admin/config.rst:2365
 msgid ""
@@ -7749,6 +7774,9 @@ msgid ""
 "the current Weblate version or Git revision. Explicit values in the "
 "dictionary override these defaults."
 msgstr ""
+"Weblate automaticky poskytuje ``service`` ako ``weblate`` a ``version`` ako "
+"aktuálnu verziu Weblate alebo revíziu Gitu. Explicitné hodnoty v slovníku "
+"prepisujú tieto predvolené nastavenia."
 
 #: admin/config.rst:2376
 msgid "Enable backend tracing using OpenTelemetry. Disabled by default."
@@ -16322,6 +16350,11 @@ msgid ""
 "skip obvious outliers, bots, bulk imports, uploads, and other events that "
 "would pollute the result."
 msgstr ""
+"Analyzuje históriu zmien na odhad realistického výkonu prekladateľa za deň. "
+"Príkaz zahŕňa iba aktívnych ľudských používateľov a manuálne zmeny prekladov "
+"podporené jednotkami a aplikuje denné minimálne a maximálne prahy na "
+"preskočenie zrejmých odľahlých hodnôt, botov, hromadných importov, nahrávaní "
+"a iných udalostí, ktoré by znečistili výsledok."
 
 #: admin/management.rst:159
 msgid "Added parameter for translation mode."
@@ -18513,7 +18546,7 @@ msgid ""
 "ones for additional files or branches using same repository."
 msgstr ""
 "Akonáhle máte existujúce prekladové komponenty, môžete tiež ľahko pridať "
-"nové pre ďalšie súbory alebo vetvy pomocou toho istého repozitára."
+"nové pre ďalšie súbory alebo vetvy pomocou rovnakého repozitára."
 
 #: admin/projects.rst:91
 msgid "First you need to fill in name and repository location:"
@@ -19445,7 +19478,7 @@ msgstr "Vyberte súbor ``.pot`` so súbormi GNU gettext PO."
 
 #: admin/projects.rst:741
 msgid "Choose blank file without translations, if you have one."
-msgstr "Vyberte prázdny súbor bez prekladov, ak ho máte."
+msgstr "Vyberte prázdny súbor bez prekladov, ak taký máte."
 
 #: admin/projects.rst:742
 msgid ""
@@ -19654,7 +19687,7 @@ msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Licenčná zmluva s prispievateľom, ktorá musí byť schválená predtým, než môže "
+"Licenčná zmluva s prispievateľom, ktorá musí byť schválená predtým, ako môže "
 "používateľ prekladať tento komponent."
 
 #: admin/projects.rst:909
@@ -20137,7 +20170,7 @@ msgstr ""
 
 #: admin/projects.rst:1168
 msgid "You need to list language codes as they appear in the filename."
-msgstr "Musíte uviesť kódy jazykov tak, ako sa objavujú v názve súboru."
+msgstr "Musíte uviesť kódy jazykov tak, ako sa vyskytujú v názve súboru."
 
 #: admin/projects.rst:1170 admin/projects.rst:1198
 msgid "Some examples of filtering:"
@@ -20996,13 +21029,13 @@ msgid ""
 "accepted suggestions (this includes a vote from the user making the "
 "suggestion if it is cast)."
 msgstr ""
-"Každý môže predvolene pridávať návrhy, ktoré majú byť akceptované "
-"prihlásenými používateľmi. Hlasovanie o návrhoch sa môže použiť na využitie "
-"reťazca, keď súhlasí viac ako jeden prihlásený používateľ, "
-"nastavením :ref:`component` s :guilabel:`Hlasovanie o návrhoch` na zapnutie "
-"hlasovania a :guilabel:`Automaticky prijať návrhy` na nastavenie prahu pre "
-"akceptované návrhy (toto zahŕňa hlas od používateľa, ktorý návrh podal, ak "
-"je odovzdaný)."
+"Každý môže predvolene pridávať návrhy, ktoré majú byť prijaté prihlásenými "
+"používateľmi. Hlasovanie o návrhoch možno použiť na využitie reťazca, keď "
+"súhlasí viac ako jeden prihlásený používateľ, nastavením :ref:`komponentu "
+"<component>` s :guilabel:`Hlasovanie o návrhoch` na zapnutie hlasovania a "
+":guilabel:`Automaticky prijímať návrhy` na nastavenie prahu pre prijaté "
+"návrhy (zahŕňa to hlas od používateľa, ktorý návrh vytvoril, ak bol "
+"odovzdaný)."
 
 #: admin/translating.rst:18
 msgid ""
@@ -22978,7 +23011,7 @@ msgid ""
 "weblate.gettext.xgettext`, allowing projects to disable xgettext default "
 "keywords and rely only on a custom keyword."
 msgstr ""
-"Pridaná možnosť :guilabel:`Používať výhradne kľúčové slová` do :ref:`addon-"
+"Pridaná možnosť :guilabel:`Používať výlučne kľúčové slová` do :ref:`addon-"
 "weblate.gettext.xgettext`, ktorá umožňuje projektom zakázať predvolené "
 "kľúčové slová xgettext a spoliehať sa iba na vlastné kľúčové slovo."
 
@@ -23834,8 +23867,8 @@ msgid ""
 msgstr ""
 ":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, "
 ":ref:`addon-weblate.gettext.django` a :ref:`addon-weblate.gettext.sphinx` "
-"teraz môžu ponechať umiestnenia zdroja v generovaných súboroch POT, aj keď "
-"preložené súbory PO vynechávajú umiestnenia."
+"teraz môžu zachovať umiestnenia zdrojov vo vygenerovaných súboroch POT, aj "
+"keď preložené súbory PO vynechávajú umiestnenia."
 
 #: changes.rst:221
 msgid ""
@@ -32408,8 +32441,8 @@ msgstr "Opravené generovanie MO súborov pre jednojazyčné preklady."
 msgid ""
 "Added API endpoint to download all component translations as a ZIP file."
 msgstr ""
-"Pridaný API endpoint na stiahnutie všetkých prekladov komponentu ako ZIP "
-"súbor."
+"Pridaný koncový bod API na stiahnutie všetkých prekladov komponentu ako "
+"súboru ZIP."
 
 #: changes/v4.rst:590
 msgid "Added support for Python 3.10."
@@ -33161,8 +33194,8 @@ msgid ""
 "Dropped mailing list field on the project in favor of generic instructions "
 "for translators."
 msgstr ""
-"Zrušené pole mailing listu na projekte v prospech všeobecných inštrukcií pre "
-"prekladateľov."
+"Zrušené pole e-mailovej konferencie v projekte v prospech všeobecných "
+"pokynov pre prekladateľov."
 
 #: changes/v4.rst:835
 msgid "Added pseudolocale generation add-on."
@@ -33524,10 +33557,10 @@ msgid ""
 msgstr ""
 ":ref:`mono_gettext` teraz používa obe ``msgid`` a ``msgctxt``, ak sú "
 "prítomné. Toto zmení identifikáciu prekladových reťazcov v takýchto "
-"súboroch, čo preruší odkazy na rozšírené dáta Weblate, ako sú snímky "
-"obrazovky alebo stavy recenzií. Prosím, uistite sa, že zapíšete čakajúce "
-"zmeny v takýchto súboroch pred aktualizáciou a odporúča sa vynútiť načítanie "
-"postihnutého komponentu pomocou :wladmin:`loadpo`."
+"súboroch, čo preruší odkazy na rozšírené údaje Weblate, ako sú snímky "
+"obrazovky alebo stavy kontroly. Uistite sa, že pred aktualizáciou zapíšete "
+"čakajúce zmeny v takýchto súboroch a odporúča sa vynútiť načítanie "
+"ovplyvneného komponentu pomocou :wladmin:`loadpo`."
 
 #: changes/v4.rst:946
 msgid ""
@@ -35870,7 +35903,7 @@ msgstr ":ref:`addon-weblate.webhook.slack` správne doručuje všetky udalosti."
 
 #: changes/v5.rst:250
 msgid ":ref:`check-punctuation-spacing` better handles XML markup."
-msgstr ":ref:`check-punctuation-spacing` lepšie spracováva XML markup."
+msgstr ":ref:`check-punctuation-spacing` lepšie spracováva značkovanie XML."
 
 #: changes/v5.rst:251
 msgid ":doc:`/formats/stringsdict` better handle some plurals."
@@ -42330,7 +42363,7 @@ msgstr "Voliteľný modul :ref:`git-exporter`."
 
 #: contributing/internals.rst:70
 msgid "Module defining language and plural models."
-msgstr "Modul definujúci modely jazykov a množných čísiel."
+msgstr "Modul definujúci modely jazykov a množných čísel."
 
 #: contributing/internals.rst:74
 msgid "The optional :ref:`legal` module."
@@ -44802,8 +44835,8 @@ msgid ""
 "templates (this includes reordering the strings to match new template):"
 msgstr ""
 "Potom môžete aktualizovať jednotlivé prekladové súbory, aby zodpovedali novo "
-"vytvoreným šablónam (to zahŕňa preusporiadanie reťazcov, aby zodpovedali "
-"novej šablóne):"
+"vytvoreným šablónam (zahŕňa to aj preusporiadanie reťazcov tak, aby "
+"zodpovedali novej šablóne):"
 
 #: devel/gettext.rst:216
 msgid ""
@@ -44866,7 +44899,7 @@ msgid ""
 "You can find a gettext example with many languages in the Weblate Hello "
 "project on GitHub: <https://github.com/WeblateOrg/hello>."
 msgstr ""
-"Príklad gettext s mnohými jazykmi nájdete v projekte Weblate Hello na "
+"Príklad gettextu s mnohými jazykmi nájdete v projekte Weblate Hello na "
 "GitHube: <https://github.com/WeblateOrg/hello>."
 
 #: devel/html.rst:4
@@ -45025,12 +45058,12 @@ msgid ""
 "redirect targets."
 msgstr ""
 "Prekladové reťazce musia byť prítomné vo Weblate. Môžete ich buď spravovať "
-"manuálne, použiť API na ich vytvorenie alebo uviesť súbory alebo URL "
+"manuálne, použiť API na ich vytvorenie alebo zoznam súborov či URL adries "
 "pomocou :guilabel:`Extrahovať reťazce z HTML súborov` a Weblate ich "
 "extrahuje automaticky. Súbory musia byť prítomné v repozitári alebo "
-"obsahovať vzdialené URL, ktoré budú pravidelne sťahované a parsované "
-"Weblate. Vzdialené URL sú obmedzené :setting:`ALLOWED_ASSET_DOMAINS`, "
-"vrátane akýchkoľvek cieľov presmerovania."
+"obsahovať vzdialené URL adresy, ktoré budú pravidelne sťahované a parsované "
+"systémom Weblate. Vzdialené URL adresy sú obmedzené nastavením "
+":setting:`ALLOWED_ASSET_DOMAINS`, vrátane akýchkoľvek cieľov presmerovania."
 
 #: devel/html.rst:76
 msgid ""
@@ -45397,8 +45430,8 @@ msgid ""
 "Source string extraction tools, such as :program:`xgettext` "
 "or :program:`lupdate`, need to be executed outside of Weblate."
 msgstr ""
-"Nástroje na extrakciu zdrojových reťazcov, ako :program:`xgettext` "
-"alebo :program:`lupdate`, musia byť vykonané mimo Weblate."
+"Nástroje na extrakciu zdrojových reťazcov, ako napríklad :program:`xgettext` "
+"alebo :program:`lupdate`, je potrebné spustiť mimo Weblate."
 
 #: devel/integration.rst:147
 msgid "Introducing new strings"
@@ -45435,10 +45468,10 @@ msgid ""
 "update existing translations, see :ref:`updating-target-files`."
 msgstr ""
 "Dvojjazyčné formáty zvyčajne extrahujú reťazce zo zdrojového kódu pomocou "
-"niektorých nástrojov (ako :program:`xgettext` alebo :program:`intltool-"
-"update`). Postupujte podľa dokumentácie vášho lokalizačného frameworku pre "
-"pokyny, ako to urobiť. Akonáhle sú reťazce extrahované, môže byť potrebný "
-"ďalší krok na aktualizáciu existujúcich prekladov, pozri :ref:`updating-"
+"nejakých nástrojov (ako :program:`xgettext` alebo :program:`intltool-update`)"
+". Postupujte podľa dokumentácie vášho lokalizačného frameworku pre "
+"inštrukcie, ako to urobiť. Po extrahovaní reťazcov môže byť potrebný "
+"dodatočný krok na aktualizáciu existujúcich prekladov, pozri :ref:`updating-"
 "target-files`."
 
 #: devel/integration.rst:166
@@ -45546,7 +45579,8 @@ msgstr "Zoznam prekladateľov a ich rolí/oprávnení"
 msgid ""
 "Understanding of your current workflow (review process, automation, etc.)"
 msgstr ""
-"Pochopenie vášho aktuálneho workflow (proces kontroly, automatizácia atď.)"
+"Pochopenie vášho súčasného pracovného postupu (proces kontroly, "
+"automatizácia atď.)"
 
 #: devel/migration.rst:28
 msgid "**For Weblate:**"
@@ -45615,7 +45649,7 @@ msgstr ""
 
 #: devel/migration.rst:53
 msgid "Commit translations to your Git repository"
-msgstr "Zapíšte preklady do vášho Git repozitára"
+msgstr "Zapisovať preklady do vášho Git repozitára"
 
 #: devel/migration.rst:57
 msgid ""
@@ -45911,7 +45945,7 @@ msgid ""
 "you need."
 msgstr ""
 "**Povoliť kontroly**: Preskúmajte :ref:`checks` a povoľte akékoľvek "
-"dobrovoľné kontroly kvality, ktoré potrebujete."
+"voliteľné kontroly kvality, ktoré potrebujete."
 
 #: devel/migration.rst:196
 msgid ""
@@ -46883,8 +46917,8 @@ msgstr ""
 "Teraz už stačí len preložiť obsah dokumentácie. Sphinx generuje súbor PO pre "
 "každý adresár alebo súbor najvyššej úrovne, čo môže viesť k pomerne veľkému "
 "počtu súborov na preklad (v závislosti od nastavení "
-":confval:`sphinx:gettext_compact` ). Môžete importovať :file:`index.po` do "
-"Weblate ako počiatočnú súčasť a potom nakonfigurovať doplnok :ref:`addon-"
+":confval:`sphinx:gettext_compact`). Môžete importovať :file:`index.po` do "
+"Weblate ako počiatočný komponent a potom nakonfigurovať doplnok :ref:`addon-"
 "weblate.discovery.discovery` na automatické objavenie všetkých ostatných."
 
 #: devel/sphinx.rst:39
@@ -47102,7 +47136,7 @@ msgid ""
 "The more detailed workflow for some formats is described in following "
 "chapters:"
 msgstr ""
-"Podrobnejší workflow pre niektoré formáty je opísaný v nasledujúcich "
+"Podrobnejší pracovný postup pre niektoré formáty je popísaný v nasledujúcich "
 "kapitolách:"
 
 #: devel/starting.rst:89
@@ -47641,7 +47675,7 @@ msgid ""
 "Split component translation strings into categories by text and colour in "
 "the project configuration."
 msgstr ""
-"Rozdeľte prekladové reťazce súčasti do kategórií podľa textu a farby v "
+"Rozdeliť prekladové reťazce komponentu do kategórií podľa textu a farby v "
 "konfigurácii projektu."
 
 #: devel/translations.rst:178
@@ -49140,7 +49174,8 @@ msgid ""
 "Currently the following tools are compatible:"
 msgstr ""
 "Metadáta používané na publikovanie aplikácií v rôznych obchodoch s "
-"aplikáciami možno prekladať. Momentálne sú kompatibilné nasledujúce nástroje:"
+"aplikáciami môžu byť preložené. Momentálne sú kompatibilné nasledujúce "
+"nástroje:"
 
 #: formats/appstore.rst:9
 msgid ""
@@ -49537,7 +49572,7 @@ msgid ""
 "linking to corresponding source files."
 msgstr ""
 "Kontextové informácie uložené v súbore sú podporované úpravou jeho hlavičiek "
-"alebo prepojením s príslušnými zdrojovými súbormi."
+"alebo prepojením s príslušnými zdrojovými súbory."
 
 #: formats/gettext.rst:19
 msgid "`Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_"
@@ -49714,7 +49749,7 @@ msgstr "Súbory go-i18n JSON"
 
 #: formats/go-i18n.rst:13
 msgid "Support for v2 variant of this format was added."
-msgstr "Bola pridaná podpora pre variant v2 tohto formátu."
+msgstr "Pridaná podpora pre variant v2 tohto formátu."
 
 #: formats/go-i18n.rst:15
 msgid ""
@@ -50969,12 +51004,11 @@ msgid ""
 "attribute be missing, a string is considered translated as soon as a "
 "``<target>`` element exists."
 msgstr ""
-"Atribút ``state`` v súbore je čiastočne spracovaný a mapovaný na stav "
-"„Vyžaduje úpravu“ vo Weblate (nasledujúce stavy sa používajú na označenie "
+"Atribút ``state`` v súbore je čiastočne spracovaný a mapovaný na stav „"
+"Potrebuje úpravu“ vo Weblate (nasledujúce stavy sa používajú na označenie "
 "reťazca ako vyžadujúceho úpravu, ak je prítomný cieľ: ``new``, ``needs-"
 "translation``, ``needs-adaptation``, ``needs-l10n``). Ak atribút ``state`` "
-"chýba, reťazec sa považuje za preložený hneď, ako existuje prvok "
-"``<target>``."
+"chýba, reťazec sa považuje za preložený, len čo existuje prvok ``<target>``."
 
 #: formats/xliff.rst:51
 msgid ""
@@ -59388,7 +59422,7 @@ msgstr ""
 
 #: snippets/addons-autogenerated.rst:32
 msgid "Source of automated translations"
-msgstr "Zdroj automatizovaných prekladov"
+msgstr "Zdroj automatických prekladov"
 
 #: snippets/addons-autogenerated.rst:36
 msgid "Other translation components"
@@ -59720,8 +59754,8 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
 msgstr ""
-"Názov súboru medzi prekladu. Vo väčšine prípadov je to súbor prekladu "
-"poskytnutý vývojármi a používa sa pri vytváraní skutočných zdrojových "
+"Názov súboru priebežného prekladu. Vo väčšine prípadov ide o prekladový "
+"súbor poskytnutý vývojármi a používa sa pri vytváraní skutočných zdrojových "
 "reťazcov. Táto šablóna musí obsahovať {{ component }}."
 
 #: snippets/addons-autogenerated.rst:250
@@ -63225,9 +63259,9 @@ msgid ""
 "variants, including plurals. This check ensures that the syntax used in the "
 "translation will be valid for Fluent."
 msgstr ""
-"Vo Weblate reťazce Fluent používajú syntax Fluent pre referencie a premenné, "
-"ale aj pre zložitejšie funkcie, ako je definovanie atribútov a variantov "
-"selektora, vrátane množných čísiel. Táto kontrola zabezpečuje, že syntax "
+"Vo Weblate reťazce Fluent používajú syntax Fluent pre odkazy a premenné, ale "
+"aj pre zložitejšie funkcie, ako je definovanie atribútov a variantov "
+"selektorov, vrátane množných čísel. Táto kontrola zabezpečuje, že syntax "
 "použitá v preklade bude platná pre Fluent."
 
 #: snippets/checks-autogenerated.rst:446 snippets/checks-autogenerated.rst:2542
@@ -64280,8 +64314,8 @@ msgid ""
 "applied when more than one line is configured."
 msgstr ""
 "Vykreslený zdrojový alebo preložený text by nemal presiahnuť danú veľkosť. "
-"Vykreslí text a skontroluje, či sa zmestí do daných hraníc. Zalamovanie slov "
-"sa použije, keď je nakonfigurovaný viac ako jeden riadok."
+"Text sa vykreslí a skontroluje sa, či sa zmestí do daných hraníc. "
+"Zalamovanie slov sa použije, ak je nakonfigurovaný viac ako jeden riadok."
 
 #: snippets/checks-autogenerated.rst:1507
 msgid ""
@@ -64516,8 +64550,8 @@ msgid ""
 "Usually newlines are important for formatting program output. Check fails if "
 "the number of new lines in translation does not match the source."
 msgstr ""
-"Nové riadky sú zvyčajne dôležité pre formátovanie výstupu programu. Kontrola "
-"zlyhá, ak sa počet nových riadkov v preklade nezhoduje so zdrojom."
+"Zalomenia riadkov sú zvyčajne dôležité pre formátovanie výstupu programu. "
+"Kontrola zlyhá, ak počet nových riadkov v preklade nezodpovedá zdroju."
 
 #: snippets/checks-autogenerated.rst:1761
 msgid "Missing plurals"
@@ -64851,8 +64885,8 @@ msgid ""
 "Trailing space is usually utilized to space out neighbouring elements, so "
 "removing it might break layout."
 msgstr ""
-"Koncová medzera sa zvyčajne využíva na oddelenie susedných prvkov, takže jej "
-"odstránenie môže pokaziť rozloženie."
+"Koncová medzera sa zvyčajne používa na odsadenie susedných prvkov, takže jej "
+"odstránenie môže narušiť rozloženie."
 
 #: snippets/checks-autogenerated.rst:2166
 msgid "Unchanged translation"
@@ -65413,7 +65447,7 @@ msgstr ""
 "Preklady často potrebujú viac miesta ako zdrojový text, najmä ak je "
 "zdrojovým jazykom angličtina. Táto kontrola pomáha správcom nájsť zdrojové "
 "reťazce, ktoré sú už blízko svojej nakonfigurovanej ``max-length``, skôr než "
-"budú musieť prekladatelia skracovať alebo vynechávať význam, aby sa zmestili "
+"prekladatelia budú musieť skracovať alebo vynechávať význam, aby sa zmestili "
 "do limitu."
 
 #: snippets/checks-autogenerated.rst:2663
@@ -67417,7 +67451,7 @@ msgstr "``ON`` -- Zapnuté"
 
 #: snippets/machines-autogenerated.rst:190
 msgid "Profanity"
-msgstr "Nevhodné výrazy"
+msgstr "Vulgarizmy"
 
 #: snippets/machines-autogenerated.rst:190
 msgid "Mask profane words in translated text."
@@ -74738,11 +74772,12 @@ msgid ""
 "you address this - there is an additional quality gateway for the strings "
 "between developers and translators."
 msgstr ""
-"Pôvodné reťazce v zdrojovom jazyku zvyčajne pochádzajú od vývojárov, keďže "
-"píšu kód a poskytujú počiatočné reťazce. Vývojári však často nie sú rodilými "
-"hovoriacimi zdrojového jazyka a neposkytujú požadovanú kvalitu zdrojových "
-"reťazcov. Medzipreklad vám môže pomôcť toto vyriešiť - existuje ďalšia brána "
-"kvality pre reťazce medzi vývojármi a prekladateľmi."
+"Pôvodné reťazce zdrojového jazyka zvyčajne pochádzajú od vývojárov, pretože "
+"oni píšu kód a poskytujú počiatočné reťazce. Vývojári však často nie sú "
+"rodilí hovoriaci zdrojového jazyka a neposkytujú požadovanú kvalitu "
+"zdrojových reťazcov. Priebežný preklad vám môže pomôcť tento problém "
+"vyriešiť – existuje dodatočná brána kvality pre reťazce medzi vývojármi a "
+"prekladateľmi."
 
 #: workflows.rst:303
 msgid ""
