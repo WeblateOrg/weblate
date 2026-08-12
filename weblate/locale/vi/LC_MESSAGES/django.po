@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-12 05:26+0000\n"
+"PO-Revision-Date: 2026-08-12 06:39+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -3184,8 +3184,8 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
-"Có thể tạo các mã thông báo dự án có quyền truy cập API bị giới hạn ở các "
-"hoạt động của dự án được liên kết. Các mã thông báo này có tiền tố `wlp_`."
+"Có thể tạo các token dự án mà quyền truy cập vào API chỉ giới hạn ở các thao "
+"tác liên quan đến dự án đó. Các token này có tiền tố `wlp_`."
 
 #: weblate/api/docs.py:54
 msgid "Successful response."
@@ -3470,8 +3470,8 @@ msgid ""
 "Could not remove the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Không thể xóa chuỗi ký tự vì một thao tác nền khác đang diễn ra. Vui lòng "
-"thử lại sau."
+"Không thể xóa chuỗi vì một hoạt động nền khác đang diễn ra. Vui lòng thử lại "
+"sau."
 
 #: weblate/api/views.py:523
 msgid "Could not obtain the lock to perform the operation."
@@ -11211,7 +11211,7 @@ msgstr "Tải bản dịch lên"
 #: weblate/templates/project.html:103 weblate/templates/translation.html:71
 #: weblate/templates/workspace.html:76
 msgid "Operations"
-msgstr "Hoạt động"
+msgstr "Thao tác"
 
 #: weblate/templates/category-language.html:55
 #: weblate/templates/category-language.html:127
@@ -12241,12 +12241,9 @@ msgstr ""
 "xóa khi lưu."
 
 #: weblate/templates/js/git-status.html:269
-#, fuzzy
-#| msgid "Use these operations with caution, they can lead to data loss."
 msgid "Use these operations with caution, they rewrite the translation file."
 msgstr ""
-"Hãy sử dụng các thao tác này một cách thận trọng, chúng có thể dẫn đến mất "
-"dữ liệu."
+"Dùng các thao tác này một cách thận trọng, vì chúng sẽ viết lại tệp dịch."
 
 #: weblate/templates/js/git-status.html:278
 #, python-format
@@ -16049,8 +16046,8 @@ msgid ""
 "Weblate will retry the operation once it is needed again, so the alert might "
 "disappear for the temporary issues."
 msgstr ""
-"Weblate sẽ thử lại thao tác khi cần thiết, vì vậy cảnh báo có thể biến mất "
-"trong thời gian tạm thời."
+"Weblate sẽ thử lại thao tác khi cần thiết, nên cảnh báo có thể biến mất khi "
+"gặp sự cố tạm thời."
 
 #: weblate/templates/trans/alert/conflictingrepositorysetup.html:4
 msgid ""
@@ -23244,8 +23241,8 @@ msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
 msgstr ""
-"Không thể thêm chuỗi vì một thao tác nền khác đang diễn ra. Vui lòng thử lại "
-"sau."
+"Không thể thêm chuỗi vì một hoạt động nền khác đang diễn ra. Vui lòng thử "
+"lại sau."
 
 #: weblate/trans/views/edit.py:1812
 msgid "New string has been added."
@@ -24381,7 +24378,7 @@ msgstr ""
 #: weblate/vcs/base.py:281
 #, python-format
 msgid "Repository has an interrupted Git %(operation)s operation."
-msgstr ""
+msgstr "Kho lưu trữ có hoạt động Git %(operation)s bị gián đoạn."
 
 #: weblate/vcs/base.py:284
 #, python-format
@@ -24488,7 +24485,7 @@ msgstr "Không xác định được điểm đến SSH hiệu quả: %(error)s"
 #: weblate/vcs/base.py:347
 #, python-format
 msgid "Unsupported interrupted Git operation: %(operation)s"
-msgstr ""
+msgstr "Hoạt động Git bị gián đoạn không được hỗ trợ: %(operation)s"
 
 #: weblate/vcs/base.py:350
 msgid ""
