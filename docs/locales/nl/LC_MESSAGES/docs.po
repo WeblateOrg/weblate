@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-11 14:56+0000\n"
+"PO-Revision-Date: 2026-08-12 10:28+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -23834,12 +23834,20 @@ msgid ""
 "translation memory management, and :ref:`removal of empty workspaces "
 "<workspace-removal>` not associated with billing."
 msgstr ""
+":ref:`Werkruimten <workspaces>` verschaffen nu samengevoegde statistieken "
+"voor vertalingen en historische metrieken, een op rechten gefilterde lijst "
+":guilabel:`Mijn werkruimten` , downloaden van archieven, zoeken en "
+"vervangen, richtlijnen voor uploaden, beheren van vertaalgeheugen voor de "
+"werkruimte en :ref:`verwijderen van lege werkruimten <workspace-removal>` "
+"die niet zijn geassocieerd aan facturatie."
 
 #: changes.rst:66
 msgid ""
 "Added :ref:`project-level translation metrics <monitoring-translation-"
 "progress>` in JSON, CSV, and OpenMetrics formats."
 msgstr ""
+"Toegevoegd :ref:`projectniveau metrieken voor vertaling <monitoring-"
+"translation-progress>` in indelingen JSON, CSV en OpenMetrics."
 
 #: changes.rst:67
 msgid ""
@@ -23848,6 +23856,10 @@ msgid ""
 "machine translation editor, GitHub App connection, and repository refresh "
 "requests."
 msgstr ""
+"Toegevoegd opt-in ondersteuning voor uitrollen van :ref:`running-granian-"
+"asgi`, inclusief :envvar:`WEBLATE_ASGI` voor Dockercontainers en asynchrone "
+"bewerker voor machinevertaling, verbinding voor GitHub App en verzoeken voor "
+"vernieuwen van opslagplaats."
 
 #: changes.rst:68
 msgid ""
@@ -23897,6 +23909,9 @@ msgid ""
 "Added API support for reading and updating :ref:`user-profile` preferences. "
 "See :ref:`api-users` endpoint."
 msgstr ""
+"Toegevoegde ondersteuning voor de API voor het lezen en bijwerken van "
+"voorkeuren voor het :ref:`user-profile`. Bekijk het eindpunt :ref:`api-"
+"users`."
 
 #: changes.rst:73
 msgid ""
@@ -23912,6 +23927,9 @@ msgid ""
 "Added :ref:`workflow-language-restrictions`, including per-language control "
 "for restricting direct translation editing to privileged users."
 msgstr ""
+"Toegevoegd :ref:`workflow-language-restrictions`, inclusief per-taal beheren "
+"voor het beperken van direct bewerken van vertaling door gerechtigde "
+"gebruikers."
 
 #: changes.rst:75
 msgid ""
@@ -23929,12 +23947,16 @@ msgid ""
 "Authenticated web-action rate-limit lockouts are now recorded in "
 "the :ref:`audit-log` with the affected scope and request path."
 msgstr ""
+"Geauthenticeerd aantal uitsluitingen voor webacties worden nu vastgelegd in "
+"het :ref:`audit-log` met het betreffende bereik en pad voor verzoeken."
 
 #: changes.rst:81
 msgid ""
 "OpenMetrics API responses now include metric metadata and a versioned "
 "content type."
 msgstr ""
+"OpenMetrics API-antwoorden bevatten nu metadata voor metrieken en een "
+"geversioneerd type inhoud."
 
 #: changes.rst:82
 msgid ""
@@ -23961,6 +23983,9 @@ msgid ""
 "Improved loading performance for multi-language matrix views, dashboard "
 "component lists, category histories, and shared component listings."
 msgstr ""
+"Verbeterde prestaties voor laden van matrixweergaven voor meerdere talen, "
+"dashboard lijsten onderdelen, geschiedenis van categorieën en gedeelde "
+"vermeldingen van onderdelen."
 
 #: changes.rst:85
 msgid ""
@@ -23968,6 +23993,9 @@ msgid ""
 "shows active and pending entry counts, and reports the number of entries "
 "processed during import."
 msgstr ""
+"Beheren van vertaalgeheugen laadt nu bronoverzichten meer efficiënt, geeft "
+"tellingen weer voor actieve en openstaande items en rapporteert het aantal "
+"verwerkte items tijdens importeren."
 
 #: changes.rst:86
 msgid ""
@@ -24000,6 +24028,11 @@ msgid ""
 "localize actionable diagnoses for each viewer, including GitHub pull request "
 "restrictions."
 msgstr ""
+"Meldingen van mislukken van opslagplaats linken nu direct naar de "
+"instellingen voor versiebeheer voor het onderdeel voor gebruikers die ze "
+"mogen bewerken, behoudt technische fouten in het Engels en localiseert "
+"diagnoses voor acties voor elke lezer, inclusief beperkingen van pull "
+"requests voor GitHub."
 
 #: changes.rst:90
 msgid ""
@@ -24039,6 +24072,8 @@ msgid ""
 "User-provided links, such as those in comments, announcements, and profiles, "
 "are now underlined and use a higher contrast color."
 msgstr ""
+"Door gebruikers verschafte links, zoals die in opmerkingen, aankondigingen "
+"en profielen, worden nu onderstreept met een kleur met een hoger contrast."
 
 #: changes.rst:98
 msgid ""
@@ -24046,6 +24081,9 @@ msgid ""
 "site-wide user management now regenerates the user's personal API key by "
 "default."
 msgstr ""
+":ref:`Authenticatie wachtwoord uitschakelen <site-wide-user-management>` "
+"voor sitebreed gebruikersbeheer maakt nu standaard de persoonlijke API-"
+"sleutel van de gebruiker."
 
 #: changes.rst:99
 msgid ""
@@ -24066,7 +24104,7 @@ msgstr ""
 
 #: changes.rst:101
 msgid "URLs containing backslashes are now rejected as invalid."
-msgstr ""
+msgstr "URL's die backslashes bevatten worden nu geweigerd als ongeldig."
 
 #: changes.rst:102
 msgid ""
@@ -24074,12 +24112,18 @@ msgid ""
 "addresses; protected Git operations fail closed when clients cannot enforce "
 "that binding (:ghsa:`45m9-pf98-8jmq`)."
 msgstr ""
+"Beveiligde uitgaande verbindingen voor HTTP en Git zu nu gebonden aan "
+"gevalideerde publieke adressen; beveiligde bewerkingen voor Git worden "
+"mislukt afgesloten als cliënten die binding niet kunnen afdwingen "
+"(:ghsa:`45m9-pf98-8jmq`)."
 
 #: changes.rst:103
 msgid ""
 "Permanent same-host Git HTTP redirects are now validated and stored as "
 "canonical component repository URLs."
 msgstr ""
+"Permanente Git HTTP-verwijzingen van dezelfde host worden nu gevalideerd en "
+"opgeslagen als canonical URL's voor opslagruimten van onderdelen."
 
 #: changes.rst:104
 msgid ""
@@ -24160,6 +24204,9 @@ msgid ""
 "updates through the :ref:`generic GitHub webhook endpoint <code-hosting-"
 "github-notifications>`."
 msgstr ""
+"Geauthenticeerde verouderde GitHub App-webhooks mogen opnieuw bijwerken van "
+"de opslagruimte activeren door het :ref:`algemene GitHub webhook eindpunt "
+"<code-hosting-github-notifications>`>`."
 
 #: changes.rst:116
 msgid ""
@@ -24185,12 +24232,18 @@ msgid ""
 "Git over HTTPS and SSH enforces connection address pinning without an "
 "allowlist entry."
 msgstr ""
+"Als :setting:`VCS_RESTRICT_PRIVATE` is ingeschakeld, moeten hosts voor "
+"opslagruimten van Mercurial en Subversion expliciet zijn opgenomen in "
+":setting:`VCS_ALLOW_HOSTS`; Git over HTTPS en SSH dwingen het vastzetten van "
+"een verbindingsadres af zonder een item voor de lijst met toegestane waarden."
 
 #: changes.rst:119
 msgid ""
 "Outbound HTTP proxy configuration is limited to the per-protocol environment "
 "variables documented in :ref:`http-proxy`."
 msgstr ""
+"Uitgaande HTTP-proxyconfiguratie is beperkt tot de per-protocol-"
+"omgevingsvariabelen die zijn gedocumenteerd in :ref:`http-proxy`."
 
 #: changes.rst:120
 msgid ""
@@ -24199,6 +24252,10 @@ msgid ""
 "and :setting:`SSH_EXTRA_ARGS` can override connection routing and address "
 "pinning."
 msgstr ""
+"Git SSH valideert geconfigureerde doelen ``HostName`` en ``Port`` voor het "
+"verbinden; configuratie van SSH door de beheerder blijft vertrouwd en "
+":setting:`SSH_EXTRA_ARGS` mag routeren van de verbinding en het vastzetten "
+"van het adres overschrijven."
 
 #: changes.rst:121
 msgid ""
