@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-12 14:23+0000\n"
+"PO-Revision-Date: 2026-08-12 16:08+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -13352,10 +13352,8 @@ msgstr "Tự do"
 
 #: weblate/templates/manage/index.html:17
 #: weblate/wladmin/templates/admin/weblate-index.html:15
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Weblate support status"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Trạng thái hỗ trợ Weblate"
 
 #: weblate/templates/manage/index.html:22
 msgid "Weblate version"
@@ -13366,10 +13364,8 @@ msgid "Support status"
 msgstr "Trạng thái hỗ trợ"
 
 #: weblate/templates/manage/index.html:39
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Refresh support status"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Làm mới trạng thái hỗ trợ"
 
 #: weblate/templates/manage/index.html:55
 #, fuzzy
@@ -18344,10 +18340,8 @@ msgstr ""
 "Trạng thái dịch của một hoặc nhiều chuỗi ký tự đã được thay đổi hàng loạt."
 
 #: weblate/trans/actions.py:217
-#, fuzzy
-#| msgid "Last name"
 msgid "Bulk status changed"
-msgstr "Họ"
+msgstr "Đã thay đổi trạng thái hàng loạt"
 
 #: weblate/trans/actions.py:222
 #, fuzzy
@@ -18963,10 +18957,8 @@ msgid "Updating a remote repository failed."
 msgstr "Cập nhật kho lưu trữ từ xa đã thất bại."
 
 #: weblate/trans/actions.py:637
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "Remote repository update failed"
-msgstr "Rebase kho lưu trữ thất bại"
+msgstr "Cập nhật kho lưu trữ từ xa không thành công"
 
 #: weblate/trans/actions.py:642
 msgid "A component alert was dismissed."
@@ -23297,7 +23289,7 @@ msgstr ""
 
 #: weblate/trans/views/git.py:46
 msgid "Use the button on the repository status page to run this action."
-msgstr ""
+msgstr "Sử dụng nút trên trang trạng thái kho lưu trữ để chạy hành động này."
 
 #: weblate/trans/views/git.py:67
 msgid ""
@@ -23597,10 +23589,8 @@ msgstr "đã dịch"
 
 #. Translators: status widget name
 #: weblate/trans/widgets.py:512
-#, fuzzy
-#| msgid "Big status badge"
 msgid "PNG status badge"
-msgstr "Huy hiệu trạng thái lớn"
+msgstr "Huy hiệu trạng thái PNG"
 
 #: weblate/trans/widgets.py:569
 msgctxt "Status widget name"
@@ -23946,10 +23936,8 @@ msgid "Invalid character in the query string"
 msgstr "Ký tự không hợp lệ trong chuỗi truy vấn"
 
 #: weblate/utils/search.py:1245
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Failed to parse the query string: {}"
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Không phân tích được chuỗi truy vấn: {}"
 
 #: weblate/utils/state.py:17
 msgctxt "String state"
@@ -24335,7 +24323,7 @@ msgstr "Không có cài đặt ứng dụng Weblate GitHub."
 #: weblate/vcs/base.py:246
 #, python-format
 msgid "No Weblate GitHub app installation available for %(hostname)s"
-msgstr ""
+msgstr "Không có cài đặt ứng dụng Weblate GitHub nào cho %(hostname)s"
 
 #: weblate/vcs/base.py:249
 #, python-format
@@ -24360,10 +24348,9 @@ msgid "Could not get GitLab project (%(status)s): Unknown error"
 msgstr "Không thể tải dự án GitLab (%(status)s): Lỗi không xác định"
 
 #: weblate/vcs/base.py:261
-#, fuzzy, python-format
-#| msgid "Fedora Messaging publish failed: %(error)s"
+#, python-format
 msgid "Pull request listing failed: %(error)s"
-msgstr "Gửi thông báo đến Dịch vụ Thông Báo Fedora thất bại: %(error)s"
+msgstr "Liệt kê yêu cầu kéo không thành công: %(error)s"
 
 #: weblate/vcs/base.py:264
 #, python-format
@@ -24391,6 +24378,8 @@ msgstr "Không thể phân nhánh từ kho lưu trữ tại %(hostname)s: %(erro
 msgid ""
 "Could not fork repository at %(hostname)s: %(error)s Please retry later."
 msgstr ""
+"Không thể phân nhánh kho lưu trữ tại %(hostname)s: %(error)s Vui lòng thử "
+"lại sau."
 
 #: weblate/vcs/base.py:277
 #, python-format
@@ -24588,7 +24577,7 @@ msgstr ""
 
 #: weblate/vcs/forms.py:93
 msgid "Public (any GitHub account can install it)"
-msgstr ""
+msgstr "Công khai (bất kỳ tài khoản GitHub nào cũng có thể cài đặt nó)"
 
 #: weblate/vcs/forms.py:96
 msgid ""
@@ -24934,7 +24923,7 @@ msgstr ""
 
 #: weblate/vcs/views.py:603
 msgid "Failed to refresh repositories from GitHub."
-msgstr ""
+msgstr "Không thể làm mới kho lưu trữ từ GitHub."
 
 #: weblate/vcs/views.py:608
 #, python-format
@@ -24963,6 +24952,8 @@ msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
 "installation again."
 msgstr ""
+"Liên kết cài đặt ứng dụng Weblate GitHub không còn hợp lệ. Bắt đầu cài đặt "
+"lại."
 
 #: weblate/vcs/views.py:804 weblate/vcs/views.py:828
 #, fuzzy
@@ -24971,10 +24962,8 @@ msgid "You do not have permission to connect GitHub to this workspace."
 msgstr "Bạn không có quyền truy cập phần này."
 
 #: weblate/vcs/views.py:812
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "GitHub did not return a valid installation ID."
-msgstr "Không thể hoàn thành đăng ký."
+msgstr "GitHub không trả lại ID cài đặt hợp lệ."
 
 #: weblate/vcs/views.py:836
 msgid ""
@@ -25010,6 +24999,8 @@ msgid ""
 "The connected GitHub account was saved, but refreshing the repository list "
 "failed. Try again in a moment."
 msgstr ""
+"Tài khoản GitHub được kết nối đã được lưu nhưng việc làm mới danh sách kho "
+"lưu trữ không thành công. Hãy thử lại sau giây lát."
 
 #: weblate/vcs/views.py:909
 #, fuzzy
