@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-12 12:28+0000\n"
+"PO-Revision-Date: 2026-08-12 16:08+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -176,6 +176,9 @@ msgid ""
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
+"Quản trị viên phiên bản có thể sửa đổi các bộ quyền mặc định có sẵn cho "
+"người dùng trong các dự án `Công khai`, `Được bảo vệ` và `Riêng tư` bằng "
+"cách sử dụng :ref:`cài đặt tùy chỉnh <custom-acl>`."
 
 #: admin/access.rst:90 admin/workspaces.rst:272
 #, fuzzy
@@ -394,6 +397,12 @@ msgid ""
 "whole instance, including assigning site-wide teams and granting superuser "
 "status to the managed account, even the caller's own account."
 msgstr ""
+"Việc quản lý người dùng trên toàn trang web được kiểm soát bởi quyền "
+"``user.edit`` toàn cầu. Không giống như quản lý quyền truy cập dự án, đây là "
+"quyền quản trị đáng tin cậy cho phép chỉnh sửa tài khoản người dùng trên "
+"toàn bộ phiên bản, bao gồm chỉ định các nhóm trên toàn cơ sở và cấp trạng "
+"thái siêu người dùng cho tài khoản được quản lý, thậm chí cả tài khoản của "
+"chính người gọi."
 
 #: admin/access.rst:205
 msgid ""
@@ -731,6 +740,9 @@ msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
+"Quyền quản lý theo cách này rất mạnh mẽ nhưng có thể là một công việc khá tẻ "
+"nhạt. Bạn chỉ có thể ủy quyền cho người dùng khác bằng cách cấp cho họ trạng "
+"thái Siêu người dùng."
 
 #: admin/access.rst:391
 #, fuzzy
@@ -1020,6 +1032,8 @@ msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
+"Sau khi cài đặt, một tập hợp các nhóm mặc định được tạo ra (xem "
+":ref:`default-teams`)."
 
 #: admin/access.rst:557
 msgid ""
@@ -1039,6 +1053,10 @@ msgid ""
 "and quite close to the Superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
+"Đặc quyền trên toàn trang web không được cấp cho bất kỳ vai trò mặc định "
+"nào. Đây là những thứ mạnh mẽ và khá gần với trạng thái Siêu người dùng. Hầu "
+"hết chúng đều ảnh hưởng đến tất cả các dự án trong quá trình cài đặt Weblate "
+"của bạn."
 
 #: admin/access.rst:577
 #, fuzzy
@@ -1052,6 +1070,9 @@ msgid ""
 "executing :wladmin:`setupgroups`) and you are free to modify them. The "
 "migration will, however, re-create them if you delete or rename them."
 msgstr ""
+"Các nhóm sau đây được tạo khi cài đặt (hoặc sau khi thực thi "
+":wladmin:`setupgroups`) và bạn có thể tự do sửa đổi chúng. Tuy nhiên, quá "
+"trình di chuyển sẽ tạo lại chúng nếu bạn xóa hoặc đổi tên chúng."
 
 #: admin/access.rst:583
 msgid "`Guests`"
@@ -1170,6 +1191,14 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"Nếu bạn muốn sử dụng cài đặt Weblate của mình theo cách ít công khai hơn, "
+"tức là chỉ cho phép người dùng mới trên cơ sở được mời, thì có thể thực hiện "
+"bằng cách định cấu hình Weblate theo cách mà chỉ những người dùng đã biết "
+"mới có quyền truy cập vào nó. Để làm như vậy, bạn có thể đặt "
+":setting:`REGISTRATION_OPEN` thành ``False`` để ngăn đăng ký của bất kỳ "
+"người dùng mới nào và đặt :setting:`REQUIRE_LOGIN` thành ``True`` để yêu cầu "
+"đăng nhập để truy cập tất cả các trang của trang web. Về cơ bản đây là cách "
+"để khóa cài đặt Weblate của bạn."
 
 #: admin/access.rst:643
 msgid ""
@@ -1216,6 +1245,8 @@ msgid ""
 "You can also configure add-ons using :ref:`API <addons-"
 "api>`, :setting:`DEFAULT_ADDONS`, or :wladmin:`install_addon`."
 msgstr ""
+"Bạn cũng có thể cấu hình các tiện ích bổ sung bằng cách sử dụng :ref:`API "
+"<addons-api>`, :setting:`DEFAULT_ADDONS` hoặc :wladmin:`install_addon`."
 
 #: admin/addons.rst:18
 msgid ""
@@ -1336,6 +1367,7 @@ msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr ""
+"HEAD trước sau khi cập nhật (chỉ khả dụng sau khi chạy móc nối cập nhật-sau)."
 
 #: admin/addons.rst:132
 msgid "Component slug used to construct URL."
@@ -1456,7 +1488,7 @@ msgstr "Trạng thái hỗ trợ, xem :doc:`support`."
 
 #: admin/admin.rst:15
 msgid "Backups, see :doc:`backup`."
-msgstr ""
+msgstr "Sao lưu, xem :doc:`backup`."
 
 #: admin/admin.rst:16
 msgid "Shared translation memory, see :doc:`memory`."
@@ -1503,6 +1535,8 @@ msgid ""
 "This page provides an overview of Weblate configuration and performance "
 "status."
 msgstr ""
+"Trang này cung cấp thông tin tổng quan về cấu hình và trạng thái hiệu suất "
+"của Weblate."
 
 #: admin/admin.rst:33
 msgid ""
@@ -1595,6 +1629,9 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
+"Trong phần :guilabel:`Báo cáo`, bạn có thể kiểm tra trạng thái trang web của "
+"mình, điều chỉnh nó cho :ref:`production` hoặc quản lý các khóa SSH được sử "
+"dụng để truy cập :ref:`vcs-repos`."
 
 #: admin/admin.rst:91
 msgid ""
@@ -1636,7 +1673,7 @@ msgstr ""
 #: admin/announcements.rst:11
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
-msgstr ""
+msgstr "Công bố mục đích, thời hạn, trạng thái hoặc chỉ định mục tiêu dịch."
 
 #: admin/announcements.rst:13
 msgid ""
@@ -2282,12 +2319,16 @@ msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
+"Xác thực LDAP có thể đạt được tốt nhất bằng cách sử dụng gói `django-auth-"
+"ldap`. Bạn có thể cài đặt nó thông qua các phương tiện thông thường:"
 
 #: admin/auth.rst:620
 msgid ""
 "This package is included in the Docker container, see :doc:`/admin/install/"
 "docker`."
 msgstr ""
+"Gói này được bao gồm trong vùng chứa Docker, xem :doc:`/admin/install/"
+"docker`."
 
 #: admin/auth.rst:624
 msgid ""
@@ -2306,7 +2347,7 @@ msgstr ""
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
-msgstr ""
+msgstr "Khi bạn đã cài đặt gói, bạn có thể móc nối gói đó vào xác thực Django:"
 
 #: admin/auth.rst:670
 msgid ""
@@ -2362,6 +2403,8 @@ msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
+"Khi bạn đã cài đặt gói, bạn có thể móc nối gói đó với hệ thống xác thực "
+"Django bằng cách sửa đổi tệp :file:`settings.py`:"
 
 #: admin/auth.rst:771
 msgid ""
@@ -2390,6 +2433,9 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
+"Nói chung, mọi plugin xác thực Django đều hoạt động với Weblate. Chỉ cần làm "
+"theo hướng dẫn của plugin, chỉ cần nhớ cài đặt phần phụ trợ người dùng "
+"Weblate."
 
 #: admin/auth.rst:806
 msgid ""
@@ -2721,6 +2767,9 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"Bạn cũng có thể sử dụng bộ nhớ của riêng mình để sao lưu. SSH có thể được sử "
+"dụng để lưu trữ các bản sao lưu ở đích từ xa, máy chủ đích cần phải cài đặt "
+"`BorgBackup`_."
 
 #: admin/backup.rst:133
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -2782,6 +2831,9 @@ msgid ""
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
+"Để tạo bản sao lưu từ xa, bạn sẽ phải cài đặt `BorgBackup`_ trên một máy chủ "
+"khác có thể truy cập được để triển khai Weblate của bạn thông qua SSH bằng "
+"khóa SSH Weblate:"
 
 #: admin/backup.rst:173
 msgid "Prepare a server where your backups will be stored."
@@ -2792,12 +2844,16 @@ msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
+"Cài đặt máy chủ SSH trên đó (bạn sẽ nhận được nó theo mặc định với hầu hết "
+"các bản phân phối Linux)."
 
 #: admin/backup.rst:175
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"Cài đặt `BorgBackup`_ trên máy chủ đó; hầu hết các bản phân phối Linux đều "
+"có sẵn các gói (xem :doc:`borg:installation`)."
 
 #: admin/backup.rst:176
 msgid ""
@@ -2863,6 +2919,8 @@ msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Khôi phục cơ sở dữ liệu từ kết xuất SQL được đặt trong thư mục ``sao lưu`` "
+"trong thư mục dữ liệu Weblate (xem :ref:`backup-dumps`)."
 
 #: admin/backup.rst:204
 msgid ""
@@ -2911,6 +2969,11 @@ msgid ""
 "deployment uses an external database or a customized Compose file, adapt the "
 "database and volume steps to that environment."
 msgstr ""
+"Các bước sau đây giả định thiết lập Docker Compose chính thức bằng cách sử "
+"dụng các dịch vụ PostgreSQL và Valkey đi kèm, xem :doc:`install/docker`. Nếu "
+"quá trình triển khai của bạn sử dụng cơ sở dữ liệu bên ngoài hoặc tệp Soạn "
+"tùy chỉnh, hãy điều chỉnh các bước cơ sở dữ liệu và ổ đĩa cho phù hợp với "
+"môi trường đó."
 
 #: admin/backup.rst:245
 msgid ""
@@ -2926,6 +2989,9 @@ msgid ""
 "backup so that the Weblate data directory and :file:`backups/database.sql` "
 "are available."
 msgstr ""
+"Khôi phục lưu trữ sao lưu bằng cách sử dụng :ref:`restore-borg` hoặc giải "
+"nén bản sao lưu thủ công của bạn để có sẵn thư mục dữ liệu Weblate và "
+":file:`backups/database.sql`."
 
 #: admin/backup.rst:254
 msgid "Stop the services which can write to the database or data volume:"
@@ -3243,6 +3309,8 @@ msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
 msgstr ""
+"Di chuyển cài đặt của bạn sang một hệ thống khác bằng cách làm theo hướng "
+"dẫn sao lưu và khôi phục ở trên."
 
 #: admin/backup.rst:490
 msgid ""
@@ -3282,6 +3350,8 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Để cài đặt kiểm tra tùy chỉnh, hãy cung cấp đường dẫn đủ điều kiện đến lớp "
+"Python trong :setting:`AUTOFIX_LIST`, xem :ref:`custom-check-modules`."
 
 #: admin/checks.rst:27
 msgid "Customizing behavior using flags"
@@ -3568,6 +3638,8 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Để cài đặt kiểm tra tùy chỉnh, hãy cung cấp đường dẫn đủ điều kiện đến lớp "
+"Python trong :setting:`CHECK_LIST`, xem :ref:`custom-check-modules`."
 
 #: admin/checks.rst:201
 msgid "Checking translation text does not contain \"foo\""
@@ -3603,6 +3675,11 @@ msgid ""
 "Weblate instance, and on whether Weblate should push directly or create pull "
 "or merge requests."
 msgstr ""
+"Weblate tích hợp với các trang web lưu trữ mã ở một số nơi riêng biệt: truy "
+"cập kho lưu trữ, thông báo đến và đẩy lùi các bản dịch. Thiết lập chính xác "
+"phụ thuộc vào việc bạn sử dụng Weblate được lưu trữ hay chạy phiên bản "
+"Weblate của riêng bạn và vào việc Weblate nên đẩy trực tiếp hay tạo yêu cầu "
+"kéo hoặc hợp nhất."
 
 #: admin/code-hosting.rst:11
 msgid ""
@@ -3650,6 +3727,9 @@ msgid ""
 "The repository webhook or app must point to the matching Weblate hook URL, "
 "and the project must have :ref:`project-enable_hooks` enabled."
 msgstr ""
+"Cấu hình thông báo đến để Weblate lấy các thay đổi ngay sau khi nhấn. Ứng "
+"dụng hoặc webhook của kho lưu trữ phải trỏ đến URL hook Weblate phù hợp và "
+"dự án phải được bật :ref:`project-enable_hooks`."
 
 #: admin/code-hosting.rst:37
 msgid "Decide how Weblate should push translations back:"
@@ -3856,6 +3936,12 @@ msgid ""
 "repositories, grant it access to the repositories you want to translate, and "
 "import components from the connected GitHub account."
 msgstr ""
+"Trên Lưu Trữ Weblate, thiết lập được đề xuất là kết nối `ứng dụng Weblate "
+"được lưu trữ <https://github.com/apps/hosted-weblate>`_ từ không gian làm "
+"việc Weblate nơi dự án của bạn tồn tại. Sử dụng quy trình :guilabel:`Kết nối "
+"tài khoản GitHub`, cài đặt Ứng dụng trên người dùng GitHub hoặc tổ chức sở "
+"hữu kho lưu trữ của bạn, cấp cho ứng dụng quyền truy cập vào kho lưu trữ mà "
+"bạn muốn dịch và nhập các thành phần từ tài khoản GitHub được kết nối."
 
 #: admin/code-hosting.rst:207
 msgid ""
@@ -3865,6 +3951,11 @@ msgid ""
 "Weblate :guilabel:`weblate` GitHub user or configure a separate repository "
 "webhook for components imported this way."
 msgstr ""
+"Quy trình làm việc được ứng dụng hỗ trợ sử dụng mã thông báo truy cập cài "
+"đặt GitHub để sao chép, đẩy các nhánh dịch, tạo yêu cầu kéo và nhận thông "
+"báo đến. Bạn không cần phải mời người dùng GitHub Weblate "
+":guilabel:`weblate` GitHub được lưu trữ hoặc định cấu hình webhook kho lưu "
+"trữ riêng cho các thành phần được nhập theo cách này."
 
 #: admin/code-hosting.rst:213
 msgid ""
@@ -4023,6 +4114,13 @@ msgid ""
 "configuration is required. GitHub delivers the ``Installation`` and "
 "``Installation repositories`` events to all GitHub Apps by default."
 msgstr ""
+"Tệp kê khai yêu cầu các quyền và đăng ký sự kiện mà Weblate cần (``Nội "
+"dung`` và ``Yêu cầu kéo`` đọc/ghi, ``Dữ liệu mô tả`` chỉ đọc, ``Quản trị tổ "
+"chức`` chỉ đọc, ``Quy trình làm việc`` đọc/ghi và các sự kiện ``Cài đặt``, "
+"``Meta`` và ``Đẩy``), đồng thời tự động đặt các sự kiện gọi lại, thiết lập "
+"và URL webhook cho mỗi ứng dụng, do đó không Cần phải cấu hình ứng dụng "
+"GitHub thủ công. GitHub cung cấp các sự kiện ``Cài đặt`` và ``Các kho lưu "
+"trữ cài đặt`` cho tất cả Ứng dụng GitHub theo mặc định."
 
 #: admin/code-hosting.rst:309
 msgid ""
@@ -4033,6 +4131,12 @@ msgid ""
 "other accounts; private apps can only be installed on the account that owns "
 "the app."
 msgstr ""
+"GitHub chỉ cung cấp các tài khoản mà người dùng GitHub đã đăng nhập có thể "
+"cài đặt hoặc yêu cầu ứng dụng. Nếu một tổ chức không được hiển thị trong quá "
+"trình cài đặt, hãy kiểm tra vai trò tổ chức của người dùng và các hạn chế "
+"cài đặt Ứng dụng GitHub của tổ chức đó. Trên GitHub.com, các ứng dụng công "
+"khai có thể được cài đặt trên các tài khoản khác; ứng dụng riêng tư chỉ có "
+"thể được cài đặt trên tài khoản sở hữu ứng dụng đó."
 
 #: admin/code-hosting.rst:316
 #, fuzzy
@@ -4091,6 +4195,9 @@ msgid ""
 "settings (:guilabel:`Webhooks`) to receive notifications on every push to a "
 "GitHub repository, as shown on the image below:"
 msgstr ""
+"Nếu bạn không sử dụng Ứng dụng GitHub, hãy thêm webhook Weblate trong cài "
+"đặt kho lưu trữ (:guilabel:`Webhooks`) để nhận thông báo mỗi lần đẩy tới kho "
+"lưu trữ GitHub, như hiển thị trên hình ảnh bên dưới:"
 
 #: admin/code-hosting.rst:351
 msgid ""
@@ -4202,6 +4309,9 @@ msgid ""
 "to ``/hooks/gitlab/`` URL on your Weblate installation, for example "
 "``https://hosted.weblate.org/hooks/gitlab/``."
 msgstr ""
+"Weblate có hỗ trợ móc nối GitLab. Thêm webhook dự án có đích đến là URL ``/"
+"hooks/gitlab/`` trên bản cài đặt Weblate của bạn, ví dụ: ``https://"
+"hosted.weblate.org/hooks/gitlab/``."
 
 #: admin/code-hosting.rst:438 faq.rst:481
 msgid "Troubleshooting"
@@ -4237,6 +4347,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`GitLab` backend creates a merge request."
 msgstr ""
+"Không cần sử dụng điều này để truy cập kho lưu trữ Git, :ref:`vcs-git` thông "
+"thường hoạt động tương tự, điểm khác biệt duy nhất là cách xử lý việc đẩy "
+"vào kho lưu trữ. Với :ref:`vcs-git` các thay đổi được đẩy trực tiếp vào kho "
+"lưu trữ, trong khi phần phụ trợ :guilabel:`GitLab` tạo ra một yêu cầu hợp "
+"nhất."
 
 #: admin/code-hosting.rst:464
 msgid ""
@@ -4344,6 +4459,10 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`Gitea` backend creates pull requests."
 msgstr ""
+"Không cần sử dụng điều này để truy cập kho lưu trữ Git, :ref:`vcs-git` thông "
+"thường hoạt động tương tự, điểm khác biệt duy nhất là cách xử lý việc đẩy "
+"vào kho lưu trữ. Với :ref:`vcs-git` các thay đổi được đẩy trực tiếp vào kho "
+"lưu trữ, trong khi phần phụ trợ :guilabel:`Gitea` tạo ra các yêu cầu kéo."
 
 #: admin/code-hosting.rst:547
 msgid ""
@@ -4412,6 +4531,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`Bitbucket Data Center` backend creates a pull request."
 msgstr ""
+"Không cần sử dụng điều này để truy cập kho lưu trữ Git, :ref:`vcs-git` thông "
+"thường hoạt động tương tự, điểm khác biệt duy nhất là cách xử lý việc đẩy "
+"vào kho lưu trữ. Với :ref:`vcs-git` các thay đổi được đẩy trực tiếp vào kho "
+"lưu trữ, trong khi phần phụ trợ :guilabel:`Trung Tâm Dữ Liệu Bitbucket` tạo "
+"ra một yêu cầu kéo."
 
 #: admin/code-hosting.rst:616
 msgid ""
@@ -4569,6 +4693,11 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while the :guilabel:`Pagure` backend creates a merge request."
 msgstr ""
+"Không cần sử dụng điều này để truy cập kho lưu trữ Git, :ref:`vcs-git` thông "
+"thường hoạt động tương tự, điểm khác biệt duy nhất là cách xử lý việc đẩy "
+"vào kho lưu trữ. Với :ref:`vcs-git` các thay đổi được đẩy trực tiếp vào kho "
+"lưu trữ, trong khi phần phụ trợ :guilabel:`Pagure` tạo ra một yêu cầu hợp "
+"nhất."
 
 #: admin/code-hosting.rst:759
 msgid ""
@@ -4665,6 +4794,8 @@ msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
 msgstr ""
+"Một trạng thái sẽ được hiển thị cho từng danh sách thành phần được trình bày "
+"trên trang tổng quan."
 
 #: admin/componentlists.rst:14
 msgid ""
@@ -4920,6 +5051,7 @@ msgid ""
 "Maximum number of failed authentication attempts before rate limiting is "
 "applied."
 msgstr ""
+"Số lần xác thực không thành công tối đa trước khi áp dụng giới hạn tốc độ."
 
 #: admin/config.rst:236
 msgid "This is currently applied in the following locations:"
@@ -5463,6 +5595,8 @@ msgid ""
 "The built-in default follows Conventional Commits and includes Weblate links "
 "and translation status."
 msgstr ""
+"Giá trị mặc định tích hợp tuân theo các Ghi Nhận Thông Thường và bao gồm các "
+"liên kết Weblate và trạng thái dịch."
 
 #: admin/config.rst:879
 msgid "Whether to turn on Gravatar-based avatars for users. On by default."
@@ -5508,6 +5642,13 @@ msgid ""
 "configure :setting:`django:SECURE_PROXY_SSL_HEADER` to let Django correctly "
 "detect the SSL status."
 msgstr ""
+"Chuyển hướng HTTPS có thể gặp sự cố trong một số trường hợp và bạn có thể "
+"gặp sự cố với chuyển hướng vô hạn trong trường hợp bạn đang sử dụng proxy "
+"ngược thực hiện chấm dứt SSL không chuyển tiêu đề giao thức tới Django một "
+"cách chính xác. Vui lòng điều chỉnh cấu hình proxy ngược của bạn để phát ra "
+"các tiêu đề :http:header:`X-Forwarded-Proto` hoặc :http:header:`Forwarded` "
+"hoặc định cấu hình :setting:`django:SECURE_PROXY_SSL_HEADER` để Django phát "
+"hiện chính xác trạng thái SSL."
 
 #: admin/config.rst:924
 msgid ""
@@ -6394,7 +6535,7 @@ msgstr ""
 
 #: admin/config.rst:2141
 msgid "Limits how many notifications for a single user will be sent out."
-msgstr ""
+msgstr "Giới hạn số lượng thông báo cho một người dùng sẽ được gửi đi."
 
 #: admin/config.rst:2143
 msgid "The default setting is:"
@@ -6729,6 +6870,9 @@ msgid ""
 "Configures site domain. Necessary to produce correct absolute links in many "
 "scopes (for example activation e-mails, notifications or RSS feeds)."
 msgstr ""
+"Cấu hình tên miền trang web. Cần thiết để tạo ra các liên kết tuyệt đối "
+"chính xác trong nhiều phạm vi (ví dụ: email kích hoạt, thông báo hoặc nguồn "
+"cấp dữ liệu RSS)."
 
 #: admin/config.rst:2537
 msgid "If Weblate is running on a non-standard port, include it here as well."
@@ -6815,13 +6959,16 @@ msgstr "`Tùy Chọn OpenSSH Cũ <https://www.openssh.org/legacy.html>`_"
 
 #: admin/config.rst:2642
 msgid "The URL where your Weblate instance reports its status."
-msgstr ""
+msgstr "URL nơi phiên bản Weblate của bạn báo cáo trạng thái của nó."
 
 #: admin/config.rst:2651
 msgid ""
 "Disables semiannual support status check and redirecting superusers upon "
 "login to the donation page in case there is no active support subscription."
 msgstr ""
+"Tắt tính năng kiểm tra trạng thái hỗ trợ nửa năm một lần và chuyển hướng "
+"người dùng cấp cao khi đăng nhập vào trang quyên góp trong trường hợp không "
+"có đăng ký hỗ trợ đang hoạt động."
 
 #: admin/config.rst:2656
 msgid ""
@@ -6856,6 +7003,9 @@ msgid ""
 "migration and is on by default. This setting has no effect on invocation "
 "of :wladmin:`setuplang`."
 msgstr ""
+"Kiểm soát xem có nên cập nhật cơ sở dữ liệu ngôn ngữ hay không khi chạy di "
+"chuyển cơ sở dữ liệu và được bật theo mặc định. Cài đặt này không ảnh hưởng "
+"đến việc gọi :wladmin:`setuplang`."
 
 #: admin/config.rst:2695
 msgid ""
@@ -7270,6 +7420,9 @@ msgid ""
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
+"Xung đột hợp nhất từ Weblate phát sinh khi cùng một tệp được thay đổi cả "
+"trong Weblate và bên ngoài nó. Tùy thuộc vào tình huống, có một số cách tiếp "
+"cận có thể hữu ích ở đây:"
 
 #: admin/continuous.rst:115
 #, fuzzy
@@ -8294,7 +8447,7 @@ msgstr ""
 
 #: admin/install.rst:25
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ""
+msgstr ":doc:`install/docker`, được đề xuất cho các thiết lập sản xuất."
 
 #: admin/install.rst:27
 msgid "Virtualenv installation, recommended for production setups:"
@@ -8302,7 +8455,7 @@ msgstr "Cài đặt Virtualenv, khuyến nghị cho môi trường sản xuất:
 
 #: admin/install.rst:34
 msgid ":doc:`install/source`, recommended for development."
-msgstr ""
+msgstr ":doc:`install/source`, được đề xuất để phát triển."
 
 #: admin/install.rst:43
 msgid "Architecture overview"
@@ -8403,6 +8556,8 @@ msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the "
 "installation easier."
 msgstr ""
+":doc:`/admin/install/docker` bao gồm PostgreSQL và Valkey, giúp việc cài đặt "
+"dễ dàng hơn."
 
 #: admin/install.rst:164
 msgid "Software requirements"
@@ -8555,7 +8710,7 @@ msgstr ""
 
 #: admin/install.rst:298
 msgid "Troubleshooting pip install"
-msgstr ""
+msgstr "Khắc phục sự cố cài đặt pip"
 
 #: admin/install.rst:301
 msgid ""
@@ -8775,12 +8930,18 @@ msgid ""
 "PostgreSQL is usually the best choice for Django-based sites. It's the "
 "reference database used for implementing Django database layer."
 msgstr ""
+"PostgreSQL thường là lựa chọn tốt nhất cho các trang web dựa trên Django. Đó "
+"là cơ sở dữ liệu tham chiếu được sử dụng để triển khai lớp cơ sở dữ liệu "
+"Django."
 
 #: admin/install.rst:438
 msgid ""
 "Weblate uses trigram extension which has to be installed separately in some "
 "cases. Look for ``postgresql-contrib`` or a similarly named package."
 msgstr ""
+"Weblate sử dụng phần mở rộng trigram, phần mở rộng này phải được cài đặt "
+"riêng trong một số trường hợp. Hãy tìm ``postgresql-contrib`` hoặc gói có "
+"tên tương tự."
 
 #: admin/install.rst:448 admin/upgrade.rst:162
 msgid "Creating a database in PostgreSQL"
@@ -8798,6 +8959,10 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
+"Nếu bạn không muốn biến người dùng Weblate thành siêu người dùng trong "
+"PostgreSQL, bạn có thể bỏ qua điều đó. Trong trường hợp đó, bạn sẽ phải thực "
+"hiện một số bước di chuyển theo cách thủ công vì siêu người dùng PostgreSQL "
+"trong lược đồ mà Weblate sẽ sử dụng:"
 
 #: admin/install.rst:478
 msgid "Configuring Weblate to use PostgreSQL"
@@ -8927,6 +9092,8 @@ msgid ""
 "CSRF verification failed errors are often caused by a mismatch between "
 "the :http:header:`Host` header and configured :setting:`SITE_DOMAIN`."
 msgstr ""
+"Lỗi xác minh CSRF không thành công thường do sự không khớp giữa tiêu đề "
+":http:header:`Host` và :setting:`SITE_DOMAIN` đã cấu hình."
 
 #: admin/install.rst:593
 msgid "Client protocol"
@@ -9021,6 +9188,8 @@ msgid ""
 "List of site administrators to receive notifications when something goes "
 "wrong, for example notifications on failed merges, or Django errors."
 msgstr ""
+"Danh sách quản trị viên trang sẽ nhận thông báo khi có sự cố xảy ra, ví dụ "
+"như thông báo về việc hợp nhất không thành công hoặc lỗi Django."
 
 #: admin/install.rst:686
 msgid ""
@@ -9088,6 +9257,8 @@ msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
+"E-mail được sử dụng làm địa chỉ người gửi để gửi e-mail đến quản trị viên, "
+"ví dụ như thông báo về việc hợp nhất không thành công."
 
 #: admin/install.rst:803
 msgid "Filling up the database"
@@ -9815,7 +9986,7 @@ msgstr ""
 
 #: admin/install.rst:1496
 msgid "Gunicorn has to be installed separately:"
-msgstr ""
+msgstr "Gunicorn phải được cài đặt riêng:"
 
 #: admin/install.rst:1502
 msgid ""
@@ -9972,7 +10143,7 @@ msgstr ""
 
 #: admin/install.rst:1638
 msgid "Monitoring Celery status"
-msgstr ""
+msgstr "Giám sát trạng thái Celery"
 
 #: admin/install.rst:1640
 msgid ""
@@ -10168,6 +10339,9 @@ msgid ""
 "Error logging also includes exceptions that were gracefully handled, but "
 "might indicate a problem - such as failed parsing of an uploaded file."
 msgstr ""
+"Ghi nhật ký lỗi cũng bao gồm các trường hợp ngoại lệ đã được xử lý khéo léo "
+"nhưng có thể chỉ ra sự cố - chẳng hạn như phân tích cú pháp tệp đã tải lên "
+"không thành công."
 
 #: admin/install.rst:1817
 #, fuzzy
@@ -10237,7 +10411,7 @@ msgstr ""
 
 #: admin/install/docker.rst:2
 msgid "Installing using Docker"
-msgstr ""
+msgstr "Cài đặt bằng Docker"
 
 #: admin/install/docker.rst:4
 msgid ""
@@ -12834,6 +13008,8 @@ msgid ""
 "At minimum, you need to adjust status codes as described in https://"
 "anubis.techaro.lol/docs/admin/configuration/subrequest-auth."
 msgstr ""
+"Tối thiểu, bạn cần điều chỉnh mã trạng thái như được mô tả trong https://"
+"anubis.techaro.lol/docs/admin/configuration/subrequest-auth."
 
 #: admin/install/docker.rst:2913
 msgid ""
@@ -12878,7 +13054,7 @@ msgstr ""
 
 #: admin/install/docker.rst:2945
 msgid "To check the services status use:"
-msgstr ""
+msgstr "Để kiểm tra trạng thái dịch vụ, hãy sử dụng:"
 
 #: admin/install/docker.rst:2951
 msgid ""
@@ -13050,7 +13226,7 @@ msgstr ""
 
 #: admin/install/source.rst:2
 msgid "Installing from sources"
-msgstr ""
+msgstr "Cài đặt từ các nguồn"
 
 #: admin/install/source.rst:4
 msgid ""
@@ -13409,7 +13585,7 @@ msgstr ""
 
 #: admin/install/steps/install-python.rst:21
 msgid "Install Weblate including all optional dependencies:"
-msgstr ""
+msgstr "Cài đặt Weblate bao gồm tất cả các phụ thuộc tùy chọn:"
 
 #: admin/install/steps/install-python.rst:28
 msgid ""
@@ -14119,6 +14295,9 @@ msgid ""
 "output. Failed backup service output is shown even without increased "
 "verbosity."
 msgstr ""
+"Sử dụng tùy chọn ``--verbosity 2`` tiêu chuẩn của Django để hiển thị đầu ra "
+"dịch vụ sao lưu. Đầu ra dịch vụ sao lưu không thành công được hiển thị ngay "
+"cả khi không tăng mức độ chi tiết."
 
 #: admin/management.rst:235 snippets/checks-autogenerated.rst:2424
 #: user/search.rst:66
@@ -14415,7 +14594,7 @@ msgstr ""
 
 #: admin/management.rst:773
 msgid "To install :ref:`addon-weblate.gettext.mo` for all components:"
-msgstr ""
+msgstr "Để cài đặt :ref:`addon-weblate.gettext.mo` cho tất cả các thành phần:"
 
 #: admin/management.rst:790
 msgid "Installs a site-wide automatic suggestion service."
@@ -16440,6 +16619,10 @@ msgid ""
 "manually merge changes. You can use :ref:`git-exporter` to automate this for "
 "Git repositories."
 msgstr ""
+"URL nơi các thay đổi do Weblate thực hiện được xuất. Điều này rất quan trọng "
+"khi :ref:`continuous-translation` không được sử dụng hoặc khi có nhu cầu hợp "
+"nhất các thay đổi theo cách thủ công. Bạn có thể sử dụng :ref:`git-exporter` "
+"để tự động hóa việc này cho kho Git."
 
 #: admin/projects.rst:587
 msgid "Repository branch"
@@ -17218,6 +17401,10 @@ msgid ""
 "changes in a component are committed once there is at least one change older "
 "than this period."
 msgstr ""
+"Đặt khoảng thời gian thay đổi (tính theo giờ) trước khi chúng được thực hiện "
+"bởi tác vụ nền hoặc lệnh quản lý :wladmin:`commit_pending`. Tất cả các thay "
+"đổi trong một thành phần được ghi nhận khi có ít nhất một thay đổi cũ hơn "
+"giai đoạn này."
 
 #: admin/projects.rst:1118
 msgid "The default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
@@ -17240,6 +17427,10 @@ msgid ""
 "it. This avoids adding another conflicts, which would have to be resolved "
 "manually."
 msgstr ""
+"Khóa thành phần (và các thành phần được liên kết, xem :ref:`internal-urls`) "
+"khi đẩy hoặc hợp nhất không thành công lần đầu vào kho lưu trữ ngược dòng "
+"của nó hoặc kéo từ nó. Điều này tránh tạo thêm các xung đột khác mà lẽ ra "
+"phải được giải quyết theo cách thủ công."
 
 #: admin/projects.rst:1134
 msgid ""
@@ -19743,6 +19934,10 @@ msgid ""
 "pending, successful, failed, and skipped executions and explain skipped "
 "executions."
 msgstr ""
+"Quản lý tiện ích bổ sung hiện sử dụng các tab cấu hình, nhật ký và thành "
+"phần riêng biệt, trong khi :ref:`activity logs <addon-activity-logging>` "
+"phân biệt các lần thực thi đang chờ xử lý, thành công, thất bại và bị bỏ qua "
+"cũng như giải thích các lần thực thi bị bỏ qua."
 
 #: changes.rst:83
 msgid ""
@@ -20700,6 +20895,9 @@ msgid ""
 "``SOCIAL_AUTH_PIPELINE`` and ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; please "
 "adjust your settings accordingly."
 msgstr ""
+"Có các thay đổi trong :file:`settings_example.py`, đáng chú ý nhất là ở các "
+"mục ``SOCIAL_AUTH_PIPELINE`` và ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; vui "
+"lòng điều chỉnh cài đặt của bạn cho phù hợp."
 
 #: changes.rst:282
 msgid ""
@@ -20917,6 +21115,8 @@ msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`; "
 "``weblate.workspaces`` should be added."
 msgstr ""
+"Có sự thay đổi trong :setting:`django:INSTALLED_APPS`; "
+"``weblate.workspaces`` nên được thêm vào."
 
 #: changes.rst:355
 msgid "The database migrations might take longer on larger instances."
@@ -25009,7 +25209,7 @@ msgstr ""
 
 #: changes/v3.rst:12
 msgid "Fixed notifications rendering in Gmail."
-msgstr ""
+msgstr "Đã sửa lỗi hiển thị thông báo trong Gmail."
 
 #: changes/v3.rst:13
 msgid "Fixed reverting changes from the history."
@@ -25133,7 +25333,7 @@ msgstr ""
 
 #: changes/v3.rst:55
 msgid "Fixed links in notifications e-mails."
-msgstr ""
+msgstr "Đã sửa lỗi các liên kết trong e-mail thông báo."
 
 #: changes/v3.rst:56
 msgid "Improved look of plaintext e-mails."
@@ -26041,6 +26241,8 @@ msgstr ""
 #: changes/v3.rst:329
 msgid "Include output of failed add-on execution in the logs."
 msgstr ""
+"Bao gồm đầu ra của quá trình thực thi tiện ích bổ sung không thành công vào "
+"nhật ký."
 
 #: changes/v3.rst:330
 msgid "Improved validation of choices for adding new language."
@@ -26762,6 +26964,9 @@ msgid ""
 "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
 "accordingly."
 msgstr ""
+"Có một số thay đổi trong :file:`settings_example.py`, đáng chú ý nhất là "
+"thay đổi trong ``COMPRESS_OFFLINE_CONTEXT``, vui lòng điều chỉnh cài đặt của "
+"bạn cho phù hợp."
 
 #: changes/v4.rst:64
 msgid "Weblate 4.17"
@@ -28056,6 +28261,8 @@ msgid ""
 "**Changed in 4.11.1:** There is a change in ``REST_FRAMEWORK`` setting "
 "(removal of one of the backends in ``DEFAULT_AUTHENTICATION_CLASSES``)."
 msgstr ""
+"**Đã thay đổi trong 4.11.1:** Có thay đổi trong cài đặt ``REST_FRAMEWORK`` "
+"(xóa một trong các phần phụ trợ trong ``DEFAULT_AUTHENTICATION_CLASSES``)."
 
 #: changes/v4.rst:506
 msgid "Weblate 4.10.1"
@@ -28178,6 +28385,8 @@ msgid ""
 "There is a change in per-project groups, the upgrade can take long time on "
 "sites with thousands of projects."
 msgstr ""
+"Có sự thay đổi trong các nhóm theo dự án, việc nâng cấp có thể mất nhiều "
+"thời gian trên các trang web có hàng nghìn dự án."
 
 #: changes/v4.rst:546
 msgid ""
@@ -28863,6 +29072,8 @@ msgid ""
 "There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to "
 "prefer Argon2 for passwords hashing."
 msgstr ""
+"Có một sự thay đổi về phần phụ thuộc và :setting:`django:PASSWORD_HASHERS` "
+"thích Argon2 hơn cho việc băm mật khẩu."
 
 #: changes/v4.rst:778
 msgid "Weblate 4.5.3"
@@ -29415,6 +29626,8 @@ msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`, "
 "``weblate.configuration`` has to be added there."
 msgstr ""
+"Có một sự thay đổi trong :setting:`django:INSTALLED_APPS`, "
+"``weblate.configuration`` phải được thêm vào đó."
 
 #: changes/v4.rst:940
 msgid "Django 3.1 is now required."
@@ -29731,7 +29944,7 @@ msgstr ""
 
 #: changes/v4.rst:1028 changes/v4.rst:1178
 msgid "There is a change in :setting:`django:INSTALLED_APPS`."
-msgstr ""
+msgstr "Có thay đổi trong :setting:`django:INSTALLED_APPS`."
 
 #: changes/v4.rst:1029
 msgid ""
@@ -30240,6 +30453,8 @@ msgid ""
 "There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting "
 "of rate limiting in the API."
 msgstr ""
+"Có thay đổi trong cài đặt ``DEFAULT_THROTTLE_CLASSES`` để cho phép báo cáo "
+"giới hạn tốc độ trong API."
 
 #: changes/v4.rst:1179
 msgid ""
@@ -30747,6 +30962,9 @@ msgid ""
 "management UI, and backup logs now show ``C`` entries for files that changed "
 "during the backup."
 msgstr ""
+"Các bản sao lưu Borg kết thúc bằng cảnh báo không còn được hiển thị là không "
+"thành công trong giao diện người dùng quản lý và nhật ký sao lưu hiện hiển "
+"thị các mục ``C`` cho các tệp đã thay đổi trong quá trình sao lưu."
 
 #: changes/v5.rst:49
 msgid ""
@@ -31134,6 +31352,8 @@ msgid ""
 "Improved :ref:`backup` status reporting while keeping maintenance after "
 "failed backup attempts."
 msgstr ""
+"Đã cải thiện báo cáo trạng thái :ref:`backup` trong khi vẫn duy trì bảo trì "
+"sau các lần sao lưu không thành công."
 
 #: changes/v5.rst:128
 msgid ""
@@ -31697,6 +31917,8 @@ msgstr ""
 #: changes/v5.rst:294
 msgid "Repository cleanup now recovers failed merges or rebases."
 msgstr ""
+"Dọn dẹp kho lưu trữ hiện có thể khôi phục các thao tác hợp nhất hoặc tái cơ "
+"sở bị lỗi."
 
 #: changes/v5.rst:295
 msgid "Better visibility of :ref:`project-commit_policy` to translators."
@@ -32204,6 +32426,9 @@ msgid ""
 "changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; "
 "please adjust your settings accordingly."
 msgstr ""
+"Có một số thay đổi trong :file:`settings_example.py`, đáng chú ý nhất là các "
+"cài đặt đã thay đổi ``CRISPY_ALLOWED_TEMPLATE_PACKS`` và ``INSTALLED_APPS``; "
+"vui lòng điều chỉnh cài đặt của bạn cho phù hợp."
 
 #: changes/v5.rst:468
 msgid ""
@@ -32637,7 +32862,7 @@ msgstr ""
 
 #: changes/v5.rst:672
 msgid "Failed :ref:`2fa` is visible in :ref:`audit-log`."
-msgstr ""
+msgstr "Không thành công :ref:`2fa` hiển thị trong :ref:`audit-log`."
 
 #: changes/v5.rst:676
 msgid "Sign-in form not shown for LDAP."
@@ -33039,7 +33264,7 @@ msgstr ""
 
 #: changes/v5.rst:845
 msgid ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
-msgstr ""
+msgstr ":ref:`addon-weblate.webhook.webhook` có thể được cài đặt nhiều lần."
 
 #: changes/v5.rst:846
 msgid ":ref:`user-profile` can now include contact URL."
@@ -34519,7 +34744,7 @@ msgstr ""
 
 #: changes/v5.rst:1531
 msgid ":ref:`check-max-size` sometimes failed to render screenshot."
-msgstr ""
+msgstr ":ref:`check-max-size` đôi khi không hiển thị được ảnh chụp màn hình."
 
 #: changes/v5.rst:1535
 msgid "Weblate now uses mistletoe instead of misaka as a Markdown renderer."
@@ -34940,6 +35165,8 @@ msgid ""
 "There is a change in ``REST_FRAMEWORK`` setting (newly added "
 "``EXCEPTION_HANDLER``)."
 msgstr ""
+"Có sự thay đổi trong cài đặt ``REST_FRAMEWORK`` (mới được thêm "
+"``EXCEPTION_HANDLER``)."
 
 #: changes/v5.rst:1742
 msgid ""
@@ -35096,6 +35323,9 @@ msgid ""
 "changes in ``INSTALLED_APPS`` and ``LOGOUT_REDIRECT_URL``, please adjust "
 "your settings accordingly."
 msgstr ""
+"Có một số thay đổi trong :file:`settings_example.py`, đáng chú ý nhất là "
+"những thay đổi trong ``INSTALLED_APPS`` và ``LOGOUT_REDIRECT_URL``, vui lòng "
+"điều chỉnh cài đặt của bạn cho phù hợp."
 
 #: changes/v5.rst:1796
 msgid "Weblate now requires Python 3.10 and Django 5.0."
@@ -36144,6 +36374,9 @@ msgid ""
 "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
 "settings accordingly."
 msgstr ""
+"Có một số thay đổi trong :file:`settings_example.py`, đáng chú ý nhất là "
+"những thay đổi trong ``CACHES`` và ``SOCIAL_AUTH_PIPELINE``, vui lòng điều "
+"chỉnh cài đặt của bạn cho phù hợp."
 
 #: changes/v5.rst:2211
 msgid "Several previously optional dependencies are now required."
@@ -36616,6 +36849,10 @@ msgid ""
 "Community Moderators determine there is no way to keep the community safe "
 "with this person as a member."
 msgstr ""
+"Sự kiện: Một dạng vi phạm quy tắc ứng xử lặp đi lặp lại mà các bước khác "
+"trong bậc thang không giải quyết được hoặc vi phạm nghiêm trọng đến mức "
+"Người điều hành cộng đồng xác định rằng không có cách nào để giữ an toàn cho "
+"cộng đồng với người này với tư cách là thành viên."
 
 #: contributing/code_of_conduct.rst:85
 msgid ""
@@ -36624,6 +36861,10 @@ msgid ""
 "should have strong reasoning behind them, and should only be resorted to if "
 "working through other remedies has failed to change the behavior."
 msgstr ""
+"Hậu quả: Quyền truy cập vào tất cả các không gian, công cụ và kênh liên lạc "
+"của cộng đồng bị loại bỏ. Nói chung, các lệnh cấm vĩnh viễn hiếm khi được sử "
+"dụng, phải có lý do chính đáng đằng sau và chỉ nên sử dụng nếu các biện pháp "
+"khắc phục khác không thay đổi được hành vi."
 
 #: contributing/code_of_conduct.rst:86
 msgid "Repair: There is no possible repair in cases of this severity."
@@ -37208,7 +37449,7 @@ msgstr ""
 
 #: contributing/frontend.rst:69
 msgid "Run ``yarn install --check-files``."
-msgstr ""
+msgstr "Chạy ``yarn install --check-files``."
 
 #: contributing/frontend.rst:74
 msgid "To install a library, first run the following command:"
@@ -40087,6 +40328,8 @@ msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
 "repository, so there is usually no need to manage it manually."
 msgstr ""
+"Với :doc:`/admin/continuous`, mọi thay đổi sẽ tự động được đẩy từ kho lưu "
+"trữ, do đó thường không cần phải quản lý thủ công."
 
 #: devel/migration.rst:2
 msgid "Migrating to Weblate"
@@ -42090,6 +42333,8 @@ msgid ""
 "Set up your Git repository to tell Weblate when there is any change, "
 "see :ref:`hooks` for info on how to do it."
 msgstr ""
+"Thiết lập kho lưu trữ Git của bạn để thông báo cho Weblate khi có bất kỳ "
+"thay đổi nào, xem :ref:`hooks` để biết thông tin về cách thực hiện."
 
 #: faq.rst:18
 msgid ""
@@ -42384,6 +42629,10 @@ msgid ""
 "object) and the author (who made the changes). Weblate acts as the committer "
 "while preserving individual translator attribution as authors."
 msgstr ""
+"Trong Git, có sự phân biệt giữa người gửi (người đã tạo đối tượng ghi nhận) "
+"và tác giả (người thực hiện các thay đổi). Weblate đóng vai trò là người ghi "
+"nhận trong khi vẫn duy trì sự ghi nhận của cá nhân người dịch với tư cách là "
+"tác giả."
 
 #: faq.rst:308
 msgid ""
@@ -43093,7 +43342,7 @@ msgstr "Danh sách các tham số định dạng tệp"
 
 #: formats/android.rst:4
 msgid "Android string resources"
-msgstr ""
+msgstr "Tài nguyên chuỗi Android"
 
 #: formats/android.rst:10
 msgid "Android specific file format for translating applications."
@@ -43237,7 +43486,7 @@ msgstr ""
 
 #: formats/apple.rst:5
 msgid "Apple iOS strings"
-msgstr ""
+msgstr "Chuỗi Apple iOS"
 
 #: formats/apple.rst:10
 msgid ""
@@ -43586,7 +43835,7 @@ msgstr ""
 
 #: formats/flatxml.rst:4
 msgid "Flat XML files"
-msgstr ""
+msgstr "Tệp XML phẳng"
 
 #: formats/flatxml.rst:16
 msgid ""
@@ -43603,10 +43852,8 @@ msgid "`Flat XML file`"
 msgstr ""
 
 #: formats/fluent.rst:4
-#, fuzzy
-#| msgid "File format"
 msgid "Fluent format"
-msgstr "Định dạng tệp"
+msgstr "Định dạng Fluent"
 
 #: formats/fluent.rst:10
 msgid ""
@@ -43806,7 +44053,7 @@ msgstr ""
 
 #: formats/go-i18n.rst:4
 msgid "go-i18n JSON files"
-msgstr ""
+msgstr "Các tệp JSON go-i18n"
 
 #: formats/go-i18n.rst:13
 msgid "Support for v2 variant of this format was added."
@@ -44001,7 +44248,7 @@ msgstr "Tập tin kiểu Gettext PO"
 
 #: formats/idml.rst:4
 msgid "IDML Format"
-msgstr ""
+msgstr "Định dạng IDML"
 
 #: formats/idml.rst:10
 msgid ""
@@ -47556,6 +47803,8 @@ msgid ""
 "Failed sign-ins, permission changes, two-factor changes, account removal "
 "requests, and other security events are recorded in the audit log."
 msgstr ""
+"Đăng nhập không thành công, thay đổi quyền, thay đổi hai yếu tố, yêu cầu xóa "
+"tài khoản và các sự kiện bảo mật khác được ghi lại trong nhật ký kiểm tra."
 
 #: security/privacy-compliance.rst:103
 msgid "Optional GELF logging can forward logs to systems such as Graylog."
@@ -48489,6 +48738,7 @@ msgstr ""
 #: security/threat-model.rst:50
 msgid "In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)"
 msgstr ""
+"Trong phạm vi. *(được ghi lại)* (nguồn: :doc:`/api`, :doc:`/admin/install`)"
 
 #: security/threat-model.rst:51
 msgid "Project translation metrics"
@@ -49726,6 +49976,11 @@ msgid ""
 "writes project state. Failed restores remove repository and media objects "
 "created by that attempt. *(documented)* (source: :ref:`projectbackup`)"
 msgstr ""
+"Dữ liệu mô tả sao lưu dự án, tham chiếu đối tượng, đường dẫn kho lưu trữ, "
+"URL gửi đi, biểu thức thông thường và nội dung ảnh chụp màn hình được xác "
+"thực trước khi khôi phục trạng thái ghi dự án. Khôi phục không thành công sẽ "
+"xóa kho lưu trữ và các đối tượng phương tiện được tạo bởi lần thử đó. *(được "
+"ghi lại)* (nguồn: :ref:`projectbackup`)"
 
 #: security/threat-model.rst:521
 msgid ""
@@ -50788,10 +51043,8 @@ msgid "Add-on installation"
 msgstr "Cài đặt tiện ích bổ sung"
 
 #: snippets/addon-events-autogenerated.rst:12
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Triggered when add-on is being installed."
-msgstr "PHP strings"
+msgstr "Được kích hoạt khi tiện ích bổ sung đang được cài đặt."
 
 #: snippets/addon-events-autogenerated.rst:17
 #, fuzzy
@@ -51710,10 +51963,8 @@ msgid "A new string was added in Weblate."
 msgstr "Một chuỗi mới đã được thêm vào Weblate."
 
 #: snippets/addon-parameters-autogenerated.rst:365
-#, fuzzy
-#| msgid "Last name"
 msgid "Bulk status changed"
-msgstr "Họ"
+msgstr "Đã thay đổi trạng thái hàng loạt"
 
 #: snippets/addon-parameters-autogenerated.rst:366
 msgid "The translation state of one or more strings was changed in bulk."
@@ -52330,10 +52581,8 @@ msgid "A remote repository update was completed."
 msgstr "Quá trình cập nhật kho lưu trữ từ xa đã hoàn tất."
 
 #: snippets/addon-parameters-autogenerated.rst:637
-#, fuzzy
-#| msgid "Repository rebase failed"
 msgid "Remote repository update failed"
-msgstr "Rebase kho lưu trữ thất bại"
+msgstr "Cập nhật kho lưu trữ từ xa không thành công"
 
 #: snippets/addon-parameters-autogenerated.rst:638
 msgid "Updating a remote repository failed."
@@ -65158,6 +65407,10 @@ msgid ""
 "signatures since release 7.2 and existing ssh-rsa keys will automatically "
 "use the stronger algorithm where possible."
 msgstr ""
+"Đối với hầu hết người dùng, thay đổi này sẽ ẩn và không cần thay thế khóa "
+"ssh-rsa. OpenSSH đã hỗ trợ chữ ký RFC8332 RSA/SHA-256/512 kể từ bản phát "
+"hành 7.2 và các khóa ssh-rsa hiện có sẽ tự động sử dụng thuật toán mạnh hơn "
+"nếu có thể."
 
 #: vcs.rst:181
 msgid ""
