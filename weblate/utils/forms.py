@@ -211,6 +211,9 @@ class SearchableSelect(forms.Select):
         attrs["class"] = " ".join(existing)
         super().__init__(attrs, choices)
 
+class SortedSearchableSelect(SortedChoiceWidget, SearchableSelect):
+    """Wrapper class to sort choices and provide client side search."""
+
 
 class ContextDiv(Div):
     def __init__(self, *fields, **kwargs) -> None:
