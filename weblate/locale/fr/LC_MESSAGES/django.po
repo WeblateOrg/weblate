@@ -38,7 +38,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-12 06:55+0000\n"
+"PO-Revision-Date: 2026-08-12 10:28+0000\n"
 "Last-Translator: Steve <steve-contrib@murena.io>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -18180,6 +18180,11 @@ msgid ""
 "GitHub, you will be redirected back here and the credentials will be stored "
 "automatically."
 msgstr ""
+"Envoyez le formulaire ci-dessous pour créer une application GitHub. Il est "
+"déjà prérempli avec toutes les autorisations et tous les événements dont "
+"Weblate a besoin. Après avoir confirmé le nom de l'application sur GitHub, "
+"vous serez redirigé ici et les identifiants seront enregistrés "
+"automatiquement."
 
 #: weblate/templates/vcs/github_app_register.html:38
 #, python-format
@@ -18190,20 +18195,16 @@ msgstr ""
 
 #: weblate/templates/vcs/github_app_register.html:44
 msgid "GitHub hosts that already have a Weblate GitHub App registered:"
-msgstr ""
+msgstr "Hôtes GitHub ayant déjà une application GitHub Weblate enregistrée :"
 
 #: weblate/templates/vcs/github_app_register.html:75
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Subscribed events"
-msgstr "Projets abonnés"
+msgstr "Événements abonnés"
 
 #: weblate/templates/vcs/github_app_register.html:87
 #: weblate/templates/vcs/github_app_register_submit.html:15
-#, fuzzy
-#| msgid "Continue"
 msgid "Continue to GitHub"
-msgstr "Poursuivre"
+msgstr "Continuer avec GitHub"
 
 #: weblate/templates/vcs/github_app_register.html:88
 #: weblate/templates/vcs/github_installation_list.html:125
@@ -18212,21 +18213,21 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #: weblate/templates/vcs/github_app_register.html:96
-#, fuzzy
-#| msgid "Live Preview"
 msgid "Manifest preview"
-msgstr "Aperçu actuel"
+msgstr "Aperçu du manifeste"
 
 #: weblate/templates/vcs/github_app_register.html:100
 msgid ""
 "The JSON document below is the manifest that GitHub will use to pre-fill the "
 "new App's settings."
 msgstr ""
+"Le document JSON ci-dessous est le manifeste que GitHub utilisera pour "
+"préremplir les paramètres de la nouvelle application."
 
 #: weblate/templates/vcs/github_app_register_submit.html:23
 #, python-format
 msgid "Sending you to %(host)s"
-msgstr ""
+msgstr "Redirection vers %(host)s"
 
 #: weblate/templates/vcs/github_app_register_submit.html:28
 #, python-format
@@ -18234,6 +18235,9 @@ msgid ""
 "Click the button below to send the pre-filled GitHub App manifest to "
 "%(host)s. You will be redirected back here once GitHub confirms."
 msgstr ""
+"Cliquez sur le bouton ci-dessous pour envoyer le manifeste d’application "
+"GitHub prérempli à %(host)s. Vous serez redirigé ici une fois que GitHub "
+"aura confirmé."
 
 #: weblate/templates/vcs/github_app_register_submit.html:34
 #: weblate/templates/vcs/github_installation_list.html:83
@@ -18263,25 +18267,27 @@ msgid ""
 "this app. If an organization is missing, check your organization role and "
 "GitHub App installation restrictions in GitHub."
 msgstr ""
+"GitHub affiche uniquement les comptes sur lesquels votre utilisateur GitHub "
+"peut installer ou demander cette application. Si une organisation est "
+"manquante, vérifiez votre rôle au sein de l'organisation et les restrictions "
+"d'installation d'applications dans GitHub."
 
 #: weblate/templates/vcs/github_install_select.html:13
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "Choose GitHub host"
-msgstr "Étoile GitHub"
+msgstr "Choisir l’hôte GitHub"
 
 #: weblate/templates/vcs/github_install_select.html:17
 msgid ""
 "Select the GitHub or GitHub Enterprise instance where you want to connect "
 "the Weblate GitHub App."
 msgstr ""
+"Sélectionnez l’instance GitHub ou GitHub Enterprise sur laquelle vous "
+"souhaitez connecter l’application GitHub Weblate."
 
 #: weblate/templates/vcs/github_install_select.html:22
 #, python-format
 msgid "Install on %(hostname)s"
-msgstr "Installer %(hostname)s"
+msgstr "Installer sur %(hostname)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:20
 #, python-format
@@ -18289,58 +18295,50 @@ msgid "Connected GitHub account: %(login)s"
 msgstr "Compte GitHub connecté : %(login)s"
 
 #: weblate/templates/vcs/github_installation_detail.html:32
-#, fuzzy
-#| msgid "Repositories"
 msgid "Refresh repositories"
-msgstr "Dépôts"
+msgstr "Actualiser les dépôts"
 
 #: weblate/templates/vcs/github_installation_detail.html:44
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Weblate GitHub app credentials are not registered for %(hostname)s. Token "
 "refresh and webhook signature checks will not work until the App credentials "
 "are registered again."
 msgstr ""
+"Les identifiants de l’application GitHub Weblate ne sont pas enregistrés "
+"pour %(hostname)s. Le rafraîchissement des jetons et la vérification des "
+"signatures de webhooks ne fonctionneront pas tant que les identifiants de "
+"l’application ne seront pas réenregistrés."
 
 #: weblate/templates/vcs/github_installation_detail.html:51
-#, fuzzy
-#| msgctxt "Label on donate page"
-#| msgid "GitHub star"
-#| msgid_plural "GitHub stars"
 msgid "GitHub installation ID"
-msgstr "Étoile GitHub"
+msgstr "Identifiant d’installation GitHub"
 
 #: weblate/templates/vcs/github_installation_detail.html:76
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "Repositories updated"
-msgstr "Le dépôt n’est pas à jour."
+msgstr "Dépôts mis à jour"
 
 #: weblate/templates/vcs/github_installation_detail.html:88
-#, fuzzy
-#| msgid "Repositories"
 msgid "Available Repositories"
-msgstr "Dépôts"
+msgstr "Dépôts disponibles"
 
 #: weblate/templates/vcs/github_installation_detail.html:125
-#, fuzzy
-#| msgid "Not available"
 msgid "Unavailable"
-msgstr "Non disponible"
+msgstr "Indisponible"
 
 #: weblate/templates/vcs/github_installation_detail.html:134
 msgid ""
 "No repositories found. Click 'Refresh repositories' to fetch the list from "
 "GitHub."
 msgstr ""
-"Aucun dépôt n'a été trouvé. Cliquez sur « Actualiser les dépôts » pour "
+"Aucun dépôt n'a été trouvé. Cliquez sur 'Actualiser les dépôts' pour "
 "récupérer la liste depuis GitHub."
 
 #: weblate/templates/vcs/github_installation_list.html:19
 #, fuzzy
 #| msgid "Weblate status"
 msgid "Weblate GitHub Apps"
-msgstr "État de Weblate"
+msgstr "Applications GitHub Weblate"
 
 #: weblate/templates/vcs/github_installation_list.html:28
 msgid ""
@@ -18348,6 +18346,10 @@ msgid ""
 "with the right permissions and webhook URL already filled in — Weblate will "
 "store the credentials automatically once GitHub redirects back."
 msgstr ""
+"Aucune application d’hébergement de code n’est encore enregistrée. Utilisez "
+"le bouton ci-dessus pour en créer une avec les bonnes autorisations et l’URL "
+"de webhook déjà préremplies — Weblate enregistrera automatiquement les "
+"identifiants une fois que GitHub vous aura redirigé."
 
 #: weblate/templates/vcs/github_installation_list.html:37
 msgid ""
@@ -18355,25 +18357,25 @@ msgid ""
 "providers. Connect an account to each app to import repositories from that "
 "account."
 msgstr ""
+"Les applications ci-dessous fournissent les informations de connexion "
+"utilisées par Weblate pour communiquer avec les hébergeurs de code. "
+"Connectez un compte à chaque application pour importer les dépôts de ce "
+"compte."
 
 #: weblate/templates/vcs/github_installation_list.html:64
 #: weblate/templates/vcs/github_installation_list.html:69
 #: weblate/templates/vcs/github_installation_list.html:126
-#, fuzzy
-#| msgid "Remove"
 msgid "Remove app"
-msgstr "Supprimer"
+msgstr "Supprimer l’application"
 
 #: weblate/templates/vcs/github_installation_list.html:69
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove connected accounts first."
-msgstr "Supprimer mon compte"
+msgstr "Supprimez d’abord les comptes connectés."
 
 #: weblate/templates/vcs/github_installation_list.html:75
 #: weblate/vcs/github.py:478
 msgid "App ID"
-msgstr "App ID"
+msgstr "Identifiant de l’application"
 
 #: weblate/templates/vcs/github_installation_list.html:79
 msgid "Slug"
@@ -18381,7 +18383,7 @@ msgstr "Slug"
 
 #: weblate/templates/vcs/github_installation_list.html:101
 msgid "Remove Weblate GitHub App?"
-msgstr ""
+msgstr "Supprimer l’application GitHub Weblate ?"
 
 #: weblate/templates/vcs/github_installation_list.html:111
 #, python-format
@@ -18389,36 +18391,40 @@ msgid ""
 "This deletes the stored credentials for the <code>%(slug)s</code> App on "
 "<code>%(host)s</code>."
 msgstr ""
+"Ceci supprime les informations de connexion enregistrées pour l’application "
+"<code>%(slug)s</code> sur <code>%(host)s</code>."
 
 #: weblate/templates/vcs/github_installation_list.html:118
 msgid ""
 "The App itself stays installed on GitHub. Delete it from GitHub separately "
 "if you no longer need it."
 msgstr ""
+"L’application elle-même reste installée sur GitHub. Supprimez-la séparément "
+"sur GitHub si vous n’en avez plus besoin."
 
 #: weblate/templates/vcs/github_installation_list.html:175
 msgid ""
 "No connected accounts yet. Use the button above to connect an organization "
 "or user account."
 msgstr ""
+"Aucun compte connecté pour l’instant. Utilisez le bouton ci-dessus pour "
+"connecter une organisation ou un compte utilisateur."
 
 #: weblate/templates/vcs/github_repository_list.html:9
-#, fuzzy
-#| msgid "Connected accounts"
 msgid "From connected account"
-msgstr "Comptes connectés"
+msgstr "Depuis le compte connecté"
 
 #: weblate/templates/vcs/github_repository_list.html:17
-#, fuzzy
-#| msgid "Connected accounts"
 msgid "Import from connected account"
-msgstr "Comptes connectés"
+msgstr "Importer depuis un compte connecté"
 
 #: weblate/templates/vcs/github_repository_list.html:70
 msgid ""
 "Select a repository to import. This will pre-fill the component creation "
 "form with the repository URL and branch."
 msgstr ""
+"Sélectionnez un dépôt à importer. Cela pré-remplira le formulaire de "
+"création de composant avec l’URL et la branche du dépôt."
 
 #: weblate/templates/vcs/github_repository_list.html:112
 msgid "No repositories available from connected accounts."
@@ -18428,30 +18434,31 @@ msgstr "Aucun dépôt disponible pour les comptes connectés."
 msgid ""
 "Install the Weblate GitHub app to connect an organization or user account."
 msgstr ""
+"Installez l’application GitHub Weblate pour connecter une organisation ou un "
+"compte utilisateur."
 
 #: weblate/templates/vcs/github_repository_list.html:117
 msgid ""
 "Select a project with a workspace before connecting an account. Code-hosting "
 "accounts are connected to workspaces."
 msgstr ""
+"Sélectionnez un projet disposant d’un espace de travail avant de connecter "
+"un compte. Les comptes d’hébergement de code sont connectés aux espaces de "
+"travail."
 
 #: weblate/templates/vcs/github_repository_list.html:119
-#, fuzzy
-#| msgid "Total number of entries in this Weblate instance"
 msgid "Weblate GitHub app is not registered on this Weblate instance."
-msgstr "Nombre total d’entrées dans cette instance Weblate"
+msgstr ""
+"L’application GitHub Weblate n’est pas enregistrée sur cette instance "
+"Weblate."
 
 #: weblate/templates/vcs/github_repository_list.html:122
-#, fuzzy
-#| msgid "Push the repository"
 msgid "Try refreshing the repository list."
-msgstr "Pousser le dépôt"
+msgstr "Essayez de rafraîchir la liste des dépôts."
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:15
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove connected account?"
-msgstr "Supprimer mon compte"
+msgstr "Supprimer le compte connecté ?"
 
 #: weblate/templates/vcs/snippets/github_account_remove_modal.html:25
 #, python-format
@@ -18465,6 +18472,8 @@ msgid ""
 "The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
 "separately if you no longer need it."
 msgstr ""
+"L’application GitHub Weblate reste installée sur GitHub. Supprimez-la "
+"séparément sur GitHub si vous n’en avez plus besoin."
 
 #: weblate/templates/weblate_auth/invitation_detail.html:7
 msgid "Invitations"
@@ -18573,40 +18582,39 @@ msgid ""
 "The workspace cannot be removed while it contains projects. Move or remove "
 "the projects first."
 msgstr ""
+"L’espace de travail ne peut pas être supprimé tant qu’il contient des "
+"projets. Déplacez ou supprimez d’abord les projets."
 
 #: weblate/templates/workspace.html:248 weblate/workspaces/views.py:328
 msgid "A workspace associated with billing cannot be removed."
 msgstr ""
+"Un espace de travail associé à la facturation ne peut pas être supprimé."
 
 #: weblate/templates/workspace.html:261
-#, fuzzy
-#| msgid "I understand the consequences, delete this translation"
 msgid "I understand the consequences, delete this workspace"
-msgstr "Je comprends les conséquences, supprimer cette traduction"
+msgstr "Je comprends les conséquences, supprimer cet espace de travail"
 
 #: weblate/templates/workspaces/delete-workspace.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the %(object)s "
-#| "component and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "workspace and all related workspace data."
 msgstr ""
-"Cette action est irréversible. Cela supprimera définitivement le composant "
-"%(object)s et tous les contenus connexes."
+"Cette action est irréversible. Cela supprimera définitivement l’espace de "
+"travail %(object)s et toutes ses données associées."
 
 #: weblate/templates/workspaces/delete-workspace.html:5
 msgid ""
 "This includes workspace access-control teams, translation memory, and code-"
 "hosting connections."
 msgstr ""
+"Cela inclut la gestion des accès à l’espace de travail par les équipes de "
+"contrôles, la mémoire de traduction et les comptes d’hébergement de code "
+"connectés."
 
 #: weblate/templates/workspaces/delete-workspace.html:9
-#, fuzzy
-#| msgid "Workspace name"
 msgid "Workspace to remove"
-msgstr "Nom de l'espace de travail"
+msgstr "Espace de travail à supprimer"
 
 #: weblate/templates/zen-units.html:23
 msgid "Open in full editor"
@@ -18629,10 +18637,8 @@ msgid "Exit Zen"
 msgstr "Quitter le mode Zen"
 
 #: weblate/trans/actions.py:33
-#, fuzzy
-#| msgid "Rescan all translation files in the Weblate repository"
 msgid "A translation file was synchronized with its repository."
-msgstr "Réanalyser tous les fichiers de traduction dans le dépôt Weblate"
+msgstr "Un fichier de traduction a été synchronisé avec son dépôt."
 
 #: weblate/trans/actions.py:34
 msgid "Resource updated"
@@ -18643,44 +18649,37 @@ msgid ""
 "A language translation became fully translated after an individual edit. "
 "Automatic translation, uploads, and bulk edits do not emit this event."
 msgstr ""
+"La traduction vers une langue est désormais complète suite à une "
+"modification manuelle. Cet événement n’est pas déclenché par la traduction "
+"automatique, le téléversement de fichiers ou les modifications en masse."
 
 #: weblate/trans/actions.py:43
 msgid "Translation completed"
 msgstr "Traduction terminée"
 
 #: weblate/trans/actions.py:48
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String was edited by user"
 msgid "An existing translation was edited by a user."
-msgstr "Une chaîne a été modifiée par un utilisateur"
+msgstr "Une traduction existante a été modifiée par un utilisateur."
 
 #: weblate/trans/actions.py:49
 msgid "Translation changed"
 msgstr "Traduction modifiée"
 
 #: weblate/trans/actions.py:54
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Comment was added"
 msgid "A comment was added to a string."
-msgstr "Un commentaire a été ajouté"
+msgstr "Un commentaire a été ajouté à une chaîne."
 
 #: weblate/trans/actions.py:55
 msgid "Comment added"
 msgstr "Commentaire ajouté"
 
 #: weblate/trans/actions.py:60
-#, fuzzy
-#| msgid "Translation suggestions can be made."
 msgid "A translation suggestion was added."
-msgstr "Il est possible de suggérer des traductions."
+msgstr "Une suggestion de traduction a été ajoutée."
 
 #: weblate/trans/actions.py:66
-#, fuzzy
-#| msgid "All untranslated strings added the past month"
 msgid "A previously untranslated string was translated by a user."
-msgstr "Toutes les chaînes non traduites ajoutées dans le mois"
+msgstr "Une chaîne jusqu’ici non traduite a été traduite par un utilisateur."
 
 #: weblate/trans/actions.py:67
 msgid "Translation added"
@@ -18691,22 +18690,20 @@ msgid ""
 "A translation was added or changed by automatic translation. This is emitted "
 "instead of Translation added or Translation changed."
 msgstr ""
+"Une traduction a été ajoutée ou modifiée par la traduction automatique. Ceci "
+"est émis à la place de Traduction ajoutée ou Traduction modifiée."
 
 #: weblate/trans/actions.py:81
-#, fuzzy
-#| msgid "Define translation instructions to help translators."
 msgid "A translation suggestion was accepted as the translation."
-msgstr "Définisser des consignes de traduction pour aider les traducteurs."
+msgstr "Une suggestion de traduction a été acceptée comme traduction."
 
 #: weblate/trans/actions.py:82
 msgid "Suggestion accepted"
 msgstr "Suggestion acceptée"
 
 #: weblate/trans/actions.py:87
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "A translation was restored to an earlier value."
-msgstr "Vous avez atteint la fin de la traduction."
+msgstr "Une traduction a été restaurée à une valeur antérieure."
 
 #: weblate/trans/actions.py:88
 msgid "Translation reverted"
@@ -18717,140 +18714,115 @@ msgid ""
 "A translation was added or changed by a translation file upload. This is "
 "emitted instead of Translation added or Translation changed."
 msgstr ""
+"Une traduction a été ajoutée ou modifiée par le téléversement d'un fichier "
+"de traduction. Ceci est émis à la place de Traduction ajoutée ou Traduction "
+"modifiée."
 
 #: weblate/trans/actions.py:97
 msgid "Translation uploaded"
 msgstr "Traduction téléversée"
 
 #: weblate/trans/actions.py:102
-#, fuzzy
-#| msgid "Source string added in the repository"
 msgid "A source string was added outside repository or upload updates."
-msgstr "Chaîne source ajoutée au dépôt"
+msgstr ""
+"Une chaîne source a été ajoutée en dehors du dépôt ou du téléversement de "
+"mises à jour."
 
 #: weblate/trans/actions.py:103
 msgid "Source string added"
 msgstr "Chaîne source ajoutée"
 
 #: weblate/trans/actions.py:108
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "A component was locked for translation."
-msgstr ""
-"Tous les composants sont désormais verrouillés pour mise à jour des "
-"traductions !"
+msgstr "Un composant a été verrouillé pour la traduction."
 
 #: weblate/trans/actions.py:109
 msgid "Component locked"
 msgstr "Le composant est verrouillé"
 
 #: weblate/trans/actions.py:114
-#, fuzzy
-#| msgid "All components are now locked for translation updates!"
 msgid "A component was unlocked for translation."
-msgstr ""
-"Tous les composants sont désormais verrouillés pour mise à jour des "
-"traductions !"
+msgstr "Un composant a été déverrouillé pour traduction."
 
 #: weblate/trans/actions.py:115
 msgid "Component unlocked"
 msgstr "Le composant est déverrouillé"
 
 #: weblate/trans/actions.py:121
-#, fuzzy
-#| msgid "All pending translations were committed."
 msgid "Pending component changes were committed."
-msgstr "Toutes les traductions en attente ont été commitées."
+msgstr "Les modifications en attente du composant ont été validées."
 
 #: weblate/trans/actions.py:122
 msgid "Changes committed"
 msgstr "Modifications validées"
 
 #: weblate/trans/actions.py:127
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes were pushed upstream."
-msgstr "Alerte de modification du dépôt"
+msgstr "Les modifications du dépôt ont été poussées en amont."
 
 #: weblate/trans/actions.py:128
 msgid "Changes pushed"
 msgstr "Modifications poussées"
 
 #: weblate/trans/actions.py:133
-#, fuzzy
-#| msgid "Reset repository to upstream"
 msgid "A repository was reset to its upstream state."
-msgstr "Réinitialisation du dépôt en amont"
+msgstr "Un dépôt a été réinitialisé à son état en amont."
 
 #: weblate/trans/actions.py:134
 msgid "Repository reset"
 msgstr "Réinitialiser le dépôt"
 
 #: weblate/trans/actions.py:139
-#, fuzzy
-#| msgid "The remote repository needs to be merged!"
 msgid "Upstream repository changes were merged."
-msgstr "Le dépôt distant doit être fusionné !"
+msgstr "Les modifications du dépôt en amont ont été fusionnées."
 
 #: weblate/trans/actions.py:140
 msgid "Repository merged"
 msgstr "Dépôt fusionné"
 
 #: weblate/trans/actions.py:145
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Repository changes were rebased on upstream."
-msgstr "Alerte de modification du dépôt"
+msgstr "Les modifications du dépôt ont été rebasées sur l'amont."
 
 #: weblate/trans/actions.py:146
 msgid "Repository rebased"
 msgstr "Dépôt rebasé"
 
 #: weblate/trans/actions.py:151
-#, fuzzy
-#| msgid "View upstream repository location"
 msgid "Merging upstream repository changes failed."
-msgstr "Voir l’emplacement du dépôt en amont"
+msgstr "La fusion des modifications du dépôt en amont a échoué."
 
 #: weblate/trans/actions.py:152
 msgid "Repository merge failed"
 msgstr "Échec de la fusion de dépôt"
 
 #: weblate/trans/actions.py:157
-#, fuzzy
-#| msgid "Repository changes alert"
 msgid "Rebasing repository changes failed."
-msgstr "Alerte de modification du dépôt"
+msgstr "Le rebasage des modifications du dépôt a échoué."
 
 #: weblate/trans/actions.py:158
 msgid "Repository rebase failed"
 msgstr "Échec du rebasement du dépôt"
 
 #: weblate/trans/actions.py:163
-#, fuzzy
-#| msgid "Could not parse translation files."
 msgid "Weblate could not parse a translation file."
-msgstr "Impossible d’analyser les fichiers de traduction."
+msgstr "Weblate n'a pas pu analyser un fichier de traduction."
 
 #: weblate/trans/actions.py:164
 msgid "Parsing failed"
 msgstr "Échec de l’analyse"
 
 #: weblate/trans/actions.py:169
-#, fuzzy
-#| msgid "A language in the category was removed."
 msgid "A language translation was removed."
-msgstr "Une langue de la catégorie a été supprimée."
+msgstr "Une langue de traduction a été supprimée."
 
 #: weblate/trans/actions.py:170
 msgid "Translation removed"
 msgstr "Traduction supprimée"
 
 #: weblate/trans/actions.py:175
-#, fuzzy
-#| msgid "Translation suggestions can be made."
 msgid "A translation suggestion was removed."
-msgstr "Il est possible de suggérer des traductions."
+msgstr "Une suggestion de traduction a été supprimée."
 
 #: weblate/trans/actions.py:176
 msgid "Suggestion removed"
@@ -20383,6 +20355,7 @@ msgstr "Conserver les msgids précédents des chaînes traduites"
 #: weblate/trans/file_format_params.py:371
 msgid "Controls previous msgid comments for fuzzy strings."
 msgstr ""
+"Contrôle les commentaires précédents du msgid pour les chaînes à vérifier."
 
 #: weblate/trans/file_format_params.py:378
 #, fuzzy
@@ -20395,6 +20368,8 @@ msgid ""
 "Remove obsolete entries from PO files when saving translation changes or "
 "updating from a POT file."
 msgstr ""
+"Supprimer les entrées obsolètes des fichiers PO lors de l’enregistrement des "
+"modifications de traduction ou de la mise à jour à partir d’un fichier POT."
 
 #: weblate/trans/file_format_params.py:390
 msgid "Do not include location information in the file"
@@ -24193,18 +24168,15 @@ msgstr ""
 #: weblate/trans/views/git.py:46
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
+"Utilisez le bouton de la page d’état du dépôt pour exécuter cette action."
 
 #: weblate/trans/views/git.py:67
-#, fuzzy
-#| msgid ""
-#| "Could not remove the string because another background operation is in "
-#| "progress. Please try again later."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
-"Impossible de supprimer la chaîne car une opération en arrière-plan est en "
-"cours. Veuillez réessayer plus tard."
+"Une opération semble être en cours sur le dépôt. Veuillez réessayer plus "
+"tard."
 
 #: weblate/trans/views/git.py:106
 msgid ""
@@ -25508,18 +25480,20 @@ msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
 msgstr ""
+"Utilisez github.com pour GitHub.com, ou le nom d’hôte web pour GitHub "
+"Enterprise Server."
 
 #: weblate/vcs/forms.py:69
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Organization (optional)"
-msgstr "Justification de cette traduction"
+msgstr "Organisation (optionnel)"
 
 #: weblate/vcs/forms.py:72
 msgid ""
 "Enter a GitHub organization slug to register the App under that organization "
 "instead of your personal account."
 msgstr ""
+"Saisissez l'identifiant d'une organisation GitHub pour enregistrer "
+"l'application sous cette organisation plutôt que sur votre compte personnel."
 
 #: weblate/vcs/forms.py:78
 msgid "Leave blank to register on your personal account"
@@ -25531,6 +25505,9 @@ msgid ""
 "GitHub App names must be unique and at most %(limit)s characters. You will "
 "still be able to change the name on GitHub before confirming."
 msgstr ""
+"Le nom de l'application GitHub doit être unique et ne pas dépasser %(limit)s "
+"caractères. Vous pourrez toujours modifier ce nom sur GitHub avant de "
+"confirmer."
 
 #: weblate/vcs/forms.py:93
 msgid "Public (any GitHub account can install it)"
@@ -25542,6 +25519,9 @@ msgid ""
 "here only means the App is not restricted to its owner; it does not list the "
 "App on the GitHub Marketplace."
 msgstr ""
+"Requis pour installer l’application sur plusieurs comptes ou organisations. "
+"« Public » signifie ici uniquement que l’application n'est pas restreinte à "
+"son propriétaire ; cela ne la répertorie pas sur le GitHub Marketplace."
 
 #: weblate/vcs/git.py:404
 msgid "This will push changes to the upstream Git repository."
