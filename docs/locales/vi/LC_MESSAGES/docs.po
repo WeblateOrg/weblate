@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-12 05:27+0000\n"
+"PO-Revision-Date: 2026-08-12 06:05+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -58,9 +58,9 @@ msgid ""
 "always :guilabel:`Public`. You can switch to the paid plan if you want to "
 "restrict access to your project."
 msgstr ""
-"Các dự án chạy gói Libre miễn phí trên Hosted Weblate sẽ là :guilabel:`Công "
-"khai`. Bạn có thể đổi sang gói trả phí nếu bạn muốn giới hạn truy cập vào dự "
-"án của bạn."
+"Các dự án chạy gói cước Tự Do trên Lưu Trữ Weblate sẽ là :guilabel:`Công "
+"khai`. Bạn có thể đổi sang gói cước trả phí nếu bạn muốn giới hạn truy cập "
+"vào dự án của bạn."
 
 #: admin/access.rst:22
 msgid ""
@@ -2627,8 +2627,8 @@ msgid ""
 "is how you get it running:"
 msgstr ""
 "Cách dễ nhất để sao lưu phiên bản Weblate của bạn là mua dịch vụ sao lưu tại "
-"weblate.org <https://weblate.org/support/#backup>_. Sau đây là cách bạn "
-"thiết lập và chạy dịch vụ:"
+"weblate.org <https://weblate.org/support/#backup>_. Đây là cách bạn làm cho "
+"nó chạy:"
 
 #: admin/backup.rst:110
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
@@ -2691,6 +2691,10 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
+"Khuyến nghị chỉ định đường dẫn tuyệt đối cho sao lưu cục bộ, ví dụ `/path/to/"
+"backup`. Người dùng đang chạy Weblate phải có thể ghi được thư mục này (xem "
+":ref:`file-permissions`). Nếu nó không tồn tại, Weblate sẽ cố gắng tạo nó "
+"nhưng cần có quyền thích hợp để làm điều đó."
 
 #: admin/backup.rst:145
 msgid ""
@@ -2698,6 +2702,9 @@ msgid ""
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
+"Khi chạy Weblate trong Docker, vui lòng đảm bảo vị trí sao lưu được hiển thị "
+"dưới dạng một ổ đĩa từ vùng chứa Weblate. Nếu không, các bản sao lưu sẽ bị "
+"Docker loại bỏ khi khởi động lại vùng chứa nó."
 
 #: admin/backup.rst:149
 msgid ""
@@ -2974,6 +2981,10 @@ msgid ""
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
+"Bạn có thể khôi phục bản sao lưu này trong bản phát hành Weblate mới hơn, nó "
+"sẽ thực hiện tất cả các di chuyển cần thiết khi chạy trong "
+":wladmin:`migrate`. Vui lòng tham khảo :doc:`upgrade` để biết thêm thông tin "
+"chi tiết về cách nâng cấp giữa các phiên bản."
 
 #: admin/backup.rst:355
 msgid "Django database backup"
@@ -2994,11 +3005,11 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :wladmin:`migrate`."
 msgstr ""
-"Trước khi khôi phục cơ sở dữ liệu, bạn cần phải sử dụng chính xác phiên bản "
-"Weblate mà bản sao lưu đã được tạo ra. Điều này là cần thiết vì cấu trúc cơ "
-"sở dữ liệu có thể thay đổi giữa các phiên bản và nếu không, bạn có thể làm "
-"hỏng dữ liệu theo một cách nào đó. Sau khi cài đặt cùng phiên bản, hãy chạy "
-"tất cả các bản di chuyển cơ sở dữ liệu bằng lệnh :wladmin:`migrate`."
+"Trước khi khôi phục cơ sở dữ liệu, bạn cần phải chạy chính xác phiên bản "
+"Weblate mà bản sao lưu đã tạo ra. Điều này là cần thiết vì cấu trúc cơ sở dữ "
+"liệu có thể thay đổi giữa các phiên bản và nếu không, bạn có thể làm hỏng dữ "
+"liệu theo một cách nào đó. Sau khi cài đặt cùng phiên bản, hãy chạy tất cả "
+"các bản di chuyển cơ sở dữ liệu bằng lệnh :wladmin:`migrate`."
 
 #: admin/backup.rst:367
 msgid ""
@@ -3044,6 +3055,10 @@ msgid ""
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
+"Weblate lưu trữ nhiều loại dữ liệu khác nhau tại đây, và bạn có thể thêm các "
+"tệp này vào để có bản sao lưu đầy đủ hơn. Các tệp này được cập nhật hàng "
+"ngày (yêu cầu máy chủ Celery beats đang chạy, xem :ref:`celery`). Hiện tại, "
+"các tệp này bao gồm:"
 
 #: admin/backup.rst:401
 msgid ""
@@ -5221,6 +5236,8 @@ msgid ""
 "This directory has to be writable by Weblate. Running it as WSGI means the "
 "``www-data`` user should have write access to it."
 msgstr ""
+"Thư mục này phải được ghi bởi Weblate. Chạy nó dưới dạng WSGI có nghĩa là "
+"người dùng ``www-data`` phải có quyền ghi vào nó."
 
 #: admin/config.rst:620
 msgid ""
@@ -5722,7 +5739,7 @@ msgstr ""
 
 #: admin/config.rst:1302
 msgid "Indicates whether Weblate is running behind a reverse proxy."
-msgstr ""
+msgstr "Cho biết liệu Weblate có chạy sau proxy ngược hay không."
 
 #: admin/config.rst:1304
 msgid ""
@@ -6624,7 +6641,7 @@ msgstr ""
 
 #: admin/config.rst:2537
 msgid "If Weblate is running on a non-standard port, include it here as well."
-msgstr ""
+msgstr "Nếu Weblate đang chạy trên một cổng không chuẩn, hãy đưa nó vào đây."
 
 #: admin/config.rst:2539 snippets/addons-autogenerated.rst:691
 msgid "**Examples:**"
@@ -7011,6 +7028,9 @@ msgid ""
 "and falls backs to ``https``. If you are running the API server internally, "
 "you might want to use ``http`` instead, but consider security."
 msgstr ""
+"Ghi đè lược đồ. Weblate cố gắng phân tích sơ đồ từ URL kho lưu trữ và quay "
+"lại ``https``. Nếu bạn đang chạy máy chủ API nội bộ, bạn có thể muốn sử dụng "
+"``http`` thay thế, nhưng hãy cân nhắc vấn đề bảo mật."
 
 #: admin/config.rst:3056
 msgid ""
@@ -8523,6 +8543,9 @@ msgid ""
 "under the same user as Weblate itself is running, otherwise permissions on "
 "some files might be wrong."
 msgstr ""
+"Bạn cũng nên cẩn thận khi chạy :ref:`manage`, vì chúng phải được chạy dưới "
+"cùng một người dùng như chính Weblate đang chạy, nếu không quyền trên một số "
+"tệp có thể không đúng."
 
 #: admin/install.rst:375
 msgid ""
@@ -9063,6 +9086,8 @@ msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
+"Sử dụng vị trí liền kề để chạy máy chủ cơ sở dữ liệu, nếu không hiệu suất "
+"hoặc độ tin cậy của mạng có thể làm hỏng trải nghiệm Weblate của bạn."
 
 #: admin/install.rst:951
 msgid ""
@@ -9368,6 +9393,9 @@ msgid ""
 "program. Django is usually executed as WSGI or fcgi (see examples for "
 "different webservers below)."
 msgstr ""
+"Chạy Weblate không khác với chạy bất kỳ chương trình dựa trên Django nào "
+"khác. Django thường được thực thi dưới dạng WSGI hoặc fcgi (xem ví dụ về các "
+"máy chủ web khác nhau bên dưới)."
 
 #: admin/install.rst:1232
 msgid ""
@@ -9538,6 +9566,9 @@ msgid ""
 "of the modwsgi. Usually it is available as a separate package, for example "
 "``libapache2-mod-wsgi-py3``."
 msgstr ""
+"Weblate yêu cầu Python 3, vì vậy hãy đảm bảo bạn đang chạy biến thể Python 3 "
+"của modwsgi. Thông thường nó có sẵn dưới dạng một gói riêng biệt, ví dụ "
+"``libapache2-mod-wsgi-py3``."
 
 #: admin/install.rst:1397
 msgid "Use matching Python version to install Weblate."
@@ -9613,6 +9644,13 @@ msgid ""
 "but most Weblate views remain synchronous, and CPU-intensive or long-running "
 "work should still be handled by :ref:`celery`."
 msgstr ""
+"Bản mẫu sử dụng giao diện ASGI của Granian mà không có tuổi thọ hoặc hỗ trợ "
+"WebSocket vì Weblate hiện chỉ hiển thị HTTP. Phần mềm trung gian của Weblate "
+"hỗ trợ cả hai chế độ triển khai và sử dụng các bộ điều hợp nhạy luồng trong "
+"đó nó vẫn dựa trên các API Django đồng bộ. Quá trình kiểm tra tình trạng "
+"không đồng bộ, nhưng hầu hết các chế độ xem Weblate vẫn đồng bộ và công việc "
+"sử dụng nhiều CPU hoặc chạy trong thời gian dài vẫn phải được xử lý bởi "
+":ref:`celery`."
 
 #: admin/install.rst:1481
 msgid ""
@@ -9837,7 +9875,7 @@ msgid ""
 "API endpoint. Monitoring tools running locally can retrieve the same metrics "
 "using the :wladmin:`metrics` command."
 msgstr ""
-"Để theo dõi các chỉ số của Weblate, bạn có thể sử dụng điểm cuối API "
+"Để giám sát các chỉ số của Weblate, bạn có thể sử dụng điểm cuối API "
 ":http:get:`/api/metrics/`. Các công cụ giám sát chạy cục bộ có thể truy xuất "
 "các chỉ số tương tự bằng lệnh :wladmin:`metrics`."
 
@@ -10045,6 +10083,10 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and Valkey as "
 "a caching backend."
 msgstr ""
+"Với việc triển khai Weblate bằng Docker, bạn có thể thiết lập và vận hành "
+"phiên bản Weblate cá nhân của mình chỉ trong vài giây. Tất cả các thư viện "
+"phụ thuộc của Weblate đều đã được bao gồm. PostgreSQL được thiết lập làm cơ "
+"sở dữ liệu mặc định và Valkey làm hệ thống bộ nhớ đệm."
 
 #: admin/install/docker.rst:13 admin/install/kubernetes.rst:18
 #: admin/install/openshift.rst:12
@@ -10535,6 +10577,10 @@ msgid ""
 "the services should be running just once in the cluster, and the order of "
 "the services matters as well."
 msgstr ""
+"Mỗi vùng chứa Weblate có vai trò được xác định bằng cách sử dụng biến môi "
+"trường :envvar:`WEBLATE_SERVICE`. Vui lòng làm theo tài liệu cẩn thận vì một "
+"số dịch vụ chỉ được chạy một lần trong cụm và thứ tự của các dịch vụ cũng "
+"rất quan trọng."
 
 #: admin/install/docker.rst:454
 msgid ""
@@ -10882,6 +10928,10 @@ msgid ""
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
+"Một bộ dữ liệu biểu thị sự kết hợp tiêu đề/giá trị HTTP biểu thị yêu cầu là "
+"an toàn. Điều này là cần thiết khi Weblate đang chạy phía sau một proxy "
+"ngược thực hiện việc chấm dứt SSL không vượt qua các tiêu đề HTTPS tiêu "
+"chuẩn."
 
 #: admin/install/docker.rst:912
 msgid ""
@@ -11034,7 +11084,7 @@ msgstr ""
 #: admin/install/docker.rst:1070
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
-msgstr ""
+msgstr "Cấu hình tiền tố URL nơi Weblate đang chạy, xem :setting:`URL_PREFIX`."
 
 #: admin/install/docker.rst:1074
 msgid ""
@@ -11699,6 +11749,8 @@ msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
+"Vùngchứa Weblate yêu cầu sử dụng Valkey hoặc Redis và bạn phải cung cấp tham "
+"số kết nối khi chạy Weblate trong Docker."
 
 #: admin/install/docker.rst:1997
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
@@ -12667,6 +12719,10 @@ msgid ""
 "PostgreSQL is set up as the default database and persistent volume claims "
 "are used."
 msgstr ""
+"Với biểu đồ Kubernetes Helm, bạn có thể thiết lập và chạy phiên bản Weblate "
+"cá nhân của mình trong vài giây. Tất cả các phần phụ thuộc của Weblate đều "
+"đã được đưa vào. PostgreSQL được thiết lập làm cơ sở dữ liệu mặc định và sử "
+"dụng xác nhận khối lượng liên tục."
 
 #: admin/install/kubernetes.rst:14
 msgid ""
@@ -12693,6 +12749,10 @@ msgid ""
 "already included. PostgreSQL is set up as the default database and "
 "persistent volume claims are used."
 msgstr ""
+"Với mẫu OpenShift Weblate, bạn có thể thiết lập và chạy phiên bản Weblate cá "
+"nhân của mình trong vài giây. Tất cả các phần phụ thuộc của Weblate đều đã "
+"được đưa vào. PostgreSQL được thiết lập làm cơ sở dữ liệu mặc định và sử "
+"dụng xác nhận khối lượng liên tục."
 
 #: admin/install/openshift.rst:9
 msgid ""
@@ -13013,6 +13073,8 @@ msgid ""
 "Congratulations, your Weblate server is now running and you can start using "
 "it."
 msgstr ""
+"Xin chúc mừng, máy chủ Weblate của bạn hiện đang chạy và bạn có thể bắt đầu "
+"sử dụng nó."
 
 #: admin/install/steps/install-after.rst:6
 msgid "You can now access Weblate on ``http://localhost:8000/``."
@@ -13988,6 +14050,9 @@ msgid ""
 "WeblateOrg/demo>. Make sure the celery tasks are running before running this "
 "command."
 msgstr ""
+"Tạo một dự án thử nghiệm với các thành phần dựa trên <https://github.com/"
+"WeblateOrg/demo>. Đảm bảo các tác vụ cần tây đang chạy trước khi chạy lệnh "
+"này."
 
 #: admin/management.rst:467
 msgid "This can be useful when developing Weblate."
@@ -18257,10 +18322,10 @@ msgid ""
 "stop both, the web and Celery servers beforehand, otherwise you might end up "
 "with inconsistent data."
 msgstr ""
-"Nếu bạn đang sử dụng Weblate với MySQL hoặc MariaDB, hãy cân nhắc chuyển "
-"sang PostgreSQL để có hiệu suất tốt hơn bằng cách thực hiện các bước sau. "
-"Hãy nhớ dừng cả máy chủ web và máy chủ Celery trước đó, nếu không bạn có thể "
-"gặp phải tình trạng dữ liệu không nhất quán."
+"Nếu bạn đang chạy Weblate với MySQL hoặc MariaDB, hãy cân nhắc chuyển sang "
+"PostgreSQL để có hiệu suất tốt hơn bằng cách thực hiện các bước sau. Hãy nhớ "
+"dừng cả máy chủ web và máy chủ Celery trước đó, nếu không bạn có thể gặp "
+"phải tình trạng dữ liệu không nhất quán."
 
 #: admin/upgrade.rst:164
 msgid ""
@@ -19343,6 +19408,9 @@ msgid ""
 "machine translation editor, GitHub App connection, and repository refresh "
 "requests."
 msgstr ""
+"Đã thêm tùy chọn hỗ trợ triển khai :ref:`running-granian-asgi`, bao gồm "
+":envvar:`WEBLATE_ASGI` cho vùng chứa Docker và trình soạn thảo dịch máy "
+"không đồng bộ, kết nối Ứng dụng GitHub và yêu cầu làm mới kho lưu trữ."
 
 #: changes.rst:68
 msgid ""
@@ -19496,6 +19564,8 @@ msgid ""
 "Improved the recommended :ref:`running-granian` configuration and Docker "
 "container worker resilience for Weblate's WSGI workload."
 msgstr ""
+"Đã cải thiện cấu hình :ref:`running-granian` được đề xuất và khả năng phục "
+"hồi của worker container Docker cho khối lượng công việc WSGI của Weblate."
 
 #: changes.rst:92
 msgid "Deployment checks now detect corrupted PostgreSQL relation statistics."
@@ -19692,6 +19762,9 @@ msgid ""
 "necessary; :program:`weblate collectstatic --noinput` now prepares versioned "
 "static assets without clearing the static storage."
 msgstr ""
+"Việc chạy :program:`weblate compress` không còn cần thiết nữa; "
+":program:`weblate collectstatic --noinput` hiện đang chuẩn bị các tài sản "
+"tĩnh có phiên bản mà không cần xóa bộ nhớ tĩnh."
 
 #: changes.rst:136
 msgid ""
@@ -29620,6 +29693,9 @@ msgid ""
 "see :setting:`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have "
 "to configure it before running Weblate."
 msgstr ""
+"Tên miền Weblate hiện đã được định cấu hình trong cài đặt, xem "
+":setting:`SITE_DOMAIN` (hoặc :envvar:`WEBLATE_SITE_DOMAIN`). Bạn sẽ phải cấu "
+"hình nó trước khi chạy Weblate."
 
 #: changes/v4.rst:1106
 msgid ""
