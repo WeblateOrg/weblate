@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-12 12:28+0000\n"
+"PO-Revision-Date: 2026-08-12 13:08+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -26115,7 +26115,6 @@ msgid "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
 msgstr "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
 
 #: changes/contributors/2026.8.rst:5
-#, fuzzy
 msgid ""
 "Michal Čihař, Karen Konou, Nikunj Tyagi, Weblate CI, Shweta Singh, Gersona, "
 "Giacomo La Serra, Kartik Ohri, mmustafasenoglu, Mustafa Senoğlu, "
@@ -26128,7 +26127,6 @@ msgstr ""
 "Jadé\", \"Matthias le Coach\", Любомир Василев, Spyder"
 
 #: changes/contributors/2026.8.rst:10
-#, fuzzy
 msgid ""
 "António Oliveira, hoanghuy309, reducedradius, Michal Čihař, Andrei Stepanov, "
 "為什麼不加空格, BoneNI, Любомир Василев, Adam Havránek, Libre, Horus68, "
@@ -26155,7 +26153,6 @@ msgstr ""
 "Yoshihoko, suyeon kim, Azharul Haque, win7guru, Matt P, Miguel A. Bouzada"
 
 #: changes/contributors/2026.8.rst:15
-#, fuzzy
 msgid ""
 "Michal Čihař, Nikunj Tyagi, Shweta Singh, Gersona, Giacomo La Serra, Weblate "
 "CI, Kartik Ohri, Karen Konou, mmustafasenoglu, Mustafa Senoğlu, Robert Wolff"
@@ -58239,8 +58236,8 @@ msgstr ""
 "Genest object ``profile`` op :http:get:`/api/users/(str:username)/`, "
 ":http:put:`/api/users/(str:username)/`, en :http:patch:`/api/users/"
 "(str:username)/`, inclusief voorkeuren voor het volgen van taal en project, "
-"selecteren van onderdelen uit de lijst van het dashboard en keuzes voor "
-"commit of publieke e-mail"
+"selecteren van onderdelen uit de lijst van de overzichtsweergave en keuzes "
+"voor commit of publieke e-mail"
 
 #: security/threat-model.rst:456
 msgid ""
@@ -58260,9 +58257,10 @@ msgid ""
 msgstr ""
 "Wijs ``user.edit`` alleen toe aan vertrouwde beheerders; zelf-service "
 "profiel-e-mailvelden accepteren alleen geverifieerde adressen, gevolgde "
-"projecten zijn beperkt tot toegankelijke projecten en dashboardlijsten voor "
-"onderdelen zijn beperkt tot het vermelden van die waarvoor de gebruiker "
-"gerechtigd is om te gebruiken. *(documented)* (bron: :doc:`/api`)"
+"projecten zijn beperkt tot toegankelijke projecten en lijsten van "
+"overzichtsweergaven voor onderdelen zijn beperkt tot het vermelden van die "
+"waarvoor de gebruiker gerechtigd is om te gebruiken. *(documented)* (bron: "
+":doc:`/api`)"
 
 #: security/threat-model.rst:462
 msgid "Webhook endpoints"
@@ -58495,6 +58493,11 @@ msgid ""
 "writes project state. Failed restores remove repository and media objects "
 "created by that attempt. *(documented)* (source: :ref:`projectbackup`)"
 msgstr ""
+"Metadata voor projectback-up, objectverwijzingen, paden voor opslagruimten, "
+"uitgaande URL's, reguliere expressies en inhoud van schermafdrukken worden "
+"gevalideerd voordat het herstellen de status van het project schrijft. "
+"Mislukte herstellingen verwijderen objecten voor opslagruimten en media die "
+"door die poging worden gemaakt. *(documented)* (bron: :ref:`projectbackup`)"
 
 #: security/threat-model.rst:521
 msgid ""
@@ -58514,6 +58517,12 @@ msgid ""
 "fixed project-size limit. *(documented)* (source: :doc:`/api`, :doc:`/admin/"
 "config`)"
 msgstr ""
+"Antwoordgrootte van projectmetrieken en verzoeken om werk schalen met het "
+"aantal zichtbare onderdelen en vertalingen en met de status statistieken-"
+"cache. Ontbrekende cache kunnen vertaalstatistieken berekenen en opslaan. "
+"Het eindpunt vertrouwd op standaard limietaantallen voor de API en grootte "
+"van uitrol in plaats van op een afzonderlijke vaste limiet voor de "
+"projectgrootte. *(documented)* (bron: :doc:`/api`, :doc:`/admin/config`)"
 
 #: security/threat-model.rst:529
 msgid ""
@@ -58857,6 +58866,11 @@ msgid ""
 "repository-local Git and Mercurial configuration, Git hooks, and Mercurial "
 "shared-repository indirection."
 msgstr ""
+"Bewerkingen voor VCS worden geactiveerd door Weblate-ondersteunde "
+"werkstromen voor de opslagplaats en geconfigureerde inloggegevens. "
+"Herstellen van de projectback-up negeert configuraties met archief-opgegeven "
+"opslagruimte-lokale voor Git en Mercurial, Git-haken en de omweg met door "
+"Mercurial gedeelde opslagruimte."
 
 #: security/threat-model.rst:634
 msgid "Command injection or arbitrary code execution as the Weblate user."
@@ -58881,6 +58895,10 @@ msgid ""
 "non-sensitive fields as public configuration; unlisted values are redacted "
 "from public change history."
 msgstr ""
+"Rechten voor host, database en opslag zijn intact. Aangepaste add-ons "
+"vermelden alleen niet-gevoelige velden als publieke configuratie; niet "
+"vermelde waarden zijn bewerkt vanuit de publieke geschiedenis voor "
+"wijzigingen."
 
 #: security/threat-model.rst:641
 msgid "Cross-project data leak, credential exposure, or unauthorized export."
@@ -58933,6 +58951,12 @@ msgid ""
 "without binding use only explicitly trusted hosts. Configured per-protocol "
 "HTTP proxies remain trusted routing infrastructure."
 msgstr ""
+"Standaardcontroles voor private doelen zijn ingeschakeld en er is geen "
+"uitzondering van toepassing voor een vertrouwde lijst met toegestane "
+"waarden. Direct beveiligde http-verzoeken en Git https- en SSH-bewerkingen "
+"behouden adresbinding, VCS-beperkingen blijven ingeschakeld en VCS-backends "
+"zonder binding gebruiken alleen expliciet vertrouwde hosts. Geconfigureerde "
+"per-protocol-http-proxies behouden vertrouwde routering voor infrastructuur."
 
 #: security/threat-model.rst:660
 msgid ""
@@ -64783,18 +64807,20 @@ msgid ""
 "This check compares the markups found in the source with the markups found "
 "in the translation. It includes:"
 msgstr ""
+"Deze controle vergelijkt de opmaak die werd gevonden in de bron met de "
+"opmaak die in de vertaling werd gevonden. Het omvat:"
 
 #: snippets/checks-autogenerated.rst:67
 msgid "inline and block macros (e.g. ``link:`` and ``image::``)"
-msgstr ""
+msgstr "macro's in de regel en in blokken (bijv. ``link:`` en ``image::``)"
 
 #: snippets/checks-autogenerated.rst:68
 msgid "cross-references (``<<id>>``)"
-msgstr ""
+msgstr "kruisverwijzingen (``<<id>>``)"
 
 #: snippets/checks-autogenerated.rst:69
 msgid "passthroughs (e.g. ``+++...+++``, ``$$...$$``)"
-msgstr ""
+msgstr "doorlaten (bijv. ``+++...+++``, ``$$...$$``)"
 
 #: snippets/checks-autogenerated.rst:71
 msgid ""
@@ -64802,6 +64828,9 @@ msgid ""
 "name, target, and reference identifier must stay the same in both the source "
 "and the translation."
 msgstr ""
+"Tekst van attributen van macro's en labels van kruisverwijzingen mogen "
+"worden vertaald; de macronaam, doel en identificatie van de verwijzing "
+"moeten hetzelfde blijven in zowel de bron als de vertaling."
 
 #: snippets/checks-autogenerated.rst:80
 msgid "BBCode markup"
@@ -66302,6 +66331,11 @@ msgid ""
 "such as displays, terminals, or constrained containers where a specific "
 "number of visible lines is required."
 msgstr ""
+"Controleert of de vertalingen niet het geconfigureerde aantal maximale "
+"regels overschrijden. Dat is nuttig voor vertalingen die als doel elementen "
+"van de gebruikersinterface met een vaste hoogte hebben, zoals weergaven, "
+"terminals, of begrensde containers waar een specifiek aantal zichtbare "
+"regels is vereist."
 
 #: snippets/checks-autogenerated.rst:1474
 msgid ""
@@ -66316,12 +66350,17 @@ msgid ""
 "A translation with more lines than the configured value triggers a warning. "
 "Lines are counted by the number of newline characters plus one."
 msgstr ""
+"Een vertaling met meer regels dan de geconfigureerde waarde activeert een "
+"waarschuwing. Regels worden geteld met het aantal tekens newline plus een."
 
 #: snippets/checks-autogenerated.rst:1482
 msgid ""
 "This check counts display lines (separated by ``\\\\n``), not wrapped lines. "
 "If your UI wraps text automatically, use :ref:`check-max-size` instead."
 msgstr ""
+"Deze controle telt het aantal weergegeven regels (gescheiden door ``\\\\n``)"
+", niet doorgelopen regels. Als uw gebruikersinterface automatisch tekst laat "
+"doorlopen, gebruik dan in plaats hiervan :ref:`check-max-size`."
 
 #: snippets/checks-autogenerated.rst:1491
 msgid "Maximum size of translation"
@@ -71473,12 +71512,19 @@ msgid ""
 "different placeholder syntaxes or a compiled resource format not offered by "
 "Weblate."
 msgstr ""
+"Converteren van de indeling wijzigt de weergave van het vertaalbestand, maar "
+"vertaalt niet tussen syntaxen van berichten in runtime, zoals opmaak voor "
+"ICU MessageFormat en C ``printf``. Gebruik toepassingspecifieke programma's "
+"als klanten verschillende syntaxen voor plaatsvervangers nodig hebben of een "
+"gecompileerde indeling voor de bron die niet wordt aangeboden door Weblate."
 
 #: user/files.rst:37
 msgid ""
 "Several file formats are available via the :guilabel:`Files` "
 "↓ :guilabel:`Customize download` menu:"
 msgstr ""
+"Verscheidene bestandsindelingen zijn beschikbaar in het menu "
+":guilabel:`Bestanden` ↓ :guilabel:`Downloaden aanpassen`:"
 
 #: user/files.rst:40
 msgid "gettext PO (``po``)"
@@ -72634,7 +72680,7 @@ msgstr ""
 
 #: user/profile.rst:123
 msgid "Table columns"
-msgstr ""
+msgstr "Tabelkolommen"
 
 #: user/profile.rst:125
 msgid ""
@@ -72643,6 +72689,11 @@ msgid ""
 "Enable :guilabel:`Show all columns in lists using horizontal scrolling` to "
 "keep all columns instead and scroll the table horizontally when needed."
 msgstr ""
+"Standaard verbergt Weblate sommige kolommen in lijsten (talen, onderdelen, "
+"projecten, …) als het venster van de browser te smal is om ze te laten "
+"passen. Schakel :guilabel:`Alle kolommen in lijsten weergeven met "
+"horizontaal scrollen` om in plaats daarvan alle kolommen weer te geven en de "
+"tabel horizontaal te scrollen, indien nodig."
 
 #: user/profile.rst:131
 msgid "Default dashboard view"
@@ -75185,6 +75236,10 @@ msgid ""
 "keyscan`` only to the approved addresses. The stored key remains associated "
 "with the original hostname."
 msgstr ""
+"Als :setting:`VCS_RESTRICT_PRIVATE` is ingeschakeld, lost Weblate de host "
+"voor de opslagruimte op en valideert die voordat de sleutel ervan wordt "
+"gescand, en verbindt ``ssh-keyscan`` alleen met de goedgekeurde adressen. De "
+"opgeslagen sleutel blijft geassocieerd met de originele hostnaam."
 
 #: vcs.rst:151
 msgid ""
