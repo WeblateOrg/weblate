@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-12 06:39+0000\n"
+"PO-Revision-Date: 2026-08-12 06:55+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -10305,6 +10305,8 @@ msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account for the following situations:"
 msgstr ""
+"Skutočný limit pre počet databázových pripojení musí byť vyšší, aby sa "
+"zohľadnili nasledujúce situácie:"
 
 #: admin/install.rst:420
 msgid ":ref:`manage` need their connection as well."
@@ -10315,6 +10317,8 @@ msgid ""
 "If a process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
 msgstr ""
+"Ak je proces zabitý (napríklad OOM killerom), môže zablokovať existujúce "
+"pripojenie až do vypršania časového limitu."
 
 #: admin/install.rst:424
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
@@ -10609,6 +10613,9 @@ msgid ""
 "requests and Git repositories. Define the proxy environment variables "
 "in :file:`settings.py`:"
 msgstr ""
+"Weblate podporuje konfiguráciu HTTP proxy pre jednotlivé protokoly pre "
+"odchádzajúce HTTP požiadavky a repozitáre Git. Definujte premenné prostredia "
+"proxy v :file:`settings.py`:"
 
 #: admin/install.rst:658
 msgid ""
@@ -10616,12 +10623,18 @@ msgid ""
 "variables such as ``all_proxy`` and ``no_proxy``, operating-system proxy "
 "configuration, and VCS-specific proxy configuration are not supported."
 msgstr ""
+"Podporované sú iba ``http_proxy`` a ``https_proxy``. Všeobecné premenné a "
+"premenné na obchádzanie, ako napríklad ``all_proxy`` a ``no_proxy``, "
+"konfigurácia proxy operačného systému a konfigurácia proxy špecifická pre "
+"VCS nie sú podporované."
 
 #: admin/install.rst:664
 msgid ""
 "`Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
 msgstr ""
+"`Premenné prostredia proxy <https://everything.curl.dev/usingcurl/proxies/"
+"env.html>`_"
 
 #: admin/install.rst:669
 msgid "Adjusting configuration"
@@ -10812,6 +10825,9 @@ msgid ""
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
+"Nastavte správne adresy administrátorov v nastavení :setting:`ADMINS`, aby "
+"ste určili, kto bude dostávať e-maily v prípade, že sa na serveri niečo "
+"pokazí, napríklad:"
 
 #: admin/install.rst:879
 msgid "Set correct site domain"
@@ -10927,6 +10943,9 @@ msgid ""
 "Weblate deployment checks report non-finite PostgreSQL relation statistics. "
 "Run ``ANALYZE`` on the reported relations to rebuild corrupted statistics."
 msgstr ""
+"Kontroly nasadenia Weblate hlásia neúplné štatistiky relácií PostgreSQL. "
+"Spustite ``ANALYZE`` na nahlásených reláciách na obnovenie poškodených "
+"štatistík."
 
 #: admin/install.rst:966
 msgid "Configure cache"
@@ -11195,6 +11214,12 @@ msgid ""
 "authority, configure Requests to use the system CA bundle by adding the "
 "following to :file:`settings.py` (the path is Debian-specific):"
 msgstr ""
+"Niektoré integrácie, vrátane autentifikácie OAuth a OpenID Connect, "
+"používajú Requests, ktoré predvolene nepoužívajú systémové úložisko "
+"certifikátov. Keď tieto integrácie komunikujú so službami používajúcimi "
+"vlastnú certifikačnú autoritu, nakonfigurujte Requests na použitie "
+"systémového balíka CA pridaním nasledujúceho do :file:`settings.py` (cesta "
+"je špecifická pre Debian):"
 
 #: admin/install.rst:1191
 msgid "Running server"
@@ -11296,6 +11321,12 @@ msgid ""
 "runtime files. When installing Weblate from PyPI, get the matching source "
 "distribution or source checkout before copying these examples."
 msgstr ""
+"Ukážkové konfiguračné súbory uvedené nižšie sú udržiavané v zdrojovom strome "
+"Weblate pod :file:`weblate/examples/`. Sú zahrnuté v zdrojových "
+"distribúciách a v tejto dokumentácii, ale Python wheels inštalujú iba súbory "
+"behového prostredia. Pri inštalácii Weblate z PyPI si pred kopírovaním "
+"týchto príkladov získajte zodpovedajúcu zdrojovú distribúciu alebo zdrojový "
+"kód."
 
 #: admin/install.rst:1238
 msgid "For testing purposes, you can use the built-in web server in Django:"
@@ -11679,6 +11710,9 @@ msgid ""
 "scheduled tasks. For debugging or development, this can be done directly on "
 "the command-line:"
 msgstr ""
+"Mali by ste tiež spustiť pracovníka Celery na spracovanie úloh a spustenie "
+"naplánovaných úloh. Pre ladenie alebo vývoj to možno urobiť priamo z "
+"príkazového riadku:"
 
 #: admin/install.rst:1575
 msgid ""
@@ -11728,6 +11762,11 @@ msgid ""
 "maintained in the Weblate source tree under :file:`weblate/examples/`; "
 "Python wheels do not install these deployment samples."
 msgstr ""
+"S najväčšou pravdepodobnosťou budete chcieť spustiť Celery ako démona, čo je "
+"popísané v :doc:`celery:userguide/daemonizing`. Pre najbežnejšie nastavenie "
+"Linuxu pomocou systemd upravte nižšie uvedené ukážkové súbory. Tieto "
+"príklady sú udržiavané v zdrojovom strome Weblate pod :file:`weblate/"
+"examples/`; Python wheels tieto ukážky nasadenia neinštalujú."
 
 #: admin/install.rst:1608
 msgid ""
@@ -11845,6 +11884,9 @@ msgid ""
 "API endpoint. Monitoring tools running locally can retrieve the same metrics "
 "using the :wladmin:`metrics` command."
 msgstr ""
+"Na monitorovanie metrík Weblate môžete použiť koncový bod API :http:get:`/"
+"api/metrics/`. Monitorovacie nástroje bežiace lokálne môžu získať rovnaké "
+"metriky pomocou príkazu :wladmin:`metrics`."
 
 #: admin/install.rst:1696
 msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
@@ -11919,7 +11961,7 @@ msgstr ""
 
 #: admin/install.rst:1742
 msgid "Google Cloud Error Reporting"
-msgstr ""
+msgstr "Google Cloud Error Reporting"
 
 #: admin/install.rst:1744
 msgid ""
@@ -11927,6 +11969,9 @@ msgid ""
 "Install Weblate with the ``google-errors`` extra and "
 "configure :setting:`GOOGLE_CLOUD_ERROR_REPORTING` in :file:`settings.py`:"
 msgstr ""
+"Weblate môže hlásiť spracované chyby servera do `Google Cloud Error "
+"Reporting`_. Nainštalujte Weblate s voliteľným balíkom ``google-errors`` a "
+"nakonfigurujte :setting:`GOOGLE_CLOUD_ERROR_REPORTING` v :file:`settings.py`:"
 
 #: admin/install.rst:1754
 msgid ""
@@ -11935,10 +11980,14 @@ msgid ""
 "values can be overridden by setting ``service`` or ``version`` "
 "in :setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 msgstr ""
+"Weblate automaticky hlási chyby pod službou ``weblate`` a ako nahlásenú "
+"verziu používa aktuálnu verziu Weblate alebo revíziu Git. Tieto hodnoty "
+"možno prepísať nastavením ``service`` alebo ``version`` v "
+":setting:`GOOGLE_CLOUD_ERROR_REPORTING`."
 
 #: admin/install.rst:1762
 msgid "OpenTelemetry"
-msgstr ""
+msgstr "OpenTelemetry"
 
 #: admin/install.rst:1764
 msgid ""
@@ -11946,6 +11995,9 @@ msgid ""
 "opentelemetry.io/>`_. It uses OTLP over HTTP and can send traces to an "
 "OpenTelemetry Collector or a compatible vendor endpoint."
 msgstr ""
+"Weblate môže exportovať backendové stopy pomocou `OpenTelemetry <https://"
+"opentelemetry.io/>`_. Používa OTLP cez HTTP a môže odosielať stopy do "
+"OpenTelemetry Collectora alebo kompatibilného koncového bodu dodávateľa."
 
 #: admin/install.rst:1774
 msgid ""
@@ -11954,6 +12006,11 @@ msgid ""
 "using :setting:`OPENTELEMETRY_ENABLED`, :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`, "
 "and :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 msgstr ""
+"Integrácia sleduje požiadavky Django, úlohy Celery, Redis, odchádzajúce HTTP "
+"požiadavky, databázové volania a rozpätia špecifické pre Weblate. "
+"Nakonfigurujte ju pomocou :setting:`OPENTELEMETRY_ENABLED`, "
+":setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT` a "
+":setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 
 #: admin/install.rst:1783
 msgid "Rollbar"
@@ -12126,6 +12183,11 @@ msgid ""
 "changes. Weblate application updates are delivered through Docker image "
 "tags; there is no release-bound update path for customized Compose files."
 msgstr ""
+"Súbory Docker Compose sú ukážkové konfigurácie nasadenia. Prevádzkovatelia "
+"ich zvyčajne prispôsobujú pre svoje vlastné nasadenie a udržiavajú tieto "
+"lokálne zmeny. Aktualizácie aplikácie Weblate sa dodávajú prostredníctvom "
+"tagov obrazov Docker; pre prispôsobené súbory Compose neexistuje "
+"aktualizačná cesta viazaná na vydanie."
 
 #: admin/install/docker.rst:40
 msgid ""
@@ -12230,11 +12292,11 @@ msgstr "Stabilné vydanie Weblate"
 
 #: admin/install/docker.rst:89
 msgid "Rolling updates within a calendar year in a production environment"
-msgstr ""
+msgstr "Priebežné aktualizácie v rámci kalendárneho roka v produkčnom prostredí"
 
 #: admin/install/docker.rst:91
 msgid "Rolling updates within a monthly release in a production environment"
-msgstr ""
+msgstr "Priebežné aktualizácie v rámci mesačného vydania v produkčnom prostredí"
 
 #: admin/install/docker.rst:93
 msgid "Well defined deploy in a production environment"
@@ -12445,6 +12507,10 @@ msgid ""
 "calendar year. If you need to upgrade from an older release, upgrade first "
 "to an intermediate version listed in :ref:`version-specific-instructions`."
 msgstr ""
+"Priame aktualizácie sú podporované len pre vydania z aktuálneho alebo "
+"predchádzajúceho kalendárneho roka. Ak potrebujete aktualizovať zo staršieho "
+"vydania, najprv aktualizujte na prechodnú verziu uvedenú v :ref:`version-"
+"specific-instructions`."
 
 #: admin/install/docker.rst:263
 msgid ""
@@ -12454,6 +12520,11 @@ msgid ""
 "maintained as part of your deployment. See :ref:`docker-postgres-upgrade` "
 "for upgrading the PostgreSQL server."
 msgstr ""
+"Ak používate ukážkové súbory Compose bez lokálnych zmien, môžete si prezrieť "
+"aktualizácie aj v repozitári ``docker-compose``, hoci to nie je potrebné pre "
+"väčšinu aktualizácií Weblate. Prispôsobené súbory Compose je potrebné "
+"udržiavať ako súčasť vášho nasadenia. Pozrite si :ref:`docker-postgres-"
+"upgrade` pre aktualizáciu servera PostgreSQL."
 
 #: admin/install/docker.rst:272
 msgid "Upgrading PostgreSQL container"
@@ -12602,6 +12673,9 @@ msgid ""
 "cloud virtual machines as these typically have few CPUs and good amount of "
 "memory."
 msgstr ""
+"Počet procesov pracovníkov pre webovú aplikáciu aj Celery sa určuje "
+"automaticky na základe počtu CPU. Toto funguje dobre pre väčšinu cloudových "
+"virtuálnych strojov, pretože tie majú zvyčajne málo CPU a dostatok pamäte."
 
 #: admin/install/docker.rst:389
 msgid ""
@@ -12623,6 +12697,12 @@ msgid ""
 "because its short tasks can benefit from buffering. Increase the value only "
 "after measuring queue latency and worker memory usage."
 msgstr ""
+"Násobiteľ prednačítania riadi, koľko úloh si môže každý vykonávací slot "
+"pracovníka rezervovať. Predvolená hodnota jedna zabraňuje rezervácii ďalších "
+"dlho trvajúcich úloh alebo úloh s veľkým objemom dát. Pracovník notifikácií "
+"v tomto príklade používa hodnotu štyri, pretože jeho krátke úlohy môžu ťažiť "
+"z bufferovania. Hodnotu zvyšujte až po zmeraní latencie frontu a spotreby "
+"pamäte pracovníka."
 
 #: admin/install/docker.rst:416
 msgid ""
@@ -12904,11 +12984,11 @@ msgstr "Predvolene je táto voľba zapnutá."
 
 #: admin/install/docker.rst:741
 msgid "Configures :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
-msgstr ""
+msgstr "Konfiguruje :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`."
 
 #: admin/install/docker.rst:743
 msgid "Expects a comma-separated list of trusted project slugs."
-msgstr ""
+msgstr "Očakáva zoznam dôveryhodných slugov projektov oddelených čiarkami."
 
 #: admin/install/docker.rst:749
 msgid "Configures :setting:`WEBHOOK_RESTRICT_PRIVATE`."
@@ -12921,18 +13001,20 @@ msgstr "Konfiguruje :setting:`WEBHOOK_PRIVATE_ALLOWLIST`."
 #: admin/install/docker.rst:759 admin/install/docker.rst:781
 msgid "Expects a comma-separated list of trusted hostnames or domains."
 msgstr ""
+"Očakáva zoznam dôveryhodných názvov hostiteľov alebo domén oddelených "
+"čiarkami."
 
 #: admin/install/docker.rst:765
 msgid "Configures :setting:`ALLOWED_ASSET_SIZE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`ALLOWED_ASSET_SIZE`."
 
 #: admin/install/docker.rst:771
 msgid "Configures :setting:`ASSET_RESTRICT_PRIVATE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`ASSET_RESTRICT_PRIVATE`."
 
 #: admin/install/docker.rst:779
 msgid "Configures :setting:`ASSET_PRIVATE_ALLOWLIST`."
-msgstr ""
+msgstr "Konfiguruje :setting:`ASSET_PRIVATE_ALLOWLIST`."
 
 #: admin/install/docker.rst:785
 msgid ""
@@ -13060,6 +13142,9 @@ msgid ""
 "request is secure. This is needed when Weblate is running behind a reverse "
 "proxy doing SSL termination which does not pass standard HTTPS headers."
 msgstr ""
+"Tica predstavujúca kombináciu HTTP hlavičky a hodnoty, ktorá označuje, že "
+"požiadavka je zabezpečená. Toto je potrebné, keď Weblate beží za reverzným "
+"proxy serverom, ktorý ukončuje SSL a neposiela štandardné HTTPS hlavičky."
 
 #: admin/install/docker.rst:912
 msgid ""
@@ -13082,6 +13167,8 @@ msgid ""
 "``tos-confirm`` to enable the legal module and enforce legal document "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
+"``tos-confirm`` na povolenie právneho modulu a vynútenie potvrdenia právnych "
+"dokumentov počas sociálnej autentifikácie a pre prihlásených používateľov."
 
 #: admin/install/docker.rst:930
 msgid ""
@@ -13109,28 +13196,39 @@ msgid ""
 "example using :program:`docker compose up -d`. Restarting an existing "
 "container does not apply changed environment values."
 msgstr ""
+"Po zmene tejto premennej prostredia znovu vytvorte Docker kontajner, "
+"napríklad pomocou :program:`docker compose up -d`. Reštartovanie "
+"existujúceho kontajnera neaplikuje zmenené hodnoty prostredia."
 
 #: admin/install/docker.rst:957
 msgid ""
 "Configures :setting:`LEGAL_DOCUMENT_CSS_CLASS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Konfiguruje :setting:`LEGAL_DOCUMENT_CSS_CLASS` v nasadeniach Docker s "
+"povoleným :envvar:`WEBLATE_LEGAL_INTEGRATION`."
 
 #: admin/install/docker.rst:960
 msgid ""
 "Set this to the class targeted by your custom legal stylesheet. Set it to an "
 "empty string to render legal documents without a wrapper class."
 msgstr ""
+"Nastavte toto na triedu, na ktorú cieli váš vlastný právny štýl. Nastavte na "
+"prázdny reťazec na vykreslenie právnych dokumentov bez triedy obalu."
 
 #: admin/install/docker.rst:972
 msgid ""
 "Configures :setting:`LEGAL_HIDDEN_DOCUMENTS` in Docker deployments "
 "with :envvar:`WEBLATE_LEGAL_INTEGRATION` enabled."
 msgstr ""
+"Konfiguruje :setting:`LEGAL_HIDDEN_DOCUMENTS` v nasadeniach Docker s "
+"povoleným :envvar:`WEBLATE_LEGAL_INTEGRATION`."
 
 #: admin/install/docker.rst:975
 msgid "Provide a comma-separated list of legal document page identifiers."
 msgstr ""
+"Poskytnite zoznam identifikátorov stránok právnych dokumentov oddelených "
+"čiarkami."
 
 #: admin/install/docker.rst:977
 msgid ""
@@ -13138,6 +13236,10 @@ msgid ""
 "The following configuration links both documents externally and requires one "
 "agreement covering the terms of service and privacy policy:"
 msgstr ""
+"Externé právne dokumenty sa používajú ako záložné riešenie pre skryté "
+"interné stránky. Nasledujúca konfigurácia odkazuje na oba dokumenty externe "
+"a vyžaduje jednu dohodu pokrývajúcu podmienky poskytovania služby a zásady "
+"ochrany osobných údajov:"
 
 #: admin/install/docker.rst:993
 msgid "Enables :setting:`PUBLIC_ENGAGE`."
@@ -13346,7 +13448,7 @@ msgstr "Konfiguruje :setting:`EXTRA_HTML_HEAD`."
 
 #: admin/install/docker.rst:1226
 msgid "Configures :setting:`INTERNAL_BOT_EMAIL_TEMPLATE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`INTERNAL_BOT_EMAIL_TEMPLATE`."
 
 #: admin/install/docker.rst:1232
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
@@ -13370,7 +13472,7 @@ msgstr "Konfiguruje :setting:`UNUSED_ALERT_DAYS`."
 
 #: admin/install/docker.rst:1262
 msgid "Configures :setting:`REPORT_EXPIRY`."
-msgstr ""
+msgstr "Konfiguruje :setting:`REPORT_EXPIRY`."
 
 #: admin/install/docker.rst:1268
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
@@ -13428,31 +13530,33 @@ msgstr ""
 
 #: admin/install/docker.rst:1349
 msgid "Configures :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`TRANSLATION_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1351 admin/install/docker.rst:1357
 #: admin/install/docker.rst:1378 admin/install/docker.rst:1386
 #: admin/install/docker.rst:1394
 msgid "The value is in bytes."
-msgstr ""
+msgstr "Hodnota je v bajtoch."
 
 #: admin/install/docker.rst:1355
 msgid "Configures :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1361
 msgid "Configures :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`."
 
 #: admin/install/docker.rst:1363
 msgid ""
 "The value is in bytes. Make sure :envvar:`CLIENT_MAX_BODY_SIZE` is also "
 "large enough for uploaded backup files."
 msgstr ""
+"Hodnota je v bajtoch. Uistite sa, že :envvar:`CLIENT_MAX_BODY_SIZE` je tiež "
+"dostatočne veľká pre nahraté záložné súbory."
 
 #: admin/install/docker.rst:1370
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
-msgstr ""
+msgstr "Konfiguruje :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
 
 #: admin/install/docker.rst:1376
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
