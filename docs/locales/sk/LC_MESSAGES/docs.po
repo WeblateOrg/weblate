@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-12 06:05+0000\n"
+"PO-Revision-Date: 2026-08-12 06:39+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -9144,6 +9144,9 @@ msgid ""
 "changes. Squashing is why Git might no longer recognize the changes after "
 "merging."
 msgstr ""
+"Nepoužívajte :ref:`addon-weblate.git.squash` ani squash zlúčenie pre zmeny "
+"vo Weblate. Práve squashovanie je dôvodom, prečo Git po zlúčení už nemusí "
+"rozpoznať zmeny."
 
 #: admin/continuous.rst:324
 msgid ""
@@ -9151,6 +9154,9 @@ msgid ""
 "regular merge commit and push that result upstream. Do not squash merge the "
 "conflict-resolution pull request."
 msgstr ""
+"Pri riešení konfliktov mimo Weblate zlúčte zápisy Weblate bežným merge "
+"zápisom a tento výsledok odošlite do upstreamu. Pull request na vyriešenie "
+"konfliktu nezlučujte pomocou squash merge."
 
 #: admin/continuous.rst:327
 msgid ""
@@ -9257,12 +9263,19 @@ msgid ""
 "repository. Weblate can also be configured to automatically push changes on "
 "every commit, see :ref:`component-push_on_commit`."
 msgstr ""
+"Každý prekladový komponent môže mať nastavenú URL na odosielanie (pozri "
+":ref:`component-push`) a v takom prípade bude Weblate môcť odosielať zmeny "
+"do vzdialeného repozitára. Weblate možno tiež nakonfigurovať na automatické "
+"odosielanie zmien pri každom zápise, pozri :ref:`component-push_on_commit`."
 
 #: admin/continuous.rst:385
 msgid ""
 "For the push options table and provider-specific pull, merge, and review "
 "request workflows, see :ref:`code-hosting-push-options`."
 msgstr ""
+"Tabuľku možností odosielania a pracovné postupy pull, merge a review "
+"requestov špecifické pre poskytovateľa nájdete v :ref:`code-hosting-push-"
+"options`."
 
 #: admin/continuous.rst:390
 msgid ""
@@ -9735,22 +9748,17 @@ msgid "Weblate Cloudron Package"
 msgstr "Balík Weblate Cloudron"
 
 #: admin/deployments.rst:23
-#, fuzzy
-#| msgid ""
-#| "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
-#| "applications. Weblate installed with Cloudron will be automatically kept "
-#| "up-to-date. The package is maintained by the Cloudron team at their "
-#| "`Weblate package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgid ""
 "`Cloudron <https://www.cloudron.io/>`_ is a platform for self-hosting web "
 "applications. Weblate installed with Cloudron will be automatically kept up-"
 "to-date. The package is maintained by the Cloudron team; see the `Weblate "
 "package documentation <https://docs.cloudron.io/packages/weblate/>`_."
 msgstr ""
-"`Cloudron <https://www.cloudron.io/>`_ je platforma na samoobslužné "
-"hosťovanie webových aplikácií. Weblate nainštalovaný s Cloudron bude "
-"automaticky udržiavaný aktuálny. Balík je udržiavaný tímom Cloudron v ich "
-"`repozitári balíkov Weblate <https://git.cloudron.io/cloudron/weblate-app>`_."
+"Cloudron <https://www.cloudron.io/>`_ je platforma na samoobslužné "
+"hosťovanie webových aplikácií. Weblate nainštalovaný pomocou Cloudron bude "
+"automaticky udržiavaný v aktuálnom stave. Balík je spravovaný tímom "
+"Cloudron; pozrite si `dokumentáciu balíka Weblate <https://docs.cloudron.io/"
+"packages/weblate/>`_."
 
 #: admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
@@ -9855,13 +9863,11 @@ msgstr "Pri horizontálnom škálovaní Weblate použite vyhradený uzol."
 
 #: admin/install.rst:138
 msgid "Application server"
-msgstr ""
+msgstr "Aplikačný server"
 
 #: admin/install.rst:139
-#, fuzzy
-#| msgid "A WSGI server serving web pages to users."
 msgid "A WSGI or ASGI server serving web pages to users."
-msgstr "WSGI server obsluhujúci webové stránky používateľom."
+msgstr "Server WSGI alebo ASGI obsluhujúci webové stránky pre používateľov."
 
 #: admin/install.rst:143
 msgid ""
@@ -10052,7 +10058,7 @@ msgstr "Integrácia SAML 2 IDP do Weblate"
 
 #: admin/install.rst:0
 msgid ":pypi:`Sphinx`"
-msgstr ""
+msgstr ":pypi:`Sphinx`"
 
 #: admin/install.rst:263
 msgid "Needed for :ref:`addon-weblate.gettext.sphinx`"
@@ -10168,13 +10174,15 @@ msgstr ""
 
 #: admin/install.rst:346 security/release-artifacts.rst:121
 msgid "Verifying release artifacts"
-msgstr ""
+msgstr "Overovanie artefaktov vydania"
 
 #: admin/install.rst:348
 msgid ""
 "Release archives can be verified using the signatures, attestations, and "
 "SBOMs published with GitHub release assets. See :ref:`verify`."
 msgstr ""
+"Archívy vydaní možno overiť pomocou podpisov, atestácií a SBOM zverejnených "
+"s assetmi vydania na GitHube. Pozrite :ref:`verify`."
 
 #: admin/install.rst:354
 msgid "Filesystem permissions"
@@ -10216,6 +10224,9 @@ msgid ""
 "process and has to allow executing generated helper files. Do not "
 "mount :setting:`CACHE_DIR` with the ``noexec`` option."
 msgstr ""
+"Nakonfigurovaný :setting:`CACHE_DIR` musí byť tiež zapisovateľný procesom "
+"Weblate a musí umožňovať spúšťanie generovaných pomocných súborov. "
+"Nepripájajte :setting:`CACHE_DIR` s možnosťou ``noexec``."
 
 #: admin/install.rst:371
 msgid ""
@@ -10290,32 +10301,20 @@ msgstr ""
 "prispôsobíte počet pracovníkov WSGI alebo upravíte paralelizmus Celery."
 
 #: admin/install.rst:417
-#, fuzzy
-#| msgid ""
-#| "The actual limit for the number of database connections needs to be "
-#| "higher to account following situations:"
 msgid ""
 "The actual limit for the number of database connections needs to be higher "
 "to account for the following situations:"
 msgstr ""
-"Skutočný limit pre počet databázových pripojení musí byť vyšší, aby sa "
-"zohľadnili nasledujúce situácie:"
 
 #: admin/install.rst:420
 msgid ":ref:`manage` need their connection as well."
 msgstr ":ref:`manage` tiež potrebujú svoje pripojenie."
 
 #: admin/install.rst:421
-#, fuzzy
-#| msgid ""
-#| "If case process is killed (for example by OOM killer), it might block the "
-#| "existing connection until timeout."
 msgid ""
 "If a process is killed (for example by OOM killer), it might block the "
 "existing connection until timeout."
 msgstr ""
-"Ak je proces ukončený (napríklad OOM killerom), môže blokovať existujúce "
-"pripojenie až do vypršania časového limitu."
 
 #: admin/install.rst:424
 msgid ":ref:`celery`, :ref:`uwsgi`, :envvar:`WEBLATE_WORKERS`"
@@ -10619,16 +10618,10 @@ msgid ""
 msgstr ""
 
 #: admin/install.rst:664
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies/env.html>`_"
 msgid ""
 "`Proxy environment variables <https://everything.curl.dev/usingcurl/proxies/"
 "env.html>`_"
 msgstr ""
-"`Premenné prostredia proxy <https://everything.curl.dev/usingcurl/proxies/"
-"env.html>`_"
 
 #: admin/install.rst:669
 msgid "Adjusting configuration"
@@ -10814,19 +10807,11 @@ msgid "Properly configure admins"
 msgstr "Správne nakonfigurovať administrátorov"
 
 #: admin/install.rst:865
-#, fuzzy
-#| msgid ""
-#| "Set the correct admin addresses to the :setting:`ADMINS` setting to "
-#| "defining who will receive e-mails in case something goes wrong on the "
-#| "server, for example:"
 msgid ""
 "Set the correct admin addresses to the :setting:`ADMINS` setting to define "
 "who will receive e-mails in case something goes wrong on the server, for "
 "example:"
 msgstr ""
-"Nastavte správne administrátorské adresy do nastavenia :setting:`ADMINS`, "
-"aby ste definovali, kto bude dostávať e-maily v prípade, že sa na serveri "
-"niečo pokazí, napríklad:"
 
 #: admin/install.rst:879
 msgid "Set correct site domain"
@@ -12611,21 +12596,12 @@ msgid "Number of processes and memory consumption"
 msgstr "Počet procesov a spotreba pamäte"
 
 #: admin/install/docker.rst:384
-#, fuzzy
-#| msgid ""
-#| "The number of worker processes for both WSGI and Celery is determined "
-#| "automatically based on number of CPUs. This works well for most cloud "
-#| "virtual machines as these typically have few CPUs and good amount of "
-#| "memory."
 msgid ""
 "The number of worker processes for both the web application and Celery is "
 "determined automatically based on number of CPUs. This works well for most "
 "cloud virtual machines as these typically have few CPUs and good amount of "
 "memory."
 msgstr ""
-"Počet pracovných procesov pre WSGI aj Celery sa určuje automaticky podľa "
-"počtu CPU. Toto vo väčšine prípadov dobre funguje pre cloudové virtuálne "
-"stroje, keďže tie zvyčajne majú málo CPU, ale dostatok pamäte."
 
 #: admin/install/docker.rst:389
 msgid ""
@@ -13102,16 +13078,10 @@ msgstr ""
 "deaktivovať."
 
 #: admin/install/docker.rst:928
-#, fuzzy
-#| msgid ""
-#| "``tos-confirm`` to enable the legal module and enforce terms of service "
-#| "confirmation during social authentication and for signed-in users."
 msgid ""
 "``tos-confirm`` to enable the legal module and enforce legal document "
 "confirmation during social authentication and for signed-in users."
 msgstr ""
-"``tos-confirm`` povolí právny modul a vynúti potvrdenie podmienok používania "
-"počas sociálnej autentifikácie aj u už prihlásených používateľov."
 
 #: admin/install/docker.rst:930
 msgid ""
@@ -13501,10 +13471,8 @@ msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
 
 #: admin/install/docker.rst:1406
-#, fuzzy
-#| msgid "Code hosting sites credentials"
 msgid "Code-hosting sites credentials"
-msgstr "Prihlasovacie údaje pre služby hostingu kódu"
+msgstr ""
 
 #: admin/install/docker.rst:1408
 msgid ""
@@ -13552,14 +13520,9 @@ msgstr ""
 #: admin/install/docker.rst:1461 admin/install/docker.rst:1484
 #: admin/install/docker.rst:1496 admin/install/docker.rst:1508
 #: admin/install/docker.rst:1529 admin/install/docker.rst:1542
-#, fuzzy
-#| msgid ""
-#| ":ref:`Configuring code hosting credentials in Docker <docker-vcs-config>`"
 msgid ""
 ":ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
-":ref:`Konfigurácia prihlasovacích údajov pre hosting kódu v Dockeri <docker-"
-"vcs-config>`"
 
 #: admin/install/docker.rst:1467
 msgid ""
@@ -14319,16 +14282,10 @@ msgid ""
 msgstr "Predvolené je polovica z :envvar:`WEBLATE_WORKERS`, ale vždy aspoň 2."
 
 #: admin/install/docker.rst:2455
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEB_WORKERS` configures how many worker processes will used "
-#| "by :program:`granian`."
 msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will be used "
 "by :program:`granian`."
 msgstr ""
-":envvar:`WEB_WORKERS` konfiguruje, koľko pracovníckych procesov bude "
-"používať :program:`granian`."
 
 #: admin/install/docker.rst:2459
 msgid ""
@@ -16009,20 +15966,11 @@ msgstr ""
 "základnej implementácii."
 
 #: admin/languages.rst:161
-#, fuzzy
-#| msgid ""
-#| "Changing plural number or formula will affect only displaying of the "
-#| "strings, but not parsing and storing strings to the files. Should you "
-#| "think Weblate behaves incorrectly, please file a issue in our issue "
-#| "tracker."
 msgid ""
 "Changing plural number or formula will affect only displaying of the "
 "strings, but not parsing and storing strings to the files. Should you think "
 "Weblate behaves incorrectly, please file an issue in our issue tracker."
 msgstr ""
-"Zmena počtu množného čísla alebo vzorca ovplyvní iba zobrazovanie reťazcov, "
-"ale nie analýzu a ukladanie reťazcov do súborov. Ak si myslíte, že Weblate "
-"sa správa nesprávne, prosím, nahláste problém v našom sledovači problémov."
 
 #: admin/languages.rst:169
 msgid "Plural number"
@@ -16819,10 +16767,8 @@ msgid "To install :ref:`addon-weblate.gettext.mo` for all components:"
 msgstr "Na inštaláciu :ref:`addon-weblate.gettext.mo` pre všetky komponenty:"
 
 #: admin/management.rst:790
-#, fuzzy
-#| msgid "Installs an site-wide automatic suggestion service."
 msgid "Installs a site-wide automatic suggestion service."
-msgstr "Inštaluje celostránkovú službu automatických návrhov."
+msgstr ""
 
 #: admin/management.rst:804
 msgid "To install :ref:`mt-deepl`:"
@@ -16970,10 +16916,8 @@ msgstr ""
 "Užitočné v prípade, že chcete vykonať údržbu na podkladovom repozitári."
 
 #: admin/management.rst:996
-#, fuzzy
-#| msgid "Added OpenMetrics compatibility for :http:get:`/api/metrics/`."
 msgid "Outputs the server metrics exposed by :http:get:`/api/metrics/`."
-msgstr "Pridaná kompatibilita OpenMetrics pre :http:get:`/api/metrics/`."
+msgstr ""
 
 #: admin/management.rst:1008
 msgid ""
@@ -17277,12 +17221,6 @@ msgid "Translation memory status"
 msgstr "Stav prekladovej pamäte"
 
 #: admin/memory.rst:106
-#, fuzzy
-#| msgid ""
-#| "Translation memory entries can have two different statuses: **active** "
-#| "and **pending**. Pending entries are included in suggestions, but with a "
-#| "quality penalty applied. If :ref:`autoclean-tm` is enabled, matching "
-#| "pending entries are removed when a translation becomes active."
 msgid ""
 "Translation memory entries can have two different statuses: **active** and "
 "**pending**. Pending entries are included in suggestions, but with a quality "
@@ -17292,10 +17230,6 @@ msgid ""
 "If :ref:`autoclean-tm` is enabled, matching pending entries are removed when "
 "a translation becomes active."
 msgstr ""
-"Položky prekladovej pamäte môžu mať dva rôzne stavy: **aktívny** a "
-"**čakajúci**. Čakajúce položky sú zahrnuté v návrhoch, ale s uplatnenou "
-"kvalitatívnou penalizáciou. Ak je povolený :ref:`autoclean-tm`, "
-"zodpovedajúce čakajúce položky sa odstránia, keď sa preklad stane aktívnym."
 
 #: admin/memory.rst:117 admin/projects.rst:247
 msgid "Autoclean translation memory"
@@ -17399,17 +17333,11 @@ msgstr ""
 "správu prekladovej pamäte pre daný projekt."
 
 #: admin/memory.rst:164
-#, fuzzy
-#| msgid ""
-#| "Open :guilabel:`Administration` and choose :guilabel:`Translation memory` "
-#| "to manage uploaded translation memory for the whole Weblate instance."
 msgid ""
 "Open a workspace and choose :guilabel:`Operations` ↓ :guilabel:`Translation "
 "memory` to manage automatically created translation memory for that "
 "workspace. Editing the workspace is required."
 msgstr ""
-"Otvorte :guilabel:`Administrácia` a vyberte :guilabel:`Prekladová pamäť` na "
-"správu nahranej prekladovej pamäte pre celú inštanciu Weblate."
 
 #: admin/memory.rst:167
 msgid ""
@@ -17459,17 +17387,11 @@ msgstr ""
 "možné nahrať do rozsahu pracovného priestoru."
 
 #: admin/memory.rst:186
-#, fuzzy
-#| msgid ""
-#| "Translation memory files can be imported on the same page. Uploaded files "
-#| "are stored in the selected scope:"
 msgid ""
 "Translation memory files can be imported on the same page. Uploaded files "
 "are processed during the request, stored as active, and added to the "
 "selected scope:"
 msgstr ""
-"Súbory prekladovej pamäte je možné importovať na tej istej stránke. Nahrané "
-"súbory sa ukladajú vo vybranom rozsahu:"
 
 #: admin/memory.rst:189
 msgid "Personal uploads are available in your personal translation memory."
@@ -17535,12 +17457,6 @@ msgstr ""
 "zdieľané alebo všetky položky ako JSON alebo TMX."
 
 #: admin/memory.rst:222
-#, fuzzy
-#| msgid ""
-#| "The project translation memory view also allows rebuilding parts of or "
-#| "the entire project translation memory. Existing entries for the selected "
-#| "component or project are deleted, and the memory is populated again from "
-#| "the current translations in the background."
 msgid ""
 "The project translation memory view also allows rebuilding parts of or the "
 "entire project translation memory. Automatically generated entries for the "
@@ -17548,10 +17464,6 @@ msgid ""
 "from the current translations in the background. Entries imported from files "
 "are preserved."
 msgstr ""
-"Zobrazenie prekladovej pamäte projektu tiež umožňuje obnoviť časti alebo "
-"celú prekladovú pamäť projektu. Existujúce položky pre vybraný komponent "
-"alebo projekt sa vymažú a pamäť sa znova naplní z aktuálnych prekladov na "
-"pozadí."
 
 #: admin/memory.rst:231
 msgid ""
@@ -17841,19 +17753,11 @@ msgstr ""
 "interné právne stránky."
 
 #: admin/optionals.rst:153
-#, fuzzy
-#| msgid ""
-#| "On changing the terms of service documents, please "
-#| "adjust :setting:`LEGAL_TOS_DATE` so that users are forced to agree with "
-#| "the updated documents."
 msgid ""
 "On changing the terms of service or privacy policy, "
 "adjust :setting:`LEGAL_TOS_DATE` when users should be forced to agree with "
 "the updated documents."
 msgstr ""
-"Pri zmene dokumentov podmienok poskytovania služby prosím "
-"upravte :setting:`LEGAL_TOS_DATE`, aby boli používatelia nútení súhlasiť s "
-"aktualizovanými dokumentmi."
 
 #: admin/optionals.rst:159
 msgid ""
@@ -17866,21 +17770,12 @@ msgstr ""
 "WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents>."
 
 #: admin/optionals.rst:163
-#, fuzzy
-#| msgid ""
-#| "The bundled terms of service and related legal documents are specific to "
-#| "that service and are not intended for general use. They might still come "
-#| "in handy as a starting point if adjusted to meet your needs."
 msgid ""
 "The bundled terms of service and related legal documents are specific to "
 "services operated by Weblate s.r.o. They can serve as an implementation "
 "example, but should not be used as a basis for legal documents of other "
 "services."
 msgstr ""
-"Balené podmienky poskytovania služby a súvisiace právne dokumenty sú "
-"špecifické pre túto službu a nie sú určené na všeobecné použitie. Stále môžu "
-"byť užitočné ako východiskový bod, ak sa upravujú tak, aby vyhovovali vašim "
-"potrebám."
 
 #: admin/optionals.rst:171
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -17897,17 +17792,6 @@ msgstr ""
 "popísané v :ref:`legal-customization`."
 
 #: admin/optionals.rst:199
-#, fuzzy
-#| msgid ""
-#| "In Docker deployments, enable the legal module "
-#| "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
-#| "editing :file:`settings.py`. Use ``tos-confirm`` to enable the legal "
-#| "module and terms of service confirmation enforcement, or ``wllegal`` to "
-#| "additionally load the hosted legal document templates used by services "
-#| "operated by Weblate s.r.o. These templates are not intended for general "
-#| "use. To provide your own templates in Docker, place them in :file:`/app/"
-#| "data/python/customize/templates/legal/documents`, see :ref:`docker-static-"
-#| "override`."
 msgid ""
 "In Docker deployments, enable the legal module "
 "using :envvar:`WEBLATE_LEGAL_INTEGRATION` instead of "
@@ -17918,15 +17802,6 @@ msgid ""
 "your own templates in Docker, place them in :file:`/app/data/python/"
 "customize/templates/legal/documents`, see :ref:`docker-static-override`."
 msgstr ""
-"V nasadeniach Docker povoľte právny modul "
-"pomocou :envvar:`WEBLATE_LEGAL_INTEGRATION` namiesto "
-"úpravy :file:`settings.py`. Použite ``tos-confirm`` na povolenie právneho "
-"modulu a vynucovania potvrdenia podmienok poskytovania služby, alebo "
-"``wllegal`` na dodatočné načítanie hosťovaných šablón právnych dokumentov "
-"používaných službami prevádzkovanými spoločnosťou Weblate s.r.o. Tieto "
-"šablóny nie sú určené na všeobecné použitie. Ak chcete poskytnúť vlastné "
-"šablóny v Dockeri, umiestnite ich do :file:`/app/data/python/customize/"
-"templates/legal/documents`, pozri :ref:`docker-static-override`."
 
 #: admin/optionals.rst:209
 msgid ""
@@ -17939,16 +17814,10 @@ msgstr ""
 "kontajnera neaplikuje zmenené hodnoty prostredia."
 
 #: admin/optionals.rst:216
-#, fuzzy
-#| msgid ""
-#| "After installation and editing, the legal documents are shown in the "
-#| "Weblate UI."
 msgid ""
 "After installation and customization, the legal documents are shown in the "
 "Weblate UI."
 msgstr ""
-"Po inštalácii a úprave sa právne dokumenty zobrazia v používateľskom "
-"rozhraní Weblate."
 
 #: admin/optionals.rst:218
 msgid ""
@@ -17972,10 +17841,8 @@ msgstr ""
 "poskytovania služby a zásad ochrany osobných údajov."
 
 #: admin/optionals.rst:229
-#, fuzzy
-#| msgid "Customizing behavior using flags"
 msgid "Customizing legal documents and styles"
-msgstr "Prispôsobenie správania pomocou príznakov"
+msgstr ""
 
 #: admin/optionals.rst:231
 msgid ""
@@ -18008,16 +17875,10 @@ msgstr ""
 "stránky. Použite ju na načítanie štýlu z vašej aplikácie prispôsobenia:"
 
 #: admin/optionals.rst:255
-#, fuzzy
-#| msgid ""
-#| "Run :samp:`weblate collectstatic --noinput`, to collect static files "
-#| "served to clients."
 msgid ""
 "Run :samp:`weblate collectstatic --noinput` after adding or changing the "
 "static file."
 msgstr ""
-"Spustite :samp:`weblate collectstatic --noinput` na zhromaždenie statických "
-"súborov poskytovaných klientom."
 
 #: admin/optionals.rst:258
 msgid ""
@@ -19690,15 +19551,10 @@ msgid "Contribute to project translation memory"
 msgstr "Prispieť do prekladovej pamäte projektu"
 
 #: admin/projects.rst:808
-#, fuzzy
-#| msgid ""
-#| "All translations within Weblate can be used thanks to shared translation "
-#| "memory."
 msgid ""
 "Controls whether translations from this component are added to the project "
 "translation memory."
 msgstr ""
-"Všetky preklady vo Weblate možno využiť vďaka zdieľanej prekladovej pamäti."
 
 #: admin/projects.rst:818
 msgid "Allow translation propagation"
@@ -20406,16 +20262,10 @@ msgstr ""
 "Predvolenú hodnotu je možné zmeniť v :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: admin/projects.rst:1289
-#, fuzzy
-#| msgid ""
-#| "This applies to project admins as well — please ensure you will not loose "
-#| "access to the component after toggling the status."
 msgid ""
 "This applies to project admins as well — please ensure you will not lose "
 "access to the component after toggling the status."
 msgstr ""
-"Toto platí aj pre administrátorov projektu – uistite sa, že po prepnutí "
-"stavu nestratíte prístup ku komponentu."
 
 #: admin/projects.rst:1295
 msgid "Share in projects"
@@ -20888,10 +20738,8 @@ msgid "Additionally, if you turn on :ref:`discover-weblate`:"
 msgstr "Dodatočne, ak zapnete :ref:`discover-weblate`:"
 
 #: admin/support.rst:34
-#, fuzzy
-#| msgid "List of public projects (name, URL, and website)."
 msgid "List of public and protected projects (name, URL, and website)."
-msgstr "Zoznam verejných projektov (názov, URL a webová stránka)."
+msgstr ""
 
 #: admin/support.rst:37
 msgid ""
@@ -21014,19 +20862,11 @@ msgstr ""
 "ručného kopírovania aktivačného tokenu."
 
 #: admin/support.rst:105
-#, fuzzy
-#| msgid ""
-#| "Make sure you are OK with publishing your instance name, URL, tally of "
-#| "projects, components, and users, together with names of public projects "
-#| "and components for use on *Discover*."
 msgid ""
 "Make sure you are OK with publishing your instance name, URL, tally of "
 "projects, components, and users, together with names of public and protected "
 "projects for use on *Discover*."
 msgstr ""
-"Uistite sa, že súhlasíte so zverejnením názvu vašej inštancie, URL, súčtu "
-"projektov, komponentov a používateľov, spolu s názvami verejných projektov a "
-"komponentov na použitie v *Discover*."
 
 #: admin/support.rst:109
 msgid ""
@@ -21059,12 +20899,10 @@ msgstr ""
 "zoznam Discover Weblate."
 
 #: admin/support.rst:125
-#, fuzzy
-#| msgid "All steps for listing a server without a support contract:"
 msgid ""
 "All steps for listing a server manually, for example from older Weblate "
 "versions:"
-msgstr "Všetky kroky na zaradenie servera bez zmluvy o podpore:"
+msgstr ""
 
 #: admin/support.rst:128
 msgid "Register yourself at https://weblate.org/user/"
@@ -21922,10 +21760,8 @@ msgstr ""
 ":ref:`search-replace`."
 
 #: admin/workspaces.rst:51
-#, fuzzy
-#| msgid "Workspace created"
 msgid "Workspace removal"
-msgstr "Pracovný priestor vytvorený"
+msgstr ""
 
 #: admin/workspaces.rst:53
 msgid ""
@@ -22719,10 +22555,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédii <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
-#, fuzzy
-#| msgid "Weblate 2.8"
 msgid "Weblate 2026.9"
-msgstr "Weblate 2.8"
+msgstr ""
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -22873,28 +22707,18 @@ msgid "Contributors"
 msgstr "Prispievatelia"
 
 #: changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "68?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/168?"
 "closed=1>`__."
 msgstr ""
-"`Všetky zmeny podrobne <https://github.com/WeblateOrg/weblate/milestone/68?"
-"closed=1>`__."
 
 #: changes.rst:25
-#, fuzzy
-#| msgid "Weblate 2.17.1"
 msgid "Weblate 2026.8.1"
-msgstr "Weblate 2.17.1"
+msgstr ""
 
 #: changes.rst:27
-#, fuzzy
-#| msgid "*Released on August 21th 2021.*"
 msgid "*Released on August 7th 2026.*"
-msgstr "*Vydané 21. augusta 2021.*"
+msgstr ""
 
 #: changes.rst:31
 msgid ""
@@ -22994,28 +22818,18 @@ msgstr ""
 "Poverenia repozitára sú teraz konzistentne skryté vo webovom a API výstupe."
 
 #: changes.rst:55
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "71?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?"
 "closed=1>`__."
 msgstr ""
-"`Všetky zmeny podrobne <https://github.com/WeblateOrg/weblate/milestone/71?"
-"closed=1>`__."
 
 #: changes.rst:58
-#, fuzzy
-#| msgid "Weblate 2.8"
 msgid "Weblate 2026.8"
-msgstr "Weblate 2.8"
+msgstr ""
 
 #: changes.rst:60
-#, fuzzy
-#| msgid "*Released on August 22nd 2022.*"
 msgid "*Released on August 3rd 2026.*"
-msgstr "*Vydané 22. augusta 2022.*"
+msgstr ""
 
 #: changes.rst:64
 msgid ""
@@ -23136,10 +22950,8 @@ msgstr ""
 ":ref:`qtling`."
 
 #: changes.rst:76
-#, fuzzy
-#| msgid "Weblate is now available in Bashkir language."
 msgid "Weblate is now available in Lao language."
-msgstr "Weblate je teraz dostupný v baškirskom jazyku."
+msgstr ""
 
 #: changes.rst:80
 msgid ""
@@ -23353,13 +23165,10 @@ msgstr ""
 "(:ghsa:`f66g-8pcg-jm8r`, :ghsa:`327h-qqgm-qv55`)."
 
 #: changes.rst:107
-#, fuzzy
-#| msgid "Fixed rebuilding project translation-memory for some components."
 msgid ""
 "Rebuilding project translation memory no longer removes entries imported "
 "from files."
 msgstr ""
-"Opravené rebuildovanie prekladovej pamäte projektu pre niektoré komponenty."
 
 #: changes.rst:108
 msgid ""
@@ -23505,28 +23314,18 @@ msgstr ""
 "bez vymazania statického úložiska."
 
 #: changes.rst:136
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "67?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/167?"
 "closed=1>`__."
 msgstr ""
-"`Všetky zmeny podrobne <https://github.com/WeblateOrg/weblate/milestone/67?"
-"closed=1>`__."
 
 #: changes.rst:139
-#, fuzzy
-#| msgid "Weblate 2.17.1"
 msgid "Weblate 2026.7.1"
-msgstr "Weblate 2.17.1"
+msgstr ""
 
 #: changes.rst:141
-#, fuzzy
-#| msgid "*Released on Jul 10th 2016.*"
 msgid "*Released on July 10th 2026.*"
-msgstr "*Vydané 10. júla 2016.*"
+msgstr ""
 
 #: changes.rst:145
 msgid ""
@@ -23659,10 +23458,8 @@ msgstr ""
 "reťazce opustia filter."
 
 #: changes.rst:167
-#, fuzzy
-#| msgid "Components with higher priority are offered first to translators."
 msgid "Component priority icons are no longer shown on translation listings."
-msgstr "Komponenty s vyššou prioritou sú ponúkané prekladateľom ako prvé."
+msgstr ""
 
 #: changes.rst:168
 msgid ""
@@ -23674,16 +23471,10 @@ msgstr ""
 "spustili kontrolu."
 
 #: changes.rst:169
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.fedora_messaging.publish` integration is now "
-#| "available as add-on."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` received several reliability "
 "fixes."
 msgstr ""
-"Integrácia :ref:`addon-weblate.fedora_messaging.publish` je teraz dostupná "
-"ako doplnok."
 
 #: changes.rst:170
 msgid ""
@@ -23798,16 +23589,10 @@ msgstr ""
 "aktualizáciou; pozri :ref:`dbsetup-postgres`."
 
 #: changes.rst:193
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "70?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/170?"
 "closed=1>`__."
 msgstr ""
-"`Všetky zmeny podrobne <https://github.com/WeblateOrg/weblate/milestone/70?"
-"closed=1>`__."
 
 #: changes.rst:196
 msgid "Weblate 2026.7"
@@ -24050,16 +23835,10 @@ msgstr ""
 "udalosti obsahu prekladu, všetky udalosti alebo vybrané jednotlivé udalosti."
 
 #: changes.rst:232
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.fedora_messaging.publish` integration is now "
-#| "available as add-on."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` now validates secure broker "
 "connections and exposes delivery timing and topic prefix settings."
 msgstr ""
-"Integrácia :ref:`addon-weblate.fedora_messaging.publish` je teraz dostupná "
-"ako doplnok."
 
 #: changes.rst:233
 msgid ""
@@ -25276,10 +25055,8 @@ msgstr ""
 "Besnik Bleta, fahadhewad, Harsha C"
 
 #: changes/contributors/2026.7.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri"
-msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
+msgstr ""
 
 #: changes/contributors/2026.7.1.rst:10
 msgid ""
@@ -25294,10 +25071,8 @@ msgstr ""
 "Binos, Adam Havránek"
 
 #: changes/contributors/2026.7.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
 msgid "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
-msgstr "Michal Čihař, Benjamin Alan Jamie, gers, gersona"
+msgstr ""
 
 #: changes/contributors/2026.8.rst:5
 msgid ""
@@ -25346,10 +25121,8 @@ msgstr ""
 "CI, Kartik Ohri, Karen Konou, mmustafasenoglu, Mustafa Senoğlu, Robert Wolff"
 
 #: changes/contributors/2026.8.1.rst:5
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, i4i, Alafi, Kartik Ohri"
-msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
+msgstr ""
 
 #: changes/contributors/2026.8.1.rst:10
 msgid ""
@@ -25368,10 +25141,8 @@ msgstr ""
 "Bleta"
 
 #: changes/contributors/2026.8.1.rst:15
-#, fuzzy
-#| msgid "Michal Čihař, Karen Konou, Kartik Ohri"
 msgid "Michal Čihař, i4i, Kartik Ohri"
-msgstr "Michal Čihař, Karen Konou, Kartik Ohri"
+msgstr ""
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -40961,10 +40732,8 @@ msgstr ""
 "uloženej konfigurácie."
 
 #: contributing/addons.rst:43
-#, fuzzy
-#| msgid "Typing add-on configuration"
 msgid "Publishing add-on configuration"
-msgstr "Typovanie konfigurácie doplnku"
+msgstr ""
 
 #: contributing/addons.rst:45
 msgid ""
@@ -42038,10 +41807,8 @@ msgid "User interface conventions"
 msgstr "Konvencie používateľského rozhrania"
 
 #: contributing/frontend.rst:44
-#, fuzzy
-#| msgid "Documentation guidelines"
 msgid "Documentation links"
-msgstr "Usmernenia pre dokumentáciu"
+msgstr ""
 
 #: contributing/frontend.rst:46
 msgid ""
@@ -42682,16 +42449,6 @@ msgstr ""
 "nepresné alebo vymyslené výsledky."
 
 #: contributing/issues.rst:48
-#, fuzzy
-#| msgid ""
-#| "It is *rarely* a good idea to just copy and paste an AI-generated report "
-#| "to the project. Those generated reports typically are too wordy and "
-#| "rarely to the point (in addition to the common fabricated details). If "
-#| "you actually discover a issue with an AI and you have verified it "
-#| "yourself to be true, write the report yourself and explain the issue as "
-#| "you have learned it. This makes sure the AI-generated inaccuracies and "
-#| "invented issues are filtered out early before they waste more people's "
-#| "time."
 msgid ""
 "It is *rarely* a good idea to just copy and paste an AI-generated report to "
 "the project. Those generated reports typically are too wordy and rarely to "
@@ -42701,13 +42458,6 @@ msgid ""
 "makes sure the AI-generated inaccuracies and invented issues are filtered "
 "out early before they waste more people's time."
 msgstr ""
-"Je *zriedka* dobrý nápad len skopírovať a vložiť hlásenie vygenerované AI do "
-"projektu. Tieto generované hlásenia sú zvyčajne príliš zdĺhavé a zriedka "
-"vecné (okrem bežných vymyslených detailov). Ak skutočne objavíte problém "
-"pomocou AI a sami ste overili, že je pravdivý, napíšte hlásenie sami a "
-"vysvetlite problém tak, ako ste ho pochopili. Tým sa zabezpečí, že "
-"nepresnosti vygenerované AI a vymyslené problémy budú odfiltrované skôr, než "
-"premárnia čas viac ľudí."
 
 #: contributing/issues.rst:56
 msgid ""
@@ -43385,17 +43135,10 @@ msgstr ""
 "s :ref:`adding-projects`."
 
 #: contributing/start.rst:77
-#, fuzzy
-#| msgid ""
-#| "Weblate is configured to use :program:`maildev` container as a e-mail "
-#| "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgid ""
 "Weblate is configured to use :program:`maildev` container as an e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgstr ""
-"Weblate je nakonfigurovaný na použitie kontajnera :program:`maildev` ako e-"
-"mailového servera. Doručené e-maily môžete vidieť na <http://127.0.0.1:1080/"
-">."
 
 #: contributing/start.rst:80
 msgid ""
@@ -50538,10 +50281,8 @@ msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 msgstr "`Príručka Qt Linguist <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: formats/qt.rst:24
-#, fuzzy
-#| msgid "Version"
 msgid "Version 2"
-msgstr "Verzia"
+msgstr ""
 
 #: formats/qt.rst:26
 msgid ""
@@ -50552,10 +50293,8 @@ msgstr ""
 "funkcií Qt Linguist dostupných vo Weblate."
 
 #: formats/qt.rst:37
-#, fuzzy
-#| msgid "Version"
 msgid "Version 1"
-msgstr "Verzia"
+msgstr ""
 
 #: formats/qt.rst:39
 msgid ""
@@ -50570,10 +50309,8 @@ msgid "Typical Weblate :ref:`component` when using as bilingual"
 msgstr "Typická :ref:`component` Weblate pri použití ako dvojjazyčná"
 
 #: formats/qt.rst:56 formats/qt.rst:69
-#, fuzzy
-#| msgid "Qt Linguist translation file"
 msgid "Qt Linguist translation file (version 2)`"
-msgstr "Prekladový súbor Qt Linguist"
+msgstr ""
 
 #: formats/qt.rst:61
 msgid "Typical Weblate :ref:`component` when using as monolingual"
@@ -51289,34 +51026,24 @@ msgid "`XLIFF 2.0 Translation File`"
 msgstr "`Prekladový súbor XLIFF 2.0`"
 
 #: formats/xwiki.rst:4
-#, fuzzy
-#| msgid "File formats"
 msgid "XWiki formats"
-msgstr "Formáty súborov"
+msgstr ""
 
 #: formats/xwiki.rst:6
-#, fuzzy
-#| msgid "Added support for Joomla translation format."
 msgid "Weblate supports several translation formats used by XWiki."
-msgstr "Pridaná podpora pre formát prekladu Joomla."
+msgstr ""
 
 #: formats/xwiki.rst:11
-#, fuzzy
-#| msgid "XWiki Java Properties"
 msgid "XWiki Java properties"
-msgstr "XWiki Java Properties"
+msgstr ""
 
 #: formats/xwiki.rst:18
-#, fuzzy
-#| msgid "XWiki Page Properties"
 msgid "XWiki page properties"
-msgstr "XWiki Page Properties"
+msgstr ""
 
 #: formats/xwiki.rst:25
-#, fuzzy
-#| msgid "XWiki Full Page"
 msgid "XWiki full page"
-msgstr "XWiki Full Page"
+msgstr ""
 
 #: formats/yaml.rst:4
 msgid "YAML files"
@@ -55203,10 +54930,8 @@ msgstr ""
 "V rozsahu. *(zdokumentované)* (zdroj: :doc:`/api`, :doc:`/admin/install`)"
 
 #: security/threat-model.rst:51
-#, fuzzy
-#| msgid "Per-project translation memory"
 msgid "Project translation metrics"
-msgstr "Prekladová pamäť pre jednotlivý projekt"
+msgstr ""
 
 #: security/threat-model.rst:52
 msgid ""
@@ -55235,20 +54960,16 @@ msgstr ""
 "api`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:60
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid "Stored translation reports"
-msgstr "Zdieľaná prekladová pamäť"
+msgstr ""
 
 #: security/threat-model.rst:61
 msgid "Report forms and :http:get:`/api/reports/` endpoints"
 msgstr "Formuláre správ a koncové body :http:get:`/api/reports/`"
 
 #: security/threat-model.rst:62
-#, fuzzy
-#| msgid "Not processing background tasks"
 msgid "Database snapshots and background tasks"
-msgstr "Nespracúvajú sa úlohy na pozadí"
+msgstr ""
 
 #: security/threat-model.rst:63
 msgid ""
@@ -56458,10 +56179,8 @@ msgstr ""
 "``unit.review``. *(zdokumentované)* (zdroj: :doc:`/workflows`, :doc:`/api`)"
 
 #: security/threat-model.rst:450
-#, fuzzy
-#| msgid "User profile"
 msgid "User profile API"
-msgstr "Používateľský profil"
+msgstr ""
 
 #: security/threat-model.rst:451
 msgid ""
@@ -64358,16 +64077,10 @@ msgstr ""
 "vyžaduje konkrétny počet viditeľných riadkov."
 
 #: snippets/checks-autogenerated.rst:1474
-#, fuzzy
-#| msgid ""
-#| "Unlike the other checks, the flag should be set as a ``key:value`` pair "
-#| "like ``max-length:100``."
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-lines:3``."
 msgstr ""
-"Na rozdiel od iných kontrol by sa príznak mal nastaviť ako pár "
-"``kľúč:hodnota``, napríklad ``max-length:100``."
 
 #: snippets/checks-autogenerated.rst:1477
 msgid ""
@@ -66936,10 +66649,8 @@ msgid "Check flags added by this format :ref:`ⓘ <custom-checks>`"
 msgstr "Skontrolovať príznaky pridané týmto formátom :ref:`ⓘ <custom-checks>`"
 
 #: snippets/format-features/asciidoc-features.rst:8
-#, fuzzy
-#| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``.ad``, ``.adoc``, ``.asciidoc``"
-msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
+msgstr ""
 
 #: snippets/format-features/asciidoc-features.rst:30
 msgid ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
@@ -66955,10 +66666,8 @@ msgid "Bilingual"
 msgstr "Dvojjazyčné"
 
 #: snippets/format-features/csv-features.rst:8
-#, fuzzy
-#| msgid "``.csv``, ``.xlsx``"
 msgid "``.csv``, ``.txt``"
-msgstr "``.csv``, ``.xlsx``"
+msgstr ""
 
 #: snippets/format-features/csv-features.rst:23
 #: snippets/format-features/po-features.rst:23
@@ -66992,30 +66701,24 @@ msgid "``go-i18n-json``, ``go-i18n-json-v2``"
 msgstr "``go-i18n-json``, ``go-i18n-json-v2``"
 
 #: snippets/format-features/html-features.rst:8
-#, fuzzy
-#| msgid "``.po``, ``.pot``"
 msgid "``.htm``, ``.html``"
-msgstr "``.po``, ``.pot``"
+msgstr ""
 
 #: snippets/format-features/html-features.rst:30
 msgid ":ref:`check-safe-html`, ``strict-same``"
 msgstr ":ref:`check-safe-html`, ``strict-same``"
 
 #: snippets/format-features/idml-features.rst:8
-#, fuzzy
-#| msgid "``.xlf``, ``.xliff``"
 msgid "``.idml``, ``.idms``"
-msgstr "``.xlf``, ``.xliff``"
+msgstr ""
 
 #: snippets/format-features/json-features.rst:24
 msgid "``json``, ``json-nested``"
 msgstr "``json``, ``json-nested``"
 
 #: snippets/format-features/markdown-features.rst:8
-#, fuzzy
-#| msgid "``.po``, ``.pot``"
 msgid "``.markdown``, ``.md``"
-msgstr "``.po``, ``.pot``"
+msgstr ""
 
 #: snippets/format-features/markdown-features.rst:30
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
@@ -67041,10 +66744,8 @@ msgid "``.po``, ``.pot``"
 msgstr "``.po``, ``.pot``"
 
 #: snippets/format-features/ruby-yaml-features.rst:8
-#, fuzzy
-#| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``.ryml``, ``.yaml``, ``.yml``"
-msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
+msgstr ""
 
 #: snippets/format-features/srt-features.rst:8
 msgid "``.ass``, ``.srt``, ``.ssa``, ``.sub``"
@@ -67055,10 +66756,8 @@ msgid "``ass``, ``srt``, ``ssa``, ``sub``"
 msgstr "``ass``, ``srt``, ``ssa``, ``sub``"
 
 #: snippets/format-features/txt-features.rst:8
-#, fuzzy
-#| msgid "``dokuwiki``, ``mediawiki``, ``txt``"
 msgid "``.dw``, ``.mw``, ``.txt``"
-msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
+msgstr ""
 
 #: snippets/format-features/txt-features.rst:24
 msgid "``dokuwiki``, ``mediawiki``, ``txt``"
@@ -67086,10 +66785,8 @@ msgid "``xliff2``, ``xliff2-placeables``"
 msgstr "``xliff2``, ``xliff2-placeables``"
 
 #: snippets/format-features/yaml-features.rst:8
-#, fuzzy
-#| msgid "``.sdlxliff``, ``.xlf``, ``.xliff``"
 msgid "``.pyml``, ``.yaml``, ``.yml``"
-msgstr "``.sdlxliff``, ``.xlf``, ``.xliff``"
+msgstr ""
 
 #: snippets/format-in-development.rst:3
 msgid ""
@@ -67327,22 +67024,16 @@ msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 
 #: snippets/machines-autogenerated.rst:68
-#, fuzzy
-#| msgid "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)"
 msgid "``claude-sonnet-5`` -- Claude Sonnet 5"
-msgstr "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Odporúčané)"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:70
-#, fuzzy
-#| msgid "``claude-opus-4-5`` -- Claude Opus 4.5"
 msgid "``claude-opus-4-8`` -- Claude Opus 4.8"
-msgstr "``claude-opus-4-5`` -- Claude Opus 4.5"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:72
-#, fuzzy
-#| msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 msgid "``claude-fable-5`` -- Claude Fable 5"
-msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:74
 #: snippets/machines-autogenerated.rst:753
@@ -67468,10 +67159,8 @@ msgstr ""
 "started>`_"
 
 #: snippets/machines-autogenerated.rst:107
-#, fuzzy
-#| msgid "`Anthropic Console <https://console.anthropic.com/>`_"
 msgid "`Anthropic Console <https://platform.claude.com/>`_"
-msgstr "`Konzola Anthropic <https://console.anthropic.com/>`_"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:136
 msgid ""
@@ -68252,62 +67941,44 @@ msgid "OpenAI model"
 msgstr "Model OpenAI"
 
 #: snippets/machines-autogenerated.rst:971
-#, fuzzy
-#| msgid "``gpt-5-nano`` -- GPT-5-nano"
 msgid "``gpt-5-nano`` -- GPT-5 nano"
-msgstr "``gpt-5-nano`` -- GPT-5-nano"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:973
-#, fuzzy
-#| msgid "``gpt-5-nano`` -- GPT-5-nano"
 msgid "``gpt-5.4-nano`` -- GPT-5.4 nano"
-msgstr "``gpt-5-nano`` -- GPT-5-nano"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:975
-#, fuzzy
-#| msgid "``gpt-5-mini`` -- GPT-5-mini"
 msgid "``gpt-5-mini`` -- GPT-5 mini"
-msgstr "``gpt-5-mini`` -- GPT-5-mini"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:977
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-5.4-mini`` -- GPT-5.4 mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:979
-#, fuzzy
-#| msgid "``gpt-5-nano`` -- GPT-5-nano"
 msgid "``gpt-5.6-luna`` -- GPT-5.6 Luna"
-msgstr "``gpt-5-nano`` -- GPT-5-nano"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:981
 msgid "``gpt-5`` -- GPT-5"
 msgstr "``gpt-5`` -- GPT-5"
 
 #: snippets/machines-autogenerated.rst:983
-#, fuzzy
-#| msgid "``gpt-5.2`` -- GPT-5.2"
 msgid "``gpt-5.4`` -- GPT-5.4"
-msgstr "``gpt-5.2`` -- GPT-5.2"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:985
-#, fuzzy
-#| msgid "``gpt-5-nano`` -- GPT-5-nano"
 msgid "``gpt-5.6-terra`` -- GPT-5.6 Terra"
-msgstr "``gpt-5-nano`` -- GPT-5-nano"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:987
-#, fuzzy
-#| msgid "``gpt-5.2`` -- GPT-5.2"
 msgid "``gpt-5.5`` -- GPT-5.5"
-msgstr "``gpt-5.2`` -- GPT-5.2"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:989
-#, fuzzy
-#| msgid "``gpt-5.2`` -- GPT-5.2"
 msgid "``gpt-5.6`` -- GPT-5.6 Sol"
-msgstr "``gpt-5.2`` -- GPT-5.2"
+msgstr ""
 
 #: snippets/machines-autogenerated.rst:1007
 msgid "Performs translation using `OpenAI`_."
@@ -70731,19 +70402,11 @@ msgstr ""
 "ponuky :guilabel:`Sledovanie`."
 
 #: user/profile.rst:189
-#, fuzzy
-#| msgid ""
-#| "In case :guilabel:`Automatically watch projects on contribution` is "
-#| "enabled you will automatically start watching projects upon translating a "
-#| "string. The default value depends on :setting:`DEFAULT_AUTO_WATCH`."
 msgid ""
 "In case :guilabel:`Automatically watch projects on contribution` is enabled "
 "you will automatically start watching projects upon contributing to them. "
 "The default value depends on :setting:`DEFAULT_AUTO_WATCH`."
 msgstr ""
-"V prípade, že je povolené :guilabel:`Automaticky sledovať projekty pri "
-"príspevku`, začnete automaticky sledovať projekty po preložení reťazca. "
-"Predvolená hodnota závisí od :setting:`DEFAULT_AUTO_WATCH`."
 
 #: user/profile.rst:195
 msgid "You will not receive notifications for your own actions."
@@ -70827,15 +70490,6 @@ msgstr ""
 "varovanie pred opustením Weblate, kde je to možné."
 
 #: user/profile.rst:244
-#, fuzzy
-#| msgid ""
-#| "The :guilabel:`Code site URL` should use common code hosting profile "
-#| "paths, such as ``/username`` or ``/~username``; existing repository-style "
-#| "links such as ``/username/project`` or ``/group/subgroup/project`` are "
-#| "also accepted. The :guilabel:`Fediverse URL` should use common profile "
-#| "paths, such as ``/username``, ``/@username``, ``/web/@username``, ``/"
-#| "users/username``, ``/accounts/username``, ``/channel/username``, ``/"
-#| "profile/username``, ``/u/username``, or ``/people/identifier``."
 msgid ""
 "The :guilabel:`Code site URL` should use common code-hosting profile paths, "
 "such as ``/username`` or ``/~username``; existing repository-style links "
@@ -70845,13 +70499,6 @@ msgid ""
 "username``, ``/accounts/username``, ``/channel/username``, ``/profile/"
 "username``, ``/u/username``, or ``/people/identifier``."
 msgstr ""
-":guilabel:`URL kódového webu` by mala používať bežné cesty profilov hostingu "
-"kódu, ako sú ``/username`` alebo ``/~username``; existujúce odkazy štýlu "
-"repozitára, ako sú ``/username/project`` alebo ``/group/subgroup/project``, "
-"sú tiež akceptované. :guilabel:`URL Fediverse` by mala používať bežné cesty "
-"profilov, ako sú ``/username``, ``/@username``, ``/web/@username``, ``/users/"
-"username``, ``/accounts/username``, ``/channel/username``, ``/profile/"
-"username``, ``/u/username`` alebo ``/people/identifier``."
 
 #: user/profile.rst:253
 msgid ""
@@ -72966,16 +72613,10 @@ msgstr ""
 "napríklad ``git@example.com:group/project.git``."
 
 #: vcs.rst:76
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
-#| "Azure DevOps, ...)"
 msgid ""
 "Accessing repositories on code-hosting sites (GitHub, GitLab, Bitbucket, "
 "Azure DevOps, ...)"
 msgstr ""
-"Prístup k repozitárom na stránkach na hosťovanie kódu (GitHub, GitLab, "
-"Bitbucket, Azure DevOps, ...)"
 
 #: vcs.rst:80
 msgid ""
@@ -73360,10 +73001,8 @@ msgid "Git"
 msgstr "Git"
 
 #: vcs.rst:295
-#, fuzzy
-#| msgid "Weblate needs Git 2.28 or newer."
 msgid "Weblate needs Git 2.46 or newer."
-msgstr "Weblate potrebuje Git 2.28 alebo novší."
+msgstr ""
 
 #: vcs.rst:299
 msgid ""
