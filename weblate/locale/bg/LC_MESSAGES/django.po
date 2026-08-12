@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-12 06:05+0000\n"
+"PO-Revision-Date: 2026-08-12 10:28+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -24502,28 +24502,31 @@ msgid "Pull request listing failed: %(error)s Please retry later."
 msgstr "Изпратени са твърде много съобщения. Моля, опитайте отново по-късно."
 
 #: weblate/vcs/base.py:266
-#, fuzzy, python-format
-#| msgid "Could not get repository status!"
+#, python-format
 msgid "Could not fork repository at %(hostname)s"
-msgstr "Състоянието на хранилището не може да бъде получено!"
+msgstr "Не може да бъде създадено копие в отделно хранилище на %(hostname)s"
 
 #: weblate/vcs/base.py:268
-#, fuzzy, python-format
-#| msgid "Could not open a ticket, please try again later."
+#, python-format
 msgid "Could not fork repository at %(hostname)s. Please retry later."
-msgstr "Не може да се създаде заявка. Моля, опитайте отново по-късно."
+msgstr ""
+"Не може да бъде създадено копие в отделно хранилище на %(hostname)s. Моля, "
+"опитайте отново по-късно."
 
 #: weblate/vcs/base.py:271
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not fork repository at %(hostname)s: %(error)s"
-msgstr "Проектът от GitLab не може да бъде получен (%(status)s): %(error)s"
+msgstr ""
+"Не може да бъде създадено копие в отделно хранилище на %(hostname)s: %(error)"
+"s"
 
 #: weblate/vcs/base.py:274
 #, python-format
 msgid ""
 "Could not fork repository at %(hostname)s: %(error)s Please retry later."
 msgstr ""
+"Не може да бъде създадено копие в отделно хранилище на %(hostname)s: %(error)"
+"s Моля, опитайте отново по-късно."
 
 #: weblate/vcs/base.py:277
 #, python-format
@@ -24531,107 +24534,117 @@ msgid ""
 "Could not fork repository at %(hostname)s: Repository not found. Check "
 "whether exists and user '%(username)s' has access to it."
 msgstr ""
+"Не може да бъде създадено копие в отделно хранилище на %(hostname)s. "
+"Хранилището не е намерено. Проверете дали то съществува и дали потребителят %"
+"(username)s има достъп до него."
 
 #: weblate/vcs/base.py:281
-#, fuzzy, python-format
-#| msgid "Export URL is not used when repository is linked!"
+#, python-format
 msgid "Repository has an interrupted Git %(operation)s operation."
-msgstr "Адресът за изнасяне не се използва, когато има свързано хранилище!"
+msgstr "Хранилището има прекъсната операция на Git: %(operation)s."
 
 #: weblate/vcs/base.py:284
-#, fuzzy, python-format
-#| msgid "Could not obtain the lock to perform the operation."
+#, python-format
 msgid "Could not recover interrupted Git %(operation)s operation."
 msgstr ""
-"Заключването е невъзможно, така че операцията не може да бъде извършена."
+"Прекъснатата операция на Git не може да бъде възстановена: %(operation)s."
 
 #: weblate/vcs/base.py:287
 msgid "The repository URL permanently redirects to a canonical URL."
-msgstr ""
+msgstr "Адресът на хранилището има постоянно пренасочване към основния адрес."
 
 #: weblate/vcs/base.py:290
 msgid "The repository HTTP redirect contains credentials and was rejected."
 msgstr ""
+"Заглавката на HTTP за пренасочване съдържа удостоверителни данни и беше "
+"отхвърлена."
 
 #: weblate/vcs/base.py:293
 msgid ""
 "The repository URL redirects to a different host. Automatic cross-host "
 "redirects are disabled for security; update the repository URL manually."
 msgstr ""
+"Адресът на хранилището пренасочва към друг сървър. Автоматичните "
+"пренасочвания между сървъри са изключени с цел сигурност. Можете да обновите "
+"адреса на хранилището ръчно."
 
 #: weblate/vcs/base.py:296
 msgid ""
 "The repository URL redirects from HTTPS to an insecure URL and was rejected."
 msgstr ""
+"Адресът на хранилището пренасочва от HTTPS към незащитен адрес и това беше "
+"отхвърлено."
 
 #: weblate/vcs/base.py:299
 msgid "The repository returned an invalid HTTP redirect."
-msgstr ""
+msgstr "Хранилището върна неправилно пренасочване по HTTP."
 
 #: weblate/vcs/base.py:302
 msgid "The repository returned an HTTP redirect with an invalid hostname."
-msgstr ""
+msgstr "Хранилището върна пренасочване по HTTP с неправилно име на сървър."
 
 #: weblate/vcs/base.py:305
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "Работното дърво на хранилището беше почистено."
+msgstr "Пренасочването по HTTP на хранилището съдържа цикъл."
 
 #: weblate/vcs/base.py:308
-#, fuzzy
-#| msgid "The repository working tree was cleaned up."
 msgid "The repository redirect target has no validated address."
-msgstr "Работното дърво на хранилището беше почистено."
+msgstr "Целта на пренасочването на хранилището има непотвърден адрес."
 
 #: weblate/vcs/base.py:311
 msgid "The repository returned a permanent HTTP redirect without a target URL."
-msgstr ""
+msgstr "Хранилището върна постоянно пренасочване по HTTP без целеви адрес."
 
 #: weblate/vcs/base.py:314
-#, fuzzy
-#| msgid "Repository data does not belong to a restored component."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "Данните от хранилището не принадлежат на възстановен компонент."
+msgstr ""
+"Пренасочването по HTTP на хранилището не сочи към адрес ползващ Git smart "
+"HTTP."
 
 #: weblate/vcs/base.py:317
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %(error)s"
-msgstr "Неуспешно получаване на промените от хранилището: %s"
+msgstr ""
+"Пренасочването по HTTP на хранилището не може да бъде проверено: %(error)s"
 
 #: weblate/vcs/base.py:320
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
 msgstr ""
+"Пренасочването по HTTP на хранилището неочаквано смени заявката в адреса."
 
 #: weblate/vcs/base.py:323
 msgid "The repository HTTP redirect target could not be validated."
 msgstr ""
+"Целта на пренасочването по HTTP на хранилището не може да бъде потвърдена."
 
 #: weblate/vcs/base.py:326
 msgid ""
 "The repository HTTP redirect target could not be verified as a Git "
 "repository."
 msgstr ""
+"Целта на пренасочването по HTTP на хранилището не може да бъде потвърдена "
+"като хранилище на Git."
 
 #: weblate/vcs/base.py:329
 msgid "The repository returned too many HTTP redirects."
-msgstr ""
+msgstr "Хранилището върна твърде много пренасочвания по HTTP."
 
 #: weblate/vcs/base.py:332
 msgid "The repository URL redirects to an unsupported URL scheme."
-msgstr ""
+msgstr "Адресът на хранилището пренасочва към неподдържана адресна схема."
 
 #: weblate/vcs/base.py:335
 msgid ""
 "Remote branch could not be verified against the shallow existing repository."
 msgstr ""
+"Отдалеченият клон не може да бъде потвърден спрямо съществуващото плитко "
+"копие на хранилището."
 
 #: weblate/vcs/base.py:338
 msgid ""
 "Remote branch does not share common history with the existing repository."
-msgstr ""
+msgstr "Отдалеченият клон не споделя обща история със съществуващото хранилище."
 
 #: weblate/vcs/base.py:341 weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:637
 #: weblate/vcs/ssh.py:644 weblate/vcs/ssh.py:649
