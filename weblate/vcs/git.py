@@ -832,7 +832,11 @@ class GitRepository(Repository):
 
     def checkout_with_temp_cleanup(self, branch: str) -> None:
         current_branch = self.get_current_branch()
-        self.execute(["checkout", branch], remote_op="none")
+        command = ["checkout"]
+        if current_branch in TEMPORARY_BRANCHES and current_branch != branch:
+            command.append("--force")
+        command.append(branch)
+        self.execute(command, remote_op="none")
         if current_branch in TEMPORARY_BRANCHES and current_branch != branch:
             with suppress(RepositoryCommandError):
                 self.execute(["branch", "-D", current_branch], remote_op="none")
