@@ -1111,6 +1111,38 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
                 ).strip()
             )
 
+    def test_recovery_overwrites_conflicting_untracked_file(self) -> None:
+        conflict_path = Path(self.tempdir) / "recovery-conflict.txt"
+        with self.repo.lock:
+            original_revision = self.repo.get_last_revision()
+            self.repo.set_committer("Weblate Test", "weblate@example.com")
+            conflict_path.write_text("TRACKED\n", encoding="utf-8")
+            self.assertTrue(
+                self.repo.commit("Add recovery conflict", files=[conflict_path.name])
+            )
+            self.repo.execute(
+                [
+                    "checkout",
+                    "-b",
+                    "weblate-squash-tmp",
+                    original_revision,
+                ],
+                remote_op="none",
+            )
+            conflict_path.write_text("UNTRACKED\n", encoding="utf-8")
+
+        with self.repo.lock:
+            self.assertEqual(self.repo.get_current_branch(), "main")
+            self.assertEqual(conflict_path.read_text(encoding="utf-8"), "TRACKED\n")
+            self.assertNotIn("weblate-squash-tmp", self.repo.list_branches())
+            self.assertFalse(
+                self.repo.execute(
+                    ["status", "--short"],
+                    remote_op="none",
+                    needs_lock=False,
+                ).strip()
+            )
+
 
 class GitBranchValidationTest(SimpleTestCase):
     def test_empty_branch_in_constructor_uses_default(self) -> None:
