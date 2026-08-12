@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-12 06:55+0000\n"
+"PO-Revision-Date: 2026-08-12 10:28+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
@@ -13561,22 +13561,24 @@ msgstr "Konfiguruje :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`."
 #: admin/install/docker.rst:1376
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
 msgstr ""
+"Konfiguruje :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`."
 
 #: admin/install/docker.rst:1384
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`."
 
 #: admin/install/docker.rst:1392
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`."
 
 #: admin/install/docker.rst:1400
 msgid "Configures :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 msgstr ""
+"Konfiguruje :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`."
 
 #: admin/install/docker.rst:1406
 msgid "Code-hosting sites credentials"
-msgstr ""
+msgstr "Poverenia pre stránky na hosťovanie kódu"
 
 #: admin/install/docker.rst:1408
 msgid ""
@@ -13586,6 +13588,11 @@ msgid ""
 "requests`, but apply to all :ref:`vcs` with appropriately changed variable "
 "names."
 msgstr ""
+"V kontajneri Docker je možné poverenia pre hosťovanie kódu nakonfigurovať "
+"buď v samostatných premenných, alebo pomocou slovníka Python na ich hromadné "
+"nastavenie. Nasledujúce príklady sú pre :ref:`code-hosting-github-pull-"
+"requests`, ale platia pre všetky :ref:`vcs` s príslušne zmenenými názvami "
+"premenných."
 
 #: admin/install/docker.rst:1415
 msgid ""
@@ -13620,6 +13627,8 @@ msgid ""
 "Configures :ref:`code-hosting-github-pull-requests` by "
 "changing :setting:`GITHUB_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`code-hosting-github-pull-requests` zmenou "
+":setting:`GITHUB_CREDENTIALS`."
 
 #: admin/install/docker.rst:1461 admin/install/docker.rst:1484
 #: admin/install/docker.rst:1496 admin/install/docker.rst:1508
@@ -13627,12 +13636,16 @@ msgstr ""
 msgid ""
 ":ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
+":ref:`Konfigurácia poverení pre hosťovanie kódu v Dockeri <docker-vcs-config>"
+"`"
 
 #: admin/install/docker.rst:1467
 msgid ""
 "Configures :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. The ``_FILE`` "
 "variant can be used to load the secret from a file."
 msgstr ""
+"Konfiguruje :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. Variant ``_FILE`` "
+"možno použiť na načítanie tajomstva zo súboru."
 
 #: admin/install/docker.rst:1470
 msgid ""
@@ -13640,42 +13653,57 @@ msgid ""
 "database and do not need environment variables. See :ref:`code-hosting-"
 "github-notifications`."
 msgstr ""
+"Aplikácie GitHub registrované prostredníctvom toku manifestu v aplikácii sú "
+"uložené v databáze a nepotrebujú premenné prostredia. Pozrite :ref:`code-"
+"hosting-github-notifications`."
 
 #: admin/install/docker.rst:1479
 msgid ""
 "Configures :ref:`code-hosting-gitlab-merge-requests` by "
 "changing :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`code-hosting-gitlab-merge-requests` zmenou "
+":setting:`GITLAB_CREDENTIALS`."
 
 #: admin/install/docker.rst:1491
 msgid ""
 "Configures :ref:`code-hosting-gitea-pull-requests` by "
 "changing :setting:`GITEA_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`code-hosting-gitea-pull-requests` zmenou "
+":setting:`GITEA_CREDENTIALS`."
 
 #: admin/install/docker.rst:1503
 msgid ""
 "Configures :ref:`code-hosting-pagure-merge-requests` by "
 "changing :setting:`PAGURE_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`code-hosting-pagure-merge-requests` zmenou "
+":setting:`PAGURE_CREDENTIALS`."
 
 #: admin/install/docker.rst:1515
 msgid ""
 "Configures :ref:`code-hosting-bitbucket-data-center-pull-requests` by "
 "changing :setting:`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`code-hosting-bitbucket-data-center-pull-requests` zmenou "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: admin/install/docker.rst:1524
 msgid ""
 "Configures :ref:`code-hosting-bitbucket-cloud-pull-requests` by "
 "changing :setting:`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`code-hosting-bitbucket-cloud-pull-requests` zmenou "
+":setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: admin/install/docker.rst:1537
 msgid ""
 "Configures :ref:`code-hosting-azure-devops-pull-requests` by "
 "changing :setting:`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
+"Konfiguruje :ref:`code-hosting-azure-devops-pull-requests` zmenou "
+":setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: admin/install/docker.rst:1547
 msgid "Automatic suggestion settings"
@@ -13880,12 +13908,18 @@ msgid ""
 "``requestedAuthnContext`` (needed for some identity providers such as "
 "Microsoft Entra ID with multi-factor authentication):"
 msgstr ""
+"Bezpečnostná konfigurácia SAML ako objekt JSON, odovzdaná do "
+"``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. Napríklad na zakázanie "
+"``requestedAuthnContext`` (potrebné pre niektorých poskytovateľov identity, "
+"ako je Microsoft Entra ID s viacúrovňovým overovaním):"
 
 #: admin/install/docker.rst:1841
 msgid ""
 "`python3-saml security settings <https://github.com/SAML-Toolkits/python3-"
 "saml#settings>`_"
 msgstr ""
+"`Bezpečnostné nastavenia python3-saml <https://github.com/SAML-Toolkits/"
+"python3-saml#settings>`_"
 
 #: admin/install/docker.rst:1852
 msgid "SAML attributes mapping."
@@ -14013,6 +14047,9 @@ msgid ""
 "connection. Use :ref:`docker-settings-override` to configure the database "
 "connection manually."
 msgstr ""
+"Nastavte na false na zakázanie konfigurácie pripojenia k databáze založenej "
+"na prostredí. Na manuálnu konfiguráciu pripojenia k databáze použite "
+":ref:`docker-settings-override`."
 
 #: admin/install/docker.rst:1975
 msgid "Database backup settings"
@@ -14230,53 +14267,67 @@ msgstr "Konfiguruje :setting:`SENTRY_SEND_PII`."
 #: admin/install/docker.rst:2233
 msgid "To enable support for Google Cloud Error Reporting, set following:"
 msgstr ""
+"Ak chcete povoliť podporu pre Google Cloud Error Reporting, nastavte "
+"nasledovné:"
 
 #: admin/install/docker.rst:2237
 msgid "Enables :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, defaults to ``False``."
 msgstr ""
+"Povolí :setting:`GOOGLE_CLOUD_ERROR_REPORTING`, predvolená hodnota je "
+"``False``."
 
 #: admin/install/docker.rst:2241
 msgid ""
 "Google Cloud project to report errors to. If omitted, the Google client uses "
 "application default credentials to detect the project."
 msgstr ""
+"Projekt Google Cloud, do ktorého sa majú hlásiť chyby. Ak nie je zadaný, "
+"klient Google použije predvolené poverenia aplikácie na detekciu projektu."
 
 #: admin/install/docker.rst:2246
 msgid ""
 "Service name to use in Google Cloud Error Reporting, defaults to ``weblate``."
 msgstr ""
+"Názov služby, ktorý sa má použiť v Google Cloud Error Reporting, predvolená "
+"hodnota je ``weblate``."
 
 #: admin/install/docker.rst:2248
 msgid "To enable support for OpenTelemetry tracing, set following:"
 msgstr ""
+"Ak chcete povoliť podporu trasovania OpenTelemetry, nastavte nasledovné:"
 
 #: admin/install/docker.rst:2252
 msgid "Enables :setting:`OPENTELEMETRY_ENABLED`, defaults to ``False``."
 msgstr ""
+"Povolí :setting:`OPENTELEMETRY_ENABLED`, predvolená hodnota je ``False``."
 
 #: admin/install/docker.rst:2256
 msgid "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
-msgstr ""
+msgstr "Konfiguruje :setting:`OPENTELEMETRY_EXPORTER_OTLP_ENDPOINT`."
 
 #: admin/install/docker.rst:2269
 msgid ""
 "Configures :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` as a comma-"
 "separated ``name:value`` mapping."
 msgstr ""
+"Konfiguruje :setting:`OPENTELEMETRY_EXPORTER_OTLP_HEADERS` ako mapovanie "
+"``názov:hodnota`` oddelené čiarkami."
 
 #: admin/install/docker.rst:2274
 msgid ""
 "Configures :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` as a comma-"
 "separated ``name:value`` mapping."
 msgstr ""
+"Konfiguruje :setting:`OPENTELEMETRY_EXTRA_RESOURCE_ATTRIBUTES` ako mapovanie "
+"``názov:hodnota`` oddelené čiarkami."
 
 #: admin/install/docker.rst:2279
 msgid "Configures :setting:`OPENTELEMETRY_SERVICE_NAME`."
-msgstr ""
+msgstr "Konfiguruje :setting:`OPENTELEMETRY_SERVICE_NAME`."
 
 #: admin/install/docker.rst:2283
 msgid "Configures :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
-msgstr ""
+msgstr "Konfiguruje :setting:`OPENTELEMETRY_TRACES_SAMPLE_RATE`."
 
 #: admin/install/docker.rst:2286 admin/optionals.rst:308
 msgid "Localization CDN"
@@ -14287,6 +14338,8 @@ msgid ""
 "Configuration for CDN add-ons, including :ref:`addon-weblate.cdn.cdnjs` "
 "and :ref:`addon-weblate.cdn.files`."
 msgstr ""
+"Konfigurácia pre doplnky CDN, vrátane :ref:`addon-weblate.cdn.cdnjs` a "
+":ref:`addon-weblate.cdn.files`."
 
 #: admin/install/docker.rst:2296
 msgid ""
@@ -14306,17 +14359,25 @@ msgid ""
 "Weblate, it only stores the files in configured location. See :ref:`cdn-"
 "server-security` for secure serving guidance."
 msgstr ""
+"Za nastavenie servírovania súborov generovaných Weblate zodpovedáte vy, "
+"Weblate ich iba ukladá do nakonfigurovaného umiestnenia. Pozrite si "
+":ref:`cdn-server-security` pre usmernenia k bezpečnému servírovaniu."
 
 #: admin/install/docker.rst:2321
 msgid ""
 "Changing enabled apps, checks, formats, add-ons, machinery, or autofixes"
 msgstr ""
+"Zmena povolených aplikácií, kontrol, formátov, doplnkov, strojového prekladu "
+"alebo automatických opráv"
 
 #: admin/install/docker.rst:2323
 msgid ""
 "The built-in configuration of enabled checks, file formats, add-ons, "
 "machinery, or autofixes can be adjusted by the following variables:"
 msgstr ""
+"Vstavanú konfiguráciu povolených kontrol, formátov súborov, doplnkov, "
+"strojového prekladu alebo automatických opráv možno upraviť pomocou "
+"nasledujúcich premenných:"
 
 #: admin/install/docker.rst:2363
 msgid "Container settings"
@@ -14338,6 +14399,12 @@ msgid ""
 "determine :envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`, "
 "and :envvar:`WEB_BLOCKING_THREADS`. You can use these settings to fine-tune."
 msgstr ""
+"Používa sa na určenie :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS` a "
+":envvar:`WEB_BLOCKING_THREADS`. Tieto nastavenia môžete použiť na jemné "
+"doladenie."
 
 #: admin/install/docker.rst:2386
 msgid ""
@@ -14347,6 +14414,12 @@ msgid ""
 "Command-line options take precedence over corresponding Celery settings, "
 "allowing each worker category to use a different prefetch multiplier."
 msgstr ""
+"Tieto premenné vám umožňujú upraviť možnosti pracovníkov Celery. Môže byť "
+"užitočné upraviť súbežnosť (``--concurrency 16``), prednačítanie (``--"
+"prefetch-multiplier 4``) alebo použiť inú implementáciu fondu (``--"
+"pool=gevent``). Možnosti príkazového riadka majú prednosť pred "
+"zodpovedajúcimi nastaveniami Celery, čo umožňuje každej kategórii "
+"pracovníkov použiť iný multiplikátor prednačítania."
 
 #: admin/install/docker.rst:2393
 msgid ""
@@ -14375,10 +14448,14 @@ msgid ""
 "the default for now, but a future release will run ASGI only and remove this "
 "setting."
 msgstr ""
+"Nastavte na ``1`` na spustenie webovej aplikácie pomocou ASGI namiesto WSGI. "
+"Ide o voliteľné nastavenie určené na testovanie prechodu na ASGI. WSGI "
+"zostáva zatiaľ predvoleným štandardom, ale budúce vydanie bude používať iba "
+"ASGI a toto nastavenie odstráni."
 
 #: admin/install/docker.rst:2442
 msgid "Configure how many web application workers should be executed."
-msgstr ""
+msgstr "Nakonfigurujte, koľko pracovníkov webovej aplikácie sa má spustiť."
 
 #: admin/install/docker.rst:2444
 msgid ""
@@ -14390,6 +14467,8 @@ msgid ""
 ":envvar:`WEB_WORKERS` configures how many worker processes will be used "
 "by :program:`granian`."
 msgstr ""
+":envvar:`WEB_WORKERS` konfiguruje, koľko pracovných procesov bude používať "
+":program:`granian`."
 
 #: admin/install/docker.rst:2459
 msgid ""
@@ -14397,6 +14476,10 @@ msgid ""
 "use. It defaults to twice :envvar:`WEBLATE_WORKERS` and is ignored "
 "when :envvar:`WEBLATE_ASGI` is enabled."
 msgstr ""
+"Nakonfigurujte, koľko blokujúcich vlákien WSGI môže každý pracovník "
+":program:`granian` použiť. Predvolená hodnota je dvojnásobok "
+":envvar:`WEBLATE_WORKERS` a ignoruje sa, keď je povolené "
+":envvar:`WEBLATE_ASGI`."
 
 #: admin/install/docker.rst:2463
 msgid ""
@@ -14405,6 +14488,10 @@ msgid ""
 "by :envvar:`WEB_BLOCKING_THREADS`. Each thread can hold its own database "
 "connection, so keep the resulting total within the database connection limit."
 msgstr ""
+"Maximálny počet súčasne spracovávaných požiadaviek WSGI je približne "
+":envvar:`WEB_WORKERS` vynásobený :envvar:`WEB_BLOCKING_THREADS`. Každé "
+"vlákno môže držať vlastné databázové pripojenie, takže výsledný súčet udržte "
+"v rámci limitu databázových pripojení."
 
 #: admin/install/docker.rst:2478
 msgid ""
@@ -14547,16 +14634,23 @@ msgid ""
 "such as `tmpfs`, but the mount has to allow execution because Weblate stores "
 "generated helper files there."
 msgstr ""
+"Zväzok :file:`cache` je pripojený ako :file:`/app/cache` a používa sa na "
+"ukladanie statických súborov a :setting:`CACHE_DIR`. Jeho obsah sa vytvára "
+"znovu pri spustení kontajnera a zväzok môže byť pripojený pomocou dočasného "
+"súborového systému, ako je `tmpfs`, ale pripojenie musí umožňovať "
+"vykonávanie, pretože Weblate tam ukladá generované pomocné súbory."
 
 #: admin/install/docker.rst:2560
 msgid ""
 "When mounting :file:`/app/cache` explicitly as ``tmpfs`` in Docker Compose, "
 "enable execution:"
 msgstr ""
+"Pri explicitnom pripájaní :file:`/app/cache` ako ``tmpfs`` v Docker Compose "
+"povoľte vykonávanie:"
 
 #: admin/install/docker.rst:2568
 msgid "When also setting ownership options, keep the ``exec`` option:"
-msgstr ""
+msgstr "Pri nastavovaní možností vlastníctva zachovajte možnosť ``exec``:"
 
 #: admin/install/docker.rst:2575
 msgid ""
@@ -14796,6 +14890,9 @@ msgid ""
 "custom :ref:`legal` documents and styles can be provided as described "
 "in :ref:`legal-customization`."
 msgstr ""
+"Tento prístup možno použiť aj na prepísanie šablón Weblate. Napríklad "
+"vlastné :ref:`legal` dokumenty a štýly môžu byť poskytnuté tak, ako je "
+"popísané v :ref:`legal-customization`."
 
 #: admin/install/docker.rst:2720
 msgid ""
@@ -15367,6 +15464,8 @@ msgid ""
 "If you intend to run the testsuite from the source checkout, install the "
 "development dependencies as described in :ref:`local-tests`."
 msgstr ""
+"Ak máte v úmysle spustiť testovaciu sadu zo zdrojového kódu, nainštalujte "
+"vývojové závislosti podľa popisu v :ref:`local-tests`."
 
 #: admin/install/source.rst:31
 msgid ""
@@ -15393,7 +15492,7 @@ msgstr "Tento krok by sa mal opakovať zakaždým, keď aktualizujete repozitár
 
 #: admin/install/source.rst:53
 msgid "Packaging Weblate for distributions"
-msgstr ""
+msgstr "Balíčkovanie Weblate pre distribúcie"
 
 #: admin/install/source.rst:55
 msgid ""
@@ -15403,6 +15502,10 @@ msgid ""
 "cannot validate every dependency-version combination covered by wider "
 "version ranges."
 msgstr ""
+"Verzie závislostí v :file:`pyproject.toml` opisujú behové prostredie "
+"testované projektom Weblate. Sú zámerne striktné pre inštalácie z PyPI a pre "
+"proces vydávania Weblate, pretože Weblate nemôže overiť každú kombináciu "
+"verzií závislostí pokrytú širšími rozsahmi verzií."
 
 #: admin/install/source.rst:60
 msgid ""
@@ -15411,24 +15514,34 @@ msgid ""
 "against the packaged dependency set and treat passing tests as the "
 "compatibility signal for the distribution package."
 msgstr ""
+"Distribučné balíky môžu nahradiť tieto balíky Python verziami z balíkovej "
+"sady distribúcie. Pri tomto postupe spustite testovaciu sadu Weblate voči "
+"balíkovej sade závislostí a považujte úspešné testy za signál kompatibility "
+"pre distribučný balík."
 
 #: admin/install/source.rst:65
 msgid ""
 "Keep Weblate's tightly coupled companion packages in sync with the Weblate "
 "release:"
 msgstr ""
+"Udržujte úzko prepojené sprievodné balíky Weblate synchronizované s vydaním "
+"Weblate:"
 
 #: admin/install/source.rst:74
 msgid ""
 "Mismatched versions of these packages are more likely to break at runtime or "
 "during tests than other Python dependency substitutions."
 msgstr ""
+"Nesprávne verzie týchto balíkov majú vyššiu pravdepodobnosť zlyhania počas "
+"behu alebo počas testov než iné náhrady závislostí Pythonu."
 
 #: admin/install/source.rst:79
 msgid ""
 "See :ref:`local-tests` for test setup and :ref:`release-cycle` for Weblate's "
 "release cadence."
 msgstr ""
+"Pozrite :ref:`local-tests` pre nastavenie testov a :ref:`release-cycle` pre "
+"cyklus vydávania Weblate."
 
 #: admin/install/steps/adjust-config.rst:1
 msgid ""
@@ -15823,6 +15936,8 @@ msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code are needed."
 msgstr ""
+"Na správne zobrazenie rôznych prekladov sú potrebné informácie o názve "
+"jazyka, smere textu, definíciách množného čísla a kóde jazyka."
 
 #: admin/languages.rst:12
 msgid "Built-in language definitions"
@@ -16075,6 +16190,10 @@ msgid ""
 "strings, but not parsing and storing strings to the files. Should you think "
 "Weblate behaves incorrectly, please file an issue in our issue tracker."
 msgstr ""
+"Zmena počtu množných tvarov alebo vzorca ovplyvní iba zobrazovanie reťazcov, "
+"ale nie ich analýzu a ukladanie do súborov. Ak si myslíte, že sa Weblate "
+"správa nesprávne, prosím, nahláste problém v našom systéme na sledovanie "
+"problémov."
 
 #: admin/languages.rst:169
 msgid "Plural number"
@@ -16103,6 +16222,10 @@ msgid ""
 "forms the language has, and the formula returns the zero-based index of the "
 "plural form to use for a count ``n``."
 msgstr ""
+"Vzorec používa rovnakú syntax výrazov ako časť ``plural=`` v hlavičke "
+"Gettext ``Plural-Forms``. Hodnota ``nplurals`` určuje, koľko množných tvarov "
+"jazyk má, a vzorec vracia nulový index množného tvaru, ktorý sa má použiť "
+"pre počet ``n``."
 
 #: admin/languages.rst:185
 msgid ""
@@ -16114,18 +16237,24 @@ msgid ""
 "(``condition ? value1 : value2``). The result must be between ``0`` and "
 "``nplurals - 1``."
 msgstr ""
+"Weblate validuje vzorec pomocou analyzátora Gettext poskytovaného Pythonom. "
+"Akceptovaná syntax je celočíselný výraz podobný jazyku C s ``n`` ako jedinou "
+"premennou. Môže používať desatinné čísla, zátvorky, aritmetické operátory "
+"(``+``, ``-``, ``*``, ``/``, ``%``), operátory porovnania a rovnosti, "
+"logické operátory (``&&``, ``||``, ``!``) a ternárny operátor (``podmienka ? "
+"hodnota1 : hodnota2``). Výsledok musí byť medzi ``0`` a ``nplurals - 1``."
 
 #: admin/languages.rst:193
 msgid "For example, English uses:"
-msgstr ""
+msgstr "Napríklad angličtina používa:"
 
 #: admin/languages.rst:202
 msgid "`GNU gettext manual for plural forms`_"
-msgstr ""
+msgstr "`Príručka GNU gettext pre množné tvary`_"
 
 #: admin/languages.rst:203
 msgid "`GNU gettext plural formula parser`_"
-msgstr ""
+msgstr "`Analyzátor vzorcov množných tvarov GNU gettext`_"
 
 #: admin/languages.rst:204
 msgid "`Language Plural Rules by the Unicode Consortium`_"
@@ -16230,6 +16359,9 @@ msgid ""
 "them how you want. Third-party services can receive source strings, "
 "translations, and related context from Weblate."
 msgstr ""
+"Podliehajú svojim podmienkam používania, preto sa uistite, že ich môžete "
+"používať podľa svojich potrieb. Služby tretích strán môžu od Weblate "
+"prijímať zdrojové reťazce, preklady a súvisiaci kontext."
 
 #: admin/machine.rst:23
 msgid ""
@@ -16336,7 +16468,7 @@ msgstr ""
 
 #: admin/machine.rst:67
 msgid "LLM translation context"
-msgstr ""
+msgstr "Kontext prekladu LLM"
 
 #: admin/machine.rst:69
 msgid ""
@@ -16347,6 +16479,13 @@ msgid ""
 "contents. Matching glossary entries are passed with their explanations and "
 "selected flags, so duplicate glossary terms can be disambiguated."
 msgstr ""
+"Služby automatických návrhov založené na LLM dostávajú dodatočný kontext o "
+"každom prekladanom reťazci, ak je k dispozícii. Zahŕňa to kontext reťazca "
+"alebo jednojazyčný kľúč, dodatočné vysvetlenie, nakonfigurovaný preklad do "
+"sekundárneho jazyka, informácie o množnom čísle, nevyhovujúce kontroly "
+"kvality a obsah zástupných symbolov. Zhodné položky slovníka sa odovzdávajú "
+"s ich vysvetleniami a vybranými príznakmi, aby bolo možné rozlíšiť "
+"duplicitné termíny slovníka."
 
 #: admin/machine.rst:76
 msgid ""
@@ -16357,6 +16496,11 @@ msgid ""
 "first looks for the exact target language code and then falls back to the "
 "base language code."
 msgstr ""
+"Pokyny špecifické pre cieľový jazyk môžete pridať v :guilabel:`Pokyny "
+"špecifické pre jazyk` pomocou objektu JSON mapujúceho kódy jazykov na text. "
+"Kódy jazykov musia existovať vo Weblate a sú presne zhodné; biele znaky sa "
+"neignorujú. Každý pokyn môže obsahovať až 1000 znakov. Weblate najprv hľadá "
+"presný kód cieľového jazyka a potom sa vráti k základnému kódu jazyka."
 
 #: admin/machine.rst:83
 msgid ""
@@ -16368,6 +16512,13 @@ msgid ""
 "or language-neutral formatting examples otherwise. Existing translations for "
 "the same target language can be appended as additional examples."
 msgstr ""
+"Pridané metadáta sa používajú len na usmernenie generovaného návrhu; vrátený "
+"preklad musí stále zachovávať zdrojové zástupné symboly a značkovanie. "
+"Weblate tiež posiela krátku predchádzajúcu konverzáciu službám LLM, aby "
+"demonštroval očakávaný formát odpovede JSON. Konverzácia používa pribalené "
+"preložené príklady, ak sú k dispozícii pre pár zdrojového a cieľového "
+"jazyka, alebo inak formátovacie príklady nezávislé od jazyka. Existujúce "
+"preklady pre rovnaký cieľový jazyk môžu byť pripojené ako dodatočné príklady."
 
 #: admin/machine.rst:97
 msgid "Custom machine translation"
@@ -16510,6 +16661,9 @@ msgid ""
 "updates the settings and database backup dumps in :setting:`DATA_DIR`, then "
 "runs the selected Borg backup service or services."
 msgstr ""
+"Spúšta nakonfigurované zálohy synchrónne, bez použitia Celery. Najprv "
+"aktualizuje nastavenia a výpisy záloh databázy v :setting:`DATA_DIR`, potom "
+"spustí vybranú zálohovaciu službu alebo služby Borg."
 
 #: admin/management.rst:232
 msgid ""
@@ -16517,6 +16671,9 @@ msgid ""
 "output. Failed backup service output is shown even without increased "
 "verbosity."
 msgstr ""
+"Použite štandardnú možnosť Djanga ``--verbosity 2`` na zobrazenie výstupu "
+"zálohovacej služby. Výstup zlyhanej zálohovacej služby sa zobrazí aj bez "
+"zvýšenej podrobnosti."
 
 #: admin/management.rst:235 snippets/checks-autogenerated.rst:2424
 #: user/search.rst:66
@@ -16529,6 +16686,9 @@ msgid ""
 "and run the command in a one-off container using :command:`docker compose "
 "run`. The database and configured backup storage still need to be available."
 msgstr ""
+"Pre nasadenia pomocou Docker Compose môžete zastaviť bežný kontajner Weblate "
+"a spustiť príkaz v jednorazovom kontajneri pomocou :command:`docker compose "
+"run`. Databáza a nakonfigurované úložisko záloh musia byť stále k dispozícii."
 
 #: admin/management.rst:262
 msgid "Imports given content into Weblate, useful for benchmarking."
@@ -16872,7 +17032,7 @@ msgstr "Na inštaláciu :ref:`addon-weblate.gettext.mo` pre všetky komponenty:"
 
 #: admin/management.rst:790
 msgid "Installs a site-wide automatic suggestion service."
-msgstr ""
+msgstr "Nainštaluje službu automatických návrhov pre celú stránku."
 
 #: admin/management.rst:804
 msgid "To install :ref:`mt-deepl`:"
@@ -17021,7 +17181,7 @@ msgstr ""
 
 #: admin/management.rst:996
 msgid "Outputs the server metrics exposed by :http:get:`/api/metrics/`."
-msgstr ""
+msgstr "Vypíše metriky servera vystavené cez :http:get:`/api/metrics/`."
 
 #: admin/management.rst:1008
 msgid ""
@@ -17334,6 +17494,13 @@ msgid ""
 "If :ref:`autoclean-tm` is enabled, matching pending entries are removed when "
 "a translation becomes active."
 msgstr ""
+"Položky prekladovej pamäte môžu mať dva rôzne stavy: **aktívny** a "
+"**čakajúci**. Čakajúce položky sú zahrnuté v návrhoch, ale s uplatneným "
+"postihom za kvalitu. V závislosti od nakonfigurovaného prahu skóre môže "
+"postih vylúčiť zo návrhov a automatického prekladu aj presné zhody. Položky "
+"importované zo súborov prekladovej pamäte sa ukladajú ako aktívne. Ak je "
+"povolené :ref:`autoclean-tm`, zodpovedajúce čakajúce položky sa odstránia, "
+"keď sa preklad stane aktívnym."
 
 #: admin/memory.rst:117 admin/projects.rst:247
 msgid "Autoclean translation memory"
@@ -17442,6 +17609,10 @@ msgid ""
 "memory` to manage automatically created translation memory for that "
 "workspace. Editing the workspace is required."
 msgstr ""
+"Otvorte pracovný priestor a vyberte :guilabel:`Operácie` ↓ "
+":guilabel:`Prekladová pamäť` na správu automaticky vytvorenej prekladovej "
+"pamäte pre tento pracovný priestor. Vyžaduje sa oprávnenie na úpravu "
+"pracovného priestoru."
 
 #: admin/memory.rst:167
 msgid ""
@@ -17496,6 +17667,9 @@ msgid ""
 "are processed during the request, stored as active, and added to the "
 "selected scope:"
 msgstr ""
+"Súbory prekladovej pamäte možno importovať na tej istej stránke. Nahrané "
+"súbory sa spracujú počas požiadavky, uložia sa ako aktívne a pridajú sa do "
+"vybraného rozsahu:"
 
 #: admin/memory.rst:189
 msgid "Personal uploads are available in your personal translation memory."
@@ -17568,6 +17742,10 @@ msgid ""
 "from the current translations in the background. Entries imported from files "
 "are preserved."
 msgstr ""
+"Zobrazenie prekladovej pamäte projektu umožňuje aj obnovu častí alebo celej "
+"prekladovej pamäte projektu. Automaticky generované položky pre vybraný "
+"komponent alebo projekt sa odstránia a pamäť sa znova naplní z aktuálnych "
+"prekladov na pozadí. Položky importované zo súborov sa zachovajú."
 
 #: admin/memory.rst:231
 msgid ""
@@ -17862,6 +18040,9 @@ msgid ""
 "adjust :setting:`LEGAL_TOS_DATE` when users should be forced to agree with "
 "the updated documents."
 msgstr ""
+"Pri zmene podmienok služby alebo zásad ochrany osobných údajov upravte "
+":setting:`LEGAL_TOS_DATE`, kedy by mali byť používatelia nútení súhlasiť s "
+"aktualizovanými dokumentmi."
 
 #: admin/optionals.rst:159
 msgid ""
@@ -17880,6 +18061,10 @@ msgid ""
 "example, but should not be used as a basis for legal documents of other "
 "services."
 msgstr ""
+"Pribalené podmienky služby a súvisiace právne dokumenty sú špecifické pre "
+"služby prevádzkované spoločnosťou Weblate s.r.o. Môžu slúžiť ako príklad "
+"implementácie, ale nemali by sa používať ako základ pre právne dokumenty "
+"iných služieb."
 
 #: admin/optionals.rst:171
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
@@ -17906,6 +18091,15 @@ msgid ""
 "your own templates in Docker, place them in :file:`/app/data/python/"
 "customize/templates/legal/documents`, see :ref:`docker-static-override`."
 msgstr ""
+"V nasadeniach Docker povoľte právny modul pomocou "
+":envvar:`WEBLATE_LEGAL_INTEGRATION` namiesto úpravy :file:`settings.py`. "
+"Použite ``tos-confirm`` na povolenie právneho modulu a vynútenia potvrdenia "
+"právnych dokumentov, alebo ``wllegal`` na dodatočné načítanie hosťovaných "
+"šablón právnych dokumentov používaných službami prevádzkovanými spoločnosťou "
+"Weblate s.r.o. Tieto šablóny nie sú určené na všeobecné použitie. Ak chcete "
+"v Dockeri poskytnúť vlastné šablóny, umiestnite ich do :file:`/app/data/"
+"python/customize/templates/legal/documents`, pozrite :ref:`docker-static-"
+"override`."
 
 #: admin/optionals.rst:209
 msgid ""
@@ -17922,6 +18116,8 @@ msgid ""
 "After installation and customization, the legal documents are shown in the "
 "Weblate UI."
 msgstr ""
+"Po inštalácii a prispôsobení sa právne dokumenty zobrazia v používateľskom "
+"rozhraní Weblate."
 
 #: admin/optionals.rst:218
 msgid ""
@@ -17946,7 +18142,7 @@ msgstr ""
 
 #: admin/optionals.rst:229
 msgid "Customizing legal documents and styles"
-msgstr ""
+msgstr "Prispôsobenie právnych dokumentov a štýlov"
 
 #: admin/optionals.rst:231
 msgid ""
@@ -17983,6 +18179,8 @@ msgid ""
 "Run :samp:`weblate collectstatic --noinput` after adding or changing the "
 "static file."
 msgstr ""
+"Po pridaní alebo zmene statického súboru spustite :samp:`weblate "
+"collectstatic --noinput`."
 
 #: admin/optionals.rst:258
 msgid ""
@@ -19659,6 +19857,8 @@ msgid ""
 "Controls whether translations from this component are added to the project "
 "translation memory."
 msgstr ""
+"Určuje, či sa preklady z tohto komponentu pridávajú do prekladovej pamäte "
+"projektu."
 
 #: admin/projects.rst:818
 msgid "Allow translation propagation"
@@ -20370,6 +20570,8 @@ msgid ""
 "This applies to project admins as well — please ensure you will not lose "
 "access to the component after toggling the status."
 msgstr ""
+"Toto platí aj pre administrátorov projektu — uistite sa, že po prepnutí "
+"stavu nestratíte prístup ku komponentu."
 
 #: admin/projects.rst:1295
 msgid "Share in projects"
@@ -20843,7 +21045,7 @@ msgstr "Dodatočne, ak zapnete :ref:`discover-weblate`:"
 
 #: admin/support.rst:34
 msgid "List of public and protected projects (name, URL, and website)."
-msgstr ""
+msgstr "Zoznam verejných a chránených projektov (názov, URL a webová stránka)."
 
 #: admin/support.rst:37
 msgid ""
@@ -20971,6 +21173,9 @@ msgid ""
 "projects, components, and users, together with names of public and protected "
 "projects for use on *Discover*."
 msgstr ""
+"Uistite sa, že súhlasíte so zverejnením názvu vašej inštancie, URL, počtov "
+"projektov, komponentov a používateľov, spolu s názvami verejných a "
+"chránených projektov na použitie v službe *Discover*."
 
 #: admin/support.rst:109
 msgid ""
@@ -21007,6 +21212,8 @@ msgid ""
 "All steps for listing a server manually, for example from older Weblate "
 "versions:"
 msgstr ""
+"Všetky kroky na manuálne zaradenie servera do zoznamu, napríklad zo starších "
+"verzií Weblate:"
 
 #: admin/support.rst:128
 msgid "Register yourself at https://weblate.org/user/"
@@ -21865,7 +22072,7 @@ msgstr ""
 
 #: admin/workspaces.rst:51
 msgid "Workspace removal"
-msgstr ""
+msgstr "Odstránenie pracovného priestoru"
 
 #: admin/workspaces.rst:53
 msgid ""
@@ -22660,7 +22867,7 @@ msgstr "`RSS na Wikipédii <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: changes.rst:2
 msgid "Weblate 2026.9"
-msgstr ""
+msgstr "Weblate 2026.9"
 
 #: changes.rst:4
 msgid "*Not yet released.*"
@@ -22815,14 +23022,16 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/168?"
 "closed=1>`__."
 msgstr ""
+"`Všetky zmeny podrobne <https://github.com/WeblateOrg/weblate/milestone/"
+"168?closed=1>`__."
 
 #: changes.rst:25
 msgid "Weblate 2026.8.1"
-msgstr ""
+msgstr "Weblate 2026.8.1"
 
 #: changes.rst:27
 msgid "*Released on August 7th 2026.*"
-msgstr ""
+msgstr "*Vydané 7. augusta 2026.*"
 
 #: changes.rst:31
 msgid ""
@@ -22926,14 +23135,16 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?"
 "closed=1>`__."
 msgstr ""
+"`Všetky zmeny podrobne <https://github.com/WeblateOrg/weblate/milestone/"
+"171?closed=1>`__."
 
 #: changes.rst:58
 msgid "Weblate 2026.8"
-msgstr ""
+msgstr "Weblate 2026.8"
 
 #: changes.rst:60
 msgid "*Released on August 3rd 2026.*"
-msgstr ""
+msgstr "*Vydané 3. augusta 2026.*"
 
 #: changes.rst:64
 msgid ""
@@ -23055,7 +23266,7 @@ msgstr ""
 
 #: changes.rst:76
 msgid "Weblate is now available in Lao language."
-msgstr ""
+msgstr "Weblate je teraz dostupný v laoštine."
 
 #: changes.rst:80
 msgid ""
@@ -23273,6 +23484,8 @@ msgid ""
 "Rebuilding project translation memory no longer removes entries imported "
 "from files."
 msgstr ""
+"Obnova prekladovej pamäte projektu už neodstraňuje položky importované zo "
+"súborov."
 
 #: changes.rst:108
 msgid ""
@@ -23422,14 +23635,16 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/167?"
 "closed=1>`__."
 msgstr ""
+"`Všetky zmeny podrobne <https://github.com/WeblateOrg/weblate/milestone/"
+"167?closed=1>`__."
 
 #: changes.rst:139
 msgid "Weblate 2026.7.1"
-msgstr ""
+msgstr "Weblate 2026.7.1"
 
 #: changes.rst:141
 msgid "*Released on July 10th 2026.*"
-msgstr ""
+msgstr "*Vydané 10. júla 2026.*"
 
 #: changes.rst:145
 msgid ""
@@ -23563,7 +23778,7 @@ msgstr ""
 
 #: changes.rst:167
 msgid "Component priority icons are no longer shown on translation listings."
-msgstr ""
+msgstr "Ikony priority komponentov sa už nezobrazujú v zoznamoch prekladov."
 
 #: changes.rst:168
 msgid ""
@@ -23579,6 +23794,8 @@ msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` received several reliability "
 "fixes."
 msgstr ""
+":ref:`addon-weblate.fedora_messaging.publish` dostal niekoľko opráv "
+"spoľahlivosti."
 
 #: changes.rst:170
 msgid ""
@@ -23697,6 +23914,8 @@ msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/170?"
 "closed=1>`__."
 msgstr ""
+"`Všetky zmeny podrobne <https://github.com/WeblateOrg/weblate/milestone/"
+"170?closed=1>`__."
 
 #: changes.rst:196
 msgid "Weblate 2026.7"
@@ -23943,6 +24162,9 @@ msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` now validates secure broker "
 "connections and exposes delivery timing and topic prefix settings."
 msgstr ""
+":ref:`addon-weblate.fedora_messaging.publish` teraz overuje zabezpečené "
+"pripojenia k sprostredkovateľovi a sprístupňuje nastavenia času doručenia a "
+"predpony témy."
 
 #: changes.rst:233
 msgid ""
@@ -25160,7 +25382,7 @@ msgstr ""
 
 #: changes/contributors/2026.7.1.rst:5
 msgid "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri"
-msgstr ""
+msgstr "Michal Čihař, Karen Konou, Weblate CI, Benjamin Alan Jamie, Kartik Ohri"
 
 #: changes/contributors/2026.7.1.rst:10
 msgid ""
@@ -25176,7 +25398,7 @@ msgstr ""
 
 #: changes/contributors/2026.7.1.rst:15
 msgid "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
-msgstr ""
+msgstr "Michal Čihař, mayank-dev-15, Benjamin Alan Jamie"
 
 #: changes/contributors/2026.8.rst:5
 msgid ""
@@ -25226,7 +25448,7 @@ msgstr ""
 
 #: changes/contributors/2026.8.1.rst:5
 msgid "Michal Čihař, i4i, Alafi, Kartik Ohri"
-msgstr ""
+msgstr "Michal Čihař, i4i, Alafi, Kartik Ohri"
 
 #: changes/contributors/2026.8.1.rst:10
 msgid ""
@@ -25246,7 +25468,7 @@ msgstr ""
 
 #: changes/contributors/2026.8.1.rst:15
 msgid "Michal Čihař, i4i, Kartik Ohri"
-msgstr ""
+msgstr "Michal Čihař, i4i, Kartik Ohri"
 
 #: changes/contributors/5.10.1.rst:5 changes/contributors/5.10.2.rst:5
 #: changes/contributors/5.10.3.rst:5 changes/contributors/5.10.rst:5
@@ -31850,7 +32072,7 @@ msgstr ""
 
 #: changes/v4.rst:421
 msgid "Added support for :ref:`code-hosting-gitea-pull-requests`."
-msgstr ""
+msgstr "Pridaná podpora pre :ref:`code-hosting-gitea-pull-requests`."
 
 #: changes/v4.rst:422
 msgid ""
@@ -32673,6 +32895,8 @@ msgstr "Vylepšená integrácia SAML autentifikácie."
 msgid ""
 "Fixed :ref:`code-hosting-gerrit` integration to better handle corner cases."
 msgstr ""
+"Opravená integrácia :ref:`code-hosting-gerrit` na lepšie zvládanie "
+"hraničných prípadov."
 
 #: changes/v4.rst:684
 msgid "Weblate now requires Django 3.2."
@@ -34626,7 +34850,7 @@ msgstr "Rozšírené možnosti sťahovania pre platformovo širokú prekladovú 
 
 #: changes/v5.rst:2
 msgid "Weblate 5.x series"
-msgstr ""
+msgstr "Séria Weblate 5.x"
 
 #: changes/v5.rst:5
 msgid "Weblate 5.17.1"
@@ -34634,7 +34858,7 @@ msgstr "Weblate 5.17.1"
 
 #: changes/v5.rst:7
 msgid "*Released on April 30th 2026.*"
-msgstr ""
+msgstr "*Vydané 30. apríla 2026.*"
 
 #: changes/v5.rst:11
 msgid ""
@@ -34650,10 +34874,15 @@ msgid ""
 "rejecting pending suggestions, and deleting comments across project or site-"
 "wide scopes."
 msgstr ""
+"Administrátori teraz môžu vyčistiť zablokovaných alebo zneužívajúcich "
+"používateľov vrátením úprav, odmietnutím čakajúcich návrhov a odstránením "
+"komentárov v rozsahu projektu alebo celej stránky."
 
 #: changes/v5.rst:13
 msgid "Admin user management can now find users by audit log IP address."
 msgstr ""
+"Správa používateľov administrátora teraz môže vyhľadávať používateľov podľa "
+"IP adresy v audítorskom protokole."
 
 #: changes/v5.rst:14
 msgid ""
@@ -34665,7 +34894,7 @@ msgstr ""
 
 #: changes/v5.rst:15
 msgid "Added :ref:`mt-ltengine` machine translation service."
-msgstr ""
+msgstr "Pridaná služba strojového prekladu :ref:`mt-ltengine`."
 
 #: changes/v5.rst:19
 msgid ""
@@ -34673,6 +34902,9 @@ msgid ""
 "permission, :ref:`autoclean-tm`, :ref:`glossary-terminology`, and "
 "current :ref:`translation-memory` management options in the UI."
 msgstr ""
+"Vylepšená dokumentácia pre globálne oprávnenie ``user.edit``, "
+":ref:`autoclean-tm`, :ref:`glossary-terminology` a aktuálne možnosti správy "
+":ref:`translation-memory` v používateľskom rozhraní."
 
 #: changes/v5.rst:20
 msgid ""
@@ -34687,6 +34919,8 @@ msgid ""
 "Documented restoring Docker-based setups from backups, see :ref:`restore-"
 "docker`."
 msgstr ""
+"Zdokumentovaná obnova nastavení založených na Dockeri zo záloh, pozrite "
+":ref:`restore-docker`."
 
 #: changes/v5.rst:22
 msgid ""
@@ -34701,6 +34935,9 @@ msgid ""
 "The OpenAPI schema is cleaner and now describes action endpoints with their "
 "actual list, statistics, status, upload, and download response payloads."
 msgstr ""
+"Schéma OpenAPI je čistejšia a teraz opisuje koncové body akcií s ich "
+"skutočnými užitočnými zaťaženiami odpovedí pre zoznam, štatistiky, stav, "
+"nahrávanie a sťahovanie."
 
 #: changes/v5.rst:24
 msgid ""
@@ -34720,11 +34957,17 @@ msgid ""
 "validates ``{{ component }}`` more clearly, and includes a worked discovery-"
 "template example in the docs."
 msgstr ""
+":ref:`addon-weblate.discovery.discovery` teraz ponúka sprevádzané predvoľby "
+"na strane klienta, navrhuje predvoľby zistené z rozložení repozitárov "
+"komponentov, jasnejšie overuje ``{{ component }}`` a obsahuje funkčný "
+"príklad šablóny objavovania v dokumentácii."
 
 #: changes/v5.rst:26
 msgid ""
 "Superuser and site-wide team changes are now tracked in :ref:`audit-log`."
 msgstr ""
+"Zmeny superpoužívateľa a tímov na úrovni stránky sa teraz sledujú v "
+":ref:`audit-log`."
 
 #: changes/v5.rst:27
 msgid ""
@@ -34733,6 +34976,10 @@ msgid ""
 "better explains private or local endpoint restrictions on hosted and self-"
 "managed sites."
 msgstr ""
+"Upozornenia na overenie URL teraz zobrazujú jasnejšie chyby pre webové "
+"stránky projektov a URL prehliadača repozitára a overenie strojového "
+"prekladu na úrovni projektu lepšie vysvetľuje obmedzenia súkromných alebo "
+"lokálnych koncových bodov na hosťovaných a vlastných stránkach."
 
 #: changes/v5.rst:28
 msgid ""
@@ -34740,6 +34987,9 @@ msgid ""
 "translations to the add-on user and records automatic translation results in "
 "the add-on activity log."
 msgstr ""
+":ref:`addon-weblate.autotranslate.autotranslate` teraz priraďuje skopírované "
+"preklady používateľovi doplnku a zaznamenáva výsledky automatického prekladu "
+"do protokolu aktivity doplnku."
 
 #: changes/v5.rst:29
 msgid ""
@@ -34752,6 +35002,8 @@ msgstr ""
 #: changes/v5.rst:30
 msgid ":ref:`profile` links now show an external-link warning where possible."
 msgstr ""
+"Odkazy :ref:`profile` teraz zobrazujú upozornenie na externý odkaz, kde je "
+"to možné."
 
 #: changes/v5.rst:31
 msgid ""
@@ -34759,6 +35011,9 @@ msgid ""
 "toasts, with higher-contrast dark theme colors for Bootstrap subtle and "
 "emphasis variants."
 msgstr ""
+"Vyskakovacie oznámenia na strane klienta spúšťané JavaScriptom teraz "
+"používajú Bootstrap toasty s farbami tmavého motívu s vyšším kontrastom pre "
+"varianty Bootstrap subtle a emphasis."
 
 #: changes/v5.rst:32
 msgid ""
@@ -34781,18 +35036,24 @@ msgid ""
 "Image URLs in Markdown are now escaped before rendering "
 "(:cve:`2026-44264` / :ghsa:`5cmv-3rc4-7279`)."
 msgstr ""
+"URL obrázkov v Markdown sú teraz pred vykreslením escapované (:cve:`2026-"
+"44264` / :ghsa:`5cmv-3rc4-7279`)."
 
 #: changes/v5.rst:38
 msgid ""
 "Tightened :ref:`api` input validation to prevent translation enumeration "
 "(:cve:`2026-44263` / :ghsa:`gcg5-86jr-f7jg`)."
 msgstr ""
+"Sprísnená validácia vstupu :ref:`api` na zabránenie enumerácii prekladov "
+"(:cve:`2026-44263` / :ghsa:`gcg5-86jr-f7jg`)."
 
 #: changes/v5.rst:39
 msgid ""
 "Project backup imports now revalidate component repository URLs before "
 "restoring from backup (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 msgstr ""
+"Importy záloh projektov teraz pred obnovením zo zálohy opätovne overujú URL "
+"repozitárov komponentov (:cve:`2026-41654` / :ghsa:`cwcx-382v-8m9g`)."
 
 #: changes/v5.rst:40
 msgid ""
@@ -34807,6 +35068,8 @@ msgid ""
 "Invitation acceptance now verifies the invited e-mail address and invitation "
 "expiry before granting team membership."
 msgstr ""
+"Prijatie pozvánky teraz pred udelením členstva v tíme overuje pozvanú e-"
+"mailovú adresu a platnosť pozvánky."
 
 #: changes/v5.rst:42
 msgid ""
@@ -34821,6 +35084,8 @@ msgid ""
 "The :ref:`addons-api` now validates required add-on configuration when "
 "installing add-ons."
 msgstr ""
+":ref:`addons-api` teraz pri inštalácii doplnkov overuje požadovanú "
+"konfiguráciu doplnku."
 
 #: changes/v5.rst:44
 msgid ""
@@ -34938,6 +35203,8 @@ msgid ""
 ":ref:`mt-weblate-translation-memory` no longer misses boundary similarity "
 "matches after stricter lookups."
 msgstr ""
+":ref:`mt-weblate-translation-memory` po sprísnení vyhľadávania už "
+"nevynecháva zhody hraničnej podobnosti."
 
 #: changes/v5.rst:58
 msgid ""
@@ -34953,6 +35220,9 @@ msgid ""
 "management for discovered formats that do not support adding or removing "
 "strings."
 msgstr ""
+":ref:`addon-weblate.discovery.discovery` teraz zakazuje zdedenú správu "
+"reťazcov pre objavené formáty, ktoré nepodporujú pridávanie alebo "
+"odstraňovanie reťazcov."
 
 #: changes/v5.rst:60
 msgid ""
@@ -34967,24 +35237,32 @@ msgid ""
 "Project component pagination now keeps the :guilabel:`Components` tab active "
 "when jumping to a typed page number."
 msgstr ""
+"Stránkovanie komponentov projektu teraz ponechá kartu :guilabel:`Komponenty` "
+"aktívnu aj pri prechode na zadané číslo strany."
 
 #: changes/v5.rst:62
 msgid ""
 "Markdown rendering now falls back to escaped plain text when the parser "
 "fails."
 msgstr ""
+"Vykresľovanie Markdown teraz pri zlyhaní parsera použije ako záložnú možnosť "
+"escapovaný čistý text."
 
 #: changes/v5.rst:63
 msgid ""
 "Forgejo and Gitea test deliveries with sample loopback repository URLs no "
 "longer trigger slow suffix matching against all components."
 msgstr ""
+"Testovacie doručenia Forgejo a Gitea so vzorovými URL slučkových repozitárov "
+"už nespúšťajú pomalé porovnávanie prípon voči všetkým komponentom."
 
 #: changes/v5.rst:67
 msgid ""
 "Password changes now regenerate personal API keys by default "
 "(:cve:`2026-41519` / :ghsa:`6j8j-4qp3-36p2`)."
 msgstr ""
+"Zmeny hesla teraz predvolene regenerujú osobné API kľúče (:cve:`2026-"
+"41519` / :ghsa:`6j8j-4qp3-36p2`)."
 
 #: changes/v5.rst:68
 msgid ""
@@ -35001,6 +35279,8 @@ msgid ""
 ":ref:`profile` URL validation now rejects obvious direct file download URLs "
 "and invalid code site or Fediverse profile links."
 msgstr ""
+"Validácia URL :ref:`profile` teraz odmieta zrejmé URL na priame sťahovanie "
+"súborov a neplatné odkazy na profily na stránkach s kódom alebo vo Fediverse."
 
 #: changes/v5.rst:70
 msgid ""
@@ -35010,6 +35290,13 @@ msgid ""
 "imports and project backup restores now share stricter ZIP archive safety "
 "checks, including total uncompressed data limits for project backup imports."
 msgstr ""
+"Nahrávania teraz pred parsovaním vynucujú "
+":setting:`TRANSLATION_UPLOAD_MAX_SIZE`, "
+":setting:`COMPONENT_ZIP_UPLOAD_MAX_SIZE` a "
+":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`. Importy ZIP komponentov a "
+"obnovenia záloh projektov teraz zdieľajú prísnejšie bezpečnostné kontroly "
+"archívov ZIP, vrátane limitov celkovej veľkosti nekomprimovaných údajov pre "
+"importy záloh projektov."
 
 #: changes/v5.rst:80
 msgid ""
@@ -35095,6 +35382,8 @@ msgid ""
 "Added Forgejo notification webhook, see :ref:`Forgejo notifications <code-"
 "hosting-forgejo-notifications>`."
 msgstr ""
+"Pridaný notifikačný webhook Forgejo, pozrite :ref:`Notifikácie Forgejo <code-"
+"hosting-forgejo-notifications>`."
 
 #: changes/v5.rst:98
 msgid ""
@@ -36027,6 +36316,7 @@ msgid ""
 "Validation of VCS settings :ref:`code-hosting-push-options` has been "
 "extended."
 msgstr ""
+"Bola rozšírená validácia nastavení VCS :ref:`code-hosting-push-options`."
 
 #: changes/v5.rst:297
 msgid ""
@@ -37682,6 +37972,8 @@ msgid ""
 ":ref:`code-hosting-gitlab-merge-requests` integration now detects "
 "merge‑request conflicts more robustly."
 msgstr ""
+"Integrácia :ref:`code-hosting-gitlab-merge-requests` teraz spoľahlivejšie "
+"deteguje konflikty merge requestov."
 
 #: changes/v5.rst:963
 msgid ":ref:`addon-weblate.webhook.webhook` is now enabled in Docker."
@@ -40837,7 +41129,7 @@ msgstr ""
 
 #: contributing/addons.rst:43
 msgid "Publishing add-on configuration"
-msgstr ""
+msgstr "Zverejnenie konfigurácie doplnku"
 
 #: contributing/addons.rst:45
 msgid ""
@@ -41912,7 +42204,7 @@ msgstr "Konvencie používateľského rozhrania"
 
 #: contributing/frontend.rst:44
 msgid "Documentation links"
-msgstr ""
+msgstr "Odkazy na dokumentáciu"
 
 #: contributing/frontend.rst:46
 msgid ""
@@ -42562,6 +42854,13 @@ msgid ""
 "makes sure the AI-generated inaccuracies and invented issues are filtered "
 "out early before they waste more people's time."
 msgstr ""
+"Je *zriedka* dobrý nápad len skopírovať a vložiť hlásenie vygenerované AI do "
+"projektu. Tieto generované hlásenia sú zvyčajne príliš rozsiahle a málokedy "
+"výstižné (okrem bežných vymyslených detailov). Ak skutočne objavíte problém "
+"s AI a sami ste overili, že je pravdivý, napíšte hlásenie sami a vysvetlite "
+"problém tak, ako ste ho pochopili. Tým sa zabezpečí, že nepresnosti a "
+"vymyslené problémy vygenerované AI budú odfiltrované včas, skôr než budú "
+"plytvať čas ďalších ľudí."
 
 #: contributing/issues.rst:56
 msgid ""
@@ -43243,6 +43542,9 @@ msgid ""
 "Weblate is configured to use :program:`maildev` container as an e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgstr ""
+"Weblate je nakonfigurovaný na použitie kontajnera :program:`maildev` ako e-"
+"mailového servera. Doručené e-maily si môžete pozrieť na <http://"
+"127.0.0.1:1080/>."
 
 #: contributing/start.rst:80
 msgid ""
@@ -50386,7 +50688,7 @@ msgstr "`Príručka Qt Linguist <https://doc.qt.io/qt-6/qtlinguist-index.html>`_
 
 #: formats/qt.rst:24
 msgid "Version 2"
-msgstr ""
+msgstr "Verzia 2"
 
 #: formats/qt.rst:26
 msgid ""
@@ -50398,7 +50700,7 @@ msgstr ""
 
 #: formats/qt.rst:37
 msgid "Version 1"
-msgstr ""
+msgstr "Verzia 1"
 
 #: formats/qt.rst:39
 msgid ""
@@ -50414,7 +50716,7 @@ msgstr "Typická :ref:`component` Weblate pri použití ako dvojjazyčná"
 
 #: formats/qt.rst:56 formats/qt.rst:69
 msgid "Qt Linguist translation file (version 2)`"
-msgstr ""
+msgstr "Prekladový súbor Qt Linguist (verzia 2)`"
 
 #: formats/qt.rst:61
 msgid "Typical Weblate :ref:`component` when using as monolingual"
@@ -51131,23 +51433,23 @@ msgstr "`Prekladový súbor XLIFF 2.0`"
 
 #: formats/xwiki.rst:4
 msgid "XWiki formats"
-msgstr ""
+msgstr "Formáty XWiki"
 
 #: formats/xwiki.rst:6
 msgid "Weblate supports several translation formats used by XWiki."
-msgstr ""
+msgstr "Weblate podporuje niekoľko prekladových formátov používaných v XWiki."
 
 #: formats/xwiki.rst:11
 msgid "XWiki Java properties"
-msgstr ""
+msgstr "Java properties XWiki"
 
 #: formats/xwiki.rst:18
 msgid "XWiki page properties"
-msgstr ""
+msgstr "Vlastnosti stránky XWiki"
 
 #: formats/xwiki.rst:25
 msgid "XWiki full page"
-msgstr ""
+msgstr "Celá stránka XWiki"
 
 #: formats/yaml.rst:4
 msgid "YAML files"
@@ -55035,7 +55337,7 @@ msgstr ""
 
 #: security/threat-model.rst:51
 msgid "Project translation metrics"
-msgstr ""
+msgstr "Metriky prekladu projektu"
 
 #: security/threat-model.rst:52
 msgid ""
@@ -55065,7 +55367,7 @@ msgstr ""
 
 #: security/threat-model.rst:60
 msgid "Stored translation reports"
-msgstr ""
+msgstr "Uložené správy o preklade"
 
 #: security/threat-model.rst:61
 msgid "Report forms and :http:get:`/api/reports/` endpoints"
@@ -55073,7 +55375,7 @@ msgstr "Formuláre správ a koncové body :http:get:`/api/reports/`"
 
 #: security/threat-model.rst:62
 msgid "Database snapshots and background tasks"
-msgstr ""
+msgstr "Snímky databázy a úlohy na pozadí"
 
 #: security/threat-model.rst:63
 msgid ""
@@ -56284,7 +56586,7 @@ msgstr ""
 
 #: security/threat-model.rst:450
 msgid "User profile API"
-msgstr ""
+msgstr "API používateľského profilu"
 
 #: security/threat-model.rst:451
 msgid ""
@@ -64185,6 +64487,8 @@ msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-lines:3``."
 msgstr ""
+"Na rozdiel od ostatných kontrol by mal byť príznak nastavený ako pár "
+"``kľúč:hodnota``, napríklad ``max-lines:3``."
 
 #: snippets/checks-autogenerated.rst:1477
 msgid ""
@@ -67264,7 +67568,7 @@ msgstr ""
 
 #: snippets/machines-autogenerated.rst:107
 msgid "`Anthropic Console <https://platform.claude.com/>`_"
-msgstr ""
+msgstr "`Konzola Anthropic <https://platform.claude.com/>`_"
 
 #: snippets/machines-autogenerated.rst:136
 msgid ""
