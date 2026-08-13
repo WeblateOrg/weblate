@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-12 16:08+0000\n"
+"PO-Revision-Date: 2026-08-13 17:51+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -614,7 +614,7 @@ msgstr "Người dùng đã bị xóa khỏi nhóm {team} site-wide bởi {usern
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:358
 msgid "Superuser privileges granted."
-msgstr "Đã cấp quyền quản trị viên."
+msgstr "Đã cấp quyền Superuser."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:360
@@ -10256,7 +10256,7 @@ msgstr "Chi tiết"
 
 #: weblate/templates/addons/addon_logs.html:41
 msgid "No add-on activity logs available."
-msgstr ""
+msgstr "Không có nhật ký hoạt động phần bổ sung."
 
 #: weblate/templates/addons/addon_logs.html:55
 #: weblate/templates/snippets/position-field.html:31
@@ -10279,7 +10279,7 @@ msgstr "Hướng dẫn tích hợp"
 
 #: weblate/templates/addons/cdnfiles.html:6
 msgid "Published translation files are available from the CDN base URL:"
-msgstr ""
+msgstr "Các tệp dịch đã được xuất bản có sẵn tại URL cơ sở của CDN:"
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
@@ -10440,6 +10440,10 @@ msgid_plural ""
 "component settings.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      %(failure_count)s hiển thị các phần bổ sung không thể được tạo với cài "
+"đặt thành phần hiện tại.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:30
 #, python-format
@@ -10573,6 +10577,7 @@ msgid ""
 "Automatically add newly created users to this team based on their e-mail "
 "address."
 msgstr ""
+"Tự động thêm người dùng mới tạo vào nhóm này dựa trên địa chỉ email của họ."
 
 #: weblate/templates/auth/team.html:101
 msgid ""
@@ -10581,10 +10586,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/auth/team.html:106
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add automatic assignment"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm tính năng tự động gán"
 
 #: weblate/templates/auth/team.html:128
 #: weblate/templates/trans/project-access.html:63
@@ -10610,10 +10613,8 @@ msgid "Revoke administration"
 msgstr "Thu hồi quyền quản lý"
 
 #: weblate/templates/auth/team.html:173
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Grant administration"
-msgstr "Quản trị Weblate"
+msgstr "Cấp quyền quản trị"
 
 #: weblate/templates/auth/team.html:195 weblate/templates/auth/team.html:245
 #: weblate/templates/trans/project-access.html:215
@@ -10919,7 +10920,7 @@ msgstr "Tải xuống hóa đơn"
 #: weblate/templates/snippets/info.html:172
 #: weblate/templates/snippets/list-objects.html:317
 msgid "Not available"
-msgstr ""
+msgstr "Không có sẵn"
 
 #: weblate/templates/billing/detail-content.html:122
 msgid "No invoices found."
@@ -11306,10 +11307,8 @@ msgid "Batch automatic translation"
 msgstr "Dịch tự động hàng loạt"
 
 #: weblate/templates/category.html:115 weblate/templates/project.html:154
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add new category"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm danh mục mới"
 
 #: weblate/templates/category.html:128 weblate/templates/category.html:329
 #: weblate/templates/component.html:150 weblate/templates/component.html:356
@@ -11333,10 +11332,8 @@ msgid "Browse translations"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/category.html:275 weblate/templates/project.html:382
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add a category"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm danh mục"
 
 #: weblate/templates/category.html:297
 #, fuzzy
@@ -11357,6 +11354,8 @@ msgid ""
 "Users will need to update their bookmarks, references in cloned "
 "repositories, or API calls!"
 msgstr ""
+"Người dùng sẽ cần cập nhật dấu trang, các tham chiếu trong kho lưu trữ đã "
+"sao chép hoặc các lệnh gọi API!"
 
 #: weblate/templates/category.html:309 weblate/templates/component.html:468
 #: weblate/templates/project.html:417
@@ -11888,7 +11887,7 @@ msgstr "Ghi đè ngôn ngữ"
 
 #: weblate/templates/fonts/font_list.html:72
 msgid "Add font group"
-msgstr ""
+msgstr "Thêm nhóm phông chữ"
 
 #: weblate/templates/fonts/font_list.html:82
 msgid "Please upload fonts to be able to define font groups."
@@ -11917,10 +11916,8 @@ msgid "language override"
 msgstr "Ngôn ngữ"
 
 #: weblate/templates/fonts/fontgroup_detail.html:68
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add language override"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm ghi đè ngôn ngữ"
 
 #: weblate/templates/fonts/fontgroup_detail.html:81
 msgid "Edit font group"
@@ -12255,7 +12252,7 @@ msgstr "Kho lưu trữ cho %(component)s"
 
 #: weblate/templates/js/git-status.html:284
 msgid "Repository details"
-msgstr ""
+msgstr "Chi tiết kho lưu trữ"
 
 #: weblate/templates/js/git-status.html:295
 msgid "Repository changes"
@@ -12556,10 +12553,8 @@ msgid_plural "There are currently %(count)s services installed."
 msgstr[0] "Hiện tại đã cài đặt %(count)s dịch vụ."
 
 #: weblate/templates/machinery/list.html:74
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Available automatic suggestion services"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Dịch vụ gợi ý tự động có sẵn"
 
 #: weblate/templates/machinery/list.html:94
 msgid "Could not find any additional services."
@@ -12954,6 +12949,8 @@ msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "upon next update."
 msgstr ""
+"Vui lòng thêm tệp ngôn ngữ vào hệ thống kiểm soát phiên bản (VCS), Weblate "
+"sẽ tự động phát hiện tệp này trong lần cập nhật tiếp theo."
 
 #: weblate/templates/mail/new_language.html:19
 msgid ""
@@ -13103,7 +13100,7 @@ msgstr "Đặt lại mật khẩu trên %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:21
 msgid "Sign in to see the full audit log, including the IP address."
-msgstr ""
+msgstr "Đăng nhập để xem nhật ký kiểm tra đầy đủ, bao gồm cả địa chỉ IP."
 
 #: weblate/templates/mail/shared-activity.html:23
 msgid ""
@@ -13283,10 +13280,8 @@ msgid "Turned off"
 msgstr ""
 
 #: weblate/templates/manage/backups.html:40
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Unpaid service subscription"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đăng ký dịch vụ chưa thanh toán"
 
 #: weblate/templates/manage/backups.html:42
 msgid ""
@@ -13340,7 +13335,7 @@ msgstr ""
 
 #: weblate/templates/manage/backups.html:165
 msgid "Add backup service"
-msgstr ""
+msgstr "Thêm dịch vụ sao lưu"
 
 #: weblate/templates/manage/billing.html:26
 msgid "Commercial"
@@ -13655,10 +13650,8 @@ msgid "Configured value"
 msgstr "Thay đổi mật khẩu"
 
 #: weblate/templates/manage/performance.html:354
-#, fuzzy
-#| msgid "Email addresses"
 msgid "Client IP address"
-msgstr "Địa chỉ email"
+msgstr "Địa chỉ IP của máy khách"
 
 #: weblate/templates/manage/performance.html:361
 msgid "HTTP host"
@@ -13818,10 +13811,8 @@ msgstr ""
 "lý nhất định."
 
 #: weblate/templates/manage/tools.html:53
-#, fuzzy
-#| msgid "Username"
 msgid "Send test e-mail"
-msgstr "Tên tài khoản"
+msgstr "Gửi email thử nghiệm"
 
 #. Translators: Integration with Sentry <https://sentry.io> service
 #: weblate/templates/manage/tools.html:70
@@ -13833,10 +13824,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr ""
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add new user"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm người dùng mới"
 
 #: weblate/templates/manage/users.html:41
 #: weblate/templates/trans/project-access.html:270
@@ -14414,7 +14403,7 @@ msgstr "Không tìm thấy ảnh chụp màn hình nào."
 #: weblate/templates/screenshots/screenshot_list.html:230
 #: weblate/templates/translate.html:1123
 msgid "Add new screenshot"
-msgstr ""
+msgstr "Thêm ảnh màn hình mới"
 
 #. Translators: Button to assign string to a screenshot
 #: weblate/templates/screenshots/screenshot_sources_search_actions.html:5
@@ -14511,18 +14500,13 @@ msgstr ""
 "dịch tốt nhất có thể và áp dụng chúng trong dự án này."
 
 #: weblate/templates/snippets/autoform.html:22
-#, fuzzy
-#| msgid ""
-#| "Automatic translation via machine translation uses active machine "
-#| "translation engines to get the best possible translations and applies "
-#| "them in this project."
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
 "in this workspace."
 msgstr ""
-"Dịch tự động bằng máy sử dụng các công cụ dịch máy chủ động để có được bản "
-"dịch tốt nhất có thể và áp dụng chúng trong dự án này."
+"Dịch tự động thông qua dịch máy sử dụng các công cụ dịch máy chủ động để có "
+"được bản dịch tốt nhất có thể và áp dụng chúng trong không gian làm việc này."
 
 #: weblate/templates/snippets/autoform.html:26
 msgid ""
@@ -15050,7 +15034,7 @@ msgstr ""
 
 #: weblate/templates/snippets/labels_description.html:8
 msgid "Additional labels can be defined by project administrators."
-msgstr ""
+msgstr "Người quản trị dự án có thể định nghĩa thêm các nhãn khác."
 
 #: weblate/templates/snippets/last-changes-content.html:25
 msgid "Revert"
@@ -15214,10 +15198,8 @@ msgid "Create translation"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/snippets/list-objects.html:233
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Cannot add translation right now"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Hiện tại chưa thể thêm bản dịch"
 
 #: weblate/templates/snippets/list-objects.html:241
 #: weblate/templates/snippets/list-objects.html:242
@@ -15890,7 +15872,7 @@ msgstr "Tạo tài khoản"
 
 #: weblate/templates/trans/alert/addonscripterror.html:3
 msgid "Weblate could not execute script add-on."
-msgstr ""
+msgstr "Weblate không thể thực thi tiện ích bổ sung tập lệnh."
 
 #: weblate/templates/trans/alert/addonscripterror.html:5
 #: weblate/templates/trans/alert/ambiguouslanguage.html:8
@@ -15958,6 +15940,8 @@ msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
 msgstr ""
+"Điều này có thể xảy ra nếu đường dẫn trong các tệp dịch thuật chứa tham "
+"chiếu đến thư mục cha hoặc là đường dẫn tuyệt đối."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:3
 msgid "Weblate could not validate the project website URL:"
@@ -16001,6 +15985,9 @@ msgid ""
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
 msgstr ""
+"Gerrit đã ngăn chặn thao tác đẩy này. Bạn có thể cần một tài khoản Gerrit có "
+"quyền tác giả cho kho lưu trữ/nhánh hoặc phải sử dụng tiện ích bổ sung "
+"squash trên thành phần này trong Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:30
 #, python-format
@@ -16009,6 +15996,9 @@ msgid ""
 "a repository maintainer to allow pull requests from all users or add "
 "<code>%(username)s</code> as a collaborator."
 msgstr ""
+"Kho lưu trữ GitHub chỉ cho phép cộng tác viên tạo yêu cầu kéo. Hãy yêu cầu "
+"người quản lý kho lưu trữ cho phép tất cả người dùng tạo yêu cầu kéo hoặc "
+"thêm <code>%(username)s</code> làm cộng tác viên."
 
 #: weblate/templates/trans/alert/common-repo.html:32
 msgid ""
@@ -16325,7 +16315,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:4
 msgid "Please add a monolingual base language file in the component settings."
-msgstr ""
+msgstr "Vui lòng thêm tệp ngôn ngữ cơ sở đơn ngữ vào cài đặt thành phần."
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into Libre hosting conditions."
@@ -16485,6 +16475,9 @@ msgid ""
 "Remove the glossary language if it is no longer needed, or add matching "
 "translations to regular components if the glossary should be used."
 msgstr ""
+"Nếu không còn cần đến ngôn ngữ trong bảng thuật ngữ, hãy xóa bỏ hoặc thêm "
+"các bản dịch tương ứng vào các thành phần thông thường nếu muốn sử dụng bảng "
+"thuật ngữ."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 #, python-format
@@ -16615,6 +16608,8 @@ msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
 msgstr ""
+"Tạo một thành phần dịch mới cho một nhánh bổ sung của thành phần dịch hiện "
+"có."
 
 #: weblate/templates/trans/component_create.html:120
 msgid ""
@@ -16858,7 +16853,7 @@ msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:19
 msgid "Add Weblate exported repository as a remote."
-msgstr ""
+msgstr "Thêm kho lưu trữ đã xuất từ Weblate làm kho lưu trữ từ xa."
 
 #: weblate/templates/trans/merge_instructions.html:24
 msgid "Merge Weblate changes and resolve any conflicts."
@@ -16914,6 +16909,8 @@ msgid ""
 "Leave the language limit empty to grant access to all languages available to "
 "the team. Select languages only to apply an additional filter."
 msgstr ""
+"Để trống mục giới hạn ngôn ngữ để cấp quyền truy cập vào tất cả các ngôn ngữ "
+"mà nhóm có thể sử dụng. Chỉ chọn ngôn ngữ để áp dụng thêm bộ lọc."
 
 #: weblate/templates/trans/project-access-team-form.html:45
 msgid "No teams are available."
@@ -17099,16 +17096,12 @@ msgid "Delete string"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/translate.html:232
-#, fuzzy
-#| msgid "Recent changes in %s"
 msgid "Add variant of this string"
-msgstr "Các thay đổi gần đây trong %s"
+msgstr "Thêm biến thể của chuỗi này"
 
 #: weblate/templates/translate.html:237
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add alternative translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm bản dịch thay thế"
 
 #: weblate/templates/translate.html:248
 msgid "Save and continue"
@@ -17119,10 +17112,8 @@ msgid "Save and stay"
 msgstr "Lưu và ở lại"
 
 #: weblate/templates/translate.html:259 weblate/trans/views/edit.py:814
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to add suggestions."
-msgstr "Bạn không có quyền chấp nhận đề xuất."
+msgstr "Bạn không có quyền thêm đề xuất."
 
 #: weblate/templates/translate.html:260
 msgid "Suggest"
@@ -17475,6 +17466,8 @@ msgid ""
 "You can add a new translation string here, it will automatically appear in "
 "all translations."
 msgstr ""
+"Bạn có thể thêm chuỗi dịch mới tại đây, chuỗi này sẽ tự động xuất hiện trong "
+"tất cả các bản dịch."
 
 #: weblate/templates/translation.html:311
 msgid "Quick downloads"
@@ -18357,7 +18350,7 @@ msgstr "Họ"
 
 #: weblate/trans/actions.py:228
 msgid "A user was granted access."
-msgstr ""
+msgstr "Người dùng đã được cấp quyền truy cập."
 
 #: weblate/trans/actions.py:229
 msgid "User added"
@@ -18576,11 +18569,11 @@ msgstr "Tiện ích bổ sung đã được cài đặt"
 
 #: weblate/trans/actions.py:380
 msgid "An add-on's configuration was changed."
-msgstr ""
+msgstr "Cấu hình của một tiện ích bổ sung đã bị thay đổi."
 
 #: weblate/trans/actions.py:381
 msgid "Add-on configuration changed"
-msgstr ""
+msgstr "Đã thay đổi cấu hình tiện ích bổ sung"
 
 #: weblate/trans/actions.py:386
 msgid "An add-on was uninstalled."
@@ -18688,10 +18681,8 @@ msgid "A new string was found while processing an uploaded file."
 msgstr "Buộc ghi tất cả các chuỗi ký tự vào các tệp dịch."
 
 #: weblate/trans/actions.py:453
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "String added in the upload"
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Chuỗi được thêm vào lúc tải lên"
 
 #: weblate/trans/actions.py:458
 msgid "A translation was synchronized after uploading a source file."
@@ -18806,7 +18797,7 @@ msgstr "Ảnh chụp màn hình đã bị xóa"
 
 #: weblate/trans/actions.py:538
 msgid "A label was added to a string."
-msgstr ""
+msgstr "Một nhãn đã được thêm vào chuỗi ký tự."
 
 #: weblate/trans/actions.py:539
 msgid "Label added"
@@ -19004,7 +18995,7 @@ msgstr "Xảy ra lỗi khi tạo khóa: %s"
 #: weblate/trans/alerts/addons.py:102 weblate/trans/alerts/addons.py:110
 #: weblate/trans/alerts/addons.py:120
 msgid "Could not run add-on."
-msgstr ""
+msgstr "Không thể chạy tiện ích bổ sung."
 
 #. Translators: Name of an alert
 #: weblate/trans/alerts/addons.py:129
@@ -19310,10 +19301,8 @@ msgid "Duplicate check name."
 msgstr "Trùng tên kiểm tra."
 
 #: weblate/trans/backups.py:1100
-#, fuzzy
-#| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced category does not exist."
-msgstr "{filename} ({parameter}) không tồn tại."
+msgstr "Danh mục được tham chiếu không tồn tại."
 
 #: weblate/trans/backups.py:1131
 msgid "Component filename does not match its category and slug."
@@ -19335,30 +19324,24 @@ msgstr "Thành phần này cần định nghĩa một mẫu gettext cho các b�
 
 #: weblate/trans/backups.py:1220 weblate/trans/backups.py:1305
 #: weblate/trans/backups.py:1331
-#, fuzzy
-#| msgid "This translation does not yet exist."
 msgid "Referenced translation does not exist."
-msgstr "Bản dịch này hiện không tồn tại."
+msgstr "Không có bản dịch tham chiếu."
 
 #: weblate/trans/backups.py:1226
 msgid "Duplicate unit checksum."
 msgstr "Trùng lặp mã kiểm tra đơn vị."
 
 #: weblate/trans/backups.py:1234
-#, fuzzy
-#| msgid "File does not exist."
 msgid "Referenced label does not exist."
-msgstr "Tập tin không tồn tại."
+msgstr "Nhãn được tham chiếu không tồn tại."
 
 #: weblate/trans/backups.py:1285
 msgid "A translated unit references a missing source unit."
-msgstr ""
+msgstr "Một đơn vị được dịch tham chiếu đến một đơn vị nguồn bị thiếu."
 
 #: weblate/trans/backups.py:1313 weblate/trans/backups.py:1384
-#, fuzzy
-#| msgid "File does not exist."
 msgid "Referenced unit does not exist."
-msgstr "Tập tin không tồn tại."
+msgstr "Đơn vị được tham chiếu không tồn tại."
 
 #: weblate/trans/backups.py:1343
 #, fuzzy
@@ -19367,10 +19350,8 @@ msgid "Screenshot filename is invalid."
 msgstr "Ảnh chụp màn hình bị thiếu."
 
 #: weblate/trans/backups.py:1352
-#, fuzzy
-#| msgid "A screenshot image was uploaded."
 msgid "Referenced screenshot image does not exist."
-msgstr "Một ảnh chụp màn hình đã được tải lên."
+msgstr "Ảnh chụp màn hình được tham chiếu không tồn tại."
 
 #: weblate/trans/backups.py:1358 weblate/trans/backups.py:1364
 #: weblate/utils/files.py:198 weblate/utils/files.py:208
@@ -19384,16 +19365,12 @@ msgid "Could not validate screenshot: %(error)s"
 msgstr "Không thể xác thực ảnh chụp màn hình: %(error)s"
 
 #: weblate/trans/backups.py:1398
-#, fuzzy
-#| msgid "{filename} ({parameter}) does not exist."
 msgid "Referenced component does not exist."
-msgstr "{filename} ({parameter}) không tồn tại."
+msgstr "Thành phần được tham chiếu không tồn tại."
 
 #: weblate/trans/backups.py:1408
-#, fuzzy
-#| msgid "File does not exist."
 msgid "Referenced role does not exist."
-msgstr "Tập tin không tồn tại."
+msgstr "Vai trò được tham chiếu không tồn tại."
 
 #: weblate/trans/backups.py:1433
 msgid "Repository data does not belong to a restored component."
@@ -19443,7 +19420,7 @@ msgstr "Phân tích cú pháp tệp “{}” là bắt buộc."
 
 #: weblate/trans/change_display.py:203
 msgid "File “{}” was added."
-msgstr ""
+msgstr "Tệp “{}” đã được thêm."
 
 #: weblate/trans/change_display.py:217
 msgctxt "License information not available"
@@ -20050,7 +20027,7 @@ msgstr "Đã dán nhãn: {}"
 
 #: weblate/trans/forms.py:251 weblate/trans/models/component.py:5265
 msgid "Repository branch is required for this integration."
-msgstr ""
+msgstr "Cần có nhánh kho lưu trữ để thực hiện tích hợp này."
 
 #: weblate/trans/forms.py:321
 #, fuzzy
@@ -20242,10 +20219,8 @@ msgid "Machine translation"
 msgstr "Dịch máy"
 
 #: weblate/trans/forms.py:1221
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Machine translation engines"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Công cụ dịch máy"
 
 #: weblate/trans/forms.py:1224
 msgid "Score threshold"
@@ -20264,22 +20239,16 @@ msgid "Add as suggestion"
 msgstr "Thêm vào như một đề xuất"
 
 #: weblate/trans/forms.py:1325 weblate/utils/files.py:41
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add as translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm dưới dạng bản dịch"
 
 #: weblate/trans/forms.py:1326
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add as \"Needing edit\""
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm dưới dạng \"Cần chỉnh sửa\""
 
 #: weblate/trans/forms.py:1329 weblate/utils/files.py:42
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add as approved translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm dưới dạng bản dịch đã phê duyệt"
 
 #: weblate/trans/forms.py:1351 weblate/trans/forms.py:1360
 #: weblate/trans/forms.py:1365
@@ -20325,7 +20294,7 @@ msgstr "Xóa tất cả bình luận của người dùng này trong dự án hi
 
 #: weblate/trans/forms.py:1671
 msgid "Allow user to add or remove users from a team."
-msgstr ""
+msgstr "Cho phép người dùng thêm hoặc xóa thành viên khỏi nhóm."
 
 #: weblate/trans/forms.py:1698
 msgid "Block duration"
@@ -20576,12 +20545,16 @@ msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects."
 msgstr ""
+"Nhập UUID của không gian làm việc mà bạn có quyền chỉnh sửa cài đặt và thêm "
+"dự án."
 
 #: weblate/trans/forms.py:3728
 msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
 "add projects, or leave empty to move the project out of a workspace."
 msgstr ""
+"Nhập UUID của không gian làm việc mà bạn có quyền chỉnh sửa cài đặt và thêm "
+"dự án, hoặc để trống để di chuyển dự án ra khỏi không gian làm việc đó."
 
 #: weblate/trans/forms.py:3751
 msgid "No matching workspace found."
@@ -20821,10 +20794,8 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/inherited_settings.py:23
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Disable adding new translations"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Tắt tính năng thêm bản dịch mới"
 
 #: weblate/trans/inherited_settings.py:27
 msgid "Default based on the file format"
@@ -21015,10 +20986,8 @@ msgstr ""
 
 #: weblate/trans/models/category.py:154 weblate/trans/models/component.py:844
 #: weblate/trans/models/project.py:418 weblate/workspaces/models.py:135
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Adding new translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đang thêm bản dịch mới"
 
 #: weblate/trans/models/category.py:158 weblate/trans/models/component.py:848
 #: weblate/trans/models/project.py:422 weblate/workspaces/models.py:139
@@ -21027,10 +20996,8 @@ msgstr "Cách xử lý các yêu cầu tạo bản dịch mới."
 
 #: weblate/trans/models/category.py:161 weblate/trans/models/component.py:851
 #: weblate/trans/models/project.py:425
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Inherit adding new translations"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Kế thừa việc thêm các bản dịch mới"
 
 #: weblate/trans/models/category.py:164
 msgid ""
@@ -21080,7 +21047,7 @@ msgstr "Ngôn ngữ phụ"
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
-msgstr ""
+msgstr "Ngôn ngữ bổ sung hiển thị cùng với ngôn ngữ nguồn trong quá trình dịch."
 
 #: weblate/trans/models/category.py:198 weblate/trans/models/component.py:1121
 #: weblate/trans/models/project.py:450
@@ -21134,20 +21101,20 @@ msgstr ""
 #: weblate/trans/models/category.py:221 weblate/trans/models/component.py:913
 #: weblate/trans/models/project.py:473 weblate/workspaces/models.py:183
 msgid "Commit message when adding translation"
-msgstr ""
+msgstr "Thông điệp bản ghi nhận khi thêm bản dịch"
 
 #: weblate/trans/models/category.py:230 weblate/trans/models/component.py:922
 #: weblate/trans/models/project.py:482
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Inherit commit message when adding translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Kế thừa thông điệp bản ghi nhận khi thêm bản dịch"
 
 #: weblate/trans/models/category.py:233
 msgid ""
 "Use the commit message when adding translation configured in the parent "
 "category or project."
 msgstr ""
+"Hãy sử dụng thông điệp bản ghi nhận khi thêm bản dịch đã được cấu hình trong "
+"danh mục hoặc dự án cha."
 
 #: weblate/trans/models/category.py:237 weblate/trans/models/component.py:929
 #: weblate/trans/models/project.py:489 weblate/workspaces/models.py:192
@@ -21190,23 +21157,21 @@ msgstr ""
 
 #: weblate/trans/models/category.py:270 weblate/trans/models/component.py:962
 #: weblate/trans/models/project.py:522 weblate/workspaces/models.py:211
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Commit message when add-on makes a change"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thông điệp bản ghi nhận khi tiện ích bổ sung thực hiện thay đổi"
 
 #: weblate/trans/models/category.py:279 weblate/trans/models/component.py:971
 #: weblate/trans/models/project.py:531
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Inherit commit message when add-on makes a change"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Kế thừa thông điệp bản ghi nhận khi tiện ích bổ sung thực hiện thay đổi"
 
 #: weblate/trans/models/category.py:282
 msgid ""
 "Use the commit message when add-on makes a change configured in the parent "
 "category or project."
 msgstr ""
+"Sử dụng thông điệp bản ghi nhận khi tiện ích bổ sung thực hiện thay đổi được "
+"cấu hình trong danh mục hoặc dự án cha."
 
 #: weblate/trans/models/category.py:286 weblate/trans/models/component.py:978
 #: weblate/trans/models/project.py:538 weblate/workspaces/models.py:220
@@ -21581,6 +21546,8 @@ msgid ""
 "Use the commit message when adding translation configured in the category or "
 "project."
 msgstr ""
+"Sử dụng thông điệp bản ghi nhận khi thêm bản dịch đã được cấu hình trong "
+"danh mục hoặc dự án."
 
 #: weblate/trans/models/component.py:941
 msgid ""
@@ -21676,7 +21643,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:1070
 msgid "Choose additional projects where this component will be listed."
-msgstr ""
+msgstr "Chọn thêm các dự án khác mà thành phần này sẽ được liệt kê."
 
 #: weblate/trans/models/component.py:1076
 msgid "Use as a glossary"
@@ -21721,6 +21688,8 @@ msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
 msgstr ""
+"Không thể xác minh khóa máy chủ SSH. Vui lòng thêm khóa này vào trang SSH "
+"trong giao diện quản trị."
 
 #: weblate/trans/models/component.py:2601
 msgid ""
@@ -21918,6 +21887,8 @@ msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr ""
+"Bạn đã thiết lập Weblate để thêm các tệp dịch mới, nhưng chưa cung cấp tệp "
+"gốc để thực hiện việc đó."
 
 #: weblate/trans/models/component.py:5081
 msgid "Could not parse base file for new translations:"
@@ -21928,12 +21899,8 @@ msgid "Unrecognized base file for new translations."
 msgstr "Tệp gốc không được nhận dạng cho các bản dịch mới."
 
 #: weblate/trans/models/component.py:5107
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "Adding and removing strings is not supported with this file format."
-msgstr ""
-"Bạn có thể chỉnh sửa cái này sau, như với mọi chuỗi trong ngôn ngữ nguồn."
+msgstr "Định dạng tệp này không hỗ trợ thêm và xóa chuỗi ký tự."
 
 #: weblate/trans/models/component.py:5112
 msgid "Editing template is not supported with this file format."
@@ -22040,6 +22007,7 @@ msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr ""
+"Vui lòng điền URL hướng dẫn hoặc sử dụng tùy chọn khác để thêm ngôn ngữ mới."
 
 #: weblate/trans/models/component.py:5439
 msgid ""
@@ -22299,6 +22267,7 @@ msgstr ""
 #: weblate/trans/models/project.py:428
 msgid "Use the adding new translations setting configured in the workspace."
 msgstr ""
+"Sử dụng cài đặt thêm bản dịch mới đã được cấu hình trong không gian làm việc."
 
 #: weblate/trans/models/project.py:446
 msgid "Use the language code style configured in the workspace."
@@ -22316,6 +22285,8 @@ msgstr ""
 msgid ""
 "Use the commit message when adding translation configured in the workspace."
 msgstr ""
+"Sử dụng thông điệp bản ghi nhận khi thêm bản dịch đã được cấu hình trong "
+"không gian làm việc."
 
 #: weblate/trans/models/project.py:501
 msgid ""
@@ -22369,6 +22340,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"Không tìm thấy tệp có tên %s trong kho lưu trữ! Để thêm bản dịch mới, hãy "
+"thêm tệp ngôn ngữ vào kho lưu trữ."
 
 #: weblate/trans/models/translation.py:459
 #, python-format
@@ -23014,7 +22987,7 @@ msgstr "Tham gia vào {0}!"
 
 #: weblate/trans/views/basic.py:975
 msgid "Language addition is not supported by any of the components."
-msgstr ""
+msgstr "Việc bổ sung ngôn ngữ hiện không được hỗ trợ bởi bất kỳ thành phần nào."
 
 #: weblate/trans/views/basic.py:1011
 #, python-format
@@ -23655,10 +23628,8 @@ msgid "You do not have permission to edit the target workspace."
 msgstr "Bạn không có quyền truy cập phần này."
 
 #: weblate/trans/workspace_move.py:101
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to add projects to the target workspace."
-msgstr "Bạn không có quyền thay đổi quyền truy cập dự án."
+msgstr "Bạn không có quyền thêm dự án vào không gian làm việc mục tiêu."
 
 #: weblate/utils/backup.py:138
 msgid "Borg completed with warnings without any output."
@@ -23754,7 +23725,7 @@ msgstr "Đã có người dùng với địa chỉ email này."
 
 #: weblate/utils/files.py:44
 msgid "Add as translation needing edit"
-msgstr ""
+msgstr "Thêm dưới dạng bản dịch cần chỉnh sửa"
 
 #: weblate/utils/files.py:45
 msgid "Replace existing translation file"
@@ -23816,13 +23787,13 @@ msgstr "Các chuỗi có chú thích nguồn của tôi"
 msgid ""
 "This URL is prohibited because it points to an internal or non-public "
 "address."
-msgstr ""
+msgstr "URL này bị cấm vì nó trỏ đến một địa chỉ nội bộ hoặc không công khai."
 
 #: weblate/utils/outbound.py:195
 msgid ""
 "This URL is prohibited because the connected peer address could not be "
 "determined."
-msgstr ""
+msgstr "URL này bị cấm vì không thể xác định được địa chỉ của thiết bị kết nối."
 
 #: weblate/utils/outbound.py:266 weblate/utils/outbound.py:387
 #: weblate/utils/validators.py:996 weblate/utils/validators.py:999
@@ -23912,10 +23883,8 @@ msgid "Unsupported lookup for {field}: {value}"
 msgstr ""
 
 #: weblate/utils/search.py:1027
-#, fuzzy
-#| msgid "Could not parse {} flag: {}"
 msgid "Could not parse IP address: {}"
-msgstr "Không thể phân tích cú pháp cờ {}: {}"
+msgstr "Không thể phân tích địa chỉ IP: {}"
 
 #: weblate/utils/search.py:1135
 #, fuzzy
@@ -24069,7 +24038,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:359
 msgid "The filename can not contain reference to a parent directory."
-msgstr ""
+msgstr "Tên tệp không được chứa tham chiếu đến thư mục cha."
 
 #: weblate/utils/validators.py:362
 msgid "The filename can not be an absolute path."
@@ -24113,7 +24082,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:497
 msgid "This URL is prohibited because it uses a numeric IP address."
-msgstr ""
+msgstr "URL này bị cấm vì nó sử dụng địa chỉ IP dạng số."
 
 #: weblate/utils/validators.py:514
 msgid "Invalid base64 encoded string"
@@ -24192,10 +24161,8 @@ msgid "Could not parse URL: {}"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/utils/validators.py:1082
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Enter a valid domain name or IP address."
-msgstr "Nhập một địa chỉ email hợp lệ."
+msgstr "Nhập tên miền hoặc địa chỉ IP hợp lệ."
 
 #: weblate/utils/views.py:231 weblate/utils/views.py:265
 msgid "Position and priority"
@@ -24430,10 +24397,8 @@ msgid "The repository HTTP redirect contains a loop."
 msgstr ""
 
 #: weblate/vcs/base.py:308
-#, fuzzy
-#| msgid "This string seems to already exist."
 msgid "The repository redirect target has no validated address."
-msgstr "Chuỗi này dường như đã tồn tại."
+msgstr "Địa chỉ đích của việc chuyển hướng kho lưu trữ không được xác thực."
 
 #: weblate/vcs/base.py:311
 msgid "The repository returned a permanent HTTP redirect without a target URL."
@@ -24505,6 +24470,8 @@ msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
 msgstr ""
+"Hệ thống quản trị VCS này không thể kết nối an toàn với URL này khi các hạn "
+"chế về địa chỉ riêng tư được bật."
 
 #: weblate/vcs/base.py:353
 #, python-format
@@ -25003,10 +24970,8 @@ msgstr ""
 "lưu trữ không thành công. Hãy thử lại sau giây lát."
 
 #: weblate/vcs/views.py:909
-#, fuzzy
-#| msgid "Created user account {}."
 msgid "Connected GitHub account added."
-msgstr "Đã tạo tài khoản {}."
+msgstr "Đã thêm tài khoản GitHub được kết nối."
 
 #: weblate/vcs/views.py:1229
 #, fuzzy
@@ -25076,6 +25041,8 @@ msgstr "Để trống nếu muốn sử dụng cổng SSH mặc định."
 msgid ""
 "Fingerprint of key to add. Keep blank to add all keys offered by the host."
 msgstr ""
+"Dấu vết nhận dạng của khóa cần thêm. Để trống để thêm tất cả các khóa do máy "
+"chủ cung cấp."
 
 #: weblate/wladmin/forms.py:59
 msgid "The test e-mail will be sent to this address."
