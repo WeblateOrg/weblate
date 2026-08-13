@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-07 14:29+0200\n"
-"PO-Revision-Date: 2026-08-12 04:49+0000\n"
+"PO-Revision-Date: 2026-08-13 17:51+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -57232,10 +57232,8 @@ msgstr ""
 "(colaborador de manutenção)*"
 
 #: security/threat-model.rst:313
-#, fuzzy
-#| msgid "Custom configuration files"
 msgid "Build-time and configuration variants"
-msgstr "Ficheiros de configuração personalizados"
+msgstr "Variantes de tempo de compilação e configuração"
 
 #: security/threat-model.rst:318
 msgid "Knob"
@@ -57246,26 +57244,24 @@ msgid "Default or documented posture"
 msgstr "Postura predefinida ou documentada"
 
 #: security/threat-model.rst:320
-#, fuzzy
-#| msgid "Weblate source code"
 msgid "Effect on the model"
-msgstr "Código-fonte do Weblate"
+msgstr "Efeito no modelo"
 
 #: security/threat-model.rst:321
-#, fuzzy
-#| msgid "Container settings"
 msgid "Maintainer stance"
-msgstr "Configurações do contentor"
+msgstr "Posição do responsável pela manutenção"
 
 #: security/threat-model.rst:322
 msgid ":setting:`ENABLE_HOOKS` and :ref:`project-enable_hooks`"
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS` e :ref:`project-enable_hooks`"
 
 #: security/threat-model.rst:323
 msgid ""
 "Anonymous remote hooks are configurable and must also be enabled for a "
 "project. *(documented)*"
 msgstr ""
+"Hooks anónimos remotos são configuráveis e também têm que ser ativados para "
+"um projeto. *(documentado)*"
 
 #: security/threat-model.rst:325
 msgid ""
@@ -57273,22 +57269,30 @@ msgid ""
 "depends on deployment controls. *(documented)* "
 "(source: :ref:`hooks`, :ref:`project-enable_hooks`)"
 msgstr ""
+"Expõe endpoints de webhook enquanto uma interface de agendamento pública. "
+"Resistência contra abuso depende dos controlos de implementação. *"
+"(documentado)* (fonte: :ref:`hooks`, :ref:`project-enable_hooks`)"
 
 #: security/threat-model.rst:327
 msgid ""
 "Production deployments exposing hooks use reverse-proxy rate limits, body-"
 "size limits, monitoring, and minimal public exposure. *(maintainer)*"
 msgstr ""
+"Implementações de produção que expõem hooks utilizam taxas de limite de "
+"proxy inverso, limites do tamanho do corpo, monitorização, e exposição "
+"pública mínima. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:329
 msgid ":setting:`ENABLE_HTTPS`, proxy SSL headers, and HSTS settings"
-msgstr ""
+msgstr ":setting:`ENABLE_HTTPS`, cabeçalhos SSL de proxy, e definições HSTS"
 
 #: security/threat-model.rst:330
 msgid ""
 "HTTPS affects secure cookies, redirects, HSTS, WebAuthn, and generated URLs. "
 "*(documented)* (source: :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"HTTPS pode afetar cookies de segurança, redirecionamentos, HSTS, WebAuthn, e "
+"URLs gerados. *(documentado)* (fonte: :setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:332
 msgid ""
@@ -57296,12 +57300,17 @@ msgid ""
 "that Weblate relies on for browser security. *(documented)* "
 "(source: :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"Desativar ou configurar HTTPS incorretamente remove as proteções de cookie e "
+"transporte nas quais o Weblate depende para segurança no navegador. *"
+"(documentado)* (fonte: :setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:334
 msgid ""
 "The documented production posture is HTTPS with correct proxy headers. "
 "*(documented)*"
 msgstr ""
+"A postura de produção documentada é HTTPS com cabeçalhos de proxy corretos. *"
+"(documentado)*"
 
 #: security/threat-model.rst:337
 msgid ""
@@ -57316,11 +57325,16 @@ msgid ""
 "Broad host acceptance can weaken host-header based protections and URL "
 "generation assumptions. *(maintainer)*"
 msgstr ""
+"Aceitação ampla de anfitrião podem enfraquecer proteções de anfitriões "
+"baseadas em cabeçalhos e pressupostos de geração URL. *(colaborador de "
+"manutenção)*"
 
 #: security/threat-model.rst:340
 msgid ""
 "Production deployments restrict this to instance hostnames. *(maintainer)*"
 msgstr ""
+"Implementações de produção restringem isto para nomes de anfitrião de "
+"instância. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:341
 msgid ""
@@ -57335,24 +57349,32 @@ msgid ""
 "Rate limits are configurable. *(documented)* (source: :doc:`/api`, :doc:`/"
 "admin/config`)"
 msgstr ""
+"Taxas de limite são configuráveis. *(documentado)* (fonte: :doc:`/api`, "
+":doc:`/admin/config`)"
 
 #: security/threat-model.rst:346
 msgid ""
 "Availability claims assume rate limits appropriate to deployment size and "
 "exposure. *(maintainer)*"
 msgstr ""
+"Afirmações de disponibilidade presumem taxas de limite apropriadas para o "
+"tamanho e exposição da implementação. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:348
 msgid ""
 "Disabling rate limits changes DoS triage from Weblate bug to deployment "
 "posture unless a single request violates a claimed property. *(maintainer)*"
 msgstr ""
+"Desativar taxas de limite muda a triagem de DoS de um erro do Weblate para a "
+"postura de implementação a não ser que um único pedido quebre a a menos que "
+"um único pedido viole um direito reivindicado. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:351
-#, fuzzy
-#| msgid ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC` :setting:`CSP_FORM_SRC`"
 msgid ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
-msgstr ":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
+msgstr ""
+":setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, "
+":setting:`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, "
+":setting:`CSP_FONT_SRC`, :setting:`CSP_FORM_SRC`"
 
 #: security/threat-model.rst:354
 msgid ""
@@ -57360,44 +57382,65 @@ msgid ""
 "(source: :doc:`/admin/config`) The default script policy permits inline "
 "execution only on explicitly scoped compatibility paths. *(maintainer)*"
 msgstr ""
+"Fontes de Política de Segurança de Conteúdo são configuráveis. *(documentado)"
+"* (fonte: :doc:`/admin/config`) A política de script predefinido permite "
+"execução em linha apenas para caminhos com compatibilidade de âmbito "
+"explicito. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:357
 msgid ""
 "Broadening sources can reduce browser-side containment for XSS or third-"
 "party content. *(maintainer)*"
 msgstr ""
+"Fontes mais abrangentes podem reduzir a contenção do lado do navegador para "
+"conteúdo XSS ou de terceiros. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:359
 msgid ""
 "Deployments adding third-party sources accept that expanded browser trust. "
 "*(maintainer)*"
 msgstr ""
+"Implementações que adicionam fontes de terceiros aceitam a fronteira de "
+"confiança de navegador expandida. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:361
 msgid ":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, :setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, :setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`"
 msgstr ""
+":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_TOTAL_UNCOMPRESSED_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, "
+":setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`"
 
 #: security/threat-model.rst:367
 msgid ""
 "Defaults bound project backup upload and import size, member count, and "
 "suspicious compression ratios. *(documented)* (source: :doc:`/admin/config`)"
 msgstr ""
+"Os valores predefinidos limitam o tamanho do upload e da importação das "
+"cópias de segurança do projeto, número de membros, e rácios de compressão "
+"suspeitos. *(documentado)* (fonte: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:369
 msgid ""
 "Raising or disabling these limits expands restore-time resource exposure. "
 "*(documented)* (source: :doc:`/admin/config`)"
 msgstr ""
+"Elevar o desativar estes limites expandem exposição de tempo de restauração "
+"de recurso. *(documentado)* (fonte: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:371
 msgid ""
 "The defaults documented above are part of backup-import resource guarantees. "
 "*(documented)*"
 msgstr ""
+"As predefinições documentadas acima são parte de garantias de importação de "
+"recursos de cópias de segurança. *(documentado)*"
 
 #: security/threat-model.rst:373
 msgid "Private-target restrictions and allowlists for outbound URLs"
-msgstr ""
+msgstr "Restrições de alvo privado e listas de permissões para URLs de saída"
 
 #: security/threat-model.rst:374
 msgid ""
@@ -57419,6 +57462,26 @@ msgid ""
 "supported VCS integration surface. VCS clients without connection binding "
 "require an explicit trusted-host exemption. *(maintainer)*"
 msgstr ""
+"Superfícies de URL de saída configuráveis por utilizador documentadas com "
+"definições de restrição de alvos privados rejeitam alvos internos ou não "
+"públicos por predefinição. *(documentado)* (fonte: "
+":setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, "
+":setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`) "
+"Pedidos HTTP diretos estão associados a endereços aprovados pela validação "
+"em tempo de execução; proxies HTTP configurados por protocolo são "
+"infraestrutura confiada e resolvem os seus anfitriões de destino. Operações "
+"Git HTTPS e SSH protegidas são associados a endereços aprovados durante a "
+"validação de tempo de execução. Operações SSH protegidas validam o "
+"``HostName`` e ``Port`` efetivos. Configuração SSH de administrador confiado "
+"pode alterar roteamento, e :setting:`SSH_EXTRA_ARGS` podem sobrescrever o "
+"anexar de conexão. Redirecionamentos permanentes do mesmo anfitrião Git HTTP "
+"são rastreados sem o seguimento de redirecionamento automático. Cada destino "
+"direto é validado independentemente e fixo antes de ser usado; proxies HTTP "
+"configurados por protocolo utiliza o roteamento de saída partilhado "
+"confiado. Transferências de objetos Git LFS estão desativados e fora da "
+"superfície de integração VCS suportada. Clientes VCS sem anexar de ligação "
+"requerem uma isenção explícita requerem uma isenção de anfitrião confiado. *"
+"(colaborador de manutenção)*"
 
 #: security/threat-model.rst:394
 msgid ""
@@ -57427,12 +57490,21 @@ msgid ""
 "configuration and are trusted by this model. *(documented)* "
 "(source: :setting:`ASSET_PRIVATE_ALLOWLIST`, :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)"
 msgstr ""
+"Definições de lista de permissões e configuração privilegiada podem expandir "
+"a acessibilidade intencionalmente. URLs de broker do Fedora Messaging são "
+"configuração do administrador do site e confiados por este modelo. *"
+"(documentado)* (fonte: :setting:`ASSET_PRIVATE_ALLOWLIST`, "
+":setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`, "
+":setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)"
 
 #: security/threat-model.rst:400
 msgid ""
 "Default private-target rejection is an application-level security property "
 "for the documented user-configurable URL surfaces. *(maintainer)*"
 msgstr ""
+"Rejeição predefinida de alvo privado é uma propriedade de segurança ao nível "
+"da aplicação para as superfícies de URL configuráveis pelo utilizador "
+"documentadas. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:404
 msgid ""
@@ -57447,30 +57519,40 @@ msgid ""
 "assumptions. Routing options can override protected repository address "
 "pinning. *(maintainer)*"
 msgstr ""
+"Algoritmos que enfraquecem SSH ou verificação de anfitrião muda os "
+"pressupostos de transporte VCS. Opções de roteamento podem sobrescrever o "
+"afixar de endereço de repositório protegido. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:408
 msgid "Operators own the security impact of custom SSH options. *(maintainer)*"
 msgstr ""
+"Os operadores responsabilizam-se pelo impacto de segurança de opções SSH "
+"personalizadas. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:409
 msgid "Third-party add-ons and local customization"
-msgstr ""
+msgstr "Extras de terceiros e personalização local"
 
 #: security/threat-model.rst:410
 msgid ""
 "Administrators can extend behavior. *(documented)* (source: :doc:`/admin/"
 "addons`)"
 msgstr ""
+"Administradores podem extender o comportamento. *(documentado)* (fonte: "
+":doc:`/admin/addons`)"
 
 #: security/threat-model.rst:411
 msgid ""
 "Custom code can add new trust boundaries and security properties outside "
 "this model. *(maintainer)*"
 msgstr ""
+"Código personalizado pode adicionar novos limites de confiança e "
+"propriedades de segurança fora deste modelo. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:413
 msgid "Third-party code is modeled separately. *(maintainer)*"
 msgstr ""
+"Código de terceiros é mantido separadamente. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:416
 msgid "Input assumptions"
@@ -57490,21 +57572,25 @@ msgstr "Controlável pelo atacante?"
 
 #: security/threat-model.rst:424
 msgid "Caller or operator must enforce"
-msgstr ""
+msgstr "O autor da chamada ou o operador deve garantir o cumprimento"
 
 #: security/threat-model.rst:425
 msgid "Browser forms and REST API"
-msgstr ""
+msgstr "Formulários de navegador e REST API"
 
 #: security/threat-model.rst:426
 msgid "Request bodies, query strings, uploaded files, headers, cookies"
 msgstr ""
+"Corpos de pedido, cadeias de carateres de consultas, ficheiros enviados, "
+"cabeçalhos, cookies"
 
 #: security/threat-model.rst:427
 msgid ""
 "Yes, within the actor's authentication state. *(documented)* (source: :doc:`/"
 "api`)"
 msgstr ""
+"Sim, dentro do estado de autenticação do ator. *(documentado)* (fonte: "
+":doc:`/api`)"
 
 #: security/threat-model.rst:428
 msgid ""
@@ -57512,6 +57598,9 @@ msgid ""
 "assignment. *(documented)* (source: :doc:`/admin/install`, :doc:`/admin/"
 "access`)"
 msgstr ""
+"HTTPS, configuração de anfitrião/proxy correta, taxas de limite, e "
+"atribuição de permissão. *(documentado)* (fonte: :doc:`/admin/install`, "
+":doc:`/admin/access`)"
 
 #: security/threat-model.rst:431
 msgid "Authentication endpoints"
@@ -57520,35 +57609,38 @@ msgstr "Endpoints de autenticação"
 #: security/threat-model.rst:432
 msgid "Passwords, WebAuthn data, SSO callbacks, reset tokens"
 msgstr ""
+"Palavras passe, dados WebAuthn, chamadas de retorno SSO, reiniciar tokens"
 
 #: security/threat-model.rst:433
 msgid "Yes. *(documented)* (source: :doc:`/admin/auth`)"
-msgstr ""
+msgstr "Sim. *(documentado)* (fonte: :doc:`/admin/auth`)"
 
 #: security/threat-model.rst:434
 msgid ""
 "Correct identity-provider configuration and HTTPS. *(documented)* "
 "(source: :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)"
 msgstr ""
+"Configuração de fornecedor de identidade correta e HTTPS. *(documentado)* "
+"(fonte: :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)"
 
 #: security/threat-model.rst:435
 msgid "Project-scoped tokens"
 msgstr "Token no âmbito do projeto"
 
 #: security/threat-model.rst:436
-#, fuzzy
-#| msgid "Authentication tokens"
 msgid "API requests authenticated by token"
-msgstr "Tokens de autenticação"
+msgstr "Pedidos API autenticados por token"
 
 #: security/threat-model.rst:437
 msgid "Yes, by whoever holds the token. *(documented)* (source: :doc:`/api`)"
-msgstr ""
+msgstr "Sim, por quem possui o token. *(documentado)* (fonte: :doc:`/api`)"
 
 #: security/threat-model.rst:438
 msgid ""
 "Token storage, rotation, and least-privilege team membership. *(maintainer)*"
 msgstr ""
+"Armazenamento de token, rotação, e adesão de grupo de menor privilégio. *"
+"(colaborador de manutenção)*"
 
 #: security/threat-model.rst:440
 msgid "Translation content"
@@ -57560,12 +57652,17 @@ msgid ""
 "suggestion API requests including ``rejection_reason`` text, ``is_spam`` "
 "flag, and ``approve`` flag"
 msgstr ""
+"Cadeias de carateres fonte, traduções, comentários, sugestões, entradas de "
+"glossário; sugestão de pedidos API incluem o texto ``rejection_reason``, "
+"marcador ``is_spam``, e marcador ``approve``"
 
 #: security/threat-model.rst:444
 msgid ""
 "Yes, from users with relevant permissions or imported repositories. "
 "*(documented)* (source: :doc:`/user/translating`, :doc:`/admin/access`)"
 msgstr ""
+"Sim, de utilizadores com permissões relevantes ou repositórios importados. *"
+"(documentado)* (fonte: :doc:`/user/translating`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:446
 msgid ""
@@ -57574,12 +57671,14 @@ msgid ""
 "check to be satisfied. *(documented)* (source: :doc:`/workflows`, :doc:`/"
 "api`)"
 msgstr ""
+"Revisão de fluxos de trabalho para integridade de conteúdo específico a um "
+"projeto; aprovar uma sugestão através da API requer adicionalmente que a "
+"verificação de permissão ``unit.review`` seja satisfeita. *(documentado)* "
+"(fonte: :doc:`/workflows`, :doc:`/api`)"
 
 #: security/threat-model.rst:450
-#, fuzzy
-#| msgid "User profile"
 msgid "User profile API"
-msgstr "Perfil do utilizador"
+msgstr "API do perfil do utilizador"
 
 #: security/threat-model.rst:451
 msgid ""
@@ -57588,12 +57687,19 @@ msgid ""
 "(str:username)/`, including language and project watch preferences, "
 "dashboard component list selection, and commit or public e-mail choices"
 msgstr ""
+"Objeto ``profile`` aninhado em :http:get:`/api/users/(str:username)/`, "
+":http:put:`/api/users/(str:username)/`, e :http:patch:`/api/users/"
+"(str:username)/`, incluindo preferências de observação de idioma e projeto, "
+"painel de lista de seleção de componentes, e escolhas de commit ou email "
+"público"
 
 #: security/threat-model.rst:456
 msgid ""
 "Yes, for authenticated users updating their own profile or actors with "
 "``user.edit``. *(documented)* (source: :doc:`/api`, :ref:`user-profile`)"
 msgstr ""
+"Sim, para utilizadores autenticados que atualizam o seu perfil ou atores com "
+"``user.edit``. *(documentado)* (fonte: :doc:`/api`, :ref:`user-profile`)"
 
 #: security/threat-model.rst:458
 msgid ""
@@ -57602,6 +57708,11 @@ msgid ""
 "accessible projects, and dashboard component lists are limited to lists the "
 "user is allowed to use. *(documented)* (source: :doc:`/api`)"
 msgstr ""
+"Atribui ``user.edit`` apenas para administradores confiados; campos de auto-"
+"serviço de email de perfil aceitam apenas endereços verificados, projetos "
+"observados são apenas limitados a projetos acessíveis, e o painel de listas "
+"de componentes estão limitados a listas as quais o utilizador tem permissão "
+"de as ver. *(documentado)* (fonte: :doc:`/api`)"
 
 #: security/threat-model.rst:462
 msgid "Webhook endpoints"
@@ -57609,32 +57720,40 @@ msgstr "Endpoints do webhook"
 
 #: security/threat-model.rst:463
 msgid "Headers, event type, body, repository and branch metadata"
-msgstr ""
+msgstr "Cabeçalhos, tipo de evento, corpo, repositório e metadados de ramo"
 
 #: security/threat-model.rst:464
 msgid "Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)"
 msgstr ""
+"Sim, onde o endpoint é alcançável. *(documentado)* (fonte: :ref:`hooks`)"
 
 #: security/threat-model.rst:465
 msgid ""
 "Hook enablement only where needed, request limits, and monitoring. "
 "*(maintainer)*"
 msgstr ""
+"Ativar de hooks apenas onde é preciso, limites de pedidos,e monitorização. *"
+"(colaborador de manutenção)*"
 
 #: security/threat-model.rst:467
 msgid "GitHub App connection callbacks"
-msgstr ""
+msgstr "Funções de retorno de chamada de conexão da GitHub App"
 
 #: security/threat-model.rst:468
 msgid ""
 "GitHub OAuth code, signed Weblate state, installation ID, account metadata"
 msgstr ""
+"Código GitHub OAuth, estado do Weblate assinado, ID de instalação, metadados "
+"de conta"
 
 #: security/threat-model.rst:469
 msgid ""
 "Yes, from authenticated Weblate users and GitHub redirect query strings. "
 "*(documented)* (source: :ref:`code-hosting-github-app-register`)"
 msgstr ""
+"Sim, a partir de utilizadores Weblate autenticados e cadeias de carateres de "
+"consulta de redirecionamento GitHub. *(documentado)* (fonte: :ref:`code-"
+"hosting-github-app-register`)"
 
 #: security/threat-model.rst:471
 msgid ""
@@ -57643,6 +57762,10 @@ msgid ""
 "installation before saving it. *(documented)* (source: :ref:`code-hosting-"
 "github-app-register`)"
 msgstr ""
+"O Weblate exige direitos de gestão de espaços de trabalho e verifica que o "
+"utilizador GitHub possui a instalação pessoal ou pode administrar a "
+"instalação da organização antes de a guardar. *(documentado)* (fonte: "
+":ref:`code-hosting-github-app-register`)"
 
 #: security/threat-model.rst:475
 msgid "Repository configuration"
@@ -57653,18 +57776,24 @@ msgid ""
 "Repository URLs, branches, push URLs, credentials, Gerrit review push "
 "options, add-on settings"
 msgstr ""
+"URLs de repositório, ramos, URLs de push, credenciais, opções de revisão de "
+"push Gerrit, e definições de extras"
 
 #: security/threat-model.rst:478
 msgid ""
 "Trusted to users with corresponding management permissions. *(documented)* "
 "(source: :doc:`/admin/access`, :doc:`/admin/continuous`)"
 msgstr ""
+"Confiado a utilizadores com permissões de gestão correspondentes. *"
+"(documentado)* (fonte: :doc:`/admin/access`, :doc:`/admin/continuous`)"
 
 #: security/threat-model.rst:480
 msgid ""
 "Assign VCS and project management permissions only to trusted users. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Atribuir permissões de VCS e gestão de projetos apenas a utilizadores "
+"confiados. *(documentado)* (fonte: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:482
 msgid "External repository content"
@@ -57672,51 +57801,59 @@ msgstr "Conteúdo de repositório externo"
 
 #: security/threat-model.rst:483
 msgid "Translation files, paths, branch names, commit metadata"
-msgstr ""
+msgstr "Ficheiros de tradução, caminhos, nomes de ramo, metadados de commit"
 
 #: security/threat-model.rst:484
 msgid ""
 "Yes, if the upstream repository is controlled by another actor. "
 "*(maintainer)*"
 msgstr ""
+"Sim, se o repositório na fonte é controlado por outro ator. *(colaborador de "
+"manutenção)*"
 
 #: security/threat-model.rst:486
 msgid ""
 "Trust the configured upstream repository or review imported changes. "
 "*(maintainer)*"
 msgstr ""
+"Confiar o repositório na fonte configurado ou rever mudanças importadas. *"
+"(colaborador de manutenção)*"
 
 #: security/threat-model.rst:488
-#, fuzzy
-#| msgid "Project level backups"
 msgid "Project backup import"
-msgstr "Cópias de segurança de nível de projeto"
+msgstr "Importação de cópia de segurança de projeto"
 
 #: security/threat-model.rst:489
 msgid "ZIP archive members, metadata, translation files, repository state"
 msgstr ""
+"Membros de arquivo ZIP, metadados, ficheiros de tradução, estado do "
+"repositório"
 
 #: security/threat-model.rst:490
 msgid ""
 "Yes, for whoever can upload or provide the backup. *(documented)* "
 "(source: :ref:`projectbackup`)"
 msgstr ""
+"Sim, para quem podem enviar ou fornecer a cópia de segurança. *(documentado)"
+"* (fonte: :ref:`projectbackup`)"
 
 #: security/threat-model.rst:491
 msgid ""
 "Keep import limits at values appropriate for the instance. *(documented)* "
 "(source: :doc:`/admin/config`)"
 msgstr ""
+"Manter limites de importação em valores apropriados para a instância. *"
+"(documentado)* (fonte: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:492
-#, fuzzy
-#| msgid "Project level backups"
 msgid "Project backup export"
-msgstr "Cópias de segurança de nível de projeto"
+msgstr "Exportação de cópia de segurança de projeto"
 
 #: security/threat-model.rst:493
 msgid "Backup creation requests and requested backup file names"
 msgstr ""
+"Pedidos de criação de cópia de segurança e nomes de ficheiros de cópias de "
+"segurança pedidos"
 
 #: security/threat-model.rst:494
 msgid ""
@@ -57724,6 +57861,9 @@ msgid ""
 "*(documented)* (source: :doc:`/api`, :ref:`projectbackup`, :doc:`/admin/"
 "access`)"
 msgstr ""
+"Sim, para utilizadores ou tokens no âmbito do projeto com a permissão de "
+"edição do projeto. *(documentado)* (fonte: :doc:`/api`, "
+":ref:`projectbackup`, :doc:`/admin/access`)"
 
 #: security/threat-model.rst:496
 msgid ""
@@ -57739,33 +57879,43 @@ msgstr "Tradução automática e configuração de serviço externo"
 
 #: security/threat-model.rst:499
 msgid "Provider URLs, credentials, model or service settings"
-msgstr ""
+msgstr "URLs de fornecedor, credenciais, definições de modelo ou serviço"
 
 #: security/threat-model.rst:500
 msgid ""
 "Trusted to administrators or users granted configuration permissions. "
 "*(documented)* (source: :doc:`/admin/machine`, :doc:`/admin/access`)"
 msgstr ""
+"Confiado a administradores ou utilizadores garantidos permissões de "
+"configuração. *(documentado)* (fonte: :doc:`/admin/machine`, :doc:`/admin/"
+"access`)"
 
 #: security/threat-model.rst:502
 msgid ""
 "Treat configured providers as recipients of the data sent to them; the "
 "submitted content varies by provider and enabled feature. *(maintainer)*"
 msgstr ""
+"Trata fornecedores configurados como recipientes de dados enviados para os "
+"mesmos; o conteúdo submetido varia entre fornecedores e funcionalidade "
+"ativada. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:505
 msgid "Command-line arguments and files supplied by the local operator"
 msgstr ""
+"Argumentos de linha de comandos e ficheiros fornecidos pelo operador local"
 
 #: security/threat-model.rst:506
 msgid ""
 "Trusted local input unless processing Weblate data or project backups. "
 "*(maintainer)*"
 msgstr ""
+"Entrada local confiada a não ser que seja o processar de dados Weblate ou "
+"cópias de segurança de projeto. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:508
 msgid "Restrict shell access to trusted operators. *(maintainer)*"
 msgstr ""
+"Restringir acesso shell a operadores confiados. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:510
 msgid "Size and rate assumptions:"
@@ -57776,6 +57926,9 @@ msgid ""
 "Weblate relies on application and reverse-proxy upload limits for large HTTP "
 "requests. *(documented)* (source: :setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`)"
 msgstr ""
+"O Weblate depende nos limites de envio de aplicação e proxy inverso para "
+"pedidos HTTP grandes. *(documentado)* (fonte: "
+":setting:`PROJECT_BACKUP_UPLOAD_MAX_SIZE`)"
 
 #: security/threat-model.rst:514
 msgid ""
@@ -57783,6 +57936,10 @@ msgid ""
 "size, compressed entry size, minimum ratio size, and compression ratio "
 "settings. *(documented)* (source: :doc:`/admin/config`)"
 msgstr ""
+"Importações de cópia de segurança de projeto estão limitados por número de "
+"membros, tamanho agregado não compresso, tamanho de entrada compressa, rácio "
+"mínimo de tamanho, e definições de rácio de compressão. *(documentado)* "
+"(fonte: :doc:`/admin/config`)"
 
 #: security/threat-model.rst:517
 msgid ""
@@ -57791,12 +57948,20 @@ msgid ""
 "writes project state. Failed restores remove repository and media objects "
 "created by that attempt. *(documented)* (source: :ref:`projectbackup`)"
 msgstr ""
+"Metadados de cópia de segurança de projeto, referências de objeto, caminhos "
+"de repositório, URLs de saída, expressões regulares, e conteúdo de captura "
+"de ecrã são validados antes do restaurar escrever o estado do projeto. "
+"Restaurações falhadas removem objetos de repositório e multimédia criados "
+"por essa tentativa. *(documentado)* (fonte: :ref:`projectbackup`)"
 
 #: security/threat-model.rst:521
 msgid ""
 "API and selected web actions are expected to be protected by configured rate "
 "limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)"
 msgstr ""
+"Ações de API e web selecionadas têm o pressuposto de ser protegidos por "
+"taxas de limite configuradas. *(documentado)* (fonte: :doc:`/api`, :doc:`/"
+"admin/config`)"
 
 #: security/threat-model.rst:523
 msgid ""
@@ -57807,6 +57972,12 @@ msgid ""
 "fixed project-size limit. *(documented)* (source: :doc:`/api`, :doc:`/admin/"
 "config`)"
 msgstr ""
+"Tamanho de resposta de métricas de projeto e pedido de trabalho escalam com "
+"o número de componentes visíveis e traduções com cache de estado de "
+"estatísticas. Falhas na cache podem calcular e armazenar estatísticas de "
+"tradução. O endpoint depende das taxas de limite API padrão e escalonamento "
+"de implementação em vez de um limite do tamanho do projeto fixo. *"
+"(documentado)* (fonte: :doc:`/api`, :doc:`/admin/config`)"
 
 #: security/threat-model.rst:529
 msgid ""
@@ -57814,6 +57985,10 @@ msgid ""
 "capacity are deployment-sizing concerns unless a single in-scope input "
 "bypasses documented limits or permissions. *(maintainer)*"
 msgstr ""
+"Tamanho do repositório, número de projetos, número de componentes, e "
+"capacidade do trabalhador são preocupações do tamanho da implementação a não "
+"ser que uma entrada individual dentro do âmbito ignora os limites "
+"documentados ou permissões. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:534
 msgid "Adversary model"
@@ -57824,16 +57999,12 @@ msgid "Actor"
 msgstr "Ator"
 
 #: security/threat-model.rst:540
-#, fuzzy
-#| msgid "Translation types capabilities"
 msgid "In-scope capabilities"
-msgstr "Capacidades dos tipos de tradução"
+msgstr "Capacidades dentro do âmbito"
 
 #: security/threat-model.rst:541
-#, fuzzy
-#| msgid "Translation types capabilities"
 msgid "Out-of-scope capabilities"
-msgstr "Capacidades dos tipos de tradução"
+msgstr "Capacidades fora do âmbito"
 
 #: security/threat-model.rst:542
 msgid "Unauthenticated internet client"
@@ -57844,24 +58015,28 @@ msgid ""
 "Send HTTP(S) requests to public pages, registration, login, API, and "
 "reachable webhook endpoints. *(documented)* (source: :doc:`/api`)"
 msgstr ""
+"Envia pedidos HTTP(S) para páginas públicas, registo, início de sessão, API, "
+"e endpoints webhook alcançáveis. *(documentado)* (fonte: :doc:`/api`)"
 
 #: security/threat-model.rst:545
 msgid ""
 "Read server memory, bypass reverse proxy controls, or access internal "
 "services directly. *(maintainer)*"
 msgstr ""
+"Ler memória de servidor, ignorar controlos de proxy inverso, ou aceder a "
+"serviços internos diretamente. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:547
-#, fuzzy
-#| msgid "Authentication"
 msgid "Authenticated user"
-msgstr "Autenticação"
+msgstr "Utilizador autenticado"
 
 #: security/threat-model.rst:548
 msgid ""
 "Perform actions allowed by assigned teams, permissions, and workflow. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Executar ações permitidas por atribuição de equipas, permissões, e fluxo de "
+"trabalho. *(documentado)* (fonte: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:550
 msgid ""
@@ -57873,7 +58048,7 @@ msgstr ""
 
 #: security/threat-model.rst:552
 msgid "Reviewer or project manager"
-msgstr ""
+msgstr "Revisor ou gestor de projeto"
 
 #: security/threat-model.rst:553
 msgid ""
@@ -57881,16 +58056,21 @@ msgid ""
 "memory, screenshot, or access-management permissions. *(documented)* "
 "(source: :doc:`/admin/access`)"
 msgstr ""
+"Exercitar permissões delegadas relativas a projetos, componentes, idiomas, "
+"revisão, VCS, memória de tradução, capturas de ecrã ou gestão de acessos. *"
+"(documentado)* (fonte: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:556
 msgid ""
 "Become a site administrator unless granted that role or exploiting a Weblate "
 "flaw. *(maintainer)*"
 msgstr ""
+"Torne-se um administrador de site a não ser que seja garantido essa função "
+"ou abuse uma falha do Weblate. *(colaborador de manutenção)*"
 
 #: security/threat-model.rst:558
 msgid "Project-scoped API token holder"
-msgstr ""
+msgstr "Titular de um token de API no âmbito do projeto"
 
 #: security/threat-model.rst:559
 msgid ""
@@ -57899,12 +58079,18 @@ msgid ""
 "granted. *(documented)* (source: :doc:`/api`, :doc:`/admin/"
 "access`, :ref:`projectbackup`)"
 msgstr ""
+"Utilize permissões de API atribuídas às filiações da equipa do token, "
+"incluindo criação de cópia de segurança do projeto e transferência onde a "
+"permissão de edição de projeto é garantida. *(documentado)* (fonte: :doc:`/"
+"api`, :doc:`/admin/access`, :ref:`projectbackup`)"
 
 #: security/threat-model.rst:563
 msgid ""
 "Access projects, components, or site-wide functions outside its scope. "
 "*(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
+"Aceder a projetos, componentes, ou funções no site inteiro fora do seu "
+"âmbito. *(documentado)* (fonte: :doc:`/admin/access`)"
 
 #: security/threat-model.rst:565
 msgid "Webhook sender"
@@ -57915,46 +58101,60 @@ msgid ""
 "Send forged, replayed, malformed, or high-volume webhook requests to enabled "
 "hook endpoints. *(documented)* (source: :ref:`hooks`)"
 msgstr ""
+"Enviar pedidos webhook falsificados, repetidos, com formato incorreto ou em "
+"grande volume para ativar hooks de endpoints. *(documentado)* (fonte: "
+":ref:`hooks`)"
 
 #: security/threat-model.rst:568
 msgid ""
 "Obtain forge-authenticated identity where Weblate does not verify it. "
 "*(maintainer)*"
 msgstr ""
+"Obter autenticação de identidade falsificada onde o Weblate não a verifica. *"
+"(colaborador de manutenção)*"
 
 #: security/threat-model.rst:570
 msgid "External VCS or service provider"
-msgstr ""
+msgstr "Fornecedor externo de VCS ou serviço"
 
 #: security/threat-model.rst:571
 msgid ""
 "Return repository data, API responses, redirects, or errors according to the "
 "configured integration. *(documented)* (source: :doc:`/admin/code-hosting`)"
 msgstr ""
+"Devolver dados de repositório, respostas API, redirecionamentos, ou erros de "
+"acordo com a configuração integrada. *(documentado)* (fonte: :doc:`/admin/"
+"code-hosting`)"
 
 #: security/threat-model.rst:573
 msgid ""
 "Compromise the Weblate host except through data or protocol behavior Weblate "
 "processes. *(maintainer)*"
 msgstr ""
+"Comprometer o servidor do Weblate, exceto através dos dados ou do "
+"comportamento do protocolo que o Weblate processa. *(colaborador de "
+"manutenção)*"
 
 #: security/threat-model.rst:575
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Translator or localization contributor"
-msgstr "Contribuições de tradução"
+msgstr "Tradutor ou colaborador de tradução"
 
 #: security/threat-model.rst:576
 msgid ""
 "Submit translation content that downstream applications might consume. "
 "*(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Submeter conteúdo de tradução que aplicações posteriores poderão consumir. *"
+"(documentado)* (fonte: :doc:`/security/localization-threat`)"
 
 #: security/threat-model.rst:578
 msgid ""
 "Control downstream application escaping, rendering, or review policy outside "
 "Weblate. *(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
+"Controlar o escapamento de aplicação a jusante, renderização, o política de "
+"revisão fora do Weblate. *(documentado)* (fonte: :doc:`/security/"
+"localization-threat`)"
 
 #: security/threat-model.rst:580
 msgid "Local operator"
@@ -57965,10 +58165,15 @@ msgid ""
 "Run management commands, change configuration, and access backups. "
 "*(documented)* (source: :doc:`/admin/management`, :doc:`/admin/backup`)"
 msgstr ""
+"Executar comandos de gestão, alterar configuração, e aceder cópias de "
+"segurança. *(documentado)* (fonte: :doc:`/admin/management`, :doc:`/admin/"
+"backup`)"
 
 #: security/threat-model.rst:583
 msgid "Local malicious operators are trusted for this model. *(maintainer)*"
 msgstr ""
+"Operadores maliciosos locais são confiados para este modelo. *(colaborador "
+"de manutenção)*"
 
 #: security/threat-model.rst:585
 msgid ""
@@ -57978,12 +58183,16 @@ msgid ""
 "execute commands through Weblate-controlled workflows, or exhaust bounded "
 "application resources. *(maintainer)*"
 msgstr ""
+"O atacante modelado tenta ignorar autorização, modificar tradução ou dados "
+"de repositório sem permissão, divulgar dados de projeto privado ou dados de "
+"utilizador, falsificar ou abusar sincronização de repositório, ativar "
+"pedidos de saída inseguros, executar comandos através de fluxos de trabalho "
+"controlados pelo Weblate, ou esgotar os recursos de aplicação limitados. *"
+"(colaborador de manutenção)*"
 
 #: security/threat-model.rst:592
-#, fuzzy
-#| msgid "Supported features"
 msgid "Security properties Weblate provides"
-msgstr "Recursos suportados"
+msgstr "Propriedades de segurança que o Weblate fornece"
 
 #: security/threat-model.rst:597
 msgid "Property"
@@ -57995,13 +58204,11 @@ msgstr "Condições"
 
 #: security/threat-model.rst:599
 msgid "Violation symptom"
-msgstr ""
+msgstr "Sintoma de violação"
 
 #: security/threat-model.rst:600
-#, fuzzy
-#| msgid "Severity"
 msgid "Severity tier"
-msgstr "Gravidade"
+msgstr "Nível da gravidade"
 
 #: security/threat-model.rst:601
 msgid ""
