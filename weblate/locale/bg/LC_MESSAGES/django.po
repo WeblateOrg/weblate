@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-12 12:27+0000\n"
+"PO-Revision-Date: 2026-08-13 17:51+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -22570,20 +22570,15 @@ msgstr[0] "%d низ не може да бъде намерен:"
 msgstr[1] "%d низа не могат да бъдат намерени:"
 
 #: weblate/trans/models/translation.py:1670
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is out of range."
 msgstr ""
-"Формите за множествено число в качения файл не съответстват на текущия "
-"превод."
+"Формата за множествено число %d в качения файл е извън допустимия интервал."
 
 #: weblate/trans/models/translation.py:1676
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is missing."
-msgstr ""
-"Формите за множествено число в качения файл не съответстват на текущия "
-"превод."
+msgstr "Формата за множествено число %d липсва в качения файл."
 
 #: weblate/trans/models/translation.py:1888
 #: weblate/trans/models/translation.py:1893
@@ -22687,13 +22682,15 @@ msgstr "Отбелязване като „терминология“"
 
 #: weblate/trans/models/workflow.py:35
 msgid "Restrict direct editing"
-msgstr ""
+msgstr "Ограничаване на директното редактиране"
 
 #: weblate/trans/models/workflow.py:38
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+"Само потребителите с правото за „Редактиране на низ, когато предложенията за "
+"превод са задължителни“ могат да правят директни промени."
 
 #: weblate/trans/specialchars.py:14
 msgid "Insert tab character"
@@ -22783,22 +22780,18 @@ msgid "Automatic translation skipped because the target no longer exists."
 msgstr "Автоматичният превод е пропуснат, тъй като целта вече не съществува."
 
 #: weblate/trans/tasks.py:1268
-#, fuzzy
-#| msgid "Report format"
 msgid "Report generated."
-msgstr "Формат на отчета"
+msgstr "Отчетът е създаден."
 
 #: weblate/trans/tasks.py:1362
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed with skipped components."
-msgstr "Проекти без компоненти"
+msgstr ""
+"Внасянето от резервно копие на проекта завърши, но някои компоненти бяха "
+"пропуснати."
 
 #: weblate/trans/tasks.py:1374
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Проекти без компоненти"
+msgstr "Внасянето от резервно копие на проекта завърши."
 
 #: weblate/trans/templatetags/translations.py:107
 msgid "Good configuration"
@@ -22813,16 +22806,12 @@ msgid "Possible configuration"
 msgstr "Възможна настройка"
 
 #: weblate/trans/templatetags/translations.py:115
-#, fuzzy
-#| msgid "Very high"
 msgid "Priority: Very high"
-msgstr "Много висок"
+msgstr "Приоритет: Много висок"
 
 #: weblate/trans/templatetags/translations.py:116
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: High"
-msgstr "Приоритет"
+msgstr "Приоритет: Висок"
 
 #: weblate/trans/templatetags/translations.py:117
 msgid "Priority: Low"
@@ -24364,10 +24353,8 @@ msgid "Component and priority"
 msgstr "Компонент и приоритет"
 
 #: weblate/utils/zammad.py:19
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Customer care is currently unavailable."
-msgstr "Услугата в момента е недостъпна."
+msgstr "Поддръжката за клиенти е недостъпна в момента."
 
 #: weblate/utils/zip.py:55 weblate/utils/zip.py:149
 #, python-brace-format
@@ -24400,22 +24387,22 @@ msgid ""
 "The ZIP file contains %(actual_size)s of data after unpacking, exceeding the "
 "configured limit of %(limit_size)s."
 msgstr ""
+"Файлът ZIP съдържа %(actual_size)s данни, превишавайки зададеното "
+"ограничение от %(limit_size)s."
 
 #: weblate/utils/zip.py:134
 msgid "The ZIP file contains a compressed entry that is too large."
 msgstr "Архивният файл zip съдържа компресиран запис, който е твърде голям."
 
 #: weblate/vcs/base.py:222
-#, fuzzy, python-format
-#| msgid "Details"
+#, python-format
 msgid "%(detail)s"
-msgstr "Подробности"
+msgstr "%(detail)s"
 
 #: weblate/vcs/base.py:223
-#, fuzzy, python-format
-#| msgid "Too many messages sent, please try again later."
+#, python-format
 msgid "%(detail)s Please retry later."
-msgstr "Изпратени са твърде много съобщения. Моля, опитайте отново по-късно."
+msgstr "%(detail)s Моля, опитайте отново по-късно."
 
 #: weblate/vcs/base.py:225
 #, python-format
@@ -24645,67 +24632,58 @@ msgstr "Отдалеченият клон не споделя обща исто�
 
 #: weblate/vcs/base.py:341 weblate/vcs/ssh.py:610 weblate/vcs/ssh.py:637
 #: weblate/vcs/ssh.py:644 weblate/vcs/ssh.py:649
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "Не може да се определи изходната папка за Sphinx."
+msgstr "Не може да се определи реалната цел на връзката чрез SSH."
 
 #: weblate/vcs/base.py:344
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %(error)s"
-msgstr "Низът не може да бъде премахнат: %s"
+msgstr "Не може да се определи реалната цел на връзката чрез SSH: %(error)s"
 
 #: weblate/vcs/base.py:347
 #, python-format
 msgid "Unsupported interrupted Git operation: %(operation)s"
-msgstr ""
+msgstr "Неподдържана прекъсната операция с Git: %(operation)s"
 
 #: weblate/vcs/base.py:350
 msgid ""
 "This VCS backend cannot safely connect to this URL while private address "
 "restrictions are enabled."
 msgstr ""
+"Този сървър на система за контрол на версиите не може да се свърже безопасно "
+"с този адрес, докато са включени ограниченията за частни адреси."
 
 #: weblate/vcs/base.py:353
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository from %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository from %(hostname)s is not allowed."
-msgstr "Получаването на хранилището от %s не се поддържа."
+msgstr "Получаването на хранилището от %(hostname)s не е разрешено."
 
 #: weblate/vcs/base.py:355
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid URL."
-msgstr "Въведете правилен код на език."
+msgstr "Въведете правилен адрес."
 
 #: weblate/vcs/base.py:357
-#, fuzzy, python-format
-#| msgid "Could not parse URL: {}"
+#, python-format
 msgid "Could not parse URL: %(error)s"
-msgstr "Неуспешен анализ на адреса: {}"
+msgstr "Неуспешен анализ на адреса: %(error)s"
 
 #: weblate/vcs/base.py:362
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository using %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository using %(scheme)s is not allowed."
-msgstr "Получаването на хранилището чрез %s не се поддържа."
+msgstr "Получаването на хранилището чрез %(scheme)s не е разрешено."
 
 #: weblate/vcs/base.py:366
-#, fuzzy, python-format
-#| msgid "Could not resolve the URL domain: {}"
+#, python-format
 msgid "Could not resolve the URL domain: %(error)s"
-msgstr "Домейнът на адреса не може да бъде разпознат: {}"
+msgstr "Домейнът на адреса не може да бъде разпознат: %(error)s"
 
 #: weblate/vcs/base.py:704
 msgid "This will push changes to the upstream repository."
 msgstr "Това ще изпрати промените към отдалеченото хранилище."
 
 #: weblate/vcs/forms.py:30 weblate/vcs/forms.py:42 weblate/vcs/views.py:1198
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid GitHub host."
-msgstr "Въведете правилен код на език."
+msgstr "Въведете правилен сървър за GitHub."
 
 #: weblate/vcs/forms.py:63
 msgid ""
@@ -24842,83 +24820,70 @@ msgid "Bitbucket Cloud merge request"
 msgstr "Заявка за сливане в Bitbucket Cloud"
 
 #: weblate/vcs/github.py:476
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub hostname"
-msgstr "Потребителско име в Github"
+msgstr "Име на сървъра за Github"
 
 #: weblate/vcs/github.py:479
-#, fuzzy
-#| msgid "URL slug"
 msgid "App slug"
-msgstr "Описателен адрес"
+msgstr "Кратко име за приложението"
 
 #: weblate/vcs/github.py:480
 msgid "Private key (PEM)"
-msgstr ""
+msgstr "Частен ключ (PEM)"
 
 #: weblate/vcs/github.py:482
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "OAuth client ID"
-msgstr "Клиентски идентификатор"
+msgstr "Клиентски идентификатор за OAuth"
 
 #: weblate/vcs/github.py:485
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client secret"
 msgid "OAuth client secret"
-msgstr "Клиентска тайна"
+msgstr "Клиентска тайна за OAuth"
 
 #: weblate/vcs/github.py:498
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook token"
-msgstr "Уеб-кука"
+msgstr "Идентификатор за уеб-кука"
 
 #: weblate/vcs/github.py:500
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "API URL"
 msgid "App URL"
-msgstr "Адрес на ППИ"
+msgstr "Адрес на приложението"
 
 #: weblate/vcs/github.py:506 weblate/vcs/github.py:507
 msgid "Weblate GitHub App credentials"
-msgstr ""
+msgstr "Удостоверителни данни за приложение на Weblate в GitHub"
 
 #: weblate/vcs/github.py:887
-#, fuzzy
-#| msgid "Delete this account"
 msgid "connected GitHub account"
-msgstr "Изтриване на този акаунт"
+msgstr "свързан акаунт за GitHub"
 
 #: weblate/vcs/github.py:888
 msgid "connected GitHub accounts"
-msgstr ""
+msgstr "свързани акаунти за GitHub"
 
 #: weblate/vcs/github.py:962
 msgid "GitHub (via Weblate GitHub app)"
-msgstr ""
+msgstr "GitHub (чрез приложение на Weblate в GitHub)"
 
 #: weblate/vcs/github.py:973
-#, fuzzy
-#| msgid "This will push changes and create a GitHub pull request."
 msgid ""
 "This will push changes and create a GitHub pull request via the Weblate "
 "GitHub app."
-msgstr "Това ще изпрати промените и ще създаде заявка за изтегляне в GitHub."
+msgstr ""
+"Това ще изпрати промените и ще създаде заявка за изтегляне в GitHub чрез "
+"приложението на Weblate в GitHub."
 
 #: weblate/vcs/github.py:1014
 msgid "GitHub App components require a GitHub HTTPS repository URL."
 msgstr ""
+"Компонентите на приложението на Weblate в GitHub изискват адрес на хранилище "
+"в GitHub, който ползва HTTPS."
 
 #: weblate/vcs/github.py:1030
 msgid ""
 "Repository is not available from a connected GitHub account for this "
 "workspace."
 msgstr ""
+"Хранилището не е налично от свързан акаунт за GitHub за това работно "
+"пространство."
 
 #: weblate/vcs/mercurial.py:61
 msgid "This will push changes to the upstream Mercurial repository."
@@ -24933,70 +24898,48 @@ msgid "Provider"
 msgstr "Лице за контакт"
 
 #: weblate/vcs/models.py:63 weblate/vcs/models.py:126
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Installation ID"
-msgstr "Информация за превода"
+msgstr "Идентификатор на инсталацията"
 
 #: weblate/vcs/models.py:67
-#, fuzzy
-#| msgid "Target string"
 msgid "Target type"
-msgstr "Целеви низ"
+msgstr "Тип на целта"
 
 #: weblate/vcs/models.py:68
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organization or User"
-msgstr "Организиране или премахване"
+msgstr "Организация или потребител"
 
 #: weblate/vcs/models.py:72
-#, fuzzy
-#| msgid "Target string"
 msgid "Target login"
-msgstr "Целеви низ"
+msgstr "Начин на вписване в целта"
 
 #: weblate/vcs/models.py:73
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Hosting organization or user login"
-msgstr "Хостинг на превода"
+msgstr "Организация за хостинг или потребителско вписване"
 
 #: weblate/vcs/models.py:91
-#, fuzzy
-#| msgid "VCS repositories"
 msgid "Available repositories"
-msgstr "Хранилища за контрол на версиите"
+msgstr "Налични хранилища"
 
 #: weblate/vcs/models.py:97
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installation"
-msgstr "Хостинг на превода"
+msgstr "инсталация на хостинг за код"
 
 #: weblate/vcs/models.py:98
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installations"
-msgstr "Хостинг на превода"
+msgstr "инсталации на хостинг за код"
 
 #: weblate/vcs/models.py:131
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook payload"
-msgstr "Уеб-кука"
+msgstr "Данни в уеб-куката"
 
 #: weblate/vcs/models.py:138
-#, fuzzy
-#| msgid "Pending invitation"
 msgid "pending code-hosting installation"
-msgstr "Чакаща покана"
+msgstr "чакаща инсталация на хостинг за код"
 
 #: weblate/vcs/models.py:139
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "pending code-hosting installations"
-msgstr "Чакащи покани"
+msgstr "чакащи инсталации на хостинг за код"
 
 #: weblate/vcs/ssh.py:73
 msgctxt "SSH key type"
@@ -25055,10 +24998,8 @@ msgstr ""
 "Моля, уверете се, че всичко е правилно."
 
 #: weblate/vcs/ssh.py:388
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "Няма налични екипи."
+msgstr "Няма налични потвърдени адреси за връзка чрез SSH."
 
 #: weblate/vcs/ssh.py:434
 msgid "Could not read stored host keys."
@@ -25080,21 +25021,22 @@ msgstr ""
 "Премахнат е ключ на хост %(host)s с отпечатък %(fingerprint)s (%(keytype)s)."
 
 #: weblate/vcs/ssh.py:615 weblate/vcs/ssh.py:622
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "Низът не може да бъде премахнат: %s"
+msgstr "Не може да се определи реалната цел на връзката чрез SSH: %s"
 
 #: weblate/vcs/views.py:111 weblate/vcs/views.py:131
 msgid ""
 "Create a workspace before connecting a GitHub account. GitHub App "
 "connections are linked to workspaces."
 msgstr ""
+"Създайте работно пространство преди да свържете акаунт за GitHub. Връзките с "
+"приложения в GitHub се отнасят към работни пространства."
 
 #: weblate/vcs/views.py:555
 #, python-format
 msgid "Removed connected GitHub account %(target)s."
-msgstr ""
+msgstr "Премахнете свързания акаунт за GitHub %(target)s."
 
 #: weblate/vcs/views.py:571
 #, python-format
@@ -25102,64 +25044,66 @@ msgid ""
 "Remove connected GitHub accounts on %(hostname)s before removing the app "
 "credentials."
 msgstr ""
+"Премахнете свързаните акаунти за GitHub от %(hostname)s, преди да премахнете "
+"удостоверителните данни за приложението."
 
 #: weblate/vcs/views.py:579
 #, python-format
 msgid "Removed Weblate GitHub App credentials for %(hostname)s."
 msgstr ""
+"Удостоверителните данни за приложението на Weblate в GitHub са премахнати за "
+"%(hostname)s."
 
 #: weblate/vcs/views.py:603
-#, fuzzy
-#| msgid "Failed to fetch repository: %s"
 msgid "Failed to refresh repositories from GitHub."
-msgstr "Неуспешно получаване на данните от хранилището: %s"
+msgstr "Неуспешно опресняване на хранилищата от GitHub."
 
 #: weblate/vcs/views.py:608
 #, python-format
 msgid "Refreshed %(count)d repositories from GitHub."
-msgstr ""
+msgstr "Опреснени хранилища от GitHub: %(count)d."
 
 #: weblate/vcs/views.py:625 weblate/vcs/views.py:668 weblate/vcs/views.py:821
-#, fuzzy
-#| msgid "Total number of entries in this Weblate instance"
 msgid "Weblate GitHub app is not configured on this Weblate instance."
-msgstr "Общ брой елементи в тази инсталация на Weblate"
+msgstr ""
+"За тази инсталация на Weblate няма настроено приложение на Weblate в GitHub."
 
 #: weblate/vcs/views.py:633
 msgid "Select a workspace before connecting a GitHub account."
-msgstr ""
+msgstr "Изберете работно пространство, преди да свържете акаунт за GitHub."
 
 #: weblate/vcs/views.py:643
 msgid "Weblate GitHub app is not configured for the selected host."
-msgstr ""
+msgstr "За избрания сървър няма настроено приложение на Weblate в GitHub."
 
 #: weblate/vcs/views.py:763 weblate/vcs/views.py:914
 msgid "Connected GitHub account updated."
-msgstr ""
+msgstr "Свързаният акаунт за GitHub е обновен."
 
 #: weblate/vcs/views.py:769 weblate/vcs/views.py:796
 msgid ""
 "The Weblate GitHub app installation link is no longer valid. Start the "
 "installation again."
 msgstr ""
+"Връзката за инсталиране на приложението на Weblate в GitHub вече не може да "
+"се използва. Започнете инсталацията наново."
 
 #: weblate/vcs/views.py:804 weblate/vcs/views.py:828
-#, fuzzy
-#| msgid "You do not have permission to accept suggestions."
 msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "Нямате разрешение да приемате предложения."
+msgstr "Нямате право да свързвате GitHub с това работно пространство."
 
 #: weblate/vcs/views.py:812
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "GitHub did not return a valid installation ID."
-msgstr "Регистрацията не може да бъде завършена."
+msgstr "GitHub не върна правилен идентификатор на инсталация."
 
 #: weblate/vcs/views.py:836
 msgid ""
 "Too many GitHub account connection attempts. The GitHub installation was not "
 "connected and might still be pending. Try connecting the account again later."
 msgstr ""
+"Твърде много опити за свързване на акаунт за GitHub. Инсталацията за GitHub "
+"не е била свързана и може все още да е на изчакване. Опитайте да свържете "
+"акаунта отново по-късно."
 
 #: weblate/vcs/views.py:851
 msgid ""
@@ -25167,6 +25111,9 @@ msgid ""
 "Start the installation again with a GitHub user who owns the account or can "
 "administer the organization."
 msgstr ""
+"Weblate не може да потвърди дали имате право да се разпореждате с тази "
+"инсталация на GitHub. Започнете инсталацията отново, с потребител на GitHub, "
+"който притежава акаунта и може да се разпорежда с организацията."
 
 #: weblate/vcs/views.py:885
 msgid ""
@@ -25174,18 +25121,21 @@ msgid ""
 "pending and repositories might not appear yet. Try connecting the account "
 "again later if they do not show up."
 msgstr ""
+"GitHub все още синхронизира свързания акаунт за GitHub. Връзката е на "
+"изчакване и хранилищата може все още да не се виждат. Ако не се покажат, "
+"опитайте да свържете акаунта отново по-късно."
 
 #: weblate/vcs/views.py:901
 msgid ""
 "The connected GitHub account was saved, but refreshing the repository list "
 "failed. Try again in a moment."
 msgstr ""
+"Свързаният акаунт за GitHub беше запазен, но опресняването на списъка с "
+"хранилища не беше успешно. Опитайте отново след малко."
 
 #: weblate/vcs/views.py:909
-#, fuzzy
-#| msgid "Created user account {}."
 msgid "Connected GitHub account added."
-msgstr "Потребителският профил {} е създаден."
+msgstr "Свързаният акаунт за GitHub е добавен."
 
 #: weblate/vcs/views.py:1229
 #, fuzzy
