@@ -3208,6 +3208,7 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
         model = Component
         # ruff: ignore[mutable-class-default]
         fields = ["name", "slug", "project", "category"]
+        # ruff: ignore[mutable-class-default]
         widgets = {
             "project": SortedSearchableSelect,
             "category": SortedSearchableSelect,
