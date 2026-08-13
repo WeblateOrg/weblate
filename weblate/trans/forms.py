@@ -3299,6 +3299,11 @@ class CategoryRenameForm(SettingsBaseForm):
         model = Category
         # ruff: ignore[mutable-class-default]
         fields = ["name", "slug", "project", "category"]
+        # ruff: ignore[mutable-class-default]
+        widgets = {
+            "project": SortedSearchableSelect,
+            "category": SortedSearchableSelect,
+        }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
