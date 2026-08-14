@@ -131,6 +131,7 @@ type RemoteOperation = Literal["none", "pull", "push"]
 type RepositoryDiagnosisCode = Literal[
     "branch_behind",
     "gerrit_permission",
+    "git_lfs_missing_objects",
     "github_pull_request_creation_restricted",
     "missing_credentials",
     "repository_not_found",
@@ -668,6 +669,8 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
         diagnoses.append({"code": "repository_permission"})
     if any(message in error for message in REPOSITORY_GERRIT_PERMISSION_MESSAGES):
         diagnoses.append({"code": "gerrit_permission"})
+    if "lfs objects are missing" in normalized:
+        diagnoses.append({"code": "git_lfs_missing_objects"})
     if any(message in error for message in REPOSITORY_TEMPORARY_MESSAGES):
         diagnoses.append({"code": "temporary_failure"})
 

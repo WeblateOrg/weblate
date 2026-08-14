@@ -86,6 +86,7 @@ class RepositoryErrorAlert(ErrorAlert):
     def get_analysis(self) -> dict[str, Any]:
         return {
             "redirect": self.has_diagnosis("repository_redirect"),
+            "git_lfs_missing_objects": self.has_diagnosis("git_lfs_missing_objects"),
         }
 
     @classmethod

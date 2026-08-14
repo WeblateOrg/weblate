@@ -272,6 +272,10 @@ class RepositoryTest(SimpleTestCase):
             ("Repository not found.", "repository_not_found"),
             ("push denied to user", "repository_permission"),
             ("push prohibited by Gerrit", "gerrit_permission"),
+            (
+                "remote: GitLab: LFS objects are missing. Ensure LFS is properly set up.",
+                "git_lfs_missing_objects",
+            ),
             ("Connection timed out", "temporary_failure"),
             ("Host key verification failed", "ssh_host_key_unverified"),
             (
@@ -2854,6 +2858,14 @@ class VCSGiteaTest(VCSGitUpstreamTest):
             "git@gitea.io:test/test.git",
         )
 
+    def test_fork_remote_marker_is_unversioned(self) -> None:
+        credentials = self.repo.get_credentials()
+
+        self.assertEqual(
+            self.repo.get_fork_remote_marker(credentials),
+            f"gitea:{credentials['url']}:{credentials['push_scheme']}",
+        )
+
     def test_api_url_try_gitea(self) -> None:
         self.repo.component.repo = "https://try.gitea.io/WeblateOrg/test.git"
         self.assertEqual(
@@ -3923,6 +3935,110 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
             json={"id": 20227391},
         )
+
+    def test_fork_remote_marker_is_versioned(self) -> None:
+        credentials = self.repo.get_credentials()
+
+        self.assertEqual(
+            self.repo.get_fork_remote_marker(credentials),
+            f"gitlab:{credentials['url']}:{credentials['push_scheme']}:v1",
+        )
+
+    @http_mock.activate
+    def test_configure_fork_features_disables_lfs(self) -> None:
+        self.mock_configure_fork_features()
+
+        self.repo.configure_fork_features(
+            self.repo.get_credentials(),
+            "https://gitlab.com/api/v4/projects/20227391",
+        )
+
+        request = json.loads(http_mock.calls[0].request.content or b"{}")
+        self.assertEqual(
+            request,
+            {
+                "issues_access_level": "disabled",
+                "forking_access_level": "disabled",
+                "builds_access_level": "enabled",
+                "lfs_enabled": False,
+                "wiki_access_level": "disabled",
+                "snippets_access_level": "disabled",
+                "pages_access_level": "disabled",
+            },
+        )
+
+    @http_mock.activate
+    def test_existing_fork_remote_marker_is_upgraded(self) -> None:
+        credentials = self.repo.get_credentials()
+        fork = {
+            "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+            "http_url_to_repo": "https://gitlab.com/test/test.git",
+            "owner": {"username": "test"},
+            "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
+        }
+        self.repo.configure_fork_remote(
+            fork["ssh_url_to_repo"], fork["http_url_to_repo"], credentials
+        )
+        legacy_marker = f"gitlab:{credentials['url']}:{credentials['push_scheme']}"
+        self.repo.config_update(
+            ('remote "test"', "weblate-url", legacy_marker),
+        )
+        self.mock_fork_responses([fork])
+        self.mock_configure_fork_features()
+
+        with self.repo.lock:
+            self.repo.fork(credentials)
+
+        self.assertEqual(
+            self.repo.get_config("remote.test.weblate-url"),
+            f"{legacy_marker}:v1",
+        )
+        http_mock.assert_call_count(
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True",
+            1,
+        )
+        http_mock.assert_call_count("https://gitlab.com/api/v4/projects/20227391", 1)
+        http_mock.assert_call_count(
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork", 0
+        )
+
+        with self.repo.lock:
+            self.repo.fork(credentials)
+
+        http_mock.assert_call_count(
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True",
+            1,
+        )
+        http_mock.assert_call_count("https://gitlab.com/api/v4/projects/20227391", 1)
+
+    @http_mock.activate
+    def test_failed_fork_reconfiguration_keeps_legacy_marker(self) -> None:
+        credentials = self.repo.get_credentials()
+        fork = {
+            "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+            "http_url_to_repo": "https://gitlab.com/test/test.git",
+            "owner": {"username": "test"},
+            "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
+        }
+        self.repo.configure_fork_remote(
+            fork["ssh_url_to_repo"], fork["http_url_to_repo"], credentials
+        )
+        legacy_marker = f"gitlab:{credentials['url']}:{credentials['push_scheme']}"
+        self.repo.config_update(
+            ('remote "test"', "weblate-url", legacy_marker),
+        )
+        self.mock_fork_responses([fork])
+        http_mock.register(
+            "PUT",
+            "https://gitlab.com/api/v4/projects/20227391",
+            json={"message": "forbidden"},
+            status_code=403,
+        )
+
+        with self.repo.lock, self.assertRaises(RepositoryError):
+            self.repo.fork(credentials)
+
+        self.assertEqual(self.repo.get_config("remote.test.weblate-url"), legacy_marker)
 
     def mock_responses(
         self, pr_response, pr_status=200, get_forks=None, repo_state: int = 409

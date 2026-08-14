@@ -1924,6 +1924,7 @@ class GitMergeRequestBase(GitForcePushRepository):
     API_TEMPLATE: ClassVar[str]
     REQUIRED_CONFIG: ClassVar[set[str]] = {"username", "token"}
     OPTIONAL_CONFIG: ClassVar[set[str]] = {"scheme"}
+    fork_configuration_version: ClassVar[int | None] = None
 
     def get_fork_branch_name(self) -> str:
         """Get the fork branch name used for pushing."""
@@ -2182,7 +2183,10 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def get_fork_remote_marker(self, credentials: GitCredentials) -> str:
         """Return marker identifying a Weblate-managed fork remote."""
-        return f"{self.identifier}:{credentials['url']}:{credentials['push_scheme']}"
+        marker = f"{self.identifier}:{credentials['url']}:{credentials['push_scheme']}"
+        if self.fork_configuration_version is not None:
+            return f"{marker}:v{self.fork_configuration_version}"
+        return marker
 
     def has_current_fork_remote(self, credentials: GitCredentials) -> bool:
         """Check whether the configured fork remote matches current settings."""
@@ -3329,6 +3333,7 @@ class GitLabRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("GitLab merge request")
     api_service_name: ClassVar[str] = "GitLab"
     identifier: ClassVar[str] = "gitlab"
+    fork_configuration_version: ClassVar[int | None] = 1
     API_TEMPLATE: ClassVar[str] = (
         "{scheme}://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
     )
@@ -3400,6 +3405,7 @@ class GitLabRepository(GitMergeRequestBase):
             "issues_access_level": "disabled",
             "forking_access_level": "disabled",
             "builds_access_level": "enabled",
+            "lfs_enabled": False,
             "wiki_access_level": "disabled",
             "snippets_access_level": "disabled",
             "pages_access_level": "disabled",
