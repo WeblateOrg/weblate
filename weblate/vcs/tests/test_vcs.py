@@ -41,6 +41,7 @@ from weblate.utils.tests import http_mock
 from weblate.utils.zip import ZipSafetyLimits
 from weblate.vcs import git as git_module
 from weblate.vcs.base import (
+    Repository,
     RepositoryCommandError,
     RepositoryError,
     RepositoryRedirectError,
@@ -76,8 +77,6 @@ from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 
 if TYPE_CHECKING:
     from contextlib import AbstractContextManager
-
-    from weblate.vcs.base import Repository
 
 
 class AzureDevOpsFakeRepository(AzureDevOpsRepository):
@@ -166,6 +165,74 @@ class RepositoryTest(SimpleTestCase):
         for git_dir_name in git_dirs:
             (git_dir / git_dir_name).mkdir()
         return GitRepository(tempdir, branch=branch, local=True), git_dir
+
+    def test_backup_metadata_paths(self) -> None:
+        cases = (
+            (Repository, "config", False),
+            (GitRepository, "head", True),
+            (GitRepository, "packed-refs", True),
+            (GitRepository, "shallow", True),
+            (GitRepository, "refs/heads/main", True),
+            (GitRepository, f"objects/01/{'0' * 38}", True),
+            (GitRepository, f"objects/pack/pack-{'0' * 40}.pack", True),
+            (GitRepository, "objects/info/commit-graph", True),
+            (GitRepository, "objects/info/packs", True),
+            (GitRepository, "commondir", False),
+            (GitRepository, "config", False),
+            (GitRepository, "evil/config", False),
+            (GitRepository, "hooks/pre-commit", False),
+            (GitRepository, "info/attributes", False),
+            (GitRepository, "modules/submodule/config", False),
+            (GitRepository, "objects/evil/config", False),
+            (GitRepository, "objects/info/alternates", False),
+            (GitRepository, "worktrees/evil/config", False),
+            (
+                GitRepository,
+                "svn/refs/remotes/origin/.rev_map.uuid",
+                False,
+            ),
+            (
+                SubversionRepository,
+                "svn/refs/remotes/origin/.rev_map.uuid",
+                True,
+            ),
+            (
+                SubversionRepository,
+                "svn/refs/remotes/origin/unhandled.log",
+                False,
+            ),
+            (HgRepository, "requires", True),
+            (HgRepository, "dirstate", True),
+            (HgRepository, "store/00changelog.i", True),
+            (HgRepository, "store/data/hgrc.i", True),
+            (HgRepository, "store/meta/manifest.i", True),
+            (HgRepository, "hgrc", False),
+            (HgRepository, "hgrc-not-shared", False),
+            (HgRepository, "sharedpath", False),
+            (HgRepository, "cache/branch2-served", False),
+            (HgRepository, "store/unknown", False),
+        )
+        for repository_class, path, expected in cases:
+            with self.subTest(repository=repository_class.__name__, path=path):
+                self.assertEqual(
+                    repository_class.is_safe_backup_metadata_path(
+                        tuple(path.split("/"))
+                    ),
+                    expected,
+                )
+
+    def test_git_finalize_backup_restore(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repository, _ = self.create_git_repository(tempdir)
+            with (
+                patch.object(repository, "ensure_lock_session_recovered"),
+                repository.lock,
+                patch.object(repository, "execute") as execute,
+            ):
+                repository.finalize_backup_restore()
+        execute.assert_called_once_with(
+            ["read-tree", "--reset", "HEAD"], remote_op="none"
+        )
 
     def make_stale_lock(self, lockfile: Path) -> None:
         lockfile.parent.mkdir(parents=True, exist_ok=True)
