@@ -1078,6 +1078,31 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_broken_explicit_link_start(self) -> None:
+        source = "`Cloudron <https://www.cloudron.io/>`_"
+        target = "Cloudron <https://www.cloudron.io/>`_"
+
+        result = self.do_test(True, (source, target, "rst-text"))
+
+        self.assertEqual(
+            result,
+            {
+                "errors": [],
+                "extra": ["https://www.cloudron.io/"],
+                "missing": [source],
+            },
+        )
+
+    def test_automatic_links(self) -> None:
+        self.do_test(
+            False,
+            (
+                "See https://www.example.com/ for details.",
+                "Podrobnosti nájdete na https://www.example.sk/.",
+                "rst-text",
+            ),
+        )
+
     def test_extra_backtick(self) -> None:
         self.do_test(
             True,
@@ -1110,6 +1135,35 @@ class RSTReferencesCheckTest(CheckTestCase):
             (
                 "Available only if :ref:`review workflow <reviews>` is on.",
                 "Kun tilgængelig, hvis :ref:`gennemgå arbejdsgang <gennemga>` er slået til.",
+                "rst-text",
+            ),
+        )
+
+    def test_extra_angle_bracket_after_role(self) -> None:
+        source = (
+            "Updates use the :ref:`generic webhook endpoint "
+            "<code-hosting-github-notifications>`."
+        )
+        target_role = (
+            ":ref:`algemene webhook eindpunt <code-hosting-github-notifications>`"
+        )
+
+        result = self.do_test(
+            True,
+            (source, f"Updates gebruiken het {target_role}>`.", "rst-text"),
+        )
+
+        self.assertEqual(
+            result,
+            {"errors": [], "extra": [f"{target_role}>`"], "missing": []},
+        )
+
+    def test_rephrased_angle_brackets_around_role(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Compare <:ref:`first <one>`> with :ref:`second <two>`.",
+                "Vergelijk :ref:`eerste <one>` met :ref:`tweede <two>`.",
                 "rst-text",
             ),
         )
