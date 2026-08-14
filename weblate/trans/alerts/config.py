@@ -325,14 +325,20 @@ class UnusedScreenshot(BaseAlert):
 
     def get_context(self, user: User) -> dict[str, Any]:
         result = super().get_context(user)
-        if "unassigned" not in result:
+        if "unassigned" not in result or result["unassigned"] == 1:
             # ruff: ignore[import-outside-top-level]
             from weblate.screenshots.models import Screenshot
 
-            result["unassigned"] = Screenshot.objects.filter(
+            screenshots = Screenshot.objects.filter(
                 translation__component=self.instance.component,
                 units__isnull=True,
-            ).count()
+            )
+            if "unassigned" not in result:
+                result["unassigned"] = screenshots.count()
+            if result["unassigned"] == 1:
+                screenshot_ids = list(screenshots.values_list("pk", flat=True)[:2])
+                if len(screenshot_ids) == 1:
+                    result["screenshot_id"] = screenshot_ids[0]
         return result
 
     @classmethod
@@ -364,9 +370,10 @@ class UnusedScreenshot(BaseAlert):
         # ruff: ignore[import-outside-top-level]
         from weblate.screenshots.models import Screenshot
 
-        unassigned = Screenshot.objects.filter(
+        screenshots = Screenshot.objects.filter(
             translation__component=component, units__isnull=True
-        ).count()
+        )
+        unassigned = screenshots.count()
         if unassigned:
             return {"unassigned": unassigned}
         return False
