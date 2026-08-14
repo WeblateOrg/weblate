@@ -804,6 +804,15 @@ class Repository:
             return None
         return metadata_dir
 
+    @classmethod
+    # ruff: ignore[unused-class-method-argument]
+    def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:
+        """Return whether repository metadata can be restored from a backup."""
+        return False
+
+    def finalize_backup_restore(self) -> None:
+        """Recreate derived repository state after backup extraction."""
+
     def get_repo_temp_dir(self, create: bool = True) -> Path | None:
         metadata_dir = self.get_metadata_dir()
         if metadata_dir is None:

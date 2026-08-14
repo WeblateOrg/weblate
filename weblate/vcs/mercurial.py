@@ -36,6 +36,14 @@ class HgRepository(Repository):
 
     metadata_dir_name: ClassVar[str] = ".hg"
 
+    BACKUP_METADATA_FILES: ClassVar[frozenset[str]] = frozenset(
+        {"bookmarks", "bookmarks.current", "branch", "dirstate", "requires"}
+    )
+    BACKUP_STORE_FILES: ClassVar[frozenset[str]] = frozenset(
+        {"bookmarks", "fncache", "obsstore", "phaseroots", "requires"}
+    )
+    BACKUP_STORE_DIRS: ClassVar[frozenset[str]] = frozenset({"data", "dh", "meta"})
+
     _cmd: ClassVar[str] = "rhg" if which("rhg") is not None else "hg"
     _cmd_last_revision: ClassVar[list[str]] = [
         "log",
@@ -74,6 +82,21 @@ class HgRepository(Repository):
     def is_valid(self):
         """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, ".hg", "requires"))
+
+    @classmethod
+    def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:
+        """Return whether Mercurial metadata can be restored from a backup."""
+        if not parts:
+            return False
+        if len(parts) == 1:
+            return parts[0] in cls.BACKUP_METADATA_FILES
+        if parts[0] != "store":
+            return False
+        if len(parts) == 2:
+            return parts[1] in cls.BACKUP_STORE_FILES or parts[1].startswith(
+                ("00changelog.", "00manifest.")
+            )
+        return parts[1] in cls.BACKUP_STORE_DIRS
 
     @classmethod
     def create_blank_repository(cls, path: str) -> None:
