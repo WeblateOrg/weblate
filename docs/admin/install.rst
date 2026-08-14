@@ -573,6 +573,12 @@ Client IP address
    :setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER`
    and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container).
 
+   The reverse proxy which connects to Weblate must overwrite the configured
+   header or append a verified peer address at the position selected by
+   :setting:`IP_PROXY_OFFSET`. Do not select a client-supplied address, and do
+   not expose the application server through a path which bypasses the trusted
+   proxy.
+
    When using ``X-Forwarded-For`` with the Docker container, configure
    :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES` with the reverse proxies allowed
    to supply client addresses.

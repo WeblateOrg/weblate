@@ -1306,8 +1306,13 @@ If set to ``True``, Weblate gets IP address from a header defined by
 
 .. warning::
 
-   Ensure you are actually using a reverse proxy and that it sets this header,
-   otherwise users will be able to fake the IP address.
+   The reverse proxy which connects to Weblate must overwrite the configured
+   header or append a verified peer address at the position selected by
+   :setting:`IP_PROXY_OFFSET`. Weblate does not verify which peer supplied the
+   header, so trusting a client-controlled value allows IP address spoofing.
+
+   Ensure that untrusted clients cannot reach Weblate without passing through
+   the trusted proxy.
 
 .. note::
 
@@ -1356,9 +1361,12 @@ which address from the header is used as client IP address here.
 
 .. warning::
 
-   Setting this affects the security of your installation. You should only
-   configure it to use trusted proxies for determining the IP address.
-   Please check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
+   Setting this affects the security of your installation. Select only an
+   address added or verified by a proxy under your control. Addresses supplied
+   by the client are untrusted. Ensure that the selected offset matches how
+   your proxies construct the header.
+
+   See <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
 
 Defaults to -1.
 
