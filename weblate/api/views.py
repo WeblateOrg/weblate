@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import os.path
+from collections import Counter
 from collections.abc import Mapping
 from contextlib import suppress
 from typing import TYPE_CHECKING, TypedDict, cast
@@ -40,6 +41,7 @@ from drf_spectacular.utils import (
     inline_serializer,
 )
 from drf_standardized_errors.handler import ExceptionHandler
+from drf_standardized_errors.openapi_serializers import ErrorResponse403Serializer
 from rest_framework import parsers, serializers, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import APIException, ValidationError
@@ -54,6 +56,7 @@ from rest_framework.status import (
     HTTP_202_ACCEPTED,
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
+    HTTP_403_FORBIDDEN,
     HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
@@ -64,6 +67,7 @@ from rest_framework.viewsets import ViewSet
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.addons.models import Addon
+from weblate.api.metrics import get_server_metrics_data, get_server_openmetrics_data
 from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
@@ -126,6 +130,7 @@ from weblate.api.serializers import (
     UploadRequestSerializer,
     UploadResultSerializer,
     UserStatisticsSerializer,
+    UserUpdateRequestSerializer,
     edit_service_settings_response_serializer,
     get_reverse_kwargs,
 )
@@ -137,10 +142,10 @@ from weblate.lang.forms import validate_language_code
 from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import validate_service_configuration
-from weblate.memory.models import Memory, MemoryScope
+from weblate.memory.models import Memory, MemoryQuerySet, MemoryScope
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.autotranslate import AutoTranslate
+from weblate.trans.autotranslate import AutoTranslate, check_auto_translate_permission
 from weblate.trans.backups import list_backups
 from weblate.trans.exceptions import (
     FailedCommitError,
@@ -193,9 +198,11 @@ from weblate.utils.state import (
     STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
-from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
-from weblate.utils.version import GIT_VERSION
-from weblate.utils.version_display import show_metrics_version
+from weblate.utils.stats import (
+    ProjectLanguage,
+    iter_prefetch_stats,
+    prefetch_stats,
+)
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.workspaces.models import Workspace
 
@@ -295,6 +302,119 @@ REPORT_RST_RESPONSE = OpenApiResponse(
     description="Rendered reStructuredText report.",
 )
 
+PROJECT_METRIC_DEFINITIONS = (
+    ("translated", "translated", "Number of translated strings.", "integer"),
+    ("translated_words", "translated_words", "Number of translated words.", "integer"),
+    (
+        "translated_chars",
+        "translated_chars",
+        "Number of translated characters.",
+        "integer",
+    ),
+    ("total", "all", "Total number of strings.", "integer"),
+    ("total_words", "all_words", "Total number of words.", "integer"),
+    ("total_chars", "all_chars", "Total number of characters.", "integer"),
+    ("fuzzy", "fuzzy", "Number of fuzzy strings.", "integer"),
+    ("fuzzy_words", "fuzzy_words", "Number of fuzzy words.", "integer"),
+    ("fuzzy_chars", "fuzzy_chars", "Number of fuzzy characters.", "integer"),
+    (
+        "failing",
+        "allchecks",
+        "Number of strings with failing checks.",
+        "integer",
+    ),
+    (
+        "failing_words",
+        "allchecks_words",
+        "Number of words with failing checks.",
+        "integer",
+    ),
+    (
+        "failing_chars",
+        "allchecks_chars",
+        "Number of characters with failing checks.",
+        "integer",
+    ),
+    ("approved", "approved", "Number of approved strings.", "integer"),
+    ("approved_words", "approved_words", "Number of approved words.", "integer"),
+    ("approved_chars", "approved_chars", "Number of approved characters.", "integer"),
+    (
+        "suggestions",
+        "suggestions",
+        "Number of strings with suggestions.",
+        "integer",
+    ),
+    (
+        "comments",
+        "comments",
+        "Number of strings with unresolved comments.",
+        "integer",
+    ),
+    (
+        "translated_percent",
+        "translated_percent",
+        "Percentage of translated strings.",
+        "number",
+    ),
+    (
+        "translated_words_percent",
+        "translated_words_percent",
+        "Percentage of translated words.",
+        "number",
+    ),
+    (
+        "translated_chars_percent",
+        "translated_chars_percent",
+        "Percentage of translated characters.",
+        "number",
+    ),
+    (
+        "approved_percent",
+        "approved_percent",
+        "Percentage of approved strings.",
+        "number",
+    ),
+    (
+        "approved_words_percent",
+        "approved_words_percent",
+        "Percentage of approved words.",
+        "number",
+    ),
+    (
+        "approved_chars_percent",
+        "approved_chars_percent",
+        "Percentage of approved characters.",
+        "number",
+    ),
+)
+
+PROJECT_OPENMETRICS_NAMES = {
+    "suggestions": "strings_with_suggestions",
+}
+
+PROJECT_METRIC_VALUE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        **{
+            name: {"type": value_type}
+            for name, _source, _help_text, value_type in PROJECT_METRIC_DEFINITIONS
+        },
+    },
+    "required": [
+        "name",
+        *(name for name, _source, _help_text, _type in PROJECT_METRIC_DEFINITIONS),
+    ],
+}
+
+PROJECT_METRICS_RESPONSE_SCHEMA = {
+    "type": "object",
+    "additionalProperties": {
+        "type": "object",
+        "additionalProperties": PROJECT_METRIC_VALUE_SCHEMA,
+    },
+}
+
 USER_GROUP_REQUEST_SERIALIZER = inline_serializer(
     "UserGroupRequest",
     fields={
@@ -367,6 +487,11 @@ NEW_UNIT_REQUEST_SERIALIZER = PolymorphicProxySerializer(
         BilingualUnitSerializer,
         BilingualSourceUnitSerializer,
     ],
+    resource_type_field_name=None,
+)
+USER_RESPONSE_SERIALIZER = PolymorphicProxySerializer(
+    component_name="UserResponse",
+    serializers=[BasicUserSerializer, FullUserSerializer],
     resource_type_field_name=None,
 )
 
@@ -537,28 +662,11 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
 
-    @staticmethod
-    def get_repository_permission_obj(
-        obj: Project | Component | Translation, *, component_scope: bool
-    ) -> Project | Component | Translation:
-        component = obj.component if isinstance(obj, Translation) else obj
-        if (
-            isinstance(component, Component)
-            and component.linked_component_id is not None
-        ):
-            linked_component = component.linked_component
-            if linked_component is None:
-                msg = "Linked component ID exists without a linked component"
-                raise RuntimeError(msg)
-            return linked_component
-        return component if component_scope else obj
-
     @transaction.atomic
     def repository_operation(self, request: Request, obj, operation: str):
         permission, method, args, kwargs, takes_request = REPO_OPERATIONS[operation]
 
-        permission_obj = self.get_repository_permission_obj(obj, component_scope=True)
-        if not request.user.has_perm(permission, permission_obj):
+        if not request.user.has_perm(permission, obj):
             raise PermissionDenied
 
         obj.acting_user = request.user
@@ -599,8 +707,7 @@ class WeblateViewSet(DownloadViewSet):
 
             return Response(data)
 
-        permission_obj = self.get_repository_permission_obj(obj, component_scope=False)
-        if not request.user.has_perm("meta:vcs.status", permission_obj):
+        if not request.user.has_perm("meta:vcs.status", obj):
             raise PermissionDenied
 
         data = {
@@ -788,9 +895,44 @@ class MemoryLookupResultData(TypedDict):
     match: MemoryLookupMatchData | None
 
 
+def get_delete_memory_option(request: Request) -> bool:
+    """Parse the optional translation-memory cleanup flag for delete requests."""
+    boolean_field = serializers.BooleanField()
+    body_value = query_value = None
+    request_data = request.data
+    if not isinstance(request_data, Mapping):
+        raise ValidationError({"delete_memory": "Expected an object."})
+    if "delete_memory" in request_data:
+        body_value = boolean_field.run_validation(request_data["delete_memory"])
+    if "delete_memory" in request.query_params:
+        query_value = boolean_field.run_validation(
+            request.query_params["delete_memory"]
+        )
+    if body_value is not None and query_value is not None and body_value != query_value:
+        raise ValidationError(
+            {
+                "delete_memory": (
+                    "Conflicting values were supplied in the request body and query."
+                )
+            }
+        )
+    return body_value if body_value is not None else query_value or False
+
+
 @extend_schema_view(
-    retrieve=extend_schema(description="Return information about users."),
-    partial_update=extend_schema(description="Change the user parameters."),
+    retrieve=extend_schema(
+        description="Return information about users.",
+        responses=USER_RESPONSE_SERIALIZER,
+    ),
+    update=extend_schema(
+        request=UserUpdateRequestSerializer,
+        responses=FullUserSerializer,
+    ),
+    partial_update=extend_schema(
+        request=UserUpdateRequestSerializer,
+        responses=FullUserSerializer,
+        description="Change the user parameters.",
+    ),
 )
 class UserViewSet(viewsets.ModelViewSet):
     """Users API."""
@@ -821,7 +963,13 @@ class UserViewSet(viewsets.ModelViewSet):
         queryset = User.objects.order_by("id")
         if not user.has_perm("user.edit") and not user.has_perm("user.view"):
             return queryset
-        return queryset.prefetch_related("groups", "profile", "profile__languages")
+        return queryset.prefetch_related(
+            "groups",
+            "profile",
+            "profile__languages",
+            "profile__secondary_languages",
+            "profile__watched",
+        ).select_related("profile__dashboard_component_list")
 
     def list(self, request, *args, **kwargs):
         """
@@ -1863,13 +2011,13 @@ class ProjectViewSet(
                     msg = "Component serializer did not produce an instance"
                     raise RuntimeError(msg)
                 component.post_create(self.request.user, origin="api")
-                return Response(
-                    serializer.data,
-                    status=HTTP_201_CREATED,
-                    headers={
-                        "Location": str(serializer.data[api_settings.URL_FIELD_NAME])
-                    },
-                )
+
+            data = serializer.data
+            return Response(
+                data,
+                status=HTTP_201_CREATED,
+                headers={"Location": str(data[api_settings.URL_FIELD_NAME])},
+            )
 
         queryset = (
             obj.component_set.filter_access(self.request.user)
@@ -1917,6 +2065,30 @@ class ProjectViewSet(
         serializer = StatisticsSerializer(obj, context={"request": request})
 
         return Response(serializer.data)
+
+    @extend_schema(
+        description="Return translation metrics for a project.",
+        methods=["get"],
+        tags=["projects", "metrics"],
+        responses=OpenApiResponse(response=PROJECT_METRICS_RESPONSE_SCHEMA),
+    )
+    @action(
+        detail=True,
+        methods=["get"],
+        renderer_classes=(*api_settings.DEFAULT_RENDERER_CLASSES, OpenMetricsRenderer),
+    )
+    def metrics(self, request: Request, **kwargs):
+        project = self.get_object()
+        data, timestamps = get_project_metrics_data(project, self.request.user)
+
+        if request.accepted_renderer.format == "openmetrics":
+            return Response(
+                get_project_openmetrics_data(data, timestamps),
+                content_type=OpenMetricsRenderer.response_content_type,
+            )
+        if request.accepted_renderer.format == "csv":
+            return Response(get_project_metrics_csv_data(data))
+        return Response(data)
 
     @extend_schema(
         description="Return statistics for all languages within a project.",
@@ -2464,6 +2636,24 @@ class ProjectViewSet(
         description="Return information about translation component."
     ),
     partial_update=extend_schema(description="Edit a component by a PATCH request."),
+    destroy=extend_schema(
+        description="Delete a component.",
+        parameters=[
+            OpenApiParameter(
+                "delete_memory",
+                type=OpenApiTypes.BOOL,
+                location=OpenApiParameter.QUERY,
+                description=(
+                    "Also delete project, workspace, and shared translation memory "
+                    "created from the component."
+                ),
+            )
+        ],
+        request=inline_serializer(
+            name="ComponentDeleteRequest",
+            fields={"delete_memory": serializers.BooleanField(required=False)},
+        ),
+    ),
 )
 class ComponentViewSet(
     MultipleFieldViewSet,
@@ -2642,6 +2832,18 @@ class ComponentViewSet(
                 message = f"Could not add {language_code!r}!"
                 raise ValidationError({"language_code": message}) from error
 
+            if source_components:
+                auto_permission = check_auto_translate_permission(
+                    request.user,
+                    Translation(component=obj, language=language),
+                    "translate",
+                )
+                if not auto_permission:
+                    self.permission_denied(
+                        request,
+                        getattr(auto_permission, "reason", "Can not auto translate"),
+                    )
+
             translation = obj.add_new_language(language, request)
             if translation is None:
                 storage = get_messages(request)
@@ -2775,7 +2977,9 @@ class ComponentViewSet(
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, "Can not delete component")
         instance.acting_user = request.user
-        component_removal.delay(instance.pk, request.user.pk)
+        component_removal.delay(
+            instance.pk, request.user.pk, get_delete_memory_option(request)
+        )
         return Response(status=HTTP_204_NO_CONTENT)
 
     def add_link(self, request: Request, instance: Component):
@@ -2920,8 +3124,23 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         if user.is_superuser or user.has_perm("memory.manage"):
             return [scope.id for scope in scopes]
 
+        component_scoped_ids = {
+            scope.id
+            for scope in scopes
+            if scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_WORKSPACE}
+        }
+        accessible_component_scoped_ids = set(
+            MemoryScope.objects.filter(id__in=component_scoped_ids)
+            .filter(MemoryQuerySet.get_component_access_query(user))
+            .values_list("id", flat=True)
+        )
         result = []
         for scope in scopes:
+            if (
+                scope.id in component_scoped_ids
+                and scope.id not in accessible_component_scoped_ids
+            ):
+                continue
             if scope.user_id == user.id:
                 result.append(scope.id)
             elif scope.project_id:
@@ -2983,6 +3202,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             project = get_object_or_404(project_queryset, slug=project_slug)
             return Memory.objects.filter_type(
                 user=user,
+                access_user=user,
                 project=project,
                 use_shared=project.use_shared_tm,
                 from_file=True,
@@ -3448,6 +3668,15 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                         errors[field.name] = str(error)
             raise ValidationError(errors)
 
+        auto_permission = check_auto_translate_permission(
+            request.user, translation, autoform.cleaned_data["mode"]
+        )
+        if not auto_permission:
+            self.permission_denied(
+                request,
+                getattr(auto_permission, "reason", "Can not auto translate"),
+            )
+
         auto = AutoTranslate(
             user=get_request_user(request),
             translation=translation,
@@ -3676,7 +3905,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
 
         # Handle translate
         if do_translate:
-            unit.translate(user, new_target, new_state)
+            try:
+                unit.translate(user, new_target, new_state)
+            except Unit.DoesNotExist as error:
+                # The unit can be removed by a concurrent component update between
+                # the initial lookup and the locking re-fetch in Unit.translate()
+                msg = "Unit was removed while processing the request"
+                raise Http404(msg) from error
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete a translation unit."""
@@ -3777,8 +4012,11 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         user = request.user
 
         if request.method == "POST":
-            if not user.has_perm("suggestion.add", unit):
-                self.permission_denied(request)
+            suggestion_permission = user.has_perm("suggestion.add", unit)
+            if not suggestion_permission:
+                self.permission_denied(
+                    request, getattr(suggestion_permission, "reason", None)
+                )
 
             serializer = SuggestionSerializer(
                 data=request.data,
@@ -3870,11 +4108,16 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         serializer.is_valid(raise_exception=True)
         approve = serializer.validated_data["approve"]
 
-        if not user.has_perm("suggestion.accept", unit):
-            self.permission_denied(request)
+        accept_permission = user.has_perm("suggestion.accept", unit)
+        if not accept_permission:
+            self.permission_denied(request, getattr(accept_permission, "reason", None))
 
-        if approve and not user.has_perm("unit.review", unit):
-            self.permission_denied(request)
+        if approve:
+            review_permission = user.has_perm("unit.review", unit)
+            if not review_permission:
+                self.permission_denied(
+                    request, getattr(review_permission, "reason", None)
+                )
 
         suggestion.accept(
             request,
@@ -3894,8 +4137,9 @@ class SuggestionViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         unit = suggestion.unit
         user = request.user
 
-        if not user.has_perm("suggestion.vote", unit):
-            self.permission_denied(request)
+        vote_permission = user.has_perm("suggestion.vote", unit)
+        if not vote_permission:
+            self.permission_denied(request, getattr(vote_permission, "reason", None))
 
         serializer = SuggestionVoteRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -4210,7 +4454,27 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         return Response(status=HTTP_204_NO_CONTENT)
 
 
-@extend_schema_view(list=extend_schema(description="List available categories."))
+@extend_schema_view(
+    list=extend_schema(description="List available categories."),
+    destroy=extend_schema(
+        description="Delete a category.",
+        parameters=[
+            OpenApiParameter(
+                "delete_memory",
+                type=OpenApiTypes.BOOL,
+                location=OpenApiParameter.QUERY,
+                description=(
+                    "Also delete project, workspace, and shared translation memory "
+                    "created from components in the category."
+                ),
+            )
+        ],
+        request=inline_serializer(
+            name="CategoryDeleteRequest",
+            fields={"delete_memory": serializers.BooleanField(required=False)},
+        ),
+    ),
+)
 class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
     """Category API."""
 
@@ -4239,7 +4503,9 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         """Delete category."""
         instance = self.get_object()
         self.perm_check(request, instance)
-        category_removal.delay(instance.pk, request.user.pk)
+        category_removal.delay(
+            instance.pk, request.user.pk, get_delete_memory_option(request)
+        )
         return Response(status=HTTP_204_NO_CONTENT)
 
     def perform_create(self, serializer) -> None:
@@ -4282,40 +4548,133 @@ class CategoryViewSet(viewsets.ModelViewSet, ReportsMixin, AnnouncementsMixin):
         return Response(serializer.data)
 
 
-OPENMETRICS_METRIC_HELP = (
-    ("units", "Number of translation units."),
-    ("units_translated", "Number of translated translation units."),
-    ("users", "Number of users."),
-    ("changes", "Number of recorded changes."),
-    ("projects", "Number of projects."),
-    ("components", "Number of components."),
-    ("translations", "Number of translations."),
-    ("languages", "Number of configured languages."),
-    ("checks", "Number of triggered quality checks."),
-    ("configuration_errors", "Number of active configuration errors."),
-    ("suggestions", "Number of pending suggestions."),
-)
+def get_project_metrics_data(
+    project: Project, user: User
+) -> tuple[
+    dict[str, dict[str, dict[str, int | float | str]]],
+    dict[str, dict[str, int | float]],
+]:
+    result: dict[str, dict[str, dict[str, int | float | str]]] = {}
+    timestamps: dict[str, dict[str, int | float]] = {}
+    components = list(project.get_child_components_access(user))
+    component_paths = {
+        component.pk: "/".join(component.get_url_path()[1:])
+        for component in components
+        if component.pk is not None
+    }
+    for link in ComponentLink.objects.filter(
+        project=project, component_id__in=component_paths
+    ).select_related(
+        "component",
+        "category",
+        "category__category",
+        "category__category__category",
+    ):
+        component_paths[link.component_id] = "/".join(
+            (
+                *(
+                    link.category.get_url_path()[1:]
+                    if link.category is not None
+                    else ()
+                ),
+                link.component.slug,
+            )
+        )
+
+    path_counts = Counter(component_paths.values())
+    component_paths = {
+        component_id: (f"{path}@{component_id}" if path_counts[path] > 1 else path)
+        for component_id, path in component_paths.items()
+    }
+    translations = (
+        Translation.objects.filter(component_id__in=component_paths).prefetch().order()
+    )
+    for translation in iter_prefetch_stats(translations):
+        component = component_paths[translation.component_id]
+        values: dict[str, int | float | str] = {
+            "name": translation.language.name,
+        }
+        values.update(
+            {
+                name: cast("int | float", getattr(translation.stats, source))
+                for name, source, _help_text, _type in PROJECT_METRIC_DEFINITIONS
+            }
+        )
+        result.setdefault(component, {})[translation.language.code] = values
+        timestamps.setdefault(component, {})[translation.language.code] = cast(
+            "int | float", translation.stats.stats_timestamp
+        )
+    return result, timestamps
 
 
-def get_openmetrics_data(data: Mapping[str, object]) -> list[OpenMetricsMetric]:
+def get_project_metrics_csv_data(
+    data: Mapping[str, Mapping[str, Mapping[str, int | float | str]]],
+) -> list[dict[str, int | float | str]]:
+    return [
+        {
+            "component": component,
+            "language": language,
+            "name": values["name"],
+            "metric": metric,
+            "value": values[metric],
+        }
+        for component, languages in data.items()
+        for language, values in languages.items()
+        for metric, _source, _help_text, _type in PROJECT_METRIC_DEFINITIONS
+    ]
+
+
+def get_project_openmetrics_data(
+    data: Mapping[str, Mapping[str, Mapping[str, int | float | str]]],
+    timestamps: Mapping[str, Mapping[str, int | float]],
+) -> list[OpenMetricsMetric]:
     result = [
         OpenMetricsMetric(
-            name=name,
-            help_text=help_text,
-            metric_type="gauge",
-            samples=(OpenMetricsSample(value=cast("int", data[name]), labels={}),),
-        )
-        for name, help_text in OPENMETRICS_METRIC_HELP
-    ]
-    queues = cast("Mapping[str, int]", data["celery_queues"])
-    result.append(
-        OpenMetricsMetric(
-            name="celery_queues",
-            help_text="Number of tasks in each Celery queue.",
+            name="weblate_translation_info",
+            help_text="Translation information.",
             metric_type="gauge",
             samples=tuple(
-                OpenMetricsSample(value=value, labels={"queue": queue})
-                for queue, value in queues.items()
+                OpenMetricsSample(
+                    value=1,
+                    labels={
+                        "component": component,
+                        "language": language,
+                        "name": cast("str", values["name"]),
+                    },
+                )
+                for component, languages in data.items()
+                for language, values in languages.items()
+            ),
+        )
+    ]
+    result.extend(
+        OpenMetricsMetric(
+            name=f"weblate_{PROJECT_OPENMETRICS_NAMES.get(metric, metric)}",
+            help_text=help_text,
+            metric_type="gauge",
+            samples=tuple(
+                OpenMetricsSample(
+                    value=cast("int | float", values[metric]),
+                    labels={"component": component, "language": language},
+                )
+                for component, languages in data.items()
+                for language, values in languages.items()
+            ),
+        )
+        for metric, _source, help_text, _type in PROJECT_METRIC_DEFINITIONS
+    )
+    result.append(
+        OpenMetricsMetric(
+            name="weblate_last_update_timestamp",
+            help_text="Unix timestamp of last statistics update.",
+            metric_type="gauge",
+            samples=tuple(
+                OpenMetricsSample(
+                    value=timestamp,
+                    labels={"component": component, "language": language},
+                )
+                for component, languages in timestamps.items()
+                for language, timestamp in languages.items()
             ),
         )
     )
@@ -4332,27 +4691,10 @@ class Metrics(APIView):
     # pylint: disable-next=redefined-builtin
     def get(self, request: Request, format=None):  # ruff: ignore[builtin-argument-shadowing]
         """Return server metrics."""
-        stats = GlobalStats()
-        serializer = self.serializer_class(stats)
-        data = dict(serializer.data)
+        data = get_server_metrics_data()
         if request.accepted_renderer.format == "openmetrics":
-            metrics = get_openmetrics_data(data)
-            if show_metrics_version(settings.VERSION_DISPLAY):
-                metrics.append(
-                    OpenMetricsMetric(
-                        name="weblate_info",
-                        help_text="Weblate build information.",
-                        metric_type="gauge",
-                        samples=(
-                            OpenMetricsSample(
-                                value=1,
-                                labels={"version": GIT_VERSION},
-                            ),
-                        ),
-                    )
-                )
             return Response(
-                metrics,
+                get_server_openmetrics_data(data),
                 content_type=OpenMetricsRenderer.response_content_type,
             )
         return Response(data)
@@ -4529,6 +4871,7 @@ class ReportViewSet(viewsets.ModelViewSet):
 class TasksViewSet(ViewSet):
     # Task-related data is handled and queried to Celery.
     # There is no Django model associated with tasks.
+    permission_classes = (IsAuthenticated,)
     serializer_class = TaskSerializer
 
     def get_task(
@@ -4618,7 +4961,17 @@ class TasksViewSet(ViewSet):
         )
         return Response(serializer.data)
 
-    @extend_schema(description="Cancel a running task.", methods=["delete"])
+    @extend_schema(
+        description="Cancel a running task.",
+        methods=["delete"],
+        responses={
+            HTTP_204_NO_CONTENT: None,
+            HTTP_403_FORBIDDEN: OpenApiResponse(
+                response=ErrorResponse403Serializer,
+                description="The authenticated user does not have permission for this operation.",
+            ),
+        },
+    )
     def destroy(self, request: Request, pk=None):
         task, component = self.get_task(request, pk, "component.edit")
         if not task.ready() and component is not None:

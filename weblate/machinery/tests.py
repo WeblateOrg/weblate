@@ -5189,8 +5189,11 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
 
             return json.dumps([f"Bonjour {placeholder.group()}! <<foo>>"])
 
-        with patch.object(
-            machine, "fetch_llm_translations", side_effect=request_callback
+        with (
+            patch.object(machine, "_get_curated_previous_examples", return_value=[]),
+            patch.object(
+                machine, "fetch_llm_translations", side_effect=request_callback
+            ),
         ):
             translation = self.assert_translate(
                 "fr",
@@ -7425,6 +7428,15 @@ class MistralCustomTranslationTest(OpenAICustomTranslationTest):
         )
 
 
+class MistralOptionalPromptSettingsTranslationTest(MistralTranslationTest):
+    """Configuration without the optional prompt settings, as stored by the API."""
+
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "x",
+        "model": "auto",
+    }
+
+
 class AzureOpenAITranslationTest(OpenAITranslationTest):
     MACHINE_CLS: type[BaseLLMTranslation] = AzureOpenAITranslation
     CONFIGURATION: ClassVar[SettingsDict] = {
@@ -7580,6 +7592,15 @@ class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
                 "eval_count": 481,
             },
         )
+
+
+class OllamaOptionalPromptSettingsTranslationTest(OllamaTranslationTest):
+    """Configuration without the optional prompt settings, as stored by the API."""
+
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "base_url": "http://localhost:11434",
+        "model": "itzune/latxa:8b",
+    }
 
 
 class AnthropicTranslationTest(BaseMachineTranslationTest):

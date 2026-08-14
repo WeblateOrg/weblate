@@ -172,10 +172,10 @@ def cleanup_repo_url(url: str, text: str | None = None) -> str:
     except ValueError:
         # The URL can not be parsed, so avoid stripping
         return text
-    if parsed.username and parsed.password:
-        return text.replace(f"{parsed.username}:{parsed.password}@", "")
-    if parsed.username:
-        return text.replace(f"{parsed.username}@", "")
+    userinfo, separator, _hostinfo = parsed.netloc.rpartition("@")
+    if separator:
+        cleaned_url = url.replace(f"//{userinfo}@", "//", 1)
+        return text.replace(url, cleaned_url)
     return text
 
 
@@ -192,10 +192,12 @@ def sanitize_backend_error_message(
     *,
     repo_urls: Iterable[str | None] = (),
     extra_paths: Iterable[os.PathLike[str] | str | None] = (),
+    url_placeholder: str | None = None,
 ) -> str:
     """Strip internal transport and filesystem details from backend errors."""
     result = str(text)
-    url_placeholder = gettext("repository URL")
+    if url_placeholder is None:
+        url_placeholder = gettext("repository URL")
 
     for repo_url in repo_urls:
         if repo_url:
@@ -434,9 +436,13 @@ def check_upload_method_permissions(
     if method == "approve":
         return user.has_perm("unit.review", translation)
     if method == "replace":
-        return bool(translation.filename) and (
-            user.has_perm("component.edit", translation)
-            or user.has_perms(["unit.add", "unit.delete", "unit.edit"], translation)
+        return (
+            bool(translation.filename)
+            and user.has_perm("meta:unit.direct_edit", translation)
+            and (
+                user.has_perm("component.edit", translation)
+                or user.has_perms(["unit.add", "unit.delete", "unit.edit"], translation)
+            )
         )
     msg = f"Invalid method: {method}"
     raise ValueError(msg)

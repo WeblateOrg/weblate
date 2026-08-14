@@ -40,6 +40,65 @@ The first existing setting applies:
    Please be careful when using site-wide override as that applies to all
    projects (unless they have own overrides for a given language).
 
+.. _workflow-language-restrictions:
+
+Limiting translation languages
+++++++++++++++++++++++++++++++
+
+Several settings can limit translation languages. They address different
+stages of the translation lifecycle and can be combined:
+
+Control requests for languages that do not exist yet
+    Configure :ref:`project-new-lang` at workspace, project, or component level.
+    Components can inherit this setting. You can let users contact maintainers,
+    point them to translation instructions, create the language file
+    automatically, or disable adding new translations.
+
+    Project admins can still add a translation when Weblate can create its
+    file. For components that do not inherit the project setting, change
+    :ref:`component-new_lang` individually or automate the changes using
+    :http:patch:`/api/components/(string:project)/(string:component)/`.
+
+Limit which translation files Weblate discovers
+    Configure :ref:`component-language_regex` on each component. For example,
+    ``^(de|en|fr)$`` limits the component to translation files whose language
+    code is ``de``, ``en``, or ``fr``. The filter applies while scanning the
+    component file mask; it does not change permissions for translations that
+    are already present.
+
+Grant translation access only for selected languages
+    Use :ref:`language-scoped teams <custom-acl>` when different users should be
+    able to translate different languages. A team can only grant permissions,
+    so remove any broader translation permission that would otherwise apply to
+    the same users.
+
+Restrict direct editing of an existing language
+    Open the language settings in the project, enable
+    :guilabel:`Customize translation workflow for this language in this project`,
+    and turn on :guilabel:`Restrict direct editing`.
+
+    Users with the :guilabel:`Edit string when suggestions are enforced`
+    permission can continue editing directly. Other users can add suggestions
+    when :guilabel:`Turn on suggestions` is enabled. Turn off suggestions as
+    well to make the language editable only by privileged users.
+
+    The restriction can also be configured site-wide while
+    :ref:`changing-languages`. A project-language customization takes
+    precedence over the site-wide language setting.
+
+Use suggestion voting
+    Turn on :guilabel:`Suggestion voting` to let users vote on suggestions.
+    Voting alone does not restrict direct editing. A positive
+    :guilabel:`Automatically accept suggestions` threshold also requires users
+    without the :guilabel:`Edit string when suggestions are enforced`
+    permission to submit suggestions. Use :guilabel:`Restrict direct editing`
+    when this restriction should not depend on automatic acceptance.
+
+.. seealso::
+
+   * :ref:`component-new_lang`
+   * :ref:`component-language_regex`
+   * :ref:`custom-acl`
 
 Translation access
 ------------------

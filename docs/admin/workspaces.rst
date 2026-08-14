@@ -36,6 +36,14 @@ remain permission-filtered. See
 The workspace :guilabel:`Files` menu downloads a ZIP archive of owned
 components that you can access and have permission to download. Workspace
 membership does not bypass project access control or component restrictions.
+The menu also provides :guilabel:`Upload translation` guidance. Uploading at
+workspace level is not supported; select a project and open an individual
+translation to upload a file.
+
+Users who can edit translations in an accessible project can choose
+:guilabel:`Operations` ↓ :guilabel:`Search and replace` to replace text across
+permission-filtered owned project content in the workspace. The existing
+:ref:`search-replace` preview and confirmation workflow applies.
 
 .. _workspace-removal:
 

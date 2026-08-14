@@ -294,11 +294,26 @@ Git
 
    Weblate needs Git 2.46 or newer.
 
-.. note::
+.. _git-lfs:
 
-   Weblate does not configure or transfer Git LFS objects. Git LFS smudging
-   and pre-push uploads are disabled for Weblate-managed repositories, so LFS
-   tracked files remain pointer files and cannot be used as translation files.
+Git LFS
++++++++
+
+Weblate does not support files tracked by Git LFS as translation files. It does
+not download or upload Git LFS objects. Git LFS smudging and pre-push uploads
+are disabled for Weblate-managed repositories, so LFS-tracked files remain
+pointer files. This behavior applies to every Git hosting provider.
+
+A repository can use Git LFS for files that Weblate does not need to read or
+modify. The upstream repository remains the authoritative source for these LFS
+objects. Clone from upstream when you need the actual files rather than their
+pointers because repositories served by Weblate do not include LFS objects.
+
+For the GitLab merge request workflow, Weblate disables Git LFS in its managed
+fork. This prevents GitLab from rejecting pointer-only translation branches
+when the upstream repository added LFS objects after the fork was created.
+Existing managed forks are reconfigured on their next push. This does not
+change the Git LFS configuration of the upstream project.
 
 .. note::
 

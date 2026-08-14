@@ -31,7 +31,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.16.0
+  rev: v0.16.2
   hooks:
   - id: ruff-check
     args:
@@ -39,12 +39,13 @@ repos:
     - --exit-non-zero-on-fix
   - id: ruff-format
 - repo: https://github.com/adamtheturtle/doccmd-pre-commit
-  rev: v2026.3.26.2
+  rev: v2026.7.19
   hooks:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.16.0
+    - ruff==0.16.2
+    language: python
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -73,18 +74,19 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.5.5
+  rev: v2.5.8
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.5.5'
+    - '@biomejs/biome@2.5.8'
+    language: node
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.25
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/djlint/djLint
-  rev: v1.43.1
+  rev: v1.44.2
   hooks:
   - id: djlint-reformat-django
     types_or: [html, text]
@@ -183,7 +185,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.48.0
+  rev: v1.49.0
   hooks:
   - id: typos
     args: []
@@ -194,7 +196,7 @@ repos:
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.28.0
+  rev: v1.29.0
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint
@@ -203,12 +205,12 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.109.0
+  rev: v1.112.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.2.43
+  rev: v0.2.52
   hooks:
   - id: rumdl
   - id: rumdl-fmt

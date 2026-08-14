@@ -48,6 +48,15 @@ Scope and intended use
      - Browser views, forms, session endpoints, :doc:`/api`
      - Database, datastore, e-mail, logs, uploaded files
      - In scope. *(documented)* (source: :doc:`/api`, :doc:`/admin/install`)
+   * - Project translation metrics
+     - :http:get:`/api/projects/(string:project)/metrics/` in JSON, CSV, and
+       OpenMetrics formats
+     - Database and statistics-cache reads, including possible lazy cache
+       population
+     - In scope as a read-only public API. Unauthenticated callers can query
+       public projects; private projects and restricted components remain
+       permission-filtered. *(documented)* (source: :doc:`/api`,
+       :doc:`/admin/access`)
    * - Stored translation reports
      - Report forms and :http:get:`/api/reports/` endpoints
      - Database snapshots and background tasks
@@ -186,11 +195,13 @@ repository state, background tasks, outbound requests, and rendered UI.
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
-       where hooks are enabled. Registered GitHub App webhooks additionally
-       authenticate with a per-app URL token and GitHub signature verification.
-       Opt-in legacy GitHub App deliveries to the generic GitHub webhook URL
-       authenticate with a separately configured secret. *(documented)*
-       (source: :ref:`hooks`, :ref:`project-enable_hooks`,
+       where hooks are enabled, matching components by exact repository URL
+       rather than host or path suffix fallback. Registered GitHub App
+       webhooks additionally authenticate with a per-app URL token and GitHub
+       signature verification. Opt-in legacy GitHub App deliveries to the
+       generic GitHub webhook URL authenticate with a separately configured
+       secret. *(documented)* (source: :ref:`hooks`,
+       :ref:`project-enable_hooks`, :ref:`hooks-target-matching`,
        :ref:`code-hosting-github-app-webhook`,
        :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)
    * - Weblate to database/datastore
@@ -214,6 +225,12 @@ Reachability preconditions:
 * A web UI or API finding is in model only when reachable by an unauthenticated
   client, authenticated user, or project-scoped token through documented
   routes, forms, or API endpoints. *(maintainer)*
+* A project-metrics finding is in model when the response includes a project
+  or component the caller cannot access, or exposes data beyond the documented
+  component and language identifiers, aggregate translation statistics, and
+  statistics update timestamps. Unauthenticated access to these aggregates for
+  public projects is intentional. *(documented)* (source: :doc:`/api`,
+  :doc:`/admin/access`)
 * An authorization finding is in model only when it crosses a documented
   permission, team, project, component, language, glossary, token, or site-wide
   boundary. *(documented)* (source: :doc:`/admin/access`)
@@ -238,6 +255,10 @@ Reachability preconditions:
   list, or render contributor data outside the creator or current
   ``reports.view`` scope. *(documented)* (source: :doc:`/devel/reporting`,
   :doc:`/api`)
+* A user-profile API finding is in model when an authenticated user can read or
+  mutate another user's profile preferences outside the documented
+  ``user.view``, ``user.edit``, or self-service boundaries.
+  *(documented)* (source: :doc:`/api`, :ref:`user-profile`)
 * A management-command finding is in model only when untrusted Weblate data is
   processed by the command; arbitrary local shell access is not an attacker
   capability. *(maintainer)*
@@ -428,6 +449,18 @@ Input assumptions
        suggestion via the API additionally requires the ``unit.review``
        permission check to be satisfied.
        *(documented)* (source: :doc:`/workflows`, :doc:`/api`)
+   * - User profile API
+     - Nested ``profile`` object on :http:get:`/api/users/(str:username)/`,
+       :http:put:`/api/users/(str:username)/`, and
+       :http:patch:`/api/users/(str:username)/`, including language and project
+       watch preferences, dashboard component list selection, and commit or
+       public e-mail choices
+     - Yes, for authenticated users updating their own profile or actors with
+       ``user.edit``. *(documented)* (source: :doc:`/api`, :ref:`user-profile`)
+     - Assign ``user.edit`` only to trusted administrators; self-service profile
+       e-mail fields accept only verified addresses, watched projects are
+       limited to accessible projects, and dashboard component lists are limited
+       to lists the user is allowed to use. *(documented)* (source: :doc:`/api`)
    * - Webhook endpoints
      - Headers, event type, body, repository and branch metadata
      - Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)
@@ -489,6 +522,12 @@ Size and rate assumptions:
   created by that attempt. *(documented)* (source: :ref:`projectbackup`)
 * API and selected web actions are expected to be protected by configured rate
   limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
+* Project metrics response size and request work scale with the number of
+  visible components and translations and with statistics-cache state. Cache
+  misses can calculate and store translation statistics. The endpoint relies
+  on standard API rate limits and deployment sizing rather than a separate
+  fixed project-size limit. *(documented)* (source: :doc:`/api`,
+  :doc:`/admin/config`)
 * Repository size, number of projects, number of components, and worker
   capacity are deployment-sizing concerns unless a single in-scope input
   bypasses documented limits or permissions. *(maintainer)*
@@ -564,10 +603,16 @@ Security properties Weblate provides
    * - Web authorization separates site, project, component, language,
        glossary, VCS, translation memory, screenshot, review, and access
        management permissions. *(documented)* (source: :doc:`/admin/access`,
-       :doc:`/admin/auth`)
+       :doc:`/admin/auth`, :doc:`/admin/memory`)
      - Permission assignments match the intended trust relationship.
        Team-level enforced 2FA is satisfied by human users before
-       team-derived permissions apply.
+       team-derived permissions apply. Permissions for VCS actions cover every
+       component sharing an affected repository, including linked components
+       in other projects. Translation memory attributed to an existing
+       restricted component follows that component's access rules.
+       Unattributed automatic memory, including unmatched legacy entries and
+       memory retained after component removal, follows its remaining
+       translation-memory scope.
      - User or token can read or mutate data outside assigned scope.
      - Security-critical when private data or privileged mutation is exposed.
    * - Project-scoped API tokens are limited by assigned project/team
@@ -589,14 +634,16 @@ Security properties Weblate provides
    * - Repository, branch, path, and VCS inputs processed by Weblate must not
        become shell command execution. *(maintainer)*
      - VCS operations are invoked through Weblate-supported repository
-       workflows and configured credentials. Project backup restores discard
-       archive-supplied repository-local Git and Mercurial configuration, Git
-       hooks, and Mercurial shared-repository indirection.
+       workflows and configured credentials. Project backup restores allow only
+       non-executable Git, git-svn, and Mercurial repository state, and rebuild
+       repository-local configuration from validated component settings.
      - Command injection or arbitrary code execution as the Weblate user.
      - Security-critical.
    * - Private project data, user data, credentials, tokens, SSH keys, and 2FA
        secrets are not disclosed to actors lacking permission. *(documented)* (source: :doc:`/admin/access`, :doc:`/security/privacy-compliance`)
-     - Host, database, and storage permissions are intact.
+     - Host, database, and storage permissions are intact. Custom add-ons list
+       only non-sensitive fields as public configuration; unlisted values are
+       redacted from public change history.
      - Cross-project data leak, credential exposure, or unauthorized export.
      - Security-critical.
    * - Backup import rejects archives exceeding documented upload, member,
@@ -633,6 +680,15 @@ Security properties Weblate provides
      - Rate limiting is enabled and backed by a working datastore.
      - Requests exceeding configured thresholds continue to be processed.
      - Availability/security hardening depending on endpoint sensitivity.
+   * - Enabled webhooks schedule repository updates only for components whose
+       repository URL exactly matches a repository URL from the payload,
+       including documented URL variants. *(documented)* (source:
+       :ref:`hooks-target-matching`)
+     - Hooks are enabled and the delivery reaches an in-scope hook endpoint.
+     - A delivery updates a component whose repository URL does not exactly
+       match the payload, including through host or path suffix fallback.
+     - Security-critical when it causes unauthorized repository synchronization
+       across unrelated components; otherwise correctness or hardening.
    * - Weblate does not intentionally expose database, datastore, backup
        storage, or raw internal storage directly through the public web
        interface; exported VCS repositories are intentionally exposed by
@@ -717,6 +773,11 @@ headers, hostnames, request-size limits, and secure-cookie behavior.
 *(documented)* (source: :doc:`/admin/install`, :setting:`ENABLE_HTTPS`,
 :setting:`ALLOWED_HOSTS`)
 
+Operators enabling forwarded client-IP handling must trust only reverse proxies
+under their control and prevent untrusted clients from bypassing those proxies
+to reach Weblate directly. *(documented)* (source:
+:envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES`, :ref:`reverse-proxy`)
+
 Operators must assign teams, roles, project-scoped tokens, VCS credentials, and
 project management permissions according to least privilege for their
 organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)
@@ -752,6 +813,13 @@ Known misuse patterns
   who are trusted only as translators. This is unsafe because those permissions
   can affect repositories, credentials, or other users. Assign narrower roles.
   *(documented)* (source: :doc:`/admin/access`)
+* Assigning site-wide permissions to roles intended for limited project or
+  helpdesk delegation. Site-wide permissions apply across the instance and are
+  not narrowed by the team's project selection. In particular, ``user.edit``
+  permits changing team memberships and superuser status for editable accounts,
+  including the caller's own account. Delegate permissions through project or
+  workspace teams for limited scopes. *(documented)* (source:
+  :doc:`/admin/access`)
 * Sending sensitive source strings or private customer content to machine
   translation providers without treating the provider as a data recipient. This
   is unsafe because Weblate must transmit content to the configured service, and
@@ -773,6 +841,10 @@ Known non-findings
   and only triggers modeled update scheduling is not ``VALID`` by itself. It is
   routed to ``VALID-HARDENING`` unless it bypasses documented limits, leaks
   data, or causes effects beyond modeled scheduling. *(maintainer)*
+* A report that a webhook does not update a component whose repository URL only
+  shares a host or path suffix with the payload is not a vulnerability;
+  Weblate matches only exact repository URLs and documented variants.
+  *(documented)* (source: :ref:`hooks-target-matching`)
 * A report that a project manager can change repository settings, VCS
   credentials, or project configuration is not a vulnerability when the actor
   has the documented permission for that action. *(documented)* (source: :doc:`/admin/access`)

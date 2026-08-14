@@ -172,28 +172,26 @@ document.addEventListener("DOMContentLoaded", () => {
    * Builds a search query string from the user input filters.
    * The search query is built by the user input filters.
    * The path lookup is also added to the search query.
-   * Built in the following format: `path:proj/comp filters`.
+   * Built in the following format: `path:proj/comp AND (filters)`.
    *
    * @param {HTMLInputElement|HTMLTextAreaElement} searchElement - The user input.
    * @returns {string} - The built search query string.
    *
    * */
   function buildSearchQuery(searchElement) {
-    let builtSearchQuery = "";
-
     // Add path lookup to the search query
     const projectPath = searchElement
       .closest("form")
       ?.querySelector("input[name=path]")?.value;
-    if (projectPath) {
-      builtSearchQuery = `path:${projectPath}`;
-    }
 
     // Add filters to the search query
     const filters = searchElement.value;
-    if (filters) {
-      builtSearchQuery = `${builtSearchQuery} ${filters}`;
+    if (!projectPath) {
+      return filters;
     }
-    return builtSearchQuery;
+    if (!filters) {
+      return `path:${projectPath}`;
+    }
+    return `path:${projectPath} AND (${filters})`;
   }
 });

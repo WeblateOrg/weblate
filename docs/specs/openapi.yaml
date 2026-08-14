@@ -1718,8 +1718,14 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_categories_destroy
-      description: Delete category.
+      description: Delete a category.
       parameters:
+      - in: query
+        name: delete_memory
+        schema:
+          type: boolean
+        description: Also delete project, workspace, and shared translation memory
+          created from components in the category.
       - in: path
         name: id
         schema:
@@ -1816,6 +1822,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
@@ -1852,6 +1872,11 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryDeleteRequest'
   /api/categories/{id}/announcements/:
     get:
       operationId: api_categories_announcements_list
@@ -5141,6 +5166,12 @@ paths:
       operationId: api_components_destroy
       description: Delete a component.
       parameters:
+      - in: query
+        name: delete_memory
+        schema:
+          type: boolean
+        description: Also delete project, workspace, and shared translation memory
+          created from the component.
       - in: path
         name: project__slug
         schema:
@@ -5245,6 +5276,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
@@ -5281,6 +5326,11 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComponentDeleteRequest'
   /api/components/{project__slug}/{slug}/addons/:
     post:
       operationId: api_components_addons_create
@@ -18396,6 +18446,249 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse400'
           description: The request was invalid or could not be parsed.
+  /api/projects/{slug}/metrics/:
+    get:
+      operationId: api_projects_metrics_retrieve
+      description: Return translation metrics for a project.
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+          - openmetrics
+      - in: path
+        name: slug
+        schema:
+          type: string
+          title: URL slug
+          description: Name used in URLs and filenames.
+        required: true
+      tags:
+      - projects
+      - metrics
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse400'
+          description: The request was invalid or could not be parsed.
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: Authentication credentials were missing or invalid.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: The authenticated user does not have permission for this operation.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: The requested resource was not found or is not accessible.
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: The HTTP method is not allowed for this resource.
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: The requested response media type is not available.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: The resource is locked.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: The API request rate limit was exceeded.
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: An unexpected server error occurred.
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      translated:
+                        type: integer
+                      translated_words:
+                        type: integer
+                      translated_chars:
+                        type: integer
+                      total:
+                        type: integer
+                      total_words:
+                        type: integer
+                      total_chars:
+                        type: integer
+                      fuzzy:
+                        type: integer
+                      fuzzy_words:
+                        type: integer
+                      fuzzy_chars:
+                        type: integer
+                      failing:
+                        type: integer
+                      failing_words:
+                        type: integer
+                      failing_chars:
+                        type: integer
+                      approved:
+                        type: integer
+                      approved_words:
+                        type: integer
+                      approved_chars:
+                        type: integer
+                      suggestions:
+                        type: integer
+                      comments:
+                        type: integer
+                      translated_percent:
+                        type: number
+                      translated_words_percent:
+                        type: number
+                      translated_chars_percent:
+                        type: number
+                      approved_percent:
+                        type: number
+                      approved_words_percent:
+                        type: number
+                      approved_chars_percent:
+                        type: number
+                    required:
+                    - name
+                    - translated
+                    - translated_words
+                    - translated_chars
+                    - total
+                    - total_words
+                    - total_chars
+                    - fuzzy
+                    - fuzzy_words
+                    - fuzzy_chars
+                    - failing
+                    - failing_words
+                    - failing_chars
+                    - approved
+                    - approved_words
+                    - approved_chars
+                    - suggestions
+                    - comments
+                    - translated_percent
+                    - translated_words_percent
+                    - translated_chars_percent
+                    - approved_percent
+                    - approved_words_percent
+                    - approved_chars_percent
+            text/csv:
+              schema:
+                type: string
+            application/openmetrics-text:
+              schema:
+                type: string
+          description: Successful response.
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
   /api/projects/{slug}/reports/:
     get:
       operationId: api_projects_reports_list
@@ -24008,7 +24301,6 @@ paths:
       - tokenAuth: []
       - bearerAuth: []
       - cookieAuth: []
-      - {}
       responses:
         '400':
           content:
@@ -24037,20 +24329,6 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -24184,20 +24462,6 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -24276,6 +24540,20 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: The authenticated user does not have permission for this operation.
   /api/translations/:
     get:
       operationId: api_translations_list
@@ -29015,7 +29293,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FullUser'
+                $ref: '#/components/schemas/UserResponse'
           description: Successful response.
           headers:
             X-RateLimit-Limit:
@@ -29041,7 +29319,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FullUser'
+              $ref: '#/components/schemas/UserUpdateRequest'
         required: true
       security:
       - tokenAuth: []
@@ -29209,7 +29487,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedFullUser'
+              $ref: '#/components/schemas/PatchedUserUpdateRequest'
       security:
       - tokenAuth: []
       - bearerAuth: []
@@ -31279,6 +31557,18 @@ components:
       description: Number of seconds until the rate-limit window resets
       required: true
   schemas:
+    AccessControlEnum:
+      enum:
+      - 0
+      - 1
+      - 100
+      - 200
+      type: integer
+      description: |-
+        * `0` - Public
+        * `1` - Protected
+        * `100` - Private
+        * `200` - Custom
     ActionEnum:
       enum:
       - 0
@@ -31638,6 +31928,24 @@ components:
       - name
       - size
       - timestamp
+    BasicUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        full_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: 'Username may only contain letters, numbers or the following
+            characters: @ . + - _'
+          maxLength: 150
+      required:
+      - full_name
+      - id
+      - username
     BilingualSourceUnit:
       type: object
       properties:
@@ -32135,6 +32443,16 @@ components:
           - string
           - 'null'
           description: First line of the commit message.
+    CommitNameEnum:
+      enum:
+      - 0
+      - 1
+      - 2
+      type: integer
+      description: |-
+        * `0` - Use global default
+        * `1` - Public
+        * `2` - Private
     CommitPolicyEnum:
       enum:
       - 0
@@ -32458,6 +32776,15 @@ components:
           type: boolean
           description: Whether translation updates in other components will cause
             automatic translation in this one
+        hide_glossary_matches:
+          type: boolean
+          title: Do not show glossary matches
+          description: Hides the glossary panel in the translation editor.
+        contribute_project_tm:
+          type: boolean
+          title: Contribute to project translation memory
+          description: Allow this component's translations to be added to the project-level
+            translation memory.
         manage_units:
           type: boolean
           title: Manage strings
@@ -32470,7 +32797,7 @@ components:
           description: Whether to allow translation suggestions at all.
         suggestion_voting:
           type: boolean
-          description: Users can only vote for suggestions and can’t make direct translations.
+          description: Allows users to vote on suggestions.
         suggestion_autoaccept:
           type: integer
           maximum: 32767
@@ -32839,6 +33166,20 @@ components:
       required:
       - detail
       - task_url
+    DashboardViewEnum:
+      enum:
+      - 1
+      - 6
+      - 4
+      - 5
+      - 7
+      type: integer
+      description: |-
+        * `1` - Watched translations
+        * `6` - All component lists
+        * `4` - Component list
+        * `5` - Suggested translations
+        * `7` - Managed projects
     DirectionEnum:
       enum:
       - ltr
@@ -33391,11 +33732,9 @@ components:
             type: string
             format: uri
           readOnly: true
-        languages:
-          type: array
-          items:
-            type: string
-            format: uri
+        profile:
+          allOf:
+          - $ref: '#/components/schemas/Profile'
           readOnly: true
         notifications:
           type: string
@@ -33447,9 +33786,9 @@ components:
       - full_name
       - groups
       - id
-      - languages
       - last_login
       - notifications
+      - profile
       - statistics_url
       - url
       - username
@@ -33673,6 +34012,112 @@ components:
         * `googleplay` - Google Play metadata style
         * `linux` - Linux style
         * `linux_lowercase` - Linux style, lower cased
+    LanguageEnum:
+      enum:
+      - ar
+      - az
+      - ba
+      - be
+      - be-latn
+      - bg
+      - br
+      - ca
+      - cs
+      - cy
+      - da
+      - de
+      - en
+      - el
+      - en-gb
+      - es
+      - fi
+      - fr
+      - ga
+      - gl
+      - he
+      - hu
+      - hr
+      - id
+      - is
+      - it
+      - ja
+      - kab
+      - kk
+      - ko
+      - lo
+      - nb
+      - nl
+      - pl
+      - pt
+      - pt-br
+      - ro
+      - ru
+      - sk
+      - sl
+      - sq
+      - sr
+      - sr-latn
+      - sv
+      - ta
+      - th
+      - tr
+      - uk
+      - vi
+      - zh-hans
+      - zh-hant
+      type: string
+      description: |-
+        * `ar` - العربية
+        * `az` - Azərbaycan
+        * `ba` - башҡорт теле
+        * `be` - Беларуская
+        * `be-latn` - Biełaruskaja
+        * `bg` - Български
+        * `br` - Brezhoneg
+        * `ca` - Català
+        * `cs` - Čeština
+        * `cy` - Cymraeg
+        * `da` - Dansk
+        * `de` - Deutsch
+        * `en` - English
+        * `el` - Ελληνικά
+        * `en-gb` - English (United Kingdom)
+        * `es` - Español
+        * `fi` - Suomi
+        * `fr` - Français
+        * `ga` - Gaeilge
+        * `gl` - Galego
+        * `he` - עברית
+        * `hu` - Magyar
+        * `hr` - Hrvatski
+        * `id` - Indonesia
+        * `is` - Íslenska
+        * `it` - Italiano
+        * `ja` - 日本語
+        * `kab` - Taqbaylit
+        * `kk` - Қазақ тілі
+        * `ko` - 한국어
+        * `lo` - ລາວ
+        * `nb` - Norsk bokmål
+        * `nl` - Nederlands
+        * `pl` - Polski
+        * `pt` - Português
+        * `pt-br` - Português brasileiro
+        * `ro` - Română
+        * `ru` - Русский
+        * `sk` - Slovenčina
+        * `sl` - Slovenščina
+        * `sq` - Shqip
+        * `sr` - Српски
+        * `sr-latn` - Srpski
+        * `sv` - Svenska
+        * `ta` - தமிழ்
+        * `th` - ไทย
+        * `tr` - Türkçe
+        * `uk` - Українська
+        * `vi` - Tiếng việt
+        * `zh-hans` - 简体中文
+        * `zh-hant` - 正體中文
     LanguagePlural:
       type: object
       properties:
@@ -33694,12 +34139,67 @@ components:
           type: string
           title: Plural formula
         type:
-          type: integer
+          allOf:
+          - $ref: '#/components/schemas/LanguagePluralTypeEnum'
           readOnly: true
           title: Plural type
       required:
       - id
       - type
+    LanguagePluralTypeEnum:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 11
+      - 4
+      - 14
+      - 6
+      - 13
+      - 5
+      - 7
+      - 8
+      - 9
+      - 10
+      - 12
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 666
+      type: integer
+      description: |-
+        * `0` - None
+        * `1` - One/other
+        * `2` - One/few/other
+        * `3` - Arabic languages
+        * `11` - Zero/one/other
+        * `4` - One/two/other
+        * `14` - One/other/two
+        * `6` - One/two/few/other
+        * `13` - Other/one/two/few
+        * `5` - One/two/three/other
+        * `7` - One/other/zero
+        * `8` - One/few/many/other
+        * `9` - Two/other
+        * `10` - One/two/few/many/other
+        * `12` - Zero/one/two/few/many/other
+        * `15` - Zero/other
+        * `16` - Zero/one/few/other
+        * `17` - Zero/one/two/few/other
+        * `18` - Zero/one/two/other
+        * `19` - Zero/one/few/many/other
+        * `20` - One/many/other
+        * `21` - Zero/one/many/other
+        * `22` - One/few/many
+        * `23` - One/zero/few/other
+        * `666` - Unknown
     LanguageSelectionEnum:
       enum:
       - 0
@@ -33708,6 +34208,15 @@ components:
       description: |-
         * `0` - As defined
         * `1` - All languages
+    Last2faEnum:
+      enum:
+      - totp
+      - webauthn
+      type: string
+      description: |-
+        * `` - None
+        * `totp` - TOTP
+        * `webauthn` - WebAuthn
     Lock:
       type: object
       properties:
@@ -35092,6 +35601,15 @@ components:
           type: boolean
           description: Whether translation updates in other components will cause
             automatic translation in this one
+        hide_glossary_matches:
+          type: boolean
+          title: Do not show glossary matches
+          description: Hides the glossary panel in the translation editor.
+        contribute_project_tm:
+          type: boolean
+          title: Contribute to project translation memory
+          description: Allow this component's translations to be added to the project-level
+            translation memory.
         manage_units:
           type: boolean
           title: Manage strings
@@ -35104,7 +35622,7 @@ components:
           description: Whether to allow translation suggestions at all.
         suggestion_voting:
           type: boolean
-          description: Users can only vote for suggestions and can’t make direct translations.
+          description: Allows users to vote on suggestions.
         suggestion_autoaccept:
           type: integer
           maximum: 32767
@@ -35233,83 +35751,6 @@ components:
             $ref: '#/components/schemas/AutoComponentList'
           readOnly: true
         url:
-          type: string
-          format: uri
-          readOnly: true
-    PatchedFullUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        email:
-          type:
-          - string
-          - 'null'
-          title: E-mail
-          format: email
-          maxLength: 190
-        full_name:
-          type: string
-          maxLength: 150
-        username:
-          type: string
-          description: 'Username may only contain letters, numbers or the following
-            characters: @ . + - _'
-          maxLength: 150
-        groups:
-          type: array
-          items:
-            type: string
-            format: uri
-          readOnly: true
-        languages:
-          type: array
-          items:
-            type: string
-            format: uri
-          readOnly: true
-        notifications:
-          type: string
-          format: uri
-          readOnly: true
-        is_superuser:
-          type: boolean
-          title: Superuser status
-          description: User has all possible permissions.
-        is_active:
-          type: boolean
-          title: Active
-          description: Mark user as inactive instead of removing.
-        is_bot:
-          type: boolean
-          title: Robot user
-        date_joined:
-          type: string
-          format: date-time
-          readOnly: true
-        date_expires:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          title: Expires
-          description: The account will be disabled after the expiry.
-        last_login:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          readOnly: true
-        url:
-          type: string
-          format: uri
-          readOnly: true
-        statistics_url:
-          type: string
-          format: uri
-          readOnly: true
-        contributions_url:
           type: string
           format: uri
           readOnly: true
@@ -35502,6 +35943,10 @@ components:
           type: string
           format: uri
           readOnly: true
+        metrics_url:
+          type: string
+          format: uri
+          readOnly: true
         categories_url:
           type: string
           format: uri
@@ -35559,6 +36004,35 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        access_control:
+          allOf:
+          - $ref: '#/components/schemas/AccessControlEnum'
+          description: How to restrict access to this project is detailed in the documentation.
+          minimum: -2147483648
+          maximum: 2147483647
+        use_shared_tm:
+          type: boolean
+          title: Use shared translation memory
+          description: Uses the pool of shared translations between projects.
+        contribute_shared_tm:
+          type: boolean
+          title: Contribute to shared translation memory
+          description: Contributes to the pool of shared translations between projects.
+        use_workspace_tm:
+          type: boolean
+          title: Use workspace translation memory
+          description: Uses the pool of shared translations between projects in the
+            workspace.
+        contribute_workspace_tm:
+          type: boolean
+          title: Contribute to workspace translation memory
+          description: Contributes translations to the pool shared between projects
+            in the workspace.
+        autoclean_tm:
+          type: boolean
+          title: Autoclean translation memory
+          description: Automatically removes outdated and obsolete entries from translation
+            memory.
         license:
           title: Translation license
           type: string
@@ -35800,6 +36274,84 @@ components:
           type: array
           items:
             type: integer
+    PatchedUserUpdateRequest:
+      type: object
+      description: |-
+        Schema-only serializer for user update requests.
+
+        Writable nested fields are not supported by default in .update()
+        'profile' field update logic is handled by ProfileUpdateMixin
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type:
+          - string
+          - 'null'
+          title: E-mail
+          format: email
+          maxLength: 190
+        full_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: 'Username may only contain letters, numbers or the following
+            characters: @ . + - _'
+          maxLength: 150
+        groups:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        profile:
+          $ref: '#/components/schemas/ProfileUpdateRequest'
+        notifications:
+          type: string
+          format: uri
+          readOnly: true
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: User has all possible permissions.
+        is_active:
+          type: boolean
+          title: Active
+          description: Mark user as inactive instead of removing.
+        is_bot:
+          type: boolean
+          title: Robot user
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+        date_expires:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          title: Expires
+          description: The account will be disabled after the expiry.
+        last_login:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+        contributions_url:
+          type: string
+          format: uri
+          readOnly: true
     PendingUnits:
       type: object
       description: Detailed breakdown of pending translation units.
@@ -35838,6 +36390,417 @@ components:
         * `100` - Medium
         * `120` - Low
         * `140` - Very low
+    Profile:
+      type: object
+      properties:
+        language:
+          allOf:
+          - $ref: '#/components/schemas/LanguageEnum'
+          title: Interface Language
+        languages:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        secondary_languages:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        suggested:
+          type: integer
+          readOnly: true
+        translated:
+          type: integer
+          readOnly: true
+        uploaded:
+          type: integer
+          readOnly: true
+        commented:
+          type: integer
+          readOnly: true
+        theme:
+          $ref: '#/components/schemas/ThemeEnum'
+        hide_completed:
+          type: boolean
+          title: Hide completed translations on the dashboard
+        secondary_in_zen:
+          type: boolean
+          title: Show secondary translations in the Zen mode
+        hide_source_secondary:
+          type: boolean
+          title: Hide source if a secondary translation exists
+        wide_tables:
+          type: boolean
+          title: Show all columns in lists using horizontal scrolling
+          description: Instead of hiding columns on narrow screens, keep all columns
+            and scroll the table horizontally.
+        editor_link:
+          type: string
+          description: Enter a custom URL to be used as link to the source code. You
+            can use {{branch}} for branch, {{filename}} and {{line}} as filename and
+            line placeholders.
+          maxLength: 200
+        translate_mode:
+          allOf:
+          - $ref: '#/components/schemas/TranslateModeEnum'
+          title: Translation editor mode
+          minimum: -2147483648
+          maximum: 2147483647
+        zen_mode:
+          allOf:
+          - $ref: '#/components/schemas/ZenModeEnum'
+          title: Zen editor mode
+          minimum: -2147483648
+          maximum: 2147483647
+        special_chars:
+          type: string
+          title: Special characters
+          description: You can specify additional special visual keyboard characters
+            to be shown while translating. It can be useful for characters you use
+            frequently, but are hard to type on your keyboard.
+          maxLength: 30
+        nearby_strings:
+          type: integer
+          maximum: 50
+          minimum: 1
+          title: Number of nearby strings
+          description: Number of nearby strings to show in each direction in the full
+            editor.
+        auto_watch:
+          type: boolean
+          title: Automatically watch projects on contribution
+          description: Projects are added to your watched projects when you contribute
+            to them.
+        contribute_personal_tm:
+          type: boolean
+          title: Contribute to personal translation memory
+          description: Allow your translations to be added to your personal translation
+            memory.
+        dashboard_view:
+          allOf:
+          - $ref: '#/components/schemas/DashboardViewEnum'
+          title: Default dashboard view
+          minimum: -2147483648
+          maximum: 2147483647
+        dashboard_component_list:
+          type:
+          - string
+          - 'null'
+          - 'null'
+          format: uri
+          readOnly: true
+        watched:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        website:
+          title: Website URL
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        contact:
+          title: Contact URL
+          description: Link to contact you online using services like Signal, SimpleX
+            or Telegram.
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        liberapay:
+          title: Liberapay username
+          description: Liberapay is a platform to donate money to teams, organizations
+            and individuals.
+          oneOf:
+          - type: string
+            maxLength: 50
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
+        fediverse:
+          title: Fediverse URL
+          description: Link to your Fediverse profile for federated services like
+            Mastodon or diaspora*.
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        codesite:
+          title: Code site URL
+          description: Link to your code profile for services like Codeberg or GitLab.
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        github:
+          title: GitHub username
+          oneOf:
+          - type: string
+            maxLength: 50
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
+        twitter:
+          title: X username
+          oneOf:
+          - type: string
+            maxLength: 50
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
+        linkedin:
+          title: LinkedIn profile name
+          description: Your LinkedIn profile name from linkedin.com/in/profilename
+          oneOf:
+          - type: string
+            pattern: ^[-\w]+$
+            maxLength: 50
+          - type: string
+            maxLength: 0
+        location:
+          type: string
+          maxLength: 100
+        company:
+          type: string
+          maxLength: 100
+        public_email:
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            enum:
+            - ''
+        commit_email:
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            enum:
+            - ''
+        commit_name:
+          $ref: '#/components/schemas/CommitNameEnum'
+        last_2fa:
+          readOnly: true
+          oneOf:
+          - $ref: '#/components/schemas/Last2faEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+      required:
+      - commented
+      - commit_email
+      - commit_name
+      - dashboard_component_list
+      - language
+      - languages
+      - last_2fa
+      - public_email
+      - secondary_languages
+      - suggested
+      - translated
+      - uploaded
+      - watched
+    ProfileUpdateRequest:
+      type: object
+      description: Schema-only profile serializer for update request bodies.
+      properties:
+        language:
+          allOf:
+          - $ref: '#/components/schemas/LanguageEnum'
+          title: Interface Language
+        languages:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        secondary_languages:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        theme:
+          $ref: '#/components/schemas/ThemeEnum'
+        hide_completed:
+          type: boolean
+          title: Hide completed translations on the dashboard
+        secondary_in_zen:
+          type: boolean
+          title: Show secondary translations in the Zen mode
+        hide_source_secondary:
+          type: boolean
+          title: Hide source if a secondary translation exists
+        wide_tables:
+          type: boolean
+          title: Show all columns in lists using horizontal scrolling
+          description: Instead of hiding columns on narrow screens, keep all columns
+            and scroll the table horizontally.
+        editor_link:
+          type: string
+          description: Enter a custom URL to be used as link to the source code. You
+            can use {{branch}} for branch, {{filename}} and {{line}} as filename and
+            line placeholders.
+          maxLength: 200
+        translate_mode:
+          allOf:
+          - $ref: '#/components/schemas/TranslateModeEnum'
+          title: Translation editor mode
+          minimum: -2147483648
+          maximum: 2147483647
+        zen_mode:
+          allOf:
+          - $ref: '#/components/schemas/ZenModeEnum'
+          title: Zen editor mode
+          minimum: -2147483648
+          maximum: 2147483647
+        special_chars:
+          type: string
+          title: Special characters
+          description: You can specify additional special visual keyboard characters
+            to be shown while translating. It can be useful for characters you use
+            frequently, but are hard to type on your keyboard.
+          maxLength: 30
+        nearby_strings:
+          type: integer
+          maximum: 50
+          minimum: 1
+          title: Number of nearby strings
+          description: Number of nearby strings to show in each direction in the full
+            editor.
+        auto_watch:
+          type: boolean
+          title: Automatically watch projects on contribution
+          description: Projects are added to your watched projects when you contribute
+            to them.
+        contribute_personal_tm:
+          type: boolean
+          title: Contribute to personal translation memory
+          description: Allow your translations to be added to your personal translation
+            memory.
+        dashboard_view:
+          allOf:
+          - $ref: '#/components/schemas/DashboardViewEnum'
+          title: Default dashboard view
+          minimum: -2147483648
+          maximum: 2147483647
+        dashboard_component_list:
+          type:
+          - string
+          - 'null'
+          pattern: ^[-a-zA-Z0-9_]+$
+        watched:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            pattern: ^[-a-zA-Z0-9_]+$
+        website:
+          title: Website URL
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        contact:
+          title: Contact URL
+          description: Link to contact you online using services like Signal, SimpleX
+            or Telegram.
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        liberapay:
+          title: Liberapay username
+          description: Liberapay is a platform to donate money to teams, organizations
+            and individuals.
+          oneOf:
+          - type: string
+            maxLength: 50
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
+        fediverse:
+          title: Fediverse URL
+          description: Link to your Fediverse profile for federated services like
+            Mastodon or diaspora*.
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        codesite:
+          title: Code site URL
+          description: Link to your code profile for services like Codeberg or GitLab.
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 200
+          - type: string
+            maxLength: 0
+        github:
+          title: GitHub username
+          oneOf:
+          - type: string
+            maxLength: 50
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
+        twitter:
+          title: X username
+          oneOf:
+          - type: string
+            maxLength: 50
+            pattern: ^[-a-zA-Z0-9_]+$
+          - type: string
+            maxLength: 0
+        linkedin:
+          title: LinkedIn profile name
+          description: Your LinkedIn profile name from linkedin.com/in/profilename
+          oneOf:
+          - type: string
+            pattern: ^[-\w]+$
+            maxLength: 50
+          - type: string
+            maxLength: 0
+        location:
+          type: string
+          maxLength: 100
+        company:
+          type: string
+          maxLength: 100
+        public_email:
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            enum:
+            - ''
+        commit_email:
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            enum:
+            - ''
+        commit_name:
+          $ref: '#/components/schemas/CommitNameEnum'
     Project:
       type: object
       properties:
@@ -35884,6 +36847,10 @@ components:
           format: uri
           readOnly: true
         statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+        metrics_url:
           type: string
           format: uri
           readOnly: true
@@ -35944,6 +36911,35 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        access_control:
+          allOf:
+          - $ref: '#/components/schemas/AccessControlEnum'
+          description: How to restrict access to this project is detailed in the documentation.
+          minimum: -2147483648
+          maximum: 2147483647
+        use_shared_tm:
+          type: boolean
+          title: Use shared translation memory
+          description: Uses the pool of shared translations between projects.
+        contribute_shared_tm:
+          type: boolean
+          title: Contribute to shared translation memory
+          description: Contributes to the pool of shared translations between projects.
+        use_workspace_tm:
+          type: boolean
+          title: Use workspace translation memory
+          description: Uses the pool of shared translations between projects in the
+            workspace.
+        contribute_workspace_tm:
+          type: boolean
+          title: Contribute to workspace translation memory
+          description: Contributes translations to the pool shared between projects
+            in the workspace.
+        autoclean_tm:
+          type: boolean
+          title: Autoclean translation memory
+          description: Automatically removes outdated and obsolete entries from translation
+            memory.
         license:
           title: Translation license
           type: string
@@ -36126,6 +37122,7 @@ components:
       - lock_url
       - locked
       - machinery_settings
+      - metrics_url
       - name
       - reports_url
       - repository_url
@@ -36443,6 +37440,15 @@ components:
           type: boolean
           description: Whether translation updates in other components will cause
             automatic translation in this one
+        hide_glossary_matches:
+          type: boolean
+          title: Do not show glossary matches
+          description: Hides the glossary panel in the translation editor.
+        contribute_project_tm:
+          type: boolean
+          title: Contribute to project translation memory
+          description: Allow this component's translations to be added to the project-level
+            translation memory.
         manage_units:
           type: boolean
           title: Manage strings
@@ -36455,7 +37461,7 @@ components:
           description: Whether to allow translation suggestions at all.
         suggestion_voting:
           type: boolean
-          description: Users can only vote for suggestions and can’t make direct translations.
+          description: Allows users to vote on suggestions.
         suggestion_autoaccept:
           type: integer
           maximum: 32767
@@ -37422,6 +38428,24 @@ components:
       - log
       - progress
       - result
+    ThemeEnum:
+      enum:
+      - auto
+      - light
+      - dark
+      type: string
+      description: |-
+        * `auto` - Sync with system
+        * `light` - Light
+        * `dark` - Dark
+    TranslateModeEnum:
+      enum:
+      - 0
+      - 1
+      type: integer
+      description: |-
+        * `0` - Full editor
+        * `1` - Zen mode
     Translation:
       type: object
       properties:
@@ -37802,6 +38826,10 @@ components:
             type: string
       required:
       - group_id
+    UserResponse:
+      oneOf:
+      - $ref: '#/components/schemas/BasicUser'
+      - $ref: '#/components/schemas/FullUser'
     UserStatistics:
       type: object
       properties:
@@ -37821,6 +38849,95 @@ components:
       - suggested
       - translated
       - uploaded
+    UserUpdateRequest:
+      type: object
+      description: |-
+        Schema-only serializer for user update requests.
+
+        Writable nested fields are not supported by default in .update()
+        'profile' field update logic is handled by ProfileUpdateMixin
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type:
+          - string
+          - 'null'
+          title: E-mail
+          format: email
+          maxLength: 190
+        full_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: 'Username may only contain letters, numbers or the following
+            characters: @ . + - _'
+          maxLength: 150
+        groups:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
+        profile:
+          $ref: '#/components/schemas/ProfileUpdateRequest'
+        notifications:
+          type: string
+          format: uri
+          readOnly: true
+        is_superuser:
+          type: boolean
+          title: Superuser status
+          description: User has all possible permissions.
+        is_active:
+          type: boolean
+          title: Active
+          description: Mark user as inactive instead of removing.
+        is_bot:
+          type: boolean
+          title: Robot user
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+        date_expires:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          title: Expires
+          description: The account will be disabled after the expiry.
+        last_login:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        statistics_url:
+          type: string
+          format: uri
+          readOnly: true
+        contributions_url:
+          type: string
+          format: uri
+          readOnly: true
+      required:
+      - contributions_url
+      - date_joined
+      - full_name
+      - groups
+      - id
+      - last_login
+      - notifications
+      - statistics_url
+      - url
+      - username
     ValueEnum:
       enum:
       - 1
@@ -37861,6 +38978,14 @@ components:
         * `mercurial` - Mercurial
         * `pagure` - Pagure merge request
         * `subversion` - Subversion
+    ZenModeEnum:
+      enum:
+      - 0
+      - 1
+      type: integer
+      description: |-
+        * `0` - Top to bottom
+        * `1` - Side by side
     UserGroupDeleteRequest:
       type: object
       properties:
@@ -37868,6 +38993,16 @@ components:
           type: integer
       required:
       - group_id
+    ComponentDeleteRequest:
+      type: object
+      properties:
+        delete_memory:
+          type: boolean
+    CategoryDeleteRequest:
+      type: object
+      properties:
+        delete_memory:
+          type: boolean
   securitySchemes:
     bearerAuth:
       type: apiKey

@@ -9,6 +9,7 @@ from typing import cast
 from unittest.mock import patch
 
 from django.apps import apps
+from django.core.exceptions import ValidationError
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from filelock import FileLock
@@ -31,10 +32,12 @@ from weblate.trans.models import (
     Project,
     Translation,
     Unit,
+    WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.render import (
     validate_render_addon,
     validate_render_commit,
@@ -48,6 +51,36 @@ from weblate.workspaces.models import Workspace
 
 
 class SettingsTest(ViewTestCase):
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_restricted_component_rejects_shared_memory(self) -> None:
+        self.component.restricted = True
+        self.project.use_shared_tm = True
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "A component can not be restricted while its project uses shared translation memory.",
+        ):
+            self.component.clean_model_settings()
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_shared_memory_rejects_restricted_component(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.project.use_shared_tm = True
+
+        with self.assertRaisesMessage(
+            ValidationError,
+            "Shared translation memory can not be enabled while the project has restricted components.",
+        ):
+            self.project.clean()
+
+    @override_settings(OFFER_HOSTING=True)
+    def test_hosted_shared_memory_allows_unrestricted_component_edit(self) -> None:
+        self.create_link_existing(restricted=True)
+        Project.objects.filter(pk=self.project.pk).update(use_shared_tm=True)
+        component = Component.objects.get(pk=self.component.pk)
+
+        component.clean_model_settings()
+
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_restricted_component_permission_denial(self) -> None:
         self.project.add_user(self.user, "Administration")
@@ -961,14 +994,27 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, "Settings")
         response = self.client.post(
             url,
-            {"workflow-enable": 1, "workflow-suggestion_autoaccept": 0},
+            {
+                "workflow-enable": 1,
+                "workflow-restrict_direct_editing": 1,
+                "workflow-suggestion_autoaccept": 0,
+            },
             follow=True,
         )
         self.assertContains(response, "Settings saved")
-        self.assertIsNotNone(
+        workflow_settings = (
             Project.objects.get(pk=self.project.pk)
             .project_languages[self.translation.language]
             .workflow_settings
+        )
+        self.assertIsNotNone(workflow_settings)
+        self.assertTrue(workflow_settings.restrict_direct_editing)
+        self.assertTrue(
+            WorkflowSetting.objects.filter(
+                project=self.project,
+                language=self.translation.language,
+                restrict_direct_editing=True,
+            ).exists()
         )
         response = self.client.post(
             url, {"workflow-suggestion_autoaccept": 0}, follow=True
@@ -1242,6 +1288,28 @@ class SettingsTest(ViewTestCase):
             self.assertFalse(
                 unit.translated, f"{unit} should not be marked as translated"
             )
+
+    def test_component_repository_locked(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["license"] = "MIT"
+        lock_error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+
+        with patch.object(Component, "locked_for_update", side_effect=lock_error):
+            response = self.client.post(url, data, follow=True)
+
+        self.assertRedirects(response, url)
+        self.assertContains(
+            response,
+            "There appears to be an ongoing operation on the repository. "
+            "Please try again later.",
+        )
+        self.component.refresh_from_db()
+        self.assertNotEqual(self.component.license, "MIT")
 
     def test_component_inherited_required_license_validates(self) -> None:
         self.project.add_user(self.user, "Administration")

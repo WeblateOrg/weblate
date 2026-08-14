@@ -9,7 +9,7 @@ import os
 from contextlib import ExitStack
 from datetime import timedelta
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from asgiref.sync import async_to_sync
 from django.apps import apps
@@ -17,6 +17,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import connection, transaction
+from django.db.models.signals import post_save
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.test.utils import CaptureQueriesContext, override_settings
@@ -34,6 +35,7 @@ from weblate.glossary.models import (
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import (
+    FailedCommitError,
     FileParseError,
     SuggestionSimilarToTranslationError,
     SuggestionTooLongError,
@@ -577,6 +579,139 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all_words, 19)
 
+    def test_metadata_only_updates_are_batched(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        source_translation = component.source_translation
+        target_units = list(translation.unit_set.order_by("pk"))
+        source_units = list(source_translation.unit_set.order_by("pk"))
+        original_num_words = {
+            unit.pk: unit.num_words for unit in [*target_units, *source_units]
+        }
+        original_last_updated = max(
+            unit.last_updated for unit in [*target_units, *source_units]
+        )
+        hello = translation.unit_set.get(source="Hello, world!\n")
+        thanks = translation.unit_set.get(source="Thank you for using Weblate.")
+        hello_position = hello.position
+        thanks_position = thanks.position
+
+        filename = get_optional_path(translation.get_filename())
+        store = translation.store
+        hello_store_unit = next(
+            unit for unit in store.content_units if unit.source == hello.source
+        )
+        thanks_store_unit = next(
+            unit for unit in store.content_units if unit.source == thanks.source
+        )
+        hello_index = store.store.units.index(hello_store_unit.unit)
+        thanks_index = store.store.units.index(thanks_store_unit.unit)
+        store.store.units[hello_index], store.store.units[thanks_index] = (
+            store.store.units[thanks_index],
+            store.store.units[hello_index],
+        )
+        store.save()
+        filename.write_text(
+            filename.read_text(encoding="utf-8").replace("#: main.c:", "#: moved.c:"),
+            encoding="utf-8",
+        )
+        translation.drop_store_cache()
+        component.unload_sources()
+
+        unit_post_save = Mock()
+        post_save.connect(unit_post_save, sender=Unit, weak=False)
+        self.addCleanup(post_save.disconnect, unit_post_save, sender=Unit)
+        with CaptureQueriesContext(connection) as queries:
+            self.assertTrue(translation.check_sync(force=True))
+
+        unit_update_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if query["sql"].startswith('UPDATE "trans_unit"')
+        ]
+        self.assertEqual(len(unit_update_queries), 1)
+
+        updated_units = list(
+            Unit.objects.filter(pk__in=original_num_words).order_by("pk")
+        )
+        self.assertTrue(updated_units)
+        self.assertTrue(
+            all(unit.location.startswith("moved.c:") for unit in updated_units)
+        )
+        self.assertTrue(
+            all(unit.num_words == original_num_words[unit.pk] for unit in updated_units)
+        )
+        self.assertTrue(
+            all(unit.last_updated > original_last_updated for unit in updated_units)
+        )
+        self.assertEqual(len({unit.last_updated for unit in updated_units}), 1)
+        self.assertEqual(
+            {
+                call.kwargs["instance"].pk
+                for call in unit_post_save.call_args_list
+                if not call.kwargs["created"]
+            },
+            set(original_num_words),
+        )
+        hello.refresh_from_db()
+        thanks.refresh_from_db()
+        self.assertEqual(hello.position, thanks_position)
+        self.assertEqual(thanks.position, hello_position)
+
+    def test_content_and_metadata_updates_use_separate_paths(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        hello = translation.unit_set.get(source="Hello, world!\n")
+        original_num_words = hello.num_words
+
+        filename = get_optional_path(translation.get_filename())
+        content = filename.read_text(encoding="utf-8")
+        content = content.replace("#: main.c:", "#: moved.c:")
+        content = content.replace(
+            'msgid "Hello, world!\\n"\nmsgstr ""',
+            'msgid "Hello, world!\\n"\nmsgstr "Nazdar světe!\\n"',
+        )
+        filename.write_text(content, encoding="utf-8")
+        translation.drop_store_cache()
+        component.unload_sources()
+
+        with CaptureQueriesContext(connection) as queries:
+            self.assertTrue(translation.check_sync(force=True))
+
+        hello.refresh_from_db()
+        self.assertEqual(hello.target, "Nazdar světe!\n")
+
+        unit_update_queries = [
+            query["sql"]
+            for query in queries.captured_queries
+            if query["sql"].startswith('UPDATE "trans_unit"')
+        ]
+        self.assertEqual(len(unit_update_queries), 2)
+
+        self.assertEqual(hello.num_words, original_num_words)
+        self.assertTrue(hello.location.startswith("moved.c:"))
+        self.assertFalse(PendingUnitChange.objects.filter(unit=hello).exists())
+
+    def test_metadata_update_preserves_pending_explanation(self) -> None:
+        component = self.create_tbx()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="address bar")
+        explanation = "Pending explanation"
+        unit.update_explanation(explanation, create_test_user())
+
+        store = translation.store
+        store.store.units.reverse()
+        store.save()
+        translation.drop_store_cache()
+        component.unload_sources()
+
+        self.assertTrue(translation.check_sync(force=True))
+
+        unit.refresh_from_db()
+        pending = PendingUnitChange.objects.get(unit=unit)
+        self.assertEqual(unit.explanation, explanation)
+        self.assertEqual(pending.explanation, explanation)
+
     def test_source_translation_heals_managed_readonly_flag(self) -> None:
         component = self.create_component()
         source = component.source_translation
@@ -1056,6 +1191,34 @@ class TranslationTest(RepoTestCase):
             .latest("timestamp")
             .target,
         )
+
+    def test_commit_serialization_error(self) -> None:
+        """Serialization errors should be exposed as commit errors."""
+        user = create_test_user()
+        component = self._create_component(
+            "i18next", "i18next/*.json", "i18next/en.json"
+        )
+        translation = component.source_translation
+        filename = get_optional_path(translation.get_filename())
+        original_content = filename.read_bytes()
+        unit = translation.unit_set.get(source="Hello")
+        unit.translate(user, "Updated hello", STATE_TRANSLATED)
+
+        pending_count = PendingUnitChange.objects.count()
+        serialization_error = TypeError("'str' object does not support item assignment")
+        with (
+            patch(
+                "weblate.formats.ttkit.I18NextFormat.save",
+                side_effect=serialization_error,
+            ),
+            self.assertRaises(FailedCommitError) as context,
+        ):
+            component.commit_pending("test", None)
+
+        self.assertIs(context.exception.__cause__, serialization_error)
+        self.assertEqual(str(context.exception), str(serialization_error))
+        self.assertEqual(PendingUnitChange.objects.count(), pending_count)
+        self.assertEqual(filename.read_bytes(), original_content)
 
     def test_commit_successful_deletes_failed_changes(self) -> None:
         """Test that failed changes are deleted when a subsequent successful change to the unit is applied."""
@@ -1853,6 +2016,75 @@ class ChangeTest(ModelTestCase):
         self.assertEqual(kept.workspace_id, existing.pk)
         self.assertIsNone(standalone.workspace_id)
         self.assertIsNone(standalone_project_change.workspace_id)
+
+    def test_repository_redirect_credentials_migration(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0099_sanitize_repository_redirect_credentials"
+        )
+        affected = Change.objects.create(
+            component=self.component,
+            action=ActionEvents.COMPONENT_SETTING_CHANGE,
+            target="repo",
+            details={
+                "field": "repo",
+                "old": "https://old-secret:@git.example/owner/repo",
+                "target": "https://new-secret:@git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+        affected_push = Change.objects.create(
+            component=self.component,
+            action=ActionEvents.COMPONENT_SETTING_CHANGE,
+            target="push",
+            details={
+                "field": "push",
+                "old": "https://old-push-secret:@git.example/owner/repo",
+                "target": "https://new-push-secret:@git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+        unaffected = Change.objects.create(
+            component=self.component,
+            action=ActionEvents.COMPONENT_SETTING_CHANGE,
+            target="repo",
+            details={
+                "field": "repo",
+                "old": "https://kept-secret:@git.example/owner/repo",
+                "target": "https://kept-secret:@git.example/owner/repo.git",
+                "reason": "manual",
+            },
+        )
+
+        migration.sanitize_repository_redirect_credentials(
+            apps, SimpleNamespace(connection=connection)
+        )
+
+        affected.refresh_from_db()
+        affected_push.refresh_from_db()
+        unaffected.refresh_from_db()
+        self.assertEqual(
+            affected.details,
+            {
+                "field": "repo",
+                "old": "https://git.example/owner/repo",
+                "target": "https://git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+        self.assertEqual(
+            affected_push.details,
+            {
+                "field": "push",
+                "old": "https://git.example/owner/repo",
+                "target": "https://git.example/owner/repo.git",
+                "automatic": True,
+                "reason": "http_redirect",
+            },
+        )
+        self.assertIn("kept-secret", unaffected.details["old"])
 
     def test_day_filtering(self) -> None:
         Change.objects.all().delete()

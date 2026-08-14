@@ -945,6 +945,20 @@ class GlossaryTest(ViewTestCase):
         self.assertTrue(self.user.has_perm("translation.delete", glossary))
         self.assertIn(removal_url, alert.render(self.user))
 
+    def test_unused_glossary_language_alert_missing_translation(self) -> None:
+        glossary = self.make_glossary_language_stale("de", "unused de")
+        update_alerts(self.glossary_component, {"UnusedGlossaryLanguage"})
+        alert = self.glossary_component.alert_set.get(name="UnusedGlossaryLanguage")
+        removal_url = f"{glossary.get_absolute_url()}#organize"
+
+        glossary.delete()
+        self.make_manager()
+        self.user.clear_permissions_cache()
+
+        rendered = alert.render(self.user)
+        self.assertIn("<td>de</td>", rendered)
+        self.assertNotIn(removal_url, rendered)
+
     def test_unused_glossary_language_alert_ignores_blank_local_glossary(self) -> None:
         self.make_glossary_language_stale("de")
 

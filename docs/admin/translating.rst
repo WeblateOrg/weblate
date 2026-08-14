@@ -76,7 +76,7 @@ using the ``priority`` flag.
 
 .. seealso::
 
-   :ref:`checks`
+   :ref:`custom-checks`
 
 .. _additional-flags:
 

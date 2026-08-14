@@ -44,6 +44,18 @@ if TYPE_CHECKING:
 
 SPECIALS: dict[str, Callable[[User, str, Model], bool | PermissionResult]] = {}
 UPLOAD_SCOPE_PERMISSIONS = frozenset({"glossary.upload", "upload.perform"})
+REPOSITORY_PERMISSIONS = ("vcs.push", "vcs.commit", "vcs.reset", "vcs.update")
+type PermissionObject = (
+    Unit
+    | Translation
+    | CategoryLanguage
+    | Component
+    | ProjectLanguage
+    | Category
+    | Project
+    | ComponentList
+    | Workspace
+)
 
 
 @dataclass(frozen=True)
@@ -213,18 +225,46 @@ def get_glossary_permission_denial(permission: str) -> str:
     return ""
 
 
-def check_permission(
+@register_perm("meta:unit.direct_edit")
+def check_direct_editing(
     user: User,
     permission: str,
     obj: Unit
     | Translation
+    | ProjectLanguage
     | CategoryLanguage
     | Component
-    | ProjectLanguage
     | Category
-    | Project
-    | ComponentList
-    | Workspace,
+    | Project,
+) -> bool | PermissionResult:
+    if isinstance(obj, Unit):
+        obj = obj.translation
+    if not isinstance(obj, Translation | ProjectLanguage | CategoryLanguage):
+        return True
+    if not obj.restrict_direct_editing:
+        return True
+    if check_permission(user, "unit.override", obj):
+        return True
+    if obj.enable_suggestions:
+        return Denied(
+            gettext(
+                "Only privileged users can edit strings directly in this language "
+                "because of its translation workflow. Add a suggestion instead."
+            )
+        )
+    return Denied(
+        gettext(
+            "Only privileged users can edit strings directly in this language "
+            "because of its translation workflow. Ask a project administrator for "
+            "access."
+        )
+    )
+
+
+def check_permission(
+    user: User,
+    permission: str,
+    obj: PermissionObject,
     *,
     allow_limited_without_language: bool = False,
 ) -> bool:
@@ -313,6 +353,78 @@ def check_permission(
     raise TypeError(msg)
 
 
+def get_repository_permission_components(
+    obj: Translation | Component | Project,
+) -> list[Component]:
+    """Return all components affected by repository operations on an object."""
+    cache_key = "_repository_permission_components"
+    cached = obj.__dict__.get(cache_key)
+    if cached is not None:
+        return cached
+
+    if isinstance(obj, Translation):
+        component = obj.component
+        owner_ids = {component.linked_component_id or component.pk}
+    elif isinstance(obj, Component):
+        owner_ids = {obj.linked_component_id or obj.pk}
+    elif isinstance(obj, Project):
+        owner_ids = {
+            linked_component_id or component_id
+            for component_id, linked_component_id in obj.component_set.values_list(
+                "pk", "linked_component_id"
+            )
+        }
+    else:
+        msg = f"Repository permission does not support: {obj.__class__}: {obj!r}"
+        raise TypeError(msg)
+
+    components = list(
+        Component.objects.filter(
+            Q(pk__in=owner_ids) | Q(linked_component_id__in=owner_ids)
+        )
+        .select_related("project")
+        .only(
+            "id",
+            "restricted",
+            "project_id",
+            "project__id",
+            "project__access_control",
+            "project__enforced_2fa",
+        )
+    )
+    obj.__dict__[cache_key] = components
+    return components
+
+
+def _check_repository_permission(
+    user: User,
+    permission: str,
+    components: Iterable[Component],
+) -> bool:
+    return all(
+        check_permission(user, permission, component) for component in components
+    )
+
+
+@register_perm(*REPOSITORY_PERMISSIONS)
+def check_repository_permission(
+    user: User,
+    permission: str,
+    obj: PermissionObject,
+) -> bool:
+    """Check permission on every component sharing an affected repository."""
+    if user.is_superuser:
+        return True
+    if not isinstance(obj, Translation | Component | Project):
+        return check_permission(user, permission, obj)
+    permission_obj = obj.component if isinstance(obj, Translation) else obj
+    if not check_permission(user, permission, permission_obj):
+        return False
+    return _check_repository_permission(
+        user, permission, get_repository_permission_components(obj)
+    )
+
+
 @register_perm("comment.resolve", "comment.delete", "suggestion.delete")
 def check_delete_own(
     user: User, permission: str, obj: Comment | Suggestion
@@ -343,6 +455,7 @@ def check_can_edit(
     | Project,
     *,
     is_vote: bool = False,
+    direct_edit: bool = True,
     allow_limited_without_language: bool | None = None,
 ) -> bool | PermissionResult:
     translation = component = None
@@ -441,6 +554,13 @@ def check_can_edit(
         and not check_permission(user, "unit.template", obj)
     ):
         return Denied(gettext("You do not have permission to edit source strings."))
+
+    if direct_edit and not (
+        direct_edit_permission := check_direct_editing(
+            user, "meta:unit.direct_edit", obj
+        )
+    ):
+        return direct_edit_permission
 
     # Special checks for voting
     if is_vote and translation and not translation.suggestion_voting:
@@ -680,7 +800,12 @@ def check_autotranslate(
         or translation.is_readonly
     ):
         return False
-    return check_can_edit(user, permission, translation)
+    return check_can_edit(
+        user,
+        permission,
+        translation,
+        direct_edit=permission != "translation.auto",
+    )
 
 
 @register_perm("suggestion.vote")
@@ -689,7 +814,7 @@ def check_suggestion_vote(
 ) -> bool | PermissionResult:
     if isinstance(obj, Unit):
         obj = obj.translation
-    return check_can_edit(user, permission, obj, is_vote=True)
+    return check_can_edit(user, permission, obj, is_vote=True, direct_edit=False)
 
 
 @register_perm("suggestion.add")
@@ -699,9 +824,18 @@ def check_suggestion_add(
     obj: Unit | Translation | ProjectLanguage | CategoryLanguage,
 ) -> bool | PermissionResult:
     if isinstance(obj, Unit):
+        if obj.readonly:
+            return Denied(gettext("The string is read-only."))
         obj = obj.translation
-    if not obj.enable_suggestions or obj.is_readonly:
-        return False
+    if obj.is_readonly:
+        return Denied(gettext("The translation is read-only."))
+    if not obj.enable_suggestions:
+        return Denied(
+            gettext(
+                "Suggestions are turned off for this language. Ask a project "
+                "administrator to enable them."
+            )
+        )
     # Check contributor license agreement
     if (
         not user.is_bot
@@ -931,15 +1065,21 @@ def check_upload(
             )
         if obj.component.is_glossary:
             permission = "glossary.upload"
-        return check_can_edit(user, permission, obj) and (
+        return check_can_edit(user, permission, obj, direct_edit=False) and (
             # Normal upload
             check_edit_approved(user, "unit.edit", obj)
             # Suggestion upload
             or check_suggestion_add(user, "suggestion.add", obj)
             # Add upload
-            or check_suggestion_add(user, "unit.add", obj)
+            or (
+                check_direct_editing(user, "meta:unit.direct_edit", obj)
+                and check_suggestion_add(user, "unit.add", obj)
+            )
             # Source upload
-            or obj.is_source
+            or (
+                obj.is_source
+                and check_direct_editing(user, "meta:unit.direct_edit", obj)
+            )
         )
 
     return _has_upload_child(user, obj)
@@ -994,11 +1134,20 @@ def check_possibly_global(
 def check_repository_status(
     user: User, permission: str, obj: Translation | Component | Project
 ) -> bool | PermissionResult:
-    return (
-        check_permission(user, "vcs.push", obj)
-        or check_permission(user, "vcs.commit", obj)
-        or check_permission(user, "vcs.reset", obj)
-        or check_permission(user, "vcs.update", obj)
+    if user.is_superuser:
+        return True
+    permission_obj = obj.component if isinstance(obj, Translation) else obj
+    allowed_permissions = tuple(
+        repository_permission
+        for repository_permission in REPOSITORY_PERMISSIONS
+        if check_permission(user, repository_permission, permission_obj)
+    )
+    if not allowed_permissions:
+        return False
+    components = get_repository_permission_components(obj)
+    return any(
+        _check_repository_permission(user, repository_permission, components)
+        for repository_permission in allowed_permissions
     )
 
 

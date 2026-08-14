@@ -26,6 +26,7 @@ from pyparsing import (
     OpAssoc,
     Optional,
     ParseException,
+    ParserElement,
     ParseResults,
     Regex,
     Word,
@@ -53,7 +54,6 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from django.db.models import Expression
-    from pyparsing import ParserElement
 
 
 class SearchQueryError(Exception):
@@ -173,6 +173,9 @@ class ParsedQuery:
 
 def build_parser(term_expression: type[BaseTermExpr]) -> ParserElement:
     """Build parsing grammar."""
+    # The recursive infix grammar can backtrack exponentially without memoization.
+    ParserElement.enable_packrat()
+
     # Booleans
     op_and = CaselessKeyword("AND")
     op_or = Optional(CaselessKeyword("OR"))

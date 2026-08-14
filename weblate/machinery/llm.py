@@ -282,7 +282,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         return text
 
     def format_prompt_part(self, name: Literal["style", "persona"]) -> str:
-        return self.format_prompt_text(self.settings[name])
+        return self.format_prompt_text(self.settings.get(name, ""))
 
     def format_language_instructions(self, target_language: str) -> str:
         text = self.format_prompt_text(self._get_language_instructions(target_language))

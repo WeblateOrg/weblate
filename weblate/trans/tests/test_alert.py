@@ -21,6 +21,7 @@ from django.test import SimpleTestCase, override_settings
 from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import override as translation_override
 
 from weblate.addons.gettext import MsgmergeAddon, SphinxAddon, XgettextAddon
 from weblate.addons.models import Addon
@@ -40,6 +41,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.alert import Alert
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.vcs.base import RepositoryError, RepositoryInternalError
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
@@ -787,6 +789,96 @@ class AlertTest(ViewTestCase):
             1,
         )
 
+    def test_repository_diagnoses_do_not_reopen_dismissed_alert(self) -> None:
+        error = "Repository not found."
+        self.component.add_alert("UpdateFailure", error=error)
+        alert = self.component.alert_set.get(name="UpdateFailure")
+        alert.dismissed_at = timezone.now()
+        alert.dismissed_by = self.user
+        alert.dismissal_fingerprint = alert.obj.get_dismissal_fingerprint(
+            self.component, alert.details
+        )
+        alert.save(
+            update_fields=(
+                "dismissed_at",
+                "dismissed_by",
+                "dismissal_fingerprint",
+            )
+        )
+
+        self.component.add_alert(
+            "UpdateFailure",
+            error=error,
+            diagnoses=[{"code": "repository_not_found"}],
+        )
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertEqual(alert.details["diagnoses"], [{"code": "repository_not_found"}])
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_repository_url_redaction_does_not_reopen_dismissed_alert(self) -> None:
+        self.component.add_alert(
+            "UpdateFailure", error="fatal: failed to access repository URL (128)"
+        )
+        alert = self.component.alert_set.get(name="UpdateFailure")
+        alert.dismissed_at = timezone.now()
+        alert.dismissed_by = self.user
+        alert.dismissal_fingerprint = alert.obj.get_dismissal_fingerprint(
+            self.component, alert.details
+        )
+        alert.save(
+            update_fields=(
+                "dismissed_at",
+                "dismissed_by",
+                "dismissal_fingerprint",
+            )
+        )
+
+        self.component.add_alert(
+            "UpdateFailure", error="fatal: failed to access ... (128)", diagnoses=[]
+        )
+
+        alert.refresh_from_db()
+        self.assertIsNotNone(alert.dismissed_at)
+        self.assertFalse(
+            self.component.change_set.filter(
+                action=ActionEvents.ALERT_REOPENED, alert=alert
+            ).exists()
+        )
+
+    def test_repository_error_is_stored_structured_and_rendered_for_user(
+        self,
+    ) -> None:
+        error = RepositoryInternalError(0, "repository_url_invalid")
+
+        with translation_override("fr"):
+            # spellchecker:off
+            self.assertEqual(
+                self.component.error_text(error),
+                "Saisissez une URL valide.",  # codespell:ignore valide
+            )
+            # spellchecker:on
+            details = self.component.get_repository_alert_details(error)
+            self.component.add_alert("UpdateFailure", **details)
+
+        alert = self.component.alert_set.get(name="UpdateFailure")
+        self.assertEqual(
+            alert.details["error"],
+            {"code": "repository_url_invalid", "retcode": 0},
+        )
+        with translation_override("fr"):
+            # spellchecker:off
+            self.assertEqual(
+                alert.obj.get_context(self.user)["error"],
+                "Saisissez une URL valide.",  # codespell:ignore valide
+            )
+            # spellchecker:on
+
     def test_legacy_dismissal_reopens_on_first_refresh(self) -> None:
         self.component.add_alert("BrokenProjectURL", error="failure")
         alert = self.component.alert_set.get(name="BrokenProjectURL")
@@ -893,31 +985,6 @@ class AlertTest(ViewTestCase):
             ).exists()
         )
 
-    def test_inexact_hook_match_reopens_on_repository_change(self) -> None:
-        details = {
-            "service_long_name": "Gitea",
-            "repo_url": "https://example.com/owner/repo",
-            "branch": "main",
-            "full_name": "owner/repo",
-        }
-        self.component.repo = "https://example.com/first/repo.git"
-        self.component.save(update_fields=["repo"])
-        self.component.add_alert("InexactHookMatch", **details)
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-        self.assertTrue(alert.dismiss(self.user))
-
-        self.component.repo = "https://example.com/different/repo.git"
-        self.component.save(update_fields=["repo"])
-        self.component.add_alert("InexactHookMatch", **details)
-
-        alert.refresh_from_db()
-        self.assertIsNone(alert.dismissed_at)
-        self.assertTrue(
-            self.component.change_set.filter(
-                action=ActionEvents.ALERT_REOPENED, alert=alert
-            ).exists()
-        )
-
     def test_existing_alert_updates_last_seen(self) -> None:
         self.component.add_alert("MissingLicense")
         alert = self.component.alert_set.get(name="MissingLicense")
@@ -928,105 +995,6 @@ class AlertTest(ViewTestCase):
 
         alert.refresh_from_db()
         self.assertGreater(alert.updated, old_updated)
-
-    def test_inexact_hook_match_alert_exact_history(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
-
-    def test_inexact_hook_match_alert_inferred_history(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://other.example.com/owner/repo",
-                "repos": ["https://other.example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-        self.assertEqual(alert.severity, AlertSeverity.WARNING)
-        self.assertEqual(alert.details["service_long_name"], "Gitea")
-        self.assertEqual(alert.details["full_name"], "owner/repo")
-
-    def test_inexact_hook_match_alert_configure_link(self) -> None:
-        self.component.add_alert(
-            "InexactHookMatch",
-            service_long_name="Gitea",
-            repo_url="https://example.com/owner/repo",
-            branch="main",
-            full_name="owner/repo",
-        )
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-
-        rendered = alert.render(self.user)
-        self.assertNotIn("Configure component", rendered)
-
-        self.user.is_superuser = True
-        self.user.save()
-
-        rendered = alert.render(self.user)
-        self.assertIn("Configure component", rendered)
-        self.assertIn(reverse("settings", kwargs=self.kw_component), rendered)
-
-    def test_inexact_hook_match_alert_explicit_match_method(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-                "match_method": "fallback",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertTrue(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
-
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-                "match_method": "exact",
-            },
-        )
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
 
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
@@ -1887,6 +1855,268 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
         )
 
         self.assertEqual(alert.get_analysis()["host_key_message"], "host key changed")
+
+    def test_repository_alert_uses_structured_diagnoses(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        alert = UpdateFailure(
+            cast("Alert", SimpleNamespace(component=component)),
+            "Repository not found.",
+            diagnoses=[],
+        )
+
+        self.assertFalse(alert.get_analysis()["not_found"])
+
+    def test_repository_alert_legacy_diagnosis_fallback(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        alert = UpdateFailure(
+            cast("Alert", SimpleNamespace(component=component)),
+            "Repository not found.",
+        )
+
+        self.assertTrue(alert.get_analysis()["not_found"])
+
+    def test_repository_diagnosis_is_localized_when_rendered(self) -> None:
+        analysis = {
+            "not_found": True,
+            "github_pull_request_creation_restricted": False,
+            "github_pull_request_creation_restricted_username": None,
+        }
+
+        with translation_override("fr"):
+            rendered = render_to_string(
+                "trans/alert/common-repo.html", {"analysis": analysis}
+            )
+
+        self.assertIn("n’a pas été trouvé. Veuillez vérifier", rendered)
+
+    def test_git_lfs_diagnosis_links_documentation(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        instance = cast("Alert", SimpleNamespace(component=component))
+        alerts = (
+            UpdateFailure(
+                instance,
+                "remote rejected the push",
+                diagnoses=[{"code": "git_lfs_missing_objects"}],
+            ),
+            UpdateFailure(
+                instance,
+                "remote: GitLab: LFS objects are missing.",
+            ),
+        )
+
+        for alert in alerts:
+            with self.subTest(diagnoses=alert.diagnoses):
+                rendered = render_to_string(
+                    "trans/alert/common-repo.html",
+                    {"analysis": alert.get_analysis()},
+                )
+
+                self.assertIn(
+                    "Weblate does not download or upload Git LFS objects", rendered
+                )
+                self.assertIn("vcs.html#git-lfs", rendered)
+
+    def test_github_pull_request_diagnosis_renders_username(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/common-repo.html",
+            {
+                "analysis": {
+                    "github_pull_request_creation_restricted": True,
+                    "github_pull_request_creation_restricted_username": (
+                        "<integration>"
+                    ),
+                }
+            },
+        )
+
+        self.assertIn(
+            "allow pull requests from all users or add "
+            "<code>&lt;integration&gt;</code> as a collaborator",
+            rendered,
+        )
+
+    def test_github_app_pull_request_diagnosis_omits_username(self) -> None:
+        rendered = render_to_string(
+            "trans/alert/common-repo.html",
+            {
+                "analysis": {
+                    "github_pull_request_creation_restricted": True,
+                    "github_pull_request_creation_restricted_username": None,
+                }
+            },
+        )
+
+        self.assertIn(
+            "Ask a repository maintainer to allow pull requests from all users",
+            rendered,
+        )
+        self.assertNotIn("x-access-token", rendered)
+
+    def test_repository_alert_details_store_structured_error_and_diagnoses(
+        self,
+    ) -> None:
+        component = SimpleNamespace(
+            repo="https://example.com/repository",
+            push="",
+            full_path=Path.cwd() / "repository",
+        )
+        error = RepositoryInternalError(
+            1,
+            "repository_fork_not_found",
+            params={"hostname": "example.com", "username": "weblate"},
+            diagnoses=(
+                {
+                    "code": "github_pull_request_creation_restricted",
+                    "params": {"username": "weblate"},
+                },
+            ),
+        )
+
+        details = Component.get_repository_alert_details(  # type: ignore[arg-type]
+            component, error
+        )
+
+        self.assertEqual(
+            details["error"],
+            {
+                "code": "repository_fork_not_found",
+                "retcode": 1,
+                "params": {"hostname": "example.com", "username": "weblate"},
+            },
+        )
+        self.assertEqual(
+            details["diagnoses"],
+            [
+                {
+                    "code": "github_pull_request_creation_restricted",
+                    "params": {"username": "weblate"},
+                },
+                {"code": "repository_not_found"},
+            ],
+        )
+
+    def test_repository_alert_details_keep_external_error_text(self) -> None:
+        component = SimpleNamespace(
+            repo="https://user:super-secret-token@example.com/repository",
+            push="",
+            full_path=Path.cwd() / "repository",
+        )
+
+        with translation_override("fr"):
+            details = Component.get_repository_alert_details(  # type: ignore[arg-type]
+                component,
+                RepositoryError(128, f"fatal: failed to access {component.repo}"),
+            )
+
+        self.assertEqual(details["error"], "fatal: failed to access ... (128)")
+
+    def test_repository_alert_details_sanitize_structured_params(self) -> None:
+        component = SimpleNamespace(
+            repo="https://user:super-secret-token@example.com/repository",
+            push="",
+            full_path=Path.cwd() / "repository",
+        )
+        error = RepositoryInternalError(
+            0,
+            "repository_redirect_probe_failed",
+            params={
+                "error": (
+                    f"Failed to access {component.repo} from "
+                    f"{component.full_path}/private"
+                )
+            },
+        )
+
+        with translation_override("fr"):
+            details = Component.get_repository_alert_details(  # type: ignore[arg-type]
+                component, error
+            )
+
+        assert isinstance(details["error"], dict)
+        stored_detail = details["error"]["params"]["error"]
+        self.assertEqual(stored_detail, "Failed to access ... from .../private")
+        self.assertNotIn("super-secret-token", stored_detail)
+
+    def test_structured_repository_alert_error_is_localized_when_rendered(
+        self,
+    ) -> None:
+        details = {
+            "error": {"code": "repository_url_invalid", "retcode": 0},
+            "diagnoses": [],
+        }
+        instance = SimpleNamespace(
+            component=SimpleNamespace(), details=details, timestamp=None
+        )
+        alert = RepositoryErrorAlert(cast("Alert", instance), **details)
+        user = SimpleNamespace()
+
+        self.assertEqual(alert.get_context(user)["error"], "Enter a valid URL.")
+        with translation_override("fr"):
+            # spellchecker:off
+            self.assertEqual(
+                alert.get_context(user)["error"],
+                "Saisissez une URL valide.",  # codespell:ignore valide
+            )
+            # spellchecker:on
+
+    def test_structured_repository_error_preserves_legacy_fingerprint(self) -> None:
+        legacy_details = {"error": "Enter a valid URL.", "diagnoses": []}
+        structured_details = {
+            "error": {"code": "repository_url_invalid", "retcode": 0},
+            "diagnoses": [],
+        }
+
+        self.assertEqual(
+            RepositoryErrorAlert.get_dismissal_fingerprint(
+                SimpleNamespace(), legacy_details
+            ),
+            RepositoryErrorAlert.get_dismissal_fingerprint(
+                SimpleNamespace(), structured_details
+            ),
+        )
+
+    def test_repository_url_redaction_preserves_legacy_fingerprint(self) -> None:
+        legacy_details = {
+            "error": "fatal: failed to access repository URL (128)",
+            "diagnoses": [],
+        }
+        current_details = {
+            "error": "fatal: failed to access ... (128)",
+            "diagnoses": [],
+        }
+
+        self.assertEqual(
+            RepositoryErrorAlert.get_dismissal_fingerprint(
+                SimpleNamespace(), legacy_details
+            ),
+            RepositoryErrorAlert.get_dismissal_fingerprint(
+                SimpleNamespace(), current_details
+            ),
+        )
 
     def test_common_repo_renders_host_key_mismatch_message(self) -> None:
         rendered = render_to_string(

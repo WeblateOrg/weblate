@@ -39,6 +39,21 @@ The typical database storage usage is around 300 MB per 1 million hosted words.
 Storage space needed for cloned repositories varies, but Weblate tries to keep
 their size minimal by doing shallow clones.
 
+Storage performance
++++++++++++++++++++
+
+Version control operations perform many filesystem metadata lookups. The
+:file:`vcs` subdirectory in :setting:`DATA_DIR` therefore needs low read
+latency; storage with slow metadata access can make operations such as
+:command:`git status` take a long time even when its bulk throughput is good.
+Keep :setting:`CACHE_DIR` on low-latency local or temporary storage when
+possible.
+
+The deployment checks measure metadata lookup latency for both locations and
+warn when the median latency exceeds 10 milliseconds. This is an approximate
+point-in-time measurement affected by filesystem and system load. Rerun
+:command:`weblate check --deploy` before changing the storage configuration.
+
 Nodes
 +++++
 

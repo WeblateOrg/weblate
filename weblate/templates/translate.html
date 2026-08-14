@@ -256,11 +256,7 @@
                 </button>
 
                 {% if unit.translation.enable_suggestions %}
-                  <button class="btn btn-warning btn-spaced"
-                          type="submit"
-                          name="suggest"
-                          {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
-                          {% if not user_can_suggest %} title="{% translate "Insufficient privileges for adding suggestions." %}" {% elif project_locked %} title="{% translate "This translation is currently locked." %}" {% elif unit.readonly %} title="{% translate "Read-only" %}" {% endif %}>
+                  <button class="btn btn-warning btn-spaced" type="submit" name="suggest" {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %} {% if not user_can_suggest %} title="{% if user_can_suggest.reason %}{{ user_can_suggest.reason }}{% else %}{% translate "You do not have permission to add suggestions." %}{% endif %}" {% elif project_locked %} title="{% translate "This translation is currently locked." %}" {% elif unit.readonly %} title="{% translate "Read-only" %}" {% endif %}>
                     {% translate "Suggest" %}
                   </button>
                 {% endif %}
@@ -1130,7 +1126,7 @@
                       aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">
-              <div id="screenshot-form-container">{{ screenshot_form|crispy }}</div>
+              <div id="screenshot-form-container">{% crispy screenshot_form %}</div>
               <input type="hidden" name="source" value="{{ unit.pk }}" />
               <input type="hidden" name="next" value="{{ this_unit_url }}" />
             </div>

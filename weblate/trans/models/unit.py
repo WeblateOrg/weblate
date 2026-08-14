@@ -21,6 +21,11 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy, ngettext
 from pyparsing import ParseException
 
+from weblate.auth.data import (
+    SELECTION_ALL,
+    SELECTION_ALL_PROTECTED,
+    SELECTION_ALL_PUBLIC,
+)
 from weblate.auth.results import PermissionResult
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
@@ -88,6 +93,14 @@ COMPONENT_ORDER_FIELDS = [
     "translation__component__is_glossary",
     "translation__component__name",
 ]
+UNIT_METADATA_UPDATE_FIELDS = (
+    "location",
+    "note",
+    "position",
+    "automatically_translated",
+    "flags",
+    "last_updated",
+)
 
 
 def orders_units_by_component(obj: object) -> bool:
@@ -121,6 +134,56 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
     """
     for unit in units:
         unit.translation.component.source_translation = unit.source_unit.translation
+
+
+def _get_permission_scope_query(user: User, permission: str) -> Q:
+    """Build a unit filter from cached project and component permission scopes."""
+    language_lookup = "translation__language_id__in"
+    component_lookup = "translation__component_id"
+    project_lookup = "translation__component__project_id"
+    unrestricted = Q(translation__component__restricted=False)
+    project_scopes = {
+        -SELECTION_ALL: unrestricted,
+        -SELECTION_ALL_PUBLIC: unrestricted
+        & Q(translation__component__project__access_control=Project.ACCESS_PUBLIC),
+        -SELECTION_ALL_PROTECTED: unrestricted
+        & Q(translation__component__project__access_control=Project.ACCESS_PROTECTED),
+    }
+    result = Q(pk__in=())
+
+    for project_id, project_permissions in user.project_permissions.items():
+        project_scope = project_scopes.get(project_id)
+        if project_scope is None:
+            if project_id < 0:
+                continue
+            project_scope = unrestricted & Q(**{project_lookup: project_id})
+        for permissions, languages in project_permissions:
+            if permissions is None or permission not in permissions:
+                continue
+            scope = project_scope
+            if languages is not None:
+                scope &= Q(**{language_lookup: languages.language_ids})
+            result |= scope
+
+    for component_id, component_permissions in user.component_permissions.items():
+        component_scope = Q(**{component_lookup: component_id})
+        for permissions, languages in component_permissions:
+            if permission not in permissions:
+                continue
+            scope = component_scope
+            if languages is not None:
+                scope &= Q(**{language_lookup: languages.language_ids})
+            result |= scope
+
+    blocked_project_ids = {
+        project_id
+        for project_id, scoped_permissions in user.project_permissions.items()
+        if project_id > 0 and scoped_permissions == [(None, None)]
+    }
+    if blocked_project_ids:
+        result &= ~Q(**{f"{project_lookup}__in": blocked_project_ids})
+
+    return result
 
 
 class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
@@ -498,6 +561,28 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
                 Q(translation__component__restricted=False)
                 | Q(translation__component_id__in=user.component_permissions)
             )
+        return result
+
+    def filter_editable_scope(self, user: User) -> UnitQuerySet:
+        """Keep units in scopes where the user can potentially edit."""
+        if user.is_authenticated and not user.email:
+            return self.none()
+        if user.is_superuser:
+            return self
+
+        result = self.filter(
+            (
+                Q(translation__component__is_glossary=False)
+                & _get_permission_scope_query(user, "unit.edit")
+            )
+            | (
+                Q(translation__component__is_glossary=True)
+                & _get_permission_scope_query(user, "glossary.edit")
+            ),
+            translation__component__locked=False,
+        ).exclude(state=STATE_READONLY)
+        if not user.is_bot and not user.profile.has_2fa:
+            result = result.filter(translation__component__project__enforced_2fa=False)
         return result
 
     def get_ordered(self, ids):
@@ -1124,7 +1209,17 @@ class Unit(models.Model, LoggerMixin):
                 )
 
     def update_source_unit(
-        self, component, source, context, pos, note, location, flags: Flags, explanation
+        self,
+        component,
+        source,
+        context,
+        pos,
+        note,
+        location,
+        flags: Flags,
+        explanation,
+        *,
+        metadata_updates: dict[int, Unit] | None = None,
     ) -> None:
         source_unit = component.get_source(
             self.id_hash,
@@ -1144,6 +1239,7 @@ class Unit(models.Model, LoggerMixin):
         except ParseException:
             parsed_flags = Flags()
         same_flags = flags == parsed_flags
+        same_explanation = explanation == source_unit.explanation
         if (
             not source_unit.source_updated
             and not source_unit.translation.filename
@@ -1161,12 +1257,21 @@ class Unit(models.Model, LoggerMixin):
             source_unit.explanation = explanation
             source_unit.flags = flags.format()
             source_unit.note = note
-            source_unit.save(
-                update_fields=["position", "location", "explanation", "flags", "note"],
-                same_content=True,
-                run_checks=False,
-                only_save=same_flags,
-            )
+            if same_flags and same_explanation and metadata_updates is not None:
+                metadata_updates[source_unit.pk] = source_unit
+            else:
+                source_unit.save(
+                    update_fields=[
+                        "position",
+                        "location",
+                        "explanation",
+                        "flags",
+                        "note",
+                    ],
+                    same_content=True,
+                    run_checks=False,
+                    only_save=same_flags,
+                )
         self.source_unit = source_unit
 
     def store_unit_attributes(
@@ -1240,11 +1345,12 @@ class Unit(models.Model, LoggerMixin):
             "automatically_translated": unit.is_automatically_translated(),
         }
 
-    def update_from_unit(  # ruff: ignore[complex-structure, too-many-locals]
+    def update_from_unit(  # ruff: ignore[complex-structure, too-many-locals, too-many-statements]
         self,
         *,
         user: User | None = None,
         author: User | None = None,
+        metadata_updates: dict[int, Unit] | None = None,
     ) -> None:
         """Update Unit from ttkit unit."""
         translation = self.translation
@@ -1291,6 +1397,7 @@ class Unit(models.Model, LoggerMixin):
                 location,
                 flags,
                 source_explanation,
+                metadata_updates=metadata_updates,
             )
 
         # Get comparison state (disk_state if exists, otherwise current state)
@@ -1407,19 +1514,22 @@ class Unit(models.Model, LoggerMixin):
         # Metadata update only, these do not trigger any actions in Weblate and
         # are display only
         if same_data and not same_metadata:
-            update_fields = [
-                "location",
-                "note",
-                "position",
-                "automatically_translated",
-            ]
-            if not supports_explanation:
-                update_fields.append("explanation")
-            self.save(
-                same_content=True,
-                only_save=True,
-                update_fields=update_fields,
-            )
+            if metadata_updates is not None:
+                metadata_updates[self.pk] = self
+            else:
+                update_fields = [
+                    "location",
+                    "note",
+                    "position",
+                    "automatically_translated",
+                ]
+                if not supports_explanation:
+                    update_fields.append("explanation")
+                self.save(
+                    same_content=True,
+                    only_save=True,
+                    update_fields=update_fields,
+                )
             return
 
         # Sanitize number of plurals

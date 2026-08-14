@@ -173,11 +173,16 @@ from weblate.utils.validators import (
     validate_slug,
 )
 from weblate.vcs.base import (
+    RepositoryAlertDetails,
+    RepositoryDiagnosis,
     RepositoryError,
+    RepositoryInternalError,
     RepositoryRecoveryEvent,
     RepositoryRedirectError,
     RepositoryRestrictedPathError,
+    RepositoryStructuredError,
     RepositorySymlinkError,
+    get_repository_error_diagnoses,
     is_ssh_host_key_mismatch_error,
     is_ssh_host_key_verification_error,
     should_auto_add_ssh_host_key,
@@ -525,10 +530,6 @@ OldComponentSetting = TypeVar("OldComponentSetting")
 class Component(  # ruff: ignore[too-many-public-methods]
     models.Model, PathMixin, CacheKeyMixin, ComponentCategoryMixin, LockMixin
 ):
-    # Transient values captured before deletion so post_delete can clean up
-    # automatic translation-memory scopes after related project data is gone.
-    memory_full_slug: str | None = None
-    memory_workspace_id: UUID | None = None
     repository_redirect_changes: list[tuple[str, str, str]] | None = None
 
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
@@ -774,9 +775,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
     suggestion_voting = models.BooleanField(
         verbose_name=gettext_lazy("Suggestion voting"),
         default=False,
-        help_text=gettext_lazy(
-            "Users can only vote for suggestions and can’t make direct translations."
-        ),
+        help_text=gettext_lazy("Allows users to vote on suggestions."),
     )
     # This should match definition in WorkflowSetting
     suggestion_autoaccept = models.PositiveSmallIntegerField(
@@ -1188,7 +1187,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self._glossary_sync_scheduled = False
         self.new_lang_error_message: str | None = None
 
-    def save(self, *args, **kwargs) -> None:  # ruff: ignore[complex-structure]
+    def save(  # ruff: ignore[complex-structure, too-many-locals]
+        self, *args, **kwargs
+    ) -> None:
         """
         Save wrapper.
 
@@ -1233,6 +1234,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         # loop. A full component TM import is only needed when contribution is
         # enabled later for units that already exist.
         update_tm = False
+        restricted_changed = False
         old_full_slug = None
         old_source_project_id = None
         old_workspace_id = None
@@ -1251,6 +1253,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
             old_full_slug = old.full_slug
             old_source_project_id = old.project_id
             old_workspace_id = old.project.workspace_id
+            restricted_changed = old.restricted != self.restricted
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
@@ -1280,6 +1283,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             if update_fields_set is not None:
                 kwargs["update_fields"] = update_fields_set
                 update_fields = update_fields_set
+            restricted_changed = restricted_changed and (
+                update_fields is None or "restricted" in update_fields
+            )
 
             changed_variant = old.variant_regex != self.variant_regex
             # Generate change entries for changes
@@ -1306,6 +1312,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
             # Detect if the component had TM contribution disabled but changed to enabled.
             update_tm = self.contribute_project_tm and not old.contribute_project_tm
+            if restricted_changed and not self.restricted:
+                update_tm = update_tm or self.project.contribute_shared_tm
         elif self.is_glossary:
             # Creating new glossary
 
@@ -1333,6 +1341,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # Save/Create object
         super().save(*args, **kwargs)
+        if restricted_changed and self.restricted:
+            # TODO(2028.1): Legacy unattributed shared scopes keep their
+            # pre-upgrade behavior until the component backfill processes them.
+            # Remove this migration caveat once Weblate no longer supports
+            # direct upgrades from 2026 releases.
+            self.delete_shared_memory_scope()
         if repository_redirect_changes:
             self.repository_redirect_changes = None
             for field, old_url, canonical_url in repository_redirect_changes:
@@ -1526,6 +1540,16 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
         Memory.objects.filter(origin=origin).delete_scope(
             scope_query, delete_legacy=False
+        )
+
+    def delete_shared_memory_scope(self) -> None:
+        """Remove shared TM scopes contributed by this component."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.memory.models import Memory, MemoryScope
+
+        Memory.objects.delete_scope(
+            Q(scope=MemoryScope.SCOPE_SHARED, source_component=self),
+            delete_legacy=False,
         )
 
     def disable_inheritance_for_changed_settings(
@@ -2538,10 +2562,62 @@ class Component(  # ruff: ignore[too-many-public-methods]
     def error_text(self, error: RepositoryError) -> str:
         """Return text message for a RepositoryError."""
         return sanitize_backend_error_message(
-            error.get_message(),
+            error.get_message(gettext),
             repo_urls=(self.repo, self.push),
             extra_paths=(self.full_path,),
         )
+
+    def get_repository_alert_details(
+        self, error: RepositoryError
+    ) -> RepositoryAlertDetails:
+        """Build persistent, locale-independent repository alert details."""
+        error_text = sanitize_backend_error_message(
+            error.get_message(),
+            repo_urls=(self.repo, self.push),
+            extra_paths=(self.full_path,),
+            url_placeholder="...",
+        )
+        stored_error: str | RepositoryStructuredError
+        if isinstance(error, RepositoryInternalError):
+            stored_error = error.get_stored_error()
+            if params := stored_error.get("params"):
+                stored_error["params"] = {
+                    key: sanitize_backend_error_message(
+                        value,
+                        repo_urls=(self.repo, self.push),
+                        extra_paths=(self.full_path,),
+                        url_placeholder="...",
+                    )
+                    for key, value in params.items()
+                }
+        else:
+            stored_error = error_text
+        diagnoses: list[RepositoryDiagnosis] = []
+        seen: set[tuple[str, tuple[tuple[str, str], ...]]] = set()
+        for diagnosis in [
+            *error.diagnoses,
+            *get_repository_error_diagnoses(error_text),
+        ]:
+            params = diagnosis.get("params", {})
+            key = (diagnosis["code"], tuple(sorted(params.items())))
+            if key in seen:
+                continue
+            seen.add(key)
+            if params:
+                diagnosis = {
+                    "code": diagnosis["code"],
+                    "params": {
+                        key: sanitize_backend_error_message(
+                            value,
+                            repo_urls=(self.repo, self.push),
+                            extra_paths=(self.full_path,),
+                            url_placeholder="...",
+                        )
+                        for key, value in params.items()
+                    },
+                }
+            diagnoses.append(diagnosis)
+        return {"error": stored_error, "diagnoses": diagnoses}
 
     @staticmethod
     def get_ssh_host_key_error_message() -> str:
@@ -2681,7 +2757,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.handle_update_error(error_text, retry)
                 return self.update_remote_branch(True, False, user=user)
             if self.id:
-                self.add_alert("UpdateFailure", error=error_text)
+                self.add_alert(
+                    "UpdateFailure", **self.get_repository_alert_details(error)
+                )
             return False
 
         for line in self.repository.last_output.splitlines():
@@ -2992,7 +3070,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         "error_text": error_text,
                     },
                 )
-                self.add_alert("PushFailure", error=error_text)
+                self.add_alert(
+                    "PushFailure", **self.get_repository_alert_details(error)
+                )
                 return False
             self.delete_alert("RepositoryChanges")
             self.delete_alert("PushFailure")
@@ -3903,11 +3983,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         """Surface failed recovery from interrupted repository operations."""
         if self._state.adding:
             return
+        details: RepositoryAlertDetails
         if isinstance(error, RepositoryError):
-            error_text = self.error_text(error)
+            details = self.get_repository_alert_details(error)
         else:
-            error_text = str(error)
-        self.add_alert("RepositoryOperationFailure", error=error_text)
+            details = {"error": str(error), "diagnoses": []}
+        self.add_alert("RepositoryOperationFailure", **details)
 
     @perform_on_link
     @contextmanager
@@ -4015,7 +4096,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                         author=user,
                         details=details,
                     )
-                    self.add_alert("MergeFailure", error=error_text)
+                    self.add_alert(
+                        "MergeFailure", **self.get_repository_alert_details(error)
+                    )
 
                 # Reset repo back
                 method_func(abort=True)
@@ -4225,32 +4308,73 @@ class Component(  # ruff: ignore[too-many-public-methods]
             self.alerts_trigger[name] = [kwargs]
 
     def delete_alert(self, alert: str) -> None:
-        if alert in self.all_alerts:
-            self.all_alerts[alert].delete()
-            del self.all_alerts[alert]
-            self.update_alert_caches()
-            self.clear_prefetched_alerts()
-            if (
-                self.locked
-                and self.effective_auto_lock_error
-                and alert in LOCKING_ALERTS
-                and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
-                and getattr(
-                    # The object might not exist
-                    self.change_set.filter(action=ActionEvents.LOCK)
-                    .order_by("-id")
-                    .first(),
-                    "auto_status",
-                    None,
-                )
-            ):
-                self.do_lock(user=None, lock=False, auto=True)
+        alert_class = get_alert_class(alert)
+        linked_children = list(self.linked_children) if alert_class.link_wide else []
+        alert_exists = alert in self.all_alerts
 
-        if get_alert_class(alert).link_wide:
-            for component in self.linked_children:
+        if alert not in LOCKING_ALERTS:
+            if alert_exists:
+                self._delete_alert(self.all_alerts[alert])
+            for component in linked_children:
                 component.delete_alert(alert)
+            return
+
+        if not alert_exists and not any(
+            alert in component.all_alerts for component in linked_children
+        ):
+            return
+
+        with transaction.atomic():
+            locked_component = Component.objects.get_for_update(pk=self.pk)
+            alert_obj = locked_component.alert_set.filter(name=alert).first()
+            if alert_obj is not None:
+                self._delete_alert(alert_obj, locked_component=locked_component)
+            if alert_class.link_wide:
+                for component in locked_component.linked_children:
+                    component.delete_alert(alert)
+
+    def _delete_alert(
+        self, alert_obj: Alert, *, locked_component: Component | None = None
+    ) -> None:
+        alert = alert_obj.name
+        alert_obj.delete()
+        cached_alerts = self.__dict__.get("all_alerts")
+        if cached_alerts is not None:
+            cached_alerts.pop(alert, None)
+        self.update_alert_caches()
+        self.clear_prefetched_alerts()
+        if (
+            locked_component is not None
+            and locked_component.locked
+            and locked_component.effective_auto_lock_error
+            and not locked_component.alert_set.filter(name__in=LOCKING_ALERTS).exists()
+            and getattr(
+                # The object might not exist
+                locked_component.change_set.filter(action=ActionEvents.LOCK)
+                .order_by("-id")
+                .first(),
+                "auto_status",
+                None,
+            )
+        ):
+            self.do_lock(user=None, lock=False, auto=True)
 
     def add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
+        alert_class = get_alert_class(alert)
+        if alert in LOCKING_ALERTS and alert_class.link_wide:
+            with transaction.atomic():
+                Component.objects.get_for_update(pk=self.pk)
+                self._add_alert(alert, noupdate=noupdate, **details)
+                for component in self.linked_children:
+                    component.add_alert(alert, noupdate=noupdate, **details)
+            return
+
+        self._add_alert(alert, noupdate=noupdate, **details)
+        if alert_class.link_wide:
+            for component in self.linked_children:
+                component.add_alert(alert, noupdate=noupdate, **details)
+
+    def _add_alert(self, alert: str, noupdate: bool = False, **details) -> None:
         alert_class = get_alert_class(alert)
         severity = alert_class.severity
         if alert in self.all_alerts:
@@ -4319,10 +4443,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         self.update_alert_caches()
         self.clear_prefetched_alerts()
-
-        if alert_class.link_wide:
-            for component in self.linked_children:
-                component.add_alert(alert, noupdate=noupdate, **details)
 
     def update_import_alerts(self, delete: bool = True) -> None:
         self.log_info("checking triggered alerts")
@@ -5360,6 +5480,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.drop_file_format_cache()
         if self.project_id is None:
             return
+        if settings.OFFER_HOSTING and self.project.use_shared_tm and self.restricted:
+            raise ValidationError(
+                {
+                    "restricted": gettext(
+                        "A component can not be restricted while its project uses shared translation memory."
+                    )
+                }
+            )
         if self.effective_new_lang == "url" and not self.project.instructions:
             msg = gettext(
                 "Please either fill in an instruction URL "
@@ -5794,7 +5922,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 project=self.project,
                 skip_error_reporting=not settings.DEBUG,
             )
-            self.add_alert("MergeFailure", error=self.error_text(error))
+            self.add_alert("MergeFailure", **self.get_repository_alert_details(error))
             return 0
 
     def _get_count_repo_outgoing(self, retry: bool = True):
@@ -5810,7 +5938,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 project=self.project,
                 skip_error_reporting=not settings.DEBUG,
             )
-            self.add_alert("PushFailure", error=error_text)
+            self.add_alert("PushFailure", **self.get_repository_alert_details(error))
             return 0
 
     @property
@@ -5848,7 +5976,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 project=self.project,
                 skip_error_reporting=not settings.DEBUG,
             )
-            self.add_alert("PushFailure", error=error_text)
+            self.add_alert("PushFailure", **self.get_repository_alert_details(error))
             return False
 
     @property

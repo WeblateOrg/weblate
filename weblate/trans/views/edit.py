@@ -72,6 +72,7 @@ from weblate.trans.util import redirect_next, render
 from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
+from weblate.utils.celery import store_task_metadata
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -804,10 +805,13 @@ def perform_suggestion(unit, form, request: AuthenticatedHttpRequest):
         messages.error(request, gettext("Your suggestion is empty!"))
         # Stay on same entry
         return False
-    if not request.user.has_perm("suggestion.add", unit):
+    suggestion_permission = request.user.has_perm("suggestion.add", unit)
+    if not suggestion_permission:
         # Need privilege to add
         messages.error(
-            request, gettext("You don't have privileges to add suggestions!")
+            request,
+            getattr(suggestion_permission, "reason", "")
+            or gettext("You do not have permission to add suggestions."),
         )
         # Stay on same entry
         return False
@@ -1006,11 +1010,21 @@ def check_suggest_permissions(
     """Check permission for suggestion handling."""
     user = request.user
     if mode in {"accept", "accept_edit", "accept_approve"}:
-        if not user.has_perm("suggestion.accept", unit) or (
-            mode == "accept_approve" and not user.has_perm("unit.review", unit)
+        accept_permission = user.has_perm("suggestion.accept", unit)
+        if not accept_permission:
+            messages.error(
+                request,
+                getattr(accept_permission, "reason", "")
+                or gettext("You do not have permission to accept suggestions."),
+            )
+            return False
+        if mode == "accept_approve" and not (
+            review_permission := user.has_perm("unit.review", unit)
         ):
             messages.error(
-                request, gettext("You do not have privilege to accept suggestions!")
+                request,
+                getattr(review_permission, "reason", "")
+                or gettext("You do not have permission to approve translations."),
             )
             return False
     elif mode in {"delete", "spam"}:
@@ -1517,6 +1531,12 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             source_component_id=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
+        )
+        store_task_metadata(
+            task.id,
+            component_id=component_id,
+            translation_id=translation_id,
+            user_id=request.user.id,
         )
         messages.success(
             request, gettext("Automatic translation in progress"), f"task:{task.id}"

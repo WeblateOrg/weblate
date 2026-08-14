@@ -135,6 +135,27 @@ class WorkspaceViewTest(BaseTestCase):
         create_url = f"{reverse('create-project')}?workspace={workspace.pk}"
         self.assertContains(response, create_url)
 
+    def test_workspace_always_shows_upload_placeholder(self) -> None:
+        workspace = Workspace.objects.create(name="Upload workspace")
+        self.create_project(
+            workspace,
+            name="Empty project",
+            slug="empty-project",
+        )
+
+        response = self.client.get(workspace.get_absolute_url())
+
+        self.assertContains(response, "Upload translation")
+        self.assertContains(
+            response, "Uploading translations at this level is not supported."
+        )
+        self.assertContains(response, 'data-bs-target="#projects"')
+        self.assertNotContains(
+            response,
+            "Download translation files as ZIP file",
+            status_code=200,
+        )
+
     def test_workspace_project_sort_does_not_affect_search_sort(self) -> None:
         workspace = Workspace.objects.create(name="Test workspace")
         self.create_project(

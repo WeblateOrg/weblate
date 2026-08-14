@@ -70,6 +70,10 @@
   --wl-navi-text-color: #fffdfa;
   --wl-focus-color: #4eeac9;
   --wl-hover-color: #ddd9d1;
+  --wl-primary-button-color: #1c8f75;
+  --wl-progress-color: rgba(28, 143, 117, 0.6);
+  --wl-progress-approved-color: #124437;
+  --wl-progress-bg: #343a40;
 }
 
 [data-bs-theme="dark"] {
@@ -134,7 +138,7 @@
 
   .btn-primary {
     --bs-btn-color: var(--wl-color-text-strong);
-    --bs-btn-bg: var(--wl-color-primary);
+    --bs-btn-bg: var(--wl-primary-button-color);
     --bs-btn-border-color: var(--wl-color-primary);
     --bs-btn-disabled-color: var(--wl-color-text-strong);
     --bs-btn-disabled-bg: var(--wl-color-primary-strong);
@@ -681,7 +685,7 @@ a.red:hover path {
 
 .state-icon.green path,
 .green path {
-  fill: #6cf8d8;
+  fill: var(--wl-color-link);
 }
 
 footer li,

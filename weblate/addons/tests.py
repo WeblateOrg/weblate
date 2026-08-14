@@ -54,7 +54,7 @@ from weblate.addons.forms import (
     SphinxExtractPotForm,
     XgettextExtractPotForm,
 )
-from weblate.auth.models import Group, Permission, Role
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
 from weblate.trans.exceptions import FileParseError
@@ -88,6 +88,7 @@ from weblate.vcs.base import Repository, RepositoryError
 
 from .autotranslate import DEFAULT_AUTO_TRANSLATE_THRESHOLD, AutoTranslateAddon
 from .base import (
+    ADDON_CHANGE_DETAILS_SCHEMA,
     CHANGE_EVENT_FILTER_ALL,
     CHANGE_EVENT_FILTER_CONTENT,
     CHANGE_EVENT_FILTER_CUSTOM,
@@ -350,6 +351,50 @@ class AddonBaseTest(TestAddonMixin, ComponentTestCase):
         addon = NoOpAddon.create(component=self.component)
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.addon_set.count(), 1)
+
+    def test_addon_change_history_redacts_credentials(self) -> None:
+        configuration = {
+            "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+            "events": [],
+            "secret": "first-secret",
+            "webhook_url": "https://example.com/private-hook",
+        }
+        addon = WebhookAddon.create(
+            component=self.component,
+            configuration=configuration,
+            run=False,
+        ).instance
+
+        created = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
+        self.assertEqual(created.details["schema"], ADDON_CHANGE_DETAILS_SCHEMA)
+        self.assertEqual(
+            created.details["configuration"],
+            {
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "events": [],
+                "secret": None,
+                "webhook_url": None,
+            },
+        )
+        self.assertEqual(created.details["redacted_fields"], ["secret", "webhook_url"])
+
+        addon.configuration["secret"] = "rotated-secret"
+        addon.save()
+
+        changed = self.component.change_set.get(action=ActionEvents.ADDON_CHANGE)
+        self.assertEqual(changed.details["changed_fields"], ["secret"])
+        self.assertIn("<code>secret</code> (redacted)", changed.get_details_display())
+        self.assertNotIn("first-secret", str(changed.details))
+        self.assertNotIn("rotated-secret", str(changed.details))
+
+        addon.delete()
+
+        removed = self.component.change_set.get(action=ActionEvents.ADDON_REMOVE)
+        self.assertEqual(
+            removed.details["changed_fields"],
+            ["event_filter", "events", "secret", "webhook_url"],
+        )
+        self.assertNotIn("rotated-secret", str(removed.details))
 
     def test_create_category_addon(self) -> None:
         category = self.create_category(self.project)
@@ -7288,6 +7333,106 @@ class FedoraMessagingAMQPUrlMigrationTest(TestCase):
         )
 
 
+class AddonChangeDetailsMigrationTest(TestCase):
+    def test_sensitive_addon_details_are_scrubbed(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0098_scrub_addon_change_details"
+        )
+        webhook_changes = [
+            Change.objects.create(
+                action=action,
+                target=WebhookAddon.name,
+                details={
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [str(ActionEvents.NEW)],
+                    "secret": "private-secret",
+                    "webhook_url": "https://example.com/private-hook",
+                },
+            )
+            for action in (
+                ActionEvents.ADDON_CREATE,
+                ActionEvents.ADDON_CHANGE,
+                ActionEvents.ADDON_REMOVE,
+            )
+        ]
+        slack_change = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target=SlackWebhookAddon.name,
+            details={
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "webhook_url": "https://example.com/private-hook",
+            },
+        )
+        fedora_change = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target=FedoraMessagingAddon.name,
+            details={
+                "amqp_url": "amqps://user:password@example.com/%2F",
+                "ca_cert": "private-ca",
+                "client_cert": "private-certificate",
+                "client_key": "private-key",
+                "topic_prefix": "weblate",
+            },
+        )
+        other_change = Change.objects.create(
+            action=ActionEvents.CHANGE,
+            target=WebhookAddon.name,
+            details={"key": "value"},
+        )
+        schema_editor = SimpleNamespace(connection=SimpleNamespace(alias="default"))
+
+        migration.scrub_addon_change_details(apps, schema_editor)
+
+        for stored_change in webhook_changes:
+            stored_change.refresh_from_db()
+            self.assertEqual(
+                stored_change.details,
+                {
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [str(ActionEvents.NEW)],
+                    "secret": None,
+                    "webhook_url": None,
+                },
+            )
+        slack_change.refresh_from_db()
+        self.assertEqual(
+            slack_change.details,
+            {
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "webhook_url": None,
+            },
+        )
+        fedora_change.refresh_from_db()
+        self.assertEqual(
+            fedora_change.details,
+            {
+                "amqp_url": None,
+                "ca_cert": None,
+                "client_cert": None,
+                "client_key": None,
+                "topic_prefix": "weblate",
+            },
+        )
+        other_change.refresh_from_db()
+        self.assertEqual(other_change.details, {"key": "value"})
+
+    def test_unknown_addon_details_are_unchanged(self) -> None:
+        migration = importlib.import_module(
+            "weblate.trans.migrations.0098_scrub_addon_change_details"
+        )
+        change_object = Change.objects.create(
+            action=ActionEvents.ADDON_CHANGE,
+            target="example.unknown.addon",
+            details={"path": "private-path"},
+        )
+        schema_editor = SimpleNamespace(connection=SimpleNamespace(alias="default"))
+
+        migration.scrub_addon_change_details(apps, schema_editor)
+
+        change_object.refresh_from_db()
+        self.assertEqual(change_object.details, {"path": "private-path"})
+
+
 class TestRemoval(ComponentTestCase):
     def install(
         self,
@@ -7484,6 +7629,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             source_component_id=None,
             user_id=None,
             activity_log_id=None,
+            enforce_permissions=False,
         )
         self.assertEqual(outcome, AddonEventOutcome.pending())
 
@@ -7581,6 +7727,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             source_component_id=None,
             user_id=None,
             activity_log_id=123,
+            enforce_permissions=False,
         )
 
     def test_auto_others_component_uses_addon_user(self) -> None:
@@ -7611,6 +7758,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             source_component_id=None,
             user_id=addon.user.id,
             activity_log_id=None,
+            enforce_permissions=False,
         )
 
     def test_auto_change_event_normalizes_blank_component(self) -> None:
@@ -7649,6 +7797,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
             translation_id=self.translation.id,
             activity_log_id=None,
             activity_log_task_count=2,
+            enforce_permissions=False,
         )
 
     def test_auto_change_event_passes_fanout_task_count(self) -> None:
@@ -7880,8 +8029,7 @@ class AutoTranslateAddonTest(ComponentTestCase):
         self.assertIn("First task failed", rendered)
         self.assertIn("Second task succeeded", rendered)
 
-    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
-    def test_auto_change_event(self) -> None:
+    def assert_auto_change_event(self, change_user: User | None) -> None:
         component_1 = self.create_po_new_base(name="Component 1", project=self.project)
         component_1.allow_translation_propagation = False
         component_1.save()
@@ -7915,8 +8063,8 @@ class AutoTranslateAddonTest(ComponentTestCase):
         with self.captureOnCommitCallbacks(execute=True):
             Comment.objects.create(unit=unit_2, comment="Foo")
         change = unit_2.change_set.latest("timestamp")
-        change.user = None
-        change.author = None
+        change.user = change_user
+        change.author = change_user
         change.save(update_fields=["user", "author"])
 
         with self.captureOnCommitCallbacks(execute=True):
@@ -7924,17 +8072,26 @@ class AutoTranslateAddonTest(ComponentTestCase):
 
         unit_2 = translation_2.unit_set.get(source="one")
         self.assertEqual(unit_2.target, "jeden")
+        expected_author = change_user or addon.user
         self.assertEqual(
             unit_2.change_set.get(action=ActionEvents.AUTO).author,
-            addon.user,
+            expected_author,
         )
         self.assertTrue(
             PendingUnitChange.objects.filter(
                 unit=unit_2,
-                author=addon.user,
+                author=expected_author,
                 automatically_translated=True,
             ).exists()
         )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_auto_change_event(self) -> None:
+        self.assert_auto_change_event(None)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_auto_change_event_uses_triggering_user(self) -> None:
+        self.assert_auto_change_event(self.user)
 
 
 class AddonConfigurationUnitTest(SimpleTestCase):
@@ -7949,6 +8106,67 @@ class AddonConfigurationUnitTest(SimpleTestCase):
         addon = TypedConfigAddon(Addon(configuration={}))
 
         self.assertEqual(addon.get_configuration(), {"count": 0})
+
+    def test_public_configuration_is_fail_closed(self) -> None:
+        addon = TypedConfigAddon(Addon(configuration={"count": "5"}))
+
+        self.assertEqual(addon.get_public_configuration(), {"count": None})
+
+    def test_webhook_public_configuration_preserves_safe_fields(self) -> None:
+        addon = WebhookAddon(
+            Addon(
+                configuration={
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [],
+                    "secret": "private-secret",
+                    "webhook_url": "https://example.com/private-hook",
+                }
+            )
+        )
+
+        self.assertEqual(
+            addon.get_public_configuration(),
+            {
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "events": [],
+                "secret": None,
+                "webhook_url": None,
+            },
+        )
+
+    def test_fedora_public_configuration_redacts_credentials(self) -> None:
+        addon = FedoraMessagingAddon(
+            Addon(
+                configuration={
+                    "amqp_url": "amqps://user:password@example.com/%2F",
+                    "ca_cert": "private-ca",
+                    "client_cert": "private-certificate",
+                    "client_key": "private-key",
+                    "connection_attempts": 3,
+                    "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                    "events": [],
+                    "publish_timeout": 30,
+                    "retry_delay": 5,
+                    "topic_prefix": "weblate",
+                }
+            )
+        )
+
+        self.assertEqual(
+            addon.get_public_configuration(),
+            {
+                "amqp_url": None,
+                "ca_cert": None,
+                "client_cert": None,
+                "client_key": None,
+                "connection_attempts": 3,
+                "event_filter": CHANGE_EVENT_FILTER_CONTENT,
+                "events": [],
+                "publish_timeout": 30,
+                "retry_delay": 5,
+                "topic_prefix": "weblate",
+            },
+        )
 
     def test_trigger_autotranslate_normalizes_blank_component_for_translation_task(
         self,
@@ -7983,6 +8201,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             translation_id=2,
             activity_log_id=None,
             activity_log_task_count=None,
+            enforce_permissions=False,
         )
 
     def test_trigger_autotranslate_normalizes_blank_component_for_component_task(
@@ -8018,6 +8237,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
             source_component_id=None,
             user_id=None,
             activity_log_id=None,
+            enforce_permissions=False,
         )
 
     def test_get_configuration_normalizes_legacy_filter_configuration(self) -> None:

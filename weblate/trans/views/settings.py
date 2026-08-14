@@ -31,8 +31,10 @@ from weblate.trans.forms import (
     AddCategoryForm,
     AnnouncementForm,
     BaseDeleteForm,
+    CategoryDeleteForm,
     CategoryRenameForm,
     CategorySettingsForm,
+    ComponentDeleteForm,
     ComponentLinkAddForm,
     ComponentLinkCategoryForm,
     ComponentRenameForm,
@@ -60,6 +62,7 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import aparse_path, parse_path, show_form_errors
@@ -70,6 +73,15 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
     from weblate.auth.models import AuthenticatedHttpRequest
+
+
+def _show_repository_lock_timeout(request: AuthenticatedHttpRequest) -> None:
+    messages.error(
+        request,
+        gettext(
+            "There appears to be an ongoing operation on the repository. Please try again later."
+        ),
+    )
 
 
 @never_cache
@@ -87,7 +99,13 @@ def change(request: AuthenticatedHttpRequest, path):
         raise Http404
 
     if isinstance(obj, Component):
-        return change_component(request, obj)
+        try:
+            return change_component(request, obj)
+        except WeblateLockTimeoutError:
+            if request.method != "POST":
+                raise
+            _show_repository_lock_timeout(request)
+            return redirect("settings", path=obj.get_url_path())
     if isinstance(obj, Category):
         return change_category(request, obj)
     if isinstance(obj, ProjectLanguage):
@@ -257,7 +275,13 @@ def remove(request: AuthenticatedHttpRequest, path):
     if not request.user.has_perm(obj.remove_permission, obj):
         raise PermissionDenied
 
-    form = BaseDeleteForm(obj, request.POST)
+    if isinstance(obj, Component):
+        form_class = ComponentDeleteForm
+    elif isinstance(obj, Category):
+        form_class = CategoryDeleteForm
+    else:
+        form_class = BaseDeleteForm
+    form = form_class(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect_param(obj, "#organize")
@@ -269,13 +293,17 @@ def remove(request: AuthenticatedHttpRequest, path):
         messages.success(request, gettext("The translation has been removed."))
     elif isinstance(obj, Component):
         parent = obj.category or obj.project
-        component_removal.delay(obj.pk, request.user.pk)
+        component_removal.delay(
+            obj.pk, request.user.pk, form.cleaned_data["delete_memory"]
+        )
         messages.success(
             request, gettext("The translation component was scheduled for removal.")
         )
     elif isinstance(obj, Category):
         parent = obj.category or obj.project
-        category_removal.delay(obj.pk, request.user.pk)
+        category_removal.delay(
+            obj.pk, request.user.pk, form.cleaned_data["delete_memory"]
+        )
         messages.success(request, gettext("The category was scheduled for removal."))
     elif isinstance(obj, Project):
         parent = reverse("home")
@@ -369,11 +397,15 @@ def perform_rename(
 @require_POST
 def rename(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Component, Project, Category))
-    if isinstance(obj, Component):
-        return perform_rename(ComponentRenameForm, request, obj, "component.edit")
-    if isinstance(obj, Category):
-        return perform_rename(CategoryRenameForm, request, obj, "project.edit")
-    return perform_rename(ProjectRenameForm, request, obj, "project.edit")
+    try:
+        if isinstance(obj, Component):
+            return perform_rename(ComponentRenameForm, request, obj, "component.edit")
+        if isinstance(obj, Category):
+            return perform_rename(CategoryRenameForm, request, obj, "project.edit")
+        return perform_rename(ProjectRenameForm, request, obj, "project.edit")
+    except WeblateLockTimeoutError:
+        _show_repository_lock_timeout(request)
+        return redirect_param(obj, "#organize")
 
 
 @login_required

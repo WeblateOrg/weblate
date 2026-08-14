@@ -55,13 +55,13 @@ jobs:
       run: sudo ./ci/apt-install
     - name: Install legacy rendering dependencies
       run: sudo apt-get install -y libgirepository-2.0-dev libcairo-dev gir1.2-rsvg-2.0 gir1.2-pango-1.0
-    - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+    - uses: astral-sh/setup-uv@ae62891fec2bb8e7d6c99fc78c9fec3a63790f8d # v10.0.0
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.11.32
+        version: 0.12.3
     - name: Set up Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
@@ -94,6 +94,8 @@ jobs:
       run: ./ci/run-migrate 2026.6
     - name: Migrate from 2026.7
       run: ./ci/run-migrate 2026.7
+    - name: Migrate from 2026.8
+      run: ./ci/run-migrate 2026.8
     - name: Coverage
       run: |
         uv run coverage combine

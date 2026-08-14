@@ -1001,6 +1001,7 @@ class BaseFormatTest(FormatTestCase, ABC):
         b'\nmsgctxt "key"\nmsgid "Source string"\n'
     )
     NEW_UNIT_KEY = "key"
+    NEW_UNIT_TARGET: str | list[str] | None = None
     SUPPORTS_FLAG = True
     SUPPORTS_NOTES = True
     NOTE_FOR_TEST = "template note for test"
@@ -1168,7 +1169,7 @@ class BaseFormatTest(FormatTestCase, ABC):
             storage = storage.template_store
 
         # Add new unit
-        storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+        storage.new_unit(self.NEW_UNIT_KEY, "Source string", self.NEW_UNIT_TARGET)
         storage.save()
 
         # Read new content
@@ -1552,14 +1553,16 @@ class CatkeysFormatTest(BaseFormatTest):
     MIME = "text/x-catkeys"
     EXT = "catkeys"
     COUNT = 2
-    MATCH = "none"
+    MATCH = "\tczech\tx-vnd.Haiku-PackageInstaller\t"
     MASK = "*.catkeys"
     EXPECTED_PATH = "cs_CZ.catkeys"
     FIND = "none"
     FIND_CONTEXT = "PackageView"
     FIND_MATCH = "není"
-    NEW_UNIT_MATCH = b"Source string\tNewSource\t\t\n"
+    NEW_UNIT_MATCH = b"Source string\tNewSource\t\tTarget string\n"
     NEW_UNIT_KEY = "NewSource"
+    # Untranslated units are omitted by newer translate-toolkit versions.
+    NEW_UNIT_TARGET = "Target string"
     SUPPORTS_FLAG = False
     SUPPORTS_NOTES = True
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""

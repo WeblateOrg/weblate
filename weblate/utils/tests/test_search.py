@@ -5,10 +5,12 @@ from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta, timezone
 from typing import TYPE_CHECKING, ClassVar, Literal
+from unittest.mock import patch
 
 from django.db.models import Count, F, Q
 from django.test import TestCase
 from django.utils.timezone import get_current_timezone
+from pyparsing import ParserElement
 
 from weblate.auth.models import User
 from weblate.screenshots.models import Screenshot
@@ -16,7 +18,12 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.search import SearchQueryError, parse_query
+from weblate.utils.search import (
+    SearchQueryError,
+    UnitTermExpr,
+    build_parser,
+    parse_query,
+)
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -84,6 +91,12 @@ class SearchTestCase(TestCase):
 
 
 class BooleanOperatorParserTest(TestCase):
+    def test_packrat_is_enabled(self) -> None:
+        with patch.object(ParserElement, "enable_packrat") as enable_packrat:
+            build_parser(UnitTermExpr)
+
+        enable_packrat.assert_called_once_with()
+
     def test_boolean_operators_are_case_insensitive(self) -> None:
         parsers: tuple[Literal["unit", "screenshot", "user", "superuser"], ...] = (
             "unit",
@@ -101,6 +114,28 @@ class BooleanOperatorParserTest(TestCase):
                     parse_query("alpha Or beta", parser=parser),
                     parse_query("alpha OR beta", parser=parser),
                 )
+
+    def test_nested_parentheses(self) -> None:
+        self.assertEqual(
+            parse_query("((((((((alpha))))))))"),
+            parse_query("alpha"),
+        )
+
+    def test_unbalanced_parentheses(self) -> None:
+        with self.assertRaises(SearchQueryError):
+            parse_query("((((((((alpha")
+
+    def test_nested_implicit_operators(self) -> None:
+        self.assertEqual(
+            parse_query("(alpha (alpha (alpha (alpha alpha))))"),
+            parse_query("alpha AND alpha AND alpha AND alpha AND alpha"),
+        )
+
+    def test_not_chain(self) -> None:
+        self.assertEqual(
+            parse_query(f"{'NOT ' * 16}alpha"),
+            parse_query("alpha"),
+        )
 
 
 class UnitQueryParserTest(SearchTestCase):

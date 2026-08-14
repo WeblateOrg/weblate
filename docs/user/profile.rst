@@ -119,6 +119,14 @@ Theme
 
 Choose whether Weblate follows system settings for dark or light theme, or choose one of them manually.
 
+Table columns
++++++++++++++
+
+By default, Weblate hides some columns in listings (languages,
+components, projects, …) when the browser window is too narrow to fit them.
+Enable :guilabel:`Show all columns in lists using horizontal scrolling` to keep
+all columns instead and scroll the table horizontally when needed.
+
 Default dashboard view
 ++++++++++++++++++++++
 
