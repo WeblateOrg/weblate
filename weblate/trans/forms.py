@@ -113,6 +113,7 @@ from weblate.utils.forms import (
     QueryField,
     SearchableSelect,
     SearchField,
+    SortedSearchableSelect,
     SortedSelect,
     SortedSelectMultiple,
     UserField,
@@ -3207,6 +3208,11 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
         model = Component
         # ruff: ignore[mutable-class-default]
         fields = ["name", "slug", "project", "category"]
+        # ruff: ignore[mutable-class-default]
+        widgets = {
+            "project": SortedSearchableSelect,
+            "category": SortedSearchableSelect,
+        }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
@@ -3293,6 +3299,11 @@ class CategoryRenameForm(SettingsBaseForm):
         model = Category
         # ruff: ignore[mutable-class-default]
         fields = ["name", "slug", "project", "category"]
+        # ruff: ignore[mutable-class-default]
+        widgets = {
+            "project": SortedSearchableSelect,
+            "category": SortedSearchableSelect,
+        }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
@@ -3482,46 +3493,9 @@ class ProjectSettingsForm(
             "check_flags": FlagField,
         }
 
-    def get_unlicensed_components(self, project_license: str) -> list[Component]:
-        categories_by_id = {
-            category.pk: category for category in self.instance.category_set.all()
-        }
-        category_license_cache: dict[int, str] = {}
-
-        def get_category_license(category: Category) -> str:
-            if category.pk in category_license_cache:
-                return category_license_cache[category.pk]
-            if category.inherit_license:
-                if category.category_id is None:
-                    license_value = project_license
-                else:
-                    license_value = get_category_license(
-                        categories_by_id[category.category_id]
-                    )
-            else:
-                license_value = category.license
-            category_license_cache[category.pk] = license_value
-            return license_value
-
-        unlicensed_categories = [
-            category_id
-            for category_id, category in categories_by_id.items()
-            if not get_category_license(category)
-        ]
-        components_filter = Q(inherit_license=False, license="")
-        if not project_license:
-            components_filter |= Q(inherit_license=True, category__isnull=True)
-        if unlicensed_categories:
-            components_filter |= Q(
-                inherit_license=True, category_id__in=unlicensed_categories
-            )
-        return list(self.instance.component_set.filter(components_filter))
-
     def clean(self) -> None:
         data = self.cleaned_data
-        if settings.OFFER_HOSTING:
-            data["contribute_shared_tm"] = data["use_shared_tm"]
-            data["contribute_workspace_tm"] = data["use_workspace_tm"]
+        Project.apply_hosted_tm_contribution(data, defaults=self.instance)
 
         # ACCESS_PUBLIC = 0, so the condition can not be simplified to not data["access_control"]
         if (
@@ -3543,14 +3517,15 @@ class ProjectSettingsForm(
                     )
                 }
             )
-        if self.changed_access and self.instance.needs_license(access):
-            project_license = data.get("license", self.instance.license)
-            if (
-                data.get("inherit_license", self.instance.inherit_license)
-                and self.instance.workspace_id
-            ):
-                project_license = self.instance.workspace.license
-            unlicensed = self.get_unlicensed_components(project_license)
+        if self.changed_access:
+            unlicensed = self.instance.get_unlicensed_components_for_access(
+                access,
+                license_value=data.get("license", self.instance.license),
+                inherit_license=data.get(
+                    "inherit_license", self.instance.inherit_license
+                ),
+                workspace=self.instance.workspace,
+            )
             if unlicensed:
                 raise ValidationError(
                     {
@@ -4336,6 +4311,13 @@ class TranslationDeleteForm(BaseDeleteForm):
 
 
 class ComponentDeleteForm(BaseDeleteForm):
+    delete_memory = forms.BooleanField(
+        label=gettext_lazy("Delete translation memory created from this component"),
+        help_text=gettext_lazy(
+            "Project, workspace, and shared translation memory entries will be deleted. Personal and uploaded entries will be preserved."
+        ),
+        required=False,
+    )
     confirm = forms.CharField(
         label=gettext_lazy("Removal confirmation"),
         help_text=gettext_lazy(
@@ -4344,6 +4326,10 @@ class ComponentDeleteForm(BaseDeleteForm):
         required=True,
     )
     warning_template = "trans/delete-component.html"
+
+    def __init__(self, obj, *args, **kwargs) -> None:
+        super().__init__(obj, *args, **kwargs)
+        self.helper.layout.insert(1, Field("delete_memory"))
 
 
 class ProjectDeleteForm(BaseDeleteForm):
@@ -4363,12 +4349,25 @@ class ProjectDeleteForm(BaseDeleteForm):
 
 
 class CategoryDeleteForm(BaseDeleteForm):
+    delete_memory = forms.BooleanField(
+        label=gettext_lazy(
+            "Delete translation memory created from components in this category"
+        ),
+        help_text=gettext_lazy(
+            "Project, workspace, and shared translation memory entries will be deleted. Personal and uploaded entries will be preserved."
+        ),
+        required=False,
+    )
     confirm = forms.CharField(
         label=gettext_lazy("Removal confirmation"),
         help_text=gettext_lazy("Please type in the slug of the category to confirm."),
         required=True,
     )
     warning_template = "trans/delete-category.html"
+
+    def __init__(self, obj, *args, **kwargs) -> None:
+        super().__init__(obj, *args, **kwargs)
+        self.helper.layout.insert(1, Field("delete_memory"))
 
 
 class ProjectLanguageDeleteForm(BaseDeleteForm):

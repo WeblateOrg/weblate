@@ -8,10 +8,13 @@ from __future__ import annotations
 
 from unittest import mock
 
-from django.test import SimpleTestCase, TestCase
+from django.contrib.admin.sites import AdminSite
+from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
+from weblate.accounts.admin import AuditLogAdmin
 from weblate.accounts.models import AUDIT_WARNING, NOTIFY_ACTIVITY, AuditLog, Profile
+from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
 
 
@@ -76,6 +79,47 @@ class AuditLogLoggingTestCase(TestCase):
         self.assertTrue(
             any("audit[sitewide-team-add]" in entry for entry in captured.output)
         )
+
+
+class RemovedAccountAuditTestCase(TestCase):
+    def setUp(self) -> None:
+        self.email = "Removed.User@example.com"
+        self.user = User.objects.create_user(
+            username="removed-user",
+            email=self.email,
+        )
+
+    def test_removed_email_is_retained(self) -> None:
+        remove_user(self.user, None)
+
+        self.user.refresh_from_db()
+        self.assertNotEqual(self.user.email, self.email)
+        audit = self.user.auditlog_set.get(activity="removed")
+        self.assertEqual(audit.params["email"], self.email)
+        self.assertTrue(
+            AuditLog.objects.filter(
+                activity="removed", params__email__iexact=self.email.upper()
+            ).exists()
+        )
+
+    def test_other_removal_activity_does_not_retain_email(self) -> None:
+        remove_user(self.user, None, activity="token-removed", project="Test")
+
+        audit = self.user.auditlog_set.get(activity="token-removed")
+        self.assertNotIn("email", audit.params)
+
+    def test_admin_search_finds_removed_email(self) -> None:
+        remove_user(self.user, None)
+        audit = self.user.auditlog_set.get(activity="removed")
+        model_admin = AuditLogAdmin(AuditLog, AdminSite())
+
+        result, _ = model_admin.get_search_results(
+            RequestFactory().get("/"),
+            AuditLog.objects.filter(activity="removed"),
+            self.email.lower(),
+        )
+
+        self.assertSequenceEqual(list(result), [audit])
 
 
 class ProfileCommitNameTestCase(TestCase):

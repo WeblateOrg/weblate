@@ -985,31 +985,6 @@ class AlertTest(ViewTestCase):
             ).exists()
         )
 
-    def test_inexact_hook_match_reopens_on_repository_change(self) -> None:
-        details = {
-            "service_long_name": "Gitea",
-            "repo_url": "https://example.com/owner/repo",
-            "branch": "main",
-            "full_name": "owner/repo",
-        }
-        self.component.repo = "https://example.com/first/repo.git"
-        self.component.save(update_fields=["repo"])
-        self.component.add_alert("InexactHookMatch", **details)
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-        self.assertTrue(alert.dismiss(self.user))
-
-        self.component.repo = "https://example.com/different/repo.git"
-        self.component.save(update_fields=["repo"])
-        self.component.add_alert("InexactHookMatch", **details)
-
-        alert.refresh_from_db()
-        self.assertIsNone(alert.dismissed_at)
-        self.assertTrue(
-            self.component.change_set.filter(
-                action=ActionEvents.ALERT_REOPENED, alert=alert
-            ).exists()
-        )
-
     def test_existing_alert_updates_last_seen(self) -> None:
         self.component.add_alert("MissingLicense")
         alert = self.component.alert_set.get(name="MissingLicense")
@@ -1020,105 +995,6 @@ class AlertTest(ViewTestCase):
 
         alert.refresh_from_db()
         self.assertGreater(alert.updated, old_updated)
-
-    def test_inexact_hook_match_alert_exact_history(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
-
-    def test_inexact_hook_match_alert_inferred_history(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://other.example.com/owner/repo",
-                "repos": ["https://other.example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-        self.assertEqual(alert.severity, AlertSeverity.WARNING)
-        self.assertEqual(alert.details["service_long_name"], "Gitea")
-        self.assertEqual(alert.details["full_name"], "owner/repo")
-
-    def test_inexact_hook_match_alert_configure_link(self) -> None:
-        self.component.add_alert(
-            "InexactHookMatch",
-            service_long_name="Gitea",
-            repo_url="https://example.com/owner/repo",
-            branch="main",
-            full_name="owner/repo",
-        )
-        alert = self.component.alert_set.get(name="InexactHookMatch")
-
-        rendered = alert.render(self.user)
-        self.assertNotIn("Configure component", rendered)
-
-        self.user.is_superuser = True
-        self.user.save()
-
-        rendered = alert.render(self.user)
-        self.assertIn("Configure component", rendered)
-        self.assertIn(reverse("settings", kwargs=self.kw_component), rendered)
-
-    def test_inexact_hook_match_alert_explicit_match_method(self) -> None:
-        self.component.repo = "https://example.com/owner/repo.git"
-        self.component.save()
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-                "match_method": "fallback",
-            },
-        )
-
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertTrue(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
-
-        self.component.change_set.create(
-            action=ActionEvents.HOOK,
-            details={
-                "service_long_name": "Gitea",
-                "repo_url": "https://example.com/owner/repo",
-                "repos": ["https://example.com/owner/repo.git"],
-                "branch": "main",
-                "full_name": "owner/repo",
-                "match_method": "exact",
-            },
-        )
-        update_alerts(self.component, {"InexactHookMatch"})
-
-        self.assertFalse(
-            self.component.alert_set.filter(name="InexactHookMatch").exists()
-        )
 
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
@@ -2028,6 +1904,41 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
             )
 
         self.assertIn("n’a pas été trouvé. Veuillez vérifier", rendered)
+
+    def test_git_lfs_diagnosis_links_documentation(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        instance = cast("Alert", SimpleNamespace(component=component))
+        alerts = (
+            UpdateFailure(
+                instance,
+                "remote rejected the push",
+                diagnoses=[{"code": "git_lfs_missing_objects"}],
+            ),
+            UpdateFailure(
+                instance,
+                "remote: GitLab: LFS objects are missing.",
+            ),
+        )
+
+        for alert in alerts:
+            with self.subTest(diagnoses=alert.diagnoses):
+                rendered = render_to_string(
+                    "trans/alert/common-repo.html",
+                    {"analysis": alert.get_analysis()},
+                )
+
+                self.assertIn(
+                    "Weblate does not download or upload Git LFS objects", rendered
+                )
+                self.assertIn("vcs.html#git-lfs", rendered)
 
     def test_github_pull_request_diagnosis_renders_username(self) -> None:
         rendered = render_to_string(

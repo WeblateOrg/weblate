@@ -1718,8 +1718,14 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     delete:
       operationId: api_categories_destroy
-      description: Delete category.
+      description: Delete a category.
       parameters:
+      - in: query
+        name: delete_memory
+        schema:
+          type: boolean
+        description: Also delete project, workspace, and shared translation memory
+          created from components in the category.
       - in: path
         name: id
         schema:
@@ -1816,6 +1822,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
@@ -1852,6 +1872,11 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryDeleteRequest'
   /api/categories/{id}/announcements/:
     get:
       operationId: api_categories_announcements_list
@@ -5141,6 +5166,12 @@ paths:
       operationId: api_components_destroy
       description: Delete a component.
       parameters:
+      - in: query
+        name: delete_memory
+        schema:
+          type: boolean
+        description: Also delete project, workspace, and shared translation memory
+          created from the component.
       - in: path
         name: project__slug
         schema:
@@ -5245,6 +5276,20 @@ paths:
                       detail: Could not satisfy the request Accept header.
                       attr: null
           description: The requested response media type is not available.
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: The request media type is not supported.
         '423':
           content:
             application/json:
@@ -5281,6 +5326,11 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComponentDeleteRequest'
   /api/components/{project__slug}/{slug}/addons/:
     post:
       operationId: api_components_addons_create
@@ -24251,7 +24301,6 @@ paths:
       - tokenAuth: []
       - bearerAuth: []
       - cookieAuth: []
-      - {}
       responses:
         '400':
           content:
@@ -24280,20 +24329,6 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -24427,20 +24462,6 @@ paths:
                       detail: Authentication credentials were not provided.
                       attr: null
           description: Authentication credentials were missing or invalid.
-        '403':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse403'
-              examples:
-                PermissionDenied:
-                  value:
-                    type: client_error
-                    errors:
-                    - code: permission_denied
-                      detail: You do not have permission to perform this action.
-                      attr: null
-          description: The authenticated user does not have permission for this operation.
         '404':
           content:
             application/json:
@@ -24519,6 +24540,20 @@ paths:
           description: An unexpected server error occurred.
         '204':
           description: No response body
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: The authenticated user does not have permission for this operation.
   /api/translations/:
     get:
       operationId: api_translations_list
@@ -31522,6 +31557,18 @@ components:
       description: Number of seconds until the rate-limit window resets
       required: true
   schemas:
+    AccessControlEnum:
+      enum:
+      - 0
+      - 1
+      - 100
+      - 200
+      type: integer
+      description: |-
+        * `0` - Public
+        * `1` - Protected
+        * `100` - Private
+        * `200` - Custom
     ActionEnum:
       enum:
       - 0
@@ -32729,6 +32776,15 @@ components:
           type: boolean
           description: Whether translation updates in other components will cause
             automatic translation in this one
+        hide_glossary_matches:
+          type: boolean
+          title: Do not show glossary matches
+          description: Hides the glossary panel in the translation editor.
+        contribute_project_tm:
+          type: boolean
+          title: Contribute to project translation memory
+          description: Allow this component's translations to be added to the project-level
+            translation memory.
         manage_units:
           type: boolean
           title: Manage strings
@@ -34083,12 +34139,67 @@ components:
           type: string
           title: Plural formula
         type:
-          type: integer
+          allOf:
+          - $ref: '#/components/schemas/LanguagePluralTypeEnum'
           readOnly: true
           title: Plural type
       required:
       - id
       - type
+    LanguagePluralTypeEnum:
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 11
+      - 4
+      - 14
+      - 6
+      - 13
+      - 5
+      - 7
+      - 8
+      - 9
+      - 10
+      - 12
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 666
+      type: integer
+      description: |-
+        * `0` - None
+        * `1` - One/other
+        * `2` - One/few/other
+        * `3` - Arabic languages
+        * `11` - Zero/one/other
+        * `4` - One/two/other
+        * `14` - One/other/two
+        * `6` - One/two/few/other
+        * `13` - Other/one/two/few
+        * `5` - One/two/three/other
+        * `7` - One/other/zero
+        * `8` - One/few/many/other
+        * `9` - Two/other
+        * `10` - One/two/few/many/other
+        * `12` - Zero/one/two/few/many/other
+        * `15` - Zero/other
+        * `16` - Zero/one/few/other
+        * `17` - Zero/one/two/few/other
+        * `18` - Zero/one/two/other
+        * `19` - Zero/one/few/many/other
+        * `20` - One/many/other
+        * `21` - Zero/one/many/other
+        * `22` - One/few/many
+        * `23` - One/zero/few/other
+        * `666` - Unknown
     LanguageSelectionEnum:
       enum:
       - 0
@@ -35490,6 +35601,15 @@ components:
           type: boolean
           description: Whether translation updates in other components will cause
             automatic translation in this one
+        hide_glossary_matches:
+          type: boolean
+          title: Do not show glossary matches
+          description: Hides the glossary panel in the translation editor.
+        contribute_project_tm:
+          type: boolean
+          title: Contribute to project translation memory
+          description: Allow this component's translations to be added to the project-level
+            translation memory.
         manage_units:
           type: boolean
           title: Manage strings
@@ -35884,6 +36004,35 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        access_control:
+          allOf:
+          - $ref: '#/components/schemas/AccessControlEnum'
+          description: How to restrict access to this project is detailed in the documentation.
+          minimum: -2147483648
+          maximum: 2147483647
+        use_shared_tm:
+          type: boolean
+          title: Use shared translation memory
+          description: Uses the pool of shared translations between projects.
+        contribute_shared_tm:
+          type: boolean
+          title: Contribute to shared translation memory
+          description: Contributes to the pool of shared translations between projects.
+        use_workspace_tm:
+          type: boolean
+          title: Use workspace translation memory
+          description: Uses the pool of shared translations between projects in the
+            workspace.
+        contribute_workspace_tm:
+          type: boolean
+          title: Contribute to workspace translation memory
+          description: Contributes translations to the pool shared between projects
+            in the workspace.
+        autoclean_tm:
+          type: boolean
+          title: Autoclean translation memory
+          description: Automatically removes outdated and obsolete entries from translation
+            memory.
         license:
           title: Translation license
           type: string
@@ -36762,6 +36911,35 @@ components:
           type: string
           description: 'Comma-separated list of language code mappings, for example:
             en_GB:en,en_US:en'
+        access_control:
+          allOf:
+          - $ref: '#/components/schemas/AccessControlEnum'
+          description: How to restrict access to this project is detailed in the documentation.
+          minimum: -2147483648
+          maximum: 2147483647
+        use_shared_tm:
+          type: boolean
+          title: Use shared translation memory
+          description: Uses the pool of shared translations between projects.
+        contribute_shared_tm:
+          type: boolean
+          title: Contribute to shared translation memory
+          description: Contributes to the pool of shared translations between projects.
+        use_workspace_tm:
+          type: boolean
+          title: Use workspace translation memory
+          description: Uses the pool of shared translations between projects in the
+            workspace.
+        contribute_workspace_tm:
+          type: boolean
+          title: Contribute to workspace translation memory
+          description: Contributes translations to the pool shared between projects
+            in the workspace.
+        autoclean_tm:
+          type: boolean
+          title: Autoclean translation memory
+          description: Automatically removes outdated and obsolete entries from translation
+            memory.
         license:
           title: Translation license
           type: string
@@ -37262,6 +37440,15 @@ components:
           type: boolean
           description: Whether translation updates in other components will cause
             automatic translation in this one
+        hide_glossary_matches:
+          type: boolean
+          title: Do not show glossary matches
+          description: Hides the glossary panel in the translation editor.
+        contribute_project_tm:
+          type: boolean
+          title: Contribute to project translation memory
+          description: Allow this component's translations to be added to the project-level
+            translation memory.
         manage_units:
           type: boolean
           title: Manage strings
@@ -38806,6 +38993,16 @@ components:
           type: integer
       required:
       - group_id
+    ComponentDeleteRequest:
+      type: object
+      properties:
+        delete_memory:
+          type: boolean
+    CategoryDeleteRequest:
+      type: object
+      properties:
+        delete_memory:
+          type: boolean
   securitySchemes:
     bearerAuth:
       type: apiKey

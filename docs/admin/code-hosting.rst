@@ -32,7 +32,9 @@ Setup overview
 
 3. Configure incoming notifications so Weblate pulls changes soon after a push.
    The repository webhook or app must point to the matching Weblate hook URL,
-   and the project must have :ref:`project-enable_hooks` enabled.
+   and the project must have :ref:`project-enable_hooks` enabled. Component
+   :ref:`component-repo` must match a repository URL from the webhook payload;
+   see :ref:`hooks-target-matching`.
 
 4. Decide how Weblate should push translations back:
 

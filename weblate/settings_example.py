@@ -39,7 +39,7 @@ ADMINS: tuple[str, ...] = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
+DATABASES: dict[str, dict[str, str | int | dict | None]] = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         # Database name.
@@ -569,7 +569,7 @@ LOGGING: dict = {
         "django.request": {
             "handlers": ["mail_admins", *DEFAULT_LOG],
             "level": "ERROR",
-            "propagate": True,
+            "propagate": False,
         },
         "django.server": {
             "handlers": ["django.server"],
@@ -581,35 +581,42 @@ LOGGING: dict = {
             "handlers": [*DEFAULT_LOG],
             # Toggle to DEBUG to log all database queries
             "level": "CRITICAL",
+            "propagate": False,
         },
         "weblate": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Logging VCS operations
         "weblate.vcs": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Python Social Auth
         "social": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Django Authentication Using LDAP
         "django_auth_ldap": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # SAML IdP
         "djangosaml2idp": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
         # Fedora messaging
         "fedora_messaging": {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
+            "propagate": False,
         },
     },
 }

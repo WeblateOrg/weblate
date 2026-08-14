@@ -1306,8 +1306,13 @@ If set to ``True``, Weblate gets IP address from a header defined by
 
 .. warning::
 
-   Ensure you are actually using a reverse proxy and that it sets this header,
-   otherwise users will be able to fake the IP address.
+   The reverse proxy which connects to Weblate must overwrite the configured
+   header or append a verified peer address at the position selected by
+   :setting:`IP_PROXY_OFFSET`. Weblate does not verify which peer supplied the
+   header, so trusting a client-controlled value allows IP address spoofing.
+
+   Ensure that untrusted clients cannot reach Weblate without passing through
+   the trusted proxy.
 
 .. note::
 
@@ -1356,9 +1361,12 @@ which address from the header is used as client IP address here.
 
 .. warning::
 
-   Setting this affects the security of your installation. You should only
-   configure it to use trusted proxies for determining the IP address.
-   Please check <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
+   Setting this affects the security of your installation. Select only an
+   address added or verified by a proxy under your control. Addresses supplied
+   by the client are untrusted. Ensure that the selected offset matches how
+   your proxies construct the header.
+
+   See <https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> for more details.
 
 Defaults to -1.
 
@@ -1406,16 +1414,17 @@ The ``index`` page is always visible. Supported document identifiers are
 
 Hidden pages are removed from the legal menu and return a 404 response when
 requested directly. Hiding ``terms`` or ``privacy`` is not recommended when
-terms of service confirmation is enabled.
+legal document confirmation is enabled.
 
 When ``terms`` or ``privacy`` is hidden, links exposed through the
 ``terms_url`` and ``privacy_url`` template variables use :setting:`LEGAL_URL`
 and :setting:`PRIVACY_URL` as fallbacks when configured. If no fallback URL is
 configured, the related link is omitted.
 
-With terms of service confirmation enabled, hiding ``terms`` and setting
+With legal document confirmation enabled, hiding ``terms`` and setting
 :setting:`LEGAL_URL` makes the confirmation page link to the external terms
-document instead of embedding :file:`legal/documents/tos.html`.
+document instead of embedding :file:`legal/documents/tos.html`. When a privacy
+policy link is available, the confirmation covers both documents.
 
 In non-Docker deployments, define :setting:`LEGAL_HIDDEN_DOCUMENTS` and
 :setting:`LEGAL_URL` before ``SPECTACULAR_SETTINGS`` is created so the API
@@ -1440,8 +1449,9 @@ LEGAL_TOS_DATE
 
    You need :ref:`legal` installed to make this work.
 
-Date of last update of terms of service documents. Whenever the date changes,
-users are required to agree with the updated terms of service.
+Date of the legal documents users last agreed to. Whenever the date changes,
+users are required to agree with the current terms of service and, when a
+privacy policy link is available, the privacy policy.
 
 .. code-block:: python
 
@@ -2823,7 +2833,9 @@ Configuration of available VCS backends.
 
 .. note::
 
-    Weblate tries to use all supported back-ends you have the tools for.
+    Weblate offers configured backends when their required commands are
+    available. Exact command versions are validated by the deployment and
+    periodic configuration health checks.
 
 .. hint::
 

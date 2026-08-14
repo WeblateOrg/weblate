@@ -130,8 +130,6 @@ def project_post_delete(sender, instance: Project, **kwargs) -> None:
 
 @receiver(pre_delete, sender=Component)
 def component_pre_delete(sender, instance: Component, **kwargs) -> None:
-    instance.memory_full_slug = instance.full_slug
-    instance.memory_workspace_id = instance.project.workspace_id
     batch = instance.removal_batch or get_current_removal_batch()
     if batch is not None:
         batch.collect_stats(instance.stats.get_update_objects())
@@ -159,14 +157,6 @@ def component_post_delete(sender, instance: Component, **kwargs) -> None:
     # Do not delete linked components
     if not instance.is_repo_link:
         delete_object_dir(instance)
-
-    memory_full_slug = getattr(instance, "memory_full_slug", None)
-    if memory_full_slug is not None:
-        instance.delete_automatic_memory_scopes(
-            memory_full_slug,
-            instance.project_id,
-            getattr(instance, "memory_workspace_id", None),
-        )
 
     if batch is None:
         instance.cleanup_conflicting_repository_setup_alerts()

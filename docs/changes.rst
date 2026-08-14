@@ -1,5 +1,5 @@
-Weblate 2026.8.1
-----------------
+Weblate 2026.9
+--------------
 
 *Not yet released.*
 
@@ -7,12 +7,62 @@ Weblate 2026.8.1
 
 .. rubric:: Improvements
 
+* Administrators can now find removed accounts by their former e-mail address in the audit log until :setting:`AUDITLOG_EXPIRY`.
+* Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
+* Clarified the instance-wide impact of roles containing site-wide permissions, including :ref:`site-wide user management <site-wide-user-management>`.
+* Improved translation file loading performance for metadata-only string changes.
+* VCS command versions are now validated by configuration health checks instead of during every process startup.
+* Billing audit logs now identify users who change plans, initiate payments, or merge billings.
+
 .. rubric:: Bug fixes
 
-* Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
-* Repository actions now require permission on every component sharing the affected repository, including linked components in other projects.
+* Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.
+* GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
+* :ref:`Project backup restores <projectbackup>` now allowlists repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
 
 .. rubric:: Compatibility
+
+* Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
+* Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Docker deployments need to configure trusted proxy addresses.
+  Set :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES` to preserve client IP addresses
+  in nginx logs and Weblate when
+  ``WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR`` is used; otherwise, the
+  immediate TCP peer is used.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.9.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/168?closed=1>`__.
+
+Weblate 2026.8.1
+----------------
+
+*Released on August 7th 2026.*
+
+.. rubric:: New features
+
+* Project and component APIs now expose all user-configurable settings, including access control and translation-memory settings. See :doc:`api`.
+* Added the :wladmin:`metrics` command for retrieving server metrics locally in JSON, CSV, or OpenMetrics format.
+
+.. rubric:: Bug fixes
+
+* Task progress now requires authentication and works for aggregate automatic translation operations.
+* Docker Celery worker logging no longer emits duplicate records through both Celery and Weblate log handlers.
+* Component creation through the REST API now returns the background task URL in the response when creation work is queued.
+* Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API.
+* :wladmin:`import_json` now preserves the component source language for newly imported components from JSON exports.
+* Repository actions now require permission on every component sharing the affected repository, including linked components in other projects.
+* Legal document confirmation now explicitly covers the linked privacy policy. See :ref:`legal`.
+* Add-on change history now retains only explicitly public configuration values and marks changed credential fields as redacted.
+* Translator work reports with metrics can now be displayed and downloaded as HTML.
+* Repository credentials are now consistently hidden from web and API output.
 
 .. rubric:: Upgrading
 

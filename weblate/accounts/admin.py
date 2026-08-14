@@ -18,7 +18,13 @@ if TYPE_CHECKING:
 @admin.register(AuditLog)
 class AuditLogAdmin(WeblateModelAdmin):
     list_display = ("get_message", "user", "address", "user_agent", "timestamp")
-    search_fields = ("user__username", "user__email", "address", "activity")
+    search_fields = (
+        "user__username",
+        "user__email",
+        "params__email",
+        "address",
+        "activity",
+    )
     date_hierarchy = "timestamp"
     ordering = ("-timestamp",)
 

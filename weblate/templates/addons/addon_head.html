@@ -16,7 +16,7 @@
   {% if url %}<a href="{{ url }}">{% endif %}
   {{ addon.verbose }}
   {% if url %}</a>{% endif %}
-{% documentation_icon "admin/addons" addon.doc_anchor %}
+  {% documentation_icon "admin/addons" addon.doc_anchor %}
 </h4>
 <p>{{ addon.description }}</p>
 {% if addon.instance and addon.instance.pk and show_settings %}

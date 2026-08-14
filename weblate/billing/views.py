@@ -30,7 +30,13 @@ from .forms import (
     BillingPlanChangeForm,
     HostingForm,
 )
-from .models import Billing, BillingEvent, Invoice, Plan
+from .models import (
+    Billing,
+    BillingEvent,
+    Invoice,
+    Plan,
+    get_plan_change_log_details,
+)
 
 if TYPE_CHECKING:
     from django.http import HttpResponse
@@ -183,10 +189,7 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
         billing.billinglog_set.create(
             event=BillingEvent.PLAN_CHANGED,
             summary=f"Changed to {new_plan}",
-            details={
-                "old_plan": {"id": old_plan.pk, "name": old_plan.name},
-                "new_plan": {"id": new_plan.pk, "name": new_plan.name},
-            },
+            details=get_plan_change_log_details(old_plan, new_plan),
             user=request.user,
         )
     elif "recurring" in request.POST:
@@ -301,6 +304,8 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         return redirect(billing)
 
     other = confirm_form.cleaned_data["other"]
+    source_details = {"id": billing.pk, "name": str(billing)}
+    target_details = {"id": other.pk, "name": str(other)}
     with transaction.atomic():
         if "recurring" in billing.payment:
             other.payment["recurring"] = billing.payment["recurring"]
@@ -324,6 +329,15 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         billing.save()
         billing.check_limits()
         other.check_limits()
+        other.billinglog_set.create(
+            event=BillingEvent.MERGED,
+            summary=f"Merged billing {billing.pk} into {other.pk}",
+            details={
+                "source_billing": source_details,
+                "target_billing": target_details,
+            },
+            user=request.user,
+        )
 
     return redirect(confirm_form.cleaned_data["other"])
 

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import time
 from collections import UserDict
-from typing import TYPE_CHECKING, ClassVar, Self, cast, overload
+from typing import TYPE_CHECKING, Any, ClassVar, Self, cast, overload
 
 from django.conf import settings
 from django.core.cache import cache
@@ -59,7 +59,7 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Collection, Iterable
+    from collections.abc import Callable, Collection, Iterable, MutableMapping
     from uuid import UUID
 
     from ahocorasick_rs import AhoCorasick
@@ -68,10 +68,11 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, Group, User
     from weblate.billing.models import Billing
     from weblate.machinery.types import SettingsDict
-    from weblate.trans.models import Alert
+    from weblate.trans.models import Alert, Category
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
+    from weblate.workspaces.models import Workspace
 
 
 # Project-wide batched checks serialize across all propagating components and can
@@ -776,6 +777,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
 
     def clean(self) -> None:
         super().clean()
+        if (
+            settings.OFFER_HOSTING
+            and self.use_shared_tm
+            and self.pk
+            and self.component_set.filter(restricted=True).exists()
+        ):
+            raise ValidationError(
+                {
+                    "use_shared_tm": gettext(
+                        "Shared translation memory can not be enabled while the project has restricted components."
+                    )
+                }
+            )
         if self.web:
             try:
                 validate_project_web(self.web, project_slug=self.slug or None)
@@ -1411,6 +1425,97 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             and not settings.REQUIRE_LOGIN
             and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
         )
+
+    @staticmethod
+    def apply_hosted_tm_contribution(
+        data: MutableMapping[str, Any],
+        *,
+        defaults: Project | None = None,
+    ) -> None:
+        """Keep translation memory use and contribution coupled on hosting."""
+        if not settings.OFFER_HOSTING:
+            return
+        data["contribute_shared_tm"] = data.get(
+            "use_shared_tm",
+            defaults.use_shared_tm
+            if defaults is not None
+            else settings.DEFAULT_SHARED_TM,
+        )
+        data["contribute_workspace_tm"] = data.get(
+            "use_workspace_tm",
+            defaults.use_workspace_tm if defaults is not None else False,
+        )
+
+    def get_access_control_license(
+        self,
+        *,
+        license_value: str | None,
+        inherit_license: bool | None,
+        workspace: Workspace | None,
+    ) -> str:
+        """Return the effective project license for an access-control change."""
+        if license_value is None:
+            license_value = self.license
+        if inherit_license is None:
+            inherit_license = self.inherit_license
+        if inherit_license and workspace is not None:
+            return workspace.license
+        return license_value
+
+    def get_unlicensed_components_for_access(
+        self,
+        access_control: int,
+        *,
+        license_value: str | None,
+        inherit_license: bool | None,
+        workspace: Workspace | None,
+    ) -> list[Component]:
+        """Return components blocking the requested project access level."""
+        if not self.needs_license(access_control):
+            return []
+        return self.get_unlicensed_components(
+            self.get_access_control_license(
+                license_value=license_value,
+                inherit_license=inherit_license,
+                workspace=workspace,
+            )
+        )
+
+    def get_unlicensed_components(self, project_license: str) -> list[Component]:
+        """Return components lacking a license under the project license."""
+        categories_by_id = {
+            category.pk: category for category in self.category_set.all()
+        }
+        category_license_cache: dict[int, str] = {}
+
+        def get_category_license(category: Category) -> str:
+            if category.pk in category_license_cache:
+                return category_license_cache[category.pk]
+            if category.inherit_license:
+                if category.category_id is None:
+                    license_value = project_license
+                else:
+                    license_value = get_category_license(
+                        categories_by_id[category.category_id]
+                    )
+            else:
+                license_value = category.license
+            category_license_cache[category.pk] = license_value
+            return license_value
+
+        unlicensed_categories = [
+            category_id
+            for category_id, category in categories_by_id.items()
+            if not get_category_license(category)
+        ]
+        components_filter = Q(inherit_license=False, license="")
+        if not project_license:
+            components_filter |= Q(inherit_license=True, category__isnull=True)
+        if unlicensed_categories:
+            components_filter |= Q(
+                inherit_license=True, category_id__in=unlicensed_categories
+            )
+        return list(self.component_set.filter(components_filter))
 
     def get_commit_policy_description(self) -> str:
         if self.commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:

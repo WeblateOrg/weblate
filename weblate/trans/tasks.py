@@ -7,8 +7,10 @@ from __future__ import annotations
 import os
 import time
 from contextlib import suppress
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from glob import glob
+from itertools import batched
 from operator import itemgetter
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
@@ -19,7 +21,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import Exists, F, OuterRef
+from django.db.models import Exists, F, OuterRef, Q
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import gettext, ngettext, override
@@ -56,6 +58,8 @@ from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import STATE_APPROVED, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage, prefetch_stats
 from weblate.vcs.base import RepositoryError
+
+COMPONENT_MEMORY_CLEANUP_BATCH_SIZE = 1000
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -726,19 +730,30 @@ def update_enforced_checks(component: int | Component) -> None:
 
 @app.task(trail=False)
 @transaction.atomic
-def component_removal(pk: int, uid: int) -> None:
+def component_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
     user = User.objects.get(pk=uid)
     try:
         component = Component.objects.get(pk=pk)
     except Component.DoesNotExist:
         return
 
-    _component_removal(component, user)
+    _component_removal(component, user, delete_memory=delete_memory)
 
 
 def _component_removal(
-    component: Component, user: User, batch: RemovalBatch | None = None
+    component: Component,
+    user: User,
+    batch: RemovalBatch | None = None,
+    *,
+    delete_memory: bool = False,
 ) -> None:
+    memory_cleanup = None
+    if delete_memory:
+        cleanup_batch = RemovalBatch()
+        _collect_linked_removal_targets([component.pk], cleanup_batch)
+        memory_cleanup = collect_component_memory_cleanup(cleanup_batch)
+        # Remove attributed scopes while their component foreign keys exist.
+        delete_collected_component_memory(memory_cleanup)
     if batch is not None:
         component.removal_batch = batch
     with component.repository.lock:
@@ -758,6 +773,70 @@ def _component_removal(
                 components = components.exclude(pk__in=batch.removed_component_ids)
             for current in components.iterator():
                 current.schedule_update_checks()
+    if memory_cleanup is not None:
+        # Catch memory writes which raced with the initial cleanup. Current
+        # writers normalize origins to the component's current full slug.
+        delete_collected_component_memory(memory_cleanup)
+
+
+@dataclass(frozen=True)
+class ComponentMemoryCleanup:
+    """Component identifiers retained across component deletion."""
+
+    component_ids: frozenset[int]
+    origins: frozenset[str]
+
+
+def delete_component_memory(component: Component) -> None:
+    """Delete non-personal automatic memory for a component and linked children."""
+    batch = RemovalBatch()
+    _collect_linked_removal_targets([component.pk], batch)
+    delete_collected_component_memory(collect_component_memory_cleanup(batch))
+
+
+def collect_component_memory_cleanup(batch: RemovalBatch) -> ComponentMemoryCleanup:
+    """Collect component identifiers needed after removing components."""
+    components = list(
+        Component.objects.filter(pk__in=batch.removed_component_ids).prefetch()
+    )
+    return ComponentMemoryCleanup(
+        component_ids=frozenset(component.id for component in components),
+        origins=frozenset(component.full_slug for component in components),
+    )
+
+
+def delete_collected_component_memory(cleanup: ComponentMemoryCleanup) -> None:
+    """Delete automatic memory collected for removed components."""
+    # ruff: ignore[import-outside-top-level]
+    from weblate.memory.models import Memory, MemoryScope
+
+    automatic_scopes = Q(
+        scope__in=(
+            MemoryScope.SCOPE_PROJECT,
+            MemoryScope.SCOPE_SHARED,
+            MemoryScope.SCOPE_WORKSPACE,
+        ),
+    )
+    for component_ids in batched(
+        cleanup.component_ids, COMPONENT_MEMORY_CLEANUP_BATCH_SIZE
+    ):
+        Memory.objects.delete_scope(
+            automatic_scopes & Q(source_component_id__in=component_ids),
+            delete_legacy=False,
+        )
+    for origins in batched(cleanup.origins, COMPONENT_MEMORY_CLEANUP_BATCH_SIZE):
+        Memory.objects.delete_scope(
+            automatic_scopes & Q(memory__origin__in=origins),
+            delete_legacy=False,
+        )
+        # TODO(2028.1): Remove legacy unscoped cleanup once Weblate no longer
+        # supports direct upgrades from 2026 releases.
+        Memory.objects.filter(
+            scopes__isnull=True,
+            origin__in=origins,
+            legacy_user__isnull=True,
+            legacy_from_file=False,
+        ).delete()
 
 
 def _collect_removal_targets(category: Category, batch: RemovalBatch) -> None:
@@ -809,7 +888,7 @@ def _category_removal(
 
 @app.task(trail=False)
 @transaction.atomic
-def category_removal(pk: int, uid: int) -> None:
+def category_removal(pk: int, uid: int, delete_memory: bool = False) -> None:
     user = User.objects.get(pk=uid)
     try:
         category = Category.objects.get(pk=pk)
@@ -817,8 +896,16 @@ def category_removal(pk: int, uid: int) -> None:
         return
     batch = RemovalBatch()
     _collect_removal_targets(category, batch)
+    memory_cleanup = collect_component_memory_cleanup(batch) if delete_memory else None
+    if memory_cleanup is not None:
+        # Remove attributed scopes while their component foreign keys exist.
+        delete_collected_component_memory(memory_cleanup)
     with removal_batch_context(batch):
         _category_removal(category, user, batch)
+    if memory_cleanup is not None:
+        # Catch memory writes which raced with the initial cleanup. Current
+        # writers normalize origins to the component's current full slug.
+        delete_collected_component_memory(memory_cleanup)
     transaction.on_commit(batch.flush)
 
 

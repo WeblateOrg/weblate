@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import os
 import pathlib
+from concurrent.futures import ThreadPoolExecutor
+from threading import Event
 from types import SimpleNamespace
 from typing import cast
 from unittest.mock import Mock, call, patch
@@ -15,8 +17,9 @@ from unittest.mock import Mock, call, patch
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.db import close_old_connections, connection
 from django.db.models import F
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TransactionTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from translate.storage.base import ParseError
@@ -41,6 +44,7 @@ from weblate.trans.tests.test_views import (
     FixtureTestCase,
     ViewTestCase,
 )
+from weblate.trans.tests.utils import RepoTestMixin
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -98,8 +102,8 @@ class ComponentTest(RepoTestCase):
 
     def test_persist_repository_redirect_uses_repository_bot(self) -> None:
         component = self.create_component()
-        old_url = "https://user:secret@git.example/owner/repo"
-        canonical_url = "https://user:secret@git.example/owner/repo.git"
+        old_url = "https://redirect-secret:@git.example/owner/repo"
+        canonical_url = "https://redirect-secret:@git.example/owner/repo.git"
         Component.objects.filter(pk=component.pk).update(repo=old_url)
         component.repo = old_url
         repository = component.repository
@@ -1255,6 +1259,52 @@ class ComponentChangeTest(RepoTestCase):
         # Unlocked event
         self.assertEqual(component.change_set.count() - start, 4)
 
+    def test_successful_push_unlocks_with_stale_component(self) -> None:
+        component = self.create_component()
+        stale_component = Component.objects.get(pk=component.pk)
+
+        component.add_alert("PushFailure")
+        self.assertTrue(component.locked)
+        self.assertFalse(stale_component.locked)
+
+        with patch.object(stale_component.repository, "push") as mocked_push:
+            self.assertTrue(
+                stale_component.push_repo(None, stale_component.get_push_user(None))
+            )
+
+        mocked_push.assert_called_once_with(stale_component.push_branch)
+        stale_component.refresh_from_db()
+        self.assertFalse(stale_component.locked)
+        change = stale_component.change_set.latest("id")
+        self.assertEqual(change.action, ActionEvents.UNLOCK)
+        self.assertTrue(change.auto_status)
+
+    def test_autolock_preserves_manual_lock(self) -> None:
+        component = self.create_component()
+        component.add_alert("PushFailure")
+        component.do_lock(user=None, lock=False)
+        component.do_lock(user=None)
+
+        component.delete_alert("PushFailure")
+
+        component.refresh_from_db()
+        self.assertTrue(component.locked)
+        change = component.change_set.latest("id")
+        self.assertEqual(change.action, ActionEvents.LOCK)
+        self.assertFalse(change.auto_status)
+
+    def test_absent_locking_alert_does_not_lock_component(self) -> None:
+        component = self.create_component()
+
+        with patch.object(
+            Component.objects,
+            "get_for_update",
+            wraps=Component.objects.get_for_update,
+        ) as get_for_update:
+            component.delete_alert("PushFailure")
+
+        get_for_update.assert_not_called()
+
     def test_do_lock_rolls_back_when_change_save_fails(self) -> None:
         component = self.create_component()
 
@@ -1330,6 +1380,131 @@ class ComponentChangeTest(RepoTestCase):
         linked_component.refresh_from_db()
         self.assertTrue(component.locked)
         self.assertTrue(linked_component.locked)
+
+
+class ComponentAlertConcurrencyTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    def test_alert_addition_is_serialized_with_automatic_unlock(self) -> None:
+        component = self.create_component()
+        component.add_alert("PushFailure")
+        delete_ready = Event()
+        add_started = Event()
+        original_do_lock = Component.do_lock
+
+        def coordinated_do_lock(
+            instance, user, lock: bool = True, auto: bool = False
+        ) -> None:
+            if not lock:
+                delete_ready.set()
+                self.assertTrue(add_started.wait(5))
+            original_do_lock(instance, user, lock=lock, auto=auto)
+
+        def delete_alert() -> None:
+            close_old_connections()
+            try:
+                Component.objects.get(pk=component.pk).delete_alert("PushFailure")
+            finally:
+                connection.close()
+
+        def add_alert() -> None:
+            self.assertTrue(delete_ready.wait(5))
+            add_started.set()
+            close_old_connections()
+            try:
+                Component.objects.get(pk=component.pk).add_alert("MergeFailure")
+            finally:
+                connection.close()
+
+        with (
+            patch.object(
+                Component,
+                "do_lock",
+                autospec=True,
+                side_effect=coordinated_do_lock,
+            ),
+            ThreadPoolExecutor(max_workers=2) as executor,
+        ):
+            delete_future = executor.submit(delete_alert)
+            add_future = executor.submit(add_alert)
+            delete_future.result(timeout=10)
+            add_future.result(timeout=10)
+
+        component.refresh_from_db()
+        self.assertTrue(component.locked)
+        self.assertFalse(component.alert_set.filter(name="PushFailure").exists())
+        self.assertTrue(component.alert_set.filter(name="MergeFailure").exists())
+        changes = list(
+            component.change_set.filter(
+                action__in=(ActionEvents.LOCK, ActionEvents.UNLOCK)
+            ).order_by("-id")[:2]
+        )
+        self.assertEqual(
+            [change.action for change in changes],
+            [ActionEvents.LOCK, ActionEvents.UNLOCK],
+        )
+        self.assertTrue(all(change.auto_status for change in changes))
+
+    def test_linked_alert_propagation_is_serialized_with_deletion(self) -> None:
+        component = self.create_component()
+        self.component = component
+        self.project = component.project
+        linked_component = self.create_link_existing()
+        component._add_alert(  # ruff: ignore[private-member-access]
+            "MergeFailure"
+        )
+        child_add_started = Event()
+        delete_started = Event()
+        original_add_alert = Component._add_alert  # ruff: ignore[private-member-access]
+
+        def coordinated_add_alert(
+            instance, alert: str, noupdate: bool = False, **details
+        ) -> None:
+            if instance.pk == linked_component.pk:
+                child_add_started.set()
+                self.assertTrue(delete_started.wait(5))
+            original_add_alert(instance, alert, noupdate=noupdate, **details)
+
+        def add_alert() -> None:
+            close_old_connections()
+            try:
+                Component.objects.get(pk=component.pk).add_alert("MergeFailure")
+            finally:
+                connection.close()
+
+        def delete_alert() -> None:
+            self.assertTrue(child_add_started.wait(5))
+            delete_started.set()
+            close_old_connections()
+            try:
+                Component.objects.get(pk=component.pk).delete_alert("MergeFailure")
+            finally:
+                connection.close()
+
+        with (
+            patch.object(
+                Component,
+                "_add_alert",
+                autospec=True,
+                side_effect=coordinated_add_alert,
+            ),
+            ThreadPoolExecutor(max_workers=2) as executor,
+        ):
+            add_future = executor.submit(add_alert)
+            delete_future = executor.submit(delete_alert)
+            add_future.result(timeout=10)
+            delete_future.result(timeout=10)
+
+        component.refresh_from_db()
+        linked_component.refresh_from_db()
+        self.assertFalse(component.locked)
+        self.assertFalse(linked_component.locked)
+        self.assertFalse(component.alert_set.filter(name="MergeFailure").exists())
+        self.assertFalse(
+            linked_component.alert_set.filter(name="MergeFailure").exists()
+        )
 
 
 class ComponentValidationTest(RepoTestCase):

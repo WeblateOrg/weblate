@@ -59,6 +59,14 @@ Per-project translation memory
 All translations within a project are automatically stored in a project
 translation memory only available for this project.
 
+Entries attributed to an existing restricted component are only available to
+users who can access that component. This also applies when project memory is
+downloaded or accessed using the REST API.
+
+Legacy entries which can not be attributed to a current component use the
+project access rules. This can happen when the component path has changed or
+the component has been removed.
+
 Workspace translation memory
 ++++++++++++++++++++++++++++
 
@@ -66,6 +74,10 @@ Projects in the same workspace can share translation memory without enabling
 the global shared translation memory. Workspace translation memory has to be
 enabled both in the workspace settings and in the individual project workflow
 settings.
+
+Entries attributed to an existing restricted component are only available to
+users who can access that component, even when they can access another project
+in the workspace. Unattributed legacy entries use the workspace access rules.
 
 .. seealso::
 
@@ -83,6 +95,14 @@ All translations within projects with shared translation memory turned on
 are stored in a shared translation memory available to all projects.
 Turning off contribution to shared translation memory stops previously
 contributed automatic entries from being used as shared suggestions.
+
+Restricted components do not contribute new entries to shared translation
+memory. On Hosted Weblate, a project with restricted components can not enable
+shared translation memory, and a component can not be restricted while its
+project uses shared translation memory.
+
+Unattributed legacy entries which are already in shared translation memory use
+the shared translation memory access rules.
 
 Please consider carefully whether to turn this feature on for shared Weblate
 installations, as it can have severe implications:
@@ -173,6 +193,20 @@ listed entries can be downloaded as JSON or TMX. Users with the required
 permissions can delete entries, and the project view can rebuild translation
 memory for the whole project or for individual components from the current
 translations.
+
+Removing a component preserves its automatically created translation memory by
+default. Because the component access rule no longer exists after removal, the
+retained entries use the access rules of their remaining translation-memory
+scope. To remove those entries together with a component, select
+:guilabel:`Delete translation memory created from this component` in the
+removal form. Category removal offers the equivalent option for every component
+in the category and its nested categories. This removes attributed entries and
+legacy entries matching the current component path. It does not infer paths
+used before a component or category rename or move. Such unmatched entries can
+be deleted by origin in the project or workspace translation memory management,
+or using the REST API. The REST API accepts the ``delete_memory`` boolean in the
+request body or query string for component and category removal. Personal and
+uploaded entries are preserved.
 
 The project view also shows whether shared translation memory and autoclean
 translation memory are enabled for the project, with a link to the project

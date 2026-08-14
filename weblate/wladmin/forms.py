@@ -137,6 +137,18 @@ class AppearanceForm(forms.Form):
     hover_color = ThemeColorField(
         label=gettext_lazy("Hover color (Light, Dark)"), initial="#144d3f,#0a3d2f"
     )
+    link_color = ThemeColorField(
+        label=gettext_lazy("Link and button color (Light, Dark)"),
+        initial="#107a62,#6cf8d8",
+    )
+    progress_color = ThemeColorField(
+        label=gettext_lazy("Progress bar color (Light, Dark)"),
+        initial="#107a62,#1c8f75",
+    )
+    progress_background_color = ThemeColorField(
+        label=gettext_lazy("Progress bar background color (Light, Dark)"),
+        initial="#e9ecef,#343a40",
+    )
 
     hide_footer = forms.BooleanField(
         label=gettext_lazy("Hide page footer"), required=False

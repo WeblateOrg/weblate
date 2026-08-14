@@ -26,6 +26,8 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError as JSONSchemaValidationError
 from weblate_schemas import load_schema
 
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.models import Group, Permission, Role
 from weblate.lang.data import FORMULA_WITH_ZERO
 from weblate.lang.models import Language, Plural
 from weblate.memory.machine import WeblateMemory
@@ -41,12 +43,14 @@ from weblate.memory.models import (
     load_memory_tmx_store,
 )
 from weblate.memory.tasks import (
+    MEMORY_COMPONENT_BACKFILL_STATE,
     MEMORY_SCOPE_BACKFILL_STALE_SECONDS,
     MEMORY_SCOPE_BACKFILL_STATE,
     MEMORY_SCOPE_COMPACTION_STALE_SECONDS,
     MEMORY_SCOPE_COMPACTION_STATE,
     MEMORY_UPDATE_LOOKUP_CHUNK_SIZE,
     MemoryGroupEntry,
+    backfill_memory_scope_components,
     backfill_memory_scopes,
     cleanup_orphaned_memory,
     compact_memory_scopes,
@@ -54,6 +58,7 @@ from weblate.memory.tasks import (
     get_group_matching_memory,
     handle_unit_translation_change,
     import_memory,
+    resume_memory_component_backfill,
     resume_memory_scope_backfill,
     set_scope_source_project_ids,
     update_memory,
@@ -66,7 +71,13 @@ from weblate.memory.utils import (
 )
 from weblate.memory.views import MemoryView
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Project
+from weblate.trans.models import Category, Change, Component, Project
+from weblate.trans.tasks import (
+    category_removal,
+    component_removal,
+    delete_collected_component_memory,
+    delete_component_memory,
+)
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_another_user, get_test_file
 from weblate.utils.hash import hash_to_checksum
@@ -326,6 +337,817 @@ class MemoryModelTest(FixtureTestCase):
     ) -> None:
         with self.captureOnCommitCallbacks(execute=True):
             import_memory(project_id, component_id)
+
+    def create_automatic_memory(
+        self, source: str, scope: int, **scope_kwargs
+    ) -> Memory:
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source=source,
+            target=f"{source} target",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=scope,
+            source_component=self.component,
+            **scope_kwargs,
+        )
+        return memory
+
+    def test_component_access_filters_automatic_memory_scopes(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Restricted component memory workspace",
+            use_workspace_tm=True,
+            contribute_workspace_tm=True,
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace,
+            use_workspace_tm=True,
+            contribute_workspace_tm=True,
+            contribute_shared_tm=True,
+        )
+        self.project.refresh_from_db()
+        project_memory = self.create_automatic_memory(
+            "Restricted project memory",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        workspace_memory = self.create_automatic_memory(
+            "Restricted workspace memory",
+            MemoryScope.SCOPE_WORKSPACE,
+            workspace=workspace,
+            source_project=self.project,
+        )
+        shared_memory = self.create_automatic_memory(
+            "Restricted shared memory",
+            MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        self.user.clear_permissions_cache()
+
+        queryset = Memory.objects.filter_type(
+            project=self.project,
+            use_shared=True,
+            use_workspace=True,
+            access_user=self.user,
+        )
+        self.assertNotIn(project_memory, queryset)
+        self.assertNotIn(workspace_memory, queryset)
+        self.assertNotIn(shared_memory, queryset)
+        self.assertNotIn(
+            project_memory,
+            Memory.objects.filter_type(project=self.project),
+        )
+        unchecked = Memory.objects.filter_type_unchecked(
+            project=self.project,
+            use_shared=True,
+            use_workspace=True,
+        )
+        self.assertIn(project_memory, unchecked)
+        self.assertIn(workspace_memory, unchecked)
+        self.assertIn(shared_memory, unchecked)
+
+        group = Group.objects.create(
+            name="Restricted memory component access",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_ALL,
+        )
+        group.roles.add(Role.objects.get(name="Power user"))
+        group.components.add(self.component)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        queryset = Memory.objects.filter_type(
+            project=self.project,
+            use_shared=True,
+            use_workspace=True,
+            access_user=self.user,
+        )
+        self.assertIn(project_memory, queryset)
+        self.assertIn(workspace_memory, queryset)
+        self.assertNotIn(shared_memory, queryset)
+
+        destination = Project.objects.create(
+            name="Workspace memory destination",
+            slug="workspace-memory-destination",
+            workspace=workspace,
+            use_workspace_tm=True,
+        )
+        group.projects.add(destination)
+        self.user.userblock_set.create(project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.assertIn(self.component.id, self.user.component_permissions)
+        self.assertFalse(self.user.can_access_component(self.component))
+        self.assertTrue(self.user.can_access_project(destination))
+        queryset = Memory.objects.filter_type(
+            project=destination,
+            use_workspace=True,
+            access_user=self.user,
+        )
+        self.assertNotIn(workspace_memory, queryset)
+        self.assertNotIn(
+            workspace_memory,
+            Memory.objects.visible_to_user(self.user, alias="default"),
+        )
+
+    def test_automatic_memory_scopes_track_component(self) -> None:
+        workspace = Workspace.objects.create(
+            name="Tracked component memory workspace",
+            contribute_workspace_tm=True,
+        )
+        Project.objects.filter(pk=self.project.pk).update(
+            workspace=workspace,
+            contribute_workspace_tm=True,
+            contribute_shared_tm=True,
+        )
+        self.project.refresh_from_db()
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+
+        update_memory(
+            source_language_id=source_language.id,
+            target_language_id=target_language.id,
+            source="Tracked component source",
+            context="",
+            target="Tracked component target",
+            origin=self.component.full_slug,
+            add_shared=True,
+            add_workspace=True,
+            add_project=True,
+            add_user=True,
+            user_id=self.user.id,
+            workspace_id=workspace.id,
+            project_id=self.project.id,
+            component_id=self.component.id,
+            unit_state=STATE_TRANSLATED,
+        )
+
+        self.assertEqual(
+            set(
+                MemoryScope.objects.filter(
+                    memory__source="Tracked component source",
+                    source_component=self.component,
+                ).values_list("scope", flat=True)
+            ),
+            {
+                MemoryScope.SCOPE_PROJECT,
+                MemoryScope.SCOPE_SHARED,
+                MemoryScope.SCOPE_USER,
+                MemoryScope.SCOPE_WORKSPACE,
+            },
+        )
+
+    def test_component_restriction_removes_and_rebuilds_shared_memory(self) -> None:
+        self.project.contribute_shared_tm = True
+        self.project.save(update_fields=["contribute_shared_tm"])
+        shared_memory = self.create_automatic_memory(
+            "Restriction transition shared memory",
+            MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+
+        self.assertFalse(Memory.objects.filter(pk=shared_memory.pk).exists())
+
+        self.component.restricted = False
+        with patch(
+            "weblate.trans.models.component.import_memory.delay_on_commit"
+        ) as mocked_import:
+            self.component.save(update_fields=["restricted"])
+
+        mocked_import.assert_called_once_with(self.project.id, self.component.id)
+
+    def test_component_restriction_waits_for_legacy_scope_backfill(self) -> None:
+        workspace = Workspace.objects.create(name="Legacy restriction workspace")
+        project_memory = self.create_automatic_memory(
+            "Legacy restricted project memory",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        workspace_memory = self.create_automatic_memory(
+            "Legacy restricted workspace memory",
+            MemoryScope.SCOPE_WORKSPACE,
+            workspace=workspace,
+            source_project=self.project,
+        )
+        shared_memory = self.create_automatic_memory(
+            "Legacy restricted shared memory",
+            MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+        legacy_memories = (project_memory, workspace_memory, shared_memory)
+        MemoryScope.objects.filter(memory__in=legacy_memories).update(
+            source_component=None
+        )
+
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+
+        self.assertTrue(Memory.objects.filter(pk=project_memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=workspace_memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=shared_memory.pk).exists())
+
+        MemoryScopeMigrationState.objects.filter(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        ).delete()
+        backfill_memory_scope_components()
+
+        self.assertEqual(
+            project_memory.scopes.get().source_component_id, self.component.id
+        )
+        self.assertEqual(
+            workspace_memory.scopes.get().source_component_id, self.component.id
+        )
+        self.assertFalse(Memory.objects.filter(pk=shared_memory.pk).exists())
+
+    def test_partial_save_does_not_apply_unsaved_restriction(self) -> None:
+        shared_memory = self.create_automatic_memory(
+            "Partial save shared memory",
+            MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+        self.component.restricted = True
+        self.component.priority += 1
+
+        self.component.save(update_fields=["priority"])
+
+        self.component.refresh_from_db()
+        self.assertFalse(self.component.restricted)
+        self.assertTrue(Memory.objects.filter(pk=shared_memory.pk).exists())
+
+    def test_component_attribution_backfill(self) -> None:
+        self.project.contribute_shared_tm = True
+        self.project.save(update_fields=["contribute_shared_tm"])
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        restricted_memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Backfilled restricted source",
+            target="Backfilled restricted target",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        project_scope = MemoryScope.objects.create(
+            memory=restricted_memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        MemoryScope.objects.create(
+            memory=restricted_memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+        unresolved_memory = Memory.objects.create(
+            source_language=restricted_memory.source_language,
+            target_language=restricted_memory.target_language,
+            source="Unresolved shared source",
+            target="Unresolved shared target",
+            origin="removed-project/removed-component",
+            status=Memory.STATUS_ACTIVE,
+        )
+        unresolved_scope = MemoryScope.objects.create(
+            memory=unresolved_memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+        file_scope = MemoryScope.objects.create(
+            memory=restricted_memory,
+            scope=MemoryScope.SCOPE_GLOBAL_FILE,
+        )
+        MemoryScopeMigrationState.objects.filter(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        ).delete()
+
+        backfill_memory_scope_components()
+
+        project_scope.refresh_from_db()
+        unresolved_scope.refresh_from_db()
+        file_scope.refresh_from_db()
+        self.assertEqual(project_scope.source_component_id, self.component.id)
+        self.assertFalse(
+            restricted_memory.scopes.filter(scope=MemoryScope.SCOPE_SHARED).exists()
+        )
+        self.assertIsNone(unresolved_scope.source_component_id)
+        self.assertIsNone(file_scope.source_component_id)
+        self.assertIn(
+            unresolved_memory,
+            Memory.objects.filter_type(use_shared=True, access_user=self.user),
+        )
+
+    def test_component_attribution_backfill_resolves_renamed_project(self) -> None:
+        old_slug = "renamed-memory-project"
+        relative_component_path = self.component.full_slug.split("/", 1)[1]
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Renamed component attribution source",
+            target="Prejmenovany cil komponenty",
+            origin=f"{old_slug}/{relative_component_path}",
+            status=Memory.STATUS_ACTIVE,
+        )
+        project_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+        MemoryScopeMigrationState.objects.filter(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        ).delete()
+
+        backfill_memory_scope_components()
+
+        project_scope.refresh_from_db()
+        self.assertEqual(project_scope.source_component_id, self.component.id)
+        self.assertFalse(memory.scopes.filter(scope=MemoryScope.SCOPE_SHARED).exists())
+
+    def test_component_attribution_backfill_ignores_moved_project(self) -> None:
+        old_project = Project.objects.create(
+            name="Old component project",
+            slug="old-component-project",
+        )
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Moved project attribution source",
+            target="Presunuty cil projektu",
+            origin=f"{old_project.slug}/{self.component.slug}",
+            status=Memory.STATUS_ACTIVE,
+        )
+        project_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=old_project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=old_project,
+        )
+        MemoryScopeMigrationState.objects.filter(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        ).delete()
+
+        backfill_memory_scope_components()
+
+        project_scope.refresh_from_db()
+        self.assertIsNone(project_scope.source_component_id)
+        self.assertTrue(memory.scopes.filter(scope=MemoryScope.SCOPE_SHARED).exists())
+
+    def test_component_attribution_ignores_historical_paths(self) -> None:
+        old_project = Project.objects.create(
+            name="Old path history project",
+            slug="old-path-history-project",
+        )
+        old_component_slug = "old-path-history-component"
+        historical_memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Historical project and path pair",
+            target="Historicky par projektu a cesty",
+            origin=f"{old_project.slug}/{old_component_slug}",
+            status=Memory.STATUS_ACTIVE,
+        )
+        historical_scope = MemoryScope.objects.create(
+            memory=historical_memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=old_project,
+        )
+        unrelated_memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Unrelated project and historical path",
+            target="Nesouvisejici projekt a historicka cesta",
+            origin=f"{self.project.slug}/{old_component_slug}",
+            status=Memory.STATUS_ACTIVE,
+        )
+        unrelated_scope = MemoryScope.objects.create(
+            memory=unrelated_memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        MemoryScopeMigrationState.objects.filter(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        ).delete()
+
+        backfill_memory_scope_components()
+
+        historical_scope.refresh_from_db()
+        self.assertIsNone(historical_scope.source_component_id)
+        unrelated_scope.refresh_from_db()
+        self.assertIsNone(unrelated_scope.source_component_id)
+
+    def test_component_attribution_backfill_ignores_renamed_path(self) -> None:
+        category = Category.objects.create(
+            project=self.project,
+            name="Current memory category",
+            slug="current-memory-category",
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            category=category,
+            restricted=True,
+        )
+        self.component.refresh_from_db()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Renamed path attribution source",
+            target="Prejmenovana cesta komponenty",
+            origin=(f"{self.project.slug}/old-memory-category/old-memory-component"),
+            status=Memory.STATUS_ACTIVE,
+        )
+        project_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+        MemoryScopeMigrationState.objects.filter(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        ).delete()
+
+        backfill_memory_scope_components()
+
+        project_scope.refresh_from_db()
+        self.assertIsNone(project_scope.source_component_id)
+        self.assertTrue(memory.scopes.filter(scope=MemoryScope.SCOPE_SHARED).exists())
+
+    def test_component_attribution_prefers_current_reused_path(self) -> None:
+        old_category = Category.objects.create(
+            project=self.project,
+            name="Reused memory category",
+            slug="reused-memory-category",
+        )
+        current_category = Category.objects.create(
+            project=self.project,
+            name="Current memory category",
+            slug="current-memory-category",
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            category=current_category,
+            restricted=True,
+        )
+        self.component.refresh_from_db()
+        replacement = self.create_link_existing(
+            name="Replacement memory component",
+            slug=self.component.slug,
+            category=old_category,
+        )
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Reused current path source",
+            target="Nahrazeny cil aktualni cesty",
+            origin=replacement.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        project_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+        MemoryScopeMigrationState.objects.filter(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        ).delete()
+
+        backfill_memory_scope_components()
+
+        project_scope.refresh_from_db()
+        self.assertEqual(project_scope.source_component_id, replacement.id)
+        self.assertTrue(memory.scopes.filter(scope=MemoryScope.SCOPE_SHARED).exists())
+
+    def test_resume_component_attribution_backfill_restarts_for_new_scopes(
+        self,
+    ) -> None:
+        last_memory_id = (
+            MemoryScope.objects.order_by("-id").values_list("id", flat=True).first()
+            or 0
+        )
+        state = MemoryScopeMigrationState.objects.create(
+            name=MEMORY_COMPONENT_BACKFILL_STATE,
+            last_memory_id=last_memory_id,
+            completed=True,
+        )
+        memory = self.create_automatic_memory(
+            "Late component backfill scope",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        memory.scopes.update(source_component=None)
+
+        with patch(
+            "weblate.memory.tasks.backfill_memory_scope_components.delay"
+        ) as mocked_delay:
+            resume_memory_component_backfill()
+
+        state.refresh_from_db()
+        self.assertEqual(state.last_memory_id, last_memory_id)
+        self.assertFalse(state.completed)
+        mocked_delay.assert_called_once_with()
+
+    def test_resume_component_attribution_backfill_ignores_terminal_scope(
+        self,
+    ) -> None:
+        memory = self.create_automatic_memory(
+            "Terminal component backfill scope",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        memory.origin = "removed-project/removed-component"
+        memory.save(update_fields=["origin"])
+        memory.scopes.update(source_component=None)
+        MemoryScopeMigrationState.objects.filter(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        ).delete()
+        backfill_memory_scope_components()
+        state = MemoryScopeMigrationState.objects.get(
+            name=MEMORY_COMPONENT_BACKFILL_STATE
+        )
+
+        with patch(
+            "weblate.memory.tasks.backfill_memory_scope_components.delay"
+        ) as mocked_delay:
+            resume_memory_component_backfill()
+
+        state.refresh_from_db()
+        self.assertTrue(state.completed)
+        self.assertGreaterEqual(state.last_memory_id, memory.scopes.get().id)
+        self.assertIsNone(memory.scopes.get().source_component_id)
+        mocked_delay.assert_not_called()
+
+    def test_component_deletion_retains_memory_by_default(self) -> None:
+        memories = [
+            self.create_automatic_memory(
+                "Retained project memory",
+                MemoryScope.SCOPE_PROJECT,
+                project=self.project,
+            ),
+            self.create_automatic_memory(
+                "Retained shared memory",
+                MemoryScope.SCOPE_SHARED,
+                source_project=self.project,
+            ),
+            self.create_automatic_memory(
+                "Retained personal memory",
+                MemoryScope.SCOPE_USER,
+                user=self.user,
+            ),
+        ]
+
+        self.component.delete()
+
+        self.assertEqual(
+            Memory.objects.filter(pk__in=[memory.pk for memory in memories]).count(),
+            len(memories),
+        )
+        self.assertFalse(
+            MemoryScope.objects.filter(
+                memory__in=memories, source_component__isnull=False
+            ).exists()
+        )
+
+    def test_component_deletion_retains_unattributed_memory(self) -> None:
+        memory = self.create_automatic_memory(
+            "Untracked retained component memory",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        memory.scopes.update(source_component=None)
+        scope = memory.scopes.get()
+
+        self.component.delete()
+
+        scope.refresh_from_db()
+        self.assertIsNone(scope.source_component_id)
+
+    def test_optional_component_memory_deletion_preserves_personal_scope(self) -> None:
+        project_memory = self.create_automatic_memory(
+            "Deleted component project memory",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        shared_memory = self.create_automatic_memory(
+            "Deleted component shared memory",
+            MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+        )
+        personal_memory = self.create_automatic_memory(
+            "Preserved component personal memory",
+            MemoryScope.SCOPE_USER,
+            user=self.user,
+        )
+
+        delete_component_memory(self.component)
+
+        self.assertFalse(Memory.objects.filter(pk=project_memory.pk).exists())
+        self.assertFalse(Memory.objects.filter(pk=shared_memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=personal_memory.pk).exists())
+
+    def test_optional_component_memory_deletion_removes_current_legacy_origin(
+        self,
+    ) -> None:
+        memory = self.create_automatic_memory(
+            "Current legacy component cleanup",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        memory.scopes.update(source_component=None)
+
+        delete_component_memory(self.component)
+
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+
+    def test_component_removal_deletes_memory_written_after_initial_cleanup(
+        self,
+    ) -> None:
+        late_memories: list[Memory] = []
+
+        def delete_with_late_write(cleanup):
+            delete_collected_component_memory(cleanup)
+            if not late_memories:
+                late_memories.append(
+                    self.create_automatic_memory(
+                        "Late component removal memory",
+                        MemoryScope.SCOPE_PROJECT,
+                        project=self.project,
+                    )
+                )
+
+        with patch(
+            "weblate.trans.tasks.delete_collected_component_memory",
+            side_effect=delete_with_late_write,
+        ):
+            component_removal(self.component.pk, self.user.pk, delete_memory=True)
+
+        self.assertFalse(Memory.objects.filter(pk=late_memories[0].pk).exists())
+
+    def test_optional_component_memory_deletion_preserves_historical_origin(
+        self,
+    ) -> None:
+        category = Category.objects.create(
+            project=self.project,
+            name="Current cleanup category",
+            slug="current-cleanup-category",
+        )
+        Component.objects.filter(pk=self.component.pk).update(category=category)
+        self.component.refresh_from_db()
+        Change.objects.create(
+            project=self.project,
+            action=ActionEvents.RENAME_PROJECT,
+            old="old-cleanup-project",
+            target=self.project.slug,
+        )
+        Change.objects.create(
+            project=self.project,
+            action=ActionEvents.RENAME_CATEGORY,
+            old="old-cleanup-category",
+            target=category.slug,
+        )
+        Change.objects.create(
+            component=self.component,
+            action=ActionEvents.RENAME_COMPONENT,
+            old="old-cleanup-component",
+            target=self.component.slug,
+        )
+        memory = self.create_automatic_memory(
+            "Historical component cleanup",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        memory.origin = "old-cleanup-project/old-cleanup-category/old-cleanup-component"
+        memory.save(update_fields=["origin"])
+        memory.scopes.update(source_component=None)
+
+        delete_component_memory(self.component)
+
+        self.assertTrue(Memory.objects.filter(pk=memory.pk).exists())
+
+    def test_optional_component_memory_deletion_preserves_moved_project(self) -> None:
+        old_project = Project.objects.create(
+            name="Old cleanup project",
+            slug="old-cleanup-project",
+        )
+        Change.objects.create(
+            component=self.component,
+            action=ActionEvents.MOVE_COMPONENT,
+            old=old_project.slug,
+            target=self.project.slug,
+        )
+        memory = self.create_automatic_memory(
+            "Moved component cleanup",
+            MemoryScope.SCOPE_PROJECT,
+            project=old_project,
+        )
+        memory.origin = f"{old_project.slug}/{self.component.slug}"
+        memory.save(update_fields=["origin"])
+        memory.scopes.update(source_component=None)
+
+        delete_component_memory(self.component)
+
+        self.assertTrue(Memory.objects.filter(pk=memory.pk).exists())
+
+    def test_optional_category_memory_deletion_preserves_personal_scope(self) -> None:
+        category = Category.objects.create(
+            name="Deleted memory category",
+            slug="deleted-memory-category",
+            project=self.project,
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        project_memory = self.create_automatic_memory(
+            "Deleted category project memory",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        personal_memory = self.create_automatic_memory(
+            "Preserved category personal memory",
+            MemoryScope.SCOPE_USER,
+            user=self.user,
+        )
+
+        category_removal(category.pk, self.user.pk, delete_memory=True)
+
+        self.assertFalse(Memory.objects.filter(pk=project_memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=personal_memory.pk).exists())
+
+    def test_category_removal_deletes_memory_written_after_initial_cleanup(
+        self,
+    ) -> None:
+        category = Category.objects.create(
+            name="Late memory category",
+            slug="late-memory-category",
+            project=self.project,
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        late_memories: list[Memory] = []
+
+        def delete_with_late_write(cleanup):
+            delete_collected_component_memory(cleanup)
+            if not late_memories:
+                late_memories.append(
+                    self.create_automatic_memory(
+                        "Late category removal memory",
+                        MemoryScope.SCOPE_PROJECT,
+                        project=self.project,
+                    )
+                )
+
+        with patch(
+            "weblate.trans.tasks.delete_collected_component_memory",
+            side_effect=delete_with_late_write,
+        ):
+            category_removal(category.pk, self.user.pk, delete_memory=True)
+
+        self.assertFalse(Memory.objects.filter(pk=late_memories[0].pk).exists())
+
+    def test_category_deletion_retains_unattributed_memory(self) -> None:
+        category = Category.objects.create(
+            name="Retained memory category",
+            slug="retained-memory-category",
+            project=self.project,
+        )
+        self.component.category = category
+        self.component.save(update_fields=["category"])
+        memory = self.create_automatic_memory(
+            "Untracked retained category memory",
+            MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+        memory.scopes.update(source_component=None)
+        scope = memory.scopes.get()
+
+        category_removal(category.pk, self.user.pk)
+
+        scope.refresh_from_db()
+        self.assertIsNone(scope.source_component_id)
 
     def handle_unit_translation_change_with_callbacks(self, unit, user) -> None:
         with self.captureOnCommitCallbacks(execute=True):
@@ -2062,6 +2884,36 @@ msgstr "Nazdar svete!\n"
             1,
         )
 
+    def test_bulk_current_payload_skips_legacy_component_prefetch(self) -> None:
+        source_language = Language.objects.get(code="en")
+        target_language = Language.objects.get(code="cs")
+        source = "Bulk current component payload source"
+        payload = {
+            "source_language_id": source_language.id,
+            "target_language_id": target_language.id,
+            "source": source,
+            "context": "",
+            "target": "Davkovy aktualni cil",
+            "origin": self.component.full_slug,
+            "add_shared": False,
+            "add_workspace": False,
+            "add_project": True,
+            "add_user": False,
+            "user_id": None,
+            "workspace_id": None,
+            "project_id": self.project.id,
+            "component_id": self.component.id,
+            "unit_state": STATE_TRANSLATED,
+        }
+
+        with patch(
+            "weblate.trans.models.component.ComponentQuerySet.prefetch"
+        ) as mocked_prefetch:
+            update_memory_bulk([payload])
+
+        mocked_prefetch.assert_not_called()
+        self.assertTrue(Memory.objects.filter(source=source).exists())
+
     def test_compact_backfills_scopes_before_merging_duplicates(self) -> None:
         source_language = Language.objects.get(code="en")
         target_language = Language.objects.get(code="cs")
@@ -2997,6 +3849,14 @@ msgstr "Nazdar svete!\n"
 
 
 class MemoryViewTest(FixtureTestCase):
+    def grant_memory_manage(self) -> None:
+        role = Role.objects.create(name="Global memory manager")
+        role.permissions.add(Permission.objects.get(codename="memory.manage"))
+        group = Group.objects.create(name="Global memory managers")
+        group.roles.add(role)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
     def create_workspace_memory(self):
         workspace = Workspace.objects.create(
             name="Managed memory workspace",
@@ -3021,6 +3881,7 @@ class MemoryViewTest(FixtureTestCase):
             scope=MemoryScope.SCOPE_WORKSPACE,
             workspace=workspace,
             source_project=self.project,
+            source_component=self.component,
         )
         return workspace, memory
 
@@ -3107,8 +3968,52 @@ class MemoryViewTest(FixtureTestCase):
             ).exists()
         )
 
-    def test_workspace_memory_rebuild_component(self) -> None:
+    def test_workspace_memory_delete_removes_unattributed_origin(self) -> None:
         workspace, memory = self.create_workspace_memory()
+        memory.origin = "old-project/removed-component"
+        memory.save(update_fields=["origin"])
+        memory.scopes.update(source_component=None)
+
+        response = self.client.post(
+            reverse("memory-delete", kwargs={"workspace": workspace.pk}),
+            {"confirm": "1", "origin": memory.origin},
+            follow=True,
+        )
+
+        self.assertContains(response, "Entries were deleted.")
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+
+    def test_workspace_memory_rebuild_preserves_unattributed_component(self) -> None:
+        workspace, memory = self.create_workspace_memory()
+        relative_path = self.component.full_slug.partition("/")[2]
+        memory.origin = f"old-project/{relative_path}"
+        memory.save(update_fields=["origin"])
+        memory.scopes.update(source_component=None)
+        other_project = Project.objects.create(
+            name="Unselected workspace memory project",
+            slug="unselected-workspace-memory-project",
+            workspace=workspace,
+            contribute_workspace_tm=True,
+        )
+        other_component = self.create_link_existing(
+            name="Unselected workspace memory component",
+            slug=self.component.slug,
+            project=other_project,
+        )
+        other_memory = Memory.objects.create(
+            source_language=memory.source_language,
+            target_language=memory.target_language,
+            source="Unselected workspace memory source",
+            target="Unselected workspace memory target",
+            origin=other_component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        other_scope = MemoryScope.objects.create(
+            memory=other_memory,
+            scope=MemoryScope.SCOPE_WORKSPACE,
+            workspace=workspace,
+            source_project=other_project,
+        )
 
         with patch("weblate.memory.views.import_memory.delay") as mocked_import:
             response = self.client.post(
@@ -3121,15 +4026,20 @@ class MemoryViewTest(FixtureTestCase):
             response,
             "Translation memory entries created from current translations",
         )
-        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=other_memory.pk).exists())
+        other_scope.refresh_from_db()
+        self.assertIsNone(other_scope.source_component_id)
         mocked_import.assert_called_once_with(
             project_id=self.project.id,
             component_id=self.component.id,
         )
 
-    def test_workspace_memory_rebuilds_contributing_projects(self) -> None:
+    def test_workspace_memory_rebuilds_accessible_contributing_components(
+        self,
+    ) -> None:
         workspace, memory = self.create_workspace_memory()
-        contributing = Project.objects.create(
+        Project.objects.create(
             name="Contributing workspace project",
             slug="contributing-workspace-project",
             workspace=workspace,
@@ -3154,13 +4064,148 @@ class MemoryViewTest(FixtureTestCase):
             "Translation memory entries created from current translations",
         )
         self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
-        self.assertEqual(mocked_import.call_count, 2)
-        mocked_import.assert_has_calls(
-            [
-                call(project_id=self.project.id, component_id=None),
-                call(project_id=contributing.id, component_id=None),
-            ],
-            any_order=True,
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id,
+            component_id=self.component.id,
+        )
+
+    def test_workspace_memory_rebuild_skips_restricted_components(self) -> None:
+        workspace, memory = self.create_workspace_memory()
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        self.user.clear_permissions_cache()
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs={"workspace": workspace.pk}),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertTrue(Memory.objects.filter(pk=memory.pk).exists())
+        mocked_import.assert_not_called()
+
+    def test_workspace_memory_rebuild_preserves_inaccessible_component(self) -> None:
+        workspace, memory = self.create_workspace_memory()
+        private_project = Project.objects.create(
+            name="Private workspace project",
+            slug="private-workspace-project",
+            workspace=workspace,
+            contribute_workspace_tm=True,
+            access_control=Project.ACCESS_PRIVATE,
+        )
+        private_component = self.create_link_existing(
+            name="Private workspace component",
+            slug="private-workspace-component",
+            project=private_project,
+        )
+        private_memory = Memory.objects.create(
+            source_language=memory.source_language,
+            target_language=memory.target_language,
+            source="Private workspace source",
+            target="Soukromy cil pracovniho prostoru",
+            origin=private_component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=private_memory,
+            scope=MemoryScope.SCOPE_WORKSPACE,
+            workspace=workspace,
+            source_project=private_project,
+            source_component=private_component,
+        )
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.can_access_component(private_component))
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs={"workspace": workspace.pk}),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=private_memory.pk).exists())
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id,
+            component_id=self.component.id,
+        )
+
+    def test_workspace_memory_rebuild_preserves_accessible_unattributed_scope(
+        self,
+    ) -> None:
+        workspace, memory = self.create_workspace_memory()
+        memory.scopes.update(source_component=None)
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs={"workspace": workspace.pk}),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertTrue(Memory.objects.filter(pk=memory.pk).exists())
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id,
+            component_id=self.component.id,
+        )
+
+    def test_workspace_memory_rebuild_superuser_removes_tracked_scope(self) -> None:
+        workspace, memory = self.create_workspace_memory()
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_permissions_cache()
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs={"workspace": workspace.pk}),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id,
+            component_id=self.component.id,
+        )
+
+    def test_workspace_memory_rebuild_global_manager_includes_restricted(self) -> None:
+        workspace, memory = self.create_workspace_memory()
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        self.grant_memory_manage()
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs={"workspace": workspace.pk}),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id,
+            component_id=self.component.id,
         )
 
     def test_origin_counts_use_single_query(self) -> None:
@@ -3477,7 +4522,7 @@ class MemoryViewTest(FixtureTestCase):
         self.user.save()
         self.test_memory("Number of entries for Test", False, kwargs=self.kw_project)
 
-    def test_rebuild_removes_compacted_automatic_scopes(self) -> None:
+    def test_rebuild_preserves_unattributed_compacted_automatic_scopes(self) -> None:
         self.project.add_user(self.user, "Administration")
         workspace = Workspace.objects.create(name="Memory rebuild workspace")
         self.project.workspace = workspace
@@ -3487,7 +4532,7 @@ class MemoryViewTest(FixtureTestCase):
             target_language=Language.objects.get(code="cs"),
             source="Rebuild stale scope",
             target="Prestaveny stary rozsah",
-            origin=self.component.full_slug,
+            origin=("old-project/" + self.component.full_slug.partition("/")[2]),
             legacy_project=self.project,
             status=Memory.STATUS_ACTIVE,
         )
@@ -3502,6 +4547,23 @@ class MemoryViewTest(FixtureTestCase):
             workspace=workspace,
             source_project=self.project,
         )
+        other_component = self.create_link_existing(
+            name="Unselected project memory component",
+            slug="unselected-project-memory-component",
+        )
+        other_memory = Memory.objects.create(
+            source_language=memory.source_language,
+            target_language=memory.target_language,
+            source="Unselected project memory source",
+            target="Unselected project memory target",
+            origin=other_component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        other_scope = MemoryScope.objects.create(
+            memory=other_memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
 
         with patch("weblate.memory.views.import_memory.delay") as mocked_import:
             response = self.client.post(
@@ -3513,9 +4575,198 @@ class MemoryViewTest(FixtureTestCase):
         self.assertContains(
             response, "Translation memory entries created from current translations"
         )
-        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=memory.pk).exists())
+        self.assertTrue(Memory.objects.filter(pk=other_memory.pk).exists())
+        other_scope.refresh_from_db()
+        self.assertIsNone(other_scope.source_component_id)
         mocked_import.assert_called_once_with(
             project_id=self.project.id, component_id=self.component.id
+        )
+
+    def test_delete_preserves_inaccessible_scope_on_compacted_entry(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        self.user.clear_permissions_cache()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Compacted hidden automatic scope",
+            target="Skryty automaticky rozsah",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        automatic_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+            source_component=self.component,
+        )
+        file_scope = MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT_FILE,
+            project=self.project,
+        )
+
+        response = self.client.post(
+            reverse("memory-delete", kwargs=self.kw_project),
+            {"confirm": "1"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Entries were deleted")
+        self.assertTrue(MemoryScope.objects.filter(pk=automatic_scope.pk).exists())
+        self.assertFalse(MemoryScope.objects.filter(pk=file_scope.pk).exists())
+
+    def test_project_rebuild_skips_restricted_components(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        self.user.clear_permissions_cache()
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs=self.kw_project),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        mocked_import.assert_not_called()
+
+    def test_project_memory_delete_removes_unattributed_origin(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Unattributed project deletion source",
+            target="Neprirazeny cil odstraneni projektu",
+            origin="old-project/removed-component",
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+
+        response = self.client.post(
+            reverse("memory-delete", kwargs=self.kw_project),
+            {"confirm": "1", "origin": memory.origin},
+            follow=True,
+        )
+
+        self.assertContains(response, "Entries were deleted.")
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+
+    def test_project_rebuild_preserves_accessible_unattributed_scope(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Untracked project rebuild source",
+            target="Nesledovany cil prestavby projektu",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+        )
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs=self.kw_project),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertTrue(Memory.objects.filter(pk=memory.pk).exists())
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id,
+            component_id=self.component.id,
+        )
+
+    def test_project_rebuild_superuser_removes_tracked_scope(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_permissions_cache()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Superuser rebuild source",
+            target="Spravcovsky prestaveny cil",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+            source_component=self.component,
+        )
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs=self.kw_project),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id,
+            component_id=self.component.id,
+        )
+
+    def test_project_rebuild_global_manager_includes_restricted(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        self.grant_memory_manage()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Global manager restricted rebuild source",
+            target="Globalni spravce omezeny cil",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_PROJECT,
+            project=self.project,
+            source_component=self.component,
+        )
+
+        with patch("weblate.memory.views.import_memory.delay") as mocked_import:
+            response = self.client.post(
+                reverse("memory-rebuild", kwargs=self.kw_project),
+                {"confirm": "1"},
+                follow=True,
+            )
+
+        self.assertContains(
+            response,
+            "Translation memory entries created from current translations",
+        )
+        self.assertFalse(Memory.objects.filter(pk=memory.pk).exists())
+        mocked_import.assert_called_once_with(
+            project_id=self.project.id,
+            component_id=self.component.id,
         )
 
     def test_rebuild_preserves_uploaded_entries(self) -> None:
@@ -3573,7 +4824,7 @@ class MemoryViewTest(FixtureTestCase):
         self.assertContains(response, "Uploaded entries were preserved.")
         self.assertTrue(Memory.objects.filter(pk=file_memory.pk).exists())
         self.assertTrue(Memory.objects.filter(pk=compacted_memory.pk).exists())
-        self.assertFalse(
+        self.assertTrue(
             MemoryScope.objects.filter(
                 memory=compacted_memory,
                 scope=MemoryScope.SCOPE_PROJECT,
@@ -3588,7 +4839,7 @@ class MemoryViewTest(FixtureTestCase):
             ).exists()
         )
         mocked_import.assert_called_once_with(
-            project_id=self.project.id, component_id=None
+            project_id=self.project.id, component_id=self.component.id
         )
 
     def test_global_memory_superuser(self) -> None:
@@ -3634,6 +4885,35 @@ class MemoryViewTest(FixtureTestCase):
         )
 
         self.assertEqual(response.json()[0]["category"], CATEGORY_SHARED)
+
+    def test_shared_memory_download_excludes_restricted_components(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        self.project.contribute_shared_tm = True
+        self.project.save(update_fields=["contribute_shared_tm"])
+        Component.objects.filter(pk=self.component.pk).update(restricted=True)
+        self.component.refresh_from_db()
+        memory = Memory.objects.create(
+            source_language=Language.objects.get(code="en"),
+            target_language=Language.objects.get(code="cs"),
+            source="Restricted shared download source",
+            target="Omezeny sdileny cil",
+            origin=self.component.full_slug,
+            status=Memory.STATUS_ACTIVE,
+        )
+        MemoryScope.objects.create(
+            memory=memory,
+            scope=MemoryScope.SCOPE_SHARED,
+            source_project=self.project,
+            source_component=self.component,
+        )
+
+        response = self.client.get(
+            reverse("manage-memory-download"),
+            {"format": "json", "kind": "shared"},
+        )
+
+        self.assertNotIn(memory.source, {entry["source"] for entry in response.json()})
 
     def test_global_memory_download_all_expands_compacted_scopes(self) -> None:
         self.user.is_superuser = True
@@ -3837,14 +5117,18 @@ class LookupPolicyTest(SimpleTestCase):
 
         self.assertIs(result, filtered)
         (scope_query,) = filter_scope.call_args.args
+        component_access = MemoryQuerySet.get_component_access_query(None)
         expected_scope = (
             Q(pk__isnull=True)
             | Q(scope=MemoryScope.SCOPE_GLOBAL_FILE)
-            | Q(
-                scope=MemoryScope.SCOPE_SHARED,
-                source_project__contribute_shared_tm=True,
+            | (
+                Q(
+                    scope=MemoryScope.SCOPE_SHARED,
+                    source_project__contribute_shared_tm=True,
+                )
+                & MemoryQuerySet.get_shared_component_access_query()
             )
-            | Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
+            | (Q(scope=MemoryScope.SCOPE_PROJECT, project=project) & component_access)
             | Q(scope=MemoryScope.SCOPE_PROJECT_FILE, project=project)
             | Q(scope=MemoryScope.SCOPE_USER, user=user)
             | Q(scope=MemoryScope.SCOPE_USER_FILE, user=user)
@@ -4029,6 +5313,7 @@ class LookupPolicyTest(SimpleTestCase):
         self.assertEqual(list(results), [])
         filter_type.assert_called_once_with(
             user=None,
+            access_user=None,
             project=None,
             use_shared=False,
             from_file=True,
@@ -4065,6 +5350,7 @@ class LookupPolicyTest(SimpleTestCase):
         self.assertEqual(list(results), [])
         filter_type.assert_called_once_with(
             user=None,
+            access_user=None,
             project=None,
             use_shared=False,
             from_file=True,
@@ -4174,6 +5460,7 @@ class LookupPolicyTest(SimpleTestCase):
         self.assertEqual(list(results), [])
         filter_type.assert_called_once_with(
             user=None,
+            access_user=None,
             project=None,
             use_shared=False,
             from_file=True,

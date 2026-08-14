@@ -68,16 +68,16 @@
                 </p>
               {% endif %}
               </div>
-            <div class="card-footer">
-              {% if new_lang == 'contact' %}
-                <input class="btn btn-primary"
-                       type="submit"
-                       value="{% translate "Request new translation" %}" />
-              {% else %}
-                <input class="btn btn-primary"
-                       type="submit"
-                       value="{% translate "Start new translation" %}" />
-              {% endif %}
+              <div class="card-footer">
+                {% if new_lang == 'contact' %}
+                  <input class="btn btn-primary"
+                         type="submit"
+                         value="{% translate "Request new translation" %}" />
+                {% else %}
+                  <input class="btn btn-primary"
+                         type="submit"
+                         value="{% translate "Start new translation" %}" />
+                {% endif %}
             {% endif %}
           </div>
         </div>

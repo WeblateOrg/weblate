@@ -41,7 +41,11 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.tracing import start_span
 
-from .base import BaseAddon
+from .base import (
+    AddonConfigurationValue,
+    BaseAddon,
+    build_addon_change_details,
+)
 from .defaults import (
     DEFAULT_ADDON_ACTIVITY_LOG_EXPIRY,
     DEFAULT_LOCALIZE_CDN_PATH,
@@ -56,7 +60,7 @@ from .events import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Iterable, Mapping
 
     from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
@@ -282,10 +286,17 @@ class Addon(models.Model):
 
         # Store history (if not updating state only)
         if update_fields != ["state"]:
+            creating = self._state.adding or force_insert
+            compared_configuration = (
+                {}
+                if creating
+                else Addon.objects.db_manager(using or self._state.db)
+                .values_list("configuration", flat=True)
+                .get(pk=self.pk)
+            )
             self.store_change(
-                ActionEvents.ADDON_CREATE
-                if not self.pk or force_insert
-                else ActionEvents.ADDON_CHANGE
+                ActionEvents.ADDON_CREATE if creating else ActionEvents.ADDON_CHANGE,
+                compared_configuration,
             )
 
         super().save(
@@ -306,7 +317,19 @@ class Addon(models.Model):
     def get_absolute_url(self) -> str:
         return reverse("addon-detail", kwargs={"pk": self.pk})
 
-    def store_change(self, action) -> None:
+    def store_change(
+        self,
+        action: ActionEvents,
+        compared_configuration: Mapping[str, AddonConfigurationValue],
+    ) -> None:
+        if self.is_valid:
+            details = self.addon.get_change_details(compared_configuration)
+        else:
+            details = build_addon_change_details(
+                self.configuration,
+                compared_configuration,
+                frozenset(),
+            )
         Change.objects.create(
             action=action,
             user=self.acting_user,
@@ -314,7 +337,7 @@ class Addon(models.Model):
             category=self.category,
             component=self.component,
             target=self.name,
-            details=self.configuration,
+            details=details,
         )
 
     def configure_events(self, events: set[AddonEvent]) -> None:
@@ -410,7 +433,7 @@ class Addon(models.Model):
 
     def delete(self, using=None, keep_parents=False):
         # Store history
-        self.store_change(ActionEvents.ADDON_REMOVE)
+        self.store_change(ActionEvents.ADDON_REMOVE, {})
         # Delete any addon alerts
         if self.is_valid and self.addon.alert:
             if self.component:
