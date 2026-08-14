@@ -23,6 +23,7 @@ if TYPE_CHECKING:
 
 BASE_INHERITED_COMPONENT_FIELDS = (
     "vcs",
+    "vcs_params",
     "license",
     "agreement",
     "source_language",

@@ -2126,6 +2126,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "source_language",
             "project",
             "vcs",
+            "vcs_params",
             "repo",
             "git_export",
             "branch",
@@ -2255,6 +2256,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
         user = self.context["request"].user
         if not user.has_perm("vcs.view", instance):
             result["vcs"] = None
+            result["vcs_params"] = None
             result["repo"] = None
             result["branch"] = None
             result["filemask"] = None

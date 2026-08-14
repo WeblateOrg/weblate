@@ -1553,8 +1553,10 @@ class SettingsTest(ViewTestCase):
         self.component.push_on_commit = True
         self.component.commit_pending_age = 12
         self.component.auto_lock_error = False
+        self.component.vcs_params = {"git_force_push": True}
         self.component.save(
             update_fields=[
+                "vcs_params",
                 "push_on_commit",
                 "commit_pending_age",
                 "auto_lock_error",
@@ -1566,8 +1568,10 @@ class SettingsTest(ViewTestCase):
         linked_component.push_on_commit = False
         linked_component.commit_pending_age = 1
         linked_component.auto_lock_error = True
+        linked_component.vcs_params = {"git_force_push": False}
         linked_component.save(
             update_fields=[
+                "vcs_params",
                 "push_on_commit",
                 "commit_pending_age",
                 "auto_lock_error",
@@ -1579,6 +1583,8 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, "Settings")
         form = response.context["form"]
 
+        self.assertTrue(form.fields["vcs_params"].disabled)
+        self.assertEqual(form.initial["vcs_params"], {"git_force_push": True})
         self.assertTrue(form.fields["push_on_commit"].disabled)
         self.assertTrue(form.initial["push_on_commit"])
         self.assertTrue(form.fields["commit_pending_age"].disabled)
@@ -1601,6 +1607,7 @@ class SettingsTest(ViewTestCase):
 
         linked_component.refresh_from_db()
         self.assertEqual(linked_component.name, "Settings linked renamed")
+        self.assertEqual(linked_component.vcs_params, {"git_force_push": False})
         self.assertFalse(linked_component.push_on_commit)
         self.assertEqual(linked_component.commit_pending_age, 1)
         self.assertTrue(linked_component.auto_lock_error)

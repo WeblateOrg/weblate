@@ -2846,9 +2846,50 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_remote_branch(self) -> None:
         self.assertEqual(self._remote_branch, self.repo.get_remote_branch(self.tempdir))
 
+    def test_push_command_without_force_param(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        self.assertEqual(self.repo.get_push_command(), ["push"])
+
+    def test_false_string_does_not_force_push(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        self.repo.component.vcs_params = {"git_force_push": "false"}
+        self.assertEqual(self.repo.get_push_command(), ["push"])
+
+    def test_push_command_with_force_param(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        self.repo.component.vcs_params = {"git_force_push": True}
+        self.assertEqual(self.repo.get_push_command(), ["push", "--force"])
+
+    def test_push_forces_with_param(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        self.repo.component.vcs_params = {"git_force_push": True}
+        self.test_commit()
+        with self.repo.lock, patch.object(self.repo, "execute") as mocked:
+            self.repo.push("")
+        self.assertIn("--force", mocked.call_args[0][0])
+
+    def test_push_label_follows_force_param(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        component = self.repo.component
+        self.assertNotIn("force", str(self._class.get_push_label(component)))
+        component.vcs_params = {"git_force_push": True}
+        self.assertIn("force push", str(self._class.get_push_label(component)))
+
 
 class VCSGitForcePushTest(VCSGitTest):
+    """The retired backend keeps force pushing regardless of parameters."""
+
     _class = GitForcePushRepository
+
+    def test_always_forces(self) -> None:
+        self.assertEqual(self.repo.get_push_command(), ["push", "--force"])
+        self.repo.component.vcs_params = {"git_force_push": False}
+        self.assertEqual(self.repo.get_push_command(), ["push", "--force"])
 
 
 class VCSGitUpstreamTest(VCSGitTest):
@@ -3916,6 +3957,277 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.assertEqual(repo.get_merge_message(), ("Test message", ""))
         component.pull_message = "\nTest message\n\n\nBody"
         self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
+
+    GRAPHQL_URL = "https://api.github.com/graphql"
+    MERGE_URL = "https://api.github.com/repos/WeblateOrg/test/pulls/1/merge"
+
+    def get_calls(self, url: str) -> list:
+        return [
+            call for call in http_mock.calls if str(call.request.url).startswith(url)
+        ]
+
+    def mock_automerge_response(self, json: dict, status: int = 200) -> None:
+        http_mock.register("POST", self.GRAPHQL_URL, json=json, status_code=status)
+
+    def push_with_automerge(self, branch: str = "", **vcs_params) -> None:
+        self.repo.component.vcs_params = {
+            "merge_request_automerge": True,
+            **vcs_params,
+        }
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            super().test_push(branch)
+
+    @http_mock.activate
+    def test_automerge_enabled(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response({"data": {"enablePullRequestAutoMerge": {}}})
+
+        self.push_with_automerge()
+
+        graphql_calls = self.get_calls(self.GRAPHQL_URL)
+        self.assertEqual(len(graphql_calls), 1)
+        payload = json.loads(graphql_calls[0].request.content or b"{}")
+        self.assertEqual(payload["variables"]["pullRequestId"], "PR_node")
+        self.assertEqual(payload["variables"]["mergeMethod"], "MERGE")
+        self.assertEqual(self.get_calls(self.MERGE_URL), [])
+
+    @http_mock.activate
+    def test_automerge_merge_method(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response({"data": {"enablePullRequestAutoMerge": {}}})
+
+        self.push_with_automerge(merge_request_merge_method="squash")
+
+        payload = json.loads(
+            self.get_calls(self.GRAPHQL_URL)[0].request.content or b"{}"
+        )
+        self.assertEqual(payload["variables"]["mergeMethod"], "SQUASH")
+
+    @http_mock.activate
+    def test_automerge_not_used_by_default(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            super().test_push("")
+
+        self.assertEqual(self.get_calls(self.GRAPHQL_URL), [])
+
+    @http_mock.activate
+    def test_automerge_clean_status_merges_directly(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response(
+            {"errors": [{"message": "Pull request is in clean status"}]}
+        )
+        http_mock.register("PUT", self.MERGE_URL, json={"merged": True})
+
+        self.push_with_automerge(merge_request_merge_method="rebase")
+
+        merge_calls = self.get_calls(self.MERGE_URL)
+        self.assertEqual(len(merge_calls), 1)
+        self.assertEqual(
+            json.loads(merge_calls[0].request.content or b"{}"),
+            {"merge_method": "rebase"},
+        )
+
+    @http_mock.activate
+    def test_automerge_error_does_not_fail_push(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response(
+            {"errors": [{"message": "Auto-merge is not allowed for this repository"}]}
+        )
+
+        with patch.object(
+            self.repo.component, "handle_automerge_failure"
+        ) as handle_failure:
+            # The commits and the pull request already landed, so the push
+            # must not be reported as failed.
+            self.push_with_automerge()
+
+        handle_failure.assert_called_once()
+        stored_error = handle_failure.call_args[0][0]
+        self.assertEqual(stored_error["code"], "automerge_failed_with_error")
+        self.assertIn("Auto-merge is not allowed", stored_error["params"]["error"])
+
+    @http_mock.activate
+    def test_automerge_transport_error_does_not_fail_push(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        original_request = self.repo.request
+
+        def request(*args, **kwargs):
+            if args[2] == self.GRAPHQL_URL:
+                raise RepositoryError(0, "transport failed")
+            return original_request(*args, **kwargs)
+
+        with (
+            patch.object(self.repo, "request", side_effect=request),
+            patch.object(
+                self.repo.component, "handle_automerge_failure"
+            ) as handle_failure,
+        ):
+            self.push_with_automerge()
+
+        handle_failure.assert_called_once_with("transport failed")
+
+    @http_mock.activate
+    def test_automerge_success_clears_alert(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response({"data": {"enablePullRequestAutoMerge": {}}})
+
+        with patch.object(
+            self.repo.component, "handle_automerge_success"
+        ) as handle_success:
+            self.push_with_automerge()
+
+        handle_success.assert_called_once()
+
+    @http_mock.activate
+    def test_automerge_applied_to_existing_pull_request(self) -> None:
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+        http_mock.register(
+            "GET",
+            "https://api.github.com/repos/WeblateOrg/test/pulls",
+            json=[
+                {
+                    "node_id": "PR_existing",
+                    "number": 1,
+                    "base": {"ref": "main"},
+                }
+            ],
+        )
+        self.mock_automerge_response({"data": {"enablePullRequestAutoMerge": {}}})
+
+        self.push_with_automerge()
+
+        payload = json.loads(
+            self.get_calls(self.GRAPHQL_URL)[0].request.content or b"{}"
+        )
+        self.assertEqual(payload["variables"]["pullRequestId"], "PR_existing")
+        lookup_call = self.get_calls(
+            "https://api.github.com/repos/WeblateOrg/test/pulls"
+        )[-1]
+        self.assertEqual(lookup_call.request.url.params["base"], "main")
+
+    @http_mock.activate
+    def test_automerge_ignores_existing_pull_request_for_different_base(self) -> None:
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+        http_mock.register(
+            "GET",
+            "https://api.github.com/repos/WeblateOrg/test/pulls",
+            json=[
+                {
+                    "node_id": "PR_existing",
+                    "number": 1,
+                    "base": {"ref": "old-branch"},
+                }
+            ],
+        )
+
+        self.push_with_automerge()
+
+        self.assertEqual(self.get_calls(self.GRAPHQL_URL), [])
+
+    @http_mock.activate
+    def test_automerge_existing_pull_request_lookup_failure_is_reported(self) -> None:
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+        http_mock.register(
+            "GET",
+            "https://api.github.com/repos/WeblateOrg/test/pulls",
+            status_code=403,
+            json={"message": "Forbidden"},
+        )
+
+        with patch.object(
+            self.repo.component, "handle_automerge_failure"
+        ) as handle_failure:
+            self.push_with_automerge()
+
+        handle_failure.assert_called_once()
+        stored_error = handle_failure.call_args[0][0]
+        self.assertEqual(stored_error["code"], "automerge_failed_with_error")
+        self.assertEqual(stored_error["params"]["error"], "Forbidden")
+        self.assertEqual(self.get_calls(self.GRAPHQL_URL), [])
+
+    @http_mock.activate
+    def test_push_without_merge_request(self) -> None:
+        self.repo.component.vcs_params = {"create_merge_request": False}
+        self.mock_responses()
+
+        with patch.object(self.repo, "execute") as mocked_execute:
+            mocked_execute.return_value = ""
+            with self.repo.lock:
+                self.repo.push("")
+
+        # No fork and no pull request, changes are pushed to origin directly
+        self.assertEqual(
+            self.get_calls("https://api.github.com/repos/WeblateOrg/test/pulls"), []
+        )
+        self.assertEqual(
+            self.get_calls("https://api.github.com/repos/WeblateOrg/test/forks"), []
+        )
+        push_calls = [
+            call for call in mocked_execute.call_args_list if "push" in call[0][0]
+        ]
+        self.assertEqual(len(push_calls), 1)
+        self.assertNotIn("--force", push_calls[0][0][0])
+        self.assertIn("origin", push_calls[0][0][0])
+
+    def test_push_label_without_merge_request(self) -> None:
+        component = self.repo.component
+        self.assertIn("pull request", str(self._class.get_push_label(component)))
+        component.vcs_params = {"create_merge_request": False}
+        self.assertNotIn("pull request", str(self._class.get_push_label(component)))
 
 
 @override_settings(
