@@ -6137,7 +6137,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @property
     def effective_enforced_checks(self) -> list[str]:
-        return cast(list[str], self.get_effective_setting("enforced_checks"))
+        return cast("list[str]", self.get_effective_setting("enforced_checks"))
 
     @property
     def effective_commit_message(self) -> str:

@@ -296,12 +296,9 @@ class Workspace(models.Model, CacheKeyMixin):
         super().save(*args, **kwargs)
         if old is not None and old.check_flags != self.check_flags:
             transaction.on_commit(self.schedule_component_check_updates)
-        if (
-            old is not None
-            and (
-                old.enforced_checks != self.enforced_checks
-                or old.inherit_enforced_checks != self.inherit_enforced_checks
-            )
+        if old is not None and (
+            old.enforced_checks != self.enforced_checks
+            or old.inherit_enforced_checks != self.inherit_enforced_checks
         ):
             transaction.on_commit(self.schedule_component_enforced_checks_updates)
         if (
@@ -368,9 +365,7 @@ class Workspace(models.Model, CacheKeyMixin):
         from weblate.trans.models import Component
         from weblate.trans.tasks import update_enforced_checks
 
-        for component in Component.objects.filter(
-            project__workspace=self
-        ).iterator():
+        for component in Component.objects.filter(project__workspace=self).iterator():
             update_enforced_checks.delay_on_commit(component.pk)
 
     def schedule_workspace_memory_updates(self) -> None:
