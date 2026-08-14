@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n translations %}
 
 {% if analysis.redirect %}
   <p>
@@ -31,6 +31,12 @@
     {% else %}
       {% translate "The GitHub repository allows only collaborators to create pull requests. Ask a repository maintainer to allow pull requests from all users." %}
     {% endif %}
+  </p>
+{% endif %}
+
+{% if analysis.git_lfs_missing_objects %}
+  <p>
+    {% translate "The repository references Git LFS objects that are missing from the push destination. Weblate does not download or upload Git LFS objects, and files tracked by Git LFS cannot be used as translation files." %} {% documentation_icon "vcs" "git-lfs" %}
   </p>
 {% endif %}
 

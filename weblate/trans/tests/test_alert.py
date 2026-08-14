@@ -1905,6 +1905,41 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
 
         self.assertIn("n’a pas été trouvé. Veuillez vérifier", rendered)
 
+    def test_git_lfs_diagnosis_links_documentation(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        instance = cast("Alert", SimpleNamespace(component=component))
+        alerts = (
+            UpdateFailure(
+                instance,
+                "remote rejected the push",
+                diagnoses=[{"code": "git_lfs_missing_objects"}],
+            ),
+            UpdateFailure(
+                instance,
+                "remote: GitLab: LFS objects are missing.",
+            ),
+        )
+
+        for alert in alerts:
+            with self.subTest(diagnoses=alert.diagnoses):
+                rendered = render_to_string(
+                    "trans/alert/common-repo.html",
+                    {"analysis": alert.get_analysis()},
+                )
+
+                self.assertIn(
+                    "Weblate does not download or upload Git LFS objects", rendered
+                )
+                self.assertIn("vcs.html#git-lfs", rendered)
+
     def test_github_pull_request_diagnosis_renders_username(self) -> None:
         rendered = render_to_string(
             "trans/alert/common-repo.html",
