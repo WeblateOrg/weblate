@@ -773,6 +773,11 @@ headers, hostnames, request-size limits, and secure-cookie behavior.
 *(documented)* (source: :doc:`/admin/install`, :setting:`ENABLE_HTTPS`,
 :setting:`ALLOWED_HOSTS`)
 
+Operators enabling forwarded client-IP handling must trust only reverse proxies
+under their control and prevent untrusted clients from bypassing those proxies
+to reach Weblate directly. *(documented)* (source:
+:envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES`, :ref:`reverse-proxy`)
+
 Operators must assign teams, roles, project-scoped tokens, VCS credentials, and
 project management permissions according to least privilege for their
 organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)

@@ -27,6 +27,12 @@ Weblate 2026.9
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+* Docker deployments need to configure trusted proxy addresses.
+  Set :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES` to preserve client IP addresses
+  in nginx logs and Weblate when
+  ``WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR`` is used; otherwise, the
+  immediate TCP peer is used.
+
 .. rubric:: Contributors
 
 .. include:: /changes/contributors/2026.9.rst

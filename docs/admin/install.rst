@@ -573,6 +573,10 @@ Client IP address
    :setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER`
    and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container).
 
+   When using ``X-Forwarded-For`` with the Docker container, configure
+   :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES` with the reverse proxies allowed
+   to supply client addresses.
+
    .. hint::
 
       This configuration cannot be turned on by default, because it would allow IP
@@ -637,6 +641,7 @@ Client protocol
    * :setting:`IP_PROXY_OFFSET`
    * :setting:`django:SECURE_PROXY_SSL_HEADER`
    * :envvar:`WEBLATE_IP_PROXY_HEADER`
+   * :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES`
    * :envvar:`WEBLATE_IP_PROXY_OFFSET`
 
 .. _http-proxy:
