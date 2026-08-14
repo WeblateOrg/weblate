@@ -867,6 +867,9 @@ def extract_rst_references(
         ):
             name, highlight_type = role_reference
             result.append((name, token))
+            if end + 1 < len(text) and text[end] in "<>" and text[end + 1] == "`":
+                suffix = text[end : end + 2]
+                result.append((f"{name}{suffix}", text[start : end + 2]))
             if highlight_type == RST_HIGHLIGHT_WHOLE:
                 highlights.append(Highlight(start, end, token, kind="syntax"))
             else:
@@ -876,9 +879,15 @@ def extract_rst_references(
             highlights.append(Highlight(start, end, token, kind="syntax"))
         elif isinstance(node, reference):
             # Ignore the content as it might be localized, just differentiate
-            # references with a link and without
+            # explicit links, automatically recognized URLs, and references
             refuri = node.get("refuri")
-            result.append(("`... <...>`_" if refuri else "`...`_", token))
+            if not refuri:
+                reference_type = "`...`_"
+            elif token.startswith("`"):
+                reference_type = "`... <...>`_"
+            else:
+                reference_type = "https://..."
+            result.append((reference_type, token))
             if refuri and (target_start := token.find(f"<{refuri}>")) != -1:
                 target_end = target_start + len(refuri) + 2
                 highlights.append(
