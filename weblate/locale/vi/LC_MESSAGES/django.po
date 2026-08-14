@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-07 07:22-0500\n"
-"PO-Revision-Date: 2026-08-13 17:51+0000\n"
+"PO-Revision-Date: 2026-08-14 06:10+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -7434,7 +7434,7 @@ msgstr "ID Máy khách"
 #: weblate/machinery/forms.py:141
 msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
-msgstr ""
+msgstr "Mã bí mật ứng dụng khách"
 
 #: weblate/machinery/forms.py:160
 msgctxt "Automatic suggestion service configuration"
@@ -7941,7 +7941,7 @@ msgstr "Tên mô hình tùy chỉnh"
 #: weblate/machinery/forms.py:778
 msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
-msgstr ""
+msgstr "Token tối đa"
 
 #: weblate/machinery/forms.py:780
 msgid "Maximum number of tokens to generate in the response."
@@ -10283,15 +10283,16 @@ msgstr "Các tệp dịch đã được xuất bản có sẵn tại URL cơ s�
 
 #: weblate/templates/addons/cdnfiles.html:15
 msgid "Files use language-code names with the original file extension."
-msgstr ""
+msgstr "Các tệp sử dụng tên mã ngôn ngữ với phần mở rộng tệp gốc."
 
 #: weblate/templates/addons/cdnjs.html:6
 msgid "Include following snippet to load the localization from the CDN:"
-msgstr ""
+msgstr "Bao gồm đoạn mã sau để tải bản địa hóa từ CDN:"
 
 #: weblate/templates/addons/cdnjs.html:15
 msgid "The localizable elements have to match configured CSS selector."
 msgstr ""
+"Các phần tử có thể bản địa hóa phải khớp với bộ chọn CSS đã định cấu hình."
 
 #: weblate/templates/addons/discovery_presets.html:5
 msgid "Guided presets"
@@ -10302,6 +10303,8 @@ msgid ""
 "Fill the form from a detected or generic repository layout, then edit the "
 "populated values as needed."
 msgstr ""
+"Điền vào biểu mẫu từ bố cục kho lưu trữ chung hoặc được phát hiện, sau đó "
+"chỉnh sửa các giá trị được điền nếu cần."
 
 #: weblate/templates/addons/discovery_presets.html:42
 msgid "Examples:"
@@ -10368,6 +10371,7 @@ msgid ""
 "You can use Django templates markup in both filename and content, for "
 "example:"
 msgstr ""
+"Bạn có thể sử dụng đánh dấu mẫu Django trong cả tên tệp và nội dung, ví dụ:"
 
 #: weblate/templates/addons/generate_help.html:36
 msgid "Percents translated"
@@ -10388,7 +10392,7 @@ msgstr "Tên thành phần"
 
 #: weblate/templates/addons/generate_help.html:86
 msgid "Component URL slug"
-msgstr ""
+msgstr "Slug URL thành phần"
 
 #: weblate/templates/addons/generate_help.html:96
 #: weblate/trans/models/project.py:239
@@ -10397,7 +10401,7 @@ msgstr "Tên dự án"
 
 #: weblate/templates/addons/generate_help.html:106
 msgid "Project URL slug"
-msgstr ""
+msgstr "Slug URL dự án"
 
 #: weblate/templates/addons/language_consistency_preview.html:4
 msgid "Review before installing"
@@ -10414,6 +10418,9 @@ msgid_plural ""
 "    The preview below shows %(action_count)s translation files.\n"
 "  "
 msgstr[0] ""
+"\n"
+"    Bản xem thử trước bên dưới hiển thị %(action_count)s tệp bản dịch.\n"
+"  "
 
 #: weblate/templates/addons/language_consistency_preview.html:14
 #, python-format
@@ -10426,6 +10433,9 @@ msgid_plural ""
 "    It affects %(component_count)s components.\n"
 "  "
 msgstr[0] ""
+"\n"
+"    Nó ảnh hưởng %(component_count)s thành phần.\n"
+"  "
 
 #: weblate/templates/addons/language_consistency_preview.html:20
 #, python-format
@@ -10456,6 +10466,9 @@ msgid_plural ""
 "      Showing %(entries)s preview entries.\n"
 "    "
 msgstr[0] ""
+"\n"
+"      Hiển thị %(entries)s mục xem thử.\n"
+"    "
 
 #: weblate/templates/addons/language_consistency_preview.html:35
 #, python-format
@@ -10475,7 +10488,7 @@ msgstr[0] ""
 #: weblate/templates/addons/language_consistency_preview.html:40
 msgid ""
 "There might be more affected components, languages, and translation files."
-msgstr ""
+msgstr "Có thể có nhiều thành phần, ngôn ngữ và tệp dịch bị ảnh hưởng hơn."
 
 #: weblate/templates/addons/language_consistency_preview.html:49
 msgid "Languages to add"
@@ -10524,6 +10537,9 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per "
 "author\" is selected or the commit message is customized to include it."
 msgstr ""
+"Thông điệp bản ghi nhận ban đầu được giữ lại nhưng quyền tác giả sẽ bị mất "
+"trừ khi \"Mỗi tác giả\" được chọn hoặc thông điệp bản ghi nhận được tùy "
+"chỉnh để bao gồm nó."
 
 #: weblate/templates/addons/webhook_log.html:10
 msgid "HTTP Response"
@@ -10544,10 +10560,8 @@ msgid "Response content"
 msgstr "Nội dung phản hồi"
 
 #: weblate/templates/addons/webhook_log.html:32
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Request payload"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Gói tin yêu cầu"
 
 #: weblate/templates/auth/team.html:14 weblate/templates/base.html:366
 #: weblate/templates/category.html:136
@@ -10584,6 +10598,8 @@ msgid ""
 "This is checked for every new user on the site, regardless of which project "
 "they use."
 msgstr ""
+"Điều này được kiểm tra đối với mọi người dùng mới trên trang web, bất kể họ "
+"sử dụng dự án nào."
 
 #: weblate/templates/auth/team.html:106
 msgid "Add automatic assignment"
@@ -10606,7 +10622,7 @@ msgstr "Không có giới hạn bổ sung"
 #: weblate/templates/trans/project-access-row.html:20
 #: weblate/templates/trans/project-access.html:83
 msgid "Not yet signed in"
-msgstr ""
+msgstr "Chưa đăng nhập"
 
 #: weblate/templates/auth/team.html:165
 msgid "Revoke administration"
@@ -10664,7 +10680,7 @@ msgstr "Tất cả các thành phần"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment of users is configured for this team"
-msgstr ""
+msgstr "Tự động phân công người dùng được định cấu hình cho nhóm này"
 
 #: weblate/templates/auth/teams-count.html:5
 msgid "Automatic assignment"
@@ -10842,6 +10858,7 @@ msgstr "Giới thiệu"
 msgid ""
 "Your Weblate is exceeding service limits. Please upgrade the subscription."
 msgstr ""
+"Weblate của bạn đang vượt quá giới hạn dịch vụ. Vui lòng nâng cấp đăng ký."
 
 #: weblate/templates/base.html:513
 #: weblate/templates/screenshots/screenshot_detail.html:134
@@ -10850,7 +10867,7 @@ msgstr "Chi tiết ảnh chụp màn hình"
 
 #: weblate/templates/billing/detail-content.html:14
 msgid "Recurring payment"
-msgstr ""
+msgstr "Thanh toán định kỳ"
 
 #: weblate/templates/billing/detail-content.html:17
 msgid "Expired"
@@ -10858,7 +10875,7 @@ msgstr "Hết hạn"
 
 #: weblate/templates/billing/detail-content.html:19
 msgid "Past due date"
-msgstr ""
+msgstr "Ngày quá hạn"
 
 #: weblate/templates/billing/detail-content.html:21
 msgid "Exceeds limits"
@@ -10867,7 +10884,7 @@ msgstr "Vượt quá giới hạn"
 #: weblate/templates/billing/detail-content.html:36
 #: weblate/templates/mail/billing_inactive_recurring.html:52
 msgid "Change plan or payment method"
-msgstr ""
+msgstr "Thay đổi gói hoặc phương thức thanh toán"
 
 #: weblate/templates/billing/detail-content.html:40
 msgid "Terminate recurring payment"
@@ -10908,7 +10925,7 @@ msgstr "Kỳ lập hóa đơn"
 
 #: weblate/templates/billing/detail-content.html:101
 msgid "Invoice amount"
-msgstr ""
+msgstr "Số tiền hóa đơn"
 
 #: weblate/templates/billing/detail-content.html:102
 msgid "Download invoice"
@@ -10957,10 +10974,8 @@ msgstr "Lưu trữ tự do"
 #: weblate/templates/billing/detail-content.html:176
 #: weblate/templates/billing/state-snippet.html:5
 #: weblate/templates/manage/billing.html:19
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Pending approval"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đang chờ phê duyệt"
 
 #: weblate/templates/billing/detail-content.html:186
 #: weblate/templates/billing/detail-content.html:211
@@ -11044,11 +11059,11 @@ msgstr "Kế hoạch hiện tại"
 #: weblate/templates/billing/status.html:32
 #: weblate/templates/billing/status.html:46
 msgid "Extend trial"
-msgstr ""
+msgstr "Gia hạn dùng thử"
 
 #: weblate/templates/billing/status.html:52
 msgid "Monthly price"
-msgstr ""
+msgstr "Giá hàng tháng"
 
 #: weblate/templates/billing/status.html:62
 #: weblate/templates/billing/status.html:79
@@ -11080,18 +11095,18 @@ msgstr "Giới hạn dự án"
 #: weblate/templates/billing/used.html:6
 #, python-format
 msgid "Used %(used)s"
-msgstr ""
+msgstr "Đã sử dụng %(used)s"
 
 #. Translators: Number of projects/repositories/strings used in billing from given limit
 #: weblate/templates/billing/used.html:9
 #, python-format
 msgid "Used %(used)s of %(total)s"
-msgstr ""
+msgstr "Đã sử dụng %(used)s trong số %(total)s"
 
 #: weblate/templates/bootstrap5/field.html:25
 #: weblate/templates/bootstrap5/field.html:26
 msgid "Restore site default"
-msgstr ""
+msgstr "Khôi phục trang mặc định"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:38
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:46
@@ -12204,7 +12219,7 @@ msgstr "Sử dụng khi tệp dịch chứa các chuỗi trùng lặp không có
 
 #: weblate/templates/js/git-status.html:247
 msgid "Cleanup unused"
-msgstr ""
+msgstr "Dọn dẹp không sử dụng"
 
 #: weblate/templates/js/git-status.html:248
 msgid "Remove unused strings from the translation file"
@@ -13568,7 +13583,7 @@ msgstr "Tập tin"
 
 #: weblate/templates/manage/performance.html:232
 msgid "Disk used"
-msgstr ""
+msgstr "Đĩa đã sử dụng"
 
 #: weblate/templates/manage/performance.html:233
 msgid "Disk free"
@@ -13709,6 +13724,8 @@ msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
 msgstr ""
+"Cụm mật khẩu được sử dụng để mã hóa các bản sao lưu và cần thiết để khôi "
+"phục chúng."
 
 #: weblate/templates/manage/snippets/backup-credentials.html:28
 msgid "SSH key"
@@ -16460,15 +16477,12 @@ msgstr ""
 "cờ thành phần."
 
 #: weblate/templates/trans/alert/unusedglossarylanguage.html:3
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "The glossary contains languages not used by any regular component in this "
 "project."
 msgstr ""
-"Đảm bảo một bộ ngôn ngữ nhất quán dùng cho tất cả thành phần trong dự án."
+"Bảng thuật ngữ chứa các ngôn ngữ không được sử dụng bởi bất kỳ thành phần "
+"thông thường nào trong dự án này."
 
 #: weblate/templates/trans/alert/unusedglossarylanguage.html:5
 msgid ""
@@ -19581,6 +19595,8 @@ msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
 msgstr ""
+"Biểu thức chính quy được sử dụng để so khớp với các tệp được phát hiện quá "
+"phức tạp và mất quá nhiều thời gian để đánh giá."
 
 #: weblate/trans/discovery.py:598
 msgid ""
@@ -19848,10 +19864,8 @@ msgid "ISO-8859-1"
 msgstr "ISO-8859-1"
 
 #: weblate/trans/file_format_params.py:624
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Định dạng tệp thuộc tính Java"
+msgstr "Mã hóa được sử dụng cho các tệp Thuộc tính Java"
 
 #: weblate/trans/file_format_params.py:634
 #: weblate/trans/file_format_params.py:648
@@ -19860,11 +19874,11 @@ msgstr "Tự động phát hiện"
 
 #: weblate/trans/file_format_params.py:638
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Mã hóa được sử dụng cho tệp CSV"
 
 #: weblate/trans/file_format_params.py:653
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Mã hóa được sử dụng cho các tệp CSV đơn giản"
 
 #: weblate/trans/file_format_params.py:660
 msgid "Escape spreadsheet formulas"
@@ -19878,7 +19892,7 @@ msgstr ""
 
 #: weblate/trans/file_format_params.py:685
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Mã hóa được sử dụng cho các tệp Thuộc tính GWT"
 
 #: weblate/trans/file_format_params.py:692
 msgid "DOS line endings"
@@ -20606,6 +20620,8 @@ msgid ""
 "Key used to identify the string in the translation file. File-format "
 "specific rules might apply."
 msgstr ""
+"Khóa dùng để xác định chuỗi trong tệp dịch. Các quy tắc cụ thể về định dạng "
+"tệp có thể được áp dụng."
 
 #: weblate/trans/forms.py:3990
 msgid "Source language text"
@@ -21267,6 +21283,8 @@ msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
 msgstr ""
+"Tùy chọn không có sẵn cho các kho được liên kết. Cài đặt từ thành phần được "
+"liên kết sẽ được sử dụng."
 
 #: weblate/trans/models/component.py:560
 msgid ""
@@ -21910,7 +21928,7 @@ msgstr ""
 #: weblate/trans/models/component.py:5135
 msgid ""
 "An intermediate language file can not be used without an editing template."
-msgstr ""
+msgstr "Không thể sử dụng tệp ngôn ngữ trung gian nếu không có mẫu chỉnh sửa."
 
 #: weblate/trans/models/component.py:5127
 msgid ""
@@ -22102,7 +22120,7 @@ msgstr ""
 
 #: weblate/trans/models/componentlist.py:102
 msgid "Regular expression which is used to match project slug."
-msgstr ""
+msgstr "Biểu thức chính quy được sử dụng để khớp với slug dự án."
 
 #: weblate/trans/models/componentlist.py:106
 msgid "Component regular expression"
@@ -22110,7 +22128,7 @@ msgstr ""
 
 #: weblate/trans/models/componentlist.py:110
 msgid "Regular expression which is used to match component slug."
-msgstr ""
+msgstr "Biểu thức chính quy được sử dụng để khớp với slug thành phần."
 
 #: weblate/trans/models/componentlist.py:115
 msgid "Component list to assign"
