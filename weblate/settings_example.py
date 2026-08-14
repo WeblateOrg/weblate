@@ -39,7 +39,7 @@ ADMINS: tuple[str, ...] = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
+DATABASES: dict[str, dict[str, str | int | dict | None]] = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         # Database name.
