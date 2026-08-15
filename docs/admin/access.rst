@@ -503,6 +503,18 @@ the following rules:
   when linked components are in other projects. A per-member language limit
   therefore cannot grant these permissions.
 
+- The :guilabel:`Edit component settings` permission allows administrative
+  operations that can affect repository contents. For example, users can choose
+  files through component settings or install and configure component add-ons.
+  For a :ref:`linked component <internal-urls>`, these operations use the
+  complete shared checkout. Grant this permission only to users trusted by the
+  repository owner with that checkout. Ordinary translation permissions do not
+  grant this administrative access.
+
+  Repository-wide VCS permissions protect explicit commit, push, reset, and
+  update operations. They are not required for Weblate's normal background
+  commit and push of translation changes made through an authorized component.
+
 .. hint::
 
    Use :guilabel:`Language selection` or :guilabel:`Project selection`

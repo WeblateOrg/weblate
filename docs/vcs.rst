@@ -232,6 +232,18 @@ main (referenced) component.
 
    Removing main component also removes linked components.
 
+   Linked components share the complete repository checkout; the link does not
+   isolate them to particular files or directories. Users allowed to administer
+   a linked component can configure operations affecting files anywhere in the
+   shared checkout. For example, they can change file masks, formats, and
+   templates, or install and configure add-ons that read, generate, or modify
+   repository files. Weblate can commit and push resulting changes using the
+   main component's repository configuration.
+
+   Only link components when the repository owner trusts the administrators of
+   every linked component with the complete checkout. Use separate repositories
+   when components require file-level isolation.
+
 Weblate automatically adjusts the repository URL when creating a component if it
 finds a component with a matching repository setup. You can override this in
 the last step of the component configuration.

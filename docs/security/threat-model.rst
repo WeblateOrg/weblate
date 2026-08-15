@@ -612,10 +612,17 @@ Security properties Weblate provides
        :doc:`/admin/auth`, :doc:`/admin/memory`)
      - Permission assignments match the intended trust relationship.
        Team-level enforced 2FA is satisfied by human users before
-       team-derived permissions apply. Permissions for VCS actions cover every
-       component sharing an affected repository, including linked components
-       in other projects. Translation memory attributed to an existing
-       restricted component follows that component's access rules.
+       team-derived permissions apply. Component administrators are trusted to
+       configure operations that can affect repository contents, for example by
+       selecting files through component settings or configuring add-ons.
+       Linking a repository extends this trust to administrators of every
+       linked component for the complete shared checkout. Permissions for
+       explicit VCS actions cover every component sharing an affected
+       repository, including linked components in other projects. Weblate's
+       normal background commit and push of authorized translation changes does
+       not require the editor to have these VCS permissions. Translation memory
+       attributed to an existing restricted component follows that component's
+       access rules.
        Unattributed automatic memory, including unmatched legacy entries and
        memory retained after component removal, follows its remaining
        translation-memory scope.
@@ -648,14 +655,17 @@ Security properties Weblate provides
    * - Private project data other than documented generic webhook matching
        diagnostics, user data, credentials, tokens, SSH keys, and 2FA secrets
        are not disclosed to actors lacking permission. *(documented)* (source:
-       :doc:`/admin/access`, :doc:`/security/privacy-compliance`)
+       :doc:`/admin/access`, :doc:`/security/privacy-compliance`, :doc:`/vcs`)
      - Host, database, and storage permissions are intact. Generic webhook
        responses expose only the match counts, project/component slugs, and API
-       URLs documented in :ref:`hooks-target-matching`. Custom add-ons list only
-       non-sensitive fields as public configuration; unlisted values are
-       redacted from public change history.
-     - Cross-project data leak beyond the documented generic webhook
-       diagnostics, credential exposure, or unauthorized export.
+       URLs documented in :ref:`hooks-target-matching`. Repository content
+       deliberately shared through linked components follows the linked
+       repository trust boundary. Custom add-ons list only non-sensitive fields
+       as public configuration; unlisted values are redacted from public change
+       history.
+     - Cross-project data leak not covered by the documented generic webhook
+       diagnostics or linked-repository trust boundary, credential exposure, or
+       unauthorized export.
      - Security-critical.
    * - Backup import rejects archives exceeding documented upload, member,
        aggregate size, and suspicious compression thresholds. *(documented)* (source: :doc:`/admin/config`, :ref:`projectbackup`)
