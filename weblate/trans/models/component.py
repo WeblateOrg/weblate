@@ -120,6 +120,7 @@ from weblate.trans.util import (
 from weblate.trans.validators import (
     validate_autoaccept,
     validate_check_flags,
+    validate_enforced_checks,
     validate_file_format_parameters,
     validate_filemask,
     validate_language_code,
@@ -5477,6 +5478,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def clean_model_settings(self) -> None:
         """Validate component settings that do not require repository access."""
+        validate_enforced_checks(self.enforced_checks)
         self.drop_file_format_cache()
         if self.project_id is None:
             return

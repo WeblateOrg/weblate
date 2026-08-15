@@ -40,7 +40,7 @@ from weblate.trans.inherited_settings import (
 )
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
 from weblate.trans.models.audit import log_setting_changes, should_track_field
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import validate_check_flags, validate_enforced_checks
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.lock import WeblateLock
 from weblate.utils.render import (
@@ -817,6 +817,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                     )
                 }
             )
+        validate_enforced_checks(self.enforced_checks)
         if self.web:
             try:
                 validate_project_web(self.web, project_slug=self.slug or None)

@@ -233,8 +233,8 @@ lower scopes:
   inheritance is disabled for that setting.
 
 This is available for translation license, contributor license agreement,
-adding new translations, language code style, secondary language, and commit
-message templates.
+adding new translations, language code style, secondary language, enforced
+checks, and commit message templates.
 
 Project, category, and component settings expose :guilabel:`Inherit from
 workspace`, :guilabel:`Inherit from project`, or :guilabel:`Inherit from

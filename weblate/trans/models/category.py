@@ -36,7 +36,7 @@ from weblate.trans.mixins import (
     LockMixin,
     PathMixin,
 )
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import validate_check_flags, validate_enforced_checks
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.render import (
     validate_render_addon,
@@ -446,6 +446,9 @@ class Category(
         return self._get_parents_depth() + 1 < CATEGORY_DEPTH
 
     def clean(self) -> None:
+        # Validate enforced checks names
+        validate_enforced_checks(self.enforced_checks)
+
         # Validate maximal nesting depth
         depth = self._get_category_depth()
 

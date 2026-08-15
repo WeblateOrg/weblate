@@ -26,7 +26,7 @@ from weblate.trans.inherited_settings import (
     NEW_LANG_CHOICES,
 )
 from weblate.trans.mixins import CacheKeyMixin
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import validate_check_flags, validate_enforced_checks
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.render import (
     validate_render_addon,
@@ -258,6 +258,10 @@ class Workspace(models.Model, CacheKeyMixin):
 
     def __str__(self) -> str:
         return self.name
+
+    def clean(self) -> None:
+        """Validate workspace settings."""
+        validate_enforced_checks(self.enforced_checks)
 
     def save(self, *args, **kwargs) -> None:
         create_groups = self._state.adding
