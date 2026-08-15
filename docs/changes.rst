@@ -13,6 +13,7 @@ Weblate 2026.9
 * Improved translation file loading performance for metadata-only string changes.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
+* Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
 
 .. rubric:: Bug fixes
 
