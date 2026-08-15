@@ -16,6 +16,7 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
+* Project administrators can no longer remove API tokens belonging to other projects.
 * Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.
 * GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
 * :ref:`Project backup restores <projectbackup>` now allowlists repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
