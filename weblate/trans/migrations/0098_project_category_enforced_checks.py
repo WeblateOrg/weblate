@@ -7,7 +7,8 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-    """Add enforced checks settings to Project and Category.
+    """
+    Add enforced checks settings to Project and Category.
 
     Unlike migration 0097 for Component, no data migration is needed here:
     Project and Category did not have an ``enforced_checks`` field before, so

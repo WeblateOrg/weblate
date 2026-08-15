@@ -43,19 +43,13 @@ class EnforcedChecksInheritanceTest(ComponentTestCase):
         return unit
 
     def test_workspace_inheritance(self) -> None:
-        Workspace.objects.filter(pk=self.workspace.pk).update(
-            enforced_checks=["same"]
-        )
+        Workspace.objects.filter(pk=self.workspace.pk).update(enforced_checks=["same"])
         component = Component.objects.get(pk=self.component.pk)
         self.assertEqual(component.effective_enforced_checks, ["same"])
-        self.assertEqual(
-            component.get_effective_setting("enforced_checks"), ["same"]
-        )
+        self.assertEqual(component.get_effective_setting("enforced_checks"), ["same"])
 
     def test_project_inherits_workspace(self) -> None:
-        Workspace.objects.filter(pk=self.workspace.pk).update(
-            enforced_checks=["same"]
-        )
+        Workspace.objects.filter(pk=self.workspace.pk).update(enforced_checks=["same"])
         project = Project.objects.get(pk=self.project.pk)
         self.assertEqual(project.effective_enforced_checks, ["same"])
 
@@ -116,9 +110,7 @@ class EnforcedChecksInheritanceTest(ComponentTestCase):
     def test_enforce_from_workspace(self) -> None:
         unit = self.get_same_check_unit()
         Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
-        Workspace.objects.filter(pk=self.workspace.pk).update(
-            enforced_checks=["same"]
-        )
+        Workspace.objects.filter(pk=self.workspace.pk).update(enforced_checks=["same"])
         component = Component.objects.get(pk=self.component.pk)
         component.update_enforced_checks()
         unit.refresh_from_db()
