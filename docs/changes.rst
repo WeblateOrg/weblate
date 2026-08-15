@@ -14,6 +14,7 @@ Weblate 2026.9
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
+* Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
 
 .. rubric:: Bug fixes
 

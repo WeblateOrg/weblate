@@ -196,11 +196,15 @@ repository state, background tasks, outbound requests, and rendered UI.
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
        where hooks are enabled, matching components by exact repository URL
-       rather than host or path suffix fallback. Registered GitHub App
-       webhooks additionally authenticate with a per-app URL token and GitHub
-       signature verification. Opt-in legacy GitHub App deliveries to the
-       generic GitHub webhook URL authenticate with a separately configured
-       secret. *(documented)* (source: :ref:`hooks`,
+       rather than host or path suffix fallback. Generic hook responses expose
+       match counts and, for updated components, project/component slugs and API
+       URLs, including for private projects and restricted components.
+       Components managed through an authenticated integration are excluded
+       from generic matching and diagnostics; currently this applies to the
+       GitHub App VCS backend. Registered GitHub App webhooks authenticate with
+       a per-app URL token and GitHub signature verification. Opt-in legacy
+       GitHub App deliveries to the generic GitHub webhook URL authenticate
+       with a separately configured secret. *(documented)* (source: :ref:`hooks`,
        :ref:`project-enable_hooks`, :ref:`hooks-target-matching`,
        :ref:`code-hosting-github-app-webhook`,
        :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`)
@@ -236,8 +240,9 @@ Reachability preconditions:
   boundary. *(documented)* (source: :doc:`/admin/access`)
 * A webhook finding is in model only when a request can reach an enabled hook
   endpoint and affect repository update scheduling, task volume, or information
-  returned to the caller. *(documented)* (source: :ref:`hooks`,
-  :ref:`project-enable_hooks`)
+  returned to the caller beyond the documented matching diagnostics.
+  *(documented)* (source: :ref:`hooks`, :ref:`project-enable_hooks`,
+  :ref:`hooks-target-matching`)
 * A VCS finding is in model only when attacker-controlled or less-trusted
   repository data, branch names, URLs, file names, commit metadata, or project
   configuration can influence Weblate's VCS operations. *(maintainer)*
@@ -566,7 +571,8 @@ Adversary model
        *(documented)* (source: :doc:`/admin/access`)
    * - Webhook sender
      - Send forged, replayed, malformed, or high-volume webhook requests to
-       enabled hook endpoints. *(documented)* (source: :ref:`hooks`)
+       enabled hook endpoints and observe documented matching diagnostics.
+       *(documented)* (source: :ref:`hooks`, :ref:`hooks-target-matching`)
      - Obtain forge-authenticated identity where Weblate does not verify it.
        *(maintainer)*
    * - External VCS or service provider
@@ -639,12 +645,17 @@ Security properties Weblate provides
        repository-local configuration from validated component settings.
      - Command injection or arbitrary code execution as the Weblate user.
      - Security-critical.
-   * - Private project data, user data, credentials, tokens, SSH keys, and 2FA
-       secrets are not disclosed to actors lacking permission. *(documented)* (source: :doc:`/admin/access`, :doc:`/security/privacy-compliance`)
-     - Host, database, and storage permissions are intact. Custom add-ons list
-       only non-sensitive fields as public configuration; unlisted values are
+   * - Private project data other than documented generic webhook matching
+       diagnostics, user data, credentials, tokens, SSH keys, and 2FA secrets
+       are not disclosed to actors lacking permission. *(documented)* (source:
+       :doc:`/admin/access`, :doc:`/security/privacy-compliance`)
+     - Host, database, and storage permissions are intact. Generic webhook
+       responses expose only the match counts, project/component slugs, and API
+       URLs documented in :ref:`hooks-target-matching`. Custom add-ons list only
+       non-sensitive fields as public configuration; unlisted values are
        redacted from public change history.
-     - Cross-project data leak, credential exposure, or unauthorized export.
+     - Cross-project data leak beyond the documented generic webhook
+       diagnostics, credential exposure, or unauthorized export.
      - Security-critical.
    * - Backup import rejects archives exceeding documented upload, member,
        aggregate size, and suspicious compression thresholds. *(documented)* (source: :doc:`/admin/config`, :ref:`projectbackup`)
@@ -680,13 +691,19 @@ Security properties Weblate provides
      - Rate limiting is enabled and backed by a working datastore.
      - Requests exceeding configured thresholds continue to be processed.
      - Availability/security hardening depending on endpoint sensitivity.
-   * - Enabled webhooks schedule repository updates only for components whose
-       repository URL exactly matches a repository URL from the payload,
-       including documented URL variants. *(documented)* (source:
+   * - Generic webhooks schedule repository updates only for eligible components
+       whose repository URL exactly matches a repository URL from the payload,
+       including documented URL variants. Components managed through an
+       authenticated integration are excluded from generic matching and
+       diagnostics. Generic responses disclose only the documented matching
+       diagnostics for eligible components. *(documented)* (source:
        :ref:`hooks-target-matching`)
      - Hooks are enabled and the delivery reaches an in-scope hook endpoint.
      - A delivery updates a component whose repository URL does not exactly
-       match the payload, including through host or path suffix fallback.
+       match the payload, including through host or path suffix fallback, or a
+       generic delivery updates or discloses a component managed through an
+       authenticated integration, or a response discloses component information
+       beyond the documented fields.
      - Security-critical when it causes unauthorized repository synchronization
        across unrelated components; otherwise correctness or hardening.
    * - Weblate does not intentionally expose database, datastore, backup
@@ -718,8 +735,12 @@ show only unauthenticated triggering within modeled effects are
 ``VALID-HARDENING`` rather than ``BY-DESIGN``. *(maintainer)*
 
 Weblate does not make an unauthenticated webhook equivalent to a trusted forge
-identity. Hook processing can trigger update workflows, but attribution and
-authenticity are weaker than for an authenticated user or token. *(maintainer)*
+identity. Hook processing can trigger update workflows, and generic responses
+can confirm repository registration and reveal match counts, project/component
+slugs, and API URLs, including for private projects and restricted components.
+Components managed through an authenticated integration are excluded from this
+generic behavior. Attribution and authenticity are weaker than for an
+authenticated user or token. *(maintainer)*
 
 Weblate is not a sandbox for malicious administrators, malicious local
 operators, third-party add-ons, custom deployment code, VCS clients, or backup
@@ -784,7 +805,9 @@ organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)
 
 Operators exposing :ref:`hooks` must enable them only where needed and provide
 deployment controls such as reverse-proxy rate limits, body-size limits,
-monitoring, and optional source restrictions. *(maintainer)*
+monitoring, and optional source restrictions. They must accept the documented
+identifier disclosure or use authenticated integrations where available.
+*(maintainer)*
 
 Operators must treat private-target allowlists, proxies, and privileged
 outbound integration settings as intentional expansion of Weblate's default
@@ -807,8 +830,9 @@ Known misuse patterns
 
 * Exposing webhook endpoints broadly, enabling project hooks, and relying on
   webhook payloads as authenticated forge identity. This is unsafe because some
-  supported hooks are compatibility-oriented. Use deployment controls and prefer
-  authenticated integrations where available. *(maintainer)*
+  supported hooks are compatibility-oriented and return matching diagnostics.
+  Use deployment controls and prefer authenticated integrations where
+  available. *(maintainer)*
 * Granting project management, VCS, or access-management permissions to users
   who are trusted only as translators. This is unsafe because those permissions
   can affect repositories, credentials, or other users. Assign narrower roles.
@@ -838,9 +862,11 @@ Known non-findings
 ------------------
 
 * A report that a reachable webhook can be called without forge authentication
-  and only triggers modeled update scheduling is not ``VALID`` by itself. It is
-  routed to ``VALID-HARDENING`` unless it bypasses documented limits, leaks
-  data, or causes effects beyond modeled scheduling. *(maintainer)*
+  and only triggers modeled update scheduling or returns the documented
+  matching diagnostics is not ``VALID`` by itself. It is routed to
+  ``VALID-HARDENING`` unless it bypasses documented limits, matches unrelated
+  repositories, leaks data beyond the documented fields, or causes effects
+  beyond modeled scheduling. *(maintainer)*
 * A report that a webhook does not update a component whose repository URL only
   shares a host or path suffix with the payload is not a vulnerability;
   Weblate matches only exact repository URLs and documented variants.

@@ -74,8 +74,19 @@ The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
     Aggregate statistics include `Private` projects and
     :ref:`restricted components <component-restricted>`, including in
     site-wide, language, and workspace summaries. Object listings, names, and
-    actions remain permission-filtered, so these aggregates do not grant access
-    to the underlying projects or components.
+    actions in the web interface and API remain permission-filtered, so these
+    aggregates do not grant access to the underlying projects or components.
+
+.. note::
+
+    Generic incoming :ref:`notification hooks <hooks>` are an explicit
+    compatibility exception to identifier confidentiality. When supplied with
+    a matching repository URL, their diagnostic response includes match counts
+    and, when an update is scheduled, the project/component slug and API URL.
+    This also applies to `Private` projects and restricted components, except
+    components managed through an authenticated integration. The API URL does
+    not bypass access control, and no project content or credentials are
+    included. See :ref:`hooks-target-matching`.
 
 .. note::
 
