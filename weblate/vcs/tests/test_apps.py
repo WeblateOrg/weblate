@@ -64,7 +64,7 @@ class VCSChecksTest(SimpleTestCase):
         VCS_REGISTRY.clear_cache()
 
     def test_builtin_required_commands(self) -> None:
-        with patch("weblate.vcs.base.which", return_value=None):
+        with patch("weblate.vcs.base.find_runtime_command", return_value=None):
             self.assertEqual(GitRepository.get_missing_commands(), ("git",))
             self.assertEqual(
                 GitWithGerritRepository.get_missing_commands(),
@@ -79,7 +79,7 @@ class VCSChecksTest(SimpleTestCase):
     @override_settings(VCS_BACKENDS=OPTIONAL_BACKENDS)
     def test_registry_checks_availability_without_version_probe(self) -> None:
         with (
-            patch("weblate.vcs.base.which", return_value=None),
+            patch("weblate.vcs.base.find_runtime_command", return_value=None),
             patch.object(OptionalRepository, "_get_version") as get_version,
         ):
             self.assertEqual(list(VCS_REGISTRY), [])
@@ -93,7 +93,10 @@ class VCSChecksTest(SimpleTestCase):
     @override_settings(VCS_BACKENDS=OPTIONAL_BACKENDS)
     def test_standard_check_does_not_probe_version(self) -> None:
         with (
-            patch("weblate.vcs.base.which", return_value="/usr/bin/optional-vcs"),
+            patch(
+                "weblate.vcs.base.find_runtime_command",
+                return_value="/usr/bin/optional-vcs",
+            ),
             patch.object(OptionalRepository, "_get_version") as get_version,
         ):
             self.assertEqual(
@@ -106,7 +109,10 @@ class VCSChecksTest(SimpleTestCase):
     @override_settings(VCS_BACKENDS=OPTIONAL_BACKENDS)
     def test_deployment_check_reports_outdated_version(self) -> None:
         with (
-            patch("weblate.vcs.base.which", return_value="/usr/bin/optional-vcs"),
+            patch(
+                "weblate.vcs.base.find_runtime_command",
+                return_value="/usr/bin/optional-vcs",
+            ),
             patch.object(OptionalRepository, "_get_version", return_value="1"),
         ):
             errors = list(check_vcs_versions(app_configs=None, databases=None))
@@ -118,7 +124,10 @@ class VCSChecksTest(SimpleTestCase):
     @override_settings(VCS_BACKENDS=OPTIONAL_BACKENDS)
     def test_deployment_check_reports_invalid_version(self) -> None:
         with (
-            patch("weblate.vcs.base.which", return_value="/usr/bin/optional-vcs"),
+            patch(
+                "weblate.vcs.base.find_runtime_command",
+                return_value="/usr/bin/optional-vcs",
+            ),
             patch.object(
                 OptionalRepository,
                 "_get_version",
@@ -133,7 +142,10 @@ class VCSChecksTest(SimpleTestCase):
     @override_settings(VCS_BACKENDS=OPTIONAL_BACKENDS)
     def test_deployment_check_reports_version_probe_failure(self) -> None:
         with (
-            patch("weblate.vcs.base.which", return_value="/usr/bin/optional-vcs"),
+            patch(
+                "weblate.vcs.base.find_runtime_command",
+                return_value="/usr/bin/optional-vcs",
+            ),
             patch.object(
                 OptionalRepository,
                 "_get_version",
@@ -148,7 +160,10 @@ class VCSChecksTest(SimpleTestCase):
     @override_settings(VCS_BACKENDS=SHARED_BACKENDS)
     def test_deployment_check_shares_version_probe(self) -> None:
         with (
-            patch("weblate.vcs.base.which", return_value="/usr/bin/shared-vcs"),
+            patch(
+                "weblate.vcs.base.find_runtime_command",
+                return_value="/usr/bin/shared-vcs",
+            ),
             patch.object(
                 SharedVersionRepository,
                 "_popen",
