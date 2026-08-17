@@ -1375,7 +1375,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["comment_mode"], "off")
         self.assertEqual(form.cleaned_data["comment_tag"], "")
         self.assertEqual(form.cleaned_data["checks"], [])
-        self.assertEqual(form.cleaned_data["keyword"], "")
+        self.assertEqual(form.cleaned_data["keyword"], [])
         self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_xgettext_form_accepts_blank_language(self) -> None:
@@ -1439,7 +1439,7 @@ class GettextAddonTest(ViewTestCase):
                 "comment_mode": "tagged",
                 "comment_tag": "TRANSLATORS",
                 "checks": ["ellipsis-unicode", "bullet-unicode"],
-                "keyword": "tr",
+                "keyword": ["tr", "another_tr"],
                 "location_mode": "keep",
             },
         )
@@ -1450,7 +1450,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             form.cleaned_data["checks"], ["ellipsis-unicode", "bullet-unicode"]
         )
-        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["keyword"], ["tr", "another_tr"])
         self.assertEqual(form.cleaned_data["location_mode"], "keep")
 
     def test_xgettext_form_keyword_exclusive(self) -> None:
@@ -1466,13 +1466,13 @@ class GettextAddonTest(ViewTestCase):
                 "language": "Java",
                 "source_patterns": "src/*.java\n",
                 "potfiles_path": "",
-                "keyword": "tr",
+                "keyword": ["tr", "another_tr"],
                 "keyword_exclusive": True,
             },
         )
         assert form is not None
         self.assertTrue(form.is_valid(), form.errors)
-        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["keyword"], ["tr", "another_tr"])
         self.assertTrue(form.cleaned_data["keyword_exclusive"])
 
         # keyword_exclusive=True without a keyword is invalid.
@@ -1487,7 +1487,7 @@ class GettextAddonTest(ViewTestCase):
                 "language": "Java",
                 "source_patterns": "src/*.java\n",
                 "potfiles_path": "",
-                "keyword": "",
+                "keyword": [],
                 "keyword_exclusive": True,
             },
         )
@@ -1667,7 +1667,7 @@ class GettextAddonTest(ViewTestCase):
                 "comment_mode": "tagged",
                 "comment_tag": "TRANSLATORS",
                 "checks": ["ellipsis-unicode", "quote-unicode"],
-                "keyword": "tr",
+                "keyword": ["tr", "another_tr"],
                 "location_mode": "omit",
             },
         )
@@ -1681,7 +1681,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             form.serialize_form()["checks"], ["ellipsis-unicode", "quote-unicode"]
         )
-        self.assertEqual(form.serialize_form()["keyword"], "tr")
+        self.assertEqual(form.serialize_form()["keyword"], ["tr", "another_tr"])
         self.assertEqual(form.serialize_form()["location_mode"], "omit")
 
     def test_django_form(self) -> None:
@@ -2380,7 +2380,7 @@ class GettextAddonTest(ViewTestCase):
                 "comment_mode": "tagged",
                 "comment_tag": "TRANSLATORS",
                 "checks": ["ellipsis-unicode", "bullet-unicode"],
-                "keyword": "tr",
+                "keyword": ["tr", "another_tr"],
             },
         )
 
@@ -2396,11 +2396,12 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--check=ellipsis-unicode", command)
         self.assertIn("--check=bullet-unicode", command)
         self.assertIn("--keyword=tr", command)
+        self.assertIn("--keyword=another_tr", command)
 
     def test_xgettext_uses_exclusive_keywords(self) -> None:
         source = Path(self.component.full_path) / "src" / "Main.java"
         source.parent.mkdir(parents=True, exist_ok=True)
-        source.write_text('tr("Hello");\n', encoding="utf-8")
+        source.write_text('tr("Hello");', encoding="utf-8")
         addon = XgettextAddon.create(
             component=self.component,
             run=False,
@@ -2409,7 +2410,7 @@ class GettextAddonTest(ViewTestCase):
                 "update_po_files": False,
                 "language": "Java",
                 "source_patterns": ["src/*.java"],
-                "keyword": "tr",
+                "keyword": ["tr", "another_tr"],
                 "keyword_exclusive": True,
             },
         )
@@ -2425,7 +2426,9 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--keyword", command)
         bare_idx = command.index("--keyword")
         named_idx = command.index("--keyword=tr")
+        another_idx = command.index("--keyword=another_tr")
         self.assertLess(bare_idx, named_idx)
+        self.assertLess(named_idx, another_idx)
         # Only the custom keyword should be present; no default keywords.
         self.assertNotIn("--keyword=gettext", command)
 
@@ -2442,7 +2445,7 @@ class GettextAddonTest(ViewTestCase):
                 "update_po_files": False,
                 "language": "Java",
                 "source_patterns": ["src/*.java"],
-                "keyword": "tr",
+                "keyword": ["tr", "another_tr"],
                 "keyword_exclusive": False,
             },
         )
@@ -2456,6 +2459,7 @@ class GettextAddonTest(ViewTestCase):
         command = mocked.call_args.args[1]
         # Named keyword must be present.
         self.assertIn("--keyword=tr", command)
+        self.assertIn("--keyword=another_tr", command)
         # Bare --keyword must NOT be present when exclusivity is disabled.
         self.assertNotIn("--keyword", command)
 
@@ -2549,7 +2553,7 @@ class GettextAddonTest(ViewTestCase):
                 "comment_mode": "tagged",
                 "comment_tag": "TRANSLATORS",
                 "checks": ["ellipsis-unicode"],
-                "keyword": "custom_tr",
+                "keyword": ["custom_tr", "another_keyword"],
             },
         )
 
@@ -2562,6 +2566,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--add-comments=TRANSLATORS", command)
         self.assertIn("--check=ellipsis-unicode", command)
         self.assertIn("--keyword=custom_tr", command)
+        self.assertIn("--keyword=another_keyword", command)
         # Preset keywords must also still be present (non-exclusive mode).
         self.assertIn("--keyword=_", command)
         self.assertIn("--keyword=N_", command)

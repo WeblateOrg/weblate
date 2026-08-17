@@ -1103,8 +1103,8 @@ class XgettextAddon(ExtractPotBaseAddon):
             return [str(check) for check in checks]
         return []
 
-    def get_keyword(self) -> str:
-        return str(self.instance.configuration.get("keyword", ""))
+    def get_keywords(self) -> list[str]:
+        return self.instance.configuration.get("keyword", [])
 
     def get_keyword_exclusive(self) -> bool:
         return bool(self.instance.configuration.get("keyword_exclusive", False))
@@ -1117,10 +1117,11 @@ class XgettextAddon(ExtractPotBaseAddon):
         elif comment_mode == "tagged" and (comment_tag := self.get_comment_tag()):
             result.append(f"--add-comments={comment_tag}")
         result.extend(f"--check={name}" for name in self.get_checks())
-        if keyword := self.get_keyword():
+        if keywords := self.get_keywords():
             if self.get_keyword_exclusive():
                 result.append("--keyword")
-            result.append(f"--keyword={keyword}")
+            for keyword in keywords:
+                result.append(f"--keyword={keyword}")
         return result
 
     def get_extra_xgettext_args(self, component: Component) -> list[str]:
