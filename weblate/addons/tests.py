@@ -1375,7 +1375,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["comment_mode"], "off")
         self.assertEqual(form.cleaned_data["comment_tag"], "")
         self.assertEqual(form.cleaned_data["checks"], [])
-        self.assertEqual(form.cleaned_data["keyword"], "")
+        self.assertEqual(form.cleaned_data["keyword"], [])
         self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_xgettext_form_accepts_blank_language(self) -> None:
@@ -1450,7 +1450,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             form.cleaned_data["checks"], ["ellipsis-unicode", "bullet-unicode"]
         )
-        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["keyword"], ["tr"])
         self.assertEqual(form.cleaned_data["location_mode"], "keep")
 
     def test_xgettext_form_keyword_exclusive(self) -> None:
@@ -1472,7 +1472,7 @@ class GettextAddonTest(ViewTestCase):
         )
         assert form is not None
         self.assertTrue(form.is_valid(), form.errors)
-        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["keyword"], ["tr"])
         self.assertTrue(form.cleaned_data["keyword_exclusive"])
 
         # keyword_exclusive=True without a keyword is invalid.
@@ -1494,6 +1494,52 @@ class GettextAddonTest(ViewTestCase):
         assert form is not None
         self.assertFalse(form.is_valid())
         self.assertIn("keyword_exclusive", form.errors)
+
+    def test_xgettext_form_multiple_keywords(self) -> None:
+        # Multiple newline-separated keywords are accepted.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": "tr\nN_\nC_:1c,2",
+                "keyword_exclusive": True,
+            },
+        )
+        assert form is not None
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["keyword"], ["tr", "N_", "C_:1c,2"])
+
+        # Serialized form round-trips the keyword list.
+        self.assertEqual(form.serialize_form()["keyword"], ["tr", "N_", "C_:1c,2"])
+
+    def test_xgettext_form_keyword_list_roundtrip(self) -> None:
+        # A stored keyword list is rendered as newline-separated text.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": ["tr", "N_"],
+                "keyword_exclusive": False,
+            },
+        )
+        assert form is not None
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["keyword"], ["tr", "N_"])
+        self.assertEqual(form["keyword"].value(), "tr\nN_")
 
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
@@ -1681,7 +1727,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             form.serialize_form()["checks"], ["ellipsis-unicode", "quote-unicode"]
         )
-        self.assertEqual(form.serialize_form()["keyword"], "tr")
+        self.assertEqual(form.serialize_form()["keyword"], ["tr"])
         self.assertEqual(form.serialize_form()["location_mode"], "omit")
 
     def test_django_form(self) -> None:
@@ -2396,6 +2442,71 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--check=ellipsis-unicode", command)
         self.assertIn("--check=bullet-unicode", command)
         self.assertIn("--keyword=tr", command)
+
+    def test_xgettext_uses_multiple_keywords(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "keyword": ["tr", "N_"],
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--keyword=tr", command)
+        self.assertIn("--keyword=N_", command)
+        self.assertEqual(
+            [arg for arg in command if arg.startswith("--keyword=")],
+            ["--keyword=tr", "--keyword=N_"],
+        )
+        # Multiple keywords with exclusivity disabled must not emit bare --keyword.
+        self.assertNotIn("--keyword", command)
+
+    def test_xgettext_uses_multiple_exclusive_keywords(self) -> None:
+        source = Path(self.component.full_path) / "src" / "Main.java"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Java",
+                "source_patterns": ["src/*.java"],
+                "keyword": ["tr", "N_"],
+                "keyword_exclusive": True,
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # Bare --keyword must appear once, before the named keywords.
+        bare_idx = command.index("--keyword")
+        named_indices = [command.index(f"--keyword={kw}") for kw in ("tr", "N_")]
+        self.assertLess(bare_idx, min(named_indices))
+        self.assertEqual(
+            [arg for arg in command if arg.startswith("--keyword=")],
+            ["--keyword=tr", "--keyword=N_"],
+        )
 
     def test_xgettext_uses_exclusive_keywords(self) -> None:
         source = Path(self.component.full_path) / "src" / "Main.java"
