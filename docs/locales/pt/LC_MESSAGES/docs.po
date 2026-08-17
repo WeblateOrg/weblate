@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-14 08:12+0200\n"
-"PO-Revision-Date: 2026-08-16 13:56+0000\n"
+"PO-Revision-Date: 2026-08-17 16:42+0000\n"
 "Last-Translator: António Oliveira <antonio.oliveira5487@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -52621,6 +52621,11 @@ msgid ""
 "convention. When the Meson project uses a non-default gettext directory or "
 "domain, mirror that layout in the component template path."
 msgstr ""
+"O Weblate não lê a lista de ficheiros fonte a partir de :file:`meson.build`. "
+"Utiliza :file:`POTFILES` ou :file:`POTFILES.in`, que corresponde à convenção "
+"gettext do Meson. Quando o projeto Meson utiliza um diretório ou domínio "
+"gettext não predefinido, espelhe esse layout no caminho de modelos de "
+"componente."
 
 msgid "Generate MO files"
 msgstr "Gerar ficheiros MO"
@@ -52667,6 +52672,8 @@ msgid ""
 ":guilabel:`Settings` configuration has been moved "
 "to :ref:`file_format_params`."
 msgstr ""
+"A configuração :guilabel:`Definições` foi movida para "
+":ref:`file_format_params`."
 
 msgid ""
 "Updates all PO files (as configured by \"File mask\") to match the POT file "
@@ -52688,16 +52695,16 @@ msgstr ""
 "repositório, este extra une automaticamente essas mudanças em todos os "
 "ficheiros de idioma PO, assegurando que:"
 
-#, fuzzy
-#| msgid "Translated strings in a certain language"
 msgid "New translatable strings appear in all languages"
-msgstr "Cadeias de carateres traduzidas num determinado idioma"
+msgstr "Cadeias de carateres novas traduzíveis aparecem em todos os idiomas"
 
 msgid "Removed strings are marked as obsolete"
 msgstr "Cadeias de caracteres removidas são marcadas como obsoletas"
 
 msgid "Modified strings are marked as needing review (fuzzy)"
 msgstr ""
+"Cadeias de carateres modificadas são marcadas como necessitando de revisão "
+"(impreciso)"
 
 msgid ""
 "Most msgmerge command-line options can be set up through file format "
@@ -52744,6 +52751,11 @@ msgid ""
 "file below a :file:`locales` directory. The directory before :file:`locales` "
 "is used as the Sphinx source directory and must contain :file:`conf.py`."
 msgstr ""
+"Este extra requer :program:`sphinx-build`, fornecido pela instalação do "
+"extra ``sphinx``. O modelo para novas traduções deve ser um ficheiro "
+":file:`.pot` sob o diretório :file:`locales`. O diretório antes do "
+":file:`locales` é usado enquanto diretório fonte para o Sphinx e deve conter "
+":file:`conf.py`."
 
 msgid ""
 "Extraction uses Weblate's bundled Sphinx configuration and does not load the "
@@ -52751,6 +52763,10 @@ msgid ""
 "source references to paths relative to the source directory, and copies the "
 "generated template back to the configured template path."
 msgstr ""
+"Extração utiliza a configuração do Sphinx incluída no Weblate e não carrega "
+"a configuração do projeto. O Weblate executa o construtor gettext do Sphinx, "
+"normaliza referências fonte para caminhos relativos ao diretório fonte, e "
+"copia o modelo gerado de volta para o caminho de modelos configurado."
 
 msgid "Update POT file (xgettext)"
 msgstr "Atualizar ficheiro POT (xgettext)"
@@ -52814,6 +52830,11 @@ msgid ""
 "patterns are repository-relative glob patterns and only matching repository "
 "files are passed to :program:`xgettext`."
 msgstr ""
+"Este extra requer :program:`xgettext`. Configure qualquer um dos padrões de "
+"ficheiros ou um manifesto :file:`POTFILES` / :file:`POTFILES.in`. Padrões de "
+"ficheiro fonte são padrões de glob relativos a um repositório e apenas "
+"ficheiros de repositório correspondentes são passados para "
+":program:`xgettext`."
 
 msgid ""
 "Entries in :file:`POTFILES` or :file:`POTFILES.in` are resolved relative to "
@@ -52834,6 +52855,10 @@ msgid ""
 "the configured source patterns, match files listed in the manifest, change a "
 "watched manifest, or change the add-on configuration."
 msgstr ""
+"Execuções de atualizações de repositório automático são ignoradas a não ser "
+"que os ficheiros alterados correspondam aos padrões de fonte configurados, "
+"correspondam a ficheiros listados no manifesto, alterem um manifesto "
+"observado, ou alterem a configuração do extra."
 
 msgid ""
 "Start from the build-system extraction setup when configuring this add-on. "
@@ -52929,6 +52954,9 @@ msgid ""
 "To avoid unnecessary conflicts, it is recommended to configure automatic "
 "receiving of upstream changes by webhooks or API, see :ref:`update-vcs`."
 msgstr ""
+"Para evitar conflitos desnecessários, é recomendado que configure a receção "
+"automática de alterações da fonte através de webhooks ou API, veja "
+":ref:`update-vcs`."
 
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
@@ -53104,6 +53132,7 @@ msgstr "Webhook"
 msgid ""
 "Compliance of the secret length with the specification is now validated."
 msgstr ""
+"Conformidade do comprimento do segredo com a especificação agora é validado."
 
 msgid "Webhook secret"
 msgstr "Segredo de Webhook"
@@ -53151,6 +53180,9 @@ msgid ""
 "bits) and 64 bytes (512 bits). It can be prefixed with ``whsec_`` for easy "
 "identification."
 msgstr ""
+"O ``secret`` fornecido é uma cadeia de carateres codificada em base64 entre "
+"24 bytes (192 bits) e 64 bytes (512 bits). Pode ter o prefixo ``whsec_`` "
+"para identificação fácil."
 
 msgid ""
 "To verify a request, you can use the ``Webhook.verify`` method from the "
@@ -53168,18 +53200,21 @@ msgstr ""
 "`Especificação Padrão de Webhooks <https://github.com/standard-webhooks/"
 "standard-webhooks/blob/main/spec/standard-webhooks.md>`_"
 
-#, fuzzy
-#| msgid "`python-akismet <https://pypi.org/project/python-akismet>`_"
 msgid ""
 "`Python library for Standard Webhooks <https://pypi.org/project/"
 "standardwebhooks/>`_"
-msgstr "`python-akismet <https://pypi.org/project/python-akismet>`_"
+msgstr ""
+"`Biblioteca Python para Webhooks Padrão <https://pypi.org/project/"
+"standardwebhooks/>`_"
 
 msgid ""
 "This add-on updates the template configured in :ref:`component-new_base`. It "
 "is available for gettext PO components, and the component must define a "
 "template for new translations."
 msgstr ""
+"Este extra atualiza o modelo configurado em :ref:`component-new_base`. Está "
+"disponível para componentes gettext PO, e o componente deve definir um "
+"modelo para novas traduções."
 
 msgid ""
 "The selected update frequency applies to automatic runs after repository "
@@ -53201,6 +53236,12 @@ msgid ""
 "on can install that add-on, but existing add-on settings do not show that "
 "installation option again."
 msgstr ""
+"Esta atualização de modelo não atualiza ficheiros PO de tradução por si "
+"mesmo. Mantenha :ref:`addon-weblate.gettext.msgmerge` instalado quando a "
+"tradução de ficheiros deve seguir alterações de modelo automaticamente. O "
+"formulário de instalação para este extra pode instalar tal extra, mas "
+"definições de extra existentes não mostram essa opção de instalação "
+"novamente."
 
 msgid "Weblate basics"
 msgstr "Básico do Weblate"
@@ -53438,6 +53479,9 @@ msgid ""
 "``accelerator:&``, ``accelerator:_``, or ``accelerator:~``. Enables "
 "the :ref:`check-accelerator` quality check."
 msgstr ""
+"Especifique o marcador de aceleração de pontuação individual, por exemplo "
+"``accelerator:&``, ``accelerator:_``, ou ``accelerator:~``. Ative a "
+"verificação de qualidade :ref:`check-accelerator`."
 
 msgid ""
 "Treat a text as an AsciiDoc document, affects :ref:`check-same`. Enables "
@@ -53454,20 +53498,14 @@ msgstr ""
 "afeta :ref:`check-same`. Ativa a verificação de qualidade :ref:`check-"
 "bbcode`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-check-glossary` quality check."
 msgid "Enables the :ref:`check-check-glossary` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-check-glossary`."
+msgstr "Ativa a verificação de qualidade :ref:`check-check-glossary`."
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-parts` quality check."
 msgid "Enables the :ref:`check-fluent-parts` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-fluent-parts`."
+msgstr "Ativa verificação de qualidade :ref:`check-fluent-parts`."
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-fluent-references` quality check."
 msgid "Enables the :ref:`check-fluent-references` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-fluent-references`."
+msgstr "Ativa a verificação de qualidade :ref:`check-fluent-references`."
 
 msgid "Enables the :ref:`check-fluent-target-inner-html` quality check."
 msgstr ""
@@ -53476,36 +53514,24 @@ msgstr ""
 msgid "Enables the :ref:`check-fluent-target-syntax` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-fluent-target-syntax`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-angularjs-format` quality check."
 msgid "Enables the :ref:`check-angularjs-format` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-angularjs-format`."
+msgstr "Ativa a verificação de qualidade :ref:`check-angularjs-format`."
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-automattic-components-format` quality check."
 msgid "Enables the :ref:`check-automattic-components-format` quality check."
 msgstr ""
-"Ignora a verificação de qualidade :ref:`check-automattic-components-format`."
+"Ativa a verificação de qualidade :ref:`check-automattic-components-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-c-format` quality check."
 msgid "Enables the :ref:`check-c-format` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-c-format`."
+msgstr "Ativa a verificação de qualidade :ref:`check-c-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-c-sharp-format` quality check."
 msgid "Enables the :ref:`check-c-sharp-format` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-c-sharp-format`."
+msgstr "Ativa a verificação de qualidade :ref:`check-c-sharp-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-es-format` quality check."
 msgid "Enables the :ref:`check-es-format` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-es-format`."
+msgstr "Ativa a verificação de qualidade :ref:`check-es-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-i18next-interpolation` quality check."
 msgid "Enables the :ref:`check-i18next-interpolation` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-i18next-interpolation`."
+msgstr "Ativa a verificação de qualidade :ref:`check-i18next-interpolation`."
 
 msgid ""
 "Enables the :ref:`check-icu-message-format` and :ref:`check-icu-message-"
@@ -53514,151 +53540,105 @@ msgstr ""
 "Ativa a verificação de qualidade :ref:`check-icu-message-format` "
 "e :ref:`check-icu-message-format-syntax`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-java-printf-format` quality check."
 msgid "Enables the :ref:`check-java-printf-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-java-printf-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-java-format` quality check."
 msgid "Enables the :ref:`check-java-format` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-java-format`."
+msgstr "Ativa a verificação de qualidade :ref:`check-java-format`."
 
 msgid ""
 "Treat a text as conditional Java MessageFormat, enabling :ref:`check-java-"
 "format` only when the source contains Java MessageFormat placeholders. "
 "Enables the :ref:`check-java-format` quality check."
 msgstr ""
+"Trata o texto enquanto Java MessageFormat condicional, ativando :ref:`check-"
+"java-format` apenas quando a fonte contém marcadores de lugar Java "
+"MessageFormat. Ativa a verificação de qualidade :ref:`check-java-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-javascript-format` quality check."
 msgid "Enables the :ref:`check-javascript-format` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-javascript-format`."
+msgstr "Ativa a verificação de qualidade :ref:`check-javascript-format`."
 
 msgid "Enables the :ref:`check-laravel-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-laravel-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-lua-format` quality check."
 msgid "Enables the :ref:`check-lua-format` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-lua-format`."
+msgstr "Ativa a verificação de qualidade :ref:`check-lua-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-object-pascal-format` quality check."
 msgid "Enables the :ref:`check-object-pascal-format` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-object-pascal-format`."
+msgstr "Ativa a verificação de qualidade :ref:`check-object-pascal-format`."
 
 msgid "Enables the :ref:`check-objc-format` quality check."
 msgstr "Ative a verificação de qualidade :ref:`check-objc-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-percent-placeholders` quality check."
 msgid "Enables the :ref:`check-percent-placeholders` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-percent-placeholders`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-perl-brace-format` quality check."
 msgid "Enables the :ref:`check-perl-brace-format` quality check."
-msgstr "Ative a verificação de qualidade :ref:`check-perl-brace-format`."
+msgstr "Ativa a verificação de qualidade :ref:`check-perl-brace-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-perl-format` quality check."
 msgid "Enables the :ref:`check-perl-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-perl-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-php-format` quality check."
 msgid "Enables the :ref:`check-php-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-php-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-python-brace-format` quality check."
 msgid "Enables the :ref:`check-python-brace-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-python-brace-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-python-format` quality check."
 msgid "Enables the :ref:`check-python-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-python-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-qt-format` quality check."
 msgid "Enables the :ref:`check-qt-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-qt-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-qt-plural-format` quality check."
 msgid "Enables the :ref:`check-qt-plural-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-qt-plural-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-ruby-format` quality check."
 msgid "Enables the :ref:`check-ruby-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-ruby-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-scheme-format` quality check."
 msgid "Enables the :ref:`check-scheme-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-scheme-format`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-vue-format` quality check."
 msgid "Enables the :ref:`check-vue-format` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-vue-format`."
 
-#, fuzzy
-#| msgid ""
-#| "Treat a text as an reStructuredText document, affects :ref:`check-same`. "
-#| "Turns on :ref:`check-rst-syntax` and :ref:`check-rst-references`."
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`. "
 "Enables the :ref:`check-rst-references` and :ref:`check-rst-syntax` quality "
 "checks."
 msgstr ""
 "Trata um texto como um documento reStructuredText, afeta :ref:`check-same`. "
-"Ativa :ref:`check-rst-syntax` e :ref:`check-rst-references`."
+"Ativa as verificações de qualidade :ref:`check-rst-references` e :ref:`check-"
+"rst-syntax`."
 
-#, fuzzy
-#| msgid ""
-#| "Treat text as a Markdown document, and provide Markdown syntax "
-#| "highlighting on the translation text area. Enables :ref:`check-md-"
-#| "link`, :ref:`check-md-reflink`, and :ref:`check-md-syntax` quality checks."
 msgid ""
 "Treat a text as a Markdown document, and provide Markdown syntax "
 "highlighting on the translation text area. Enables the :ref:`check-md-"
 "link`, :ref:`check-md-reflink` and :ref:`check-md-syntax` quality checks."
 msgstr ""
-"Trata o texto como um documento Markdown e fornece destaque de sintaxe "
-"Markdown na área de texto da tradução. Ativa as verificações de "
-"qualidade :ref:`check-md-link`, :ref:`check-md-reflink` e :ref:`check-md-"
-"syntax` ."
+"Trata um texto como um documento Markdown e fornece destaque de sintaxe "
+"Markdown na área de texto da tradução. Ativa as verificações de qualidade "
+":ref:`check-md-link`, :ref:`check-md-reflink` e :ref:`check-md-syntax`."
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-length` quality check."
 msgid "Enables the :ref:`check-max-length` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-max-length`."
+msgstr "Ativa a verificação de qualidade :ref:`check-max-length`."
 
 msgid "Enables the :ref:`check-max-lines` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-max-lines`."
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-max-size` quality check."
 msgid "Enables the :ref:`check-max-size` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-max-size`."
+msgstr "Ativa a verificação de qualidade :ref:`check-max-size`."
 
 msgid "Enables the :ref:`check-placeholders` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-placeholders`."
 
-#, fuzzy
-#| msgid "Skip the :ref:`check-regex` quality check."
 msgid "Enables the :ref:`check-regex` quality check."
-msgstr "Ignora a verificação de qualidade :ref:`check-regex`."
+msgstr "Ativa a verificação de qualidade :ref:`check-regex`."
 
 msgid "Enables the :ref:`check-safe-mdx` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-safe-mdx`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-safe-html` quality check."
 msgid "Enables the :ref:`check-safe-html` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-safe-html`."
 
@@ -53675,25 +53655,16 @@ msgstr ""
 "de Markdown tais como MDX, onde sintaxe de colchete pode não ser HTML. Ativa "
 "a verificação de qualidade :ref:`check-safe-html`."
 
-#, fuzzy
-#| msgid ""
-#| "The string should consist of only a URL. Enable the :ref:`check-url` "
-#| "quality check."
 msgid ""
 "The string should consist of only a URL. Enables the :ref:`check-url` "
 "quality check."
 msgstr ""
-"A cadeia deve consistir apenas numa URL. Ativa a verificação de "
-"qualidade :ref:`check-url`."
+"A cadeia deve consistir apenas numa URL. Ativa a verificação de qualidade "
+":ref:`check-url`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-fluent-source-inner-html` quality check."
 msgid "Enables the :ref:`check-fluent-source-inner-html` quality check."
-msgstr ""
-"Ativa a verificação de qualidade :ref:`check-fluent-source-inner-html`."
+msgstr "Ativa a verificação de qualidade :ref:`check-fluent-source-inner-html`."
 
-#, fuzzy
-#| msgid "Enable the :ref:`check-fluent-source-syntax` quality check."
 msgid "Enables the :ref:`check-fluent-source-syntax` quality check."
 msgstr "Ativa a verificação de qualidade :ref:`check-fluent-source-syntax`."
 
@@ -53991,10 +53962,8 @@ msgstr "Identificador da verificação"
 msgid "Trigger"
 msgstr "Ativação"
 
-#, fuzzy
-#| msgid "This check ensures they are also found in translation."
 msgid "This check needs to be enabled using a flag."
-msgstr "Esta verificação garante que eles também estejam na tradução."
+msgstr "Esta verificação precisa de ser ativada usando um marcador."
 
 msgid "Flag to enable"
 msgstr "Marcador para ativar"
@@ -54025,12 +53994,17 @@ msgid ""
 "number of accelerator keys, and that the translation does not contain more "
 "than one."
 msgstr ""
+"Esta verificação confirma que a fonte e a tradução contêm o mesmo número de "
+"chaves aceleradoras, e que a tradução não contem mais do que uma."
 
 msgid ""
 "A string such as ``Walter & Sons`` might be translated without the ampersand "
 "and trigger a false positive. Use the ``ignore-accelerator`` flag to skip "
 "the check for such strings."
 msgstr ""
+"Uma cadeia de carateres tal como ``Walter & Sons`` pode ser traduzida sem o "
+"e comercial e ativa um falso positivo. Utilize o marcador ``ignore-"
+"accelerator`` para ignorar a verificação para tais cadeias de carateres."
 
 msgid "AsciiDoc markup"
 msgstr "Marcação AsciiDoc"
@@ -54039,27 +54013,32 @@ msgid "AsciiDoc markup does not match source."
 msgstr "A marcação AsciiDoc não corresponde à fonte."
 
 msgid "File formats automatically enabling this check"
-msgstr ""
+msgstr "Formatos de ficheiro que ativam automaticamente esta verificação"
 
 msgid ""
 "This check compares the markups found in the source with the markups found "
 "in the translation. It includes:"
 msgstr ""
+"Esta verificação compara as marcações que se encontram na fonte com as "
+"marcações encontradas na tradução. Inclui:"
 
 msgid "inline and block macros (e.g. ``link:`` and ``image::``)"
-msgstr ""
+msgstr "macros em linha e de bloco (p.ex. ``link:`` e ``image::``)"
 
 msgid "cross-references (``<<id>>``)"
-msgstr ""
+msgstr "referências cruzadas (``<<id>>``)"
 
 msgid "passthroughs (e.g. ``+++...+++``, ``$$...$$``)"
-msgstr ""
+msgstr "passagens diretas (p.ex. ``+++...+++``, ``$$...$$``)"
 
 msgid ""
 "Macro attribute text and cross-reference labels may be translated; the macro "
 "name, target, and reference identifier must stay the same in both the source "
 "and the translation."
 msgstr ""
+"Atribuições de texto macro e etiquetas de referências cruzadas podem ser "
+"traduzidas; o nome da macro, alvo, e identificador de referência devem "
+"permanecer iguais tanto na fonte como na tradução."
 
 msgid "BBCode markup"
 msgstr "Markup BBCode"
@@ -54102,12 +54081,16 @@ msgstr ""
 
 msgid "This check is always enabled but can be ignored using a flag."
 msgstr ""
+"Esta verificação está sempre ativa mas pode ser ignorada usando um marcador."
 
 msgid ""
 "Checks that the characters surrounding an XML tag are consistent between "
 "both source and translation. Ensures letters are not replaced with non-"
 "letters, and vice versa."
 msgstr ""
+"Verifica que os caracteres em torno de uma etiqueta XML são consistentes "
+"entre ambas fonte e tradução. Assegura que letras não são substituídas por "
+"caracteres que não são letras, e vice versa."
 
 msgid ""
 "This check is disabled by the ``safe-html`` flag as the HTML cleanup done by "
@@ -54419,10 +54402,8 @@ msgstr ""
 "atributos e variantes de seletor, incluindo plurais. Esta verificação "
 "garante que a sintaxe usada na tradução será válida para o Fluent."
 
-#, fuzzy
-#| msgid "`Project Fluent website <https://projectfluent.org/>`_"
 msgid "`Fluent Syntax Guide <https://projectfluent.org/fluent/guide/>`_"
-msgstr "`Site do projeto Fluent <https://projectfluent.org/>`_"
+msgstr "`Guia de Sintaxe Fluente <https://projectfluent.org/fluent/guide/>`_"
 
 msgid ""
 "`Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-"
@@ -54543,12 +54524,9 @@ msgstr ""
 "`Cadeias de carateres de formatação C <https://www.gnu.org/software/gettext/"
 "manual/html_node/c_002dformat.html>`_"
 
-#, fuzzy
-#| msgid ""
-#| "`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
 msgid "`C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_"
 msgstr ""
-"`Dois pontos na Wikipédia <https://pt.wikipedia.org/wiki/Dois-pontos>`_"
+"`Formato printf C <https://en.wikipedia.org/wiki/Printf_format_string>`_"
 
 msgid "C# format"
 msgstr "Formato C#"
@@ -54735,21 +54713,20 @@ msgstr "A cadeia MessageFormat do Java não corresponde à fonte."
 msgid ":ref:`properties`, :ref:`gwt`"
 msgstr ":ref:`properties`, :ref:`gwt`"
 
-#, fuzzy
-#| msgid "``c-sharp-format``, ``csharp-format``"
 msgid "``auto-java-messageformat``, ``java-format``"
-msgstr "``c-sharp-format``, ``csharp-format``"
+msgstr "``auto-java-messageformat``, ``java-format``"
 
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatic flag behavior"
-msgstr "Tradução Automática"
+msgstr "Comportamento de marcador automático"
 
 msgid ""
 "``auto-java-messageformat``: Treat a text as conditional Java MessageFormat, "
 "enabling :ref:`check-java-format` only when the source contains Java "
 "MessageFormat placeholders."
 msgstr ""
+"``auto-java-messageformat``: Trata o texto enquanto Java MessageFormat "
+"condicional, ativando :ref:`check-java-format` apenas quando a fonte contém "
+"marcadores de lugar Java MessageFormat."
 
 msgid ""
 "This used to be toggled by ``java-messageformat`` flag, it was changed for "
@@ -54802,6 +54779,8 @@ msgid ""
 "`Laravel translation formatting <https://laravel.com/docs/"
 "localization#replacing-parameters-in-translation-strings>`_"
 msgstr ""
+"`Formatação de tradução Laravel <https://laravel.com/docs/"
+"localization#replacing-parameters-in-translation-strings>`_"
 
 msgid "Lua format"
 msgstr "Formato Lua"
@@ -54835,11 +54814,15 @@ msgid ""
 "`Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/"
 "sysutils/format.html>`_"
 msgstr ""
+"`Formatação de cadeias de carateres Free Pascal <https://www.freepascal.org/"
+"docs-html/rtl/sysutils/format.html>`_"
 
 msgid ""
 "`Delphi formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/"
 "en/System.SysUtils.Format>`_"
 msgstr ""
+"`Formatação de cadeias de carateres Delphi <https://docwiki.embarcadero.com/"
+"Libraries/Sydney/en/System.SysUtils.Format>`_"
 
 msgid "Objective-C format"
 msgstr "Formato de Objective-C"
@@ -54876,7 +54859,7 @@ msgid "Perl format string does not match source."
 msgstr "A cadeia de formato Perl não corresponde à fonte."
 
 msgid "`Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_"
-msgstr ""
+msgstr "`Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_"
 
 msgid "PHP format"
 msgstr "Formato PHP"
@@ -54884,13 +54867,12 @@ msgstr "Formato PHP"
 msgid "PHP format string does not match source."
 msgstr "A cadeia de formato PHP não corresponde à fonte."
 
-#, fuzzy
-#| msgid "`phpMyAdmin documentation <https://docs.phpmyadmin.net/>`_"
 msgid ""
 "`PHP sprintf documentation <https://www.php.net/manual/en/"
 "function.sprintf.php>`_"
 msgstr ""
-"`Documentação do phpMyAdmin <https://docs.phpmyadmin.net/pt_BR/latest/>`_"
+"`Documentação sprintf PHP <https://www.php.net/manual/en/"
+"function.sprintf.php>`_"
 
 msgid ""
 "`PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
@@ -54926,6 +54908,7 @@ msgstr "A cadeia de formato Python não corresponde à fonte."
 
 msgid ":ref:`Python string formatting <python:old-string-formatting>`"
 msgstr ""
+":ref:`Formatação de cadeia de caratere Python <python:old-string-formatting>`"
 
 msgid "Qt format"
 msgstr "Formato Qt"
@@ -54975,10 +54958,10 @@ msgid "Scheme format string does not match source."
 msgstr "A cadeia de formato Scheme não corresponde à fonte."
 
 msgid "`Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_"
-msgstr ""
+msgstr "`Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_"
 
 msgid "`Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_"
-msgstr ""
+msgstr "`Formato Chicken Scheme <https://wiki.call-cc.org/eggref/5/format>`_"
 
 msgid ""
 "`Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/"
@@ -55006,6 +54989,8 @@ msgid ""
 "`Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/"
 "formatting.html>`_"
 msgstr ""
+"`Formatação Vue I18n <https://kazupon.github.io/vue-i18n/guide/"
+"formatting.html>`_"
 
 msgid ""
 "`Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/"
@@ -55126,7 +55111,7 @@ msgid "Using quotes instead of backticks."
 msgstr "Usar aspas em vez de crases (backticks)."
 
 msgid "Mismatched substitutions or footnote references."
-msgstr ""
+msgstr "Substituições sem correspondência ou referências de rodapé."
 
 msgid "`reStructuredText Primer`_"
 msgstr "`reStructuredText Primer`_"
@@ -55245,27 +55230,32 @@ msgid ""
 "such as displays, terminals, or constrained containers where a specific "
 "number of visible lines is required."
 msgstr ""
+"Verifica que traduções não excedem o número máximo de linhas configurado. "
+"Isto é útil para traduções cujo alvo é elementos de UI com altura fixa tais "
+"como ecrãs, terminais, ou contentores com restrições onde um número de "
+"linhas específico é exigido."
 
-#, fuzzy
-#| msgid ""
-#| "Unlike the other checks, the flag should be set as a ``key:value`` pair "
-#| "like ``max-length:100``."
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-lines:3``."
 msgstr ""
 "Ao contrário das outras verificações, o marcador deve ser definido como um "
-"par ``chave:valor``, como ``max-length:100``."
+"par ``chave:valor``, como ``max-lines:3``."
 
 msgid ""
 "A translation with more lines than the configured value triggers a warning. "
 "Lines are counted by the number of newline characters plus one."
 msgstr ""
+"Uma tradução com mais linhas que o valor configurado ativa um aviso. Linhas "
+"são contadas pelo número de carateres de nova linha menos um."
 
 msgid ""
 "This check counts display lines (separated by ``\\\\n``), not wrapped lines. "
 "If your UI wraps text automatically, use :ref:`check-max-size` instead."
 msgstr ""
+"Esta verificação conta linhas de exibição (separadas por ``\\\\n``), e não "
+"linhas com invólucro. Se o seu UI quebra o texto automaticamente, em vez "
+"disto utilize :ref:`check-max-size`."
 
 msgid "Maximum size of translation"
 msgstr "Tamanho máximo da tradução"
@@ -55273,23 +55263,17 @@ msgstr "Tamanho máximo da tradução"
 msgid "Rendered text should not exceed given size."
 msgstr "Texto renderizado da tradução não deve exceder o tamanho determinado."
 
-#, fuzzy
-#| msgid "Untranslated strings"
 msgid "source and translated strings"
-msgstr "Cadeias de carateres não traduzidas"
+msgstr "Cadeias de carateres fonte e traduzidas"
 
-#, fuzzy
-#| msgid ""
-#| "Translation rendered text should not exceed given size. It renders the "
-#| "text with line wrapping and checks if it fits into given boundaries."
 msgid ""
 "Rendered source or translation text should not exceed given size. It renders "
 "the text and checks if it fits into given boundaries. Word wrapping is "
 "applied when more than one line is configured."
 msgstr ""
-"O texto traduzido não deve exceder o tamanho determinado. Ele renderiza o "
-"texto com quebra de linhas e verifica se ele se encaixa nos limites "
-"determinados."
+"Texto renderizado de fonte ou tradução não deve exceder o tamanho dado. "
+"Renderiza o texto e verifica se encaixar nos limites dados. Ajuste de texto "
+"é aplicado quando mais do que uma linha está configurada."
 
 msgid ""
 "This check needs one or two parameters - maximal width and maximal number of "
@@ -55535,6 +55519,11 @@ msgid ""
 "capitalization in the source string are allowed to contain capitalization in "
 "the translation."
 msgstr ""
+"Verifica se existe uso incorreto de maiúsculas ao detetar palavras que "
+"contêm letras maiúsculas consecutivas em texto que caso contrário são "
+"minúsculas ou texto capitalizado de forma apropriada (por exemplo, ``HEllo`` "
+"ou ``CAmelCase``). Cadeias de carateres quem contêm maiúsculas na cadeia de "
+"carateres fonte têm a permissão de contem maiúsculas na tradução."
 
 msgid "Non‑standard characters in Kabyle"
 msgstr "Caracteres não padronizados em Kabyle"
@@ -55551,6 +55540,9 @@ msgid ""
 "Greek ones, which were often used before Kabyle characters were standardized "
 "in Unicode."
 msgstr ""
+"Verifica que traduções cabila utilizam letras cabilas e não letras gregas "
+"semelhantes, que foram usadas frequentemente antes de carateres cabilas "
+"serem padronizadas no Unicode."
 
 msgid "Placeholders"
 msgstr "Espaços reservados"
@@ -55826,7 +55818,7 @@ msgid ":ref:`html`, :ref:`markdown`, :ref:`mdx`, :ref:`asciidoc`"
 msgstr ":ref:`html`, :ref:`markdown`, :ref:`mdx`, :ref:`asciidoc`"
 
 msgid "``auto-safe-html``, ``safe-html``"
-msgstr ""
+msgstr "``auto-safe-html``, ``safe-html``"
 
 msgid ""
 "``auto-safe-html``: Treat a text as conditional HTML, enabling :ref:`check-"
@@ -55834,6 +55826,11 @@ msgid ""
 "markup or valid custom elements. This is useful for extended Markdown "
 "variants such as MDX, where angle-bracket syntax may not be HTML."
 msgstr ""
+"``auto-safe-html``: Trata um texto enquanto HTML condicional, ativando "
+":ref:`check-safe-html` apenas para cadeias de carateres fonte ou de texto "
+"bruto quem contém marcadores HTML padrão ou elementos personalizados "
+"válidos. Isto é útil para variantes de Markdown alargadas tais como MDX, "
+"onde sintaxe de colchetes angulares pode não ser HTML."
 
 msgid ""
 "The translation uses unsafe HTML markup. This check has to be enabled using "
@@ -55865,17 +55862,12 @@ msgstr "URL"
 msgid "The translation does not contain a URL."
 msgstr "A tradução não contém um URL."
 
-#, fuzzy
-#| msgid ""
-#| "The translation does not contain an URL. This is triggered only in case "
-#| "the unit is marked as containing URL. In that case the translation has to "
-#| "be a valid URL."
 msgid ""
 "The translation does not contain a URL. This is triggered only in case the "
 "unit is marked as containing URL. In that case the translation has to be a "
 "valid URL."
 msgstr ""
-"A tradução não contém uma URL. Isso só é acionado caso a unidade esteja "
+"A tradução não contém um URL. Isso só é acionado caso a unidade esteja "
 "marcada como a conter uma URL. Nesse caso, a tradução tem de ser uma URL "
 "válido."
 
@@ -56082,8 +56074,6 @@ msgstr "O ``.innerHTML`` corresponderia ao ``.textContent``."
 msgid "Missing a closing tag."
 msgstr "Falta uma tag de fechamento."
 
-#, fuzzy
-#| msgid "``four`` is not a HTML void element, so should not self-close."
 msgid "``four`` is not an HTML void element, so should not self-close."
 msgstr ""
 "``four`` não é um elemento HTML void, portanto não deve fechar-se "
@@ -56093,13 +56083,9 @@ msgid "Custom element tag with a matching closing tag."
 msgstr ""
 "Tag de elemento personalizado com uma tag de fechamento correspondente."
 
-#, fuzzy
-#| msgid "``img`` is a HTML void element. Self-closing is allowed."
 msgid "``img`` is an HTML void element. Self-closing is allowed."
-msgstr "``img`` é um elemento HTML void. O autofechamento é permitido."
+msgstr "``img`` é um elemento HTML void. O fecho automático é permitido."
 
-#, fuzzy
-#| msgid "``br`` is a HTML void element."
 msgid "``br`` is an HTML void element."
 msgstr "``br`` é um elemento void do HTML."
 
@@ -56246,6 +56232,11 @@ msgid ""
 "that are already close to their configured ``max-length`` before translators "
 "have to shorten or omit meaning to fit the limit."
 msgstr ""
+"Traduções frequentemente precisam de mais espaço que o texto fonte, "
+"especialmente quando o idioma fonte é inglês. Esta verificação ajuda "
+"colaboradores de manutenção a encontrar cadeias de carateres que já estão "
+"próximas da sua ``max-length`` configurada antes que tradutores tenham que a "
+"encurtar ou omitir significado para encaixar no limite."
 
 msgid ""
 "For English source strings, including English variants, the check reports "
@@ -56253,12 +56244,19 @@ msgid ""
 "source languages, it reports source strings longer than the configured ``max-"
 "length``."
 msgstr ""
+"Para cadeias de carateres fonte em inglês, incluindo variantes de Inglês, a "
+"verificação indica cadeias de carateres que utilizam mais do que 85% da "
+"``max-length`` configurada. Para outras cadeias de carateres fonte, indica "
+"cadeias de carateres mais compridas que o ``max-length`` configurada."
 
 msgid ""
 "This catches source strings that are likely to make translations "
 "fail :ref:`check-max-length`, and source strings that already do not fit the "
 "declared limit."
 msgstr ""
+"Isto deteta cadeias de carateres fonte que provavelmente fazem com que "
+"traduções falhem :ref:`check-max-length`, e cadeias de carateres fonte que "
+"já não cabem no limite declarado."
 
 msgid "Unpluralised"
 msgstr "Não pluralizado"
@@ -56278,10 +56276,8 @@ msgstr ""
 msgid "For example with Gettext in Python it could be:"
 msgstr "Por exemplo, com o Gettext em Python poderia ser:"
 
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Placeables in automatic suggestion"
-msgstr "Glossários na sugestão automática"
+msgstr "Elementos posicionáveis em sugestões automáticas"
 
 msgid ""
 "Checks for placeables expose information on current placeables and this can "
@@ -56289,24 +56285,39 @@ msgid ""
 "for this varies in different services and in many cases there is no way to "
 "enforce keeping placeables intact."
 msgstr ""
+"Verifica se elementos posicionáveis expõem informação em elementos "
+"posicionáveis atuais e isto pode ser utilizado para instruir motores de "
+"sugestões automáticas para os manter. O suporte para isto varia em serviços "
+"diferente e em vários casos não há maneira de aplicar o manter de elementos "
+"posicionáveis intactos."
 
 msgid ""
 "For a single private repository, HTTPS access with an access token is "
 "usually the simplest setup when the provider supports Git over HTTPS. Use "
 "the provider-required username and token in :ref:`component-repo`."
 msgstr ""
+"Para um repositório privado individual, acesso HTTPS com um token de acesso "
+"normalmente é a configuração mais simples quando o fornecedor suporta Git "
+"através de HTTPS. Utilize o nome de utilizador exigido pelo fornecedor e o "
+"token em :ref:`component-repo`."
 
 msgid ""
 "Configure :ref:`component-push` only when Weblate should push changes "
 "directly or when the chosen workflow requires a push URL, see :ref:`code-"
 "hosting-push-options`."
 msgstr ""
+"Configure :ref:`component-push` apenas quando o Weblate deve enviar mudanças "
+"diretamente ou quando o fluxo de trabalho escolhido requer um URL de envio, "
+"veja :ref:`code-hosting-push-options`."
 
 msgid ""
 "The token needs read access for cloning and write access for pushing. "
 "Provider-specific VCS backends that create pull or merge requests might "
 "require separate API credentials."
 msgstr ""
+"O token necessita de acesso de leitura para clonar e acesso de escrita para "
+"envio. Backends VCS específicos ao VCS que criam pull ou merge requests "
+"podem exigir credenciais de API separadas."
 
 msgid ""
 "For setups with multiple repositories, use SSH access with a dedicated code "
@@ -56314,6 +56325,11 @@ msgid ""
 "the user access to the repositories, and use SSH URLs in :ref:`component-"
 "repo`, for example ``git@example.com:group/project.git``."
 msgstr ""
+"Para configurações com múltiplos repositórios, utilize acesso SSH com um "
+"utilizador anfitrião de código dedicado para o Weblate. Adicione a chave SSH "
+"pública do Weblate a esse utilizador, garanta ao utilizador acesso aos "
+"repositórios, e utilize URLs SSH em :ref:`component-repo`, por exemplo "
+"``git@example.com:group/project.git``."
 
 msgid ""
 "This also avoids provider restrictions on SSH key reuse. Some code hosting "
@@ -56335,6 +56351,11 @@ msgid ""
 "backend to create pull or merge requests; those credentials are configured "
 "separately from the Git repository URL."
 msgstr ""
+"Isto mantém tokens pessoais, de projeto, ou de acesso de API fora dos URLs "
+"de repositório. Credenciais de API do fornecedor ainda são precisos ao "
+"utilizar um backend VCS específico ao fornecedor para criar mull ou merge "
+"requests; essas credenciais são configuradas separadamente a partir do URL "
+"de repositório Git."
 
 msgid ""
 "Herein you will find various legal information you might need to operate "
@@ -56395,10 +56416,8 @@ msgstr "ISO-8859-1"
 msgid "dos_eol"
 msgstr "dos_eol"
 
-#, fuzzy
-#| msgid "File formats"
 msgid "All file formats"
-msgstr "Formatos de ficheiro"
+msgstr "Todos os formatos de ficheiro"
 
 msgid "DOS line endings"
 msgstr "Finais de linha DOS"
@@ -56561,10 +56580,6 @@ msgstr "po_line_wrap"
 msgid "Long lines wrapping"
 msgstr "Ajuste de linhas longas"
 
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
@@ -56719,33 +56734,25 @@ msgid "File extensions"
 msgstr "Extensões de ficheiro"
 
 msgid "Linguality :ref:`ⓘ <bimono>`"
-msgstr ""
+msgstr "Lingualidade :ref:`ⓘ <bimono>`"
 
 msgid "Monolingual"
 msgstr "Monolingue"
 
-#, fuzzy
-#| msgid "See :ref:`format-plurals`"
 msgid "Supports plural :ref:`ⓘ <format-plurals>`"
-msgstr "Consulte :ref:`format-plurals`"
+msgstr "Suporta plural :ref:`ⓘ <format-plurals>`"
 
-#, fuzzy
-#| msgid "See :ref:`format-description`"
 msgid "Supports descriptions :ref:`ⓘ <format-description>`"
-msgstr "Consulte :ref:`format-description`"
+msgstr "Suporta descrições :ref:`ⓘ <format-description>`"
 
 msgid "Supports explanation :ref:`ⓘ <format-explanation>`"
 msgstr "Suporta explicação :ref:`ⓘ <format-explanation>`"
 
-#, fuzzy
-#| msgid "See :ref:`format-context`"
 msgid "Supports context :ref:`ⓘ <format-context>`"
-msgstr "Consulte :ref:`format-context`"
+msgstr "Suporta contexto :ref:`ⓘ <format-context>`"
 
-#, fuzzy
-#| msgid "See :ref:`format-location`"
 msgid "Supports location :ref:`ⓘ <format-location>`"
-msgstr "Consulte :ref:`format-location`"
+msgstr "Suporta localização :ref:`ⓘ <format-location>`"
 
 msgid "Supports flags :ref:`ⓘ <format-flags>`"
 msgstr "Suporta marcadores :ref:`ⓘ <format-flags>`"
@@ -56755,16 +56762,15 @@ msgstr "Identificador API"
 
 msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
 msgstr ""
+"Suporta cadeias de carateres apenas de leitura :ref:`ⓘ <read-only-strings>`"
 
 msgid "Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`"
 msgstr ""
 "Suporta a remoção de cadeias de careteres obsoletas :ref:`ⓘ <obsolete-"
 "strings>`"
 
-#, fuzzy
-#| msgid "Define the monolingual base filename"
 msgid "Both monolingual and bilingual"
-msgstr "Definir nome do ficheiro base monolingue"
+msgstr "Ambos monolingue e bilingue"
 
 msgid "Check flags added by this format :ref:`ⓘ <custom-checks>`"
 msgstr ""
@@ -56772,7 +56778,7 @@ msgstr ""
 "checks>`"
 
 msgid "``.ad``, ``.adoc``, ``.asciidoc``"
-msgstr ""
+msgstr "``.ad``, ``.adoc``, ``.asciidoc``"
 
 msgid ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
 msgstr ":ref:`check-safe-html`, ``strict-same``, ``asciidoc-text``"
@@ -56781,15 +56787,13 @@ msgid "Bilingual"
 msgstr "Bilingue"
 
 msgid "``.csv``, ``.txt``"
-msgstr ""
+msgstr "``.csv``, ``.txt``"
 
-#, fuzzy
-#| msgid "See :ref:`format-states`"
 msgid "Additional states :ref:`ⓘ <format-states>`"
-msgstr "Consulte :ref:`format-states`"
+msgstr "Estados adicionais :ref:`ⓘ <format-states>`"
 
 msgid "``csv``, ``csv-multi``, ``csv-simple``"
-msgstr ""
+msgstr "``csv``, ``csv-multi``, ``csv-simple``"
 
 msgid ""
 ":ref:`check-fluent-source-syntax`, :ref:`check-fluent-target-"
@@ -56797,18 +56801,22 @@ msgid ""
 "references`, :ref:`check-fluent-source-inner-html`, :ref:`check-fluent-"
 "target-inner-html`, ``ignore-xml-tags``, ``ignore-xml-invalid``"
 msgstr ""
+":ref:`check-fluent-source-syntax`, :ref:`check-fluent-target-syntax`, "
+":ref:`check-fluent-parts`, :ref:`check-fluent-references`, :ref:`check-"
+"fluent-source-inner-html`, :ref:`check-fluent-target-inner-html`, ``ignore-"
+"xml-tags``, ``ignore-xml-invalid``"
 
 msgid "``go-i18n-json``, ``go-i18n-json-v2``"
-msgstr ""
+msgstr "``go-i18n-json``, ``go-i18n-json-v2``"
 
 msgid "``.htm``, ``.html``"
-msgstr ""
+msgstr "``.htm``, ``.html``"
 
 msgid ":ref:`check-safe-html`, ``strict-same``"
 msgstr ":ref:`check-safe-html`, ``strict-same``"
 
 msgid "``.idml``, ``.idms``"
-msgstr ""
+msgstr "``.idml``, ``.idms``"
 
 msgid "``json``, ``json-nested``"
 msgstr "``json``, ``json-nested``"
@@ -56817,58 +56825,55 @@ msgid "``.markdown``, ``.md``"
 msgstr "``.markdown``, ``.md``"
 
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``"
-msgstr ""
+msgstr "``auto-safe-html``, ``strict-same``, ``md-text``"
 
 msgid "``auto-safe-html``, ``strict-same``, ``md-text``, :ref:`check-safe-mdx`"
-msgstr ""
+msgstr "``auto-safe-html``, ``strict-same``, ``md-text``, :ref:`check-safe-mdx`"
 
 msgid ""
 "``.odc``, ``.odf``, ``.odg``, ``.odi``, ``.odm``, ``.odp``, ``.ods``, "
 "``.odt``, ``.otc``, ``.otf``, ``.otg``, ``.oth``, ``.oti``, ``.otp``, "
 "``.ots``, ``.ott``, ``.sxw``"
 msgstr ""
+"``.odc``, ``.odf``, ``.odg``, ``.odi``, ``.odm``, ``.odp``, ``.ods``, "
+"``.odt``, ``.otc``, ``.otf``, ``.otg``, ``.oth``, ``.oti``, ``.otp``, "
+"``.ots``, ``.ott``, ``.sxw``"
 
 msgid "``.po``, ``.pot``"
-msgstr ""
+msgstr "``.po``, ``.pot``"
 
 msgid "``.ryml``, ``.yaml``, ``.yml``"
-msgstr ""
+msgstr "``.ryml``, ``.yaml``, ``.yml``"
 
-#, fuzzy
-#| msgid "``source``, ``target``, ``prefix``, ``suffix``"
 msgid "``.ass``, ``.srt``, ``.ssa``, ``.sub``"
-msgstr "``source``, ``target``, ``prefix``, ``suffix``"
+msgstr "``.ass``, ``.srt``, ``.ssa``, ``.sub``"
 
-#, fuzzy
-#| msgid "``source``, ``target``, ``prefix``, ``suffix``"
 msgid "``ass``, ``srt``, ``ssa``, ``sub``"
-msgstr "``source``, ``target``, ``prefix``, ``suffix``"
+msgstr "``ass``, ``srt``, ``ssa``, ``sub``"
 
 msgid "``.dw``, ``.mw``, ``.txt``"
-msgstr ""
+msgstr "``.dw``, ``.mw``, ``.txt``"
 
 msgid "``dokuwiki``, ``mediawiki``, ``txt``"
-msgstr ""
+msgstr "``dokuwiki``, ``mediawiki``, ``txt``"
 
 msgid "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
-msgstr ""
+msgstr "``.mxliff``, ``.poxliff``, ``.sdlxliff``, ``.xlf``, ``.xliff``"
 
-#, fuzzy
-#| msgid "``10`` -- Needs editing"
 msgid "``Approved``, ``Needs editing``"
 msgstr "``Approved``, ``Needs editing``"
 
 msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
-msgstr ""
+msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 
 msgid "``.xlf``, ``.xliff``"
-msgstr ""
+msgstr "``.xlf``, ``.xliff``"
 
 msgid "``xliff2``, ``xliff2-placeables``"
-msgstr ""
+msgstr "``xliff2``, ``xliff2-placeables``"
 
 msgid "``.pyml``, ``.yaml``, ``.yml``"
-msgstr ""
+msgstr "``.pyml``, ``.yaml``, ``.yml``"
 
 msgid ""
 "Support for this format is under development. Some features might not yet be "
@@ -56896,19 +56901,21 @@ msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate and Weblate Cloud."
 msgstr ""
+"Estes documentos aplicam-se às implementações do Weblate operadas por "
+"Weblate s.r.o., tais como Hosted Weblate e Weblate Cloud."
 
 msgid "`General terms and conditions <https://weblate.org/terms/>`__"
 msgstr "`Condições e termos gerais <https://weblate.org/terms/>`__"
 
-#, fuzzy
-#| msgid "Register yourself at https://weblate.org/user/"
 msgid "`Privacy policy <https://weblate.org/privacy/>`__"
-msgstr "Registe-se em https://weblate.org/user/"
+msgstr "`Política de privacidade <https://weblate.org/privacy/>`__"
 
 msgid ""
 "The data processing agreement can be obtained in the `Customer area <https://"
 "weblate.org/user/>`__."
 msgstr ""
+"O acordo de processamento de dados pode ser obtido na `Área de cliente "
+"<https://weblate.org/user/>`__."
 
 msgid ""
 "For linked repositories using :ref:`internal-urls`, this setting is "
