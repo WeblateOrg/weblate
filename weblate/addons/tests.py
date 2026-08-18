@@ -1931,16 +1931,7 @@ class GettextAddonTest(ViewTestCase):
             sphinx_build.write_text("", encoding="utf-8")
             sphinx_build.chmod(0o755)
 
-            with (
-                patch(
-                    "weblate.utils.commands.find_command",
-                    side_effect=lambda command, path=None: shutil.which(
-                        command,
-                        path=None if path is None else os.pathsep.join(path),
-                    ),
-                ),
-                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
-            ):
+            with patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)):
                 self.assertTrue(SphinxAddon.can_install(component=self.component))
 
     def test_sphinx_can_install_uses_symlinked_runtime_venv_bin(self) -> None:
@@ -1962,16 +1953,7 @@ class GettextAddonTest(ViewTestCase):
             sphinx_build.write_text("", encoding="utf-8")
             sphinx_build.chmod(0o755)
 
-            with (
-                patch(
-                    "weblate.utils.commands.find_command",
-                    side_effect=lambda command, path=None: shutil.which(
-                        command,
-                        path=None if path is None else os.pathsep.join(path),
-                    ),
-                ),
-                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
-            ):
+            with patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)):
                 self.assertTrue(SphinxAddon.can_install(component=self.component))
 
     def test_sphinx_can_install_ignores_relative_runtime_executable(self) -> None:
@@ -1981,7 +1963,7 @@ class GettextAddonTest(ViewTestCase):
         (docs_dir / "conf.py").write_text("", encoding="utf-8")
 
         with (
-            patch("weblate.utils.commands.find_command", return_value=None),
+            patch("weblate.utils.commands.which", return_value=None),
             patch("weblate.utils.commands.sys.executable", "python"),
         ):
             self.assertFalse(SphinxAddon.can_install(component=self.component))
@@ -4747,16 +4729,14 @@ msgstr ""
         self.component.new_base = "locale/django.pot"
         self.component.save(update_fields=["new_base"])
 
-        def fake_find_command(name, path=None):
+        def fake_which(name, path=None):
             if name == "xgettext":
                 return "/usr/bin/xgettext"
             if name == "msguniq":
                 return None
             return "/usr/bin/other"
 
-        with patch(
-            "weblate.utils.commands.find_command", side_effect=fake_find_command
-        ):
+        with patch("weblate.utils.commands.which", side_effect=fake_which):
             self.assertFalse(DjangoAddon.can_install(component=self.component))
 
     def test_generate(self) -> None:

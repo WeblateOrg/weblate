@@ -7,8 +7,7 @@ from __future__ import annotations
 import os
 import sys
 from pathlib import Path
-
-from django.core.management.utils import find_command
+from shutil import which
 
 from weblate.utils.data import data_dir
 
@@ -110,9 +109,9 @@ def get_clean_env(
 
 def find_runtime_command(command: str, *, extra_path: str | None = None) -> str | None:
     """Find executable using the same PATH used for subprocess execution."""
-    return find_command(
+    return which(
         command,
-        path=build_runtime_path_entries(
+        path=build_runtime_path(
             os.environ.get("PATH", DEFAULT_PATH), extra_path=extra_path
         ),
     )
