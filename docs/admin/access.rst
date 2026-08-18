@@ -517,7 +517,7 @@ the following rules:
 
 .. hint::
 
-   Use :guilabel:`Language selection` or :guilabel:`Project selection`
+   Use :guilabel:`All languages` or :guilabel:`Project selection`
    to automate inclusion of all languages or projects.
 
 .. image:: /screenshots/team-scope.webp

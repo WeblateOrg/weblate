@@ -516,6 +516,7 @@ class BaseTeamForm(forms.ModelForm):
             self.fields["all_languages"].widget.attrs["data-team-selection-toggle"] = (
                 self["languages"].auto_id
             )
+            self.fields["languages"].widget.attrs["data-max-options"] = "none"
 
     def clean(self) -> None:
         super().clean()
@@ -534,9 +535,6 @@ class BaseTeamForm(forms.ModelForm):
                     raise ValidationError(
                         {error_field: gettext("Cannot change this on a built-in team.")}
                     )
-
-    def _post_clean(self) -> None:
-        super()._post_clean()
         if "language_selection" in self.cleaned_data:
             self.instance.language_selection = self.cleaned_data["language_selection"]
 
@@ -555,12 +553,12 @@ class BaseTeamForm(forms.ModelForm):
 
         self.instance.save()
 
-        # Save languages only for manual selection, otherwise
-        # it would override logic from Group.save()
         if self.instance.language_selection != SELECTION_MANUAL:
             self.cleaned_data.pop("languages", None)
         if self.instance.project_selection != SELECTION_MANUAL:
             self.cleaned_data.pop("projects", None)
+        if self.instance.project_selection != SELECTION_COMPONENT_LIST:
+            self.cleaned_data.pop("componentlists", None)
         self._save_m2m()
         if project:
             self.instance.projects.add(project)

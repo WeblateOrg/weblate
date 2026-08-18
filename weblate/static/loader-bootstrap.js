@@ -1309,8 +1309,10 @@ onReady(() => {
         persist: false,
         create: false,
         allowEmptyOption: true,
-        maxOptions: null,
       };
+      if (el.dataset.maxOptions === "none") {
+        options.maxOptions = null;
+      }
       new TomSelect(el, options);
     });
   };
