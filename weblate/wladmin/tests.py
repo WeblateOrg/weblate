@@ -40,6 +40,7 @@ from weblate.utils.data import data_path
 from weblate.utils.tests import http_mock
 from weblate.utils.unittest import tempdir_setting
 from weblate.utils.zammad import ZammadError
+from weblate.wladmin.apps import check_backups
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.middleware import (
     CHECK_ATTEMPT_CACHE_KEY,
@@ -53,6 +54,7 @@ from weblate.wladmin.middleware import (
     run_background_configuration_health_check,
 )
 from weblate.wladmin.models import (
+    BackupLog,
     BackupService,
     ConfigurationError,
     SupportStatus,
@@ -181,7 +183,9 @@ class BackupCommandTest(DjangoTestCase):
         )
 
     def test_service_runs_synchronously(self) -> None:
-        service = BackupService.objects.create(repository="/backup", paperkey="paper")
+        service = BackupService.objects.create(
+            repository="/backup", paperkey="paper", enabled=False
+        )
 
         with (
             patch(
@@ -197,7 +201,7 @@ class BackupCommandTest(DjangoTestCase):
             call_command("backup", "--service", str(service.pk))
 
         settings_backup.assert_called_once_with()
-        database_backup.assert_called_once_with()
+        database_backup.assert_called_once_with([service.pk])
         backup_service_runner.assert_called_once_with(service)
 
     def test_all_runs_enabled_services_synchronously(self) -> None:
@@ -222,7 +226,7 @@ class BackupCommandTest(DjangoTestCase):
             call_command("backup", "--all")
 
         settings_backup.assert_called_once_with()
-        database_backup.assert_called_once_with()
+        database_backup.assert_called_once_with([enabled.pk])
         self.assertEqual(
             [call.args[0].pk for call in backup_service_runner.call_args_list],
             [enabled.pk],
@@ -306,56 +310,139 @@ class BackupCommandTest(DjangoTestCase):
             call_command("backup", "--service", "1")
 
 
-class BackupServiceStatusTest(TestCase):
+class BackupServiceStatusTest(DjangoTestCase):
+    def create_service(self) -> BackupService:
+        return BackupService.objects.create(repository="/backup", paperkey="paper")
+
     def test_current_error_points_to_latest_unresolved_failure(self) -> None:
-        error = SimpleNamespace(event="error", log="borg create failed")
-        service = BackupService(repository="/backup")
-        service.__dict__["last_logs"] = [
-            SimpleNamespace(event="cleanup", log="cleanup complete"),
-            SimpleNamespace(event="prune", log="prune complete"),
-            error,
-        ]
+        service = self.create_service()
+        error = service.backuplog_set.create(event="error", log="borg create failed")
+        service.backuplog_set.create(event="prune", log="prune complete")
+        service.backuplog_set.create(event="cleanup", log="cleanup complete")
 
         self.assertTrue(service.has_errors)
-        self.assertIs(service.current_error, error)
+        self.assertEqual(service.current_error, error)
 
     def test_current_error_clears_after_successful_backup(self) -> None:
-        old_error = SimpleNamespace(event="error", log="old failure")
-        service = BackupService(repository="/backup")
-        service.__dict__["last_logs"] = [
-            SimpleNamespace(event="prune", log="prune complete", warning=False),
-            SimpleNamespace(event="backup", log="backup complete", warning=False),
-            old_error,
-        ]
+        service = self.create_service()
+        service.backuplog_set.create(event="error", log="old failure")
+        service.backuplog_set.create(event="backup", log="backup complete")
+        service.backuplog_set.create(event="prune", log="prune complete")
 
         self.assertFalse(service.has_errors)
         self.assertIsNone(service.current_error)
 
     def test_current_error_clears_after_backup_warning(self) -> None:
-        old_error = SimpleNamespace(event="error", log="old failure", warning=False)
-        warning = SimpleNamespace(
+        service = self.create_service()
+        service.backuplog_set.create(event="error", log="old failure")
+        warning = service.backuplog_set.create(
             event="backup", log="backup complete with warnings", warning=True
         )
-        service = BackupService(repository="/backup")
-        service.__dict__["last_logs"] = [warning, old_error]
 
         self.assertFalse(service.has_errors)
         self.assertIsNone(service.current_error)
         self.assertTrue(service.has_warnings)
-        self.assertIs(service.current_warning, warning)
+        self.assertEqual(service.current_warning, warning)
 
     def test_current_warning_clears_after_clean_backup(self) -> None:
-        old_warning = SimpleNamespace(
+        service = self.create_service()
+        service.backuplog_set.create(
             event="backup", log="backup complete with warnings", warning=True
         )
-        service = BackupService(repository="/backup")
-        service.__dict__["last_logs"] = [
-            SimpleNamespace(event="backup", log="backup complete", warning=False),
-            old_warning,
-        ]
+        service.backuplog_set.create(event="backup", log="backup complete")
 
         self.assertFalse(service.has_warnings)
         self.assertIsNone(service.current_warning)
+
+    def test_current_warning_includes_maintenance_warning(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(event="backup", log="backup complete")
+        warning = service.backuplog_set.create(
+            event="prune", log="prune completed with warnings", warning=True
+        )
+
+        self.assertTrue(service.has_warnings)
+        self.assertEqual(service.current_warning, warning)
+
+    def test_database_error_is_not_cleared_by_backup(self) -> None:
+        service = self.create_service()
+        error = service.backuplog_set.create(
+            event="database-error", log="pg_dump failed"
+        )
+        service.backuplog_set.create(event="backup", log="backup complete")
+
+        self.assertEqual(service.current_error, error)
+
+    def test_database_error_is_cleared_by_database_backup(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(event="database-error", log="pg_dump failed")
+        service.backuplog_set.create(event="database", log="database dump complete")
+
+        self.assertIsNone(service.current_error)
+
+    @override_settings(DATABASE_BACKUP="none")
+    def test_database_error_is_ignored_when_database_backup_is_disabled(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(event="database-error", log="pg_dump failed")
+
+        self.assertFalse(service.has_errors)
+        self.assertIsNone(service.current_error)
+
+    def test_database_backup_does_not_clear_backup_error(self) -> None:
+        service = self.create_service()
+        error = service.backuplog_set.create(event="error", log="borg failed")
+        service.backuplog_set.create(event="database", log="database dump complete")
+
+        self.assertEqual(service.current_error, error)
+
+    def test_display_logs_includes_old_unresolved_error(self) -> None:
+        service = self.create_service()
+        error = service.backuplog_set.create(
+            event="database-error", log="pg_dump failed"
+        )
+        BackupLog.objects.bulk_create(
+            BackupLog(service=service, event="prune", log=f"prune {index}")
+            for index in range(11)
+        )
+
+        self.assertEqual(len(service.display_logs), 11)
+        self.assertEqual(service.display_logs[-1], error)
+
+    def test_display_logs_includes_old_current_warning(self) -> None:
+        service = self.create_service()
+        warning = service.backuplog_set.create(
+            event="backup", log="backup completed with warnings", warning=True
+        )
+        BackupLog.objects.bulk_create(
+            BackupLog(service=service, event="database", log=f"dump {index}")
+            for index in range(11)
+        )
+
+        self.assertEqual(len(service.display_logs), 11)
+        self.assertEqual(service.display_logs[-1], warning)
+
+    def test_database_error_is_reported_by_deployment_check(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(
+            event="database-error", log="pg_dump version mismatch"
+        )
+        service.backuplog_set.create(event="backup", log="backup complete")
+
+        checks = list(check_backups(app_configs=None, databases=None))
+
+        self.assertEqual(len(checks), 1)
+        self.assertEqual(checks[0].id, "weblate.C029")
+        self.assertIn("pg_dump version mismatch", checks[0].msg)
+
+    def test_database_log_does_not_count_as_repository_activity(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(event="database", log="database dump complete")
+
+        checks = list(check_backups(app_configs=None, databases=None))
+
+        self.assertEqual(len(checks), 1)
+        self.assertEqual(checks[0].id, "weblate.C029")
+        self.assertIn("backup was never triggered", checks[0].msg)
 
     def test_backup_logs_warning_without_error(self) -> None:
         service = BackupFailureService()
@@ -1283,10 +1370,19 @@ class AdminTest(ViewTestCase):
         service.backuplog_set.create(event="backup", log="borg backup output")
         response = self.client.get(reverse("manage-backups"))
         self.assertContains(response, 'class="naturaltime"', count=2)
-        response = do_post(service=service.pk, trigger="1")
-        self.assertContains(response, "triggered")
+        service.backuplog_set.create(
+            event="database-error", log="pg_dump version mismatch"
+        )
+        response = self.client.get(reverse("manage-backups"))
+        self.assertContains(response, "Failed with an error")
+        self.assertContains(response, "Database backup failed")
+        self.assertContains(response, "pg_dump version mismatch")
         response = do_post(service=service.pk, toggle="1")
         self.assertContains(response, "Turned off")
+        with patch("weblate.wladmin.views.database_backup.delay") as database_delay:
+            response = do_post(service=service.pk, trigger="1")
+        self.assertContains(response, "triggered")
+        database_delay.assert_called_once_with([service.pk])
         response = do_post(service=service.pk, remove="1")
         self.assertNotContains(response, settings.BACKUP_DIR)
 

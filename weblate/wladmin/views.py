@@ -583,7 +583,7 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
                     return redirect("manage-backups")
                 if "trigger" in request.POST:
                     settings_backup.delay()
-                    database_backup.delay()
+                    database_backup.delay([service.pk])
                     backup_service.delay(pk=service.pk)
                     messages.success(request, gettext("Backup process triggered"))
                     return redirect("manage-backups")

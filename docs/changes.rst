@@ -18,6 +18,7 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
+* Database dump failures are now shown in the backups management interface.
 * Project administrators can no longer remove API tokens belonging to other projects.
 * Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.
 * GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
