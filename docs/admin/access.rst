@@ -74,8 +74,19 @@ The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
     Aggregate statistics include `Private` projects and
     :ref:`restricted components <component-restricted>`, including in
     site-wide, language, and workspace summaries. Object listings, names, and
-    actions remain permission-filtered, so these aggregates do not grant access
-    to the underlying projects or components.
+    actions in the web interface and API remain permission-filtered, so these
+    aggregates do not grant access to the underlying projects or components.
+
+.. note::
+
+    Generic incoming :ref:`notification hooks <hooks>` are an explicit
+    compatibility exception to identifier confidentiality. When supplied with
+    a matching repository URL, their diagnostic response includes match counts
+    and, when an update is scheduled, the project/component slug and API URL.
+    This also applies to `Private` projects and restricted components, except
+    components managed through an authenticated integration. The API URL does
+    not bypass access control, and no project content or credentials are
+    included. See :ref:`hooks-target-matching`.
 
 .. note::
 
@@ -491,6 +502,18 @@ the following rules:
   owning the repository and every component linked to it. This also applies
   when linked components are in other projects. A per-member language limit
   therefore cannot grant these permissions.
+
+- The :guilabel:`Edit component settings` permission allows administrative
+  operations that can affect repository contents. For example, users can choose
+  files through component settings or install and configure component add-ons.
+  For a :ref:`linked component <internal-urls>`, these operations use the
+  complete shared checkout. Grant this permission only to users trusted by the
+  repository owner with that checkout. Ordinary translation permissions do not
+  grant this administrative access.
+
+  Repository-wide VCS permissions protect explicit commit, push, reset, and
+  update operations. They are not required for Weblate's normal background
+  commit and push of translation changes made through an authorized component.
 
 .. hint::
 

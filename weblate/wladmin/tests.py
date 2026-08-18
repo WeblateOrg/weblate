@@ -14,6 +14,7 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlparse
 
+import httpx2
 from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
@@ -1764,7 +1765,11 @@ class AdminTest(ViewTestCase):
         response = self.client.post(
             reverse("manage-activate"), {"secret": "123456"}, follow=True
         )
-        self.assertContains(response, "Please ensure your activation token is correct.")
+        self.assertContains(
+            response,
+            "Could not activate the support package. Please ensure the activation "
+            "token is correct.",
+        )
         self.assertFalse(SupportStatus.objects.exists())
         self.assertFalse(BackupService.objects.exists())
 
@@ -1779,9 +1784,42 @@ class AdminTest(ViewTestCase):
         response = self.client.post(
             reverse("manage-activate"), {"secret": "123456"}, follow=True
         )
-        self.assertContains(response, "Please try again later.")
+        self.assertContains(
+            response,
+            "Could not activate the support package. Please try again later.",
+        )
         self.assertFalse(SupportStatus.objects.exists())
         self.assertFalse(BackupService.objects.exists())
+
+    @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_timeout(self) -> None:
+        with patch(
+            "weblate.wladmin.views.SupportStatus.refresh",
+            side_effect=httpx2.TimeoutException("timeout"),
+        ):
+            response = self.client.post(
+                reverse("manage-activate"), {"secret": "123456"}, follow=True
+            )
+
+        self.assertContains(
+            response,
+            "Could not activate the support package. Please try again later.",
+        )
+
+    @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_unexpected_error(self) -> None:
+        with patch(
+            "weblate.wladmin.views.SupportStatus.refresh",
+            side_effect=RuntimeError("internal detail"),
+        ):
+            response = self.client.post(
+                reverse("manage-activate"), {"secret": "123456"}, follow=True
+            )
+
+        self.assertContains(
+            response,
+            "Could not activate the support package: internal detail",
+        )
 
     @http_mock.activate
     @override_settings(SITE_TITLE="Test Weblate")
@@ -1801,7 +1839,10 @@ class AdminTest(ViewTestCase):
                 cls=DjangoJSONEncoder,
             ),
         )
-        self.client.post(reverse("manage-activate"), {"secret": "123456"})
+        response = self.client.post(
+            reverse("manage-activate"), {"secret": "123456"}, follow=True
+        )
+        self.assertContains(response, "Support package activated.")
         status = SupportStatus.objects.get()
         self.assertEqual(status.name, "community")
         self.assertFalse(BackupService.objects.exists())
@@ -1811,6 +1852,111 @@ class AdminTest(ViewTestCase):
         self.client.post(reverse("manage-discovery"))
         status = SupportStatus.objects.get()
         self.assertTrue(status.discoverable)
+
+    @http_mock.activate
+    def test_support_status_refresh(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        http_mock.register(
+            "POST",
+            get_support_url(),
+            text=json.dumps(
+                {
+                    "name": "hosted",
+                    "backup_repository": "",
+                    "expiry": timezone.now(),
+                    "in_limits": True,
+                    "has_subscription": True,
+                    "limits": {},
+                },
+                cls=DjangoJSONEncoder,
+            ),
+        )
+
+        response = self.client.post(
+            reverse("manage-activate"), {"refresh": "1"}, follow=True
+        )
+
+        self.assertContains(response, "Support status refreshed.")
+
+    @http_mock.activate
+    def test_support_status_refresh_invalid_token(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        http_mock.register("POST", get_support_url(), status_code=404)
+
+        response = self.client.post(
+            reverse("manage-activate"), {"refresh": "1"}, follow=True
+        )
+
+        self.assertContains(
+            response,
+            "Could not refresh support status. The activation token is invalid.",
+        )
+
+    @http_mock.activate
+    def test_support_status_refresh_error(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        http_mock.register("POST", get_support_url(), status_code=500)
+
+        response = self.client.post(
+            reverse("manage-activate"), {"refresh": "1"}, follow=True
+        )
+
+        self.assertContains(
+            response, "Could not refresh support status. Please try again later."
+        )
+
+    def test_support_status_refresh_timeout(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        with patch(
+            "weblate.wladmin.views.SupportStatus.refresh",
+            side_effect=httpx2.TimeoutException("timeout"),
+        ):
+            response = self.client.post(
+                reverse("manage-activate"), {"refresh": "1"}, follow=True
+            )
+
+        self.assertContains(
+            response, "Could not refresh support status. Please try again later."
+        )
+
+    def test_support_status_refresh_unexpected_error(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        with patch(
+            "weblate.wladmin.views.SupportStatus.refresh",
+            side_effect=RuntimeError("internal detail"),
+        ):
+            response = self.client.post(
+                reverse("manage-activate"), {"refresh": "1"}, follow=True
+            )
+
+        self.assertContains(
+            response, "Could not refresh support status: internal detail"
+        )
 
     def test_discovery_toggle_requires_site_title(self) -> None:
         status = SupportStatus.objects.create(
@@ -1906,7 +2052,9 @@ class AdminTest(ViewTestCase):
             {"code": "code-123", "state": "wrong"},
             follow=True,
         )
-        self.assertContains(response, "Invalid activation state.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Invalid activation state."
+        )
         self.assertFalse(SupportStatus.objects.exists())
 
     @http_mock.activate
@@ -1925,7 +2073,9 @@ class AdminTest(ViewTestCase):
             {"code": "old-code", "state": "stale"},
             follow=True,
         )
-        self.assertContains(response, "Invalid activation state.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Invalid activation state."
+        )
         self.assertEqual(
             self.client.session[DISCOVERY_REGISTRATION_SESSION]["state"], state
         )
@@ -1957,7 +2107,7 @@ class AdminTest(ViewTestCase):
             {"code": "code-123", "state": state},
             follow=True,
         )
-        self.assertContains(response, "Activation completed.")
+        self.assertContains(response, "Discover Weblate enabled.")
         self.assertEqual(SupportStatus.objects.get().secret, "secret-123")
 
     @override_settings(
@@ -1973,7 +2123,9 @@ class AdminTest(ViewTestCase):
         response = self.client.get(
             reverse("manage-discovery-callback"), {"state": state}, follow=True
         )
-        self.assertContains(response, "Missing activation code.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Missing activation code."
+        )
         self.assertFalse(SupportStatus.objects.exists())
 
     @http_mock.activate
@@ -2025,7 +2177,7 @@ class AdminTest(ViewTestCase):
         for callback in callbacks:
             callback()
         update_task.assert_called_once_with()
-        self.assertContains(response, "Activation completed.")
+        self.assertContains(response, "Discover Weblate enabled.")
         status = SupportStatus.objects.get()
         self.assertEqual(status.secret, "secret-123")
         self.assertEqual(status.name, "community")
@@ -2100,7 +2252,9 @@ class AdminTest(ViewTestCase):
             {"code": "x" * 101, "state": state},
             follow=True,
         )
-        self.assertContains(response, "Invalid activation code.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Invalid activation code."
+        )
         self.assertFalse(SupportStatus.objects.exists())
 
     @override_settings(
@@ -2122,7 +2276,9 @@ class AdminTest(ViewTestCase):
                 {"code": "code-123", "state": state},
                 follow=True,
             )
-        self.assertContains(response, "Please try again later.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Please try again later."
+        )
         self.assertNotContains(response, "internal detail")
         self.assertFalse(SupportStatus.objects.exists())
 
@@ -2156,7 +2312,9 @@ class AdminTest(ViewTestCase):
             {"code": "code-123", "state": "state-123"},
             follow=True,
         )
-        self.assertContains(response, "Please try again later.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Please try again later."
+        )
         old_status.refresh_from_db()
         self.assertTrue(old_status.enabled)
         self.assertEqual(SupportStatus.objects.get_current(), old_status)
@@ -2209,7 +2367,11 @@ class AdminTest(ViewTestCase):
             follow=True,
         )
 
-        self.assertContains(response, "a support package is already linked")
+        self.assertContains(
+            response,
+            "Could not enable Discover Weblate because a support package is already "
+            "linked.",
+        )
         refresh_body = parse_qs(get_response_call_body(1))
         self.assertNotIn("discoverable", refresh_body)
         self.assertNotIn("public_projects", refresh_body)
@@ -2245,13 +2407,32 @@ class AdminTest(ViewTestCase):
             ),
         )
 
-        self.client.post(reverse("manage-activate"), {"unlink": "1"})
+        response = self.client.post(
+            reverse("manage-activate"), {"unlink": "1"}, follow=True
+        )
 
+        self.assertContains(response, "Support package unlinked.")
         unlink_body = parse_qs(get_response_call_body(0))
         self.assertEqual(unlink_body["secret"], ["discovery-secret"])
         self.assertNotIn("discoverable", unlink_body)
         self.assertNotIn("public_projects", unlink_body)
         self.assertFalse(SupportStatus.objects.filter(enabled=True).exists())
+
+    def test_activation_unlink_locally(self) -> None:
+        status = SupportStatus.objects.create(
+            name="hosted",
+            secret="support-secret",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+
+        response = self.client.post(
+            reverse("manage-activate"), {"unlink": "1"}, follow=True
+        )
+
+        self.assertContains(response, "Support package unlinked.")
+        status.refresh_from_db()
+        self.assertFalse(status.enabled)
 
     @http_mock.activate
     def test_activation_unlink_disables_locally_on_discovery_error(self) -> None:

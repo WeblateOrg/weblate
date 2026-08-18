@@ -173,6 +173,20 @@ class AlertTest(ViewTestCase):
             reverse("js-diagnostics", kwargs={"path": obj.get_url_path()}), data
         )
 
+    def test_alert_class_metadata_does_not_initialize_alert_object(self) -> None:
+        details = {"occurrences": [{"language_code": "cs"}]}
+        self.component.add_alert("UnusedGlossaryLanguage", **details)
+        alert = self.component.alert_set.get(name="UnusedGlossaryLanguage")
+
+        self.assertNotIn("alert_class", alert.__dict__)
+        alert_class = alert.alert_class
+
+        self.assertIn("alert_class", alert.__dict__)
+        self.assertIs(alert.alert_class, alert_class)
+        self.assertEqual(alert.category, "configuration")
+        self.assertNotIn("obj", alert.__dict__)
+        self.assertEqual(alert.details, details)
+
     def test_project_diagnostics_loads_lazily_for_authenticated_users(self) -> None:
         with patch("weblate.trans.views.js.get_diagnostics_context") as get_diagnostics:
             response = self.client.get(
@@ -1904,6 +1918,41 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
             )
 
         self.assertIn("n’a pas été trouvé. Veuillez vérifier", rendered)
+
+    def test_git_lfs_diagnosis_links_documentation(self) -> None:
+        component = SimpleNamespace(
+            get_ssh_host_key_mismatch_error_message=lambda: "host key changed",
+            get_ssh_host_key_error_message=lambda: "host key missing",
+            push="",
+            repo="",
+            vcs="git",
+            merge_style="merge",
+            push_branch="",
+        )
+        instance = cast("Alert", SimpleNamespace(component=component))
+        alerts = (
+            UpdateFailure(
+                instance,
+                "remote rejected the push",
+                diagnoses=[{"code": "git_lfs_missing_objects"}],
+            ),
+            UpdateFailure(
+                instance,
+                "remote: GitLab: LFS objects are missing.",
+            ),
+        )
+
+        for alert in alerts:
+            with self.subTest(diagnoses=alert.diagnoses):
+                rendered = render_to_string(
+                    "trans/alert/common-repo.html",
+                    {"analysis": alert.get_analysis()},
+                )
+
+                self.assertIn(
+                    "Weblate does not download or upload Git LFS objects", rendered
+                )
+                self.assertIn("vcs.html#git-lfs", rendered)
 
     def test_github_pull_request_diagnosis_renders_username(self) -> None:
         rendered = render_to_string(

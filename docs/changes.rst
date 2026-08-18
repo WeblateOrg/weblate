@@ -14,10 +14,15 @@ Weblate 2026.9
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
 * Assigning languages to a team now uses an :guilabel:`All languages` toggle which disables the language choice when turned on, and a manually chosen set of languages is kept when toggling it. See :ref:`manage-acl`.
+* Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
+* Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
 
 .. rubric:: Bug fixes
 
+* Project administrators can no longer remove API tokens belonging to other projects.
 * Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.
+* GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
+* :ref:`Project backup restores <projectbackup>` now allowlists repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
 
 .. rubric:: Compatibility
 
@@ -28,6 +33,12 @@ Weblate 2026.9
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Docker deployments need to configure trusted proxy addresses.
+  Set :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES` to preserve client IP addresses
+  in nginx logs and Weblate when
+  ``WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR`` is used; otherwise, the
+  immediate TCP peer is used.
 
 .. rubric:: Contributors
 

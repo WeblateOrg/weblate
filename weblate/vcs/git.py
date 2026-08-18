@@ -364,6 +364,26 @@ class GitRepository(Repository):
     remote_compatibility_deepen: ClassVar[int] = 50
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset({"https", "ssh"})
 
+    BACKUP_METADATA_FILES: ClassVar[frozenset[str]] = frozenset(
+        {"head", "packed-refs", "shallow"}
+    )
+    BACKUP_OBJECT_INFO_FILES: ClassVar[frozenset[str]] = frozenset(
+        {"commit-graph", "packs"}
+    )
+    BACKUP_LOOSE_OBJECT_RE: ClassVar[re.Pattern[str]] = re.compile(
+        r"[0-9a-f]{2}/(?:[0-9a-f]{38}|[0-9a-f]{62})\Z"
+    )
+    BACKUP_PACK_OBJECT_RE: ClassVar[re.Pattern[str]] = re.compile(
+        r"pack-(?:[0-9a-f]{40}|[0-9a-f]{64})"
+        r"\.(?:bitmap|idx|keep|mtimes|pack|promisor|rev)\Z"
+    )
+    BACKUP_MULTI_PACK_BITMAP_RE: ClassVar[re.Pattern[str]] = re.compile(
+        r"multi-pack-index-(?:[0-9a-f]{40}|[0-9a-f]{64})\.bitmap\Z"
+    )
+    BACKUP_COMMIT_GRAPH_RE: ClassVar[re.Pattern[str]] = re.compile(
+        r"graph-(?:[0-9a-f]{40}|[0-9a-f]{64})\.graph\Z"
+    )
+
     RESERVED_BRANCH_NAMES: ClassVar[frozenset[str]] = frozenset(
         {
             "HEAD",
@@ -414,6 +434,40 @@ class GitRepository(Repository):
         return os.path.exists(
             os.path.join(self.path, ".git", "config")
         ) or os.path.exists(os.path.join(self.path, "config"))
+
+    @classmethod
+    def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:
+        """Return whether Git metadata can be restored from a backup."""
+        if not parts:
+            return False
+        if len(parts) == 1:
+            return parts[0] in cls.BACKUP_METADATA_FILES
+        if parts[0] == "refs":
+            return True
+        if parts[0] != "objects":
+            return False
+        if len(parts) < 3:
+            return False
+        if parts[1] == "pack" and len(parts) == 3:
+            return parts[2] == "multi-pack-index" or bool(
+                cls.BACKUP_PACK_OBJECT_RE.fullmatch(parts[2])
+                or cls.BACKUP_MULTI_PACK_BITMAP_RE.fullmatch(parts[2])
+            )
+        if parts[1] != "info":
+            return len(parts) == 3 and bool(
+                cls.BACKUP_LOOSE_OBJECT_RE.fullmatch("/".join(parts[1:]))
+            )
+        if len(parts) == 3 and parts[2] in cls.BACKUP_OBJECT_INFO_FILES:
+            return True
+        if parts[2] != "commit-graphs" or len(parts) != 4:
+            return False
+        return parts[3] == "commit-graph-chain" or bool(
+            cls.BACKUP_COMMIT_GRAPH_RE.fullmatch(parts[3])
+        )
+
+    def finalize_backup_restore(self) -> None:
+        """Rebuild the index excluded from restored backups."""
+        self.execute(["read-tree", "--reset", "HEAD"], remote_op="none")
 
     @classmethod
     def create_blank_repository(cls, path: str) -> None:
@@ -1734,6 +1788,13 @@ class SubversionRepository(GitRepository):
         self._fetch_revision: str | None = None
 
     @classmethod
+    def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:
+        """Return whether git-svn metadata can be restored from a backup."""
+        return super().is_safe_backup_metadata_path(parts) or (
+            len(parts) > 2 and parts[0] == "svn" and parts[-1].startswith(".rev_map.")
+        )
+
+    @classmethod
     def global_setup(cls) -> None:
         """Perform global settings."""
         dirname = os.path.join(data_dir("home"), ".subversion")
@@ -1924,6 +1985,7 @@ class GitMergeRequestBase(GitForcePushRepository):
     API_TEMPLATE: ClassVar[str]
     REQUIRED_CONFIG: ClassVar[set[str]] = {"username", "token"}
     OPTIONAL_CONFIG: ClassVar[set[str]] = {"scheme"}
+    fork_configuration_version: ClassVar[int | None] = None
 
     def get_fork_branch_name(self) -> str:
         """Get the fork branch name used for pushing."""
@@ -2182,7 +2244,10 @@ class GitMergeRequestBase(GitForcePushRepository):
 
     def get_fork_remote_marker(self, credentials: GitCredentials) -> str:
         """Return marker identifying a Weblate-managed fork remote."""
-        return f"{self.identifier}:{credentials['url']}:{credentials['push_scheme']}"
+        marker = f"{self.identifier}:{credentials['url']}:{credentials['push_scheme']}"
+        if self.fork_configuration_version is not None:
+            return f"{marker}:v{self.fork_configuration_version}"
+        return marker
 
     def has_current_fork_remote(self, credentials: GitCredentials) -> bool:
         """Check whether the configured fork remote matches current settings."""
@@ -3329,6 +3394,7 @@ class GitLabRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("GitLab merge request")
     api_service_name: ClassVar[str] = "GitLab"
     identifier: ClassVar[str] = "gitlab"
+    fork_configuration_version: ClassVar[int | None] = 1
     API_TEMPLATE: ClassVar[str] = (
         "{scheme}://{host}/api/v4/projects/{owner_url}%2F{slug_url}"
     )
@@ -3400,6 +3466,7 @@ class GitLabRepository(GitMergeRequestBase):
             "issues_access_level": "disabled",
             "forking_access_level": "disabled",
             "builds_access_level": "enabled",
+            "lfs_enabled": False,
             "wiki_access_level": "disabled",
             "snippets_access_level": "disabled",
             "pages_access_level": "disabled",

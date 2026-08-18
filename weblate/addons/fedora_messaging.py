@@ -37,6 +37,7 @@ from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.outbound import validate_connected_peer
 from weblate.utils.site import get_site_url
+from weblate.utils.validators import validate_fedora_messaging_url
 
 from .forms import FedoraMessagingAddonForm
 
@@ -568,6 +569,8 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         force_update: bool = False,
     ) -> None:
         """Configure Fedora Messaging."""
+        validate_fedora_messaging_url(amqp_url)
+
         # ruff: ignore[import-outside-top-level]
         import fedora_messaging.config
 

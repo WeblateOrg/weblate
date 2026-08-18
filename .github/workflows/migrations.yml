@@ -35,7 +35,7 @@ jobs:
       UV_FROZEN: '1'
     services:
       database:
-        image: postgres:18.4-alpine@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15
+        image: postgres:18.6-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: weblate
@@ -55,13 +55,13 @@ jobs:
       run: sudo ./ci/apt-install
     - name: Install legacy rendering dependencies
       run: sudo apt-get install -y libgirepository-2.0-dev libcairo-dev gir1.2-rsvg-2.0 gir1.2-pango-1.0
-    - uses: astral-sh/setup-uv@ae62891fec2bb8e7d6c99fc78c9fec3a63790f8d # v10.0.0
+    - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.12.3
+        version: 0.12.5
     - name: Set up Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
