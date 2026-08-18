@@ -367,8 +367,8 @@ by site-wide or per-project teams by adding another custom team.
      .. list-table:: Group `Users`
          :stub-columns: 1
 
-         * - Language selection
-           - `As defined`
+         * - All languages
+           - Turned off
          * - Languages
            - All but `Czech`
 
@@ -381,8 +381,8 @@ by site-wide or per-project teams by adding another custom team.
            - `Power users`
          * - Project selection
            - `All public projects`
-         * - Language selection
-           - `As defined`
+         * - All languages
+           - Turned off
          * - Languages
            - `Czech`
 

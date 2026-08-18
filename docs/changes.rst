@@ -13,6 +13,7 @@ Weblate 2026.9
 * Improved translation file loading performance for metadata-only string changes.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
+* Assigning languages to a team now uses an :guilabel:`All languages` toggle which disables the language choice when turned on, and a manually chosen set of languages is kept when toggling it. See :ref:`manage-acl`.
 
 .. rubric:: Bug fixes
 
@@ -22,6 +23,7 @@ Weblate 2026.9
 
 * Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
 * Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
+* Switching a team to all languages no longer clears its list of chosen languages, so the languages listing in the API can now be non-empty for such teams.
 
 .. rubric:: Upgrading
 

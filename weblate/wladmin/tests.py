@@ -594,7 +594,7 @@ class ManagementAccessControlTest(ViewTestCase):
             {
                 "name": "Custom team",
                 "project_selection": "1",
-                "language_selection": "1",
+                "all_languages": "on",
             },
         )
         self.assertEqual(response.status_code, 302)
@@ -607,7 +607,7 @@ class ManagementAccessControlTest(ViewTestCase):
         group = Group.objects.create(name="Custom team")
         edit_payload = {
             "name": "Renamed team",
-            "language_selection": "1",
+            "all_languages": "on",
             "project_selection": "1",
             "autogroup_set-TOTAL_FORMS": "0",
             "autogroup_set-INITIAL_FORMS": "0",
@@ -2388,7 +2388,7 @@ class AdminTest(ViewTestCase):
             reverse("manage-teams"),
             {
                 "name": name,
-                "language_selection": "1",
+                "all_languages": "on",
                 "project_selection": "1",
             },
         )
@@ -2402,7 +2402,7 @@ class AdminTest(ViewTestCase):
             group.get_absolute_url(),
             {
                 "name": name,
-                "language_selection": "1",
+                "all_languages": "on",
                 "project_selection": "1",
                 "autogroup_set-TOTAL_FORMS": "1",
                 "autogroup_set-INITIAL_FORMS": "0",
@@ -2431,7 +2431,7 @@ class AdminTest(ViewTestCase):
             Group.objects.get(name="Users").get_absolute_url(),
             {
                 "name": "Other",
-                "language_selection": "1",
+                "all_languages": "on",
                 "project_selection": "1",
             },
         )
