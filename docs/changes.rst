@@ -19,6 +19,7 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
+* Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
 * Database dump failures are now shown in the backups management interface.
 * Project administrators can no longer remove API tokens belonging to other projects.
 * Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.

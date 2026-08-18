@@ -6,7 +6,6 @@
 from django.utils import timezone
 
 from weblate.metrics.models import Metric
-from weblate.metrics.tasks import collect_metrics
 from weblate.utils.management.base import BaseCommand
 from weblate.utils.stats import GlobalStats
 
@@ -17,7 +16,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options) -> None:
         all_strings = GlobalStats().all
         self.stdout.write(f"found {all_strings} strings")
-        if not Metric.objects.filter(
-            date=timezone.now().date(), scope=Metric.SCOPE_GLOBAL
-        ).exists():
-            collect_metrics()
+        today = timezone.now().date()
+        if not Metric.objects.filter(date=today, scope=Metric.SCOPE_GLOBAL).exists():
+            Metric.objects.collect_global(today)
