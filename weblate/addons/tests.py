@@ -15,6 +15,7 @@ import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
+from collections import UserDict
 from copy import deepcopy
 from datetime import timedelta
 from io import StringIO
@@ -7367,7 +7368,7 @@ class AddonChangeDetailsMigrationTest(TestCase):
             action=ActionEvents.ADDON_CHANGE,
             target=FedoraMessagingAddon.name,
             details={
-                "amqp_url": "amqps://user:password@example.com/%2F",
+                "amqp_url": "amqps://user:password@example.com/%2F",  # kingfisher:ignore
                 "ca_cert": "private-ca",
                 "client_cert": "private-certificate",
                 "client_key": "private-key",
@@ -8138,7 +8139,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
         addon = FedoraMessagingAddon(
             Addon(
                 configuration={
-                    "amqp_url": "amqps://user:password@example.com/%2F",
+                    "amqp_url": "amqps://user:password@example.com/%2F",  # kingfisher:ignore
                     "ca_cert": "private-ca",
                     "client_cert": "private-certificate",
                     "client_key": "private-key",
@@ -10068,6 +10069,43 @@ class FedoraMessagingPEMBlockTest(SimpleTestCase):
             )
 
 
+class FedoraMessagingRuntimeValidationTest(SimpleTestCase):
+    def test_cached_configuration_still_validates_amqp_url(self) -> None:
+        class FakeMessagingConfig(UserDict[str, object]):
+            loaded = True
+
+            def _validate(self) -> None:
+                msg = "configuration fast path should return"
+                raise AssertionError(msg)
+
+        config = FakeMessagingConfig(
+            {
+                "amqp_url": "amqp://broker.example?connection_attempts=1&retry_delay=2",
+                "consumer_config": {"weblate_cert_hash": "cert-hash"},
+            }
+        )
+
+        with (
+            patch("weblate.addons.fedora_messaging.siphash", return_value="cert-hash"),
+            patch("fedora_messaging.config.conf", config),
+            patch(
+                "weblate.addons.fedora_messaging.validate_fedora_messaging_url"
+            ) as validate_fedora_messaging_url,
+            patch.object(
+                FedoraMessagingAddon, "validate_tls_credentials"
+            ) as validate_tls_credentials,
+        ):
+            FedoraMessagingAddon.configure_fedora_messaging(
+                amqp_url="amqp://broker.example",
+                ca_cert=None,
+                client_key=None,
+                client_cert=None,
+            )
+
+        validate_fedora_messaging_url.assert_called_once_with("amqp://broker.example")
+        validate_tls_credentials.assert_not_called()
+
+
 class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     WEBHOOK_CLS = FedoraMessagingAddon
     # Not really used
@@ -10082,6 +10120,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.url_validation_patcher = patch(
+            "weblate.addons.fedora_messaging.validate_fedora_messaging_url"
+        )
+        self.validate_fedora_messaging_url = self.url_validation_patcher.start()
         self.patcher = patch("fedora_messaging.api._twisted_publish_wrapper")
         self.mock_class = self.patcher.start()
         self.prepare_service_patcher = patch.object(
@@ -10096,6 +10138,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         del self.mock_class
         self.patcher.stop()
         del self.patcher
+        del self.validate_fedora_messaging_url
+        self.url_validation_patcher.stop()
+        del self.url_validation_patcher
         super().tearDown()
 
     def count_requests(self) -> int:
