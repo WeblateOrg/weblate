@@ -312,6 +312,32 @@ class BackupService(models.Model):
         return self.backuplog_set.order_by("-timestamp", "-pk")[:10]
 
     @cached_property
+    def latest_status_logs(self) -> dict[str, BackupLog]:
+        events = ("backup", "error", "database", "database-error")
+        return {
+            log.event: log
+            for log in self.backuplog_set.filter(event__in=events)
+            .order_by("event", "-timestamp", "-pk")
+            .distinct("event")
+        }
+
+    @cached_property
+    def display_logs(self) -> list[BackupLog]:
+        logs = list(self.last_logs)
+        for current_log in (self.current_error, self.current_warning):
+            if current_log is not None and all(
+                log.pk != current_log.pk for log in logs
+            ):
+                logs.append(current_log)
+        return logs
+
+    @cached_property
+    def has_repository_logs(self) -> bool:
+        return self.backuplog_set.exclude(
+            event__in=("database", "database-error")
+        ).exists()
+
+    @cached_property
     def has_errors(self) -> bool:
         return self.current_error is not None
 
@@ -321,25 +347,43 @@ class BackupService(models.Model):
 
     @cached_property
     def current_error(self) -> BackupLog | None:
-        # Any unresolved error keeps backup status failed; a newer backup
-        # completion clears it for the management UI even if borg emitted
-        # warnings and the operator should inspect the log.
-        for log in self.last_logs:
-            if log.event == "error":
-                return log
-            if log.event == "backup":
-                return None
-        return None
+        logs = self.latest_status_logs
+        unresolved = []
+        for error_event, success_event in (
+            ("error", "backup"),
+            ("database-error", "database"),
+        ):
+            if error_event == "database-error" and settings.DATABASE_BACKUP == "none":
+                continue
+            error = logs.get(error_event)
+            success = logs.get(success_event)
+            if error is not None and (
+                success is None
+                or (error.timestamp, error.pk or 0)
+                > (success.timestamp, success.pk or 0)
+            ):
+                unresolved.append(error)
+        if not unresolved:
+            return None
+        return max(unresolved, key=lambda log: (log.timestamp, log.pk or 0))
 
     @cached_property
     def current_warning(self) -> BackupLog | None:
-        for log in self.last_logs:
-            if log.event == "error":
-                return None
-            if log.warning:
-                return log
-            if log.event == "backup":
-                return None
+        if self.current_error is not None:
+            return None
+        warning_log = (
+            self.backuplog_set.filter(warning=True)
+            .order_by("-timestamp", "-pk")
+            .first()
+        )
+        if warning_log is None:
+            return None
+        backup_log = self.latest_status_logs.get("backup")
+        if backup_log is None or (warning_log.timestamp, warning_log.pk or 0) >= (
+            backup_log.timestamp,
+            backup_log.pk or 0,
+        ):
+            return warning_log
         return None
 
     def create_backup_log(self, event: str, result: BorgResult) -> None:
@@ -400,6 +444,10 @@ class BackupLog(models.Model):
             ("backup", gettext_lazy("Backup performed")),
             # Translators: Backup repository operation
             ("error", gettext_lazy("Backup failed")),
+            # Translators: Backup repository operation
+            ("database", gettext_lazy("Database backup performed")),
+            # Translators: Backup repository operation
+            ("database-error", gettext_lazy("Database backup failed")),
             # Translators: Backup repository operation
             ("prune", gettext_lazy("Deleted the oldest backups")),
             # Translators: Backup repository operation
