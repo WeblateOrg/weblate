@@ -16,6 +16,7 @@ Weblate 2026.9
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
 * Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
 * Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
+* The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
 
 .. rubric:: Bug fixes
 
