@@ -3914,7 +3914,6 @@ class ReplaceForm(forms.Form):
             Field("path"),
             Field("search"),
             Field("replacement"),
-            Div(template="snippets/replace-help.html"),
         )
 
 
