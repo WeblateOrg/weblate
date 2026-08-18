@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-17 16:41+0000\n"
+"PO-Revision-Date: 2026-08-18 07:45+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -2899,7 +2899,7 @@ msgstr "Massredigera strängar"
 
 #. Translators: Permission name
 msgid "Edit string when suggestions are enforced"
-msgstr "Ändra strängar när förslag krävs"
+msgstr "Redigera sträng när förslag är tvingande"
 
 #. Translators: Permission name
 msgid "Edit source strings"
@@ -16749,10 +16749,9 @@ msgstr "Kunde inte tolka den uppladdade filen som {file_format}: {error}"
 msgid "Could not parse uploaded file: %s"
 msgstr "Kunde inte tolka uppladdade filen: %s"
 
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "Kunde inte tolka översättningsfilerna."
+msgstr "Kunde inte tolka översättningsfilen: %s"
 
 msgid "Plurals are not supported by the file format."
 msgstr "Pluralformer stöds inte av filformatet."
@@ -16813,12 +16812,14 @@ msgid "Mark as terminology"
 msgstr "Markera som terminologi"
 
 msgid "Restrict direct editing"
-msgstr ""
+msgstr "Begränsa direktredigering"
 
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+"Endast användare med behörigheten “Redigera sträng när förslag är tvingande” "
+"kan göra direkta ändringar."
 
 msgid "Insert tab character"
 msgstr "Infoga tabulatortecken"
@@ -16863,17 +16864,14 @@ msgstr "Långt tankestreck"
 msgid "User configured character: {}"
 msgstr "Användarkonfigurerat tecken: {}"
 
-#, fuzzy
-#| msgid "No string found."
 msgid "No suggestions found."
-msgstr "Ingen sträng hittades."
+msgstr "Inga förslag hittades."
 
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepted %(count)d suggestion from %(user)s."
 msgid_plural "Accepted %(count)d suggestions from %(user)s."
-msgstr[0] "Accepterad inbjudan från {username}."
-msgstr[1] "Accepterad inbjudan från {username}."
+msgstr[0] "Accepterade %(count)d förslag från %(user)s."
+msgstr[1] "Accepterade %(count)d förslag från %(user)s."
 
 #, python-format
 msgid ""
@@ -16883,27 +16881,25 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
+"Accepterade %(accepted)d av %(total)d förslag från %(user)s. %(failed)d "
+"misslyckades på grund av behörigheter eller kontroller."
 msgstr[1] ""
+"Accepterade %(accepted)d av %(total)d förslag från %(user)s. %(failed)d "
+"misslyckades på grund av behörigheter eller kontroller."
 
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
-msgstr "Automatisk översättning pågår"
+msgstr ""
+"Den automatiska översättningen har hoppats över eftersom måltexten inte "
+"längre finns."
 
-#, fuzzy
-#| msgid "Report format"
 msgid "Report generated."
-msgstr "Rapportformat"
+msgstr "Rapporten har skapats."
 
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed with skipped components."
-msgstr "Projekt utan komponenter"
+msgstr "Import av projektets säkerhetskopia avslutad med bortvalda komponenter."
 
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Projekt utan komponenter"
+msgstr "Import av projektets säkerhetskopia slutförd."
 
 msgid "Good configuration"
 msgstr "Bra inställning"
@@ -16914,25 +16910,17 @@ msgstr "Dålig inställning"
 msgid "Possible configuration"
 msgstr "Möjlig inställning"
 
-#, fuzzy
-#| msgid "Very high"
 msgid "Priority: Very high"
-msgstr "Mycket hög"
+msgstr "Prioritet: mycket hög"
 
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: High"
-msgstr "Prioritet"
+msgstr "Prioritet: hög"
 
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Low"
-msgstr "Prioritet"
+msgstr "Prioritet: låg"
 
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Very low"
-msgstr "Prioritet"
+msgstr "Prioritet: mycket låg"
 
 #. Translators: Glossary term formatting used in a tooltip
 #, python-brace-format
@@ -16984,10 +16972,8 @@ msgstr "sträng-ID %s"
 msgid "This language is used for source strings."
 msgstr "Det här språket används för källsträngar."
 
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Fix this component to clear its diagnostics."
-msgstr "Åtgärda den här komponenten för att rensa dess varningar."
+msgstr "Åtgärda den här komponenten för att rensa dess felmeddelanden."
 
 msgid "This translation is locked."
 msgstr "Översättningen är låst."
@@ -16995,10 +16981,8 @@ msgstr "Översättningen är låst."
 msgid "Updating translation component…"
 msgstr "Uppdaterar översättningskomponent …"
 
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some of the components within this project have diagnostics."
-msgstr "Vissa av komponenterna i detta projekt har varningar."
+msgstr "Vissa av komponenterna i detta projekt har felmeddelanden."
 
 msgid "You administrate this project."
 msgstr "Du administrerar projektet."
@@ -17099,38 +17083,25 @@ msgstr "Låg"
 msgid "Very low"
 msgstr "Mycket låg"
 
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "URL för säkerhetskopieringsarkiv"
+msgstr "URL till förrådet"
 
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Sändning av fil misslyckades: %s"
 
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Det översätts till <strong>%(count)s språk</strong>."
-msgstr[1] "Det översätts till <strong>%(count)s språk</strong>."
+msgstr[0] "{project} översätts till {count} språk med hjälp av Weblate."
+msgstr[1] "{project} översätts till {count} språk med hjälp av Weblate."
 
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
-msgstr ""
-"{0} översätts till {1} språk med hjälp av Weblate. Bidra till översättningen "
-"eller börja översätta ditt eget projekt."
+msgstr "Delta i översättningen eller börja översätta ditt eget projekt."
 
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "Klona till översättning"
+msgstr "Delta i översättningen."
 
 msgid "Source upload is only supported on the source language."
 msgstr "Källuppladdning stöds endast på källspråket."
@@ -17207,10 +17178,8 @@ msgstr ""
 "Återställning av redigeringar av %(user)s i det här projektet har "
 "schemalagts."
 
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "User is not blocked on this project."
-msgstr "Användaren har blockerats i det här projektet."
+msgstr "Användaren är inte blockerad i det här projektet."
 
 msgid "Token has been removed from this project."
 msgstr "Token har tagits bort från detta projekt."
@@ -17259,40 +17228,32 @@ msgstr ""
 msgid "All languages have been added, updates of translations are in progress."
 msgstr "Alla språk har lagts till, uppdateringar av översättningar pågår."
 
-#, fuzzy
-#| msgid "Glossary was not found."
 msgid "User not found."
-msgstr "Ordlistan kunde inte hittas."
+msgstr "Användaren finns inte."
 
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to accept suggestions."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att acceptera förslag."
 
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid request."
-msgstr "Ogiltig sammanslagningsförfrågan!"
+msgstr "Ogiltig begäran."
 
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "Confirmation is required."
-msgstr "Detta namn är inte tillåtet"
+msgstr "Bekräftelse krävs."
 
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepting and approving %(count)d suggestion from %(user)s in progress."
 msgid_plural ""
 "Accepting and approving %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Accepterad inbjudan från {username}."
-msgstr[1] "Accepterad inbjudan från {username}."
+msgstr[0] ""
+"Accepterandet och godkännandet av %(count)d förslag från %(user)s pågår."
+msgstr[1] ""
+"Accepterandet och godkännandet av %(count)d förslag från %(user)s pågår."
 
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepting %(count)d suggestion from %(user)s in progress."
 msgid_plural "Accepting %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Accepterad inbjudan från {username}."
-msgstr[1] "Accepterad inbjudan från {username}."
+msgstr[0] "Accepterandet av %(count)d förslag från %(user)s pågår."
+msgstr[1] "Accepterandet av %(count)d förslag från %(user)s pågår."
 
 #, python-format
 msgctxt "Changes of string in a translation"
@@ -17319,9 +17280,7 @@ msgctxt "Changes in language"
 msgid "Changes in %s"
 msgstr "Ändringar i %s"
 
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Ändringar i %s"
@@ -17330,10 +17289,8 @@ msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 "Den angivna konfigurationen är felaktig. Kontrollera felmeddelandena nedan."
 
-#, fuzzy
-#| msgid "Fetching VCS repository from %s is not allowed."
 msgid "Creating a project without a workspace is not allowed."
-msgstr "Det är inte tillåtet att hämta VCS-arkivet från %s."
+msgstr "Att skapa ett projekt utan arbetsområde är inte tillåtet."
 
 msgid "Project backup import in progress"
 msgstr "Import av säkerhetskopia av projekt pågår"
@@ -17361,12 +17318,10 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Ange ditt fullständiga namn och e-postadress i din profil."
 
-#, fuzzy
-#| msgid "Following fixups were applied to translation: %s"
 msgid "The following fix-up was applied to the translation:"
 msgid_plural "The following fix-ups were applied to the translation:"
-msgstr[0] "Följande rättningar utfördes på översättningen: %s"
-msgstr[1] "Följande rättningar utfördes på översättningen: %s"
+msgstr[0] "Följande rättning utfördes på översättningen:"
+msgstr[1] "Följande rättningar utfördes på översättningen:"
 
 #, fuzzy
 #| msgid "You do not have permissions to add new translation file."
