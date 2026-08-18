@@ -15,6 +15,7 @@ Weblate 2026.9
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
 * Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
+* Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
 
 .. rubric:: Bug fixes
 
