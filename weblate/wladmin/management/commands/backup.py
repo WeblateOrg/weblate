@@ -87,7 +87,7 @@ class Command(BaseCommand):
             services = list(BackupService.objects.filter(enabled=True).order_by("pk"))
 
         run_settings_backup()
-        run_database_backup()
+        run_database_backup([service.pk for service in services])
         verbose = int(options["verbosity"]) > 1
         failed_services = [
             service.pk

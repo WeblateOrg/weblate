@@ -194,24 +194,23 @@ class VcsClassLoader(ClassLoader):
         super().__init__("VCS_BACKENDS", construct=False, base_class=Repository)
 
     def get_unfiltered_choices(self):
-        result = super().load_data()
+        result = self.get_unfiltered_data()
         return [(x, result[x].name) for x in sorted(result)]
 
-    def load_data(self):
-        result = super().load_data()
+    def get_unfiltered_data(self) -> dict[str, type[Repository]]:
+        return super().load_data()
+
+    def load_data(self) -> dict[str, type[Repository]]:
+        result = self.get_unfiltered_data()
 
         for key, vcs in list(result.items()):
-            try:
-                version = vcs.get_version()
-            except Exception as error:
-                supported = False
-                self.errors[vcs.name] = str(error)
-            else:
-                supported = vcs.is_supported()
-                if not supported:
-                    self.errors[vcs.name] = f"Outdated version: {version}"
-
-            if not supported or not vcs.is_configured():
+            missing_commands = vcs.get_missing_commands()
+            if missing_commands:
+                self.errors[str(vcs.name)] = (
+                    f"Command not found: {', '.join(missing_commands)}"
+                )
+                result.pop(key)
+            elif not vcs.is_configured():
                 result.pop(key)
 
         return result

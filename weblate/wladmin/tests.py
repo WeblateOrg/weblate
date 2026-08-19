@@ -14,6 +14,7 @@ from unittest import TestCase
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlparse
 
+import httpx2
 from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
@@ -39,6 +40,7 @@ from weblate.utils.data import data_path
 from weblate.utils.tests import http_mock
 from weblate.utils.unittest import tempdir_setting
 from weblate.utils.zammad import ZammadError
+from weblate.wladmin.apps import check_backups
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.middleware import (
     CHECK_ATTEMPT_CACHE_KEY,
@@ -52,6 +54,7 @@ from weblate.wladmin.middleware import (
     run_background_configuration_health_check,
 )
 from weblate.wladmin.models import (
+    BackupLog,
     BackupService,
     ConfigurationError,
     SupportStatus,
@@ -180,7 +183,9 @@ class BackupCommandTest(DjangoTestCase):
         )
 
     def test_service_runs_synchronously(self) -> None:
-        service = BackupService.objects.create(repository="/backup", paperkey="paper")
+        service = BackupService.objects.create(
+            repository="/backup", paperkey="paper", enabled=False
+        )
 
         with (
             patch(
@@ -196,7 +201,7 @@ class BackupCommandTest(DjangoTestCase):
             call_command("backup", "--service", str(service.pk))
 
         settings_backup.assert_called_once_with()
-        database_backup.assert_called_once_with()
+        database_backup.assert_called_once_with([service.pk])
         backup_service_runner.assert_called_once_with(service)
 
     def test_all_runs_enabled_services_synchronously(self) -> None:
@@ -221,7 +226,7 @@ class BackupCommandTest(DjangoTestCase):
             call_command("backup", "--all")
 
         settings_backup.assert_called_once_with()
-        database_backup.assert_called_once_with()
+        database_backup.assert_called_once_with([enabled.pk])
         self.assertEqual(
             [call.args[0].pk for call in backup_service_runner.call_args_list],
             [enabled.pk],
@@ -305,56 +310,139 @@ class BackupCommandTest(DjangoTestCase):
             call_command("backup", "--service", "1")
 
 
-class BackupServiceStatusTest(TestCase):
+class BackupServiceStatusTest(DjangoTestCase):
+    def create_service(self) -> BackupService:
+        return BackupService.objects.create(repository="/backup", paperkey="paper")
+
     def test_current_error_points_to_latest_unresolved_failure(self) -> None:
-        error = SimpleNamespace(event="error", log="borg create failed")
-        service = BackupService(repository="/backup")
-        service.__dict__["last_logs"] = [
-            SimpleNamespace(event="cleanup", log="cleanup complete"),
-            SimpleNamespace(event="prune", log="prune complete"),
-            error,
-        ]
+        service = self.create_service()
+        error = service.backuplog_set.create(event="error", log="borg create failed")
+        service.backuplog_set.create(event="prune", log="prune complete")
+        service.backuplog_set.create(event="cleanup", log="cleanup complete")
 
         self.assertTrue(service.has_errors)
-        self.assertIs(service.current_error, error)
+        self.assertEqual(service.current_error, error)
 
     def test_current_error_clears_after_successful_backup(self) -> None:
-        old_error = SimpleNamespace(event="error", log="old failure")
-        service = BackupService(repository="/backup")
-        service.__dict__["last_logs"] = [
-            SimpleNamespace(event="prune", log="prune complete", warning=False),
-            SimpleNamespace(event="backup", log="backup complete", warning=False),
-            old_error,
-        ]
+        service = self.create_service()
+        service.backuplog_set.create(event="error", log="old failure")
+        service.backuplog_set.create(event="backup", log="backup complete")
+        service.backuplog_set.create(event="prune", log="prune complete")
 
         self.assertFalse(service.has_errors)
         self.assertIsNone(service.current_error)
 
     def test_current_error_clears_after_backup_warning(self) -> None:
-        old_error = SimpleNamespace(event="error", log="old failure", warning=False)
-        warning = SimpleNamespace(
+        service = self.create_service()
+        service.backuplog_set.create(event="error", log="old failure")
+        warning = service.backuplog_set.create(
             event="backup", log="backup complete with warnings", warning=True
         )
-        service = BackupService(repository="/backup")
-        service.__dict__["last_logs"] = [warning, old_error]
 
         self.assertFalse(service.has_errors)
         self.assertIsNone(service.current_error)
         self.assertTrue(service.has_warnings)
-        self.assertIs(service.current_warning, warning)
+        self.assertEqual(service.current_warning, warning)
 
     def test_current_warning_clears_after_clean_backup(self) -> None:
-        old_warning = SimpleNamespace(
+        service = self.create_service()
+        service.backuplog_set.create(
             event="backup", log="backup complete with warnings", warning=True
         )
-        service = BackupService(repository="/backup")
-        service.__dict__["last_logs"] = [
-            SimpleNamespace(event="backup", log="backup complete", warning=False),
-            old_warning,
-        ]
+        service.backuplog_set.create(event="backup", log="backup complete")
 
         self.assertFalse(service.has_warnings)
         self.assertIsNone(service.current_warning)
+
+    def test_current_warning_includes_maintenance_warning(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(event="backup", log="backup complete")
+        warning = service.backuplog_set.create(
+            event="prune", log="prune completed with warnings", warning=True
+        )
+
+        self.assertTrue(service.has_warnings)
+        self.assertEqual(service.current_warning, warning)
+
+    def test_database_error_is_not_cleared_by_backup(self) -> None:
+        service = self.create_service()
+        error = service.backuplog_set.create(
+            event="database-error", log="pg_dump failed"
+        )
+        service.backuplog_set.create(event="backup", log="backup complete")
+
+        self.assertEqual(service.current_error, error)
+
+    def test_database_error_is_cleared_by_database_backup(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(event="database-error", log="pg_dump failed")
+        service.backuplog_set.create(event="database", log="database dump complete")
+
+        self.assertIsNone(service.current_error)
+
+    @override_settings(DATABASE_BACKUP="none")
+    def test_database_error_is_ignored_when_database_backup_is_disabled(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(event="database-error", log="pg_dump failed")
+
+        self.assertFalse(service.has_errors)
+        self.assertIsNone(service.current_error)
+
+    def test_database_backup_does_not_clear_backup_error(self) -> None:
+        service = self.create_service()
+        error = service.backuplog_set.create(event="error", log="borg failed")
+        service.backuplog_set.create(event="database", log="database dump complete")
+
+        self.assertEqual(service.current_error, error)
+
+    def test_display_logs_includes_old_unresolved_error(self) -> None:
+        service = self.create_service()
+        error = service.backuplog_set.create(
+            event="database-error", log="pg_dump failed"
+        )
+        BackupLog.objects.bulk_create(
+            BackupLog(service=service, event="prune", log=f"prune {index}")
+            for index in range(11)
+        )
+
+        self.assertEqual(len(service.display_logs), 11)
+        self.assertEqual(service.display_logs[-1], error)
+
+    def test_display_logs_includes_old_current_warning(self) -> None:
+        service = self.create_service()
+        warning = service.backuplog_set.create(
+            event="backup", log="backup completed with warnings", warning=True
+        )
+        BackupLog.objects.bulk_create(
+            BackupLog(service=service, event="database", log=f"dump {index}")
+            for index in range(11)
+        )
+
+        self.assertEqual(len(service.display_logs), 11)
+        self.assertEqual(service.display_logs[-1], warning)
+
+    def test_database_error_is_reported_by_deployment_check(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(
+            event="database-error", log="pg_dump version mismatch"
+        )
+        service.backuplog_set.create(event="backup", log="backup complete")
+
+        checks = list(check_backups(app_configs=None, databases=None))
+
+        self.assertEqual(len(checks), 1)
+        self.assertEqual(checks[0].id, "weblate.C029")
+        self.assertIn("pg_dump version mismatch", checks[0].msg)
+
+    def test_database_log_does_not_count_as_repository_activity(self) -> None:
+        service = self.create_service()
+        service.backuplog_set.create(event="database", log="database dump complete")
+
+        checks = list(check_backups(app_configs=None, databases=None))
+
+        self.assertEqual(len(checks), 1)
+        self.assertEqual(checks[0].id, "weblate.C029")
+        self.assertIn("backup was never triggered", checks[0].msg)
 
     def test_backup_logs_warning_without_error(self) -> None:
         service = BackupFailureService()
@@ -670,6 +758,48 @@ class ManagementAccessControlTest(ViewTestCase):
         self.assertEqual(response.status_code, 302)
         error.refresh_from_db()
         self.assertTrue(error.ignored)
+
+    def test_appearance_color_customization(self) -> None:
+        self.grant_global_permissions("management.use", "management.configure")
+
+        payload = {
+            "header_color_0": "#2a3744",
+            "header_color_1": "#1a2634",
+            "header_text_color_0": "#bfc3c7",
+            "header_text_color_1": "#e0e3e7",
+            "navi_color_0": "#107a62",
+            "navi_color_1": "#0f9375",
+            "focus_color_0": "#158068",
+            "focus_color_1": "#25303b",
+            "hover_color_0": "#144d3f",
+            "hover_color_1": "#0a3d2f",
+            "link_color_0": "#123456",
+            "link_color_1": "#654321",
+            "progress_color_0": "#abcdef",
+            "progress_color_1": "#fedcba",
+            "progress_background_color_0": "#010203",
+            "progress_background_color_1": "#040506",
+        }
+        response = self.client.post(reverse("manage-appearance"), payload)
+        self.assertEqual(response.status_code, 302)
+
+        css = self.client.get(reverse("css-custom")).content.decode()
+        for value in (
+            "--bs-link-color: #123456",
+            "--bs-link-color: #654321",
+            "--bs-link-color-rgb: 18, 52, 86",
+            "--wl-primary-button-color: #123456",
+            "--wl-primary-button-color: #654321",
+            "--bs-link-hover-color: #0b1f34",
+            "--bs-link-hover-color: #a38e7a",
+            "--wl-progress-color: #abcdef",
+            "--wl-progress-color: #fedcba",
+            "--wl-progress-approved-color: #677b8f",
+            "--wl-progress-approved-color: #988470",
+            "--wl-progress-bg: #010203",
+            "--wl-progress-bg: #040506",
+        ):
+            self.assertIn(value, css)
 
     def test_tools_without_announcement_permission(self) -> None:
         self.grant_global_permissions("management.use")
@@ -1240,10 +1370,19 @@ class AdminTest(ViewTestCase):
         service.backuplog_set.create(event="backup", log="borg backup output")
         response = self.client.get(reverse("manage-backups"))
         self.assertContains(response, 'class="naturaltime"', count=2)
-        response = do_post(service=service.pk, trigger="1")
-        self.assertContains(response, "triggered")
+        service.backuplog_set.create(
+            event="database-error", log="pg_dump version mismatch"
+        )
+        response = self.client.get(reverse("manage-backups"))
+        self.assertContains(response, "Failed with an error")
+        self.assertContains(response, "Database backup failed")
+        self.assertContains(response, "pg_dump version mismatch")
         response = do_post(service=service.pk, toggle="1")
         self.assertContains(response, "Turned off")
+        with patch("weblate.wladmin.views.database_backup.delay") as database_delay:
+            response = do_post(service=service.pk, trigger="1")
+        self.assertContains(response, "triggered")
+        database_delay.assert_called_once_with([service.pk])
         response = do_post(service=service.pk, remove="1")
         self.assertNotContains(response, settings.BACKUP_DIR)
 
@@ -1262,6 +1401,31 @@ class AdminTest(ViewTestCase):
         self.assertEqual(response.context["database_size"], 123456789)
         self.assertEqual(response.context["database_disk_usage"].free, 876543210)
         self.assertIn("total", response.context["memory_migration_status"])
+
+    @patch(
+        "weblate.utils.filesystem.measure_filesystem_latencies",
+        return_value={"DATA_DIR": 1.5, "CACHE_DIR": 0.0},
+    )
+    def test_performance_filesystem_latency(self, measure_mock) -> None:
+        response = self.client.get(reverse("manage-performance"))
+
+        self.assertContains(response, "Data directory latency")
+        self.assertContains(response, "Cache directory latency")
+        self.assertContains(response, "1.5 ms")
+        self.assertContains(response, "0.0 ms")
+        self.assertEqual(response.context["data_dir_latency"], 1.5)
+        self.assertEqual(response.context["cache_dir_latency"], 0.0)
+        measure_mock.assert_called_once_with()
+
+    @patch(
+        "weblate.utils.filesystem.measure_filesystem_latencies",
+        return_value={"DATA_DIR": None, "CACHE_DIR": None},
+    )
+    def test_performance_filesystem_latency_unavailable(self, measure_mock) -> None:
+        response = self.client.get(reverse("manage-performance"))
+
+        self.assertContains(response, "Not measured", count=2)
+        measure_mock.assert_called_once_with()
 
     def test_performance_memory_migration_status(self) -> None:
         Memory.objects.all().delete()
@@ -1697,7 +1861,11 @@ class AdminTest(ViewTestCase):
         response = self.client.post(
             reverse("manage-activate"), {"secret": "123456"}, follow=True
         )
-        self.assertContains(response, "Please ensure your activation token is correct.")
+        self.assertContains(
+            response,
+            "Could not activate the support package. Please ensure the activation "
+            "token is correct.",
+        )
         self.assertFalse(SupportStatus.objects.exists())
         self.assertFalse(BackupService.objects.exists())
 
@@ -1712,9 +1880,42 @@ class AdminTest(ViewTestCase):
         response = self.client.post(
             reverse("manage-activate"), {"secret": "123456"}, follow=True
         )
-        self.assertContains(response, "Please try again later.")
+        self.assertContains(
+            response,
+            "Could not activate the support package. Please try again later.",
+        )
         self.assertFalse(SupportStatus.objects.exists())
         self.assertFalse(BackupService.objects.exists())
+
+    @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_timeout(self) -> None:
+        with patch(
+            "weblate.wladmin.views.SupportStatus.refresh",
+            side_effect=httpx2.TimeoutException("timeout"),
+        ):
+            response = self.client.post(
+                reverse("manage-activate"), {"secret": "123456"}, follow=True
+            )
+
+        self.assertContains(
+            response,
+            "Could not activate the support package. Please try again later.",
+        )
+
+    @override_settings(SITE_TITLE="Test Weblate")
+    def test_activation_unexpected_error(self) -> None:
+        with patch(
+            "weblate.wladmin.views.SupportStatus.refresh",
+            side_effect=RuntimeError("internal detail"),
+        ):
+            response = self.client.post(
+                reverse("manage-activate"), {"secret": "123456"}, follow=True
+            )
+
+        self.assertContains(
+            response,
+            "Could not activate the support package: internal detail",
+        )
 
     @http_mock.activate
     @override_settings(SITE_TITLE="Test Weblate")
@@ -1734,7 +1935,10 @@ class AdminTest(ViewTestCase):
                 cls=DjangoJSONEncoder,
             ),
         )
-        self.client.post(reverse("manage-activate"), {"secret": "123456"})
+        response = self.client.post(
+            reverse("manage-activate"), {"secret": "123456"}, follow=True
+        )
+        self.assertContains(response, "Support package activated.")
         status = SupportStatus.objects.get()
         self.assertEqual(status.name, "community")
         self.assertFalse(BackupService.objects.exists())
@@ -1744,6 +1948,111 @@ class AdminTest(ViewTestCase):
         self.client.post(reverse("manage-discovery"))
         status = SupportStatus.objects.get()
         self.assertTrue(status.discoverable)
+
+    @http_mock.activate
+    def test_support_status_refresh(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        http_mock.register(
+            "POST",
+            get_support_url(),
+            text=json.dumps(
+                {
+                    "name": "hosted",
+                    "backup_repository": "",
+                    "expiry": timezone.now(),
+                    "in_limits": True,
+                    "has_subscription": True,
+                    "limits": {},
+                },
+                cls=DjangoJSONEncoder,
+            ),
+        )
+
+        response = self.client.post(
+            reverse("manage-activate"), {"refresh": "1"}, follow=True
+        )
+
+        self.assertContains(response, "Support status refreshed.")
+
+    @http_mock.activate
+    def test_support_status_refresh_invalid_token(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        http_mock.register("POST", get_support_url(), status_code=404)
+
+        response = self.client.post(
+            reverse("manage-activate"), {"refresh": "1"}, follow=True
+        )
+
+        self.assertContains(
+            response,
+            "Could not refresh support status. The activation token is invalid.",
+        )
+
+    @http_mock.activate
+    def test_support_status_refresh_error(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        http_mock.register("POST", get_support_url(), status_code=500)
+
+        response = self.client.post(
+            reverse("manage-activate"), {"refresh": "1"}, follow=True
+        )
+
+        self.assertContains(
+            response, "Could not refresh support status. Please try again later."
+        )
+
+    def test_support_status_refresh_timeout(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        with patch(
+            "weblate.wladmin.views.SupportStatus.refresh",
+            side_effect=httpx2.TimeoutException("timeout"),
+        ):
+            response = self.client.post(
+                reverse("manage-activate"), {"refresh": "1"}, follow=True
+            )
+
+        self.assertContains(
+            response, "Could not refresh support status. Please try again later."
+        )
+
+    def test_support_status_refresh_unexpected_error(self) -> None:
+        SupportStatus.objects.create(
+            name="hosted",
+            secret="123456",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+        with patch(
+            "weblate.wladmin.views.SupportStatus.refresh",
+            side_effect=RuntimeError("internal detail"),
+        ):
+            response = self.client.post(
+                reverse("manage-activate"), {"refresh": "1"}, follow=True
+            )
+
+        self.assertContains(
+            response, "Could not refresh support status: internal detail"
+        )
 
     def test_discovery_toggle_requires_site_title(self) -> None:
         status = SupportStatus.objects.create(
@@ -1839,7 +2148,9 @@ class AdminTest(ViewTestCase):
             {"code": "code-123", "state": "wrong"},
             follow=True,
         )
-        self.assertContains(response, "Invalid activation state.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Invalid activation state."
+        )
         self.assertFalse(SupportStatus.objects.exists())
 
     @http_mock.activate
@@ -1858,7 +2169,9 @@ class AdminTest(ViewTestCase):
             {"code": "old-code", "state": "stale"},
             follow=True,
         )
-        self.assertContains(response, "Invalid activation state.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Invalid activation state."
+        )
         self.assertEqual(
             self.client.session[DISCOVERY_REGISTRATION_SESSION]["state"], state
         )
@@ -1890,7 +2203,7 @@ class AdminTest(ViewTestCase):
             {"code": "code-123", "state": state},
             follow=True,
         )
-        self.assertContains(response, "Activation completed.")
+        self.assertContains(response, "Discover Weblate enabled.")
         self.assertEqual(SupportStatus.objects.get().secret, "secret-123")
 
     @override_settings(
@@ -1906,7 +2219,9 @@ class AdminTest(ViewTestCase):
         response = self.client.get(
             reverse("manage-discovery-callback"), {"state": state}, follow=True
         )
-        self.assertContains(response, "Missing activation code.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Missing activation code."
+        )
         self.assertFalse(SupportStatus.objects.exists())
 
     @http_mock.activate
@@ -1958,7 +2273,7 @@ class AdminTest(ViewTestCase):
         for callback in callbacks:
             callback()
         update_task.assert_called_once_with()
-        self.assertContains(response, "Activation completed.")
+        self.assertContains(response, "Discover Weblate enabled.")
         status = SupportStatus.objects.get()
         self.assertEqual(status.secret, "secret-123")
         self.assertEqual(status.name, "community")
@@ -2033,7 +2348,9 @@ class AdminTest(ViewTestCase):
             {"code": "x" * 101, "state": state},
             follow=True,
         )
-        self.assertContains(response, "Invalid activation code.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Invalid activation code."
+        )
         self.assertFalse(SupportStatus.objects.exists())
 
     @override_settings(
@@ -2055,7 +2372,9 @@ class AdminTest(ViewTestCase):
                 {"code": "code-123", "state": state},
                 follow=True,
             )
-        self.assertContains(response, "Please try again later.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Please try again later."
+        )
         self.assertNotContains(response, "internal detail")
         self.assertFalse(SupportStatus.objects.exists())
 
@@ -2089,7 +2408,9 @@ class AdminTest(ViewTestCase):
             {"code": "code-123", "state": "state-123"},
             follow=True,
         )
-        self.assertContains(response, "Please try again later.")
+        self.assertContains(
+            response, "Could not enable Discover Weblate. Please try again later."
+        )
         old_status.refresh_from_db()
         self.assertTrue(old_status.enabled)
         self.assertEqual(SupportStatus.objects.get_current(), old_status)
@@ -2142,7 +2463,11 @@ class AdminTest(ViewTestCase):
             follow=True,
         )
 
-        self.assertContains(response, "a support package is already linked")
+        self.assertContains(
+            response,
+            "Could not enable Discover Weblate because a support package is already "
+            "linked.",
+        )
         refresh_body = parse_qs(get_response_call_body(1))
         self.assertNotIn("discoverable", refresh_body)
         self.assertNotIn("public_projects", refresh_body)
@@ -2178,13 +2503,32 @@ class AdminTest(ViewTestCase):
             ),
         )
 
-        self.client.post(reverse("manage-activate"), {"unlink": "1"})
+        response = self.client.post(
+            reverse("manage-activate"), {"unlink": "1"}, follow=True
+        )
 
+        self.assertContains(response, "Support package unlinked.")
         unlink_body = parse_qs(get_response_call_body(0))
         self.assertEqual(unlink_body["secret"], ["discovery-secret"])
         self.assertNotIn("discoverable", unlink_body)
         self.assertNotIn("public_projects", unlink_body)
         self.assertFalse(SupportStatus.objects.filter(enabled=True).exists())
+
+    def test_activation_unlink_locally(self) -> None:
+        status = SupportStatus.objects.create(
+            name="hosted",
+            secret="support-secret",
+            expiry=timezone.now(),
+            enabled=True,
+        )
+
+        response = self.client.post(
+            reverse("manage-activate"), {"unlink": "1"}, follow=True
+        )
+
+        self.assertContains(response, "Support package unlinked.")
+        status.refresh_from_db()
+        self.assertFalse(status.enabled)
 
     @http_mock.activate
     def test_activation_unlink_disables_locally_on_discovery_error(self) -> None:

@@ -228,7 +228,7 @@
               {{ alert }}
               <span class="badge {{ alert.severity_class }}">{{ alert.get_severity_display }}</span>
               {% if alert.is_dismissed %}
-                <span class="badge  text-bg-secondary">{% translate "dismissed" %}</span>
+                <span class="badge text-bg-secondary">{% translate "dismissed" %}</span>
               {% endif %}
             </div>
             <div class="card-body">{% render_alert alert %}</div>

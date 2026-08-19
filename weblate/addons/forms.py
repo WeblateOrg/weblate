@@ -105,6 +105,8 @@ class BuiltinDiscoveryUIPreset(TypedDict):
 
 
 class BaseAddonForm[StoredConfigurationT, AddonT: BaseAddon](forms.Form):
+    public_configuration_fields: ClassVar[frozenset[str]] = frozenset()
+
     def __init__(
         self,
         user: User | None,
@@ -126,6 +128,8 @@ class BaseAddonForm[StoredConfigurationT, AddonT: BaseAddon](forms.Form):
 
 
 class GenerateMoForm(BaseAddonForm):
+    public_configuration_fields = frozenset({"fuzzy", "path"})
+
     path = forms.CharField(
         label=gettext_lazy("Path of generated MO file"),
         required=False,
@@ -163,6 +167,10 @@ class GenerateMoForm(BaseAddonForm):
 
 
 class BaseExtractPotForm(BaseAddonForm):
+    public_configuration_fields = frozenset(
+        {"interval", "location_mode", "normalize_header"}
+    )
+
     interval = forms.ChoiceField(
         label=gettext_lazy("Update frequency"),
         choices=(
@@ -247,6 +255,14 @@ class BaseExtractPotForm(BaseAddonForm):
 
 
 class BaseXgettextExtractPotForm(BaseExtractPotForm):
+    public_configuration_fields = BaseExtractPotForm.public_configuration_fields | {
+        "checks",
+        "comment_mode",
+        "comment_tag",
+        "keyword",
+        "keyword_exclusive",
+    }
+
     COMMENT_MODE_CHOICES = (
         ("off", gettext_lazy("Do not extract comments")),
         ("all", gettext_lazy("Extract all comments")),
@@ -334,6 +350,11 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
 
 
 class XgettextExtractPotForm(BaseXgettextExtractPotForm):
+    public_configuration_fields = (
+        BaseXgettextExtractPotForm.public_configuration_fields
+        | {"input_mode", "language", "potfiles_path", "source_patterns"}
+    )
+
     input_mode = forms.ChoiceField(
         label=gettext_lazy("Input source"),
         choices=(
@@ -455,6 +476,10 @@ class XgettextExtractPotForm(BaseXgettextExtractPotForm):
 
 
 class MesonExtractPotForm(BaseXgettextExtractPotForm):
+    public_configuration_fields = (
+        BaseXgettextExtractPotForm.public_configuration_fields | {"preset"}
+    )
+
     preset = forms.ChoiceField(
         label=gettext_lazy("Meson preset"),
         choices=(("glib", gettext_lazy("GLib")),),
@@ -528,6 +553,10 @@ class DjangoExtractPotForm(BaseExtractPotForm):
 
 
 class SphinxExtractPotForm(BaseExtractPotForm):
+    public_configuration_fields = BaseExtractPotForm.public_configuration_fields | {
+        "filter_mode"
+    }
+
     filter_mode = forms.ChoiceField(
         label=gettext_lazy("Filtering"),
         choices=(
@@ -601,6 +630,8 @@ class SphinxExtractPotForm(BaseExtractPotForm):
 class GenerateForm(
     BaseAddonForm["GenerateFileAddonConfiguration", "GenerateFileAddon"]
 ):
+    public_configuration_fields = frozenset({"filename"})
+
     filename = forms.CharField(
         label=gettext_lazy("Name of generated file"), required=True
     )
@@ -643,6 +674,8 @@ class GenerateForm(
 class GitSquashForm(
     BaseAddonForm["GitSquashAddonStoredConfiguration", "GitSquashAddon"]
 ):
+    public_configuration_fields = frozenset({"append_trailers", "squash"})
+
     squash = forms.ChoiceField(
         label=gettext_lazy("Commit squashing"),
         widget=forms.RadioSelect,
@@ -694,12 +727,16 @@ class GitSquashForm(
 
 
 class RemoveForm(BaseAddonForm):
+    public_configuration_fields = frozenset({"age"})
+
     age = forms.IntegerField(
         label=gettext_lazy("Days to keep"), min_value=0, initial=30, required=True
     )
 
 
 class RemoveSuggestionForm(RemoveForm):
+    public_configuration_fields = RemoveForm.public_configuration_fields | {"votes"}
+
     votes = forms.IntegerField(
         label=gettext_lazy("Voting threshold"),
         initial=0,
@@ -747,6 +784,20 @@ class LanguageConsistencyPreviewForm(
 
 
 class DiscoveryForm(BaseAddonForm):
+    public_configuration_fields = frozenset(
+        {
+            "base_file_template",
+            "copy_addons",
+            "file_format",
+            "intermediate_template",
+            "language_regex",
+            "match",
+            "name_template",
+            "new_base_template",
+            "remove",
+        }
+    )
+
     COMPONENT_TEMPLATE_SENTINELS: ClassVar[tuple[str, ...]] = (
         "alpha",
         "bravo12",
@@ -1372,6 +1423,10 @@ class AutoAddonForm(
     BaseAddonForm["AutoTranslateAddonStoredConfiguration", "AutoTranslateAddon"],
     AutoForm,
 ):
+    public_configuration_fields = frozenset(
+        {"auto_source", "component", "engines", "mode", "q", "threshold"}
+    )
+
     def __init__(
         self,
         user: User | None,
@@ -1396,6 +1451,18 @@ class AutoAddonForm(
 
 
 class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
+    public_configuration_fields = frozenset(
+        {
+            "add_flags",
+            "add_labels",
+            "path",
+            "q",
+            "remove_flags",
+            "remove_labels",
+            "state",
+        }
+    )
+
     def __init__(self, user: User | None, addon, instance=None, **kwargs) -> None:
         BaseAddonForm.__init__(self, user, addon)
         obj: Project | Component | None = None
@@ -1424,6 +1491,10 @@ class BulkEditAddonForm(BaseAddonForm, BulkEditForm):
 
 
 class CDNJSForm(BaseAddonForm[dict[str, object], "CDNJSAddon"]):
+    public_configuration_fields = frozenset(
+        {"cookie_name", "css_selector", "threshold"}
+    )
+
     threshold = forms.IntegerField(
         label=gettext_lazy("Translation threshold"),
         initial=0,
@@ -1527,6 +1598,19 @@ class TranslationLanguageChoiceField(CachedModelChoiceField):
 
 
 class PseudolocaleAddonForm(BaseAddonForm):
+    public_configuration_fields = frozenset(
+        {
+            "include_readonly",
+            "prefix",
+            "source",
+            "suffix",
+            "target",
+            "var_multiplier",
+            "var_prefix",
+            "var_suffix",
+        }
+    )
+
     source = TranslationLanguageChoiceField(
         label=gettext_lazy("Source strings"),
         required=True,
@@ -1616,6 +1700,8 @@ class PropertiesSortAddonForm(
         "PropertiesSortAddon",
     ]
 ):
+    public_configuration_fields = frozenset({"case_sensitive"})
+
     case_sensitive = forms.BooleanField(
         label=gettext_lazy("Enable case-sensitive key sorting"),
         required=False,
@@ -1628,6 +1714,8 @@ class PropertiesSortAddonForm(
 
 class ChangeBaseAddonForm(BaseAddonForm):
     """Base form for Change-based addons."""
+
+    public_configuration_fields = frozenset({"event_filter", "events"})
 
     event_filter = forms.ChoiceField(
         label=gettext_lazy("Change events to trigger"),
@@ -1758,6 +1846,13 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
 
 
 class FedoraMessagingAddonForm(ChangeBaseAddonForm):
+    public_configuration_fields = ChangeBaseAddonForm.public_configuration_fields | {
+        "connection_attempts",
+        "publish_timeout",
+        "retry_delay",
+        "topic_prefix",
+    }
+
     amqp_url = forms.CharField(
         label=gettext_lazy("AMQP broker URL"),
         help_text=gettext_lazy("The AMQP broker URL to connect to."),

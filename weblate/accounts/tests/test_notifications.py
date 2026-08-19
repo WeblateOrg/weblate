@@ -42,6 +42,7 @@ from weblate.addons.models import Addon
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
+from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Announcement, Change, Comment, Suggestion
 from weblate.trans.tests.test_views import (
@@ -50,6 +51,7 @@ from weblate.trans.tests.test_views import (
     ViewTestCase,
 )
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.site import get_site_url
 from weblate.utils.version import USER_AGENT
 from weblate.utils.version_display import VERSION_DISPLAY_HIDE, VERSION_DISPLAY_SOFT
 
@@ -822,16 +824,33 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             self.component.add_alert("MissingScreenshots")
         self.validate_notifications(0)
 
+    def test_notify_unused_screenshot_links_to_screenshot(self) -> None:
+        self.component.project.add_user(self.user, "Administration")
+        with self.captureOnCommitCallbacks(execute=True):
+            screenshot = Screenshot.objects.create(
+                name="Unassigned screenshot",
+                image="screenshots/test.png",
+                translation=self.component.source_translation,
+            )
+
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+        self.assertIn(
+            f'href="{get_site_url(screenshot.get_absolute_url())}"',
+            get_html_content(mail.outbox[0]),
+        )
+
     def test_notify_reopened_alert(self) -> None:
         self.component.project.add_user(self.user, "Administration")
         with self.captureOnCommitCallbacks(execute=True):
-            self.component.add_alert("InexactHookMatch", repo_url="first")
+            self.component.add_alert("BrokenBrowserURL", link="http://a", error="first")
         mail.outbox.clear()
-        alert = self.component.alert_set.get(name="InexactHookMatch")
+        alert = self.component.alert_set.get(name="BrokenBrowserURL")
         alert.dismiss(self.user, "Known issue")
 
         with self.captureOnCommitCallbacks(execute=True):
-            self.component.add_alert("InexactHookMatch", repo_url="different")
+            self.component.add_alert(
+                "BrokenBrowserURL", link="http://b", error="different"
+            )
 
         self.validate_notifications(1, "[Weblate] New alert on Test/Test")
         self.assertIn("Reopened alert", mail.outbox[0].body)
@@ -934,7 +953,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertTrue(self.user.has_perm("component.edit", self.component))
 
         with self.captureOnCommitCallbacks(execute=True):
-            self.component.add_alert("InexactHookMatch", repo_url="different")
+            self.component.add_alert(
+                "BrokenBrowserURL", link="http://example.com", error="broken"
+            )
 
         self.validate_notifications(1, "[Weblate] New alert on Test/Test")
 

@@ -172,10 +172,10 @@ def cleanup_repo_url(url: str, text: str | None = None) -> str:
     except ValueError:
         # The URL can not be parsed, so avoid stripping
         return text
-    if parsed.username and parsed.password:
-        return text.replace(f"{parsed.username}:{parsed.password}@", "")
-    if parsed.username:
-        return text.replace(f"{parsed.username}@", "")
+    userinfo, separator, _hostinfo = parsed.netloc.rpartition("@")
+    if separator:
+        cleaned_url = url.replace(f"//{userinfo}@", "//", 1)
+        return text.replace(url, cleaned_url)
     return text
 
 

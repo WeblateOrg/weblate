@@ -4,8 +4,11 @@
 
 """Test for management commands."""
 
+import json
 import sys
 from io import StringIO
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import cast
 from unittest import SkipTest
 from unittest.mock import Mock, patch
@@ -662,6 +665,72 @@ class ImportCommandTest(RepoTestCase):
         self.assertEqual(Translation.objects.count(), 10)
         self.assertIn("Imported Test/Gettext PO with 4 translations", output.getvalue())
 
+    def test_import_source_language(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            filename = Path(tempdir) / "components.json"
+            filename.write_text(
+                json.dumps(
+                    [
+                        {
+                            "name": "Android",
+                            "filemask": "android/values-*/strings.xml",
+                            "template": "android/values/strings.xml",
+                            "repo": "weblate://test/test",
+                            "file_format": "aresource",
+                            "source_language": {
+                                "code": "ru",
+                                "name": "Russian",
+                                "direction": "ltr",
+                            },
+                        }
+                    ]
+                )
+            )
+
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    filename,
+                )
+
+        component = Component.objects.get(slug="android")
+        self.assertEqual(component.source_language.code, "ru")
+
+    def test_import_source_language_string(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            filename = Path(tempdir) / "components.json"
+            filename.write_text(
+                json.dumps(
+                    [
+                        {
+                            "name": "Android",
+                            "filemask": "android/values-*/strings.xml",
+                            "template": "android/values/strings.xml",
+                            "repo": "weblate://test/test",
+                            "file_format": "aresource",
+                            "source_language": "ru",
+                        }
+                    ]
+                )
+            )
+
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    filename,
+                )
+
+        component = Component.objects.get(slug="android")
+        self.assertEqual(component.source_language.code, "ru")
+
     def test_import_invalid(self) -> None:
         with (
             self.assertRaises(CommandError),
@@ -739,6 +808,39 @@ class ImportCommandTest(RepoTestCase):
                 "--update",
                 TEST_COMPONENTS,
             )
+
+    def test_import_update_ignores_source_language(self) -> None:
+        with TemporaryDirectory() as tempdir:
+            filename = Path(tempdir) / "components.json"
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    TEST_COMPONENTS,
+                )
+
+            components = json.loads(Path(TEST_COMPONENTS).read_text(encoding="utf-8"))
+            components[0]["source_language"] = "ru"
+            components[0]["name"] = "Updated Gettext PO"
+            filename.write_text(json.dumps(components))
+
+            with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+                call_command(
+                    "import_json",
+                    "--main-component",
+                    "test",
+                    "--project",
+                    "test",
+                    "--update",
+                    filename,
+                )
+
+        component = Component.objects.get(slug="po")
+        self.assertEqual(component.name, "Updated Gettext PO")
+        self.assertEqual(component.source_language.code, "en")
 
     def test_invalid_file(self) -> None:
         with (

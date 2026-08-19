@@ -103,6 +103,18 @@ SOURCE_KEYS = frozenset(
     )
 )
 
+# TODO: Remove after stats cache versioning prevents pre-5.2 values from
+# surviving supported staged upgrades.
+OUTDATED_STATS_KEYS = {
+    "unapproved",
+    "unapproved_chars",
+    "unapproved_words",
+    "recent_changes",
+    "monthly_changes",
+    "total_changes",
+    "stats_timestamp",
+}
+
 SOURCE_MAP = {
     "source_chars": "all_chars",
     "source_words": "all_words",
@@ -340,6 +352,10 @@ class BaseStats:
             # Handle source_* keys as virtual on translation level for easier aggregation
             if name.startswith("source_"):
                 return self._data[SOURCE_MAP[name]]
+            # These keys used to be calculated on demand and can be missing
+            # from cached stats that survived a staged upgrade.
+            if name in OUTDATED_STATS_KEYS:
+                return 0
             raise
 
     def __getattr__(self, name: str):

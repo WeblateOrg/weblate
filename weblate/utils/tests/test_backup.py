@@ -27,6 +27,7 @@ from weblate.utils.backup import (
 from weblate.utils.data import data_path
 from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.unittest import tempdir_setting
+from weblate.wladmin.models import BackupService
 
 
 class BackupTest(TransactionTestCase):
@@ -66,6 +67,62 @@ class BackupTest(TransactionTestCase):
                 os.path.join(settings.DATA_DIR, "backups", "database.sql.gz")
             )
         )
+
+    @tempdir_setting("DATA_DIR")
+    def test_database_backup_logs_success_for_enabled_services(self) -> None:
+        enabled = BackupService.objects.create(
+            repository="/backup/enabled", paperkey="paper"
+        )
+        disabled = BackupService.objects.create(
+            repository="/backup/disabled", paperkey="paper", enabled=False
+        )
+
+        with patch("weblate.utils.tasks.subprocess.run"):
+            database_backup()
+
+        log = enabled.backuplog_set.get()
+        self.assertEqual(log.event, "database")
+        self.assertEqual(log.log, "Database dump completed successfully.")
+        self.assertFalse(disabled.backuplog_set.exists())
+
+    @tempdir_setting("DATA_DIR")
+    def test_database_backup_logs_pg_dump_failure(self) -> None:
+        enabled = BackupService.objects.create(
+            repository="/backup/enabled", paperkey="paper"
+        )
+        disabled = BackupService.objects.create(
+            repository="/backup/disabled", paperkey="paper", enabled=False
+        )
+        error = subprocess.CalledProcessError(
+            1,
+            ["pg_dump"],
+            stderr="pg_dump: error: server version mismatch",
+        )
+
+        with (
+            patch("weblate.utils.tasks.subprocess.run", side_effect=error),
+            patch("weblate.utils.tasks.add_breadcrumb") as add_breadcrumb,
+            patch("weblate.utils.tasks.report_error") as report_error,
+            self.assertRaises(subprocess.CalledProcessError),
+        ):
+            database_backup([disabled.pk])
+
+        log = enabled.backuplog_set.get()
+        self.assertEqual(log.event, "database-error")
+        self.assertEqual(log.log, "pg_dump: error: server version mismatch")
+        self.assertEqual(disabled.backuplog_set.get().event, "database-error")
+        add_breadcrumb.assert_called_once()
+        report_error.assert_called_once_with("Database backup failed")
+
+    @override_settings(DATABASE_BACKUP="none")
+    def test_disabled_database_backup_does_not_log(self) -> None:
+        service = BackupService.objects.create(repository="/backup", paperkey="paper")
+
+        with patch("weblate.utils.tasks.subprocess.run") as run:
+            database_backup()
+
+        run.assert_not_called()
+        self.assertFalse(service.backuplog_set.exists())
 
     @tempdir_setting("CACHE_DIR")
     @tempdir_setting("DATA_DIR")

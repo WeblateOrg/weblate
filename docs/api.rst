@@ -449,6 +449,9 @@ Users
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
+    This permission authorizes membership changes for every team, including
+    project and workspace teams; no separate permission over the target team is
+    required.
 
     :param username: User's username
     :type username: string
@@ -462,6 +465,9 @@ Users
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
+    This permission authorizes membership changes for every team, including
+    project and workspace teams; no separate permission over the target team is
+    required.
 
     :param username: User's username
     :type username: string
@@ -977,6 +983,24 @@ Projects
                        :guilabel:`Add new projects` permission. See
                        :ref:`workspace-project-creation`.
     :type workspace: string
+    :param access_control: :ref:`project-access_control`
+    :type access_control: integer
+    :param use_shared_tm: :ref:`project-use_shared_tm`
+    :type use_shared_tm: boolean
+    :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :type contribute_shared_tm: boolean
+    :param use_workspace_tm: :ref:`project-use-workspace-tm`
+    :type use_workspace_tm: boolean
+    :param contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :type contribute_workspace_tm: boolean
+    :param autoclean_tm: :ref:`project-autoclean_tm`
+    :type autoclean_tm: boolean
+
+    Omit ``access_control`` to use the configured default. Explicit non-default
+    access control requires a superuser unless a billing plan determines the
+    value. On Hosted Weblate, Custom access control is unavailable and each
+    translation-memory contribution setting is forced to match its
+    corresponding usage setting.
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -999,6 +1023,12 @@ Projects
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string license: :ref:`project-license`
+    :>json integer access_control: :ref:`project-access_control`
+    :>json boolean use_shared_tm: :ref:`project-use_shared_tm`
+    :>json boolean contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :>json boolean use_workspace_tm: :ref:`project-use-workspace-tm`
+    :>json boolean contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :>json boolean autoclean_tm: :ref:`project-autoclean_tm`
     :>json string announcements_url: URL to announcements; see :http:get:`/api/projects/(string:project)/announcements/`
 
     **Example JSON data:**
@@ -1023,8 +1053,8 @@ Projects
     identifier, use the project ``url`` returned by :http:get:`/api/projects/`
     or :http:get:`/api/projects/(string:project)/`.
 
-    The request body accepts project fields such as ``instructions`` and
-    ``license``.
+    The request body accepts project fields such as ``instructions``,
+    ``license``, ``access_control``, and translation-memory settings.
 
     **Example JSON data:**
 
@@ -1032,8 +1062,16 @@ Projects
 
         {
             "instructions": "Translate consistently.",
-            "license": "MIT"
+            "license": "MIT",
+            "use_shared_tm": true,
+            "access_control": 100
         }
+
+    Changing ``access_control`` requires permission to manage project access.
+    Making a project publicly accessible can require licenses on its components
+    when :setting:`LICENSE_REQUIRED` is enabled. On Hosted Weblate, Custom
+    access control is unavailable and each translation-memory contribution
+    setting is forced to match its corresponding usage setting.
 
     Changing ``workspace`` moves the project. Moving a project requires
     permission to edit the project and the :guilabel:`Edit workspace settings`
@@ -1048,6 +1086,18 @@ Projects
     :type instructions: string
     :param license: :ref:`project-license`
     :type license: string
+    :param access_control: :ref:`project-access_control`
+    :type access_control: integer
+    :param use_shared_tm: :ref:`project-use_shared_tm`
+    :type use_shared_tm: boolean
+    :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :type contribute_shared_tm: boolean
+    :param use_workspace_tm: :ref:`project-use-workspace-tm`
+    :type use_workspace_tm: boolean
+    :param contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :type contribute_workspace_tm: boolean
+    :param autoclean_tm: :ref:`project-autoclean_tm`
+    :type autoclean_tm: boolean
     :param workspace: Optional workspace UUID, or ``null`` to move the project
                        out of a workspace
     :type workspace: string
@@ -1067,6 +1117,18 @@ Projects
     :type instructions: string
     :param license: :ref:`project-license`
     :type license: string
+    :param access_control: :ref:`project-access_control`
+    :type access_control: integer
+    :param use_shared_tm: :ref:`project-use_shared_tm`
+    :type use_shared_tm: boolean
+    :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
+    :type contribute_shared_tm: boolean
+    :param use_workspace_tm: :ref:`project-use-workspace-tm`
+    :type use_workspace_tm: boolean
+    :param contribute_workspace_tm: :ref:`project-contribute-workspace-tm`
+    :type contribute_workspace_tm: boolean
+    :param autoclean_tm: :ref:`project-autoclean_tm`
+    :type autoclean_tm: boolean
 
 .. http:delete:: /api/projects/(string:project)/
 
@@ -1671,6 +1733,8 @@ Components
     :>json string addon_message: :ref:`component-addon_message`
     :>json string pull_message: :ref:`component-pull_message`
     :>json string allow_translation_propagation: :ref:`component-allow_translation_propagation`
+    :>json boolean hide_glossary_matches: :ref:`component-hide_glossary_matches`
+    :>json boolean contribute_project_tm: :ref:`component-contribute_project_tm`
     :>json string enable_suggestions: :ref:`component-enable_suggestions`
     :>json string suggestion_voting: :ref:`component-suggestion_voting`
     :>json string suggestion_autoaccept: :ref:`component-suggestion_autoaccept`
@@ -1754,6 +1818,8 @@ Components
     :<json string name: name of component
     :<json string slug: slug of component
     :<json string repo: VCS repository URL
+    :<json boolean hide_glossary_matches: :ref:`component-hide_glossary_matches`
+    :<json boolean contribute_project_tm: :ref:`component-contribute_project_tm`
 
     Linking to another Weblate component using an :ref:`internal URL
     <internal-urls>` requires permission to edit the referenced component.
@@ -1852,6 +1918,8 @@ Components
     :<json string template: base file for monolingual translations
     :<json string new_base: base file for adding new translations
     :<json string vcs: version control system
+    :<json boolean hide_glossary_matches: :ref:`component-hide_glossary_matches`
+    :<json boolean contribute_project_tm: :ref:`component-contribute_project_tm`
 
 .. http:delete:: /api/components/(string:project)/(string:component)/
 
@@ -3290,6 +3358,8 @@ Tasks
 
     Returns information about a task.
 
+    Authentication is required.
+
     :param uuid: Task UUID
     :type uuid: string
     :>json boolean completed: Whether the task has completed
@@ -3541,7 +3611,35 @@ Notification hooks
 ++++++++++++++++++
 
 Notification hooks allow external applications to notify Weblate that the VCS
-repository has been updated.
+repository has been updated. Weblate matches the delivery to components by
+repository URL; see :ref:`hooks-target-matching`.
+
+The generic hook endpoints return diagnostics intended to help configure
+repository notifications. The ``match_status`` object contains:
+
+``repository_matches``
+    Number of components whose repository URL matches the payload.
+``branch_matches``
+    Number of repository matches whose configured branch matches the payload.
+    For events without a branch, every repository match is counted as a branch
+    match.
+``enabled_hook_matches``
+    Number of branch matches whose project has hooks enabled.
+
+A successful update response names the updated project/component slugs in
+``message`` and returns their absolute API URLs in ``updated_components``. These
+diagnostics include private projects and restricted components because matching
+does not apply user access control. Components managed through an authenticated
+integration are excluded from generic matching and diagnostics; currently this
+applies to the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. When an
+update event completes target matching but schedules no update, the response
+uses HTTP status code 202 and retains ``match_status`` so the repository,
+branch, and project hook settings can be diagnosed. Ping and ignored events
+return HTTP status code 201 without matching diagnostics. These responses can
+confirm that a supplied repository URL is registered, but do not grant access
+to the linked API objects or expose repository content, translations, or
+credentials. See :ref:`hooks-target-matching` for the security and compatibility
+implications.
 
 You can use repository endpoints for projects, components and translations to
 update individual repositories; see

@@ -69,70 +69,70 @@
                         {{ addon.addon_name }}
                         {% if item.can_manage %}</a>{% endif %}
                       </h4>
-                  {% endif %}
-                  {% if item.inherited %}
-                    <div>
-                      <span class="format-item">
-                        {% translate "Inherited from" %} <span>{{ item.scope_description }}</span>
-                      </span>
-                    </div>
-                  {% endif %}
-                  {% if item.inherited and not item.can_manage %}
-                    <span class="help-block">{% translate "Managed at a scope you do not have access to." %}</span>
+                    {% endif %}
+                    {% if item.inherited %}
+                      <div>
+                        <span class="format-item">
+                          {% translate "Inherited from" %} <span>{{ item.scope_description }}</span>
+                        </span>
+                      </div>
+                    {% endif %}
+                    {% if item.inherited and not item.can_manage %}
+                      <span class="help-block">{% translate "Managed at a scope you do not have access to." %}</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endwith %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/addons' right=True %}
+            {% translate "Available add-ons" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            {% for addon in available %}
+              <tr>
+                <td>{% include 'addons/addon_head.html' with addon=addon %}</td>
+                <td class="bottom-button">
+                  {% if scope != "component" and addon.needs_component %}
+                    <button class="btn btn-primary"
+                            disabled
+                            title="{% translate "The add-on can only be installed on the component level." %}">
+                      {% translate "Install" %}
+                    </button>
+                  {% else %}
+                    <form method="post" class="inlineform">
+                      {% csrf_token %}
+                      <input type="hidden" name="name" value="{{ addon.name }}" />
+                      <button type="submit" class="btn btn-primary" data-addon="{{ addon.name }}">{% translate "Install" %}</button>
+                    </form>
                   {% endif %}
                 </td>
-                </tr>
-            {% endwith %}
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">
-          {% documentation_icon 'admin/addons' right=True %}
-          {% translate "Available add-ons" %}
-        </h4>
-      </div>
-      <table class="table table-striped">
-        <tbody>
-          {% for addon in available %}
-            <tr>
-              <td>{% include 'addons/addon_head.html' with addon=addon %}</td>
-              <td class="bottom-button">
-                {% if scope != "component" and addon.needs_component %}
-                  <button class="btn btn-primary"
-                          disabled
-                          title="{% translate "The add-on can only be installed on the component level." %}">
-                    {% translate "Install" %}
-                  </button>
-                {% else %}
-                  <form method="post" class="inlineform">
-                    {% csrf_token %}
-                    <input type="hidden" name="name" value="{{ addon.name }}" />
-                    <button type="submit" class="btn btn-primary" data-addon="{{ addon.name }}">{% translate "Install" %}</button>
-                  </form>
-                {% endif %}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <div class="card-footer">
-        {% if not available %}
-          {% translate "Could not find any additional add-ons compatible with this translation component." %}
-        {% else %}
-          {% translate "Some add-ons will ask for additional configuration during installation." %}
-        {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="card-footer">
+          {% if not available %}
+            {% translate "Could not find any additional add-ons compatible with this translation component." %}
+          {% else %}
+            {% translate "Some add-ons will ask for additional configuration during installation." %}
+          {% endif %}
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="tab-pane" id="history">
-    {% format_last_changes_content last_changes=last_changes user=user %}
-    <a class="btn btn-primary" href="{% if object %}{% url 'changes' path=object.get_url_path %}{% else %}{% url 'changes' %}{% endif %}?{% for action in change_actions %}action={{ action }}{% if not forloop.last %}&amp;{% endif %}{% endfor %}">{% translate "Browse all add-on changes" %}</a>
-  </div>
+    <div class="tab-pane" id="history">
+      {% format_last_changes_content last_changes=last_changes user=user %}
+      <a class="btn btn-primary" href="{% if object %}{% url 'changes' path=object.get_url_path %}{% else %}{% url 'changes' %}{% endif %}?{% for action in change_actions %}action={{ action }}{% if not forloop.last %}&amp;{% endif %}{% endfor %}">{% translate "Browse all add-on changes" %}</a>
+    </div>
 
   </div>
 {% endblock content %}

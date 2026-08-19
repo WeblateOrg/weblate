@@ -1126,7 +1126,7 @@
                       aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">
-              <div id="screenshot-form-container">{{ screenshot_form|crispy }}</div>
+              <div id="screenshot-form-container">{% crispy screenshot_form %}</div>
               <input type="hidden" name="source" value="{{ unit.pk }}" />
               <input type="hidden" name="next" value="{{ this_unit_url }}" />
             </div>

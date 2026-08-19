@@ -2,8 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import csv
+import json
 import os
-import shutil
 import tempfile
 from io import StringIO
 from pathlib import Path
@@ -12,10 +13,13 @@ from unittest.mock import patch
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase
+from django.test.utils import override_settings
 
 from weblate.trans.tests.utils import TempDirMixin
 from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.management.base import DocGeneratorCommand
+from weblate.utils.version import GIT_VERSION
+from weblate.utils.version_display import VERSION_DISPLAY_HIDE
 
 
 class DummyDocGeneratorCommand(DocGeneratorCommand):
@@ -194,6 +198,47 @@ class DBCommandTests(TestCase):
         self.assertEqual("found 0 strings\n", output.getvalue())
 
 
+class MetricsCommandTests(TestCase):
+    def get_output(self, output_format: str | None = None) -> str:
+        output = StringIO()
+        args = ("--format", output_format) if output_format else ()
+        with patch("weblate.utils.celery.get_queue_stats", return_value={"celery": 3}):
+            call_command("metrics", *args, stdout=output)
+        return output.getvalue()
+
+    def test_json(self) -> None:
+        data = json.loads(self.get_output())
+        self.assertEqual(data["celery_queues"], {"celery": 3})
+        self.assertEqual(data["version"], GIT_VERSION)
+        self.assertIn("units_translated", data)
+
+    def test_csv(self) -> None:
+        rows = list(csv.DictReader(StringIO(self.get_output("csv"))))
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["celery_queues.celery"], "3")
+        self.assertEqual(rows[0]["version"], GIT_VERSION)
+        self.assertIn("units_translated", rows[0])
+
+    def test_openmetrics(self) -> None:
+        output = self.get_output("openmetrics")
+        self.assertIn("# HELP units Number of translation units.", output)
+        self.assertIn("# TYPE units gauge", output)
+        self.assertIn('celery_queues{queue="celery"} 3', output)
+        self.assertIn(f'weblate_info{{version="{GIT_VERSION}"}} 1', output)
+        self.assertTrue(output.endswith("# EOF\n"))
+
+    @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_HIDE, HIDE_VERSION=True)
+    def test_hide_version(self) -> None:
+        self.assertNotIn("version", json.loads(self.get_output("json")))
+        csv_row = next(csv.DictReader(StringIO(self.get_output("csv"))))
+        self.assertNotIn("version", csv_row)
+        self.assertNotIn("weblate_info", self.get_output("openmetrics"))
+
+    def test_invalid_format(self) -> None:
+        with self.assertRaises(CommandError):
+            call_command("metrics", "--format", "yaml")
+
+
 class RuntimeCommandTests(SimpleTestCase):
     def test_get_clean_env_does_not_include_fontconfig(self) -> None:
         with patch.dict(os.environ, {"FONTCONFIG_FILE": "legacy-fonts.conf"}):
@@ -260,13 +305,6 @@ class RuntimeCommandTests(SimpleTestCase):
 
     def test_find_runtime_command_uses_runtime_path(self) -> None:
         with (
-            patch(
-                "weblate.utils.commands.find_command",
-                side_effect=lambda command, path=None: shutil.which(
-                    command,
-                    path=None if path is None else os.pathsep.join(path),
-                ),
-            ),
             patch("weblate.utils.commands.sys.exec_prefix", "/venv-prefix"),
             patch.dict(os.environ, {"PATH": "/usr/bin"}),
             tempfile.TemporaryDirectory(prefix="weblate-runtime-command-") as tempdir,
@@ -286,33 +324,45 @@ class RuntimeCommandTests(SimpleTestCase):
                     os.fspath(xgettext),
                 )
 
+    def test_find_runtime_command_requires_executable(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="weblate-runtime-command-") as tempdir:
+            command = Path(tempdir) / "non-executable-command"
+            command.write_text("", encoding="utf-8")
+            command.chmod(0o644)
+            if os.access(command, os.X_OK):
+                self.skipTest("Platform does not support executable permissions")
+
+            with (
+                patch("weblate.utils.commands.sys.executable", ""),
+                patch(
+                    "weblate.utils.commands.sys.exec_prefix",
+                    os.fspath(Path(tempdir) / "prefix"),
+                ),
+                patch.dict(os.environ, {"PATH": tempdir}),
+            ):
+                self.assertIsNone(find_runtime_command(command.name))
+
     def test_find_runtime_command_ignores_relative_runtime_path(self) -> None:
         with (
-            patch("weblate.utils.commands.find_command", return_value=None),
+            patch("weblate.utils.commands.which", return_value=None),
             patch("weblate.utils.commands.sys.executable", "python"),
             patch("weblate.utils.commands.sys.exec_prefix", "/venv-prefix"),
             patch.dict(os.environ, {"PATH": "/usr/bin"}),
         ):
             self.assertIsNone(find_runtime_command("xgettext"))
 
-    def test_find_runtime_command_passes_split_path_entries(self) -> None:
+    def test_find_runtime_command_passes_runtime_path(self) -> None:
         with (
             patch("weblate.utils.commands.sys.executable", "/runtime/bin/python"),
             patch("weblate.utils.commands.sys.exec_prefix", "/venv-prefix"),
             patch.dict(os.environ, {"PATH": "/usr/bin:/usr/local/bin"}),
-            patch("weblate.utils.commands.find_command", return_value=None) as mocked,
+            patch("weblate.utils.commands.which", return_value=None) as mocked,
         ):
             find_runtime_command("xgettext", extra_path="/extra/bin")
 
         self.assertEqual(
             mocked.call_args.kwargs["path"],
-            [
-                "/extra/bin",
-                "/runtime/bin",
-                "/venv-prefix/bin",
-                "/usr/bin",
-                "/usr/local/bin",
-            ],
+            "/extra/bin:/runtime/bin:/venv-prefix/bin:/usr/bin:/usr/local/bin",
         )
 
     def test_get_clean_env_preserves_existing_path_precedence(self) -> None:
@@ -338,20 +388,13 @@ class RuntimeCommandTests(SimpleTestCase):
             patch("weblate.utils.commands.sys.executable", "/runtime/bin/python"),
             patch("weblate.utils.commands.sys.exec_prefix", "/venv-prefix"),
             patch.dict(os.environ, {}, clear=True),
-            patch("weblate.utils.commands.find_command", return_value=None) as mocked,
+            patch("weblate.utils.commands.which", return_value=None) as mocked,
         ):
             find_runtime_command("xgettext", extra_path="/extra/bin")
 
         self.assertEqual(
             mocked.call_args.kwargs["path"],
-            [
-                "/extra/bin",
-                "/runtime/bin",
-                "/venv-prefix/bin",
-                "/bin",
-                "/usr/bin",
-                "/usr/local/bin",
-            ],
+            "/extra/bin:/runtime/bin:/venv-prefix/bin:/bin:/usr/bin:/usr/local/bin",
         )
 
     def test_get_clean_env_deduplicates_runtime_prefixes(self) -> None:

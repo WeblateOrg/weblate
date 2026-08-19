@@ -36,7 +36,7 @@ from django.utils.translation import gettext_lazy, gettext_noop
 from packaging.version import Version
 
 from weblate.trans.util import path_separator
-from weblate.utils.commands import get_clean_env
+from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.files import (
@@ -130,6 +130,7 @@ type RemoteOperation = Literal["none", "pull", "push"]
 type RepositoryDiagnosisCode = Literal[
     "branch_behind",
     "gerrit_permission",
+    "git_lfs_missing_objects",
     "github_pull_request_creation_restricted",
     "missing_credentials",
     "repository_not_found",
@@ -667,6 +668,8 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
         diagnoses.append({"code": "repository_permission"})
     if any(message in error for message in REPOSITORY_GERRIT_PERMISSION_MESSAGES):
         diagnoses.append({"code": "gerrit_permission"})
+    if "lfs objects are missing" in normalized:
+        diagnoses.append({"code": "git_lfs_missing_objects"})
     if any(message in error for message in REPOSITORY_TEMPORARY_MESSAGES):
         diagnoses.append({"code": "temporary_failure"})
 
@@ -688,6 +691,7 @@ class Repository:
     _cmd_last_remote_revision: ClassVar[list[str]]
     _cmd_status: ClassVar[list[str]] = ["status"]
     _cmd_list_changed_files: ClassVar[list[str]]
+    required_commands: ClassVar[tuple[str, ...]] = ()
 
     name: ClassVar[StrOrPromise] = ""
     identifier: ClassVar[str] = ""
@@ -708,8 +712,7 @@ class Repository:
     metadata_dir_name: ClassVar[str | None] = None
     supports_remote_compatibility_validation: ClassVar[bool] = False
     pinned_remote_schemes: ClassVar[frozenset[str]] = frozenset()
-    _version: ClassVar[str | None] = None
-    _version_error: ClassVar[Exception | None] = None
+    _version_cache: ClassVar[dict[tuple[type, str], str | Exception]] = {}
 
     @classmethod
     def get_identifier(cls) -> str:
@@ -799,6 +802,15 @@ class Repository:
         if not metadata_dir.is_dir():
             return None
         return metadata_dir
+
+    @classmethod
+    # ruff: ignore[unused-class-method-argument]
+    def is_safe_backup_metadata_path(cls, parts: tuple[str, ...]) -> bool:
+        """Return whether repository metadata can be restored from a backup."""
+        return False
+
+    def finalize_backup_restore(self) -> None:
+        """Recreate derived repository state after backup extraction."""
 
     def get_repo_temp_dir(self, create: bool = True) -> Path | None:
         metadata_dir = self.get_metadata_dir()
@@ -1370,11 +1382,24 @@ class Repository:
         return True
 
     @classmethod
+    def get_missing_commands(cls) -> tuple[str, ...]:
+        """Return commands required by this backend that are not available."""
+        commands = cls.required_commands or (cls._cmd,)
+        return tuple(
+            command for command in commands if find_runtime_command(command) is None
+        )
+
+    @classmethod
+    def is_available(cls) -> bool:
+        """Check whether commands required by this backend are available."""
+        return not cls.get_missing_commands()
+
+    @classmethod
     def validate_configuration(cls) -> list[str]:
         return []
 
     @classmethod
-    def is_supported(cls):
+    def is_supported(cls) -> bool:
         """Check whether this VCS backend is supported."""
         try:
             version = cls.get_version()
@@ -1383,22 +1408,32 @@ class Repository:
         return cls.req_version is None or Version(version) >= Version(cls.req_version)
 
     @classmethod
-    def get_version(cls):
+    def get_version(cls) -> str:
         """Get cached backend version."""
-        version = cls.__dict__.get("_version")
-        version_error = cls.__dict__.get("_version_error")
-
-        if version is None and version_error is None:
+        cache_key = cls.get_version_cache_key()
+        if cache_key not in cls._version_cache:
             try:
-                cls._version = cls._get_version()
+                cls._version_cache[cache_key] = cls._get_version()
             except Exception as error:
-                cls._version_error = error
-            version = cls.__dict__.get("_version")
-            version_error = cls.__dict__.get("_version_error")
+                cls._version_cache[cache_key] = error
 
-        if version_error is not None:
-            raise version_error
+        version = cls._version_cache[cache_key]
+        if isinstance(version, Exception):
+            raise version
         return version
+
+    @classmethod
+    def get_version_cache_key(cls) -> tuple[type[Repository], str]:
+        """Return cache key shared by backends using the same version probe."""
+        implementation = next(
+            base for base in cls.__mro__ if "_get_version" in base.__dict__
+        )
+        return implementation, cls._cmd
+
+    @classmethod
+    def clear_version_cache(cls) -> None:
+        """Clear cached backend versions."""
+        cls._version_cache.clear()
 
     @classmethod
     def _get_version(cls):

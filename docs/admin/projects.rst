@@ -800,6 +800,18 @@ panel (including its “Add term to glossary” action) is hidden in the editor.
    * :ref:`glossary`
    * :ref:`component-is_glossary`
 
+.. _component-contribute_project_tm:
+
+Contribute to project translation memory
+++++++++++++++++++++++++++++++++++++++++
+
+Controls whether translations from this component are added to the project
+translation memory.
+
+.. seealso::
+
+   :doc:`memory`
+
 .. _component-allow_translation_propagation:
 
 Allow translation propagation
@@ -1276,6 +1288,13 @@ The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
    This applies to project admins as well — please ensure you will not
    lose access to the component after toggling the status.
+
+Restricted components do not contribute new entries to :ref:`shared-tm`.
+Project and workspace translation memory entries attributed to an existing
+restricted component follow the component restriction. Unattributed legacy
+entries follow the access rules of their translation memory scope. On Hosted
+Weblate, shared translation memory and restricted components can not be enabled
+in the same project.
 
 .. _component-links:
 

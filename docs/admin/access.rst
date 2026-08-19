@@ -74,8 +74,19 @@ The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
     Aggregate statistics include `Private` projects and
     :ref:`restricted components <component-restricted>`, including in
     site-wide, language, and workspace summaries. Object listings, names, and
-    actions remain permission-filtered, so these aggregates do not grant access
-    to the underlying projects or components.
+    actions in the web interface and API remain permission-filtered, so these
+    aggregates do not grant access to the underlying projects or components.
+
+.. note::
+
+    Generic incoming :ref:`notification hooks <hooks>` are an explicit
+    compatibility exception to identifier confidentiality. When supplied with
+    a matching repository URL, their diagnostic response includes match counts
+    and, when an update is scheduled, the project/component slug and API URL.
+    This also applies to `Private` projects and restricted components, except
+    components managed through an authenticated integration. The API URL does
+    not bypass access control, and no project content or credentials are
+    included. See :ref:`hooks-target-matching`.
 
 .. note::
 
@@ -198,9 +209,16 @@ bulk invites also apply the selected superuser flag.
 
 Site-wide user management is controlled by the global ``user.edit``
 permission. Unlike project access management, this is a trusted administrative
-permission which allows editing user accounts across the whole instance,
-including assigning site-wide teams and granting superuser status to the
-managed account, even the caller's own account.
+permission which allows editing user accounts across the whole instance. It
+includes adding or removing the managed account from any site-wide, workspace,
+or project team, and granting or revoking superuser status, even for the
+caller's own account. These actions do not require the :guilabel:`Manage teams`
+permission or separate authority over the affected team.
+
+Treat ``user.edit`` as effectively equivalent to superuser access, not as a
+limited helpdesk permission. To delegate access management within a narrower
+scope, use a project `Administration` team or a :ref:`team administrator
+<team-admins>` instead.
 
 Site administrators can also disable password authentication for a user. The
 :guilabel:`Regenerate API key` option is enabled by default so that the current
@@ -485,6 +503,18 @@ the following rules:
   when linked components are in other projects. A per-member language limit
   therefore cannot grant these permissions.
 
+- The :guilabel:`Edit component settings` permission allows administrative
+  operations that can affect repository contents. For example, users can choose
+  files through component settings or install and configure component add-ons.
+  For a :ref:`linked component <internal-urls>`, these operations use the
+  complete shared checkout. Grant this permission only to users trusted by the
+  repository owner with that checkout. Ordinary translation permissions do not
+  grant this administrative access.
+
+  Repository-wide VCS permissions protect explicit commit, push, reset, and
+  update operations. They are not required for Weblate's normal background
+  commit and push of translation changes made through an authorized component.
+
 .. hint::
 
    Use :guilabel:`Language selection` or :guilabel:`Project selection`
@@ -563,11 +593,19 @@ set of permissions.
 
 .. include:: /snippets/permissions.rst
 
-.. note::
+.. warning::
 
-   Site-wide privileges are not granted to any default role.
-   These are powerful and quite close to the Superuser status.
-   Most of them affect all projects in your Weblate installation.
+   Roles do not have a separate scope; the permissions in a role determine its
+   scope. A role containing a permission listed under
+   :guilabel:`Site wide privileges` grants that permission across the Weblate
+   instance when assigned through a site-wide team. The team's project
+   selection does not narrow these permissions.
+
+   Site-wide privileges are not granted to any default role. Treat custom roles
+   containing them as trusted administrative access because some are
+   effectively equivalent to superuser status. For example, ``user.edit``
+   allows users to change their own team memberships and grant themselves
+   superuser status.
 
 .. include:: /snippets/roles.rst
 

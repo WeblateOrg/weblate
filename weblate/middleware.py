@@ -381,7 +381,8 @@ class CSPBuilder:
             if domain.endswith(".de.sentry.io"):
                 self.directives["connect-src"].add("de.sentry.io")
                 self.directives["script-src"].add("de.sentry.io")
-            elif domain.endswith(".sentry.io"):
+            # Regional ingestion endpoints redirect the feedback script here.
+            if domain.endswith(".sentry.io"):
                 self.directives["script-src"].add("sentry.io")
                 self.directives["connect-src"].add("sentry.io")
             self.directives["img-src"].add("data:")

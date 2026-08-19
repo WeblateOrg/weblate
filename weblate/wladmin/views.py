@@ -72,6 +72,7 @@ from weblate.utils.db import (
 )
 from weblate.utils.encoding import get_encoding_list
 from weblate.utils.errors import report_error
+from weblate.utils.filesystem import filesystem_latency_snapshot
 from weblate.utils.requests import fetch_url
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import prefetch_stats
@@ -382,19 +383,19 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
     if not validate_discovery_registration_state(request, state):
         messages.error(
             request,
-            gettext("Could not activate your installation. Invalid activation state."),
+            gettext("Could not enable Discover Weblate. Invalid activation state."),
         )
         return redirect("manage")
     if not code:
         messages.error(
             request,
-            gettext("Could not activate your installation. Missing activation code."),
+            gettext("Could not enable Discover Weblate. Missing activation code."),
         )
         return redirect("manage")
     if len(code) > DISCOVERY_ACTIVATION_CODE_MAX_LENGTH:
         messages.error(
             request,
-            gettext("Could not activate your installation. Invalid activation code."),
+            gettext("Could not enable Discover Weblate. Invalid activation code."),
         )
         return redirect("manage")
 
@@ -414,13 +415,13 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
         report_error("Activation timeout")
         messages.error(
             request,
-            gettext("Could not activate your installation. Please try again later."),
+            gettext("Could not enable Discover Weblate. Please try again later."),
         )
     except Exception:
         report_error("Activation error")
         messages.error(
             request,
-            gettext("Could not activate your installation. Please try again later."),
+            gettext("Could not enable Discover Weblate. Please try again later."),
         )
     else:
         with transaction.atomic():
@@ -433,7 +434,7 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
                 messages.error(
                     request,
                     gettext(
-                        "Could not activate discovery because a support package "
+                        "Could not enable Discover Weblate because a support package "
                         "is already linked."
                     ),
                 )
@@ -444,8 +445,29 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
                 )
                 support.save()
                 transaction.on_commit(support_status_update.delay)
-                messages.success(request, gettext("Activation completed."))
+                messages.success(request, gettext("Discover Weblate enabled."))
     return redirect("manage")
+
+
+def _get_support_action_messages(*, refresh: bool) -> tuple[str, str, str, str]:
+    if refresh:
+        return (
+            gettext("Support status refreshed."),
+            gettext("Could not refresh support status. Please try again later."),
+            gettext(
+                "Could not refresh support status. The activation token is invalid."
+            ),
+            gettext("Could not refresh support status: %s"),
+        )
+    return (
+        gettext("Support package activated."),
+        gettext("Could not activate the support package. Please try again later."),
+        gettext(
+            "Could not activate the support package. Please ensure the activation "
+            "token is correct."
+        ),
+        gettext("Could not activate the support package: %s"),
+    )
 
 
 @management_permission_required("management.configure")
@@ -453,18 +475,30 @@ def discovery_callback(request: AuthenticatedHttpRequest) -> HttpResponse:
 @transaction.atomic
 def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
     support: SupportStatus | None = None
+    refresh = "refresh" in request.POST
     unlink = False
-    if "refresh" in request.POST:
+    if refresh:
+        success_message, retry_error, token_error, unexpected_error = (
+            _get_support_action_messages(refresh=True)
+        )
         support = SupportStatus.objects.get_current(for_update=True)
     elif "unlink" in request.POST:
         unlink = True
+        success_message = gettext("Support package unlinked.")
+        _, retry_error, token_error, unexpected_error = _get_support_action_messages(
+            refresh=False
+        )
         support = SupportStatus.objects.get_current(for_update=True)
         if support.secret and support.discoverable:
             support.discoverable = False
         else:
             support = None
             unlink_support_status()
+            messages.success(request, success_message)
     else:
+        success_message, retry_error, token_error, unexpected_error = (
+            _get_support_action_messages(refresh=False)
+        )
         form = ActivateForm(request.POST)
         if form.is_valid():
             support = SupportStatus(**form.cleaned_data)
@@ -477,25 +511,16 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
             support.refresh()
         except httpx2.TimeoutException:
             report_error("Activation timeout")
-            activation_error = gettext(
-                "Could not activate your installation. Please try again later."
-            )
+            activation_error = retry_error
         except httpx2.HTTPStatusError as error:
             report_error("Activation error")
             if error.response is not None and error.response.status_code == 404:
-                activation_error = gettext(
-                    "Could not activate your installation. "
-                    "Please ensure your activation token is correct."
-                )
+                activation_error = token_error
             else:
-                activation_error = gettext(
-                    "Could not activate your installation. Please try again later."
-                )
+                activation_error = retry_error
         except Exception as error:
             report_error("Activation error")
-            activation_error = (
-                gettext("Could not activate your installation: %s") % error
-            )
+            activation_error = unexpected_error % error
         if activation_error:
             if unlink:
                 unlink_support_status()
@@ -518,7 +543,7 @@ def activate(request: AuthenticatedHttpRequest) -> HttpResponse:
                 support.save()
             else:
                 support.save()
-            messages.success(request, gettext("Activation completed."))
+            messages.success(request, success_message)
     return redirect("manage")
 
 
@@ -558,7 +583,7 @@ def backups(request: AuthenticatedHttpRequest) -> HttpResponse:
                     return redirect("manage-backups")
                 if "trigger" in request.POST:
                     settings_backup.delay()
-                    database_backup.delay()
+                    database_backup.delay([service.pk])
                     backup_service.delay(pk=service.pk)
                     messages.success(request, gettext("Backup process triggered"))
                     return redirect("manage-backups")
@@ -667,7 +692,8 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         if not request.user.has_perm("management.configure"):
             raise PermissionDenied
         return handle_dismiss(request)
-    all_checks = run_checks(include_deployment_checks=True)
+    with filesystem_latency_snapshot() as filesystem_latencies:
+        all_checks = run_checks(include_deployment_checks=True)
     if settings.BACKGROUND_ADMIN_CHECKS and claim_configuration_health_check():
         perform_configuration_health_check(all_checks)
     checks = sorted(
@@ -699,6 +725,8 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "celery_latency": cache.get("celery_latency"),
         "database_latency": measure_database_latency(),
         "cache_latency": measure_cache_latency(),
+        "data_dir_latency": filesystem_latencies.get("DATA_DIR"),
+        "cache_dir_latency": filesystem_latencies.get("CACHE_DIR"),
         "disk_usage": disk_usage_bytes,
         "disk_usage_percent": disk_usage_percent,
         "database_size": database_size,
