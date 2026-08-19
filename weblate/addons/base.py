@@ -31,12 +31,12 @@ from weblate.addons.events import (
 from weblate.trans.actions import ACTIONS_CONTENT
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component
-from weblate.trans.templatetags.translations import format_json
 from weblate.utils import messages
 from weblate.utils.commands import get_clean_env
 from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message, get_repo_temp_dir
+from weblate.utils.formatting import format_json
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
