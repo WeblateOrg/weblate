@@ -2442,6 +2442,65 @@ class GettextAddonTest(ViewTestCase):
         # Bare --keyword must NOT be present when exclusivity is disabled.
         self.assertNotIn("--keyword", command)
 
+    def test_xgettext_keyword_string_backward_compatibility(self) -> None:
+        """Keyword stored as string (old format) should work after migration to list."""
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\n', encoding="utf-8")
+        # Simulate old configuration where keyword was stored as a string
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "keyword": "tr",  # String format (old)
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--keyword=tr", command)
+
+    def test_xgettext_multiple_keywords_string_backward_compatibility(self) -> None:
+        """Multiple newline-separated keywords stored as string (old format) should work."""
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
+        # Simulate old configuration with newline-separated keywords
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "keyword": "tr\nN_",  # Newline-separated string format (old)
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--keyword=tr", command)
+        self.assertIn("--keyword=N_", command)
+        self.assertEqual(
+            [arg for arg in command if arg.startswith("--keyword=")],
+            ["--keyword=tr", "--keyword=N_"],
+        )
+
     def test_xgettext_no_keyword_emits_no_keyword_args(self) -> None:
         """When no keyword is set, no --keyword args at all should appear."""
         source = Path(self.component.full_path) / "src" / "main.py"
