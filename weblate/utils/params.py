@@ -108,9 +108,13 @@ class BaseParam:
             return cls.default
         if result is None:
             return cls.default
-        if cls.choices is not None and result not in {
-            choice for choice, _label in cls.choices
-        }:
+        if cls.choices is not None:
+            # ChoiceField normalizes submitted values to strings, including
+            # choices declared as integers. Return the declared choice value
+            # so consumers retain the parameter's original type.
+            for choice, _label in cls.choices:
+                if str(result) == str(choice):
+                    return choice
             # A choice field which is not required cleans a missing value to an
             # empty string, so stored values are not guaranteed to be valid
             # choices. Consumers pass these straight to storage backends and

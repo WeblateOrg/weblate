@@ -3966,8 +3966,8 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             call for call in http_mock.calls if str(call.request.url).startswith(url)
         ]
 
-    def mock_automerge_response(self, json: dict, status: int = 200) -> None:
-        http_mock.register("POST", self.GRAPHQL_URL, json=json, status_code=status)
+    def mock_automerge_response(self, data: dict, status: int = 200) -> None:
+        http_mock.register("POST", self.GRAPHQL_URL, json=data, status_code=status)
 
     def push_with_automerge(self, branch: str = "", **vcs_params) -> None:
         self.repo.component.vcs_params = {

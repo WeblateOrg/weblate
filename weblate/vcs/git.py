@@ -2042,7 +2042,7 @@ class GitForcePushRepository(GitRepository):
     push_label: ClassVar[StrOrPromise] = FORCE_PUSH_LABEL
 
     def get_push_command(self, *, force: bool | None = None) -> list[str]:
-        return super().get_push_command(force=True)
+        return [*self._cmd_push, "--force"]
 
 
 class GitMergeRequestBase(GitRepository):
@@ -3234,7 +3234,6 @@ class GithubRepository(GitMergeRequestBase):
                 response_data,
                 diagnoses=diagnoses,
             )
-            return
 
         if self.wants_automerge():
             self.enable_automerge(credentials, response_data)

@@ -19,7 +19,10 @@ from weblate.addons.gettext import MsgmergeAddon
 from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.ttkit import StringsFormat
 from weblate.lang.models import Language, get_default_lang
-from weblate.trans.file_format_params import get_default_params_for_file_format
+from weblate.trans.file_format_params import (
+    GettextPoLineWrap,
+    get_default_params_for_file_format,
+)
 from weblate.trans.models import Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path
@@ -34,6 +37,11 @@ class FileFormatParamsTest(SimpleTestCase):
         self.assertEqual(
             get_default_params_for_file_format("po-mono")["po_remove_obsolete"], False
         )
+
+    def test_numeric_choice_preserves_type(self) -> None:
+        value = GettextPoLineWrap.get_value({"po_line_wrap": "-1"})
+        self.assertEqual(value, -1)
+        self.assertIsInstance(value, int)
 
 
 class BaseFileFormatsTest(ViewTestCase):
