@@ -11,6 +11,7 @@ Weblate 2026.8
 
 .. rubric:: Improvements
 
+* :ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords (newline-separated) passed to xgettext via ``--keyword``, enabling extraction from different function names.
 * Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters.
 * Component diagnostics now record dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors.
 * :ref:`Add-on activity logs <addon-activity-logging>` now distinguish pending, successful, failed, and skipped executions and explain why an add-on was skipped.
