@@ -27,15 +27,15 @@
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # reducedradius <137701630+flytothehighest@users.noreply.github.com>, 2026.
 # AlexYang <A012pyshjs210@126.com>, 2026.
+# AlexYang <a012-alex@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-12 06:39+0000\n"
-"Last-Translator: Hosted Weblate user 54392 "
-"<hamburger2048@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-08-19 07:56+0000\n"
+"Last-Translator: AlexYang <a012-alex@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -8556,7 +8556,7 @@ msgid "Focus on search field."
 msgstr "聚焦到搜索框。"
 
 msgid "Copy the source string."
-msgstr "复制源字符串。"
+msgstr "复制源字符串到目标字符串。"
 
 msgid "Toggle the Needs editing checkbox."
 msgstr "切换“需要编辑”复选框勾选状态。"
@@ -9438,20 +9438,14 @@ msgstr "Celery 延迟"
 msgid "Not yet measured"
 msgstr "尚未测量"
 
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data directory latency"
-msgstr "数据库延迟"
+msgstr "数据目录延迟"
 
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not measured"
 msgstr "尚未测量"
 
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Cache directory latency"
-msgstr "缓存延迟"
+msgstr "缓存目录延迟"
 
 msgid "HTTP environment"
 msgstr "HTTP 环境"
@@ -11551,6 +11545,8 @@ msgid ""
 "from them will become available according to the project and workspace "
 "translation memory access rules unless you also delete it."
 msgstr ""
+"即使此操作删除了受限制的部件，根据项目和工作区的翻译存储访问规则，这些部件已"
+"保留的翻译记忆库也不会不可用，除非你删除了它。"
 
 msgid "The following translation components will be removed:"
 msgstr "以下翻译部件将被删除："
@@ -14313,15 +14309,13 @@ msgstr "删除确认"
 msgid "Please type in the full slug of the translation to confirm."
 msgstr "请输入翻译的标识符以确认。"
 
-#, fuzzy
-#| msgid "No translations were found for this component file mask."
 msgid "Delete translation memory created from this component"
-msgstr "未找到这个部件文件掩码的翻译。"
+msgstr "删除由此部件创建的翻译记忆库"
 
 msgid ""
 "Project, workspace, and shared translation memory entries will be deleted. "
 "Personal and uploaded entries will be preserved."
-msgstr ""
+msgstr "项目、工作区以及共享翻译记忆库的条目将被删除。个人和上传的条目将被保留。"
 
 msgid "Please type in the full slug of the component to confirm."
 msgstr "请输入部件的完整标识符以确认。"
@@ -14330,7 +14324,7 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "请输入项目标识符以确认。"
 
 msgid "Delete translation memory created from components in this category"
-msgstr ""
+msgstr "删除创建自此类别中部件的翻译记忆库"
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "请输入类别标识符以确认。"
@@ -15239,14 +15233,10 @@ msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr "参数“%(param)s”不适用于文件格式“%(format)s”。"
 
-#, fuzzy
-#| msgid ""
-#| "Allow this component's translations to be added to the project-level "
-#| "translation memory."
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
-msgstr "允许将此部件的译文添加到项目级翻译记忆库中。"
+msgstr "当部件所在项目使用共享翻译记忆库时，部件不能被限制。"
 
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
@@ -15464,13 +15454,10 @@ msgstr "使用工作区中配置的附加组件进行更改时的提交说明。
 msgid "Use the merge request message configured in the workspace."
 msgstr "使用工作区中配置的合并请求说明。"
 
-#, fuzzy
-#| msgid ""
-#| "Add-ons can also be installed at the project and the component levels."
 msgid ""
 "Shared translation memory can not be enabled while the project has "
 "restricted components."
-msgstr "也可以在项目和部件级别安装附加组件。"
+msgstr "在项目存在部件受限时，共享翻译记忆库将无法启用。"
 
 msgid ""
 "Translations marked as needing editing are not written to the translation "
@@ -17461,20 +17448,14 @@ msgstr "聚焦色（浅色、深色）"
 msgid "Hover color (Light, Dark)"
 msgstr "悬停色（浅色、深色）"
 
-#, fuzzy
-#| msgid "Navigation color (Light, Dark)"
 msgid "Link and button color (Light, Dark)"
-msgstr "导航色（浅色、深色）"
+msgstr "链接与按钮颜色（浅色、深色）"
 
-#, fuzzy
-#| msgid "Hover color (Light, Dark)"
 msgid "Progress bar color (Light, Dark)"
-msgstr "悬停色（浅色、深色）"
+msgstr "进度条颜色（浅色、深色）"
 
-#, fuzzy
-#| msgid "Focus color (Light, Dark)"
 msgid "Progress bar background color (Light, Dark)"
-msgstr "聚焦色（浅色、深色）"
+msgstr "进度条背景色（浅色、深色）"
 
 msgid "Hide page footer"
 msgstr "隐藏页脚"

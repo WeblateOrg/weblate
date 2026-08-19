@@ -107,6 +107,31 @@ Forge webhooks update components whose :ref:`component-repo` exactly matches a
 repository URL from the payload (HTTPS or SSH as reported by the forge, plus
 common variants such as a trailing slash).
 
+Generic forge webhook endpoints are compatibility interfaces, and ordinary
+repository deliveries are not cryptographically authenticated. Legacy GitHub
+App deliveries containing installation data are an exception: the generic
+GitHub endpoint verifies their signature using
+:setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. Repository matching does not apply
+project or component access control because webhooks also need to update private
+projects and
+:ref:`restricted components <component-restricted>`. Their JSON responses
+include diagnostic counts for repository, branch, and enabled-hook matches.
+Successful responses also include the full project/component slugs and absolute
+API URLs of updated components. Supplying a matching repository URL can
+therefore confirm that a repository is registered and reveal these identifiers.
+
+Components managed through an authenticated integration are excluded from
+generic webhook matching and its diagnostic counts. Currently this applies to
+the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. These components
+receive notifications only through their dedicated tokenized and signed
+:ref:`GitHub App webhook URL <code-hosting-github-app-webhook>`. Future
+authenticated integrations are expected to use the same separation.
+
+The returned API URLs do not grant access to the components. The web interface
+and API continue to enforce normal access control, and webhook responses do not
+include repository content, translations, or credentials. Where available,
+prefer an authenticated integration such as :ref:`code-hosting-github-app-webhook`.
+
 .. versionchanged:: 2026.9
 
    Host and path suffix fallback matching was removed. If updates stop, align

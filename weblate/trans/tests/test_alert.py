@@ -173,6 +173,20 @@ class AlertTest(ViewTestCase):
             reverse("js-diagnostics", kwargs={"path": obj.get_url_path()}), data
         )
 
+    def test_alert_class_metadata_does_not_initialize_alert_object(self) -> None:
+        details = {"occurrences": [{"language_code": "cs"}]}
+        self.component.add_alert("UnusedGlossaryLanguage", **details)
+        alert = self.component.alert_set.get(name="UnusedGlossaryLanguage")
+
+        self.assertNotIn("alert_class", alert.__dict__)
+        alert_class = alert.alert_class
+
+        self.assertIn("alert_class", alert.__dict__)
+        self.assertIs(alert.alert_class, alert_class)
+        self.assertEqual(alert.category, "configuration")
+        self.assertNotIn("obj", alert.__dict__)
+        self.assertEqual(alert.details, details)
+
     def test_project_diagnostics_loads_lazily_for_authenticated_users(self) -> None:
         with patch("weblate.trans.views.js.get_diagnostics_context") as get_diagnostics:
             response = self.client.get(

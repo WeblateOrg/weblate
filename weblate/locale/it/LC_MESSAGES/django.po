@@ -14,14 +14,15 @@
 # Uh idk <twitchy@users.noreply.hosted.weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # Giacomo La Serra <laserragiacomo1@gmail.com>, 2026.
+# Frostre_ <n9043395@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-13 17:51+0000\n"
-"Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
+"PO-Revision-Date: 2026-08-16 13:56+0000\n"
+"Last-Translator: Frostre_ <n9043395@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -333,9 +334,9 @@ msgid "Password changed."
 msgstr "Password modificata."
 
 #. Translators: Audit log entry
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Rate limit exceeded for {scope} at {path}."
-msgstr ""
+msgstr "Limite di frequenza superato per scopo su path"
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -651,12 +652,14 @@ msgid "Hide source if a secondary translation exists"
 msgstr "Nascondi i sorgenti se esistono traduzioni secondarie"
 
 msgid "Show all columns in lists using horizontal scrolling"
-msgstr ""
+msgstr "Mostra tutte le colonne In lista utilizzando lo scorrimento orizzontale"
 
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr ""
+"Invece di nascondere le colonne in schermi stretti, tieni tutte le colonne e "
+"scorri la tabella orizzontalmente."
 
 msgid "Editor link"
 msgstr "Collegamento dell'editor"
@@ -1596,7 +1599,7 @@ msgstr "Il broker di Fedora Messaging ha rifiutato il messaggio: %(error)s"
 
 #, python-format
 msgid "Fedora Messaging publish failed: %(error)s"
-msgstr ""
+msgstr "Pubblicazione della messaggistica di Fedora non riuscita: %(error)s"
 
 #, fuzzy
 #| msgid "Configure"
@@ -1605,24 +1608,33 @@ msgstr "Configura"
 
 msgid "Could not reset Fedora Messaging publisher service."
 msgstr ""
+"Impossibile resettare il servizio di Messaggistica di pubblicazione di "
+"Fedora."
 
 msgid "CA certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"Il certificato CA deve essere un valido PEM codificato  X.509 certificati."
 
 msgid "Client SSL key must be an unencrypted PEM encoded private key."
 msgstr ""
+"La chiave SSL del client deve essere una chiave privata codificata in "
+"formato PEM non crittografata."
 
 msgid "Client SSL certificates must be valid PEM encoded X.509 certificates."
 msgstr ""
+"I certificati SSL del client devono essere certificati X.509 validi con "
+"codifica PEM."
 
 #, python-format
 msgid "Fedora Messaging broker URL is invalid: %(error)s"
-msgstr ""
+msgstr "L'URL del broker di messaggistica di Fedora non è valido: %(error)s"
 
 #, python-format
 msgid ""
 "Could not verify TLS connection to the Fedora Messaging broker: %(error)s"
 msgstr ""
+"Impossibile verificare la connessione TLS al broker di messaggistica di "
+"Fedora: %(error)s"
 
 msgid "Flag new source strings as \"Needs checking\""
 msgstr "Contrassegna le nuove stringhe sorgenti come \"Da verificare\""
@@ -1723,6 +1735,8 @@ msgstr "Normalizza l'intestazione POT"
 
 msgid "Updates gettext headers and replaces placeholder POT comments."
 msgstr ""
+"Aggiorna le intestazioni gettext e sostituisce i commenti placeholder del "
+"POT."
 
 msgid "Update PO files using msgmerge"
 msgstr "Aggiorna i file PO utilizzando msgmerge"
@@ -1731,49 +1745,40 @@ msgid ""
 "Ensures the msgmerge add-on is installed and triggers it after the POT file "
 "is updated."
 msgstr ""
-"Garantisce l'installazione del componente aggiuntivo msgmerge e lo attiva "
-"dopo l'aggiornamento del file POT."
+"Garantisce l'installazione del componente aggiuntivo e lo attiva dopo "
+"l'aggiornamento del file POT."
 
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source locations"
-msgstr "Posizione stringa sorgente"
+msgstr "Fonte di posizioni"
 
-#, fuzzy
-#| msgid "Use default setting"
 msgid "Use file format settings"
-msgstr "Usa impostazioni predefinite"
+msgstr "Utilizzare le impostazioni del formato file"
 
-#, fuzzy
-#| msgid "Extract strings from HTML files"
 msgid "Extract locations to the POT file"
-msgstr "Estrai stringhe da file HTML"
+msgstr "Estrai posizioni al POT file"
 
-#, fuzzy
-#| msgid "Do not extract comments"
 msgid "Do not extract locations"
-msgstr "Non estrarre i commenti"
+msgstr "Non estrarre le posizioni"
 
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+"Scegli come l'estrazione scrive le posizioni di origine nel file POT. Usa "
+"questa opzione per mantenere le posizioni nel modello, omettendole però dai "
+"file PO tradotti."
 
 msgid "Do not extract comments"
 msgstr "Non estrarre i commenti"
 
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract all comments"
-msgstr "Sfoglia tutti i componenti"
+msgstr "Estrai tutti i commenti"
 
 msgid "Extract comments with tag"
 msgstr "Estrai commenti con etichetta"
 
-#, fuzzy
-#| msgid "User comments"
 msgid "Code comments"
-msgstr "Commenti utente"
+msgstr "Commenti sul codice"
 
 msgid ""
 "Choose whether xgettext should extract no comments, all comments, or only "
@@ -1782,43 +1787,50 @@ msgstr ""
 "Scegli se xgettext debba estrarre nessun commento, tutti i commenti, o "
 "solamente commenti con una specifica etichetta."
 
-#, fuzzy
-#| msgid "Comment text"
 msgid "Comment tag"
-msgstr "Testo del commento"
+msgstr "Tag di commento"
 
 msgid ""
 "Tag passed to xgettext for comment extraction when using tagged comment mode."
 msgstr ""
+"Il Tag passato a xgettext per il commento di estrazione quando si utilizza "
+"la modalità commenti con tag."
 
 msgid "xgettext checks"
 msgstr "controlli xgettext"
 
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
+"Ulteriori controlli di validazione xgettext da abilitare per i messaggi "
+"estratti."
 
-#, fuzzy
-#| msgid "Additional branch"
 msgid "Additional keyword"
-msgstr "Ramo aggiuntivo"
+msgstr "Parola chiave aggiuntive"
 
 msgid "Optional extra keyword passed to xgettext using --keyword."
 msgstr ""
+"Parola chiave aggiuntiva opzionale passata a xgettext tramite --keyword."
 
 msgid "Use keywords exclusively"
-msgstr ""
+msgstr "Utilizza esclusivamente le parole chiave"
 
 msgid ""
 "When enabled, passes --keyword without a value to xgettext before the "
 "additional keyword, disabling all default keywords so that only the keyword "
 "specified above is recognized."
 msgstr ""
+"Quando abilitata, passa --parola chiave senza un valore a xgettext prima "
+"della parola chiave aggiuntiva, disabilitando tutte le parole chiave "
+"predefinite in modo che venga riconosciuta solo la parola chiave specificata "
+"sopra."
 
 msgid "This field is required."
 msgstr "Questo campo è obbligatorio."
 
 msgid "An additional keyword is required when using keywords exclusively."
 msgstr ""
+"Quando si utilizzano esclusivamente parole chiave, è necessaria una parola "
+"chiave aggiuntiva."
 
 msgid "Input source"
 msgstr "Sorgente di ingresso"

@@ -232,6 +232,18 @@ main (referenced) component.
 
    Removing main component also removes linked components.
 
+   Linked components share the complete repository checkout; the link does not
+   isolate them to particular files or directories. Users allowed to administer
+   a linked component can configure operations affecting files anywhere in the
+   shared checkout. For example, they can change file masks, formats, and
+   templates, or install and configure add-ons that read, generate, or modify
+   repository files. Weblate can commit and push resulting changes using the
+   main component's repository configuration.
+
+   Only link components when the repository owner trusts the administrators of
+   every linked component with the complete checkout. Use separate repositories
+   when components require file-level isolation.
+
 Weblate automatically adjusts the repository URL when creating a component if it
 finds a component with a matching repository setup. You can override this in
 the last step of the component configuration.
@@ -294,6 +306,17 @@ Git
 
    Weblate needs Git 2.46 or newer.
 
+.. note::
+
+   Weblate validates permanent HTTP redirects which stay on the repository
+   hostname and automatically stores the canonical repository URL. The change
+   is recorded in the component history as repository maintenance. Redirects
+   to another hostname have to be configured manually.
+
+.. seealso::
+
+    See :ref:`vcs-repos` for info on how to access different kinds of repositories.
+
 .. _git-lfs:
 
 Git LFS
@@ -315,16 +338,23 @@ when the upstream repository added LFS objects after the fork was created.
 Existing managed forks are reconfigured on their next push. This does not
 change the Git LFS configuration of the upstream project.
 
-.. note::
+.. _git-submodules:
 
-   Weblate validates permanent HTTP redirects which stay on the repository
-   hostname and automatically stores the canonical repository URL. The change
-   is recorded in the component history as repository maintenance. Redirects
-   to another hostname have to be configured manually.
+Git submodules
+++++++++++++++
 
-.. seealso::
+Weblate does not populate Git submodules when cloning repositories. It does
+not initialize or update submodules, and it does not recurse into submodule
+repositories during file discovery or translation updates. Files stored inside
+a submodule are therefore not available to file masks when Weblate is connected
+to the parent repository.
 
-    See :ref:`vcs-repos` for info on how to access different kinds of repositories.
+If translation files live in a submodule, add the submodule repository to
+Weblate as its own component instead of reaching it through the parent
+repository. Weblate can then clone, update, commit, and push to the repository
+that actually stores the translation files. The parent repository only records
+the submodule commit pointer, so updating that pointer has to happen outside
+Weblate, for example in your normal development workflow or CI.
 
 .. _vcs-git-force-push:
 

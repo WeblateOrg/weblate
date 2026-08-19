@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-14 13:38+0000\n"
+"PO-Revision-Date: 2026-08-14 22:08+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -9107,7 +9107,7 @@ msgid "Remove duplicates"
 msgstr "Премахване на дубликатите"
 
 msgid "Remove duplicated strings from the translation file"
-msgstr "Премахване на дублираните низове от файла за превод."
+msgstr "Премахване на дублираните низове от файла за превод"
 
 msgid ""
 "Removes repeated strings with the same identifier from the translation file."
@@ -10101,12 +10101,10 @@ msgid "Translation memory migration"
 msgstr "Прехвърляне на паметта за преводи"
 
 msgid "Scope backfill"
-msgstr ""
+msgstr "Запълване на областта"
 
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translation memory scope backfill"
-msgstr "Състояние на паметта за преводи"
+msgstr "Запълване на областта на паметта за преводи"
 
 msgid "Entries processed"
 msgstr "Обработени записи"
@@ -10135,10 +10133,8 @@ msgstr "Завършено"
 msgid "Scanning duplicate candidates"
 msgstr "Сканиране за дублирани кандидати"
 
-#, fuzzy
-#| msgid "Billing owners"
 msgid "Backfilling scopes"
-msgstr "Собственици на платежния план"
+msgstr "Запълване на областите"
 
 msgid "Disk usage"
 msgstr "Ползване на диска"
@@ -15510,7 +15506,7 @@ msgid "I accept the contributor license agreement"
 msgstr "Приемам лицензионното споразумение за принос"
 
 msgid "The slug does not match the one marked for deletion!"
-msgstr "Краткото име на съвпада с това, което е отбелязано за изтриване!"
+msgstr "Краткото име не съвпада с това, което е отбелязано за изтриване!"
 
 msgid "Removal confirmation"
 msgstr "Потвърждение на премахването"
@@ -15519,7 +15515,7 @@ msgid "Please type in the full slug of the translation to confirm."
 msgstr "Въведете краткото име на превода в целия му вид, за да потвърдите."
 
 msgid "Delete translation memory created from this component"
-msgstr "Изтриване на паметта за преводи създадена от този компонент."
+msgstr "Изтриване на паметта за преводи създадена от този компонент"
 
 msgid ""
 "Project, workspace, and shared translation memory entries will be deleted. "
@@ -17735,15 +17731,11 @@ msgstr "Медиана"
 msgid "Average"
 msgstr "Средна стойност"
 
-#, fuzzy
-#| msgid "Strings percent"
 msgid "75th percentile"
-msgstr "Процент на низовете"
+msgstr "75-ти персентил"
 
-#, fuzzy
-#| msgid "Strings percent"
 msgid "90th percentile"
-msgstr "Процент на низовете"
+msgstr "90-ти персентил"
 
 msgid "Included user days"
 msgstr "Включени потребителски дни"
@@ -18396,69 +18388,73 @@ msgstr ""
 "Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
 "изтегляне: %(status)s"
 
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s "
 "Please retry later."
 msgstr ""
 "Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
-"изтегляне: %(service)s Моля, опитайте отново по-късно."
+"изтегляне: %(status)s Моля, опитайте отново по-късно."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
+"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"изтегляне (%(status)s ): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
+"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"изтегляне (%(status)s): %(error)s Моля, опитайте отново по-късно."
 
 msgid "GitHub App repositories must be imported with a branch."
-msgstr ""
+msgstr "Хранилищата с приложения в GitHub трябва да бъдат внесени с клон."
 
-#, fuzzy
-#| msgid "GitHub installation ID"
 msgid "Invalid GitHub App installation ID."
-msgstr "Идентификатор на инсталацията на Github"
+msgstr "Грешен идентификатор на инсталация на приложение в Github."
 
 msgid "No Weblate GitHub app installation available."
-msgstr ""
+msgstr "Няма налична инсталация на приложение на Weblate в Github."
 
 #, python-format
 msgid "No Weblate GitHub app installation available for %(hostname)s"
 msgstr ""
+"Няма налична инсталация на приложение на Weblate в Github за %(hostname)s"
 
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not obtain GitHub App access token: %(error)s"
-msgstr "Проектът от GitLab не може да бъде получен (%(status)s): %(error)s"
+msgstr ""
+"Не може да бъде получен идентификатор за достъп до приложение в Github: %"
+"(error)s"
 
-#, fuzzy
-#| msgid "Choose either a project or a workspace."
 msgid "GitHub App components require a project with a workspace."
-msgstr "Изберете проект или работно пространство."
+msgstr ""
+"Компонентите на приложението в Github изискват проект с работно пространство."
 
 #, python-format
 msgid "Could not get GitLab project (%(status)s): %(error)s"
 msgstr "Проектът от GitLab не може да бъде получен (%(status)s): %(error)s"
 
-#, fuzzy, python-format
-#| msgid "Could not get GitLab project (%(status)s): %(error)s"
+#, python-format
 msgid "Could not get GitLab project (%(status)s): Unknown error"
-msgstr "Проектът от GitLab не може да бъде получен (%(status)s): %(error)s"
+msgstr ""
+"Проектът от GitLab не може да бъде получен (%(status)s):Неизвестна грешка"
 
-#, fuzzy, python-format
-#| msgid "Fedora Messaging publish failed: %(error)s"
+#, python-format
 msgid "Pull request listing failed: %(error)s"
-msgstr "Публикуването на съобщение на Fedora беше неуспешно: %(error)s"
+msgstr ""
+"Получаването на списък със заявките за изтегляне беше неуспешно: %(error)s"
 
-#, fuzzy, python-format
-#| msgid "Too many messages sent, please try again later."
+#, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
-msgstr "Изпратени са твърде много съобщения. Моля, опитайте отново по-късно."
+msgstr ""
+"Получаването на списък със заявките за изтегляне беше неуспешно: %(error)s "
+"Моля, опитайте отново по-късно."
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -18987,45 +18983,41 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Свързаният акаунт за GitHub е добавен."
 
-#, fuzzy
-#| msgid "Enter a valid domain name or IP address."
 msgid "Enter a valid GitHub App name and host."
-msgstr "Въведете правилно име на домейн или IP адрес."
+msgstr "Въведете правилно име на приложение в GitHub и сървър."
 
 #, python-format
 msgid ""
 "A Weblate GitHub App is already registered for %(hostname)s. Remove it "
 "before registering another one."
 msgstr ""
+"Вече има регистрирано приложение на Weblate в GitHub за %(hostname)s. "
+"Премахнете го, ако искате да регистрирате друго."
 
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "GitHub did not return a valid registration code."
-msgstr "Регистрацията не може да бъде завършена."
+msgstr "GitHub не върна правилен код за регистрация."
 
-#, fuzzy
-#| msgid "The invitation link is no longer valid."
 msgid ""
 "The GitHub App registration link is no longer valid. Start the registration "
 "again."
-msgstr "Връзката за покана е с изтекла давност."
-
-#, fuzzy
-#| msgid "Please complete the registration to accept the invitation."
-msgid "GitHub rejected the registration code. Start the registration again."
-msgstr "Завършете регистрацията, за да приемете поканата."
-
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
-msgid "GitHub returned an incomplete App registration response."
 msgstr ""
-"Не можете да завършите регистрацията, докато сте вписан(а) в системата."
+"Връзката за регистриране на приложение в GitHub вече не може да се използва. "
+"Започнете регистрацията наново."
+
+msgid "GitHub rejected the registration code. Start the registration again."
+msgstr "GitHub отхвърли кода за регистрация. Започнете регистрацията наново."
+
+msgid "GitHub returned an incomplete App registration response."
+msgstr "GitHub върна непълен отговор за регистрация на приложението."
 
 msgid "Weblate GitHub App registered. You can now connect a GitHub account."
 msgstr ""
+"Приложението на Weblate в GitHub е регистрирано. Вече може да свържете "
+"акаунт за GitHub."
 
 msgid "Weblate GitHub App credentials updated."
 msgstr ""
+"Удостоверителните данни за приложението на Weblate в GitHub са обновени."
 
 msgid "Activation token"
 msgstr "Идентификатор за активация"
@@ -19072,20 +19064,14 @@ msgstr "Цвят при фокусиране (светъл, тъмен)"
 msgid "Hover color (Light, Dark)"
 msgstr "Цвят при посочване с мишката (светъл, тъмен)"
 
-#, fuzzy
-#| msgid "Navigation color (Light, Dark)"
 msgid "Link and button color (Light, Dark)"
-msgstr "Цвят на навигацията (светъл, тъмен)"
+msgstr "Цвят за връзки и бутони (светъл, тъмен)"
 
-#, fuzzy
-#| msgid "Hover color (Light, Dark)"
 msgid "Progress bar color (Light, Dark)"
-msgstr "Цвят при посочване с мишката (светъл, тъмен)"
+msgstr "Цвят на лентите за напредък (светъл, тъмен)"
 
-#, fuzzy
-#| msgid "Focus color (Light, Dark)"
 msgid "Progress bar background color (Light, Dark)"
-msgstr "Цвят при фокусиране (светъл, тъмен)"
+msgstr "Цвят за фона на лентите за напредък (светъл, тъмен)"
 
 msgid "Hide page footer"
 msgstr "Скриване на долния колонтитул на страницата"
@@ -19182,16 +19168,12 @@ msgstr "Отчети"
 msgid "Weblate status"
 msgstr "Състояние на Weblate"
 
-#, fuzzy
-#| msgid ""
-#| "Please change SITE_TITLE in settings to make your Weblate easy to "
-#| "recognize in discover."
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in Discover Weblate."
 msgstr ""
 "Променете SITE_TITLE в настройките, за да направите своя Weblate лесно "
-"разпознаваем в откриванията."
+"разпознаваем в системата за Откриване на Weblate."
 
 msgid "Customer care ticket created:"
 msgstr "Създадена е заявка за поддръжката:"
@@ -19207,21 +19189,18 @@ msgid ""
 "This installation is already linked to weblate.org. Use discovery settings "
 "to manage its listing."
 msgstr ""
+"Тази инсталация вече е свързана с weblate.org. Използвайте настройките за "
+"откриване, за да управлявате начина, по който се показва."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate your installation. Invalid activation state."
-msgstr "Инсталацията Ви не може да бъде активирана. Опитайте отново по-късно."
+msgstr ""
+"Инсталацията Ви не може да бъде активирана. Грешно състояние на активация."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate your installation. Missing activation code."
-msgstr "Инсталацията Ви не може да бъде активирана. Опитайте отново по-късно."
+msgstr "Инсталацията Ви не може да бъде активирана. Липсва код за активиране."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate your installation. Invalid activation code."
-msgstr "Инсталацията Ви не може да бъде активирана. Опитайте отново по-късно."
+msgstr "Инсталацията Ви не може да бъде активирана. Грешен код за активиране."
 
 msgid "Could not activate your installation. Please try again later."
 msgstr "Инсталацията Ви не може да бъде активирана. Опитайте отново по-късно."
@@ -19229,6 +19208,8 @@ msgstr "Инсталацията Ви не може да бъде активир
 msgid ""
 "Could not activate discovery because a support package is already linked."
 msgstr ""
+"Откриването не може да бъде активирано, тъй като вече има свързан пакет за "
+"поддръжка."
 
 msgid "Activation completed."
 msgstr "Активирането е завършено."
@@ -19248,6 +19229,8 @@ msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
 "disabled on weblate.org. The site may remain listed."
 msgstr ""
+"Пакетът за поддръжка беше разкачен локално, но Откриването на Weblate не "
+"може да бъде изключено на weblate.org. Уеб сайтът може да остане видим там."
 
 msgid "Backup process triggered"
 msgstr "Стартиран е процес за създаване на резервно копие"
@@ -19255,80 +19238,60 @@ msgstr "Стартиран е процес за създаване на резе
 msgid "Could not dismiss the configuration error!"
 msgstr "Грешката в конфигурацията не може да бъде отхвърлена!"
 
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created."
-msgstr "Компонентът е създаден"
+msgstr "Работното пространство е създадено."
 
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate workspaces"
-msgstr "Ключове на Weblate"
+msgstr "Работни пространства на Weblate"
 
-#, fuzzy
-#| msgid "Please type in the slug of the category to confirm."
 msgid "Please type in the workspace name to confirm its removal."
-msgstr "Въведете краткото име на категорията, за да потвърдите."
-
-#, fuzzy
-#| msgid "The slug does not match the one marked for deletion!"
-msgid "The workspace name does not match the one marked for removal!"
-msgstr "Краткото име на съвпада с това, което е отбелязано за изтриване!"
-
-#, fuzzy
-#| msgid "Restricted component"
-msgid "Inherited component defaults"
-msgstr "Компонент с ограничен достъп"
-
-#, fuzzy
-#| msgid "Display name"
-msgid "Workspace name"
-msgstr "Показвано име"
-
-#, fuzzy
-#| msgid "Language name"
-msgid "Managed name"
-msgstr "Име на езика"
-
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
-msgid "Whether Weblate can update the name automatically."
 msgstr ""
-"Позволява на Weblate да обновява заглавката „Language-Team“ във файловете на "
-"проекта Ви."
+"Въведете името на работното пространство, за да потвърдите премахването му."
 
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
+msgid "The workspace name does not match the one marked for removal!"
+msgstr ""
+"Името на работното пространство не съвпада с това, което е отбелязано за "
+"премахване!"
+
+msgid "Inherited component defaults"
+msgstr "Наследени стандартни настройки на компонента"
+
+msgid "Workspace name"
+msgstr "Име на работното пространство"
+
+msgid "Managed name"
+msgstr "Управлявано име"
+
+msgid "Whether Weblate can update the name automatically."
+msgstr "Дали Weblate може да обновява името автоматично."
+
 msgid ""
 "Uses the pool of shared translations between projects in this workspace."
-msgstr "Използва съвкупността от споделени преводи между проектите."
+msgstr ""
+"Използва съвкупността от споделени преводи между проектите в това работно "
+"пространство."
 
-#, fuzzy
-#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
 "Contributes translations to the pool shared between projects in this "
 "workspace."
-msgstr "Допринася към съвкупността от споделените между проектите преводи."
+msgstr ""
+"Допринася към съвкупността от споделените преводи между проектите в това "
+"работно пространство."
 
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this workspace."
 msgstr ""
 "Лицензионно споразумение за принос, което трябва да бъде прието, преди "
-"потребителят да може да превежда този компонент."
+"потребителят да може да превежда компоненти в това работно пространство."
 
 msgid "The workspace cannot be removed because it is still being used."
 msgstr ""
+"Работното пространство не може да бъде премахнато, защото все още се "
+"използва."
 
-#, fuzzy
-#| msgid "Source has been removed."
 msgid "The workspace has been removed."
-msgstr "Изходният низ е премахнат."
+msgstr "Работното пространство е премахнато."
 
 #~ msgid ""
 #~ "The last webhook update for this component used fallback repository "

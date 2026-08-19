@@ -19,6 +19,7 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.core.cache import cache
 from django.core.management.commands import diffsettings
+from django.db.models import Q
 from ruamel.yaml import YAML
 
 import weblate.utils.version
@@ -31,6 +32,7 @@ from weblate.utils.celery import app
 from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_dir
 from weblate.utils.errors import add_breadcrumb, report_error
+from weblate.utils.files import cleanup_error_message
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -206,7 +208,23 @@ def update_translation_stats(pks: list[int]) -> None:
     update_stats_objects(parent_stats.values())
 
 
-def run_database_backup() -> None:
+def _create_database_backup_logs(
+    event: str, log: str, additional_service_ids: list[int] | None = None
+) -> None:
+    # Avoid a module-level dependency from utils on wladmin.
+    # ruff: ignore[import-outside-top-level]
+    from weblate.wladmin.models import BackupLog, BackupService
+
+    service_ids = BackupService.objects.filter(
+        Q(enabled=True) | Q(pk__in=additional_service_ids or ())
+    ).values_list("pk", flat=True)
+    BackupLog.objects.bulk_create(
+        BackupLog(service_id=service_id, event=event, log=log)
+        for service_id in service_ids
+    )
+
+
+def run_database_backup(additional_service_ids: list[int] | None = None) -> None:
     if settings.DATABASE_BACKUP == "none":
         return
     with backup_lock():
@@ -251,26 +269,44 @@ def run_database_backup() -> None:
                 check=True,
                 text=True,
             )
-        except subprocess.CalledProcessError as error:
-            add_breadcrumb(
-                category="backup",
-                message="database dump output",
-                stdout=error.stdout,
-                stderr=error.stderr,
-            )
-            LOGGER.error("failed database backup: %s", error.stderr)
+            if compress:
+                with (
+                    open(out_text, "rb") as f_in,
+                    gzip.open(out_compressed, "wb") as f_out,
+                ):
+                    shutil.copyfileobj(f_in, f_out)
+                os.unlink(out_text)
+        except (OSError, subprocess.CalledProcessError) as error:
+            if isinstance(error, subprocess.CalledProcessError):
+                add_breadcrumb(
+                    category="backup",
+                    message="database dump output",
+                    stdout=error.stdout,
+                    stderr=error.stderr,
+                )
+                error_output = error.stderr or (
+                    f"pg_dump exited with status {error.returncode} without any output"
+                )
+            else:
+                error_output = str(error)
+            error_output = cleanup_error_message(error_output)
+            LOGGER.error("failed database backup: %s", error_output)
             report_error("Database backup failed")
+            _create_database_backup_logs(
+                "database-error", error_output, additional_service_ids
+            )
             raise
 
-        if compress:
-            with open(out_text, "rb") as f_in, gzip.open(out_compressed, "wb") as f_out:
-                shutil.copyfileobj(f_in, f_out)
-            os.unlink(out_text)
+        _create_database_backup_logs(
+            "database",
+            "Database dump completed successfully.",
+            additional_service_ids,
+        )
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
-def database_backup() -> None:
-    run_database_backup()
+def database_backup(additional_service_ids: list[int] | None = None) -> None:
+    run_database_backup(additional_service_ids)
 
 
 @app.on_after_finalize.connect

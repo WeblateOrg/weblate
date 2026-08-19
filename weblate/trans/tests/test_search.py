@@ -609,6 +609,13 @@ class ReplaceTest(ViewTestCase):
     def test_replace(self) -> None:
         self.do_replace_test(reverse("replace", kwargs=self.kw_translation))
 
+    def test_replace_initial_action(self) -> None:
+        response = self.client.get(self.component.get_absolute_url())
+
+        self.assertContains(response, 'value="Review changes"')
+        self.assertNotContains(response, 'value="Replace"')
+        self.assertNotContains(response, "Don’t worry about messing up the strings.")
+
     def test_replace_preview_parameters_are_editable(self) -> None:
         url = reverse("replace", kwargs=self.kw_translation)
 
@@ -622,6 +629,7 @@ class ReplaceTest(ViewTestCase):
             response, "Please review and confirm the search and replace results."
         )
         self.assertContains(response, "Update preview")
+        self.assertContains(response, ">Replace</button>")
         self.assertContains(response, 'id="id_replace_search"')
         self.assertContains(response, 'id="id_replace_replacement"')
         content = response.content.decode()

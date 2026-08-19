@@ -267,6 +267,11 @@ while still having them under version control.
 
         git submodule update --remote path/to/translations
 
+Weblate should be linked to the translation repository directly. It does not
+populate submodules when cloning a parent repository, so translation files
+inside a submodule are not available through the parent repository. See
+:ref:`git-submodules`.
+
 Please consult the `git submodule`_ documentation for more details.
 
 .. _`git submodule`: https://git-scm.com/docs/git-submodule

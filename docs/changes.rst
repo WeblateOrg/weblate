@@ -13,9 +13,16 @@ Weblate 2026.9
 * Improved translation file loading performance for metadata-only string changes.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
+* Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
+* Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
+* Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
+* The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
 
 .. rubric:: Bug fixes
 
+* Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
+* Database dump failures are now shown in the backups management interface.
+* Project administrators can no longer remove API tokens belonging to other projects.
 * Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.
 * GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
 * :ref:`Project backup restores <projectbackup>` now allowlists repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.

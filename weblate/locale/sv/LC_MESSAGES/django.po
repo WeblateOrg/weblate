@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-13 17:51+0000\n"
+"PO-Revision-Date: 2026-08-18 07:45+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -2899,7 +2899,7 @@ msgstr "Massredigera strängar"
 
 #. Translators: Permission name
 msgid "Edit string when suggestions are enforced"
-msgstr "Ändra strängar när förslag krävs"
+msgstr "Redigera sträng när förslag är tvingande"
 
 #. Translators: Permission name
 msgid "Edit source strings"
@@ -10054,20 +10054,14 @@ msgstr "Celery-fördröjning"
 msgid "Not yet measured"
 msgstr "Ännu inte uppmätt"
 
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data directory latency"
-msgstr "Databasfördröjning"
+msgstr "Fördröjning i datakatalogen"
 
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not measured"
-msgstr "Ännu inte uppmätt"
+msgstr "Ej uppmätt"
 
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Cache directory latency"
-msgstr "Cachefördröjning"
+msgstr "Fördröjning i cachekatalogen"
 
 msgid "HTTP environment"
 msgstr "HTTP-miljö"
@@ -12390,6 +12384,10 @@ msgid ""
 "from them will become available according to the project and workspace "
 "translation memory access rules unless you also delete it."
 msgstr ""
+"Om denna åtgärd tar bort begränsade komponenter kommer översättningsminnet "
+"som lagrats från dessa att bli tillgängligt i enlighet med reglerna för "
+"åtkomst till översättningsminnet för projektet och arbetsområdet, såvida du "
+"inte också raderar det."
 
 msgid "The following translation components will be removed:"
 msgstr "Följande översättningskomponenter kommer att tas bort:"
@@ -13231,7 +13229,7 @@ msgid "App ID"
 msgstr "App-ID"
 
 msgid "Slug"
-msgstr "Snigel"
+msgstr "Slug"
 
 msgid "Remove Weblate GitHub App?"
 msgstr "Ta bort Weblate GitHub-appen?"
@@ -14445,15 +14443,11 @@ msgstr "Reservserver"
 msgid "Backup domain"
 msgstr "Reservdomän"
 
-#, fuzzy
-#| msgid "View components"
 msgid "Skipped components"
-msgstr "Visa komponenter"
+msgstr "Utelämnade komponenter"
 
-#, fuzzy
-#| msgid "Organize component"
 msgid "Original component"
-msgstr "Ordna komponent"
+msgstr "Originalkomponent"
 
 msgid "Current translation"
 msgstr "Nuvarande översättning"
@@ -14465,24 +14459,19 @@ msgstr "Tidigare översättning"
 msgid "State: %(state)s"
 msgstr "Tillstånd: %(state)s"
 
-#, fuzzy
-#| msgid "Suggestion voting"
 msgid "Suggestions pending"
-msgstr "Förslagsröstning"
+msgstr "Väntande förslag"
 
-#, fuzzy
-#| msgid "review"
 msgid "Needs review"
-msgstr "granska"
+msgstr "Behöver granskas"
 
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate, platsen för översättning av ditt projekt."
 
-#, fuzzy
-#| msgid "This site runs Weblate for localizing various software projects."
 msgid "This site runs Weblate for localizing a software project."
 msgstr ""
-"Webbplatsen använder Weblate för att översätta diverse programvaruprojekt."
+"Den här webbplatsen använder Weblate för att lokalisera ett "
+"programvaruprojekt."
 
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
@@ -14503,22 +14492,15 @@ msgstr "Svårighetsgrad"
 msgid "Actionable by me"
 msgstr "Åtgärdbar av mig"
 
-#, fuzzy
-#| msgid "Good configuration"
 msgid "Discovery configuration"
-msgstr "Bra inställning"
+msgstr "Konfiguration för upptäckt"
 
-#, fuzzy
-#| msgid ""
-#| "The regular expression to match translation files has to contain two "
-#| "named groups to match component and language, some examples:"
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
 msgstr ""
-"Det reguljära uttrycket som ska matcha översättningsfiler måste innehålla "
-"två namngivna grupper för att specifikt matcha komponent och språk. Några "
-"exempel:"
+"Det reguljära uttrycket som användes för att matcha de upptäckta filerna är "
+"för komplicerat och det tog för lång tid att utvärdera det."
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
@@ -14596,17 +14578,17 @@ msgid "Keep previous msgids of translated strings"
 msgstr "Behåll tidigare msgid för översatta strängar"
 
 msgid "Controls previous msgid comments for fuzzy strings."
-msgstr ""
+msgstr "Kontrollerar tidigare msgid-kommentarer efter fuzzy-strängar."
 
-#, fuzzy
-#| msgid "Remove blank strings"
 msgid "Remove obsolete strings"
-msgstr "Ta bort tomma strängar"
+msgstr "Ta bort föråldrade strängar"
 
 msgid ""
 "Remove obsolete entries from PO files when saving translation changes or "
 "updating from a POT file."
 msgstr ""
+"Ta bort föråldrade poster från PO-filer när du sparar översättningsändringar "
+"eller uppdaterar från en POT-fil."
 
 msgid "Do not include location information in the file"
 msgstr "Inkludera inte platsinformation i filen"
@@ -14614,49 +14596,33 @@ msgstr "Inkludera inte platsinformation i filen"
 msgid "Use fuzzy matching"
 msgstr "Använd fuzzy-matchning"
 
-#, fuzzy
-#| msgid "Set \"Language-Team\" header"
 msgid "Update language team header"
-msgstr "Ange \"Language-Team\"-header"
+msgstr "Uppdatera rubriken för språkgruppen"
 
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Lets Weblate update the \"Language-Team\" file header."
-msgstr "Låter Weblate uppdatera \"Language-Team\"-filheadern i ditt projekt."
+msgstr "Låt Weblate uppdatera filrubriken \"Language-Team\"."
 
-#, fuzzy
-#| msgid "Update translated strings"
 msgid "Update last translator header"
-msgstr "Uppdatera översatta strängar"
+msgstr "Uppdatera rubriken för den senaste översättaren"
 
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Lets Weblate update the \"Last-Translator\" file header."
-msgstr "Låter Weblate uppdatera \"Language-Team\"-filheadern i ditt projekt."
+msgstr "Låt Weblate uppdatera filrubriken \"Last-Translator\"."
 
 msgid "Update X-Generator header"
-msgstr ""
+msgstr "Uppdatera X-Generator-rubriken"
 
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Lets Weblate update the \"X-Generator\" file header."
-msgstr "Låter Weblate uppdatera \"Language-Team\"-filheadern i ditt projekt."
+msgstr "Låt Weblate uppdatera filrubriken \"X-Generator\"."
 
-#, fuzzy
-#| msgid "New language"
 msgid "Report msgid bugs to"
-msgstr "Nytt språk"
+msgstr "Rapportera msgid-fel till"
 
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid ""
 "Lets Weblate update the \"Report-Msgid-Bugs-To\" file header if Source "
 "string bug reporting address is set."
-msgstr "Låter Weblate uppdatera \"Language-Team\"-filheadern i ditt projekt."
+msgstr ""
+"Låt Weblate uppdatera filrubriken \"Report-Msgid-Bugs-To\" om källsträngens "
+"felrapporteringsadress är inställd."
 
 msgid "YAML indentation"
 msgstr "YAML-indentering"
@@ -14697,21 +14663,20 @@ msgstr "FlatXML-värdenamn"
 msgid "FlatXML key name"
 msgstr "FlatXML-nyckelnamn"
 
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Hittade duplicerad sträng"
+msgstr "Ta bort dubbletter av identiska strängar"
 
 msgid ""
 "Consolidates identical source strings into a single translation unit. "
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Sammanför identiska källsträngar till en enda översättningsenhet. Förhindrar "
+"att översättningar går förlorade vid omstrukturering av filer eller "
+"omordning av tabeller genom att ta bort positionsberoende sammanhang."
 
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Filnamnskodning"
+msgstr "Filkodning"
 
 msgid "UTF-8"
 msgstr "UTF-8"
@@ -14725,10 +14690,8 @@ msgstr "Kodning som används för sträng-filer till iOS"
 msgid "ISO-8859-1"
 msgstr "ISO-8859-1"
 
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Formatera Java-properties-filen"
+msgstr "Kodning som används för Java-egenskapsfiler"
 
 msgid "Auto-detect"
 msgstr "Upptäck automatiskt"
@@ -14740,12 +14703,14 @@ msgid "Encoding used for simple CSV files"
 msgstr "Kodning som används för enkla CSV-filer"
 
 msgid "Escape spreadsheet formulas"
-msgstr ""
+msgstr "Skydda kalkylbladsformler"
 
 msgid ""
 "Prefix values that look like spreadsheet formulas with an apostrophe when "
 "saving CSV files."
 msgstr ""
+"Inled värden som ser ut som kalkylbladsformler med en apostrof när CSV-filer "
+"sparas."
 
 msgid "Encoding used for GWT Properties files"
 msgstr "Kodning som används för GWT-egenskapsfiler"
@@ -14756,51 +14721,53 @@ msgstr "DOS-radslut"
 msgid ""
 "Use DOS line endings (\\r\\n) instead of UNIX line endings (\\n) in strings."
 msgstr ""
+"Använd DOS-radändelser (\\r\\n) istället för UNIX-radändelser (\\n) i "
+"strängar."
 
 msgid "Maximum line length"
-msgstr ""
+msgstr "Maximal radlängd"
 
 msgid "The maximum number of characters for each line in the output file."
-msgstr ""
+msgstr "Det maximala antalet tecken för varje rad i utdatafilen."
 
-#, fuzzy
-#| msgid "Browse all components"
 msgid "Extract code blocks"
-msgstr "Utforska alla komponenter"
+msgstr "Extrahera kodblock"
 
 msgid ""
 "Whether to extract translatable content from code blocks in Markdown and MDX "
 "files."
 msgstr ""
+"Huruvida översättningsbart innehåll skall extraheras från kodblock i "
+"Markdown- och MDX-filer."
 
-#, fuzzy
-#| msgid "Extract comments with tag"
 msgid "Extract front matter"
-msgstr "Extrahera kommentarer med tagg"
+msgstr "Extrahera inledningen"
 
 msgid ""
 "Whether to extract and translate YAML front matter blocks in Markdown and "
 "MDX files."
 msgstr ""
+"Huruvida YAML-inledningsblock skall extraheras och översättas i Markdown- "
+"och MDX-filer."
 
-#, fuzzy
-#| msgid "Translation memory status"
 msgid "Translate front matter values"
-msgstr "Status för översättningsminnet"
+msgstr "Översätt inledningsblockens värden"
 
 msgid ""
 "Parse YAML front matter and translate only scalar string values. Keys, "
 "structure, comments, and formatting are preserved when possible."
 msgstr ""
+"Tolka YAML-inledningen och översätt endast skalära strängvärden. Nycklar, "
+"poster, kommentarer och formatering bevaras när det är möjligt."
 
-#, fuzzy
-#| msgid "Percent placeholders"
 msgid "Disable placeholders"
-msgstr "Procentplatshållare"
+msgstr "Deaktivera platshållare"
 
 msgid ""
 "Disables detection and processing of placeholders in Markdown and MDX files."
 msgstr ""
+"Inaktiverar identifiering och bearbetning av platshållare i Markdown- och "
+"MDX-filer."
 
 msgid "All strings"
 msgstr "Alla strängar"
@@ -14862,10 +14829,8 @@ msgstr "Anpassad sökning"
 msgid "Labeled: {}"
 msgstr "Med etikett: {}"
 
-#, fuzzy
-#| msgid "Repository branch is not used for linked repositories."
 msgid "Repository branch is required for this integration."
-msgstr "Förråds-branch används inte till länkade förråd."
+msgstr "Förrådsgrenen krävs för denna integration."
 
 msgid "Invalid date!"
 msgstr "Ogiltigt datum!"
@@ -14948,10 +14913,8 @@ msgstr "Ändra översatta strängar"
 msgid "Change translated and approved strings"
 msgstr "Ändra översatta och godkända strängar"
 
-#, fuzzy
-#| msgid "Insufficient privileges for editing source strings."
 msgid "Insufficient privileges for reviewing strings."
-msgstr "Otillräckliga behörigheter för att redigera källsträngar."
+msgstr "Otillräckliga behörigheter för att granska strängar."
 
 msgid "Author name"
 msgstr "Författarens namn"
@@ -14972,16 +14935,13 @@ msgstr ""
 "Ange URL-slug för den komponent som ska användas som källa, lämna tom för "
 "att använda alla komponenter i det aktuella projektet."
 
-#, fuzzy
-#| msgid ""
-#| "Enter slug of a component to use as source, keep blank to use all "
-#| "components in the current project."
 msgid ""
 "Enter project and component slug or component ID to use as source, keep "
 "blank to use all components in the current workspace."
 msgstr ""
-"Ange URL-slug för den komponent som ska användas som källa, lämna tom för "
-"att använda alla komponenter i det aktuella projektet."
+"Ange projektets och komponentens URL-slug eller komponent-ID som källa, "
+"lämna fältet tomt för att använda alla komponenter i det nuvarande "
+"arbetsområdet."
 
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
@@ -15015,10 +14975,8 @@ msgstr "Översättningsmotor"
 msgid "Score threshold"
 msgstr "Poänggräns"
 
-#, fuzzy
-#| msgid "All components in current project"
 msgid "All components in current workspace"
-msgstr "Alla komponenter i nuvarande projekt"
+msgstr "Alla komponenter i det nuvarande arbetsområdet"
 
 msgid "All components in current project"
 msgstr "Alla komponenter i nuvarande projekt"
@@ -15053,21 +15011,20 @@ msgstr "Kommentar till översättningen, diskutera med andra översättare"
 msgid "Please choose"
 msgstr "Välj"
 
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Revert the latest translation edits from this user in the current project."
-msgstr "Navigera till den sista översättningen i den aktuella sökningen."
+msgstr ""
+"Återställ de senaste översättningsändringarna från den här användaren i det "
+"nuvarande projektet."
 
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid "Reject all pending suggestions from this user in the current project."
-msgstr "Navigera till den sista översättningen i den aktuella sökningen."
+msgstr ""
+"Avvisa alla väntande förslag från den här användaren i det nuvarande "
+"projektet."
 
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid "Delete all comments from this user in the current project."
-msgstr "Navigera till den sista översättningen i den aktuella sökningen."
+msgstr ""
+"Ta bort alla kommentarer från denna användare i det nuvarande projektet."
 
 msgid "Allow user to add or remove users from a team."
 msgstr ""
@@ -15097,10 +15054,8 @@ msgstr "Översatta strängar"
 msgid "Sort order"
 msgstr "Sorteringsordning"
 
-#, fuzzy
-#| msgid "Continue"
 msgid "Counting mode"
-msgstr "Fortsätt"
+msgstr "Räkneläge"
 
 msgid ""
 "Choose whether repeated changes on the same string are counted once or as "
@@ -15109,56 +15064,38 @@ msgstr ""
 "Välj om upprepade ändringar på samma sträng ska räknas en gång eller som "
 "separata ändringar."
 
-#, fuzzy
-#| msgid "Unfinished strings"
 msgid "Unique strings"
-msgstr "Ofärdiga strängar"
+msgstr "Unika strängar"
 
-#, fuzzy
-#| msgid "All languages"
 msgid "All changes"
-msgstr "Alla språk"
+msgstr "Alla ändringar"
 
 msgid "Search filter"
 msgstr "Sökfilter"
 
-#, fuzzy
-#| msgid "Date range"
 msgid "Base rate"
-msgstr "Datumintervall"
+msgstr "Grundpris"
 
-#, fuzzy
-#| msgid "Number of source words"
 msgid "Price per source word."
-msgstr "Antal källord"
+msgstr "Pris per ord från källtexten."
 
-#, fuzzy
-#| msgid "Translation threshold"
 msgid "Translation memory threshold"
-msgstr "Översättningströskel"
+msgstr "Tröskelvärde för översättningsminne"
 
-#, fuzzy
-#| msgid "New string added"
 msgid "New strings rate"
-msgstr "Ny sträng tillagd"
+msgstr "Pris för nya strängar"
 
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs editing rate"
-msgstr "Behöver redigeras"
+msgstr "Pris för redigeringsbehov"
 
-#, fuzzy
-#| msgid "Extract comments with tag"
 msgid "Exact match rate"
-msgstr "Extrahera kommentarer med tagg"
+msgstr "Pris för exakt matchning"
 
 msgid "Fuzzy match rate"
-msgstr ""
+msgstr "Pris för ungefärling matchning"
 
-#, fuzzy
-#| msgid "Registration date"
 msgid "Repetition rate"
-msgstr "Registreringsdatum"
+msgstr "Repetitionspris"
 
 msgid "Minimum changes per day"
 msgstr "Minsta ändringar per dag"
@@ -15169,20 +15106,14 @@ msgstr "Maximalt antal ändringar per dag"
 msgid "Maximum source words per day"
 msgstr "Maximalt antal källord per dag"
 
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Inherit from workspace"
-msgstr "Ärvda flaggor"
+msgstr "Ärv från arbetsområdet"
 
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Inherit from project"
-msgstr "Ärvda flaggor"
+msgstr "Ärv från projektet"
 
-#, fuzzy
-#| msgid "Inherited flags"
 msgid "Inherit from category"
-msgstr "Ärvda flaggor"
+msgstr "Ärv från kategorin"
 
 msgid ""
 "Inherited value is shown. Disable inheritance to edit the stored override."
@@ -15241,21 +15172,15 @@ msgstr "Välj översättningsfiler att importera"
 msgid "Specify configuration manually"
 msgstr "Ange konfiguration manuellt"
 
-#, fuzzy
-#| msgid "Category does not belong to this project."
 msgid "The category does not belong to the selected project."
-msgstr "Kategorin hör inte till detta projekt."
+msgstr "Kategorin tillhör inte det valda projektet."
 
-#, fuzzy
-#| msgid ""
-#| "You must specify a license for these components to make them publicly "
-#| "accessible: %s"
 msgid ""
 "You must specify a license for these components to make them publicly "
 "accessible:"
 msgstr ""
 "Du måste ange en licens för dessa komponenter för att göra dem publikt "
-"tillgängliga: %s"
+"tillgängliga:"
 
 msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
@@ -15280,14 +15205,12 @@ msgid ""
 msgstr ""
 "Använder och bidrar till samlingen med delade översättningar mellan projekt."
 
-#, fuzzy
-#| msgid ""
-#| "Uses and contributes to the pool of shared translations between projects."
 msgid ""
 "Uses and contributes to the pool of shared translations between projects in "
 "the workspace."
 msgstr ""
-"Använder och bidrar till samlingen med delade översättningar mellan projekt."
+"Använder och bidrar till samlingen med delade översättningar mellan projekt "
+"i arbetsområdet."
 
 msgid ""
 "Enter the UUID of a workspace where you have permission to edit settings and "
@@ -15304,24 +15227,19 @@ msgstr ""
 "och lägga till projekt, eller lämna tomt om du vill flytta projektet från en "
 "arbetsyta."
 
-#, fuzzy
-#| msgid "No matching user found."
 msgid "No matching workspace found."
-msgstr "Inga matchande användare hittades."
+msgstr "Inget matchande arbetsområde hittades."
 
 msgid "ZIP file containing project backup"
 msgstr "ZIP-fil som innehåller en säkerhetskopia av projektet"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Could not load project backup: The backup is from an incompatible version "
-#| "(%(version)s). Please upgrade your Weblate instance."
+#, python-format
 msgid ""
 "The backup is from an incompatible version (%(version)s). Please upgrade "
 "your Weblate instance."
 msgstr ""
-"Det gick inte att läsa in projektets säkerhetskopia: Säkerhetskopian är från "
-"en inkompatibel version (%(version)s). Uppgradera din Weblate-instans."
+"Säkerhetskopian kommer från en inkompatibel version (%(version)s). "
+"Uppgradera din Weblate-instans."
 
 #, python-format
 msgid "Could not load project backup: %s"
@@ -15418,15 +15336,15 @@ msgstr "Borttagningsbekräftelse"
 msgid "Please type in the full slug of the translation to confirm."
 msgstr "Skriv in översättningens fulla SLUG för att bekräfta."
 
-#, fuzzy
-#| msgid "No translations were found for this component file mask."
 msgid "Delete translation memory created from this component"
-msgstr "Inga översättningar hittades för denna komponentfilmask."
+msgstr "Ta bort översättningsminnet som skapats från denna komponent"
 
 msgid ""
 "Project, workspace, and shared translation memory entries will be deleted. "
 "Personal and uploaded entries will be preserved."
 msgstr ""
+"Projekt, arbetsområde och poster i delat översättningsminne kommer att "
+"raderas. Personliga och uppladdade poster kommer att bevaras."
 
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Skriv in översättningens fulla SLUG för att bekräfta."
@@ -15436,6 +15354,7 @@ msgstr "Skriv in översättningens SLUG för att bekräfta."
 
 msgid "Delete translation memory created from components in this category"
 msgstr ""
+"Ta bort översättningsminnet som skapats från komponenter i denna kategori"
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Skriv in kategorins URL-slug för att bekräfta."
@@ -15458,10 +15377,9 @@ msgstr "Datumintervall"
 msgid "Expiry cannot be in the past."
 msgstr "Utgångsdatum kan inte vara i det förflutna."
 
-#, fuzzy, python-format
-#| msgid "Manage %(team)s"
+#, python-format
 msgid "Limit languages for %(team)s"
-msgstr "Hantera %(team)s"
+msgstr "Begränsa språken för %(team)s"
 
 msgid "Customize translation workflow for this language"
 msgstr "Anpassa arbetsflödet för översättning för detta språk"
@@ -15596,10 +15514,8 @@ msgstr "Meddela användare"
 msgid "Send notification to subscribed users."
 msgstr "Skicka avisering till abonnerande användare."
 
-#, fuzzy
-#| msgid "Do not specify both component and project!"
 msgid "Do not specify both component and category!"
-msgstr "Ange inte både komponent och projekt!"
+msgstr "Ange inte både komponent och kategori!"
 
 msgid "Do not specify both component and project!"
 msgstr "Ange inte både komponent och projekt!"
@@ -15616,41 +15532,31 @@ msgstr "Översättningsflaggor"
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "Ytterligare kommaseparerade flaggor för att påverka Weblates beteende."
 
-#, fuzzy
-#| msgid "Translation license"
 msgid "Inherit translation license"
-msgstr "Översättningslicens"
+msgstr "Ärv översättningslicens"
 
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Use the translation license configured in the parent category or project."
-msgstr "Navigera till den sista översättningen i den aktuella sökningen."
+msgstr ""
+"Använd den översättningslicens som är konfigurerad i den överordnade "
+"kategorin eller i projektet."
 
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this category."
 msgstr ""
 "Licensavtal för bidragsgivare som måste godkännas innan en användare kan "
-"översätta denna komponent."
+"översätta komponenter i denna kategori."
 
-#, fuzzy
-#| msgid "View contributor license agreement"
 msgid "Inherit contributor license agreement"
-msgstr "Visa licensavtal för bidragsgivare"
+msgstr "Ärv licensavtal för bidragsgivare"
 
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement for component %(component)s was changed."
 msgid ""
 "Use the contributor license agreement configured in the parent category or "
 "project."
 msgstr ""
-"Licensavtalet för bidragsgivare för komponent %(component)s har ändrats."
+"Använd licensavtalet för bidragsgivare som är konfigurerat i den överordnade "
+"kategorin eller projektet."
 
 msgid "Adding new translation"
 msgstr "Lägg till ny översättning"
@@ -15658,17 +15564,15 @@ msgstr "Lägg till ny översättning"
 msgid "How to handle requests for creating new translations."
 msgstr "Hur förfrågningar om att skapa nya översättningar hanteras."
 
-#, fuzzy
-#| msgid "Disable adding new translations"
 msgid "Inherit adding new translations"
-msgstr "Inaktivera tillägg av nya översättningar"
+msgstr "Ärv tillägg av nya översättningar"
 
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Use the adding new translations setting configured in the parent category or "
 "project."
-msgstr "Navigera till den sista översättningen i den aktuella sökningen."
+msgstr ""
+"Använd inställningen för att lägga till nya översättningar som har "
+"konfigurerats i den överordnade kategorin eller projektet."
 
 msgid "Language code style"
 msgstr "Språkkodstil"
@@ -15680,10 +15584,8 @@ msgstr ""
 "Anpassa språkkoden som används för att skapa filnamn för översättningar som "
 "skapats av Weblate."
 
-#, fuzzy
-#| msgid "Language code style"
 msgid "Inherit language code style"
-msgstr "Språkkodstil"
+msgstr "Ärv språkkodsstil"
 
 msgid ""
 "Use the language code style configured in the parent category or project."
@@ -15701,17 +15603,14 @@ msgstr ""
 "Ytterligare språk som ska visas tillsammans med källspråket under "
 "översättningen."
 
-#, fuzzy
-#| msgid "Secondary language"
 msgid "Inherit secondary language"
-msgstr "Andraspråk"
+msgstr "Ärv sekundärt språk"
 
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid ""
 "Use the secondary language configured in the parent category or project."
-msgstr "Sekundärt språk definierat i projekt eller komponent"
+msgstr ""
+"Använd det sekundära språket som har konfigurerats i överordnad kategori "
+"eller projekt."
 
 msgid "Commit message when translating"
 msgstr "Arkiveringsmeddelande vid översättning"
@@ -15723,10 +15622,8 @@ msgstr ""
 "Du kan använda mallspråket för diverse information, se dokumentationen för "
 "mer detaljer."
 
-#, fuzzy
-#| msgid "Commit message when translating"
 msgid "Inherit commit message when translating"
-msgstr "Arkiveringsmeddelande vid översättning"
+msgstr "Ärv commit-meddelandet vid översättning"
 
 msgid ""
 "Use the commit message when translating configured in the parent category or "
@@ -15738,10 +15635,8 @@ msgstr ""
 msgid "Commit message when adding translation"
 msgstr "Arkiveringsmeddelande när översättning läggs till"
 
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid "Inherit commit message when adding translation"
-msgstr "Arkiveringsmeddelande när översättning läggs till"
+msgstr "Ärv commit-meddelandet när en översättning läggs till"
 
 msgid ""
 "Use the commit message when adding translation configured in the parent "
@@ -15753,10 +15648,8 @@ msgstr ""
 msgid "Commit message when removing translation"
 msgstr "Arkiveringsmeddelande när översättning tas bort"
 
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid "Inherit commit message when removing translation"
-msgstr "Arkiveringsmeddelande när översättning tas bort"
+msgstr "Ärv commit-meddelandet när en översättning tas bort"
 
 msgid ""
 "Use the commit message when removing translation configured in the parent "
@@ -15769,10 +15662,8 @@ msgstr ""
 msgid "Commit message when merging translation"
 msgstr "Arkiveringsmeddelande när översättning slås samman"
 
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid "Inherit commit message when merging translation"
-msgstr "Arkiveringsmeddelande när översättning slås samman"
+msgstr "Ärv commit-meddelande när översättningen slås samman"
 
 msgid ""
 "Use the commit message when merging translation configured in the parent "
@@ -15784,10 +15675,8 @@ msgstr ""
 msgid "Commit message when add-on makes a change"
 msgstr "Arkiveringsmeddelande när ett tillägg gör en ändring"
 
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid "Inherit commit message when add-on makes a change"
-msgstr "Arkiveringsmeddelande när ett tillägg gör en ändring"
+msgstr "Ärv commit-meddelande när ett tillägg gör en ändring"
 
 msgid ""
 "Use the commit message when add-on makes a change configured in the parent "
@@ -15799,10 +15688,8 @@ msgstr ""
 msgid "Merge request message"
 msgstr "Meddelande för merge-begäran"
 
-#, fuzzy
-#| msgid "Merge request message"
 msgid "Inherit merge request message"
-msgstr "Meddelande för merge-begäran"
+msgstr "Ärv meddelandet från sammanslagningsbegäran"
 
 msgid ""
 "Use the merge request message configured in the parent category or project."
@@ -15816,10 +15703,8 @@ msgstr "Föräldrakategorin måste vara i samma projekt!"
 msgid "Parent category has to be different!"
 msgstr "Föräldrakategorin måste vara annorlunda!"
 
-#, fuzzy
-#| msgid "Component with this name already exists in the project."
 msgid "Repository path for this category already exists and is not empty."
-msgstr "En komponent med det här namnet finns redan i projektet."
+msgstr "Sökvägen till förrådet för denna kategori finns redan och är inte tom."
 
 msgid "Component created from scratch"
 msgstr "Komponent skapad från grunden"
@@ -15872,19 +15757,14 @@ msgid ""
 "This field is managed by the repository integration and can not be changed."
 msgstr "Det här fältet hanteras av databasintegrationen och kan inte ändras."
 
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository containing "
-#| "translations. You can also choose additional integration with third party "
-#| "providers to submit merge requests."
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
 "providers to submit pull/merge requests."
 msgstr ""
-"Versionshanteringssystem som ska användas för att komma åt ditt arkiv med "
-"översättningar. Du kan också välja ytterligare integration med "
-"tredjepartsleverantörer för att skicka sammanslagningsförfrågningar."
+"Versionshanteringssystem som skall användas för att komma åt ditt förråd med "
+"översättningar. Du kan även välja att integrera med tjänster från "
+"tredjepartsleverantörer för att skicka in pull-/sammanslagningsbegäranden."
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -15896,12 +15776,13 @@ msgstr ""
 msgid "Repository push URL"
 msgstr "Push-URL för arkiv"
 
-#, fuzzy
-#| msgid "URL of a push repository, pushing is turned off if empty."
 msgid ""
 "URL of a push repository, pushing is turned off if empty. When using pull/"
 "merge requests, keep empty to fork the repository."
-msgstr "Webbadress för ett push-arkiv, push är avstängt om fältet lämnas tomt."
+msgstr ""
+"URL till ett push-förråd, att göra push är avstängt om den är tom. När pull-/"
+"sammanslagningsbegäranden används, lämna den tom för att skapa en gren av "
+"förrådet."
 
 msgid "Repository browser"
 msgstr "Arkivutforskare"
@@ -16036,10 +15917,8 @@ msgstr "Om du vill tillåta översättningsförslag överhuvudtaget."
 msgid "Suggestion voting"
 msgstr "Förslagsröstning"
 
-#, fuzzy
-#| msgid "Whether users can vote for suggestions."
 msgid "Allows users to vote on suggestions."
-msgstr "Om användare kan rösta på förslag."
+msgstr "Låter användare rösta på förslag."
 
 msgid "Automatically accept suggestions"
 msgstr "Acceptera förslag automatiskt"
@@ -16057,10 +15936,10 @@ msgstr "Tvingande kontroller"
 msgid "List of checks which can not be dismissed."
 msgstr "Lista över kontroller som inte kan avfärdas."
 
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid "Use the translation license configured in the category or project."
-msgstr "Navigera till den sista översättningen i den aktuella sökningen."
+msgstr ""
+"Använd den översättningslicens som har konfigurerats i kategorin eller "
+"projektet."
 
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
@@ -16069,18 +15948,18 @@ msgstr ""
 "Licensavtal för bidragsgivare som måste godkännas innan en användare kan "
 "översätta denna komponent."
 
-#, fuzzy
-#| msgid "There was no contributor license agreement before."
 msgid ""
 "Use the contributor license agreement configured in the category or project."
-msgstr "Det fanns inget licensavtal för bidragsgivare tidigare."
+msgstr ""
+"Använd det licensavtal för bidragsgivare som har konfigurerats i kategorin "
+"eller projektet."
 
-#, fuzzy
-#| msgid "Navigate to the last translation in the current search."
 msgid ""
 "Use the adding new translations setting configured in the category or "
 "project."
-msgstr "Navigera till den sista översättningen i den aktuella sökningen."
+msgstr ""
+"Använd inställningen för att lägga till nya översättningar som har "
+"konfigurerats i kategorin eller projektet."
 
 msgid "Use the language code style configured in the category or project."
 msgstr "Använd språkkodsstilen som konfigurerats i kategorin eller projektet."
@@ -16114,33 +15993,33 @@ msgstr ""
 "Använd commit-meddelandet vid översättning av konfigurerade element i "
 "kategorin eller projektet."
 
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid ""
 "Use the commit message when adding translation configured in the category or "
 "project."
-msgstr "Arkiveringsmeddelande när översättning läggs till"
+msgstr ""
+"Använd commit-meddelandet när en översättning läggs till som har "
+"konfigurerats i kategorin eller projektet."
 
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid ""
 "Use the commit message when removing translation configured in the category "
 "or project."
-msgstr "Arkiveringsmeddelande när översättning tas bort"
+msgstr ""
+"Använd commit-meddelandet när en översättning tas bort som konfigurerats i "
+"kategorin eller projektet."
 
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid ""
 "Use the commit message when merging translation configured in the category "
 "or project."
-msgstr "Arkiveringsmeddelande när översättning slås samman"
+msgstr ""
+"Använd commit-meddelandet vid sammanfogning av översättningar som "
+"konfigurerats i kategorin eller projektet."
 
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid ""
 "Use the commit message when add-on makes a change configured in the category "
 "or project."
-msgstr "Arkiveringsmeddelande när ett tillägg gör en ändring"
+msgstr ""
+"Använd commit-meddelandet när tillägg gör en ändring som konfigurerats i "
+"kategorin eller projektet."
 
 msgid "Use the merge request message configured in the category or project."
 msgstr ""
@@ -16225,22 +16104,16 @@ msgstr ""
 msgid "This setting is inherited from the project if left empty."
 msgstr "Denna inställning ärvs från projektet om den lämnas tom."
 
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the category or project."
-msgstr "Sekundärt språk definierat i projekt eller komponent"
+msgstr ""
+"Använd det sekundära språk som har konfigurerats i kategorin eller projektet."
 
-#, fuzzy
-#| msgid ""
-#| "Could not verify SSH host key, please add them in SSH page in the admin "
-#| "interface."
 msgid ""
 "Could not verify the SSH host key. Please add it on the SSH page in the "
 "admin interface."
 msgstr ""
-"Det gick inte att verifiera SSH-värdnyckeln. Lägg till dem på SSH-sidan i "
-"administratörsgränssnittet."
+"Kunde inte verifiera SSH värdnyckeln. Lägg till den på SSH-sidan i "
+"administratrörsgränssnittet."
 
 msgid ""
 "The SSH host key for the repository has changed. Verify the new fingerprint, "
@@ -16289,7 +16162,15 @@ msgid_plural ""
 "add the files upstream and rescan, or configure the component so Weblate can "
 "create the translation files."
 msgstr[0] ""
+"Återställde förrådet, men kunde inte återanvända väntande översättningar "
+"eftersom %(files)s saknas. Väntande ändringar behölls. För att återhämta, "
+"lägg till filerna uppströms och skanna om, eller konfigurera komponenten så "
+"Weblate kan skapa översättningsfilerna."
 msgstr[1] ""
+"Återställde förrådet, men kunde inte återanvända väntande översättningar "
+"eftersom dessa filer saknas: %(files)s. Väntande ändringar behölls. För att "
+"återhämta, lägg till filerna uppströms och skanna om, eller konfigurera "
+"komponenten så Weblate kan skapa översättningsfilerna."
 
 #, python-format
 msgid ""
@@ -16302,7 +16183,15 @@ msgid_plural ""
 "upstream and rescan, or configure the component so Weblate can create the "
 "translation files."
 msgstr[0] ""
+"Filsynkronisering kunde inte återskapa %(files)s eftersom den saknas. "
+"Väntande förändringar behölls. För att återställa, lägg till filen uppströms "
+"och skanna om, eller konfigurera komponenten så Weblate kan skapa "
+"översättningsfilen."
 msgstr[1] ""
+"Filsynkronisering kunde inte återskapa dessa filer eftersom de saknas: %"
+"(files)s. Väntande förändringar behölls. För att återställa, lägg till "
+"filerna uppströms och skanna om, eller konfigurera komponenten så Weblate "
+"kan skapa översättningsfiler."
 
 #, python-format
 msgid ""
@@ -16312,16 +16201,13 @@ msgstr ""
 "Återställde arkivet, men kunde inte återskapa %(file)s när väntande "
 "översättningar tillämpades igen. Väntande ändringar behölls."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(file)s before committing pending "
 "translations. Pending changes were kept."
 msgstr ""
-"Återställer Weblates arkiv så att det matchar uppströms och förkastar alla "
-"väntande ändringar i Weblate."
+"Filsynkroniseringen kunde inte återställa %(file)s innan de väntande "
+"översättningarna utfördes. De väntande ändringarna behölls."
 
 #, python-format
 msgid ""
@@ -16331,12 +16217,13 @@ msgid_plural ""
 "Reset the repository, but could not recreate these files while reapplying "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
+"Återställde förrådet, men kunde inte återskapa %(files)s när väntande "
+"översättningar återskapades. Väntande ändringar behölls."
 msgstr[1] ""
+"Återställde förrådet, men kunde inte återskapa dessa filer när väntande "
+"översättningar återskapades %(files)s. Väntande ändringar behölls."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
+#, python-format
 msgid ""
 "File synchronization could not recreate %(files)s before committing pending "
 "translations. Pending changes were kept."
@@ -16344,33 +16231,25 @@ msgid_plural ""
 "File synchronization could not recreate these files before committing "
 "pending translations: %(files)s. Pending changes were kept."
 msgstr[0] ""
-"Återställer Weblates arkiv så att det matchar uppströms och förkastar alla "
-"väntande ändringar i Weblate."
+"Filsynkronisering kunde inte återskapa %(files)s innan väntande "
+"översättningar utfördes. Väntande ändringar behölls."
 msgstr[1] ""
-"Återställer Weblates arkiv så att det matchar uppströms och förkastar alla "
-"väntande ändringar i Weblate."
+"Filsynkronisering kunde inte återskapa dessa filer innan väntande "
+"översättningar utfördes: %(files)s. Väntande ändringar behölls."
 
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
 msgid ""
 "Reset the repository, but could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Återställer Weblates arkiv så att det matchar uppströms och förkastar alla "
-"väntande ändringar i Weblate."
+"Återställde förrådet, men kunde inte återskapa väntande översättningar. "
+"Väntande ändringar behölls."
 
-#, fuzzy
-#| msgid ""
-#| "Resets Weblate’s repository to match upstream and discards any pending "
-#| "changes in Weblate."
 msgid ""
 "File synchronization could not recreate pending translations. Pending "
 "changes were kept."
 msgstr ""
-"Återställer Weblates arkiv så att det matchar uppströms och förkastar alla "
-"väntande ändringar i Weblate."
+"Filsynkroniseringen kunde inte återställa väntande översättningar. Väntande "
+"ändringar behölls."
 
 #, python-format
 msgid "Could not clean the repository on %s."
@@ -16433,18 +16312,15 @@ msgstr ""
 "Du har konfigurerat Weblate för att lägga till nya översättningsfiler, men "
 "inte angett någon basfil för det."
 
-#, fuzzy
-#| msgid "Could not parse base file for new translations: %s"
 msgid "Could not parse base file for new translations:"
-msgstr "Kunde inte tolka basfilen för nya översättningar: %s"
+msgstr "Kunde inte tolka basfilen för nya översättningar:"
 
 msgid "Unrecognized base file for new translations."
 msgstr "Oigenkändlig basfil för nya översättningar."
 
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Adding and removing strings is not supported with this file format."
-msgstr "Redigeringsmall stöds inte med det här filformatet."
+msgstr ""
+"Det går inte att lägga till eller ta bort strängar i det här filformatet."
 
 msgid "Editing template is not supported with this file format."
 msgstr "Redigeringsmall stöds inte med det här filformatet."
@@ -16474,28 +16350,23 @@ msgstr "Mallspråk ({0}) matchar inte källspråk ({1})!"
 msgid "Push URL is not used without a remote repository."
 msgstr "Push-URL används inte utan ett fjärrarkiv."
 
-#, fuzzy, python-format
-#| msgid "Could not update repository: %s"
+#, python-format
 msgid "Could not validate push URL: %s"
-msgstr "Det gick inte att uppdatera arkivet: %s"
+msgstr "Kunde inte validera push-URL:en: %s"
 
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid ""
 "Pull and push branches cannot be the same when using pull/merge requests and "
 "not pushing to a fork."
 msgstr ""
-"Pull- och push-grenar kan inte vara desamma när man använder merge-"
-"förfrågningar."
+"Pull- och push-grenar får inte vara desamma när du använder pull-/"
+"sammanslagningsbegäranden och man inte gör push till en gren."
 
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid ""
 "Push branch cannot be empty when using pull/merge requests and not pushing "
 "to a fork."
 msgstr ""
-"Pull- och push-grenar kan inte vara desamma när man använder merge-"
-"förfrågningar."
+"Push-grenen får inte vara tom när man använder pull-/"
+"sammanslagningsbegäranden och inte gör push till en gren."
 
 msgid "Choose No remote repository for local: URL."
 msgstr "Välj Inget fjärrarkiv för lokalt: URL."
@@ -16511,15 +16382,13 @@ msgstr ""
 "Din push-URL verkar sakna autentiseringsuppgifter. Antingen ange dem i "
 "webbadressen eller använd SSH med nyckelbaserad autentisering."
 
-#, fuzzy, python-format
-#| msgid "Repository branch"
+#, python-format
 msgid "Invalid repository branch: %s"
-msgstr "Arkivgren"
+msgstr "Ogiltig förrådsgren: %s"
 
-#, fuzzy, python-format
-#| msgid "Invalid search string!"
+#, python-format
 msgid "Invalid push branch: %s"
-msgstr "Ogiltig söksträng!"
+msgstr "Ogiltig push-gren: %s"
 
 #, python-format
 msgid ""
@@ -16535,16 +16404,12 @@ msgid ""
 msgstr ""
 "Parametern '%(param)s' är inte tillämplig för filformatet '%(format)s'."
 
-#, fuzzy
-#| msgid ""
-#| "Allow this component's translations to be added to the project-level "
-#| "translation memory."
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
 msgstr ""
-"Tillåt att översättningar av denna komponent läggs till i "
-"översättningsminnet på projektnivå."
+"En komponent kan inte begränsas så länge dess projekt använder ett gemensamt "
+"översättningsminne."
 
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
@@ -16569,10 +16434,9 @@ msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Kan inte validera fil-matchning på grund av ogiltigt reguljärt uttryck."
 
-#, fuzzy
-#| msgid "The regular expression can not match an empty string."
 msgid "The regular expression is too complex and took too long to evaluate."
-msgstr "Det reguljära uttrycket kan inte matcha en tom sträng."
+msgstr ""
+"Det reguljära uttrycket är för komplicerat och tog för lång tid att beräkna."
 
 msgid "Could not add new translation file."
 msgstr "Det gick inte att lägga till en ny översättningsfil."
@@ -16606,10 +16470,8 @@ msgstr "Lägg till ny översättningssträng"
 msgid "Could not get repository status!"
 msgstr "Kunde inte hämta arkivstatus!"
 
-#, fuzzy
-#| msgid "File in original format as translated in the repository"
 msgid "File path is in a restricted location in the repository."
-msgstr "Filen i originalformat som översatts i arkivet"
+msgstr "Filvägen finns på en plats med åtkomstbegränsningar i förrådet."
 
 msgid "Component list name"
 msgstr "Namn på komponentlistan"
@@ -16677,17 +16539,16 @@ msgstr "Bidra till det delade översättningsminnet"
 msgid "Contributes to the pool of shared translations between projects."
 msgstr "Bidrar till samlingen med delade översättningar mellan projekt."
 
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid "Uses the pool of shared translations between projects in the workspace."
-msgstr "Använder samlingen med delade översättningar mellan projekt."
+msgstr ""
+"Använder poolen av delade översättningar mellan projekt i arbetsområdet."
 
-#, fuzzy
-#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
 "Contributes translations to the pool shared between projects in the "
 "workspace."
-msgstr "Bidrar till samlingen med delade översättningar mellan projekt."
+msgstr ""
+"Bidrar med översättningar till poolen som delas mellan projekten i "
+"arbetsområdet."
 
 msgid ""
 "Automatically removes outdated and obsolete entries from translation memory."
@@ -16742,26 +16603,19 @@ msgstr ""
 "Kommaseparerad lista över språkkodsmappningar, till exempel: en_GB:en, "
 "sv_SE:sv"
 
-#, fuzzy
-#| msgid "The translation will be updated in the background."
 msgid "Use the translation license configured in the workspace."
-msgstr "Översättningen kommer att uppdateras i bakgrunden."
+msgstr "Använd översättningslicensen som är konfigurerad i arbetsområdet."
 
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this project."
 msgstr ""
 "Licensavtal för bidragsgivare som måste godkännas innan en användare kan "
-"översätta denna komponent."
+"översätta komponenter i detta projekt."
 
-#, fuzzy
-#| msgid "Contributor license agreement changed"
 msgid "Use the contributor license agreement configured in the workspace."
-msgstr "Ändrat licensavtal för bidragsgivare"
+msgstr ""
+"Använd licensavtalet för bidragsgivaren som är konfigurerat i arbetsområdet."
 
 msgid "Use the adding new translations setting configured in the workspace."
 msgstr ""
@@ -16771,61 +16625,57 @@ msgstr ""
 msgid "Use the language code style configured in the workspace."
 msgstr "Använd språkkodsstilen som konfigurerats i arbetsytan."
 
-#, fuzzy
-#| msgctxt "Source language selection"
-#| msgid "Secondary language defined in project or component"
 msgid "Use the secondary language configured in the workspace."
-msgstr "Sekundärt språk definierat i projekt eller komponent"
+msgstr "Använd det sekundära språk som har konfigurerats i arbetsområdet."
 
-#, fuzzy
-#| msgid "Commit message when translating"
 msgid "Use the commit message when translating configured in the workspace."
-msgstr "Arkiveringsmeddelande vid översättning"
+msgstr ""
+"Använd det commit-meddelandet vid översättning som konfigurerats i "
+"arbetsområdet."
 
-#, fuzzy
-#| msgid "Commit message when adding translation"
 msgid ""
 "Use the commit message when adding translation configured in the workspace."
-msgstr "Arkiveringsmeddelande när översättning läggs till"
+msgstr ""
+"Använd det commit-meddelandet vid tillägg av översättning som konfigurerats "
+"i arbetsområdet."
 
-#, fuzzy
-#| msgid "Commit message when removing translation"
 msgid ""
 "Use the commit message when removing translation configured in the workspace."
-msgstr "Arkiveringsmeddelande när översättning tas bort"
+msgstr ""
+"Använd det commit-meddelandet vid borttagning av översättning som "
+"konfigurerats i arbetsområdet."
 
-#, fuzzy
-#| msgid "Commit message when merging translation"
 msgid ""
 "Use the commit message when merging translation configured in the workspace."
-msgstr "Arkiveringsmeddelande när översättning slås samman"
+msgstr ""
+"Använd det commit-meddelandet vid sammanslagning av översättning som "
+"konfigurerats i arbetsområdet."
 
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid ""
 "Use the commit message when add-on makes a change configured in the "
 "workspace."
-msgstr "Arkiveringsmeddelande när ett tillägg gör en ändring"
+msgstr ""
+"Använd det commit-meddelandet för tillägg som gör en ändring som "
+"konfigurerats i arbetsområdet."
 
 msgid "Use the merge request message configured in the workspace."
 msgstr ""
 "Använd meddelandet om sammanslagningsförfrågan som konfigurerats i "
 "arbetsytan."
 
-#, fuzzy
-#| msgid ""
-#| "Add-ons can also be installed at the project and the component levels."
 msgid ""
 "Shared translation memory can not be enabled while the project has "
 "restricted components."
-msgstr "Tillägg kan också installeras på projekt- och komponentnivå."
+msgstr ""
+"Det går inte att aktivera det delade översättningsminnet så länge projektet "
+"innehåller begränsade komponenter."
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "Tvingar skrivning av alla strängar till översättningsfilerna."
+msgstr ""
+"Översättningar som är markerade som i behov av redigering skrivs inte in i "
+"översättningsfilen."
 
 msgid "Only approved translations are written to the translation file."
 msgstr "Endast godkända översättningar skrivs till översättningsfilen."
@@ -16833,10 +16683,8 @@ msgstr "Endast godkända översättningar skrivs till översättningsfilen."
 msgid "Could not accept suggestion!"
 msgstr "Kunde inte acceptera förslaget!"
 
-#, fuzzy
-#| msgid "Image is too big."
 msgid "Uploaded translation file is too big."
-msgstr "Bilden är för stor."
+msgstr "Den uppladdade översättningsfilen är för stor."
 
 #, python-format
 msgid ""
@@ -16850,35 +16698,23 @@ msgstr ""
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Kunde inte tolka filen %(file)s: %(error)s"
 
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Removing duplicate strings is not supported for this file format."
-msgstr "Redigeringsmall stöds inte med det här filformatet."
+msgstr "Att ta bort dubblerade strängar stödjs inte för detta filformat."
 
-#, fuzzy
-#| msgid "Duplicated string found in the file."
 msgid "No duplicate strings were found in the translation file."
-msgstr "Duplicerad sträng hittades i filen."
+msgstr "Inga dubbletter av strängar hittades i översättningsfilen."
 
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Cleanup of unused strings is not supported for this file format."
-msgstr "Redigeringsmall stöds inte med det här filformatet."
+msgstr "Rensning av oanvända strängar stödjs inte för detta filformat."
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "No unused strings were found in the translation file."
-msgstr "Tvingar skrivning av alla strängar till översättningsfilerna."
+msgstr "Inga oanvända strängar hittades i översättningsfilen."
 
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Removing obsolete strings is not supported for this file format."
-msgstr "Redigeringsmall stöds inte med det här filformatet."
+msgstr "Att ta bort föråldrade strängar stödjs inte för detta filformat."
 
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid "No obsolete strings were found in the translation file."
-msgstr "Tvingar skrivning av alla strängar till översättningsfilerna."
+msgstr "Inga föråldrade strängar hittades i översättningsfilen."
 
 msgid "“{}”"
 msgstr "“{}”"
@@ -16892,36 +16728,30 @@ msgid_plural "Could not find %d strings:"
 msgstr[0] "Kunde inte hitta %d sträng:"
 msgstr[1] "Kunde inte hitta %d strängar:"
 
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is out of range."
 msgstr ""
-"Pluralformer i den uppladdade filen matchar inte den aktuella översättningen."
+"Pluralform %d i den uppladdade filen ligger utanför det tillåtna intervallet."
 
-#, fuzzy, python-format
-#| msgid "Plural forms in the uploaded file do not match current translation."
+#, python-format
 msgid "Plural form %d in the uploaded file is missing."
-msgstr ""
-"Pluralformer i den uppladdade filen matchar inte den aktuella översättningen."
+msgstr "Pluralform %d saknas i den uppladdade filen."
 
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Kunde inte arkivera väntande ändringar: %s"
 
-#, fuzzy, python-brace-format
-#| msgid "Could not parse {file}: {error}"
+#, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "Kunde inte tolka filen {file}: {error}"
+msgstr "Kunde inte tolka den uppladdade filen som {file_format}: {error}"
 
-#, fuzzy, python-format
-#| msgid "Could not parse uploaded ZIP file."
+#, python-format
 msgid "Could not parse uploaded file: %s"
-msgstr "Kunde inte tolka uppladdade ZIP-filen."
+msgstr "Kunde inte tolka uppladdade filen: %s"
 
-#, fuzzy, python-format
-#| msgid "Could not parse translation files."
+#, python-format
 msgid "Could not parse translation file: %s"
-msgstr "Kunde inte tolka översättningsfilerna."
+msgstr "Kunde inte tolka översättningsfilen: %s"
 
 msgid "Plurals are not supported by the file format."
 msgstr "Pluralformer stöds inte av filformatet."
@@ -16982,12 +16812,14 @@ msgid "Mark as terminology"
 msgstr "Markera som terminologi"
 
 msgid "Restrict direct editing"
-msgstr ""
+msgstr "Begränsa direktredigering"
 
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
 msgstr ""
+"Endast användare med behörigheten “Redigera sträng när förslag är tvingande” "
+"kan göra direkta ändringar."
 
 msgid "Insert tab character"
 msgstr "Infoga tabulatortecken"
@@ -17032,17 +16864,14 @@ msgstr "Långt tankestreck"
 msgid "User configured character: {}"
 msgstr "Användarkonfigurerat tecken: {}"
 
-#, fuzzy
-#| msgid "No string found."
 msgid "No suggestions found."
-msgstr "Ingen sträng hittades."
+msgstr "Inga förslag hittades."
 
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepted %(count)d suggestion from %(user)s."
 msgid_plural "Accepted %(count)d suggestions from %(user)s."
-msgstr[0] "Accepterad inbjudan från {username}."
-msgstr[1] "Accepterad inbjudan från {username}."
+msgstr[0] "Accepterade %(count)d förslag från %(user)s."
+msgstr[1] "Accepterade %(count)d förslag från %(user)s."
 
 #, python-format
 msgid ""
@@ -17052,27 +16881,25 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
+"Accepterade %(accepted)d av %(total)d förslag från %(user)s. %(failed)d "
+"misslyckades på grund av behörigheter eller kontroller."
 msgstr[1] ""
+"Accepterade %(accepted)d av %(total)d förslag från %(user)s. %(failed)d "
+"misslyckades på grund av behörigheter eller kontroller."
 
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation skipped because the target no longer exists."
-msgstr "Automatisk översättning pågår"
+msgstr ""
+"Den automatiska översättningen har hoppats över eftersom måltexten inte "
+"längre finns."
 
-#, fuzzy
-#| msgid "Report format"
 msgid "Report generated."
-msgstr "Rapportformat"
+msgstr "Rapporten har skapats."
 
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed with skipped components."
-msgstr "Projekt utan komponenter"
+msgstr "Import av projektets säkerhetskopia avslutad med bortvalda komponenter."
 
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project backup import completed."
-msgstr "Projekt utan komponenter"
+msgstr "Import av projektets säkerhetskopia slutförd."
 
 msgid "Good configuration"
 msgstr "Bra inställning"
@@ -17083,25 +16910,17 @@ msgstr "Dålig inställning"
 msgid "Possible configuration"
 msgstr "Möjlig inställning"
 
-#, fuzzy
-#| msgid "Very high"
 msgid "Priority: Very high"
-msgstr "Mycket hög"
+msgstr "Prioritet: mycket hög"
 
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: High"
-msgstr "Prioritet"
+msgstr "Prioritet: hög"
 
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Low"
-msgstr "Prioritet"
+msgstr "Prioritet: låg"
 
-#, fuzzy
-#| msgid "Priority"
 msgid "Priority: Very low"
-msgstr "Prioritet"
+msgstr "Prioritet: mycket låg"
 
 #. Translators: Glossary term formatting used in a tooltip
 #, python-brace-format
@@ -17153,10 +16972,8 @@ msgstr "sträng-ID %s"
 msgid "This language is used for source strings."
 msgstr "Det här språket används för källsträngar."
 
-#, fuzzy
-#| msgid "Fix this component to clear its alerts."
 msgid "Fix this component to clear its diagnostics."
-msgstr "Åtgärda den här komponenten för att rensa dess varningar."
+msgstr "Åtgärda den här komponenten för att rensa dess felmeddelanden."
 
 msgid "This translation is locked."
 msgstr "Översättningen är låst."
@@ -17164,10 +16981,8 @@ msgstr "Översättningen är låst."
 msgid "Updating translation component…"
 msgstr "Uppdaterar översättningskomponent …"
 
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some of the components within this project have diagnostics."
-msgstr "Vissa av komponenterna i detta projekt har varningar."
+msgstr "Vissa av komponenterna i detta projekt har felmeddelanden."
 
 msgid "You administrate this project."
 msgstr "Du administrerar projektet."
@@ -17268,38 +17083,25 @@ msgstr "Låg"
 msgid "Very low"
 msgstr "Mycket låg"
 
-#, fuzzy
-#| msgid "Backup repository URL"
 msgid "repository URL"
-msgstr "URL för säkerhetskopieringsarkiv"
+msgstr "URL till förrådet"
 
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Sändning av fil misslyckades: %s"
 
-#, fuzzy, python-brace-format
-#| msgid "It is being translated into <strong>%(count)s language</strong>."
-#| msgid_plural ""
-#| "It is being translated into <strong>%(count)s languages</strong>."
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "Det översätts till <strong>%(count)s språk</strong>."
-msgstr[1] "Det översätts till <strong>%(count)s språk</strong>."
+msgstr[0] "{project} översätts till {count} språk med hjälp av Weblate."
+msgstr[1] "{project} översätts till {count} språk med hjälp av Weblate."
 
-#, fuzzy
-#| msgid ""
-#| "{0} is being translated into {1} languages using Weblate. Join the "
-#| "translation or start translating your own project."
 msgid "Join the translation or start translating your own project."
-msgstr ""
-"{0} översätts till {1} språk med hjälp av Weblate. Bidra till översättningen "
-"eller börja översätta ditt eget projekt."
+msgstr "Delta i översättningen eller börja översätta ditt eget projekt."
 
-#, fuzzy
-#| msgid "Clone to translation"
 msgid "Join the translation."
-msgstr "Klona till översättning"
+msgstr "Delta i översättningen."
 
 msgid "Source upload is only supported on the source language."
 msgstr "Källuppladdning stöds endast på källspråket."
@@ -17376,10 +17178,8 @@ msgstr ""
 "Återställning av redigeringar av %(user)s i det här projektet har "
 "schemalagts."
 
-#, fuzzy
-#| msgid "User has been blocked on this project."
 msgid "User is not blocked on this project."
-msgstr "Användaren har blockerats i det här projektet."
+msgstr "Användaren är inte blockerad i det här projektet."
 
 msgid "Token has been removed from this project."
 msgstr "Token har tagits bort från detta projekt."
@@ -17428,40 +17228,32 @@ msgstr ""
 msgid "All languages have been added, updates of translations are in progress."
 msgstr "Alla språk har lagts till, uppdateringar av översättningar pågår."
 
-#, fuzzy
-#| msgid "Glossary was not found."
 msgid "User not found."
-msgstr "Ordlistan kunde inte hittas."
+msgstr "Användaren finns inte."
 
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to accept suggestions."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att acceptera förslag."
 
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid request."
-msgstr "Ogiltig sammanslagningsförfrågan!"
+msgstr "Ogiltig begäran."
 
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "Confirmation is required."
-msgstr "Detta namn är inte tillåtet"
+msgstr "Bekräftelse krävs."
 
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepting and approving %(count)d suggestion from %(user)s in progress."
 msgid_plural ""
 "Accepting and approving %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Accepterad inbjudan från {username}."
-msgstr[1] "Accepterad inbjudan från {username}."
+msgstr[0] ""
+"Accepterandet och godkännandet av %(count)d förslag från %(user)s pågår."
+msgstr[1] ""
+"Accepterandet och godkännandet av %(count)d förslag från %(user)s pågår."
 
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepting %(count)d suggestion from %(user)s in progress."
 msgid_plural "Accepting %(count)d suggestions from %(user)s in progress."
-msgstr[0] "Accepterad inbjudan från {username}."
-msgstr[1] "Accepterad inbjudan från {username}."
+msgstr[0] "Accepterandet av %(count)d förslag från %(user)s pågår."
+msgstr[1] "Accepterandet av %(count)d förslag från %(user)s pågår."
 
 #, python-format
 msgctxt "Changes of string in a translation"
@@ -17488,9 +17280,7 @@ msgctxt "Changes in language"
 msgid "Changes in %s"
 msgstr "Ändringar i %s"
 
-#, fuzzy, python-format
-#| msgctxt "Changes in translation"
-#| msgid "Changes in %s"
+#, python-format
 msgctxt "Changes in workspace"
 msgid "Changes in %s"
 msgstr "Ändringar i %s"
@@ -17499,10 +17289,8 @@ msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr ""
 "Den angivna konfigurationen är felaktig. Kontrollera felmeddelandena nedan."
 
-#, fuzzy
-#| msgid "Fetching VCS repository from %s is not allowed."
 msgid "Creating a project without a workspace is not allowed."
-msgstr "Det är inte tillåtet att hämta VCS-arkivet från %s."
+msgstr "Att skapa ett projekt utan arbetsområde är inte tillåtet."
 
 msgid "Project backup import in progress"
 msgstr "Import av säkerhetskopia av projekt pågår"
@@ -17530,12 +17318,10 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Ange ditt fullständiga namn och e-postadress i din profil."
 
-#, fuzzy
-#| msgid "Following fixups were applied to translation: %s"
 msgid "The following fix-up was applied to the translation:"
 msgid_plural "The following fix-ups were applied to the translation:"
-msgstr[0] "Följande rättningar utfördes på översättningen: %s"
-msgstr[1] "Följande rättningar utfördes på översättningen: %s"
+msgstr[0] "Följande rättning utfördes på översättningen:"
+msgstr[1] "Följande rättningar utfördes på översättningen:"
 
 #, fuzzy
 #| msgid "You do not have permissions to add new translation file."

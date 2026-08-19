@@ -16,7 +16,6 @@ from contextlib import contextmanager, suppress
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from shutil import which
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -37,7 +36,7 @@ from django.utils.translation import gettext_lazy, gettext_noop
 from packaging.version import Version
 
 from weblate.trans.util import path_separator
-from weblate.utils.commands import get_clean_env
+from weblate.utils.commands import find_runtime_command, get_clean_env
 from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.files import (
@@ -1386,7 +1385,9 @@ class Repository:
     def get_missing_commands(cls) -> tuple[str, ...]:
         """Return commands required by this backend that are not available."""
         commands = cls.required_commands or (cls._cmd,)
-        return tuple(command for command in commands if which(command) is None)
+        return tuple(
+            command for command in commands if find_runtime_command(command) is None
+        )
 
     @classmethod
     def is_available(cls) -> bool:
