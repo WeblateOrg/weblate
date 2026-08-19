@@ -1157,6 +1157,50 @@ class RepoURLValidationTestCase(SimpleTestCase):
         ):
             validate_repo_url("https://private.example/repo.git")
 
+    def test_private_allowlisted_host_additive(self) -> None:
+        with override_settings(
+            VCS_ALLOW_HOSTS=set(),
+            VCS_ALLOW_SCHEMES={"https", "ssh"},
+            VCS_PRIVATE_ALLOWLIST=[".internal.example"],
+        ):
+            target = resolve_repo_url("https://git.internal.example/repo.git")
+
+        self.assertIsNotNone(target)
+        assert target is not None
+        self.assertFalse(target.requires_pinning)
+
+    @patch(
+        "weblate.utils.outbound.socket.getaddrinfo",
+        return_value=[(0, 0, 0, "", ("93.184.216.34", 443))],
+    )
+    def test_private_allowlist_preserves_public_hosts(self, mocked_getaddrinfo) -> None:
+        with override_settings(
+            VCS_ALLOW_HOSTS=set(),
+            VCS_ALLOW_SCHEMES={"https", "ssh"},
+            VCS_PRIVATE_ALLOWLIST=["hg.internal.example"],
+        ):
+            target = resolve_repo_url("https://git.example/repo.git")
+
+        self.assertIsNotNone(target)
+        assert target is not None
+        self.assertTrue(target.requires_pinning)
+        self.assertEqual(target.addresses, ("93.184.216.34",))
+        mocked_getaddrinfo.assert_called_once()
+
+    def test_allow_hosts_filters_private_allowlist(self) -> None:
+        with (
+            override_settings(
+                VCS_ALLOW_HOSTS={"git.example"},
+                VCS_ALLOW_SCHEMES={"https", "ssh"},
+                VCS_PRIVATE_ALLOWLIST=[".internal.example"],
+            ),
+            self.assertRaisesMessage(
+                ValidationError,
+                "Fetching VCS repository from hg.internal.example is not allowed.",
+            ),
+        ):
+            validate_repo_url("https://hg.internal.example/repo")
+
     def test_private_ssh(self) -> None:
         with (
             override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
