@@ -6192,27 +6192,27 @@ class DiscoveryTest(ViewTestCase):
             help_text,
             "The regular expression must define a named group for component. "
             "Also define a named group for language when matching translation files. "
-            "When creating components from a monolingual base or new base file, "
-            "omit language and match that source file instead.",
+            "When the file mask is set, omit language and match the "
+            "monolingual base or new base file instead.",
         )
 
-    def test_form_create_from_template_requires_new_base_and_filemask(self) -> None:
+    def test_form_filemask_template_requires_new_base(self) -> None:
+        data = {
+            "file_format": "po",
+            "match": r"locale/(?P<component>[^/]+)\.pot",
+            "name_template": "{{ component }}",
+            "language_regex": "^[^.]+$",
+            "base_file_template": "",
+            "new_base_template": "",
+            "intermediate_template": "",
+            "filemask_template": "locale/{{ component }}.po",
+            "remove": False,
+            "confirm": True,
+        }
         form = DiscoveryAddon.get_add_form(
             self.user,
             component=self.component,
-            data={
-                "file_format": "po",
-                "match": r"locale/(?P<component>[^/]+)\.pot",
-                "name_template": "{{ component }}",
-                "language_regex": "^[^.]+$",
-                "base_file_template": "",
-                "new_base_template": "",
-                "intermediate_template": "",
-                "create_from_template": True,
-                "filemask_template": "",
-                "remove": False,
-                "confirm": True,
-            },
+            data=data,
         )
         self.assertIsNotNone(form)
         self.assertFalse(form.is_valid())
@@ -6224,8 +6224,64 @@ class DiscoveryTest(ViewTestCase):
         )
         self.assertEqual(
             form.errors["filemask_template"],
+            ["The file mask must include a language wildcard (*)."],
+        )
+
+    def test_form_classic_mode_requires_language_group(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "filemask_template": "",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["match"],
             [
-                "Define the translation file mask when creating components from a template."
+                (
+                    'Regular expression is missing named group "language", '
+                    "the simplest way to define it is (?P<language>.*)."
+                ),
+            ],
+        )
+
+    def test_form_whitespace_filemask_template_uses_classic_mode(self) -> None:
+        form = DiscoveryAddon.get_add_form(
+            self.user,
+            component=self.component,
+            data={
+                "file_format": "po",
+                "match": r"locale/(?P<component>[^/]+)\.pot",
+                "name_template": "{{ component }}",
+                "language_regex": "^[^.]+$",
+                "base_file_template": "",
+                "new_base_template": "",
+                "intermediate_template": "",
+                "filemask_template": "   ",
+                "remove": False,
+                "confirm": True,
+            },
+        )
+        self.assertIsNotNone(form)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["match"],
+            [
+                (
+                    'Regular expression is missing named group "language", '
+                    "the simplest way to define it is (?P<language>.*)."
+                ),
             ],
         )
 
@@ -6241,7 +6297,6 @@ class DiscoveryTest(ViewTestCase):
                 "base_file_template": "",
                 "new_base_template": "locale/{{ component }}.pot",
                 "intermediate_template": "",
-                "create_from_template": True,
                 "filemask_template": "locale/{{ component }}.po",
                 "remove": False,
                 "confirm": True,
@@ -6253,7 +6308,7 @@ class DiscoveryTest(ViewTestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.errors["filemask_template"],
-            ["The translation file mask must include a language wildcard (*)."],
+            ["The file mask must include a language wildcard (*)."],
         )
 
     def test_form_create_from_template_rejects_language_group(self) -> None:
@@ -6268,15 +6323,12 @@ class DiscoveryTest(ViewTestCase):
                 "base_file_template": "",
                 "new_base_template": "locale/{{ component }}.pot",
                 "intermediate_template": "",
-                "create_from_template": True,
                 "filemask_template": "locale/*/{{ component }}.po",
                 "remove": False,
                 "confirm": True,
             },
         )
-        self.assertIsNotNone(form)
-        if form is None:
-            self.fail("Expected discovery form to be created")
+        self.assertIsNotNone(form, "Expected discovery form to be created")
         self.assertFalse(form.is_valid())
         self.assertEqual(
             form.errors["match"],
@@ -6297,15 +6349,12 @@ class DiscoveryTest(ViewTestCase):
                 "base_file_template": "",
                 "new_base_template": "locale/{{ component }}.pot",
                 "intermediate_template": "",
-                "create_from_template": True,
                 "filemask_template": "locale/*/{{ component }}.po",
                 "remove": False,
                 "confirm": True,
             },
         )
-        self.assertIsNotNone(form)
-        if form is None:
-            self.fail("Expected discovery form to be created")
+        self.assertIsNotNone(form, "Expected discovery form to be created")
         self.assertFalse(form.is_valid())
         self.assertTrue(form.errors["name_template"])
 
@@ -6327,21 +6376,23 @@ class DiscoveryTest(ViewTestCase):
                 "base_file_template": "",
                 "new_base_template": "locale/{{ component }}.pot",
                 "intermediate_template": "",
-                "create_from_template": True,
                 "filemask_template": "locale/*/{{ component }}.po",
                 "remove": False,
                 "confirm": True,
             },
         )
-        self.assertIsNotNone(form)
-        if form is None:
-            self.fail("Expected discovery form to be created")
+        self.assertIsNotNone(form, "Expected discovery form to be created")
         self.assertTrue(form.is_valid(), form.errors)
-        self.assertTrue(form.cleaned_data["create_from_template"])
         self.assertEqual(
             form.cleaned_data["filemask_template"],
             "locale/*/{{ component }}.po",
         )
+        serialized = form.serialize_form()
+        self.assertEqual(
+            serialized["filemask_template"],
+            "locale/*/{{ component }}.po",
+        )
+        self.assertNotIn("create_from_template", serialized)
 
     def test_ui_presets_are_not_part_of_form_configuration(self) -> None:
         form = DiscoveryAddon.get_add_form(

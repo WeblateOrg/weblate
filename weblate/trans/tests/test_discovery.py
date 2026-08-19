@@ -348,7 +348,6 @@ class ComponentDiscoveryTest(RepoTestCase):
             name_template="{{ component }}",
             new_base_template="locale/{{ component }}.pot",
             filemask_template="locale/*/{{ component }}.po",
-            create_from_template=True,
         )
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
@@ -382,7 +381,6 @@ class ComponentDiscoveryTest(RepoTestCase):
             name_template="{{ component }}",
             base_file_template="docs/{{ component }}.md",
             filemask_template="docs/{{ component }}_*.md",
-            create_from_template=True,
         )
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
@@ -416,8 +414,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             match=r"locale/(?P<language>[^/.]+)/(?P<component>[^/]+)\.po",
             name_template="{{ component }}",
             new_base_template="locale/{{ component }}.pot",
-            filemask_template="locale/*/{{ component }}.po",
-            create_from_template=False,
+            filemask_template="",
         )
 
         self.assertEqual(discovery.matched_components, {})
@@ -441,7 +438,6 @@ class ComponentDiscoveryTest(RepoTestCase):
             name_template="{{ component }}",
             base_file_template="docs/{{ component }}.md",
             filemask_template="docs/{{ component }}_*.md",
-            create_from_template=True,
         )
 
         self.assertEqual(
@@ -475,7 +471,6 @@ class ComponentDiscoveryTest(RepoTestCase):
             name_template="{{ component }}",
             base_file_template="docs/{{ component }}.md",
             filemask_template="docs/{{ component }}_*.md",
-            create_from_template=True,
         )
 
         with patch.object(

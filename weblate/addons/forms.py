@@ -789,6 +789,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template",
             "copy_addons",
             "file_format",
+            "filemask_template",
             "intermediate_template",
             "language_regex",
             "match",
@@ -893,8 +894,8 @@ class DiscoveryForm(BaseAddonForm):
         help_text=gettext_lazy(
             "The regular expression must define a named group for component. "
             "Also define a named group for language when matching translation files. "
-            "When creating components from a monolingual base or new base file, "
-            "omit language and match that source file instead."
+            "When the file mask is set, omit language and match the "
+            "monolingual base or new base file instead."
         ),
     )
     file_format = forms.ChoiceField(
@@ -938,24 +939,16 @@ class DiscoveryForm(BaseAddonForm):
             "used when creating actual source strings. This template must include {{ component }}."
         ),
     )
-    create_from_template = forms.BooleanField(
-        label=gettext_lazy("Create components from monolingual base or new base files"),
-        required=False,
-        initial=False,
-        help_text=gettext_lazy(
-            "When enabled, match the monolingual base or new base file (without a "
-            "language group) and define the translation file mask template. Discovery "
-            "then creates components even when no translation files exist yet."
-        ),
-    )
     filemask_template = forms.CharField(
-        label=gettext_lazy("Define the translation file mask"),
+        label=gettext_lazy("Define the file mask"),
         initial="",
         required=False,
         help_text=gettext_lazy(
-            "Used when creating components from a monolingual base or new base file. "
-            "Include a language wildcard and {{ component }}, for example "
-            "locale/*/{{ component }}.po or docs/{{ component }}_*.md."
+            "Leave empty to match translation files directly. When set, discovery "
+            "matches the monolingual base or new base file and uses this template "
+            "as the file mask. Include a language wildcard and "
+            "{{ component }}, for example locale/*/{{ component }}.po or "
+            "docs/{{ component }}_*.md."
         ),
     )
 
@@ -995,7 +988,6 @@ class DiscoveryForm(BaseAddonForm):
             Field("base_file_template"),
             Field("new_base_template"),
             Field("intermediate_template"),
-            Field("create_from_template"),
             Field("filemask_template"),
             Field("language_regex"),
             Field("copy_addons"),
@@ -1291,10 +1283,9 @@ class DiscoveryForm(BaseAddonForm):
                         )
                     }
                 )
-            if self.cleaned_data.get("create_from_template"):
+            if filemask_template := self.cleaned_data.get("filemask_template"):
                 new_base_template = self.cleaned_data.get("new_base_template")
                 base_file_template = self.cleaned_data.get("base_file_template")
-                filemask_template = self.cleaned_data.get("filemask_template")
                 errors: dict[str, str] = {}
                 if is_monolingual is False and not new_base_template:
                     errors["new_base_template"] = gettext(
@@ -1306,13 +1297,9 @@ class DiscoveryForm(BaseAddonForm):
                     errors["base_file_template"] = gettext(
                         "Define a monolingual base or new base filename when creating components from a template."
                     )
-                if not filemask_template:
+                if "*" not in filemask_template:
                     errors["filemask_template"] = gettext(
-                        "Define the translation file mask when creating components from a template."
-                    )
-                elif "*" not in filemask_template:
-                    errors["filemask_template"] = gettext(
-                        "The translation file mask must include a language wildcard (*)."
+                        "The file mask must include a language wildcard (*)."
                     )
 
                 if errors:
@@ -1332,7 +1319,7 @@ class DiscoveryForm(BaseAddonForm):
 
     def clean_match(self):
         match = self.cleaned_data["match"]
-        if self.is_create_from_template_enabled():
+        if self.create_from_template:
             validate_re(match, ("component",))
             if "language" in compile_regex(match).groupindex:
                 raise forms.ValidationError(
@@ -1345,16 +1332,19 @@ class DiscoveryForm(BaseAddonForm):
             validate_re(match, ("component", "language"))
         return match
 
-    def is_create_from_template_enabled(self) -> bool:
-        if "create_from_template" in self.cleaned_data:
-            return bool(self.cleaned_data["create_from_template"])
-        # match is declared before create_from_template, so fall back to raw data
+    @property
+    def create_from_template(self) -> bool:
+        if "filemask_template" in self.cleaned_data:
+            return bool(self.cleaned_data["filemask_template"])
+        # match is declared before filemask_template, so fall back to raw data
         # while field-level cleaning is still in progress.
         data = getattr(self, "data", None)
         if data is None:
             return False
-        value = data.get("create_from_template")
-        return value not in {None, "", False, "False", "false", "0"}
+        value = data.get("filemask_template")
+        if value is None:
+            return False
+        return bool(str(value).strip())
 
     @cached_property
     def cleaned_match_re(self):

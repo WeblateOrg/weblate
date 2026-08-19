@@ -64,7 +64,6 @@ class DiscoveryKwargs(TypedDict):
     filemask_template: NotRequired[str]
     file_format: Required[str]
     copy_addons: NotRequired[bool]
-    create_from_template: NotRequired[bool]
 
 
 class MutableDiscoveryMatch(TypedDict):
@@ -477,7 +476,6 @@ class ComponentDiscovery:
         filemask_template: str = "",
         path: str | None = None,
         copy_addons: bool = True,
-        create_from_template: bool = False,
     ) -> None:
         self.component = component
         self.match = match
@@ -496,7 +494,10 @@ class ComponentDiscovery:
         self.language_match = compile_regex(language_regex)
         self.file_format = file_format
         self.copy_addons = copy_addons
-        self.create_from_template = create_from_template
+
+    @property
+    def create_from_template(self) -> bool:
+        return self.filemask_template is not None and self.filemask_template.strip()
 
     def add_error(self, reason: str, *, mask: str = "") -> None:
         match: DiscoveryErrorMatch = {
@@ -536,10 +537,6 @@ class ComponentDiscovery:
             kwargs["filemask_template"] = cast("str", params["filemask_template"])
         if "copy_addons" in params:
             kwargs["copy_addons"] = cast("bool", params["copy_addons"])
-        if "create_from_template" in params:
-            kwargs["create_from_template"] = cast(
-                "bool", params["create_from_template"]
-            )
         return kwargs
 
     def compile_match(self, match: str):
@@ -714,7 +711,7 @@ class ComponentDiscovery:
                     )
                     self.add_error(
                         gettext(
-                            "The translation file mask used for discovery is too complex and took too long to evaluate."
+                            "The file mask used for discovery is too complex and took too long to evaluate."
                         ),
                         mask=mask,
                     )
