@@ -9146,6 +9146,27 @@ class MachineryErrorTest(TestCase):
         self.assertIn("http://tmserver", error.error)
         self.assertIn("/[redacted]", error.error)
 
+    def test_report_error_redacts_credentialed_url(self) -> None:
+        """Credentials embedded in the service URL authority are not persisted."""
+        machine = self.get_machine()
+        request = httpx2.Request(
+            "GET",
+            "https://apiuser:SECRET_KEY@api.example.com/translate?text=hello",
+        )
+        exc = HTTPError(
+            "401 Client Error: Unauthorized for url:"
+            " https://apiuser:SECRET_KEY@api.example.com/translate?text=hello",
+            request=request,
+            response=httpx2.Response(401, request=request),
+        )
+        machine.report_error("Auth failed", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn("SECRET_KEY", error.error)
+        self.assertNotIn("apiuser", error.error)
+        self.assertNotIn("/translate", error.error)
+        self.assertIn("https://api.example.com", error.error)
+        self.assertIn("/[redacted]", error.error)
+
     def test_report_error_records_project_from_settings(self) -> None:
         """MachineryError FK is populated when service is project-scoped."""
         project = Project.objects.create(name="Test", slug="test")

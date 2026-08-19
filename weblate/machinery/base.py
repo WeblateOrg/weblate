@@ -421,10 +421,15 @@ class BatchMachineTranslation(DocVersionsMixin):
         if isinstance(exc, httpx2.HTTPStatusError):
             url = exc.request.url
             port_part = f":{url.port}" if url.port else ""
-            origin = f"{url.scheme}://{url.host}{port_part}"
+            # Credential-free origin used as the safe replacement value.
+            safe_origin = f"{url.scheme}://{url.host}{port_part}"
+            # Match the URL in credentialed (scheme://user:pass@host) or plain
+            # form.  url.netloc is host[:port] without userinfo, so prepend an
+            # optional userinfo group to catch credentialed authority sections.
+            netloc_pattern = re.escape(f"{url.host}{port_part}")
             error_message = re.sub(
-                re.escape(origin) + r"[^\s]*",
-                f"{origin}/[redacted]",
+                re.escape(url.scheme) + r"://(?:[^@/\s]+@)?" + netloc_pattern + r"[^\s]*",
+                f"{safe_origin}/[redacted]",
                 error_str,
             )
         else:
