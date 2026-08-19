@@ -769,7 +769,15 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_alert_includes_documentation(self) -> None:
         self.component.project.add_user(self.user, "Administration")
-        self.add_component_alert("UpdateFailure")
+        with self.captureOnCommitCallbacks(execute=True):
+            self.component.add_alert(
+                "UpdateFailure",
+                error={
+                    "code": "repository_url_backend_unsupported",
+                    "retcode": 0,
+                },
+                diagnoses=[],
+            )
         alert = self.component.alert_set.get(name="UpdateFailure")
         alert_message = next(
             message
