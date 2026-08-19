@@ -13,6 +13,7 @@ Weblate 2026.9
 * Improved translation file loading performance for metadata-only string changes.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
+* Errors from automatic suggestion backends (such as rate limiting) are now collected and displayed on the :guilabel:`Automatic suggestions` management page.
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
 * Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
 * Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
@@ -57,10 +58,6 @@ Weblate 2026.8.1
 
 * Project and component APIs now expose all user-configurable settings, including access control and translation-memory settings. See :doc:`api`.
 * Added the :wladmin:`metrics` command for retrieving server metrics locally in JSON, CSV, or OpenMetrics format.
-
-.. rubric:: Improvements
-
-* Errors from automatic suggestion backends (such as rate limiting) are now collected and displayed on the :guilabel:`Automatic suggestions` management page.
 
 .. rubric:: Bug fixes
 
