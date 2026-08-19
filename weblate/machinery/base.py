@@ -428,7 +428,10 @@ class BatchMachineTranslation(DocVersionsMixin):
             # optional userinfo group to catch credentialed authority sections.
             netloc_pattern = re.escape(f"{url.host}{port_part}")
             error_message = re.sub(
-                re.escape(url.scheme) + r"://(?:[^@/\s]+@)?" + netloc_pattern + r"[^\s]*",
+                re.escape(url.scheme)
+                + r"://(?:[^@/\s]+@)?"
+                + netloc_pattern
+                + r"[^\s]*",
                 f"{safe_origin}/[redacted]",
                 error_str,
             )
