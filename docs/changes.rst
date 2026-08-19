@@ -51,6 +51,10 @@ Weblate 2026.8.1
 * Project and component APIs now expose all user-configurable settings, including access control and translation-memory settings. See :doc:`api`.
 * Added the :wladmin:`metrics` command for retrieving server metrics locally in JSON, CSV, or OpenMetrics format.
 
+.. rubric:: Improvements
+
+* Errors from automatic suggestion backends (such as rate limiting) are now collected and displayed on the :guilabel:`Automatic suggestions` management page.
+
 .. rubric:: Bug fixes
 
 * Task progress now requires authentication and works for aggregate automatic translation operations.
@@ -110,7 +114,6 @@ Weblate 2026.8
 * Celery workers now prefetch fewer tasks by default to reduce memory usage and improve task distribution.
 * Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload.
 * Deployment checks now detect corrupted PostgreSQL relation statistics.
-* Errors from automatic suggestion backends (such as rate limiting) are now collected and displayed on the :guilabel:`Automatic suggestions` management page.
 * :ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation.
 * User-provided links, such as those in comments, announcements, and profiles, are now underlined and use a higher contrast color.
 

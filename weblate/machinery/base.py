@@ -411,9 +411,24 @@ class BatchMachineTranslation(DocVersionsMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.machinery.models import MachineryError
 
-        # Redact URL query parameters to avoid persisting API keys or source text
-        # that backends such as Yandex and MyMemory pass as GET parameters.
-        error_message = re.sub(r"\?[^#\s]*", "?[redacted]", str(exc))
+        # Redact the request URL to avoid persisting sensitive data: backends pass
+        # API keys in query parameters (e.g. Yandex, MyMemory) and source text in
+        # path segments (e.g. TMServer encodes up to 500 chars of source in the
+        # path).  For HTTP errors the exact URL is available on the request object;
+        # strip everything after the origin.  For other exception types fall back to
+        # stripping query strings from any URL-like substrings in the message.
+        error_str = str(exc)
+        if isinstance(exc, httpx2.HTTPStatusError):
+            url = exc.request.url
+            port_part = f":{url.port}" if url.port else ""
+            origin = f"{url.scheme}://{url.host}{port_part}"
+            error_message = re.sub(
+                re.escape(origin) + r"[^\s]*",
+                f"{origin}/[redacted]",
+                error_str,
+            )
+        else:
+            error_message = re.sub(r"\?[^#\s]*", "?[redacted]", error_str)
         try:
             MachineryError.objects.create(
                 engine=self.mtid,

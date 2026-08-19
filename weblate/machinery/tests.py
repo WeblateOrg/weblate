@@ -9107,19 +9107,44 @@ class MachineryErrorTest(TestCase):
         self.assertIn("API quota exceeded", error.error)
 
     def test_report_error_redacts_url_query_parameters(self) -> None:
-        """Query parameters (which may contain API keys) are redacted before storage."""
+        """API keys passed as query parameters are not persisted."""
         machine = self.get_machine()
+        request = httpx2.Request(
+            "GET", "https://api.example.com/translate?key=SECRET&text=hello"
+        )
         exc = HTTPError(
             "401 Client Error: Unauthorized for url:"
             " https://api.example.com/translate?key=SECRET&text=hello",
-            response=None,
+            request=request,
+            response=httpx2.Response(401, request=request),
         )
         machine.report_error("Auth failed", exception=exc)
         error = MachineryError.objects.get()
         self.assertNotIn("SECRET", error.error)
         self.assertNotIn("text=hello", error.error)
-        self.assertIn("?[redacted]", error.error)
-        self.assertIn("https://api.example.com/translate", error.error)
+        self.assertNotIn("/translate", error.error)
+        self.assertIn("https://api.example.com", error.error)
+        self.assertIn("/[redacted]", error.error)
+
+    def test_report_error_redacts_url_path_segments(self) -> None:
+        """Source text embedded in URL path segments (e.g. TMServer) is not persisted."""
+        machine = self.get_machine()
+        source_text = "Hello, this is secret source text!"
+        request = httpx2.Request(
+            "GET",
+            f"http://tmserver/tmserver/en/cs/unit/{source_text.encode().hex()}",
+        )
+        exc = HTTPError(
+            "404 Not Found",
+            request=request,
+            response=httpx2.Response(404, request=request),
+        )
+        machine.report_error("Could not fetch translations", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn(source_text, error.error)
+        self.assertNotIn("/tmserver/en/cs/unit/", error.error)
+        self.assertIn("http://tmserver", error.error)
+        self.assertIn("/[redacted]", error.error)
 
     def test_report_error_records_project_from_settings(self) -> None:
         """MachineryError FK is populated when service is project-scoped."""
@@ -9179,10 +9204,9 @@ class MachineryErrorTest(TestCase):
         """HTTP 429 rate-limit errors are stored and the rate-limit flag is set."""
         machine = self.get_machine()
         unit = make_unit(code="cs", source="Hello, world!")
-        mock_response = MagicMock()
-        mock_response.status_code = 429
-        mock_response.url = "https://api.example.com/"
-        exc = HTTPError("", response=mock_response)
+        request = httpx2.Request("GET", "https://api.example.com/")
+        response = httpx2.Response(429, request=request)
+        exc = HTTPError("", request=request, response=response)
         with (
             patch.object(machine, "download_pending_translations", side_effect=exc),
             self.assertRaises(MachineTranslationError),
@@ -9214,15 +9238,22 @@ class MachineryErrorTest(TestCase):
         self.assertEqual(MachineryError.objects.count(), 3)
 
     def test_edit_view_context_includes_machinery_errors(self) -> None:
-        """Edit view context filters machinery_errors to the current backend."""
+        """Global edit view shows only site-wide (project=NULL) errors for the engine."""
         engine_id = DummyTranslation.get_identifier()
-        own_error = MachineryError.objects.create(engine=engine_id, error="own")
+        project = Project.objects.create(name="Test", slug="test")
+        global_error = MachineryError.objects.create(engine=engine_id, error="global")
+        project_error = MachineryError.objects.create(
+            engine=engine_id, error="project", project=project
+        )
         other_error = MachineryError.objects.create(
             engine="other-service", error="other"
         )
-        # Mirror what EditMachineryView.get_context_data builds (no project filter)
-        errors = list(MachineryError.objects.filter(engine=engine_id)[:50])
-        self.assertIn(own_error, errors)
+        # Mirror what EditMachineryView.get_context_data builds for the global page
+        errors = list(
+            MachineryError.objects.filter(engine=engine_id, project__isnull=True)[:50]
+        )
+        self.assertIn(global_error, errors)
+        self.assertNotIn(project_error, errors)
         self.assertNotIn(other_error, errors)
 
     def test_edit_view_filters_errors_by_project(self) -> None:

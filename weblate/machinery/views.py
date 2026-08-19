@@ -261,6 +261,8 @@ class EditMachineryView(FormView):
         errors_qs = MachineryError.objects.filter(engine=self.machinery_id)
         if self.project:
             errors_qs = errors_qs.filter(project=self.project)
+        else:
+            errors_qs = errors_qs.filter(project__isnull=True)
         result["machinery_errors"] = errors_qs[:50]
         return result
 
