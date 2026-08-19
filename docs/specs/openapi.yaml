@@ -14287,6 +14287,7 @@ paths:
                     - code: error
                       detail: A server error occurred.
                       attr: null
+          description: An unexpected server error occurred.
         '202':
           content:
             application/json:
@@ -37134,17 +37135,6 @@ components:
       - url
       - web
       - web_url
-    ProjectDeleteResponse:
-      type: object
-      properties:
-        detail:
-          type: string
-        task_url:
-          type: string
-          format: uri
-      required:
-      - detail
-      - task_url
     ProjectComponent:
       type: object
       properties:
@@ -37604,6 +37594,17 @@ components:
       - translations_url
       - url
       - web_url
+    ProjectDeleteResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     ProjectLock:
       type: object
       properties:
