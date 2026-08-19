@@ -124,7 +124,7 @@ class Alert(models.Model):
         return self.obj.render(user)
 
     def get_documentation_url(self, user: User | None = None) -> str:
-        return self.alert_class.get_documentation_url(self.component, user)
+        return self.obj.get_instance_documentation_url(user)
 
     @transaction.atomic
     def dismiss(self, user: User, reason: str = "") -> bool:
