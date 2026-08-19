@@ -3665,6 +3665,27 @@ class ProjectAPITest(APIBaseTest):
         request = self.do_request("api:project-changes", self.project_kwargs)
         self.assertEqual(request.data["count"], 35)
 
+    def test_changes_with_multi_alert(self) -> None:
+        translation = self.component.translation_set.get(language__code="cs")
+        occurrences = [
+            {
+                "language_code": translation.language_code,
+                "translation_pk": translation.pk,
+            }
+        ]
+        self.component.add_alert("UnusedGlossaryLanguage", occurrences=occurrences)
+
+        response = self.do_request("api:project-changes", self.project_kwargs)
+        data = response.json()
+        alert_change = next(
+            change
+            for change in data["results"]
+            if change["alert"] is not None
+            and change["alert"]["name"] == "UnusedGlossaryLanguage"
+        )
+
+        self.assertEqual(alert_change["alert"]["details"]["occurrences"], occurrences)
+
     def test_changes_skip_restricted_component_changes(self) -> None:
         secret = "SECRET-RESTRICTED-STRING-XYZZY"
         self.component.restricted = True

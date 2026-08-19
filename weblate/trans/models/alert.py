@@ -95,33 +95,36 @@ class Alert(models.Model):
         verbose_name_plural = "component alerts"
 
     def __str__(self) -> str:
-        return str(self.obj.verbose)
+        return str(self.alert_class.verbose)
 
     def save(self, *args, **kwargs) -> None:
         is_new = not self.id
         super().save(*args, **kwargs)
         if is_new and self.is_actionable:
-            alert_class = get_alert_class(self.name)
             self.component.change_set.create(
                 action=ActionEvents.ALERT,
                 alert=self,
                 details={
                     "alert": self.name,
-                    "fingerprint": alert_class.get_dismissal_fingerprint(
+                    "fingerprint": self.alert_class.get_dismissal_fingerprint(
                         self.component, self.details
                     ),
                 },
             )
 
     @cached_property
+    def alert_class(self) -> type[BaseAlert]:
+        return get_alert_class(self.name)
+
+    @cached_property
     def obj(self) -> BaseAlert:
-        return get_alert_class(self.name)(self, **self.details)
+        return self.alert_class(self, **self.details)
 
     def render(self, user: User) -> str:
         return self.obj.render(user)
 
     def get_documentation_url(self, user: User | None = None) -> str:
-        return self.obj.get_documentation_url(self.component, user)
+        return self.obj.get_instance_documentation_url(user)
 
     @transaction.atomic
     def dismiss(self, user: User, reason: str = "") -> bool:
@@ -174,7 +177,7 @@ class Alert(models.Model):
 
     @property
     def category(self) -> str:
-        return self.obj.category
+        return self.alert_class.category
 
     @property
     def is_problem(self) -> bool:

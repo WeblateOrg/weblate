@@ -2081,6 +2081,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Operations")
         self.click("Search and replace")
         self.assert_text_contains("#replace", "Search and replace")
+        self.assertEqual(
+            self.driver.find_element(
+                By.CSS_SELECTOR, '#replace input[type="submit"]'
+            ).get_attribute("value"),
+            "Review changes",
+        )
         self.screenshot("search-replace.png")
         self.click("Operations")
         self.click("Bulk edit")

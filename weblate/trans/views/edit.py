@@ -39,6 +39,11 @@ from weblate.trans.exceptions import (
     SuggestionSimilarToTranslationError,
     SuggestionTooLongError,
 )
+from weblate.trans.formatting import (
+    try_linkify_filename,
+    unit_state_class,
+    unit_state_title,
+)
 from weblate.trans.forms import (
     AutoForm,
     ChecksumForm,
@@ -63,11 +68,6 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
-from weblate.trans.templatetags.translations import (
-    try_linkify_filename,
-    unit_state_class,
-    unit_state_title,
-)
 from weblate.trans.util import redirect_next, render
 from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
 from weblate.utils import messages

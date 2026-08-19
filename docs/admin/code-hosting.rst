@@ -344,6 +344,12 @@ opaque token that uniquely identifies a single registered App:
 
    https://weblate.example.com/hooks/integrations/<webhook_token>/
 
+Components using the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend
+are matched only through this dedicated endpoint. All generic forge webhook
+endpoints exclude them from matching and response diagnostics, including
+``/hooks/github/``. Legacy GitHub App deliveries sent to the generic endpoint
+can match only components using a non-App VCS backend.
+
 If you are not using a GitHub App, add the Weblate webhook in the repository
 settings (:guilabel:`Webhooks`) to receive notifications on every push to a
 GitHub repository, as shown on the image below:

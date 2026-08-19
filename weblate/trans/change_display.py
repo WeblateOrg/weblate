@@ -17,13 +17,13 @@ from weblate.addons.models import ADDONS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.alerts.registry import get_alert_class
-from weblate.trans.models.change import COMPONENT_ORIGINS
-from weblate.trans.models.project import Project
-from weblate.trans.templatetags.translations import (
+from weblate.trans.formatting import (
     format_language_string,
     format_unit_source,
     format_unit_target,
 )
+from weblate.trans.models.change import COMPONENT_ORIGINS
+from weblate.trans.models.project import Project
 from weblate.utils.files import FileUploadMethod, get_upload_message
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.markdown import render_markdown
