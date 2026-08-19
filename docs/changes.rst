@@ -11,6 +11,7 @@ Weblate 2026.9
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
 * Clarified the instance-wide impact of roles containing site-wide permissions, including :ref:`site-wide user management <site-wide-user-management>`.
 * Improved translation file loading performance for metadata-only string changes.
+* Reduced :ref:`Celery <celery>` worker startup memory usage by avoiding duplicate Django system checks and loading font rendering only when needed.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
