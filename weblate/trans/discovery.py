@@ -806,6 +806,28 @@ class ComponentDiscovery:
                 result[mask]["files"].add(path)
                 result[mask]["languages"].add(groups["language"])
                 result[mask]["files_langs"].add((path, groups["language"]))
+            else:
+                new_match = self.build_match_from_groups(groups, mask=mask, path=path)
+                self.add_error(
+                    gettext(
+                        "Multiple base or new base files render to the same file "
+                        "mask %(mask)s (%(existing)s and %(new)s)."
+                    )
+                    % {
+                        "mask": mask,
+                        "existing": (
+                            result[mask]["base_file"]
+                            or result[mask]["new_base"]
+                            or result[mask]["name"]
+                        ),
+                        "new": (
+                            new_match["base_file"]
+                            or new_match["new_base"]
+                            or new_match["name"]
+                        ),
+                    },
+                    mask=mask,
+                )
 
         if self.create_from_template and result:
             exclude_paths = {
