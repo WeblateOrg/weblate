@@ -21,6 +21,22 @@
     return flagChoicesPromises.get(url);
   }
 
+  function copyFlagsToClipboard(text) {
+    try {
+      navigator.clipboard.writeText(text).then(
+        () => {
+          addAlert(gettext("Text copied to clipboard."), "info");
+        },
+        () => {
+          addAlert(gettext("Error copying to clipboard."), "danger");
+        },
+      );
+    } catch (error) {
+      addAlert(gettext("Error copying to clipboard."), "danger");
+      console.log(error);
+    }
+  }
+
   /*
    * Split a flag-text string into individual flag tokens
    */
@@ -203,6 +219,99 @@
         return;
       }
       return origAddItem.call(this, value, silent);
+    };
+
+    /* Turn an already added flag back into editable text. */
+    function editItem(item) {
+      if (!item || ts.isLocked) {
+        return false;
+      }
+      const value = item.dataset.value;
+      if (typeof value === "undefined") {
+        return false;
+      }
+      if (ts.inputValue().length) {
+        ts.createItem();
+      }
+      ts.clearActiveItems();
+      ts.removeItem(item);
+      ts.inputState();
+      ts.setTextboxValue(value);
+      ts.focus();
+      ts.refreshOptions(true);
+      return true;
+    }
+
+    function activeItemsInOrder() {
+      return ts
+        .controlChildren()
+        .filter((item) => item.classList.contains("active"));
+    }
+
+    /* Clicking a flag opens it for editing */
+    const origItemSelect = ts.onItemSelect;
+    ts.onItemSelect = function (evt, item) {
+      if (evt && !evt.shiftKey && !evt.ctrlKey && !evt.metaKey) {
+        if (editItem(item)) {
+          return true;
+        }
+      }
+      return origItemSelect.call(this, evt, item);
+    };
+
+    const origKeyDown = ts.onKeyDown;
+    ts.onKeyDown = function (e) {
+      /* Enter or F2 reopens the selected flag for editing */
+      if (
+        (e.key === "Enter" || e.key === "F2") &&
+        this.activeItems.length === 1 &&
+        editItem(this.activeItems[0])
+      ) {
+        e.preventDefault();
+        return;
+      }
+      /* Ctrl - C to copy flags */
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        e.key?.toLowerCase() === "c" &&
+        this.activeItems.length
+      ) {
+        e.preventDefault();
+        copyFlagsToClipboard(
+          activeItemsInOrder()
+            .map((item) => item.dataset.value)
+            .join(", "),
+        );
+        return;
+      }
+      origKeyDown.call(this, e);
+    };
+
+    /* Keyboard navigation for flags */
+    ts.moveCaret = (direction) => {
+      const items = ts.controlChildren();
+      if (!items.length) {
+        return;
+      }
+      const active = activeItemsInOrder();
+      let next;
+      if (!active.length) {
+        if (direction > 0) {
+          return;
+        }
+        next = items.length - 1;
+      } else {
+        const anchor = direction < 0 ? active[0] : active[active.length - 1];
+        next = items.indexOf(anchor) + direction;
+        if (next < 0) {
+          next = 0;
+        }
+      }
+      ts.clearActiveItems();
+      if (next < items.length) {
+        ts.setActiveItemClass(items[next]);
+      }
+      ts.inputState();
     };
 
     loadFlagChoices(choicesUrl).then((choices) => {

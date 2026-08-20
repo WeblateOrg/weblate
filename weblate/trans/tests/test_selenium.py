@@ -948,6 +948,77 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
 
+    def test_flag_editor_edit_existing(self) -> None:
+        """Check that already added flags can be turned back into editable text."""
+        # Load a page so that flag-editor.js and TomSelect are loaded
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+
+        self.driver.execute_script(
+            """
+            const input = document.createElement("input");
+            input.id = "flag-editor-test";
+            input.className = "flag-editor";
+            input.value = "max-length:100, ignore-same";
+            input.dataset.flagChoicesUrl = arguments[0];
+            document.body.appendChild(input);
+            window.initFlagEditor(input);
+            """,
+            reverse("js-flag-choices"),
+        )
+
+        hidden_input = self.driver.find_element(By.ID, "flag-editor-test")
+        text_box = self.driver.find_element(
+            By.CSS_SELECTOR, ".ts-wrapper.flag-editor-select .ts-control > input"
+        )
+
+        def send_keys(*keys) -> None:
+            # The text box is moved off-screen while a flag is selected, so the
+            # keys have to be sent to whatever is focused instead of an element.
+            webdriver.ActionChains(self.driver).send_keys(*keys).perform()
+
+        def selected_flags() -> list[str]:
+            return [
+                item.get_attribute("data-value")
+                for item in self.driver.find_elements(
+                    By.CSS_SELECTOR, ".ts-wrapper.flag-editor-select .item.active"
+                )
+            ]
+
+        # Clicking a flag turns it back into editable text
+        self.driver.find_element(
+            By.CSS_SELECTOR,
+            '.ts-wrapper.flag-editor-select .item[data-value="max-length:100"] code',
+        ).click()
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: text_box.get_attribute("value") == "max-length:100"
+        )
+        self.assertEqual(hidden_input.get_attribute("value"), "ignore-same")
+
+        # Committing the edited text adds the flag back
+        send_keys("0", Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                hidden_input.get_attribute("value") == "ignore-same, max-length:1000"
+            )
+        )
+
+        # Arrow keys walk the flags without a mouse
+        send_keys(Keys.ARROW_LEFT)
+        self.assertEqual(selected_flags(), ["max-length:1000"])
+        send_keys(Keys.ARROW_LEFT)
+        self.assertEqual(selected_flags(), ["ignore-same"])
+        # Moving past the last flag returns to the text box
+        send_keys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT)
+        self.assertEqual(selected_flags(), [])
+
+        # Enter opens the selected flag for editing
+        send_keys(Keys.ARROW_LEFT, Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: text_box.get_attribute("value") == "max-length:1000"
+        )
+        self.assertEqual(hidden_input.get_attribute("value"), "ignore-same")
+
     def test_search_preview_scopes_boolean_query(self) -> None:
         project = self.create_component()
         component = Component.objects.get(project=project, slug="language-names")

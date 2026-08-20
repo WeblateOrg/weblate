@@ -17,6 +17,7 @@ Weblate 2026.9
 * Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
 * Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
 * The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
+* Flags in the translation flags editor can now be reopened for editing by clicking them or by selecting them with arrow keys and pressing Enter, and copied with Ctrl+C.
 
 .. rubric:: Bug fixes
 
