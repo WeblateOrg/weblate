@@ -98,6 +98,7 @@ class DetectedDiscoveryPresetValues(TypedDict):
     new_base_template: str
     intermediate_template: str
     language_regex: str
+    filemask_template: str
 
 
 class DetectedDiscoveryPreset(TypedDict):
