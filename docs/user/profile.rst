@@ -127,6 +127,11 @@ components, projects, …) when the browser window is too narrow to fit them.
 Enable :guilabel:`Show all columns in lists using horizontal scrolling` to keep
 all columns instead and scroll the table horizontally when needed.
 
+Use :guilabel:`Visible columns in lists` to choose which statistics columns
+are shown in the listings. This way you can hide numbers you are not
+interested in, or make room for additional ones such as :guilabel:`Total
+strings`.
+
 Default dashboard view
 ++++++++++++++++++++++
 
