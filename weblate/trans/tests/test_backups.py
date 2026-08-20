@@ -20,7 +20,7 @@ from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
-from django.test import override_settings
+from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 
 from weblate.addons.webhooks import WebhookAddon
@@ -33,12 +33,20 @@ from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import (
+    CATEGORY_BACKUP_FIELDS,
+    COMPONENT_BACKUP_FIELDS,
+    PROJECT_BACKUP_FIELDS,
     ProjectBackup,
     get_project_backup_download_storage,
     get_project_backup_download_url,
     list_backups,
 )
 from weblate.trans.change_display import get_change_history_context
+from weblate.trans.forms import (
+    CategorySettingsForm,
+    ComponentSettingsForm,
+    ProjectSettingsForm,
+)
 from weblate.trans.models import (
     Category,
     Change,
@@ -50,6 +58,7 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
+from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
     cleanup_project_backup_download,
     cleanup_project_backups,
@@ -79,6 +88,58 @@ def remove_file_after(filename: str):
 def resolve_private_example(host, *args, **kwargs):
     address = "127.0.0.1" if host == "private.example" else "8.8.8.8"
     return [(0, 0, 0, "", (address, 443))]
+
+
+class BackupSettingCoverageTest(SimpleTestCase):
+    def test_backup_setting_coverage(self) -> None:
+        """Ensure newly introduced editable settings are not silently omitted."""
+        backup = ProjectBackup()
+        backup_settings = (
+            # Workspace is selected by the restore caller. Machinery settings can
+            # contain service credentials and are intentionally not exported.
+            (
+                Project,
+                ProjectSettingsForm,
+                backup.project_schema["properties"]["project"],
+                PROJECT_BACKUP_FIELDS,
+                {"workspace", "machinery_settings"},
+            ),
+            # Category hierarchy is represented by the backup object graph.
+            (
+                Category,
+                CategorySettingsForm,
+                backup.project_schema["definitions"]["category"],
+                CATEGORY_BACKUP_FIELDS,
+                {"project", "category"},
+            ),
+            # Component hierarchy is represented by the backup object graph;
+            # generated and internal repository revisions are not settings.
+            (
+                Component,
+                ComponentSettingsForm,
+                backup.component_schema["properties"]["component"],
+                COMPONENT_BACKUP_FIELDS,
+                {"project", "category", "git_export", "processed_revision"},
+            ),
+        )
+        for model, form, schema, extra_fields, excluded_fields in backup_settings:
+            with self.subTest(model=model.__name__):
+                backup_fields = set(schema["required"]) | set(extra_fields)
+                schema_fields = set(schema["properties"])
+                # ruff: ignore[private-member-access]
+                editable_fields = {
+                    field.name
+                    for field in model._meta.fields
+                    if field.editable and not field.auto_created
+                }
+
+                self.assertSetEqual(
+                    editable_fields - excluded_fields,
+                    backup_fields & editable_fields,
+                )
+                # ruff: ignore[private-member-access]
+                self.assertLessEqual(set(form._meta.fields), backup_fields)
+                self.assertLessEqual(backup_fields, schema_fields)
 
 
 class BackupsTest(ViewTestCase):
@@ -849,6 +910,72 @@ class BackupsTest(ViewTestCase):
         )
         assert isinstance(secondary_language, Language)
         self.assertEqual(secondary_language.code, "de")
+
+    def test_backup_settings(self) -> None:
+        project = self.project
+        project.autoclean_tm = not project.autoclean_tm
+        project.enforced_2fa = True
+        project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.save(update_fields=["autoclean_tm", "enforced_2fa", "commit_policy"])
+        component = self.create_po_mono(project=project, name="Backup-settings")
+        component.hide_glossary_matches = True
+        component.contribute_project_tm = False
+        component.file_format_params = {
+            "po_line_wrap": 65535,
+            "po_set_language_team": True,
+        }
+        component.screenshot_filemask = "screenshots/*.png"
+        component.key_filter = "^keep"
+        component.save(
+            update_fields=[
+                "hide_glossary_matches",
+                "contribute_project_tm",
+                "file_format_params",
+                "screenshot_filemask",
+                "key_filter",
+            ]
+        )
+
+        backup = ProjectBackup()
+        backup.backup_project(project)
+        with ZipFile(backup.filename, "r") as zipfile:
+            project_data = json.loads(zipfile.read("weblate-backup.json"))["project"]
+            component_data = json.loads(
+                zipfile.read(f"components/{component.slug}.json")
+            )["component"]
+
+        self.assertEqual(project_data["autoclean_tm"], project.autoclean_tm)
+        self.assertTrue(project_data["enforced_2fa"])
+        self.assertEqual(
+            project_data["commit_policy"], CommitPolicyChoices.APPROVED_ONLY
+        )
+        self.assertTrue(component_data["hide_glossary_matches"])
+        self.assertFalse(component_data["contribute_project_tm"])
+        self.assertEqual(
+            component_data["file_format_params"], component.file_format_params
+        )
+        self.assertEqual(component_data["screenshot_filemask"], "screenshots/*.png")
+        self.assertEqual(component_data["key_filter"], "^keep")
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored settings",
+            project_slug="restored-settings",
+            user=self.user,
+        )
+        restored_component = restored.component_set.get(slug=component.slug)
+
+        self.assertEqual(restored.autoclean_tm, project.autoclean_tm)
+        self.assertTrue(restored.enforced_2fa)
+        self.assertEqual(restored.commit_policy, CommitPolicyChoices.APPROVED_ONLY)
+        self.assertTrue(restored_component.hide_glossary_matches)
+        self.assertFalse(restored_component.contribute_project_tm)
+        self.assertEqual(
+            restored_component.file_format_params, component.file_format_params
+        )
+        self.assertEqual(restored_component.screenshot_filemask, "screenshots/*.png")
+        self.assertEqual(restored_component.key_filter, "^keep")
 
     def test_backup_team_members_prefetches_limit_languages(self) -> None:
         team = Group.objects.create(name="Prefetch team", defining_project=self.project)

@@ -14,6 +14,7 @@ Weblate 2026.9
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
 * Clarified the instance-wide impact of roles containing site-wide permissions, including :ref:`site-wide user management <site-wide-user-management>`.
 * Improved translation file loading performance for metadata-only string changes.
+* Added a :guilabel:`Visible columns in lists` preference to choose which statistics columns are shown in project, component, and language lists. See :ref:`user-profile`.
 * Reduced :ref:`Celery <celery>` worker startup memory usage by avoiding duplicate Django system checks and loading font rendering only when needed.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
@@ -25,6 +26,7 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
+* Project backup restores now preserve all project, category, and component settings.
 * Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
 * Database dump failures are now shown in the backups management interface.
 * Project administrators can no longer remove API tokens belonging to other projects.
@@ -37,6 +39,7 @@ Weblate 2026.9
 * Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
 * Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
 * Mercurial and Subversion repository hosts can now be trusted using :setting:`VCS_PRIVATE_ALLOWLIST` without restricting Git to the same hosts through :setting:`VCS_ALLOW_HOSTS`.
+* The project deletion REST API endpoint now returns ``202 Accepted`` instead of ``204 No Content`` and contains a task URL in the response to track asynchronous deletion progress.
 
 .. rubric:: Upgrading
 
