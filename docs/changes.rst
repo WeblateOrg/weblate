@@ -24,6 +24,7 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
+* Project backup restores now preserve all project, category, and component settings.
 * Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
 * Database dump failures are now shown in the backups management interface.
 * Project administrators can no longer remove API tokens belonging to other projects.
