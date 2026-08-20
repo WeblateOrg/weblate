@@ -927,7 +927,12 @@ def resolve_repo_hostname(
             params={"hostname": policy_hostname},
         )
     allow_private_targets = (
-        policy_hostname in settings.VCS_ALLOW_HOSTS or not settings.VCS_RESTRICT_PRIVATE
+        policy_hostname in settings.VCS_ALLOW_HOSTS
+        or is_allowlisted_hostname(
+            policy_hostname,
+            settings.VCS_PRIVATE_ALLOWLIST,
+        )
+        or not settings.VCS_RESTRICT_PRIVATE
     )
     validate_outbound_hostname(
         hostname,
@@ -1006,7 +1011,9 @@ def resolve_repo_url(
         )
 
     allow_private_targets = (
-        hostname in settings.VCS_ALLOW_HOSTS or not settings.VCS_RESTRICT_PRIVATE
+        hostname in settings.VCS_ALLOW_HOSTS
+        or is_allowlisted_hostname(hostname, settings.VCS_PRIVATE_ALLOWLIST)
+        or not settings.VCS_RESTRICT_PRIVATE
     )
 
     try:

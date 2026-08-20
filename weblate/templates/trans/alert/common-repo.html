@@ -1,8 +1,42 @@
-{% load i18n %}
+{% load i18n translations %}
 
 {% if analysis.redirect %}
   <p>
     {% translate "The repository URL returned a permanent HTTP redirect. Weblate automatically accepts only verified redirects on the same host. Update the component to use the canonical repository URL if the redirect points elsewhere." %}
+  </p>
+{% endif %}
+
+{% if analysis.repository_url_backend_unsupported %}
+  <p>
+    {% translate "This version control backend cannot enforce private-address restrictions for the configured URL. Ask the instance administrator to add the trusted repository hostname to VCS_ALLOW_HOSTS." %}
+  </p>
+{% elif analysis.repository_url_private %}
+  <p>
+    {% translate "Weblate blocked the repository URL because its destination is not permitted by this instance. Use a publicly reachable repository URL, or ask the instance administrator to allow the trusted repository host." %}
+  </p>
+{% endif %}
+
+{% if analysis.repository_url_invalid %}
+  <p>
+    {% translate "The configured repository URL is not valid. Check the URL in the component settings and use a complete repository URL supported by the selected version control system." %}
+  </p>
+{% endif %}
+
+{% if analysis.repository_url_scheme %}
+  <p>
+    {% translate "The repository URL uses a protocol which is not permitted by this instance. Use HTTPS or SSH, or ask the instance administrator whether another protocol can be safely enabled." %}
+  </p>
+{% endif %}
+
+{% if analysis.repository_url_resolution %}
+  <p>
+    {% translate "Weblate could not resolve the repository destination. Check the hostname and the instance DNS configuration. Internal or otherwise non-public hosts must also be explicitly allowed by the instance administrator." %}
+  </p>
+{% endif %}
+
+{% if analysis.repository_url_redirect and not analysis.redirect %}
+  <p>
+    {% translate "The repository URL redirect could not be safely followed. Configure the final repository URL directly; Weblate automatically accepts only verified permanent redirects on the same host." %}
   </p>
 {% endif %}
 
@@ -34,6 +68,12 @@
   </p>
 {% endif %}
 
+{% if analysis.git_lfs_missing_objects %}
+  <p>
+    {% translate "The repository references Git LFS objects that are missing from the push destination. Weblate does not download or upload Git LFS objects, and files tracked by Git LFS cannot be used as translation files." %} {% documentation_icon "vcs" "git-lfs" %}
+  </p>
+{% endif %}
+
 {% if analysis.temporary %}
   <p>{% translate "The upstream repository could not be temporarily accessed. Please try it again later." %}</p>
 {% endif %}
@@ -62,7 +102,7 @@
   </p>
 {% endif %}
 
-{% if not analysis.redirect %}
+{% if not analysis.redirect and not analysis.repository_url_failure %}
   <p>
     {% translate "Weblate will retry the operation once it is needed again, so the alert might disappear for the temporary issues." %}
   </p>

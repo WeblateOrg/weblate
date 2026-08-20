@@ -113,6 +113,7 @@ from weblate.utils.forms import (
     QueryField,
     SearchableSelect,
     SearchField,
+    SortedSearchableSelect,
     SortedSelect,
     SortedSelectMultiple,
     UserField,
@@ -1626,6 +1627,21 @@ class UserManageForm(forms.Form):
             "Please type in an existing Weblate account name or e-mail address."
         ),
     )
+
+
+class ProjectMemberManageForm(UserManageForm):
+    def __init__(self, project: Project, *args, **kwargs) -> None:
+        self.project = project
+        super().__init__(*args, **kwargs)
+
+    def clean_user(self) -> User:
+        user = self.cleaned_data["user"]
+        if (
+            user.is_internal
+            or not user.groups.filter(defining_project=self.project).exists()
+        ):
+            raise ValidationError(gettext("Could not find any such user."))
+        return user
 
 
 class TeamAssignableUserMixin:
@@ -3207,6 +3223,11 @@ class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
         model = Component
         # ruff: ignore[mutable-class-default]
         fields = ["name", "slug", "project", "category"]
+        # ruff: ignore[mutable-class-default]
+        widgets = {
+            "project": SortedSearchableSelect,
+            "category": SortedSearchableSelect,
+        }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
@@ -3293,6 +3314,11 @@ class CategoryRenameForm(SettingsBaseForm):
         model = Category
         # ruff: ignore[mutable-class-default]
         fields = ["name", "slug", "project", "category"]
+        # ruff: ignore[mutable-class-default]
+        widgets = {
+            "project": SortedSearchableSelect,
+            "category": SortedSearchableSelect,
+        }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
         super().__init__(request, *args, **kwargs)
@@ -3888,7 +3914,6 @@ class ReplaceForm(forms.Form):
             Field("path"),
             Field("search"),
             Field("replacement"),
-            Div(template="snippets/replace-help.html"),
         )
 
 
@@ -4521,7 +4546,7 @@ class ProjectGroupDeleteForm(forms.Form):
         self.fields["group"].queryset = project.defined_groups.all()
 
 
-class ProjectUserGroupForm(UserManageForm):
+class ProjectUserGroupForm(ProjectMemberManageForm):
     groups = forms.ModelMultipleChoiceField(
         Group.objects.none(),
         widget=forms.CheckboxSelectMultiple,
@@ -4537,8 +4562,7 @@ class ProjectUserGroupForm(UserManageForm):
         limit_language_choices: list[tuple[str, str]] | None = None,
         **kwargs,
     ) -> None:
-        self.project = project
-        super().__init__(*args, **kwargs)
+        super().__init__(project, *args, **kwargs)
         self.fields["user"].widget = forms.HiddenInput()
         groups_queryset = (
             group_queryset
@@ -4573,6 +4597,12 @@ class ProjectUserGroupForm(UserManageForm):
             }
             for index, group in enumerate(groups)
         ]
+
+    def clean_user(self) -> User:
+        user = self.cleaned_data["user"]
+        if not user.groups.filter(defining_project=self.project).exists():
+            validate_team_assignable_user(user, allow_bot=True)
+        return super().clean_user()
 
     def get_selected_group_ids(self) -> set[str]:
         if self.is_bound:

@@ -64,7 +64,7 @@ class UnsupportedPathObjectError(Http404):
 
 def key_name(instance):
     # ruff: ignore[import-outside-top-level]
-    from weblate.trans.templatetags.translations import get_breadcrumbs
+    from weblate.trans.formatting import get_breadcrumbs
 
     return "/".join(
         str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)

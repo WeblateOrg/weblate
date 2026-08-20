@@ -573,6 +573,16 @@ Client IP address
    :setting:`IP_PROXY_OFFSET` as well (use :envvar:`WEBLATE_IP_PROXY_HEADER`
    and :envvar:`WEBLATE_IP_PROXY_OFFSET` in the Docker container).
 
+   The reverse proxy which connects to Weblate must overwrite the configured
+   header or append a verified peer address at the position selected by
+   :setting:`IP_PROXY_OFFSET`. Do not select a client-supplied address, and do
+   not expose the application server through a path which bypasses the trusted
+   proxy.
+
+   When using ``X-Forwarded-For`` with the Docker container, configure
+   :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES` with the reverse proxies allowed
+   to supply client addresses.
+
    .. hint::
 
       This configuration cannot be turned on by default, because it would allow IP
@@ -637,6 +647,7 @@ Client protocol
    * :setting:`IP_PROXY_OFFSET`
    * :setting:`django:SECURE_PROXY_SSL_HEADER`
    * :envvar:`WEBLATE_IP_PROXY_HEADER`
+   * :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES`
    * :envvar:`WEBLATE_IP_PROXY_OFFSET`
 
 .. _http-proxy:
@@ -1569,6 +1580,13 @@ command-line:
 .. code-block:: sh
 
    celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup
+
+To reduce startup memory usage, Celery workers do not repeat the Django system
+checks. The Weblate container runs the more comprehensive
+:command:`weblate check --deploy` automatically during container startup. For
+other installation methods, run the command after installation, upgrades, or
+configuration changes. The checks are also available in the
+:ref:`management interface <manage-performance>`.
 
 .. note::
 

@@ -29,6 +29,11 @@ DjangoTask.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 
+# Avoid loading the complete URL configuration and optional integrations in every
+# Celery worker. Deployment checks are run separately during container startup and
+# remain available through ``weblate check --deploy`` for other installations.
+os.environ.setdefault("CELERY_SKIP_CHECKS", "1")
+
 app = Celery[DjangoTask[..., Any]]("weblate")
 
 # Using a string here means the worker doesn't have to serialize

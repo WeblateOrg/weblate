@@ -30,6 +30,7 @@ from .defaults import (
     DEFAULT_VCS_API_TIMEOUT,
     DEFAULT_VCS_BACKENDS,
     DEFAULT_VCS_CLONE_DEPTH,
+    DEFAULT_VCS_PRIVATE_ALLOWLIST,
     DEFAULT_VCS_RESTRICT_PRIVATE,
 )
 
@@ -156,6 +157,7 @@ class VCSConf(AppConf):
     VCS_API_TIMEOUT = DEFAULT_VCS_API_TIMEOUT
     VCS_ALLOW_SCHEMES: ClassVar[set[str]] = set(DEFAULT_VCS_ALLOW_SCHEMES)
     VCS_ALLOW_HOSTS: ClassVar[set[str]] = set(DEFAULT_VCS_ALLOW_HOSTS)
+    VCS_PRIVATE_ALLOWLIST: ClassVar[list[str]] = list(DEFAULT_VCS_PRIVATE_ALLOWLIST)
     VCS_RESTRICT_PRIVATE = DEFAULT_VCS_RESTRICT_PRIVATE
 
     # GitHub username for sending pull requests
@@ -194,24 +196,23 @@ class VcsClassLoader(ClassLoader):
         super().__init__("VCS_BACKENDS", construct=False, base_class=Repository)
 
     def get_unfiltered_choices(self):
-        result = super().load_data()
+        result = self.get_unfiltered_data()
         return [(x, result[x].name) for x in sorted(result)]
 
-    def load_data(self):
-        result = super().load_data()
+    def get_unfiltered_data(self) -> dict[str, type[Repository]]:
+        return super().load_data()
+
+    def load_data(self) -> dict[str, type[Repository]]:
+        result = self.get_unfiltered_data()
 
         for key, vcs in list(result.items()):
-            try:
-                version = vcs.get_version()
-            except Exception as error:
-                supported = False
-                self.errors[vcs.name] = str(error)
-            else:
-                supported = vcs.is_supported()
-                if not supported:
-                    self.errors[vcs.name] = f"Outdated version: {version}"
-
-            if not supported or not vcs.is_configured():
+            missing_commands = vcs.get_missing_commands()
+            if missing_commands:
+                self.errors[str(vcs.name)] = (
+                    f"Command not found: {', '.join(missing_commands)}"
+                )
+                result.pop(key)
+            elif not vcs.is_configured():
                 result.pop(key)
 
         return result

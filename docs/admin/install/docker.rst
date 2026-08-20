@@ -144,6 +144,12 @@ aware of its actual environment. In more detail, these headers are described in
 
    WEBLATE_ENABLE_HTTPS=1
    WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR
+   WEBLATE_TRUSTED_PROXY_ADDRESSES=192.0.2.10
+
+Replace the example trusted proxy address with the address or network of the
+reverse proxy as seen by the Weblate container. Make sure that untrusted
+clients cannot reach a published container port by bypassing the reverse
+proxy.
 
 Using own SSL certificates
 ++++++++++++++++++++++++++
@@ -850,6 +856,15 @@ Generic settings
 
     Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:`IP_PROXY_HEADER`.
 
+    When set to ``HTTP_X_FORWARDED_FOR``, the bundled nginx resolves the client
+    address using :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES`, uses that address
+    in its logs, and forwards one normalized address to Weblate.
+
+    .. versionchanged:: 2026.9
+
+       The bundled nginx no longer trusts ``X-Forwarded-For`` from all network
+       addresses. Trusted proxy addresses have to be configured explicitly.
+
     .. note::
 
         The format must conform to Django's expectations. Django
@@ -868,12 +883,40 @@ Generic settings
 
         environment:
           WEBLATE_IP_PROXY_HEADER: HTTP_X_FORWARDED_FOR
+          WEBLATE_TRUSTED_PROXY_ADDRESSES: "192.0.2.10 2001:db8::/64 proxy"
+
+.. envvar:: WEBLATE_TRUSTED_PROXY_ADDRESSES
+
+    .. versionadded:: 2026.9
+
+    Configures the IPv4 or IPv6 addresses, networks, or hostnames of reverse
+    proxies trusted by the bundled nginx to supply ``X-Forwarded-For``. Separate
+    multiple values by whitespace.
+
+    This setting is used only when :envvar:`WEBLATE_IP_PROXY_HEADER` is
+    ``HTTP_X_FORWARDED_FOR``. If the list is empty, nginx uses the immediate TCP
+    peer in its logs and forwards that address to Weblate.
+
+    Only list proxies under your control, and do not expose the Weblate
+    container through a path which bypasses them.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_IP_PROXY_HEADER: HTTP_X_FORWARDED_FOR
+          WEBLATE_TRUSTED_PROXY_ADDRESSES: "192.0.2.10 2001:db8::/64 proxy"
 
 .. envvar:: WEBLATE_IP_PROXY_OFFSET
 
     .. versionadded:: 5.0.1
 
     Configures :setting:`IP_PROXY_OFFSET`.
+
+    When :envvar:`WEBLATE_IP_PROXY_HEADER` is ``HTTP_X_FORWARDED_FOR``, the
+    bundled nginx forwards one normalized address and the container uses an
+    effective offset of ``0``.
 
 .. envvar:: WEBLATE_USE_X_FORWARDED_PORT
 
@@ -1272,6 +1315,12 @@ Generic settings
    .. versionadded:: 5.15
 
    Configures :setting:`VCS_ALLOW_HOSTS`.
+
+.. envvar:: WEBLATE_VCS_PRIVATE_ALLOWLIST
+
+   .. versionadded:: 2026.9
+
+   Configures :setting:`VCS_PRIVATE_ALLOWLIST`.
 
 .. envvar:: WEBLATE_VCS_ALLOW_SCHEMES
 

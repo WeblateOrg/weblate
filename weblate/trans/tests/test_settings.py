@@ -37,6 +37,7 @@ from weblate.trans.models import (
 from weblate.trans.models.component import ComponentQuerySet
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import create_test_billing
+from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.render import (
     validate_render_addon,
     validate_render_commit,
@@ -1287,6 +1288,28 @@ class SettingsTest(ViewTestCase):
             self.assertFalse(
                 unit.translated, f"{unit} should not be marked as translated"
             )
+
+    def test_component_repository_locked(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        url = reverse("settings", kwargs=self.kw_component)
+        response = self.client.get(url)
+        data = get_form_data(response.context["form"].initial)
+        data["license"] = "MIT"
+        lock_error = WeblateLockTimeoutError(
+            "repository locked", lock=self.component.repository.lock.lock_object
+        )
+
+        with patch.object(Component, "locked_for_update", side_effect=lock_error):
+            response = self.client.post(url, data, follow=True)
+
+        self.assertRedirects(response, url)
+        self.assertContains(
+            response,
+            "There appears to be an ongoing operation on the repository. "
+            "Please try again later.",
+        )
+        self.component.refresh_from_db()
+        self.assertNotEqual(self.component.license, "MIT")
 
     def test_component_inherited_required_license_validates(self) -> None:
         self.project.add_user(self.user, "Administration")

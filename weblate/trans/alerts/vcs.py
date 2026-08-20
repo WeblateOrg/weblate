@@ -14,9 +14,11 @@ from weblate.trans.alerts.base import (
     ErrorAlert,
 )
 from weblate.trans.alerts.registry import register
+from weblate.utils.docs import get_doc_url
 from weblate.vcs.base import (
     RepositoryDiagnosis,
     RepositoryDiagnosisCode,
+    RepositoryErrorCode,
     RepositoryStructuredError,
     format_stored_repository_error,
     get_repository_error_diagnoses,
@@ -25,6 +27,30 @@ from weblate.vcs.base import (
 if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models.component import Component
+
+
+REPOSITORY_URL_INVALID_ERRORS: frozenset[RepositoryErrorCode] = frozenset(
+    {
+        "repository_url_invalid",
+        "repository_url_parse_invalid",
+        "repository_url_parse_failed",
+    }
+)
+REPOSITORY_URL_PRIVATE_ERRORS: frozenset[RepositoryErrorCode] = frozenset(
+    {
+        "repository_url_backend_unsupported",
+        "repository_url_host_not_allowed",
+        "repository_url_private_target",
+    }
+)
+REPOSITORY_URL_RESOLUTION_ERRORS: frozenset[RepositoryErrorCode] = frozenset(
+    {
+        "repository_ssh_destination_unresolved",
+        "repository_ssh_destination_unresolved_with_error",
+        "repository_url_unresolved",
+        "repository_url_unresolved_with_error",
+    }
+)
 
 
 def normalize_repository_error_fingerprint(error: str) -> str:
@@ -83,9 +109,43 @@ class RepositoryErrorAlert(ErrorAlert):
                 return diagnosis.get("params", {})
         return None
 
+    @property
+    def error_code(self) -> RepositoryErrorCode | None:
+        if isinstance(self.stored_error, dict):
+            return self.stored_error["code"]
+        return None
+
+    @property
+    def is_repository_url_error(self) -> bool:
+        return self.error_code is not None and self.error_code.startswith(
+            ("repository_redirect", "repository_ssh_destination_", "repository_url_")
+        )
+
+    def get_instance_documentation_url(self, user: User | None = None) -> str:
+        if self.is_repository_url_error:
+            return get_doc_url("vcs", "vcs-repository-url-troubleshooting", user=user)
+        return super().get_instance_documentation_url(user)
+
     def get_analysis(self) -> dict[str, Any]:
+        error_code = self.error_code
         return {
             "redirect": self.has_diagnosis("repository_redirect"),
+            "git_lfs_missing_objects": self.has_diagnosis("git_lfs_missing_objects"),
+            "repository_url_failure": self.is_repository_url_error,
+            "repository_url_backend_unsupported": (
+                error_code == "repository_url_backend_unsupported"
+            ),
+            "repository_url_invalid": error_code in REPOSITORY_URL_INVALID_ERRORS,
+            "repository_url_private": error_code in REPOSITORY_URL_PRIVATE_ERRORS,
+            "repository_url_redirect": (
+                error_code is not None and error_code.startswith("repository_redirect")
+            ),
+            "repository_url_resolution": (
+                error_code in REPOSITORY_URL_RESOLUTION_ERRORS
+            ),
+            "repository_url_scheme": (
+                error_code == "repository_url_scheme_not_allowed"
+            ),
         }
 
     @classmethod
