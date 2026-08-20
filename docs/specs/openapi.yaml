@@ -14288,8 +14288,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: An unexpected server error occurred.
-        '204':
-          description: No response body
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectDeleteResponse'
+          description: The request was accepted for asynchronous processing.
   /api/projects/{slug}/addons/:
     post:
       operationId: api_projects_addons_create
@@ -37624,6 +37628,17 @@ components:
       - translations_url
       - url
       - web_url
+    ProjectDeleteResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     ProjectLock:
       type: object
       properties:
