@@ -48,7 +48,6 @@ class BBCodeCheckTest(CheckTestCase):
             [(0, 3, "[a]"), (9, 13, "[/a]")],
         )
 
-
     def test_parameterized_url(self) -> None:
         self.do_test(
             False,
