@@ -491,6 +491,68 @@ class ComponentDiscoveryTest(RepoTestCase):
             (("docs/news_cs.md", "cs"),),
         )
 
+    def test_create_from_template_reports_colliding_masks(self) -> None:
+        templates = pathlib.Path(self.component.full_path) / "templates" / "foo"
+        templates.mkdir(parents=True)
+        (templates / "hello.pot").write_text("msgid\n", encoding="utf-8")
+        (templates / "world.pot").write_text("msgid\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="po",
+            match=r"templates/(?P<prefix>[^/]+)/(?P<component>[^/]+)\.pot",
+            name_template="{{ component }}",
+            new_base_template="templates/{{ prefix }}/{{ component }}.pot",
+            filemask_template="templates/{{ prefix }}/*.po",
+        )
+
+        self.assertEqual(set(discovery.matched_components), {"templates/foo/*.po"})
+        self.assertEqual(len(discovery.errors), 1)
+        self.assertIn("templates/foo/*.po", discovery.errors[0][0]["mask"])
+        self.assertIn("world", discovery.errors[0][1])
+
+    def test_create_from_template_excludes_base_from_translation_preview(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        (docs / "news_en.md").write_text("# News\n\nContent\n", encoding="utf-8")
+        (docs / "news_cs.md").write_text("# News\n\nObsah\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>[^/]+)_en\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}_en.md",
+            filemask_template="docs/{{ component }}_*.md",
+        )
+
+        matched = discovery.matched_components["docs/news_*.md"]
+        self.assertEqual(matched["base_file"], "docs/news_en.md")
+        self.assertEqual(
+            matched["files_langs"],
+            (("docs/news_cs.md", "cs"),),
+        )
+
+    def test_mask_path_bounds_skip_non_matching_paths(self) -> None:
+        self.assertTrue(
+            ComponentDiscovery.path_matches_mask_bounds(
+                "docs/news_cs.md",
+                ComponentDiscovery.mask_path_bounds("docs/news_*.md"),
+            )
+        )
+        self.assertFalse(
+            ComponentDiscovery.path_matches_mask_bounds(
+                "docs/news.md",
+                ComponentDiscovery.mask_path_bounds("docs/news_*.md"),
+            )
+        )
+        self.assertFalse(
+            ComponentDiscovery.path_matches_mask_bounds(
+                "other/news_cs.md",
+                ComponentDiscovery.mask_path_bounds("docs/news_*.md"),
+            )
+        )
+
     def test_create_component_preview_applies_inheritance_defaults(self) -> None:
         self.component.project.license = "GPL-3.0-or-later"
         self.component.project.new_lang = "none"

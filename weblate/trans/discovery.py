@@ -553,6 +553,24 @@ class ComponentDiscovery:
             f"^{re.escape(mask).replace(r'\*', r'(?P<language>[^/]+)')}$"
         )
 
+    @staticmethod
+    def mask_path_bounds(mask: str) -> tuple[str, str] | None:
+        """Return prefix and suffix around the wildcard."""
+        if "*" not in mask:
+            return None
+        prefix, suffix = mask.split("*", 1)
+        return prefix, suffix
+
+    @staticmethod
+    def path_matches_mask_bounds(path: str, bounds: tuple[str, str]) -> bool:
+        """Return whether a path matches the bounds around the wildcard."""
+        prefix, suffix = bounds
+        if not path.startswith(prefix):
+            return False
+        if suffix and not path.endswith(suffix):
+            return False
+        return len(path) > len(prefix) + len(suffix)
+
     def build_match_from_groups(
         self, groups: Mapping[str, str], *, mask: str, path: str | None = None
     ) -> MutableDiscoveryMatch:
@@ -688,19 +706,33 @@ class ComponentDiscovery:
         return None
 
     def _collect_translations_by_mask(
-        self, masks: set[str]
+        self,
+        masks: set[str],
+        exclude_paths: dict[str, set[str]],
     ) -> dict[str, list[tuple[str, str]]]:
         """Return translation files for each mask in a single path scan."""
         if not masks:
             return {}
 
         compiled = {mask: self.compile_mask_match(mask) for mask in masks}
+        bounds = {
+            mask: mask_bounds
+            for mask in masks
+            if (mask_bounds := self.mask_path_bounds(mask)) is not None
+        }
         result: dict[str, list[tuple[str, str]]] = {mask: [] for mask in masks}
         timed_out_masks: set[str] = set()
 
         for path in self.repository_paths:
             for mask, mask_match in compiled.items():
                 if mask in timed_out_masks:
+                    continue
+                if path in exclude_paths.get(mask, set()):
+                    continue
+                # to improve performance, skip paths that do not match the bounds around the wildcard
+                if mask in bounds and not self.path_matches_mask_bounds(
+                    path, bounds[mask]
+                ):
                     continue
                 try:
                     matches = regex_match(mask_match, path)
@@ -776,8 +808,16 @@ class ComponentDiscovery:
                 result[mask]["files_langs"].add((path, groups["language"]))
 
         if self.create_from_template and result:
+            exclude_paths = {
+                mask: {
+                    excluded_path
+                    for excluded_path in (match["base_file"], match["new_base"])
+                    if excluded_path
+                }
+                for mask, match in result.items()
+            }
             for mask, translations in self._collect_translations_by_mask(
-                set(result)
+                set(result), exclude_paths=exclude_paths
             ).items():
                 for translation_path, language in translations:
                     result[mask]["files"].add(translation_path)
