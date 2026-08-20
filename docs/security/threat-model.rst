@@ -403,7 +403,8 @@ Build-time and configuration variants
        configuration and are trusted by this model. *(documented)* (source:
        :setting:`ASSET_PRIVATE_ALLOWLIST`,
        :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`,
-       :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)
+       :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`,
+       :setting:`VCS_PRIVATE_ALLOWLIST`)
      - Default private-target rejection is an application-level security
        property for the documented user-configurable URL surfaces.
        *(maintainer)*

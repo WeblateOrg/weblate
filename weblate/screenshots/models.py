@@ -29,6 +29,7 @@ from weblate.trans.models import Translation, Unit
 from weblate.trans.signals import component_post_update, vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
+from weblate.utils.hash import calculate_checksum
 from weblate.vcs.base import RepositorySymlinkError
 
 if TYPE_CHECKING:
@@ -99,7 +100,14 @@ class Screenshot(models.Model, UserDisplayMixin):
         return reverse("screenshot", kwargs={"pk": self.pk})
 
     def get_view_url(self) -> str:
-        return reverse("screenshot-view", kwargs={"pk": self.pk})
+        kwargs = {"pk": self.pk}
+        if not self.image.name:
+            return reverse("screenshot-view", kwargs=kwargs)
+        return reverse(
+            "screenshot-view",
+            kwargs=kwargs,
+            query={"v": calculate_checksum(self.image.name)},
+        )
 
     @classmethod
     def validate_image_file(cls, image: File) -> None:

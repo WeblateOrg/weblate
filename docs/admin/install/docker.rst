@@ -1316,6 +1316,12 @@ Generic settings
 
    Configures :setting:`VCS_ALLOW_HOSTS`.
 
+.. envvar:: WEBLATE_VCS_PRIVATE_ALLOWLIST
+
+   .. versionadded:: 2026.9
+
+   Configures :setting:`VCS_PRIVATE_ALLOWLIST`.
+
 .. envvar:: WEBLATE_VCS_ALLOW_SCHEMES
 
    .. versionadded:: 5.15
