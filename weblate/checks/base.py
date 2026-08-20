@@ -394,9 +394,7 @@ class TargetCheck(BaseCheck):
 
     def format_value(self, value: str) -> StrOrPromise:
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.templatetags.translations import (
-            Formatter,
-        )
+        from weblate.trans.formatting import Formatter
 
         fmt = Formatter(0, value, None, None, None, None, None)
         fmt.parse()

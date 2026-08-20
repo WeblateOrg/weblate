@@ -2024,6 +2024,23 @@ class RepositoryRemotePinningTest(SimpleTestCase):
     @override_settings(
         VCS_ALLOW_HOSTS=set(),
         VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_PRIVATE_ALLOWLIST=[".internal.example"],
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_private_allowlisted_backends_are_available(self) -> None:
+        for repository_class in (HgRepository, SubversionRepository):
+            with self.subTest(repository_class=repository_class):
+                target = repository_class.validate_remote_url(
+                    "https://vcs.internal.example/repo"
+                )
+
+                self.assertIsNotNone(target)
+                assert target is not None
+                self.assertFalse(target.requires_pinning)
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
         VCS_RESTRICT_PRIVATE=True,
     )
     def test_subversion_configure_remote_validates_before_probe(self) -> None:

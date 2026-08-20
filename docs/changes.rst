@@ -7,10 +7,12 @@ Weblate 2026.9
 
 .. rubric:: Improvements
 
+* Screenshot images are now cached in browsers to reduce repeated downloads.
 * Administrators can now find removed accounts by their former e-mail address in the audit log until :setting:`AUDITLOG_EXPIRY`.
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
 * Clarified the instance-wide impact of roles containing site-wide permissions, including :ref:`site-wide user management <site-wide-user-management>`.
 * Improved translation file loading performance for metadata-only string changes.
+* Reduced :ref:`Celery <celery>` worker startup memory usage by avoiding duplicate Django system checks and loading font rendering only when needed.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
@@ -18,6 +20,7 @@ Weblate 2026.9
 * Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
 * The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
 * Flags in the translation flags editor can now be reopened for editing by clicking them or by selecting them with arrow keys and pressing Enter, and copied with Ctrl+C.
+* Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`.
 
 .. rubric:: Bug fixes
 
@@ -32,6 +35,7 @@ Weblate 2026.9
 
 * Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
 * Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
+* Mercurial and Subversion repository hosts can now be trusted using :setting:`VCS_PRIVATE_ALLOWLIST` without restricting Git to the same hosts through :setting:`VCS_ALLOW_HOSTS`.
 
 .. rubric:: Upgrading
 

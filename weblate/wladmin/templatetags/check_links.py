@@ -8,8 +8,8 @@ from typing import TYPE_CHECKING, cast
 
 from django import template
 
-from weblate.trans.templatetags.translations import render_documentation_icon
 from weblate.utils.checks import check_doc_link
+from weblate.utils.formatting import render_documentation_icon
 
 if TYPE_CHECKING:
     from django.core.checks import CheckMessage
