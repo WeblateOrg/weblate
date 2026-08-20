@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-14 08:12+0200\n"
-"PO-Revision-Date: 2026-08-20 07:59+0000\n"
+"PO-Revision-Date: 2026-08-20 20:00+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -2067,6 +2067,9 @@ msgid ""
 "authentication) require disabling the default ``requestedAuthnContext`` in "
 "the SAML security configuration:"
 msgstr ""
+"Một số nhà cung cấp danh tính (chẳng hạn như Microsoft Entra ID với xác thực "
+"đa yếu tố) yêu cầu tắt ``requestedAuthnContext`` mặc định trong cấu hình bảo "
+"mật SAML:"
 
 msgid "In Docker, set :envvar:`WEBLATE_SAML_SECURITY_CONFIG` instead."
 msgstr "Trong Docker, hãy đặt :envvar:`WEBLATE_SAML_SECURITY_CONFIG` thay thế."
@@ -2086,7 +2089,7 @@ msgid "`How to Send a Custom RelayState with Okta`_"
 msgstr ""
 
 msgid ":ref:`Configuring SAML in Docker <docker-saml>`"
-msgstr ""
+msgstr ":ref:`Cấu hình SAML trong Docker <docker-saml>`"
 
 msgid "LDAP authentication"
 msgstr "Xác thực LDAP"
@@ -2892,7 +2895,7 @@ msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr "Sao lưu cơ sở dữ liệu PostgreSQL dưới dạng :file:`database.sql`."
 
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "Kết xuất môi trường dưới dạng :file:`environment.yml`."
 
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
@@ -3965,6 +3968,8 @@ msgid ""
 "`Webhooks in Gitea manual <https://docs.gitea.com/usage/repository/"
 "webhooks>`_"
 msgstr ""
+"`Hướng dẫn sử dụng Webhooks trong Gitea <https://docs.gitea.com/usage/"
+"repository/webhooks>`_"
 
 msgid ":http:post:`/hooks/gitea/`"
 msgstr ":http:post:`/hooks/gitea/`"
@@ -3989,6 +3994,8 @@ msgid ""
 "`Webhooks in Forgejo documentation <https://forgejo.org/docs/latest/user/"
 "webhooks/>`_"
 msgstr ""
+"`Webhooks trong tài liệu Forgejo <https://forgejo.org/docs/latest/user/"
+"webhooks/>`_"
 
 msgid ":http:post:`/hooks/forgejo/`"
 msgstr ":http:post:`/hooks/forgejo/`"
@@ -4156,6 +4163,8 @@ msgid ""
 "`Web hooks in Azure DevOps manual <https://learn.microsoft.com/en-us/azure/"
 "devops/service-hooks/services/webhooks?view=azure-devops>`_"
 msgstr ""
+"`Hướng dẫn sử dụng Web hooks trong Azure DevOps <https://learn.microsoft.com/"
+"en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops>`_"
 
 msgid ":http:post:`/hooks/azure/`"
 msgstr ":http:post:`/hooks/azure/`"
@@ -4257,6 +4266,7 @@ msgstr ""
 
 msgid "`Webhooks in Gitee manual <https://help.gitee.com/webhook>`_"
 msgstr ""
+"`Hướng dẫn sử dụng Webhooks trong Gitee <https://help.gitee.com/webhook>`_"
 
 msgid ":http:post:`/hooks/gitee/`"
 msgstr ":http:post:`/hooks/gitee/`"
@@ -5187,6 +5197,8 @@ msgid ""
 "`Bitbucket: HTTP access token <https://confluence.atlassian.com/"
 "bitbucketserver/http-access-tokens-939515499.html>`_"
 msgstr ""
+"`Bitbucket: Token truy cập HTTP <https://confluence.atlassian.com/"
+"bitbucketserver/http-access-tokens-939515499.html>`_"
 
 msgid "List for credentials for Bitbucket Cloud servers."
 msgstr "Danh sách thông tin đăng nhập cho các máy chủ Đám Mây Bitbucket."
@@ -5255,6 +5267,9 @@ msgid ""
 "azure/devops/organizations/accounts/use-personal-access-tokens-to-"
 "authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
+"`Azure DevOps: Token truy cập Cá nhân <https://learn.microsoft.com/en-us/"
+"azure/devops/organizations/accounts/use-personal-access-tokens-to-"
+"authenticate?view=azure-devops&tabs=Windows>`_"
 
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Universal "
@@ -7697,6 +7712,8 @@ msgid ""
 "Weblate is not supported on Windows. But it may still work and patches are "
 "happily accepted."
 msgstr ""
+"Weblate không được hỗ trợ trên Windows. Tuy nhiên, nó vẫn có thể hoạt động "
+"và chúng tôi rất hoan nghênh các bản vá lỗi."
 
 msgid ""
 ":ref:`architecture` describes overall Weblate architecture and required "
@@ -9064,6 +9081,12 @@ msgid ""
 "maintained in the Weblate source tree under :file:`weblate/examples/`; "
 "Python wheels do not install these deployment samples."
 msgstr ""
+"Nhiều khả năng bạn sẽ muốn chạy Celery như một tiến trình nền (daemon) và "
+"điều đó được đề cập trong tài liệu :doc:`celery:userguide/daemonizing`. Đối "
+"với thiết lập Linux phổ biến nhất sử dụng systemd, hãy điều chỉnh các tệp ví "
+"dụ được liệt kê bên dưới. Các ví dụ này được duy trì trong cây mã nguồn "
+"Weblate tại :file:`weblate/examples/`; các gói Python (wheels) không cài đặt "
+"các mẫu triển khai này."
 
 msgid ""
 "Systemd unit to be placed as :file:`/etc/systemd/system/celery-"
@@ -9411,7 +9434,7 @@ msgid ""
 msgstr ""
 
 msgid "Choosing Docker image registry"
-msgstr ""
+msgstr "Chọn kho lưu trữ hình ảnh Docker"
 
 msgid "Weblate containers are published to following registries:"
 msgstr ""
@@ -9452,13 +9475,14 @@ msgid "Weblate stable release, matches latest tagged release"
 msgstr ""
 
 msgid "Rolling updates in a production environment"
-msgstr ""
+msgstr "Cập nhật cuốn chiếu trong môi trường sản xuất"
 
 msgid "Weblate stable release"
 msgstr "Phiên bản ổn định của Weblate"
 
 msgid "Rolling updates within a calendar year in a production environment"
 msgstr ""
+"Cập nhật cuốn chiếu trong vòng một năm dương lịch trong môi trường sản xuất"
 
 msgid "Rolling updates within a monthly release in a production environment"
 msgstr ""
@@ -9473,7 +9497,7 @@ msgid ""
 msgstr ""
 
 msgid "Rolling updates in a staging environment"
-msgstr ""
+msgstr "Cập nhật cuốn chiếu trong môi trường thử nghiệm"
 
 msgid "Well defined deploy in a staging environment"
 msgstr ""
@@ -9482,7 +9506,7 @@ msgid "Development version Weblate from Git"
 msgstr "Phiên bản phát triển Weblate từ Git"
 
 msgid "Rolling updates to test upcoming Weblate features"
-msgstr ""
+msgstr "Cập nhật cuốn chiếu để thử nghiệm các tính năng sắp ra mắt của Weblate"
 
 msgid "Well defined deploy to test upcoming Weblate features"
 msgstr ""
@@ -9821,7 +9845,7 @@ msgid ""
 msgstr ""
 
 msgid "Docker environment variables"
-msgstr ""
+msgstr "Biến môi trường Docker"
 
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
@@ -9943,7 +9967,7 @@ msgid "The email address that error messages are sent from."
 msgstr ""
 
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "Cấu hình địa chỉ cho các email gửi đi."
 
 msgid "Configures :setting:`ADMINS_CONTACT`."
 msgstr "Cấu hình :setting:`ADMINS_CONTACT`."
@@ -10473,6 +10497,8 @@ msgstr ""
 msgid ""
 ":ref:`Configuring code-hosting credentials in Docker <docker-vcs-config>`"
 msgstr ""
+":ref:`Cấu hình thông tin xác thực lưu trữ mã trong Docker <docker-vcs-config>"
+"`"
 
 msgid ""
 "Configures :setting:`GITHUB_LEGACY_APP_WEBHOOK_SECRET`. The ``_FILE`` "
@@ -10607,7 +10633,7 @@ msgid "Enables Microsoft Entra ID authentication, see :ref:`entra-auth`."
 msgstr "Bật xác thực bằng Microsoft Entra ID, xem :ref:`entra-auth`."
 
 msgid "Microsoft Entra ID with Tenant support"
-msgstr ""
+msgstr "Microsoft Entra ID với hỗ trợ Tenant"
 
 msgid ""
 "Enables Microsoft Entra ID authentication with Tenant support, "
@@ -10633,10 +10659,10 @@ msgid ""
 msgstr ""
 
 msgid "Example when Keycloak is passing authentication to Microsoft."
-msgstr ""
+msgstr "Ví dụ khi Keycloak chuyển xác thực tới Microsoft."
 
 msgid "Linux vendors"
-msgstr ""
+msgstr "Các nhà cung cấp Linux"
 
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
@@ -10681,6 +10707,10 @@ msgid ""
 "``requestedAuthnContext`` (needed for some identity providers such as "
 "Microsoft Entra ID with multi-factor authentication):"
 msgstr ""
+"Cấu hình bảo mật SAML dưới dạng đối tượng JSON, được chuyển đến "
+"``SOCIAL_AUTH_SAML_SECURITY_CONFIG``. Ví dụ: để tắt "
+"``requestedAuthnContext`` (cần thiết cho một số nhà cung cấp danh tính như "
+"Microsoft Entra ID với xác thực đa yếu tố):"
 
 msgid ""
 "`python3-saml security settings <https://github.com/SAML-Toolkits/python3-"
@@ -10843,7 +10873,7 @@ msgid "Example SSL configuration:"
 msgstr "Ví dụ về cấu hình SSL:"
 
 msgid "Mail server hostname or IP address."
-msgstr ""
+msgstr "Tên máy chủ hoặc địa chỉ IP của máy chủ thư điện tử."
 
 msgid "Mail server port, defaults to 25."
 msgstr ""
@@ -11263,7 +11293,7 @@ msgstr ""
 "`tmpfs` nữa - :file:`/tmp` và :file:`/run`."
 
 msgid "Configuration beyond environment variables"
-msgstr ""
+msgstr "Cấu hình ngoài các biến môi trường"
 
 msgid ""
 ":ref:`Docker environment variables <docker-environment>` are intended to "
@@ -11673,7 +11703,7 @@ msgstr ""
 
 msgid ""
 "You can find the template at <https://github.com/WeblateOrg/openshift/>."
-msgstr ""
+msgstr "Bạn có thể tìm thấy mẫu tại <https://github.com/WeblateOrg/openshift/>."
 
 msgid ""
 "The following examples assume you have a working OpenShift v3.x environment, "
@@ -12033,6 +12063,11 @@ msgid ""
 "including :ref:`gettext`, :ref:`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` "
 "or :ref:`fluent`, see :ref:`formats` for more details."
 msgstr ""
+"Các trường quan trọng ở đây là: :ref:`component-name`, :ref:`component-"
+"repo`, và :ref:`component-filemask` để tìm các tệp có thể dịch được. Weblate "
+"hỗ trợ nhiều định dạng bao gồm :ref:`gettext`, :ref:`aresource`, "
+":ref:`apple`, :ref:`javaprop`, :ref:`stringsdict` hoặc :ref:`fluent`, xem "
+":ref:`formats` để biết thêm chi tiết."
 
 msgid ""
 "Once the above is completed (it can be lengthy process depending on the size "
@@ -15300,10 +15335,10 @@ msgid "BCP style notation, all in lower case (for example ``cs-cz``)."
 msgstr ""
 
 msgid "Apple App Store metadata style"
-msgstr ""
+msgstr "Kiểu dữ liệu mô tả của Apple App Store"
 
 msgid "Style suitable for uploading metadata to Apple App Store."
-msgstr ""
+msgstr "Phong cách phù hợp để tải siêu dữ liệu lên Apple App Store."
 
 msgid "Google Play metadata style"
 msgstr "Kiểu dữ liệu mô tả Google Play"
@@ -15317,10 +15352,8 @@ msgstr ""
 msgid "Only used in Android apps, produces language codes like ``pt-rBR``."
 msgstr ""
 
-#, fuzzy
-#| msgid "Language"
 msgid "Linux style"
-msgstr "Ngôn ngữ"
+msgstr "Phong cách Linux"
 
 msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
@@ -15329,10 +15362,8 @@ msgstr ""
 "Các ngôn ngữ địa phương được Linux sử dụng vẫn dùng mã truyền thống cho "
 "tiếng Trung và ký hiệu kiểu POSIX."
 
-#, fuzzy
-#| msgid "Language"
 msgid "Linux style, lower cased"
-msgstr "Ngôn ngữ"
+msgstr "Kiểu Linux, chữ thường"
 
 msgid ""
 "Locales as used by Linux, uses legacy codes for Chinese and POSIX style "
@@ -17126,7 +17157,7 @@ msgid "Added ratelimiting status headers."
 msgstr "Đã thêm các tiêu đề trạng thái giới hạn tốc độ."
 
 msgid "Error responses"
-msgstr ""
+msgstr "Phản hồi lỗi"
 
 msgid "Error responses were endpoint specific before this release."
 msgstr ""
@@ -20430,7 +20461,7 @@ msgid "*Released on February 6th 2012.*"
 msgstr "*Phát hành vào ngày 6 tháng 2 năm 2012.*"
 
 msgid "Initial release."
-msgstr ""
+msgstr "Phiên bản phát hành ban đầu."
 
 msgid "Weblate 1.x series"
 msgstr "Weblate 1.x series"
@@ -20503,7 +20534,7 @@ msgid "Better tracking of source strings."
 msgstr ""
 
 msgid "Captcha protection for registration."
-msgstr ""
+msgstr "Bảo vệ captcha khi đăng ký."
 
 msgid "Weblate 1.7"
 msgstr "Weblate 1.7"
@@ -20556,7 +20587,7 @@ msgid "*Released on July 25th 2013.*"
 msgstr "*Phát hành vào ngày 25 tháng 7 năm 2013.*"
 
 msgid "Nicer error handling on registration."
-msgstr ""
+msgstr "Xử lý lỗi tốt hơn khi đăng ký."
 
 msgid "Browsing of changes."
 msgstr "Xem các thay đổi."
@@ -22447,7 +22478,7 @@ msgid "Added support for force pushing Git repositories."
 msgstr "Đã thêm hỗ trợ đẩy bắt buộc các kho lưu trữ Git."
 
 msgid "Reduced risk of registration token invalidation."
-msgstr ""
+msgstr "Giảm thiểu rủi ro token đăng ký bị vô hiệu hóa."
 
 msgid "Fixed account removal hitting rate limiter."
 msgstr "Việc hủy tài khoản cố định đang gặp phải giới hạn tỷ lệ."
@@ -22797,7 +22828,7 @@ msgid "Fixed digest notifications in some corner cases."
 msgstr ""
 
 msgid "Fixed add-on script error alert."
-msgstr ""
+msgstr "Đã sửa lỗi cảnh báo lỗi tập lệnh bổ trợ."
 
 msgid "Fixed generating MO file for monolingual PO files."
 msgstr ""
@@ -22912,6 +22943,8 @@ msgstr ""
 msgid ""
 "Make Microsoft Terminology service compatible with current Zeep releases."
 msgstr ""
+"Làm cho dịch vụ Thuật ngữ Microsoft tương thích với các bản phát hành Zeep "
+"hiện tại."
 
 msgid "Weblate 3.5"
 msgstr "Weblate 3.5"
@@ -23131,7 +23164,7 @@ msgid ""
 msgstr ""
 
 msgid "Rewritten Microsoft Terminology machine translation backend."
-msgstr ""
+msgstr "Đã viết lại phần phụ trợ dịch máy cho thuật ngữ của Microsoft."
 
 msgid "Weblate now uses Celery to offload some processing."
 msgstr ""
@@ -23624,7 +23657,7 @@ msgid "*Released on March 1st 2023.*"
 msgstr "*Phát hành vào ngày 1 tháng 3 năm 2023.*"
 
 msgid "Fixed testsuite error."
-msgstr ""
+msgstr "Đã sửa lỗi bộ kiểm thử."
 
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/92?"
@@ -23749,6 +23782,8 @@ msgstr ""
 
 msgid "Documented licensing using `REUSE 3.0 <https://reuse.software/>`_."
 msgstr ""
+"Giấy phép được ghi lại bằng cách sử dụng `REUSE 3.0 <https://reuse.software/>"
+"`_."
 
 msgid "Fixed users pagination on team management."
 msgstr ""
@@ -24755,7 +24790,7 @@ msgid "Document add-on parameters in greater detail."
 msgstr ""
 
 msgid "Fixed JavaScript error in glossary."
-msgstr ""
+msgstr "Đã sửa lỗi JavaScript trong bảng thuật ngữ."
 
 msgid "Add limit to number of matches in consistency check."
 msgstr "Thêm giới hạn số lượng trùng khớp trong kiểm tra tính nhất quán."
@@ -25412,6 +25447,8 @@ msgstr "Đã cải thiện khả năng xử lý ngữ cảnh trong các tệp PO
 msgid ""
 "Fixed cleanup add-on behavior with HTML, ODF, IDML and Windows RC formats."
 msgstr ""
+"Đã sửa lỗi hành vi của tiện ích dọn dẹp với các định dạng HTML, ODF, IDML và "
+"Windows RC."
 
 msgid "Fixed parsing of location from CSV files."
 msgstr "Đã sửa lỗi phân tích vị trí từ các tệp CSV."
@@ -26338,7 +26375,7 @@ msgstr ""
 "Đã thêm cảnh báo thành phần cho các URL trình duyệt kho lưu trữ bị lỗi."
 
 msgid "Improved sign in and registration pages."
-msgstr ""
+msgstr "Trang đăng nhập và đăng ký đã được cải tiến."
 
 msgid ""
 "Project access control and workflow configuration integrated to project "
@@ -26378,7 +26415,7 @@ msgid "Renamed whiteboard messages to announcements."
 msgstr ""
 
 msgid "Fixed occasional problems with registration mails."
-msgstr ""
+msgstr "Đã khắc phục các sự cố thỉnh thoảng xảy ra với email đăng ký."
 
 msgid "Improved LINGUAS update add-on to handle more syntax variants."
 msgstr ""
@@ -27175,6 +27212,8 @@ msgid ""
 "Restored documented default encoding fallback for :doc:`/formats/apple` "
 "and :doc:`/formats/java` when file format parameters are not explicitly set."
 msgstr ""
+"Đã khôi phục dự phòng mã hóa mặc định được ghi lại cho :doc:`/formats/apple` "
+"và :doc:`/formats/java` khi các tham số định dạng tệp không được đặt rõ ràng."
 
 msgid ""
 "Reduced repeated database queries in :ref:`addon-"
@@ -28402,7 +28441,7 @@ msgstr ""
 "nguồn được hỗ trợ."
 
 msgid "Possible crash on macOS 15 in :samp:`strxfrm`."
-msgstr ""
+msgstr "Có thể xảy ra sự cố trên macOS 15 trong :samp:`strxfrm`."
 
 msgid "Internal server error on permission denied while uploading files."
 msgstr "Lỗi máy chủ nội bộ: Quyền truy cập bị từ chối khi tải lên tập tin."
@@ -29295,6 +29334,8 @@ msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
+"Nhập bộ nhớ dịch hiện hỗ trợ các tệp có định dạng XLIFF, PO và CSV, xem lệnh "
+":ref:`memory-user` và :wladmin:`import_memory` trong :ref:`manage`."
 
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
 msgstr ""
@@ -31308,6 +31349,9 @@ msgid ""
 "report a possible violation, please reach the Community Moderators at "
 "community@weblate.org."
 msgstr ""
+"Khi có sự cố xảy ra, điều quan trọng là phải báo cáo kịp thời. Để báo cáo "
+"một sự việc vi phạm có thể xảy ra, vui lòng liên hệ với Người điều hành cộng "
+"đồng theo địa chỉ community@weblate.org."
 
 msgid ""
 "Community Moderators take reports of violations seriously and will make "
@@ -31331,7 +31375,7 @@ msgstr ""
 "thống nhất."
 
 msgid "Addressing and Repairing Harm"
-msgstr ""
+msgstr "Giải Quyết và Khắc Phục Tổn Hại"
 
 msgid ""
 "If an investigation by the Community Moderators finds that this Code of "
@@ -31954,7 +31998,7 @@ msgid ""
 msgstr ""
 
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "Tạo một tệp mới có tên ``src/<lib-name>.js``."
 
 msgid ""
 "Import the library in it. Then inject it into the ``window`` object to be "
@@ -32473,10 +32517,8 @@ msgstr ""
 msgid "Releasing Weblate"
 msgstr "Phát hành Weblate"
 
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Release cycle"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Chu kỳ phát hành"
 
 msgid ""
 "Weblate's release and support lifecycle is documented in :ref:`release-"
@@ -32484,7 +32526,7 @@ msgid ""
 msgstr ""
 
 msgid "Release planning"
-msgstr ""
+msgstr "Lập kế hoạch phát hành"
 
 msgid ""
 "The features for upcoming releases are collected using GitHub milestones, "
@@ -32492,10 +32534,8 @@ msgid ""
 "milestones>."
 msgstr ""
 
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Release process"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Quy trình phát hành"
 
 msgid "Things to check prior to release:"
 msgstr ""
@@ -32526,7 +32566,7 @@ msgid ""
 msgstr ""
 
 msgid "Perform the release:"
-msgstr ""
+msgstr "Tiến hành phát hành:"
 
 msgid ""
 "Create a release :command:`./scripts/create-release --tag` (see below for "
@@ -33063,7 +33103,7 @@ msgid ""
 msgstr ""
 
 msgid "Code security scanning using `CodeQL <https://codeql.github.com/>`_."
-msgstr ""
+msgstr "Quét bảo mật mã bằng `CodeQL <https://codeql.github.com/>`_."
 
 msgid "Visual changes testing is utilizing `Argos CI <https://argos-ci.com>`_."
 msgstr ""
@@ -34459,6 +34499,11 @@ msgid ""
 "controlling this repository. For a detailed description of the available "
 "actions, see :ref:`repository-maintenance`."
 msgstr ""
+"Weblate lưu trữ tất cả các bản dịch trong kho lưu trữ kiểm soát phiên bản "
+"của nó. Nên kết nối với kho lưu trữ từ xa, nhưng thiết lập chỉ nội bộ cũng "
+"khả thi. Chức năng :guilabel:`Bảo trì kho lưu trữ` cho phép kiểm soát kho "
+"lưu trữ này. Để biết mô tả chi tiết về các thao tác có sẵn, hãy xem "
+":ref:`repository-maintenance`."
 
 msgid ""
 "With :doc:`/admin/continuous`, any changes are automatically pushed from the "
@@ -34563,6 +34608,9 @@ msgid ""
 "internationalization framework (PO, XLIFF, JSON, etc.) rather than "
 "converting them. Weblate supports :ref:`many formats <formats>`."
 msgstr ""
+"Giữ các tệp dịch của bạn ở định dạng gốc phù hợp với khuôn khổ quốc tế hóa "
+"của bạn (PO, XLIFF, JSON, v.v.) thay vì chuyển đổi chúng. Weblate hỗ trợ "
+":ref:`nhiều định dạng <formats>`."
 
 msgid "Commit translations to your Git repository"
 msgstr "Lưu bản dịch vào kho lưu trữ Git của bạn"
@@ -34721,7 +34769,7 @@ msgid ""
 msgstr ""
 
 msgid "Select the appropriate :ref:`access control <acl>`:"
-msgstr ""
+msgstr "Chọn :ref:`kiểm soát truy cập <acl>` thích hợp:"
 
 msgid "**Public**: Open-source projects, anyone can contribute"
 msgstr ""
@@ -34849,10 +34897,8 @@ msgstr "Kiểm tra việc kéo các thay đổi từ kho lưu trữ của bạn 
 msgid "**Import any existing translation memory** (optional):"
 msgstr "**Nhập bất kỳ bộ nhớ dịch hiện có nào** (tùy chọn):"
 
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Use :ref:`translation-memory` to import previous translations"
-msgstr "Sử dụng `:ref:`translation-memory` để nhập các bản dịch trước đó."
+msgstr "Sử dụng :ref:`translation-memory` để nhập các bản dịch trước đó"
 
 msgid "This helps with consistency and speeds up translation"
 msgstr ""
@@ -35178,10 +35224,8 @@ msgstr ""
 msgid "`Edited`"
 msgstr ""
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Amount of edited strings which had a translation before."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Số lượng chuỗi đã chỉnh sửa đã có bản dịch trước đó."
 
 msgid "The following metrics are available for each:"
 msgstr "Các chỉ số sau đây có sẵn cho mỗi loại:"
@@ -35189,10 +35233,8 @@ msgstr "Các chỉ số sau đây có sẵn cho mỗi loại:"
 msgid "`Count`"
 msgstr ""
 
-#, fuzzy
-#| msgid "Age of string"
 msgid "Amount of strings."
-msgstr "Tuổi của chuỗi"
+msgstr "Số lượng chuỗi."
 
 msgid "`Edits`"
 msgstr ""
@@ -35205,18 +35247,14 @@ msgstr ""
 msgid "`Source words`"
 msgstr ""
 
-#, fuzzy
-#| msgid "User registration"
 msgid "Amount of words in the source string."
-msgstr "Đăng ký người dùng"
+msgstr "Số lượng từ trong chuỗi nguồn."
 
 msgid "`Source characters`"
 msgstr "`Các ký tự nguồn`"
 
-#, fuzzy
-#| msgid "User registration"
 msgid "Amount of characters in the source string."
-msgstr "Đăng ký người dùng"
+msgstr "Số lượng ký tự trong chuỗi nguồn."
 
 msgid "`Target words`"
 msgstr ""
@@ -35358,10 +35396,8 @@ msgstr "Nguồn cần được đánh giá"
 msgid "Source chars edited"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "Target words edited"
-msgstr "Chuỗi hệ điều hành iOS"
+msgstr "Từ mục tiêu đã được chỉnh sửa"
 
 msgid "Target chars edited"
 msgstr ""
@@ -35813,12 +35849,12 @@ msgstr ""
 "Weblate có thể được tích hợp vào framework của bạn bằng cách sử dụng :doc:`/"
 "api`. Trang này liệt kê các thư viện của bên thứ ba tích hợp Weblate."
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "`Weblate Translation Provider for Symfony Translation <https://github.com/"
 "m2mtech/weblate-translation-provider/>`_"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"`Nhà cung cấp Dịch Thuật Weblate cho bản dịch Symfony <https://github.com/"
+"m2mtech/weblate-translation-provider/>`_"
 
 msgid ""
 "`Weblate plugin for Figma <https://www.figma.com/community/plugin/"
@@ -35836,6 +35872,8 @@ msgid ""
 "`JWeblate, a Java-based Weblate library <https://github.com/javierllorente/"
 "jweblate>`_"
 msgstr ""
+"`JWeblate, thư viện Weblate dựa trên Java <https://github.com/javierllorente/"
+"jweblate>`_"
 
 msgid ""
 "`Spring MessageSource backed by a Weblate server <https://github.com/"
@@ -35845,6 +35883,7 @@ msgstr ""
 msgid ""
 "`GoLang API library for weblate <https://gitlab.com/gajdusek/goweblate>`_"
 msgstr ""
+"`Thư viện API GoLang cho weblate <https://gitlab.com/gajdusek/goweblate>`_"
 
 msgid ""
 "`Perceval backends for Weblate <https://github.com/chaoss/grimoirelab-"
@@ -36418,15 +36457,13 @@ msgstr ""
 msgid "The solution to this is to perform the operation in sync with Weblate:"
 msgstr "Giải pháp cho vấn đề này là thực hiện thao tác đồng bộ với Weblate:"
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Lock the affected component in Weblate."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Khóa thành phần bị ảnh hưởng trong Weblate."
 
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Commit any pending changes and merge them into the upstream repository."
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr ""
+"Cam kết mọi thay đổi đang chờ xử lý và hợp nhất chúng vào kho lưu trữ ngược "
+"dòng."
 
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
@@ -36488,17 +36525,15 @@ msgstr ""
 msgid "How can I use existing translations while translating?"
 msgstr ""
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Tất cả các bản dịch trong Weblate đều có thể được sử dụng nhờ bộ nhớ dịch "
+"được chia sẻ."
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "You can import existing translation memory files into Weblate."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bạn có thể nhập các tệp bộ nhớ dịch hiện có vào Weblate."
 
 msgid ""
 "Use the import functionality to load compendium as translations, suggestions "
@@ -36600,35 +36635,25 @@ msgstr ""
 msgid "To avoid that, perform renaming in following steps:"
 msgstr ""
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Lock the translation component in :ref:`manage-vcs`."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Khóa thành phần dịch trong :ref:`manage-vcs`."
 
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Commit pending changes in :ref:`manage-vcs`."
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Cam kết các thay đổi đang chờ xử lý trong :ref:`manage-vcs`."
 
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Merge Weblate changes to the upstream repository."
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Hợp nhất các thay đổi của Weblate vào kho lưu trữ ngược dòng."
 
 msgid "Disable receiving updates via hooks using :ref:`project-enable_hooks`."
 msgstr ""
 "Vô hiệu hóa việc nhận cập nhật thông qua móc nối bằng cách sử dụng "
 ":ref:`project-enable_hooks`."
 
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Perform the renaming of the files in the repository."
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Thực hiện đổi tên các tập tin trong kho lưu trữ."
 
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "Update the component configuration to match new file names."
-msgstr "Các nội dung thông báo"
+msgstr "Cập nhật cấu hình thành phần để khớp với tên tệp mới."
 
 msgid "Enable update hooks and unlock the component."
 msgstr "Kích hoạt các móc nối cập nhật và mở khóa thành phần."
@@ -36746,12 +36771,12 @@ msgid ""
 "actually translating."
 msgstr ""
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid ""
 "Translators can translate all the components of a project into a specific "
 "language as a whole."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr ""
+"Người dịch có thể dịch toàn bộ các thành phần của dự án sang một ngôn ngữ cụ "
+"thể."
 
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
 msgstr ""
@@ -36890,10 +36915,8 @@ msgid ""
 "few file formats."
 msgstr ""
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Currently supported only in :ref:`tbx`."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Hiện chỉ được hỗ trợ trong :ref:`tbx`."
 
 msgid "Source string location"
 msgstr "Vị trí chuỗi nguồn"
@@ -36976,6 +36999,10 @@ msgid ""
 "(:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding "
 "a ``read-only`` flag, see :ref:`custom-checks`."
 msgstr ""
+"Các chuỗi chỉ đọc từ tệp dịch sẽ được bao gồm nhưng không thể chỉnh sửa "
+"trong Weblate. Tính năng này vốn được hỗ trợ bởi một số định dạng "
+"(:ref:`xliff` và :ref:`aresource`), nhưng có thể được mô phỏng ở các định "
+"dạng khác bằng cách thêm cờ ``chỉ đọc``, xem :ref:`custom-checks`."
 
 #, fuzzy
 #| msgid "Remove blank strings"
@@ -37107,17 +37134,21 @@ msgid ""
 "translation>` applications, but also standardized by PWG 5100.13 and used on "
 "NeXTSTEP/OpenSTEP."
 msgstr ""
+"Định dạng tệp thường được sử dụng để dịch Apple :index:`iOS <pair: iOS; dịch>"
+"`, mà còn được chuẩn hóa bởi PWG 5100.13 và được sử dụng trên NeXTSTEP/"
+"OpenSTEP."
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Apple iOS strings are usually used as monolingual."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Chuỗi Apple iOS thường được sử dụng dưới dạng đơn ngữ."
 
 msgid ""
 "`Apple \"strings files\" documentation <https://developer.apple.com/library/"
 "archive/documentation/MacOSX/Conceptual/BPInternational/"
 "MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_"
 msgstr ""
+"`Tài liệu \"các tệp chuỗi\" của Apple <https://developer.apple.com/library/"
+"archive/documentation/MacOSX/Conceptual/BPInternational/"
+"MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_"
 
 msgid ""
 "`Message Catalog File Format in PWG 5100.13 <https://ftp.pwg.org/pub/pwg/"
@@ -37253,15 +37284,11 @@ msgstr ""
 msgid "Catkeys file"
 msgstr "Chủ đề đã đăng ký theo dõi"
 
-#, fuzzy
-#| msgid "PHP strings"
 msgid "File format used for Haiku operating system translations."
-msgstr "PHP strings"
+msgstr "Định dạng tệp được sử dụng cho bản dịch hệ điều hành Haiku."
 
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "`Catkeys file`"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "`Tệp Catkeys`"
 
 msgid "Compose Multiplatform resources"
 msgstr ""
@@ -37273,6 +37300,8 @@ msgid ""
 "`Kotlin Compose Multiplatform Resources <https://kotlinlang.org/docs/"
 "multiplatform/compose-multiplatform-resources.html>`_"
 msgstr ""
+"`Tài nguyên Đa Nền tảng Kotlin Compose <https://kotlinlang.org/docs/"
+"multiplatform/compose-multiplatform-resources.html>`_"
 
 msgid "`Compose Multiplatform Resource`"
 msgstr ""
@@ -37411,10 +37440,8 @@ msgstr ""
 msgid "`Project Fluent website <https://projectfluent.org/>`_"
 msgstr "`Trang web của Dự án Fluent <https://projectfluent.org/>`_"
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`Fluent file`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`Tệp Fluent`"
 
 msgid "Format.JS JSON file"
 msgstr "Tệp JSON của Format.JS"
@@ -37436,10 +37463,8 @@ msgstr "`Tệp Format.JS JSON`"
 msgid "GNU gettext PO (Portable Object)"
 msgstr "GNU gettext PO (Đối tượng di động)"
 
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Most widely used format for translating libre software."
-msgstr "PHP strings"
+msgstr "Định dạng được sử dụng rộng rãi nhất để dịch phần mềm tự do."
 
 msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
@@ -37466,10 +37491,8 @@ msgid ""
 "parameter. It does not affect obsolete entries marked with ``#~``."
 msgstr ""
 
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Obsolete strings"
-msgstr "PHP strings"
+msgstr "Chuỗi lỗi thời"
 
 msgid ""
 ":program:`msgmerge` keeps strings removed from the POT file as obsolete "
@@ -37658,10 +37681,8 @@ msgid ""
 "the translation."
 msgstr ""
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`HTML file`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`Tệp HTML`"
 
 msgid ""
 "By default, Weblate treats each occurrence of a string as a separate "
@@ -37741,10 +37762,8 @@ msgid ""
 "Language files and offered for the translation."
 msgstr ""
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`IDML file`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`tệp IDML`"
 
 msgid "INI translations"
 msgstr "Bản dịch INI"
@@ -37774,16 +37793,12 @@ msgstr ""
 msgid "Inno Setup INI translations"
 msgstr "Bản dịch Inno Setup INI"
 
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Inno Setup INI file format for translations."
-msgstr "PHP strings"
+msgstr "Inno Thiết lập định dạng tệp INI cho bản dịch."
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid ""
 "Inno Setup INI translations are usually used as monolingual translations."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Bản dịch INI của Inno Setup thường được sử dụng làm bản dịch đơn ngữ."
 
 msgid ""
 "The only notable difference to :ref:`ini` is in supporting ``%n`` and ``%t`` "
@@ -38004,10 +38019,8 @@ msgid ""
 "or MathML snippets."
 msgstr ""
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`MDX file`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`Tệp MDX`"
 
 msgid ""
 "By default, Weblate treats each occurrence of a string as a separate "
@@ -38182,6 +38195,9 @@ msgid ""
 "localizable string resources for Windows Presentation Foundation (WPF) "
 "applications."
 msgstr ""
+"ResourceDictionary là định dạng tệp XML đơn ngữ được sử dụng để đóng gói các "
+"tài nguyên chuỗi có thể bản địa hóa cho các ứng dụng Windows Presentation "
+"Foundation (WPF)."
 
 #, fuzzy
 #| msgid "Repository failure"
@@ -38195,6 +38211,8 @@ msgid ""
 "A .NET XML resource file employs a monolingual XML file format used in "
 "Microsoft .NET applications."
 msgstr ""
+"Tệp tài nguyên XML .NET sử dụng định dạng tệp XML đơn ngữ được sử dụng trong "
+"các ứng dụng Microsoft .NET."
 
 msgid ""
 "It can use ``.resx`` or ``.resw`` extension. Despite the difference of file "
@@ -38224,6 +38242,8 @@ msgid ""
 "XML based format used by Apple which is able to store plural forms of a "
 "string."
 msgstr ""
+"Định dạng dựa trên XML được Apple sử dụng có thể lưu trữ dạng số nhiều của "
+"chuỗi."
 
 msgid ""
 "`Stringsdict File Format <https://developer.apple.com/documentation/xcode/"
@@ -38342,10 +38362,8 @@ msgstr ""
 msgid "Weblate supports TOML in several variants:"
 msgstr "Weblate hỗ trợ TOML với nhiều biến thể khác nhau:"
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`TOML file`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`Tệp TOML`"
 
 msgid "Plain TOML file without support for plurals."
 msgstr ""
@@ -38376,10 +38394,8 @@ msgstr "Tệp văn bản DokuWiki"
 msgid "MediaWiki text file"
 msgstr "Tệp văn bản MediaWiki"
 
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "`Plain text file`"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "`Tệp văn bản thuần`"
 
 msgid ""
 "By default, Weblate treats each paragraph as a separate translation unit to "
@@ -38431,18 +38447,20 @@ msgid "`WebExtension JSON file`"
 msgstr ""
 
 msgid "Windows RC files"
-msgstr ""
+msgstr "Tệp RC của Windows"
 
 msgid "Support for Windows RC files has been rewritten."
-msgstr ""
+msgstr "Chức năng hỗ trợ cho các tệp Windows RC đã được viết lại."
 
 msgid ""
 "RC files are language files used to localize translatable text, dialogs, "
 "menus, for Windows applications."
 msgstr ""
+"Các tệp RC là các tệp ngôn ngữ được sử dụng để bản địa hóa văn bản, hộp "
+"thoại, menu có thể dịch được cho các ứng dụng Windows."
 
 msgid "Example Windows RC file:"
-msgstr ""
+msgstr "Ví dụ về tệp RC dành cho Windows:"
 
 msgid "`RC file`"
 msgstr ""
@@ -38464,7 +38482,7 @@ msgid "`WixLocalization file`"
 msgstr "Hành động"
 
 msgid "XLIFF 1.1 and 1.2"
-msgstr ""
+msgstr "XLIFF 1.1 và 1.2"
 
 msgid ""
 ":doc:`/formats/xliff2` is a different format and is not backwards compatible "
@@ -38484,10 +38502,8 @@ msgstr ""
 msgid "Weblate supports XLIFF in several variants:"
 msgstr "Weblate hỗ trợ định dạng XLIFF với nhiều biến thể:"
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`XLIFF 1.2 translation file`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`Tệp dịch XLIFF 1.2`"
 
 msgid ""
 "Simple XLIFF file where content of the elements is stored as plain text (all "
@@ -38495,7 +38511,7 @@ msgid ""
 msgstr ""
 
 msgid "`XLIFF 1.2 with placeables support`"
-msgstr ""
+msgstr "`XLIFF 1.2 với hỗ trợ có thể đặt được`"
 
 msgid "Standard XLIFF supporting placeables and other XML elements."
 msgstr ""
@@ -38510,13 +38526,11 @@ msgid ""
 "support plurals."
 msgstr ""
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "`XLIFF 1.2 with Apple extensions`"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "`XLIFF 1.2 với tiện ích mở rộng của Apple`"
 
 msgid "XLIFF enriched by Apple to support plurals."
-msgstr ""
+msgstr "XLIFF được Apple làm phong phú để hỗ trợ số nhiều."
 
 msgid "`XML Localization Interchange File Format (XLIFF)`_ specification"
 msgstr ""
@@ -38616,16 +38630,18 @@ msgid ""
 "`font attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
 "xliff-core.html#font>`_"
 msgstr ""
+"`thuộc tính phông chữ trong XLIFF 1.2 <https://docs.oasis-open.org/xliff/"
+"v1.2/os/xliff-core.html#font>`_"
 
 msgid ""
 "`maxwidth attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
 "xliff-core.html#maxwidth>`_"
 msgstr ""
+"`thuộc tính băng thông tối đa trong XLIFF 1.2 <https://docs.oasis-open.org/"
+"xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "String keys"
-msgstr "Chuỗi hệ điều hành iOS"
+msgstr "Khóa chuỗi"
 
 msgid ""
 "Weblate identifies the units in the XLIFF file by ``resname`` attribute in "
@@ -38659,7 +38675,7 @@ msgid "Typical Weblate :ref:`component` for monolingual XLIFF"
 msgstr ":ref:`component` Weblate điển hình cho XLIFF đơn ngữ"
 
 msgid "XLIFF 2.0"
-msgstr ""
+msgstr "XLIFF 2.0"
 
 msgid ""
 ":doc:`/formats/xliff` is a different format and is not compatible with XLIFF "
@@ -38671,31 +38687,23 @@ msgid ""
 "supported as bilingual."
 msgstr ""
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`XLIFF 2.0 translation file`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`Tệp dịch XLIFF 2.0`"
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`XLIFF 2.0 with placeables support`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`XLIFF 2.0 với hỗ trợ có thể đặt được`"
 
 msgid "`XML Localization Interchange File Format (XLIFF) 2.0`_ specification"
 msgstr ""
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`XLIFF 2.0 Translation File`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`Tệp Dịch XLIFF 2.0`"
 
 msgid "XWiki formats"
 msgstr "Định dạng XWiki"
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Weblate supports several translation formats used by XWiki."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Weblate hỗ trợ một số định dạng dịch được XWiki sử dụng."
 
 msgid "XWiki Java properties"
 msgstr "Thuộc tính Java của XWiki"
@@ -38833,7 +38841,7 @@ msgstr "Cộng đồng"
 #, fuzzy
 #| msgid ":ref:`contributing`"
 msgid "Learn more about :ref:`contributing`."
-msgstr ":ref:`contributing`"
+msgstr "Tìm hiểu thêm về :ref:`đóng góp`."
 
 msgid "Weblate's Python API"
 msgstr "Weblate's Python API"
@@ -39092,10 +39100,8 @@ msgid ""
 "hosted provider such as LibreTranslate."
 msgstr ""
 
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Customer control"
-msgstr "PHP strings"
+msgstr "Kiểm soát khách hàng"
 
 msgid "Customers retain control over their Weblate data:"
 msgstr ""
@@ -39363,10 +39369,8 @@ msgid ""
 "service: **8 hours**."
 msgstr ""
 
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Critical components"
-msgstr "Đã tạo mới khóa SSH."
+msgstr "Các thành phần quan trọng"
 
 msgid ""
 "**Application Layer:** Weblate Python/Django application, background workers "
@@ -39411,10 +39415,8 @@ msgstr ""
 msgid "Failure scenario: full host/system loss"
 msgstr ""
 
-#, fuzzy
-#| msgid "Versions"
 msgid "Provision new host."
-msgstr "Phiên bản"
+msgstr "Cung cấp máy chủ mới."
 
 msgid "Bootstrap Weblate using provisioning software."
 msgstr ""
@@ -39425,10 +39427,8 @@ msgstr ""
 msgid "Restart Weblate container."
 msgstr "Khởi động lại vùng chứa ảo Weblate."
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Verify functionality and perform consistency checks."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Xác minh chức năng và thực hiện kiểm tra tính nhất quán."
 
 msgid "Failure scenario: database corruption or data volume loss"
 msgstr ""
@@ -39451,10 +39451,8 @@ msgstr ""
 msgid "Follow steps from :ref:`drp-host` to deploy the system on a new host."
 msgstr ""
 
-#, fuzzy
-#| msgid "Validation failed, please try again."
 msgid "Validation and testing"
-msgstr "Xác nhận thất bại, vui lòng thử lại."
+msgstr "Xác nhận và thử nghiệm"
 
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
 msgstr ""
@@ -39722,10 +39720,10 @@ msgid ""
 msgstr ""
 
 msgid "< 30 Minutes"
-msgstr ""
+msgstr "< 30 Phút"
 
 msgid "< 4 Hours"
-msgstr ""
+msgstr "< 4 Giờ"
 
 msgid "High"
 msgstr "Cao"
@@ -39734,7 +39732,7 @@ msgid "Core feature failure; PII leak of single user."
 msgstr ""
 
 msgid "< 2 Hours"
-msgstr ""
+msgstr "< 2 Giờ"
 
 msgid "12 Hours"
 msgstr ""
@@ -39814,10 +39812,8 @@ msgid ""
 "failures, unexpected restarts, or irregular VCS actions."
 msgstr ""
 
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Containment"
-msgstr "Đã tạo mới khóa SSH."
+msgstr "Ngăn chặn"
 
 msgid ""
 "Create an incident record with a case ID and record timeline updates as "
@@ -39920,10 +39916,8 @@ msgid ""
 "recovery."
 msgstr ""
 
-#, fuzzy
-#| msgid "Your profile has been updated."
 msgid "Post-incident review"
-msgstr "Hồ sơ của bạn đã được cập nhật."
+msgstr "Đánh giá sau sự cố"
 
 msgid ""
 "**Timeline:** Hold a review meeting within **5 business days** of incident "
@@ -41281,10 +41275,8 @@ msgstr ""
 "ký, chứng thực và SBOM đã xuất bản. Các tệp gói PyPI có thể được so sánh với "
 "các nội dung phát hành GitHub phù hợp theo tên tệp và thông báo."
 
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Release signatures"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Phát hành chữ ký"
 
 msgid ""
 "Weblate package archives are cryptographically signed using Sigstore "
@@ -41301,10 +41293,8 @@ msgstr ""
 "<sigstore>`. Ví dụ sau đây xác minh bánh xe từ bản phát hành 5.4; điều chỉnh "
 "phiên bản và tên tệp cho bản phát hành bạn đang kiểm tra:"
 
-#, fuzzy
-#| msgid "Reused translation"
 msgid "Release attestations"
-msgstr "Bản dịch được sử dụng lại"
+msgstr "Giấy chứng nhận phát hành"
 
 msgid ""
 "The release workflow creates two kinds of `GitHub artifact attestations`_ "
@@ -41462,7 +41452,7 @@ msgid "Direct upgrades are supported."
 msgstr ""
 
 msgid "Older releases"
-msgstr ""
+msgstr "Các bản phát hành cũ hơn"
 
 msgid "Not guaranteed."
 msgstr ""
@@ -42087,7 +42077,7 @@ msgid ""
 msgstr ""
 
 msgid "Environment assumptions"
-msgstr ""
+msgstr "Giả định về môi trường"
 
 msgid ""
 "Weblate assumes a supported Python and Django runtime, a correctly "
@@ -42489,10 +42479,8 @@ msgid ""
 "Token storage, rotation, and least-privilege team membership. *(maintainer)*"
 msgstr ""
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Translation content"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Nội dung dịch"
 
 msgid ""
 "Source strings, translations, comments, suggestions, glossary entries; "
@@ -47716,6 +47704,10 @@ msgid ""
 "these cases (`One apple` instead of `%d apple`). Turn this off by adding "
 "``strict-format`` flag."
 msgstr ""
+"Hầu hết các kiểm tra định dạng đều cho phép bỏ qua các chuỗi định dạng đối "
+"với dạng số nhiều có một số đếm duy nhất. Điều này cho phép người dịch viết "
+"các chuỗi đẹp hơn cho những trường hợp này (`One apple` thay vì `%d apple`). "
+"Tắt tính năng này bằng cách thêm cờ ``strict-format``."
 
 msgid ""
 "The flags can be customized per string (see :ref:`additional`) or in "
@@ -48055,6 +48047,8 @@ msgid ""
 "`Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/"
 "sysutils/format.html>`_"
 msgstr ""
+"`Định dạng chuỗi trong Free Pascal <https://www.freepascal.org/docs-html/rtl/"
+"sysutils/format.html>`_"
 
 msgid ""
 "`Delphi formatting strings <https://docwiki.embarcadero.com/Libraries/Sydney/"
@@ -49755,7 +49749,7 @@ msgid "UNIX (\\\\n)"
 msgstr "UNIX (\\\\n)"
 
 msgid "MAC (\\\\r)"
-msgstr ""
+msgstr "MAC (\\\\r)"
 
 msgid "yaml_line_wrap"
 msgstr "yaml_line_wrap"
@@ -49781,13 +49775,11 @@ msgstr ""
 msgid "Supported features"
 msgstr "Các tính năng được hỗ trợ"
 
-#, fuzzy
-#| msgid "XLIFF 1.2 with gettext extensions"
 msgid "File extensions"
-msgstr "XLIFF 1.2 với các tiện ích mở rộng gettext"
+msgstr "Phần mở rộng tệp"
 
 msgid "Linguality :ref:`ⓘ <bimono>`"
-msgstr ""
+msgstr "Ngôn ngữ :ref:`ⓘ <bimono>`"
 
 msgid "Monolingual"
 msgstr "Đơn ngữ"
@@ -49816,10 +49808,8 @@ msgstr "Định danh API"
 msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
 msgstr "Hỗ trợ chuỗi chỉ đọc :ref:`ⓘ <read-only-strings>`"
 
-#, fuzzy
-#| msgid "Supports read-only strings :ref:`ⓘ <read-only-strings>`"
 msgid "Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`"
-msgstr "Hỗ trợ chuỗi chỉ đọc :ref:`ⓘ <read-only-strings>`"
+msgstr "Hỗ trợ loại bỏ các chuỗi lỗi thời :ref:`ⓘ <obsolete-strings>`"
 
 #, fuzzy
 #| msgid "Define the monolingual base filename"
@@ -49827,7 +49817,7 @@ msgid "Both monolingual and bilingual"
 msgstr "Xác định tên tệp cơ sở đơn ngữ"
 
 msgid "Check flags added by this format :ref:`ⓘ <custom-checks>`"
-msgstr ""
+msgstr "Kiểm tra các cờ được thêm theo định dạng này: :ref:`ⓘ <custom-checks>`"
 
 msgid "``.ad``, ``.adoc``, ``.asciidoc``"
 msgstr "``.ad``, ``.adoc``, ``.asciidoc``"
@@ -49843,10 +49833,8 @@ msgstr "Thanh toán"
 msgid "``.csv``, ``.txt``"
 msgstr "``.csv``, ``.txt``"
 
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Additional states :ref:`ⓘ <format-states>`"
-msgstr "Dạng số nhiều %d"
+msgstr "Các trạng thái bổ sung :ref:`ⓘ <format-states>`"
 
 msgid "``csv``, ``csv-multi``, ``csv-simple``"
 msgstr ""
@@ -49917,13 +49905,13 @@ msgid "``Approved``, ``Needs editing``"
 msgstr "``Đã phê duyệt``, ``Cần chỉnh sửa``"
 
 msgid "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
-msgstr ""
+msgstr "``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``"
 
 msgid "``.xlf``, ``.xliff``"
-msgstr ""
+msgstr "``.xlf``, ``.xliff``"
 
 msgid "``xliff2``, ``xliff2-placeables``"
-msgstr ""
+msgstr "``xliff2``, ``xliff2-placeables``"
 
 msgid "``.pyml``, ``.yaml``, ``.yml``"
 msgstr ""
@@ -50531,12 +50519,12 @@ msgid ""
 msgstr ""
 "Hãy chỉ định ID danh mục hệ thống tùy chỉnh để sử dụng thay vì ID chung."
 
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "Machine translation service provided by Microsoft in Azure portal as one of "
 "Cognitive Services."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr ""
+"Dịch vụ dịch máy do Microsoft cung cấp trong cổng Azure là một trong những "
+"Dịch vụ nhận thức."
 
 msgid "Weblate implements Translator API V3."
 msgstr "Weblate tích hợp API Dịch V3."
@@ -50546,6 +50534,9 @@ msgid ""
 "<https://learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-"
 "dictionary>`_, see :ref:`glossary-mt`."
 msgstr ""
+"Dịch vụ này tự động sử dụng :ref:`glossary` thông qua `từ điển động <https://"
+"learn.microsoft.com/en-us/azure/ai-services/translator/dynamic-dictionary>"
+"`_, xem :ref:`glossary-mt`."
 
 msgid "Translator Text API V2"
 msgstr "API Dịch Văn bản V2"
@@ -50567,6 +50558,9 @@ msgid ""
 "learn.microsoft.com/en-gb/azure/ai-services/Translator/custom-translator/"
 "concepts/customization>`_."
 msgstr ""
+"Bạn cũng có thể chỉ định một danh mục tùy chỉnh để sử dụng `trình dịch tùy "
+"chỉnh <https://learn.microsoft.com/en-gb/azure/ai-services/Translator/custom-"
+"translator/concepts/customization>`_."
 
 msgid "For Azure China, please use your endpoint from the Azure Portal."
 msgstr ""
@@ -50593,12 +50587,18 @@ msgid ""
 "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
 "reference/authentication#authenticating-with-a-multi-service-resource>`_"
 msgstr ""
+"`\"Xác thực với tài nguyên đa dịch vụ\" <https://learn.microsoft.com/en-us/"
+"azure/ai-services/translator/text-translation/reference/"
+"authentication#authenticating-with-a-multi-service-resource>`_"
 
 msgid ""
 "`\"Authenticating with an access token\" section <https://"
 "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
 "reference/authentication#authenticating-with-an-access-token>`_"
 msgstr ""
+"`Phần \"Xác thực bằng token truy cập\" <https://learn.microsoft.com/en-us/"
+"azure/ai-services/translator/text-translation/reference/"
+"authentication#authenticating-with-an-access-token>`_"
 
 msgid "Mistral API base URL"
 msgstr "URL cơ sở của API Mistral"
@@ -50824,6 +50824,8 @@ msgid ""
 "`What is SAP Translation Hub <https://help.sap.com/docs/translation-hub/sap-"
 "translation-hub/what-is-sap-translation-hub>`_"
 msgstr ""
+"`SAP Translation Hub là gì? <https://help.sap.com/docs/translation-hub/sap-"
+"translation-hub/what-is-sap-translation-hub>`_"
 
 msgid ""
 "`SAP Translation Hub API <https://api.sap.com/api/translationhub/overview>`_"
@@ -50959,10 +50961,8 @@ msgstr "PHP strings"
 msgid ":guilabel:`Power user`"
 msgstr ":guilabel:`Người dùng quyền lực`"
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid ":guilabel:`Translation coordinator`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr ":guilabel:`Điều phối viên dịch thuật`"
 
 #, fuzzy
 #| msgid "Status"
@@ -51259,15 +51259,11 @@ msgstr ":guilabel:`Xóa thông báo`"
 msgid ":guilabel:`Download changes`"
 msgstr ":guilabel:`Tải xuống các thay đổi`"
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid ":guilabel:`Post comment`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr ":guilabel:`Đăng bình luận`"
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid ":guilabel:`Delete comment`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr ":guilabel:`Xóa bình luận`"
 
 #, fuzzy
 #| msgid "Created new SSH key."
@@ -51482,10 +51478,8 @@ msgstr "Chủ đề đã đăng ký theo dõi"
 msgid "`Power user`"
 msgstr "`Người dùng quyền lực`"
 
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "`Translation coordinator`"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "`Điều phối viên dịch thuật`"
 
 #, fuzzy
 #| msgid "Status"
@@ -51716,7 +51710,7 @@ msgid "XLIFF 1.1 with gettext extensions (``xliff``)"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 msgid "XLIFF 1.1 (``xliff11``)"
-msgstr ""
+msgstr "XLIFF 1.1 (``xliff11``)"
 
 msgid "TermBase eXchange (``tbx``)"
 msgstr "TermBase eXchange (``tbx``)"
@@ -52549,6 +52543,10 @@ msgid ""
 "Enable :guilabel:`Show all columns in lists using horizontal scrolling` to "
 "keep all columns instead and scroll the table horizontally when needed."
 msgstr ""
+"Theo mặc định, Weblate ẩn một số cột trong danh sách (ngôn ngữ, linh kiện, "
+"dự án,…) khi cửa sổ trình duyệt quá hẹp để hiển thị chúng. Bật tùy chọn "
+":guilabel:`Hiển thị tất cả các cột trong danh sách bằng cách cuộn ngang` để "
+"giữ nguyên tất cả các cột và cuộn bảng theo chiều ngang khi cần."
 
 msgid "Default dashboard view"
 msgstr "Mục hiển thị mặc định trên bảng điều khiển"
@@ -55015,7 +55013,7 @@ msgid ""
 msgstr ""
 
 msgid "Uploads a translation file."
-msgstr ""
+msgstr "Tải lên một tệp dịch."
 
 msgid "Overwrite existing translations upon uploading."
 msgstr "Ghi đè lên các bản dịch hiện có khi tải lên."
@@ -55067,7 +55065,7 @@ msgid ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 msgstr ":file:`C:\\\\Users\\\\NAME\\\\AppData\\\\Local\\\\weblate.ini`"
 
 msgid "Global configuration file on Windows in the local profile."
-msgstr ""
+msgstr "Tệp cấu hình toàn cục trên Windows nằm trong hồ sơ cục bộ."
 
 msgid ":file:`~/.config/weblate`"
 msgstr ":file:`~/.config/weblate`"
@@ -55090,6 +55088,8 @@ msgid ""
 "On Windows ``APPDATA`` and ``LOCALAPPDATA`` directories are the preferred "
 "locations for the configuration file."
 msgstr ""
+"Trên Windows, các thư mục ``APPDATA`` và ``LOCALAPPDATA`` là vị trí được ưu "
+"tiên để lưu trữ tệp cấu hình."
 
 msgid ""
 "After loading the global configuration, :program:`wlc` loads the nearest "
@@ -55183,7 +55183,7 @@ msgstr ""
 "với :option:`--key`."
 
 msgid "Environment variables"
-msgstr ""
+msgstr "Biến môi trường"
 
 msgid ""
 "Unscoped API keys require an explicit API URL when project configuration is "
@@ -55586,10 +55586,9 @@ msgstr ""
 msgid "Translators group"
 msgstr ""
 
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
-msgstr "PHP strings"
+msgstr ""
+"Hoặc `Dịch` bằng :ref:`kiểm soát truy cập theo từng dự án <manage-acl>`."
 
 msgid "Reviewers group"
 msgstr ""
@@ -55656,6 +55655,7 @@ msgstr ""
 
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
 msgstr ""
+"Hoặc `Đánh giá` với :ref:`kiểm soát truy cập theo từng dự án <manage-acl>`."
 
 msgid "Turning on reviews"
 msgstr ""
