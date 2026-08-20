@@ -118,6 +118,24 @@ function addAlert(message, kind = "danger", delay = 3000) {
   }).show();
 }
 
+function copyToClipboard(text, successMessage, failureMessage) {
+  const success = successMessage || gettext("Text copied to clipboard.");
+  const failure = failureMessage || gettext("Error copying to clipboard.");
+  try {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        addAlert(success, "info");
+      },
+      () => {
+        addAlert(failure, "danger");
+      },
+    );
+  } catch (error) {
+    addAlert(failure, "danger");
+    console.log(error);
+  }
+}
+
 // Need `bubbles` because some event listeners (like this
 // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
 // ) are attached to the parent elements.
@@ -1245,24 +1263,11 @@ onReady(() => {
       return;
     }
     e.preventDefault();
-    try {
-      navigator.clipboard
-        .writeText(element.getAttribute("data-clipboard-value"))
-        .then(
-          () => {
-            const text =
-              element.getAttribute("data-clipboard-message") ||
-              gettext("Text copied to clipboard.");
-            addAlert(text, "info");
-          },
-          () => {
-            addAlert(gettext("Please press Ctrl+C to copy."), "danger");
-          },
-        );
-    } catch (error) {
-      addAlert(gettext("Error copying to clipboard."), "danger");
-      console.log(error);
-    }
+    copyToClipboard(
+      element.getAttribute("data-clipboard-value"),
+      element.getAttribute("data-clipboard-message"),
+      gettext("Please press Ctrl+C to copy."),
+    );
   });
 
   /* Auto translate source select */

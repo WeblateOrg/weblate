@@ -21,22 +21,6 @@
     return flagChoicesPromises.get(url);
   }
 
-  function copyFlagsToClipboard(text) {
-    try {
-      navigator.clipboard.writeText(text).then(
-        () => {
-          addAlert(gettext("Text copied to clipboard."), "info");
-        },
-        () => {
-          addAlert(gettext("Error copying to clipboard."), "danger");
-        },
-      );
-    } catch (error) {
-      addAlert(gettext("Error copying to clipboard."), "danger");
-      console.log(error);
-    }
-  }
-
   /*
    * Split a flag-text string into individual flag tokens
    */
@@ -221,6 +205,39 @@
       return origAddItem.call(this, value, silent);
     };
 
+    let editedIndex = null;
+
+    function restoreEditedPosition(value, item) {
+      const index = editedIndex;
+      editedIndex = null;
+      if (index === null) {
+        return;
+      }
+      const from = ts.items.indexOf(value);
+      if (from === -1 || from === index) {
+        return;
+      }
+      ts.items.splice(from, 1);
+      ts.items.splice(index, 0, value);
+      const siblings = ts.controlChildren().filter((child) => child !== item);
+      ts.control.insertBefore(item, siblings[index] || ts.control_input);
+    }
+
+    ts.on("item_add", restoreEditedPosition);
+    ts.on("blur", () => {
+      editedIndex = null;
+    });
+
+    const origCreateItem = ts.createItem;
+    ts.createItem = function (...args) {
+      const before = this.items.length;
+      const result = origCreateItem.apply(this, args);
+      if (this.items.length === before) {
+        editedIndex = null;
+      }
+      return result;
+    };
+
     /* Turn an already added flag back into editable text. */
     function editItem(item) {
       if (!item || ts.isLocked) {
@@ -233,12 +250,15 @@
       if (ts.inputValue().length) {
         ts.createItem();
       }
+      /* After createItem(), which may have shifted this item */
+      const index = ts.controlChildren().indexOf(item);
       ts.clearActiveItems();
       ts.removeItem(item);
       ts.inputState();
       ts.setTextboxValue(value);
       ts.focus();
       ts.refreshOptions(true);
+      editedIndex = index === -1 ? null : index;
       return true;
     }
 
@@ -273,11 +293,12 @@
       /* Ctrl - C to copy flags */
       if (
         (e.ctrlKey || e.metaKey) &&
+        !e.shiftKey &&
         e.key?.toLowerCase() === "c" &&
         this.activeItems.length
       ) {
         e.preventDefault();
-        copyFlagsToClipboard(
+        copyToClipboard(
           activeItemsInOrder()
             .map((item) => item.dataset.value)
             .join(", "),

@@ -995,29 +995,51 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.assertEqual(hidden_input.get_attribute("value"), "ignore-same")
 
-        # Committing the edited text adds the flag back
+        # Committing the edited text adds the flag back in its original place
+        # instead of appending it to the end
         send_keys("0", Keys.ENTER)
         WebDriverWait(self.driver, 10).until(
             lambda _driver: (
-                hidden_input.get_attribute("value") == "ignore-same, max-length:1000"
+                hidden_input.get_attribute("value") == "max-length:1000, ignore-same"
             )
         )
 
         # Arrow keys walk the flags without a mouse
         send_keys(Keys.ARROW_LEFT)
-        self.assertEqual(selected_flags(), ["max-length:1000"])
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: selected_flags() == ["ignore-same"]
+        )
         send_keys(Keys.ARROW_LEFT)
-        self.assertEqual(selected_flags(), ["ignore-same"])
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: selected_flags() == ["max-length:1000"]
+        )
         # Moving past the last flag returns to the text box
         send_keys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT)
-        self.assertEqual(selected_flags(), [])
+        WebDriverWait(self.driver, 10).until(lambda _driver: selected_flags() == [])
+
+        # A selected flag stays legible against the highlighted background
+        send_keys(Keys.ARROW_LEFT)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: selected_flags() == ["ignore-same"]
+        )
+        active_item = self.driver.find_element(
+            By.CSS_SELECTOR, ".ts-wrapper.flag-editor-select .item.active"
+        )
+        active_code = active_item.find_element(By.CSS_SELECTOR, "code")
+        self.assertEqual(
+            active_code.value_of_css_property("color"),
+            active_item.value_of_css_property("color"),
+        )
+        self.assertEqual(
+            active_code.value_of_css_property("background-color"), "rgba(0, 0, 0, 0)"
+        )
 
         # Enter opens the selected flag for editing
-        send_keys(Keys.ARROW_LEFT, Keys.ENTER)
+        send_keys(Keys.ENTER)
         WebDriverWait(self.driver, 10).until(
-            lambda _driver: text_box.get_attribute("value") == "max-length:1000"
+            lambda _driver: text_box.get_attribute("value") == "ignore-same"
         )
-        self.assertEqual(hidden_input.get_attribute("value"), "ignore-same")
+        self.assertEqual(hidden_input.get_attribute("value"), "max-length:1000")
 
     def test_search_preview_scopes_boolean_query(self) -> None:
         project = self.create_component()
