@@ -2304,7 +2304,7 @@ class ProjectViewSet(
         store_task_metadata(task.id, user_id=request.user.id)
         return Response(
             {
-                "detail": gettext("Project deletion scheduled."),
+                "detail": "Project deletion scheduled.",
                 "task_url": reverse("api:task-detail", kwargs={"pk": task.id}),
             },
             status=HTTP_202_ACCEPTED,
