@@ -42,6 +42,7 @@ from weblate.billing.tasks import (
     inactive_recurring_check,
     notify_expired,
     perform_removal,
+    remove_single_billing,
     schedule_removal,
 )
 from weblate.lang.models import Language
@@ -1364,6 +1365,34 @@ class BillingTest(BaseTestCase):
         self.assertEqual(
             mail.outbox.pop().subject, "Your translation project was removed"
         )
+
+    def test_removal_backup_failure_preserves_schedule(self) -> None:
+        project = self.add_project()
+        removal = timezone.now() - timedelta(days=1)
+        self.billing.removal = removal
+        self.billing.save(update_fields=["removal"])
+        billing_log_count = self.billing.billinglog_set.count()
+
+        with (
+            patch(
+                "weblate.billing.tasks.create_project_backup",
+                side_effect=RuntimeError("backup failed"),
+            ),
+            patch(
+                "weblate.billing.tasks.project_removal.delay"
+            ) as project_removal_delay,
+            patch("weblate.billing.tasks.send_notification_email"),
+            self.assertRaisesRegex(RuntimeError, "backup failed"),
+        ):
+            remove_single_billing(self.billing.pk)
+
+        project_removal_delay.assert_not_called()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(self.billing.removal, removal)
+        self.assertEqual(self.billing.billinglog_set.count(), billing_log_count)
+        self.assertEqual(self.billing.count_projects, 1)
+        self.assertTrue(Project.objects.filter(pk=project.pk).exists())
 
     @override_settings(EMAIL_SUBJECT_PREFIX="")
     def test_trial(self) -> None:
