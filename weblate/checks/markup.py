@@ -74,7 +74,8 @@ if TYPE_CHECKING:
 
 DOCUTILS_PARSER_LOCK = threading.Lock()
 BBCODE_MATCH = re.compile(
-    r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
+    r"(?P<start>\[(?P<tag>[^]]+)([@\s=][^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])",
+    re.MULTILINE | re.DOTALL,
 )
 HTML_ATTRIBUTE_PLACEHOLDER_MATCHES = (
     *(rule[0] for rule in FLAG_RULES.values()),
