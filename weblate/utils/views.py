@@ -91,6 +91,10 @@ def key_unreviewed(instance):
     return 0
 
 
+def key_total(instance):
+    return instance.stats.all
+
+
 def key_untranslated(instance):
     return instance.stats.todo
 
@@ -124,6 +128,7 @@ SORT_KEYS = {
     "approved": key_approved,
     "translated": key_translated,
     "unreviewed": key_unreviewed,
+    "total": key_total,
     "untranslated": key_untranslated,
     "untranslated_words": key_untranslated_words,
     "untranslated_chars": key_untranslated_chars,

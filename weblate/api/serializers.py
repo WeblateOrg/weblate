@@ -32,7 +32,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.reverse import reverse
 
-from weblate.accounts.models import Profile, Subscription
+from weblate.accounts.models import LISTING_COLUMN_CHOICES, Profile, Subscription
 from weblate.accounts.utils import get_all_user_mails
 from weblate.addons.base import is_public_addon_change_details
 from weblate.addons.models import ADDONS, Addon
@@ -838,6 +838,12 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
     commit_email = ProfileEmailChoiceField()
     public_email = ProfileEmailChoiceField()
     commit_name = ProfileCommitNameChoiceField()
+    listing_columns = serializers.ListField(
+        child=serializers.ChoiceField(choices=LISTING_COLUMN_CHOICES),
+        required=False,
+        label=Profile._meta.get_field("listing_columns").verbose_name,  # ruff: ignore[private-member-access]
+        help_text=Profile._meta.get_field("listing_columns").help_text,  # ruff: ignore[private-member-access]
+    )
 
     class Meta:
         model = Profile
@@ -854,6 +860,7 @@ class ProfileSerializer(serializers.ModelSerializer[Profile]):
             "secondary_in_zen",
             "hide_source_secondary",
             "wide_tables",
+            "listing_columns",
             "editor_link",
             "translate_mode",
             "zen_mode",

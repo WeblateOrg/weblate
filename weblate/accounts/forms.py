@@ -39,7 +39,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
-from weblate.accounts.models import AuditLog, Profile
+from weblate.accounts.models import LISTING_COLUMN_CHOICES, AuditLog, Profile
 from weblate.accounts.notifications import NOTIFICATIONS, NotificationScope
 from weblate.accounts.utils import (
     adjust_session_expiry,
@@ -310,6 +310,14 @@ class SubscriptionForm(ProfileBaseForm):
 class UserSettingsForm(ProfileBaseForm):
     """User settings form."""
 
+    listing_columns = forms.MultipleChoiceField(
+        label=Profile._meta.get_field("listing_columns").verbose_name,  # ruff: ignore[private-member-access]
+        help_text=Profile._meta.get_field("listing_columns").help_text,  # ruff: ignore[private-member-access]
+        choices=LISTING_COLUMN_CHOICES,
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )
+
     class Meta:
         model = Profile
         fields = (
@@ -321,6 +329,7 @@ class UserSettingsForm(ProfileBaseForm):
             "secondary_in_zen",
             "hide_source_secondary",
             "wide_tables",
+            "listing_columns",
             "editor_link",
             "special_chars",
             "contribute_personal_tm",
