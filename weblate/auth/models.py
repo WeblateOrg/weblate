@@ -384,8 +384,6 @@ class Group(models.Model):
             self.componentlists.clear()
             self.languages.clear()
             return
-        if self.language_selection == SELECTION_ALL:
-            self.languages.clear()
         if self.project_selection in {
             SELECTION_ALL,
             SELECTION_ALL_PUBLIC,

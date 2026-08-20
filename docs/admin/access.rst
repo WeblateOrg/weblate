@@ -378,8 +378,8 @@ by site-wide or per-project teams by adding another custom team.
      .. list-table:: Group `Users`
          :stub-columns: 1
 
-         * - Language selection
-           - `As defined`
+         * - All languages
+           - Turned off
          * - Languages
            - All but `Czech`
 
@@ -392,8 +392,8 @@ by site-wide or per-project teams by adding another custom team.
            - `Power users`
          * - Project selection
            - `All public projects`
-         * - Language selection
-           - `As defined`
+         * - All languages
+           - Turned off
          * - Languages
            - `Czech`
 
@@ -517,7 +517,7 @@ the following rules:
 
 .. hint::
 
-   Use :guilabel:`Language selection` or :guilabel:`Project selection`
+   Use :guilabel:`All languages` or :guilabel:`Project selection`
    to automate inclusion of all languages or projects.
 
 .. image:: /screenshots/team-scope.webp

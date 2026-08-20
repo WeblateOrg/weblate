@@ -5,10 +5,11 @@
 from django.conf import settings
 from django.urls import reverse
 
-from weblate.auth.data import SELECTION_ALL
-from weblate.auth.forms import ProjectTeamForm, WorkspaceTeamForm
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
 from weblate.lang.models import Language
+from weblate.trans.models import ComponentList
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.workspaces.models import Workspace
 
@@ -22,7 +23,7 @@ class TeamsTest(FixtureTestCase):
         group = Group.objects.create(name="Test group")
         edit_payload = {
             "name": "Other",
-            "language_selection": "1",
+            "all_languages": "on",
             "project_selection": "1",
             "autogroup_set-TOTAL_FORMS": "0",
             "autogroup_set-INITIAL_FORMS": "0",
@@ -53,7 +54,7 @@ class TeamsTest(FixtureTestCase):
 
         edit_payload = {
             "name": "Other",
-            "language_selection": "1",
+            "all_languages": "on",
             "autogroup_set-TOTAL_FORMS": "0",
             "autogroup_set-INITIAL_FORMS": "0",
         }
@@ -134,6 +135,83 @@ class TeamsTest(FixtureTestCase):
         form.save()
         group.refresh_from_db()
         self.assertEqual(group.language_selection, SELECTION_ALL)
+
+    def test_sitewide_team_form_all_languages_mapping(self) -> None:
+        group = Group.objects.create(name="Test group")
+        czech = Language.objects.get(code="cs")
+        group.languages.add(czech)
+
+        form = SitewideTeamForm(
+            {
+                "name": group.name,
+                "project_selection": str(group.project_selection),
+                "all_languages": "on",
+            },
+            instance=group,
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+        group.refresh_from_db()
+        self.assertEqual(group.language_selection, SELECTION_ALL)
+        # The manual selection is preserved when switching to all languages
+        self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
+
+        # Initial state of the checkbox reflects the stored selection
+        form = SitewideTeamForm(instance=group)
+        self.assertTrue(form["all_languages"].initial)
+
+        # Unchecked checkbox maps back to manual selection
+        form = SitewideTeamForm(
+            {
+                "name": group.name,
+                "project_selection": str(group.project_selection),
+                "languages": [str(czech.pk)],
+            },
+            instance=group,
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+        group.refresh_from_db()
+        self.assertEqual(group.language_selection, SELECTION_MANUAL)
+        self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
+
+    def test_sitewide_team_form_keeps_componentlists(self) -> None:
+        componentlist = ComponentList.objects.create(name="List", slug="list")
+        group = Group.objects.create(name="Test group")
+        group.componentlists.add(componentlist)
+
+        # The componentlists widget is disabled for other project selections,
+        # so it is missing from the submission and must not be cleared.
+        form = SitewideTeamForm(
+            {
+                "name": group.name,
+                "project_selection": str(group.project_selection),
+                "all_languages": "on",
+            },
+            instance=group,
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+        group.refresh_from_db()
+        self.assertEqual(
+            list(group.componentlists.values_list("slug", flat=True)), ["list"]
+        )
+
+    def test_internal_team_all_languages_guard(self) -> None:
+        group = Group.objects.get(name="Users", internal=True, defining_project=None)
+        form = SitewideTeamForm(
+            {
+                "name": group.name,
+                "project_selection": str(group.project_selection),
+            },
+            instance=group,
+        )
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            "Cannot change this on a built-in team.", form.errors["all_languages"]
+        )
+        # The rejected value must not leak to the instance shared with the view
+        self.assertEqual(form.instance.language_selection, SELECTION_ALL)
 
     def test_workspace_internal_team_delete(self) -> None:
         workspace = Workspace.objects.create(name="Workspace")
@@ -329,7 +407,7 @@ class TeamsTest(FixtureTestCase):
         # Edit should not work
         edit_payload = {
             "name": "Other",
-            "language_selection": "1",
+            "all_languages": "on",
             "autogroup_set-TOTAL_FORMS": "0",
             "autogroup_set-INITIAL_FORMS": "0",
         }

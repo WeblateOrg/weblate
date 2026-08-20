@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
@@ -18,7 +19,7 @@ from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog, VerifiedEmail
-from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.data import SELECTION_ALL, SELECTION_COMPONENT_LIST, SELECTION_MANUAL
 from weblate.auth.models import (
     Group,
     Invitation,
@@ -476,12 +477,21 @@ class UserEditForm(forms.ModelForm):
 
 
 class BaseTeamForm(forms.ModelForm):
+    all_languages = forms.BooleanField(
+        label=gettext_lazy("All languages"),
+        required=False,
+        help_text=gettext_lazy(
+            "Grants access to all languages, including ones added in the future. "
+            "Turn off to choose individual languages below."
+        ),
+    )
+
     class Meta:
         model = Group
         fields = (
             "name",
             "roles",
-            "language_selection",
+            "all_languages",
             "languages",
             "components",
             "enforced_2fa",
@@ -497,17 +507,36 @@ class BaseTeamForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+        if "all_languages" in self.fields:
+            self.initial.setdefault(
+                "all_languages",
+                self.instance.pk is not None
+                and self.instance.language_selection == SELECTION_ALL,
+            )
+            self.fields["all_languages"].widget.attrs["data-team-selection-toggle"] = (
+                self["languages"].auto_id
+            )
+            self.fields["languages"].widget.attrs["data-max-options"] = "none"
 
     def clean(self) -> None:
         super().clean()
+        if "all_languages" in self.fields:
+            self.cleaned_data["language_selection"] = (
+                SELECTION_ALL
+                if self.cleaned_data.get("all_languages")
+                else SELECTION_MANUAL
+            )
         if self.instance.internal:
             for field in self.internal_fields:
                 if field in self.cleaned_data and self.cleaned_data[field] != getattr(
                     self.instance, field
                 ):
+                    error_field = field if field in self.fields else "all_languages"
                     raise ValidationError(
-                        {field: gettext("Cannot change this on a built-in team.")}
+                        {error_field: gettext("Cannot change this on a built-in team.")}
                     )
+        if "language_selection" in self.cleaned_data:
+            self.instance.language_selection = self.cleaned_data["language_selection"]
 
     def save(self, commit=True, project=None, workspace: Workspace | None = None):
         if not commit:
@@ -524,12 +553,12 @@ class BaseTeamForm(forms.ModelForm):
 
         self.instance.save()
 
-        # Save languages only for manual selection, otherwise
-        # it would override logic from Group.save()
         if self.instance.language_selection != SELECTION_MANUAL:
             self.cleaned_data.pop("languages", None)
         if self.instance.project_selection != SELECTION_MANUAL:
             self.cleaned_data.pop("projects", None)
+        if self.instance.project_selection != SELECTION_COMPONENT_LIST:
+            self.cleaned_data.pop("componentlists", None)
         self._save_m2m()
         if project:
             self.instance.projects.add(project)
@@ -553,6 +582,7 @@ class WorkspaceTeamForm(BaseTeamForm):
         )
 
     internal_fields = ("name",)
+    all_languages = None
 
     def __init__(self, workspace: Workspace, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -572,7 +602,18 @@ class SitewideTeamForm(BaseTeamForm):
             "project_selection",
             "projects",
             "componentlists",
-            "language_selection",
+            "all_languages",
             "languages",
             "enforced_2fa",
+        )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.fields["project_selection"].widget.attrs["data-team-selection-map"] = (
+            json.dumps(
+                {
+                    self["projects"].auto_id: [SELECTION_MANUAL],
+                    self["componentlists"].auto_id: [SELECTION_COMPONENT_LIST],
+                }
+            )
         )
