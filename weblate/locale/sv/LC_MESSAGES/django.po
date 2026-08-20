@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-18 07:45+0000\n"
+"PO-Revision-Date: 2026-08-20 20:00+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -17323,15 +17323,10 @@ msgid_plural "The following fix-ups were applied to the translation:"
 msgstr[0] "Följande rättning utfördes på översättningen:"
 msgstr[1] "Följande rättningar utfördes på översättningen:"
 
-#, fuzzy
-#| msgid "You do not have permissions to add new translation file."
 msgid "You do not have permission to save translations."
-msgstr "Du har inte behörighet att lägga till ny översättningsfil."
+msgstr "Du har inte behörighet att spara översättningar."
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The translation has been saved, however there are some newly failing "
-#| "checks: {0}"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there is a newly failing check: "
 "{checks}"
@@ -17339,11 +17334,10 @@ msgid_plural ""
 "The translation has been saved, however there are some newly failing checks: "
 "{checks}"
 msgstr[0] ""
-"Översättningen har sparats, men det finns några nya fallerande kontroller: "
-"{0}"
+"Översättningen har sparats, men det finns en ny fallerande kontroll: {checks}"
 msgstr[1] ""
 "Översättningen har sparats, men det finns några nya fallerande kontroller: "
-"{0}"
+"{checks}"
 
 msgid "Your suggestion is empty!"
 msgstr "Ditt förslag är tomt!"
@@ -17359,26 +17353,20 @@ msgstr ""
 "Lade till %(project)s till dina bevakade projekt. Du kan justera detta "
 "beteende i inställningarna."
 
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not revert the selected change."
-msgstr "Kunde inte hitta den återställda ändringen."
+msgstr "Kunde inte återställa den valda ändringen."
 
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Du har inte behörighet att ta bort förslag!"
 
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to vote for suggestions."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att rösta på förslag."
 
 msgid "Invalid suggestion!"
 msgstr "Ogiltigt förslag!"
 
-#, fuzzy
-#| msgid "Rejection reason"
 msgid "Rejection reason is too long!"
-msgstr "Orsak till avslag"
+msgstr "Orsaken till avslaget är för lång!"
 
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
@@ -17387,10 +17375,8 @@ msgstr "Du har gått från %(previous)s till %(current)s."
 msgid "Invalid search string!"
 msgstr "Ogiltig söksträng!"
 
-#, fuzzy
-#| msgid "Automatic translation in progress"
 msgid "Automatic translation cannot be started because the target is locked."
-msgstr "Automatisk översättning pågår"
+msgstr "Automatisk översättning kan inte startas eftersom målet är låst."
 
 msgid "Automatic translation in progress"
 msgstr "Automatisk översättning pågår"
@@ -17480,10 +17466,8 @@ msgstr "Åtgärda detta genom att ta bort en av översättningsfilerna."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Åtgärda detta genom att ta bort en av översättningsfilerna."
 
-#, fuzzy
-#| msgid "All pending translations were committed."
 msgid "Pending translations are being committed."
-msgstr "Alla väntande översättningar checkades in."
+msgstr "Väntande översättningar genomförs."
 
 msgid "All pending translations were committed."
 msgstr "Alla väntande översättningar checkades in."
@@ -17500,80 +17484,53 @@ msgstr "Komponenten är nu öppet för översättningsuppdateringar."
 msgid "All components are now open for translation updates."
 msgstr "Alla komponenter är nu öppna för översättningsuppdateringar."
 
-#, fuzzy
-#| msgid "Translation reports"
 msgid "Generating report…"
-msgstr "Översättningsrapporter"
+msgstr "Genererar rapport…"
 
-#, fuzzy
-#| msgid "Recent additions"
 msgid "Repetitions"
-msgstr "Senaste tillskotten"
+msgstr "Upprepningar"
 
-#, fuzzy
-#| msgid "Example matched files"
 msgid "Exact matches"
-msgstr "Exempel på matchande filer"
+msgstr "Exakta träffar"
 
-#, fuzzy
-#| msgid "Use fuzzy matching"
 msgid "Fuzzy matches"
-msgstr "Använd fuzzy-matchning"
+msgstr "Ungefärliga träffar"
 
-#, fuzzy
-#| msgid "New string"
 msgid "New strings"
-msgstr "Ny sträng"
+msgstr "Nya strängar"
 
-#, fuzzy
-#| msgctxt "Number of hosted characters"
-#| msgid "Hosted characters"
 msgid "Source characters"
-msgstr "Lagrade tecken"
+msgstr "Källtecken"
 
 msgid "Rate"
-msgstr ""
+msgstr "Pris"
 
 msgid "Cost"
-msgstr ""
+msgstr "Kostnad"
 
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Translated strings per day"
-msgstr "Översatta strängar"
+msgstr "Översatta strängar per dag"
 
-#, fuzzy
-#| msgid "Source words"
 msgid "Source words per day"
-msgstr "Källord"
+msgstr "Källord per dag"
 
-#, fuzzy
-#| msgid "Medium"
 msgid "Median"
-msgstr "Medium"
+msgstr "Median"
 
 msgid "Average"
-msgstr ""
+msgstr "Genomsnitt"
 
-#, fuzzy
-#| msgid "Strings percent"
 msgid "75th percentile"
-msgstr "Strängar procent"
+msgstr "75:e percentilen"
 
-#, fuzzy
-#| msgid "Strings percent"
 msgid "90th percentile"
-msgstr "Strängar procent"
+msgstr "90:e percentilen"
 
-#, fuzzy
-#| msgid "Download user data"
 msgid "Included user days"
-msgstr "Ladda ner användardata"
+msgstr "Inkluderade användardagar"
 
-#, fuzzy
-#| msgid "Exclude author (username)"
 msgid "Excluded user days"
-msgstr "Exkludera upphovsperson (användarnamn)"
+msgstr "Undantagna användardagar"
 
 msgid "Could not process form!"
 msgstr "Kunde inte bearbeta formulär!"
@@ -17645,15 +17602,12 @@ msgstr ""
 "Kunde inte ändra %(obj)s på grund av ett utestående problem i dess "
 "inställningar: %(error)s"
 
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project moved."
-msgstr "Projektet borttaget"
+msgstr "Projektet har flyttats."
 
-#, fuzzy, python-format
-#| msgid "This component is currently locked."
+#, python-format
 msgid "This component is already shared in %s."
-msgstr "Denna komponent är för närvarande låst."
+msgstr "Denna komponent delas redan i %s."
 
 msgid "Backup scheduled. It will be available soon."
 msgstr ""
@@ -17687,7 +17641,7 @@ msgid "SVG status badge"
 msgstr "SVG-statusmärke"
 
 msgid "Capitalize"
-msgstr ""
+msgstr "Gör versalt"
 
 msgid "translated"
 msgstr "översatt"
@@ -17704,11 +17658,9 @@ msgctxt "Status widget name"
 msgid "Horizontal language bar chart"
 msgstr "Vågrät stapeldiagram över språk"
 
-#, fuzzy
-#| msgid "Languages processing"
 msgctxt "Status widget name"
 msgid "Language progress matrix"
-msgstr "Språkbearbetning"
+msgstr "Matris över språkutveckling"
 
 #. Translators: status widget name
 msgid "Language count badge"
@@ -17729,26 +17681,17 @@ msgstr[1] "språken"
 msgid "No valid billing found or limit exceeded."
 msgstr "Ingen giltig faktura hittades eller så har gränsen överskridits."
 
-#, fuzzy
-#| msgid "This component is currently locked."
 msgid "The project is already assigned to this workspace."
-msgstr "Denna komponent är för närvarande låst."
+msgstr "Projektet är redan tilldelat till det här arbetsområdet."
 
-#, fuzzy
-#| msgid "You do not have permission to create terminology."
 msgid "You do not have permission to edit the current workspace."
-msgstr "Du har inte behörighet att skapa terminologi."
+msgstr "Du har inte behörighet att redigera det nuvarande arbetsområdet."
 
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to move projects without a workspace."
-msgstr ""
-"Du har inte behörighet att ändra åtkomstsinställningarna för projektet."
+msgstr "Du har inte behörighet att flytta projekt utan ett arbetsområde."
 
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to edit the target workspace."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att redigera målarbetsområdet."
 
 #, fuzzy
 #| msgid "You do not have permission to change project access control."
