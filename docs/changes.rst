@@ -7,18 +7,25 @@ Weblate 2026.9
 
 .. rubric:: Improvements
 
+* Screenshot images are now cached in browsers to reduce repeated downloads.
 * Administrators can now find removed accounts by their former e-mail address in the audit log until :setting:`AUDITLOG_EXPIRY`.
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
 * Clarified the instance-wide impact of roles containing site-wide permissions, including :ref:`site-wide user management <site-wide-user-management>`.
 * Improved translation file loading performance for metadata-only string changes.
+* Reduced :ref:`Celery <celery>` worker startup memory usage by avoiding duplicate Django system checks and loading font rendering only when needed.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
 * Assigning languages to a team now uses an :guilabel:`All languages` toggle which disables the language choice when turned on, and a manually chosen set of languages is kept when toggling it. See :ref:`manage-acl`.
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
 * Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
+* Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
+* The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
+* Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`.
 
 .. rubric:: Bug fixes
 
+* Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
+* Database dump failures are now shown in the backups management interface.
 * Project administrators can no longer remove API tokens belonging to other projects.
 * Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.
 * GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
@@ -28,7 +35,7 @@ Weblate 2026.9
 
 * Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
 * Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
-* Switching a team to all languages no longer clears its list of chosen languages, so the languages listing in the API can now be non-empty for such teams.
+* Mercurial and Subversion repository hosts can now be trusted using :setting:`VCS_PRIVATE_ALLOWLIST` without restricting Git to the same hosts through :setting:`VCS_ALLOW_HOSTS`.
 
 .. rubric:: Upgrading
 

@@ -403,7 +403,8 @@ Build-time and configuration variants
        configuration and are trusted by this model. *(documented)* (source:
        :setting:`ASSET_PRIVATE_ALLOWLIST`,
        :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`,
-       :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`)
+       :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`,
+       :setting:`VCS_PRIVATE_ALLOWLIST`)
      - Default private-target rejection is an application-level security
        property for the documented user-configurable URL surfaces.
        *(maintainer)*
@@ -751,6 +752,12 @@ slugs, and API URLs, including for private projects and restricted components.
 Components managed through an authenticated integration are excluded from this
 generic behavior. Attribution and authenticity are weaker than for an
 authenticated user or token. *(maintainer)*
+
+User-requested background work is authorized when Weblate accepts and queues
+the request. Background tasks do not always verify the initiating user's
+permissions again when they execute. Later changes to the user's account,
+permissions, or team memberships therefore do not reliably prevent
+already-authorized work from completing. *(maintainer)*
 
 Weblate is not a sandbox for malicious administrators, malicious local
 operators, third-party add-ons, custom deployment code, VCS clients, or backup

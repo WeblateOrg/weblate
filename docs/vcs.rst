@@ -26,6 +26,32 @@ example ``https://github.com/WeblateOrg/weblate.git``), but for private
 repositories or for push URLs the setup is more complex and requires
 authentication.
 
+.. _vcs-repository-url-troubleshooting:
+
+Troubleshooting repository URLs
++++++++++++++++++++++++++++++++
+
+Weblate validates repository and push URLs before connecting. HTTPS and SSH
+are permitted by default; instance administrators can adjust this using
+:setting:`VCS_ALLOW_SCHEMES`.
+
+Repository hostnames have to resolve from the Weblate server. When
+:setting:`VCS_RESTRICT_PRIVATE` is enabled, Weblate also rejects destinations
+which resolve to internal or otherwise non-public addresses. Use a publicly
+reachable repository URL where possible. For an intentionally private
+repository on a trusted network, ask the instance administrator to add its
+hostname to :setting:`VCS_ALLOW_HOSTS`.
+
+Git over HTTPS and SSH can bind connections to addresses approved during
+validation. Backends which cannot do this safely, including Mercurial and
+Subversion, require the trusted repository hostname in
+:setting:`VCS_ALLOW_HOSTS` while private-address restrictions are enabled.
+
+Configure the final repository URL directly when possible. Weblate can
+automatically accept a permanent HTTP redirect only when it stays on the same
+host and the target is successfully validated. Redirects to another host or
+protocol have to be configured manually.
+
 .. _hosted-push:
 
 Accessing repositories from Hosted Weblate
@@ -306,6 +332,17 @@ Git
 
    Weblate needs Git 2.46 or newer.
 
+.. note::
+
+   Weblate validates permanent HTTP redirects which stay on the repository
+   hostname and automatically stores the canonical repository URL. The change
+   is recorded in the component history as repository maintenance. Redirects
+   to another hostname have to be configured manually.
+
+.. seealso::
+
+    See :ref:`vcs-repos` for info on how to access different kinds of repositories.
+
 .. _git-lfs:
 
 Git LFS
@@ -327,16 +364,23 @@ when the upstream repository added LFS objects after the fork was created.
 Existing managed forks are reconfigured on their next push. This does not
 change the Git LFS configuration of the upstream project.
 
-.. note::
+.. _git-submodules:
 
-   Weblate validates permanent HTTP redirects which stay on the repository
-   hostname and automatically stores the canonical repository URL. The change
-   is recorded in the component history as repository maintenance. Redirects
-   to another hostname have to be configured manually.
+Git submodules
+++++++++++++++
 
-.. seealso::
+Weblate does not populate Git submodules when cloning repositories. It does
+not initialize or update submodules, and it does not recurse into submodule
+repositories during file discovery or translation updates. Files stored inside
+a submodule are therefore not available to file masks when Weblate is connected
+to the parent repository.
 
-    See :ref:`vcs-repos` for info on how to access different kinds of repositories.
+If translation files live in a submodule, add the submodule repository to
+Weblate as its own component instead of reaching it through the parent
+repository. Weblate can then clone, update, commit, and push to the repository
+that actually stores the translation files. The parent repository only records
+the submodule commit pointer, so updating that pointer has to happen outside
+Weblate, for example in your normal development workflow or CI.
 
 .. _vcs-git-force-push:
 

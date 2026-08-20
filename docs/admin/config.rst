@@ -2751,6 +2751,39 @@ from the private-target restriction. This exemption is also needed for VCS
 backends which cannot bind the client connection to the address validated by
 Weblate, such as Mercurial and Subversion.
 
+Use :setting:`VCS_PRIVATE_ALLOWLIST` instead when hosts should be exempt from
+the private-target restriction without filtering access to other public hosts.
+
+.. setting:: VCS_PRIVATE_ALLOWLIST
+
+VCS_PRIVATE_ALLOWLIST
+---------------------
+
+.. versionadded:: 2026.9
+
+Defines hostnames or domains exempt from :setting:`VCS_RESTRICT_PRIVATE`.
+Unlike :setting:`VCS_ALLOW_HOSTS`, this setting does not filter access to other
+hosts. Entries follow Django host matching semantics, so values such as
+``vcs.internal.example`` or ``.internal.example`` can be used.
+
+The exemption is needed for VCS backends which cannot bind the client
+connection to the address validated by Weblate, such as Mercurial and
+Subversion. It can also be used to allow private Git repository hosts.
+
+When :setting:`VCS_ALLOW_HOSTS` is non-empty, its host filter still applies and
+takes precedence over this allowlist.
+
+Default configuration:
+
+.. code-block:: python
+
+   VCS_PRIVATE_ALLOWLIST = []
+
+.. seealso::
+
+   * :setting:`VCS_ALLOW_HOSTS`
+   * :setting:`VCS_RESTRICT_PRIVATE`
+
 .. setting:: VCS_ALLOW_SCHEMES
 
 VCS_ALLOW_SCHEMES
@@ -2769,10 +2802,12 @@ VCS_RESTRICT_PRIVATE
 .. versionadded:: 5.17
 
 Reject VCS repository URLs pointing to internal or non-public addresses unless
-the target host is included in :setting:`VCS_ALLOW_HOSTS`. On by default.
+the target host is included in :setting:`VCS_ALLOW_HOSTS` or matches
+:setting:`VCS_PRIVATE_ALLOWLIST`. On by default.
 
 When enabled, hostnames that cannot be resolved during validation are rejected
-unless they are explicitly included in :setting:`VCS_ALLOW_HOSTS`.
+unless they are trusted by :setting:`VCS_ALLOW_HOSTS` or
+:setting:`VCS_PRIVATE_ALLOWLIST`.
 
 For Git repositories accessed over HTTPS or SSH, Weblate binds each VCS command
 to the addresses approved during runtime validation for direct connections.
@@ -2782,7 +2817,7 @@ same-host HTTP redirects are probed separately through the same outbound route,
 validated, and stored as the canonical component repository URL. Cross-host
 redirects have to be configured manually. Mercurial, Subversion, custom VCS
 backends, and additional URL schemes are rejected unless the target host is
-explicitly included in :setting:`VCS_ALLOW_HOSTS`.
+trusted by :setting:`VCS_ALLOW_HOSTS` or :setting:`VCS_PRIVATE_ALLOWLIST`.
 
 Network-level egress filtering which blocks internal, loopback, link-local,
 reserved, and cloud metadata address ranges is recommended as defense in depth,
