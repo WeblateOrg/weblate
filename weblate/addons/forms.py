@@ -813,6 +813,7 @@ class DiscoveryForm(BaseAddonForm):
         "base_file_template",
         "new_base_template",
         "intermediate_template",
+        "filemask_template",
         "language_regex",
     )
     PRESET_FILENAME_LANGUAGE = "filename-language"
@@ -830,6 +831,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_GETTEXT_LOCALES: {
@@ -839,6 +841,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_COMPLEX_FILENAMES: {
@@ -848,6 +851,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_FILENAME_LANGUAGE: {
@@ -857,6 +861,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_REPEATED_LANGUAGE: {
@@ -866,6 +871,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_SPLIT_ANDROID: {
@@ -875,6 +881,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
         PRESET_MULTIPLE_PATHS: {
@@ -884,6 +891,7 @@ class DiscoveryForm(BaseAddonForm):
             "base_file_template": "",
             "new_base_template": "",
             "intermediate_template": "",
+            "filemask_template": "",
             "language_regex": "^[^.]+$",
         },
     }

@@ -6708,6 +6708,11 @@ class DiscoveryTest(ViewTestCase):
         self.assertIn("file_format", filename_language["values"])
         self.assertEqual(filename_language["values"]["file_format"], "")
 
+    def test_discovery_ui_presets_clear_filemask_template(self) -> None:
+        presets = DiscoveryForm.get_builtin_ui_presets()
+        for preset in presets:
+            self.assertEqual(preset["values"]["filemask_template"], "")
+
 
 class ScriptsTest(TestAddonMixin, ComponentTestCase):
     def test_example_pre(self) -> None:
