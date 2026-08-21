@@ -114,6 +114,46 @@ class BBCodeCheckTest(CheckTestCase):
             ],
         )
 
+    def test_nested_parameterized(self) -> None:
+        self.do_test(
+            False,
+            (
+                "[url=x][b]bold[/b][/url]",
+                "[url=x][b]bold[/b][/url]",
+                "bbcode-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "[url=x][b]bold[/b][/url]",
+                "[url=x]bold[/url]",
+                "bbcode-text",
+            ),
+        )
+
+    def test_nested_highlight(self) -> None:
+        source = "[url=x][b]bold[/b][/url]"
+        unit = make_unit(
+            None,
+            "bbcode-text",
+            self.default_lang,
+            source=source,
+        )
+        highlights = list(self.check.check_highlight(source, unit))
+        self.assertEqual(
+            [
+                (highlight.start, highlight.end, highlight.text)
+                for highlight in highlights
+            ],
+            [
+                (0, 7, "[url=x]"),
+                (18, 24, "[/url]"),
+                (7, 10, "[b]"),
+                (14, 18, "[/b]"),
+            ],
+        )
+
 
 class XMLValidityCheckTest(CheckTestCase):
     check = XMLValidityCheck()
