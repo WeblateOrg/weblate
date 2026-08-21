@@ -7,6 +7,7 @@ Weblate 2026.9
 
 .. rubric:: Improvements
 
+* :ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords (newline-separated) passed to xgettext via ``--keyword``, enabling extraction from different function names.
 * Screenshot images are now cached in browsers to reduce repeated downloads.
 * Administrators can now find removed accounts by their former e-mail address in the audit log until :setting:`AUDITLOG_EXPIRY`.
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
