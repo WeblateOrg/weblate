@@ -21,20 +21,6 @@ Weblate 2026.9
 * Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
 * Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
 * The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
-* Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters.
-* Component diagnostics now record dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors.
-* :ref:`Add-on activity logs <addon-activity-logging>` now distinguish pending, successful, failed, and skipped executions and explain why an add-on was skipped.
-* Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy.
-* Improved matrix view loading performance when displaying multiple languages.
-* Translation memory management pages now load origin summaries with a single database aggregation.
-* Dashboard component list tabs now load without processing unrelated component lists.
-* Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed.
-* :ref:`Empty workspaces <workspace-removal>` not associated with billing can now be removed from the workspace :guilabel:`Operations` menu.
-* :ref:`mt-aws` machine translation now supports configuring formality, brevity, and profanity masking.
-* Improved :ref:`screenshots` OCR reliability and error reporting when downloading recognition data.
-* Celery workers now prefetch fewer tasks by default to reduce memory usage and improve task distribution.
-* Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload.
-* Deployment checks now detect corrupted PostgreSQL relation statistics.
 * Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`.
 
 .. rubric:: Bug fixes
