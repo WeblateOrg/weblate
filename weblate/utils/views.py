@@ -64,7 +64,7 @@ class UnsupportedPathObjectError(Http404):
 
 def key_name(instance):
     # ruff: ignore[import-outside-top-level]
-    from weblate.trans.templatetags.translations import get_breadcrumbs
+    from weblate.trans.formatting import get_breadcrumbs
 
     return "/".join(
         str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
@@ -89,6 +89,10 @@ def key_unreviewed(instance):
     if stats.has_review:
         return stats.waiting_review
     return 0
+
+
+def key_total(instance):
+    return instance.stats.all
 
 
 def key_untranslated(instance):
@@ -124,6 +128,7 @@ SORT_KEYS = {
     "approved": key_approved,
     "translated": key_translated,
     "unreviewed": key_unreviewed,
+    "total": key_total,
     "untranslated": key_untranslated,
     "untranslated_words": key_untranslated_words,
     "untranslated_chars": key_untranslated_chars,

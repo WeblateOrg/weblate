@@ -18,8 +18,10 @@ from django.http import FileResponse, JsonResponse
 from django.shortcuts import aget_object_or_404, get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
 from django.utils.translation import gettext, ngettext
+from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
@@ -541,6 +543,7 @@ class ScreenshotBaseView(DetailView):
         return obj
 
 
+@method_decorator(cache_control(max_age=3600, private=True), name="dispatch")
 class ScreenshotView(ScreenshotBaseView):
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> FileResponse:  # type: ignore[override]
         obj = self.get_object()

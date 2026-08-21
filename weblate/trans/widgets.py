@@ -38,9 +38,9 @@ from weblate.fonts.render import (
 from weblate.fonts.utils import render_size
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project
-from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode, translation_percent
 from weblate.utils import messages
+from weblate.utils.formatting import number_format
 from weblate.utils.icons import find_static_file
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import (

@@ -403,10 +403,23 @@ class ViewTest(FixtureTestCase):
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
-        response = self.client.get(screenshot.get_view_url())
+        view_url = screenshot.get_view_url()
+        self.assertRegex(view_url, r"/view/\?v=[0-9a-f]{16}$")
+        self.assertEqual(screenshot.get_view_url(), view_url)
+        response = self.client.get(view_url)
         # Admin can access this
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["content-type"], "image/png")
+        self.assertIn("max-age=3600", response["Cache-Control"])
+        self.assertIn("private", response["Cache-Control"])
+
+        # Legacy unversioned URLs remain supported
+        response = self.client.get(
+            reverse("screenshot-view", kwargs={"pk": screenshot.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["content-type"], "image/png")
+        self.assertIn("max-age=3600", response["Cache-Control"])
 
         # Private admin access
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -1137,6 +1150,7 @@ class ViewTest(FixtureTestCase):
         screenshot = Screenshot.objects.all()[0]
         old_name = screenshot.image.name
         old_filename = screenshot.image.file.name
+        old_view_url = screenshot.get_view_url()
 
         data = Path(TEST_SCREENSHOT).read_bytes()
         http_mock.register(
@@ -1157,6 +1171,7 @@ class ViewTest(FixtureTestCase):
         screenshot.refresh_from_db()
         self.assertNotEqual(screenshot.image.name, old_name)
         self.assertNotEqual(screenshot.image.file.name, old_filename)
+        self.assertNotEqual(screenshot.get_view_url(), old_view_url)
 
     @http_mock.activate
     @patch(
@@ -1597,10 +1612,12 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
     def test_update_screenshots_from_repo(self) -> None:
         repository = self.component.repository
         last_revision = repository.last_revision
-        existing_ss_size = Screenshot.objects.filter(
+        screenshot = Screenshot.objects.get(
             translation__component=self.component,
             repository_filename="test-update.png",
-        )[0].image.size
+        )
+        existing_ss_size = screenshot.image.size
+        existing_view_url = screenshot.get_view_url()
 
         copyfile(TEST_SCREENSHOT, os.path.join(repository.path, "test-update.png"))
         with repository.lock:
@@ -1623,11 +1640,12 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             ).count(),
             1,
         )
-        updated_ss_size = Screenshot.objects.filter(
+        screenshot = Screenshot.objects.get(
             translation__component=self.component,
             repository_filename="test-update.png",
-        )[0].image.size
-        self.assertNotEqual(existing_ss_size, updated_ss_size)
+        )
+        self.assertNotEqual(existing_ss_size, screenshot.image.size)
+        self.assertNotEqual(existing_view_url, screenshot.get_view_url())
 
     def test_linked_screenshots_reuse_changed_files(self) -> None:
         repository = self.component.repository

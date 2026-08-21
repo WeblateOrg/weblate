@@ -25,6 +25,7 @@ from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.formatting import unit_state_title
 from weblate.trans.forms import get_new_unit_form
 from weblate.trans.models import (
     Change,
@@ -35,7 +36,6 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.templatetags.translations import unit_state_title
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
 from weblate.trans.views.edit import (

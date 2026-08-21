@@ -1554,6 +1554,7 @@ class UserAPITest(APIBaseTest):
                     "nearby_strings": 5,
                     "special_chars": "\xa0",
                     "wide_tables": True,
+                    "listing_columns": ["total", "untranslated", "checks"],
                 }
             },
         )
@@ -1562,6 +1563,9 @@ class UserAPITest(APIBaseTest):
         self.assertEqual(self.user.profile.location, "Prague")
         self.assertEqual(self.user.profile.nearby_strings, 5)
         self.assertTrue(self.user.profile.wide_tables)
+        self.assertEqual(
+            self.user.profile.listing_columns, ["total", "untranslated", "checks"]
+        )
         self.assertEqual(
             list(self.user.profile.languages.values_list("code", flat=True)),
             [cs_language.code],
@@ -3991,13 +3995,15 @@ class ProjectAPITest(APIBaseTest):
         self.do_request(
             "api:project-detail", self.project_kwargs, method="delete", code=403
         )
-        self.do_request(
+        response = self.do_request(
             "api:project-detail",
             self.project_kwargs,
             method="delete",
             superuser=True,
-            code=204,
+            code=202,
         )
+        self.assertEqual(response.data["detail"], "Project deletion scheduled.")
+        self.assertIn("task_url", response.data)
         self.assertEqual(Project.objects.count(), 0)
 
     def test_create(self) -> None:
@@ -17079,6 +17085,24 @@ class OpenAPITest(APIBaseTest):
         self.assertEqual(
             schema["components"]["schemas"]["AddonTriggerResponse"]["required"],
             ["detail", "logs_url", "url"],
+        )
+
+    def test_project_delete_schema_matches_runtime_behavior(self) -> None:
+        schema = self.get_schema()
+        operation = schema["paths"]["/api/projects/{slug}/"]["delete"]
+
+        self.assertNotIn("204", operation["responses"])
+        self.assertIn("202", operation["responses"])
+
+        response_schema = operation["responses"]["202"]["content"]["application/json"][
+            "schema"
+        ]
+        self.assertEqual(
+            response_schema, {"$ref": "#/components/schemas/ProjectDeleteResponse"}
+        )
+        self.assertEqual(
+            schema["components"]["schemas"]["ProjectDeleteResponse"]["required"],
+            ["detail", "task_url"],
         )
 
     @patch("weblate.utils.version.VERSION", "5.17.1")
