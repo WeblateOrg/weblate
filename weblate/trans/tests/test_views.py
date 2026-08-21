@@ -82,6 +82,24 @@ class PaginatorTemplateTest(TestCase):
 
 
 class ZipDownloadTest(TestCase):
+    def test_content_disposition(self) -> None:
+        test_cases = (
+            ("translations", 'attachment; filename="translations.zip"'),
+            (
+                'quote"backslash\\',
+                'attachment; filename="quote\\"backslash\\\\.zip"',
+            ),
+            (
+                "čeština",
+                "attachment; filename*=utf-8''%C4%8De%C5%A1tina.zip",
+            ),
+        )
+
+        for name, expected in test_cases:
+            with self.subTest(name=name):
+                response = zip_download("", [], name=name)
+                self.assertEqual(response["Content-Disposition"], expected)
+
     def test_zip_download_rejects_symlink_to_other_allowed_root(self) -> None:
         sentinel = b"other component"
 

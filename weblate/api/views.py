@@ -29,6 +29,7 @@ from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
 from drf_spectacular.types import OpenApiTypes
@@ -4857,8 +4858,8 @@ class ReportViewSet(viewsets.ModelViewSet):
         report = self.get_object()
         response = render_report_data(report, style)
         extension = "json" if style == "json" else style
-        response["Content-Disposition"] = (
-            f'attachment; filename="report-{report.pk}.{extension}"'
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=f"report-{report.pk}.{extension}"
         )
         return response
 
