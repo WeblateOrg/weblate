@@ -262,7 +262,7 @@ class KeywordField(forms.CharField):
             return "\n".join(value)
         return super().prepare_value(value)
 
-    def to_python(self, value: object) -> str:
+    def to_python(self, value: object) -> str | None:
         if isinstance(value, list):
             if not all(isinstance(keyword, str) for keyword in value):
                 raise forms.ValidationError(
