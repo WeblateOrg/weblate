@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-14 10:03+0000\n"
+"PO-Revision-Date: 2026-08-21 13:56+0000\n"
 "Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -618,10 +618,8 @@ msgstr "Aktywność konta"
 msgid "Triggered by {username}."
 msgstr "Wywołany przez {username}."
 
-#, fuzzy
-#| msgid "Total strings:"
 msgid "Total strings"
-msgstr "Wszystkie teksty:"
+msgstr "Wszystkie teksty"
 
 msgid "Unfinished strings"
 msgstr "Niedokończone ciągi"
@@ -645,7 +643,7 @@ msgid "Comments"
 msgstr "Komentarze"
 
 msgid "Invalid listing column selection."
-msgstr ""
+msgstr "Nieprawidłowy wybór kolumny listy."
 
 msgid "Interface Language"
 msgstr "Język interfejsu"
@@ -693,15 +691,15 @@ msgstr ""
 "Zamiast ukrywać kolumny na wąskich ekranach, zachowaj wszystkie kolumny i "
 "przewijaj tabelę w poziomie."
 
-#, fuzzy
-#| msgid "All component lists"
 msgid "Visible columns in lists"
-msgstr "Listy wszystkich komponentów"
+msgstr "Widoczne kolumny na listach"
 
 msgid ""
 "Choose which statistics columns are shown in project, component, and "
 "language lists."
 msgstr ""
+"Wybierz, które kolumny statystyk będą wyświetlane na listach projektów, "
+"komponentów i języków."
 
 msgid "Editor link"
 msgstr "Odnośnik edytora"
@@ -1758,10 +1756,8 @@ msgstr ""
 "POT. Użyj tej opcji, aby zachować lokalizacje w szablonie, pomijając je w "
 "przetłumaczonych plikach PO."
 
-#, fuzzy
-#| msgid "Could not remove the string: %s"
 msgid "Keyword entries have to be strings."
-msgstr "Nie udało się usunąć ciągu: %s"
+msgstr "Wpisy słów kluczowych muszą być ciągami znaków."
 
 msgid "Do not extract comments"
 msgstr "Nie wyodrębniaj komentarzy"
@@ -1799,17 +1795,13 @@ msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
 "Dodatkowe walidacje xgettext do włączenia dla wyodrębnionych wiadomości."
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
-msgstr "Dodatkowe słowo kluczowe"
+msgstr "Dodatkowe słowa kluczowe"
 
-#, fuzzy
-#| msgid "Optional extra keyword passed to xgettext using --keyword."
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
-"Opcjonalne dodatkowe słowo kluczowe przekazywane do xgettext z użyciem --"
-"keyword."
+"Dodatkowe słowa kluczowe rozdzielone znakami nowej linii przekazane do "
+"xgettext za pomocą --keyword."
 
 msgid "Use keywords exclusively"
 msgstr "Używaj wyłącznie słów kluczowych"
@@ -3810,41 +3802,35 @@ msgstr "Rozliczenia"
 msgid "Billing event"
 msgstr "Zdarzenie płatności"
 
-#, fuzzy
-#| msgid "Monthly"
 msgid "monthly"
-msgstr "Miesięcznie"
+msgstr "miesięcznie"
 
 msgid "yearly"
-msgstr ""
+msgstr "rocznie"
 
-#, fuzzy
-#| msgid "Unknown error"
 msgid "unknown period"
-msgstr "Nieznany błąd"
+msgstr "nieznany okres"
 
 msgid "Changed from \"{}\" to \"{}\"."
 msgstr "Zmieniono z „{}” na „{}”."
 
 msgid "Payment \"{}\" initiated for \"{}\" ({})."
-msgstr ""
+msgstr "Zainicjowano płatność „{}” za „{}” ({})."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
-msgstr ""
+msgstr "Płatność „{}” za „{}” ({}) została odrzucona: {}."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
-msgstr ""
+msgstr "Płatność „{}” za „{}” ({}) została odrzucona."
 
 msgid "Automatic payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Otrzymano automatyczną płatność „{}” za „{}” ({})."
 
 msgid "Payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Otrzymano płatność „{}” za „{}” ({})."
 
-#, fuzzy
-#| msgid "Changed from \"{}\" to \"{}\"."
 msgid "Merged billing \"{}\" into \"{}\"."
-msgstr "Zmieniono z „{}” na „{}”."
+msgstr "Połączono rozliczenie „{}” z „{}”."
 
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
@@ -8476,10 +8462,8 @@ msgstr "Uporządkuj lub usuń"
 msgid "Browse all changes for this language"
 msgstr "Przeglądaj wszystkie zmiany dla tego języka"
 
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Review changes"
-msgstr "Ostatnie zmiany"
+msgstr "Przejrzyj zmiany"
 
 msgid "Apply"
 msgstr "Zastosuj"
@@ -11986,11 +11970,15 @@ msgid ""
 "Weblate pushed the changes and created the pull request, but could not merge "
 "it automatically."
 msgstr ""
+"Weblate wprowadził zmiany i utworzył pull request, ale nie mogła ich "
+"automatycznie scalić."
 
 msgid ""
 "Check that the repository allows auto-merge and the selected merge method, "
 "or turn off automatic merging in the version control parameters."
 msgstr ""
+"Sprawdź, czy repozytorium umożliwia automatyczne scalanie i wybraną metodę "
+"scalania lub wyłącz automatyczne scalanie w parametrach kontroli wersji."
 
 msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
@@ -12055,36 +12043,55 @@ msgid ""
 "the configured URL. Ask the instance administrator to add the trusted "
 "repository hostname to VCS_ALLOW_HOSTS."
 msgstr ""
+"To zaplecze kontroli wersji nie może wymusić ograniczeń dotyczących adresów "
+"prywatnych dla skonfigurowanego adresu URL. Poproś administratora instancji "
+"o dodanie nazwy hosta zaufanego repozytorium do VCS_ALLOW_HOSTS."
 
 msgid ""
 "Weblate blocked the repository URL because its destination is not permitted "
 "by this instance. Use a publicly reachable repository URL, or ask the "
 "instance administrator to allow the trusted repository host."
 msgstr ""
+"Weblate zablokował adres URL repozytorium, ponieważ jego miejsce docelowe "
+"nie jest dozwolone przez tę instancję. Użyj publicznie dostępnego adresu URL "
+"repozytorium lub poproś administratora instancji o zezwolenie na korzystanie "
+"z zaufanego hosta repozytorium."
 
 msgid ""
 "The configured repository URL is not valid. Check the URL in the component "
 "settings and use a complete repository URL supported by the selected version "
 "control system."
 msgstr ""
+"Skonfigurowany adres URL repozytorium jest nieprawidłowy. Sprawdź adres URL "
+"w ustawieniach komponentu i użyj pełnego adresu URL repozytorium "
+"obsługiwanego przez wybrany system kontroli wersji."
 
 msgid ""
 "The repository URL uses a protocol which is not permitted by this instance. "
 "Use HTTPS or SSH, or ask the instance administrator whether another protocol "
 "can be safely enabled."
 msgstr ""
+"Adres URL repozytorium używa protokołu niedozwolonego przez tę instancję. "
+"Użyj protokołu HTTPS lub SSH albo zapytaj administratora instancji, czy "
+"można bezpiecznie włączyć inny protokół."
 
 msgid ""
 "Weblate could not resolve the repository destination. Check the hostname and "
 "the instance DNS configuration. Internal or otherwise non-public hosts must "
 "also be explicitly allowed by the instance administrator."
 msgstr ""
+"Weblate nie mógł rozwiązać adresu docelowego repozytorium. Sprawdź nazwę "
+"hosta i konfigurację DNS instancji. Hosty wewnętrzne lub niepubliczne muszą "
+"być również wyraźnie dozwolone przez administratora instancji."
 
 msgid ""
 "The repository URL redirect could not be safely followed. Configure the "
 "final repository URL directly; Weblate automatically accepts only verified "
 "permanent redirects on the same host."
 msgstr ""
+"Nie można bezpiecznie przekierować adresu URL repozytorium. Skonfiguruj "
+"bezpośrednio ostateczny adres URL repozytorium; Weblate automatycznie "
+"akceptuje tylko zweryfikowane, stałe przekierowania na tym samym hoście."
 
 msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
@@ -12133,6 +12140,9 @@ msgid ""
 "destination. Weblate does not download or upload Git LFS objects, and files "
 "tracked by Git LFS cannot be used as translation files."
 msgstr ""
+"Repozytorium odwołuje się do obiektów LFS Git, których brakuje w miejscu "
+"docelowym push. Weblate nie pobiera ani nie przesyła obiektów LFS Git, a "
+"pliki śledzone przez LFS Git nie mogą być używane jako pliki tłumaczeń."
 
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
@@ -12151,19 +12161,14 @@ msgstr ""
 msgid "You might want to use following URL instead:"
 msgstr "Zamiast tego możesz użyć następującego adresu URL:"
 
-#, fuzzy
-#| msgid ""
-#| "You might want to choose Git with force push as version control system in "
-#| "the component configuration to overwrite the remote repository after "
-#| "rebasing commits in Weblate."
 msgid ""
 "You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"Możesz wybrać Git z wymuszeniem jako system kontroli wersji w konfiguracji "
-"komponentu, aby nadpisać zdalne repozytorium po zrebasowaniu commitów w "
-"Weblate."
+"Może zaistnieć potrzeba włączenia wymuszonego przesyłania danych w "
+"parametrach kontroli wersji konfiguracji komponentu, aby nadpisać zdalne "
+"repozytorium po zmianie bazy zatwierdzeń w Weblate."
 
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
@@ -14540,10 +14545,8 @@ msgid "Could not update the repository."
 msgstr "Nie udało się zaktualizować repozytorium."
 
 #. Translators: Name of an alert
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not merge the pull request automatically."
-msgstr "Nie udało się scalić repozytorium."
+msgstr "Nie udało się automatycznie scalić pull request."
 
 #. Translators: Name of an alert
 msgid "Repository outdated."
@@ -16146,10 +16149,8 @@ msgstr ""
 "zawierającego tłumaczenia. Możesz także wybrać dodatkową integrację z "
 "zewnętrznymi dostawcami, aby przesyłać pull/merge requesty."
 
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control parameters"
-msgstr "Ustawienia kontroli wersji"
+msgstr "Parametry kontroli wersji"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -16817,20 +16818,21 @@ msgid ""
 msgstr ""
 "Parametr „%(param)s” nie ma zastosowania do formatu pliku „%(format)s”."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "The parameter '%(param)s' is not applicable for the file format "
-#| "'%(format)s'."
+#, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the version control system "
 "'%(vcs)s'."
 msgstr ""
-"Parametr „%(param)s” nie ma zastosowania do formatu pliku „%(format)s”."
+"Parametr „%(param)s” nie ma zastosowania w systemie kontroli wersji „%(vcs)s"
+"”."
 
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+"Przesyłanie bez żądania scalenia wymaga dostępu do zapisu w repozytorium. "
+"Skonfiguruj adres URL przesyłania za pomocą danych uwierzytelniających lub "
+"użyj adresu URL repozytorium SSH."
 
 msgid ""
 "A component can not be restricted while its project uses shared translation "
@@ -17547,15 +17549,12 @@ msgstr "Parametry formatu pliku muszą być słownikiem par klucz-wartość."
 msgid "Unknown file format parameter: \"%(param_name)s\"."
 msgstr "Nieznany parametr formatu pliku: „%(param_name)s”."
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Version control parameters must be a dictionary of key-value pairs."
-msgstr "Parametry formatu pliku muszą być słownikiem par klucz-wartość."
+msgstr "Parametry kontroli wersji muszą być słownikiem par klucz-wartość."
 
-#, fuzzy, python-format
-#| msgid "Unknown file format parameter: \"%(param_name)s\"."
+#, python-format
 msgid "Unknown version control parameter: \"%(param_name)s\"."
-msgstr "Nieznany parametr formatu pliku: „%(param_name)s”."
+msgstr "Nieznany parametr kontroli wersji: „%(param_name)s”."
 
 msgid "Keys"
 msgstr "Klucze"
@@ -18270,10 +18269,8 @@ msgstr "Nie udało się rozwiązać domeny adresu URL: {}"
 msgid "Could not resolve the URL domain."
 msgstr "Nie udało się rozwiązać domeny adresu URL."
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Parameters must be a dictionary of key-value pairs."
-msgstr "Parametry formatu pliku muszą być słownikiem par klucz-wartość."
+msgstr "Parametry muszą być słownikiem par klucz-wartość."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -18636,46 +18633,35 @@ msgstr ""
 "Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
 "ściągnięcia (%(status)s): %(error)s Spróbuj ponownie później."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s"
+#, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
-"ściągnięcia: %(status)s"
+"Żądanie API %(service)s nie powiodło się podczas scalania pull request: %"
+"(status)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s "
-#| "Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
-"ściągnięcia: %(status)s. Spróbuj ponownie później."
+"Żądanie API %(service)s nie powiodło się podczas scalania pull request: %"
+"(status)s. Spróbuj ponownie później."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
-"ściągnięcia (%(status)s): %(error)s"
+"Żądanie API %(service)s nie powiodło się podczas scalania pull request (%"
+"(status)s): %(error)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Żądanie API %(service)s nie powiodło się podczas tworzenia żądania "
-"ściągnięcia (%(status)s): %(error)s Spróbuj ponownie później."
+"Żądanie API %(service)s nie powiodło się podczas scalania pull request (%"
+"(status)s): %(error)s Spróbuj ponownie później."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr ""
@@ -19077,57 +19063,61 @@ msgstr "oczekująca instalacja hostingu kodu"
 msgid "pending code-hosting installations"
 msgstr "oczekujące instalacje hostingu kodu"
 
-#, fuzzy
-#| msgid "Git with force push"
 msgid "Force push"
-msgstr "Git z wymuszonym wypchnięciem"
+msgstr "Wymuś wypchnięcie"
 
 msgid ""
 "Overwrite the remote branch instead of refusing to push non-fast-forward "
 "changes. Only use this with a repository dedicated to translations, as it "
 "discards upstream commits which are not present in Weblate."
 msgstr ""
+"Nadpisz gałąź zdalną zamiast odmawiać wypychania zmian, które nie są typu „"
+"fast-forward”. Używaj tej opcji tylko w repozytorium dedykowanym "
+"tłumaczeniom, ponieważ odrzuca ona zatwierdzenia upstream, które nie są "
+"obecne w Weblate."
 
-#, fuzzy
-#| msgid "Pagure merge request"
 msgid "Create merge requests"
-msgstr "Pagure merge request"
+msgstr "Utwórz żądania scalenia"
 
 msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
 msgstr ""
+"Otwórz żądanie ściągnięcia lub scalenia zmian w tłumaczeniu. Po wyłączeniu "
+"tej opcji Weblate przesyła zmiany bezpośrednio do gałęzi tłumaczenia, co "
+"wymaga dostępu do zapisu."
 
 msgid "Merge pull requests automatically"
-msgstr ""
+msgstr "Automatycznie scalaj pull requesty"
 
 msgid ""
 "Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
 "are merged once the required checks pass. Pull requests with nothing to wait "
 "for are merged right away."
 msgstr ""
+"Włącz automatyczne scalanie GitHub dla żądań ściągnięcia utworzonych przez "
+"Weblate, aby zostały scalone po pomyślnym przejściu wymaganych kontroli. "
+"Żądania ściągnięcia, na które nie trzeba czekać, są scalane natychmiast."
 
 msgid "Merge method"
 msgstr "Metoda połączenia"
 
-#, fuzzy
-#| msgid "Create account"
 msgid "Create a merge commit"
-msgstr "Utwórz konto"
+msgstr "Utwórz zatwierdzenie scalenia"
 
 msgid "Squash and merge"
-msgstr ""
+msgstr "Wykonaj squash i scal"
 
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Rebase and merge"
-msgstr "Zresetuj i zastosuj ponownie"
+msgstr "Wykonaj rebase i scal"
 
 msgid ""
 "Method used when merging pull requests automatically. The repository has to "
 "allow it."
 msgstr ""
+"Metoda używana do automatycznego scalania żądań ściągnięcia. Repozytorium "
+"musi na to zezwalać."
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -19436,16 +19426,12 @@ msgid "Backup failed"
 msgstr "Tworzenie kopii zapasowej nie powiodło się"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Database backup performed"
-msgstr "Wykonano kopię zapasową"
+msgstr "Wykonano kopię zapasową bazy danych"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Database backup failed"
-msgstr "Tworzenie kopii zapasowej nie powiodło się"
+msgstr "Nie udało się wykonać kopii zapasowej bazy danych"
 
 #. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
@@ -19509,90 +19495,62 @@ msgstr ""
 "Ta instalacja jest już powiązana z weblate.org. Użyj ustawień wyszukiwania, "
 "aby zarządzać jej listą."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation state."
 msgid "Could not enable Discover Weblate. Invalid activation state."
-msgstr "Nie udało się aktywować instalacji. Nieprawidłowy stan aktywacji."
+msgstr "Nie można włączyć Odkryj Weblate. Nieprawidłowy stan aktywacji."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Missing activation code."
 msgid "Could not enable Discover Weblate. Missing activation code."
-msgstr "Nie udało się aktywować instalacji. Brak kodu aktywacyjnego."
+msgstr "Nie można włączyć Odkryj Weblate. Brak kodu aktywacyjnego."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation code."
 msgid "Could not enable Discover Weblate. Invalid activation code."
-msgstr ""
-"Nie udało się aktywować instalacji. Kod aktywacyjny jest nieprawidłowy."
+msgstr "Nie można włączyć Odkryj Weblate. Kod aktywacyjny jest nieprawidłowy."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Please try again later."
-msgstr "Nie udało się aktywować instalacji. Spróbuj ponownie później."
+msgstr "Nie udało się włączyć Odkryj Weblate. Spróbuj ponownie później."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate discovery because a support package is already linked."
 msgid ""
 "Could not enable Discover Weblate because a support package is already "
 "linked."
 msgstr ""
-"Nie można aktywować funkcji wykrywania, ponieważ pakiet wsparcia jest już "
+"Nie można włączyć usługi Odkryj Weblate, ponieważ pakiet wsparcia jest już "
 "powiązany."
 
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Discover Weblate enabled."
-msgstr "Odkryj Weblate"
+msgstr "Włączono Odkryj Weblate."
 
-#, fuzzy
-#| msgid "Support status"
 msgid "Support status refreshed."
-msgstr "Status wsparcia"
+msgstr "Status wsparcia został odświeżony."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not refresh support status. Please try again later."
-msgstr "Nie udało się aktywować instalacji. Spróbuj ponownie później."
+msgstr ""
+"Nie udało się odświeżyć statusu pomocy technicznej. Spróbuj ponownie później."
 
 msgid "Could not refresh support status. The activation token is invalid."
 msgstr ""
+"Nie można odświeżyć statusu wsparcia. Token aktywacyjny jest nieprawidłowy."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not refresh support status: %s"
-msgstr "Nie udało się pobrać obsługiwanych języków: %s"
+msgstr "Nie można odświeżyć statusu wsparcia: %s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package activated."
-msgstr "Limity pakietów wsparcia"
+msgstr "Pakiet wsparcia został aktywowany."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate the support package. Please try again later."
-msgstr "Nie udało się aktywować instalacji. Spróbuj ponownie później."
+msgstr "Nie udało się aktywować pakietu wsparcia. Spróbuj ponownie później."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid ""
 "Could not activate the support package. Please ensure the activation token "
 "is correct."
 msgstr ""
-"Nie udało się aktywować instalacji. Upewnij się, że Twój token aktywacyjny "
-"jest prawidłowy."
+"Nie udało się aktywować pakietu wsparcia. Upewnij się, że token aktywacyjny "
+"jest poprawny."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not activate the support package: %s"
-msgstr "Nie udało się pobrać obsługiwanych języków: %s"
+msgstr "Nie można aktywować pakietu wsparcia: %s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package unlinked."
-msgstr "Limity pakietów wsparcia"
+msgstr "Pakiet wsparcia nie jest powiązany."
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
