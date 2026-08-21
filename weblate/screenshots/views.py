@@ -25,7 +25,6 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
-from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
 from weblate.logger import LOGGER
 from weblate.screenshots.forms import (
@@ -51,6 +50,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
     from django.http import HttpResponse
+    from tesserocr import PyTessBaseAPI
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.lang.models import Language
@@ -715,6 +715,7 @@ def search_source(request: AuthenticatedHttpRequest, pk):
 
 
 def ocr_get_strings(api, *, image: Image.Image, filename: str, resolution: int = 72):
+    from tesserocr import RIL, iterate_level  # ruff: ignore[import-outside-top-level]
 
     try:
         api.SetImage(image)
@@ -758,6 +759,11 @@ def ocr_extract(
 
 @contextmanager
 def get_tesseract(language: Language) -> Generator[PyTessBaseAPI]:
+    from tesserocr import (  # ruff: ignore[import-outside-top-level]
+        OEM,
+        PSM,
+        PyTessBaseAPI,
+    )
 
     # Get matching language
     try:
