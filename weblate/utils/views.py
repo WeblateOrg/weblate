@@ -27,7 +27,7 @@ from django.http import (
 )
 from django.shortcuts import aget_object_or_404, get_object_or_404
 from django.utils.cache import get_conditional_response
-from django.utils.http import http_date
+from django.utils.http import content_disposition_header, http_date
 from django.utils.translation import activate, gettext, gettext_lazy, pgettext_lazy
 from django.views.decorators.gzip import gzip_page
 from django.views.generic.base import View
@@ -825,7 +825,9 @@ def zip_download(
         if extra:
             for filename, content in extra.items():
                 zipfile.writestr(filename, content)
-    response["Content-Disposition"] = f'attachment; filename="{name}.zip"'
+    response["Content-Disposition"] = content_disposition_header(
+        as_attachment=True, filename=f"{name}.zip"
+    )
     return response
 
 
@@ -912,7 +914,9 @@ def download_translation_file(
         filename = f"{project_slug}-{component_slug}-{language_code}{extension}"
 
         # Fill in response headers
-        response["Content-Disposition"] = f"attachment; filename={filename}"
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=filename
+        )
 
     # Last-Modified timestamp
     if last_changed := translation.stats.last_changed:
