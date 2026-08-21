@@ -2715,7 +2715,7 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             request={"user_id": self.user.id},
         )
-        self.assertIn("Administration rights granted.", response.data)
+        self.assertEqual(response.data["detail"], "Administration rights granted.")
 
         # Invalid user ID
         response = self.do_request(
@@ -2790,7 +2790,7 @@ class GroupAPITest(APIBaseTest):
             superuser=False,
             request={"user_id": user.id},
         )
-        self.assertIn("Administration rights granted.", response.data)
+        self.assertEqual(response.data["detail"], "Administration rights granted.")
 
     def test_revoke_admin(self) -> None:
         group = Group.objects.create(name="Test Group")
@@ -6596,7 +6596,7 @@ class ProjectAPITest(APIBaseTest):
             "api:project-machinery-settings",
             self.project_kwargs,
             method="put",
-            code=201,
+            code=200,
             superuser=True,
             request=new_config,
             format="json",
