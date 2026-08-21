@@ -120,6 +120,7 @@ COMPONENT_BACKUP_FIELDS = (
     "hide_glossary_matches",
     "contribute_project_tm",
     "file_format_params",
+    "vcs_params",
     "screenshot_filemask",
     "key_filter",
     "secondary_language",
@@ -544,6 +545,13 @@ class ProjectBackup:
             kwargs["secondary_language"] = self.import_language(
                 kwargs["secondary_language"]
             )
+
+    @staticmethod
+    def migrate_component_vcs_settings(component: dict[str, Any]) -> None:
+        """Convert version control settings used by older component backups."""
+        if component["vcs"] == "git-force-push":
+            component["vcs"] = "git"
+            component.setdefault("vcs_params", {})["git_force_push"] = True
 
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
         """Backup a many to many relation using a unique identifying field of the related object."""
@@ -1519,6 +1527,7 @@ class ProjectBackup:
             with zipfile.open(filename) as handle:
                 data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
+            self.migrate_component_vcs_settings(data["component"])
             self.validate_component_object(zipfile, filename, data)
             self.component_data[filename] = data
         if skip_linked and data["component"]["repo"].startswith("weblate:"):
