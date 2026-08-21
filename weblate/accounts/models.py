@@ -753,6 +753,7 @@ LISTING_COLUMN_CHOICES = (
     ("suggestions", gettext_lazy("Suggestions")),
     ("comments", gettext_lazy("Comments")),
 )
+MAX_LISTING_COLUMNS = len(LISTING_COLUMN_CHOICES)
 
 DEFAULT_LISTING_COLUMNS = (
     "untranslated",
@@ -771,8 +772,14 @@ def get_default_listing_columns() -> list[str]:
 
 def validate_listing_columns(value) -> None:
     valid_columns = {column for column, _name in LISTING_COLUMN_CHOICES}
-    if not isinstance(value, list) or any(
-        column not in valid_columns for column in value
+    if (
+        not isinstance(value, list)
+        or len(value) > MAX_LISTING_COLUMNS
+        or any(
+            not isinstance(column, str) or column not in valid_columns
+            for column in value
+        )
+        or len(value) != len(set(value))
     ):
         raise ValidationError(gettext("Invalid listing column selection."))
 
