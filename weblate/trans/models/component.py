@@ -120,6 +120,7 @@ from weblate.trans.util import (
 from weblate.trans.validators import (
     validate_autoaccept,
     validate_check_flags,
+    validate_enforced_checks,
     validate_file_format_parameters,
     validate_filemask,
     validate_language_code,
@@ -802,6 +803,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
         default=list,
         blank=True,
     )
+    inherit_enforced_checks = models.BooleanField(
+        default=True,
+        verbose_name=gettext_lazy("Inherit enforced checks"),
+        help_text=gettext_lazy(
+            "Use enforced checks from the project, category or workspace."
+        ),
+    )
 
     # Licensing
     license = models.CharField(
@@ -1233,7 +1241,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         old_workspace_id = None
 
         if self.id:
-            old = Component.objects.get(pk=self.id)
+            old = Component.objects.get(pk=self.pk)
             if (
                 locked_repository is not None
                 and locked_repository.lock.lock_object.is_locked
@@ -1296,7 +1304,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.drop_repository_cache()
 
             changed_enforced_checks = (
-                old.enforced_checks != self.enforced_checks and self.enforced_checks
+                old.enforced_checks != self.enforced_checks
+                or old.inherit_enforced_checks != self.inherit_enforced_checks
+                or old.effective_enforced_checks != self.effective_enforced_checks
             )
 
             create = False
@@ -4802,7 +4812,8 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 processed_revision=current_revision
             )
 
-        if self.enforced_checks:
+        effective = self.get_effective_setting("enforced_checks")
+        if effective:
             update_enforced_checks.delay_on_commit(component=self.pk)
 
         self.log_info("updating completed")
@@ -5467,6 +5478,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def clean_model_settings(self) -> None:
         """Validate component settings that do not require repository access."""
+        validate_enforced_checks(self.enforced_checks)
         self.drop_file_format_cache()
         if self.project_id is None:
             return
@@ -6126,6 +6138,10 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return self.get_effective_setting("secondary_language")
 
     @property
+    def effective_enforced_checks(self) -> list[str]:
+        return cast("list[str]", self.get_effective_setting("enforced_checks"))
+
+    @property
     def effective_commit_message(self) -> str:
         return self.get_effective_setting("commit_message")
 
@@ -6715,8 +6731,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return f"{gettext('Could not get repository status!')}\n\n{error}"
 
     def update_enforced_checks(self) -> None:
+        effective = self.get_effective_setting("enforced_checks")
         units = Unit.objects.filter(
-            check__name__in=self.enforced_checks,
+            check__name__in=effective,
             translation__component=self,
             state__in=(STATE_TRANSLATED, STATE_APPROVED),
         )
