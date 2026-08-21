@@ -517,6 +517,23 @@ VCS to use, see :ref:`vcs` for details.
 
    :ref:`code-hosting-push-options`
 
+.. _component-vcs_params:
+
+Version control parameters
+++++++++++++++++++++++++++
+
+Parameters tuning how Weblate interacts with the repository, for example
+whether to force push or to open pull requests. Only parameters applicable to
+the selected :ref:`component-vcs` are shown, see also :ref:`vcs_params`.
+
+.. note::
+
+   The settings form silently drops parameters which do not apply to the
+   selected version control system, but the REST API rejects them. When
+   changing :ref:`component-vcs` over the API, clear or replace ``vcs_params``
+   in the same request. The same applies to
+   :ref:`component-file_format_params` and :ref:`component-file_format`.
+
 .. _component-repo:
 
 Source code repository
@@ -1049,8 +1066,8 @@ Rebase
    Rebasing can cause you trouble in case of complicated merges, so carefully
    consider whether or not you want to enable them.
 
-   You might need to enable force pushing by choosing :ref:`vcs-git-force-push`
-   as :ref:`component-vcs`, especially when pushing to a different branch.
+   You might need to turn on :ref:`force pushing <vcs-git-force-push>` in
+   :ref:`component-vcs_params`, especially when pushing to a different branch.
 
 Merge
    Upstream repository changes are merged into Weblate one. This setting utilizes

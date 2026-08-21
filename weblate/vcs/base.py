@@ -58,6 +58,7 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component
     from weblate.utils.validators import ResolvedRepositoryURL
+    from weblate.vcs.params import BaseVCSParam
 
 LOGGER = logging.getLogger("weblate.vcs")
 
@@ -147,6 +148,10 @@ type RepositoryErrorCode = Literal[
     "api_request_failed_retry",
     "api_request_failed_with_error",
     "api_request_failed_with_error_retry",
+    "automerge_failed",
+    "automerge_failed_retry",
+    "automerge_failed_with_error",
+    "automerge_failed_with_error_retry",
     "github_app_branch_required",
     "github_app_installation_invalid",
     "github_app_installation_missing",
@@ -233,6 +238,18 @@ REPOSITORY_ERROR_MESSAGES: dict[RepositoryErrorCode, str] = {
     ),
     "api_request_failed_with_error_retry": gettext_noop(
         "%(service)s API request failed while creating a pull request (%(status)s): %(error)s Please retry later."
+    ),
+    "automerge_failed": gettext_noop(
+        "%(service)s API request failed while merging a pull request: %(status)s"
+    ),
+    "automerge_failed_retry": gettext_noop(
+        "%(service)s API request failed while merging a pull request: %(status)s Please retry later."
+    ),
+    "automerge_failed_with_error": gettext_noop(
+        "%(service)s API request failed while merging a pull request (%(status)s): %(error)s"
+    ),
+    "automerge_failed_with_error_retry": gettext_noop(
+        "%(service)s API request failed while merging a pull request (%(status)s): %(error)s Please retry later."
     ),
     "github_app_branch_required": gettext_noop(
         "GitHub App repositories must be imported with a branch."
@@ -702,6 +719,10 @@ class Repository:
     req_version: ClassVar[str | None] = None
     default_branch: ClassVar[str] = ""
     needs_push_url: ClassVar[bool] = True
+    # Set when the backend supplies credentials for pushing to the pull URL on
+    # its own (an installation token, for example), so pushing straight to the
+    # source repository works without a separate push URL.
+    provides_push_credentials: ClassVar[bool] = False
     supports_push: ClassVar[bool] = True
     pushes_to_different_location: ClassVar[bool] = False
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
@@ -717,6 +738,17 @@ class Repository:
     @classmethod
     def get_identifier(cls) -> str:
         return cls.identifier or cls.name.lower()
+
+    def get_vcs_param(self, param: type[BaseVCSParam]):
+        """Get value of a version control parameter for this repository."""
+        component = self.component
+        return param.get_value(None if component is None else component.vcs_params)
+
+    @classmethod
+    # ruff: ignore[unused-class-method-argument]
+    def get_push_label(cls, component: Component | None = None) -> StrOrPromise:
+        """Describe what pushing does, possibly depending on VCS parameters."""
+        return cls.push_label
 
     def __init__(
         self,

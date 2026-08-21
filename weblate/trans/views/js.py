@@ -169,9 +169,11 @@ def git_status(request: AuthenticatedHttpRequest, path):
 
     # Get push label for the first component
     try:
-        push_label = repo_components[0].repository_class.push_label
+        first_component = repo_components[0]
     except IndexError:
         push_label = ""
+    else:
+        push_label = first_component.repository_class.get_push_label(first_component)
 
     pending_units = PendingUnitChange.objects.detailed_count(obj)
     is_translation = isinstance(obj, Translation)

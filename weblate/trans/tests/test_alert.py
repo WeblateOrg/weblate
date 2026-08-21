@@ -1058,6 +1058,35 @@ class AlertTest(ViewTestCase):
         alert.refresh_from_db()
         self.assertGreater(alert.updated, old_updated)
 
+    def test_automerge_failure_alert(self) -> None:
+        self.component.vcs_params = {"merge_request_automerge": True}
+        self.component.save(update_fields=["vcs_params"])
+        self.component.handle_automerge_failure(
+            "GitHub API request failed while merging a pull request (405): "
+            "Auto-merge is not allowed for this repository"
+        )
+        alert = self.component.alert_set.get(name="AutomergeFailure")
+
+        rendered = alert.render(self.user)
+        self.assertIn("Auto-merge is not allowed", rendered)
+        self.assertIn("could not merge it automatically", rendered)
+
+        # Reporting a later success clears it
+        self.component.handle_automerge_success()
+        self.assertFalse(
+            self.component.alert_set.filter(name="AutomergeFailure").exists()
+        )
+
+    def test_automerge_failure_alert_cleared_when_turned_off(self) -> None:
+        self.component.vcs_params = {"merge_request_automerge": True}
+        self.component.save(update_fields=["vcs_params"])
+        self.component.handle_automerge_failure("boom")
+        self.assertIn("AutomergeFailure", self.get_problem_alert_names())
+
+        self.component.vcs_params = {}
+        self.component.save(update_fields=["vcs_params"])
+        self.assertNotIn("AutomergeFailure", self.get_problem_alert_names())
+
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Duplicated translation")

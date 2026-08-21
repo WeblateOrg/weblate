@@ -165,6 +165,7 @@ class BackupsTest(ViewTestCase):
         push: str | None = None,
         translation_updates: dict | None = None,
         unit_updates: dict | None = None,
+        component_removals: tuple[str, ...] = (),
         all_components: bool = False,
     ) -> str:
         backup = ProjectBackup()
@@ -200,6 +201,8 @@ class BackupsTest(ViewTestCase):
                         component_data["component"]["push"] = push
                     if component_updates is not None:
                         component_data["component"].update(component_updates)
+                    for field in component_removals:
+                        component_data["component"].pop(field, None)
                     if translation_updates is not None:
                         component_data["translations"][0].update(translation_updates)
                     if unit_updates is not None:
@@ -229,6 +232,69 @@ class BackupsTest(ViewTestCase):
                 target_zip.writestr(item, data)
 
         return temp_name
+
+    def test_backup_restore_vcs_params(self) -> None:
+        self.component.vcs_params = {"git_force_push": True}
+        self.component.save(update_fields=["vcs_params"])
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_data = json.loads(
+                zipfile.read(f"components/{self.component.slug}.json")
+            )
+        self.assertEqual(
+            component_data["component"]["vcs_params"], {"git_force_push": True}
+        )
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored VCS parameters",
+            project_slug="restored-vcs-parameters",
+            user=self.user,
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_restore_backup_without_vcs_params(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            component_removals=("vcs_params",), all_components=True
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored legacy backup",
+                project_slug="restored-legacy-backup",
+                user=self.user,
+            )
+
+        self.assertEqual(
+            restored.component_set.get(slug=self.component.slug).vcs_params, {}
+        )
+
+    def test_restore_legacy_force_push_vcs(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            component_updates={"vcs": "git-force-push"},
+            component_removals=("vcs_params",),
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored legacy force push",
+                project_slug="restored-legacy-force-push",
+                user=self.user,
+            )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(restored_component.vcs, "git")
+        self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
 
     def test_backup_creates_history_entry(self) -> None:
         backup = ProjectBackup()
