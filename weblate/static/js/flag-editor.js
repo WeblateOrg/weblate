@@ -202,7 +202,13 @@
         this.refreshOptions(true);
         return;
       }
-      return origAddItem.call(this, value, silent);
+      const before = this.items.length;
+      const result = origAddItem.call(this, value, silent);
+      if (this.items.length !== before && this.inputValue().length) {
+        this.setTextboxValue();
+        this.refreshOptions(this.isFocused);
+      }
+      return result;
     };
 
     let editedIndex = null;

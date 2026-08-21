@@ -1003,6 +1003,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 hidden_input.get_attribute("value") == "max-length:1000, ignore-same"
             )
         )
+        self.assertEqual(text_box.get_attribute("value"), "")
 
         # Arrow keys walk the flags without a mouse
         send_keys(Keys.ARROW_LEFT)
@@ -1040,6 +1041,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             lambda _driver: text_box.get_attribute("value") == "ignore-same"
         )
         self.assertEqual(hidden_input.get_attribute("value"), "max-length:1000")
+
+        # Committing a flag that is already in the catalog unchanged puts it
+        # back in place and leaves no text behind in the text box
+        send_keys(Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                hidden_input.get_attribute("value") == "max-length:1000, ignore-same"
+            )
+        )
+        self.assertEqual(text_box.get_attribute("value"), "")
 
     def test_search_preview_scopes_boolean_query(self) -> None:
         project = self.create_component()
