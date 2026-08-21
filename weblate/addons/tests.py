@@ -1542,6 +1542,28 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["keyword"], ["tr", "N_"])
         self.assertEqual(form["keyword"].value(), "tr\nN_")
 
+    def test_xgettext_form_rejects_non_string_keyword_entries(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": ["tr", 1],
+                "keyword_exclusive": False,
+            },
+        )
+        assert form is not None
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["keyword"], ["Keyword entries have to be strings."]
+        )
+
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
             None,

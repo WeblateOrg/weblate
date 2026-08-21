@@ -254,6 +254,24 @@ class BaseExtractPotForm(BaseAddonForm):
         return data
 
 
+class KeywordField(forms.CharField):
+    def prepare_value(self, value: object) -> object:
+        if isinstance(value, list) and all(
+            isinstance(keyword, str) for keyword in value
+        ):
+            return "\n".join(value)
+        return super().prepare_value(value)
+
+    def to_python(self, value: object) -> str:
+        if isinstance(value, list):
+            if not all(isinstance(keyword, str) for keyword in value):
+                raise forms.ValidationError(
+                    gettext("Keyword entries have to be strings.")
+                )
+            value = "\n".join(value)
+        return super().to_python(value)
+
+
 class BaseXgettextExtractPotForm(BaseExtractPotForm):
     public_configuration_fields = BaseExtractPotForm.public_configuration_fields | {
         "checks",
@@ -301,7 +319,7 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             "Additional xgettext validation checks to enable for extracted messages."
         ),
     )
-    keyword = forms.CharField(
+    keyword = KeywordField(
         label=gettext_lazy("Additional keywords"),
         required=False,
         widget=forms.Textarea(),
@@ -324,9 +342,6 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             kwargs.get("data"), "comment_mode", "off"
         )
         if data is not None:
-            if isinstance(data.get("keyword"), list):
-                data = data.copy()
-                data["keyword"] = "\n".join(data["keyword"])
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
 

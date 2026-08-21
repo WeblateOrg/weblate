@@ -14980,6 +14980,44 @@ class AddonAPITest(APIBaseTest):
             name="weblate.gettext.mo", configuration={"path": "{{var}}"}, code=400
         )
 
+    def test_configuration_rejects_non_string_keyword_entries(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+            },
+        ).instance
+
+        response = self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": addon.pk},
+            method="patch",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "configuration": {
+                    "interval": "weekly",
+                    "normalize_header": False,
+                    "update_po_files": False,
+                    "input_mode": "patterns",
+                    "language": "Python",
+                    "source_patterns": "src/*.py",
+                    "potfiles_path": "",
+                    "keyword": ["tr", 1],
+                }
+            },
+        )
+
+        self.assertEqual(response.data["errors"][0]["attr"], "configuration")
+        self.assertIn(
+            "Keyword entries have to be strings.",
+            response.data["errors"][0]["detail"],
+        )
+
     def test_discover(self) -> None:
         initial = {
             "file_format": "po",
