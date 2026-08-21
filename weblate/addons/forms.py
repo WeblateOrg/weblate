@@ -302,10 +302,11 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         ),
     )
     keyword = forms.CharField(
-        label=gettext_lazy("Additional keyword"),
+        label=gettext_lazy("Additional keywords"),
         required=False,
+        widget=forms.Textarea(),
         help_text=gettext_lazy(
-            "Optional extra keyword passed to xgettext using --keyword."
+            "Newline-separated extra keywords passed to xgettext using --keyword."
         ),
     )
     keyword_exclusive = forms.BooleanField(
@@ -323,6 +324,9 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             kwargs.get("data"), "comment_mode", "off"
         )
         if data is not None:
+            if isinstance(data.get("keyword"), list):
+                data = data.copy()
+                data["keyword"] = "\n".join(data["keyword"])
             kwargs["data"] = data
         super().__init__(*args, **kwargs)
 
@@ -335,7 +339,7 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         else:
             comment_tag = ""
         cleaned_data["comment_tag"] = comment_tag
-        cleaned_data["keyword"] = cleaned_data.get("keyword", "").strip()
+        cleaned_data["keyword"] = self.parse_keywords(cleaned_data.get("keyword", ""))
         keyword_exclusive = bool(cleaned_data.get("keyword_exclusive"))
         if keyword_exclusive and not cleaned_data["keyword"]:
             self.add_error(
@@ -347,6 +351,10 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         cleaned_data["keyword_exclusive"] = keyword_exclusive
         cleaned_data["location_mode"] = cleaned_data.get("location_mode", "file")
         return cleaned_data
+
+    @staticmethod
+    def parse_keywords(value: str) -> list[str]:
+        return [line.strip() for line in value.splitlines() if line.strip()]
 
 
 class XgettextExtractPotForm(BaseXgettextExtractPotForm):
