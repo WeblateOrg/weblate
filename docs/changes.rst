@@ -5,6 +5,8 @@ Weblate 2026.9
 
 .. rubric:: New features
 
+* :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
+
 .. rubric:: Improvements
 
 * :ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords (newline-separated) passed to xgettext via ``--keyword``, enabling extraction from different function names.
@@ -88,6 +90,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 .. include:: /changes/contributors/2026.8.1.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?closed=1>`__.
+
 
 Weblate 2026.8
 --------------
