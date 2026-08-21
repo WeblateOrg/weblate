@@ -912,7 +912,7 @@ def download_translation_file(
         filename = f"{project_slug}-{component_slug}-{language_code}{extension}"
 
         # Fill in response headers
-        response["Content-Disposition"] = f"attachment; filename={filename}"
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
 
     # Last-Modified timestamp
     if last_changed := translation.stats.last_changed:
