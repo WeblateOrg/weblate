@@ -20,13 +20,12 @@ permissions:
 jobs:
   pylint:
     runs-on: ubuntu-24.04
+    container: ghcr.io/weblateorg/dev:2026.34.0@sha256:685c40324663cee40d67d0ad651fc4b29cbf71e989ef4870aa3d51cc0802462e
 
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
-    - name: Install apt dependencies
-      run: sudo ./ci/apt-install
     - name: Setup Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       id: setup_python
