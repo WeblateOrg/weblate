@@ -31,7 +31,12 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
-from weblate.accounts.models import Profile, Subscription, VerifiedEmail
+from weblate.accounts.models import (
+    MAX_LISTING_COLUMNS,
+    Profile,
+    Subscription,
+    VerifiedEmail,
+)
 from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
@@ -1737,6 +1742,27 @@ class UserAPITest(APIBaseTest):
         )
         other_user.profile.refresh_from_db()
         self.assertEqual(other_user.profile.theme, "dark")
+
+    def test_patch_profile_rejects_invalid_listing_columns(self) -> None:
+        original_listing_columns = self.user.profile.listing_columns
+        invalid_values = (
+            ["comments", "comments"],
+            ["comments"] * (MAX_LISTING_COLUMNS + 1),
+        )
+
+        for value in invalid_values:
+            with self.subTest(value=value):
+                self.do_request(
+                    "api:user-detail",
+                    kwargs={"username": self.user.username},
+                    method="patch",
+                    code=400,
+                    format="json",
+                    request={"profile": {"listing_columns": value}},
+                )
+
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.listing_columns, original_listing_columns)
 
     def test_patch_profile_emails(self) -> None:
         self.do_request(

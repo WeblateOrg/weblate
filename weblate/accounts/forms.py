@@ -39,7 +39,12 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha
-from weblate.accounts.models import LISTING_COLUMN_CHOICES, AuditLog, Profile
+from weblate.accounts.models import (
+    LISTING_COLUMN_CHOICES,
+    AuditLog,
+    Profile,
+    validate_listing_columns,
+)
 from weblate.accounts.notifications import NOTIFICATIONS, NotificationScope
 from weblate.accounts.utils import (
     adjust_session_expiry,
@@ -316,6 +321,7 @@ class UserSettingsForm(ProfileBaseForm):
         choices=LISTING_COLUMN_CHOICES,
         widget=forms.CheckboxSelectMultiple,
         required=False,
+        validators=[validate_listing_columns],
     )
 
     class Meta:
