@@ -12,6 +12,7 @@ from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
 from pathlib import Path
+from types import SimpleNamespace
 from typing import TYPE_CHECKING, ClassVar, NoReturn, cast
 from unittest.mock import AsyncMock, MagicMock, Mock, call, patch
 from urllib.parse import parse_qs, urlparse
@@ -1256,6 +1257,43 @@ class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(machine.map_language_code("fr_CA"), "fr-ca")
         self.assertEqual(machine.map_language_code("iu_Latn"), "iu-Latn")
 
+    def test_literal_entity_replacements(self) -> None:
+        machine = self.get_machine()
+        unit = make_unit(code="cs", source="Hello &lt;script&gt;.")
+        replaced = (
+            'Hello <span class="notranslate" id="6">&amp;amp;lt;</span>script'
+            '<span class="notranslate" id="16">&amp;amp;gt;</span>.'
+        )
+        replacements = {
+            '<span class="notranslate" id="6">&amp;amp;lt;</span>': "&amp;lt;",
+            '<span class="notranslate" id="16">&amp;amp;gt;</span>': "&amp;gt;",
+        }
+        self.assertEqual(
+            machine.cleanup_text(unit.source, unit),
+            (replaced, replacements),
+        )
+        self.assertEqual(unit.source, machine.uncleanup_text(replacements, replaced))
+
+    def test_glossary_term_overlapping_literal_entity(self) -> None:
+        """A glossary term inside a character reference must not be highlighted."""
+        machine = self.get_machine()
+        source = "The &copyright notice and &lt;b&gt; tag."
+        unit = make_unit(code="cs", source=source)
+        term = SimpleNamespace(glossary_positions=[(5, 14)], target="Copyright")
+
+        with patch(
+            "weblate.machinery.microsoft.get_glossary_terms",
+            return_value=[term],
+        ):
+            highlights = list(machine.get_highlights(source, unit))
+            replaced, replacements = machine.cleanup_text(source, unit)
+
+        self.assertEqual(
+            highlights,
+            [(4, 9, "&copy", None), (26, 30, "&lt;", None), (31, 35, "&gt;", None)],
+        )
+        self.assertEqual(source, machine.uncleanup_text(replacements, replaced))
+
     @patch(
         "weblate.utils.outbound.socket.getaddrinfo",
         return_value=[(0, 0, 0, "", ("127.0.0.1", 443))],
@@ -1518,6 +1556,26 @@ class GoogleV3TranslationTest(BaseMachineTranslationTest):
         replacements = {
             '<br translate="no">': "\n",
             '<span translate="no" id="7">%s</span>': "%s",
+        }
+        self.assertEqual(
+            machine_translation.cleanup_text(unit.source, unit),
+            (replaced, replacements),
+        )
+        self.assertEqual(
+            unit.source, machine_translation.uncleanup_text(replacements, replaced)
+        )
+
+    def test_literal_entity_replacements(self) -> None:
+        machine_translation = self.get_machine()
+        unit = make_unit(code="cs", source="Hello &lt;script&gt;.")
+        replaced = (
+            'Hello <span translate="no" id="6">&amp;amp;lt;</span>script'
+            '<span translate="no" id="16">&amp;amp;gt;</span>.'
+        )
+        replacements = {
+            '<span translate="no" id="6">&amp;amp;lt;</span>': "&amp;lt;",
+            '<span translate="no" id="16">&amp;amp;gt;</span>': "&amp;gt;",
+            '<br translate="no">': "\n",
         }
         self.assertEqual(
             machine_translation.cleanup_text(unit.source, unit),
@@ -2547,6 +2605,123 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
         self.assertEqual(translation[0][0]["source"], "Hello&world")
         self.assertEqual(translation[0][0]["text"], "Hallo&welt")
+
+    def mock_entity_normalizing_response(self) -> None:
+        def request_callback(request: httpx2.Request):
+            payload = load_request_json(request)
+            texts = cast("list[str]", payload["text"])
+            translated = texts[0].replace("Hello", "Hallo").replace("&amp;", "&")
+            return httpx2.Response(
+                200,
+                headers={},
+                text=json.dumps(
+                    {
+                        "translations": [
+                            {"detected_source_language": "EN", "text": translated}
+                        ]
+                    }
+                ),
+            )
+
+        self.mock_languages()
+        http_mock.register_callback(
+            "POST",
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+
+    @http_mock.activate
+    def test_literal_entities_preserved(self) -> None:
+        machine = self.MACHINE_CLS(self.get_configuration())
+        machine.delete_cache()
+        self.mock_entity_normalizing_response()
+
+        translation = self.assert_translate(
+            self.SUPPORTED,
+            "Hello &lt;script&gt;.",
+            1,
+            machine=machine,
+            unit_args={"flags": "safe-html"},
+        )
+        self.assertEqual(translation[0][0]["source"], "Hello &lt;script&gt;.")
+        self.assertEqual(translation[0][0]["text"], "Hallo &lt;script&gt;.")
+
+    @http_mock.activate
+    def test_literal_entity_variants_preserved(self) -> None:
+        machine = self.MACHINE_CLS(self.get_configuration())
+        machine.delete_cache()
+        self.mock_entity_normalizing_response()
+
+        source = "Hello &lt; &#60; &#x3C; &#X3C; &copy; &copy &unknown;."
+        translation = self.assert_translate(self.SUPPORTED, source, 1, machine=machine)
+        self.assertEqual(translation[0][0]["source"], source)
+        self.assertEqual(
+            translation[0][0]["text"],
+            "Hallo &lt; &#60; &#x3C; &#X3C; &copy; &copy &unknown;.",
+        )
+
+    def test_literal_entity_merges_with_overlapping_highlight(self) -> None:
+        """A highlight covering part of an entity is widened to cover all of it."""
+        machine = self.MACHINE_CLS(self.get_configuration())
+        source = "The &copy; is here"
+        unit = cast(
+            "Unit", make_unit(code="de", source=source, flags='placeholders:"y; is"')
+        )
+
+        self.assertEqual(
+            list(machine.get_highlights(source, unit)),
+            [(4, 13, "&copy; is", None)],
+        )
+        replaced, replacements = machine.cleanup_text(source, unit)
+        self.assertNotIn("&amp;cop", replaced)
+        self.assertEqual(source, machine.uncleanup_text(replacements, replaced))
+
+    @http_mock.activate
+    def test_literal_entities_with_xml_highlights(self) -> None:
+        machine = self.MACHINE_CLS(self.get_configuration())
+        machine.delete_cache()
+        self.mock_entity_normalizing_response()
+
+        source = '<b title="&copy;">Hello &lt;script&gt;.</b>'
+        translation = self.assert_translate(
+            self.SUPPORTED,
+            source,
+            1,
+            machine=machine,
+            unit_args={"flags": "xml-text"},
+        )
+        self.assertEqual(translation[0][0]["source"], source)
+        self.assertEqual(
+            translation[0][0]["text"],
+            '<b title="&copy;">Hallo &lt;script&gt;.</b>',
+        )
+
+    @http_mock.activate
+    def test_literal_entity_contains_existing_highlight(self) -> None:
+        machine = self.MACHINE_CLS(self.get_configuration())
+        machine.delete_cache()
+        self.mock_entity_normalizing_response()
+
+        source = "Hello &copy;."
+        translation = self.assert_translate(
+            self.SUPPORTED,
+            source,
+            1,
+            machine=machine,
+            unit_args={"flags": 'placeholders:"copy"'},
+        )
+        self.assertEqual(translation[0][0]["source"], source)
+        self.assertEqual(translation[0][0]["text"], "Hallo &copy;.")
+
+    def test_literal_entity_highlight_excludes_trailing_text(self) -> None:
+        machine = self.MACHINE_CLS(self.get_configuration())
+        source = "Hello a&notb."
+        unit = cast("Unit", make_unit(code="de", source=source))
+
+        self.assertEqual(
+            list(machine.get_highlights(source, unit)),
+            [(7, 11, "&not", None)],
+        )
 
     @http_mock.activate
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
