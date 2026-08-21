@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-14 01:11-0500\n"
+"POT-Creation-Date: 2026-08-21 07:12-0500\n"
 "PO-Revision-Date: 2026-08-21 12:04+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -610,6 +610,35 @@ msgstr "Hoạt động tài khoản"
 msgid "Triggered by {username}."
 msgstr "Được kích hoạt bởi {username}."
 
+#, fuzzy
+#| msgid "All strings"
+msgid "Total strings"
+msgstr "Tất cả các chuỗi"
+
+msgid "Unfinished strings"
+msgstr "Chuỗi chưa xong"
+
+msgid "Unfinished words"
+msgstr "Các từ chưa xong"
+
+msgid "Unfinished characters"
+msgstr "Các ký tự chưa xong"
+
+msgid "Untranslated strings"
+msgstr "Các chuỗi chưa dịch"
+
+msgid "Checks"
+msgstr "Kiểm tra"
+
+msgid "Suggestions"
+msgstr "Gợi ý"
+
+msgid "Comments"
+msgstr "Bình luận"
+
+msgid "Invalid listing column selection."
+msgstr ""
+
 msgid "Interface Language"
 msgstr "Ngôn ngữ giao diện"
 
@@ -654,6 +683,16 @@ msgid ""
 msgstr ""
 "Thay vì ẩn các cột trên màn hình hẹp, hãy giữ nguyên tất cả các cột và cuộn "
 "bảng theo chiều ngang."
+
+#, fuzzy
+#| msgid "All component lists"
+msgid "Visible columns in lists"
+msgstr "Tất cả danh sách thành phần"
+
+msgid ""
+"Choose which statistics columns are shown in project, component, and "
+"language lists."
+msgstr ""
 
 msgid "Editor link"
 msgstr "Liên kết trình chỉnh sửa"
@@ -1694,6 +1733,11 @@ msgstr ""
 "để giữ lại các vị trí trong mẫu trong khi loại bỏ chúng khỏi các tệp PO đã "
 "dịch."
 
+#, fuzzy
+#| msgid "Failed to generate key: %s"
+msgid "Keyword entries have to be strings."
+msgstr "Xảy ra lỗi khi tạo khóa: %s"
+
 msgid "Do not extract comments"
 msgstr "Không trích xuất bình luận"
 
@@ -1730,10 +1774,14 @@ msgstr ""
 "Thêm các bước kiểm tra xác thực xgettext bổ sung để kích hoạt cho các tin "
 "nhắn đã trích xuất."
 
-msgid "Additional keyword"
+#, fuzzy
+#| msgid "Additional keyword"
+msgid "Additional keywords"
 msgstr "Từ khóa bổ sung"
 
-msgid "Optional extra keyword passed to xgettext using --keyword."
+#, fuzzy
+#| msgid "Optional extra keyword passed to xgettext using --keyword."
+msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
 "Từ khóa bổ sung tùy chọn được truyền cho xgettext bằng cách sử dụng --"
 "keyword."
@@ -3715,7 +3763,40 @@ msgstr "Thanh toán"
 msgid "Billing event"
 msgstr "Sự kiện thanh toán"
 
+#, fuzzy
+#| msgid "Monthly"
+msgid "monthly"
+msgstr "Hàng tháng"
+
+msgid "yearly"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "unknown period"
+msgstr "Lỗi không xác định"
+
 msgid "Changed from \"{}\" to \"{}\"."
+msgstr "Đã thay đổi từ \"{}\" thành \"{}\"."
+
+msgid "Payment \"{}\" initiated for \"{}\" ({})."
+msgstr ""
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
+msgstr ""
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
+msgstr ""
+
+msgid "Automatic payment \"{}\" received for \"{}\" ({})."
+msgstr ""
+
+msgid "Payment \"{}\" received for \"{}\" ({})."
+msgstr ""
+
+#, fuzzy
+#| msgid "Changed from \"{}\" to \"{}\"."
+msgid "Merged billing \"{}\" into \"{}\"."
 msgstr "Đã thay đổi từ \"{}\" thành \"{}\"."
 
 msgid ""
@@ -7910,9 +7991,6 @@ msgstr "Quản lý các ngôn ngữ đã dịch"
 msgid "Browse all languages"
 msgstr "Xem tất cả các ngôn ngữ"
 
-msgid "Checks"
-msgstr "Kiểm tra"
-
 #, python-format
 msgid "Failing checks in %(project)s — %(language)s"
 msgstr "Kiểm tra sai sót trong %(project)s — %(language)s"
@@ -8222,8 +8300,10 @@ msgstr "Sắp xếp hoặc loại bỏ"
 msgid "Browse all changes for this language"
 msgstr "Xem tất cả các thay đổi cho ngôn ngữ này"
 
-msgid "Replace"
-msgstr "Thay thế"
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Review changes"
+msgstr "Thay đổi gần đây"
 
 msgid "Apply"
 msgstr "Áp dụng"
@@ -8412,7 +8492,8 @@ msgid "Organize component"
 msgstr "Sắp xếp thành phần"
 
 msgid "Moving or renaming the component will also change its URLs."
-msgstr "Việc di chuyển hoặc đổi tên thành phần cũng sẽ làm thay đổi URL của nó."
+msgstr ""
+"Việc di chuyển hoặc đổi tên thành phần cũng sẽ làm thay đổi URL của nó."
 
 msgid "Loading…"
 msgstr "Đang tải…"
@@ -8677,7 +8758,8 @@ msgid "Add font group"
 msgstr "Thêm nhóm phông chữ"
 
 msgid "Please upload fonts to be able to define font groups."
-msgstr "Vui lòng tải lên các phông chữ để có thể định nghĩa các nhóm phông chữ."
+msgstr ""
+"Vui lòng tải lên các phông chữ để có thể định nghĩa các nhóm phông chữ."
 
 msgid "Add font"
 msgstr "Thêm phông chữ"
@@ -9318,8 +9400,8 @@ msgstr ""
 #, python-format
 msgid "Weblate has repository changes waiting to be pushed since %(date)s."
 msgstr ""
-"Weblate có các thay đổi trong kho lưu trữ đang chờ được đẩy lên kể từ %(date)"
-"s."
+"Weblate có các thay đổi trong kho lưu trữ đang chờ được đẩy lên kể từ "
+"%(date)s."
 
 #, python-format
 msgid "Weblate has been unable to push repository changes since %(date)s."
@@ -9649,9 +9731,6 @@ msgstr "Vị trí chuỗi nguồn"
 
 msgid "Screenshot context"
 msgstr "Ngữ cảnh ảnh chụp màn hình"
-
-msgid "Unfinished strings"
-msgstr "Chuỗi chưa xong"
 
 #. Translators: e-mail subject
 #, python-format
@@ -10438,6 +10517,9 @@ msgstr ""
 msgid "Update preview"
 msgstr "Xem trước cập nhật"
 
+msgid "Replace"
+msgstr "Thay thế"
+
 msgid "Generated by"
 msgstr "Được tạo bởi"
 
@@ -10472,8 +10554,8 @@ msgid ""
 "Use query syntax; boolean operators like <code>AND</code>, <code>OR</code>, "
 "and <code>NOT</code> are case-insensitive."
 msgstr ""
-"Sử dụng cú pháp truy vấn; các toán tử boolean như <code>AND</code>, <code>"
-"OR</code> và <code>NOT</code> không phân biệt chữ hoa chữ thường."
+"Sử dụng cú pháp truy vấn; các toán tử boolean như <code>AND</code>, "
+"<code>OR</code> và <code>NOT</code> không phân biệt chữ hoa chữ thường."
 
 msgid "Search query syntax documentation"
 msgstr "Tài liệu về cú pháp truy vấn tìm kiếm"
@@ -10843,8 +10925,8 @@ msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
 msgstr[0] ""
-"Các đề xuất sẽ tự động được chấp nhận làm bản dịch sau khi nhận được %(count)"
-"s phiếu bầu."
+"Các đề xuất sẽ tự động được chấp nhận làm bản dịch sau khi nhận được "
+"%(count)s phiếu bầu."
 
 msgid "Translations can only be done through suggestions."
 msgstr "Việc dịch thuật chỉ có thể được thực hiện thông qua các gợi ý."
@@ -11091,20 +11173,8 @@ msgstr "Sắp xếp cột này"
 msgid "Unreviewed"
 msgstr "Chưa đánh giá"
 
-msgid "Unfinished words"
-msgstr "Các từ chưa xong"
-
-msgid "Unfinished characters"
-msgstr "Các ký tự chưa xong"
-
 msgid "Untranslated"
 msgstr "Chưa dịch"
-
-msgid "Suggestions"
-msgstr "Gợi ý"
-
-msgid "Comments"
-msgstr "Bình luận"
 
 msgid "Create translation"
 msgstr "Tạo bản dịch"
@@ -11272,14 +11342,6 @@ msgstr "Các chuỗi đã được dịch sang một ngôn ngữ nhất định"
 
 msgid "Query"
 msgstr "Truy vấn"
-
-msgid ""
-"Don’t worry about messing up the strings. This is a two-step process showing "
-"a preview of edited strings before the actual change is confirmed."
-msgstr ""
-"Đừng lo lắng về việc làm hỏng chuỗi ký tự. Đây là quy trình hai bước, hiển "
-"thị bản xem trước của chuỗi ký tự đã chỉnh sửa trước khi xác nhận thay đổi "
-"thực sự."
 
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
@@ -11630,6 +11692,16 @@ msgid "Suggested individual language codes"
 msgstr "Mã ngôn ngữ riêng được đề xuất"
 
 msgid ""
+"Weblate pushed the changes and created the pull request, but could not merge "
+"it automatically."
+msgstr ""
+
+msgid ""
+"Check that the repository allows auto-merge and the selected merge method, "
+"or turn off automatic merging in the version control parameters."
+msgstr ""
+
+msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
@@ -11684,6 +11756,42 @@ msgstr ""
 "trỏ đến nơi khác."
 
 msgid ""
+"This version control backend cannot enforce private-address restrictions for "
+"the configured URL. Ask the instance administrator to add the trusted "
+"repository hostname to VCS_ALLOW_HOSTS."
+msgstr ""
+
+msgid ""
+"Weblate blocked the repository URL because its destination is not permitted "
+"by this instance. Use a publicly reachable repository URL, or ask the "
+"instance administrator to allow the trusted repository host."
+msgstr ""
+
+msgid ""
+"The configured repository URL is not valid. Check the URL in the component "
+"settings and use a complete repository URL supported by the selected version "
+"control system."
+msgstr ""
+
+msgid ""
+"The repository URL uses a protocol which is not permitted by this instance. "
+"Use HTTPS or SSH, or ask the instance administrator whether another protocol "
+"can be safely enabled."
+msgstr ""
+
+msgid ""
+"Weblate could not resolve the repository destination. Check the hostname and "
+"the instance DNS configuration. Internal or otherwise non-public hosts must "
+"also be explicitly allowed by the instance administrator."
+msgstr ""
+
+msgid ""
+"The repository URL redirect could not be safely followed. Configure the "
+"final repository URL directly; Weblate automatically accepts only verified "
+"permanent redirects on the same host."
+msgstr ""
+
+msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
@@ -11718,6 +11826,12 @@ msgid ""
 msgstr ""
 
 msgid ""
+"The repository references Git LFS objects that are missing from the push "
+"destination. Weblate does not download or upload Git LFS objects, and files "
+"tracked by Git LFS cannot be used as translation files."
+msgstr ""
+
+msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr "Tạm thời không thể truy cập kho lưu trữ nguồn. Vui lòng thử lại sau."
@@ -11732,8 +11846,13 @@ msgstr ""
 msgid "You might want to use following URL instead:"
 msgstr "Bạn có thể muốn sử dụng URL sau:"
 
+#, fuzzy
+#| msgid ""
+#| "You might want to choose Git with force push as version control system in "
+#| "the component configuration to overwrite the remote repository after "
+#| "rebasing commits in Weblate."
 msgid ""
-"You might want to choose Git with force push as version control system in "
+"You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
@@ -13131,8 +13250,8 @@ msgid ""
 "This deletes the stored credentials for the <code>%(slug)s</code> App on "
 "<code>%(host)s</code>."
 msgstr ""
-"Thao tác này sẽ xóa thông tin đăng nhập được lưu trữ cho Ứng dụng <code>%"
-"(slug)s</code> trên <code>%(host)s</code>."
+"Thao tác này sẽ xóa thông tin đăng nhập được lưu trữ cho Ứng dụng "
+"<code>%(slug)s</code> trên <code>%(host)s</code>."
 
 msgid ""
 "The App itself stays installed on GitHub. Delete it from GitHub separately "
@@ -14160,6 +14279,12 @@ msgid "Could not update the repository."
 msgstr "Không thể cập nhật kho lưu trữ."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not merge the pull request automatically."
+msgstr "Không thể hợp nhất kho lưu trữ."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "Kho lưu trữ đã lỗi thời."
 
@@ -14752,9 +14877,6 @@ msgstr "Tất cả các chuỗi"
 msgid "Read-only strings"
 msgstr "Chuỗi chỉ đọc"
 
-msgid "Untranslated strings"
-msgstr "Các chuỗi chưa dịch"
-
 msgid "Strings marked for edit"
 msgstr "Chuỗi được đánh dấu để chỉnh sửa"
 
@@ -14805,6 +14927,40 @@ msgstr "Tìm kiếm tùy chỉnh"
 
 msgid "Labeled: {}"
 msgstr "Đã dán nhãn: {}"
+
+#. Translators: Glossary term formatting used in a tooltip
+#, python-brace-format
+msgctxt "glossary term"
+msgid "{target} [{source}]"
+msgstr "{target} [{source}]"
+
+msgid "Forbidden translation:"
+msgid_plural "Forbidden translations:"
+msgstr[0] "Bản dịch bị cấm:"
+
+msgid "Untranslatable term:"
+msgid_plural "Untranslatable terms:"
+msgstr[0] "Thuật ngữ không thể dịch:"
+
+msgid "Glossary term:"
+msgid_plural "Glossary terms:"
+msgstr[0] "Thuật ngữ trong bảng chú giải:"
+
+msgctxt "String state"
+msgid "Dismissed checks:"
+msgstr "Kiểm tra bị bỏ qua:"
+
+msgctxt "String state"
+msgid "Commented"
+msgstr "Đã bình luận"
+
+msgctxt "String state"
+msgid "Suggested"
+msgstr "Đã đề xuất"
+
+msgctxt "String state"
+msgid "Automatically translated"
+msgstr "Đã dịch tự động"
 
 msgid "Repository branch is required for this integration."
 msgstr "Cần có nhánh kho lưu trữ để thực hiện tích hợp này."
@@ -15437,7 +15593,8 @@ msgid "BCP style using hyphen as a separator"
 msgstr ""
 
 msgid "POSIX style using underscore as a separator, including country code"
-msgstr "Kiểu POSIX sử dụng dấu gạch dưới làm dấu phân cách, bao gồm mã quốc gia"
+msgstr ""
+"Kiểu POSIX sử dụng dấu gạch dưới làm dấu phân cách, bao gồm mã quốc gia"
 
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
@@ -15447,7 +15604,8 @@ msgstr ""
 "thường"
 
 msgid "BCP style using hyphen as a separator, including country code"
-msgstr "Kiểu BCP sử dụng dấu gạch nối làm dấu phân cách, bao gồm cả mã quốc gia"
+msgstr ""
+"Kiểu BCP sử dụng dấu gạch nối làm dấu phân cách, bao gồm cả mã quốc gia"
 
 msgid "BCP style using hyphen as a separator, legacy language codes"
 msgstr "Kiểu BCP sử dụng dấu gạch nối làm dấu phân cách, mã ngôn ngữ cũ"
@@ -15771,6 +15929,11 @@ msgstr ""
 "Hệ thống kiểm soát phiên bản dùng để truy cập kho lưu trữ chứa các bản dịch "
 "của bạn. Bạn cũng có thể chọn tích hợp thêm với các nhà cung cấp bên thứ ba "
 "để gửi yêu cầu kéo/gộp."
+
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control parameters"
+msgstr "Cài đặt kiểm soát phiên bản"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -16372,6 +16535,20 @@ msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr "Tham số '%(param)s' không áp dụng cho định dạng tệp '%(format)s'."
 
+#, fuzzy, python-format
+#| msgid ""
+#| "The parameter '%(param)s' is not applicable for the file format "
+#| "'%(format)s'."
+msgid ""
+"The parameter '%(param)s' is not applicable for the version control system "
+"'%(vcs)s'."
+msgstr "Tham số '%(param)s' không áp dụng cho định dạng tệp '%(format)s'."
+
+msgid ""
+"Pushing without a merge request needs write access to the repository. "
+"Configure a push URL with credentials, or use an SSH repository URL."
+msgstr ""
+
 #, fuzzy
 #| msgid ""
 #| "Allow this component's translations to be added to the project-level "
@@ -16902,45 +17079,11 @@ msgstr "Ưu tiên: Thấp"
 msgid "Priority: Very low"
 msgstr "Ưu tiên: Rất thấp"
 
-#. Translators: Glossary term formatting used in a tooltip
-#, python-brace-format
-msgctxt "glossary term"
-msgid "{target} [{source}]"
-msgstr "{target} [{source}]"
-
-msgid "Forbidden translation:"
-msgid_plural "Forbidden translations:"
-msgstr[0] "Bản dịch bị cấm:"
-
-msgid "Untranslatable term:"
-msgid_plural "Untranslatable terms:"
-msgstr[0] "Thuật ngữ không thể dịch:"
-
-msgid "Glossary term:"
-msgid_plural "Glossary terms:"
-msgstr[0] "Thuật ngữ trong bảng chú giải:"
-
 msgid "Translated without any problems"
 msgstr "Đã dịch mà không gặp vấn đề gì"
 
 msgid "Needs attention"
 msgstr "Cần chú ý"
-
-msgctxt "String state"
-msgid "Dismissed checks:"
-msgstr "Kiểm tra bị bỏ qua:"
-
-msgctxt "String state"
-msgid "Commented"
-msgstr "Đã bình luận"
-
-msgctxt "String state"
-msgid "Suggested"
-msgstr "Đã đề xuất"
-
-msgctxt "String state"
-msgid "Automatically translated"
-msgstr "Đã dịch tự động"
 
 #, python-format
 msgid "string ID %s"
@@ -16975,16 +17118,6 @@ msgstr[0] "%(count)s các chuỗi không được dịch ở đây."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Được chia sẻ từ dự án %s."
-
-#. Translators: Number format, in millions (mega)
-#, python-format
-msgid "%s M"
-msgstr ""
-
-#. Translators: Number format, in thousands (kilo)
-#, python-format
-msgid "%s k"
-msgstr ""
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -17128,6 +17261,14 @@ msgstr ""
 
 #, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
+msgstr "Tham số định dạng tệp không xác định: \"%(param_name)s\"."
+
+msgid "Version control parameters must be a dictionary of key-value pairs."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Unknown file format parameter: \"%(param_name)s\"."
+msgid "Unknown version control parameter: \"%(param_name)s\"."
 msgstr "Tham số định dạng tệp không xác định: \"%(param_name)s\"."
 
 msgid "Keys"
@@ -17783,6 +17924,16 @@ msgstr[0] ""
 "Đã xử lý {0} chuỗi từ các tệp đã tải lên (bỏ qua: {1}, không tìm thấy: {2}, "
 "đã cập nhật: {3})."
 
+#. Translators: Number format, in millions (mega)
+#, python-format
+msgid "%s M"
+msgstr ""
+
+#. Translators: Number format, in thousands (kilo)
+#, python-format
+msgid "%s k"
+msgstr ""
+
 msgid "Missing query string."
 msgstr "Thiếu chuỗi truy vấn."
 
@@ -17822,6 +17973,9 @@ msgstr "Không thể phân giải tên miền URL: {}"
 
 msgid "Could not resolve the URL domain."
 msgstr "Không thể phân giải tên miền URL."
+
+msgid "Parameters must be a dictionary of key-value pairs."
+msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -18188,6 +18342,46 @@ msgstr ""
 "Yêu cầu API của %(service)s đã thất bại khi tạo yêu cầu kéo (%(status)s): "
 "%(error)s Vui lòng thử lại sau."
 
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s"
+msgid "%(service)s API request failed while merging a pull request: %(status)s"
+msgstr ""
+"Yêu cầu API của %(service)s đã thất bại khi tạo yêu cầu kéo: %(status)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s "
+#| "Please retry later."
+msgid ""
+"%(service)s API request failed while merging a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+"Yêu cầu API của %(service)s đã thất bại khi tạo yêu cầu kéo: %(status)s Vui "
+"lòng thử lại sau."
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s"
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s"
+msgstr ""
+"Yêu cầu API của %(service)s đã thất bại khi tạo yêu cầu kéo (%(status)s): "
+"%(error)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s Please retry later."
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s Please retry later."
+msgstr ""
+"Yêu cầu API của %(service)s đã thất bại khi tạo yêu cầu kéo (%(status)s): "
+"%(error)s Vui lòng thử lại sau."
+
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "Kho ứng dụng GitHub phải được nhập cùng với một nhánh."
 
@@ -18423,6 +18617,9 @@ msgstr ""
 "khai\" ở đây chỉ có nghĩa là ứng dụng không bị giới hạn đối với người sở "
 "hữu; nó không niêm yết ứng dụng trên GitHub Marketplace."
 
+msgid "This will force push changes to the upstream repository."
+msgstr "Thao tác này sẽ buộc phải đẩy các thay đổi lên kho lưu trữ gốc."
+
 msgid "This will push changes to the upstream Git repository."
 msgstr "Thao tác này sẽ đẩy các thay đổi lên kho lưu trữ Git gốc."
 
@@ -18437,9 +18634,6 @@ msgstr "Thao tác này sẽ lưu các thay đổi vào kho lưu trữ Subversion
 
 msgid "Git with force push"
 msgstr ""
-
-msgid "This will force push changes to the upstream repository."
-msgstr "Thao tác này sẽ buộc phải đẩy các thay đổi lên kho lưu trữ gốc."
 
 msgid "Azure DevOps pull request"
 msgstr ""
@@ -18594,6 +18788,58 @@ msgstr "đang chờ cài đặt lưu trữ mã nguồn"
 
 msgid "pending code-hosting installations"
 msgstr "các cài đặt lưu trữ mã nguồn đang chờ xử lý"
+
+msgid "Force push"
+msgstr ""
+
+msgid ""
+"Overwrite the remote branch instead of refusing to push non-fast-forward "
+"changes. Only use this with a repository dedicated to translations, as it "
+"discards upstream commits which are not present in Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pagure merge request"
+msgid "Create merge requests"
+msgstr "Yêu cầu hợp nhất Pagure"
+
+msgid ""
+"Open a pull or merge request for the translation changes. When turned off, "
+"Weblate pushes to the translated branch directly, which requires write "
+"access to it."
+msgstr ""
+
+msgid "Merge pull requests automatically"
+msgstr ""
+
+msgid ""
+"Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
+"are merged once the required checks pass. Pull requests with nothing to wait "
+"for are merged right away."
+msgstr ""
+
+#, fuzzy
+#| msgid "Merge style"
+msgid "Merge method"
+msgstr "Kết hợp kiểu"
+
+#, fuzzy
+#| msgid "Create account"
+msgid "Create a merge commit"
+msgstr "Tạo tài khoản"
+
+msgid "Squash and merge"
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Rebase and merge"
+msgstr "Đặt lại và áp dụng lại"
+
+msgid ""
+"Method used when merging pull requests automatically. The repository has to "
+"allow it."
+msgstr ""
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -18907,6 +19153,18 @@ msgid "Backup failed"
 msgstr "Sao lưu thất bại"
 
 #. Translators: Backup repository operation
+#, fuzzy
+#| msgid "Backup performed"
+msgid "Database backup performed"
+msgstr "Đã thực hiện sao lưu"
+
+#. Translators: Backup repository operation
+#, fuzzy
+#| msgid "Backup failed"
+msgid "Database backup failed"
+msgstr "Sao lưu thất bại"
+
+#. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
 msgstr "Đã xoá các bản sao lưu cũ nhất"
 
@@ -18969,36 +19227,88 @@ msgstr ""
 "Ứng dụng này đã được liên kết với weblate.org. Sử dụng cài đặt tìm kiếm để "
 "quản lý thông tin của nó."
 
-msgid "Could not activate your installation. Invalid activation state."
+#, fuzzy
+#| msgid "Could not activate your installation. Invalid activation state."
+msgid "Could not enable Discover Weblate. Invalid activation state."
 msgstr ""
 "Không thể kích hoạt cài đặt của bạn. Trạng thái kích hoạt không hợp lệ."
 
-msgid "Could not activate your installation. Missing activation code."
+#, fuzzy
+#| msgid "Could not activate your installation. Missing activation code."
+msgid "Could not enable Discover Weblate. Missing activation code."
 msgstr "Không thể kích hoạt cài đặt của bạn. Thiếu mã kích hoạt."
 
-msgid "Could not activate your installation. Invalid activation code."
+#, fuzzy
+#| msgid "Could not activate your installation. Invalid activation code."
+msgid "Could not enable Discover Weblate. Invalid activation code."
 msgstr "Không thể kích hoạt cài đặt của bạn. Mã kích hoạt không hợp lệ."
 
-msgid "Could not activate your installation. Please try again later."
+#, fuzzy
+#| msgid "Could not activate your installation. Please try again later."
+msgid "Could not enable Discover Weblate. Please try again later."
 msgstr "Không thể kích hoạt cài đặt của bạn. Vui lòng thử lại sau."
 
+#, fuzzy
+#| msgid ""
+#| "Could not activate discovery because a support package is already linked."
 msgid ""
-"Could not activate discovery because a support package is already linked."
+"Could not enable Discover Weblate because a support package is already "
+"linked."
 msgstr "Không thể kích hoạt tính năng tìm kiếm vì gói hỗ trợ đã được liên kết."
 
-msgid "Activation completed."
-msgstr "Kích hoạt hoàn tất."
+#, fuzzy
+#| msgid "Discover Weblate"
+msgid "Discover Weblate enabled."
+msgstr "Khám phá Weblate"
 
+#, fuzzy
+#| msgid "Support status"
+msgid "Support status refreshed."
+msgstr "Trạng thái hỗ trợ"
+
+#, fuzzy
+#| msgid "Could not activate your installation. Please try again later."
+msgid "Could not refresh support status. Please try again later."
+msgstr "Không thể kích hoạt cài đặt của bạn. Vui lòng thử lại sau."
+
+msgid "Could not refresh support status. The activation token is invalid."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch supported languages: %s"
+msgid "Could not refresh support status: %s"
+msgstr "Không thể tải các ngôn ngữ được hỗ trợ: %s"
+
+#, fuzzy
+#| msgid "Support package limits"
+msgid "Support package activated."
+msgstr "Giới hạn gói hỗ trợ"
+
+#, fuzzy
+#| msgid "Could not activate your installation. Please try again later."
+msgid "Could not activate the support package. Please try again later."
+msgstr "Không thể kích hoạt cài đặt của bạn. Vui lòng thử lại sau."
+
+#, fuzzy
+#| msgid ""
+#| "Could not activate your installation. Please ensure your activation token "
+#| "is correct."
 msgid ""
-"Could not activate your installation. Please ensure your activation token is "
-"correct."
+"Could not activate the support package. Please ensure the activation token "
+"is correct."
 msgstr ""
 "Không thể kích hoạt cài đặt của bạn. Vui lòng đảm bảo mã kích hoạt của bạn "
 "chính xác."
 
-#, python-format
-msgid "Could not activate your installation: %s"
-msgstr "Không thể kích hoạt cài đặt của bạn: %s"
+#, fuzzy, python-format
+#| msgid "Could not fetch supported languages: %s"
+msgid "Could not activate the support package: %s"
+msgstr "Không thể tải các ngôn ngữ được hỗ trợ: %s"
+
+#, fuzzy
+#| msgid "Support package limits"
+msgid "Support package unlinked."
+msgstr "Giới hạn gói hỗ trợ"
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
@@ -19061,6 +19371,21 @@ msgstr "Không thể xóa không gian làm việc vì nó vẫn đang được s
 
 msgid "The workspace has been removed."
 msgstr "Không gian làm việc đã bị xóa."
+
+#~ msgid ""
+#~ "Don’t worry about messing up the strings. This is a two-step process "
+#~ "showing a preview of edited strings before the actual change is confirmed."
+#~ msgstr ""
+#~ "Đừng lo lắng về việc làm hỏng chuỗi ký tự. Đây là quy trình hai bước, "
+#~ "hiển thị bản xem trước của chuỗi ký tự đã chỉnh sửa trước khi xác nhận "
+#~ "thay đổi thực sự."
+
+#~ msgid "Activation completed."
+#~ msgstr "Kích hoạt hoàn tất."
+
+#, python-format
+#~ msgid "Could not activate your installation: %s"
+#~ msgstr "Không thể kích hoạt cài đặt của bạn: %s"
 
 #~ msgid ""
 #~ "The last webhook update for this component used fallback repository "
@@ -19133,9 +19458,6 @@ msgstr "Không gian làm việc đã bị xóa."
 
 #~ msgid "creating a pull request"
 #~ msgstr "tạo yêu cầu kéo"
-
-#~ msgid "Unknown error"
-#~ msgstr "Lỗi không xác định"
 
 #~ msgid "Memory will be then populated with the current translations."
 #~ msgstr "Sau đó, bộ nhớ sẽ được điền đầy các bản dịch hiện tại."
