@@ -79,8 +79,6 @@ DOCUTILS_PARSER_LOCK = threading.Lock()
 BBCODE_TOKEN = re.compile(
     r"\[(?P<close>/)?(?P<tag>[^\]@\s=]+)(?P<params>[@\s=][^\]]*)?\]"
 )
-# Kept for backwards compatibility with code importing BBCODE_MATCH.
-BBCODE_MATCH = BBCODE_TOKEN
 
 
 def extract_bbcode_pairs(text: str) -> list[tuple[re.Match[str], re.Match[str]]]:
@@ -89,6 +87,8 @@ def extract_bbcode_pairs(text: str) -> list[tuple[re.Match[str], re.Match[str]]]
     pairs: list[tuple[re.Match[str], re.Match[str]]] = []
     for token in BBCODE_TOKEN.finditer(text):
         if token.group("close"):
+            if token.group("params"):
+                continue
             tag = token.group("tag")
             for i in range(len(stack) - 1, -1, -1):
                 if stack[i].group("tag") == tag:
