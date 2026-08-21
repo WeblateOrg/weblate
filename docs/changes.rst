@@ -134,6 +134,7 @@ Weblate 2026.8
 
 .. rubric:: Bug fixes
 
+* :ref:`check-safe-html` now reports event-handler attributes in source strings and removes them from translated HTML while preserving Markdown code examples.
 * :ref:`Disabling password authentication <site-wide-user-management>` from site-wide user management now regenerates the user's personal API key by default.
 * Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly.
 * Mercurial repository filenames beginning with a dash are now handled safely.

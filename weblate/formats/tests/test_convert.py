@@ -215,8 +215,8 @@ Try Weblate at [weblate.org](https://demo.weblate.org/)!
         )
 
     def test_extraction_with_code_block(self, extract_code_blocks: bool = True) -> None:
-        file_content = """```python
-print('hello')
+        file_content = """```html
+<button onclick="demo()">Click</button>
 ```"""
         input_bytes = NamedBytesIO("test.md", file_content.encode("utf-8"))
         with self.temporary_file_format_param(
@@ -225,6 +225,9 @@ print('hello')
             storage = self.parse_file(input_bytes)
         if extract_code_blocks:
             self.assertEqual(len(storage.content_units), 1)
+            unit = storage.content_units[0]
+            self.assertIn("ignore-safe-html", unit.flags)
+            self.assertFalse(unit.flags.is_active("safe-html", unit.source))
         else:
             self.assertEqual(len(storage.content_units), 0)
 
@@ -474,6 +477,7 @@ const messages = { hello: "Hello" }
                 NamedBytesIO("test.mdx", file_content.encode("utf-8"))
             )
             self.assertIn("ignore-safe-mdx", storage.content_units[0].flags)
+            self.assertIn("ignore-safe-html", storage.content_units[0].flags)
 
 
 class MDXFormatSaveTest(SimpleTestCase):
