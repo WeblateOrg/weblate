@@ -154,6 +154,16 @@ class BBCodeCheckTest(CheckTestCase):
             ],
         )
 
+    def test_parameterized_closer_ignored(self) -> None:
+        self.do_test(
+            True,
+            (
+                "[url]Weblate[/url]",
+                "[url]Weblate[/url=https://weblate.org]",
+                "bbcode-text",
+            ),
+        )
+
 
 class XMLValidityCheckTest(CheckTestCase):
     check = XMLValidityCheck()
