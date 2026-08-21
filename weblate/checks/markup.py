@@ -99,6 +99,8 @@ def extract_bbcode_pairs(text: str) -> list[tuple[re.Match[str], re.Match[str]]]
             stack.append(token)
     pairs.sort(key=lambda item: item[0].start())
     return pairs
+
+
 HTML_ATTRIBUTE_PLACEHOLDER_MATCHES = (
     *(rule[0] for rule in FLAG_RULES.values()),
     I18NEXT_MATCH,
@@ -344,6 +346,7 @@ class BBCodeCheck(TargetCheck):
                 translatable=True,
                 forbidden_text=("[", "]"),
             )
+
 
 class BaseXMLCheck(TargetCheck):
     def detect_xml_wrapping(self, text: str) -> tuple[_Element, bool]:
