@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-14 18:22+0000\n"
+"PO-Revision-Date: 2026-08-21 16:08+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "application/sk/>\n"
@@ -601,10 +601,8 @@ msgstr "Aktivita účtu"
 msgid "Triggered by {username}."
 msgstr "Spustené používateľom {username}."
 
-#, fuzzy
-#| msgid "Total strings:"
 msgid "Total strings"
-msgstr "Celkom reťazcov:"
+msgstr "Celkový počet reťazcov"
 
 msgid "Unfinished strings"
 msgstr "Nedokončené reťazce"
@@ -628,7 +626,7 @@ msgid "Comments"
 msgstr "Komentáre"
 
 msgid "Invalid listing column selection."
-msgstr ""
+msgstr "Neplatný výber stĺpcov zoznamu."
 
 msgid "Interface Language"
 msgstr "Jazyk rozhrania"
@@ -675,10 +673,8 @@ msgstr ""
 "Namiesto skrývania stĺpcov na úzkych obrazovkách ponechať všetky stĺpce a "
 "posúvať tabuľku horizontálne."
 
-#, fuzzy
-#| msgid "All component lists"
 msgid "Visible columns in lists"
-msgstr "Všetky zoznamy komponentov"
+msgstr "Viditeľné stĺpce v zoznamoch"
 
 msgid ""
 "Choose which statistics columns are shown in project, component, and "
@@ -1722,10 +1718,8 @@ msgstr ""
 "toto na zachovanie umiestnení v šablóne pri ich vynechaní z preložených "
 "súborov PO."
 
-#, fuzzy
-#| msgid "Could not remove the string: %s"
 msgid "Keyword entries have to be strings."
-msgstr "Nepodarilo sa odstrániť reťazec: %s"
+msgstr "Položky kľúčových slov musia byť reťazce."
 
 msgid "Do not extract comments"
 msgstr "Neextrahovať komentáre"
@@ -1762,15 +1756,13 @@ msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
 "Ďalšie validačné kontroly xgettext na povolenie pre extrahované správy."
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
-msgstr "Ďalšie kľúčové slovo"
+msgstr "Dodatočné kľúčové slová"
 
-#, fuzzy
-#| msgid "Optional extra keyword passed to xgettext using --keyword."
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
-msgstr "Voliteľné extra kľúčové slovo odovzdané xgettextu pomocou --keyword."
+msgstr ""
+"Dodatočné kľúčové slová oddelené novým riadkom odovzdané xgettext pomocou --"
+"keyword."
 
 msgid "Use keywords exclusively"
 msgstr "Použiť výlučne kľúčové slová"
@@ -3762,41 +3754,35 @@ msgstr "Fakturácia"
 msgid "Billing event"
 msgstr "Fakturačná udalosť"
 
-#, fuzzy
-#| msgid "Monthly"
 msgid "monthly"
-msgstr "Mesačne"
+msgstr "mesačne"
 
 msgid "yearly"
-msgstr ""
+msgstr "ročne"
 
-#, fuzzy
-#| msgid "Unknown error"
 msgid "unknown period"
-msgstr "Neznáma chyba"
+msgstr "neznáme obdobie"
 
 msgid "Changed from \"{}\" to \"{}\"."
 msgstr "Zmenené z „{}“ na „{}“."
 
 msgid "Payment \"{}\" initiated for \"{}\" ({})."
-msgstr ""
+msgstr "Platba „{}“ iniciovaná pre „{}“ ({})."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
-msgstr ""
+msgstr "Platba „{}“ pre „{}“ ({}) bola zamietnutá: {}."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
-msgstr ""
+msgstr "Platba „{}“ pre „{}“ ({}) bola zamietnutá."
 
 msgid "Automatic payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Automatická platba „{}“ prijatá pre „{}“ ({})."
 
 msgid "Payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Platba „{}“ prijatá pre „{}“ ({})."
 
-#, fuzzy
-#| msgid "Changed from \"{}\" to \"{}\"."
 msgid "Merged billing \"{}\" into \"{}\"."
-msgstr "Zmenené z „{}“ na „{}“."
+msgstr "Zlúčená fakturácia „{}“ do „{}“."
 
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
@@ -8383,10 +8369,8 @@ msgstr "Organizovať alebo odstrániť"
 msgid "Browse all changes for this language"
 msgstr "Prehľadať všetky zmeny pre tento jazyk"
 
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Review changes"
-msgstr "Nedávne zmeny"
+msgstr "Skontrolovať zmeny"
 
 msgid "Apply"
 msgstr "Použiť"
@@ -11839,11 +11823,16 @@ msgid ""
 "Weblate pushed the changes and created the pull request, but could not merge "
 "it automatically."
 msgstr ""
+"Weblate odoslal zmeny a vytvoril požiadavku na zlúčenie, ale nepodarilo sa "
+"ju automaticky zlúčiť."
 
 msgid ""
 "Check that the repository allows auto-merge and the selected merge method, "
 "or turn off automatic merging in the version control parameters."
 msgstr ""
+"Skontrolujte, či repozitár umožňuje automatické zlučovanie a vybranú metódu "
+"zlučovania, alebo vypnite automatické zlučovanie v parametroch riadenia "
+"verzií."
 
 msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
@@ -11985,6 +11974,9 @@ msgid ""
 "destination. Weblate does not download or upload Git LFS objects, and files "
 "tracked by Git LFS cannot be used as translation files."
 msgstr ""
+"Repozitár odkazuje na objekty Git LFS, ktoré chýbajú v cieli odosielania. "
+"Weblate nesťahuje ani neodovzdáva objekty Git LFS a súbory sledované pomocou "
+"Git LFS nemožno použiť ako prekladové súbory."
 
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
@@ -12003,18 +11995,13 @@ msgstr ""
 msgid "You might want to use following URL instead:"
 msgstr "Možno budete chcieť použiť namiesto toho nasledujúcu URL:"
 
-#, fuzzy
-#| msgid ""
-#| "You might want to choose Git with force push as version control system in "
-#| "the component configuration to overwrite the remote repository after "
-#| "rebasing commits in Weblate."
 msgid ""
 "You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"Možno budete chcieť vybrať Git s vynútením odoslaním ako systém riadenia "
-"verzií v konfigurácii komponentu na prepísanie vzdialeného repozitára po "
+"Možno budete chcieť zapnúť vynútené odosielanie v parametroch riadenia "
+"verzií konfigurácie komponentu na prepísanie vzdialeného repozitára po "
 "prepísaní zápisov vo Weblate."
 
 msgid ""
@@ -14378,10 +14365,8 @@ msgid "Could not update the repository."
 msgstr "Nepodarilo sa aktualizovať repozitár."
 
 #. Translators: Name of an alert
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not merge the pull request automatically."
-msgstr "Nepodarilo sa zlúčiť repozitár."
+msgstr "Nepodarilo sa automaticky zlúčiť požiadavku na zlúčenie."
 
 #. Translators: Name of an alert
 msgid "Repository outdated."
@@ -15969,10 +15954,8 @@ msgstr ""
 "obsahujúcemu preklady. Môžete tiež vybrať dodatočnú integráciu s "
 "poskytovateľmi tretích strán na odoslanie pull/merge požiadaviek."
 
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control parameters"
-msgstr "Nastavenia riadenia verzií"
+msgstr "Parametre riadenia verzií"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -16627,20 +16610,21 @@ msgid ""
 msgstr ""
 "Parameter '%(param)s' nie je aplikovateľný pre formát súboru '%(format)s'."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "The parameter '%(param)s' is not applicable for the file format "
-#| "'%(format)s'."
+#, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the version control system "
 "'%(vcs)s'."
 msgstr ""
-"Parameter '%(param)s' nie je aplikovateľný pre formát súboru '%(format)s'."
+"Parameter '%(param)s' nie je aplikovateľný pre systém riadenia verzií '%(vcs)"
+"s'."
 
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+"Odosielanie bez požiadavky na zlúčenie vyžaduje právo na zápis do "
+"repozitára. Nakonfigurujte URL odosielania s povereniami alebo použite URL "
+"repozitára SSH."
 
 msgid ""
 "A component can not be restricted while its project uses shared translation "
@@ -17346,15 +17330,12 @@ msgstr "Parametre formátu súboru musia byť slovníkom párov kľúč-hodnota.
 msgid "Unknown file format parameter: \"%(param_name)s\"."
 msgstr "Neznámy parameter formátu súboru: „%(param_name)s“."
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Version control parameters must be a dictionary of key-value pairs."
-msgstr "Parametre formátu súboru musia byť slovníkom párov kľúč-hodnota."
+msgstr ""
 
-#, fuzzy, python-format
-#| msgid "Unknown file format parameter: \"%(param_name)s\"."
+#, python-format
 msgid "Unknown version control parameter: \"%(param_name)s\"."
-msgstr "Neznámy parameter formátu súboru: „%(param_name)s“."
+msgstr ""
 
 msgid "Keys"
 msgstr "Kľúče"
@@ -18062,10 +18043,8 @@ msgstr "Nepodarilo sa rozlíšiť doménu URL: {}"
 msgid "Could not resolve the URL domain."
 msgstr "Nepodarilo sa vyriešiť doménu URL."
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Parameters must be a dictionary of key-value pairs."
-msgstr "Parametre formátu súboru musia byť slovníkom párov kľúč-hodnota."
+msgstr "Parametre musia byť slovníkom párov kľúč-hodnota."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -18424,45 +18403,27 @@ msgstr ""
 "Požiadavka API %(service)s zlyhala pri vytváraní pull požiadavky "
 "(%(status)s): %(error)s Prosím, skúste to znova neskôr."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s"
+#, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"Požiadavka API %(service)s zlyhala pri vytváraní pull požiadavky: %(status)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s "
-#| "Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Požiadavka API %(service)s zlyhala pri vytváraní pull požiadavky: %(status)s "
-"Prosím, skúste to znova neskôr."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Požiadavka API %(service)s zlyhala pri vytváraní pull požiadavky "
-"(%(status)s): %(error)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Požiadavka API %(service)s zlyhala pri vytváraní pull požiadavky "
-"(%(status)s): %(error)s Prosím, skúste to znova neskôr."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "Repozitáre aplikácie GitHub musia byť importované s vetvou."
@@ -18846,57 +18807,60 @@ msgstr "čakajúca inštalácia hosťovania kódu"
 msgid "pending code-hosting installations"
 msgstr "čakajúce inštalácie hosťovania kódu"
 
-#, fuzzy
-#| msgid "Git with force push"
 msgid "Force push"
-msgstr "Git s vynúteným odoslaním"
+msgstr "Vynútené odoslanie"
 
 msgid ""
 "Overwrite the remote branch instead of refusing to push non-fast-forward "
 "changes. Only use this with a repository dedicated to translations, as it "
 "discards upstream commits which are not present in Weblate."
 msgstr ""
+"Prepísať vzdialenú vetvu namiesto odmietnutia odoslať zmeny, ktoré nie sú "
+"rýchlym posunom. Použite to iba s repozitárom vyhradeným pre preklady, "
+"pretože to zahodí hlavné zápisy, ktoré nie sú vo Weblate."
 
-#, fuzzy
-#| msgid "Pagure merge request"
 msgid "Create merge requests"
-msgstr "Pagure merge požiadavka zlúčenia"
+msgstr "Vytvárať požiadavky na zlúčenie"
 
 msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
 msgstr ""
+"Otvoriť požiadavku na stiahnutie alebo zlúčenie pre zmeny prekladu. Keď je "
+"vypnuté, Weblate odosiela zmeny priamo do prekladanej vetvy, čo vyžaduje "
+"právo na zápis do nej."
 
 msgid "Merge pull requests automatically"
-msgstr ""
+msgstr "Automaticky zlučovať požiadavky na zlúčenie"
 
 msgid ""
 "Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
 "are merged once the required checks pass. Pull requests with nothing to wait "
 "for are merged right away."
 msgstr ""
+"Zapnúť automatické zlučovanie GitHub pre požiadavky na zlúčenie vytvorené "
+"Weblate, aby boli zlúčené, keď prejdú požadované kontroly. Požiadavky na "
+"zlúčenie, na ktoré nie je potrebné čakať, sú zlúčené okamžite."
 
 msgid "Merge method"
-msgstr "Spôsob nahrania"
+msgstr "Metóda zlučovania"
 
-#, fuzzy
-#| msgid "Create account"
 msgid "Create a merge commit"
-msgstr "Vytvoriť účet"
+msgstr "Vytvoriť zápis zlučenia"
 
 msgid "Squash and merge"
-msgstr ""
+msgstr "Stlačiť a zlúčiť"
 
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Rebase and merge"
-msgstr "Resetovať a znovu aplikovať"
+msgstr "Prepísať a zlúčiť"
 
 msgid ""
 "Method used when merging pull requests automatically. The repository has to "
 "allow it."
 msgstr ""
+"Metóda použitá pri automatickom zlučovaní požiadaviek na zlúčenie. Repozitár "
+"to musí umožňovať."
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -19202,16 +19166,12 @@ msgid "Backup failed"
 msgstr "Záloha zlyhala"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Database backup performed"
-msgstr "Záloha vykonaná"
+msgstr "Záloha databázy vykonaná"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Database backup failed"
-msgstr "Záloha zlyhala"
+msgstr "Záloha databázy zlyhala"
 
 #. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
@@ -19275,91 +19235,59 @@ msgstr ""
 "Táto inštalácia je už prepojená s weblate.org. Použite nastavenia "
 "objavovania na správu jej zoznamu."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation state."
 msgid "Could not enable Discover Weblate. Invalid activation state."
-msgstr "Nepodarilo sa aktivovať vašu inštaláciu. Neplatný stav aktivácie."
+msgstr "Nepodarilo sa povoliť Objavte Weblate. Neplatný stav aktivácie."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Missing activation code."
 msgid "Could not enable Discover Weblate. Missing activation code."
-msgstr "Nepodarilo sa aktivovať vašu inštaláciu. Chýbajúci aktivačný kód."
+msgstr "Nepodarilo sa povoliť Objavte Weblate. Chýbajúci aktivačný kód."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation code."
 msgid "Could not enable Discover Weblate. Invalid activation code."
-msgstr "Nepodarilo sa aktivovať vašu inštaláciu. Neplatný aktivačný kód."
+msgstr "Nepodarilo sa povoliť Objavte Weblate. Neplatný aktivačný kód."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Please try again later."
-msgstr ""
-"Nepodarilo sa aktivovať vašu inštaláciu. Prosím, skúste to znova neskôr."
+msgstr "Nepodarilo sa povoliť Objavte Weblate. Prosím, skúste to znova neskôr."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate discovery because a support package is already linked."
 msgid ""
 "Could not enable Discover Weblate because a support package is already "
 "linked."
 msgstr ""
-"Nepodarilo sa aktivovať objavovanie, pretože balík podpory je už prepojený."
+"Nepodarilo sa povoliť Objavte Weblate, pretože balík podpory je už prepojený."
 
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Discover Weblate enabled."
-msgstr "Objavte Weblate"
+msgstr "Objavte Weblate povolené."
 
-#, fuzzy
-#| msgid "Support status"
 msgid "Support status refreshed."
-msgstr "Stav podpory"
+msgstr "Stav podpory obnovený."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not refresh support status. Please try again later."
-msgstr ""
-"Nepodarilo sa aktivovať vašu inštaláciu. Prosím, skúste to znova neskôr."
+msgstr "Nepodarilo sa obnoviť stav podpory. Prosím, skúste to znova neskôr."
 
 msgid "Could not refresh support status. The activation token is invalid."
-msgstr ""
+msgstr "Nepodarilo sa obnoviť stav podpory. Aktivačný token je neplatný."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not refresh support status: %s"
-msgstr "Nepodarilo sa získať podporované jazyky: %s"
+msgstr "Nepodarilo sa obnoviť stav podpory: %s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package activated."
-msgstr "Limity balíka podpory"
+msgstr "Balík podpory aktivovaný."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate the support package. Please try again later."
-msgstr ""
-"Nepodarilo sa aktivovať vašu inštaláciu. Prosím, skúste to znova neskôr."
+msgstr "Nepodarilo sa aktivovať balík podpory. Prosím, skúste to znova neskôr."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid ""
 "Could not activate the support package. Please ensure the activation token "
 "is correct."
 msgstr ""
-"Nepodarilo sa aktivovať vašu inštaláciu. Prosím, uistite sa, že váš "
-"aktivačný token je správny."
+"Nepodarilo sa aktivovať balík podpory. Prosím, uistite sa, že aktivačný "
+"token je správny."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not activate the support package: %s"
-msgstr "Nepodarilo sa získať podporované jazyky: %s"
+msgstr "Nepodarilo sa aktivovať balík podpory: %s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package unlinked."
-msgstr "Limity balíka podpory"
+msgstr "Balík podpory odpojený."
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
