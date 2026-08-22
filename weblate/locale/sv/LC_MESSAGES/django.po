@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-20 20:00+0000\n"
+"PO-Revision-Date: 2026-08-22 17:35+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -602,10 +602,8 @@ msgstr "Kontoaktivitet"
 msgid "Triggered by {username}."
 msgstr "Utlöst av {username}."
 
-#, fuzzy
-#| msgid "Total strings:"
 msgid "Total strings"
-msgstr "Totalt antal strängar:"
+msgstr "Totalt antal strängar"
 
 msgid "Unfinished strings"
 msgstr "Ofärdiga strängar"
@@ -629,7 +627,7 @@ msgid "Comments"
 msgstr "Kommentarer"
 
 msgid "Invalid listing column selection."
-msgstr ""
+msgstr "Ogiltigt val av kolumn i listan."
 
 msgid "Interface Language"
 msgstr "Gränssnittsspråk"
@@ -676,15 +674,15 @@ msgstr ""
 "Istället för att dölja kolumner på smala skärmar, behåll alla kolumner och "
 "bläddra i tabellen horisontellt."
 
-#, fuzzy
-#| msgid "All component lists"
 msgid "Visible columns in lists"
-msgstr "Alla komponentlistor"
+msgstr "Synliga kolumner i listor"
 
 msgid ""
 "Choose which statistics columns are shown in project, component, and "
 "language lists."
 msgstr ""
+"Välj vilka statistikkolumner som visas i projekt-, komponent- och "
+"språklistor."
 
 msgid "Editor link"
 msgstr "Länk till editor"
@@ -1727,10 +1725,8 @@ msgstr ""
 "Välj hur extraktionen skriver källplatser till POT-filen. Använd detta för "
 "att behålla platserna i mallen medan de utelämnas från översatta PO-filer."
 
-#, fuzzy
-#| msgid "Could not remove the string: %s"
 msgid "Keyword entries have to be strings."
-msgstr "Kunde inte ta bort strängen: %s"
+msgstr "Nyckelordsposter måste vara strängar."
 
 msgid "Do not extract comments"
 msgstr "Extrahera inte kommentarer"
@@ -1769,16 +1765,13 @@ msgstr ""
 "Ytterligare valideringskontroller med xgettext som skall aktiveras för "
 "extraherade meddelanden."
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
 msgstr "Ytterligare nyckelord"
 
-#, fuzzy
-#| msgid "Optional extra keyword passed to xgettext using --keyword."
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
-"Valfritt extra nyckelord som skickas till xgettext med hjälp av --keyword."
+"Extra nyckelord, åtskilda med radbrytningar, som skickas till xgettext med "
+"hjälp av --keyword."
 
 msgid "Use keywords exclusively"
 msgstr "Använd endast nyckelord"
@@ -3769,41 +3762,35 @@ msgstr "Fakturering"
 msgid "Billing event"
 msgstr "Faktureringshändelse"
 
-#, fuzzy
-#| msgid "Monthly"
 msgid "monthly"
-msgstr "Månatlig"
+msgstr "månatlig"
 
 msgid "yearly"
-msgstr ""
+msgstr "årlig"
 
-#, fuzzy
-#| msgid "Unknown error"
 msgid "unknown period"
-msgstr "Okänt fel"
+msgstr "okänd tidsperiod"
 
 msgid "Changed from \"{}\" to \"{}\"."
 msgstr "Ändrat från ”{}” till ”{}”."
 
 msgid "Payment \"{}\" initiated for \"{}\" ({})."
-msgstr ""
+msgstr "Betalning ”{}” har påbörjats för ”{}” ({})."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
-msgstr ""
+msgstr "Betalningen ”{}” för ”{}” ({}) avvisades: {}."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
-msgstr ""
+msgstr "Betalningen \"{}\" för \"{}\" ({}) avvisades."
 
 msgid "Automatic payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Automatisk betalning \"{}\" mottagen för \"{}\" ({})."
 
 msgid "Payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Betalningen \"{}\" mottagen för \"{}\" ({})."
 
-#, fuzzy
-#| msgid "Changed from \"{}\" to \"{}\"."
 msgid "Merged billing \"{}\" into \"{}\"."
-msgstr "Ändrat från ”{}” till ”{}”."
+msgstr "Sammanfogade fakturan ”{}” med ”{}”."
 
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
@@ -8356,10 +8343,8 @@ msgstr "Organisera eller ta bort"
 msgid "Browse all changes for this language"
 msgstr "Bläddra bland alla ändringar för det här språket"
 
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Review changes"
-msgstr "Senaste ändringar"
+msgstr "Granska ändringar"
 
 msgid "Apply"
 msgstr "Tillämpa"
@@ -11800,11 +11785,16 @@ msgid ""
 "Weblate pushed the changes and created the pull request, but could not merge "
 "it automatically."
 msgstr ""
+"Weblate skickade iväg ändringarna och skapade en pull-begäran, men kunde "
+"inte slå samman den automatiskt."
 
 msgid ""
 "Check that the repository allows auto-merge and the selected merge method, "
 "or turn off automatic merging in the version control parameters."
 msgstr ""
+"Kontrollera att förrådet tillåter automatisk sammanfogning och den valda "
+"sammanfogningsmetoden, eller inaktivera automatisk sammanfogning i "
+"parametrarna för versionshantering."
 
 msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
@@ -11869,36 +11859,54 @@ msgid ""
 "the configured URL. Ask the instance administrator to add the trusted "
 "repository hostname to VCS_ALLOW_HOSTS."
 msgstr ""
+"Denna bakände för versionshantering kan inte tvinga på begränsningar för "
+"privata adresser för den konfigurerade URL:en. Be instansadministratören att "
+"lägga till värdnamnet för det betrodda förrådet i VCS_ALLOW_HOSTS."
 
 msgid ""
 "Weblate blocked the repository URL because its destination is not permitted "
 "by this instance. Use a publicly reachable repository URL, or ask the "
 "instance administrator to allow the trusted repository host."
 msgstr ""
+"Weblate blockerade förrådets URL eftersom destinationen inte är tillåten av "
+"denna instans. Använd en publikt tillgänglig URL till förrådet, eller be "
+"instansadministratören att tillåta den betrodda förrådsvärden."
 
 msgid ""
 "The configured repository URL is not valid. Check the URL in the component "
 "settings and use a complete repository URL supported by the selected version "
 "control system."
 msgstr ""
+"Den konfigurerade förrådets URL är inte giltig. Kontrollera URL:en i "
+"komponentinställningarna och använd en fullständig URL till förrådet som "
+"stödjs av det valda versionshanteringssystemet."
 
 msgid ""
 "The repository URL uses a protocol which is not permitted by this instance. "
 "Use HTTPS or SSH, or ask the instance administrator whether another protocol "
 "can be safely enabled."
 msgstr ""
+"URL:en till förrådet använder ett protokoll som inte är tillåtet av denna "
+"instans. Använd HTTPS eller SSH, eller fråga instansadministratören om ett "
+"annat protokoll kan aktiveras på ett säkert sätt."
 
 msgid ""
 "Weblate could not resolve the repository destination. Check the hostname and "
 "the instance DNS configuration. Internal or otherwise non-public hosts must "
 "also be explicitly allowed by the instance administrator."
 msgstr ""
+"Weblate kunde inte slå upp förrådsdestinationen. Kontrollera värdnamnet och "
+"instansens DNS-konfiguration. Interna eller på annat sätt icke-offentliga "
+"värdar måste dessutom uttryckligen godkännas av instansadministratören."
 
 msgid ""
 "The repository URL redirect could not be safely followed. Configure the "
 "final repository URL directly; Weblate automatically accepts only verified "
 "permanent redirects on the same host."
 msgstr ""
+"Förrådets URL:s omdirigering kunde inte följas säkert. Konfigurera direkt "
+"den slutliga URL:en till förrådet; Weblate accepterar automatiskt endast "
+"verifierade permanenta omdirigeringar på samma värd."
 
 msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
@@ -11945,6 +11953,9 @@ msgid ""
 "destination. Weblate does not download or upload Git LFS objects, and files "
 "tracked by Git LFS cannot be used as translation files."
 msgstr ""
+"Förrådet refererar till Git LFS-objekt som saknas från push-destinationen. "
+"Weblate hämtar inte ifrån och skickar inte till Git LFS-objekt, och filer "
+"som spåras av Git LFS kan inte användas som översättningsfiler."
 
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
@@ -11961,19 +11972,14 @@ msgstr ""
 msgid "You might want to use following URL instead:"
 msgstr "Du kanske vill använda följande URL istället:"
 
-#, fuzzy
-#| msgid ""
-#| "You might want to choose Git with force push as version control system in "
-#| "the component configuration to overwrite the remote repository after "
-#| "rebasing commits in Weblate."
 msgid ""
 "You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"Du kanske vill välja Git med force push som versionskontrollsystem i "
-"komponentkonfigurationen för att skriva över fjärrarkivet efter ombasering "
-"av commits i Weblate."
+"Du kanske vill slå på tvingande push i komponentkonfigurationens parametrar "
+"för versionshantering för att skriva över fjärrförrådet efter att ha "
+"ombaserat commit:er i Weblate."
 
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
@@ -14330,10 +14336,8 @@ msgid "Could not update the repository."
 msgstr "Kunde inte uppdatera arkivet."
 
 #. Translators: Name of an alert
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not merge the pull request automatically."
-msgstr "Kunde inte slå samman arkivet."
+msgstr "Kunde inte slå samman pull-begäran automatiskt."
 
 #. Translators: Name of an alert
 msgid "Repository outdated."
@@ -15923,10 +15927,8 @@ msgstr ""
 "översättningar. Du kan även välja att integrera med tjänster från "
 "tredjepartsleverantörer för att skicka in pull-/sammanslagningsbegäranden."
 
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control parameters"
-msgstr "Versionshanteringsinställningar"
+msgstr "Parametrar för versionshantering"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -16566,20 +16568,21 @@ msgid ""
 msgstr ""
 "Parametern '%(param)s' är inte tillämplig för filformatet '%(format)s'."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "The parameter '%(param)s' is not applicable for the file format "
-#| "'%(format)s'."
+#, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the version control system "
 "'%(vcs)s'."
 msgstr ""
-"Parametern '%(param)s' är inte tillämplig för filformatet '%(format)s'."
+"Parametern ”%(param)s” är inte tillämplig för versionshanteringssystemet ”%"
+"(vcs)s”."
 
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+"För att kunna göra en push utan en sammanslagningsbegäran krävs "
+"skrivbehörighet till förrådet. Konfigurera en push-URL med "
+"inloggningsuppgifter eller använd en SSH-URL till förrådet."
 
 msgid ""
 "A component can not be restricted while its project uses shared translation "
@@ -17281,15 +17284,14 @@ msgstr "Filformatparametrar måste vara en ordbok med nyckel-värdepar."
 msgid "Unknown file format parameter: \"%(param_name)s\"."
 msgstr "Okänd filformatsparameter: \"%(param_name)s\"."
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Version control parameters must be a dictionary of key-value pairs."
-msgstr "Filformatparametrar måste vara en ordbok med nyckel-värdepar."
+msgstr ""
+"Parametrar för versionshantering måste vara en avbildning med nyckel-"
+"värdepar."
 
-#, fuzzy, python-format
-#| msgid "Unknown file format parameter: \"%(param_name)s\"."
+#, python-format
 msgid "Unknown version control parameter: \"%(param_name)s\"."
-msgstr "Okänd filformatsparameter: \"%(param_name)s\"."
+msgstr "Okänd parameter för versionshantering: ”%(param_name)s ”."
 
 msgid "Keys"
 msgstr "Nycklar"
@@ -17534,12 +17536,12 @@ msgstr "Kommentaren har tagits bort."
 msgid "Comment has been resolved."
 msgstr "Kommentaren har lösts."
 
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "Could not add the string because another background operation is in "
 "progress. Please try again later."
-msgstr "Kunde inte låsa arkivet. En annan operation pågår."
+msgstr ""
+"Kunde inte lägga till strängen eftersom en annan bakgrundsåtgärd pågår. "
+"Försök igen senare."
 
 msgid "New string has been added."
 msgstr "Ny sträng har lagts till."
@@ -17565,12 +17567,10 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 "Använd knappen på statussidan för arkivet för att köra den här åtgärden."
 
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
-msgstr "Kunde inte låsa arkivet. En annan operation pågår."
+msgstr "Det verkar pågå en åtgärd på förrådet. Försök igen senare."
 
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
@@ -17592,20 +17592,14 @@ msgstr "Översättningsfiler har synkroniserats."
 msgid "Updates of translations are in progress."
 msgstr "Översättningarna uppdateras för närvarande."
 
-#, fuzzy
-#| msgid "Please fix this by removing one of the translation files."
 msgid "Duplicate strings have been removed from the translation file."
-msgstr "Åtgärda detta genom att ta bort en av översättningsfilerna."
+msgstr "Dubblerade strängar har tagits bort från översättningsfilen."
 
-#, fuzzy
-#| msgid "Please fix this by removing one of the translation files."
 msgid "Unused strings have been removed from the translation file."
-msgstr "Åtgärda detta genom att ta bort en av översättningsfilerna."
+msgstr "Oanvända strängar har tagits bort från översättningsfilen."
 
-#, fuzzy
-#| msgid "Please fix this by removing one of the translation files."
 msgid "Obsolete strings have been removed from the translation file."
-msgstr "Åtgärda detta genom att ta bort en av översättningsfilerna."
+msgstr "Föråldrade strängar har tagits bort från översättningsfilen."
 
 msgid "Pending translations are being committed."
 msgstr "Väntande översättningar genomförs."
@@ -17834,11 +17828,8 @@ msgstr "Du har inte behörighet att flytta projekt utan ett arbetsområde."
 msgid "You do not have permission to edit the target workspace."
 msgstr "Du har inte behörighet att redigera målarbetsområdet."
 
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "You do not have permission to add projects to the target workspace."
-msgstr ""
-"Du har inte behörighet att ändra åtkomstsinställningarna för projektet."
+msgstr "Du har inte behörighet att lägga till projekt i målarbetsområdet."
 
 msgid "Borg completed with warnings without any output."
 msgstr "Borg slutfördes med varningar utan någon utdata."
@@ -17964,10 +17955,8 @@ msgstr "Saknar användarnamn eller mejladress."
 msgid "More possible users were found."
 msgstr "Fler möjliga användare hittades."
 
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with comments by me"
-msgstr "Strängar med kommentarer"
+msgstr "Strängar med kommentarer av mig"
 
 #, fuzzy
 #| msgid "Strings with source comments"
