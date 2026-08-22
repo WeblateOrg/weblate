@@ -15,6 +15,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext
 
+from weblate.auth.permissions import get_project_repository_selection
 from weblate.trans.models import Component, Project, Translation
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
@@ -81,7 +82,10 @@ def queue_commit(request: AuthenticatedHttpRequest, obj) -> bool:
     """Queue commit operation for browser requests."""
     user_id = request.user.id
     if isinstance(obj, Project):
-        for component in obj.all_repo_components:
+        selection = get_project_repository_selection(request.user, obj, ("vcs.commit",))
+        if not selection.repositories:
+            raise PermissionDenied
+        for component in selection.repositories:
             component.queue_commit_pending("commit", user_id=user_id)
     elif isinstance(obj, Translation):
         if not obj.needs_commit():
@@ -92,22 +96,50 @@ def queue_commit(request: AuthenticatedHttpRequest, obj) -> bool:
     return True
 
 
+def get_project_repository_kwargs(
+    request: AuthenticatedHttpRequest, obj, permission: str
+) -> dict[str, tuple[Component, ...]]:
+    """Return the permitted project repository scope for an operation."""
+    if not request.user.has_perm(permission, obj):
+        raise PermissionDenied
+    if not isinstance(obj, Project):
+        return {}
+    repositories = get_project_repository_selection(
+        request.user, obj, (permission,)
+    ).repositories
+    if not repositories:
+        raise PermissionDenied
+    return {"repo_components": repositories}
+
+
+def get_repository_success_message(obj, message: str, project_message: str) -> str:
+    if isinstance(obj, Project):
+        return project_message
+    return message
+
+
 @login_required
 @require_repository_action_post
 def update(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase:
     obj = parse_path(request, path, (Project, Component, Translation))
-    if not request.user.has_perm("vcs.update", obj):
-        raise PermissionDenied
+    repository_kwargs = get_project_repository_kwargs(request, obj, "vcs.update")
 
     result = execute_locked(
         request,
         obj,
-        gettext(
-            "All repositories have been updated, updates of translations are in progress."
+        get_repository_success_message(
+            obj,
+            gettext(
+                "All repositories have been updated, updates of translations are in progress."
+            ),
+            gettext(
+                "Accessible repositories have been updated, updates of translations are in progress."
+            ),
         ),
         obj.do_update,
         request,
         method=request.GET.get("method"),
+        **repository_kwargs,
     )
     if result:
         return redirect(
@@ -120,11 +152,19 @@ def update(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBa
 @require_repository_action_post
 def push(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase:
     obj = parse_path(request, path, (Project, Component, Translation))
-    if not request.user.has_perm("vcs.push", obj):
-        raise PermissionDenied
+    repository_kwargs = get_project_repository_kwargs(request, obj, "vcs.push")
 
     return execute_locked(
-        request, obj, gettext("All repositories were pushed."), obj.do_push, request
+        request,
+        obj,
+        get_repository_success_message(
+            obj,
+            gettext("All repositories were pushed."),
+            gettext("Accessible repositories were pushed."),
+        ),
+        obj.do_push,
+        request,
+        **repository_kwargs,
     )
 
 
@@ -132,18 +172,24 @@ def push(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase
 @require_repository_action_post
 def reset(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase:
     obj = parse_path(request, path, (Project, Component, Translation))
-    if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied
+    repository_kwargs = get_project_repository_kwargs(request, obj, "vcs.reset")
 
     result = execute_locked(
         request,
         obj,
-        gettext(
-            "All repositories have been reset, updates of translations are in progress."
+        get_repository_success_message(
+            obj,
+            gettext(
+                "All repositories have been reset, updates of translations are in progress."
+            ),
+            gettext(
+                "Accessible repositories have been reset, updates of translations are in progress."
+            ),
         ),
         obj.do_reset,
         request,
         keep_changes="keep_changes" in request.POST,
+        **repository_kwargs,
     )
     if result:
         return redirect(
@@ -156,15 +202,19 @@ def reset(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBas
 @require_repository_action_post
 def cleanup(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase:
     obj = parse_path(request, path, (Project, Component, Translation))
-    if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied
+    repository_kwargs = get_project_repository_kwargs(request, obj, "vcs.reset")
 
     return execute_locked(
         request,
         obj,
-        gettext("All repositories have been cleaned up."),
+        get_repository_success_message(
+            obj,
+            gettext("All repositories have been cleaned up."),
+            gettext("Accessible repositories have been cleaned up."),
+        ),
         obj.do_cleanup,
         request,
+        **repository_kwargs,
     )
 
 
@@ -172,15 +222,21 @@ def cleanup(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseB
 @require_repository_action_post
 def file_sync(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase:
     obj = parse_path(request, path, (Project, Component, Translation))
-    if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied
+    repository_kwargs = get_project_repository_kwargs(request, obj, "vcs.reset")
 
     return execute_locked(
         request,
         obj,
-        gettext("Translation files have been synchronized."),
+        get_repository_success_message(
+            obj,
+            gettext("Translation files have been synchronized."),
+            gettext(
+                "Translation files in accessible repositories have been synchronized."
+            ),
+        ),
         obj.do_file_sync,
         request,
+        **repository_kwargs,
     )
 
 
@@ -188,15 +244,21 @@ def file_sync(request: AuthenticatedHttpRequest, path: list[str]) -> HttpRespons
 @require_repository_action_post
 def file_scan(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase:
     obj = parse_path(request, path, (Project, Component, Translation))
-    if not request.user.has_perm("vcs.reset", obj):
-        raise PermissionDenied
+    repository_kwargs = get_project_repository_kwargs(request, obj, "vcs.reset")
 
     result = execute_locked(
         request,
         obj,
-        gettext("Updates of translations are in progress."),
+        get_repository_success_message(
+            obj,
+            gettext("Updates of translations are in progress."),
+            gettext(
+                "Updates of translations in accessible repositories are in progress."
+            ),
+        ),
         obj.do_file_scan,
         request,
+        **repository_kwargs,
     )
     if result:
         return redirect(
@@ -263,8 +325,7 @@ def remove_obsolete_units(
 @require_repository_action_post
 def commit(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBase:
     obj = parse_path(request, path, (Project, Component, Translation))
-    if not request.user.has_perm("vcs.commit", obj):
-        raise PermissionDenied
+    repository_kwargs = get_project_repository_kwargs(request, obj, "vcs.commit")
 
     if not settings.CELERY_TASK_ALWAYS_EAGER:
         result = queue_commit(request, obj)
@@ -277,8 +338,13 @@ def commit(request: AuthenticatedHttpRequest, path: list[str]) -> HttpResponseBa
     return execute_locked(
         request,
         obj,
-        gettext("All pending translations were committed."),
+        get_repository_success_message(
+            obj,
+            gettext("All pending translations were committed."),
+            gettext("Pending translations in accessible repositories were committed."),
+        ),
         obj.commit_pending,
         "commit",
         request.user,
+        **repository_kwargs,
     )

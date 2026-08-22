@@ -6,6 +6,30 @@
 {% perm 'vcs.reset' object as user_can_reset_translation %}
 {% perm 'component.lock' object as user_can_lock_component %}
 
+{% if repository_restrictions %}
+  <div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">{% translate "Some repositories are not accessible" %}</h4>
+    <p>
+      {% translate "Project-wide repository information and VCS operations exclude components for which you do not have permission on every component sharing the repository." %}
+    </p>
+    <ul class="mb-0">
+      {% for restriction in repository_restrictions %}
+        <li>
+          {% translate "Skipped components:" %}
+          {% for component in restriction.project_components %}
+            <a href="{{ component.get_absolute_url }}">{{ component.full_slug }}</a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+          <br>
+          {% translate "Permission required on:" %}
+          {% for component in restriction.permission_blockers %}
+            {{ component.full_slug }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
 
 <div class="card">
   <div class="card-header">
@@ -58,7 +82,7 @@
           <a href="#"
              class="float-end link-post btn btn-primary"
              data-href="{% url "push" path=object.get_url_path %}"
-             {% if not object.can_push %}disabled="disabled"{% endif %}>{% translate "Push" %}</a>
+             {% if not can_push %}disabled="disabled"{% endif %}>{% translate "Push" %}</a>
         {% endif %}
         <h6 class="mb-1 fw-bold">
           {% blocktranslate count units=outgoing_commits with count=outgoing_commits|intcomma %}{{ count }} outgoing commit{% plural %}{{ count }} outgoing commits{% endblocktranslate %}

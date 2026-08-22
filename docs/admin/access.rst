@@ -503,6 +503,12 @@ the following rules:
   when linked components are in other projects. A per-member language limit
   therefore cannot grant these permissions.
 
+  Project-wide repository status and operations filter repositories using this
+  rule. Repositories for which the member lacks permission on any linked
+  component are listed separately and are not inspected or changed. An
+  operation is denied when none of the project's repositories are available to
+  it.
+
 - The :guilabel:`Edit component settings` permission allows administrative
   operations that can affect repository contents. For example, users can choose
   files through component settings or install and configure component add-ons.

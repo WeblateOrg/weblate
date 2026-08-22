@@ -25,6 +25,7 @@ Weblate 2026.9
 * The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
 * Flags in the translation flags editor can now be reopened for editing, navigated with arrow keys, and copied with Ctrl+C.
 * Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`.
+* Project-wide repository maintenance now remains available for authorized repositories and lists components skipped because of linked-component permissions.
 
 .. rubric:: Bug fixes
 

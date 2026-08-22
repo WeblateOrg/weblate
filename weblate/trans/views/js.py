@@ -17,6 +17,10 @@ from django.utils.http import urlencode
 from django.views.decorators.cache import cache_control, never_cache
 from django.views.decorators.http import require_GET, require_POST
 
+from weblate.auth.permissions import (
+    REPOSITORY_PERMISSIONS,
+    get_project_repository_selection,
+)
 from weblate.checks.flags import Flags, get_flag_choices
 from weblate.checks.models import Check
 from weblate.trans.diagnostics import get_diagnostics_context
@@ -156,7 +160,19 @@ def git_status(request: AuthenticatedHttpRequest, path):
     if not request.user.has_perm("meta:vcs.status", obj):
         raise PermissionDenied
 
-    repo_components = obj.all_repo_components
+    if isinstance(obj, Project):
+        repository_selection = get_project_repository_selection(
+            request.user, obj, REPOSITORY_PERMISSIONS
+        )
+        repo_components = repository_selection.repositories
+        component_ids = {
+            component.pk for component in repository_selection.included_components
+        }
+        repository_restrictions = repository_selection.restrictions
+    else:
+        repo_components = obj.all_repo_components
+        component_ids = None
+        repository_restrictions = ()
 
     # Filter events from repository
     changes = (
@@ -175,7 +191,9 @@ def git_status(request: AuthenticatedHttpRequest, path):
     else:
         push_label = first_component.repository_class.get_push_label(first_component)
 
-    pending_units = PendingUnitChange.objects.detailed_count(obj)
+    pending_units = PendingUnitChange.objects.detailed_count(
+        obj, component_ids=component_ids
+    )
     is_translation = isinstance(obj, Translation)
     supports_remove_duplicate_units = (
         is_translation and obj.supports_remove_duplicate_units(obj.component)
@@ -197,6 +215,7 @@ def git_status(request: AuthenticatedHttpRequest, path):
                 ("action", action) for action in Change.ACTIONS_REPOSITORY
             ),
             "repositories": repo_components,
+            "repository_restrictions": repository_restrictions,
             "pending_units": pending_units,
             "outgoing_commits": sum(
                 repo.count_repo_outgoing for repo in repo_components
@@ -220,6 +239,11 @@ def git_status(request: AuthenticatedHttpRequest, path):
             "supports_remove_obsolete_units": supports_remove_obsolete_units,
             "supports_push": any(
                 repo.repository_class.supports_push for repo in repo_components
+            ),
+            "can_push": (
+                obj.can_push(repo_components=repo_components)
+                if isinstance(obj, Project)
+                else obj.can_push()
             ),
             "push_label": push_label,
         },
