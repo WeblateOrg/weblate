@@ -31,8 +31,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-18 22:33+0000\n"
+"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"PO-Revision-Date: 2026-08-20 20:00+0000\n"
 "Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
@@ -399,7 +399,7 @@ msgstr "已將帳號移除確認信寄到 {email}。"
 #. Translators: Audit log entry
 #, python-brace-format
 msgid "Agreement with General Terms and Conditions {date}."
-msgstr "已於 {date} 同意《一般條款與條件》。"
+msgstr "同意《一般條款與條件》版本 {date}。"
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -583,6 +583,35 @@ msgstr "帳號活動"
 msgid "Triggered by {username}."
 msgstr "被 {username} 觸發。"
 
+#, fuzzy
+#| msgid "Total strings:"
+msgid "Total strings"
+msgstr "總計字串："
+
+msgid "Unfinished strings"
+msgstr "未完成字串"
+
+msgid "Unfinished words"
+msgstr "未完成單字數"
+
+msgid "Unfinished characters"
+msgstr "未完成字元數"
+
+msgid "Untranslated strings"
+msgstr "未翻譯的字串"
+
+msgid "Checks"
+msgstr "檢查"
+
+msgid "Suggestions"
+msgstr "建議"
+
+msgid "Comments"
+msgstr "評論"
+
+msgid "Invalid listing column selection."
+msgstr ""
+
 msgid "Interface Language"
 msgstr "介面語言"
 
@@ -621,6 +650,16 @@ msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
 msgstr "在窄螢幕上保留所有欄位並水平捲動表格，而不是隱藏欄位。"
+
+#, fuzzy
+#| msgid "All component lists"
+msgid "Visible columns in lists"
+msgstr "所有組件清單"
+
+msgid ""
+"Choose which statistics columns are shown in project, component, and "
+"language lists."
+msgstr ""
 
 msgid "Editor link"
 msgstr "編輯器連結"
@@ -1583,6 +1622,11 @@ msgstr ""
 "選擇擷取程序如何將來源位置寫入 POT 檔案。可藉此在範本中保留位置，同時省略已翻"
 "譯 PO 檔案中的位置資訊。"
 
+#, fuzzy
+#| msgid "Could not remove the string: %s"
+msgid "Keyword entries have to be strings."
+msgstr "無法移除字串：%s"
+
 msgid "Do not extract comments"
 msgstr "不要擷取評論"
 
@@ -1614,10 +1658,14 @@ msgstr "xgettext 檢查"
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr "針對擷取的訊息，要啟用的其他 xgettext 驗證檢查。"
 
-msgid "Additional keyword"
+#, fuzzy
+#| msgid "Additional keyword"
+msgid "Additional keywords"
 msgstr "額外關鍵字"
 
-msgid "Optional extra keyword passed to xgettext using --keyword."
+#, fuzzy
+#| msgid "Optional extra keyword passed to xgettext using --keyword."
+msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr "選用擇傳遞給 xgettext 的其他關鍵字，使用 --keyword 引數。"
 
 msgid "Use keywords exclusively"
@@ -3177,7 +3225,7 @@ msgid "A user with that username already exists."
 msgstr "已經有使用者採用此使用者名稱。"
 
 msgid "Active"
-msgstr "啟用"
+msgstr "使用中"
 
 msgid "Mark user as inactive instead of removing."
 msgstr "停用將使用者標記為不活躍，而不是刪除。"
@@ -3245,8 +3293,8 @@ msgid ""
 "Only privileged users can edit strings directly in this language because of "
 "its translation workflow. Add a suggestion instead."
 msgstr ""
-"由於此語言的翻譯工作流程，只有具備權限的使用者能直接編輯字串。請改為新增建議"
-"。"
+"由於此語言的翻譯工作流程，只有具備權限的使用者能直接編輯字串。請改為新增建"
+"議。"
 
 msgid ""
 "Only privileged users can edit strings directly in this language because of "
@@ -3425,7 +3473,7 @@ msgid "Scheduled removal"
 msgstr "已安排移除"
 
 msgid "Paid"
-msgstr "已支付"
+msgstr "已付款"
 
 msgid "In limits"
 msgstr "限制之內"
@@ -3467,7 +3515,7 @@ msgid "Number of changes"
 msgstr "變更數"
 
 msgid "Hosted strings"
-msgstr "託管的字串"
+msgstr "託管字串"
 
 msgid "Source words"
 msgstr "來源單字"
@@ -3508,12 +3556,45 @@ msgid "Not a libre license"
 msgstr "非自由授權條款"
 
 msgid "Billing"
-msgstr "帳單"
+msgstr "帳務"
 
 msgid "Billing event"
 msgstr "帳單事件"
 
+#, fuzzy
+#| msgid "Monthly"
+msgid "monthly"
+msgstr "每月"
+
+msgid "yearly"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "unknown period"
+msgstr "未知錯誤"
+
 msgid "Changed from \"{}\" to \"{}\"."
+msgstr "已從「{}」變更為「{}」。"
+
+msgid "Payment \"{}\" initiated for \"{}\" ({})."
+msgstr ""
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
+msgstr ""
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
+msgstr ""
+
+msgid "Automatic payment \"{}\" received for \"{}\" ({})."
+msgstr ""
+
+msgid "Payment \"{}\" received for \"{}\" ({})."
+msgstr ""
+
+#, fuzzy
+#| msgid "Changed from \"{}\" to \"{}\"."
+msgid "Merged billing \"{}\" into \"{}\"."
 msgstr "已從「{}」變更為「{}」。"
 
 msgid ""
@@ -4942,7 +5023,7 @@ msgstr "應該是包含詮釋資料檔案的目錄！"
 
 #. Translators: File format name
 msgid "App store metadata files"
-msgstr "App store 詮釋資料檔案"
+msgstr "App Store 詮釋資料檔案"
 
 msgid ""
 "Push is not supported over the Weblate Git exporter. Push to the upstream "
@@ -7222,10 +7303,10 @@ msgid "No add-on activity logs available."
 msgstr "無附加元件活動記錄。"
 
 msgid "Previous"
-msgstr "上一則"
+msgstr "上一頁"
 
 msgid "Next"
-msgstr "下一則"
+msgstr "下一頁"
 
 msgid "Integration instructions"
 msgstr "整合說明"
@@ -7504,7 +7585,7 @@ msgid "Access only"
 msgstr "僅供存取"
 
 msgid "Toggle navigation"
-msgstr "開關導覽選單"
+msgstr "切換導覽選單"
 
 msgid "Manage watched projects"
 msgstr "管理關注專案"
@@ -7517,9 +7598,6 @@ msgstr "管理翻譯的語言"
 
 msgid "Browse all languages"
 msgstr "瀏覽所有語言"
-
-msgid "Checks"
-msgstr "檢查"
 
 #, python-format
 msgid "Failing checks in %(project)s — %(language)s"
@@ -7643,7 +7721,7 @@ msgid "Change plan"
 msgstr "變更方案"
 
 msgid "Invoices"
-msgstr "收據"
+msgstr "發票"
 
 msgid "Invoice period"
 msgstr "收據期間"
@@ -7652,7 +7730,7 @@ msgid "Invoice amount"
 msgstr "收據金額"
 
 msgid "Download invoice"
-msgstr "下載收據"
+msgstr "下載發票"
 
 msgid "Not available"
 msgstr "不可用"
@@ -7687,7 +7765,7 @@ msgid ""
 msgstr "此訂購不合自由軟體方案，請修正上方的錯誤，或是購買正式約期訂購。"
 
 msgid "Customer"
-msgstr "顧客"
+msgstr "客戶"
 
 msgid "Plan"
 msgstr "方案"
@@ -7825,8 +7903,10 @@ msgstr "整理或移除"
 msgid "Browse all changes for this language"
 msgstr "瀏覽此語言的所有變更"
 
-msgid "Replace"
-msgstr "取代"
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Review changes"
+msgstr "最近變更"
 
 msgid "Apply"
 msgstr "套用"
@@ -9156,9 +9236,6 @@ msgstr "來源字串位置"
 msgid "Screenshot context"
 msgstr "螢幕擷圖情境"
 
-msgid "Unfinished strings"
-msgstr "未完成字串"
-
 #. Translators: e-mail subject
 #, python-format
 msgid "%(count)s unfinished string in %(component)s"
@@ -9735,7 +9812,7 @@ msgid "Entries for %(source_language)s to %(target_language)s"
 msgstr "%(source_language)s 到 %(target_language)s 的條目"
 
 msgid "Shared translation memory"
-msgstr "共享的翻譯記憶"
+msgstr "共用翻譯記憶"
 
 #. Translators: Shared translation memory is enabled
 msgid "on"
@@ -9905,6 +9982,9 @@ msgstr "只顯示並取代前 250 個符合專案。請再次執行取代作業�
 
 msgid "Update preview"
 msgstr "更新預覽"
+
+msgid "Replace"
+msgstr "取代"
 
 msgid "Generated by"
 msgstr "產生者"
@@ -10519,20 +10599,8 @@ msgstr "排序此欄"
 msgid "Unreviewed"
 msgstr "尚未檢閱"
 
-msgid "Unfinished words"
-msgstr "未完成單字數"
-
-msgid "Unfinished characters"
-msgstr "未完成字元數"
-
 msgid "Untranslated"
 msgstr "未翻譯"
-
-msgid "Suggestions"
-msgstr "建議"
-
-msgid "Comments"
-msgstr "評論"
 
 msgid "Create translation"
 msgstr "建立翻譯"
@@ -10693,11 +10761,6 @@ msgstr "在特定語言已有翻譯的字串"
 
 msgid "Query"
 msgstr "查詢"
-
-msgid ""
-"Don’t worry about messing up the strings. This is a two-step process showing "
-"a preview of edited strings before the actual change is confirmed."
-msgstr "不用擔心會弄亂字串。這分成兩個步驟：先預覽編輯字串，才會確認實際變更。"
 
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
@@ -11023,6 +11086,16 @@ msgid "Suggested individual language codes"
 msgstr "建議的個別語言代碼"
 
 msgid ""
+"Weblate pushed the changes and created the pull request, but could not merge "
+"it automatically."
+msgstr ""
+
+msgid ""
+"Check that the repository allows auto-merge and the selected merge method, "
+"or turn off automatic merging in the version control parameters."
+msgstr ""
+
+msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr "此組件看起來包含一般 gettext PO 檔案，但已設定為單語 gettext PO。"
@@ -11072,6 +11145,42 @@ msgstr ""
 "導向。若重新導向指向其他位置，請更新組件以使用標準儲存庫 URL。"
 
 msgid ""
+"This version control backend cannot enforce private-address restrictions for "
+"the configured URL. Ask the instance administrator to add the trusted "
+"repository hostname to VCS_ALLOW_HOSTS."
+msgstr ""
+
+msgid ""
+"Weblate blocked the repository URL because its destination is not permitted "
+"by this instance. Use a publicly reachable repository URL, or ask the "
+"instance administrator to allow the trusted repository host."
+msgstr ""
+
+msgid ""
+"The configured repository URL is not valid. Check the URL in the component "
+"settings and use a complete repository URL supported by the selected version "
+"control system."
+msgstr ""
+
+msgid ""
+"The repository URL uses a protocol which is not permitted by this instance. "
+"Use HTTPS or SSH, or ask the instance administrator whether another protocol "
+"can be safely enabled."
+msgstr ""
+
+msgid ""
+"Weblate could not resolve the repository destination. Check the hostname and "
+"the instance DNS configuration. Internal or otherwise non-public hosts must "
+"also be explicitly allowed by the instance administrator."
+msgstr ""
+
+msgid ""
+"The repository URL redirect could not be safely followed. Configure the "
+"final repository URL directly; Weblate automatically accepts only verified "
+"permanent redirects on the same host."
+msgstr ""
+
+msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr "找不到上游儲存庫。請檢查其是否存在且 Weblate 可存取之。"
@@ -11106,6 +11215,12 @@ msgstr ""
 "出拉取請求。"
 
 msgid ""
+"The repository references Git LFS objects that are missing from the push "
+"destination. Weblate does not download or upload Git LFS objects, and files "
+"tracked by Git LFS cannot be used as translation files."
+msgstr ""
+
+msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr "上游儲存庫暫時無法存取，請稍後再試。"
@@ -11120,8 +11235,13 @@ msgstr ""
 msgid "You might want to use following URL instead:"
 msgstr "您可能想改用下述 URL："
 
+#, fuzzy
+#| msgid ""
+#| "You might want to choose Git with force push as version control system in "
+#| "the component configuration to overwrite the remote repository after "
+#| "rebasing commits in Weblate."
 msgid ""
-"You might want to choose Git with force push as version control system in "
+"You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
@@ -13294,6 +13414,12 @@ msgid "Could not update the repository."
 msgstr "無法更新儲存庫。"
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not merge the pull request automatically."
+msgstr "無法合併到儲存庫。"
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "儲存庫不是最新狀態。"
 
@@ -13826,9 +13952,6 @@ msgstr "所有字串"
 msgid "Read-only strings"
 msgstr "唯讀的字串"
 
-msgid "Untranslated strings"
-msgstr "未翻譯的字串"
-
 msgid "Strings marked for edit"
 msgstr "有標需編輯的字串"
 
@@ -13879,6 +14002,40 @@ msgstr "自訂搜尋"
 
 msgid "Labeled: {}"
 msgstr "有標籤：{}"
+
+#. Translators: Glossary term formatting used in a tooltip
+#, python-brace-format
+msgctxt "glossary term"
+msgid "{target} [{source}]"
+msgstr "{target} [{source}]"
+
+msgid "Forbidden translation:"
+msgid_plural "Forbidden translations:"
+msgstr[0] "禁止的翻譯："
+
+msgid "Untranslatable term:"
+msgid_plural "Untranslatable terms:"
+msgstr[0] "不能翻譯的專有名詞："
+
+msgid "Glossary term:"
+msgid_plural "Glossary terms:"
+msgstr[0] "詞彙表字詞："
+
+msgctxt "String state"
+msgid "Dismissed checks:"
+msgstr "忽略的檢查："
+
+msgctxt "String state"
+msgid "Commented"
+msgstr "寫下了評論"
+
+msgctxt "String state"
+msgid "Suggested"
+msgstr "建議"
+
+msgctxt "String state"
+msgid "Automatically translated"
+msgstr "已自動翻譯"
 
 msgid "Repository branch is required for this integration."
 msgstr "此整合需要儲存庫分支。"
@@ -14737,6 +14894,11 @@ msgstr ""
 "用來存取包含翻譯內容之儲存庫的版本控制系統。您也可以選擇與第三方提供商進行額"
 "外整合，來送交提取或合併請求。"
 
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control parameters"
+msgstr "版本控制設定"
+
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -15271,6 +15433,20 @@ msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr "「%(param)s」參數不適用於「%(format)s」檔案格式。"
 
+#, fuzzy, python-format
+#| msgid ""
+#| "The parameter '%(param)s' is not applicable for the file format "
+#| "'%(format)s'."
+msgid ""
+"The parameter '%(param)s' is not applicable for the version control system "
+"'%(vcs)s'."
+msgstr "「%(param)s」參數不適用於「%(format)s」檔案格式。"
+
+msgid ""
+"Pushing without a merge request needs write access to the repository. "
+"Configure a push URL with credentials, or use an SSH repository URL."
+msgstr ""
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
@@ -15636,7 +15812,8 @@ msgstr "限制直接編輯"
 msgid ""
 "Only users with the “Edit string when suggestions are enforced” permission "
 "can make direct changes."
-msgstr "只有具備「強制使用建議時仍可直接編輯字串」權限的使用者，才能直接修改翻譯。"
+msgstr ""
+"只有具備「強制使用建議時仍可直接編輯字串」權限的使用者，才能直接修改翻譯。"
 
 msgid "Insert tab character"
 msgstr "插入跳格定位字元"
@@ -15733,45 +15910,11 @@ msgstr "優先度: 低"
 msgid "Priority: Very low"
 msgstr "優先度: 非常低"
 
-#. Translators: Glossary term formatting used in a tooltip
-#, python-brace-format
-msgctxt "glossary term"
-msgid "{target} [{source}]"
-msgstr "{target} [{source}]"
-
-msgid "Forbidden translation:"
-msgid_plural "Forbidden translations:"
-msgstr[0] "禁止的翻譯："
-
-msgid "Untranslatable term:"
-msgid_plural "Untranslatable terms:"
-msgstr[0] "不能翻譯的專有名詞："
-
-msgid "Glossary term:"
-msgid_plural "Glossary terms:"
-msgstr[0] "詞彙表字詞："
-
 msgid "Translated without any problems"
 msgstr "已翻譯，無問題"
 
 msgid "Needs attention"
 msgstr "需注意"
-
-msgctxt "String state"
-msgid "Dismissed checks:"
-msgstr "忽略的檢查："
-
-msgctxt "String state"
-msgid "Commented"
-msgstr "寫下了評論"
-
-msgctxt "String state"
-msgid "Suggested"
-msgstr "建議"
-
-msgctxt "String state"
-msgid "Automatically translated"
-msgstr "已自動翻譯"
 
 #, python-format
 msgid "string ID %s"
@@ -15806,16 +15949,6 @@ msgstr[0] "這裡有 %(count)s 則尚未翻譯的字串。"
 #, python-format
 msgid "Shared from the %s project."
 msgstr "從 %s 專案共用。"
-
-#. Translators: Number format, in millions (mega)
-#, python-format
-msgid "%s M"
-msgstr "%s 百萬"
-
-#. Translators: Number format, in thousands (kilo)
-#, python-format
-msgid "%s k"
-msgstr "%s 千"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -15939,6 +16072,16 @@ msgstr "檔案格式參數必須是鍵值對組成的字典結構。"
 
 #, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
+msgstr "無效的檔案格式參數：「%(param_name)s」。"
+
+#, fuzzy
+#| msgid "File format parameters must be a dictionary of key-value pairs."
+msgid "Version control parameters must be a dictionary of key-value pairs."
+msgstr "檔案格式參數必須是鍵值對組成的字典結構。"
+
+#, fuzzy, python-format
+#| msgid "Unknown file format parameter: \"%(param_name)s\"."
+msgid "Unknown version control parameter: \"%(param_name)s\"."
 msgstr "無效的檔案格式參數：「%(param_name)s」。"
 
 msgid "Keys"
@@ -16132,7 +16275,7 @@ msgid "Invalid suggestion!"
 msgstr "無效的翻譯建議！"
 
 msgid "Rejection reason is too long!"
-msgstr "拒絕原因過長。"
+msgstr "拒絕原因過長！"
 
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
@@ -16540,6 +16683,16 @@ msgid_plural ""
 msgstr[0] ""
 "已處理上傳檔案中的 {0} 個字串（略過：{1}，找不到：{2}，已更新：{3}）。"
 
+#. Translators: Number format, in millions (mega)
+#, python-format
+msgid "%s M"
+msgstr "%s 百萬"
+
+#. Translators: Number format, in thousands (kilo)
+#, python-format
+msgid "%s k"
+msgstr "%s 千"
+
 msgid "Missing query string."
 msgstr "缺少查詢字串。"
 
@@ -16576,6 +16729,11 @@ msgstr "無法解析 URL 網域：{}"
 
 msgid "Could not resolve the URL domain."
 msgstr "無法解析 URL 網域。"
+
+#, fuzzy
+#| msgid "File format parameters must be a dictionary of key-value pairs."
+msgid "Parameters must be a dictionary of key-value pairs."
+msgstr "檔案格式參數必須是鍵值對組成的字典結構。"
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -16906,7 +17064,42 @@ msgstr "建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(er
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
-msgstr "建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s 請稍後再試。"
+msgstr ""
+"建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s 請稍後再試。"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s"
+msgid "%(service)s API request failed while merging a pull request: %(status)s"
+msgstr "建立拉取請求時，%(service)s API 要求失敗：%(status)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request: %(status)s "
+#| "Please retry later."
+msgid ""
+"%(service)s API request failed while merging a pull request: %(status)s "
+"Please retry later."
+msgstr "建立拉取請求時，%(service)s API 要求失敗：%(status)s 請稍後再試。"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s"
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s"
+msgstr "建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "%(service)s API request failed while creating a pull request "
+#| "(%(status)s): %(error)s Please retry later."
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s Please retry later."
+msgstr ""
+"建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s 請稍後再試。"
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "匯入 GitHub App 儲存庫時必須指定分支。"
@@ -17120,6 +17313,9 @@ msgstr ""
 "若要讓多個使用者或組織安裝 App，必須啟用此選項。此處的「公開」僅表示 App 不受"
 "限於其擁有者；並不會在 GitHub Marketplace 上列出 App。"
 
+msgid "This will force push changes to the upstream repository."
+msgstr "這將會強制推送變更到上游儲存庫。"
+
 msgid "This will push changes to the upstream Git repository."
 msgstr "這將把變更推送到上游 Git 儲存庫。"
 
@@ -17134,9 +17330,6 @@ msgstr "這會將變更提交至 Subversion 儲存庫。"
 
 msgid "Git with force push"
 msgstr "Git 強制推送"
-
-msgid "This will force push changes to the upstream repository."
-msgstr "這將會強制推送變更到上游儲存庫。"
 
 msgid "Azure DevOps pull request"
 msgstr "Azure DevOps 拉取請求"
@@ -17234,7 +17427,7 @@ msgid "GitHub"
 msgstr "GitHub"
 
 msgid "Provider"
-msgstr "提供者"
+msgstr "服務提供者"
 
 msgid "Installation ID"
 msgstr "安裝 ID"
@@ -17268,6 +17461,58 @@ msgstr "待處理的程式碼代管服務安裝項目"
 
 msgid "pending code-hosting installations"
 msgstr "待處理的程式碼代管服務安裝項目"
+
+#, fuzzy
+#| msgid "Git with force push"
+msgid "Force push"
+msgstr "Git 強制推送"
+
+msgid ""
+"Overwrite the remote branch instead of refusing to push non-fast-forward "
+"changes. Only use this with a repository dedicated to translations, as it "
+"discards upstream commits which are not present in Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pagure merge request"
+msgid "Create merge requests"
+msgstr "Pagure 合併請求"
+
+msgid ""
+"Open a pull or merge request for the translation changes. When turned off, "
+"Weblate pushes to the translated branch directly, which requires write "
+"access to it."
+msgstr ""
+
+msgid "Merge pull requests automatically"
+msgstr ""
+
+msgid ""
+"Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
+"are merged once the required checks pass. Pull requests with nothing to wait "
+"for are merged right away."
+msgstr ""
+
+msgid "Merge method"
+msgstr "合併方式"
+
+#, fuzzy
+#| msgid "Create account"
+msgid "Create a merge commit"
+msgstr "建立帳號"
+
+msgid "Squash and merge"
+msgstr ""
+
+#, fuzzy
+#| msgid "Reset and reapply"
+msgid "Rebase and merge"
+msgstr "重設並重新套用"
+
+msgid ""
+"Method used when merging pull requests automatically. The repository has to "
+"allow it."
+msgstr ""
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -17447,7 +17692,7 @@ msgid "Weblate GitHub App credentials updated."
 msgstr "已更新 Weblate GitHub App 憑證。"
 
 msgid "Activation token"
-msgstr "啟動權杖"
+msgstr "啟用權杖"
 
 msgid ""
 "Please enter the activation token obtained when making the subscription."
@@ -17517,15 +17762,15 @@ msgstr "託管服務"
 
 #. Translators: The Weblate server has paid support from the Weblate team
 msgid "Basic self-hosted support"
-msgstr "自行架設的基本支援"
+msgstr "基本自行託管支援"
 
 #. Translators: The Weblate server has extended support from the Weblate team
 msgid "Extended self-hosted support"
-msgstr "自行架設的延伸支援"
+msgstr "延伸自行託管支援"
 
 #. Translators: The Weblate server has premium support from the Weblate team
 msgid "Premium self-hosted support"
-msgstr "自行架設的進階支援"
+msgstr "Premium 自行託管支援"
 
 msgid "Unpaid subscription"
 msgstr "未付款訂閱"
@@ -17546,6 +17791,18 @@ msgstr "備份已執行"
 
 #. Translators: Backup repository operation
 msgid "Backup failed"
+msgstr "備份失敗了"
+
+#. Translators: Backup repository operation
+#, fuzzy
+#| msgid "Backup performed"
+msgid "Database backup performed"
+msgstr "備份已執行"
+
+#. Translators: Backup repository operation
+#, fuzzy
+#| msgid "Backup failed"
+msgid "Database backup failed"
 msgstr "備份失敗了"
 
 #. Translators: Backup repository operation
@@ -17608,33 +17865,85 @@ msgid ""
 "to manage its listing."
 msgstr "此安裝項目已連結至 weblate.org。請使用探索設定管理其列出資訊。"
 
-msgid "Could not activate your installation. Invalid activation state."
+#, fuzzy
+#| msgid "Could not activate your installation. Invalid activation state."
+msgid "Could not enable Discover Weblate. Invalid activation state."
 msgstr "無法啟用安裝實體。啟用狀態無效。"
 
-msgid "Could not activate your installation. Missing activation code."
+#, fuzzy
+#| msgid "Could not activate your installation. Missing activation code."
+msgid "Could not enable Discover Weblate. Missing activation code."
 msgstr "無法啟用安裝實體。缺少啟用碼。"
 
-msgid "Could not activate your installation. Invalid activation code."
+#, fuzzy
+#| msgid "Could not activate your installation. Invalid activation code."
+msgid "Could not enable Discover Weblate. Invalid activation code."
 msgstr "無法啟用安裝實體。啟用碼無效。"
 
-msgid "Could not activate your installation. Please try again later."
+#, fuzzy
+#| msgid "Could not activate your installation. Please try again later."
+msgid "Could not enable Discover Weblate. Please try again later."
 msgstr "無法啟用安裝實體。請稍後重試。"
 
+#, fuzzy
+#| msgid ""
+#| "Could not activate discovery because a support package is already linked."
 msgid ""
-"Could not activate discovery because a support package is already linked."
+"Could not enable Discover Weblate because a support package is already "
+"linked."
 msgstr "由於已連結支援套件，無法啟用探索功能。"
 
-msgid "Activation completed."
-msgstr "啟用完成。"
+#, fuzzy
+#| msgid "Discover Weblate"
+msgid "Discover Weblate enabled."
+msgstr "探索 Weblate"
 
+#, fuzzy
+#| msgid "Support status"
+msgid "Support status refreshed."
+msgstr "支援狀態"
+
+#, fuzzy
+#| msgid "Could not activate your installation. Please try again later."
+msgid "Could not refresh support status. Please try again later."
+msgstr "無法啟用安裝實體。請稍後重試。"
+
+msgid "Could not refresh support status. The activation token is invalid."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Could not fetch supported languages: %s"
+msgid "Could not refresh support status: %s"
+msgstr "無法取得支援的語言：%s"
+
+#, fuzzy
+#| msgid "Support package limits"
+msgid "Support package activated."
+msgstr "支援套件上限"
+
+#, fuzzy
+#| msgid "Could not activate your installation. Please try again later."
+msgid "Could not activate the support package. Please try again later."
+msgstr "無法啟用安裝實體。請稍後重試。"
+
+#, fuzzy
+#| msgid ""
+#| "Could not activate your installation. Please ensure your activation token "
+#| "is correct."
 msgid ""
-"Could not activate your installation. Please ensure your activation token is "
-"correct."
+"Could not activate the support package. Please ensure the activation token "
+"is correct."
 msgstr "無法啟用安裝實體。請確保您的啟用權杖是正確的。"
 
-#, python-format
-msgid "Could not activate your installation: %s"
-msgstr "無法啟用您的安裝實體：%s"
+#, fuzzy, python-format
+#| msgid "Could not fetch supported languages: %s"
+msgid "Could not activate the support package: %s"
+msgstr "無法取得支援的語言：%s"
+
+#, fuzzy
+#| msgid "Support package limits"
+msgid "Support package unlinked."
+msgstr "支援套件上限"
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
@@ -17659,7 +17968,7 @@ msgid "Please type in the workspace name to confirm its removal."
 msgstr "請輸入工作空間名稱以確認移除。"
 
 msgid "The workspace name does not match the one marked for removal!"
-msgstr "輸入的工作空間名稱與待移除工作空間的名稱不相符。"
+msgstr "輸入的工作空間名稱與待移除工作空間的名稱不相符！"
 
 msgid "Inherited component defaults"
 msgstr "繼承了組件預設"
@@ -17692,6 +18001,19 @@ msgstr "工作空間仍在使用中，因此無法移除。"
 
 msgid "The workspace has been removed."
 msgstr "工作空間已移除。"
+
+#~ msgid ""
+#~ "Don’t worry about messing up the strings. This is a two-step process "
+#~ "showing a preview of edited strings before the actual change is confirmed."
+#~ msgstr ""
+#~ "不用擔心會弄亂字串。這分成兩個步驟：先預覽編輯字串，才會確認實際變更。"
+
+#~ msgid "Activation completed."
+#~ msgstr "啟用完成。"
+
+#, python-format
+#~ msgid "Could not activate your installation: %s"
+#~ msgstr "無法啟用您的安裝實體：%s"
 
 #~ msgid ""
 #~ "The last webhook update for this component used fallback repository "
@@ -17764,9 +18086,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "creating a pull request"
 #~ msgstr "建立拉取請求"
-
-#~ msgid "Unknown error"
-#~ msgstr "未知錯誤"
 
 #~ msgid "File processed, the entries will appear shortly."
 #~ msgstr "檔案已處理，條目將盡快顯示。"
@@ -19502,9 +19821,6 @@ msgstr "工作空間已移除。"
 #~ "您可以上傳 Translate Toolkit 能理解的任何格式（包括 TBX、 CSV、gettext PO "
 #~ "檔等）。"
 
-#~ msgid "Merge method"
-#~ msgstr "合併方式"
-
 #~ msgid "Keep current"
 #~ msgstr "維持現狀"
 
@@ -20884,9 +21200,6 @@ msgstr "工作空間已移除。"
 #~ msgid "There is %(count)s translated string."
 #~ msgid_plural "There are %(count)s translated strings."
 #~ msgstr[0] "有 %(count)s 條未譯字串。"
-
-#~ msgid "Total strings:"
-#~ msgstr "總計字串："
 
 #~ msgid "Translated strings:"
 #~ msgstr "已翻譯字串："

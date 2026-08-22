@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-14 13:26+0000\n"
+"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"PO-Revision-Date: 2026-08-22 02:36+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -506,7 +506,7 @@ msgstr "Superuser-Rechte widerrufen."
 
 #. Translators: Audit log entry
 msgid "Semiannual support status review was displayed."
-msgstr "Halbjährliche Überprüfung des Support-Status wurde angezeigt."
+msgstr "Halbjährliche Überprüfung des Supportstatus wurde angezeigt."
 
 #. Translators: Audit log entry
 #, python-brace-format
@@ -632,6 +632,33 @@ msgstr "Kontoaktivität"
 msgid "Triggered by {username}."
 msgstr "Ausgelöst durch {username}."
 
+msgid "Total strings"
+msgstr "Gesamtanzahl Zeichenketten"
+
+msgid "Unfinished strings"
+msgstr "Unvollständige Zeichenketten"
+
+msgid "Unfinished words"
+msgstr "Unvollständige Wörter"
+
+msgid "Unfinished characters"
+msgstr "Unvollständige Zeichen"
+
+msgid "Untranslated strings"
+msgstr "Nicht übersetzte Zeichenketten"
+
+msgid "Checks"
+msgstr "Qualitätsprüfungen"
+
+msgid "Suggestions"
+msgstr "Vorschläge"
+
+msgid "Comments"
+msgstr "Kommentare"
+
+msgid "Invalid listing column selection."
+msgstr "Ungültige Spaltenauswahl in der Liste."
+
 msgid "Interface Language"
 msgstr "Sprache der Bedienoberfläche"
 
@@ -678,6 +705,16 @@ msgid ""
 msgstr ""
 "Anstatt Spalten auf schmalen Bildschirmen auszublenden, werden alle Spalten "
 "angezeigt und die Tabelle lässt sich horizontal scrollen."
+
+msgid "Visible columns in lists"
+msgstr "In Listen angezeigte Spalten"
+
+msgid ""
+"Choose which statistics columns are shown in project, component, and "
+"language lists."
+msgstr ""
+"Wählen Sie aus, welche Statistikspalten in den Projekt-, Komponenten- und "
+"Sprachlisten angezeigt werden sollen."
 
 msgid "Editor link"
 msgstr "Editorlink"
@@ -1760,6 +1797,9 @@ msgstr ""
 "Verwenden Sie diese Option, um Orte in der Vorlage beizubehalten, sie jedoch "
 "in den übersetzten PO-Dateien wegzulassen."
 
+msgid "Keyword entries have to be strings."
+msgstr "Schlüsselworteinträge müssen Zeichenketten sein."
+
 msgid "Do not extract comments"
 msgstr "Kommentare nicht extrahieren"
 
@@ -1796,13 +1836,13 @@ msgstr ""
 "Zusätzliche Qualitätsprüfungen von xgettext für extrahierte Nachrichten "
 "aktivieren."
 
-msgid "Additional keyword"
-msgstr "Zusätzliches Schlüsselwort"
+msgid "Additional keywords"
+msgstr "Zusätzliche Schlüsselwörter"
 
-msgid "Optional extra keyword passed to xgettext using --keyword."
+msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
-"Optionales zusätzliches Schlüsselwort, das mit --keyword an xgettext "
-"übergeben wird."
+"Zusätzliche Schlüsselwörter, die durch Zeilenumbrüche getrennt sind und "
+"mit --keyword an xgettext übergeben werden."
 
 msgid "Use keywords exclusively"
 msgstr "Schlüsselwörter exklusiv verwenden"
@@ -2828,7 +2868,7 @@ msgid "Expected an object."
 msgstr "Erwartet ein Objekt."
 
 msgid "At least one team is required for a project token."
-msgstr "Für einen Projekt-Token ist mindestens ein Team erforderlich."
+msgstr "Für ein Projekt-Token ist mindestens ein Team erforderlich."
 
 msgid "This role cannot be assigned to this team."
 msgstr "Diese Rolle kann diesem Team nicht zugewiesen werden."
@@ -3858,8 +3898,35 @@ msgstr "Abrechnung"
 msgid "Billing event"
 msgstr "Abrechnungsereignis"
 
+msgid "monthly"
+msgstr "monatlich"
+
+msgid "yearly"
+msgstr "jährlich"
+
+msgid "unknown period"
+msgstr "unbekannter Zeitraum"
+
 msgid "Changed from \"{}\" to \"{}\"."
 msgstr "Von „{}“ in „{}“ geändert."
+
+msgid "Payment \"{}\" initiated for \"{}\" ({})."
+msgstr "Zahlung „{}“ für „{}“ ({}) ausgelöst."
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
+msgstr "Zahlung „{}“ für „{}“ ({}) wurde abgelehnt: {}."
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
+msgstr "Zahlung „{}“ für „{}“ ({}) wurde abgelehnt."
+
+msgid "Automatic payment \"{}\" received for \"{}\" ({})."
+msgstr "Automatische Zahlung „{}“ für „{}“ ({}) eingegangen."
+
+msgid "Payment \"{}\" received for \"{}\" ({})."
+msgstr "Zahlung „{}“ für „{}“ ({}) eingegangen."
+
+msgid "Merged billing \"{}\" into \"{}\"."
+msgstr "Abrechnung „{}“ mit „{}“ zusammengeführt."
 
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
@@ -3880,7 +3947,7 @@ msgstr ""
 "Um die Abrechnung zu beenden müssen Sie zuerst alle Projekte entfernen."
 
 msgid "Cannot merge such a billing."
-msgstr "Eine solche Abrechnung kann nicht zusammengefasst werden."
+msgstr "Eine solche Abrechnung kann nicht zusammengeführt werden."
 
 msgid "AngularJS interpolation string"
 msgstr "AngularJS-Interpolations-Zeichenkette"
@@ -6159,7 +6226,7 @@ msgstr "Benutzerdefinierter Modellname"
 
 msgid "Only needed when model is set to 'Custom model'"
 msgstr ""
-"Nur erforderlich, wenn das Modell auf 'Benutzerdefiniertes Modell' "
+"Nur erforderlich, wenn das Modell auf ‚Benutzerdefiniertes Modell‘ "
 "eingestellt ist"
 
 msgid "Missing custom model name."
@@ -8245,9 +8312,6 @@ msgstr "Übersetzte Sprachen verwalten"
 msgid "Browse all languages"
 msgstr "Alle Sprachen durchsuchen"
 
-msgid "Checks"
-msgstr "Qualitätsprüfungen"
-
 #, python-format
 msgid "Failing checks in %(project)s — %(language)s"
 msgstr "Fehlgeschlagene Prüfungen in %(project)s — %(language)s"
@@ -8360,7 +8424,7 @@ msgid "Terminate billing plan"
 msgstr "Abrechnungsmodell kündigen"
 
 msgid "Merge billing"
-msgstr "Abrechnung zusammenfassen"
+msgstr "Abrechnung zusammenführen"
 
 msgid "Review merge"
 msgstr "Zusammenführen überprüfen"
@@ -8558,8 +8622,8 @@ msgstr "Organisieren oder Entfernen"
 msgid "Browse all changes for this language"
 msgstr "Alle Änderungen in dieser Sprache durchsuchen"
 
-msgid "Replace"
-msgstr "Ersetzen"
+msgid "Review changes"
+msgstr "Änderungen überprüfen"
 
 msgid "Apply"
 msgstr "Übernehmen"
@@ -10056,9 +10120,6 @@ msgstr "Ort der Ausgangszeichenkette"
 msgid "Screenshot context"
 msgstr "Bildschirmfoto zum Kontext"
 
-msgid "Unfinished strings"
-msgstr "Unvollständige Zeichenketten"
-
 #. Translators: e-mail subject
 #, python-format
 msgid "%(count)s unfinished string in %(component)s"
@@ -10869,6 +10930,9 @@ msgstr ""
 msgid "Update preview"
 msgstr "Vorschau aktualisieren"
 
+msgid "Replace"
+msgstr "Ersetzen"
+
 msgid "Generated by"
 msgstr "Erzeugt von"
 
@@ -11549,20 +11613,8 @@ msgstr "Diese Spalte sortieren"
 msgid "Unreviewed"
 msgstr "Nicht überprüft"
 
-msgid "Unfinished words"
-msgstr "Unvollständige Wörter"
-
-msgid "Unfinished characters"
-msgstr "Unvollständige Zeichen"
-
 msgid "Untranslated"
 msgstr "Nicht übersetzt"
-
-msgid "Suggestions"
-msgstr "Vorschläge"
-
-msgid "Comments"
-msgstr "Kommentare"
 
 msgid "Create translation"
 msgstr "Übersetzung erstellen"
@@ -11730,15 +11782,6 @@ msgstr "Übersetzte Zeichenketten in einer bestimmten Sprache"
 
 msgid "Query"
 msgstr "Abfrage"
-
-msgid ""
-"Don’t worry about messing up the strings. This is a two-step process showing "
-"a preview of edited strings before the actual change is confirmed."
-msgstr ""
-"Machen Sie sich keine Sorgen, dass Sie die Zeichenketten "
-"durcheinanderbringen. Dies ist ein zweistufiger Prozess, bei dem eine "
-"Vorschau der bearbeiteten Zeichenfolgen angezeigt wird, bevor die "
-"eigentliche Änderung bestätigt wird."
 
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
@@ -12101,6 +12144,21 @@ msgid "Suggested individual language codes"
 msgstr "Vorgeschlagene individuelle Sprachcodes"
 
 msgid ""
+"Weblate pushed the changes and created the pull request, but could not merge "
+"it automatically."
+msgstr ""
+"Weblate hat die Änderungen gepusht und den Pull Request erstellt, konnte "
+"diesen jedoch nicht automatisch zusammenführen."
+
+msgid ""
+"Check that the repository allows auto-merge and the selected merge method, "
+"or turn off automatic merging in the version control parameters."
+msgstr ""
+"Stellen Sie sicher, dass das Repository das automatische Zusammenführen und "
+"die ausgewählte Merge-Methode zulässt, oder deaktivieren Sie das "
+"automatische Zusammenführen in den Versionsverwaltungs-Parametern."
+
+msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
@@ -12163,6 +12221,63 @@ msgstr ""
 "verweist."
 
 msgid ""
+"This version control backend cannot enforce private-address restrictions for "
+"the configured URL. Ask the instance administrator to add the trusted "
+"repository hostname to VCS_ALLOW_HOSTS."
+msgstr ""
+"Dieses Backend für die Versionsverwaltung kann keine Einschränkungen "
+"hinsichtlich privater Adressen für die konfigurierte URL durchsetzen. Bitten "
+"Sie den Instanzadministrator, den Hostnamen des vertrauenswürdigen "
+"Repositorys zu VCS_ALLOW_HOSTS hinzuzufügen."
+
+msgid ""
+"Weblate blocked the repository URL because its destination is not permitted "
+"by this instance. Use a publicly reachable repository URL, or ask the "
+"instance administrator to allow the trusted repository host."
+msgstr ""
+"Weblate hat die Repository-URL blockiert, da ihr Ziel von dieser Instanz "
+"nicht zugelassen ist. Verwenden Sie eine öffentlich erreichbare Repository-"
+"URL oder bitten Sie den Instanzadministrator, den vertrauenswürdigen "
+"Repository-Host zuzulassen."
+
+msgid ""
+"The configured repository URL is not valid. Check the URL in the component "
+"settings and use a complete repository URL supported by the selected version "
+"control system."
+msgstr ""
+"Die konfigurierte Repository-URL ist ungültig. Überprüfen Sie die URL in den "
+"Komponenteneinstellungen und verwenden Sie eine vollständige Repository-URL, "
+"die von der ausgewählten Versionsverwaltung unterstützt wird."
+
+msgid ""
+"The repository URL uses a protocol which is not permitted by this instance. "
+"Use HTTPS or SSH, or ask the instance administrator whether another protocol "
+"can be safely enabled."
+msgstr ""
+"Die Repository-URL verwendet ein Protokoll, das von dieser Instanz nicht "
+"zugelassen ist. Verwenden Sie HTTPS oder SSH oder fragen Sie den "
+"Instanzadministrator, ob ein anderes Protokoll sicher aktiviert werden kann."
+
+msgid ""
+"Weblate could not resolve the repository destination. Check the hostname and "
+"the instance DNS configuration. Internal or otherwise non-public hosts must "
+"also be explicitly allowed by the instance administrator."
+msgstr ""
+"Weblate konnte das Ziel-Repository nicht auflösen. Überprüfen Sie den "
+"Hostnamen und die DNS-Konfiguration der Instanz. Interne oder anderweitig "
+"nicht öffentliche Hosts müssen zudem ausdrücklich vom Instanzadministrator "
+"zugelassen werden."
+
+msgid ""
+"The repository URL redirect could not be safely followed. Configure the "
+"final repository URL directly; Weblate automatically accepts only verified "
+"permanent redirects on the same host."
+msgstr ""
+"Die Weiterleitung der Repository-URL konnte nicht sicher verfolgt werden. "
+"Geben Sie die endgültige Repository-URL direkt ein; Weblate akzeptiert "
+"automatisch nur verifizierte permanente Weiterleitungen auf demselben Host."
+
+msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
@@ -12204,6 +12319,16 @@ msgstr ""
 "Sie einen Repository-Betreuer, Pull Requests von allen Benutzern zuzulassen."
 
 msgid ""
+"The repository references Git LFS objects that are missing from the push "
+"destination. Weblate does not download or upload Git LFS objects, and files "
+"tracked by Git LFS cannot be used as translation files."
+msgstr ""
+"Das Repository verweist auf Git-LFS-Objekte, die am Push-Ziel fehlen. "
+"Weblate lädt weder Git-LFS-Objekte herunter noch lädt es diese hoch, und "
+"Dateien, die von Git LFS verwaltet werden, können nicht als "
+"Übersetzungsdateien verwendet werden."
+
+msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
@@ -12222,13 +12347,13 @@ msgid "You might want to use following URL instead:"
 msgstr "Sie können stattdessen die folgende URL verwenden:"
 
 msgid ""
-"You might want to choose Git with force push as version control system in "
+"You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"Sie können Git mit Force Push als Versionsverwaltung in der "
-"Komponentenkonfiguration auswählen, um das Remote-Repository nach dem "
-"Umbasieren von Commits in Weblate zu überschreiben."
+"Möglicherweise möchten Sie in den Versionsverwaltungs-Parametern der "
+"Komponentenkonfiguration „Push erzwingen“ aktivieren, um das Remote-"
+"Repository nach dem Umbasieren von Commits in Weblate zu überschreiben."
 
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
@@ -14666,6 +14791,10 @@ msgid "Could not update the repository."
 msgstr "Das Repository konnte nicht aktualisiert werden."
 
 #. Translators: Name of an alert
+msgid "Could not merge the pull request automatically."
+msgstr "Die Pull Requests konnten nicht automatisch zusammengeführt werden."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "Das Repository ist veraltet."
 
@@ -15241,9 +15370,6 @@ msgstr "Alle Zeichenketten"
 msgid "Read-only strings"
 msgstr "Schreibgeschützte Zeichenketten"
 
-msgid "Untranslated strings"
-msgstr "Nicht übersetzte Zeichenketten"
-
 msgid "Strings marked for edit"
 msgstr "Zur Bearbeitung markierte Zeichenketten"
 
@@ -15294,6 +15420,43 @@ msgstr "Benutzerdefinierte Suche"
 
 msgid "Labeled: {}"
 msgstr "Beschriftet: {}"
+
+#. Translators: Glossary term formatting used in a tooltip
+#, python-brace-format
+msgctxt "glossary term"
+msgid "{target} [{source}]"
+msgstr "{target} [{source}]"
+
+msgid "Forbidden translation:"
+msgid_plural "Forbidden translations:"
+msgstr[0] "Unzulässige Übersetzung:"
+msgstr[1] "Unzulässige Übersetzungen:"
+
+msgid "Untranslatable term:"
+msgid_plural "Untranslatable terms:"
+msgstr[0] "Nicht übersetzbarer Begriff:"
+msgstr[1] "Nicht übersetzbare Begriffe:"
+
+msgid "Glossary term:"
+msgid_plural "Glossary terms:"
+msgstr[0] "Glossarbegriff:"
+msgstr[1] "Glossarbegriffe:"
+
+msgctxt "String state"
+msgid "Dismissed checks:"
+msgstr "Verworfene Qualitätsprüfungen:"
+
+msgctxt "String state"
+msgid "Commented"
+msgstr "Kommentiert"
+
+msgctxt "String state"
+msgid "Suggested"
+msgstr "Vorgeschlagen"
+
+msgctxt "String state"
+msgid "Automatically translated"
+msgstr "Automatisch übersetzt"
 
 msgid "Repository branch is required for this integration."
 msgstr "Für diese Integration ist ein Repository-Branch erforderlich."
@@ -16273,6 +16436,9 @@ msgstr ""
 "zugreifen können. Sie können auch die zusätzliche Integration mit "
 "Drittanbietern auswählen, um Pull/Merge Requests zu übermitteln."
 
+msgid "Version control parameters"
+msgstr "Versionsverwaltungs-Parameter"
+
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -16944,8 +17110,24 @@ msgstr ""
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr ""
-"Der Parameter '%(param)s' ist für das Dateiformat '%(format)s' nicht "
+"Der Parameter ‚%(param)s‘ ist für das Dateiformat ‚%(format)s‘ nicht "
 "anwendbar."
+
+#, python-format
+msgid ""
+"The parameter '%(param)s' is not applicable for the version control system "
+"'%(vcs)s'."
+msgstr ""
+"Der Parameter ‚%(param)s‘ ist für die Versionsverwaltung ‚%(vcs)s‘ nicht "
+"anwendbar."
+
+msgid ""
+"Pushing without a merge request needs write access to the repository. "
+"Configure a push URL with credentials, or use an SSH repository URL."
+msgstr ""
+"Für einen Push ohne Merge Request ist Schreibzugriff auf das Repository "
+"erforderlich. Konfigurieren Sie eine Push-URL mit Zugangsdaten oder "
+"verwenden Sie eine SSH-Repository-URL."
 
 msgid ""
 "A component can not be restricted while its project uses shared translation "
@@ -17496,48 +17678,11 @@ msgstr "Priorität: Niedrig"
 msgid "Priority: Very low"
 msgstr "Priorität: Sehr niedrig"
 
-#. Translators: Glossary term formatting used in a tooltip
-#, python-brace-format
-msgctxt "glossary term"
-msgid "{target} [{source}]"
-msgstr "{target} [{source}]"
-
-msgid "Forbidden translation:"
-msgid_plural "Forbidden translations:"
-msgstr[0] "Unzulässige Übersetzung:"
-msgstr[1] "Unzulässige Übersetzungen:"
-
-msgid "Untranslatable term:"
-msgid_plural "Untranslatable terms:"
-msgstr[0] "Nicht übersetzbarer Begriff:"
-msgstr[1] "Nicht übersetzbare Begriffe:"
-
-msgid "Glossary term:"
-msgid_plural "Glossary terms:"
-msgstr[0] "Glossarbegriff:"
-msgstr[1] "Glossarbegriffe:"
-
 msgid "Translated without any problems"
 msgstr "Übersetzt ohne jegliche Probleme"
 
 msgid "Needs attention"
 msgstr "Erfordert Aufmerksamkeit"
-
-msgctxt "String state"
-msgid "Dismissed checks:"
-msgstr "Verworfene Qualitätsprüfungen:"
-
-msgctxt "String state"
-msgid "Commented"
-msgstr "Kommentiert"
-
-msgctxt "String state"
-msgid "Suggested"
-msgstr "Vorgeschlagen"
-
-msgctxt "String state"
-msgid "Automatically translated"
-msgstr "Automatisch übersetzt"
 
 #, python-format
 msgid "string ID %s"
@@ -17573,16 +17718,6 @@ msgstr[1] "%(count)s Zeichenketten werden hier nicht übersetzt."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Geteilt aus dem %s Projekt."
-
-#. Translators: Number format, in millions (mega)
-#, python-format
-msgid "%s M"
-msgstr "%s M"
-
-#. Translators: Number format, in thousands (kilo)
-#, python-format
-msgid "%s k"
-msgstr "%s k"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -17733,6 +17868,15 @@ msgstr ""
 #, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
 msgstr "Unbekannter Dateiformat-Parameter: „%(param_name)s“."
+
+msgid "Version control parameters must be a dictionary of key-value pairs."
+msgstr ""
+"Versionsverwaltungs-Parameter müssen ein Wörterbuch mit Schlüsselwert-Paaren "
+"sein."
+
+#, python-format
+msgid "Unknown version control parameter: \"%(param_name)s\"."
+msgstr "Unbekannter Versionsverwaltungs-Parameter: „%(param_name)s“."
 
 msgid "Keys"
 msgstr "Schlüssel"
@@ -18403,6 +18547,16 @@ msgstr[1] ""
 "{0} Zeichenketten aus hochgeladener Datei importiert (übersprungen: {1}, "
 "nicht gefunden: {2}, aktualisiert: {3})."
 
+#. Translators: Number format, in millions (mega)
+#, python-format
+msgid "%s M"
+msgstr "%s M"
+
+#. Translators: Number format, in thousands (kilo)
+#, python-format
+msgid "%s k"
+msgstr "%s k"
+
 msgid "Missing query string."
 msgstr "Fehlende Abfragezeichenkette."
 
@@ -18443,6 +18597,9 @@ msgstr "Die URL-Domain konnte nicht aufgelöst werden: {}"
 
 msgid "Could not resolve the URL domain."
 msgstr "Die URL-Domain konnte nicht aufgelöst werden."
+
+msgid "Parameters must be a dictionary of key-value pairs."
+msgstr "Parameter müssen ein Wörterbuch mit Schlüsselwert-Paaren sein."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -18821,6 +18978,36 @@ msgstr ""
 "%(service)s-API-Anfrage beim Erstellen eines Pull Requests fehlgeschlagen "
 "(%(status)s): %(error)s Bitte später erneut versuchen."
 
+#, python-format
+msgid "%(service)s API request failed while merging a pull request: %(status)s"
+msgstr ""
+"%(service)s-API-Anfrage beim Zusammenführen eines Pull Requests "
+"fehlgeschlagen: %(status)s"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+"%(service)s-API-Anfrage beim Zusammenführen eines Pull Requests "
+"fehlgeschlagen: %(status)s Bitte später erneut versuchen."
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s"
+msgstr ""
+"%(service)s-API-Anfrage beim Zusammenführen eines Pull Requests "
+"fehlgeschlagen (%(status)s): %(error)s"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s Please retry later."
+msgstr ""
+"%(service)s-API-Anfrage beim Zusammenführen eines Pull Requests "
+"fehlgeschlagen (%(status)s): %(error)s Bitte später erneut versuchen."
+
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "GitHub-App-Repositorys müssen mit einem Branch importiert werden."
 
@@ -19072,6 +19259,9 @@ msgstr ""
 "ihren Besitzer beschränkt ist; die App wird dadurch nicht auf GitHub "
 "Marketplace gelistet."
 
+msgid "This will force push changes to the upstream repository."
+msgstr "Dadurch werden Push-Änderungen im Upstream-Repository erzwungen."
+
 msgid "This will push changes to the upstream Git repository."
 msgstr "Dadurch werden die Änderungen in das Upstream-Git-Repository gepusht."
 
@@ -19085,10 +19275,7 @@ msgid "This will commit changes to the Subversion repository."
 msgstr "Dadurch werden die Änderungen an das Subversion-Repository committet."
 
 msgid "Git with force push"
-msgstr "Git Push erzwingen"
-
-msgid "This will force push changes to the upstream repository."
-msgstr "Dadurch werden Push-Änderungen im Upstream-Repository erzwungen."
+msgstr "Git-Push erzwingen"
 
 msgid "Azure DevOps pull request"
 msgstr "Azure-DevOps-Pull-Request"
@@ -19233,6 +19420,64 @@ msgstr "ausstehende Code-Hosting-Installation"
 
 msgid "pending code-hosting installations"
 msgstr "ausstehende Code-Hosting-Installationen"
+
+msgid "Force push"
+msgstr "Push erzwingen"
+
+msgid ""
+"Overwrite the remote branch instead of refusing to push non-fast-forward "
+"changes. Only use this with a repository dedicated to translations, as it "
+"discards upstream commits which are not present in Weblate."
+msgstr ""
+"Überschreiben Sie den Remote-Branch, anstatt das Pushen von Änderungen, die "
+"nicht im Fast-Forward-Modus erfolgen, abzulehnen. Verwenden Sie diese Option "
+"nur bei einem Repository, das ausschließlich für Übersetzungen vorgesehen "
+"ist, da dabei Upstream Commits verworfen werden, die in Weblate nicht "
+"vorhanden sind."
+
+msgid "Create merge requests"
+msgstr "Merge Requests erstellen"
+
+msgid ""
+"Open a pull or merge request for the translation changes. When turned off, "
+"Weblate pushes to the translated branch directly, which requires write "
+"access to it."
+msgstr ""
+"Erstellen Sie einen Pull oder Merge Request für die Übersetzungsänderungen. "
+"Ist diese Option deaktiviert, pusht Weblate die Änderungen direkt in den "
+"übersetzten Branch, wofür Schreibzugriff auf diesen erforderlich ist."
+
+msgid "Merge pull requests automatically"
+msgstr "Pull Requests automatisch zusammenführen"
+
+msgid ""
+"Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
+"are merged once the required checks pass. Pull requests with nothing to wait "
+"for are merged right away."
+msgstr ""
+"Aktivieren Sie das automatische Zusammenführen auf GitHub für von Weblate "
+"erstellte Pull Requests, damit diese zusammengeführt werden, sobald die "
+"erforderlichen Qualitätsprüfungen bestanden sind. Pull Requests, bei denen "
+"keine Wartezeiten anfallen, werden sofort zusammengeführt."
+
+msgid "Merge method"
+msgstr "Merge-Methode"
+
+msgid "Create a merge commit"
+msgstr "Einen Merge Commit erstellen"
+
+msgid "Squash and merge"
+msgstr "Zusammenfassen und zusammenführen"
+
+msgid "Rebase and merge"
+msgstr "Umbasieren und zusammenführen"
+
+msgid ""
+"Method used when merging pull requests automatically. The repository has to "
+"allow it."
+msgstr ""
+"Methode, die beim automatischen Zusammenführen von Pull Requests verwendet "
+"wird. Das Repository muss dies zulassen."
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -19545,6 +19790,14 @@ msgid "Backup failed"
 msgstr "Sicherung fehlgeschlagen"
 
 #. Translators: Backup repository operation
+msgid "Database backup performed"
+msgstr "Datenbanksicherung durchgeführt"
+
+#. Translators: Backup repository operation
+msgid "Database backup failed"
+msgstr "Datenbanksicherung fehlgeschlagen"
+
+#. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
 msgstr "Älteste Sicherungen wurden gelöscht"
 
@@ -19608,43 +19861,72 @@ msgstr ""
 "Diese Installation ist bereits mit weblate.org verlinkt. Verwenden Sie die "
 "Entdeckungseinstellungen, um die Auflistung zu verwalten."
 
-msgid "Could not activate your installation. Invalid activation state."
+msgid "Could not enable Discover Weblate. Invalid activation state."
 msgstr ""
-"Ihre Installation konnte nicht aktiviert werden. Ungültiger "
+"Weblate entdecken konnte nicht aktiviert werden. Ungültiger "
 "Aktivierungsstatus."
 
-msgid "Could not activate your installation. Missing activation code."
+msgid "Could not enable Discover Weblate. Missing activation code."
 msgstr ""
-"Ihre Installation konnte nicht aktiviert werden. Fehlender Aktivierungscode."
+"Weblate entdecken konnte nicht aktiviert werden. Fehlender Aktivierungscode."
 
-msgid "Could not activate your installation. Invalid activation code."
+msgid "Could not enable Discover Weblate. Invalid activation code."
 msgstr ""
-"Ihre Installation konnte nicht aktiviert werden. Ungültiger Aktivierungscode."
+"Weblate entdecken konnte nicht aktiviert werden. Ungültiger Aktivierungscode."
 
-msgid "Could not activate your installation. Please try again later."
+msgid "Could not enable Discover Weblate. Please try again later."
 msgstr ""
-"Ihre Installation konnte nicht aktiviert werden. Bitte später erneut "
+"Weblate entdecken konnte nicht aktiviert werden. Bitte später erneut "
 "versuchen."
 
 msgid ""
-"Could not activate discovery because a support package is already linked."
+"Could not enable Discover Weblate because a support package is already "
+"linked."
 msgstr ""
-"Die Entdeckung konnte nicht aktiviert werden, da bereits ein Supportpaket "
+"Weblate entdecken konnte nicht aktiviert werden, da bereits ein Supportpaket "
 "verlinkt ist."
 
-msgid "Activation completed."
-msgstr "Aktivierung abgeschlossen."
+msgid "Discover Weblate enabled."
+msgstr "Weblate entdecken aktiviert."
 
-msgid ""
-"Could not activate your installation. Please ensure your activation token is "
-"correct."
+msgid "Support status refreshed."
+msgstr "Supportstatus aktualisiert."
+
+msgid "Could not refresh support status. Please try again later."
 msgstr ""
-"Ihre Installation konnte nicht aktiviert werden. Bitte stellen Sie sicher, "
-"dass Ihr Aktivierungs-Token korrekt ist."
+"Supportstatus konnte nicht aktualisiert werden. Bitte später erneut "
+"versuchen."
+
+msgid "Could not refresh support status. The activation token is invalid."
+msgstr ""
+"Supportstatus konnte nicht aktualisiert werden. Das Aktivierungstoken ist "
+"ungültig."
 
 #, python-format
-msgid "Could not activate your installation: %s"
-msgstr "Ihre Installation konnte nicht aktiviert werden: %s"
+msgid "Could not refresh support status: %s"
+msgstr "Supportstatus konnte nicht aktualisiert werden: %s"
+
+msgid "Support package activated."
+msgstr "Supportpaket aktiviert."
+
+msgid "Could not activate the support package. Please try again later."
+msgstr ""
+"Das Supportpaket konnte nicht aktiviert werden. Bitte später erneut "
+"versuchen."
+
+msgid ""
+"Could not activate the support package. Please ensure the activation token "
+"is correct."
+msgstr ""
+"Das Supportpaket konnte nicht aktiviert werden. Bitte stellen Sie sicher, "
+"dass das Aktivierungstoken korrekt ist."
+
+#, python-format
+msgid "Could not activate the support package: %s"
+msgstr "Das Supportpaket konnte nicht aktiviert werden: %s"
+
+msgid "Support package unlinked."
+msgstr "Supportpaket unverlinkt."
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
@@ -19714,6 +19996,22 @@ msgstr ""
 
 msgid "The workspace has been removed."
 msgstr "Der Arbeitsbereich wurde entfernt."
+
+#~ msgid ""
+#~ "Don’t worry about messing up the strings. This is a two-step process "
+#~ "showing a preview of edited strings before the actual change is confirmed."
+#~ msgstr ""
+#~ "Machen Sie sich keine Sorgen, dass Sie die Zeichenketten "
+#~ "durcheinanderbringen. Dies ist ein zweistufiger Prozess, bei dem eine "
+#~ "Vorschau der bearbeiteten Zeichenfolgen angezeigt wird, bevor die "
+#~ "eigentliche Änderung bestätigt wird."
+
+#~ msgid "Activation completed."
+#~ msgstr "Aktivierung abgeschlossen."
+
+#, python-format
+#~ msgid "Could not activate your installation: %s"
+#~ msgstr "Ihre Installation konnte nicht aktiviert werden: %s"
 
 #~ msgid ""
 #~ "The last webhook update for this component used fallback repository "
@@ -19793,9 +20091,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 
 #~ msgid "creating a pull request"
 #~ msgstr "Einen Pull Request erstellen"
-
-#~ msgid "Unknown error"
-#~ msgstr "Unbekannter Fehler"
 
 #~ msgid "File processed, the entries will appear shortly."
 #~ msgstr "Datei verarbeitet, die Einträge erscheinen in Kürze."
@@ -21736,9 +22031,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ "Sie können jedes beliebige Format hochladen, das vom Translate Toolkit "
 #~ "unterstützt wird (u. a. TBX-, CSV- oder gettext-PO-Dateien)."
 
-#~ msgid "Merge method"
-#~ msgstr "Merge-Methode"
-
 #~ msgid "Keep current"
 #~ msgstr "Aktuelle behalten"
 
@@ -23291,9 +23583,6 @@ msgstr "Der Arbeitsbereich wurde entfernt."
 #~ msgid_plural "There are %(count)s translated strings."
 #~ msgstr[0] "Es gibt %(count)s übersetzte Zeichenkette."
 #~ msgstr[1] "Es gibt %(count)s übersetzte Zeichenketten."
-
-#~ msgid "Total strings:"
-#~ msgstr "Gesamtanzahl Zeichenketten:"
 
 #~ msgid "Translated strings:"
 #~ msgstr "Übersetzte Zeichenketten:"

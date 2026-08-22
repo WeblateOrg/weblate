@@ -14288,8 +14288,12 @@ paths:
                       detail: A server error occurred.
                       attr: null
           description: An unexpected server error occurred.
-        '204':
-          description: No response body
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectDeleteResponse'
+          description: The request was accepted for asynchronous processing.
   /api/projects/{slug}/addons/:
     post:
       operationId: api_projects_addons_create
@@ -32493,6 +32497,8 @@ components:
           description: Version control system to use to access your repository containing
             translations. You can also choose additional integration with third party
             providers to submit pull/merge requests.
+        vcs_params:
+          title: Version control parameters
         repo:
           type: string
           maxLength: 300
@@ -34217,6 +34223,26 @@ components:
         * `` - None
         * `totp` - TOTP
         * `webauthn` - WebAuthn
+    ListingColumnsEnum:
+      enum:
+      - total
+      - untranslated
+      - untranslated_words
+      - untranslated_chars
+      - nottranslated
+      - checks
+      - suggestions
+      - comments
+      type: string
+      description: |-
+        * `total` - Total strings
+        * `untranslated` - Unfinished strings
+        * `untranslated_words` - Unfinished words
+        * `untranslated_chars` - Unfinished characters
+        * `nottranslated` - Untranslated strings
+        * `checks` - Checks
+        * `suggestions` - Suggestions
+        * `comments` - Comments
     Lock:
       type: object
       properties:
@@ -35318,6 +35344,8 @@ components:
           description: Version control system to use to access your repository containing
             translations. You can also choose additional integration with third party
             providers to submit pull/merge requests.
+        vcs_params:
+          title: Version control parameters
         repo:
           type: string
           maxLength: 300
@@ -36437,6 +36465,15 @@ components:
           title: Show all columns in lists using horizontal scrolling
           description: Instead of hiding columns on narrow screens, keep all columns
             and scroll the table horizontally.
+        listing_columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListingColumnsEnum'
+          title: Visible columns in lists
+          description: Choose which statistics columns are shown in project, component,
+            and language lists.
+          uniqueItems: true
+          maxItems: 8
         editor_link:
           type: string
           description: Enter a custom URL to be used as link to the source code. You
@@ -36647,6 +36684,15 @@ components:
           title: Show all columns in lists using horizontal scrolling
           description: Instead of hiding columns on narrow screens, keep all columns
             and scroll the table horizontally.
+        listing_columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListingColumnsEnum'
+          title: Visible columns in lists
+          description: Choose which statistics columns are shown in project, component,
+            and language lists.
+          uniqueItems: true
+          maxItems: 8
         editor_link:
           type: string
           description: Enter a custom URL to be used as link to the source code. You
@@ -37157,6 +37203,8 @@ components:
           description: Version control system to use to access your repository containing
             translations. You can also choose additional integration with third party
             providers to submit pull/merge requests.
+        vcs_params:
+          title: Version control parameters
         repo:
           type: string
           maxLength: 300
@@ -37590,6 +37638,17 @@ components:
       - translations_url
       - url
       - web_url
+    ProjectDeleteResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        task_url:
+          type: string
+          format: uri
+      required:
+      - detail
+      - task_url
     ProjectLock:
       type: object
       properties:
@@ -38953,7 +39012,6 @@ components:
       - bitbucketserver
       - gerrit
       - git
-      - git-force-push
       - gitea
       - github
       - github-app
@@ -38969,7 +39027,6 @@ components:
         * `bitbucketserver` - Bitbucket Data Center pull request
         * `gerrit` - Gerrit
         * `git` - Git
-        * `git-force-push` - Git with force push
         * `gitea` - Gitea pull request
         * `github` - GitHub pull request
         * `github-app` - GitHub (via Weblate GitHub app)

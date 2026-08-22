@@ -323,6 +323,23 @@ Using proxy
 If you need to access Git repositories over HTTPS using a proxy server,
 configure the per-protocol environment variables described in :ref:`http-proxy`.
 
+.. _vcs_params:
+
+Version control parameters
+--------------------------
+
+.. versionadded:: 2026.9
+
+Version control parameters tune how a component interacts with its repository
+without having to choose a different version control system. They are
+configured per component in :ref:`component-vcs_params`, and only the
+parameters applicable to the selected :ref:`component-vcs` are offered.
+
+List of version control parameters
+++++++++++++++++++++++++++++++++++
+
+.. include:: /snippets/vcs-parameters.rst
+
 .. _vcs-git:
 
 Git
@@ -384,17 +401,23 @@ Weblate, for example in your normal development workflow or CI.
 
 .. _vcs-git-force-push:
 
-Git with force push
-+++++++++++++++++++
+Force pushing
++++++++++++++
 
-This behaves exactly like Git itself, the only difference being that it always
-force pushes. This is intended only in the case of using a separate repository
-for translations.
+Turn on the ``git_force_push`` :ref:`version control parameter <vcs_params>` to
+make Weblate always force push. This is intended only in the case of using a
+separate repository for translations.
 
 .. warning::
 
     Use with caution, as this easily leads to lost commits in your
     upstream repository.
+
+.. versionchanged:: 2026.9
+
+   This used to be a separate :guilabel:`Git with force push` version control
+   system. Existing components were migrated to Git with the ``git_force_push``
+   parameter turned on.
 
 Customizing Git configuration
 +++++++++++++++++++++++++++++

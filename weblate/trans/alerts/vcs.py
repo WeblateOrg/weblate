@@ -23,6 +23,7 @@ from weblate.vcs.base import (
     format_stored_repository_error,
     get_repository_error_diagnoses,
 )
+from weblate.vcs.params import GitForcePush, MergeRequestAutomerge
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -266,6 +267,7 @@ class BaseGitFailure(RepositoryErrorAlert):
                 component.vcs == "git"
                 and component.merge_style == "rebase"
                 and bool(component.push_branch)
+                and not GitForcePush.get_value(component.vcs_params)
             )
 
         return {
@@ -311,6 +313,31 @@ class UpdateFailure(BaseGitFailure):
     doc_page = "admin/projects"
     doc_anchor = "component-repo"
     repository_permissions = ("vcs.update", "vcs.reset")
+
+
+@register
+class AutomergeFailure(RepositoryErrorAlert):
+    """
+    Automatic merging of a pull request failed.
+
+    Raised after the changes and the pull request have already landed, so this
+    never fails the push itself; it only tells the user that the opt-in
+    convenience did not apply.
+    """
+
+    # Translators: Name of an alert
+    verbose = gettext_lazy("Could not merge the pull request automatically.")
+    category = AlertCategory.VCS
+    link_wide = True
+    doc_page = "vcs"
+    doc_anchor = "vcs_params"
+    repository_permissions = ("vcs.push",)
+
+    @staticmethod
+    def check_component(component: Component) -> bool | dict | None:
+        if not MergeRequestAutomerge.get_value(component.vcs_params):
+            return False
+        return None
 
 
 @register

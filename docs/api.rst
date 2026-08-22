@@ -361,6 +361,7 @@ Users
                 "secondary_in_zen": true,
                 "hide_source_secondary": false,
                 "wide_tables": false,
+                "listing_columns": ["untranslated", "untranslated_words", "untranslated_chars", "nottranslated", "checks", "suggestions", "comments"],
                 "editor_link": "",
                 "translate_mode": 0,
                 "zen_mode": 0,
@@ -1701,6 +1702,7 @@ Components
     :>json string name: :ref:`component-name`
     :>json string slug: :ref:`component-slug`
     :>json string vcs: :ref:`component-vcs`
+    :>json object vcs_params: :ref:`component-vcs_params`
     :>json string linked_component: component whose repository is linked via :ref:`internal-urls`
     :>json string repo: :ref:`component-repo`, this is the actual repository URL even when :ref:`internal-urls` are used, use ``linked_component`` to detect this situation
     :>json string git_export: :ref:`component-git_export`
@@ -1918,6 +1920,7 @@ Components
     :<json string template: base file for monolingual translations
     :<json string new_base: base file for adding new translations
     :<json string vcs: version control system
+    :<json object vcs_params: :ref:`component-vcs_params`
     :<json boolean hide_glossary_matches: :ref:`component-hide_glossary_matches`
     :<json boolean contribute_project_tm: :ref:`component-contribute_project_tm`
 

@@ -123,6 +123,7 @@ from weblate.trans.validators import (
     validate_file_format_parameters,
     validate_filemask,
     validate_language_code,
+    validate_vcs_parameters,
 )
 from weblate.utils import messages
 from weblate.utils.celery import (
@@ -194,6 +195,7 @@ from weblate.vcs.git import (
     LocalRepository,
 )
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.params import VCS_PARAMS, CreateMergeRequest
 from weblate.vcs.ssh import add_host_key
 
 if TYPE_CHECKING:
@@ -545,6 +547,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         "enforced_checks",
     )
     LINKED_REPOSITORY_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "vcs_params",
         "push_on_commit",
         "commit_pending_age",
         "auto_lock_error",
@@ -591,6 +594,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         ),
         choices=VCS_REGISTRY.get_choices(),
         default=settings.DEFAULT_VCS,
+    )
+    vcs_params = models.JSONField(
+        verbose_name=gettext_lazy("Version control parameters"),
+        default=dict,
+        blank=True,
+        validators=[validate_vcs_parameters],
     )
     repo = models.CharField(
         verbose_name=gettext_lazy("Source code repository"),
@@ -3970,6 +3979,23 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
         self.delete_alert("RepositoryOperationFailure")
 
+    def handle_automerge_failure(self, error: str | RepositoryStructuredError) -> None:
+        """
+        Surface a failed automatic merge of a pull request.
+
+        The push itself succeeded, so this only raises an alert instead of
+        reporting a repository error.
+        """
+        if self._state.adding:
+            return
+        self.add_alert("AutomergeFailure", error=error)
+
+    def handle_automerge_success(self) -> None:
+        """Clear a previously reported automatic merge failure."""
+        if self._state.adding:
+            return
+        self.delete_alert("AutomergeFailure")
+
     def handle_repository_recovery_failure(self, error: Exception) -> None:
         """Surface failed recovery from interrupted repository operations."""
         if self._state.adding:
@@ -5276,7 +5302,11 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     def clean_push_branch_settings(self) -> None:
         """Validate push branch settings."""
-        if issubclass(self.repository_class, GitMergeRequestBase) and self.push:
+        if (
+            issubclass(self.repository_class, GitMergeRequestBase)
+            and self.push
+            and CreateMergeRequest.get_value(self.vcs_params)
+        ):
             if self.branch == self.push_branch:
                 msg = gettext(
                     "Pull and push branches cannot be the same when using pull/merge requests and not pushing to a fork."
@@ -5417,6 +5447,42 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 ) % {"param": param.name, "format": self.file_format}
                 raise ValidationError({"file_format_params": message})
 
+    def clean_vcs_params(self) -> None:
+        for param in [p for p in VCS_PARAMS if p.name in self.vcs_params]:
+            if not param.supports_vcs(self.vcs):
+                message = gettext(
+                    "The parameter '%(param)s' is not applicable for the version control system '%(vcs)s'."
+                ) % {"param": param.name, "vcs": self.vcs}
+                raise ValidationError({"vcs_params": message})
+        self.clean_direct_push_credentials()
+
+    def clean_direct_push_credentials(self) -> None:
+        """
+        Validate that turning off merge requests leaves a usable push target.
+
+        Merge request backends normally push to a fork they authenticate with
+        the hosting credentials. Without a merge request the changes go to the
+        source repository instead, which an unauthenticated HTTP URL cannot do.
+        """
+        if not CreateMergeRequest.supports_vcs(self.vcs):
+            return
+        if CreateMergeRequest.get_value(self.vcs_params):
+            return
+        repository_class = VCS_REGISTRY.get_unfiltered(self.vcs)
+        if repository_class is None or repository_class.provides_push_credentials:
+            return
+        parsed = urlparse(self.push or self.repo)
+        if parsed.scheme in {"http", "https"} and not parsed.username:
+            raise ValidationError(
+                {
+                    "vcs_params": gettext(
+                        "Pushing without a merge request needs write access to the "
+                        "repository. Configure a push URL with credentials, or use "
+                        "an SSH repository URL."
+                    )
+                }
+            )
+
     def clean_integration_locked_fields(self, old: Component) -> None:
         """Validate fields managed by an existing repository integration."""
         vcs_backend = VCS_REGISTRY.get(old.vcs)
@@ -5513,6 +5579,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         # File format parameters
         self.clean_file_format_params()
+
+        # Version control parameters
+        self.clean_vcs_params()
 
         # Suggestions
         if self.suggestion_autoaccept and not self.suggestion_voting:

@@ -969,6 +969,9 @@ class GithubAppRepository(GithubRepository):
         *component_clear_fields,
     )
     component_requires_branch: ClassVar[bool] = True
+    # The installation token is injected into every remote operation on the
+    # source repository, so pushing to it needs no separate push URL.
+    provides_push_credentials: ClassVar[bool] = True
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes and create a GitHub pull request "
         "via the Weblate GitHub app."
@@ -1047,14 +1050,16 @@ class GithubAppRepository(GithubRepository):
             raise RepositoryInternalError(0, "github_app_workspace_required")
         return self.component.project.workspace
 
-    def push(self, branch: str) -> None:
+    def push(self, branch: str, *, force: bool | None = None) -> None:
         # Translations must not push onto the pull branch — there's no fork
         # to absorb them. Substitute a dedicated weblate-* branch on the
         # source repo when no explicit push branch is configured (or when
-        # it equals the pull branch).
-        if not branch or branch == self.branch:
+        # it equals the pull branch). With merge requests turned off there is
+        # nothing to open the pull request from, so commits land on the
+        # translated branch directly.
+        if self.creates_merge_request() and (not branch or branch == self.branch):
             branch = self.get_fork_branch_name()
-        return super().push(branch)
+        return super().push(branch, force=force)
 
     @classmethod
     def _resolve_github_app_credentials_for_repo(

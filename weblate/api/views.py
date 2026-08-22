@@ -29,6 +29,7 @@ from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
 from drf_spectacular.types import OpenApiTypes
@@ -1630,7 +1631,9 @@ class GroupViewSet(viewsets.ModelViewSet):
         validate_api_team_assignable_user(user, "user_id")
         group.admins.add(user)
         user.add_team(cast("AuthenticatedHttpRequest", request), group)
-        return Response({"Administration rights granted."}, status=HTTP_200_OK)
+        return Response(
+            {"detail": "Administration rights granted."}, status=HTTP_200_OK
+        )
 
     @extend_schema(description="Delete a user from group admins.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
@@ -1912,6 +1915,18 @@ class AnnouncementsMixin(APIViewSetMixin):
     retrieve=extend_schema(description="Return information about a project."),
     partial_update=extend_schema(description="Edit a project by a PATCH request."),
     reports=extend_schema(description="List or create reports scoped to a project."),
+    destroy=extend_schema(
+        description="Delete a project.",
+        responses={
+            HTTP_202_ACCEPTED: inline_serializer(
+                "ProjectDeleteResponseSerializer",
+                fields={
+                    "detail": serializers.CharField(),
+                    "task_url": serializers.URLField(),
+                },
+            )
+        },
+    ),
 )
 class ProjectViewSet(
     WeblateViewSet,
@@ -2288,8 +2303,15 @@ class ProjectViewSet(
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, "Can not delete project")
         instance.acting_user = request.user
-        project_removal.delay(instance.pk, request.user.pk)
-        return Response(status=HTTP_204_NO_CONTENT)
+        task = project_removal.delay(instance.pk, request.user.pk)
+        store_task_metadata(task.id, user_id=request.user.id)
+        return Response(
+            {
+                "detail": "Project deletion scheduled.",
+                "task_url": reverse("api:task-detail", kwargs={"pk": task.id}),
+            },
+            status=HTTP_202_ACCEPTED,
+        )
 
     @extend_schema(
         description="Download all translation files in the project.",
@@ -2469,7 +2491,7 @@ class ProjectViewSet(
                 {
                     "message": f"Services installed: {', '.join(valid_configurations.keys())}"
                 },
-                status=HTTP_201_CREATED,
+                status=HTTP_200_OK,
             )
 
         # GET method
@@ -3129,7 +3151,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
             for scope in scopes
             if scope.scope in {MemoryScope.SCOPE_PROJECT, MemoryScope.SCOPE_WORKSPACE}
         }
-        accessible_component_scoped_ids = set(
+        accessible_project_or_workspace_scope_ids = set(
             MemoryScope.objects.filter(id__in=component_scoped_ids)
             .filter(MemoryQuerySet.get_component_access_query(user))
             .values_list("id", flat=True)
@@ -3138,7 +3160,7 @@ class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
         for scope in scopes:
             if (
                 scope.id in component_scoped_ids
-                and scope.id not in accessible_component_scoped_ids
+                and scope.id not in accessible_project_or_workspace_scope_ids
             ):
                 continue
             if scope.user_id == user.id:
@@ -4838,8 +4860,8 @@ class ReportViewSet(viewsets.ModelViewSet):
         report = self.get_object()
         response = render_report_data(report, style)
         extension = "json" if style == "json" else style
-        response["Content-Disposition"] = (
-            f'attachment; filename="report-{report.pk}.{extension}"'
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=f"report-{report.pk}.{extension}"
         )
         return response
 

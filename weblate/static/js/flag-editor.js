@@ -202,7 +202,143 @@
         this.refreshOptions(true);
         return;
       }
-      return origAddItem.call(this, value, silent);
+      const before = this.items.length;
+      const result = origAddItem.call(this, value, silent);
+      if (this.items.length !== before && this.inputValue().length) {
+        this.setTextboxValue();
+        this.refreshOptions(this.isFocused);
+      }
+      return result;
+    };
+
+    let editedIndex = null;
+
+    function restoreEditedPosition(value, item) {
+      const index = editedIndex;
+      editedIndex = null;
+      if (index === null) {
+        return;
+      }
+      const from = ts.items.indexOf(value);
+      if (from === -1 || from === index) {
+        return;
+      }
+      ts.items.splice(from, 1);
+      ts.items.splice(index, 0, value);
+      const siblings = ts.controlChildren().filter((child) => child !== item);
+      ts.control.insertBefore(item, siblings[index] || ts.control_input);
+    }
+
+    ts.on("item_add", restoreEditedPosition);
+    ts.on("blur", () => {
+      editedIndex = null;
+    });
+
+    const origCreateItem = ts.createItem;
+    ts.createItem = function (...args) {
+      const before = this.items.length;
+      const result = origCreateItem.apply(this, args);
+      if (this.items.length === before) {
+        editedIndex = null;
+      }
+      return result;
+    };
+
+    /* Turn an already added flag back into editable text. */
+    function editItem(item) {
+      if (!item || ts.isLocked) {
+        return false;
+      }
+      const value = item.dataset.value;
+      if (typeof value === "undefined") {
+        return false;
+      }
+      if (ts.inputValue().length) {
+        ts.createItem();
+      }
+      /* After createItem(), which may have shifted this item */
+      const index = ts.controlChildren().indexOf(item);
+      ts.clearActiveItems();
+      ts.removeItem(item);
+      ts.inputState();
+      ts.setTextboxValue(value);
+      ts.focus();
+      ts.refreshOptions(true);
+      editedIndex = index === -1 ? null : index;
+      return true;
+    }
+
+    function activeItemsInOrder() {
+      return ts
+        .controlChildren()
+        .filter((item) => item.classList.contains("active"));
+    }
+
+    /* Clicking a flag opens it for editing */
+    const origItemSelect = ts.onItemSelect;
+    ts.onItemSelect = function (evt, item) {
+      if (evt && !evt.shiftKey && !evt.ctrlKey && !evt.metaKey) {
+        if (editItem(item)) {
+          return true;
+        }
+      }
+      return origItemSelect.call(this, evt, item);
+    };
+
+    const origKeyDown = ts.onKeyDown;
+    ts.onKeyDown = function (e) {
+      /* Enter or F2 reopens the selected flag for editing */
+      if (
+        (e.key === "Enter" || e.key === "F2") &&
+        this.activeItems.length === 1 &&
+        editItem(this.activeItems[0])
+      ) {
+        e.preventDefault();
+        return;
+      }
+      /* Ctrl - C to copy flags */
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        !e.shiftKey &&
+        e.key?.toLowerCase() === "c" &&
+        this.activeItems.length
+      ) {
+        e.preventDefault();
+        copyToClipboard(
+          activeItemsInOrder()
+            .map((item) => item.dataset.value)
+            .join(", "),
+        );
+        return;
+      }
+      origKeyDown.call(this, e);
+    };
+
+    /* Keyboard navigation for flags */
+    ts.moveCaret = (direction) => {
+      const items = ts.controlChildren();
+      if (!items.length) {
+        return;
+      }
+      const active = activeItemsInOrder();
+      let next;
+      if (!active.length) {
+        if (direction > 0) {
+          return;
+        }
+        next = items.length - 1;
+      } else {
+        const anchor = direction < 0 ? active[0] : active[active.length - 1];
+        next = items.indexOf(anchor) + direction;
+        if (next < 0) {
+          next = 0;
+        }
+      }
+      ts.clearActiveItems();
+      if (next < items.length) {
+        ts.setActiveItemClass(items[next]);
+      }
+      ts.inputState();
     };
 
     loadFlagChoices(choicesUrl).then((choices) => {

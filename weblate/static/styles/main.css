@@ -2783,8 +2783,9 @@ table.table-simple tbody#glossary-terms .alert-info {
   background-color: var(--bs-secondary-bg) !important;
 }
 
-/* styling fix for file format parameters caused by `display: none` elements as first children in the same container */
-.file-format-param {
+/* styling fix for scoped parameters caused by `display: none` elements as first children in the same container */
+.file-format-param,
+.vcs-param {
   display: flow-root;
   clear: left;
 }
@@ -2795,4 +2796,9 @@ table.table-simple tbody#glossary-terms .alert-info {
 
 .ts-dropdown .create {
   color: var(--bs-secondary-color);
+}
+
+.ts-wrapper.flag-editor-select .ts-control > div.active code {
+  color: inherit;
+  background-color: transparent;
 }
