@@ -619,9 +619,11 @@ Security properties Weblate provides
        Linking a repository extends this trust to administrators of every
        linked component for the complete shared checkout. Permissions for
        explicit VCS actions cover every component sharing an affected
-       repository, including linked components in other projects. Weblate's
-       normal background commit and push of authorized translation changes does
-       not require the editor to have these VCS permissions. Translation memory
+       repository, including linked components in other projects. Project-wide
+       VCS actions omit repositories where this permission check fails; they do
+       not partially operate on an individual shared checkout. Weblate's normal
+       background commit and push of authorized translation changes does not
+       require the editor to have these VCS permissions. Translation memory
        attributed to an existing restricted component follows that component's
        access rules.
        Unattributed automatic memory, including unmatched legacy entries and
@@ -661,9 +663,11 @@ Security properties Weblate provides
        responses expose only the match counts, project/component slugs, and API
        URLs documented in :ref:`hooks-target-matching`. Repository content
        deliberately shared through linked components follows the linked
-       repository trust boundary. Custom add-ons list only non-sensitive fields
-       as public configuration; unlisted values are redacted from public change
-       history.
+       repository trust boundary. Project repository permission diagnostics
+       expose the paths of linked components that prevent an operation, but do
+       not expose their content or repository status. Custom add-ons list only
+       non-sensitive fields as public configuration; unlisted values are
+       redacted from public change history.
      - Cross-project data leak not covered by the documented generic webhook
        diagnostics or linked-repository trust boundary, credential exposure, or
        unauthorized export.
