@@ -136,6 +136,11 @@ from weblate.api.serializers import (
     get_reverse_kwargs,
 )
 from weblate.auth.models import Group, Role, TeamMembership, User
+from weblate.auth.permissions import (
+    REPOSITORY_PERMISSIONS,
+    ProjectRepositorySelection,
+    get_project_repository_selection,
+)
 from weblate.auth.results import PermissionResult
 from weblate.auth.utils import validate_team_assignable_user
 from weblate.formats.models import EXPORTERS
@@ -663,18 +668,47 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
 
+    @staticmethod
+    def get_repository_scope_data(
+        selection: ProjectRepositorySelection,
+    ) -> dict[str, list[str]]:
+        return {
+            "included_components": [
+                component.full_slug for component in selection.included_components
+            ],
+            "skipped_components": [
+                component.full_slug for component in selection.skipped_components
+            ],
+            "permission_blockers": [
+                component.full_slug for component in selection.permission_blockers
+            ],
+        }
+
     @transaction.atomic
     def repository_operation(self, request: Request, obj, operation: str):
         permission, method, args, kwargs, takes_request = REPO_OPERATIONS[operation]
+        user = get_request_user(request)
 
-        if not request.user.has_perm(permission, obj):
+        if not user.has_perm(permission, obj):
             raise PermissionDenied
 
-        obj.acting_user = request.user
+        selection = None
+        if isinstance(obj, Project):
+            selection = get_project_repository_selection(user, obj, (permission,))
+            if not selection.repositories:
+                raise PermissionDenied
+            kwargs = {**kwargs, "repo_components": selection.repositories}
+
+        obj.acting_user = user
 
         if takes_request:
-            return getattr(obj, method)(*args, request, **kwargs)
-        return getattr(obj, method)(*args, request.user, **kwargs)
+            result = getattr(obj, method)(*args, request, **kwargs)
+        else:
+            result = getattr(obj, method)(*args, user, **kwargs)
+        data = {"result": result}
+        if selection is not None:
+            data.update(self.get_repository_scope_data(selection))
+        return data
 
     @extend_schema(
         description="Return information about VCS repository status.",
@@ -696,11 +730,9 @@ class WeblateViewSet(DownloadViewSet):
             request_serializer = RepoRequestSerializer(data=request.data)
             request_serializer.is_valid(raise_exception=True)
 
-            data = {
-                "result": self.repository_operation(
-                    request, obj, request_serializer.validated_data["operation"]
-                )
-            }
+            data = self.repository_operation(
+                request, obj, request_serializer.validated_data["operation"]
+            )
 
             storage = get_messages(request)
             if storage:
@@ -711,11 +743,32 @@ class WeblateViewSet(DownloadViewSet):
         if not request.user.has_perm("meta:vcs.status", obj):
             raise PermissionDenied
 
-        data = {
-            "needs_commit": obj.needs_commit(),
-            "needs_merge": obj.repo_needs_merge(),
-            "needs_push": obj.repo_needs_push(),
-        }
+        component_ids = None
+        if isinstance(obj, Project):
+            user = get_request_user(request)
+            selection = get_project_repository_selection(
+                user, obj, REPOSITORY_PERMISSIONS
+            )
+            repo_components = selection.repositories
+            component_ids = {
+                component.pk for component in selection.included_components
+            }
+            pending_units = PendingUnitChange.objects.detailed_count(
+                obj, component_ids=component_ids
+            )
+            data = {
+                "needs_commit": bool(pending_units["total"]),
+                "needs_merge": obj.repo_needs_merge(repo_components=repo_components),
+                "needs_push": obj.repo_needs_push(repo_components=repo_components),
+                **self.get_repository_scope_data(selection),
+            }
+        else:
+            data = {
+                "needs_commit": obj.needs_commit(),
+                "needs_merge": obj.repo_needs_merge(),
+                "needs_push": obj.repo_needs_push(),
+            }
+            pending_units = PendingUnitChange.objects.detailed_count(obj)
 
         if isinstance(obj, Project):
             data["url"] = reverse(
@@ -759,7 +812,7 @@ class WeblateViewSet(DownloadViewSet):
             data["outgoing_commits"] = component.count_repo_outgoing
             data["missing_commits"] = component.count_repo_missing
 
-        data["pending_units"] = PendingUnitChange.objects.detailed_count(obj)
+        data["pending_units"] = pending_units
 
         response_serializer = RepositorySerializer(data)
         return Response(response_serializer.data)

@@ -2833,6 +2833,21 @@ class BooleanResultSerializer(ReadOnlySerializer):
 
 class RepositoryOperationSerializer(BooleanResultSerializer):
     detail = serializers.CharField(required=False)
+    included_components = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of project components included in the operation.",
+    )
+    skipped_components = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of project components skipped by the operation.",
+    )
+    permission_blockers = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of components preventing access to skipped repositories.",
+    )
 
 
 class UploadResultSerializer(BooleanResultSerializer):
@@ -3118,6 +3133,21 @@ class RepositorySerializer(ReadOnlySerializer):
     )
     needs_push = serializers.BooleanField(
         help_text="Whether the repository has commits that need to be pushed."
+    )
+    included_components = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of project components included in the status.",
+    )
+    skipped_components = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of project components skipped from the status.",
+    )
+    permission_blockers = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text="Full paths of components preventing access to skipped repositories.",
     )
     url = serializers.CharField(help_text="URL to the repository API endpoint.")
     remote_commit = CommitInfoSerializer(

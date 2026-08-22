@@ -231,6 +231,63 @@ class RepositoryPermissionScopeTest(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         reset.assert_not_called()
 
+    def test_project_repository_status_lists_inaccessible_components(self) -> None:
+        self.user.groups.clear()
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        self.grant_permission("vcs.reset", project=self.project)
+
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.project))
+        self.assertFalse(self.user.has_perm("vcs.reset", self.project))
+
+        response = self.client.get(
+            reverse("git_status", kwargs={"path": self.project.get_url_path()})
+        )
+
+        self.assertContains(response, "Some repositories are not accessible")
+        self.assertContains(response, self.component.full_slug)
+        self.assertContains(response, linked.full_slug)
+
+        with patch.object(Component, "do_reset", autospec=True) as reset:
+            response = self.client.post(
+                reverse("reset", kwargs={"path": self.project.get_url_path()})
+            )
+        self.assertEqual(response.status_code, 403)
+        reset.assert_not_called()
+
+    def test_project_repository_operation_filters_inaccessible_components(self) -> None:
+        self.user.groups.clear()
+        independent = self.create_po(project=self.project, name="Independent")
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        self.grant_permission("vcs.reset", project=self.project)
+
+        self.assertTrue(self.user.has_perm("vcs.reset", self.project))
+        with patch.object(
+            Component, "do_reset", autospec=True, return_value=True
+        ) as reset:
+            response = self.client.post(
+                reverse("reset", kwargs={"path": self.project.get_url_path()})
+            )
+
+        self.assertRedirects(
+            response,
+            f"{reverse('show_progress', kwargs={'path': self.project.get_url_path()})}?info=1",
+            fetch_redirect_response=False,
+        )
+        reset.assert_called_once()
+        self.assertEqual(reset.call_args.args[0], independent)
+        self.assertNotEqual(reset.call_args.args[0], self.component)
+        self.assertNotEqual(reset.call_args.args[0], linked)
+
 
 class GitNoChangeComponentTest(GitNoChangeProjectTest):
     """Testing of component git manipulations."""
