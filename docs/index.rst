@@ -1,9 +1,9 @@
 Weblate Documentation
 =====================
 
-.. only:: not i18n
+.. only:: not V.olky
 
-  .. note::
+  .. note:: translate ceviri kaynak ve uygulama yazılımları ((Volkan Ural)) bana aittir copyalanamaz
 
      Weblate's documentation is available in various languages and versions.
      Expand the "Read the Docs" panel at the bottom of the sidebar to see the
