@@ -1165,24 +1165,30 @@ Projects
     only an overall summary for all repositories for the project. To get more detailed
     status use :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
-    Repository status requires component-wide permission on every component
-    sharing the affected repositories. This includes linked components in other
-    projects.
+    Repository status includes repositories where the user has a VCS permission
+    on every component sharing that repository. Repositories blocked by linked
+    components in other projects are omitted and reported separately.
 
     :param project: Project URL slug
     :type project: string
     :>json boolean needs_commit: whether there are any pending changes to commit
     :>json boolean needs_merge: whether there are any upstream changes to merge
     :>json boolean needs_push: whether there are any local changes to push
+    :>json array included_components: full paths of project components included in the status
+    :>json array skipped_components: full paths of project components omitted from the status
+    :>json array permission_blockers: full paths of components preventing access to omitted repositories
 
     **Example JSON data:**
 
     .. code-block:: json
 
         {
+            "included_components": ["hello/app"],
             "needs_commit": true,
             "needs_merge": false,
-            "needs_push": true
+            "needs_push": true,
+            "permission_blockers": ["shared/glossary"],
+            "skipped_components": ["hello/glossary"]
         }
 
 
@@ -1190,14 +1196,18 @@ Projects
 
     Performs given operation on the VCS repository.
 
-    Repository operations require component-wide permission on every component
-    sharing the affected repositories. This includes linked components in other
-    projects.
+    Repository operations process repositories where the user has the requested
+    VCS permission on every component sharing that repository. Repositories
+    blocked by linked components in other projects are skipped. The request is
+    denied when no repository is eligible for the operation.
 
     :param project: Project URL slug
     :type project: string
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``, ``file-scan``
     :>json boolean result: result of the operation
+    :>json array included_components: full paths of project components included in the operation
+    :>json array skipped_components: full paths of project components omitted from the operation
+    :>json array permission_blockers: full paths of components preventing access to omitted repositories
 
     **CURL example:**
 
@@ -1234,7 +1244,12 @@ Projects
         Content-Language: en
         Allow: GET, POST, HEAD, OPTIONS
 
-        {"result":true}
+        {
+            "included_components": ["hello/app"],
+            "permission_blockers": ["shared/glossary"],
+            "result": true,
+            "skipped_components": ["hello/glossary"]
+        }
 
 
 .. http:get:: /api/projects/(string:project)/components/
