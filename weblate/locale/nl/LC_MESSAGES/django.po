@@ -19,7 +19,7 @@ msgstr ""
 "application/\n"
 "POT-Creation-Date: 2026-08-21 07:12-0500\n"
 "PO-Revision-Date: 2026-08-24 03:51+0000\n"
-"Last-Translator: Harsha  Kanaparthi <harsha.kanaparthi20062@gmail.com>\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -686,10 +686,8 @@ msgstr ""
 "In plaats van kolommen op smalle schermen te verbergen, behoudt alle "
 "kolommen en scroll de tabel horizontaal."
 
-#, fuzzy
-#| msgid "All component lists"
 msgid "Visible columns in lists"
-msgstr "Lijsten met alle onderdelen"
+msgstr "Zichtbare kolommen in lijsten"
 
 msgid ""
 "Choose which statistics columns are shown in project, component, and "
@@ -1793,17 +1791,13 @@ msgstr ""
 "Aanvullende controles voor valideren van xgettext om in te schakelen voor "
 "uitgenomen berichten."
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
 msgstr "Aanvullende trefwoorden"
 
-#, fuzzy
-#| msgid "Optional extra keyword passed to xgettext using --keyword."
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
 "Extra trefwoorden, gescheiden door nieuwe regels, worden aan xgettext "
-"doorgegeven met behulp van --keyword."
+"doorgegeven met --keyword."
 
 msgid "Use keywords exclusively"
 msgstr "Exclusieve sleutelwoorden gebruiken"
@@ -3826,16 +3820,12 @@ msgstr "Facturatie"
 msgid "Billing event"
 msgstr "Facturatie gebeurtenis"
 
-#, fuzzy
-#| msgid "Monthly"
 msgid "monthly"
 msgstr "maandelijks"
 
 msgid "yearly"
 msgstr "jaarlijks"
 
-#, fuzzy
-#| msgid "Unknown error"
 msgid "unknown period"
 msgstr "onbekende periode"
 
@@ -3857,10 +3847,8 @@ msgstr "Automatische betaling \"{}\" ontvangen voor \"{}\" ({})."
 msgid "Payment \"{}\" received for \"{}\" ({})."
 msgstr "Betaling \"{}\" ontvangen voor \"{}\" ({})."
 
-#, fuzzy
-#| msgid "Changed from \"{}\" to \"{}\"."
 msgid "Merged billing \"{}\" into \"{}\"."
-msgstr "Gewijzigd van \"{}\" naar \"{}\"."
+msgstr "Facturatie samengevoegd \"{}\" naar \"{}\"."
 
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
@@ -8483,10 +8471,8 @@ msgstr "Indelen of verwijderen"
 msgid "Browse all changes for this language"
 msgstr "Alle aanpassingen in deze taal tonen"
 
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Review changes"
-msgstr "Recente wijzigingen"
+msgstr "Wijzigingen beoordelen"
 
 msgid "Apply"
 msgstr "Toepassen"
@@ -12035,36 +12021,59 @@ msgid ""
 "the configured URL. Ask the instance administrator to add the trusted "
 "repository hostname to VCS_ALLOW_HOSTS."
 msgstr ""
+"Dit backend voor versiebeheer kan geen beperkingen afdwingen voor private "
+"adressen voor de geconfigureerde URL. Vraag de beheerder van de instantie om "
+"de vertrouwde hostnaam voor de opslagruimte toe te voegen aan "
+"VCS_ALLOW_HOSTS."
 
 msgid ""
 "Weblate blocked the repository URL because its destination is not permitted "
 "by this instance. Use a publicly reachable repository URL, or ask the "
 "instance administrator to allow the trusted repository host."
 msgstr ""
+"Weblate blokkeerde de URL van de opslagruimte, omdat zijn doel voor deze "
+"instantie niet is toegestaan. Gebruik een publiek toegankelijke URL voor de "
+"opslagruimte, of vraag de beheerder van de instantie om de vertrouwde host "
+"voor de opslagruimte toe te voegen."
 
 msgid ""
 "The configured repository URL is not valid. Check the URL in the component "
 "settings and use a complete repository URL supported by the selected version "
 "control system."
 msgstr ""
+"De geconfigureerde URL voor de opslagruimte is niet geldig. Controleer de "
+"URL in de instellingen van het onderdeel en gebruik een volledige URL voor "
+"de opslagruimte die wordt ondersteund door het geselecteerde "
+"versiebeheersysteem."
 
 msgid ""
 "The repository URL uses a protocol which is not permitted by this instance. "
 "Use HTTPS or SSH, or ask the instance administrator whether another protocol "
 "can be safely enabled."
 msgstr ""
+"De URL voor de opslagruimte gebruikt een protocol dat voor deze instantie "
+"niet is toegestaan. Gebruik HTTPS of SSH, of vraag de beheerder van de "
+"instantie of een ander protocol kan worden ingeschakeld."
 
 msgid ""
 "Weblate could not resolve the repository destination. Check the hostname and "
 "the instance DNS configuration. Internal or otherwise non-public hosts must "
 "also be explicitly allowed by the instance administrator."
 msgstr ""
+"Weblate kon het doel voor de opslagruimte niet oplossen. Controleer de "
+"hostnaam en de DNS-configuratie van de instantie. Intern of anderszins niet-"
+"publieke hosts moeten ook expliciet zijn toegestaan door de beheerder van de "
+"instantie."
 
 msgid ""
 "The repository URL redirect could not be safely followed. Configure the "
 "final repository URL directly; Weblate automatically accepts only verified "
 "permanent redirects on the same host."
 msgstr ""
+"De verwijzing naar de URL van de opslagruimte kon niet veilig worden "
+"gevolgd. Configureer de uiteindelijke URL voor de opslagruimte direct; "
+"Weblate accepteert automatisch alleen geverifieerde permanente verwijzingen "
+"op dezelfde host."
 
 msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
@@ -12113,6 +12122,10 @@ msgid ""
 "destination. Weblate does not download or upload Git LFS objects, and files "
 "tracked by Git LFS cannot be used as translation files."
 msgstr ""
+"De opslagruimte verwijst naar Git LFS-objecten die ontbreken in het doel "
+"voor pushen. Weblate download of upload geen Git LFS-objecten, en bestanden "
+"die worden gevolgd door Git LFS kunnen niet worden gebruikt als "
+"vertaalbestanden."
 
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
@@ -12131,19 +12144,14 @@ msgstr ""
 msgid "You might want to use following URL instead:"
 msgstr "Wellicht bedoelt u de volgende URL:"
 
-#, fuzzy
-#| msgid ""
-#| "You might want to choose Git with force push as version control system in "
-#| "the component configuration to overwrite the remote repository after "
-#| "rebasing commits in Weblate."
 msgid ""
 "You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"Mogelijk wilt u Git met gedwongen push kiezen als versiebeheersysteem in de "
-"configuratie voor het onderdeel, zodat externe opslagruimte kan worden "
-"overschreven na Weblate-commits."
+"Mogelijk wilt u gedwongen pushen inschakelen in de parameters van het "
+"versiebeheersysteem in de configuratie voor het onderdeel, om de externe "
+"opslagruimte te overschrijven na het rebasen van commits in Weblate."
 
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
@@ -14544,10 +14552,8 @@ msgid "Could not update the repository."
 msgstr "Kon de opslagruimte niet bijwerken."
 
 #. Translators: Name of an alert
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not merge the pull request automatically."
-msgstr "Kon de opslagruimte niet samenvoegen."
+msgstr "Kon het pull request niet automatisch samenvoegen."
 
 #. Translators: Name of an alert
 msgid "Repository outdated."
@@ -16153,10 +16159,8 @@ msgstr ""
 "opslagruimte die vertalingen bevat. U kunt ook aanvullende integratie met "
 "providers van derden kiezen om pull/samenvoeg-aanvragen in te dienen."
 
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control parameters"
-msgstr "Versiebeheerinstellingen"
+msgstr "Parameters versiebeheer"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -16830,6 +16834,9 @@ msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+"Pushen zonder merge request vereist schrijftoegang tot de opslagruimte. "
+"Configureer een URL voor pushen met inloggegevens, of gebruik een SSH URL "
+"voor de opslagruimte."
 
 msgid ""
 "A component can not be restricted while its project uses shared translation "
@@ -17552,17 +17559,14 @@ msgstr ""
 msgid "Unknown file format parameter: \"%(param_name)s\"."
 msgstr "Parameter voor onbekende bestandsindeling: \"%(param_name)s\"."
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Version control parameters must be a dictionary of key-value pairs."
 msgstr ""
-"Parameters voor bestandsindelingen moeten een woordenboek zijn van paren "
-"sleutel-waarde."
+"Parameters voor versiebeheer moeten een woordenboek zijn van paren sleutel-"
+"waarde."
 
-#, fuzzy, python-format
-#| msgid "Unknown file format parameter: \"%(param_name)s\"."
+#, python-format
 msgid "Unknown version control parameter: \"%(param_name)s\"."
-msgstr "Parameter voor onbekende bestandsindeling: \"%(param_name)s\"."
+msgstr "Onbekende parameter voor versiebeheer: \"%(param_name)s\"."
 
 msgid "Keys"
 msgstr "Sleutels"
@@ -18271,12 +18275,8 @@ msgstr "Kon de URL voor het domein niet oplossen: {}"
 msgid "Could not resolve the URL domain."
 msgstr "Kon de URL voor het domein niet oplossen."
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Parameters must be a dictionary of key-value pairs."
-msgstr ""
-"Parameters voor bestandsindelingen moeten een woordenboek zijn van paren "
-"sleutel-waarde."
+msgstr "Parameters moeten een woordenboek zijn van paren sleutel-waarde."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -18636,45 +18636,35 @@ msgstr ""
 "%(service)s API-verzoek mislukt tijdens maken van een pull request "
 "%(status)s: %(error)s Probeer het later nog eens."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s"
+#, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"%(service)s API-verzoek mislukt bij maken van een pull request: %(status)s"
+"%(service)s API-verzoek mislukt bij samenvoegen van een pull request: %"
+"(status)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s "
-#| "Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"%(service)s API-verzoek mislukt tijdens maken van een pull request: "
-"%(status)s Probeer het later nog eens."
+"%(service)s API-verzoek mislukt tijdens samenvoegen van een pull request: %"
+"(status)s Probeer het later nog eens."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"%(service)s API-verzoek mislukt bij maken van een pull request (%(status)s): "
-"%(error)s"
+"%(service)s API-verzoek mislukt bij samenvoegen van een pull request (%"
+"(status)s): %(error)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"%(service)s API-verzoek mislukt tijdens maken van een pull request "
-"%(status)s: %(error)s Probeer het later nog eens."
+"%(service)s API-verzoek mislukt tijdens samenvoegen van een pull request %"
+"(status)s: %(error)s Probeer het later nog eens."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "GitHub App-opslagruimten moeten worden geïmporteerd met een branch."
@@ -19094,57 +19084,61 @@ msgstr "openstaande installatie codehosten"
 msgid "pending code-hosting installations"
 msgstr "openstaande installaties codehosten"
 
-#, fuzzy
-#| msgid "Git with force push"
 msgid "Force push"
-msgstr "Git met afgedwongen push"
+msgstr "Afgedwongen pushen"
 
 msgid ""
 "Overwrite the remote branch instead of refusing to push non-fast-forward "
 "changes. Only use this with a repository dedicated to translations, as it "
 "discards upstream commits which are not present in Weblate."
 msgstr ""
+"Overschrijf de branch op afstand in plaats van het pushen van non-fast-"
+"forward-wijzigingen te weigeren. Gebruik dit alleen met een opslagruimte die "
+"is aangewezen voor vertalingen, omdat het commits voor upstream, die niet "
+"aanwezig zijn in Weblate, negeert."
 
-#, fuzzy
-#| msgid "Pagure merge request"
 msgid "Create merge requests"
-msgstr "Pagure-samenvoegverzoek"
+msgstr "Merge requests maken"
 
 msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
 msgstr ""
+"Open een pull of merge request voor de wijzigingen in de vertaling. Indien "
+"uitgeschakeld, pusht Weblate direct naar de vertaalde branch, wat daarvoor "
+"schrijftoegang vereist."
 
 msgid "Merge pull requests automatically"
-msgstr ""
+msgstr "Pull requests automatisch samenvoegen"
 
 msgid ""
 "Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
 "are merged once the required checks pass. Pull requests with nothing to wait "
 "for are merged right away."
 msgstr ""
+"Schakel in GitHub auto-merge voor pull requests, gemaakt door Weblate, in, "
+"zodat ze worden samengevoegd als de vereiste controles zijn voltooid. Pull "
+"requests die niet ergens op wachten, worden direct samengevoegd."
 
 msgid "Merge method"
 msgstr "Samenvoegmethode"
 
-#, fuzzy
-#| msgid "Create account"
 msgid "Create a merge commit"
-msgstr "Account aanmaken"
+msgstr "Commit voor samenvoegen maken"
 
 msgid "Squash and merge"
-msgstr ""
+msgstr "Squashen en samenvoegen"
 
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Rebase and merge"
-msgstr "Herstellen en opnieuw toepassen"
+msgstr "Rebasen en samenvoegen"
 
 msgid ""
 "Method used when merging pull requests automatically. The repository has to "
 "allow it."
 msgstr ""
+"Methode die wordt gebruikt bij het automatisch samenvoegen van pull "
+"requests. De opslagruimte moet het toestaan."
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -19455,16 +19449,12 @@ msgid "Backup failed"
 msgstr "Back-up mislukt"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Database backup performed"
-msgstr "Back-up uitgevoerd"
+msgstr "Databaseback-up uitgevoerd"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Database backup failed"
-msgstr "Back-up mislukt"
+msgstr "Databaseback-up mislukt"
 
 #. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
@@ -19528,34 +19518,23 @@ msgstr ""
 "Deze installatie is al gekoppeld aan weblate.org. Gebruik instellingen voor "
 "ontdekken om deze vermelding te beheren."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation state."
 msgid "Could not enable Discover Weblate. Invalid activation state."
-msgstr "Kon uw installatie niet activeren. Ongeldige status voor installatie."
+msgstr "Kon Ontdek Weblate niet inschakelen. Ongeldige status voor activeren."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Missing activation code."
 msgid "Could not enable Discover Weblate. Missing activation code."
-msgstr "Kon uw installatie niet activeren. Activatiecode ontbreekt."
+msgstr "Kon Ontdek Weblate niet inschakelen. Code voor activeren ontbreekt."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation code."
 msgid "Could not enable Discover Weblate. Invalid activation code."
-msgstr "Kon uw installatie niet activeren. Ongeldige activatiecode."
+msgstr "Kon Ontdek Weblate niet inschakelen. Ongeldige activatiecode."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Please try again later."
-msgstr "De activatie is mislukt. Probeer het later opnieuw."
+msgstr "Kon Ontdek Weblate niet inschakelen. Probeer het later opnieuw."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate discovery because a support package is already linked."
 msgid ""
 "Could not enable Discover Weblate because a support package is already "
 "linked."
 msgstr ""
-"Kon ontdekken niet activeren, omdat er al een ondersteuningspakket is "
+"Kon Ontdek Weblate niet inschakelen, omdat er al een ondersteuningspakket is "
 "gekoppeld."
 
 msgid "Discover Weblate enabled."
@@ -19564,40 +19543,36 @@ msgstr "Ontdek Weblate ingeschakeld."
 msgid "Support status refreshed."
 msgstr "Ondersteuningsstatus ververst."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not refresh support status. Please try again later."
-msgstr "De activatie is mislukt. Probeer het later opnieuw."
+msgstr ""
+"Kon de status voor ondersteuning niet vernieuwen. Probeer het later opnieuw."
 
 msgid "Could not refresh support status. The activation token is invalid."
 msgstr ""
+"Kon de status voor ondersteunen niet vernieuwen. Het activatietoken is "
+"ongeldig."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not refresh support status: %s"
-msgstr "De ondersteunde talen kunnen niet worden opgehaald: %s"
+msgstr "Kon de status voor ondersteuning niet vernieuwen: %s"
 
 msgid "Support package activated."
 msgstr "Beperkingen van ondersteuningspakket geactiveerd."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate the support package. Please try again later."
-msgstr "De activatie is mislukt. Probeer het later opnieuw."
+msgstr ""
+"Kon het pakket voor ondersteuning niet activeren. Probeer het later opnieuw."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid ""
 "Could not activate the support package. Please ensure the activation token "
 "is correct."
-msgstr "Het activeren is mislukt. Controleer of de activatiesleutel juist is."
+msgstr ""
+"Kon het pakket voor ondersteuning niet activeren. Controleer of de "
+"activatietoken juist is."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not activate the support package: %s"
-msgstr "De ondersteunde talen kunnen niet worden opgehaald: %s"
+msgstr "Kon het pakket voor ondersteuning niet activeren: %s"
 
 msgid "Support package unlinked."
 msgstr "Ondersteuningspakket ontkoppeld."
