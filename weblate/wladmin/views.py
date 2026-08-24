@@ -25,6 +25,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.html import format_html
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
@@ -752,7 +753,9 @@ def ssh_key(request: AuthenticatedHttpRequest) -> HttpResponse:
         raise Http404
 
     response = HttpResponse(data, content_type="text/plain")
-    response["Content-Disposition"] = f"attachment; filename={filename}"
+    response["Content-Disposition"] = content_disposition_header(
+        as_attachment=True, filename=filename
+    )
     response["Content-Length"] = len(data)
     return response
 

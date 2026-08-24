@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from celery import current_task
 from celery.schedules import crontab
+from celery.utils.time import get_exponential_backoff_interval
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -63,6 +64,8 @@ COMPONENT_MEMORY_CLEANUP_BATCH_SIZE = 1000
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
+
+    from celery import Task
 
     from weblate.trans.models.change import RevertUserEditsResult
     from weblate.workspaces.models import Workspace
@@ -940,18 +943,7 @@ def cleanup_project_tokens(project: Project, user: User | None) -> None:
         )
 
 
-@app.task(
-    trail=False,
-    autoretry_for=(IntegrityError,),
-    retry_backoff=600,
-    retry_backoff_max=3600,
-)
-def actual_project_removal(pk: int, uid: int | None) -> None:
-    """
-    Remove project.
-
-    This is separated from project_removal to allow retry on integrity errors.
-    """
+def _remove_project(pk: int, uid: int | None) -> None:
     with transaction.atomic():
         user = get_anonymous() if uid is None else User.objects.get(pk=uid)
         try:
@@ -971,11 +963,31 @@ def actual_project_removal(pk: int, uid: int | None) -> None:
         transaction.on_commit(batch.flush)
 
 
-@app.task(trail=False)
-def project_removal(pk: int, uid: int | None) -> None:
-    """Backup project and schedule actual removal."""
-    create_project_backup(pk)
-    actual_project_removal.delay(pk, uid)
+@app.task(bind=True, trail=False)
+def project_removal(
+    task: Task, pk: int, uid: int | None, *, backup: bool = True
+) -> None:
+    """Backup and remove project."""
+    if backup:
+        create_project_backup(pk)
+
+    try:
+        _remove_project(pk, uid)
+    except IntegrityError as error:
+        countdown = get_exponential_backoff_interval(
+            factor=600,
+            retries=task.request.retries,
+            maximum=3600,
+            full_jitter=True,
+        )
+        retry_args = tuple(task.request.args) if task.request.args is not None else None
+        retry_kwargs = {**(task.request.kwargs or {}), "backup": False}
+        raise task.retry(
+            args=retry_args,
+            kwargs=retry_kwargs,
+            exc=error,
+            countdown=countdown,
+        ) from error
 
 
 def store_auto_translate_activity_log(

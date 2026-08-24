@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext, ngettext
 from django.views.generic.base import TemplateView
 
@@ -35,8 +36,6 @@ from weblate.workspaces.models import Workspace
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
-
-CD_TEMPLATE = 'attachment; filename="weblate-memory.{}"'
 
 
 class ObjectsDict(TypedDict):
@@ -572,5 +571,7 @@ class DownloadView(MemoryView):
             else:
                 payload = [item.as_dict(category=category) for item in data]
             response = JsonResponse(payload, safe=False)
-        response["Content-Disposition"] = CD_TEMPLATE.format(fmt)
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=f"weblate-memory.{fmt}"
+        )
         return response

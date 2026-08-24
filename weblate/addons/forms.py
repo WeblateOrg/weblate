@@ -254,6 +254,24 @@ class BaseExtractPotForm(BaseAddonForm):
         return data
 
 
+class KeywordField(forms.CharField):
+    def prepare_value(self, value: object) -> object:
+        if isinstance(value, list) and all(
+            isinstance(keyword, str) for keyword in value
+        ):
+            return "\n".join(value)
+        return super().prepare_value(value)
+
+    def to_python(self, value: object) -> str | None:
+        if isinstance(value, list):
+            if not all(isinstance(keyword, str) for keyword in value):
+                raise forms.ValidationError(
+                    gettext("Keyword entries have to be strings.")
+                )
+            value = "\n".join(value)
+        return super().to_python(value)
+
+
 class BaseXgettextExtractPotForm(BaseExtractPotForm):
     public_configuration_fields = BaseExtractPotForm.public_configuration_fields | {
         "checks",
@@ -301,11 +319,12 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
             "Additional xgettext validation checks to enable for extracted messages."
         ),
     )
-    keyword = forms.CharField(
-        label=gettext_lazy("Additional keyword"),
+    keyword = KeywordField(
+        label=gettext_lazy("Additional keywords"),
         required=False,
+        widget=forms.Textarea(),
         help_text=gettext_lazy(
-            "Optional extra keyword passed to xgettext using --keyword."
+            "Newline-separated extra keywords passed to xgettext using --keyword."
         ),
     )
     keyword_exclusive = forms.BooleanField(
@@ -335,7 +354,7 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         else:
             comment_tag = ""
         cleaned_data["comment_tag"] = comment_tag
-        cleaned_data["keyword"] = cleaned_data.get("keyword", "").strip()
+        cleaned_data["keyword"] = self.parse_keywords(cleaned_data.get("keyword", ""))
         keyword_exclusive = bool(cleaned_data.get("keyword_exclusive"))
         if keyword_exclusive and not cleaned_data["keyword"]:
             self.add_error(
@@ -347,6 +366,10 @@ class BaseXgettextExtractPotForm(BaseExtractPotForm):
         cleaned_data["keyword_exclusive"] = keyword_exclusive
         cleaned_data["location_mode"] = cleaned_data.get("location_mode", "file")
         return cleaned_data
+
+    @staticmethod
+    def parse_keywords(value: str) -> list[str]:
+        return [line.strip() for line in value.splitlines() if line.strip()]
 
 
 class XgettextExtractPotForm(BaseXgettextExtractPotForm):

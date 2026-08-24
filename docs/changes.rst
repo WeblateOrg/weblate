@@ -6,9 +6,11 @@ Weblate 2026.9
 .. rubric:: New features
 
 * :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
+* Added :ref:`vcs_params` to configure repository behavior per component, including force pushing, opting out of pull requests, and GitHub pull request automerge.
 
 .. rubric:: Improvements
 
+* :ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords (newline-separated) passed to xgettext via ``--keyword``, enabling extraction from different function names.
 * Screenshot images are now cached in browsers to reduce repeated downloads.
 * Administrators can now find removed accounts by their former e-mail address in the audit log until :setting:`AUDITLOG_EXPIRY`.
 * Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
@@ -22,6 +24,7 @@ Weblate 2026.9
 * Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
 * Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
 * The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
+* Flags in the translation flags editor can now be reopened for editing, navigated with arrow keys, and copied with Ctrl+C.
 * Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`.
 
 .. rubric:: Bug fixes
@@ -36,6 +39,7 @@ Weblate 2026.9
 
 .. rubric:: Compatibility
 
+* The :guilabel:`Git with force push` version control system has been replaced by the ``git_force_push`` :ref:`version control parameter <vcs_params>`; existing components are migrated automatically.
 * Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
 * Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
 * Mercurial and Subversion repository hosts can now be trusted using :setting:`VCS_PRIVATE_ALLOWLIST` without restricting Git to the same hosts through :setting:`VCS_ALLOW_HOSTS`.

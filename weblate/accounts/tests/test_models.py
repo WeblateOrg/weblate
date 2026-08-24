@@ -9,11 +9,20 @@ from __future__ import annotations
 from unittest import mock
 
 from django.contrib.admin.sites import AdminSite
+from django.core.exceptions import ValidationError
 from django.test import RequestFactory, SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
 from weblate.accounts.admin import AuditLogAdmin
-from weblate.accounts.models import AUDIT_WARNING, NOTIFY_ACTIVITY, AuditLog, Profile
+from weblate.accounts.models import (
+    AUDIT_WARNING,
+    LISTING_COLUMN_CHOICES,
+    MAX_LISTING_COLUMNS,
+    NOTIFY_ACTIVITY,
+    AuditLog,
+    Profile,
+    validate_listing_columns,
+)
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
 
@@ -62,6 +71,23 @@ class AuditLogTestCase(SimpleTestCase):
             audit = AuditLog(user_agent="PC / Linux / Chrome 120.0.0")
             result = audit.get_user_agent_display()
             self.assertEqual(result, "Translated PC / Linux / Chrome 120.0.0")
+
+
+class ListingColumnsValidationTestCase(SimpleTestCase):
+    def test_valid(self) -> None:
+        validate_listing_columns([])
+        validate_listing_columns([column for column, _name in LISTING_COLUMN_CHOICES])
+
+    def test_invalid(self) -> None:
+        for value in (
+            "comments",
+            ["invalid"],
+            ["comments", "comments"],
+            ["comments"] * (MAX_LISTING_COLUMNS + 1),
+            [["comments"]],
+        ):
+            with self.subTest(value=value), self.assertRaises(ValidationError):
+                validate_listing_columns(value)
 
 
 class AuditLogLoggingTestCase(TestCase):

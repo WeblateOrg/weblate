@@ -10,13 +10,19 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from django.core.cache import cache
-from django.db import connection
+from django.db import IntegrityError, connection
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.utils import timezone
 
 from weblate.auth.models import User
 from weblate.checks.tasks import finalize_component_checks
-from weblate.trans.models import Category, Component, PendingUnitChange, Suggestion
+from weblate.trans.models import (
+    Category,
+    Component,
+    PendingUnitChange,
+    Project,
+    Suggestion,
+)
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
     cleanup_repos,
@@ -26,6 +32,7 @@ from weblate.trans.tasks import (
     component_alerts,
     daily_update_checks,
     perform_commit,
+    project_removal,
     update_checks,
     update_remotes,
 )
@@ -86,6 +93,38 @@ class CleanupTest(ComponentTestCase):
 
 
 class TasksTest(ComponentTestCase):
+    def test_project_removal_retries_without_backup(self) -> None:
+        task_id = "project-removal-task-id"
+        original_get = Project.objects.get
+        attempts = 0
+
+        def get_project(*args, **kwargs):
+            nonlocal attempts
+            attempts += 1
+            if attempts == 1:
+                raise IntegrityError
+            return original_get(*args, **kwargs)
+
+        with (
+            patch("weblate.trans.tasks.create_project_backup") as create_project_backup,
+            patch(
+                "weblate.trans.tasks.get_exponential_backoff_interval", return_value=0
+            ) as get_backoff,
+            patch.object(Project.objects, "get", side_effect=get_project),
+        ):
+            result = project_removal.apply(
+                args=(self.project.pk, self.user.pk), task_id=task_id, throw=False
+            )
+
+        self.assertTrue(result.successful())
+        self.assertEqual(result.id, task_id)
+        self.assertEqual(attempts, 2)
+        create_project_backup.assert_called_once_with(self.project.pk)
+        get_backoff.assert_called_once_with(
+            factor=600, retries=0, maximum=3600, full_jitter=True
+        )
+        self.assertFalse(Project.objects.filter(pk=self.project.pk).exists())
+
     def test_component_alerts_processes_canonical_component_first(self) -> None:
         second = self.create_po(project=self.project, name="Second")
         processed: list[int] = []
