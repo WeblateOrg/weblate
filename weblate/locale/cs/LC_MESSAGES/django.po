@@ -20,8 +20,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-22 02:36+0000\n"
-"Last-Translator: Fjuro <fjuro@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-08-24 21:10+0000\n"
+"Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -626,7 +626,7 @@ msgid "Comments"
 msgstr "Komentáře"
 
 msgid "Invalid listing column selection."
-msgstr ""
+msgstr "Neplatný výběr sloupců v seznamu."
 
 msgid "Interface Language"
 msgstr "Jazyk rozhraní"
@@ -673,15 +673,15 @@ msgstr ""
 "Místo toho, abyste na úzkých obrazovkách skrývali sloupce, nechte všechny "
 "sloupce zobrazené a tabulkou se posouvejte vodorovně."
 
-#, fuzzy
-#| msgid "All component lists"
 msgid "Visible columns in lists"
-msgstr "Seznamy všech součástí"
+msgstr "Zobrazitelné sloupce v seznamech"
 
 msgid ""
 "Choose which statistics columns are shown in project, component, and "
 "language lists."
 msgstr ""
+"Vyberte, které sloupce se statistikami se mají zobrazovat v seznamech "
+"projektů, komponent a jazyků."
 
 msgid "Editor link"
 msgstr "Odkaz pro úpravy"
@@ -1720,10 +1720,8 @@ msgstr ""
 "textů do souboru POT. Tuto možnost použijte, chcete-li zachovat umístění v "
 "šabloně, ale vynechat je z přeložených souborů PO."
 
-#, fuzzy
-#| msgid "Could not remove the string: %s"
 msgid "Keyword entries have to be strings."
-msgstr "Nepodařilo se odstranit řetezec: %s"
+msgstr "Záznamy klíčových slov musí být řetězce."
 
 msgid "Do not extract comments"
 msgstr "Neextrahovat komentáře"
@@ -1760,16 +1758,13 @@ msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
 "Dodatečné ověřovací kontroly xgettext k povolení pro extrahované zprávy."
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
-msgstr "Dodatečné klíčové slovo"
+msgstr "Další klíčová slova"
 
-#, fuzzy
-#| msgid "Optional extra keyword passed to xgettext using --keyword."
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
-"Dodatečné extra klíčové slovo předané nástroji xgettext pomocí --keyword."
+"Další klíčová slova oddělená novými řádky, předaná nástroji xgettext pomocí "
+"volby --keyword."
 
 msgid "Use keywords exclusively"
 msgstr "Používat výhradně klíčová slova"
@@ -3745,41 +3740,35 @@ msgstr "Fakturace"
 msgid "Billing event"
 msgstr "Fakturační událost"
 
-#, fuzzy
-#| msgid "Monthly"
 msgid "monthly"
-msgstr "Měsíční"
+msgstr "měsíčně"
 
 msgid "yearly"
-msgstr ""
+msgstr "ročně"
 
-#, fuzzy
-#| msgid "Unknown error"
 msgid "unknown period"
-msgstr "Neznámá chyba"
+msgstr "neznámé období"
 
 msgid "Changed from \"{}\" to \"{}\"."
 msgstr "Změněno z „{}“ na „{}“."
 
 msgid "Payment \"{}\" initiated for \"{}\" ({})."
-msgstr ""
+msgstr "Byla zahájena platba „{}“ pro „{}“ ({})."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
-msgstr ""
+msgstr "Platba „{}“ za „{}“ ({}) byla zamítnuta: {}."
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
-msgstr ""
+msgstr "Platba „{}“ za „{}“ ({}) byla zamítnuta."
 
 msgid "Automatic payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Byla přijata automatická platba „{}“ za „{}“ ({})."
 
 msgid "Payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "Byla přijata platba „{}“ za „{}“ ({})."
 
-#, fuzzy
-#| msgid "Changed from \"{}\" to \"{}\"."
 msgid "Merged billing \"{}\" into \"{}\"."
-msgstr "Změněno z „{}“ na „{}“."
+msgstr "Propojení fakturace „{}“ s „{}“."
 
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
@@ -8355,10 +8344,8 @@ msgstr "Uspořádat nebo odstranit"
 msgid "Browse all changes for this language"
 msgstr "Procházet všechny změny pro tento jazyk"
 
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Review changes"
-msgstr "Nedávné změny"
+msgstr "Zkontrolovat změny"
 
 msgid "Apply"
 msgstr "Použít"
@@ -11812,11 +11799,16 @@ msgid ""
 "Weblate pushed the changes and created the pull request, but could not merge "
 "it automatically."
 msgstr ""
+"Weblate odeslal změny a vytvořil žádost o začlenění, ale nedokázal ji "
+"automaticky začlenit."
 
 msgid ""
 "Check that the repository allows auto-merge and the selected merge method, "
 "or turn off automatic merging in the version control parameters."
 msgstr ""
+"Zkontrolujte, zda repozitář podporuje automatické slučování a zvolenou "
+"metodu slučování, případně v parametrech správy verzí vypněte automatické "
+"slučování."
 
 msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
@@ -11882,18 +11874,28 @@ msgid ""
 "the configured URL. Ask the instance administrator to add the trusted "
 "repository hostname to VCS_ALLOW_HOSTS."
 msgstr ""
+"Tento backend pro správu verzí nemůže u nakonfigurované URL vynutit omezení "
+"týkající se soukromých adres. Požádejte správce instance, aby přidal název "
+"hostitele důvěryhodného repozitáře do proměnné VCS_ALLOW_HOSTS."
 
 msgid ""
 "Weblate blocked the repository URL because its destination is not permitted "
 "by this instance. Use a publicly reachable repository URL, or ask the "
 "instance administrator to allow the trusted repository host."
 msgstr ""
+"Weblate zablokoval adresu URL repozitáře, protože jeho cíl není v této "
+"instanci povolen. Použijte veřejně dostupnou adresu URL repozitáře nebo "
+"požádejte správce instance, aby povolil důvěryhodného provozovatele "
+"repozitáře."
 
 msgid ""
 "The configured repository URL is not valid. Check the URL in the component "
 "settings and use a complete repository URL supported by the selected version "
 "control system."
 msgstr ""
+"Nastavená adresa URL úložiště není platná. Zkontrolujte adresu URL v "
+"nastavení komponenty a zadejte úplnou adresu URL úložiště, kterou podporuje "
+"vybraný systém správy verzí."
 
 msgid ""
 "The repository URL uses a protocol which is not permitted by this instance. "
