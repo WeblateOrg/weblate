@@ -32,8 +32,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-24 03:51+0000\n"
-"Last-Translator: notlin4 <iamnotlin4@gmail.com>\n"
+"PO-Revision-Date: 2026-08-24 13:17+0000\n"
+"Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -583,10 +583,8 @@ msgstr "帳號活動"
 msgid "Triggered by {username}."
 msgstr "被 {username} 觸發。"
 
-#, fuzzy
-#| msgid "Total strings:"
 msgid "Total strings"
-msgstr "總計字串："
+msgstr "字串總數"
 
 msgid "Unfinished strings"
 msgstr "未完成字串"
@@ -610,7 +608,7 @@ msgid "Comments"
 msgstr "評論"
 
 msgid "Invalid listing column selection."
-msgstr ""
+msgstr "清單欄位選擇無效。"
 
 msgid "Interface Language"
 msgstr "介面語言"
@@ -651,15 +649,13 @@ msgid ""
 "table horizontally."
 msgstr "在窄螢幕上保留所有欄位並水平捲動表格，而不是隱藏欄位。"
 
-#, fuzzy
-#| msgid "All component lists"
 msgid "Visible columns in lists"
-msgstr "所有組件清單"
+msgstr "清單中顯示的欄位"
 
 msgid ""
 "Choose which statistics columns are shown in project, component, and "
 "language lists."
-msgstr ""
+msgstr "選擇要在專案、組件及語言清單中顯示的統計資料欄位。"
 
 msgid "Editor link"
 msgstr "編輯器連結"
@@ -1622,10 +1618,8 @@ msgstr ""
 "選擇擷取程序如何將來源位置寫入 POT 檔案。可藉此在範本中保留位置，同時省略已翻"
 "譯 PO 檔案中的位置資訊。"
 
-#, fuzzy
-#| msgid "Could not remove the string: %s"
 msgid "Keyword entries have to be strings."
-msgstr "無法移除字串：%s"
+msgstr "關鍵字項目必須是字串。"
 
 msgid "Do not extract comments"
 msgstr "不要擷取評論"
@@ -1658,15 +1652,11 @@ msgstr "xgettext 檢查"
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr "針對擷取的訊息，要啟用的其他 xgettext 驗證檢查。"
 
-#, fuzzy
-#| msgid "Additional keyword"
 msgid "Additional keywords"
 msgstr "額外關鍵字"
 
-#, fuzzy
-#| msgid "Optional extra keyword passed to xgettext using --keyword."
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
-msgstr "選用擇傳遞給 xgettext 的其他關鍵字，使用 --keyword 引數。"
+msgstr "以換行分隔的額外關鍵字，會使用 --keyword 傳遞給 xgettext。"
 
 msgid "Use keywords exclusively"
 msgstr "僅使用關鍵字"
@@ -3561,41 +3551,35 @@ msgstr "帳務"
 msgid "Billing event"
 msgstr "帳單事件"
 
-#, fuzzy
-#| msgid "Monthly"
 msgid "monthly"
 msgstr "每月"
 
 msgid "yearly"
-msgstr ""
+msgstr "每年"
 
-#, fuzzy
-#| msgid "Unknown error"
 msgid "unknown period"
-msgstr "未知錯誤"
+msgstr "未知週期"
 
 msgid "Changed from \"{}\" to \"{}\"."
 msgstr "已從「{}」變更為「{}」。"
 
 msgid "Payment \"{}\" initiated for \"{}\" ({})."
-msgstr ""
+msgstr "付款「{}」已發起；付款對象為「{}」({})。"
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
-msgstr ""
+msgstr "付款「{}」(付款對象：「{}」，{}) 遭拒絕：{}。"
 
 msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
-msgstr ""
+msgstr "付款「{}」(付款對象：「{}」，{}) 遭拒絕。"
 
 msgid "Automatic payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "已收到自動付款「{}」；付款對象為「{}」({})。"
 
 msgid "Payment \"{}\" received for \"{}\" ({})."
-msgstr ""
+msgstr "已收到付款「{}」；付款對象為「{}」({})。"
 
-#, fuzzy
-#| msgid "Changed from \"{}\" to \"{}\"."
 msgid "Merged billing \"{}\" into \"{}\"."
-msgstr "已從「{}」變更為「{}」。"
+msgstr "已將帳務「{}」合併至「{}」。"
 
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
@@ -7903,10 +7887,8 @@ msgstr "整理或移除"
 msgid "Browse all changes for this language"
 msgstr "瀏覽此語言的所有變更"
 
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Review changes"
-msgstr "最近變更"
+msgstr "檢閱變更"
 
 msgid "Apply"
 msgstr "套用"
@@ -11088,12 +11070,12 @@ msgstr "建議的個別語言代碼"
 msgid ""
 "Weblate pushed the changes and created the pull request, but could not merge "
 "it automatically."
-msgstr ""
+msgstr "Weblate 已推送變更並建立拉取請求，但無法自動合併。"
 
 msgid ""
 "Check that the repository allows auto-merge and the selected merge method, "
 "or turn off automatic merging in the version control parameters."
-msgstr ""
+msgstr "請確認儲存庫允許自動合併及選取的合併方式，或在版本控制參數中關閉自動合併。"
 
 msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
@@ -11149,36 +11131,48 @@ msgid ""
 "the configured URL. Ask the instance administrator to add the trusted "
 "repository hostname to VCS_ALLOW_HOSTS."
 msgstr ""
+"此版本控制後端無法對所設定的 URL 強制執行私有位址限制。請要求安裝實體管理員將"
+"受信任的儲存庫主機名稱加入 VCS_ALLOW_HOSTS。"
 
 msgid ""
 "Weblate blocked the repository URL because its destination is not permitted "
 "by this instance. Use a publicly reachable repository URL, or ask the "
 "instance administrator to allow the trusted repository host."
 msgstr ""
+"此安裝實體不允許儲存庫 URL 的目的地，因此 Weblate 已封鎖該 URL。請使用可公開"
+"存取的儲存庫 URL，或要求安裝實體管理員允許受信任的儲存庫主機。"
 
 msgid ""
 "The configured repository URL is not valid. Check the URL in the component "
 "settings and use a complete repository URL supported by the selected version "
 "control system."
 msgstr ""
+"所設定的儲存庫 URL 無效。請檢查組件設定中的 URL，並使用所選版本控制系統支援的"
+"完整儲存庫 URL。"
 
 msgid ""
 "The repository URL uses a protocol which is not permitted by this instance. "
 "Use HTTPS or SSH, or ask the instance administrator whether another protocol "
 "can be safely enabled."
 msgstr ""
+"儲存庫 URL 使用了此安裝實體不允許的通訊協定。請使用 HTTPS 或 SSH，或詢問安裝"
+"實體管理員是否能安全地啟用其他通訊協定。"
 
 msgid ""
 "Weblate could not resolve the repository destination. Check the hostname and "
 "the instance DNS configuration. Internal or otherwise non-public hosts must "
 "also be explicitly allowed by the instance administrator."
 msgstr ""
+"Weblate 無法解析儲存庫目的地。請檢查主機名稱及安裝實體的 DNS 設定。內部或其他"
+"非公開主機也必須由安裝實體管理員明確允許。"
 
 msgid ""
 "The repository URL redirect could not be safely followed. Configure the "
 "final repository URL directly; Weblate automatically accepts only verified "
 "permanent redirects on the same host."
 msgstr ""
+"無法安全地跟隨儲存庫 URL 重新導向。請直接設定最終的儲存庫 URL；Weblate 只會自"
+"動接受同一主機上經驗證的永久重新導向。"
 
 msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
@@ -11219,6 +11213,8 @@ msgid ""
 "destination. Weblate does not download or upload Git LFS objects, and files "
 "tracked by Git LFS cannot be used as translation files."
 msgstr ""
+"儲存庫參照了推送目的地所缺少的 Git LFS 物件。Weblate 不會下載或上傳 Git LFS "
+"物件，且 Git LFS 追蹤的檔案不能用作翻譯檔案。"
 
 msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
@@ -11235,18 +11231,13 @@ msgstr ""
 msgid "You might want to use following URL instead:"
 msgstr "您可能想改用下述 URL："
 
-#, fuzzy
-#| msgid ""
-#| "You might want to choose Git with force push as version control system in "
-#| "the component configuration to overwrite the remote repository after "
-#| "rebasing commits in Weblate."
 msgid ""
 "You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"您可能會想在重定 Weblate 中的提交基底後，在組件設定中將版本控制系統設定為具有"
-"強制推送的 Git，來覆寫遠端的儲存庫。"
+"在 Weblate 中重定提交基底後，您可能需要在組件設定的版本控制參數中開啟強制推送"
+"，以覆寫遠端儲存庫。"
 
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
@@ -13414,10 +13405,8 @@ msgid "Could not update the repository."
 msgstr "無法更新儲存庫。"
 
 #. Translators: Name of an alert
-#, fuzzy
-#| msgid "Could not merge the repository."
 msgid "Could not merge the pull request automatically."
-msgstr "無法合併到儲存庫。"
+msgstr "無法自動合併拉取請求。"
 
 #. Translators: Name of an alert
 msgid "Repository outdated."
@@ -14894,10 +14883,8 @@ msgstr ""
 "用來存取包含翻譯內容之儲存庫的版本控制系統。您也可以選擇與第三方提供商進行額"
 "外整合，來送交提取或合併請求。"
 
-#, fuzzy
-#| msgid "Version control settings"
 msgid "Version control parameters"
-msgstr "版本控制設定"
+msgstr "版本控制參數"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -15433,19 +15420,18 @@ msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr "「%(param)s」參數不適用於「%(format)s」檔案格式。"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "The parameter '%(param)s' is not applicable for the file format "
-#| "'%(format)s'."
+#, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the version control system "
 "'%(vcs)s'."
-msgstr "「%(param)s」參數不適用於「%(format)s」檔案格式。"
+msgstr "參數「%(param)s」不適用於版本控制系統「%(vcs)s」。"
 
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
 "Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
+"不使用合併請求進行推送時，需要儲存庫的寫入權限。請設定含認證資訊的推送 URL，"
+"或使用 SSH 儲存庫 URL。"
 
 msgid ""
 "A component can not be restricted while its project uses shared translation "
@@ -16074,15 +16060,12 @@ msgstr "檔案格式參數必須是鍵值對組成的字典結構。"
 msgid "Unknown file format parameter: \"%(param_name)s\"."
 msgstr "無效的檔案格式參數：「%(param_name)s」。"
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Version control parameters must be a dictionary of key-value pairs."
-msgstr "檔案格式參數必須是鍵值對組成的字典結構。"
+msgstr "版本控制參數必須是由鍵值對組成的字典。"
 
-#, fuzzy, python-format
-#| msgid "Unknown file format parameter: \"%(param_name)s\"."
+#, python-format
 msgid "Unknown version control parameter: \"%(param_name)s\"."
-msgstr "無效的檔案格式參數：「%(param_name)s」。"
+msgstr "未知的版本控制參數：「%(param_name)s」。"
 
 msgid "Keys"
 msgstr "金鑰"
@@ -16730,10 +16713,8 @@ msgstr "無法解析 URL 網域：{}"
 msgid "Could not resolve the URL domain."
 msgstr "無法解析 URL 網域。"
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Parameters must be a dictionary of key-value pairs."
-msgstr "檔案格式參數必須是鍵值對組成的字典結構。"
+msgstr "參數必須是由鍵值對組成的字典。"
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -17067,39 +17048,29 @@ msgid ""
 msgstr ""
 "建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s 請稍後再試。"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s"
+#, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
-msgstr "建立拉取請求時，%(service)s API 要求失敗：%(status)s"
+msgstr "合併拉取請求時，%(service)s API 要求失敗：%(status)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s "
-#| "Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
-msgstr "建立拉取請求時，%(service)s API 要求失敗：%(status)s 請稍後再試。"
+msgstr "合併拉取請求時，%(service)s API 要求失敗：%(status)s。請稍後再試。"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
-msgstr "建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s"
+msgstr "合併拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"建立拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s 請稍後再試。"
+"合併拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s。請稍後再試"
+"。"
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "匯入 GitHub App 儲存庫時必須指定分支。"
@@ -17462,57 +17433,55 @@ msgstr "待處理的程式碼代管服務安裝項目"
 msgid "pending code-hosting installations"
 msgstr "待處理的程式碼代管服務安裝項目"
 
-#, fuzzy
-#| msgid "Git with force push"
 msgid "Force push"
-msgstr "Git 強制推送"
+msgstr "強制推送"
 
 msgid ""
 "Overwrite the remote branch instead of refusing to push non-fast-forward "
 "changes. Only use this with a repository dedicated to translations, as it "
 "discards upstream commits which are not present in Weblate."
 msgstr ""
+"覆寫遠端分支，而不是拒絕推送非快轉變更。這僅適用於翻譯專用的儲存庫，因為不在 "
+"Weblate 中的上游提交將會被捨棄。"
 
-#, fuzzy
-#| msgid "Pagure merge request"
 msgid "Create merge requests"
-msgstr "Pagure 合併請求"
+msgstr "建立合併請求"
 
 msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
 msgstr ""
+"為翻譯變更開啟拉取請求或合併請求。關閉後，Weblate 會直接推送至翻譯分支，因此"
+"需要該分支的寫入權限。"
 
 msgid "Merge pull requests automatically"
-msgstr ""
+msgstr "自動合併拉取請求"
 
 msgid ""
 "Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
 "are merged once the required checks pass. Pull requests with nothing to wait "
 "for are merged right away."
 msgstr ""
+"開啟 Weblate 所建立拉取請求的 GitHub 自動合併功能，讓它們在必要檢查通過後自動"
+"合併。不必等待任何檢查的拉取請求會立即合併。"
 
 msgid "Merge method"
 msgstr "合併方式"
 
-#, fuzzy
-#| msgid "Create account"
 msgid "Create a merge commit"
-msgstr "建立帳號"
+msgstr "建立合併提交"
 
 msgid "Squash and merge"
-msgstr ""
+msgstr "壓縮並合併"
 
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Rebase and merge"
-msgstr "重設並重新套用"
+msgstr "重定基底並合併"
 
 msgid ""
 "Method used when merging pull requests automatically. The repository has to "
 "allow it."
-msgstr ""
+msgstr "自動合併拉取請求時使用的方式。儲存庫必須允許使用此方式。"
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -17794,16 +17763,12 @@ msgid "Backup failed"
 msgstr "備份失敗了"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Database backup performed"
-msgstr "備份已執行"
+msgstr "已執行資料庫備份"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Database backup failed"
-msgstr "備份失敗了"
+msgstr "資料庫備份失敗"
 
 #. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
@@ -17865,85 +17830,56 @@ msgid ""
 "to manage its listing."
 msgstr "此安裝項目已連結至 weblate.org。請使用探索設定管理其列出資訊。"
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation state."
 msgid "Could not enable Discover Weblate. Invalid activation state."
-msgstr "無法啟用安裝實體。啟用狀態無效。"
+msgstr "無法啟用 Discover Weblate。啟用狀態無效。"
 
-#, fuzzy
-#| msgid "Could not activate your installation. Missing activation code."
 msgid "Could not enable Discover Weblate. Missing activation code."
-msgstr "無法啟用安裝實體。缺少啟用碼。"
+msgstr "無法啟用 Discover Weblate。缺少啟用碼。"
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation code."
 msgid "Could not enable Discover Weblate. Invalid activation code."
-msgstr "無法啟用安裝實體。啟用碼無效。"
+msgstr "無法啟用 Discover Weblate。啟用碼無效。"
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Please try again later."
-msgstr "無法啟用安裝實體。請稍後重試。"
+msgstr "無法啟用 Discover Weblate。請稍後再試。"
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate discovery because a support package is already linked."
 msgid ""
 "Could not enable Discover Weblate because a support package is already "
 "linked."
-msgstr "由於已連結支援套件，無法啟用探索功能。"
+msgstr "無法啟用 Discover Weblate，因為已連結支援套件。"
 
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Discover Weblate enabled."
-msgstr "探索 Weblate"
+msgstr "已啟用 Discover Weblate。"
 
-#, fuzzy
-#| msgid "Support status"
 msgid "Support status refreshed."
-msgstr "支援狀態"
+msgstr "已重新整理支援狀態。"
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not refresh support status. Please try again later."
-msgstr "無法啟用安裝實體。請稍後重試。"
+msgstr "無法重新整理支援狀態。請稍後再試。"
 
 msgid "Could not refresh support status. The activation token is invalid."
-msgstr ""
+msgstr "無法重新整理支援狀態。啟用權杖無效。"
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not refresh support status: %s"
-msgstr "無法取得支援的語言：%s"
+msgstr "無法重新整理支援狀態：%s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package activated."
-msgstr "支援套件上限"
+msgstr "已啟用支援套件。"
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate the support package. Please try again later."
-msgstr "無法啟用安裝實體。請稍後重試。"
+msgstr "無法啟用支援套件。請稍後再試。"
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid ""
 "Could not activate the support package. Please ensure the activation token "
 "is correct."
-msgstr "無法啟用安裝實體。請確保您的啟用權杖是正確的。"
+msgstr "無法啟用支援套件。請確認啟用權杖是否正確。"
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not activate the support package: %s"
-msgstr "無法取得支援的語言：%s"
+msgstr "無法啟用支援套件：%s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package unlinked."
-msgstr "支援套件上限"
+msgstr "已取消連結支援套件。"
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "

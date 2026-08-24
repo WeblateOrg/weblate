@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-24 03:51+0000\n"
+"PO-Revision-Date: 2026-08-24 13:17+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -18392,8 +18392,7 @@ msgstr ""
 
 #, python-format
 msgid "Could not obtain GitHub App access token: %(error)s"
-msgstr ""
-"Det gick inte att hämta åtkomstpoletten för GitHub-programmet: %(error)s"
+msgstr "Det gick inte att hämta åtkomst-token för GitHub-programmet: %(error)s"
 
 msgid "GitHub App components require a project with a workspace."
 msgstr ""
@@ -18478,29 +18477,22 @@ msgstr "Arkivet returnerade en ogiltig HTTP-omdirigering."
 msgid "The repository returned an HTTP redirect with an invalid hostname."
 msgstr "Arkivet returnerade en HTTP-omdirigering med ett ogiltigt värdnamn."
 
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "Alla arkiv har rensats upp."
+msgstr "HTTP-omdirigeringen till förrådet innehåller en slinga."
 
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
 msgid "The repository redirect target has no validated address."
-msgstr "Alla arkiv har rensats upp."
+msgstr "Förrådets omdirigeringsmål har ingen validerad adress."
 
 msgid "The repository returned a permanent HTTP redirect without a target URL."
 msgstr "Arkivet returnerade en permanent HTTP-omdirigering utan en mål-URL."
 
-#, fuzzy
-#| msgid "Category does not belong to this project."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "Kategorin hör inte till detta projekt."
+msgstr "Förrådets HTTP-omdirigering pekar inte mot en Git smart-HTTP-ändpunkt."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %(error)s"
-msgstr "Det gick inte att hämta (fetch) arkivet: %s"
+msgstr "Det gick inte att undersöka förrådets HTTP-omdirigering: %(error)s"
 
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
 msgstr "HTTP-omdirigeringen av arkivet ändrade oväntat URL-frågan."
@@ -18529,15 +18521,12 @@ msgid ""
 "Remote branch does not share common history with the existing repository."
 msgstr "Fjärrgrenen delar inte gemensam historik med det befintliga arkivet."
 
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "Kunde inte bestämma Sphinx källkatalog."
+msgstr "Kunde inte fastställa den effektiva SSH-destinationen."
 
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %(error)s"
-msgstr "Kunde inte ta bort strängen: %s"
+msgstr "Kunde inte fastställa den effektiva SSH-destinationen: %(error)s"
 
 #, python-format
 msgid "Unsupported interrupted Git operation: %(operation)s"
@@ -18550,38 +18539,30 @@ msgstr ""
 "Denna VCS-backend kan inte ansluta säkert till denna URL medan begränsningar "
 "för privata adresser är aktiverade."
 
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository from %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository from %(hostname)s is not allowed."
-msgstr "Det är inte tillåtet att hämta VCS-arkivet från %s."
+msgstr "Att hämta VCS-förråd från %(hostname)s är inte tillåtet."
 
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid URL."
-msgstr "Ange en giltig språkkod."
+msgstr "Ange en giltig URL."
 
-#, fuzzy, python-format
-#| msgid "Could not parse URL: {}"
+#, python-format
 msgid "Could not parse URL: %(error)s"
-msgstr "Kunde inte tolka URL: {}"
+msgstr "Kunde inte tolka URL:en: %(error)s"
 
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository using %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository using %(scheme)s is not allowed."
-msgstr "Det är inte tillåtet att hämta VCS-arkiv med %s."
+msgstr "Att ämta VCS-förråd med %(scheme)s är inte tillåtet."
 
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not resolve the URL domain: %(error)s"
-msgstr "Kunde inte ta bort strängen: %s"
+msgstr "Kunde inte lösa URL-domänen: %(error)s"
 
 msgid "This will push changes to the upstream repository."
 msgstr "Detta kommer att pusha ändringar till uppströmsarkivet."
 
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid GitHub host."
-msgstr "Ange en giltig språkkod."
+msgstr "Ange en giltig GitHub-värd."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -18590,10 +18571,8 @@ msgstr ""
 "Använd github.com för GitHub.com eller webbhotellnamnet för GitHub "
 "Enterprise Server."
 
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Organization (optional)"
-msgstr "Förklaring till översättning"
+msgstr "Organisation (frivilligt)"
 
 msgid ""
 "Enter a GitHub organization slug to register the App under that organization "
@@ -18691,62 +18670,45 @@ msgstr ""
 msgid "Bitbucket Cloud merge request"
 msgstr "Bitbucket Cloud-sammanslagningsbegäran"
 
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub hostname"
-msgstr "GitHub-användarnamn"
+msgstr "GitHub-värdnamn"
 
-#, fuzzy
-#| msgid "URL slug"
 msgid "App slug"
-msgstr "URL-slug"
+msgstr "Program-slug"
 
 msgid "Private key (PEM)"
-msgstr ""
+msgstr "Privat nyckel (PEM)"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "OAuth client ID"
-msgstr "Klient-ID"
+msgstr "OAuth-klient-ID"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client secret"
 msgid "OAuth client secret"
-msgstr "Klienthemlighet"
+msgstr "OAuth-klienthemlighet"
 
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook token"
-msgstr "Webhook"
+msgstr "Webhook-token"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "API URL"
 msgid "App URL"
-msgstr "URL för API"
+msgstr "Program-URL"
 
 msgid "Weblate GitHub App credentials"
 msgstr "Weblate GitHub-appens inloggningsuppgifter"
 
-#, fuzzy
-#| msgid "Delete this account"
 msgid "connected GitHub account"
-msgstr "Ta bort detta konto"
+msgstr "anslutet GitHub-konto"
 
 msgid "connected GitHub accounts"
-msgstr ""
+msgstr "anslutna GitHub-konton"
 
 msgid "GitHub (via Weblate GitHub app)"
 msgstr "GitHub (via Weblate GitHub-appen)"
 
-#, fuzzy
-#| msgid "This will push changes and create a GitHub pull request."
 msgid ""
 "This will push changes and create a GitHub pull request via the Weblate "
 "GitHub app."
-msgstr "Detta kommer att skicka ändringar och skapa en GitHub pull-begäran."
+msgstr ""
+"Detta kommer att skicka ändringarna och skapa en GitHub-pull-begäran via "
+"Weblate-programmet för GitHub."
 
 msgid "GitHub App components require a GitHub HTTPS repository URL."
 msgstr "GitHub-appkomponenter kräver en GitHub HTTPS-arkiv-URL."
@@ -18767,65 +18729,41 @@ msgstr "GitHub"
 msgid "Provider"
 msgstr "Leverantör"
 
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Installation ID"
-msgstr "Översättningsinformation"
+msgstr "Installations-ID"
 
-#, fuzzy
-#| msgid "Target string"
 msgid "Target type"
-msgstr "Målsträng"
+msgstr "Måltyp"
 
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organization or User"
-msgstr "Organisera eller ta bort"
+msgstr "Organisation eller användare"
 
-#, fuzzy
-#| msgid "Target string"
 msgid "Target login"
-msgstr "Målsträng"
+msgstr "Målinloggning"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Hosting organization or user login"
-msgstr "Lagrade översättningar"
+msgstr "Värdorganisation eller användarinloggning"
 
-#, fuzzy
-#| msgid "VCS repositories"
 msgid "Available repositories"
-msgstr "VCS-arkiv"
+msgstr "Tillgängliga förråd"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installation"
-msgstr "Lagrade översättningar"
+msgstr "installation av kodvärd"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installations"
-msgstr "Lagrade översättningar"
+msgstr "installationer av kodvärdar"
 
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook payload"
-msgstr "Webhook"
+msgstr "Webhook-innehåll"
 
-#, fuzzy
-#| msgid "Pending invitation"
 msgid "pending code-hosting installation"
-msgstr "Väntande inbjudan"
+msgstr "Väntande installation av kodvärd"
 
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "pending code-hosting installations"
-msgstr "Väntande inbjudningar"
+msgstr "Väntande installationer av kodvärdar"
 
-#, fuzzy
-#| msgid "Git with force push"
 msgid "Force push"
-msgstr "Git med kraft push"
+msgstr "Tvinga push"
 
 msgid ""
 "Overwrite the remote branch instead of refusing to push non-fast-forward "
