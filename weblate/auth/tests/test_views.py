@@ -5,7 +5,12 @@
 from django.conf import settings
 from django.urls import reverse
 
-from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.data import (
+    SELECTION_ALL,
+    SELECTION_ALL_PUBLIC,
+    SELECTION_COMPONENT_LIST,
+    SELECTION_MANUAL,
+)
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm, WorkspaceTeamForm
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
 from weblate.lang.models import Language
@@ -175,17 +180,17 @@ class TeamsTest(FixtureTestCase):
         self.assertEqual(group.language_selection, SELECTION_MANUAL)
         self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
 
-    def test_sitewide_team_form_keeps_componentlists(self) -> None:
+    def test_sitewide_team_form_componentlists(self) -> None:
         componentlist = ComponentList.objects.create(name="List", slug="list")
+        componentlist.components.add(self.component)
         group = Group.objects.create(name="Test group")
-        group.componentlists.add(componentlist)
 
-        # The componentlists widget is disabled for other project selections,
-        # so it is missing from the submission and must not be cleared.
+        # Selecting a component list stores it and derives the projects from it
         form = SitewideTeamForm(
             {
                 "name": group.name,
-                "project_selection": str(group.project_selection),
+                "project_selection": str(SELECTION_COMPONENT_LIST),
+                "componentlists": [str(componentlist.pk)],
                 "all_languages": "on",
             },
             instance=group,
@@ -196,6 +201,24 @@ class TeamsTest(FixtureTestCase):
         self.assertEqual(
             list(group.componentlists.values_list("slug", flat=True)), ["list"]
         )
+        # The projects have to reflect the component list saved in this request
+        self.assertEqual(
+            list(group.projects.values_list("slug", flat=True)), [self.project.slug]
+        )
+
+        form = SitewideTeamForm(
+            {
+                "name": group.name,
+                "project_selection": str(SELECTION_ALL_PUBLIC),
+                "all_languages": "on",
+            },
+            instance=group,
+        )
+        self.assertTrue(form.is_valid(), form.errors)
+        form.save()
+        group.refresh_from_db()
+        self.assertEqual(list(group.componentlists.all()), [])
+        self.assertEqual(list(group.projects.all()), [])
 
     def test_internal_team_all_languages_guard(self) -> None:
         group = Group.objects.get(name="Users", internal=True, defining_project=None)

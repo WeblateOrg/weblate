@@ -560,6 +560,8 @@ class BaseTeamForm(forms.ModelForm):
         if self.instance.project_selection != SELECTION_COMPONENT_LIST:
             self.cleaned_data.pop("componentlists", None)
         self._save_m2m()
+        if self.instance.project_selection == SELECTION_COMPONENT_LIST:
+            self.instance.save()
         if project:
             self.instance.projects.add(project)
         return self.instance

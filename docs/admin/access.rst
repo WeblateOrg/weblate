@@ -373,7 +373,9 @@ by site-wide or per-project teams by adding another custom team.
 
   1. Remove the permission to translate `Czech` from all users. In the
      default configuration this can be done by altering the `Users`
-     :ref:`default team <default-teams>`.
+     :ref:`default team <default-teams>`. Built-in teams reject this change in
+     the team management UI, use the
+     :ref:`Django admin interface <admin-interface>` instead.
 
      .. list-table:: Group `Users`
          :stub-columns: 1
