@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-16 13:56+0000\n"
+"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"PO-Revision-Date: 2026-08-20 20:00+0000\n"
 "Last-Translator: Sup! 0_0 <alelmnour1o234@proton.me>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
 "application/ar/>\n"
@@ -284,10 +284,8 @@ msgstr "الترتيب المختار غير مدعوم."
 msgid "Team"
 msgstr "الفريق"
 
-#, fuzzy
-#| msgid "Add user to a team"
 msgid "Add to a team"
-msgstr "إضافة المستخدم إلى فريق"
+msgstr "إضافة إلى فريق"
 
 msgid "Name your authentication app"
 msgstr "اسم تطبيق المصادقة الخاص بك"
@@ -574,9 +572,6 @@ msgid "PC"
 msgstr ""
 
 #. Translators: User agent device type
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgctxt "User agent device type"
 msgid "Other"
 msgstr "أخرى"
@@ -607,6 +602,35 @@ msgstr "نشاط الحساب"
 #, python-brace-format
 msgid "Triggered by {username}."
 msgstr "تم تشغيله بواسطة {username}."
+
+#, fuzzy
+#| msgid "Total strings:"
+msgid "Total strings"
+msgstr "كل السلاسل:"
+
+msgid "Unfinished strings"
+msgstr "السلاسل غير المكتملة"
+
+msgid "Unfinished words"
+msgstr "الكلمات غير المكتملة"
+
+msgid "Unfinished characters"
+msgstr "حروف غير مكتملة"
+
+msgid "Untranslated strings"
+msgstr "السلاسل غير المترجمة"
+
+msgid "Checks"
+msgstr "الفحوص"
+
+msgid "Suggestions"
+msgstr "اقتراحات"
+
+msgid "Comments"
+msgstr "تعليقات"
+
+msgid "Invalid listing column selection."
+msgstr ""
 
 msgid "Interface Language"
 msgstr "لغة الواجهة"
@@ -647,6 +671,16 @@ msgstr ""
 msgid ""
 "Instead of hiding columns on narrow screens, keep all columns and scroll the "
 "table horizontally."
+msgstr ""
+
+#, fuzzy
+#| msgid "All component lists"
+msgid "Visible columns in lists"
+msgstr "كل المكونات"
+
+msgid ""
+"Choose which statistics columns are shown in project, component, and "
+"language lists."
 msgstr ""
 
 msgid "Editor link"
@@ -869,11 +903,9 @@ msgctxt "Notification name"
 msgid "Strings are available for translation"
 msgstr "نصوص متاحة للترجمة"
 
-#, fuzzy
-#| msgid "Translation summary:"
 msgctxt "Notification name"
 msgid "Translation activity summary"
-msgstr "ملخص الترجمة:"
+msgstr "ملخص نشاط الترجمة:"
 
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
@@ -1335,10 +1367,8 @@ msgid ""
 msgstr ""
 "نشر الترجمات إلى شبكة إيصال المحتوى لتستخدم في أقلمة JavaScript أو HTML."
 
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation files CDN"
-msgstr "ملف الترجمة"
+msgstr "ملفات الترجمة CDN"
 
 #, fuzzy
 #| msgid ""
@@ -1443,10 +1473,8 @@ msgstr "دخول API"
 msgid "Error"
 msgstr "خطأ"
 
-#, fuzzy
-#| msgid "Skip"
 msgid "Skipped"
-msgstr "تخطّي"
+msgstr "تم التخطي"
 
 #, fuzzy
 #| msgid "There are some alerts on this component"
@@ -1706,15 +1734,18 @@ msgstr "استخدام الإعداد الإفتراضي"
 msgid "Extract locations to the POT file"
 msgstr "استخرج السلاسل من ملفات HTML"
 
-#, fuzzy
-#| msgid "Do not extract comments"
 msgid "Do not extract locations"
-msgstr "لا تستخرج التعليقات!"
+msgstr "لا تستخرج المواقع"
 
 msgid ""
 "Choose how extraction writes source locations to the POT file. Use this to "
 "keep locations in the template while omitting them from translated PO files."
 msgstr ""
+
+#, fuzzy
+#| msgid "Failed to remove the string: %s"
+msgid "Keyword entries have to be strings."
+msgstr "فشل إزالة السلسلة: %s"
 
 msgid "Do not extract comments"
 msgstr "لا تستخرج التعليقات!"
@@ -1748,10 +1779,12 @@ msgstr "فحوصات النظام"
 msgid "Additional xgettext validation checks to enable for extracted messages."
 msgstr ""
 
-msgid "Additional keyword"
+#, fuzzy
+#| msgid "Additional keyword"
+msgid "Additional keywords"
 msgstr "كلمة مفتاحية إضافية"
 
-msgid "Optional extra keyword passed to xgettext using --keyword."
+msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
 
 msgid "Use keywords exclusively"
@@ -3964,8 +3997,41 @@ msgid "Billing event"
 msgstr "معاينة الفوترة"
 
 #, fuzzy
+#| msgid "Monthly"
+msgid "monthly"
+msgstr "شهرياً"
+
+msgid "yearly"
+msgstr ""
+
+#, fuzzy
+#| msgid "Unknown error"
+msgid "unknown period"
+msgstr "خطأ غير معروف"
+
+#, fuzzy
 #| msgid "E-mail changed from {old} to {new}."
 msgid "Changed from \"{}\" to \"{}\"."
+msgstr "غُيّر البريد الإلكتروني مِن {old} إلى {new}."
+
+msgid "Payment \"{}\" initiated for \"{}\" ({})."
+msgstr ""
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
+msgstr ""
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
+msgstr ""
+
+msgid "Automatic payment \"{}\" received for \"{}\" ({})."
+msgstr ""
+
+msgid "Payment \"{}\" received for \"{}\" ({})."
+msgstr ""
+
+#, fuzzy
+#| msgid "E-mail changed from {old} to {new}."
+msgid "Merged billing \"{}\" into \"{}\"."
 msgstr "غُيّر البريد الإلكتروني مِن {old} إلى {new}."
 
 #, fuzzy
@@ -4438,11 +4504,13 @@ msgid ""
 "{suggestion}."
 msgstr ""
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The Fluent reference in {sequence} may expand into an HTML character "
 "reference. Maybe use {suggestion}."
-msgstr "السلسلة {sequence} ليست مرجع محرف HTML صالح."
+msgstr ""
+"قد يتوسع مرجع Fluent في {sequence} إلى مرجع محرف HTML. ربما استخدم "
+"{suggestion}."
 
 #, python-brace-format
 msgid ""
@@ -6163,11 +6231,9 @@ msgctxt "Automatic suggestion service configuration"
 msgid "Client secret"
 msgstr ""
 
-#, fuzzy
-#| msgid "Committer e-mail"
 msgctxt "Automatic suggestion service configuration"
 msgid "Contact e-mail"
-msgstr "عنوان البريد الإلكتروني للمساهم·ة"
+msgstr "البريد الإلكتروني للتواصل"
 
 msgctxt "Automatic suggestion service configuration"
 msgid "Username"
@@ -8854,9 +8920,6 @@ msgstr "أدر اللغات المترجَمة"
 msgid "Browse all languages"
 msgstr "استكشف كل اللغات"
 
-msgid "Checks"
-msgstr "الفحوص"
-
 #, python-format
 msgid "Failing checks in %(project)s — %(language)s"
 msgstr "فشل عمليات التحقق في %(project)s — %(language)s"
@@ -9204,8 +9267,10 @@ msgstr "الترجمة المطلوب إزالتها"
 msgid "Browse all changes for this language"
 msgstr "تصفح كل تغييرات المستخدم"
 
-msgid "Replace"
-msgstr "استبدل"
+#, fuzzy
+#| msgid "Recent changes"
+msgid "Review changes"
+msgstr "التغييرات الأخيرة"
 
 msgid "Apply"
 msgstr "طبّق"
@@ -10972,9 +11037,6 @@ msgstr "مكان سلسة المصدر"
 msgid "Screenshot context"
 msgstr "لقطة شاشة للسياق"
 
-msgid "Unfinished strings"
-msgstr "السلاسل غير المكتملة"
-
 #. Translators: e-mail subject
 #, fuzzy, python-format
 #| msgid "%(count)s pending suggestion in %(component)s"
@@ -11927,6 +11989,9 @@ msgstr ""
 msgid "Update preview"
 msgstr "إبدء المراجعة"
 
+msgid "Replace"
+msgstr "استبدل"
+
 #, fuzzy
 #| msgid "Generate"
 msgid "Generated by"
@@ -12736,20 +12801,8 @@ msgstr "رتب هذا العمود"
 msgid "Unreviewed"
 msgstr "مراجعة"
 
-msgid "Unfinished words"
-msgstr "الكلمات غير المكتملة"
-
-msgid "Unfinished characters"
-msgstr "حروف غير مكتملة"
-
 msgid "Untranslated"
 msgstr "غير مترجم"
-
-msgid "Suggestions"
-msgstr "اقتراحات"
-
-msgid "Comments"
-msgstr "تعليقات"
 
 msgid "Create translation"
 msgstr "إنشاء ترجمة"
@@ -12927,11 +12980,6 @@ msgstr "السلاسل المترجمة في لغة معينة"
 
 msgid "Query"
 msgstr "الاستعلام"
-
-msgid ""
-"Don’t worry about messing up the strings. This is a two-step process showing "
-"a preview of edited strings before the actual change is confirmed."
-msgstr ""
 
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
@@ -13315,6 +13363,16 @@ msgid "Suggested individual language codes"
 msgstr ""
 
 msgid ""
+"Weblate pushed the changes and created the pull request, but could not merge "
+"it automatically."
+msgstr ""
+
+msgid ""
+"Check that the repository allows auto-merge and the selected merge method, "
+"or turn off automatic merging in the version control parameters."
+msgstr ""
+
+msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
@@ -13375,6 +13433,42 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This version control backend cannot enforce private-address restrictions for "
+"the configured URL. Ask the instance administrator to add the trusted "
+"repository hostname to VCS_ALLOW_HOSTS."
+msgstr ""
+
+msgid ""
+"Weblate blocked the repository URL because its destination is not permitted "
+"by this instance. Use a publicly reachable repository URL, or ask the "
+"instance administrator to allow the trusted repository host."
+msgstr ""
+
+msgid ""
+"The configured repository URL is not valid. Check the URL in the component "
+"settings and use a complete repository URL supported by the selected version "
+"control system."
+msgstr ""
+
+msgid ""
+"The repository URL uses a protocol which is not permitted by this instance. "
+"Use HTTPS or SSH, or ask the instance administrator whether another protocol "
+"can be safely enabled."
+msgstr ""
+
+msgid ""
+"Weblate could not resolve the repository destination. Check the hostname and "
+"the instance DNS configuration. Internal or otherwise non-public hosts must "
+"also be explicitly allowed by the instance administrator."
+msgstr ""
+
+msgid ""
+"The repository URL redirect could not be safely followed. Configure the "
+"final repository URL directly; Weblate automatically accepts only verified "
+"permanent redirects on the same host."
+msgstr ""
+
+msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
@@ -13403,6 +13497,12 @@ msgid ""
 msgstr ""
 
 msgid ""
+"The repository references Git LFS objects that are missing from the push "
+"destination. Weblate does not download or upload Git LFS objects, and files "
+"tracked by Git LFS cannot be used as translation files."
+msgstr ""
+
+msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
@@ -13416,7 +13516,7 @@ msgid "You might want to use following URL instead:"
 msgstr ""
 
 msgid ""
-"You might want to choose Git with force push as version control system in "
+"You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
@@ -14746,10 +14846,8 @@ msgstr "معطّل"
 msgid "Refresh"
 msgstr ""
 
-#, fuzzy
-#| msgid "Do not have an account yet?"
 msgid "No connected accounts yet."
-msgstr "أليس عندك حساب بعد ؟"
+msgstr "لا حسابات مرتبطة بعد."
 
 #, fuzzy
 #| msgid "Return to Weblate"
@@ -14980,10 +15078,8 @@ msgstr "العدد الإجمالي للإدخالات"
 msgid "Try refreshing the repository list."
 msgstr "إعادة ضبط المستودع"
 
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Remove connected account?"
-msgstr "إحذف حسابي"
+msgstr "حذف الحساب المرتبط؟"
 
 #, python-format
 msgid "This removes the connected account <code>%(login)s</code> from Weblate."
@@ -16285,6 +16381,12 @@ msgid "Could not update the repository."
 msgstr "لا يمكن تحديث المستودع."
 
 #. Translators: Name of an alert
+#, fuzzy
+#| msgid "Could not merge the repository."
+msgid "Could not merge the pull request automatically."
+msgstr "تعذر دمج المستودع."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "المستودع قديم."
 
@@ -16984,9 +17086,6 @@ msgstr "كل السلاسل"
 msgid "Read-only strings"
 msgstr "السلاسل تقرأ فقط"
 
-msgid "Untranslated strings"
-msgstr "السلاسل غير المترجمة"
-
 msgid "Strings marked for edit"
 msgstr "السلاسل المُعلّمة أنها تحتاج إلى تعديل"
 
@@ -17058,6 +17157,65 @@ msgstr "بحث مخصص"
 #| msgid "Shared: {}"
 msgid "Labeled: {}"
 msgstr "المشاركة: {}"
+
+#. Translators: Glossary term formatting used in a tooltip
+#, python-brace-format
+msgctxt "glossary term"
+msgid "{target} [{source}]"
+msgstr ""
+
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Forbidden translation:"
+msgid_plural "Forbidden translations:"
+msgstr[0] "استضافة الترجمات"
+msgstr[1] "استضافة الترجمات"
+msgstr[2] "استضافة الترجمات"
+msgstr[3] "استضافة الترجمات"
+msgstr[4] "استضافة الترجمات"
+msgstr[5] "استضافة الترجمات"
+
+#, fuzzy
+#| msgid "Not translated"
+msgid "Untranslatable term:"
+msgid_plural "Untranslatable terms:"
+msgstr[0] "ليست مترجَمة"
+msgstr[1] "ليست مترجَمة"
+msgstr[2] "ليست مترجَمة"
+msgstr[3] "ليست مترجَمة"
+msgstr[4] "ليست مترجَمة"
+msgstr[5] "ليست مترجَمة"
+
+#, fuzzy
+#| msgid "Glossary name"
+msgid "Glossary term:"
+msgid_plural "Glossary terms:"
+msgstr[0] "اسم المسرد"
+msgstr[1] "اسم المسرد"
+msgstr[2] "اسم المسرد"
+msgstr[3] "اسم المسرد"
+msgstr[4] "اسم المسرد"
+msgstr[5] "اسم المسرد"
+
+msgctxt "String state"
+msgid "Dismissed checks:"
+msgstr "الشيكات المرفوضة:"
+
+msgctxt "String state"
+msgid "Commented"
+msgstr "علق"
+
+#, fuzzy
+#| msgid "Suggested"
+msgctxt "String state"
+msgid "Suggested"
+msgstr "مُقترح"
+
+#, fuzzy
+#| msgid "Automatic translation"
+msgctxt "String state"
+msgid "Automatically translated"
+msgstr "ترجمة تلقائية"
 
 msgid "Repository branch is required for this integration."
 msgstr ""
@@ -18146,6 +18304,11 @@ msgid ""
 "providers to submit pull/merge requests."
 msgstr ""
 
+#, fuzzy
+#| msgid "Version control settings"
+msgid "Version control parameters"
+msgstr "إعدادات التحكم في الإصدار"
+
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -18672,10 +18835,9 @@ msgstr ""
 msgid "Could not find any matching language, please check the file mask."
 msgstr "رمز اللغة \"%s\" طويل جداً، الرجاء التحقق من قناع الملف."
 
-#, fuzzy, python-brace-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-brace-format
 msgid "Could not parse {file}: {error}"
-msgstr "فشل تحليل الملف %(file)s: %(error)s"
+msgstr "تعذّر تحليل {file}: {error}"
 
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
@@ -18789,6 +18951,17 @@ msgstr ""
 #, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
+msgstr ""
+
+#, python-format
+msgid ""
+"The parameter '%(param)s' is not applicable for the version control system "
+"'%(vcs)s'."
+msgstr ""
+
+msgid ""
+"Pushing without a merge request needs write access to the repository. "
+"Configure a push URL with credentials, or use an SSH repository URL."
 msgstr ""
 
 #, fuzzy
@@ -19171,10 +19344,9 @@ msgstr "سيتم دمج الملف الذي تم إرساله مع الترجم�
 msgid "Could not commit pending changes: %s"
 msgstr "فشل تنفيذ التغييرات المعلقة: %s"
 
-#, fuzzy, python-brace-format
-#| msgid "Failed to parse file %(file)s: %(error)s"
+#, python-brace-format
 msgid "Could not parse uploaded file as {file_format}: {error}"
-msgstr "فشل تحليل الملف %(file)s: %(error)s"
+msgstr "تعذّر تحليل الملف الذي تم تحميله بتنسيق {file_format}: {error}"
 
 #, fuzzy, python-format
 #| msgid "Failed to parse uploaded ZIP file."
@@ -19408,45 +19580,6 @@ msgstr "الأفضلية"
 msgid "Priority: Very low"
 msgstr "الأفضلية"
 
-#. Translators: Glossary term formatting used in a tooltip
-#, python-brace-format
-msgctxt "glossary term"
-msgid "{target} [{source}]"
-msgstr ""
-
-#, fuzzy
-#| msgid "Hosting translations"
-msgid "Forbidden translation:"
-msgid_plural "Forbidden translations:"
-msgstr[0] "استضافة الترجمات"
-msgstr[1] "استضافة الترجمات"
-msgstr[2] "استضافة الترجمات"
-msgstr[3] "استضافة الترجمات"
-msgstr[4] "استضافة الترجمات"
-msgstr[5] "استضافة الترجمات"
-
-#, fuzzy
-#| msgid "Not translated"
-msgid "Untranslatable term:"
-msgid_plural "Untranslatable terms:"
-msgstr[0] "ليست مترجَمة"
-msgstr[1] "ليست مترجَمة"
-msgstr[2] "ليست مترجَمة"
-msgstr[3] "ليست مترجَمة"
-msgstr[4] "ليست مترجَمة"
-msgstr[5] "ليست مترجَمة"
-
-#, fuzzy
-#| msgid "Glossary name"
-msgid "Glossary term:"
-msgid_plural "Glossary terms:"
-msgstr[0] "اسم المسرد"
-msgstr[1] "اسم المسرد"
-msgstr[2] "اسم المسرد"
-msgstr[3] "اسم المسرد"
-msgstr[4] "اسم المسرد"
-msgstr[5] "اسم المسرد"
-
 #, fuzzy
 #| msgid "Translation process"
 msgid "Translated without any problems"
@@ -19456,26 +19589,6 @@ msgstr "مرحلة الترجمة"
 #| msgid "Needs editing"
 msgid "Needs attention"
 msgstr "تحتاج إلى تعديل"
-
-msgctxt "String state"
-msgid "Dismissed checks:"
-msgstr "الشيكات المرفوضة:"
-
-msgctxt "String state"
-msgid "Commented"
-msgstr "علق"
-
-#, fuzzy
-#| msgid "Suggested"
-msgctxt "String state"
-msgid "Suggested"
-msgstr "مُقترح"
-
-#, fuzzy
-#| msgid "Automatic translation"
-msgctxt "String state"
-msgid "Automatically translated"
-msgstr "ترجمة تلقائية"
 
 #, python-format
 msgid "string ID %s"
@@ -19520,16 +19633,6 @@ msgstr[5] "سلاسل %(count)s لم تتم ترجمتها هنا."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "تمت مشاركتها من مشروع %s."
-
-#. Translators: Number format, in millions (mega)
-#, python-format
-msgid "%s M"
-msgstr ""
-
-#. Translators: Number format, in thousands (kilo)
-#, python-format
-msgid "%s k"
-msgstr ""
 
 #, fuzzy, python-format
 #| msgid "Upload translation strings"
@@ -19609,17 +19712,16 @@ msgstr "مستودع النسخ الاحتياطي م م م م"
 msgid "File upload has failed: %s"
 msgstr "فشلت عملية رفع الملف : %s"
 
-#, fuzzy, python-brace-format
-#| msgid "Get involved in <strong>%(project)s</strong>"
+#, python-brace-format
 msgid "{project} is being translated into {count} language using Weblate."
 msgid_plural ""
 "{project} is being translated into {count} languages using Weblate."
-msgstr[0] "شارك في <strong>%(project)s</strong>."
-msgstr[1] "شارك في <strong>%(project)s</strong>."
-msgstr[2] "شارك في <strong>%(project)s</strong>."
-msgstr[3] "شارك في <strong>%(project)s</strong>."
-msgstr[4] "شارك في <strong>%(project)s</strong>."
-msgstr[5] "يتم ترجمته إلى <strong>لغات %(count)s</strong>."
+msgstr[0] "تتم ترجمة {project} إلى {count} لغة باستخدام Weblate."
+msgstr[1] "تتم ترجمة {project} إلى {count} لغة باستخدام Weblate."
+msgstr[2] "تتم ترجمة {project} إلى {count} لغتان باستخدام Weblate."
+msgstr[3] "تتم ترجمة {project} إلى {count} لغات باستخدام Weblate."
+msgstr[4] "تتم ترجمة {project} إلى {count} لغة باستخدام Weblate."
+msgstr[5] "تتم ترجمة {project} إلى {count} لغة باستخدام Weblate."
 
 #, fuzzy
 #| msgid ""
@@ -19687,6 +19789,14 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "File format"
 msgid "Unknown file format parameter: \"%(param_name)s\"."
+msgstr "نُسق الملف"
+
+msgid "Version control parameters must be a dictionary of key-value pairs."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "File format"
+msgid "Unknown version control parameter: \"%(param_name)s\"."
 msgstr "نُسق الملف"
 
 msgid "Keys"
@@ -19915,22 +20025,19 @@ msgstr[5] "تم تطبيق التصحيحات التالية على الترجم
 msgid "You do not have permission to save translations."
 msgstr "ليس لديك أذونات لإضافة ملف ترجمة جديد."
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The translation has been saved, however there are some newly failing "
-#| "checks: {0}"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there is a newly failing check: "
 "{checks}"
 msgid_plural ""
 "The translation has been saved, however there are some newly failing checks: "
 "{checks}"
-msgstr[0] "تم حفظ الترجمة ، ولكن هناك بعض عمليات التحقق الفاشلة حديثًا: {0}"
-msgstr[1] "تم حفظ الترجمة ، ولكن هناك بعض عمليات التحقق الفاشلة حديثًا: {0}"
-msgstr[2] "تم حفظ الترجمة ، ولكن هناك بعض عمليات التحقق الفاشلة حديثًا: {0}"
-msgstr[3] "تم حفظ الترجمة ، ولكن هناك بعض عمليات التحقق الفاشلة حديثًا: {0}"
-msgstr[4] "تم حفظ الترجمة ، ولكن هناك بعض عمليات التحقق الفاشلة حديثًا: {0}"
-msgstr[5] "تم حفظ الترجمة ، ولكن هناك بعض عمليات التحقق الفاشلة حديثًا: {0}"
+msgstr[0] "تم حفظ الترجمة ، ولكن هناك عملية تحقق فاشلة حديثًا: {checks}"
+msgstr[1] "تم حفظ الترجمة ، ولكن هناك عملية تحقق فاشلة حديثًا: {checks}"
+msgstr[2] "تم حفظ الترجمة ، ولكن هناك عمليتى تحقق فاشلة حديثًا: {checks}"
+msgstr[3] "تم حفظ الترجمة ، ولكن هناك عمليات تحقق فاشلة حديثًا: {checks}"
+msgstr[4] "تم حفظ الترجمة ، ولكن هناك عملية تحقق فاشلة حديثًا: {checks}"
+msgstr[5] "تم حفظ الترجمة ، ولكن هناك عملية تحقق فاشلة حديثًا: {checks}"
 
 msgid "Your suggestion is empty!"
 msgstr "اقتراحك فارغ !"
@@ -20515,6 +20622,16 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
+#. Translators: Number format, in millions (mega)
+#, python-format
+msgid "%s M"
+msgstr ""
+
+#. Translators: Number format, in thousands (kilo)
+#, python-format
+msgid "%s k"
+msgstr ""
+
 msgid "Missing query string."
 msgstr "سلسلة استعلام مفقودة."
 
@@ -20563,6 +20680,9 @@ msgstr "فشل إزالة السلسلة: %s"
 #| msgid "Failed to remove the string: %s"
 msgid "Could not resolve the URL domain."
 msgstr "فشل إزالة السلسلة: %s"
+
+msgid "Parameters must be a dictionary of key-value pairs."
+msgstr ""
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -20657,11 +20777,9 @@ msgctxt "String state"
 msgid "Needs editing (Needs rewriting)"
 msgstr "تحتاج إلى تعديل (تحتاج لإعادة كتابة)"
 
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs editing (Needs checking)"
-msgstr "تحتاج إلى تعديل"
+msgstr "تحتاج إلى تعديل (تحتاج لفحص)"
 
 msgctxt "String state"
 msgid "Translated"
@@ -20741,10 +20859,9 @@ msgstr "عنوان البريد الإلكتروني هذا غير مسموح ب
 msgid "Could not evaluate plural formula: {}"
 msgstr "تعذر تقييم صيغة الجمع: {}"
 
-#, fuzzy, python-brace-format
-#| msgid "Could not evaluate plural formula: {}"
+#, python-brace-format
 msgid "Could not evaluate plural formula for count {count}: {error}"
-msgstr "تعذر تقييم صيغة الجمع: {}"
+msgstr "تعذّر تقييم صيغة الجمع للعد {count}: {error}"
 
 #, python-brace-format
 msgid ""
@@ -20882,10 +20999,9 @@ msgstr "الموضع والأولوية"
 msgid "Customer care is currently unavailable."
 msgstr "الخدمة غير متوفرة حاليا."
 
-#, fuzzy, python-brace-format
-#| msgid "New translation"
+#, python-brace-format
 msgid "ZIP file contains invalid path: {path}"
-msgstr "ترجمة جديدة"
+msgstr "يحتوي ملف ZIP على مسار غير صالح: {path}"
 
 #, fuzzy
 #| msgid "New translation"
@@ -20946,6 +21062,30 @@ msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
+
+#, python-format
+msgid "%(service)s API request failed while merging a pull request: %(status)s"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while merging a pull request: %(status)s "
+"Please retry later."
+msgstr "أُرسلت رسائل كثيرة جدًا، يُرجى المحاولة مرة أخرى لاحقًا."
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s"
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Too many messages sent, please try again later."
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s Please retry later."
+msgstr "أُرسلت رسائل كثيرة جدًا، يُرجى المحاولة مرة أخرى لاحقًا."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr ""
@@ -21185,6 +21325,11 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Weblate could not push changes to the upstream repository."
+msgid "This will force push changes to the upstream repository."
+msgstr "تعذر على Weblate دفع التغييرات إلى مستودع المنبع."
+
+#, fuzzy
+#| msgid "Weblate could not push changes to the upstream repository."
 msgid "This will push changes to the upstream Git repository."
 msgstr "تعذر على Weblate دفع التغييرات إلى مستودع المنبع."
 
@@ -21201,11 +21346,6 @@ msgstr "إيداع التغييرات إلى المستودع الداخلي"
 
 msgid "Git with force push"
 msgstr "دفع بقوة"
-
-#, fuzzy
-#| msgid "Weblate could not push changes to the upstream repository."
-msgid "This will force push changes to the upstream repository."
-msgstr "تعذر على Weblate دفع التغييرات إلى مستودع المنبع."
 
 #, fuzzy
 #| msgid "Bitbucket Server pull request"
@@ -21396,6 +21536,59 @@ msgstr "اعادة ارسال الدعوة"
 #| msgid "Resend invitation"
 msgid "pending code-hosting installations"
 msgstr "اعادة ارسال الدعوة"
+
+#, fuzzy
+#| msgid "Git with force push"
+msgid "Force push"
+msgstr "دفع بقوة"
+
+msgid ""
+"Overwrite the remote branch instead of refusing to push non-fast-forward "
+"changes. Only use this with a repository dedicated to translations, as it "
+"discards upstream commits which are not present in Weblate."
+msgstr ""
+
+#, fuzzy
+#| msgid "Pagure merge request"
+msgid "Create merge requests"
+msgstr "طلب دمج Pagure"
+
+msgid ""
+"Open a pull or merge request for the translation changes. When turned off, "
+"Weblate pushes to the translated branch directly, which requires write "
+"access to it."
+msgstr ""
+
+msgid "Merge pull requests automatically"
+msgstr ""
+
+msgid ""
+"Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
+"are merged once the required checks pass. Pull requests with nothing to wait "
+"for are merged right away."
+msgstr ""
+
+msgid "Merge method"
+msgstr "طريقة الدمج"
+
+#, fuzzy
+#| msgid "Created user account {}."
+msgid "Create a merge commit"
+msgstr "تم إنشاء حساب المستخدم {}."
+
+msgid "Squash and merge"
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Access-control team name"
+#| msgid "Reviewers"
+msgid "Rebase and merge"
+msgstr "المُراجِعون"
+
+msgid ""
+"Method used when merging pull requests automatically. The repository has to "
+"allow it."
+msgstr ""
 
 #, fuzzy
 #| msgid "RSS"
@@ -21727,6 +21920,18 @@ msgid "Backup failed"
 msgstr "فشل النسخ الاحتياطي"
 
 #. Translators: Backup repository operation
+#, fuzzy
+#| msgid "Backup performed"
+msgid "Database backup performed"
+msgstr "إجراء النسخ الاحتياطي"
+
+#. Translators: Backup repository operation
+#, fuzzy
+#| msgid "Backup failed"
+msgid "Database backup failed"
+msgstr "فشل النسخ الاحتياطي"
+
+#. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
 msgstr "حذف أقدم النسخ الاحتياطية"
 
@@ -21788,46 +21993,90 @@ msgstr ""
 #| msgid ""
 #| "Could not activate your installation. Please ensure your activation token "
 #| "is correct."
-msgid "Could not activate your installation. Invalid activation state."
+msgid "Could not enable Discover Weblate. Invalid activation state."
 msgstr "تعذر تنشيط التثبيت الخاص بك. يرجى التأكد من صحة رمز التنشيط الخاص بك."
 
 #, fuzzy
 #| msgid ""
 #| "Could not activate your installation. Please ensure your activation token "
 #| "is correct."
-msgid "Could not activate your installation. Missing activation code."
+msgid "Could not enable Discover Weblate. Missing activation code."
 msgstr "تعذر تنشيط التثبيت الخاص بك. يرجى التأكد من صحة رمز التنشيط الخاص بك."
 
 #, fuzzy
 #| msgid ""
 #| "Could not activate your installation. Please ensure your activation token "
 #| "is correct."
-msgid "Could not activate your installation. Invalid activation code."
+msgid "Could not enable Discover Weblate. Invalid activation code."
 msgstr "تعذر تنشيط التثبيت الخاص بك. يرجى التأكد من صحة رمز التنشيط الخاص بك."
 
 #, fuzzy
 #| msgid ""
 #| "Could not activate your installation. Please ensure your activation token "
 #| "is correct."
-msgid "Could not activate your installation. Please try again later."
+msgid "Could not enable Discover Weblate. Please try again later."
 msgstr "تعذر تنشيط التثبيت الخاص بك. يرجى التأكد من صحة رمز التنشيط الخاص بك."
 
 msgid ""
-"Could not activate discovery because a support package is already linked."
+"Could not enable Discover Weblate because a support package is already "
+"linked."
 msgstr ""
 
-msgid "Activation completed."
-msgstr "اكتمل التنشيط."
+#, fuzzy
+#| msgid "Discover Weblate"
+msgid "Discover Weblate enabled."
+msgstr "اكتشف ويبليت"
 
+#, fuzzy
+#| msgid "Support status"
+msgid "Support status refreshed."
+msgstr "حالة الدعم"
+
+#, fuzzy
+#| msgid ""
+#| "Could not activate your installation. Please ensure your activation token "
+#| "is correct."
+msgid "Could not refresh support status. Please try again later."
+msgstr "تعذر تنشيط التثبيت الخاص بك. يرجى التأكد من صحة رمز التنشيط الخاص بك."
+
+msgid "Could not refresh support status. The activation token is invalid."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Failed to fetch supported languages: %s"
+msgid "Could not refresh support status: %s"
+msgstr "فشل جلب اللغات المدعومة: %s"
+
+#, fuzzy
+#| msgid "Manage support package"
+msgid "Support package activated."
+msgstr "إدارة حزمة الدعم"
+
+#, fuzzy
+#| msgid ""
+#| "Could not activate your installation. Please ensure your activation token "
+#| "is correct."
+msgid "Could not activate the support package. Please try again later."
+msgstr "تعذر تنشيط التثبيت الخاص بك. يرجى التأكد من صحة رمز التنشيط الخاص بك."
+
+#, fuzzy
+#| msgid ""
+#| "Could not activate your installation. Please ensure your activation token "
+#| "is correct."
 msgid ""
-"Could not activate your installation. Please ensure your activation token is "
-"correct."
+"Could not activate the support package. Please ensure the activation token "
+"is correct."
 msgstr "تعذر تنشيط التثبيت الخاص بك. يرجى التأكد من صحة رمز التنشيط الخاص بك."
 
 #, fuzzy, python-format
-#| msgid "Failed to fetch translation: %s"
-msgid "Could not activate your installation: %s"
-msgstr "فشل إحضار الترجمة: %s"
+#| msgid "Failed to fetch supported languages: %s"
+msgid "Could not activate the support package: %s"
+msgstr "فشل جلب اللغات المدعومة: %s"
+
+#, fuzzy
+#| msgid "Manage support package"
+msgid "Support package unlinked."
+msgstr "إدارة حزمة الدعم"
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
@@ -21907,6 +22156,14 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "حُذِف المصدر."
 
+#~ msgid "Activation completed."
+#~ msgstr "اكتمل التنشيط."
+
+#, fuzzy, python-format
+#~| msgid "Failed to fetch translation: %s"
+#~ msgid "Could not activate your installation: %s"
+#~ msgstr "فشل إحضار الترجمة: %s"
+
 #~ msgid "Service"
 #~ msgstr "الخدمة"
 
@@ -21954,9 +22211,6 @@ msgstr "حُذِف المصدر."
 #~| msgid "Gitea pull request"
 #~ msgid "creating a pull request"
 #~ msgstr "طلب سحب جيتيا"
-
-#~ msgid "Unknown error"
-#~ msgstr "خطأ غير معروف"
 
 #~ msgid "File processed, the entries will appear shortly."
 #~ msgstr "تمت معالجة الملف ، ستظهر الإدخالات قريبًا."
@@ -23747,9 +24001,6 @@ msgstr "حُذِف المصدر."
 #~ "يمكنك إرسال أي نسق مِن الملفات التي يدعمها Translate Toolkit (كملفات TBX "
 #~ "أو CSV أو gettext PO)."
 
-#~ msgid "Merge method"
-#~ msgstr "طريقة الدمج"
-
 #~ msgid "Keep current"
 #~ msgstr "الإبقاء كما هو عليه"
 
@@ -25120,9 +25371,6 @@ msgstr "حُذِف المصدر."
 #~ msgstr[3] "يوجد %(words)s كلمات بانتظار الترجمة!"
 #~ msgstr[4] "يوجد %(words)s كلمة بانتظار الترجمة!"
 #~ msgstr[5] "%(words)s كلمات متبقية لترجمتها !"
-
-#~ msgid "Total strings:"
-#~ msgstr "كل السلاسل:"
 
 #~ msgid "Translated strings:"
 #~ msgstr "السلاسل المُترجمة:"

@@ -8,7 +8,7 @@ import copy
 import json
 import re
 from collections import defaultdict
-from collections.abc import Mapping, MutableMapping
+from collections.abc import Mapping, MutableMapping, Sequence
 from datetime import datetime
 from itertools import chain
 from secrets import token_hex
@@ -142,6 +142,7 @@ from weblate.utils.validators import (
 from weblate.utils.views import get_sort_name
 from weblate.vcs.git import GitMergeRequestBase
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.params import VCS_PARAMS, strip_unused_vcs_params
 from weblate.workspaces.models import Workspace
 
 REPOSITORY_REDIRECT_PROOF_SALT = "weblate.component.repository-redirect"
@@ -161,6 +162,7 @@ if TYPE_CHECKING:
         Translation,
     )
     from weblate.trans.models.translation import NewUnitParams
+    from weblate.utils.params import BaseParam
     from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 
@@ -2157,20 +2159,23 @@ class SelectChecksField(forms.JSONField):
 
 class FormParamsWidget(forms.MultiWidget):
     template_name = "bootstrap5/labelled_multiwidget.html"
-    subwidget_class = "file-format-param"
 
     def __init__(
         self,
         widgets: dict[str, forms.Widget | type[forms.Widget]],
         fields_order: list[str],
+        params: Sequence[type[BaseParam]],
+        subwidget_class: str,
         attrs=None,
     ) -> None:
         self.fields_order = fields_order
+        self.params = params
+        self.subwidget_class = subwidget_class
         super().__init__(widgets, attrs)
 
     def decompress(self, value: dict) -> list[Any]:
         initial_params: dict[str, Any] = {}
-        for param_class in FILE_FORMATS_PARAMS:
+        for param_class in self.params:
             param = param_class()
             initial_params[param.get_identifier()] = param.get_field_kwargs().get(
                 "initial"
@@ -2195,18 +2200,25 @@ class FormParamsWidget(forms.MultiWidget):
 
 
 class FormParamsField(forms.MultiValueField):
+    """Edits a dictionary of scoped parameters as one field per parameter."""
+
+    params: Sequence[type[BaseParam]] = ()
+    subwidget_class: str = "param"
+
     def __init__(self, encoder=None, decoder=None, **kwargs) -> None:
         fields: list[forms.Field] = []
         subwidgets: dict[str, forms.Widget | type[forms.Widget]] = {}
 
         self.fields_order: list[str] = []
-        for file_param in FILE_FORMATS_PARAMS:
-            field = file_param().get_field()
+        for param in self.params:
+            field = param().get_field()
             fields.append(field)
-            subwidgets[file_param.get_identifier()] = field.widget
-            self.fields_order.append(file_param.get_identifier())
+            subwidgets[param.get_identifier()] = field.widget
+            self.fields_order.append(param.get_identifier())
 
-        widget = FormParamsWidget(subwidgets, self.fields_order)
+        widget = FormParamsWidget(
+            subwidgets, self.fields_order, self.params, self.subwidget_class
+        )
         super().__init__(fields, widget=widget, require_all_fields=False, **kwargs)
 
     def compress(self, data_list) -> dict:
@@ -2219,6 +2231,16 @@ class FormParamsField(forms.MultiValueField):
             }
             compressed_value.update(update_data)
         return compressed_value
+
+
+class FileFormatParamsField(FormParamsField):
+    params = FILE_FORMATS_PARAMS
+    subwidget_class = "file-format-param"
+
+
+class VCSParamsField(FormParamsField):
+    params = VCS_PARAMS
+    subwidget_class = "vcs-param"
 
 
 class ComponentDocsMixin(FieldDocsMixin):
@@ -2321,6 +2343,7 @@ class ComponentSettingsForm(
             "inherit_pull_message",
             "pull_message",
             "vcs",
+            "vcs_params",
             "repo",
             "branch",
             "push",
@@ -2364,7 +2387,8 @@ class ComponentSettingsForm(
         # ruff: ignore[mutable-class-default]
         field_classes = {
             "enforced_checks": SelectChecksField,
-            "file_format_params": FormParamsField,
+            "file_format_params": FileFormatParamsField,
+            "vcs_params": VCSParamsField,
             "check_flags": FlagField,
         }
 
@@ -2456,6 +2480,7 @@ class ComponentSettingsForm(
                     ),
                     Fieldset(
                         gettext("Version control settings"),
+                        "vcs_params",
                         "push_on_commit",
                         "commit_pending_age",
                         "merge_style",
@@ -2590,6 +2615,10 @@ class ComponentSettingsForm(
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
             )
+        if "vcs_params" in data:
+            data["vcs_params"] = strip_unused_vcs_params(
+                data.get("vcs") or self.instance.vcs, data["vcs_params"]
+            )
         self.preserve_inherited_values()
 
 
@@ -2627,6 +2656,7 @@ class ComponentCreateForm(
             "name",
             "slug",
             "vcs",
+            "vcs_params",
             "repo",
             "branch",
             "push",
@@ -2658,7 +2688,8 @@ class ComponentCreateForm(
         }
         # ruff: ignore[mutable-class-default]
         field_classes = {
-            "file_format_params": FormParamsField,
+            "file_format_params": FileFormatParamsField,
+            "vcs_params": VCSParamsField,
         }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
@@ -2715,6 +2746,7 @@ class ComponentCreateForm(
                 template="trans/vcs_push_help.html",
                 context={"vcs_push_categories": get_vcs_push_categories()},
             ),
+            "vcs_params",
             "repoweb",
             "file_format",
             "file_format_params",
@@ -2820,6 +2852,10 @@ class ComponentCreateForm(
         if "file_format_params" in data:
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
+            )
+        if "vcs_params" in data:
+            data["vcs_params"] = strip_unused_vcs_params(
+                data.get("vcs") or self.instance.vcs, data["vcs_params"]
             )
         self.preserve_inherited_values()
         repository_redirect_change = get_repository_redirect_change(
@@ -2969,7 +3005,7 @@ class ComponentScratchCreateForm(ComponentProjectForm):
             )
         ),
     )
-    file_format_params = FormParamsField()
+    file_format_params = FileFormatParamsField()
 
     def __init__(self, *args, **kwargs) -> None:
         kwargs["auto_id"] = "id_scratchcreate_%s"

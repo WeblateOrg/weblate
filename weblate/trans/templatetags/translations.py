@@ -19,7 +19,7 @@ from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
 
 from weblate.accounts.avatar import get_user_display
-from weblate.accounts.models import Profile
+from weblate.accounts.models import DEFAULT_LISTING_COLUMNS, Profile
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.trans.filter import FILTERS, get_filter_choice
@@ -474,6 +474,14 @@ def get_translate_url(context: Context, obj, glossary_browse=True) -> str:
     else:
         name = "translate"
     return reverse(name, kwargs={"path": obj.get_url_path()})
+
+
+@register.simple_tag
+def get_listing_columns(user: User | AnonymousUser) -> set[str]:
+    """Get columns to show in object listings based on user preference."""
+    if user.is_authenticated:
+        return set(user.profile.listing_columns)
+    return set(DEFAULT_LISTING_COLUMNS)
 
 
 @register.simple_tag

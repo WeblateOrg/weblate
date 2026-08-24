@@ -41,7 +41,7 @@ from django.utils import timezone
 from django.utils.cache import patch_response_headers
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
-from django.utils.http import urlencode
+from django.utils.http import content_disposition_header, urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy
 from django.views.decorators.cache import never_cache
@@ -1514,7 +1514,9 @@ def reset_api_key(request: AuthenticatedHttpRequest):
 @session_ratelimit_post("userdata")
 def userdata(request: AuthenticatedHttpRequest):
     response = JsonResponse(request.user.profile.dump_data())
-    response["Content-Disposition"] = 'attachment; filename="weblate.json"'
+    response["Content-Disposition"] = content_disposition_header(
+        as_attachment=True, filename="weblate.json"
+    )
     return response
 
 

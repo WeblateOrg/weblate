@@ -11,6 +11,14 @@ from django.utils.functional import classproperty
 from django.utils.translation import gettext_lazy
 from translate.storage.lisa import LISAfile
 
+from weblate.utils.params import (
+    BaseParam,
+    FieldKwargsDict,
+    get_default_params_for_scope,
+    get_param_by_name,
+    get_params_for_scope,
+)
+
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
@@ -20,12 +28,6 @@ if TYPE_CHECKING:
     from translate.storage.jsonl10n import JsonFile
     from translate.storage.pypo import pofile
     from translate.storage.yaml import YAMLFile
-
-
-class FieldKwargsDict(TypedDict, total=False):
-    min_value: int
-    max_value: int
-    min_length: int
 
 
 class FileFormatParams(TypedDict, total=False):
@@ -101,51 +103,15 @@ FileFormatParamKey = Literal[
 ]
 
 
-class BaseFileFormatParam:
-    name: FileFormatParamKey
+class BaseFileFormatParam(BaseParam):
+    name: FileFormatParamKey  # type: ignore[assignment]
     file_formats: Sequence[str] = []
-    field_class: type[forms.Field] = forms.CharField
-    label: StrOrPromise = ""
-    default: str | int | bool
-    field_kwargs: ClassVar[FieldKwargsDict] = {}
-    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = None
-    help_text: StrOrPromise | None = None
+    widget_css_class: ClassVar[str] = "file-format-param"
+    scope_attribute: ClassVar[str] = "fileformats"
 
     @classmethod
-    def get_identifier(cls) -> str:
-        return cls.name
-
-    def get_field(self) -> forms.Field:
-        widget = self.field_class.widget(attrs=self.get_widget_attrs())
-        return self.field_class(widget=widget, **self.get_field_kwargs())
-
-    def get_widget_attrs(self) -> dict:
-        field_classes = ["file-format-param-field"]
-
-        if self.field_class == forms.BooleanField:
-            field_classes.append("form-check-input")
-        elif self.field_class == forms.ChoiceField:
-            field_classes.append("form-select")
-        else:
-            field_classes.append("form-control")
-
-        attrs = {
-            "label": self.label,
-            "fileformats": " ".join(self.file_formats),
-            "class": " ".join(field_classes),
-        }
-        if self.help_text:
-            attrs["help_text"] = self.help_text
-        return attrs
-
-    def get_field_kwargs(self) -> dict:
-        kwargs = cast("dict", self.field_kwargs.copy())
-        kwargs.update({"required": False, "initial": self.default})
-        if self.choices is not None:
-            kwargs["choices"] = self.choices
-        if self.help_text:
-            kwargs["help_text"] = self.help_text
-        return kwargs
+    def get_scopes(cls) -> Sequence[str]:
+        return cls.file_formats
 
     def setup_store(
         self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
@@ -153,29 +119,16 @@ class BaseFileFormatParam:
         """Configure store with this file format parameters."""
 
     @classmethod
-    def get_value(cls, file_format_params: FileFormatParams | None):
-        if file_format_params is None:
-            return cls.default
-        value = file_format_params.get(cls.name, cls.default)
-        if value is None:
-            return cls.default
-        type_cast = type(cls.default)
-        try:
-            return type_cast(value)
-        except (ValueError, TypeError):
-            return cls.default
-
-    @classmethod
     def is_encoding(cls):
         return cls.name.endswith("_encoding")
 
     @classmethod
     def supports_all_formats(cls) -> bool:
-        return "*" in cls.file_formats
+        return cls.supports_all_scopes()
 
     @classmethod
     def supports_format(cls, file_format: str) -> bool:
-        return cls.supports_all_formats() or file_format in cls.file_formats
+        return cls.supports_scope(file_format)
 
 
 FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
@@ -191,15 +144,15 @@ def register_file_format_param(
 
 def get_params_for_file_format(file_format: str) -> list[type[BaseFileFormatParam]]:
     """Get all registered file format parameters for a given file format."""
-    return [
-        param for param in FILE_FORMATS_PARAMS if param.supports_format(file_format)
-    ]
+    return get_params_for_scope(FILE_FORMATS_PARAMS, file_format)
 
 
 def get_default_params_for_file_format(file_format: str) -> FileFormatParams:
     """Get default values for all registered file format parameters."""
-    params = get_params_for_file_format(file_format)
-    return cast("FileFormatParams", {param.name: param.default for param in params})
+    return cast(
+        "FileFormatParams",
+        get_default_params_for_scope(FILE_FORMATS_PARAMS, file_format),
+    )
 
 
 def strip_unused_file_format_params(
@@ -214,11 +167,7 @@ def strip_unused_file_format_params(
 
 def get_param_for_name(name: str) -> type[BaseFileFormatParam]:
     """Get parameter class for given name."""
-    for param in FILE_FORMATS_PARAMS:
-        if param.name == name:
-            return param
-    msg = f"Unknown parameter: {name}"
-    raise ValueError(msg)
+    return get_param_by_name(FILE_FORMATS_PARAMS, name)
 
 
 def get_encoding_param(
