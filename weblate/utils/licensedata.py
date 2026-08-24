@@ -574,6 +574,12 @@ LICENSES = (
         False,
     ),
     (
+        "BSD-Source-Code-no-disclaimer",
+        "BSD Source Code Attribution - no disclaimer",
+        "https://spdx.org/licenses/BSD-Source-Code-no-disclaimer.html",
+        False,
+    ),
+    (
         "BSD-3-Clause-Attribution",
         "BSD with attribution",
         "https://spdx.org/licenses/BSD-3-Clause-Attribution.html",
@@ -1567,6 +1573,12 @@ LICENSES = (
         "FDK-AAC",
         "Fraunhofer FDK AAC Codec Library",
         "https://spdx.org/licenses/FDK-AAC.html",
+        False,
+    ),
+    (
+        "FDK-MPEG-H",
+        "Fraunhofer FDK MPEG-H Software",
+        "https://spdx.org/licenses/FDK-MPEG-H.html",
         False,
     ),
     (
