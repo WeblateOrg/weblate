@@ -387,6 +387,7 @@ def build_detected_discovery_preset(
         "base_file_template": base_file_template,
         "new_base_template": new_base_template,
         "intermediate_template": intermediate_template,
+        "filemask_template": "",
     }
 
     return {
@@ -498,7 +499,9 @@ class ComponentDiscovery:
 
     @property
     def create_from_template(self) -> bool:
-        return self.filemask_template is not None and self.filemask_template.strip()
+        return self.filemask_template is not None and bool(
+            str(self.filemask_template.strip())
+        )
 
     def add_error(self, reason: str, *, mask: str = "") -> None:
         match: DiscoveryErrorMatch = {
@@ -555,22 +558,36 @@ class ComponentDiscovery:
         )
 
     @staticmethod
-    def mask_path_bounds(mask: str) -> tuple[str, str] | None:
-        """Return prefix and suffix around the wildcard."""
+    def mask_path_bounds(mask: str) -> tuple[str, ...] | None:
+        """Return literal parts around wildcards."""
         if "*" not in mask:
             return None
-        prefix, suffix = mask.split("*", 1)
-        return prefix, suffix
+        return tuple(mask.split("*"))
 
     @staticmethod
-    def path_matches_mask_bounds(path: str, bounds: tuple[str, str]) -> bool:
-        """Return whether a path matches the bounds around the wildcard."""
-        prefix, suffix = bounds
-        if not path.startswith(prefix):
+    def path_matches_mask_bounds(path: str, bounds: tuple[str, ...]) -> bool:
+        """Return whether a path matches the literal parts around wildcards."""
+        if not path.startswith(bounds[0]):
             return False
-        if suffix and not path.endswith(suffix):
-            return False
-        return len(path) > len(prefix) + len(suffix)
+
+        pos = len(bounds[0])
+        for index, part in enumerate(bounds[1:], start=1):
+            is_last = index == len(bounds) - 1
+            if is_last:
+                if part:
+                    if not path.endswith(part):
+                        return False
+                    # Each wildcard must match at least one character.
+                    return len(path) - len(part) > pos
+                return len(path) > pos
+
+            # leave at least one character for the preceding wildcard.
+            found = path.find(part, pos + 1)
+            if found == -1:
+                return False
+            pos = found + len(part)
+
+        return True
 
     def build_match_from_groups(
         self, groups: Mapping[str, str], *, mask: str, path: str | None = None

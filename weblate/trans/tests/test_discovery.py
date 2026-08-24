@@ -533,7 +533,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             (("docs/news_cs.md", "cs"),),
         )
 
-    def test_mask_path_bounds_skip_non_matching_paths(self) -> None:
+    def test_mask_path_bounds(self) -> None:
         self.assertTrue(
             ComponentDiscovery.path_matches_mask_bounds(
                 "docs/news_cs.md",
@@ -550,6 +550,15 @@ class ComponentDiscoveryTest(RepoTestCase):
             ComponentDiscovery.path_matches_mask_bounds(
                 "other/news_cs.md",
                 ComponentDiscovery.mask_path_bounds("docs/news_*.md"),
+            )
+        )
+        # multiple wildcards
+        self.assertTrue(
+            ComponentDiscovery.path_matches_mask_bounds(
+                "docs/en/resources/user_manual_en.md",
+                ComponentDiscovery.mask_path_bounds(
+                    "docs/*/resources/user_manual_*.md"
+                ),
             )
         )
 
