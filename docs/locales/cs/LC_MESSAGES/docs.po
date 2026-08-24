@@ -15,14 +15,15 @@
 # Adam Havránek <adamhavra@seznam.cz>, 2026.
 # Automatic translation add-on <noreply-addon-autotranslate@weblate.org>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
+# Michal Várady <miko.vaji@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
 "POT-Creation-Date: 2026-08-21 12:13+0000\n"
-"PO-Revision-Date: 2026-08-24 21:10+0000\n"
-"Last-Translator: Adam Havránek <adamhavra@seznam.cz>\n"
+"PO-Revision-Date: 2026-08-24 22:28+0000\n"
+"Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "documentation/cs/>\n"
 "Language: cs\n"
@@ -13318,10 +13319,8 @@ msgstr "Verzovací systém"
 msgid "VCS to use, see :ref:`vcs` for details."
 msgstr ""
 
-#, fuzzy
-#| msgid "Version control system"
 msgid "Version control parameters"
-msgstr "Verzovací systém"
+msgstr "Parametry verzovacího systému"
 
 msgid ""
 "Parameters tuning how Weblate interacts with the repository, for example "
@@ -49173,44 +49172,49 @@ msgstr "Verzovací systém"
 msgid "create_merge_request"
 msgstr "Chybný požadavek na sloučení!"
 
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Create merge requests"
-msgstr "Chybný požadavek na sloučení!"
+msgstr "Vytvářet žádosti o sloučení"
 
 msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
 msgstr ""
+"Otevře pro změny překladů žádost o začlenění nebo sloučení. Je-li tato "
+"možnost vypnutá, Weblate odesílá změny přímo do překladové větve, k čemuž "
+"potřebuje oprávnění k zápisu."
 
 #, fuzzy
 #| msgid "Git with force push"
 msgid "git_force_push"
 msgstr "Git s vynuceným odesláním"
 
-#, fuzzy
-#| msgid "Git with force push"
 msgid "Force push"
-msgstr "Git s vynuceným odesláním"
+msgstr "Vynucené odeslání"
 
 msgid ""
 "Overwrite the remote branch instead of refusing to push non-fast-forward "
 "changes. Only use this with a repository dedicated to translations, as it "
 "discards upstream commits which are not present in Weblate."
 msgstr ""
+"Přepište vzdálenou větev namísto odmítnutí odeslání změn, které nejsou "
+"rychlým posunem. Tuto volbu používejte pouze s repozitářem určeným pro "
+"překlady, protože zahodí upstreamové zápisy, které ve Weblate nejsou."
 
 msgid "merge_request_automerge"
 msgstr ""
 
 msgid "Merge pull requests automatically"
-msgstr ""
+msgstr "Automaticky slučovat žádosti o začlenění"
 
 msgid ""
 "Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
 "are merged once the required checks pass. Pull requests with nothing to wait "
 "for are merged right away."
 msgstr ""
+"Zapněte na GitHubu automatické slučování žádostí o začlenění vytvořených "
+"Weblate. Sloučí se, jakmile úspěšně projdou požadovanými kontrolami; pokud "
+"není na co čekat, sloučí se okamžitě."
 
 msgid "merge_request_merge_method"
 msgstr ""
@@ -49222,6 +49226,8 @@ msgid ""
 "Method used when merging pull requests automatically. The repository has to "
 "allow it."
 msgstr ""
+"Způsob používaný při automatickém slučování žádostí o začlenění. Repozitář "
+"jej musí povolovat."
 
 #, fuzzy
 #| msgid "Changes committed"
