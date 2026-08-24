@@ -26,6 +26,32 @@ example ``https://github.com/WeblateOrg/weblate.git``), but for private
 repositories or for push URLs the setup is more complex and requires
 authentication.
 
+.. _vcs-repository-url-troubleshooting:
+
+Troubleshooting repository URLs
++++++++++++++++++++++++++++++++
+
+Weblate validates repository and push URLs before connecting. HTTPS and SSH
+are permitted by default; instance administrators can adjust this using
+:setting:`VCS_ALLOW_SCHEMES`.
+
+Repository hostnames have to resolve from the Weblate server. When
+:setting:`VCS_RESTRICT_PRIVATE` is enabled, Weblate also rejects destinations
+which resolve to internal or otherwise non-public addresses. Use a publicly
+reachable repository URL where possible. For an intentionally private
+repository on a trusted network, ask the instance administrator to add its
+hostname to :setting:`VCS_ALLOW_HOSTS`.
+
+Git over HTTPS and SSH can bind connections to addresses approved during
+validation. Backends which cannot do this safely, including Mercurial and
+Subversion, require the trusted repository hostname in
+:setting:`VCS_ALLOW_HOSTS` while private-address restrictions are enabled.
+
+Configure the final repository URL directly when possible. Weblate can
+automatically accept a permanent HTTP redirect only when it stays on the same
+host and the target is successfully validated. Redirects to another host or
+protocol have to be configured manually.
+
 .. _hosted-push:
 
 Accessing repositories from Hosted Weblate
@@ -297,6 +323,23 @@ Using proxy
 If you need to access Git repositories over HTTPS using a proxy server,
 configure the per-protocol environment variables described in :ref:`http-proxy`.
 
+.. _vcs_params:
+
+Version control parameters
+--------------------------
+
+.. versionadded:: 2026.9
+
+Version control parameters tune how a component interacts with its repository
+without having to choose a different version control system. They are
+configured per component in :ref:`component-vcs_params`, and only the
+parameters applicable to the selected :ref:`component-vcs` are offered.
+
+List of version control parameters
+++++++++++++++++++++++++++++++++++
+
+.. include:: /snippets/vcs-parameters.rst
+
 .. _vcs-git:
 
 Git
@@ -358,17 +401,23 @@ Weblate, for example in your normal development workflow or CI.
 
 .. _vcs-git-force-push:
 
-Git with force push
-+++++++++++++++++++
+Force pushing
++++++++++++++
 
-This behaves exactly like Git itself, the only difference being that it always
-force pushes. This is intended only in the case of using a separate repository
-for translations.
+Turn on the ``git_force_push`` :ref:`version control parameter <vcs_params>` to
+make Weblate always force push. This is intended only in the case of using a
+separate repository for translations.
 
 .. warning::
 
     Use with caution, as this easily leads to lost commits in your
     upstream repository.
+
+.. versionchanged:: 2026.9
+
+   This used to be a separate :guilabel:`Git with force push` version control
+   system. Existing components were migrated to Git with the ``git_force_push``
+   parameter turned on.
 
 Customizing Git configuration
 +++++++++++++++++++++++++++++

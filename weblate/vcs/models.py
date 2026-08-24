@@ -239,6 +239,32 @@ class VcsClassLoader(ClassLoader):
             if issubclass(vcs, GitMergeRequestBase)
         }
 
+    @cached_property
+    def unfiltered_data(self) -> dict[str, type[Repository]]:
+        """
+        Load all backends listed in the setting, including unconfigured ones.
+
+        :attr:`data` hides backends whose credentials are not set up, which
+        makes it unsuitable for scoping and validating VCS parameters: those
+        have to give the same answer regardless of credentials.
+        """
+        return super().load_data()
+
+    def get_unfiltered(self, key: str) -> type[Repository] | None:
+        return self.unfiltered_data.get(key)
+
+    @cached_property
+    def unfiltered_merge_request_based(self) -> set[str]:
+        """List merge request backends regardless of their configuration."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.vcs.git import GitMergeRequestBase
+
+        return {
+            identifier
+            for identifier, vcs in self.unfiltered_data.items()
+            if issubclass(vcs, GitMergeRequestBase)
+        }
+
 
 # Initialize VCS list
 VCS_REGISTRY = VcsClassLoader()

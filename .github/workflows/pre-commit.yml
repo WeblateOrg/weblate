@@ -31,9 +31,7 @@ jobs:
     - name: detect method
       id: detect
       run: |
-        if test -f requirements-lint.txt ; then
-          echo "method=requirements" >> "$GITHUB_OUTPUT"
-        elif test -f pyproject.toml && grep -q dependency-groups pyproject.toml ; then
+        if test -f pyproject.toml ; then
           echo "method=pep735" >> "$GITHUB_OUTPUT"
         else
           echo "method=uvx" >> "$GITHUB_OUTPUT"
@@ -52,16 +50,6 @@ jobs:
       run: |
         uvx prek run --all-files --show-diff-on-failure
         uvx prek cache gc
-      env:
-        RUFF_OUTPUT_FORMAT: github
-        REUSE_OUTPUT_FORMAT: github
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: pre-commit (requirements)
-      if: steps.detect.outputs.method == 'requirements'
-      run: |
-        uv pip install --system -r requirements-lint.txt
-        prek run --all-files --show-diff-on-failure
-        prek cache gc
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github

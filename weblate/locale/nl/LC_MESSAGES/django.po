@@ -11,14 +11,15 @@
 # Feike Donia <feikedonia@proton.me>, 2026.
 # GitHub webhook <noreply-webhook-github-integration@weblate.org>, 2026.
 # Watchman89 <rplatte@hotmail.nl>, 2026.
+# Harsha  Kanaparthi <harsha.kanaparthi20062@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-14 01:11-0500\n"
-"PO-Revision-Date: 2026-08-18 22:32+0000\n"
-"Last-Translator: Watchman89 <rplatte@hotmail.nl>\n"
+"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"PO-Revision-Date: 2026-08-24 03:51+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -613,6 +614,33 @@ msgstr "Accountactiviteit"
 msgid "Triggered by {username}."
 msgstr "Geactiveerd door {username}."
 
+msgid "Total strings"
+msgstr "Totaal aantal tekenreeksen"
+
+msgid "Unfinished strings"
+msgstr "Onafgeronde tekenreeksen"
+
+msgid "Unfinished words"
+msgstr "Onafgeronde woorden"
+
+msgid "Unfinished characters"
+msgstr "Onafgeronde tekens"
+
+msgid "Untranslated strings"
+msgstr "Onvertaalde tekenreeksen"
+
+msgid "Checks"
+msgstr "Controles"
+
+msgid "Suggestions"
+msgstr "Suggesties"
+
+msgid "Comments"
+msgstr "Opmerkingen"
+
+msgid "Invalid listing column selection."
+msgstr "Ongeldige lijst van kolomselectie."
+
 msgid "Interface Language"
 msgstr "Taal van gebruikersomgeving"
 
@@ -657,6 +685,16 @@ msgid ""
 msgstr ""
 "In plaats van kolommen op smalle schermen te verbergen, behoudt alle "
 "kolommen en scroll de tabel horizontaal."
+
+msgid "Visible columns in lists"
+msgstr "Zichtbare kolommen in lijsten"
+
+msgid ""
+"Choose which statistics columns are shown in project, component, and "
+"language lists."
+msgstr ""
+"Kies welke statistiek-kolommen getoond worden in project, onderdeel, en "
+"taallijsten."
 
 msgid "Editor link"
 msgstr "Bewerkerlink"
@@ -1714,6 +1752,9 @@ msgstr ""
 "dit om locaties in het sjabloon ter behouden, terwijl ze worden weggelaten "
 "in vertaalde PO-bestanden."
 
+msgid "Keyword entries have to be strings."
+msgstr "Sleutelwoord-items moeten tekenreeksen zijn."
+
 msgid "Do not extract comments"
 msgstr "Geen opmerkingen uitnemen"
 
@@ -1750,12 +1791,13 @@ msgstr ""
 "Aanvullende controles voor valideren van xgettext om in te schakelen voor "
 "uitgenomen berichten."
 
-msgid "Additional keyword"
-msgstr "Aanvullend sleutelwoord"
+msgid "Additional keywords"
+msgstr "Aanvullende trefwoorden"
 
-msgid "Optional extra keyword passed to xgettext using --keyword."
+msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
-"Optioneel extra sleutelwoord dat is doorgegeven aan xgettext met --keyword."
+"Extra trefwoorden, gescheiden door nieuwe regels, worden aan xgettext "
+"doorgegeven met --keyword."
 
 msgid "Use keywords exclusively"
 msgstr "Exclusieve sleutelwoorden gebruiken"
@@ -3778,8 +3820,35 @@ msgstr "Facturatie"
 msgid "Billing event"
 msgstr "Facturatie gebeurtenis"
 
+msgid "monthly"
+msgstr "maandelijks"
+
+msgid "yearly"
+msgstr "jaarlijks"
+
+msgid "unknown period"
+msgstr "onbekende periode"
+
 msgid "Changed from \"{}\" to \"{}\"."
 msgstr "Gewijzigd van \"{}\" naar \"{}\"."
+
+msgid "Payment \"{}\" initiated for \"{}\" ({})."
+msgstr "Betaling \"{}\" geïnitieerd voor \"{}\" ({})."
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected: {}."
+msgstr "Betaling \"{}\" voor \"{}\" ({}) is afgekeurd: {}."
+
+msgid "Payment \"{}\" for \"{}\" ({}) was rejected."
+msgstr "Betaling \"{}\" voor \"{}\" ({}) is afgekeurd."
+
+msgid "Automatic payment \"{}\" received for \"{}\" ({})."
+msgstr "Automatische betaling \"{}\" ontvangen voor \"{}\" ({})."
+
+msgid "Payment \"{}\" received for \"{}\" ({})."
+msgstr "Betaling \"{}\" ontvangen voor \"{}\" ({})."
+
+msgid "Merged billing \"{}\" into \"{}\"."
+msgstr "Facturatie samengevoegd \"{}\" naar \"{}\"."
 
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
@@ -8092,9 +8161,6 @@ msgstr "Vertaaltalen beheren"
 msgid "Browse all languages"
 msgstr "Alle talen tonen"
 
-msgid "Checks"
-msgstr "Controles"
-
 #, python-format
 msgid "Failing checks in %(project)s — %(language)s"
 msgstr "Foutmeldingen in %(project)s — %(language)s"
@@ -8405,8 +8471,8 @@ msgstr "Indelen of verwijderen"
 msgid "Browse all changes for this language"
 msgstr "Alle aanpassingen in deze taal tonen"
 
-msgid "Replace"
-msgstr "Vervangen"
+msgid "Review changes"
+msgstr "Wijzigingen beoordelen"
 
 msgid "Apply"
 msgstr "Toepassen"
@@ -9880,9 +9946,6 @@ msgstr "Locatie van brontekenreeks"
 msgid "Screenshot context"
 msgstr "Vertaalcontext bij schermfoto"
 
-msgid "Unfinished strings"
-msgstr "Onafgeronde tekenreeksen"
-
 #. Translators: e-mail subject
 #, python-format
 msgid "%(count)s unfinished string in %(component)s"
@@ -10206,20 +10269,14 @@ msgstr "Celeryvertraging"
 msgid "Not yet measured"
 msgstr "Nog niet gemeten"
 
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data directory latency"
-msgstr "Databankvertraging"
+msgstr "Datamapvertraging"
 
-#, fuzzy
-#| msgid "Not yet measured"
 msgid "Not measured"
-msgstr "Nog niet gemeten"
+msgstr "Niet gemeten"
 
-#, fuzzy
-#| msgid "Cache latency"
 msgid "Cache directory latency"
-msgstr "Cachevertraging"
+msgstr "Cachemapvertraging"
 
 msgid "HTTP environment"
 msgstr "HTTP-omgeving"
@@ -10686,6 +10743,9 @@ msgstr ""
 
 msgid "Update preview"
 msgstr "Voorbeeld update"
+
+msgid "Replace"
+msgstr "Vervangen"
 
 msgid "Generated by"
 msgstr "Gemaakt door"
@@ -11357,20 +11417,8 @@ msgstr "Kolom sorteren"
 msgid "Unreviewed"
 msgstr "Niet beoordeeld"
 
-msgid "Unfinished words"
-msgstr "Onafgeronde woorden"
-
-msgid "Unfinished characters"
-msgstr "Onafgeronde tekens"
-
 msgid "Untranslated"
 msgstr "Onvertaald"
-
-msgid "Suggestions"
-msgstr "Suggesties"
-
-msgid "Comments"
-msgstr "Opmerkingen"
 
 msgid "Create translation"
 msgstr "Vertaling toevoegen"
@@ -11535,13 +11583,6 @@ msgstr "Vertaalde tekenreeksen in een bepaalde taal"
 
 msgid "Query"
 msgstr "Zoeken naar"
-
-msgid ""
-"Don’t worry about messing up the strings. This is a two-step process showing "
-"a preview of edited strings before the actual change is confirmed."
-msgstr ""
-"Wees niet bang om tekenreeksen te beschadigen: dit is een proces in twee "
-"stappen waarbij er eerst een voorvertoning wordt getoond."
 
 msgid ""
 "You don't have permission to view reports for all users; contributor reports "
@@ -11901,6 +11942,21 @@ msgid "Suggested individual language codes"
 msgstr "Aanbevolen individuele taalcodes"
 
 msgid ""
+"Weblate pushed the changes and created the pull request, but could not merge "
+"it automatically."
+msgstr ""
+"Weblate publiceerde de veranderingen en maakte het pullverzoek aan, maar kon "
+"die niet automatisch samenvoegen."
+
+msgid ""
+"Check that the repository allows auto-merge and the selected merge method, "
+"or turn off automatic merging in the version control parameters."
+msgstr ""
+"Controleer dat de opslagplaats automatisch samenvoegen en de geselecteerde "
+"samenvoegmethode toestaat of schakel automatisch samenvoegen uit in de "
+"parameters van versiecontrole."
+
+msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
 "configured as monolingual gettext PO."
 msgstr ""
@@ -11961,6 +12017,65 @@ msgstr ""
 "als de redirect ergens anders naartoe verwijst."
 
 msgid ""
+"This version control backend cannot enforce private-address restrictions for "
+"the configured URL. Ask the instance administrator to add the trusted "
+"repository hostname to VCS_ALLOW_HOSTS."
+msgstr ""
+"Dit backend voor versiebeheer kan geen beperkingen afdwingen voor private "
+"adressen voor de geconfigureerde URL. Vraag de beheerder van de instantie om "
+"de vertrouwde hostnaam voor de opslagruimte toe te voegen aan "
+"VCS_ALLOW_HOSTS."
+
+msgid ""
+"Weblate blocked the repository URL because its destination is not permitted "
+"by this instance. Use a publicly reachable repository URL, or ask the "
+"instance administrator to allow the trusted repository host."
+msgstr ""
+"Weblate blokkeerde de URL van de opslagruimte, omdat zijn doel voor deze "
+"instantie niet is toegestaan. Gebruik een publiek toegankelijke URL voor de "
+"opslagruimte, of vraag de beheerder van de instantie om de vertrouwde host "
+"voor de opslagruimte toe te voegen."
+
+msgid ""
+"The configured repository URL is not valid. Check the URL in the component "
+"settings and use a complete repository URL supported by the selected version "
+"control system."
+msgstr ""
+"De geconfigureerde URL voor de opslagruimte is niet geldig. Controleer de "
+"URL in de instellingen van het onderdeel en gebruik een volledige URL voor "
+"de opslagruimte die wordt ondersteund door het geselecteerde "
+"versiebeheersysteem."
+
+msgid ""
+"The repository URL uses a protocol which is not permitted by this instance. "
+"Use HTTPS or SSH, or ask the instance administrator whether another protocol "
+"can be safely enabled."
+msgstr ""
+"De URL voor de opslagruimte gebruikt een protocol dat voor deze instantie "
+"niet is toegestaan. Gebruik HTTPS of SSH, of vraag de beheerder van de "
+"instantie of een ander protocol kan worden ingeschakeld."
+
+msgid ""
+"Weblate could not resolve the repository destination. Check the hostname and "
+"the instance DNS configuration. Internal or otherwise non-public hosts must "
+"also be explicitly allowed by the instance administrator."
+msgstr ""
+"Weblate kon het doel voor de opslagruimte niet oplossen. Controleer de "
+"hostnaam en de DNS-configuratie van de instantie. Intern of anderszins niet-"
+"publieke hosts moeten ook expliciet zijn toegestaan door de beheerder van de "
+"instantie."
+
+msgid ""
+"The repository URL redirect could not be safely followed. Configure the "
+"final repository URL directly; Weblate automatically accepts only verified "
+"permanent redirects on the same host."
+msgstr ""
+"De verwijzing naar de URL van de opslagruimte kon niet veilig worden "
+"gevolgd. Configureer de uiteindelijke URL voor de opslagruimte direct; "
+"Weblate accepteert automatisch alleen geverifieerde permanente verwijzingen "
+"op dezelfde host."
+
+msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
@@ -12003,6 +12118,16 @@ msgstr ""
 "gebruikers toe te staan."
 
 msgid ""
+"The repository references Git LFS objects that are missing from the push "
+"destination. Weblate does not download or upload Git LFS objects, and files "
+"tracked by Git LFS cannot be used as translation files."
+msgstr ""
+"De opslagruimte verwijst naar Git LFS-objecten die ontbreken in het doel "
+"voor pushen. Weblate download of upload geen Git LFS-objecten, en bestanden "
+"die worden gevolgd door Git LFS kunnen niet worden gebruikt als "
+"vertaalbestanden."
+
+msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
@@ -12020,13 +12145,13 @@ msgid "You might want to use following URL instead:"
 msgstr "Wellicht bedoelt u de volgende URL:"
 
 msgid ""
-"You might want to choose Git with force push as version control system in "
+"You might want to turn on force push in the version control parameters of "
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"Mogelijk wilt u Git met gedwongen push kiezen als versiebeheersysteem in de "
-"configuratie voor het onderdeel, zodat externe opslagruimte kan worden "
-"overschreven na Weblate-commits."
+"Mogelijk wilt u gedwongen pushen inschakelen in de parameters van het "
+"versiebeheersysteem in de configuratie voor het onderdeel, om de externe "
+"opslagruimte te overschrijven na het rebasen van commits in Weblate."
 
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
@@ -12561,6 +12686,10 @@ msgid ""
 "from them will become available according to the project and workspace "
 "translation memory access rules unless you also delete it."
 msgstr ""
+"Als deze actie beperkte onderdelen verwijdert wordt het behouden "
+"vertaalgeheugen daarvan beschikbaar volgens de toegangsregels voor "
+"vertaalgeheugen van het project en de werkruimte, behalve als u deze ook "
+"verwijdert."
 
 msgid "The following translation components will be removed:"
 msgstr "De volgende vertaalonderdelen worden verwijderd:"
@@ -14423,6 +14552,10 @@ msgid "Could not update the repository."
 msgstr "Kon de opslagruimte niet bijwerken."
 
 #. Translators: Name of an alert
+msgid "Could not merge the pull request automatically."
+msgstr "Kon het pull request niet automatisch samenvoegen."
+
+#. Translators: Name of an alert
 msgid "Repository outdated."
 msgstr "Opslagruimte verouderd."
 
@@ -14991,9 +15124,6 @@ msgstr "Alle tekenreeksen"
 msgid "Read-only strings"
 msgstr "Alleen-lezen-tekenreeksen"
 
-msgid "Untranslated strings"
-msgstr "Onvertaalde tekenreeksen"
-
 msgid "Strings marked for edit"
 msgstr "Te bewerken tekenreeksen"
 
@@ -15044,6 +15174,43 @@ msgstr "Aangepast zoeken"
 
 msgid "Labeled: {}"
 msgstr "Gelabeld: {}"
+
+#. Translators: Glossary term formatting used in a tooltip
+#, python-brace-format
+msgctxt "glossary term"
+msgid "{target} [{source}]"
+msgstr "{target} [{source}]"
+
+msgid "Forbidden translation:"
+msgid_plural "Forbidden translations:"
+msgstr[0] "Verboden vertaling:"
+msgstr[1] "Verboden vertalingen:"
+
+msgid "Untranslatable term:"
+msgid_plural "Untranslatable terms:"
+msgstr[0] "Onvertaalbare term:"
+msgstr[1] "Onvertaalbare termen:"
+
+msgid "Glossary term:"
+msgid_plural "Glossary terms:"
+msgstr[0] "Term woordenlijst:"
+msgstr[1] "Termen woordenlijst:"
+
+msgctxt "String state"
+msgid "Dismissed checks:"
+msgstr "Afgewezen controles:"
+
+msgctxt "String state"
+msgid "Commented"
+msgstr "Opmerking geplaatst"
+
+msgctxt "String state"
+msgid "Suggested"
+msgstr "Voorgesteld"
+
+msgctxt "String state"
+msgid "Automatically translated"
+msgstr "Automatisch vertaald"
 
 msgid "Repository branch is required for this integration."
 msgstr "Branch voor de opslagruimte is vereist voor deze integratie."
@@ -15558,12 +15725,14 @@ msgid "Please type in the full slug of the translation to confirm."
 msgstr "Typ de naam van de slug van de vertaling om te bevestigen."
 
 msgid "Delete translation memory created from this component"
-msgstr "Verwijder vertaalgeheugen gemaakt van dit onderdeel."
+msgstr "Verwijder vertaalgeheugen gemaakt van dit onderdeel"
 
 msgid ""
 "Project, workspace, and shared translation memory entries will be deleted. "
 "Personal and uploaded entries will be preserved."
 msgstr ""
+"Project, werkruimte en gedeelde vertaalgeschiedenis-inhoud zal worden "
+"verwijderd. Persoonlijke en geüploadde inhoud zal worden behouden."
 
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Typ de naam van de slug van het onderdeel om te bevestigen."
@@ -15572,7 +15741,7 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Typ de naam van de slug van het project om te bevestigen."
 
 msgid "Delete translation memory created from components in this category"
-msgstr ""
+msgstr "Verwijder vertaalgeheugen gemaakt uit onderdelen in deze categorie"
 
 msgid "Please type in the slug of the category to confirm."
 msgstr "Typ de naam van de slug van de categorie om te bevestigen."
@@ -15989,6 +16158,9 @@ msgstr ""
 "Versiebeheersysteem dat gebruikt wordt om toegang te krijgen tot de "
 "opslagruimte die vertalingen bevat. U kunt ook aanvullende integratie met "
 "providers van derden kiezen om pull/samenvoeg-aanvragen in te dienen."
+
+msgid "Version control parameters"
+msgstr "Parameters versiebeheer"
 
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
@@ -16650,16 +16822,28 @@ msgstr ""
 "De parameter '%(param)s' is niet van toepassing voor de bestandsindeling "
 "'%(format)s'."
 
-#, fuzzy
-#| msgid ""
-#| "Allow this component's translations to be added to the project-level "
-#| "translation memory."
+#, python-format
+msgid ""
+"The parameter '%(param)s' is not applicable for the version control system "
+"'%(vcs)s'."
+msgstr ""
+"De parameter '%(param)s' is niet van toepassing voor de "
+"versiecontrolesysteem '%(vcs)s'."
+
+msgid ""
+"Pushing without a merge request needs write access to the repository. "
+"Configure a push URL with credentials, or use an SSH repository URL."
+msgstr ""
+"Pushen zonder merge request vereist schrijftoegang tot de opslagruimte. "
+"Configureer een URL voor pushen met inloggegevens, of gebruik een SSH URL "
+"voor de opslagruimte."
+
 msgid ""
 "A component can not be restricted while its project uses shared translation "
 "memory."
 msgstr ""
-"Sta toe dat de vertalingen van dit onderdeel worden toegevoegd aan het "
-"vertaalgeheugen voor het project."
+"Een onderdeel kan niet worden beperkt terwijl gedeeld vertaalgeheugen "
+"gebruikt wordt voor het bijbehoende project."
 
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
@@ -16922,15 +17106,12 @@ msgid "Use the merge request message configured in the workspace."
 msgstr ""
 "Gebruik het bericht voor samenvoegen dat is geconfigureerd in de werkruimte."
 
-#, fuzzy
-#| msgid ""
-#| "Add-ons can also be installed at the project and the component levels."
 msgid ""
 "Shared translation memory can not be enabled while the project has "
 "restricted components."
 msgstr ""
-"Add-ons kunnen ook in het bereik van het project en van de component worden "
-"geïnstalleerd."
+"Gedeeld vertaalgeheugen kan niet worden ingeschakeld terwijl het project "
+"beperkte onderdelen heeft."
 
 msgid ""
 "Translations marked as needing editing are not written to the translation "
@@ -17191,48 +17372,11 @@ msgstr "Prioriteit: Laag"
 msgid "Priority: Very low"
 msgstr "Prioriteit: Zeer laag"
 
-#. Translators: Glossary term formatting used in a tooltip
-#, python-brace-format
-msgctxt "glossary term"
-msgid "{target} [{source}]"
-msgstr "{target} [{source}]"
-
-msgid "Forbidden translation:"
-msgid_plural "Forbidden translations:"
-msgstr[0] "Verboden vertaling:"
-msgstr[1] "Verboden vertalingen:"
-
-msgid "Untranslatable term:"
-msgid_plural "Untranslatable terms:"
-msgstr[0] "Onvertaalbare term:"
-msgstr[1] "Onvertaalbare termen:"
-
-msgid "Glossary term:"
-msgid_plural "Glossary terms:"
-msgstr[0] "Term woordenlijst:"
-msgstr[1] "Termen woordenlijst:"
-
 msgid "Translated without any problems"
 msgstr "Zonder problemen vertaald"
 
 msgid "Needs attention"
 msgstr "Moet worden nagekeken"
-
-msgctxt "String state"
-msgid "Dismissed checks:"
-msgstr "Afgewezen controles:"
-
-msgctxt "String state"
-msgid "Commented"
-msgstr "Opmerking geplaatst"
-
-msgctxt "String state"
-msgid "Suggested"
-msgstr "Voorgesteld"
-
-msgctxt "String state"
-msgid "Automatically translated"
-msgstr "Automatisch vertaald"
 
 #, python-format
 msgid "string ID %s"
@@ -17268,16 +17412,6 @@ msgstr[1] "%(count)s tekenreeksen worden elders vertaald."
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Gedeeld uit het project ‘%s’."
-
-#. Translators: Number format, in millions (mega)
-#, python-format
-msgid "%s M"
-msgstr "%sM"
-
-#. Translators: Number format, in thousands (kilo)
-#, python-format
-msgid "%s k"
-msgstr "%s k"
 
 #, python-format
 msgid "Completed translation with %(count)s string"
@@ -17424,6 +17558,15 @@ msgstr ""
 #, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
 msgstr "Parameter voor onbekende bestandsindeling: \"%(param_name)s\"."
+
+msgid "Version control parameters must be a dictionary of key-value pairs."
+msgstr ""
+"Parameters voor versiebeheer moeten een woordenboek zijn van paren sleutel-"
+"waarde."
+
+#, python-format
+msgid "Unknown version control parameter: \"%(param_name)s\"."
+msgstr "Onbekende parameter voor versiebeheer: \"%(param_name)s\"."
 
 msgid "Keys"
 msgstr "Sleutels"
@@ -18081,6 +18224,16 @@ msgstr[1] ""
 "Er zijn {0} tekenreeksen uit de geüploade bestanden verwerkt (overgeslagen: "
 "{1}, niet gevonden: {2}, bijgewerkt: {3})."
 
+#. Translators: Number format, in millions (mega)
+#, python-format
+msgid "%s M"
+msgstr "%sM"
+
+#. Translators: Number format, in thousands (kilo)
+#, python-format
+msgid "%s k"
+msgstr "%s k"
+
 msgid "Missing query string."
 msgstr "Geen zoekopdracht ingevoerd."
 
@@ -18121,6 +18274,9 @@ msgstr "Kon de URL voor het domein niet oplossen: {}"
 
 msgid "Could not resolve the URL domain."
 msgstr "Kon de URL voor het domein niet oplossen."
+
+msgid "Parameters must be a dictionary of key-value pairs."
+msgstr "Parameters moeten een woordenboek zijn van paren sleutel-waarde."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -18480,6 +18636,36 @@ msgstr ""
 "%(service)s API-verzoek mislukt tijdens maken van een pull request "
 "%(status)s: %(error)s Probeer het later nog eens."
 
+#, python-format
+msgid "%(service)s API request failed while merging a pull request: %(status)s"
+msgstr ""
+"%(service)s API-verzoek mislukt bij samenvoegen van een pull request: %"
+"(status)s"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request: %(status)s "
+"Please retry later."
+msgstr ""
+"%(service)s API-verzoek mislukt tijdens samenvoegen van een pull request: %"
+"(status)s Probeer het later nog eens."
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s"
+msgstr ""
+"%(service)s API-verzoek mislukt bij samenvoegen van een pull request (%"
+"(status)s): %(error)s"
+
+#, python-format
+msgid ""
+"%(service)s API request failed while merging a pull request (%(status)s): "
+"%(error)s Please retry later."
+msgstr ""
+"%(service)s API-verzoek mislukt tijdens samenvoegen van een pull request %"
+"(status)s: %(error)s Probeer het later nog eens."
+
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "GitHub App-opslagruimten moeten worden geïmporteerd met een branch."
 
@@ -18725,6 +18911,11 @@ msgstr ""
 "Publiek betekent hier alleen dat de app niet is beperkt tot zijn eigenaar; "
 "het vermeldt de app niet op de GitHub Marketplace."
 
+msgid "This will force push changes to the upstream repository."
+msgstr ""
+"Hiermee worden aanpassingen gedwongen doorgevoerd naar de bovenstroomse "
+"opslagruimte."
+
 msgid "This will push changes to the upstream Git repository."
 msgstr ""
 "Hiermee worden aanpassingen doorgevoerd naar de bovenstroomse Git-"
@@ -18742,11 +18933,6 @@ msgstr ""
 
 msgid "Git with force push"
 msgstr "Git met afgedwongen push"
-
-msgid "This will force push changes to the upstream repository."
-msgstr ""
-"Hiermee worden aanpassingen gedwongen doorgevoerd naar de bovenstroomse "
-"opslagruimte."
 
 msgid "Azure DevOps pull request"
 msgstr "Azude DevOps-pullrequest"
@@ -18897,6 +19083,62 @@ msgstr "openstaande installatie codehosten"
 
 msgid "pending code-hosting installations"
 msgstr "openstaande installaties codehosten"
+
+msgid "Force push"
+msgstr "Afgedwongen pushen"
+
+msgid ""
+"Overwrite the remote branch instead of refusing to push non-fast-forward "
+"changes. Only use this with a repository dedicated to translations, as it "
+"discards upstream commits which are not present in Weblate."
+msgstr ""
+"Overschrijf de branch op afstand in plaats van het pushen van non-fast-"
+"forward-wijzigingen te weigeren. Gebruik dit alleen met een opslagruimte die "
+"is aangewezen voor vertalingen, omdat het commits voor upstream, die niet "
+"aanwezig zijn in Weblate, negeert."
+
+msgid "Create merge requests"
+msgstr "Merge requests maken"
+
+msgid ""
+"Open a pull or merge request for the translation changes. When turned off, "
+"Weblate pushes to the translated branch directly, which requires write "
+"access to it."
+msgstr ""
+"Open een pull of merge request voor de wijzigingen in de vertaling. Indien "
+"uitgeschakeld, pusht Weblate direct naar de vertaalde branch, wat daarvoor "
+"schrijftoegang vereist."
+
+msgid "Merge pull requests automatically"
+msgstr "Pull requests automatisch samenvoegen"
+
+msgid ""
+"Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
+"are merged once the required checks pass. Pull requests with nothing to wait "
+"for are merged right away."
+msgstr ""
+"Schakel in GitHub auto-merge voor pull requests, gemaakt door Weblate, in, "
+"zodat ze worden samengevoegd als de vereiste controles zijn voltooid. Pull "
+"requests die niet ergens op wachten, worden direct samengevoegd."
+
+msgid "Merge method"
+msgstr "Samenvoegmethode"
+
+msgid "Create a merge commit"
+msgstr "Commit voor samenvoegen maken"
+
+msgid "Squash and merge"
+msgstr "Squashen en samenvoegen"
+
+msgid "Rebase and merge"
+msgstr "Rebasen en samenvoegen"
+
+msgid ""
+"Method used when merging pull requests automatically. The repository has to "
+"allow it."
+msgstr ""
+"Methode die wordt gebruikt bij het automatisch samenvoegen van pull "
+"requests. De opslagruimte moet het toestaan."
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -19142,20 +19384,14 @@ msgstr "Focuskleur (Licht, Donker)"
 msgid "Hover color (Light, Dark)"
 msgstr "Kleur bij overheen gaan (Licht, Donker)"
 
-#, fuzzy
-#| msgid "Navigation color (Light, Dark)"
 msgid "Link and button color (Light, Dark)"
-msgstr "Navigatiekleur (Licht, Donker)"
+msgstr "Koppeling- en knopkleur (Licht, Donker)"
 
-#, fuzzy
-#| msgid "Hover color (Light, Dark)"
 msgid "Progress bar color (Light, Dark)"
-msgstr "Kleur bij overheen gaan (Licht, Donker)"
+msgstr "Voortgangsbalkkleur (Licht, Donker)"
 
-#, fuzzy
-#| msgid "Focus color (Light, Dark)"
 msgid "Progress bar background color (Light, Dark)"
-msgstr "Focuskleur (Licht, Donker)"
+msgstr "Voortgangsbalk achtergrondkleur (Licht, Donker)"
 
 msgid "Hide page footer"
 msgstr "Paginavoettekst verbergen"
@@ -19211,6 +19447,14 @@ msgstr "Back-up uitgevoerd"
 #. Translators: Backup repository operation
 msgid "Backup failed"
 msgstr "Back-up mislukt"
+
+#. Translators: Backup repository operation
+msgid "Database backup performed"
+msgstr "Databaseback-up uitgevoerd"
+
+#. Translators: Backup repository operation
+msgid "Database backup failed"
+msgstr "Databaseback-up mislukt"
 
 #. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
@@ -19274,35 +19518,64 @@ msgstr ""
 "Deze installatie is al gekoppeld aan weblate.org. Gebruik instellingen voor "
 "ontdekken om deze vermelding te beheren."
 
-msgid "Could not activate your installation. Invalid activation state."
-msgstr "Kon uw installatie niet activeren. Ongeldige status voor installatie."
+msgid "Could not enable Discover Weblate. Invalid activation state."
+msgstr "Kon Ontdek Weblate niet inschakelen. Ongeldige status voor activeren."
 
-msgid "Could not activate your installation. Missing activation code."
-msgstr "Kon uw installatie niet activeren. Activatiecode ontbreekt."
+msgid "Could not enable Discover Weblate. Missing activation code."
+msgstr "Kon Ontdek Weblate niet inschakelen. Code voor activeren ontbreekt."
 
-msgid "Could not activate your installation. Invalid activation code."
-msgstr "Kon uw installatie niet activeren. Ongeldige activatiecode."
+msgid "Could not enable Discover Weblate. Invalid activation code."
+msgstr "Kon Ontdek Weblate niet inschakelen. Ongeldige activatiecode."
 
-msgid "Could not activate your installation. Please try again later."
-msgstr "De activatie is mislukt. Probeer het later opnieuw."
+msgid "Could not enable Discover Weblate. Please try again later."
+msgstr "Kon Ontdek Weblate niet inschakelen. Probeer het later opnieuw."
 
 msgid ""
-"Could not activate discovery because a support package is already linked."
+"Could not enable Discover Weblate because a support package is already "
+"linked."
 msgstr ""
-"Kon ontdekken niet activeren, omdat er al een ondersteuningspakket is "
+"Kon Ontdek Weblate niet inschakelen, omdat er al een ondersteuningspakket is "
 "gekoppeld."
 
-msgid "Activation completed."
-msgstr "Activatie voltooid."
+msgid "Discover Weblate enabled."
+msgstr "Ontdek Weblate ingeschakeld."
 
-msgid ""
-"Could not activate your installation. Please ensure your activation token is "
-"correct."
-msgstr "Het activeren is mislukt. Controleer of de activatiesleutel juist is."
+msgid "Support status refreshed."
+msgstr "Ondersteuningsstatus ververst."
+
+msgid "Could not refresh support status. Please try again later."
+msgstr ""
+"Kon de status voor ondersteuning niet vernieuwen. Probeer het later opnieuw."
+
+msgid "Could not refresh support status. The activation token is invalid."
+msgstr ""
+"Kon de status voor ondersteunen niet vernieuwen. Het activatietoken is "
+"ongeldig."
 
 #, python-format
-msgid "Could not activate your installation: %s"
-msgstr "De installatie kan niet worden geactiveerd: %s"
+msgid "Could not refresh support status: %s"
+msgstr "Kon de status voor ondersteuning niet vernieuwen: %s"
+
+msgid "Support package activated."
+msgstr "Beperkingen van ondersteuningspakket geactiveerd."
+
+msgid "Could not activate the support package. Please try again later."
+msgstr ""
+"Kon het pakket voor ondersteuning niet activeren. Probeer het later opnieuw."
+
+msgid ""
+"Could not activate the support package. Please ensure the activation token "
+"is correct."
+msgstr ""
+"Kon het pakket voor ondersteuning niet activeren. Controleer of de "
+"activatietoken juist is."
+
+#, python-format
+msgid "Could not activate the support package: %s"
+msgstr "Kon het pakket voor ondersteuning niet activeren: %s"
+
+msgid "Support package unlinked."
+msgstr "Ondersteuningspakket ontkoppeld."
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
@@ -19371,6 +19644,20 @@ msgstr ""
 
 msgid "The workspace has been removed."
 msgstr "De werkruimte is verwijderd."
+
+#~ msgid ""
+#~ "Don’t worry about messing up the strings. This is a two-step process "
+#~ "showing a preview of edited strings before the actual change is confirmed."
+#~ msgstr ""
+#~ "Wees niet bang om tekenreeksen te beschadigen: dit is een proces in twee "
+#~ "stappen waarbij er eerst een voorvertoning wordt getoond."
+
+#~ msgid "Activation completed."
+#~ msgstr "Activatie voltooid."
+
+#, python-format
+#~ msgid "Could not activate your installation: %s"
+#~ msgstr "De installatie kan niet worden geactiveerd: %s"
 
 #~ msgid ""
 #~ "The last webhook update for this component used fallback repository "
@@ -19452,9 +19739,6 @@ msgstr "De werkruimte is verwijderd."
 
 #~ msgid "creating a pull request"
 #~ msgstr "een pull request maken"
-
-#~ msgid "Unknown error"
-#~ msgstr "Onbekende fout"
 
 #~ msgid "File processed, the entries will appear shortly."
 #~ msgstr "Bestand verwerkt. De items zullen binnenkort verschijnen."
@@ -21315,9 +21599,6 @@ msgstr "De werkruimte is verwijderd."
 #~ "U kunt elk formaat uploaden waar Translate Toolkit mee om kan gaan, "
 #~ "waaronder tbx-, csv- en Gettext po-bestanden."
 
-#~ msgid "Merge method"
-#~ msgstr "Samenvoegmethode"
-
 #~ msgid "Keep current"
 #~ msgstr "Huidige behouden"
 
@@ -22859,9 +23140,6 @@ msgstr "De werkruimte is verwijderd."
 #~ msgid_plural "There are %(count)s translated strings."
 #~ msgstr[0] "Er is %(count)s vertaalde tekenreeks."
 #~ msgstr[1] "Er zijn %(count)s vertaalde tekenreeksen."
-
-#~ msgid "Total strings:"
-#~ msgstr "Totaal aantal tekenreeksen:"
 
 #~ msgid "Translated strings:"
 #~ msgstr "Vertaalde tekenreeksen:"

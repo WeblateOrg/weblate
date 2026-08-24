@@ -41,6 +41,7 @@ from weblate.trans.tests.utils import (
     require_github,
 )
 from weblate.vcs.mercurial import HgRepository
+from weblate.vcs.params import VCS_PARAMS, BaseVCSParam, register_vcs_param
 
 TEST_PO = get_test_file("cs.po")
 TEST_COMPONENTS = get_test_file("components.json")
@@ -919,6 +920,25 @@ class DocumentationCommandTest(TestCase):
         self.assertIn("json-test", output.getvalue())
 
         FILE_FORMATS_PARAMS.remove(TestJSONFileFormatParam)
+
+    def test_list_vcs_params(self) -> None:
+        class TestVCSParam(BaseVCSParam):
+            name = "vcs-test"  # type: ignore[assignment]
+            label = "VCSTest"
+            vcs_backends = ("test", "git")
+            help_text = "Test version control parameter"
+
+        register_vcs_param(TestVCSParam)
+
+        output = StringIO()
+        call_command("list_vcs_params", stdout=output)
+        self.assertIn("VCSTest", output.getvalue())
+        self.assertIn("Test version control parameter", output.getvalue())
+        self.assertIn("vcs-test", output.getvalue())
+        # Shipped parameters are listed as well
+        self.assertIn("git_force_push", output.getvalue())
+
+        VCS_PARAMS.remove(TestVCSParam)
 
     def test_list_change_events(self) -> None:
         output = StringIO()

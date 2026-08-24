@@ -41,7 +41,12 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.alert import Alert
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.vcs.base import RepositoryError, RepositoryInternalError
+from weblate.utils.docs import get_doc_url
+from weblate.vcs.base import (
+    RepositoryError,
+    RepositoryInternalError,
+    RepositoryStructuredError,
+)
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
@@ -865,6 +870,49 @@ class AlertTest(ViewTestCase):
             ).exists()
         )
 
+    def test_repository_url_failures_use_troubleshooting_documentation(self) -> None:
+        expected = get_doc_url(
+            "vcs", "vcs-repository-url-troubleshooting", user=self.user
+        )
+
+        for alert_name in ("MergeFailure", "UpdateFailure", "PushFailure"):
+            with self.subTest(alert_name=alert_name):
+                self.component.add_alert(
+                    alert_name,
+                    error={
+                        "code": "repository_url_backend_unsupported",
+                        "retcode": 0,
+                    },
+                    diagnoses=[],
+                )
+                alert = self.component.alert_set.get(name=alert_name)
+
+                self.assertEqual(alert.get_documentation_url(self.user), expected)
+
+                alert.delete()
+
+    def test_repository_failures_keep_operation_documentation(self) -> None:
+        expected = {
+            "MergeFailure": get_doc_url("faq", "merge", user=self.user),
+            "UpdateFailure": get_doc_url(
+                "admin/projects", "component-repo", user=self.user
+            ),
+            "PushFailure": "",
+        }
+
+        for alert_name, documentation_url in expected.items():
+            with self.subTest(alert_name=alert_name):
+                self.component.add_alert(
+                    alert_name, error="Repository operation failed", diagnoses=[]
+                )
+                alert = self.component.alert_set.get(name=alert_name)
+
+                self.assertEqual(
+                    alert.get_documentation_url(self.user), documentation_url
+                )
+
+                alert.delete()
+
     def test_repository_error_is_stored_structured_and_rendered_for_user(
         self,
     ) -> None:
@@ -1009,6 +1057,35 @@ class AlertTest(ViewTestCase):
 
         alert.refresh_from_db()
         self.assertGreater(alert.updated, old_updated)
+
+    def test_automerge_failure_alert(self) -> None:
+        self.component.vcs_params = {"merge_request_automerge": True}
+        self.component.save(update_fields=["vcs_params"])
+        self.component.handle_automerge_failure(
+            "GitHub API request failed while merging a pull request (405): "
+            "Auto-merge is not allowed for this repository"
+        )
+        alert = self.component.alert_set.get(name="AutomergeFailure")
+
+        rendered = alert.render(self.user)
+        self.assertIn("Auto-merge is not allowed", rendered)
+        self.assertIn("could not merge it automatically", rendered)
+
+        # Reporting a later success clears it
+        self.component.handle_automerge_success()
+        self.assertFalse(
+            self.component.alert_set.filter(name="AutomergeFailure").exists()
+        )
+
+    def test_automerge_failure_alert_cleared_when_turned_off(self) -> None:
+        self.component.vcs_params = {"merge_request_automerge": True}
+        self.component.save(update_fields=["vcs_params"])
+        self.component.handle_automerge_failure("boom")
+        self.assertIn("AutomergeFailure", self.get_problem_alert_names())
+
+        self.component.vcs_params = {}
+        self.component.save(update_fields=["vcs_params"])
+        self.assertNotIn("AutomergeFailure", self.get_problem_alert_names())
 
     def test_view(self) -> None:
         response = self.client.get(self.component.get_absolute_url())
@@ -1702,6 +1779,98 @@ class RepositoryAlertTemplateTest(SimpleTestCase):
 
         self.assertIn("permanent HTTP redirect", rendered)
         self.assertNotIn(raw_error, rendered)
+
+    def test_merge_url_failure_shows_url_guidance(self) -> None:
+        error = (
+            "This VCS backend cannot safely connect to this URL while private "
+            "address restrictions are enabled."
+        )
+        rendered = self.render_failure_alert(
+            "trans/alert/mergefailure.html",
+            set(),
+            analysis={
+                "repository_url_backend_unsupported": True,
+                "repository_url_failure": True,
+            },
+            error=error,
+        )
+
+        self.assertIn(error, rendered)
+        self.assertIn("cannot enforce private-address restrictions", rendered)
+        self.assertIn("VCS_ALLOW_HOSTS", rendered)
+        self.assertNotIn("Git HTTPS or SSH", rendered)
+        self.assertNotIn("Check the FAQ for info on how to resolve this", rendered)
+        self.assertNotIn("alert might disappear for the temporary issues", rendered)
+
+    def test_repository_url_failure_guidance(self) -> None:
+        cases = (
+            ("repository_url_private", "destination is not permitted"),
+            ("repository_url_invalid", "repository URL is not valid"),
+            ("repository_url_scheme", "protocol which is not permitted"),
+            ("repository_url_resolution", "could not resolve"),
+            ("repository_url_redirect", "redirect could not be safely followed"),
+        )
+
+        for analysis_key, expected in cases:
+            with self.subTest(analysis_key=analysis_key):
+                rendered = render_to_string(
+                    "trans/alert/common-repo.html",
+                    {"analysis": {analysis_key: True}},
+                )
+
+                self.assertIn(expected, rendered)
+
+    def test_repository_url_error_codes_are_classified(self) -> None:
+        cases: tuple[tuple[RepositoryStructuredError, str], ...] = (
+            (
+                {"code": "repository_url_backend_unsupported", "retcode": 0},
+                "repository_url_private",
+            ),
+            (
+                {"code": "repository_url_private_target", "retcode": 0},
+                "repository_url_private",
+            ),
+            (
+                {"code": "repository_url_parse_invalid", "retcode": 0},
+                "repository_url_invalid",
+            ),
+            (
+                {
+                    "code": "repository_url_scheme_not_allowed",
+                    "retcode": 0,
+                    "params": {"scheme": "file"},
+                },
+                "repository_url_scheme",
+            ),
+            (
+                {"code": "repository_url_unresolved", "retcode": 0},
+                "repository_url_resolution",
+            ),
+            (
+                {"code": "repository_ssh_destination_unresolved", "retcode": 0},
+                "repository_url_resolution",
+            ),
+            (
+                {"code": "repository_redirect_insecure", "retcode": 0},
+                "repository_url_redirect",
+            ),
+        )
+        expected_doc_url = get_doc_url("vcs", "vcs-repository-url-troubleshooting")
+
+        for error, analysis_key in cases:
+            with self.subTest(error_code=error["code"]):
+                alert = RepositoryErrorAlert(
+                    cast("Alert", SimpleNamespace(component=SimpleNamespace())),
+                    error,
+                    diagnoses=[],
+                )
+                analysis = alert.get_analysis()
+
+                self.assertTrue(analysis["repository_url_failure"])
+                self.assertTrue(analysis[analysis_key])
+                self.assertEqual(
+                    alert.get_instance_documentation_url(), expected_doc_url
+                )
 
     def test_repository_redirect_errors_are_classified(self) -> None:
         errors = (

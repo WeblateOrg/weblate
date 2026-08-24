@@ -106,16 +106,27 @@ warnings.filterwarnings("error", module="zipfile")
 ModelT = TypeVar("ModelT", bound="Model")
 PROJECTBACKUP_PREFIX = "projectbackups"
 BackupValue = str | int | bool | dict[str, Any] | list[Any] | None
-PROJECT_INHERITABLE_BACKUP_FIELDS = (
+PROJECT_BACKUP_FIELDS = (
+    "use_workspace_tm",
+    "contribute_workspace_tm",
+    "autoclean_tm",
+    "enforced_2fa",
+    "commit_policy",
     "check_flags",
     *INHERITABLE_COMPONENT_SETTINGS,
     *INHERITABLE_COMPONENT_FLAGS,
 )
-COMPONENT_INHERITABLE_BACKUP_FIELDS = (
+COMPONENT_BACKUP_FIELDS = (
+    "hide_glossary_matches",
+    "contribute_project_tm",
+    "file_format_params",
+    "vcs_params",
+    "screenshot_filemask",
+    "key_filter",
     "secondary_language",
     *INHERITABLE_COMPONENT_FLAGS,
 )
-CATEGORY_INHERITABLE_BACKUP_FIELDS = (
+CATEGORY_BACKUP_FIELDS = (
     "check_flags",
     *INHERITABLE_COMPONENT_SETTINGS,
     *INHERITABLE_COMPONENT_FLAGS,
@@ -535,6 +546,13 @@ class ProjectBackup:
                 kwargs["secondary_language"]
             )
 
+    @staticmethod
+    def migrate_component_vcs_settings(component: dict[str, Any]) -> None:
+        """Convert version control settings used by older component backups."""
+        if component["vcs"] == "git-force-push":
+            component["vcs"] = "git"
+            component.setdefault("vcs_params", {})["git_force_push"] = True
+
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
         """Backup a many to many relation using a unique identifying field of the related object."""
         return list(getattr(obj, relation).values_list(field, flat=True))
@@ -627,7 +645,7 @@ class ProjectBackup:
             categories = obj.category_set.all()
         category_fields = self.extend_fields(
             self.project_schema["definitions"]["category"]["required"],
-            *CATEGORY_INHERITABLE_BACKUP_FIELDS,
+            *CATEGORY_BACKUP_FIELDS,
         )
         return [
             self.backup_object(
@@ -642,9 +660,7 @@ class ProjectBackup:
         self.project = project
         project_fields = self.extend_fields(
             self.project_schema["properties"]["project"]["required"],
-            "use_workspace_tm",
-            "contribute_workspace_tm",
-            *PROJECT_INHERITABLE_BACKUP_FIELDS,
+            *PROJECT_BACKUP_FIELDS,
         )
         project_extras: dict[str, Callable[[Project], object]] = {
             field: partial(Project.get_effective_setting, field=field)
@@ -720,7 +736,7 @@ class ProjectBackup:
     def backup_component(self, backupzip: ZipFile, component: Component) -> None:
         component_fields = self.extend_fields(
             self.component_schema["properties"]["component"]["required"],
-            *COMPONENT_INHERITABLE_BACKUP_FIELDS,
+            *COMPONENT_BACKUP_FIELDS,
         )
         data: dict = {
             "component": self.backup_object(
@@ -1511,6 +1527,7 @@ class ProjectBackup:
             with zipfile.open(filename) as handle:
                 data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
+            self.migrate_component_vcs_settings(data["component"])
             self.validate_component_object(zipfile, filename, data)
             self.component_data[filename] = data
         if skip_linked and data["component"]["repo"].startswith("weblate:"):

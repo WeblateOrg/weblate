@@ -743,6 +743,47 @@ class VerifiedEmail(models.Model):
         return self.social.provider
 
 
+LISTING_COLUMN_CHOICES = (
+    ("total", gettext_lazy("Total strings")),
+    ("untranslated", gettext_lazy("Unfinished strings")),
+    ("untranslated_words", gettext_lazy("Unfinished words")),
+    ("untranslated_chars", gettext_lazy("Unfinished characters")),
+    ("nottranslated", gettext_lazy("Untranslated strings")),
+    ("checks", gettext_lazy("Checks")),
+    ("suggestions", gettext_lazy("Suggestions")),
+    ("comments", gettext_lazy("Comments")),
+)
+MAX_LISTING_COLUMNS = len(LISTING_COLUMN_CHOICES)
+
+DEFAULT_LISTING_COLUMNS = (
+    "untranslated",
+    "untranslated_words",
+    "untranslated_chars",
+    "nottranslated",
+    "checks",
+    "suggestions",
+    "comments",
+)
+
+
+def get_default_listing_columns() -> list[str]:
+    return list(DEFAULT_LISTING_COLUMNS)
+
+
+def validate_listing_columns(value) -> None:
+    valid_columns = {column for column, _name in LISTING_COLUMN_CHOICES}
+    if (
+        not isinstance(value, list)
+        or len(value) > MAX_LISTING_COLUMNS
+        or any(
+            not isinstance(column, str) or column not in valid_columns
+            for column in value
+        )
+        or len(value) != len(set(value))
+    ):
+        raise ValidationError(gettext("Invalid listing column selection."))
+
+
 class Profile(models.Model):
     """User profiles storage."""
 
@@ -804,6 +845,16 @@ class Profile(models.Model):
         help_text=gettext_lazy(
             "Instead of hiding columns on narrow screens, keep all columns and "
             "scroll the table horizontally."
+        ),
+    )
+    listing_columns = models.JSONField(
+        verbose_name=gettext_lazy("Visible columns in lists"),
+        default=get_default_listing_columns,
+        blank=True,
+        validators=[validate_listing_columns],
+        help_text=gettext_lazy(
+            "Choose which statistics columns are shown in project, component, "
+            "and language lists."
         ),
     )
     editor_link = models.CharField(
@@ -1128,6 +1179,7 @@ class Profile(models.Model):
                 "secondary_in_zen",
                 "hide_source_secondary",
                 "wide_tables",
+                "listing_columns",
                 "editor_link",
                 "translate_mode",
                 "zen_mode",

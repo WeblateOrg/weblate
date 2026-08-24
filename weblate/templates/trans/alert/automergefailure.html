@@ -1,0 +1,17 @@
+{% load i18n permissions %}
+
+<p>{% translate "Weblate pushed the changes and created the pull request, but could not merge it automatically." %}</p>
+
+<pre>{{ error }}</pre>
+
+<p>
+  {% translate "Check that the repository allows auto-merge and the selected merge method, or turn off automatic merging in the version control parameters." %}
+</p>
+
+{% perm 'component.edit' component as user_can_edit_component %}
+{% if user_can_edit_component %}
+  <p>
+    <a class="btn btn-primary"
+       href="{% url 'settings' path=component.get_url_path %}#vcs">{% translate "Edit component settings" %}</a>
+  </p>
+{% endif %}

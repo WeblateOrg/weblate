@@ -1581,6 +1581,13 @@ command-line:
 
    celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup
 
+To reduce startup memory usage, Celery workers do not repeat the Django system
+checks. The Weblate container runs the more comprehensive
+:command:`weblate check --deploy` automatically during container startup. For
+other installation methods, run the command after installation, upgrades, or
+configuration changes. The checks are also available in the
+:ref:`management interface <manage-performance>`.
+
 .. note::
 
    The Celery process has to be executed under the same user as the WSGI

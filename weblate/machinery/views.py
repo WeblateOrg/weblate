@@ -27,8 +27,8 @@ from weblate.machinery.base import (
     MachineTranslationError,
 )
 from weblate.machinery.models import MACHINERY, MachineryError
+from weblate.trans.formatting import format_language_string
 from weblate.trans.models import Project, Unit
-from weblate.trans.templatetags.translations import format_language_string
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
 from weblate.wladmin.views import MENU as MANAGE_MENU

@@ -13,7 +13,7 @@ from weblate.auth.models import User, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Project
-from weblate.trans.tasks import actual_project_removal
+from weblate.trans.tasks import project_removal
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.files import remove_tree
 
@@ -329,7 +329,7 @@ class ProjectTokenTest(FixtureTestCase):
         token_user = self.get_token_user(token_key)
         project_name = self.project.name
 
-        actual_project_removal(self.project.pk, self.user.pk)
+        project_removal.run(self.project.pk, self.user.pk, backup=False)
 
         self.assertFalse(Project.objects.filter(pk=self.project.pk).exists())
         token_user.refresh_from_db()
@@ -356,7 +356,7 @@ class ProjectTokenTest(FixtureTestCase):
             setup_project_groups(sender=Project, instance=second_project, created=False)
         second_project.add_user(token_user, "Administration", allow_bot=True)
 
-        actual_project_removal(self.project.pk, self.user.pk)
+        project_removal.run(self.project.pk, self.user.pk, backup=False)
 
         token_user.refresh_from_db()
         self.assertTrue(token_user.is_active)
