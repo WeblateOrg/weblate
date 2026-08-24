@@ -3066,8 +3066,8 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
 
     @staticmethod
-    def _request_url(call) -> str:
-        return str(call.request.url)
+    def _request_url(http_call) -> str:
+        return str(http_call.request.url)
 
     @http_mock.activate
     def test_rephrase_translated_unit(self) -> None:
