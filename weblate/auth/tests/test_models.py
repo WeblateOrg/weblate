@@ -478,6 +478,43 @@ class ModelTest(FixtureComponentTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
+    def test_all_languages_keeps_manual_selection(self) -> None:
+        # Add user to group with German language only
+        self.user.groups.add(self.group)
+        self.group.language_selection = SELECTION_MANUAL
+        self.group.save()
+        self.group.roles.add(Role.objects.get(name="Power user"))
+        self.group.languages.set(Language.objects.filter(code="de"), clear=True)
+
+        # Czech translation is not covered by the manual selection
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("unit.edit", self.translation))
+
+        # Switching to all languages grants access and keeps the selection
+        self.group.language_selection = SELECTION_ALL
+        self.group.save()
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("unit.edit", self.translation))
+        self.assertEqual(
+            list(self.group.languages.values_list("code", flat=True)), ["de"]
+        )
+
+        # Switching back restores the manual restriction
+        self.group.language_selection = SELECTION_MANUAL
+        self.group.save()
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("unit.edit", self.translation))
+
+    def test_all_projects_selection_clears_projects(self) -> None:
+        # Unlike languages, the projects assignment is cleared as it is
+        # queried directly, for example by UserQuerySet.having_perm
+        group = Group.objects.create(
+            name="All projects clearing", project_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        group.save()
+        self.assertFalse(group.projects.exists())
+
     def test_membership_limit_languages(self) -> None:
         self.user.groups.add(self.group)
         self.group.roles.add(Role.objects.get(name="Power user"))
