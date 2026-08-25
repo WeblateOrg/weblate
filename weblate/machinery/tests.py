@@ -7780,6 +7780,18 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
         )
 
 
+    @http_mock.activate
+    def test_system_prompt_cache_control(self) -> None:
+        self.mock_response()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN
+        )
+        payload = json.loads(http_mock.calls[0].request.content)
+        self.assertEqual(
+            payload["system"][0]["cache_control"], {"type": "ephemeral"}
+        )
+
+
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
         "key": "test-api-key",
