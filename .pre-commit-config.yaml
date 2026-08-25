@@ -17,7 +17,7 @@ repos:
     args: [--no-sort-keys, --autofix, --no-ensure-ascii]
     exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.31.1
+  rev: 1.32.0
   hooks:
   - id: django-upgrade
 - repo: https://github.com/adamchainz/djade-pre-commit
@@ -31,7 +31,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.16.2
+  rev: v0.16.4
   hooks:
   - id: ruff-check
     args:
@@ -39,12 +39,12 @@ repos:
     - --exit-non-zero-on-fix
   - id: ruff-format
 - repo: https://github.com/adamtheturtle/doccmd-pre-commit
-  rev: v2026.7.19
+  rev: v2026.8.16
   hooks:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.16.2
+    - ruff==0.16.4
     language: python
 - repo: meta
   hooks:
@@ -74,15 +74,15 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.5.7
+  rev: v2.5.10
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.5.7'
+    - '@biomejs/biome@2.5.10'
     language: node
 - repo: https://github.com/abravalheri/validate-pyproject
-  rev: v0.25
+  rev: 0.26
   hooks:
   - id: validate-pyproject
 - repo: https://github.com/djlint/djLint
@@ -205,12 +205,12 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.112.0
+  rev: v1.113.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.2.52
+  rev: v0.2.60
   hooks:
   - id: rumdl
   - id: rumdl-fmt

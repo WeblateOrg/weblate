@@ -15,6 +15,7 @@ import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
 import sys
 import tempfile
+from collections import UserDict
 from copy import deepcopy
 from datetime import timedelta
 from io import StringIO
@@ -1375,7 +1376,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(form.cleaned_data["comment_mode"], "off")
         self.assertEqual(form.cleaned_data["comment_tag"], "")
         self.assertEqual(form.cleaned_data["checks"], [])
-        self.assertEqual(form.cleaned_data["keyword"], "")
+        self.assertEqual(form.cleaned_data["keyword"], [])
         self.assertEqual(form.cleaned_data["location_mode"], "file")
 
     def test_xgettext_form_accepts_blank_language(self) -> None:
@@ -1450,7 +1451,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             form.cleaned_data["checks"], ["ellipsis-unicode", "bullet-unicode"]
         )
-        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["keyword"], ["tr"])
         self.assertEqual(form.cleaned_data["location_mode"], "keep")
 
     def test_xgettext_form_keyword_exclusive(self) -> None:
@@ -1472,7 +1473,7 @@ class GettextAddonTest(ViewTestCase):
         )
         assert form is not None
         self.assertTrue(form.is_valid(), form.errors)
-        self.assertEqual(form.cleaned_data["keyword"], "tr")
+        self.assertEqual(form.cleaned_data["keyword"], ["tr"])
         self.assertTrue(form.cleaned_data["keyword_exclusive"])
 
         # keyword_exclusive=True without a keyword is invalid.
@@ -1494,6 +1495,74 @@ class GettextAddonTest(ViewTestCase):
         assert form is not None
         self.assertFalse(form.is_valid())
         self.assertIn("keyword_exclusive", form.errors)
+
+    def test_xgettext_form_multiple_keywords(self) -> None:
+        # Multiple newline-separated keywords are accepted.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": "tr\nN_\nC_:1c,2",
+                "keyword_exclusive": True,
+            },
+        )
+        assert form is not None
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["keyword"], ["tr", "N_", "C_:1c,2"])
+
+        # Serialized form round-trips the keyword list.
+        self.assertEqual(form.serialize_form()["keyword"], ["tr", "N_", "C_:1c,2"])
+
+    def test_xgettext_form_keyword_list_roundtrip(self) -> None:
+        # A stored keyword list is rendered as newline-separated text.
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": ["tr", "N_"],
+                "keyword_exclusive": False,
+            },
+        )
+        assert form is not None
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(form.cleaned_data["keyword"], ["tr", "N_"])
+        self.assertEqual(form["keyword"].value(), "tr\nN_")
+
+    def test_xgettext_form_rejects_non_string_keyword_entries(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "input_mode": "patterns",
+                "language": "Java",
+                "source_patterns": "src/*.java\n",
+                "potfiles_path": "",
+                "keyword": ["tr", 1],
+                "keyword_exclusive": False,
+            },
+        )
+        assert form is not None
+        self.assertFalse(form.is_valid())
+        self.assertEqual(
+            form.errors["keyword"], ["Keyword entries have to be strings."]
+        )
 
     def test_xgettext_form_potfiles(self) -> None:
         form = XgettextAddon.get_add_form(
@@ -1681,7 +1750,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(
             form.serialize_form()["checks"], ["ellipsis-unicode", "quote-unicode"]
         )
-        self.assertEqual(form.serialize_form()["keyword"], "tr")
+        self.assertEqual(form.serialize_form()["keyword"], ["tr"])
         self.assertEqual(form.serialize_form()["location_mode"], "omit")
 
     def test_django_form(self) -> None:
@@ -1930,16 +1999,7 @@ class GettextAddonTest(ViewTestCase):
             sphinx_build.write_text("", encoding="utf-8")
             sphinx_build.chmod(0o755)
 
-            with (
-                patch(
-                    "weblate.utils.commands.find_command",
-                    side_effect=lambda command, path=None: shutil.which(
-                        command,
-                        path=None if path is None else os.pathsep.join(path),
-                    ),
-                ),
-                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
-            ):
+            with patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)):
                 self.assertTrue(SphinxAddon.can_install(component=self.component))
 
     def test_sphinx_can_install_uses_symlinked_runtime_venv_bin(self) -> None:
@@ -1961,16 +2021,7 @@ class GettextAddonTest(ViewTestCase):
             sphinx_build.write_text("", encoding="utf-8")
             sphinx_build.chmod(0o755)
 
-            with (
-                patch(
-                    "weblate.utils.commands.find_command",
-                    side_effect=lambda command, path=None: shutil.which(
-                        command,
-                        path=None if path is None else os.pathsep.join(path),
-                    ),
-                ),
-                patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)),
-            ):
+            with patch("weblate.utils.commands.sys.executable", os.fspath(fake_python)):
                 self.assertTrue(SphinxAddon.can_install(component=self.component))
 
     def test_sphinx_can_install_ignores_relative_runtime_executable(self) -> None:
@@ -1980,7 +2031,7 @@ class GettextAddonTest(ViewTestCase):
         (docs_dir / "conf.py").write_text("", encoding="utf-8")
 
         with (
-            patch("weblate.utils.commands.find_command", return_value=None),
+            patch("weblate.utils.commands.which", return_value=None),
             patch("weblate.utils.commands.sys.executable", "python"),
         ):
             self.assertFalse(SphinxAddon.can_install(component=self.component))
@@ -2397,6 +2448,71 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--check=bullet-unicode", command)
         self.assertIn("--keyword=tr", command)
 
+    def test_xgettext_uses_multiple_keywords(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "keyword": ["tr", "N_"],
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--keyword=tr", command)
+        self.assertIn("--keyword=N_", command)
+        self.assertEqual(
+            [arg for arg in command if arg.startswith("--keyword=")],
+            ["--keyword=tr", "--keyword=N_"],
+        )
+        # Multiple keywords with exclusivity disabled must not emit bare --keyword.
+        self.assertNotIn("--keyword", command)
+
+    def test_xgettext_uses_multiple_exclusive_keywords(self) -> None:
+        source = Path(self.component.full_path) / "src" / "Main.java"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Java",
+                "source_patterns": ["src/*.java"],
+                "keyword": ["tr", "N_"],
+                "keyword_exclusive": True,
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        # Bare --keyword must appear once, before the named keywords.
+        bare_idx = command.index("--keyword")
+        named_indices = [command.index(f"--keyword={kw}") for kw in ("tr", "N_")]
+        self.assertLess(bare_idx, min(named_indices))
+        self.assertEqual(
+            [arg for arg in command if arg.startswith("--keyword=")],
+            ["--keyword=tr", "--keyword=N_"],
+        )
+
     def test_xgettext_uses_exclusive_keywords(self) -> None:
         source = Path(self.component.full_path) / "src" / "Main.java"
         source.parent.mkdir(parents=True, exist_ok=True)
@@ -2458,6 +2574,65 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("--keyword=tr", command)
         # Bare --keyword must NOT be present when exclusivity is disabled.
         self.assertNotIn("--keyword", command)
+
+    def test_xgettext_keyword_string_backward_compatibility(self) -> None:
+        """Keyword stored as string (old format) should work after migration to list."""
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\n', encoding="utf-8")
+        # Simulate old configuration where keyword was stored as a string
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "keyword": "tr",  # String format (old)
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--keyword=tr", command)
+
+    def test_xgettext_multiple_keywords_string_backward_compatibility(self) -> None:
+        """Multiple newline-separated keywords stored as string (old format) should work."""
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text('tr("Hello")\nN_("World")\n', encoding="utf-8")
+        # Simulate old configuration with newline-separated keywords
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "source_patterns": ["src/*.py"],
+                "keyword": "tr\nN_",  # Newline-separated string format (old)
+            },
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "", [])
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--keyword=tr", command)
+        self.assertIn("--keyword=N_", command)
+        self.assertEqual(
+            [arg for arg in command if arg.startswith("--keyword=")],
+            ["--keyword=tr", "--keyword=N_"],
+        )
 
     def test_xgettext_no_keyword_emits_no_keyword_args(self) -> None:
         """When no keyword is set, no --keyword args at all should appear."""
@@ -4746,16 +4921,14 @@ msgstr ""
         self.component.new_base = "locale/django.pot"
         self.component.save(update_fields=["new_base"])
 
-        def fake_find_command(name, path=None):
+        def fake_which(name, path=None):
             if name == "xgettext":
                 return "/usr/bin/xgettext"
             if name == "msguniq":
                 return None
             return "/usr/bin/other"
 
-        with patch(
-            "weblate.utils.commands.find_command", side_effect=fake_find_command
-        ):
+        with patch("weblate.utils.commands.which", side_effect=fake_which):
             self.assertFalse(DjangoAddon.can_install(component=self.component))
 
     def test_generate(self) -> None:
@@ -7367,7 +7540,7 @@ class AddonChangeDetailsMigrationTest(TestCase):
             action=ActionEvents.ADDON_CHANGE,
             target=FedoraMessagingAddon.name,
             details={
-                "amqp_url": "amqps://user:password@example.com/%2F",
+                "amqp_url": "amqps://user:password@example.com/%2F",  # kingfisher:ignore
                 "ca_cert": "private-ca",
                 "client_cert": "private-certificate",
                 "client_key": "private-key",
@@ -8138,7 +8311,7 @@ class AddonConfigurationUnitTest(SimpleTestCase):
         addon = FedoraMessagingAddon(
             Addon(
                 configuration={
-                    "amqp_url": "amqps://user:password@example.com/%2F",
+                    "amqp_url": "amqps://user:password@example.com/%2F",  # kingfisher:ignore
                     "ca_cert": "private-ca",
                     "client_cert": "private-certificate",
                     "client_key": "private-key",
@@ -10068,6 +10241,43 @@ class FedoraMessagingPEMBlockTest(SimpleTestCase):
             )
 
 
+class FedoraMessagingRuntimeValidationTest(SimpleTestCase):
+    def test_cached_configuration_still_validates_amqp_url(self) -> None:
+        class FakeMessagingConfig(UserDict[str, object]):
+            loaded = True
+
+            def _validate(self) -> None:
+                msg = "configuration fast path should return"
+                raise AssertionError(msg)
+
+        config = FakeMessagingConfig(
+            {
+                "amqp_url": "amqp://broker.example?connection_attempts=1&retry_delay=2",
+                "consumer_config": {"weblate_cert_hash": "cert-hash"},
+            }
+        )
+
+        with (
+            patch("weblate.addons.fedora_messaging.siphash", return_value="cert-hash"),
+            patch("fedora_messaging.config.conf", config),
+            patch(
+                "weblate.addons.fedora_messaging.validate_fedora_messaging_url"
+            ) as validate_fedora_messaging_url,
+            patch.object(
+                FedoraMessagingAddon, "validate_tls_credentials"
+            ) as validate_tls_credentials,
+        ):
+            FedoraMessagingAddon.configure_fedora_messaging(
+                amqp_url="amqp://broker.example",
+                ca_cert=None,
+                client_key=None,
+                client_cert=None,
+            )
+
+        validate_fedora_messaging_url.assert_called_once_with("amqp://broker.example")
+        validate_tls_credentials.assert_not_called()
+
+
 class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
     WEBHOOK_CLS = FedoraMessagingAddon
     # Not really used
@@ -10082,6 +10292,10 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.url_validation_patcher = patch(
+            "weblate.addons.fedora_messaging.validate_fedora_messaging_url"
+        )
+        self.validate_fedora_messaging_url = self.url_validation_patcher.start()
         self.patcher = patch("fedora_messaging.api._twisted_publish_wrapper")
         self.mock_class = self.patcher.start()
         self.prepare_service_patcher = patch.object(
@@ -10096,6 +10310,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         del self.mock_class
         self.patcher.stop()
         del self.patcher
+        del self.validate_fedora_messaging_url
+        self.url_validation_patcher.stop()
+        del self.url_validation_patcher
         super().tearDown()
 
     def count_requests(self) -> int:

@@ -41,6 +41,7 @@ from weblate.utils.tests import http_mock
 from weblate.utils.zip import ZipSafetyLimits
 from weblate.vcs import git as git_module
 from weblate.vcs.base import (
+    Repository,
     RepositoryCommandError,
     RepositoryError,
     RepositoryRedirectError,
@@ -77,22 +78,17 @@ from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
 if TYPE_CHECKING:
     from contextlib import AbstractContextManager
 
-    from weblate.vcs.base import Repository
-
 
 class AzureDevOpsFakeRepository(AzureDevOpsRepository):
     _is_supported = None
-    _version = None
 
 
 class GithubFakeRepository(GithubRepository):
     _is_supported = None
-    _version = None
 
 
 class GitLabFakeRepository(GitLabRepository):
     _is_supported = None
-    _version = None
 
 
 class ExecuteSideEffect(Protocol):
@@ -109,50 +105,40 @@ class GitLockRecoveryMocks(NamedTuple):
 
 class GiteaFakeRepository(GiteaRepository):
     _is_supported = None
-    _version = None
 
 
 class PagureFakeRepository(PagureRepository):
     _is_supported = None
-    _version = None
 
 
 class BitbucketServerFakeRepository(BitbucketServerRepository):
     _is_supported = None
-    _version = None
 
 
 class BitbucketCloudFakeRepository(BitbucketCloudRepository):
     _is_supported = None
-    _version = None
 
 
 class GitTestRepository(GitRepository):
     _is_supported = None
-    _version = None
 
 
 class NonExistingRepository(GitRepository):
     _is_supported = None
-    _version = None
     _cmd = "nonexisting-command"
 
 
 class GitVersionRepository(GitRepository):
     _is_supported = None
-    _version = None
     req_version = "200000"
 
 
 class GitNoVersionRepository(GitRepository):
     _is_supported = None
-    _version = None
     req_version = None
 
 
 class BrokenGitRepository(GitRepository):
-    _version = None
-
     @classmethod
     def _get_version(cls):
         msg = "missing git"
@@ -160,8 +146,6 @@ class BrokenGitRepository(GitRepository):
 
 
 class BrokenGitChildRepository(BrokenGitRepository):
-    _version = None
-
     @classmethod
     def _get_version(cls):
         return "1.0"
@@ -181,6 +165,74 @@ class RepositoryTest(SimpleTestCase):
         for git_dir_name in git_dirs:
             (git_dir / git_dir_name).mkdir()
         return GitRepository(tempdir, branch=branch, local=True), git_dir
+
+    def test_backup_metadata_paths(self) -> None:
+        cases = (
+            (Repository, "config", False),
+            (GitRepository, "head", True),
+            (GitRepository, "packed-refs", True),
+            (GitRepository, "shallow", True),
+            (GitRepository, "refs/heads/main", True),
+            (GitRepository, f"objects/01/{'0' * 38}", True),
+            (GitRepository, f"objects/pack/pack-{'0' * 40}.pack", True),
+            (GitRepository, "objects/info/commit-graph", True),
+            (GitRepository, "objects/info/packs", True),
+            (GitRepository, "commondir", False),
+            (GitRepository, "config", False),
+            (GitRepository, "evil/config", False),
+            (GitRepository, "hooks/pre-commit", False),
+            (GitRepository, "info/attributes", False),
+            (GitRepository, "modules/submodule/config", False),
+            (GitRepository, "objects/evil/config", False),
+            (GitRepository, "objects/info/alternates", False),
+            (GitRepository, "worktrees/evil/config", False),
+            (
+                GitRepository,
+                "svn/refs/remotes/origin/.rev_map.uuid",
+                False,
+            ),
+            (
+                SubversionRepository,
+                "svn/refs/remotes/origin/.rev_map.uuid",
+                True,
+            ),
+            (
+                SubversionRepository,
+                "svn/refs/remotes/origin/unhandled.log",
+                False,
+            ),
+            (HgRepository, "requires", True),
+            (HgRepository, "dirstate", True),
+            (HgRepository, "store/00changelog.i", True),
+            (HgRepository, "store/data/hgrc.i", True),
+            (HgRepository, "store/meta/manifest.i", True),
+            (HgRepository, "hgrc", False),
+            (HgRepository, "hgrc-not-shared", False),
+            (HgRepository, "sharedpath", False),
+            (HgRepository, "cache/branch2-served", False),
+            (HgRepository, "store/unknown", False),
+        )
+        for repository_class, path, expected in cases:
+            with self.subTest(repository=repository_class.__name__, path=path):
+                self.assertEqual(
+                    repository_class.is_safe_backup_metadata_path(
+                        tuple(path.split("/"))
+                    ),
+                    expected,
+                )
+
+    def test_git_finalize_backup_restore(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            repository, _ = self.create_git_repository(tempdir)
+            with (
+                patch.object(repository, "ensure_lock_session_recovered"),
+                repository.lock,
+                patch.object(repository, "execute") as execute,
+            ):
+                repository.finalize_backup_restore()
+        execute.assert_called_once_with(
+            ["read-tree", "--reset", "HEAD"], remote_op="none"
+        )
 
     def make_stale_lock(self, lockfile: Path) -> None:
         lockfile.parent.mkdir(parents=True, exist_ok=True)
@@ -287,6 +339,10 @@ class RepositoryTest(SimpleTestCase):
             ("Repository not found.", "repository_not_found"),
             ("push denied to user", "repository_permission"),
             ("push prohibited by Gerrit", "gerrit_permission"),
+            (
+                "remote: GitLab: LFS objects are missing. Ensure LFS is properly set up.",
+                "git_lfs_missing_objects",
+            ),
             ("Connection timed out", "temporary_failure"),
             ("Host key verification failed", "ssh_host_key_unverified"),
             (
@@ -1126,6 +1182,38 @@ class GitCrashRecoveryTest(SimpleTestCase, RepoTestMixin, TempDirMixin):
                 ).strip()
             )
 
+    def test_recovery_overwrites_conflicting_untracked_file(self) -> None:
+        conflict_path = Path(self.tempdir) / "recovery-conflict.txt"
+        with self.repo.lock:
+            original_revision = self.repo.get_last_revision()
+            self.repo.set_committer("Weblate Test", "weblate@example.com")
+            conflict_path.write_text("TRACKED\n", encoding="utf-8")
+            self.assertTrue(
+                self.repo.commit("Add recovery conflict", files=[conflict_path.name])
+            )
+            self.repo.execute(
+                [
+                    "checkout",
+                    "-b",
+                    "weblate-squash-tmp",
+                    original_revision,
+                ],
+                remote_op="none",
+            )
+            conflict_path.write_text("UNTRACKED\n", encoding="utf-8")
+
+        with self.repo.lock:
+            self.assertEqual(self.repo.get_current_branch(), "main")
+            self.assertEqual(conflict_path.read_text(encoding="utf-8"), "TRACKED\n")
+            self.assertNotIn("weblate-squash-tmp", self.repo.list_branches())
+            self.assertFalse(
+                self.repo.execute(
+                    ["status", "--short"],
+                    remote_op="none",
+                    needs_lock=False,
+                ).strip()
+            )
+
 
 class GitBranchValidationTest(SimpleTestCase):
     def test_empty_branch_in_constructor_uses_default(self) -> None:
@@ -1936,6 +2024,23 @@ class RepositoryRemotePinningTest(SimpleTestCase):
     @override_settings(
         VCS_ALLOW_HOSTS=set(),
         VCS_ALLOW_SCHEMES={"https", "ssh"},
+        VCS_PRIVATE_ALLOWLIST=[".internal.example"],
+        VCS_RESTRICT_PRIVATE=True,
+    )
+    def test_private_allowlisted_backends_are_available(self) -> None:
+        for repository_class in (HgRepository, SubversionRepository):
+            with self.subTest(repository_class=repository_class):
+                target = repository_class.validate_remote_url(
+                    "https://vcs.internal.example/repo"
+                )
+
+                self.assertIsNotNone(target)
+                assert target is not None
+                self.assertFalse(target.requires_pinning)
+
+    @override_settings(
+        VCS_ALLOW_HOSTS=set(),
+        VCS_ALLOW_SCHEMES={"https", "ssh"},
         VCS_RESTRICT_PRIVATE=True,
     )
     def test_subversion_configure_remote_validates_before_probe(self) -> None:
@@ -2741,9 +2846,50 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_remote_branch(self) -> None:
         self.assertEqual(self._remote_branch, self.repo.get_remote_branch(self.tempdir))
 
+    def test_push_command_without_force_param(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        self.assertEqual(self.repo.get_push_command(), ["push"])
+
+    def test_false_string_does_not_force_push(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        self.repo.component.vcs_params = {"git_force_push": "false"}
+        self.assertEqual(self.repo.get_push_command(), ["push"])
+
+    def test_push_command_with_force_param(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        self.repo.component.vcs_params = {"git_force_push": True}
+        self.assertEqual(self.repo.get_push_command(), ["push", "--force"])
+
+    def test_push_forces_with_param(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        self.repo.component.vcs_params = {"git_force_push": True}
+        self.test_commit()
+        with self.repo.lock, patch.object(self.repo, "execute") as mocked:
+            self.repo.push("")
+        self.assertIn("--force", mocked.call_args[0][0])
+
+    def test_push_label_follows_force_param(self) -> None:
+        if self._class is not GitRepository:
+            self.skipTest("Force push parameter applies to plain Git only")
+        component = self.repo.component
+        self.assertNotIn("force", str(self._class.get_push_label(component)))
+        component.vcs_params = {"git_force_push": True}
+        self.assertIn("force push", str(self._class.get_push_label(component)))
+
 
 class VCSGitForcePushTest(VCSGitTest):
+    """The retired backend keeps force pushing regardless of parameters."""
+
     _class = GitForcePushRepository
+
+    def test_always_forces(self) -> None:
+        self.assertEqual(self.repo.get_push_command(), ["push", "--force"])
+        self.repo.component.vcs_params = {"git_force_push": False}
+        self.assertEqual(self.repo.get_push_command(), ["push", "--force"])
 
 
 class VCSGitUpstreamTest(VCSGitTest):
@@ -2835,6 +2981,14 @@ class VCSGiteaTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.get_fork_push_url(credentials),
             "git@gitea.io:test/test.git",
+        )
+
+    def test_fork_remote_marker_is_unversioned(self) -> None:
+        credentials = self.repo.get_credentials()
+
+        self.assertEqual(
+            self.repo.get_fork_remote_marker(credentials),
+            f"gitea:{credentials['url']}:{credentials['push_scheme']}",
         )
 
     def test_api_url_try_gitea(self) -> None:
@@ -3804,6 +3958,277 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         component.pull_message = "\nTest message\n\n\nBody"
         self.assertEqual(repo.get_merge_message(), ("Test message", "Body"))
 
+    GRAPHQL_URL = "https://api.github.com/graphql"
+    MERGE_URL = "https://api.github.com/repos/WeblateOrg/test/pulls/1/merge"
+
+    def get_calls(self, url: str) -> list:
+        return [
+            call for call in http_mock.calls if str(call.request.url).startswith(url)
+        ]
+
+    def mock_automerge_response(self, data: dict, status: int = 200) -> None:
+        http_mock.register("POST", self.GRAPHQL_URL, json=data, status_code=status)
+
+    def push_with_automerge(self, branch: str = "", **vcs_params) -> None:
+        self.repo.component.vcs_params = {
+            "merge_request_automerge": True,
+            **vcs_params,
+        }
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            super().test_push(branch)
+
+    @http_mock.activate
+    def test_automerge_enabled(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response({"data": {"enablePullRequestAutoMerge": {}}})
+
+        self.push_with_automerge()
+
+        graphql_calls = self.get_calls(self.GRAPHQL_URL)
+        self.assertEqual(len(graphql_calls), 1)
+        payload = json.loads(graphql_calls[0].request.content or b"{}")
+        self.assertEqual(payload["variables"]["pullRequestId"], "PR_node")
+        self.assertEqual(payload["variables"]["mergeMethod"], "MERGE")
+        self.assertEqual(self.get_calls(self.MERGE_URL), [])
+
+    @http_mock.activate
+    def test_automerge_merge_method(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response({"data": {"enablePullRequestAutoMerge": {}}})
+
+        self.push_with_automerge(merge_request_merge_method="squash")
+
+        payload = json.loads(
+            self.get_calls(self.GRAPHQL_URL)[0].request.content or b"{}"
+        )
+        self.assertEqual(payload["variables"]["mergeMethod"], "SQUASH")
+
+    @http_mock.activate
+    def test_automerge_not_used_by_default(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        with patch("weblate.vcs.git.GitMergeRequestBase.push_to_fork") as mocked_push:
+            mocked_push.return_value = ""
+            super().test_push("")
+
+        self.assertEqual(self.get_calls(self.GRAPHQL_URL), [])
+
+    @http_mock.activate
+    def test_automerge_clean_status_merges_directly(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response(
+            {"errors": [{"message": "Pull request is in clean status"}]}
+        )
+        http_mock.register("PUT", self.MERGE_URL, json={"merged": True})
+
+        self.push_with_automerge(merge_request_merge_method="rebase")
+
+        merge_calls = self.get_calls(self.MERGE_URL)
+        self.assertEqual(len(merge_calls), 1)
+        self.assertEqual(
+            json.loads(merge_calls[0].request.content or b"{}"),
+            {"merge_method": "rebase"},
+        )
+
+    @http_mock.activate
+    def test_automerge_error_does_not_fail_push(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response(
+            {"errors": [{"message": "Auto-merge is not allowed for this repository"}]}
+        )
+
+        with patch.object(
+            self.repo.component, "handle_automerge_failure"
+        ) as handle_failure:
+            # The commits and the pull request already landed, so the push
+            # must not be reported as failed.
+            self.push_with_automerge()
+
+        handle_failure.assert_called_once()
+        stored_error = handle_failure.call_args[0][0]
+        self.assertEqual(stored_error["code"], "automerge_failed_with_error")
+        self.assertIn("Auto-merge is not allowed", stored_error["params"]["error"])
+
+    @http_mock.activate
+    def test_automerge_transport_error_does_not_fail_push(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        original_request = self.repo.request
+
+        def request(*args, **kwargs):
+            if args[2] == self.GRAPHQL_URL:
+                raise RepositoryError(0, "transport failed")
+            return original_request(*args, **kwargs)
+
+        with (
+            patch.object(self.repo, "request", side_effect=request),
+            patch.object(
+                self.repo.component, "handle_automerge_failure"
+            ) as handle_failure,
+        ):
+            self.push_with_automerge()
+
+        handle_failure.assert_called_once_with("transport failed")
+
+    @http_mock.activate
+    def test_automerge_success_clears_alert(self) -> None:
+        self.mock_responses(
+            pr_response={
+                "url": "https://github.com/WeblateOrg/test/pull/1",
+                "node_id": "PR_node",
+                "number": 1,
+            }
+        )
+        self.mock_automerge_response({"data": {"enablePullRequestAutoMerge": {}}})
+
+        with patch.object(
+            self.repo.component, "handle_automerge_success"
+        ) as handle_success:
+            self.push_with_automerge()
+
+        handle_success.assert_called_once()
+
+    @http_mock.activate
+    def test_automerge_applied_to_existing_pull_request(self) -> None:
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+        http_mock.register(
+            "GET",
+            "https://api.github.com/repos/WeblateOrg/test/pulls",
+            json=[
+                {
+                    "node_id": "PR_existing",
+                    "number": 1,
+                    "base": {"ref": "main"},
+                }
+            ],
+        )
+        self.mock_automerge_response({"data": {"enablePullRequestAutoMerge": {}}})
+
+        self.push_with_automerge()
+
+        payload = json.loads(
+            self.get_calls(self.GRAPHQL_URL)[0].request.content or b"{}"
+        )
+        self.assertEqual(payload["variables"]["pullRequestId"], "PR_existing")
+        lookup_call = self.get_calls(
+            "https://api.github.com/repos/WeblateOrg/test/pulls"
+        )[-1]
+        self.assertEqual(lookup_call.request.url.params["base"], "main")
+
+    @http_mock.activate
+    def test_automerge_ignores_existing_pull_request_for_different_base(self) -> None:
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+        http_mock.register(
+            "GET",
+            "https://api.github.com/repos/WeblateOrg/test/pulls",
+            json=[
+                {
+                    "node_id": "PR_existing",
+                    "number": 1,
+                    "base": {"ref": "old-branch"},
+                }
+            ],
+        )
+
+        self.push_with_automerge()
+
+        self.assertEqual(self.get_calls(self.GRAPHQL_URL), [])
+
+    @http_mock.activate
+    def test_automerge_existing_pull_request_lookup_failure_is_reported(self) -> None:
+        self.mock_responses(
+            pr_status=422,
+            pr_response={"errors": [{"message": "A pull request already exists"}]},
+        )
+        http_mock.register(
+            "GET",
+            "https://api.github.com/repos/WeblateOrg/test/pulls",
+            status_code=403,
+            json={"message": "Forbidden"},
+        )
+
+        with patch.object(
+            self.repo.component, "handle_automerge_failure"
+        ) as handle_failure:
+            self.push_with_automerge()
+
+        handle_failure.assert_called_once()
+        stored_error = handle_failure.call_args[0][0]
+        self.assertEqual(stored_error["code"], "automerge_failed_with_error")
+        self.assertEqual(stored_error["params"]["error"], "Forbidden")
+        self.assertEqual(self.get_calls(self.GRAPHQL_URL), [])
+
+    @http_mock.activate
+    def test_push_without_merge_request(self) -> None:
+        self.repo.component.vcs_params = {"create_merge_request": False}
+        self.mock_responses()
+
+        with patch.object(self.repo, "execute") as mocked_execute:
+            mocked_execute.return_value = ""
+            with self.repo.lock:
+                self.repo.push("")
+
+        # No fork and no pull request, changes are pushed to origin directly
+        self.assertEqual(
+            self.get_calls("https://api.github.com/repos/WeblateOrg/test/pulls"), []
+        )
+        self.assertEqual(
+            self.get_calls("https://api.github.com/repos/WeblateOrg/test/forks"), []
+        )
+        push_calls = [
+            call for call in mocked_execute.call_args_list if "push" in call[0][0]
+        ]
+        self.assertEqual(len(push_calls), 1)
+        self.assertNotIn("--force", push_calls[0][0][0])
+        self.assertIn("origin", push_calls[0][0][0])
+
+    def test_push_label_without_merge_request(self) -> None:
+        component = self.repo.component
+        self.assertIn("pull request", str(self._class.get_push_label(component)))
+        component.vcs_params = {"create_merge_request": False}
+        self.assertNotIn("pull request", str(self._class.get_push_label(component)))
+
 
 @override_settings(
     GITLAB_CREDENTIALS={
@@ -3906,6 +4331,110 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest",
             json={"id": 20227391},
         )
+
+    def test_fork_remote_marker_is_versioned(self) -> None:
+        credentials = self.repo.get_credentials()
+
+        self.assertEqual(
+            self.repo.get_fork_remote_marker(credentials),
+            f"gitlab:{credentials['url']}:{credentials['push_scheme']}:v1",
+        )
+
+    @http_mock.activate
+    def test_configure_fork_features_disables_lfs(self) -> None:
+        self.mock_configure_fork_features()
+
+        self.repo.configure_fork_features(
+            self.repo.get_credentials(),
+            "https://gitlab.com/api/v4/projects/20227391",
+        )
+
+        request = json.loads(http_mock.calls[0].request.content or b"{}")
+        self.assertEqual(
+            request,
+            {
+                "issues_access_level": "disabled",
+                "forking_access_level": "disabled",
+                "builds_access_level": "enabled",
+                "lfs_enabled": False,
+                "wiki_access_level": "disabled",
+                "snippets_access_level": "disabled",
+                "pages_access_level": "disabled",
+            },
+        )
+
+    @http_mock.activate
+    def test_existing_fork_remote_marker_is_upgraded(self) -> None:
+        credentials = self.repo.get_credentials()
+        fork = {
+            "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+            "http_url_to_repo": "https://gitlab.com/test/test.git",
+            "owner": {"username": "test"},
+            "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
+        }
+        self.repo.configure_fork_remote(
+            fork["ssh_url_to_repo"], fork["http_url_to_repo"], credentials
+        )
+        legacy_marker = f"gitlab:{credentials['url']}:{credentials['push_scheme']}"
+        self.repo.config_update(
+            ('remote "test"', "weblate-url", legacy_marker),
+        )
+        self.mock_fork_responses([fork])
+        self.mock_configure_fork_features()
+
+        with self.repo.lock:
+            self.repo.fork(credentials)
+
+        self.assertEqual(
+            self.repo.get_config("remote.test.weblate-url"),
+            f"{legacy_marker}:v1",
+        )
+        http_mock.assert_call_count(
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True",
+            1,
+        )
+        http_mock.assert_call_count("https://gitlab.com/api/v4/projects/20227391", 1)
+        http_mock.assert_call_count(
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/fork", 0
+        )
+
+        with self.repo.lock:
+            self.repo.fork(credentials)
+
+        http_mock.assert_call_count(
+            "https://gitlab.com/api/v4/projects/WeblateOrg%2Ftest/forks?owned=True",
+            1,
+        )
+        http_mock.assert_call_count("https://gitlab.com/api/v4/projects/20227391", 1)
+
+    @http_mock.activate
+    def test_failed_fork_reconfiguration_keeps_legacy_marker(self) -> None:
+        credentials = self.repo.get_credentials()
+        fork = {
+            "ssh_url_to_repo": "git@gitlab.com:test/test.git",
+            "http_url_to_repo": "https://gitlab.com/test/test.git",
+            "owner": {"username": "test"},
+            "_links": {"self": "https://gitlab.com/api/v4/projects/20227391"},
+        }
+        self.repo.configure_fork_remote(
+            fork["ssh_url_to_repo"], fork["http_url_to_repo"], credentials
+        )
+        legacy_marker = f"gitlab:{credentials['url']}:{credentials['push_scheme']}"
+        self.repo.config_update(
+            ('remote "test"', "weblate-url", legacy_marker),
+        )
+        self.mock_fork_responses([fork])
+        http_mock.register(
+            "PUT",
+            "https://gitlab.com/api/v4/projects/20227391",
+            json={"message": "forbidden"},
+            status_code=403,
+        )
+
+        with self.repo.lock, self.assertRaises(RepositoryError):
+            self.repo.fork(credentials)
+
+        self.assertEqual(self.repo.get_config("remote.test.weblate-url"), legacy_marker)
 
     def mock_responses(
         self, pr_response, pr_status=200, get_forks=None, repo_state: int = 409

@@ -53,7 +53,7 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | Template for new translations  | ``i18n/app.de.ts``               |
 +--------------------------------+----------------------------------+
-| File format                    | Qt Linguist translation file     |
+| File format                    | `Qt Linguist translation file    |
 |                                | (version 2)`                     |
 +--------------------------------+----------------------------------+
 
@@ -66,7 +66,7 @@ Weblate configuration
 +--------------------------------+----------------------------------+
 | Template for new translations  | ``i18n/app.en.ts``               |
 +--------------------------------+----------------------------------+
-| File format                    | Qt Linguist translation file     |
+| File format                    | `Qt Linguist translation file    |
 |                                | (version 2)`                     |
 +--------------------------------+----------------------------------+
 

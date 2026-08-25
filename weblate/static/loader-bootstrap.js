@@ -118,6 +118,24 @@ function addAlert(message, kind = "danger", delay = 3000) {
   }).show();
 }
 
+function copyToClipboard(text, successMessage, failureMessage) {
+  const success = successMessage || gettext("Text copied to clipboard.");
+  const failure = failureMessage || gettext("Error copying to clipboard.");
+  try {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        addAlert(success, "info");
+      },
+      () => {
+        addAlert(failure, "danger");
+      },
+    );
+  } catch (error) {
+    addAlert(failure, "danger");
+    console.log(error);
+  }
+}
+
 // Need `bubbles` because some event listeners (like this
 // https://github.com/WeblateOrg/weblate/blob/86d4fb308c9941f32b48f007e16e8c153b0f3fd7/weblate/static/editor/base.js#L50
 // ) are attached to the parent elements.
@@ -1249,24 +1267,11 @@ onReady(() => {
       return;
     }
     e.preventDefault();
-    try {
-      navigator.clipboard
-        .writeText(element.getAttribute("data-clipboard-value"))
-        .then(
-          () => {
-            const text =
-              element.getAttribute("data-clipboard-message") ||
-              gettext("Text copied to clipboard.");
-            addAlert(text, "info");
-          },
-          () => {
-            addAlert(gettext("Please press Ctrl+C to copy."), "danger");
-          },
-        );
-    } catch (error) {
-      addAlert(gettext("Error copying to clipboard."), "danger");
-      console.log(error);
-    }
+    copyToClipboard(
+      element.getAttribute("data-clipboard-value"),
+      element.getAttribute("data-clipboard-message"),
+      gettext("Please press Ctrl+C to copy."),
+    );
   });
 
   /* Auto translate source select */
@@ -2464,30 +2469,40 @@ onReady(() => {
     gettext("See https://en.wikipedia.org/wiki/Self-XSS for more information."),
   );
 
-  /* Display relevant file_format_params field in Component forms */
+  /* Display only the scoped parameters matching the selected value in Component
+     forms: file format parameters follow the file format select, version
+     control parameters follow the VCS one. */
   const form_auto_ids = ["id", "id_scratchcreate"];
-  const file_format_params_fields_ids = form_auto_ids.map((id) => {
-    return `#div_${id}_file_format_params`;
-  });
+  const scoped_param_groups = [
+    {
+      selector: "file_format",
+      field: "file_format_params",
+      paramClass: "file-format-param",
+      scopeAttribute: "fileformats",
+    },
+    {
+      selector: "vcs",
+      field: "vcs_params",
+      paramClass: "vcs-param",
+      scopeAttribute: "vcses",
+    },
+  ];
 
-  function displayRelevantFileFormatParams(form, selectedFileFormat) {
+  function displayRelevantScopedParams(group, form, selectedScope) {
     if (form === null) {
       return;
     }
-    if (selectedFileFormat) {
-      file_format_params_fields_ids.forEach((fieldId) => {
-        show(form.querySelector(fieldId));
-      });
-      let displayFieldLabel = false;
-      form.querySelectorAll(".file-format-param").forEach((param) => {
-        const fileFormats = param
-          .querySelector(".file-format-param-field")
-          ?.getAttribute("fileformats")
+    const fieldIds = form_auto_ids.map((id) => `#div_${id}_${group.field}`);
+    let displayFieldLabel = false;
+    if (selectedScope) {
+      form.querySelectorAll(`.${group.paramClass}`).forEach((param) => {
+        const scopes = param
+          .querySelector(`.${group.paramClass}-field`)
+          ?.getAttribute(group.scopeAttribute)
           ?.split(" ");
         if (
-          fileFormats &&
-          (fileFormats.includes(selectedFileFormat) ||
-            fileFormats.includes("*"))
+          scopes &&
+          (scopes.includes(selectedScope) || scopes.includes("*"))
         ) {
           show(param);
           displayFieldLabel = true;
@@ -2495,38 +2510,32 @@ onReady(() => {
           hide(param);
         }
       });
-      // hide the field if no matching file format parameter is visible
-      file_format_params_fields_ids.forEach((fieldId) => {
-        const field = form.querySelector(fieldId);
-        if (displayFieldLabel) {
-          show(field);
-        } else {
-          hide(field);
-        }
-      });
-    } else {
-      file_format_params_fields_ids.forEach((fieldId) => {
-        hide(form.querySelector(fieldId));
-      });
     }
+    // hide the whole field when no parameter applies to the selected scope
+    fieldIds.forEach((fieldId) => {
+      const field = form.querySelector(fieldId);
+      if (displayFieldLabel) {
+        show(field);
+      } else {
+        hide(field);
+      }
+    });
   }
 
-  form_auto_ids
-    .map((id) => {
-      return `#${id}_file_format`;
-    })
-    .forEach((fieldSelector) => {
-      const field = document.querySelector(fieldSelector);
+  scoped_param_groups.forEach((group) => {
+    form_auto_ids.forEach((id) => {
+      const field = document.querySelector(`#${id}_${group.selector}`);
       if (field === null) {
         return;
       }
-      const fileFormatForm = field.closest("form");
-      displayRelevantFileFormatParams(fileFormatForm, field.value);
+      const scopedForm = field.closest("form");
+      displayRelevantScopedParams(group, scopedForm, field.value);
 
       field.addEventListener("change", function () {
-        displayRelevantFileFormatParams(fileFormatForm, this.value);
+        displayRelevantScopedParams(group, scopedForm, this.value);
       });
     });
+  });
 
   document.querySelector("#string-add")?.addEventListener("click", (_e) => {
     const tab = document.querySelector("[data-bs-target='#new'");

@@ -361,6 +361,7 @@ Users
                 "secondary_in_zen": true,
                 "hide_source_secondary": false,
                 "wide_tables": false,
+                "listing_columns": ["untranslated", "untranslated_words", "untranslated_chars", "nottranslated", "checks", "suggestions", "comments"],
                 "editor_link": "",
                 "translate_mode": 0,
                 "zen_mode": 0,
@@ -449,6 +450,9 @@ Users
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
+    This permission authorizes membership changes for every team, including
+    project and workspace teams; no separate permission over the target team is
+    required.
 
     :param username: User's username
     :type username: string
@@ -462,6 +466,9 @@ Users
 
     Requires the global ``user.edit`` permission. See
     :ref:`access-control` for the user management permission model.
+    This permission authorizes membership changes for every team, including
+    project and workspace teams; no separate permission over the target team is
+    required.
 
     :param username: User's username
     :type username: string
@@ -1695,6 +1702,7 @@ Components
     :>json string name: :ref:`component-name`
     :>json string slug: :ref:`component-slug`
     :>json string vcs: :ref:`component-vcs`
+    :>json object vcs_params: :ref:`component-vcs_params`
     :>json string linked_component: component whose repository is linked via :ref:`internal-urls`
     :>json string repo: :ref:`component-repo`, this is the actual repository URL even when :ref:`internal-urls` are used, use ``linked_component`` to detect this situation
     :>json string git_export: :ref:`component-git_export`
@@ -1912,6 +1920,7 @@ Components
     :<json string template: base file for monolingual translations
     :<json string new_base: base file for adding new translations
     :<json string vcs: version control system
+    :<json object vcs_params: :ref:`component-vcs_params`
     :<json boolean hide_glossary_matches: :ref:`component-hide_glossary_matches`
     :<json boolean contribute_project_tm: :ref:`component-contribute_project_tm`
 
@@ -3607,6 +3616,33 @@ Notification hooks
 Notification hooks allow external applications to notify Weblate that the VCS
 repository has been updated. Weblate matches the delivery to components by
 repository URL; see :ref:`hooks-target-matching`.
+
+The generic hook endpoints return diagnostics intended to help configure
+repository notifications. The ``match_status`` object contains:
+
+``repository_matches``
+    Number of components whose repository URL matches the payload.
+``branch_matches``
+    Number of repository matches whose configured branch matches the payload.
+    For events without a branch, every repository match is counted as a branch
+    match.
+``enabled_hook_matches``
+    Number of branch matches whose project has hooks enabled.
+
+A successful update response names the updated project/component slugs in
+``message`` and returns their absolute API URLs in ``updated_components``. These
+diagnostics include private projects and restricted components because matching
+does not apply user access control. Components managed through an authenticated
+integration are excluded from generic matching and diagnostics; currently this
+applies to the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. When an
+update event completes target matching but schedules no update, the response
+uses HTTP status code 202 and retains ``match_status`` so the repository,
+branch, and project hook settings can be diagnosed. Ping and ignored events
+return HTTP status code 201 without matching diagnostics. These responses can
+confirm that a supplied repository URL is registered, but do not grant access
+to the linked API objects or expose repository content, translations, or
+credentials. See :ref:`hooks-target-matching` for the security and compatibility
+implications.
 
 You can use repository endpoints for projects, components and translations to
 update individual repositories; see

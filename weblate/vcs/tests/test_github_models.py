@@ -480,6 +480,63 @@ class TestGitHubInstallationManager(TestCase):
         self.assertEqual(len(http_mock.calls), 1)
 
     @http_mock.activate
+    def test_github_repository_push_uses_weblate_branch_by_default(self):
+        _make_credentials()
+        cache.clear()
+        http_mock.register(
+            "POST",
+            "https://api.github.com/app/installations/67890/access_tokens",
+            json={"token": "ghs_test"},
+        )
+        repository = self._make_app_repository()
+
+        with (
+            patch.object(GithubAppRepository, "execute", return_value="") as execute,
+            patch.object(
+                GithubAppRepository, "create_pull_request"
+            ) as create_pull_request,
+            patch.object(GithubAppRepository, "validate_pull_url"),
+        ):
+            repository.push("")
+
+        push_args = execute.call_args.args[0]
+        self.assertIn("main:weblate-test-component", push_args)
+        self.assertIn("--force", push_args)
+        create_pull_request.assert_called_once()
+
+    @http_mock.activate
+    def test_github_repository_push_without_merge_request(self):
+        _make_credentials()
+        cache.clear()
+        http_mock.register(
+            "POST",
+            "https://api.github.com/app/installations/67890/access_tokens",
+            json={"token": "ghs_test"},
+        )
+        component = self._make_component()
+        component.vcs_params = {"create_merge_request": False}
+        repository = GithubAppRepository(
+            ".", branch="main", component=component, local=True
+        )
+
+        with (
+            patch.object(GithubAppRepository, "execute", return_value="") as execute,
+            patch.object(
+                GithubAppRepository, "create_pull_request"
+            ) as create_pull_request,
+            patch.object(GithubAppRepository, "validate_pull_url"),
+        ):
+            repository.push("")
+
+        push_args = execute.call_args.args[0]
+        # Commits land on the translated branch, no weblate-* branch and no
+        # force pushing over upstream history.
+        self.assertIn("main", push_args)
+        self.assertNotIn("main:weblate-test-component", push_args)
+        self.assertNotIn("--force", push_args)
+        create_pull_request.assert_not_called()
+
+    @http_mock.activate
     def test_github_repository_remote_compatibility_deepen_uses_installation_token(
         self,
     ):

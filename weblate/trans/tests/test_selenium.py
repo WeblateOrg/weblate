@@ -948,6 +948,110 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             lambda _driver: slug_input.get_attribute("value") == "example-project-name"
         )
 
+    def test_flag_editor_edit_existing(self) -> None:
+        """Check that already added flags can be turned back into editable text."""
+        # Load a page so that flag-editor.js and TomSelect are loaded
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+
+        self.driver.execute_script(
+            """
+            const input = document.createElement("input");
+            input.id = "flag-editor-test";
+            input.className = "flag-editor";
+            input.value = "max-length:100, ignore-same";
+            input.dataset.flagChoicesUrl = arguments[0];
+            document.body.appendChild(input);
+            window.initFlagEditor(input);
+            """,
+            reverse("js-flag-choices"),
+        )
+
+        hidden_input = self.driver.find_element(By.ID, "flag-editor-test")
+        text_box = self.driver.find_element(
+            By.CSS_SELECTOR, ".ts-wrapper.flag-editor-select .ts-control > input"
+        )
+
+        def send_keys(*keys) -> None:
+            # The text box is moved off-screen while a flag is selected, so the
+            # keys have to be sent to whatever is focused instead of an element.
+            webdriver.ActionChains(self.driver).send_keys(*keys).perform()
+
+        def selected_flags() -> list[str]:
+            return [
+                item.get_attribute("data-value")
+                for item in self.driver.find_elements(
+                    By.CSS_SELECTOR, ".ts-wrapper.flag-editor-select .item.active"
+                )
+            ]
+
+        # Clicking a flag turns it back into editable text
+        self.driver.find_element(
+            By.CSS_SELECTOR,
+            '.ts-wrapper.flag-editor-select .item[data-value="max-length:100"] code',
+        ).click()
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: text_box.get_attribute("value") == "max-length:100"
+        )
+        self.assertEqual(hidden_input.get_attribute("value"), "ignore-same")
+
+        # Committing the edited text adds the flag back in its original place
+        # instead of appending it to the end
+        send_keys("0", Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                hidden_input.get_attribute("value") == "max-length:1000, ignore-same"
+            )
+        )
+        self.assertEqual(text_box.get_attribute("value"), "")
+
+        # Arrow keys walk the flags without a mouse
+        send_keys(Keys.ARROW_LEFT)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: selected_flags() == ["ignore-same"]
+        )
+        send_keys(Keys.ARROW_LEFT)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: selected_flags() == ["max-length:1000"]
+        )
+        # Moving past the last flag returns to the text box
+        send_keys(Keys.ARROW_RIGHT, Keys.ARROW_RIGHT)
+        WebDriverWait(self.driver, 10).until(lambda _driver: selected_flags() == [])
+
+        # A selected flag stays legible against the highlighted background
+        send_keys(Keys.ARROW_LEFT)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: selected_flags() == ["ignore-same"]
+        )
+        active_item = self.driver.find_element(
+            By.CSS_SELECTOR, ".ts-wrapper.flag-editor-select .item.active"
+        )
+        active_code = active_item.find_element(By.CSS_SELECTOR, "code")
+        self.assertEqual(
+            active_code.value_of_css_property("color"),
+            active_item.value_of_css_property("color"),
+        )
+        self.assertEqual(
+            active_code.value_of_css_property("background-color"), "rgba(0, 0, 0, 0)"
+        )
+
+        # Enter opens the selected flag for editing
+        send_keys(Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: text_box.get_attribute("value") == "ignore-same"
+        )
+        self.assertEqual(hidden_input.get_attribute("value"), "max-length:1000")
+
+        # Committing a flag that is already in the catalog unchanged puts it
+        # back in place and leaves no text behind in the text box
+        send_keys(Keys.ENTER)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                hidden_input.get_attribute("value") == "max-length:1000, ignore-same"
+            )
+        )
+        self.assertEqual(text_box.get_attribute("value"), "")
+
     def test_search_preview_scopes_boolean_query(self) -> None:
         project = self.create_component()
         component = Component.objects.get(project=project, slug="language-names")
@@ -2081,6 +2185,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Operations")
         self.click("Search and replace")
         self.assert_text_contains("#replace", "Search and replace")
+        self.assertEqual(
+            self.driver.find_element(
+                By.CSS_SELECTOR, '#replace input[type="submit"]'
+            ).get_attribute("value"),
+            "Review changes",
+        )
         self.screenshot("search-replace.png")
         self.click("Operations")
         self.click("Bulk edit")

@@ -38,6 +38,17 @@
           "type": "string",
           "default": ""
         },
+        "enforced_checks": {
+          "$id": "#/definitions/category/enforced_checks",
+          "title": "Enforced checks",
+          "type": "array",
+          "items": {
+            "$id": "#/definitions/category/enforced_checks/items",
+            "title": "Check name",
+            "type": "string"
+          },
+          "default": []
+        },
         "license": {
           "$id": "#/definitions/category/license",
           "title": "Translation license",
@@ -138,6 +149,12 @@
         "inherit_secondary_language": {
           "$id": "#/definitions/category/inherit_secondary_language",
           "title": "Inherit secondary language",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_enforced_checks": {
+          "$id": "#/definitions/category/inherit_enforced_checks",
+          "title": "Inherit enforced checks",
           "type": "boolean",
           "default": false
         },
@@ -366,6 +383,12 @@
           "type": "boolean",
           "default": false
         },
+        "autoclean_tm": {
+          "$id": "#root/project/autoclean_tm",
+          "title": "Autoclean translation memory",
+          "type": "boolean",
+          "default": false
+        },
         "translation_review": {
           "$id": "#root/project/translation_review",
           "title": "Enable reviews",
@@ -378,6 +401,23 @@
           "type": "boolean",
           "default": false
         },
+        "enforced_2fa": {
+          "$id": "#root/project/enforced_2fa",
+          "title": "Enforced two-factor authentication",
+          "type": "boolean",
+          "default": false
+        },
+        "commit_policy": {
+          "$id": "#root/project/commit_policy",
+          "title": "Translation quality filter",
+          "type": "integer",
+          "enum": [
+            0,
+            20,
+            30
+          ],
+          "default": 0
+        },
         "enable_hooks": {
           "$id": "#root/project/enable_hooks",
           "title": "Enable hooks",
@@ -389,6 +429,17 @@
           "title": "Translation flags",
           "type": "string",
           "default": ""
+        },
+        "enforced_checks": {
+          "$id": "#root/project/enforced_checks",
+          "title": "Enforced checks",
+          "type": "array",
+          "items": {
+            "$id": "#root/project/enforced_checks/items",
+            "title": "Check name",
+            "type": "string"
+          },
+          "default": []
         },
         "license": {
           "$id": "#root/project/license",
@@ -490,6 +541,12 @@
         "inherit_secondary_language": {
           "$id": "#root/project/inherit_secondary_language",
           "title": "Inherit secondary language",
+          "type": "boolean",
+          "default": false
+        },
+        "inherit_enforced_checks": {
+          "$id": "#root/project/inherit_enforced_checks",
+          "title": "Inherit enforced checks",
           "type": "boolean",
           "default": false
         },

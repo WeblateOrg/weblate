@@ -27,7 +27,7 @@ from django.http import (
 )
 from django.shortcuts import aget_object_or_404, get_object_or_404
 from django.utils.cache import get_conditional_response
-from django.utils.http import http_date
+from django.utils.http import content_disposition_header, http_date
 from django.utils.translation import activate, gettext, gettext_lazy, pgettext_lazy
 from django.views.decorators.gzip import gzip_page
 from django.views.generic.base import View
@@ -64,7 +64,7 @@ class UnsupportedPathObjectError(Http404):
 
 def key_name(instance):
     # ruff: ignore[import-outside-top-level]
-    from weblate.trans.templatetags.translations import get_breadcrumbs
+    from weblate.trans.formatting import get_breadcrumbs
 
     return "/".join(
         str(item) for item in get_breadcrumbs(instance, flags=False, only_names=True)
@@ -89,6 +89,10 @@ def key_unreviewed(instance):
     if stats.has_review:
         return stats.waiting_review
     return 0
+
+
+def key_total(instance):
+    return instance.stats.all
 
 
 def key_untranslated(instance):
@@ -124,6 +128,7 @@ SORT_KEYS = {
     "approved": key_approved,
     "translated": key_translated,
     "unreviewed": key_unreviewed,
+    "total": key_total,
     "untranslated": key_untranslated,
     "untranslated_words": key_untranslated_words,
     "untranslated_chars": key_untranslated_chars,
@@ -820,7 +825,9 @@ def zip_download(
         if extra:
             for filename, content in extra.items():
                 zipfile.writestr(filename, content)
-    response["Content-Disposition"] = f'attachment; filename="{name}.zip"'
+    response["Content-Disposition"] = content_disposition_header(
+        as_attachment=True, filename=f"{name}.zip"
+    )
     return response
 
 
@@ -907,7 +914,9 @@ def download_translation_file(
         filename = f"{project_slug}-{component_slug}-{language_code}{extension}"
 
         # Fill in response headers
-        response["Content-Disposition"] = f"attachment; filename={filename}"
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=filename
+        )
 
     # Last-Modified timestamp
     if last_changed := translation.stats.last_changed:

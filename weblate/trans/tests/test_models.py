@@ -61,7 +61,7 @@ from weblate.trans.models.change import ChangeQuerySet
 from weblate.trans.models.component import ComponentLink
 from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.removal import RemovalBatch
-from weblate.trans.tasks import actual_project_removal
+from weblate.trans.tasks import project_removal
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
@@ -222,7 +222,7 @@ class ProjectTest(RepoTestCase):
         self.assertIsNot(first, second)
         self.assertEqual(prefetch.call_count, 2)
 
-    def test_actual_project_removal_batches_linked_alert_updates(self) -> None:
+    def test_project_removal_batches_linked_alert_updates(self) -> None:
         self.component = self.create_po()
         project = self.create_project(name="Other", slug="other")
         self.project = project
@@ -239,14 +239,14 @@ class ProjectTest(RepoTestCase):
             patch.object(Component, "update_alerts", autospec=True) as update_alerts,
             self.captureOnCommitCallbacks(execute=True),
         ):
-            actual_project_removal(project.pk, None)
+            project_removal.run(project.pk, None, backup=False)
 
         self.assertFalse(
             Component.objects.filter(pk__in=[linked.pk, second.pk]).exists()
         )
         update_alerts.assert_called_once_with(self.component)
 
-    def test_actual_project_removal_batches_parent_stats_updates(self) -> None:
+    def test_project_removal_batches_parent_stats_updates(self) -> None:
         project = self.create_project(name="Other", slug="other")
         self.create_po(project=project, name="Category A", slug="category-a")
         self.create_po(project=project, name="Category B", slug="category-b")
@@ -276,7 +276,7 @@ class ProjectTest(RepoTestCase):
             ),
             self.captureOnCommitCallbacks(execute=True),
         ):
-            actual_project_removal(project.pk, None)
+            project_removal.run(project.pk, None, backup=False)
 
         self.assertEqual(1, len(collected))
         self.assertTrue(
@@ -285,7 +285,7 @@ class ProjectTest(RepoTestCase):
         self.assertEqual(collected[0], set(executed))
         self.assertEqual(len(executed), len(set(executed)))
 
-    def test_actual_project_removal_updates_surviving_project_before_global(
+    def test_project_removal_updates_surviving_project_before_global(
         self,
     ) -> None:
         surviving_component = self.create_po()
@@ -328,7 +328,7 @@ class ProjectTest(RepoTestCase):
             ),
             self.captureOnCommitCallbacks(execute=True),
         ):
-            actual_project_removal(project.pk, None)
+            project_removal.run(project.pk, None, backup=False)
 
         self.assertFalse(
             Component.objects.filter(pk__in=[main.pk, linked.pk, second.pk]).exists()

@@ -20,8 +20,8 @@ from weblate.billing.models import Billing, BillingQuerySet
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
 from weblate.trans.actions import ActionEvents
+from weblate.trans.formatting import get_breadcrumbs
 from weblate.trans.models import Change, ComponentLink, Project
-from weblate.trans.templatetags.translations import get_breadcrumbs
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureComponentTestCase
 from weblate.trans.tests.utils import (

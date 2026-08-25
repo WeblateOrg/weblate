@@ -20,7 +20,7 @@ from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
-from django.test import override_settings
+from django.test import SimpleTestCase, override_settings
 from django.urls import reverse
 
 from weblate.addons.webhooks import WebhookAddon
@@ -33,12 +33,20 @@ from weblate.memory.utils import CATEGORY_FILE, CATEGORY_PRIVATE_OFFSET
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.backups import (
+    CATEGORY_BACKUP_FIELDS,
+    COMPONENT_BACKUP_FIELDS,
+    PROJECT_BACKUP_FIELDS,
     ProjectBackup,
     get_project_backup_download_storage,
     get_project_backup_download_url,
     list_backups,
 )
 from weblate.trans.change_display import get_change_history_context
+from weblate.trans.forms import (
+    CategorySettingsForm,
+    ComponentSettingsForm,
+    ProjectSettingsForm,
+)
 from weblate.trans.models import (
     Category,
     Change,
@@ -50,6 +58,7 @@ from weblate.trans.models import (
     Unit,
     Vote,
 )
+from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
     cleanup_project_backup_download,
     cleanup_project_backups,
@@ -57,7 +66,8 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.vcs.git import GitRepository
+from weblate.vcs.git import GitRepository, SubversionRepository
+from weblate.vcs.mercurial import HgRepository
 from weblate.workspaces.models import Workspace
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
@@ -78,6 +88,58 @@ def remove_file_after(filename: str):
 def resolve_private_example(host, *args, **kwargs):
     address = "127.0.0.1" if host == "private.example" else "8.8.8.8"
     return [(0, 0, 0, "", (address, 443))]
+
+
+class BackupSettingCoverageTest(SimpleTestCase):
+    def test_backup_setting_coverage(self) -> None:
+        """Ensure newly introduced editable settings are not silently omitted."""
+        backup = ProjectBackup()
+        backup_settings = (
+            # Workspace is selected by the restore caller. Machinery settings can
+            # contain service credentials and are intentionally not exported.
+            (
+                Project,
+                ProjectSettingsForm,
+                backup.project_schema["properties"]["project"],
+                PROJECT_BACKUP_FIELDS,
+                {"workspace", "machinery_settings"},
+            ),
+            # Category hierarchy is represented by the backup object graph.
+            (
+                Category,
+                CategorySettingsForm,
+                backup.project_schema["definitions"]["category"],
+                CATEGORY_BACKUP_FIELDS,
+                {"project", "category"},
+            ),
+            # Component hierarchy is represented by the backup object graph;
+            # generated and internal repository revisions are not settings.
+            (
+                Component,
+                ComponentSettingsForm,
+                backup.component_schema["properties"]["component"],
+                COMPONENT_BACKUP_FIELDS,
+                {"project", "category", "git_export", "processed_revision"},
+            ),
+        )
+        for model, form, schema, extra_fields, excluded_fields in backup_settings:
+            with self.subTest(model=model.__name__):
+                backup_fields = set(schema["required"]) | set(extra_fields)
+                schema_fields = set(schema["properties"])
+                # ruff: ignore[private-member-access]
+                editable_fields = {
+                    field.name
+                    for field in model._meta.fields
+                    if field.editable and not field.auto_created
+                }
+
+                self.assertSetEqual(
+                    editable_fields - excluded_fields,
+                    backup_fields & editable_fields,
+                )
+                # ruff: ignore[private-member-access]
+                self.assertLessEqual(set(form._meta.fields), backup_fields)
+                self.assertLessEqual(backup_fields, schema_fields)
 
 
 class BackupsTest(ViewTestCase):
@@ -103,6 +165,7 @@ class BackupsTest(ViewTestCase):
         push: str | None = None,
         translation_updates: dict | None = None,
         unit_updates: dict | None = None,
+        component_removals: tuple[str, ...] = (),
         all_components: bool = False,
     ) -> str:
         backup = ProjectBackup()
@@ -138,6 +201,8 @@ class BackupsTest(ViewTestCase):
                         component_data["component"]["push"] = push
                     if component_updates is not None:
                         component_data["component"].update(component_updates)
+                    for field in component_removals:
+                        component_data["component"].pop(field, None)
                     if translation_updates is not None:
                         component_data["translations"][0].update(translation_updates)
                     if unit_updates is not None:
@@ -167,6 +232,69 @@ class BackupsTest(ViewTestCase):
                 target_zip.writestr(item, data)
 
         return temp_name
+
+    def test_backup_restore_vcs_params(self) -> None:
+        self.component.vcs_params = {"git_force_push": True}
+        self.component.save(update_fields=["vcs_params"])
+        backup = ProjectBackup()
+
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as zipfile:
+            component_data = json.loads(
+                zipfile.read(f"components/{self.component.slug}.json")
+            )
+        self.assertEqual(
+            component_data["component"]["vcs_params"], {"git_force_push": True}
+        )
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored VCS parameters",
+            project_slug="restored-vcs-parameters",
+            user=self.user,
+        )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_restore_backup_without_vcs_params(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            component_removals=("vcs_params",), all_components=True
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored legacy backup",
+                project_slug="restored-legacy-backup",
+                user=self.user,
+            )
+
+        self.assertEqual(
+            restored.component_set.get(slug=self.component.slug).vcs_params, {}
+        )
+
+    def test_restore_legacy_force_push_vcs(self) -> None:
+        temp_name = self.write_tampered_component_backup(
+            component_updates={"vcs": "git-force-push"},
+            component_removals=("vcs_params",),
+        )
+
+        with remove_file_after(temp_name):
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored legacy force push",
+                project_slug="restored-legacy-force-push",
+                user=self.user,
+            )
+
+        restored_component = restored.component_set.get(slug=self.component.slug)
+        self.assertEqual(restored_component.vcs, "git")
+        self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
 
     def test_backup_creates_history_entry(self) -> None:
         backup = ProjectBackup()
@@ -848,6 +976,72 @@ class BackupsTest(ViewTestCase):
         )
         assert isinstance(secondary_language, Language)
         self.assertEqual(secondary_language.code, "de")
+
+    def test_backup_settings(self) -> None:
+        project = self.project
+        project.autoclean_tm = not project.autoclean_tm
+        project.enforced_2fa = True
+        project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.save(update_fields=["autoclean_tm", "enforced_2fa", "commit_policy"])
+        component = self.create_po_mono(project=project, name="Backup-settings")
+        component.hide_glossary_matches = True
+        component.contribute_project_tm = False
+        component.file_format_params = {
+            "po_line_wrap": 65535,
+            "po_set_language_team": True,
+        }
+        component.screenshot_filemask = "screenshots/*.png"
+        component.key_filter = "^keep"
+        component.save(
+            update_fields=[
+                "hide_glossary_matches",
+                "contribute_project_tm",
+                "file_format_params",
+                "screenshot_filemask",
+                "key_filter",
+            ]
+        )
+
+        backup = ProjectBackup()
+        backup.backup_project(project)
+        with ZipFile(backup.filename, "r") as zipfile:
+            project_data = json.loads(zipfile.read("weblate-backup.json"))["project"]
+            component_data = json.loads(
+                zipfile.read(f"components/{component.slug}.json")
+            )["component"]
+
+        self.assertEqual(project_data["autoclean_tm"], project.autoclean_tm)
+        self.assertTrue(project_data["enforced_2fa"])
+        self.assertEqual(
+            project_data["commit_policy"], CommitPolicyChoices.APPROVED_ONLY
+        )
+        self.assertTrue(component_data["hide_glossary_matches"])
+        self.assertFalse(component_data["contribute_project_tm"])
+        self.assertEqual(
+            component_data["file_format_params"], component.file_format_params
+        )
+        self.assertEqual(component_data["screenshot_filemask"], "screenshots/*.png")
+        self.assertEqual(component_data["key_filter"], "^keep")
+
+        restore = ProjectBackup(backup.filename)
+        restore.validate()
+        restored = restore.restore(
+            project_name="Restored settings",
+            project_slug="restored-settings",
+            user=self.user,
+        )
+        restored_component = restored.component_set.get(slug=component.slug)
+
+        self.assertEqual(restored.autoclean_tm, project.autoclean_tm)
+        self.assertTrue(restored.enforced_2fa)
+        self.assertEqual(restored.commit_policy, CommitPolicyChoices.APPROVED_ONLY)
+        self.assertTrue(restored_component.hide_glossary_matches)
+        self.assertFalse(restored_component.contribute_project_tm)
+        self.assertEqual(
+            restored_component.file_format_params, component.file_format_params
+        )
+        self.assertEqual(restored_component.screenshot_filemask, "screenshots/*.png")
+        self.assertEqual(restored_component.key_filter, "^keep")
 
     def test_backup_team_members_prefetches_limit_languages(self) -> None:
         team = Group.objects.create(name="Prefetch team", defining_project=self.project)
@@ -1708,50 +1902,55 @@ class BackupsTest(ViewTestCase):
 
         self.assertTrue(os.path.isdir(project_path))
 
-    def test_unsafe_vcs_paths(self) -> None:
-        for path in (
-            "test/.hg/hgrc",
-            "test/.hg/hgrc-not-shared",
-            "test/.hg/hgrc-future",
-            "test/nested/.hg/hgrc",
-            "test/.hg/sharedpath",
-            "test\\.hg\\hgrc-not-shared",
-            "test/.HG/HGRC-NOT-SHARED",
-            "test/.Hg/HgRc-Future",
-            "test/.HG/SHAREDPATH",
-            "test/.GIT/CONFIG",
-            "test/.GiT/HOOKS/pre-commit",
-            "test/.GIT/MODULES/submodule/config",
-        ):
-            with self.subTest(path=path):
-                self.assertTrue(ProjectBackup.is_unsafe_vcs_path(path))
+    def test_safe_vcs_paths(self) -> None:
+        safe_paths = (
+            ("git", "README.md"),
+            ("git", ".GIT\\OBJECTS\\INFO\\PACKS"),
+            ("subversion", ".git/svn/refs/remotes/origin/.rev_map.UUID"),
+            ("mercurial", ".HG\\STORE\\META\\manifest.i"),
+        )
+        for vcs, path in safe_paths:
+            with self.subTest(vcs=vcs, path=path):
+                self.assertTrue(ProjectBackup.is_safe_vcs_path(path, vcs))
 
-        for path in (
-            "test/hgrc-not-shared",
-            "test/.hg/hgrc.d/example.rc",
-            "test/.hg/store/data/hgrc.i",
-            "test/.hg/store/sharedpath",
-            "test/.HG/store/data/HGRC.i",
-            "test/.GITISH/HOOKS/pre-commit",
-            "test/.git/hooks-backup/pre-commit",
-        ):
-            with self.subTest(path=path):
-                self.assertFalse(ProjectBackup.is_unsafe_vcs_path(path))
+        unsafe_paths = (
+            ("git", ".git"),
+            ("git", ".git/config"),
+            ("git", "nested/.git/HEAD"),
+            ("git", ".hg/store/data/file.i"),
+            ("git", ".git/refs/nested/.git/config"),
+            ("subversion", ".git/svn/refs/remotes/origin/unhandled.log"),
+            ("mercurial", "nested/.hg/requires"),
+            ("unknown", ".git/HEAD"),
+        )
+        for vcs, path in unsafe_paths:
+            with self.subTest(vcs=vcs, path=path):
+                self.assertFalse(ProjectBackup.is_safe_vcs_path(path, vcs))
 
     def test_restore_skips_unsafe_vcs_files(self) -> None:
         backup = ProjectBackup()
         backup.backup_project(self.project)
-        unsafe_paths = (
-            ".git/hooks/post-checkout",
-            ".hg/hgrc",
-            ".hg/hgrc-not-shared",
-            ".hg/hgrc-future",
-            ".hg/sharedpath",
-            ".HG/HGRC-NOT-SHARED",
-            ".Hg/SharedPath",
-            ".GIT/HOOKS/pre-commit",
-            ".GiT/CONFIG",
-        )
+        marker = Path(settings.DATA_DIR) / "PWNED_COMMONDIR"
+        marker.unlink(missing_ok=True)
+        self.addCleanup(marker.unlink, missing_ok=True)
+        unsafe_paths = {
+            ".git/commondir": b"evil\n",
+            ".git/evil/config": (
+                b'[filter "pwn"]\n'
+                + f"clean = touch {marker.as_posix()}\n".encode()
+                + b"required = true\n"
+            ),
+            ".git/evil/info/attributes": b"* filter=pwn\n",
+            ".git/hooks/post-checkout": b"unsafe",
+            ".git/info/attributes": b"unsafe",
+            ".git/modules/submodule/config": b"unsafe",
+            ".git/objects/info/alternates": b"evil/objects\n",
+            ".git/worktrees/evil/config": b"unsafe",
+            ".hg/hgrc": b"unsafe",
+            ".hg/sharedpath": b"unsafe",
+            ".GIT/HOOKS/pre-commit": b"unsafe",
+            ".GiT/CONFIG": b"unsafe",
+        }
 
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
@@ -1762,9 +1961,19 @@ class BackupsTest(ViewTestCase):
                 ZipFile(temp_name, "w") as target_zip,
             ):
                 for item in source_zip.infolist():
-                    target_zip.writestr(item, source_zip.read(item.filename))
-                for path in unsafe_paths:
-                    target_zip.writestr(f"vcs/test/{path}", b"unsafe")
+                    data = source_zip.read(item.filename)
+                    target_zip.writestr(item, data)
+                    git_prefix = "vcs/test/.git/"
+                    if (
+                        item.filename.startswith(
+                            (f"{git_prefix}objects/", f"{git_prefix}refs/")
+                        )
+                        or item.filename == f"{git_prefix}packed-refs"
+                    ):
+                        relative_path = item.filename.removeprefix(git_prefix)
+                        target_zip.writestr(f"{git_prefix}evil/{relative_path}", data)
+                for path, data in unsafe_paths.items():
+                    target_zip.writestr(f"vcs/test/{path}", data)
 
             restore = ProjectBackup(temp_name)
             restore.validate()
@@ -1774,13 +1983,25 @@ class BackupsTest(ViewTestCase):
             component = restored.component_set.get(slug="test")
             repository = component.repository
             assert isinstance(repository, GitRepository)
-            for path in unsafe_paths:
+            for path, payload in unsafe_paths.items():
                 with self.subTest(path=path):
                     restored_path = os.path.join(component.full_path, path)
                     if os.path.exists(restored_path):
                         # On case-insensitive filesystems, a mixed-case path can
                         # resolve to the legitimate .git/config from the backup.
-                        self.assertNotEqual(Path(restored_path).read_bytes(), b"unsafe")
+                        self.assertNotEqual(Path(restored_path).read_bytes(), payload)
+            with repository.lock:
+                common_dir = Path(
+                    repository.execute(
+                        ["rev-parse", "--git-common-dir"], remote_op="none"
+                    ).strip()
+                )
+                if not common_dir.is_absolute():
+                    common_dir = Path(component.full_path) / common_dir
+                self.assertEqual(
+                    common_dir.resolve(),
+                    (Path(component.full_path) / ".git").resolve(),
+                )
             self.assertEqual(repository.get_config("remote.origin.url"), component.repo)
             self.assertEqual(
                 repository.get_config(f"branch.{component.branch}.remote"),
@@ -1790,7 +2011,120 @@ class BackupsTest(ViewTestCase):
                 repository.get_config(f"branch.{component.branch}.merge"),
                 f"refs/heads/{component.branch}",
             )
+            security_test = Path(component.full_path) / "security-test.txt"
+            security_test.write_text("security test", encoding="utf-8")
+            with repository.lock:
+                self.assertTrue(
+                    repository.commit("Security test", files=[security_test.name])
+                )
+                self.assertEqual(
+                    repository.execute(
+                        [
+                            "diff-tree",
+                            "--no-commit-id",
+                            "--name-only",
+                            "-r",
+                            "HEAD^",
+                            "HEAD",
+                        ],
+                        remote_op="none",
+                    ).splitlines(),
+                    [security_test.name],
+                )
+            self.assertFalse(marker.exists())
             restored.do_reset()
+
+    def test_restore_git_svn_metadata_allowlist(self) -> None:
+        self.create_po(vcs="subversion", name="Subversion", project=self.project)
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with ZipFile(backup.filename, "r") as source_zip:
+            git_svn_prefix = "vcs/subversion/.git/svn/"
+            rev_map_names = [
+                name
+                for name in source_zip.namelist()
+                if name.startswith(git_svn_prefix)
+                and "/.rev_map." in name.removeprefix(git_svn_prefix)
+            ]
+        if not rev_map_names:
+            self.skipTest("git-svn fixture has no revision map")
+
+        unsafe_name = f"{git_svn_prefix}injected/unhandled.log"
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        with remove_file_after(temp_name):
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    target_zip.writestr(item, source_zip.read(item.filename))
+                target_zip.writestr(unsafe_name, b"unsafe")
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+            component = restored.component_set.get(slug="subversion")
+            repository = component.repository
+            assert isinstance(repository, SubversionRepository)
+            for name in rev_map_names:
+                relative_name = name.removeprefix("vcs/subversion/")
+                self.assertTrue(Path(component.full_path, relative_name).is_file())
+            self.assertFalse(
+                Path(
+                    component.full_path,
+                    unsafe_name.removeprefix("vcs/subversion/"),
+                ).exists()
+            )
+            self.assertEqual(
+                repository.get_config("svn-remote.svn.url"), component.repo
+            )
+
+    def test_restore_mercurial_metadata_allowlist(self) -> None:
+        self.create_po(vcs="mercurial", name="Mercurial", project=self.project)
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        malicious_config = b"[hooks]\ncommit.pwn = touch PWNED\n"
+        config_name = "vcs/mercurial/.hg/hgrc"
+        with remove_file_after(temp_name):
+            config_replaced = False
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    if item.filename == config_name:
+                        data = malicious_config
+                        config_replaced = True
+                    else:
+                        data = source_zip.read(item.filename)
+                    target_zip.writestr(item, data)
+                target_zip.writestr("vcs/mercurial/.hg/sharedpath", b"evil")
+            self.assertTrue(config_replaced)
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+            component = restored.component_set.get(slug="mercurial")
+            repository = component.repository
+            assert isinstance(repository, HgRepository)
+            metadata_dir = Path(component.full_path, ".hg")
+            self.assertTrue(repository.is_valid())
+            self.assertTrue((metadata_dir / "dirstate").is_file())
+            self.assertTrue((metadata_dir / "store" / "00changelog.i").is_file())
+            self.assertNotIn(malicious_config, (metadata_dir / "hgrc").read_bytes())
+            self.assertFalse((metadata_dir / "sharedpath").exists())
+            self.assertEqual(repository.get_config("paths", "default"), component.repo)
 
     def test_restore_rejects_invalid_screenshot(self) -> None:
         screenshot = Screenshot.objects.create(

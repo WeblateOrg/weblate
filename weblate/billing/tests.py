@@ -10,18 +10,21 @@ from unittest.mock import patch
 from uuid import UUID
 
 from django.apps import apps
+from django.contrib import admin
 from django.contrib.messages import get_messages
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.db import models
 from django.template.loader import render_to_string
+from django.test import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone, translation
 from lxml import html
 
 from weblate.auth.models import Group, Permission, Role, TeamMembership, User
+from weblate.billing.admin import BillingAdmin
 from weblate.billing.defines import TRIAL_DAYS
 from weblate.billing.models import (
     Billing,
@@ -29,6 +32,7 @@ from weblate.billing.models import (
     Invoice,
     Plan,
     get_component_billing_alerts,
+    get_payment_log_details,
     record_project_billing_workspace,
 )
 from weblate.billing.tasks import (
@@ -38,6 +42,7 @@ from weblate.billing.tasks import (
     inactive_recurring_check,
     notify_expired,
     perform_removal,
+    remove_single_billing,
     schedule_removal,
 )
 from weblate.lang.models import Language
@@ -202,12 +207,66 @@ class BillingTest(BaseTestCase):
         response = self.client.get(reverse("billing"), follow=True)
         self.assertRedirects(response, self.billing.get_absolute_url())
         self.assertContains(response, "Current plan")
+        self.assertNotContains(response, "Audit log")
 
         # Admin
         self.user.is_superuser = True
         self.user.save()
         response = self.client.get(reverse("billing"))
         self.assertContains(response, "Workspace")
+        response = self.client.get(self.billing.get_absolute_url())
+        self.assertContains(response, "Audit log")
+
+    def test_payment_log_details_display(self) -> None:
+        log = self.billing.billinglog_set.create(
+            event=BillingEvent.PAYMENT_REJECTED,
+            summary="Payment rejected",
+            details=get_payment_log_details(
+                "payment-1",
+                self.plan,
+                "y",
+                automatic=False,
+                outcome="rejected",
+                reason='<script>alert("x")</script>\nCard declined',
+            ),
+            user=self.user,
+        )
+
+        self.assertEqual(log.details["outcome"], "rejected")
+        self.assertEqual(
+            log.details["reason"], '<script>alert("x")</script> Card declined'
+        )
+        display = str(log.get_details_display())
+        self.assertIn("payment-1", display)
+        self.assertIn("yearly", display)
+        self.assertIn("&lt;script&gt;", display)
+        self.assertNotIn("<script>", display)
+
+    def test_admin_plan_change(self) -> None:
+        new_plan = Plan.objects.create(
+            name="Admin plan", slug="admin-plan", price=29, yearly_price=299
+        )
+        request = RequestFactory().post("/")
+        request.user = self.user
+        self.billing.plan = new_plan
+
+        BillingAdmin(Billing, admin.site).save_model(
+            request, self.billing, form=None, change=True
+        )
+
+        log = self.billing.billinglog_set.get(event=BillingEvent.PLAN_CHANGED)
+        self.assertEqual(log.user, self.user)
+        self.assertEqual(log.details["old_plan"]["id"], self.plan.pk)
+        self.assertEqual(log.details["new_plan"]["id"], new_plan.pk)
+
+        self.billing.customer_name = "Updated customer"
+        BillingAdmin(Billing, admin.site).save_model(
+            request, self.billing, form=None, change=True
+        )
+        self.assertEqual(
+            self.billing.billinglog_set.filter(event=BillingEvent.PLAN_CHANGED).count(),
+            1,
+        )
 
     def test_customer_name(self) -> None:
         self.client.login(username=self.user.username, password="testpassword")
@@ -1307,6 +1366,34 @@ class BillingTest(BaseTestCase):
             mail.outbox.pop().subject, "Your translation project was removed"
         )
 
+    def test_removal_backup_failure_preserves_schedule(self) -> None:
+        project = self.add_project()
+        removal = timezone.now() - timedelta(days=1)
+        self.billing.removal = removal
+        self.billing.save(update_fields=["removal"])
+        billing_log_count = self.billing.billinglog_set.count()
+
+        with (
+            patch(
+                "weblate.billing.tasks.create_project_backup",
+                side_effect=RuntimeError("backup failed"),
+            ),
+            patch(
+                "weblate.billing.tasks.project_removal.delay"
+            ) as project_removal_delay,
+            patch("weblate.billing.tasks.send_notification_email"),
+            self.assertRaisesRegex(RuntimeError, "backup failed"),
+        ):
+            remove_single_billing(self.billing.pk)
+
+        project_removal_delay.assert_not_called()
+        self.refresh_from_db()
+        self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
+        self.assertEqual(self.billing.removal, removal)
+        self.assertEqual(self.billing.billinglog_set.count(), billing_log_count)
+        self.assertEqual(self.billing.count_projects, 1)
+        self.assertTrue(Project.objects.filter(pk=project.pk).exists())
+
     @override_settings(EMAIL_SUBJECT_PREFIX="")
     def test_trial(self) -> None:
         self.billing.state = Billing.STATE_TRIAL
@@ -1635,6 +1722,11 @@ class BillingTest(BaseTestCase):
         target_custom_group = other.workspace.defined_groups.get(name=custom_group.name)
         self.assertEqual(set(target_custom_group.roles.all()), {custom_role})
         self.assertTrue(target_custom_group.user_set.filter(pk=custom_user.pk).exists())
+        merge_log = other.billinglog_set.get(event=BillingEvent.MERGED)
+        self.assertEqual(merge_log.user, self.user)
+        self.assertEqual(merge_log.details["source_billing"]["id"], self.billing.pk)
+        self.assertEqual(merge_log.details["target_billing"]["id"], other.pk)
+        self.assertIn("Merged billing", merge_log.get_details_display())
 
     def test_merge_updates_single_project_target_workspace_name(self) -> None:
         other = Billing.objects.create(plan=self.billing.plan)

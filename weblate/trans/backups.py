@@ -89,6 +89,7 @@ from weblate.utils.zip import (
 from weblate.utils.zip import (
     validate_zip_members as validate_safe_zip_members,
 )
+from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Mapping
@@ -97,6 +98,7 @@ if TYPE_CHECKING:
     from django.core.files.storage import Storage
 
     from weblate.billing.models import Billing
+    from weblate.vcs.base import Repository
     from weblate.workspaces.models import Workspace
 
 warnings.filterwarnings("error", module="zipfile")
@@ -104,16 +106,27 @@ warnings.filterwarnings("error", module="zipfile")
 ModelT = TypeVar("ModelT", bound="Model")
 PROJECTBACKUP_PREFIX = "projectbackups"
 BackupValue = str | int | bool | dict[str, Any] | list[Any] | None
-PROJECT_INHERITABLE_BACKUP_FIELDS = (
+PROJECT_BACKUP_FIELDS = (
+    "use_workspace_tm",
+    "contribute_workspace_tm",
+    "autoclean_tm",
+    "enforced_2fa",
+    "commit_policy",
     "check_flags",
     *INHERITABLE_COMPONENT_SETTINGS,
     *INHERITABLE_COMPONENT_FLAGS,
 )
-COMPONENT_INHERITABLE_BACKUP_FIELDS = (
+COMPONENT_BACKUP_FIELDS = (
+    "hide_glossary_matches",
+    "contribute_project_tm",
+    "file_format_params",
+    "vcs_params",
+    "screenshot_filemask",
+    "key_filter",
     "secondary_language",
     *INHERITABLE_COMPONENT_FLAGS,
 )
-CATEGORY_INHERITABLE_BACKUP_FIELDS = (
+CATEGORY_BACKUP_FIELDS = (
     "check_flags",
     *INHERITABLE_COMPONENT_SETTINGS,
     *INHERITABLE_COMPONENT_FLAGS,
@@ -198,7 +211,9 @@ class ProjectBackup:
         self.memory_loaded = False
         self.category_paths: set[str] = set()
         self.component_full_slugs: set[str] = set()
+        self.component_slugs_by_length: list[str] = []
         self.component_repo_links: set[str] = set()
+        self.component_vcs: dict[str, type[Repository] | None] = {}
         self.label_names: set[str] = set()
         self.name_siblings: set[tuple[str, str]] = set()
         self.path_siblings: set[tuple[str, str]] = set()
@@ -531,6 +546,13 @@ class ProjectBackup:
                 kwargs["secondary_language"]
             )
 
+    @staticmethod
+    def migrate_component_vcs_settings(component: dict[str, Any]) -> None:
+        """Convert version control settings used by older component backups."""
+        if component["vcs"] == "git-force-push":
+            component["vcs"] = "git"
+            component.setdefault("vcs_params", {})["git_force_push"] = True
+
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
         """Backup a many to many relation using a unique identifying field of the related object."""
         return list(getattr(obj, relation).values_list(field, flat=True))
@@ -623,7 +645,7 @@ class ProjectBackup:
             categories = obj.category_set.all()
         category_fields = self.extend_fields(
             self.project_schema["definitions"]["category"]["required"],
-            *CATEGORY_INHERITABLE_BACKUP_FIELDS,
+            *CATEGORY_BACKUP_FIELDS,
         )
         return [
             self.backup_object(
@@ -638,9 +660,7 @@ class ProjectBackup:
         self.project = project
         project_fields = self.extend_fields(
             self.project_schema["properties"]["project"]["required"],
-            "use_workspace_tm",
-            "contribute_workspace_tm",
-            *PROJECT_INHERITABLE_BACKUP_FIELDS,
+            *PROJECT_BACKUP_FIELDS,
         )
         project_extras: dict[str, Callable[[Project], object]] = {
             field: partial(Project.get_effective_setting, field=field)
@@ -716,7 +736,7 @@ class ProjectBackup:
     def backup_component(self, backupzip: ZipFile, component: Component) -> None:
         component_fields = self.extend_fields(
             self.component_schema["properties"]["component"]["required"],
-            *COMPONENT_INHERITABLE_BACKUP_FIELDS,
+            *COMPONENT_BACKUP_FIELDS,
         )
         data: dict = {
             "component": self.backup_object(
@@ -949,35 +969,53 @@ class ProjectBackup:
             if name.startswith(self.COMPONENTS_PREFIX) and name.endswith(".json")
         ]
 
-    @staticmethod
-    def is_unsafe_vcs_path(path: str) -> bool:
-        normalized = path.replace("\\", "/")
-        casefolded = normalized.casefold()
-        parts = PurePosixPath(casefolded).parts
-        filename = parts[-1] if parts else ""
-        # Mercurial reads hgrc variants and can redirect configuration lookup
-        # through sharedpath.
-        unsafe_mercurial_path = (
-            len(parts) > 1
-            and parts[-2] == ".hg"
-            and (filename.startswith("hgrc") or filename == "sharedpath")
+    @classmethod
+    def is_safe_vcs_path(cls, path: str, vcs: str | type[Repository] | None) -> bool:
+        normalized = path.replace("\\", "/").casefold()
+        parts = PurePosixPath(normalized).parts
+        repository_classes = VCS_REGISTRY.get_unfiltered_data()
+        metadata_dirs = {
+            repository_class.metadata_dir_name.casefold()
+            for repository_class in repository_classes.values()
+            if repository_class.metadata_dir_name is not None
+        }
+        if not isinstance(vcs, str) and vcs is not None and vcs.metadata_dir_name:
+            metadata_dirs.add(vcs.metadata_dir_name.casefold())
+        metadata_positions = [
+            index for index, part in enumerate(parts) if part in metadata_dirs
+        ]
+        if not metadata_positions:
+            return True
+        if len(metadata_positions) != 1 or metadata_positions[0] != 0:
+            return False
+
+        repository_class = repository_classes.get(vcs) if isinstance(vcs, str) else vcs
+        if (
+            repository_class is None
+            or repository_class.metadata_dir_name is None
+            or parts[0] != repository_class.metadata_dir_name.casefold()
+        ):
+            return False
+        return repository_class.is_safe_backup_metadata_path(parts[1:])
+
+    def get_vcs_component(self, path: str) -> str | None:
+        return next(
+            (
+                slug
+                for slug in self.component_slugs_by_length
+                if path == slug or path.startswith(f"{slug}/")
+            ),
+            None,
         )
-        return (
-            unsafe_mercurial_path
-            or casefolded.endswith(
-                (
-                    "/.git",
-                    "/.git/config",
-                    "/.git/config.worktree",
-                    "/.git/hooks",
-                    "/.git/modules",
-                )
-            )
-            # Hooks are executable content; Gerrit's commit-msg hook is recreated
-            # by git-review when needed.
-            or "/.git/hooks/" in casefolded
-            or "/.git/modules/" in casefolded
-        )
+
+    def finalize_restored_repositories(self, project_path: Path) -> None:
+        """Recreate derived repository state excluded from the backup."""
+        for component, repository_class in self.component_vcs.items():
+            if component in self.component_repo_links or repository_class is None:
+                continue
+            repository = repository_class(str(project_path / component), local=True)
+            with repository.lock:
+                repository.finalize_backup_restore()
 
     @classmethod
     def get_limit(cls, setting_name: str, default: int) -> int:
@@ -1144,6 +1182,9 @@ class ProjectBackup:
         if full_slug in self.component_full_slugs:
             raise ValidationError({filename: [gettext("Duplicate component slug.")]})
         self.component_full_slugs.add(full_slug)
+        self.component_vcs[full_slug] = VCS_REGISTRY.get_unfiltered_data().get(
+            component["vcs"]
+        )
         if component["repo"].startswith("weblate:"):
             self.component_repo_links.add(full_slug)
 
@@ -1420,19 +1461,11 @@ class ProjectBackup:
 
     def validate_vcs_component_paths(self, zipfile: ZipFile) -> None:
         """Ensure every restored repository member belongs to a local component."""
-        components = sorted(self.component_full_slugs, key=len, reverse=True)
         for info in zipfile.infolist():
             if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
                 continue
             path = info.filename[self.VCS_PREFIX_LEN :]
-            component = next(
-                (
-                    slug
-                    for slug in components
-                    if path == slug or path.startswith(f"{slug}/")
-                ),
-                None,
-            )
+            component = self.get_vcs_component(path)
             if component is None:
                 raise ValidationError(
                     {
@@ -1494,6 +1527,7 @@ class ProjectBackup:
             with zipfile.open(filename) as handle:
                 data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
+            self.migrate_component_vcs_settings(data["component"])
             self.validate_component_object(zipfile, filename, data)
             self.component_data[filename] = data
         if skip_linked and data["component"]["repo"].startswith("weblate:"):
@@ -1619,7 +1653,9 @@ class ProjectBackup:
         self.memory_data.clear()
         self.memory_loaded = False
         self.component_full_slugs = set()
+        self.component_slugs_by_length = []
         self.component_repo_links = set()
+        self.component_vcs = {}
         self.category_paths = set()
         self.path_siblings = set()
         self.name_siblings = set()
@@ -1633,6 +1669,9 @@ class ProjectBackup:
         )
         self.load_memory(zipfile)
         self.load_components(zipfile)
+        self.component_slugs_by_length = sorted(
+            self.component_full_slugs, key=len, reverse=True
+        )
         self.validate_vcs_component_paths(zipfile)
         self.validate_team_references(validate_roles=validate_roles)
 
@@ -2391,7 +2430,13 @@ class ProjectBackup:
             if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
                 return True
             path = info.filename[self.VCS_PREFIX_LEN :]
-            return path != os.path.normpath(path) or self.is_unsafe_vcs_path(path)
+            component = self.get_vcs_component(path)
+            if component is None:
+                return True
+            repository_path = path.removeprefix(component).lstrip("/")
+            return path != os.path.normpath(path) or not self.is_safe_vcs_path(
+                repository_path, self.component_vcs[component]
+            )
 
         def vcs_member_name(info: ZipInfo) -> str:
             return info.filename[self.VCS_PREFIX_LEN :]
@@ -2406,6 +2451,8 @@ class ProjectBackup:
             if vcs_member_name(info).endswith(".git/packed-refs"):
                 git_refs_dir = targetpath.parent / "refs"
                 git_refs_dir.mkdir(parents=True, exist_ok=True)
+
+        self.finalize_restored_repositories(project_path)
 
         self.load_components(
             zipfile,

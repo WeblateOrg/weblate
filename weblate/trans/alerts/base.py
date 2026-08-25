@@ -70,6 +70,10 @@ class BaseAlert:
             return cls.get_doc_url(component, user)
         return get_doc_url(cls.doc_page, cls.doc_anchor, user=user)
 
+    def get_instance_documentation_url(self, user: User | None = None) -> str:
+        """Return documentation matching this alert instance."""
+        return self.get_documentation_url(self.instance.component, user)
+
     @classmethod
     def is_relevant(cls, component) -> bool:  # ruff: ignore[unused-class-method-argument]
         return True

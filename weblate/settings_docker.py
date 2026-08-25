@@ -773,6 +773,10 @@ VCS_API_TIMEOUT = get_env_int(
 VCS_ALLOW_HOSTS = set(
     get_env_list("WEBLATE_VCS_ALLOW_HOSTS", list(vcs_defaults.DEFAULT_VCS_ALLOW_HOSTS))
 )
+VCS_PRIVATE_ALLOWLIST = get_env_list(
+    "WEBLATE_VCS_PRIVATE_ALLOWLIST",
+    list(vcs_defaults.DEFAULT_VCS_PRIVATE_ALLOWLIST),
+)
 VCS_ALLOW_SCHEMES = set(
     get_env_list(
         "WEBLATE_VCS_ALLOW_SCHEMES", list(vcs_defaults.DEFAULT_VCS_ALLOW_SCHEMES)

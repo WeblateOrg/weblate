@@ -14,6 +14,7 @@ from typing import IO, TYPE_CHECKING, Any, ClassVar, cast, overload
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
+from django.utils.http import content_disposition_header
 from django.utils.translation import gettext
 from pyparsing import ParseException
 from translate.misc.multistring import multistring
@@ -1267,7 +1268,9 @@ class BaseExporter:
         filename = self.get_filename(filetemplate)
 
         response = HttpResponse(content_type=f"{self.content_type}; charset=utf-8")
-        response["Content-Disposition"] = f"attachment; filename={filename}"
+        response["Content-Disposition"] = content_disposition_header(
+            as_attachment=True, filename=filename
+        )
 
         # Save to response
         response.write(self.serialize())
