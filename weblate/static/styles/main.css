@@ -351,6 +351,10 @@ textarea.highlight-editor {
   position: relative;
 }
 
+.space-tab {
+  min-width: 1em;
+}
+
 .space-tab::before {
   content: "→";
   position: absolute;
@@ -365,6 +369,13 @@ textarea.highlight-editor {
 
 .space-space::before {
   content: "·";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-nbsp::before {
+  content: "°";
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
