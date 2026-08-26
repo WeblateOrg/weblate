@@ -417,6 +417,7 @@ linkcheck_ignore = [
     "https://glosbe.com/",
     "https://www.gwtproject.org/",
     # These seems to block bots/GitHub
+    "https://docs.gitea.com/",
     "https://docs.github.com/",
     "https://translate.yandex.com/",
     "https://www.gnu.org/",
