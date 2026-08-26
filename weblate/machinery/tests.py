@@ -9130,12 +9130,10 @@ class MachineryErrorTest(TestCase):
         """Source text embedded in URL path segments (e.g. TMServer) is not persisted."""
         machine = self.get_machine()
         source_text = "Hello, this is secret source text!"
-        request = httpx2.Request(
-            "GET",
-            f"http://tmserver/tmserver/en/cs/unit/{source_text.encode().hex()}",
-        )
+        path_url = f"http://tmserver/tmserver/en/cs/unit/{source_text.encode().hex()}"
+        request = httpx2.Request("GET", path_url)
         exc = HTTPError(
-            "404 Not Found",
+            f"404 Client Error: Not Found for url: {path_url}",
             request=request,
             response=httpx2.Response(404, request=request),
         )
