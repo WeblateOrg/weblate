@@ -1204,10 +1204,19 @@ Projects
     :param project: Project URL slug
     :type project: string
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``, ``file-scan``
-    :>json boolean result: result of the operation
+    :<json boolean background: Schedule the operation as a background task instead of waiting for it to finish. Defaults to ``false``.
+    :>json boolean result: result of a synchronous operation
     :>json array included_components: full paths of project components included in the operation
     :>json array skipped_components: full paths of project components omitted from the operation
     :>json array permission_blockers: full paths of components preventing access to omitted repositories
+    :>json string detail: Status of a background operation
+    :>json string task_url: URL for tracking a background operation; see :http:get:`/api/tasks/(str:uuid)/`
+
+    With ``background`` set to ``true``, the endpoint returns ``202 Accepted``.
+    Repeating an identical queued operation returns the existing task URL. A
+    conflicting operation returns ``423 Locked`` and the active task URL when
+    available. Eligible project repositories are processed sequentially in one
+    task.
 
     **CURL example:**
 
@@ -1249,6 +1258,33 @@ Projects
             "permission_blockers": ["shared/glossary"],
             "result": true,
             "skipped_components": ["hello/glossary"]
+        }
+
+    **Background JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/projects/hello/repository/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+
+        {"operation":"pull","background":true}
+
+    **Background JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 202 Accepted
+        Content-Type: application/json
+
+        {
+            "detail": "Repository operation has been queued.",
+            "included_components": ["hello/app"],
+            "permission_blockers": ["shared/glossary"],
+            "skipped_components": ["hello/glossary"],
+            "task_url": "https://example.com/api/tasks/01234567-89ab-cdef-0123-456789abcdef/"
         }
 
 
@@ -3384,6 +3420,13 @@ Tasks
     :>json int progress: Task progress in percent
     :>json object result: Task result or progress details
     :>json string log: Task log
+    :>json boolean cancellable: Whether the task can be cancelled
+
+.. http:delete:: /api/tasks/(str:uuid)/
+
+    Cancels a running task when its ``cancellable`` property is ``true``.
+    Repository operation tasks cannot be cancelled because interruption can
+    leave a repository operation incomplete.
 
 .. _api-statistics:
 

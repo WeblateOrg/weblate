@@ -14,7 +14,6 @@ from urllib.parse import unquote
 
 from celery.result import AsyncResult
 from django.conf import settings
-from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import (
@@ -58,6 +57,7 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
     HTTP_403_FORBIDDEN,
+    HTTP_409_CONFLICT,
     HTTP_423_LOCKED,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
@@ -85,6 +85,7 @@ from weblate.api.serializers import (
     ComponentListSerializer,
     ComponentSerializer,
     ComponentTranslationSerializer,
+    ErrorResponse423Serializer,
     FullUserSerializer,
     GroupSerializer,
     LabelSerializer,
@@ -177,6 +178,14 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
 from weblate.trans.models.translation import Translation, TranslationQuerySet
+from weblate.trans.repository import (
+    RepositoryOperation,
+    RepositoryOperationConflictError,
+    can_access_repository_operation_task,
+    get_repository_components,
+    queue_repository_operation,
+    reserve_repository_operation,
+)
 from weblate.trans.tasks import (
     category_removal,
     component_removal,
@@ -195,6 +204,7 @@ from weblate.utils.celery import (
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.messages import store_task_completion_message
 from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.similarity import Comparer
 from weblate.utils.state import (
@@ -516,6 +526,16 @@ REPO_OPERATIONS: dict[str, tuple[str, str, tuple, dict, bool]] = {
     "file-scan": ("vcs.reset", "do_file_scan", (), {}, True),
 }
 
+REPOSITORY_OPERATION_RESPONSES = {
+    HTTP_200_OK: RepositoryOperationSerializer,
+    HTTP_202_ACCEPTED: RepositoryOperationSerializer,
+    HTTP_423_LOCKED: PolymorphicProxySerializer(
+        component_name="RepositoryOperationConflict",
+        serializers=[RepositoryOperationSerializer, ErrorResponse423Serializer],
+        resource_type_field_name=None,
+    ),
+}
+
 DOC_TEXT = """
 <p>See <a href="{0}">the Weblate's Web API documentation</a> for detailed
 description of the API.</p>
@@ -695,7 +715,6 @@ class WeblateViewSet(DownloadViewSet):
             ],
         }
 
-    @transaction.atomic
     def repository_operation(self, request: Request, obj, operation: str):
         permission, method, args, kwargs, takes_request = REPO_OPERATIONS[operation]
         user = get_request_user(request)
@@ -704,22 +723,120 @@ class WeblateViewSet(DownloadViewSet):
             raise PermissionDenied
 
         selection = None
+        repository_components = None
         if isinstance(obj, Project):
             selection = get_project_repository_selection(user, obj, (permission,))
             if not selection.repositories:
                 raise PermissionDenied
-            kwargs = {**kwargs, "repo_components": selection.repositories}
+            repository_components = selection.repositories
+            kwargs = {**kwargs, "repo_components": repository_components}
+
+        repositories, _display_components = get_repository_components(
+            obj, repository_components
+        )
 
         obj.acting_user = user
-
-        if takes_request:
-            result = getattr(obj, method)(*args, request, **kwargs)
-        else:
-            result = getattr(obj, method)(*args, user, **kwargs)
+        with (
+            reserve_repository_operation(
+                [component.pk for component in repositories],
+                cast("RepositoryOperation", operation),
+            ) as release_reservation,
+            transaction.atomic(),
+        ):
+            # Register this before repository operations add their follow-ups.
+            # Django runs on-commit callbacks in registration order, so the
+            # reservation covers the commit but not the follow-up tasks.
+            transaction.on_commit(release_reservation)
+            if takes_request:
+                result = getattr(obj, method)(*args, request, **kwargs)
+            else:
+                result = getattr(obj, method)(*args, user, **kwargs)
         data = {"result": result}
         if selection is not None:
             data.update(self.get_repository_scope_data(user, selection))
         return data
+
+    @staticmethod
+    def repository_operation_conflict_response(
+        request: Request,
+        user: User,
+        error: RepositoryOperationConflictError,
+        scope_data: dict,
+    ) -> Response:
+        data = {
+            "detail": "Another repository operation is already in progress.",
+            **scope_data,
+        }
+        if error.task_id and can_access_repository_operation_task(user, error.task_id):
+            data["task_url"] = reverse(
+                "api:task-detail",
+                kwargs={"pk": error.task_id},
+                request=request,
+            )
+        return Response(data, status=HTTP_423_LOCKED)
+
+    def queue_repository_operation(
+        self,
+        request: Request,
+        obj: Project | Component | Translation,
+        operation: RepositoryOperation,
+    ) -> Response:
+        permission = REPO_OPERATIONS[operation][0]
+        user = get_request_user(request)
+        if not user.has_perm(permission, obj):
+            raise PermissionDenied
+        if (
+            operation == "commit"
+            and isinstance(obj, Translation)
+            and not obj.needs_commit()
+        ):
+            return Response({"result": False})
+
+        selection = None
+        repository_components = None
+        if isinstance(obj, Project):
+            selection = get_project_repository_selection(user, obj, (permission,))
+            if not selection.repositories:
+                raise PermissionDenied
+            repository_components = selection.repositories
+
+        scope_data = (
+            self.get_repository_scope_data(user, selection)
+            if selection is not None
+            else {}
+        )
+        try:
+            queued = queue_repository_operation(
+                obj,
+                operation,
+                user,
+                repository_components=repository_components,
+            )
+        except RepositoryOperationConflictError as error:
+            return self.repository_operation_conflict_response(
+                request, user, error, scope_data
+            )
+
+        if queued.successful is not None:
+            return Response({"result": queued.successful, **scope_data})
+
+        detail = (
+            "This repository operation is already queued."
+            if queued.reused
+            else "Repository operation has been queued."
+        )
+        return Response(
+            {
+                "detail": detail,
+                "task_url": reverse(
+                    "api:task-detail",
+                    kwargs={"pk": queued.task_id},
+                    request=request,
+                ),
+                **scope_data,
+            },
+            status=HTTP_202_ACCEPTED,
+        )
 
     @extend_schema(
         description="Return information about VCS repository status.",
@@ -729,7 +846,7 @@ class WeblateViewSet(DownloadViewSet):
     @extend_schema(
         description="Perform given operation on the VCS repository.",
         methods=["post"],
-        responses=RepositoryOperationSerializer,
+        responses=REPOSITORY_OPERATION_RESPONSES,
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
@@ -740,10 +857,25 @@ class WeblateViewSet(DownloadViewSet):
         if request.method == "POST":
             request_serializer = RepoRequestSerializer(data=request.data)
             request_serializer.is_valid(raise_exception=True)
+            operation = request_serializer.validated_data["operation"]
 
-            data = self.repository_operation(
-                request, obj, request_serializer.validated_data["operation"]
-            )
+            if request_serializer.validated_data["background"]:
+                return self.queue_repository_operation(request, obj, operation)
+
+            try:
+                data = self.repository_operation(request, obj, operation)
+            except RepositoryOperationConflictError as error:
+                user = get_request_user(request)
+                scope_data = {}
+                if isinstance(obj, Project):
+                    permission = REPO_OPERATIONS[operation][0]
+                    selection = get_project_repository_selection(
+                        user, obj, (permission,)
+                    )
+                    scope_data = self.get_repository_scope_data(user, selection)
+                return self.repository_operation_conflict_response(
+                    request, user, error, scope_data
+                )
 
             storage = get_messages(request)
             if storage:
@@ -2046,7 +2178,7 @@ class ProjectViewSet(
     @extend_schema(
         description="Perform given operation on the VCS repository.",
         methods=["post"],
-        responses=RepositoryOperationSerializer,
+        responses=REPOSITORY_OPERATION_RESPONSES,
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
@@ -2799,7 +2931,7 @@ class ComponentViewSet(
     @extend_schema(
         description="Perform given operation on the VCS repository.",
         methods=["post"],
-        responses=RepositoryOperationSerializer,
+        responses=REPOSITORY_OPERATION_RESPONSES,
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
@@ -3462,7 +3594,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     @extend_schema(
         description="Perform given operation on the VCS repository.",
         methods=["post"],
-        responses=RepositoryOperationSerializer,
+        responses=REPOSITORY_OPERATION_RESPONSES,
     )
     @action(
         detail=True, methods=["get", "post"], serializer_class=RepoRequestSerializer
@@ -4962,7 +5094,7 @@ class TasksViewSet(ViewSet):
 
     def get_task(
         self, request, pk, permission: str | None = None
-    ) -> tuple[AsyncResult, Component | None]:
+    ) -> tuple[AsyncResult, Component | None, dict]:
         obj: Model
         component: Component | None
         user = cast("User", request.user)
@@ -4974,6 +5106,30 @@ class TasksViewSet(ViewSet):
             )
             obj = translation
             component = translation.component
+        elif component_ids := metadata.get("component_ids"):
+            unique_component_ids = set(component_ids)
+            existing_component_ids = set(
+                Component.objects.filter(pk__in=unique_component_ids).values_list(
+                    "pk", flat=True
+                )
+            )
+            components = list(
+                Component.objects.filter_access(user)
+                .filter(pk__in=existing_component_ids)
+                .order_by("pk")
+            )
+            if len(components) != len(existing_component_ids) or (
+                existing_component_ids != unique_component_ids
+                and metadata.get("user_id") != user.pk
+            ):
+                msg = "Invalid task"
+                raise Http404(msg)
+            if components:
+                component = components[0]
+                obj = component
+            else:
+                component = None
+                obj = user
         elif component_id := metadata.get("component_id"):
             component = get_object_or_404(
                 Component.objects.filter_access(user), pk=component_id
@@ -4998,34 +5154,7 @@ class TasksViewSet(ViewSet):
         elif component is not None and not user.can_access_component(component):
             raise PermissionDenied
 
-        return task, component
-
-    @staticmethod
-    def store_completion_message(request: Request, task: AsyncResult) -> None:
-        """Store an explicitly opted-in task completion message in the session."""
-        result = task.result
-        if not isinstance(result, dict):
-            return
-
-        completion_message = result.get("completion_message")
-        if not isinstance(completion_message, dict):
-            return
-
-        text = completion_message.get("text")
-        if not text:
-            return
-
-        session_key = f"task-completion-message-{task.id}"
-        if request.session.get(session_key):
-            return
-
-        level = {
-            "error": messages.ERROR,
-            "info": messages.INFO,
-            "warning": messages.WARNING,
-        }.get(completion_message.get("level"), messages.SUCCESS)
-        messages.add_message(request, level, str(text))
-        request.session[session_key] = True
+        return task, component, metadata
 
     @extend_schema(
         description="Return information about a task",
@@ -5033,16 +5162,17 @@ class TasksViewSet(ViewSet):
         responses=TaskSerializer,
     )
     def retrieve(self, request: Request, pk=None):
-        task, _component = self.get_task(request, pk)
+        task, component, metadata = self.get_task(request, pk)
         result = task.result
         if task.ready():
-            self.store_completion_message(request, task)
+            store_task_completion_message(request, task)
         serializer = self.serializer_class(
             {
                 "completed": task.ready(),
                 "progress": get_task_progress(task),
                 "result": str(result) if isinstance(result, Exception) else result,
                 "log": "\n".join(cache.get(f"task-log-{task.id}", [])),
+                "cancellable": metadata.get("cancellable", component is not None),
             }
         )
         return Response(serializer.data)
@@ -5056,10 +5186,18 @@ class TasksViewSet(ViewSet):
                 response=ErrorResponse403Serializer,
                 description="The authenticated user does not have permission for this operation.",
             ),
+            HTTP_409_CONFLICT: OpenApiResponse(
+                description="This task cannot be cancelled.",
+            ),
         },
     )
     def destroy(self, request: Request, pk=None):
-        task, component = self.get_task(request, pk, "component.edit")
+        task, component, metadata = self.get_task(request, pk, "component.edit")
+        if not metadata.get("cancellable", True):
+            return Response(
+                {"detail": "This task cannot be cancelled."},
+                status=HTTP_409_CONFLICT,
+            )
         if not task.ready() and component is not None:
             task.revoke(terminate=True)
             # Unlink task from component

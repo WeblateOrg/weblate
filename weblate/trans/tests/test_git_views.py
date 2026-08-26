@@ -4,18 +4,37 @@
 
 """Test for Git manipulation views."""
 
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from django.contrib.messages import get_messages
+from django.core.cache import cache
 from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Permission, Role, TeamMembership
 from weblate.lang.models import Language
-from weblate.trans.models import Component, PendingUnitChange, Project
+from weblate.trans.models import Component, PendingUnitChange, Project, Translation
+from weblate.trans.repository import (
+    RepositoryOperationConflictError,
+    acquire_repository_operation,
+    get_repository_operation_key,
+    get_repository_operation_published_key,
+    get_repository_operation_scope_key,
+    get_repository_operation_update_key,
+    keep_repository_operation_reservation,
+    queue_repository_operation,
+    refresh_repository_operation,
+    release_repository_operation,
+    store_repository_operation_tracking,
+)
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_optional_path
+from weblate.utils.celery import (
+    delete_task_metadata,
+    get_task_metadata,
+    get_task_metadata_key,
+)
 
 
 class GitNoChangeProjectTest(ViewTestCase):
@@ -42,26 +61,39 @@ class GitNoChangeProjectTest(ViewTestCase):
         obj = getattr(self, self.TEST_TYPE)
         return f"{reverse('show_progress', kwargs={'path': obj.get_url_path()})}?info=1"
 
+    def assert_progress_redirect(self, response) -> None:
+        self.assertRedirects(
+            response,
+            self.get_expected_redirect_progress(),
+            # Eager execution can finish before the progress page is retrieved.
+            fetch_redirect_response=False,
+        )
+
     def test_commit(self) -> None:
+        has_changes = self.TEST_TYPE != "translation" or self.translation.needs_commit()
         response = self.client.post(self.get_test_url("commit"))
-        self.assertRedirects(response, self.get_expected_redirect())
+        if has_changes:
+            self.assert_progress_redirect(response)
+        else:
+            self.assertRedirects(response, self.get_expected_redirect())
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
     def test_commit_queues_background_task(self) -> None:
-        with patch.object(
-            Component, "queue_commit_pending", autospec=True
-        ) as queue_commit:
+        with patch(
+            "weblate.trans.tasks.perform_repository_operation.apply_async"
+        ) as queue_operation:
             response = self.client.post(self.get_test_url("commit"))
 
-        self.assertRedirects(response, self.get_expected_redirect())
         if self.TEST_TYPE == "translation" and not self.translation.needs_commit():
-            queue_commit.assert_not_called()
+            self.assertRedirects(response, self.get_expected_redirect())
+            queue_operation.assert_not_called()
             self.assertEqual(list(get_messages(response.wsgi_request)), [])
         else:
-            self.assertGreaterEqual(queue_commit.call_count, 1)
-            for call in queue_commit.call_args_list:
-                self.assertEqual(call.args[1], "commit")
-                self.assertEqual(call.kwargs, {"user_id": self.user.id})
+            self.assert_progress_redirect(response)
+            queue_operation.assert_called_once()
+            self.assertEqual(
+                queue_operation.call_args.kwargs["kwargs"]["operation"], "commit"
+            )
 
     def test_update(self) -> None:
         response = self.client.post(self.get_test_url("update"))
@@ -75,9 +107,24 @@ class GitNoChangeProjectTest(ViewTestCase):
             fetch_redirect_response=False,
         )
 
+    def test_conflict_does_not_redirect_to_inaccessible_task(self) -> None:
+        with (
+            patch(
+                "weblate.trans.views.git.queue_repository_operation",
+                side_effect=RepositoryOperationConflictError("task-id"),
+            ),
+            patch(
+                "weblate.trans.views.git.can_access_repository_operation_task",
+                return_value=False,
+            ),
+        ):
+            response = self.client.post(self.get_test_url("update"))
+
+        self.assertRedirects(response, self.get_expected_redirect())
+
     def test_push(self) -> None:
         response = self.client.post(self.get_test_url("push"))
-        self.assertRedirects(response, self.get_expected_redirect())
+        self.assert_progress_redirect(response)
 
     def test_get_push_redirects_to_repository_status(self) -> None:
         response = self.client.get(self.get_test_url("push"))
@@ -130,11 +177,11 @@ class GitNoChangeProjectTest(ViewTestCase):
 
     def test_cleanup(self) -> None:
         response = self.client.post(self.get_test_url("cleanup"))
-        self.assertRedirects(response, self.get_expected_redirect())
+        self.assert_progress_redirect(response)
 
     def test_file_sync(self) -> None:
         response = self.client.post(self.get_test_url("file_sync"))
-        self.assertRedirects(response, self.get_expected_redirect())
+        self.assert_progress_redirect(response)
 
     def test_file_scan(self) -> None:
         response = self.client.post(self.get_test_url("file_scan"))
@@ -383,6 +430,417 @@ class RepositoryPermissionScopeTest(ViewTestCase):
         self.assertContains(response, "Some repositories are not accessible")
         self.assertContains(response, self.component.full_slug)
         self.assertNotContains(response, linked.full_slug)
+
+
+class RepositoryOperationQueueTest(ViewTestCase):
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_task_tracking_excludes_inaccessible_linked_components(self) -> None:
+        self.user.groups.clear()
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Hidden linked component",
+            slug="hidden-linked-component",
+            project=other_project,
+        )
+        linked.restricted = True
+        linked.save(update_fields=["restricted"])
+        group = Group.objects.create(
+            name="Visible repository scope", language_selection=SELECTION_ALL
+        )
+        group.projects.add(self.project)
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(self.component))
+        self.assertFalse(self.user.can_access_component(linked))
+
+        with patch("weblate.trans.tasks.perform_repository_operation.apply_async"):
+            queued = queue_repository_operation(self.component, "pull", self.user)
+
+        self.addCleanup(
+            release_repository_operation, [self.component.pk], queued.task_id
+        )
+        self.addCleanup(delete_task_metadata, queued.task_id)
+        self.addCleanup(
+            cache.delete_many,
+            [
+                get_repository_operation_update_key(self.component.pk),
+                get_repository_operation_update_key(linked.pk),
+            ],
+        )
+        metadata = get_task_metadata(queued.task_id)
+
+        self.assertIsNotNone(metadata)
+        self.assertEqual(metadata["component_ids"], [self.component.pk])
+        self.assertEqual(
+            cache.get(get_repository_operation_update_key(self.component.pk)),
+            queued.task_id,
+        )
+        self.assertIsNone(cache.get(get_repository_operation_update_key(linked.pk)))
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_progress_hides_aggregated_task_from_partial_viewer(self) -> None:
+        hidden = self.create_po(project=self.project, name="Hidden")
+        hidden.restricted = True
+        hidden.save(update_fields=["restricted"])
+        owner_group = Group.objects.create(
+            name="Hidden component access", language_selection=SELECTION_ALL
+        )
+        owner_group.components.add(hidden)
+        self.user.groups.add(owner_group)
+        self.user.clear_permissions_cache()
+        self.anotheruser.groups.add(Group.objects.get(name="Users"))
+        self.anotheruser.clear_permissions_cache()
+        self.assertTrue(self.user.can_access_component(hidden))
+        self.assertTrue(self.anotheruser.can_access_component(self.component))
+        self.assertFalse(self.anotheruser.can_access_component(hidden))
+
+        task_id = "aggregated-task-id"
+        component_ids = [self.component.pk, hidden.pk]
+        store_repository_operation_tracking(
+            task_id,
+            component_ids,
+            self.user.pk,
+            authorization_component_ids=component_ids,
+        )
+        self.addCleanup(delete_task_metadata, task_id)
+        self.addCleanup(
+            cache.delete_many,
+            [
+                get_repository_operation_update_key(component_id)
+                for component_id in component_ids
+            ],
+        )
+        progress_url = reverse(
+            "show_progress", kwargs={"path": self.component.get_url_path()}
+        )
+        pending_task = Mock(id=task_id)
+        pending_task.ready.return_value = False
+
+        with (
+            patch(
+                "weblate.trans.models.component.AsyncResult",
+                return_value=pending_task,
+            ),
+            patch.object(Component, "get_progress", return_value=(10, ["Owner log"])),
+        ):
+            owner_response = self.client.get(progress_url)
+
+        self.assertContains(owner_response, "Owner log")
+        self.client.force_login(self.anotheruser)
+
+        with (
+            patch.object(
+                Component,
+                "get_progress",
+                side_effect=AssertionError("Unauthorized task log was read"),
+            ),
+        ):
+            response = self.client.get(progress_url)
+            project_response = self.client.get(
+                reverse("show_progress", kwargs={"path": self.project.get_url_path()})
+            )
+
+        self.assertEqual(response.status_code, 404)
+        self.assertRedirects(
+            project_response,
+            self.project.get_absolute_url(),
+            fetch_redirect_response=False,
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_progress_stores_completed_repository_message(self) -> None:
+        task_id = "completed-task-id"
+        component_ids = [self.component.pk]
+        store_repository_operation_tracking(
+            task_id,
+            component_ids,
+            self.user.pk,
+            authorization_component_ids=component_ids,
+        )
+        self.addCleanup(delete_task_metadata, task_id)
+        self.addCleanup(
+            cache.delete, get_repository_operation_update_key(self.component.pk)
+        )
+
+        class CompletedTask:
+            def __init__(self, result_task_id: str) -> None:
+                self.id = result_task_id
+                self.result = {
+                    "result": False,
+                    "completion_message": {
+                        "level": "error",
+                        "text": "Repository operation failed.",
+                    },
+                }
+
+            def ready(self) -> bool:
+                return True
+
+        with patch("weblate.trans.models.component.AsyncResult", CompletedTask):
+            response = self.client.get(
+                reverse("show_progress", kwargs={"path": self.component.get_url_path()})
+            )
+
+        self.assertRedirects(
+            response,
+            f"{self.component.get_absolute_url()}#alerts",
+            fetch_redirect_response=False,
+        )
+        stored_messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(stored_messages), 1)
+        self.assertEqual(stored_messages[0].message, "Repository operation failed.")
+        self.assertTrue(
+            response.wsgi_request.session[f"task-completion-message-{task_id}"]
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_tracking_failure_releases_repository_reservation(self) -> None:
+        with (
+            patch("weblate.trans.repository.uuid", return_value="task-id"),
+            patch(
+                "weblate.trans.repository.store_repository_operation_tracking",
+                side_effect=RuntimeError("cache failure"),
+            ),
+            patch(
+                "weblate.trans.tasks.perform_repository_operation.apply_async"
+            ) as apply_async,
+            self.assertRaisesRegex(RuntimeError, "cache failure"),
+        ):
+            queue_repository_operation(self.component, "pull", self.user)
+
+        self.assertIsNone(cache.get(get_repository_operation_key(self.component.pk)))
+        self.assertIsNone(cache.get(get_repository_operation_scope_key("task-id")))
+        apply_async.assert_not_called()
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_operation_is_not_reused_before_publication(self) -> None:
+        def fail_publication(**kwargs):
+            with self.assertRaises(RepositoryOperationConflictError):
+                queue_repository_operation(self.component, "pull", self.user)
+            msg = "broker failure"
+            raise RuntimeError(msg)
+
+        with (
+            patch("weblate.trans.repository.uuid", return_value="task-id"),
+            patch(
+                "weblate.trans.tasks.perform_repository_operation.apply_async",
+                side_effect=fail_publication,
+            ),
+            self.assertRaisesRegex(RuntimeError, "broker failure"),
+        ):
+            queue_repository_operation(self.component, "pull", self.user)
+
+        self.assertIsNone(cache.get(get_repository_operation_key(self.component.pk)))
+        self.assertIsNone(cache.get(get_repository_operation_published_key("task-id")))
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_eager_repository_failure_is_reported(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+
+        with patch.object(Component, "do_update", return_value=False):
+            response = self.client.post(
+                reverse("update", kwargs={"path": self.project.get_url_path()})
+            )
+
+        self.assertRedirects(response, f"{self.project_url}#repository")
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(
+            messages[0].message,
+            "Repository operation completed with errors.",
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_project_progress_deduplicates_repository_task(self) -> None:
+        second = self.create_po(project=self.project, name="Second")
+        task_id = "task-id"
+        component_ids = [self.component.pk, second.pk]
+        store_repository_operation_tracking(
+            task_id,
+            component_ids,
+            self.user.pk,
+            authorization_component_ids=component_ids,
+        )
+        self.addCleanup(delete_task_metadata, task_id)
+        self.addCleanup(
+            cache.delete_many,
+            [
+                get_repository_operation_update_key(component_id)
+                for component_id in component_ids
+            ],
+        )
+
+        pending_task = Mock(id=task_id)
+        pending_task.ready.return_value = False
+        with patch(
+            "weblate.trans.models.component.AsyncResult", return_value=pending_task
+        ):
+            response = self.client.get(
+                reverse("show_progress", kwargs={"path": self.project.get_url_path()})
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context["components"]), 1)
+
+    def test_repository_progress_takes_precedence_over_normal_task(self) -> None:
+        repository_task_id = "repository-task-id"
+        normal_task_id = "normal-task-id"
+        repository_key = get_repository_operation_update_key(self.component.pk)
+        cache.set(repository_key, repository_task_id, 3600)
+        cache.set(self.component.update_key, normal_task_id, 3600)
+        self.addCleanup(cache.delete_many, [repository_key, self.component.update_key])
+
+        with patch("weblate.trans.models.component.AsyncResult") as async_result:
+            async_result.return_value.ready.return_value = False
+            self.assertEqual(self.component.background_task_id, repository_task_id)
+
+    def test_file_cleanup_respects_repository_reservation(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+        acquire_repository_operation([self.component.pk], "pull", "task-id")
+        self.addCleanup(release_repository_operation, [self.component.pk], "task-id")
+
+        with patch.object(
+            Translation, "do_remove_duplicate_units", autospec=True
+        ) as remove_duplicates:
+            response = self.client.post(
+                reverse(
+                    "remove_duplicate_units",
+                    kwargs={"path": self.translation.get_url_path()},
+                )
+            )
+
+        self.assertRedirects(response, f"{self.translation_url}#repository")
+        remove_duplicates.assert_not_called()
+        self.assertEqual(
+            next(iter(get_messages(response.wsgi_request))).message,
+            "Another repository operation is already in progress.",
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_reuses_identical_operation_and_rejects_conflict(self) -> None:
+        with patch(
+            "weblate.trans.tasks.perform_repository_operation.apply_async"
+        ) as apply_async:
+            first = queue_repository_operation(self.component, "pull", self.user)
+            self.addCleanup(
+                release_repository_operation, [self.component.pk], first.task_id
+            )
+            repeated = queue_repository_operation(self.component, "pull", self.user)
+
+            self.assertEqual(repeated.task_id, first.task_id)
+            self.assertTrue(repeated.reused)
+            apply_async.assert_called_once()
+            self.assertEqual(
+                cache.get(get_repository_operation_key(self.component.pk)),
+                {"operation": "pull", "task_id": first.task_id},
+            )
+            self.assertEqual(
+                cache.get(get_repository_operation_scope_key(first.task_id)),
+                [self.component.pk],
+            )
+            self.assertIs(
+                cache.get(get_repository_operation_published_key(first.task_id)), True
+            )
+
+            with self.assertRaises(RepositoryOperationConflictError) as raised:
+                queue_repository_operation(self.component, "push", self.user)
+
+        self.assertEqual(raised.exception.task_id, first.task_id)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_worker_reacquires_expired_reservation(self) -> None:
+        with patch("weblate.trans.tasks.perform_repository_operation.apply_async"):
+            queued = queue_repository_operation(self.component, "pull", self.user)
+
+        cache.delete(get_repository_operation_key(self.component.pk))
+        cache.delete(get_repository_operation_scope_key(queued.task_id))
+        acquire_repository_operation([self.component.pk], "pull", queued.task_id)
+        self.addCleanup(
+            release_repository_operation, [self.component.pk], queued.task_id
+        )
+
+        self.assertEqual(
+            cache.get(get_repository_operation_key(self.component.pk)),
+            {"operation": "pull", "task_id": queued.task_id},
+        )
+        self.assertEqual(
+            cache.get(get_repository_operation_scope_key(queued.task_id)),
+            [self.component.pk],
+        )
+
+    def test_reacquisition_conflict_releases_entire_owned_scope(self) -> None:
+        second = self.create_po(project=self.project, name="Second")
+        third = self.create_po(project=self.project, name="Third")
+        component_ids = [self.component.pk, second.pk, third.pk]
+        keys = [get_repository_operation_key(pk) for pk in component_ids]
+        self.addCleanup(cache.delete_many, keys)
+        reservation = {"operation": "pull", "task_id": "task-id"}
+        cache.set(keys[0], reservation)
+        cache.set(keys[1], {"operation": "push", "task_id": "other-task"})
+        cache.set(keys[2], reservation)
+
+        with self.assertRaises(RepositoryOperationConflictError):
+            acquire_repository_operation(component_ids, "pull", "task-id")
+
+        self.assertIsNone(cache.get(keys[0]))
+        self.assertEqual(
+            cache.get(keys[1]), {"operation": "push", "task_id": "other-task"}
+        )
+        self.assertIsNone(cache.get(keys[2]))
+
+    def test_heartbeat_refreshes_task_tracking(self) -> None:
+        task_id = "task-id"
+        component_ids = [self.component.pk]
+        acquire_repository_operation(component_ids, "pull", task_id)
+        store_repository_operation_tracking(task_id, component_ids, self.user.pk)
+        self.addCleanup(release_repository_operation, component_ids, task_id)
+
+        with patch.object(cache, "touch", wraps=cache.touch) as touch:
+            refresh_repository_operation(component_ids, task_id, component_ids)
+
+        touched_keys = {call.args[0] for call in touch.call_args_list}
+        self.assertIn(get_repository_operation_key(self.component.pk), touched_keys)
+        self.assertIn(get_repository_operation_scope_key(task_id), touched_keys)
+        self.assertIn(get_task_metadata_key(task_id), touched_keys)
+        self.assertIn(
+            get_repository_operation_update_key(self.component.pk), touched_keys
+        )
+
+    def test_reservation_heartbeat_refreshes_long_operations(self) -> None:
+        class ImmediateThread:
+            def __init__(self, *, target, **kwargs) -> None:
+                self.target = target
+
+            def start(self) -> None:
+                self.target()
+
+            def join(self, *, timeout) -> None:
+                return None
+
+        class ImmediateEvent:
+            def __init__(self) -> None:
+                self.wait_count = 0
+
+            def wait(self, timeout) -> bool:
+                self.wait_count += 1
+                return self.wait_count > 1
+
+            def set(self) -> None:
+                return None
+
+        with (
+            patch("weblate.trans.repository.Thread", ImmediateThread),
+            patch("weblate.trans.repository.Event", ImmediateEvent),
+            patch("weblate.trans.repository.refresh_repository_operation") as refresh,
+            keep_repository_operation_reservation(
+                [self.component.pk], "task-id", [self.component.pk]
+            ),
+        ):
+            pass
+
+        self.assertEqual(refresh.call_count, 2)
 
 
 class GitNoChangeComponentTest(GitNoChangeProjectTest):
