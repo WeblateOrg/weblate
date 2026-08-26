@@ -9,7 +9,7 @@ import logging
 import secrets
 import uuid
 from collections import defaultdict
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 from urllib.parse import urlencode
 
 from asgiref.sync import sync_to_async
@@ -24,11 +24,11 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.text import slugify
-from django.utils.translation import gettext
+from django.utils.translation import gettext, ngettext
 from django.views import View
 
 from weblate.auth.decorators import management_access, management_permission_required
-from weblate.trans.models import Category, Project
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.views.create import INTEGRATION_IMPORT_VCS_KEY, SESSION_CREATE_KEY
 from weblate.trans.views.hooks import apply_pending_github_installation_event
 from weblate.utils import messages
@@ -36,6 +36,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.site import get_site_url
 from weblate.vcs.forms import (
+    GitHubAppMigrationForm,
     GitHubAppRegisterCallbackForm,
     GitHubAppRegisterForm,
     GitHubAppSetupCallbackForm,
@@ -44,8 +45,10 @@ from weblate.vcs.forms import (
 from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
     GITHUB_APP_MANIFEST_PERMISSIONS,
+    GITHUB_APP_MIGRATABLE_VCS,
     GITHUB_APP_NAME_MAX_LENGTH,
     GitHubAppCredentials,
+    GithubAppRepository,
     GitHubInstallation,
     InstallationRemoval,
     aget_github_app_configurations,
@@ -57,14 +60,18 @@ from weblate.vcs.github import (
     get_github_app_install_url,
     get_github_app_manifest_new_url,
     get_github_app_settings,
+    get_github_repository_clone_url,
+    get_github_repository_identity,
     get_github_repository_import_url,
     get_user_admin_installation,
     github_app_is_configured,
     normalize_github_app_hostname,
     remove_github_installation,
 )
+from weblate.vcs.params import strip_unused_vcs_params
 from weblate.vcs.permissions import (
     github_app_installation_workspaces,
+    managed_workspaces,
     user_can_install_github_app_in_workspace,
 )
 from weblate.wladmin.views import MENU
@@ -82,12 +89,11 @@ _GITHUB_APP_REGISTER_SALT = "weblate.vcs.github.register"
 _GITHUB_APP_REGISTER_MAX_AGE = 60 * 60
 
 
-def _managed_workspaces(user):
-    """Return workspaces the user can manage."""
-    return (
-        Workspace.objects.filter(projects__in=user.managed_projects)
-        | user.workspaces_with_perm("workspace.edit")
-    ).distinct()
+class GitHubAppMigrationEntry(TypedDict):
+    component: Component
+    hostname: str
+    full_name: str
+    canonical_url: str
 
 
 def _installation_workspaces(user):
@@ -144,7 +150,7 @@ def _default_next_url(request, workspace: Workspace | None = None) -> str:
             f"{reverse('github-app-repositories')}?"
             f"{urlencode({'workspace': workspace.pk})}"
         )
-    if _managed_workspaces(request.user).exists():
+    if managed_workspaces(request.user).exists():
         return reverse("github-app-repositories")
     return reverse("manage-github-accounts")
 
@@ -156,7 +162,7 @@ async def _adefault_next_url(request, workspace: Workspace | None = None) -> str
             f"{urlencode({'workspace': workspace.pk})}"
         )
     await request.user.aprepare_permissions()
-    if await _managed_workspaces(request.user).aexists():
+    if await managed_workspaces(request.user).aexists():
         return reverse("github-app-repositories")
     return reverse("manage-github-accounts")
 
@@ -181,7 +187,7 @@ def _get_workspace(workspaces, workspace_id) -> Workspace:
 
 
 def _get_managed_workspace(user, workspace_id) -> Workspace:
-    return _get_workspace(_managed_workspaces(user), workspace_id)
+    return _get_workspace(managed_workspaces(user), workspace_id)
 
 
 async def _aget_installation_workspace(user, workspace_id) -> Workspace:
@@ -203,7 +209,7 @@ def _get_requested_workspace(request, workspaces) -> Workspace | None:
 
 
 def _get_managed_request_workspace(request) -> Workspace | None:
-    return _get_requested_workspace(request, _managed_workspaces(request.user))
+    return _get_requested_workspace(request, managed_workspaces(request.user))
 
 
 def _get_install_workspace(request) -> Workspace | None:
@@ -249,6 +255,88 @@ def _get_install_choices(next_url: str, workspace: Workspace) -> list[dict[str, 
             }
         )
     return result
+
+
+def _get_github_app_migration_repositories(
+    workspace: Workspace,
+) -> tuple[dict[tuple[str, str], str], list[GitHubInstallation], set[str]]:
+    """Return canonical repository URLs available to a workspace."""
+    configured_hosts = set(get_github_app_configurations())
+    installations = list(
+        GitHubInstallation.objects.filter(
+            enabled=True,
+            hostname__in=configured_hosts,
+            workspace=workspace,
+        ).order_by("hostname", "target_login", "pk")
+    )
+    repositories: dict[tuple[str, str], str] = {}
+    for installation in installations:
+        for repository in installation.repositories:
+            if repository.get("archived", False):
+                continue
+            clone_url = get_github_repository_clone_url(
+                installation.hostname, repository
+            )
+            full_name = repository.get("full_name")
+            if clone_url is None or not isinstance(full_name, str):
+                continue
+            repositories.setdefault(
+                (installation.hostname, full_name.casefold()), clone_url
+            )
+    return repositories, installations, configured_hosts
+
+
+def _get_github_app_migration_target(
+    component: Component, repositories: dict[tuple[str, str], str]
+) -> tuple[str, str, str] | None:
+    """Return host, full name, and canonical URL for an eligible component."""
+    if component.vcs not in GITHUB_APP_MIGRATABLE_VCS:
+        return None
+    identity = get_github_repository_identity(component.repo)
+    if identity is None:
+        return None
+    hostname, full_name = identity
+    canonical_url = repositories.get((hostname, full_name.casefold()))
+    if canonical_url is None:
+        return None
+    return hostname, full_name, canonical_url
+
+
+def _get_github_app_migration_entries(
+    user, workspace: Workspace
+) -> tuple[
+    list[GitHubAppMigrationEntry],
+    dict[tuple[str, str], str],
+    list[GitHubInstallation],
+]:
+    repositories, installations, configured_hosts = (
+        _get_github_app_migration_repositories(workspace)
+    )
+    entries: list[GitHubAppMigrationEntry] = []
+    components = (
+        Component.objects.filter(
+            project__workspace=workspace,
+            vcs__in=GITHUB_APP_MIGRATABLE_VCS,
+        )
+        .select_related("project")
+        .order_by("project__name", "name", "pk")
+    )
+    for component in components:
+        if not user.has_perm("component.edit", component):
+            continue
+        identity = get_github_repository_identity(component.repo)
+        if identity is None or identity[0] not in configured_hosts:
+            continue
+        hostname, full_name = identity
+        entries.append(
+            {
+                "component": component,
+                "hostname": hostname,
+                "full_name": full_name,
+                "canonical_url": repositories.get((hostname, full_name.casefold()), ""),
+            }
+        )
+    return entries, repositories, installations
 
 
 def _build_install_state(
@@ -344,9 +432,7 @@ async def _auser_can_use_installation(user, installation: GitHubInstallation) ->
     await user.aprepare_permissions()
     if user.has_perm("management.use"):
         return True
-    return (
-        await _managed_workspaces(user).filter(pk=installation.workspace_id).aexists()
-    )
+    return await managed_workspaces(user).filter(pk=installation.workspace_id).aexists()
 
 
 async def _auser_can_manage_installation(
@@ -435,7 +521,7 @@ class GitHubInstallationListView(View):
 @method_decorator(login_required, name="dispatch")
 class UserVCSIntegrationListView(View):
     def get(self, request):
-        workspace_queryset = _managed_workspaces(request.user).order_by("name")
+        workspace_queryset = managed_workspaces(request.user).order_by("name")
         selected_workspace = None
         workspace_id = request.GET.get("workspace", "").strip()
         if workspace_id:
@@ -777,7 +863,7 @@ async def _aget_update_callback_installation(
     )
     if not request.user.has_perm("management.use"):
         installations = installations.filter(
-            workspace__in=_managed_workspaces(request.user)
+            workspace__in=managed_workspaces(request.user)
         )
 
     return await (
@@ -967,9 +1053,140 @@ async def github_app_setup(request):
 
 
 @login_required
+def github_app_migration(request, workspace_id):
+    """Migrate existing GitHub components to a workspace GitHub App."""
+    if request.method not in {"GET", "POST"}:
+        return HttpResponseNotAllowed(["GET", "POST"])
+    workspace = _get_managed_workspace(request.user, workspace_id)
+    entries, repositories, installations = _get_github_app_migration_entries(
+        request.user, workspace
+    )
+    available_entries = [entry for entry in entries if entry["canonical_url"]]
+    unavailable_entries = [entry for entry in entries if not entry["canonical_url"]]
+    entries_by_id = {str(entry["component"].pk): entry for entry in available_entries}
+    component_choices = [
+        (
+            component_id,
+            (
+                f"{entry['component'].project.name} / "
+                f"{entry['component'].name} ({entry['full_name']})"
+            ),
+        )
+        for component_id, entry in entries_by_id.items()
+    ]
+    form = GitHubAppMigrationForm(
+        request.POST if request.method == "POST" else None,
+        component_choices=component_choices,
+    )
+
+    if request.method == "POST" and form.is_valid():
+        migrated = 0
+        unavailable = 0
+        errors: list[tuple[str, str]] = []
+        for component_id in form.cleaned_data["components"]:
+            entry = entries_by_id[component_id]
+            source_component = entry["component"]
+            with source_component.locked_for_update() as component:
+                # Both checks guard against the component changing between
+                # building the choices and acquiring the lock. Skipping keeps
+                # the rest of the batch going instead of aborting midway with
+                # part of the selection already migrated.
+                if (
+                    not request.user.has_perm("component.edit", component)
+                    or component.project.workspace_id != workspace.pk
+                ):
+                    unavailable += 1
+                    continue
+                target = _get_github_app_migration_target(component, repositories)
+                if target is None:
+                    unavailable += 1
+                    continue
+                _hostname, _full_name, canonical_url = target
+                component.acting_user = request.user
+                component.vcs = "github-app"
+                component.repo = canonical_url
+                component.push = ""
+                component.push_branch = ""
+                component.vcs_params = strip_unused_vcs_params(
+                    component.vcs, component.vcs_params.copy()
+                )
+                try:
+                    GithubAppRepository.validate_component(component)
+                except ValidationError as error:
+                    errors.append((component.full_slug, " ".join(error.messages)))
+                    continue
+                component.save(
+                    update_fields=(
+                        "vcs",
+                        "repo",
+                        "push",
+                        "push_branch",
+                        "vcs_params",
+                    )
+                )
+                component.delete_alert("GitHubAppMigration")
+                migrated += 1
+
+        if migrated:
+            messages.success(
+                request,
+                ngettext(
+                    "Migrated one component to the Weblate GitHub App.",
+                    "Migrated %(count)d components to the Weblate GitHub App.",
+                    migrated,
+                )
+                % {"count": migrated},
+            )
+        if unavailable:
+            messages.warning(
+                request,
+                ngettext(
+                    "One component was not migrated because its repository is no longer available.",
+                    "%(count)d components were not migrated because their repositories are no longer available.",
+                    unavailable,
+                )
+                % {"count": unavailable},
+            )
+        for component_slug, error_message in errors:
+            messages.error(
+                request,
+                gettext("Could not migrate %(component)s: %(error)s")
+                % {"component": component_slug, "error": error_message},
+            )
+        return redirect("github-app-migration", workspace_id=workspace.pk)
+
+    required_accounts = sorted(
+        {entry["full_name"].split("/", 1)[0] for entry in entries},
+        key=str.casefold,
+    )
+    return render(
+        request,
+        "vcs/github_app_migration.html",
+        {
+            "workspace": workspace,
+            "entries": entries,
+            "available_entries": available_entries,
+            "unavailable_entries": unavailable_entries,
+            "installations": installations,
+            "manageable_installations": {
+                installation.pk
+                for installation in installations
+                if _user_can_manage_installation(request.user, installation)
+            },
+            "required_accounts": required_accounts,
+            "form": form,
+            "next_url": request.get_full_path(),
+            "github_app_install_url": _get_install_link(
+                request, request.get_full_path(), workspace
+            ),
+        },
+    )
+
+
+@login_required
 def github_app_repository_list(request):
     """List repositories from connected GitHub accounts for component creation."""
-    workspaces = _managed_workspaces(request.user)
+    workspaces = managed_workspaces(request.user)
     if not workspaces.exists():
         raise PermissionDenied
 

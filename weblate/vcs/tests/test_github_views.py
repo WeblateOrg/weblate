@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+from contextlib import contextmanager
 from datetime import timedelta
 from typing import cast
 from unittest.mock import patch
@@ -14,13 +15,14 @@ from asgiref.sync import async_to_sync
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.db import connection
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.trans.models import Project
+from weblate.trans.models import Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.site import get_site_url
 from weblate.utils.tests import http_mock
@@ -28,6 +30,7 @@ from weblate.vcs.github import (
     GITHUB_APP_MANIFEST_EVENTS,
     GITHUB_APP_MANIFEST_PERMISSIONS,
     GitHubAppCredentials,
+    GithubAppRepository,
     GitHubInstallation,
 )
 from weblate.vcs.models import InstallationProvider, PendingInstallation
@@ -1602,6 +1605,197 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertEqual(response.status_code, 405)
         self.assertTrue(GitHubInstallation.objects.filter(pk=installation.pk).exists())
 
+    def test_migration_lists_components_and_install_url(self):
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+        )
+        self.component.refresh_from_db()
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        response = self.client.get(url)
+
+        self.assertContains(response, "test-org/repo1")
+        self.assertContains(response, "Repository access needed")
+        install_url = response.context["github_app_install_url"]
+        self.assertTrue(install_url.startswith(reverse("github-app-install")))
+        install_query = parse_qs(urlparse(install_url).query)
+        self.assertEqual(install_query["workspace"], [str(self.workspace.pk)])
+        self.assertEqual(install_query["next"], [url])
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_migration_updates_selected_component(self):
+        repository = _repo_entry("test-org/repo1")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repository],
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+            push="git@github.com:weblate/repo1.git",
+            push_branch="translations",
+            vcs_params={
+                "git_force_push": True,
+                "create_merge_request": False,
+            },
+        )
+        self.component.refresh_from_db()
+        self.component.add_alert("GitHubAppMigration")
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        response = self.client.post(url, {"components": [str(self.component.pk)]})
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "github-app")
+        self.assertEqual(self.component.repo, repository["clone_url"])
+        self.assertEqual(self.component.push, "")
+        self.assertEqual(self.component.push_branch, "")
+        self.assertEqual(
+            self.component.vcs_params,
+            {"create_merge_request": False},
+        )
+        self.assertFalse(
+            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+        )
+
+    def test_migration_rejects_unavailable_component(self):
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.com/test-org/repo1.git",
+        )
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        response = self.client.post(url, {"components": [str(self.component.pk)]})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(
+            "Select a valid choice",
+            response.context["form"].errors["components"][0],
+        )
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "github")
+
+    def test_migration_ignores_archived_repositories(self):
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1", archived=True)],
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+        )
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.context["available_entries"], [])
+        self.assertEqual(len(response.context["unavailable_entries"]), 1)
+        self.assertContains(response, "Repository access needed")
+
+    def _migrate_with_concurrent_change(self, url, change):
+        """POST the migration form, applying ``change`` just before each lock."""
+        original_locked_for_update = Component.locked_for_update
+
+        @contextmanager
+        def locked_for_update(component, **kwargs):
+            change()
+            with original_locked_for_update(component, **kwargs) as locked:
+                yield locked
+
+        with patch.object(Component, "locked_for_update", locked_for_update):
+            return self.client.post(url, {"components": [str(self.component.pk)]})
+
+    def _setup_migratable_component(self):
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[_repo_entry("test-org/repo1")],
+        )
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:test-org/repo1.git",
+        )
+        return reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_migration_skips_component_moved_out_of_workspace(self):
+        url = self._setup_migratable_component()
+
+        response = self._migrate_with_concurrent_change(
+            url,
+            lambda: Project.objects.filter(pk=self.project.pk).update(workspace=None),
+        )
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("no longer available", response_messages[0])
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_migration_skips_component_pointed_elsewhere(self):
+        url = self._setup_migratable_component()
+
+        response = self._migrate_with_concurrent_change(
+            url,
+            lambda: Component.objects.filter(pk=self.component.pk).update(
+                repo="git@github.com:test-org/other.git"
+            ),
+        )
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("no longer available", response_messages[0])
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_migration_reports_validation_error(self):
+        url = self._setup_migratable_component()
+
+        with patch.object(
+            GithubAppRepository,
+            "validate_component",
+            side_effect=ValidationError("Repository is not available."),
+        ):
+            response = self.client.post(url, {"components": [str(self.component.pk)]})
+
+        self.assertRedirects(response, url, fetch_redirect_response=False)
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.vcs, "git")
+        response_messages = [
+            str(message) for message in get_messages(response.wsgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("Repository is not available.", response_messages[0])
+        self.assertIn(self.component.full_slug, response_messages[0])
+
 
 class GitHubAppAccessControlTest(ViewTestCase):
     """Permission checks for the GitHub App connect/import views."""
@@ -1707,6 +1901,18 @@ class GitHubAppAccessControlTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("login"), response["Location"])
+
+    def test_migration_requires_workspace_access(self):
+        self.client.login(username=self.other_user.username, password="testpassword")
+
+        response = self.client.get(
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            )
+        )
+
+        self.assertEqual(response.status_code, 403)
 
     def test_setup_requires_login(self):
         self.client.logout()

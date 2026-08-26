@@ -7,6 +7,7 @@ Weblate 2026.9
 
 * :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
 * Added :ref:`vcs_params` to configure repository behavior per component, including force pushing, opting out of pull requests, and GitHub pull request automerge.
+* Added :ref:`code-hosting-github-app-migrate` for migrating existing Git and GitHub components to the Weblate GitHub App integration.
 
 .. rubric:: Improvements
 
