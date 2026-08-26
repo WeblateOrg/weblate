@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING
 from asgiref.sync import sync_to_async
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.db import transaction
 from django.http import Http404, JsonResponse
@@ -53,6 +54,7 @@ from weblate.trans.models import (
     Translation,
     WorkflowSetting,
 )
+from weblate.trans.repository import can_access_repository_operation_task
 from weblate.trans.tasks import (
     category_removal,
     component_removal,
@@ -62,7 +64,9 @@ from weblate.trans.tasks import (
 )
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
+from weblate.utils.celery import get_task_metadata
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.messages import store_task_completion_message
 from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import aparse_path, parse_path, show_form_errors
@@ -72,7 +76,7 @@ from weblate.workspaces.models import Workspace
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
 def _show_repository_lock_timeout(request: AuthenticatedHttpRequest) -> None:
@@ -606,11 +610,33 @@ def show_progress(request: AuthenticatedHttpRequest, path):
     return component_progress(request, obj)
 
 
+def can_view_component_progress(user: User, component: Component, task_id: str) -> bool:
+    """Authorize shared repository tasks against their complete component scope."""
+    repository_task_id = cache.get(component.repository_operation_update_key)
+    return repository_task_id != task_id or can_access_repository_operation_task(
+        user, task_id
+    )
+
+
 def multi_progress(request: AuthenticatedHttpRequest, obj: Category | Project):
-    components = list(obj.all_repo_components)
+    components_by_task: dict[str, Component] = {}
+    for component in obj.all_repo_components:
+        if (task_id := component.background_task_id) and can_view_component_progress(
+            request.user, component, task_id
+        ):
+            components_by_task.setdefault(task_id, component)
+    components = []
+    for component in components_by_task.values():
+        task = component.background_task
+        if task is None:
+            continue
+        if task.ready():
+            store_task_completion_message(request, task)
+        else:
+            components.append(component)
     return_target = obj
     return_url = obj.get_absolute_url()
-    if not any(component.in_progress() for component in components):
+    if not components:
         return redirect(return_url)
     return render(
         request,
@@ -633,9 +659,21 @@ def component_progress(request: AuthenticatedHttpRequest, obj: Component | Trans
         return_target = component
         return_url = f"{component.get_absolute_url()}#alerts"
 
-    if not component.in_progress():
+    task_id = component.background_task_id
+    if task_id is None:
+        return redirect(return_url)
+    if not can_view_component_progress(request.user, component, task_id):
+        msg = "Invalid task"
+        raise Http404(msg)
+
+    task = component.background_task
+    if task is None:
+        return redirect(return_url)
+    if task.ready():
+        store_task_completion_message(request, task)
         return redirect(return_url)
 
+    metadata = get_task_metadata(task_id)
     progress, log = component.get_progress()
 
     return render(
@@ -647,6 +685,7 @@ def component_progress(request: AuthenticatedHttpRequest, obj: Component | Trans
             "progress": progress,
             "log": "\n".join(log),
             "return_url": return_url,
+            "task_cancellable": (metadata or {}).get("cancellable", True),
         },
     )
 

@@ -2831,7 +2831,8 @@ class BooleanResultSerializer(ReadOnlySerializer):
     result = serializers.BooleanField()
 
 
-class RepositoryOperationSerializer(BooleanResultSerializer):
+class RepositoryOperationSerializer(ReadOnlySerializer):
+    result = serializers.BooleanField(required=False)
     detail = serializers.CharField(required=False)
     included_components = serializers.ListField(
         child=serializers.CharField(),
@@ -2848,6 +2849,7 @@ class RepositoryOperationSerializer(BooleanResultSerializer):
         required=False,
         help_text="Full paths of components preventing access to skipped repositories.",
     )
+    task_url = serializers.URLField(required=False)
 
 
 class UploadResultSerializer(BooleanResultSerializer):
@@ -3058,6 +3060,7 @@ class RepoRequestSerializer(ReadOnlySerializer):
     operation = serializers.ChoiceField(
         choices=RepoOperations.choices,
     )
+    background = serializers.BooleanField(required=False, default=False)
 
 
 class CommitInfoSerializer(ReadOnlySerializer):
@@ -4347,6 +4350,7 @@ class TaskSerializer(ReadOnlySerializer):
     progress = serializers.IntegerField(min_value=0, max_value=100)
     result = TaskResultField()
     log = serializers.CharField(allow_blank=True)
+    cancellable = serializers.BooleanField()
 
 
 @extend_schema_serializer(

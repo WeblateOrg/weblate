@@ -11,6 +11,7 @@ Weblate 2026.9
 .. rubric:: Improvements
 
 * Removing the final Weblate workspace connection for a GitHub account, or removing the workspace holding it, now also uninstalls the Weblate GitHub App from GitHub.
+* Core repository maintenance actions now run as background tasks, avoiding request and proxy timeouts. The repository API supports the same behavior using ``background: true``. See :ref:`repository-maintenance`.
 * :ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords (newline-separated) passed to xgettext via ``--keyword``, enabling extraction from different function names.
 * Screenshot images are now cached in browsers to reduce repeated downloads.
 * Administrators can now find removed accounts by their former e-mail address in the audit log until :setting:`AUDITLOG_EXPIRY`.

@@ -25,7 +25,7 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 103 documented / 64 maintainer / 0 inferred claims.
+Provenance summary: 103 documented / 65 maintainer / 0 inferred claims.
 
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
@@ -193,6 +193,13 @@ repository state, background tasks, outbound requests, and rendered UI.
    * - Client browser/API client to Weblate
      - Untrusted or authenticated requests become permission-checked
        application actions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)
+   * - Weblate request process to repository Celery worker
+     - Permission-checked browser and API repository actions become queued work
+       carrying the initiating user and affected repository scope. The worker
+       reacquires the datastore reservation and rechecks the user's current VCS
+       permission across the current linked-component scope before mutation.
+       The broker, datastore, and workers are trusted parts of the same Weblate
+       instance. *(maintainer)*
    * - Webhook sender to Weblate
      - Public forge notifications can schedule repository synchronization
        where hooks are enabled, matching components by exact repository URL
@@ -621,9 +628,13 @@ Security properties Weblate provides
        explicit VCS actions cover every component sharing an affected
        repository, including linked components in other projects. Project-wide
        VCS actions omit repositories where this permission check fails; they do
-       not partially operate on an individual shared checkout. Weblate's normal
-       background commit and push of authorized translation changes does not
-       require the editor to have these VCS permissions. Translation memory
+       not partially operate on an individual shared checkout. Explicit VCS
+       actions queued from the browser or API retain the initiating user,
+       serialize access to the affected repositories, and recheck that user's
+       permission against the current linked-component scope in the worker
+       before mutation. Weblate's normal background commit and push of
+       authorized translation changes does not require the editor to have
+       these VCS permissions. Translation memory
        attributed to an existing restricted component follows that component's
        access rules.
        Unattributed automatic memory, including unmatched legacy entries and

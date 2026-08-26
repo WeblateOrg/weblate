@@ -7,7 +7,7 @@ import operator
 import os
 import tempfile
 import zipfile
-from contextlib import nullcontext
+from contextlib import contextmanager, nullcontext
 from copy import copy
 from datetime import UTC, date, datetime, timedelta
 from io import BytesIO, StringIO
@@ -22,7 +22,7 @@ from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db import DatabaseError
+from django.db import DatabaseError, transaction
 from django.db.models import Q
 from django.templatetags.static import static
 from django.test.utils import modify_settings, override_settings
@@ -68,6 +68,7 @@ from weblate.auth.models import (
     User,
     UserBlock,
 )
+from weblate.auth.permissions import get_project_repository_selection
 from weblate.lang.models import Language
 from weblate.memory.models import Memory, MemoryScope
 from weblate.screenshots.models import Screenshot
@@ -98,6 +99,10 @@ from weblate.trans.models import (
     WorkflowSetting,
 )
 from weblate.trans.models.component import ComponentQuerySet
+from weblate.trans.repository import (
+    QueuedRepositoryOperation,
+    RepositoryOperationConflictError,
+)
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     clear_users_cache,
@@ -3584,6 +3589,198 @@ class ProjectAPITest(APIBaseTest):
                 superuser=True,
                 request={"operation": operation},
             )
+
+    def test_repo_operation_can_be_queued(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with patch(
+            "weblate.api.views.queue_repository_operation",
+            return_value=QueuedRepositoryOperation(task_id),
+        ) as queue_operation:
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=202,
+                request={"operation": "pull", "background": True},
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "detail": "Repository operation has been queued.",
+                "task_url": f"http://example.com/api/tasks/{task_id}/",
+                "included_components": sorted(
+                    component.full_slug
+                    for component in self.project.component_set.all()
+                ),
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+        selection = get_project_repository_selection(
+            self.user, self.project, ("vcs.update",)
+        )
+        queue_operation.assert_called_once_with(
+            self.project,
+            "pull",
+            self.user,
+            repository_components=selection.repositories,
+        )
+
+    def test_eager_repo_operation_returns_result(self) -> None:
+        with patch(
+            "weblate.api.views.queue_repository_operation",
+            return_value=QueuedRepositoryOperation("task-id", successful=False),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "pull", "background": True},
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data,
+            {
+                "result": False,
+                "included_components": sorted(
+                    component.full_slug
+                    for component in self.project.component_set.all()
+                ),
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+
+    def test_synchronous_repo_operation_releases_before_followups(self) -> None:
+        events = []
+
+        @contextmanager
+        def reserve(*args, **kwargs):
+            events.append("reserved")
+
+            def release() -> None:
+                events.append("released")
+
+            try:
+                yield release
+            finally:
+                events.append("reservation context exited")
+
+        def update(*args, **kwargs):
+            transaction.on_commit(lambda: events.append("follow-up"))
+            return True
+
+        with (
+            self.captureOnCommitCallbacks(execute=True),
+            patch("weblate.api.views.reserve_repository_operation", reserve),
+            patch.object(Project, "do_update", update),
+        ):
+            self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "pull"},
+            )
+
+        self.assertEqual(
+            events,
+            [
+                "reserved",
+                "reservation context exited",
+                "released",
+                "follow-up",
+            ],
+        )
+
+    def test_repo_operation_queue_conflict(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with (
+            patch(
+                "weblate.api.views.queue_repository_operation",
+                side_effect=RepositoryOperationConflictError(task_id),
+            ),
+            patch(
+                "weblate.api.views.can_access_repository_operation_task",
+                return_value=True,
+            ),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=423,
+                request={"operation": "push", "background": True},
+            )
+
+        self.assertEqual(
+            response.data,
+            {
+                "detail": "Another repository operation is already in progress.",
+                "task_url": f"http://example.com/api/tasks/{task_id}/",
+                "included_components": sorted(
+                    component.full_slug
+                    for component in self.project.component_set.all()
+                ),
+                "skipped_components": [],
+                "permission_blockers": [],
+            },
+        )
+
+    def test_repo_operation_conflict_hides_inaccessible_task(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with (
+            patch(
+                "weblate.api.views.queue_repository_operation",
+                side_effect=RepositoryOperationConflictError(task_id),
+            ),
+            patch(
+                "weblate.api.views.can_access_repository_operation_task",
+                return_value=False,
+            ),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=423,
+                request={"operation": "push", "background": True},
+            )
+
+        self.assertNotIn("task_url", response.data)
+
+    def test_synchronous_repo_operation_honors_reservation(self) -> None:
+        task_id = "01234567-89ab-cdef-0123-456789abcdef"
+        with (
+            patch(
+                "weblate.api.views.reserve_repository_operation",
+                side_effect=RepositoryOperationConflictError(task_id),
+            ),
+            patch(
+                "weblate.api.views.can_access_repository_operation_task",
+                return_value=False,
+            ),
+        ):
+            response = self.do_request(
+                "api:project-repository",
+                self.project_kwargs,
+                method="post",
+                superuser=True,
+                code=423,
+                request={"operation": "pull"},
+            )
+
+        self.assertEqual(
+            response.data["detail"],
+            "Another repository operation is already in progress.",
+        )
+        self.assertNotIn("task_url", response.data)
 
     def test_repo_file_sync_returns_true(self) -> None:
         with patch.object(Component, "queue_background_task", return_value=None):
@@ -9936,7 +10133,13 @@ class TasksAPITest(APIBaseTest):
 
         self.assertEqual(
             response.data,
-            {"completed": False, "progress": 0, "result": None, "log": ""},
+            {
+                "completed": False,
+                "progress": 0,
+                "result": None,
+                "log": "",
+                "cancellable": True,
+            },
         )
 
     def test_retrieve_requires_authentication(self) -> None:
@@ -9976,8 +10179,84 @@ class TasksAPITest(APIBaseTest):
 
         self.assertEqual(
             response.data,
-            {"completed": False, "progress": 0, "result": None, "log": ""},
+            {
+                "completed": False,
+                "progress": 0,
+                "result": None,
+                "log": "",
+                "cancellable": False,
+            },
         )
+
+    def test_retrieve_repository_task_after_tracked_component_deleted(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_ids": [self.component.id, self.component.id + 1_000_000],
+                "user_id": self.user.id,
+                "cancellable": False,
+            },
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+
+        self.assertFalse(response.data["completed"])
+        self.assertFalse(response.data["cancellable"])
+
+    def test_destroy_rejects_non_cancellable_task(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {
+                "component_ids": [self.component.id],
+                "cancellable": False,
+            },
+            3600,
+        )
+
+        class DummyAsyncResult:
+            latest = None
+
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+                self.revoked = False
+                DummyAsyncResult.latest = self
+
+            def ready(self):
+                return False
+
+            def revoke(self, *args, **kwargs) -> None:
+                self.revoked = True
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="delete",
+                superuser=True,
+                code=409,
+            )
+
+        self.assertEqual(response.data, {"detail": "This task cannot be cancelled."})
+        assert DummyAsyncResult.latest is not None
+        self.assertFalse(DummyAsyncResult.latest.revoked)
 
     def test_retrieve_rejects_other_user_metadata(self) -> None:
         cache.set(
@@ -11800,6 +12079,33 @@ class TranslationAPITest(APIBaseTest):
                 code=403,
                 request={"operation": operation},
             )
+
+    def test_background_commit_preserves_translation_noop(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        PendingUnitChange.objects.filter(unit__translation=translation).delete()
+        other_translation = (
+            self.component.translation_set.exclude(pk=translation.pk)
+            .exclude(filename="")
+            .first()
+        )
+        assert other_translation is not None
+        unit = other_translation.unit_set.first()
+        assert unit is not None
+        PendingUnitChange.objects.create(unit=unit, author=self.user)
+        self.assertFalse(translation.needs_commit())
+        self.assertTrue(self.component.needs_commit())
+
+        with patch("weblate.api.views.queue_repository_operation") as queue:
+            response = self.do_request(
+                "api:translation-repository",
+                self.translation_kwargs,
+                method="post",
+                superuser=True,
+                request={"operation": "commit", "background": True},
+            )
+
+        self.assertEqual(response.data, {"result": False})
+        queue.assert_not_called()
 
     def test_repo_status(self) -> None:
         response = self.do_request(
@@ -17579,7 +17885,8 @@ class OpenAPITest(APIBaseTest):
         )
         task_schema = schema["components"]["schemas"]["Task"]
         self.assertEqual(
-            task_schema["required"], ["completed", "log", "progress", "result"]
+            task_schema["required"],
+            ["cancellable", "completed", "log", "progress", "result"],
         )
         self.assertEqual(
             task_schema["properties"]["completed"],
@@ -17590,9 +17897,11 @@ class OpenAPITest(APIBaseTest):
             {"type": "integer", "maximum": 100, "minimum": 0},
         )
         self.assertEqual(task_schema["properties"]["log"], {"type": "string"})
+        self.assertEqual(task_schema["properties"]["cancellable"], {"type": "boolean"})
         self.assertEqual(
             task_schema["properties"]["result"]["oneOf"].count({"type": "null"}), 1
         )
+        self.assertIn("409", schema["paths"]["/api/tasks/{id}/"]["delete"]["responses"])
 
     def test_action_nested_list_schema_matches_runtime_behavior(self) -> None:
         schema = self.get_schema()
@@ -17634,11 +17943,22 @@ class OpenAPITest(APIBaseTest):
             ],
             {"$ref": "#/components/schemas/RepoRequest"},
         )
+        for status_code in ("200", "202"):
+            self.assertEqual(
+                project_repository["post"]["responses"][status_code]["content"][
+                    "application/json"
+                ]["schema"],
+                {"$ref": "#/components/schemas/RepositoryOperation"},
+            )
         self.assertEqual(
-            project_repository["post"]["responses"]["200"]["content"][
+            project_repository["post"]["responses"]["423"]["content"][
                 "application/json"
             ]["schema"],
-            {"$ref": "#/components/schemas/RepositoryOperation"},
+            {"$ref": "#/components/schemas/RepositoryOperationConflict"},
+        )
+        self.assertEqual(
+            schema["components"]["schemas"]["RepoRequest"]["properties"]["background"],
+            {"type": "boolean", "default": False},
         )
         component_lock = schema["paths"]["/api/components/{project__slug}/{slug}/lock/"]
         self.assertEqual(

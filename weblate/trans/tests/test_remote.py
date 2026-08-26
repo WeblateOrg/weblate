@@ -253,7 +253,7 @@ class MultiRepoTest(ViewTestCase):
         )
 
         with self.captureOnCommitCallbacks(execute=True):
-            perform_update("Component", self.component2.pk, user_id=hook_user.id)
+            perform_update.run("Component", self.component2.pk, user_id=hook_user.id)
 
         change = self.component2.change_set.filter(action=ActionEvents.REBASE).latest(
             "timestamp"
@@ -434,7 +434,7 @@ class MultiRepoTest(ViewTestCase):
         with patch.object(
             self.component2, "update_remote_branch", return_value=True
         ) as update_remote_branch:
-            perform_update("Component", -1, auto=True, obj=self.component2)
+            perform_update.run("Component", -1, auto=True, obj=self.component2)
 
         user = update_remote_branch.call_args.kwargs["user"]
         self.assertIsNotNone(user)
