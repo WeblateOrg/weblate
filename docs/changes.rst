@@ -6,6 +6,8 @@ Weblate 2026.9
 .. rubric:: New features
 
 * Added :ref:`vcs_params` to configure repository behavior per component, including force pushing, opting out of pull requests, and GitHub pull request automerge.
+* Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
+* Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
 
 .. rubric:: Improvements
 
@@ -42,6 +44,7 @@ Weblate 2026.9
 .. rubric:: Compatibility
 
 * The :guilabel:`Git with force push` version control system has been replaced by the ``git_force_push`` :ref:`version control parameter <vcs_params>`; existing components are migrated automatically.
+* The former ``plainxliff`` and ``xliff2-placeables`` file formats are migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the ``xliff_placeables`` :ref:`file_format_params`.
 * Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
 * Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
 * Mercurial and Subversion repository hosts can now be trusted using :setting:`VCS_PRIVATE_ALLOWLIST` without restricting Git to the same hosts through :setting:`VCS_ALLOW_HOSTS`.

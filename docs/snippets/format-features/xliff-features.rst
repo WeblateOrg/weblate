@@ -23,7 +23,7 @@
    * - Additional states :ref:`ⓘ <format-states>`
      - ``Approved``, ``Needs editing``
    * - API identifier
-     - ``apple-xliff``, ``plainxliff``, ``poxliff``, ``xliff``
+     - ``apple-xliff``, ``poxliff``, ``xliff``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``Yes``
    * - Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`

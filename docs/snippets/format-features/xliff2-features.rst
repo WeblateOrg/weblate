@@ -23,7 +23,7 @@
    * - Additional states :ref:`ⓘ <format-states>`
      - ``Approved``, ``Needs editing``
    * - API identifier
-     - ``xliff2``, ``xliff2-placeables``
+     - ``xliff2``
    * - Supports read-only strings :ref:`ⓘ <read-only-strings>`
      - ``Yes``
    * - Supports removing obsolete strings :ref:`ⓘ <obsolete-strings>`
