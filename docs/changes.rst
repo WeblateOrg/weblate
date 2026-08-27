@@ -20,6 +20,7 @@ Weblate 2026.9
 * Reduced :ref:`Celery <celery>` worker startup memory usage by avoiding duplicate Django system checks and loading font rendering only when needed.
 * VCS command versions are now validated by configuration health checks instead of during every process startup.
 * Billing audit logs now identify users who change plans, initiate payments, or merge billings.
+* Assigning languages to a team now uses an :guilabel:`All languages` toggle which disables the language choice when turned on, and a manually chosen set of languages is kept when toggling it. See :ref:`manage-acl`.
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
 * Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
 * Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
@@ -36,6 +37,7 @@ Weblate 2026.9
 * Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.
 * GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
 * :ref:`Project backup restores <projectbackup>` now allowlists repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
+* Notification e-mails now wrap long strings instead of overflowing, keeping the :guilabel:`View` button reachable without horizontal scrolling.
 
 .. rubric:: Compatibility
 

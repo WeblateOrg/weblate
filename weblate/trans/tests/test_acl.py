@@ -1389,7 +1389,6 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
                 "roles": list(
                     Role.objects.filter(name="Power user").values_list("pk", flat=True)
                 ),
-                "language_selection": 0,
                 "languages": list(
                     Language.objects.filter(code="cs").values_list("pk", flat=True)
                 ),
@@ -1416,7 +1415,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
                 "roles": list(
                     Role.objects.filter(name="Power user").values_list("pk", flat=True)
                 ),
-                "language_selection": 1,
+                "all_languages": "on",
                 "languages": list(
                     Language.objects.filter(code="cs").values_list("pk", flat=True)
                 ),
@@ -1426,9 +1425,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         group = Group.objects.get(name="All team")
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 1)
-        self.assertNotEqual(
-            list(group.languages.values_list("code", flat=True)), ["cs"]
-        )
+        self.assertFalse(group.languages.exists())
         self.assertEqual(
             set(group.roles.values_list("name", flat=True)), {"Power user"}
         )
@@ -1443,10 +1440,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
                 "roles": list(
                     Role.objects.filter(name="Power user").values_list("pk", flat=True)
                 ),
-                "language_selection": 1,
-                "languages": list(
-                    Language.objects.filter(code="cs").values_list("pk", flat=True)
-                ),
+                "all_languages": "on",
                 "autogroup_set-TOTAL_FORMS": "0",
                 "autogroup_set-INITIAL_FORMS": "0",
             },
@@ -1455,9 +1449,28 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         group = Group.objects.get(name="Global team")
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 1)
-        self.assertNotEqual(
-            list(group.languages.values_list("code", flat=True)), ["cs"]
+        # The manual selection is preserved when switching to all languages
+        self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
+
+        # Unchecking the box goes back to the preserved manual selection
+        response = self.client.post(
+            group.get_absolute_url(),
+            {
+                "name": "Global team",
+                "roles": list(
+                    Role.objects.filter(name="Power user").values_list("pk", flat=True)
+                ),
+                "languages": list(
+                    Language.objects.filter(code="cs").values_list("pk", flat=True)
+                ),
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
         )
+        self.assertRedirects(response, group.get_absolute_url())
+        group.refresh_from_db()
+        self.assertEqual(group.language_selection, 0)
+        self.assertEqual(list(group.languages.values_list("code", flat=True)), ["cs"])
 
 
 @enable_login_required_settings()
