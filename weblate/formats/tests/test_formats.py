@@ -2276,6 +2276,178 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         self.assertTrue(units[1].is_automatically_translated())
         self.assertFalse(units[2].is_automatically_translated())
 
+    def test_whitespace_preserve_keeps_newlines(self) -> None:
+        if self.FILE != TEST_XLIFF:
+            self.skipTest("Only supported for cs.xliff")
+        storage = self.parse_file(self.FILE)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!\n")
+
+    def test_whitespace_preserve_without_attribute(self) -> None:
+        """Default preserve policy keeps whitespace even when xml:space is omitted."""
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1">
+  <file>
+    <body>
+      <trans-unit id="hello">
+        <source>Hello, world!
+</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, f"preserve-no-attr.{self.EXT}")
+        Path(testfile).write_bytes(content)
+        storage = self.parse_file(testfile)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!\n")
+        storage.save()
+        # check no new xml:space attributes were added under preserve.
+        saved = Path(testfile).read_bytes()
+        self.assertNotIn(b"xml:space", saved)
+
+    def test_whitespace_normalize_collapses_preserved_source(self) -> None:
+        if self.FILE != TEST_XLIFF:
+            self.skipTest("Only supported for cs.xliff")
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(self.FILE)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!")
+
+    def test_whitespace_standard_follows_source_attribute(self) -> None:
+        if self.FILE != TEST_XLIFF:
+            self.skipTest("Only supported for cs.xliff")
+        with self.temporary_file_format_param("xml_whitespace_handling", "standard"):
+            storage = self.parse_file(self.FILE)
+        # First unit has xml:space="preserve" on <source>
+        self.assertEqual(storage.all_units[0].source, "Hello, world!\n")
+        # Last unit has no xml:space attribute
+        self.assertEqual(storage.all_units[3].source, "Thank you for using Weblate.")
+
+    def test_whitespace_standard_collapses_without_attribute(self) -> None:
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1">
+  <file>
+    <body>
+      <trans-unit id="hello">
+        <source>Hello, world!
+</source>
+      </trans-unit>
+      <trans-unit id="thanks" xml:space="preserve">
+        <source>Thank you!
+</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, f"standard-space.{self.EXT}")
+        Path(testfile).write_bytes(content)
+        with self.temporary_file_format_param("xml_whitespace_handling", "standard"):
+            storage = self.parse_file(testfile)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!")
+        self.assertEqual(storage.all_units[1].source, "Thank you!\n")
+
+    def test_new_unit_whitespace_normalize(self) -> None:
+        newdata = self.add_unit_and_get_whitespace_variant("normalize")
+        self.assertIn(b'xml:space="default"', newdata)
+        self.assertNotIn(b'xml:space="preserve" id="key"', newdata)
+        self.assertNotIn(b'id="key" xml:space="preserve"', newdata)
+
+    def test_new_unit_whitespace_standard(self) -> None:
+        newdata = self.add_unit_and_get_whitespace_variant("standard")
+        self.assertNotIn(b'xml:space="preserve" id="key"', newdata)
+        self.assertNotIn(b'id="key" xml:space="preserve"', newdata)
+
+    def add_unit_and_get_whitespace_variant(self, policy: str) -> bytes:
+        if not self.format_class.can_add_unit:
+            self.skipTest("Not supported")
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, f"test-{policy}.{self.EXT}")
+        Path(testfile).write_bytes(testdata)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", policy):
+            storage = self.parse_file(testfile, template=testfile)
+            if self.MONOLINGUAL:
+                storage = storage.template_store
+            storage.new_unit(self.NEW_UNIT_KEY, "Source string", self.NEW_UNIT_TARGET)
+            storage.save()
+
+        return Path(testfile).read_bytes()
+
+    def do_new_unit_whitespace_test(self, policy: str) -> bytes:
+        if not self.format_class.can_add_unit:
+            self.skipTest("Not supported")
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, f"test-{policy}.{self.EXT}")
+        Path(testfile).write_bytes(testdata)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "policy"):
+            storage = self.parse_file(testfile, template=testfile)
+            if self.MONOLINGUAL:
+                storage = storage.template_store
+            storage.new_unit(self.NEW_UNIT_KEY, "Source string", self.NEW_UNIT_TARGET)
+            storage.save()
+
+        return Path(testfile).read_bytes()
+
+    def test_set_target_normalize_overrides_preserve(self) -> None:
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1">
+  <file>
+    <body>
+      <trans-unit id="hello" xml:space="preserve">
+        <source>Hello</source>
+        <target>  Ahoj  svete  </target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, f"normalize-target.{self.EXT}")
+        Path(testfile).write_bytes(content)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(testfile)
+            unit = storage.all_units[0]
+            unit.set_target("  Nazdar   svete  \n")
+            storage.save()
+
+        saved = Path(testfile).read_text(encoding="utf-8")
+        self.assertIn(">Nazdar svete<", saved)
+        self.assertIn('xml:space="default"', saved)
+        self.assertNotIn('xml:space="preserve"', saved)
+
+    def test_whitespace_placeable_normalize(self) -> None:
+        content = b"""<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.1">
+  <file>
+    <body>
+      <trans-unit id="hello" xml:space="preserve">
+        <source>Hello <x id="name"/> world
+</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
+"""
+        testfile = os.path.join(self.tempdir, f"normalize-placeable.{self.EXT}")
+        Path(testfile).write_bytes(content)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(testfile)
+
+        source = storage.all_units[0].source
+        # Nested preserve must not block normalization under the normalize policy.
+        self.assertNotIn("\n", source)
+        if (
+            "placeables" in self.format_class.format_id
+            or self.format_class.format_id == "xliff"
+        ):
+            self.assertIn('id="name"', source)
+            self.assertTrue(source.startswith("Hello"))
+            self.assertTrue(source.rstrip().endswith("world"))
+        else:
+            self.assertEqual(source, "Hello world")
+
 
 class AppleXliffFormatTest(XliffFormatTest):
     format_class = AppleXliffFormat
@@ -3700,6 +3872,24 @@ class Xliff2FormatTestCase(BaseFormatTest):
     NEW_UNIT_KEY = "key"
     MASK = "loc/*/default.xliff"
     EXPECTED_PATH = "loc/cs-CZ/default.xliff"
+
+    def test_whitespace_normalize_collapses_preserved_source(self) -> None:
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(self.FILE)
+        self.assertEqual(storage.all_units[0].source, "Hello, world!")
+
+    def test_new_unit_whitespace_normalize(self) -> None:
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, f"test-normalize.{self.EXT}")
+        Path(testfile).write_bytes(testdata)
+
+        with self.temporary_file_format_param("xml_whitespace_handling", "normalize"):
+            storage = self.parse_file(testfile)
+            storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+            storage.save()
+
+        newdata = Path(testfile).read_bytes()
+        self.assertIn(b'xml:space="default"', newdata)
 
 
 class RichXliff2FormatTestCase(Xliff2FormatTestCase):

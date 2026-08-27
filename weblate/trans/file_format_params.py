@@ -64,6 +64,7 @@ class FileFormatParams(TypedDict, total=False):
     md_frontmatter_translate_values: bool
     md_no_placeholders: bool
     merge_duplicates: bool
+    xml_whitespace_handling: Literal["standard", "preserve", "normalize"]
 
 
 FileFormatParamKey = Literal[
@@ -84,7 +85,6 @@ FileFormatParamKey = Literal[
     "yaml_indent",
     "yaml_line_wrap",
     "yaml_line_break",
-    "xml_closing_tags",
     "flatxml_root_name",
     "flatxml_value_name",
     "flatxml_key_name",
@@ -100,6 +100,8 @@ FileFormatParamKey = Literal[
     "md_extract_frontmatter",
     "md_frontmatter_translate_values",
     "md_no_placeholders",
+    "xml_closing_tags",
+    "xml_whitespace_handling",
 ]
 
 
@@ -489,6 +491,43 @@ class XMLClosingTags(BaseFileFormatParam):
         cast("LISAfile", store).XMLSelfClosingTags = not self.get_value(
             file_format_params
         )
+
+
+@register_file_format_param
+class XMLWhitespaceHandling(BaseFileFormatParam):
+    name = "xml_whitespace_handling"
+    label = gettext_lazy("Whitespace handling")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        (
+            "standard",
+            gettext_lazy("Follow xml:space"),
+        ),
+        (
+            "preserve",
+            gettext_lazy("Always preserve"),
+        ),
+        (
+            "normalize",
+            gettext_lazy("Always normalize"),
+        ),
+    ]
+    default = "preserve"
+    help_text = gettext_lazy(
+        "Controls how XLIFF whitespace is handled. "
+        "Follow xml:space honors attributes in the file. "
+        "Always preserve keeps all whitespace. "
+        'Always normalize collapses whitespace even when xml:space="preserve" is set.'
+    )
+
+    file_formats = (
+        "plainxliff",
+        "xliff",
+        "poxliff",
+        "apple-xliff",
+        "xliff2",
+        "xliff2-placeables",
+    )
 
 
 class BaseFlatXMLFormatParam(BaseFileFormatParam):

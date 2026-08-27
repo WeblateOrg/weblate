@@ -26,7 +26,12 @@ from lxml import etree
 from lxml.etree import XMLSyntaxError
 from translate.misc import quote
 from translate.misc.multistring import multistring
-from translate.misc.xml_helpers import setXMLspace
+from translate.misc.xml_helpers import (
+    XML_NS,
+    getXMLspace,
+    normalize_xml_space,
+    setXMLspace,
+)
 from translate.storage.applestrings_xliff import AppleStringsXliffFile
 from translate.storage.base import TranslationStore
 from translate.storage.catkeys import CatkeysFile, CatkeysUnit
@@ -84,6 +89,7 @@ from weblate.trans.file_format_params import (
     GettextLastTranslator,
     GettextRemoveObsolete,
     GettextXGenerator,
+    XMLWhitespaceHandling,
     get_encoding_param,
 )
 from weblate.trans.util import (
@@ -125,9 +131,60 @@ if TYPE_CHECKING:
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
 XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
+XML_SPACE_ATTR = f"{{{XML_NS}}}space"
 _CSV_MAX_PLURAL_FORMS = 100
 type PoHeaderStore = pofile | PoXliffFile
 type PoHeaderUnit = pounit | PoXliffUnit
+
+
+def _force_normalize_xml_space(node: etree._Element) -> None:
+    r"""
+    Collapse whitespace in a subtree, ignoring nested xml:space=\"preserve\".
+
+    translate-toolkit's normalize_xml_space honors preserve on descendants; this
+    helper clears those attributes first so the normalize policy can override.
+    """
+    for elem in node.iter():
+        if getXMLspace(elem) == "preserve":
+            setXMLspace(elem, "default")
+    normalize_xml_space(node, "default", remove_start=True)
+
+
+def _apply_xml_whitespace_policy(
+    unit: TranslateToolkitXliffUnit,
+    policy: str,
+    *,
+    had_preserve: bool | None = None,
+) -> None:
+    space = getXMLspace(unit.xmlelement)
+    if policy == "standard":
+        # follow xml:space; missing attributes follow the XLIFF/XML default.
+        default_xml_space = "default"
+
+        if had_preserve is False and space == "preserve":
+            node = unit.xmlelement
+            # clear only if it was already set
+            if XML_SPACE_ATTR in node.attrib:
+                del node.attrib[XML_SPACE_ATTR]
+
+    elif policy == "preserve":
+        default_xml_space = "preserve"
+        if space is not None:
+            setXMLspace(unit.xmlelement, "preserve")
+        for language_node in unit.getlanguageNodes():
+            # Only override an explicit non-preserve value so serialization stays
+            # close to historical output for units that had no language-node attribute.
+            space = getXMLspace(language_node)
+            if space is not None and space != "preserve":
+                setXMLspace(language_node, "preserve")
+    else:  # normalize
+        default_xml_space = "default"
+        setXMLspace(unit.xmlelement, "default")
+        for language_node in unit.getlanguageNodes():
+            _force_normalize_xml_space(language_node)
+
+    # _default_xml_space is used internally by translate.storage.xliff_common.XliffUnit
+    unit._default_xml_space = default_xml_space  # ruff: ignore[private-member-access]
 
 
 class CSVMetadataError(ValueError):
@@ -1041,6 +1098,7 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F])
         self._invalidate_target()
         if isinstance(target, list):
             target = multistring(target)
+        had_preserve = getXMLspace(self.unit.xmlelement) == "preserve"
         if self.template is not None:
             if self.parent.is_template:
                 # Use source for monolingual files if editing template
@@ -1050,6 +1108,22 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F])
                 self.unit.source = self.template.source
         # Always set target, even in monolingual template
         self.unit.target = target
+        self.apply_xml_whitespace_policy_to_unit_tree(
+            self.unit,
+            cast("XliffFormat", self.parent).get_xml_whitespace_handling(),
+            had_preserve=had_preserve,
+        )
+
+    def apply_xml_whitespace_policy_to_unit_tree(
+        self,
+        unit: TranslateToolkitXliffUnit,
+        policy: str,
+        *,
+        had_preserve: bool | None = None,
+    ) -> None:
+        _apply_xml_whitespace_policy(unit, policy, had_preserve=had_preserve)
+        for child in getattr(unit, "units", []):
+            _apply_xml_whitespace_policy(child, policy, had_preserve=had_preserve)
 
     @cached_property
     def source(self):
@@ -1115,6 +1189,7 @@ class RichXliffUnit(XliffUnit):
                     xmlnode.getparent().remove(xmlnode)
             return
         converted: list[StringElem] | list[str]
+        had_preserve = getXMLspace(self.unit.xmlelement) == "preserve"
         try:
             converted = xliff_string_to_rich(target)
         except (XMLSyntaxError, TypeError, KeyError):
@@ -1129,6 +1204,11 @@ class RichXliffUnit(XliffUnit):
                 self.unit.rich_source = self.template.rich_source
         # Always set target, even in monolingual template
         self.unit.rich_target = converted
+        self.apply_xml_whitespace_policy_to_unit_tree(
+            self.unit,
+            cast("XliffFormat", self.parent).get_xml_whitespace_handling(),
+            had_preserve=had_preserve,
+        )
 
 
 class FlatXMLUnit(TTKitUnit):
@@ -2128,13 +2208,55 @@ class XliffFormat(TTKitFormat):
 </xliff>
 """
 
+    def get_xml_whitespace_handling(self) -> str:
+        return cast("str", XMLWhitespaceHandling.get_value(self.file_format_params))
+
+    def apply_xml_whitespace_policy_to_store(
+        self, store: TranslationStore | None = None
+    ) -> None:
+        policy = self.get_xml_whitespace_handling()
+        target_store = self.store if store is None else store
+        for unit in self.iter_xliff_ttkit_units(target_store):
+            _apply_xml_whitespace_policy(unit, policy)
+
+    def load(
+        self,
+        storefile: str | IO[bytes],
+        template_store: TranslationFormat | None,
+    ):
+        store = super().load(storefile, template_store)
+        self.apply_xml_whitespace_policy_to_store(store)
+        return store
+
+    def save_content(self, handle: IO[bytes]) -> None:
+        """Store content to file after re-applying the whitespace policy."""
+        self.apply_xml_whitespace_policy_to_store()
+        super().save_content(handle)
+
+    def iter_xliff_ttkit_units(
+        self,
+        store: TranslationStore,
+    ) -> Generator[TranslateToolkitXliffUnit]:
+        for unit in store.units:
+            if unit.isobsolete() or unit.isheader():
+                continue
+            child_units = getattr(unit, "units", None)
+            if child_units:
+                yield from child_units
+            else:
+                yield cast("TranslateToolkitXliffUnit", unit)
+
     def construct_unit(self, source: str):
         unit = super().construct_unit(source)
         # Make sure new unit is using same namespace as the original
         # file (xliff 1.1/1.2)
         unit.namespace = self.store.namespace
         unit.xmlelement = etree.Element(unit.namespaced(unit.rootNode))
-        setXMLspace(unit.xmlelement, "preserve")
+        policy = self.get_xml_whitespace_handling()
+        if policy == "preserve":
+            setXMLspace(unit.xmlelement, "preserve")
+        elif policy == "normalize":
+            setXMLspace(unit.xmlelement, "default")
         return unit
 
     def create_unit(
