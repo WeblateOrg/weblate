@@ -384,6 +384,26 @@ class XMLParamsTest(BaseFileFormatsTest):
         self.assertNotIn('xml:space="preserve" id="new-key"', content)
         self.assertNotIn('id="new-key" xml:space="preserve"', content)
 
+    def test_placeables_param_default(self) -> None:
+        defaults = get_default_params_for_file_format(self.component.file_format)
+        self.assertEqual(defaults["xliff_placeables"], "placeables")
+
+        self.update_component_file_params(xliff_placeables="plain")
+        self.assertEqual(
+            self.component.file_format_cls.get_unit_class(
+                self.component.file_format_params
+            ).__name__,
+            "XliffUnit",
+        )
+
+        self.update_component_file_params(xliff_placeables="placeables")
+        self.assertEqual(
+            self.component.file_format_cls.get_unit_class(
+                self.component.file_format_params
+            ).__name__,
+            "RichXliffUnit",
+        )
+
 
 class TSParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:

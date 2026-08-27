@@ -65,6 +65,7 @@ class FileFormatParams(TypedDict, total=False):
     md_no_placeholders: bool
     merge_duplicates: bool
     xml_whitespace_handling: Literal["standard", "preserve", "normalize"]
+    xliff_placeables: Literal["plain", "placeables"]
 
 
 FileFormatParamKey = Literal[
@@ -102,6 +103,7 @@ FileFormatParamKey = Literal[
     "md_no_placeholders",
     "xml_closing_tags",
     "xml_whitespace_handling",
+    "xliff_placeables",
 ]
 
 
@@ -521,12 +523,40 @@ class XMLWhitespaceHandling(BaseFileFormatParam):
     )
 
     file_formats = (
-        "plainxliff",
         "xliff",
         "poxliff",
         "apple-xliff",
         "xliff2",
-        "xliff2-placeables",
+    )
+
+
+@register_file_format_param
+class XliffPlaceables(BaseFileFormatParam):
+    name = "xliff_placeables"
+    label = gettext_lazy("Placeables support")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        (
+            "plain",
+            gettext_lazy("Plain text only"),
+        ),
+        (
+            "placeables",
+            gettext_lazy("Support placeables"),
+        ),
+    ]
+    default = "placeables"
+    help_text = gettext_lazy(
+        "Controls whether inline XML elements inside XLIFF strings are preserved as editable placeables. "
+        "Plain text only escapes XML markup and treats the content as text. "
+        'With placeables supported, tags such as <x id="name"\\/> or <g> stay in the string and appear as placeholders in the editor'
+    )
+
+    file_formats = (
+        "xliff",
+        "poxliff",
+        "apple-xliff",
+        "xliff2",
     )
 
 

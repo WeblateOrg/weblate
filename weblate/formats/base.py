@@ -392,7 +392,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     format_id: str = ""
     monolingual: bool | None = None
     check_flags: tuple[str, ...] = ()
-    unit_class: type[T] = TranslationUnit  # type: ignore[assignment]
+    unit_class: type[T] | dict[str, type[T]] = TranslationUnit  # type: ignore[assignment]
     autoload: tuple[str, ...] = ()
     can_add_unit: bool = True
     can_delete_unit: bool = True
@@ -430,6 +430,27 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     @classmethod
     def get_identifier(cls):
         return cls.format_id
+
+    @classmethod
+    # ruff: ignore[unused-class-method-argument]
+    def get_unit_class_variant(
+        cls, file_format_params: FileFormatParams | None = None
+    ) -> str | None:
+        """Return unit class variant name from file format parameters."""
+        return None
+
+    @classmethod
+    def get_unit_class(
+        cls, file_format_params: FileFormatParams | None = None
+    ) -> type[T]:
+        """Return class for wrapping store units."""
+        unit_class = cls.unit_class
+        if not isinstance(unit_class, dict):
+            return unit_class
+        variant = cls.get_unit_class_variant(file_format_params)
+        if variant in unit_class:
+            return unit_class[variant]
+        return next(iter(unit_class.values()))
 
     def __init__(
         self,
@@ -559,7 +580,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
     def _calculate_string_hash(self, context: str, source: str) -> int:
         """Calculate id hash for a string."""
-        return self.unit_class.calculate_id_hash(
+        return self.get_unit_class(self.file_format_params).calculate_id_hash(
             self.has_template or self.is_template, get_string(source), context
         )
 
@@ -596,7 +617,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
         """Return actual store units used for duplicate cleanup."""
         if not self.has_template:
             return self._get_all_bilingual_units()
-        return [self.unit_class(self, unit, unit) for unit in self.all_store_units]
+        return [
+            self.get_unit_class(self.file_format_params)(self, unit, unit)
+            for unit in self.all_store_units
+        ]
 
     def remove_duplicate_units(self) -> list[str] | None:
         """Remove duplicate units from the underlying store."""
@@ -665,13 +689,19 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
     @cached_property
     def template_units(self) -> list[T]:
-        return [self.unit_class(self, None, unit) for unit in self.all_store_units]
+        return [
+            self.get_unit_class(self.file_format_params)(self, None, unit)
+            for unit in self.all_store_units
+        ]
 
     def _get_all_bilingual_units(self) -> list[T]:
-        return [self.unit_class(self, unit) for unit in self.all_store_units]
+        return [
+            self.get_unit_class(self.file_format_params)(self, unit)
+            for unit in self.all_store_units
+        ]
 
     def _build_monolingual_unit(self, unit: T) -> T:
-        return self.unit_class(
+        return self.get_unit_class(self.file_format_params)(
             self,
             self.find_unit_template(unit.context, unit.source, unit.id_hash),
             cast("U", unit.template),
@@ -918,8 +948,8 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
                 )[0].unit
         else:
             template_unit = None
-        result = self.unit_class(self, unit, template_unit)
-        mono_unit = self.unit_class(self, None, unit)
+        result = self.get_unit_class(self.file_format_params)(self, unit, template_unit)
+        mono_unit = self.get_unit_class(self.file_format_params)(self, None, unit)
 
         # Update cached lookups
         if "all_units" in self.__dict__:
@@ -958,7 +988,10 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
         # Iterate over copy of a list as we are changing it when removing units
         for unit in list(self.all_store_units):
-            if self.unit_class(self, None, unit).context not in existing:
+            if (
+                self.get_unit_class(self.file_format_params)(self, None, unit).context
+                not in existing
+            ):
                 changed = True
                 item = self.delete_unit(unit)
                 if item is not None:
@@ -988,7 +1021,11 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
 
         # Iterate over copy of a list as we are changing it when removing units
         for ttkit_unit in list(self.all_store_units):
-            target = split_plural(self.unit_class(self, ttkit_unit, ttkit_unit).target)
+            target = split_plural(
+                self.get_unit_class(self.file_format_params)(
+                    self, ttkit_unit, ttkit_unit
+                ).target
+            )
             if not any(target):
                 changed = True
                 item = self.delete_unit(ttkit_unit)

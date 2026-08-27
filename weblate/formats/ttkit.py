@@ -89,6 +89,7 @@ from weblate.trans.file_format_params import (
     GettextLastTranslator,
     GettextRemoveObsolete,
     GettextXGenerator,
+    XliffPlaceables,
     XMLWhitespaceHandling,
     get_encoding_param,
 )
@@ -941,7 +942,7 @@ class PoMonoUnit(PoUnit):
         super().set_target(target)
 
 
-class XliffUnit[U: TranslateToolkitXliffUnit, F: "XliffFormat"](TTKitUnit[U, F]):
+class XliffUnit[U: TranslateToolkitXliffUnit, F: "BaseXliffFormat"](TTKitUnit[U, F]):
     """
     Wrapper unit for XLIFF.
 
@@ -2183,10 +2184,7 @@ class TS2Format(TTKitFormat):
     additional_states = (STATE_FUZZY,)
 
 
-class XliffFormat(TTKitFormat):
-    # Translators: File format name
-    name = gettext_lazy("XLIFF 1.2 translation file")
-    format_id = "plainxliff"
+class BaseXliffFormat(TTKitFormat):
     loader = Xliff1File
     supports_plural = True
     supports_descriptions = True
@@ -2195,8 +2193,7 @@ class XliffFormat(TTKitFormat):
     supports_flags = True
     supports_read_only = True
     additional_states = (STATE_FUZZY, STATE_APPROVED)
-    autoload: tuple[str, ...] = ("*.xlf", "*.xliff")
-    unit_class = XliffUnit
+    unit_class: type[XliffUnit] | dict[str, type[XliffUnit]] = XliffUnit
     language_format = "bcp"
     use_settarget = True
     empty_file_template: str | None = """<?xml version="1.0" encoding="UTF-8"?>
@@ -2277,15 +2274,24 @@ class XliffFormat(TTKitFormat):
         return "application/xliff+xml"
 
 
-class RichXliffFormat(XliffFormat):
+class XliffFormat(BaseXliffFormat):
     # Translators: File format name
-    name = gettext_lazy("XLIFF 1.2 with placeables support")
+    name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "xliff"
-    autoload: tuple[str, ...] = ("*.sdlxliff", "*.mxliff")
-    unit_class = RichXliffUnit
+    autoload: tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
+    unit_class: ClassVar[type[XliffUnit] | dict[str, type[XliffUnit]]] = {
+        "placeables": RichXliffUnit,
+        "plain": XliffUnit,
+    }
+
+    @classmethod
+    def get_unit_class_variant(
+        cls, file_format_params: FileFormatParams | None = None
+    ) -> str | None:
+        return cast("str", XliffPlaceables.get_value(file_format_params))
 
 
-class PoXliffFormat(PoHeaderMixin, XliffFormat):
+class PoXliffFormat(PoHeaderMixin, BaseXliffFormat):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with gettext extensions")
     format_id = "poxliff"
@@ -2294,7 +2300,7 @@ class PoXliffFormat(PoHeaderMixin, XliffFormat):
     supports_plural: bool = True
 
 
-class AppleXliffFormat(ZeroCLDRPluralMixin, XliffFormat):
+class AppleXliffFormat(ZeroCLDRPluralMixin, BaseXliffFormat):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with Apple extensions")
     format_id = "apple-xliff"
@@ -2311,17 +2317,19 @@ class Xliff2Format(XliffFormat):
     empty_file_template = None
     monolingual = False
 
+    @classmethod
+    def get_unit_class_variant(
+        cls, file_format_params: FileFormatParams | None = None
+    ) -> str | None:
+        # Preserve historical plain behavior when the param was never set.
+        if file_format_params is None or "xliff_placeables" not in file_format_params:
+            return "plain"
+        return cast("str", XliffPlaceables.get_value(file_format_params))
+
     @staticmethod
     def extension() -> str:
         """Return most common file extension for format."""
         return "xliff"
-
-
-class RichXliff2Format(Xliff2Format):
-    # Translators: File format name
-    name = gettext_lazy("XLIFF 2.0 translation file with placeables support")
-    format_id = "xliff2-placeables"
-    unit_class = RichXliffUnit
 
 
 class PropertiesBaseFormat[S: propfile, U: propunit, T: PropertiesUnit](
@@ -2555,7 +2563,9 @@ class ContextIdValidationMixin:
         for existing_unit in ttkit_format.all_store_units:
             if parsed_store_contexts is not None:
                 parsed_store_contexts.add(
-                    ttkit_format.unit_class(ttkit_format, None, existing_unit).context
+                    ttkit_format.get_unit_class(ttkit_format.file_format_params)(
+                        ttkit_format, None, existing_unit
+                    ).context
                 )
             existing_parts = existing_unit.get_unitid().parts
             if self.is_context_conflict(context_parts, existing_parts):
@@ -2962,7 +2972,7 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
             template.id_hash = store_unit.id_hash
             template.target_plural_forms = store_unit.target_plural_forms
             template.plural_rows = store_unit.plural_rows
-        return self.unit_class(self, store_unit, template)
+        return self.get_unit_class(self.file_format_params)(self, store_unit, template)
 
     def _ensure_plural_fieldnames(self) -> None:
         for field in CSV_PLURAL_FIELDNAMES:
@@ -3033,14 +3043,14 @@ class CSVFormat(TTKitFormat[WeblateCSVFile, WeblateCSVUnit, CSVUnit]):
 
     def _get_all_bilingual_units(self) -> list[CSVUnit]:
         return [
-            self.unit_class(self, unit)
+            self.get_unit_class(self.file_format_params)(self, unit)
             for unit in self._group_csv_units(self.all_store_units)
         ]
 
     @cached_property
     def template_units(self) -> list[CSVUnit]:
         return [
-            self.unit_class(self, None, unit)
+            self.get_unit_class(self.file_format_params)(self, None, unit)
             for unit in self._group_csv_units(self.all_store_units)
         ]
 
