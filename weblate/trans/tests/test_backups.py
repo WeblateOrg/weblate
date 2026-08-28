@@ -167,12 +167,14 @@ class BackupsTest(ViewTestCase):
         unit_updates: dict | None = None,
         component_removals: tuple[str, ...] = (),
         all_components: bool = False,
+        component_slug: str | None = None,
     ) -> str:
         backup = ProjectBackup()
         backup.backup_project(self.project)
 
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
+        slug = component_slug or self.component.slug
 
         with (
             ZipFile(backup.filename, "r") as source_zip,
@@ -183,16 +185,12 @@ class BackupsTest(ViewTestCase):
                     repo is not None
                     and repo.startswith("weblate:")
                     and item.filename.startswith("vcs/")
-                    and (
-                        all_components
-                        or item.filename.startswith(f"vcs/{self.component.slug}/")
-                    )
+                    and (all_components or item.filename.startswith(f"vcs/{slug}/"))
                 ):
                     continue
                 data = source_zip.read(item.filename)
                 if item.filename.startswith("components/") and (
-                    all_components
-                    or item.filename.endswith(f"{self.component.slug}.json")
+                    all_components or item.filename.endswith(f"{slug}.json")
                 ):
                     component_data = json.loads(data.decode("utf-8"))
                     if repo is not None:
@@ -295,6 +293,42 @@ class BackupsTest(ViewTestCase):
         restored_component = restored.component_set.get(slug=self.component.slug)
         self.assertEqual(restored_component.vcs, "git")
         self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_restore_legacy_file_format(self) -> None:
+        java = self.create_java(project=self.project, name="Java")
+        xliff = self.create_xliff_mono(project=self.project, name="XLIFF")
+
+        cases = (
+            (
+                java.slug,
+                "properties-utf8",
+                "properties",
+                "properties_encoding",
+                "utf-8",
+            ),
+            (xliff.slug, "plainxliff", "xliff", "xliff_placeables", "plain"),
+        )
+        for slug, old_format, new_format, param_name, param_value in cases:
+            with self.subTest(old_format=old_format):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={"file_format": old_format},
+                    component_removals=("file_format_params",),
+                    component_slug=slug,
+                )
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    restore.validate()
+                    restored = restore.restore(
+                        project_name=f"Restored {old_format}",
+                        project_slug=f"restored-{old_format}",
+                        user=self.user,
+                    )
+
+                restored_component = restored.component_set.get(slug=slug)
+                self.assertEqual(restored_component.file_format, new_format)
+                self.assertEqual(
+                    restored_component.file_format_params[param_name], param_value
+                )
 
     def test_backup_creates_history_entry(self) -> None:
         backup = ProjectBackup()

@@ -554,8 +554,6 @@ class XliffPlaceables(BaseFileFormatParam):
 
     file_formats = (
         "xliff",
-        "poxliff",
-        "apple-xliff",
         "xliff2",
     )
 

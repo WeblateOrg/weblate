@@ -2193,7 +2193,7 @@ class BaseXliffFormat(TTKitFormat):
     supports_flags = True
     supports_read_only = True
     additional_states = (STATE_FUZZY, STATE_APPROVED)
-    unit_class: type[XliffUnit] | dict[str, type[XliffUnit]] = XliffUnit
+    unit_class: ClassVar[type[XliffUnit] | dict[str, type[XliffUnit]]] = XliffUnit
     language_format = "bcp"
     use_settarget = True
     empty_file_template: str | None = """<?xml version="1.0" encoding="UTF-8"?>
@@ -2314,6 +2314,10 @@ class Xliff2Format(XliffFormat):
     format_id = "xliff2"
     loader = Xliff2File  # type: ignore[assignment]
     autoload: tuple[str, ...] = ()
+    unit_class: ClassVar[type[XliffUnit] | dict[str, type[XliffUnit]]] = {
+        "plain": XliffUnit,
+        "placeables": RichXliffUnit,
+    }
     empty_file_template = None
     monolingual = False
 

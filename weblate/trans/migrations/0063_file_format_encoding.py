@@ -6,7 +6,7 @@
 
 from django.db import migrations
 
-FILE_FORMAT_MAPPING: dict[str, tuple[str, dict[str, str]]] = {
+FORMAT_MIGRATION_MAPPING: dict[str, tuple[str, dict[str, str]]] = {
     "strings": (
         "strings",
         {"strings_encoding": "utf-16"},
@@ -71,9 +71,11 @@ def merge_file_format_with_encoding(apps, schema_editor):
     Component = apps.get_model("trans", "Component")
     to_update = []
     for component in Component.objects.filter(
-        file_format__in=FILE_FORMAT_MAPPING.keys()
+        file_format__in=FORMAT_MIGRATION_MAPPING.keys()
     ):
-        new_file_format, file_format_params = FILE_FORMAT_MAPPING[component.file_format]
+        new_file_format, file_format_params = FORMAT_MIGRATION_MAPPING[
+            component.file_format
+        ]
         component.file_format = new_file_format
         component.file_format_params.update(file_format_params)
         to_update.append(component)

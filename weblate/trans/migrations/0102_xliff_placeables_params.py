@@ -4,23 +4,23 @@
 
 from django.db import migrations
 
-FORMAT_MIGRATIONS = {
-    "xliff": ("xliff", "placeables"),
-    "plainxliff": ("xliff", "plain"),
-    "xliff2": ("xliff2", "plain"),
-    "xliff2-placeables": ("xliff2", "placeables"),
+FORMAT_MIGRATION_MAPPING = {
+    "xliff": ("xliff", {"xliff_placeables": "placeables"}),
+    "plainxliff": ("xliff", {"xliff_placeables": "plain"}),
+    "xliff2": ("xliff2", {"xliff_placeables": "plain"}),
+    "xliff2-placeables": ("xliff2", {"xliff_placeables": "placeables"}),
 }
 
 
 def migrate_xliff_placeables(apps, schema_editor) -> None:
     Component = apps.get_model("trans", "Component")
     components_to_update = []
-    for component in Component.objects.filter(file_format__in=FORMAT_MIGRATIONS.keys()):
-        new_format, placeables = FORMAT_MIGRATIONS[component.file_format]
-        file_format_params = dict(component.file_format_params or {})
-        file_format_params["xliff_placeables"] = placeables
+    for component in Component.objects.filter(
+        file_format__in=FORMAT_MIGRATION_MAPPING.keys()
+    ):
+        new_format, file_format_params = FORMAT_MIGRATION_MAPPING[component.file_format]
         component.file_format = new_format
-        component.file_format_params = file_format_params
+        component.file_format_params.update(file_format_params)
         components_to_update.append(component)
 
     Component.objects.bulk_update(
