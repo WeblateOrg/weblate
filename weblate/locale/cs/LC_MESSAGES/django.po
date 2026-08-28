@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-24 22:28+0000\n"
 "Last-Translator: Michal Várady <miko.vaji@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
@@ -3280,6 +3280,14 @@ msgstr "Status superuživatele"
 msgid "User has all possible permissions."
 msgstr "Uživatel má všechna dostupná oprávnění."
 
+msgid "All languages"
+msgstr "Všechny jazyky"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (globální oprávnění)"
@@ -3328,9 +3336,6 @@ msgstr "Seznamy součástí"
 
 msgid "Language selection"
 msgstr "Výběr jazyka"
-
-msgid "All languages"
-msgstr "Všechny jazyky"
 
 msgid "Languages"
 msgstr "Jazyky"
@@ -8862,6 +8867,31 @@ msgstr "Stav"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Staňte se podporovatelem Weblate"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "Repozitář VCS je dostupný komukoliv."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Skipped components"
+msgid "Skipped components:"
+msgstr "Vynechané součásti"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Přístup zamítnut"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Stav repozitáře"
@@ -17591,20 +17621,57 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "Všechny repozitáře byly aktualizovány, probíhají aktualizace překladů."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "Všechny repozitáře byly aktualizovány, probíhají aktualizace překladů."
+
 msgid "All repositories were pushed."
+msgstr "Všechny repozitáře byly odeslány."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Všechny repozitáře byly odeslány."
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "Všechny repozitáře byly resetovány, probíhají aktualizace překladů."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr "Všechny repozitáře byly resetovány, probíhají aktualizace překladů."
+
 msgid "All repositories have been cleaned up."
+msgstr "Všechny repozitáře byly vyčistěny."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Všechny repozitáře byly vyčistěny."
 
 msgid "Translation files have been synchronized."
 msgstr "Překladové soubory byly synchronizovány."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Překladové soubory byly synchronizovány."
+
 msgid "Updates of translations are in progress."
+msgstr "Probíhají aktualizace překladů."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Probíhají aktualizace překladů."
 
 msgid "Duplicate strings have been removed from the translation file."
@@ -17621,6 +17688,11 @@ msgstr "Probíhá ukládání překladů, které jsou v procesu zpracování."
 
 msgid "All pending translations were committed."
 msgstr "Všechny čekající změny byly zapsány."
+
+#, fuzzy
+#| msgid "Pending translations are being committed."
+msgid "Pending translations in accessible repositories were committed."
+msgstr "Probíhá ukládání překladů, které jsou v procesu zpracování."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Součást je nyní zamčena pro překlady!"

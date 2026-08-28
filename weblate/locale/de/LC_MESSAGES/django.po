@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-26 11:32+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
@@ -1841,8 +1841,8 @@ msgstr "Zusätzliche Schlüsselwörter"
 
 msgid "Newline-separated extra keywords passed to xgettext using --keyword."
 msgstr ""
-"Zusätzliche Schlüsselwörter, die durch Zeilenumbrüche getrennt sind und "
-"mit --keyword an xgettext übergeben werden."
+"Zusätzliche Schlüsselwörter, die durch Zeilenumbrüche getrennt sind und mit "
+"--keyword an xgettext übergeben werden."
 
 msgid "Use keywords exclusively"
 msgstr "Schlüsselwörter exklusiv verwenden"
@@ -3404,6 +3404,14 @@ msgstr "Status des Superusers"
 msgid "User has all possible permissions."
 msgstr "Der Benutzer hat alle möglichen Berechtigungen."
 
+msgid "All languages"
+msgstr "Alle Sprachen"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (plattformweite Berechtigungen)"
@@ -3454,9 +3462,6 @@ msgstr "Komponentenlisten"
 
 msgid "Language selection"
 msgstr "Sprachauswahl"
-
-msgid "All languages"
-msgstr "Alle Sprachen"
 
 msgid "Languages"
 msgstr "Sprachen"
@@ -9146,6 +9151,31 @@ msgstr "Status"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Werden Sie Weblate-Unterstützer"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "Das VCS-Repository ist für alle zugänglich."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Skipped components"
+msgid "Skipped components:"
+msgstr "Übersprungene Komponenten"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Keine Berechtigung"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Repository-Status"
@@ -18177,7 +18207,23 @@ msgstr ""
 "Alle Repositorys wurden aktualisiert, die Übersetzungen werden derzeit "
 "aktualisiert."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr ""
+"Alle Repositorys wurden aktualisiert, die Übersetzungen werden derzeit "
+"aktualisiert."
+
 msgid "All repositories were pushed."
+msgstr "Push für alle Repositorys durchgeführt."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Push für alle Repositorys durchgeführt."
 
 msgid ""
@@ -18186,13 +18232,38 @@ msgstr ""
 "Alle Repositorys wurden zurückgesetzt, die Übersetzungen werden derzeit "
 "aktualisiert."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr ""
+"Alle Repositorys wurden zurückgesetzt, die Übersetzungen werden derzeit "
+"aktualisiert."
+
 msgid "All repositories have been cleaned up."
+msgstr "Alle Repositorys wurden bereinigt."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Alle Repositorys wurden bereinigt."
 
 msgid "Translation files have been synchronized."
 msgstr "Übersetzungsdateien wurden synchronisiert."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Übersetzungsdateien wurden synchronisiert."
+
 msgid "Updates of translations are in progress."
+msgstr "Übersetzungen werden derzeit aktualisiert."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Übersetzungen werden derzeit aktualisiert."
 
 msgid "Duplicate strings have been removed from the translation file."
@@ -18210,6 +18281,11 @@ msgstr "Ausstehende Übersetzungen werden committet."
 
 msgid "All pending translations were committed."
 msgstr "Alle ausstehenden Übersetzungen wurden committet."
+
+#, fuzzy
+#| msgid "Pending translations are being committed."
+msgid "Pending translations in accessible repositories were committed."
+msgstr "Ausstehende Übersetzungen werden committet."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Komponente ist nun für Übersetzungen und deren Änderungen gesperrt!"

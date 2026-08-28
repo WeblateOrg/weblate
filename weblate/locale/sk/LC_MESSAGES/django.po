@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-22 02:35+0000\n"
 "Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
@@ -3287,6 +3287,14 @@ msgstr "Stav super používateľa"
 msgid "User has all possible permissions."
 msgstr "Používateľ má všetky možné oprávnenia."
 
+msgid "All languages"
+msgstr "Všetky jazyky"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (celostránkové oprávnenie)"
@@ -3336,9 +3344,6 @@ msgstr "Zoznamy komponentov"
 
 msgid "Language selection"
 msgstr "Výber jazyka"
-
-msgid "All languages"
-msgstr "Všetky jazyky"
 
 msgid "Languages"
 msgstr "Jazyky"
@@ -8889,6 +8894,31 @@ msgstr "Stav"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Staňte sa podporovateľom Weblate"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "Repozitár VCS je prístupný pre každého."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Skipped components"
+msgid "Skipped components:"
+msgstr "Preskočené komponenty"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Oprávnenie zamietnuté"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Stav repozitára"
@@ -16635,8 +16665,8 @@ msgid ""
 "The parameter '%(param)s' is not applicable for the version control system "
 "'%(vcs)s'."
 msgstr ""
-"Parameter '%(param)s' nie je aplikovateľný pre systém riadenia verzií '%(vcs)"
-"s'."
+"Parameter '%(param)s' nie je aplikovateľný pre systém riadenia verzií "
+"'%(vcs)s'."
 
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
@@ -17351,7 +17381,8 @@ msgid "Unknown file format parameter: \"%(param_name)s\"."
 msgstr "Neznámy parameter formátu súboru: „%(param_name)s“."
 
 msgid "Version control parameters must be a dictionary of key-value pairs."
-msgstr "Parametre systému správy verzií musia byť slovníkom párov kľúč-hodnota."
+msgstr ""
+"Parametre systému správy verzií musia byť slovníkom párov kľúč-hodnota."
 
 #, python-format
 msgid "Unknown version control parameter: \"%(param_name)s\"."
@@ -17649,7 +17680,22 @@ msgid ""
 msgstr ""
 "Všetky repozitáre boli aktualizované, aktualizácie prekladov sú v priebehu."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr ""
+"Všetky repozitáre boli aktualizované, aktualizácie prekladov sú v priebehu."
+
 msgid "All repositories were pushed."
+msgstr "Všetky repozitáre boli odoslané."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Všetky repozitáre boli odoslané."
 
 msgid ""
@@ -17657,13 +17703,37 @@ msgid ""
 msgstr ""
 "Všetky repozitáre boli resetované, aktualizácie prekladov sú v priebehu."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr ""
+"Všetky repozitáre boli resetované, aktualizácie prekladov sú v priebehu."
+
 msgid "All repositories have been cleaned up."
+msgstr "Všetky repozitáre boli vyčistené."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Všetky repozitáre boli vyčistené."
 
 msgid "Translation files have been synchronized."
 msgstr "Prekladové súbory boli synchronizované."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Prekladové súbory boli synchronizované."
+
 msgid "Updates of translations are in progress."
+msgstr "Aktualizácie prekladov sú v priebehu."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Aktualizácie prekladov sú v priebehu."
 
 msgid "Duplicate strings have been removed from the translation file."
@@ -17680,6 +17750,11 @@ msgstr "Čakajúce preklady sa zapisujú."
 
 msgid "All pending translations were committed."
 msgstr "Všetky čakajúce preklady boli zapísané."
+
+#, fuzzy
+#| msgid "Pending translations are being committed."
+msgid "Pending translations in accessible repositories were committed."
+msgstr "Čakajúce preklady sa zapisujú."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Komponent je teraz zamknutý pre aktualizácie prekladu!"
@@ -18441,16 +18516,16 @@ msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Požiadavka API %(service)s zlyhala pri zlučovaní pull požiadavky (%(status)s)"
-": %(error)s"
+"Požiadavka API %(service)s zlyhala pri zlučovaní pull požiadavky "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Požiadavka API %(service)s zlyhala pri zlučovaní pull požiadavky (%(status)s)"
-": %(error)s Prosím, skúste to znova neskôr."
+"Požiadavka API %(service)s zlyhala pri zlučovaní pull požiadavky "
+"(%(status)s): %(error)s Prosím, skúste to znova neskôr."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "Repozitáre aplikácie GitHub musia byť importované s vetvou."

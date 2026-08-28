@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-28 03:49+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -3293,6 +3293,14 @@ msgstr "Trạng thái người dùng cấp cao"
 msgid "User has all possible permissions."
 msgstr "Người dùng có tất cả các quyền có thể có."
 
+msgid "All languages"
+msgstr "Tất cả ngôn ngữ"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (quyền hạn toàn trang)"
@@ -3343,9 +3351,6 @@ msgstr "Các danh sách thành phần"
 
 msgid "Language selection"
 msgstr "Chọn ngôn ngữ"
-
-msgid "All languages"
-msgstr "Tất cả ngôn ngữ"
 
 msgid "Languages"
 msgstr "Ngôn ngữ"
@@ -8792,6 +8797,31 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Trở thành người ủng hộ Weblate"
 
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "Kho lưu trữ VCS có thể truy cập được bởi tất cả mọi người."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Skipped components"
+msgid "Skipped components:"
+msgstr "Các thành phần bị bỏ qua"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Quyền Truy Cập Bị Từ Chối"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
+
 msgid "Repository status"
 msgstr "Trạng thái kho lưu trữ"
 
@@ -11045,16 +11075,16 @@ msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to collaborate "
 "on %(project_name)s and join the %(team_name)s team."
 msgstr ""
-"Bạn được %(invitation_author)s mời đến %(site_title)s để cộng tác trong %"
-"(project_name)s và tham gia nhóm %(team_name)s."
+"Bạn được %(invitation_author)s mời đến %(site_title)s để cộng tác trong "
+"%(project_name)s và tham gia nhóm %(team_name)s."
 
 #, python-format
 msgid ""
 "You were invited to %(site_title)s by %(invitation_author)s to join the "
 "%(team_name)s team."
 msgstr ""
-"Bạn đã được %(invitation_author)s mời vào %(site_title)s để tham gia nhóm %"
-"(team_name)s."
+"Bạn đã được %(invitation_author)s mời vào %(site_title)s để tham gia nhóm "
+"%(team_name)s."
 
 #, python-format
 msgid ""
@@ -12302,8 +12332,8 @@ msgid ""
 "Create a ZIP file containing any existing translation files you have, and "
 "%(link_start)supload it%(link_end)s."
 msgstr ""
-"Tạo một tệp ZIP chứa bất kỳ tệp bản dịch hiện có nào bạn có, và %(link_start)"
-"stải tệp đó lên%(link_end)s."
+"Tạo một tệp ZIP chứa bất kỳ tệp bản dịch hiện có nào bạn có, và "
+"%(link_start)stải tệp đó lên%(link_end)s."
 
 msgid ""
 "Pick a repository from a connected account. The component creation form will "
@@ -13156,8 +13186,8 @@ msgid ""
 "refresh and webhook signature checks will not work until the App credentials "
 "are registered again."
 msgstr ""
-"Thông tin xác thực ứng dụng GitHub của Weblate chưa được đăng ký cho %"
-"(hostname)s. Việc làm mới token và kiểm tra chữ ký webhook sẽ không hoạt "
+"Thông tin xác thực ứng dụng GitHub của Weblate chưa được đăng ký cho "
+"%(hostname)s. Việc làm mới token và kiểm tra chữ ký webhook sẽ không hoạt "
 "động cho đến khi thông tin xác thực của Ứng dụng được đăng ký lại."
 
 msgid "GitHub installation ID"
@@ -17107,7 +17137,8 @@ msgstr ""
 "nạ tệp."
 
 msgid "File format parameters must be a dictionary of key-value pairs."
-msgstr "Các tham số định dạng tệp phải là một từ điển gồm các cặp khóa-giá trị."
+msgstr ""
+"Các tham số định dạng tệp phải là một từ điển gồm các cặp khóa-giá trị."
 
 #, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
@@ -17260,7 +17291,8 @@ msgstr "Đang tiến hành nhập bản sao lưu dự án"
 
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
-msgstr "Giấy phép được phát hiện là %s, vui lòng kiểm tra xem nó có đúng không."
+msgstr ""
+"Giấy phép được phát hiện là %s, vui lòng kiểm tra xem nó có đúng không."
 
 msgid "Could not parse uploaded ZIP file."
 msgstr "Không thể phân tích tệp ZIP đã tải lên."
@@ -17396,8 +17428,23 @@ msgid ""
 msgstr ""
 "Tất cả các kho lưu trữ đã được cập nhật, các bản dịch đang được cập nhật."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr ""
+"Tất cả các kho lưu trữ đã được cập nhật, các bản dịch đang được cập nhật."
+
 msgid "All repositories were pushed."
 msgstr ""
+
+#, fuzzy
+#| msgid "Accessing Git repositories"
+msgid "Accessible repositories were pushed."
+msgstr "Truy cập kho lưu trữ Git"
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
@@ -17405,13 +17452,38 @@ msgstr ""
 "Tất cả các kho lưu trữ đã được thiết lập lại, các bản dịch đang được cập "
 "nhật."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr ""
+"Tất cả các kho lưu trữ đã được thiết lập lại, các bản dịch đang được cập "
+"nhật."
+
 msgid "All repositories have been cleaned up."
 msgstr ""
+
+#, fuzzy
+#| msgid "No reports have been generated yet."
+msgid "Accessible repositories have been cleaned up."
+msgstr "Chưa có báo cáo nào được tạo ra."
 
 msgid "Translation files have been synchronized."
 msgstr "Các tệp dịch thuật đã được đồng bộ hóa."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Các tệp dịch thuật đã được đồng bộ hóa."
+
 msgid "Updates of translations are in progress."
+msgstr "Đang tiến hành cập nhật các bản dịch."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Đang tiến hành cập nhật các bản dịch."
 
 msgid "Duplicate strings have been removed from the translation file."
@@ -17428,6 +17500,11 @@ msgstr "Các bản dịch đang chờ xử lý đang được ghi nhận."
 
 msgid "All pending translations were committed."
 msgstr "Tất cả các bản dịch đang chờ xử lý đã được ghi nhận."
+
+#, fuzzy
+#| msgid "Pending translations are being committed."
+msgid "Pending translations in accessible repositories were committed."
+msgstr "Các bản dịch đang chờ xử lý đang được ghi nhận."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Thành phần hiện đã bị khóa để cập nhật bản dịch!"
@@ -18174,32 +18251,32 @@ msgstr ""
 #, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"Yêu cầu API %(service)s không thành công khi hợp nhất một yêu cầu kéo: %"
-"(status)s"
+"Yêu cầu API %(service)s không thành công khi hợp nhất một yêu cầu kéo: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Yêu cầu API %(service)s không thành công khi hợp nhất một yêu cầu kéo: %"
-"(status)s Vui lòng thử lại sau."
+"Yêu cầu API %(service)s không thành công khi hợp nhất một yêu cầu kéo: "
+"%(status)s Vui lòng thử lại sau."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Yêu cầu API %(service)s không thành công khi hợp nhất một pull request (%"
-"(status)s): %(error)s"
+"Yêu cầu API %(service)s không thành công khi hợp nhất một pull request "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Yêu cầu API %(service)s không thành công khi hợp nhất một yêu cầu kéo (%"
-"(status)s): %(error)s Vui lòng thử lại sau."
+"Yêu cầu API %(service)s không thành công khi hợp nhất một yêu cầu kéo "
+"(%(status)s): %(error)s Vui lòng thử lại sau."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "Kho ứng dụng GitHub phải được nhập cùng với một nhánh."
@@ -18760,7 +18837,8 @@ msgstr ""
 
 #, python-format
 msgid "Removed Weblate GitHub App credentials for %(hostname)s."
-msgstr "Đã xóa thông tin xác thực ứng dụng GitHub của Weblate cho %(hostname)s."
+msgstr ""
+"Đã xóa thông tin xác thực ứng dụng GitHub của Weblate cho %(hostname)s."
 
 msgid "Failed to refresh repositories from GitHub."
 msgstr "Không thể làm mới kho lưu trữ từ GitHub."
