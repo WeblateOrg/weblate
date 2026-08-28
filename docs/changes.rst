@@ -29,6 +29,7 @@ Weblate 2026.9
 * Flags in the translation flags editor can now be reopened for editing, navigated with arrow keys, and copied with Ctrl+C.
 * Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`.
 * Project-wide repository maintenance now remains available for authorized repositories and lists components skipped because of linked-component permissions.
+* Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
 
 .. rubric:: Bug fixes
 
