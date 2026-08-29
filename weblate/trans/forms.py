@@ -2264,6 +2264,21 @@ class ProjectDocsMixin(FieldDocsMixin):
         return ("admin/projects", f"project-{field.name.replace('_', '-')}")
 
 
+class HiddenFieldErrorsMixin(forms.Form):
+    """Surface validation errors attached to hidden fields."""
+
+    def full_clean(self) -> None:
+        super().full_clean()
+        # Hidden fields are rendered without their errors, show them on the
+        # form level instead of failing with no visible explanation.
+        for name in list(self._errors):
+            if name == NON_FIELD_ERRORS or not self[name].is_hidden:
+                continue
+            label = self[name].label
+            messages = self._errors.pop(name)
+            self.add_error(None, [f"{label}: {message}" for message in messages])
+
+
 class SpamCheckMixin(forms.Form):
     spam_fields: ClassVar[tuple[str, ...]]
     request: AuthenticatedHttpRequest
@@ -2623,6 +2638,7 @@ class ComponentSettingsForm(
 
 
 class ComponentCreateForm(
+    HiddenFieldErrorsMixin,
     InheritedSettingsFormMixin,
     SettingsBaseForm,
     ComponentDocsMixin,
@@ -2869,7 +2885,9 @@ class ComponentCreateForm(
                 setattr(self.instance, get_inherit_field_name(field), False)
 
 
-class ComponentNameForm(ComponentDocsMixin, ComponentAntispamMixin):
+class ComponentNameForm(
+    HiddenFieldErrorsMixin, ComponentDocsMixin, ComponentAntispamMixin
+):
     name = forms.CharField(
         label=Component.name.field.verbose_name,
         max_length=COMPONENT_NAME_LENGTH,

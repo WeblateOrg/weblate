@@ -41,6 +41,7 @@ Weblate 2026.9
 * :ref:`Project backup restores <projectbackup>` now allowlists repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
 * Notification e-mails now wrap long strings instead of overflowing, keeping the :guilabel:`View` button reachable without horizontal scrolling.
 * The translation flags editor no longer splits a flag on a comma inside a quoted value, so flags such as ``regex:"^.{1,32}$"`` can be typed and pasted again.
+* Creating additional components for a repository imported through the :ref:`GitHub App <code-hosting-github-repositories>` no longer fails without showing any error, and component creation errors which previously could go unreported are now always displayed.
 
 .. rubric:: Compatibility
 
