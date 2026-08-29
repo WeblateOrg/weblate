@@ -12,6 +12,7 @@ import hmac
 import logging
 import time
 import uuid
+from collections import defaultdict
 from enum import StrEnum
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import quote, urlencode, urlparse
@@ -34,6 +35,9 @@ from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from uuid import UUID
+
     from django_stubs_ext import StrOrPromise
 
     from weblate.trans.models import Component
@@ -723,6 +727,27 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
             installation_id=lookup,
         )
 
+    def prefetch_components(self, installations: Iterable[GitHubInstallation]) -> None:
+        """Populate :attr:`GitHubInstallation.components` with a single query."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
+
+        pending: defaultdict[UUID, list[GitHubInstallation]] = defaultdict(list)
+        for installation in installations:
+            if "components" in installation.__dict__:
+                continue
+            installation.__dict__["components"] = []
+            pending[installation.workspace_id].append(installation)
+        if not pending:
+            return
+        for component in Component.objects.filter(
+            vcs=GithubAppRepository.identifier,
+            project__workspace_id__in=list(pending),
+        ).select_related("project"):
+            for installation in pending[component.project.workspace_id]:
+                if installation.matches_component(component):
+                    installation.components.append(component)
+
     def get_for_installation(
         self,
         hostname: str,
@@ -997,23 +1022,32 @@ class GitHubInstallation(Installation):
     def has_repository(self, full_name: str) -> bool:
         return any(repo.get("full_name") == full_name for repo in self.repositories)
 
+    def matches_component(self, component: Component) -> bool:
+        """Check whether the component authenticates through this account."""
+        parsed = urlparse(component.repo)
+        if (parsed.hostname or "").lower() != self.hostname:
+            return False
+        return self.has_repository(parsed.path.strip("/").removesuffix(".git"))
+
     @cached_property
     def components(self) -> list[Component]:
-        """Return components authenticating through this connected account."""
+        """
+        Return components authenticating through this connected account.
+
+        Use :meth:`GitHubInstallationManager.prefetch_components` when several
+        installations are rendered at once to avoid a query for each of them.
+        """
         # ruff: ignore[import-outside-top-level]
         from weblate.trans.models import Component
 
-        result = []
-        for component in Component.objects.filter(
-            vcs=GithubAppRepository.identifier,
-            project__workspace_id=self.workspace_id,
-        ).select_related("project"):
-            parsed = urlparse(component.repo)
-            if (parsed.hostname or "").lower() != self.hostname:
-                continue
-            if self.has_repository(parsed.path.strip("/").removesuffix(".git")):
-                result.append(component)
-        return result
+        return [
+            component
+            for component in Component.objects.filter(
+                vcs=GithubAppRepository.identifier,
+                project__workspace_id=self.workspace_id,
+            ).select_related("project")
+            if self.matches_component(component)
+        ]
 
     def get_webhook_secret(self) -> str:
         config = get_github_app_settings(self.hostname)

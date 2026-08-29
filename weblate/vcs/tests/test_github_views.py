@@ -13,8 +13,9 @@ from urllib.parse import parse_qs, urlencode, urlparse
 from asgiref.sync import async_to_sync
 from django.contrib.messages import get_messages
 from django.core.cache import cache
+from django.db import connection
 from django.test import TestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -1115,6 +1116,44 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "will lose access to its repository")
         self.assertContains(response, str(self.component))
 
+    def test_account_list_prefetches_affected_components(self):
+        """Rendering many removal modals must not query components per row."""
+        repo = _repo_entry("test-org/repo1")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+        for index in range(3):
+            GitHubInstallation.objects.create(
+                installation_id=f"5432{index}",
+                target_type="Organization",
+                target_login=f"other-org-{index}",
+                workspace=Workspace.objects.create(name=f"Workspace {index}"),
+                repositories=[repo],
+            )
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo1.git"
+        self.component.save(update_fields=["vcs", "repo"])
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("account-vcs"))
+
+        self.assertContains(response, "will lose access to its repository")
+        self.assertContains(response, str(self.component))
+        self.assertEqual(
+            len(
+                [
+                    query
+                    for query in queries.captured_queries
+                    if "trans_component" in query["sql"]
+                ]
+            ),
+            1,
+        )
+
     def test_installation_detail_hides_import_link_when_disabled(self):
         repo = _repo_entry("test-org/repo1")
         installation = GitHubInstallation.objects.create(
@@ -1476,7 +1515,10 @@ class GitHubInstallationViewTest(ViewTestCase):
                 response_messages = [
                     str(message) for message in get_messages(response.asgi_request)
                 ]
-                self.assertIn("remove it there manually", response_messages[-1])
+                self.assertIn(
+                    "no longer grants access to this installation",
+                    response_messages[-1],
+                )
 
     @http_mock.activate
     def test_remove_installation_without_app_credentials(self):
@@ -1505,7 +1547,9 @@ class GitHubInstallationViewTest(ViewTestCase):
             str(message) for message in get_messages(response.asgi_request)
         ]
         self.assertEqual(len(response_messages), 1)
-        self.assertIn("remove it there manually", response_messages[0])
+        self.assertIn(
+            "no longer configured on this Weblate instance", response_messages[0]
+        )
 
     @http_mock.activate
     def test_remove_installation_keeps_shared_github_installation(self):

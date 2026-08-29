@@ -454,6 +454,12 @@ class UserVCSIntegrationListView(View):
             for installation in installations
             if _user_can_manage_installation(request.user, installation)
         }
+        # Only manageable installations render the removal confirmation
+        GitHubInstallation.objects.prefetch_components(
+            installation
+            for installation in installations
+            if installation.pk in manageable_installations
+        )
         installations_by_host: defaultdict[str, list[GitHubInstallation]] = defaultdict(
             list
         )
@@ -578,13 +584,23 @@ async def remove_installation(request, pk):
             )
             % {"target": target},
         )
+    elif result == InstallationRemoval.UNREACHABLE:
+        messages.warning(
+            request,
+            gettext(
+                "Removed connected GitHub account %(target)s. GitHub no longer "
+                "grants access to this installation, so it was not uninstalled. "
+                "Check on GitHub whether the Weblate GitHub App is still installed."
+            )
+            % {"target": target},
+        )
     else:
         messages.warning(
             request,
             gettext(
                 "Removed connected GitHub account %(target)s. The Weblate GitHub "
-                "App could not be uninstalled from GitHub, please remove it "
-                "there manually."
+                "App is no longer configured on this Weblate instance, so it "
+                "could not be uninstalled, please remove it on GitHub manually."
             )
             % {"target": target},
         )
@@ -988,6 +1004,12 @@ def github_app_repository_list(request):
         for installation in installations
         if _user_can_manage_installation(request.user, installation)
     }
+    # Only manageable installations render the removal confirmation
+    GitHubInstallation.objects.prefetch_components(
+        installation
+        for installation in installations
+        if installation.pk in manageable_installations
+    )
     all_repos = []
     for installation in installations:
         for repo in installation.repositories:
