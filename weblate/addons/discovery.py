@@ -63,6 +63,8 @@ class DiscoveryAddon(BaseAddon):
             self.instance.configuration["new_base_template"] = ""
         if "intermediate_template" not in self.instance.configuration:
             self.instance.configuration["intermediate_template"] = ""
+        if "filemask_template" not in self.instance.configuration:
+            self.instance.configuration["filemask_template"] = ""
         return ComponentDiscovery(
             component,
             **ComponentDiscovery.extract_kwargs(self.instance.configuration),
