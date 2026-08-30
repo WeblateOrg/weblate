@@ -9,6 +9,7 @@ Weblate 2026.9
 
 .. rubric:: Improvements
 
+* Removing the final Weblate workspace connection for a GitHub account, or removing the workspace holding it, now also uninstalls the Weblate GitHub App from GitHub.
 * :ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords (newline-separated) passed to xgettext via ``--keyword``, enabling extraction from different function names.
 * Screenshot images are now cached in browsers to reduce repeated downloads.
 * Anthropic machinery now uses prompt caching to reduce the API costs of automatic translation.
@@ -27,6 +28,7 @@ Weblate 2026.9
 * The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
 * Flags in the translation flags editor can now be reopened for editing, navigated with arrow keys, and copied with Ctrl+C.
 * Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`.
+* Project-wide repository maintenance now remains available for authorized repositories and lists components skipped because of linked-component permissions.
 
 .. rubric:: Bug fixes
 
@@ -38,6 +40,7 @@ Weblate 2026.9
 * GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
 * :ref:`Project backup restores <projectbackup>` now allowlists repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
 * Notification e-mails now wrap long strings instead of overflowing, keeping the :guilabel:`View` button reachable without horizontal scrolling.
+* The translation flags editor no longer splits a flag on a comma inside a quoted value, so flags such as ``regex:"^.{1,32}$"`` can be typed and pasted again.
 
 .. rubric:: Compatibility
 

@@ -1024,11 +1024,19 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def on_repo_components(self, use_all: bool, func: str, *args, **kwargs) -> bool:
+    def on_repo_components(
+        self,
+        use_all: bool,
+        func: str,
+        *args,
+        repo_components: Iterable[Component] | None = None,
+        **kwargs,
+    ) -> bool:
         """Perform operation on all repository components."""
+        if repo_components is None:
+            repo_components = self.all_repo_components
         generator = (
-            getattr(component, func)(*args, **kwargs)
-            for component in self.all_repo_components
+            getattr(component, func)(*args, **kwargs) for component in repo_components
         )
         if use_all:
             # Call methods on all components as this performs an operation
@@ -1036,56 +1044,125 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # This is status checking, call only needed methods
         return any(generator)
 
-    def commit_pending(self, reason: str, user: User) -> bool:
+    def commit_pending(
+        self,
+        reason: str,
+        user: User,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Commit any pending changes."""
-        return self.on_repo_components(True, "commit_pending", reason, user)
+        return self.on_repo_components(
+            True,
+            "commit_pending",
+            reason,
+            user,
+            repo_components=repo_components,
+        )
 
-    def repo_needs_merge(self) -> bool:
-        return self.on_repo_components(False, "repo_needs_merge")
+    def repo_needs_merge(
+        self, *, repo_components: Iterable[Component] | None = None
+    ) -> bool:
+        return self.on_repo_components(
+            False, "repo_needs_merge", repo_components=repo_components
+        )
 
-    def repo_needs_push(self) -> bool:
-        return self.on_repo_components(False, "repo_needs_push")
+    def repo_needs_push(
+        self, *, repo_components: Iterable[Component] | None = None
+    ) -> bool:
+        return self.on_repo_components(
+            False, "repo_needs_push", repo_components=repo_components
+        )
 
     def do_update(
-        self, request: AuthenticatedHttpRequest | None = None, method: str | None = None
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        method: str | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
     ) -> bool:
         """Update all Git repos."""
-        return self.on_repo_components(True, "do_update", request, method=method)
+        return self.on_repo_components(
+            True,
+            "do_update",
+            request,
+            method=method,
+            repo_components=repo_components,
+        )
 
-    def do_push(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_push(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Push all Git repos."""
-        return self.on_repo_components(True, "do_push", request)
+        return self.on_repo_components(
+            True, "do_push", request, repo_components=repo_components
+        )
 
     def do_reset(
         self,
         request: AuthenticatedHttpRequest | None = None,
         *,
         keep_changes: bool = False,
+        repo_components: Iterable[Component] | None = None,
     ) -> bool:
         """Push all Git repos."""
         return self.on_repo_components(
-            True, "do_reset", request, keep_changes=keep_changes
+            True,
+            "do_reset",
+            request,
+            keep_changes=keep_changes,
+            repo_components=repo_components,
         )
 
-    def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_cleanup(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Push all Git repos."""
-        return self.on_repo_components(True, "do_cleanup", request)
+        return self.on_repo_components(
+            True, "do_cleanup", request, repo_components=repo_components
+        )
 
-    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_file_sync(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Force updating of all files."""
-        return self.on_repo_components(True, "do_file_sync", request)
+        return self.on_repo_components(
+            True, "do_file_sync", request, repo_components=repo_components
+        )
 
-    def do_file_scan(self, request: AuthenticatedHttpRequest | None = None) -> bool:
+    def do_file_scan(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        repo_components: Iterable[Component] | None = None,
+    ) -> bool:
         """Rescanls all VCS repos."""
-        return self.on_repo_components(True, "do_file_scan", request)
+        return self.on_repo_components(
+            True, "do_file_scan", request, repo_components=repo_components
+        )
 
-    def has_push_configuration(self) -> bool:
+    def has_push_configuration(
+        self, *, repo_components: Iterable[Component] | None = None
+    ) -> bool:
         """Check whether any suprojects can push."""
-        return self.on_repo_components(False, "has_push_configuration")
+        return self.on_repo_components(
+            False, "has_push_configuration", repo_components=repo_components
+        )
 
-    def can_push(self) -> bool:
+    def can_push(self, *, repo_components: Iterable[Component] | None = None) -> bool:
         """Check whether any suprojects can push."""
-        return self.on_repo_components(False, "can_push")
+        return self.on_repo_components(
+            False, "can_push", repo_components=repo_components
+        )
 
     @cached_property
     def all_repo_components(self) -> list[Component]:
