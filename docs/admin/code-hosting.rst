@@ -327,6 +327,16 @@ the install-time GitHub user can administer the organization installation.
 Projects that are not in a workspace cannot connect a GitHub account through
 the GitHub App.
 
+Removing a connected GitHub account also uninstalls the App from GitHub when
+no other Weblate workspace uses that installation. If another workspace still
+uses the installation, Weblate removes only the selected workspace connection.
+Components imported through that connection lose access to their repositories.
+Removing a workspace uninstalls its connected accounts the same way.
+
+Weblate removes the connection even when GitHub no longer knows about the
+installation, and keeps it only when GitHub could not be reached, so that the
+removal can be retried.
+
 Components imported through the GitHub App flow use the dedicated
 :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. The component
 settings UI keeps the repository URL read-only to prevent the App-issued
