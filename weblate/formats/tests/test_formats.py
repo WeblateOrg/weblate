@@ -789,7 +789,7 @@ class FormatFeatureBehaviorTest(SimpleTestCase):
                     "test.xliff",
                     content,
                     expected,
-                    file_format_params=params,
+                    file_format_params=cast("FileFormatParams", params),
                 )
 
     def test_xliff2_segment_flags(self) -> None:
@@ -2250,7 +2250,7 @@ class AndroidMarkupFormatTest(TempDirMixin, SimpleTestCase):
 
 
 class XliffFormatTest(XMLMixin, BaseFormatTest):
-    format_class = XliffFormat
+    format_class: type[TranslationFormat] = XliffFormat
     FILE = TEST_XLIFF
     BASE = TEST_XLIFF
     MIME = "application/xliff+xml"

@@ -392,7 +392,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     format_id: str = ""
     monolingual: bool | None = None
     check_flags: tuple[str, ...] = ()
-    unit_class: type[T] | dict[str, type[T]] = TranslationUnit  # type: ignore[assignment]
+    unit_class: ClassVar[type[T] | dict[str, type[T]]] = TranslationUnit  # type: ignore[assignment]
     autoload: tuple[str, ...] = ()
     can_add_unit: bool = True
     can_delete_unit: bool = True
