@@ -373,13 +373,15 @@ by site-wide or per-project teams by adding another custom team.
 
   1. Remove the permission to translate `Czech` from all users. In the
      default configuration this can be done by altering the `Users`
-     :ref:`default team <default-teams>`.
+     :ref:`default team <default-teams>`. Built-in teams reject this change in
+     the team management UI, use the
+     :ref:`Django admin interface <admin-interface>` instead.
 
      .. list-table:: Group `Users`
          :stub-columns: 1
 
-         * - Language selection
-           - `As defined`
+         * - All languages
+           - Turned off
          * - Languages
            - All but `Czech`
 
@@ -392,8 +394,8 @@ by site-wide or per-project teams by adding another custom team.
            - `Power users`
          * - Project selection
            - `All public projects`
-         * - Language selection
-           - `As defined`
+         * - All languages
+           - Turned off
          * - Languages
            - `Czech`
 
@@ -503,6 +505,12 @@ the following rules:
   when linked components are in other projects. A per-member language limit
   therefore cannot grant these permissions.
 
+  Project-wide repository status and operations filter repositories using this
+  rule. Repositories for which the member lacks permission on any linked
+  component are listed separately and are not inspected or changed. An
+  operation is denied when none of the project's repositories are available to
+  it.
+
 - The :guilabel:`Edit component settings` permission allows administrative
   operations that can affect repository contents. For example, users can choose
   files through component settings or install and configure component add-ons.
@@ -517,7 +525,7 @@ the following rules:
 
 .. hint::
 
-   Use :guilabel:`Language selection` or :guilabel:`Project selection`
+   Use :guilabel:`All languages` or :guilabel:`Project selection`
    to automate inclusion of all languages or projects.
 
 .. image:: /screenshots/team-scope.webp

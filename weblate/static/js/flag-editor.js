@@ -22,6 +22,29 @@
   }
 
   /*
+   * Quote character left open at the end of the string, null when it ends
+   * outside of quotes. A comma is a flag separator only outside of quotes.
+   */
+  function openQuoteChar(value) {
+    let quoteChar = null;
+    let escaped = false;
+    for (const ch of value) {
+      if (escaped) {
+        escaped = false;
+      } else if (ch === "\\") {
+        escaped = true;
+      } else if (ch === '"' || ch === "'") {
+        if (quoteChar === null) {
+          quoteChar = ch;
+        } else if (quoteChar === ch) {
+          quoteChar = null;
+        }
+      }
+    }
+    return quoteChar;
+  }
+
+  /*
    * Split a flag-text string into individual flag tokens
    */
   function parseFlagInputValue(value) {
@@ -209,6 +232,45 @@
         this.refreshOptions(this.isFocused);
       }
       return result;
+    };
+
+    /* Typing a comma inside a quoted value keeps it as part of the flag
+     * instead of starting a new one. */
+    const origKeyPress = ts.onKeyPress;
+    ts.onKeyPress = function (e) {
+      if (e.key === ",") {
+        const caret = this.control_input?.selectionStart;
+        const typed = this.control_input?.value || "";
+        const before =
+          typeof caret === "number" ? typed.slice(0, caret) : typed;
+        if (openQuoteChar(before) !== null) {
+          return;
+        }
+      }
+      origKeyPress.call(this, e);
+    };
+
+    /* Split pasted text the same way the flags are parsed, so that commas
+     * inside quotes do not split a flag in half. */
+    ts.onPaste = function (e) {
+      if (this.isInputHidden || this.isLocked) {
+        e.preventDefault();
+        return;
+      }
+      /* Wait for the pasted text to appear in the text box */
+      setTimeout(() => {
+        const flags = parseFlagInputValue(this.inputValue());
+        if (flags.length < 2) {
+          return;
+        }
+        for (const flag of flags) {
+          if (this.options[flag]) {
+            this.addItem(flag);
+          } else {
+            this.createItem(flag);
+          }
+        }
+      }, 0);
     };
 
     let editedIndex = null;

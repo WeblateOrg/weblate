@@ -37943,6 +37943,21 @@ components:
         needs_push:
           type: boolean
           description: Whether the repository has commits that need to be pushed.
+        included_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components included in the status.
+        skipped_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components skipped from the status.
+        permission_blockers:
+          type: array
+          items:
+            type: string
+          description: Full paths of components preventing access to skipped repositories.
         url:
           type: string
           description: URL to the repository API endpoint.
@@ -37997,6 +38012,21 @@ components:
           type: boolean
         detail:
           type: string
+        included_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components included in the operation.
+        skipped_components:
+          type: array
+          items:
+            type: string
+          description: Full paths of project components skipped by the operation.
+        permission_blockers:
+          type: array
+          items:
+            type: string
+          description: Full paths of components preventing access to skipped repositories.
       required:
       - result
     ResultEnum:

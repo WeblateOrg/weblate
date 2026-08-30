@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-24 03:51+0000\n"
+"PO-Revision-Date: 2026-08-26 22:57+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -18392,8 +18392,7 @@ msgstr ""
 
 #, python-format
 msgid "Could not obtain GitHub App access token: %(error)s"
-msgstr ""
-"Det gick inte att hämta åtkomstpoletten för GitHub-programmet: %(error)s"
+msgstr "Det gick inte att hämta åtkomst-token för GitHub-programmet: %(error)s"
 
 msgid "GitHub App components require a project with a workspace."
 msgstr ""
@@ -18478,29 +18477,22 @@ msgstr "Arkivet returnerade en ogiltig HTTP-omdirigering."
 msgid "The repository returned an HTTP redirect with an invalid hostname."
 msgstr "Arkivet returnerade en HTTP-omdirigering med ett ogiltigt värdnamn."
 
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
 msgid "The repository HTTP redirect contains a loop."
-msgstr "Alla arkiv har rensats upp."
+msgstr "HTTP-omdirigeringen till förrådet innehåller en slinga."
 
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
 msgid "The repository redirect target has no validated address."
-msgstr "Alla arkiv har rensats upp."
+msgstr "Förrådets omdirigeringsmål har ingen validerad adress."
 
 msgid "The repository returned a permanent HTTP redirect without a target URL."
 msgstr "Arkivet returnerade en permanent HTTP-omdirigering utan en mål-URL."
 
-#, fuzzy
-#| msgid "Category does not belong to this project."
 msgid ""
 "The repository HTTP redirect does not point to a Git smart HTTP endpoint."
-msgstr "Kategorin hör inte till detta projekt."
+msgstr "Förrådets HTTP-omdirigering pekar inte mot en Git smart-HTTP-ändpunkt."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch the repository: %s"
+#, python-format
 msgid "Could not probe the repository HTTP redirect: %(error)s"
-msgstr "Det gick inte att hämta (fetch) arkivet: %s"
+msgstr "Det gick inte att undersöka förrådets HTTP-omdirigering: %(error)s"
 
 msgid "The repository HTTP redirect unexpectedly changed the URL query."
 msgstr "HTTP-omdirigeringen av arkivet ändrade oväntat URL-frågan."
@@ -18529,15 +18521,12 @@ msgid ""
 "Remote branch does not share common history with the existing repository."
 msgstr "Fjärrgrenen delar inte gemensam historik med det befintliga arkivet."
 
-#, fuzzy
-#| msgid "Could not determine Sphinx source directory."
 msgid "Could not determine the effective SSH destination."
-msgstr "Kunde inte bestämma Sphinx källkatalog."
+msgstr "Kunde inte fastställa den effektiva SSH-destinationen."
 
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %(error)s"
-msgstr "Kunde inte ta bort strängen: %s"
+msgstr "Kunde inte fastställa den effektiva SSH-destinationen: %(error)s"
 
 #, python-format
 msgid "Unsupported interrupted Git operation: %(operation)s"
@@ -18550,38 +18539,30 @@ msgstr ""
 "Denna VCS-backend kan inte ansluta säkert till denna URL medan begränsningar "
 "för privata adresser är aktiverade."
 
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository from %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository from %(hostname)s is not allowed."
-msgstr "Det är inte tillåtet att hämta VCS-arkivet från %s."
+msgstr "Att hämta VCS-förråd från %(hostname)s är inte tillåtet."
 
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid URL."
-msgstr "Ange en giltig språkkod."
+msgstr "Ange en giltig URL."
 
-#, fuzzy, python-format
-#| msgid "Could not parse URL: {}"
+#, python-format
 msgid "Could not parse URL: %(error)s"
-msgstr "Kunde inte tolka URL: {}"
+msgstr "Kunde inte tolka URL:en: %(error)s"
 
-#, fuzzy, python-format
-#| msgid "Fetching VCS repository using %s is not allowed."
+#, python-format
 msgid "Fetching VCS repository using %(scheme)s is not allowed."
-msgstr "Det är inte tillåtet att hämta VCS-arkiv med %s."
+msgstr "Att ämta VCS-förråd med %(scheme)s är inte tillåtet."
 
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not resolve the URL domain: %(error)s"
-msgstr "Kunde inte ta bort strängen: %s"
+msgstr "Kunde inte lösa URL-domänen: %(error)s"
 
 msgid "This will push changes to the upstream repository."
 msgstr "Detta kommer att pusha ändringar till uppströmsarkivet."
 
-#, fuzzy
-#| msgid "Enter a valid language code."
 msgid "Enter a valid GitHub host."
-msgstr "Ange en giltig språkkod."
+msgstr "Ange en giltig GitHub-värd."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -18590,10 +18571,8 @@ msgstr ""
 "Använd github.com för GitHub.com eller webbhotellnamnet för GitHub "
 "Enterprise Server."
 
-#, fuzzy
-#| msgid "Translation explanation"
 msgid "Organization (optional)"
-msgstr "Förklaring till översättning"
+msgstr "Organisation (frivilligt)"
 
 msgid ""
 "Enter a GitHub organization slug to register the App under that organization "
@@ -18691,62 +18670,45 @@ msgstr ""
 msgid "Bitbucket Cloud merge request"
 msgstr "Bitbucket Cloud-sammanslagningsbegäran"
 
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub hostname"
-msgstr "GitHub-användarnamn"
+msgstr "GitHub-värdnamn"
 
-#, fuzzy
-#| msgid "URL slug"
 msgid "App slug"
-msgstr "URL-slug"
+msgstr "Program-slug"
 
 msgid "Private key (PEM)"
-msgstr ""
+msgstr "Privat nyckel (PEM)"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "OAuth client ID"
-msgstr "Klient-ID"
+msgstr "OAuth-klient-ID"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client secret"
 msgid "OAuth client secret"
-msgstr "Klienthemlighet"
+msgstr "OAuth-klienthemlighet"
 
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook token"
-msgstr "Webhook"
+msgstr "Webhook-token"
 
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "API URL"
 msgid "App URL"
-msgstr "URL för API"
+msgstr "Program-URL"
 
 msgid "Weblate GitHub App credentials"
 msgstr "Weblate GitHub-appens inloggningsuppgifter"
 
-#, fuzzy
-#| msgid "Delete this account"
 msgid "connected GitHub account"
-msgstr "Ta bort detta konto"
+msgstr "anslutet GitHub-konto"
 
 msgid "connected GitHub accounts"
-msgstr ""
+msgstr "anslutna GitHub-konton"
 
 msgid "GitHub (via Weblate GitHub app)"
 msgstr "GitHub (via Weblate GitHub-appen)"
 
-#, fuzzy
-#| msgid "This will push changes and create a GitHub pull request."
 msgid ""
 "This will push changes and create a GitHub pull request via the Weblate "
 "GitHub app."
-msgstr "Detta kommer att skicka ändringar och skapa en GitHub pull-begäran."
+msgstr ""
+"Detta kommer att skicka ändringarna och skapa en GitHub-pull-begäran via "
+"Weblate-programmet för GitHub."
 
 msgid "GitHub App components require a GitHub HTTPS repository URL."
 msgstr "GitHub-appkomponenter kräver en GitHub HTTPS-arkiv-URL."
@@ -18767,112 +18729,94 @@ msgstr "GitHub"
 msgid "Provider"
 msgstr "Leverantör"
 
-#, fuzzy
-#| msgid "Translation Info"
 msgid "Installation ID"
-msgstr "Översättningsinformation"
+msgstr "Installations-ID"
 
-#, fuzzy
-#| msgid "Target string"
 msgid "Target type"
-msgstr "Målsträng"
+msgstr "Måltyp"
 
-#, fuzzy
-#| msgid "Organize or remove"
 msgid "Organization or User"
-msgstr "Organisera eller ta bort"
+msgstr "Organisation eller användare"
 
-#, fuzzy
-#| msgid "Target string"
 msgid "Target login"
-msgstr "Målsträng"
+msgstr "Målinloggning"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Hosting organization or user login"
-msgstr "Lagrade översättningar"
+msgstr "Värdorganisation eller användarinloggning"
 
-#, fuzzy
-#| msgid "VCS repositories"
 msgid "Available repositories"
-msgstr "VCS-arkiv"
+msgstr "Tillgängliga förråd"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installation"
-msgstr "Lagrade översättningar"
+msgstr "installation av kodvärd"
 
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "code-hosting installations"
-msgstr "Lagrade översättningar"
+msgstr "installationer av kodvärdar"
 
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook payload"
-msgstr "Webhook"
+msgstr "Webhook-innehåll"
 
-#, fuzzy
-#| msgid "Pending invitation"
 msgid "pending code-hosting installation"
-msgstr "Väntande inbjudan"
+msgstr "Väntande installation av kodvärd"
 
-#, fuzzy
-#| msgid "Pending invitations"
 msgid "pending code-hosting installations"
-msgstr "Väntande inbjudningar"
+msgstr "Väntande installationer av kodvärdar"
 
-#, fuzzy
-#| msgid "Git with force push"
 msgid "Force push"
-msgstr "Git med kraft push"
+msgstr "Tvinga push"
 
 msgid ""
 "Overwrite the remote branch instead of refusing to push non-fast-forward "
 "changes. Only use this with a repository dedicated to translations, as it "
 "discards upstream commits which are not present in Weblate."
 msgstr ""
+"Skriv över fjärrgrenen istället för att vägra att skicka ändringar som inte "
+"kan snabbspolas. Använd detta endast med ett förråd dedikerat till "
+"översättningar, eftersom det kastar bort uppströmsändringar som inte finns i "
+"Weblate."
 
-#, fuzzy
-#| msgid "Pagure merge request"
 msgid "Create merge requests"
-msgstr "Pagure sammanslagningsbegäran"
+msgstr "Skapa sammanslagningsbegäranden"
 
 msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
 msgstr ""
+"Skapa en pull- eller sammanslagningsbegäran för översättningsändringarna. "
+"När funktionen är avstängd överför Weblate direkt till den översatta grenen, "
+"vilket kräver skrivbehörighet till den."
 
 msgid "Merge pull requests automatically"
-msgstr ""
+msgstr "Sammanfoga pull-begäranden automatiskt"
 
 msgid ""
 "Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
 "are merged once the required checks pass. Pull requests with nothing to wait "
 "for are merged right away."
 msgstr ""
+"Slå på GitHubs automatiska sammanslagning för pull-begäranden skapade av "
+"Weblate, så att de slås samman när de nödvändiga kontrollerna har passerat. "
+"Pull-begäranden som inte behöver invänta någonting slås samman direkt."
 
 msgid "Merge method"
 msgstr "Sammanslagningsmetod"
 
-#, fuzzy
-#| msgid "Create account"
 msgid "Create a merge commit"
-msgstr "Skapa kontot"
+msgstr "Skapa en sammanslagnings-commit"
 
 msgid "Squash and merge"
-msgstr ""
+msgstr "Slå ihop och sammanfoga"
 
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Rebase and merge"
-msgstr "Återställ och tillämpa på nytt"
+msgstr "Basera om och sammanfoga"
 
 msgid ""
 "Method used when merging pull requests automatically. The repository has to "
 "allow it."
 msgstr ""
+"Metod som används när pull-begäranden automatiskt sammanfogas. Förrådet "
+"måste tillåta det."
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -18897,30 +18841,22 @@ msgstr "Skapade ny SSH-nyckel."
 msgid "Could not fetch public key for a host: %s"
 msgstr "Kunde inte hämta publik nyckel för en värd: %s"
 
-#, fuzzy
-#| msgid "Could not fetch public key for a host: %s"
 msgid "Could not fetch public key for a host."
-msgstr "Kunde inte hämta publik nyckel för en värd: %s"
+msgstr "Kunde inte hämta den publika nyckeln för en värd."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s), please verify that it is correct."
+#, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"La till värdnyckel för %(host)s med fingeravtryck %(fingerprint)s "
-"(%(keytype)s), bekräfta att detta stämmer."
+"Lade till värdnyckeln för %(host)s med fingeravtryck %(fingerprint)s (%"
+"(keytype)s)."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s), please verify that it is correct."
+#, python-format
 msgid ""
 "Skipped host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"La till värdnyckel för %(host)s med fingeravtryck %(fingerprint)s "
-"(%(keytype)s), bekräfta att detta stämmer."
+"Hoppade över värdnyckeln för %(host)s med fingeravtryck %(fingerprint)s (%"
+"(keytype)s)."
 
 #, python-format
 msgid ""
@@ -18930,40 +18866,28 @@ msgstr ""
 "La till värdnyckel för %(host)s med fingeravtryck %(fingerprint)s "
 "(%(keytype)s), bekräfta att detta stämmer."
 
-#, fuzzy
-#| msgid "No teams are available."
 msgid "No validated SSH addresses available."
-msgstr "Det finns inga grupper tillgängliga."
+msgstr "Inga validerade SSH-adresser finns tillgängliga."
 
-#, fuzzy
-#| msgid "Could not get host key: %s"
 msgid "Could not read stored host keys."
-msgstr "Kunde inte hämta värdnyckel: %s"
+msgstr "Kunde inte läsa sparade värdnycklar."
 
-#, fuzzy
-#| msgid "Could not find the reverted change."
 msgid "Could not find the selected host key."
-msgstr "Kunde inte hitta den återställda ändringen."
+msgstr "Kunde inte hitta den valda värdnyckeln."
 
-#, fuzzy
-#| msgid "Could not update the repository."
 msgid "Could not update stored host keys."
-msgstr "Kunde inte uppdatera arkivet."
+msgstr "Kunde inte uppdatera lagrade värdnycklar."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
-#| "(%(keytype)s), please verify that it is correct."
+#, python-format
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"La till värdnyckel för %(host)s med fingeravtryck %(fingerprint)s "
-"(%(keytype)s), bekräfta att detta stämmer."
+"Tog bort värdnyckeln för %(host)s med fingeravtryck %(fingerprint)s (%"
+"(keytype)s)."
 
-#, fuzzy, python-format
-#| msgid "Could not remove the string: %s"
+#, python-format
 msgid "Could not determine the effective SSH destination: %s"
-msgstr "Kunde inte ta bort strängen: %s"
+msgstr "Kunde inte fastställa den effektiva SSH-destinationen: %s"
 
 msgid ""
 "Create a workspace before connecting a GitHub account. GitHub App "
@@ -18988,19 +18912,16 @@ msgstr ""
 msgid "Removed Weblate GitHub App credentials for %(hostname)s."
 msgstr "Tog bort Weblate GitHub-appens inloggningsuppgifter för %(hostname)s."
 
-#, fuzzy
-#| msgid "Failed to fetch repository: %s"
 msgid "Failed to refresh repositories from GitHub."
-msgstr "Kunde inte hämta arkiv: %s"
+msgstr "Misslyckades med att uppdatera förråd från GitHub."
 
 #, python-format
 msgid "Refreshed %(count)d repositories from GitHub."
 msgstr "Uppdaterade %(count)d arkiv från GitHub."
 
-#, fuzzy
-#| msgid "Total number of entries in this Weblate instance"
 msgid "Weblate GitHub app is not configured on this Weblate instance."
-msgstr "Totalt antal poster i denna Weblate-instans"
+msgstr ""
+"Weblate-programmet för GitHub är inte konfigurerat på denna Weblate-instans."
 
 msgid "Select a workspace before connecting a GitHub account."
 msgstr "Välj en arbetsyta innan du ansluter ett GitHub-konto."
@@ -19018,15 +18939,11 @@ msgstr ""
 "Installationslänken för Weblate GitHub-appen är inte längre giltig. Starta "
 "installationen igen."
 
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to connect GitHub to this workspace."
-msgstr "Du har inte behörighet att acceptera förslag!"
+msgstr "Du har inte behörighet att koppla GitHub till det här arbetsområdet."
 
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "GitHub did not return a valid installation ID."
-msgstr "Kunde inte slutföra registreringen."
+msgstr "GitHub returnerade inte ett giltigt installations-ID."
 
 msgid ""
 "Too many GitHub account connection attempts. The GitHub installation was not "
@@ -19061,15 +18978,11 @@ msgstr ""
 "Det anslutna GitHub-kontot sparades, men det gick inte att uppdatera "
 "arkivlistan. Försök igen om en stund."
 
-#, fuzzy
-#| msgid "Created user account {}."
 msgid "Connected GitHub account added."
-msgstr "Ett användarkonto har skapats {}."
+msgstr "Anslutet GitHub-konto tillagt."
 
-#, fuzzy
-#| msgid "Enter a valid domain name or IP address."
 msgid "Enter a valid GitHub App name and host."
-msgstr "Ange ett giltigt domännamn eller IP-adress."
+msgstr "Ange ett giltigt namn och en giltig värd för GitHub-programmet."
 
 #, python-format
 msgid ""
@@ -19079,27 +18992,21 @@ msgstr ""
 "En Weblate GitHub-app är redan registrerad för %(hostname)s. Ta bort den "
 "innan du registrerar en annan."
 
-#, fuzzy
-#| msgid "Could not complete registration."
 msgid "GitHub did not return a valid registration code."
-msgstr "Kunde inte slutföra registreringen."
+msgstr "GitHub returnerade inte en giltig registreringskod."
 
-#, fuzzy
-#| msgid "The invitation link is no longer valid."
 msgid ""
 "The GitHub App registration link is no longer valid. Start the registration "
 "again."
-msgstr "Inbjudningsslänken är inte längre giltig."
+msgstr ""
+"Github-programmets registreringslänk är inte längre giltig. Starta "
+"registreringen igen."
 
-#, fuzzy
-#| msgid "Please complete the registration to accept the invitation."
 msgid "GitHub rejected the registration code. Start the registration again."
-msgstr "Slutför registreringen för att acceptera inbjudan."
+msgstr "GitHub avvisade registreringskoden. Starta registreringen igen."
 
-#, fuzzy
-#| msgid "You can not complete registration while signed in."
 msgid "GitHub returned an incomplete App registration response."
-msgstr "Du kan inte slutföra registreringen när du är inloggad."
+msgstr "GitHub returnerade ett ofullständigt programregistreringssvar."
 
 msgid "Weblate GitHub App registered. You can now connect a GitHub account."
 msgstr ""
@@ -19151,20 +19058,14 @@ msgstr "Fokusfärg (Ljus, Mörk)"
 msgid "Hover color (Light, Dark)"
 msgstr "Hovringsfärg (Ljus, Mörk)"
 
-#, fuzzy
-#| msgid "Navigation color (Light, Dark)"
 msgid "Link and button color (Light, Dark)"
-msgstr "Navigationsfärg (Ljus, Mörk)"
+msgstr "Länk och knappfärg (ljus, mörk)"
 
-#, fuzzy
-#| msgid "Hover color (Light, Dark)"
 msgid "Progress bar color (Light, Dark)"
-msgstr "Hovringsfärg (Ljus, Mörk)"
+msgstr "Förloppsmätarens färg (ljus, mörk)"
 
-#, fuzzy
-#| msgid "Focus color (Light, Dark)"
 msgid "Progress bar background color (Light, Dark)"
-msgstr "Fokusfärg (Ljus, Mörk)"
+msgstr "Förloppsmätarens bakgrundsfärg (ljus, mörk)"
 
 msgid "Hide page footer"
 msgstr "Dölj sidfot"
@@ -19222,16 +19123,12 @@ msgid "Backup failed"
 msgstr "Säkerhetskopieringen misslyckades"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Database backup performed"
-msgstr "Säkerhetskopiering utförd"
+msgstr "Säkerhetskopiering av databasen utförd"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Database backup failed"
-msgstr "Säkerhetskopieringen misslyckades"
+msgstr "Säkerhetskopieringen av databasen misslyckades"
 
 #. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
@@ -19271,16 +19168,12 @@ msgstr "Rapporter"
 msgid "Weblate status"
 msgstr "Weblate status"
 
-#, fuzzy
-#| msgid ""
-#| "Please change SITE_TITLE in settings to make your Weblate easy to "
-#| "recognize in discover."
 msgid ""
 "Please change SITE_TITLE in settings to make your Weblate easy to recognize "
 "in Discover Weblate."
 msgstr ""
 "Ändra SITE_TITLE i inställningarna för att göra din Weblate lätt att känna "
-"igen i discover."
+"igen i Discover Weblate."
 
 msgid "Customer care ticket created:"
 msgstr "Kundtjänstärende skapat:"
@@ -19299,88 +19192,61 @@ msgstr ""
 "Den här installationen är redan länkad till weblate.org. Använd "
 "identifieringsinställningarna för att hantera dess listning."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Invalid activation state."
-msgstr "Det gick inte att aktivera din installation. Försök igen senare."
+msgstr "Det gick inte att aktivera Discover Weblate. Ogiltigt aktiveringsläge."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Missing activation code."
-msgstr "Det gick inte att aktivera din installation. Försök igen senare."
+msgstr "Det gick inte att aktivera Discover Weblate. Aktiveringskoden saknas."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Invalid activation code."
-msgstr "Det gick inte att aktivera din installation. Försök igen senare."
+msgstr ""
+"Det gick inte att aktivera Discover Weblate. Aktiveringskoden är ogiltig."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Please try again later."
-msgstr "Det gick inte att aktivera din installation. Försök igen senare."
+msgstr "Det gick inte att aktivera Discover Weblate. Försök igen senare."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate discovery because a support package is already linked."
 msgid ""
 "Could not enable Discover Weblate because a support package is already "
 "linked."
 msgstr ""
-"Kunde inte aktivera identifiering eftersom ett supportpaket redan är länkat."
+"Det gick inte att aktivera Discover Weblate eftersom ett stödpaket redan är "
+"länkat."
 
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Discover Weblate enabled."
-msgstr "Upptäck Weblate"
+msgstr "Discover Weblate aktiverat."
 
-#, fuzzy
-#| msgid "Support status"
 msgid "Support status refreshed."
-msgstr "Supportstatus"
+msgstr "Stödstatusen uppdaterad."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not refresh support status. Please try again later."
-msgstr "Det gick inte att aktivera din installation. Försök igen senare."
+msgstr "Kunde inte uppdatera stödstatusen. Försök igen senare."
 
 msgid "Could not refresh support status. The activation token is invalid."
-msgstr ""
+msgstr "Kunde inte uppdatera stödstatusen. Aktiveringstoken är ogiltig."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not refresh support status: %s"
-msgstr "Kunde inte hämta språk som stöds: %s"
+msgstr "Kunde inte uppdatera stödstatusen: %s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package activated."
-msgstr "Gränser för supportpaket"
+msgstr "Supportpaket aktiverat."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate the support package. Please try again later."
-msgstr "Det gick inte att aktivera din installation. Försök igen senare."
+msgstr "Kunde inte aktivera supportpaketet. Försök igen senare."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid ""
 "Could not activate the support package. Please ensure the activation token "
 "is correct."
 msgstr ""
-"Det gick inte att aktivera installationen. Kontrollera att din "
-"aktiveringstoken är korrekt."
+"Kunde inte aktivera supportpaketet. Kontrollera att aktiveringstoken är "
+"korrekt."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not activate the support package: %s"
-msgstr "Kunde inte hämta språk som stöds: %s"
+msgstr "Kunde inte aktivera supportpaketet: %s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package unlinked."
-msgstr "Gränser för supportpaket"
+msgstr "Supportpaket bortkopplat."
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "
@@ -19395,78 +19261,58 @@ msgstr "Säkerhetskopiering startad"
 msgid "Could not dismiss the configuration error!"
 msgstr "Kunde inte avfärda konfigurationsfelet!"
 
-#, fuzzy
-#| msgid "Component created"
 msgid "Workspace created."
-msgstr "Komponent skapad"
+msgstr "Arbetsområde skapad."
 
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate workspaces"
-msgstr "Weblate-nycklar"
+msgstr "Weblate-arbetsområden"
 
-#, fuzzy
-#| msgid "Please type in the slug of the category to confirm."
 msgid "Please type in the workspace name to confirm its removal."
-msgstr "Skriv in kategorins URL-slug för att bekräfta."
+msgstr ""
+"Skriv in namnet på arbetsområdet för att bekräfta att det skall tas bort."
 
-#, fuzzy
-#| msgid "The slug does not match the one marked for deletion!"
 msgid "The workspace name does not match the one marked for removal!"
-msgstr "SLUG:en stämmer inte överens med den som är markerad för borttagning!"
+msgstr ""
+"Namnet på arbetsområdet stämmer inte överens med det som är markerat för att "
+"tas bort!"
 
-#, fuzzy
-#| msgid "Restricted component"
 msgid "Inherited component defaults"
-msgstr "Begränsad komponent"
+msgstr "Ärvda standardinställningar för komponenten"
 
-#, fuzzy
-#| msgid "Resource update"
 msgid "Workspace name"
-msgstr "Resursuppdatering"
+msgstr "Arbetområdets namn"
 
-#, fuzzy
-#| msgid "Language name"
 msgid "Managed name"
-msgstr "Språknamn"
+msgstr "Hanterat namn"
 
-#, fuzzy
-#| msgid ""
-#| "Lets Weblate update the \"Language-Team\" file header of your project."
 msgid "Whether Weblate can update the name automatically."
-msgstr "Låter Weblate uppdatera \"Language-Team\"-filheadern i ditt projekt."
+msgstr "Huruvida Weblate kan uppdatera namnet automatiskt."
 
-#, fuzzy
-#| msgid "Uses the pool of shared translations between projects."
 msgid ""
 "Uses the pool of shared translations between projects in this workspace."
-msgstr "Använder samlingen med delade översättningar mellan projekt."
+msgstr ""
+"Använder den gemensamma översättningspoolen för olika projekt i detta "
+"arbetsområde."
 
-#, fuzzy
-#| msgid "Contributes to the pool of shared translations between projects."
 msgid ""
 "Contributes translations to the pool shared between projects in this "
 "workspace."
-msgstr "Bidrar till samlingen med delade översättningar mellan projekt."
+msgstr ""
+"Bidrar med översättningar till den gemensamma översättningspoolen som delas "
+"mellan projekten i detta arbetsområde."
 
-#, fuzzy
-#| msgid ""
-#| "Contributor license agreement which needs to be approved before a user "
-#| "can translate this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate components in this workspace."
 msgstr ""
 "Licensavtal för bidragsgivare som måste godkännas innan en användare kan "
-"översätta denna komponent."
+"översätta komponenter i detta arbetsområde."
 
 msgid "The workspace cannot be removed because it is still being used."
 msgstr "Arbetsytan kan inte tas bort eftersom den fortfarande används."
 
-#, fuzzy
-#| msgid "Source has been removed."
 msgid "The workspace has been removed."
-msgstr "Källan har tagits bort."
+msgstr "Arbetsområdet har tagits bort."
 
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
