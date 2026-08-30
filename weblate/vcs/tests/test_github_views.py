@@ -7,13 +7,15 @@ from __future__ import annotations
 import json
 from datetime import timedelta
 from typing import cast
+from unittest.mock import patch
 from urllib.parse import parse_qs, urlencode, urlparse
 
 from asgiref.sync import async_to_sync
 from django.contrib.messages import get_messages
 from django.core.cache import cache
+from django.db import connection
 from django.test import TestCase
-from django.test.utils import override_settings
+from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -231,6 +233,7 @@ class GitHubInstallationViewTest(ViewTestCase):
             f'id="remove-github-account-{installation.pk}"',
         )
         self.assertContains(response, "Remove connected account?")
+        self.assertContains(response, "will also be uninstalled from GitHub")
         self.assertContains(
             response,
             f'action="{reverse("manage-github-account-remove", kwargs={"pk": installation.pk})}"',
@@ -1093,6 +1096,64 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertContains(response, "test-org/repo1")
         self.assertNotContains(response, "stale-org/repo2")
 
+    def test_installation_detail_warns_about_affected_components(self):
+        repo = _repo_entry("test-org/repo1")
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo1.git"
+        self.component.save(update_fields=["vcs", "repo"])
+
+        response = self.client.get(
+            reverse("manage-github-account-detail", kwargs={"pk": installation.pk})
+        )
+
+        self.assertContains(response, "will lose access to its repository")
+        self.assertContains(response, str(self.component))
+
+    def test_account_list_prefetches_affected_components(self):
+        """Rendering many removal modals must not query components per row."""
+        repo = _repo_entry("test-org/repo1")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repo],
+        )
+        for index in range(3):
+            GitHubInstallation.objects.create(
+                installation_id=f"5432{index}",
+                target_type="Organization",
+                target_login=f"other-org-{index}",
+                workspace=Workspace.objects.create(name=f"Workspace {index}"),
+                repositories=[repo],
+            )
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo1.git"
+        self.component.save(update_fields=["vcs", "repo"])
+
+        with CaptureQueriesContext(connection) as queries:
+            response = self.client.get(reverse("account-vcs"))
+
+        self.assertContains(response, "will lose access to its repository")
+        self.assertContains(response, str(self.component))
+        self.assertEqual(
+            len(
+                [
+                    query
+                    for query in queries.captured_queries
+                    if "trans_component" in query["sql"]
+                ]
+            ),
+            1,
+        )
+
     def test_installation_detail_hides_import_link_when_disabled(self):
         repo = _repo_entry("test-org/repo1")
         installation = GitHubInstallation.objects.create(
@@ -1319,12 +1380,18 @@ class GitHubInstallationViewTest(ViewTestCase):
 
         self.assertEqual(response.status_code, 405)
 
+    @http_mock.activate
     def test_remove_installation(self):
         installation = GitHubInstallation.objects.create(
             installation_id="12345",
             target_type="Organization",
             target_login="test-org",
             workspace=self.workspace,
+        )
+        http_mock.register(
+            "DELETE",
+            "https://api.github.com/app/installations/12345",
+            status_code=202,
         )
 
         self.async_client.force_login(self.user)
@@ -1338,6 +1405,187 @@ class GitHubInstallationViewTest(ViewTestCase):
             fetch_redirect_response=False,
         )
         self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+        self.assertEqual(
+            [(call.request.method, call.request.url) for call in http_mock.calls],
+            [("DELETE", "https://api.github.com/app/installations/12345")],
+        )
+        response_messages = [
+            str(message) for message in get_messages(response.asgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("uninstalled the Weblate GitHub App", response_messages[0])
+
+    @http_mock.activate
+    def test_remove_installation_accepts_missing_github_installation(self):
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+        http_mock.register(
+            "DELETE",
+            "https://api.github.com/app/installations/12345",
+            status_code=404,
+        )
+
+        self.async_client.force_login(self.user)
+        response = async_to_sync(self.async_client.post)(
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("manage-github-accounts"),
+            fetch_redirect_response=False,
+        )
+        self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+
+    @http_mock.activate
+    def test_remove_installation_keeps_row_when_github_uninstall_fails(self):
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+        http_mock.register(
+            "DELETE",
+            "https://api.github.com/app/installations/12345",
+            status_code=500,
+        )
+
+        self.async_client.force_login(self.user)
+        with patch("weblate.vcs.github.report_error") as report_error:
+            response = async_to_sync(self.async_client.post)(
+                reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+            )
+
+        self.assertRedirects(
+            response,
+            reverse("manage-github-accounts"),
+            fetch_redirect_response=False,
+        )
+        self.assertTrue(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+        report_error.assert_called_once()
+        self.assertEqual(
+            report_error.call_args.args,
+            ("Failed to uninstall connected GitHub account",),
+        )
+        self.assertIsInstance(report_error.call_args.kwargs["exception"], BaseException)
+        response_messages = [
+            str(message) for message in get_messages(response.asgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("connection was not removed", response_messages[0])
+
+    @http_mock.activate
+    def test_remove_installation_accepts_unauthorized_github_app(self):
+        """A deleted or suspended app must not block removing the connection."""
+        for status_code in (401, 403, 410):
+            with self.subTest(status_code=status_code):
+                installation = GitHubInstallation.objects.create(
+                    installation_id="12345",
+                    target_type="Organization",
+                    target_login="test-org",
+                    workspace=self.workspace,
+                )
+                http_mock.reset()
+                http_mock.register(
+                    "DELETE",
+                    "https://api.github.com/app/installations/12345",
+                    status_code=status_code,
+                )
+
+                self.async_client.force_login(self.user)
+                response = async_to_sync(self.async_client.post)(
+                    reverse(
+                        "manage-github-account-remove", kwargs={"pk": installation.pk}
+                    ),
+                )
+
+                self.assertRedirects(
+                    response,
+                    reverse("manage-github-accounts"),
+                    fetch_redirect_response=False,
+                )
+                self.assertFalse(
+                    GitHubInstallation.objects.filter(pk=installation.pk).exists()
+                )
+                response_messages = [
+                    str(message) for message in get_messages(response.asgi_request)
+                ]
+                self.assertIn(
+                    "no longer grants access to this installation",
+                    response_messages[-1],
+                )
+
+    @http_mock.activate
+    def test_remove_installation_without_app_credentials(self):
+        """Removal must work even once the app credentials are gone."""
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+        GitHubAppCredentials.objects.all().delete()
+
+        self.async_client.force_login(self.user)
+        response = async_to_sync(self.async_client.post)(
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("manage-github-accounts"),
+            fetch_redirect_response=False,
+        )
+        self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+        self.assertEqual(len(http_mock.calls), 0)
+        response_messages = [
+            str(message) for message in get_messages(response.asgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn(
+            "no longer configured on this Weblate instance", response_messages[0]
+        )
+
+    @http_mock.activate
+    def test_remove_installation_keeps_shared_github_installation(self):
+        installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+        )
+        other_installation = GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=Workspace.objects.create(name="Other GitHub Workspace"),
+        )
+
+        self.async_client.force_login(self.user)
+        response = async_to_sync(self.async_client.post)(
+            reverse("manage-github-account-remove", kwargs={"pk": installation.pk}),
+        )
+
+        self.assertRedirects(
+            response,
+            reverse("manage-github-accounts"),
+            fetch_redirect_response=False,
+        )
+        self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+        self.assertTrue(
+            GitHubInstallation.objects.filter(pk=other_installation.pk).exists()
+        )
+        self.assertEqual(len(http_mock.calls), 0)
+        response_messages = [
+            str(message) for message in get_messages(response.asgi_request)
+        ]
+        self.assertEqual(len(response_messages), 1)
+        self.assertIn("another workspace still uses it", response_messages[0])
 
     def test_remove_installation_rejects_get(self):
         installation = GitHubInstallation.objects.create(

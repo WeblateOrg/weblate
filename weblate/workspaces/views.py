@@ -32,6 +32,7 @@ from weblate.trans.views.reports import get_reports_context
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_paginator, show_form_errors
+from weblate.vcs.github import GitHubInstallation, remove_github_installation
 from weblate.workspaces.forms import WorkspaceDeleteForm, WorkspaceSearchForm
 from weblate.workspaces.models import Workspace
 
@@ -333,6 +334,10 @@ def remove(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect(f"{workspace.get_absolute_url()}#organize")
+
+    # Installations cascade with the workspace, uninstall the App first
+    for installation in GitHubInstallation.objects.filter(workspace=workspace):
+        remove_github_installation(installation, best_effort=True)
 
     try:
         workspace.delete()

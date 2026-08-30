@@ -29,10 +29,36 @@
           </p>
           <p class="text-body-secondary">
             {% blocktranslate trimmed %}
-              The Weblate GitHub app stays installed on GitHub. Remove it on
-              GitHub separately if you no longer need it.
+              If no other Weblate workspace uses this connection, the Weblate
+              GitHub App will also be uninstalled from GitHub. Reconnecting it
+              then requires installing the app on GitHub again.
             {% endblocktranslate %}
           </p>
+          {% with components=installation.components %}
+            {% if components %}
+              <div class="alert alert-warning" role="alert">
+                <p>
+                  {% blocktranslate trimmed count counter=components|length %}
+                    The following component will lose access to its repository:
+                  {% plural %}
+                    The following {{ counter }} components will lose access to their repositories:
+                  {% endblocktranslate %}
+                </p>
+                <ul class="mb-0">
+                  {% for component in components|slice:":10" %}<li>{{ component }}</li>{% endfor %}
+                  {% if components|length > 10 %}
+                    <li>
+                      {% blocktranslate trimmed count counter=components|length|add:"-10" %}
+                        and {{ counter }} more component
+                      {% plural %}
+                        and {{ counter }} more components
+                      {% endblocktranslate %}
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+            {% endif %}
+          {% endwith %}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
