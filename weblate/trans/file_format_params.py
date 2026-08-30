@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict, Unpack, cast
 
 from django import forms
@@ -31,7 +32,7 @@ if TYPE_CHECKING:
 
 
 class FileFormatParams(TypedDict, total=False):
-    json_sort_keys: bool
+    json_sort_keys: Literal["none", "case_sensitive", "case_insensitive"]
     json_indent: int
     json_indent_style: Literal["spaces", "tabs"]
     json_use_compact_separators: bool
@@ -205,19 +206,51 @@ class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
     )
 
 
+class CaseInsensitiveSortingEncoder(json.JSONEncoder):
+    def __init__(self, *args, **kwargs) -> None:
+        kwargs["sort_keys"] = False
+        super().__init__(*args, **kwargs)
+
+    def encode(self, o: object) -> str:
+        return super().encode(self._sort_keys_case_insensitive(o))
+
+    def _sort_keys_case_insensitive(self, o: object) -> object:
+        if isinstance(o, dict):
+            return {
+                key: self._sort_keys_case_insensitive(value)
+                for key, value in sorted(
+                    o.items(),
+                    key=lambda item: str(item[0]).casefold(),
+                )
+            }
+        if isinstance(o, (list, tuple)):
+            return [self._sort_keys_case_insensitive(item) for item in o]
+        return o
+
+
 @register_file_format_param
 class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     name = "json_sort_keys"
     label = gettext_lazy("Sort JSON keys")
-    field_class = forms.BooleanField
-    default = False
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("none", gettext_lazy("Do not sort")),
+        ("case_sensitive", gettext_lazy("Case-sensitive sort")),
+        ("case_insensitive", gettext_lazy("Case-insensitive sort")),
+    ]
+    default = "none"
 
     def setup_store(
         self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
     ) -> None:
-        cast("JsonFile", store).dump_args["sort_keys"] = self.get_value(
-            file_format_params
-        )
+        dump_args = cast("JsonFile", store).dump_args
+        sort_mode = self.get_value(file_format_params)
+        if sort_mode == "case_sensitive":
+            dump_args["sort_keys"] = True
+        elif sort_mode == "case_insensitive":
+            # turn off JSONFile sorting which uses Python's default key ordering (cae sensitive)
+            dump_args["sort_keys"] = False
+            dump_args["cls"] = CaseInsensitiveSortingEncoder  # type: ignore[typeddict-item]
 
 
 @register_file_format_param
