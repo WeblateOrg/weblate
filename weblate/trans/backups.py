@@ -131,7 +131,9 @@ CATEGORY_BACKUP_FIELDS = (
     *INHERITABLE_COMPONENT_SETTINGS,
     *INHERITABLE_COMPONENT_FLAGS,
 )
-FORMAT_MIGRATION_MAPPING: dict[str, tuple[str, dict[str, str | int | bool | None]]] = {
+LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING: dict[
+    str, tuple[str, dict[str, str | int | bool | None]]
+] = {
     # "old-format": ("new-format", {"new-format-params": "value"}),
     "csv": (
         "csv",
@@ -623,10 +625,10 @@ class ProjectBackup:
 
         This replicates the logic in migrations files but for the backups format.
         """
-        if component["file_format"] in FORMAT_MIGRATION_MAPPING:
-            new_file_format, file_format_params = FORMAT_MIGRATION_MAPPING[
-                component["file_format"]
-            ]
+        if component["file_format"] in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING:
+            new_file_format, file_format_params = (
+                LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[component["file_format"]]
+            )
             component["file_format"] = new_file_format
             component.setdefault("file_format_params", {})
             component["file_format_params"].update(file_format_params)

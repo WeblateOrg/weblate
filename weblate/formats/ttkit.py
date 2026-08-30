@@ -1111,7 +1111,10 @@ class XliffUnit[U: TranslateToolkitXliffUnit, F: "BaseXliffFormat"](TTKitUnit[U,
         self.unit.target = target
         self.apply_xml_whitespace_policy_to_unit_tree(
             self.unit,
-            cast("XliffFormat", self.parent).get_xml_whitespace_handling(),
+            cast(
+                "str",
+                XMLWhitespaceHandling.get_value(self.parent.file_format_params),
+            ),
             had_preserve=had_preserve,
         )
 
@@ -1207,7 +1210,10 @@ class RichXliffUnit(XliffUnit):
         self.unit.rich_target = converted
         self.apply_xml_whitespace_policy_to_unit_tree(
             self.unit,
-            cast("XliffFormat", self.parent).get_xml_whitespace_handling(),
+            cast(
+                "str",
+                XMLWhitespaceHandling.get_value(self.parent.file_format_params),
+            ),
             had_preserve=had_preserve,
         )
 
