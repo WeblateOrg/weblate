@@ -3738,8 +3738,6 @@ update individual repositories; see
 
         :ref:`Pagure notifications <code-hosting-pagure-notifications>`
             For instruction on setting up Pagure integration
-        https://docs.pagure.org/pagure/usage/using_webhooks.html
-            Generic information about Pagure Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
 
