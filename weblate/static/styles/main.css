@@ -342,15 +342,22 @@ textarea.highlight-editor {
 .space-tab,
 .space-nl,
 .space-space,
+.space-nbsp,
 .token.newline {
   min-width: 0.3em;
   /* inline-block needed for proper ::before placement in Chrome */
   display: inline-block;
+  /* anchor for the absolutely positioned markers */
+  position: relative;
+}
+
+.space-tab {
+  min-width: 1em;
 }
 
 .space-tab::before {
   content: "→";
-  position: relative;
+  position: absolute;
 }
 
 .space-nl::before,
@@ -362,8 +369,16 @@ textarea.highlight-editor {
 
 .space-space::before {
   content: "·";
-  position: relative;
-  left: 25%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.space-nbsp::before {
+  content: "°";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 ins,
@@ -2054,7 +2069,9 @@ input.color_edit:checked + label {
   color: #009;
 }
 .token.newline,
-.token.hlspace {
+.token.hlspace,
+.token.hlspace .token {
+  /* Inline to keep the overlay layout identical to the textarea */
   display: inline;
 }
 
