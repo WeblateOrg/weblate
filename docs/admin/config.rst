@@ -203,7 +203,7 @@ Argon2id parallelism factor. Defaults to ``1``.
 
 .. seealso::
 
-    `ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_
+    `ALTCHA Proof of Work Mechanism <https://altcha.org/docs/integration/proof-of-work-captcha/>`_
 
 .. setting:: ANONYMOUS_USER_NAME
 
