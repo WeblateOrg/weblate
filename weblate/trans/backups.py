@@ -626,12 +626,15 @@ class ProjectBackup:
         This replicates the logic in migrations files but for the backups format.
         """
         if component["file_format"] in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING:
-            new_file_format, file_format_params = (
-                LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[component["file_format"]]
-            )
+            new_file_format, migrate_params = LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[
+                component["file_format"]
+            ]
+
             component["file_format"] = new_file_format
-            component.setdefault("file_format_params", {})
-            component["file_format_params"].update(file_format_params)
+            file_format_params = migrate_params | component.setdefault(
+                "file_format_params", {}
+            )
+            component["file_format_params"] = file_format_params
 
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
         """Backup a many to many relation using a unique identifying field of the related object."""
