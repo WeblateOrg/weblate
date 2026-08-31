@@ -12,6 +12,8 @@ import hmac
 import logging
 import time
 import uuid
+from collections import defaultdict
+from enum import StrEnum
 from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import quote, urlencode, urlparse
 
@@ -20,17 +22,22 @@ import jwt
 from asgiref.sync import async_to_sync
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
+from weblate.utils.errors import report_error
 from weblate.utils.requests import async_fetch_url
 from weblate.vcs.base import RepositoryInternalError
 from weblate.vcs.git import GithubRepository
 from weblate.vcs.models import Installation, InstallationProvider
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from uuid import UUID
+
     from django_stubs_ext import StrOrPromise
 
     from weblate.trans.models import Component
@@ -42,6 +49,10 @@ logger = logging.getLogger(__name__)
 TOKEN_CACHE_TTL = 50 * 60
 # GitHub enforces a 10-minute maximum on App JWTs
 JWT_MAX_LIFETIME = 9 * 60
+
+# The installation is gone (404/410), suspended (403) or the App credentials are
+# no longer accepted (401); there is nothing left to uninstall
+GITHUB_UNINSTALL_UNREACHABLE_STATUSES = frozenset({401, 403, 404, 410})
 
 # Permissions and manifest-selectable events Weblate needs when registering a
 # GitHub App via the manifest flow. GitHub delivers App lifecycle events such as
@@ -392,6 +403,47 @@ async def get_app_installation(
     return response.json()
 
 
+async def delete_app_installation(
+    app_id: str | int,
+    private_key: str,
+    installation_id: str | int,
+    hostname: str,
+) -> bool:
+    """
+    Uninstall the GitHub App.
+
+    Returns whether GitHub confirmed the removal; an unreachable installation
+    returns ``False``, transient failures raise.
+    """
+    installation_id = normalize_github_installation_id(installation_id)
+    private_key_pem = validate_private_key(private_key)
+    token = generate_jwt(app_id, private_key_pem)
+    api_base = get_github_api_base(hostname)
+    response = await async_fetch_url(
+        "delete",
+        f"{api_base}/app/installations/{installation_id}",
+        headers={
+            "Authorization": f"Bearer {token}",
+            "Accept": "application/vnd.github.v3+json",
+        },
+        timeout=30,
+        raise_for_status=False,
+    )
+    unreachable = response.status_code in GITHUB_UNINSTALL_UNREACHABLE_STATUSES
+    if not unreachable:
+        response.raise_for_status()
+    else:
+        logger.info(
+            "GitHub App installation %s/%s is not reachable (HTTP %d), "
+            "treating it as uninstalled",
+            hostname,
+            installation_id,
+            response.status_code,
+        )
+    await cache.adelete(f"github-app-token:{hostname}:{installation_id}")
+    return not unreachable
+
+
 async def get_app_repositories(
     app_id: str | int,
     private_key: str,
@@ -665,10 +717,36 @@ class GitHubInstallationManager(models.Manager["GitHubInstallation"]):
     ) -> models.QuerySet[GitHubInstallation]:
         """Return installations by host and installation ID."""
         hostname = normalize_github_app_hostname(hostname)
+        try:
+            lookup = normalize_github_installation_id(installation_id)
+        except (TypeError, ValueError):
+            # Invalid ID, match verbatim so that it simply finds nothing
+            lookup = str(installation_id)
         return self.filter(
             hostname=hostname,
-            installation_id=str(installation_id),
+            installation_id=lookup,
         )
+
+    def prefetch_components(self, installations: Iterable[GitHubInstallation]) -> None:
+        """Populate :attr:`GitHubInstallation.components` with a single query."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
+
+        pending: defaultdict[UUID, list[GitHubInstallation]] = defaultdict(list)
+        for installation in installations:
+            if "components" in installation.__dict__:
+                continue
+            installation.__dict__["components"] = []
+            pending[installation.workspace_id].append(installation)
+        if not pending:
+            return
+        for component in Component.objects.filter(
+            vcs=GithubAppRepository.identifier,
+            project__workspace_id__in=list(pending),
+        ).select_related("project"):
+            for installation in pending[component.project.workspace_id]:
+                if installation.matches_component(component):
+                    installation.components.append(component)
 
     def get_for_installation(
         self,
@@ -890,6 +968,8 @@ class GitHubInstallation(Installation):
     def save(self, *args, **kwargs) -> None:
         self.provider = InstallationProvider.GITHUB
         self.hostname = normalize_github_app_hostname(self.hostname)
+        # Keep the stored ID canonical so that lookups cannot miss it
+        self.installation_id = normalize_github_installation_id(self.installation_id)
         super().save(*args, **kwargs)
 
     @property
@@ -942,11 +1022,113 @@ class GitHubInstallation(Installation):
     def has_repository(self, full_name: str) -> bool:
         return any(repo.get("full_name") == full_name for repo in self.repositories)
 
+    def matches_component(self, component: Component) -> bool:
+        """Check whether the component authenticates through this account."""
+        parsed = urlparse(component.repo)
+        if (parsed.hostname or "").lower() != self.hostname:
+            return False
+        return self.has_repository(parsed.path.strip("/").removesuffix(".git"))
+
+    @cached_property
+    def components(self) -> list[Component]:
+        """
+        Return components authenticating through this connected account.
+
+        Use :meth:`GitHubInstallationManager.prefetch_components` when several
+        installations are rendered at once to avoid a query for each of them.
+        """
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.models import Component
+
+        return [
+            component
+            for component in Component.objects.filter(
+                vcs=GithubAppRepository.identifier,
+                project__workspace_id=self.workspace_id,
+            ).select_related("project")
+            if self.matches_component(component)
+        ]
+
     def get_webhook_secret(self) -> str:
         config = get_github_app_settings(self.hostname)
         if config is None:
             return ""
         return config.webhook_secret
+
+
+class InstallationRemoval(StrEnum):
+    """Outcome of removing a connected GitHub account."""
+
+    # Another workspace still uses it, the App stays installed
+    SHARED = "shared"
+    UNINSTALLED = "uninstalled"
+    # Nothing left to uninstall on GitHub
+    UNREACHABLE = "unreachable"
+    # No credentials for the host, so the App cannot be reached
+    UNCONFIGURED = "unconfigured"
+    # GitHub could not be reached, retrying might work
+    FAILED = "failed"
+
+
+def remove_github_installation(
+    installation: GitHubInstallation, *, best_effort: bool = False
+) -> InstallationRemoval:
+    """
+    Remove a connected GitHub account, uninstalling the App when it was the last.
+
+    The connection is kept when GitHub failed in a way worth retrying, unless
+    ``best_effort`` is set because it is going away anyway.
+    """
+    with transaction.atomic():
+        # Lock all connections before deciding whether this is the last one,
+        # otherwise two concurrent removals both see the other one
+        siblings = set(
+            GitHubInstallation.objects.filter_for_installation(
+                installation.hostname, installation.installation_id
+            )
+            .select_for_update()
+            .values_list("pk", flat=True)
+        )
+        siblings.discard(installation.pk)
+        if siblings:
+            installation.delete()
+            return InstallationRemoval.SHARED
+
+        config = get_github_app_settings(installation.hostname)
+        if config is None:
+            # The App cannot be reached, nor its credentials re-registered
+            installation.delete()
+            return InstallationRemoval.UNCONFIGURED
+
+        try:
+            uninstalled = async_to_sync(delete_app_installation)(
+                config.app_id,
+                config.private_key,
+                installation.installation_id,
+                installation.hostname,
+            )
+        except (ValueError, TypeError, ValidationError, jwt.PyJWTError) as error:
+            # The stored credentials cannot produce a valid request at all
+            report_error(
+                "Failed to uninstall connected GitHub account", exception=error
+            )
+            installation.delete()
+            return InstallationRemoval.UNREACHABLE
+        except Exception as error:
+            report_error(
+                "Failed to uninstall connected GitHub account", exception=error
+            )
+            if not best_effort:
+                return InstallationRemoval.FAILED
+            installation.delete()
+            return InstallationRemoval.FAILED
+
+        installation.delete()
+        return (
+            InstallationRemoval.UNINSTALLED
+            if uninstalled
+            else InstallationRemoval.UNREACHABLE
+        )
 
 
 class GithubAppRepository(GithubRepository):

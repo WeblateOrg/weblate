@@ -39,9 +39,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-22 02:35+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"PO-Revision-Date: 2026-08-29 06:23+0000\n"
+"Last-Translator: Artyom Rybakov <rib.artem@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -3362,6 +3362,16 @@ msgstr "Статус суперпользователя"
 msgid "User has all possible permissions."
 msgstr "Пользователь имеет все возможные разрешения."
 
+msgid "All languages"
+msgstr "Все языки"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+"Предоставляет доступ ко всем языкам, включая те, которые будут добавлены в "
+"будущем. Отключите, чтобы выбрать отдельные языки ниже."
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (разрешение для всего сайта)"
@@ -3411,9 +3421,6 @@ msgstr "Списки компонентов"
 
 msgid "Language selection"
 msgstr "Выбор языка"
-
-msgid "All languages"
-msgstr "Все языки"
 
 msgid "Languages"
 msgstr "Языки"
@@ -9021,6 +9028,27 @@ msgstr "Статус"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Станьте сторонником Weblate"
+
+msgid "Some repositories are not accessible"
+msgstr "Некоторые репозитории недоступны"
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+msgid "Skipped components:"
+msgstr "Пропущенные компоненты:"
+
+msgid "Permission required on:"
+msgstr "Требуется разрешение на:"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
+"Репозиторий был пропущен из-за того, что один или несколько его компонентов "
+"недоступны."
 
 msgid "Repository status"
 msgstr "Статус репозитория"
@@ -17850,21 +17878,45 @@ msgstr ""
 "Все репозитории обновлены, обновления переводов находятся в процессе "
 "выполнения."
 
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr ""
+"Доступные репозитории обновлены, обновления переводов находятся в процессе "
+"выполнения."
+
 msgid "All repositories were pushed."
 msgstr "Все репозитории отправлены."
+
+msgid "Accessible repositories were pushed."
+msgstr "Доступные репозитории отправлены."
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "Все репозитории сброшены, идёт обновление переводов."
 
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr "Доступные репозитории сброшены, идёт обновление переводов."
+
 msgid "All repositories have been cleaned up."
 msgstr "Все репозитории были очищены."
+
+msgid "Accessible repositories have been cleaned up."
+msgstr "Доступные репозитории были очищены."
 
 msgid "Translation files have been synchronized."
 msgstr "Файлы перевода синхронизированы."
 
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Файлы перевода в доступных репозиториях синхронизированы."
+
 msgid "Updates of translations are in progress."
 msgstr "Обновление переводов в процессе выполнения."
+
+msgid "Updates of translations in accessible repositories are in progress."
+msgstr "Обновление переводов в доступных репозиториях в процессе выполнения."
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "Дублирующиеся строки удалены из файла перевода."
@@ -17880,6 +17932,9 @@ msgstr "Ожидающие перевода строки фиксируются.
 
 msgid "All pending translations were committed."
 msgstr "По всем ожидающим переводам произведен коммит."
+
+msgid "Pending translations in accessible repositories were committed."
+msgstr "Ожидающие перевода строки в доступных репозиториях зафиксированы."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Компонент сейчас заблокирован для обновлений перевода!"
@@ -18643,32 +18698,32 @@ msgstr ""
 #, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"Запрос к API %(service)s не удался при объединении запроса на извлечение: %"
-"(status)s"
+"Запрос к API %(service)s не удался при объединении запроса на извлечение: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Запрос к API %(service)s не удался при объединении запроса на извлечение: %"
-"(status)s. Пожалуйста, повторите позже."
+"Запрос к API %(service)s не удался при объединении запроса на извлечение: "
+"%(status)s. Пожалуйста, повторите позже."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Запрос к API %(service)s не удался при объединении запроса на извлечение (%"
-"(status)s): %(error)s"
+"Запрос к API %(service)s не удался при объединении запроса на извлечение "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Запрос к API %(service)s не удался при объединении запроса на извлечение (%"
-"(status)s): %(error)s. Пожалуйста, повторите позже."
+"Запрос к API %(service)s не удался при объединении запроса на извлечение "
+"(%(status)s): %(error)s. Пожалуйста, повторите позже."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "Репозитории приложений GitHub должны импортироваться с веткой."

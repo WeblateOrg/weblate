@@ -619,12 +619,23 @@ class ProjectBackup:
             component.setdefault("vcs_params", {})["git_force_push"] = True
 
     @staticmethod
-    def migrate_component_file_format(component: dict[str, Any]) -> None:
+    def migrate_component_file_format_params(component: dict[str, Any]) -> None:
         """
         Convert file format settings used by older component backups.
 
         This replicates the logic in migrations files but for the backups format.
         """
+        # json_sort_keys was a boolean in backups before 2026.9
+        if (
+            "file_format_params" in component
+            and "json_sort_keys" in component["file_format_params"]
+        ):
+            json_sort_keys = component["file_format_params"]["json_sort_keys"]
+            if isinstance(json_sort_keys, bool):
+                json_sort_keys = "case_sensitive" if json_sort_keys is True else "none"
+                component["file_format_params"]["json_sort_keys"] = json_sort_keys
+
+        # Migrate file format params for legacy formats
         if component["file_format"] in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING:
             new_file_format, migrate_params = LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[
                 component["file_format"]
@@ -1611,7 +1622,7 @@ class ProjectBackup:
                 data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
             self.migrate_component_vcs_settings(data["component"])
-            self.migrate_component_file_format(data["component"])
+            self.migrate_component_file_format_params(data["component"])
             self.validate_component_object(zipfile, filename, data)
             self.component_data[filename] = data
         if skip_linked and data["component"]["repo"].startswith("weblate:"):

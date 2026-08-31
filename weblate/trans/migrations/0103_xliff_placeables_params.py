@@ -56,7 +56,7 @@ def reverse_migration(apps, schema_editor) -> None:
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0101_component_vcs_params"),
+        ("trans", "0102_migrate_json_sort_keys_to_choice"),
     ]
 
     operations = [

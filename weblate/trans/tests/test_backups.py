@@ -330,6 +330,39 @@ class BackupsTest(ViewTestCase):
                     restored_component.file_format_params[param_name], param_value
                 )
 
+    def test_restore_legacy_json_sort_keys(self) -> None:
+        component = self.create_json_mono(
+            project=self.project, name="JSON-sort", suffix="sort-keys"
+        )
+        cases = (
+            (True, "case_sensitive"),
+            (False, "none"),
+            ("none", "none"),
+            ("case_sensitive", "case_sensitive"),
+            ("case_insensitive", "case_insensitive"),
+        )
+        for index, (old_value, new_value) in enumerate(cases):
+            with self.subTest(old_value=old_value):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={
+                        "file_format_params": {"json_sort_keys": old_value}
+                    },
+                    component_slug=component.slug,
+                )
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    restore.validate()
+                    restored = restore.restore(
+                        project_name=f"Restored json sort {index}",
+                        project_slug=f"restored-json-sort-{index}",
+                        user=self.user,
+                    )
+
+                restored_component = restored.component_set.get(slug=component.slug)
+                self.assertEqual(
+                    restored_component.file_format_params["json_sort_keys"], new_value
+                )
+
     def test_backup_creates_history_entry(self) -> None:
         backup = ProjectBackup()
 

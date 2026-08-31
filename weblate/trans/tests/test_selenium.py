@@ -1052,6 +1052,91 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         self.assertEqual(text_box.get_attribute("value"), "")
 
+    def test_flag_editor_quoted_comma(self) -> None:
+        """Check that a comma inside a quoted value does not split the flag."""
+        # Load a page so that flag-editor.js and TomSelect are loaded
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{reverse('languages')}")
+
+        self.driver.execute_script(
+            """
+            const input = document.createElement("input");
+            input.id = "flag-editor-test";
+            input.className = "flag-editor";
+            input.dataset.flagChoicesUrl = arguments[0];
+            document.body.appendChild(input);
+            window.initFlagEditor(input);
+            """,
+            reverse("js-flag-choices"),
+        )
+
+        hidden_input = self.driver.find_element(By.ID, "flag-editor-test")
+        text_box = self.driver.find_element(
+            By.CSS_SELECTOR, ".ts-wrapper.flag-editor-select .ts-control > input"
+        )
+
+        WebDriverWait(self.driver, 10).until(
+            lambda driver: driver.execute_script(
+                """
+                return "regex" in
+                    document.querySelector(".flag-editor-select").tomselect.options;
+                """
+            )
+        )
+
+        def type_flags(text: str, pending: str) -> None:
+            """Type flags and commit the text left in the box afterwards."""
+            text_box.send_keys(text)
+            WebDriverWait(self.driver, 10).until(
+                lambda driver: driver.execute_script(
+                    """
+                    const ts =
+                        document.querySelector(".flag-editor-select").tomselect;
+                    return ts.lastValue === arguments[0]
+                        && ts.refreshTimeout === null;
+                    """,
+                    pending,
+                )
+            )
+            text_box.send_keys(Keys.ENTER)
+
+        # A quoted value is kept in a single flag
+        regex_flag = 'regex:"^[a-z]{1,32}$"'
+        text_box.click()
+        type_flags(regex_flag, regex_flag)
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: hidden_input.get_attribute("value") == regex_flag
+        )
+
+        # A comma outside of quotes still separates the flags
+        type_flags("max-length:100,priority:10", "priority:10")
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                hidden_input.get_attribute("value")
+                == f"{regex_flag}, max-length:100, priority:10"
+            )
+        )
+        self.assertEqual(text_box.get_attribute("value"), "")
+
+        # Pasting a flag list splits it the same way
+        self.driver.execute_script(
+            """
+            const box = arguments[0];
+            box.focus();
+            box.value = arguments[1];
+            box.dispatchEvent(new Event("paste", {bubbles: true}));
+            """,
+            text_box,
+            'placeholders:"a,b", ignore-same',
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda _driver: (
+                hidden_input.get_attribute("value")
+                == f"{regex_flag}, max-length:100, priority:10, "
+                'placeholders:"a,b", ignore-same'
+            )
+        )
+
     def test_search_preview_scopes_boolean_query(self) -> None:
         project = self.create_component()
         component = Component.objects.get(project=project, slug="language-names")

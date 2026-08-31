@@ -47,6 +47,7 @@ from weblate.vcs.github import (
     GITHUB_APP_NAME_MAX_LENGTH,
     GitHubAppCredentials,
     GitHubInstallation,
+    InstallationRemoval,
     aget_github_app_configurations,
     aget_github_app_settings,
     build_github_app_manifest,
@@ -60,6 +61,7 @@ from weblate.vcs.github import (
     get_user_admin_installation,
     github_app_is_configured,
     normalize_github_app_hostname,
+    remove_github_installation,
 )
 from weblate.vcs.permissions import (
     github_app_installation_workspaces,
@@ -452,6 +454,12 @@ class UserVCSIntegrationListView(View):
             for installation in installations
             if _user_can_manage_installation(request.user, installation)
         }
+        # Only manageable installations render the removal confirmation
+        GitHubInstallation.objects.prefetch_components(
+            installation
+            for installation in installations
+            if installation.pk in manageable_installations
+        )
         installations_by_host: defaultdict[str, list[GitHubInstallation]] = defaultdict(
             list
         )
@@ -549,11 +557,53 @@ async def remove_installation(request, pk):
         ),
     )
     target = str(installation)
-    await installation.adelete()
-    messages.success(
-        request,
-        gettext("Removed connected GitHub account %(target)s.") % {"target": target},
-    )
+    result = await sync_to_async(remove_github_installation)(installation)
+    if result == InstallationRemoval.FAILED:
+        messages.error(
+            request,
+            gettext(
+                "GitHub could not uninstall the connected account. "
+                "The connection was not removed from Weblate, please try again."
+            ),
+        )
+    elif result == InstallationRemoval.SHARED:
+        messages.success(
+            request,
+            gettext(
+                "Removed connected GitHub account %(target)s. The Weblate GitHub "
+                "App remains installed because another workspace still uses it."
+            )
+            % {"target": target},
+        )
+    elif result == InstallationRemoval.UNINSTALLED:
+        messages.success(
+            request,
+            gettext(
+                "Removed connected GitHub account %(target)s and uninstalled "
+                "the Weblate GitHub App from GitHub."
+            )
+            % {"target": target},
+        )
+    elif result == InstallationRemoval.UNREACHABLE:
+        messages.warning(
+            request,
+            gettext(
+                "Removed connected GitHub account %(target)s. GitHub no longer "
+                "grants access to this installation, so it was not uninstalled. "
+                "Check on GitHub whether the Weblate GitHub App is still installed."
+            )
+            % {"target": target},
+        )
+    else:
+        messages.warning(
+            request,
+            gettext(
+                "Removed connected GitHub account %(target)s. The Weblate GitHub "
+                "App is no longer configured on this Weblate instance, so it "
+                "could not be uninstalled, please remove it on GitHub manually."
+            )
+            % {"target": target},
+        )
     return redirect(next_url)
 
 
@@ -594,9 +644,9 @@ async def refresh_repositories(request, pk):
     )
     try:
         repos = await installation.refresh_repositories()
-    except Exception:
+    except Exception as error:
         await sync_to_async(report_error)(
-            "Failed to refresh connected GitHub account repositories"
+            "Failed to refresh connected GitHub account repositories", exception=error
         )
         messages.error(
             request,
@@ -686,9 +736,9 @@ async def _get_authorized_installation(
     try:
         user_token = await exchange_github_user_code(config, code)
         return await get_user_admin_installation(config, user_token, installation_id)
-    except Exception:
+    except Exception as error:
         await sync_to_async(report_error)(
-            "Failed to verify GitHub installation ownership"
+            "Failed to verify GitHub installation ownership", exception=error
         )
         return None
 
@@ -875,9 +925,9 @@ async def github_app_setup(request):
             config.hostname, installation_id, workspace
         )
         is_new_install = is_new_install or synced_is_new_install
-    except Exception:
+    except Exception as error:
         await sync_to_async(report_error)(
-            "Failed to connect GitHub account to workspace"
+            "Failed to connect GitHub account to workspace", exception=error
         )
         messages.warning(
             request,
@@ -891,9 +941,9 @@ async def github_app_setup(request):
 
     try:
         await installation.refresh_repositories()
-    except Exception:
+    except Exception as error:
         await sync_to_async(report_error)(
-            "Failed to refresh connected GitHub account repositories"
+            "Failed to refresh connected GitHub account repositories", exception=error
         )
         messages.warning(
             request,
@@ -954,6 +1004,12 @@ def github_app_repository_list(request):
         for installation in installations
         if _user_can_manage_installation(request.user, installation)
     }
+    # Only manageable installations render the removal confirmation
+    GitHubInstallation.objects.prefetch_components(
+        installation
+        for installation in installations
+        if installation.pk in manageable_installations
+    )
     all_repos = []
     for installation in installations:
         for repo in installation.repositories:
@@ -1308,8 +1364,10 @@ async def github_app_register_callback(request):
 
     try:
         data = await exchange_github_app_manifest_code(code, hostname)
-    except Exception:
-        await sync_to_async(report_error)("Failed to exchange GitHub App manifest code")
+    except Exception as error:
+        await sync_to_async(report_error)(
+            "Failed to exchange GitHub App manifest code", exception=error
+        )
         messages.error(
             request,
             gettext(

@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-24 13:17+0000\n"
 "Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -3117,6 +3117,14 @@ msgstr "超級使用者狀態"
 msgid "User has all possible permissions."
 msgstr "使用者擁有全部可用的取用權。"
 
+msgid "All languages"
+msgstr "所有語言"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (網站全域權限)"
@@ -3165,9 +3173,6 @@ msgstr "組件清單"
 
 msgid "Language selection"
 msgstr "語言選取"
-
-msgid "All languages"
-msgstr "所有語言"
 
 msgid "Languages"
 msgstr "語言"
@@ -8361,6 +8366,31 @@ msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "成為 Weblate 的支持者"
 
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "所有人都能取用 VCS 儲存庫。"
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Skipped components"
+msgid "Skipped components:"
+msgstr "已略過的組件"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "取用遭拒"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
+
 msgid "Repository status"
 msgstr "儲存庫狀態"
 
@@ -11075,7 +11105,8 @@ msgstr "Weblate 已推送變更並建立拉取請求，但無法自動合併。"
 msgid ""
 "Check that the repository allows auto-merge and the selected merge method, "
 "or turn off automatic merging in the version control parameters."
-msgstr "請確認儲存庫允許自動合併及選取的合併方式，或在版本控制參數中關閉自動合併。"
+msgstr ""
+"請確認儲存庫允許自動合併及選取的合併方式，或在版本控制參數中關閉自動合併。"
 
 msgid ""
 "The component looks like it contains regular gettext PO files, but it is "
@@ -11236,8 +11267,8 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
-"在 Weblate 中重定提交基底後，您可能需要在組件設定的版本控制參數中開啟強制推送"
-"，以覆寫遠端儲存庫。"
+"在 Weblate 中重定提交基底後，您可能需要在組件設定的版本控制參數中開啟強制推"
+"送，以覆寫遠端儲存庫。"
 
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
@@ -16321,20 +16352,57 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "所有儲存庫均已更新，翻譯更新正在進行中。"
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "所有儲存庫均已更新，翻譯更新正在進行中。"
+
 msgid "All repositories were pushed."
+msgstr "已推送所有儲存庫。"
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "已推送所有儲存庫。"
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "所有儲存庫均已重設，翻譯更新正在進行中。"
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr "所有儲存庫均已重設，翻譯更新正在進行中。"
+
 msgid "All repositories have been cleaned up."
+msgstr "所有儲存庫已清理完畢。"
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "所有儲存庫已清理完畢。"
 
 msgid "Translation files have been synchronized."
 msgstr "翻譯檔案已同步。"
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "翻譯檔案已同步。"
+
 msgid "Updates of translations are in progress."
+msgstr "翻譯更新正在進行中。"
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "翻譯更新正在進行中。"
 
 msgid "Duplicate strings have been removed from the translation file."
@@ -16351,6 +16419,11 @@ msgstr "正在提交待處理的翻譯。"
 
 msgid "All pending translations were committed."
 msgstr "已提交所有未決翻譯。"
+
+#, fuzzy
+#| msgid "Pending translations are being committed."
+msgid "Pending translations in accessible repositories were committed."
+msgstr "正在提交待處理的翻譯。"
 
 msgid "Component is now locked for translation updates!"
 msgstr "組件現在因翻譯更新而鎖定中！"
@@ -17069,8 +17142,8 @@ msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"合併拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s。請稍後再試"
-"。"
+"合併拉取請求時，%(service)s API 要求失敗 (%(status)s)：%(error)s。請稍後再"
+"試。"
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "匯入 GitHub App 儲存庫時必須指定分支。"

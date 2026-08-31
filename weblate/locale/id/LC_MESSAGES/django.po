@@ -19,9 +19,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-24 13:16+0000\n"
-"Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"PO-Revision-Date: 2026-08-30 04:23+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -475,8 +475,8 @@ msgstr "Pengguna ditambahkan ke tim {team} di seluruh situs oleh {username}."
 #, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
 msgstr ""
-"Akses pengguna ke tim {team} untuk seluruh situs telah diubah oleh {username}"
-"."
+"Akses pengguna ke tim {team} untuk seluruh situs telah diubah oleh "
+"{username}."
 
 #, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
@@ -3312,6 +3312,16 @@ msgstr "Status pengguna super"
 msgid "User has all possible permissions."
 msgstr "Pengguna memiliki semua izin yang ada."
 
+msgid "All languages"
+msgstr "Semua bahasa"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+"Memberikan akses ke semua bahasa, termasuk bahasa yang ditambahkan di masa "
+"mendatang. Nonaktifkan untuk memilih bahasa individual di bawah."
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (izin di seluruh situs)"
@@ -3361,9 +3371,6 @@ msgstr "Daftar komponen"
 
 msgid "Language selection"
 msgstr "Pemilihan bahasa"
-
-msgid "All languages"
-msgstr "Semua bahasa"
 
 msgid "Languages"
 msgstr "Bahasa"
@@ -5599,7 +5606,8 @@ msgstr "Hukum"
 
 msgid ""
 "You have to agree to the General Terms and Conditions and the Privacy Policy"
-msgstr "Anda harus menyetujui Syarat dan Ketentuan Umum serta Kebijakan Privasi"
+msgstr ""
+"Anda harus menyetujui Syarat dan Ketentuan Umum serta Kebijakan Privasi"
 
 msgid "You have to agree to the General Terms and Conditions"
 msgstr "Anda harus menyetujui Syarat dan Ketentuan Umum"
@@ -8831,6 +8839,29 @@ msgstr "Status"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Jadilah pendukung Weblate"
+
+msgid "Some repositories are not accessible"
+msgstr "Beberapa repositori tidak dapat diakses"
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+"Setiap operasi di bawah ini mengecualikan repositori kecuali Anda memiliki "
+"izin yang diperlukan pada setiap komponen yang membaginya."
+
+msgid "Skipped components:"
+msgstr "Komponen yang dilewati:"
+
+msgid "Permission required on:"
+msgstr "Izin diperlukan pada:"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
+"Sebuah repositori dilewati karena satu atau beberapa komponennya tidak dapat "
+"diakses."
 
 msgid "Repository status"
 msgstr "Status repositori"
@@ -17471,22 +17502,49 @@ msgid ""
 msgstr ""
 "Semua repositori telah diperbarui, pembaruan terjemahan sedang berlangsung."
 
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr ""
+"Repositori yang dapat diakses telah diperbarui, pembaruan terjemahan sedang "
+"berlangsung."
+
 msgid "All repositories were pushed."
 msgstr "Semua repositori didorong."
+
+msgid "Accessible repositories were pushed."
+msgstr "Repositori yang dapat diakses telah di-push."
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr ""
 "Semua repositori telah diatur ulang, pembaruan terjemahan sedang berlangsung."
 
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr ""
+"Repositori yang dapat diakses telah di-reset, pembaruan terjemahan sedang "
+"berlangsung."
+
 msgid "All repositories have been cleaned up."
 msgstr "Semua repositori telah dibersihkan."
+
+msgid "Accessible repositories have been cleaned up."
+msgstr "Repositori yang dapat akses telah dibersihkan."
 
 msgid "Translation files have been synchronized."
 msgstr "File terjemahan telah disinkronkan."
 
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "File terjemahan dalam repositori yang dapat diakses telah disinkronkan."
+
 msgid "Updates of translations are in progress."
 msgstr "Pembaruan terjemahan sedang diproses."
+
+msgid "Updates of translations in accessible repositories are in progress."
+msgstr ""
+"Pembaruan terjemahan dalam repositori yang dapat diakses sedang berlangsung."
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "String duplikat telah dihapus dari file terjemahan."
@@ -17502,6 +17560,10 @@ msgstr "Terjemahan yang tertunda sedang dikomit."
 
 msgid "All pending translations were committed."
 msgstr "Semua terjemahan yang tertunda dikomit."
+
+msgid "Pending translations in accessible repositories were committed."
+msgstr ""
+"Terjemahan yang tertunda dalam repositori yang dapat diakses telah dikomit."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Komponen sekarang dikunci untuk pembaruan terjemahan!"
@@ -18220,16 +18282,16 @@ msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Permintaan API %(service)s gagal saat membuat pull request (%(status)s): %"
-"(error)s"
+"Permintaan API %(service)s gagal saat membuat pull request (%(status)s): "
+"%(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Permintaan API %(service)s gagal saat membuat pull request (%(status)s): %"
-"(error)s Silakan coba lagi nanti."
+"Permintaan API %(service)s gagal saat membuat pull request (%(status)s): "
+"%(error)s Silakan coba lagi nanti."
 
 #, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
@@ -18249,16 +18311,16 @@ msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Permintaan API %(service)s gagal saat menggabungkan pull request (%(status)s)"
-": %(error)s"
+"Permintaan API %(service)s gagal saat menggabungkan pull request "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Permintaan API %(service)s gagal saat menggabungkan pull request (%(status)s)"
-": %(error)s Silakan coba lagi nanti."
+"Permintaan API %(service)s gagal saat menggabungkan pull request "
+"(%(status)s): %(error)s Silakan coba lagi nanti."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "Repositori GitHub App harus diimpor dengan cabang."
@@ -19082,7 +19144,8 @@ msgstr ""
 "untuk mengelola pencantumannya."
 
 msgid "Could not enable Discover Weblate. Invalid activation state."
-msgstr "Tidak dapat mengaktifkan Discover Weblate. Status aktivasi tidak valid."
+msgstr ""
+"Tidak dapat mengaktifkan Discover Weblate. Status aktivasi tidak valid."
 
 msgid "Could not enable Discover Weblate. Missing activation code."
 msgstr "Tidak dapat mengaktifkan Discover Weblate. Kode aktivasi tidak ada."
@@ -19125,7 +19188,8 @@ msgstr "Tidak dapat mengaktifkan paket dukungan. Silakan coba lagi nanti."
 msgid ""
 "Could not activate the support package. Please ensure the activation token "
 "is correct."
-msgstr "Tidak dapat mengaktifkan paket dukungan. Pastikan token aktivasi benar."
+msgstr ""
+"Tidak dapat mengaktifkan paket dukungan. Pastikan token aktivasi benar."
 
 #, python-format
 msgid "Could not activate the support package: %s"
