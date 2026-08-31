@@ -421,12 +421,16 @@ class BatchMachineTranslation(DocVersionsMixin):
         if isinstance(exc, httpx2.HTTPStatusError):
             url = exc.request.url
             port_part = f":{url.port}" if url.port else ""
+            # url.host is the bare address; IPv6 literals must be re-bracketed
+            # because the URL string (and HTTPStatusError message) uses the
+            # bracketed form [addr] as required by RFC 3986.
+            host_in_url = f"[{url.host}]" if ":" in url.host else url.host
             # Credential-free origin used as the safe replacement value.
-            safe_origin = f"{url.scheme}://{url.host}{port_part}"
+            safe_origin = f"{url.scheme}://{host_in_url}{port_part}"
             # Match the URL in credentialed (scheme://user:pass@host) or plain
             # form.  url.netloc is host[:port] without userinfo, so prepend an
             # optional userinfo group to catch credentialed authority sections.
-            netloc_pattern = re.escape(f"{url.host}{port_part}")
+            netloc_pattern = re.escape(f"{host_in_url}{port_part}")
             error_message = re.sub(
                 re.escape(url.scheme)
                 + r"://(?:[^@/\s]+@)?"

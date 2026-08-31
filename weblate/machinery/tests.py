@@ -9165,6 +9165,26 @@ class MachineryErrorTest(TestCase):
         self.assertIn("https://api.example.com", error.error)
         self.assertIn("/[redacted]", error.error)
 
+    def test_report_error_redacts_ipv6_url(self) -> None:
+        """IPv6-literal service URLs are fully redacted despite url.host lacking brackets."""
+        machine = self.get_machine()
+        request = httpx2.Request(
+            "GET",
+            "https://[2001:db8::1]:8443/translate?key=SECRET&text=hello",
+        )
+        exc = HTTPError(
+            "401 Client Error: Unauthorized for url:"
+            " https://[2001:db8::1]:8443/translate?key=SECRET&text=hello",
+            request=request,
+            response=httpx2.Response(401, request=request),
+        )
+        machine.report_error("Auth failed", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn("SECRET", error.error)
+        self.assertNotIn("/translate", error.error)
+        self.assertIn("https://[2001:db8::1]:8443", error.error)
+        self.assertIn("/[redacted]", error.error)
+
     def test_report_error_records_project_from_settings(self) -> None:
         """MachineryError FK is populated when service is project-scoped."""
         project = Project.objects.create(name="Test", slug="test")
