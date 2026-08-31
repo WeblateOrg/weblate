@@ -2271,11 +2271,12 @@ class HiddenFieldErrorsMixin(forms.Form):
         super().full_clean()
         # Hidden fields are rendered without their errors, show them on the
         # form level instead of failing with no visible explanation.
-        for name in list(self._errors):
+        errors = self.errors
+        for name in list(errors):
             if name == NON_FIELD_ERRORS or not self[name].is_hidden:
                 continue
             label = self[name].label
-            messages = self._errors.pop(name)
+            messages = errors.pop(name)
             self.add_error(None, [f"{label}: {message}" for message in messages])
 
 
