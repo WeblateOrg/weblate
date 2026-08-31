@@ -1102,13 +1102,16 @@ def github_app_migration(request, workspace_id):
                     unavailable += 1
                     continue
                 _hostname, _full_name, canonical_url = target
+                vcs_params = component.vcs_params.copy()
+                if component.vcs == "git":
+                    vcs_params["create_merge_request"] = False
                 component.acting_user = request.user
                 component.vcs = "github-app"
                 component.repo = canonical_url
                 component.push = ""
                 component.push_branch = ""
                 component.vcs_params = strip_unused_vcs_params(
-                    component.vcs, component.vcs_params.copy()
+                    component.vcs, vcs_params
                 )
                 try:
                     GithubAppRepository.validate_component(component)

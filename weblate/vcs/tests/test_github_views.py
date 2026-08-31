@@ -14,8 +14,8 @@ from urllib.parse import parse_qs, urlencode, urlparse
 from asgiref.sync import async_to_sync
 from django.contrib.messages import get_messages
 from django.core.cache import cache
-from django.db import connection
 from django.core.exceptions import ValidationError
+from django.db import connection
 from django.test import TestCase
 from django.test.utils import CaptureQueriesContext, override_settings
 from django.urls import reverse
@@ -1642,7 +1642,6 @@ class GitHubInstallationViewTest(ViewTestCase):
             push_branch="translations",
             vcs_params={
                 "git_force_push": True,
-                "create_merge_request": False,
             },
         )
         self.component.refresh_from_db()
@@ -1666,6 +1665,40 @@ class GitHubInstallationViewTest(ViewTestCase):
         self.assertFalse(
             self.component.alert_set.filter(name="GitHubAppMigration").exists()
         )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_migration_preserves_github_create_merge_request(self):
+        repository = _repo_entry("test-org/repo1")
+        GitHubInstallation.objects.create(
+            installation_id="12345",
+            target_type="Organization",
+            target_login="test-org",
+            workspace=self.workspace,
+            repositories=[repository],
+        )
+        url = reverse(
+            "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
+        )
+
+        for create_merge_request in (False, True):
+            with self.subTest(create_merge_request=create_merge_request):
+                Component.objects.filter(pk=self.component.pk).update(
+                    vcs="github",
+                    repo="https://github.com/test-org/repo1.git",
+                    vcs_params={"create_merge_request": create_merge_request},
+                )
+
+                response = self.client.post(
+                    url, {"components": [str(self.component.pk)]}
+                )
+
+                self.assertRedirects(response, url, fetch_redirect_response=False)
+                self.component.refresh_from_db()
+                self.assertEqual(self.component.vcs, "github-app")
+                self.assertEqual(
+                    self.component.vcs_params,
+                    {"create_merge_request": create_merge_request},
+                )
 
     def test_migration_rejects_unavailable_component(self):
         Component.objects.filter(pk=self.component.pk).update(
