@@ -9123,8 +9123,8 @@ class MachineryErrorTest(TestCase):
         self.assertNotIn("SECRET", error.error)
         self.assertNotIn("text=hello", error.error)
         self.assertNotIn("/translate", error.error)
+        self.assertIn("401", error.error)
         self.assertIn("https://api.example.com", error.error)
-        self.assertIn("/[redacted]", error.error)
 
     def test_report_error_redacts_url_path_segments(self) -> None:
         """Source text embedded in URL path segments (e.g. TMServer) is not persisted."""
@@ -9141,8 +9141,8 @@ class MachineryErrorTest(TestCase):
         error = MachineryError.objects.get()
         self.assertNotIn(source_text, error.error)
         self.assertNotIn("/tmserver/en/cs/unit/", error.error)
+        self.assertIn("404", error.error)
         self.assertIn("http://tmserver", error.error)
-        self.assertIn("/[redacted]", error.error)
 
     def test_report_error_redacts_credentialed_url(self) -> None:
         """Credentials embedded in the service URL authority are not persisted."""
@@ -9162,8 +9162,8 @@ class MachineryErrorTest(TestCase):
         self.assertNotIn("SECRET_KEY", error.error)
         self.assertNotIn("apiuser", error.error)
         self.assertNotIn("/translate", error.error)
+        self.assertIn("401", error.error)
         self.assertIn("https://api.example.com", error.error)
-        self.assertIn("/[redacted]", error.error)
 
     def test_report_error_redacts_ipv6_url(self) -> None:
         """IPv6-literal service URLs are fully redacted despite url.host lacking brackets."""
@@ -9182,8 +9182,30 @@ class MachineryErrorTest(TestCase):
         error = MachineryError.objects.get()
         self.assertNotIn("SECRET", error.error)
         self.assertNotIn("/translate", error.error)
+        self.assertIn("401", error.error)
         self.assertIn("https://[2001:db8::1]:8443", error.error)
-        self.assertIn("/[redacted]", error.error)
+
+    def test_report_error_strips_response_detail_from_rate_limit_error(self) -> None:
+        """Response body detail carried by MachineryRateLimitError is not persisted."""
+        machine = self.get_machine()
+        source_text = "Secret source text that should not be stored"
+        exc = MachineryRateLimitError(f"Rate limit exceeded: {source_text}")
+        machine.report_error("Could not fetch translations", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn(source_text, error.error)
+        self.assertIn("MachineryRateLimitError", error.error)
+
+    def test_report_error_strips_response_detail_from_machine_translation_error(
+        self,
+    ) -> None:
+        """Response body detail carried by MachineTranslationError is not persisted."""
+        machine = self.get_machine()
+        source_text = "Secret source text that should not be stored"
+        exc = MachineTranslationError(f"Bad request: {source_text}")
+        machine.report_error("Could not fetch translations", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn(source_text, error.error)
+        self.assertIn("MachineTranslationError", error.error)
 
     def test_report_error_records_project_from_settings(self) -> None:
         """MachineryError FK is populated when service is project-scoped."""

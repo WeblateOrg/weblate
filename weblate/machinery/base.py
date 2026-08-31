@@ -411,41 +411,40 @@ class BatchMachineTranslation(DocVersionsMixin):
         # ruff: ignore[import-outside-top-level]
         from weblate.machinery.models import MachineryError
 
-        # Redact the request URL to avoid persisting sensitive data: backends pass
-        # API keys in query parameters (e.g. Yandex, MyMemory) and source text in
-        # path segments (e.g. TMServer encodes up to 500 chars of source in the
-        # path).  For HTTP errors the exact URL is available on the request object;
-        # strip everything after the origin.  For other exception types fall back to
-        # stripping query strings from any URL-like substrings in the message.
-        error_str = str(exc)
+        # Build a safe error string that avoids persisting sensitive data.
+        #
+        # HTTPStatusError: reconstruct from the HTTP status code and origin
+        # only.  The full exception message carries the request URL (which may
+        # embed API keys or source text in path/query/authority) and up to 200
+        # characters of response body detail appended by check_failure() via
+        # get_error_detail(); both are excluded.  IPv6 literal hosts must be
+        # re-bracketed because url.host is the bare address while the URL
+        # string and HTTPStatusError message use the bracketed form [addr].
+        #
+        # MachineTranslationError (including MachineryRateLimitError): the
+        # exception message may be constructed directly from get_error_detail()
+        # output (e.g. OpenAI raises MachineryRateLimitError from that detail);
+        # drop it and store only the class name.
+        #
+        # All other exceptions: redact query parameters that may carry API keys
+        # from any URL-like substrings in the message.
         if isinstance(exc, httpx2.HTTPStatusError):
             url = exc.request.url
             port_part = f":{url.port}" if url.port else ""
-            # url.host is the bare address; IPv6 literals must be re-bracketed
-            # because the URL string (and HTTPStatusError message) uses the
-            # bracketed form [addr] as required by RFC 3986.
             host_in_url = f"[{url.host}]" if ":" in url.host else url.host
-            # Credential-free origin used as the safe replacement value.
             safe_origin = f"{url.scheme}://{host_in_url}{port_part}"
-            # Match the URL in credentialed (scheme://user:pass@host) or plain
-            # form.  url.netloc is host[:port] without userinfo, so prepend an
-            # optional userinfo group to catch credentialed authority sections.
-            netloc_pattern = re.escape(f"{host_in_url}{port_part}")
-            error_message = re.sub(
-                re.escape(url.scheme)
-                + r"://(?:[^@/\s]+@)?"
-                + netloc_pattern
-                + r"[^\s]*",
-                f"{safe_origin}/[redacted]",
-                error_str,
-            )
+            error_message = f"{exc.response.status_code} from {safe_origin}"
+        elif isinstance(exc, MachineTranslationError):
+            error_message = ""
         else:
-            error_message = re.sub(r"\?[^#\s]*", "?[redacted]", error_str)
+            error_message = re.sub(r"\?[^#\s]*", "?[redacted]", str(exc))
         try:
             MachineryError.objects.create(
                 engine=self.mtid,
                 project=self.settings.get("_project"),
-                error=f"{cause}: {type(exc).__name__}: {error_message}",
+                error=": ".join(
+                    filter(None, [cause, type(exc).__name__, error_message])
+                ),
             )
         except BaseException:
             log_handled_exception("Could not save machinery error")
