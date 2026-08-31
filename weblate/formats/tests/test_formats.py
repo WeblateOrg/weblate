@@ -954,6 +954,30 @@ class AutoLoadTest(SimpleTestCase):
     def test_xliff(self) -> None:
         self.single_test(TEST_XLIFF, XliffFormat)
 
+    def test_xliff_conversion_upload_uses_plain_placeables(self) -> None:
+        content = (
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<xliff version="1.1">'
+            '<file original="file" source-language="en" datatype="plaintext">'
+            '<body><trans-unit id="amp">'
+            "<source>Source &amp; translation</source>"
+            "<target>Zdroj &amp; překlad</target>"
+            "</trans-unit></body></file></xliff>"
+        ).encode()
+
+        conversion_store = try_load("test.xliff", content, JSONFormat, None)
+        self.assertIsInstance(conversion_store, XliffFormat)
+        self.assertIsInstance(conversion_store.content_units[0], XliffUnit)
+        self.assertEqual(
+            conversion_store.content_units[0].source, "Source & translation"
+        )
+
+        native_store = try_load("test.xliff", content, XliffFormat, None)
+        self.assertIsInstance(native_store.content_units[0], RichXliffUnit)
+        self.assertEqual(
+            native_store.content_units[0].source, "Source &amp; translation"
+        )
+
     def test_resx(self) -> None:
         self.single_test(TEST_RESX, RESXFormat)
 
