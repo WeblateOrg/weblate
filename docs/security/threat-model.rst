@@ -3,11 +3,11 @@ Weblate threat model
 
 Project: Weblate
 
-Last reviewed for Weblate |release| at commit ``491e79010b2``.
+Last reviewed for Weblate |release| at commit ``8283fcad69f``.
 
-Date: 2026-05-14.
+Date: 2026-09-01.
 
-Status: Accepted, 2026-05-14.
+Status: Accepted, 2026-09-01.
 
 Version binding: This model is versioned with Weblate releases. A report
 against Weblate version N is triaged against the model published for version N,
@@ -25,7 +25,7 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 103 documented / 65 maintainer / 0 inferred claims.
+Provenance summary: 118 documented / 69 maintainer / 0 inferred claims.
 
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
@@ -78,17 +78,20 @@ Scope and intended use
      - Background task scheduling and VCS repository updates
      - In scope as a public, deployment-hardened interface. *(documented)* (source: :ref:`hooks`, :ref:`project-enable_hooks`, :ref:`code-hosting-github-app-webhook`)
    * - VCS integration
-     - Repository URLs, branches, pushes, pulls, merge requests, local clones
-     - Filesystem, child VCS commands, SSH/HTTPS network connections
+     - Repository URLs, branches, pushes, pulls, merge requests, local clones,
+       and GitHub App registration, connections, component migration, and
+       removal
+     - Filesystem, child VCS commands, SSH/HTTPS network connections, and
+       provider repository or installation state
      - In scope when reachable through Weblate configuration or project
        content. *(documented)* (source: :doc:`/admin/continuous`,
        :doc:`/admin/code-hosting`)
    * - Background tasks
-     - Celery queues for repository updates, notifications, translation memory,
-       translation, and backups
+     - Celery queues for repository updates, project deletion, notifications,
+       translation memory, translation, and backups
      - Database, datastore, filesystem, outbound network
      - In scope as Weblate-controlled execution of user or operator actions.
-       *(documented)* (source: :doc:`/admin/install`)
+       *(documented)* (source: :doc:`/admin/install`, :doc:`/api`)
    * - Project backup import/export
      - :ref:`projectbackup`, :doc:`/api` project backup endpoints,
        :wladmin:`import_projectbackup`
@@ -111,7 +114,8 @@ Scope and intended use
        restrictions. Provider behavior is out of scope. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/addons`)
    * - Add-ons
      - Built-in add-ons and administrator-configured add-on execution
-     - Varies by add-on; can mutate repositories or contact services
+     - Varies by add-on; can mutate project or repository state or contact
+       services
      - Built-in add-ons are in scope when enabled. Third-party add-ons are out
        of scope except for Weblate's permission and installation gates.
        *(maintainer)*
@@ -406,8 +410,11 @@ Build-time and configuration variants
        without connection binding require an explicit trusted-host exemption.
        *(maintainer)*
      - Allowlist settings and privileged configuration can intentionally expand
-       reachability. Fedora Messaging broker URLs are site-administrator
-       configuration and are trusted by this model. *(documented)* (source:
+       reachability. A non-empty :setting:`VCS_ALLOW_HOSTS` also restricts all
+       configured VCS hosts, while :setting:`VCS_PRIVATE_ALLOWLIST` only exempts
+       matching hosts from private-target checks and does not bypass that host
+       filter. Fedora Messaging broker URLs are site-administrator configuration
+       and are trusted by this model. *(documented)* (source:
        :setting:`ASSET_PRIVATE_ALLOWLIST`,
        :setting:`PROJECT_WEB_RESTRICT_ALLOWLIST`,
        :setting:`WEBHOOK_PRIVATE_ALLOWLIST`, :setting:`VCS_ALLOW_HOSTS`,
@@ -479,17 +486,26 @@ Input assumptions
      - Yes, where endpoint is reachable. *(documented)* (source: :ref:`hooks`)
      - Hook enablement only where needed, request limits, and monitoring.
        *(maintainer)*
-   * - GitHub App connection callbacks
-     - GitHub OAuth code, signed Weblate state, installation ID, account metadata
+   * - GitHub App lifecycle
+     - Registration and installation callbacks, GitHub OAuth code, signed
+       Weblate state, installation ID, account metadata, component migration
+       selections, and connection-removal requests
      - Yes, from authenticated Weblate users and GitHub redirect query strings.
-       *(documented)* (source: :ref:`code-hosting-github-app-register`)
-     - Weblate requires workspace management rights and verifies that the
-       GitHub user owns the personal installation or can administer the
-       organization installation before saving it. *(documented)* (source:
-       :ref:`code-hosting-github-app-register`)
+       *(documented)* (source: :ref:`code-hosting-github-app-register`,
+       :ref:`code-hosting-github-app-migrate`)
+     - Registering App credentials requires the site-wide
+       ``management.configure`` permission. Connecting or removing an
+       installation requires management rights for its workspace, and Weblate
+       verifies GitHub administration of an installation before connecting it.
+       Component migration additionally requires edit permission for every
+       selected component. Removing the last workspace connection also attempts
+       to uninstall the App from GitHub. *(documented)*
+       (source: :ref:`code-hosting-github-app-register`,
+       :ref:`code-hosting-github-app-migrate`)
    * - Repository configuration
      - Repository URLs, branches, push URLs, credentials, Gerrit review push
-       options, add-on settings
+       options, add-on settings, and :ref:`vcs_params` controlling force pushes
+       and pull-request behavior
      - Trusted to users with corresponding management permissions.
        *(documented)* (source: :doc:`/admin/access`, :doc:`/admin/continuous`)
      - Assign VCS and project management permissions only to trusted users.
@@ -622,7 +638,13 @@ Security properties Weblate provides
        Team-level enforced 2FA is satisfied by human users before
        team-derived permissions apply. Component administrators are trusted to
        configure operations that can affect repository contents, for example by
-       selecting files through component settings or configuring add-ons.
+       selecting files through component settings, configuring add-ons, or
+       enabling force pushes and pull-request behavior through :ref:`vcs_params`.
+       Users with management rights for a workspace are trusted to connect and
+       remove its GitHub App installations; removing the final workspace
+       connection can uninstall the App from GitHub. GitHub App component
+       migration separately requires edit permission for every selected
+       component.
        Linking a repository extends this trust to administrators of every
        linked component for the complete shared checkout. Permissions for
        explicit VCS actions cover every component sharing an affected
@@ -664,6 +686,7 @@ Security properties Weblate provides
        workflows and configured credentials. Project backup restores allow only
        non-executable Git, git-svn, and Mercurial repository state, and rebuild
        repository-local configuration from validated component settings.
+       Weblate does not populate Git submodules (see :ref:`git-submodules`).
      - Command injection or arbitrary code execution as the Weblate user.
      - Security-critical.
    * - Private project data other than documented generic webhook matching
@@ -704,14 +727,19 @@ Security properties Weblate provides
        repository browser URL, outbound webhook URL, or VCS URL reaches an
        internal or non-public target despite default controls.
      - Security-critical when it exposes internal services or metadata.
-   * - Weblate records security-relevant account, permission, authenticated
-       web-action rate-limit lockouts, and project or component setting changes
-       in audit logs or history. *(documented)* (source:
-       :doc:`/security/privacy-compliance`, :ref:`rate-limit`, :doc:`/changes`)
-     - Logging is configured and storage is available.
-     - Missing audit trail for an action Weblate claims to log.
-     - Security-critical when it blocks investigation of privileged changes;
-       correctness-only for minor event gaps.
+   * - Weblate records security-relevant account, permission, billing lifecycle,
+       authenticated web-action rate-limit lockouts, and project or component
+       setting changes in audit logs or history. Account-removal audit entries
+       retain the former e-mail address until :setting:`AUDITLOG_EXPIRY`.
+       *(documented)* (source: :doc:`/security/privacy-compliance`,
+       :ref:`rate-limit`, :ref:`billing`, :doc:`/changes`)
+     - Logging is configured, storage is available, and
+       :setting:`AUDITLOG_EXPIRY` reflects the operator's intended retention.
+     - Missing audit trail for an action Weblate claims to log, or personal data
+       retained beyond the configured audit-log expiry.
+     - Security-critical when it blocks investigation of privileged changes or
+       discloses retained personal data; privacy-impacting when data exceeds the
+       configured retention; correctness-only for minor event gaps.
    * - Rate-limited API and web actions enforce configured rate limits.
        *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)
      - Rate limiting is enabled and backed by a working datastore.
@@ -865,10 +893,11 @@ Known misuse patterns
   supported hooks are compatibility-oriented and return matching diagnostics.
   Use deployment controls and prefer authenticated integrations where
   available. *(maintainer)*
-* Granting project management, VCS, or access-management permissions to users
+* Granting workspace, project, VCS, or access-management permissions to users
   who are trusted only as translators. This is unsafe because those permissions
-  can affect repositories, credentials, or other users. Assign narrower roles.
-  *(documented)* (source: :doc:`/admin/access`)
+  can affect code-hosting connections, repositories, credentials, or other
+  users. Assign narrower roles. *(documented)* (source: :doc:`/admin/access`,
+  :doc:`/admin/code-hosting`)
 * Assigning site-wide permissions to roles intended for limited project or
   helpdesk delegation. Site-wide permissions apply across the instance and are
   not narrowed by the team's project selection. In particular, ``user.edit``

@@ -5,44 +5,40 @@ Weblate 2026.9
 
 .. rubric:: New features
 
+* :ref:`Repository maintenance actions <repository-maintenance>` now run as background tasks, avoiding request and proxy timeouts. Project-wide maintenance remains available for authorized repositories and lists components skipped because of linked-component permissions. The :http:post:`repository API </api/projects/(string:project)/repository/>` supports the same behavior using ``background: true``.
 * :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
 * Added :ref:`vcs_params` to configure repository behavior per component, including force pushing, opting out of pull requests, and GitHub pull request automerge.
 * Added :ref:`code-hosting-github-app-migrate` for migrating existing Git and GitHub components to the Weblate GitHub App integration.
+* Added a :guilabel:`Visible columns in lists` preference to choose which statistics columns are shown in project, component, and language lists. See :ref:`profile-preferences`.
 
 .. rubric:: Improvements
 
-* Removing the final Weblate workspace connection for a GitHub account, or removing the workspace holding it, now also uninstalls the Weblate GitHub App from GitHub.
-* Core repository maintenance actions now run as background tasks, avoiding request and proxy timeouts. The repository API supports the same behavior using ``background: true``. See :ref:`repository-maintenance`.
+* Removing the final Weblate workspace connection for a GitHub account, or removing the workspace holding it, now also uninstalls the :ref:`Weblate GitHub App <code-hosting-github-app-register>` from GitHub.
 * :ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords (newline-separated) passed to xgettext via ``--keyword``, enabling extraction from different function names.
-* Screenshot images are now cached in browsers to reduce repeated downloads.
-* Administrators can now find removed accounts by their former e-mail address in the audit log until :setting:`AUDITLOG_EXPIRY`.
-* Deployment checks and the performance report now detect slow filesystem metadata access in data and cache directories.
+* :ref:`Screenshot images <screenshots>` are now cached in browsers to reduce repeated downloads.
+* Administrators can now find removed accounts by their former e-mail address in the audit log until :setting:`AUDITLOG_EXPIRY`. See :doc:`/security/privacy-compliance`.
+* Deployment diagnostics now detect slow filesystem metadata access in data and cache directories, and validate VCS command versions during configuration health checks instead of every process startup. See :ref:`manage-performance` and :setting:`VCS_BACKENDS`.
 * Clarified the instance-wide impact of roles containing site-wide permissions, including :ref:`site-wide user management <site-wide-user-management>`.
 * Improved translation file loading performance for metadata-only string changes.
-* Added a :guilabel:`Visible columns in lists` preference to choose which statistics columns are shown in project, component, and language lists. See :ref:`user-profile`.
 * Reduced :ref:`Celery <celery>` worker startup memory usage by avoiding duplicate Django system checks and loading font rendering only when needed.
-* VCS command versions are now validated by configuration health checks instead of during every process startup.
-* Billing audit logs now identify users who change plans, initiate payments, or merge billings.
+* :ref:`Billing <billing>` audit logs now identify users who change plans, initiate payments, or merge billings.
 * Assigning languages to a team now uses an :guilabel:`All languages` toggle which disables the language choice when turned on, and a manually chosen set of languages is kept when toggling it. See :ref:`manage-acl`.
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.
 * Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior.
 * Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`.
 * The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
-* Flags in the translation flags editor can now be reopened for editing, navigated with arrow keys, and copied with Ctrl+C.
+* The :ref:`translation flags <additional-flags>` editor now supports reopening flags for editing, arrow-key navigation, and copying with :kbd:`Ctrl+C`. It also keeps commas inside quoted values intact, allowing flags such as ``regex:"^.{1,32}$"`` to be typed and pasted.
 * Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`.
-* Project-wide repository maintenance now remains available for authorized repositories and lists components skipped because of linked-component permissions.
 
 .. rubric:: Bug fixes
 
-* Project backup restores now preserve all project, category, and component settings.
+* :ref:`Project backup restores <projectbackup>` now preserve all project, category, and component settings. They also allowlist repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
 * Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
-* Database dump failures are now shown in the backups management interface.
-* Project administrators can no longer remove API tokens belonging to other projects.
-* Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory.
+* Database dump failures are now shown in the :ref:`backups management interface <automated-backup>`.
+* Project administrators can no longer remove :ref:`API tokens <api-tokens>` belonging to other projects.
+* Project and workspace :ref:`translation memory <translation-memory>` now respects restricted component access, and restricted components no longer contribute to shared translation memory.
 * GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
-* :ref:`Project backup restores <projectbackup>` now allowlists repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
 * Notification e-mails now wrap long strings instead of overflowing, keeping the :guilabel:`View` button reachable without horizontal scrolling.
-* The translation flags editor no longer splits a flag on a comma inside a quoted value, so flags such as ``regex:"^.{1,32}$"`` can be typed and pasted again.
 * Creating additional components for a repository imported through the :ref:`GitHub App <code-hosting-github-repositories>` no longer fails without showing any error, and component creation errors which previously could go unreported are now always displayed.
 
 .. rubric:: Compatibility
@@ -52,7 +48,7 @@ Weblate 2026.9
 * Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
 * Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
 * Mercurial and Subversion repository hosts can now be trusted using :setting:`VCS_PRIVATE_ALLOWLIST` without restricting Git to the same hosts through :setting:`VCS_ALLOW_HOSTS`.
-* The project deletion REST API endpoint now returns ``202 Accepted`` instead of ``204 No Content`` and contains a task URL in the response to track asynchronous deletion progress.
+* The :http:delete:`project deletion REST API endpoint </api/projects/(string:project)/>` now returns ``202 Accepted`` instead of ``204 No Content`` and contains a task URL in the response to track asynchronous deletion progress.
 
 .. rubric:: Upgrading
 
