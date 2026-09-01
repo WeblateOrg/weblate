@@ -37,6 +37,9 @@ if TYPE_CHECKING:
     )
 
 
+CACHE_EXPIRATION = 24 * 3600
+
+
 class DeepLTranslation(
     XMLMachineTranslationMixin, GlossaryMachineTranslationMixin, BatchMachineTranslation
 ):
@@ -61,6 +64,17 @@ class DeepLTranslation(
     settings_form = DeepLMachineryForm
     glossary_count_limit = 1000
     glossary_languages_cache_version: ClassVar[int] = 2
+    # map DeepL translate target codes to Write API target_lang values.
+    write_language_map: ClassVar[dict[str, str]] = {
+        "EN": "en-US",
+        "EN-US": "en-US",
+        "EN-GB": "en-GB",
+        "PT": "pt-PT",
+        "PT-PT": "pt-PT",
+        "PT-BR": "pt-BR",
+        "ZH": "zh-Hans",
+        "ZH-HANS": "zh-Hans",
+    }
 
     @property
     def api_base_url(self):
@@ -115,11 +129,85 @@ class DeepLTranslation(
         super().delete_cache()
         cache.delete(self.get_cache_key("glossary_languages"))
         cache.delete(self.get_glossary_languages_cache_key())
+        cache.delete(self.get_write_languages_cache_key())
 
     def get_glossary_languages_cache_key(self) -> str:
         return self.get_cache_key(
             "glossary_languages", parts=(self.glossary_languages_cache_version,)
         )
+
+    def get_write_languages_cache_key(self) -> str:
+        return self.get_cache_key("write_languages")
+
+    @property
+    def is_pro_api(self) -> bool:
+        """DeepL Write is available on Pro API hosts only."""
+        return urlsplit(self.api_base_url).hostname != "api-free.deepl.com"
+
+    def get_write_languages(self) -> set[str]:
+        cache_key = self.get_write_languages_cache_key()
+        languages_cache = cache.get(cache_key)
+        if languages_cache is not None:
+            return set(languages_cache)
+
+        response = self.request(
+            "get",
+            self.get_api_url("v3", "languages"),
+            params={"resource": "write"},
+        )
+        languages = {
+            item["lang"]
+            for item in response.json()
+            if item.get("usable_as_target", False)
+        }
+        cache.set(cache_key, languages, CACHE_EXPIRATION)
+        return languages
+
+    def strip_formality_suffix(self, language: str) -> str:
+        if language.endswith("@FORMAL"):
+            return language.removesuffix("@FORMAL")
+        if language.endswith("@INFORMAL"):
+            return language.removesuffix("@INFORMAL")
+        return language
+
+    def get_write_target_language(self, target_language: str) -> str | None:
+        """
+        Map a DeepL translate target language code to Write API form.
+
+        Returns None when Write does not support the language.
+        """
+        code = self.strip_formality_suffix(target_language)
+        write_languages = self.get_write_languages()
+        write_by_casefold = {lang.casefold(): lang for lang in write_languages}
+
+        mapped = self.write_language_map.get(code.upper())
+        candidates = []
+        if mapped is not None:
+            candidates.append(mapped)
+        candidates.extend(
+            [
+                code,
+                code.lower(),
+            ]
+        )
+        # en-us vs EN-US style normalization for regional codes
+        if "-" in code:
+            base, region = code.split("-", 1)
+            candidates.extend(
+                [
+                    f"{base.lower()}-{region.upper()}",
+                    f"{base.lower()}-{region.capitalize()}",
+                    f"{base.lower()}-{region.lower()}",
+                ]
+            )
+
+        for candidate in candidates:
+            if candidate in write_languages:
+                return candidate
+            matched = write_by_casefold.get(candidate.casefold())
+            if matched is not None:
+                return matched
+        return None
 
     def get_error_message(self, exc):
         if isinstance(exc, httpx2.HTTPStatusError):
@@ -189,7 +277,8 @@ class DeepLTranslation(
             self.get_api_url("v2", "translate"),
             json=params,
         )
-        return self._parse_translations(texts, response.json())
+        result = self._parse_translations(texts, response.json())
+        return self._append_rephrase_suggestions(result, sources, target_language)
 
     async def adownload_multiple_translations(
         self,
@@ -208,7 +297,10 @@ class DeepLTranslation(
             self.get_api_url("v2", "translate"),
             json=params,
         )
-        return self._parse_translations(texts, response.json())
+        result = self._parse_translations(texts, response.json())
+        return await self._aappend_rephrase_suggestions(
+            result, sources, target_language
+        )
 
     def _prepare_translation_request(
         self,
@@ -258,6 +350,138 @@ class DeepLTranslation(
             ]
         return result
 
+    def _collect_rephrase_candidates(
+        self,
+        sources: list[tuple[str, Unit | None]],
+        target_language: str,
+    ) -> tuple[str, list[tuple[str, str]]] | None:
+        """
+        Collect existing targets eligible for DeepL Write rephrasing.
+
+        Returns write language code and list of (source_text, target_text), or None.
+        """
+        if not self.is_pro_api:
+            return None
+
+        candidates: list[tuple[str, str]] = []
+        seen: dict[int, int] = {}
+        for source_text, unit in sources:
+            if unit is None or not unit.translated or unit.readonly:
+                continue
+            targets = unit.get_target_plurals()
+            occurrence = seen.get(id(unit), 0)
+            seen[id(unit)] = occurrence + 1
+            if occurrence >= len(targets):
+                continue
+            target_text = targets[occurrence]
+            if not target_text:
+                continue
+            candidates.append((source_text, target_text))
+
+        if not candidates:
+            return None
+
+        if write_lang := self.get_write_target_language(target_language):
+            return write_lang, candidates
+
+        return None
+
+    def download_rephrased_translations(
+        self, texts: list[str], write_lang: str
+    ) -> list[str]:
+        """Improve existing translations using DeepL Write rephrase."""
+        response = self.request(
+            "post",
+            self.get_api_url("v2", "write", "rephrase"),
+            json={
+                "text": texts,
+                "target_lang": write_lang,
+            },
+        )
+        return [item["text"] for item in response.json()["improvements"]]
+
+    async def adownload_rephrased_translations(
+        self, texts: list[str], write_lang: str
+    ) -> list[str]:
+        """Improve existing translations using DeepL Write without blocking."""
+        response = await self.arequest(
+            "post",
+            self.get_api_url("v2", "write", "rephrase"),
+            json={
+                "text": texts,
+                "target_lang": write_lang,
+            },
+        )
+        return [item["text"] for item in response.json()["improvements"]]
+
+    def _merge_rephrase_results(
+        self,
+        result: DownloadMultipleTranslations,
+        candidates: list[tuple[str, str]],
+        improved_texts: list[str],
+    ) -> DownloadMultipleTranslations:
+        for (source_text, target_text), improved in zip(
+            candidates, improved_texts, strict=True
+        ):
+            if not improved or improved == target_text:
+                continue
+            existing = {item["text"] for item in result.get(source_text, [])}
+            if improved in existing:
+                continue
+            result.setdefault(source_text, []).append(
+                {
+                    "text": improved,
+                    "quality": self.max_score,
+                    "service": self.name,
+                    "source": source_text,
+                }
+            )
+        return result
+
+    def _append_rephrase_suggestions(
+        self,
+        result: DownloadMultipleTranslations,
+        sources: list[tuple[str, Unit | None]],
+        target_language: str,
+    ) -> DownloadMultipleTranslations:
+        """Optionally append rephrased existing translations for supported targets."""
+        try:
+            prepared = self._collect_rephrase_candidates(sources, target_language)
+            if prepared is None:
+                return result
+            write_lang, candidates = prepared
+            improved_texts = self.download_rephrased_translations(
+                [target for _source, target in candidates], write_lang
+            )
+        except Exception:
+            self.log_handled_error("Could not rephrase translations")
+            return result
+        return self._merge_rephrase_results(result, candidates, improved_texts)
+
+    async def _aappend_rephrase_suggestions(
+        self,
+        result: DownloadMultipleTranslations,
+        sources: list[tuple[str, Unit | None]],
+        target_language: str,
+    ) -> DownloadMultipleTranslations:
+        """Async variant of rephrase suggestion append."""
+        try:
+            prepared = await sync_to_async(self._collect_rephrase_candidates)(
+                sources, target_language
+            )
+            if prepared is None:
+                return result
+            write_lang, candidates = prepared
+            improved_texts = await self.adownload_rephrased_translations(
+                [target for _source, target in candidates], write_lang
+            )
+        except Exception:
+            await sync_to_async(self.log_handled_error)(
+                "Could not rephrase translations"
+            )
+            return result
+        return self._merge_rephrase_results(result, candidates, improved_texts)
+
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: Highlight | Unit | None
     ) -> str:
@@ -300,7 +524,7 @@ class DeepLTranslation(
                 if language["usable_as_target"]
             }
 
-            cache.set(cache_key, (source_languages, target_languages), 24 * 3600)
+            cache.set(cache_key, (source_languages, target_languages), CACHE_EXPIRATION)
 
         source_language = self.get_glossary_language_code(source_language).upper()
         target_language = target_language.upper()
@@ -467,6 +691,6 @@ class DeepLTranslation(
 
     def get_glossary_count_limit(self) -> int:
         # Free tier has lower limit on glossaries
-        if urlsplit(self.api_base_url).hostname == "api-free.deepl.com":
+        if not self.is_pro_api:
             return 1
         return super().get_glossary_count_limit()

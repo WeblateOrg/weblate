@@ -7,6 +7,7 @@ Weblate 2026.9
 
 * :ref:`addon-weblate.discovery.discovery` can optionally create components from a monolingual base or new base file when no translation files exist yet.
 * Added :ref:`vcs_params` to configure repository behavior per component, including force pushing, opting out of pull requests, and GitHub pull request automerge.
+* DeepL automatic suggestions can include a rephrased version of an existing translation via the DeepL Write API (Pro plans and supported languages only).
 
 .. rubric:: Improvements
 
