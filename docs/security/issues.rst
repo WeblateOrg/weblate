@@ -18,6 +18,12 @@ Product vulnerability reports cover security issues in Weblate source code,
 release artifacts, and documented Weblate security properties. They do not
 replace operational incident response for a particular deployment.
 
+Reports concerning the separately distributed Weblate Client (``wlc``) are
+evaluated against the `wlc threat model
+<https://github.com/WeblateOrg/wlc/blob/main/THREAT_MODEL.md>`_, which documents
+its intended trust boundaries, supported security properties, and explicit
+non-goals.
+
 Most normal bugs in Weblate are reported to our public `GitHub issues tracker
 <https://github.com/WeblateOrg/weblate/issues>`_, but due to the sensitive
 nature of security issues, we ask them not to be publicly reported in this
