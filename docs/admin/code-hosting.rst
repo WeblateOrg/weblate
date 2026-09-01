@@ -342,6 +342,23 @@ Components imported through the GitHub App flow use the dedicated
 settings UI keeps the repository URL read-only to prevent the App-issued
 credentials from being redirected to an unrelated repository.
 
+.. _code-hosting-github-app-migrate:
+
+Migrating existing components
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Weblate reports an informational diagnostic for Git and GitHub pull request
+components that can be migrated to a registered Weblate GitHub App. Follow
+the :guilabel:`Migrate to GitHub App` link from the diagnostic to review all
+eligible components in the workspace.
+
+Connect or update the GitHub account for the workspace, grant the App access
+to the listed repositories, and select the components to migrate. Weblate
+changes the selected components to the
+:guilabel:`GitHub (via Weblate GitHub app)` VCS backend, replaces their
+repository addresses with canonical HTTPS clone URLs, and removes separate
+push URLs because the App authenticates pushes to the source repository.
+
 .. _code-hosting-github-app-webhook:
 
 App webhook URL

@@ -6,10 +6,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.alerts.base import (
     AlertCategory,
+    AlertSeverity,
     BaseAlert,
     ErrorAlert,
 )
@@ -71,6 +73,72 @@ class RepositoryAlert(BaseAlert):
             user.has_perm(permission, component)
             for permission in cls.repository_permissions
         )
+
+
+@register
+class GitHubAppMigration(RepositoryAlert):
+    verbose = gettext_lazy(
+        "This component can be migrated to the Weblate GitHub App integration."
+    )
+    severity = AlertSeverity.INFO
+    dismissible = True
+    doc_page = "admin/code-hosting"
+    doc_anchor = "code-hosting-github-app-migrate"
+
+    @classmethod
+    def get_url(cls, component: Component) -> str:
+        if component.project.workspace_id is None:
+            return ""
+        return reverse(
+            "github-app-migration",
+            kwargs={"workspace_id": component.project.workspace_id},
+        )
+
+    @classmethod
+    def get_dismissal_context(cls, component: Component, details: dict) -> dict:
+        return {
+            "details": details,
+            "repo": component.repo,
+            "vcs": component.vcs,
+            "workspace": str(component.project.workspace_id or ""),
+        }
+
+    @classmethod
+    def check_component(cls, component: Component) -> bool:
+        # Imports stay local because alerts are loaded while Django initializes
+        # the VCS registry and model modules.
+        from weblate.vcs.github import (  # ruff: ignore[import-outside-top-level]
+            GITHUB_APP_MIGRATABLE_VCS,
+            get_github_repository_identity,
+            github_app_is_configured,
+        )
+
+        if (
+            component.vcs not in GITHUB_APP_MIGRATABLE_VCS
+            or component.project.workspace_id is None
+        ):
+            return False
+        identity = get_github_repository_identity(component.repo)
+        return identity is not None and github_app_is_configured(identity[0])
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        # Imports stay local because alerts are loaded while Django initializes
+        # the VCS registry and model modules.
+        from weblate.vcs.permissions import (  # ruff: ignore[import-outside-top-level]
+            user_can_migrate_to_github_app,
+        )
+
+        result = super().get_context(user)
+        component = self.instance.component
+        # The migration view is workspace-scoped, so offering the link on the
+        # weaker component.edit permission behind can_user_act() would send some
+        # users to a page they cannot open.
+        result["migration_url"] = (
+            self.get_url(component)
+            if user_can_migrate_to_github_app(user, component.project.workspace_id)
+            else ""
+        )
+        return result
 
 
 class RepositoryErrorAlert(ErrorAlert):
