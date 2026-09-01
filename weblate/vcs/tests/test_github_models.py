@@ -21,10 +21,12 @@ from weblate.vcs.github import (
     GitHubAppNotConfiguredError,
     GithubAppRepository,
     GitHubInstallation,
+    InstallationRemoval,
     exchange_github_app_manifest_code,
     get_installation_token,
     normalize_github_callback_code,
     normalize_github_installation_id,
+    remove_github_installation,
 )
 from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.models import Workspace
@@ -166,6 +168,47 @@ class TestGitHubInstallationManager(TestCase):
         self.assertEqual(
             GitHubInstallation.objects.get_for_installation("github.com", "67890"),
             self.installation,
+        )
+
+    def test_installation_id_is_normalized_on_save(self):
+        installation = _make_installation(installation_id=" 0067891 ")
+        self.assertEqual(installation.installation_id, "67891")
+
+    @patch("weblate.vcs.github.report_error")
+    def test_remove_installation_with_broken_private_key(self, report_error):
+        """Unusable credentials must not make the connection undeletable."""
+        _make_credentials(private_key="not a pem block")
+        installation = _make_installation(installation_id="13579")
+
+        self.assertEqual(
+            remove_github_installation(installation),
+            InstallationRemoval.UNREACHABLE,
+        )
+        self.assertFalse(GitHubInstallation.objects.filter(pk=installation.pk).exists())
+        report_error.assert_called_once()
+
+    def test_installation_id_is_validated_on_save(self):
+        with self.assertRaises(ValueError):
+            _make_installation(installation_id="67890/access_tokens")
+
+    def test_filter_for_installation_normalizes_id(self):
+        # Any spelling of the ID has to find the same row
+        for installation_id in ("67890", " 0067890 ", 67890):
+            with self.subTest(installation_id=installation_id):
+                self.assertEqual(
+                    list(
+                        GitHubInstallation.objects.filter_for_installation(
+                            "api.github.com", installation_id
+                        )
+                    ),
+                    [self.installation],
+                )
+
+    def test_filter_for_installation_ignores_invalid_id(self):
+        self.assertFalse(
+            GitHubInstallation.objects.filter_for_installation(
+                "github.com", "not-an-id"
+            ).exists()
         )
 
     def test_normalize_installation_id(self):
@@ -379,8 +422,11 @@ class TestGitHubInstallationManager(TestCase):
         self,
     ):
         _make_credentials()
-        self.installation.installation_id = "67890/access_tokens"
-        self.installation.save(update_fields=["installation_id"])
+        # Saving normalizes the ID, plant the malformed value directly
+        GitHubInstallation.objects.filter(pk=self.installation.pk).update(
+            installation_id="67890/access_tokens"
+        )
+        self.installation.refresh_from_db()
         repository = self._make_app_repository()
 
         with self.assertRaisesRegex(

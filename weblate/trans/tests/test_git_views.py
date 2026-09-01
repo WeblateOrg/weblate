@@ -231,6 +231,159 @@ class RepositoryPermissionScopeTest(ViewTestCase):
         self.assertEqual(response.status_code, 403)
         reset.assert_not_called()
 
+    def test_project_repository_status_lists_inaccessible_components(self) -> None:
+        self.user.groups.clear()
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        self.grant_permission("vcs.reset", project=self.project)
+
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.project))
+        self.assertFalse(self.user.has_perm("vcs.reset", self.project))
+
+        response = self.client.get(
+            reverse("git_status", kwargs={"path": self.project.get_url_path()})
+        )
+
+        self.assertContains(response, "Some repositories are not accessible")
+        self.assertContains(response, self.component.full_slug)
+        self.assertNotContains(response, linked.full_slug)
+
+        with patch.object(Component, "do_reset", autospec=True) as reset:
+            response = self.client.post(
+                reverse("reset", kwargs={"path": self.project.get_url_path()})
+            )
+        self.assertEqual(response.status_code, 403)
+        reset.assert_not_called()
+
+    def test_project_repository_operation_filters_inaccessible_components(self) -> None:
+        self.user.groups.clear()
+        independent = self.create_po(project=self.project, name="Independent")
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        self.grant_permission("vcs.reset", project=self.project)
+
+        self.assertTrue(self.user.has_perm("vcs.reset", self.project))
+        with patch.object(
+            Component, "do_reset", autospec=True, return_value=True
+        ) as reset:
+            response = self.client.post(
+                reverse("reset", kwargs={"path": self.project.get_url_path()})
+            )
+
+        self.assertRedirects(
+            response,
+            f"{reverse('show_progress', kwargs={'path': self.project.get_url_path()})}?info=1",
+            fetch_redirect_response=False,
+        )
+        reset.assert_called_once()
+        self.assertEqual(reset.call_args.args[0], independent)
+        self.assertNotEqual(reset.call_args.args[0], self.component)
+        self.assertNotEqual(reset.call_args.args[0], linked)
+
+    def test_project_repository_status_lists_restrictions_by_operation(self) -> None:
+        self.user.groups.clear()
+        self.create_po(project=self.project, name="Independent")
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Blocked linked component",
+            slug="blocked-linked-component",
+            project=other_project,
+        )
+        self.grant_permission("vcs.reset", project=self.project)
+        self.grant_permission("vcs.reset", component=linked)
+        self.grant_permission("vcs.commit", project=self.project)
+        self.grant_permission("vcs.push", project=self.project)
+        self.grant_permission("vcs.update", project=self.project)
+        PendingUnitChange.objects.create(unit=self.get_unit(), author=self.user)
+        self.component.push_branch = "push"
+        self.component.save(update_fields=["push_branch"])
+        repository_class = self.component.repository_class
+
+        with (
+            patch.object(
+                Component,
+                "can_push",
+                autospec=True,
+                side_effect=lambda component: component == self.component,
+            ),
+            patch.object(
+                Component,
+                "count_repo_outgoing",
+                new=property(lambda component: 7 if component == self.component else 0),
+            ),
+            patch.object(
+                Component,
+                "count_push_branch_outgoing",
+                new=property(lambda component: 5 if component == self.component else 0),
+            ),
+            patch.object(
+                Component,
+                "count_repo_missing",
+                new=property(lambda component: 9 if component == self.component else 0),
+            ),
+            patch.object(
+                repository_class,
+                "get_push_label",
+                side_effect=lambda component: (
+                    "Reset-only push label"
+                    if component == self.component
+                    else "Push-scoped label"
+                ),
+            ),
+        ):
+            response = self.client.get(
+                reverse("git_status", kwargs={"path": self.project.get_url_path()})
+            )
+
+        operation_restrictions = dict(
+            response.context["repository_operation_restrictions"]
+        )
+        self.assertEqual(set(operation_restrictions), {"Commit", "Push", "Update"})
+        for restrictions in operation_restrictions.values():
+            self.assertEqual(len(restrictions), 1)
+            self.assertEqual(restrictions[0].project_components, (self.component,))
+            self.assertEqual(restrictions[0].permission_blockers, (linked,))
+        self.assertContains(response, "Some repositories are not accessible")
+        self.assertContains(response, "Push")
+        self.assertContains(response, self.component.full_slug)
+        self.assertContains(response, linked.full_slug)
+        self.assertFalse(response.context["can_push"])
+        self.assertEqual(response.context["outgoing_commits"], 0)
+        self.assertFalse(response.context["has_push_branch"])
+        self.assertEqual(response.context["push_branch_outgoing_commits"], 0)
+        self.assertEqual(response.context["push_label"], "Push-scoped label")
+        self.assertEqual(response.context["pending_units"]["total"], 0)
+        self.assertEqual(response.context["missing_commits"], 0)
+
+    def test_project_repository_status_hides_inaccessible_blockers(self) -> None:
+        self.user.groups.clear()
+        self.create_po(project=self.project, name="Independent")
+        other_project = self.create_project(name="Other", slug="other")
+        linked = self.create_link_existing(
+            name="Hidden linked component",
+            slug="hidden-linked-component",
+            project=other_project,
+        )
+        linked.restricted = True
+        linked.save(update_fields=["restricted"])
+        self.grant_permission("vcs.reset", project=self.project)
+
+        response = self.client.get(
+            reverse("git_status", kwargs={"path": self.project.get_url_path()})
+        )
+
+        self.assertContains(response, "Some repositories are not accessible")
+        self.assertContains(response, self.component.full_slug)
+        self.assertNotContains(response, linked.full_slug)
+
 
 class GitNoChangeComponentTest(GitNoChangeProjectTest):
     """Testing of component git manipulations."""

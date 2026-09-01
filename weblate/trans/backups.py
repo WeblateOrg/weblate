@@ -553,6 +553,19 @@ class ProjectBackup:
             component["vcs"] = "git"
             component.setdefault("vcs_params", {})["git_force_push"] = True
 
+    @staticmethod
+    def migrate_component_file_format_params(component: dict[str, Any]) -> None:
+        """Convert file format settings used by older component backups."""
+        # json_sort_keys was a boolean in backups before 2026.9
+        if (
+            "file_format_params" in component
+            and "json_sort_keys" in component["file_format_params"]
+        ):
+            json_sort_keys = component["file_format_params"]["json_sort_keys"]
+            if isinstance(json_sort_keys, bool):
+                json_sort_keys = "case_sensitive" if json_sort_keys is True else "none"
+                component["file_format_params"]["json_sort_keys"] = json_sort_keys
+
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
         """Backup a many to many relation using a unique identifying field of the related object."""
         return list(getattr(obj, relation).values_list(field, flat=True))
@@ -1528,6 +1541,7 @@ class ProjectBackup:
                 data = json.load(handle)
             validate_schema(data, "weblate-component.schema.json")
             self.migrate_component_vcs_settings(data["component"])
+            self.migrate_component_file_format_params(data["component"])
             self.validate_component_object(zipfile, filename, data)
             self.component_data[filename] = data
         if skip_linked and data["component"]["repo"].startswith("weblate:"):

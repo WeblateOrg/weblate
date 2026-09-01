@@ -15,8 +15,14 @@ from translation_finder import DiscoveryResult
 
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.actions import ActionEvents
-from weblate.trans.forms import ComponentCreateForm, ComponentInitCreateForm
-from weblate.trans.models import Component, Project
+from weblate.trans.forms import (
+    ComponentCreateForm,
+    ComponentDiscoverForm,
+    ComponentInitCreateForm,
+    ComponentProjectForm,
+    get_repository_redirect_change,
+)
+from weblate.trans.models import Category, Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -1119,7 +1125,195 @@ class CreateTest(ViewTestCase):
         )
         session_data = self.client.session[SESSION_CREATE_KEY]
         self.assertEqual(session_data["vcs"], "github-app")
+        self.assertEqual(session_data["branch"], self.component.branch)
         self.assertEqual(session_data[INTEGRATION_IMPORT_VCS_KEY], "github-app")
+
+    def make_github_app_component(self) -> str:
+        """Turn the test component into a GitHub App one and return its repo."""
+        self.user.is_superuser = True
+        self.user.save()
+        self.project.workspace = Workspace.objects.create(name="GitHub App workspace")
+        self.project.save(update_fields=["workspace"])
+        self.component.vcs = "github-app"
+        self.component.repo = "https://github.com/test-org/repo.git"
+        self.component.branch = "main"
+        self.component.save(update_fields=["vcs", "repo", "branch"])
+        return self.component.repo
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_existing_github_app_links_repository(self) -> None:
+        self.make_github_app_component()
+
+        self.client.post(
+            reverse("create-component"),
+            {
+                "origin": "existing",
+                "name": "Second GitHub App Component",
+                "slug": "second-github-app-component",
+                "component": self.component.pk,
+                "is_glossary": False,
+            },
+        )
+
+        url = f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1"
+        with (
+            patch.object(Component, "clean_repo"),
+            patch("weblate.trans.forms.discover", return_value=[]),
+        ):
+            response = self.client.get(url)
+
+        form = response.context["form"]
+        self.assertEqual(form.errors, {})
+        self.assertEqual(response.context["stage"], "discover")
+        self.assertEqual(form.initial["repo"], self.component.get_repo_link_url())
+        self.assertEqual(form.initial["branch"], "")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_github_app_link_survives_discovery(self) -> None:
+        repo = self.make_github_app_component()
+        session = self.client.session
+        session[SESSION_CREATE_KEY] = {
+            "repo": repo,
+            "branch": "main",
+            "vcs": "github-app",
+            "name": "Second GitHub App Component",
+            "slug": "second-github-app-component",
+            "project": self.project.pk,
+            INTEGRATION_IMPORT_VCS_KEY: "github-app",
+        }
+        session.save()
+
+        url = f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1"
+        with (
+            patch.object(Component, "clean_repo"),
+            patch("weblate.trans.forms.discover", return_value=[]),
+        ):
+            response = self.client.get(url)
+            self.assertEqual(response.context["stage"], "init")
+
+            data = get_form_data(response.context["form"].initial)
+            data["project"] = self.project.pk
+            data["source_language"] = self.component.source_language.pk
+            response = self.client.post(url, data, follow=True)
+            self.assertEqual(response.context["form"].errors, {})
+            self.assertEqual(response.context["stage"], "discover")
+
+            # The disabled field is not posted back, keep it in the session.
+            self.assertEqual(
+                self.client.session[SESSION_CREATE_KEY]["repo"],
+                self.component.get_repo_link_url(),
+            )
+
+            data = get_form_data(response.context["form"].initial)
+            data["project"] = self.project.pk
+            data["source_language"] = self.component.source_language.pk
+            data["discovery"] = "manual"
+            response = self.client.post(url, data, follow=True)
+
+        self.assertEqual(response.context["form"].errors, {})
+        self.assertEqual(response.context["stage"], "create")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_component_discover_form_shows_hidden_field_errors(self) -> None:
+        repo = self.make_github_app_component()
+        initial = {
+            "project": self.project,
+            "name": "Second GitHub App Component",
+            "slug": "second-github-app-component",
+            "source_language": self.component.source_language,
+            "vcs": "github-app",
+            "repo": repo,
+            "branch": "main",
+        }
+        data = get_form_data(initial)
+        # Missing branch is rejected by the GitHub App integration
+        data["branch"] = ""
+
+        request = self.get_request()
+        request.session = {}
+        with patch("weblate.trans.forms.discover", return_value=[]):
+            form = ComponentDiscoverForm(request, initial=initial, data=data)
+
+        self.assertFalse(form.is_valid())
+        self.assertNotIn("branch", form.errors)
+        self.assertIn(
+            "Repository branch is required for this integration.",
+            " ".join(form.non_field_errors()),
+        )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_component_project_form_shows_hidden_field_errors(self) -> None:
+        other_project = Project.objects.create(name="Other", slug="other")
+        other_category = Category.objects.create(
+            name="Other category", slug="other-category", project=other_project
+        )
+
+        form = ComponentProjectForm(
+            self.get_request(),
+            data={
+                "name": "Hidden Category Component",
+                "slug": "hidden-category-component",
+                "project": self.project.pk,
+                "category": other_category.pk,
+                "source_language": get_default_lang(),
+            },
+        )
+        form.fields["project"].queryset = Project.objects.all()
+
+        self.assertFalse(form.is_valid())
+        # The category field is hidden, show the error on the form level
+        self.assertNotIn("category", form.errors)
+        self.assertIn(
+            "Category does not belong to this project.",
+            " ".join(form.non_field_errors()),
+        )
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_component_session_keeps_redirect_proof(self) -> None:
+        self.user.is_superuser = True
+        self.user.save()
+        original_url = self.component.repo
+        canonical_url = f"{original_url}-canonical"
+
+        def canonicalize(component: Component) -> None:
+            component.repo = canonical_url
+
+        session = self.client.session
+        session[SESSION_CREATE_KEY] = {
+            "repo": original_url,
+            "branch": "main",
+            "vcs": "git",
+            "name": "Redirected Component",
+            "slug": "redirected-component",
+            "project": self.project.pk,
+        }
+        session.save()
+
+        url = f"{reverse('create-component-vcs')}?{SESSION_CREATE_KEY}=1"
+        with (
+            patch.object(Component, "clean_repo", autospec=True) as clean_repo,
+            patch("weblate.trans.forms.discover", return_value=[]),
+        ):
+            clean_repo.side_effect = canonicalize
+            response = self.client.get(url)
+            self.assertEqual(response.context["stage"], "init")
+
+            data = get_form_data(response.context["form"].initial)
+            data["project"] = self.project.pk
+            data["source_language"] = self.component.source_language.pk
+            response = self.client.post(url, data, follow=True)
+
+        self.assertEqual(response.context["form"].errors, {})
+        self.assertEqual(response.context["stage"], "discover")
+
+        # The redirect is not detected again, keep the proof for it
+        session_data = self.client.session[SESSION_CREATE_KEY]
+        self.assertEqual(session_data["repo"], canonical_url)
+        self.assertTrue(session_data["repository_redirect_proof"])
+        self.assertEqual(
+            get_repository_redirect_change(self.get_request(), session_data),
+            ("repo", original_url, canonical_url),
+        )
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_create_component_rejects_inaccessible_source_component(self) -> None:
@@ -1157,7 +1351,10 @@ class CreateTest(ViewTestCase):
         response = self.client_create_component(
             False, source_component=private_component.pk
         )
-        self.assertIn("source_component", response.context["form"].errors)
+        form = response.context["form"]
+        # The field is hidden, so the error is shown on the form level
+        self.assertNotIn("source_component", form.errors)
+        self.assertIn("Select a valid choice.", " ".join(form.non_field_errors()))
         self.assertFalse(Component.objects.filter(slug="create-component").exists())
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})

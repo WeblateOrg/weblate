@@ -298,7 +298,23 @@ class CreateComponent(BaseCreateView):
             for field in ComponentCreateForm.CREATE_INHERITABLE_SETTINGS
         ),
     )
-    initial_fields = (*basic_fields, "branch", *passthrough_fields)
+    initial_fields = (
+        *basic_fields,
+        "branch",
+        "push",
+        "push_branch",
+        *passthrough_fields,
+    )
+    # Fields which are rendered disabled or derived only once, so they have to
+    # survive in the session for the whole wizard.
+    session_sync_fields = (
+        "repo",
+        "branch",
+        "vcs",
+        "push",
+        "push_branch",
+        "repository_redirect_proof",
+    )
     empty_form = False
     form_class: type[ComponentProjectForm] = ComponentInitCreateForm
     origin = "vcs"
@@ -530,6 +546,32 @@ class CreateComponent(BaseCreateView):
 
     def update_initial(self, cleaned_data: dict) -> None:
         self.initial = {**self.initial, **cleaned_data}
+        self.update_session_initial()
+
+    def update_session_initial(self) -> None:
+        """
+        Persist wizard progress into the session-backed import parameters.
+
+        These are not posted back by the browser, so without syncing, changes
+        made in an earlier step (such as turning the repository into a link to
+        an existing component) would be reverted on the next one.
+        """
+        if (
+            SESSION_CREATE_KEY not in self.request.GET
+            or SESSION_CREATE_KEY not in self.request.session
+        ):
+            return
+        session_data = self.request.session[SESSION_CREATE_KEY]
+        changed = False
+        for field in self.session_sync_fields:
+            if field not in self.initial:
+                continue
+            value = self.initial[field]
+            if session_data.get(field) != value:
+                session_data[field] = value
+                changed = True
+        if changed:
+            self.request.session[SESSION_CREATE_KEY] = session_data
 
     def has_all_fields(self):
         session_data = {}
@@ -829,6 +871,7 @@ class CreateComponentSelection(CreateComponent):
         if self.origin == "existing":
             kwargs = {
                 "repo": component.repo or component.get_repo_link_url(),
+                "branch": component.branch,
                 "project": component.project.pk,
                 "category": component.category.pk if component.category else "",
                 "name": form.cleaned_data["name"],

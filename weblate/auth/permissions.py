@@ -64,6 +64,34 @@ class PermissionLanguageScope:
     membership_limited: bool
 
 
+@dataclass(frozen=True)
+class ProjectRepositoryScope:
+    """Components associated with one repository in a project."""
+
+    repository: Component
+    project_components: tuple[Component, ...]
+    permission_components: tuple[Component, ...]
+
+
+@dataclass(frozen=True)
+class ProjectRepositoryRestriction:
+    """Components omitted because a repository permission is incomplete."""
+
+    project_components: tuple[Component, ...]
+    permission_blockers: tuple[Component, ...]
+
+
+@dataclass(frozen=True)
+class ProjectRepositorySelection:
+    """Permission-filtered repository scope for a project."""
+
+    repositories: tuple[Component, ...]
+    included_components: tuple[Component, ...]
+    skipped_components: tuple[Component, ...]
+    permission_blockers: tuple[Component, ...]
+    restrictions: tuple[ProjectRepositoryRestriction, ...]
+
+
 def _has_scoped_permission(
     permission: str,
     permissions: set[str],
@@ -368,12 +396,15 @@ def get_repository_permission_components(
     elif isinstance(obj, Component):
         owner_ids = {obj.linked_component_id or obj.pk}
     elif isinstance(obj, Project):
-        owner_ids = {
-            linked_component_id or component_id
-            for component_id, linked_component_id in obj.component_set.values_list(
-                "pk", "linked_component_id"
-            )
-        }
+        components = list(
+            {
+                component.pk: component
+                for scope in get_project_repository_scopes(obj)
+                for component in scope.permission_components
+            }.values()
+        )
+        obj.__dict__[cache_key] = components
+        return components
     else:
         msg = f"Repository permission does not support: {obj.__class__}: {obj!r}"
         raise TypeError(msg)
@@ -394,6 +425,54 @@ def get_repository_permission_components(
     )
     obj.__dict__[cache_key] = components
     return components
+
+
+def get_project_repository_scopes(
+    project: Project,
+) -> tuple[ProjectRepositoryScope, ...]:
+    """Group a project's components by the repository they affect."""
+    cache_key = "_project_repository_scopes"
+    cached = project.__dict__.get(cache_key)
+    if cached is not None:
+        return cached
+
+    project_components_by_owner: dict[int, list[int]] = {}
+    for component_id, linked_component_id in project.component_set.values_list(
+        "pk", "linked_component_id"
+    ):
+        owner_id = linked_component_id or component_id
+        project_components_by_owner.setdefault(owner_id, []).append(component_id)
+
+    owner_ids = set(project_components_by_owner)
+    components = list(
+        Component.objects.filter(
+            Q(pk__in=owner_ids) | Q(linked_component_id__in=owner_ids)
+        ).prefetch(alerts=False)
+    )
+    components_by_id = {component.pk: component for component in components}
+    permission_components_by_owner: dict[int, list[Component]] = {
+        owner_id: [] for owner_id in owner_ids
+    }
+    for component in components:
+        owner_id = component.linked_component_id or component.pk
+        permission_components_by_owner[owner_id].append(component)
+
+    scopes = tuple(
+        ProjectRepositoryScope(
+            repository=components_by_id[
+                owner_id
+                if owner_id in project_component_ids
+                else project_component_ids[0]
+            ],
+            project_components=tuple(
+                components_by_id[component_id] for component_id in project_component_ids
+            ),
+            permission_components=tuple(permission_components_by_owner[owner_id]),
+        )
+        for owner_id, project_component_ids in project_components_by_owner.items()
+    )
+    project.__dict__[cache_key] = scopes
+    return scopes
 
 
 def _check_repository_permission(
@@ -417,11 +496,97 @@ def check_repository_permission(
         return True
     if not isinstance(obj, Translation | Component | Project):
         return check_permission(user, permission, obj)
+    if isinstance(obj, Project):
+        return bool(
+            get_project_repository_selection(user, obj, (permission,)).repositories
+        )
     permission_obj = obj.component if isinstance(obj, Translation) else obj
     if not check_permission(user, permission, permission_obj):
         return False
     return _check_repository_permission(
         user, permission, get_repository_permission_components(obj)
+    )
+
+
+def get_project_repository_selection(
+    user: User,
+    project: Project,
+    permissions: Iterable[str],
+) -> ProjectRepositorySelection:
+    """Return repositories allowed by any of the requested permissions."""
+    requested_permissions = tuple(permissions)
+    repositories: list[Component] = []
+    included_components: list[Component] = []
+    skipped_components: list[Component] = []
+    permission_blockers: dict[int, Component] = {}
+    restrictions: list[ProjectRepositoryRestriction] = []
+
+    for scope in get_project_repository_scopes(project):
+        if any(
+            _check_repository_permission(user, permission, scope.permission_components)
+            for permission in requested_permissions
+        ):
+            repositories.append(scope.repository)
+            included_components.extend(scope.project_components)
+            continue
+
+        skipped_components.extend(scope.project_components)
+        scope_blockers: list[Component] = []
+        for component in scope.permission_components:
+            if any(
+                not check_permission(user, permission, component)
+                for permission in requested_permissions
+            ):
+                permission_blockers[component.pk] = component
+                scope_blockers.append(component)
+        restrictions.append(
+            ProjectRepositoryRestriction(
+                project_components=tuple(
+                    sorted(scope.project_components, key=lambda item: item.full_slug)
+                ),
+                permission_blockers=tuple(
+                    sorted(scope_blockers, key=lambda item: item.full_slug)
+                ),
+            )
+        )
+
+    def component_order(component: Component) -> str:
+        return component.full_slug
+
+    return ProjectRepositorySelection(
+        repositories=tuple(sorted(repositories, key=component_order)),
+        included_components=tuple(sorted(included_components, key=component_order)),
+        skipped_components=tuple(sorted(skipped_components, key=component_order)),
+        permission_blockers=tuple(
+            sorted(permission_blockers.values(), key=component_order)
+        ),
+        restrictions=tuple(restrictions),
+    )
+
+
+def filter_accessible_repository_components(
+    user: User, components: Iterable[Component]
+) -> tuple[Component, ...]:
+    """Filter repository diagnostics to components visible to the user."""
+    return tuple(
+        component for component in components if user.can_access_component(component)
+    )
+
+
+def filter_accessible_repository_restrictions(
+    user: User, restrictions: Iterable[ProjectRepositoryRestriction]
+) -> tuple[ProjectRepositoryRestriction, ...]:
+    """Filter repository restriction diagnostics to visible components."""
+    return tuple(
+        ProjectRepositoryRestriction(
+            project_components=filter_accessible_repository_components(
+                user, restriction.project_components
+            ),
+            permission_blockers=filter_accessible_repository_components(
+                user, restriction.permission_blockers
+            ),
+        )
+        for restriction in restrictions
     )
 
 
@@ -1136,6 +1301,15 @@ def check_repository_status(
 ) -> bool | PermissionResult:
     if user.is_superuser:
         return True
+    if isinstance(obj, Project):
+        return any(
+            check_permission(user, repository_permission, obj)
+            for repository_permission in REPOSITORY_PERMISSIONS
+        ) or bool(
+            get_project_repository_selection(
+                user, obj, REPOSITORY_PERMISSIONS
+            ).repositories
+        )
     permission_obj = obj.component if isinstance(obj, Translation) else obj
     allowed_permissions = tuple(
         repository_permission

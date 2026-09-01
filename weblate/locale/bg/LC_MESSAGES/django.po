@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
-"PO-Revision-Date: 2026-08-25 13:08+0000\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"PO-Revision-Date: 2026-08-28 03:49+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -3348,6 +3348,14 @@ msgstr "Състояние на супер-потребител"
 msgid "User has all possible permissions."
 msgstr "Потребителят има всички възможни правомощия."
 
+msgid "All languages"
+msgstr "Всички езици"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (права за цялата система)"
@@ -3396,9 +3404,6 @@ msgstr "Списъци от компоненти"
 
 msgid "Language selection"
 msgstr "Избор на език"
-
-msgid "All languages"
-msgstr "Всички езици"
 
 msgid "Languages"
 msgstr "Езици"
@@ -8976,6 +8981,31 @@ msgstr "Състояние"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Станете поддръжник на Weblate"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "Хранилището е достъпно за всички."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Skipped components"
+msgid "Skipped components:"
+msgstr "Пропуснати компоненти"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Достъпът е отказан"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Състояние на хранилището"
@@ -17501,17 +17531,15 @@ msgstr ""
 msgid "Unknown file format parameter: \"%(param_name)s\"."
 msgstr "Неизвестен параметър за файлов формат: „%(param_name)s“."
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Version control parameters must be a dictionary of key-value pairs."
 msgstr ""
-"Параметрите за файловия формат трябва да бъдат зададени като списък от "
-"двойки ключ–стойност."
+"Параметрите на системата за контрол на версиите трябва да бъдат зададени "
+"като списък от двойки ключ–стойност."
 
-#, fuzzy, python-format
-#| msgid "Unknown file format parameter: \"%(param_name)s\"."
+#, python-format
 msgid "Unknown version control parameter: \"%(param_name)s\"."
-msgstr "Неизвестен параметър за файлов формат: „%(param_name)s“."
+msgstr ""
+"Неизвестен параметър за системата за контрол на версиите: „%(param_name)s“."
 
 msgid "Keys"
 msgstr "Ключове"
@@ -17797,7 +17825,21 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "Всички хранилища са обновени. Извършва се актуализация на превода."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "Всички хранилища са обновени. Извършва се актуализация на превода."
+
 msgid "All repositories were pushed."
+msgstr "Всички хранилища са изпратени."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Всички хранилища са изпратени."
 
 msgid ""
@@ -17805,13 +17847,37 @@ msgid ""
 msgstr ""
 "Всички хранилища са нулирани. В момента протича обновяване на преводите."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr ""
+"Всички хранилища са нулирани. В момента протича обновяване на преводите."
+
 msgid "All repositories have been cleaned up."
+msgstr "Всички хранилища са почистени."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Всички хранилища са почистени."
 
 msgid "Translation files have been synchronized."
 msgstr "Файловете за превод са синхронизирани."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Файловете за превод са синхронизирани."
+
 msgid "Updates of translations are in progress."
+msgstr "Извършват се актуализации на превода."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Извършват се актуализации на превода."
 
 msgid "Duplicate strings have been removed from the translation file."
@@ -17828,6 +17894,11 @@ msgstr "Чакащите преводи се подават в момента."
 
 msgid "All pending translations were committed."
 msgstr "Всички чакащи преводи са подадени."
+
+#, fuzzy
+#| msgid "Pending translations are being committed."
+msgid "Pending translations in accessible repositories were committed."
+msgstr "Чакащите преводи се подават в момента."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Компонентът е заключен за промени на преводите!"
@@ -18204,12 +18275,9 @@ msgstr "Домейнът на адреса не може да бъде разп�
 msgid "Could not resolve the URL domain."
 msgstr "Домейнът на адреса не може да бъде разпознат."
 
-#, fuzzy
-#| msgid "File format parameters must be a dictionary of key-value pairs."
 msgid "Parameters must be a dictionary of key-value pairs."
 msgstr ""
-"Параметрите за файловия формат трябва да бъдат зададени като списък от "
-"двойки ключ–стойност."
+"Параметрите трябва да бъдат зададени като списък от двойки ключ–стойност."
 
 #, python-format
 msgid "Undefined variable: \"%s\""
@@ -18575,45 +18643,34 @@ msgstr ""
 "Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
 "изтегляне (%(status)s): %(error)s Моля, опитайте отново по-късно."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s"
+#, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"Заявката към ППИ на %(service)s беше неуспешна при сливането на заявка за "
 "изтегляне: %(status)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request: %(status)s "
-#| "Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"Заявката към ППИ на %(service)s беше неуспешна при сливането на заявка за "
 "изтегляне: %(status)s Моля, опитайте отново по-късно."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s"
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"Заявката към ППИ на %(service)s беше неуспешна при сливането на заявка за "
 "изтегляне (%(status)s ): %(error)s"
 
-#, fuzzy, python-format
-#| msgid ""
-#| "%(service)s API request failed while creating a pull request "
-#| "(%(status)s): %(error)s Please retry later."
+#, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Заявката към ППИ на %(service)s беше неуспешна при създаването на заявка за "
+"Заявката към ППИ на %(service)s беше неуспешна при сливането на заявка за "
 "изтегляне (%(status)s): %(error)s Моля, опитайте отново по-късно."
 
 msgid "GitHub App repositories must be imported with a branch."
@@ -19025,57 +19082,62 @@ msgstr "чакаща инсталация на хостинг за код"
 msgid "pending code-hosting installations"
 msgstr "чакащи инсталации на хостинг за код"
 
-#, fuzzy
-#| msgid "Git with force push"
 msgid "Force push"
-msgstr "Git с принудително изпращане на промените"
+msgstr "Принудително изпращане"
 
 msgid ""
 "Overwrite the remote branch instead of refusing to push non-fast-forward "
 "changes. Only use this with a repository dedicated to translations, as it "
 "discards upstream commits which are not present in Weblate."
 msgstr ""
+"Презаписване на отдалечения клон, вместо да се отказва изпращането на "
+"промени, които не могат да се приложат с прескачане. Използвайте това само с "
+"хранилище, което е предназначено единствено за преводи, тъй като всички "
+"други промени, които не присъстват в Weblate, ще бъдат премахвани."
 
-#, fuzzy
-#| msgid "Pagure merge request"
 msgid "Create merge requests"
-msgstr "Заявка за сливане в Pagure"
+msgstr "Създаване на заявки за сливане"
 
 msgid ""
 "Open a pull or merge request for the translation changes. When turned off, "
 "Weblate pushes to the translated branch directly, which requires write "
 "access to it."
 msgstr ""
+"Отваряне на заявка за изтегляне или сливане за промените по преводите. "
+"Когато това е изключено, Weblate изпраща директно към преведения клон, което "
+"изисква достъп за писане в него."
 
 msgid "Merge pull requests automatically"
-msgstr ""
+msgstr "Автоматично сливане на заявките за изтегляне"
 
 msgid ""
 "Turn on GitHub auto-merge for pull requests created by Weblate, so that they "
 "are merged once the required checks pass. Pull requests with nothing to wait "
 "for are merged right away."
 msgstr ""
+"Включване на автоматичното сливане на създадените от Weblate заявки за "
+"изтегляне на GitHub, така че те да бъдат слети след преминаване на "
+"проверките. Заявките за изтегляне, които не чакат за нищо, ще бъдат сливани "
+"незабавно."
 
 msgid "Merge method"
 msgstr "Метод на сливане"
 
-#, fuzzy
-#| msgid "Create account"
 msgid "Create a merge commit"
-msgstr "Създаване на акаунт"
+msgstr "Създаване на подаване за сливането"
 
 msgid "Squash and merge"
-msgstr ""
+msgstr "Смачкване и сливане"
 
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Rebase and merge"
-msgstr "Нулиране и повторно прилагане"
+msgstr "Пребазиране и сливане"
 
 msgid ""
 "Method used when merging pull requests automatically. The repository has to "
 "allow it."
 msgstr ""
+"Кой метод да се ползва при автоматичното сливане на заявки за изтегляне. "
+"Хранилището трябва да го позволява."
 
 msgctxt "SSH key type"
 msgid "RSA"
@@ -19382,19 +19444,15 @@ msgstr "Резервното копие е създадено"
 
 #. Translators: Backup repository operation
 msgid "Backup failed"
-msgstr "Грешка при създаване на резервно копие"
+msgstr "Грешка при създаването на резервно копие"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup performed"
 msgid "Database backup performed"
-msgstr "Резервното копие е създадено"
+msgstr "Резервното копие на базата данни е създадено"
 
 #. Translators: Backup repository operation
-#, fuzzy
-#| msgid "Backup failed"
 msgid "Database backup failed"
-msgstr "Грешка при създаване на резервно копие"
+msgstr "Грешка при създаването на резервно копие на базата данни"
 
 #. Translators: Backup repository operation
 msgid "Deleted the oldest backups"
@@ -19460,90 +19518,70 @@ msgstr ""
 "Тази инсталация вече е свързана с weblate.org. Използвайте настройките за "
 "откриване, за да управлявате начина, по който се показва."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation state."
 msgid "Could not enable Discover Weblate. Invalid activation state."
 msgstr ""
-"Инсталацията Ви не може да бъде активирана. Грешно състояние на активация."
+"Откриването на Weblate не може да бъде включено. Грешно състояние на "
+"активация."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Missing activation code."
 msgid "Could not enable Discover Weblate. Missing activation code."
-msgstr "Инсталацията Ви не може да бъде активирана. Липсва код за активиране."
+msgstr ""
+"Откриването на Weblate не може да бъде включено. Липсва код за активиране."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Invalid activation code."
 msgid "Could not enable Discover Weblate. Invalid activation code."
-msgstr "Инсталацията Ви не може да бъде активирана. Грешен код за активиране."
+msgstr ""
+"Откриването на Weblate не може да бъде включено. Грешен код за активиране."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not enable Discover Weblate. Please try again later."
-msgstr "Инсталацията Ви не може да бъде активирана. Опитайте отново по-късно."
+msgstr ""
+"Откриването на Weblate не може да бъде включено. Опитайте отново по-късно."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate discovery because a support package is already linked."
 msgid ""
 "Could not enable Discover Weblate because a support package is already "
 "linked."
 msgstr ""
-"Откриването не може да бъде активирано, тъй като вече има свързан пакет за "
-"поддръжка."
+"Откриването на Weblate не може да бъде включено, тъй като вече има свързан "
+"пакет за поддръжка."
 
-#, fuzzy
-#| msgid "Discover Weblate"
 msgid "Discover Weblate enabled."
-msgstr "Откриване на Weblate"
+msgstr "Откриването на Weblate е включено."
 
-#, fuzzy
-#| msgid "Support status"
 msgid "Support status refreshed."
-msgstr "Състояние на поддръжката"
+msgstr "Състоянието на поддръжката е опреснено."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not refresh support status. Please try again later."
-msgstr "Инсталацията Ви не може да бъде активирана. Опитайте отново по-късно."
+msgstr ""
+"Състоянието на поддръжката не може да бъде опреснено. Опитайте отново по-"
+"късно."
 
 msgid "Could not refresh support status. The activation token is invalid."
 msgstr ""
+"Състоянието на поддръжката не може да бъде опреснено. Идентификаторът за "
+"активация е грешен."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not refresh support status: %s"
-msgstr "Неуспешно получаване на поддържаните езици: %s"
+msgstr "Състоянието на поддръжката не може да бъде опреснено.: %s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package activated."
-msgstr "Ограничения на пакета за поддръжка"
+msgstr "Пакетът за поддръжка е активиран."
 
-#, fuzzy
-#| msgid "Could not activate your installation. Please try again later."
 msgid "Could not activate the support package. Please try again later."
-msgstr "Инсталацията Ви не може да бъде активирана. Опитайте отново по-късно."
+msgstr ""
+"Пакетът за поддръжка не може да бъде активиран. Опитайте отново по-късно."
 
-#, fuzzy
-#| msgid ""
-#| "Could not activate your installation. Please ensure your activation token "
-#| "is correct."
 msgid ""
 "Could not activate the support package. Please ensure the activation token "
 "is correct."
 msgstr ""
-"Инсталацията Ви не може да бъде активирана. Уверете се, че идентификаторът "
-"за активация е правилен."
+"Пакетът за поддръжка не може да бъде активиран. Уверете се, че "
+"идентификаторът за активация е правилен."
 
-#, fuzzy, python-format
-#| msgid "Could not fetch supported languages: %s"
+#, python-format
 msgid "Could not activate the support package: %s"
-msgstr "Неуспешно получаване на поддържаните езици: %s"
+msgstr "Пакетът за поддръжка не може да бъде активиран: %s"
 
-#, fuzzy
-#| msgid "Support package limits"
 msgid "Support package unlinked."
-msgstr "Ограничения на пакета за поддръжка"
+msgstr "Пакетът за поддръжка е разкачен."
 
 msgid ""
 "The support package was unlinked locally, but Discover Weblate could not be "

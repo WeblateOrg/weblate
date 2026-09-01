@@ -405,7 +405,41 @@ class ModelTest(FixtureComponentTestCase):
         with self.assertNumQueries(0):
             self.assertTrue(self.user.has_perm("vcs.reset", component))
 
+    def test_project_repository_permission_accepts_complete_component_scope(
+        self,
+    ) -> None:
+        linked = self.create_link_existing(
+            name="Repository component scope child",
+            slug="repository-component-scope-child",
+        )
+        role = Role.objects.create(name="Repository component scope permission")
+        role.permissions.add(Permission.objects.get(codename="vcs.reset"))
+        group = Group.objects.create(
+            name="Repository component scope", language_selection=SELECTION_ALL
+        )
+        group.components.add(self.component, linked)
+        group.roles.add(role)
+        self.user.groups.clear()
+        self.user.groups.add(group)
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(
+            auth_permissions.check_permission(self.user, "vcs.reset", self.project)
+        )
+        self.assertTrue(self.user.has_perm("vcs.reset", self.project))
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.project))
+
+        selection = auth_permissions.get_project_repository_selection(
+            self.user, self.project, ("vcs.reset",)
+        )
+        self.assertEqual(selection.repositories, (self.component,))
+        self.assertEqual(
+            selection.included_components,
+            tuple(sorted((self.component, linked), key=lambda item: item.full_slug)),
+        )
+
     def test_project_repository_permission_covers_cross_project_links(self) -> None:
+        independent = self.create_po(project=self.project, name="Independent")
         other_project = Project.objects.create(
             name="Repository child project",
             slug="repository-child-project",
@@ -422,9 +456,19 @@ class ModelTest(FixtureComponentTestCase):
         self.user.groups.add(self.group)
         self.user.clear_permissions_cache()
 
-        self.assertFalse(self.user.has_perm("vcs.reset", self.project))
+        self.assertTrue(self.user.has_perm("vcs.reset", self.project))
+        self.assertTrue(self.user.has_perm("meta:vcs.status", self.project))
+        self.assertTrue(self.user.has_perm("vcs.reset", independent))
         self.assertFalse(self.user.has_perm("vcs.reset", self.component))
         self.assertFalse(self.user.has_perm("vcs.reset", linked))
+
+        selection = auth_permissions.get_project_repository_selection(
+            self.user, self.project, ("vcs.reset",)
+        )
+        self.assertEqual(selection.repositories, (independent,))
+        self.assertEqual(selection.included_components, (independent,))
+        self.assertEqual(selection.skipped_components, (self.component,))
+        self.assertEqual(selection.permission_blockers, (linked,))
 
         child_group = Group.objects.create(
             name="Cross-project repository permission",
@@ -438,6 +482,11 @@ class ModelTest(FixtureComponentTestCase):
         self.assertTrue(self.user.has_perm("vcs.reset", self.project))
         self.assertTrue(self.user.has_perm("vcs.reset", self.component))
         self.assertTrue(self.user.has_perm("vcs.reset", linked))
+
+        selection = auth_permissions.get_project_repository_selection(
+            self.user, self.project, ("vcs.reset",)
+        )
+        self.assertEqual(selection.repositories, (independent, self.component))
 
     def test_componentlist(self) -> None:
         # Add user to group of power users

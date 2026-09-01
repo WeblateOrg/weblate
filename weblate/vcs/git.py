@@ -1452,10 +1452,7 @@ class GitRepository(Repository):
                 'remote "origin"',
                 "fetch",
                 (
-                    dumps(
-                        f"+refs/heads/{branch}:refs/remotes/origin/{branch}",
-                        ensure_ascii=False,
-                    )
+                    f"+refs/heads/{branch}:refs/remotes/origin/{branch}"
                     if fast
                     else "+refs/heads/*:refs/remotes/origin/*"
                 ),
@@ -1467,7 +1464,7 @@ class GitRepository(Repository):
             (
                 f"branch {escaped_branch}",
                 "merge",
-                dumps(f"refs/heads/{branch}", ensure_ascii=False),
+                f"refs/heads/{branch}",
             ),
             *self.get_remote_configure(pull_url, push_url, branch, fast),
         )
@@ -1766,10 +1763,7 @@ class GitWithGerritRepository(GitRepository):
 
     def get_gerrit_fetch_refspec(self, branch: str) -> str:
         branch = self.get_gerrit_branch_name(branch)
-        return dumps(
-            f"+refs/heads/{branch}:refs/remotes/gerrit/{branch}",
-            ensure_ascii=False,
-        )
+        return f"+refs/heads/{branch}:refs/remotes/gerrit/{branch}"
 
     def get_remote_branch_name(self, branch: str | None = None) -> str:
         branch_name = self.get_gerrit_branch_name(branch or self.branch)
