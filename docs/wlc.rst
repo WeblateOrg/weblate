@@ -78,12 +78,16 @@ easiest approach is to add your current directory as the
 When the mounted repository provides the API URL in project configuration and
 you pass an unscoped API key to the container, also pin the URL explicitly:
 :envvar:`WLC_KEY` requires :envvar:`WLC_URL`, and :option:`--key` requires
-:option:`--url`.
+:option:`--url`. The same pairing is required for the
+:option:`--allow-insecure-http` and :option:`--allow-insecure-ssl` overrides.
 
 If the configured API URL uses non-local ``http://`` and an API key is
 provided, the container refuses to send the key unless insecure HTTP is
 explicitly enabled. Prefer HTTPS; for legacy deployments, pass
 :option:`--allow-insecure-http` or set :envvar:`WLC_ALLOW_INSECURE_HTTP`.
+TLS certificates are always verified by default, including for loopback URLs.
+Use :option:`--allow-insecure-ssl` or :envvar:`WLC_ALLOW_INSECURE_SSL` only
+when certificate verification can not be enabled.
 
 
 Getting started
@@ -121,6 +125,11 @@ Legacy configuration
 .. versionchanged:: 1.17
 
    The legacy configuration using unscoped ``key`` is no longer supported.
+
+.. versionchanged:: 2.2.0
+
+   Global ``allow_insecure_http`` configuration is no longer supported.
+   Configure an origin in the ``[insecure_http]`` section instead.
 
 Migrate legacy configuration:
 
@@ -184,8 +193,15 @@ Weblate instance to use. These must be entered before any command.
     Allow sending API keys over non-local ``http://`` URLs. Prefer HTTPS or
     loopback HTTP instead; this option is intended only for legacy deployments
     where HTTPS is not available. This option only enables insecure HTTP for
-    the current run; omitting it does not disable ``allow_insecure_http`` from
-    configuration.
+    the current run. When the API URL comes from automatically discovered
+    project configuration, this option requires :option:`--url`.
+
+.. option:: --allow-insecure-ssl
+
+    Disable TLS certificate verification for the current run. Certificates are
+    verified by default for every HTTPS URL, including loopback URLs. When the
+    API URL comes from automatically discovered project configuration, this
+    option requires :option:`--url`.
 
 .. option:: --config PATH
 
@@ -376,18 +392,6 @@ customize this by :option:`--config-section`):
 
     Path to the default translation - component or project.
 
-.. describe:: allow_insecure_http
-
-    Allow API keys over non-local ``http://`` URLs, defaults to ``false``.
-    Loopback HTTP URLs, such as ``http://127.0.0.1:8000/api/``, remain allowed
-    for local development without this option. Prefer HTTPS instead of enabling
-    this setting. Automatically discovered project configuration files cannot
-    enable this option; set it in user configuration, an explicit
-    :option:`--config` file, :envvar:`WLC_ALLOW_INSECURE_HTTP`, or
-    :option:`--allow-insecure-http`. The setting is cumulative: any trusted
-    source that enables insecure HTTP is enough, and false or unset values from
-    command-line or environment sources do not disable it.
-
 .. describe:: retries, timeout, allowed_methods, backoff_factor, status_forcelist
 
     Optional HTTP retry and timeout settings passed to ``urllib3``.
@@ -407,7 +411,6 @@ The configuration file is an INI file, for example:
     backoff_factor = 0.2
     status_forcelist = 429,500,502,503,504
     timeout = 30
-    allow_insecure_http = false
 
 The API keys are stored in the ``[keys]`` section:
 
@@ -420,6 +423,31 @@ This allows you to store keys in your personal settings, while using the
 :file:`.weblate` configuration in the VCS repository so that :program:`wlc`
 knows which server it should talk to. The ``[keys]`` lookup is scoped to the
 exact API URL.
+
+Insecure transport exceptions are stored in origin-scoped sections in trusted
+user configuration:
+
+.. code-block:: ini
+
+    [insecure_http]
+    http://legacy.example.com:80 = true
+
+    [insecure_ssl]
+    https://legacy.example.com:443 = true
+
+An origin consists of the scheme, normalized hostname, and effective port. The
+API path is ignored, while different schemes and ports remain isolated. The
+``[insecure_http]`` section allows API keys over non-local HTTP for matching
+origins. The ``[insecure_ssl]`` section disables TLS certificate verification
+for matching origins.
+
+.. versionchanged:: 2.2.0
+
+   TLS certificates are verified for all hosts by default. Insecure HTTP and
+   TLS configuration is scoped to origins. Automatically discovered project
+   configuration can neither add entries to these sections nor enable the
+   removed global settings. User configuration and explicitly selected
+   :option:`--config` files are trusted.
 
 In CI, unscoped keys must pin the API URL explicitly: set both
 :envvar:`WLC_URL` and :envvar:`WLC_KEY`, or use :option:`--url` together with
@@ -436,6 +464,12 @@ Environment variables
    Unscoped API keys require an explicit API URL when project configuration is
    discovered automatically. API keys are rejected over non-local ``http://``
    URLs unless insecure HTTP is explicitly enabled.
+
+.. versionchanged:: 2.2.0
+
+   Insecure HTTP and TLS environment overrides require :envvar:`WLC_URL` when
+   the API URL would otherwise come from automatically discovered project
+   configuration.
 
 The API URL and key can also be configured using environment variables. This is
 especially useful for CI workflows where :envvar:`WLC_URL` pins the destination
@@ -456,12 +490,22 @@ and :envvar:`WLC_KEY` is injected as a secret:
 
    Set to ``1``, ``true``, ``yes``, or ``on`` to allow API keys over non-local
    ``http://`` URLs. Prefer HTTPS or loopback HTTP instead. Other values, such
-   as ``0`` or ``false``, are treated as unset and do not disable
-   ``allow_insecure_http`` from configuration.
+   as ``0`` or ``false``, are treated as unset. When the API URL would otherwise
+   come from automatically discovered project configuration, this variable is
+   accepted only together with :envvar:`WLC_URL`.
 
-The same protection applies to command-line arguments: :option:`--key` is
-accepted with automatically discovered project configuration only when
-:option:`--url` is provided.
+.. envvar:: WLC_ALLOW_INSECURE_SSL
+
+   Set to ``1``, ``true``, ``yes``, or ``on`` to disable TLS certificate
+   verification. Other values, such as ``0`` or ``false``, are treated as
+   unset. When the API URL would otherwise come from automatically discovered
+   project configuration, this variable is accepted only together with
+   :envvar:`WLC_URL`.
+
+The same protection applies to command-line arguments: :option:`--key`,
+:option:`--allow-insecure-http`, and :option:`--allow-insecure-ssl` are accepted
+with automatically discovered project configuration only when :option:`--url`
+is provided.
 
 The API URL and key configuration precedence (highest to lowest) is:
 
@@ -471,12 +515,11 @@ The API URL and key configuration precedence (highest to lowest) is:
    configuration plus the nearest project configuration when
    :option:`--config` is not used.
 
-The insecure HTTP opt-in is enable-only rather than a normal precedence
-setting. It is enabled when :option:`--allow-insecure-http` is passed, when
-:envvar:`WLC_ALLOW_INSECURE_HTTP` has a true value, or when
-``allow_insecure_http`` is enabled in trusted configuration. Automatically
-discovered project configuration cannot enable it; set it in user
-configuration or pass an explicit :option:`--config` file instead.
+The insecure transport opt-ins are enable-only rather than normal precedence
+settings. They are enabled by a command-line or environment override, or by a
+matching origin in the trusted ``[insecure_http]`` or ``[insecure_ssl]``
+section. Automatically discovered project configuration cannot add trusted
+origins.
 
 Examples
 ++++++++
