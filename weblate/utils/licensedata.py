@@ -298,12 +298,6 @@ LICENSES = (
         False,
     ),
     (
-        "atc-game",
-        "atc Game License",
-        "https://spdx.org/licenses/atc-game.html",
-        False,
-    ),
-    (
         "AAL",
         "Attribution Assurance License",
         "https://spdx.org/licenses/AAL.html",
@@ -403,12 +397,6 @@ LICENSES = (
         "Brian-Gladman-3-Clause",
         "Brian Gladman 3-Clause License",
         "https://spdx.org/licenses/Brian-Gladman-3-Clause.html",
-        False,
-    ),
-    (
-        "Brian-Gladman-3-Clause-no-conversion",
-        "Brian Gladman 3-Clause License (no conversion clause)",
-        "https://spdx.org/licenses/Brian-Gladman-3-Clause-no-conversion.html",
         False,
     ),
     (
@@ -574,12 +562,6 @@ LICENSES = (
         False,
     ),
     (
-        "BSD-Source-Code-no-disclaimer",
-        "BSD Source Code Attribution - no disclaimer",
-        "https://spdx.org/licenses/BSD-Source-Code-no-disclaimer.html",
-        False,
-    ),
-    (
         "BSD-3-Clause-Attribution",
         "BSD with attribution",
         "https://spdx.org/licenses/BSD-3-Clause-Attribution.html",
@@ -625,12 +607,6 @@ LICENSES = (
         "BOLA-1.1",
         "Buena Onda License Agreement v1.1",
         "https://spdx.org/licenses/BOLA-1.1.html",
-        False,
-    ),
-    (
-        "Bugroff",
-        "Bugroff License",
-        "https://spdx.org/licenses/Bugroff.html",
         False,
     ),
     (
@@ -817,7 +793,7 @@ LICENSES = (
         "CDDL-1.1",
         "Common Development and Distribution License 1.1",
         "https://spdx.org/licenses/CDDL-1.1.html",
-        True,
+        False,
     ),
     (
         "CDL-1.0",
@@ -1051,12 +1027,6 @@ LICENSES = (
         "CC-BY-NC-3.0-DE",
         "Creative Commons Attribution Non Commercial 3.0 Germany",
         "https://spdx.org/licenses/CC-BY-NC-3.0-DE.html",
-        False,
-    ),
-    (
-        "CC-BY-NC-3.0-IGO",
-        "Creative Commons Attribution Non Commercial 3.0 IGO",
-        "https://spdx.org/licenses/CC-BY-NC-3.0-IGO.html",
         False,
     ),
     (
@@ -1573,12 +1543,6 @@ LICENSES = (
         "FDK-AAC",
         "Fraunhofer FDK AAC Codec Library",
         "https://spdx.org/licenses/FDK-AAC.html",
-        False,
-    ),
-    (
-        "FDK-MPEG-H",
-        "Fraunhofer FDK MPEG-H Software",
-        "https://spdx.org/licenses/FDK-MPEG-H.html",
         False,
     ),
     (
@@ -2212,12 +2176,6 @@ LICENSES = (
         False,
     ),
     (
-        "Informatica",
-        "Informatica License",
-        "https://spdx.org/licenses/Informatica.html",
-        False,
-    ),
-    (
         "Inner-Net-2.0",
         "Inner Net License v2.0",
         "https://spdx.org/licenses/Inner-Net-2.0.html",
@@ -2761,12 +2719,6 @@ LICENSES = (
         "Mup",
         "Mup License",
         "https://spdx.org/licenses/Mup.html",
-        False,
-    ),
-    (
-        "MVT-1.1",
-        "MVT License 1.1",
-        "https://spdx.org/licenses/MVT-1.1.html",
         False,
     ),
     (
