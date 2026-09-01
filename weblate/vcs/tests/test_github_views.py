@@ -1666,7 +1666,10 @@ class GitHubInstallationViewTest(ViewTestCase):
             self.component.alert_set.filter(name="GitHubAppMigration").exists()
         )
 
-    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    @override_settings(
+        CELERY_TASK_ALWAYS_EAGER=False,
+        GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}},
+    )
     def test_migration_preserves_github_create_merge_request(self):
         repository = _repo_entry("test-org/repo1")
         GitHubInstallation.objects.create(
