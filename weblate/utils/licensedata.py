@@ -412,6 +412,12 @@ LICENSES = (
         False,
     ),
     (
+        "BSD-ask-to-endorse",
+        "BSD - ask to endorse",
+        "https://spdx.org/licenses/BSD-ask-to-endorse.html",
+        True,
+    ),
+    (
         "BSD-1-Clause",
         "BSD 1-Clause License",
         "https://spdx.org/licenses/BSD-1-Clause.html",
@@ -433,6 +439,12 @@ LICENSES = (
         "BSD-2-Clause-Darwin",
         "BSD 2-Clause - Ian Darwin variant",
         "https://spdx.org/licenses/BSD-2-Clause-Darwin.html",
+        False,
+    ),
+    (
+        "BSD-2-Clause-pos-unchanged",
+        "BSD 2-Clause - position unchanged variant",
+        "https://spdx.org/licenses/BSD-2-Clause-pos-unchanged.html",
         False,
     ),
     (
