@@ -14,6 +14,8 @@ Installation
 
 The :pypi:`Weblate Client <wlc>` is shipped separately and includes the Python
 module.
+The source code is maintained in the `WeblateOrg/wlc repository
+<https://github.com/WeblateOrg/wlc>`_.
 To use the commands below, you need to install :program:`wlc` using pip:
 
 .. code-block:: sh
@@ -349,6 +351,10 @@ project configuration file from the current directory or its parents:
 
 :file:`.weblate`, :file:`.weblate.ini`, :file:`weblate.ini`
     Project configuration file placed in the repository.
+
+Project configuration is loaded after global configuration. Its API URL and
+default translation take precedence over global configuration, allowing a
+cloned repository to automatically select its Weblate server and translation.
 
 Only the closest project configuration file is loaded. Configuration files in
 farther parent directories are ignored.
