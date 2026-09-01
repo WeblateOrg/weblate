@@ -84,7 +84,13 @@ class AnthropicTranslation(BaseLLMTranslation):
         return {
             "model": model,
             "max_tokens": self.settings.get("max_tokens", 4096),
-            "system": prompt,
+            "system": [
+                {
+                    "type": "text",
+                    "text": prompt,
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
             "messages": [
                 {"role": "user", "content": previous_content},
                 {"role": "assistant", "content": previous_response},
