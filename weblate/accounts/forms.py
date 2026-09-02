@@ -1339,10 +1339,11 @@ class OTPTokenForm(DjangoOTPTokenForm):
 
 
 class TOTPTokenForm(OTPTokenForm):
-    otp_token = forms.IntegerField(
+    otp_token = forms.RegexField(
+        regex=r"\A[0-9]{6}\Z",
         label=gettext_lazy("Enter the code from the app"),
-        min_value=0,
-        max_value=999999,
+        min_length=6,
+        max_length=6,
     )
     device_class: type[Device] = TOTPDevice
 
