@@ -572,19 +572,29 @@ class BaseOpenAIMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
 
 
 class OpenAIMachineryForm(BaseOpenAIMachineryForm):
-    # Ordering choices here defines priority for automatic selection
+    # Ordering defines automatic selection priority. Prefer current general-purpose
+    # models that balance translation quality, latency, and price instead of
+    # optimizing for price alone. Keep legacy compatibility choices last.
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
-        ("gpt-5-nano", "GPT-5 nano"),
-        ("gpt-5.4-nano", "GPT-5.4 nano"),
-        ("gpt-5-mini", "GPT-5 mini"),
-        ("gpt-5.4-mini", "GPT-5.4 mini"),
         ("gpt-5.6-luna", "GPT-5.6 Luna"),
-        ("gpt-5", "GPT-5"),
-        ("gpt-5.4", "GPT-5.4"),
+        ("gpt-5.4-mini", "GPT-5.4 mini"),
+        ("gpt-5-mini", "GPT-5 mini"),
+        ("gpt-5.4-nano", "GPT-5.4 nano"),
+        ("gpt-5-nano", "GPT-5 nano"),
         ("gpt-5.6-terra", "GPT-5.6 Terra"),
-        ("gpt-5.5", "GPT-5.5"),
+        ("gpt-5.4", "GPT-5.4"),
+        ("gpt-5", "GPT-5"),
         ("gpt-5.6", "GPT-5.6 Sol"),
+        ("gpt-5.5", "GPT-5.5"),
+        ("gpt-4.1-mini", "GPT-4.1 mini"),
+        ("gpt-4o-mini", "GPT-4o mini"),
+        ("gpt-4.1-nano", "GPT-4.1 nano"),
+        ("gpt-4.1", "GPT-4.1"),
+        ("gpt-4o", "GPT-4o"),
+        ("gpt-4-turbo", "GPT-4 Turbo"),
+        ("gpt-4", "GPT-4"),
+        ("gpt-3.5-turbo", "GPT-3.5 Turbo"),
         ("custom", pgettext_lazy("OpenAI model selection", "Custom model")),
     )
     base_url = WeblateServiceURLField(
@@ -631,13 +641,15 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
 
 
 class MistralMachineryForm(BaseOpenAIMachineryForm):
-    # Ordering choices here defines priority for automatic selection
+    # Ordering defines automatic selection priority. Prefer current general-purpose
+    # models that balance translation quality, latency, and price instead of
+    # optimizing for price alone.
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("Mistral model selection", "Automatic selection")),
-        ("ministral-3b-latest", "Ministral 3 3B"),
-        ("ministral-8b-latest", "Ministral 3 8B"),
         ("mistral-small-latest", "Mistral Small 4"),
         ("ministral-14b-latest", "Ministral 3 14B"),
+        ("ministral-8b-latest", "Ministral 3 8B"),
+        ("ministral-3b-latest", "Ministral 3 3B"),
         ("mistral-large-latest", "Mistral Large 3"),
         ("mistral-medium-latest", "Mistral Medium 3.5"),
         ("custom", pgettext_lazy("Mistral model selection", "Custom model")),
@@ -725,7 +737,8 @@ class OllamaMachineryForm(LLMBasicMachineryForm):
 
 
 class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
-    # Choices are ordered from cheapest to most expensive
+    # Current models are ordered from cheapest to most expensive. Previously offered
+    # legacy models remain available until retirement for configuration compatibility.
     MODEL_CHOICES = (
         (
             "claude-haiku-4-5",
@@ -734,6 +747,14 @@ class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
         (
             "claude-sonnet-5",
             pgettext_lazy("Anthropic model selection", "Claude Sonnet 5"),
+        ),
+        (
+            "claude-opus-5",
+            pgettext_lazy("Anthropic model selection", "Claude Opus 5"),
+        ),
+        (
+            "claude-fable-5-1",
+            pgettext_lazy("Anthropic model selection", "Claude Fable 5.1"),
         ),
         (
             "claude-opus-4-8",
