@@ -1445,6 +1445,19 @@ wheels = [
 ]
 
 [[package]]
+name = "django-ses"
+version = "4.7.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "boto3" },
+    { name = "django" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7f/25/25838da8e213c9f125b26a25360f0bb8ac57f07c24977451f3e7a0d63ddd/django_ses-4.7.2.tar.gz", hash = "sha256:a36f2af0e4ce060bf36053ed4c94feac1703ea3351e677c6f6421abd01433a35", size = 71828, upload-time = "2026-02-20T19:22:35.078Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/84/f2/15d4bd54bd01e68e8a116e0b66243c91cb62a3fa0d780a39d2af6654e8ae/django_ses-4.7.2-py3-none-any.whl", hash = "sha256:f3db567fb6f43c01d7d890f5c991e1ebbfa48220de0be24d497ba6332004abcb", size = 37796, upload-time = "2026-02-20T19:22:32.819Z" },
+]
+
+[[package]]
 name = "django-stubs"
 version = "6.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -5846,6 +5859,7 @@ dependencies = [
 all = [
     { name = "boto3" },
     { name = "django-auth-ldap" },
+    { name = "django-ses" },
     { name = "django-zxcvbn-password-validator" },
     { name = "git-review" },
     { name = "google-cloud-error-reporting" },
@@ -5859,6 +5873,7 @@ all = [
 ]
 amazon = [
     { name = "boto3" },
+    { name = "django-ses" },
 ]
 asgi = [
     { name = "granian" },
@@ -6069,6 +6084,7 @@ requires-dist = [
     { name = "django-otp", specifier = "==1.7.0" },
     { name = "django-otp-webauthn", specifier = "==0.10.0" },
     { name = "django-redis", specifier = "==7.0.0" },
+    { name = "django-ses", marker = "extra == 'amazon'" },
     { name = "django-zxcvbn-password-validator", marker = "extra == 'zxcvbn'", specifier = "==1.7.0" },
     { name = "djangorestframework", specifier = "==3.18.0" },
     { name = "djangorestframework-csv", specifier = "==3.0.2" },
