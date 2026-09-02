@@ -48,7 +48,6 @@ from weblate.vcs.base import (
     RepositoryStructuredError,
 )
 from weblate.vcs.github import GitHubAppCredentials
-from weblate.vcs.models import VCS_REGISTRY
 from weblate.workspaces.models import Workspace
 
 
@@ -1321,23 +1320,8 @@ class GitHubAppMigrationAlertTest(ViewTestCase):
     }
 )
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
-    @staticmethod
-    def clear_vcs_registry_cache() -> None:
-        VCS_REGISTRY.clear_cache()
-
     def create_component(self):
         return self.create_po()
-
-    @classmethod
-    def setUpTestData(cls) -> None:
-        super().setUpTestData()
-
-        cls.clear_vcs_registry_cache()
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.clear_vcs_registry_cache()
-        super().tearDownClass()
 
     def create_conflicting_component(self, **kwargs) -> Component:
         name = kwargs.pop("name", "Test2")

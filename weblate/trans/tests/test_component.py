@@ -945,9 +945,6 @@ class ComponentTest(RepoTestCase):
     def test_vcs_validation(self) -> None:
         component = self.create_po_push()
 
-        # force reload VCS list to include github
-        VCS_REGISTRY.clear_cache()
-
         component.vcs = "github"
 
         # check push branch cannot be empty when push URL is set
