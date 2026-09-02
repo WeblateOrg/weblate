@@ -1196,6 +1196,7 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             queryset = self.get_queryset()
 
+        queryset = queryset.filter_search_access(user)
         queryset = self.filter_queryset(queryset)
 
         page = self.paginate_queryset(queryset)
@@ -4971,13 +4972,16 @@ class Search(APIView):
                 for component in components.search(query).order()[:5]
             )
             if user.is_authenticated:
+                user_queryset = User.objects.filter_search_access(user)
                 results.extend(
                     {
-                        "url": user.get_absolute_url(),
-                        "name": user.username,
+                        "url": search_user.get_absolute_url(),
+                        "name": search_user.username,
                         "category": gettext("User"),
                     }
-                    for user in User.objects.search(query, parser="plain").order()[:5]
+                    for search_user in user_queryset.search(
+                        query, parser="plain"
+                    ).order()[:5]
                 )
             results.extend(
                 {

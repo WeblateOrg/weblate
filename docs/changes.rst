@@ -38,6 +38,7 @@ Weblate 2026.9
 * Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
 * Database dump failures are now shown in the :ref:`backups management interface <automated-backup>`.
 * Project administrators can no longer remove :ref:`API tokens <api-tokens>` belonging to other projects.
+* User listings and site-wide searches no longer expose project-scoped :ref:`API tokens <api-tokens>` to users without global user viewing or editing permission.
 * Project and workspace :ref:`translation memory <translation-memory>` now respects restricted component access, and restricted components no longer contribute to shared translation memory.
 * GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
 * Notification e-mails now wrap long strings instead of overflowing, keeping the :guilabel:`View` button reachable without horizontal scrolling.
