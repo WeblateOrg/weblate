@@ -45,7 +45,6 @@ from git.config import GitConfigParser
 from idna import IDNAError
 from idna import encode as idna_encode
 
-from weblate.utils.commands import find_runtime_command
 from weblate.utils.data import data_dir, data_path
 from weblate.utils.errors import report_error
 from weblate.utils.files import (
@@ -1821,6 +1820,8 @@ class GitWithGerritRepository(GitRepository):
 
 class SubversionRepository(GitRepository):
     name: ClassVar[StrOrPromise] = "Subversion"
+    # The git-svn helper is installed in Git's exec path rather than PATH. Finding
+    # it would require executing Git, while this check deliberately stays cheap.
     required_commands: ClassVar[tuple[str, ...]] = ("git", "svn")
     default_branch: ClassVar[str] = "master"
     supports_remote_compatibility_validation: ClassVar[bool] = False
@@ -1830,21 +1831,6 @@ class SubversionRepository(GitRepository):
     )
 
     needs_push_url: ClassVar[bool] = False
-
-    @classmethod
-    def get_missing_commands(cls) -> tuple[str, ...]:
-        """Return commands and Git helpers required by this backend."""
-        missing_commands = super().get_missing_commands()
-        if missing_commands:
-            return missing_commands
-
-        try:
-            git_exec_path = cls._popen(["--exec-path"]).strip()
-        except RepositoryError:
-            return ("git-svn",)
-        if find_runtime_command("git-svn", extra_path=git_exec_path) is None:
-            return ("git-svn",)
-        return ()
 
     def __init__(
         self,
