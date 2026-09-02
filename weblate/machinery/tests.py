@@ -3704,21 +3704,29 @@ class ProviderModelChoicesTest(SimpleTestCase):
             tuple(model for model, _name in OpenAIMachineryForm.MODEL_CHOICES),
             (
                 "auto",
-                "gpt-5-nano",
-                "gpt-5.4-nano",
-                "gpt-5-mini",
-                "gpt-5.4-mini",
                 "gpt-5.6-luna",
-                "gpt-5",
-                "gpt-5.4",
+                "gpt-5.4-mini",
+                "gpt-5-mini",
+                "gpt-5.4-nano",
+                "gpt-5-nano",
                 "gpt-5.6-terra",
-                "gpt-5.5",
+                "gpt-5.4",
+                "gpt-5",
                 "gpt-5.6",
+                "gpt-5.5",
+                "gpt-4.1-mini",
+                "gpt-4o-mini",
+                "gpt-4.1-nano",
+                "gpt-4.1",
+                "gpt-4o",
+                "gpt-4-turbo",
+                "gpt-4",
+                "gpt-3.5-turbo",
                 "custom",
             ),
         )
 
-    def test_openai_automatic_selection_prefers_cheapest_model(self) -> None:
+    def test_openai_automatic_selection_prefers_balanced_model(self) -> None:
         machine = OpenAITranslation(
             {"key": "x", "model": "auto", "persona": "", "style": ""}
         )
@@ -3729,7 +3737,31 @@ class ProviderModelChoicesTest(SimpleTestCase):
         }
 
         with patch.object(machine, "_models", models):
-            self.assertEqual(machine.get_model(), "gpt-5-nano")
+            self.assertEqual(machine.get_model(), "gpt-5.6-luna")
+
+    def test_openai_automatic_selection_prefers_current_model(self) -> None:
+        machine = OpenAITranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+
+        with patch.object(
+            machine,
+            "_models",
+            {"gpt-5.4-mini", "gpt-4.1-mini", "gpt-4o-mini"},
+        ):
+            self.assertEqual(machine.get_model(), "gpt-5.4-mini")
+
+    def test_openai_automatic_selection_legacy_catalog(self) -> None:
+        machine = OpenAITranslation(
+            {"key": "x", "model": "auto", "persona": "", "style": ""}
+        )
+
+        with patch.object(
+            machine,
+            "_models",
+            {"gpt-3.5-turbo", "gpt-4", "gpt-4-turbo", "gpt-4o"},
+        ):
+            self.assertEqual(machine.get_model(), "gpt-4o")
 
     def test_openai_automatic_selection_prefers_gpt_5_6_luna(self) -> None:
         machine = OpenAITranslation(
@@ -3801,7 +3833,7 @@ class ProviderModelChoicesTest(SimpleTestCase):
         )
 
         with (
-            patch.object(machine, "_models", {"custom", "gpt-4o-mini"}),
+            patch.object(machine, "_models", {"custom", "unsupported-model"}),
             self.assertRaises(MachineTranslationError) as raised,
         ):
             machine.get_model()
@@ -3811,8 +3843,8 @@ class ProviderModelChoicesTest(SimpleTestCase):
             "Automatic model selection failed: the service returned 2 model "
             "identifiers, but none match the models available for automatic "
             "selection in Weblate. Returned models include: 'custom', "
-            "'gpt-4o-mini'. Configure a custom model or update the models available "
-            "to the service.",
+            "'unsupported-model'. Configure a custom model or update the models "
+            "available to the service.",
         )
 
     def test_openai_configured_model_missing(self) -> None:
@@ -3949,17 +3981,17 @@ class ProviderModelChoicesTest(SimpleTestCase):
             tuple(model for model, _name in MistralMachineryForm.MODEL_CHOICES),
             (
                 "auto",
-                "ministral-3b-latest",
-                "ministral-8b-latest",
                 "mistral-small-latest",
                 "ministral-14b-latest",
+                "ministral-8b-latest",
+                "ministral-3b-latest",
                 "mistral-large-latest",
                 "mistral-medium-latest",
                 "custom",
             ),
         )
 
-    def test_mistral_automatic_selection_prefers_cheapest_model(self) -> None:
+    def test_mistral_automatic_selection_prefers_balanced_model(self) -> None:
         machine = MistralTranslation(
             {"key": "x", "model": "auto", "persona": "", "style": ""}
         )
@@ -3970,7 +4002,7 @@ class ProviderModelChoicesTest(SimpleTestCase):
         }
 
         with patch.object(machine, "_models", models):
-            self.assertEqual(machine.get_model(), "ministral-3b-latest")
+            self.assertEqual(machine.get_model(), "mistral-small-latest")
 
     def test_anthropic_model_choices(self) -> None:
         self.assertEqual(
@@ -3978,6 +4010,8 @@ class ProviderModelChoicesTest(SimpleTestCase):
             (
                 "claude-haiku-4-5",
                 "claude-sonnet-5",
+                "claude-opus-5",
+                "claude-fable-5-1",
                 "claude-opus-4-8",
                 "claude-fable-5",
                 "custom",
@@ -3987,6 +4021,17 @@ class ProviderModelChoicesTest(SimpleTestCase):
             AnthropicMachineryForm.base_fields["model"].initial,
             "claude-haiku-4-5",
         )
+
+    def test_anthropic_current_and_legacy_models(self) -> None:
+        for model in (
+            "claude-fable-5-1",
+            "claude-opus-5",
+            "claude-opus-4-8",
+            "claude-fable-5",
+        ):
+            with self.subTest(model=model):
+                machine = AnthropicTranslation({"key": "x", "model": model})
+                self.assertEqual(machine.get_model(), model)
 
 
 class LLMProviderResponseTest(SimpleTestCase):
