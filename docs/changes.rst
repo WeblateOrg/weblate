@@ -32,6 +32,7 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
+* Component discovery now limits repository paths and file-mask comparisons to prevent excessive resource consumption from specially crafted repositories.
 * :ref:`Project backup restores <projectbackup>` now preserve all project, category, and component settings. They also allowlist repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
 * LLM-based machine translation services now report invalid provider responses more clearly, and custom :ref:`mt-openai` and :ref:`mt-mistral` models no longer require a model-listing endpoint.
 * Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.

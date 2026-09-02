@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import os
 import re
-from itertools import chain
+from itertools import chain, islice
 from operator import itemgetter
 from pathlib import Path
 from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
@@ -44,6 +44,8 @@ DISCOVERY_PRESET_COMPONENT_MARKER = "__COMPONENT__"
 DISCOVERY_PRESET_COMPONENT_TEMPLATE = "{{ component }}"
 DISCOVERY_PRESET_LANGUAGE_CAPTURE = r"(?P<language>[^/.]*)"
 DISCOVERY_PRESET_COMPONENT_CAPTURE = r"(?P<component>[^/]*)"
+MAX_DISCOVERY_PATHS = 100_000
+MAX_DISCOVERY_COMPARISONS = 1_000_000
 
 
 class DiscoveryErrorMatch(TypedDict):
@@ -482,6 +484,7 @@ class ComponentDiscovery:
         self.component = component
         self.match = match
         self.errors: list[tuple[DiscoveryErrorMatch, str]] = []
+        self.limit_exceeded = False
         if path is None:
             self.path = self.component.full_path
         else:
@@ -629,7 +632,16 @@ class ComponentDiscovery:
     @cached_property
     def repository_paths(self) -> list[str]:
         """Return relative repository paths under the discovery root."""
-        return list(self._iter_repository_paths())
+        paths = list(islice(self._iter_repository_paths(), MAX_DISCOVERY_PATHS + 1))
+        if len(paths) > MAX_DISCOVERY_PATHS:
+            self.limit_exceeded = True
+            self.add_error(
+                gettext(
+                    "Component discovery stopped because the repository contains too many paths."
+                )
+            )
+            return []
+        return paths
 
     def _match_language(self, language_part: str | None) -> bool:
         if language_part is None:
@@ -730,6 +742,15 @@ class ComponentDiscovery:
     ) -> dict[str, list[tuple[str, str]]]:
         """Return translation files for each mask in a single path scan."""
         if not masks:
+            return {}
+
+        if len(self.repository_paths) * len(masks) > MAX_DISCOVERY_COMPARISONS:
+            self.limit_exceeded = True
+            self.add_error(
+                gettext(
+                    "Component discovery stopped because matching translation files would require too many comparisons."
+                )
+            )
             return {}
 
         compiled = {mask: self.compile_mask_match(mask) for mask in masks}
@@ -856,9 +877,12 @@ class ComponentDiscovery:
                 }
                 for mask, match in result.items()
             }
-            for mask, translations in self._collect_translations_by_mask(
+            translations_by_mask = self._collect_translations_by_mask(
                 set(result), exclude_paths=exclude_paths
-            ).items():
+            )
+            if self.limit_exceeded:
+                return {}
+            for mask, translations in translations_by_mask.items():
                 for translation_path, language in translations:
                     result[mask]["files"].add(translation_path)
                     result[mask]["languages"].add(language)
@@ -1058,6 +1082,10 @@ class ComponentDiscovery:
         skipped = []
         processed = set()
 
+        discovered = self.matched_components
+        if self.limit_exceeded:
+            return created, matched, deleted, skipped
+
         main = self.component
         category_components = main.project.component_set.filter(category=main.category)
         existing_children: dict[str, Component] = {
@@ -1070,7 +1098,7 @@ class ComponentDiscovery:
             name.lower() for name in category_components.values_list("name", flat=True)
         }
 
-        for match in self.matched_components.values():
+        for match in discovered.values():
             # Skip invalid matches
             reason = self.get_skip_reason(match)
             if reason is not None:

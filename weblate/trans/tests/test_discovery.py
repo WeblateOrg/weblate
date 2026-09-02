@@ -491,6 +491,51 @@ class ComponentDiscoveryTest(RepoTestCase):
             (("docs/news_cs.md", "cs"),),
         )
 
+    def test_create_from_template_limits_comparisons(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        (docs / "news.md").write_text("# News\n", encoding="utf-8")
+        (docs / "guide.md").write_text("# Guide\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>[^/_]+)\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}.md",
+            filemask_template="docs/{{ component }}_*.md",
+        )
+
+        with patch("weblate.trans.discovery.MAX_DISCOVERY_COMPARISONS", 3):
+            self.assertEqual(discovery.matched_components, {})
+
+        self.assertTrue(discovery.limit_exceeded)
+        self.assertIn("too many comparisons", discovery.errors[0][1])
+
+    def test_discovery_limits_repository_paths(self) -> None:
+        with (
+            patch("weblate.trans.discovery.MAX_DISCOVERY_PATHS", 1),
+            patch.object(
+                self.discovery,
+                "_iter_repository_paths",
+                return_value=iter(("one", "two", "three")),
+            ) as walk,
+        ):
+            self.assertEqual(self.discovery.repository_paths, [])
+
+        walk.assert_called_once_with()
+        self.assertTrue(self.discovery.limit_exceeded)
+        self.assertIn("too many paths", self.discovery.errors[0][1])
+
+    def test_discovery_limit_prevents_removal(self) -> None:
+        self.discovery.limit_exceeded = True
+        self.discovery.__dict__["matched_components"] = {}
+        with patch.object(self.discovery, "cleanup") as cleanup:
+            created, matched, deleted, skipped = self.discovery.perform(remove=True)
+
+        self.assertEqual((created, matched, deleted, skipped), ([], [], [], []))
+        cleanup.assert_not_called()
+
     def test_create_from_template_reports_colliding_masks(self) -> None:
         templates = pathlib.Path(self.component.full_path) / "templates" / "foo"
         templates.mkdir(parents=True)
