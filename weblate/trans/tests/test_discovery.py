@@ -7,7 +7,7 @@ import pathlib
 import shutil
 import tempfile
 from typing import TYPE_CHECKING, cast
-from unittest.mock import call, patch
+from unittest.mock import MagicMock, call, patch
 
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -491,6 +491,78 @@ class ComponentDiscoveryTest(RepoTestCase):
             (("docs/news_cs.md", "cs"),),
         )
 
+    def test_create_from_template_limits_comparisons(self) -> None:
+        docs = pathlib.Path(self.component.full_path) / "docs"
+        docs.mkdir(exist_ok=True)
+        (docs / "news.md").write_text("# News\n", encoding="utf-8")
+        (docs / "guide.md").write_text("# Guide\n", encoding="utf-8")
+
+        discovery = ComponentDiscovery(
+            self.component,
+            file_format="markdown",
+            match=r"docs/(?P<component>[^/_]+)\.md",
+            name_template="{{ component }}",
+            base_file_template="docs/{{ component }}.md",
+            filemask_template="docs/{{ component }}_*.md",
+        )
+
+        with patch("weblate.trans.discovery.MAX_DISCOVERY_COMPARISONS", 3):
+            self.assertEqual(discovery.matched_components, {})
+
+        self.assertTrue(discovery.limit_exceeded)
+        self.assertIn("too many comparisons", discovery.errors[0][1])
+
+    def test_discovery_limits_repository_paths(self) -> None:
+        with (
+            patch("weblate.trans.discovery.MAX_DISCOVERY_PATHS", 1),
+            patch.object(
+                self.discovery,
+                "_iter_repository_paths",
+                return_value=iter(("one", "two", "three")),
+            ) as walk,
+        ):
+            self.assertEqual(self.discovery.repository_paths, [])
+
+        walk.assert_called_once_with()
+        self.assertTrue(self.discovery.limit_exceeded)
+        self.assertIn("too many paths", self.discovery.errors[0][1])
+
+    def test_repository_path_iteration_is_streamed(self) -> None:
+        root = pathlib.Path(self.component.full_path)
+        for name in ("one", "two", "three"):
+            (root / name).touch()
+
+        with patch("weblate.trans.discovery.MAX_DISCOVERY_PATHS", 1):
+            self.assertEqual(self.discovery.repository_paths, [])
+
+        self.assertTrue(self.discovery.limit_exceeded)
+
+    def test_repository_paths_exclude_vcs_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            root = pathlib.Path(tempdir)
+            metadata = root / ".git"
+            metadata.mkdir()
+            (metadata / "config").touch()
+            (root / "translation.po").touch()
+            discovery = ComponentDiscovery(
+                self.component,
+                file_format="po",
+                match=r"(?P<language>[^/]*)\.po",
+                name_template="{{ language }}",
+                path=tempdir,
+            )
+
+            self.assertEqual(discovery.repository_paths, ["translation.po"])
+
+    def test_discovery_limit_prevents_removal(self) -> None:
+        self.discovery.limit_exceeded = True
+        self.discovery.__dict__["matched_components"] = {}
+        with patch.object(self.discovery, "cleanup") as cleanup:
+            created, matched, deleted, skipped = self.discovery.perform(remove=True)
+
+        self.assertEqual((created, matched, deleted, skipped), ([], [], [], []))
+        cleanup.assert_not_called()
+
     def test_create_from_template_reports_colliding_masks(self) -> None:
         templates = pathlib.Path(self.component.full_path) / "templates" / "foo"
         templates.mkdir(parents=True)
@@ -724,25 +796,19 @@ class ComponentDiscoveryTest(RepoTestCase):
             outside_path, os.path.join(self.component.full_path, "prefix-collision")
         )
 
-        walk_calls: list[str] = []
+        entry = MagicMock()
+        entry.name = "prefix-collision"
+        entry.path = os.path.join(self.discovery.path, entry.name)
+        entry.is_dir.return_value = True
 
-        def fake_walk(path: str, *, followlinks: bool):
-            self.assertEqual(path, self.discovery.path)
-            self.assertTrue(followlinks)
-
-            dirnames = ["prefix-collision"]
-            walk_calls.append(path)
-            yield path, dirnames, []
-
-            if "prefix-collision" in dirnames:
-                nested = os.path.join(path, "prefix-collision")
-                walk_calls.append(nested)
-                yield nested, [], ["cs.po"]
-
-        with patch("weblate.trans.discovery.os.walk", side_effect=fake_walk):
+        with patch.object(
+            self.discovery,
+            "_iter_directory_entries",
+            return_value=iter((entry,)),
+        ) as iter_entries:
             self.assertEqual(self.discovery.matches, [])
 
-        self.assertEqual(walk_calls, [self.discovery.path])
+        iter_entries.assert_called_once_with(self.discovery.path)
 
     def test_named_group(self) -> None:
         discovery = ComponentDiscovery(
