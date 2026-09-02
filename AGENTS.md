@@ -120,7 +120,13 @@ For application-developer workflows and broader product integration guidance, us
   (`DJANGO_SETTINGS_MODULE=weblate.settings_test`, `collectstatic`, and test
   database prerequisites). `scripts/test-database.sh` can be sourced to set up
   the database connection variables such as `CI_DB_USER`, `CI_DB_PASSWORD`,
-  `CI_DB_HOST`, and `CI_DB_PORT`.
+  `CI_DB_HOST`, and `CI_DB_PORT`. If tests cannot reach the configured
+  PostgreSQL server, do not assume it is stopped: local sandboxing can block
+  access to an already-running service. Retry with permission to access the
+  local service when sandboxing is the cause. Only when PostgreSQL is confirmed
+  not to be running, and it is installed as a local Linux service, try
+  `sudo service postgresql start` and rerun the failed command. Treat service
+  startup as a recovery step, not a prerequisite for every test invocation.
 - Use `pylint` to lint the Python code: `uv run pylint weblate/ scripts/`
 - Use `mypy` to type check with the same command as CI:
   `uv run mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh`.
