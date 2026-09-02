@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import os
 import re
-from itertools import chain, islice
+from itertools import islice
 from operator import itemgetter
 from pathlib import Path
 from typing import TYPE_CHECKING, NotRequired, Required, TypedDict, cast
@@ -617,17 +617,29 @@ class ComponentDiscovery:
     def _iter_repository_paths(self):
         """Yield relative repository paths found under the discovery root."""
         base = Path(self.path).resolve()
-        for root, dirnames, filenames in os.walk(self.path, followlinks=True):
-            dirnames[:] = [
-                dirname
-                for dirname in dirnames
-                if is_path_within_resolved_directory(os.path.join(root, dirname), base)
-            ]
-            for filename in chain(filenames, dirnames):
-                fullname = os.path.join(root, filename)
-                if not is_path_within_resolved_directory(fullname, base):
+        directories = [self.path]
+        while directories:
+            directory = directories.pop()
+            for entry in self._iter_directory_entries(directory):
+                if not is_path_within_resolved_directory(entry.path, base):
                     continue
-                yield path_separator(os.path.relpath(fullname, self.path))
+                yield path_separator(os.path.relpath(entry.path, self.path))
+                try:
+                    if entry.is_dir(follow_symlinks=True):
+                        directories.append(entry.path)
+                except OSError:
+                    # Ignore entries which disappear or become inaccessible.
+                    continue
+
+    @staticmethod
+    def _iter_directory_entries(directory: str):
+        """Yield directory entries without materializing the directory listing."""
+        try:
+            with os.scandir(directory) as entries:
+                yield from entries
+        except OSError:
+            # Match os.walk's default behavior for inaccessible directories.
+            return
 
     @cached_property
     def repository_paths(self) -> list[str]:
@@ -1076,11 +1088,11 @@ class ComponentDiscovery:
         return None
 
     def perform(self, preview=False, remove=False, background=False):
-        created = []
-        matched = []
-        deleted = []
-        skipped = []
-        processed = set()
+        created: list[tuple[DiscoveryMatch, Component | None]] = []
+        matched: list[tuple[DiscoveryMatch, Component]] = []
+        deleted: list[tuple[None, Component]] = []
+        skipped: list[tuple[DiscoveryMatch, str]] = []
+        processed: set[int] = set()
 
         discovered = self.matched_components
         if self.limit_exceeded:

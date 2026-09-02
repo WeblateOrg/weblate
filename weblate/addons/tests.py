@@ -6142,6 +6142,29 @@ class CommandTest(ComponentTestCase):
 
 
 class DiscoveryTest(ViewTestCase):
+    def test_limit_failure_is_reported(self) -> None:
+        addon = DiscoveryAddon.create(
+            component=self.component,
+            configuration={
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "name_template": "{{ component|title }}",
+                "language_regex": "^(?!xx).+$",
+                "base_file_template": "",
+                "remove": True,
+            },
+        )
+        discovery = MagicMock()
+        discovery.limit_exceeded = True
+        discovery.errors = [({}, "Discovery limit exceeded")]
+        with patch.object(addon, "get_discovery", return_value=discovery):
+            outcome = addon.post_update(self.component, "", False, [])
+
+        self.assertEqual(
+            outcome,
+            AddonEventOutcome.error(result=["Discovery limit exceeded"]),
+        )
+
     def test_creation(self) -> None:
         link = self.component.get_repo_link_url()
         self.assertEqual(Component.objects.filter(repo=link).count(), 0)

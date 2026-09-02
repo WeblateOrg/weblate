@@ -527,6 +527,16 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertTrue(self.discovery.limit_exceeded)
         self.assertIn("too many paths", self.discovery.errors[0][1])
 
+    def test_repository_path_iteration_is_streamed(self) -> None:
+        root = pathlib.Path(self.component.full_path)
+        for name in ("one", "two", "three"):
+            (root / name).touch()
+
+        with patch("weblate.trans.discovery.MAX_DISCOVERY_PATHS", 1):
+            self.assertEqual(self.discovery.repository_paths, [])
+
+        self.assertTrue(self.discovery.limit_exceeded)
+
     def test_discovery_limit_prevents_removal(self) -> None:
         self.discovery.limit_exceeded = True
         self.discovery.__dict__["matched_components"] = {}
