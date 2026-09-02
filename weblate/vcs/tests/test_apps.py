@@ -10,7 +10,7 @@ from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
 from weblate.vcs.apps import check_vcs, check_vcs_versions
-from weblate.vcs.base import Repository
+from weblate.vcs.base import Repository, RepositoryError
 from weblate.vcs.git import (
     GitRepository,
     GitWithGerritRepository,
@@ -75,6 +75,59 @@ class VCSChecksTest(SimpleTestCase):
                 ("git", "svn"),
             )
             self.assertIn(HgRepository.get_missing_commands(), (("hg",), ("rhg",)))
+
+    def test_subversion_requires_git_svn_helper(self) -> None:
+        with (
+            patch(
+                "weblate.vcs.base.find_runtime_command",
+                return_value="/usr/bin/command",
+            ),
+            patch(
+                "weblate.vcs.git.find_runtime_command",
+                return_value=None,
+            ) as find_command,
+            patch.object(
+                SubversionRepository,
+                "_popen",
+                return_value="/usr/lib/git-core\n",
+            ) as popen,
+        ):
+            self.assertEqual(SubversionRepository.get_missing_commands(), ("git-svn",))
+
+        popen.assert_called_once_with(["--exec-path"])
+        find_command.assert_called_once_with("git-svn", extra_path="/usr/lib/git-core")
+
+    def test_subversion_accepts_git_svn_helper(self) -> None:
+        with (
+            patch(
+                "weblate.vcs.base.find_runtime_command",
+                return_value="/usr/bin/command",
+            ),
+            patch(
+                "weblate.vcs.git.find_runtime_command",
+                return_value="/usr/lib/git-core/git-svn",
+            ),
+            patch.object(
+                SubversionRepository,
+                "_popen",
+                return_value="/usr/lib/git-core\n",
+            ),
+        ):
+            self.assertEqual(SubversionRepository.get_missing_commands(), ())
+
+    def test_subversion_handles_exec_path_failure(self) -> None:
+        with (
+            patch(
+                "weblate.vcs.base.find_runtime_command",
+                return_value="/usr/bin/command",
+            ),
+            patch.object(
+                SubversionRepository,
+                "_popen",
+                side_effect=RepositoryError(1, "git failed"),
+            ),
+        ):
+            self.assertEqual(SubversionRepository.get_missing_commands(), ("git-svn",))
 
     def test_registry_invalidated_on_credentials_change(self) -> None:
         backends = {
