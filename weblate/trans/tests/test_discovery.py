@@ -7,7 +7,7 @@ import pathlib
 import shutil
 import tempfile
 from typing import TYPE_CHECKING, cast
-from unittest.mock import call, patch
+from unittest.mock import MagicMock, call, patch
 
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -796,25 +796,19 @@ class ComponentDiscoveryTest(RepoTestCase):
             outside_path, os.path.join(self.component.full_path, "prefix-collision")
         )
 
-        walk_calls: list[str] = []
+        entry = MagicMock()
+        entry.name = "prefix-collision"
+        entry.path = os.path.join(self.discovery.path, entry.name)
+        entry.is_dir.return_value = True
 
-        def fake_walk(path: str, *, followlinks: bool):
-            self.assertEqual(path, self.discovery.path)
-            self.assertTrue(followlinks)
-
-            dirnames = ["prefix-collision"]
-            walk_calls.append(path)
-            yield path, dirnames, []
-
-            if "prefix-collision" in dirnames:
-                nested = os.path.join(path, "prefix-collision")
-                walk_calls.append(nested)
-                yield nested, [], ["cs.po"]
-
-        with patch("weblate.trans.discovery.os.walk", side_effect=fake_walk):
+        with patch.object(
+            self.discovery,
+            "_iter_directory_entries",
+            return_value=iter((entry,)),
+        ) as iter_entries:
             self.assertEqual(self.discovery.matches, [])
 
-        self.assertEqual(walk_calls, [self.discovery.path])
+        iter_entries.assert_called_once_with(self.discovery.path)
 
     def test_named_group(self) -> None:
         discovery = ComponentDiscovery(
