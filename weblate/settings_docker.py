@@ -1420,14 +1420,17 @@ EMAIL_BACKEND = get_env_str(
 # (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY env vars, IAM role, etc.).
 if EMAIL_BACKEND == "django_ses.SESBackend":
     INSTALLED_APPS.append("django_ses")
-    # When WEBLATE_AWS_SES_REGION_NAME is provided, also derive the SES
-    # endpoint unless the caller overrides it explicitly.
     if _ses_region := get_env_str("WEBLATE_AWS_SES_REGION_NAME"):
         AWS_SES_REGION_NAME = _ses_region
-        AWS_SES_REGION_ENDPOINT = get_env_str(
-            "WEBLATE_AWS_SES_REGION_ENDPOINT",
-            f"email.{_ses_region}.amazonaws.com",
-        )
+    # Load the explicit endpoint override independently of the region variable
+    # so that a VPC or custom endpoint works even when the region comes from
+    # AWS_DEFAULT_REGION or an AWS profile rather than WEBLATE_AWS_SES_REGION_NAME.
+    # Fall back to deriving the standard regional endpoint when only the region
+    # variable is set.
+    if _ses_endpoint := get_env_str("WEBLATE_AWS_SES_REGION_ENDPOINT"):
+        AWS_SES_REGION_ENDPOINT = _ses_endpoint
+    elif _ses_region:
+        AWS_SES_REGION_ENDPOINT = f"email.{_ses_region}.amazonaws.com"
     # Opt in to the newer SES v2 sending API (SendEmail instead of SendRawEmail).
     USE_SES_V2 = get_env_bool("WEBLATE_USE_SES_V2")
 

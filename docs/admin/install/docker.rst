@@ -2184,11 +2184,34 @@ Example SSL configuration:
 
     Configures Django back-end to use for sending e-mails.
 
+    Set to ``django_ses.SESBackend`` to use AWS SES. The ``amazon``
+    optional dependencies must be installed (``weblate[amazon]``).
 
     .. seealso::
 
        * :ref:`production-email`
        * :setting:`django:EMAIL_BACKEND`
+
+.. envvar:: WEBLATE_AWS_SES_REGION_NAME
+
+    AWS region for SES (e.g. ``us-east-1``). Required when
+    :envvar:`WEBLATE_EMAIL_BACKEND` is ``django_ses.SESBackend``.
+    Sets ``AWS_SES_REGION_NAME`` and derives
+    :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT` automatically unless
+    that variable is set explicitly.
+
+.. envvar:: WEBLATE_AWS_SES_REGION_ENDPOINT
+
+    SES endpoint hostname. Defaults to
+    ``email.<region>.amazonaws.com`` when
+    :envvar:`WEBLATE_AWS_SES_REGION_NAME` is set. Override only when
+    using a custom or VPC endpoint.
+
+.. envvar:: WEBLATE_USE_SES_V2
+
+    Set to ``true`` to use the SES v2 API (``SendEmail``) instead of
+    the legacy ``SendRawEmail`` call. Boolean setting (use ``"true"``
+    or ``"false"``).
 
 .. envvar:: WEBLATE_AUTO_UPDATE
 
