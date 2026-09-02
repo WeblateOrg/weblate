@@ -47,7 +47,7 @@ from weblate.vcs.base import (
     RepositoryInternalError,
     RepositoryStructuredError,
 )
-from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.github import GitHubAppCredentials
 from weblate.workspaces.models import Workspace
 
 
@@ -1227,6 +1227,90 @@ class AlertQueryPrefetchTest(ViewTestCase):
         self.assertEqual(len(alert_maps), 2)
 
 
+class GitHubAppMigrationAlertTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.workspace = Workspace.objects.create(name="Migration alert")
+        self.project.workspace = self.workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="123",
+            app_slug="weblate",
+            private_key="test",
+            client_id="client",
+            client_secret="secret",
+            webhook_secret="webhook",
+        )
+
+    def test_migration_alert_lifecycle(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+
+        update_alerts(self.component, {"GitHubAppMigration"})
+
+        alert = self.component.alert_set.get(name="GitHubAppMigration")
+        self.assertEqual(alert.severity, AlertSeverity.INFO)
+        self.assertTrue(alert.obj.dismissible)
+        self.assertEqual(
+            alert.obj.get_url(self.component),
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            ),
+        )
+
+        self.component.vcs = "github-app"
+        update_alerts(self.component, {"GitHubAppMigration"})
+        self.assertFalse(
+            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+        )
+
+    def test_migration_alert_requires_workspace_and_configured_host(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.example.com/WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+
+        update_alerts(self.component, {"GitHubAppMigration"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+        )
+
+    def test_migration_alert_link_needs_workspace_access(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+        update_alerts(self.component, {"GitHubAppMigration"})
+        alert = self.component.alert_set.get(name="GitHubAppMigration")
+
+        # Editing the component is not enough; the migration view is scoped to
+        # the workspace.
+        role = Role.objects.create(name="Component editor")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Component editors")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.anotheruser.groups.add(group)
+        self.assertTrue(
+            self.anotheruser.has_perm("component.edit", self.component),
+        )
+        self.assertEqual(alert.obj.get_context(self.anotheruser)["migration_url"], "")
+
+        self.make_manager()
+        self.assertEqual(
+            alert.obj.get_context(self.user)["migration_url"],
+            alert.obj.get_url(self.component),
+        )
+
+
 @override_settings(
     GITHUB_CREDENTIALS={
         "api.github.com": {
@@ -1236,23 +1320,8 @@ class AlertQueryPrefetchTest(ViewTestCase):
     }
 )
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
-    @staticmethod
-    def clear_vcs_registry_cache() -> None:
-        VCS_REGISTRY.clear_cache()
-
     def create_component(self):
         return self.create_po()
-
-    @classmethod
-    def setUpTestData(cls) -> None:
-        super().setUpTestData()
-
-        cls.clear_vcs_registry_cache()
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.clear_vcs_registry_cache()
-        super().tearDownClass()
 
     def create_conflicting_component(self, **kwargs) -> Component:
         name = kwargs.pop("name", "Test2")

@@ -300,20 +300,19 @@ class CommitTaskPayload(TypedDict):
 
 def prefetch_tasks(components):
     """Prefetch update tasks."""
-    lookup = {component.update_key: component for component in components}
-    if lookup:
-        results_dict = cache.get_many(lookup.keys())
-        results: dict[str, AsyncResult] = {
-            value: AsyncResult(value) for value in results_dict.values() if value
-        }
-
-        for item, value in results_dict.items():
-            if not value:
-                continue
-            lookup[item].__dict__["background_task"] = results[value]
-            lookup.pop(item)
-        for component in lookup.values():
-            component.__dict__["background_task"] = None
+    component_list = list(components)
+    keys = {
+        key
+        for component in component_list
+        for key in (component.update_key, component.repository_operation_update_key)
+    }
+    task_ids = cache.get_many(keys)
+    results: dict[str, AsyncResult] = {
+        task_id: AsyncResult(task_id) for task_id in task_ids.values() if task_id
+    }
+    for component in component_list:
+        task_id = component.select_background_task_id(task_ids)
+        component.__dict__["background_task"] = results.get(task_id)
     return components
 
 
@@ -1885,6 +1884,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return f"component-update-{self.pk}"
 
     @cached_property
+    def repository_operation_update_key(self) -> str:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository import get_repository_operation_update_key
+
+        return get_repository_operation_update_key(self.pk)
+
+    @cached_property
     def commit_task_key(self) -> str:
         return f"component-commit-{self.effective_repo_component.pk}"
 
@@ -1893,7 +1899,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         return f"component-commit-reschedule-{self.effective_repo_component.pk}"
 
     def delete_background_task(self) -> None:
-        delete_task_metadata(self.background_task_id)
+        delete_task_metadata(cache.get(self.update_key))
         cache.delete(self.update_key)
 
     def store_background_task(self, task=None) -> None:
@@ -1905,9 +1911,19 @@ class Component(  # ruff: ignore[too-many-public-methods]
         store_task_metadata(task.id, component_id=self.pk)
 
     def queue_background_task(self, task, /, *args, **kwargs) -> None:
-        transaction.on_commit(
-            lambda: self.store_background_task(task.delay(*args, **kwargs))
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import (
+            repository_task_deferred_background_tasks,
         )
+
+        def publish() -> None:
+            self.store_background_task(task.delay(*args, **kwargs))
+
+        deferred = repository_task_deferred_background_tasks.get()
+        if deferred is None:
+            transaction.on_commit(publish)
+        else:
+            transaction.on_commit(lambda: deferred.append(publish))
 
     @staticmethod
     def get_current_task_id() -> str | None:
@@ -2002,7 +2018,18 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
     @cached_property
     def background_task_id(self):
-        return cache.get(self.update_key)
+        return self.select_background_task_id(
+            cache.get_many((self.update_key, self.repository_operation_update_key))
+        )
+
+    def select_background_task_id(self, task_ids: dict[str, str]) -> str | None:
+        repository_task_id = task_ids.get(self.repository_operation_update_key)
+        background_task_id = task_ids.get(self.update_key)
+        if repository_task_id and background_task_id:
+            if not AsyncResult(repository_task_id).ready():
+                return repository_task_id
+            return background_task_id
+        return repository_task_id or background_task_id
 
     @cached_property
     def background_task(self):
@@ -2024,6 +2051,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if progress is None:
             self.translations_progress += 1
             progress = 100 * self.translations_progress // self.translations_count
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import repository_task_progress_scope
+
+        if (scope := repository_task_progress_scope.get()) is not None:
+            completed, total = scope
+            progress = (100 * completed + progress) // total
         # Store task state
         current_task.update_state(
             state="PROGRESS", meta={"progress": progress, "component": self.pk}
@@ -2033,9 +2066,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
         if self.translations_count == -1 and self.linked_component:
             self.linked_component.store_log(slug, msg, *args)
             return
-        self.logs.append(f"{slug}: {msg % args}")
+        entry = f"{slug}: {msg % args}"
         if current_task and current_task.request.id:
-            cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.repository_context import (
+                repository_task_inline_followups,
+            )
+
+            task_log_key = f"task-log-{current_task.request.id}"
+            if repository_task_inline_followups.get():
+                self.logs = cache.get(task_log_key, [])
+            self.logs.append(entry)
+            cache.set(task_log_key, self.logs, 2 * 3600)
+        else:
+            self.logs.append(entry)
 
     def log_hook(self, level, msg, *args) -> None:
         if level != "DEBUG":
@@ -2878,6 +2922,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
     @perform_on_link
     def do_update(self, request: AuthenticatedHttpRequest | None = None, method=None):
         """Perform repository update."""
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import (
+            RepositoryFollowupLockError,
+            repository_task_inline_followups,
+        )
+
         user = self.get_update_user(request)
         self.translations_progress = 0
         self.translations_count = 0
@@ -2923,17 +2973,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 result = False
 
         if result:
-            # create translation objects for all files
-            parse_error = None
             try:
-                self.create_translations(request=request, user=user)
-            except FileParseError as error:
-                parse_error = error
-
-            # Push after possible merge
-            self.push_if_needed(do_update=False)
-            if parse_error is not None:
-                raise parse_error
+                self.finish_update(request, user)
+            except WeblateLockTimeoutError as error:
+                if repository_task_inline_followups.get():
+                    raise RepositoryFollowupLockError(error, "pull") from error
+                raise
 
         if not self.repo_needs_push():
             self.delete_alert("RepositoryChanges")
@@ -2942,6 +2987,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
         self.translations_count = None
 
         return result
+
+    def finish_update(
+        self, request: AuthenticatedHttpRequest | None, user: User
+    ) -> None:
+        """Parse and push a repository after a successful pull."""
+        parse_error = None
+        try:
+            self.create_translations(request=request, user=user)
+        except FileParseError as error:
+            parse_error = error
+
+        self.push_if_needed(do_update=False)
+        if parse_error is not None:
+            raise parse_error
 
     def get_update_user(self, request: AuthenticatedHttpRequest | None) -> User:
         """Return user to credit for background update events."""
@@ -2967,6 +3026,20 @@ class Component(  # ruff: ignore[too-many-public-methods]
         * Configured push
         * Whether there is something to push
         """
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import (
+            repository_task_deferred_auto_push,
+            repository_task_inline_followups,
+            repository_task_suppress_auto_push,
+        )
+
+        if repository_task_suppress_auto_push.get():
+            self.log_info("skipped push: handled by repository operation")
+            return
+        if (deferred := repository_task_deferred_auto_push.get()) is not None:
+            deferred[self.pk] = lambda: self.push_if_needed(do_update=do_update)
+            self.log_info("deferred push: repository operation in progress")
+            return
         if not self.effective_push_on_commit:
             self.log_info("skipped push: push on commit disabled")
             return
@@ -2980,7 +3053,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 self.count_push_branch_outgoing,
             )
             return
-        if settings.CELERY_TASK_ALWAYS_EAGER:
+        if settings.CELERY_TASK_ALWAYS_EAGER or repository_task_inline_followups.get():
             self.do_push(None, force_commit=False, do_update=do_update)
         else:
             # ruff: ignore[import-outside-top-level]
@@ -3115,7 +3188,15 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         if do_update:
             # Update the repo
-            self.do_update(request)
+            # ruff: ignore[import-outside-top-level]
+            from weblate.trans.repository_context import suppress_repository_auto_push
+
+            try:
+                with suppress_repository_auto_push():
+                    self.do_update(request)
+            except FileParseError:
+                self.push_if_needed(do_update=False)
+                raise
 
             # Were all changes merged?
             if not self.pushes_to_different_location and self.repo_needs_merge():
@@ -3224,7 +3305,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
     ) -> bool:
         """Reset repo to match remote."""
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import perform_commit
+        from weblate.trans.repository_context import (
+            RepositoryFollowupLockError,
+            repository_task_inline_followups,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import perform_commit, perform_component_commit
 
         user = request.user if request else self.acting_user
         try:
@@ -3248,15 +3335,31 @@ class Component(  # ruff: ignore[too-many-public-methods]
             return False
 
         if keep_changes:
-            # Trigger commit and scan in the background
-            self.queue_background_task(
-                perform_commit,
-                self.pk,
-                "reset-sync",
-                user_id=request.user.id if request else None,
-                force_scan=True,
-                previous_head=previous_head,
-            )
+            if repository_task_inline_followups.get():
+                try:
+                    perform_component_commit(
+                        self,
+                        "reset-sync",
+                        user,
+                        force_scan=True,
+                        previous_head=previous_head,
+                    )
+                except WeblateLockTimeoutError as error:
+                    raise RepositoryFollowupLockError(
+                        error,
+                        "reset-keep",
+                        previous_head=previous_head,
+                    ) from error
+            else:
+                # Trigger commit and scan in the background
+                self.queue_background_task(
+                    perform_commit,
+                    self.pk,
+                    "reset-sync",
+                    user_id=request.user.id if request else None,
+                    force_scan=True,
+                    previous_head=previous_head,
+                )
         return True
 
     def get_pending_translation_restore_rollback_revision(
@@ -3601,7 +3704,13 @@ class Component(  # ruff: ignore[too-many-public-methods]
         from weblate.auth.models import get_anonymous
 
         # ruff: ignore[import-outside-top-level]
-        from weblate.trans.tasks import perform_commit
+        from weblate.trans.repository_context import (
+            RepositoryFollowupLockError,
+            repository_task_inline_followups,
+        )
+
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.tasks import perform_commit, perform_component_commit
 
         pending: list[PendingUnitChange] = []
         units_to_update: list[Unit] = []
@@ -3690,12 +3799,23 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 reset_repository_on_failure=False,
             ):
                 return False
-            self.queue_background_task(
-                perform_commit,
-                self.pk,
-                "file-sync",
-                user_id=request.user.id if request else None,
-            )
+            if repository_task_inline_followups.get():
+                user = request.user if request else self.acting_user
+
+                def commit_file_sync() -> None:
+                    try:
+                        perform_component_commit(self, "file-sync", user)
+                    except WeblateLockTimeoutError as error:
+                        raise RepositoryFollowupLockError(error, "file-sync") from error
+
+                transaction.on_commit(commit_file_sync)
+            else:
+                self.queue_background_task(
+                    perform_commit,
+                    self.pk,
+                    "file-sync",
+                    user_id=request.user.id if request else None,
+                )
 
         return True
 
@@ -4500,8 +4620,28 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 preserve_pending_units=preserve_pending_units,
             )
 
-        # When already in a Celery repository task, scan inline so the same
-        # task tracks progress instead of finishing before a nested load task.
+        # ruff: ignore[import-outside-top-level]
+        from weblate.trans.repository_context import (
+            repository_task_inline_followups,
+        )
+
+        # Keep scans in the serialized repository task. Lock contention must
+        # propagate to that task so it retains its reservation while retrying.
+        if repository_task_inline_followups.get():
+            return self.create_translations_immediate(
+                force=force,
+                force_scan=force_scan,
+                langs=langs,
+                request=request,
+                user=user,
+                changed_template=changed_template,
+                from_link=from_link,
+                change=change,
+                preserve_pending_units=preserve_pending_units,
+            )
+
+        # Existing Celery VCS tasks scan inline, but retain their established
+        # fallback to a separate load task when the scan lock is contended.
         if current_task and current_task.request.id:
             try:
                 return self.create_translations_immediate(

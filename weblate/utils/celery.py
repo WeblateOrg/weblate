@@ -56,17 +56,34 @@ def store_task_metadata(
     task_id: str | None,
     *,
     component_id: int | None = None,
+    component_ids: list[int] | None = None,
     translation_id: int | None = None,
     user_id: int | None = None,
+    task_kind: str | None = None,
+    cancellable: bool = True,
 ) -> None:
     if not task_id:
         return
-    data = {
-        "component_id": component_id,
-        "translation_id": translation_id,
-    }
+    existing = get_task_metadata(task_id)
+    if existing is None:
+        data: dict[str, Any] = {
+            "component_id": component_id,
+            "translation_id": translation_id,
+        }
+    else:
+        data = existing.copy()
+        if component_id is not None:
+            data["component_id"] = component_id
+        if translation_id is not None:
+            data["translation_id"] = translation_id
+    if component_ids is not None:
+        data["component_ids"] = component_ids
     if user_id is not None:
         data["user_id"] = user_id
+    if task_kind is not None:
+        data["task_kind"] = task_kind
+    if not cancellable:
+        data["cancellable"] = False
     cache.set(
         get_task_metadata_key(task_id),
         data,
@@ -74,7 +91,7 @@ def store_task_metadata(
     )
 
 
-def get_task_metadata(task_id: str) -> dict[str, int | None] | None:
+def get_task_metadata(task_id: str) -> dict[str, Any] | None:
     return cache.get(get_task_metadata_key(task_id))
 
 

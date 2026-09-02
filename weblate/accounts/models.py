@@ -1466,8 +1466,8 @@ class Profile(models.Model):
 
     def log_2fa_failed(
         self, request: AuthenticatedHttpRequest, device_type: DeviceType
-    ) -> None:
-        AuditLog.objects.create(
+    ) -> AuditLog:
+        return AuditLog.objects.create(
             self.user, request, "twofactor-failed", device_type=device_type
         )
 

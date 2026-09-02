@@ -17,7 +17,7 @@
     <div class="card-body">
 
       {% for component in components %}
-        {% include "snippets/component-progress.html" with task_id=component.background_task tags="success" %}
+        {% include "snippets/component-progress.html" with task_id=component.background_task progress=0 tags="success" %}
       {% endfor %}
 
     </div>

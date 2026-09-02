@@ -126,7 +126,7 @@ jobs:
           "licenses update")
             message="utils: Update SPDX license data"
             pr_branch="create-pull-request/licenses-update"
-            allowed_pattern='^weblate/utils/licensedata\.py$'
+            allowed_pattern='^(scripts/spdx-license-list|weblate/utils/licensedata\.py)$'
             ;;
           *)
             echo "Unsupported workflow: $RUN_NAME" >&2
