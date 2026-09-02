@@ -2122,10 +2122,10 @@ class UserList(ListView):
     initial_query = ""
 
     def get_base_queryset(self):
-        return User.objects.filter(is_active=True, is_bot=False)
+        return User.objects.filter(is_active=True)
 
     def get_queryset(self):
-        users = self.get_base_queryset()
+        users = self.get_base_queryset().filter_search_access(self.request.user)
         form = self.form
         if form.is_valid():
             search = form.cleaned_data.get("q", "")

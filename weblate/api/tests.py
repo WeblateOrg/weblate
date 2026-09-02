@@ -560,6 +560,60 @@ class UserAPITest(APIBaseTest):
         response = self.client.get(reverse("api:user-list"), {"username": "a"})
         self.assertEqual(response.data["count"], 0)
 
+    def test_filter_bot_user(self) -> None:
+        """Unprivileged searches do not list bot users."""
+        active_bot = User.objects.create(
+            username="bot-private-project-active",
+            full_name="Active project token",
+            is_active=True,
+            is_bot=True,
+        )
+        User.objects.create(
+            username="bot-private-project-expired",
+            full_name="Expired project token",
+            is_active=False,
+            is_bot=True,
+        )
+
+        self.authenticate(False)
+        response = self.client.get(
+            reverse("api:user-list"), {"username": "bot-private-project"}
+        )
+        self.assertEqual(response.data["count"], 0)
+
+        # Exact user lookup remains available with the limited serializer.
+        response = self.client.get(
+            reverse("api:user-detail", kwargs={"username": active_bot.username})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["username"], active_bot.username)
+
+        for permission in ("user.view", "user.edit"):
+            with self.subTest(permission=permission):
+                self.user.groups.set([self.group])
+                self.user.clear_permissions_cache()
+                self.grant_perm_to_user(
+                    permission, group_name=f"Bot search {permission}"
+                )
+                response = self.client.get(
+                    reverse("api:user-list"),
+                    {"username": "bot-private-project"},
+                )
+                self.assertEqual(response.data["count"], 2)
+
+    def test_filter_own_bot_user(self) -> None:
+        """An unprivileged bot can find its own account."""
+        self.user.is_bot = True
+        self.user.save(update_fields=["is_bot"])
+        self.authenticate(False)
+
+        response = self.client.get(
+            reverse("api:user-list"), {"username": self.user.username}
+        )
+
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["username"], self.user.username)
+
     def test_create(self) -> None:
         self.do_request("api:user-list", method="post", code=403)
         response = self.do_request(
@@ -14908,6 +14962,22 @@ class SearchAPITest(APIBaseTest):
                 },
             ],
         )
+
+    def test_bot_visibility(self) -> None:
+        bot = User.objects.create(
+            username="bot-confidential-project-audit-token",
+            full_name="Confidential audit token",
+            is_bot=True,
+        )
+
+        response = self.do_request("api:search", request={"q": "confidential-project"})
+        self.assertFalse(
+            any(result["name"] == bot.username for result in response.data)
+        )
+
+        self.grant_perm_to_user("user.view")
+        response = self.do_request("api:search", request={"q": "confidential-project"})
+        self.assertTrue(any(result["name"] == bot.username for result in response.data))
 
     def test_language(self) -> None:
         response = self.client.get(reverse("api:search"), {"q": "czech"})

@@ -293,6 +293,9 @@ Users
     :query int id: User ID to search for
     :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
+    Username searches by users without the global ``user.view`` or ``user.edit``
+    permission exclude bot accounts other than the caller's own account.
+
     .. seealso::
 
         Users object attributes are documented at :http:get:`/api/users/(str:username)/`.
