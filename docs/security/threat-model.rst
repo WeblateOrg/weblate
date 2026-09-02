@@ -108,7 +108,7 @@ Scope and intended use
    * - Machine translation and outbound integrations
      - Machine translation, avatars, status reporting, telemetry, error
        reporting, VCS hosts, GitHub App connections, CDN add-on, Fedora
-       Messaging add-on
+       Messaging add-on, e-mail delivery (SMTP or AWS SES)
      - Outbound HTTP(S), AMQP(S), provider APIs, logs
      - In scope for Weblate's enforcement of configured access and network
        restrictions. Provider behavior is out of scope. *(documented)* (source: :doc:`/admin/config`, :doc:`/admin/code-hosting`, :doc:`/admin/addons`)
@@ -323,7 +323,14 @@ What Weblate does to its host:
 * It writes to the configured data directory, repository storage, media/fonts,
   backup dumps, logs, and cache locations. *(documented)* (source: :doc:`/admin/config`,
   :doc:`/admin/backup`)
-* It sends e-mail and notifications when configured to do so. *(documented)* (source: :doc:`/admin/config`)
+* It sends e-mail and notifications when configured to do so. When
+  ``django_ses.SESBackend`` is selected, outbound e-mail is delivered over
+  HTTPS to the configured AWS SES regional endpoint
+  (``email.<region>.amazonaws.com`` by default, overridable via
+  :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT`); the endpoint is
+  operator-controlled trusted infrastructure and is not subject to
+  private-target restrictions. *(documented)* (source: :doc:`/admin/config`,
+  :doc:`/admin/install/docker`)
 * It does not claim to be free of process-wide side effects such as logging,
   cache writes, subprocess execution, or outbound network access. *(maintainer)*
 
@@ -428,6 +435,19 @@ Build-time and configuration variants
        assumptions. Routing options can override protected repository address
        pinning. *(maintainer)*
      - Operators own the security impact of custom SSH options. *(maintainer)*
+   * - AWS SES e-mail backend
+     - Activated by setting :envvar:`WEBLATE_EMAIL_BACKEND` to
+       ``django_ses.SESBackend`` in Docker deployments.
+       *(documented)* (source: :doc:`/admin/install/docker`)
+     - Weblate opens an outbound HTTPS connection to the configured SES
+       regional endpoint to deliver e-mail. AWS credentials are read from
+       the boto3 credential chain (environment variables, IAM role, or
+       credential file). The SES endpoint and credentials are
+       operator-controlled trusted infrastructure. *(maintainer)*
+     - Operators are responsible for securing AWS credentials, choosing an
+       appropriate SES region and endpoint, and ensuring that the boto3
+       credential chain does not expose credentials beyond the intended
+       scope. *(maintainer)*
    * - Third-party add-ons and local customization
      - Administrators can extend behavior. *(documented)* (source: :doc:`/admin/addons`)
      - Custom code can add new trust boundaries and security properties outside
