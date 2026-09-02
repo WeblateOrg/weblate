@@ -28,7 +28,7 @@ from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
 from weblate.utils.errors import report_error
-from weblate.utils.files import is_path_within_resolved_directory
+from weblate.utils.files import VCS_METADATA_DIRS, is_path_within_resolved_directory
 from weblate.utils.regex import compile_regex, regex_match
 from weblate.utils.render import render_template
 
@@ -621,15 +621,18 @@ class ComponentDiscovery:
         while directories:
             directory = directories.pop()
             for entry in self._iter_directory_entries(directory):
-                if not is_path_within_resolved_directory(entry.path, base):
-                    continue
-                yield path_separator(os.path.relpath(entry.path, self.path))
                 try:
-                    if entry.is_dir(follow_symlinks=True):
-                        directories.append(entry.path)
+                    is_directory = entry.is_dir(follow_symlinks=True)
                 except OSError:
                     # Ignore entries which disappear or become inaccessible.
                     continue
+                if is_directory and entry.name in VCS_METADATA_DIRS:
+                    continue
+                if not is_path_within_resolved_directory(entry.path, base):
+                    continue
+                yield path_separator(os.path.relpath(entry.path, self.path))
+                if is_directory:
+                    directories.append(entry.path)
 
     @staticmethod
     def _iter_directory_entries(directory: str):
@@ -639,7 +642,7 @@ class ComponentDiscovery:
                 yield from entries
         except OSError:
             # Match os.walk's default behavior for inaccessible directories.
-            return
+            pass
 
     @cached_property
     def repository_paths(self) -> list[str]:

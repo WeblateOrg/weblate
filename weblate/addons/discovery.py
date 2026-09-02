@@ -13,6 +13,8 @@ from weblate.addons.events import AddonEvent, AddonEventOutcome
 from weblate.addons.forms import DiscoveryForm
 from weblate.trans.discovery import ComponentDiscovery
 
+DISCOVERY_LIMIT_ERROR = "Component discovery stopped after exceeding resource limits."
+
 if TYPE_CHECKING:
     from weblate.addons.forms import BaseAddonForm
     from weblate.auth.models import User
@@ -50,9 +52,7 @@ class DiscoveryAddon(BaseAddon):
             remove=self.instance.configuration.get("remove"), background=True
         )
         if discovery.limit_exceeded:
-            return AddonEventOutcome.error(
-                result=[message for _match, message in discovery.errors]
-            )
+            return AddonEventOutcome.error(result=DISCOVERY_LIMIT_ERROR)
         return None
 
     def get_settings_form(self, user: User | None, **kwargs) -> BaseAddonForm | None:
