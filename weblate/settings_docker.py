@@ -1414,6 +1414,23 @@ EMAIL_BACKEND = get_env_str(
     required=True,
 )
 
+# AWS SES e-mail backend (django-ses)
+# Enable by setting WEBLATE_EMAIL_BACKEND=django_ses.SESBackend.
+# AWS credentials are read from the standard boto3 chain
+# (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY env vars, IAM role, etc.).
+if EMAIL_BACKEND == "django_ses.SESBackend":
+    INSTALLED_APPS.append("django_ses")
+    # When WEBLATE_AWS_SES_REGION_NAME is provided, also derive the SES
+    # endpoint unless the caller overrides it explicitly.
+    if _ses_region := get_env_str("WEBLATE_AWS_SES_REGION_NAME"):
+        AWS_SES_REGION_NAME = _ses_region
+        AWS_SES_REGION_ENDPOINT = get_env_str(
+            "WEBLATE_AWS_SES_REGION_ENDPOINT",
+            f"email.{_ses_region}.amazonaws.com",
+        )
+    # Opt in to the newer SES v2 sending API (SendEmail instead of SendRawEmail).
+    USE_SES_V2 = get_env_bool("WEBLATE_USE_SES_V2")
+
 # Silence some of the Django system checks
 SILENCED_SYSTEM_CHECKS = [
     # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
