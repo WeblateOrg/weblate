@@ -670,10 +670,15 @@ Security properties Weblate provides
      - Token can act outside project or team scope.
      - Security-critical.
    * - Authentication and session controls protect browser sessions when HTTPS
-       and proxy settings are correct. *(documented)* (source: :doc:`/admin/auth`,
-       :setting:`ENABLE_HTTPS`)
+       and proxy settings are correct. Pending second-factor sessions are bound
+       to the current password authentication state, and repeated rejected
+       second-factor submissions lock password sign-in according to
+       :setting:`AUTH_LOCK_ATTEMPTS`. *(documented)* (source:
+       :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)
      - Production HTTPS and secure-cookie settings are enabled.
-     - Session fixation, credential bypass, or cross-user session confusion.
+     - Session fixation, credential bypass, cross-user session confusion, or a
+       pending password sign-in remaining usable after a password change or
+       account lock.
      - Security-critical.
    * - User-supplied content rendered by Weblate is expected not to execute
        script in other users' browsers. *(maintainer)*

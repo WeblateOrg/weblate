@@ -33,7 +33,7 @@ from weblate.vcs.github import (
     GithubAppRepository,
     GitHubInstallation,
 )
-from weblate.vcs.models import VCS_REGISTRY, InstallationProvider, PendingInstallation
+from weblate.vcs.models import InstallationProvider, PendingInstallation
 from weblate.vcs.pending import PENDING_GITHUB_INSTALLATION_RETENTION
 from weblate.vcs.tests.utils import generate_private_key
 from weblate.workspaces.models import Workspace
@@ -1671,8 +1671,6 @@ class GitHubInstallationViewTest(ViewTestCase):
         GITHUB_CREDENTIALS={"api.github.com": {"username": "test", "token": "token"}},
     )
     def test_migration_preserves_github_create_merge_request(self):
-        VCS_REGISTRY.clear_cache()
-        self.addCleanup(VCS_REGISTRY.clear_cache)
         repository = _repo_entry("test-org/repo1")
         GitHubInstallation.objects.create(
             installation_id="12345",

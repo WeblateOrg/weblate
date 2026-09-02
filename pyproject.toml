@@ -67,7 +67,7 @@ scripts = [
   "scour==0.38.2"
 ]
 test = [
-  "coverage==7.15.4",
+  "coverage==7.16.0",
   "pytest-cov==7.1.0",
   "pytest-django==4.14.0",
   "pytest-github-actions-annotate-failures==0.4.2",
@@ -145,7 +145,7 @@ dependencies = [
   "django-cors-headers==4.9.0",
   "django-crispy-forms==2.7",
   "django-filter[drf]==26.1",
-  "django-otp-webauthn==0.10.0",
+  "django-otp-webauthn==0.10.3",
   "django-otp==1.7.0",
   "django-redis==7.0.0",
   "Django[argon2]==6.0.8",
@@ -191,7 +191,7 @@ dependencies = [
   "pyparsing==3.3.2",
   "python-dateutil==2.9.0.post0",
   "qrcode==8.2",
-  "rapidfuzz==3.14.5",
+  "rapidfuzz==3.14.6",
   "redis==6.4.0",
   "regex==2026.7.19",
   "requests==2.34.2",
@@ -762,6 +762,7 @@ extend-ignore-re = [
 [tool.typos.default.extend-identifiers]
 # TODO: Most of these should be probably fixed, but it requires a database migration
 ApprovedStringNotificaton = "ApprovedStringNotificaton"
+certifi = "certifi"  # Python package name
 ChangedStringNotificaton = "ChangedStringNotificaton"
 ComponentTranslatedNotificaton = "ComponentTranslatedNotificaton"
 gir1 = "gir1"  # GObject Introspection packages
