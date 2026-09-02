@@ -2194,18 +2194,20 @@ Example SSL configuration:
 
 .. envvar:: WEBLATE_AWS_SES_REGION_NAME
 
-    AWS region for SES (e.g. ``us-east-1``). Required when
-    :envvar:`WEBLATE_EMAIL_BACKEND` is ``django_ses.SESBackend``.
-    Sets ``AWS_SES_REGION_NAME`` and derives
+    AWS region for SES (e.g. ``us-east-1``). Sets
+    ``AWS_SES_REGION_NAME`` and derives
     :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT` automatically unless
-    that variable is set explicitly.
+    that variable is set explicitly. If not set, the region must be
+    available through the standard boto3 credential chain (e.g.
+    ``AWS_DEFAULT_REGION`` or an AWS profile).
 
 .. envvar:: WEBLATE_AWS_SES_REGION_ENDPOINT
 
-    SES endpoint hostname. Defaults to
-    ``email.<region>.amazonaws.com`` when
-    :envvar:`WEBLATE_AWS_SES_REGION_NAME` is set. Override only when
-    using a custom or VPC endpoint.
+    SES endpoint hostname. When set, it is passed to django-ses
+    directly regardless of :envvar:`WEBLATE_AWS_SES_REGION_NAME`.
+    When not set but :envvar:`WEBLATE_AWS_SES_REGION_NAME` is
+    provided, defaults to ``email.<region>.amazonaws.com``. Override
+    when using a VPC or custom endpoint.
 
 .. envvar:: WEBLATE_USE_SES_V2
 
