@@ -76,6 +76,23 @@ class VCSChecksTest(SimpleTestCase):
             )
             self.assertIn(HgRepository.get_missing_commands(), (("hg",), ("rhg",)))
 
+    def test_registry_invalidated_on_credentials_change(self) -> None:
+        backends = {
+            "AZURE_DEVOPS_CREDENTIALS": "azure_devops",
+            "BITBUCKETCLOUD_CREDENTIALS": "bitbucketcloud",
+            "BITBUCKETSERVER_CREDENTIALS": "bitbucketserver",
+            "GITEA_CREDENTIALS": "gitea",
+            "GITHUB_CREDENTIALS": "github",
+            "GITLAB_CREDENTIALS": "gitlab",
+            "PAGURE_CREDENTIALS": "pagure",
+        }
+        for setting_name, backend in backends.items():
+            with self.subTest(setting=setting_name):
+                self.assertNotIn(backend, VCS_REGISTRY)
+                with override_settings(**{setting_name: {"example.com": {}}}):
+                    self.assertIn(backend, VCS_REGISTRY)
+                self.assertNotIn(backend, VCS_REGISTRY)
+
     @override_settings(VCS_BACKENDS=OPTIONAL_BACKENDS)
     def test_registry_checks_availability_without_version_probe(self) -> None:
         with (

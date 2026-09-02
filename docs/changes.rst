@@ -33,7 +33,9 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
+* Rejected :ref:`two-factor authentication <2fa>` attempts now apply :setting:`AUTH_LOCK_ATTEMPTS`, invalidate pending password sign-ins on lock or password change, and accept six-digit TOTP codes with leading zeroes.
 * :ref:`Project backup restores <projectbackup>` now preserve all project, category, and component settings. They also allowlist repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
+* LLM-based machine translation services now report invalid provider responses more clearly, and custom :ref:`mt-openai` and :ref:`mt-mistral` models no longer require a model-listing endpoint.
 * Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
 * Database dump failures are now shown in the :ref:`backups management interface <automated-backup>`.
 * Project administrators can no longer remove :ref:`API tokens <api-tokens>` belonging to other projects.
