@@ -2184,8 +2184,7 @@ Example SSL configuration:
 
     Configures Django back-end to use for sending e-mails.
 
-    Set to ``django_ses.SESBackend`` to use AWS SES. The ``amazon``
-    optional dependencies must be installed (``weblate[amazon]``).
+    Set to ``django_ses.SESBackend`` to use AWS SES.
 
     .. seealso::
 
