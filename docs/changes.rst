@@ -13,6 +13,7 @@ Weblate 2026.9
 
 .. rubric:: Improvements
 
+* AWS SES can now be used as the outbound e-mail transport in Docker deployments by setting :envvar:`WEBLATE_EMAIL_BACKEND` to ``django_ses.SESBackend``. Region, endpoint, and SES v2 API opt-in are configurable via :envvar:`WEBLATE_AWS_SES_REGION_NAME`, :envvar:`WEBLATE_AWS_SES_REGION_ENDPOINT`, and :envvar:`WEBLATE_USE_SES_V2`.
 * Removing the final Weblate workspace connection for a GitHub account, or removing the workspace holding it, now also uninstalls the :ref:`Weblate GitHub App <code-hosting-github-app-register>` from GitHub.
 * :ref:`addon-weblate.gettext.xgettext` now accepts multiple custom keywords (newline-separated) passed to xgettext via ``--keyword``, enabling extraction from different function names.
 * :ref:`Screenshot images <screenshots>` are now cached in browsers to reduce repeated downloads.
