@@ -137,6 +137,8 @@ header = f"""{title}
 
 .. rubric:: Improvements
 
+.. rubric:: Security fixes
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility

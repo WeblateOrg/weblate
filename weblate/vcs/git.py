@@ -1820,6 +1820,8 @@ class GitWithGerritRepository(GitRepository):
 
 class SubversionRepository(GitRepository):
     name: ClassVar[StrOrPromise] = "Subversion"
+    # The git-svn helper is installed in Git's exec path rather than PATH. Finding
+    # it would require executing Git, while this check deliberately stays cheap.
     required_commands: ClassVar[tuple[str, ...]] = ("git", "svn")
     default_branch: ClassVar[str] = "master"
     supports_remote_compatibility_validation: ClassVar[bool] = False
