@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, ClassVar, overload
+from typing import TYPE_CHECKING, ClassVar, cast, overload
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -36,7 +36,7 @@ from weblate.trans.mixins import (
     LockMixin,
     PathMixin,
 )
-from weblate.trans.validators import validate_check_flags
+from weblate.trans.validators import validate_check_flags, validate_enforced_checks
 from weblate.utils.licenses import get_license_choices
 from weblate.utils.render import (
     validate_render_addon,
@@ -84,6 +84,8 @@ class Category(
         "language_code_style",
         "secondary_language",
         "check_flags",
+        "enforced_checks",
+        "inherit_enforced_checks",
         *COMPONENT_MESSAGE_SETTINGS,
     )
 
@@ -120,6 +122,21 @@ class Category(
         validators=[validate_check_flags],
         blank=True,
     )
+
+    enforced_checks = models.JSONField(
+        verbose_name=gettext_lazy("Enforced checks"),
+        help_text=gettext_lazy("List of checks which can not be dismissed."),
+        default=list,
+        blank=True,
+    )
+    inherit_enforced_checks = models.BooleanField(
+        default=True,
+        verbose_name=gettext_lazy("Inherit enforced checks"),
+        help_text=gettext_lazy(
+            "Use enforced checks from the parent category, project or workspace."
+        ),
+    )
+
     license = models.CharField(
         verbose_name=gettext_lazy("Translation license"),
         max_length=150,
@@ -372,6 +389,21 @@ class Category(
                 transaction.on_commit(
                     lambda: self.schedule_component_check_updates(update_state=True)
                 )
+            # Propagate enforced checks changes to descendant components
+            if old.effective_enforced_checks != self.effective_enforced_checks:
+                transaction.on_commit(self.schedule_component_enforced_checks_updates)
+
+    @property
+    def effective_enforced_checks(self) -> list[str]:
+        """Return effective enforced checks for the category."""
+        return cast("list[str]", self.get_effective_setting("enforced_checks"))
+
+    def schedule_component_enforced_checks_updates(self) -> None:
+        """Trigger enforced checks updates on all components in this category."""
+        from weblate.trans.tasks import update_enforced_checks
+
+        for component in self.all_components.iterator():
+            update_enforced_checks.delay_on_commit(component.pk)
 
     def move_to_project(self, project) -> None:
         """Trigger save with changed project on categories and components."""
@@ -414,6 +446,9 @@ class Category(
         return self._get_parents_depth() + 1 < CATEGORY_DEPTH
 
     def clean(self) -> None:
+        # Validate enforced checks names
+        validate_enforced_checks(self.enforced_checks)
+
         # Validate maximal nesting depth
         depth = self._get_category_depth()
 

@@ -2346,6 +2346,7 @@ class ComponentSettingsForm(
             "priority",
             "check_flags",
             "enforced_checks",
+            "inherit_enforced_checks",
             "inherit_commit_message",
             "commit_message",
             "inherit_add_message",
@@ -2473,7 +2474,7 @@ class ComponentSettingsForm(
                         "manage_units",
                         "check_flags",
                         "variant_regex",
-                        "enforced_checks",
+                        InheritedSetting("enforced_checks"),
                         InheritedSetting("secondary_language"),
                     ),
                     css_id="translation",
@@ -2651,6 +2652,7 @@ class ComponentCreateForm(
         "license",
         "new_lang",
         "language_code_style",
+        "enforced_checks",
     )
 
     detected_license = forms.CharField(required=False, widget=forms.HiddenInput)
@@ -2881,7 +2883,7 @@ class ComponentCreateForm(
         )
         if repository_redirect_change is not None:
             self.instance.repository_redirect_changes = [repository_redirect_change]
-        for field in ("license", "new_lang", "language_code_style"):
+        for field in ("license", "new_lang", "language_code_style", "enforced_checks"):
             if self.disables_inheritance_for_explicit_setting(field):
                 setattr(self.instance, get_inherit_field_name(field), False)
 
@@ -3421,6 +3423,8 @@ class CategorySettingsForm(
             "inherit_agreement",
             "agreement",
             "check_flags",
+            "enforced_checks",
+            "inherit_enforced_checks",
             "inherit_secondary_language",
             "secondary_language",
             "inherit_new_lang",
@@ -3442,9 +3446,14 @@ class CategorySettingsForm(
         )
         # ruff: ignore[mutable-class-default]
         widgets = {
+            "enforced_checks": SelectChecksWidget,
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
+        }
+        # ruff: ignore[mutable-class-default]
+        field_classes = {
+            "enforced_checks": SelectChecksField,
         }
 
     def __init__(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
@@ -3475,6 +3484,7 @@ class CategorySettingsForm(
                 Tab(
                     gettext("Workflow"),
                     "check_flags",
+                    InheritedSetting("enforced_checks"),
                     InheritedSetting("secondary_language"),
                     InheritedSetting("new_lang"),
                     InheritedSetting("language_code_style"),
@@ -3536,6 +3546,8 @@ class ProjectSettingsForm(
             "source_review",
             "commit_policy",
             "check_flags",
+            "enforced_checks",
+            "inherit_enforced_checks",
             "inherit_commit_message",
             "commit_message",
             "inherit_add_message",
@@ -3554,6 +3566,7 @@ class ProjectSettingsForm(
             "access_control": forms.RadioSelect,
             "instructions": MarkdownTextarea,
             "language_aliases": forms.TextInput,
+            "enforced_checks": SelectChecksWidget,
             "secondary_language": SortedSelect,
             "language_code_style": SortedSelect,
             "license": SearchableSelect,
@@ -3561,6 +3574,7 @@ class ProjectSettingsForm(
         # ruff: ignore[mutable-class-default]
         field_classes = {
             "check_flags": FlagField,
+            "enforced_checks": SelectChecksField,
         }
 
     def clean(self) -> None:
@@ -3705,6 +3719,7 @@ class ProjectSettingsForm(
                     "contribute_workspace_tm",
                     "autoclean_tm",
                     "check_flags",
+                    InheritedSetting("enforced_checks"),
                     "enable_hooks",
                     "language_aliases",
                     InheritedSetting("secondary_language"),

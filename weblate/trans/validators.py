@@ -62,6 +62,19 @@ def validate_check_flags(val) -> None:
     flags.validate()
 
 
+def validate_enforced_checks(value: list[str]) -> None:
+    """Validate enforced checks names."""
+    if not isinstance(value, list):
+        raise ValidationError(gettext("Enforced checks has to be a list."))
+
+    # ruff: ignore[import-outside-top-level]
+    from weblate.checks.models import CHECKS
+
+    for name in value:
+        if name not in CHECKS:
+            raise ValidationError(gettext("Unsupported enforced check: %s") % name)
+
+
 def validate_language_code(code: str | None, filename: str, required: bool = False):
     if not code:
         if not required:

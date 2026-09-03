@@ -5,6 +5,8 @@ Weblate 2026.9.1
 
 .. rubric:: New features
 
+* Added inheritance support for enforced checks, allowing them to be configured at workspace, project, category, or component level.
+
 .. rubric:: Improvements
 
 .. rubric:: Security fixes

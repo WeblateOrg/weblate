@@ -900,6 +900,11 @@ Enforced checks
 
 List of checks which can not be dismissed.
 
+This setting can be inherited from the workspace, project, or category (see
+:ref:`workspace-inherited-settings`). When a new enforced check is inherited,
+existing failing translations are reverted to the :guilabel:`Needs editing`
+state in the background.
+
 .. seealso::
 
    :ref:`enforcing-checks`
