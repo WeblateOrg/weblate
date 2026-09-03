@@ -42,6 +42,7 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
+* The :http:post:`autotranslate API endpoint </api/translations/(string:project)/(string:component)/(string:language)/autotranslate/>` now correctly describes its accepted request body fields (``q``, ``mode``, ``auto_source``, ``component``, ``engines``, ``threshold``) in the OpenAPI schema instead of incorrectly reflecting the Translation resource.
 * LLM-based machine translation services now report invalid provider responses more clearly, and custom :ref:`mt-openai` and :ref:`mt-mistral` models no longer require a model-listing endpoint.
 * Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
 * Database dump failures are now shown in the :ref:`backups management interface <automated-backup>`.

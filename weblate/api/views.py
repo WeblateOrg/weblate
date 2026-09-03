@@ -3867,7 +3867,59 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Trigger automatic translation.", methods=["post"])
+    @extend_schema(
+        description="Trigger automatic translation.",
+        methods=["post"],
+        request=inline_serializer(
+            name="AutoTranslateRequest",
+            fields={
+                "q": serializers.CharField(
+                    required=True,
+                    default="state:<translated",
+                    help_text=(
+                        "Query string selecting strings to translate. "
+                        "Translating all strings discards existing translations."
+                    ),
+                ),
+                "mode": serializers.ChoiceField(
+                    choices=["suggest", "translate", "fuzzy", "approved"],
+                    default="suggest",
+                    help_text="How to store the result: as a suggestion, translation, needing-edit, or approved.",
+                ),
+                "auto_source": serializers.ChoiceField(
+                    choices=["others", "mt"],
+                    default="others",
+                    help_text="Translation source: other components (``others``) or machine translation (``mt``).",
+                ),
+                "component": serializers.CharField(
+                    required=False,
+                    allow_blank=True,
+                    help_text=(
+                        "Slug of the component to use as source. "
+                        "Leave blank to use all components in the project."
+                    ),
+                ),
+                "engines": serializers.ListField(
+                    child=serializers.CharField(),
+                    required=False,
+                    help_text="Machine translation engine identifiers to use when ``auto_source`` is ``mt``.",
+                ),
+                "threshold": serializers.IntegerField(
+                    required=False,
+                    default=80,
+                    min_value=1,
+                    max_value=100,
+                    help_text="Minimum translation score (1–100) to accept when using machine translation.",
+                ),
+            },
+        ),
+        responses={
+            HTTP_200_OK: inline_serializer(
+                name="AutoTranslateResponse",
+                fields={"details": serializers.CharField()},
+            )
+        },
+    )
     @action(detail=True, methods=["post"])
     def autotranslate(self, request: Request, **kwargs):
         translation = self.get_object()

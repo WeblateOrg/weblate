@@ -18101,6 +18101,67 @@ class OpenAPITest(APIBaseTest):
             },
         )
 
+    def test_autotranslate_schema_describes_autoform_fields(self) -> None:
+        schema = self.get_schema()
+        autotranslate_path = "/api/translations/{component__project__slug}/{component__slug}/{language__code}/autotranslate/"
+        operation = schema["paths"][autotranslate_path]["post"]
+
+        # Request body must reference the AutoTranslateRequest schema, not Translation.
+        request_schema_ref = operation["requestBody"]["content"]["application/json"][
+            "schema"
+        ]["$ref"]
+        self.assertNotEqual(
+            request_schema_ref,
+            "#/components/schemas/Translation",
+            "autotranslate request body must not reference the Translation schema",
+        )
+        self.assertEqual(
+            request_schema_ref, "#/components/schemas/AutoTranslateRequest"
+        )
+
+        # The AutoTranslateRequest schema must describe the actual AutoForm fields.
+        request_schema = schema["components"]["schemas"]["AutoTranslateRequest"]
+        properties = request_schema["properties"]
+        self.assertIn("q", properties)
+        self.assertIn("mode", properties)
+        self.assertIn("auto_source", properties)
+        self.assertIn("component", properties)
+        self.assertIn("engines", properties)
+        self.assertIn("threshold", properties)
+
+        # q is the only required field.
+        self.assertEqual(request_schema.get("required", []), ["q"])
+
+        # mode must enumerate the valid choices.
+        self.assertCountEqual(
+            properties["mode"]["enum"],
+            ["suggest", "translate", "fuzzy", "approved"],
+        )
+
+        # auto_source must enumerate the valid choices.
+        self.assertCountEqual(
+            properties["auto_source"]["enum"],
+            ["others", "mt"],
+        )
+
+        # threshold must carry numeric bounds.
+        self.assertEqual(properties["threshold"]["minimum"], 1)
+        self.assertEqual(properties["threshold"]["maximum"], 100)
+
+        # engines must be an array of strings.
+        self.assertEqual(properties["engines"]["type"], "array")
+        self.assertEqual(properties["engines"]["items"]["type"], "string")
+
+        # Response body must describe the details message, not Translation.
+        response_schema_ref = operation["responses"]["200"]["content"][
+            "application/json"
+        ]["schema"]["$ref"]
+        self.assertEqual(
+            response_schema_ref, "#/components/schemas/AutoTranslateResponse"
+        )
+        response_schema = schema["components"]["schemas"]["AutoTranslateResponse"]
+        self.assertIn("details", response_schema["properties"])
+
     def test_redoc(self) -> None:
         response = self.do_request("redoc")
         self.assertContains(response, f'data-schema-url="{reverse("api-schema")}"')
