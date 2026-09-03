@@ -31956,19 +31956,18 @@ components:
         mode:
           allOf:
           - $ref: '#/components/schemas/ModeEnum'
-          default: suggest
           description: 'How to store the result: as a suggestion, translation, needing-edit,
-            or approved.'
+            or approved. Typical value: ``suggest``.'
         auto_source:
           allOf:
           - $ref: '#/components/schemas/AutoSourceEnum'
-          default: others
           description: 'Translation source: other components (``others``) or machine
-            translation (``mt``).'
+            translation (``mt``). Typical value: ``others``.'
         component:
           type: string
-          description: Slug of the component to use as source. Leave blank to use
-            all components in the project.
+          description: Component ID (always accepted). When the project has 30 or
+            more eligible source components a component slug or ``project/component``
+            path is also accepted. Leave blank to use all components.
         engines:
           type: array
           items:
@@ -31979,11 +31978,13 @@ components:
           type: integer
           maximum: 100
           minimum: 1
-          default: 80
-          description: Minimum translation score (1–100) to accept when using machine
-            translation.
+          description: 'Minimum translation score (1–100) to accept when using machine
+            translation. Typical value: 80.'
       required:
+      - auto_source
+      - mode
       - q
+      - threshold
     AutoTranslateResponse:
       type: object
       properties:
