@@ -76,6 +76,18 @@ class VCSChecksTest(SimpleTestCase):
             )
             self.assertIn(HgRepository.get_missing_commands(), (("hg",), ("rhg",)))
 
+    def test_subversion_availability_does_not_execute_git(self) -> None:
+        with (
+            patch(
+                "weblate.vcs.base.find_runtime_command",
+                return_value="/usr/bin/command",
+            ),
+            patch.object(SubversionRepository, "_popen") as popen,
+        ):
+            self.assertEqual(SubversionRepository.get_missing_commands(), ())
+
+        popen.assert_not_called()
+
     def test_registry_invalidated_on_credentials_change(self) -> None:
         backends = {
             "AZURE_DEVOPS_CREDENTIALS": "azure_devops",

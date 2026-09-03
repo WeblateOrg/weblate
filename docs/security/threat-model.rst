@@ -804,6 +804,11 @@ repository size, project count, component count, and translation volume, Weblate
 does not claim a fixed universal resource ceiling independent of deployment
 capacity. *(maintainer)*
 
+Component discovery is an exception: it stops after 100,000 repository paths or
+before performing more than 1,000,000 path-to-mask comparisons. These limits
+bound resource consumption when repository-controlled base files generate file
+masks. *(maintainer)*
+
 Security properties Weblate does not provide
 --------------------------------------------
 

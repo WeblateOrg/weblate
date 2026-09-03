@@ -33,6 +33,7 @@ Weblate 2026.9
 
 .. rubric:: Security fixes
 
+* Component discovery now limits repository paths and file-mask comparisons to prevent excessive resource consumption from specially crafted repositories.
 * Rejected :ref:`two-factor authentication <2fa>` attempts now apply :setting:`AUTH_LOCK_ATTEMPTS`, invalidate pending password sign-ins on lock or password change, and accept six-digit TOTP codes with leading zeroes.
 * :ref:`Project backup restores <projectbackup>` now preserve all project, category, and component settings. They also allowlist repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection.
 * Project administrators can no longer remove :ref:`API tokens <api-tokens>` belonging to other projects.

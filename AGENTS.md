@@ -137,7 +137,10 @@ For application-developer workflows and broader product integration guidance, us
   local service when sandboxing is the cause. Only when PostgreSQL is confirmed
   not to be running, and it is installed as a local Linux service, try
   `sudo service postgresql start` and rerun the failed command. Treat service
-  startup as a recovery step, not a prerequisite for every test invocation.
+  startup as a recovery step, not a prerequisite for every test invocation. If
+  you start PostgreSQL this way, stop it with `sudo service postgresql stop`
+  after the retry, whether the command succeeds or fails, so no service process
+  is left running when the task finishes.
 - Use `pylint` to lint the Python code: `uv run pylint weblate/ scripts/`
 - Use `mypy` to type check with the same command as CI:
   `uv run mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh`.
