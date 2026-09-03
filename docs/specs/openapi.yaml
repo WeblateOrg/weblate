@@ -25576,7 +25576,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Translation'
+              $ref: '#/components/schemas/AutoTranslateRequest'
         required: true
       security:
       - tokenAuth: []
@@ -25718,7 +25718,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Translation'
+                $ref: '#/components/schemas/AutoTranslateResponse'
           description: Successful response.
           headers:
             X-RateLimit-Limit:
@@ -31938,6 +31938,59 @@ components:
           title: Component regular expression
           description: Regular expression which is used to match component slug.
           maxLength: 200
+    AutoSourceEnum:
+      enum:
+      - others
+      - mt
+      type: string
+      description: |-
+        * `others` - others
+        * `mt` - mt
+    AutoTranslateRequest:
+      type: object
+      properties:
+        q:
+          type: string
+          description: Query string selecting strings to translate. Translating all
+            strings discards existing translations.
+        mode:
+          allOf:
+          - $ref: '#/components/schemas/ModeEnum'
+          default: suggest
+          description: 'How to store the result: as a suggestion, translation, needing-edit,
+            or approved.'
+        auto_source:
+          allOf:
+          - $ref: '#/components/schemas/AutoSourceEnum'
+          default: others
+          description: 'Translation source: other components (``others``) or machine
+            translation (``mt``).'
+        component:
+          type: string
+          description: Slug of the component to use as source. Leave blank to use
+            all components in the project.
+        engines:
+          type: array
+          items:
+            type: string
+          description: Machine translation engine identifiers to use when ``auto_source``
+            is ``mt``.
+        threshold:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 80
+          description: Minimum translation score (1–100) to accept when using machine
+            translation.
+      required:
+      - q
+    AutoTranslateResponse:
+      type: object
+      properties:
+        details:
+          type: string
+      required:
+      - details
     Backup:
       type: object
       properties:
@@ -34440,6 +34493,18 @@ components:
       - units
       - units_translated
       - users
+    ModeEnum:
+      enum:
+      - suggest
+      - translate
+      - fuzzy
+      - approved
+      type: string
+      description: |-
+        * `suggest` - suggest
+        * `translate` - translate
+        * `fuzzy` - fuzzy
+        * `approved` - approved
     MonolingualUnit:
       type: object
       properties:
