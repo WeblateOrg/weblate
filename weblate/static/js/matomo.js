@@ -5,7 +5,8 @@
 const matomoTracker = document.getElementById("matomo-tracker");
 
 // biome-ignore lint/suspicious/noAssignInExpressions: keep upstream compatibility
-const _paq = (window._paq = window._paq || []);
+// biome-ignore lint/suspicious/noVar: keep upstream compatibility
+var _paq = (window._paq = window._paq || []);
 const customVariables = {
   Language: matomoTracker.dataset.language,
 };
