@@ -3875,7 +3875,6 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
             fields={
                 "q": serializers.CharField(
                     required=True,
-                    default="state:<translated",
                     help_text=(
                         "Query string selecting strings to translate. "
                         "Translating all strings discards existing translations."
