@@ -17,6 +17,7 @@ from unittest.mock import Mock, call, patch
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
 from django.db import close_old_connections, connection
 from django.db.models import F
 from django.test import SimpleTestCase, TransactionTestCase
@@ -37,6 +38,11 @@ from weblate.trans.models import (
     Project,
     Translation,
     Unit,
+)
+from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.repository_context import (
+    RepositoryFollowupLockError,
+    inline_repository_followups,
 )
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import (
@@ -75,6 +81,15 @@ remote: Host key verification failed.
 
 class ComponentTest(RepoTestCase):
     """Component object testing."""
+
+    def test_prefetch_tasks_preserves_page(self) -> None:
+        component = self.create_po()
+        page = Paginator(
+            Component.objects.filter(pk=component.pk).order_by("pk"), 1
+        ).page(1)
+
+        self.assertIs(prefetch_tasks(page), page)
+        self.assertEqual(list(page), [component])
 
     def test_select_for_update_uses_component_only_no_key_lock(self) -> None:
         queryset = Component.objects.select_for_update()
@@ -236,6 +251,46 @@ class ComponentTest(RepoTestCase):
             self.assertTrue(component.do_reset(None))
 
         recover_lock_session.assert_not_called()
+
+    def test_inline_reset_marks_followup_lock_contention(self) -> None:
+        component = self.create_component()
+        lock_timeout = WeblateLockTimeoutError("locked", lock=component.lock)
+
+        with (
+            self.assertRaises(RepositoryFollowupLockError) as raised,
+            patch.object(
+                component, "reset_repository_to_remote", return_value="previous-head"
+            ),
+            patch(
+                "weblate.trans.tasks.perform_component_commit",
+                side_effect=lock_timeout,
+            ),
+            inline_repository_followups(),
+        ):
+            component.do_reset(None, keep_changes=True)
+
+        self.assertEqual(raised.exception.followup, "reset-keep")
+        self.assertEqual(raised.exception.previous_head, "previous-head")
+
+    def test_inline_update_marks_followup_lock_contention(self) -> None:
+        component = self.create_component()
+        lock_timeout = WeblateLockTimeoutError("locked", lock=component.lock)
+
+        with (
+            self.assertRaises(RepositoryFollowupLockError) as raised,
+            patch.object(component, "store_background_task"),
+            patch.object(component, "configure_repo"),
+            patch.object(component, "update_remote_branch", return_value=True),
+            patch.object(component, "configure_branch"),
+            patch.object(component, "repo_needs_merge", return_value=True),
+            patch.object(component, "needs_commit_upstream", return_value=False),
+            patch.object(component, "update_branch", return_value=True),
+            patch.object(component, "finish_update", side_effect=lock_timeout),
+            inline_repository_followups(),
+        ):
+            component.do_update(None)
+
+        self.assertEqual(raised.exception.followup, "pull")
 
     def verify_component(
         self,
@@ -890,9 +945,6 @@ class ComponentTest(RepoTestCase):
     def test_vcs_validation(self) -> None:
         component = self.create_po_push()
 
-        # force reload VCS list to include github
-        VCS_REGISTRY.clear_cache()
-
         component.vcs = "github"
 
         # check push branch cannot be empty when push URL is set
@@ -1380,6 +1432,25 @@ class ComponentChangeTest(RepoTestCase):
         linked_component.refresh_from_db()
         self.assertTrue(component.locked)
         self.assertTrue(linked_component.locked)
+
+
+class ComponentResetTransactionTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    def test_reset_opens_transaction(self) -> None:
+        component = self.create_component()
+        unit = Unit.objects.filter(translation__component=component).first()
+        self.assertIsNotNone(unit)
+        unit.details["disk_state"] = {}
+        unit.save(update_fields=["details"], only_save=True)
+
+        self.assertTrue(connection.get_autocommit())
+        self.assertTrue(component.do_reset())
+
+        unit.refresh_from_db()
+        self.assertNotIn("disk_state", unit.details)
 
 
 class ComponentAlertConcurrencyTest(RepoTestMixin, TransactionTestCase):
@@ -2038,6 +2109,21 @@ class ComponentErrorTest(RepoTestCase):
         self.assertIs(context.exception, error)
         push_if_needed.assert_called_once_with(do_update=False)
 
+    def test_push_pushes_before_reraising_update_parse_error(self) -> None:
+        error = FileParseError("parse failed")
+
+        with (
+            patch.object(self.component, "can_push", return_value=True),
+            patch.object(self.component, "repo_needs_push", return_value=True),
+            patch.object(self.component, "do_update", side_effect=error),
+            patch.object(self.component, "push_if_needed") as push_if_needed,
+            self.assertRaises(FileParseError) as context,
+        ):
+            self.component.do_push(None, force_commit=False)
+
+        self.assertIs(context.exception, error)
+        push_if_needed.assert_called_once_with(do_update=False)
+
     def test_failed_update_remote(self) -> None:
         self.assertFalse(self.component.update_remote_branch())
 
@@ -2154,17 +2240,16 @@ class ComponentErrorTest(RepoTestCase):
         immediate.assert_not_called()
         queue_task.assert_called_once()
 
-    def test_create_translations_runs_immediately_inside_celery_task(self) -> None:
-        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+    def test_create_translations_runs_immediately_inside_repository_task(self) -> None:
         request = SimpleNamespace(user=None)
 
         with (
             override_settings(CELERY_TASK_ALWAYS_EAGER=False),
-            patch("weblate.trans.models.component.current_task", task),
             patch.object(
                 self.component, "create_translations_immediate", return_value=True
             ) as immediate,
             patch.object(self.component, "queue_background_task") as queue_task,
+            inline_repository_followups(),
         ):
             self.assertTrue(
                 self.component.create_translations(force=True, request=request)
@@ -2183,16 +2268,49 @@ class ComponentErrorTest(RepoTestCase):
         )
         queue_task.assert_not_called()
 
+    def test_create_translations_propagates_repository_lock_timeout(self) -> None:
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch.object(
+                self.component,
+                "create_translations_immediate",
+                side_effect=lock_timeout,
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+            inline_repository_followups(),
+            self.assertRaises(WeblateLockTimeoutError),
+        ):
+            self.component.create_translations(force=True)
+
+        immediate.assert_called_once()
+        queue_task.assert_not_called()
+
+    def test_create_translations_runs_immediately_inside_celery_task(self) -> None:
+        task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
+        with (
+            override_settings(CELERY_TASK_ALWAYS_EAGER=False),
+            patch("weblate.trans.models.component.current_task", task),
+            patch.object(
+                self.component, "create_translations_immediate", return_value=True
+            ) as immediate,
+            patch.object(self.component, "queue_background_task") as queue_task,
+        ):
+            self.assertTrue(self.component.create_translations(force=True))
+
+        immediate.assert_called_once()
+        queue_task.assert_not_called()
+
     def test_create_translations_queues_after_celery_lock_timeout(self) -> None:
         task = SimpleNamespace(request=SimpleNamespace(id="task-id"))
-
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
         with (
             override_settings(CELERY_TASK_ALWAYS_EAGER=False),
             patch("weblate.trans.models.component.current_task", task),
             patch.object(
                 self.component,
                 "create_translations_immediate",
-                side_effect=WeblateLockTimeoutError("locked", lock=self.component.lock),
+                side_effect=lock_timeout,
             ) as immediate,
             patch.object(self.component, "queue_background_task") as queue_task,
         ):
@@ -2285,6 +2403,22 @@ class PendingChangeCleanupTest(SimpleTestCase):
 
 
 class FileSyncPendingUnitOptimizationTest(ComponentTestCase):
+    def test_inline_file_sync_marks_post_commit_lock_contention(self) -> None:
+        lock_timeout = WeblateLockTimeoutError("locked", lock=self.component.lock)
+
+        with (
+            self.assertRaises(RepositoryFollowupLockError),
+            patch(
+                "weblate.trans.tasks.perform_component_commit",
+                side_effect=lock_timeout,
+            ),
+            inline_repository_followups(),
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            self.component.do_file_sync(self.get_request())
+
+        self.assertTrue(PendingUnitChange.objects.filter(unit=self.get_unit()).exists())
+
     def test_file_sync_creates_pending_changes_from_unit_values(self) -> None:
         unit = self.get_unit()
         Unit.objects.filter(pk=unit.source_unit_id).update(

@@ -37,7 +37,7 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.accounts.views import log_handled_auth_failure
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.billing.models import Billing, Plan
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -289,6 +289,34 @@ class ViewTest(RepoTestCase):
         self.assertContains(response, user_url)
         response = self.client.get(reverse("user_list"), {"sort_by": "invalid"})
         self.assertContains(response, user_url)
+
+    def test_user_list_bot_visibility(self) -> None:
+        """User listing hides bots unless the caller can view users globally."""
+        user = self.get_user()
+        bot = User.objects.create(
+            username="bot-confidential-project-ui-token",
+            full_name="Confidential UI token",
+            is_bot=True,
+        )
+        self.client.login(username=user.username, password="testpassword")
+
+        response = self.client.get(reverse("user_list"))
+        self.assertNotContains(response, bot.get_absolute_url())
+        response = self.client.get(reverse("user_list"), {"q": bot.username})
+        self.assertNotContains(response, bot.get_absolute_url())
+
+        permission = Permission.objects.get(codename="user.view")
+        role = Role.objects.create(name="View bot users")
+        role.permissions.add(permission)
+        group = Group.objects.create(name="View bot users")
+        group.roles.add(role)
+        user.groups.add(group)
+        user.clear_permissions_cache()
+
+        response = self.client.get(reverse("user_list"))
+        self.assertContains(response, bot.get_absolute_url())
+        response = self.client.get(reverse("user_list"), {"q": bot.username})
+        self.assertContains(response, bot.get_absolute_url())
 
     def test_user(self) -> None:
         """Test user pages."""

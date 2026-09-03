@@ -17,7 +17,7 @@ def migrate_json_sort_keys_from_bool_to_choice(apps, schema_editor) -> None:
     def convert(component):
         file_format_params = component.file_format_params or {}
         value = file_format_params.get(JSON_SORT_KEYS)
-        if value in NEW_VALUES:
+        if isinstance(value, str) and value in NEW_VALUES:
             return component
         if value is True:
             file_format_params[JSON_SORT_KEYS] = "case_sensitive"
@@ -41,7 +41,7 @@ def reverse_json_sort_keys_to_choice(apps, schema_editor) -> None:
     def convert(component):
         file_format_params = component.file_format_params or {}
         value = file_format_params.get(JSON_SORT_KEYS)
-        if value not in NEW_VALUES:
+        if not isinstance(value, str) or value not in NEW_VALUES:
             return component
         if value == "case_sensitive":
             file_format_params[JSON_SORT_KEYS] = True

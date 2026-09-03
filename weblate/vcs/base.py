@@ -132,6 +132,7 @@ type RepositoryDiagnosisCode = Literal[
     "branch_behind",
     "gerrit_permission",
     "git_lfs_missing_objects",
+    "github_forking_disabled",
     "github_pull_request_creation_restricted",
     "missing_credentials",
     "repository_not_found",
@@ -410,9 +411,10 @@ REPOSITORY_TEMPORARY_MESSAGES = (
     "Too many retries",
     "Connection timed out",
 )
+GITHUB_FORKING_DISABLED_MESSAGE = "The repository exists, but forking is disabled."
 REPOSITORY_PERMISSION_MESSAGES = (
     "denied to",
-    "The repository exists, but forking is disabled.",
+    GITHUB_FORKING_DISABLED_MESSAGE,
     "protected branch hook declined",
     "GH006:",
 )
@@ -681,6 +683,8 @@ def get_repository_error_diagnoses(error: str) -> list[RepositoryDiagnosis]:
         diagnoses.append({"code": "ssh_host_key_unverified"})
     if any(message in error for message in REPOSITORY_NOT_FOUND_MESSAGES):
         diagnoses.append({"code": "repository_not_found"})
+    if GITHUB_FORKING_DISABLED_MESSAGE in error:
+        diagnoses.append({"code": "github_forking_disabled"})
     if any(message in error for message in REPOSITORY_PERMISSION_MESSAGES):
         diagnoses.append({"code": "repository_permission"})
     if any(message in error for message in REPOSITORY_GERRIT_PERMISSION_MESSAGES):

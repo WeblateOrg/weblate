@@ -6,11 +6,13 @@
 from __future__ import annotations
 
 import argparse
+import re
 from collections import defaultdict
 from pathlib import Path
 from typing import TYPE_CHECKING, Literal
 
 from git import Repo
+from sphinx.util.rst import escape
 
 import weblate.utils.version
 
@@ -20,6 +22,7 @@ if TYPE_CHECKING:
 
 VERSION = weblate.utils.version.VERSION_BASE
 ROOT_DIR = Path(__file__).parent.parent
+WHITESPACE_RE = re.compile(r"\s\s+")
 
 CategoryType = Literal["code", "translations", "docs"]
 
@@ -28,6 +31,7 @@ IGNORE_AUTHORS: tuple[str, ...] = (
     "GitHub",
     "Anonymous",
     "Hosted Weblate",
+    "Weblate CI",
     "Copilot",
     "root",
 )
@@ -90,6 +94,8 @@ def get_commit_authors(commit: Commit) -> set[str]:
         for line in str(commit.message).splitlines()
         if line.lower().startswith("co-authored-by:")
     )
+    # Remove extra whitespace
+    authors = [WHITESPACE_RE.sub(" ", author) for author in authors]
     return {
         MAP_AUTHORS.get(author, author) for author in authors if is_valid_author(author)
     }
@@ -125,7 +131,10 @@ def get_contributors_text() -> str:
         contributors = all_contributors[category]
         if contributors:
             output.append(
-                TEMPLATE.format(label=label, contributors=", ".join(contributors))
+                TEMPLATE.format(
+                    label=label,
+                    contributors=", ".join(map(escape, contributors)),
+                )
             )
 
     return "\n".join(output)

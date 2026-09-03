@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'account-vcs' %}?workspace={{ workspace.pk }}">{% translate "Code-hosting integrations" %}</a>
+  </li>
+  <li class="breadcrumb-item">{% translate "Migrate to GitHub App" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% blocktranslate with workspace_name=workspace.name %}Migrate {{ workspace_name }} to the Weblate GitHub App{% endblocktranslate %}
+        {% if github_app_install_url %}
+          <a href="{{ github_app_install_url }}" class="btn btn-primary btn-sm float-end">{% translate "Connect or update GitHub account" %}</a>
+        {% endif %}
+      </h4>
+    </div>
+    <div class="card-body">
+      <p>
+        {% blocktranslate trimmed %}
+          Select existing Git or GitHub components to use the Weblate GitHub App. Their repository URLs will be replaced by canonical HTTPS URLs, and separate push URLs will be removed.
+        {% endblocktranslate %}
+      </p>
+
+      {% if required_accounts %}
+        <p class="text-body-secondary">
+          {% blocktranslate trimmed with accounts=required_accounts|join:", " %}
+            The GitHub App needs repository access for these accounts: {{ accounts }}.
+          {% endblocktranslate %}
+        </p>
+      {% endif %}
+
+      {% if installations %}
+        <p>{% translate "Connected GitHub accounts:" %}</p>
+        <ul class="list-inline">
+          {% for installation in installations %}
+            <li class="list-inline-item mb-2">
+              <span class="badge text-bg-secondary">{{ installation.target_login }} ({{ installation.hostname }})</span>
+              {% if installation.pk in manageable_installations %}
+                <form method="post"
+                      action="{% url 'manage-github-account-refresh' installation.pk %}"
+                      class="d-inline">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ next_url }}" />
+                  <button type="submit" class="btn btn-outline-primary btn-sm">{% translate "Refresh repositories" %}</button>
+                </form>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if available_entries %}
+        <form method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          {{ form.components.errors }}
+          <fieldset>
+            <legend class="h5">{{ form.components.label }}</legend>
+            {% for checkbox in form.components %}
+              <div class="form-check mb-2">
+                {{ checkbox.tag }}
+                <label class="form-check-label" for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+              </div>
+            {% endfor %}
+          </fieldset>
+          <button type="submit" class="btn btn-primary">{% translate "Migrate selected components" %}</button>
+        </form>
+      {% endif %}
+
+      {% if unavailable_entries %}
+        <div class="alert alert-info" role="status">
+          {% if github_app_install_url %}
+            {% if available_entries %}
+              {% translate "Connect or update the GitHub App to grant access to the remaining repositories." %}
+            {% else %}
+              {% translate "Connect the GitHub App to the listed accounts and grant access to their repositories before migrating." %}
+            {% endif %}
+          {% else %}
+            {% translate "A workspace owner needs to connect the GitHub App and grant access to these repositories before they can be migrated." %}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if entries %}
+        <h5>{% translate "Migration status" %}</h5>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>{% translate "Component" %}</th>
+                <th>{% translate "Repository" %}</th>
+                <th>{% translate "Status" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for entry in entries %}
+                <tr>
+                  <td>{{ entry.component.project.name }} / {{ entry.component.name }}</td>
+                  <td>{{ entry.full_name }}</td>
+                  <td>
+                    {% if entry.canonical_url %}
+                      <span class="badge text-bg-success">{% translate "Ready" %}</span>
+                    {% else %}
+                      <span class="badge text-bg-warning">{% translate "Repository access needed" %}</span>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-body-secondary">{% translate "There are no GitHub components in this workspace that can be migrated." %}</p>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock content %}

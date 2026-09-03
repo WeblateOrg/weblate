@@ -600,7 +600,7 @@ class UnitQuerySet(models.QuerySet["Unit", "Unit"]):
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )
 
-    def clear_disk_state(self):
+    def clear_disk_state(self) -> None:
         units_to_update = list(
             self.filter(details__has_key="disk_state").select_for_update()
         )

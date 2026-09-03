@@ -31,7 +31,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.16.4
+  rev: v0.16.5
   hooks:
   - id: ruff-check
     args:
@@ -44,7 +44,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.16.4
+    - ruff==0.16.5
     language: python
 - repo: meta
   hooks:
@@ -74,12 +74,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.5.10
+  rev: v2.5.11
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.5.10'
+    - '@biomejs/biome@2.5.11'
     language: node
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: '0.26'
@@ -185,7 +185,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.49.0
+  rev: v1.50.1
   hooks:
   - id: typos
     args: []
@@ -205,12 +205,12 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/mongodb/kingfisher
-  rev: v1.113.0
+  rev: v2.1.0
   hooks:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.2.60
+  rev: v0.2.63
   hooks:
   - id: rumdl
   - id: rumdl-fmt

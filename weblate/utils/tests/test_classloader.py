@@ -100,3 +100,25 @@ class ClassLoaderTestCase(TestCase):
                 self.assertEqual(list(second_loader.keys()), [])
             self.assertEqual(list(loader.keys()), ["weblate.cleanup.generic"])
             self.assertEqual(list(second_loader.keys()), ["weblate.cleanup.generic"])
+
+    def test_dependent_setting_change_invalidates_cache(self) -> None:
+        loader = ClassLoader(
+            "TEST_DYNAMIC_SERVICES",
+            construct=False,
+            base_class=BaseAddon,
+            dependent_settings=("TEST_DYNAMIC_SERVICE_ENABLED",),
+        )
+        unaffected_loader = ClassLoader(
+            "TEST_DYNAMIC_SERVICES", construct=False, base_class=BaseAddon
+        )
+        with override_settings(
+            TEST_DYNAMIC_SERVICES=("weblate.addons.cleanup.CleanupAddon",)
+        ):
+            cached_data = loader.data
+            unaffected_cached_data = unaffected_loader.data
+            with override_settings(TEST_DYNAMIC_SERVICE_ENABLED=True):
+                dependent_cached_data = loader.data
+                self.assertIsNot(dependent_cached_data, cached_data)
+                self.assertIs(unaffected_loader.data, unaffected_cached_data)
+            self.assertIsNot(loader.data, dependent_cached_data)
+            self.assertIs(unaffected_loader.data, unaffected_cached_data)

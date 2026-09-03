@@ -127,12 +127,12 @@ class AutoFixTest(TestCase):
         unit = make_unit(source='<a title="1 > 0">link</a>', flags="auto-safe-html")
         self.assertEqual(
             fix.fix_target(['<a title="1 > 0" href="javascript:foo()">link</a>'], unit),
-            (['<a title="1 > 0">link</a>'], True),
+            (['<a title="1 &gt; 0">link</a>'], True),
         )
         unit = make_unit(source='<a title="a<b">link</a>', flags="auto-safe-html")
         self.assertEqual(
             fix.fix_target(['<a title="a<b" href="javascript:foo()">link</a>'], unit),
-            (['<a title="a<b">link</a>'], True),
+            (['<a title="a&lt;b">link</a>'], True),
         )
         unit = make_unit(source="Line<br/>break", flags="auto-safe-html")
         self.assertEqual(
