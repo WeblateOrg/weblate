@@ -131,6 +131,71 @@ CATEGORY_BACKUP_FIELDS = (
     *INHERITABLE_COMPONENT_SETTINGS,
     *INHERITABLE_COMPONENT_FLAGS,
 )
+LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING: dict[
+    str, tuple[str, dict[str, str | int | bool | None]]
+] = {
+    # "old-format": ("new-format", {"new-format-params": "value"}),
+    "csv": (
+        "csv",
+        {"csv_encoding": "auto"},
+    ),
+    "csv-multi-utf-8": (
+        "csv-multi",
+        {"csv_encoding": "utf-8"},
+    ),
+    "csv-simple": (
+        "csv-simple",
+        {"csv_simple_encoding": "auto"},
+    ),
+    "csv-simple-iso": (
+        "csv-simple",
+        {"csv_simple_encoding": "iso-8859-1"},
+    ),
+    "csv-simple-utf-8": (
+        "csv-simple",
+        {"csv_simple_encoding": "utf-8"},
+    ),
+    "csv-utf-8": (
+        "csv",
+        {"csv_encoding": "utf-8"},
+    ),
+    "gwt": (
+        "gwt",
+        {"gwt_encoding": "utf-8"},
+    ),
+    "gwt-iso": (
+        "gwt",
+        {"gwt_encoding": "iso-8859-1"},
+    ),
+    "plainxliff": ("xliff", {"xliff_placeables": "plain"}),
+    "properties": (
+        "properties",
+        {"properties_encoding": "iso-8859-1"},
+    ),
+    "properties-utf8": (
+        "properties",
+        {"properties_encoding": "utf-8"},
+    ),
+    "properties-utf16": (
+        "properties",
+        {"properties_encoding": "utf-16"},
+    ),
+    "strings": (
+        "strings",
+        {"strings_encoding": "utf-16"},
+    ),
+    "strings-utf8": (
+        "strings",
+        {"strings_encoding": "utf-8"},
+    ),
+    "xliff": ("xliff", {"xliff_placeables": "placeables"}),
+    "xliff2": ("xliff2", {"xliff_placeables": "plain"}),
+    "xwiki-page-properties": (
+        "xwiki-page-properties",
+        {"properties_encoding": "utf-8"},
+    ),
+    "xliff2-placeables": ("xliff2", {"xliff_placeables": "placeables"}),
+}
 
 
 def get_project_backup_download_storage() -> Storage:
@@ -555,7 +620,11 @@ class ProjectBackup:
 
     @staticmethod
     def migrate_component_file_format_params(component: dict[str, Any]) -> None:
-        """Convert file format settings used by older component backups."""
+        """
+        Convert file format settings used by older component backups.
+
+        This replicates the logic in migrations files but for the backups format.
+        """
         # json_sort_keys was a boolean in backups before 2026.9
         if (
             "file_format_params" in component
@@ -565,6 +634,18 @@ class ProjectBackup:
             if isinstance(json_sort_keys, bool):
                 json_sort_keys = "case_sensitive" if json_sort_keys is True else "none"
                 component["file_format_params"]["json_sort_keys"] = json_sort_keys
+
+        # Migrate file format params for legacy formats
+        if component["file_format"] in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING:
+            new_file_format, migrate_params = LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[
+                component["file_format"]
+            ]
+
+            component["file_format"] = new_file_format
+            file_format_params = migrate_params | component.setdefault(
+                "file_format_params", {}
+            )
+            component["file_format_params"] = file_format_params
 
     def backup_m2m_flat(self, obj: Model, relation: str, field: str) -> list:
         """Backup a many to many relation using a unique identifying field of the related object."""

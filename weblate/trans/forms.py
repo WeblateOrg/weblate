@@ -60,7 +60,7 @@ from weblate.lang.models import Language
 from weblate.machinery.base import MACHINERY_DEFAULT_THRESHOLD
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.backups import ProjectBackup
+from weblate.trans.backups import LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING, ProjectBackup
 from weblate.trans.defines import (
     BRANCH_LENGTH,
     COMPONENT_NAME_LENGTH,
@@ -2627,7 +2627,7 @@ class ComponentSettingsForm(
             for field_name in Component.LINKED_REPOSITORY_SETTINGS:
                 data[field_name] = getattr(self.instance, field_name)
 
-        if "file_format_params" in data:
+        if "file_format_params" in data and "file_format" in data:
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
             )
@@ -2866,7 +2866,7 @@ class ComponentCreateForm(
         data = self.cleaned_data
         clean_integration_component_data(self, data)
 
-        if "file_format_params" in data:
+        if "file_format_params" in data and "file_format" in data:
             data["file_format_params"] = strip_unused_file_format_params(
                 data["file_format"], data["file_format_params"]
             )
@@ -3193,13 +3193,13 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
     )
 
     def render_choice(self, value: DiscoveryResult) -> str:
-        context: dict[str, object] = dict(value.data)
+        context: dict[str, object] = dict(self.get_discovery_data(value))
         try:
-            format_cls = FILE_FORMATS[value["file_format"]]
+            format_cls = FILE_FORMATS[cast("str", context["file_format"])]
             context["file_format_name"] = format_cls.name
             context["valid"] = True
         except KeyError:
-            context["file_format_name"] = value["file_format"]
+            context["file_format_name"] = context["file_format"]
             context["valid"] = False
         context["origin"] = value.meta["origin"]
         return render_to_string("trans/discover-choice.html", context)
@@ -3248,9 +3248,27 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
 
     @staticmethod
     def get_discovery_data(value: DiscoveryResult) -> dict[str, Any]:
-        data = cast("dict[str, Any]", value.match)
+        data = dict(cast("dict[str, Any]", value.match))
         file_format = data.get("file_format")
+
+        # temporary patch until translation-finder is updated
+        # as it still emits retired format IDs (e.g 'plainxliff')
+        # that need to be remapped to current formats
+        if (
+            isinstance(file_format, str)
+            and file_format not in FILE_FORMATS
+            and file_format in LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING
+        ):
+            file_format, extra_params = LEGACY_BACKUPS_FORMAT_MIGRATION_MAPPING[
+                file_format
+            ]
+            data["file_format"] = file_format
+            existing_params = data.get("file_format_params")
+            if not isinstance(existing_params, dict):
+                existing_params = {}
+            data["file_format_params"] = {**extra_params, **existing_params}
         file_format_params = data.get("file_format_params")
+
         if file_format_params is None:
             return data
         if not isinstance(file_format, str) or not isinstance(file_format_params, dict):

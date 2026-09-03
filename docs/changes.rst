@@ -5,13 +5,20 @@ Weblate 2026.9.1
 
 .. rubric:: New features
 
+* Added the ``xml_whitespace_handling`` :ref:`file_format_params` for :ref:`xliff` to follow ``xml:space``, always preserve, or always normalize whitespace.
+* Added the ``xliff_placeables`` :ref:`file_format_params` for :ref:`xliff` and :doc:`/formats/xliff2` to choose between plain text and placeables handling.
+
 .. rubric:: Improvements
+
+* Backups containing legacy component formats (e.g ``plainxliff``, ``csv-utf-8``) are now correctly restored.
 
 .. rubric:: Security fixes
 
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
+
+* The former ``plainxliff`` and ``xliff2-placeables`` file formats are migrated to :ref:`xliff` / :doc:`/formats/xliff2` with the ``xliff_placeables`` :ref:`file_format_params`.
 
 .. rubric:: Upgrading
 
@@ -55,6 +62,7 @@ Weblate 2026.9
 * The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation.
 * The :ref:`translation flags <additional-flags>` editor now supports reopening flags for editing, arrow-key navigation, and copying with :kbd:`Ctrl+C`. It also keeps commas inside quoted values intact, allowing flags such as ``regex:"^.{1,32}$"`` to be typed and pasted.
 * Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`.
+* Project-wide repository maintenance now remains available for authorized repositories and lists components skipped because of linked-component permissions.
 
 .. rubric:: Security fixes
 
@@ -79,6 +87,7 @@ Weblate 2026.9
 
 * The ``json_sort_keys`` :ref:`file_format_params` is now a choice between ``none``, ``case_sensitive``, and ``case_insensitive`` instead of a boolean, including when reading or writing it through the component REST API; existing components are migrated automatically. See :http:get:`/api/components/(string:project)/(string:component)/`.
 * The :guilabel:`Git with force push` version control system has been replaced by the ``git_force_push`` :ref:`version control parameter <vcs_params>`; existing components are migrated automatically.
+* Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`.
 * Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior.
 * Mercurial and Subversion repository hosts can now be trusted using :setting:`VCS_PRIVATE_ALLOWLIST` without restricting Git to the same hosts through :setting:`VCS_ALLOW_HOSTS`.
 * The :http:delete:`project deletion REST API endpoint </api/projects/(string:project)/>` now returns ``202 Accepted`` instead of ``204 No Content`` and contains a task URL in the response to track asynchronous deletion progress.

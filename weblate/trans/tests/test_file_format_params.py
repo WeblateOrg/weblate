@@ -395,6 +395,58 @@ class XMLParamsTest(BaseFileFormatsTest):
     def test_closing_tags_off(self) -> None:
         self.test_closing_tags(closing_tags_active=False)
 
+    def test_whitespace_normalize(self) -> None:
+        # check that the default param is preserve
+        defaults = get_default_params_for_file_format(self.component.file_format)
+        self.assertEqual(defaults["xml_whitespace_handling"], "preserve")
+
+        self.update_component_file_params(xml_whitespace_handling="normalize")
+        translation = self.get_translation()
+        store = translation.store
+        unit = next(u for u in store.all_units if "Thank you" in u.source)
+        unit.set_target("  Díky  za  \n")
+        store.save()
+        content = get_optional_path(translation.get_filename()).read_text(
+            encoding="utf-8"
+        )
+        self.assertIn(">Díky za<", content)
+        self.assertIn('xml:space="default"', content)
+        self.assertNotIn('xml:space="preserve"', content)
+
+    def test_whitespace_standard_new_unit_omits_preserve(self) -> None:
+        self.update_component_file_params(xml_whitespace_handling="standard")
+        translation = self.get_translation()
+        # Adding via the store path used for new strings
+        store = translation.store
+        store.new_unit("new-key", "Brand new string")
+        store.save()
+        content = get_optional_path(translation.get_filename()).read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('id="new-key"', content)
+        self.assertNotIn('xml:space="preserve" id="new-key"', content)
+        self.assertNotIn('id="new-key" xml:space="preserve"', content)
+
+    def test_placeables_param_default(self) -> None:
+        defaults = get_default_params_for_file_format(self.component.file_format)
+        self.assertEqual(defaults["xliff_placeables"], "placeables")
+
+        self.update_component_file_params(xliff_placeables="plain")
+        self.assertEqual(
+            self.component.file_format_cls.get_unit_class(
+                self.component.file_format_params
+            ).__name__,
+            "XliffUnit",
+        )
+
+        self.update_component_file_params(xliff_placeables="placeables")
+        self.assertEqual(
+            self.component.file_format_cls.get_unit_class(
+                self.component.file_format_params
+            ).__name__,
+            "RichXliffUnit",
+        )
+
 
 class TSParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:

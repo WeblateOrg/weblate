@@ -2574,9 +2574,9 @@ class Translation(
                 current_target = join_plural(current_target)
             else:
                 has_translation = bool(current_target)
-            id_hash = component.file_format_cls.unit_class.calculate_id_hash(
-                has_template, source, context
-            )
+            id_hash = component.file_format_cls.get_unit_class(
+                component.file_format_params
+            ).calculate_id_hash(has_template, source, context)
             # When adding to a target the source string can already exist
             unit = None
             if (skip_existing or not self.is_source) and is_source:

@@ -294,6 +294,42 @@ class BackupsTest(ViewTestCase):
         self.assertEqual(restored_component.vcs, "git")
         self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
 
+    def test_restore_legacy_file_format(self) -> None:
+        java = self.create_java(project=self.project, name="Java")
+        xliff = self.create_xliff_mono(project=self.project, name="XLIFF")
+
+        cases = (
+            (
+                java.slug,
+                "properties-utf8",
+                "properties",
+                "properties_encoding",
+                "utf-8",
+            ),
+            (xliff.slug, "plainxliff", "xliff", "xliff_placeables", "plain"),
+        )
+        for slug, old_format, new_format, param_name, param_value in cases:
+            with self.subTest(old_format=old_format):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={"file_format": old_format},
+                    component_removals=("file_format_params",),
+                    component_slug=slug,
+                )
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    restore.validate()
+                    restored = restore.restore(
+                        project_name=f"Restored {old_format}",
+                        project_slug=f"restored-{old_format}",
+                        user=self.user,
+                    )
+
+                restored_component = restored.component_set.get(slug=slug)
+                self.assertEqual(restored_component.file_format, new_format)
+                self.assertEqual(
+                    restored_component.file_format_params[param_name], param_value
+                )
+
     def test_restore_legacy_json_sort_keys(self) -> None:
         component = self.create_json_mono(
             project=self.project, name="JSON-sort", suffix="sort-keys"
