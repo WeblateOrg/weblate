@@ -958,6 +958,19 @@ onReady(() => {
     });
   });
 
+  /* Activate a tab from outside the navigation */
+  document.querySelectorAll("[data-tab-target]").forEach((element) => {
+    element.addEventListener("click", (e) => {
+      e.preventDefault();
+      const trigger = document.querySelector(
+        `.nav [data-bs-toggle=tab][data-bs-target="${element.getAttribute("data-tab-target")}"]`,
+      );
+      if (trigger !== null) {
+        bootstrap.Tab.getOrCreateInstance(trigger).show();
+      }
+    });
+  });
+
   /* Navigate to a tab when the history changes */
   window.addEventListener("popstate", (_e) => {
     let tab = null;
