@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 from typing import ClassVar
-from urllib.parse import urljoin
 
 from .base import MachineryRateLimitError, MachineTranslationError
 from .forms import AnthropicMachineryForm
@@ -22,7 +21,7 @@ class AnthropicTranslation(BaseLLMTranslation):
 
     name = "Anthropic"
     trusted_error_hosts: ClassVar[set[str]] = {"api.anthropic.com"}
-    end_point = "/v1/messages"
+    end_point = "v1/messages"
     settings_form = AnthropicMachineryForm
     version_added = "5.16"
 
@@ -91,10 +90,15 @@ class AnthropicTranslation(BaseLLMTranslation):
         }
 
     def get_chat_url(self) -> str:
-        return urljoin(
-            self.settings.get("base_url") or "https://api.anthropic.com",
-            self.end_point,
-        )
+        base_url = (
+            self.settings.get("base_url") or "https://api.anthropic.com"
+        ).rstrip("/")
+        # The endpoint carries the API version, so strip it from the base URL
+        # to accept configurations which spell it out there as well.
+        version = self.end_point.partition("/")[0]
+        if base_url.endswith(f"/{version}"):
+            base_url = base_url[: -len(version) - 1]
+        return self.join_api_url(base_url, self.end_point)
 
     @staticmethod
     def parse_chat_response(response_data) -> str:

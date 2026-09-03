@@ -13,6 +13,7 @@ from collections import Counter, defaultdict
 from itertools import chain
 from operator import itemgetter
 from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict, TypeGuard
+from urllib.parse import urljoin
 
 from asgiref.sync import sync_to_async
 from django.utils.html import strip_tags
@@ -275,6 +276,10 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
     def is_supported(self, source_language, target_language) -> bool:
         return True
+
+    @staticmethod
+    def join_api_url(base_url: str, path: str) -> str:
+        return urljoin(f"{base_url.rstrip('/')}/", path)
 
     @staticmethod
     def format_prompt_text(text: str) -> str:
