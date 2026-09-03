@@ -1645,7 +1645,8 @@ class GitHubInstallationViewTest(ViewTestCase):
             },
         )
         self.component.refresh_from_db()
-        self.component.add_alert("GitHubAppMigration")
+        for alert_name in ("GitHubAppMigration", "PushFailure", "UpdateFailure"):
+            self.component.add_alert(alert_name)
         url = reverse(
             "github-app-migration", kwargs={"workspace_id": self.workspace.pk}
         )
@@ -1663,7 +1664,9 @@ class GitHubInstallationViewTest(ViewTestCase):
             {"create_merge_request": False},
         )
         self.assertFalse(
-            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+            self.component.alert_set.filter(
+                name__in=("GitHubAppMigration", "PushFailure", "UpdateFailure")
+            ).exists()
         )
 
     @override_settings(
