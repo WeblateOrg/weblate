@@ -11,6 +11,7 @@ from itertools import chain
 from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.utils.translation import gettext_lazy
+from lxml import etree
 from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
 from translate.storage.aresource import AndroidResourceFile
@@ -163,6 +164,28 @@ class TBXExporter(XMLExporter):
     extension = "tbx"
     verbose = gettext_lazy("TBX")
     storage_class = tbxfile
+
+    def store_flags(self, output, flags) -> None:
+        output.xmlelement.set("weblate-flags", flags.format())
+
+        if "read-only" in flags:
+            note = etree.Element(output.namespaced("descrip"))
+            note.set("type", "Translation needed")
+            note.text = "No"
+            langset = output.xmlelement.find(output.namespaced("langSet"))
+            position = output.xmlelement.index(langset) if langset is not None else 0
+            output.xmlelement.insert(position, note)
+
+        if "forbidden" in flags:
+            langset = output.get_target_dom()
+            if langset is None:
+                langset = output.get_source_dom()
+            if langset is not None:
+                tig = langset.find(output.namespaced("tig"))
+                if tig is not None:
+                    note = etree.SubElement(tig, output.namespaced("termNote"))
+                    note.set("type", "administrativeStatus")
+                    note.text = "forbidden"
 
     def add(self, unit, word) -> None:
         if self.source_language.code.replace("_", "-").lower() == (
