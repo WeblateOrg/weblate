@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import Prefetch, prefetch_related_objects
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -19,6 +20,8 @@ from django.utils.translation import gettext
 from weblate.accounts.views import mail_admins_contact
 from weblate.auth.models import TeamMembership
 from weblate.trans.backups import PROJECTBACKUP_PREFIX
+from weblate.trans.models import Project
+from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
 from weblate.utils.data import data_path
 from weblate.utils.views import show_form_errors
@@ -344,7 +347,9 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
 
 @login_required
 def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
-    billing = get_object_or_404(Billing, pk=pk)
+    billing = get_object_or_404(
+        Billing.objects.select_related("plan", "workspace"), pk=pk
+    )
 
     if not request.user.has_perm("meta:billing.view", billing):
         raise PermissionDenied
@@ -353,13 +358,45 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         handle_post(request, billing)
         return redirect(billing)
 
+    prefetch_related_objects(
+        [billing],
+        Prefetch(
+            "workspace__projects",
+            queryset=Project.objects.order(),
+            to_attr="ordered_projects",
+        ),
+        Prefetch(
+            "invoice_set",
+            queryset=Invoice.objects.order(),
+            to_attr="ordered_invoices",
+        ),
+    )
+    prefetch_project_flags(billing.all_projects)
+
+    user_can_manage_billing = request.user.has_perm("billing.manage")
+    context: dict[str, object] = {
+        "billing": billing,
+        "billing_logs": (
+            billing.billinglog_set.recent().select_related("user")
+            if request.user.is_superuser
+            else ()
+        ),
+        "hosting_form": HostingForm(),
+        "invoices": billing.ordered_invoices,
+        "user_can_manage_billing": user_can_manage_billing,
+    }
+    if user_can_manage_billing:
+        context.update(
+            {
+                "merge_form": BillingMergeForm(),
+                "plan_change_form": BillingPlanChangeForm(
+                    initial={"plan": billing.plan}
+                ),
+            }
+        )
+
     return render(
         request,
         "billing/detail.html",
-        {
-            "billing": billing,
-            "hosting_form": HostingForm(),
-            "merge_form": BillingMergeForm(),
-            "plan_change_form": BillingPlanChangeForm(initial={"plan": billing.plan}),
-        },
+        context,
     )
