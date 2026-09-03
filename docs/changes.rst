@@ -22,6 +22,7 @@ Weblate 2026.9
 * Clarified the instance-wide impact of roles containing site-wide permissions, including :ref:`site-wide user management <site-wide-user-management>`.
 * Improved translation file loading performance for metadata-only string changes.
 * Reduced :ref:`Celery <celery>` worker startup memory usage by avoiding duplicate Django system checks and loading font rendering only when needed.
+* Errors from automatic suggestion backends (such as rate limiting) are now collected and displayed on the :guilabel:`Automatic suggestions` management page.
 * :ref:`Billing <billing>` audit logs now identify users who change plans, initiate payments, or merge billings.
 * Assigning languages to a team now uses an :guilabel:`All languages` toggle which disables the language choice when turned on, and a manually chosen set of languages is kept when toggling it. See :ref:`manage-acl`.
 * Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration.

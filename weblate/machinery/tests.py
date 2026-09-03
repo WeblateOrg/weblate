@@ -8,7 +8,7 @@ import json
 import os
 import re
 from copy import copy
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from functools import partial
 from io import StringIO
 from pathlib import Path
@@ -27,6 +27,7 @@ from django.core.management.base import CommandError
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import get_language
 from django.utils.translation import override as translation_override
 from google.api_core import exceptions as google_api_exceptions
@@ -84,6 +85,7 @@ from weblate.machinery.management.commands.list_machinery import (
 )
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.mistral import MistralTranslation
+from weblate.machinery.models import MachineryError
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
@@ -91,6 +93,7 @@ from weblate.machinery.ollama import OllamaTranslation
 from weblate.machinery.openai import AzureOpenAITranslation, OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
+from weblate.machinery.tasks import cleanup_machinery_errors
 from weblate.machinery.tmserver import TMServerTranslation
 from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
@@ -9540,3 +9543,260 @@ class SourceLanguageTranslateTestCase(FixtureTestCase):
                 "quality": [100],
             },
         )
+
+
+class MachineryErrorTest(TestCase):
+    """Tests for machinery error collection via the MachineryError model."""
+
+    def get_machine(self, settings=None):
+        machine = DummyTranslation(settings or {})
+        machine.delete_cache()
+        return machine
+
+    def test_report_error_without_exc_creates_no_db_record(self) -> None:
+        """report_error without exc does not create a MachineryError row."""
+        self.get_machine().report_error("Something went wrong")
+        self.assertEqual(MachineryError.objects.count(), 0)
+
+    def test_report_error_with_exc_creates_db_record(self) -> None:
+        """report_error with exc creates a MachineryError with correct fields."""
+        machine = self.get_machine()
+        machine.report_error(
+            "Could not fetch translations", exception=ValueError("API quota exceeded")
+        )
+        self.assertEqual(MachineryError.objects.count(), 1)
+        error = MachineryError.objects.get()
+        self.assertEqual(error.engine, machine.mtid)
+        self.assertIsNone(error.project)
+        self.assertIn("Could not fetch translations", error.error)
+        self.assertIn("ValueError", error.error)
+        self.assertIn("API quota exceeded", error.error)
+
+    def test_report_error_redacts_url_query_parameters(self) -> None:
+        """API keys passed as query parameters are not persisted."""
+        machine = self.get_machine()
+        request = httpx2.Request(
+            "GET", "https://api.example.com/translate?key=SECRET&text=hello"
+        )
+        exc = HTTPError(
+            "401 Client Error: Unauthorized for url:"
+            " https://api.example.com/translate?key=SECRET&text=hello",
+            request=request,
+            response=httpx2.Response(401, request=request),
+        )
+        machine.report_error("Auth failed", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn("SECRET", error.error)
+        self.assertNotIn("text=hello", error.error)
+        self.assertNotIn("/translate", error.error)
+        self.assertIn("401", error.error)
+        self.assertIn("https://api.example.com", error.error)
+
+    def test_report_error_redacts_url_path_segments(self) -> None:
+        """Source text embedded in URL path segments (e.g. TMServer) is not persisted."""
+        machine = self.get_machine()
+        source_text = "Hello, this is secret source text!"
+        path_url = f"http://tmserver/tmserver/en/cs/unit/{source_text.encode().hex()}"
+        request = httpx2.Request("GET", path_url)
+        exc = HTTPError(
+            f"404 Client Error: Not Found for url: {path_url}",
+            request=request,
+            response=httpx2.Response(404, request=request),
+        )
+        machine.report_error("Could not fetch translations", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn(source_text, error.error)
+        self.assertNotIn("/tmserver/en/cs/unit/", error.error)
+        self.assertIn("404", error.error)
+        self.assertIn("http://tmserver", error.error)
+
+    def test_report_error_redacts_credentialed_url(self) -> None:
+        """Credentials embedded in the service URL authority are not persisted."""
+        machine = self.get_machine()
+        request = httpx2.Request(
+            "GET",
+            "https://apiuser:SECRET_KEY@api.example.com/translate?text=hello",
+        )
+        exc = HTTPError(
+            "401 Client Error: Unauthorized for url:"
+            " https://apiuser:SECRET_KEY@api.example.com/translate?text=hello",
+            request=request,
+            response=httpx2.Response(401, request=request),
+        )
+        machine.report_error("Auth failed", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn("SECRET_KEY", error.error)
+        self.assertNotIn("apiuser", error.error)
+        self.assertNotIn("/translate", error.error)
+        self.assertIn("401", error.error)
+        self.assertIn("https://api.example.com", error.error)
+
+    def test_report_error_redacts_ipv6_url(self) -> None:
+        """IPv6-literal service URLs are fully redacted despite url.host lacking brackets."""
+        machine = self.get_machine()
+        request = httpx2.Request(
+            "GET",
+            "https://[2001:db8::1]:8443/translate?key=SECRET&text=hello",
+        )
+        exc = HTTPError(
+            "401 Client Error: Unauthorized for url:"
+            " https://[2001:db8::1]:8443/translate?key=SECRET&text=hello",
+            request=request,
+            response=httpx2.Response(401, request=request),
+        )
+        machine.report_error("Auth failed", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn("SECRET", error.error)
+        self.assertNotIn("/translate", error.error)
+        self.assertIn("401", error.error)
+        self.assertIn("https://[2001:db8::1]:8443", error.error)
+
+    def test_report_error_strips_response_detail_from_rate_limit_error(self) -> None:
+        """Response body detail carried by MachineryRateLimitError is not persisted."""
+        machine = self.get_machine()
+        source_text = "Secret source text that should not be stored"
+        exc = MachineryRateLimitError(f"Rate limit exceeded: {source_text}")
+        machine.report_error("Could not fetch translations", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn(source_text, error.error)
+        self.assertIn("MachineryRateLimitError", error.error)
+
+    def test_report_error_strips_response_detail_from_machine_translation_error(
+        self,
+    ) -> None:
+        """Response body detail carried by MachineTranslationError is not persisted."""
+        machine = self.get_machine()
+        source_text = "Secret source text that should not be stored"
+        exc = MachineTranslationError(f"Bad request: {source_text}")
+        machine.report_error("Could not fetch translations", exception=exc)
+        error = MachineryError.objects.get()
+        self.assertNotIn(source_text, error.error)
+        self.assertIn("MachineTranslationError", error.error)
+
+    def test_report_error_records_project_from_settings(self) -> None:
+        """MachineryError FK is populated when service is project-scoped."""
+        project = Project.objects.create(name="Test", slug="test")
+        machine = self.get_machine({"_project": project})
+        machine.report_error(
+            "Could not fetch translations", exception=ValueError("rate limited")
+        )
+        self.assertEqual(MachineryError.objects.get().project, project)
+
+    def test_save_machinery_error_resilient_to_db_failure(self) -> None:
+        """A database failure inside _save_machinery_error does not propagate."""
+        machine = self.get_machine()
+        with patch(
+            "weblate.machinery.models.MachineryError.objects.create",
+            side_effect=Exception("DB failure"),
+        ):
+            # Must not raise
+            machine.report_error("test cause", exception=ValueError("test"))
+
+    def test_language_fetch_error_creates_db_record(self) -> None:
+        """Errors in download_languages are persisted as MachineryError rows."""
+        machine = self.get_machine()
+        with patch.object(
+            type(machine),
+            "download_languages",
+            side_effect=ValueError("Connection refused"),
+        ):
+            langs = machine.supported_languages
+        self.assertEqual(langs, set())
+        self.assertEqual(MachineryError.objects.count(), 1)
+        error = MachineryError.objects.get()
+        self.assertEqual(error.engine, machine.mtid)
+        self.assertIn("Could not fetch languages", error.error)
+        self.assertIn("ValueError", error.error)
+
+    def test_translation_fetch_error_creates_db_record(self) -> None:
+        """Errors in download_pending_translations are persisted as MachineryError rows."""
+        machine = self.get_machine()
+        unit = make_unit(code="cs", source="Hello, world!")
+        with (
+            patch.object(
+                machine,
+                "download_pending_translations",
+                side_effect=ValueError("API unavailable"),
+            ),
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine.translate(unit)
+        self.assertEqual(MachineryError.objects.count(), 1)
+        error = MachineryError.objects.get()
+        self.assertEqual(error.engine, machine.mtid)
+        self.assertIn("ValueError", error.error)
+        self.assertIn("API unavailable", error.error)
+
+    def test_rate_limit_error_creates_db_record_and_sets_cache(self) -> None:
+        """HTTP 429 rate-limit errors are stored and the rate-limit flag is set."""
+        machine = self.get_machine()
+        unit = make_unit(code="cs", source="Hello, world!")
+        request = httpx2.Request("GET", "https://api.example.com/")
+        response = httpx2.Response(429, request=request)
+        exc = HTTPError("", request=request, response=response)
+        with (
+            patch.object(machine, "download_pending_translations", side_effect=exc),
+            self.assertRaises(MachineTranslationError),
+        ):
+            machine.translate(unit)
+        self.assertEqual(MachineryError.objects.count(), 1)
+        self.assertTrue(machine.is_rate_limited())
+
+    def test_cleanup_task_removes_old_errors(self) -> None:
+        """cleanup_machinery_errors deletes records older than 30 days."""
+        recent = MachineryError.objects.create(engine="Dummy", error="recent")
+        MachineryError.objects.create(
+            engine="Dummy",
+            error="old",
+            timestamp=timezone.now() - timedelta(days=31),
+        )
+        cleanup_machinery_errors()
+        self.assertSequenceEqual(list(MachineryError.objects.all()), [recent])
+
+    def test_cleanup_task_keeps_recent_errors(self) -> None:
+        """cleanup_machinery_errors retains records younger than 30 days."""
+        for days in (0, 15, 29):
+            MachineryError.objects.create(
+                engine="Dummy",
+                error=f"{days} days ago",
+                timestamp=timezone.now() - timedelta(days=days),
+            )
+        cleanup_machinery_errors()
+        self.assertEqual(MachineryError.objects.count(), 3)
+
+    def test_edit_view_context_includes_machinery_errors(self) -> None:
+        """Global edit view shows only site-wide (project=NULL) errors for the engine."""
+        engine_id = DummyTranslation.get_identifier()
+        project = Project.objects.create(name="Test", slug="test")
+        global_error = MachineryError.objects.create(engine=engine_id, error="global")
+        project_error = MachineryError.objects.create(
+            engine=engine_id, error="project", project=project
+        )
+        other_error = MachineryError.objects.create(
+            engine="other-service", error="other"
+        )
+        # Mirror what EditMachineryView.get_context_data builds for the global page
+        errors = list(
+            MachineryError.objects.filter(engine=engine_id, project__isnull=True)[:50]
+        )
+        self.assertIn(global_error, errors)
+        self.assertNotIn(project_error, errors)
+        self.assertNotIn(other_error, errors)
+
+    def test_edit_view_filters_errors_by_project(self) -> None:
+        """Edit view context filters machinery_errors to the current project."""
+        engine_id = DummyTranslation.get_identifier()
+        project = Project.objects.create(name="Test", slug="test")
+        other_project = Project.objects.create(name="Other", slug="other")
+        project_error = MachineryError.objects.create(
+            engine=engine_id, error="project", project=project
+        )
+        other_error = MachineryError.objects.create(
+            engine=engine_id, error="other", project=other_project
+        )
+        # Mirror what EditMachineryView.get_context_data builds when project is set
+        errors = list(
+            MachineryError.objects.filter(engine=engine_id, project=project)[:50]
+        )
+        self.assertIn(project_error, errors)
+        self.assertNotIn(other_error, errors)

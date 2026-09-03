@@ -404,6 +404,50 @@ class BatchMachineTranslation(DocVersionsMixin):
             message=message,
             exception=exception,
         )
+        if exception is not None:
+            self._save_machinery_error(exception, cause)
+
+    def _save_machinery_error(self, exc: BaseException, cause: str) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.machinery.models import MachineryError
+
+        # Build a safe error string that avoids persisting sensitive data.
+        #
+        # HTTPStatusError: reconstruct from the HTTP status code and origin
+        # only.  The full exception message carries the request URL (which may
+        # embed API keys or source text in path/query/authority) and up to 200
+        # characters of response body detail appended by check_failure() via
+        # get_error_detail(); both are excluded.  IPv6 literal hosts must be
+        # re-bracketed because url.host is the bare address while the URL
+        # string and HTTPStatusError message use the bracketed form [addr].
+        #
+        # MachineTranslationError (including MachineryRateLimitError): the
+        # exception message may be constructed directly from get_error_detail()
+        # output (e.g. OpenAI raises MachineryRateLimitError from that detail);
+        # drop it and store only the class name.
+        #
+        # All other exceptions: redact query parameters that may carry API keys
+        # from any URL-like substrings in the message.
+        if isinstance(exc, httpx2.HTTPStatusError):
+            url = exc.request.url
+            port_part = f":{url.port}" if url.port else ""
+            host_in_url = f"[{url.host}]" if ":" in url.host else url.host
+            safe_origin = f"{url.scheme}://{host_in_url}{port_part}"
+            error_message = f"{exc.response.status_code} from {safe_origin}"
+        elif isinstance(exc, MachineTranslationError):
+            error_message = ""
+        else:
+            error_message = re.sub(r"\?[^#\s]*", "?[redacted]", str(exc))
+        try:
+            MachineryError.objects.create(
+                engine=self.mtid,
+                project=self.settings.get("_project"),
+                error=": ".join(
+                    filter(None, [cause, type(exc).__name__, error_message])
+                ),
+            )
+        except BaseException:
+            log_handled_exception("Could not save machinery error")
 
     def log_handled_error(self, cause: str, extra_log: str | None = None) -> None:
         """Log a handled error without reporting it to external services."""
@@ -427,7 +471,9 @@ class BatchMachineTranslation(DocVersionsMixin):
         except Exception as exc:
             self.supported_languages_error = exc
             self.supported_languages_error_age = time.time()
-            self.report_error("Could not fetch languages, using defaults")
+            self.report_error(
+                "Could not fetch languages, using defaults", exception=exc
+            )
             return set()
 
         # Update cache

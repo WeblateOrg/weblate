@@ -8,14 +8,46 @@ import json
 from typing import TYPE_CHECKING, cast
 
 from appconf import AppConf
+from django.db import models
+from django.utils import timezone
+from django.utils.translation import gettext_lazy
 
 from weblate.utils.classloader import ClassRegistry
 
 from .base import BatchMachineTranslation
-from .defaults import DEFAULT_WEBLATE_MACHINERY
+from .defaults import DEFAULT_MACHINERY_ERROR_KEEP_DAYS, DEFAULT_WEBLATE_MACHINERY
 
 if TYPE_CHECKING:
     from .types import SettingsDict
+
+
+class MachineryError(models.Model):
+    """Stores errors from automatic suggestion backends for admin visibility."""
+
+    engine = models.CharField(max_length=100)
+    project = models.ForeignKey(
+        "trans.Project",
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
+    )
+    timestamp = models.DateTimeField(default=timezone.now)
+    error = models.TextField()
+
+    class Meta:
+        ordering = ["-timestamp"]  # ruff: ignore[mutable-class-default]
+        indexes = [  # ruff: ignore[mutable-class-default]
+            models.Index(
+                fields=["-timestamp", "project"],
+                name="macherr_ts_proj_idx",
+            ),
+        ]
+        verbose_name = gettext_lazy("Machinery error")
+        verbose_name_plural = gettext_lazy("Machinery errors")
+
+    def __str__(self) -> str:
+        return f"{self.engine}:{self.timestamp}"
+
 
 MACHINERY = ClassRegistry(
     "WEBLATE_MACHINERY",
@@ -29,6 +61,8 @@ class WeblateConf(AppConf):
 
     # List of machinery classes
     WEBLATE_MACHINERY = DEFAULT_WEBLATE_MACHINERY
+    # Days to keep machinery errors before pruning
+    MACHINERY_ERROR_KEEP_DAYS = DEFAULT_MACHINERY_ERROR_KEEP_DAYS
 
     class Meta:
         prefix = ""
