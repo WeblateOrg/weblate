@@ -81,14 +81,14 @@
           {% endif %}
         </a>
       {% endif %}
-      {% if support.name == 'community' %}
+      {% if support.name == "community" %}
         <a href="{{ support_url }}" class="btn btn-primary">{% translate "Purchase support package" %}</a>
         <a href="{{ donate_url }}" class="btn btn-primary">{% translate "Give to Weblate" %}</a>
       {% endif %}
     </div>
   </div>
 
-  {% if support.name != 'community' %}
+  {% if support.name != "community" %}
     <form method="post" action="{% url 'manage-support' %}">
       <div class="card">
         <div class="card-header">

@@ -460,7 +460,7 @@
     <div class="main-content {% block content_class %}{% endblock %}">
 
       {% if user.is_superuser and support_status.has_support and not support_status.in_limits %}
-        {% translate 'Your Weblate is exceeding service limits. Please upgrade the subscription.' as msg %}
+        {% translate "Your Weblate is exceeding service limits. Please upgrade the subscription." as msg %}
         {% show_message 'warning' msg %}
       {% endif %}
 
@@ -475,7 +475,7 @@
       {% endif %}
 
       {% if menu_items %}
-        {% include 'snippets/menu.html' %}
+        {% include "snippets/menu.html" %}
       {% endif %}
 
       {% block nav_pills %}
@@ -516,7 +516,7 @@
         </div>
       </div>
     </div>
-    {% include 'keyboard-shortcuts.html' %}
-    {% include 'footer.html' %}
+    {% include "keyboard-shortcuts.html" %}
+    {% include "footer.html" %}
   </body>
 </html>
