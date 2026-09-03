@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Literal
 
 from git import Repo
+from sphinx.util.rst import escape
 
 import weblate.utils.version
 
@@ -130,7 +131,10 @@ def get_contributors_text() -> str:
         contributors = all_contributors[category]
         if contributors:
             output.append(
-                TEMPLATE.format(label=label, contributors=", ".join(contributors))
+                TEMPLATE.format(
+                    label=label,
+                    contributors=", ".join(map(escape, contributors)),
+                )
             )
 
     return "\n".join(output)

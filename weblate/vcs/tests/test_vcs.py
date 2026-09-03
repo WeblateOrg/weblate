@@ -338,6 +338,10 @@ class RepositoryTest(SimpleTestCase):
             ("rejected: fetch first", "branch_behind"),
             ("Repository not found.", "repository_not_found"),
             ("push denied to user", "repository_permission"),
+            (
+                "The repository exists, but forking is disabled.",
+                "github_forking_disabled",
+            ),
             ("push prohibited by Gerrit", "gerrit_permission"),
             (
                 "remote: GitLab: LFS objects are missing. Ensure LFS is properly set up.",

@@ -1243,6 +1243,28 @@ class GitHubAppMigrationAlertTest(ViewTestCase):
             webhook_secret="webhook",
         )
 
+    def get_forking_disabled_alert(
+        self, repo: str = "https://github.com/test-org/repo1.git"
+    ) -> Alert:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo=repo,
+        )
+        self.component.refresh_from_db()
+        self.component.add_alert(
+            "PushFailure",
+            error={
+                "code": "repository_fork_failed_with_error",
+                "retcode": 0,
+                "params": {
+                    "hostname": "api.github.com",
+                    "error": "The repository exists, but forking is disabled.",
+                },
+            },
+            diagnoses=[{"code": "repository_permission"}],
+        )
+        return self.component.alert_set.get(name="PushFailure")
+
     def test_migration_alert_lifecycle(self) -> None:
         Component.objects.filter(pk=self.component.pk).update(
             vcs="git",
@@ -1309,6 +1331,62 @@ class GitHubAppMigrationAlertTest(ViewTestCase):
             alert.obj.get_context(self.user)["migration_url"],
             alert.obj.get_url(self.component),
         )
+
+    def test_forking_disabled_push_failure_suggests_app_migration(self) -> None:
+        alert = self.get_forking_disabled_alert()
+
+        rendered = alert.render(self.user)
+        self.assertIn(
+            "Ensure the Weblate GitHub App is connected to this workspace", rendered
+        )
+        self.assertIn(
+            "Ask a workspace owner to complete the GitHub App setup and migration",
+            rendered,
+        )
+        self.assertNotIn("Migrate to GitHub App</a>", rendered)
+
+        self.make_manager()
+
+        context = alert.obj.get_context(self.user)
+        self.assertTrue(context["analysis"]["github_app_migration_available"])
+        self.assertEqual(
+            context["github_app_migration_url"],
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            ),
+        )
+        rendered = alert.render(self.user)
+        self.assertIn("Migrate to GitHub App</a>", rendered)
+        self.assertNotIn("Ask a workspace owner", rendered)
+
+    def test_forking_disabled_hint_requires_configured_app_host(self) -> None:
+        alert = self.get_forking_disabled_alert(
+            "https://github.example.com/test-org/repo1.git"
+        )
+
+        context = alert.obj.get_context(self.user)
+        self.assertTrue(context["analysis"]["github_forking_disabled"])
+        self.assertNotIn("github_app_migration_available", context["analysis"])
+        self.assertNotIn("GitHub App", alert.render(self.user))
+
+    def test_other_push_failure_does_not_suggest_migration(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.com/test-org/repo1.git",
+        )
+        self.component.refresh_from_db()
+        self.component.add_alert(
+            "PushFailure",
+            error="Push denied to user",
+            diagnoses=[{"code": "repository_permission"}],
+        )
+        alert = self.component.alert_set.get(name="PushFailure")
+
+        context = alert.obj.get_context(self.user)
+        self.assertFalse(context["analysis"]["github_forking_disabled"])
+        self.assertNotIn("github_app_migration_available", context["analysis"])
+        self.assertNotIn("GitHub App", alert.render(self.user))
 
 
 @override_settings(

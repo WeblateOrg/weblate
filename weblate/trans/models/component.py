@@ -3233,6 +3233,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
 
         return True
 
+    @transaction.atomic
     def reset_repository_to_remote(
         self,
         request: AuthenticatedHttpRequest | None,
