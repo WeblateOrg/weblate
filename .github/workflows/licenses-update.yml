@@ -50,8 +50,8 @@ jobs:
         sparse-checkout: json
         persist-credentials: false
 
-    - uses: ./.github/actions/pre-commit-setup
+    - uses: $/.github/actions/pre-commit-setup
     - run: ./scripts/generate-license-data.py
 
     - name: Prepare maintenance patch
-      uses: ./.github/actions/auto-commit
+      uses: $/.github/actions/auto-commit
