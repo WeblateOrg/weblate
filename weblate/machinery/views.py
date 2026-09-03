@@ -510,7 +510,7 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
         except Exception as error:
-            report_error("Machinery failed", project=component.project)
+            report_error("Machinery failed", project=component.project, exception=error)
             response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
     if response["responseStatus"] != 200:

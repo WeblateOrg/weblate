@@ -565,7 +565,6 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         report_error.assert_called_once_with(
             f"machinery[{machine.name}]: Could not fetch translations",
             extra_log=None,
-            message=False,
             exception=error,
         )
 
@@ -7312,7 +7311,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         mock_report_error.assert_called_once_with(
             report_cause,
             extra_log=None,
-            message=False,
             exception=ANY,
         )
         self.assertIsInstance(
@@ -7346,7 +7344,6 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
         mock_report_error.assert_called_once_with(
             report_cause,
             extra_log=None,
-            message=False,
             exception=ANY,
         )
         self.assertIsInstance(

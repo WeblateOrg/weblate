@@ -72,7 +72,7 @@ from weblate.utils.db import (
     measure_database_latency,
 )
 from weblate.utils.encoding import get_encoding_list
-from weblate.utils.errors import report_error
+from weblate.utils.errors import report_error, report_message
 from weblate.utils.filesystem import filesystem_latency_snapshot
 from weblate.utils.requests import fetch_url
 from weblate.utils.site import get_site_url
@@ -304,7 +304,7 @@ def tools(request: AuthenticatedHttpRequest) -> HttpResponse:
         if "sentry" in request.POST:
             if not can_configure:
                 raise PermissionDenied
-            report_error("Test message", message=True, level="info")
+            report_message("Test message", level="info")
             return redirect("manage-tools")
 
         if "message" in request.POST:

@@ -11164,6 +11164,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
@@ -11193,6 +11194,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=True,
@@ -11206,14 +11208,13 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             self.assertNotIn("-----BEGIN PRIVATE KEY-----", str(value))
 
     def test_missing_publisher_is_reported_and_resets_service(self) -> None:
+        error = AttributeError("'NoneType' object has no attribute 'publish'")
         with (
             patch.object(fedora_messaging.api, "_twisted_service", object()),
             patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
             patch(
                 "fedora_messaging.api.publish",
-                side_effect=AttributeError(
-                    "'NoneType' object has no attribute 'publish'"
-                ),
+                side_effect=error,
             ),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
             self.assertRaisesMessage(
@@ -11227,19 +11228,19 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         self.assertIsNone(fedora_messaging.api._twisted_service)  # ruff: ignore[private-member-access]
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,
         )
 
     def test_broker_rejection_is_reported(self) -> None:
+        error = fedora_messaging_exceptions.PublishForbidden("permission denied")
         with (
             patch.object(FedoraMessagingAddon, "_prepare_fedora_messaging_service"),
             patch(
                 "fedora_messaging.api.publish",
-                side_effect=fedora_messaging_exceptions.PublishForbidden(
-                    "permission denied"
-                ),
+                side_effect=error,
             ),
             patch("weblate.addons.fedora_messaging.report_error") as report_error,
             self.assertRaisesMessage(
@@ -11252,6 +11253,7 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
 
         report_error.assert_called_once_with(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=None,
             skip_error_reporting=False,

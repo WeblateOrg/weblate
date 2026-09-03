@@ -4803,7 +4803,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         )
 
         with (
-            patch("weblate.vcs.git.report_error") as mock_report_error,
+            patch("weblate.vcs.git.report_message") as mock_report_message,
             self.assertRaisesMessage(
                 RepositoryError,
                 "Could not get GitLab project (401): invalid_token, Token is expired.",
@@ -4811,9 +4811,8 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         ):
             self.repo.get_target_project_id(self.repo.get_credentials())
 
-        mock_report_error.assert_called_once_with(
+        mock_report_message.assert_called_once_with(
             "Could not get GitLab project",
-            message=True,
             extra_log="401: invalid_token, Token is expired.",
         )
 
