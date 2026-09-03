@@ -346,7 +346,7 @@ intersphinx_mapping = {
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
     "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),
-    "rtd": ("https://docs.readthedocs.io/en/latest/", None),
+    "rtd": ("https://docs.readthedocs.com/platform/latest/", None),
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
     "drf-standardized-error": (
         "https://drf-standardized-errors.readthedocs.io/en/latest/",
