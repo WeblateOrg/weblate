@@ -80,6 +80,7 @@ from weblate.trans.component_copy import (
 )
 from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.forms import (
+    AutoForm,
     CategorySettingsForm,
     ComponentSettingsForm,
     ProjectSettingsForm,
@@ -18119,15 +18120,12 @@ class OpenAPITest(APIBaseTest):
             request_schema_ref, "#/components/schemas/AutoTranslateRequest"
         )
 
-        # The AutoTranslateRequest schema must describe the actual AutoForm fields.
+        # The AutoTranslateRequest schema must describe exactly the AutoForm
+        # fields so the schema stays in sync when AutoForm changes.
         request_schema = schema["components"]["schemas"]["AutoTranslateRequest"]
         properties = request_schema["properties"]
-        self.assertIn("q", properties)
-        self.assertIn("mode", properties)
-        self.assertIn("auto_source", properties)
-        self.assertIn("component", properties)
-        self.assertIn("engines", properties)
-        self.assertIn("threshold", properties)
+        form = AutoForm(self.component, self.user)
+        self.assertEqual(set(properties.keys()), set(form.fields.keys()))
 
         # q is the only required field.
         self.assertEqual(request_schema.get("required", []), ["q"])
