@@ -140,6 +140,35 @@ print("tesserocr" in sys.modules)
 
         self.assertEqual(output, "False")
 
+    def test_url_loading_before_worker_fork(self) -> None:
+        output = self.run_python(
+            """
+import json
+import sys
+
+from celery.signals import worker_before_create_process
+from weblate.utils.celery import app
+
+app.loader.import_default_modules()
+urls_loaded_before_fork = "weblate.urls" in sys.modules
+worker_before_create_process.send(sender=app)
+print(json.dumps({
+    "urls_loaded_before_fork": urls_loaded_before_fork,
+    "urls_loaded_after_fork": "weblate.urls" in sys.modules,
+    "tesserocr_loaded": "tesserocr" in sys.modules,
+}))
+"""
+        )
+
+        self.assertEqual(
+            json.loads(output),
+            {
+                "urls_loaded_before_fork": False,
+                "urls_loaded_after_fork": True,
+                "tesserocr_loaded": False,
+            },
+        )
+
     def test_explicit_check_configuration_is_preserved(self) -> None:
         output = self.run_python(
             """
