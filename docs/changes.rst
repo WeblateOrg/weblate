@@ -1,11 +1,29 @@
-Weblate 2026.10
----------------
+Weblate 2026.9.1
+----------------
 
 *Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+.. rubric:: Security fixes
 
 .. rubric:: Bug fixes
 
 * The :http:post:`autotranslate API endpoint </api/translations/(string:project)/(string:component)/(string:language)/autotranslate/>` now correctly describes its accepted request body fields (``q``, ``mode``, ``auto_source``, ``component``, ``engines``, ``threshold``) in the OpenAPI schema instead of incorrectly reflecting the Translation resource.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: /changes/contributors/2026.9.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/173?closed=1>`__.
 
 Weblate 2026.9
 --------------
