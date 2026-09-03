@@ -18132,15 +18132,26 @@ class OpenAPITest(APIBaseTest):
         # q is the only required field.
         self.assertEqual(request_schema.get("required", []), ["q"])
 
+        # drf-spectacular renders ChoiceField as a $ref to a separate enum schema;
+        # resolve the reference before asserting enum values.
+        def resolve(prop: dict) -> dict:
+            if "$ref" in prop:
+                ref_path = prop["$ref"].lstrip("#/").split("/")
+                node = schema
+                for part in ref_path:
+                    node = node[part]
+                return node
+            return prop
+
         # mode must enumerate the valid choices.
         self.assertCountEqual(
-            properties["mode"]["enum"],
+            resolve(properties["mode"])["enum"],
             ["suggest", "translate", "fuzzy", "approved"],
         )
 
         # auto_source must enumerate the valid choices.
         self.assertCountEqual(
-            properties["auto_source"]["enum"],
+            resolve(properties["auto_source"])["enum"],
             ["others", "mt"],
         )
 
