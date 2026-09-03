@@ -23,18 +23,6 @@ from django.utils.translation import (
     pgettext_lazy,
 )
 
-from weblate.fonts.render import (
-    FONT_SCALE,
-    create_figure,
-    create_image_figure,
-    draw_line,
-    draw_rectangle,
-    draw_text,
-    figure_to_png,
-    get_font_properties,
-    measure_line,
-    rendering_lock,
-)
 from weblate.fonts.utils import render_size
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project
@@ -216,12 +204,19 @@ class BitmapWidget(Widget):
         return width // len(columns)
 
     def get_column_fonts(self):
+        # Importing Matplotlib and NumPy has a significant memory cost, so defer
+        # the rendering stack until a bitmap widget is actually rendered.
+        # ruff: ignore[import-outside-top-level]
+        from weblate.fonts import render
+
         return [
-            get_font_properties(
-                WIDGET_FONT, size=self.font_size * 1.5 * FONT_SCALE, weight=700
+            render.get_font_properties(
+                WIDGET_FONT,
+                size=self.font_size * 1.5 * render.FONT_SCALE,
+                weight=700,
             ),
-            get_font_properties(
-                WIDGET_FONT, size=self.font_size * FONT_SCALE, weight=400
+            render.get_font_properties(
+                WIDGET_FONT, size=self.font_size * render.FONT_SCALE, weight=400
             ),
         ]
 
@@ -230,8 +225,11 @@ class BitmapWidget(Widget):
 
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
         """Render widget."""
-        with rendering_lock():
-            figure = create_image_figure(self.get_filename())
+        # ruff: ignore[import-outside-top-level]
+        from weblate.fonts import render
+
+        with render.rendering_lock():
+            figure = render.create_image_figure(self.get_filename())
             width, height = figure.canvas.get_width_height()
             columns = self.get_columns()
             column_width = self.get_column_width(width, columns)
@@ -245,7 +243,7 @@ class BitmapWidget(Widget):
                 for row, text in enumerate(column):
                     font_properties = fonts[row]
                     baseline, line_height = get_widget_text_metrics(font_properties)
-                    draw_text(
+                    render.draw_text(
                         figure,
                         center,
                         offset + baseline,
@@ -259,7 +257,7 @@ class BitmapWidget(Widget):
                     offset += line_height * self.line_spacing
 
                 if self.lines and column_number > 0:
-                    draw_line(
+                    render.draw_line(
                         figure,
                         (column_width * column_number, self.offset),
                         (column_width * column_number, height - self.offset),
@@ -268,7 +266,7 @@ class BitmapWidget(Widget):
                     )
 
             self.render_additional(figure)
-            figure_to_png(figure, response)
+            render.figure_to_png(figure, response)
 
 
 class SVGWidget(Widget):
@@ -347,9 +345,16 @@ class OpenGraphWidget(NormalWidget):
         return 230
 
     def get_column_fonts(self):
+        # ruff: ignore[import-outside-top-level]
+        from weblate.fonts import render
+
         return [
-            get_font_properties(WIDGET_FONT, size=42 * FONT_SCALE, weight=400),
-            get_font_properties(WIDGET_FONT, size=18 * FONT_SCALE, weight=400),
+            render.get_font_properties(
+                WIDGET_FONT, size=42 * render.FONT_SCALE, weight=400
+            ),
+            render.get_font_properties(
+                WIDGET_FONT, size=18 * render.FONT_SCALE, weight=400
+            ),
         ]
 
     def get_name(self) -> str:
@@ -391,16 +396,21 @@ class OpenGraphWidget(NormalWidget):
         return runs
 
     def render_additional(self, figure) -> None:
-        font_size = 52 * FONT_SCALE
-        regular_font = get_font_properties(WIDGET_FONT, size=font_size, weight=400)
-        bold_font = get_font_properties(WIDGET_FONT, size=font_size, weight=700)
+        # ruff: ignore[import-outside-top-level]
+        from weblate.fonts import render
+
+        font_size = 52 * render.FONT_SCALE
+        regular_font = render.get_font_properties(
+            WIDGET_FONT, size=font_size, weight=400
+        )
+        bold_font = render.get_font_properties(WIDGET_FONT, size=font_size, weight=700)
         name = self.get_name()
         title_parts = self.get_title_parts(name)
 
         max_width = 1200 - 280
         while (
             sum(
-                measure_line(text, font_properties)[0]
+                render.measure_line(text, font_properties)[0]
                 for text, font_properties in self.get_title_runs(
                     title_parts,
                     regular_font,
@@ -430,7 +440,7 @@ class OpenGraphWidget(NormalWidget):
         ):
             if not text:
                 continue
-            draw_text(
+            render.draw_text(
                 figure,
                 x,
                 baseline,
@@ -439,7 +449,7 @@ class OpenGraphWidget(NormalWidget):
                 color=(1, 1, 1),
                 verticalalignment="baseline",
             )
-            x += measure_line(text, font_properties)[0]
+            x += render.measure_line(text, font_properties)[0]
 
 
 class BaseSVGBadgeWidget(SVGWidget):
@@ -512,17 +522,22 @@ class PNGBadgeWidget(SVGBadgeWidget):
     verbose = gettext_lazy("PNG status badge")
 
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.fonts import render
+
         label, value, color = self.get_badge_data(request)
-        with rendering_lock():
-            font_properties = get_font_properties(
+        with render.rendering_lock():
+            font_properties = render.get_font_properties(
                 WIDGET_FONT, size=PNG_BADGE_FONT_SIZE, weight=400
             )
-            label_width = ceil(measure_line(f"   {label}   ", font_properties)[0])
-            value_width = ceil(measure_line(f"  {value}  ", font_properties)[0])
+            label_width = ceil(
+                render.measure_line(f"   {label}   ", font_properties)[0]
+            )
+            value_width = ceil(render.measure_line(f"  {value}  ", font_properties)[0])
             width = label_width + value_width
-            figure = create_figure(width, 20)
-            draw_rectangle(figure, 0, 0, width, 20, color="#555", radius=3)
-            draw_rectangle(
+            figure = render.create_figure(width, 20)
+            render.draw_rectangle(figure, 0, 0, width, 20, color="#555", radius=3)
+            render.draw_rectangle(
                 figure,
                 label_width,
                 0,
@@ -532,12 +547,12 @@ class PNGBadgeWidget(SVGBadgeWidget):
                 radius=3,
             )
             # Cover the rounded inner edge so only the outer corners are rounded.
-            draw_rectangle(figure, label_width, 0, 4, 20, color=color)
+            render.draw_rectangle(figure, label_width, 0, 4, 20, color=color)
             for text, center in (
                 (label, label_width / 2),
                 (value, label_width + value_width / 2),
             ):
-                draw_text(
+                render.draw_text(
                     figure,
                     center,
                     PNG_BADGE_BASELINE + 1,
@@ -547,7 +562,7 @@ class PNGBadgeWidget(SVGBadgeWidget):
                     horizontalalignment="center",
                     verticalalignment="baseline",
                 )
-                draw_text(
+                render.draw_text(
                     figure,
                     center,
                     PNG_BADGE_BASELINE,
@@ -557,7 +572,7 @@ class PNGBadgeWidget(SVGBadgeWidget):
                     horizontalalignment="center",
                     verticalalignment="baseline",
                 )
-            figure_to_png(figure, response)
+            render.figure_to_png(figure, response)
 
 
 @register_widget

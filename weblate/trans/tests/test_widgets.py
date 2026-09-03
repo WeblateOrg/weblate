@@ -230,7 +230,7 @@ class WidgetsTest(FixtureTestCase):
 
         with (
             patch("weblate.trans.widgets.gettext", return_value="Project {}"),
-            patch("weblate.trans.widgets.draw_text") as mocked_draw_text,
+            patch("weblate.fonts.render.draw_text") as mocked_draw_text,
             rendering_lock(),
         ):
             widget.render_additional(object())
@@ -253,7 +253,7 @@ class WidgetsTest(FixtureTestCase):
         with (
             patch("weblate.trans.widgets.get_language_bidi", return_value=True),
             patch("weblate.trans.widgets.gettext", return_value="מיזם {}"),
-            patch("weblate.trans.widgets.draw_text") as mocked_draw_text,
+            patch("weblate.fonts.render.draw_text") as mocked_draw_text,
             rendering_lock(),
         ):
             widget.render_additional(object())
@@ -319,7 +319,7 @@ class WidgetsTest(FixtureTestCase):
         response = HttpResponse()
         widget = PNGBadgeWidget(self.project, "badge")
 
-        with patch("weblate.trans.widgets.draw_text") as mocked_draw_text:
+        with patch("weblate.fonts.render.draw_text") as mocked_draw_text:
             widget.render(request, response)
 
         self.assertEqual(
@@ -332,7 +332,7 @@ class WidgetsTest(FixtureTestCase):
         response = HttpResponse()
         widget = NormalWidget(self.project, "grey")
 
-        with patch("weblate.trans.widgets.draw_text") as mocked_draw_text:
+        with patch("weblate.fonts.render.draw_text") as mocked_draw_text:
             widget.render(request, response)
 
         self.assertEqual(
