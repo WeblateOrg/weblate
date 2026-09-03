@@ -18,6 +18,7 @@ from weblate.trans.alerts.base import (
 from weblate.trans.alerts.registry import register
 from weblate.utils.docs import get_doc_url
 from weblate.vcs.base import (
+    GITHUB_FORKING_DISABLED_MESSAGE,
     RepositoryDiagnosis,
     RepositoryDiagnosisCode,
     RepositoryErrorCode,
@@ -121,23 +122,26 @@ class GitHubAppMigration(RepositoryAlert):
         identity = get_github_repository_identity(component.repo)
         return identity is not None and github_app_is_configured(identity[0])
 
-    def get_context(self, user: User) -> dict[str, Any]:
+    @classmethod
+    def get_user_url(cls, user: User, component: Component) -> str:
         # Imports stay local because alerts are loaded while Django initializes
         # the VCS registry and model modules.
         from weblate.vcs.permissions import (  # ruff: ignore[import-outside-top-level]
             user_can_migrate_to_github_app,
         )
 
-        result = super().get_context(user)
-        component = self.instance.component
         # The migration view is workspace-scoped, so offering the link on the
         # weaker component.edit permission behind can_user_act() would send some
         # users to a page they cannot open.
-        result["migration_url"] = (
-            self.get_url(component)
+        return (
+            cls.get_url(component)
             if user_can_migrate_to_github_app(user, component.project.workspace_id)
             else ""
         )
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        result["migration_url"] = self.get_user_url(user, self.instance.component)
         return result
 
 
@@ -314,6 +318,10 @@ class BaseGitFailure(RepositoryErrorAlert):
         repo_suggestion = None
         force_push_suggestion = False
         component = self.instance.component
+        github_forking_disabled = component.vcs == "github" and (
+            self.has_diagnosis("github_forking_disabled")
+            or GITHUB_FORKING_DISABLED_MESSAGE in self.error
+        )
         host_key_mismatch = self.has_diagnosis("ssh_host_key_mismatch")
         host_key = self.has_diagnosis("ssh_host_key_unverified")
         host_key_message = None
@@ -357,6 +365,7 @@ class BaseGitFailure(RepositoryErrorAlert):
                 if github_pull_request_params
                 else None
             ),
+            "github_forking_disabled": github_forking_disabled,
         }
 
 
@@ -365,6 +374,19 @@ class PushFailure(BaseGitFailure):
     # Translators: Name of an alert
     verbose = gettext_lazy("Could not push the repository.")
     repository_permissions = ("vcs.push", "vcs.reset")
+
+    def get_context(self, user: User) -> dict[str, Any]:
+        result = super().get_context(user)
+        component = self.instance.component
+        analysis = result["analysis"]
+        if analysis["github_forking_disabled"] and GitHubAppMigration.check_component(
+            component
+        ):
+            analysis["github_app_migration_available"] = True
+            result["github_app_migration_url"] = GitHubAppMigration.get_user_url(
+                user, component
+            )
+        return result
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
