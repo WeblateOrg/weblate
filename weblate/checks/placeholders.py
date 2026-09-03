@@ -22,8 +22,12 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-def report_regex_timeout(message: str, unit: Unit) -> None:
-    report_error(message, project=unit.translation.component.project)
+def report_regex_timeout(message: str, unit: Unit, error: TimeoutError) -> None:
+    report_error(
+        message,
+        project=unit.translation.component.project,
+        exception=error,
+    )
 
 
 def parse_regex(val):
@@ -83,8 +87,8 @@ class PlaceholderCheck(TargetCheckParametrized):
     def get_match_set(self, value, text: str, unit: Unit) -> set[str] | None:
         try:
             return set(self.get_matches(value, text))
-        except TimeoutError:
-            report_regex_timeout("Placeholder regex check timed out", unit)
+        except TimeoutError as error:
+            report_regex_timeout("Placeholder regex check timed out", unit, error)
             return None
 
     def diff_case_sensitive(self, expected, found):
@@ -172,8 +176,10 @@ class PlaceholderCheck(TargetCheckParametrized):
                     Highlight(match.start(), match.end(), match.group(), kind="grammar")
                     for match in regex_finditer(pattern, source)
                 )
-            except TimeoutError:
-                report_regex_timeout("Placeholder regex highlight timed out", unit)
+            except TimeoutError as error:
+                report_regex_timeout(
+                    "Placeholder regex highlight timed out", unit, error
+                )
                 return
 
         if not spans:
@@ -226,8 +232,8 @@ class RegexCheck(TargetCheckParametrized):
     ):
         try:
             return any(not regex_findall(value, target) for target in targets)
-        except TimeoutError:
-            report_regex_timeout("Regular expression check timed out", unit)
+        except TimeoutError as error:
+            report_regex_timeout("Regular expression check timed out", unit, error)
             return False
 
     def should_skip(self, unit: Unit) -> bool:

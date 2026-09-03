@@ -393,15 +393,13 @@ class BatchMachineTranslation(DocVersionsMixin):
     def report_error(
         self,
         cause: str,
+        exception: BaseException,
         extra_log: str | None = None,
-        message: bool = False,
-        exception: BaseException | None = None,
     ) -> None:
         """Report error situations."""
         report_error(
             f"machinery[{self.name}]: {cause}",
             extra_log=extra_log,
-            message=message,
             exception=exception,
         )
 
@@ -424,10 +422,10 @@ class BatchMachineTranslation(DocVersionsMixin):
         # Download
         try:
             languages = set(self.download_languages())
-        except Exception as exc:
-            self.supported_languages_error = exc
+        except Exception as error:
+            self.supported_languages_error = error
             self.supported_languages_error_age = time.time()
-            self.report_error("Could not fetch languages, using defaults")
+            self.report_error("Could not fetch languages, using defaults", error)
             return set()
 
         # Update cache

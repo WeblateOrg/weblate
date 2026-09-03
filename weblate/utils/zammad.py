@@ -11,7 +11,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_lazy
 
-from .errors import report_error
+from .errors import report_error, report_message
 from .requests import JSON_RESPONSE_ERRORS, fetch_url
 
 FINGERPRINT = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASw"
@@ -29,12 +29,10 @@ def _raise_zammad_error(
     error: BaseException | None = None,
     extra_log: str | None = None,
 ) -> Never:
-    report_error(
-        cause,
-        exception=error,
-        extra_log=extra_log,
-        message=error is None,
-    )
+    if error is None:
+        report_message(cause, extra_log=extra_log)
+    else:
+        report_error(cause, exception=error, extra_log=extra_log)
     raise ZammadError(ERR_TEMPORARY) from error
 
 

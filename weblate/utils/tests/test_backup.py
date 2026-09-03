@@ -186,7 +186,7 @@ class RunBorgTest(SimpleTestCase):
             patch("weblate.utils.backup.backup_lock", return_value=nullcontext()),
             patch("weblate.utils.backup.SSH_WRAPPER.create"),
             patch("weblate.utils.backup.add_breadcrumb"),
-            patch("weblate.utils.backup.report_error"),
+            patch("weblate.utils.backup.report_message") as report_message,
             patch("weblate.utils.backup.subprocess.run", return_value=result),
             self.assertRaises(BackupError) as raised,
         ):
@@ -196,6 +196,7 @@ class RunBorgTest(SimpleTestCase):
             str(raised.exception),
             "Borg exited with status 2 without any output",
         )
+        report_message.assert_called_once_with("Borg failed")
 
 
 class InitializeBackupTest(SimpleTestCase):

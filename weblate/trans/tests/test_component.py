@@ -2667,13 +2667,14 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
             target="Hallo Welt!\n",
         )
         request = self.get_request()
+        restore_error = OSError("restore failed")
 
         with (
             patch.object(
                 Component,
                 "restore_missing_translation_file",
                 autospec=True,
-                side_effect=OSError("restore failed"),
+                side_effect=restore_error,
             ),
             patch.object(self.component.repository, "reset") as mock_reset,
             patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
@@ -2695,6 +2696,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         mock_report_error.assert_called_once_with(
             "Could not recreate missing translation file during file sync",
             project=self.component.project,
+            exception=restore_error,
         )
         messages = [message.message for message in get_messages(request)]
         self.assertEqual(len(messages), 1)
@@ -3253,6 +3255,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         self,
     ) -> None:
         request = self.get_request()
+        restore_error = OSError("atomic failed")
         with (
             patch.object(self.component.repository, "reset") as mock_reset,
             patch.object(self.component.repository, "cleanup_files") as mock_cleanup,
@@ -3263,7 +3266,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
                     request=request,
                     missing_translations=[],
                     current_translation=None,
-                    error=OSError("atomic failed"),
+                    error=restore_error,
                 )
             )
 
@@ -3272,6 +3275,7 @@ class ResetReapplyMissingTranslationFileTest(ComponentTestCase):
         mock_report_error.assert_called_once_with(
             "Could not recreate missing translation file during reset",
             project=self.component.project,
+            exception=restore_error,
         )
         messages = [message.message for message in get_messages(request)]
         self.assertEqual(len(messages), 1)
