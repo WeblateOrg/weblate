@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-07-31 08:23+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -3310,6 +3310,14 @@ msgstr "최고관리자 상태"
 msgid "User has all possible permissions."
 msgstr "사용자에게 모든 가능한 권한이 부여됩니다."
 
+msgid "All languages"
+msgstr "모든 언어"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (사이트 전역 권한)"
@@ -3359,9 +3367,6 @@ msgstr "구성요소 목록"
 
 msgid "Language selection"
 msgstr "언어 선택"
-
-msgid "All languages"
-msgstr "모든 언어"
 
 msgid "Languages"
 msgstr "언어"
@@ -8809,6 +8814,31 @@ msgstr "상태"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Weblate 후원자 되기"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "VCS 저장소에 모두 접근할 수 있습니다."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Skipped components:"
+msgstr "다른 구성요소"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "접근 권한이 거부되었습니다"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "저장소 상태"
@@ -17543,20 +17573,57 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "모든 저장소가 업데이트되었으며 번역 업데이트가 진행 중입니다."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "모든 저장소가 업데이트되었으며 번역 업데이트가 진행 중입니다."
+
 msgid "All repositories were pushed."
+msgstr "모든 저장소가 푸시되었습니다."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "모든 저장소가 푸시되었습니다."
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "모든 저장소가 재설정되었으며 번역 업데이트가 진행 중입니다."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr "모든 저장소가 재설정되었으며 번역 업데이트가 진행 중입니다."
+
 msgid "All repositories have been cleaned up."
+msgstr "모든 저장소가 정리되었습니다."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "모든 저장소가 정리되었습니다."
 
 msgid "Translation files have been synchronized."
 msgstr "번역 파일이 동기화되었습니다."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "번역 파일이 동기화되었습니다."
+
 msgid "Updates of translations are in progress."
+msgstr "번역 업데이트가 진행 중입니다."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "번역 업데이트가 진행 중입니다."
 
 #, fuzzy
@@ -17580,6 +17647,11 @@ msgid "Pending translations are being committed."
 msgstr "보류 중인 모든 번역이 커밋되었습니다."
 
 msgid "All pending translations were committed."
+msgstr "보류 중인 모든 번역이 커밋되었습니다."
+
+#, fuzzy
+#| msgid "All pending translations were committed."
+msgid "Pending translations in accessible repositories were committed."
 msgstr "보류 중인 모든 번역이 커밋되었습니다."
 
 msgid "Component is now locked for translation updates!"

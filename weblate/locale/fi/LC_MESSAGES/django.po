@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-07-31 08:23+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -3586,6 +3586,14 @@ msgstr "Pääkäyttäjän status"
 msgid "User has all possible permissions."
 msgstr "Käyttäjällä on kaikki mahdolliset oikeudet."
 
+msgid "All languages"
+msgstr "Kaikki kielet"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (oikeus koko sivustolla)"
@@ -3635,9 +3643,6 @@ msgstr "Komponenttilistat"
 
 msgid "Language selection"
 msgstr "Kielivalinta"
-
-msgid "All languages"
-msgstr "Kaikki kielet"
 
 msgid "Languages"
 msgstr "Kielet"
@@ -9424,6 +9429,31 @@ msgstr "Tila"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Ryhdy Weblaten tukijaksi"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "VCS-tietovarasto on kaikkien käytettävissä."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Skipped components:"
+msgstr "Muut komponentit"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Lupa evätty"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Arkiston tila"
@@ -18727,7 +18757,22 @@ msgid ""
 msgstr ""
 "Kaikki tietovarastot on päivitetty, käännösten päivitykset ovat meneillään."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr ""
+"Kaikki tietovarastot on päivitetty, käännösten päivitykset ovat meneillään."
+
 msgid "All repositories were pushed."
+msgstr "Kaikki paikalliset muutokset on lähetetty etäarkistoihin."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Kaikki paikalliset muutokset on lähetetty etäarkistoihin."
 
 msgid ""
@@ -18735,13 +18780,37 @@ msgid ""
 msgstr ""
 "Kaikki tietovarastot on nollattu, käännösten päivitykset ovat meneillään."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr ""
+"Kaikki tietovarastot on nollattu, käännösten päivitykset ovat meneillään."
+
 msgid "All repositories have been cleaned up."
+msgstr "Kaikki arkistot on siivottu."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Kaikki arkistot on siivottu."
 
 msgid "Translation files have been synchronized."
 msgstr "Käännöstiedostot on synkronoitu."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Käännöstiedostot on synkronoitu."
+
 msgid "Updates of translations are in progress."
+msgstr "Käännösten päivitykset ovat meneillään."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Käännösten päivitykset ovat meneillään."
 
 #, fuzzy
@@ -18765,6 +18834,11 @@ msgid "Pending translations are being committed."
 msgstr "Kaikki käännösmuutokset on commitoitu."
 
 msgid "All pending translations were committed."
+msgstr "Kaikki käännösmuutokset on commitoitu."
+
+#, fuzzy
+#| msgid "All pending translations were committed."
+msgid "Pending translations in accessible repositories were committed."
 msgstr "Kaikki käännösmuutokset on commitoitu."
 
 msgid "Component is now locked for translation updates!"

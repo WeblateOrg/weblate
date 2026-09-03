@@ -20,7 +20,7 @@ from django.utils.translation import gettext
 
 from weblate.utils.commands import get_clean_env
 from weblate.utils.data import data_dir
-from weblate.utils.errors import add_breadcrumb, report_error
+from weblate.utils.errors import add_breadcrumb, report_error, report_message
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER, add_host_key
@@ -138,7 +138,7 @@ def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> BorgResult:
                 stdout = gettext("Borg completed with warnings without any output.")
             return BorgResult(output=stdout, returncode=1)
         add_breadcrumb(category="backup", message="borg output", stdout=stdout)
-        report_error("Borg failed")
+        report_message("Borg failed")
         msg = cleanup_error_message(stdout)
         if not msg.strip():
             msg = f"Borg exited with status {result.returncode} without any output"

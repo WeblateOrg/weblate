@@ -154,36 +154,37 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
         )
 
     @override_settings(SENTRY_DSN=None)
-    def test_report_error_without_sentry_does_not_import_sentry(self) -> None:
+    def test_report_message_without_sentry_does_not_import_sentry(self) -> None:
         with (
             patch("weblate.utils.errors.get_sentry_sdk") as get_sentry_sdk,
             patch("weblate.utils.errors.record_error"),
         ):
-            errors.report_error("Handled error", level="error", message=True)
+            errors.report_message("Handled error", level="error")
 
         get_sentry_sdk.assert_not_called()
 
     @override_settings(SENTRY_DSN=None)
-    def test_report_error_without_rollbar_does_not_import_rollbar(self) -> None:
+    def test_report_message_without_rollbar_does_not_import_rollbar(self) -> None:
         with (
             patch("weblate.utils.errors.get_rollbar") as get_rollbar,
             patch("weblate.utils.errors.record_error"),
         ):
-            errors.report_error("Handled error", level="error", message=True)
+            errors.report_message("Handled error", level="error")
 
         get_rollbar.assert_not_called()
 
     @override_settings(SENTRY_DSN=None, ROLLBAR={})
-    def test_report_error_uses_rollbar_when_configured(self) -> None:
+    def test_report_message_uses_rollbar_when_configured(self) -> None:
         rollbar = MagicMock()
 
         with (
             patch("weblate.utils.errors.get_rollbar", return_value=rollbar),
             patch("weblate.utils.errors.record_error"),
         ):
-            errors.report_error("Handled error", level="error", message=True)
+            errors.report_message("Handled error", level="error")
 
-        rollbar.report_exc_info.assert_called_once_with(level="error")
+        rollbar.report_message.assert_called_once_with("Handled error", level="error")
+        rollbar.report_exc_info.assert_not_called()
 
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_google_exception(self) -> None:
@@ -197,8 +198,10 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
             except ValueError:
                 errors.report_error("Handled error", level="error")
 
-        client.report_exception.assert_called_once_with()
-        client.report.assert_not_called()
+        report = client.report.call_args.args[0]
+        self.assertIn("Traceback (most recent call last):", report)
+        self.assertIn("ValueError: broken", report)
+        client.report_exception.assert_not_called()
 
     @override_settings(SENTRY_DSN=None)
     def test_report_error_reports_explicit_google_exception(self) -> None:
@@ -224,14 +227,14 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
         client.report_exception.assert_not_called()
 
     @override_settings(SENTRY_DSN="https://public@example.com/1")
-    def test_report_error_reports_sentry_message_without_exception(self) -> None:
+    def test_report_message_reports_sentry_message(self) -> None:
         sentry_sdk = MagicMock()
 
         with (
             patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
             patch("weblate.utils.errors.record_error"),
         ):
-            errors.report_error("Handled error", level="error")
+            errors.report_message("Handled error", level="error")
 
         sentry_sdk.capture_message.assert_called_once_with("Handled error")
         sentry_sdk.capture_exception.assert_not_called()
@@ -239,6 +242,7 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
     @override_settings(SENTRY_DSN="https://public@example.com/1")
     def test_report_error_reports_sentry_exception(self) -> None:
         sentry_sdk = MagicMock()
+        handled_error: ValueError | None = None
 
         with (
             patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
@@ -246,10 +250,11 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
         ):
             try:
                 raise_broken_error()
-            except ValueError:
+            except ValueError as error:
+                handled_error = error
                 errors.report_error("Handled error", level="error")
 
-        sentry_sdk.capture_exception.assert_called_once_with()
+        sentry_sdk.capture_exception.assert_called_once_with(handled_error)
         sentry_sdk.capture_message.assert_not_called()
 
     @override_settings(
@@ -280,40 +285,117 @@ class GoogleCloudErrorReportingTest(SimpleTestCase):
         self.assertIs(record_error.call_args.kwargs["exception"], error)
 
     @override_settings(SENTRY_DSN=None)
-    def test_report_error_reports_google_message(self) -> None:
+    def test_report_message_reports_google_message(self) -> None:
         client = MagicMock()
         # ruff: ignore[private-member-access]
         errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error"):
-            errors.report_error("Handled error", level="error", message=True)
+            errors.report_message("Handled error", level="error")
 
         client.report.assert_called_once_with("Handled error")
         client.report_exception.assert_not_called()
 
     @override_settings(SENTRY_DSN=None)
-    def test_report_error_reports_google_message_without_exception(self) -> None:
-        client = MagicMock()
-        # ruff: ignore[private-member-access]
-        errors._STATE["google_cloud_error_reporting_client"] = client
-
-        with patch("weblate.utils.errors.record_error"):
+    def test_report_error_requires_exception(self) -> None:
+        with self.assertRaisesMessage(
+            RuntimeError, "report_error called without an exception: Handled error"
+        ):
             errors.report_error("Handled error", level="error")
 
-        client.report.assert_called_once_with("Handled error")
-        client.report_exception.assert_not_called()
-
     @override_settings(SENTRY_DSN=None)
-    def test_report_error_skip_error_reporting_skips_google(self) -> None:
+    def test_report_message_skip_error_reporting_skips_google(self) -> None:
         client = MagicMock()
         # ruff: ignore[private-member-access]
         errors._STATE["google_cloud_error_reporting_client"] = client
 
         with patch("weblate.utils.errors.record_error") as record_error:
-            errors.report_error(
+            errors.report_message(
                 "Handled error", level="error", skip_error_reporting=True
             )
 
         client.report.assert_not_called()
         client.report_exception.assert_not_called()
         record_error.assert_not_called()
+
+    @override_settings(
+        SENTRY_DSN="https://public@example.com/1",
+        ROLLBAR={},
+    )
+    def test_report_message_ignores_ambient_exception(self) -> None:
+        sentry_sdk = MagicMock()
+        rollbar = MagicMock()
+        google_client = MagicMock()
+        # ruff: ignore[private-member-access]
+        errors._STATE["google_cloud_error_reporting_client"] = google_client
+
+        with (
+            patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
+            patch("weblate.utils.errors.get_rollbar", return_value=rollbar),
+            patch("weblate.utils.errors.record_error") as record_error,
+            self.assertLogs(errors.ERROR_LOGGER, level="ERROR") as logs,
+        ):
+            try:
+                raise_broken_error()
+            except ValueError:
+                errors.report_message("Handled message", level="error")
+
+        sentry_sdk.capture_message.assert_called_once_with("Handled message")
+        sentry_sdk.capture_exception.assert_not_called()
+        rollbar.report_message.assert_called_once_with("Handled message", level="error")
+        rollbar.report_exc_info.assert_not_called()
+        google_client.report.assert_called_once_with("Handled message")
+        self.assertIsNone(record_error.call_args.kwargs["exception"])
+        self.assertEqual(logs.output, ["ERROR:weblate.errors:Handled message"])
+
+
+class SentryScrubberTest(SimpleTestCase):
+    @override_settings(
+        SENTRY_DSN="https://public@example.com/1",
+        SENTRY_SEND_PII=True,
+    )
+    def test_init_sentry_scrubs_passphrases_recursively(self) -> None:
+        sentry_sdk = MagicMock()
+
+        class ConfiguredScrubber:
+            def __init__(self) -> None:
+                self.called = False
+
+            def scrub_event(self, event) -> None:
+                self.called = True
+                event["extra"] = {"BORG_PASSPHRASE": "custom-secret"}
+
+        configured_scrubber = ConfiguredScrubber()
+
+        with (
+            override_settings(
+                SENTRY_EXTRA_ARGS={"event_scrubber": configured_scrubber}
+            ),
+            patch("weblate.utils.errors.get_sentry_sdk", return_value=sentry_sdk),
+        ):
+            errors.init_sentry()
+
+        scrubber = sentry_sdk.init.call_args.kwargs["event_scrubber"]
+        borg_environment = {
+            "BORG_PASSPHRASE": "borg-secret",
+            "BORG_NEW_PASSPHRASE": "new-borg-secret",
+            "SAFE": "visible",
+        }
+        frame_vars = {
+            "password": "default-secret",
+            "passphrase": "direct-secret",
+            "env": borg_environment,
+        }
+        event = {
+            "threads": {"values": [{"stacktrace": {"frames": [{"vars": frame_vars}]}}]}
+        }
+
+        scrubber.scrub_event(event)
+
+        self.assertNotEqual(frame_vars["password"], "default-secret")
+        self.assertNotEqual(frame_vars["passphrase"], "direct-secret")
+        self.assertNotEqual(borg_environment["BORG_PASSPHRASE"], "borg-secret")
+        self.assertNotEqual(borg_environment["BORG_NEW_PASSPHRASE"], "new-borg-secret")
+        self.assertEqual(borg_environment["SAFE"], "visible")
+        self.assertNotEqual(event["extra"]["BORG_PASSPHRASE"], "custom-secret")
+        self.assertTrue(configured_scrubber.called)

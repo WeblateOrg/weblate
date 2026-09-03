@@ -11,6 +11,51 @@ import sys
 
 from django.test import SimpleTestCase
 
+from weblate.utils.celery import (
+    delete_task_metadata,
+    get_task_metadata,
+    store_task_metadata,
+)
+
+
+class TaskMetadataTest(SimpleTestCase):
+    task_id = "01234567-89ab-cdef-0123-456789abcdef"
+
+    def tearDown(self) -> None:
+        delete_task_metadata(self.task_id)
+        super().tearDown()
+
+    def test_extended_metadata_is_only_stored_when_requested(self) -> None:
+        store_task_metadata(self.task_id, component_id=1, user_id=2)
+
+        self.assertEqual(
+            get_task_metadata(self.task_id),
+            {"component_id": 1, "translation_id": None, "user_id": 2},
+        )
+
+    def test_updates_preserve_repository_operation_metadata(self) -> None:
+        store_task_metadata(
+            self.task_id,
+            component_ids=[1, 2],
+            user_id=3,
+            task_kind="repository-operation",
+            cancellable=False,
+        )
+
+        store_task_metadata(self.task_id, component_id=1)
+
+        self.assertEqual(
+            get_task_metadata(self.task_id),
+            {
+                "component_id": 1,
+                "component_ids": [1, 2],
+                "translation_id": None,
+                "user_id": 3,
+                "task_kind": "repository-operation",
+                "cancellable": False,
+            },
+        )
+
 
 class CeleryStartupTest(SimpleTestCase):
     @staticmethod
@@ -94,6 +139,35 @@ print("tesserocr" in sys.modules)
         )
 
         self.assertEqual(output, "False")
+
+    def test_url_loading_before_worker_fork(self) -> None:
+        output = self.run_python(
+            """
+import json
+import sys
+
+from celery.signals import worker_before_create_process
+from weblate.utils.celery import app
+
+app.loader.import_default_modules()
+urls_loaded_before_fork = "weblate.urls" in sys.modules
+worker_before_create_process.send(sender=app)
+print(json.dumps({
+    "urls_loaded_before_fork": urls_loaded_before_fork,
+    "urls_loaded_after_fork": "weblate.urls" in sys.modules,
+    "tesserocr_loaded": "tesserocr" in sys.modules,
+}))
+"""
+        )
+
+        self.assertEqual(
+            json.loads(output),
+            {
+                "urls_loaded_before_fork": False,
+                "urls_loaded_after_fork": True,
+                "tesserocr_loaded": False,
+            },
+        )
 
     def test_explicit_check_configuration_is_preserved(self) -> None:
         output = self.run_python(

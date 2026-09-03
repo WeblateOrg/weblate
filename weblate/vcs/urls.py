@@ -10,6 +10,7 @@ from weblate.vcs.views import (
     UserVCSIntegrationListView,
     github_app_import_repository,
     github_app_install,
+    github_app_migration,
     github_app_register,
     github_app_register_callback,
     github_app_register_submit,
@@ -70,6 +71,11 @@ urlpatterns = [
         "create/component/github-app/",
         github_app_repository_list,
         name="github-app-repositories",
+    ),
+    path(
+        "accounts/integrations/github-app/migrate/<uuid:workspace_id>/",
+        github_app_migration,
+        name="github-app-migration",
     ),
     path(
         "create/component/github-app/<int:pk>/<path:repo_full_name>/",

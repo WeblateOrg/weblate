@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-18 22:32+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -3260,6 +3260,14 @@ msgstr "スーパーユーザーの状態"
 msgid "User has all possible permissions."
 msgstr "ユーザーはすべての権限を持っています。"
 
+msgid "All languages"
+msgstr "すべての言語"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s（サイト全体での権限）"
@@ -3310,9 +3318,6 @@ msgstr "複数のコンポーネント リスト"
 
 msgid "Language selection"
 msgstr "言語の選択"
-
-msgid "All languages"
-msgstr "すべての言語"
 
 msgid "Languages"
 msgstr "言語"
@@ -8769,6 +8774,31 @@ msgstr "状態"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Weblate の支援者になろう"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "VCS リポジトリは誰でもアクセス可能です。"
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Skipped components:"
+msgstr "その他のコンポーネント"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "アクセスが拒否されました"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "リポジトリの状態"
@@ -17811,20 +17841,57 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "すべてのリポジトリを更新しました。翻訳の更新作業中です。"
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "すべてのリポジトリを更新しました。翻訳の更新作業中です。"
+
 msgid "All repositories were pushed."
+msgstr "すべてのリポジトリにプッシュしました。"
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "すべてのリポジトリにプッシュしました。"
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "すべてのリポジトリをリセットしました。翻訳の更新作業中です。"
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr "すべてのリポジトリをリセットしました。翻訳の更新作業中です。"
+
 msgid "All repositories have been cleaned up."
+msgstr "すべてのリポジトリをクリーンアップしました。"
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "すべてのリポジトリをクリーンアップしました。"
 
 msgid "Translation files have been synchronized."
 msgstr "翻訳ファイルが同期されました。"
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "翻訳ファイルが同期されました。"
+
 msgid "Updates of translations are in progress."
+msgstr "翻訳の更新作業中です。"
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "翻訳の更新作業中です。"
 
 #, fuzzy
@@ -17851,6 +17918,11 @@ msgid "Pending translations are being committed."
 msgstr "保留中のすべての翻訳をコミットしました。"
 
 msgid "All pending translations were committed."
+msgstr "保留中のすべての翻訳をコミットしました。"
+
+#, fuzzy
+#| msgid "All pending translations were committed."
+msgid "Pending translations in accessible repositories were committed."
 msgstr "保留中のすべての翻訳をコミットしました。"
 
 msgid "Component is now locked for translation updates!"

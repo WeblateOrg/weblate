@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-07-25 07:18+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -3609,6 +3609,14 @@ msgstr "Суперҡулланыусы статусы"
 msgid "User has all possible permissions."
 msgstr "Ҡулланыусының бөтә мөмкин булған рөхсәттәре бар."
 
+msgid "All languages"
+msgstr "Бөтә телдәр"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (сайт кимәлендәге рөхсәт)"
@@ -3658,9 +3666,6 @@ msgstr "Компонент исемлектәре"
 
 msgid "Language selection"
 msgstr "Тел һайлау"
-
-msgid "All languages"
-msgstr "Бөтә телдәр"
 
 msgid "Languages"
 msgstr "Телдәр"
@@ -9521,6 +9526,31 @@ msgstr "Статус"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Weblate-ҡа ярҙам итеүсе бул"
+
+#, fuzzy
+#| msgid "VCS repository might be exposed to everybody."
+msgid "Some repositories are not accessible"
+msgstr "VCS репозиторийы бөтәһенә лә асыҡ булыуы мөмкин."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Skipped components:"
+msgstr "Башҡа компоненттар"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Рөхсәт юҡ"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Репозиторий торошо"
@@ -18900,20 +18930,57 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "Бөтә репозиторийҙар ҙа яңыртылды, тәржемәләрҙе яңыртыу бара."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "Бөтә репозиторийҙар ҙа яңыртылды, тәржемәләрҙе яңыртыу бара."
+
 msgid "All repositories were pushed."
+msgstr "Бөтә репозиторийҙар ҙа ебәрелде (push)."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Бөтә репозиторийҙар ҙа ебәрелде (push)."
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "Бөтә репозиторийҙар ҙа кире алынды (reset), тәржемәләрҙе яңыртыу бара."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr "Бөтә репозиторийҙар ҙа кире алынды (reset), тәржемәләрҙе яңыртыу бара."
+
 msgid "All repositories have been cleaned up."
+msgstr "Бөтә репозиторийҙар ҙа таҙартылды."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Бөтә репозиторийҙар ҙа таҙартылды."
 
 msgid "Translation files have been synchronized."
 msgstr "Тәржемә файлдары синхронлаштырылды."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Тәржемә файлдары синхронлаштырылды."
+
 msgid "Updates of translations are in progress."
+msgstr "Тәржемәләрҙе яңыртыу бара."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Тәржемәләрҙе яңыртыу бара."
 
 #, fuzzy
@@ -18937,6 +19004,11 @@ msgid "Pending translations are being committed."
 msgstr "Бөтә көтөлгән тәржемәләр коммит ителде."
 
 msgid "All pending translations were committed."
+msgstr "Бөтә көтөлгән тәржемәләр коммит ителде."
+
+#, fuzzy
+#| msgid "All pending translations were committed."
+msgid "Pending translations in accessible repositories were committed."
 msgstr "Бөтә көтөлгән тәржемәләр коммит ителде."
 
 msgid "Component is now locked for translation updates!"

@@ -28,6 +28,7 @@ from weblate.trans.signals import user_pre_delete
 from weblate.utils.token import get_token
 
 if TYPE_CHECKING:
+    from django.http import HttpRequest
     from django_otp.models import Device
 
     from weblate.accounts.types import DeviceType
@@ -35,6 +36,7 @@ if TYPE_CHECKING:
 
 SESSION_WEBAUTHN_AUDIT = "weblate:second_factor:webauthn_audit_log"
 SESSION_SECOND_FACTOR_USER = "weblate:second_factor:user"
+SESSION_SECOND_FACTOR_HASH = "weblate:second_factor:auth_hash"
 SESSION_SECOND_FACTOR_TIMESTAMP = "weblate:second_factor:timestamp"
 SESSION_SECOND_FACTOR_SOCIAL = "weblate:second_factor:social"
 SESSION_SECOND_FACTOR_TOTP = "weblate:second_factor:totp_key"
@@ -321,6 +323,30 @@ def adjust_session_expiry(
     request.session[SESSION_EXPIRY_SCOPE] = scope
     request.session[SESSION_EXPIRY_AGE] = expiry_age
     request.session[SESSION_EXPIRY_REFRESHED] = now
+
+
+def set_second_factor_session(
+    request: HttpRequest,
+    user: User,
+    backend: str,
+    *,
+    social: bool = False,
+) -> None:
+    request.session[SESSION_SECOND_FACTOR_USER] = (user.id, backend)
+    request.session[SESSION_SECOND_FACTOR_HASH] = user.get_session_auth_hash()
+    if social:
+        request.session[SESSION_SECOND_FACTOR_SOCIAL] = True
+    else:
+        request.session.pop(SESSION_SECOND_FACTOR_SOCIAL, None)
+
+
+def clear_second_factor_session(
+    request: HttpRequest, *, preserve_social: bool = False
+) -> None:
+    request.session.pop(SESSION_SECOND_FACTOR_USER, None)
+    request.session.pop(SESSION_SECOND_FACTOR_HASH, None)
+    if not preserve_social:
+        request.session.pop(SESSION_SECOND_FACTOR_SOCIAL, None)
 
 
 def get_key_name(device: Device) -> str:

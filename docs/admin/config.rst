@@ -203,7 +203,7 @@ Argon2id parallelism factor. Defaults to ``1``.
 
 .. seealso::
 
-    `ALTCHA Proof of Work Mechanism <https://altcha.org/docs/proof-of-work/>`_
+    `ALTCHA Proof of Work Mechanism <https://altcha.org/docs/integration/proof-of-work-captcha/>`_
 
 .. setting:: ANONYMOUS_USER_NAME
 
@@ -237,6 +237,10 @@ This is currently applied in the following locations:
 
 * Sign in. Deletes the account password, preventing the user from signing in
   without requesting a new password.
+* Second-factor sign in. Deletes the account password after this many rejected
+  second-factor submissions since the last successful second-factor sign in.
+  This also invalidates pending password sign-ins. Other authentication methods
+  and API tokens remain usable.
 * Password reset. Prevents new e-mails from being sent, avoiding spamming
   users with too many password-reset attempts.
 

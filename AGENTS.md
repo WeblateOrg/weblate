@@ -39,7 +39,13 @@ For application-developer workflows and broader product integration guidance, us
 - Write commit messages using the Conventional Commits format
   `<type>(<optional scope>): <description>`. Common types include `feat`,
   `fix`, `docs`, `refactor`, `test`, `ci`, and `chore`. Example:
-  `fix(translations): handle empty component slug`.
+  `fix(translations): handle empty component slug`. Include a concise commit
+  body describing the motivation. When the commit resolves an issue, add a
+  `Fixes #123` clause.
+- Pin dependencies to exact versions using `==`. Use a non-exact constraint
+  only when there is a deliberate reason, and document that reason next to the
+  dependency declaration, as is done for `certifi` to allow newer certificate
+  bundles.
 - Keep new project code under GPL-3.0-or-later and include the repository's
   usual copyright and SPDX license header in new Python files.
 
@@ -58,6 +64,11 @@ For application-developer workflows and broader product integration guidance, us
 - Keep documentation changes scoped and additive when possible. Avoid
   unnecessary rewrites or structure changes, especially because the
   documentation is translated.
+- Document every new configuration option. Document native Django settings in
+  the appropriate settings documentation, typically `docs/admin/config.rst`,
+  and Docker-exposed environment variables in
+  `docs/admin/install/docker.rst`. Update both documentation surfaces when an
+  option is available through both mechanisms.
 - Use admonitions, screenshots, and code blocks only when they add concrete
   value and match the style of the surrounding page.
 - Keep manually maintained explanations in the main documentation pages. In
@@ -120,7 +131,16 @@ For application-developer workflows and broader product integration guidance, us
   (`DJANGO_SETTINGS_MODULE=weblate.settings_test`, `collectstatic`, and test
   database prerequisites). `scripts/test-database.sh` can be sourced to set up
   the database connection variables such as `CI_DB_USER`, `CI_DB_PASSWORD`,
-  `CI_DB_HOST`, and `CI_DB_PORT`.
+  `CI_DB_HOST`, and `CI_DB_PORT`. If tests cannot reach the configured
+  PostgreSQL server, do not assume it is stopped: local sandboxing can block
+  access to an already-running service. Retry with permission to access the
+  local service when sandboxing is the cause. Only when PostgreSQL is confirmed
+  not to be running, and it is installed as a local Linux service, try
+  `sudo service postgresql start` and rerun the failed command. Treat service
+  startup as a recovery step, not a prerequisite for every test invocation. If
+  you start PostgreSQL this way, stop it with `sudo service postgresql stop`
+  after the retry, whether the command succeeds or fails, so no service process
+  is left running when the task finishes.
 - Use `pylint` to lint the Python code: `uv run pylint weblate/ scripts/`
 - Use `mypy` to type check with the same command as CI:
   `uv run mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh`.

@@ -8049,12 +8049,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -8096,6 +8090,18 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/components/{project__slug}/{slug}/screenshots/:
     get:
       operationId: api_components_screenshots_list
@@ -19258,12 +19264,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -19305,6 +19305,18 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/projects/{slug}/statistics/:
     get:
       operationId: api_projects_statistics_retrieve
@@ -24558,6 +24570,8 @@ paths:
                       detail: You do not have permission to perform this action.
                       attr: null
           description: The authenticated user does not have permission for this operation.
+        '409':
+          description: This task cannot be cancelled.
   /api/translations/:
     get:
       operationId: api_translations_list
@@ -26683,12 +26697,6 @@ paths:
                       detail: Unsupported media type "application/json" in request.
                       attr: null
           description: The request media type is not supported.
-        '423':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse423'
-          description: The resource is locked.
         '429':
           content:
             application/json:
@@ -26730,6 +26738,18 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Remaining'
             X-RateLimit-Reset:
               $ref: '#/components/headers/X-RateLimit-Reset'
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperation'
+          description: The request was accepted for asynchronous processing.
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepositoryOperationConflict'
+          description: The resource is locked.
   /api/translations/{component__project__slug}/{component__slug}/{language__code}/statistics/:
     get:
       operationId: api_translations_statistics_retrieve
@@ -37682,6 +37702,9 @@ components:
       properties:
         operation:
           $ref: '#/components/schemas/OperationEnum'
+        background:
+          type: boolean
+          default: false
       required:
       - operation
     Report:
@@ -38027,8 +38050,13 @@ components:
           items:
             type: string
           description: Full paths of components preventing access to skipped repositories.
-      required:
-      - result
+        task_url:
+          type: string
+          format: uri
+    RepositoryOperationConflict:
+      oneOf:
+      - $ref: '#/components/schemas/RepositoryOperation'
+      - $ref: '#/components/schemas/ErrorResponse423'
     ResultEnum:
       enum:
       - voted
@@ -38512,7 +38540,10 @@ components:
           - type: 'null'
         log:
           type: string
+        cancellable:
+          type: boolean
       required:
+      - cancellable
       - completed
       - log
       - progress

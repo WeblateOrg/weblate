@@ -211,7 +211,8 @@ Django REST Framework
 
      * - ``amazon``
        - | :pypi:`boto3`
-       - :ref:`mt-aws`
+         | :pypi:`django-ses`
+       - :ref:`mt-aws`, AWS SES e-mail backend
 
      * - ``asgi``
        - | :pypi:`granian`

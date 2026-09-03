@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-28 03:49+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
@@ -467,8 +467,8 @@ msgstr "L'utente è stato disabilitato perché l'accesso è scaduto."
 #, python-brace-format
 msgid "User was added to the site-wide {team} team by {username}."
 msgstr ""
-"L'utente è stato aggiunto alla squadra a livello di sito {team} da {username}"
-"."
+"L'utente è stato aggiunto alla squadra a livello di sito {team} da "
+"{username}."
 
 #, python-brace-format
 msgid "User access to the site-wide {team} team was changed by {username}."
@@ -479,8 +479,8 @@ msgstr ""
 #, python-brace-format
 msgid "User was removed from the site-wide {team} team by {username}."
 msgstr ""
-"L'utente è stato rimosso dalla squadra a livello di sito {team} da {username}"
-"."
+"L'utente è stato rimosso dalla squadra a livello di sito {team} da "
+"{username}."
 
 #. Translators: Audit log entry
 msgid "Superuser privileges granted."
@@ -1940,7 +1940,8 @@ msgid ""
 msgstr ""
 
 msgid "The component has to define a gettext template for new translations."
-msgstr "Il componente deve definire un modello gettext per le nuove traduzioni."
+msgstr ""
+"Il componente deve definire un modello gettext per le nuove traduzioni."
 
 msgid ""
 "The Django add-on expects the template for new translations to be named "
@@ -2081,8 +2082,8 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file. This template must include {{ component }}."
 msgstr ""
-"Il nome file usato per creare nuove traduzioni. Per gettext scegli un file "
-".pot. Questo modello deve includere {{ component }}."
+"Il nome file usato per creare nuove traduzioni. Per gettext scegli un "
+"file .pot. Questo modello deve includere {{ component }}."
 
 msgid "Intermediate language file"
 msgstr "File di lingua intermedio"
@@ -3386,6 +3387,14 @@ msgstr "Stato superutente"
 msgid "User has all possible permissions."
 msgstr "L'utente ha tutti i permessi possibili."
 
+msgid "All languages"
+msgstr "Tutte le lingue"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (autorizzazione a livello di sito)"
@@ -3436,9 +3445,6 @@ msgstr "Elenchi componenti"
 
 msgid "Language selection"
 msgstr "Selezione lingua"
-
-msgid "All languages"
-msgstr "Tutte le lingue"
 
 msgid "Languages"
 msgstr "Lingue"
@@ -8126,7 +8132,8 @@ msgid "All components"
 msgstr "Tutti i componenti"
 
 msgid "Automatic assignment of users is configured for this team"
-msgstr "Per questa squadra è configurata l'assegnazione automatica degli utenti"
+msgstr ""
+"Per questa squadra è configurata l'assegnazione automatica degli utenti"
 
 msgid "Automatic assignment"
 msgstr "Assegnazione automatica"
@@ -8983,6 +8990,31 @@ msgstr "Stato"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Diventa un sostenitore di Weblate"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "Il repository VCS è accessibile a tutti."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Skipped components:"
+msgstr "Altri componenti"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Permesso negato"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Stato del repository"
@@ -13681,7 +13713,8 @@ msgid "A translation suggestion was added."
 msgstr "Si possono fornire suggerimenti per la traduzione."
 
 msgid "A previously untranslated string was translated by a user."
-msgstr "Una stringa precedentemente non tradotta è stata tradotta da un utente."
+msgstr ""
+"Una stringa precedentemente non tradotta è stata tradotta da un utente."
 
 msgid "Translation added"
 msgstr "Traduzione aggiunta"
@@ -14953,7 +14986,8 @@ msgid "Update X-Generator header"
 msgstr ""
 
 msgid "Lets Weblate update the \"X-Generator\" file header."
-msgstr "Permetti a Weblate di aggiornare l'intestazione del file «X-Generator»."
+msgstr ""
+"Permetti a Weblate di aggiornare l'intestazione del file «X-Generator»."
 
 msgid "Report msgid bugs to"
 msgstr ""
@@ -17869,7 +17903,23 @@ msgstr ""
 "Tutti i repository sono stati aggiornati, gli aggiornamenti delle traduzioni "
 "sono in corso."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr ""
+"Tutti i repository sono stati aggiornati, gli aggiornamenti delle traduzioni "
+"sono in corso."
+
 msgid "All repositories were pushed."
+msgstr "Sono stati caricati tutti i repository."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Sono stati caricati tutti i repository."
 
 msgid ""
@@ -17878,13 +17928,38 @@ msgstr ""
 "Tutti i repository sono stati reimpostati, gli aggiornamenti delle "
 "traduzioni sono in corso."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr ""
+"Tutti i repository sono stati reimpostati, gli aggiornamenti delle "
+"traduzioni sono in corso."
+
 msgid "All repositories have been cleaned up."
+msgstr "Tutti i repository sono stati azzerati."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Tutti i repository sono stati azzerati."
 
 msgid "Translation files have been synchronized."
 msgstr "I file traduzione sono stati sincronizzati."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "I file traduzione sono stati sincronizzati."
+
 msgid "Updates of translations are in progress."
+msgstr "Sono in corso gli aggiornamenti delle traduzioni."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Sono in corso gli aggiornamenti delle traduzioni."
 
 #, fuzzy
@@ -17908,6 +17983,11 @@ msgid "Pending translations are being committed."
 msgstr "Effettuato il commit di tutte le traduzioni in sospeso."
 
 msgid "All pending translations were committed."
+msgstr "Effettuato il commit di tutte le traduzioni in sospeso."
+
+#, fuzzy
+#| msgid "All pending translations were committed."
+msgid "Pending translations in accessible repositories were committed."
 msgstr "Effettuato il commit di tutte le traduzioni in sospeso."
 
 msgid "Component is now locked for translation updates!"
@@ -19180,8 +19260,8 @@ msgstr "Impossibile aggiornare le chiavi host memorizzate."
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Rimossa la chiave host per %(host)s con impronta digitale %(fingerprint)s (%"
-"(keytype)s)."
+"Rimossa la chiave host per %(host)s con impronta digitale %(fingerprint)s "
+"(%(keytype)s)."
 
 #, fuzzy, python-format
 #| msgid "Could not remove the string: %s"
@@ -19217,7 +19297,8 @@ msgid "Refreshed %(count)d repositories from GitHub."
 msgstr ""
 
 msgid "Weblate GitHub app is not configured on this Weblate instance."
-msgstr "L'app GitHub di Weblate non è configurata in questa istanza di Weblate."
+msgstr ""
+"L'app GitHub di Weblate non è configurata in questa istanza di Weblate."
 
 msgid "Select a workspace before connecting a GitHub account."
 msgstr ""
@@ -19292,7 +19373,8 @@ msgstr ""
 "GitHub ha rifiutato il codice di registrazione. Ricomincia la registrazione."
 
 msgid "GitHub returned an incomplete App registration response."
-msgstr "GitHub ha restituito una risposta di registrazione dell'app incompleta."
+msgstr ""
+"GitHub ha restituito una risposta di registrazione dell'app incompleta."
 
 msgid "Weblate GitHub App registered. You can now connect a GitHub account."
 msgstr ""

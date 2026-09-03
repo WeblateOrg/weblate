@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-26 22:57+0000\n"
 "Last-Translator: goeran <goeran@uddeborg.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
@@ -3296,6 +3296,14 @@ msgstr "Superanvändarstatus"
 msgid "User has all possible permissions."
 msgstr "Användaren har alla tillgängliga behörigheter."
 
+msgid "All languages"
+msgstr "Alla språk"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (behörighet gällande hela webbplatsen)"
@@ -3344,9 +3352,6 @@ msgstr "Komponentlistor"
 
 msgid "Language selection"
 msgstr "Språkval"
-
-msgid "All languages"
-msgstr "Alla språk"
 
 msgid "Languages"
 msgstr "Språk"
@@ -8851,6 +8856,31 @@ msgstr "Status"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Bli Weblate-supporter"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "VCS-arkivet är tillgängligt för alla."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Skipped components"
+msgid "Skipped components:"
+msgstr "Utelämnade komponenter"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Åtkomst nekad"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Arkivstatus"
@@ -16573,8 +16603,8 @@ msgid ""
 "The parameter '%(param)s' is not applicable for the version control system "
 "'%(vcs)s'."
 msgstr ""
-"Parametern ”%(param)s” är inte tillämplig för versionshanteringssystemet ”%"
-"(vcs)s”."
+"Parametern ”%(param)s” är inte tillämplig för versionshanteringssystemet "
+"”%(vcs)s”."
 
 msgid ""
 "Pushing without a merge request needs write access to the repository. "
@@ -17576,20 +17606,57 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "Alla arkiv har uppdaterats, uppdateringar av översättningar pågår."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "Alla arkiv har uppdaterats, uppdateringar av översättningar pågår."
+
 msgid "All repositories were pushed."
+msgstr "Alla arkiv blev push:ade."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Alla arkiv blev push:ade."
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "Alla arkiv har återställts, uppdateringar av översättningar pågår."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr "Alla arkiv har återställts, uppdateringar av översättningar pågår."
+
 msgid "All repositories have been cleaned up."
+msgstr "Alla arkiv har rensats upp."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Alla arkiv har rensats upp."
 
 msgid "Translation files have been synchronized."
 msgstr "Översättningsfiler har synkroniserats."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Översättningsfiler har synkroniserats."
+
 msgid "Updates of translations are in progress."
+msgstr "Översättningarna uppdateras för närvarande."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Översättningarna uppdateras för närvarande."
 
 msgid "Duplicate strings have been removed from the translation file."
@@ -17606,6 +17673,11 @@ msgstr "Väntande översättningar genomförs."
 
 msgid "All pending translations were committed."
 msgstr "Alla väntande översättningar checkades in."
+
+#, fuzzy
+#| msgid "Pending translations are being committed."
+msgid "Pending translations in accessible repositories were committed."
+msgstr "Väntande översättningar genomförs."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Komponenten är nu låst för uppdateringar av översättningar!"
@@ -18003,8 +18075,8 @@ msgstr "Formatsträngarna stöds inte längre. Använd mallspråket istället."
 msgid ""
 "Unable to download asset from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
-"Det gick inte att hämta resursen från den angivna URL:en (HTTP-statuskod: %"
-"(code)s)."
+"Det gick inte att hämta resursen från den angivna URL:en (HTTP-statuskod: "
+"%(code)s)."
 
 msgid "Search query is too complex."
 msgstr "Sökfrågan är för komplex."
@@ -18318,62 +18390,62 @@ msgstr "%(detail)s Försök igen senare."
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s"
 msgstr ""
-"%(service)s API-begäran misslyckades när du skapade en pull-begäran: %"
-"(status)s"
+"%(service)s API-begäran misslyckades när du skapade en pull-begäran: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"%(service)s API-begäran misslyckades när du skapade en pull-begäran: %"
-"(status)s Försök igen senare."
+"%(service)s API-begäran misslyckades när du skapade en pull-begäran: "
+"%(status)s Försök igen senare."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"%(service)s API-begäran misslyckades när du skapade en pull-begäran: %"
-"(status)s: %(error)s"
+"%(service)s API-begäran misslyckades när du skapade en pull-begäran: "
+"%(status)s: %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while creating a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"%(service)s API-begäran misslyckades när du skapade en pull-begäran: %"
-"(status)s: %(error)s Försök igen senare."
+"%(service)s API-begäran misslyckades när du skapade en pull-begäran: "
+"%(status)s: %(error)s Försök igen senare."
 
 #, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"%(service)s API-begäran misslyckades vid sammanfogning av en pull-begäran: %"
-"(status)s"
+"%(service)s API-begäran misslyckades vid sammanfogning av en pull-begäran: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"%(service)s API-begäran misslyckades vid sammanfogning av en pull-begäran: %"
-"(status)s Försök igen senare."
+"%(service)s API-begäran misslyckades vid sammanfogning av en pull-begäran: "
+"%(status)s Försök igen senare."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"%(service)s API-begäran misslyckades vid sammanfogning av en pull-begäran: %"
-"(status)s: %(error)s"
+"%(service)s API-begäran misslyckades vid sammanfogning av en pull-begäran: "
+"%(status)s: %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"%(service)s API-begäran misslyckades vid sammanfogning av en pull-begäran: %"
-"(status)s: %(error)s Försök igen senare."
+"%(service)s API-begäran misslyckades vid sammanfogning av en pull-begäran: "
+"%(status)s: %(error)s Försök igen senare."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "GitHub-appdatabaser måste importeras med en gren."
@@ -18387,8 +18459,8 @@ msgstr "Ingen installation av Weblate GitHub-appen är tillgänglig."
 #, python-format
 msgid "No Weblate GitHub app installation available for %(hostname)s"
 msgstr ""
-"Det finns ingen installation av Weblate GitHub-programmet tillgänglig för %"
-"(hostname)s"
+"Det finns ingen installation av Weblate GitHub-programmet tillgänglig för "
+"%(hostname)s"
 
 #, python-format
 msgid "Could not obtain GitHub App access token: %(error)s"
@@ -18412,7 +18484,8 @@ msgstr "Listning av pull-begäranden misslyckades: %(error)s"
 
 #, python-format
 msgid "Pull request listing failed: %(error)s Please retry later."
-msgstr "Listning av pull-begäranden misslyckades: %(error)s Försök igen senare."
+msgstr ""
+"Listning av pull-begäranden misslyckades: %(error)s Försök igen senare."
 
 #, python-format
 msgid "Could not fork repository at %(hostname)s"
@@ -18848,15 +18921,15 @@ msgstr "Kunde inte hämta den publika nyckeln för en värd."
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Lade till värdnyckeln för %(host)s med fingeravtryck %(fingerprint)s (%"
-"(keytype)s)."
+"Lade till värdnyckeln för %(host)s med fingeravtryck %(fingerprint)s "
+"(%(keytype)s)."
 
 #, python-format
 msgid ""
 "Skipped host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Hoppade över värdnyckeln för %(host)s med fingeravtryck %(fingerprint)s (%"
-"(keytype)s)."
+"Hoppade över värdnyckeln för %(host)s med fingeravtryck %(fingerprint)s "
+"(%(keytype)s)."
 
 #, python-format
 msgid ""
@@ -18882,8 +18955,8 @@ msgstr "Kunde inte uppdatera lagrade värdnycklar."
 msgid ""
 "Removed host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
 msgstr ""
-"Tog bort värdnyckeln för %(host)s med fingeravtryck %(fingerprint)s (%"
-"(keytype)s)."
+"Tog bort värdnyckeln för %(host)s med fingeravtryck %(fingerprint)s "
+"(%(keytype)s)."
 
 #, python-format
 msgid "Could not determine the effective SSH destination: %s"

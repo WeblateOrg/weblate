@@ -748,13 +748,12 @@ class TranslationTest(RepoTestCase):
         PendingUnitChange.store_unit_change(unit=unit, author=user)
         self.assertEqual(source.count_pending_units, 1)
 
-        with patch("weblate.trans.models.translation.report_error") as report_error:
+        with patch("weblate.trans.models.translation.report_message") as report_message:
             self.assertTrue(component.commit_pending("test", None))
 
-        report_error.assert_called_once_with(
+        report_message.assert_called_once_with(
             "Attempted to commit translation without filename",
             project=component.project,
-            message=True,
             extra_log=f"translation={source.full_slug}, pending_changes=1",
         )
         self.assertEqual(source.count_pending_units, 0)

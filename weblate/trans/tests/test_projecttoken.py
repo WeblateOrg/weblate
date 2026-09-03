@@ -122,6 +122,44 @@ class ProjectTokenTest(FixtureTestCase):
 
         self.assertEqual(response.data["slug"], self.project.slug)
 
+    def test_token_not_enumerated_in_user_search(self) -> None:
+        """Unrelated users can not find project tokens through user searches."""
+        token_key = self.create_token()
+        token_user = self.get_token_user(token_key)
+        _attacker_project, _attacker, attacker_client = self.create_attacker()
+
+        response = attacker_client.get(reverse("api:user-list"), {"username": "bot-"})
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(
+            token_user.username,
+            {result["username"] for result in response.json()["results"]},
+        )
+
+        response = attacker_client.get(
+            reverse("api:search"), {"q": token_user.username}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(
+            token_user.username,
+            {result["name"] for result in response.json()},
+        )
+
+        # Exact API lookup remains available by design.
+        response = attacker_client.get(
+            reverse("api:user-detail", kwargs={"username": token_user.username})
+        )
+        self.assertEqual(response.status_code, 200)
+
+        token_client = self.client_class()
+        response = token_client.get(
+            reverse("api:user-list"),
+            {"username": token_user.username},
+            headers={"authorization": f"Token {token_key}"},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["count"], 1)
+        self.assertEqual(response.json()["results"][0]["username"], token_user.username)
+
     def test_revoke_token(self) -> None:
         """Create a token revoke it, check that usage is not allowed."""
         token = self.create_token()

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-07-31 08:24+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -3443,6 +3443,14 @@ msgstr "சூப்பர் யூசர் நிலை"
 msgid "User has all possible permissions."
 msgstr "பயனருக்கு சாத்தியமான அனைத்து அனுமதிகளும் உள்ளன."
 
+msgid "All languages"
+msgstr "அனைத்து மொழிகளும்"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (தள அளவிலான அனுமதி)"
@@ -3491,9 +3499,6 @@ msgstr "கூறு பட்டியல்கள்"
 
 msgid "Language selection"
 msgstr "மொழி தேர்வு"
-
-msgid "All languages"
-msgstr "அனைத்து மொழிகளும்"
 
 msgid "Languages"
 msgstr "மொழிகள்"
@@ -9199,6 +9204,31 @@ msgstr "நிலை"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "வலைபெயர்ப்பு உதவி"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "பகஅ களஞ்சியம் அனைவருக்கும் அணுகக்கூடியது."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Skipped components:"
+msgstr "பிற கூறுகள்"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "இசைவு மறுக்கப்பட்டது"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "களஞ்சிய நிலை"
@@ -18414,7 +18444,23 @@ msgstr ""
 "அனைத்து களஞ்சியங்களும் புதுப்பிக்கப்பட்டுள்ளன, மொழிபெயர்ப்புகளின் புதுப்பிப்புகள் நடந்து "
 "வருகின்றன."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr ""
+"அனைத்து களஞ்சியங்களும் புதுப்பிக்கப்பட்டுள்ளன, மொழிபெயர்ப்புகளின் புதுப்பிப்புகள் நடந்து "
+"வருகின்றன."
+
 msgid "All repositories were pushed."
+msgstr "அனைத்து களஞ்சியங்களும் தள்ளப்பட்டன."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "அனைத்து களஞ்சியங்களும் தள்ளப்பட்டன."
 
 msgid ""
@@ -18423,13 +18469,38 @@ msgstr ""
 "அனைத்து களஞ்சியங்களும் மீட்டமைக்கப்பட்டுள்ளன, மொழிபெயர்ப்புகளின் புதுப்பிப்புகள் நடந்து "
 "வருகின்றன."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr ""
+"அனைத்து களஞ்சியங்களும் மீட்டமைக்கப்பட்டுள்ளன, மொழிபெயர்ப்புகளின் புதுப்பிப்புகள் நடந்து "
+"வருகின்றன."
+
 msgid "All repositories have been cleaned up."
+msgstr "அனைத்து களஞ்சியங்களும் தூய்மை செய்யப்பட்டுள்ளன."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "அனைத்து களஞ்சியங்களும் தூய்மை செய்யப்பட்டுள்ளன."
 
 msgid "Translation files have been synchronized."
 msgstr "மொழிபெயர்ப்பு கோப்புகள் ஒத்திசைக்கப்பட்டுள்ளன."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "மொழிபெயர்ப்பு கோப்புகள் ஒத்திசைக்கப்பட்டுள்ளன."
+
 msgid "Updates of translations are in progress."
+msgstr "மொழிபெயர்ப்புகளின் புதுப்பிப்புகள் செயலில் உள்ளன."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "மொழிபெயர்ப்புகளின் புதுப்பிப்புகள் செயலில் உள்ளன."
 
 #, fuzzy
@@ -18453,6 +18524,11 @@ msgid "Pending translations are being committed."
 msgstr "நிலுவையில் உள்ள அனைத்து மொழிபெயர்ப்புகளும் செய்யப்பட்டன."
 
 msgid "All pending translations were committed."
+msgstr "நிலுவையில் உள்ள அனைத்து மொழிபெயர்ப்புகளும் செய்யப்பட்டன."
+
+#, fuzzy
+#| msgid "All pending translations were committed."
+msgid "Pending translations in accessible repositories were committed."
 msgstr "நிலுவையில் உள்ள அனைத்து மொழிபெயர்ப்புகளும் செய்யப்பட்டன."
 
 msgid "Component is now locked for translation updates!"

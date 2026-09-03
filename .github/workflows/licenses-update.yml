@@ -11,6 +11,7 @@ on:
     - dependabot/**
     - main
     paths:
+    - .gitmodules
     - .github/workflows/licenses-update.yml
     - scripts/generate-license-data.py
     - scripts/spdx-license-list
@@ -27,7 +28,28 @@ jobs:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1   # v7.0.1
       with:
         persist-credentials: false
-        submodules: true
+
+    - name: Read SPDX release
+      id: spdx-release
+      shell: bash
+      run: |
+        SPDX_RELEASE="$(git config --file .gitmodules --get submodule.scripts/spdx-license-list.tag)"
+        if [[ ! "${SPDX_RELEASE}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "Invalid SPDX release: ${SPDX_RELEASE}" >&2
+          exit 1
+        fi
+        echo "version=${SPDX_RELEASE}" >> "${GITHUB_OUTPUT}"
+
+    - name: Checkout SPDX license data
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1   # v7.0.1
+      with:
+        repository: spdx/license-list-data
+        ref: ${{ steps.spdx-release.outputs.version }}
+        path: scripts/spdx-license-list
+        fetch-depth: 1
+        sparse-checkout: json
+        persist-credentials: false
+
     - uses: ./.github/actions/pre-commit-setup
     - run: ./scripts/generate-license-data.py
 

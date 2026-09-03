@@ -39,7 +39,9 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.cache import patch_response_headers
+from django.utils.crypto import constant_time_compare
 from django.utils.decorators import method_decorator
+from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.http import content_disposition_header, urlencode
 from django.utils.safestring import mark_safe
@@ -133,16 +135,19 @@ from weblate.accounts.notifications import (
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import (
     SECOND_FACTOR_VERIFY_SECONDS,
+    SESSION_SECOND_FACTOR_HASH,
     SESSION_SECOND_FACTOR_SOCIAL,
     SESSION_SECOND_FACTOR_TIMESTAMP,
     SESSION_SECOND_FACTOR_TOTP,
     SESSION_SECOND_FACTOR_USER,
     SESSION_WEBAUTHN_AUDIT,
     adjust_session_expiry,
+    clear_second_factor_session,
     get_key_name,
     lock_user,
     remove_user,
     reset_api_token,
+    set_second_factor_session,
 )
 from weblate.auth.decorators import check_management_access
 from weblate.auth.forms import UserEditForm
@@ -1103,7 +1108,7 @@ class BaseLoginView(LoginView):
         user = form.get_user()
         if user.profile.has_2fa:
             # Store session indication for second factor
-            self.request.session[SESSION_SECOND_FACTOR_USER] = (user.id, user.backend)
+            set_second_factor_session(self.request, user, user.backend)
             # Redirect to second factor login
             redirect_to = self.request.POST.get(
                 self.redirect_field_name, self.request.GET.get(self.redirect_field_name)
@@ -1331,8 +1336,9 @@ def password(request: AuthenticatedHttpRequest):
                 "Please confirm your identity using a second factor before proceeding."
             ),
         )
-        request.session[SESSION_SECOND_FACTOR_USER] = (
-            user.id,
+        set_second_factor_session(
+            request,
+            user,
             "weblate.accounts.auth.WeblateUserBackend",
         )
         login_params: dict[str, str] = {"next": reverse("password")}
@@ -2116,10 +2122,10 @@ class UserList(ListView):
     initial_query = ""
 
     def get_base_queryset(self):
-        return User.objects.filter(is_active=True, is_bot=False)
+        return User.objects.filter(is_active=True)
 
     def get_queryset(self):
-        users = self.get_base_queryset()
+        users = self.get_base_queryset().filter_search_access(self.request.user)
         form = self.form
         if form.is_valid():
             search = form.cleaned_data.get("q", "")
@@ -2327,6 +2333,18 @@ class TOTPView(FormView):
         return redirect_profile("#account")
 
 
+SECOND_FACTOR_LOCKED_MESSAGE = gettext_lazy(
+    "Too many failed authentication attempts. Please reset your password to "
+    "regain access to your account."
+)
+
+
+class SecondFactorLockedError(OTPWebAuthnApiError):
+    status_code = 403
+    default_detail = SECOND_FACTOR_LOCKED_MESSAGE
+    default_code = "account_locked"
+
+
 class SecondFactorMixin(View):
     request: AuthenticatedHttpRequest
 
@@ -2334,7 +2352,7 @@ class SecondFactorMixin(View):
         # Store audit log entry about used device and update last used device type
         user = self.get_user()
         user.profile.log_2fa(self.request, device)
-        del self.request.session[SESSION_SECOND_FACTOR_USER]
+        clear_second_factor_session(self.request, preserve_social=True)
         self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
 
         if not self.request.session.get(SESSION_SECOND_FACTOR_SOCIAL):
@@ -2353,19 +2371,31 @@ class SecondFactorMixin(View):
             # This is completed in social_complete after completing social login
         return user
 
-    def second_factor_failed(self) -> None:
+    def second_factor_failed(self) -> bool:
         user = self.get_user()
-        user.profile.log_2fa_failed(self.request, self.get_backend())
+        audit = user.profile.log_2fa_failed(self.request, self.get_backend())
+        if not audit.check_rate_limit(self.request):
+            return False
+        clear_second_factor_session(self.request)
+        return True
 
     def get_user(self) -> User:
         try:
             user_id, backend = self.request.session[SESSION_SECOND_FACTOR_USER]
-        except KeyError as error:
+            session_auth_hash = self.request.session[SESSION_SECOND_FACTOR_HASH]
+        except (KeyError, TypeError, ValueError) as error:
+            clear_second_factor_session(self.request)
             raise Http404 from error
         try:
             user = User.objects.get(pk=user_id)
-        except User.DoesNotExist as error:
+        except (TypeError, ValueError, User.DoesNotExist) as error:
+            clear_second_factor_session(self.request)
             raise Http404 from error
+        if not isinstance(session_auth_hash, str) or not constant_time_compare(
+            session_auth_hash, user.get_session_auth_hash()
+        ):
+            clear_second_factor_session(self.request)
+            raise Http404
         user.backend = backend
         return user
 
@@ -2421,7 +2451,9 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form):
-        self.second_factor_failed()
+        if self.second_factor_failed():
+            messages.error(self.request, force_str(SECOND_FACTOR_LOCKED_MESSAGE))
+            return redirect("login")
         return super().form_invalid(form)
 
 
@@ -2448,6 +2480,7 @@ class WeblateCompleteCredentialAuthenticationView(
     def post(self, *args, **kwargs):
         try:
             return super().post(*args, **kwargs)
-        except OTPWebAuthnApiError:
-            self.second_factor_failed()
+        except OTPWebAuthnApiError as error:
+            if self.second_factor_failed():
+                raise SecondFactorLockedError from error
             raise

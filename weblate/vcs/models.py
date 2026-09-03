@@ -193,7 +193,20 @@ class VCSConf(AppConf):
 
 class VcsClassLoader(ClassLoader):
     def __init__(self) -> None:
-        super().__init__("VCS_BACKENDS", construct=False, base_class=Repository)
+        super().__init__(
+            "VCS_BACKENDS",
+            construct=False,
+            base_class=Repository,
+            dependent_settings=(
+                "AZURE_DEVOPS_CREDENTIALS",
+                "BITBUCKETCLOUD_CREDENTIALS",
+                "BITBUCKETSERVER_CREDENTIALS",
+                "GITEA_CREDENTIALS",
+                "GITHUB_CREDENTIALS",
+                "GITLAB_CREDENTIALS",
+                "PAGURE_CREDENTIALS",
+            ),
+        )
 
     def get_unfiltered_choices(self):
         result = self.get_unfiltered_data()

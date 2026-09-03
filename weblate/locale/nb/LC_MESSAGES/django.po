@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-07-25 07:17+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -3634,6 +3634,14 @@ msgstr "Superbrukerstatus"
 msgid "User has all possible permissions."
 msgstr "Bruker har alle mulige tilganger."
 
+msgid "All languages"
+msgstr "Alle språk"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (tilgang for hele siden)"
@@ -3686,9 +3694,6 @@ msgstr "Komponentlister"
 
 msgid "Language selection"
 msgstr "Språkvalg"
-
-msgid "All languages"
-msgstr "Alle språk"
 
 msgid "Languages"
 msgstr "Språk"
@@ -9947,6 +9952,31 @@ msgstr "Status"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Støtte"
+
+#, fuzzy
+#| msgid "VCS repository might be exposed to everybody."
+msgid "Some repositories are not accessible"
+msgstr "VKS-kodelager kan eksponeres til alle."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Other components"
+msgid "Skipped components:"
+msgstr "Andre komponenter"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Adgang avslått"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Kodelagerstatus"
@@ -19924,7 +19954,19 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr ""
 
+#, fuzzy
+#| msgid "All repositories have been reset."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "Alle kodelagre er tilbakestilt."
+
 msgid "All repositories were pushed."
+msgstr "Alle kodelagre ble dyttet."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Alle kodelagre ble dyttet."
 
 #, fuzzy
@@ -19933,7 +19975,19 @@ msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "Alle kodelagre er tilbakestilt."
 
+#, fuzzy
+#| msgid "All repositories have been reset."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr "Alle kodelagre er tilbakestilt."
+
 msgid "All repositories have been cleaned up."
+msgstr "Alle kodelagre har blitt tømt."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Alle kodelagre har blitt tømt."
 
 #, fuzzy
@@ -19942,8 +19996,18 @@ msgid "Translation files have been synchronized."
 msgstr "Oversettelsesfilene har blitt synkronisert."
 
 #, fuzzy
+#| msgid "Translation has been removed."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Oversettelsesfilene har blitt synkronisert."
+
+#, fuzzy
 #| msgid "Automatic translation in progress"
 msgid "Updates of translations are in progress."
+msgstr "Automatisk oversettelse pågår"
+
+#, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Automatisk oversettelse pågår"
 
 #, fuzzy
@@ -19967,6 +20031,11 @@ msgid "Pending translations are being committed."
 msgstr "Alle ventende oversettelser ble innsendt."
 
 msgid "All pending translations were committed."
+msgstr "Alle ventende oversettelser ble innsendt."
+
+#, fuzzy
+#| msgid "All pending translations were committed."
+msgid "Pending translations in accessible repositories were committed."
 msgstr "Alle ventende oversettelser ble innsendt."
 
 msgid "Component is now locked for translation updates!"

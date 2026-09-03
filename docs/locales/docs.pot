@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Weblate / Documentation\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "documentation/\n"
-"POT-Creation-Date: 2026-08-21 12:13+0000\n"
+"POT-Creation-Date: 2026-08-28 05:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -439,7 +439,7 @@ msgid "You can create your own dedicated teams to manage permissions for distinc
 msgstr ""
 
 #: admin/access.rst:369
-#: admin/access.rst:525
+#: admin/access.rst:533
 #: admin/config.rst:395
 #: admin/config.rst:414
 #: admin/config.rst:473
@@ -478,394 +478,398 @@ msgid "Restricting translation to `Czech` to a selected set of translators, (whi
 msgstr ""
 
 #: admin/access.rst:374
-msgid "Remove the permission to translate `Czech` from all users. In the default configuration this can be done by altering the `Users` :ref:`default team <default-teams>`."
+msgid "Remove the permission to translate `Czech` from all users. In the default configuration this can be done by altering the `Users` :ref:`default team <default-teams>`. Built-in teams reject this change in the team management UI, use the :ref:`Django admin interface <admin-interface>` instead."
 msgstr ""
 
-#: admin/access.rst:378
+#: admin/access.rst:380
 msgid "Group `Users`"
-msgstr ""
-
-#: admin/access.rst:381
-#: admin/access.rst:395
-msgid "Language selection"
-msgstr ""
-
-#: admin/access.rst:382
-#: admin/access.rst:396
-msgid "`As defined`"
 msgstr ""
 
 #: admin/access.rst:383
 #: admin/access.rst:397
-#: admin/access.rst:538
+msgid "All languages"
+msgstr ""
+
+#: admin/access.rst:384
+#: admin/access.rst:398
+msgid "Turned off"
+msgstr ""
+
+#: admin/access.rst:385
+#: admin/access.rst:399
+#: admin/access.rst:546
 #: api.rst:852
 #: user/profile.rst:76
 msgid "Languages"
 msgstr ""
 
-#: admin/access.rst:384
+#: admin/access.rst:386
 msgid "All but `Czech`"
 msgstr ""
 
-#: admin/access.rst:386
+#: admin/access.rst:388
 msgid "Add a dedicated team for `Czech` translators."
 msgstr ""
 
-#: admin/access.rst:388
+#: admin/access.rst:390
 msgid "Group `Czech translators`"
 msgstr ""
 
-#: admin/access.rst:391
-#: admin/access.rst:534
+#: admin/access.rst:393
+#: admin/access.rst:542
 #: api.rst:783
 msgid "Roles"
 msgstr ""
 
-#: admin/access.rst:392
+#: admin/access.rst:394
 msgid "`Power users`"
 msgstr ""
 
-#: admin/access.rst:393
+#: admin/access.rst:395
 msgid "Project selection"
 msgstr ""
 
-#: admin/access.rst:394
+#: admin/access.rst:396
 msgid "`All public projects`"
 msgstr ""
 
-#: admin/access.rst:398
+#: admin/access.rst:400
 msgid "`Czech`"
 msgstr ""
 
-#: admin/access.rst:401
+#: admin/access.rst:403
 msgid "Add users you wish to give the permissions to into this team."
 msgstr ""
 
-#: admin/access.rst:403
+#: admin/access.rst:405
 msgid "Management permissions this way is powerful, but can be quite a tedious job. You can only delegate it to other users by granting them Superuser status."
 msgstr ""
 
-#: admin/access.rst:409
+#: admin/access.rst:411
 msgid "Users, roles, teams, and permissions"
 msgstr ""
 
-#: admin/access.rst:411
+#: admin/access.rst:413
 msgid "The authentication models consist of several objects:"
 msgstr ""
 
-#: admin/access.rst:413
+#: admin/access.rst:415
 msgid "`Permission`"
 msgstr ""
 
-#: admin/access.rst:414
+#: admin/access.rst:416
 msgid "Individual permission defined by Weblate. Permissions cannot be assigned to users, only through assignment of roles."
 msgstr ""
 
-#: admin/access.rst:416
+#: admin/access.rst:418
 msgid "`Role`"
 msgstr ""
 
-#: admin/access.rst:417
+#: admin/access.rst:419
 msgid "A role defines a set of permissions (and can be reused in several places)."
 msgstr ""
 
-#: admin/access.rst:419
+#: admin/access.rst:421
 msgid "`User`"
 msgstr ""
 
-#: admin/access.rst:420
+#: admin/access.rst:422
 msgid "A user can belong to several teams."
 msgstr ""
 
-#: admin/access.rst:421
+#: admin/access.rst:423
 msgid "`Group`"
 msgstr ""
 
-#: admin/access.rst:422
+#: admin/access.rst:424
 msgid "Groups connect roles and users with authentication objects (projects, languages, components, and component lists)."
 msgstr ""
 
-#: admin/access.rst:440
+#: admin/access.rst:442
 msgid "A team can have no roles assigned to it, in that case access to browse the project by anyone is assumed (see below)."
 msgstr ""
 
-#: admin/access.rst:444
+#: admin/access.rst:446
 msgid "Project-browsing access"
 msgstr ""
 
-#: admin/access.rst:446
+#: admin/access.rst:448
 msgid "A user has to be a member of a team linked to the project, or any component inside that project. Having membership is enough, no specific permissions are needed to browse the project (this is used in the default `Viewers` team, see :ref:`default-teams`)."
 msgstr ""
 
-#: admin/access.rst:452
+#: admin/access.rst:454
 msgid "Component-browsing access"
 msgstr ""
 
-#: admin/access.rst:454
+#: admin/access.rst:456
 msgid "Granting browsing access to a user in one project gives it access to any component with derived browsing permissions. With :ref:`component-restricted` on, access to components (or component lists) are granted explicitly."
 msgstr ""
 
-#: admin/access.rst:462
+#: admin/access.rst:464
 msgid "Scope of teams"
 msgstr ""
 
-#: admin/access.rst:464
+#: admin/access.rst:466
 msgid "The scope of the permission assigned by the roles in the teams are applied by the following rules:"
 msgstr ""
 
-#: admin/access.rst:467
+#: admin/access.rst:469
 msgid "If the team specifies any :guilabel:`Component list`, all the permissions given to members of that team are granted for all the components in the component lists attached to the team, and an access with no additional permissions is granted for all the projects these components are in. :guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
 
-#: admin/access.rst:473
+#: admin/access.rst:475
 msgid "Using huge component lists might have a performance impact, please consider giving access via projects instead."
 msgstr ""
 
-#: admin/access.rst:476
+#: admin/access.rst:478
 msgid "If the team specifies any :guilabel:`Components`, all the permissions given to the members of that team are granted for all the components attached to the team, and an access with no additional permissions is granted for all the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
 
-#: admin/access.rst:481
+#: admin/access.rst:483
 msgid "Otherwise, if the team specifies any :guilabel:`Projects`, either by directly listing them or by having :guilabel:`Projects selection` set to a value like :guilabel:`All public projects`, all those permissions are applied to all the projects, which effectively grants the same permissions to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
 
-#: admin/access.rst:487
+#: admin/access.rst:489
 msgid "The restrictions imposed by a team’s :guilabel:`Languages` are applied separately, when it’s verified if a user has access to perform certain actions. Namely, it’s applied only to actions directly related to the translation process itself like reviewing, saving translations, adding suggestions, etc."
 msgstr ""
 
-#: admin/access.rst:492
+#: admin/access.rst:494
 msgid "Individual team memberships can further limit these permissions to selected languages. Leaving the per-member language limit empty applies no additional limit beyond the team language selection. The same language limit can be set when inviting new users to a project team. When a per-member language limit is set, the membership grants only permissions that can be evaluated for one of those languages. Project-wide, component-wide and global permissions from that team are not granted for that member."
 msgstr ""
 
-#: admin/access.rst:500
+#: admin/access.rst:502
 msgid "The VCS permissions to commit, push, reset, and update are evaluated for the whole repository. A member needs component-wide permission on the component owning the repository and every component linked to it. This also applies when linked components are in other projects. A per-member language limit therefore cannot grant these permissions."
 msgstr ""
 
-#: admin/access.rst:506
-msgid "The :guilabel:`Edit component settings` permission allows administrative operations that can affect repository contents. For example, users can choose files through component settings or install and configure component add-ons. For a :ref:`linked component <internal-urls>`, these operations use the complete shared checkout. Grant this permission only to users trusted by the repository owner with that checkout. Ordinary translation permissions do not grant this administrative access."
+#: admin/access.rst:508
+msgid "Project-wide repository status and operations filter repositories using this rule. Repositories for which the member lacks permission on any linked component are listed separately and are not inspected or changed. An operation is denied when none of the project's repositories are available to it."
 msgstr ""
 
 #: admin/access.rst:514
+msgid "The :guilabel:`Edit component settings` permission allows administrative operations that can affect repository contents. For example, users can choose files through component settings or install and configure component add-ons. For a :ref:`linked component <internal-urls>`, these operations use the complete shared checkout. Grant this permission only to users trusted by the repository owner with that checkout. Ordinary translation permissions do not grant this administrative access."
+msgstr ""
+
+#: admin/access.rst:522
 msgid "Repository-wide VCS permissions protect explicit commit, push, reset, and update operations. They are not required for Weblate's normal background commit and push of translation changes made through an authorized component."
 msgstr ""
 
-#: admin/access.rst:520
-msgid "Use :guilabel:`Language selection` or :guilabel:`Project selection` to automate inclusion of all languages or projects."
-msgstr ""
-
-#: admin/access.rst:527
-msgid "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with reviewing and management rights, in the following team:"
-msgstr ""
-
-#: admin/access.rst:531
-msgid "Group `Spanish Admin-Reviewers`"
+#: admin/access.rst:528
+msgid "Use :guilabel:`All languages` or :guilabel:`Project selection` to automate inclusion of all languages or projects."
 msgstr ""
 
 #: admin/access.rst:535
-msgid "`Review strings`, `Manage repository`"
-msgstr ""
-
-#: admin/access.rst:536
-#: api.rst:1679
-msgid "Components"
-msgstr ""
-
-#: admin/access.rst:537
-msgid "foo/bar"
+msgid "A project ``foo`` with the components: ``foo/bar`` and ``foo/baz``, with reviewing and management rights, in the following team:"
 msgstr ""
 
 #: admin/access.rst:539
-msgid "`Spanish`"
+msgid "Group `Spanish Admin-Reviewers`"
 msgstr ""
 
-#: admin/access.rst:542
-msgid "Members of that team will have these permissions (assuming the default role settings):"
+#: admin/access.rst:543
+msgid "`Review strings`, `Manage repository`"
 msgstr ""
 
 #: admin/access.rst:544
-msgid "General (browsing) access to the whole project ``foo`` including both components in it: ``foo/bar`` and ``foo/baz``."
+#: api.rst:1694
+msgid "Components"
 msgstr ""
 
-#: admin/access.rst:546
-msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
+#: admin/access.rst:545
+msgid "foo/bar"
 msgstr ""
 
 #: admin/access.rst:547
-msgid "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes made by translators for all languages."
+msgid "`Spanish`"
 msgstr ""
 
-#: admin/access.rst:553
-msgid "Automatic team assignments"
+#: admin/access.rst:550
+msgid "Members of that team will have these permissions (assuming the default role settings):"
+msgstr ""
+
+#: admin/access.rst:552
+msgid "General (browsing) access to the whole project ``foo`` including both components in it: ``foo/bar`` and ``foo/baz``."
+msgstr ""
+
+#: admin/access.rst:554
+msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
 
 #: admin/access.rst:555
+msgid "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes made by translators for all languages."
+msgstr ""
+
+#: admin/access.rst:561
+msgid "Automatic team assignments"
+msgstr ""
+
+#: admin/access.rst:563
 msgid "While editing the :guilabel:`Team`, you can specify :guilabel:`Automatic assignments`, which is a list of regular expressions used to automatically assign newly created users to a team based on their e-mail addresses. This assignment only happens upon account creation."
 msgstr ""
 
-#: admin/access.rst:560
+#: admin/access.rst:568
 msgid "The most common use-case for the feature is to assign all new users to some default team. This behavior is used for the default `Users` and `Guest` teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match all users."
 msgstr ""
 
-#: admin/access.rst:566
+#: admin/access.rst:574
 msgid "Another use-case for this option might be to give some additional privileges to employees of your company by default. Assuming all of them use corporate e-mail addresses on your domain, this can be accomplished with an expression like ``^.*@mycompany.com``."
 msgstr ""
 
-#: admin/access.rst:573
+#: admin/access.rst:581
 msgid "Automatic team assignment to `Users` and `Viewers` is always recreated when upgrading from one Weblate version to another. If you want to turn it off, set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
 
-#: admin/access.rst:579
+#: admin/access.rst:587
 msgid "Bulk inviting through the user interface creates invitations. Existing users still have to confirm the invitation before they become team members."
 msgstr ""
 
-#: admin/access.rst:583
+#: admin/access.rst:591
 msgid "Default teams and roles"
 msgstr ""
 
-#: admin/access.rst:585
+#: admin/access.rst:593
 msgid "After installation, a default set of teams is created (see :ref:`default-teams`)."
 msgstr ""
 
-#: admin/access.rst:587
+#: admin/access.rst:595
 msgid "These roles and teams are created upon installation. The built-in roles are always kept up to date by the database migration when upgrading. You can’t actually change them, please define a new role if you want to define your own set of permissions."
 msgstr ""
 
-#: admin/access.rst:598
+#: admin/access.rst:606
 msgid "Roles do not have a separate scope; the permissions in a role determine its scope. A role containing a permission listed under :guilabel:`Site wide privileges` grants that permission across the Weblate instance when assigned through a site-wide team. The team's project selection does not narrow these permissions."
 msgstr ""
 
-#: admin/access.rst:604
+#: admin/access.rst:612
 msgid "Site-wide privileges are not granted to any default role. Treat custom roles containing them as trusted administrative access because some are effectively equivalent to superuser status. For example, ``user.edit`` allows users to change their own team memberships and grant themselves superuser status."
 msgstr ""
 
-#: admin/access.rst:615
+#: admin/access.rst:623
 msgid "List of teams"
 msgstr ""
 
-#: admin/access.rst:617
+#: admin/access.rst:625
 msgid "The following teams are created upon installation (or after executing :wladmin:`setupgroups`) and you are free to modify them. The migration will, however, re-create them if you delete or rename them."
 msgstr ""
 
-#: admin/access.rst:621
+#: admin/access.rst:629
 msgid "`Guests`"
 msgstr ""
 
-#: admin/access.rst:622
+#: admin/access.rst:630
 msgid "Defines permissions for non-authenticated users."
 msgstr ""
 
-#: admin/access.rst:624
+#: admin/access.rst:632
 msgid "This team only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`)."
 msgstr ""
 
-#: admin/access.rst:626
+#: admin/access.rst:634
 msgid "Remove roles from this team to limit permissions for non-authenticated users."
 msgstr ""
 
-#: admin/access.rst:629
+#: admin/access.rst:637
 msgid "Default roles: `Add suggestion`, `Access repository`"
 msgstr ""
 
-#: admin/access.rst:631
+#: admin/access.rst:639
 msgid "`Viewers`"
 msgstr ""
 
-#: admin/access.rst:632
+#: admin/access.rst:640
 msgid "This role ensures the visibility of public projects to all users. By default, all users are members of this team."
 msgstr ""
 
-#: admin/access.rst:635
 #: admin/access.rst:643
+#: admin/access.rst:651
 msgid "By default, :ref:`automatic team assignment <autoteam>` makes all new accounts members of this team when they join."
 msgstr ""
 
-#: admin/access.rst:638
+#: admin/access.rst:646
 msgid "Default roles: none"
 msgstr ""
 
-#: admin/access.rst:640
+#: admin/access.rst:648
 #: workflows.rst:189
 #: workflows.rst:221
 #: workflows.rst:254
 msgid "`Users`"
 msgstr ""
 
-#: admin/access.rst:641
+#: admin/access.rst:649
 msgid "Default team for all users."
 msgstr ""
 
-#: admin/access.rst:646
+#: admin/access.rst:654
 msgid "Default roles: `Power user`"
 msgstr ""
 
-#: admin/access.rst:648
+#: admin/access.rst:656
 #: workflows.rst:258
 msgid "`Reviewers`"
 msgstr ""
 
-#: admin/access.rst:649
+#: admin/access.rst:657
 msgid "Group for reviewers (see :ref:`workflows`)."
 msgstr ""
 
-#: admin/access.rst:651
+#: admin/access.rst:659
 msgid "Default roles: `Review strings`"
 msgstr ""
 
-#: admin/access.rst:653
+#: admin/access.rst:661
 msgid "`Managers`"
 msgstr ""
 
-#: admin/access.rst:654
+#: admin/access.rst:662
 msgid "Group for administrators."
 msgstr ""
 
-#: admin/access.rst:656
+#: admin/access.rst:664
 msgid "Default roles: `Administration`"
 msgstr ""
 
-#: admin/access.rst:658
+#: admin/access.rst:666
 #: admin/workspaces.rst:286
 msgid "`Project creators`"
 msgstr ""
 
-#: admin/access.rst:661
+#: admin/access.rst:669
 msgid "Users who can create new projects."
 msgstr ""
 
-#: admin/access.rst:663
+#: admin/access.rst:671
 msgid "Default roles: `Add new projects`"
 msgstr ""
 
-#: admin/access.rst:667
+#: admin/access.rst:675
 msgid "Never remove the predefined Weblate teams and users, as that can lead to unexpected problems! If you have no use for them, simply remove all their privileges instead."
 msgstr ""
 
-#: admin/access.rst:672
+#: admin/access.rst:680
 msgid "Additional access restrictions"
 msgstr ""
 
-#: admin/access.rst:674
+#: admin/access.rst:682
 msgid "If you want to use your Weblate installation in a less public manner, i.e. allow new users on an invitational basis only, it can be done by configuring Weblate in such a way that only known users have an access to it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to ``False`` to prevent registrations of any new users, and set :setting:`REQUIRE_LOGIN` to ``True`` to require signing in to access all the site pages. This is basically the way to lock your Weblate installation."
 msgstr ""
 
-#: admin/access.rst:681
+#: admin/access.rst:689
 msgid "Additionally, changing :setting:`DEFAULT_ACCESS_CONTROL` to ``100`` will make all newly created projects private, requiring explicit access to be granted."
 msgstr ""
 
-#: admin/access.rst:686
+#: admin/access.rst:694
 msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr ""
 
-#: admin/access.rst:691
+#: admin/access.rst:699
 msgid "Expiration of user accounts"
 msgstr ""
 
-#: admin/access.rst:693
+#: admin/access.rst:701
 msgid "Each account can have an expiry set. After the expiration, the account will be automatically disabled. This is used for :ref:`project-api`, but can be utilized for regular users as well."
 msgstr ""
 
 #: admin/addons.rst:7
-#: api.rst:3156
+#: api.rst:3171
 #: security/threat-model.rst:112
 msgid "Add-ons"
 msgstr ""
@@ -13755,138 +13759,138 @@ msgstr ""
 msgid "Projects"
 msgstr ""
 
-#: api.rst:1683
+#: api.rst:1698
 msgid "Use :http:post:`/api/projects/(string:project)/components/` to create new components."
 msgstr ""
 
-#: api.rst:2341
+#: api.rst:2356
 #: snippets/permissions.rst:223
 msgid "Translations"
 msgstr ""
 
-#: api.rst:2705
+#: api.rst:2720
 msgid "Memory"
 msgstr ""
 
-#: api.rst:2746
+#: api.rst:2761
 msgid "Units"
 msgstr ""
 
-#: api.rst:2748
+#: api.rst:2763
 msgid "A `unit` is a single piece of a translation which pairs a source string with a corresponding translated string and also contains some related metadata. The term is derived from the :py:class:`tt:translate.storage.base.TranslationUnit` in Translate Toolkit and XLIFF."
 msgstr ""
 
-#: api.rst:2922
+#: api.rst:2937
 #: snippets/permissions.rst:179
 #: user/translating.rst:48
 #: workflows.rst:147
 msgid "Suggestions"
 msgstr ""
 
-#: api.rst:2999
+#: api.rst:3014
 #: snippets/permissions.rst:11
 msgid "Changes"
 msgstr ""
 
-#: api.rst:3039
+#: api.rst:3054
 #: snippets/permissions.rst:105
 #: user/translating.rst:377
 msgid "Screenshots"
 msgstr ""
 
-#: api.rst:3229
+#: api.rst:3244
 msgid "Component lists"
 msgstr ""
 
-#: api.rst:3309
+#: api.rst:3324
 #: snippets/permissions.rst:39
 #: user/glossary.rst:4
 #: user/translating.rst:394
 msgid "Glossary"
 msgstr ""
 
-#: api.rst:3313
+#: api.rst:3328
 msgid "Glossaries are now stored as regular components, translations and strings, please use respective API instead."
 msgstr ""
 
-#: api.rst:3317
+#: api.rst:3332
 #: snippets/permissions.rst:101
 msgid "Reports"
 msgstr ""
 
-#: api.rst:3352
+#: api.rst:3367
 msgid "Tasks"
 msgstr ""
 
-#: api.rst:3376
+#: api.rst:3391
 msgid "Statistics"
 msgstr ""
 
-#: api.rst:3431
+#: api.rst:3446
 msgid "Metrics"
 msgstr ""
 
-#: api.rst:3465
+#: api.rst:3480
 msgid "Project metrics expose translation statistics for each visible component and language at :http:get:`/api/projects/(string:project)/metrics/`. They include translated, total, fuzzy, failing-check, and approved string, word, and character counts; suggestions; comments; and translated and approved percentages."
 msgstr ""
 
-#: api.rst:3472
+#: api.rst:3487
 msgid "Search"
 msgstr ""
 
-#: api.rst:3495
+#: api.rst:3510
 msgid "Categories"
 msgstr ""
 
-#: api.rst:3614
+#: api.rst:3629
 msgid "Notification hooks"
 msgstr ""
 
-#: api.rst:3616
+#: api.rst:3631
 msgid "Notification hooks allow external applications to notify Weblate that the VCS repository has been updated. Weblate matches the delivery to components by repository URL; see :ref:`hooks-target-matching`."
 msgstr ""
 
-#: api.rst:3620
+#: api.rst:3635
 msgid "The generic hook endpoints return diagnostics intended to help configure repository notifications. The ``match_status`` object contains:"
 msgstr ""
 
-#: api.rst:3624
+#: api.rst:3639
 msgid "Number of components whose repository URL matches the payload."
 msgstr ""
 
-#: api.rst:3626
+#: api.rst:3641
 msgid "Number of repository matches whose configured branch matches the payload. For events without a branch, every repository match is counted as a branch match."
 msgstr ""
 
-#: api.rst:3630
+#: api.rst:3645
 msgid "Number of branch matches whose project has hooks enabled."
 msgstr ""
 
-#: api.rst:3632
+#: api.rst:3647
 msgid "A successful update response names the updated project/component slugs in ``message`` and returns their absolute API URLs in ``updated_components``. These diagnostics include private projects and restricted components because matching does not apply user access control. Components managed through an authenticated integration are excluded from generic matching and diagnostics; currently this applies to the :guilabel:`GitHub (via Weblate GitHub app)` VCS backend. When an update event completes target matching but schedules no update, the response uses HTTP status code 202 and retains ``match_status`` so the repository, branch, and project hook settings can be diagnosed. Ping and ignored events return HTTP status code 201 without matching diagnostics. These responses can confirm that a supplied repository URL is registered, but do not grant access to the linked API objects or expose repository content, translations, or credentials. See :ref:`hooks-target-matching` for the security and compatibility implications."
 msgstr ""
 
-#: api.rst:3647
+#: api.rst:3662
 msgid "You can use repository endpoints for projects, components and translations to update individual repositories; see :http:post:`/api/projects/(string:project)/repository/` for documentation."
 msgstr ""
 
-#: api.rst:3795
+#: api.rst:3810
 msgid "RSS feeds"
 msgstr ""
 
-#: api.rst:3797
+#: api.rst:3812
 msgid "Changes in translations are exported in RSS feeds."
 msgstr ""
 
-#: api.rst:3799
+#: api.rst:3814
 msgid "The feeds contain only changes in projects and components the requesting user can access."
 msgstr ""
 
-#: api.rst:3802
+#: api.rst:3817
 msgid "Filtered RSS feeds are available from the changes browser. These accept the same filters as the changes page, for example ``action``, ``user``, ``exclude_user``, and ``period``."
 msgstr ""
 
-#: api.rst:3852
+#: api.rst:3867
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr ""
 
@@ -13899,12 +13903,12 @@ msgid "*Not yet released.*"
 msgstr ""
 
 #: changes.rst:7
-#: changes.rst:69
-#: changes.rst:102
-#: changes.rst:183
-#: changes.rst:240
-#: changes.rst:354
-#: changes.rst:408
+#: changes.rst:72
+#: changes.rst:105
+#: changes.rst:186
+#: changes.rst:243
+#: changes.rst:357
+#: changes.rst:411
 #: changes/v5.rst:10
 #: changes/v5.rst:88
 #: changes/v5.rst:204
@@ -13938,11 +13942,11 @@ msgid "Added :ref:`vcs_params` to configure repository behavior per component, i
 msgstr ""
 
 #: changes.rst:11
-#: changes.rst:118
-#: changes.rst:187
-#: changes.rst:251
-#: changes.rst:362
-#: changes.rst:419
+#: changes.rst:121
+#: changes.rst:190
+#: changes.rst:254
+#: changes.rst:365
+#: changes.rst:422
 #: changes/v5.rst:18
 #: changes/v5.rst:104
 #: changes/v5.rst:208
@@ -14034,37 +14038,45 @@ msgid "Billing audit logs now identify users who change plans, initiate payments
 msgstr ""
 
 #: changes.rst:22
-msgid "Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration."
+msgid "Assigning languages to a team now uses an :guilabel:`All languages` toggle which disables the language choice when turned on, and a manually chosen set of languages is kept when toggling it. See :ref:`manage-acl`."
 msgstr ""
 
 #: changes.rst:23
-msgid "Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior."
+msgid "Management notices now distinguish support package activation, status refresh, unlinking, and Discover Weblate registration."
 msgstr ""
 
 #: changes.rst:24
-msgid "Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`."
+msgid "Clarified generic :ref:`notification hook <hooks>` matching and privacy behavior."
 msgstr ""
 
 #: changes.rst:25
-msgid "The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation."
+msgid "Clarified that Weblate does not populate Git submodules. See :ref:`git-submodules`."
 msgstr ""
 
 #: changes.rst:26
-msgid "Flags in the translation flags editor can now be reopened for editing, navigated with arrow keys, and copied with Ctrl+C."
+msgid "The initial :ref:`search-replace` action is now labeled :guilabel:`Review changes` to distinguish it from confirmation."
 msgstr ""
 
 #: changes.rst:27
+msgid "Flags in the translation flags editor can now be reopened for editing, navigated with arrow keys, and copied with Ctrl+C."
+msgstr ""
+
+#: changes.rst:28
 msgid "Repository failure alerts now provide guidance matching repository URL validation errors. See :ref:`vcs-repository-url-troubleshooting`."
 msgstr ""
 
-#: changes.rst:30
-#: changes.rst:74
-#: changes.rst:136
-#: changes.rst:204
-#: changes.rst:278
-#: changes.rst:335
-#: changes.rst:373
-#: changes.rst:436
+#: changes.rst:29
+msgid "Project-wide repository maintenance now remains available for authorized repositories and lists components skipped because of linked-component permissions."
+msgstr ""
+
+#: changes.rst:32
+#: changes.rst:77
+#: changes.rst:139
+#: changes.rst:207
+#: changes.rst:281
+#: changes.rst:338
+#: changes.rst:376
+#: changes.rst:439
 #: changes/v5.rst:36
 #: changes/v5.rst:144
 #: changes/v5.rst:213
@@ -14130,38 +14142,42 @@ msgstr ""
 msgid "Bug fixes"
 msgstr ""
 
-#: changes.rst:31
+#: changes.rst:33
 msgid "Project backup restores now preserve all project, category, and component settings."
 msgstr ""
 
-#: changes.rst:32
+#: changes.rst:34
 msgid "Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails."
 msgstr ""
 
-#: changes.rst:33
+#: changes.rst:35
 msgid "Database dump failures are now shown in the backups management interface."
 msgstr ""
 
-#: changes.rst:34
+#: changes.rst:36
 msgid "Project administrators can no longer remove API tokens belonging to other projects."
 msgstr ""
 
-#: changes.rst:35
+#: changes.rst:37
 msgid "Project and workspace translation memory now respects restricted component access, and restricted components no longer contribute to shared translation memory."
 msgstr ""
 
-#: changes.rst:36
+#: changes.rst:38
 msgid "GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`."
 msgstr ""
 
-#: changes.rst:37
+#: changes.rst:39
 msgid ":ref:`Project backup restores <projectbackup>` now allowlists repository metadata for Git, git-svn, and Mercurial to prevent archives from supplying executable configuration or repository indirection."
 msgstr ""
 
 #: changes.rst:40
-#: changes.rst:154
-#: changes.rst:312
-#: changes.rst:452
+msgid "Notification e-mails now wrap long strings instead of overflowing, keeping the :guilabel:`View` button reachable without horizontal scrolling."
+msgstr ""
+
+#: changes.rst:43
+#: changes.rst:157
+#: changes.rst:315
+#: changes.rst:455
 #: changes/v5.rst:66
 #: changes/v5.rst:176
 #: changes/v5.rst:311
@@ -14188,34 +14204,34 @@ msgstr ""
 msgid "Compatibility"
 msgstr ""
 
-#: changes.rst:41
+#: changes.rst:44
 msgid "The :guilabel:`Git with force push` version control system has been replaced by the ``git_force_push`` :ref:`version control parameter <vcs_params>`; existing components are migrated automatically."
 msgstr ""
 
-#: changes.rst:42
+#: changes.rst:45
 msgid "Webhook target matching no longer falls back to host/path suffix matching. Component repository URLs must match a repository URL from the webhook payload. See :ref:`hooks-target-matching`."
 msgstr ""
 
-#: changes.rst:43
+#: changes.rst:46
 msgid "Component and category removal now preserves automatically generated translation memory by default. See :ref:`translation-memory` for the optional cleanup behavior."
 msgstr ""
 
-#: changes.rst:44
+#: changes.rst:47
 msgid "Mercurial and Subversion repository hosts can now be trusted using :setting:`VCS_PRIVATE_ALLOWLIST` without restricting Git to the same hosts through :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
 
-#: changes.rst:45
+#: changes.rst:48
 msgid "The project deletion REST API endpoint now returns ``202 Accepted`` instead of ``204 No Content`` and contains a task URL in the response to track asynchronous deletion progress."
 msgstr ""
 
-#: changes.rst:48
-#: changes.rst:87
-#: changes.rst:165
-#: changes.rst:223
-#: changes.rst:317
-#: changes.rst:339
-#: changes.rst:390
-#: changes.rst:460
+#: changes.rst:51
+#: changes.rst:90
+#: changes.rst:168
+#: changes.rst:226
+#: changes.rst:320
+#: changes.rst:342
+#: changes.rst:393
+#: changes.rst:463
 #: changes/v4.rst:54
 #: changes/v4.rst:86
 #: changes/v4.rst:169
@@ -14299,14 +14315,14 @@ msgstr ""
 msgid "Upgrading"
 msgstr ""
 
-#: changes.rst:49
-#: changes.rst:88
-#: changes.rst:166
-#: changes.rst:224
-#: changes.rst:318
-#: changes.rst:340
-#: changes.rst:391
-#: changes.rst:461
+#: changes.rst:52
+#: changes.rst:91
+#: changes.rst:169
+#: changes.rst:227
+#: changes.rst:321
+#: changes.rst:343
+#: changes.rst:394
+#: changes.rst:464
 #: changes/v4.rst:55
 #: changes/v4.rst:87
 #: changes/v4.rst:170
@@ -14390,18 +14406,18 @@ msgstr ""
 msgid "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr ""
 
-#: changes.rst:51
+#: changes.rst:54
 msgid "Docker deployments need to configure trusted proxy addresses. Set :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES` to preserve client IP addresses in nginx logs and Weblate when ``WEBLATE_IP_PROXY_HEADER=HTTP_X_FORWARDED_FOR`` is used; otherwise, the immediate TCP peer is used."
 msgstr ""
 
-#: changes.rst:58
-#: changes.rst:91
-#: changes.rst:172
-#: changes.rst:229
-#: changes.rst:324
-#: changes.rst:343
-#: changes.rst:397
-#: changes.rst:468
+#: changes.rst:61
+#: changes.rst:94
+#: changes.rst:175
+#: changes.rst:232
+#: changes.rst:327
+#: changes.rst:346
+#: changes.rst:400
+#: changes.rst:471
 #: changes/v5.rst:77
 #: changes/v5.rst:193
 #: changes/v5.rst:227
@@ -14445,1036 +14461,1036 @@ msgstr ""
 msgid "Contributors"
 msgstr ""
 
-#: changes.rst:61
+#: changes.rst:64
 msgid "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/168?closed=1>`__."
 msgstr ""
 
-#: changes.rst:64
+#: changes.rst:67
 msgid "Weblate 2026.8.1"
 msgstr ""
 
-#: changes.rst:66
+#: changes.rst:69
 msgid "*Released on August 7th 2026.*"
 msgstr ""
 
-#: changes.rst:70
+#: changes.rst:73
 msgid "Project and component APIs now expose all user-configurable settings, including access control and translation-memory settings. See :doc:`api`."
 msgstr ""
 
-#: changes.rst:71
+#: changes.rst:74
 msgid "Added the :wladmin:`metrics` command for retrieving server metrics locally in JSON, CSV, or OpenMetrics format."
 msgstr ""
 
-#: changes.rst:75
+#: changes.rst:78
 msgid "Task progress now requires authentication and works for aggregate automatic translation operations."
 msgstr ""
 
-#: changes.rst:76
+#: changes.rst:79
 msgid "Docker Celery worker logging no longer emits duplicate records through both Celery and Weblate log handlers."
 msgstr ""
 
-#: changes.rst:77
+#: changes.rst:80
 msgid "Component creation through the REST API now returns the background task URL in the response when creation work is queued."
 msgstr ""
 
-#: changes.rst:78
+#: changes.rst:81
 msgid "Large language model machine translation services no longer fail when the optional persona and style settings are absent from the stored configuration, as happens when the service is installed through the REST API."
 msgstr ""
 
-#: changes.rst:79
+#: changes.rst:82
 msgid ":wladmin:`import_json` now preserves the component source language for newly imported components from JSON exports."
 msgstr ""
 
-#: changes.rst:80
+#: changes.rst:83
 msgid "Repository actions now require permission on every component sharing the affected repository, including linked components in other projects."
 msgstr ""
 
-#: changes.rst:81
+#: changes.rst:84
 msgid "Legal document confirmation now explicitly covers the linked privacy policy. See :ref:`legal`."
 msgstr ""
 
-#: changes.rst:82
+#: changes.rst:85
 msgid "Add-on change history now retains only explicitly public configuration values and marks changed credential fields as redacted."
 msgstr ""
 
-#: changes.rst:83
+#: changes.rst:86
 msgid "Translator work reports with metrics can now be displayed and downloaded as HTML."
 msgstr ""
 
-#: changes.rst:84
+#: changes.rst:87
 msgid "Repository credentials are now consistently hidden from web and API output."
 msgstr ""
 
-#: changes.rst:94
+#: changes.rst:97
 msgid "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/171?closed=1>`__."
 msgstr ""
 
-#: changes.rst:97
+#: changes.rst:100
 msgid "Weblate 2026.8"
 msgstr ""
 
-#: changes.rst:99
+#: changes.rst:102
 msgid "*Released on August 3rd 2026.*"
 msgstr ""
 
-#: changes.rst:103
+#: changes.rst:106
 msgid "Added a :guilabel:`Show all columns in lists using horizontal scrolling` preference to keep all listing columns visible on narrow screens instead of hiding them."
 msgstr ""
 
-#: changes.rst:104
+#: changes.rst:107
 msgid ":ref:`Workspaces <workspaces>` now provide aggregate translation statistics and historical metrics, a permission-filtered :guilabel:`My workspaces` list, archive downloads, search and replace, upload guidance, workspace translation memory management, and :ref:`removal of empty workspaces <workspace-removal>` not associated with billing."
 msgstr ""
 
-#: changes.rst:105
+#: changes.rst:108
 msgid "Added :ref:`project-level translation metrics <monitoring-translation-progress>` in JSON, CSV, and OpenMetrics formats."
 msgstr ""
 
-#: changes.rst:106
+#: changes.rst:109
 msgid "Added opt-in :ref:`running-granian-asgi` deployment support, including :envvar:`WEBLATE_ASGI` for Docker containers and asynchronous machine translation editor, GitHub App connection, and repository refresh requests."
 msgstr ""
 
-#: changes.rst:107
+#: changes.rst:110
 msgid "Added grouped project and workspace :guilabel:`Diagnostics` views with state, severity, category, and actionable-by-user filters. Component diagnostics now track dismissal ownership, reopen after relevant changes, and notify only project maintainers who can act on warnings and errors."
 msgstr ""
 
-#: changes.rst:108
+#: changes.rst:111
 msgid "Added API endpoints for listing, adding, accepting, rejecting, and voting on translation suggestions."
 msgstr ""
 
-#: changes.rst:109
+#: changes.rst:112
 msgid ":doc:`Translation reports </devel/reporting>` are now generated in the background, stored for later download, available at workspace scope, and include translator work analysis."
 msgstr ""
 
-#: changes.rst:110
+#: changes.rst:113
 msgid "Added :guilabel:`Use keywords exclusively` option to :ref:`addon-weblate.gettext.xgettext`, allowing projects to disable xgettext default keywords and rely only on a custom keyword."
 msgstr ""
 
-#: changes.rst:111
+#: changes.rst:114
 msgid "Added API support for reading and updating :ref:`user-profile` preferences. See :ref:`api-users` endpoint."
 msgstr ""
 
-#: changes.rst:112
+#: changes.rst:115
 msgid "Added :ref:`check-max-lines` and :ref:`check-asciidoc-markup` quality checks for limiting the number of translation lines and validating AsciiDoc strings."
 msgstr ""
 
-#: changes.rst:113
+#: changes.rst:116
 msgid "Added :ref:`workflow-language-restrictions`, including per-language control for restricting direct translation editing to privileged users."
 msgstr ""
 
-#: changes.rst:114
+#: changes.rst:117
 msgid "Added support for legacy Qt Linguist TS version 1 files. See :ref:`qtling`."
 msgstr ""
 
-#: changes.rst:115
+#: changes.rst:118
 msgid "Weblate is now available in Lao language."
 msgstr ""
 
-#: changes.rst:119
+#: changes.rst:122
 msgid "Authenticated web-action rate-limit lockouts are now recorded in the :ref:`audit-log` with the affected scope and request path."
 msgstr ""
 
-#: changes.rst:120
+#: changes.rst:123
 msgid "OpenMetrics API responses now include metric metadata and a versioned content type."
 msgstr ""
 
-#: changes.rst:121
+#: changes.rst:124
 msgid "Add-on management now uses separate configuration, logs, and components tabs, while :ref:`activity logs <addon-activity-logging>` distinguish pending, successful, failed, and skipped executions and explain skipped executions."
 msgstr ""
 
-#: changes.rst:122
+#: changes.rst:125
 msgid "Expanded :ref:`change-actions` documentation with detailed event semantics and improved OpenAPI schema accuracy."
 msgstr ""
 
-#: changes.rst:123
+#: changes.rst:126
 msgid "Improved loading performance for multi-language matrix views, dashboard component lists, category histories, and shared component listings."
 msgstr ""
 
-#: changes.rst:124
+#: changes.rst:127
 msgid "Translation memory management now loads origin summaries more efficiently, shows active and pending entry counts, and reports the number of entries processed during import."
 msgstr ""
 
-#: changes.rst:125
+#: changes.rst:128
 msgid "Static assets now use content-hashed filenames, and CAPTCHA JavaScript is loaded only when needed."
 msgstr ""
 
-#: changes.rst:126
+#: changes.rst:129
 msgid ":ref:`mt-aws` machine translation now supports configuring formality, brevity, and profanity masking."
 msgstr ""
 
-#: changes.rst:127
+#: changes.rst:130
 msgid "Improved :ref:`screenshots` OCR reliability and error reporting when downloading recognition data."
 msgstr ""
 
-#: changes.rst:128
+#: changes.rst:131
 msgid "Repository failure alerts now link directly to component version control settings for users who can edit them, keep technical errors in English, and localize actionable diagnoses for each viewer, including GitHub pull request restrictions."
 msgstr ""
 
-#: changes.rst:129
+#: changes.rst:132
 msgid "Celery workers now prefetch fewer tasks by default to reduce memory usage and improve task distribution."
 msgstr ""
 
-#: changes.rst:130
+#: changes.rst:133
 msgid "Improved the recommended :ref:`running-granian` configuration and Docker container worker resilience for Weblate's WSGI workload."
 msgstr ""
 
-#: changes.rst:131
+#: changes.rst:134
 msgid "Deployment checks now detect corrupted PostgreSQL relation statistics."
 msgstr ""
 
-#: changes.rst:132
+#: changes.rst:135
 msgid ":ref:`Community diagnostics <alerts>` now show source-string screenshot coverage, recommend key translation-instruction topics, and distinguish inbound from outbound repository automation."
 msgstr ""
 
-#: changes.rst:133
+#: changes.rst:136
 msgid "User-provided links, such as those in comments, announcements, and profiles, are now underlined and use a higher contrast color."
 msgstr ""
 
-#: changes.rst:137
+#: changes.rst:140
 msgid ":ref:`Disabling password authentication <site-wide-user-management>` from site-wide user management now regenerates the user's personal API key by default."
 msgstr ""
 
-#: changes.rst:138
+#: changes.rst:141
 msgid "Category, project, and comment statistics now stay consistent after component topology and comment changes, and category metrics are collected correctly."
 msgstr ""
 
-#: changes.rst:139
+#: changes.rst:142
 msgid "Mercurial repository filenames beginning with a dash are now handled safely."
 msgstr ""
 
-#: changes.rst:140
+#: changes.rst:143
 msgid "URLs containing backslashes are now rejected as invalid."
 msgstr ""
 
-#: changes.rst:141
+#: changes.rst:144
 msgid "Protected outbound HTTP and Git connections now bind to validated public addresses; protected Git operations fail closed when clients cannot enforce that binding (:ghsa:`45m9-pf98-8jmq`)."
 msgstr ""
 
-#: changes.rst:142
+#: changes.rst:145
 msgid "Permanent same-host Git HTTP redirects are now validated and stored as canonical component repository URLs."
 msgstr ""
 
-#: changes.rst:143
+#: changes.rst:146
 msgid "Self-service REST API e-mail changes are now restricted to verified addresses (:ghsa:`x84p-6892-473c`)."
 msgstr ""
 
-#: changes.rst:144
+#: changes.rst:147
 msgid "REST API authorization now consistently protects internal accounts, restricted components, add-on configuration, component sharing, repository links, and review states."
 msgstr ""
 
-#: changes.rst:145
+#: changes.rst:148
 msgid ":ref:`Project backup imports <projectbackup>` now validate restored data before creating project state, skip repository-linked components the importer cannot access, and no longer load archive-supplied Mercurial configuration or shared-repository indirection (:ghsa:`f66g-8pcg-jm8r`, :ghsa:`327h-qqgm-qv55`)."
 msgstr ""
 
-#: changes.rst:146
+#: changes.rst:149
 msgid "Rebuilding project translation memory no longer removes entries imported from files."
 msgstr ""
 
-#: changes.rst:147
+#: changes.rst:150
 msgid "Suggestion submission and rejection now reject excessively long suggestion text and rejection reasons."
 msgstr ""
 
-#: changes.rst:148
+#: changes.rst:151
 msgid "Restricted components are now available on Hosted Weblate when the billing plan permits private projects."
 msgstr ""
 
-#: changes.rst:149
+#: changes.rst:152
 msgid "Machine translation and translation memory AJAX lookups no longer disclose whether inaccessible unit IDs exist."
 msgstr ""
 
-#: changes.rst:150
+#: changes.rst:153
 msgid ":ref:`RSS feeds <rss>` no longer disclose change history from inaccessible projects or restricted components (:ghsa:`vvc6-wvqm-w5gc`)."
 msgstr ""
 
-#: changes.rst:151
+#: changes.rst:154
 msgid "Authenticated legacy GitHub App webhooks can again trigger repository updates through the :ref:`generic GitHub webhook endpoint <code-hosting-github-notifications>`."
 msgstr ""
 
-#: changes.rst:155
+#: changes.rst:158
 msgid "django-compressor is no longer used, and the ``COMPRESS_*`` settings have been removed."
 msgstr ""
 
-#: changes.rst:156
+#: changes.rst:159
 msgid "Legal document styling is now provided through an overridable template instead of Weblate's global stylesheet. See :ref:`legal-customization`."
 msgstr ""
 
-#: changes.rst:157
+#: changes.rst:160
 msgid "When :setting:`VCS_RESTRICT_PRIVATE` is enabled, Mercurial and Subversion repository hosts must be explicitly included in :setting:`VCS_ALLOW_HOSTS`; Git over HTTPS and SSH enforces connection address pinning without an allowlist entry."
 msgstr ""
 
-#: changes.rst:158
+#: changes.rst:161
 msgid "Outbound HTTP proxy configuration is limited to the per-protocol environment variables documented in :ref:`http-proxy`."
 msgstr ""
 
-#: changes.rst:159
+#: changes.rst:162
 msgid "Git SSH validates configured ``HostName`` and ``Port`` destinations before connecting; administrator SSH configuration remains trusted, and :setting:`SSH_EXTRA_ARGS` can override connection routing and address pinning."
 msgstr ""
 
-#: changes.rst:160
+#: changes.rst:163
 msgid "Git LFS object transfers are unsupported and disabled for Weblate-managed repositories; LFS-tracked files remain pointer files."
 msgstr ""
 
-#: changes.rst:161
+#: changes.rst:164
 msgid "The project and component ``credits`` REST API endpoints and their ``credits_url`` response fields have been replaced by scoped ``reports`` endpoints and ``reports_url``. Credits report generation is now asynchronous; clients need to submit a ``credits`` report, follow the returned task URL, and fetch the completed report. See :http:post:`/api/reports/`."
 msgstr ""
 
-#: changes.rst:162
+#: changes.rst:165
 msgid "The top-level ``languages`` field on user REST API responses has been removed; use ``profile.languages`` instead. See :ref:`api-user-profile`."
 msgstr ""
 
-#: changes.rst:168
+#: changes.rst:171
 msgid "There are changes in :file:`settings_example.py`, most notably the new ``STORAGES`` configuration and removal of the ``COMPRESS_*`` settings; please adjust your settings accordingly."
 msgstr ""
 
-#: changes.rst:169
+#: changes.rst:172
 msgid "Running :program:`weblate compress` is no longer necessary; :program:`weblate collectstatic --noinput` now prepares versioned static assets without clearing the static storage."
 msgstr ""
 
-#: changes.rst:175
+#: changes.rst:178
 msgid "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/167?closed=1>`__."
 msgstr ""
 
-#: changes.rst:178
+#: changes.rst:181
 msgid "Weblate 2026.7.1"
 msgstr ""
 
-#: changes.rst:180
+#: changes.rst:183
 msgid "*Released on July 10th 2026.*"
 msgstr ""
 
-#: changes.rst:184
+#: changes.rst:187
 msgid "Added :setting:`INTERNAL_BOT_EMAIL_TEMPLATE` to customize internal bot e-mail addresses."
 msgstr ""
 
-#: changes.rst:188
+#: changes.rst:191
 msgid "Restricted components now show a status icon in component listings."
 msgstr ""
 
-#: changes.rst:189
+#: changes.rst:192
 msgid "Permission checks now reuse materialized team membership data from lightweight relation lookups."
 msgstr ""
 
-#: changes.rst:190
+#: changes.rst:193
 msgid "Documented that intermediate language files are hidden from language listings and can make target strings read-only."
 msgstr ""
 
-#: changes.rst:191
+#: changes.rst:194
 msgid "Component diagnostics now warn when regular :ref:`gettext` PO files are configured as monolingual PO files."
 msgstr ""
 
-#: changes.rst:192
+#: changes.rst:195
 msgid "Translation memory fuzzy lookups are now faster on large translation memories."
 msgstr ""
 
-#: changes.rst:193
+#: changes.rst:196
 msgid "Permission denied messages when saving translations, editing glossaries, or voting on suggestions now show more specific reasons."
 msgstr ""
 
-#: changes.rst:194
+#: changes.rst:197
 msgid "Comment notifications for strings you translated now also include strings you previously commented on or suggested translations for."
 msgstr ""
 
-#: changes.rst:195
+#: changes.rst:198
 msgid "Comments and suggestions now auto-watch the project when :guilabel:`Automatically watch projects on contribution` is enabled."
 msgstr ""
 
-#: changes.rst:196
+#: changes.rst:199
 msgid "Clarified Hosted Weblate repository access guidance in :doc:`/admin/code-hosting`."
 msgstr ""
 
-#: changes.rst:197
+#: changes.rst:200
 msgid ":ref:`search-strings` now includes filters for comments by the current user and separate source string comment lookups."
 msgstr ""
 
-#: changes.rst:198
+#: changes.rst:201
 msgid "Code-hosting account pages now consistently use :guilabel:`Code-hosting connections` and provider-neutral connected account wording."
 msgstr ""
 
-#: changes.rst:199
+#: changes.rst:202
 msgid ":ref:`discover-weblate` registration can now be started from the management interface without manually copying the activation token."
 msgstr ""
 
-#: changes.rst:200
+#: changes.rst:203
 msgid ":ref:`discover-weblate` can now be managed from a dedicated management panel, registration starts with discovery enabled, and protected projects are included in the listing."
 msgstr ""
 
-#: changes.rst:201
+#: changes.rst:204
 msgid "Updated the :ref:`mt-openai`, :ref:`mt-mistral`, and :ref:`mt-anthropic` model lists for currently supported models."
 msgstr ""
 
-#: changes.rst:205
+#: changes.rst:208
 msgid "Filtered translation and zen navigation now reuse a stable session result list, keeping positions and counts stable after translated strings leave the filter."
 msgstr ""
 
-#: changes.rst:206
+#: changes.rst:209
 msgid "Component priority icons are no longer shown on translation listings."
 msgstr ""
 
-#: changes.rst:207
+#: changes.rst:210
 msgid ":ref:`check-punctuation-spacing` no longer flags Markdown image markers as French punctuation and now shows which punctuation marks triggered the check."
 msgstr ""
 
-#: changes.rst:208
+#: changes.rst:211
 msgid ":ref:`addon-weblate.fedora_messaging.publish` received several reliability fixes."
 msgstr ""
 
-#: changes.rst:209
+#: changes.rst:212
 msgid "The :guilabel:`Things to check` panel no longer uses error highlighting for suggestions and other non-error translation states."
 msgstr ""
 
-#: changes.rst:210
+#: changes.rst:213
 msgid "Translation workflow customization now makes it clearer when per-language workflow settings are disabled until customization is enabled."
 msgstr ""
 
-#: changes.rst:211
+#: changes.rst:214
 msgid "Anonymous user permission caches are now isolated between requests."
 msgstr ""
 
-#: changes.rst:212
+#: changes.rst:215
 msgid "GitHub App setup now explains that a workspace is required instead of showing a permission error when no workspace exists."
 msgstr ""
 
-#: changes.rst:213
+#: changes.rst:216
 msgid "LLM automatic suggestion settings no longer show ``null`` for empty language-specific instructions."
 msgstr ""
 
-#: changes.rst:214
+#: changes.rst:217
 msgid "File format feature tables now better match actual format support, including descriptions, context, plural metadata, obsolete string removal, specialized file extensions, and merged variants."
 msgstr ""
 
-#: changes.rst:215
+#: changes.rst:218
 msgid "Accepting a project invitation now automatically adds the project to the user's watched projects."
 msgstr ""
 
-#: changes.rst:216
+#: changes.rst:219
 msgid "Dismissing a failing check no longer shows a JSON parsing error in the translation editor."
 msgstr ""
 
-#: changes.rst:217
+#: changes.rst:220
 msgid "Screenshot searches without an explicit field now match screenshot names only, and the search box links to the full screenshot search documentation."
 msgstr ""
 
-#: changes.rst:218
+#: changes.rst:221
 msgid "Anonymous and internal bot accounts can no longer be edited through generic user management."
 msgstr ""
 
-#: changes.rst:219
+#: changes.rst:222
 msgid "LLM machine translation suggestions now recover from more malformed structured JSON replies."
 msgstr ""
 
-#: changes.rst:220
+#: changes.rst:223
 msgid "Azure AI Translator settings now reject malformed region names before validating service connectivity."
 msgstr ""
 
-#: changes.rst:226
+#: changes.rst:229
 msgid "Weblate now requires the PostgreSQL ``btree_gist`` extension for translation memory lookups. The migration installs it automatically when the database user has sufficient privileges. Installations using a non-superuser database user should pre-create it before upgrading; see :ref:`dbsetup-postgres`."
 msgstr ""
 
-#: changes.rst:232
+#: changes.rst:235
 msgid "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/170?closed=1>`__."
 msgstr ""
 
-#: changes.rst:235
+#: changes.rst:238
 msgid "Weblate 2026.7"
 msgstr ""
 
-#: changes.rst:237
+#: changes.rst:240
 msgid "*Released on July 1st 2026.*"
 msgstr ""
 
-#: changes.rst:241
+#: changes.rst:244
 msgid "Added :ref:`check-safe-mdx`, :ref:`check-source-max-length`, and :ref:`check-accelerator` quality checks for :ref:`mdx` JSX expressions, source length limits, and accelerator key consistency."
 msgstr ""
 
-#: changes.rst:242
+#: changes.rst:245
 msgid "Added :ref:`mt-mistral` machinery integration for Mistral LLM automatic suggestions."
 msgstr ""
 
-#: changes.rst:243
+#: changes.rst:246
 msgid "Added :ref:`code-hosting-github-app-register` for connecting GitHub repositories through a Weblate GitHub App."
 msgstr ""
 
-#: changes.rst:244
+#: changes.rst:247
 msgid ":ref:`projectbackup` backups can now be created and downloaded via the :ref:`api`."
 msgstr ""
 
-#: changes.rst:245
+#: changes.rst:248
 msgid "Added file format parameters for translating individual YAML front matter values in :ref:`markdown` and :ref:`mdx` files and escaping formula-like values in :ref:`csv` files."
 msgstr ""
 
-#: changes.rst:246
+#: changes.rst:249
 msgid "Added an option to capitalize the text in status badge widgets."
 msgstr ""
 
-#: changes.rst:247
+#: changes.rst:250
 msgid "Added :ref:`workspace translation memory <memory-scopes>` with asynchronous scope backfill for existing translation memory entries."
 msgstr ""
 
-#: changes.rst:248
+#: changes.rst:251
 msgid "Added :wladmin:`analyze_translator_work` to estimate realistic daily translator throughput from change history."
 msgstr ""
 
-#: changes.rst:252
+#: changes.rst:255
 msgid "RTL editing and translation display now handle bidirectional text better, including Unicode isolate controls in the :ref:`visual-keyboard`."
 msgstr ""
 
-#: changes.rst:253
+#: changes.rst:256
 msgid "Management interface access control is now more fine-grained with dedicated site-wide permissions."
 msgstr ""
 
-#: changes.rst:254
+#: changes.rst:257
 msgid "Default commit and merge request message templates now use Conventional Commits, settings forms can restore installation defaults, and pull request messages use a compact language progress matrix."
 msgstr ""
 
-#: changes.rst:255
+#: changes.rst:258
 msgid "Documented :ref:`legal` customizations and added options to hide legal pages or disable document numbering."
 msgstr ""
 
-#: changes.rst:256
+#: changes.rst:259
 msgid "Expanded :doc:`security documentation </security/index>` for data residency, EU cloud sovereignty, release artifacts, supported versions, release verification, SBOMs, dependency handling, vulnerability reporting, hosted-service incident response, and self-hosted operator responsibilities."
 msgstr ""
 
-#: changes.rst:257
+#: changes.rst:260
 msgid ":ref:`addon-weblate.gettext.linguas` better detects ``LINGUAS`` file presence."
 msgstr ""
 
-#: changes.rst:258
+#: changes.rst:261
 msgid ":ref:`addon-weblate.gettext.xgettext` can now leave the xgettext language blank to let xgettext guess it from source file extensions."
 msgstr ""
 
-#: changes.rst:259
+#: changes.rst:262
 msgid ":ref:`addon-weblate.gettext.xgettext`, :ref:`addon-weblate.gettext.meson`, :ref:`addon-weblate.gettext.django`, and :ref:`addon-weblate.gettext.sphinx` can now keep source locations in generated POT files even when translated PO files omit locations."
 msgstr ""
 
-#: changes.rst:260
+#: changes.rst:263
 msgid "Add-ons installed at higher scopes are now shown on lower-scope add-on pages, and broad-scope add-ons can list affected components with compatibility details."
 msgstr ""
 
-#: changes.rst:261
+#: changes.rst:264
 msgid ":envvar:`WEBLATE_ALLOWED_ASSET_SIZE` is now available in Docker container."
 msgstr ""
 
-#: changes.rst:262
+#: changes.rst:265
 msgid "LLM automatic suggestions now use translated examples, language-specific instructions, richer glossary context, and structured placeholder context for more reliable output."
 msgstr ""
 
-#: changes.rst:263
+#: changes.rst:266
 msgid "Meta descriptions now better match single-project and self-hosted installations."
 msgstr ""
 
-#: changes.rst:264
+#: changes.rst:267
 msgid "Zen mode, filtered searches, nearby strings, translation form submissions, and add-on management pages now load more efficiently on large sites."
 msgstr ""
 
-#: changes.rst:265
+#: changes.rst:268
 msgid "Added :ref:`distribution-packaging` guidance for distribution maintainers."
 msgstr ""
 
-#: changes.rst:266
+#: changes.rst:269
 msgid "Large component imports now avoid duplicate translation-memory processing."
 msgstr ""
 
-#: changes.rst:267
+#: changes.rst:270
 msgid ":ref:`gettext` files can now be configured to remove obsolete strings on save, including during repository maintenance."
 msgstr ""
 
-#: changes.rst:268
+#: changes.rst:271
 msgid ":ref:`Bulk accepting suggestions <suggestions>` now confirms the number of affected suggestions, can approve them for reviewers, and processes the acceptance in the background."
 msgstr ""
 
-#: changes.rst:269
+#: changes.rst:272
 msgid "Committing large numbers of pending translations now queues browser requests in the background and avoids duplicate repository commit tasks."
 msgstr ""
 
-#: changes.rst:270
+#: changes.rst:273
 msgid "Change-event notification add-ons can now use presets for translation content events, all events, or selected individual events."
 msgstr ""
 
-#: changes.rst:271
+#: changes.rst:274
 msgid ":ref:`addon-weblate.fedora_messaging.publish` now validates secure broker connections and exposes delivery timing and topic prefix settings."
 msgstr ""
 
-#: changes.rst:272
+#: changes.rst:275
 msgid "Component diagnostics now sort entries by severity, color-code severity badges, and show the error count on the :guilabel:`Diagnostics` tab."
 msgstr ""
 
-#: changes.rst:273
+#: changes.rst:276
 msgid ":ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected."
 msgstr ""
 
-#: changes.rst:274
+#: changes.rst:277
 msgid ":ref:`manage-performance` now shows PostgreSQL database disk usage next to server disk usage and warns when the database usage cannot be collected or there is not enough free space in the backup destination to store a database dump."
 msgstr ""
 
-#: changes.rst:275
+#: changes.rst:278
 msgid "The :ref:`search-replace` preview now keeps the search parameters editable so the query can be refined before applying replacements."
 msgstr ""
 
-#: changes.rst:279
+#: changes.rst:282
 msgid ":ref:`check-regex` and :ref:`check-placeholders` now enforce regular expression timeouts when evaluating source-string flags (:cve:`2026-62326`, :ghsa:`r52j-4vjp-q949`)."
 msgstr ""
 
-#: changes.rst:280
+#: changes.rst:283
 msgid "Restricted component changes are no longer exposed through nested project, component, or translation API change endpoints (:cve:`2026-62249`, :ghsa:`92m8-wv36-prmx`)."
 msgstr ""
 
-#: changes.rst:281
+#: changes.rst:284
 msgid "ZIP downloads, including :ref:`appstore` translation bundles, no longer follow child symbolic links outside the downloaded tree (:cve:`2026-61792`, :ghsa:`xwj4-fp82-r2rj`)."
 msgstr ""
 
-#: changes.rst:282
+#: changes.rst:285
 msgid "Teams enforcing two-factor authentication now also withhold site-wide permissions from human members without 2FA configured (:cve:`2026-61790`, :ghsa:`x86c-ff69-cr2m`)."
 msgstr ""
 
-#: changes.rst:283
+#: changes.rst:286
 msgid "Globally scoped HTML and AJAX object lookups no longer disclose object existence in private projects (:cve:`2026-55227`, :ghsa:`2p9g-x3cv-5hh4`)."
 msgstr ""
 
-#: changes.rst:284
+#: changes.rst:287
 msgid "Team API access checks now prevent project managers from reading private-project team data or expanding scoped team assignments outside their allowed projects (:cve:`2026-55228`, :ghsa:`2q2q-jr9g-v9rf`)."
 msgstr ""
 
-#: changes.rst:285
+#: changes.rst:288
 msgid "Malformed ``replacements`` flags no longer abort source length checks."
 msgstr ""
 
-#: changes.rst:286
+#: changes.rst:289
 msgid "Empty component lists are no longer exposed to users without component list management permission."
 msgstr ""
 
-#: changes.rst:287
+#: changes.rst:290
 msgid "Glossary handling no longer duplicates TBX terms or shows source-language terms in both translation columns."
 msgstr ""
 
-#: changes.rst:288
+#: changes.rst:291
 msgid "Duplicate string alerts now offer a cleanup action to remove repeated strings from translation files."
 msgstr ""
 
-#: changes.rst:289
+#: changes.rst:292
 msgid ":ref:`code-hosting-gerrit` review pushes can again include Gerrit push options in the target branch."
 msgstr ""
 
-#: changes.rst:290
+#: changes.rst:293
 msgid "Webhook target fallback matching is now stricter and reported in component diagnostics."
 msgstr ""
 
-#: changes.rst:291
+#: changes.rst:294
 msgid "Creating components linked with ``weblate://`` no longer waits on the shared repository lock during the request."
 msgstr ""
 
-#: changes.rst:292
+#: changes.rst:295
 msgid "Project and workspace translation license defaults now follow component and project licenses more closely."
 msgstr ""
 
-#: changes.rst:293
+#: changes.rst:296
 msgid "Component and category API ``PATCH`` requests no longer remove the category when the field is omitted."
 msgstr ""
 
-#: changes.rst:294
+#: changes.rst:297
 msgid "Document and translation-memory uploads now enforce :setting:`TRANSLATION_UPLOAD_MAX_SIZE`, and API document uploads validate file extensions."
 msgstr ""
 
-#: changes.rst:295
+#: changes.rst:298
 msgid ":ref:`check-rst-syntax` now detects inline roles wrapped in stray backticks."
 msgstr ""
 
-#: changes.rst:296
+#: changes.rst:299
 msgid ":ref:`check-safe-html` now efficiently detects changed placeholder-only HTML attribute values in translations."
 msgstr ""
 
-#: changes.rst:297
+#: changes.rst:300
 msgid ":ref:`check-max-size` no longer wraps text configured to fit on one line, checks source strings, and refreshes rendered previews after source edits."
 msgstr ""
 
-#: changes.rst:298
+#: changes.rst:301
 msgid "Bitmap widgets and :ref:`check-max-size` previews now use Matplotlib and no longer require Pango, Cairo, librsvg, or GObject Introspection."
 msgstr ""
 
-#: changes.rst:299
+#: changes.rst:302
 msgid "Repository reset and update history now keeps attribution, records remote update failures, and includes follow-up translation-file reconciliation."
 msgstr ""
 
-#: changes.rst:300
+#: changes.rst:303
 msgid "Updating repository URLs now validates compatible Git history without requiring an immediate successful merge."
 msgstr ""
 
-#: changes.rst:301
+#: changes.rst:304
 msgid ":ref:`auto-translation` no longer validates hidden component fields when using machine translation."
 msgstr ""
 
-#: changes.rst:302
+#: changes.rst:305
 msgid ":guilabel:`Strings marked for edit` links now include all strings needing editing, checking, or rewriting."
 msgstr ""
 
-#: changes.rst:303
+#: changes.rst:306
 msgid "Anonymous permission checks no longer fail when loading teams scoped to projects or workspaces."
 msgstr ""
 
-#: changes.rst:304
+#: changes.rst:307
 msgid "API project creation can again use the user's only eligible workspace when no explicit workspace is supplied."
 msgstr ""
 
-#: changes.rst:305
+#: changes.rst:308
 msgid "Git auto-maintenance is now disabled for Weblate-managed repositories to avoid concurrent detached maintenance jobs."
 msgstr ""
 
-#: changes.rst:306
+#: changes.rst:309
 msgid "Interrupted Git repository operations are now either recovered and recorded or surfaced as a repository alert."
 msgstr ""
 
-#: changes.rst:307
+#: changes.rst:310
 msgid "Watched translations on the dashboard now include category path segments."
 msgstr ""
 
-#: changes.rst:308
+#: changes.rst:311
 msgid "Unsupported upload levels now show an upload placeholder pointing to individual translations."
 msgstr ""
 
-#: changes.rst:309
+#: changes.rst:312
 msgid "Component API responses no longer expose repository export, push branch, or repository browser links to users without repository access."
 msgstr ""
 
-#: changes.rst:313
+#: changes.rst:316
 msgid ":ref:`mt-deepl` now handles DeepL API versions internally, uses v3 for glossary management and language discovery, and no longer supports DeepL API v1."
 msgstr ""
 
-#: changes.rst:314
+#: changes.rst:317
 msgid ":ref:`addon-weblate.fedora_messaging.publish` topics now include category path segments, and broker settings are stored as an AMQP URL with existing host and SSL settings migrated automatically."
 msgstr ""
 
-#: changes.rst:320
+#: changes.rst:323
 msgid "There are changes in :file:`settings_example.py`, most notably in ``SOCIAL_AUTH_PIPELINE`` and ``SOCIAL_AUTH_DISCONNECT_PIPELINE``; please adjust your settings accordingly."
 msgstr ""
 
-#: changes.rst:321
+#: changes.rst:324
 msgid "Existing translation-memory entries are moved to scoped storage by a periodic Celery background task. Keep Celery running after the upgrade; translation-memory suggestions can be incomplete until the backfill finishes."
 msgstr ""
 
-#: changes.rst:327
+#: changes.rst:330
 msgid "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/166?closed=1>`__."
 msgstr ""
 
-#: changes.rst:330
+#: changes.rst:333
 msgid "Weblate 2026.6.1"
 msgstr ""
 
-#: changes.rst:332
-#: changes.rst:351
+#: changes.rst:335
+#: changes.rst:354
 msgid "*Released on June 1st 2026.*"
 msgstr ""
 
-#: changes.rst:336
+#: changes.rst:339
 msgid "Language-wide :doc:`/admin/announcements` no longer break language overview pages."
 msgstr ""
 
-#: changes.rst:346
+#: changes.rst:349
 msgid "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/169?closed=1>`__."
 msgstr ""
 
-#: changes.rst:349
+#: changes.rst:352
 msgid "Weblate 2026.6"
 msgstr ""
 
-#: changes.rst:355
+#: changes.rst:358
 msgid ":doc:`/admin/announcements` can now also be managed via the :ref:`api` for specific project languages."
 msgstr ""
 
-#: changes.rst:356
+#: changes.rst:359
 msgid "Team memberships can now be limited to selected languages for per-user translation permissions."
 msgstr ""
 
-#: changes.rst:357
+#: changes.rst:360
 msgid "Added :ref:`cost estimates <cost-estimate>` to translation reports."
 msgstr ""
 
-#: changes.rst:358
+#: changes.rst:361
 msgid "Added optional :ref:`OpenTelemetry tracing <collecting-errors>` for backend requests and tasks, and :ref:`Google Cloud Error Reporting <collecting-errors>` for handled server errors."
 msgstr ""
 
-#: changes.rst:359
+#: changes.rst:362
 msgid "Added :doc:`/admin/workspaces` to group related projects, with workspace project listings, workspace-scoped teams and project creation permissions, inherited workspace, project, and category defaults for selected component settings, and billing details when available."
 msgstr ""
 
-#: changes.rst:363
+#: changes.rst:366
 msgid "Docker containers can now configure :envvar:`WEBLATE_SAML_SECURITY_CONFIG` to customize SAML security settings, and adjust :setting:`WEBLATE_FORMATS` using :envvar:`WEBLATE_ADD_FORMATS` and :envvar:`WEBLATE_REMOVE_FORMATS`."
 msgstr ""
 
-#: changes.rst:364
+#: changes.rst:367
 msgid "Improved performance of the :ref:`check-inconsistent` check on large projects."
 msgstr ""
 
-#: changes.rst:365
+#: changes.rst:368
 msgid "Translation flag fields now use a tag-based editor with autocompletion and grouped suggestions for all known flags."
 msgstr ""
 
-#: changes.rst:366
+#: changes.rst:369
 msgid ":ref:`Contributor stats <stats>` now de-duplicate repeated work on the same string by default, with an option to count all changes."
 msgstr ""
 
-#: changes.rst:367
+#: changes.rst:370
 msgid ":doc:`/admin/code-hosting` now documents HTTPS access-token URLs and dedicated-user SSH URLs for accessing repositories, and :doc:`/admin/continuous` now explains why squash merging Weblate conflict-resolution pull requests can require a repository reset."
 msgstr ""
 
-#: changes.rst:368
+#: changes.rst:371
 msgid ":ref:`alerts` now include dismissible component diagnostics for community localization."
 msgstr ""
 
-#: changes.rst:369
+#: changes.rst:372
 msgid ":ref:`screenshots` now support bulk assignment from search or image text recognition results, make finding strings in uploaded images easier to discover, show source string coverage counts, and include advanced listing search."
 msgstr ""
 
-#: changes.rst:370
+#: changes.rst:373
 msgid ":ref:`sbom` release artifacts now include CISA 2025 document-level metadata."
 msgstr ""
 
-#: changes.rst:374
+#: changes.rst:377
 msgid "Outbound URL validation now rejects additional non-public targets (:cve:`2026-50127`, :ghsa:`vmfc-9982-2m45`)."
 msgstr ""
 
-#: changes.rst:375
+#: changes.rst:378
 msgid "Project-language :doc:`/admin/announcements` no longer appear across the whole project."
 msgstr ""
 
-#: changes.rst:376
+#: changes.rst:379
 msgid "Hardened :http:post:`/api/screenshots/` access checks against private project enumeration."
 msgstr ""
 
-#: changes.rst:377
+#: changes.rst:380
 msgid "Registration-attempt account activity e-mails now link to password reset to help users finish account setup."
 msgstr ""
 
-#: changes.rst:378
+#: changes.rst:381
 msgid ":ref:`invite-user` links now work for signed-in users whose account owns the invited e-mail address."
 msgstr ""
 
-#: changes.rst:379
+#: changes.rst:382
 msgid "Searching for strings with content changes without a recorded author now supports ``changed_by:\"\"``, and combined change filters now apply to the same change event."
 msgstr ""
 
-#: changes.rst:380
+#: changes.rst:383
 msgid "Gitea and Forgejo pull requests no longer reconfigure existing fork remotes to point to the source repository."
 msgstr ""
 
-#: changes.rst:381
+#: changes.rst:384
 msgid "Project and category language translation sessions now keep strings grouped by component priority and show component switch warnings reliably."
 msgstr ""
 
-#: changes.rst:382
+#: changes.rst:385
 msgid "Engage page task links now stay centered and show the target translation language."
 msgstr ""
 
-#: changes.rst:383
+#: changes.rst:386
 msgid "Gettext POT update add-ons now rescan translations after committing updated POT and PO files."
 msgstr ""
 
-#: changes.rst:384
+#: changes.rst:387
 msgid "Git repositories now update branches correctly when the remote also has a tag with the same name."
 msgstr ""
 
-#: changes.rst:385
+#: changes.rst:388
 msgid "Conflicting repository setup alerts now allow same-branch direct pushes."
 msgstr ""
 
-#: changes.rst:386
+#: changes.rst:389
 msgid "Obsolete cleanup schedules are now removed from Celery beat during upgrade."
 msgstr ""
 
-#: changes.rst:387
+#: changes.rst:390
 msgid "Translation pages for workspace projects no longer crash when workspace fields are deferred."
 msgstr ""
 
-#: changes.rst:393
+#: changes.rst:396
 msgid "There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.workspaces`` should be added."
 msgstr ""
 
-#: changes.rst:394
+#: changes.rst:397
 msgid "The database migrations might take longer on larger instances."
 msgstr ""
 
-#: changes.rst:400
+#: changes.rst:403
 msgid "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/165?closed=1>`__."
 msgstr ""
 
-#: changes.rst:403
+#: changes.rst:406
 msgid "Weblate 2026.5"
 msgstr ""
 
-#: changes.rst:405
+#: changes.rst:408
 msgid "*Released on May 15th 2026.*"
 msgstr ""
 
-#: changes.rst:409
+#: changes.rst:412
 msgid "Added :ref:`mdx` support for translating Markdown text while preserving JSX syntax, with :ref:`file_format_params` shared with :ref:`markdown` for line wrapping, code blocks, front matter, and placeholder handling."
 msgstr ""
 
-#: changes.rst:410
+#: changes.rst:413
 msgid "Added extended :ref:`LLM translation context <llm-translation-context>` for automatic suggestions, covering string context, explanations, secondary-language translations, plurals, failing checks, and placeholders."
 msgstr ""
 
-#: changes.rst:411
+#: changes.rst:414
 msgid "Added a digest-only translation activity summary notification, see :ref:`notifications`."
 msgstr ""
 
-#: changes.rst:412
+#: changes.rst:415
 msgid ":ref:`CSV <csv>` and :ref:`XLSX <xlsx>` downloads in :ref:`download` now export plural strings as separate plural-form rows that can be imported back."
 msgstr ""
 
-#: changes.rst:413
+#: changes.rst:416
 msgid "Added Gettext PO and POT :ref:`file_format_params` to control whether Weblate updates the ``Language-Team``, ``Last-Translator``, ``X-Generator``, and ``Report-Msgid-Bugs-To`` headers."
 msgstr ""
 
-#: changes.rst:414
+#: changes.rst:417
 msgid "Added a :ref:`backup-management-command` to run configured backup services synchronously."
 msgstr ""
 
-#: changes.rst:415
+#: changes.rst:418
 msgid "The translation memory lookup API can now skip fuzzy matching with the ``exact`` query parameter."
 msgstr ""
 
-#: changes.rst:416
+#: changes.rst:419
 msgid "Added :ref:`addon-weblate.cdn.files` to publish translation files to the configured CDN."
 msgstr ""
 
-#: changes.rst:420
+#: changes.rst:423
 msgid "Using DOS line endings can now be configured using the ``dos_eol`` :ref:`file_format_params`."
 msgstr ""
 
-#: changes.rst:421
+#: changes.rst:424
 msgid ":ref:`mt-openai` and :ref:`mt-alibaba` no longer require their vendor Python SDKs."
 msgstr ""
 
-#: changes.rst:422
+#: changes.rst:425
 msgid "Audited project and component setting changes are now recorded in history."
 msgstr ""
 
-#: changes.rst:423
+#: changes.rst:426
 msgid "Gerrit review pushes now use :ref:`component-push_branch` as the target branch."
 msgstr ""
 
-#: changes.rst:424
+#: changes.rst:427
 msgid "Weblate now checks whether :setting:`CACHE_DIR` allows executing generated helper files."
 msgstr ""
 
-#: changes.rst:425
+#: changes.rst:428
 msgid "The :ref:`sbom` is now generated during release and published as a versioned release asset instead of being stored in the source repository."
 msgstr ""
 
-#: changes.rst:426
+#: changes.rst:429
 msgid "The translating page now separates screenshots from string information, collapses rarely used string details, and groups glossary and screenshot actions more consistently."
 msgstr ""
 
-#: changes.rst:427
+#: changes.rst:430
 msgid "Project access management now paginates users and better explains site-wide automatic team assignments."
 msgstr ""
 
-#: changes.rst:428
+#: changes.rst:431
 msgid "Added provider-oriented code-hosting documentation and Gettext-style :ref:`plural-formula` guidance."
 msgstr ""
 
-#: changes.rst:429
+#: changes.rst:432
 msgid "The Python wheel no longer ships source translation catalogs, test files, or deployment example files, reducing the installed package size."
 msgstr ""
 
-#: changes.rst:430
+#: changes.rst:433
 msgid "The engage page now highlights actionable translation task buckets for newcomers."
 msgstr ""
 
-#: changes.rst:431
+#: changes.rst:434
 msgid ":ref:`RSS feeds <rss>` can now use the same filters as the changes browsing page."
 msgstr ""
 
-#: changes.rst:432
+#: changes.rst:435
 msgid ":ref:`addon-weblate.gettext.django` now supports gettext PO files used as templates when they are excluded by the language filter."
 msgstr ""
 
-#: changes.rst:433
+#: changes.rst:436
 msgid "Reworked :doc:`/security/threat-model` into a contract-style document."
 msgstr ""
 
-#: changes.rst:437
+#: changes.rst:440
 msgid "Hardened search previews and :ref:`machine-translation` suggestion origins against XSS, and stopped exposing database error details in upload failures (:cve:`2026-45106` / :ghsa:`6wxc-8mgq-w26m`)."
 msgstr ""
 
-#: changes.rst:438
+#: changes.rst:441
 msgid "Screenshot URL uploads, remote HTML extraction in :ref:`addon-weblate.cdn.cdnjs`, and URL health-check redirects now reject internal or non-public targets by default."
 msgstr ""
 
-#: changes.rst:439
+#: changes.rst:442
 msgid "Gerrit review pushes now reject target branches containing push options, track the target branch before invoking ``git-review``, and suggest short branch names when full refs are supplied."
 msgstr ""
 
-#: changes.rst:440
+#: changes.rst:443
 msgid "Category :doc:`/admin/announcements` no longer appear across the whole project, and translation announcement deletion now honors language-scoped permissions."
 msgstr ""
 
-#: changes.rst:441
+#: changes.rst:444
 msgid "Merge request pushes now refresh stale fork remotes after changing repository hosting."
 msgstr ""
 
-#: changes.rst:442
+#: changes.rst:445
 msgid "Plural counts parsed from translation file headers are now bounded, and plural formulas are rejected when they can evaluate outside the configured plural form range."
 msgstr ""
 
-#: changes.rst:443
+#: changes.rst:446
 msgid ":ref:`project-api` expiring today now remain valid until the end of the day."
 msgstr ""
 
-#: changes.rst:444
+#: changes.rst:447
 msgid "Malformed ALTCHA CAPTCHA submissions and repository URLs in webhook payloads no longer cause server errors."
 msgstr ""
 
-#: changes.rst:445
+#: changes.rst:448
 msgid ":ref:`check-placeholders` now merges overlapping non-nested spans from multiple flags."
 msgstr ""
 
-#: changes.rst:446
+#: changes.rst:449
 msgid ":ref:`backup` logs no longer include OpenSSH post-quantum key exchange warnings from remote Borg connections."
 msgstr ""
 
-#: changes.rst:447
+#: changes.rst:450
 msgid "Category repository paths are now handled more safely during cleanup and moves."
 msgstr ""
 
-#: changes.rst:448
+#: changes.rst:451
 msgid "Locked component pages now show an unsubscribe action after subscribing to unlock notifications."
 msgstr ""
 
-#: changes.rst:449
+#: changes.rst:452
 msgid ":ref:`projectbackup` imports now restore in the background to avoid web worker memory limits."
 msgstr ""
 
-#: changes.rst:453
+#: changes.rst:456
 msgid "The ``dos-eol`` flag is no longer supported. Use the ``dos_eol`` :ref:`file_format_params` instead."
 msgstr ""
 
-#: changes.rst:454
+#: changes.rst:457
 msgid "The registration CAPTCHA now uses the ALTCHA widget v3 protocol with Argon2id proof-of-work."
 msgstr ""
 
-#: changes.rst:455
+#: changes.rst:458
 msgid "The ``set_language_team`` project attribute has been replaced with the ``po_set_language_team`` file format parameter at the component level; see :ref:`file_format_params`."
 msgstr ""
 
-#: changes.rst:456
+#: changes.rst:459
 msgid "Weblate now uses calendar versioning for releases, see :ref:`release-cycle`."
 msgstr ""
 
-#: changes.rst:457
+#: changes.rst:460
 msgid "Weblate now uses stricter dependency version constraints to better control runtime environment."
 msgstr ""
 
-#: changes.rst:463
+#: changes.rst:466
 msgid "The ``ALTCHA_MAX_NUMBER`` setting has been replaced by :setting:`ALTCHA_COST`, :setting:`ALTCHA_MEMORY_COST`, and :setting:`ALTCHA_PARALLELISM`; please adjust your settings accordingly."
 msgstr ""
 
-#: changes.rst:464
+#: changes.rst:467
 msgid "The upgrading policy was changed, and upgrades are only supported from the current or previous calendar year."
 msgstr ""
 
-#: changes.rst:465
+#: changes.rst:468
 msgid "The ``COMMENT_CLEANUP_DAYS`` and ``SUGGESTION_CLEANUP_DAYS`` settings are migrated once to site-wide :ref:`addon-weblate.removal.comments` and :ref:`addon-weblate.removal.suggestions` add-ons; configure those add-ons instead."
 msgstr ""
 
-#: changes.rst:471
+#: changes.rst:474
 msgid "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/162?closed=1>`__."
 msgstr ""
 
@@ -37153,443 +37169,443 @@ msgid "Web authorization separates site, project, component, language, glossary,
 msgstr ""
 
 #: security/threat-model.rst:614
-msgid "Permission assignments match the intended trust relationship. Team-level enforced 2FA is satisfied by human users before team-derived permissions apply. Component administrators are trusted to configure operations that can affect repository contents, for example by selecting files through component settings or configuring add-ons. Linking a repository extends this trust to administrators of every linked component for the complete shared checkout. Permissions for explicit VCS actions cover every component sharing an affected repository, including linked components in other projects. Weblate's normal background commit and push of authorized translation changes does not require the editor to have these VCS permissions. Translation memory attributed to an existing restricted component follows that component's access rules. Unattributed automatic memory, including unmatched legacy entries and memory retained after component removal, follows its remaining translation-memory scope."
-msgstr ""
-
-#: security/threat-model.rst:630
-msgid "User or token can read or mutate data outside assigned scope."
-msgstr ""
-
-#: security/threat-model.rst:631
-msgid "Security-critical when private data or privileged mutation is exposed."
+msgid "Permission assignments match the intended trust relationship. Team-level enforced 2FA is satisfied by human users before team-derived permissions apply. Component administrators are trusted to configure operations that can affect repository contents, for example by selecting files through component settings or configuring add-ons. Linking a repository extends this trust to administrators of every linked component for the complete shared checkout. Permissions for explicit VCS actions cover every component sharing an affected repository, including linked components in other projects. Project-wide VCS actions omit repositories where this permission check fails; they do not partially operate on an individual shared checkout. Weblate's normal background commit and push of authorized translation changes does not require the editor to have these VCS permissions. Translation memory attributed to an existing restricted component follows that component's access rules. Unattributed automatic memory, including unmatched legacy entries and memory retained after component removal, follows its remaining translation-memory scope."
 msgstr ""
 
 #: security/threat-model.rst:632
-msgid "Project-scoped API tokens are limited by assigned project/team permissions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
+msgid "User or token can read or mutate data outside assigned scope."
+msgstr ""
+
+#: security/threat-model.rst:633
+msgid "Security-critical when private data or privileged mutation is exposed."
 msgstr ""
 
 #: security/threat-model.rst:634
-msgid "Token is created and stored by a trusted actor."
-msgstr ""
-
-#: security/threat-model.rst:635
-msgid "Token can act outside project or team scope."
+msgid "Project-scoped API tokens are limited by assigned project/team permissions. *(documented)* (source: :doc:`/api`, :doc:`/admin/access`)"
 msgstr ""
 
 #: security/threat-model.rst:636
-#: security/threat-model.rst:642
-#: security/threat-model.rst:647
-#: security/threat-model.rst:655
-#: security/threat-model.rst:670
-#: security/threat-model.rst:731
-msgid "Security-critical."
+msgid "Token is created and stored by a trusted actor."
 msgstr ""
 
 #: security/threat-model.rst:637
+msgid "Token can act outside project or team scope."
+msgstr ""
+
+#: security/threat-model.rst:638
+#: security/threat-model.rst:644
+#: security/threat-model.rst:649
+#: security/threat-model.rst:657
+#: security/threat-model.rst:674
+#: security/threat-model.rst:735
+msgid "Security-critical."
+msgstr ""
+
+#: security/threat-model.rst:639
 msgid "Authentication and session controls protect browser sessions when HTTPS and proxy settings are correct. *(documented)* (source: :doc:`/admin/auth`, :setting:`ENABLE_HTTPS`)"
 msgstr ""
 
-#: security/threat-model.rst:640
+#: security/threat-model.rst:642
 msgid "Production HTTPS and secure-cookie settings are enabled."
 msgstr ""
 
-#: security/threat-model.rst:641
+#: security/threat-model.rst:643
 msgid "Session fixation, credential bypass, or cross-user session confusion."
 msgstr ""
 
-#: security/threat-model.rst:643
+#: security/threat-model.rst:645
 msgid "User-supplied content rendered by Weblate is expected not to execute script in other users' browsers. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:645
+#: security/threat-model.rst:647
 msgid "Content is displayed through Weblate UI templates and standard escaping."
 msgstr ""
 
-#: security/threat-model.rst:646
+#: security/threat-model.rst:648
 msgid "Stored or reflected XSS in the Weblate origin."
 msgstr ""
 
-#: security/threat-model.rst:648
+#: security/threat-model.rst:650
 msgid "Repository, branch, path, and VCS inputs processed by Weblate must not become shell command execution. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:650
+#: security/threat-model.rst:652
 msgid "VCS operations are invoked through Weblate-supported repository workflows and configured credentials. Project backup restores allow only non-executable Git, git-svn, and Mercurial repository state, and rebuild repository-local configuration from validated component settings."
 msgstr ""
 
-#: security/threat-model.rst:654
+#: security/threat-model.rst:656
 msgid "Command injection or arbitrary code execution as the Weblate user."
 msgstr ""
 
-#: security/threat-model.rst:656
+#: security/threat-model.rst:658
 msgid "Private project data other than documented generic webhook matching diagnostics, user data, credentials, tokens, SSH keys, and 2FA secrets are not disclosed to actors lacking permission. *(documented)* (source: :doc:`/admin/access`, :doc:`/security/privacy-compliance`, :doc:`/vcs`)"
 msgstr ""
 
-#: security/threat-model.rst:660
-msgid "Host, database, and storage permissions are intact. Generic webhook responses expose only the match counts, project/component slugs, and API URLs documented in :ref:`hooks-target-matching`. Repository content deliberately shared through linked components follows the linked repository trust boundary. Custom add-ons list only non-sensitive fields as public configuration; unlisted values are redacted from public change history."
-msgstr ""
-
-#: security/threat-model.rst:667
-msgid "Cross-project data leak not covered by the documented generic webhook diagnostics or linked-repository trust boundary, credential exposure, or unauthorized export."
+#: security/threat-model.rst:662
+msgid "Host, database, and storage permissions are intact. Generic webhook responses expose only the match counts, project/component slugs, and API URLs documented in :ref:`hooks-target-matching`. Repository content deliberately shared through linked components follows the linked repository trust boundary. Project repository permission diagnostics expose the paths of linked components that prevent an operation, but do not expose their content or repository status. Custom add-ons list only non-sensitive fields as public configuration; unlisted values are redacted from public change history."
 msgstr ""
 
 #: security/threat-model.rst:671
+msgid "Cross-project data leak not covered by the documented generic webhook diagnostics or linked-repository trust boundary, credential exposure, or unauthorized export."
+msgstr ""
+
+#: security/threat-model.rst:675
 msgid "Backup import rejects archives exceeding documented upload, member, aggregate size, and suspicious compression thresholds. *(documented)* (source: :doc:`/admin/config`, :ref:`projectbackup`)"
 msgstr ""
 
-#: security/threat-model.rst:673
+#: security/threat-model.rst:677
 msgid "Defaults or stricter limits remain configured."
 msgstr ""
 
-#: security/threat-model.rst:674
+#: security/threat-model.rst:678
 msgid "Oversized or highly amplified archive is accepted past configured thresholds."
 msgstr ""
 
-#: security/threat-model.rst:676
+#: security/threat-model.rst:680
 msgid "Security-critical for single-request DoS; otherwise availability bug."
 msgstr ""
 
-#: security/threat-model.rst:677
+#: security/threat-model.rst:681
 msgid "Documented user-configurable outbound URL surfaces reject internal or non-public targets by default. *(documented)* (source: :setting:`ASSET_RESTRICT_PRIVATE`, :setting:`PROJECT_WEB_RESTRICT_PRIVATE`, :setting:`WEBHOOK_RESTRICT_PRIVATE`, :setting:`VCS_RESTRICT_PRIVATE`)"
 msgstr ""
 
-#: security/threat-model.rst:682
+#: security/threat-model.rst:686
 msgid "Default private-target checks are enabled and no trusted allowlist exemption applies. Direct protected HTTP requests and Git HTTPS and SSH operations retain address binding, VCS restrictions remain enabled, and VCS backends without binding use only explicitly trusted hosts. Configured per-protocol HTTP proxies remain trusted routing infrastructure."
 msgstr ""
 
-#: security/threat-model.rst:688
+#: security/threat-model.rst:692
 msgid "A user-configurable screenshot URL, remote HTML URL, project website or repository browser URL, outbound webhook URL, or VCS URL reaches an internal or non-public target despite default controls."
 msgstr ""
 
-#: security/threat-model.rst:691
+#: security/threat-model.rst:695
 msgid "Security-critical when it exposes internal services or metadata."
 msgstr ""
 
-#: security/threat-model.rst:692
+#: security/threat-model.rst:696
 msgid "Weblate records security-relevant account, permission, authenticated web-action rate-limit lockouts, and project or component setting changes in audit logs or history. *(documented)* (source: :doc:`/security/privacy-compliance`, :ref:`rate-limit`, :doc:`/changes`)"
 msgstr ""
 
-#: security/threat-model.rst:696
+#: security/threat-model.rst:700
 msgid "Logging is configured and storage is available."
 msgstr ""
 
-#: security/threat-model.rst:697
+#: security/threat-model.rst:701
 msgid "Missing audit trail for an action Weblate claims to log."
 msgstr ""
 
-#: security/threat-model.rst:698
+#: security/threat-model.rst:702
 msgid "Security-critical when it blocks investigation of privileged changes; correctness-only for minor event gaps."
 msgstr ""
 
-#: security/threat-model.rst:700
+#: security/threat-model.rst:704
 msgid "Rate-limited API and web actions enforce configured rate limits. *(documented)* (source: :doc:`/api`, :doc:`/admin/config`)"
 msgstr ""
 
-#: security/threat-model.rst:702
+#: security/threat-model.rst:706
 msgid "Rate limiting is enabled and backed by a working datastore."
 msgstr ""
 
-#: security/threat-model.rst:703
+#: security/threat-model.rst:707
 msgid "Requests exceeding configured thresholds continue to be processed."
 msgstr ""
 
-#: security/threat-model.rst:704
+#: security/threat-model.rst:708
 msgid "Availability/security hardening depending on endpoint sensitivity."
 msgstr ""
 
-#: security/threat-model.rst:705
+#: security/threat-model.rst:709
 msgid "Generic webhooks schedule repository updates only for eligible components whose repository URL exactly matches a repository URL from the payload, including documented URL variants. Components managed through an authenticated integration are excluded from generic matching and diagnostics. Generic responses disclose only the documented matching diagnostics for eligible components. *(documented)* (source: :ref:`hooks-target-matching`)"
 msgstr ""
 
-#: security/threat-model.rst:712
+#: security/threat-model.rst:716
 msgid "Hooks are enabled and the delivery reaches an in-scope hook endpoint."
 msgstr ""
 
-#: security/threat-model.rst:713
+#: security/threat-model.rst:717
 msgid "A delivery updates a component whose repository URL does not exactly match the payload, including through host or path suffix fallback, or a generic delivery updates or discloses a component managed through an authenticated integration, or a response discloses component information beyond the documented fields."
 msgstr ""
 
-#: security/threat-model.rst:718
+#: security/threat-model.rst:722
 msgid "Security-critical when it causes unauthorized repository synchronization across unrelated components; otherwise correctness or hardening."
 msgstr ""
 
-#: security/threat-model.rst:720
+#: security/threat-model.rst:724
 msgid "Weblate does not intentionally expose database, datastore, backup storage, or raw internal storage directly through the public web interface; exported VCS repositories are intentionally exposed by :ref:`git-exporter` when that optional module is enabled; authorized project backup downloads are intentionally exposed through documented project backup routes. *(documented)* (source: :doc:`/api`, :ref:`projectbackup`) *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:727
+#: security/threat-model.rst:731
 msgid "Deployment does not serve internal storage paths as static files except for documented export features."
 msgstr ""
 
-#: security/threat-model.rst:729
+#: security/threat-model.rst:733
 msgid "Public request retrieves raw internal storage, configuration, or non-exported repository data."
 msgstr ""
 
-#: security/threat-model.rst:733
+#: security/threat-model.rst:737
 msgid "Resource thresholds in this model are the documented configuration defaults where they exist, especially backup import limits and rate limits. For repository size, project count, component count, and translation volume, Weblate does not claim a fixed universal resource ceiling independent of deployment capacity. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:740
+#: security/threat-model.rst:744
 msgid "Security properties Weblate does not provide"
 msgstr ""
 
-#: security/threat-model.rst:742
+#: security/threat-model.rst:746
 msgid "Weblate does not authenticate every webhook delivery cryptographically for all supported forge integrations. Hook endpoints are compatibility-oriented and deployment-hardened rather than uniformly forge-authenticated. Reports that show only unauthenticated triggering within modeled effects are ``VALID-HARDENING`` rather than ``BY-DESIGN``. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:748
+#: security/threat-model.rst:752
 msgid "Weblate does not make an unauthenticated webhook equivalent to a trusted forge identity. Hook processing can trigger update workflows, and generic responses can confirm repository registration and reveal match counts, project/component slugs, and API URLs, including for private projects and restricted components. Components managed through an authenticated integration are excluded from this generic behavior. Attribution and authenticity are weaker than for an authenticated user or token. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:756
+#: security/threat-model.rst:760
 msgid "User-requested background work is authorized when Weblate accepts and queues the request. Background tasks do not always verify the initiating user's permissions again when they execute. Later changes to the user's account, permissions, or team memberships therefore do not reliably prevent already-authorized work from completing. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:762
+#: security/threat-model.rst:766
 msgid "Weblate is not a sandbox for malicious administrators, malicious local operators, third-party add-ons, custom deployment code, VCS clients, or backup tools. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:766
+#: security/threat-model.rst:770
 msgid "Weblate does not guarantee that translation content is safe when copied into a downstream product without that product's own escaping, validation, or review. Translation checks and review workflows help manage localization quality and risk; they are not a complete downstream application security boundary. *(documented)* (source: :doc:`/security/localization-threat`, :doc:`/user/checks`)"
 msgstr ""
 
-#: security/threat-model.rst:772
+#: security/threat-model.rst:776
 msgid "False friends:"
 msgstr ""
 
-#: security/threat-model.rst:774
+#: security/threat-model.rst:778
 msgid "Weblate permissions are application authorization, not a host sandbox. A user granted VCS or project management permissions can intentionally configure integrations within that role's power. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:777
+#: security/threat-model.rst:781
 msgid "Webhook project matching and event parsing are not proof that the sender is the legitimate forge when the integration does not authenticate the delivery. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:780
+#: security/threat-model.rst:784
 msgid "Translation checks detect common quality and format problems; they are not a guarantee that translated strings are safe for every downstream renderer. *(documented)* (source: :doc:`/user/checks`, :doc:`/security/localization-threat`)"
 msgstr ""
 
-#: security/threat-model.rst:784
+#: security/threat-model.rst:788
 msgid "BorgBackup encryption protects backup archives according to Borg's design; Weblate does not add a separate cryptographic guarantee for Borg internals. *(documented)* (source: :doc:`/admin/backup`)"
 msgstr ""
 
-#: security/threat-model.rst:787
+#: security/threat-model.rst:791
 msgid "Rate limits reduce abuse of configured endpoints; they are not a guarantee of availability under volumetric network attacks. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:790
+#: security/threat-model.rst:794
 msgid "Well-known attack classes left partly or wholly to deployment or downstream systems:"
 msgstr ""
 
-#: security/threat-model.rst:793
+#: security/threat-model.rst:797
 msgid "Phishing and credential reuse are mitigated by authentication policy and 2FA, but Weblate cannot prevent users from disclosing credentials outside the service. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:796
+#: security/threat-model.rst:800
 msgid "Malicious translations can become XSS, format-string, command, or policy problems in downstream applications that render them unsafely. *(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
 
-#: security/threat-model.rst:798
+#: security/threat-model.rst:802
 msgid "User-configurable outbound URL surfaces with documented private-target restrictions reject internal or non-public targets by default; privileged allowlists, proxies, and administrator-controlled configuration can intentionally expand reachability. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:802
+#: security/threat-model.rst:806
 msgid "Large repository histories, project scale, and background task volume require deployment sizing and operational limits beyond Weblate's single-input validation. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:807
+#: security/threat-model.rst:811
 msgid "Downstream responsibilities"
 msgstr ""
 
-#: security/threat-model.rst:809
+#: security/threat-model.rst:813
 msgid "Operators must deploy Weblate behind production-grade HTTPS with correct proxy headers, hostnames, request-size limits, and secure-cookie behavior. *(documented)* (source: :doc:`/admin/install`, :setting:`ENABLE_HTTPS`, :setting:`ALLOWED_HOSTS`)"
 msgstr ""
 
-#: security/threat-model.rst:814
+#: security/threat-model.rst:818
 msgid "Operators enabling forwarded client-IP handling must trust only reverse proxies under their control and prevent untrusted clients from bypassing those proxies to reach Weblate directly. *(documented)* (source: :envvar:`WEBLATE_TRUSTED_PROXY_ADDRESSES`, :ref:`reverse-proxy`)"
 msgstr ""
 
-#: security/threat-model.rst:819
+#: security/threat-model.rst:823
 msgid "Operators must assign teams, roles, project-scoped tokens, VCS credentials, and project management permissions according to least privilege for their organization. *(documented)* (source: :doc:`/admin/access`, :doc:`/api`)"
 msgstr ""
 
-#: security/threat-model.rst:823
+#: security/threat-model.rst:827
 msgid "Operators exposing :ref:`hooks` must enable them only where needed and provide deployment controls such as reverse-proxy rate limits, body-size limits, monitoring, and optional source restrictions. They must accept the documented identifier disclosure or use authenticated integrations where available. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:829
+#: security/threat-model.rst:833
 msgid "Operators must treat private-target allowlists, proxies, and privileged outbound integration settings as intentional expansion of Weblate's default network reachability limits. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:833
+#: security/threat-model.rst:837
 msgid "Operators must keep backup import limits, API rate limits, and web rate limits at values that match instance capacity and exposure. *(documented)* (source: :doc:`/admin/config`)"
 msgstr ""
 
-#: security/threat-model.rst:836
+#: security/threat-model.rst:840
 msgid "Operators must protect the Weblate data directory, configuration, backup credentials, generated keys, database, datastore, and local shell access as trusted infrastructure. *(documented)* (source: :doc:`/admin/backup`, :doc:`/admin/install`)"
 msgstr ""
 
-#: security/threat-model.rst:841
+#: security/threat-model.rst:845
 msgid "Downstream product teams must treat translated strings as untrusted content in their own applications unless they have separately reviewed, escaped, and validated them for the target renderer. *(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
 
-#: security/threat-model.rst:846
+#: security/threat-model.rst:850
 msgid "Known misuse patterns"
 msgstr ""
 
-#: security/threat-model.rst:848
+#: security/threat-model.rst:852
 msgid "Exposing webhook endpoints broadly, enabling project hooks, and relying on webhook payloads as authenticated forge identity. This is unsafe because some supported hooks are compatibility-oriented and return matching diagnostics. Use deployment controls and prefer authenticated integrations where available. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:853
+#: security/threat-model.rst:857
 msgid "Granting project management, VCS, or access-management permissions to users who are trusted only as translators. This is unsafe because those permissions can affect repositories, credentials, or other users. Assign narrower roles. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
 
-#: security/threat-model.rst:857
+#: security/threat-model.rst:861
 msgid "Assigning site-wide permissions to roles intended for limited project or helpdesk delegation. Site-wide permissions apply across the instance and are not narrowed by the team's project selection. In particular, ``user.edit`` permits changing team memberships and superuser status for editable accounts, including the caller's own account. Delegate permissions through project or workspace teams for limited scopes. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
 
-#: security/threat-model.rst:864
+#: security/threat-model.rst:868
 msgid "Sending sensitive source strings or private customer content to machine translation providers without treating the provider as a data recipient. This is unsafe because Weblate must transmit content to the configured service, and the submitted content varies by provider and enabled feature. Configure providers according to the data policy for the project. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:869
+#: security/threat-model.rst:873
 msgid "Importing project backups from untrusted sources as an administrative convenience. This is unsafe because backups carry project metadata, translation content, and repository state. Keep import limits enabled and import only backups appropriate for the target instance. *(documented)* (source: :doc:`/admin/backup`)"
 msgstr ""
 
-#: security/threat-model.rst:873
+#: security/threat-model.rst:877
 msgid "Treating Weblate translation checks as proof that downstream applications cannot be attacked through translated strings. This is unsafe because the downstream renderer defines the final execution context. Review and escape translations in the consuming application. *(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
 
-#: security/threat-model.rst:879
+#: security/threat-model.rst:883
 msgid "Known non-findings"
 msgstr ""
 
-#: security/threat-model.rst:881
+#: security/threat-model.rst:885
 msgid "A report that a reachable webhook can be called without forge authentication and only triggers modeled update scheduling or returns the documented matching diagnostics is not ``VALID`` by itself. It is routed to ``VALID-HARDENING`` unless it bypasses documented limits, matches unrelated repositories, leaks data beyond the documented fields, or causes effects beyond modeled scheduling. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:887
+#: security/threat-model.rst:891
 msgid "A report that a webhook does not update a component whose repository URL only shares a host or path suffix with the payload is not a vulnerability; Weblate matches only exact repository URLs and documented variants. *(documented)* (source: :ref:`hooks-target-matching`)"
 msgstr ""
 
-#: security/threat-model.rst:891
+#: security/threat-model.rst:895
 msgid "A report that a project manager can change repository settings, VCS credentials, or project configuration is not a vulnerability when the actor has the documented permission for that action. *(documented)* (source: :doc:`/admin/access`)"
 msgstr ""
 
-#: security/threat-model.rst:894
+#: security/threat-model.rst:898
 msgid "A report that a project manager can configure Gerrit review push options is not a vulnerability by itself. Gerrit interprets these options as the configured Weblate Gerrit account and enforces Gerrit-side permissions. *(documented)* (source: :ref:`component-push_branch`)"
 msgstr ""
 
-#: security/threat-model.rst:898
+#: security/threat-model.rst:902
 msgid "A report against third-party add-on behavior is not a Weblate core vulnerability unless the report shows Weblate's permission or installation boundaries are bypassed. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:901
+#: security/threat-model.rst:905
 msgid "A report that a malicious local operator can read configuration, run management commands, or alter files is out of model because local operators are trusted infrastructure. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:904
+#: security/threat-model.rst:908
 msgid "A report that a downstream application renders a dangerous translation is not a Weblate vulnerability unless Weblate itself violates a claimed property while storing, checking, reviewing, or displaying that translation. *(documented)* (source: :doc:`/security/localization-threat`)"
 msgstr ""
 
-#: security/threat-model.rst:910
+#: security/threat-model.rst:914
 msgid "Conditions that change this model"
 msgstr ""
 
-#: security/threat-model.rst:912
+#: security/threat-model.rst:916
 msgid "Revise this model when Weblate adds a new public endpoint family, a new authentication or token mode, a new default deployment mode, a new backup or import format, a new VCS execution path, a new outbound integration class, a new add-on execution capability, or a change to defaults for hooks, HTTPS, rate limits, CSP, private-network access, or backup import limits. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:918
+#: security/threat-model.rst:922
 msgid "Revise this model when an unsupported component becomes supported product surface, when a documented security property is removed or narrowed, or when maintainers accept a vulnerability report that cannot be routed to a triage disposition below. *(maintainer)*"
 msgstr ""
 
-#: security/threat-model.rst:924
+#: security/threat-model.rst:928
 msgid "Triage dispositions"
 msgstr ""
 
-#: security/threat-model.rst:929
+#: security/threat-model.rst:933
 msgid "Disposition"
 msgstr ""
 
-#: security/threat-model.rst:930
+#: security/threat-model.rst:934
 msgid "Meaning"
 msgstr ""
 
-#: security/threat-model.rst:931
+#: security/threat-model.rst:935
 msgid "Licensed by"
 msgstr ""
 
-#: security/threat-model.rst:933
+#: security/threat-model.rst:937
 msgid "Violates a property Weblate claims, through an in-scope actor and input."
 msgstr ""
 
-#: security/threat-model.rst:934
+#: security/threat-model.rst:938
 msgid "`Security properties Weblate provides`_, `Input assumptions`_, `Adversary model`_"
 msgstr ""
 
-#: security/threat-model.rst:937
+#: security/threat-model.rst:941
 msgid "No claimed property is violated, but Weblate chooses to reduce a known misuse risk, such as compatibility webhook triggering that stays within modeled effects."
 msgstr ""
 
-#: security/threat-model.rst:940
+#: security/threat-model.rst:944
 msgid "`Known misuse patterns`_, `Security properties Weblate does not provide`_"
 msgstr ""
 
-#: security/threat-model.rst:942
+#: security/threat-model.rst:946
 msgid "Requires attacker control of input this model marks trusted."
 msgstr ""
 
-#: security/threat-model.rst:943
+#: security/threat-model.rst:947
 msgid "`Input assumptions`_"
 msgstr ""
 
-#: security/threat-model.rst:945
+#: security/threat-model.rst:949
 msgid "Requires a capability this model excludes."
 msgstr ""
 
-#: security/threat-model.rst:946
+#: security/threat-model.rst:950
 msgid "`Adversary model`_"
 msgstr ""
 
-#: security/threat-model.rst:948
+#: security/threat-model.rst:952
 msgid "Lands in third-party add-ons, generated docs, tests, local customization, or another component marked out of scope."
 msgstr ""
 
-#: security/threat-model.rst:950
+#: security/threat-model.rst:954
 msgid "`Out of scope`_"
 msgstr ""
 
-#: security/threat-model.rst:952
+#: security/threat-model.rst:956
 msgid "Manifests only after deployment choices that knowingly remove a claimed property."
 msgstr ""
 
-#: security/threat-model.rst:954
+#: security/threat-model.rst:958
 msgid "`Build-time and configuration variants`_"
 msgstr ""
 
-#: security/threat-model.rst:956
+#: security/threat-model.rst:960
 msgid "Concerns a property Weblate explicitly does not provide."
 msgstr ""
 
-#: security/threat-model.rst:957
+#: security/threat-model.rst:961
 msgid "`Security properties Weblate does not provide`_"
 msgstr ""
 
-#: security/threat-model.rst:959
+#: security/threat-model.rst:963
 msgid "Matches a documented recurring false positive."
 msgstr ""
 
-#: security/threat-model.rst:960
+#: security/threat-model.rst:964
 msgid "`Known non-findings`_"
 msgstr ""
 
-#: security/threat-model.rst:962
+#: security/threat-model.rst:966
 msgid "Cannot be cleanly routed to any disposition above."
 msgstr ""
 
-#: security/threat-model.rst:963
+#: security/threat-model.rst:967
 msgid "`Conditions that change this model`_"
 msgstr ""
 

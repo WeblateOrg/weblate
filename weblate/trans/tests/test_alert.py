@@ -47,7 +47,7 @@ from weblate.vcs.base import (
     RepositoryInternalError,
     RepositoryStructuredError,
 )
-from weblate.vcs.models import VCS_REGISTRY
+from weblate.vcs.github import GitHubAppCredentials
 from weblate.workspaces.models import Workspace
 
 
@@ -1227,6 +1227,168 @@ class AlertQueryPrefetchTest(ViewTestCase):
         self.assertEqual(len(alert_maps), 2)
 
 
+class GitHubAppMigrationAlertTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        self.workspace = Workspace.objects.create(name="Migration alert")
+        self.project.workspace = self.workspace
+        self.project.save(update_fields=["workspace"])
+        GitHubAppCredentials.objects.create(
+            hostname="github.com",
+            app_id="123",
+            app_slug="weblate",
+            private_key="test",
+            client_id="client",
+            client_secret="secret",
+            webhook_secret="webhook",
+        )
+
+    def get_forking_disabled_alert(
+        self, repo: str = "https://github.com/test-org/repo1.git"
+    ) -> Alert:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo=repo,
+        )
+        self.component.refresh_from_db()
+        self.component.add_alert(
+            "PushFailure",
+            error={
+                "code": "repository_fork_failed_with_error",
+                "retcode": 0,
+                "params": {
+                    "hostname": "api.github.com",
+                    "error": "The repository exists, but forking is disabled.",
+                },
+            },
+            diagnoses=[{"code": "repository_permission"}],
+        )
+        return self.component.alert_set.get(name="PushFailure")
+
+    def test_migration_alert_lifecycle(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+
+        update_alerts(self.component, {"GitHubAppMigration"})
+
+        alert = self.component.alert_set.get(name="GitHubAppMigration")
+        self.assertEqual(alert.severity, AlertSeverity.INFO)
+        self.assertTrue(alert.obj.dismissible)
+        self.assertEqual(
+            alert.obj.get_url(self.component),
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            ),
+        )
+
+        self.component.vcs = "github-app"
+        update_alerts(self.component, {"GitHubAppMigration"})
+        self.assertFalse(
+            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+        )
+
+    def test_migration_alert_requires_workspace_and_configured_host(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.example.com/WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+
+        update_alerts(self.component, {"GitHubAppMigration"})
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="GitHubAppMigration").exists()
+        )
+
+    def test_migration_alert_link_needs_workspace_access(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="git",
+            repo="git@github.com:WeblateOrg/weblate.git",
+        )
+        self.component.refresh_from_db()
+        update_alerts(self.component, {"GitHubAppMigration"})
+        alert = self.component.alert_set.get(name="GitHubAppMigration")
+
+        # Editing the component is not enough; the migration view is scoped to
+        # the workspace.
+        role = Role.objects.create(name="Component editor")
+        role.permissions.add(Permission.objects.get(codename="component.edit"))
+        group = Group.objects.create(name="Component editors")
+        group.roles.add(role)
+        group.projects.add(self.project)
+        self.anotheruser.groups.add(group)
+        self.assertTrue(
+            self.anotheruser.has_perm("component.edit", self.component),
+        )
+        self.assertEqual(alert.obj.get_context(self.anotheruser)["migration_url"], "")
+
+        self.make_manager()
+        self.assertEqual(
+            alert.obj.get_context(self.user)["migration_url"],
+            alert.obj.get_url(self.component),
+        )
+
+    def test_forking_disabled_push_failure_suggests_app_migration(self) -> None:
+        alert = self.get_forking_disabled_alert()
+
+        rendered = alert.render(self.user)
+        self.assertIn(
+            "Ensure the Weblate GitHub App is connected to this workspace", rendered
+        )
+        self.assertIn(
+            "Ask a workspace owner to complete the GitHub App setup and migration",
+            rendered,
+        )
+        self.assertNotIn("Migrate to GitHub App</a>", rendered)
+
+        self.make_manager()
+
+        context = alert.obj.get_context(self.user)
+        self.assertTrue(context["analysis"]["github_app_migration_available"])
+        self.assertEqual(
+            context["github_app_migration_url"],
+            reverse(
+                "github-app-migration",
+                kwargs={"workspace_id": self.workspace.pk},
+            ),
+        )
+        rendered = alert.render(self.user)
+        self.assertIn("Migrate to GitHub App</a>", rendered)
+        self.assertNotIn("Ask a workspace owner", rendered)
+
+    def test_forking_disabled_hint_requires_configured_app_host(self) -> None:
+        alert = self.get_forking_disabled_alert(
+            "https://github.example.com/test-org/repo1.git"
+        )
+
+        context = alert.obj.get_context(self.user)
+        self.assertTrue(context["analysis"]["github_forking_disabled"])
+        self.assertNotIn("github_app_migration_available", context["analysis"])
+        self.assertNotIn("GitHub App", alert.render(self.user))
+
+    def test_other_push_failure_does_not_suggest_migration(self) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            vcs="github",
+            repo="https://github.com/test-org/repo1.git",
+        )
+        self.component.refresh_from_db()
+        self.component.add_alert(
+            "PushFailure",
+            error="Push denied to user",
+            diagnoses=[{"code": "repository_permission"}],
+        )
+        alert = self.component.alert_set.get(name="PushFailure")
+
+        context = alert.obj.get_context(self.user)
+        self.assertFalse(context["analysis"]["github_forking_disabled"])
+        self.assertNotIn("github_app_migration_available", context["analysis"])
+        self.assertNotIn("GitHub App", alert.render(self.user))
+
+
 @override_settings(
     GITHUB_CREDENTIALS={
         "api.github.com": {
@@ -1236,23 +1398,8 @@ class AlertQueryPrefetchTest(ViewTestCase):
     }
 )
 class ConflictingRepositorySetupAlertTest(ViewTestCase):
-    @staticmethod
-    def clear_vcs_registry_cache() -> None:
-        VCS_REGISTRY.clear_cache()
-
     def create_component(self):
         return self.create_po()
-
-    @classmethod
-    def setUpTestData(cls) -> None:
-        super().setUpTestData()
-
-        cls.clear_vcs_registry_cache()
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        cls.clear_vcs_registry_cache()
-        super().tearDownClass()
 
     def create_conflicting_component(self, **kwargs) -> Component:
         name = kwargs.pop("name", "Test2")

@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 import os.path
-from typing import TYPE_CHECKING, Unpack
+from typing import TYPE_CHECKING, Literal, Unpack
 from unittest.mock import patch
 
 from django.test import SimpleTestCase
@@ -125,7 +125,7 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
         self.client_create_component(
             True,
             file_format_params_po_line_wrap="77",
-            json_sort_keys=True,
+            json_sort_keys="case_sensitive",
         )
         component = self.get_new_component()
         # check that only the expected parameters are set
@@ -240,7 +240,7 @@ class JsonParamsTest(BaseFileFormatsTest):
         self.update_component_file_params(
             json_indent=8,
             json_indent_style="spaces",
-            json_sort_keys=True,
+            json_sort_keys="case_sensitive",
         )
 
         commit = self.assert_customize("        ")
@@ -255,7 +255,7 @@ class JsonParamsTest(BaseFileFormatsTest):
         self.update_component_file_params(
             json_indent=0,
             json_indent_style="spaces",
-            json_sort_keys=True,
+            json_sort_keys="case_sensitive",
         )
 
         commit = self.assert_customize("+")
@@ -266,17 +266,63 @@ class JsonParamsTest(BaseFileFormatsTest):
             commit,
         )
 
-    def test_customize_no_sort(self) -> None:
+    def do_customize_sort_test(
+        self, sort_keys: Literal["case_sensitive", "case_insensitive", "none"]
+    ) -> str:
+        self.make_manager()
+        self.component.manage_units = True
+        self.component.save()
+
         self.update_component_file_params(
-            json_indent=8,
-            json_indent_style="spaces",
-            json_sort_keys=False,
+            json_sort_keys=sort_keys,
+            json_indent=0,
         )
-        commit = self.assert_customize("        ")
+        self.client.post(
+            reverse(
+                "new-unit",
+                kwargs={
+                    "path": [self.component.project.slug, self.component.slug, "en"]
+                },
+            ),
+            {
+                "source_0": "Thanks again!\n",
+                "context": "tHanks2",
+            },
+            follow=True,
+        )
+        self.edit_unit("Thanks again!\n", "Thanks")
+        return self.assert_customize("+")
+
+    def test_customize_case_insensitive_sort(self) -> None:
+        commit = self.do_customize_sort_test("case_insensitive")
+        # capital H and lowercase h are sorted similarly: thanks < tHanks2
         self.assertIn(
             '''"orangutan": "",
-+        "try": "",
-+        "thanks": ""''',
++"thanks": "",
++"tHanks2": "Thanks\\n",
++"try": ""''',
+            commit,
+        )
+
+    def test_customize_case_sensitive_sort(self) -> None:
+        commit = self.do_customize_sort_test("case_sensitive")
+        # capital H is sorted before lowercase h thanks > tHanks2
+        self.assertIn(
+            '''"orangutan": "",
++"tHanks2": "Thanks\\n",
++"thanks": "",
++"try": ""''',
+            commit,
+        )
+
+    def test_customize_no_sort(self) -> None:
+        commit = self.do_customize_sort_test("none")
+        # new units are appended to the end of the file
+        self.assertIn(
+            '''"orangutan": "",
++"try": "",
++"thanks": "",
++"tHanks2": "Thanks\\n"''',
             commit,
         )
 
@@ -284,7 +330,6 @@ class JsonParamsTest(BaseFileFormatsTest):
         self.update_component_file_params(
             json_indent=8,
             json_indent_style="tabs",
-            json_sort_keys=True,
         )
         self.assert_customize("\t\t\t\t\t\t\t\t")
 
@@ -292,7 +337,6 @@ class JsonParamsTest(BaseFileFormatsTest):
         self.update_component_file_params(
             json_indent=4,
             json_indent_style="spaces",
-            json_sort_keys=True,
             json_use_compact_separators=True,
         )
         self.assert_customize("    ", is_compact=True)
@@ -301,7 +345,6 @@ class JsonParamsTest(BaseFileFormatsTest):
         self.update_component_file_params(
             json_indent=4,
             json_indent_style="spaces",
-            json_sort_keys=True,
             json_use_compact_separators=False,
         )
         self.assert_customize("    ", is_compact=False)

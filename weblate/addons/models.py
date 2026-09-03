@@ -563,6 +563,7 @@ def _report_addon_error(
     report_error(
         f"add-on {addon.name} failed",
         project=_project_for_error(addon, component, scope),
+        exception=error,
     )
 
 

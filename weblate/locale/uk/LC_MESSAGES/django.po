@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-16 13:56+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -3355,6 +3355,14 @@ msgstr "Стан надкористувача"
 msgid "User has all possible permissions."
 msgstr "Користувач має всі можливі дозволи."
 
+msgid "All languages"
+msgstr "Всі мови"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (права доступу на рівні сайту)"
@@ -3405,9 +3413,6 @@ msgstr "Списки складників"
 
 msgid "Language selection"
 msgstr "Вибір мови"
-
-msgid "All languages"
-msgstr "Всі мови"
 
 msgid "Languages"
 msgstr "Мови"
@@ -9076,6 +9081,31 @@ msgstr "Статус"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "Станьте прихильником Weblate"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "Репозиторій VCS доступний для всіх."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Skipped components"
+msgid "Skipped components:"
+msgstr "Пропущені складники"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "Доступ заборонено"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "Стан репозиторія"
@@ -18007,7 +18037,21 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "Усі сховища оновлено, виконуємо оновлення перекладів."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "Усі сховища оновлено, виконуємо оновлення перекладів."
+
 msgid "All repositories were pushed."
+msgstr "Усі репозиторію надіслані."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "Усі репозиторію надіслані."
 
 msgid ""
@@ -18015,13 +18059,37 @@ msgid ""
 msgstr ""
 "Для усіх сховищ відновлено початковий стан, виконуємо оновлення перекладів."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr ""
+"Для усіх сховищ відновлено початковий стан, виконуємо оновлення перекладів."
+
 msgid "All repositories have been cleaned up."
+msgstr "Усі репозиторію вже очищені."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "Усі репозиторію вже очищені."
 
 msgid "Translation files have been synchronized."
 msgstr "Файли перекладу синхронізовано."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "Файли перекладу синхронізовано."
+
 msgid "Updates of translations are in progress."
+msgstr "Виконуємо оновлення перекладів."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "Виконуємо оновлення перекладів."
 
 msgid "Duplicate strings have been removed from the translation file."
@@ -18038,6 +18106,11 @@ msgstr "Внесення перекладів з черги."
 
 msgid "All pending translations were committed."
 msgstr "Усі переклади з черги буде подано."
+
+#, fuzzy
+#| msgid "Pending translations are being committed."
+msgid "Pending translations in accessible repositories were committed."
+msgstr "Внесення перекладів з черги."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Складник наразі заблоковано для оновлень перекладу!"

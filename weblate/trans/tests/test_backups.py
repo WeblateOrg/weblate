@@ -167,12 +167,14 @@ class BackupsTest(ViewTestCase):
         unit_updates: dict | None = None,
         component_removals: tuple[str, ...] = (),
         all_components: bool = False,
+        component_slug: str | None = None,
     ) -> str:
         backup = ProjectBackup()
         backup.backup_project(self.project)
 
         with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
             temp_name = temp_handle.name
+        slug = component_slug or self.component.slug
 
         with (
             ZipFile(backup.filename, "r") as source_zip,
@@ -183,16 +185,12 @@ class BackupsTest(ViewTestCase):
                     repo is not None
                     and repo.startswith("weblate:")
                     and item.filename.startswith("vcs/")
-                    and (
-                        all_components
-                        or item.filename.startswith(f"vcs/{self.component.slug}/")
-                    )
+                    and (all_components or item.filename.startswith(f"vcs/{slug}/"))
                 ):
                     continue
                 data = source_zip.read(item.filename)
                 if item.filename.startswith("components/") and (
-                    all_components
-                    or item.filename.endswith(f"{self.component.slug}.json")
+                    all_components or item.filename.endswith(f"{slug}.json")
                 ):
                     component_data = json.loads(data.decode("utf-8"))
                     if repo is not None:
@@ -295,6 +293,39 @@ class BackupsTest(ViewTestCase):
         restored_component = restored.component_set.get(slug=self.component.slug)
         self.assertEqual(restored_component.vcs, "git")
         self.assertEqual(restored_component.vcs_params, {"git_force_push": True})
+
+    def test_restore_legacy_json_sort_keys(self) -> None:
+        component = self.create_json_mono(
+            project=self.project, name="JSON-sort", suffix="sort-keys"
+        )
+        cases = (
+            (True, "case_sensitive"),
+            (False, "none"),
+            ("none", "none"),
+            ("case_sensitive", "case_sensitive"),
+            ("case_insensitive", "case_insensitive"),
+        )
+        for index, (old_value, new_value) in enumerate(cases):
+            with self.subTest(old_value=old_value):
+                temp_name = self.write_tampered_component_backup(
+                    component_updates={
+                        "file_format_params": {"json_sort_keys": old_value}
+                    },
+                    component_slug=component.slug,
+                )
+                with remove_file_after(temp_name):
+                    restore = ProjectBackup(temp_name)
+                    restore.validate()
+                    restored = restore.restore(
+                        project_name=f"Restored json sort {index}",
+                        project_slug=f"restored-json-sort-{index}",
+                        user=self.user,
+                    )
+
+                restored_component = restored.component_set.get(slug=component.slug)
+                self.assertEqual(
+                    restored_component.file_format_params["json_sort_keys"], new_value
+                )
 
     def test_backup_creates_history_entry(self) -> None:
         backup = ProjectBackup()

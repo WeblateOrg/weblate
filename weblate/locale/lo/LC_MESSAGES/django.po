@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate / Application\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-21 07:12-0500\n"
+"POT-Creation-Date: 2026-08-28 00:06-0500\n"
 "PO-Revision-Date: 2026-08-12 05:27+0000\n"
 "Last-Translator: Bone NI <bounkirdni@gmail.com>\n"
 "Language-Team: Lao <https://hosted.weblate.org/projects/weblate/application/"
@@ -3127,6 +3127,14 @@ msgstr "ສະຖານະຜູ້ດູແລລະບົບສູງສຸດ
 msgid "User has all possible permissions."
 msgstr "ຜູ້ໃຊ້ນີ້ມີສິດອະນຸຍາດທຸກຢ່າງ."
 
+msgid "All languages"
+msgstr "ທຸກພາສາ"
+
+msgid ""
+"Grants access to all languages, including ones added in the future. Turn off "
+"to choose individual languages below."
+msgstr ""
+
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (ສິດອະນຸຍາດທົ່ວທັງເວັບໄຊ)"
@@ -3175,9 +3183,6 @@ msgstr "ລາຍຊື່ສ່ວນປະກອບ"
 
 msgid "Language selection"
 msgstr "ການເລືອກພາສາ"
-
-msgid "All languages"
-msgstr "ທຸກພາສາ"
 
 msgid "Languages"
 msgstr "ພາສາ"
@@ -8406,6 +8411,31 @@ msgstr "ສະຖານະ"
 msgctxt "Support Weblate financially"
 msgid "Become a Weblate supporter"
 msgstr "ເຂົ້າຮ່ວມເປັນຜູ້ສະໜັບສະໜູນ Weblate"
+
+#, fuzzy
+#| msgid "VCS repository is accessible to everybody."
+msgid "Some repositories are not accessible"
+msgstr "VCS repository ສາມາດເຂົ້າເຖິງໄດ້ໂດຍທຸກຄົນ."
+
+msgid ""
+"Each operation below excludes repositories unless you have the required "
+"permission on every component sharing them."
+msgstr ""
+
+#, fuzzy
+#| msgid "Skipped components"
+msgid "Skipped components:"
+msgstr "ສ່ວນປະກອບທີ່ຖືກຂ້າມ"
+
+#, fuzzy
+#| msgid "Permission Denied"
+msgid "Permission required on:"
+msgstr "ການອະນຸຍາດຖືກປະຕິເສດ"
+
+msgid ""
+"A repository was skipped because one or more of its components are not "
+"accessible."
+msgstr ""
 
 msgid "Repository status"
 msgstr "ສະຖານະຄັງເກັບ"
@@ -16483,20 +16513,57 @@ msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "ອັບເດດທຸກຄັງເກັບແລ້ວ, ກຳລັງດຳເນີນການອັບເດດຄຳແປ."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been updated, updates of translations are in "
+#| "progress."
+msgid ""
+"Accessible repositories have been updated, updates of translations are in "
+"progress."
+msgstr "ອັບເດດທຸກຄັງເກັບແລ້ວ, ກຳລັງດຳເນີນການອັບເດດຄຳແປ."
+
 msgid "All repositories were pushed."
+msgstr "ໄດ້ທຳການ Push ທຸກຄັງເກັບແລ້ວ."
+
+#, fuzzy
+#| msgid "All repositories were pushed."
+msgid "Accessible repositories were pushed."
 msgstr "ໄດ້ທຳການ Push ທຸກຄັງເກັບແລ້ວ."
 
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "ຣີເຊັດ (Reset) ທຸກຄັງເກັບແລ້ວ, ກຳລັງດຳເນີນການອັບເດດຄຳແປ."
 
+#, fuzzy
+#| msgid ""
+#| "All repositories have been reset, updates of translations are in progress."
+msgid ""
+"Accessible repositories have been reset, updates of translations are in "
+"progress."
+msgstr "ຣີເຊັດ (Reset) ທຸກຄັງເກັບແລ້ວ, ກຳລັງດຳເນີນການອັບເດດຄຳແປ."
+
 msgid "All repositories have been cleaned up."
+msgstr "ທຳຄວາມສະອາດທຸກຄັງເກັບແລ້ວ."
+
+#, fuzzy
+#| msgid "All repositories have been cleaned up."
+msgid "Accessible repositories have been cleaned up."
 msgstr "ທຳຄວາມສະອາດທຸກຄັງເກັບແລ້ວ."
 
 msgid "Translation files have been synchronized."
 msgstr "ໄຟລ໌ແປໄດ້ຖືກຊິງຄ໌ (Synchronized) ແລ້ວ."
 
+#, fuzzy
+#| msgid "Translation files have been synchronized."
+msgid "Translation files in accessible repositories have been synchronized."
+msgstr "ໄຟລ໌ແປໄດ້ຖືກຊິງຄ໌ (Synchronized) ແລ້ວ."
+
 msgid "Updates of translations are in progress."
+msgstr "ກຳລັງດຳເນີນການອັບເດດຄຳແປ."
+
+#, fuzzy
+#| msgid "Updates of translations are in progress."
+msgid "Updates of translations in accessible repositories are in progress."
 msgstr "ກຳລັງດຳເນີນການອັບເດດຄຳແປ."
 
 msgid "Duplicate strings have been removed from the translation file."
@@ -16513,6 +16580,11 @@ msgstr "ກຳລັງຢືນຢັນ (Commit) ຄຳແປທີ່ຄ້�
 
 msgid "All pending translations were committed."
 msgstr "ຢືນຢັນຄຳແປທີ່ຄ້າງຢູ່ທັງໝົດແລ້ວ."
+
+#, fuzzy
+#| msgid "Pending translations are being committed."
+msgid "Pending translations in accessible repositories were committed."
+msgstr "ກຳລັງຢືນຢັນ (Commit) ຄຳແປທີ່ຄ້າງຢູ່."
 
 msgid "Component is now locked for translation updates!"
 msgstr "ສ່ວນປະກອບຖືກລັອກສຳລັບການອັບເດດຄຳແປແລ້ວ!"

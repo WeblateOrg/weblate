@@ -28,6 +28,13 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 
+from weblate.trans.hooks.repository import (
+    normalize_full_name,
+    parse_repo_url,
+    repo_connection,
+    repo_is_scp_like,
+    repo_path,
+)
 from weblate.utils.errors import report_error
 from weblate.utils.requests import async_fetch_url
 from weblate.vcs.base import RepositoryInternalError
@@ -74,6 +81,7 @@ GITHUB_APP_MANIFEST_EVENTS: tuple[str, ...] = (
 # GitHub rejects App names longer than this; mirror the limit on our side so
 # users see the constraint up front and the manifest is always accepted.
 GITHUB_APP_NAME_MAX_LENGTH = 34
+GITHUB_APP_MIGRATABLE_VCS: frozenset[str] = frozenset({"git", "github"})
 
 
 def normalize_github_app_hostname(hostname: str) -> str:
@@ -82,6 +90,74 @@ def normalize_github_app_hostname(hostname: str) -> str:
     if normalized == "api.github.com":
         return "github.com"
     return normalized
+
+
+def get_github_repository_full_name(full_name: str | None) -> str | None:
+    """
+    Normalize an ``owner/repository`` pair usable in a GitHub repository URL.
+
+    GitHub full names are always exactly two path segments and the segments are
+    interpolated into clone URLs, so relative path segments are rejected here
+    rather than at each call site.
+    """
+    normalized = normalize_full_name(full_name)
+    if normalized is None or normalized.count("/") != 1:
+        return None
+    if any(part in {".", ".."} for part in normalized.split("/")):
+        return None
+    return normalized
+
+
+def get_github_repository_identity(repository: str) -> tuple[str, str] | None:
+    """Return the normalized host and full name for a GitHub repository URL."""
+    parsed = parse_repo_url(repository)
+    if parsed is None or (
+        parsed.hostname is not None
+        and parsed.scheme not in {"git", "http", "https", "ssh"}
+    ):
+        return None
+    if parsed.hostname is None and not repo_is_scp_like(repository):
+        return None
+    hostname, _username, _port, _is_ssh_url = repo_connection(repository)
+    full_name = get_github_repository_full_name(repo_path(repository))
+    if hostname is None or full_name is None:
+        return None
+    return normalize_github_app_hostname(hostname), full_name
+
+
+def get_github_repository_clone_url(hostname: str, repository: dict) -> str | None:
+    """Return a validated canonical HTTPS clone URL from cached GitHub data."""
+    hostname = normalize_github_app_hostname(hostname)
+    full_name = get_github_repository_full_name(repository.get("full_name"))
+    if full_name is None:
+        return None
+
+    clone_url = repository.get("clone_url")
+    if isinstance(clone_url, str):
+        parsed = urlparse(clone_url)
+        identity = get_github_repository_identity(clone_url)
+        try:
+            port = parsed.port
+        except ValueError:
+            port = None
+        valid_clone_url = (
+            parsed.scheme == "https"
+            and parsed.username is None
+            and parsed.password is None
+            and port is None
+            and not parsed.params
+            and not parsed.query
+            and not parsed.fragment
+        )
+        matching_identity = (
+            identity is not None
+            and identity[0] == hostname
+            and identity[1] == full_name
+        )
+        if valid_clone_url and matching_identity:
+            return clone_url
+
+    return f"https://{hostname}/{full_name}.git"
 
 
 def normalize_github_callback_code(code: str) -> str:
@@ -130,24 +206,12 @@ def get_github_app_configurations() -> dict[str, GitHubAppCredentials]:
     database (:class:`GitHubAppCredentials`); there is no settings-based
     configuration.
     """
-    try:
-        rows = list(GitHubAppCredentials.objects.all())
-    except Exception:
-        # Database may not be migrated yet (e.g. during initial setup or
-        # when this is called outside a request).
-        return {}
-    return {row.hostname: row for row in rows}
+    return {row.hostname: row for row in GitHubAppCredentials.objects.all()}
 
 
 async def aget_github_app_configurations() -> dict[str, GitHubAppCredentials]:
     """Asynchronously return configured GitHub apps keyed by hostname."""
-    try:
-        rows = [row async for row in GitHubAppCredentials.objects.all()]
-    except Exception:
-        # Database may not be migrated yet (e.g. during initial setup or
-        # when this is called outside a request).
-        return {}
-    return {row.hostname: row for row in rows}
+    return {row.hostname: row async for row in GitHubAppCredentials.objects.all()}
 
 
 def get_github_app_settings(hostname: str | None = None) -> GitHubAppCredentials | None:
@@ -173,10 +237,16 @@ async def aget_github_app_settings(
 
 
 def github_app_is_configured(hostname: str | None = None) -> bool:
-    """Return whether the Weblate GitHub app is configured for installs on the host."""
+    """
+    Return whether the Weblate GitHub app is configured for installs on the host.
+
+    Alert checks ask this once per component, so this deliberately avoids
+    loading the credentials (private keys included) just to test for presence.
+    """
+    queryset = GitHubAppCredentials.objects.all()
     if hostname is not None:
-        return get_github_app_settings(hostname) is not None
-    return bool(get_github_app_configurations())
+        queryset = queryset.filter(hostname=normalize_github_app_hostname(hostname))
+    return queryset.exists()
 
 
 def get_github_app_install_url(state: str, hostname: str | None = None) -> str:

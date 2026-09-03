@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from urllib.parse import urljoin
 
+from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.llm import BaseLLMTranslation
 
 from .forms import OllamaMachineryForm
@@ -40,7 +41,7 @@ class OllamaTranslation(BaseLLMTranslation):
                 model, prompt, content, previous_content, previous_response
             ),
         )
-        return self.parse_chat_response(response.json())
+        return self.parse_chat_response(self.parse_json_response(response))
 
     async def afetch_llm_translations(
         self, prompt: str, content: str, previous_content: str, previous_response: str
@@ -53,7 +54,7 @@ class OllamaTranslation(BaseLLMTranslation):
                 model, prompt, content, previous_content, previous_response
             ),
         )
-        return self.parse_chat_response(response.json())
+        return self.parse_chat_response(self.parse_json_response(response))
 
     @staticmethod
     def get_chat_payload(
@@ -78,8 +79,20 @@ class OllamaTranslation(BaseLLMTranslation):
         return urljoin(self.settings["base_url"], self.end_point)
 
     @staticmethod
-    def parse_chat_response(response_data) -> str | None:
-        if message := response_data.get("message"):
-            return message["content"]
+    def parse_chat_response(response_data) -> str:
+        if not isinstance(response_data, dict):
+            msg = "Invalid service response: expected a JSON object."
+            raise MachineTranslationError(msg)
+        if "message" not in response_data:
+            msg = "Service response did not contain an assistant message."
+            raise MachineTranslationError(msg)
 
-        return None
+        message = response_data["message"]
+        if not isinstance(message, dict):
+            msg = 'Invalid service response: expected "message" to be an object.'
+            raise MachineTranslationError(msg)
+        content = message.get("content")
+        if not isinstance(content, str):
+            msg = "Assistant message did not contain text content."
+            raise MachineTranslationError(msg)
+        return content

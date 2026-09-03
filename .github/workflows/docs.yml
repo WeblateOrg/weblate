@@ -46,7 +46,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       cache:
-        image: valkey/valkey:9.1.1-alpine@sha256:de31910896150d5e754a07d57d227cfdde4e258ddd0d1aa4607f2d2f95843715
+        image: valkey/valkey:9.1.2-alpine@sha256:a174b894902bd3367e330d47cc2054367dc4917701776aaf336f41d83b65ec7a
         ports:
         - 6379:6379
         options: >-
@@ -65,7 +65,7 @@ jobs:
     - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d   # v10.0.1
       with:
         enable-cache: false
-        version: 0.12.5
+        version: 0.12.9
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies
@@ -120,7 +120,7 @@ jobs:
       if: steps.documentation-language-scope.outputs.all_languages == 'true'
       with:
         enable-cache: false
-        version: 0.12.5
+        version: 0.12.9
     - name: Set up Python
       if: steps.documentation-language-scope.outputs.all_languages == 'true'
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -156,7 +156,7 @@ jobs:
     - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
       with:
         enable-cache: false
-        version: 0.12.5
+        version: 0.12.9
     - name: Set up Python
       uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:

@@ -227,10 +227,17 @@ Availability of individual actions depends on permissions, the configured
 version control system, whether pushing is configured, and whether the selected
 object can be locked.
 
-The :guilabel:`File management` actions are available only from
-:guilabel:`Repository maintenance` for an individual translation. These actions
-rewrite that translation file and commit the result; they are not project-wide
-or component-wide operations.
+Repository actions started from this view are queued for background processing.
+For a project, Weblate processes the affected repositories sequentially in one
+task and shows its progress. Repeating the same action opens the existing task;
+a different action cannot be started for the same repository until that task
+finishes.
+
+The :guilabel:`Synchronize` and :guilabel:`Rescan` repository operations are
+queued for background processing as described above. The separate
+:guilabel:`File management` actions are available only for an individual
+translation. They rewrite that translation file and commit the result during
+the web request; they are not project-wide or component-wide operations.
 
 Operations that read repository content, such as updating, resetting, or
 rescanning, also reconcile translation files in Weblate. Added or removed
