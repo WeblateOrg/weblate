@@ -1,7 +1,7 @@
 Weblate 2026.9
 --------------
 
-*Not yet released.*
+*Released on September 3rd 2026.*
 
 .. rubric:: New features
 
