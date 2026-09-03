@@ -52,7 +52,7 @@ Weblate 2026.9
 
 .. rubric:: Bug fixes
 
-* LLM-based machine translation services now report invalid provider responses more clearly, and custom :ref:`mt-openai` and :ref:`mt-mistral` models no longer require a model-listing endpoint.
+* LLM-based machine translation services now report invalid provider responses more clearly, custom :ref:`mt-openai` and :ref:`mt-mistral` models no longer require a model-listing endpoint, and OpenAI automatic selection supports API keys restricted to older GPT models.
 * Daily metric collection now uses independent tasks and more efficient database queries to reduce peak memory usage and avoid losing all scopes when one collection fails.
 * Database dump failures are now shown in the :ref:`backups management interface <automated-backup>`.
 * GitLab merge request forks now disable Git LFS to avoid missing-object push failures. See :ref:`git-lfs`.
