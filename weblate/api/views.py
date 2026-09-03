@@ -3882,20 +3882,20 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                 ),
                 "mode": serializers.ChoiceField(
                     choices=["suggest", "translate", "fuzzy", "approved"],
-                    default="suggest",
-                    help_text="How to store the result: as a suggestion, translation, needing-edit, or approved.",
+                    help_text="How to store the result: as a suggestion, translation, needing-edit, or approved. Typical value: ``suggest``.",
                 ),
                 "auto_source": serializers.ChoiceField(
                     choices=["others", "mt"],
-                    default="others",
-                    help_text="Translation source: other components (``others``) or machine translation (``mt``).",
+                    help_text="Translation source: other components (``others``) or machine translation (``mt``). Typical value: ``others``.",
                 ),
                 "component": serializers.CharField(
                     required=False,
                     allow_blank=True,
                     help_text=(
-                        "Slug of the component to use as source. "
-                        "Leave blank to use all components in the project."
+                        "Component ID (always accepted). "
+                        "When the project has 30 or more eligible source components "
+                        "a component slug or ``project/component`` path is also accepted. "
+                        "Leave blank to use all components."
                     ),
                 ),
                 "engines": serializers.ListField(
@@ -3904,11 +3904,9 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
                     help_text="Machine translation engine identifiers to use when ``auto_source`` is ``mt``.",
                 ),
                 "threshold": serializers.IntegerField(
-                    required=False,
-                    default=80,
                     min_value=1,
                     max_value=100,
-                    help_text="Minimum translation score (1–100) to accept when using machine translation.",
+                    help_text="Minimum translation score (1–100) to accept when using machine translation. Typical value: 80.",
                 ),
             },
         ),

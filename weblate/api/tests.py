@@ -18127,16 +18127,23 @@ class OpenAPITest(APIBaseTest):
         form = AutoForm(self.component, self.user)
         self.assertEqual(set(properties.keys()), set(form.fields.keys()))
 
-        # q is the only required field.
-        self.assertEqual(request_schema.get("required", []), ["q"])
+        # q, mode, auto_source, and threshold are required (no required=False /
+        # default in the serializer); component and engines are optional.
+        self.assertCountEqual(
+            request_schema.get("required", []),
+            ["q", "mode", "auto_source", "threshold"],
+        )
 
-        # drf-spectacular renders ChoiceField as a $ref to a separate enum schema;
-        # resolve the reference before asserting enum values.
+        # drf-spectacular renders ChoiceField as a $ref to a separate enum schema.
+        # When the field also carries a description the $ref is nested under allOf,
+        # e.g. {"allOf": [{"$ref": "..."}], "description": "..."}.
         def resolve(prop: dict) -> dict:
-            if "$ref" in prop:
-                ref_path = prop["$ref"].lstrip("#/").split("/")
+            ref = prop.get("$ref") or (
+                prop.get("allOf", [{}])[0].get("$ref")
+            )
+            if ref:
                 node = schema
-                for part in ref_path:
+                for part in ref.lstrip("#/").split("/"):
                     node = node[part]
                 return node
             return prop

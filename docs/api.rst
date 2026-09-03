@@ -2596,7 +2596,7 @@ Translations
     :<json string mode: Automatic translation mode; one of ``suggest``, ``translate``, ``fuzzy``, ``approved``; defaults to ``suggest``
     :<json string q: Automatic translation search string, see :ref:`search-strings`.
     :<json string auto_source: Automatic translation source - ``mt`` or ``others``; defaults to ``others``
-    :<json string component: Slug of the component to use as source; leave blank to use all components in the project
+    :<json string component: Component ID (always accepted); when the project has 30 or more eligible source components, a component slug or ``project/component`` path is also accepted; leave blank to use all components in the project
     :<json array engines: Machine translation engines to use when ``auto_source`` is ``mt``
     :<json int threshold: Score threshold for machine translation (1–100); defaults to 80
     :>json string details: Human-readable summary of the translation result
