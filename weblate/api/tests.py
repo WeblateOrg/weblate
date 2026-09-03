@@ -18138,9 +18138,7 @@ class OpenAPITest(APIBaseTest):
         # When the field also carries a description the $ref is nested under allOf,
         # e.g. {"allOf": [{"$ref": "..."}], "description": "..."}.
         def resolve(prop: dict) -> dict:
-            ref = prop.get("$ref") or (
-                prop.get("allOf", [{}])[0].get("$ref")
-            )
+            ref = prop.get("$ref") or (prop.get("allOf", [{}])[0].get("$ref"))
             if ref:
                 node = schema
                 for part in ref.lstrip("#/").split("/"):
