@@ -45,7 +45,7 @@ jobs:
     - run: ./scripts/generate-cjk-regexp.py --update
 
     - name: Prepare maintenance patch
-      uses: ./.github/actions/auto-commit
+      uses: $/.github/actions/auto-commit
 
     # Keep this outside the composite action; pre-commit.ci lite detects the
     # top-level post step, and composites expose nested post hooks.
