@@ -182,7 +182,7 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
         queryset = Project.objects.filter(id__in=id_lookup)
         # Fallback value for locking and alerts
         for project in projects:
-            project.__dict__["locked"] = True
+            project.__dict__["locked"] = False
             project.__dict__["has_alerts"] = False
         # Indicate alerts
         for project_id in (
@@ -194,13 +194,15 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
             .distinct()
         ):
             id_lookup[project_id].__dict__["has_alerts"] = True
-        # Filter unlocked projects
+        # Indicate projects where all components are locked. Projects without
+        # components are not locked.
         for project_id in (
-            queryset.filter(component__locked=False)
+            queryset.filter(component__isnull=False)
+            .exclude(component__locked=False)
             .values_list("id", flat=True)
             .distinct()
         ):
-            id_lookup[project_id].__dict__["locked"] = False
+            id_lookup[project_id].__dict__["locked"] = True
 
     # Prefetch source language ids
     key_lookup = {project.source_language_cache_key: project for project in projects}

@@ -1,6 +1,4 @@
-{% load humanize i18n icons permissions translations %}
-
-{% perm 'billing.manage' billing as user_can_manage_billing %}
+{% load humanize i18n icons translations %}
 
 {% with plan=billing.plan %}
   <table class="table">

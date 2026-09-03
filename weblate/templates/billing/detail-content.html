@@ -1,6 +1,4 @@
-{% load crispy_forms_tags i18n icons permissions translations %}
-
-{% perm 'billing.manage' billing as user_can_manage_billing %}
+{% load crispy_forms_tags i18n icons translations %}
 
 <div class="row">
 
@@ -88,45 +86,43 @@
   </div>
 
   <div class="col-lg-6">
-    {% with invoices=billing.invoice_set.order %}
-      {% if invoices %}
-        <div class="card">
-          <div class="card-header">
-            <h4 class="card-title">{% translate "Invoices" %}</h4>
-          </div>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>{% translate "Invoice period" %}</th>
-                <th>{% translate "Invoice amount" %}</th>
-                <th>{% translate "Download invoice" %}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for invoice in invoices %}
-                <tr>
-                  <td>{{ invoice.start|date:"SHORT_DATE_FORMAT" }} - {{ invoice.end|date:"SHORT_DATE_FORMAT" }}</td>
-                  <td>{{ invoice.amount }} {{ invoice.get_currency_display }}</td>
-                  <td>
-                    {% if invoice.ref and invoice.filename_valid %}
-                      <a href="{% url 'invoice-download' pk=invoice.pk %}">{{ invoice.filename }}</a>
-                    {% elif invoice.ref %}
-                      {{ invoice.filename }}
-                    {% else %}
-                      {% translate "Not available" %}
-                    {% endif %}
-                  </td>
-                </tr>
-              {% empty %}
-                <tr>
-                  <td colspan="3">{% translate "No invoices found." %}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+    {% if invoices %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Invoices" %}</h4>
         </div>
-      {% endif %}
-    {% endwith %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>{% translate "Invoice period" %}</th>
+              <th>{% translate "Invoice amount" %}</th>
+              <th>{% translate "Download invoice" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for invoice in invoices %}
+              <tr>
+                <td>{{ invoice.start|date:"SHORT_DATE_FORMAT" }} - {{ invoice.end|date:"SHORT_DATE_FORMAT" }}</td>
+                <td>{{ invoice.amount }} {{ invoice.get_currency_display }}</td>
+                <td>
+                  {% if invoice.ref and invoice.filename_valid %}
+                    <a href="{% url 'invoice-download' pk=invoice.pk %}">{{ invoice.filename }}</a>
+                  {% elif invoice.ref %}
+                    {{ invoice.filename }}
+                  {% else %}
+                    {% translate "Not available" %}
+                  {% endif %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="3">{% translate "No invoices found." %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
 
     {% if user.is_superuser %}
 
@@ -147,7 +143,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for log in billing.billinglog_set.recent %}
+            {% for log in billing_logs %}
               <tr>
                 <td>{{ log.timestamp|naturaltime }}</td>
                 <td>{{ log.get_event_display }}</td>

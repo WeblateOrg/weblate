@@ -259,6 +259,9 @@ class Billing(models.Model):
     STATE_TRIAL = 1
     STATE_TERMINATED = 3
 
+    if TYPE_CHECKING:
+        ordered_invoices: list[Invoice]
+
     EXPIRING_STATES: ClassVar[set[int]] = {STATE_TRIAL}
     ACTIVE_STATES: ClassVar[set[int]] = {STATE_ACTIVE, STATE_TRIAL}
 
@@ -690,6 +693,9 @@ class Billing(models.Model):
         return sum(p.stats.all for p in self.all_projects)
 
     def get_last_invoice_object(self):
+        prefetched_invoices = getattr(self, "ordered_invoices", None)
+        if prefetched_invoices is not None:
+            return prefetched_invoices[0]
         return self.invoice_set.order_by("-start")[0]
 
     @admin.display(description=gettext_lazy("Last invoice"))
@@ -1037,9 +1043,11 @@ class Billing(models.Model):
             )
             if project.access_control:
                 yield LibreCheck(False, gettext("Only public projects are allowed"))
-        components = Component.objects.filter(
-            project__in=self.all_projects
-        ).select_related("project")
+        components = (
+            Component.objects.filter(project__in=self.all_projects)
+            .defer_huge()
+            .select_related("project")
+        )
         if include_alerts:
             components = components.prefetch_related(
                 Prefetch(
