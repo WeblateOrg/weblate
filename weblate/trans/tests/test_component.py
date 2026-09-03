@@ -1434,6 +1434,25 @@ class ComponentChangeTest(RepoTestCase):
         self.assertTrue(linked_component.locked)
 
 
+class ComponentResetTransactionTest(RepoTestMixin, TransactionTestCase):
+    def setUp(self) -> None:
+        self.clone_test_repos()
+        super().setUp()
+
+    def test_reset_opens_transaction(self) -> None:
+        component = self.create_component()
+        unit = Unit.objects.filter(translation__component=component).first()
+        self.assertIsNotNone(unit)
+        unit.details["disk_state"] = {}
+        unit.save(update_fields=["details"], only_save=True)
+
+        self.assertTrue(connection.get_autocommit())
+        self.assertTrue(component.do_reset())
+
+        unit.refresh_from_db()
+        self.assertNotIn("disk_state", unit.details)
+
+
 class ComponentAlertConcurrencyTest(RepoTestMixin, TransactionTestCase):
     def setUp(self) -> None:
         self.clone_test_repos()
