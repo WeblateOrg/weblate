@@ -1400,6 +1400,51 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "current replacement 2",
         )
 
+    def test_editing_survives_comment(self) -> None:
+        """Posting a comment keeps pending translation and string state."""
+        project = self.create_component()
+        self.do_login(superuser=True)
+        unit = (
+            Unit.objects.filter(
+                translation__component__project=project,
+                translation__language_code="cs",
+            )
+            .exclude(source="")
+            .first()
+        )
+        self.assertIsNotNone(unit)
+        unit = cast("Unit", unit)
+
+        with self.wait_for_page_load():
+            self.driver.get(f"{self.live_server_url}{unit.get_absolute_url()}")
+
+        editor = self.driver.find_element(
+            By.CSS_SELECTOR, ".translator .translation-editor"
+        )
+        editor.click()
+        editor.send_keys("pending translation")
+        # Ticking this has to happen after typing, entering a translation
+        # marks the string as translated.
+        self.click(htmlid=f"id_{unit.checksum}_fuzzy")
+
+        # Comment on the string, that reloads the page
+        self.click(htmlid="toggle-comments")
+        self.click(htmlid="id_comment")
+        comment = self.driver.find_element(By.ID, "id_comment")
+        comment.send_keys("Comment posted while translating")
+        with self.wait_for_page_load():
+            comment.submit()
+
+        self.assertIn(
+            "pending translation",
+            self.driver.find_element(
+                By.CSS_SELECTOR, ".translator .translation-editor"
+            ).get_attribute("value"),
+        )
+        self.assertTrue(
+            self.driver.find_element(By.ID, f"id_{unit.checksum}_fuzzy").is_selected()
+        )
+
     @override_settings(
         WEBLATE_MACHINERY=(
             *settings.WEBLATE_MACHINERY,
