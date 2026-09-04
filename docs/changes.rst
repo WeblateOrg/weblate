@@ -19,6 +19,7 @@ Weblate 2026.9.1
 * Borg backup passphrases are now recursively scrubbed from Sentry error reports, including when a custom event scrubber is configured.
 * Font overrides are now restricted to fonts uploaded to the same project.
 * Engage pages and status widgets no longer disclose Private or Custom projects unless :ref:`project-public_sharing` is enabled.
+* Prevented excessive CPU consumption while checking malformed Markdown and MDX syntax.
 
 .. rubric:: Bug fixes
 

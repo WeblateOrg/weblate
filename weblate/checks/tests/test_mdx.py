@@ -100,6 +100,18 @@ class SafeMDXCheckTest(CheckTestCase):
             "Test \\{{count1} `{inside_thiings}` and then {count2}",
             ["{count1}", "{count2}"],
         )
+        self.check_jsx_expression_matches(
+            "```prefix ``{ignored}`` {real}",
+            ["{real}"],
+        )
+        self.check_jsx_expression_matches(
+            r"\` `code` {real} `",
+            ["{real}"],
+        )
+        self.check_jsx_expression_matches(
+            r"\``{ignored}` {real}",
+            ["{real}"],
+        )
         # Nested destructuring with a default object literal.
         self.check_jsx_expression_matches(
             "{({ a = { x: 1 } }) => a}",
@@ -136,6 +148,33 @@ class SafeMDXCheckTest(CheckTestCase):
             list(self.check.get_jsx_expression_matches(text)),
             expected,
         )
+
+    def test_incomplete_code_span(self) -> None:
+        for length in (400, 800, 1600, 100_000):
+            with self.subTest(length=length):
+                text = "`" * length + "X{expression}"
+                self.check_jsx_expression_matches(text, ["{expression}"])
+        self.do_test(False, ("", "`" * 100_000 + "X", "safe-mdx"))
+
+    def test_incomplete_expression(self) -> None:
+        for length in (400, 800, 1600, 100_000):
+            with self.subTest(length=length):
+                text = "{" * length
+                self.check_jsx_expression_matches(text, [])
+                self.assertEqual(
+                    list(self.check.get_jsx_expression_signatures(text)), []
+                )
+                self.assertEqual(self.check.get_jsx_element_stack(text), ())
+        self.do_test(False, ("", "{" * 100_000, "safe-mdx"))
+
+    def test_autolink_literal_brace(self) -> None:
+        source = "<https://example.com/{path>"
+        target = "<https://example.com/{path> {evil}"
+        self.check_jsx_expression_matches(target, ["{evil}"])
+        self.do_test(True, (source, target, "safe-mdx"))
+
+    def test_partially_escaped_code_span(self) -> None:
+        self.do_test(True, (r"\``{danger}`", "{danger}", "safe-mdx"))
 
     def test_expression_signatures_include_context(self) -> None:
         self.assertEqual(
