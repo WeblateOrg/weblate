@@ -3,6 +3,7 @@
 {% load humanize i18n %}
 
 {% block content %}
+  {% include "mail/snippets/digest-overlimit.html" %}
   <p>{% translate "Translation activity in this period:" %}</p>
   <table>
     <thead>
