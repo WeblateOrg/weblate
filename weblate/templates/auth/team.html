@@ -102,12 +102,9 @@
           </p>
           {{ auto_formset|crispy }}
           <div class="multiFieldEmpty hidden">{{ auto_formset.empty_form|crispy }}</div>
-          <button class="btn btn-info add-multifield" data-prefix="autogroup_set" type="button">
+          <button class="btn btn-info add-multifield mb-4" data-prefix="autogroup_set" type="button">
             {% translate "Add automatic assignment" %}
           </button>
-          <br />
-          <br />
-          <br />
         </div>
       {% endif %}
       {% if user_can_edit_team_users %}
