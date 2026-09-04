@@ -155,6 +155,9 @@ worker_before_create_process.send(sender=app)
 print(json.dumps({
     "urls_loaded_before_fork": urls_loaded_before_fork,
     "urls_loaded_after_fork": "weblate.urls" in sys.modules,
+    "font_rendering_loaded": "weblate.fonts.render" in sys.modules,
+    "matplotlib_loaded": "matplotlib" in sys.modules,
+    "numpy_loaded": "numpy" in sys.modules,
     "tesserocr_loaded": "tesserocr" in sys.modules,
 }))
 """
@@ -165,6 +168,9 @@ print(json.dumps({
             {
                 "urls_loaded_before_fork": False,
                 "urls_loaded_after_fork": True,
+                "font_rendering_loaded": False,
+                "matplotlib_loaded": False,
+                "numpy_loaded": False,
                 "tesserocr_loaded": False,
             },
         )
