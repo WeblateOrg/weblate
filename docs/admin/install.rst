@@ -1580,7 +1580,14 @@ command-line:
 
 .. code-block:: sh
 
-   celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup
+   celery --app=weblate.utils worker --beat \
+       --queues=celery,notify,memory,translate,backup \
+       --prefetch-multiplier=1
+
+Running all queues in one prefork worker shares the initial application memory
+between its child processes while retaining parallel task execution. Celery
+determines the concurrency from the number of available CPUs by default; use
+``--concurrency`` to adjust it for your workload and available memory.
 
 To reduce startup memory usage, Celery workers do not repeat the Django system
 checks. The Weblate container runs the more comprehensive
@@ -1690,7 +1697,9 @@ Weblate processes. All Celery tasks can be executed in a single process using:
 
    celery --app=weblate.utils worker --beat --queues=celery,notify,memory,translate,backup --pool=solo
 
-An installation using Docker can be configured to use a single-process Celery setup by setting :envvar:`CELERY_SINGLE_PROCESS`.
+An installation using Docker can be configured to use a single-process Celery
+setup by setting ``CELERY_WORKER_MODE=single``. See
+:envvar:`CELERY_WORKER_MODE`.
 
 .. warning::
 
