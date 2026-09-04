@@ -15,7 +15,6 @@ from pathlib import Path
 from shutil import copyfile
 from typing import cast
 
-from celery.schedules import crontab
 from django.conf import settings
 from django.core.cache import cache
 from django.core.management.commands import diffsettings
@@ -60,27 +59,29 @@ def heartbeat() -> None:
     cache.set("celery_encoding", get_encoding_list())
 
 
+def _run_settings_backup() -> None:
+    # Expand settings in case it contains non-trivial code
+    command = diffsettings.Command()
+    kwargs = {"default": None, "all": False, "output": "hash"}
+    Path(data_dir("backups", "settings-expanded.py")).write_text(
+        command.handle(**kwargs), encoding="utf-8"
+    )
+
+    # Backup original settings
+    if settings.SETTINGS_MODULE:
+        settings_mod = import_module(settings.SETTINGS_MODULE)
+        if settings_mod.__file__ is not None:
+            copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
+
+    # Backup environment (to make restoring Docker easier)
+    with open(data_dir("backups", "environment.yml"), "w", encoding="utf-8") as handle:
+        yaml = YAML()
+        yaml.dump(dict(os.environ), handle)
+
+
 def run_settings_backup() -> None:
     with backup_lock():
-        # Expand settings in case it contains non-trivial code
-        command = diffsettings.Command()
-        kwargs = {"default": None, "all": False, "output": "hash"}
-        Path(data_dir("backups", "settings-expanded.py")).write_text(
-            command.handle(**kwargs), encoding="utf-8"
-        )
-
-        # Backup original settings
-        if settings.SETTINGS_MODULE:
-            settings_mod = import_module(settings.SETTINGS_MODULE)
-            if settings_mod.__file__ is not None:
-                copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
-
-        # Backup environment (to make restoring Docker easier)
-        with open(
-            data_dir("backups", "environment.yml"), "w", encoding="utf-8"
-        ) as handle:
-            yaml = YAML()
-            yaml.dump(dict(os.environ), handle)
+        _run_settings_backup()
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
@@ -224,84 +225,126 @@ def _create_database_backup_logs(
     )
 
 
+class _DatabaseBackupError(Exception):
+    def __init__(self, error: OSError | subprocess.CalledProcessError) -> None:
+        super().__init__(str(error))
+        self.error = error
+
+
+def _record_database_backup_error(
+    error: OSError | subprocess.CalledProcessError,
+    additional_service_ids: list[int] | None,
+) -> None:
+    if isinstance(error, subprocess.CalledProcessError):
+        add_breadcrumb(
+            category="backup",
+            message="database dump output",
+            stdout=error.stdout,
+            stderr=error.stderr,
+        )
+        error_output = error.stderr or (
+            f"pg_dump exited with status {error.returncode} without any output"
+        )
+    else:
+        error_output = str(error)
+    error_output = cleanup_error_message(error_output)
+    LOGGER.error("failed database backup: %s", error_output)
+    report_error("Database backup failed")
+    _create_database_backup_logs("database-error", error_output, additional_service_ids)
+
+
+def _record_database_backup_success(
+    additional_service_ids: list[int] | None,
+) -> None:
+    _create_database_backup_logs(
+        "database",
+        "Database dump completed successfully.",
+        additional_service_ids,
+    )
+
+
+def _run_database_backup() -> bool:
+    if settings.DATABASE_BACKUP == "none":
+        return False
+    database = settings.DATABASES["default"]
+    env = get_clean_env()
+    compress = settings.DATABASE_BACKUP == "compressed"
+
+    out_compressed = data_dir("backups", "database.sql.gz")
+    out_text = data_dir("backups", "database.sql")
+
+    cmd = [
+        "pg_dump",
+        # Superuser only, crashes on Alibaba Cloud Database PolarDB
+        "--no-subscriptions",
+        "--clean",
+        "--if-exists",
+        "--dbname",
+        database["NAME"],
+    ]
+
+    if database["HOST"]:
+        cmd.extend(["--host", database["HOST"]])
+    if database["PORT"]:
+        cmd.extend(["--port", database["PORT"]])
+    if database["USER"]:
+        cmd.extend(["--username", database["USER"]])
+    if settings.DATABASE_BACKUP == "compressed":
+        cmd.extend(["--file", out_compressed])
+        cmd.extend(["--compress", "6"])
+        compress = False
+    else:
+        cmd.extend(["--file", out_text])
+
+    env["PGPASSWORD"] = cast("str", database["PASSWORD"])
+
+    try:
+        subprocess.run(
+            cmd,  # type: ignore[arg-type]
+            env=env,
+            capture_output=True,
+            stdin=subprocess.DEVNULL,
+            check=True,
+            text=True,
+        )
+        if compress:
+            with (
+                open(out_text, "rb") as f_in,
+                gzip.open(out_compressed, "wb") as f_out,
+            ):
+                shutil.copyfileobj(f_in, f_out)
+            os.unlink(out_text)
+    except (OSError, subprocess.CalledProcessError) as error:
+        raise _DatabaseBackupError(error) from error
+
+    return True
+
+
 def run_database_backup(additional_service_ids: list[int] | None = None) -> None:
     if settings.DATABASE_BACKUP == "none":
         return
-    with backup_lock():
-        database = settings.DATABASES["default"]
-        env = get_clean_env()
-        compress = settings.DATABASE_BACKUP == "compressed"
+    try:
+        with backup_lock():
+            _run_database_backup()
+    except _DatabaseBackupError as error:
+        _record_database_backup_error(error.error, additional_service_ids)
+        raise error.error from error
+    _record_database_backup_success(additional_service_ids)
 
-        out_compressed = data_dir("backups", "database.sql.gz")
-        out_text = data_dir("backups", "database.sql")
 
-        cmd = [
-            "pg_dump",
-            # Superuser only, crashes on Alibaba Cloud Database PolarDB
-            "--no-subscriptions",
-            "--clean",
-            "--if-exists",
-            "--dbname",
-            database["NAME"],
-        ]
-
-        if database["HOST"]:
-            cmd.extend(["--host", database["HOST"]])
-        if database["PORT"]:
-            cmd.extend(["--port", database["PORT"]])
-        if database["USER"]:
-            cmd.extend(["--username", database["USER"]])
-        if settings.DATABASE_BACKUP == "compressed":
-            cmd.extend(["--file", out_compressed])
-            cmd.extend(["--compress", "6"])
-            compress = False
-        else:
-            cmd.extend(["--file", out_text])
-
-        env["PGPASSWORD"] = cast("str", database["PASSWORD"])
-
-        try:
-            subprocess.run(
-                cmd,  # type: ignore[arg-type]
-                env=env,
-                capture_output=True,
-                stdin=subprocess.DEVNULL,
-                check=True,
-                text=True,
-            )
-            if compress:
-                with (
-                    open(out_text, "rb") as f_in,
-                    gzip.open(out_compressed, "wb") as f_out,
-                ):
-                    shutil.copyfileobj(f_in, f_out)
-                os.unlink(out_text)
-        except (OSError, subprocess.CalledProcessError) as error:
-            if isinstance(error, subprocess.CalledProcessError):
-                add_breadcrumb(
-                    category="backup",
-                    message="database dump output",
-                    stdout=error.stdout,
-                    stderr=error.stderr,
-                )
-                error_output = error.stderr or (
-                    f"pg_dump exited with status {error.returncode} without any output"
-                )
-            else:
-                error_output = str(error)
-            error_output = cleanup_error_message(error_output)
-            LOGGER.error("failed database backup: %s", error_output)
-            report_error("Database backup failed")
-            _create_database_backup_logs(
-                "database-error", error_output, additional_service_ids
-            )
-            raise
-
-        _create_database_backup_logs(
-            "database",
-            "Database dump completed successfully.",
-            additional_service_ids,
-        )
+def run_backup_preparation(
+    additional_service_ids: list[int] | None = None,
+) -> None:
+    """Update all files consumed by Borg while holding the writer lock."""
+    try:
+        with backup_lock():
+            _run_settings_backup()
+            database_backup_created = _run_database_backup()
+    except _DatabaseBackupError as error:
+        _record_database_backup_error(error.error, additional_service_ids)
+        raise error.error from error
+    if database_backup_created:
+        _record_database_backup_success(additional_service_ids)
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
@@ -312,10 +355,4 @@ def database_backup(additional_service_ids: list[int] | None = None) -> None:
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs) -> None:
     cache.set("celery_loaded", time.time())
-    sender.add_periodic_task(
-        crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"
-    )
-    sender.add_periodic_task(
-        crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
-    )
     sender.add_periodic_task(HEARTBEAT_FREQUENCY, heartbeat.s(), name="heartbeat")

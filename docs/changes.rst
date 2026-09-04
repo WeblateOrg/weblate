@@ -7,9 +7,11 @@ Weblate 2026.9.1
 
 .. rubric:: Improvements
 
+* Docker deployments now use a combined :ref:`Celery <celery>` worker by default, reducing memory usage while increasing task throughput. Use :envvar:`CELERY_WORKER_MODE` to select the combined, split, or single worker setup.
 * Improved :ref:`Billing <billing>` detail page loading performance by batching related project, invoice, and audit log queries.
 * Further reduced :ref:`Celery <celery>` worker memory usage by sharing preloaded URL configuration between worker processes and loading bitmap widget rendering dependencies only when needed.
 * Docker startup configuration warnings are now available as :ref:`deployment checks <docker-startup-warnings>`, including in horizontally scaled deployments.
+* Reduced peak memory use and task duration for :ref:`notification digests <notifications>` by processing recipients in bounded batches and limiting each summary to 100 entries.
 
 .. rubric:: Security fixes
 
@@ -20,12 +22,16 @@ Weblate 2026.9.1
 * Links outside tab navigation now correctly activate their target tabs, fixing upload links for missing translations and new components.
 * Error reporting integrations now distinguish informational messages from exceptions and reliably report the explicitly handled exception.
 * The default Celery per-child memory limit now accommodates the application's baseline memory usage, avoiding unnecessary worker recycling.
+* Backup services now start only after settings and database backup files are fully updated, while backups to different Borg repositories can run in parallel.
 
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* Docker deployments now default to the combined Celery worker mode. If your deployment relies on separate workers for each queue or configures them using ``CELERY_MAIN_OPTIONS``, ``CELERY_NOTIFY_OPTIONS``, ``CELERY_MEMORY_OPTIONS``, ``CELERY_TRANSLATE_OPTIONS``, or ``CELERY_BACKUP_OPTIONS``, set ``CELERY_WORKER_MODE=split`` to preserve the previous behavior.
+* The Docker ``CELERY_SINGLE_PROCESS`` environment variable is deprecated. Use ``CELERY_WORKER_MODE=single`` instead; the compatibility alias logs a startup warning.
 
 .. rubric:: Contributors
 

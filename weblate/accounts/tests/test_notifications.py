@@ -9,7 +9,8 @@ from __future__ import annotations
 from copy import deepcopy
 from datetime import timedelta
 from types import SimpleNamespace
-from typing import Protocol
+from typing import Protocol, cast
+from unittest.mock import patch
 
 from django.conf import settings
 from django.core import mail
@@ -22,18 +23,26 @@ from django.utils import timezone
 from weblate.accounts.data import DEFAULT_NOTIFICATIONS
 from weblate.accounts.models import AuditLog, Profile, Subscription
 from weblate.accounts.notifications import (
+    DIGEST_MAX_ITEMS,
     RECIPIENT_USERNAME_HEADER,
+    SUBSCRIPTION_CACHE_SIZE,
     LastAuthorCommentNotificaton,
     MergeFailureNotification,
+    Notification,
     NotificationFrequency,
     NotificationScope,
+    PendingSuggestionsNotification,
+    RepositoryNotification,
     TranslationActivitySummaryNotification,
     get_email_headers,
     get_notification_emails,
 )
 from weblate.accounts.tasks import (
+    get_digest_projects,
     notify_changes,
     notify_daily,
+    notify_digest,
+    notify_digest_batch,
     notify_monthly,
     notify_weekly,
     send_mails,
@@ -44,7 +53,7 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Announcement, Change, Comment, Suggestion
+from weblate.trans.models import Announcement, Change, Comment, Project, Suggestion
 from weblate.trans.tests.test_views import (
     FixtureComponentTestCase,
     RegistrationTestMixin,
@@ -123,6 +132,23 @@ class ChangePrefetchTest(SimpleTestCase):
 
 
 class NotificationHeadersTest(SimpleTestCase):
+    def test_subscription_cache_is_bounded(self) -> None:
+        notification = Notification([])
+        with patch.object(notification, "filter_subscriptions", return_value=[]):
+            for project_id in range(SUBSCRIPTION_CACHE_SIZE + 1):
+                list(
+                    notification.get_subscriptions(
+                        None,
+                        cast("Project", SimpleNamespace(pk=project_id)),
+                        None,
+                        None,
+                        None,
+                    )
+                )
+
+        self.assertEqual(len(notification.subscription_cache), SUBSCRIPTION_CACHE_SIZE)
+        self.assertNotIn(0, notification.subscription_cache)
+
     @override_settings(VERSION_DISPLAY=VERSION_DISPLAY_SOFT, HIDE_VERSION=False)
     def test_soft_mode_keeps_x_mailer_version(self) -> None:
         self.assertEqual(get_email_headers("test")["X-Mailer"], USER_AGENT)
@@ -1362,6 +1388,275 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             mail.outbox[0].extra_headers[RECIPIENT_USERNAME_HEADER],
             self.user.username,
         )
+
+    def test_digest_collection_is_bounded(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_WATCHED,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        changes = Change.objects.bulk_create(
+            [
+                Change(
+                    action=ActionEvents.COMMIT,
+                    project=self.project,
+                    component=self.component,
+                    workspace=self.project.workspace,
+                )
+                for _unused in range(DIGEST_MAX_ITEMS + 1)
+            ]
+        )
+        queryset = (
+            Change.objects.filter(pk__in=[change.pk for change in changes])
+            .order_by("-timestamp", "-pk")
+            .prefetch_for_render()
+        )
+        notification = RepositoryNotification([])
+
+        with patch.object(notification, "send_digest") as send_digest:
+            notification.notify_digest(NotificationFrequency.FREQ_DAILY, queryset)
+
+        self.assertIsNone(
+            queryset._result_cache  # ruff: ignore[private-member-access]
+        )
+        self.assertEqual(send_digest.call_count, 1)
+        digest_changes = send_digest.call_args.kwargs["changes"]
+        self.assertEqual(len(digest_changes), DIGEST_MAX_ITEMS)
+        self.assertEqual(
+            [change.pk for change in digest_changes],
+            [change.pk for change in reversed(changes[1:])],
+        )
+        self.assertTrue(send_digest.call_args.kwargs["overlimit"])
+
+    def test_digest_groups_subscription_queries_by_project(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        projects = Project.objects.bulk_create(
+            [
+                Project(
+                    name=f"Subscription cache project {index}",
+                    slug=f"subscription-cache-project-{index}",
+                    web="https://example.com/",
+                )
+                for index in range(SUBSCRIPTION_CACHE_SIZE + 1)
+            ]
+        )
+        changes = Change.objects.bulk_create(
+            [
+                Change(action=ActionEvents.COMMIT, project=project)
+                for _round in range(2)
+                for project in projects
+            ]
+        )
+        queryset = Change.objects.filter(pk__in=[change.pk for change in changes])
+        notification = RepositoryNotification([])
+
+        with (
+            patch.object(
+                notification,
+                "filter_subscriptions",
+                wraps=notification.filter_subscriptions,
+            ) as filter_subscriptions,
+            patch.object(notification, "send_digest"),
+        ):
+            notification.notify_digest(NotificationFrequency.FREQ_DAILY, queryset)
+
+        self.assertEqual(filter_subscriptions.call_count, len(projects))
+
+    def test_digest_batch_combines_projects(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        second_project = Project.objects.create(
+            name="Second notification project",
+            slug="second-notification-project",
+            web="https://example.com/",
+        )
+        changes = Change.objects.bulk_create(
+            [
+                Change(action=ActionEvents.COMMIT, project=self.project),
+                Change(action=ActionEvents.COMMIT, project=second_project),
+            ]
+        )
+        until = timezone.now() + timedelta(seconds=1)
+
+        with patch.object(RepositoryNotification, "send_digest") as send_digest:
+            notify_digest_batch(
+                RepositoryNotification.get_name(),
+                NotificationFrequency.FREQ_DAILY,
+                (until - timedelta(days=1)).isoformat(),
+                until.isoformat(),
+                [self.user.pk],
+            )
+
+        send_digest.assert_called_once()
+        self.assertTrue(
+            {change.pk for change in changes}.issubset(
+                {change.pk for change in send_digest.call_args.kwargs["changes"]}
+            )
+        )
+
+    @override_settings(RATELIMIT_NOTIFICATION_LIMITS=[(3, 120)])
+    def test_digest_batch_enforces_rate_limit(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ALL,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        projects = [self.project]
+        projects.extend(
+            Project.objects.create(
+                name=f"Rate limit project {index}",
+                slug=f"rate-limit-project-{index}",
+                web="https://example.com/",
+            )
+            for index in range(3)
+        )
+        Change.objects.bulk_create(
+            [
+                Change(action=ActionEvents.COMMIT, project=project)
+                for project in projects
+            ]
+        )
+        until = timezone.now() + timedelta(seconds=1)
+
+        with (
+            patch("weblate.accounts.notifications.rate_limit_notify") as limiter,
+            patch("weblate.accounts.tasks.queue_mails") as queue,
+        ):
+            limiter.return_value = (False, "")
+            notify_digest_batch(
+                RepositoryNotification.get_name(),
+                NotificationFrequency.FREQ_DAILY,
+                (until - timedelta(days=1)).isoformat(),
+                until.isoformat(),
+                [self.user.pk],
+            )
+
+        limiter.assert_called_once_with(self.user.email)
+        queue.assert_called_once()
+
+    def test_digest_projects_resolve_admin_scope(self) -> None:
+        self.user.subscription_set.filter(
+            notification=RepositoryNotification.get_name()
+        ).delete()
+        self.user.subscription_set.create(
+            scope=NotificationScope.SCOPE_ADMIN,
+            notification=RepositoryNotification.get_name(),
+            frequency=NotificationFrequency.FREQ_DAILY,
+        )
+        self.project.add_user(self.user, "Administration")
+        Project.objects.create(
+            name="Unadministered notification project",
+            slug="unadministered-notification-project",
+            web="https://example.com/",
+        )
+        Change.objects.create(action=ActionEvents.COMMIT, project=self.project)
+        until = timezone.now() + timedelta(seconds=1)
+
+        self.assertQuerySetEqual(
+            get_digest_projects(
+                RepositoryNotification,
+                NotificationFrequency.FREQ_DAILY,
+                since=until - timedelta(days=1),
+                until=until,
+            ),
+            [self.project],
+            ordered=False,
+        )
+
+    def test_summary_collection_is_bounded(self) -> None:
+        translations = [
+            SimpleNamespace(pk=translation_id, component=self.component)
+            for translation_id in range(DIGEST_MAX_ITEMS + 1)
+        ]
+        notification = PendingSuggestionsNotification([])
+        with (
+            patch(
+                "weblate.accounts.notifications.iter_prefetch_stats",
+                return_value=translations,
+            ),
+            patch.object(notification, "get_count", return_value=1),
+            patch.object(notification, "get_users", return_value=[self.user]),
+            patch.object(notification, "send_digest") as send_digest,
+        ):
+            notification.notify_summary(NotificationFrequency.FREQ_DAILY)
+
+        self.assertEqual(send_digest.call_count, 1)
+        self.assertEqual(
+            len(send_digest.call_args.kwargs["summaries"]), DIGEST_MAX_ITEMS
+        )
+        self.assertTrue(send_digest.call_args.kwargs["overlimit"])
+        self.assertEqual(
+            send_digest.call_args.kwargs["extracontext"]["total_count"],
+            DIGEST_MAX_ITEMS + 1,
+        )
+
+    def test_digest_coordinator_batches_users(self) -> None:
+        Subscription.objects.all().delete()
+        users = [self.user, self.anotheruser, self.thirduser]
+        Subscription.objects.bulk_create(
+            [
+                Subscription(
+                    user=user,
+                    scope=NotificationScope.SCOPE_ALL,
+                    notification=RepositoryNotification.get_name(),
+                    frequency=NotificationFrequency.FREQ_DAILY,
+                )
+                for user in users
+            ]
+        )
+
+        with (
+            patch("weblate.accounts.notifications.DIGEST_USER_BATCH_SIZE", 2),
+            patch("weblate.accounts.tasks.notify_digest_batch.delay") as delay_digest,
+        ):
+            notify_digest("notify_daily")
+
+        self.assertEqual(delay_digest.call_count, 2)
+        user_batches = [call.args[4] for call in delay_digest.call_args_list]
+        self.assertEqual([len(batch) for batch in user_batches], [2, 1])
+        self.assertCountEqual(
+            [user_id for batch in user_batches for user_id in batch],
+            [user.pk for user in users],
+        )
+        windows = {(call.args[2], call.args[3]) for call in delay_digest.call_args_list}
+        self.assertEqual(len(windows), 1)
+
+    def test_summary_coordinator_scans_once(self) -> None:
+        Subscription.objects.all().delete()
+        for user in (self.user, self.anotheruser, self.thirduser):
+            user.subscription_set.create(
+                scope=NotificationScope.SCOPE_ALL,
+                notification=PendingSuggestionsNotification.get_name(),
+                frequency=NotificationFrequency.FREQ_DAILY,
+            )
+
+        with (
+            patch("weblate.accounts.notifications.DIGEST_USER_BATCH_SIZE", 2),
+            patch("weblate.accounts.tasks.notify_digest_batch.delay") as delay_digest,
+        ):
+            notify_digest("notify_daily")
+
+        delay_digest.assert_called_once()
+        self.assertIsNone(delay_digest.call_args.args[4])
 
     def test_digest_new_lang(self) -> None:
         self.test_digest(

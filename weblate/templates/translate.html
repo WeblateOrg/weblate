@@ -608,10 +608,7 @@
                     {% blocktranslate count count=unit.suggestions|length %}There is {{ count }} suggestion for this string.{% plural %}There are {{ count }} suggestions for this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a data-bs-target="#suggestions"
-                       data-bs-toggle="tab"
-                       class="btn btn-warning"
-                       href="#">{% translate "View" %}</a>
+                    <a data-tab-target="#suggestions" class="btn btn-warning" href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -685,10 +682,7 @@
                     {% blocktranslate count count=comments_to_check|length %}There is {{ count }} unresolved comment for this string.{% plural %}There are {{ count }} unresolved comments for this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a data-bs-target="#comments"
-                       data-bs-toggle="tab"
-                       class="btn btn-warning"
-                       href="#">{% translate "View" %}</a>
+                    <a data-tab-target="#comments" class="btn btn-warning" href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -704,10 +698,7 @@
                     {% blocktranslate count count=variants|length %}There is {{ count }} variant of this string.{% plural %}There are {{ count }} variants of this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a data-bs-target="#variants"
-                       data-bs-toggle="tab"
-                       class="btn btn-warning"
-                       href="#">{% translate "View" %}</a>
+                    <a data-tab-target="#variants" class="btn btn-warning" href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}

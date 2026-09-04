@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
 from time import sleep
+from unittest.mock import patch
 
 from django.conf import settings
 from django.contrib.messages.middleware import MessageMiddleware
@@ -15,6 +18,7 @@ from django.test.utils import override_settings
 from weblate.accounts.models import AuditLog
 from weblate.auth.models import User
 from weblate.utils.ratelimit import (
+    RateLimitBase,
     RateLimitNotify,
     check_rate_limit,
     rate_limit_notify,
@@ -245,6 +249,35 @@ class NotifyRateLimitTest(SimpleTestCase):
 
         # B: still allowed independently
         self.assertFalse(rate_limit_notify(key_b)[0])
+
+    @override_settings(RATELIMIT_NOTIFICATION_LIMITS=[(3, 60)])
+    def test_reservations_are_serialized(self) -> None:
+        state_lock = Lock()
+        active = 0
+        peak = 0
+
+        def tracked_reservation(_limiter: RateLimitBase) -> tuple[bool, str]:
+            nonlocal active, peak
+            with state_lock:
+                active += 1
+                peak = max(peak, active)
+            sleep(0.05)
+            with state_lock:
+                active -= 1
+            return False, ""
+
+        with (
+            patch.object(RateLimitBase, "is_limit_exceeded", tracked_reservation),
+            ThreadPoolExecutor(max_workers=4) as executor,
+        ):
+            list(
+                executor.map(
+                    lambda _unused: rate_limit_notify("serialized-notify@example.com"),
+                    range(4),
+                )
+            )
+
+        self.assertEqual(peak, 1)
 
 
 class NotifyRateLimitBehaviorTest(SimpleTestCase):

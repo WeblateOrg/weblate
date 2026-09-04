@@ -303,6 +303,13 @@ Celery workers are trusted components of the same Weblate instance. A malicious
 or compromised worker is equivalent to a compromised application process.
 *(maintainer)*
 
+Docker's combined, split, and single Celery worker modes change how task queues
+and concurrency are distributed among worker processes. *(documented)* (source:
+:envvar:`CELERY_WORKER_MODE`) These modes do not create security isolation
+between queues; every worker retains the same trusted application authority.
+Resource contention, throughput, and task latency differences between modes are
+deployment-sizing and availability concerns. *(maintainer)*
+
 VCS command execution, SSH, and HTTPS clients are assumed to execute as the
 Weblate service user with the credentials configured for the relevant project
 or integration, including database-stored GitHub App credentials used for
@@ -363,6 +370,15 @@ Build-time and configuration variants
      - Broad host acceptance can weaken host-header based protections and URL
        generation assumptions. *(maintainer)*
      - Production deployments restrict this to instance hostnames. *(maintainer)*
+   * - :envvar:`CELERY_WORKER_MODE`
+     - Docker defaults to one combined prefork worker for all queues. Split mode
+       uses queue-specific workers, while single mode uses one solo worker.
+       *(documented)* (source: :doc:`/admin/install/docker`)
+     - Changes worker process topology, concurrency, and queue contention, but
+       not worker trust or application authority. *(maintainer)*
+     - Queue-specific workers provide operational isolation and independent
+       tuning, not a security boundary. Operators choose a mode based on memory,
+       capacity, and availability requirements. *(maintainer)*
    * - :envvar:`WEBLATE_API_RATELIMIT_ANON`,
        :envvar:`WEBLATE_API_RATELIMIT_USER`, :setting:`RATELIMIT_ATTEMPTS`,
        and ``RATELIMIT_GITHUB_SETUP_ATTEMPTS``
