@@ -22,6 +22,7 @@ from weblate.lang.models import Language, get_default_lang
 from weblate.trans.file_format_params import (
     GettextPoLineWrap,
     get_default_params_for_file_format,
+    get_effective_params_for_file_format,
 )
 from weblate.trans.models import Component, Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -42,6 +43,12 @@ class FileFormatParamsTest(SimpleTestCase):
         value = GettextPoLineWrap.get_value({"po_line_wrap": "-1"})
         self.assertEqual(value, -1)
         self.assertIsInstance(value, int)
+
+    def test_effective_params_normalize_flatxml_names(self) -> None:
+        params = get_effective_params_for_file_format(
+            "flatxml", {"flatxml_root_name": " root "}
+        )
+        self.assertEqual(params["flatxml_root_name"], "root")
 
 
 class BaseFileFormatsTest(ViewTestCase):

@@ -30,6 +30,7 @@ from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
+from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
     Change,
     CommitPolicyChoices,
@@ -1237,6 +1238,47 @@ class ComponentChangeTest(RepoTestCase):
             component.save()
 
         schedule_update_checks.assert_called_once_with(component, update_state=True)
+
+    def test_file_format_params_change_forces_rescan(self) -> None:
+        component = self._create_component("markdown", "*.md")
+        component.file_format_params = {
+            **component.file_format_params,
+            "md_no_placeholders": True,
+        }
+
+        with (
+            patch.object(Component, "commit_pending", autospec=True) as commit_pending,
+            patch.object(
+                Component, "create_translations", autospec=True, return_value=False
+            ) as create_translations,
+        ):
+            component.save(update_fields=["file_format_params"])
+
+        commit_pending.assert_called_once()
+        self.assertEqual(commit_pending.call_args.args[1:], ("changed setup", None))
+        create_translations.assert_called_once_with(
+            component, force=True, changed_template=False
+        )
+
+    def test_equivalent_file_format_params_change_skips_rescan(self) -> None:
+        component = self.create_po()
+        default_params = get_default_params_for_file_format(component.file_format)
+
+        with (
+            patch.object(Component, "commit_pending", autospec=True) as commit_pending,
+            patch.object(
+                Component, "create_translations", autospec=True, return_value=False
+            ) as create_translations,
+        ):
+            for file_format_params in (
+                default_params,
+                {**default_params, "po_line_wrap": "77"},
+            ):
+                component.file_format_params = file_format_params
+                component.save(update_fields=["file_format_params"])
+
+        commit_pending.assert_not_called()
+        create_translations.assert_not_called()
 
     def test_rename(self) -> None:
         link_component = self.create_link()

@@ -18,6 +18,7 @@ from weblate.auth.models import Group, Permission, Role
 from weblate.checks.models import Check
 from weblate.trans import defaults
 from weblate.trans.actions import ActionEvents
+from weblate.trans.file_format_params import get_effective_params_for_file_format
 from weblate.trans.forms import (
     CategorySettingsForm,
     ComponentSettingsForm,
@@ -1498,6 +1499,15 @@ class SettingsTest(ViewTestCase):
         url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
+        # Preserve checkbox values so the submission does not trigger a rescan.
+        data.update(
+            {
+                f"file_format_params_{name}": value
+                for name, value in get_effective_params_for_file_format(
+                    self.component.file_format, self.component.file_format_params
+                ).items()
+            }
+        )
         data["license"] = "MIT"
 
         original_clean = Component.clean

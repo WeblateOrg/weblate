@@ -73,6 +73,7 @@ from weblate.trans.exceptions import (
 from weblate.trans.fields import RegexField
 from weblate.trans.file_format_params import (
     FILE_FORMATS_PARAMS,
+    get_effective_params_for_file_format,
     get_encoding_param,
 )
 from weblate.trans.inherited_settings import (
@@ -1268,6 +1269,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             changed_setup = (
                 (old.file_format != self.file_format)
+                or (
+                    get_effective_params_for_file_format(
+                        old.file_format, old.file_format_params
+                    )
+                    != get_effective_params_for_file_format(
+                        self.file_format, self.file_format_params
+                    )
+                )
                 or (old.edit_template != self.edit_template)
                 or (old.new_base != self.new_base)
                 or changed_template
