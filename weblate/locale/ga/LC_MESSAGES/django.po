@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-08-28 15:33+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
@@ -22,8 +22,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
-"6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
+"(n>6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 2026.9.dev0\n"
 
 msgctxt "No known user"
@@ -1395,6 +1395,15 @@ msgstr "Baineadh an aip fíordheimhnithe."
 msgid "The authentication app %s was registered."
 msgstr "Cláraíodh an aip fíordheimhnithe %s."
 
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"Más tusa a bhí ann, athshocraigh do phasfhocal chun rochtain a fháil ar do "
+"chuntas arís."
+
 msgid "Second factor sign in"
 msgstr "Sínigh isteach an dara fachtóir"
 
@@ -2044,10 +2053,11 @@ msgid "Regular expression to match translation files against"
 msgstr "slonn rialta chun comhaid aistriúcháin a mheaitseáil le"
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
-"Caithfidh an abairt rialta grúpaí ainmnithe a shainiú don chomhpháirt agus "
-"don teanga."
 
 msgid "File format"
 msgstr "Formáid comhaid"
@@ -2093,6 +2103,18 @@ msgstr ""
 "gcásanna, is comhad aistriúcháin é seo arna sholáthar ag forbróirí agus "
 "úsáidtear é agus teaghráin foinse iarbhír á gcruthú. Ní mór {{ component }} "
 "a bheith san áireamh sa teimpléad seo."
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "Masc comhaid dhúbailt."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "Scagaire teanga"
@@ -2194,8 +2216,31 @@ msgstr "Ní féidir leat aistriúchán aonteangach a úsáid gan bunchomhad."
 msgid "You can not use a base file for bilingual translation."
 msgstr "Ní féidir leat bunchomhad a úsáid le haghaidh aistriúchán dátheangach."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Sainmhínigh an bunchomhad le haghaidh aistriúcháin nua"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr "Cuir comhad bonnteanga aonteangach leis sna socruithe comhpháirteanna."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "Déan athbhreithniú agus deimhnigh na comhpháirteanna meaitseáilte."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr "Ní mór {{ component }} a bheith san áireamh sa teimpléad seo."
@@ -6233,6 +6278,20 @@ msgstr "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 5"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Opus 4.8"
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr "Claude Opus 4.8"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Fable 5"
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
+msgstr "Claude Fable 5"
 
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
@@ -12449,6 +12508,21 @@ msgstr ""
 "thoil an bhfuil rochtain ag Weblate air."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate GitHub Apps"
+msgid "Migrate to GitHub App"
+msgstr "Aipeanna GitHub Weblate"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12641,6 +12715,11 @@ msgid ""
 msgstr ""
 "Suiteáil an breiseán msgmerge chomh maith más mian leat go leanfaidh comhaid "
 "aistriúcháin athruithe teimpléid go huathoibríoch."
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
 
 msgid "This component is set up incorrectly."
 msgstr "Tá an chomhpháirt seo socraithe go mícheart."
@@ -13791,6 +13870,77 @@ msgstr "Athnuaigh"
 msgid "No connected accounts yet."
 msgstr "Gan aon chuntais nasctha fós."
 
+#, fuzzy
+#| msgid "code-hosting installations"
+msgid "Code-hosting integrations"
+msgstr "suiteálacha óstála cóid"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect GitHub account"
+msgid "Connect or update GitHub account"
+msgstr "Ceangail cuntas GitHub"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "connected GitHub accounts"
+msgid "Connected GitHub accounts:"
+msgstr "cuntais GitHub nasctha"
+
+msgid "Refresh repositories"
+msgstr "Athnuachan na stórtha"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "Migrate selected components"
+msgstr "Comhpháirteanna lena mbaineann"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Stádas an aistriúcháin"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Léamh-amháin"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "Stór athbhunaithe"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
 msgid "Register Weblate GitHub App"
 msgstr "Cláraigh Aip GitHub Weblate"
 
@@ -13888,9 +14038,6 @@ msgstr "Suiteáil ar %(hostname)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr "Cuntas GitHub ceangailte: %(login)s"
-
-msgid "Refresh repositories"
-msgstr "Athnuachan na stórtha"
 
 #, python-format
 msgid ""
@@ -14023,11 +14170,32 @@ msgstr ""
 "Baintear an cuntas ceangailte <code>%(login)s</code> as Weblate leis seo."
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
-"Fanann aip Weblate GitHub suiteáilte ar GitHub. Bain ar leithligh í ar "
-"GitHub mura bhfuil sí uait a thuilleadh."
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Chruthófaí na comhpháirteanna seo a leanas"
+msgstr[1] "Chruthófaí na comhpháirteanna seo a leanas"
+msgstr[2] "Chruthófaí na comhpháirteanna seo a leanas"
+msgstr[3] "Chruthófaí na comhpháirteanna seo a leanas"
+msgstr[4] "Chruthófaí na comhpháirteanna seo a leanas"
+
+#, fuzzy, python-format
+#| msgid "%(count)s more affected component."
+#| msgid_plural "%(count)s more affected components."
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s comhpháirt níos mó buailte."
+msgstr[1] "%(count)s comhpháirteanna eile atá buailte."
+msgstr[2] "%(count)s comhpháirteanna eile atá buailte."
+msgstr[3] "%(count)s comhpháirteanna eile atá buailte."
+msgstr[4] "%(count)s comhpháirteanna eile atá buailte."
 
 msgid "Invitations"
 msgstr "cuirí"
@@ -14924,6 +15092,9 @@ msgstr "Níl aon masc comhaid ag teacht leis."
 msgid "Inexistent files."
 msgstr "Sraitheanna nach bhfuil ann."
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
 msgstr "Socrú stórais contrártha."
@@ -15240,6 +15411,22 @@ msgstr "Inghníomhaithe agamsa"
 msgid "Discovery configuration"
 msgstr "Cumraíocht fionnachtana"
 
+#, fuzzy
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"Component discovery stopped because the repository contains too many paths."
+msgstr ""
+"Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
+"fáil."
+
+msgid ""
+"The language filter regular expression is too complex and took too long to "
+"evaluate."
+msgstr ""
+"Tá an abairt rialta scagaire teanga róchasta agus thóg sé ró-fhada é a mheas."
+
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
@@ -15248,10 +15435,22 @@ msgstr ""
 "agus thóg sé ró-fhada é a mheas."
 
 msgid ""
-"The language filter regular expression is too complex and took too long to "
-"evaluate."
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
 msgstr ""
-"Tá an abairt rialta scagaire teanga róchasta agus thóg sé ró-fhada é a mheas."
+
+#, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr "Tá an léiriú rialta róchasta agus thóg sé ró-fhada é a mheas."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
 
 msgid "File mask matches the main component."
 msgstr "Meaitseálann masc an chomhaid an phríomh-chomhpháirt."
@@ -15283,6 +15482,21 @@ msgstr "Gach athrú le déanaí trí úsáid a bhaint as Weblate i %s."
 
 msgid "Sort JSON keys"
 msgstr "Sórtáil eochracha JSON"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "Ná iompórtáil"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "Cás-íogair"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "Cás-neamhíogair"
 
 msgid "JSON indentation"
 msgstr "eangú JSON"
@@ -17814,6 +18028,35 @@ msgstr "I Fleasc"
 msgid "User configured character: {}"
 msgstr "Carachtar cumraithe ag an úsáideoir: {}"
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation cannot be started because the target is locked."
+msgid "Repository operation could not be completed because it remained locked."
+msgstr ""
+"Ní féidir aistriúchán uathoibríoch a thosú mar go bhfuil an sprioc faoi "
+"ghlas."
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "Oibriú stór i %(component)s"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "Theip ar oibríocht stórtha"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "Oibriú stór i %(component)s"
+
 msgid "No suggestions found."
 msgstr "Níor aimsíodh aon mholtaí."
 
@@ -18414,6 +18657,11 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 "Úsáid an cnaipe ar leathanach stádais an stórais chun an gníomh seo a rith."
 
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "Níorbh fhéidir an stór a ghlasáil, tá oibríocht eile ar siúl."
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
@@ -18421,53 +18669,17 @@ msgstr ""
 "Is cosúil go bhfuil oibríocht ar siúl ar an stórlann. Déan iarracht arís ar "
 "ball."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-"Nuashonraíodh na stórtha go léir, tá nuashonruithe ar aistriúcháin ar siúl."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "Theip ar oibríochtaí an stórais"
 
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr ""
-"Tá na stórtha inrochtana nuashonraithe, agus tá nuashonruithe ar "
-"aistriúcháin ar siúl."
-
-msgid "All repositories were pushed."
-msgstr "Cuireadh brú ar gach stór."
-
-msgid "Accessible repositories were pushed."
-msgstr "Cuireadh brú ar stórtha inrochtana."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-"Athshocraíodh na stórtha go léir, tá nuashonruithe aistriúcháin ar siúl."
-
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr ""
-"Tá na stórtha inrochtana athshocraithe, agus tá nuashonruithe ar "
-"aistriúcháin ar siúl."
-
-msgid "All repositories have been cleaned up."
-msgstr "Glanadh na stórtha go léir."
-
-msgid "Accessible repositories have been cleaned up."
-msgstr "Tá na stórtha inrochtana glanta suas."
-
-msgid "Translation files have been synchronized."
-msgstr "Rinneadh comhaid aistriúcháin a shioncronú."
-
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Tá comhaid aistriúcháin i stórtha inrochtana sioncrónaithe."
-
-msgid "Updates of translations are in progress."
-msgstr "Tá nuashonruithe aistriúcháin ar siúl."
-
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "Tá nuashonruithe ar siúl ar aistriúcháin i stórtha inrochtana."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "Theip ar oibríocht stórtha"
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "Baineadh teaghráin dhúblacha as an gcomhad aistriúcháin."
@@ -18477,15 +18689,6 @@ msgstr "Baineadh teaghráin neamhúsáidte as an gcomhad aistriúcháin."
 
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Baineadh teaghráin atá as dáta as an gcomhad aistriúcháin."
-
-msgid "Pending translations are being committed."
-msgstr "Tá aistriúcháin atá ar feitheamh á ndéanamh."
-
-msgid "All pending translations were committed."
-msgstr "Rinneadh gach aistriúchán ar feitheamh."
-
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Rinneadh aistriúcháin atá ar feitheamh i stórtha inrochtana a thiomnú."
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -19266,32 +19469,32 @@ msgstr ""
 #, python-format
 msgid "%(service)s API request failed while merging a pull request: %(status)s"
 msgstr ""
-"Theip ar iarratas API %(service)s agus iarratas tarraingthe á chumasc: %"
-"(status)s"
+"Theip ar iarratas API %(service)s agus iarratas tarraingthe á chumasc: "
+"%(status)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request: %(status)s "
 "Please retry later."
 msgstr ""
-"Theip ar iarratas API %(service)s agus iarratas tarraingthe á chumasc: %"
-"(status)s Déan iarracht eile ar ball."
+"Theip ar iarratas API %(service)s agus iarratas tarraingthe á chumasc: "
+"%(status)s Déan iarracht eile ar ball."
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s"
 msgstr ""
-"Theip ar iarratas API %(service)s agus iarratas tarraingthe á chumasc (%"
-"(status)s): %(error)s"
+"Theip ar iarratas API %(service)s agus iarratas tarraingthe á chumasc "
+"(%(status)s): %(error)s"
 
 #, python-format
 msgid ""
 "%(service)s API request failed while merging a pull request (%(status)s): "
 "%(error)s Please retry later."
 msgstr ""
-"Theip ar iarratas API %(service)s agus iarratas tarraingthe á chumasc (%"
-"(status)s): %(error)s Déan iarracht eile ar ball."
+"Theip ar iarratas API %(service)s agus iarratas tarraingthe á chumasc "
+"(%(status)s): %(error)s Déan iarracht eile ar ball."
 
 msgid "GitHub App repositories must be imported with a branch."
 msgstr "Ní mór stórtha aipeanna GitHub a allmhairiú le brainse."
@@ -19485,6 +19688,16 @@ msgstr "Cuirfidh sé seo brú ar athruithe ar an stór in aghaidh an tsrutha."
 
 msgid "Enter a valid GitHub host."
 msgstr "Cuir isteach óstach GitHub bailí."
+
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "Comhpháirt le baint"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr "Roghnaigh cumraíocht chomhpháirt atá ann cheana lena chóipeáil."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -19823,9 +20036,37 @@ msgstr ""
 "Cruthaigh spás oibre sula gceanglaítear cuntas GitHub. Tá naisc Aip GitHub "
 "nasctha le spásanna oibre."
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
 msgstr "Baineadh cuntas GitHub ceangailte %(target)s."
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -19906,6 +20147,46 @@ msgstr ""
 
 msgid "Connected GitHub account added."
 msgstr "Cuireadh cuntas GitHub ceangailte leis."
+
+#, fuzzy, python-format
+#| msgid "Remove Weblate GitHub App?"
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] "An bhfuil tú ag iarraidh an aip Weblate GitHub a bhaint?"
+msgstr[1] "An bhfuil tú ag iarraidh an aip Weblate GitHub a bhaint?"
+msgstr[2] "An bhfuil tú ag iarraidh an aip Weblate GitHub a bhaint?"
+msgstr[3] "An bhfuil tú ag iarraidh an aip Weblate GitHub a bhaint?"
+msgstr[4] "An bhfuil tú ag iarraidh an aip Weblate GitHub a bhaint?"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+"Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
+"fáil."
+msgstr[1] ""
+"Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
+"fáil."
+msgstr[2] ""
+"Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
+"fáil."
+msgstr[3] ""
+"Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
+"fáil."
+msgstr[4] ""
+"Léimeadh thar chomhpháirt %(component)s mar nach bhfuil a stór nasctha ar "
+"fáil."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Níorbh fhéidir %(component)s a bhrú: %(error_text)s"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Cuir isteach ainm agus óstach bailí d'aip GitHub."
@@ -20248,6 +20529,80 @@ msgstr "Ní féidir an spás oibre a bhaint mar go bhfuil sé fós in úsáid."
 
 msgid "The workspace has been removed."
 msgstr "Baineadh an spás oibre."
+
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr ""
+#~ "Caithfidh an abairt rialta grúpaí ainmnithe a shainiú don chomhpháirt "
+#~ "agus don teanga."
+
+#~ msgid ""
+#~ "The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
+#~ "separately if you no longer need it."
+#~ msgstr ""
+#~ "Fanann aip Weblate GitHub suiteáilte ar GitHub. Bain ar leithligh í ar "
+#~ "GitHub mura bhfuil sí uait a thuilleadh."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Nuashonraíodh na stórtha go léir, tá nuashonruithe ar aistriúcháin ar "
+#~ "siúl."
+
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Tá na stórtha inrochtana nuashonraithe, agus tá nuashonruithe ar "
+#~ "aistriúcháin ar siúl."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "Cuireadh brú ar gach stór."
+
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Cuireadh brú ar stórtha inrochtana."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr ""
+#~ "Athshocraíodh na stórtha go léir, tá nuashonruithe aistriúcháin ar siúl."
+
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Tá na stórtha inrochtana athshocraithe, agus tá nuashonruithe ar "
+#~ "aistriúcháin ar siúl."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "Glanadh na stórtha go léir."
+
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Tá na stórtha inrochtana glanta suas."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Rinneadh comhaid aistriúcháin a shioncronú."
+
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Tá comhaid aistriúcháin i stórtha inrochtana sioncrónaithe."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "Tá nuashonruithe aistriúcháin ar siúl."
+
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Tá nuashonruithe ar siúl ar aistriúcháin i stórtha inrochtana."
+
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Tá aistriúcháin atá ar feitheamh á ndéanamh."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "Rinneadh gach aistriúchán ar feitheamh."
+
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr ""
+#~ "Rinneadh aistriúcháin atá ar feitheamh i stórtha inrochtana a thiomnú."
 
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
@@ -20631,9 +20986,6 @@ msgstr "Baineadh an spás oibre."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Saincheapadh sreabhadh oibre"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr "Níorbh fhéidir an stór a ghlasáil, tá oibríocht eile ar siúl."
 
 #~ msgid "Add team"
 #~ msgstr "Cuir foireann leis"

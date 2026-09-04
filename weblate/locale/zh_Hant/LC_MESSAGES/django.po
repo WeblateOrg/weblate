@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-09-01 17:51+0000\n"
 "Last-Translator: Lee Vincent <vincentlee986@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
@@ -1276,6 +1276,13 @@ msgstr "已經移除身分驗證 App。"
 msgid "The authentication app %s was registered."
 msgstr "已經註冊 %s 身分驗證 App。"
 
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr "如果是你本人操作，請重設密碼以重新取得帳號存取權。"
+
 msgid "Second factor sign in"
 msgstr "雙重要素登入"
 
@@ -1849,8 +1856,11 @@ msgid "Regular expression to match translation files against"
 msgstr "用來比對出翻譯檔案的正規表達式"
 
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "正規表達式必須定義名為「component」與「language」的命名群組。"
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr "檔案格式"
@@ -1889,6 +1899,18 @@ msgid ""
 msgstr ""
 "中繼翻譯檔案的檔案名稱。多數情況下，這是開發者提供的翻譯檔案，並在建立實際來"
 "源字串時使用。此範本必須包含 {{ component }}。"
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "檔案遮罩重複。"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "語言篩選"
@@ -1985,8 +2007,31 @@ msgstr "您不用基底檔案就不能作單語言翻譯。"
 msgid "You can not use a base file for bilingual translation."
 msgstr "您無法使用基底檔案進行雙語言翻譯。"
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "定義新翻譯的基礎檔案"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr "請在組件設定中新增單語言基底語言檔案。"
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "請檢閱並確認符合的組件。"
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr "此範本必須包含 {{ component }}。"
@@ -3123,7 +3168,8 @@ msgstr "所有語言"
 msgid ""
 "Grants access to all languages, including ones added in the future. Turn off "
 "to choose individual languages below."
-msgstr "授予所有語言的存取權，包括未來新增的語言。關閉此選項即可從下方選擇個別語言。"
+msgstr ""
+"授予所有語言的存取權，包括未來新增的語言。關閉此選項即可從下方選擇個別語言。"
 
 #, python-format
 msgid "%s (site-wide permission)"
@@ -5782,6 +5828,20 @@ msgstr "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 5"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Opus 4.8"
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr "Claude Opus 4.8"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Fable 5"
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
+msgstr "Claude Fable 5"
 
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
@@ -11212,6 +11272,21 @@ msgid ""
 msgstr "無法存取上游儲存庫。請檢查 Weblate 是否可存取之。"
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate GitHub Apps"
+msgid "Migrate to GitHub App"
+msgstr "Weblate GitHub Apps"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -11375,6 +11450,11 @@ msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
 msgstr "如果您希望翻譯檔案能自動跟隨範本更新，也請一併安裝 msgmerge 附加元件。"
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
 
 msgid "This component is set up incorrectly."
 msgstr "此組件的設定不正確。"
@@ -12336,6 +12416,77 @@ msgstr "重新整理"
 msgid "No connected accounts yet."
 msgstr "尚未連結任何帳號。"
 
+#, fuzzy
+#| msgid "code-hosting installations"
+msgid "Code-hosting integrations"
+msgstr "程式碼代管服務安裝項目"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect GitHub account"
+msgid "Connect or update GitHub account"
+msgstr "連結 GitHub 帳號"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "connected GitHub accounts"
+msgid "Connected GitHub accounts:"
+msgstr "已連結的 GitHub 帳號"
+
+msgid "Refresh repositories"
+msgstr "重新整理儲存庫"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "Migrate selected components"
+msgstr "受影響的組件"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "翻譯狀態"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "唯讀"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "已 rebase 儲存庫"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
 msgid "Register Weblate GitHub App"
 msgstr "註冊 Weblate GitHub App"
 
@@ -12425,9 +12576,6 @@ msgstr "安裝至 %(hostname)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr "已連結的 GitHub 帳號：%(login)s"
-
-msgid "Refresh repositories"
-msgstr "重新整理儲存庫"
 
 #, python-format
 msgid ""
@@ -12544,10 +12692,24 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr "這會從 Weblate 移除已連結的帳號 <code>%(login)s</code>。"
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
-"Weblate GitHub App 仍會安裝在 GitHub 上。若不再需要，請另外在 GitHub 上移除。"
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "會建立下列組件"
+
+#, fuzzy, python-format
+#| msgid "%(count)s more affected component."
+#| msgid_plural "%(count)s more affected components."
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "另外還有 %(count)s 個受影響的組件。"
 
 msgid "Invitations"
 msgstr "邀請"
@@ -13411,6 +13573,9 @@ msgstr "找不到符合的檔案遮罩。"
 msgid "Inexistent files."
 msgstr "無此檔案。"
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
 msgstr "儲存庫設定有衝突。"
@@ -13706,15 +13871,41 @@ msgstr "可由我處理"
 msgid "Discovery configuration"
 msgstr "探索設定"
 
+#, fuzzy
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"Component discovery stopped because the repository contains too many paths."
+msgstr "因連結的儲存庫無法使用，已略過組件 %(component)s。"
+
+msgid ""
+"The language filter regular expression is too complex and took too long to "
+"evaluate."
+msgstr "篩選語言的正規表達式過於複雜，評估耗時過久。"
+
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
 msgstr "用來比對已發現檔案的正規表達式過於複雜，評估耗時過久。"
 
 msgid ""
-"The language filter regular expression is too complex and took too long to "
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
 "evaluate."
-msgstr "篩選語言的正規表達式過於複雜，評估耗時過久。"
+msgstr "正規表達式過於複雜，評估耗時過久。"
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
 
 msgid "File mask matches the main component."
 msgstr "檔案遮罩符合主組件。"
@@ -13746,6 +13937,21 @@ msgstr "最近 %s 中使用 Weblate 所作的所有變更。"
 
 msgid "Sort JSON keys"
 msgstr "排序 JSON 金鑰"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "不要匯入"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "區分大小寫"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "不區分大小寫"
 
 msgid "JSON indentation"
 msgstr "JSON 縮排"
@@ -15871,6 +16077,33 @@ msgstr "長破折號"
 msgid "User configured character: {}"
 msgstr "使用者自訂字元：{}"
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation cannot be started because the target is locked."
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "由於目標已鎖定，無法開始自動翻譯。"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "%(component)s 中有儲存庫操作"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "儲存庫有操作失敗"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "%(component)s 中有儲存庫操作"
+
 msgid "No suggestions found."
 msgstr "找不到建議。"
 
@@ -16339,52 +16572,27 @@ msgstr "上傳檔案中的複數形式與目前的翻譯不符。"
 msgid "Use the button on the repository status page to run this action."
 msgstr "請使用儲存庫狀態頁面上的按鈕執行此動作。"
 
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "無法鎖定儲存庫：正在進行另一個操作。"
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr "儲存庫似乎有作業正在進行。請稍後再試。"
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr "所有儲存庫均已更新，翻譯更新正在進行中。"
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "儲存庫有多個操作失敗"
 
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "可存取的儲存庫已更新，翻譯更新正在進行中。"
-
-msgid "All repositories were pushed."
-msgstr "已推送所有儲存庫。"
-
-msgid "Accessible repositories were pushed."
-msgstr "已推送可存取的儲存庫。"
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr "所有儲存庫均已重設，翻譯更新正在進行中。"
-
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "可存取的儲存庫已重設，翻譯更新正在進行中。"
-
-msgid "All repositories have been cleaned up."
-msgstr "所有儲存庫已清理完畢。"
-
-msgid "Accessible repositories have been cleaned up."
-msgstr "已清理可存取的儲存庫。"
-
-msgid "Translation files have been synchronized."
-msgstr "翻譯檔案已同步。"
-
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "已同步可存取儲存庫中的翻譯檔案。"
-
-msgid "Updates of translations are in progress."
-msgstr "翻譯更新正在進行中。"
-
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "可存取儲存庫中的翻譯更新正在進行中。"
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "儲存庫有操作失敗"
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "已從翻譯檔案中移除重複字串。"
@@ -16394,15 +16602,6 @@ msgstr "已從翻譯檔案中移除未使用的字串。"
 
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "已從翻譯檔案中移除廢棄字串。"
-
-msgid "Pending translations are being committed."
-msgstr "正在提交待處理的翻譯。"
-
-msgid "All pending translations were committed."
-msgstr "已提交所有未決翻譯。"
-
-msgid "Pending translations in accessible repositories were committed."
-msgstr "已提交可存取儲存庫中的待處理翻譯。"
 
 msgid "Component is now locked for translation updates!"
 msgstr "組件現在因翻譯更新而鎖定中！"
@@ -17299,6 +17498,16 @@ msgstr "這會將變更推送至上游儲存庫。"
 msgid "Enter a valid GitHub host."
 msgstr "請輸入有效的 GitHub 主機名稱。"
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "要移除的組件"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr "選取要複製的現有組件設定。"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -17608,9 +17817,37 @@ msgstr ""
 "連結 GitHub 帳號前，請先建立工作空間。GitHub App 帳號連結會與工作空間建立關"
 "聯。"
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
 msgstr "已移除已連結的 GitHub 帳號 %(target)s。"
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -17682,6 +17919,28 @@ msgstr "已儲存 GitHub 帳號連結，但重新整理儲存庫清單失敗。�
 
 msgid "Connected GitHub account added."
 msgstr "已新增連結的 GitHub 帳號。"
+
+#, fuzzy, python-format
+#| msgid "Remove Weblate GitHub App?"
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] "要移除 Weblate GitHub App 嗎？"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] "因連結的儲存庫無法使用，已略過組件 %(component)s。"
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "無法推送 %(component)s：%(error_text)s"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "請輸入有效的 GitHub App 名稱與主機名稱。"
@@ -17989,6 +18248,70 @@ msgstr "工作空間仍在使用中，因此無法移除。"
 
 msgid "The workspace has been removed."
 msgstr "工作空間已移除。"
+
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "正規表達式必須定義名為「component」與「language」的命名群組。"
+
+#~ msgid ""
+#~ "The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
+#~ "separately if you no longer need it."
+#~ msgstr ""
+#~ "Weblate GitHub App 仍會安裝在 GitHub 上。若不再需要，請另外在 GitHub 上移"
+#~ "除。"
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "所有儲存庫均已更新，翻譯更新正在進行中。"
+
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "可存取的儲存庫已更新，翻譯更新正在進行中。"
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "已推送所有儲存庫。"
+
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "已推送可存取的儲存庫。"
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr "所有儲存庫均已重設，翻譯更新正在進行中。"
+
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "可存取的儲存庫已重設，翻譯更新正在進行中。"
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "所有儲存庫已清理完畢。"
+
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "已清理可存取的儲存庫。"
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "翻譯檔案已同步。"
+
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "已同步可存取儲存庫中的翻譯檔案。"
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "翻譯更新正在進行中。"
+
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "可存取儲存庫中的翻譯更新正在進行中。"
+
+#~ msgid "Pending translations are being committed."
+#~ msgstr "正在提交待處理的翻譯。"
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "已提交所有未決翻譯。"
+
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "已提交可存取儲存庫中的待處理翻譯。"
 
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
@@ -18330,9 +18653,6 @@ msgstr "工作空間已移除。"
 
 #~ msgid "Workflow customization"
 #~ msgstr "工作流程自訂"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr "無法鎖定儲存庫：正在進行另一個操作。"
 
 #~ msgid "Add team"
 #~ msgstr "加入團隊"

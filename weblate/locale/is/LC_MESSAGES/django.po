@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-07-31 08:24+0000\n"
 "Last-Translator: Automatic translation add-on <noreply-addon-"
 "autotranslate@weblate.org>\n"
@@ -1439,6 +1439,17 @@ msgstr "Auðkenningarforritið var fjarlægt."
 msgid "The authentication app %s was registered."
 msgstr "Auðkenningarforritið %s var skráð."
 
+#, fuzzy
+#| msgid ""
+#| "If it was you, please use a password reset to regain access to your "
+#| "account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"Ef þetta varst þú, skaltu endurstilla lykilorðið þitt til að fá aftur aðgang "
+"að notandaaðgangnum þínum."
+
 msgid "Second factor sign in"
 msgstr "Seinna þrep innskráningar"
 
@@ -2134,12 +2145,12 @@ msgstr ""
 msgid "Regular expression to match translation files against"
 msgstr "Regluleg segð til þess máta við þýðingaskjöl"
 
-#, fuzzy
-#| msgid "Regular expression which is used to match component slug."
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
-"Regluleg segð sem notuð er til að samsvara slóðarbút (slug) þýðingarhluta."
 
 msgid "File format"
 msgstr "Skráasnið"
@@ -2181,6 +2192,18 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "Tvítekin skráasía."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 
 msgid "Language filter"
@@ -2297,7 +2320,31 @@ msgstr "Þú getur ekki notað eins-tungumáls þýðingu án grunnskrár."
 msgid "You can not use a base file for bilingual translation."
 msgstr ""
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Skilgreindu grunnskrá fyrir nýjar þýðingar"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+"Bættu við eins-tungumáls grunntungumálsskrá í stillingum þýðingarhlutans."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
+msgstr ""
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
 msgstr ""
 
 msgid "This template must include {{ component }}."
@@ -6427,6 +6474,14 @@ msgstr ""
 
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
 msgstr ""
 
 msgctxt "Anthropic model selection"
@@ -12311,6 +12366,21 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate status"
+msgid "Migrate to GitHub App"
+msgstr "Staða Weblate"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12458,6 +12528,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -13488,6 +13563,79 @@ msgid "No connected accounts yet."
 msgstr "Fjarlægja reikning"
 
 #, fuzzy
+#| msgid "Hosting translations"
+msgid "Code-hosting integrations"
+msgstr "Hýsing þýðinga"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connect or update GitHub account"
+msgstr "Eyða þessum aðgangi"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connected GitHub accounts:"
+msgstr "Eyða þessum aðgangi"
+
+#, fuzzy
+#| msgid "Repositories"
+msgid "Refresh repositories"
+msgstr "Gagnasöfn"
+
+#, fuzzy
+#| msgid "Created component"
+msgid "Migrate selected components"
+msgstr "Bjó til þýðingarhluta"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Staða þýðingar"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Skrifvarið"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "Gagnasafn endurmiðað (rebase)"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Register in Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "Nýskrá í Weblate"
@@ -13587,11 +13735,6 @@ msgstr "Boð um þátttöku í %(project_name)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Repositories"
-msgid "Refresh repositories"
-msgstr "Gagnasöfn"
 
 #, python-format
 msgid ""
@@ -13726,9 +13869,26 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Eftirfarandi þýðingarhlutar yrðu búnir til"
+msgstr[1] "Eftirfarandi þýðingarhlutar yrðu búnir til"
+
+#, fuzzy, python-format
+#| msgid "%(count)s string needing action in %(component)s"
+#| msgid_plural "%(count)s strings needing action in %(component)s"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s strengur þarfnast aðgerða í %(component)s"
+msgstr[1] "%(count)s strengir þarfnast aðgerða í %(component)s"
 
 msgid "Invitations"
 msgstr "Boð"
@@ -14834,6 +14994,9 @@ msgstr "Engar skráasíur samsvara."
 msgid "Inexistent files."
 msgstr "Skrár sem ekki fyrirfinnast."
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Could not get repository status!"
@@ -15223,13 +15386,33 @@ msgid "Discovery configuration"
 msgstr "Uppsetning í lagi"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr ""
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 msgid "File mask matches the main component."
@@ -15262,6 +15445,21 @@ msgstr "Allar nýlegar breytingar gerðar með Weblate í %s."
 
 msgid "Sort JSON keys"
 msgstr "Raða JSON-lyklum"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "Ekki flytja inn"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "Háð há/lágstöfum"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "Óháð há-/lágstöfum"
 
 msgid "JSON indentation"
 msgstr "Inndráttur í JSON"
@@ -17613,6 +17811,32 @@ msgid "User configured character: {}"
 msgstr "Stafur skilgreindur af notanda: {}"
 
 #, fuzzy
+#| msgid "Automatic translation in progress"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Sjálfvirk þýðing í gangi"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "Gagnasafnsaðgerð í %(component)s"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "Gagnasafnsaðgerð mistókst"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "Gagnasafnsaðgerð í %(component)s"
+
+#, fuzzy
 #| msgid "No strings found!"
 msgid "No suggestions found."
 msgstr "Engir strengir fundust!"
@@ -18180,67 +18404,27 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "Mistókst að læsa gagnasafninu, önnur aðgerð er þegar í gangi."
+
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr "Mistókst að læsa gagnasafninu, önnur aðgerð er þegar í gangi."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr "Öll gagnasöfn hafa verið uppfærð, uppfærsla þýðinga er í gangi."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "This repository operation is already queued."
+msgstr "Gagnasafnsaðgerð mistókst"
 
 #, fuzzy
-#| msgid ""
-#| "All repositories have been updated, updates of translations are in "
-#| "progress."
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "Öll gagnasöfn hafa verið uppfærð, uppfærsla þýðinga er í gangi."
-
-msgid "All repositories were pushed."
-msgstr "Ýtt var inn í öll gagnasöfn."
-
-#, fuzzy
-#| msgid "All repositories were pushed."
-msgid "Accessible repositories were pushed."
-msgstr "Ýtt var inn í öll gagnasöfn."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr "Öll gagnasöfn hafa verið endurstillt, uppfærsla þýðinga er í gangi."
-
-#, fuzzy
-#| msgid ""
-#| "All repositories have been reset, updates of translations are in progress."
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "Öll gagnasöfn hafa verið endurstillt, uppfærsla þýðinga er í gangi."
-
-msgid "All repositories have been cleaned up."
-msgstr "Öll gagnasöfn hafa verið hreinsuð."
-
-#, fuzzy
-#| msgid "All repositories have been cleaned up."
-msgid "Accessible repositories have been cleaned up."
-msgstr "Öll gagnasöfn hafa verið hreinsuð."
-
-msgid "Translation files have been synchronized."
-msgstr "Þýðingaskrár hafa verið samstilltar."
-
-#, fuzzy
-#| msgid "Translation files have been synchronized."
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Þýðingaskrár hafa verið samstilltar."
-
-msgid "Updates of translations are in progress."
-msgstr "Uppfærsla þýðinga er í gangi."
-
-#, fuzzy
-#| msgid "Updates of translations are in progress."
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "Uppfærsla þýðinga er í gangi."
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "Gagnasafnsaðgerð mistókst"
 
 #, fuzzy
 #| msgid "Approved translation in %(translation)s"
@@ -18256,19 +18440,6 @@ msgstr "Notandi hefur verið fjarlægður úr þessu verkefni."
 #| msgid "User has been removed from this project."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Notandi hefur verið fjarlægður úr þessu verkefni."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations are being committed."
-msgstr "Allar þýðingar í bið voru sendar inn í gagnasafn."
-
-msgid "All pending translations were committed."
-msgstr "Allar þýðingar í bið voru sendar inn í gagnasafn."
-
-#, fuzzy
-#| msgid "All pending translations were committed."
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Allar þýðingar í bið voru sendar inn í gagnasafn."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Þýðingarhluti er núna læstur fyrir uppfærslum á þýðingum!"
@@ -19295,6 +19466,17 @@ msgstr "Þetta mun ýta breytingum yfir í yfirgagnasafnið."
 msgid "Enter a valid GitHub host."
 msgstr "Samheiti tungumálakóða"
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "Þýðingarhluti sem á að fjarlægja"
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgid "Select at least one component to migrate."
+msgstr "Nýr þýðingarhluti var útbúinn"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -19651,8 +19833,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -19727,6 +19936,26 @@ msgstr ""
 #| msgid "Created user account {}."
 msgid "Connected GitHub account added."
 msgstr "Stofnaði notandaaðganginn {}."
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Mistókst að ýta %(component)s: %(error_text)s"
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -20103,6 +20332,86 @@ msgstr ""
 msgid "The workspace has been removed."
 msgstr "Frummyndin hefur verið fjarlægð."
 
+#, fuzzy
+#~| msgid "Regular expression which is used to match component slug."
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr ""
+#~ "Regluleg segð sem notuð er til að samsvara slóðarbút (slug) þýðingarhluta."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "Öll gagnasöfn hafa verið uppfærð, uppfærsla þýðinga er í gangi."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been updated, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "Öll gagnasöfn hafa verið uppfærð, uppfærsla þýðinga er í gangi."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "Ýtt var inn í öll gagnasöfn."
+
+#, fuzzy
+#~| msgid "All repositories were pushed."
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Ýtt var inn í öll gagnasöfn."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr "Öll gagnasöfn hafa verið endurstillt, uppfærsla þýðinga er í gangi."
+
+#, fuzzy
+#~| msgid ""
+#~| "All repositories have been reset, updates of translations are in "
+#~| "progress."
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "Öll gagnasöfn hafa verið endurstillt, uppfærsla þýðinga er í gangi."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "Öll gagnasöfn hafa verið hreinsuð."
+
+#, fuzzy
+#~| msgid "All repositories have been cleaned up."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Öll gagnasöfn hafa verið hreinsuð."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Þýðingaskrár hafa verið samstilltar."
+
+#, fuzzy
+#~| msgid "Translation files have been synchronized."
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Þýðingaskrár hafa verið samstilltar."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "Uppfærsla þýðinga er í gangi."
+
+#, fuzzy
+#~| msgid "Updates of translations are in progress."
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Uppfærsla þýðinga er í gangi."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Allar þýðingar í bið voru sendar inn í gagnasafn."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "Allar þýðingar í bið voru sendar inn í gagnasafn."
+
+#, fuzzy
+#~| msgid "All pending translations were committed."
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Allar þýðingar í bið voru sendar inn í gagnasafn."
+
 #~ msgid "Activation completed."
 #~ msgstr "Virkjun lokið."
 
@@ -20361,9 +20670,6 @@ msgstr "Frummyndin hefur verið fjarlægð."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Sérsníðing vinnuferlis"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr "Mistókst að læsa gagnasafninu, önnur aðgerð er þegar í gangi."
 
 #~ msgid "Add team"
 #~ msgstr "Bæta við teymi"
