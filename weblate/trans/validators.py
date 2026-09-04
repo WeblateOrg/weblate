@@ -34,6 +34,13 @@ def get_translation_text_max_length(unit: Unit) -> int:
     return 10 * (max_length + 100)
 
 
+def validate_translation_text_length(unit: Unit, target: list[str]) -> None:
+    """Validate translation text length for a unit."""
+    max_length = get_translation_text_max_length(unit)
+    if any(len(text) > max_length for text in target):
+        raise ValidationError(gettext("Translation text too long!"))
+
+
 def validate_filemask(val) -> None:
     """Validate that the filemask contains *."""
     if "*" not in val:
