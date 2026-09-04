@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import os
 import time
 from pathlib import Path
 from unittest.mock import Mock, patch
@@ -24,6 +25,7 @@ from weblate.utils.apps import (
     check_data_writable,
     check_database,
     check_database_size,
+    check_docker_startup_warnings,
     check_errors,
     check_filesystem_latency,
     check_settings,
@@ -31,6 +33,12 @@ from weblate.utils.apps import (
 )
 from weblate.utils.celery import is_celery_queue_long
 from weblate.utils.classloader import ClassLoader
+from weblate.utils.docker import (
+    DOCKER_CONTAINER_ENV,
+    DOCKER_WARNING_DIRECTORY,
+    DOCKER_WARNING_MAX_AGE,
+    DOCKER_WARNING_MAX_SIZE,
+)
 from weblate.utils.filesystem import (
     FILESYSTEM_LATENCY_PREFIX,
     filesystem_latency_snapshot,
@@ -276,6 +284,126 @@ class FilesystemLatencyTestCase(SimpleTestCase):
         self.assertIn("CACHE_DIR", errors[1].msg)
         latency_mock.assert_called_once_with()
         paths_mock.assert_called_once_with()
+
+
+class DockerStartupWarningsCheckTestCase(SimpleTestCase):
+    def create_report(
+        self,
+        name: str,
+        warnings: str,
+        *,
+        hostname: str = "container-1",
+        service: str = "web",
+        age: float = 0,
+    ) -> Path:
+        report = Path(settings.DATA_DIR) / DOCKER_WARNING_DIRECTORY / name
+        report.mkdir(parents=True)
+        (report / "hostname").write_text(hostname, encoding="utf-8")
+        (report / "service").write_text(service, encoding="utf-8")
+        (report / "warnings").write_text(warnings, encoding="utf-8")
+        heartbeat = report / "heartbeat"
+        heartbeat.touch()
+        if age:
+            timestamp = time.time() - age
+            os.utime(heartbeat, (timestamp, timestamp))
+        return report
+
+    @tempdir_setting("DATA_DIR")
+    def test_disabled_outside_docker(self) -> None:
+        self.create_report("report", "Ignored configuration")
+
+        with patch.dict(os.environ, clear=True):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(errors, [])
+
+    @tempdir_setting("DATA_DIR")
+    def test_active_warnings(self) -> None:
+        self.create_report("first", "First warning\nShared warning")
+        self.create_report(
+            "second",
+            "Shared warning",
+            hostname="container-2",
+            service="celery-notify",
+        )
+
+        with patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(len(errors), 2)
+        self.assertTrue(all(isinstance(error, DjangoWarning) for error in errors))
+        self.assertTrue(all(error.id == "weblate.W049" for error in errors))
+        self.assertEqual(
+            errors[0].msg,
+            "Docker startup warning from container-1 (web): First warning",
+        )
+        self.assertIn("container-1 (web)", errors[1].msg)
+        self.assertIn("container-2 (celery-notify)", errors[1].msg)
+        self.assertEqual(errors[1].msg.count("Shared warning"), 1)
+
+    @tempdir_setting("DATA_DIR")
+    def test_inactive_warnings(self) -> None:
+        self.create_report(
+            "stale",
+            "Stale warning",
+            age=DOCKER_WARNING_MAX_AGE + 1,
+        )
+        self.create_report("empty", "")
+
+        with patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(errors, [])
+
+    @tempdir_setting("DATA_DIR")
+    def test_stale_reports_do_not_hide_active_report(self) -> None:
+        stale = self.create_report(
+            "stale",
+            "Stale warning",
+            age=DOCKER_WARNING_MAX_AGE + 1,
+        )
+        active = self.create_report("active", "Active warning")
+
+        with (
+            patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}),
+            patch("weblate.utils.docker.DOCKER_WARNING_MAX_REPORTS", 1),
+            patch(
+                "weblate.utils.docker.Path.iterdir",
+                return_value=iter((stale, active)),
+            ),
+        ):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(len(errors), 1)
+        self.assertIn("Active warning", errors[0].msg)
+
+    @tempdir_setting("DATA_DIR")
+    def test_unsafe_warning_files(self) -> None:
+        oversized = self.create_report("oversized", "")
+        (oversized / "warnings").write_text(
+            "x" * (DOCKER_WARNING_MAX_SIZE + 1), encoding="utf-8"
+        )
+        symlinked = self.create_report("symlinked", "")
+        target = Path(settings.DATA_DIR) / "warning-target"
+        target.write_text("Symlink warning", encoding="utf-8")
+        warning_file = symlinked / "warnings"
+        warning_file.unlink()
+        warning_file.symlink_to(target)
+
+        with patch.dict(os.environ, {DOCKER_CONTAINER_ENV: "1"}):
+            errors = list(
+                check_docker_startup_warnings(app_configs=None, databases=None)
+            )
+
+        self.assertEqual(errors, [])
 
 
 class DatabaseSizeCheckTestCase(SimpleTestCase):

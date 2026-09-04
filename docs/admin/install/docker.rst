@@ -477,6 +477,23 @@ You can find example setup in the ``docker-compose`` repo as
 `docker-compose-split.yml
 <https://github.com/WeblateOrg/docker-compose/blob/main/docker-compose-split.yml>`__.
 
+.. _docker-startup-warnings:
+
+Startup configuration warnings
+------------------------------
+
+The Docker container records actionable configuration warnings from startup
+in the shared :file:`/app/data` volume. They are shown by
+:command:`weblate check --deploy` and in the :ref:`manage-performance`
+management interface, in addition to being written to the container log.
+
+Each container reports its warnings separately. This keeps warnings from
+containers with different :envvar:`WEBLATE_SERVICE` roles visible in a
+horizontally scaled deployment. Reports are refreshed while their container is
+running and are removed during an orderly container shutdown. Reports left by
+an abrupt shutdown expire after five minutes, and stale report files are
+cleaned up automatically by later container startups.
+
 .. _docker-environment:
 
 Docker environment variables
