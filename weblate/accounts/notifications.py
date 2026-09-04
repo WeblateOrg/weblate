@@ -4,10 +4,13 @@
 
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 from copy import copy
 from datetime import timedelta
 from email.utils import formataddr
+from heapq import heappush, heapreplace
+from itertools import batched
+from operator import itemgetter
 from typing import TYPE_CHECKING, Any, ClassVar, cast
 from urllib.parse import urlencode
 from uuid import uuid4
@@ -84,6 +87,11 @@ class NotificationScope(IntegerChoices):
 NOTIFICATIONS: list[type[Notification]] = []
 NOTIFICATIONS_ACTIONS: dict[int, list[type[Notification]]] = {}
 RECIPIENT_USERNAME_HEADER = "X-Weblate-Recipient-Username"
+DIGEST_MAX_ITEMS = 100
+DIGEST_USER_BATCH_SIZE = 50
+NOTIFICATION_QUERY_CHUNK_SIZE = 200
+SUBSCRIPTION_CACHE_SIZE = 16
+_UNSCOPED = object()
 
 
 def get_email_headers(notification: str) -> dict[str, str]:
@@ -136,14 +144,20 @@ class Notification:
     ignore_watched: bool = False
     any_watched: bool = False
     required_attr: str | None = None
+    batch_recipients = True
     skip_when_notify: ClassVar[set[type[Notification]]] = set()
 
     def __init__(
         self,
         outgoing: list[OutgoingEmail],
+        *,
+        user_ids: list[int] | None = None,
     ) -> None:
         self.outgoing: list[OutgoingEmail] = outgoing
-        self.subscription_cache: dict[int | None, list[Subscription]] = {}
+        self.user_ids = user_ids
+        self.subscription_cache: OrderedDict[int | None, list[Subscription]] = (
+            OrderedDict()
+        )
         self.child_notify: list[Notification] | None = None
 
     def get_language_filter(
@@ -165,11 +179,17 @@ class Notification:
     def get_name(cls) -> str:
         return cls.__name__
 
+    @classmethod
+    def get_periodic_actions(cls) -> Iterable[int]:
+        return cls.actions
+
     def filter_subscriptions(self, project: Project | None) -> list[Subscription]:
         # ruff: ignore[import-outside-top-level]
         from weblate.accounts.models import Subscription
 
         result = Subscription.objects.filter(notification=self.get_name())
+        if self.user_ids is not None:
+            result = result.filter(user_id__in=self.user_ids)
         scopes: set[NotificationScope] = {NotificationScope.SCOPE_ALL}
         # special case for site-wide announcements
         if self.any_watched and not project:
@@ -193,7 +213,8 @@ class Notification:
             # Inactive users and bots
             .filter(Q(user__is_bot=False) & Q(user__is_active=True))
             .order_by("user", "-scope")
-            .prefetch_related("user", "user__profile", "user__profile__languages")
+            .select_related("user", "user__profile")
+            .prefetch_related("user__profile__languages")
         )
 
     def get_subscriptions(
@@ -206,9 +227,14 @@ class Notification:
     ) -> Iterable[Subscription]:
         lang_filter: Language | None = self.get_language_filter(change, translation)
         cache_key: int | None = project.pk if project else None
-        if cache_key not in self.subscription_cache:
-            self.subscription_cache[cache_key] = self.filter_subscriptions(project)
-        for subscription in self.subscription_cache[cache_key]:
+        try:
+            subscriptions = self.subscription_cache.pop(cache_key)
+        except KeyError:
+            subscriptions = self.filter_subscriptions(project)
+            if len(self.subscription_cache) >= SUBSCRIPTION_CACHE_SIZE:
+                self.subscription_cache.popitem(last=False)
+        self.subscription_cache[cache_key] = subscriptions
+        for subscription in subscriptions:
             # Users filter
             if users is not None and subscription.user_id not in users:
                 continue
@@ -312,7 +338,7 @@ class Notification:
                 }
             )
             # Avoid building huge queue of notifications in memory
-            if len(self.outgoing) > EMAIL_BATCH_SIZE:
+            if len(self.outgoing) >= EMAIL_BATCH_SIZE:
                 queue_mails(self.outgoing)
                 self.outgoing.clear()
 
@@ -481,13 +507,16 @@ class Notification:
         summaries: list[dict[str, Any]] | None = None,
         subscription: Subscription | None = None,
         overlimit: bool = False,
+        extracontext: dict[str, Any] | None = None,
     ) -> None:
         with override("en" if language is None else language):
+            digest_context = extracontext.copy() if extracontext else {}
+            digest_context["overlimit"] = overlimit
             context = self.get_context(
                 subscription=subscription,
                 changes=changes,
                 summaries=summaries,
-                extracontext={"overlimit": overlimit},
+                extracontext=digest_context,
             )
             subject = self.render_template("_subject.txt", context, digest=True)
             context["subject"] = subject
@@ -520,51 +549,155 @@ class Notification:
         frequency: NotificationFrequency,
         changes: QuerySet[Change],
     ) -> None:
-        notifications: dict[int, list[Change]] = defaultdict(list)
+        notifications: dict[int, list[tuple[datetime, int, Change]]] = defaultdict(list)
         users = {}
-        for change in changes:
+        overlimit: set[int] = set()
+        last_project_id: int | object | None = _UNSCOPED
+        ordered_changes = changes.order_by("project_id", "-timestamp", "-pk")
+        for change in ordered_changes.iterator(
+            chunk_size=NOTIFICATION_QUERY_CHUNK_SIZE
+        ):
+            if change.project_id != last_project_id:
+                self.subscription_cache.clear()
+                last_project_id = change.project_id
             change.fill_in_prefetched()
             for user in self.get_users(frequency, change):
                 if change.project is None or user.can_access_project(change.project):
-                    notifications[user.pk].append(change)
                     users[user.pk] = user
+                    user_notifications = notifications[user.pk]
+                    entry = (change.timestamp, change.pk, change)
+                    if len(user_notifications) < DIGEST_MAX_ITEMS:
+                        heappush(user_notifications, entry)
+                    else:
+                        overlimit.add(user.pk)
+                        if (entry[0], entry[1]) > (
+                            user_notifications[0][0],
+                            user_notifications[0][1],
+                        ):
+                            heapreplace(user_notifications, entry)
         for user in users.values():
-            user_changes = notifications[user.pk]
-            overlimit = False
-            if len(user_changes) > 100:
-                user_changes = user_changes[:100]
-                overlimit = True
-
+            user_changes = [
+                entry[2]
+                for entry in sorted(
+                    notifications[user.pk],
+                    key=itemgetter(0, 1),
+                    reverse=True,
+                )
+            ]
             self.send_digest(
                 user.profile.language,
                 user.email,
                 changes=user_changes,
                 subscription=user.current_subscription,
-                overlimit=overlimit,
+                overlimit=user.pk in overlimit,
             )
 
     def filter_changes(
-        self, days: int = 0, weeks: int = 0, months: int = 0
+        self,
+        *,
+        since: datetime,
+        until: datetime,
+        project: Project | object | None = _UNSCOPED,
     ) -> QuerySet[Change]:
-        return Change.objects.filter(
+        changes = Change.objects.filter(
             action__in=self.actions,
-            timestamp__gte=timezone.now()
-            - relativedelta(days=days, weeks=weeks, months=months),
-        ).prefetch_for_render()
+            timestamp__gte=since,
+            timestamp__lt=until,
+        )
+        if project is not _UNSCOPED:
+            changes = changes.filter(project=cast("Project | None", project))
+        return changes.order_by("-timestamp", "-pk").prefetch_for_render()
 
-    def notify_daily(self) -> None:
+    def notify_periodic(
+        self,
+        frequency: NotificationFrequency,
+        *,
+        since: datetime,
+        until: datetime,
+        project: Project | None,
+    ) -> None:
         self.notify_digest(
-            NotificationFrequency.FREQ_DAILY, self.filter_changes(days=1)
+            frequency,
+            self.filter_changes(since=since, until=until, project=project),
         )
 
+    def get_periodic_projects(
+        self,
+        frequency: NotificationFrequency,
+        *,
+        since: datetime,
+        until: datetime,
+    ) -> QuerySet[Project]:
+        # ruff: ignore[import-outside-top-level]
+        from weblate.accounts.tasks import get_digest_projects
+
+        return get_digest_projects(
+            type(self),
+            frequency,
+            since=since,
+            until=until,
+            user_ids=self.user_ids,
+        )
+
+    def notify_periodic_batch(
+        self,
+        frequency: NotificationFrequency,
+        *,
+        since: datetime,
+        until: datetime,
+    ) -> None:
+        projects = self.get_periodic_projects(frequency, since=since, until=until)
+        changes = self.filter_changes(since=since, until=until).filter(
+            Q(project__in=projects) | Q(project__isnull=True)
+        )
+        self.notify_digest(frequency, changes)
+
+    def notify_for_period(
+        self,
+        frequency: NotificationFrequency,
+        period: relativedelta,
+    ) -> None:
+        from weblate.accounts.models import (  # ruff: ignore[import-outside-top-level]
+            Subscription,
+        )
+
+        until = timezone.now()
+        since = until - period
+        if not self.batch_recipients:
+            self.user_ids = None
+            self.notify_periodic_batch(frequency, since=since, until=until)
+            return
+
+        user_ids = (
+            Subscription.objects.filter(
+                notification=self.get_name(),
+                frequency=frequency,
+                user__is_active=True,
+                user__is_bot=False,
+            )
+            .order_by("user_id")
+            .values_list("user_id", flat=True)
+            .distinct()
+        )
+        for user_batch in batched(
+            user_ids.iterator(chunk_size=NOTIFICATION_QUERY_CHUNK_SIZE),
+            DIGEST_USER_BATCH_SIZE,
+        ):
+            self.user_ids = list(user_batch)
+            self.subscription_cache.clear()
+            self.notify_periodic_batch(frequency, since=since, until=until)
+
+    def notify_daily(self) -> None:
+        self.notify_for_period(NotificationFrequency.FREQ_DAILY, relativedelta(days=1))
+
     def notify_weekly(self) -> None:
-        self.notify_digest(
-            NotificationFrequency.FREQ_WEEKLY, self.filter_changes(weeks=1)
+        self.notify_for_period(
+            NotificationFrequency.FREQ_WEEKLY, relativedelta(weeks=1)
         )
 
     def notify_monthly(self) -> None:
-        self.notify_digest(
-            NotificationFrequency.FREQ_MONTHLY, self.filter_changes(months=1)
+        self.notify_for_period(
+            NotificationFrequency.FREQ_MONTHLY, relativedelta(months=1)
         )
 
 
@@ -688,6 +821,7 @@ class TranslationActivitySummaryNotification(Notification):
     }
     digest_template = "translation_activity_summary"
     since: datetime | None = None
+    until: datetime | None = None
 
     @classmethod
     def get_freq_choices(cls) -> list[tuple[int, StrOrPromise]]:
@@ -704,6 +838,10 @@ class TranslationActivitySummaryNotification(Notification):
         )
 
     @classmethod
+    def get_periodic_actions(cls) -> Iterable[int]:
+        return cls.get_activity_actions()
+
+    @classmethod
     def get_activity_field(cls, action: int) -> str | None:
         for field, actions in cls.activity_actions.items():
             if action in actions:
@@ -717,26 +855,51 @@ class TranslationActivitySummaryNotification(Notification):
         return f"change_action:{action_name}"
 
     def get_activity_query(self, actions: tuple[ActionEvents, ...]) -> str:
-        if self.since is None:
+        if self.since is None or self.until is None:
             msg = "Activity summary period is not set"
             raise ValueError(msg)
         action_query = " OR ".join(self.get_action_query(action) for action in actions)
         if len(actions) > 1:
             action_query = f"({action_query})"
-        return f"change_time:>={self.since.isoformat()} AND {action_query}"
+        return (
+            f"change_time:>={self.since.isoformat()} AND "
+            f"change_time:<{self.until.isoformat()} AND {action_query}"
+        )
 
     @staticmethod
     def get_search_url(translation: Translation, query: str) -> str:
         return f"{translation.get_translate_url()}?{urlencode({'q': query})}"
 
-    def notify_daily(self) -> None:
-        self.notify_activity_summary(NotificationFrequency.FREQ_DAILY, days=1)
+    def notify_periodic(
+        self,
+        frequency: NotificationFrequency,
+        *,
+        since: datetime,
+        until: datetime,
+        project: Project | None,
+    ) -> None:
+        if project is None:
+            return
+        self.notify_activity_summary(
+            frequency,
+            since=since,
+            until=until,
+            project=project,
+        )
 
-    def notify_weekly(self) -> None:
-        self.notify_activity_summary(NotificationFrequency.FREQ_WEEKLY, weeks=1)
-
-    def notify_monthly(self) -> None:
-        self.notify_activity_summary(NotificationFrequency.FREQ_MONTHLY, months=1)
+    def notify_periodic_batch(
+        self,
+        frequency: NotificationFrequency,
+        *,
+        since: datetime,
+        until: datetime,
+    ) -> None:
+        self.notify_activity_summary(
+            frequency,
+            since=since,
+            until=until,
+            projects=self.get_periodic_projects(frequency, since=since, until=until),
+        )
 
     def get_activity_change_filter(self, frequency: NotificationFrequency) -> Q:
         # ruff: ignore[import-outside-top-level]
@@ -748,6 +911,8 @@ class TranslationActivitySummaryNotification(Notification):
             user__is_active=True,
             user__is_bot=False,
         )
+        if self.user_ids is not None:
+            subscriptions = subscriptions.filter(user_id__in=self.user_ids)
         if not subscriptions.exists():
             return Q(pk__in=())
 
@@ -780,17 +945,30 @@ class TranslationActivitySummaryNotification(Notification):
             query |= Q(component_id__in=component_ids)
         return query or Q(pk__in=())
 
-    def get_activity_change_rows(self, frequency: NotificationFrequency):
+    def get_activity_change_rows(
+        self,
+        frequency: NotificationFrequency,
+        project: Project | object | None = _UNSCOPED,
+        projects: QuerySet[Project] | None = None,
+    ):
+        if projects is not None:
+            change_filter = Q(project__in=projects)
+        elif project is _UNSCOPED:
+            change_filter = self.get_activity_change_filter(frequency)
+        else:
+            change_filter = Q(project=project)
         return (
             Change.objects.filter(
-                self.get_activity_change_filter(frequency),
+                change_filter,
                 action__in=self.get_activity_actions(),
                 timestamp__gte=self.since,
+                timestamp__lt=self.until,
                 translation__isnull=False,
             )
             .annotate(summary_unit_id=Coalesce("unit_id", "id"))
-            .values("translation_id", "action", "user_id")
+            .values("project_id", "translation_id", "action", "user_id")
             .annotate(count=Count("summary_unit_id", distinct=True))
+            .order_by("project_id", "translation_id", "action", "user_id")
         )
 
     def get_activity_summary_users(
@@ -824,46 +1002,58 @@ class TranslationActivitySummaryNotification(Notification):
         self,
         frequency: NotificationFrequency,
         *,
-        days: int = 0,
-        weeks: int = 0,
-        months: int = 0,
+        since: datetime,
+        until: datetime,
+        project: Project | object | None = _UNSCOPED,
+        projects: QuerySet[Project] | None = None,
     ) -> None:
-        self.since = timezone.now() - relativedelta(
-            days=days, weeks=weeks, months=months
-        )
-        activity_rows = list(self.get_activity_change_rows(frequency))
-        translation_ids = {row["translation_id"] for row in activity_rows}
-        translations = {
-            translation.pk: translation
-            for translation in prefetch_stats(
-                Translation.objects.filter(pk__in=translation_ids).prefetch()
-            )
-        }
-
+        self.since = since
+        self.until = until
         users = {}
         notifications: dict[int, dict[int, dict[str, Any]]] = defaultdict(dict)
-        for row in activity_rows:
-            field = self.get_activity_field(row["action"])
-            translation = translations.get(row["translation_id"])
-            if field is None or translation is None:
-                continue
-
-            for user in self.get_activity_summary_users(
-                frequency, translation, row["user_id"]
-            ):
-                users[user.pk] = user
-                user_notifications = notifications[user.pk]
-                summary = user_notifications.setdefault(
-                    translation.pk,
-                    {
-                        "translation": translation,
-                        **dict.fromkeys(self.activity_fields, 0),
-                    },
+        totals: dict[int, int] = defaultdict(int)
+        overlimit: set[int] = set()
+        activity_rows = self.get_activity_change_rows(
+            frequency, project, projects
+        ).iterator(chunk_size=NOTIFICATION_QUERY_CHUNK_SIZE)
+        last_project_id: int | object | None = _UNSCOPED
+        for activity_batch in batched(activity_rows, NOTIFICATION_QUERY_CHUNK_SIZE):
+            translation_ids = {row["translation_id"] for row in activity_batch}
+            translations = {
+                translation.pk: translation
+                for translation in prefetch_stats(
+                    Translation.objects.filter(pk__in=translation_ids).prefetch()
                 )
-                summary[field] += row["count"]
+            }
+            for row in activity_batch:
+                if row["project_id"] != last_project_id:
+                    self.subscription_cache.clear()
+                    last_project_id = row["project_id"]
+                field = self.get_activity_field(row["action"])
+                translation = translations.get(row["translation_id"])
+                if field is None or translation is None:
+                    continue
+
+                for user in self.get_activity_summary_users(
+                    frequency, translation, row["user_id"]
+                ):
+                    users[user.pk] = user
+                    totals[user.pk] += row["count"]
+                    user_notifications = notifications[user.pk]
+                    try:
+                        summary = user_notifications[translation.pk]
+                    except KeyError:
+                        if len(user_notifications) >= DIGEST_MAX_ITEMS:
+                            overlimit.add(user.pk)
+                            continue
+                        summary = user_notifications[translation.pk] = {
+                            "translation": translation,
+                            **dict.fromkeys(self.activity_fields, 0),
+                        }
+                    summary[field] += row["count"]
 
         for userid, user_notifications in notifications.items():
-            summaries = self.get_summary_rows(user_notifications, translations)
+            summaries = self.get_summary_rows(user_notifications)
             if not summaries:
                 continue
             user = users[userid]
@@ -872,16 +1062,17 @@ class TranslationActivitySummaryNotification(Notification):
                 user.email,
                 summaries=summaries,
                 subscription=user.current_subscription,
+                overlimit=userid in overlimit,
+                extracontext={"total_count": totals[userid]},
             )
 
     def get_summary_rows(
         self,
         summaries: dict[int, dict[str, Any]],
-        translations: dict[int, Translation],
     ) -> list[dict[str, Any]]:
         result = []
-        for translation_id, summary in summaries.items():
-            translation = translations.get(translation_id, summary["translation"])
+        for summary in summaries.values():
+            translation = summary["translation"]
             total = 0
             row = {"translation": translation}
             for field in self.activity_fields:
@@ -915,7 +1106,7 @@ class TranslationActivitySummaryNotification(Notification):
             change, subscription, extracontext, changes=changes, summaries=summaries
         )
         if summaries:
-            context["total_count"] = sum(item["total"] for item in summaries)
+            context.setdefault("total_count", sum(item["total"] for item in summaries))
         return context
 
 
@@ -1324,6 +1515,9 @@ class MergeFailureNotification(Notification):
 
 class SummaryNotification(Notification):
     filter_languages = True
+    # Computing snapshot counts requires one pass over all matching translations.
+    # Splitting recipients would repeat that database and statistics-cache scan.
+    batch_recipients = False
 
     @classmethod
     def get_freq_choices(cls) -> list[tuple[int, StrOrPromise]]:
@@ -1333,22 +1527,53 @@ class SummaryNotification(Notification):
             if x[0] != NotificationFrequency.FREQ_INSTANT
         ]
 
-    def notify_daily(self) -> None:
-        self.notify_summary(NotificationFrequency.FREQ_DAILY)
+    def notify_periodic(
+        self,
+        frequency: NotificationFrequency,
+        *,
+        since: datetime,
+        until: datetime,
+        project: Project | None,
+    ) -> None:
+        if project is None:
+            return
+        self.notify_summary(frequency, project=project)
 
-    def notify_weekly(self) -> None:
-        self.notify_summary(NotificationFrequency.FREQ_WEEKLY)
-
-    def notify_monthly(self) -> None:
-        self.notify_summary(NotificationFrequency.FREQ_MONTHLY)
+    def notify_periodic_batch(
+        self,
+        frequency: NotificationFrequency,
+        *,
+        since: datetime,
+        until: datetime,
+    ) -> None:
+        self.notify_summary(
+            frequency,
+            projects=self.get_periodic_projects(frequency, since=since, until=until),
+        )
 
     def notify_summary(
         self,
         frequency: NotificationFrequency,
+        *,
+        project: Project | object = _UNSCOPED,
+        projects: QuerySet[Project] | None = None,
     ) -> None:
         users = {}
         notifications: dict[int, list[dict[str, Any]]] = defaultdict(list)
-        for translation in iter_prefetch_stats(Translation.objects.prefetch()):
+        totals: dict[int, int] = defaultdict(int)
+        overlimit: set[int] = set()
+        translations = Translation.objects.prefetch().order_by(
+            "component__project_id", "pk"
+        )
+        if projects is not None:
+            translations = translations.filter(component__project__in=projects)
+        elif project is not _UNSCOPED:
+            translations = translations.filter(component__project=project)
+        last_project_id: int | object = _UNSCOPED
+        for translation in iter_prefetch_stats(translations):
+            if translation.component.project_id != last_project_id:
+                self.subscription_cache.clear()
+                last_project_id = translation.component.project_id
             count = self.get_count(translation)
             if not count:
                 continue
@@ -1361,7 +1586,12 @@ class SummaryNotification(Notification):
             context["count"] = count
             for user in current_users:
                 users[user.pk] = user
-                notifications[user.pk].append(context)
+                totals[user.pk] += count
+                user_notifications = notifications[user.pk]
+                if len(user_notifications) < DIGEST_MAX_ITEMS:
+                    user_notifications.append(context)
+                else:
+                    overlimit.add(user.pk)
         for userid, summaries in notifications.items():
             user = users[userid]
             self.send_digest(
@@ -1369,6 +1599,8 @@ class SummaryNotification(Notification):
                 user.email,
                 summaries=summaries,
                 subscription=user.current_subscription,
+                overlimit=userid in overlimit,
+                extracontext={"total_count": totals[userid]},
             )
 
     @staticmethod
@@ -1388,7 +1620,7 @@ class SummaryNotification(Notification):
             change, subscription, extracontext, changes=changes, summaries=summaries
         )
         if summaries:
-            context["total_count"] = sum(item["count"] for item in summaries)
+            context.setdefault("total_count", sum(item["count"] for item in summaries))
         return context
 
 
