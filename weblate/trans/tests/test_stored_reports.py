@@ -5,14 +5,16 @@ from __future__ import annotations
 
 from datetime import timedelta
 from types import SimpleNamespace
+from typing import Any
 from unittest.mock import patch
 
 from django.test import override_settings
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
+from django_otp.plugins.otp_totp.models import TOTPDevice
 
-from weblate.auth.models import Group
+from weblate.auth.models import Group, Permission, Role, User, UserBlock
 from weblate.trans.models import Project, Report
 from weblate.trans.tasks import cleanup_reports, generate_report
 from weblate.trans.tests.test_reports import BaseReportsTest
@@ -21,6 +23,55 @@ from weblate.workspaces.models import Workspace
 
 
 class StoredReportsTest(BaseReportsTest):
+    def generate_scoped_report(self, kind: str, scope_type: str, scope) -> Report:
+        now = timezone.now()
+        parameters: dict[str, Any] = {"language": "", "own_data": False}
+        if kind in {Report.Kind.CREDITS, Report.Kind.CONTRIBUTOR_STATS}:
+            parameters.update(
+                {
+                    "start": (now - timedelta(days=1)).isoformat(),
+                    "end": (now + timedelta(days=1)).isoformat(),
+                    "sort_by": "count",
+                    "sort_order": "descending",
+                    "counting_mode": "unique",
+                }
+            )
+        elif kind == Report.Kind.COST_ESTIMATE:
+            parameters.update(
+                {
+                    "q": "state:<translated",
+                    "base_rate": "0.1",
+                    "tm_threshold": 80,
+                    **{key: str(value) for key, value in self.get_cost_rates().items()},
+                }
+            )
+        else:
+            parameters.update(
+                {
+                    "start": (now - timedelta(days=1)).isoformat(),
+                    "end": (now + timedelta(days=1)).isoformat(),
+                    "min_changes": 0,
+                    "max_changes": 1000,
+                    "max_words": 10000,
+                }
+            )
+        generate_report(
+            kind=kind,
+            parameters=parameters,
+            user_id=self.user.pk,
+            scope_type=scope_type,
+            scope_id=str(scope.pk),
+        )
+        return Report.objects.latest("pk")
+
+    def assert_report_contains_scope_data(self, report: Report) -> None:
+        if report.kind in {Report.Kind.CREDITS, Report.Kind.CONTRIBUTOR_STATS}:
+            self.assertIn(self.user.email, str(report.data))
+        elif report.kind == Report.Kind.COST_ESTIMATE:
+            self.assertGreater(report.data["total"]["count"], 0)
+        else:
+            self.assertEqual(report.data["user_days"]["included"], 1)
+
     def test_filter_access_preserves_queryset(self) -> None:
         other_user = create_another_user("-reports")
         self.user.is_superuser = False
@@ -88,6 +139,40 @@ class StoredReportsTest(BaseReportsTest):
             [own_report],
         )
 
+    def test_generation_uses_scheduling_authorization(self) -> None:
+        contributor = create_another_user("-scheduled-contributor")
+        self.change_unit("Nazdar svete!\n", user=contributor)
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        managers = Group.objects.get(name="Managers")
+        self.user.groups.add(managers)
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("reports.view", self.project))
+
+        parameters = {
+            "start": (timezone.now() - timedelta(days=1)).isoformat(),
+            "end": (timezone.now() + timedelta(days=1)).isoformat(),
+            "language": "",
+            "sort_by": "count",
+            "sort_order": "descending",
+            "own_data": False,
+        }
+        self.user.groups.remove(managers)
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("reports.view", self.project))
+
+        generate_report(
+            kind=Report.Kind.CREDITS,
+            parameters=parameters,
+            user_id=self.user.pk,
+            scope_type="project",
+            scope_id=str(self.project.pk),
+        )
+
+        report = Report.objects.get()
+        self.assertIn(contributor.email, str(report.data))
+        self.assertFalse(report.can_access(self.user))
+
     def test_filter_access_with_reports_permission(self) -> None:
         other_user = create_another_user("-reports")
         self.user.is_superuser = False
@@ -119,6 +204,43 @@ class StoredReportsTest(BaseReportsTest):
         self.assertTrue(self.user.has_perm("reports.view", workspace))
         self.assertTrue(report.can_access(self.user))
         self.assertEqual(list(Report.objects.filter_access(self.user)), [report])
+
+    def test_blocked_project_excludes_reports(self) -> None:
+        other_user = create_another_user("-blocked-reports")
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.user.groups.add(Group.objects.get(name="Managers"))
+        self.user.clear_permissions_cache()
+        category = self.create_category(project=self.project)
+        reports = [
+            Report.objects.create(
+                creator=other_user,
+                kind=Report.Kind.CREDITS,
+                project=self.project,
+            ),
+            Report.objects.create(
+                creator=other_user,
+                kind=Report.Kind.CREDITS,
+                category=category,
+            ),
+            Report.objects.create(
+                creator=other_user,
+                kind=Report.Kind.CREDITS,
+                component=self.component,
+            ),
+        ]
+        self.assertTrue(all(report.can_access(self.user) for report in reports))
+        self.assertCountEqual(Report.objects.filter_access(self.user), reports)
+
+        UserBlock.objects.create(user=self.user, project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.assertFalse(any(report.can_access(self.user) for report in reports))
+        self.assertFalse(
+            Report.objects.filter_access(self.user)
+            .filter(pk__in=[report.pk for report in reports])
+            .exists()
+        )
 
     def test_api_report_list_pagination(self) -> None:
         Report.objects.bulk_create(
@@ -380,7 +502,7 @@ class StoredReportsTest(BaseReportsTest):
         self.assertEqual(web.status_code, 200)
         self.assertContains(web, html.content.decode(), html=True)
 
-    def test_translator_work_excludes_inaccessible_components(self) -> None:
+    def test_project_reports_include_restricted_components(self) -> None:
         self.add_change()
         self.component.restricted = True
         self.component.save(update_fields=["restricted"])
@@ -390,25 +512,162 @@ class StoredReportsTest(BaseReportsTest):
         self.user.clear_permissions_cache()
         self.assertTrue(self.user.has_perm("reports.view", self.project))
         self.assertFalse(self.user.can_access_component(self.component))
-        now = timezone.now()
 
-        generate_report(
-            kind=Report.Kind.TRANSLATOR_WORK,
-            parameters={
-                "start": (now - timedelta(days=1)).isoformat(),
-                "end": (now + timedelta(days=1)).isoformat(),
-                "language": "",
-                "min_changes": 0,
-                "max_changes": 1000,
-                "max_words": 10000,
-                "own_data": False,
-            },
-            user_id=self.user.pk,
-            scope_type="project",
-            scope_id=str(self.project.pk),
+        for kind in Report.Kind:
+            with self.subTest(kind=kind):
+                report = self.generate_scoped_report(kind, "project", self.project)
+                self.assert_report_contains_scope_data(report)
+
+    def test_workspace_reports_include_private_projects(self) -> None:
+        self.add_change()
+        workspace = Workspace.objects.create(name="Private reporting workspace")
+        self.project.workspace = workspace
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["workspace", "access_control"])
+        workspace.add_owner(self.user)
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_permissions_cache()
+        self.assertTrue(self.user.has_perm("reports.view", workspace))
+        self.assertFalse(self.user.allowed_projects.filter(pk=self.project.pk).exists())
+
+        for kind in Report.Kind:
+            with self.subTest(kind=kind):
+                report = self.generate_scoped_report(kind, "workspace", workspace)
+                self.assert_report_contains_scope_data(report)
+
+    @patch("weblate.api.views.generate_report.delay")
+    def test_workspace_reports_only_access(self, mocked_delay) -> None:
+        mocked_delay.return_value = SimpleNamespace(id="report-task")
+        workspace = Workspace.objects.create(name="Reports-only workspace")
+        user = create_another_user("-reports-only")
+        role = Role.objects.create(name="Workspace reports only")
+        role.permissions.add(Permission.objects.get(codename="reports.view"))
+        group = Group.objects.create(
+            name="Reports only",
+            defining_workspace=workspace,
+        )
+        group.roles.add(role)
+        user.groups.add(group)
+        user.clear_permissions_cache()
+        report = Report.objects.create(
+            creator=self.user,
+            kind=Report.Kind.CREDITS,
+            parameters={"own_data": False},
+            data=[],
+            workspace=workspace,
         )
 
-        self.assertEqual(Report.objects.get().data["user_days"]["included"], 0)
+        self.assertFalse(workspace.can_view(user))
+        self.assertTrue(user.has_perm("reports.view", workspace))
+        self.assertTrue(report.can_access(user))
+        self.assertEqual(list(Report.objects.filter_access(user)), [report])
+
+        self.client.force_login(user)
+        self.assertEqual(
+            self.client.get(workspace.get_absolute_url()).status_code,
+            404,
+        )
+        response = self.client.post(
+            reverse("api:report-list"),
+            {
+                "kind": Report.Kind.CREDITS,
+                "workspace": workspace.pk,
+                "start": (timezone.now() - timedelta(days=1)).isoformat(),
+                "end": timezone.now().isoformat(),
+            },
+        )
+        self.assertEqual(response.status_code, 202)
+        self.assertFalse(mocked_delay.call_args.kwargs["parameters"]["own_data"])
+        listing = self.client.get(reverse("api:report-list"))
+        self.assertEqual(listing.status_code, 200)
+        self.assertEqual(
+            [item["id"] for item in listing.json()["results"]],
+            [report.pk],
+        )
+        self.assertEqual(
+            self.client.get(reverse("api:report-detail", args=[report.pk])).status_code,
+            200,
+        )
+        for style in ("json", "html", "rst"):
+            with self.subTest(style=style):
+                self.assertEqual(
+                    self.client.get(
+                        reverse(f"api:report-{style}", args=[report.pk])
+                    ).status_code,
+                    200,
+                )
+        self.assertEqual(
+            self.client.get(reverse("report", args=[report.pk])).status_code,
+            200,
+        )
+
+    @patch("weblate.api.views.generate_report.delay")
+    def test_workspace_report_access_requires_project_2fa(self, mocked_delay) -> None:
+        mocked_delay.return_value = SimpleNamespace(id="report-task")
+        workspace = Workspace.objects.create(name="2FA reporting workspace")
+        self.project.workspace = workspace
+        self.project.enforced_2fa = True
+        self.project.save(update_fields=["workspace", "enforced_2fa"])
+        workspace.add_owner(self.user)
+        report = Report.objects.create(
+            creator=create_another_user("-2fa-report"),
+            kind=Report.Kind.CREDITS,
+            parameters={"own_data": False},
+            data=[],
+            workspace=workspace,
+        )
+
+        self.assertTrue(self.user.is_superuser)
+        self.assertTrue(self.user.has_perm("reports.view", workspace))
+        self.assertTrue(report.can_access(self.user))
+        self.assertIn(report, Report.objects.filter_access(self.user))
+        self.client.force_login(self.user)
+        for data in (
+            {"kind": Report.Kind.COST_ESTIMATE},
+            {"kind": Report.Kind.COST_ESTIMATE, "workspace": workspace.pk},
+        ):
+            response = self.client.post(reverse("api:report-list"), data)
+            self.assertEqual(response.status_code, 202)
+            self.assertFalse(mocked_delay.call_args.kwargs["parameters"]["own_data"])
+        self.assertEqual(mocked_delay.call_count, 2)
+        mocked_delay.reset_mock()
+
+        self.user.is_superuser = False
+        self.user.save(update_fields=["is_superuser"])
+        self.user.clear_permissions_cache()
+        self.assertFalse(self.user.has_perm("reports.view", workspace))
+        self.assertFalse(report.can_access(self.user))
+        self.assertNotIn(report, Report.objects.filter_access(self.user))
+        self.client.force_login(self.user)
+        self.assertEqual(
+            self.client.get(reverse("api:report-detail", args=[report.pk])).status_code,
+            404,
+        )
+        response = self.client.post(
+            reverse("api:report-list"),
+            {"kind": Report.Kind.COST_ESTIMATE, "workspace": workspace.pk},
+        )
+        self.assertEqual(response.status_code, 403)
+        mocked_delay.assert_not_called()
+
+        TOTPDevice.objects.create(user=self.user)
+        user = User.objects.get(pk=self.user.pk)
+
+        self.assertTrue(user.has_perm("reports.view", workspace))
+        self.assertTrue(report.can_access(user))
+        self.assertIn(report, Report.objects.filter_access(user))
+        self.client.force_login(user)
+        self.assertEqual(
+            self.client.get(reverse("api:report-detail", args=[report.pk])).status_code,
+            200,
+        )
+        response = self.client.post(
+            reverse("api:report-list"),
+            {"kind": Report.Kind.COST_ESTIMATE, "workspace": workspace.pk},
+        )
+        self.assertEqual(response.status_code, 202)
+        mocked_delay.assert_called_once()
 
     def test_workspace_collection(self) -> None:
         workspace = Workspace.objects.create(name="Reporting workspace")

@@ -2488,7 +2488,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_categories_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      description: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: id
@@ -7612,7 +7613,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_components_reports_create
-      description: Schedule report generation using the endpoint object as scope.
+      description: Schedule report generation using the endpoint object as the complete
+        report scope.
       parameters:
       - in: path
         name: project__slug
@@ -19641,7 +19643,8 @@ paths:
               $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_reports_create
-      description: Schedule generation of a stored report.
+      description: Schedule generation of a stored report. The reports.view permission
+        authorizes the complete selected scope.
       tags:
       - reports
       requestBody:

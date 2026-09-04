@@ -61,8 +61,10 @@ Scope and intended use
      - Report forms and :http:get:`/api/reports/` endpoints
      - Database snapshots and background tasks
      - In scope as authenticated, permission-checked contributor data with
-       operator-configured retention. *(documented)* (source:
-       :doc:`/devel/reporting`, :doc:`/api`)
+       operator-configured retention. The selected report scope is the
+       authorization boundary, including private projects and restricted
+       components below it. *(documented)* (source: :doc:`/devel/reporting`,
+       :doc:`/api`)
    * - Authentication, sessions, and authorization
      - Login, 2FA, SSO, teams, permissions, project access, API tokens
      - Database, identity providers, browser cookies
@@ -692,7 +694,12 @@ Security properties Weblate provides
        permission against the current linked-component scope in the worker
        before mutation. Weblate's normal background commit and push of
        authorized translation changes does not require the editor to have
-       these VCS permissions. Translation memory
+       these VCS permissions. The ``reports.view`` permission authorizes all
+       report data in the selected scope, including private projects and
+       restricted components below it. Complete workspace-level report access
+       requires two-factor authentication for regular users if any project in
+       the workspace enforces it. Superusers and bot accounts are exempt.
+       Translation memory
        attributed to an existing restricted component follows that component's
        access rules.
        Unattributed automatic memory, including unmatched legacy entries and
@@ -986,6 +993,11 @@ Known non-findings
 * A report that a project manager can change repository settings, VCS
   credentials, or project configuration is not a vulnerability when the actor
   has the documented permission for that action. *(documented)* (source: :doc:`/admin/access`)
+* A report containing private-project or restricted-component data is not a
+  vulnerability when the user has effective ``reports.view`` permission on the
+  selected parent scope. That permission intentionally authorizes the complete
+  report scope. *(documented)* (source: :doc:`/devel/reporting`,
+  :doc:`/admin/access`)
 * A report that a project manager can configure Gerrit review push options is
   not a vulnerability by itself. Gerrit interprets these options as the
   configured Weblate Gerrit account and enforces Gerrit-side permissions.

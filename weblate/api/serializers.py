@@ -254,7 +254,11 @@ class ReportCreateSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 gettext_lazy("Invalid workspace.")
             ) from error
-        if self.request_user is not None and not workspace.can_view(self.request_user):
+        if (
+            self.request_user is not None
+            and not workspace.can_view(self.request_user)
+            and not self.request_user.has_perm("reports.view", workspace)
+        ):
             raise serializers.ValidationError(gettext_lazy("Invalid workspace."))
         return workspace
 
