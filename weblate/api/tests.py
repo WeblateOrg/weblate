@@ -112,7 +112,10 @@ from weblate.trans.tests.utils import (
     get_test_file,
 )
 from weblate.trans.util import join_plural
-from weblate.trans.validators import SUGGESTION_REJECTION_REASON_LENGTH
+from weblate.trans.validators import (
+    SUGGESTION_REJECTION_REASON_LENGTH,
+    get_translation_text_max_length,
+)
 from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -12973,6 +12976,28 @@ class UnitAPITest(APIBaseTest):
         # The auto fixer adds the trailing newline
         self.assertEqual(unit.target, "Test translation\n")
 
+    def test_translate_unit_too_long(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        original_target = unit.target
+        target = "x" * (get_translation_text_max_length(unit) + 1)
+
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": "20", "target": target},
+        )
+
+        self.assertEqual(
+            response.data["errors"][0]["detail"], "Translation text too long!"
+        )
+        self.assertEqual(response.data["errors"][0]["attr"], "target")
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, original_target)
+
     def test_translate_unit_deleted_mid_request(self) -> None:
         """Unit removed between get_object() and the locking re-fetch."""
         unit = Unit.objects.get(
@@ -13872,7 +13897,7 @@ class SuggestionAPITest(APIBaseTest):
 
     def test_add_suggestion_too_long(self) -> None:
         unit = self._get_unit()
-        max_length = 10 * (unit.get_max_length() + 100)
+        max_length = get_translation_text_max_length(unit)
         response = self._add_suggestion(unit, "x" * (max_length + 1), code=400)
         self.assertEqual(
             response.data["errors"][0]["detail"], "Translation text too long!"
