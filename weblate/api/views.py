@@ -73,6 +73,7 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    AutoTranslateRequestSerializer,
     AutoTranslateResponseSerializer,
     BackupSerializer,
     BasicUserSerializer,
