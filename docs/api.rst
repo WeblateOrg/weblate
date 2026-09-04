@@ -3375,7 +3375,9 @@ Reports
 
     Lists stored reports accessible to the authenticated user. The optional
     ``kind``, ``workspace``, ``project``, ``category``, and ``component`` query
-    parameters filter the result.
+    parameters filter the result. The :guilabel:`Manage reports` permission is
+    authoritative for the selected scope and includes reports containing data
+    from private projects and restricted components below that scope.
 
 .. http:post:: /api/reports/
 
@@ -3384,7 +3386,9 @@ Reports
     ``credits``, ``contributor_stats``, ``cost_estimate``, or ``translator_work``.
     Specify at most one of ``workspace``, ``project``, ``category``, or
     ``component``; omitting all of them creates a global report. Contribution
-    reports require ``start`` and ``end`` ISO 8601 timestamps.
+    reports require ``start`` and ``end`` ISO 8601 timestamps. A workspace can
+    be selected when the user has :guilabel:`Manage reports` for it, even without
+    access to the regular workspace page.
 
 .. http:get:: /api/reports/(int:id)/
 

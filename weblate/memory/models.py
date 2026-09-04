@@ -131,6 +131,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         *,
         user: User | None = None,
         access_user: User | None = None,
+        additional_component_access: Q | None = None,
         project: Project | None = None,
         workspace: Workspace | None = None,
         use_shared: bool = False,
@@ -139,6 +140,15 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         check_component_access: bool,
     ) -> Q:
         query = Q(pk__isnull=True)
+        component_access = Q()
+        shared_component_access = Q()
+        if check_component_access:
+            component_access = self.get_component_access_query(access_user)
+            shared_component_access = self.get_shared_component_access_query()
+            if additional_component_access is not None:
+                if component_access:
+                    component_access |= additional_component_access
+                shared_component_access |= additional_component_access
         if from_file:
             query |= Q(scope=MemoryScope.SCOPE_GLOBAL_FILE)
         if use_shared:
@@ -147,12 +157,12 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
                 source_project__contribute_shared_tm=True,
             )
             if check_component_access:
-                shared_query &= self.get_shared_component_access_query()
+                shared_query &= shared_component_access
             query |= shared_query
         if project:
             project_query = Q(scope=MemoryScope.SCOPE_PROJECT, project=project)
             if check_component_access:
-                project_query &= self.get_component_access_query(access_user)
+                project_query &= component_access
             query |= project_query
             query |= Q(scope=MemoryScope.SCOPE_PROJECT_FILE, project=project)
             if use_workspace and project.effective_use_workspace_tm:
@@ -165,7 +175,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
                     source_project__workspace__contribute_workspace_tm=True,
                 )
                 if check_component_access:
-                    workspace_query &= self.get_component_access_query(access_user)
+                    workspace_query &= component_access
                 query |= workspace_query
         if workspace:
             workspace_query = Q(
@@ -173,7 +183,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
                 workspace=workspace,
             )
             if check_component_access:
-                workspace_query &= self.get_component_access_query(access_user)
+                workspace_query &= component_access
             query |= workspace_query
         if user:
             query |= Q(scope=MemoryScope.SCOPE_USER, user=user)
@@ -185,6 +195,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         *,
         user: User | None = None,
         access_user: User | None = None,
+        additional_component_access: Q | None = None,
         project: Project | None = None,
         workspace: Workspace | None = None,
         use_shared: bool = False,
@@ -195,6 +206,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         return self._get_type_scope_query(
             user=user,
             access_user=access_user,
+            additional_component_access=additional_component_access,
             project=project,
             workspace=workspace,
             use_shared=use_shared,
@@ -225,6 +237,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         *,
         user: User | None = None,
         access_user: User | None = None,
+        additional_component_access: Q | None = None,
         project: Project | None = None,
         workspace: Workspace | None = None,
         use_shared: bool = False,
@@ -238,6 +251,7 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
             base.get_type_scope_query(
                 user=user,
                 access_user=access_user,
+                additional_component_access=additional_component_access,
                 project=project,
                 workspace=workspace,
                 use_shared=use_shared,
@@ -544,11 +558,14 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
         user,
         project,
         use_shared,
+        *,
+        additional_component_access: Q | None = None,
     ) -> Self:
         return (
             self.filter_type(
                 user=user,
                 access_user=user,
+                additional_component_access=additional_component_access,
                 project=project,
                 use_shared=use_shared,
                 from_file=True,

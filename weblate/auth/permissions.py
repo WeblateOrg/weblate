@@ -1292,6 +1292,13 @@ def check_possibly_global(
 ) -> bool | PermissionResult:
     if obj is None or isinstance(obj, Language):
         return user.is_superuser
+    if (
+        permission == "reports.view"
+        and isinstance(obj, Workspace)
+        and not (user.is_superuser or user.is_bot or user.profile.has_2fa)
+        and obj.projects.filter(enforced_2fa=True).exists()
+    ):
+        return False
     return check_permission(user, permission, obj)
 
 

@@ -5314,6 +5314,7 @@ class LookupPolicyTest(SimpleTestCase):
         filter_type.assert_called_once_with(
             user=None,
             access_user=None,
+            additional_component_access=None,
             project=None,
             use_shared=False,
             from_file=True,
@@ -5351,6 +5352,7 @@ class LookupPolicyTest(SimpleTestCase):
         filter_type.assert_called_once_with(
             user=None,
             access_user=None,
+            additional_component_access=None,
             project=None,
             use_shared=False,
             from_file=True,
@@ -5402,6 +5404,7 @@ class LookupPolicyTest(SimpleTestCase):
             None,
             project,
             False,
+            additional_component_access=None,
         )
         queryset.get_scored_fuzzy_candidates.assert_called_once()
         call_args = queryset.get_scored_fuzzy_candidates.call_args
@@ -5461,6 +5464,7 @@ class LookupPolicyTest(SimpleTestCase):
         filter_type.assert_called_once_with(
             user=None,
             access_user=None,
+            additional_component_access=None,
             project=None,
             use_shared=False,
             from_file=True,
