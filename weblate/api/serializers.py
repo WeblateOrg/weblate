@@ -4490,9 +4490,8 @@ class ErrorResponse423Serializer(serializers.Serializer):
 
 
 class AutoTranslateRequestSerializer(serializers.Serializer):
-    """
-    Request body for the autotranslate action.
-    """
+    """Request body for the autotranslate action."""
+
     # Mirrors :class:`weblate.trans.forms.AutoForm`.  Keep the two in sync
     # when adding or removing fields.
 
