@@ -54,14 +54,14 @@
                     {% if addon.is_valid %}
                       {% if item.inherited %}
                         {% if item.can_manage %}
-                          {% include 'addons/addon_head.html' with addon=addon.addon show_settings=True scope_label=item.scope_label scope_description=item.scope_description url=addon.get_absolute_url %}
+                          {% include "addons/addon_head.html" with addon=addon.addon show_settings=True scope_label=item.scope_label scope_description=item.scope_description url=addon.get_absolute_url %}
                         {% else %}
-                          {% include 'addons/addon_head.html' with addon=addon.addon show_settings=False scope_label=item.scope_label scope_description=item.scope_description %}
+                          {% include "addons/addon_head.html" with addon=addon.addon show_settings=False scope_label=item.scope_label scope_description=item.scope_description %}
                         {% endif %}
                       {% elif scope == "component" and addon.repo_scope %}
-                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage url=addon.get_absolute_url %}
+                        {% include "addons/addon_head.html" with addon=addon.addon show_settings=item.can_manage url=addon.get_absolute_url %}
                       {% else %}
-                        {% include 'addons/addon_head.html' with addon=addon.addon show_settings=item.can_manage hide_scope_badges=True url=addon.get_absolute_url %}
+                        {% include "addons/addon_head.html" with addon=addon.addon show_settings=item.can_manage hide_scope_badges=True url=addon.get_absolute_url %}
                       {% endif %}
                     {% else %}
                       <h4>
@@ -99,7 +99,7 @@
           <tbody>
             {% for addon in available %}
               <tr>
-                <td>{% include 'addons/addon_head.html' with addon=addon %}</td>
+                <td>{% include "addons/addon_head.html" with addon=addon %}</td>
                 <td class="bottom-button">
                   {% if scope != "component" and addon.needs_component %}
                     <button class="btn btn-primary"

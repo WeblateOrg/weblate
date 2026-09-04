@@ -29,7 +29,7 @@
           <div {% if field.auto_id %}id="{{ field.auto_id }}_helptext"{% endif %}
                class="form-text">{% get_upload_method_help option.value %}</div>
           {% if field.errors and forloop.last and not inline_class and forloop.parentloop.last %}
-            {% include 'bootstrap5/layout/field_errors_block.html' %}
+            {% include "bootstrap5/layout/field_errors_block.html" %}
           {% endif %}
         </div>
       {% endfor %}
@@ -45,5 +45,5 @@
       {% endfor %}
     </div>
   {% endif %}
-  {% include 'bootstrap5/layout/help_text.html' %}
+  {% include "bootstrap5/layout/help_text.html" %}
 </div>
