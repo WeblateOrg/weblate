@@ -16,6 +16,7 @@ Weblate 2026.9.1
 .. rubric:: Security fixes
 
 * Borg backup passphrases are now recursively scrubbed from Sentry error reports, including when a custom event scrubber is configured.
+* Font overrides are now restricted to fonts uploaded to the same project.
 
 .. rubric:: Bug fixes
 
