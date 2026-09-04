@@ -7,6 +7,7 @@ from __future__ import annotations
 import re
 import threading
 from collections import defaultdict
+from heapq import merge
 from html.parser import HTMLParser as StdHTMLParser
 from typing import TYPE_CHECKING, Any, NamedTuple
 
@@ -18,7 +19,7 @@ from lxml.etree import HTMLParser
 from lxml.html.defs import tags as lxml_html_tags
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Iterable, Iterator
 
     from django.utils.safestring import SafeString
     from lxml.etree import ParserTarget
@@ -60,17 +61,177 @@ MD_SYNTAX = re.compile(
     |
     (\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)    # *word*
     |
-    (`+)\s*(?:[\s\S]*?[^`])\s*\5(?!`)   # `code`
-    |
     (~~)(?=\S)(?:[\s\S]*?\S)~~          # ~~word~~
-    |
-    (<)(?:https?://[^>]+)>              # URL
-    |
-    (<)(?:[^>]+@[^>]+\.[^>]+)>          # E-mail
     """,
     re.VERBOSE,
 )
-MD_SYNTAX_GROUPS = 8
+
+
+class MarkdownSyntax(NamedTuple):
+    start: int
+    end: int
+    value: str
+
+
+def _is_markdown_autolink(value: str) -> bool:
+    """Return whether an angle-delimited value is a supported autolink."""
+    if value.startswith("http://"):
+        return len(value) > 7
+    if value.startswith("https://"):
+        return len(value) > 8
+
+    has_at = False
+    characters_after_at = 0
+    for position, character in enumerate(value):
+        if not has_at:
+            if character == "@" and position > 0:
+                has_at = True
+        else:
+            if character == "." and characters_after_at and position + 1 < len(value):
+                return True
+            characters_after_at += 1
+    return False
+
+
+def iter_markdown_autolinks(text: str) -> Iterator[MarkdownSyntax]:
+    """Yield supported Markdown autolinks in one pass."""
+    opening: int | None = None
+    backslashes = 0
+    for position, character in enumerate(text):
+        if character == "\\":
+            backslashes += 1
+            continue
+        escaped = backslashes % 2 == 1
+        backslashes = 0
+        if character == "<" and not escaped:
+            opening = position
+        elif character == ">" and opening is not None:
+            if _is_markdown_autolink(text[opening + 1 : position]):
+                yield MarkdownSyntax(opening, position + 1, "<")
+            opening = None
+
+
+def _iter_markdown_code_spans(
+    text: str, excluded_opening_ranges: Iterable[tuple[int, int]]
+) -> Iterator[MarkdownSyntax]:
+    """Yield Markdown code spans without reconsidering backtick runs."""
+    runs: list[tuple[int, int, bool, bool]] = []
+    position = 0
+    length = len(text)
+    backslashes = 0
+    while position < length:
+        if text[position] != "`":
+            if text[position] == "\\":
+                backslashes += 1
+            else:
+                backslashes = 0
+            position += 1
+            continue
+        end = position + 1
+        while end < length and text[end] == "`":
+            end += 1
+        if backslashes % 2:
+            # A backslash escapes the first tick outside a code span. Preserve
+            # the maximal run as a possible closer, where escapes are literal,
+            # and expose the remaining suffix as a possible opener.
+            runs.append((position, end, False, True))
+            if position + 1 < end:
+                runs.append((position + 1, end, True, False))
+        else:
+            runs.append((position, end, True, True))
+        position = end
+        backslashes = 0
+
+    next_run: list[int | None] = [None] * len(runs)
+    last_by_length: dict[int, int] = {}
+    for index in range(len(runs) - 1, -1, -1):
+        start, end, _can_open, can_close = runs[index]
+        run_length = end - start
+        next_run[index] = last_by_length.get(run_length)
+        if can_close:
+            last_by_length[run_length] = index
+
+    excluded_ranges = iter(excluded_opening_ranges)
+    excluded_start, excluded_end = next(excluded_ranges, (length, length))
+    index = 0
+    while index < len(runs):
+        start, opening_end, can_open, _can_close = runs[index]
+        while excluded_end <= start:
+            excluded_start, excluded_end = next(excluded_ranges, (length, length))
+        if not can_open or excluded_start <= start < excluded_end:
+            index += 1
+            continue
+        closing_index = next_run[index]
+        if closing_index is None:
+            index += 1
+            continue
+        _closing_start, end, _can_open, _can_close = runs[closing_index]
+        yield MarkdownSyntax(start, end, text[start:opening_end])
+        index = closing_index + 1
+        while index < len(runs) and runs[index][0] < end:
+            index += 1
+
+
+def iter_markdown_code_spans(text: str) -> Iterator[MarkdownSyntax]:
+    """Yield Markdown code spans without reconsidering backtick runs."""
+    autolinks = list(iter_markdown_autolinks(text))
+    yield from _iter_markdown_code_spans(
+        text, ((match.start, match.end) for match in autolinks)
+    )
+
+
+def iter_markdown_syntax(text: str) -> Iterator[MarkdownSyntax]:
+    """Yield Markdown syntax while treating code spans as opaque text."""
+    autolinks = list(iter_markdown_autolinks(text))
+    code_spans = list(
+        _iter_markdown_code_spans(
+            text, ((match.start, match.end) for match in autolinks)
+        )
+    )
+    code_span_index = 0
+    visible_autolinks: list[MarkdownSyntax] = []
+    for autolink in autolinks:
+        while (
+            code_span_index < len(code_spans)
+            and code_spans[code_span_index].end <= autolink.start
+        ):
+            code_span_index += 1
+        if (
+            code_span_index < len(code_spans)
+            and code_spans[code_span_index].start
+            < autolink.start
+            < code_spans[code_span_index].end
+        ):
+            # A code span starting before an apparent autolink takes precedence.
+            continue
+        visible_autolinks.append(autolink)
+
+    opaque_syntax = list(
+        merge(code_spans, visible_autolinks, key=lambda match: match.start)
+    )
+    if opaque_syntax:
+        masked_parts: list[str] = []
+        position = 0
+        for span in opaque_syntax:
+            masked_parts.extend(
+                (text[position : span.start], "x" * (span.end - span.start))
+            )
+            position = span.end
+        masked_parts.append(text[position:])
+        masked = "".join(masked_parts)
+    else:
+        masked = text
+
+    regex_syntax = (
+        MarkdownSyntax(
+            match.start(),
+            match.end(),
+            next((group for group in match.groups() if group), ""),
+        )
+        for match in MD_SYNTAX.finditer(masked)
+    )
+    yield from merge(regex_syntax, opaque_syntax, key=lambda match: match.start)
+
 
 AUTO_SAFE_HTML_START = re.compile(r"<(?=[!/?A-Za-z])")
 AUTO_SAFE_HTML_SEGMENT = re.compile(

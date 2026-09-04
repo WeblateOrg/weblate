@@ -25,7 +25,7 @@ documentation; ``*(maintainer)*`` means it was stated by a maintainer during
 this threat-model process; ``*(inferred)*`` means it was reasoned from the
 current project shape and needs maintainer confirmation.
 
-Provenance summary: 118 documented / 69 maintainer / 0 inferred claims.
+Provenance summary: 118 documented / 70 maintainer / 0 inferred claims.
 
 Weblate is a Django-based web localization platform. It accepts work from
 browser users, API clients, project-scoped tokens, repository webhooks, VCS
@@ -798,6 +798,14 @@ Security properties Weblate provides
      - Rate limiting is enabled and backed by a working datastore.
      - Requests exceeding configured thresholds continue to be processed.
      - Availability/security hardening depending on endpoint sensitivity.
+   * - Built-in translation quality checks must not permit user-controlled
+       content within configured size limits to monopolize synchronous request
+       workers through disproportionate resource consumption. *(maintainer)*
+     - The check is enabled and runs during a supported browser or API
+       translation write.
+     - A single accepted translation causes CPU or memory consumption
+       disproportionate to its size and stalls a request worker.
+     - Security-critical for single-request DoS; otherwise availability bug.
    * - Generic webhooks schedule repository updates only for eligible components
        whose repository URL exactly matches a repository URL from the payload,
        including documented URL variants. Components managed through an
