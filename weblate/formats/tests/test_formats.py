@@ -3198,6 +3198,16 @@ class CustomFlatXMLFormatTest(FlatXMLFormatTest):
         "flatxml_key_name": "name",
     }
 
+    def test_parameter_whitespace_is_normalized(self) -> None:
+        with (
+            self.temporary_file_format_param("flatxml_root_name", " dictionary "),
+            self.temporary_file_format_param("flatxml_value_name", " entry "),
+            self.temporary_file_format_param("flatxml_key_name", " name "),
+        ):
+            storage = self.parse_file(self.FILE)
+
+        self.assertEqual(len(storage.all_units), self.COUNT)
+
 
 class ResourceDictionaryFormatTest(BaseFormatTest):
     format_class = ResourceDictionaryFormat

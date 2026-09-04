@@ -156,6 +156,19 @@ def get_default_params_for_file_format(file_format: str) -> FileFormatParams:
     )
 
 
+def get_effective_params_for_file_format(
+    file_format: str, file_format_params: FileFormatParams | None
+) -> FileFormatParams:
+    """Get normalized effective values for file format parameters."""
+    return cast(
+        "FileFormatParams",
+        {
+            param.name: param.get_value(file_format_params)
+            for param in get_params_for_file_format(file_format)
+        },
+    )
+
+
 def strip_unused_file_format_params(
     file_format: str, file_format_params: FileFormatParams
 ) -> FileFormatParams:
