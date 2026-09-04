@@ -101,7 +101,9 @@
       {% endif %}
       <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %}
           class="translator">
-        <button class="btn btn-light btn-sm hide-sticky" title="{% translate "Collapse" %}">{% icon "close.svg" %}</button>
+        <button class="btn btn-light btn-sm hide-sticky"
+                title="{% translate "Collapse" %}"
+                type="button">{% icon "close.svg" %}</button>
         {% crispy item.form %}
       </td>
     </tr>
