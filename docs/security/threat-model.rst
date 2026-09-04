@@ -697,7 +697,12 @@ Security properties Weblate provides
        access rules.
        Unattributed automatic memory, including unmatched legacy entries and
        memory retained after component removal, follows its remaining
-       translation-memory scope.
+       translation-memory scope. Private and Custom project engage pages and
+       rendered status widgets follow project access control unless a trusted
+       access manager enables :ref:`project-public_sharing`. That explicit
+       opt-in publishes project and component names, including restricted
+       components, together with translation statistics, languages, and
+       progress, but does not grant access to project content or APIs.
      - User or token can read or mutate data outside assigned scope.
      - Security-critical when private data or privileged mutation is exposed.
    * - Project-scoped API tokens are limited by assigned project/team

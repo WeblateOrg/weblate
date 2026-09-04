@@ -1011,9 +1011,17 @@ class BackupsTest(ViewTestCase):
     def test_backup_settings(self) -> None:
         project = self.project
         project.autoclean_tm = not project.autoclean_tm
+        project.public_sharing = True
         project.enforced_2fa = True
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
-        project.save(update_fields=["autoclean_tm", "enforced_2fa", "commit_policy"])
+        project.save(
+            update_fields=[
+                "autoclean_tm",
+                "public_sharing",
+                "enforced_2fa",
+                "commit_policy",
+            ]
+        )
         component = self.create_po_mono(project=project, name="Backup-settings")
         component.hide_glossary_matches = True
         component.contribute_project_tm = False
@@ -1042,6 +1050,7 @@ class BackupsTest(ViewTestCase):
             )["component"]
 
         self.assertEqual(project_data["autoclean_tm"], project.autoclean_tm)
+        self.assertTrue(project_data["public_sharing"])
         self.assertTrue(project_data["enforced_2fa"])
         self.assertEqual(
             project_data["commit_policy"], CommitPolicyChoices.APPROVED_ONLY
@@ -1064,6 +1073,7 @@ class BackupsTest(ViewTestCase):
         restored_component = restored.component_set.get(slug=component.slug)
 
         self.assertEqual(restored.autoclean_tm, project.autoclean_tm)
+        self.assertTrue(restored.public_sharing)
         self.assertTrue(restored.enforced_2fa)
         self.assertEqual(restored.commit_policy, CommitPolicyChoices.APPROVED_ONLY)
         self.assertTrue(restored_component.hide_glossary_matches)

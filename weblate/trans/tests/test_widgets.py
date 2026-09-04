@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, Any, cast
 from unittest.mock import patch
 
 from django.http import HttpResponse
-from django.test import RequestFactory, SimpleTestCase
+from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.urls import reverse
 from PIL import Image
 
@@ -24,7 +24,7 @@ from weblate.fonts.render import (
 )
 from weblate.trans.checklists import TranslationChecklistMixin
 from weblate.trans.filter import FILTERS
-from weblate.trans.models import Translation
+from weblate.trans.models import Project, Translation
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.views.widgets import WIDGETS
 from weblate.trans.widgets import (
@@ -345,6 +345,157 @@ class WidgetsTest(FixtureTestCase):
                 for call in mocked_draw_text.call_args_list
             )
         )
+
+
+class PublicSharingTest(FixtureTestCase):
+    def get_sharing_urls(self) -> list[str]:
+        return [
+            reverse("engage", kwargs={"path": self.project.get_url_path()}),
+            reverse(
+                "engage",
+                kwargs={"path": [*self.project.get_url_path(), "-", "cs"]},
+            ),
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.project.get_url_path(),
+                    "widget": "svg",
+                    "color": "badge",
+                    "extension": "svg",
+                },
+            ),
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.component.get_url_path(),
+                    "widget": "svg",
+                    "color": "badge",
+                    "extension": "svg",
+                },
+            ),
+            reverse(
+                "widget-image",
+                kwargs={
+                    "path": self.translation.get_url_path(),
+                    "widget": "svg",
+                    "color": "badge",
+                    "extension": "svg",
+                },
+            ),
+        ]
+
+    def set_project_access(self, access_control: int, public_sharing: bool) -> None:
+        self.project.access_control = access_control
+        self.project.public_sharing = public_sharing
+        self.project.save(update_fields=["access_control", "public_sharing"])
+
+    def test_public_and_protected_projects_are_shared(self) -> None:
+        self.client.logout()
+        for access_control in (Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED):
+            with self.subTest(access_control=access_control):
+                self.set_project_access(access_control, public_sharing=False)
+                self.assertTrue(self.project.is_publicly_shared)
+                for url in self.get_sharing_urls():
+                    self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_private_and_custom_projects_require_public_sharing(self) -> None:
+        self.client.logout()
+        for access_control in (Project.ACCESS_PRIVATE, Project.ACCESS_CUSTOM):
+            with self.subTest(access_control=access_control):
+                self.set_project_access(access_control, public_sharing=False)
+                self.assertFalse(self.project.is_publicly_shared)
+                for url in self.get_sharing_urls():
+                    self.assertEqual(self.client.get(url).status_code, 404)
+
+                self.set_project_access(access_control, public_sharing=True)
+                self.assertTrue(self.project.is_publicly_shared)
+                for url in self.get_sharing_urls():
+                    self.assertEqual(self.client.get(url).status_code, 200)
+
+    def test_public_sharing_value_survives_access_control_changes(self) -> None:
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=True)
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save(update_fields=["access_control"])
+        self.project.refresh_from_db()
+        self.assertTrue(self.project.public_sharing)
+
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save(update_fields=["access_control"])
+        self.project.refresh_from_db()
+        self.assertTrue(self.project.is_publicly_shared)
+
+    def test_authorized_user_can_access_private_sharing_pages(self) -> None:
+        self.project.add_user(self.user, "Administration")
+        self.user.clear_permissions_cache()
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=False)
+
+        for url in self.get_sharing_urls():
+            self.assertEqual(self.client.get(url).status_code, 200)
+
+        response = self.client.get(self.get_sharing_urls()[0])
+        self.assertContains(response, '<meta name="robots" content="noindex,nofollow"')
+
+    def test_restricted_component_widget_follows_project_sharing(self) -> None:
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+        self.client.logout()
+        widget_url = self.get_sharing_urls()[3]
+
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=False)
+        self.assertEqual(self.client.get(widget_url).status_code, 404)
+
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=True)
+        self.assertEqual(self.client.get(widget_url).status_code, 200)
+
+    def test_widget_configuration_remains_access_controlled(self) -> None:
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=True)
+        self.client.logout()
+
+        response = self.client.get(
+            reverse("widgets", kwargs={"path": self.project.get_url_path()})
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_missing_sharing_paths_return_not_found(self) -> None:
+        self.client.logout()
+        self.assertEqual(
+            self.client.get(
+                reverse("engage", kwargs={"path": ["missing-project"]})
+            ).status_code,
+            404,
+        )
+        self.assertEqual(
+            self.client.get(
+                reverse(
+                    "widget-image",
+                    kwargs={
+                        "path": ["missing-project"],
+                        "widget": "svg",
+                        "color": "badge",
+                        "extension": "svg",
+                    },
+                )
+            ).status_code,
+            404,
+        )
+
+    @override_settings(ENABLE_SHARING=True)
+    def test_community_menu_follows_project_sharing(self) -> None:
+        self.user.is_superuser = True
+        self.user.save(update_fields=["is_superuser"])
+
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=False)
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertNotContains(response, ">Community<")
+
+        self.set_project_access(Project.ACCESS_PRIVATE, public_sharing=True)
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertContains(response, ">Community<")
+
+        self.set_project_access(Project.ACCESS_PUBLIC, public_sharing=False)
+        response = self.client.get(self.project.get_absolute_url())
+        self.assertContains(response, ">Community<")
 
 
 class WidgetsMeta(type):

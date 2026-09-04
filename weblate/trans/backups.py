@@ -107,6 +107,7 @@ ModelT = TypeVar("ModelT", bound="Model")
 PROJECTBACKUP_PREFIX = "projectbackups"
 BackupValue = str | int | bool | dict[str, Any] | list[Any] | None
 PROJECT_BACKUP_FIELDS = (
+    "public_sharing",
     "use_workspace_tm",
     "contribute_workspace_tm",
     "autoclean_tm",

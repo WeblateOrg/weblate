@@ -1715,6 +1715,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "enable_hooks",
             "language_aliases",
             "access_control",
+            "public_sharing",
             "use_shared_tm",
             "contribute_shared_tm",
             "use_workspace_tm",
@@ -1910,6 +1911,23 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
                     raise serializers.ValidationError({"workspace": error})
 
         Project.apply_hosted_tm_contribution(attrs, defaults=self.instance)
+
+        if (
+            self.instance is not None
+            and "public_sharing" in attrs
+            and attrs["public_sharing"] != self.instance.public_sharing
+        ):
+            request = self.context.get("request")
+            if request is None or not request.user.has_perm(
+                "billing:project.permissions", self.instance
+            ):
+                raise serializers.ValidationError(
+                    {
+                        "public_sharing": (
+                            "You do not have permission to change project access settings."
+                        )
+                    }
+                )
 
         access_control_provided = "access_control" in (
             attrs if self.instance is not None else getattr(self, "initial_data", {})

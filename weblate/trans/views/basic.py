@@ -83,6 +83,7 @@ from weblate.utils.views import (
     get_paginator,
     optional_form,
     parse_path,
+    parse_path_for_public_sharing,
     show_form_errors,
     try_set_language,
 )
@@ -202,8 +203,7 @@ def show_engage(request: AuthenticatedHttpRequest, path):
     # Legacy URL
     if len(path) == 2:
         return redirect("engage", permanent=True, path=[path[0], "-", path[1]])
-    # Get project object, skipping ACL
-    obj = parse_path(None, path, (ProjectLanguage, Project))
+    obj = parse_path_for_public_sharing(request, path, (ProjectLanguage, Project))
 
     translate_object = None
     if isinstance(obj, ProjectLanguage):
@@ -231,7 +231,7 @@ def show_engage(request: AuthenticatedHttpRequest, path):
         request,
         "engage.html",
         {
-            "allow_index": True,
+            "allow_index": project.is_publicly_shared,
             "object": obj,
             "path_object": obj,
             "project": project,

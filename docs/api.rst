@@ -989,6 +989,8 @@ Projects
     :type workspace: string
     :param access_control: :ref:`project-access_control`
     :type access_control: integer
+    :param public_sharing: :ref:`project-public_sharing`
+    :type public_sharing: boolean
     :param use_shared_tm: :ref:`project-use_shared_tm`
     :type use_shared_tm: boolean
     :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
@@ -1028,6 +1030,7 @@ Projects
     :>json string language_aliases: :ref:`project-language_aliases`
     :>json string license: :ref:`project-license`
     :>json integer access_control: :ref:`project-access_control`
+    :>json boolean public_sharing: :ref:`project-public_sharing`
     :>json boolean use_shared_tm: :ref:`project-use_shared_tm`
     :>json boolean contribute_shared_tm: :ref:`project-contribute_shared_tm`
     :>json boolean use_workspace_tm: :ref:`project-use-workspace-tm`
@@ -1071,7 +1074,8 @@ Projects
             "access_control": 100
         }
 
-    Changing ``access_control`` requires permission to manage project access.
+    Changing ``access_control`` or ``public_sharing`` requires permission to
+    manage project access.
     Making a project publicly accessible can require licenses on its components
     when :setting:`LICENSE_REQUIRED` is enabled. On Hosted Weblate, Custom
     access control is unavailable and each translation-memory contribution
@@ -1092,6 +1096,8 @@ Projects
     :type license: string
     :param access_control: :ref:`project-access_control`
     :type access_control: integer
+    :param public_sharing: :ref:`project-public_sharing`
+    :type public_sharing: boolean
     :param use_shared_tm: :ref:`project-use_shared_tm`
     :type use_shared_tm: boolean
     :param contribute_shared_tm: :ref:`project-contribute_shared_tm`
@@ -1123,6 +1129,8 @@ Projects
     :type license: string
     :param access_control: :ref:`project-access_control`
     :type access_control: integer
+    :param public_sharing: :ref:`project-public_sharing`
+    :type public_sharing: boolean
     :param use_shared_tm: :ref:`project-use_shared_tm`
     :type use_shared_tm: boolean
     :param contribute_shared_tm: :ref:`project-contribute_shared_tm`

@@ -3613,6 +3613,7 @@ class ProjectAPITest(APIBaseTest):
             "http://example.com/api/projects/test/metrics/",
         )
         self.assertEqual(response.data["access_control"], self.project.access_control)
+        self.assertFalse(response.data["public_sharing"])
         self.assertEqual(response.data["use_shared_tm"], self.project.use_shared_tm)
         self.assertEqual(
             response.data["contribute_shared_tm"], self.project.contribute_shared_tm
@@ -5520,6 +5521,52 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["access_control"], Project.ACCESS_PRIVATE)
         self.assertEqual(self.project.access_control, Project.ACCESS_PRIVATE)
 
+    def test_patch_public_sharing(self) -> None:
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"public_sharing": True},
+        )
+
+        self.project.refresh_from_db()
+        self.assertTrue(response.data["public_sharing"])
+        self.assertTrue(self.project.public_sharing)
+
+    def test_patch_public_sharing_requires_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=400,
+            format="json",
+            request={"public_sharing": True},
+        )
+
+        self.project.refresh_from_db()
+        self.assertFalse(self.project.public_sharing)
+
+    def test_patch_unchanged_public_sharing_without_permission(self) -> None:
+        self.grant_perm_to_user("project.edit", project=self.project)
+        self.user.clear_permissions_cache()
+
+        response = self.do_request(
+            "api:project-detail",
+            self.project_kwargs,
+            method="patch",
+            code=200,
+            format="json",
+            request={"public_sharing": False},
+        )
+
+        self.assertFalse(response.data["public_sharing"])
+
     def test_patch_access_control_requires_permission(self) -> None:
         self.grant_perm_to_user("project.edit", project=self.project)
         self.user.clear_permissions_cache()
@@ -5651,6 +5698,24 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(
             response.data["access_control"], settings.DEFAULT_ACCESS_CONTROL
         )
+
+    def test_create_public_sharing(self) -> None:
+        self.grant_perm_to_user("project.add")
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            format="json",
+            request={
+                "name": "Shared project",
+                "slug": "shared-project",
+                "web": "https://weblate.org/",
+                "public_sharing": True,
+            },
+        )
+
+        self.assertTrue(response.data["public_sharing"])
+        self.assertTrue(Project.objects.get(slug="shared-project").public_sharing)
 
     def test_create_access_control_requires_superuser(self) -> None:
         self.grant_perm_to_user("project.add")
@@ -17488,6 +17553,13 @@ class OpenAPITest(APIBaseTest):
                     ],
                     expected_pattern,
                 )
+
+    def test_project_public_sharing_field(self) -> None:
+        schemas = self.get_schema()["components"]["schemas"]
+        for schema_name in ("Project", "PatchedProject"):
+            with self.subTest(schema_name=schema_name):
+                field = schemas[schema_name]["properties"]["public_sharing"]
+                self.assertEqual(field["type"], "boolean")
 
     def test_metrics_version_is_optional(self) -> None:
         schema = self.get_schema()

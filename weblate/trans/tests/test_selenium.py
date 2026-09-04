@@ -2674,6 +2674,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("user-add-project.png")
             with self.wait_for_page_load():
                 self.driver.find_element(By.ID, "id_name").submit()
+
+            project = Project.objects.get(name="WeblateOrg")
+            self.assertEqual(project.access_control, Project.ACCESS_PRIVATE)
+            project.public_sharing = True
+            project.save(update_fields=["public_sharing"])
+            with self.wait_for_page_load():
+                self.driver.refresh()
+
+            self.assertTrue(
+                self.driver.find_element(By.LINK_TEXT, "Community").is_displayed()
+            )
             self.screenshot("user-add-project-done.png")
             self.assertIn("WeblateOrg", self.driver.title)
 
