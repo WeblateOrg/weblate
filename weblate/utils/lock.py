@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import os
 import threading
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Protocol, cast
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -24,8 +24,21 @@ if TYPE_CHECKING:
     from redis.lock import Lock as RedisLock
 
 
+class LockInfo(Protocol):
+    """Lock metadata exposed on lock errors."""
+
+    @property
+    def name(self) -> str: ...
+
+    @property
+    def scope(self) -> str: ...
+
+    @property
+    def origin(self) -> str | None: ...
+
+
 class WeblateLockError(Exception):
-    def __init__(self, message: str, *, lock: WeblateLock) -> None:
+    def __init__(self, message: str, *, lock: LockInfo) -> None:
         super().__init__(message)
         self.lock = lock
 
