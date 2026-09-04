@@ -17,6 +17,7 @@ Weblate 2026.9.1
 
 * Borg backup passphrases are now recursively scrubbed from Sentry error reports, including when a custom event scrubber is configured.
 * Font overrides are now restricted to fonts uploaded to the same project.
+* Engage pages and status widgets no longer disclose Private or Custom projects unless :ref:`project-public_sharing` is enabled.
 
 .. rubric:: Bug fixes
 
@@ -28,6 +29,8 @@ Weblate 2026.9.1
 * Backup services now start only after settings and database backup files are fully updated, while backups to different Borg repositories can run in parallel.
 
 .. rubric:: Compatibility
+
+* Anonymous access to engage pages and status widgets is now disabled by default for Private and Custom projects. Enable :ref:`project-public_sharing` to preserve existing shared links after upgrading. Public and Protected projects are unchanged.
 
 .. rubric:: Upgrading
 

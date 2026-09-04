@@ -3528,6 +3528,7 @@ class ProjectSettingsForm(
             "inherit_secondary_language",
             "secondary_language",
             "access_control",
+            "public_sharing",
             "enforced_2fa",
             "translation_review",
             "source_review",
@@ -3575,12 +3576,24 @@ class ProjectSettingsForm(
         access = data["access_control"]
 
         self.changed_access = access != self.instance.access_control
+        self.changed_public_sharing = (
+            data.get("public_sharing", self.instance.public_sharing)
+            != self.instance.public_sharing
+        )
 
         if self.changed_access and not self.user_can_change_access:
             raise ValidationError(
                 {
                     "access_control": gettext(
                         "You do not have permission to change project access control."
+                    )
+                }
+            )
+        if self.changed_public_sharing and not self.user_can_change_access:
+            raise ValidationError(
+                {
+                    "public_sharing": gettext(
+                        "You do not have permission to change project access settings."
                     )
                 }
             )
@@ -3654,6 +3667,7 @@ class ProjectSettingsForm(
             "billing:project.permissions", self.instance
         )
         self.changed_access = False
+        self.changed_public_sharing = False
         self.helper.form_tag = False
         if not self.user_can_change_access:
             disabled = {"disabled": True}
@@ -3661,6 +3675,7 @@ class ProjectSettingsForm(
             self.fields["access_control"].help_text = gettext(
                 "You do not have permission to change project access control."
             )
+            self.fields["public_sharing"].disabled = True
         else:
             disabled = {}
         self.helper.layout = Layout(
@@ -3691,6 +3706,7 @@ class ProjectSettingsForm(
                         template="%s/layout/radioselect_access.html",
                         **disabled,
                     ),
+                    "public_sharing",
                     "enforced_2fa",
                     css_id="access",
                 ),

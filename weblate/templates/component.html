@@ -187,7 +187,7 @@
         {% endif %}
       </ul>
     </li>
-    {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/share-menu.html" with object=object project=object.project %}
     {% include "snippets/watch-dropdown.html" with project=object.project component=object %}
   </ul>
 {% endblock nav_pills %}

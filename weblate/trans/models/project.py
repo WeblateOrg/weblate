@@ -213,6 +213,7 @@ def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
 
 class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     AUDIT_SETTINGS: ClassVar[tuple[str, ...]] = (
+        "public_sharing",
         "enforced_2fa",
         "translation_review",
         "source_review",
@@ -316,6 +317,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         verbose_name=gettext_lazy("Access control"),
         help_text=gettext_lazy(
             "How to restrict access to this project is detailed in the documentation."
+        ),
+    )
+    public_sharing = models.BooleanField(
+        verbose_name=gettext_lazy("Public sharing"),
+        default=False,
+        help_text=gettext_lazy(
+            "Allows anonymous access to the engage pages and status widgets "
+            "for Private and Custom projects."
         ),
     )
 
@@ -956,6 +965,18 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def get_share_url(self) -> str:
         """Return absolute URL usable for sharing."""
         return get_site_url(reverse("engage", kwargs={"path": self.get_url_path()}))
+
+    @property
+    def is_publicly_shared(self) -> bool:
+        """Whether engage pages and widgets are publicly accessible."""
+        return (
+            self.access_control
+            in {
+                self.ACCESS_PUBLIC,
+                self.ACCESS_PROTECTED,
+            }
+            or self.public_sharing
+        )
 
     @cached_property
     def locked(self) -> bool:

@@ -269,6 +269,27 @@ Configure per project access control, see :ref:`acl` for more details.
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. _project-public_sharing:
+
+Public sharing
+++++++++++++++
+
+Allow anonymous access to the project's engage pages and rendered status
+widgets. This setting applies to :guilabel:`Private` and :guilabel:`Custom`
+projects; :guilabel:`Public` and :guilabel:`Protected` projects are always
+publicly shareable.
+
+Public sharing exposes project and component names, including restricted
+components, together with translation statistics, languages, and progress. It
+does not grant access to project pages, translations, repositories, or the API.
+
+Changing this setting requires the :guilabel:`Manage project access`
+permission. The status widget configuration page continues to use normal
+project access control.
+
+When :setting:`REQUIRE_LOGIN` is enabled, :setting:`PUBLIC_ENGAGE` must also be
+enabled for anonymous access to engage pages.
+
 .. _project-enforced_2fa:
 
 Enforced two-factor authentication

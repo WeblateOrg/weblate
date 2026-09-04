@@ -67,6 +67,10 @@ project.
 
 The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
+Private and Custom projects can make their :ref:`project-public_sharing`
+engage pages and status widgets anonymously accessible without making the rest
+of the project public. Public sharing is disabled by default for these projects.
+
 .. _statistics-access-filtering:
 
 .. note::
