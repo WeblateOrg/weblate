@@ -337,6 +337,27 @@ def is_auto_safe_html_roundtrip_stable(source: str, cleaned: str) -> bool:
     return source_pos == len(source_events) and cleaned_pos == len(cleaned_events)
 
 
+def serialize_mdx_void_elements(text: str) -> str:
+    """Serialize HTML void elements as self-closing JSX elements."""
+
+    def replace(match: re.Match) -> str:
+        segment = match.group(0)
+        if segment.startswith("</"):
+            return segment
+
+        tag_match = AUTO_SAFE_HTML_TAG_NAME.match(segment)
+        if (
+            tag_match is None
+            or tag_match.group("name").lower() not in AUTO_SAFE_HTML_VOID_TAGS
+        ):
+            return segment
+
+        opening = segment[:-1].rstrip().removesuffix("/").rstrip()
+        return f"{opening} />"
+
+    return AUTO_SAFE_HTML_SEGMENT.sub(replace, text)
+
+
 class HTMLSanitizer:
     def __init__(self) -> None:
         self.current = 0
@@ -358,6 +379,9 @@ class HTMLSanitizer:
                 attributes=attributes,
                 clean_content_tags=CLEAN_CONTENT_TAGS - tags,
             )
+
+        if "safe-mdx" in flags and "ignore-safe-mdx" not in flags:
+            text = serialize_mdx_void_elements(text)
 
         return self.add_back_special(text)
 

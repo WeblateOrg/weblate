@@ -8,6 +8,7 @@ from django.test import SimpleTestCase
 
 from weblate.checks.flags import Flags
 from weblate.utils.html import (
+    AUTO_SAFE_HTML_VOID_TAGS,
     HTML2Text,
     HTMLAttribute,
     HTMLSanitizer,
@@ -16,6 +17,7 @@ from weblate.utils.html import (
     is_auto_safe_html_source,
     list_to_tuples,
     mail_quote_value,
+    serialize_mdx_void_elements,
 )
 
 
@@ -32,6 +34,31 @@ class HTMLSanitizerTestCase(SimpleTestCase):
             self.sanitize("<style>translation</style>", "<style>text</style>"),
             "<style>translation</style>",
         )
+
+    def test_clean_mdx_void_element(self) -> None:
+        value = 'Paragraph.<br /><img src="test.png" onerror="alert(1)" />'
+        self.assertEqual(
+            self.sanitize(
+                value,
+                'Paragraph.<br /><img src="test.png" />',
+                "safe-mdx",
+            ),
+            'Paragraph.<br /><img src="test.png" />',
+        )
+
+    def test_clean_html_void_element(self) -> None:
+        self.assertEqual(
+            self.sanitize("Paragraph.<br />", "Paragraph.<br />"),
+            "Paragraph.<br>",
+        )
+
+    def test_serialize_mdx_void_elements(self) -> None:
+        for tag in AUTO_SAFE_HTML_VOID_TAGS:
+            with self.subTest(tag=tag):
+                self.assertEqual(
+                    serialize_mdx_void_elements(f'<{tag} title="test">'),
+                    f'<{tag} title="test" />',
+                )
 
 
 class HtmlTestCase(SimpleTestCase):

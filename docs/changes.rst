@@ -23,6 +23,7 @@ Weblate 2026.9.1
 .. rubric:: Bug fixes
 
 * REST API unit updates now enforce the same translation text length limit as the web editor.
+* HTML void elements in :ref:`mdx` translations are now kept self-closing after sanitization, preventing invalid MDX output.
 * The :http:post:`autotranslate API endpoint </api/translations/(string:project)/(string:component)/(string:language)/autotranslate/>` now correctly describes its accepted request body fields (``q``, ``mode``, ``auto_source``, ``component``, ``engines``, ``threshold``) in the OpenAPI schema instead of incorrectly reflecting the Translation resource.
 * Links outside tab navigation now correctly activate their target tabs, fixing upload links for missing translations and new components.
 * Error reporting integrations now distinguish informational messages from exceptions and reliably report the explicitly handled exception.

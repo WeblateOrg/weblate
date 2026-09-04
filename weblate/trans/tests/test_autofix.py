@@ -100,6 +100,16 @@ class AutoFixTest(TestCase):
             (["<https://weblate.org>"], False),
         )
 
+    def test_html_mdx_void_element(self) -> None:
+        value = "Paragraph.<br />"
+        fix = BleachHTML()
+        unit = make_unit(source=value, flags="auto-safe-html,md-text,safe-mdx")
+        self.assertEqual(fix.fix_target([value], unit), ([value], False))
+        self.assertEqual(
+            fix.fix_target(["Paragraph.<br>"], unit),
+            ([value], True),
+        )
+
     def test_auto_safe_html(self) -> None:
         fix = BleachHTML()
         unit = make_unit(source="link", flags="auto-safe-html")
