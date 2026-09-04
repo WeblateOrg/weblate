@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-07-25 07:17+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1509,6 +1509,11 @@ msgstr "نامەی چالاکردن لێرەوە دەنێردرێت."
 msgid "The authentication app %s was registered."
 msgstr ""
 
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+
 #, fuzzy
 #| msgid "Last invoice"
 msgid "Second factor sign in"
@@ -2214,11 +2219,12 @@ msgstr "تکایە پێداچوونەوە و پشتڕاستکردنەوەی پێ
 msgid "Regular expression to match translation files against"
 msgstr "دەربڕینی ڕێک بۆ هاوتاکردنی فایلەکانی وەرگێڕان لە دژی"
 
-#, fuzzy
-#| msgid "Save translation history"
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr "فۆڕماتی پەڕگە"
@@ -2262,6 +2268,18 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Suggested translations"
+msgid "Define the file mask"
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 
 msgid "Language filter"
@@ -2385,8 +2403,28 @@ msgstr ""
 msgid "You can not use a base file for bilingual translation."
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "پێناسەی فایلی بنەما بکە بۆ وەرگێڕانە نوێیەکان"
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "تکایە پێداچوونەوە و پشتڕاستکردنەوەی پێکهاتەکانی هاوشێوە."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr ""
@@ -6953,6 +6991,14 @@ msgstr ""
 
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
 msgstr ""
 
 msgctxt "Anthropic model selection"
@@ -13472,6 +13518,21 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Administration"
+msgid "Migrate to GitHub App"
+msgstr "کارگێڕی"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -13626,6 +13687,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -14776,6 +14842,79 @@ msgid "No connected accounts yet."
 msgstr "لابردنی هەژمار"
 
 #, fuzzy
+#| msgid "Translation"
+msgid "Code-hosting integrations"
+msgstr "وەرگێڕان"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connect or update GitHub account"
+msgstr "سڕینەوەی ئەم هەژمارە"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Connected GitHub accounts:"
+msgstr "سڕینەوەی ئەم هەژمارە"
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Refresh repositories"
+msgstr "سەرپەرشتیکردنی وەشان"
+
+#, fuzzy
+#| msgid "Delete this account"
+msgid "Migrate selected components"
+msgstr "سڕینەوەی ئەم هەژمارە"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "ڕەوشی وەرگێڕان"
+
+#, fuzzy
+#| msgid "Source words"
+msgid "Ready"
+msgstr "وشەکانی سەرچاوە"
+
+#, fuzzy
+#| msgid "Version control"
+msgid "Repository access needed"
+msgstr "سەرپەرشتیکردنی وەشان"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "Donate to Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "بەخشین بۆ وێبلەیت"
@@ -14871,11 +15010,6 @@ msgstr "سڕینەوەی هەژمار"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Version control"
-msgid "Refresh repositories"
-msgstr "سەرپەرشتیکردنی وەشان"
 
 #, python-format
 msgid ""
@@ -15008,9 +15142,25 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Your account has been removed."
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "هەژمارەکەت سڕدرایەوە."
+msgstr[1] "هەژمارەکەت سڕدرایەوە."
+
+#, fuzzy, python-format
+#| msgid "Suggested translations"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "وەرگێڕانە پێشنیارکراوەکان"
+msgstr[1] "وەرگێڕانە پێشنیارکراوەکان"
 
 #, fuzzy
 #| msgid "Administration"
@@ -16233,6 +16383,9 @@ msgstr ""
 msgid "Inexistent files."
 msgstr ""
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Failed to change a priority!"
@@ -16636,13 +16789,35 @@ msgid "Discovery configuration"
 msgstr "کارگێڕی"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "Save translation history"
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 #, fuzzy
@@ -16680,6 +16855,19 @@ msgstr ""
 
 msgid "Sort JSON keys"
 msgstr "پۆلێنکردنی کلیلەکانی JSON"
+
+#, fuzzy
+#| msgid "Do not notify"
+msgid "Do not sort"
+msgstr "ئاگادار ممەکە"
+
+msgid "Case-sensitive sort"
+msgstr ""
+
+#, fuzzy
+#| msgid "translated"
+msgid "Case-insensitive sort"
+msgstr "وەرگێڕدراو"
 
 msgid "JSON indentation"
 msgstr "بۆشایی سەرەتای JSON"
@@ -19279,6 +19467,31 @@ msgid "User configured character: {}"
 msgstr ""
 
 #, fuzzy
+#| msgid "Suggested translations"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#| msgid "Enable suggestions"
+msgid "Repository operation could not be completed."
+msgstr "چالاکردنی پێشنیار"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Repository operation"
+msgid "Repository operation completed."
+msgstr "ئەمبراسیۆن"
+
+#, fuzzy
+#| msgid "Enable suggestions"
+msgid "Repository operation completed with errors."
+msgstr "چالاکردنی پێشنیار"
+
+#, fuzzy
 #| msgid "No words found!"
 msgid "No suggestions found."
 msgstr "هیچ وشەیەک نەدۆزرایەوە!"
@@ -19849,68 +20062,25 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Failed to change a priority!"
+msgid "Another repository operation is already in progress."
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
+
+#, fuzzy
+#| msgid "Failed to change a priority!"
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
+#, fuzzy
+#| msgid "Repository operation"
+msgid "This repository operation is already queued."
+msgstr "ئەمبراسیۆن"
 
 #, fuzzy
-#| msgid "Suggested translations"
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "وەرگێڕانە پێشنیارکراوەکان"
-
-msgid "All repositories were pushed."
-msgstr ""
-
-#, fuzzy
-#| msgid "Version control"
-msgid "Accessible repositories were pushed."
-msgstr "سەرپەرشتیکردنی وەشان"
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-
-#, fuzzy
-#| msgid "Suggested translations"
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "وەرگێڕانە پێشنیارکراوەکان"
-
-msgid "All repositories have been cleaned up."
-msgstr ""
-
-#, fuzzy
-#| msgid "Translation is now locked for you."
-msgid "Accessible repositories have been cleaned up."
-msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
-
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Translation files have been synchronized."
-msgstr "هەژمارەکەت سڕدرایەوە."
-
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "هەژمارەکەت سڕدرایەوە."
-
-#, fuzzy
-#| msgid "Suggested translations"
-msgid "Updates of translations are in progress."
-msgstr "وەرگێڕانە پێشنیارکراوەکان"
-
-#, fuzzy
-#| msgid "Suggested translations"
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "وەرگێڕانە پێشنیارکراوەکان"
+#| msgid "Repository operation"
+msgid "Repository operation has been queued."
+msgstr "ئەمبراسیۆن"
 
 #, fuzzy
 #| msgid "Project is now open for translation updates."
@@ -19926,19 +20096,6 @@ msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەر�
 #| msgid "Project is now open for translation updates."
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
-
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Pending translations are being committed."
-msgstr "هەژمارەکەت سڕدرایەوە."
-
-msgid "All pending translations were committed."
-msgstr ""
-
-#, fuzzy
-#| msgid "Your account has been removed."
-msgid "Pending translations in accessible repositories were committed."
-msgstr "هەژمارەکەت سڕدرایەوە."
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -21039,6 +21196,16 @@ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 msgid "Enter a valid GitHub host."
 msgstr "زمان"
 
+#, fuzzy
+#| msgid "Information"
+msgid "Components to migrate"
+msgstr "زانیاری"
+
+#, fuzzy
+#| msgid "Information"
+msgid "Select at least one component to migrate."
+msgstr "زانیاری"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -21414,8 +21581,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -21490,6 +21684,26 @@ msgstr ""
 #| msgid "Delete this account"
 msgid "Connected GitHub account added."
 msgstr "سڕینەوەی ئەم هەژمارە"
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Failed to change a priority!"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -21870,6 +22084,67 @@ msgid "The workspace has been removed."
 msgstr "هەژمارەکەت سڕدرایەوە."
 
 #, fuzzy
+#~| msgid "Save translation history"
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "پاشەکەوتکردنی مێژووی وەرگێڕان"
+
+#, fuzzy
+#~| msgid "Suggested translations"
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#~| msgid "Version control"
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "سەرپەرشتیکردنی وەشان"
+
+#, fuzzy
+#~| msgid "Suggested translations"
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#~| msgid "Translation is now locked for you."
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "وەرگێڕان ئێستا داخراوە و تەنیا بۆ تۆ کراوەیە."
+
+#, fuzzy
+#~| msgid "Your account has been removed."
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "هەژمارەکەت سڕدرایەوە."
+
+#, fuzzy
+#~| msgid "Your account has been removed."
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "هەژمارەکەت سڕدرایەوە."
+
+#, fuzzy
+#~| msgid "Suggested translations"
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#~| msgid "Suggested translations"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "وەرگێڕانە پێشنیارکراوەکان"
+
+#, fuzzy
+#~| msgid "Your account has been removed."
+#~ msgid "Pending translations are being committed."
+#~ msgstr "هەژمارەکەت سڕدرایەوە."
+
+#, fuzzy
+#~| msgid "Your account has been removed."
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "هەژمارەکەت سڕدرایەوە."
+
+#, fuzzy
 #~| msgid "Your password has been changed."
 #~ msgid "Activation completed."
 #~ msgstr "تێپەڕەوشەکەت گۆڕدرا."
@@ -22086,11 +22361,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~| msgid "Project is now open for translation updates."
 #~ msgid "Provide context to the translators"
 #~ msgstr "پڕۆژە ئێستا کراوەیە بۆ نوێکردنەوەی وەرگێڕان."
-
-#, fuzzy
-#~| msgid "Failed to change a priority!"
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr "سەرکەوتوو نەبوو لە گۆڕینی پێشەنگی!"
 
 #, fuzzy
 #~| msgid "Edit"
@@ -22456,9 +22726,6 @@ msgstr "هەژمارەکەت سڕدرایەوە."
 #~ msgid_plural "%d new strings to translate appeared to the translation."
 #~ msgstr[0] "لابردنی زنجیرەکان بەبێ وەرگێڕان لە فایلەکانی وەرگێڕان."
 #~ msgstr[1] "لابردنی زنجیرەکان بەبێ وەرگێڕان لە فایلەکانی وەرگێڕان."
-
-#~ msgid "Do not notify"
-#~ msgstr "ئاگادار ممەکە"
 
 #~ msgid "Component locking"
 #~ msgstr "قفڵکردنی پێکهاتە"

@@ -40,7 +40,7 @@ jobs:
         CFLITE_MODE: batch
         SENTRY_DSN: ${{ secrets.SENTRY_FUZZING_DSN }}
         SENTRY_ENVIRONMENT: fuzzing-batch
-      uses: ./.github/actions/cflite-run-fuzzers
+      uses: $/.github/actions/cflite-run-fuzzers
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         fuzz-seconds: 1800

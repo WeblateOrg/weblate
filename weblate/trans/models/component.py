@@ -3558,6 +3558,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         report_error(
             f"Could not recreate missing translation file during {operation_report}",
             project=failed_component.project,
+            exception=error,
         )
         if current_translation is not None:
             failed_component.log_error(

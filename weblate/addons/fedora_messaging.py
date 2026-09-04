@@ -400,6 +400,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         )
         report_error(
             "Fedora Messaging publish failed",
+            exception=error,
             level="error",
             project=project,
             skip_error_reporting=not FedoraMessagingAddon._should_report_publish_error(

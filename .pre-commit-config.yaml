@@ -191,12 +191,8 @@ repos:
     args: []
     require_serial: true
     pass_filenames: false
-- repo: https://github.com/rhysd/actionlint
-  rev: v1.7.12
-  hooks:
-  - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.29.0
+  rev: v1.30.0
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint
@@ -210,10 +206,14 @@ repos:
   - id: kingfisher-auto
     args: [--exclude, weblate/trans/tests/data/googlev3.json, --exclude, docs/]
 - repo: https://github.com/rvben/rumdl-pre-commit
-  rev: v0.2.63
+  rev: v0.2.62
   hooks:
   - id: rumdl
   - id: rumdl-fmt
+- repo: https://github.com/kjanat/actionlint
+  rev: v1.14.0
+  hooks:
+  - id: actionlint
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|weblate/static/styles/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock|docs/specs/openapi.yaml$
 ci:
   autoupdate_schedule: quarterly

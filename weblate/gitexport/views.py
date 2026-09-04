@@ -29,7 +29,7 @@ from weblate.auth.models import User
 from weblate.gitexport.utils import find_git_http_backend
 from weblate.trans.models import Component
 from weblate.trans.util import cleanup_repo_url, sanitize_backend_error_message
-from weblate.utils.errors import report_error
+from weblate.utils.errors import report_message
 from weblate.utils.views import parse_path
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
@@ -467,12 +467,11 @@ class GitHTTPBackendWrapper:
 
         # Log error
         if output_err:
-            report_error(
+            report_message(
                 "Git backend failure",
                 extra_log=output_err,
                 project=self.obj.project,
                 level="error",
-                message=True,
             )
 
         # Handle failure

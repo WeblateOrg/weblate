@@ -29,14 +29,15 @@ class ZammadTest(TestCase):
     def assert_zammad_failure(self) -> tuple[Mock, ZammadError]:
         with (
             patch("weblate.utils.zammad.report_error") as report_error,
+            patch("weblate.utils.zammad.report_message") as report_message,
             self.assertRaisesRegex(
                 ZammadError, "Customer care is currently unavailable"
             ) as raised,
         ):
             submit_zammad_ticket(**TICKET_DATA)
 
-        report_error.assert_called_once()
-        return report_error, raised.exception
+        self.assertEqual(report_error.call_count + report_message.call_count, 1)
+        return report_error if report_error.called else report_message, raised.exception
 
     def mock_zammad(self) -> None:
         http_mock.register(
