@@ -19,6 +19,7 @@ Weblate 2026.9.1
 
 .. rubric:: Bug fixes
 
+* The :http:post:`autotranslate API endpoint </api/translations/(string:project)/(string:component)/(string:language)/autotranslate/>` now correctly describes its accepted request body fields (``q``, ``mode``, ``auto_source``, ``component``, ``engines``, ``threshold``) in the OpenAPI schema instead of incorrectly reflecting the Translation resource.
 * Links outside tab navigation now correctly activate their target tabs, fixing upload links for missing translations and new components.
 * Error reporting integrations now distinguish informational messages from exceptions and reliably report the explicitly handled exception.
 * The default Celery per-child memory limit now accommodates the application's baseline memory usage, avoiding unnecessary worker recycling.

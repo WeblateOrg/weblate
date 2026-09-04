@@ -80,6 +80,7 @@ from weblate.trans.component_copy import (
 )
 from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.forms import (
+    AutoForm,
     CategorySettingsForm,
     ComponentSettingsForm,
     ProjectSettingsForm,
@@ -18100,6 +18101,80 @@ class OpenAPITest(APIBaseTest):
                 }
             },
         )
+
+    def test_autotranslate_schema_describes_autoform_fields(self) -> None:
+        schema = self.get_schema()
+        autotranslate_path = "/api/translations/{component__project__slug}/{component__slug}/{language__code}/autotranslate/"
+        operation = schema["paths"][autotranslate_path]["post"]
+
+        # Request body must reference the AutoTranslateRequest schema, not Translation.
+        request_schema_ref = operation["requestBody"]["content"]["application/json"][
+            "schema"
+        ]["$ref"]
+        self.assertNotEqual(
+            request_schema_ref,
+            "#/components/schemas/Translation",
+            "autotranslate request body must not reference the Translation schema",
+        )
+        self.assertEqual(
+            request_schema_ref, "#/components/schemas/AutoTranslateRequest"
+        )
+
+        # The AutoTranslateRequest schema must describe exactly the AutoForm
+        # fields so the schema stays in sync when AutoForm changes.
+        request_schema = schema["components"]["schemas"]["AutoTranslateRequest"]
+        properties = request_schema["properties"]
+        form = AutoForm(self.component, self.user)
+        self.assertEqual(set(properties.keys()), set(form.fields.keys()))
+
+        # q, mode, auto_source, and threshold are required (no required=False /
+        # default in the serializer); component and engines are optional.
+        self.assertCountEqual(
+            request_schema.get("required", []),
+            ["q", "mode", "auto_source", "threshold"],
+        )
+
+        # drf-spectacular renders ChoiceField as a $ref to a separate enum schema.
+        # When the field also carries a description the $ref is nested under allOf,
+        # e.g. {"allOf": [{"$ref": "..."}], "description": "..."}.
+        def resolve(prop: dict) -> dict:
+            ref = prop.get("$ref") or (prop.get("allOf", [{}])[0].get("$ref"))
+            if ref:
+                node = schema
+                for part in ref.lstrip("#/").split("/"):
+                    node = node[part]
+                return node
+            return prop
+
+        # mode must enumerate the valid choices.
+        self.assertCountEqual(
+            resolve(properties["mode"])["enum"],
+            ["suggest", "translate", "fuzzy", "approved"],
+        )
+
+        # auto_source must enumerate the valid choices.
+        self.assertCountEqual(
+            resolve(properties["auto_source"])["enum"],
+            ["others", "mt"],
+        )
+
+        # threshold must carry numeric bounds.
+        self.assertEqual(properties["threshold"]["minimum"], 1)
+        self.assertEqual(properties["threshold"]["maximum"], 100)
+
+        # engines must be an array of strings.
+        self.assertEqual(properties["engines"]["type"], "array")
+        self.assertEqual(properties["engines"]["items"]["type"], "string")
+
+        # Response body must describe the details message, not Translation.
+        response_schema_ref = operation["responses"]["200"]["content"][
+            "application/json"
+        ]["schema"]["$ref"]
+        self.assertEqual(
+            response_schema_ref, "#/components/schemas/AutoTranslateResponse"
+        )
+        response_schema = schema["components"]["schemas"]["AutoTranslateResponse"]
+        self.assertIn("details", response_schema["properties"])
 
     def test_redoc(self) -> None:
         response = self.do_request("redoc")

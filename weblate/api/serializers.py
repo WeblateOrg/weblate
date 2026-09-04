@@ -4487,3 +4487,63 @@ class Error423Serializer(serializers.Serializer):
 class ErrorResponse423Serializer(serializers.Serializer):
     type = serializers.ChoiceField(choices=ServerErrorEnum.choices)
     errors = Error423Serializer(many=True)
+
+
+class AutoTranslateRequestSerializer(serializers.Serializer):
+    """Request body for the autotranslate action."""
+
+    # Mirrors :class:`weblate.trans.forms.AutoForm`.  Keep the two in sync
+    # when adding or removing fields.
+
+    q = serializers.CharField(
+        required=True,
+        help_text=(
+            "Query string selecting strings to translate. "
+            "Translating all strings discards existing translations."
+        ),
+    )
+    mode = serializers.ChoiceField(
+        choices=["suggest", "translate", "fuzzy", "approved"],
+        help_text=(
+            "How to store the result: as a suggestion, translation, "
+            "needing-edit, or approved. Typical value: ``suggest``."
+        ),
+    )
+    auto_source = serializers.ChoiceField(
+        choices=["others", "mt"],
+        help_text=(
+            "Translation source: other components (``others``) or machine "
+            "translation (``mt``). Typical value: ``others``."
+        ),
+    )
+    component = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        help_text=(
+            "Component ID (always accepted). "
+            "When the project has 30 or more eligible source components "
+            "a component slug or ``project/component`` path is also accepted. "
+            "Leave blank to use all components."
+        ),
+    )
+    engines = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        help_text=(
+            "Machine translation engine identifiers to use when ``auto_source`` is ``mt``."
+        ),
+    )
+    threshold = serializers.IntegerField(
+        min_value=1,
+        max_value=100,
+        help_text=(
+            "Minimum translation score (1–100) to accept when using machine translation. "
+            "Typical value: 80."
+        ),
+    )
+
+
+class AutoTranslateResponseSerializer(serializers.Serializer):
+    """Response body for the autotranslate action."""
+
+    details = serializers.CharField()

@@ -73,6 +73,8 @@ from weblate.api.pagination import LargePagination
 from weblate.api.serializers import (
     AddonSerializer,
     AnnouncementSerializer,
+    AutoTranslateRequestSerializer,
+    AutoTranslateResponseSerializer,
     BackupSerializer,
     BasicUserSerializer,
     BilingualSourceUnitSerializer,
@@ -3867,7 +3869,12 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
 
         return self.get_paginated_response(serializer.data)
 
-    @extend_schema(description="Trigger automatic translation.", methods=["post"])
+    @extend_schema(
+        description="Trigger automatic translation.",
+        methods=["post"],
+        request=AutoTranslateRequestSerializer,
+        responses={HTTP_200_OK: AutoTranslateResponseSerializer},
+    )
     @action(detail=True, methods=["post"])
     def autotranslate(self, request: Request, **kwargs):
         translation = self.get_object()

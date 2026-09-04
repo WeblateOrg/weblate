@@ -2593,12 +2593,13 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json string mode: Automatic translation mode
+    :<json string mode: Automatic translation mode; one of ``suggest``, ``translate``, ``fuzzy``, ``approved``
     :<json string q: Automatic translation search string, see :ref:`search-strings`.
     :<json string auto_source: Automatic translation source - ``mt`` or ``others``
-    :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
-    :<json array engines: Machine translation engines
-    :<json string threshold: Score threshold
+    :<json string component: Component ID (always accepted); when the project has 30 or more eligible source components, a component slug or ``project/component`` path is also accepted; leave blank to use all components in the project
+    :<json array engines: Machine translation engines to use when ``auto_source`` is ``mt``
+    :<json int threshold: Score threshold for machine translation (1–100)
+    :>json string details: Human-readable summary of the translation result
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
