@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 from django.core.management.base import CommandError
 
 from weblate.utils.management.base import BaseCommand
-from weblate.utils.tasks import run_database_backup, run_settings_backup
+from weblate.utils.tasks import run_backup_preparation
 from weblate.wladmin.models import BackupService
 from weblate.wladmin.tasks import run_backup_service
 
@@ -86,8 +86,7 @@ class Command(BaseCommand):
         else:
             services = list(BackupService.objects.filter(enabled=True).order_by("pk"))
 
-        run_settings_backup()
-        run_database_backup([service.pk for service in services])
+        run_backup_preparation([service.pk for service in services])
         verbose = int(options["verbosity"]) > 1
         failed_services = [
             service.pk
