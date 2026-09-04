@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-07-25 07:17+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github-"
 "integration@weblate.org>\n"
@@ -1546,6 +1546,11 @@ msgstr "En e-mail zom Aktiveere weed doh hen jescheck."
 msgid "The authentication app %s was registered."
 msgstr ""
 
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+
 #, fuzzy
 #| msgid "Download"
 msgid "Second factor sign in"
@@ -2201,11 +2206,12 @@ msgstr ""
 msgid "Regular expression to match translation files against"
 msgstr "Jangk retuhr_op di Övversäzong"
 
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid ""
-"The regular expression must define named groups for component and language."
-msgstr "Jangk retuhr_op di Övversäzong"
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
+msgstr ""
 
 msgid "File format"
 msgstr ""
@@ -2247,6 +2253,18 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Define the file mask"
+msgstr "Ding Övversäzonge"
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 
 #, fuzzy
@@ -2367,7 +2385,27 @@ msgstr ""
 msgid "You can not use a base file for bilingual translation."
 msgstr "Övversaz Täxschtöckscher"
 
+#, fuzzy
+#| msgid "Translated strings"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Övversaz Täxschtöckscher"
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
+msgstr ""
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
 msgstr ""
 
 msgid "This template must include {{ component }}."
@@ -7081,6 +7119,14 @@ msgstr ""
 
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
 msgstr ""
 
 msgctxt "Anthropic model selection"
@@ -13750,6 +13796,21 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Migrate to GitHub App"
+msgstr "Ding Övversäzonge"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -13904,6 +13965,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -15081,6 +15147,79 @@ msgid "No connected accounts yet."
 msgstr "Ding Övversäzonge"
 
 #, fuzzy
+#| msgid "Your translations"
+msgid "Code-hosting integrations"
+msgstr "Ding Övversäzonge"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Connect or update GitHub account"
+msgstr "Ding Övversäzonge"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Your translations"
+msgid "Connected GitHub accounts:"
+msgstr "Ding Övversäzonge"
+
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Refresh repositories"
+msgstr "Täxschtöcke zom övversäze"
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Migrate selected components"
+msgstr "Aanmärkong"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Strings with any failing checks"
+msgid "Migration status"
+msgstr "Täxschtöckscher med scheif jejange Pröövonge"
+
+#, fuzzy
+#| msgid "Fuzzy strings"
+msgid "Ready"
+msgstr "Övverhollte Täxschtöckscher"
+
+#, fuzzy
+#| msgid "Strings to translate"
+msgid "Repository access needed"
+msgstr "Täxschtöcke zom övversäze"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
+#, fuzzy
 #| msgid "About Weblate"
 msgid "Register Weblate GitHub App"
 msgstr "Övver Weblate"
@@ -15178,11 +15317,6 @@ msgstr "Et Jeheimwood tuusche lohße"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "Strings to translate"
-msgid "Refresh repositories"
-msgstr "Täxschtöcke zom övversäze"
 
 #, python-format
 msgid ""
@@ -15313,9 +15447,28 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Translations made"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Övversäzonge jemaat"
+msgstr[1] "Övversäzonge jemaat"
+msgstr[2] "Övversäzonge jemaat"
+
+#, fuzzy, python-format
+#| msgid "There is %(count)s fuzzy string."
+#| msgid_plural "There are %(count)s fuzzy strings."
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "Mer han ein övverhollt Täxschtök."
+msgstr[1] "Mer han %(count)s övverhollte Täxschtöke."
+msgstr[2] "Mer han %(count)s övverhollte Täxschtöke."
 
 #, fuzzy
 #| msgid "Translation"
@@ -16561,6 +16714,9 @@ msgstr ""
 msgid "Inexistent files."
 msgstr ""
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Your translations"
@@ -16963,13 +17119,35 @@ msgid "Discovery configuration"
 msgstr "Ding Övversäzonge"
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "Revert to this translation"
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr "Jangk retuhr_op di Övversäzong"
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 #, fuzzy
@@ -17006,6 +17184,19 @@ msgstr ""
 
 msgid "Sort JSON keys"
 msgstr ""
+
+msgid "Do not sort"
+msgstr ""
+
+#, fuzzy
+#| msgid "Activity"
+msgid "Case-sensitive sort"
+msgstr "Aktivitäht"
+
+#, fuzzy
+#| msgid "Activity"
+msgid "Case-insensitive sort"
+msgstr "Aktivitäht"
 
 #, fuzzy
 #| msgid "Translation"
@@ -19632,6 +19823,33 @@ msgid "User configured character: {}"
 msgstr ""
 
 #, fuzzy
+#| msgid "No matching strings found!"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+
+#, fuzzy
+#| msgctxt "Number of suggestions"
+#| msgid "Suggestions"
+msgid "Repository operation could not be completed."
+msgstr "Vörschlähsch"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgid "Revert to this translation"
+msgid "Repository operation completed."
+msgstr "Jangk retuhr_op di Övversäzong"
+
+#, fuzzy
+#| msgctxt "Number of suggestions"
+#| msgid "Suggestions"
+msgid "Repository operation completed with errors."
+msgstr "Vörschlähsch"
+
+#, fuzzy
 #| msgid "No words found!"
 msgid "No suggestions found."
 msgstr "Kein Wööter jefonge!"
@@ -20228,68 +20446,25 @@ msgstr ""
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
+#, fuzzy
+#| msgid "No matching strings found!"
+msgid "Another repository operation is already in progress."
+msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
+#, fuzzy
+#| msgid "Revert to this translation"
+msgid "This repository operation is already queued."
+msgstr "Jangk retuhr_op di Övversäzong"
 
 #, fuzzy
-#| msgid "No matching strings found!"
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "Mer han kein zopaß Täxschtöker jefonge!"
-
-msgid "All repositories were pushed."
-msgstr ""
-
-#, fuzzy
-#| msgid "Translated strings"
-msgid "Accessible repositories were pushed."
-msgstr "Övversaz Täxschtöckscher"
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-
-#, fuzzy
-#| msgid "No matching strings found!"
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "Mer han kein zopaß Täxschtöker jefonge!"
-
-msgid "All repositories have been cleaned up."
-msgstr ""
-
-#, fuzzy
-#| msgid "Translations made"
-msgid "Accessible repositories have been cleaned up."
-msgstr "Övversäzonge jemaat"
-
-#, fuzzy
-#| msgid "Translations made"
-msgid "Translation files have been synchronized."
-msgstr "Övversäzonge jemaat"
-
-#, fuzzy
-#| msgid "Translations made"
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Övversäzonge jemaat"
-
-#, fuzzy
-#| msgid "No matching strings found!"
-msgid "Updates of translations are in progress."
-msgstr "Mer han kein zopaß Täxschtöker jefonge!"
-
-#, fuzzy
-#| msgid "No matching strings found!"
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+#| msgid "Revert to this translation"
+msgid "Repository operation has been queued."
+msgstr "Jangk retuhr_op di Övversäzong"
 
 #, fuzzy
 #| msgid "Your translations"
@@ -20305,19 +20480,6 @@ msgstr "Ding Övversäzonge"
 #| msgid "Your translations"
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "Ding Övversäzonge"
-
-#, fuzzy
-#| msgid "Translations made"
-msgid "Pending translations are being committed."
-msgstr "Övversäzonge jemaat"
-
-msgid "All pending translations were committed."
-msgstr ""
-
-#, fuzzy
-#| msgid "Translations made"
-msgid "Pending translations in accessible repositories were committed."
-msgstr "Övversäzonge jemaat"
 
 msgid "Component is now locked for translation updates!"
 msgstr ""
@@ -21416,6 +21578,16 @@ msgstr "Änderonge dorschbläddere"
 msgid "Enter a valid GitHub host."
 msgstr "Schprohch"
 
+#, fuzzy
+#| msgid "Project name"
+msgid "Components to migrate"
+msgstr "Der Projäknahme"
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Select at least one component to migrate."
+msgstr "Aanmärkong"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -21785,8 +21957,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -21859,6 +22058,28 @@ msgstr ""
 
 msgid "Connected GitHub account added."
 msgstr ""
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#, fuzzy, python-format
+#| msgid "Your translations"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Ding Övversäzonge"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr ""
@@ -22231,6 +22452,62 @@ msgstr ""
 #| msgid "Your account has been removed."
 msgid "The workspace has been removed."
 msgstr "Dinge Zohjang es jäz fott."
+
+#, fuzzy
+#~| msgid "Revert to this translation"
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr "Jangk retuhr_op di Övversäzong"
+
+#, fuzzy
+#~| msgid "No matching strings found!"
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+
+#, fuzzy
+#~| msgid "Translated strings"
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Övversaz Täxschtöckscher"
+
+#, fuzzy
+#~| msgid "No matching strings found!"
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+
+#, fuzzy
+#~| msgid "Translations made"
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Övversäzonge jemaat"
+
+#, fuzzy
+#~| msgid "Translations made"
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Övversäzonge jemaat"
+
+#, fuzzy
+#~| msgid "Translations made"
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Övversäzonge jemaat"
+
+#, fuzzy
+#~| msgid "No matching strings found!"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Mer han kein zopaß Täxschtöker jefonge!"
+
+#, fuzzy
+#~| msgid "Translations made"
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Övversäzonge jemaat"
+
+#, fuzzy
+#~| msgid "Translations made"
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Övversäzonge jemaat"
 
 #, fuzzy
 #~| msgid "Translations made"

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-07-18 06:11+0000\n"
 "Last-Translator: Aniwene Madolomani <aniwenemadolomani@gmail.com>\n"
 "Language-Team: Swahili <https://hosted.weblate.org/projects/weblate/"
@@ -1378,6 +1378,11 @@ msgstr "Kiintalingua"
 msgid "The authentication app %s was registered."
 msgstr ""
 
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+
 msgid "Second factor sign in"
 msgstr ""
 
@@ -1998,7 +2003,10 @@ msgid "Regular expression to match translation files against"
 msgstr ""
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
 
 msgid "File format"
@@ -2035,6 +2043,16 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings. This template must include {{ component }}."
+msgstr ""
+
+msgid "Define the file mask"
+msgstr ""
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
 
 msgid "Language filter"
@@ -2146,7 +2164,25 @@ msgstr ""
 msgid "You can not use a base file for bilingual translation."
 msgstr ""
 
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr ""
+
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
+msgstr ""
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
 msgstr ""
 
 msgid "This template must include {{ component }}."
@@ -6362,6 +6398,14 @@ msgstr ""
 
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr ""
+
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
 msgstr ""
 
 msgctxt "Anthropic model selection"
@@ -12294,6 +12338,19 @@ msgid ""
 msgstr ""
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+msgid "Migrate to GitHub App"
+msgstr ""
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12440,6 +12497,11 @@ msgstr ""
 msgid ""
 "Install the msgmerge add-on as well if you want translation files to follow "
 "template changes automatically."
+msgstr ""
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
 msgstr ""
 
 msgid "This component is set up incorrectly."
@@ -13478,6 +13540,79 @@ msgstr ""
 msgid "No connected accounts yet."
 msgstr "Tumia barua pepe ya akaunti"
 
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Code-hosting integrations"
+msgstr "Kiintalingua"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Connect or update GitHub account"
+msgstr "Tumia barua pepe ya akaunti"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "Use account e-mail address"
+msgid "Connected GitHub accounts:"
+msgstr "Tumia barua pepe ya akaunti"
+
+#, fuzzy
+#| msgid "a minute ago"
+#| msgid_plural "%(count)s minutes ago"
+msgid "Refresh repositories"
+msgstr "dakika iliyopita"
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Migrate selected components"
+msgstr "Kiintalingua"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+msgid "Migration status"
+msgstr ""
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Ready"
+msgstr "Kiintalingua"
+
+#, fuzzy
+#| msgid "a minute ago"
+#| msgid_plural "%(count)s minutes ago"
+msgid "Repository access needed"
+msgstr "dakika iliyopita"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
 msgid "Register Weblate GitHub App"
 msgstr ""
 
@@ -13562,12 +13697,6 @@ msgstr ""
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr ""
-
-#, fuzzy
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
-msgid "Refresh repositories"
-msgstr "dakika iliyopita"
 
 #, python-format
 msgid ""
@@ -13689,9 +13818,26 @@ msgid "This removes the connected account <code>%(login)s</code> from Weblate."
 msgstr ""
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Interlingua"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Kiintalingua"
+msgstr[1] "Kiintalingua"
+
+#, fuzzy, python-format
+#| msgid "a minute ago"
+#| msgid_plural "%(count)s minutes ago"
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "dakika iliyopita"
+msgstr[1] "dakika %(count)s zilizopita"
 
 msgid "Invitations"
 msgstr ""
@@ -14843,6 +14989,9 @@ msgstr ""
 msgid "Inexistent files."
 msgstr ""
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 #, fuzzy
 #| msgid "Interlingua"
@@ -15194,13 +15343,33 @@ msgid "Discovery configuration"
 msgstr ""
 
 msgid ""
-"The regular expression used to match discovered files is too complex and "
-"took too long to evaluate."
+"Component discovery stopped because the repository contains too many paths."
 msgstr ""
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
+msgstr ""
+
+msgid ""
+"The regular expression used to match discovered files is too complex and "
+"took too long to evaluate."
+msgstr ""
+
+msgid ""
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
+"evaluate."
+msgstr ""
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
 msgstr ""
 
 msgid "File mask matches the main component."
@@ -15236,6 +15405,17 @@ msgstr ""
 
 msgid "Sort JSON keys"
 msgstr ""
+
+msgid "Do not sort"
+msgstr ""
+
+msgid "Case-sensitive sort"
+msgstr ""
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Case-insensitive sort"
+msgstr "Kiintalingua"
 
 msgid "JSON indentation"
 msgstr ""
@@ -17550,6 +17730,34 @@ msgstr ""
 
 #, fuzzy
 #| msgid "Interlingua"
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Kiintalingua"
+
+#, fuzzy
+#| msgid "a minute ago"
+#| msgid_plural "%(count)s minutes ago"
+msgid "Repository operation could not be completed."
+msgstr "dakika iliyopita"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgid "a minute ago"
+#| msgid_plural "%(count)s minutes ago"
+msgid "Repository operation completed."
+msgstr "dakika iliyopita"
+
+#, fuzzy
+#| msgid "a minute ago"
+#| msgid_plural "%(count)s minutes ago"
+msgid "Repository operation completed with errors."
+msgstr "dakika iliyopita"
+
+#, fuzzy
+#| msgid "Interlingua"
 msgid "No suggestions found."
 msgstr "Kiintalingua"
 
@@ -18085,69 +18293,27 @@ msgstr ""
 msgid "Use the button on the repository status page to run this action."
 msgstr ""
 
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Another repository operation is already in progress."
+msgstr "Kiintalingua"
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
 msgstr ""
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-
 #, fuzzy
-#| msgid "Interlingua"
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr "Kiintalingua"
-
-msgid "All repositories were pushed."
-msgstr ""
+#| msgid "a minute ago"
+#| msgid_plural "%(count)s minutes ago"
+msgid "This repository operation is already queued."
+msgstr "dakika iliyopita"
 
 #, fuzzy
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
-msgid "Accessible repositories were pushed."
+msgid "Repository operation has been queued."
 msgstr "dakika iliyopita"
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-
-#, fuzzy
-#| msgid "Interlingua"
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr "Kiintalingua"
-
-msgid "All repositories have been cleaned up."
-msgstr ""
-
-#, fuzzy
-#| msgid "Interlingua"
-msgid "Accessible repositories have been cleaned up."
-msgstr "Kiintalingua"
-
-#, fuzzy
-#| msgid "Interlingua"
-msgid "Translation files have been synchronized."
-msgstr "Kiintalingua"
-
-#, fuzzy
-#| msgid "Interlingua"
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "Kiintalingua"
-
-#, fuzzy
-#| msgid "Interlingua"
-msgid "Updates of translations are in progress."
-msgstr "Kiintalingua"
-
-#, fuzzy
-#| msgid "Interlingua"
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr "Kiintalingua"
 
 #, fuzzy
 #| msgid "Interlingua"
@@ -18162,19 +18328,6 @@ msgstr "Kiintalingua"
 #, fuzzy
 #| msgid "Interlingua"
 msgid "Obsolete strings have been removed from the translation file."
-msgstr "Kiintalingua"
-
-#, fuzzy
-#| msgid "Interlingua"
-msgid "Pending translations are being committed."
-msgstr "Kiintalingua"
-
-msgid "All pending translations were committed."
-msgstr ""
-
-#, fuzzy
-#| msgid "Interlingua"
-msgid "Pending translations in accessible repositories were committed."
 msgstr "Kiintalingua"
 
 msgid "Component is now locked for translation updates!"
@@ -19189,6 +19342,16 @@ msgstr ""
 msgid "Enter a valid GitHub host."
 msgstr "Kiintalingua"
 
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Components to migrate"
+msgstr "Kiintalingua"
+
+#, fuzzy
+#| msgid "Interlingua"
+msgid "Select at least one component to migrate."
+msgstr "Kiintalingua"
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -19515,8 +19678,35 @@ msgid ""
 "connections are linked to workspaces."
 msgstr ""
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
 msgstr ""
 
 #, python-format
@@ -19587,6 +19777,26 @@ msgstr ""
 
 msgid "Connected GitHub account added."
 msgstr ""
+
+#, python-format
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+msgstr[1] ""
+
+#, fuzzy, python-format
+#| msgid "Interlingua"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Kiintalingua"
 
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
@@ -19924,6 +20134,56 @@ msgstr ""
 #| msgid "Interlingua"
 msgid "The workspace has been removed."
 msgstr "Kiintalingua"
+
+#, fuzzy
+#~| msgid "Interlingua"
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr "Kiintalingua"
+
+#, fuzzy
+#~| msgid "a minute ago"
+#~| msgid_plural "%(count)s minutes ago"
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "dakika iliyopita"
+
+#, fuzzy
+#~| msgid "Interlingua"
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr "Kiintalingua"
+
+#, fuzzy
+#~| msgid "Interlingua"
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Kiintalingua"
+
+#, fuzzy
+#~| msgid "Interlingua"
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "Kiintalingua"
+
+#, fuzzy
+#~| msgid "Interlingua"
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr "Kiintalingua"
+
+#, fuzzy
+#~| msgid "Interlingua"
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr "Kiintalingua"
+
+#, fuzzy
+#~| msgid "Interlingua"
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Kiintalingua"
+
+#, fuzzy
+#~| msgid "Interlingua"
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr "Kiintalingua"
 
 #, fuzzy, python-format
 #~| msgid "Interlingua"

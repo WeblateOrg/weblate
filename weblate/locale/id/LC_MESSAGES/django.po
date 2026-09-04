@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
-"POT-Creation-Date: 2026-08-28 00:06-0500\n"
+"POT-Creation-Date: 2026-09-03 21:16-0500\n"
 "PO-Revision-Date: 2026-08-30 04:23+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -1362,6 +1362,15 @@ msgstr "Aplikasi autentikasi dihapus."
 msgid "The authentication app %s was registered."
 msgstr "Aplikasi autentikasi %s didaftarkan."
 
+#, fuzzy
+#| msgid "If it was you, reset your password to regain access to your account."
+msgid ""
+"Too many failed authentication attempts. Please reset your password to "
+"regain access to your account."
+msgstr ""
+"Jika itu adalah Anda, atur ulang sandi Anda untuk mendapatkan kembali akses "
+"ke akun Anda."
+
 msgid "Second factor sign in"
 msgstr "Masuk dengan faktor kedua"
 
@@ -1992,9 +2001,11 @@ msgid "Regular expression to match translation files against"
 msgstr "Ekspresi reguler untuk mencocokkan berkas terjemahan dengan"
 
 msgid ""
-"The regular expression must define named groups for component and language."
+"The regular expression must define a named group for component. Also define "
+"a named group for language when matching translation files. When the file "
+"mask is set, omit language and match the monolingual base or new base file "
+"instead."
 msgstr ""
-"Ekspresi reguler harus mendefinisikan grup bernama untuk komponen dan bahasa."
 
 msgid "File format"
 msgstr "Format berkas"
@@ -2038,6 +2049,18 @@ msgstr ""
 "Nama berkas terjemahan perantara. Dalam kebanyakan kasus ini adalah berkas "
 "terjemahan yang disediakan oleh pengembang dan digunakan saat membuat string "
 "sumber yang sebenarnya. Templat ini harus menyertakan {{ component }}."
+
+#, fuzzy
+#| msgid "Duplicated file mask."
+msgid "Define the file mask"
+msgstr "Mask berkas ganda."
+
+msgid ""
+"Leave empty to match translation files directly. When set, discovery matches "
+"the monolingual base or new base file and uses this template as the file "
+"mask. Include a language wildcard and {{ component }}, for example locale/*/"
+"{{ component }}.po or docs/{{ component }}_*.md."
+msgstr ""
 
 msgid "Language filter"
 msgstr "Filter bahasa"
@@ -2138,8 +2161,32 @@ msgstr "Anda tidak dapat menggunakan terjemahan ekabahasa tanpa berkas dasar."
 msgid "You can not use a base file for bilingual translation."
 msgstr "Anda tidak dapat menggunakan berkas dasar untuk terjemahan dwibahasa."
 
+#, fuzzy
+#| msgid "Define the base file for new translations"
+msgid ""
+"Define the base file for new translations when creating components from a "
+"template."
+msgstr "Definisikan berkas dasar untuk terjemahan baru"
+
+#, fuzzy
+#| msgid ""
+#| "Please add a monolingual base language file in the component settings."
+msgid ""
+"Define a monolingual base or new base filename when creating components from "
+"a template."
+msgstr ""
+"Silakan tambahkan berkas bahasa dasar ekabahasa dalam pengaturan komponen."
+
+msgid "The file mask must include a language wildcard (*)."
+msgstr ""
+
 msgid "Please review and confirm the matched components."
 msgstr "Harap tinjau dan konfirmasikan komponen yang cocok."
+
+msgid ""
+"Omit the language named group when creating components from a monolingual "
+"base or new base file."
+msgstr ""
 
 msgid "This template must include {{ component }}."
 msgstr "Templat ini harus menyertakan {{ component }}."
@@ -6102,6 +6149,20 @@ msgstr "Claude Haiku 4.5"
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 5"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Opus 4.8"
+msgctxt "Anthropic model selection"
+msgid "Claude Opus 5"
+msgstr "Claude Opus 4.8"
+
+#, fuzzy
+#| msgctxt "Anthropic model selection"
+#| msgid "Claude Fable 5"
+msgctxt "Anthropic model selection"
+msgid "Claude Fable 5.1"
+msgstr "Claude Fable 5"
 
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
@@ -11900,6 +11961,21 @@ msgstr ""
 "Weblate."
 
 msgid ""
+"This repository does not allow forks. Ensure the Weblate GitHub App is "
+"connected to this workspace and has access to the repository, then migrate "
+"the component to push translation branches directly to the upstream "
+"repository."
+msgstr ""
+
+#, fuzzy
+#| msgid "Weblate GitHub Apps"
+msgid "Migrate to GitHub App"
+msgstr "Aplikasi Weblate GitHub"
+
+msgid "Ask a workspace owner to complete the GitHub App setup and migration."
+msgstr ""
+
+msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
 "forge author permissions for the repository/branch or have to use the squash "
 "add-on on this component in Weblate."
@@ -12090,6 +12166,11 @@ msgid ""
 msgstr ""
 "Pasang pengaya msgmerge juga jika Anda ingin berkas terjemahan yang "
 "mengikuti perubahan templat secara otomatis."
+
+msgid ""
+"This component can use the Weblate GitHub App for repository access and pull "
+"requests."
+msgstr ""
 
 msgid "This component is set up incorrectly."
 msgstr "Komponen ini disiapkan secara tidak benar."
@@ -13150,6 +13231,77 @@ msgstr "Segarkan"
 msgid "No connected accounts yet."
 msgstr "Belum ada akun yang terhubung."
 
+#, fuzzy
+#| msgid "code-hosting installations"
+msgid "Code-hosting integrations"
+msgstr "Pemasangan hosting kode"
+
+#, python-format
+msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
+msgstr ""
+
+#, fuzzy
+#| msgid "Connect GitHub account"
+msgid "Connect or update GitHub account"
+msgstr "Hubungkan akun GitHub"
+
+msgid ""
+"Select existing Git or GitHub components to use the Weblate GitHub App. "
+"Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
+"push URLs will be removed."
+msgstr ""
+
+#, python-format
+msgid ""
+"The GitHub App needs repository access for these accounts: %(accounts)s."
+msgstr ""
+
+#, fuzzy
+#| msgid "connected GitHub accounts"
+msgid "Connected GitHub accounts:"
+msgstr "akun GitHub yang terhubung"
+
+msgid "Refresh repositories"
+msgstr "Segarkan repositori"
+
+#, fuzzy
+#| msgid "Affected components"
+msgid "Migrate selected components"
+msgstr "Komponen terdampak"
+
+msgid ""
+"Connect or update the GitHub App to grant access to the remaining "
+"repositories."
+msgstr ""
+
+msgid ""
+"Connect the GitHub App to the listed accounts and grant access to their "
+"repositories before migrating."
+msgstr ""
+
+msgid ""
+"A workspace owner needs to connect the GitHub App and grant access to these "
+"repositories before they can be migrated."
+msgstr ""
+
+#, fuzzy
+#| msgid "Translation status"
+msgid "Migration status"
+msgstr "Status terjemahan"
+
+#, fuzzy
+#| msgid "Read-only"
+msgid "Ready"
+msgstr "Hanya baca"
+
+#, fuzzy
+#| msgid "Repository rebased"
+msgid "Repository access needed"
+msgstr "Repositori dibasis ulang"
+
+msgid "There are no GitHub components in this workspace that can be migrated."
+msgstr ""
+
 msgid "Register Weblate GitHub App"
 msgstr "Daftarkan Aplikasi GitHub Weblate"
 
@@ -13246,9 +13398,6 @@ msgstr "Pasang di %(hostname)s"
 #, python-format
 msgid "Connected GitHub account: %(login)s"
 msgstr "Akun GitHub yang terhubung: %(login)s"
-
-msgid "Refresh repositories"
-msgstr "Segarkan repositori"
 
 #, python-format
 msgid ""
@@ -13381,11 +13530,24 @@ msgstr ""
 "Tindakan ini menghapus akun terhubung <code>%(login)s</code> dari Weblate."
 
 msgid ""
-"The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
-"separately if you no longer need it."
+"If no other Weblate workspace uses this connection, the Weblate GitHub App "
+"will also be uninstalled from GitHub. Reconnecting it then requires "
+"installing the app on GitHub again."
 msgstr ""
-"Weblate GitHub App tetap terpasang di GitHub. Hapus secara terpisah dari "
-"GitHub jika Anda tidak lagi membutuhkannya."
+
+#, fuzzy, python-format
+#| msgid "The following components would be created"
+msgid "The following component will lose access to its repository:"
+msgid_plural ""
+"The following %(counter)s components will lose access to their repositories:"
+msgstr[0] "Komponen berikut akan dibuat"
+
+#, fuzzy, python-format
+#| msgid "%(count)s more affected component."
+#| msgid_plural "%(count)s more affected components."
+msgid "and %(counter)s more component"
+msgid_plural "and %(counter)s more components"
+msgstr[0] "%(count)s komponen terdampak lainnya."
 
 msgid "Invitations"
 msgstr "Undangan"
@@ -14271,6 +14433,9 @@ msgstr "Tidak ada mask berkas yang cocok."
 msgid "Inexistent files."
 msgstr "Berkas tidak ada."
 
+msgid "This component can be migrated to the Weblate GitHub App integration."
+msgstr ""
+
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
 msgstr "Pengaturan repositori yang berkonflik."
@@ -14576,6 +14741,23 @@ msgstr "Dapat ditindaklanjuti oleh saya"
 msgid "Discovery configuration"
 msgstr "Konfigurasi penemuan"
 
+#, fuzzy
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"Component discovery stopped because the repository contains too many paths."
+msgstr ""
+"Komponen %(component)s dilewati karena repositori yang terhubung tidak "
+"tersedia."
+
+msgid ""
+"The language filter regular expression is too complex and took too long to "
+"evaluate."
+msgstr ""
+"Ekspresi reguler filter bahasa terlalu kompleks dan memakan terlalu lama "
+"untuk mengevaluasikan."
+
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
@@ -14584,11 +14766,24 @@ msgstr ""
 "kompleks dan memakan terlalu lama untuk mengevaluasi."
 
 msgid ""
-"The language filter regular expression is too complex and took too long to "
+"Component discovery stopped because matching translation files would require "
+"too many comparisons."
+msgstr ""
+
+#, fuzzy
+#| msgid "The regular expression is too complex and took too long to evaluate."
+msgid ""
+"The file mask used for discovery is too complex and took too long to "
 "evaluate."
 msgstr ""
-"Ekspresi reguler filter bahasa terlalu kompleks dan memakan terlalu lama "
-"untuk mengevaluasikan."
+"Ekspresi reguler terlalu kompleks dan memakan terlalu lama untuk "
+"mengevaluasi."
+
+#, python-format
+msgid ""
+"Multiple base or new base files render to the same file mask %(mask)s "
+"(%(existing)s and %(new)s)."
+msgstr ""
 
 msgid "File mask matches the main component."
 msgstr "Mask berkas cocok dengan komponen utama."
@@ -14620,6 +14815,21 @@ msgstr "Semua perubahan terkini yang dibuat Weblate dalam %s."
 
 msgid "Sort JSON keys"
 msgstr "Sortir kunci JSON"
+
+#, fuzzy
+#| msgid "Do not import"
+msgid "Do not sort"
+msgstr "Jangan impor"
+
+#, fuzzy
+#| msgid "Case-sensitive"
+msgid "Case-sensitive sort"
+msgstr "Peka huruf kapital"
+
+#, fuzzy
+#| msgid "Case-insensitive"
+msgid "Case-insensitive sort"
+msgstr "Tidak peka huruf kapital"
 
 msgid "JSON indentation"
 msgstr "Indentasi JSON"
@@ -16985,6 +17195,33 @@ msgstr "Pisah em"
 msgid "User configured character: {}"
 msgstr "Karakter dikonfigurasikan oleh pengguna: {}"
 
+#, fuzzy
+#| msgid ""
+#| "Automatic translation cannot be started because the target is locked."
+msgid "Repository operation could not be completed because it remained locked."
+msgstr "Terjemahan otomatis tidak dapat dimulai karena target terkunci."
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation could not be completed."
+msgstr "Operasi repositori dalam %(component)s"
+
+msgid ""
+"Repository operation could not be completed because access is no longer "
+"permitted."
+msgstr ""
+
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation completed."
+msgstr "Operasi repositori gagal"
+
+#, fuzzy
+#| msgid "Repository operation in %(component)s"
+msgid "Repository operation completed with errors."
+msgstr "Operasi repositori dalam %(component)s"
+
 msgid "No suggestions found."
 msgstr "Tidak ada saran yang ditemukan."
 
@@ -17490,6 +17727,11 @@ msgid "Use the button on the repository status page to run this action."
 msgstr ""
 "Gunakan tombol pada halaman status repositori untuk menjalankan tindakan ini."
 
+#, fuzzy
+#| msgid "Could not lock the repository, another operation is in progress."
+msgid "Another repository operation is already in progress."
+msgstr "Tidak dapat mengunci repositori, operasi lain sedang berlangsung."
+
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
 "later."
@@ -17497,54 +17739,17 @@ msgstr ""
 "Tampaknya ada operasi yang sedang berlangsung pada repositori. Silakan coba "
 "lagi nanti."
 
-msgid ""
-"All repositories have been updated, updates of translations are in progress."
-msgstr ""
-"Semua repositori telah diperbarui, pembaruan terjemahan sedang berlangsung."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operations failed"
+msgid "This repository operation is already queued."
+msgstr "Operasi repositori gagal"
 
-msgid ""
-"Accessible repositories have been updated, updates of translations are in "
-"progress."
-msgstr ""
-"Repositori yang dapat diakses telah diperbarui, pembaruan terjemahan sedang "
-"berlangsung."
-
-msgid "All repositories were pushed."
-msgstr "Semua repositori didorong."
-
-msgid "Accessible repositories were pushed."
-msgstr "Repositori yang dapat diakses telah di-push."
-
-msgid ""
-"All repositories have been reset, updates of translations are in progress."
-msgstr ""
-"Semua repositori telah diatur ulang, pembaruan terjemahan sedang berlangsung."
-
-msgid ""
-"Accessible repositories have been reset, updates of translations are in "
-"progress."
-msgstr ""
-"Repositori yang dapat diakses telah di-reset, pembaruan terjemahan sedang "
-"berlangsung."
-
-msgid "All repositories have been cleaned up."
-msgstr "Semua repositori telah dibersihkan."
-
-msgid "Accessible repositories have been cleaned up."
-msgstr "Repositori yang dapat akses telah dibersihkan."
-
-msgid "Translation files have been synchronized."
-msgstr "File terjemahan telah disinkronkan."
-
-msgid "Translation files in accessible repositories have been synchronized."
-msgstr "File terjemahan dalam repositori yang dapat diakses telah disinkronkan."
-
-msgid "Updates of translations are in progress."
-msgstr "Pembaruan terjemahan sedang diproses."
-
-msgid "Updates of translations in accessible repositories are in progress."
-msgstr ""
-"Pembaruan terjemahan dalam repositori yang dapat diakses sedang berlangsung."
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgid "Repository operation has been queued."
+msgstr "Operasi repositori gagal"
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "String duplikat telah dihapus dari file terjemahan."
@@ -17554,16 +17759,6 @@ msgstr "String yang tidak digunakan telah dihapus dari file terjemahan."
 
 msgid "Obsolete strings have been removed from the translation file."
 msgstr "String usang telah dihapus dari file terjemahan."
-
-msgid "Pending translations are being committed."
-msgstr "Terjemahan yang tertunda sedang dikomit."
-
-msgid "All pending translations were committed."
-msgstr "Semua terjemahan yang tertunda dikomit."
-
-msgid "Pending translations in accessible repositories were committed."
-msgstr ""
-"Terjemahan yang tertunda dalam repositori yang dapat diakses telah dikomit."
 
 msgid "Component is now locked for translation updates!"
 msgstr "Komponen sekarang dikunci untuk pembaruan terjemahan!"
@@ -18514,6 +18709,16 @@ msgstr "Ini akan mendorong perubahan ke repositori hulu."
 msgid "Enter a valid GitHub host."
 msgstr "Masukkan host GitHub yang valid."
 
+#, fuzzy
+#| msgid "Component to remove"
+msgid "Components to migrate"
+msgstr "Komponen untuk dihapus"
+
+#, fuzzy
+#| msgid "Select an existing component configuration to copy."
+msgid "Select at least one component to migrate."
+msgstr "Pilih konfigurasi komponen yang ada untuk menyalin."
+
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
 "Server."
@@ -18846,9 +19051,37 @@ msgstr ""
 "Buat ruang kerja sebelum menghubungkan akun GitHub. Koneksi GitHub App "
 "ditautkan ke ruang kerja."
 
+msgid ""
+"GitHub could not uninstall the connected account. The connection was not "
+"removed from Weblate, please try again."
+msgstr ""
+
 #, python-format
-msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
+"installed because another workspace still uses it."
+msgstr ""
+
+#, fuzzy, python-format
+#| msgid "Removed connected GitHub account %(target)s."
+msgid ""
+"Removed connected GitHub account %(target)s and uninstalled the Weblate "
+"GitHub App from GitHub."
 msgstr "Akun GitHub terhubung %(target)s telah dihapus."
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. GitHub no longer grants access "
+"to this installation, so it was not uninstalled. Check on GitHub whether the "
+"Weblate GitHub App is still installed."
+msgstr ""
+
+#, python-format
+msgid ""
+"Removed connected GitHub account %(target)s. The Weblate GitHub App is no "
+"longer configured on this Weblate instance, so it could not be uninstalled, "
+"please remove it on GitHub manually."
+msgstr ""
 
 #, python-format
 msgid ""
@@ -18929,6 +19162,30 @@ msgstr ""
 
 msgid "Connected GitHub account added."
 msgstr "Akun GitHub yang terhubung ditambahkan."
+
+#, fuzzy, python-format
+#| msgid "Remove Weblate GitHub App?"
+msgid "Migrated one component to the Weblate GitHub App."
+msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
+msgstr[0] "Hapus Weblate GitHub App?"
+
+#, fuzzy, python-format
+#| msgid ""
+#| "Component %(component)s was skipped because its linked repository is "
+#| "unavailable."
+msgid ""
+"One component was not migrated because its repository is no longer available."
+msgid_plural ""
+"%(count)d components were not migrated because their repositories are no "
+"longer available."
+msgstr[0] ""
+"Komponen %(component)s dilewati karena repositori yang terhubung tidak "
+"tersedia."
+
+#, fuzzy, python-format
+#| msgid "Could not push %(component)s: %(error_text)s"
+msgid "Could not migrate %(component)s: %(error)s"
+msgstr "Tidak dapat mendorong %(component)s: %(error_text)s"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Masukkan nama dan host GitHub App yang valid."
@@ -19260,6 +19517,85 @@ msgstr "Ruang kerja tidak dapat dihapus karena masih digunakan."
 
 msgid "The workspace has been removed."
 msgstr "Ruang kerja telah dihapus."
+
+#~ msgid ""
+#~ "The regular expression must define named groups for component and "
+#~ "language."
+#~ msgstr ""
+#~ "Ekspresi reguler harus mendefinisikan grup bernama untuk komponen dan "
+#~ "bahasa."
+
+#~ msgid ""
+#~ "The Weblate GitHub app stays installed on GitHub. Remove it on GitHub "
+#~ "separately if you no longer need it."
+#~ msgstr ""
+#~ "Weblate GitHub App tetap terpasang di GitHub. Hapus secara terpisah dari "
+#~ "GitHub jika Anda tidak lagi membutuhkannya."
+
+#~ msgid ""
+#~ "All repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Semua repositori telah diperbarui, pembaruan terjemahan sedang "
+#~ "berlangsung."
+
+#~ msgid ""
+#~ "Accessible repositories have been updated, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Repositori yang dapat diakses telah diperbarui, pembaruan terjemahan "
+#~ "sedang berlangsung."
+
+#~ msgid "All repositories were pushed."
+#~ msgstr "Semua repositori didorong."
+
+#~ msgid "Accessible repositories were pushed."
+#~ msgstr "Repositori yang dapat diakses telah di-push."
+
+#~ msgid ""
+#~ "All repositories have been reset, updates of translations are in progress."
+#~ msgstr ""
+#~ "Semua repositori telah diatur ulang, pembaruan terjemahan sedang "
+#~ "berlangsung."
+
+#~ msgid ""
+#~ "Accessible repositories have been reset, updates of translations are in "
+#~ "progress."
+#~ msgstr ""
+#~ "Repositori yang dapat diakses telah di-reset, pembaruan terjemahan sedang "
+#~ "berlangsung."
+
+#~ msgid "All repositories have been cleaned up."
+#~ msgstr "Semua repositori telah dibersihkan."
+
+#~ msgid "Accessible repositories have been cleaned up."
+#~ msgstr "Repositori yang dapat akses telah dibersihkan."
+
+#~ msgid "Translation files have been synchronized."
+#~ msgstr "File terjemahan telah disinkronkan."
+
+#~ msgid "Translation files in accessible repositories have been synchronized."
+#~ msgstr ""
+#~ "File terjemahan dalam repositori yang dapat diakses telah disinkronkan."
+
+#~ msgid "Updates of translations are in progress."
+#~ msgstr "Pembaruan terjemahan sedang diproses."
+
+#~ msgid "Updates of translations in accessible repositories are in progress."
+#~ msgstr ""
+#~ "Pembaruan terjemahan dalam repositori yang dapat diakses sedang "
+#~ "berlangsung."
+
+#~ msgid "Pending translations are being committed."
+#~ msgstr "Terjemahan yang tertunda sedang dikomit."
+
+#~ msgid "All pending translations were committed."
+#~ msgstr "Semua terjemahan yang tertunda dikomit."
+
+#~ msgid "Pending translations in accessible repositories were committed."
+#~ msgstr ""
+#~ "Terjemahan yang tertunda dalam repositori yang dapat diakses telah "
+#~ "dikomit."
 
 #~ msgid ""
 #~ "Don’t worry about messing up the strings. This is a two-step process "
@@ -19632,9 +19968,6 @@ msgstr "Ruang kerja telah dihapus."
 
 #~ msgid "Workflow customization"
 #~ msgstr "Penyesuaian alur kerja"
-
-#~ msgid "Could not lock the repository, another operation is in progress."
-#~ msgstr "Tidak dapat mengunci repositori, operasi lain sedang berlangsung."
 
 #~ msgid "Add team"
 #~ msgstr "Tambahkan tim"
