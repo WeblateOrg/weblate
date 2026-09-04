@@ -17,6 +17,9 @@ such as MDX or JSX-like components. Use the explicit ``safe-html`` flag for
 strings that are known to contain HTML and should always be sanitized,
 including SVG or MathML snippets.
 
+Extracted fenced or indented code blocks and inline code spans are treated as
+literal code and are not sanitized as HTML.
+
 .. include:: /snippets/format-database-backed.rst
 
 .. seealso::
