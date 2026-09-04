@@ -25,9 +25,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://hosted.weblate.org/projects/weblate/"
 "application/\n"
 "POT-Creation-Date: 2026-09-03 21:16-0500\n"
-"PO-Revision-Date: 2026-09-04 03:43+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github-"
-"integration@weblate.org>\n"
+"PO-Revision-Date: 2026-09-05 05:51+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -35,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9\n"
+"X-Generator: Weblate 2026.9.1.dev0\n"
 
 msgctxt "No known user"
 msgid "None"
@@ -1404,14 +1403,12 @@ msgstr "Die Authentifizierungs-App wurde entfernt."
 msgid "The authentication app %s was registered."
 msgstr "Die Authentifizierungs-App %s wurde registriert."
 
-#, fuzzy
-#| msgid "If it was you, reset your password to regain access to your account."
 msgid ""
 "Too many failed authentication attempts. Please reset your password to "
 "regain access to your account."
 msgstr ""
-"Wenn Sie es waren, setzen Sie Ihr Passwort zurück, um wieder Zugriff auf Ihr "
-"Konto zu erhalten."
+"Zu viele fehlgeschlagene Authentifizierungsversuche. Bitte setzen Sie Ihr "
+"Passwort zurück, um wieder Zugriff auf Ihr Konto zu erhalten."
 
 msgid "Second factor sign in"
 msgstr "Zwei-Faktor-Anmeldung"
@@ -2065,12 +2062,17 @@ msgid ""
 "mask is set, omit language and match the monolingual base or new base file "
 "instead."
 msgstr ""
+"Der reguläre Ausdruck muss einen Gruppennamen für die Komponente definieren. "
+"Definieren Sie außerdem einen Gruppennamen für die Sprache, wenn "
+"Übersetzungsdateien abgeglichen werden. Wenn die Dateimaske festgelegt ist, "
+"lassen Sie die Sprache weg und gleichen Sie stattdessen die einsprachige "
+"Basisdatei oder die neue Basisdatei ab."
 
 msgid "File format"
 msgstr "Dateiformat"
 
 msgid "Customize the component name"
-msgstr "Anpassen des Komponentennamens"
+msgstr "Den Komponentennamen anpassen"
 
 msgid "Use Django template syntax. This template must include {{ component }}."
 msgstr ""
@@ -2110,10 +2112,8 @@ msgstr ""
 "die beim Erstellen der eigentlichen Ausgangszeichenketten verwendet wird. "
 "Diese Vorlage muss {{ component }} enthalten."
 
-#, fuzzy
-#| msgid "Duplicated file mask."
 msgid "Define the file mask"
-msgstr "Doppelte Dateimaske."
+msgstr "Die Dateimaske definieren"
 
 msgid ""
 "Leave empty to match translation files directly. When set, discovery matches "
@@ -2121,6 +2121,11 @@ msgid ""
 "mask. Include a language wildcard and {{ component }}, for example locale/*/"
 "{{ component }}.po or docs/{{ component }}_*.md."
 msgstr ""
+"Lassen Sie das Feld leer, um Übersetzungsdateien direkt abzugleichen. Wenn "
+"dieses Feld gesetzt ist, gleicht die Erkennung die einsprachige Basisdatei "
+"oder neue Basisdatei ab und verwendet diese Vorlage als Dateimaske. Fügen "
+"Sie einen Sprach-Platzhalter und {{ component }} ein, zum Beispiel locale/*/{"
+"{ component }}.po oder docs/{{ component }}_*.md."
 
 msgid "Language filter"
 msgstr "Sprachfilter"
@@ -2223,24 +2228,22 @@ msgid "You can not use a base file for bilingual translation."
 msgstr ""
 "Basisdatei kann nicht für zweisprachige Übersetzungen verwendet werden."
 
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid ""
 "Define the base file for new translations when creating components from a "
 "template."
-msgstr "Definition der Basisdatei für neue Übersetzungen"
+msgstr ""
+"Die Basisdatei für neue Übersetzungen festlegen, wenn Komponenten anhand "
+"einer Vorlage erstellt werden."
 
-#, fuzzy
-#| msgid ""
-#| "Please add a monolingual base language file in the component settings."
 msgid ""
 "Define a monolingual base or new base filename when creating components from "
 "a template."
 msgstr ""
-"Bitte einsprachige Basissprachdatei zur Komponenteneinstellung hinzufügen."
+"Beim Erstellen von Komponenten aus einer Vorlage einen einsprachigen Basis- "
+"oder neuen Basis-Dateinamen festlegen."
 
 msgid "The file mask must include a language wildcard (*)."
-msgstr ""
+msgstr "Die Dateimaske muss einen Sprach-Platzhalter (*) enthalten."
 
 msgid "Please review and confirm the matched components."
 msgstr "Bitte überprüfen und bestätigen Sie die passenden Komponenten."
@@ -2249,6 +2252,8 @@ msgid ""
 "Omit the language named group when creating components from a monolingual "
 "base or new base file."
 msgstr ""
+"Beim Erstellen von Komponenten aus einer einsprachigen Basisdatei oder einer "
+"neuen Basisdatei wird der Gruppenname Sprache weggelassen."
 
 msgid "This template must include {{ component }}."
 msgstr "Diese Vorlage muss {{ component }} enthalten."
@@ -6349,19 +6354,13 @@ msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 5"
 msgstr "Claude Sonnet 5"
 
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Opus 4.8"
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 5"
-msgstr "Claude Opus 4.8"
+msgstr "Claude Opus 5"
 
-#, fuzzy
-#| msgctxt "Anthropic model selection"
-#| msgid "Claude Fable 5"
 msgctxt "Anthropic model selection"
 msgid "Claude Fable 5.1"
-msgstr "Claude Fable 5"
+msgstr "Claude Fable 5.1"
 
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.8"
@@ -12390,14 +12389,18 @@ msgid ""
 "the component to push translation branches directly to the upstream "
 "repository."
 msgstr ""
+"Dieses Repository lässt keine Forks zu. Stellen Sie sicher, dass die Weblate-"
+"GitHub-App mit diesem Arbeitsbereich verbunden ist und Zugriff auf das "
+"Repository hat. Migrieren Sie anschließend die Komponente, um Übersetzungs-"
+"Branches direkt in das Upstream-Repository zu pushen."
 
-#, fuzzy
-#| msgid "Weblate GitHub Apps"
 msgid "Migrate to GitHub App"
-msgstr "Weblate-GitHub-Apps"
+msgstr "Zur GitHub-App migrieren"
 
 msgid "Ask a workspace owner to complete the GitHub App setup and migration."
 msgstr ""
+"Bitten Sie einen Arbeitsbereich-Besitzer, das Einrichten und Migrieren der "
+"GitHub-App abzuschließen."
 
 msgid ""
 "Gerrit prohibited this push. You might need a gerrit-account that has the "
@@ -12600,6 +12603,8 @@ msgid ""
 "This component can use the Weblate GitHub App for repository access and pull "
 "requests."
 msgstr ""
+"Diese Komponente kann die Weblate-GitHub-App für den Repository-Zugriff und "
+"für Pull Requests nutzen."
 
 msgid "This component is set up incorrectly."
 msgstr "Diese Komponente ist falsch eingerichtet."
@@ -13724,69 +13729,69 @@ msgstr "Code-Hosting-Integrationen"
 
 #, python-format
 msgid "Migrate %(workspace_name)s to the Weblate GitHub App"
-msgstr ""
+msgstr "%(workspace_name)s zur Weblate-GitHub-App migrieren"
 
-#, fuzzy
-#| msgid "Connect GitHub account"
 msgid "Connect or update GitHub account"
-msgstr "GitHub-Konto verbinden"
+msgstr "GitHub-Konto verbinden oder aktualisieren"
 
 msgid ""
 "Select existing Git or GitHub components to use the Weblate GitHub App. "
 "Their repository URLs will be replaced by canonical HTTPS URLs, and separate "
 "push URLs will be removed."
 msgstr ""
+"Wählen Sie vorhandene Git- oder GitHub-Komponenten aus, um die Weblate-"
+"GitHub-App zu nutzen. Ihre Repository-URLs werden durch kanonische HTTPS-"
+"URLs ersetzt, und separate Push-URLs werden entfernt."
 
 #, python-format
 msgid ""
 "The GitHub App needs repository access for these accounts: %(accounts)s."
 msgstr ""
+"Die GitHub-App benötigt Repository-Zugriff für diese Konten: %(accounts)s."
 
-#, fuzzy
-#| msgid "connected GitHub accounts"
 msgid "Connected GitHub accounts:"
-msgstr "verbundene GitHub-Konten"
+msgstr "Verbundene GitHub-Konten:"
 
 msgid "Refresh repositories"
 msgstr "Repositorys aktualisieren"
 
-#, fuzzy
-#| msgid "Affected components"
 msgid "Migrate selected components"
-msgstr "Betroffene Komponenten"
+msgstr "Ausgewählte Komponenten migrieren"
 
 msgid ""
 "Connect or update the GitHub App to grant access to the remaining "
 "repositories."
 msgstr ""
+"Verbinden oder aktualisieren Sie die GitHub-App, um den Zugriff auf die "
+"übrigen Repositorys zu gewähren."
 
 msgid ""
 "Connect the GitHub App to the listed accounts and grant access to their "
 "repositories before migrating."
 msgstr ""
+"Verbinden Sie die GitHub-App vor der Migration mit den aufgeführten Konten "
+"und gewähren Sie Zugriff auf deren Repositorys."
 
 msgid ""
 "A workspace owner needs to connect the GitHub App and grant access to these "
 "repositories before they can be migrated."
 msgstr ""
+"Ein Arbeitsbereich-Besitzer muss die GitHub-App verbinden und Zugriff auf "
+"diese Repositorys gewähren, bevor diese migriert werden können."
 
-#, fuzzy
-#| msgid "Translation status"
 msgid "Migration status"
-msgstr "Übersetzungsstatus"
+msgstr "Migrationsstatus"
 
-#, fuzzy
-#| msgid "Read-only"
 msgid "Ready"
-msgstr "Schreibgeschützt"
+msgstr "Bereit"
 
-#, fuzzy
-#| msgid "Repository rebased"
 msgid "Repository access needed"
-msgstr "Repository umbasiert"
+msgstr "Repository-Zugriff erforderlich"
 
 msgid "There are no GitHub components in this workspace that can be migrated."
 msgstr ""
+"In diesem Arbeitsbereich befinden sich keine GitHub-Komponenten, die "
+"migriert werden können."
 
 msgid "Register Weblate GitHub App"
 msgstr "Weblate-GitHub-App registrieren"
@@ -14028,22 +14033,24 @@ msgid ""
 "will also be uninstalled from GitHub. Reconnecting it then requires "
 "installing the app on GitHub again."
 msgstr ""
+"Wenn kein anderer Weblate-Arbeitsbereich diese Verbindung nutzt, wird die "
+"Weblate-GitHub-App auch auf GitHub deinstalliert. Um die Verbindung "
+"wiederherzustellen, muss die App dann erneut auf GitHub installiert werden."
 
-#, fuzzy, python-format
-#| msgid "The following components would be created"
+#, python-format
 msgid "The following component will lose access to its repository:"
 msgid_plural ""
 "The following %(counter)s components will lose access to their repositories:"
-msgstr[0] "Die folgenden Komponenten würden erstellt werden"
-msgstr[1] "Die folgenden Komponenten würden erstellt werden"
+msgstr[0] "Die folgende Komponente verliert den Zugriff auf ihr Repository:"
+msgstr[1] ""
+"Die folgenden %(counter)s Komponenten verlieren den Zugriff auf ihre "
+"Repositorys:"
 
-#, fuzzy, python-format
-#| msgid "%(count)s more affected component."
-#| msgid_plural "%(count)s more affected components."
+#, python-format
 msgid "and %(counter)s more component"
 msgid_plural "and %(counter)s more components"
-msgstr[0] "%(count)s weitere betroffene Komponente."
-msgstr[1] "%(count)s weitere betroffene Komponenten."
+msgstr[0] "sowie %(counter)s weitere Komponente"
+msgstr[1] "sowie %(counter)s weitere Komponenten"
 
 msgid "Invitations"
 msgstr "Einladungen"
@@ -14966,6 +14973,7 @@ msgstr "Nicht vorhandene Dateien."
 
 msgid "This component can be migrated to the Weblate GitHub App integration."
 msgstr ""
+"Diese Komponente kann in die Weblate-GitHub-App-Integration migriert werden."
 
 #. Translators: Name of an alert
 msgid "Conflicting repository setup."
@@ -15283,48 +15291,46 @@ msgstr "Von mir umsetzbar"
 msgid "Discovery configuration"
 msgstr "Erkennungskonfiguration"
 
-#, fuzzy
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
 msgid ""
 "Component discovery stopped because the repository contains too many paths."
 msgstr ""
-"Komponente %(component)s wurde übersprungen, da das verlinkte Repository "
-"nicht verfügbar ist."
+"Komponentenerkennung abgebrochen, da das Repository zu viele Pfade enthält."
 
 msgid ""
 "The language filter regular expression is too complex and took too long to "
 "evaluate."
 msgstr ""
 "Der reguläre Ausdruck des Sprachfilters ist zu komplex und die Auswertung "
-"dauert zu lange."
+"hat zu lange gedauert."
 
 msgid ""
 "The regular expression used to match discovered files is too complex and "
 "took too long to evaluate."
 msgstr ""
 "Der reguläre Ausdruck, der zum Abgleich der entdeckten Dateien verwendet "
-"wird, ist zu komplex und die Auswertung dauert zu lange."
+"wird, ist zu komplex und die Auswertung hat zu lange gedauert."
 
 msgid ""
 "Component discovery stopped because matching translation files would require "
 "too many comparisons."
 msgstr ""
+"Komponentenerkennung abgebrochen, da die Suche nach passenden "
+"Übersetzungsdateien zu viele Vergleiche erfordern würde."
 
-#, fuzzy
-#| msgid "The regular expression is too complex and took too long to evaluate."
 msgid ""
 "The file mask used for discovery is too complex and took too long to "
 "evaluate."
 msgstr ""
-"Der reguläre Ausdruck ist zu komplex und die Auswertung dauert zu lange."
+"Die für die Erkennung verwendete Dateimaske ist zu komplex, und die "
+"Auswertung hat zu lange gedauert."
 
 #, python-format
 msgid ""
 "Multiple base or new base files render to the same file mask %(mask)s "
 "(%(existing)s and %(new)s)."
 msgstr ""
+"Mehrere Basis- oder neue Basisdateien werden in dieselbe Dateimaske "
+"gerendert: %(mask)s (%(existing)s und %(new)s)."
 
 msgid "File mask matches the main component."
 msgstr "Dateimaske entspricht der Hauptkomponente."
@@ -15357,20 +15363,14 @@ msgstr "Liste der letzten mit Weblate vorgenommenen Änderungen in %s."
 msgid "Sort JSON keys"
 msgstr "Nach JSON-Schlüssel sortieren"
 
-#, fuzzy
-#| msgid "Do not import"
 msgid "Do not sort"
-msgstr "Nicht importieren"
+msgstr "Nicht sortieren"
 
-#, fuzzy
-#| msgid "Case-sensitive"
 msgid "Case-sensitive sort"
-msgstr "Case-sensitiv"
+msgstr "Groß-/Kleinschreibung beachten"
 
-#, fuzzy
-#| msgid "Case-insensitive"
 msgid "Case-insensitive sort"
-msgstr "Case-insensitiv"
+msgstr "Groß-/Kleinschreibung nicht beachten"
 
 msgid "JSON indentation"
 msgstr "JSON-Einrückung"
@@ -17407,7 +17407,8 @@ msgstr ""
 
 msgid "The regular expression is too complex and took too long to evaluate."
 msgstr ""
-"Der reguläre Ausdruck ist zu komplex und die Auswertung dauert zu lange."
+"Der reguläre Ausdruck ist zu komplex und die Auswertung hat zu lange "
+"gedauert."
 
 msgid "Could not add new translation file."
 msgstr "Eine neue Übersetzungsdatei konnte nicht hinzugefügt werden."
@@ -17862,34 +17863,26 @@ msgstr "Geviertstrich"
 msgid "User configured character: {}"
 msgstr "Benutzerdefinierter Charakter: {}"
 
-#, fuzzy
-#| msgid ""
-#| "Automatic translation cannot be started because the target is locked."
 msgid "Repository operation could not be completed because it remained locked."
 msgstr ""
-"Automatische Übersetzung kann nicht gestartet werden, da das Ziel gesperrt "
-"ist."
+"Repository-Operation konnte nicht abgeschlossen werden, da das Repository "
+"weiterhin gesperrt war."
 
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operation could not be completed."
-msgstr "Repository-Operation in %(component)s"
+msgstr "Repository-Operation konnte nicht abgeschlossen werden."
 
 msgid ""
 "Repository operation could not be completed because access is no longer "
 "permitted."
 msgstr ""
+"Repository-Operation konnte nicht abgeschlossen werden, da der Zugriff nicht "
+"mehr zulässig ist."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository operation completed."
-msgstr "Repository-Operation fehlgeschlagen"
+msgstr "Repository-Operation abgeschlossen."
 
-#, fuzzy
-#| msgid "Repository operation in %(component)s"
 msgid "Repository operation completed with errors."
-msgstr "Repository-Operation in %(component)s"
+msgstr "Repository-Operation mit Fehlern abgeschlossen."
 
 msgid "No suggestions found."
 msgstr "Keine Vorschläge gefunden."
@@ -18434,12 +18427,8 @@ msgstr ""
 "Verwenden Sie die Schaltfläche auf der Repository-Statusseite, um diese "
 "Aktion auszuführen."
 
-#, fuzzy
-#| msgid "Could not lock the repository, another operation is in progress."
 msgid "Another repository operation is already in progress."
-msgstr ""
-"Das Repository konnte nicht gesperrt werden, ein anderer Vorgang wird "
-"durchgeführt."
+msgstr "Eine weitere Repository-Operation wird bereits durchgeführt."
 
 msgid ""
 "There appears to be an ongoing operation on the repository. Please try again "
@@ -18448,17 +18437,11 @@ msgstr ""
 "Es scheint eine laufende Operation im Repository zu geben. Bitte später "
 "erneut versuchen."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operations failed"
 msgid "This repository operation is already queued."
-msgstr "Repository-Operationen fehlgeschlagen"
+msgstr "Diese Repository-Operation befindet sich bereits in der Warteschlange."
 
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Repository operation failed"
 msgid "Repository operation has been queued."
-msgstr "Repository-Operation fehlgeschlagen"
+msgstr "Repository-Operation wurde in die Warteschlange gestellt."
 
 msgid "Duplicate strings have been removed from the translation file."
 msgstr "Doppelte Zeichenketten wurden aus der Übersetzungsdatei entfernt."
@@ -19476,17 +19459,11 @@ msgstr "Dadurch werden die Änderungen in das Upstream-Repository gepusht."
 msgid "Enter a valid GitHub host."
 msgstr "Geben Sie einen gültigen GitHub-Host ein."
 
-#, fuzzy
-#| msgid "Component to remove"
 msgid "Components to migrate"
-msgstr "Zu entfernende Komponente"
+msgstr "Zu migrierende Komponenten"
 
-#, fuzzy
-#| msgid "Select an existing component configuration to copy."
 msgid "Select at least one component to migrate."
-msgstr ""
-"Wählen Sie eine vorhandene Komponentenkonfiguration aus, die kopiert werden "
-"soll."
+msgstr "Mindestens eine zu migrierende Komponente auswählen."
 
 msgid ""
 "Use github.com for GitHub.com, or the web hostname for GitHub Enterprise "
@@ -19832,19 +19809,24 @@ msgid ""
 "GitHub could not uninstall the connected account. The connection was not "
 "removed from Weblate, please try again."
 msgstr ""
+"GitHub konnte das verbundene Konto nicht deinstallieren. Die Verbindung "
+"wurde nicht aus Weblate entfernt, bitte erneut versuchen."
 
 #, python-format
 msgid ""
 "Removed connected GitHub account %(target)s. The Weblate GitHub App remains "
 "installed because another workspace still uses it."
 msgstr ""
+"Das verbundene GitHub-Konto %(target)s wurde entfernt. Die Weblate-GitHub-"
+"App bleibt installiert, da ein anderer Arbeitsbereich sie weiterhin nutzt."
 
-#, fuzzy, python-format
-#| msgid "Removed connected GitHub account %(target)s."
+#, python-format
 msgid ""
 "Removed connected GitHub account %(target)s and uninstalled the Weblate "
 "GitHub App from GitHub."
-msgstr "Verbundenes GitHub-Konto %(target)s entfernt."
+msgstr ""
+"Das verbundene GitHub-Konto %(target)s wurde entfernt und die Weblate GitHub-"
+"App auf GitHub deinstalliert."
 
 #, python-format
 msgid ""
@@ -19852,6 +19834,9 @@ msgid ""
 "to this installation, so it was not uninstalled. Check on GitHub whether the "
 "Weblate GitHub App is still installed."
 msgstr ""
+"Das verbundene GitHub-Konto %(target)s wurde entfernt. GitHub gewährt keinen "
+"Zugriff mehr auf diese Installation, daher wurde sie nicht deinstalliert. "
+"Prüfen Sie auf GitHub, ob die Weblate-GitHub-App noch installiert ist."
 
 #, python-format
 msgid ""
@@ -19859,6 +19844,9 @@ msgid ""
 "longer configured on this Weblate instance, so it could not be uninstalled, "
 "please remove it on GitHub manually."
 msgstr ""
+"Das verbundene GitHub-Konto %(target)s wurde entfernt. Da die Weblate-GitHub-"
+"App auf dieser Weblate-Instanz nicht mehr konfiguriert ist, konnte sie nicht "
+"deinstalliert werden. Bitte entfernen Sie sie manuell auf GitHub."
 
 #, python-format
 msgid ""
@@ -19943,33 +19931,28 @@ msgstr ""
 msgid "Connected GitHub account added."
 msgstr "Verbundenes GitHub-Konto hinzugefügt."
 
-#, fuzzy, python-format
-#| msgid "Remove Weblate GitHub App?"
+#, python-format
 msgid "Migrated one component to the Weblate GitHub App."
 msgid_plural "Migrated %(count)d components to the Weblate GitHub App."
-msgstr[0] "Weblate-GitHub-App entfernen?"
-msgstr[1] "Weblate-GitHub-App entfernen?"
+msgstr[0] "Eine Komponente wurde zur Weblate-GitHub-App migriert."
+msgstr[1] "%(count)d Komponenten wurden zur Weblate-GitHub-App migriert."
 
-#, fuzzy, python-format
-#| msgid ""
-#| "Component %(component)s was skipped because its linked repository is "
-#| "unavailable."
+#, python-format
 msgid ""
 "One component was not migrated because its repository is no longer available."
 msgid_plural ""
 "%(count)d components were not migrated because their repositories are no "
 "longer available."
 msgstr[0] ""
-"Komponente %(component)s wurde übersprungen, da das verlinkte Repository "
-"nicht verfügbar ist."
+"Eine Komponente wurde nicht migriert, da ihr Repository nicht mehr verfügbar "
+"ist."
 msgstr[1] ""
-"Komponente %(component)s wurde übersprungen, da das verlinkte Repository "
-"nicht verfügbar ist."
+"%(count)d Komponenten wurden nicht migriert, da ihre Repository nicht mehr "
+"verfügbar sind."
 
-#, fuzzy, python-format
-#| msgid "Could not push %(component)s: %(error_text)s"
+#, python-format
 msgid "Could not migrate %(component)s: %(error)s"
-msgstr "%(component)s konnte nicht gepusht werden: %(error_text)s"
+msgstr "%(component)s konnte nicht migriert werden: %(error)s"
 
 msgid "Enter a valid GitHub App name and host."
 msgstr "Geben Sie einen gültigen GitHub-App-Namen und -Host ein."
