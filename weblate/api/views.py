@@ -3871,7 +3871,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin, AnnouncementsM
     @extend_schema(
         description="Trigger automatic translation.",
         methods=["post"],
-        request=inAutoTranslateRequestSerializer,
+        request=AutoTranslateRequestSerializer,
         responses={HTTP_200_OK: AutoTranslateResponseSerializer},
     )
     @action(detail=True, methods=["post"])
