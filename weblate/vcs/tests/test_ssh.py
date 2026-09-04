@@ -5,10 +5,13 @@
 import os
 import shutil
 import subprocess  # ruff: ignore[suspicious-subprocess-import]
+import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from threading import Barrier
 from time import time
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -84,6 +87,74 @@ class SSHTest(TestCase):
         timestamp = os.stat(filename).st_mtime
         wrapper.create()
         self.assertEqual(timestamp, os.stat(filename).st_mtime)
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_create_ssh_wrapper_concurrently(self) -> None:
+        wrapper = SSHWrapper()
+        filename = wrapper.filename
+        expected_content = wrapper.get_content("/usr/bin/ssh")
+        worker_count = 4
+        barrier = Barrier(worker_count)
+        original_replace = os.replace
+        replacements: list[tuple[str, bool, bool]] = []
+
+        def synchronized_replace(source: str, destination: Path) -> None:
+            replacements.append(
+                (
+                    Path(source).read_text(encoding="utf-8"),
+                    os.access(source, os.X_OK),
+                    destination.exists(),
+                )
+            )
+            barrier.wait(timeout=10)
+            original_replace(source, destination)
+
+        def find_ssh(command: str) -> str | None:
+            if command == "ssh":
+                return "/usr/bin/ssh"
+            return None
+
+        with (
+            patch("weblate.vcs.ssh.find_command", side_effect=find_ssh),
+            patch("weblate.vcs.ssh.os.replace", side_effect=synchronized_replace),
+            ThreadPoolExecutor(max_workers=worker_count) as executor,
+        ):
+            list(executor.map(lambda _index: wrapper.create(), range(worker_count)))
+
+        self.assertEqual(
+            replacements,
+            [(expected_content, True, False)] * worker_count,
+        )
+        self.assertEqual(filename.read_text(encoding="utf-8"), expected_content)
+        self.assertTrue(os.access(filename, os.X_OK))
+        self.assertEqual(list(wrapper.path.iterdir()), [filename])
+
+    @tempdir_setting("CACHE_DIR")
+    @tempdir_setting("DATA_DIR")
+    def test_create_ssh_wrapper_cleans_up_write_failure(self) -> None:
+        wrapper = SSHWrapper()
+        wrapper.path.mkdir(parents=True)
+        with tempfile.NamedTemporaryFile(dir=wrapper.path) as temporary_handle:
+            temporary = Path(temporary_handle.name)
+            handle = MagicMock(name=temporary.as_posix())
+            handle.name = temporary.as_posix()
+            handle.write.side_effect = OSError
+            context = MagicMock()
+            context.__enter__.return_value = handle
+            context.__exit__.side_effect = temporary_handle.__exit__
+
+            with (
+                patch("weblate.vcs.ssh.find_command", return_value="/usr/bin/ssh"),
+                patch(
+                    "weblate.vcs.ssh.tempfile.NamedTemporaryFile",
+                    return_value=context,
+                ),
+                self.assertRaises(OSError),
+            ):
+                wrapper.create()
+
+            self.assertFalse(temporary.exists())
 
     @tempdir_setting("CACHE_DIR")
     @tempdir_setting("DATA_DIR")

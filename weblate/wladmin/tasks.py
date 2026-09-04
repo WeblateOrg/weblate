@@ -11,6 +11,7 @@ from django.utils import timezone
 
 from weblate.utils.celery import app
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.tasks import run_backup_preparation
 from weblate.wladmin.models import BackupService, SupportStatus
 
 
@@ -33,10 +34,18 @@ def support_status_update() -> None:
         support.save()
 
 
-@app.task(trail=False)
-def backup() -> None:
-    for service in BackupService.objects.filter(enabled=True):
-        backup_service.delay(service.pk)
+@app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
+def backup(service_ids: list[int] | None = None) -> None:
+    if service_ids is None:
+        service_ids = list(
+            BackupService.objects.filter(enabled=True)
+            .order_by("pk")
+            .values_list("pk", flat=True)
+        )
+
+    run_backup_preparation(service_ids)
+    for service_id in service_ids:
+        backup_service.delay(service_id)
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))

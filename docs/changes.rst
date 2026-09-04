@@ -20,6 +20,7 @@ Weblate 2026.9.1
 * Links outside tab navigation now correctly activate their target tabs, fixing upload links for missing translations and new components.
 * Error reporting integrations now distinguish informational messages from exceptions and reliably report the explicitly handled exception.
 * The default Celery per-child memory limit now accommodates the application's baseline memory usage, avoiding unnecessary worker recycling.
+* Backup services now start only after settings and database backup files are fully updated, while backups to different Borg repositories can run in parallel.
 
 .. rubric:: Compatibility
 
