@@ -46,6 +46,7 @@ from .db import (
     get_invalid_database_statistics,
     measure_database_latency,
 )
+from .docker import DOCKER_WARNING_MAX_DISPLAY_SOURCES, get_docker_startup_warnings
 from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
 from .errors import init_error_collection
 from .filesystem import (
@@ -607,6 +608,31 @@ def check_filesystem_latency(
                 "weblate.W048",
                 f"The filesystem at {paths[name]} seems slow; metadata lookups "
                 f"took {latency:g} milliseconds (configured by {name}).",
+                DjangoWarning,
+            )
+        )
+    return errors
+
+
+@register(deploy=True)
+def check_docker_startup_warnings(
+    *,
+    app_configs: Sequence[AppConfig] | None,
+    databases: Sequence[str] | None,
+    **kwargs,
+) -> Iterable[CheckMessage]:
+    """Report actionable warnings emitted during Docker container startup."""
+    errors: list[CheckMessage] = []
+    for warning, sources in get_docker_startup_warnings().items():
+        displayed_sources = sources[:DOCKER_WARNING_MAX_DISPLAY_SOURCES]
+        omitted_sources = len(sources) - len(displayed_sources)
+        source = ", ".join(displayed_sources)
+        if omitted_sources:
+            source = f"{source}, and {omitted_sources} more"
+        errors.append(
+            weblate_check(
+                "weblate.W049",
+                f"Docker startup warning from {source}: {warning}",
                 DjangoWarning,
             )
         )
