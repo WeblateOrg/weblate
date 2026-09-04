@@ -4,12 +4,15 @@
 
 from __future__ import annotations
 
-from typing import ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from django import forms
 
 from weblate.fonts.models import Font, FontGroup, FontOverride
 from weblate.utils.forms import AssetFileField
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Project
 
 
 class FontForm(forms.ModelForm):
@@ -34,3 +37,8 @@ class FontOverrideForm(forms.ModelForm):
     class Meta:
         model = FontOverride
         fields = ("language", "font")
+
+    def __init__(self, data=None, *, project: Project, **kwargs) -> None:
+        super().__init__(data, **kwargs)
+        field = cast("forms.ModelChoiceField", self.fields["font"])
+        field.queryset = field.queryset.filter(project=project)  # type: ignore[union-attr]

@@ -2,9 +2,15 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.fonts.models import FONT_STORAGE
+from importlib import import_module
+
+from django.apps import apps
+from django.core.exceptions import ValidationError
+
+from weblate.fonts.models import FONT_STORAGE, Font, FontGroup, FontOverride
 from weblate.fonts.tasks import cleanup_font_files
 from weblate.fonts.tests.utils import FontComponentTestCase
+from weblate.trans.models import Project
 
 
 class FontModelTest(FontComponentTestCase):
@@ -32,3 +38,53 @@ class FontModelTest(FontComponentTestCase):
         self.assert_font_files(1)
         cleanup_font_files()
         self.assert_font_files(0)
+
+    def test_override_project_scope(self) -> None:
+        local_font = self.add_font()
+        private_project = Project.objects.create(name="Private", slug="private")
+        private_font = Font.objects.create(
+            family="Private font",
+            style="Regular",
+            font=local_font.font.name,
+            project=private_project,
+            user=self.user,
+        )
+        group = FontGroup.objects.create(
+            name="font-group", font=local_font, project=self.project
+        )
+
+        with self.assertRaisesMessage(
+            ValidationError, "Font has to be in the same project as the font group."
+        ):
+            FontOverride.objects.create(
+                group=group,
+                language=self.translation.language,
+                font=private_font,
+            )
+
+    def test_remove_cross_project_font_overrides(self) -> None:
+        local_font = self.add_font()
+        private_project = Project.objects.create(name="Private", slug="private")
+        private_font = Font.objects.create(
+            family="Private font",
+            style="Regular",
+            font=local_font.font.name,
+            project=private_project,
+            user=self.user,
+        )
+        group = FontGroup.objects.create(
+            name="font-group", font=local_font, project=self.project
+        )
+        override = FontOverride.objects.create(
+            group=group,
+            language=self.translation.language,
+            font=local_font,
+        )
+        FontOverride.objects.filter(pk=override.pk).update(font=private_font)
+
+        migration = import_module(
+            "weblate.fonts.migrations.0002_remove_cross_project_font_overrides"
+        )
+        migration.remove_cross_project_font_overrides(apps, None)
+
+        self.assertFalse(FontOverride.objects.filter(pk=override.pk).exists())
