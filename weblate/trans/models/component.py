@@ -1275,6 +1275,12 @@ class Component(  # ruff: ignore[too-many-public-methods]
             )
             if changed_setup:
                 old.commit_pending("changed setup", None)
+                # Committing pending changes can advance HEAD and persists the
+                # revision without updating this component instance. Fetch the
+                # value directly to preserve the pre-save settings snapshot.
+                self.local_revision = Component.objects.values_list(
+                    "local_revision", flat=True
+                ).get(pk=self.pk)
                 if old.key_filter != self.key_filter:
                     self.drop_key_filter_cache()
 

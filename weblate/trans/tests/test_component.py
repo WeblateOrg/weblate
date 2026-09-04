@@ -50,7 +50,7 @@ from weblate.trans.tests.test_views import (
     FixtureTestCase,
     ViewTestCase,
 )
-from weblate.trans.tests.utils import RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.state import (
@@ -1205,6 +1205,38 @@ class ComponentDeleteTest(RepoTestCase):
 
 class ComponentChangeTest(RepoTestCase):
     """Component object change testing."""
+
+    def test_changed_setup_preserves_pending_commit_revision(self) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        self.assertIsNotNone(unit)
+        initial_revision = component.repository.last_revision
+
+        unit.translate(create_test_user(), "Changed translation", STATE_TRANSLATED)
+        component.edit_template = not component.edit_template
+        component.save()
+
+        component.refresh_from_db()
+        current_revision = component.repository.last_revision
+        self.assertNotEqual(initial_revision, current_revision)
+        self.assertEqual(component.local_revision, current_revision)
+        self.assertEqual(component.processed_revision, current_revision)
+
+    def test_changed_setup_preserves_check_settings(self) -> None:
+        component = self.create_component()
+        component.edit_template = not component.edit_template
+        component.check_flags = "ignore-inconsistent"
+
+        with (
+            patch.object(
+                Component, "schedule_update_checks", autospec=True
+            ) as schedule_update_checks,
+            self.captureOnCommitCallbacks(execute=True),
+        ):
+            component.save()
+
+        schedule_update_checks.assert_called_once_with(component, update_state=True)
 
     def test_rename(self) -> None:
         link_component = self.create_link()
