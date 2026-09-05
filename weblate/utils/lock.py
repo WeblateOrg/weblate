@@ -9,6 +9,7 @@ import threading
 from typing import TYPE_CHECKING, Protocol
 
 from django.db import connection, transaction
+
 from weblate.utils.errors import add_breadcrumb
 from weblate.utils.tracing import start_span
 
@@ -78,9 +79,7 @@ class WeblateLock:
     @property
     def lock_key(self) -> int:
         """Return a stable signed 64-bit PostgreSQL advisory lock key."""
-        digest = hashlib.sha256(
-            f"{self._scope}:{self._key}".encode()
-        ).digest()
+        digest = hashlib.sha256(f"{self._scope}:{self._key}".encode()).digest()
         return int.from_bytes(digest[:8], byteorder="big", signed=True)
 
     def get_error_message(self) -> str:

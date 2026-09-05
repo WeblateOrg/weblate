@@ -4813,7 +4813,6 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 c.translation_set.count() for c in self.linked_children
             )
         for pos, path in enumerate(matches):
-
             if not self._sources_prefetched and path != source_file:
                 self.preload_sources()
             with transaction.atomic():
