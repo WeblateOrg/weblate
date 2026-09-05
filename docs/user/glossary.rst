@@ -174,6 +174,16 @@ bulk-editing, typing in the flag, or by using :guilabel:`Tools` ↓
 glossary. Use this for important terms that should be well thought out, and
 retain a consistent meaning across all languages.
 
+Enable :ref:`component-manage_units` on the glossary component to synchronize
+terminology. When it is disabled, Weblate does not create missing language
+entries, even for terms marked as terminology.
+
+Weblate shows a dismissible :ref:`diagnostic <alerts>` when string management is
+disabled for a glossary with no remote repository, or for another glossary that
+contains terminology. Enable string management to add terms directly in Weblate
+and synchronize terminology, or dismiss the warning if you maintain the glossary
+files separately.
+
 The terminology flag is ongoing state, not just a one-time action. While the
 flag remains on the source term, Weblate treats it as terminology and keeps an
 entry for it in every glossary language. If a language entry is removed, the

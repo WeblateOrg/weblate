@@ -25,6 +25,8 @@ from weblate.glossary.tasks import (
     sync_terminology,
 )
 from weblate.lang.models import Language
+from weblate.trans.alerts.base import AlertSeverity
+from weblate.trans.alerts.config import GlossaryStringManagementDisabled
 from weblate.trans.alerts.registry import update_alerts
 from weblate.trans.models import PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
@@ -803,6 +805,130 @@ class GlossaryTest(ViewTestCase):
         sync_terminology(unit.translation.component.id, unit.translation.component)
         self.assertEqual(Unit.objects.count(), start + 4)
         self.assertEqual(unit.unit_set.count(), 4)
+
+    def test_string_management_alert_local(self) -> None:
+        component = self.glossary_component
+        self.assertFalse(GlossaryStringManagementDisabled.check_component(component))
+        component.manage_units = False
+        self.assertTrue(GlossaryStringManagementDisabled.check_component(component))
+        component.is_glossary = False
+        self.assertFalse(GlossaryStringManagementDisabled.check_component(component))
+        component.is_glossary = True
+        component.manage_units = True
+        self.do_add_unit()
+        component.manage_units = False
+        self.assertTrue(GlossaryStringManagementDisabled.check_component(component))
+
+    def test_string_management_alert_remote(self) -> None:
+        self.do_add_unit()
+        component = self.glossary_component
+        component.manage_units = False
+        for repo in ("https://example.com/glossary.git", "weblate://test/test"):
+            with self.subTest(repo=repo):
+                component.repo = repo
+                self.assertFalse(
+                    GlossaryStringManagementDisabled.check_component(component)
+                )
+                self.glossary.unit_set.update(extra_flags="terminology")
+                self.assertFalse(
+                    GlossaryStringManagementDisabled.check_component(component)
+                )
+                sources = component.source_translation.unit_set
+                sources.update(extra_flags="terminology")
+                self.assertTrue(
+                    GlossaryStringManagementDisabled.check_component(component)
+                )
+                sources.update(extra_flags="")
+                self.assertFalse(
+                    GlossaryStringManagementDisabled.check_component(component)
+                )
+
+    def test_string_management_alert_inherited_flags(self) -> None:
+        self.do_add_unit()
+        component = self.glossary_component
+        for field in ("flags", "extra_flags", "translation", "component"):
+            with self.subTest(field=field):
+                if field in {"flags", "extra_flags"}:
+                    model = component.source_translation.unit_set
+                    values: dict[str, str] = {field: "terminology"}
+                elif field == "translation":
+                    model = component.translation_set.filter(
+                        pk=component.source_translation.pk
+                    )
+                    values = {"check_flags": "terminology"}
+                else:
+                    model = type(component).objects.filter(pk=component.pk)
+                    values = {"check_flags": "terminology"}
+                model.update(**values)
+                current = type(component).objects.get(pk=component.pk)
+                current.repo = "https://example.com/glossary.git"
+                current.manage_units = False
+                self.assertTrue(
+                    GlossaryStringManagementDisabled.check_component(current)
+                )
+                model.update(**dict.fromkeys(values, ""))
+
+    def test_string_management_alert_dismissal(self) -> None:
+        self.do_add_unit()
+        component = self.glossary_component
+        component.manage_units = False
+        component.save(update_fields=["manage_units"])
+        name = "GlossaryStringManagementDisabled"
+        update_alerts(component, {name})
+        alert = component.alert_set.get(name=name)
+        self.assertEqual(alert.severity, AlertSeverity.WARNING)
+        self.assertFalse(alert.is_problem)
+        self.assertTrue(alert.dismiss(self.user, "Maintained separately"))
+
+        component.source_translation.unit_set.update(extra_flags="terminology")
+        update_alerts(component, {name})
+        alert.refresh_from_db()
+        self.assertTrue(alert.is_dismissed)
+
+        component.repo = "https://example.com/glossary.git"
+        update_alerts(component, {name})
+        alert.refresh_from_db()
+        self.assertFalse(alert.is_dismissed)
+
+        component.source_translation.unit_set.update(extra_flags="")
+        update_alerts(component, {name})
+        self.assertFalse(component.alert_set.filter(name=name).exists())
+        component.repo = "local:"
+        update_alerts(component, {name})
+        alert = component.alert_set.get(name=name)
+        self.assertFalse(alert.is_dismissed)
+        component.manage_units = True
+        update_alerts(component, {name})
+        self.assertFalse(component.alert_set.filter(name=name).exists())
+
+    def test_string_management_alert_render(self) -> None:
+        component = self.glossary_component
+        component.manage_units = False
+        component.save(update_fields=["manage_units"])
+        name = "GlossaryStringManagementDisabled"
+        update_alerts(component, {name})
+        alert = component.alert_set.get(name=name)
+        self.assertFalse(alert.can_user_dismiss(self.user))
+        self.assertNotIn("Configure", alert.obj.render(self.user))
+        self.make_manager()
+        self.user.clear_permissions_cache()
+        self.assertTrue(alert.can_user_dismiss(self.user))
+        rendered = alert.obj.render(self.user)
+        self.assertIn("This glossary has no remote repository", rendered)
+        self.assertIn(
+            reverse("settings", kwargs={"path": component.get_url_path()})
+            + "#translation",
+            rendered,
+        )
+        self.assertIn(
+            "#glossary-terminology",
+            alert.obj.get_documentation_url(component, self.user),
+        )
+        alert.component.repo = "https://example.com/glossary.git"
+        self.assertIn(
+            "This glossary contains terms marked as terminology",
+            alert.obj.render(self.user),
+        )
 
     def test_terminology_explanation_sync(self) -> None:
         self.make_manager()
