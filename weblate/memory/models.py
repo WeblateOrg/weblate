@@ -596,24 +596,6 @@ class MemoryQuerySet(models.QuerySet["Memory", "Memory"]):
 
         return queryset.get_fuzzy_candidates(text)
 
-    def lookup_full_source(
-        self,
-        source_language,
-        target_language,
-        text: str,
-        user,
-        project,
-        use_shared,
-        *,
-        threshold: int = MACHINERY_DEFAULT_THRESHOLD,
-        exclude_ids: Iterable[int] = (),
-    ) -> Iterator[Memory]:
-        return self.get_lookup_queryset(
-            source_language, target_language, user, project, use_shared
-        ).get_full_source_fuzzy_candidates(
-            text, threshold=threshold, exclude_ids=exclude_ids
-        )
-
     def prefetch_lang(self) -> Self:
         return self.prefetch_related("source_language", "target_language")
 
