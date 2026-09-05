@@ -269,6 +269,24 @@ class MarkdownLinkCheckTest(CheckTestCase):
             ),
         )
 
+    def test_title(self) -> None:
+        self.do_test(
+            True,
+            (
+                '[Weblate](https://weblate.org/ "Translation platform")',
+                '[Weblate](https://weblate.org/ "Translation platform")',
+                "md-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                '[Weblate](https://weblate.org/ "Translation platform")',
+                '[Weblate](https://weblate.org/ "Localized platform")',
+                "md-text",
+            ),
+        )
+
     def test_spacing(self) -> None:
         self.do_test(
             True,

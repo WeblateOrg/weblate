@@ -1353,6 +1353,8 @@ Markdown links
 
 Markdown links do not match source.
 
+Link titles are user-visible and should be translated.
+
 .. seealso::
 
    `Markdown links <https://spec.commonmark.org/0.31.2/#links>`_

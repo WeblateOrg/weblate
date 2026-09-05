@@ -549,6 +549,12 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
         if len(src_match) != len(tgt_match):
             return True
 
+        # Link titles are user-visible and should be translated as well.
+        src_titles = Counter(match[3] for match in src_match if match[3])
+        tgt_titles = Counter(match[3] for match in tgt_match if match[3])
+        if src_titles & tgt_titles:
+            return True
+
         # We don't check actual remote link targets as those might
         # be localized as well (consider links to Wikipedia).
         # Instead we check only relative links and templated ones.
