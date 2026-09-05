@@ -116,7 +116,8 @@
             {% if suggestion_checks %}
               <p class="help-block">{% translate "Failing checks:" context "String state" %}</p>
               {% for check in suggestion_checks %}
-                <span class="badge badge-danger" title="{{ check.get_description }}">{{ check.get_name }}</span>
+                <span class="badge badge-danger"
+                      title="{{ check.get_plain_description|force_escape }}">{{ check.get_name }}</span>
               {% endfor %}
             {% endif %}
           {% endwith %}
