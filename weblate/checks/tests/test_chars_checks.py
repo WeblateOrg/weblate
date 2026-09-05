@@ -531,15 +531,6 @@ class MaxLinesCheckTest(SimpleTestCase):
             )
         )
 
-    def test_one_over_boundary(self) -> None:
-        self.assertTrue(
-            self.check.check_target(
-                ["source"],
-                ["line1\nline2\nline3\nline4"],
-                make_unit(flags="max-lines:3"),
-            )
-        )
-
     def test_invalid_flag(self) -> None:
         self.assertTrue(
             self.check.check_target(

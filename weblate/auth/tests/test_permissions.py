@@ -114,7 +114,12 @@ class PermissionsTest(FixtureComponentTestCase):
 
         self.assertFalse(self.user.has_perm("management.use"))
 
-        TOTPDevice.objects.create(user=self.user)
+        device = TOTPDevice.objects.create(user=self.user, confirmed=False)
+        user = User.objects.get(pk=self.user.pk)
+        self.assertFalse(user.has_perm("management.use"))
+
+        device.confirmed = True
+        device.save(update_fields=["confirmed"])
         user = User.objects.get(pk=self.user.pk)
 
         self.assertTrue(user.has_perm("management.use"))

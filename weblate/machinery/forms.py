@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import json
 import re
-from urllib.parse import urlsplit
 
 from django import forms
 from django.conf import settings
@@ -458,12 +457,6 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         ),
         required=False,
     )
-
-    def clean_url(self) -> str:
-        url = self.cleaned_data["url"]
-        if urlsplit(url).path.rstrip("/").endswith("/v1"):
-            raise ValidationError(gettext("DeepL API v1 is no longer supported."))
-        return url
 
 
 class LLMBasicMachineryForm(BaseMachineryForm):

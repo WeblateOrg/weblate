@@ -41,6 +41,9 @@ deployment-specific incident response remain the operator's responsibility.
 
 A member of the security team will respond to you within 48 hours, and
 depending on what action is taken, you may get more follow-up emails.
+Suspected active exploitation and severe security incidents receive immediate
+internal attention under :doc:`incident-reporting`. Acknowledging a report or
+completing an investigation does not postpone reporting deadlines.
 
 .. note::
 
@@ -58,6 +61,8 @@ depending on what action is taken, you may get more follow-up emails.
     Weblate depends on third-party components for many things. In case
     you find a vulnerability affecting one of those components in general,
     please report it directly to the respective project.
+    If it also affects a shipped Weblate artifact or a Weblate deployment,
+    report that impact to Weblate through the private channels above.
 
     Some of these are:
 
@@ -98,15 +103,72 @@ above.
 Vulnerability disclosure policy
 -------------------------------
 
-For Weblate product vulnerabilities, within 30 days following a release
-containing a vulnerability fix, a security advisory is published at
-https://github.com/WeblateOrg/weblate/security/advisories. The advisory is
-available immediately with a release when possible.
+Weblate publishes a security advisory alongside a release containing a
+vulnerability fix at https://github.com/WeblateOrg/weblate/security/advisories.
+Advisories identify affected versions, impact, severity, and steps users can
+take to remediate the vulnerability.
 
-Any actively exploited Weblate vulnerability, or any severe incident affecting
-Weblate-operated services, is notified to CSIRT within 24 hours, general info
-is provided to CSIRT within 72 hours, and a full report is provided within 14
-days.
+Technical details may be delayed when publishing them would create greater
+security risks than benefits while users apply the fix. The incident handler
+records the reason and a review date in the private incident note. This does
+not delay authority reports or protective advice users need.
 
-All users of Hosted or Dedicated Weblate impacted by a severe incident
-or an actively exploited vulnerability are notified within 7 days.
+.. _incident-authority-reporting:
+
+Authority reporting
+-------------------
+
+Weblate adopts the following reporting timelines as a voluntary policy
+baseline for actively exploited Weblate product vulnerabilities and severe
+product-security incidents. This includes affected shipped dependencies and
+incidents learned about through self-hosted deployments. Severe security
+incidents affecting Weblate-operated services also follow this baseline.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Report
+     - Deadline
+   * - Early warning
+     - Without undue delay, within 24 hours of awareness.
+   * - Main notification
+     - Without undue delay, within 72 hours of awareness.
+   * - Final report for an actively exploited vulnerability
+     - Within 14 days after a corrective or mitigating measure becomes
+       available.
+   * - Final report for a severe incident
+     - Within one calendar month after the main incident notification.
+
+Hours include weekends and holidays. Acknowledgment, incident declaration,
+handover, or completion of an investigation does not restart these clocks.
+When an event involves both active exploitation and a severe incident, track
+both reporting obligations and final-report deadlines.
+
+These timelines follow the `European Commission reporting guidance
+<https://digital-strategy.ec.europa.eu/en/policies/cra-reporting>`_. The
+incident handler records whether mandatory or voluntary reporting applies and
+uses the corresponding route. For CRA reporting, the Single Reporting
+Platform routes notifications to the coordinating CSIRT and ENISA. This policy
+does not determine Weblate's regulatory role or claim compliance; see
+:doc:`product-information`.
+
+For classification, submission steps, and private incident records, see
+:doc:`incident-reporting`.
+
+User notifications
+------------------
+
+Weblate informs impacted users of active exploitation or severe security
+incidents without undue delay, including available mitigations and corrective
+actions. Where appropriate, warnings address all users. Known affected contacts,
+including Hosted and Dedicated Weblate customers, receive e-mail notifications.
+Public GitHub security advisories provide warnings and updates for self-hosted
+users whose contact details are not known.
+
+Initial warnings can provide protective advice before a fix or detailed
+vulnerability disclosure is ready. Authority reporting, user warnings, and
+publication of technical details proceed separately as needed.
+
+Personal-data breaches also require a separate assessment of
+:ref:`notifications to affected individuals <incident-gdpr-notification>`,
+even when there is no active exploitation or severe product-security incident.

@@ -9,6 +9,7 @@ Weblate 2026.9.1
 
 * :ref:`Docker development tests <dev-docker>` now automatically prepare an isolated test environment without requiring application startup or the Dev Container CLI.
 * Added a :ref:`development container <devcontainer>` for tests and lint, with an optional :ref:`application QA profile <dev-docker>`, isolated storage per Git worktree, dynamically allocated localhost application and mailbox ports, and Chromium diagnostics and mandatory browser test commands.
+* Clarified :doc:`incident reporting </security/incident-reporting>`, reporting deadlines, and security notifications for hosted and self-hosted users.
 * The :guilabel:`Manage reports` permission now consistently grants access to complete :doc:`translation reports </devel/reporting>` for the selected scope, including private projects and restricted components below it.
 * Docker deployments now use a combined :ref:`Celery <celery>` worker by default, reducing memory usage while increasing task throughput. Use :envvar:`CELERY_WORKER_MODE` to select the combined, split, or single worker setup.
 * Improved :ref:`Billing <billing>` detail page loading performance by batching related project, invoice, and audit log queries.
@@ -18,12 +19,15 @@ Weblate 2026.9.1
 
 .. rubric:: Security fixes
 
+* Prevented repeated :ref:`authenticator app registration <2fa>` from creating duplicate devices and allowing reuse of one-time codes. Existing equivalent duplicate devices are merged while preserving consumed codes.
 * Borg backup passphrases are now recursively scrubbed from Sentry error reports, including when a custom event scrubber is configured.
 * Font overrides are now restricted to fonts uploaded to the same project.
 * Engage pages and status widgets no longer disclose Private or Custom projects unless :ref:`project-public_sharing` is enabled.
 * Prevented excessive CPU consumption while checking malformed Markdown and MDX syntax.
 
 .. rubric:: Bug fixes
+
+* Restored :ref:`mt-deepl` API v1 translation support while retaining modern API language discovery and glossary improvements.
 
 * REST API unit updates now enforce the same translation text length limit as the web editor.
 * HTML void elements in :ref:`mdx` translations are now kept self-closing after sanitization, preventing invalid MDX output.
@@ -41,6 +45,7 @@ Weblate 2026.9.1
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
+* Authenticator app registrations started before this upgrade must be restarted. Sessions referencing a removed duplicate device may require two-factor verification again.
 * Docker deployments now default to the combined Celery worker mode. If your deployment relies on separate workers for each queue or configures them using ``CELERY_MAIN_OPTIONS``, ``CELERY_NOTIFY_OPTIONS``, ``CELERY_MEMORY_OPTIONS``, ``CELERY_TRANSLATE_OPTIONS``, or ``CELERY_BACKUP_OPTIONS``, set ``CELERY_WORKER_MODE=split`` to preserve the previous behavior.
 * The Docker ``CELERY_SINGLE_PROCESS`` environment variable is deprecated. Use ``CELERY_WORKER_MODE=single`` instead; the compatibility alias logs a startup warning.
 

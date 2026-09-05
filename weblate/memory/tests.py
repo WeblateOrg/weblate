@@ -5327,46 +5327,6 @@ class LookupPolicyTest(SimpleTestCase):
         )
         typed_base.get_fuzzy_candidates.assert_called_once_with("Username")
 
-    def test_lookup_full_source_uses_scoped_full_source_candidates(self) -> None:
-        base = MagicMock()
-        typed_base = MagicMock()
-        base.prefetch_scopes.return_value = base
-        base.filter.return_value = typed_base
-        typed_base.get_full_source_fuzzy_candidates.return_value = []
-
-        with patch.object(
-            MemoryQuerySet, "filter_type", return_value=base
-        ) as filter_type:
-            results = Memory.objects.lookup_full_source(
-                "en",
-                "cs",
-                "Username",
-                None,
-                None,
-                False,
-                threshold=80,
-                exclude_ids=[1, 2],
-            )
-
-        self.assertEqual(list(results), [])
-        filter_type.assert_called_once_with(
-            user=None,
-            access_user=None,
-            additional_component_access=None,
-            project=None,
-            use_shared=False,
-            from_file=True,
-            use_workspace=True,
-        )
-        base.prefetch_scopes.assert_called_once_with()
-        base.filter.assert_called_once_with(
-            source_language="en",
-            target_language="cs",
-        )
-        typed_base.get_full_source_fuzzy_candidates.assert_called_once_with(
-            "Username", threshold=80, exclude_ids=[1, 2]
-        )
-
     def test_weblate_memory_uses_scored_model_candidates(self) -> None:
         text = "x" * (MEMORY_LOOKUP_PREFIX_LENGTH + 1)
         accepted = MagicMock()
