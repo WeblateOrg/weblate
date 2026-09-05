@@ -377,10 +377,12 @@ You need to purchase :guilabel:`DeepL API` subscription.
 
 API URL to use with the DeepL service. Configure the base endpoint without an API
 version; Weblate selects the appropriate DeepL API version for each request.
+For a legacy subscription requiring API v1, configure
+``https://api.deepl.com/v1/`` instead.
 
-.. versionchanged:: 2026.7
+.. versionchanged:: 2026.9.1
 
-   DeepL API v1 is no longer supported.
+   Support for explicitly configured DeepL API v1 endpoints has been restored.
 
 ``https://api.deepl.com/`` (default in Weblate)
     Is meant for API usage on the paid plan, and the subscription is usage-based.
@@ -394,6 +396,7 @@ The translation context can optionally be specified to improve translations qual
 `DeepL translation context documentation <https://developers.deepl.com/docs/learning-how-tos/examples-and-guides/how-to-use-context-parameter>`_.
 
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+Glossary integration is not available with API v1.
 
 .. seealso::
 
