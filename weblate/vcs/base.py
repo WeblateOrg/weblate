@@ -774,7 +774,6 @@ class Repository:
             scope="repository",
             key=get_repository_lock_key(base_path, component),
             slug=os.path.basename(base_path),
-            timeout=120,
             origin=component.full_slug if component else base_path,
         )
         self.lock = RepositoryLock(self, lock)

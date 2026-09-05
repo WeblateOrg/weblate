@@ -1479,7 +1479,6 @@ class Translation(
         updated = False
         for index, pending_change in enumerate(pending_changes, start=1):
             if index % 1000 == 0:
-                self.component.repository.lock.reacquire()
             unit = pending_change.unit
 
             # update the unit in memory so that get_target_plurals returns

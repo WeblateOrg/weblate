@@ -51,7 +51,7 @@ from weblate.utils.files import (
     is_excluded,
     remove_tree,
 )
-from weblate.utils.lock import WeblateLock, WeblateLockTimeoutError
+from weblate.utils.lock import WeblateLock
 from weblate.utils.render import render_template
 from weblate.utils.requests import (
     JSON_RESPONSE_ERRORS,
@@ -2643,25 +2643,20 @@ class GitMergeRequestBase(GitRepository):
             scope="vcs:api:throttle",
             key=vcs_id,
             slug=vcs_id,
-            timeout=3 * max(settings.VCS_API_DELAY, 10),
         )
-        try:
-            do_retry, response_data, response, invalid_error_response = (
-                self.send_api_request(
-                    method,
-                    credentials,
-                    url,
-                    lock,
-                    cache_id,
-                    vcs_id,
-                    data=data,
-                    params=params,
-                    json=json,
-                )
+        do_retry, response_data, response, invalid_error_response = (
+            self.send_api_request(
+                method,
+                credentials,
+                url,
+                lock,
+                cache_id,
+                vcs_id,
+                data=data,
+                params=params,
+                json=json,
             )
-        except WeblateLockTimeoutError:
-            do_retry = True
-
+        )
         if do_retry:
             retry += 1
             if retry > 10:
