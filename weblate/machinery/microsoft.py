@@ -4,7 +4,9 @@
 
 from __future__ import annotations
 
+from bisect import insort
 from datetime import timedelta
+from operator import itemgetter
 from typing import TYPE_CHECKING, ClassVar
 
 from django.utils import timezone
@@ -198,18 +200,12 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
 
         for term in get_glossary_terms(unit, include_variants=False):
             for start, end in term.glossary_positions:
-                glossary_highlight = (start, end, text[start:end], term)
-                handled = False
-                for i, (h_start, _h_end, _h_text, _h_kind) in enumerate(result):
-                    if start < h_start:
-                        if end > h_start:
-                            # Skip as overlaps
-                            break
-                        # Insert before
-                        result.insert(i, glossary_highlight)
-                        handled = True
-                        break
-                if not handled and (not result or result[-1][1] < start):
-                    result.append(glossary_highlight)
+                if any(
+                    start < h_end and end > h_start
+                    for h_start, h_end, _h_text, _h_kind in result
+                ):
+                    # Skip as overlaps
+                    continue
+                insort(result, (start, end, text[start:end], term), key=itemgetter(0))
 
         yield from result
