@@ -47,14 +47,14 @@ jobs:
     - run: ./rundev.sh compilemessages
     - run: ./rundev.sh test --exitfirst
     - run: ./rundev.sh test weblate/checks/tests/test_chars_checks.py
-    - run: ./rundev.sh logs
+    - run: ./rundev.sh --all logs
       if: always()
-    - run: ./rundev.sh stop
+    - run: ./rundev.sh --all stop
       if: always()
 
   smoke:
     runs-on: ubuntu-24.04-arm
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:

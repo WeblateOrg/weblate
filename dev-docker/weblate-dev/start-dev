@@ -6,7 +6,23 @@
 
 set -e
 
-cd /app/src
+cd "${WEBLATE_SOURCE_DIR:-/app/src}"
+
+# Docker allocates the host port when the container starts. The shared host
+# launcher delivers the domain before any application settings are imported.
+if [ -n "${WEBLATE_SITE_DOMAIN_FILE:-}" ]; then
+    remaining=120
+    while [ ! -s "$WEBLATE_SITE_DOMAIN_FILE" ]; do
+        if [ "$remaining" -eq 0 ]; then
+            echo "Application activation timed out; rerun rundev.sh restart." >&2
+            exit 1
+        fi
+        sleep 1
+        remaining=$((remaining - 1))
+    done
+    WEBLATE_SITE_DOMAIN=$(cat "$WEBLATE_SITE_DOMAIN_FILE")
+    export WEBLATE_SITE_DOMAIN
+fi
 
 install_deps() {
     uv pip install \

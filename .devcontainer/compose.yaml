@@ -39,7 +39,7 @@ services:
     - developer-home:/home/weblate
   database:
     extends:
-      file: ../dev-docker/postgres.yml
+      file: ../dev-docker/docker-compose.yml
       service: database
     environment:
       POSTGRES_USER: weblate
@@ -47,8 +47,24 @@ services:
       POSTGRES_DB: weblate
   cache:
     extends:
-      file: ../dev-docker/valkey.yml
+      file: ../dev-docker/docker-compose.yml
       service: cache
+  weblate:
+    extends:
+      file: ../dev-docker/docker-compose.yml
+      service: weblate
+  app-database:
+    extends:
+      file: ../dev-docker/docker-compose.yml
+      service: app-database
+  app-cache:
+    extends:
+      file: ../dev-docker/docker-compose.yml
+      service: app-cache
+  maildev:
+    extends:
+      file: ../dev-docker/docker-compose.yml
+      service: maildev
 
 volumes:
   developer-data: {}
@@ -56,3 +72,10 @@ volumes:
   developer-home: {}
   postgres-data: {}
   valkey-data: {}
+  app-data: {}
+  app-venv: {}
+  app-home: {}
+  app-postgres-data: {}
+  app-valkey-data: {}
+networks:
+  app: {}

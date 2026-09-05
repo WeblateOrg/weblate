@@ -131,6 +131,15 @@ Scope and intended use
      - Development-only files and generated artifacts
      - Out of scope for product security claims. *(maintainer)*
 
+The :ref:`local application QA profile <dev-docker>` runs development Weblate
+and workers with known development credentials. Its application and mailbox
+ports are dynamically allocated and bound to IPv4 loopback; PostgreSQL, Valkey,
+and SMTP are not published. Test and application profiles use separate storage
+and networks within a checkout-specific Compose project. Worktrees still share
+host Git metadata and the Docker daemon: this provides development-state
+separation, not a boundary against a malicious checkout or local user. This
+profile is not a supported production deployment. *(maintainer)*
+
 The intended deployment is a server-side Weblate installation behind a web
 server or reverse proxy, with a WSGI or ASGI application server, PostgreSQL
 database, datastore, Celery workers, a writable data directory, and optional

@@ -18,7 +18,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from environment import configuration, initialize, main, project_name
+from environment import Environment, configuration, initialize, main, project_name
 
 
 class WorktreeTests(unittest.TestCase):
@@ -167,8 +167,18 @@ class CommandTests(unittest.TestCase):
                 self.assertEqual(main(), expected)
                 startup = call.call_args_list[0].args[0]
                 self.assertEqual(
-                    startup[-6:],
-                    ["up", "--detach", "--build", "--wait", "--wait-timeout", "120"],
+                    startup[-9:],
+                    [
+                        "up",
+                        "--detach",
+                        "--build",
+                        "--wait",
+                        "--wait-timeout",
+                        "120",
+                        "developer",
+                        "database",
+                        "cache",
+                    ],
                 )
                 if len(statuses) == 1:
                     self.assertEqual(call.call_count, 1)
@@ -207,9 +217,129 @@ class CommandTests(unittest.TestCase):
         ):
             self.assertEqual(main(), 0)
         command = call.call_args.args[0]
-        self.assertEqual(command[-1], "stop")
+        self.assertEqual(command[-4:], ["stop", "developer", "database", "cache"])
         self.assertNotIn("--volumes", command)
         self.assertTrue(command[3].startswith("weblate-test-"))
+
+
+class ApplicationTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.env = Environment(Path("/checkout with spaces"), "app", "compose")
+
+    def test_application_and_tests_mount_same_source(self) -> None:
+        with patch("environment.git", return_value="/shared/.git"):
+            config = configuration(self.env.root)
+        app = config["services"]["weblate"]
+        test = config["services"]["developer"]
+        self.assertEqual(app["volumes"], test["volumes"])
+        self.assertEqual(app["working_dir"], test["working_dir"])
+        self.assertEqual(app["environment"]["WEBLATE_SOURCE_DIR"], app["working_dir"])
+
+    def test_reject_invalid_port(self) -> None:
+        for value in (
+            "",
+            "0.0.0.0:1234",
+            "127.0.0.1:0",
+            "127.0.0.1:65536",
+            "127.0.0.1:1234\n127.0.0.1:4567",
+        ):
+            with (
+                self.subTest(value=value),
+                patch.object(self.env, "output", return_value=value),
+                self.assertRaises(ValueError),
+            ):
+                self.env.address("weblate", 8080)
+
+    def test_startup_activation_precedes_readiness(self) -> None:
+        with (
+            patch.object(self.env, "call", return_value=0) as call,
+            patch.object(self.env, "activate", return_value=7) as activate,
+            patch.object(self.env, "wait") as wait,
+        ):
+            self.assertEqual(self.env.up(), 7)
+        self.assertEqual(call.call_args.args[-4:], tuple(self.env.services))
+        activate.assert_called_once()
+        wait.assert_not_called()
+
+    def test_startup_failure_does_not_activate(self) -> None:
+        with (
+            patch.object(self.env, "call", return_value=3),
+            patch.object(self.env, "activate") as activate,
+        ):
+            self.assertEqual(self.env.up(), 3)
+        activate.assert_not_called()
+
+    def test_activation_passes_validated_domain_as_data(self) -> None:
+        with (
+            patch.object(self.env, "output", return_value="127.0.0.1:43210"),
+            patch.object(self.env, "call", return_value=0) as call,
+        ):
+            self.assertEqual(self.env.activate(), 0)
+        self.assertEqual(call.call_args.args[-1], "127.0.0.1:43210")
+        self.assertIn("p.replace('/run/site-domain')", call.call_args.args[-2])
+
+    def test_readiness_requires_every_service(self) -> None:
+        entries = [
+            {"Service": service, "State": "running", "Health": "healthy"}
+            for service in self.env.services
+        ]
+        with (
+            patch.object(
+                self.env,
+                "output",
+                side_effect=[json.dumps(entries[:-1]), json.dumps(entries)],
+            ),
+            patch("environment.time.sleep") as sleep,
+        ):
+            self.assertEqual(self.env.wait(), 0)
+        sleep.assert_called_once()
+
+    def test_readiness_reports_exit_and_timeout(self) -> None:
+        with (
+            patch.object(
+                self.env,
+                "output",
+                return_value='{"Service":"weblate","State":"exited"}',
+            ),
+            redirect_stderr(StringIO()),
+        ):
+            self.assertEqual(self.env.wait(), 1)
+        with (
+            patch("environment.time.monotonic", side_effect=[0, 1801]),
+            redirect_stderr(StringIO()),
+        ):
+            self.assertEqual(self.env.wait(), 1)
+
+    def test_profile_destroy_only_removes_owned_application_volumes(self) -> None:
+        config = {
+            "services": {service: {"volumes": []} for service in self.env.services},
+            "volumes": {"app-data": {"name": "owned_app-data"}},
+        }
+        config["services"]["weblate"]["volumes"] = [
+            {"type": "volume", "source": "app-data"},
+            {"type": "bind", "source": "/source"},
+        ]
+        with (
+            patch.object(self.env, "output", return_value=json.dumps(config)),
+            patch.object(self.env, "call", return_value=0) as compose,
+            patch(
+                "environment.subprocess.check_output",
+                return_value="owned_app-data\nowned_developer-data\n",
+            ),
+            patch("environment.subprocess.call", return_value=0) as docker,
+        ):
+            self.assertEqual(self.env.destroy(all_profiles=False), 0)
+        self.assertEqual(
+            compose.call_args.args, ("rm", "--stop", "--force", *self.env.services)
+        )
+        self.assertEqual(
+            docker.call_args.args[0], ["docker", "volume", "rm", "owned_app-data"]
+        )
+
+    def test_host_profiles_do_not_enable_application(self) -> None:
+        with patch.dict(os.environ, {"COMPOSE_PROFILES": "app"}):
+            env = Environment(self.env.root, "tests", "devcontainer")
+        self.assertNotIn("COMPOSE_PROFILES", env.environment)
 
 
 if __name__ == "__main__":

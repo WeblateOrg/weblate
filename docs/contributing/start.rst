@@ -65,7 +65,9 @@ The development container prepares Python dependencies, PostgreSQL, Valkey,
 compiled translations, and static files for running tests and lint checks.
 It supports ordinary clones and linked Git worktrees. Each checkout has its
 own containers, network, database, virtual environment, and caches, with no
-published host ports. It does not start the Weblate application or Celery workers.
+published host ports in the default test profile. The optional application
+profile runs :ref:`Weblate and workers for local QA <dev-docker>` with separate
+storage and dynamically allocated localhost ports.
 
 Install Docker with the Compose plugin, Git, and Python 3.12 or newer on the
 host. For the command-line workflow, also install Node.js 20 or newer and the
@@ -93,7 +95,7 @@ the Dev Container CLI, pass ``--backend compose`` before the command:
 
 Both backends share the same test environment for a checkout. The Compose
 backend runs bootstrap on each ``up`` invocation. CI checks both backends on
-ARM Linux runners.
+ARM Linux runners, including concurrent application QA in separate worktrees.
 
 Bootstrap uses the frozen dependency lock and builds ``lxml`` and ``xmlsec``
 from source, matching CI. Initial setup requires network access to download
@@ -138,7 +140,11 @@ containers and volumes:
 These commands only manage the current checkout's test environment. They do
 not remove its source files or the application environment started by
 :file:`rundev.sh`. Tests run through ``./rundev.sh test`` share this test
-environment, so stopping it affects both test launchers.
+environment, so stopping it affects both test launchers. Closing the IDE stops
+the entire checkout's Compose project, including application QA, while retaining
+its data. Launcher stop commands affect only their selected profile. Use
+``--all`` before ``stop``, ``logs``, or ``destroy`` to manage both profiles in the
+checkout.
 
 If setup fails, use ``./scripts/devcontainer doctor`` to inspect the source
 paths, service connections, dependency consistency, and test assets. Service
@@ -164,29 +170,56 @@ daemons are not supported by the host-path mounts.
 Running Weblate locally in Docker
 ---------------------------------
 
-Install Docker with the Compose plugin. Running tests also requires Git and
-Python 3.12 or newer on the host. Start the development application with:
+Install Docker with the Compose plugin, Git, and Python 3.12 or newer on the
+host. Start the development application with:
 
 .. code-block:: sh
 
    ./rundev.sh
 
-It will create a development Docker image and start it. Weblate is running on
-<http://127.0.0.1:8080/> and you can sign in as the user ``admin`` using ``admin``
-as the password. The new installation is empty, so you might want to continue with
-:ref:`adding-projects`.
+This is equivalent to ``./scripts/devcontainer --profile app up``. Both commands
+use the same launcher and Compose project as the test environment, without
+requiring Node.js or the Dev Container CLI for the application profile.
 
-Weblate is configured to use :program:`maildev` container as an e-mail server.
-The delivered e-mails can be seen at <http://127.0.0.1:1080/>.
+The launcher builds the development image, starts Weblate with supervised web
+and Celery workers, and prints the application and Maildev mailbox URLs when
+Weblate is ready. Sign in as ``admin`` with password ``admin``. The installation
+starts empty; continue with :ref:`adding-projects`.
 
-The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located in the
-:file:`dev-docker` directory. For easier access to the database during development,
-the container running PostgreSQL is exposed on port ``5433``.
+Docker assigns free HTTP ports bound to ``127.0.0.1``. Each worktree has its own
+application database, Valkey instance, data, virtual environment, home, and
+caches, separate from the test profile. SMTP, PostgreSQL, and Valkey ports are
+not published. Weblate uses the discovered application URL for generated links
+and authentication origins. To display the current URLs again:
 
-Valkey uses the ``valkey-data`` volume. When updating an older development
-environment, it starts with fresh storage; the previous ``redis-data`` volume
-is retained separately. Existing cache contents and queued tasks are not
-transferred.
+.. code-block:: sh
+
+   ./rundev.sh urls
+   ./rundev.sh urls --json
+
+Ports can change after containers are recreated or restarted. Use
+``./rundev.sh restart`` to restart and rediscover them; direct Docker restarts
+cannot initialize the application domain. Ordinary startup reuses unchanged
+containers. Application containers do not restart automatically after Docker
+restarts.
+
+To access the application database from inside its container:
+
+.. code-block:: sh
+
+   ./rundev.sh exec -- weblate dbshell
+
+The application service definitions are in :file:`dev-docker/docker-compose.yml`
+and are included by the shared Compose configuration. Use the launchers to
+initialize paths and ports. For other Compose operations, use
+``./rundev.sh compose -- COMMAND`` (or existing shortcuts such as
+``./rundev.sh ps``). Project-wide Compose commands can affect both profiles.
+
+Existing development environments are not migrated automatically. Before
+updating from the old launcher, stop its containers with its ``./rundev.sh stop``
+command. If already updated, identify the old containers using ``docker ps``
+and stop them explicitly. The new launcher leaves their databases, volumes,
+and :file:`dev-docker/data/` untouched and starts with fresh application data.
 
 To execute tests, run the script with the ``test`` parameter and pytest arguments,
 for example running only tests in the ``weblate.machine`` module:
@@ -201,20 +234,28 @@ It runs independently of the application and workers, with separate databases,
 virtual environments, and caches. Each invocation refreshes dependencies and
 test assets before running pytest.
 
-To display application logs and logs from an initialized test environment:
+To display application logs:
 
 .. code-block:: sh
 
    ./rundev.sh logs
 
-To stop the application and any initialized test environment, retaining their
-data, run:
+To stop only the application profile, retaining its data:
 
 .. code-block:: sh
 
    ./rundev.sh stop
 
-Running the script without arguments will re-create the Docker container and restart it.
+Use ``./scripts/devcontainer stop`` to stop only tests. To stop or destroy both
+profiles, including their volumes when destroying:
+
+.. code-block:: sh
+
+   ./rundev.sh --all stop
+   ./rundev.sh --all destroy --yes
+
+Without ``--all``, ``destroy --yes`` removes only the selected profile's
+containers and volumes. Other worktrees remain running.
 
 .. warning::
 
