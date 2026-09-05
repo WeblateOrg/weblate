@@ -1542,7 +1542,7 @@ pixels:
 Mismatched \\n
 ~~~~~~~~~~~~~~
 
-:Summary: Number of \\n literals in translation does not match source.
+:Summary: Number of ``\n`` literals in translation does not match source.
 :Scope: translated strings
 :Check class: ``weblate.checks.chars.EscapedNewlineCountingCheck``
 :Check identifier: ``escaped_newline``
@@ -1809,7 +1809,7 @@ Non‑standard characters in Kabyle
 
 .. versionadded:: 5.12
 
-:Summary: Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε).
+:Summary: Use standardized Latin Kabyle characters (e.g. ``ɣ`` instead of Greek ``γ``; ``ɛ`` instead of ``ε``).
 :Scope: translated strings
 :Check class: ``weblate.checks.chars.KabyleCharactersCheck``
 :Check identifier: ``kabyle-characters``
@@ -2352,7 +2352,7 @@ Source checks can help developers improve the quality of source strings.
 Ellipsis
 ~~~~~~~~
 
-:Summary: The string uses three dots ``(...)`` instead of an ellipsis character ``(…)``.
+:Summary: The string uses three dots ``...`` instead of an ellipsis character ``…``.
 :Scope: source strings
 :Check class: ``weblate.checks.source.EllipsisCheck``
 :Check identifier: ``ellipsis``
