@@ -1095,6 +1095,9 @@ class Component(  # ruff: ignore[too-many-public-methods]
     remote_revision = models.CharField(max_length=200, default="", blank=True)
     local_revision = models.CharField(max_length=200, default="", blank=True)
     processed_revision = models.CharField(max_length=200, default="", blank=True)
+    pull_request_url = models.URLField(
+        max_length=REPO_LENGTH, default="", blank=True, editable=False
+    )
 
     key_filter = RegexField(
         verbose_name=gettext_lazy("Key filter"),
@@ -3103,7 +3106,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
         with self.repository.lock:
             self.log_info("pushing to remote repo")
             try:
-                self.repository.push(self.push_branch)
+                pull_request_url = self.repository.push(self.push_branch)
             except RepositoryError as error:
                 redirect_field = (
                     "push"
@@ -3164,6 +3167,14 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 return False
             self.delete_alert("RepositoryChanges")
             self.delete_alert("PushFailure")
+            if (
+                pull_request_url
+                and pull_request_url != self.pull_request_url
+            ):
+                self.pull_request_url = pull_request_url
+                Component.objects.filter(pk=self.pk).update(
+                    pull_request_url=pull_request_url
+                )
             return True
 
     @property

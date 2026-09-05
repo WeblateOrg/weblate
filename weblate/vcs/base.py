@@ -1291,8 +1291,13 @@ class Repository:
         """Return status of the repository."""
         return self.execute(self._cmd_status, remote_op="none", needs_lock=False)
 
-    def push(self, branch: str) -> None:
-        """Push given branch to remote repository."""
+    def push(self, branch: str) -> str | None:
+        """
+        Push given branch to remote repository.
+
+        Returns the web URL of a pull/merge request opened as part of the push,
+        or ``None`` when the backend does not open one (or does not expose it).
+        """
         raise NotImplementedError
 
     def unshallow(self) -> None:

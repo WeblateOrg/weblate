@@ -140,6 +140,18 @@ class MultiRepoTest(ViewTestCase):
         self.assertTrue(change.user.is_bot)
         self.assertEqual(change.user.full_name, "Background push")
 
+    def test_push_stores_pull_request_url(self) -> None:
+        pull_request_url = "https://example.com/WeblateOrg/test/pull/1"
+        with patch.object(
+            type(self.component.repository),
+            "push",
+            return_value=pull_request_url,
+        ):
+            self.assertTrue(self.component.push_repo(self.request, self.user))
+
+        self.component.refresh_from_db()
+        self.assertEqual(self.component.pull_request_url, pull_request_url)
+
     def assert_background_update_user(self, change) -> None:
         self.assertIsNotNone(change.user)
         self.assertEqual(change.user.username, "weblate:update")
