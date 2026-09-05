@@ -262,7 +262,7 @@ class Subscription(models.Model):
         )
 
     def get_unsubscribe_url(self) -> str:
-        from django.urls import reverse  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from django.urls import reverse  # ruff: ignore[import-outside-top-level]
 
         # ruff: ignore[import-outside-top-level]
         from django.utils.http import (

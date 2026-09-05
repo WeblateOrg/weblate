@@ -460,7 +460,7 @@ class XlsxExporterTest(PoExporterTest):
         pass
 
     def test_plural_rows(self) -> None:
-        from openpyxl import load_workbook  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from openpyxl import load_workbook  # ruff: ignore[import-outside-top-level]
 
         output = self.check_unit(
             source="%(count)s file\x1e\x1e%(count)s files",
@@ -486,7 +486,7 @@ class XlsxExporterTest(PoExporterTest):
         )
 
     def test_multivalue_units_are_not_exported_as_plural_rows(self) -> None:
-        from openpyxl import load_workbook  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from openpyxl import load_workbook  # ruff: ignore[import-outside-top-level]
 
         output = self.check_unit(
             nplurals=1,
