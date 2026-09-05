@@ -1153,7 +1153,7 @@ class Repository:
     @classmethod
     def validate_remote_url(cls, url: str) -> ResolvedRepositoryURL | None:
         """Revalidate a remote URL before using it."""
-        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level, unsorted-imports]
+        from django.core.exceptions import ValidationError  # ruff: ignore[import-outside-top-level]
 
         from weblate.utils.validators import resolve_repo_url  # ruff: ignore[import-outside-top-level]
 

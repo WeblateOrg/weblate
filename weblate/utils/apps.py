@@ -163,7 +163,7 @@ def check_celery(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     # Import this lazily to avoid evaluating settings too early
-    from weblate.utils.tasks import ping  # ruff: ignore[import-outside-top-level, unsorted-imports]
+    from weblate.utils.tasks import ping  # ruff: ignore[import-outside-top-level]
 
     errors: list[CheckMessage] = []
     if settings.CELERY_TASK_ALWAYS_EAGER:
