@@ -3167,10 +3167,7 @@ class Component(  # ruff: ignore[too-many-public-methods]
                 return False
             self.delete_alert("RepositoryChanges")
             self.delete_alert("PushFailure")
-            if (
-                pull_request_url
-                and pull_request_url != self.pull_request_url
-            ):
+            if pull_request_url and pull_request_url != self.pull_request_url:
                 self.pull_request_url = pull_request_url
                 Component.objects.filter(pk=self.pk).update(
                     pull_request_url=pull_request_url
