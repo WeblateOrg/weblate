@@ -100,8 +100,11 @@ class WeblateLock:
         if not self.is_locked:
             self.add_breadcrumb("acquire")
 
-            self._transaction = transaction.atomic()
-            self._transaction.__enter__()
+            self._transaction = None
+
+            if not connection.in_atomic_block:
+                self._transaction = transaction.atomic()
+                self._transaction.__enter__()
 
             try:
                 with start_span(op="lock.wait", name=self._name):
@@ -111,12 +114,13 @@ class WeblateLock:
                             [self.lock_key],
                         )
             except BaseException as exc:
-                self._transaction.__exit__(
-                    type(exc),
-                    exc,
-                    exc.__traceback__,
-                )
-                self._transaction = None
+                if self._transaction is not None:
+                    self._transaction.__exit__(
+                        type(exc),
+                        exc,
+                        exc.__traceback__,
+                    )
+                    self._transaction = None
                 raise
 
         self._local.depth += 1
