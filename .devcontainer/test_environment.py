@@ -439,7 +439,6 @@ class ComposeConfigurationTests(unittest.TestCase):
                     "--profile",
                     "app",
                     "config",
-                    "--no-env-resolution",
                     "--format",
                     "json",
                 ],
@@ -451,11 +450,11 @@ class ComposeConfigurationTests(unittest.TestCase):
         self.assertEqual(services["weblate"]["build"]["context"], str(context))
         self.assertEqual(services["developer"]["build"]["context"], str(context))
         self.assertTrue((context / "Dockerfile").is_file())
-        files = services["weblate"]["env_file"]
-        self.assertEqual(
-            [entry["path"] for entry in files], [str(root / "dev-docker/environment")]
-        )
-        self.assertTrue(all(Path(entry["path"]).is_file() for entry in files))
+        # Check the effective values: Compose versions differ in whether config
+        # retains env_file metadata. Resolving it also fails for a missing file.
+        environment = services["weblate"]["environment"]
+        self.assertEqual(environment["WEBLATE_SITE_TITLE"], "Devel Weblate")
+        self.assertEqual(environment["WEBLATE_ADMIN_EMAIL"], "weblate@example.com")
 
 
 if __name__ == "__main__":
