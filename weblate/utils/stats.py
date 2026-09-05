@@ -311,8 +311,6 @@ class BaseStats:
             scope="stats:update",
             key=self.cache_key,
             slug=self.cache_key,
-            timeout=5,
-            expiry_timeout=300,
             origin=self.cache_key,
         )
 

@@ -239,7 +239,6 @@ def ensure_tesseract_language(lang: str) -> None:
             scope="screenshots:tesseract:download",
             key=0,
             slug="screenshots:tesseract:download",
-            timeout=600,
         ),
         start_span(op="ocr.models"),
     ):

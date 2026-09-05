@@ -852,7 +852,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             scope="project:checks",
             key=self.pk,
             slug=self.slug,
-            timeout=PROJECT_CHECKS_LOCK_TIMEOUT,
             origin=self.full_slug,
         )
 
