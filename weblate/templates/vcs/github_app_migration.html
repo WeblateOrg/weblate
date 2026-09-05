@@ -16,7 +16,8 @@
       <h4 class="card-title">
         {% blocktranslate with workspace_name=workspace.name %}Migrate {{ workspace_name }} to the Weblate GitHub App{% endblocktranslate %}
         {% if github_app_install_url %}
-          <a href="{{ github_app_install_url }}" class="btn btn-primary btn-sm float-end">{% translate "Connect or update GitHub account" %}</a>
+          <a href="{{ github_app_install_url }}"
+             class="btn btn-primary btn-sm float-end">{% translate "Connect or update GitHub account" %}</a>
         {% endif %}
       </h4>
     </div>
@@ -47,7 +48,8 @@
                       class="d-inline">
                   {% csrf_token %}
                   <input type="hidden" name="next" value="{{ next_url }}" />
-                  <button type="submit" class="btn btn-outline-primary btn-sm">{% translate "Refresh repositories" %}</button>
+                  <button type="submit"
+                          class="btn btn-outline-primary btn-sm">{% translate "Refresh repositories" %}</button>
                 </form>
               {% endif %}
             </li>

@@ -316,7 +316,8 @@
                   {% endif %}
                 </span>
               {% elif name_source == "translation" %}
-                {% path_object_links object.component flags=False %} — <a class="tail" href="{{ browse_url }}">{{ object.language }}</a>
+                {% path_object_links object.component flags=False %} — <a class="tail"
+    href="{{ browse_url }}">{{ object.language }}</a>
               {% else %}
                 <a href="{{ browse_url }}">
                   {% spaceless %}
@@ -455,7 +456,9 @@
       {% endif %}
     {% elif add_link == "language" %}
       {% if user_can_add_language %}
-        <a class="btn btn-primary" id="list-add-button" href="{% url 'create-language' %}">{% translate "Add language" %}</a>
+        <a class="btn btn-primary"
+           id="list-add-button"
+           href="{% url 'create-language' %}">{% translate "Add language" %}</a>
       {% endif %}
     {% endif %}
   </p>

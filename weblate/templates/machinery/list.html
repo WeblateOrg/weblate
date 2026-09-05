@@ -82,7 +82,10 @@
             <td class="bottom-button">
               <form method="post" action="{{ service.get_absolute_url }}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary" name="install" value="1">{% translate "Install" %}</button>
+                <button type="submit"
+                        class="btn btn-primary"
+                        name="install"
+                        value="1">{% translate "Install" %}</button>
               </form>
             </td>
           </tr>

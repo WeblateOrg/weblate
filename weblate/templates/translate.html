@@ -101,7 +101,8 @@
               {% if secondary %}
                 {% for secondary_unit in secondary %}
                   <div class="form-group">
-                    <a class="language" href="{{ secondary_unit.get_absolute_url }}">{{ secondary_unit.translation.language }}</a>
+                    <a class="language"
+                       href="{{ secondary_unit.get_absolute_url }}">{{ secondary_unit.translation.language }}</a>
                     {% format_unit_target secondary_unit search_match=search_query show_copy=True %}
                   </div>
                 {% endfor %}
@@ -167,7 +168,8 @@
                           {% format_source_string unit.context unit simple=True wrap=True search_match=search_query whitespace=False %}
                         </div>
                       {% endif %}
-                      <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
+                      <a class="language"
+                         href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
                       {% if not unit.source_unit.translated %}
                         <span class="badge text-bg-secondary">{% translate "The source string needs review." %}</span>
                       {% endif %}
@@ -234,7 +236,8 @@
                         {% endif %}
                         {% if user_can_translate and unit.translation.component.is_multivalue %}
                           <li>
-                            <a class="dropdown-item add-alternative-post" href="">{% translate "Add alternative translation" %}</a>
+                            <a class="dropdown-item add-alternative-post"
+                               href="">{% translate "Add alternative translation" %}</a>
                           </li>
                         {% endif %}
                       </ul>
@@ -488,7 +491,8 @@
           <div class="tab-pane" id="history">
             {% format_last_changes_content last_changes=last_changes user=user translate_url=object.get_translate_url %}
 
-            <a class="btn btn-link" href="{% url 'changes' path=unit.get_url_path %}">{% translate "Browse all string changes" %}</a>
+            <a class="btn btn-link"
+               href="{% url 'changes' path=unit.get_url_path %}">{% translate "Browse all string changes" %}</a>
           </div>
 
           {% if user_can_use_machinery %}
@@ -890,7 +894,8 @@
                 </h5>
                 {% for label in unit.all_labels %}
                   <a href="?q={{ label.filter_name|urlencode }}">
-                    <span class="badge label-{{ label.color }}" title="{{ label.description }}">{% translate label.name %}</span>
+                    <span class="badge label-{{ label.color }}"
+                          title="{{ label.description }}">{% translate label.name %}</span>
                   </a>
                 {% empty %}
                   <em>{% translate "No labels currently set." %}</em>

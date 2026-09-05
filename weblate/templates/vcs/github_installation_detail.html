@@ -29,7 +29,9 @@
           <input type="hidden"
                  name="next"
                  value="{% url 'manage-github-account-detail' installation.pk %}" />
-          <button type="submit" class="btn btn-outline-primary btn-sm" id="refresh-repos">{% translate "Refresh repositories" %}</button>
+          <button type="submit"
+                  class="btn btn-outline-primary btn-sm"
+                  id="refresh-repos">{% translate "Refresh repositories" %}</button>
         </form>
         <button type="button"
                 class="btn btn-outline-danger btn-sm float-end"

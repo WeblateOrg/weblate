@@ -40,7 +40,8 @@
           <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
         </li>
         <li>
-          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if last_announcements %}
           <li>
@@ -60,11 +61,15 @@
         </li>
         {% if user.is_authenticated %}
           <li>
-            <a class="dropdown-item" data-bs-target="#reports" data-bs-toggle="tab" href="#">{% translate "Translation reports" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#reports"
+               data-bs-toggle="tab"
+               href="#">{% translate "Translation reports" %}</a>
           </li>
         {% endif %}
         <li>
-          <a class="dropdown-item" href="{% url 'data_project' project=object.slug %}">{% translate "Data exports" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'data_project' project=object.slug %}">{% translate "Data exports" %}</a>
         </li>
       </ul>
     </li>
@@ -93,7 +98,10 @@
         </li>
         {% if user_can_upload_translation %}
           <li>
-            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab" href="#">{% translate "Upload translation" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#upload"
+               data-bs-toggle="tab"
+               href="#">{% translate "Upload translation" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -105,12 +113,18 @@
       <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#replace"
+               data-bs-toggle="tab"
+               href="#">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
+            <a class="dropdown-item"
+               data-bs-target="#bulk-edit"
+               data-bs-toggle="tab"
+               href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         {% if replace_form and bulk_state_form %}
@@ -131,7 +145,8 @@
           </li>
         {% endif %}
         <li>
-          <a class="dropdown-item" href="{% url 'memory' project=object.slug %}">{% translate "Translation memory" %}</a>
+          <a class="dropdown-item"
+             href="{% url 'memory' project=object.slug %}">{% translate "Translation memory" %}</a>
         </li>
         {% if announcement_form %}
           <li>
@@ -143,7 +158,8 @@
         {% endif %}
         {% if can_add_new_translation %}
           <li>
-            <a class="dropdown-item" href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
+            <a class="dropdown-item"
+               href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
           </li>
         {% endif %}
         {% if user_can_edit_project %}
@@ -161,7 +177,8 @@
             {% for billing in object.billings %}
               {% if billing.is_libre_trial %}
                 <li>
-                  <a class="dropdown-item" href="{{ billing.get_absolute_url }}">{% translate "Request approval for Libre hosting" %}</a>
+                  <a class="dropdown-item"
+                     href="{{ billing.get_absolute_url }}">{% translate "Request approval for Libre hosting" %}</a>
                 </li>
               {% endif %}
             {% endfor %}
@@ -173,12 +190,14 @@
                href="{% url 'manage-access' project=object.slug %}#users">{% translate "Users" %}</a>
           </li>
           <li>
-            <a class="dropdown-item" href="{% url 'manage-access' project=object.slug %}#api">{% translate "API access" %}</a>
+            <a class="dropdown-item"
+               href="{% url 'manage-access' project=object.slug %}#api">{% translate "API access" %}</a>
           </li>
         {% elif managed_teams %}
           {% for team in managed_teams %}
             <li>
-              <a class="dropdown-item" href="{{ team.get_absolute_url }}">{% blocktranslate %}Manage {{ team }}{% endblocktranslate %}</a>
+              <a class="dropdown-item"
+                 href="{{ team.get_absolute_url }}">{% blocktranslate %}Manage {{ team }}{% endblocktranslate %}</a>
             </li>
           {% endfor %}
         {% endif %}
@@ -190,7 +209,8 @@
             <a class="dropdown-item" href="{% url 'labels' project=object.slug %}">{% translate "Labels" %}</a>
           </li>
           <li>
-            <a class="dropdown-item" href="{% url 'machinery-list' project=object.slug %}">{% translate "Automatic suggestions" %}</a>
+            <a class="dropdown-item"
+               href="{% url 'machinery-list' project=object.slug %}">{% translate "Automatic suggestions" %}</a>
           </li>
           <li>
             <a class="dropdown-item" href="{% url 'backups' project=object.slug %}">{% translate "Backups" %}</a>
@@ -215,12 +235,16 @@
 
           {% if user_can_edit_project %}
             <li>
-              <a class="dropdown-item" href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
+              <a class="dropdown-item"
+                 href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
             </li>
           {% endif %}
           {% if delete_form or rename_form or move_form %}
             <li>
-              <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
+              <a class="dropdown-item"
+                 data-bs-target="#organize"
+                 data-bs-toggle="tab"
+                 href="#">{% translate "Organize or remove" %}</a>
             </li>
           {% endif %}
         {% endif %}
@@ -277,7 +301,8 @@
 
     <div class="tab-pane" id="history">
       {% format_last_changes_content last_changes=last_changes user=user %}
-      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all project changes" %}</a>
+      <a class="btn btn-primary"
+         href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all project changes" %}</a>
     </div>
 
     {% if last_announcements %}
