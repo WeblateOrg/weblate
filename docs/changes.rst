@@ -28,8 +28,8 @@ Weblate 2026.9.1
 
 .. rubric:: Bug fixes
 
+* Fixed language context and links in change history for scoped :doc:`announcements <admin/announcements>` and other language-specific events.
 * Restored :ref:`mt-deepl` API v1 translation support while retaining modern API language discovery and glossary improvements.
-
 * REST API unit updates now enforce the same translation text length limit as the web editor.
 * HTML void elements in :ref:`mdx` translations are now kept self-closing after sanitization, preventing invalid MDX output.
 * The :http:post:`autotranslate API endpoint </api/translations/(string:project)/(string:component)/(string:language)/autotranslate/>` now correctly describes its accepted request body fields (``q``, ``mode``, ``auto_source``, ``component``, ``engines``, ``threshold``) in the OpenAPI schema instead of incorrectly reflecting the Translation resource.
